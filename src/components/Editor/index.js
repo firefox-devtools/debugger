@@ -56,7 +56,8 @@ import {
   lineAtHeight,
   toSourceLine,
   toEditorLine,
-  resetLineNumberFormat
+  resetLineNumberFormat,
+  getSourceLocationFromMouseEvent
 } from "../../utils/editor";
 
 import { isFirefox } from "devtools-config";
@@ -133,6 +134,7 @@ class Editor extends PureComponent {
     // Set code editor wrapper to be focusable
     codeMirrorWrapper.tabIndex = 0;
     codeMirrorWrapper.addEventListener("keydown", e => this.onKeyDown(e));
+    codeMirrorWrapper.addEventListener("click", e => this.onClick(e));
 
     const toggleFoldMarkerVisibility = e => {
       if (node instanceof HTMLElement) {
@@ -152,11 +154,11 @@ class Editor extends PureComponent {
       codeMirror.on("gutterContextMenu", (cm, line, eventName, event) =>
         this.onGutterContextMenu(event)
       );
-      
-      codeMirror.on("contextmenu", (cm, event) => this.openMenu(event, cm));
+
+      codeMirror.on("contextmenu", (cm, event) => this.openMenu(event, editor));
     } else {
       codeMirrorWrapper.addEventListener("contextmenu", event =>
-        this.openMenu(event, codeMirror)
+        this.openMenu(event, editor)
       );
     }
 
@@ -310,7 +312,7 @@ class Editor extends PureComponent {
     );
   }
 
-  openMenu(event, codeMirror) {
+  openMenu(event, editor) {
     const {
       selectedSource,
       selectedLocation,
@@ -322,7 +324,7 @@ class Editor extends PureComponent {
     } = this.props;
 
     return EditorMenu({
-      codeMirror,
+      editor,
       event,
       selectedLocation,
       selectedSource,
@@ -415,6 +417,15 @@ class Editor extends PureComponent {
       isCbPanelOpen: this.isCbPanelOpen(),
       closeConditionalPanel: this.closeConditionalPanel
     });
+  }
+
+  onClick(e: MouseEvent) {
+    const { selectedLocation, jumpToMappedLocation } = this.props;
+
+    if (e.metaKey && e.altKey) {
+      const sourceLocation = getSourceLocationFromMouseEvent(this.state.editor, selectedLocation, e);
+      jumpToMappedLocation(sourceLocation);
+   }
   }
 
   toggleConditionalPanel(line) {
