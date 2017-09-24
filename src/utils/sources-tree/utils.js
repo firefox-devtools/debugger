@@ -30,13 +30,24 @@ export function isDirectory(url: Object) {
   );
 }
 
+export function isNotJavaScript(source: Object): boolean {
+  const parsedUrl = parse(source.url).pathname
+  if (!parsedUrl) {
+    return false;
+  }
+  const parsedExtension = parsedUrl.split('.').pop();
+
+  return ["css", "svg", "png"].includes(parsedExtension)
+}
+
 export function isInvalidUrl(url: Object, source: Object) {
   return (
     IGNORED_URLS.indexOf(url) != -1 ||
     !source.get("url") ||
     source.get("loadedState") === "loading" ||
     !url.group ||
-    isPretty(source.toJS())
+    isPretty(source.toJS()) ||
+    isNotJavaScript(source.toJS())
   );
 }
 
