@@ -10,7 +10,8 @@ import {
   getShownSource,
   getSelectedSource,
   getDebuggeeUrl,
-  getExpandedState
+  getExpandedState,
+  getProjectDirectoryRoot
 } from "../../selectors";
 
 import {
@@ -36,6 +37,7 @@ type CreateTree = {
   focusedItem?: any,
   parentMap: any,
   sourceTree: any,
+  projectRoot: string,
   uncollapsedTree: any,
   listItems?: any,
   highlightItems?: any
@@ -53,7 +55,11 @@ class SourcesTree extends Component {
 
   constructor(props) {
     super(props);
-    this.state = createTree(this.props.sources, this.props.debuggeeUrl);
+    this.state = createTree(
+      this.props.sources,
+      this.props.debuggeeUrl,
+      this.props.projectRoot
+    );
     this.focusItem = this.focusItem.bind(this);
     this.selectItem = this.selectItem.bind(this);
     this.getIcon = this.getIcon.bind(this);
@@ -83,9 +89,18 @@ class SourcesTree extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.debuggeeUrl !== nextProps.debuggeeUrl) {
+    if (
+      this.props.projectRoot !== nextProps.projectRoot ||
+      this.props.debuggeeUrl !== nextProps.debuggeeUrl
+    ) {
       // Recreate tree because the sort order changed
-      this.setState(createTree(nextProps.sources, nextProps.debuggeeUrl));
+      this.setState(
+        createTree(
+          nextProps.sources,
+          nextProps.debuggeeUrl,
+          nextProps.projectRoot
+        )
+      );
       return;
     }
     const { selectedSource } = this.props;
@@ -123,7 +138,13 @@ class SourcesTree extends Component {
 
     if (nextProps.sources.size === 0) {
       // remove all sources
-      this.setState(createTree(nextProps.sources, this.props.debuggeeUrl));
+      this.setState(
+        createTree(
+          nextProps.sources,
+          nextProps.debuggeeUrl,
+          nextProps.projectRoot
+        )
+      );
       return;
     }
 
@@ -142,7 +163,12 @@ class SourcesTree extends Component {
     let sourceTree = this.state.sourceTree;
     if (newSet.size > 0) {
       for (const source of newSet) {
-        addToTree(uncollapsedTree, source, this.props.debuggeeUrl);
+        addToTree(
+          uncollapsedTree,
+          source,
+          this.props.debuggeeUrl,
+          this.props.projectRoot
+        );
       }
       const unsortedTree = collapseTree(uncollapsedTree);
       sourceTree = sortEntireTree(unsortedTree, nextProps.debuggeeUrl);
@@ -182,8 +208,11 @@ class SourcesTree extends Component {
   }
 
   onContextMenu(event, item) {
+    const { setProjectDirectoryRoot } = this.props;
     const copySourceUri2Label = L10N.getStr("copySourceUri2");
     const copySourceUri2Key = L10N.getStr("copySourceUri2.accesskey");
+    const setDirectoryRootLabel = L10N.getStr("setDirectoryRoot");
+    const setDirectoryRootKey = L10N.getStr("setDirectoryRoot.accesskey");
 
     event.stopPropagation();
     event.preventDefault();
@@ -201,6 +230,14 @@ class SourcesTree extends Component {
       };
 
       menuOptions.push(copySourceUri2);
+    } else {
+      menuOptions.push({
+        id: "node-set-directory-root",
+        label: setDirectoryRootLabel,
+        accesskey: setDirectoryRootKey,
+        disabled: false,
+        click: () => setProjectDirectoryRoot(item.path)
+      });
     }
 
     showMenu(event, menuOptions);
@@ -317,7 +354,8 @@ export default connect(
       shownSource: getShownSource(state),
       selectedSource: getSelectedSource(state),
       debuggeeUrl: getDebuggeeUrl(state),
-      expanded: getExpandedState(state)
+      expanded: getExpandedState(state),
+      projectRoot: getProjectDirectoryRoot(state)
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

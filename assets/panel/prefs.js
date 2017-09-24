@@ -44,3 +44,4 @@ pref("devtools.debugger.file-search-regex-match", false);
 pref("devtools.debugger.features.async-stepping", true);
 pref("devtools.debugger.features.project-text-search", true);
 pref("devtools.debugger.features.wasm", true);
+pref("devtools.debugger.project-directory-root", "");
