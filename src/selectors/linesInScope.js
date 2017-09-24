@@ -14,7 +14,7 @@ function getOutOfScopeLines(outOfScopeLocations: AstLocation[]) {
 
   return uniq(
     flatMap(outOfScopeLocations, location =>
-      range(location.start.line, location.end.line)
+      range(location.start.line, location.end.line + 1)
     )
   );
 }
