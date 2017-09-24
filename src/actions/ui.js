@@ -124,3 +124,10 @@ export function toggleConditionalBreakpointPanel(line: null | number) {
     line
   };
 }
+
+export function setProjectDirectoryRoot(url) {
+  return {
+    type: "SET_PROJECT_DIRECTORY_ROOT",
+    url
+  };
+}
