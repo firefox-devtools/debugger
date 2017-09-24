@@ -30,6 +30,14 @@ export function getURL(sourceUrl: string): { path: string, group: string } {
       // Ignore `javascript:` URLs for now
       return def;
 
+    case "webpack:":
+      // A Webpack source is a special case
+      return merge(def, {
+        path: path,
+        group: "Webpack",
+        filename: filename
+      });
+
     case "about:":
       // An about page is a special case
       return merge(def, {
