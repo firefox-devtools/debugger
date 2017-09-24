@@ -120,7 +120,7 @@ function getMenuItems(
 async function EditorMenu(options) {
   const { event, onGutterContextMenu } = options;
 
-  if (event.target.classList.contains("editor.codeMirror-linenumber")) {
+  if (event.target.classList.contains("CodeMirror-linenumber")) {
     return onGutterContextMenu(event);
   }
 
