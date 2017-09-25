@@ -119,11 +119,15 @@ export function clearHighlightLineRange() {
   };
 }
 
-export function toggleConditionalBreakpointPanel(line?: number) {
-  return ({ dispatch, getState }: ThunkArgs) => {
-    const selectedSource = getSelectedSource(getState());
-    const sourceId = selectedSource.get("id");
-    dispatch(selectSource(sourceId, { line }));
+type BPLocation = {
+  sourceId: string,
+  line: number
+};
+export function toggleConditionalBreakpointPanel(location: BPLocation) {
+  return async ({ dispatch, getState }: ThunkArgs) => {
+    const { sourceId, line } = location;
+    await dispatch(selectSource(sourceId, { line }));
+
     dispatch({
       type: "TOGGLE_CONDITIONAL_BREAKPOINT_PANEL",
       line
