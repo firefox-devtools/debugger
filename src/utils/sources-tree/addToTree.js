@@ -8,8 +8,6 @@ import {
   createNode
 } from "./utils";
 import { getURL, getFilenameFromPath } from "./getURL";
-import { parse } from "url";
-import { merge } from "lodash";
 
 import type { Node } from "./types";
 import type { SourceRecord } from "../../reducers/types";
@@ -109,16 +107,12 @@ export function addToTree(
   source: SourceRecord,
   debuggeeUrl: string
 ) {
-  const url = getURL(source.get("url"));
-  const { host } = parse(debuggeeUrl);
+  const url = getURL(source.get("url"), debuggeeUrl);
 
-  const updatedUrl =
-    url.group === "(no domain)" ? merge(url, { group: host }) : url;
-
-  if (isInvalidUrl(updatedUrl, source)) {
+  if (isInvalidUrl(url, source)) {
     return;
   }
 
-  const finalNode = traverseTree(updatedUrl, tree);
-  finalNode.contents = addSourceToNode(finalNode, updatedUrl, source);
+  const finalNode = traverseTree(url, tree);
+  finalNode.contents = addSourceToNode(finalNode, url, source);
 }
