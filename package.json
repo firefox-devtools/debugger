@@ -129,7 +129,7 @@
     "npm-run-all": "^4.0.2",
     "prettier": "^1.6.1",
     "react-addons-perf": "15.3.2",
-    "react-addons-test-utils": "=15.3.2",
+    "react-addons-test-utils": "15.6.2",
     "remark-cli": "^4.0.0",
     "remark-lint": "^6.0.1",
     "remark-lint-list-item-bullet-indent": "^1.0.1",
