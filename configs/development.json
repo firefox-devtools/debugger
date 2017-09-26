@@ -15,7 +15,8 @@
   "workers": {
     "parserURL": "http://localhost:8000/assets/build/parser-worker.js",
     "sourceMapURL": "http://localhost:8000/assets/build/source-map-worker.js",
-    "prettyPrintURL": "http://localhost:8000/assets/build/pretty-print-worker.js",
+    "prettyPrintURL":
+      "http://localhost:8000/assets/build/pretty-print-worker.js",
     "searchURL": "http://localhost:8000/assets/build/search-worker.js"
   },
   "features": {
@@ -80,10 +81,12 @@
   },
   "firefox": {
     "webSocketConnection": false,
-    "proxyHost": "localhost:9000",
-    "webSocketHost": "localhost:6080",
+    "host": "localhost",
+    "webSocketPort": 9000,
+    "tcpPort": 6080,
     "mcPath": "./firefox"
   },
+
   "development": {
     "serverPort": 8000,
     "examplesPort": 7999
