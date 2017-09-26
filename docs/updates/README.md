@@ -4,6 +4,24 @@ permalink: docs/updates
 
 ### Weekly Updates
 
+### [September 26th](./updates-9-26-2017.md)
+
+* UCOSP Students
+* UX/UI
+* Shortcuts
+* Preview
+* Outline View
+* Photon
+* Project Search
+* Watch Expressions
+* Context Menu
+* Map Minified variables
+* List Workers
+* Accessibility
+* Breakpoints
+* Infrastructure
+* Performance
+
 ### [September 5th](./updates-9-5-2017.md)
 
 
