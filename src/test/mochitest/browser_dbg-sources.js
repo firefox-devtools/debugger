@@ -76,20 +76,13 @@ add_task(async function() {
     content.eval("window.evaledFunc = function() {} //# sourceURL=evaled.js");
   });
   await waitForSourceCount(dbg, 3);
-  is(
-    getLabel(dbg, 3),
-    "(no domain)",
-    "the folder exists"
-  );
+
+  is(getLabel(dbg, 3), "(no domain)", "the folder exists");
 
   // work around: the folder is rendered at the bottom, so we close the
   // root folder and open the (no domain) folder
   await clickElement(dbg, "sourceArrow", 3);
   await waitForSourceCount(dbg, 4);
 
-  is(
-    getLabel(dbg, 4),
-    "evaled.js",
-    "the eval script exists"
-  );
+  is(getLabel(dbg, 4), "evaled.js", "the eval script exists");
 });
