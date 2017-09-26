@@ -1,11 +1,12 @@
 import { showMenu } from "devtools-launchpad";
 import { isOriginalId } from "devtools-source-map";
 import { copyToTheClipboard } from "../../utils/clipboard";
+import { getSourceLocationFromMouseEvent } from "../../utils/editor";
 
 function getMenuItems(
   event,
   {
-    codeMirror,
+    editor,
     selectedLocation,
     selectedSource,
     showSource,
@@ -39,7 +40,7 @@ function getMenuItems(
     click: () => copyToTheClipboard(selectedSource.get("url"))
   };
 
-  const selectionText = codeMirror.getSelection().trim();
+  const selectionText = editor.codeMirror.getSelection().trim();
   const copySource = {
     id: "node-menu-copy-source",
     label: copySourceLabel,
@@ -48,16 +49,11 @@ function getMenuItems(
     click: () => copyToTheClipboard(selectionText)
   };
 
-  const { line, ch } = codeMirror.coordsChar({
-    left: event.clientX,
-    top: event.clientY
+  const { line } = editor.codeMirror.coordsChar({
+    left: event.clientX
   });
 
-  const sourceLocation = {
-    sourceId: selectedLocation.sourceId,
-    line: line + 1,
-    column: ch + 1
-  };
+  const sourceLocation = getSourceLocationFromMouseEvent(editor, selectedLocation, event)
 
   const pairedType = isOriginalId(selectedLocation.sourceId)
     ? L10N.getStr("generated")
@@ -73,7 +69,7 @@ function getMenuItems(
   const watchExpressionLabel = {
     accesskey: "E",
     label: L10N.getStr("expressions.placeholder"),
-    click: () => addExpression(codeMirror.getSelection())
+    click: () => addExpression(editor.codeMirror.getSelection())
   };
 
   const blackBoxMenuItem = {
@@ -85,7 +81,7 @@ function getMenuItems(
   };
 
   // TODO: Find a new way to only add this for mapped sources?
-  const textSelected = codeMirror.somethingSelected();
+  const textSelected = editor.codeMirror.somethingSelected();
 
   const showSourceMenuItem = {
     id: "node-menu-show-source",
