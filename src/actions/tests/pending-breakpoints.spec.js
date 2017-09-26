@@ -98,13 +98,10 @@ describe("when adding breakpoints", () => {
       const { dispatch, getState } = createStore(simpleMockThreadClient);
 
       await dispatch(actions.newSource(makeSource("foo")));
-      await dispatch(
-        actions.addBreakpoint(breakpoint1.location, { hidden: true })
-      );
+      await dispatch(actions.addBreakpoint(breakpoint1.location, "", true));
       const pendingBps = selectors.getPendingBreakpoints(getState());
 
-      // should be null
-      expect(pendingBps.get(breakpointLocationId1)).toBe(null);
+      expect(pendingBps.get(breakpointLocationId1)).toBeUndefined();
     });
 
     it("remove a corresponding pending breakpoint when deleting", async () => {
