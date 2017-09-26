@@ -94,6 +94,19 @@ describe("when adding breakpoints", () => {
       expect(pendingBps.get(breakpointLocationId2)).toMatchSnapshot();
     });
 
+    it("hidden breakponts do not create pending bps", async () => {
+      const { dispatch, getState } = createStore(simpleMockThreadClient);
+
+      await dispatch(actions.newSource(makeSource("foo")));
+      await dispatch(
+        actions.addBreakpoint(breakpoint1.location, { hidden: true })
+      );
+      const pendingBps = selectors.getPendingBreakpoints(getState());
+
+      // should be null
+      expect(pendingBps.get(breakpointLocationId1)).toBe(null);
+    });
+
     it("remove a corresponding pending breakpoint when deleting", async () => {
       const { dispatch, getState } = createStore(simpleMockThreadClient);
       await dispatch(actions.newSource(makeSource("foo")));
