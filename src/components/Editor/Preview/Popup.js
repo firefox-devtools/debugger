@@ -185,6 +185,7 @@ export class Popup extends Component {
 
   getPreviewType(value: any) {
     if (
+      typeof value == "number" ||
       typeof value == "boolean" ||
       value.type == "null" ||
       value.type == "undefined" ||
