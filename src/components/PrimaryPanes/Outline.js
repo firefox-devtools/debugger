@@ -3,7 +3,6 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import classnames from "classnames";
 import actions from "../../actions";
 import { getSelectedSource, getSymbols } from "../../selectors";
 import "./Outline.css";
