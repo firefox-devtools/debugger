@@ -3,7 +3,6 @@ import { getSource, getActiveSearch } from "../selectors";
 import type { ThunkArgs } from "./types";
 import type { ActiveSearchType, SymbolSearchType } from "../reducers/ui";
 import { clearSourceSearchQuery } from "./source-search";
-import { selectSource } from "./sources";
 
 export function closeActiveSearch() {
   return ({ getState, dispatch }: ThunkArgs) => {
