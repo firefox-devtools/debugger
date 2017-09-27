@@ -131,5 +131,4 @@ export function setProjectDirectoryRoot(url: Object) {
       type: "SET_PROJECT_DIRECTORY_ROOT",
       url
     });
-  };
 }

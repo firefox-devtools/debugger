@@ -117,7 +117,7 @@ describe("ui", () => {
     expect(getHighlightedLineRange(getState())).toEqual({});
   });
 
-  it("should select a directory", () => {
+  it("should set a directory as root directory", () => {
     const { dispatch, getState } = createStore();
     const projectRoot = getProjectDirectoryRoot(getState());
     dispatch(actions.setProjectDirectoryRoot(projectRoot));
