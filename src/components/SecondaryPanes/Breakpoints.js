@@ -265,14 +265,20 @@ class Breakpoints extends PureComponent {
       id: "node-menu-add-condition",
       label: addConditionLabel,
       accesskey: addConditionKey,
-      click: () => toggleConditionalBreakpointPanel(breakpoint.location)
+      click: () => {
+        this.selectBreakpoint(breakpoint)
+        toggleConditionalBreakpointPanel(breakpoint.location.line)
+      }
     };
 
     const editCondition = {
       id: "node-menu-edit-condition",
       label: editConditionLabel,
       accesskey: editConditionKey,
-      click: () => toggleConditionalBreakpointPanel(breakpoint.location)
+      click: () => {
+        this.selectBreakpoint(breakpoint)
+        toggleConditionalBreakpointPanel(breakpoint.location.line)
+      }
     };
 
     const hideEnableSelf = !breakpoint.disabled;
