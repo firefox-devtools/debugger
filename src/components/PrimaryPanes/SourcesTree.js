@@ -37,7 +37,7 @@ type CreateTree = {
   focusedItem?: any,
   parentMap: any,
   sourceTree: any,
-  projectRoot: any,
+  projectRoot: string,
   uncollapsedTree: any,
   listItems?: any,
   highlightItems?: any
@@ -90,7 +90,7 @@ class SourcesTree extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (
-      this.props.projectRoot != nextProps.projectRoot ||
+      this.props.projectRoot !== nextProps.projectRoot ||
       this.props.debuggeeUrl !== nextProps.debuggeeUrl
     ) {
       // Recreate tree because the sort order changed
@@ -141,7 +141,7 @@ class SourcesTree extends Component {
       this.setState(
         createTree(
           nextProps.sources,
-          this.props.debuggeeUrl,
+          nextProps.debuggeeUrl,
           nextProps.projectRoot
         )
       );
