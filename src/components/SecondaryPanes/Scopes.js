@@ -1,5 +1,5 @@
 // @flow
-import React, { PropTypes, PureComponent } from "react";
+import React, { PureComponent } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import actions from "../../actions";
@@ -12,15 +12,25 @@ import {
 import { getScopes } from "../../utils/scopes";
 
 import { ObjectInspector } from "devtools-reps";
+import type { Pause, LoadedObject } from "debugger-html";
 
 import "./Scopes.css";
 
+type Props = {
+  pauseInfo: Pause,
+  loadedObjects: LoadedObject[],
+  loadObjectProperties: Object => void,
+  selectedFrame: Object,
+  frameScopes: Object
+};
+
 class Scopes extends PureComponent {
+  props: Props;
   state: {
     scopes: any
   };
 
-  constructor(props, ...args) {
+  constructor(props: Props, ...args) {
     const { pauseInfo, selectedFrame, frameScopes } = props;
 
     super(props, ...args);
@@ -79,14 +89,6 @@ class Scopes extends PureComponent {
     );
   }
 }
-
-Scopes.propTypes = {
-  pauseInfo: PropTypes.object,
-  loadedObjects: PropTypes.object,
-  loadObjectProperties: PropTypes.func,
-  selectedFrame: PropTypes.object,
-  frameScopes: PropTypes.object
-};
 
 export default connect(
   state => {
