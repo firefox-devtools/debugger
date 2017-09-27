@@ -3469,7 +3469,11 @@ eslint-plugin-babel@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-babel/-/eslint-plugin-babel-3.3.0.tgz#2f494aedcf6f4aa4e75b9155980837bc1fbde193"
 
-eslint-plugin-flowtype@^2.20.0:
+eslint-plugin-babel@^4.1.2:
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-babel/-/eslint-plugin-babel-4.1.2.tgz#79202a0e35757dd92780919b2336f1fa2fe53c1e"
+
+eslint-plugin-flowtype@^2.20.0, eslint-plugin-flowtype@^2.36.0:
   version "2.36.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-flowtype/-/eslint-plugin-flowtype-2.36.0.tgz#ec21cf685dc270c2b24a99bdba1a57999c1040ec"
   dependencies:
@@ -3483,6 +3487,13 @@ eslint-plugin-mozilla@0.4.3:
     espree "3.4.3"
     estraverse "4.2.0"
     globals "9.18.0"
+    ini-parser "0.0.2"
+    sax "1.2.4"
+
+eslint-plugin-mozilla@^0.4.4:
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-mozilla/-/eslint-plugin-mozilla-0.4.4.tgz#8c65f73ba2c813a8e1942a7441aec44d0a0941bc"
+  dependencies:
     ini-parser "0.0.2"
     sax "1.2.4"
 
