@@ -29,15 +29,15 @@
     walk "^2.3.9"
     yargs "^7.0.2"
 
-"@storybook/addon-actions@^3.2.10":
-  version "3.2.10"
-  resolved "https://registry.yarnpkg.com/@storybook/addon-actions/-/addon-actions-3.2.10.tgz#fd713d1a9b4c61beb2e8902899406469804e1646"
+"@storybook/addon-actions@^3.2.11":
+  version "3.2.11"
+  resolved "https://registry.yarnpkg.com/@storybook/addon-actions/-/addon-actions-3.2.11.tgz#4df5ed15369cd3fbe161efaf9e1f88ce7d6c8631"
   dependencies:
     "@storybook/addons" "^3.2.10"
     deep-equal "^1.0.1"
     json-stringify-safe "^5.0.1"
     prop-types "^15.5.10"
-    react-inspector "^2.1.1"
+    react-inspector "^2.1.6"
     uuid "^3.1.0"
 
 "@storybook/addon-links@^3.2.10":
@@ -80,14 +80,14 @@
     prop-types "^15.5.9"
 
 "@storybook/react@^3.2.5":
-  version "3.2.10"
-  resolved "https://registry.yarnpkg.com/@storybook/react/-/react-3.2.10.tgz#4b2223df69788fd656a1039d8e7c6fd957004e84"
+  version "3.2.11"
+  resolved "https://registry.yarnpkg.com/@storybook/react/-/react-3.2.11.tgz#8b9813270ac85f6900b9dfa12f0e958b6320ee5f"
   dependencies:
-    "@storybook/addon-actions" "^3.2.10"
+    "@storybook/addon-actions" "^3.2.11"
     "@storybook/addon-links" "^3.2.10"
     "@storybook/addons" "^3.2.10"
     "@storybook/channel-postmessage" "^3.2.10"
-    "@storybook/ui" "^3.2.10"
+    "@storybook/ui" "^3.2.11"
     airbnb-js-shims "^1.1.1"
     autoprefixer "^7.1.1"
     babel-core "^6.26.0"
@@ -135,9 +135,9 @@
     webpack-dev-middleware "^1.10.2"
     webpack-hot-middleware "^2.18.0"
 
-"@storybook/ui@^3.2.10":
-  version "3.2.10"
-  resolved "https://registry.yarnpkg.com/@storybook/ui/-/ui-3.2.10.tgz#0d0ab523392718b166d2a5ae7ae6d9cabbd9e759"
+"@storybook/ui@^3.2.11":
+  version "3.2.11"
+  resolved "https://registry.yarnpkg.com/@storybook/ui/-/ui-3.2.11.tgz#ae177e5c940bfbc48aa42b1903c08ee1dbbf001e"
   dependencies:
     "@hypnosphi/fuse.js" "^3.0.9"
     "@storybook/components" "^3.2.10"
@@ -156,7 +156,7 @@
     prop-types "^15.5.10"
     qs "^6.4.0"
     react-icons "^2.2.5"
-    react-inspector "^2.1.1"
+    react-inspector "^2.1.6"
     react-komposer "^2.0.0"
     react-modal "^2.2.4"
     react-split-pane "^0.1.65"
@@ -1519,8 +1519,8 @@ babel-preset-minify@^0.2.0:
     lodash.isplainobject "^4.0.6"
 
 babel-preset-react-app@^3.0.0:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/babel-preset-react-app/-/babel-preset-react-app-3.0.2.tgz#d062fca5dce68ed9c2615f2fecbc08861720f8e5"
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/babel-preset-react-app/-/babel-preset-react-app-3.0.3.tgz#5716d6a8c7354db0cc2707207ab6ceb3b2e0a825"
   dependencies:
     babel-plugin-dynamic-import-node "1.0.2"
     babel-plugin-syntax-dynamic-import "6.18.0"
@@ -3058,13 +3058,17 @@ dictionary-en-us@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/dictionary-en-us/-/dictionary-en-us-2.0.0.tgz#b9135f403444bb5e4b3cf465fb7d3f2fd276a839"
 
-diff@3.2.0, diff@^3.0.0, diff@^3.2.0:
+diff@3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/diff/-/diff-3.2.0.tgz#c9ce393a4b7cbd0b058a725c93df299027868ff9"
 
 diff@^1.3.2:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/diff/-/diff-1.4.0.tgz#7f28d2eb9ee7b15a97efd89ce63dcfdaa3ccbabf"
+
+diff@^3.0.0, diff@^3.2.0:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/diff/-/diff-3.3.1.tgz#aa8567a6eed03c531fc89d3f711cd0e5259dec75"
 
 diffie-hellman@^5.0.0:
   version "5.0.2"
@@ -3188,9 +3192,16 @@ domhandler@^2.3.0:
   dependencies:
     domelementtype "1"
 
-domutils@1.5.1, domutils@^1.5.1:
+domutils@1.5.1:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/domutils/-/domutils-1.5.1.tgz#dcd8488a26f563d61079e48c9f7b7e32373682cf"
+  dependencies:
+    dom-serializer "0"
+    domelementtype "1"
+
+domutils@^1.5.1:
+  version "1.6.2"
+  resolved "https://registry.yarnpkg.com/domutils/-/domutils-1.6.2.tgz#1958cc0b4c9426e9ed367fb1c8e854891b0fa3ff"
   dependencies:
     dom-serializer "0"
     domelementtype "1"
@@ -4229,9 +4240,15 @@ git-url-parse@^6.0.1:
   dependencies:
     git-up "^2.0.0"
 
-github-slugger@1.1.3, github-slugger@^1.0.0, github-slugger@^1.1.1:
+github-slugger@1.1.3:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/github-slugger/-/github-slugger-1.1.3.tgz#314a6e759a18c2b0cc5760d512ccbab549c549a7"
+  dependencies:
+    emoji-regex ">=6.0.0 <=6.1.1"
+
+github-slugger@^1.0.0, github-slugger@^1.1.1:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/github-slugger/-/github-slugger-1.2.0.tgz#8ada3286fd046d8951c3c952a8d7854cfd90fd9a"
   dependencies:
     emoji-regex ">=6.0.0 <=6.1.1"
 
@@ -7829,8 +7846,8 @@ preserve@^0.2.0:
   resolved "https://registry.yarnpkg.com/preserve/-/preserve-0.2.0.tgz#815ed1f6ebc65926f865b310c0713bcb3315ce4b"
 
 prettier@^1.6.1:
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.7.0.tgz#47481588f41f7c90f63938feb202ac82554e7150"
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.7.1.tgz#f674c52978e14ae7dffd7828e88cce07501d95dc"
 
 pretty-fast@^0.2.2:
   version "0.2.2"
@@ -8139,7 +8156,7 @@ react-inlinesvg@^0.6.2:
     httpplease "^0.16"
     once "^1.4"
 
-react-inspector@^2.1.1:
+react-inspector@^2.1.6:
   version "2.1.6"
   resolved "https://registry.yarnpkg.com/react-inspector/-/react-inspector-2.1.6.tgz#bebdf069f5bd3ee130ed689a5e98c0796be49347"
   dependencies:
@@ -8936,8 +8953,8 @@ request@2.81.0:
     uuid "^3.0.0"
 
 request@^2.40.0, request@^2.79.0, request@^2.81.0:
-  version "2.82.0"
-  resolved "https://registry.yarnpkg.com/request/-/request-2.82.0.tgz#2ba8a92cd7ac45660ea2b10a53ae67cd247516ea"
+  version "2.83.0"
+  resolved "https://registry.yarnpkg.com/request/-/request-2.83.0.tgz#ca0b65da02ed62935887808e6f510381034e3356"
   dependencies:
     aws-sign2 "~0.7.0"
     aws4 "^1.6.0"
@@ -8958,7 +8975,7 @@ request@^2.40.0, request@^2.79.0, request@^2.81.0:
     qs "~6.5.1"
     safe-buffer "^5.1.1"
     stringstream "~0.0.5"
-    tough-cookie "~2.3.2"
+    tough-cookie "~2.3.3"
     tunnel-agent "^0.6.0"
     uuid "^3.1.0"
 
@@ -10046,7 +10063,7 @@ to-vfile@^2.0.0:
     is-buffer "^1.1.4"
     vfile "^2.0.0"
 
-tough-cookie@>=2.3.3, tough-cookie@^2.3.2, tough-cookie@~2.3.0, tough-cookie@~2.3.2:
+tough-cookie@>=2.3.3, tough-cookie@^2.3.2, tough-cookie@~2.3.0, tough-cookie@~2.3.3:
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/tough-cookie/-/tough-cookie-2.3.3.tgz#0b618a5565b6dea90bf3425d04d55edc475a7561"
   dependencies:
