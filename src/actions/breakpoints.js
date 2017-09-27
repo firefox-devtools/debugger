@@ -73,7 +73,7 @@ export function syncBreakpoint(
 
 export function addBreakpoint(
   location: Location,
-  { condition, hidden }: addBreakpointOptions
+  { condition, hidden }: addBreakpointOptions = {}
 ) {
   const breakpoint = createBreakpoint(location, { condition, hidden });
   return ({ dispatch, getState, sourceMaps, client }: ThunkArgs) => {
