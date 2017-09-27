@@ -92,7 +92,7 @@ export function addBreakpoint(
  */
 export function addHiddenBreakpoint(location: Location) {
   return ({ dispatch }: ThunkArgs) => {
-    return dispatch(addBreakpoint(location, "", true));
+    return dispatch(addBreakpoint(location, { hidden: true }));
   };
 }
 
@@ -281,7 +281,7 @@ export function setBreakpointCondition(
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     const bp = getBreakpoint(getState(), location);
     if (!bp) {
-      return dispatch(addBreakpoint(location, condition));
+      return dispatch(addBreakpoint(location, { condition }));
     }
 
     if (bp.loading) {
