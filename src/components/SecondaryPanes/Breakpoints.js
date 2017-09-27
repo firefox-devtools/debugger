@@ -132,6 +132,9 @@ class Breakpoints extends PureComponent {
     const removeConditionLabel = L10N.getStr(
       "breakpointMenuItem.removeCondition2.label"
     );
+    const addConditionLabel = L10N.getStr(
+      "breakpointMenuItem.addCondition2.label"
+    );
     const editConditionLabel = L10N.getStr(
       "breakpointMenuItem.editCondition2.label"
     );
@@ -164,6 +167,9 @@ class Breakpoints extends PureComponent {
     );
     const editConditionKey = L10N.getStr(
       "breakpointMenuItem.editCondition2.accesskey"
+    );
+    const addConditionKey = L10N.getStr(
+      "breakpointMenuItem.addCondition2.accesskey"
     );
 
     const otherBreakpoints = breakpoints.filter(b => b !== breakpoint);
@@ -255,11 +261,24 @@ class Breakpoints extends PureComponent {
       click: () => setBreakpointCondition(breakpoint.location)
     };
 
+    const addCondition = {
+      id: "node-menu-add-condition",
+      label: addConditionLabel,
+      accesskey: addConditionKey,
+      click: () => {
+        this.selectBreakpoint(breakpoint)
+        toggleConditionalBreakpointPanel(breakpoint.location.line)
+      }
+    };
+
     const editCondition = {
       id: "node-menu-edit-condition",
       label: editConditionLabel,
       accesskey: editConditionKey,
-      click: () => toggleConditionalBreakpointPanel(breakpoint.location.line)
+      click: () => {
+        this.selectBreakpoint(breakpoint)
+        toggleConditionalBreakpointPanel(breakpoint.location.line)
+      }
     };
 
     const hideEnableSelf = !breakpoint.disabled;
@@ -290,6 +309,10 @@ class Breakpoints extends PureComponent {
       { item: disableOthers, hidden: () => hideDisableOthers },
       {
         item: { type: "separator" }
+      },
+      {
+        item: addCondition,
+        hidden: () => breakpoint.condition
       },
       {
         item: editCondition,
