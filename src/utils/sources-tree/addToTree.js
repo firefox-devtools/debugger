@@ -107,7 +107,7 @@ export function addToTree(
   source: SourceRecord,
   debuggeeUrl: string
 ) {
-  const url = getURL(source.get("url"));
+  const url = getURL(source.get("url"), debuggeeUrl);
 
   if (isInvalidUrl(url, source)) {
     return;
