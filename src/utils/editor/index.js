@@ -128,14 +128,14 @@ function lineAtHeight(editor, sourceId, event) {
 
 function getSourceLocationFromMouseEvent(editor, selectedLocation, e) {
   const { line, ch } = editor.codeMirror.coordsChar({
-     left: e.clientX,
-     top: e.clientY
+    left: e.clientX,
+    top: e.clientY
   });
 
   return {
-     sourceId: selectedLocation.sourceId,
-     line: line + 1,
-     column: ch + 1
+    sourceId: selectedLocation.sourceId,
+    line: line + 1,
+    column: ch + 1
   };
 }
 
