@@ -257,6 +257,15 @@ function waitForSelectedSource(dbg, url) {
 }
 
 /**
+ * Assert that the debugger is not currently paused.
+ * @memberof mochitest/asserts
+ * @static
+ */
+function assertNotPaused(dbg) {
+  ok(!isPaused(dbg), "client is not paused");
+}
+
+/**
  * Assert that the debugger is paused at the correct location.
  *
  * @memberof mochitest/asserts
@@ -726,14 +735,20 @@ function waitForActive(dbg) {
  * Invokes a global function in the debuggee tab.
  *
  * @memberof mochitest/helpers
- * @param {String} fnc
+ * @param {String} fnc The name of a global function on the content window to
+ *                     call. This is applied to structured clones of the
+ *                     remaining arguments to invokeInTab.
+ * @param {Any} ...args Remaining args to serialize and pass to fnc.
  * @return {Promise}
  * @static
  */
-function invokeInTab(fnc) {
-  info(`Invoking function ${fnc} in tab`);
-  return ContentTask.spawn(gBrowser.selectedBrowser, fnc, function*(fnc) {
-    content.wrappedJSObject[fnc](); // eslint-disable-line mozilla/no-cpows-in-tests, max-len
+function invokeInTab(fnc, ...args) {
+  info(`Invoking in tab: ${fnc}(${args.map(uneval).join(",")})`);
+  return ContentTask.spawn(gBrowser.selectedBrowser, { fnc, args }, function*({
+    fnc,
+    args
+  }) {
+    content.wrappedJSObject[fnc](...args); // eslint-disable-line mozilla/no-cpows-in-tests, max-len
   });
 }
 
