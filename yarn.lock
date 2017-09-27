@@ -2979,7 +2979,7 @@ devtools-map-bindings@0.1.0:
     jest "^19.0.2"
     source-map "^0.5.6"
 
-devtools-map-bindings@0.2.0:
+devtools-map-bindings@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/devtools-map-bindings/-/devtools-map-bindings-0.2.0.tgz#0fe50f198d73b16a457430e41d5c673ee4047782"
   dependencies:
