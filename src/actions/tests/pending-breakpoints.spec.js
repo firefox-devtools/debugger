@@ -98,7 +98,9 @@ describe("when adding breakpoints", () => {
       const { dispatch, getState } = createStore(simpleMockThreadClient);
 
       await dispatch(actions.newSource(makeSource("foo")));
-      await dispatch(actions.addBreakpoint(breakpoint1.location, "", true));
+      await dispatch(
+        actions.addBreakpoint(breakpoint1.location, { hidden: true })
+      );
       const pendingBps = selectors.getPendingBreakpoints(getState());
 
       expect(pendingBps.get(breakpointLocationId1)).toBeUndefined();
