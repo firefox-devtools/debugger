@@ -64,11 +64,11 @@ class SourceFooter extends PureComponent {
     const { selectedSource, toggleBlackBox } = this.props;
     const sourceLoaded = selectedSource && isLoaded(selectedSource.toJS());
 
-    const blackboxed = selectedSource.get("isBlackBoxed");
-
-    if (!isEnabled("blackbox")) {
+    if (!isEnabled("blackbox") || !sourceLoaded) {
       return;
     }
+
+    const blackboxed = selectedSource.get("isBlackBoxed");
 
     const tooltip = L10N.getStr("sourceFooter.blackbox");
     const type = "black-box";
