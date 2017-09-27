@@ -1,5 +1,5 @@
 // @flow
-import { getSource, getActiveSearch, getSelectedSource } from "../selectors";
+import { getSource, getActiveSearch } from "../selectors";
 import type { ThunkArgs } from "./types";
 import type { ActiveSearchType, SymbolSearchType } from "../reducers/ui";
 import { clearSourceSearchQuery } from "./source-search";
