@@ -211,7 +211,7 @@ class SourcesTree extends Component {
     const { setProjectDirectoryRoot } = this.props;
     const copySourceUrlLabel = L10N.getStr("copySourceUrl");
     const copySourceUrlKey = L10N.getStr("copySourceUrl.accesskey");
-    const setDirectoryRootLabel = L10N.getStr("setDirectoryRoot");
+    const setDirectoryRootLabel = L10N.getStr("setDirectoryRoot.label");
     const setDirectoryRootKey = L10N.getStr("setDirectoryRoot.accesskey");
 
     event.stopPropagation();

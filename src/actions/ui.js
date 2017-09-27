@@ -126,10 +126,8 @@ export function toggleConditionalBreakpointPanel(line: null | number) {
 }
 
 export function setProjectDirectoryRoot(url: Object) {
-  return ({ dispatch, getState }: ThunkArgs) => {
-    dispatch({
-      type: "SET_PROJECT_DIRECTORY_ROOT",
-      url
-    });
+  return {
+    type: "SET_PROJECT_DIRECTORY_ROOT",
+    url
   };
 }
