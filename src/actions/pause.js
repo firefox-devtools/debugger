@@ -1,6 +1,6 @@
 // @flow
 
-import { selectSource } from "./sources";
+import { selectSource, ensureParserHasSourceText } from "./sources";
 import { PROMISE } from "../utils/redux/middleware/promise";
 
 import {
@@ -11,7 +11,11 @@ import {
   getSelectedSource,
   hasWatchExpressionErrored
 } from "../selectors";
-import { updateFrameLocations, getPausedPosition } from "../utils/pause";
+import {
+  updateFrameLocations,
+  updateScopeBindings,
+  getPausedPosition
+} from "../utils/pause";
 import { evaluateExpressions } from "./expressions";
 
 import { addHiddenBreakpoint, removeBreakpoint } from "./breakpoints";
@@ -22,7 +26,20 @@ import { features } from "../utils/prefs";
 import type { Pause, Frame } from "../types";
 import type { ThunkArgs } from "./types";
 
+import { isGeneratedId } from "devtools-source-map";
+
 type CommandType = string;
+
+async function _getScopeBindings(
+  { dispatch, getState, sourceMaps },
+  generatedLocation,
+  scopes
+) {
+  const { sourceId } = generatedLocation;
+  await dispatch(ensureParserHasSourceText(sourceId));
+
+  return await updateScopeBindings(scopes, generatedLocation, sourceMaps);
+}
 
 /**
  * Redux actions for the pause state
@@ -82,7 +99,14 @@ export function paused(pauseInfo: Pause) {
     frames = await updateFrameLocations(frames, sourceMaps);
     const frame = frames[0];
 
-    const scopes = await client.getFrameScopes(frame);
+    const frameScopes = await client.getFrameScopes(frame);
+    const scopes = !isGeneratedId(frame.location.sourceId)
+      ? await _getScopeBindings(
+          { dispatch, getState, sourceMaps },
+          frame.generatedLocation,
+          frameScopes
+        )
+      : frameScopes;
 
     dispatch({
       type: "PAUSED",
@@ -230,10 +254,21 @@ export function breakOnNext() {
  * @static
  */
 export function selectFrame(frame: Frame) {
-  return async ({ dispatch, client }: ThunkArgs) => {
-    const scopes = await client.getFrameScopes(frame);
+  return async ({ dispatch, client, getState, sourceMaps }: ThunkArgs) => {
+    const frameScopes = await client.getFrameScopes(frame);
+    const scopes = !isGeneratedId(frame.location.sourceId)
+      ? await _getScopeBindings(
+          { dispatch, getState, sourceMaps },
+          frame.generatedLocation,
+          frameScopes
+        )
+      : frameScopes;
 
-    dispatch({ type: "SELECT_FRAME", frame, scopes });
+    dispatch({
+      type: "SELECT_FRAME",
+      frame,
+      scopes
+    });
 
     dispatch(
       selectSource(frame.location.sourceId, { line: frame.location.line })
