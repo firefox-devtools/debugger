@@ -32,7 +32,7 @@
   offset-inline-start: auto;
 }
 
-.welcomebox .mobile-layout {
+.welcomebox .small-size-layout {
   display: none;
 }
 
@@ -64,7 +64,7 @@ html .welcomebox .toggle-button-end.collapsed {
 
 @media (max-width: 430px) {
 
-  .welcomebox .mobile-layout {
+  .welcomebox .small-size-layout {
     display: inline-block;
   }
 

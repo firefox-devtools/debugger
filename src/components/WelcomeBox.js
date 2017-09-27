@@ -53,7 +53,7 @@ class WelcomeBox extends Component {
 
     return (
       <div className="welcomebox">
-        <div className="alignlabel mobile-layout">
+        <div className="alignlabel small-size-layout">
           <div className="shortcutFunction">
             <p onClick={setActiveSearch.bind(null, "source")}>
               <div className="shortcutKey">{searchSourcesShortcut}</div>
