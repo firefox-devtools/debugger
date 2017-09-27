@@ -249,7 +249,7 @@ class SourcesTree extends Component {
   }
 
   render() {
-    const { isHidden, setExpandedState, expanded } = this.props;
+    const { setExpandedState, expanded } = this.props;
     const {
       focusedItem,
       sourceTree,
@@ -295,7 +295,7 @@ class SourcesTree extends Component {
 
     return (
       <div
-        className={classnames("sources-list", { hidden: isHidden })}
+        className="sources-list"
         onKeyDown={onKeyDown}
       >
         {tree}
@@ -305,7 +305,6 @@ class SourcesTree extends Component {
 }
 
 SourcesTree.propTypes = {
-  isHidden: PropTypes.bool,
   sources: ImPropTypes.map.isRequired,
   selectSource: PropTypes.func.isRequired,
   shownSource: PropTypes.string,
