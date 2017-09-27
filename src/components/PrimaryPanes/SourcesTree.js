@@ -281,7 +281,7 @@ class SourcesTree extends Component {
 
     if (isEmpty) {
       return (
-        <div className="no-sources-message">
+        <div className={classnames("no-sources-message", { hidden: isHidden })}>
           {L10N.getStr("sources.noSourcesAvailable")}
         </div>
       );
