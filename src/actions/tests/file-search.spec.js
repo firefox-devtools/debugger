@@ -3,22 +3,28 @@ import { createStore, selectors, actions } from "../../utils/test-head";
 const {
   getFileSearchQuery,
   getFileSearchModifiers,
-  getSearchResults
+  getFileSearchResults
 } = selectors;
 
 describe("file text search", () => {
   it("should update search results", () => {
     const { dispatch, getState } = createStore();
-    expect(getSearchResults(getState())).toEqual({
+    expect(getFileSearchResults(getState())).toEqual({
       matches: [],
       matchIndex: -1,
       index: -1,
       count: 0
     });
 
-    const results = { count: 3, index: 2 };
-    dispatch(actions.updateSearchResults(results));
-    expect(getSearchResults(getState())).toEqual(results);
+    const matches = [{ line: 1, ch: 3 }, { line: 3, ch: 2 }];
+    dispatch(actions.updateSearchResults(2, 3, matches));
+
+    expect(getFileSearchResults(getState())).toEqual({
+      count: 2,
+      index: 2,
+      matchIndex: 1,
+      matches: matches
+    });
   });
 
   it("should update the file search query", () => {

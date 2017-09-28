@@ -1,8 +1,8 @@
 // @flow
 
 import { find, findNext, findPrev, removeOverlay } from "../utils/editor";
-import { getMatches } from "../utils/search";
-import type { ThunkArgs } from "./types";
+import { getMatches } from "../workers/search";
+import type { ThunkArgs, Match } from "./types";
 
 import {
   getSelectedSource,
@@ -10,7 +10,12 @@ import {
   getFileSearchQuery,
   getFileSearchResults
 } from "../selectors";
-type Match = Object;
+
+import {
+  closeActiveSearch,
+  clearHighlightLineRange,
+  setActiveSearch
+} from "./ui";
 type Editor = Object;
 
 export function doSearch(query: string, editor: Editor) {
@@ -47,14 +52,16 @@ export function updateSearchResults(
 
   return {
     type: "UPDATE_SEARCH_RESULTS",
-    matches,
-    matchIndex,
-    count: matches.length,
-    index: characterIndex
+    results: {
+      matches,
+      matchIndex,
+      count: matches.length,
+      index: characterIndex
+    }
   };
 }
 
-export async function searchContents(query: string, editor: Object) {
+export function searchContents(query: string, editor: Object) {
   return async ({ getState, dispatch }: ThunkArgs) => {
     const modifiers = getFileSearchModifiers(getState());
     const selectedSource = getSelectedSource(getState());
@@ -79,6 +86,7 @@ export async function searchContents(query: string, editor: Object) {
     const { ch, line } = find(ctx, query, true, _modifiers);
 
     dispatch(updateSearchResults(ch, line, matches));
+    return {};
   };
 }
 
@@ -88,14 +96,14 @@ export function traverseResults(rev: boolean, editor: Editor) {
       return;
     }
 
-    const ctx = { editor, cm: editor.codeMirror };
+    const ctx = { ed: editor, cm: editor.codeMirror };
 
     const query = getFileSearchQuery(getState());
     const modifiers = getFileSearchModifiers(getState());
-    const { searchResults: matches } = getFileSearchResults();
+    const { matches } = getFileSearchResults(getState());
 
     if (query === "") {
-      this.props.setActiveSearch("file");
+      dispatch(setActiveSearch("file"));
     }
 
     if (modifiers) {
@@ -103,7 +111,24 @@ export function traverseResults(rev: boolean, editor: Editor) {
       const { ch, line } = rev
         ? findPrev(ctx, query, true, modifiers.toJS())
         : findNext(ctx, query, true, modifiers.toJS());
-      this.updateSearchResults(ch, line, matchedLocations);
+
+      dispatch(updateSearchResults(ch, line, matchedLocations));
     }
+  };
+}
+
+export function closeFileSearch(editor: Editor) {
+  return ({ getState, dispatch }: ThunkArgs) => {
+    const modifiers = getFileSearchModifiers(getState());
+    const query = getFileSearchQuery(getState());
+
+    if (editor && modifiers) {
+      const ctx = { ed: editor, cm: editor.codeMirror };
+      removeOverlay(ctx, query, modifiers.toJS());
+    }
+
+    dispatch(setFileSearchQuery(""));
+    dispatch(closeActiveSearch());
+    dispatch(clearHighlightLineRange());
   };
 }

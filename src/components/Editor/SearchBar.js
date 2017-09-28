@@ -1,7 +1,6 @@
 // @flow
 
 import React, { Component, PropTypes } from "react";
-import { findDOMNode } from "react-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Svg from "../shared/Svg";
@@ -10,14 +9,11 @@ import {
   getActiveSearch,
   getFileSearchQuery,
   getFileSearchModifiers,
-  getSearchResults
+  getFileSearchResults
 } from "../../selectors";
-
-import { removeOverlay } from "../../utils/editor";
 
 import { scrollList } from "../../utils/result-list";
 import classnames from "classnames";
-import { debounce } from "lodash";
 
 import { SourceEditor } from "devtools-source-editor";
 import type { SourceRecord } from "../../reducers/sources";
@@ -26,6 +22,8 @@ import type { ActiveSearchType, FileSearchModifiers } from "../../reducers/ui";
 import type { SelectSourceOptions } from "../../actions/sources";
 import SearchInput from "../shared/SearchInput";
 import "./SearchBar.css";
+
+type Editor = Object;
 
 function getShortcuts() {
   const searchAgainKey = L10N.getStr("sourceSearch.search.again.key2");
@@ -49,8 +47,6 @@ type Props = {
   editor?: SourceEditor,
   selectSource: (string, ?SelectSourceOptions) => any,
   selectedSource?: SourceRecord,
-  highlightLineRange: ({ start: number, end: number }) => void,
-  clearHighlightLineRange: () => void,
   searchOn?: boolean,
   setActiveSearch: (?ActiveSearchType) => any,
   searchResults: SearchResults,
@@ -58,13 +54,17 @@ type Props = {
   toggleFileSearchModifier: string => any,
   query: string,
   setFileSearchQuery: string => any,
-  updateSearchResults: ({ count: number, index?: number }) => any
+  updateSearchResults: ({ count: number, index?: number }) => any,
+  traverseResults: (boolean, Editor) => void,
+  doSearch: (string, Editor) => void,
+  closeFileSearch: Editor => void
 };
 
 class SearchBar extends Component {
   state: SearchBarState;
-
   props: Props;
+  searchInput: HTMLInputElement;
+  onChange: (e: SyntheticInputEvent) => void;
 
   constructor(props: Props) {
     super(props);
@@ -76,11 +76,9 @@ class SearchBar extends Component {
 
     const self: any = this;
     self.onEscape = this.onEscape.bind(this);
-    self.clearSearch = this.clearSearch.bind(this);
     self.closeSearch = this.closeSearch.bind(this);
-    self.setSearchValue = this.setSearchValue.bind(this);
     self.selectSearchInput = this.selectSearchInput.bind(this);
-    self.searchInput = this.searchInput.bind(this);
+    self.getInputRef = this.getInputRef.bind(this);
     self.onChange = this.onChange.bind(this);
     self.onKeyUp = this.onKeyUp.bind(this);
     self.buildSummaryMsg = this.buildSummaryMsg.bind(this);
@@ -103,30 +101,21 @@ class SearchBar extends Component {
   }
 
   componentDidMount() {
-    // overwrite searchContents with a debounced version to reduce the
-    // frequency of queries which improves perf on large files
-    // $FlowIgnore
-    this.searchContents = debounce(this.props.searchContents, 100);
-
     const shortcuts = this.context.shortcuts;
     const { searchAgainShortcut, shiftSearchAgainShortcut } = getShortcuts();
 
-    shortcuts.on("Escape", this.onEscape);
+    shortcuts.on("Escape", (_, e) => this.onEscape(e));
 
     shortcuts.on(shiftSearchAgainShortcut, (_, e) =>
-      this.props.traverseResults(e, true)
+      this.traverseResults(e, true)
     );
 
-    shortcuts.on(searchAgainShortcut, (_, e) =>
-      this.props.traverseResults(e, false)
-    );
+    shortcuts.on(searchAgainShortcut, (_, e) => this.traverseResults(e, false));
   }
 
   componentDidUpdate(prevProps: Props, prevState: SearchBarState) {
-    const searchInput = this.searchInput();
-
-    if (searchInput) {
-      searchInput.focus();
+    if (this.searchInput && prevProps.searchOn !== this.props.searchOn) {
+      this.selectSearchInput();
     }
 
     if (this.refs.resultList && this.refs.resultList.refs) {
@@ -138,66 +127,48 @@ class SearchBar extends Component {
     this.closeSearch(e);
   }
 
-  onSearchAgain(e: SyntheticKeyboardEvent, rev: boolean) {
+  traverseResults(e: SyntheticKeyboardEvent, dir: boolean) {
     e.stopPropagation();
     e.preventDefault();
-
-    this.props.traverseResults(rev);
-  }
-
-  clearSearch() {
-    const { editor: ed, query, modifiers } = this.props;
-    if (ed && modifiers) {
-      const ctx = { ed, cm: ed.codeMirror };
-      removeOverlay(ctx, query, modifiers.toJS());
-    }
-  }
-
-  closeSearch(e: SyntheticEvent) {
-    const { editor, setFileSearchQuery, searchOn } = this.props;
-
-    if (editor && searchOn) {
-      setFileSearchQuery("");
-      this.clearSearch();
-      this.props.setActiveSearch();
-      this.props.clearHighlightLineRange();
-      e.stopPropagation();
-      e.preventDefault();
-    }
-  }
-
-  setSearchValue(value: string) {
-    const searchInput = this.searchInput();
-    if (value == "" || !searchInput) {
+    if (!this.props.editor) {
       return;
     }
 
-    searchInput.value = value;
+    this.props.traverseResults(dir, this.props.editor);
+  }
+
+  closeSearch(e: SyntheticEvent) {
+    const { editor } = this.props;
+
+    if (!editor) {
+      return;
+    }
+
+    e.stopPropagation();
+    e.preventDefault();
+    this.props.closeFileSearch(editor);
   }
 
   selectSearchInput() {
-    const searchInput = this.searchInput();
-    if (searchInput) {
-      searchInput.setSelectionRange(0, searchInput.value.length);
-      searchInput.focus();
-    }
-  }
-
-  searchInput(): ?HTMLInputElement {
-    const node = findDOMNode(this);
-    if (node instanceof HTMLElement) {
-      const input = node.querySelector("input");
-      if (input instanceof HTMLInputElement) {
-        return input;
+    if (this.searchInput) {
+      const { editor, searchOn, setFileSearchQuery } = this.props;
+      if (searchOn && editor != null) {
+        const selection = editor.codeMirror.getSelection();
+        setFileSearchQuery(selection);
+        if (selection !== "") {
+          this.props.doSearch(selection, editor);
+        }
       }
+      this.searchInput.setSelectionRange(0, this.searchInput.value.length);
+      this.searchInput.focus();
     }
-    return null;
   }
 
-  // Handlers
-
-  onChange(e: any) {
-    return this.props.doSearch(e.target.value);
+  onChange(e: SyntheticInputEvent) {
+    if (!this.props.editor) {
+      return;
+    }
+    return this.props.doSearch(e.target.value, this.props.editor);
   }
 
   onKeyUp(e: SyntheticKeyboardEvent) {
@@ -205,8 +176,12 @@ class SearchBar extends Component {
       return;
     }
 
-    this.props.traverseResults(e, e.shiftKey);
+    this.traverseResults(e, e.shiftKey);
     e.preventDefault();
+  }
+
+  getInputRef(c) {
+    this.searchInput = c;
   }
 
   // Renderers
@@ -290,7 +265,7 @@ class SearchBar extends Component {
     const { searchResults: { count }, query, searchOn } = this.props;
 
     if (!searchOn) {
-      return <div />;
+      return null;
     }
 
     return (
@@ -302,9 +277,10 @@ class SearchBar extends Component {
           summaryMsg={this.buildSummaryMsg()}
           onChange={this.onChange}
           onKeyUp={this.onKeyUp}
-          handleNext={e => this.props.traverseResults(e, false)}
-          handlePrev={e => this.props.traverseResults(e, true)}
+          handleNext={e => this.traverseResults(e, false)}
+          handlePrev={e => this.traverseResults(e, true)}
           handleClose={this.closeSearch}
+          refFunc={this.getInputRef}
         />
         <div className="search-bottom-bar">
           {this.renderSearchType()}
@@ -325,7 +301,7 @@ export default connect(
       searchOn: getActiveSearch(state) === "file",
       query: getFileSearchQuery(state),
       modifiers: getFileSearchModifiers(state),
-      searchResults: getSearchResults(state)
+      searchResults: getFileSearchResults(state)
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

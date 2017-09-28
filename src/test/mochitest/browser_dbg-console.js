@@ -41,6 +41,6 @@ add_task(async function() {
   pressKey(dbg, "Escape");
 
   // Second time to hide console
-  pressKey(dbg, "Escape");
+  pressKey(dbg, "CtrlEscape");
   ok(!dbg.toolbox.splitConsole, "Split console is hidden.");
 });

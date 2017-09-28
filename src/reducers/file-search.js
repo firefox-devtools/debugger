@@ -1,8 +1,8 @@
 // @flow
 
 /**
- * UI reducer
- * @module reducers/ui
+ * File Search reducer
+ * @module reducers/fileSearch
  */
 
 import makeRecord from "../utils/makeRecord";
@@ -29,7 +29,7 @@ export type SearchResults = {
   count: number
 };
 
-export type UIState = {
+export type FileSearchState = {
   searchResults: SearchResults,
   query: string,
   modifiers: Modifiers
@@ -49,13 +49,13 @@ export const State = makeRecord(
       wholeWord: prefs.fileSearchWholeWord,
       regexMatch: prefs.fileSearchRegexMatch
     })()
-  }: UIState)
+  }: FileSearchState)
 );
 
 function update(
-  state: Record<UIState> = State(),
+  state: Record<FileSearchState> = State(),
   action: Action
-): Record<UIState> {
+): Record<FileSearchState> {
   switch (action.type) {
     case "UPDATE_FILE_SEARCH_QUERY": {
       return state.set("query", action.query);
@@ -91,7 +91,7 @@ function update(
 
 // NOTE: we'd like to have the app state fully typed
 // https://github.com/devtools-html/debugger.html/blob/master/src/reducers/sources.js#L179-L185
-type OuterState = { fileSearch: Record<UIState> };
+type OuterState = { fileSearch: Record<FileSearchState> };
 
 export function getFileSearchQuery(state: OuterState): string {
   return state.fileSearch.get("query");
@@ -101,7 +101,7 @@ export function getFileSearchModifiers(state: OuterState): Modifiers {
   return state.fileSearch.get("modifiers");
 }
 
-export function getSearchResults(state: OuterState) {
+export function getFileSearchResults(state: OuterState) {
   return state.fileSearch.get("searchResults");
 }
 
