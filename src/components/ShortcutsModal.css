@@ -5,7 +5,7 @@
 .shortcuts-content h2 {
   margin-top: 2px;
   margin-bottom: 2px;
-  color: var(--theme-graphs-bluegrey);
+  color: var(--theme-content-color1);
 }
 
 .shortcuts-section {
@@ -25,10 +25,16 @@
 }
 
 .shortcuts-list li {
-  width: 40%;
+  font-size: 12px;
+  font-weight: bold;
+  width: 45%;
   color: var(--theme-body-color);
   padding-top: 5px;
   display: flex;
   justify-content: space-between;
   border: 1px solid transparent;
+}
+
+.keyCombo {
+  font-family: courier;
 }

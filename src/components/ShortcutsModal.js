@@ -15,7 +15,7 @@ export class ShortcutsModal extends Component {
     return (
       <li>
         <span>{title}</span>
-        <span>{combo}</span>
+        <span className="keyCombo">{combo}</span>
       </li>
     );
   }
