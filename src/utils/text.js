@@ -23,7 +23,7 @@ const isMacOS = appinfo.OS === "Darwin";
  * @static
  */
 function formatKeyShortcut(shortcut: string): string {
-  if (!isMacOS) {
+  if (isMacOS) {
     return shortcut
       .replace(/Shift\+/g, "\u21E7 ")
       .replace(/Command\+|Cmd\+/g, "\u2318 ")
