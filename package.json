@@ -125,7 +125,7 @@
     "jest-serializer-babel-ast": "^0.0.5",
     "lint-staged": "^4.0.1",
     "mocha": "^3.1.2",
-    "mochii": "^0.0.7",
+    "mochii": "^0.0.8",
     "mock-require": "^2.0.2",
     "node-emoji": "^1.8.1",
     "npm-run-all": "^4.0.2",
