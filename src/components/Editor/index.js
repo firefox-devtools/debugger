@@ -423,9 +423,13 @@ class Editor extends PureComponent {
     const { selectedLocation, jumpToMappedLocation } = this.props;
 
     if (e.metaKey && e.altKey) {
-      const sourceLocation = getSourceLocationFromMouseEvent(this.state.editor, selectedLocation, e);
+      const sourceLocation = getSourceLocationFromMouseEvent(
+        this.state.editor,
+        selectedLocation,
+        e
+      );
       jumpToMappedLocation(sourceLocation);
-   }
+    }
   }
 
   toggleConditionalPanel(line) {

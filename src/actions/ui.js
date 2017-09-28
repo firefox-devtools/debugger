@@ -121,6 +121,6 @@ export function clearHighlightLineRange() {
 export function toggleConditionalBreakpointPanel(line?: number) {
   return {
     type: "TOGGLE_CONDITIONAL_BREAKPOINT_PANEL",
-      line: line
+    line: line
   };
 }

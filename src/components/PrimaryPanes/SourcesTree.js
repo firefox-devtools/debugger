@@ -294,10 +294,7 @@ class SourcesTree extends Component {
     };
 
     return (
-      <div
-        className="sources-list"
-        onKeyDown={onKeyDown}
-      >
+      <div className="sources-list" onKeyDown={onKeyDown}>
         {tree}
       </div>
     );

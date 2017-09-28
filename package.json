@@ -26,7 +26,8 @@
     "lint": "run-p lint-css lint-js lint-md",
     "lint-css": "stylelint \"src/components/**/*.css\"",
     "lint-js": "eslint *.js \"src/**/*.js\" --fix",
-    "lint-md": "remark -u devtools-linters/markdown/preset -qf *.md src configs docs",
+    "lint-md":
+      "remark -u devtools-linters/markdown/preset -qf *.md src configs docs",
     "lint-fix": "yarn lint-js -- --fix",
     "mochi":
       "mochii --mc ./firefox --default-test-path devtools/client/debugger/new",
