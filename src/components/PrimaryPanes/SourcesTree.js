@@ -182,8 +182,8 @@ class SourcesTree extends Component {
   }
 
   onContextMenu(event, item) {
-    const copySourceUrlLabel = L10N.getStr("copySourceUrl");
-    const copySourceUrlKey = L10N.getStr("copySourceUrl.accesskey");
+    const copySourceUri2Label = L10N.getStr("copySourceUri2");
+    const copySourceUri2Key = L10N.getStr("copySourceUri2.accesskey");
 
     event.stopPropagation();
     event.preventDefault();
@@ -192,15 +192,15 @@ class SourcesTree extends Component {
 
     if (!isDirectory(item)) {
       const source = item.contents.get("url");
-      const copySourceUrl = {
+      const copySourceUri2 = {
         id: "node-menu-copy-source",
-        label: copySourceUrlLabel,
-        accesskey: copySourceUrlKey,
+        label: copySourceUri2Label,
+        accesskey: copySourceUri2Key,
         disabled: false,
         click: () => copyToTheClipboard(source)
       };
 
-      menuOptions.push(copySourceUrl);
+      menuOptions.push(copySourceUri2);
     }
 
     showMenu(event, menuOptions);
