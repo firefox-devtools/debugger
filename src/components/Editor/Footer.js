@@ -91,9 +91,8 @@ class SourceFooter extends PureComponent {
 
   blackBoxSummary() {
     const { selectedSource } = this.props;
-    const blackboxed = selectedSource.get("isBlackBoxed");
 
-    if (!blackboxed) {
+    if (!selectedSource || !selectedSource.get("isBlackBoxed")) {
       return;
     }
 
