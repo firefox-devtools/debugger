@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`expressions wrap expression 1`] = `
+exports[`expressions wrap exxpression should wrap an expression 1`] = `
 "eval(\`
     try {
       foo
@@ -10,7 +10,7 @@ exports[`expressions wrap expression 1`] = `
   \`)"
 `;
 
-exports[`expressions wrap expression with a comment 1`] = `
+exports[`expressions wrap exxpression should wrap expression with a comment 1`] = `
 "eval(\`
     try {
       foo // yo yo

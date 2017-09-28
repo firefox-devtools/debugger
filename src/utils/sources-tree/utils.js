@@ -31,13 +31,13 @@ export function isDirectory(url: Object) {
 }
 
 export function isNotJavaScript(source: Object): boolean {
-  const parsedUrl = parse(source.url).pathname
+  const parsedUrl = parse(source.url).pathname;
   if (!parsedUrl) {
     return false;
   }
-  const parsedExtension = parsedUrl.split('.').pop();
+  const parsedExtension = parsedUrl.split(".").pop();
 
-  return ["css", "svg", "png"].includes(parsedExtension)
+  return ["css", "svg", "png"].includes(parsedExtension);
 }
 
 export function isInvalidUrl(url: Object, source: Object) {

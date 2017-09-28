@@ -204,7 +204,6 @@ type PauseAction =
   | {
       type: "EVALUATE_EXPRESSION",
       input: string,
-      status: string,
       value: Object,
       "@@dispatch/promise": any
     }

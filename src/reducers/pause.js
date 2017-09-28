@@ -194,13 +194,6 @@ export function isEvaluatingExpression(state: OuterState) {
   return state.pause.command === "expression";
 }
 
-export function hasWatchExpressionErrored(state: OuterState) {
-  const pause = getPause(state);
-  return (
-    isEvaluatingExpression(state) && pause && pause.why.type === "exception"
-  );
-}
-
 export function getLoadedObject(state: OuterState, objectId: string) {
   return getLoadedObjects(state)[objectId];
 }

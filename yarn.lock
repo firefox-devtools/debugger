@@ -2979,7 +2979,7 @@ devtools-map-bindings@0.1.0:
     jest "^19.0.2"
     source-map "^0.5.6"
 
-devtools-map-bindings@0.2.0:
+devtools-map-bindings@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/devtools-map-bindings/-/devtools-map-bindings-0.2.0.tgz#0fe50f198d73b16a457430e41d5c673ee4047782"
   dependencies:
@@ -6718,9 +6718,9 @@ mocha@^3.1.2:
     mkdirp "0.5.1"
     supports-color "3.1.2"
 
-mochii@^0.0.7:
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/mochii/-/mochii-0.0.7.tgz#3deca5c25da96fd9b86ce01e91e6d4fae77ee4be"
+mochii@^0.0.8:
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/mochii/-/mochii-0.0.8.tgz#f53b2744154f4543e2df52f8606eecc6f647113a"
   dependencies:
     chalk "^2.1.0"
     eslint "^4.7.2"
