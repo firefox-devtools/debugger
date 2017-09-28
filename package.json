@@ -26,7 +26,8 @@
     "lint": "run-p lint-css lint-js lint-md",
     "lint-css": "stylelint \"src/components/**/*.css\"",
     "lint-js": "eslint *.js \"src/**/*.js\" --fix",
-    "lint-md": "remark -u devtools-linters/markdown/preset -qf *.md src configs docs",
+    "lint-md":
+      "remark -u devtools-linters/markdown/preset -qf *.md src configs docs",
     "lint-fix": "yarn lint-js -- --fix",
     "mochi":
       "mochii --mc ./firefox --default-test-path devtools/client/debugger/new",
@@ -114,6 +115,9 @@
     "eslint-config-prettier": "^2.3.0",
     "eslint-plugin-prettier": "^2.2.0",
     "eslint-plugin-react": "^7.2.1",
+    "eslint-plugin-babel": "^4.1.2",
+    "eslint-plugin-flowtype": "^2.36.0",
+    "eslint-plugin-mozilla": "^0.4.4",
     "expect.js": "^0.3.1",
     "flow-bin": "^0.52.0",
     "glob": "^7.0.3",

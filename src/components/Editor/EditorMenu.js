@@ -53,7 +53,11 @@ function getMenuItems(
     left: event.clientX
   });
 
-  const sourceLocation = getSourceLocationFromMouseEvent(editor, selectedLocation, event)
+  const sourceLocation = getSourceLocationFromMouseEvent(
+    editor,
+    selectedLocation,
+    event
+  );
 
   const pairedType = isOriginalId(selectedLocation.sourceId)
     ? L10N.getStr("generated")
