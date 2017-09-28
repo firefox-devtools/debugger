@@ -26,7 +26,6 @@
 
 .shortcuts-list li {
   font-size: 12px;
-  font-weight: bold;
   width: 45%;
   color: var(--theme-body-color);
   padding-top: 5px;
