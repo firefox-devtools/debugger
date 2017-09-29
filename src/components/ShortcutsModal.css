@@ -1,5 +1,8 @@
 .shortcuts-content {
-  padding: 20px;
+  padding: 15px;
+  -moz-column-width: 250px;
+  -webkit-column-width: 250px;
+  column-width: 250px;
 }
 
 .shortcuts-content h2 {
@@ -23,9 +26,10 @@
 }
 
 .shortcuts-section {
-  width: 50%;
   display: inline-block;
-  vertical-align: top;
+  margin: 5px;
+  margin-bottom: 15px;
+  width: 250px;
 }
 
 .shortcuts-list {
@@ -38,12 +42,11 @@
 
 .shortcuts-modal {
   height: fit-content;
-  width: 60em;
+  width: 45%;
 }
 
 .shortcuts-list li {
   font-size: 12px;
-  width: 80%;
   color: var(--theme-body-color);
   padding-top: 5px;
   display: flex;
