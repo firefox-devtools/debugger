@@ -18,6 +18,11 @@ import { isVisible } from "../utils/ui";
 import { KeyShortcuts } from "devtools-modules";
 const shortcuts = new KeyShortcuts({ window });
 
+import { Services } from "devtools-modules";
+const { appinfo } = Services;
+
+const isMacOS = appinfo.OS === "Darwin";
+
 const verticalLayoutBreakpoint = window.matchMedia("(min-width: 800px)");
 
 import "./variables.css";
@@ -263,12 +268,15 @@ class App extends Component {
   }
 
   renderShortcutsModal() {
+    const additionalClass = isMacOS ? "mac" : "";
+
     if (!features.shortcuts) {
       return;
     }
 
     return (
       <ShortcutsModal
+        additionalClass={additionalClass}
         enabled={this.state.shortcutsModalEnabled}
         handleClose={() => this.toggleShortcutsModal()}
       />

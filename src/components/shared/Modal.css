@@ -14,10 +14,10 @@
   top: 0;
   height: 230px;
   width: 500px;
-  background-color: var(--theme-codemirror-gutter-background);
+  background-color: var(--theme-toolbar-background);
   transform: translateY(-250px);
   transition: transform 150ms cubic-bezier(0.07, 0.95, 0, 1);
-  box-shadow: 2px 4px 6px var(--popup-shadow-color);
+  box-shadow: 0 0 10px 2px var(--popup-shadow-color);
 }
 
 .modal.entering,
