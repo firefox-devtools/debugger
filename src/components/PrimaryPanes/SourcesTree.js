@@ -32,6 +32,7 @@ import Svg from "../shared/Svg";
 import { showMenu } from "devtools-launchpad";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { throttle } from "../../utils/utils";
+import { features } from "../../utils/prefs";
 
 type CreateTree = {
   focusedItem?: any,
@@ -55,11 +56,7 @@ class SourcesTree extends Component {
 
   constructor(props) {
     super(props);
-    this.state = createTree(
-      this.props.sources,
-      this.props.debuggeeUrl,
-      this.props.projectRoot
-    );
+    this.state = createTree(this.props.sources, this.props.debuggeeUrl);
     this.focusItem = this.focusItem.bind(this);
     this.selectItem = this.selectItem.bind(this);
     this.getIcon = this.getIcon.bind(this);
@@ -94,13 +91,7 @@ class SourcesTree extends Component {
       this.props.debuggeeUrl !== nextProps.debuggeeUrl
     ) {
       // Recreate tree because the sort order changed
-      this.setState(
-        createTree(
-          nextProps.sources,
-          nextProps.debuggeeUrl,
-          nextProps.projectRoot
-        )
-      );
+      this.setState(createTree(nextProps.sources, nextProps.debuggeeUrl));
       return;
     }
     const { selectedSource } = this.props;
@@ -138,13 +129,7 @@ class SourcesTree extends Component {
 
     if (nextProps.sources.size === 0) {
       // remove all sources
-      this.setState(
-        createTree(
-          nextProps.sources,
-          nextProps.debuggeeUrl,
-          nextProps.projectRoot
-        )
-      );
+      this.setState(createTree(nextProps.sources, nextProps.debuggeeUrl));
       return;
     }
 
@@ -231,13 +216,15 @@ class SourcesTree extends Component {
 
       menuOptions.push(copySourceUri2);
     } else {
-      menuOptions.push({
-        id: "node-set-directory-root",
-        label: setDirectoryRootLabel,
-        accesskey: setDirectoryRootKey,
-        disabled: false,
-        click: () => setProjectDirectoryRoot(item.path)
-      });
+      if (features.root) {
+        menuOptions.push({
+          id: "node-set-directory-root",
+          label: setDirectoryRootLabel,
+          accesskey: setDirectoryRootKey,
+          disabled: false,
+          click: () => setProjectDirectoryRoot(item.path)
+        });
+      }
     }
 
     showMenu(event, menuOptions);

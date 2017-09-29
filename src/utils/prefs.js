@@ -28,6 +28,7 @@ if (isDevelopment()) {
   pref("devtools.debugger.features.async-stepping", true);
   pref("devtools.debugger.features.wasm", true);
   pref("devtools.debugger.features.shortcuts", true);
+  pref("devtools.debugger.features.root", true);
   pref("devtools.debugger.project-directory-root", "");
 }
 
@@ -56,6 +57,7 @@ export const features = new PrefsHelper("devtools.debugger.features", {
   projectTextSearch: ["Bool", "project-text-search", true],
   wasm: ["Bool", "wasm", true],
   shortcuts: ["Bool", "shortcuts", false]
+  root: ["Bool", "root", false]
 });
 
 if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {
