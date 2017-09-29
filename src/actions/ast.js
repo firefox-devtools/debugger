@@ -10,44 +10,19 @@ import {
 } from "../selectors";
 
 import { ensureParserHasSourceText } from "./sources";
-
+import { getMappedExpression } from "./expressions";
 import { PROMISE } from "../utils/redux/middleware/promise";
 import {
-  getScopes,
   getSymbols,
   getEmptyLines,
   getOutOfScopeLocations
 } from "../workers/parser";
 
 import { isGeneratedId } from "devtools-source-map";
-import { replaceOriginalVariableName } from "devtools-map-bindings/src/utils";
 
 import type { SourceId } from "debugger-html";
 import type { ThunkArgs } from "./types";
 import type { AstLocation } from "../workers/parser";
-
-/**
- * Gets information about original variable names from the source map
- * and replaces all posible generated names.
- */
-async function getSourcemapedExpression(
-  { sourceMaps },
-  generatedLocation: Location,
-  expression: string
-): Promise<string> {
-  const astScopes = await getScopes(generatedLocation);
-
-  const generatedScopes = await sourceMaps.getLocationScopes(
-    generatedLocation,
-    astScopes
-  );
-
-  if (!generatedScopes) {
-    return expression;
-  }
-
-  return replaceOriginalVariableName(expression, generatedScopes);
-}
 
 export function setSymbols(sourceId: SourceId) {
   return async ({ dispatch, getState }: ThunkArgs) => {
@@ -186,8 +161,8 @@ export function setPreview(
           const generatedSourceId = generatedLocation.sourceId;
           await dispatch(ensureParserHasSourceText(generatedSourceId));
 
-          expression = await getSourcemapedExpression(
-            { dispatch, sourceMaps },
+          expression = await getMappedExpression(
+            { sourceMaps },
             generatedLocation,
             expression
           );
