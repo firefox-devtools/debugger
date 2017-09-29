@@ -2836,6 +2836,13 @@ devtools-components@^0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/devtools-components/-/devtools-components-0.0.2.tgz#4eb22cb5140e65741b00b79a7f76454ff56fa501"
 
+devtools-components@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/devtools-components/-/devtools-components-0.0.5.tgz#1b0c1718a9c0b6e3415f05377f0e5093aef82d9f"
+  dependencies:
+    svg-inline-loader "^0.8.0"
+    svg-inline-react "^1.0.2"
+
 devtools-config@^0.0.15:
   version "0.0.15"
   resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.15.tgz#1fbe75be3f4dc1159603927fc1dfa64d1d9f1202"
