@@ -206,7 +206,6 @@ class SecondaryPanes extends Component {
   renderVerticalLayout() {
     return (
       <SplitBox
-        style={{ width: "100vw" }}
         initialSize="300px"
         minSize={10}
         maxSize="50%"
