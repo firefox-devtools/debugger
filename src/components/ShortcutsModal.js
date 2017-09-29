@@ -1,27 +1,23 @@
 // @flow
 import React, { Component } from "react";
 import Modal from "./shared/Modal";
+import classnames from "classnames";
 import { formatKeyShortcut } from "../utils/text";
 
 import "./ShortcutsModal.css";
-import { Services } from "devtools-modules";
-const { appinfo } = Services;
-
-const isMacOS = appinfo.OS === "Darwin";
 
 export class ShortcutsModal extends Component {
   props: {
     enabled: boolean,
+    additionalClass: string,
     handleClose: () => void
   };
 
   renderPrettyCombos(combo: string) {
-    const comboClass = isMacOS ? "keyboard" : "";
-
     return combo
       .split(" ")
       .map(c => (
-        <span key={c} className={comboClass}>
+        <span key={c} className="keystroke">
           {c}
         </span>
       ))
@@ -91,7 +87,9 @@ export class ShortcutsModal extends Component {
 
   renderShortcutsContent() {
     return (
-      <div className="shortcuts-content">
+      <div
+        className={classnames("shortcuts-content", this.props.additionalClass)}
+      >
         <div className="shortcuts-section">
           <h2>{L10N.getStr("shortcuts.header.editor")}</h2>
           {this.renderEditorShortcuts()}

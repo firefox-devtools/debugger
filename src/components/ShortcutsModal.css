@@ -8,7 +8,7 @@
   color: var(--theme-content-color1);
 }
 
-.keyboard {
+.mac .keystroke {
   border-style: solid;
   border-width: 1px;
   border-radius: 3px;
