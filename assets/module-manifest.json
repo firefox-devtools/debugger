@@ -20008,7 +20008,26 @@
       "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/components/SecondaryPanes/UtilsBar.js": 1185,
       "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/utils/parser/getScopes.js": 1186,
       "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../devtools-map-bindings/src/parser.js": 1187,
-      "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/ShortcutsModal.css": 1188
+      "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/ShortcutsModal.css": 1188,
+      "../../react-redux/es/index.js": 1189,
+      "../../react-redux/es/utils/warning.js": 1190,
+      "../../react-redux/es/utils/PropTypes.js": 1191,
+      "../../react-redux/es/components/connectAdvanced.js": 1192,
+      "../../react-redux/es/connect/wrapMapToProps.js": 1193,
+      "../../react-redux/es/utils/verifyPlainObject.js": 1194,
+      "../../react-redux/es/components/Provider.js": 1195,
+      "../../react-redux/node_modules/hoist-non-react-statics/index.js": 1196,
+      "../../react-redux/es/utils/Subscription.js": 1197,
+      "../../react-redux/es/connect/connect.js": 1198,
+      "../../react-redux/es/utils/shallowEqual.js": 1199,
+      "../../react-redux/es/connect/mapDispatchToProps.js": 1200,
+      "../../react-redux/es/connect/mapStateToProps.js": 1201,
+      "../../react-redux/es/connect/mergeProps.js": 1202,
+      "../../react-redux/es/connect/selectorFactory.js": 1203,
+      "../../react-redux/es/connect/verifySubselectors.js": 1204,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../node_modules/svg-inline-react/dist/index.js": 1205,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../devtools-map-bindings/src/utils.js": 1206,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/utils/parser/validate.js": 1207
     },
     "usedIds": {
       "0": 0,
@@ -21199,7 +21218,26 @@
       "1185": 1185,
       "1186": 1186,
       "1187": 1187,
-      "1188": 1188
+      "1188": 1188,
+      "1189": 1189,
+      "1190": 1190,
+      "1191": 1191,
+      "1192": 1192,
+      "1193": 1193,
+      "1194": 1194,
+      "1195": 1195,
+      "1196": 1196,
+      "1197": 1197,
+      "1198": 1198,
+      "1199": 1199,
+      "1200": 1200,
+      "1201": 1201,
+      "1202": 1202,
+      "1203": 1203,
+      "1204": 1204,
+      "1205": 1205,
+      "1206": 1206,
+      "1207": 1207
     }
   },
   "chunks": {
@@ -23293,7 +23331,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -23314,7 +23352,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -23335,7 +23373,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -23356,7 +23394,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -23377,7 +23415,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -23398,7 +23436,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -23419,7 +23457,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -23440,7 +23478,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -23461,7 +23499,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -23482,7 +23520,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -23503,7 +23541,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -23524,7 +23562,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -23545,7 +23583,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -23566,7 +23604,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -23587,7 +23625,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -23608,7 +23646,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -23629,7 +23667,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -23650,7 +23688,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -23671,7 +23709,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -23692,7 +23730,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -23713,7 +23751,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -23734,7 +23772,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -23755,7 +23793,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -23776,7 +23814,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -23797,7 +23835,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -23818,7 +23856,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -23839,7 +23877,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -23860,7 +23898,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -23881,7 +23919,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -23902,7 +23940,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -23923,7 +23961,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -23944,7 +23982,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -23965,7 +24003,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -23986,7 +24024,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -24007,7 +24045,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -24028,7 +24066,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -24049,7 +24087,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -24070,7 +24108,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -24091,7 +24129,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -24112,7 +24150,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -24133,7 +24171,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -24154,7 +24192,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -24175,7 +24213,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -24196,7 +24234,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -24217,7 +24255,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -24238,7 +24276,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -24259,7 +24297,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -24280,7 +24318,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -24343,7 +24381,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -24364,7 +24402,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -24385,7 +24423,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
