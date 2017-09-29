@@ -41,7 +41,7 @@
 }
 
 .shortcuts-modal {
-  height: fit-content;
+  display: table;
   width: 45%;
 }
 
