@@ -1,5 +1,5 @@
 .shortcuts-content {
-  padding: 15px;
+  padding: 20px;
 }
 
 .shortcuts-content h2 {
@@ -8,8 +8,24 @@
   color: var(--theme-content-color1);
 }
 
+.keyboard {
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 3px;
+  border-color: var(--theme-graphs-grey);
+  background-color: var(--theme-selection-color);
+  width: 21px;
+  height: 17px;
+  display: inline-block;
+  font-size: 10px;
+  text-align: center;
+  padding-top: 2px;
+}
+
 .shortcuts-section {
-  margin-bottom: 20px;
+  width: 50%;
+  display: inline-block;
+  vertical-align: top;
 }
 
 .shortcuts-list {
@@ -22,18 +38,15 @@
 
 .shortcuts-modal {
   height: fit-content;
+  width: 60em;
 }
 
 .shortcuts-list li {
   font-size: 12px;
-  width: 50%;
+  width: 80%;
   color: var(--theme-body-color);
   padding-top: 5px;
   display: flex;
   justify-content: space-between;
   border: 1px solid transparent;
-}
-
-.keyCombo {
-  font-family: courier;
 }
