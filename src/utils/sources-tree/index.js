@@ -17,5 +17,6 @@ export {
   isDirectory,
   createNode,
   createParentMap,
-  getRelativePath
+  getRelativePath,
+  isNotJavaScript
 } from "./utils";

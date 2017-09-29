@@ -1,11 +1,12 @@
 import { showMenu } from "devtools-launchpad";
 import { isOriginalId } from "devtools-source-map";
 import { copyToTheClipboard } from "../../utils/clipboard";
+import { getSourceLocationFromMouseEvent } from "../../utils/editor";
 
 function getMenuItems(
   event,
   {
-    codeMirror,
+    editor,
     selectedLocation,
     selectedSource,
     showSource,
@@ -20,8 +21,8 @@ function getMenuItems(
   const copySourceKey = L10N.getStr("copySource.accesskey");
   const copyFunctionLabel = L10N.getStr("copyFunction.label");
   const copyFunctionKey = L10N.getStr("copyFunction.accesskey");
-  const copySourceUrlLabel = L10N.getStr("copySourceUrl");
-  const copySourceUrlKey = L10N.getStr("copySourceUrl.accesskey");
+  const copySourceUri2Label = L10N.getStr("copySourceUri2");
+  const copySourceUri2Key = L10N.getStr("copySourceUri2.accesskey");
   const revealInTreeLabel = L10N.getStr("sourceTabs.revealInTree");
   const revealInTreeKey = L10N.getStr("sourceTabs.revealInTree.accesskey");
   const blackboxLabel = L10N.getStr("sourceFooter.blackbox");
@@ -31,15 +32,15 @@ function getMenuItems(
     ? unblackboxLabel
     : blackboxLabel;
 
-  const copySourceUrl = {
+  const copySourceUri2 = {
     id: "node-menu-copy-source-url",
-    label: copySourceUrlLabel,
-    accesskey: copySourceUrlKey,
+    label: copySourceUri2Label,
+    accesskey: copySourceUri2Key,
     disabled: false,
     click: () => copyToTheClipboard(selectedSource.get("url"))
   };
 
-  const selectionText = codeMirror.getSelection().trim();
+  const selectionText = editor.codeMirror.getSelection().trim();
   const copySource = {
     id: "node-menu-copy-source",
     label: copySourceLabel,
@@ -48,16 +49,15 @@ function getMenuItems(
     click: () => copyToTheClipboard(selectionText)
   };
 
-  const { line, ch } = codeMirror.coordsChar({
-    left: event.clientX,
-    top: event.clientY
+  const { line } = editor.codeMirror.coordsChar({
+    left: event.clientX
   });
 
-  const sourceLocation = {
-    sourceId: selectedLocation.sourceId,
-    line: line + 1,
-    column: ch + 1
-  };
+  const sourceLocation = getSourceLocationFromMouseEvent(
+    editor,
+    selectedLocation,
+    event
+  );
 
   const pairedType = isOriginalId(selectedLocation.sourceId)
     ? L10N.getStr("generated")
@@ -73,7 +73,7 @@ function getMenuItems(
   const watchExpressionLabel = {
     accesskey: "E",
     label: L10N.getStr("expressions.placeholder"),
-    click: () => addExpression(codeMirror.getSelection())
+    click: () => addExpression(editor.codeMirror.getSelection())
   };
 
   const blackBoxMenuItem = {
@@ -85,7 +85,7 @@ function getMenuItems(
   };
 
   // TODO: Find a new way to only add this for mapped sources?
-  const textSelected = codeMirror.somethingSelected();
+  const textSelected = editor.codeMirror.somethingSelected();
 
   const showSourceMenuItem = {
     id: "node-menu-show-source",
@@ -106,7 +106,7 @@ function getMenuItems(
 
   const menuItems = [
     copySource,
-    copySourceUrl,
+    copySourceUri2,
     copyFunction,
     { type: "separator" },
     jumpLabel,

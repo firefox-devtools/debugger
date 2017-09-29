@@ -375,7 +375,7 @@ export function toggleBlackBox(source: Source) {
 }
 
 /**
-  Load the text for all the avaliable sources
+  Load the text for all the available sources
  * @memberof actions/sources
  * @static
  */

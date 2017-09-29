@@ -118,10 +118,26 @@ export function clearHighlightLineRange() {
   };
 }
 
-export function toggleConditionalBreakpointPanel(line: null | number) {
+export function toggleConditionalBreakpointPanel(line?: number) {
   return {
     type: "TOGGLE_CONDITIONAL_BREAKPOINT_PANEL",
-    line
+    line: line
+  };
+}
+
+export function setProjectDirectoryRoot(url) {
+  return {
+    type: "SET_PROJECT_DIRECTORY_ROOT",
+    url
+  };
+}
+
+export function setProjectDirectoryRoot(url: Object) {
+  return ({ dispatch, getState }: ThunkArgs) => {
+    dispatch({
+      type: "SET_PROJECT_DIRECTORY_ROOT",
+      url
+    });
   };
 }
 

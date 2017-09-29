@@ -10,7 +10,8 @@ import {
   addToTree,
   sortEntireTree,
   getURL,
-  getDirectories
+  getDirectories,
+  isNotJavaScript
 } from "../index";
 
 describe("sources tree", () => {
@@ -175,6 +176,40 @@ describe("sources tree", () => {
       const urlObject = getURL("https://a/c");
 
       expect(urlObject.filename).toBe("(index)");
+    });
+  });
+
+  describe("isNotJavaScript", () => {
+    it("js file", () => {
+      expect(
+        isNotJavaScript({
+          url: "http://example.com/foo.js"
+        })
+      ).toBe(false);
+    });
+
+    it("css file", () => {
+      expect(
+        isNotJavaScript({
+          url: "http://example.com/foo.css"
+        })
+      ).toBe(true);
+    });
+
+    it("svg file", () => {
+      expect(
+        isNotJavaScript({
+          url: "http://example.com/foo.svg"
+        })
+      ).toBe(true);
+    });
+
+    it("png file", () => {
+      expect(
+        isNotJavaScript({
+          url: "http://example.com/foo.png"
+        })
+      ).toBe(true);
     });
   });
 });

@@ -206,13 +206,13 @@ Here's a simple example:
 const { showMenu } = require("devtools-launchpad");
 
 function onClick(event) {
-  const copySourceUrlLabel = L10N.getStr("copySourceUrl");
-  const copySourceUrlKey = L10N.getStr("copySourceUrl.accesskey");
+  const copySourceUri2Label = L10N.getStr("copySourceUri2");
+  const copySourceUri2Key = L10N.getStr("copySourceUri2.accesskey");
 
   showMenu(event, [{
     id: "node-menu-copy-source",
-    label: copySourceUrlLabel,
-    accesskey: copySourceUrlKey,
+    label: copySourceUri2Label,
+    accesskey: copySourceUri2Key,
     disabled: false,
     click: () => copyToClipboad(url),
     hidden: () => url.match(/chrome:\/\//)
@@ -236,13 +236,13 @@ Access Keys are defined in the properties file next to the menu item's string. Y
 
 
 ```
-# LOCALIZATION NOTE (copySourceUrl): This is the text that appears in the
+# LOCALIZATION NOTE (copySourceUri2): This is the text that appears in the
 # context menu to copy the source URL of file open.
-copySourceUrl=Copy Source Url
+copySourceUri2=Copy Source Url
 
-# LOCALIZATION NOTE (copySourceUrl.accesskey): Access key to copy the source URL of a file from
+# LOCALIZATION NOTE (copySourceUri2.accesskey): Access key to copy the source URL of a file from
 # the context menu.
-copySourceUrl.accesskey=u
+copySourceUri2.accesskey=u
 ```
 
 
@@ -254,13 +254,13 @@ You can use a menu item separator to create menu groups.
 const { showMenu } = require("devtools-launchpad");
 
 function onClick(event) {
-  const copySourceUrlLabel = L10N.getStr("copySourceUrl");
-  const copySourceUrlKey = L10N.getStr("copySourceUrl.accesskey");
+  const copySourceUri2Label = L10N.getStr("copySourceUri2");
+  const copySourceUri2Key = L10N.getStr("copySourceUri2.accesskey");
 
   const menuItem = {
     id: "node-menu-copy-source",
-    label: copySourceUrlLabel,
-    accesskey: copySourceUrlKey,
+    label: copySourceUri2Label,
+    accesskey: copySourceUri2Key,
     disabled: false,
     click: () => copyToClipboad(url),
     hidden: () => url.match(/chrome:\/\//)
@@ -332,7 +332,7 @@ The `ExpressionState` documents the reducers fields. We use it in three places:
 
 We try to wrap our state in Immutable records when we can for two reasons.
 First it means that the state can only be modified in the reducers.
-Second, it helps our connected components avoid unecessary renders.
+Second, it helps our connected components avoid unnecessary renders.
 
 Connect will trigger a re-render when it sees new state, even if it has not changed.
 Immutable, will creates new objects if and only if the data changes,
@@ -429,7 +429,7 @@ yarn run test-all
 * [matchers][jest-matchers]
 * [mock functions][jest-mock]
 
-Running all the tests tends to be really slow. Most of the time it is realy useful to run a single test. You can do this by invoking jest directly like this:
+Running all the tests tends to be really slow. Most of the time it is really useful to run a single test. You can do this by invoking jest directly like this:
 
 ```bash
 node_modules/jest/bin/jest.js -o
@@ -575,7 +575,7 @@ You can check the background / text color contrast ratio with this [tool][contra
 
 ### Configs
 
-The Debugger uses configs for settings like `theme`, `hotReloading`, and feature flags.
+The Debugger uses configs for settings like `theme`, `hotReloading`
 
 The default development configs are in [development-json]. It's easy to change a setting in the Launchpad's settings tab or by updating your `configs/local.json` file.
 
@@ -634,70 +634,55 @@ When you're starting a new feature, it's always good to ask yourself if the feat
 
 It's easy to add a new feature flag to the project.
 
-1. add the flag to `development.json` and `firefox-panel.json`
+1. add the flag to `assets/panel/prefs.js` and `utils/prefs.js`
 2. add `isEnabled` calls in the code
 
 Here's an example of adding a new feature "awesome sauce" to the Debugger:
 
 ```diff
-diff --git a/configs/development.json b/configs/development.json
-index c82b299..d9de5f3 100755
---- a/configs/development.json
-+++ b/configs/development.json
-@@ -14,7 +14,8 @@
-     "eventListeners": {
-       "label": "Event Listeners",
-       "enabled": false
-     },
-     "codeCoverage": {
-       "label": "Code Coverage",
-       "enabled": false
--    }
-+    },
-+    "awesomeSauce": {
-+      "label": "Awesome Sauce",
-+      "enabled": false
-+    }
-   },
-   "chrome": {
-     "debug": true,
-diff --git a/configs/firefox-panel.json b/configs/firefox-panel.json
-index c91b562..bf485bb 100644
---- a/configs/firefox-panel.json
-+++ b/configs/firefox-panel.json
-@@ -10,6 +10,7 @@
-     "eventListeners": {
-       "label": "Event Listeners",
-       "enabled": false
-     },
-     "codeCoverage": {
-       "label": "Code Coverage",
-       "enabled": false
--    }
-+    },
-+    "awesomeSauce": {
-+      "label": "Awesome Sauce",
-+      "enabled": false
-+    }
-   }
- }
-
+diff --git a/assets/panel/prefs.js b/assets/panel/prefs.js
+index 1cfe2da..7e3068f 100644
+--- a/assets/panel/prefs.js
++++ b/assets/panel/prefs.js
+@@ -44,3 +44,4 @@ pref("devtools.debugger.file-search-regex-match", false);
+ pref("devtools.debugger.features.async-stepping", true);
+ pref("devtools.debugger.features.project-text-search", true);
+ pref("devtools.debugger.features.wasm", true);
++pref("devtools.debugger.features.awesome", false);
 diff --git a/src/components/Editor/index.js b/src/components/Editor/index.js
-index 038fd01..ea7a545 100644
+index 47714d3..540c98d 100644
 --- a/src/components/Editor/index.js
 +++ b/src/components/Editor/index.js
-@@ -114,6 +114,10 @@ const Editor = React.createClass({
-       return;
-     }
-
-+    if (isEnabled("awesomeSauce")) {
-+      // sauce goops out of the breakpoint...
-+    }
+@@ -152,7 +152,7 @@ class Editor extends PureComponent {
+       codeMirror.on("gutterContextMenu", (cm, line, eventName, event) =>
+         this.onGutterContextMenu(event)
+       );
+-
 +
+       codeMirror.on("contextmenu", (cm, event) => this.openMenu(event, cm));
+     } else {
+       codeMirrorWrapper.addEventListener("contextmenu", event =>
+diff --git a/src/utils/prefs.js b/src/utils/prefs.js
+index 429d56c..dadb36c 100644
+--- a/src/utils/prefs.js
++++ b/src/utils/prefs.js
+@@ -28,6 +28,7 @@ if (isDevelopment()) {
+   pref("devtools.debugger.features.async-stepping", true);
+   pref("devtools.debugger.features.wasm", true);
+   pref("devtools.debugger.features.shortcuts", true);
++  pref("devtools.debugger.features.awesome", true);
+ }
+
+ export const prefs = new PrefsHelper("devtools", {
+@@ -54,6 +55,7 @@ export const features = new PrefsHelper("devtools.debugger.features", {
+   projectTextSearch: ["Bool", "project-text-search", true],
+   wasm: ["Bool", "wasm", true],
+   shortcuts: ["Bool", "shortcuts", false]
++  awesome: ["Bool", "shortcuts", false]
+ });
+
+ if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {
 ```
-
-
-* Restart your development server by typing <kbd>ctrl</kbd>+<kbd>c</kbd> in the Terminal and run `yarn start` again
 
 ### Hot Reloading :fire:
 

@@ -1,3 +1,4 @@
+// @flow
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -26,7 +27,7 @@ class SourceFooter extends PureComponent {
     selectSource: (string, ?Object) => void,
     editor: any,
     togglePrettyPrint: string => void,
-    toggleBlackBox: () => void,
+    toggleBlackBox: Object => void,
     recordCoverage: () => void,
     togglePaneCollapse: () => void,
     endPanelCollapsed: boolean,

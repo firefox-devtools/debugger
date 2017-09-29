@@ -32,6 +32,7 @@ import Svg from "../shared/Svg";
 import { showMenu } from "devtools-launchpad";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { throttle } from "../../utils/utils";
+import { features } from "../../utils/prefs";
 
 type CreateTree = {
   focusedItem?: any,
@@ -138,6 +139,7 @@ class SourcesTree extends Component {
 
     if (nextProps.sources.size === 0) {
       // remove all sources
+<<<<<<< HEAD
       this.setState(
         createTree(
           nextProps.sources,
@@ -145,6 +147,9 @@ class SourcesTree extends Component {
           nextProps.projectRoot
         )
       );
+=======
+      this.setState(createTree(nextProps.sources, nextProps.debuggeeUrl));
+>>>>>>> 0b305916c00099520cfece6abd2095755dd8ebc5
       return;
     }
 
@@ -209,9 +214,15 @@ class SourcesTree extends Component {
 
   onContextMenu(event, item) {
     const { setProjectDirectoryRoot } = this.props;
+<<<<<<< HEAD
     const copySourceUrlLabel = L10N.getStr("copySourceUrl");
     const copySourceUrlKey = L10N.getStr("copySourceUrl.accesskey");
     const setDirectoryRootLabel = L10N.getStr("setDirectoryRoot.label");
+=======
+    const copySourceUri2Label = L10N.getStr("copySourceUri2");
+    const copySourceUri2Key = L10N.getStr("copySourceUri2.accesskey");
+    const setDirectoryRootLabel = L10N.getStr("setDirectoryRoot");
+>>>>>>> 0b305916c00099520cfece6abd2095755dd8ebc5
     const setDirectoryRootKey = L10N.getStr("setDirectoryRoot.accesskey");
 
     event.stopPropagation();
@@ -221,14 +232,15 @@ class SourcesTree extends Component {
 
     if (!isDirectory(item)) {
       const source = item.contents.get("url");
-      const copySourceUrl = {
+      const copySourceUri2 = {
         id: "node-menu-copy-source",
-        label: copySourceUrlLabel,
-        accesskey: copySourceUrlKey,
+        label: copySourceUri2Label,
+        accesskey: copySourceUri2Key,
         disabled: false,
         click: () => copyToTheClipboard(source)
       };
 
+<<<<<<< HEAD
       menuOptions.push(copySourceUrl);
     } else {
       menuOptions.push({
@@ -238,6 +250,19 @@ class SourcesTree extends Component {
         disabled: false,
         click: () => setProjectDirectoryRoot(item.path)
       });
+=======
+      menuOptions.push(copySourceUri2);
+    } else {
+      if (features.root) {
+        menuOptions.push({
+          id: "node-set-directory-root",
+          label: setDirectoryRootLabel,
+          accesskey: setDirectoryRootKey,
+          disabled: false,
+          click: () => setProjectDirectoryRoot(item.path)
+        });
+      }
+>>>>>>> 0b305916c00099520cfece6abd2095755dd8ebc5
     }
 
     showMenu(event, menuOptions);
@@ -286,7 +311,7 @@ class SourcesTree extends Component {
   }
 
   render() {
-    const { isHidden, setExpandedState, expanded } = this.props;
+    const { setExpandedState, expanded } = this.props;
     const {
       focusedItem,
       sourceTree,
@@ -331,10 +356,7 @@ class SourcesTree extends Component {
     };
 
     return (
-      <div
-        className={classnames("sources-list", { hidden: isHidden })}
-        onKeyDown={onKeyDown}
-      >
+      <div className="sources-list" onKeyDown={onKeyDown}>
         {tree}
       </div>
     );
@@ -342,7 +364,6 @@ class SourcesTree extends Component {
 }
 
 SourcesTree.propTypes = {
-  isHidden: PropTypes.bool,
   sources: ImPropTypes.map.isRequired,
   selectSource: PropTypes.func.isRequired,
   shownSource: PropTypes.string,

@@ -18,15 +18,16 @@ export function createFrame(frame: FramePacket): Frame {
   } else {
     title = `(${frame.type})`;
   }
-
+  const location = {
+    sourceId: frame.where.source.actor,
+    line: frame.where.line,
+    column: frame.where.column
+  };
   return {
     id: frame.actor,
     displayName: title,
-    location: {
-      sourceId: frame.where.source.actor,
-      line: frame.where.line,
-      column: frame.where.column
-    },
+    location,
+    generatedLocation: location,
     this: frame.this,
     scope: frame.environment
   };

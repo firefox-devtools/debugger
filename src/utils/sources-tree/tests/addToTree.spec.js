@@ -192,5 +192,38 @@ describe("sources-tree", () => {
       sources.forEach(source => addToTree(tree, source));
       expect(formatTree(tree)).toMatchSnapshot();
     });
+
+    it("uses debuggeeUrl as default", () => {
+      const testData = [
+        {
+          url: "components/TodoTextInput.js"
+        },
+        {
+          url: "components/Header.js"
+        },
+        {
+          url: "reducers/index.js"
+        },
+        {
+          url: "components/TodoItem.js"
+        },
+        {
+          url: "resource://gre/modules/ExtensionContent.jsm"
+        },
+        {
+          url:
+            "https://voz37vlg5.codesandbox.io/static/js/components/TodoItem.js"
+        },
+        {
+          url: "index.js"
+        }
+      ];
+
+      const domain = "http://localhost:4242";
+      const sources = createSourcesList(testData);
+      const tree = createNode("root", "", []);
+      sources.forEach(source => addToTree(tree, source, domain));
+      expect(formatTree(tree)).toMatchSnapshot();
+    });
   });
 });

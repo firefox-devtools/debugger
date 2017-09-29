@@ -3,7 +3,6 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import classnames from "classnames";
 import actions from "../../actions";
 import { getSelectedSource, getSymbols } from "../../selectors";
 import "./Outline.css";
@@ -20,7 +19,6 @@ export class Outline extends Component {
   state: any;
 
   props: {
-    isHidden: boolean,
     symbols: SymbolDeclarations,
     selectSource: (string, { line: number }) => void,
     selectedSource: ?SourceRecord
@@ -67,14 +65,14 @@ export class Outline extends Component {
   }
 
   render() {
-    const { isHidden, symbols } = this.props;
+    const { symbols } = this.props;
 
     const symbolsToDisplay = symbols.functions.filter(
       func => func.name != "anonymous"
     );
 
     return (
-      <div className={classnames("outline", { hidden: isHidden })}>
+      <div className="outline">
         {symbolsToDisplay.length > 0
           ? this.renderFunctions(symbolsToDisplay)
           : this.renderPlaceholder()}

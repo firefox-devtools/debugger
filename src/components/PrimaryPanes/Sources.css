@@ -67,14 +67,6 @@
   flex: 1;
 }
 
-.sources-panel .outline.hidden {
-  display: none;
-}
-
-.hidden {
-  display: none;
-}
-
 .source-outline-tabs {
   width: 100%;
   background: var(--theme-body-background);

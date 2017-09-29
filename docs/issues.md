@@ -156,7 +156,7 @@ a triaged issue is:
 * in line with the goals of the debugger
 * a single bigger issue that is still manageable
   *or* a set of smaller issues around a shippable goal (for example, transition the code base to JSX from `dom.div` syntax)
-* labelled (see [Labels](#labels) for more info)
+* labeled (see [Labels](#labels) for more info)
 * ready to be worked on,
   *or* has a request for more information
   *or* has a clear next step

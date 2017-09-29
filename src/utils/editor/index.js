@@ -126,6 +126,19 @@ function lineAtHeight(editor, sourceId, event) {
   return toSourceLine(sourceId, editorLine);
 }
 
+function getSourceLocationFromMouseEvent(editor, selectedLocation, e) {
+  const { line, ch } = editor.codeMirror.coordsChar({
+    left: e.clientX,
+    top: e.clientY
+  });
+
+  return {
+    sourceId: selectedLocation.sourceId,
+    line: line + 1,
+    column: ch + 1
+  };
+}
+
 module.exports = Object.assign(
   {},
   expressionUtils,
@@ -144,6 +157,7 @@ module.exports = Object.assign(
     shouldShowFooter,
     traverseResults,
     markText,
-    lineAtHeight
+    lineAtHeight,
+    getSourceLocationFromMouseEvent
   }
 );

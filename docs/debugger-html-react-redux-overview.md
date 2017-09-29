@@ -298,7 +298,7 @@ currently selected in the Debugger.html UI.
 * The loadedObjects object
 stores the currently selected and expanded variable in the scopes pane.
 
-\*\*The expessions object stores all of the current watch expressions,
+\*\*The expressions object stores all of the current watch expressions,
 which is not implemented in the UI yet.
 
 The pause reducer handles the following action types:
