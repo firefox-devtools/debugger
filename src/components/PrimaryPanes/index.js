@@ -109,9 +109,7 @@ class PrimaryPanes extends Component {
     const { selectSource } = this.props;
 
     const outlineComp = isEnabled("outline") ? (
-      <Outline
-        selectSource={selectSource}
-      />
+      <Outline selectSource={selectSource} />
     ) : null;
 
     return outlineComp;
@@ -119,21 +117,18 @@ class PrimaryPanes extends Component {
 
   renderSources() {
     const { sources, selectSource } = this.props;
-    return (
-      <SourcesTree
-        sources={sources}
-        selectSource={selectSource}
-      />
-    );
+    return <SourcesTree sources={sources} selectSource={selectSource} />;
   }
 
   render() {
     const { selectedPane } = this.state;
-    
+
     return (
       <div className="sources-panel">
         {this.renderTabs()}
-        { selectedPane === "sources" ? this.renderSources() : this.renderOutline() }
+        {selectedPane === "sources"
+          ? this.renderSources()
+          : this.renderOutline()}
       </div>
     );
   }

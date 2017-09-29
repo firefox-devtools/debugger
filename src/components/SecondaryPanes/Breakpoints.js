@@ -266,8 +266,8 @@ class Breakpoints extends PureComponent {
       label: addConditionLabel,
       accesskey: addConditionKey,
       click: () => {
-        this.selectBreakpoint(breakpoint)
-        toggleConditionalBreakpointPanel(breakpoint.location.line)
+        this.selectBreakpoint(breakpoint);
+        toggleConditionalBreakpointPanel(breakpoint.location.line);
       }
     };
 
@@ -276,8 +276,8 @@ class Breakpoints extends PureComponent {
       label: editConditionLabel,
       accesskey: editConditionKey,
       click: () => {
-        this.selectBreakpoint(breakpoint)
-        toggleConditionalBreakpointPanel(breakpoint.location.line)
+        this.selectBreakpoint(breakpoint);
+        toggleConditionalBreakpointPanel(breakpoint.location.line);
       }
     };
 
