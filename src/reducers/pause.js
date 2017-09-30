@@ -194,6 +194,11 @@ export function isEvaluatingExpression(state: OuterState) {
   return state.pause.command === "expression";
 }
 
+export function pausedInEval(state: OuterState) {
+  const frames = getFrames(state);
+  return frames && frames[0].displayName === "(eval)";
+}
+
 export function getLoadedObject(state: OuterState, objectId: string) {
   return getLoadedObjects(state)[objectId];
 }

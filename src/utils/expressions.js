@@ -1,5 +1,6 @@
 // @flow
 
+import { correctIndentation } from "./indentation";
 import type { Expression } from "debugger-html";
 
 // replace quotes and slashes that could interfere with the evaluation.
@@ -14,13 +15,13 @@ export function sanitizeInput(input: string) {
  * NOTE: we add line after the expression to protect against comments.
 */
 export function wrapExpression(input: string) {
-  return `eval(\`
+  return correctIndentation(`
     try {
       ${sanitizeInput(input)}
     } catch (e) {
       e
     }
-  \`)`.trim();
+  `);
 }
 
 export function getValue(expression: Expression) {
