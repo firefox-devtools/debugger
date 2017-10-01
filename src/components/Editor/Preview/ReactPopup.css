@@ -1,0 +1,42 @@
+.react-popup h2 {
+  margin: 0 0 5px 0;
+  font-size: 15px;
+}
+
+.react-popup .attrKey, h2, .none {
+  color: var(--theme-highlight-pink);
+}
+
+.react-popup-section {
+  margin-bottom: 10px;
+}
+
+.react-popup ul {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+  overflow: auto;
+  width: calc(100% - 1px); /* 1px fixes the hidden right border */
+}
+
+.react-popup li {
+  font-size: 12px;
+  color: var(--theme-body-color);
+  padding-top: 5px;
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid transparent;
+  width: 70%;
+}
+
+.react-popup li .boolean {
+  color: var(--theme-highlight-green);
+}
+
+.react-popup li .string {
+  color: var(--theme-highlight-red);
+}
+
+.react-popup li .object, .number {
+  color: var(--theme-highlight-blue);
+}

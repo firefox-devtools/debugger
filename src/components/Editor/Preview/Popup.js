@@ -16,6 +16,8 @@ import Popover from "../../shared/Popover";
 import PreviewFunction from "../../shared/PreviewFunction";
 import { markText } from "../../../utils/editor";
 
+import ReactPopup from "./ReactPopup";
+
 import "./Popup.css";
 
 import type { EditorRange } from "../../../utils/editor/types";
@@ -100,7 +102,7 @@ export class Popup extends Component {
   }
 
   renderObjectPreview(expression: string, root: Object) {
-    const content = null;
+    let content = null;
     const { loadedObjects } = this.props;
     const getObjectProperties = id => loadedObjects[id];
     const roots = this.getChildren(root, getObjectProperties);
@@ -110,7 +112,7 @@ export class Popup extends Component {
     }
 
     if (isReactComponent(roots)) {
-      content = this.renderReactPreview(roots);
+      content = <ReactPopup roots={roots} />;
     } else {
       content = this.renderObjectInspector(roots);
     }
@@ -148,57 +150,6 @@ export class Popup extends Component {
         getObjectEntries={actor => {}}
         loadObjectEntries={grip => {}}
       />
-    );
-  }
-
-  renderComponentAttributes(root: Object) {
-    if (!("preview" in root.contents.value)) {
-      return "none";
-    }
-    const attributes = root.contents.value.preview.ownProperties;
-
-    return Object.keys(attributes).map(key => {
-      const val = attributes[key].value;
-      const content = "";
-
-      switch (typeof val) {
-        case "object":
-          if (val.class === "Function") {
-            content = `${val.displayName}()`;
-          } else {
-            content = val.type;
-          }
-          break;
-        case "string":
-          content = `"${val}"`;
-          break;
-        default:
-          content = attributes[key].value.toString();
-      }
-
-      return (
-        <div key={key}>
-          <span>{key}: </span>
-          <span>{content}</span>
-        </div>
-      );
-    });
-  }
-
-  renderReactPreview(roots: Array) {
-    roots = roots.filter(r => ["state", "props"].includes(r.name));
-
-    return (
-      <div className="react-popup">
-        <div className="react-popup-section">
-          <h2>State</h2>
-          {this.renderComponentAttributes(roots[1])}
-        </div>
-        <div className="react-popup-section">
-          <h2>Props</h2>
-          {this.renderComponentAttributes(roots[0])}
-        </div>
-      </div>
     );
   }
 
