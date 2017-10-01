@@ -56,11 +56,7 @@ class SourcesTree extends Component {
 
   constructor(props) {
     super(props);
-    this.state = createTree(
-      this.props.sources,
-      this.props.debuggeeUrl,
-      this.props.projectRoot
-    );
+    this.state = createTree(this.props.sources, this.props.debuggeeUrl);
     this.focusItem = this.focusItem.bind(this);
     this.selectItem = this.selectItem.bind(this);
     this.getIcon = this.getIcon.bind(this);
@@ -95,13 +91,7 @@ class SourcesTree extends Component {
       this.props.debuggeeUrl !== nextProps.debuggeeUrl
     ) {
       // Recreate tree because the sort order changed
-      this.setState(
-        createTree(
-          nextProps.sources,
-          nextProps.debuggeeUrl,
-          nextProps.projectRoot
-        )
-      );
+      this.setState(createTree(nextProps.sources, nextProps.debuggeeUrl));
       return;
     }
     const { selectedSource } = this.props;
@@ -139,17 +129,7 @@ class SourcesTree extends Component {
 
     if (nextProps.sources.size === 0) {
       // remove all sources
-<<<<<<< HEAD
-      this.setState(
-        createTree(
-          nextProps.sources,
-          nextProps.debuggeeUrl,
-          nextProps.projectRoot
-        )
-      );
-=======
       this.setState(createTree(nextProps.sources, nextProps.debuggeeUrl));
->>>>>>> 0b305916c00099520cfece6abd2095755dd8ebc5
       return;
     }
 
@@ -214,15 +194,9 @@ class SourcesTree extends Component {
 
   onContextMenu(event, item) {
     const { setProjectDirectoryRoot } = this.props;
-<<<<<<< HEAD
-    const copySourceUrlLabel = L10N.getStr("copySourceUrl");
-    const copySourceUrlKey = L10N.getStr("copySourceUrl.accesskey");
-    const setDirectoryRootLabel = L10N.getStr("setDirectoryRoot.label");
-=======
     const copySourceUri2Label = L10N.getStr("copySourceUri2");
     const copySourceUri2Key = L10N.getStr("copySourceUri2.accesskey");
-    const setDirectoryRootLabel = L10N.getStr("setDirectoryRoot");
->>>>>>> 0b305916c00099520cfece6abd2095755dd8ebc5
+    const setDirectoryRootLabel = L10N.getStr("setDirectoryRoot.label");
     const setDirectoryRootKey = L10N.getStr("setDirectoryRoot.accesskey");
 
     event.stopPropagation();
@@ -240,17 +214,6 @@ class SourcesTree extends Component {
         click: () => copyToTheClipboard(source)
       };
 
-<<<<<<< HEAD
-      menuOptions.push(copySourceUrl);
-    } else {
-      menuOptions.push({
-        id: "node-set-directory-root",
-        label: setDirectoryRootLabel,
-        accesskey: setDirectoryRootKey,
-        disabled: false,
-        click: () => setProjectDirectoryRoot(item.path)
-      });
-=======
       menuOptions.push(copySourceUri2);
     } else {
       if (features.root) {
@@ -262,7 +225,6 @@ class SourcesTree extends Component {
           click: () => setProjectDirectoryRoot(item.path)
         });
       }
->>>>>>> 0b305916c00099520cfece6abd2095755dd8ebc5
     }
 
     showMenu(event, menuOptions);

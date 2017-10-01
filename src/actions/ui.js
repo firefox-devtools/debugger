@@ -125,25 +125,11 @@ export function toggleConditionalBreakpointPanel(line?: number) {
   };
 }
 
-export function setProjectDirectoryRoot(url) {
-  return {
-    type: "SET_PROJECT_DIRECTORY_ROOT",
-    url
-  };
-}
-
 export function setProjectDirectoryRoot(url: Object) {
   return ({ dispatch, getState }: ThunkArgs) => {
     dispatch({
       type: "SET_PROJECT_DIRECTORY_ROOT",
       url
     });
-  };
-}
-
-export function setProjectDirectoryRoot(url: Object) {
-  return {
-    type: "SET_PROJECT_DIRECTORY_ROOT",
-    url
   };
 }
