@@ -29,6 +29,15 @@
   text-decoration: underline;
 }
 
+.popover .react-popup h2 {
+  margin: 0 0 5px 0;
+  color: var(--theme-highlight-pink);
+}
+
+.popover .react-popup-section {
+  margin-bottom: 10px;
+}
+
 .preview-selection:hover {
   cursor: default;
 }

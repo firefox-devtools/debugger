@@ -1,11 +1,21 @@
-import React, { PropTypes, Component } from "react";
+import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import classNames from "classnames";
 import BracketArrow from "./BracketArrow";
 
 import "./Popover.css";
 
+type Props = {
+  target: Object => void,
+  targetPosition: Object => void,
+  children: Object => void,
+  onMouseLeave: () => void,
+  type: string
+};
+
 class Popover extends Component {
+  props: Props;
+
   constructor() {
     super();
     this.onMouseLeave = this.onMouseLeave.bind(this);
@@ -155,18 +165,5 @@ class Popover extends Component {
     return this.renderPopover();
   }
 }
-
-Popover.propTypes = {
-  target: PropTypes.object,
-  targetPosition: PropTypes.object,
-  children: PropTypes.object,
-  onMouseLeave: PropTypes.func,
-  type: PropTypes.string
-};
-
-Popover.defaultProps = {
-  onMouseLeave: () => {},
-  type: "popover"
-};
 
 export default Popover;
