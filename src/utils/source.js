@@ -106,12 +106,12 @@ function resolveFileURL(
   transformUrl: string => string = initialUrl => initialUrl
 ) {
   url = getRawSourceURL(url || "");
-  const name = transformUrl(url) || "(index)";
+  const name = transformUrl(url);
   return endTruncateStr(name, 50);
 }
 
 function getFilenameFromURL(url: string) {
-  return resolveFileURL(url, initialUrl => basename(initialUrl));
+  return resolveFileURL(url, initialUrl => basename(initialUrl) || "(index)");
 }
 
 function getFormattedSourceId(id: string) {
