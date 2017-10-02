@@ -7,7 +7,7 @@ import {
 } from "../selectors";
 import { PROMISE } from "../utils/redux/middleware/promise";
 import { wrapExpression } from "../utils/expressions";
-import * as parser from "../utils/parser";
+import * as parser from "../workers/parser";
 import type { Expression } from "../types";
 import type { ThunkArgs } from "./types";
 

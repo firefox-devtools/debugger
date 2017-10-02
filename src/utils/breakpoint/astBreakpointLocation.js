@@ -1,9 +1,9 @@
 // @flow
 
-import { getSymbols } from "../parser";
-import { containsPosition } from "../parser/utils/contains";
+import { getSymbols } from "../../workers/parser";
+import { containsPosition } from "../../workers/parser/utils/contains";
 
-import type { Scope } from "../parser/types";
+import type { Scope } from "../../workers/parser/types";
 import type { Location, Source } from "debugger-html";
 
 export function findClosestScope(functions: Scope[], location: Location) {

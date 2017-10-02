@@ -26,7 +26,7 @@ import { prefs } from "../utils/prefs";
 import { removeDocument } from "../utils/editor";
 import { isThirdParty } from "../utils/source";
 import { getGeneratedLocation } from "../utils/source-maps";
-import * as parser from "../utils/parser";
+import * as parser from "../workers/parser";
 
 import {
   getSource,

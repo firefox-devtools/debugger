@@ -1,10 +1,10 @@
 import { createFactory } from "react";
 import { shallow } from "enzyme";
 import SearchBar from "../SearchBar";
-import "../../../utils/search";
+import "../../../workers/search";
 import "../../../utils/editor";
 
-jest.mock("../../../utils/search", () => ({
+jest.mock("../../../workers/search", () => ({
   getMatches: () => Promise.resolve(["result"])
 }));
 

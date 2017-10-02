@@ -15,7 +15,7 @@ import {
 
 import { find, findNext, findPrev, removeOverlay } from "../../utils/editor";
 
-import { getMatches } from "../../utils/search";
+import { getMatches } from "../../workers/search";
 
 import { scrollList } from "../../utils/result-list";
 import classnames from "classnames";

@@ -1,7 +1,7 @@
 // @flow
 import type { Pause, Frame, Location } from "../types";
 import { get } from "lodash";
-import { getScopes } from "./parser";
+import { getScopes } from "../workers/parser";
 
 import type { Scope, MappedScopeBindings } from "debugger-html";
 

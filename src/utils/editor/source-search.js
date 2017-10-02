@@ -1,6 +1,6 @@
 // @flow
 
-import buildQuery from "../search/build-query";
+import buildQuery from "../../workers/search/build-query";
 
 import type { SearchModifiers } from "../../types";
 
