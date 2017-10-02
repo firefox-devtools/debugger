@@ -16,8 +16,6 @@ import Popover from "../../shared/Popover";
 import PreviewFunction from "../../shared/PreviewFunction";
 import { markText } from "../../../utils/editor";
 
-import ReactPopup from "./ReactPopup";
-
 import "./Popup.css";
 
 import type { EditorRange } from "../../../utils/editor/types";
@@ -102,22 +100,25 @@ export class Popup extends Component {
   }
 
   renderObjectPreview(expression: string, root: Object) {
-    let content = null;
+    let expandDepth = 0;
     const { loadedObjects } = this.props;
     const getObjectProperties = id => loadedObjects[id];
-    const roots = this.getChildren(root, getObjectProperties);
+    let roots = this.getChildren(root, getObjectProperties);
 
     if (!roots) {
       return null;
     }
 
     if (isReactComponent(roots)) {
-      content = <ReactPopup roots={roots} />;
-    } else {
-      content = this.renderObjectInspector(roots);
+      roots = roots.filter(r => ["state", "props"].includes(r.name));
+      expandDepth = 1;
     }
 
-    return <div className="preview-popup">{content}</div>;
+    return (
+      <div className="preview-popup">
+        {this.renderObjectInspector(roots, expandDepth)}
+      </div>
+    );
   }
 
   renderSimplePreview(value: Object) {
@@ -133,14 +134,14 @@ export class Popup extends Component {
     );
   }
 
-  renderObjectInspector(roots: Object) {
+  renderObjectInspector(roots: Object, expandDepth: number) {
     const { loadObjectProperties, loadedObjects, openLink } = this.props;
     const getObjectProperties = id => loadedObjects[id];
 
     return (
       <ObjectInspector
         roots={roots}
-        autoExpandDepth={0}
+        autoExpandDepth={expandDepth}
         disableWrap={true}
         disabledFocus={true}
         openLink={openLink}
