@@ -14,11 +14,13 @@
   Ref: https://github.com/devtools-html/debugger.html/issues/3426
 */
 .secondary-panes--sticky-commandbar {
-  overflow-y: scroll;
+  overflow-y: hidden;
 }
 
 .secondary-panes .accordion {
-  flex: 1 0 auto;
+  flex-grow: 1;
+  flex-basis: auto;
+  overflow-y: auto;
 }
 
 .pane {
