@@ -6,11 +6,11 @@ import BracketArrow from "./BracketArrow";
 import "./Popover.css";
 
 type Props = {
-  target: Object => void,
-  targetPosition: Object => void,
-  children: Object => void,
-  onMouseLeave: () => void,
-  type: string
+  target: Object,
+  targetPosition: Object,
+  children: Object,
+  onMouseLeave?: () => void,
+  type?: String
 };
 
 class Popover extends Component {
@@ -165,5 +165,10 @@ class Popover extends Component {
     return this.renderPopover();
   }
 }
+
+Popover.defaultProps = {
+  onMouseLeave: () => {},
+  type: "popover"
+};
 
 export default Popover;

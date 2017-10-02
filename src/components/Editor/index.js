@@ -47,6 +47,7 @@ import EmptyLines from "./EmptyLines";
 import {
   showSourceText,
   updateDocument,
+  showLoading,
   shouldShowFooter,
   clearLineClass,
   createEditor,
@@ -539,7 +540,7 @@ class Editor extends PureComponent {
     }
 
     if (!isLoaded(nextProps.selectedSource.toJS())) {
-      return this.showMessage(L10N.getStr("loadingText"));
+      return showLoading(this.state.editor);
     }
 
     if (nextProps.selectedSource.get("error")) {
@@ -556,9 +557,6 @@ class Editor extends PureComponent {
       return;
     }
 
-    this.state.editor.replaceDocument(this.state.editor.createDocument());
-    this.state.editor.setText(msg);
-    this.state.editor.setMode({ name: "text" });
     resetLineNumberFormat(this.state.editor);
   }
 

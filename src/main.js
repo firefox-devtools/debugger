@@ -9,11 +9,9 @@ import { isFirefoxPanel } from "devtools-config";
 import { onConnect } from "./client";
 import { teardownWorkers } from "./utils/bootstrap";
 
-//
-// if (process.env.NODE_ENV !== "production") {
-//   const Perf = require("react-addons-perf");
-//   window.Perf = Perf;
-// }
+if (process.env.NODE_ENV !== "production") {
+  window.Perf = require("react-addons-perf");
+}
 
 if (isFirefoxPanel()) {
   module.exports = {

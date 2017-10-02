@@ -1,4 +1,5 @@
 const toolbox = require("./node_modules/devtools-launchpad/index");
+
 const getConfig = require("./bin/getConfig");
 const { isDevelopment, isFirefoxPanel } = require("devtools-config");
 const { NormalModuleReplacementPlugin } = require("webpack");
@@ -26,19 +27,8 @@ const webpackConfig = {
   output: {
     path: path.join(__dirname, "assets/build"),
     filename: "[name].js",
-    publicPath: "/assets/build",
-    libraryTarget: "umd"
-  },
-
-  resolve: {
-    alias: {
-      "react-dom": "react-dom/dist/react-dom"
-    }
-  },
-
-  module: {
-    // Ignore the prebuilt mocha lib file.
-    noParse: /mocha\/mocha\.js/i
+    publicPath: "/assets/build"
+    // libraryTarget: "umd"
   }
 };
 

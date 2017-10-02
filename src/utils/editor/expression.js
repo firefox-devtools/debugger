@@ -38,14 +38,22 @@ export function updatePreview(
 
   const invalidToken =
     tokenText === "" || tokenText.match(/[(){}\|&%,.;=<>\+-/\*\s]/);
+
   const invalidTarget =
     (target.parentElement &&
       !target.parentElement.closest(".CodeMirror-line")) ||
     cursorPos.top == 0;
+
   const isUpdating = preview && preview.updating;
+
   const inScope = linesInScope && linesInScope.includes(location.line);
 
-  if (invalidTarget || !inScope || isUpdating || invalidToken) {
+  const invaildType =
+    target.className === "cm-string" ||
+    target.className === "cm-number" ||
+    target.className === "cm-atom";
+
+  if (invalidTarget || !inScope || isUpdating || invalidToken || invaildType) {
     return;
   }
 
