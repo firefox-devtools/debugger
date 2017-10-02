@@ -32,9 +32,23 @@
   offset-inline-start: auto;
 }
 
+.welcomebox .small-size-layout {
+  display: none;
+}
+
+.welcomebox .normal-layout {
+  display: inline-block;
+}
+
 .shortcutKeys {
   text-align: right;
   float: left;
+  font-family: Courier;
+}
+
+.shortcutKey {
+  display: inline-block;
+  margin-right: 10px;
   font-family: Courier;
 }
 
@@ -47,3 +61,23 @@
 html .welcomebox .toggle-button-end.collapsed {
   bottom: 1px;
 }
+
+@media (max-width: 430px) {
+
+  .welcomebox .small-size-layout {
+    display: inline-block;
+  }
+
+  .welcomebox .normal-layout {
+    display: none;
+  }
+
+  .shortcutFunction {
+    margin-left: 0;
+  }
+
+  .shortcutKey {
+    display: block;
+  }
+}
+

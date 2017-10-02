@@ -53,7 +53,20 @@ class WelcomeBox extends Component {
 
     return (
       <div className="welcomebox">
-        <div className="alignlabel">
+        <div className="alignlabel small-size-layout">
+          <div className="shortcutFunction">
+            <p onClick={setActiveSearch.bind(null, "source")}>
+              <div className="shortcutKey">{searchSourcesShortcut}</div>
+              {searchSourcesLabel}
+            </p>
+            <p onClick={setActiveSearch.bind(null, "project")}>
+              <div className="shortcutKey">{searchProjectShortcut}</div>
+              {searchProjectLabel}
+            </p>
+          </div>
+          {this.renderToggleButton()}
+        </div>
+        <div className="alignlabel normal-layout">
           <div className="shortcutKeys">
             <p onClick={setActiveSearch.bind(null, "source")}>
               {searchSourcesShortcut}
@@ -70,7 +83,6 @@ class WelcomeBox extends Component {
               {searchProjectLabel}
             </p>
           </div>
-          {this.renderToggleButton()}
         </div>
       </div>
     );
