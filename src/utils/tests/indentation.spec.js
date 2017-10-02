@@ -10,7 +10,7 @@ describe("indentation", () => {
   });
 
   it("one line", () => {
-    expect(correctIndentation(`foo`)).toMatchSnapshot();
+    expect(correctIndentation("foo")).toMatchSnapshot();
   });
 
   it("one function", () => {

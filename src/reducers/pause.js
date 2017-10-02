@@ -195,8 +195,16 @@ export function isEvaluatingExpression(state: OuterState) {
 }
 
 export function pausedInEval(state: OuterState) {
-  const frames = getFrames(state);
-  return frames && frames[0].displayName === "(eval)";
+  if (!state.pause.pause) {
+    return false;
+  }
+
+  const exception = state.pause.pause.why.exception;
+  if (!exception) {
+    return false;
+  }
+
+  return exception.preview.fileName === "debugger eval code";
 }
 
 export function getLoadedObject(state: OuterState, objectId: string) {
