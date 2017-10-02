@@ -79,17 +79,16 @@ class SymbolModal extends Component {
     super(props);
     this.state = { results: null, query: "", resultsIndex: 0 };
 
-    const self: any = this;
-    self.onClick = this.onClick.bind(this);
-    self.closeModal = this.closeModal.bind(this);
-    self.onChange = this.onChange.bind(this);
-    self.onKeyUp = this.onKeyUp.bind(this);
-    self.updateResults = this.updateResults.bind(this);
-    self.traverseResults = this.traverseResults.bind(this);
-    self.renderResults = this.renderResults.bind(this);
-    self.buildSummaryMsg = this.buildSummaryMsg.bind(this);
-    self.buildPlaceHolder = this.buildPlaceHolder.bind(this);
-    self.selectResultItem = this.selectResultItem.bind(this);
+    this.onClick = this.onClick.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.onKeyUp = this.onKeyUp.bind(this);
+    this.updateResults = this.updateResults.bind(this);
+    this.traverseResults = this.traverseResults.bind(this);
+    this.renderResults = this.renderResults.bind(this);
+    this.buildSummaryMsg = this.buildSummaryMsg.bind(this);
+    this.buildPlaceHolder = this.buildPlaceHolder.bind(this);
+    this.selectResultItem = this.selectResultItem.bind(this);
   }
 
   componentDidMount() {

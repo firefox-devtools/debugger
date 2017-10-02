@@ -30,7 +30,7 @@ export default class ResultList extends Component {
 
   constructor(props: Props) {
     super(props);
-    (this: any).renderListItem = this.renderListItem.bind(this);
+    this.renderListItem = this.renderListItem.bind(this);
   }
 
   renderListItem(item: ResultListItem, index: number) {

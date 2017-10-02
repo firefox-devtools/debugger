@@ -79,7 +79,7 @@ class SearchBar extends Component {
       index: -1
     };
 
-    const self: any = this;
+    const self = this;
     self.onEscape = this.onEscape.bind(this);
     self.clearSearch = this.clearSearch.bind(this);
     self.closeSearch = this.closeSearch.bind(this);

@@ -47,9 +47,8 @@ class ManagedTree extends Component {
       focusedItem: null
     };
 
-    const self: any = this;
-    self.setExpanded = this.setExpanded.bind(this);
-    self.focusItem = this.focusItem.bind(this);
+    this.setExpanded = this.setExpanded.bind(this);
+    this.focusItem = this.focusItem.bind(this);
   }
 
   componentWillReceiveProps(nextProps: Props) {
