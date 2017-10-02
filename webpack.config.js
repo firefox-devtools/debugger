@@ -28,7 +28,6 @@ const webpackConfig = {
     path: path.join(__dirname, "assets/build"),
     filename: "[name].js",
     publicPath: "/assets/build"
-    // libraryTarget: "umd"
   }
 };
 
