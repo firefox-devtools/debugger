@@ -91,14 +91,13 @@ class Editor extends PureComponent {
       editor: null
     };
 
-    const self = this;
-    self.closeConditionalPanel = this.closeConditionalPanel.bind(this);
-    self.onEscape = this.onEscape.bind(this);
-    self.onGutterClick = this.onGutterClick.bind(this);
-    self.onGutterContextMenu = this.onGutterContextMenu.bind(this);
-    self.onSearchAgain = this.onSearchAgain.bind(this);
-    self.onToggleBreakpoint = this.onToggleBreakpoint.bind(this);
-    self.toggleConditionalPanel = this.toggleConditionalPanel.bind(this);
+    this.closeConditionalPanel = this.closeConditionalPanel.bind(this);
+    this.onEscape = this.onEscape.bind(this);
+    this.onGutterClick = this.onGutterClick.bind(this);
+    this.onGutterContextMenu = this.onGutterContextMenu.bind(this);
+    this.onSearchAgain = this.onSearchAgain.bind(this);
+    this.onToggleBreakpoint = this.onToggleBreakpoint.bind(this);
+    this.toggleConditionalPanel = this.toggleConditionalPanel.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {

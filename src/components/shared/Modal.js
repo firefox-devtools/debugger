@@ -18,8 +18,7 @@ export class Modal extends Component {
 
   constructor(props: ModalProps) {
     super(props);
-    const self = this;
-    self.onClick = this.onClick.bind(this);
+    this.onClick = this.onClick.bind(this);
   }
 
   onClick(e: SyntheticEvent) {
