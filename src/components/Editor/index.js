@@ -709,13 +709,12 @@ class Editor extends PureComponent {
   }
 
   render() {
-    const { coverageOn, pauseData } = this.props;
+    const { coverageOn } = this.props;
 
     return (
       <div
         className={classnames("editor-wrapper", {
-          "coverage-on": coverageOn,
-          paused: !!pauseData && isEnabled("highlightScopeLines")
+          "coverage-on": coverageOn
         })}
       >
         {this.renderSearchBar()}
