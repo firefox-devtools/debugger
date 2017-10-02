@@ -25,7 +25,7 @@ export default class CallSite extends Component {
     super();
 
     this.marker = undefined;
-    const self: any = this;
+    const self = this;
     self.addCallSite = this.addCallSite.bind(this);
     self.clearCallSite = this.clearCallSite.bind(this);
   }

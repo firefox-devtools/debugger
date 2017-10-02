@@ -34,7 +34,7 @@ export default class Autocomplete extends Component {
   constructor(props: Props) {
     super(props);
 
-    (this: any).onKeyDown = this.onKeyDown.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
     this.state = {
       selectedIndex: 0,
       focused: false

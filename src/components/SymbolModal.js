@@ -79,7 +79,7 @@ class SymbolModal extends Component {
     super(props);
     this.state = { results: null, query: "", resultsIndex: 0 };
 
-    const self: any = this;
+    const self = this;
     self.onClick = this.onClick.bind(this);
     self.closeModal = this.closeModal.bind(this);
     self.onChange = this.onChange.bind(this);

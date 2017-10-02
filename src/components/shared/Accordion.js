@@ -33,7 +33,7 @@ class Accordion extends Component {
       created: []
     };
 
-    const self: any = this;
+    const self = this;
     self.renderContainer = this.renderContainer.bind(this);
   }
 

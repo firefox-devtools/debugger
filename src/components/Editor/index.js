@@ -91,7 +91,7 @@ class Editor extends PureComponent {
       editor: null
     };
 
-    const self: any = this;
+    const self = this;
     self.closeConditionalPanel = this.closeConditionalPanel.bind(this);
     self.onEscape = this.onEscape.bind(this);
     self.onGutterClick = this.onGutterClick.bind(this);

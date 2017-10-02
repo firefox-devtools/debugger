@@ -50,9 +50,7 @@ export default class Group extends Component {
   constructor(...args: any[]) {
     super(...args);
     this.state = { expanded: false };
-    const self: any = this;
-
-    self.toggleFrames = this.toggleFrames.bind(this);
+    this.toggleFrames = this.toggleFrames.bind(this);
   }
 
   onContextMenu(event: SyntheticKeyboardEvent) {
