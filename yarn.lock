@@ -2956,20 +2956,7 @@ devtools-linters@^0.0.3:
     retext-syntax-urls "^1.0.0"
     unified "^6.1.0"
 
-devtools-map-bindings@0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/devtools-map-bindings/-/devtools-map-bindings-0.1.0.tgz#b8296f6fe5f2a50fb8e347339e453579f48d1ee7"
-  dependencies:
-    babel-plugin-transform-async-to-generator "^6.22.0"
-    babel-plugin-transform-flow-strip-types "^6.22.0"
-    babel-traverse "^6.26.0"
-    babel-types "^6.26.0"
-    babylon "^6.18.0"
-    devtools-utils "0.0.8"
-    jest "^19.0.2"
-    source-map "^0.5.6"
-
-devtools-map-bindings@^0.2.0:
+devtools-map-bindings@0.2.0, devtools-map-bindings@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/devtools-map-bindings/-/devtools-map-bindings-0.2.0.tgz#0fe50f198d73b16a457430e41d5c673ee4047782"
   dependencies:
@@ -3005,18 +2992,18 @@ devtools-source-editor@0.0.6:
   dependencies:
     codemirror "^5.25.0"
 
-devtools-source-map@^0.13.0:
-  version "0.13.0"
-  resolved "https://registry.yarnpkg.com/devtools-source-map/-/devtools-source-map-0.13.0.tgz#859fdd4d6699b3872d21d63a0757fdcfd6eb7965"
+devtools-source-map@^0.14.2:
+  version "0.14.2"
+  resolved "https://registry.yarnpkg.com/devtools-source-map/-/devtools-source-map-0.14.2.tgz#7efb38f071ae4fb36e1c44bdff75700690a3b599"
   dependencies:
     babel-plugin-transform-async-to-generator "^6.22.0"
     babel-plugin-transform-flow-strip-types "^6.22.0"
-    devtools-map-bindings "0.1.0"
+    devtools-map-bindings "0.2.0"
     devtools-utils "0.0.8"
     jest "^19.0.2"
     md5 "^2.2.1"
     regenerator-runtime "^0.10.3"
-    source-map "^0.5.6"
+    source-map "^0.6.1"
 
 devtools-splitter@^0.0.3:
   version "0.0.3"
@@ -9338,6 +9325,10 @@ source-map@^0.4.2, source-map@^0.4.4:
 source-map@^0.5.3, source-map@^0.5.6, source-map@^0.5.7, source-map@~0.5.0, source-map@~0.5.1, source-map@~0.5.3, source-map@~0.5.6:
   version "0.5.7"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.5.7.tgz#8a039d2d1021d22d1ea14c80d8ea468ba2ef3fcc"
+
+source-map@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
 
 space-separated-tokens@^1.0.0:
   version "1.1.1"
