@@ -45,10 +45,23 @@ function updateDocument(editor: Object, sourceId: string) {
   if (!sourceId) {
     return;
   }
+
   const doc = getDocument(sourceId) || editor.createDocument();
   editor.replaceDocument(doc);
 
   updateLineNumberFormat(editor, sourceId);
+}
+
+function showLoading(editor: Object) {
+  if (!!getDocument("loading")) {
+    return;
+  }
+
+  const doc = editor.createDocument();
+  setDocument("loading", doc);
+  editor.replaceDocument(doc);
+  editor.setText(L10N.getStr("loadingText"));
+  editor.setMode({ name: "text" });
 }
 
 function setEditorText(editor: Object, source: Source) {
@@ -100,5 +113,6 @@ export {
   resetLineNumberFormat,
   updateLineNumberFormat,
   updateDocument,
-  showSourceText
+  showSourceText,
+  showLoading
 };
