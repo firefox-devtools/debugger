@@ -187,6 +187,8 @@ export class Popup extends Component {
     if (
       typeof value == "number" ||
       typeof value == "boolean" ||
+      (typeof value == "string" && value.length < 10) ||
+      (typeof value == "number" && value.toString().length < 10) ||
       value.type == "null" ||
       value.type == "undefined" ||
       value.class === "Function"
