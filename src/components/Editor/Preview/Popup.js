@@ -100,7 +100,6 @@ export class Popup extends Component {
   }
 
   renderObjectPreview(expression: string, root: Object) {
-    let expandDepth = 0;
     const { loadedObjects } = this.props;
     const getObjectProperties = id => loadedObjects[id];
     let roots = this.getChildren(root, getObjectProperties);
@@ -111,13 +110,10 @@ export class Popup extends Component {
 
     if (isReactComponent(roots)) {
       roots = roots.filter(r => ["state", "props"].includes(r.name));
-      expandDepth = 1;
     }
 
     return (
-      <div className="preview-popup">
-        {this.renderObjectInspector(roots, expandDepth)}
-      </div>
+      <div className="preview-popup">{this.renderObjectInspector(roots)}</div>
     );
   }
 
@@ -134,14 +130,14 @@ export class Popup extends Component {
     );
   }
 
-  renderObjectInspector(roots: Object, expandDepth: number) {
+  renderObjectInspector(roots: Object) {
     const { loadObjectProperties, loadedObjects, openLink } = this.props;
     const getObjectProperties = id => loadedObjects[id];
 
     return (
       <ObjectInspector
         roots={roots}
-        autoExpandDepth={expandDepth}
+        autoExpandDepth={0}
         disableWrap={true}
         disabledFocus={true}
         openLink={openLink}
