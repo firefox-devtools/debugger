@@ -5,6 +5,7 @@ import {
   getExpressions,
   getSelectedFrameId
 } from "../selectors";
+import { PROMISE } from "../utils/redux/middleware/promise";
 import { wrapExpression } from "../utils/expressions";
 import * as parser from "../utils/parser";
 import type { Expression } from "../types";
@@ -94,15 +95,19 @@ function evaluateExpression(expression: Expression) {
     }
 
     const error = await parser.hasSyntaxError(expression.input);
-    const frameId = getSelectedFrameId(getState());
-    const value = error
-      ? { input: expression.input, result: error }
-      : await client.evaluate(wrapExpression(expression.input), { frameId });
+    if (error) {
+      return dispatch({
+        type: "EVALUATE_EXPRESSION",
+        input: expression.input,
+        value: { input: expression.input, result: error }
+      });
+    }
 
+    const frameId = getSelectedFrameId(getState());
     return dispatch({
       type: "EVALUATE_EXPRESSION",
       input: expression.input,
-      value
+      [PROMISE]: client.evaluate(wrapExpression(expression.input), { frameId })
     });
   };
 }

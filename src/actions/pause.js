@@ -5,10 +5,12 @@ import { PROMISE } from "../utils/redux/middleware/promise";
 
 import {
   getPause,
+  pausedInEval,
   getLoadedObject,
   isStepping,
   isPaused,
-  getSelectedSource
+  getSelectedSource,
+  isEvaluatingExpression
 } from "../selectors";
 import {
   updateFrameLocations,
@@ -57,12 +59,14 @@ export function resumed() {
       return;
     }
 
+    const wasPausedInEval = pausedInEval(getState());
+
     dispatch({
       type: "RESUME",
       value: undefined
     });
 
-    if (!isStepping(getState())) {
+    if (!isStepping(getState()) && !wasPausedInEval) {
       dispatch(evaluateExpressions());
     }
   };
@@ -120,7 +124,11 @@ export function paused(pauseInfo: Pause) {
     if (hiddenBreakpointLocation) {
       dispatch(removeBreakpoint(hiddenBreakpointLocation));
     }
-    dispatch(evaluateExpressions());
+
+    if (!isEvaluatingExpression(getState())) {
+      dispatch(evaluateExpressions());
+    }
+
     dispatch(
       selectSource(frame.location.sourceId, { line: frame.location.line })
     );
