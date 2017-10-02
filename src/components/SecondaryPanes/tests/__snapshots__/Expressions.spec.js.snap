@@ -282,7 +282,7 @@ ShallowWrapper {
       "_pendingForceUpdate": false,
       "_pendingReplaceState": false,
       "_pendingStateQueue": null,
-      "_renderedComponent": NoopInternalComponent {
+      "_renderedComponent": Object {
         "_currentElement": <ul
           className="pane expressions-list"
 >
@@ -795,7 +795,7 @@ ShallowWrapper {
       "_pendingForceUpdate": false,
       "_pendingReplaceState": false,
       "_pendingStateQueue": null,
-      "_renderedComponent": NoopInternalComponent {
+      "_renderedComponent": Object {
         "_currentElement": <ul
           className="pane expressions-list"
 >

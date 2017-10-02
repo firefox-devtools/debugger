@@ -69,7 +69,7 @@ ShallowWrapper {
       "_pendingForceUpdate": false,
       "_pendingReplaceState": false,
       "_pendingStateQueue": null,
-      "_renderedComponent": NoopInternalComponent {
+      "_renderedComponent": Object {
         "_currentElement": <div
           className="close-btn class"
           onClick={[Function]}

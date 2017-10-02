@@ -154,7 +154,7 @@ ShallowWrapper {
       "_pendingForceUpdate": false,
       "_pendingReplaceState": false,
       "_pendingStateQueue": null,
-      "_renderedComponent": NoopInternalComponent {
+      "_renderedComponent": Object {
         "_currentElement": <ul
           className="result-list small"
 >
