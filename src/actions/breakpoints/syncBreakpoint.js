@@ -64,7 +64,6 @@ export async function syncClientBreakpoint(
 
   const scopedGeneratedLocation = await getGeneratedLocation(
     getState(),
-    source,
     scopedLocation,
     sourceMaps
   );

@@ -2,7 +2,6 @@ import { getSource } from "../selectors";
 
 export async function getGeneratedLocation(
   state: Object,
-  source: SourceRecord,
   location: Location,
   sourceMaps: Object
 ) {
@@ -10,9 +9,10 @@ export async function getGeneratedLocation(
     return location;
   }
 
+  const originalSource = getSource(state, location.sourceId).toJS();
   const { line, sourceId, column } = await sourceMaps.getGeneratedLocation(
     location,
-    source
+    originalSource
   );
 
   const generatedSource = getSource(state, sourceId);
