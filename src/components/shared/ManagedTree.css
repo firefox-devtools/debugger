@@ -8,12 +8,6 @@
   white-space: nowrap;
   overflow: auto;
   min-width: 100%;
-  --tree-indent-border-color: none;
-  --tree-indent-width: 0;
-}
-
-.managed-tree .tree:focus {
-  outline: none;
 }
 
 .managed-tree .tree button {

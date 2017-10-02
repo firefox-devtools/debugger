@@ -2,8 +2,8 @@
 import React, { createFactory, Component } from "react";
 import "./ManagedTree.css";
 
-import Components from "devtools-components";
-const Tree = createFactory(Components.Tree);
+import { Tree as _Tree } from "devtools-components";
+const Tree = createFactory(_Tree);
 
 export type Item = {
   contents: any,
