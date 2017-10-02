@@ -10,7 +10,7 @@ class ReactPopup extends Component {
 
   renderComponentAttributes(root: Object) {
     if (!("preview" in root.contents.value)) {
-      return <span className="none">none</span>;
+      return <span className="attrKey">none</span>;
     }
     const attributes = root.contents.value.preview.ownProperties;
 
@@ -34,7 +34,7 @@ class ReactPopup extends Component {
       }
 
       return (
-        <li key={key} className>
+        <li key={key}>
           <span className="attrKey">{key}: </span>
           <span className={typeof val}>{content}</span>
         </li>
@@ -51,11 +51,15 @@ class ReactPopup extends Component {
       <div className="react-popup">
         <div className="react-popup-section">
           <h2>State</h2>
-          <ul>{this.renderComponentAttributes(roots[1])}</ul>
+          <ul className="popup-list">
+            {this.renderComponentAttributes(roots[1])}
+          </ul>
         </div>
         <div className="react-popup-section">
           <h2>Props</h2>
-          <ul>{this.renderComponentAttributes(roots[0])}</ul>
+          <ul className="popup-list">
+            {this.renderComponentAttributes(roots[0])}
+          </ul>
         </div>
       </div>
     );

@@ -3,7 +3,11 @@
   font-size: 15px;
 }
 
-.react-popup .attrKey, h2, .none {
+.react-popup-section h2 {
+  color: var(--theme-highlight-pink);
+}
+
+.popup-list .attrKey {
   color: var(--theme-highlight-pink);
 }
 
@@ -37,6 +41,7 @@
   color: var(--theme-highlight-red);
 }
 
-.react-popup li .object, .number {
+.react-popup li .object,
+.number {
   color: var(--theme-highlight-blue);
 }
