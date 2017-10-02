@@ -7,6 +7,7 @@ import {
   getPause,
   pausedInEval,
   getLoadedObject,
+  getSource,
   isStepping,
   isPaused,
   getSelectedSource,
@@ -37,6 +38,11 @@ async function _getScopeBindings(
   scopes
 ) {
   const { sourceId } = generatedLocation;
+  const sourceRecord = getSource(getState(), sourceId);
+  if (sourceRecord.get("isWasm")) {
+    return scopes;
+  }
+
   await dispatch(ensureParserHasSourceText(sourceId));
 
   return await updateScopeBindings(scopes, generatedLocation, sourceMaps);
