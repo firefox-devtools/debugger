@@ -122,7 +122,7 @@ ShallowWrapper {
           "validateCallback": [Function],
         },
       },
-      "_mountOrder": 4,
+      "_mountOrder": 1,
       "_pendingCallbacks": null,
       "_pendingElement": null,
       "_pendingForceUpdate": false,
