@@ -56,11 +56,11 @@ class WelcomeBox extends Component {
         <div className="alignlabel small-size-layout">
           <div className="shortcutFunction">
             <p onClick={setActiveSearch.bind(null, "source")}>
-              <div className="shortcutKey">{searchSourcesShortcut}</div>
+              <span className="shortcutKey">{searchSourcesShortcut}</span>
               {searchSourcesLabel}
             </p>
             <p onClick={setActiveSearch.bind(null, "project")}>
-              <div className="shortcutKey">{searchProjectShortcut}</div>
+              <span className="shortcutKey">{searchProjectShortcut}</span>
               {searchProjectLabel}
             </p>
           </div>
