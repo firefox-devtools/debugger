@@ -124,5 +124,3 @@ export class ShortcutsModal extends Component {
     );
   }
 }
-
-ShortcutsModal.displayName = "ShortcutsModal";

@@ -34,6 +34,10 @@ type Props = {
   openLink: string => void
 };
 
+function isReactComponent(roots) {
+  return roots.some(root => root.name === "_reactInternalInstance");
+}
+
 export class Popup extends Component {
   marker: any;
   pos: any;
@@ -96,8 +100,20 @@ export class Popup extends Component {
   }
 
   renderObjectPreview(expression: string, root: Object) {
+    const { loadedObjects } = this.props;
+    const getObjectProperties = id => loadedObjects[id];
+    let roots = this.getChildren(root, getObjectProperties);
+
+    if (!roots) {
+      return null;
+    }
+
+    if (isReactComponent(roots)) {
+      roots = roots.filter(r => ["state", "props"].includes(r.name));
+    }
+
     return (
-      <div className="preview-popup">{this.renderObjectInspector(root)}</div>
+      <div className="preview-popup">{this.renderObjectInspector(roots)}</div>
     );
   }
 
@@ -114,15 +130,9 @@ export class Popup extends Component {
     );
   }
 
-  renderObjectInspector(root: Object) {
+  renderObjectInspector(roots: Object) {
     const { loadObjectProperties, loadedObjects, openLink } = this.props;
-
     const getObjectProperties = id => loadedObjects[id];
-    const roots = this.getChildren(root, getObjectProperties);
-
-    if (!roots) {
-      return null;
-    }
 
     return (
       <ObjectInspector
@@ -201,7 +211,6 @@ export class Popup extends Component {
 
   render() {
     const { popoverPos, onClose, value, expression } = this.props;
-
     const type = this.getPreviewType(value);
 
     return (
