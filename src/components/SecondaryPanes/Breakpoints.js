@@ -57,8 +57,35 @@ function isCurrentlyPausedAtBreakpoint(pause, breakpoint) {
   return bpId === pausedId;
 }
 
+function getBreakpointFilename(source) {
+  return source && source.toJS ? getFilename(source.toJS()) : null;
+}
+
+function sortBreakpoints(bp1, bp2) {
+  const filenameA = getBreakpointFilename(bp1.location.source);
+  const filenameB = getBreakpointFilename(bp2.location.source);
+  const lineA = bp1.location.line;
+  const lineB = bp2.location.line;
+
+  if (filenameA < filenameB) {
+    return -1;
+  }
+  if (filenameA > filenameB) {
+    return 1;
+  }
+
+  if (lineA < lineB) {
+    return -1;
+  }
+  if (lineA > lineB) {
+    return 1;
+  }
+
+  return 0;
+}
+
 function renderSourceLocation(source, line, column) {
-  const filename = source ? getFilename(source.toJS()) : null;
+  const filename = getBreakpointFilename(source);
   const isWasm = source && source.get("isWasm");
   const columnVal =
     isEnabled("columnBreakpoints") && column ? `:${column}` : "";
@@ -393,7 +420,10 @@ class Breakpoints extends PureComponent {
       breakpoints.size === 0 ? (
         <div className="pane-info">{L10N.getStr("breakpoints.none")}</div>
       ) : (
-        breakpoints.valueSeq().map(bp => this.renderBreakpoint(bp))
+        breakpoints
+          .valueSeq()
+          .sort(sortBreakpoints)
+          .map(bp => this.renderBreakpoint(bp))
       );
 
     return <div className="pane breakpoints-list">{children}</div>;
