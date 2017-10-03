@@ -12,6 +12,8 @@ import { parse as parseURL } from "url";
 
 import type { Source } from "../types";
 
+type transformUrlCallback = string => string;
+
 /**
  * Trims the query part or reference identifier of a url string, if necessary.
  *
@@ -103,7 +105,7 @@ function getRawSourceURL(url: string): string {
 
 function resolveFileURL(
   url: string,
-  transformUrl: string => string = initialUrl => initialUrl
+  transformUrl: transformUrlCallback = initialUrl => initialUrl
 ) {
   url = getRawSourceURL(url || "");
   const name = transformUrl(url);
