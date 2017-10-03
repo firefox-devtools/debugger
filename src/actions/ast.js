@@ -17,14 +17,14 @@ import {
   getSymbols,
   getEmptyLines,
   getOutOfScopeLocations
-} from "../utils/parser";
+} from "../workers/parser";
 
 import { isGeneratedId } from "devtools-source-map";
 import { replaceOriginalVariableName } from "devtools-map-bindings/src/utils";
 
 import type { SourceId } from "debugger-html";
 import type { ThunkArgs } from "./types";
-import type { AstLocation } from "../utils/parser";
+import type { AstLocation } from "../workers/parser";
 
 /**
  * Gets information about original variable names from the source map

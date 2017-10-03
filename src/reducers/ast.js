@@ -8,7 +8,7 @@
 import * as I from "immutable";
 
 import makeRecord from "../utils/makeRecord";
-import type { SymbolDeclarations, AstLocation } from "../utils/parser/types";
+import type { SymbolDeclarations, AstLocation } from "../workers/parser/types";
 
 import type { Map } from "immutable";
 import type { Source } from "../types";

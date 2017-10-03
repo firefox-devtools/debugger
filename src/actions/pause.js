@@ -22,7 +22,7 @@ import { evaluateExpressions } from "./expressions";
 
 import { addHiddenBreakpoint, removeBreakpoint } from "./breakpoints";
 import { getHiddenBreakpointLocation } from "../reducers/breakpoints";
-import * as parser from "../utils/parser";
+import * as parser from "../workers/parser";
 import { features } from "../utils/prefs";
 
 import type { Pause, Frame } from "../types";

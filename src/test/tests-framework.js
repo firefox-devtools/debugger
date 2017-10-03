@@ -3,14 +3,14 @@ import { startSourceMapWorker, stopSourceMapWorker } from "devtools-source-map";
 import {
   startPrettyPrintWorker,
   stopPrettyPrintWorker
-} from "../utils/pretty-print";
+} from "../workers/pretty-print";
 
 import {
   startParserWorker,
   stopParserWorker,
   clearSymbols
-} from "../utils/parser";
-import { startSearchWorker, stopSearchWorker } from "../utils/search";
+} from "../workers/parser";
+import { startSearchWorker, stopSearchWorker } from "../workers/search";
 import { getValue } from "devtools-config";
 import { clearHistory } from "./utils/history";
 

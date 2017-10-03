@@ -2,8 +2,8 @@
 
 import { workerUtils } from "devtools-utils";
 const { WorkerDispatcher } = workerUtils;
-import { isJavaScript } from "../source";
-import assert from "../assert";
+import { isJavaScript } from "../../utils/source";
+import assert from "../../utils/assert";
 
 import type { Source } from "../../types";
 

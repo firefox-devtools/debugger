@@ -11,8 +11,8 @@ import PreviewFunction from "../shared/PreviewFunction";
 import type {
   SymbolDeclarations,
   SymbolDeclaration
-} from "../../utils/parser/getSymbols";
-import type { AstLocation } from "../../utils/parser/types";
+} from "../../workers/parser/getSymbols";
+import type { AstLocation } from "../../workers/parser/types";
 import type { SourceRecord } from "../../reducers/sources";
 
 export class Outline extends Component {

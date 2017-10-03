@@ -63,7 +63,6 @@ html .welcomebox .toggle-button-end.collapsed {
 }
 
 @media (max-width: 430px) {
-
   .welcomebox .small-size-layout {
     display: inline-block;
   }
@@ -80,4 +79,3 @@ html .welcomebox .toggle-button-end.collapsed {
     display: block;
   }
 }
-
