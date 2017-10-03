@@ -71,6 +71,7 @@ html .breakpoints-list .breakpoint.paused {
   overflow-x: hidden;
   text-overflow: ellipsis;
   padding: 1px 0;
+  vertical-align: bottom;
 }
 
 .breakpoints-list .pause-indicator {
