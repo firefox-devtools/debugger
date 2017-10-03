@@ -13,7 +13,7 @@ import {
 } from "../../selectors";
 import { isVisible } from "../../utils/ui";
 
-import { getFilename, isPretty } from "../../utils/source";
+import { getFilename, getFileURL, isPretty } from "../../utils/source";
 import classnames from "classnames";
 import actions from "../../actions";
 import CloseButton from "../shared/Button/Close";
@@ -406,7 +406,7 @@ class SourceTabs extends PureComponent {
         key={source.get("id")}
         onClick={() => selectSource(source.get("id"))}
         onContextMenu={e => this.onTabContextMenu(e, source.get("id"))}
-        title={getFilename(source.toJS())}
+        title={getFileURL(source.toJS())}
       >
         {sourceAnnotation}
         <div className="filename">{filename}</div>
