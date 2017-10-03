@@ -7,6 +7,7 @@ var fs = require("fs");
 
 const feature = require("devtools-config");
 const getConfig = require("./getConfig");
+const writeReadme = require("./writeReadme");
 
 const envConfig = getConfig();
 feature.setConfig(envConfig);
@@ -67,6 +68,8 @@ function start() {
   } else {
     copyFile(projectTestPath, mcTestPath, { cwd: projectPath });
   }
+
+  writeReadme(path.join(mcPath, "devtools/client/debugger/new/README.mozilla"));
 
   makeBundle({
     outputPath: path.join(mcPath, mcModulePath),
