@@ -1,7 +1,7 @@
 // @flow
 
 import PropTypes from "prop-types";
-import React, { Component, createFactory } from "react";
+import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { createSelector } from "reselect";
@@ -10,11 +10,8 @@ import { get } from "lodash";
 import type { Frame } from "debugger-html";
 import type { SourcesMap } from "../../../reducers/sources";
 
-import _FrameComponent from "./Frame";
-const FrameComponent = createFactory(_FrameComponent);
-
-import _Group from "./Group";
-const Group = createFactory(_Group);
+import FrameComponent from "./Frame";
+import Group from "./Group";
 
 import renderWhyPaused from "./WhyPaused";
 
@@ -125,27 +122,29 @@ class Frames extends Component {
       <ul>
         {framesOrGroups.map(
           (frameOrGroup: FrameOrGroup) =>
-            frameOrGroup.id
-              ? FrameComponent({
-                  frame: frameOrGroup,
-                  toggleFrameworkGrouping: this.toggleFrameworkGrouping,
-                  copyStackTrace: this.copyStackTrace,
-                  frameworkGroupingOn,
-                  selectFrame,
-                  selectedFrame,
-                  toggleBlackBox,
-                  key: frameOrGroup.id
-                })
-              : Group({
-                  group: frameOrGroup,
-                  toggleFrameworkGrouping: this.toggleFrameworkGrouping,
-                  copyStackTrace: this.copyStackTrace,
-                  frameworkGroupingOn,
-                  selectFrame,
-                  selectedFrame,
-                  toggleBlackBox,
-                  key: frameOrGroup[0].id
-                })
+            frameOrGroup.id ? (
+              <FrameComponent
+                frame={frameOrGroup}
+                toggleFrameworkGrouping={this.toggleFrameworkGrouping}
+                copyStackTrace={this.copyStackTrace}
+                frameworkGroupingOn={frameworkGroupingOn}
+                selectFrame={selectFrame}
+                selectedFrame={selectedFrame}
+                toggleBlackBox={toggleBlackBox}
+                key={frameOrGroup.id}
+              />
+            ) : (
+              <Group
+                group={frameOrGroup}
+                toggleFrameworkGrouping={this.toggleFrameworkGrouping}
+                copyStackTrace={this.copyStackTrace}
+                frameworkGroupingOn={frameworkGroupingOn}
+                selectFrame={selectFrame}
+                selectedFrame={selectedFrame}
+                toggleBlackBox={toggleBlackBox}
+                key={frameOrGroup[0].id}
+              />
+            )
         )}
       </ul>
     );
