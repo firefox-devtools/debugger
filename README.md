@@ -32,7 +32,7 @@ yarn start
 
 #### Next Steps
 
-* Claim an [available] issue. If you get stuck, we'd be happy to [help].
+* [`/claim`][cl] an [available] issue. If you get stuck, we'd be happy to [help].
 * Do our getting started activity [debugging the debugger][first-activity]
 * Read the [app overview][app-overview] or [contributing][contributing] guidelines
 * Watch a [video][getting-started-screencast] on contributing to the Debugger. Or [listen][changelog] to a podcast about the project.
@@ -135,3 +135,4 @@ Say hello in [slack] or in the [#devtools-html][irc-devtools-html] channel on ir
 [Testing]: ./docs/local-development.md#testing
 [Linting]: ./docs/local-development.md#linting
 [google-docs]:https://docs.google.com/document/d/1pUx9xq6L7bonSrDpyUNTQkQxTxAsULLu4kkHZLMEq6w/edit
+[cl]: ./docs/issues.md#claiming-issues
