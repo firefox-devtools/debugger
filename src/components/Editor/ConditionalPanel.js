@@ -6,7 +6,7 @@ import { SourceEditor } from "devtools-source-editor";
 import CloseButton from "../shared/Button/Close";
 import "./ConditionalPanel.css";
 
-function createEditor() {
+function createEditor(funcOpts) {
   return new SourceEditor({
     mode: "javascript",
     foldGutter: false,
@@ -24,7 +24,8 @@ function createEditor() {
       // Override code mirror keymap to avoid conflicts with split console.
       Esc: false,
       "Cmd-F": false,
-      "Cmd-G": false
+      "Cmd-G": false,
+      Enter: funcOpts.saveAndClose
     }
   });
 }
@@ -80,7 +81,8 @@ function renderConditionalPanel({
     panel
   );
 
-  const editor = createEditor();
+  const funcOpts = { saveAndClose };
+  const editor = createEditor(funcOpts);
   editor.appendToLocalElement(panel.querySelector(".panel-mount"));
 
   return panel;
