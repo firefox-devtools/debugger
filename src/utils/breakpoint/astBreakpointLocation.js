@@ -1,10 +1,19 @@
 // @flow
 
 import { getSymbols } from "../../workers/parser";
-import { containsPosition } from "../../workers/parser/utils/contains";
 
-import type { Scope } from "../../workers/parser/types";
+import type { Scope, AstPosition } from "../../workers/parser/types";
 import type { Location, Source } from "debugger-html";
+
+export function containsPosition(a: AstPosition, b: AstPosition) {
+  const startsBefore =
+    a.start.line < b.line ||
+    (a.start.line === b.line && a.start.column <= b.column);
+  const endsAfter =
+    a.end.line > b.line || (a.end.line === b.line && a.end.column >= b.column);
+
+  return startsBefore && endsAfter;
+}
 
 export function findClosestScope(functions: Scope[], location: Location) {
   return functions.reduce((found, currNode) => {

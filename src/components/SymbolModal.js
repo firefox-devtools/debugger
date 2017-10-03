@@ -21,7 +21,7 @@ import SearchInput from "./shared/SearchInput";
 import ResultList from "./shared/ResultList";
 
 import type { ActiveSearchType, SymbolSearchType } from "../reducers/ui";
-import type { SymbolDeclaration } from "../utils/parser/types";
+import type { SymbolDeclaration } from "../workers/parser/types";
 
 import type { Location as BabelLocation } from "babel-traverse";
 import type { SourceRecord } from "../reducers/sources";

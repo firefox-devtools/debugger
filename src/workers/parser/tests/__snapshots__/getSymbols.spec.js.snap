@@ -400,67 +400,67 @@ Array [
 exports[`Parser.getSymbols finds symbols in an html file 1`] = `
 Array [
   "functions:
- [(9, 2), (11, 3)]   sayHello name 
-[(23, 21), (25, 3)]   capitalize name 
-[(37, 3), (40, 3)]   iife  ",
+ [(8, 2), (10, 3)]   sayHello name 
+[(22, 21), (24, 3)]   capitalize name 
+[(36, 3), (39, 3)]   iife  ",
   "variables:
- [(5, 6), (8, 3)]   globalObject  
-[(6, 3), (6, 16)]   first  
-[(7, 3), (7, 16)]   last  
-[(9, 21), (9, 25)]   name  
-[(23, 8), (25, 3)]   capitalize  
-[(23, 21), (23, 25)]   name  
-[(26, 8), (29, 14)]   greetAll  
-[(38, 9), (38, 36)]   greeting  ",
+ [(4, 6), (7, 3)]   globalObject  
+[(5, 3), (5, 16)]   first  
+[(6, 3), (6, 16)]   last  
+[(8, 21), (8, 25)]   name  
+[(22, 8), (24, 3)]   capitalize  
+[(22, 21), (22, 25)]   name  
+[(25, 8), (28, 14)]   greetAll  
+[(37, 9), (37, 36)]   greeting  ",
   "callExpressions:
- [(37, 3), (40, 3)]   undefined  
-[(38, 20), (38, 28)]   sayHello  ",
+ [(36, 3), (39, 3)]   undefined  
+[(37, 20), (37, 28)]   sayHello  ",
   "memberExpressions:
- [(24, 18), (24, 29)] [(24, 10), (24, 29)] name.undefined.toUpperCase toUpperCase  
-[(24, 15), (24, 16)] [(24, 10), (24, 17)] name. undefined  
-[(24, 39), (24, 48)] [(24, 34), (24, 48)] name.substring substring  
-[(29, 4), (29, 8)] [(26, 19), (29, 8)]  join  
-[(28, 4), (28, 7)] [(26, 19), (28, 7)]  map  
-[(27, 4), (27, 7)] [(26, 19), (27, 7)] map map  
-[(31, 15), (31, 24)] [(31, 2), (31, 24)] globalObject.greetings greetings  
-[(39, 11), (39, 14)] [(39, 3), (39, 14)] console.log log  ",
+ [(23, 18), (23, 29)] [(23, 10), (23, 29)] name.undefined.toUpperCase toUpperCase  
+[(23, 15), (23, 16)] [(23, 10), (23, 17)] name. undefined  
+[(23, 39), (23, 48)] [(23, 34), (23, 48)] name.substring substring  
+[(28, 4), (28, 8)] [(25, 19), (28, 8)]  join  
+[(27, 4), (27, 7)] [(25, 19), (27, 7)]  map  
+[(26, 4), (26, 7)] [(25, 19), (26, 7)] map map  
+[(30, 15), (30, 24)] [(30, 2), (30, 24)] globalObject.greetings greetings  
+[(38, 11), (38, 14)] [(38, 3), (38, 14)] console.log log  ",
   "objectProperties:
- [(6, 3), (6, 8)]  globalObject.first first  
-[(7, 3), (7, 7)]  globalObject.last last  ",
+ [(5, 3), (5, 8)]  globalObject.first first  
+[(6, 3), (6, 7)]  globalObject.last last  ",
   "comments:
  ",
   "identifiers:
- [(5, 6), (8, 3)]  globalObject globalObject  
-[(5, 6), (5, 18)]  globalObject globalObject  
-[(6, 3), (6, 8)]  first first  
-[(7, 3), (7, 7)]  last last  
-[(9, 11), (9, 19)]  sayHello sayHello  
-[(9, 21), (9, 25)]  name name  
-[(10, 20), (10, 24)]  name name  
-[(23, 8), (25, 3)]  capitalize capitalize  
-[(23, 8), (23, 18)]  capitalize capitalize  
-[(23, 21), (23, 25)]  name name  
-[(24, 10), (24, 14)]  name name  
-[(24, 18), (24, 29)]  toUpperCase toUpperCase  
-[(24, 34), (24, 38)]  name name  
-[(24, 39), (24, 48)]  substring substring  
-[(26, 8), (29, 14)]  greetAll greetAll  
-[(26, 8), (26, 16)]  greetAll greetAll  
+ [(4, 6), (7, 3)]  globalObject globalObject  
+[(4, 6), (4, 18)]  globalObject globalObject  
+[(5, 3), (5, 8)]  first first  
+[(6, 3), (6, 7)]  last last  
+[(8, 11), (8, 19)]  sayHello sayHello  
+[(8, 21), (8, 25)]  name name  
+[(9, 20), (9, 24)]  name name  
+[(22, 8), (24, 3)]  capitalize capitalize  
+[(22, 8), (22, 18)]  capitalize capitalize  
+[(22, 21), (22, 25)]  name name  
+[(23, 10), (23, 14)]  name name  
+[(23, 18), (23, 29)]  toUpperCase toUpperCase  
+[(23, 34), (23, 38)]  name name  
+[(23, 39), (23, 48)]  substring substring  
+[(25, 8), (28, 14)]  greetAll greetAll  
+[(25, 8), (25, 16)]  greetAll greetAll  
+[(26, 4), (26, 7)]  map map  
+[(26, 8), (26, 18)]  capitalize capitalize  
 [(27, 4), (27, 7)]  map map  
-[(27, 8), (27, 18)]  capitalize capitalize  
-[(28, 4), (28, 7)]  map map  
-[(28, 8), (28, 16)]  sayHello sayHello  
-[(29, 4), (29, 8)]  join join  
-[(31, 2), (31, 14)]  globalObject globalObject  
-[(31, 15), (31, 24)]  greetings greetings  
-[(31, 27), (31, 35)]  greetAll greetAll  
-[(37, 12), (37, 16)]  iife iife  
-[(38, 9), (38, 36)]  greeting greeting  
-[(38, 9), (38, 17)]  greeting greeting  
-[(38, 20), (38, 28)]  sayHello sayHello  
-[(39, 3), (39, 10)]  console console  
-[(39, 11), (39, 14)]  log log  
-[(39, 15), (39, 23)]  greeting greeting  ",
+[(27, 8), (27, 16)]  sayHello sayHello  
+[(28, 4), (28, 8)]  join join  
+[(30, 2), (30, 14)]  globalObject globalObject  
+[(30, 15), (30, 24)]  greetings greetings  
+[(30, 27), (30, 35)]  greetAll greetAll  
+[(36, 12), (36, 16)]  iife iife  
+[(37, 9), (37, 36)]  greeting greeting  
+[(37, 9), (37, 17)]  greeting greeting  
+[(37, 20), (37, 28)]  sayHello sayHello  
+[(38, 3), (38, 10)]  console console  
+[(38, 11), (38, 14)]  log log  
+[(38, 15), (38, 23)]  greeting greeting  ",
 ]
 `;
 
