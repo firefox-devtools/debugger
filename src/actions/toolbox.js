@@ -4,7 +4,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 const { isDevelopment } = require("devtools-config");
-
+const { getWorker } = require("../selectors");
 import type { ThunkArgs } from "./types";
 
 /**
@@ -18,6 +18,20 @@ export function openLink(url: string) {
       win.focus();
     } else {
       openLinkCommand(url);
+    }
+  };
+}
+
+export function openWorkerToolbox(url: string) {
+  return async function({
+    getState,
+    openWorkerToolbox: openWorkerToolboxCommand
+  }: ThunkArgs) {
+    const worker = getWorker(getState(), url);
+    if (isDevelopment()) {
+      alert("URL");
+    } else {
+      openWorkerToolboxCommand(worker);
     }
   };
 }

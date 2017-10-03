@@ -35,9 +35,11 @@ export async function onConnect(connection: any, actions: Object): Object {
     wasmBinarySource: supportsWasm
   });
 
-  threadClient._parent
-    .listWorkers()
-    .then(workers => actions.setWorkers(workers));
+  if (threadClient._parent && threadClient._parent.listWorkers) {
+    threadClient._parent
+      .listWorkers()
+      .then(workers => actions.setWorkers(workers));
+  }
 
   // In Firefox, we need to initially request all of the sources. This
   // usually fires off individual `newSource` notifications as the

@@ -13,7 +13,7 @@ import {
   getBreakpointsLoading
 } from "../../selectors";
 
-import { isEnabled } from "devtools-config";
+import { isEnabled } from "../../utils/prefs";
 import Svg from "../shared/Svg";
 import { prefs } from "../../utils/prefs";
 
