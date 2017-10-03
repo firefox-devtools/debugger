@@ -18,7 +18,6 @@ import {
   createParentMap,
   isDirectory,
   addToTree,
-  sortEntireTree,
   collapseTree,
   createTree,
   getDirectories
@@ -144,8 +143,7 @@ class SourcesTree extends Component {
       for (const source of newSet) {
         addToTree(uncollapsedTree, source, this.props.debuggeeUrl);
       }
-      const unsortedTree = collapseTree(uncollapsedTree);
-      sourceTree = sortEntireTree(unsortedTree, nextProps.debuggeeUrl);
+      sourceTree = collapseTree(uncollapsedTree);
     }
 
     this.setState({

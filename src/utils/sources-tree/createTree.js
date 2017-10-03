@@ -2,7 +2,6 @@
 
 import { createNode, createParentMap } from "./utils";
 import { collapseTree } from "./collapseTree";
-import { sortEntireTree } from "./sortTree";
 import { addToTree } from "./addToTree";
 
 import type { SourcesMap } from "../../reducers/types";
@@ -13,7 +12,7 @@ export function createTree(sources: SourcesMap, debuggeeUrl: string) {
     addToTree(uncollapsedTree, source, debuggeeUrl);
   }
 
-  const sourceTree = sortEntireTree(collapseTree(uncollapsedTree), debuggeeUrl);
+  const sourceTree = collapseTree(uncollapsedTree);
 
   return {
     uncollapsedTree,
