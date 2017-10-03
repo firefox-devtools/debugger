@@ -1,6 +1,7 @@
 // @flow
 
-import React, { PropTypes, Component, createFactory } from "react";
+import PropTypes from "prop-types";
+import React, { Component, createFactory } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { createSelector } from "reselect";

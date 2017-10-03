@@ -1,4 +1,5 @@
-import { PropTypes, Component } from "react";
+import PropTypes from "prop-types";
+import { Component } from "react";
 
 import { KeyShortcuts } from "devtools-modules";
 const shortcuts = new KeyShortcuts({ window });
