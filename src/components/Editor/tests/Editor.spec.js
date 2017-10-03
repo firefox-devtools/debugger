@@ -3,8 +3,6 @@ import { shallow } from "enzyme";
 import Editor from "../index";
 import * as I from "immutable";
 
-const EditorComponent = React.createFactory(Editor.WrappedComponent);
-
 function generateDefaults(overrides) {
   return {
     breakpoints: I.Map(),
@@ -31,7 +29,7 @@ function generateDefaults(overrides) {
 
 function render(overrides = {}) {
   const props = generateDefaults(overrides);
-  const component = shallow(new EditorComponent(props));
+  const component = shallow(<Editor.WrappedComponent {...props} />);
   return { component, props };
 }
 
