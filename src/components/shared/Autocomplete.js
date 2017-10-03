@@ -47,7 +47,7 @@ export default class Autocomplete extends Component {
     }
   }
 
-  getSearchResults() {
+  getFileSearchResults() {
     const inputValue = this.props.inputValue;
     if (inputValue == "") {
       return [];
@@ -59,7 +59,7 @@ export default class Autocomplete extends Component {
   }
 
   onKeyDown(e: SyntheticKeyboardEvent) {
-    const searchResults = this.getSearchResults(),
+    const searchResults = this.getFileSearchResults(),
       resultCount = searchResults.length;
 
     if (e.key === "ArrowUp") {
@@ -118,7 +118,7 @@ export default class Autocomplete extends Component {
   render() {
     const { focused } = this.state;
     const { size, children } = this.props;
-    const searchResults = this.getSearchResults();
+    const searchResults = this.getFileSearchResults();
     const summaryMsg = L10N.getFormatStr(
       "sourceSearch.resultsSummary1",
       searchResults.length

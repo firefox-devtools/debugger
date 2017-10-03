@@ -149,10 +149,6 @@ type UIAction =
       value: ?ActiveSearchType
     }
   | {
-      type: "TOGGLE_FILE_SEARCH_MODIFIER",
-      modifier: "caseSensitive" | "wholeWord" | "regexMatch"
-    }
-  | {
       type: "TOGGLE_FRAMEWORK_GROUPING",
       value: boolean
     }
@@ -245,6 +241,27 @@ type ASTAction =
 
 export type SourceTreeAction = { type: "SET_EXPANDED_STATE", expanded: any };
 
+export type Match = Object;
+
+export type FileTextSearchAction =
+  | {
+      type: "TOGGLE_FILE_SEARCH_MODIFIER",
+      modifier: "caseSensitive" | "wholeWord" | "regexMatch"
+    }
+  | {
+      type: "UPDATE_FILE_SEARCH_QUERY",
+      query: string
+    }
+  | {
+      type: "UPDATE_SEARCH_RESULTS",
+      results: {
+        matches: Match[],
+        matchIndex: number,
+        count: number,
+        index: number
+      }
+    };
+
 export type ProjectTextSearchAction = {
   type: "ADD_QUERY",
   query: string
@@ -267,4 +284,6 @@ export type Action =
   | PauseAction
   | NavigateAction
   | UIAction
+  | FileTextSearchAction
+  | ProjectTextSearchAction
   | ASTAction;

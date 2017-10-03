@@ -37,7 +37,8 @@ class SearchInput extends Component {
     onBlur: () => void,
     size: string,
     handleNext: () => void,
-    handlePrev: () => void
+    handlePrev: () => void,
+    refFunc: () => void
   };
 
   static defaultProps: Object;
@@ -119,7 +120,10 @@ class SearchInput extends Component {
       placeholder,
       value: query,
       spellCheck: false,
-      ref: c => (this.$input = c)
+      ref: c => {
+        this.$input = c;
+        this.props.refFunc != null && this.props.refFunc(c);
+      }
     };
 
     return (

@@ -51,24 +51,6 @@ export function setSelectedSymbolType(symbolType: SymbolSearchType) {
   };
 }
 
-export function setFileSearchQuery(query: string) {
-  return {
-    type: "UPDATE_FILE_SEARCH_QUERY",
-    query
-  };
-}
-
-export function updateSearchResults(results: Object) {
-  return {
-    type: "UPDATE_SEARCH_RESULTS",
-    results
-  };
-}
-
-export function toggleFileSearchModifier(modifier: string) {
-  return { type: "TOGGLE_FILE_SEARCH_MODIFIER", modifier };
-}
-
 export function showSource(sourceId: string) {
   return ({ dispatch, getState }: ThunkArgs) => {
     const source = getSource(getState(), sourceId);

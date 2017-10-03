@@ -504,7 +504,7 @@ function stepOut(dbg) {
 function resume(dbg) {
   info("Resuming");
   dbg.actions.resume();
-  return waitForState(dbg, (state) => !dbg.selectors.isPaused(state));
+  return waitForState(dbg, state => !dbg.selectors.isPaused(state));
 }
 
 function deleteExpression(dbg, input) {
@@ -661,6 +661,7 @@ const keyMappings = {
   Start: startKey,
   Tab: { code: "VK_TAB" },
   Escape: { code: "VK_ESCAPE" },
+  CtrlEscape: { code: "VK_ESCAPE", modifiers: { ctrlKey: true } },
   Delete: { code: "VK_DELETE" },
   pauseKey: { code: "VK_F8" },
   resumeKey: { code: "VK_F8" },

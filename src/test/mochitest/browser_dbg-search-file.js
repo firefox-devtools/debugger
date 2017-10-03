@@ -35,11 +35,12 @@ add_task(async function() {
   const el = getFocusedEl(dbg);
 
   type(dbg, "con");
-  await waitForSearchState(dbg);
 
   const state = cm.state.search;
 
   pressKey(dbg, "Enter");
+  pressKey(dbg, "Enter");
+  await waitForSearchState(dbg);
   is(state.posFrom.line, 3);
 
   pressKey(dbg, "Enter");
@@ -48,7 +49,9 @@ add_task(async function() {
   pressKey(dbg, "ShiftEnter");
   is(state.posFrom.line, 3);
 
+  pressKey(dbg, "Escape");
   pressKey(dbg, "fileSearch");
+  is(dbg.selectors.getActiveSearch(dbg.getState()), "file");
   type(dbg, "fun");
 
   pressKey(dbg, "Enter");

@@ -69,7 +69,7 @@ class App extends Component {
   getChildContext: Function;
   renderEditorPane: Function;
   renderVerticalLayout: Function;
-  toggleSymbolModal: Function;
+  toggleVisible: Function;
   onEscape: Function;
 
   constructor(props) {
@@ -83,7 +83,7 @@ class App extends Component {
 
     this.getChildContext = this.getChildContext.bind(this);
     this.onLayoutChange = this.onLayoutChange.bind(this);
-    this.toggleSymbolModal = this.toggleSymbolModal.bind(this);
+    this.toggleVisible = this.toggleVisible.bind(this);
     this.renderEditorPane = this.renderEditorPane.bind(this);
     this.renderVerticalLayout = this.renderVerticalLayout.bind(this);
     this.onEscape = this.onEscape.bind(this);
@@ -97,7 +97,11 @@ class App extends Component {
     verticalLayoutBreakpoint.addListener(this.onLayoutChange);
     shortcuts.on(
       L10N.getStr("symbolSearch.search.key2"),
-      this.toggleSymbolModal
+      this.toggleVisible.bind(this, "symbol")
+    );
+    shortcuts.on(
+      L10N.getStr("sourceSearch.search.key2"),
+      this.toggleVisible.bind(this, "file")
     );
     shortcuts.on("Escape", this.onEscape);
   }
@@ -106,7 +110,11 @@ class App extends Component {
     verticalLayoutBreakpoint.removeListener(this.onLayoutChange);
     shortcuts.off(
       L10N.getStr("symbolSearch.search.key2"),
-      this.toggleSymbolModal
+      this.toggleVisible.bind(this, "symbol")
+    );
+    shortcuts.off(
+      L10N.getStr("sourceSearch.search.key2"),
+      this.toggleVisible.bind(this, "file")
     );
     shortcuts.off("Escape", this.onEscape);
   }
@@ -120,7 +128,7 @@ class App extends Component {
     }
   }
 
-  toggleSymbolModal(_, e: SyntheticEvent) {
+  toggleVisible(elem: string, _, e: SyntheticEvent) {
     const {
       selectedSource,
       activeSearch,
@@ -135,11 +143,11 @@ class App extends Component {
       return;
     }
 
-    if (activeSearch == "symbol") {
+    if (activeSearch == elem) {
       return closeActiveSearch();
     }
 
-    setActiveSearch("symbol");
+    setActiveSearch(elem);
   }
 
   onLayoutChange() {
