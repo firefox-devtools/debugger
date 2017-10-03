@@ -22,25 +22,22 @@ import isSelectedFrameVisible from "./selectors/isSelectedFrameVisible";
  * @param object - location
  */
 
-module.exports = Object.assign(
-  {},
-  expressions,
-  sources,
-  pause,
-  debuggee,
-  breakpoints,
-  pendingBreakpoints,
-  eventListeners,
-  ui,
-  ast,
-  coverage,
-  projectTextSearch,
-  sourceSearch,
-  sourceTree,
-  {
-    getBreakpointAtLocation,
-    getInScopeLines,
-    getVisibleBreakpoints,
-    isSelectedFrameVisible
-  }
-);
+module.exports = {
+  ...expressions,
+  ...sources,
+  ...pause,
+  ...debuggee,
+  ...breakpoints,
+  ...pendingBreakpoints,
+  ...eventListeners,
+  ...ui,
+  ...ast,
+  ...coverage,
+  ...projectTextSearch,
+  ...sourceSearch,
+  ...sourceTree,
+  getBreakpointAtLocation,
+  getInScopeLines,
+  getVisibleBreakpoints,
+  isSelectedFrameVisible
+};
