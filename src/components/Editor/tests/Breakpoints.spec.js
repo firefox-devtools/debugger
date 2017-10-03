@@ -3,8 +3,6 @@ import { shallow } from "enzyme";
 import Breakpoints from "../Breakpoints";
 import * as I from "immutable";
 
-const BreakpointsComponent = React.createFactory(Breakpoints.WrappedComponent);
-
 function generateDefaults(overrides) {
   const sourceId = "server1.conn1.child1/source1";
   const matchingBreakpoints = { id1: { location: { sourceId } } };
@@ -23,7 +21,7 @@ function generateDefaults(overrides) {
 
 function render(overrides = {}) {
   const props = generateDefaults(overrides);
-  const component = shallow(new BreakpointsComponent(props));
+  const component = shallow(<Breakpoints.WrappedComponent {...props} />);
   return { component, props };
 }
 
