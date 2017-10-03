@@ -59,9 +59,10 @@ export function getAst(source: Source) {
   }
 
   let ast = {};
-  if (source.contentType == "text/html") {
+  const { contentType } = source;
+  if (contentType == "text/html") {
     ast = parseScriptTags(source.text, htmlParser) || {};
-  } else if (source.contentType == "text/javascript") {
+  } else if (contentType && contentType.includes("javascript")) {
     ast = parse(source.text);
   }
 
