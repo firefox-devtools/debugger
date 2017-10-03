@@ -1,5 +1,6 @@
 // @flow
-import React, { PropTypes, PureComponent } from "react";
+import PropTypes from "prop-types";
+import React, { PureComponent } from "react";
 import ReactDOM from "react-dom";
 import ImPropTypes from "react-immutable-proptypes";
 import { bindActionCreators } from "redux";
