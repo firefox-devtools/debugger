@@ -68,7 +68,7 @@ export default class DebugLine extends Component {
       return;
     }
 
-    if (pauseData.why.type === "exception") {
+    if (pauseData && pauseData.why.type === "exception") {
       doc.addLineClass(line, "line", "new-debug-line-error");
       const debugExpression = markText(editor, "debug-expression-error", {
         start: { line, column },
@@ -97,7 +97,7 @@ export default class DebugLine extends Component {
     if (!doc) {
       return;
     }
-    if (pauseData.why.type === "exception") {
+    if (pauseData && pauseData.why.type === "exception") {
       doc.removeLineClass(editorLine, "line", "new-debug-line-error");
     } else {
       doc.removeLineClass(editorLine, "line", "new-debug-line");
