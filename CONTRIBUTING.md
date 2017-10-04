@@ -189,14 +189,14 @@ Helping maintain a project is the best way to contribute to its overall health.
 
 ### Pro Tips
 
-Here are some tips from fellow contributors.
+Here are some tips from our contributors.
 
 * **Time management** is really important. Try your best to balance obligations.
 * **Communicate** Communicate early and often. Share your work often and try to land the smallest possible pieces.
 * **Goals** It's helpful to set realistic goals.
 * **Work** Consider talking with your manager about OSS time at work. There are several reasons why this makes sense for your employer:
   * **expertise** teams benefit from having a resident expert on debugging or other tools
-  * **marketing** your manager can market his team as OSS friendly to candidates and other employees.
+  * **marketing** your manager can market their team as OSS friendly to candidates and other employees.
   * **career development** the skills you learn in OSS translate to your own growth.
   * **sponsoring** your team benefits from having quality OSS tools. Sponsoring your OSS time is a great way to give back.
 
