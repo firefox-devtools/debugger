@@ -37,17 +37,17 @@ describe("getNextStep", () => {
 
   describe("yield", () => {
     it("first yield call", () => {
-      const source = getSource("async");
-      const pausePosition = { line: 13, column: 2, sourceId: "async" };
+      const source = getSource("generators");
+      const pausePosition = { line: 2, column: 2, sourceId: "generators" };
       expect(getNextStep(source, pausePosition)).toEqual({
         ...pausePosition,
-        line: 14
+        line: 3
       });
     });
 
     it("second yield call", () => {
-      const source = getSource("async");
-      const pausePosition = { line: 14, column: 2, sourceId: "async" };
+      const source = getSource("generators");
+      const pausePosition = { line: 3, column: 2, sourceId: "generators" };
       expect(getNextStep(source, pausePosition)).toEqual(null);
     });
   });

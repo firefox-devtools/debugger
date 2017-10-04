@@ -5,15 +5,15 @@ import { isAwaitExpression, isYieldExpression } from "./utils/helpers";
 import type { NodePath } from "babel-traverse";
 
 export function getNextStep(source: Source, pausedPosition: AstPosition) {
-  const awaitExpression = getAsyncExpression(source, pausedPosition);
-  if (!awaitExpression) {
+  const currentExpression = getSteppableExpression(source, pausedPosition);
+  if (!currentExpression) {
     return null;
   }
-  const awaitStatement = awaitExpression.getStatementParent();
-  return getLocationAfterAwaitExpression(awaitStatement, pausedPosition);
+  const currentStatement = currentExpression.getStatementParent();
+  return _getNextStep(currentStatement, pausedPosition);
 }
 
-function getAsyncExpression(source: Source, pausedPosition: AstPosition) {
+function getSteppableExpression(source: Source, pausedPosition: AstPosition) {
   const closestPath = getClosestPath(source, pausedPosition);
 
   if (!closestPath) {
@@ -27,10 +27,7 @@ function getAsyncExpression(source: Source, pausedPosition: AstPosition) {
   return closestPath.find(p => p.isAwaitExpression() || p.isYieldExpression());
 }
 
-function getLocationAfterAwaitExpression(
-  statement: NodePath,
-  position: AstPosition
-) {
+function _getNextStep(statement: NodePath, position: AstPosition) {
   const nextStatement = statement.getSibling(statement.key + 1);
   if (nextStatement.node) {
     return {

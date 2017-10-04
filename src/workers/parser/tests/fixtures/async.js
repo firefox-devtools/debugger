@@ -8,8 +8,3 @@ async function stuff() {
   await foo(1);
   await foo(2);
 }
-
-function* bar() {
-  yield 1;
-  yield 2;
-}
