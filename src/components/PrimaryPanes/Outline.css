@@ -13,8 +13,22 @@
 
 .outline-list {
   list-style-type: none;
-  padding-left: 0px;
+  padding-left: 10px;
   width: 100%;
+}
+
+.outline-list__class-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.outline-list h2 {
+  font-weight: normal;
+  font-size: 1em;
+  margin: 0;
+  margin-bottom: 10px;
+  color: var(--theme-body-color);
 }
 
 .outline-list__element {

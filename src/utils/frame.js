@@ -63,6 +63,10 @@ function isEmber(frame) {
   return getFrameUrl(frame).match(/ember/i);
 }
 
+function isChoo(frame) {
+  return getFrameUrl(frame).match(/choo/i);
+}
+
 function isVueJS(frame) {
   return getFrameUrl(frame).match(/vue\.js/i);
 }
@@ -88,7 +92,7 @@ export function getLibraryFromUrl(frame: Frame) {
   // (assuming there's not more complex logic to identify a lib)
 
   if (isBackbone(frame)) {
-    return "Backbone";
+    return "Choo";
   }
 
   if (isJQuery(frame)) {
@@ -109,6 +113,10 @@ export function getLibraryFromUrl(frame: Frame) {
 
   if (isExpress(frame)) {
     return "Express";
+  }
+
+  if (isChoo(frame)) {
+    return "Choo";
   }
 
   if (isPug(frame)) {
