@@ -688,7 +688,7 @@ class Editor extends PureComponent {
 
   renderDebugLine() {
     const { editor } = this.state;
-    const { selectedLocation, selectedFrame } = this.props;
+    const { selectedLocation, selectedFrame, pauseData } = this.props;
     if (
       !editor ||
       !selectedLocation ||
@@ -704,6 +704,7 @@ class Editor extends PureComponent {
         editor={editor}
         selectedFrame={selectedFrame}
         selectedLocation={selectedLocation}
+        pauseData={pauseData}
       />
     );
   }
