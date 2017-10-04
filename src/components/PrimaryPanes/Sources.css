@@ -86,7 +86,7 @@
   position: relative;
   transition: all 0.25s ease;
   overflow: hidden;
-  padding: 6.5px;
+  padding: 8px 8px 7px 8px;
   margin-bottom: 0px;
   margin-top: -1px;
   cursor: default;

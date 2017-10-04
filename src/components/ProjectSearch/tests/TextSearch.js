@@ -1,7 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import TextSearchComponent from "../TextSearch.js";
-const TextSearch = React.createFactory(TextSearchComponent);
+import TextSearch from "../TextSearch.js";
 
 function render(overrides = {}) {
   const defaultProps = {
@@ -15,7 +14,7 @@ function render(overrides = {}) {
   };
   const props = Object.assign({}, defaultProps, overrides);
 
-  const component = shallow(new TextSearch(props));
+  const component = shallow(<TextSearch {...props} />);
   return component;
 }
 

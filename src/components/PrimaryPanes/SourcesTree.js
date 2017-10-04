@@ -2,7 +2,8 @@
 
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import React, { PropTypes, Component } from "react";
+import PropTypes from "prop-types";
+import React, { Component } from "react";
 import classnames from "classnames";
 import ImPropTypes from "react-immutable-proptypes";
 import { Set } from "immutable";
@@ -166,7 +167,7 @@ class SourcesTree extends Component {
   }
 
   getIcon(item, depth) {
-    if (item.path === "/webpack://") {
+    if (item.path === "/Webpack") {
       return <Svg name="webpack" />;
     }
 

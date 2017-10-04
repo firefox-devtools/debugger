@@ -32,7 +32,7 @@ yarn start
 
 #### Next Steps
 
-* Claim an [available] issue. If you get stuck, we'd be happy to [help].
+* [`/claim`][cl] an [available] issue. If you get stuck, we'd be happy to [help].
 * Do our getting started activity [debugging the debugger][first-activity]
 * Read the [app overview][app-overview] or [contributing][contributing] guidelines
 * Watch a [video][getting-started-screencast] on contributing to the Debugger. Or [listen][changelog] to a podcast about the project.
@@ -46,6 +46,9 @@ If this is your [first PR][make-a-pull-request] or you're not sure where to get 
 say hi in [slack] and a team member would be happy to mentor you.
 
 We strive for collaboration with [mutual respect for each other][contributing]. Mozilla also has a set of [participation guidelines] which goes into greater detail specific to Mozilla employees and contributors.
+
+Or, perhaps you have found a vulnerability in the debugger and want to report it? in that case, take
+a look at [how we handle security bugs over][vulnerabilities], and open a bug at [Bugzilla][bugzilla] so we can track it while keeping users safe!
 
 ### Development Guide
 
@@ -115,6 +118,8 @@ Say hello in [slack] or in the [#devtools-html][irc-devtools-html] channel on ir
 [irc-devtools-html]: irc://irc.mozilla.org/devtools-html
 [community-call]: https://hangouts.google.com/hangouts/_/calendar/amFzb24ubGFzdGVyLjExQGdtYWlsLmNvbQ.30mdpa6ncqn8uttvmrj9b9d3jc
 [devtools-call]: https://wiki.mozilla.org/DevTools
+[bugzilla]: https://bugzilla.mozilla.org/query.cgi
+[vulnerabilities]: https://www.mozilla.org/en-US/about/governance/policies/security-group/bugs/
 [vidyo]:https://v.mozilla.com/flex.html?roomdirect.html&key=n9vJUD3L1vRMHKQC5OCNRT3UBjw
 [changelog]: https://changelog.com/podcast/247
 [docs]: https://devtools-html.github.io/debugger.html/docs/
@@ -130,3 +135,4 @@ Say hello in [slack] or in the [#devtools-html][irc-devtools-html] channel on ir
 [Testing]: ./docs/local-development.md#testing
 [Linting]: ./docs/local-development.md#linting
 [google-docs]:https://docs.google.com/document/d/1pUx9xq6L7bonSrDpyUNTQkQxTxAsULLu4kkHZLMEq6w/edit
+[cl]: ./docs/issues.md#claiming-issues

@@ -1,7 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import FrameComponent from "../Frame.js";
-const Frame = React.createFactory(FrameComponent);
+import Frame from "../Frame.js";
 
 import FrameMenu from "../FrameMenu";
 jest.mock("../FrameMenu", () => jest.fn());
@@ -34,7 +33,7 @@ function render(frameToSelect = {}, overrides = {}) {
     selectFrame,
     toggleBlackBox
   };
-  const component = shallow(new Frame(props));
+  const component = shallow(<Frame {...props} />);
   return { component, props };
 }
 

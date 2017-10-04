@@ -1,6 +1,7 @@
 // @flow
 
-import React, { PropTypes, Component } from "react";
+import PropTypes from "prop-types";
+import React, { Component } from "react";
 import type { Children } from "react";
 import classnames from "classnames";
 import Transition from "react-transition-group/Transition";

@@ -5,10 +5,13 @@ import { PROMISE } from "../utils/redux/middleware/promise";
 
 import {
   getPause,
+  pausedInEval,
   getLoadedObject,
+  getSource,
   isStepping,
   isPaused,
-  getSelectedSource
+  getSelectedSource,
+  isEvaluatingExpression
 } from "../selectors";
 import {
   updateFrameLocations,
@@ -19,7 +22,7 @@ import { evaluateExpressions } from "./expressions";
 
 import { addHiddenBreakpoint, removeBreakpoint } from "./breakpoints";
 import { getHiddenBreakpointLocation } from "../reducers/breakpoints";
-import * as parser from "../utils/parser";
+import * as parser from "../workers/parser";
 import { features } from "../utils/prefs";
 
 import type { Pause, Frame } from "../types";
@@ -35,6 +38,11 @@ async function _getScopeBindings(
   scopes
 ) {
   const { sourceId } = generatedLocation;
+  const sourceRecord = getSource(getState(), sourceId);
+  if (sourceRecord.get("isWasm")) {
+    return scopes;
+  }
+
   await dispatch(ensureParserHasSourceText(sourceId));
 
   return await updateScopeBindings(scopes, generatedLocation, sourceMaps);
@@ -57,12 +65,14 @@ export function resumed() {
       return;
     }
 
+    const wasPausedInEval = pausedInEval(getState());
+
     dispatch({
       type: "RESUME",
       value: undefined
     });
 
-    if (!isStepping(getState())) {
+    if (!isStepping(getState()) && !wasPausedInEval) {
       dispatch(evaluateExpressions());
     }
   };
@@ -120,7 +130,11 @@ export function paused(pauseInfo: Pause) {
     if (hiddenBreakpointLocation) {
       dispatch(removeBreakpoint(hiddenBreakpointLocation));
     }
-    dispatch(evaluateExpressions());
+
+    if (!isEvaluatingExpression(getState())) {
+      dispatch(evaluateExpressions());
+    }
+
     dispatch(
       selectSource(frame.location.sourceId, { line: frame.location.line })
     );

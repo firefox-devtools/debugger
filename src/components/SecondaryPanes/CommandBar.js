@@ -1,5 +1,6 @@
 // @flow
-import React, { Component, PropTypes } from "react";
+import PropTypes from "prop-types";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import classnames from "classnames";

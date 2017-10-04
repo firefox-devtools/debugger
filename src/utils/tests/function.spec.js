@@ -1,7 +1,7 @@
 import { findFunctionText } from "../function";
 
-import getSymbols from "../parser/getSymbols";
-import { getSource } from "../parser/tests/helpers";
+import getSymbols from "../../workers/parser/getSymbols";
+import { getSource } from "../../workers/parser/tests/helpers";
 
 describe("function", () => {
   describe("findFunctionText", () => {

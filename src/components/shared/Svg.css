@@ -76,7 +76,7 @@ html .arrow.expanded svg {
   width: 15px;
   height: 15px;
   margin-right: 5px;
-  vertical-align: bottom;
+  vertical-align: sub;
 }
 
 .theme-dark .webpack {

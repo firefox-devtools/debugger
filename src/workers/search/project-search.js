@@ -1,5 +1,5 @@
 // Maybe reuse file search's functions?
-import { isLoaded } from "../source";
+import { isLoaded } from "../../utils/source";
 
 export function findSourceMatches(source, queryText) {
   const { text } = source;

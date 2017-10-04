@@ -7,7 +7,7 @@ import {
   clearSymbols,
   clearScopes,
   clearSources
-} from "../utils/parser";
+} from "../workers/parser";
 import { clearWasmStates } from "../utils/wasm";
 
 /**

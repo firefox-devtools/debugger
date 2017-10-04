@@ -14,7 +14,7 @@ import type {
 import type { State } from "../reducers/types";
 import type { ActiveSearchType } from "../reducers/ui";
 
-import type { SymbolDeclaration, AstLocation } from "../utils/parser";
+import type { SymbolDeclaration, AstLocation } from "../workers/parser";
 
 /**
  * Flow types

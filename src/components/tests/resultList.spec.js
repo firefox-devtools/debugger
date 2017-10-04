@@ -1,8 +1,6 @@
-import { createFactory } from "react";
+import React from "react";
 import { shallow } from "enzyme";
-
-import ResultListComponent from "../shared/ResultList";
-const ResultList = createFactory(ResultListComponent);
+import ResultList from "../shared/ResultList";
 
 const selectItem = jest.genMockFunction();
 const selectedIndex = 1;
@@ -27,19 +25,19 @@ const payload = {
 
 describe("Result list", () => {
   it("should call onClick function", () => {
-    const wrapper = shallow(ResultList(payload));
+    const wrapper = shallow(<ResultList {...payload} />);
 
     wrapper.childAt(selectedIndex).simulate("click");
     expect(selectItem).toBeCalled();
   });
 
   it("should render the component", () => {
-    const wrapper = shallow(ResultList(payload));
+    const wrapper = shallow(<ResultList {...payload} />);
     expect(wrapper).toMatchSnapshot();
   });
 
   it("selected index should have 'selected class'", () => {
-    const wrapper = shallow(ResultList(payload));
+    const wrapper = shallow(<ResultList {...payload} />);
     const childHasClass = wrapper.childAt(selectedIndex).hasClass("selected");
 
     expect(childHasClass).toEqual(true);

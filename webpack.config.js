@@ -19,16 +19,15 @@ function getEntry(filename) {
 const webpackConfig = {
   entry: {
     debugger: getEntry("main.js"),
-    "parser-worker": getEntry("utils/parser/worker.js"),
-    "pretty-print-worker": getEntry("utils/pretty-print/worker.js"),
-    "search-worker": getEntry("utils/search/worker.js")
+    "parser-worker": getEntry("workers/parser/worker.js"),
+    "pretty-print-worker": getEntry("workers/pretty-print/worker.js"),
+    "search-worker": getEntry("workers/search/worker.js")
   },
 
   output: {
     path: path.join(__dirname, "assets/build"),
     filename: "[name].js",
     publicPath: "/assets/build"
-    // libraryTarget: "umd"
   }
 };
 

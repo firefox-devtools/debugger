@@ -194,6 +194,19 @@ export function isEvaluatingExpression(state: OuterState) {
   return state.pause.command === "expression";
 }
 
+export function pausedInEval(state: OuterState) {
+  if (!state.pause.pause) {
+    return false;
+  }
+
+  const exception = state.pause.pause.why.exception;
+  if (!exception) {
+    return false;
+  }
+
+  return exception.preview.fileName === "debugger eval code";
+}
+
 export function getLoadedObject(state: OuterState, objectId: string) {
   return getLoadedObjects(state)[objectId];
 }

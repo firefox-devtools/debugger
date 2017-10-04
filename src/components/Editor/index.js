@@ -1,5 +1,6 @@
 // @flow
-import React, { PropTypes, PureComponent } from "react";
+import PropTypes from "prop-types";
+import React, { PureComponent } from "react";
 import ReactDOM from "react-dom";
 import ImPropTypes from "react-immutable-proptypes";
 import { bindActionCreators } from "redux";
@@ -47,6 +48,7 @@ import EmptyLines from "./EmptyLines";
 import {
   showSourceText,
   updateDocument,
+  showLoading,
   shouldShowFooter,
   clearLineClass,
   createEditor,
@@ -539,7 +541,7 @@ class Editor extends PureComponent {
     }
 
     if (!isLoaded(nextProps.selectedSource.toJS())) {
-      return this.showMessage(L10N.getStr("loadingText"));
+      return showLoading(this.state.editor);
     }
 
     if (nextProps.selectedSource.get("error")) {
@@ -556,9 +558,6 @@ class Editor extends PureComponent {
       return;
     }
 
-    this.state.editor.replaceDocument(this.state.editor.createDocument());
-    this.state.editor.setText(msg);
-    this.state.editor.setMode({ name: "text" });
     resetLineNumberFormat(this.state.editor);
   }
 
@@ -711,13 +710,12 @@ class Editor extends PureComponent {
   }
 
   render() {
-    const { coverageOn, pauseData } = this.props;
+    const { coverageOn } = this.props;
 
     return (
       <div
         className={classnames("editor-wrapper", {
-          "coverage-on": coverageOn,
-          paused: !!pauseData && isEnabled("highlightScopeLines")
+          "coverage-on": coverageOn
         })}
       >
         {this.renderSearchBar()}
