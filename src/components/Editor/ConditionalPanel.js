@@ -6,7 +6,7 @@ import { SourceEditor } from "devtools-source-editor";
 import CloseButton from "../shared/Button/Close";
 import "./ConditionalPanel.css";
 
-function createEditor(funcOpts) {
+function createEditor(input, funcOpts) {
   return new SourceEditor({
     mode: "javascript",
     foldGutter: false,
@@ -25,7 +25,9 @@ function createEditor(funcOpts) {
       Esc: false,
       "Cmd-F": false,
       "Cmd-G": false,
-      Enter: funcOpts.saveAndClose
+      Enter: input => {
+        funcOpts.saveAndClose(input);
+      }
     }
   });
 }
@@ -46,9 +48,14 @@ function renderConditionalPanel({
     input = node;
   }
 
-  function saveAndClose() {
+  function saveAndClose(input) {
     if (input) {
-      setBreakpoint(input.value);
+      if (input.doc) {
+        // for codemirror inputs
+        setBreakpoint(input.getValue());
+      } else {
+        setBreakpoint(input.value);
+      }
     }
 
     closePanel();
@@ -82,7 +89,7 @@ function renderConditionalPanel({
   );
 
   const funcOpts = { saveAndClose };
-  const editor = createEditor(funcOpts);
+  const editor = createEditor(input, funcOpts);
   editor.appendToLocalElement(panel.querySelector(".panel-mount"));
 
   return panel;
