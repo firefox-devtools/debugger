@@ -92,7 +92,7 @@ export function getLibraryFromUrl(frame: Frame) {
   // (assuming there's not more complex logic to identify a lib)
 
   if (isBackbone(frame)) {
-    return "Choo";
+    return "Backbone";
   }
 
   if (isJQuery(frame)) {

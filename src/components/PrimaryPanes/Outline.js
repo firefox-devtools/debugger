@@ -67,7 +67,7 @@ export class Outline extends Component {
 
     const klass = classFunctions[0].klass;
     return (
-      <div>
+      <div className="outline-list__class">
         <h2>{klass}</h2>
         <ul className="outline-list__class-list">
           {classFunctions.map(func => this.renderFunction(func))}
@@ -83,8 +83,8 @@ export class Outline extends Component {
 
     return (
       <ul className="outline-list">
-        {this.renderClassFunctions(functions)}
         {namedFunctions.map(func => this.renderFunction(func))}
+        {this.renderClassFunctions(functions)}
       </ul>
     );
   }
