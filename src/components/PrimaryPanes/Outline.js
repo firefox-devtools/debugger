@@ -7,7 +7,7 @@ import actions from "../../actions";
 import { getSelectedSource, getSymbols } from "../../selectors";
 import "./Outline.css";
 import PreviewFunction from "../shared/PreviewFunction";
-
+import { uniq, find } from "lodash";
 import type {
   SymbolDeclarations,
   SymbolDeclaration
@@ -58,7 +58,7 @@ export class Outline extends Component {
 
   renderClassFunctions(functions: SymbolDeclaration[]) {
     const classFunctions = functions.filter(
-      func => func.name != "anonymous" && func.klass !== ""
+      func => func.name != "anonymous" && !!func.klass
     );
 
     if (classFunctions.length == 0) {
@@ -66,9 +66,11 @@ export class Outline extends Component {
     }
 
     const klass = classFunctions[0].klass;
+    const klassFunc = find(functions, func => func.name === klass);
+
     return (
       <div className="outline-list__class">
-        <h2>{klass}</h2>
+        <h2>{klassFunc ? this.renderFunction(klassFunc) : klass}</h2>
         <ul className="outline-list__class-list">
           {classFunctions.map(func => this.renderFunction(func))}
         </ul>
@@ -77,8 +79,11 @@ export class Outline extends Component {
   }
 
   renderFunctions(functions: Array<SymbolDeclaration>) {
+    const classes = uniq(functions.map(func => func.klass));
+
     const namedFunctions = functions.filter(
-      func => func.name != "anonymous" && func.klass === ""
+      func =>
+        func.name != "anonymous" && !func.klass && !classes.includes(func.name)
     );
 
     return (
