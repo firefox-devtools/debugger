@@ -72,6 +72,7 @@ class App extends Component {
   renderVerticalLayout: Function;
   toggleSymbolModal: Function;
   onEscape: Function;
+  onCommandSlash: Function;
 
   constructor(props) {
     super(props);
@@ -88,6 +89,7 @@ class App extends Component {
     this.renderEditorPane = this.renderEditorPane.bind(this);
     this.renderVerticalLayout = this.renderVerticalLayout.bind(this);
     this.onEscape = this.onEscape.bind(this);
+    this.onCommandSlash = this.onCommandSlash.bind(this);
   }
 
   getChildContext() {
@@ -101,6 +103,7 @@ class App extends Component {
       this.toggleSymbolModal
     );
     shortcuts.on("Escape", this.onEscape);
+    shortcuts.on("Cmd+/", this.onCommandSlash);
   }
 
   componentWillUnmount() {
@@ -119,6 +122,10 @@ class App extends Component {
       e.preventDefault();
       closeActiveSearch();
     }
+  }
+
+  onCommandSlash() {
+    this.toggleShortcutsModal();
   }
 
   toggleSymbolModal(_, e: SyntheticEvent) {

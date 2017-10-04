@@ -2,6 +2,7 @@
   flex: 0 0 29px;
   border-bottom: 1px solid var(--theme-splitter-color);
   display: flex;
+  justify-content: flex-end;
   overflow: hidden;
   position: sticky;
   z-index: 1;
@@ -35,10 +36,6 @@ html[dir="rtl"] .command-bar {
 
 :root.theme-dark .command-bar > button {
   color: var(--theme-body-color);
-}
-
-.command-bar > button {
-  margin-inline-end: 0.7em;
 }
 
 .command-bar > button:focus {
