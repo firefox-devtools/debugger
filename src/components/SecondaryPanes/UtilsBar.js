@@ -1,7 +1,6 @@
 // @flow
 import React, { Component } from "react";
 import classnames from "classnames";
-import Svg from "../shared/Svg";
 import "./CommandBar.css";
 
 function debugBtn(onClick, type, className, tooltip, disabled = false) {
