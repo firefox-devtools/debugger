@@ -1,11 +1,11 @@
 import { Source } from "../../../flow-typed/debugger-html";
 import { AstPosition } from "./types";
 import { getClosestPath } from "./utils/closest";
-import { isAwaitExpression } from "./utils/helpers";
+import { isAwaitExpression, isYieldExpression } from "./utils/helpers";
 import type { NodePath } from "babel-traverse";
 
 export function getNextStep(source: Source, pausedPosition: AstPosition) {
-  const awaitExpression = getAwaitExpression(source, pausedPosition);
+  const awaitExpression = getAsyncExpression(source, pausedPosition);
   if (!awaitExpression) {
     return null;
   }
@@ -13,18 +13,18 @@ export function getNextStep(source: Source, pausedPosition: AstPosition) {
   return getLocationAfterAwaitExpression(awaitStatement, pausedPosition);
 }
 
-function getAwaitExpression(source: Source, pausedPosition: AstPosition) {
+function getAsyncExpression(source: Source, pausedPosition: AstPosition) {
   const closestPath = getClosestPath(source, pausedPosition);
 
   if (!closestPath) {
     return null;
   }
 
-  if (isAwaitExpression(closestPath)) {
+  if (isAwaitExpression(closestPath) || isYieldExpression(closestPath)) {
     return closestPath;
   }
 
-  return closestPath.find(p => p.isAwaitExpression());
+  return closestPath.find(p => p.isAwaitExpression() || p.isYieldExpression());
 }
 
 function getLocationAfterAwaitExpression(
