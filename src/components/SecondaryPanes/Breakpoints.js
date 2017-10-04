@@ -368,14 +368,14 @@ class Breakpoints extends PureComponent {
         onClick={() => this.selectBreakpoint(breakpoint)}
         onContextMenu={e => this.showContextMenu(e, breakpoint)}
       >
+        <input
+          type="checkbox"
+          className="breakpoint-checkbox"
+          checked={!isDisabled}
+          onChange={() => this.handleCheckbox(breakpoint)}
+          onClick={ev => ev.stopPropagation()}
+        />
         <label className="breakpoint-label" title={breakpoint.text}>
-          <input
-            type="checkbox"
-            className="breakpoint-checkbox"
-            checked={!isDisabled}
-            onChange={() => this.handleCheckbox(breakpoint)}
-            onClick={ev => ev.stopPropagation()}
-          />
           {renderSourceLocation(breakpoint.location.source, line, column)}
         </label>
         <div className="breakpoint-snippet">{snippet}</div>
