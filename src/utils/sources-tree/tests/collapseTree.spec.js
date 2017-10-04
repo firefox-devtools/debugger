@@ -25,7 +25,7 @@ describe("sources tree", () => {
   describe("collapseTree", () => {
     it("can collapse a single source", () => {
       const fullTree = createNode("root", "", []);
-      addToTree(fullTree, abcSource);
+      addToTree(fullTree, abcSource, "http://example.com/");
       expect(fullTree.contents.length).toBe(1);
       const tree = collapseTree(fullTree);
 
@@ -45,8 +45,8 @@ describe("sources tree", () => {
 
     it("correctly merges in a collapsed source with a deeper level", () => {
       const fullTree = createNode("root", "", []);
-      addToTree(fullTree, abcSource);
-      addToTree(fullTree, abcdeSource);
+      addToTree(fullTree, abcSource, "http://example.com/");
+      addToTree(fullTree, abcdeSource, "http://example.com/");
       const tree = collapseTree(fullTree);
 
       sortEntireTree(tree);
@@ -73,8 +73,8 @@ describe("sources tree", () => {
 
     it("correctly merges in a collapsed source with a shallower level", () => {
       const fullTree = createNode("root", "", []);
-      addToTree(fullTree, abcSource);
-      addToTree(fullTree, abxSource);
+      addToTree(fullTree, abcSource, "http://example.com/");
+      addToTree(fullTree, abxSource, "http://example.com/");
       const tree = collapseTree(fullTree);
 
       expect(tree.contents.length).toBe(1);
@@ -97,8 +97,8 @@ describe("sources tree", () => {
 
     it("correctly merges in a collapsed source with the same level", () => {
       const fullTree = createNode("root", "", []);
-      addToTree(fullTree, abcdeSource);
-      addToTree(fullTree, abcSource);
+      addToTree(fullTree, abcdeSource, "http://example.com/");
+      addToTree(fullTree, abcSource, "http://example.com/");
       const tree = collapseTree(fullTree);
 
       expect(tree.contents.length).toBe(1);

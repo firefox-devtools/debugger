@@ -45,11 +45,11 @@ exports[`sources-tree addToTree excludes javascript: URLs from the tree 1`] = `
 exports[`sources-tree addToTree replaces a file with a directory 1`] = `
 " - root path= 
   - unpkg.com path=/unpkg.com 
-    - codemirror@5.1 path=/unpkg.com/codemirror@5.1 source_id=server1.conn13.child1/37 
     - codemirror@5.1 path=/unpkg.com/codemirror@5.1 
       - mode path=/unpkg.com/codemirror@5.1/mode 
         - xml path=/unpkg.com/codemirror@5.1/mode/xml 
           - xml.js path=/unpkg.com/codemirror@5.1/mode/xml/xml.js source_id=server1.conn13.child1/39 
+    - codemirror@5.1 path=/unpkg.com/codemirror@5.1 source_id=server1.conn13.child1/37 
 "
 `;
 
@@ -57,9 +57,9 @@ exports[`sources-tree addToTree uses debuggeeUrl as default 1`] = `
 " - root path= 
   - localhost:4242 path=/localhost:4242 
     - components path=/localhost:4242/components 
-      - TodoTextInput.js path=/localhost:4242/components/TodoTextInput.js source_id=undefined 
       - Header.js path=/localhost:4242/components/Header.js source_id=undefined 
       - TodoItem.js path=/localhost:4242/components/TodoItem.js source_id=undefined 
+      - TodoTextInput.js path=/localhost:4242/components/TodoTextInput.js source_id=undefined 
     - reducers path=/localhost:4242/reducers 
       - index.js path=/localhost:4242/reducers/index.js source_id=undefined 
     - index.js path=/localhost:4242/index.js source_id=undefined 

@@ -21,9 +21,9 @@ describe("sources-tree", () => {
       });
       const _tree = createNode("root", "", []);
 
-      addToTree(_tree, source1);
-      addToTree(_tree, source2);
-      addToTree(_tree, source3);
+      addToTree(_tree, source1, "http://example.com/");
+      addToTree(_tree, source2, "http://example.com/");
+      addToTree(_tree, source3, "http://example.com/");
       const tree = sortEntireTree(_tree);
 
       const base = tree.contents[0];
@@ -71,7 +71,9 @@ describe("sources-tree", () => {
       ];
 
       const _tree = createNode("root", "", []);
-      sources.forEach(source => addToTree(_tree, source));
+      sources.forEach(source =>
+        addToTree(_tree, source, "http://example.com/")
+      );
       const tree = sortEntireTree(_tree);
       const domain = tree.contents[0];
 
@@ -119,7 +121,9 @@ describe("sources-tree", () => {
       ];
 
       const _tree = createNode("root", "", []);
-      sources.forEach(source => addToTree(_tree, source));
+      sources.forEach(source =>
+        addToTree(_tree, source, "http://example.com/")
+      );
       const tree = sortEntireTree(_tree);
       const [
         bFolderNode,
