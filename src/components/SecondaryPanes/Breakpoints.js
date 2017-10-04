@@ -58,7 +58,7 @@ function isCurrentlyPausedAtBreakpoint(pause, breakpoint) {
 }
 
 function getBreakpointFilename(source) {
-  return source && source.toJS ? getFilename(source.toJS()) : null;
+  return source && source.toJS ? getFilename(source.toJS()) : "";
 }
 
 function sortBreakpoints(bp1, bp2) {
