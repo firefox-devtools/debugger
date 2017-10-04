@@ -18,6 +18,7 @@ html[dir="rtl"] .command-bar {
 }
 
 .command-bar > button {
+  color: var(--theme-body-color);
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
