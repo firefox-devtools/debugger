@@ -4,6 +4,8 @@ import SearchBar from "../SearchBar";
 import "../../../workers/search";
 import "../../../utils/editor";
 
+const SearchBarComponent = SearchBar.WrappedComponent;
+
 jest.mock("../../../workers/search", () => ({
   getMatches: () => Promise.resolve(["result"])
 }));
@@ -37,7 +39,7 @@ function generateDefaults() {
 function render(overrides = {}) {
   const defaults = generateDefaults();
   const props = { ...defaults, ...overrides };
-  const component = shallow(<SearchBar.WrappedComponent {...props} />);
+  const component = shallow(<SearchBarComponent {...props} />);
   return { component, props };
 }
 
