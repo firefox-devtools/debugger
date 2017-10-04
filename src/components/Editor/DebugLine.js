@@ -2,6 +2,7 @@
 import { Component } from "react";
 import { markText, toEditorPosition } from "../../utils/editor";
 import { getDocument } from "../../utils/editor/source-documents";
+import onIdle from "on-idle";
 
 type props = {
   editor: Object,
@@ -11,15 +12,10 @@ type props = {
 
 export default class DebugLine extends Component {
   props: props;
-  state: {
-    debugExpression: {
-      clear: Function
-    }
-  };
+  debugExpression: null;
 
   constructor() {
     super();
-    this.state = { debugExpression: { clear: () => {} } };
   }
 
   componentWillMount() {
@@ -30,7 +26,16 @@ export default class DebugLine extends Component {
     );
   }
 
-  componentWillReceiveProps(nextProps: props) {
+  shouldComponentUpdate(nextProps: props) {
+    const { selectedFrame } = this.props;
+
+    return (
+      selectedFrame.sourceId != nextProps.selectedFrame.sourceId ||
+      selectedFrame.location.line != nextProps.selectedFrame.location.line
+    );
+  }
+
+  componentDidUpdate(nextProps: props) {
     this.clearDebugLine(this.props.selectedFrame, this.props.editor);
     this.setDebugLine(
       nextProps.selectedFrame,
@@ -57,18 +62,16 @@ export default class DebugLine extends Component {
     }
 
     doc.addLineClass(line, "line", "new-debug-line");
-    const debugExpression = markText(editor, "debug-expression", {
+    this.debugExpression = markText(editor, "debug-expression", {
       start: { line, column },
       end: { line, column: null }
     });
-    this.setState({ debugExpression });
   }
 
   clearDebugLine(selectedFrame: Object, editor: Object) {
     const { line, sourceId } = selectedFrame.location;
-    const { debugExpression } = this.state;
-    if (debugExpression) {
-      debugExpression.clear();
+    if (this.debugExpression) {
+      this.debugExpression.clear();
     }
 
     const editorLine = line - 1;
