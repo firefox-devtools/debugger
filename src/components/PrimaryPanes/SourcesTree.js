@@ -208,18 +208,19 @@ class SourcesTree extends Component {
   }
 
   renderItem(item, depth, focused, _, expanded, { setExpanded }) {
-    const arrow = (
+    const arrow = nodeHasChildren(item) ? (
       <Svg
         name="arrow"
         className={classnames({
-          expanded: expanded,
-          hidden: !nodeHasChildren(item)
+          expanded: expanded
         })}
         onClick={e => {
           e.stopPropagation();
           setExpanded(item, !expanded);
         }}
       />
+    ) : (
+      <i className="no-arrow" />
     );
 
     const icon = this.getIcon(item, depth);

@@ -51,6 +51,11 @@
   display: inline-block;
 }
 
+.sources-list .tree .node .no-arrow {
+  width: 10px;
+  display: inline-block;
+}
+
 .no-sources-message {
   font-size: 12px;
   color: var(--theme-comment-alt);
