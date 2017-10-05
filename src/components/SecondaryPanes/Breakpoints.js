@@ -20,7 +20,7 @@ import { getFilename } from "../../utils/source";
 import { showMenu, buildMenu } from "devtools-launchpad";
 import CloseButton from "../shared/Button/Close";
 import "./Breakpoints.css";
-import { get } from "lodash";
+import { get, sortBy } from "lodash";
 
 import type { Breakpoint, Location } from "../../types";
 
@@ -57,8 +57,12 @@ function isCurrentlyPausedAtBreakpoint(pause, breakpoint) {
   return bpId === pausedId;
 }
 
+function getBreakpointFilename(source) {
+  return source && source.toJS ? getFilename(source.toJS()) : "";
+}
+
 function renderSourceLocation(source, line, column) {
-  const filename = source ? getFilename(source.toJS()) : null;
+  const filename = getBreakpointFilename(source);
   const isWasm = source && source.get("isWasm");
   const columnVal =
     isEnabled("columnBreakpoints") && column ? `:${column}` : "";
@@ -393,7 +397,13 @@ class Breakpoints extends PureComponent {
       breakpoints.size === 0 ? (
         <div className="pane-info">{L10N.getStr("breakpoints.none")}</div>
       ) : (
-        breakpoints.valueSeq().map(bp => this.renderBreakpoint(bp))
+        sortBy(
+          [...breakpoints.valueSeq()],
+          [
+            bp => getBreakpointFilename(bp.location.source),
+            bp => bp.location.line
+          ]
+        ).map(bp => this.renderBreakpoint(bp))
       );
 
     return <div className="pane breakpoints-list">{children}</div>;
