@@ -99,8 +99,6 @@ class Editor extends PureComponent {
       return;
     }
 
-    this.setSize(nextProps);
-    this.setText(nextProps);
     resizeBreakpointGutter(this.state.editor.codeMirror);
   }
 
@@ -198,6 +196,13 @@ class Editor extends PureComponent {
     shortcuts.off(L10N.getStr("toggleCondPanel.key"));
     shortcuts.off(searchAgainPrevKey);
     shortcuts.off(searchAgainKey);
+  }
+
+  shouldComponentUpdate(nextProps) {
+    if (this.props.selectedSource === nextProps.selectedSource) {
+      console.log("bad");
+    }
+    return this.props.selectedSource !== nextProps.selectedSource;
   }
 
   componentDidUpdate(prevProps) {
@@ -518,29 +523,29 @@ class Editor extends PureComponent {
     }
   }
 
-  setText(nextProps) {
+  setText() {
+    const { selectedSource } = this.props;
     if (!this.state.editor) {
       return;
     }
 
-    if (!nextProps.selectedSource) {
-      if (this.props.selectedSource) {
-        return this.showMessage("");
-      }
-
-      return;
+    if (!selectedSource) {
+      console.log("show empty source");
+      return this.showMessage("");
     }
 
-    if (!isLoaded(nextProps.selectedSource.toJS())) {
+    if (!isLoaded(selectedSource.toJS())) {
+      console.log("show loading source");
       return showLoading(this.state.editor);
     }
 
-    if (nextProps.selectedSource.get("error")) {
-      return this.showMessage(nextProps.selectedSource.get("error"));
+    if (selectedSource.get("error")) {
+      return this.showMessage(selectedSource.get("error"));
     }
 
-    if (nextProps.selectedSource !== this.props.selectedSource) {
-      return showSourceText(this.state.editor, nextProps.selectedSource.toJS());
+    if (selectedSource) {
+      console.log(`showing document: ${selectedSource.get("id")}`);
+      return showSourceText(this.state.editor, selectedSource.toJS());
     }
   }
 
@@ -703,70 +708,75 @@ class Editor extends PureComponent {
   render() {
     const { coverageOn } = this.props;
 
+    this.setText(this.props);
+    this.setSize(this.props);
+
     return (
       <div
         className={classnames("editor-wrapper", {
           "coverage-on": coverageOn
         })}
       >
-        {this.renderSearchBar()}
+        {/* {this.renderSearchBar()} */}
         <div
           className="editor-mount devtools-monospace"
           style={this.getInlineEditorStyles()}
         />
-        {this.renderHighlightLines()}
-        {this.renderHitCounts()}
-        {this.renderFooter()}
-        {this.renderPreview()}
-        {this.renderCallSites()}
-        {this.renderDebugLine()}
-        {this.renderBreakpoints()}
-        {this.renderEmptyLines()}
+        {/*
+          {this.renderHighlightLines()}
+          {this.renderHitCounts()}
+          {this.renderFooter()}
+          {this.renderPreview()}
+          {this.renderCallSites()}
+          {this.renderDebugLine()}
+          {this.renderBreakpoints()}
+          {this.renderEmptyLines()}
+        */}
       </div>
     );
   }
 }
 
 Editor.propTypes = {
-  breakpoints: ImPropTypes.map,
-  hitCount: PropTypes.object,
+  // breakpoints: ImPropTypes.map,
+  // hitCount: PropTypes.object,
   selectedLocation: PropTypes.object,
   selectedSource: ImPropTypes.map,
-  highlightLineRange: PropTypes.func,
-  clearHighlightLineRange: PropTypes.func,
-  highlightedLineRange: PropTypes.object,
-  searchOn: PropTypes.bool,
-  addBreakpoint: PropTypes.func.isRequired,
-  disableBreakpoint: PropTypes.func.isRequired,
-  enableBreakpoint: PropTypes.func.isRequired,
-  removeBreakpoint: PropTypes.func.isRequired,
-  setBreakpointCondition: PropTypes.func.isRequired,
+  // highlightLineRange: PropTypes.func,
+  // clearHighlightLineRange: PropTypes.func,
+  // highlightedLineRange: PropTypes.object,
+  // searchOn: PropTypes.bool,
+  // addBreakpoint: PropTypes.func,
+  // disableBreakpoint: PropTypes.func,
+  // enableBreakpoint: PropTypes.func,
+  // removeBreakpoint: PropTypes.func,
+  // setBreakpointCondition: PropTypes.func,
   selectSource: PropTypes.func,
-  jumpToMappedLocation: PropTypes.func,
-  toggleBlackBox: PropTypes.func,
-  showSource: PropTypes.func,
-  coverageOn: PropTypes.bool,
-  pauseData: PropTypes.object,
-  selectedFrame: PropTypes.object,
-  addExpression: PropTypes.func.isRequired,
+  // jumpToMappedLocation: PropTypes.func,
+  // toggleBlackBox: PropTypes.func,
+  // showSource: PropTypes.func,
+  // coverageOn: PropTypes.bool,
+  // pauseData: PropTypes.object,
+  // selectedFrame: PropTypes.object,
+  // addExpression: PropTypes.func,
   horizontal: PropTypes.bool,
-  query: PropTypes.string.isRequired,
-  searchModifiers: ImPropTypes.recordOf({
-    caseSensitive: PropTypes.bool.isRequired,
-    regexMatch: PropTypes.bool.isRequired,
-    wholeWord: PropTypes.bool.isRequired
-  }).isRequired,
+  // query: PropTypes.string,
+  // searchModifiers: ImPropTypes.recordOf({
+  // caseSensitive: PropTypes.bool,
+  // regexMatch: PropTypes.bool,
+  // wholeWord: PropTypes.bool
+  // }),
   startPanelSize: PropTypes.number,
   endPanelSize: PropTypes.number,
-  linesInScope: PropTypes.array,
-  toggleBreakpoint: PropTypes.func.isRequired,
-  addOrToggleDisabledBreakpoint: PropTypes.func.isRequired,
-  toggleDisabledBreakpoint: PropTypes.func.isRequired,
-  conditionalBreakpointPanel: PropTypes.number,
-  toggleConditionalBreakpointPanel: PropTypes.func.isRequired,
-  isEmptyLine: PropTypes.func,
-  continueToHere: PropTypes.func,
-  getFunctionText: PropTypes.func
+  // linesInScope: PropTypes.array,
+  // toggleBreakpoint: PropTypes.func,
+  // addOrToggleDisabledBreakpoint: PropTypes.func,
+  // toggleDisabledBreakpoint: PropTypes.func,
+  conditionalBreakpointPanel: PropTypes.number
+  // toggleConditionalBreakpointPanel: PropTypes.func,
+  // isEmptyLine: PropTypes.func,
+  // continueToHere: PropTypes.func,
+  // getFunctionText: PropTypes.func
 };
 
 Editor.contextTypes = {
@@ -782,25 +792,25 @@ export default connect(
     return {
       selectedLocation,
       selectedSource,
-      highlightedLineRange: getHighlightedLineRange(state),
-      searchOn: getActiveSearch(state) === "file",
-      loadedObjects: getLoadedObjects(state),
-      breakpoints: getVisibleBreakpoints(state),
-      hitCount: getHitCountForSource(state, sourceId),
-      selectedFrame: getSelectedFrame(state),
-      pauseData: getPause(state),
-      coverageOn: getCoverageEnabled(state),
-      query: getFileSearchQueryState(state),
-      searchModifiers: getFileSearchModifierState(state),
-      linesInScope: getInScopeLines(state),
-      getFunctionText: line =>
-        findFunctionText(
-          line,
-          selectedSource.toJS(),
-          getSymbols(state, selectedSource.toJS())
-        ),
-      isEmptyLine: line =>
-        isEmptyLineInSource(state, line, selectedSource.toJS()),
+      // highlightedLineRange: getHighlightedLineRange(state),
+      // searchOn: getActiveSearch(state) === "file",
+      // loadedObjects: getLoadedObjects(state),
+      // breakpoints: getVisibleBreakpoints(state),
+      // hitCount: getHitCountForSource(state, sourceId),
+      // selectedFrame: getSelectedFrame(state),
+      // pauseData: getPause(state),
+      // coverageOn: getCoverageEnabled(state),
+      // query: getFileSearchQueryState(state),
+      // searchModifiers: getFileSearchModifierState(state),
+      // linesInScope: getInScopeLines(state),
+      // getFunctionText: line =>
+      //   findFunctionText(
+      //     line,
+      //     selectedSource.toJS(),
+      //     getSymbols(state, selectedSource.toJS())
+      //   ),
+      // isEmptyLine: line =>
+      //   isEmptyLineInSource(state, line, selectedSource.toJS()),
       conditionalBreakpointPanel: getConditionalBreakpointPanel(state)
     };
   },

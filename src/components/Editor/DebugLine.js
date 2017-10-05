@@ -2,7 +2,6 @@
 import { Component } from "react";
 import { markText, toEditorPosition } from "../../utils/editor";
 import { getDocument } from "../../utils/editor/source-documents";
-import onIdle from "on-idle";
 
 type props = {
   editor: Object,
@@ -27,11 +26,36 @@ export default class DebugLine extends Component {
   }
 
   shouldComponentUpdate(nextProps: props) {
-    const { selectedFrame } = this.props;
+    const { selectedLocation } = this.props;
+
+    if (!getDocument(nextProps.selectedLocation.sourceId)) {
+      console.log(`uhoh ${nextProps.selectedLocation.sourceId}`);
+    }
+    //
+    // if (!selectedLocation || !nextProps.selectedLocation) {
+    //   console.log(
+    //     `bail early ${selectedLocation.line} -> ${nextProps.selectedLocation
+    //       .line}`
+    //   );
+    //   return false;
+    // }
+
+    // if (selectedLocation.line === nextProps.selectedLocation.line) {
+    //   console.log(
+    //     `bail early ${selectedLocation.line} -> ${nextProps.selectedLocation
+    //       .line}`
+    //   );
+    // }
+
+    if (selectedLocation !== nextProps.selectedLocation) {
+      console.log(
+        `SL ${selectedLocation.line} -> ${nextProps.selectedLocation.line}`
+      );
+    }
 
     return (
-      selectedFrame.sourceId != nextProps.selectedFrame.sourceId ||
-      selectedFrame.location.line != nextProps.selectedFrame.location.line
+      selectedLocation.sourceId != nextProps.selectedLocation.sourceId ||
+      selectedLocation.line != nextProps.selectedLocation.line
     );
   }
 
