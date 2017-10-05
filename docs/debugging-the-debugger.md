@@ -23,18 +23,19 @@ Adding a breakpoint is a critical piece in the inception game...
 Lets make the debugger do something special when a breakpoint is added.
 
 ```diff
-diff --git a/src/components/Editor.js b/src/components/Editor.js
-index ae71d2d..66e0c04 100644
---- a/src/components/Editor.js
-+++ b/src/components/Editor.js
-@@ -78,11 +78,14 @@ const Editor = React.createClass({
-       return this.closeConditionalPanel(line);
-     }
+diff --git a/src/components/Editor/Breakpoint.js b/src/components/Editor/Breakpoint.js
+index e1f1afd1..4ab9ef59 100644
+--- a/src/components/Editor/Breakpoint.js
++++ b/src/components/Editor/Breakpoint.js
+@@ -38,6 +38,8 @@ class Breakpoint extends Component {
+   addBreakpoint() {
+     const { breakpoint, editor, selectedSource } = this.props;
 
 +    // => hamster dance
 +
-     this.toggleBreakpoint(line);
-   },
+     // Hidden Breakpoints are never rendered on the client
+     if (breakpoint.hidden) {
+       return;
 ```
 
 We currently don't have anything awesome as a demo. If you come up with something cool, feel free to share it  [here][getting-started-issue] and we can add it to the doc!
@@ -43,28 +44,35 @@ We currently don't have anything awesome as a demo. If you come up with somethin
 
 When the debugger pauses, the fun begins. Here's a [gif](http://g.recordit.co/qutDioRQvy.gif) of what the debugger does normally when it pauses. Your mission if you choose to accept it, is to make it do something truly weird.
 
-Here's a patch to get you started where we check in the Editor to see if we're paused in a re-render.
+Here's a patch to get you started; `WhyPaused.js` renders the pause reason into the sidebar, and `utils/pause.js` is used in several places to expose the current paused state.
 
 ```diff
-diff --git a/src/components/Editor.js b/src/components/Editor.js
-index ae71d2d..6690d05 100644
---- a/src/components/Editor.js
-+++ b/src/components/Editor.js
-@@ -78,11 +78,14 @@ const Editor = React.createClass({
-       return this.closeConditionalPanel(line);
-     }
+diff --git a/src/components/SecondaryPanes/Frames/WhyPaused.js b/src/components/SecondaryPanes/Frames/WhyPaused.js
+index 364a7c76..ee14b4e9 100644
+--- a/src/components/SecondaryPanes/Frames/WhyPaused.js
++++ b/src/components/SecondaryPanes/Frames/WhyPaused.js
+@@ -48,6 +48,8 @@ export default function renderWhyPaused({ pause }: { pause: Pause }) {
+     return null;
+   }
 
-     const line = this.editor.codeMirror.lineAtHeight(event.clientY);
-     const bp = breakpointAtLine(this.props.breakpoints, line);
-     this.showGutterMenu(event, line, bp);
-@@ -329,6 +332,11 @@ const Editor = React.createClass({
-       this.showSourceText(sourceText, selectedLocation);
-     }
++  console.log("hello from src/components/SecondaryPanes/Frames/WhyPaused.js!");
++
+   return (
+     <div className={"pane why-paused"}>
+       <div>{L10N.getStr(reason)}</div>
+diff --git a/src/utils/pause.js b/src/utils/pause.js
+index 2b11d247..c4778a36 100644
+--- a/src/utils/pause.js
++++ b/src/utils/pause.js
+@@ -85,6 +85,8 @@ export function getPauseReason(pauseInfo: Pause): string | null {
+     return null;
+   }
 
-+    // the debugger is paused
-+    if (nextProps.selectedFrame) {
-+      // do something really cool here
-+    }
++  console.log("hello from src/utils/pause.js!");
++
+   const reasonType = get(pauseInfo, "why.type", null);
+   if (!reasons[reasonType]) {
+     console.log("Please file an issue: reasonType=", reasonType);
 ```
 
 ### Debugger Philosophy
