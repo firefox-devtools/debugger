@@ -83,6 +83,10 @@ function isDojo(frame) {
   return getFrameUrl(frame).match(/dojo/i);
 }
 
+function isPreact(frame) {
+  return getFrameUrl(frame).match(/preact/i);
+}
+
 export function getLibraryFromUrl(frame: Frame) {
   // @TODO each of these fns calls getFrameUrl, just call it once
   // (assuming there's not more complex logic to identify a lib)
@@ -93,6 +97,11 @@ export function getLibraryFromUrl(frame: Frame) {
 
   if (isJQuery(frame)) {
     return "jQuery";
+  }
+
+  // Needs to remain before "react", otherwise "react" can also match "preact"
+  if (isPreact(frame)) {
+    return "Preact";
   }
 
   if (isReact(frame)) {
