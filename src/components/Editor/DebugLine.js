@@ -11,15 +11,10 @@ type props = {
 
 export default class DebugLine extends Component {
   props: props;
-  state: {
-    debugExpression: {
-      clear: Function
-    }
-  };
+  debugExpression: null;
 
   constructor() {
     super();
-    this.state = { debugExpression: { clear: () => {} } };
   }
 
   componentWillMount() {
@@ -30,7 +25,41 @@ export default class DebugLine extends Component {
     );
   }
 
-  componentWillReceiveProps(nextProps: props) {
+  shouldComponentUpdate(nextProps: props) {
+    const { selectedLocation } = this.props;
+
+    if (!getDocument(nextProps.selectedLocation.sourceId)) {
+      console.log(`uhoh ${nextProps.selectedLocation.sourceId}`);
+    }
+    //
+    // if (!selectedLocation || !nextProps.selectedLocation) {
+    //   console.log(
+    //     `bail early ${selectedLocation.line} -> ${nextProps.selectedLocation
+    //       .line}`
+    //   );
+    //   return false;
+    // }
+
+    // if (selectedLocation.line === nextProps.selectedLocation.line) {
+    //   console.log(
+    //     `bail early ${selectedLocation.line} -> ${nextProps.selectedLocation
+    //       .line}`
+    //   );
+    // }
+
+    if (selectedLocation !== nextProps.selectedLocation) {
+      console.log(
+        `SL ${selectedLocation.line} -> ${nextProps.selectedLocation.line}`
+      );
+    }
+
+    return (
+      selectedLocation.sourceId != nextProps.selectedLocation.sourceId ||
+      selectedLocation.line != nextProps.selectedLocation.line
+    );
+  }
+
+  componentDidUpdate(nextProps: props) {
     this.clearDebugLine(this.props.selectedFrame, this.props.editor);
     this.setDebugLine(
       nextProps.selectedFrame,
@@ -57,18 +86,16 @@ export default class DebugLine extends Component {
     }
 
     doc.addLineClass(line, "line", "new-debug-line");
-    const debugExpression = markText(editor, "debug-expression", {
+    this.debugExpression = markText(editor, "debug-expression", {
       start: { line, column },
       end: { line, column: null }
     });
-    this.setState({ debugExpression });
   }
 
   clearDebugLine(selectedFrame: Object, editor: Object) {
     const { line, sourceId } = selectedFrame.location;
-    const { debugExpression } = this.state;
-    if (debugExpression) {
-      debugExpression.clear();
+    if (this.debugExpression) {
+      this.debugExpression.clear();
     }
 
     const editorLine = line - 1;
