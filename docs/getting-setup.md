@@ -44,6 +44,8 @@ Congratulations! You're now up and running. :sweat_smile:
 
 Ask in our [slack] channel or file an issue [issue][yarn-run-firefox-fails] here.
 
+Here is a list of some of the [most common issues][most-common-issues]
+
 ### Next Steps
 
 Try this [first activity][first-activity] if you want to start debugging the debugger! :clap:
@@ -193,3 +195,4 @@ If you want to hack the debugger even with being offline, you might want to get 
 
 [launchpad-screenshot]:https://cloud.githubusercontent.com/assets/2134/22162697/913777b2-df04-11e6-9150-f6ad676c31ef.png
 [nvm]:https://github.com/creationix/nvm
+[most-common-issues]:./most-common-issues.md
