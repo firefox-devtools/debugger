@@ -10,6 +10,7 @@
     "transform-flow-strip-types",
     "transform-async-to-generator",
     "syntax-trailing-function-commas",
+    "transform-class-properties",
 
     ["module-resolver", {
       "alias": {

@@ -92,15 +92,6 @@ class Editor extends PureComponent {
       highlightedLineRange: null,
       editor: null
     };
-
-    const self: any = this;
-    self.closeConditionalPanel = this.closeConditionalPanel.bind(this);
-    self.onEscape = this.onEscape.bind(this);
-    self.onGutterClick = this.onGutterClick.bind(this);
-    self.onGutterContextMenu = this.onGutterContextMenu.bind(this);
-    self.onSearchAgain = this.onSearchAgain.bind(this);
-    self.onToggleBreakpoint = this.onToggleBreakpoint.bind(this);
-    self.toggleConditionalPanel = this.toggleConditionalPanel.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -242,7 +233,7 @@ class Editor extends PureComponent {
     }
   }
 
-  onToggleBreakpoint(key, e) {
+  onToggleBreakpoint = (key, e) => {
     e.preventDefault();
     const { codeMirror } = this.state.editor;
     const { selectedSource } = this.props;
@@ -259,7 +250,7 @@ class Editor extends PureComponent {
     } else {
       this.props.toggleBreakpoint(sourceLine);
     }
-  }
+  };
 
   onKeyDown(e) {
     const { codeMirror } = this.state.editor;
@@ -284,7 +275,7 @@ class Editor extends PureComponent {
    * split console. Restore it here, but preventDefault if and only if there
    * is a multiselection.
    */
-  onEscape(key, e) {
+  onEscape = (key, e) => {
     if (!this.state.editor) {
       return;
     }
@@ -294,16 +285,16 @@ class Editor extends PureComponent {
       codeMirror.execCommand("singleSelection");
       e.preventDefault();
     }
-  }
+  };
 
-  onSearchAgain(_, e) {
+  onSearchAgain = (_, e) => {
     const { query, searchModifiers } = this.props;
     const { editor: { codeMirror } } = this.state.editor;
     const ctx = { ed: this.state.editor, cm: codeMirror };
 
     const direction = e.shiftKey ? "prev" : "next";
     traverseResults(e, ctx, query, direction, searchModifiers.toJS());
-  }
+  };
 
   inSelectedFrameSource() {
     const { selectedLocation, selectedFrame } = this.props;
@@ -339,7 +330,7 @@ class Editor extends PureComponent {
     });
   }
 
-  onGutterClick(cm, line, gutter, ev) {
+  onGutterClick = (cm, line, gutter, ev) => {
     const {
       selectedSource,
       toggleBreakpoint,
@@ -380,9 +371,9 @@ class Editor extends PureComponent {
         toggleBreakpoint(toSourceLine(selectedSource.get("id"), line));
       }
     }
-  }
+  };
 
-  onGutterContextMenu(event) {
+  onGutterContextMenu = event => {
     const {
       selectedSource,
       breakpoints,
@@ -419,7 +410,7 @@ class Editor extends PureComponent {
       isCbPanelOpen: this.isCbPanelOpen(),
       closeConditionalPanel: this.closeConditionalPanel
     });
-  }
+  };
 
   onClick(e: MouseEvent) {
     const { selectedLocation, jumpToMappedLocation } = this.props;
@@ -434,7 +425,7 @@ class Editor extends PureComponent {
     }
   }
 
-  toggleConditionalPanel(line) {
+  toggleConditionalPanel = line => {
     if (this.isCbPanelOpen()) {
       return this.closeConditionalPanel();
     }
@@ -467,13 +458,13 @@ class Editor extends PureComponent {
       }
     );
     this.cbPanel.node.querySelector("input").focus();
-  }
+  };
 
-  closeConditionalPanel() {
+  closeConditionalPanel = () => {
     this.props.toggleConditionalBreakpointPanel(null);
     this.cbPanel.clear();
     this.cbPanel = null;
-  }
+  };
 
   isCbPanelOpen() {
     return !!this.cbPanel;
