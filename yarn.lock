@@ -2834,9 +2834,9 @@ devtools-contextmenu@^0.0.6:
   dependencies:
     devtools-modules "^0.0.31"
 
-devtools-launchpad@^0.0.100:
-  version "0.0.100"
-  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.100.tgz#21b37a8c6160b3a0ddff8d476449f8a84b857960"
+devtools-launchpad@=0.0.101-rc6:
+  version "0.0.101-rc6"
+  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.101-rc6.tgz#32204c3534bb26fe2797f2778864b9fbcd872ad4"
   dependencies:
     amd-loader "0.0.8"
     autoprefixer "^7.1.2"
@@ -2865,7 +2865,8 @@ devtools-launchpad@^0.0.100:
     devtools-config "^0.0.15"
     devtools-connection "^0.0.7"
     devtools-contextmenu "^0.0.6"
-    devtools-modules "^0.0.31"
+    devtools-mc-assets "^0.0.2"
+    devtools-modules "^0.0.32-rc2"
     devtools-sprintf-js "^1.0.3"
     devtools-utils "^0.0.5"
     express "^4.13.4"
@@ -2882,15 +2883,10 @@ devtools-launchpad@^0.0.100:
     postcss-bidirection "^2.4.0"
     postcss-class-namespace "^0.1.0"
     postcss-loader "^2.0.6"
+    postcss-url-mapper "^1.0.2"
     properties-parser "^0.3.1"
     ps-node "^0.1.4"
     raw-loader "^0.5.1"
-    react "^15.6.2"
-    react-dom "^15.6.2"
-    react-hot-loader "^1.3.1"
-    react-immutable-proptypes "^2.1.0"
-    react-redux "^5.0.6"
-    redux "^3.7.2"
     selenium-webdriver "=3.3.0"
     style-loader "^0.18.2"
     svg-inline-loader "^0.8.0"
@@ -2953,9 +2949,19 @@ devtools-map-bindings@0.2.0, devtools-map-bindings@^0.2.0:
     jest "^19.0.2"
     source-map "^0.5.6"
 
+devtools-mc-assets@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/devtools-mc-assets/-/devtools-mc-assets-0.0.2.tgz#082cf3fedc8c238d6731263f836bcc5c18490caa"
+
 devtools-modules@^0.0.31:
   version "0.0.31"
   resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.31.tgz#06749ffa7b78cf2826467ffcce9d2edbbba3ced7"
+  dependencies:
+    jest "^19.0.2"
+
+devtools-modules@^0.0.32-rc2:
+  version "0.0.32-rc2"
+  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.32-rc2.tgz#e84c5d140a3c2f02071d71468bb707964fe5409a"
   dependencies:
     jest "^19.0.2"
 
@@ -7587,6 +7593,12 @@ postcss-unique-selectors@^2.0.2:
     postcss "^5.0.4"
     uniqs "^2.0.0"
 
+postcss-url-mapper@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/postcss-url-mapper/-/postcss-url-mapper-1.0.2.tgz#b27f5c1945bb24d9d4cd7fd8f4a2df8a4573e37b"
+  dependencies:
+    postcss "^5.0.14"
+
 postcss-value-parser@^3.0.1, postcss-value-parser@^3.0.2, postcss-value-parser@^3.1.1, postcss-value-parser@^3.1.2, postcss-value-parser@^3.2.3, postcss-value-parser@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/postcss-value-parser/-/postcss-value-parser-3.3.0.tgz#87f38f9f18f774a4ab4c8a232f5c5ce8872a9d15"
@@ -7898,17 +7910,6 @@ react-dom@^15.6.2:
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
     prop-types "^15.5.10"
-
-react-hot-api@^0.4.5:
-  version "0.4.7"
-  resolved "https://registry.yarnpkg.com/react-hot-api/-/react-hot-api-0.4.7.tgz#a7e22a56d252e11abd9366b61264cf4492c58171"
-
-react-hot-loader@^1.3.1:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/react-hot-loader/-/react-hot-loader-1.3.1.tgz#c95647ae78b73dfceff6ec71ffcb04182ff6daf9"
-  dependencies:
-    react-hot-api "^0.4.5"
-    source-map "^0.4.4"
 
 react-html-attributes@^1.3.0:
   version "1.4.1"
@@ -8249,7 +8250,7 @@ redux-saga@^0.15.4:
   version "0.15.6"
   resolved "https://registry.yarnpkg.com/redux-saga/-/redux-saga-0.15.6.tgz#8638dc522de6c6c0a496fe8b2b5466287ac2dc4d"
 
-redux@^3.6.0, redux@^3.7.2:
+redux@^3.6.0:
   version "3.7.2"
   resolved "https://registry.yarnpkg.com/redux/-/redux-3.7.2.tgz#06b73123215901d25d065be342eb026bc1c8537b"
   dependencies:
