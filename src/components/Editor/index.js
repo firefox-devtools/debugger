@@ -463,10 +463,15 @@ class Editor extends PureComponent {
       panel,
       {
         coverGutter: true,
-        noHScroll: false
+        noHScroll: true
       }
     );
-    this.cbPanel.node.querySelector("input").focus();
+
+    const editor = createEditor();
+
+    // disables the default search shortcuts
+    editor._initShortcuts = () => {};
+    this.cbPanel.node.querySelector(".panel-mount textarea").focus();
   }
 
   closeConditionalPanel() {
