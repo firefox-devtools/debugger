@@ -14,8 +14,6 @@ import { debugGlobal } from "devtools-launchpad";
 import { isLoaded } from "../../utils/source";
 import { findFunctionText } from "../../utils/function";
 
-import { isEmptyLineInSource } from "../../reducers/ast";
-
 import {
   getActiveSearch,
   getSelectedLocation,
@@ -199,10 +197,12 @@ class Editor extends PureComponent {
   }
 
   shouldComponentUpdate(nextProps) {
-    if (this.props.selectedSource === nextProps.selectedSource) {
-      console.log("bad");
-    }
     return this.props.selectedSource !== nextProps.selectedSource;
+  }
+
+  componentWillUpdate(nextProps) {
+    this.setText(nextProps);
+    this.setSize(nextProps);
   }
 
   componentDidUpdate(prevProps) {
@@ -340,7 +340,6 @@ class Editor extends PureComponent {
       selectedSource,
       toggleBreakpoint,
       addOrToggleDisabledBreakpoint,
-      isEmptyLine,
       continueToHere
     } = this.props;
 
@@ -350,10 +349,6 @@ class Editor extends PureComponent {
       ev.which === 3 ||
       (selectedSource && selectedSource.get("isBlackBoxed"))
     ) {
-      return;
-    }
-
-    if (isEmptyLine(line)) {
       return;
     }
 
@@ -384,7 +379,6 @@ class Editor extends PureComponent {
       breakpoints,
       toggleBreakpoint,
       toggleDisabledBreakpoint,
-      isEmptyLine,
       pauseData,
       continueToHere
     } = this.props;
@@ -397,10 +391,6 @@ class Editor extends PureComponent {
     const sourceId = selectedSource ? selectedSource.get("id") : "";
     const line = lineAtHeight(this.state.editor, sourceId, event);
     const breakpoint = breakpoints.find(bp => bp.location.line === line);
-
-    if (isEmptyLine(line - 1)) {
-      return;
-    }
 
     GutterMenu({
       event,
@@ -523,8 +513,9 @@ class Editor extends PureComponent {
     }
   }
 
-  setText() {
-    const { selectedSource } = this.props;
+  setText(props) {
+    console.log("setText");
+    const { selectedSource } = props;
     if (!this.state.editor) {
       return;
     }
@@ -658,58 +649,41 @@ class Editor extends PureComponent {
     );
   }
 
-  renderFooter() {
-    const { horizontal } = this.props;
-
-    if (!this.state.editor) {
-      return null;
-    }
-    return <Footer editor={this.state.editor} horizontal={horizontal} />;
-  }
-
   renderBreakpoints() {
     if (!this.state.editor) {
       return null;
     }
 
-    return <Breakpoints editor={this.state.editor} />;
+    return;
   }
 
-  renderEmptyLines() {
-    if (!this.state.editor) {
-      return null;
-    }
-
-    return <EmptyLines editor={this.state.editor} />;
-  }
-
-  renderDebugLine() {
+  renderEditorThings() {
+    // this is jason's fault
+    const { selectedSource, horizontal } = this.props;
     const { editor } = this.state;
-    const { selectedLocation, selectedFrame } = this.props;
-    if (
-      !editor ||
-      !selectedLocation ||
-      !selectedFrame ||
-      !selectedLocation.line ||
-      selectedFrame.location.sourceId !== selectedLocation.sourceId
-    ) {
+
+    if (!editor || !isLoaded(selectedSource.toJS())) {
       return null;
     }
 
     return (
-      <DebugLine
-        editor={editor}
-        selectedFrame={selectedFrame}
-        selectedLocation={selectedLocation}
-      />
+      <div>
+        <DebugLine editor={editor} />
+        <EmptyLines editor={editor} />
+        <Breakpoints editor={editor} />
+        <CallSites editor={editor} />
+        <Preview editor={editor} />;
+        <Footer editor={editor} horizontal={horizontal} />
+        {this.renderHitCounts()}
+        {/*
+          {this.renderHighlightLines()}
+        */}
+      </div>
     );
   }
 
   render() {
     const { coverageOn } = this.props;
-
-    this.setText(this.props);
-    this.setSize(this.props);
 
     return (
       <div
@@ -722,16 +696,7 @@ class Editor extends PureComponent {
           className="editor-mount devtools-monospace"
           style={this.getInlineEditorStyles()}
         />
-        {/*
-          {this.renderHighlightLines()}
-          {this.renderHitCounts()}
-          {this.renderFooter()}
-          {this.renderPreview()}
-          {this.renderCallSites()}
-          {this.renderDebugLine()}
-          {this.renderBreakpoints()}
-          {this.renderEmptyLines()}
-        */}
+        {this.renderEditorThings()}
       </div>
     );
   }
@@ -774,7 +739,6 @@ Editor.propTypes = {
   // toggleDisabledBreakpoint: PropTypes.func,
   conditionalBreakpointPanel: PropTypes.number
   // toggleConditionalBreakpointPanel: PropTypes.func,
-  // isEmptyLine: PropTypes.func,
   // continueToHere: PropTypes.func,
   // getFunctionText: PropTypes.func
 };
@@ -786,7 +750,7 @@ Editor.contextTypes = {
 export default connect(
   state => {
     const selectedLocation = getSelectedLocation(state);
-    const sourceId = selectedLocation && selectedLocation.sourceId;
+    // const sourceId = selectedLocation && selectedLocation.sourceId;
     const selectedSource = getSelectedSource(state);
 
     return {
@@ -809,8 +773,6 @@ export default connect(
       //     selectedSource.toJS(),
       //     getSymbols(state, selectedSource.toJS())
       //   ),
-      // isEmptyLine: line =>
-      //   isEmptyLineInSource(state, line, selectedSource.toJS()),
       conditionalBreakpointPanel: getConditionalBreakpointPanel(state)
     };
   },

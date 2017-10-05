@@ -3,13 +3,17 @@ import { Component } from "react";
 import { markText, toEditorPosition } from "../../utils/editor";
 import { getDocument } from "../../utils/editor/source-documents";
 
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { getSelectedLocation, getSelectedFrame } from "../../selectors";
+
 type props = {
   editor: Object,
   selectedFrame: Object,
   selectedLocation: Object
 };
 
-export default class DebugLine extends Component {
+export class DebugLine extends Component {
   props: props;
   debugExpression: null;
 
@@ -17,54 +21,22 @@ export default class DebugLine extends Component {
     super();
   }
 
-  componentWillMount() {
+  shouldComponentUpdate(nextProps: props) {
+    const { selectedLocation } = this.props;
+
+    return (
+      nextProps.selectedFrame &&
+      (selectedLocation.sourceId != nextProps.selectedLocation.sourceId ||
+        selectedLocation.line != nextProps.selectedLocation.line)
+    );
+  }
+
+  componentDidUpdate(prevProps: props) {
+    this.clearDebugLine(prevProps.selectedFrame, prevProps.editor);
     this.setDebugLine(
       this.props.selectedFrame,
       this.props.selectedLocation,
       this.props.editor
-    );
-  }
-
-  shouldComponentUpdate(nextProps: props) {
-    const { selectedLocation } = this.props;
-
-    if (!getDocument(nextProps.selectedLocation.sourceId)) {
-      console.log(`uhoh ${nextProps.selectedLocation.sourceId}`);
-    }
-    //
-    // if (!selectedLocation || !nextProps.selectedLocation) {
-    //   console.log(
-    //     `bail early ${selectedLocation.line} -> ${nextProps.selectedLocation
-    //       .line}`
-    //   );
-    //   return false;
-    // }
-
-    // if (selectedLocation.line === nextProps.selectedLocation.line) {
-    //   console.log(
-    //     `bail early ${selectedLocation.line} -> ${nextProps.selectedLocation
-    //       .line}`
-    //   );
-    // }
-
-    if (selectedLocation !== nextProps.selectedLocation) {
-      console.log(
-        `SL ${selectedLocation.line} -> ${nextProps.selectedLocation.line}`
-      );
-    }
-
-    return (
-      selectedLocation.sourceId != nextProps.selectedLocation.sourceId ||
-      selectedLocation.line != nextProps.selectedLocation.line
-    );
-  }
-
-  componentDidUpdate(nextProps: props) {
-    this.clearDebugLine(this.props.selectedFrame, this.props.editor);
-    this.setDebugLine(
-      nextProps.selectedFrame,
-      nextProps.selectedLocation,
-      nextProps.editor
     );
   }
 
@@ -77,14 +49,15 @@ export default class DebugLine extends Component {
     selectedLocation: Object,
     editor: Object
   ) {
+    if (!selectedFrame) {
+      return;
+    }
     const { location, location: { sourceId } } = selectedFrame;
     const { line, column } = toEditorPosition(sourceId, location);
 
     const doc = getDocument(sourceId);
-    if (!doc) {
-      return;
-    }
 
+    console.log("setDebugLine", sourceId);
     doc.addLineClass(line, "line", "new-debug-line");
     this.debugExpression = markText(editor, "debug-expression", {
       start: { line, column },
@@ -93,6 +66,10 @@ export default class DebugLine extends Component {
   }
 
   clearDebugLine(selectedFrame: Object, editor: Object) {
+    if (!selectedFrame) {
+      return;
+    }
+
     const { line, sourceId } = selectedFrame.location;
     if (this.debugExpression) {
       this.debugExpression.clear();
@@ -111,3 +88,12 @@ export default class DebugLine extends Component {
     return null;
   }
 }
+
+export default connect(state => {
+  const selectedLocation = getSelectedLocation(state);
+
+  return {
+    selectedLocation,
+    selectedFrame: getSelectedFrame(state)
+  };
+})(DebugLine);
