@@ -53,7 +53,7 @@ function updateDocument(editor: Object, sourceId: string) {
 }
 
 function showLoading(editor: Object) {
-  if (!!getDocument("loading")) {
+  if (getDocument("loading")) {
     return;
   }
 
