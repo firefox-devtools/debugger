@@ -25,25 +25,22 @@ export default class CallSite extends Component {
     super();
 
     this.marker = undefined;
-    const self: any = this;
-    self.addCallSite = this.addCallSite.bind(this);
-    self.clearCallSite = this.clearCallSite.bind(this);
   }
 
-  addCallSite(nextProps: props) {
+  addCallSite = (nextProps: ?props) => {
     const { editor, callSite, breakpoint, source } = nextProps || this.props;
     const className = !breakpoint ? "call-site" : "call-site-bp";
     const sourceId = source.get("id");
     const editorRange = toEditorRange(sourceId, callSite.location);
     this.marker = markText(editor, className, editorRange);
-  }
+  };
 
-  clearCallSite() {
+  clearCallSite = () => {
     if (this.marker) {
       this.marker.clear();
       this.marker = null;
     }
-  }
+  };
 
   shouldComponentUpdate(nextProps: any) {
     return this.props.editor !== nextProps.editor;
