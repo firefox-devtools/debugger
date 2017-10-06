@@ -57,22 +57,9 @@ async function checkSelectedSource(state: State, dispatch, source) {
   }
 }
 
-async function checkPendingBreakpoint(
-  state: State,
-  dispatch,
-  pendingBreakpoint,
-  source
-) {
-  const { sourceUrl } = pendingBreakpoint.location;
-  const sameSource = sourceUrl && sourceUrl === source.url;
-
-  if (sameSource) {
-    await dispatch(loadSourceText(source));
-    await dispatch(syncBreakpoint(source.id, pendingBreakpoint));
-  }
-}
-
-async function checkPendingBreakpoints(state, dispatch, source) {
+async function checkPendingBreakpoints(state, dispatch, sourceId) {
+  // source may have been modified by selectSource
+  const source = getSource(state, sourceId).toJS();
   const pendingBreakpoints = getPendingBreakpointsForSource(state, source.url);
   if (!pendingBreakpoints.size) {
     return;
@@ -82,7 +69,7 @@ async function checkPendingBreakpoints(state, dispatch, source) {
   await dispatch(loadSourceText(source));
   const pendingBreakpointsArray = pendingBreakpoints.valueSeq().toJS();
   for (const pendingBreakpoint of pendingBreakpointsArray) {
-    await checkPendingBreakpoint(state, dispatch, pendingBreakpoint, source);
+    await dispatch(syncBreakpoint(source.id, pendingBreakpoint));
   }
 }
 
@@ -105,7 +92,7 @@ export function newSource(source: Source) {
     }
 
     await checkSelectedSource(getState(), dispatch, source);
-    await checkPendingBreakpoints(getState(), dispatch, source);
+    await checkPendingBreakpoints(getState(), dispatch, source.id);
   };
 }
 
@@ -409,8 +396,6 @@ export function loadAllSources() {
 export function ensureParserHasSourceText(sourceId: string) {
   return async ({ dispatch, getState }: ThunkArgs) => {
     if (!await parser.hasSource(sourceId)) {
-      await dispatch(loadSourceText(getSource(getState(), sourceId).toJS()));
-      await parser.setSource(getSource(getState(), sourceId).toJS());
     }
   };
 }

@@ -21,13 +21,11 @@ export class DebugLine extends Component {
     super();
   }
 
-  shouldComponentUpdate(nextProps: props) {
-    const { selectedLocation } = this.props;
-
-    return (
-      nextProps.selectedFrame &&
-      (selectedLocation.sourceId != nextProps.selectedLocation.sourceId ||
-        selectedLocation.line != nextProps.selectedLocation.line)
+  componentDidMount() {
+    this.setDebugLine(
+      this.props.selectedFrame,
+      this.props.selectedLocation,
+      this.props.editor
     );
   }
 
@@ -56,8 +54,10 @@ export class DebugLine extends Component {
     const { line, column } = toEditorPosition(sourceId, location);
 
     const doc = getDocument(sourceId);
+    if (!doc) {
+      return;
+    }
 
-    console.log("setDebugLine", sourceId);
     doc.addLineClass(line, "line", "new-debug-line");
     this.debugExpression = markText(editor, "debug-expression", {
       start: { line, column },
@@ -69,7 +69,6 @@ export class DebugLine extends Component {
     if (!selectedFrame) {
       return;
     }
-
     const { line, sourceId } = selectedFrame.location;
     if (this.debugExpression) {
       this.debugExpression.clear();
@@ -89,11 +88,7 @@ export class DebugLine extends Component {
   }
 }
 
-export default connect(state => {
-  const selectedLocation = getSelectedLocation(state);
-
-  return {
-    selectedLocation,
-    selectedFrame: getSelectedFrame(state)
-  };
-})(DebugLine);
+export default connect(state => ({
+  selectedLocation: getSelectedLocation(state),
+  selectedFrame: getSelectedFrame(state)
+}))(DebugLine);

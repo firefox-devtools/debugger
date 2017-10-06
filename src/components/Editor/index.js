@@ -196,10 +196,6 @@ class Editor extends PureComponent {
     shortcuts.off(searchAgainKey);
   }
 
-  shouldComponentUpdate(nextProps) {
-    return this.props.selectedSource !== nextProps.selectedSource;
-  }
-
   componentWillUpdate(nextProps) {
     this.setText(nextProps);
     this.setSize(nextProps);
@@ -514,7 +510,6 @@ class Editor extends PureComponent {
   }
 
   setText(props) {
-    console.log("setText");
     const { selectedSource } = props;
     if (!this.state.editor) {
       return;
