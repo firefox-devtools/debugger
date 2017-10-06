@@ -35,6 +35,9 @@ function buildConfig(envConfig) {
   const extra = {};
   if (isDevelopment()) {
     webpackConfig.plugins = [];
+
+    webpackConfig.module = webpackConfig.module || {};
+    webpackConfig.module.rules = webpackConfig.module.rules || [];
   } else {
     webpackConfig.plugins = [];
     webpackConfig.output.libraryTarget = "umd";
