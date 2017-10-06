@@ -42,6 +42,7 @@ export type UIState = {
   startPanelCollapsed: boolean,
   endPanelCollapsed: boolean,
   frameworkGroupingOn: boolean,
+  projectDirectoryRoot: string,
   highlightedLineRange?: {
     start?: number,
     end?: number,
@@ -67,6 +68,7 @@ export const State = makeRecord(
       count: 0
     },
     shownSource: "",
+    projectDirectoryRoot: "",
     startPanelCollapsed: prefs.startPanelCollapsed,
     endPanelCollapsed: prefs.endPanelCollapsed,
     frameworkGroupingOn: prefs.frameworkGroupingOn,
@@ -149,6 +151,10 @@ function update(
     case "TOGGLE_CONDITIONAL_BREAKPOINT_PANEL":
       return state.set("conditionalBreakpointPanel", action.line);
 
+    case "SET_PROJECT_DIRECTORY_ROOT":
+      prefs.projectDirectoryRoot = action.url;
+      return state.set("projectDirectoryRoot", action.url);
+
     default: {
       return state;
     }
@@ -187,6 +193,10 @@ export function getSymbolSearchType(state: OuterState): SymbolSearchType {
 
 export function getShownSource(state: OuterState): boolean {
   return state.ui.get("shownSource");
+}
+
+export function getProjectDirectoryRoot(state: OuterState): boolean {
+  return state.ui.get("projectDirectoryRoot");
 }
 
 export function getPaneCollapse(
