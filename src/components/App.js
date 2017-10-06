@@ -1,6 +1,7 @@
 // @flow
 
-import React, { PropTypes, Component } from "react";
+import PropTypes from "prop-types";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { features } from "../utils/prefs";
@@ -17,6 +18,11 @@ import { isVisible } from "../utils/ui";
 
 import { KeyShortcuts } from "devtools-modules";
 const shortcuts = new KeyShortcuts({ window });
+
+import { Services } from "devtools-modules";
+const { appinfo } = Services;
+
+const isMacOS = appinfo.OS === "Darwin";
 
 const verticalLayoutBreakpoint = window.matchMedia("(min-width: 800px)");
 
@@ -66,6 +72,7 @@ class App extends Component {
   renderVerticalLayout: Function;
   toggleSymbolModal: Function;
   onEscape: Function;
+  onCommandSlash: Function;
 
   constructor(props) {
     super(props);
@@ -82,6 +89,7 @@ class App extends Component {
     this.renderEditorPane = this.renderEditorPane.bind(this);
     this.renderVerticalLayout = this.renderVerticalLayout.bind(this);
     this.onEscape = this.onEscape.bind(this);
+    this.onCommandSlash = this.onCommandSlash.bind(this);
   }
 
   getChildContext() {
@@ -95,6 +103,7 @@ class App extends Component {
       this.toggleSymbolModal
     );
     shortcuts.on("Escape", this.onEscape);
+    shortcuts.on("Cmd+/", this.onCommandSlash);
   }
 
   componentWillUnmount() {
@@ -113,6 +122,10 @@ class App extends Component {
       e.preventDefault();
       closeActiveSearch();
     }
+  }
+
+  onCommandSlash() {
+    this.toggleShortcutsModal();
   }
 
   toggleSymbolModal(_, e: SyntheticEvent) {
@@ -263,12 +276,15 @@ class App extends Component {
   }
 
   renderShortcutsModal() {
+    const additionalClass = isMacOS ? "mac" : "";
+
     if (!features.shortcuts) {
       return;
     }
 
     return (
       <ShortcutsModal
+        additionalClass={additionalClass}
         enabled={this.state.shortcutsModalEnabled}
         handleClose={() => this.toggleShortcutsModal()}
       />

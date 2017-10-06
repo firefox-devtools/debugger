@@ -1,7 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import GroupComponent from "../Group.js";
-const Group = React.createFactory(GroupComponent);
+import Group from "../Group.js";
 
 import FrameMenu from "../FrameMenu";
 jest.mock("../FrameMenu", () => jest.fn());
@@ -18,7 +17,7 @@ function render(overrides = {}) {
   };
 
   const props = Object.assign({}, defaultProps, overrides);
-  const component = shallow(new Group(props));
+  const component = shallow(<Group {...props} />);
   return { component, props };
 }
 

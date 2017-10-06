@@ -20,7 +20,7 @@ import { getFilename } from "../../utils/source";
 import { showMenu, buildMenu } from "devtools-launchpad";
 import CloseButton from "../shared/Button/Close";
 import "./Breakpoints.css";
-import { get } from "lodash";
+import { get, sortBy } from "lodash";
 
 import type { Breakpoint, Location } from "../../types";
 
@@ -57,8 +57,12 @@ function isCurrentlyPausedAtBreakpoint(pause, breakpoint) {
   return bpId === pausedId;
 }
 
+function getBreakpointFilename(source) {
+  return source && source.toJS ? getFilename(source.toJS()) : "";
+}
+
 function renderSourceLocation(source, line, column) {
-  const filename = source ? getFilename(source.toJS()) : null;
+  const filename = getBreakpointFilename(source);
   const isWasm = source && source.get("isWasm");
   const columnVal =
     isEnabled("columnBreakpoints") && column ? `:${column}` : "";
@@ -132,6 +136,9 @@ class Breakpoints extends PureComponent {
     const removeConditionLabel = L10N.getStr(
       "breakpointMenuItem.removeCondition2.label"
     );
+    const addConditionLabel = L10N.getStr(
+      "breakpointMenuItem.addCondition2.label"
+    );
     const editConditionLabel = L10N.getStr(
       "breakpointMenuItem.editCondition2.label"
     );
@@ -164,6 +171,9 @@ class Breakpoints extends PureComponent {
     );
     const editConditionKey = L10N.getStr(
       "breakpointMenuItem.editCondition2.accesskey"
+    );
+    const addConditionKey = L10N.getStr(
+      "breakpointMenuItem.addCondition2.accesskey"
     );
 
     const otherBreakpoints = breakpoints.filter(b => b !== breakpoint);
@@ -255,11 +265,24 @@ class Breakpoints extends PureComponent {
       click: () => setBreakpointCondition(breakpoint.location)
     };
 
+    const addCondition = {
+      id: "node-menu-add-condition",
+      label: addConditionLabel,
+      accesskey: addConditionKey,
+      click: () => {
+        this.selectBreakpoint(breakpoint);
+        toggleConditionalBreakpointPanel(breakpoint.location.line);
+      }
+    };
+
     const editCondition = {
       id: "node-menu-edit-condition",
       label: editConditionLabel,
       accesskey: editConditionKey,
-      click: () => toggleConditionalBreakpointPanel(breakpoint.location.line)
+      click: () => {
+        this.selectBreakpoint(breakpoint);
+        toggleConditionalBreakpointPanel(breakpoint.location.line);
+      }
     };
 
     const hideEnableSelf = !breakpoint.disabled;
@@ -290,6 +313,10 @@ class Breakpoints extends PureComponent {
       { item: disableOthers, hidden: () => hideDisableOthers },
       {
         item: { type: "separator" }
+      },
+      {
+        item: addCondition,
+        hidden: () => breakpoint.condition
       },
       {
         item: editCondition,
@@ -352,11 +379,9 @@ class Breakpoints extends PureComponent {
           onChange={() => this.handleCheckbox(breakpoint)}
           onClick={ev => ev.stopPropagation()}
         />
-        <div className="breakpoint-label" title={breakpoint.text}>
-          <div>
-            {renderSourceLocation(breakpoint.location.source, line, column)}
-          </div>
-        </div>
+        <label className="breakpoint-label" title={breakpoint.text}>
+          {renderSourceLocation(breakpoint.location.source, line, column)}
+        </label>
         <div className="breakpoint-snippet">{snippet}</div>
         <CloseButton
           handleClick={ev => this.removeBreakpoint(ev, breakpoint)}
@@ -372,7 +397,13 @@ class Breakpoints extends PureComponent {
       breakpoints.size === 0 ? (
         <div className="pane-info">{L10N.getStr("breakpoints.none")}</div>
       ) : (
-        breakpoints.valueSeq().map(bp => this.renderBreakpoint(bp))
+        sortBy(
+          [...breakpoints.valueSeq()],
+          [
+            bp => getBreakpointFilename(bp.location.source),
+            bp => bp.location.line
+          ]
+        ).map(bp => this.renderBreakpoint(bp))
       );
 
     return <div className="pane breakpoints-list">{children}</div>;

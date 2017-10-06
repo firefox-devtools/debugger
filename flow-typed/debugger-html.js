@@ -112,6 +112,7 @@ declare module "debugger-html" {
     id: FrameId,
     displayName: string,
     location: Location,
+    generatedLocation: Location,
     source?: Source,
     scope: Scope,
     // FIXME Define this type more clearly
@@ -264,11 +265,14 @@ declare module "debugger-html" {
  */
   declare type Scope = {
     actor: ActorId,
-    parent: Scope,
+    parent: ?Scope,
     bindings: {
       // FIXME Define these types more clearly
       arguments: Array<Object>,
       variables: Object
+    },
+    sourceBindings?: {
+      [originalName: string]: string
     },
     object: Object,
     function: {

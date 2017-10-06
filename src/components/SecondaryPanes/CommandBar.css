@@ -8,10 +8,6 @@
   background-color: var(--theme-toolbar-background);
 }
 
-.command-bar.vertical {
-  width: 100vw;
-}
-
 html[dir="rtl"] .command-bar {
   border-right: 1px solid var(--theme-splitter-color);
 }

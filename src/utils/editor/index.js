@@ -13,7 +13,7 @@ import { isWasm, lineToWasmOffset, wasmOffsetToLine } from "../wasm";
 
 import { SourceEditor, SourceEditorUtils } from "devtools-source-editor";
 
-import type { AstPosition, AstLocation } from "../parser/types";
+import type { AstPosition, AstLocation } from "../../workers/parser/types";
 import type { EditorPosition, EditorRange } from "../editor/types";
 
 function shouldShowPrettyPrint(selectedSource) {
@@ -128,14 +128,14 @@ function lineAtHeight(editor, sourceId, event) {
 
 function getSourceLocationFromMouseEvent(editor, selectedLocation, e) {
   const { line, ch } = editor.codeMirror.coordsChar({
-     left: e.clientX,
-     top: e.clientY
+    left: e.clientX,
+    top: e.clientY
   });
 
   return {
-     sourceId: selectedLocation.sourceId,
-     line: line + 1,
-     column: ch + 1
+    sourceId: selectedLocation.sourceId,
+    line: line + 1,
+    column: ch + 1
   };
 }
 

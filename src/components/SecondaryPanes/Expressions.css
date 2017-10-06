@@ -63,6 +63,11 @@
   position: relative;
 }
 
+.expression-content .tree {
+  overflow-x: hidden;
+  max-width: calc(100% - var(--breakpoint-expression-right-clear-space));
+}
+
 .expression-content .tree-node {
   overflow-x: hidden;
 }

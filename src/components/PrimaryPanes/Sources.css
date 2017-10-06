@@ -17,6 +17,7 @@
   display: flex;
   overflow-x: hidden;
   overflow-y: auto;
+  padding-top: 11px;
 }
 
 .sources-list .managed-tree {
@@ -51,6 +52,11 @@
   display: inline-block;
 }
 
+.sources-list .tree .node .no-arrow {
+  width: 10px;
+  display: inline-block;
+}
+
 .no-sources-message {
   font-size: 12px;
   color: var(--theme-comment-alt);
@@ -65,14 +71,6 @@
 .sources-panel .outline {
   display: flex;
   flex: 1;
-}
-
-.sources-panel .outline.hidden {
-  display: none;
-}
-
-.hidden {
-  display: none;
 }
 
 .source-outline-tabs {
@@ -94,7 +92,7 @@
   position: relative;
   transition: all 0.25s ease;
   overflow: hidden;
-  padding: 6.5px;
+  padding: 8px 8px 7px 8px;
   margin-bottom: 0px;
   margin-top: -1px;
   cursor: default;

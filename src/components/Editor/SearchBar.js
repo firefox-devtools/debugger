@@ -1,6 +1,7 @@
 // @flow
 
-import React, { Component, PropTypes } from "react";
+import PropTypes from "prop-types";
+import React, { Component } from "react";
 import { findDOMNode } from "react-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -15,7 +16,7 @@ import {
 
 import { find, findNext, findPrev, removeOverlay } from "../../utils/editor";
 
-import { getMatches } from "../../utils/search";
+import { getMatches } from "../../workers/search";
 
 import { scrollList } from "../../utils/result-list";
 import classnames from "classnames";
@@ -78,22 +79,6 @@ class SearchBar extends Component {
       count: 0,
       index: -1
     };
-
-    const self: any = this;
-    self.onEscape = this.onEscape.bind(this);
-    self.clearSearch = this.clearSearch.bind(this);
-    self.closeSearch = this.closeSearch.bind(this);
-    self.toggleSearch = this.toggleSearch.bind(this);
-    self.setSearchValue = this.setSearchValue.bind(this);
-    self.selectSearchInput = this.selectSearchInput.bind(this);
-    self.searchInput = this.searchInput.bind(this);
-    self.doSearch = this.doSearch.bind(this);
-    self.searchContents = this.searchContents.bind(this);
-    self.traverseResults = this.traverseResults.bind(this);
-    self.onChange = this.onChange.bind(this);
-    self.onKeyUp = this.onKeyUp.bind(this);
-    self.buildSummaryMsg = this.buildSummaryMsg.bind(this);
-    self.renderSearchModifiers = this.renderSearchModifiers.bind(this);
   }
 
   componentWillUnmount() {
@@ -113,7 +98,6 @@ class SearchBar extends Component {
   componentDidMount() {
     // overwrite searchContents with a debounced version to reduce the
     // frequency of queries which improves perf on large files
-    // $FlowIgnore
     this.searchContents = debounce(this.searchContents, 100);
 
     const shortcuts = this.context.shortcuts;
@@ -145,19 +129,19 @@ class SearchBar extends Component {
     }
   }
 
-  onEscape(e: SyntheticKeyboardEvent) {
+  onEscape = (e: SyntheticKeyboardEvent) => {
     this.closeSearch(e);
-  }
+  };
 
-  clearSearch() {
+  clearSearch = () => {
     const { editor: ed, query, modifiers } = this.props;
     if (ed && modifiers) {
       const ctx = { ed, cm: ed.codeMirror };
       removeOverlay(ctx, query, modifiers.toJS());
     }
-  }
+  };
 
-  closeSearch(e: SyntheticEvent) {
+  closeSearch = (e: SyntheticEvent) => {
     const { editor, setFileSearchQuery, searchOn } = this.props;
 
     if (editor && searchOn) {
@@ -168,9 +152,9 @@ class SearchBar extends Component {
       e.stopPropagation();
       e.preventDefault();
     }
-  }
+  };
 
-  toggleSearch(e: SyntheticKeyboardEvent) {
+  toggleSearch = (e: SyntheticKeyboardEvent) => {
     e.stopPropagation();
     e.preventDefault();
     const { editor } = this.props;
@@ -187,26 +171,26 @@ class SearchBar extends Component {
       }
       this.selectSearchInput();
     }
-  }
+  };
 
-  setSearchValue(value: string) {
+  setSearchValue = (value: string) => {
     const searchInput = this.searchInput();
     if (value == "" || !searchInput) {
       return;
     }
 
     searchInput.value = value;
-  }
+  };
 
-  selectSearchInput() {
+  selectSearchInput = () => {
     const searchInput = this.searchInput();
     if (searchInput) {
       searchInput.setSelectionRange(0, searchInput.value.length);
       searchInput.focus();
     }
-  }
+  };
 
-  searchInput(): ?HTMLInputElement {
+  searchInput = (): ?HTMLInputElement => {
     const node = findDOMNode(this);
     if (node instanceof HTMLElement) {
       const input = node.querySelector("input");
@@ -215,9 +199,9 @@ class SearchBar extends Component {
       }
     }
     return null;
-  }
+  };
 
-  doSearch(query: string) {
+  doSearch = (query: string) => {
     const { selectedSource, setFileSearchQuery } = this.props;
     if (!selectedSource || !selectedSource.get("text")) {
       return;
@@ -226,9 +210,9 @@ class SearchBar extends Component {
     setFileSearchQuery(query);
 
     this.searchContents(query);
-  }
+  };
 
-  updateSearchResults(characterIndex, line, matches) {
+  updateSearchResults = (characterIndex, line, matches) => {
     const matchIndex = matches.findIndex(
       elm => elm.line === line && elm.ch === characterIndex
     );
@@ -238,9 +222,9 @@ class SearchBar extends Component {
       count: matches.length,
       index: characterIndex
     });
-  }
+  };
 
-  async searchContents(query: string) {
+  searchContents = async (query: string) => {
     const { selectedSource, modifiers, editor: ed } = this.props;
 
     if (
@@ -263,9 +247,9 @@ class SearchBar extends Component {
     );
     const { ch, line } = find(ctx, query, true, _modifiers);
     this.updateSearchResults(ch, line, matches);
-  }
+  };
 
-  traverseResults(e: SyntheticEvent, rev: boolean) {
+  traverseResults = (e: SyntheticEvent, rev: boolean) => {
     e.stopPropagation();
     e.preventDefault();
     const ed = this.props.editor;
@@ -289,22 +273,22 @@ class SearchBar extends Component {
         : findNext(ctx, query, true, modifiers.toJS());
       this.updateSearchResults(ch, line, matchedLocations);
     }
-  }
+  };
 
   // Handlers
 
-  onChange(e: any) {
+  onChange = (e: any) => {
     return this.doSearch(e.target.value);
-  }
+  };
 
-  onKeyUp(e: SyntheticKeyboardEvent) {
+  onKeyUp = (e: SyntheticKeyboardEvent) => {
     if (e.key !== "Enter" && e.key !== "F3") {
       return;
     }
 
     this.traverseResults(e, e.shiftKey);
     e.preventDefault();
-  }
+  };
   // Renderers
   buildSummaryMsg() {
     const { searchResults: { matchIndex, count, index }, query } = this.props;
@@ -324,7 +308,7 @@ class SearchBar extends Component {
     return L10N.getFormatStr("editor.searchResults", matchIndex + 1, count);
   }
 
-  renderSearchModifiers() {
+  renderSearchModifiers = () => {
     const { modifiers, toggleFileSearchModifier } = this.props;
 
     function SearchModBtn({ modVal, className, svgName, tooltip }) {
@@ -367,7 +351,7 @@ class SearchBar extends Component {
         />
       </div>
     );
-  }
+  };
 
   renderSearchType() {
     return (

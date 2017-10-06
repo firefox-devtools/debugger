@@ -1,6 +1,7 @@
 // @flow
 import React, { Component } from "react";
 import Modal from "./shared/Modal";
+import classnames from "classnames";
 import { formatKeyShortcut } from "../utils/text";
 
 import "./ShortcutsModal.css";
@@ -8,14 +9,26 @@ import "./ShortcutsModal.css";
 export class ShortcutsModal extends Component {
   props: {
     enabled: boolean,
+    additionalClass: string,
     handleClose: () => void
   };
+
+  renderPrettyCombos(combo: string) {
+    return combo
+      .split(" ")
+      .map(c => (
+        <span key={c} className="keystroke">
+          {c}
+        </span>
+      ))
+      .reduce((prev, curr) => [prev, " + ", curr]);
+  }
 
   renderShorcutItem(title: string, combo: string) {
     return (
       <li>
         <span>{title}</span>
-        <span>{combo}</span>
+        <span>{this.renderPrettyCombos(combo)}</span>
       </li>
     );
   }
@@ -74,15 +87,21 @@ export class ShortcutsModal extends Component {
 
   renderShortcutsContent() {
     return (
-      <div className="shortcuts-content">
-        <h2>{L10N.getStr("shortcuts.header.editor")}</h2>
-        <div className="shortcuts-section">{this.renderEditorShortcuts()}</div>
-        <h2>{L10N.getStr("shortcuts.header.stepping")}</h2>
+      <div
+        className={classnames("shortcuts-content", this.props.additionalClass)}
+      >
         <div className="shortcuts-section">
+          <h2>{L10N.getStr("shortcuts.header.editor")}</h2>
+          {this.renderEditorShortcuts()}
+        </div>
+        <div className="shortcuts-section">
+          <h2>{L10N.getStr("shortcuts.header.stepping")}</h2>
           {this.renderSteppingShortcuts()}
         </div>
-        <h2>{L10N.getStr("shortcuts.header.search")}</h2>
-        <div className="shortcuts-section">{this.renderSearchShortcuts()}</div>
+        <div className="shortcuts-section">
+          <h2>{L10N.getStr("shortcuts.header.search")}</h2>
+          {this.renderSearchShortcuts()}
+        </div>
       </div>
     );
   }
@@ -105,5 +124,3 @@ export class ShortcutsModal extends Component {
     );
   }
 }
-
-ShortcutsModal.displayName = "ShortcutsModal";

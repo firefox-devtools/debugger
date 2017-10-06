@@ -26,6 +26,7 @@ export function createFrame(frame: any) {
     id: frame.callFrameId,
     displayName: frame.functionName,
     scopeChain: frame.scopeChain,
+    generatedLocation: frame.location,
     location: fromServerLocation(frame.location)
   };
 }

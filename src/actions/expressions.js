@@ -1,12 +1,13 @@
 // @flow
 
-import { PROMISE } from "../utils/redux/middleware/promise";
 import {
   getExpression,
   getExpressions,
   getSelectedFrameId
 } from "../selectors";
+import { PROMISE } from "../utils/redux/middleware/promise";
 import { wrapExpression } from "../utils/expressions";
+import * as parser from "../workers/parser";
 import type { Expression } from "../types";
 import type { ThunkArgs } from "./types";
 
@@ -87,18 +88,26 @@ export function evaluateExpressions() {
 }
 
 function evaluateExpression(expression: Expression) {
-  return function({ dispatch, getState, client }: ThunkArgs) {
+  return async function({ dispatch, getState, client }: ThunkArgs) {
     if (!expression.input) {
       console.warn("Expressions should not be empty");
       return;
     }
 
+    const error = await parser.hasSyntaxError(expression.input);
+    if (error) {
+      return dispatch({
+        type: "EVALUATE_EXPRESSION",
+        input: expression.input,
+        value: { input: expression.input, result: error }
+      });
+    }
+
     const frameId = getSelectedFrameId(getState());
-    const input = wrapExpression(expression.input);
     return dispatch({
       type: "EVALUATE_EXPRESSION",
       input: expression.input,
-      [PROMISE]: client.evaluate(input, { frameId })
+      [PROMISE]: client.evaluate(wrapExpression(expression.input), { frameId })
     });
   };
 }

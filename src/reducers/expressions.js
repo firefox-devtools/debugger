@@ -39,14 +39,11 @@ function update(
         updating: true
       });
     case "EVALUATE_EXPRESSION":
-      if (action.status === "done") {
-        return updateItemInList(state, ["expressions"], action.input, {
-          input: action.input,
-          value: action.value,
-          updating: false
-        });
-      }
-      break;
+      return updateItemInList(state, ["expressions"], action.input, {
+        input: action.input,
+        value: action.value,
+        updating: false
+      });
     case "DELETE_EXPRESSION":
       return deleteExpression(state, action.input);
   }

@@ -14,7 +14,7 @@ import type {
 import type { State } from "../reducers/types";
 import type { ActiveSearchType } from "../reducers/ui";
 
-import type { SymbolDeclaration, AstLocation } from "../utils/parser";
+import type { SymbolDeclaration, AstLocation } from "../workers/parser";
 
 /**
  * Flow types
@@ -204,7 +204,6 @@ type PauseAction =
   | {
       type: "EVALUATE_EXPRESSION",
       input: string,
-      status: string,
       value: Object,
       "@@dispatch/promise": any
     }

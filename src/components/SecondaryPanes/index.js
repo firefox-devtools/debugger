@@ -1,5 +1,6 @@
 // @flow
-import React, { PropTypes, Component } from "react";
+import PropTypes from "prop-types";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { features } from "../../utils/prefs";
@@ -206,7 +207,6 @@ class SecondaryPanes extends Component {
   renderVerticalLayout() {
     return (
       <SplitBox
-        style={{ width: "100vw" }}
         initialSize="300px"
         minSize={10}
         maxSize="50%"

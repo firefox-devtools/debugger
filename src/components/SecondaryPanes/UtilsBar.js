@@ -32,7 +32,7 @@ class UtilsBar extends Component {
         this.props.toggleShortcutsModal,
         "shortcut",
         "active",
-        "shortcuts",
+        L10N.getStr("shortcuts.buttonName"),
         false
       )
     ];

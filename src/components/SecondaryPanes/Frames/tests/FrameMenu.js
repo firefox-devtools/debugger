@@ -45,7 +45,7 @@ describe("FrameMenu", () => {
   });
 
   it("sends three element in menuOpts to showMenu if source is present", () => {
-    const sourceId = generateMockId("copySourceUrl");
+    const sourceId = generateMockId("copySourceUri2");
     const stacktraceId = generateMockId("copyStackTrace");
     const frameworkGroupingId = generateMockId("framework.enableGrouping");
     const blackBoxId = generateMockId("sourceFooter.blackbox");

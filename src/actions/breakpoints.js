@@ -28,7 +28,8 @@ import type { PendingBreakpoint, Location } from "../types";
 import type { BreakpointsMap } from "../reducers/types";
 
 type addBreakpointOptions = {
-  condition: string
+  condition?: string,
+  hidden?: boolean
 };
 
 /**
@@ -72,8 +73,7 @@ export function syncBreakpoint(
 
 export function addBreakpoint(
   location: Location,
-  condition: ?string,
-  hidden: ?boolean
+  { condition, hidden }: addBreakpointOptions = {}
 ) {
   const breakpoint = createBreakpoint(location, { condition, hidden });
   return ({ dispatch, getState, sourceMaps, client }: ThunkArgs) => {
@@ -92,7 +92,7 @@ export function addBreakpoint(
  */
 export function addHiddenBreakpoint(location: Location) {
   return ({ dispatch }: ThunkArgs) => {
-    return dispatch(addBreakpoint(location, "", true));
+    return dispatch(addBreakpoint(location, { hidden: true }));
   };
 }
 
@@ -281,7 +281,7 @@ export function setBreakpointCondition(
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     const bp = getBreakpoint(getState(), location);
     if (!bp) {
-      return dispatch(addBreakpoint(location, condition));
+      return dispatch(addBreakpoint(location, { condition }));
     }
 
     if (bp.loading) {

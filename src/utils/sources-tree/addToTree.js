@@ -7,15 +7,29 @@ import {
   partIsFile,
   createNode
 } from "./utils";
+import {
+  createTreeNodeMatcher,
+  findNodeInContents,
+  getDomain
+} from "./treeOrder";
 import { getURL, getFilenameFromPath } from "./getURL";
 
 import type { Node } from "./types";
 import type { SourceRecord } from "../../reducers/types";
 
-function createNodeInTree(part: string, path: string, tree: Node) {
+function createNodeInTree(
+  part: string,
+  path: string,
+  tree: Node,
+  index: number
+) {
   const node = createNode(part, path, []);
+
   // we are modifying the tree
-  tree.contents = [...tree.contents, node];
+  const contents = tree.contents.slice(0);
+  contents.splice(index, 0, node);
+  tree.contents = contents;
+
   return node;
 }
 
@@ -31,23 +45,28 @@ function findOrCreateNode(
   path: string,
   part: string,
   index: number,
-  url: Object
+  url: Object,
+  debuggeeHost: ?string
 ) {
-  const child = subTree.contents.find(c => c.name === part);
+  const addedPartIsFile = partIsFile(index, parts, url);
+  const { found: childFound, index: childIndex } = findNodeInContents(
+    subTree,
+    createTreeNodeMatcher(part, !addedPartIsFile, debuggeeHost)
+  );
 
   // we create and enter the new node
-  if (!child) {
-    return createNodeInTree(part, path, subTree);
+  if (!childFound) {
+    return createNodeInTree(part, path, subTree, childIndex);
   }
 
   // we found a path with the same name as the part. We need to determine
   // if this is the correct child, or if we have a naming conflict
-  const addedPartIsFile = partIsFile(index, parts, url);
+  const child = subTree.contents[childIndex];
   const childIsFile = !nodeHasChildren(child);
 
   // if we have a naming conflict, we'll create a new node
   if ((childIsFile && !addedPartIsFile) || (!childIsFile && addedPartIsFile)) {
-    return createNodeInTree(part, path, subTree);
+    return createNodeInTree(part, path, subTree, childIndex);
   }
 
   // if there is no naming conflict, we can traverse into the child
@@ -58,7 +77,7 @@ function findOrCreateNode(
  * walk the source tree to the final node for a given url,
  * adding new nodes along the way
  */
-function traverseTree(url: Object, tree: Node) {
+function traverseTree(url: Object, tree: Node, debuggeeHost: ?string) {
   url.path = decodeURIComponent(url.path);
 
   const parts = url.path.split("/").filter(p => p !== "");
@@ -67,7 +86,16 @@ function traverseTree(url: Object, tree: Node) {
   let path = "";
   return parts.reduce((subTree, part, index) => {
     path = `${path}/${part}`;
-    return findOrCreateNode(parts, subTree, path, part, index, url);
+    const debuggeeHostIfRoot = index === 0 ? debuggeeHost : null;
+    return findOrCreateNode(
+      parts,
+      subTree,
+      path,
+      part,
+      index,
+      url,
+      debuggeeHostIfRoot
+    );
   }, tree);
 }
 
@@ -84,18 +112,24 @@ function addSourceToNode(node: Node, url: Object, source: SourceRecord) {
   }
 
   const name = getFilenameFromPath(url.path);
-  const existingNode = node.contents.find(childNode => childNode.name === name);
+  const { found: childFound, index: childIndex } = findNodeInContents(
+    node,
+    createTreeNodeMatcher(name, false, null)
+  );
 
   // if we are readding an existing file in the node, overwrite the existing
   // file and return the node's contents
-  if (existingNode) {
+  if (childFound) {
+    const existingNode = node.contents[childIndex];
     existingNode.contents = source;
     return node.contents;
   }
 
   // if this is a new file, add the new file;
   const newNode = createNode(name, source.get("url"), source);
-  return [...node.contents, newNode];
+  const contents = node.contents.slice(0);
+  contents.splice(childIndex, 0, newNode);
+  return contents;
 }
 
 /**
@@ -107,12 +141,13 @@ export function addToTree(
   source: SourceRecord,
   debuggeeUrl: string
 ) {
-  const url = getURL(source.get("url"));
+  const url = getURL(source.get("url"), debuggeeUrl);
+  const debuggeeHost = getDomain(debuggeeUrl);
 
   if (isInvalidUrl(url, source)) {
     return;
   }
 
-  const finalNode = traverseTree(url, tree);
+  const finalNode = traverseTree(url, tree, debuggeeHost);
   finalNode.contents = addSourceToNode(finalNode, url, source);
 }

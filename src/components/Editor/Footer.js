@@ -1,3 +1,4 @@
+// @flow
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -26,7 +27,7 @@ class SourceFooter extends PureComponent {
     selectSource: (string, ?Object) => void,
     editor: any,
     togglePrettyPrint: string => void,
-    toggleBlackBox: () => void,
+    toggleBlackBox: Object => void,
     recordCoverage: () => void,
     togglePaneCollapse: () => void,
     endPanelCollapsed: boolean,
@@ -64,11 +65,11 @@ class SourceFooter extends PureComponent {
     const { selectedSource, toggleBlackBox } = this.props;
     const sourceLoaded = selectedSource && isLoaded(selectedSource.toJS());
 
-    const blackboxed = selectedSource.get("isBlackBoxed");
-
-    if (!isEnabled("blackbox")) {
+    if (!isEnabled("blackbox") || !sourceLoaded) {
       return;
     }
+
+    const blackboxed = selectedSource.get("isBlackBoxed");
 
     const tooltip = L10N.getStr("sourceFooter.blackbox");
     const type = "black-box";
@@ -91,9 +92,8 @@ class SourceFooter extends PureComponent {
 
   blackBoxSummary() {
     const { selectedSource } = this.props;
-    const blackboxed = selectedSource.get("isBlackBoxed");
 
-    if (!blackboxed) {
+    if (!selectedSource || !selectedSource.get("isBlackBoxed")) {
       return;
     }
 

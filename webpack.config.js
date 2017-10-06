@@ -1,4 +1,5 @@
 const toolbox = require("./node_modules/devtools-launchpad/index");
+
 const getConfig = require("./bin/getConfig");
 const { isDevelopment, isFirefoxPanel } = require("devtools-config");
 const { NormalModuleReplacementPlugin } = require("webpack");
@@ -18,27 +19,15 @@ function getEntry(filename) {
 const webpackConfig = {
   entry: {
     debugger: getEntry("main.js"),
-    "parser-worker": getEntry("utils/parser/worker.js"),
-    "pretty-print-worker": getEntry("utils/pretty-print/worker.js"),
-    "search-worker": getEntry("utils/search/worker.js")
+    "parser-worker": getEntry("workers/parser/worker.js"),
+    "pretty-print-worker": getEntry("workers/pretty-print/worker.js"),
+    "search-worker": getEntry("workers/search/worker.js")
   },
 
   output: {
     path: path.join(__dirname, "assets/build"),
     filename: "[name].js",
-    publicPath: "/assets/build",
-    libraryTarget: "umd"
-  },
-
-  resolve: {
-    alias: {
-      "react-dom": "react-dom/dist/react-dom"
-    }
-  },
-
-  module: {
-    // Ignore the prebuilt mocha lib file.
-    noParse: /mocha\/mocha\.js/i
+    publicPath: "/assets/build"
   }
 };
 

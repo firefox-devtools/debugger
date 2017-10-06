@@ -103,8 +103,7 @@ describe("when adding breakpoints", () => {
       );
       const pendingBps = selectors.getPendingBreakpoints(getState());
 
-      // should be null
-      expect(pendingBps.get(breakpointLocationId1)).toBe(null);
+      expect(pendingBps.get(breakpointLocationId1)).toBeUndefined();
     });
 
     it("remove a corresponding pending breakpoint when deleting", async () => {

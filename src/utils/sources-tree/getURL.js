@@ -15,7 +15,10 @@ export function getFilenameFromPath(pathname?: string) {
   return filename;
 }
 
-export function getURL(sourceUrl: string): { path: string, group: string } {
+export function getURL(
+  sourceUrl: string,
+  debuggeeUrl: string = ""
+): { path: string, group: string } {
   const url = sourceUrl;
   const def = { path: "", group: "", filename: "" };
   if (!url) {
@@ -23,6 +26,7 @@ export function getURL(sourceUrl: string): { path: string, group: string } {
   }
 
   const { pathname, protocol, host, path } = parse(url);
+  const defaultDomain = parse(debuggeeUrl).host;
   const filename = getFilenameFromPath(pathname);
 
   switch (protocol) {
@@ -60,7 +64,7 @@ export function getURL(sourceUrl: string): { path: string, group: string } {
         // with a weird URL. Just group them all under an anonymous group.
         return merge(def, {
           path: url,
-          group: "(no domain)",
+          group: defaultDomain,
           filename: filename
         });
       }

@@ -1,6 +1,7 @@
 // @flow
 
-import React, { PropTypes, Component } from "react";
+import PropTypes from "prop-types";
+import React, { Component } from "react";
 import type { Children } from "react";
 import classnames from "classnames";
 import Transition from "react-transition-group/Transition";
@@ -16,15 +17,9 @@ type ModalProps = {
 export class Modal extends Component {
   props: ModalProps;
 
-  constructor(props: ModalProps) {
-    super(props);
-    const self: any = this;
-    self.onClick = this.onClick.bind(this);
-  }
-
-  onClick(e: SyntheticEvent) {
+  onClick = (e: SyntheticEvent) => {
     e.stopPropagation();
-  }
+  };
 
   render() {
     const { status } = this.props;

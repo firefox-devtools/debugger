@@ -13,7 +13,7 @@ import {
 } from "../../selectors";
 import { isVisible } from "../../utils/ui";
 
-import { getFilename, isPretty } from "../../utils/source";
+import { getFilename, getFileURL, isPretty } from "../../utils/source";
 import classnames from "classnames";
 import actions from "../../actions";
 import CloseButton from "../shared/Button/Close";
@@ -252,7 +252,7 @@ class SourceTabs extends PureComponent {
       click: () => showSource(tab)
     };
 
-    const copySourceUrl = {
+    const copySourceUri2 = {
       id: "node-menu-copy-source-url",
       label: copyLinkLabel,
       accesskey: copyLinkKey,
@@ -277,7 +277,7 @@ class SourceTabs extends PureComponent {
       },
       { item: closeAllTabsMenuItem },
       { item: { type: "separator" } },
-      { item: copySourceUrl }
+      { item: copySourceUri2 }
     ];
 
     if (!isPrettySource) {
@@ -406,7 +406,7 @@ class SourceTabs extends PureComponent {
         key={source.get("id")}
         onClick={() => selectSource(source.get("id"))}
         onContextMenu={e => this.onTabContextMenu(e, source.get("id"))}
-        title={getFilename(source.toJS())}
+        title={getFileURL(source.toJS())}
       >
         {sourceAnnotation}
         <div className="filename">{filename}</div>

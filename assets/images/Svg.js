@@ -28,6 +28,7 @@ const svg = {
   pause: require("./pause.svg"),
   "pause-exceptions": require("./pause-exceptions.svg"),
   plus: require("./plus.svg"),
+  preact: require("./preact.svg"),
   prettyPrint: require("./prettyPrint.svg"),
   react: require("./react.svg"),
   "regex-match": require("./regex-match.svg"),

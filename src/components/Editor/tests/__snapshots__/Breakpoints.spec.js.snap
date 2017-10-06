@@ -95,7 +95,7 @@ ShallowWrapper {
                       }
         }
 />,
-      "_debugID": 3,
+      "_debugID": 6,
       "_hostContainerInfo": null,
       "_hostParent": null,
       "_instance": Breakpoints {
@@ -133,13 +133,13 @@ ShallowWrapper {
           "validateCallback": [Function],
         },
       },
-      "_mountOrder": 5,
+      "_mountOrder": 2,
       "_pendingCallbacks": null,
       "_pendingElement": null,
       "_pendingForceUpdate": false,
       "_pendingReplaceState": false,
       "_pendingStateQueue": null,
-      "_renderedComponent": Object {
+      "_renderedComponent": NoopInternalComponent {
         "_currentElement": <div>
           Array [
                     <Breakpoint
@@ -167,7 +167,7 @@ ShallowWrapper {
           />,
                   ]
 </div>,
-        "_debugID": 4,
+        "_debugID": 7,
         "_renderedOutput": <div>
           Array [
                     <Breakpoint

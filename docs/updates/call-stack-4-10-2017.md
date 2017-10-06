@@ -53,7 +53,7 @@ We're going to experiment with collapsing library frames by default. This will s
 One of the benefits of collapsing the library frames is that it gives an opportunity to
 describe what the library is doing. For example, instead of showing two frames for jQuery \[`elemData.handle`, `event.dispatch`], we can simply show `event`.
 
-Describing the libary functions will help make it clear when a framework is rendering, routing, or doing any other task.
+Describing the library functions will help make it clear when a framework is rendering, routing, or doing any other task.
 
 ![naming]
 

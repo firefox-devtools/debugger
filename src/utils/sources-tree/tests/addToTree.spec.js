@@ -51,7 +51,7 @@ describe("sources-tree", () => {
       });
       const tree = createNode("root", "", []);
 
-      addToTree(tree, source1);
+      addToTree(tree, source1, "http://example.com/");
       expect(tree.contents.length).toBe(1);
 
       const base = tree.contents[0];
@@ -121,9 +121,9 @@ describe("sources-tree", () => {
       });
       const tree = createNode("root", "", []);
 
-      addToTree(tree, source1);
-      addToTree(tree, source2);
-      addToTree(tree, source3);
+      addToTree(tree, source1, "http://example.com/");
+      addToTree(tree, source2, "http://example.com/");
+      addToTree(tree, source3, "http://example.com/");
 
       const base = tree.contents[0];
       expect(tree.contents.length).toBe(1);
@@ -140,7 +140,7 @@ describe("sources-tree", () => {
       });
       const tree = createNode("root", "", []);
 
-      addToTree(tree, source);
+      addToTree(tree, source, "file:///a/index.html");
       expect(tree.contents.length).toBe(1);
 
       const base = tree.contents[0];
@@ -170,7 +170,7 @@ describe("sources-tree", () => {
 
       const sources = createSourcesList(testData);
       const tree = createNode("root", "", []);
-      sources.forEach(source => addToTree(tree, source));
+      sources.forEach(source => addToTree(tree, source, "https://unpkg.com/"));
       expect(formatTree(tree)).toMatchSnapshot();
     });
 
@@ -189,7 +189,40 @@ describe("sources-tree", () => {
 
       const sources = createSourcesList(testData);
       const tree = createNode("root", "", []);
-      sources.forEach(source => addToTree(tree, source));
+      sources.forEach(source => addToTree(tree, source, "https://unpkg.com/"));
+      expect(formatTree(tree)).toMatchSnapshot();
+    });
+
+    it("uses debuggeeUrl as default", () => {
+      const testData = [
+        {
+          url: "components/TodoTextInput.js"
+        },
+        {
+          url: "components/Header.js"
+        },
+        {
+          url: "reducers/index.js"
+        },
+        {
+          url: "components/TodoItem.js"
+        },
+        {
+          url: "resource://gre/modules/ExtensionContent.jsm"
+        },
+        {
+          url:
+            "https://voz37vlg5.codesandbox.io/static/js/components/TodoItem.js"
+        },
+        {
+          url: "index.js"
+        }
+      ];
+
+      const domain = "http://localhost:4242";
+      const sources = createSourcesList(testData);
+      const tree = createNode("root", "", []);
+      sources.forEach(source => addToTree(tree, source, domain));
       expect(formatTree(tree)).toMatchSnapshot();
     });
   });

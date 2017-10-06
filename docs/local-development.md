@@ -206,13 +206,13 @@ Here's a simple example:
 const { showMenu } = require("devtools-launchpad");
 
 function onClick(event) {
-  const copySourceUrlLabel = L10N.getStr("copySourceUrl");
-  const copySourceUrlKey = L10N.getStr("copySourceUrl.accesskey");
+  const copySourceUri2Label = L10N.getStr("copySourceUri2");
+  const copySourceUri2Key = L10N.getStr("copySourceUri2.accesskey");
 
   showMenu(event, [{
     id: "node-menu-copy-source",
-    label: copySourceUrlLabel,
-    accesskey: copySourceUrlKey,
+    label: copySourceUri2Label,
+    accesskey: copySourceUri2Key,
     disabled: false,
     click: () => copyToClipboad(url),
     hidden: () => url.match(/chrome:\/\//)
@@ -236,13 +236,13 @@ Access Keys are defined in the properties file next to the menu item's string. Y
 
 
 ```
-# LOCALIZATION NOTE (copySourceUrl): This is the text that appears in the
+# LOCALIZATION NOTE (copySourceUri2): This is the text that appears in the
 # context menu to copy the source URL of file open.
-copySourceUrl=Copy Source Url
+copySourceUri2=Copy Source Url
 
-# LOCALIZATION NOTE (copySourceUrl.accesskey): Access key to copy the source URL of a file from
+# LOCALIZATION NOTE (copySourceUri2.accesskey): Access key to copy the source URL of a file from
 # the context menu.
-copySourceUrl.accesskey=u
+copySourceUri2.accesskey=u
 ```
 
 
@@ -254,13 +254,13 @@ You can use a menu item separator to create menu groups.
 const { showMenu } = require("devtools-launchpad");
 
 function onClick(event) {
-  const copySourceUrlLabel = L10N.getStr("copySourceUrl");
-  const copySourceUrlKey = L10N.getStr("copySourceUrl.accesskey");
+  const copySourceUri2Label = L10N.getStr("copySourceUri2");
+  const copySourceUri2Key = L10N.getStr("copySourceUri2.accesskey");
 
   const menuItem = {
     id: "node-menu-copy-source",
-    label: copySourceUrlLabel,
-    accesskey: copySourceUrlKey,
+    label: copySourceUri2Label,
+    accesskey: copySourceUri2Key,
     disabled: false,
     click: () => copyToClipboad(url),
     hidden: () => url.match(/chrome:\/\//)
@@ -332,7 +332,7 @@ The `ExpressionState` documents the reducers fields. We use it in three places:
 
 We try to wrap our state in Immutable records when we can for two reasons.
 First it means that the state can only be modified in the reducers.
-Second, it helps our connected components avoid unecessary renders.
+Second, it helps our connected components avoid unnecessary renders.
 
 Connect will trigger a re-render when it sees new state, even if it has not changed.
 Immutable, will creates new objects if and only if the data changes,
@@ -429,7 +429,7 @@ yarn run test-all
 * [matchers][jest-matchers]
 * [mock functions][jest-mock]
 
-Running all the tests tends to be really slow. Most of the time it is realy useful to run a single test. You can do this by invoking jest directly like this:
+Running all the tests tends to be really slow. Most of the time it is really useful to run a single test. You can do this by invoking jest directly like this:
 
 ```bash
 node_modules/jest/bin/jest.js -o

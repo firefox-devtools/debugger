@@ -30,7 +30,7 @@ permalink: docs/updates
 * **WASM** We enabled wasm debugging in the new UI and it is now turned on in nightly. Debugging WASM source code in the native language (C, C++) is a blast.
 * **Worker List** added a new Workers right sidebar pane and populating the pane with debuggee workers. The next step is to add the about:debugging util for launching a new toolbox.
 * **Mapping minified variables** started working on mapping minified variables, which will show the the "original" variable name in the scopes pane, and enable preview, watch expressions and the console to work with original * expressions.
-* **Project Search** continued to polish project search. This week he fixed keyboard navigation of streaming results, and made result orders deterministic.
+* **Project Search** continued to polish project search. This week we fixed keyboard navigation of streaming results, and made result orders deterministic.
 * **Syncing CSS** removed the theme's CSS class namespace, which will make it easy to sync themes with m-c.
 * **Accidental Breakpoints** fixed and uplifted a bug to 56, where the debugger created new breakpoints when the user changed original code and reloaded.
 * **File Search** improved file search performance and fixed a bug where the debugger would crash on large files.

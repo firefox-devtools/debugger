@@ -26,7 +26,7 @@ import { prefs } from "../utils/prefs";
 import { removeDocument } from "../utils/editor";
 import { isThirdParty } from "../utils/source";
 import { getGeneratedLocation } from "../utils/source-maps";
-import * as parser from "../utils/parser";
+import * as parser from "../workers/parser";
 
 import {
   getSource,
@@ -67,6 +67,7 @@ async function checkPendingBreakpoint(
   const sameSource = sourceUrl && sourceUrl === source.url;
 
   if (sameSource) {
+    await dispatch(loadSourceText(source));
     await dispatch(syncBreakpoint(source.id, pendingBreakpoint));
   }
 }
@@ -375,7 +376,7 @@ export function toggleBlackBox(source: Source) {
 }
 
 /**
-  Load the text for all the avaliable sources
+  Load the text for all the available sources
  * @memberof actions/sources
  * @static
  */

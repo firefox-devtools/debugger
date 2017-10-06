@@ -6,6 +6,7 @@
  * assert that you can:
  * 1. resume
  * 2. still evalutate expressions
+ * 3. expand properties
  */
 
 const expressionSelectors = {
@@ -53,22 +54,37 @@ async function editExpression(dbg, input) {
   await waitForDispatch(dbg, "EVALUATE_EXPRESSION");
 }
 
+/*
+ * When we add a bad expression, we'll pause,
+ * resume, and wait for the expression to finish being evaluated.
+ */
+async function addBadExpression(dbg, input) {
+  const paused = waitForPaused(dbg);
+  const added = addExpression(dbg, input);
+
+  await paused;
+  ok(dbg.selectors.isEvaluatingExpression(dbg.getState()));
+  await resume(dbg);
+  await added;
+}
+
 add_task(async function() {
   const dbg = await initDebugger("doc-script-switching.html");
 
   await togglePauseOnExceptions(dbg, true, false);
+
+  // add a good expression, 2 bad expressions, and another good one
   await addExpression(dbg, "location");
+  await addBadExpression(dbg, "foo.bar");
+  await addBadExpression(dbg, "foo.batt");
+  await addExpression(dbg, "2");
 
-  const paused = waitForPaused(dbg);
-  addExpression(dbg, "foo.bar");
-  await paused;
-  ok(dbg.selectors.hasWatchExpressionErrored(dbg.getState()));
-
-  // Resume, and re-pause in the `foo.bar` exception
-  resume(dbg);
-  await waitForPaused(dbg);
+  // check the value of
+  is(getValue(dbg, 2), "(unavailable)")
+  is(getValue(dbg, 3), "(unavailable)")
+  is(getValue(dbg, 4), 2);
 
   toggleExpression(dbg, 1);
   await waitForDispatch(dbg, "LOAD_OBJECT_PROPERTIES");
-  is(findAllElements(dbg, "expressionNodes").length, 18);
+  is(findAllElements(dbg, "expressionNodes").length, 20);
 });

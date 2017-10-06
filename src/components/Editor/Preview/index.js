@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import debounce from "lodash/debounce";
+import { debounce } from "lodash";
 
 import Popup from "./Popup";
 

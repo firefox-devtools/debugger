@@ -3,6 +3,7 @@
   flex-direction: column;
   flex: 1;
   white-space: nowrap;
+  --breakpoint-expression-right-clear-space: 36px;
 }
 
 /*

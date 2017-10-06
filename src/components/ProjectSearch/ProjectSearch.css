@@ -6,7 +6,7 @@
   height: calc(100% - 31px);
   display: flex;
   flex-direction: column;
-  z-index: 200;
+  z-index: 20;
   background-color: var(--theme-body-background);
   overflow-y: hidden;
 }

@@ -1,5 +1,5 @@
 // @flow
-import React, { Component, createFactory } from "react";
+import React, { Component } from "react";
 import classNames from "classnames";
 import Svg from "../../shared/Svg";
 import { formatDisplayName, getLibraryFromUrl } from "../../../utils/frame";
@@ -7,8 +7,7 @@ import FrameMenu from "./FrameMenu";
 
 import "./Group.css";
 
-import _FrameComponent from "./Frame";
-const FrameComponent = createFactory(_FrameComponent);
+import FrameComponent from "./Frame";
 
 import type { LocalFrame } from "./types";
 import type { Frame } from "debugger-html";
@@ -50,9 +49,6 @@ export default class Group extends Component {
   constructor(...args: any[]) {
     super(...args);
     this.state = { expanded: false };
-    const self: any = this;
-
-    self.toggleFrames = this.toggleFrames.bind(this);
   }
 
   onContextMenu(event: SyntheticKeyboardEvent) {
@@ -72,9 +68,9 @@ export default class Group extends Component {
     );
   }
 
-  toggleFrames() {
+  toggleFrames = () => {
     this.setState({ expanded: !this.state.expanded });
-  }
+  };
 
   renderFrames() {
     const {
@@ -94,20 +90,20 @@ export default class Group extends Component {
 
     return (
       <div className="frames-list">
-        {group.map(frame =>
-          FrameComponent({
-            frame,
-            copyStackTrace,
-            toggleFrameworkGrouping,
-            frameworkGroupingOn,
-            selectFrame,
-            selectedFrame,
-            toggleBlackBox,
-            key: frame.id,
-            hideLocation: true,
-            shouldMapDisplayName: false
-          })
-        )}
+        {group.map(frame => (
+          <FrameComponent
+            copyStackTrace={copyStackTrace}
+            frame={frame}
+            frameworkGroupingOn={frameworkGroupingOn}
+            hideLocation={true}
+            key={frame.id}
+            selectedFrame={selectedFrame}
+            selectFrame={selectFrame}
+            shouldMapDisplayName={false}
+            toggleBlackBox={toggleBlackBox}
+            toggleFrameworkGrouping={toggleFrameworkGrouping}
+          />
+        ))}
       </div>
     );
   }

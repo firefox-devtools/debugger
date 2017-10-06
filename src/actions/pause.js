@@ -1,28 +1,52 @@
 // @flow
 
-import { selectSource } from "./sources";
+import { selectSource, ensureParserHasSourceText } from "./sources";
 import { PROMISE } from "../utils/redux/middleware/promise";
 
 import {
   getPause,
+  pausedInEval,
   getLoadedObject,
+  getSource,
   isStepping,
   isPaused,
   getSelectedSource,
-  hasWatchExpressionErrored
+  isEvaluatingExpression
 } from "../selectors";
-import { updateFrameLocations, getPausedPosition } from "../utils/pause";
+import {
+  updateFrameLocations,
+  updateScopeBindings,
+  getPausedPosition
+} from "../utils/pause";
 import { evaluateExpressions } from "./expressions";
 
 import { addHiddenBreakpoint, removeBreakpoint } from "./breakpoints";
 import { getHiddenBreakpointLocation } from "../reducers/breakpoints";
-import * as parser from "../utils/parser";
+import * as parser from "../workers/parser";
 import { features } from "../utils/prefs";
 
 import type { Pause, Frame } from "../types";
 import type { ThunkArgs } from "./types";
 
+import { isGeneratedId } from "devtools-source-map";
+
 type CommandType = string;
+
+async function _getScopeBindings(
+  { dispatch, getState, sourceMaps },
+  generatedLocation,
+  scopes
+) {
+  const { sourceId } = generatedLocation;
+  const sourceRecord = getSource(getState(), sourceId);
+  if (sourceRecord.get("isWasm")) {
+    return scopes;
+  }
+
+  await dispatch(ensureParserHasSourceText(sourceId));
+
+  return await updateScopeBindings(scopes, generatedLocation, sourceMaps);
+}
 
 /**
  * Redux actions for the pause state
@@ -41,12 +65,14 @@ export function resumed() {
       return;
     }
 
+    const wasPausedInEval = pausedInEval(getState());
+
     dispatch({
       type: "RESUME",
       value: undefined
     });
 
-    if (!isStepping(getState())) {
+    if (!isStepping(getState()) && !wasPausedInEval) {
       dispatch(evaluateExpressions());
     }
   };
@@ -82,7 +108,14 @@ export function paused(pauseInfo: Pause) {
     frames = await updateFrameLocations(frames, sourceMaps);
     const frame = frames[0];
 
-    const scopes = await client.getFrameScopes(frame);
+    const frameScopes = await client.getFrameScopes(frame);
+    const scopes = !isGeneratedId(frame.location.sourceId)
+      ? await _getScopeBindings(
+          { dispatch, getState, sourceMaps },
+          frame.generatedLocation,
+          frameScopes
+        )
+      : frameScopes;
 
     dispatch({
       type: "PAUSED",
@@ -98,9 +131,7 @@ export function paused(pauseInfo: Pause) {
       dispatch(removeBreakpoint(hiddenBreakpointLocation));
     }
 
-    // NOTE: We don't want to re-evaluate watch expressions
-    // if we're paused due to an excpression exception #3597
-    if (!hasWatchExpressionErrored(getState())) {
+    if (!isEvaluatingExpression(getState())) {
       dispatch(evaluateExpressions());
     }
 
@@ -230,10 +261,21 @@ export function breakOnNext() {
  * @static
  */
 export function selectFrame(frame: Frame) {
-  return async ({ dispatch, client }: ThunkArgs) => {
-    const scopes = await client.getFrameScopes(frame);
+  return async ({ dispatch, client, getState, sourceMaps }: ThunkArgs) => {
+    const frameScopes = await client.getFrameScopes(frame);
+    const scopes = !isGeneratedId(frame.location.sourceId)
+      ? await _getScopeBindings(
+          { dispatch, getState, sourceMaps },
+          frame.generatedLocation,
+          frameScopes
+        )
+      : frameScopes;
 
-    dispatch({ type: "SELECT_FRAME", frame, scopes });
+    dispatch({
+      type: "SELECT_FRAME",
+      frame,
+      scopes
+    });
 
     dispatch(
       selectSource(frame.location.sourceId, { line: frame.location.line })

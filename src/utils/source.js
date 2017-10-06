@@ -12,6 +12,8 @@ import { parse as parseURL } from "url";
 
 import type { Source } from "../types";
 
+type transformUrlCallback = string => string;
+
 /**
  * Trims the query part or reference identifier of a url string, if necessary.
  *
@@ -101,10 +103,22 @@ function getRawSourceURL(url: string): string {
   return url.replace(/:formatted$/, "");
 }
 
-function getFilenameFromURL(url: string) {
+function resolveFileURL(
+  url: string,
+  transformUrl: transformUrlCallback = initialUrl => initialUrl
+) {
   url = getRawSourceURL(url || "");
-  const name = basename(url) || "(index)";
+  const name = transformUrl(url);
   return endTruncateStr(name, 50);
+}
+
+function getFilenameFromURL(url: string) {
+  return resolveFileURL(url, initialUrl => basename(initialUrl) || "(index)");
+}
+
+function getFormattedSourceId(id: string) {
+  const sourceId = id.split("/")[1];
+  return `SOURCE${sourceId}`;
 }
 
 /**
@@ -117,11 +131,26 @@ function getFilenameFromURL(url: string) {
 function getFilename(source: Source) {
   const { url, id } = source;
   if (!url) {
-    const sourceId = id.split("/")[1];
-    return `SOURCE${sourceId}`;
+    return getFormattedSourceId(id);
   }
 
   return getFilenameFromURL(url);
+}
+
+/**
+ * Show a source url.
+ * If the source does not have a url, use the source id.
+ *
+ * @memberof utils/source
+ * @static
+ */
+function getFileURL(source: Source) {
+  const { url, id } = source;
+  if (!url) {
+    return getFormattedSourceId(id);
+  }
+
+  return resolveFileURL(url);
 }
 
 const contentTypeModeMap = {
@@ -226,6 +255,7 @@ export {
   getRawSourceURL,
   getFilename,
   getFilenameFromURL,
+  getFileURL,
   getSourcePath,
   getSourceLineCount,
   getMode,

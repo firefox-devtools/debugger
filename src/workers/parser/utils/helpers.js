@@ -24,6 +24,14 @@ export function isAwaitExpression(path: NodePath) {
   );
 }
 
+export function isYieldExpression(path: NodePath) {
+  return (
+    t.isYieldExpression(path) ||
+    t.isYieldExpression(path.container.init) ||
+    t.isYieldExpression(path.parentPath)
+  );
+}
+
 export function isVariable(path: NodePath) {
   return (
     t.isVariableDeclaration(path) ||

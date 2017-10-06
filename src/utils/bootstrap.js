@@ -4,13 +4,13 @@ import ReactDOM from "react-dom";
 import { getValue, isFirefoxPanel } from "devtools-config";
 import { renderRoot } from "devtools-launchpad";
 import { startSourceMapWorker, stopSourceMapWorker } from "devtools-source-map";
-import { startSearchWorker, stopSearchWorker } from "../utils/search";
+import { startSearchWorker, stopSearchWorker } from "../workers/search";
 
 import {
   startPrettyPrintWorker,
   stopPrettyPrintWorker
-} from "../utils/pretty-print";
-import { startParserWorker, stopParserWorker } from "../utils/parser";
+} from "../workers/pretty-print";
+import { startParserWorker, stopParserWorker } from "../workers/parser";
 import configureStore from "./create-store";
 import reducers from "../reducers";
 import selectors from "../selectors";

@@ -5,19 +5,15 @@ import {
   getHistory
 } from "../../utils/test-head";
 
-const { isStepping, hasWatchExpressionErrored } = selectors;
+const { isStepping } = selectors;
 
 let stepInResolve = null;
-let evaluateResolve = null;
 const mockThreadClient = {
   stepIn: () =>
     new Promise(_resolve => {
       stepInResolve = _resolve;
     }),
-  evaluate: () =>
-    new Promise(_resolve => {
-      evaluateResolve = _resolve;
-    }),
+  evaluate: () => new Promise(_resolve => {}),
   getFrameScopes: frame => frame.scope,
   sourceContents: sourceId => {
     return new Promise((resolve, reject) => {
@@ -42,19 +38,6 @@ function createPauseInfo(overrides = {}) {
 }
 
 describe("pause", () => {
-  describe("paused", () => {
-    // eslint-disable-next-line
-    it("should detect when we're paused due to an expression exception", async () => {
-      const { dispatch, getState } = createStore(mockThreadClient);
-      const mockPauseInfo = createPauseInfo({ why: { type: "exception" } });
-      dispatch(actions.addExpression("foo.bar"));
-      dispatch(actions.evaluateExpressions({ frameId: 2 }));
-      await dispatch(actions.paused(mockPauseInfo));
-      expect(hasWatchExpressionErrored(getState())).toBe(true);
-      evaluateResolve();
-    });
-  });
-
   describe("stepping", () => {
     it("should set and clear the command", async () => {
       const { dispatch, getState } = createStore(mockThreadClient);

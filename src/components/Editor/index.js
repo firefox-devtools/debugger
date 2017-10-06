@@ -1,5 +1,6 @@
 // @flow
-import React, { PropTypes, PureComponent } from "react";
+import PropTypes from "prop-types";
+import React, { PureComponent } from "react";
 import ReactDOM from "react-dom";
 import ImPropTypes from "react-immutable-proptypes";
 import { bindActionCreators } from "redux";
@@ -47,6 +48,7 @@ import EmptyLines from "./EmptyLines";
 import {
   showSourceText,
   updateDocument,
+  showLoading,
   shouldShowFooter,
   clearLineClass,
   createEditor,
@@ -90,15 +92,6 @@ class Editor extends PureComponent {
       highlightedLineRange: null,
       editor: null
     };
-
-    const self: any = this;
-    self.closeConditionalPanel = this.closeConditionalPanel.bind(this);
-    self.onEscape = this.onEscape.bind(this);
-    self.onGutterClick = this.onGutterClick.bind(this);
-    self.onGutterContextMenu = this.onGutterContextMenu.bind(this);
-    self.onSearchAgain = this.onSearchAgain.bind(this);
-    self.onToggleBreakpoint = this.onToggleBreakpoint.bind(this);
-    self.toggleConditionalPanel = this.toggleConditionalPanel.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -240,7 +233,7 @@ class Editor extends PureComponent {
     }
   }
 
-  onToggleBreakpoint(key, e) {
+  onToggleBreakpoint = (key, e) => {
     e.preventDefault();
     const { codeMirror } = this.state.editor;
     const { selectedSource } = this.props;
@@ -257,7 +250,7 @@ class Editor extends PureComponent {
     } else {
       this.props.toggleBreakpoint(sourceLine);
     }
-  }
+  };
 
   onKeyDown(e) {
     const { codeMirror } = this.state.editor;
@@ -282,7 +275,7 @@ class Editor extends PureComponent {
    * split console. Restore it here, but preventDefault if and only if there
    * is a multiselection.
    */
-  onEscape(key, e) {
+  onEscape = (key, e) => {
     if (!this.state.editor) {
       return;
     }
@@ -292,16 +285,16 @@ class Editor extends PureComponent {
       codeMirror.execCommand("singleSelection");
       e.preventDefault();
     }
-  }
+  };
 
-  onSearchAgain(_, e) {
+  onSearchAgain = (_, e) => {
     const { query, searchModifiers } = this.props;
     const { editor: { codeMirror } } = this.state.editor;
     const ctx = { ed: this.state.editor, cm: codeMirror };
 
     const direction = e.shiftKey ? "prev" : "next";
     traverseResults(e, ctx, query, direction, searchModifiers.toJS());
-  }
+  };
 
   inSelectedFrameSource() {
     const { selectedLocation, selectedFrame } = this.props;
@@ -337,7 +330,7 @@ class Editor extends PureComponent {
     });
   }
 
-  onGutterClick(cm, line, gutter, ev) {
+  onGutterClick = (cm, line, gutter, ev) => {
     const {
       selectedSource,
       toggleBreakpoint,
@@ -378,9 +371,9 @@ class Editor extends PureComponent {
         toggleBreakpoint(toSourceLine(selectedSource.get("id"), line));
       }
     }
-  }
+  };
 
-  onGutterContextMenu(event) {
+  onGutterContextMenu = event => {
     const {
       selectedSource,
       breakpoints,
@@ -417,18 +410,22 @@ class Editor extends PureComponent {
       isCbPanelOpen: this.isCbPanelOpen(),
       closeConditionalPanel: this.closeConditionalPanel
     });
-  }
+  };
 
   onClick(e: MouseEvent) {
     const { selectedLocation, jumpToMappedLocation } = this.props;
 
     if (e.metaKey && e.altKey) {
-      const sourceLocation = getSourceLocationFromMouseEvent(this.state.editor, selectedLocation, e);
+      const sourceLocation = getSourceLocationFromMouseEvent(
+        this.state.editor,
+        selectedLocation,
+        e
+      );
       jumpToMappedLocation(sourceLocation);
-   }
+    }
   }
 
-  toggleConditionalPanel(line) {
+  toggleConditionalPanel = line => {
     if (this.isCbPanelOpen()) {
       return this.closeConditionalPanel();
     }
@@ -461,13 +458,13 @@ class Editor extends PureComponent {
       }
     );
     this.cbPanel.node.querySelector("input").focus();
-  }
+  };
 
-  closeConditionalPanel() {
+  closeConditionalPanel = () => {
     this.props.toggleConditionalBreakpointPanel(null);
     this.cbPanel.clear();
     this.cbPanel = null;
-  }
+  };
 
   isCbPanelOpen() {
     return !!this.cbPanel;
@@ -535,7 +532,7 @@ class Editor extends PureComponent {
     }
 
     if (!isLoaded(nextProps.selectedSource.toJS())) {
-      return this.showMessage(L10N.getStr("loadingText"));
+      return showLoading(this.state.editor);
     }
 
     if (nextProps.selectedSource.get("error")) {
@@ -552,9 +549,6 @@ class Editor extends PureComponent {
       return;
     }
 
-    this.state.editor.replaceDocument(this.state.editor.createDocument());
-    this.state.editor.setText(msg);
-    this.state.editor.setMode({ name: "text" });
     resetLineNumberFormat(this.state.editor);
   }
 
@@ -707,13 +701,12 @@ class Editor extends PureComponent {
   }
 
   render() {
-    const { coverageOn, pauseData } = this.props;
+    const { coverageOn } = this.props;
 
     return (
       <div
         className={classnames("editor-wrapper", {
-          "coverage-on": coverageOn,
-          paused: !!pauseData && isEnabled("highlightScopeLines")
+          "coverage-on": coverageOn
         })}
       >
         {this.renderSearchBar()}

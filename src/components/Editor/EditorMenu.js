@@ -21,8 +21,8 @@ function getMenuItems(
   const copySourceKey = L10N.getStr("copySource.accesskey");
   const copyFunctionLabel = L10N.getStr("copyFunction.label");
   const copyFunctionKey = L10N.getStr("copyFunction.accesskey");
-  const copySourceUrlLabel = L10N.getStr("copySourceUrl");
-  const copySourceUrlKey = L10N.getStr("copySourceUrl.accesskey");
+  const copySourceUri2Label = L10N.getStr("copySourceUri2");
+  const copySourceUri2Key = L10N.getStr("copySourceUri2.accesskey");
   const revealInTreeLabel = L10N.getStr("sourceTabs.revealInTree");
   const revealInTreeKey = L10N.getStr("sourceTabs.revealInTree.accesskey");
   const blackboxLabel = L10N.getStr("sourceFooter.blackbox");
@@ -32,10 +32,10 @@ function getMenuItems(
     ? unblackboxLabel
     : blackboxLabel;
 
-  const copySourceUrl = {
+  const copySourceUri2 = {
     id: "node-menu-copy-source-url",
-    label: copySourceUrlLabel,
-    accesskey: copySourceUrlKey,
+    label: copySourceUri2Label,
+    accesskey: copySourceUri2Key,
     disabled: false,
     click: () => copyToTheClipboard(selectedSource.get("url"))
   };
@@ -53,7 +53,11 @@ function getMenuItems(
     left: event.clientX
   });
 
-  const sourceLocation = getSourceLocationFromMouseEvent(editor, selectedLocation, event)
+  const sourceLocation = getSourceLocationFromMouseEvent(
+    editor,
+    selectedLocation,
+    event
+  );
 
   const pairedType = isOriginalId(selectedLocation.sourceId)
     ? L10N.getStr("generated")
@@ -102,7 +106,7 @@ function getMenuItems(
 
   const menuItems = [
     copySource,
-    copySourceUrl,
+    copySourceUri2,
     copyFunction,
     { type: "separator" },
     jumpLabel,

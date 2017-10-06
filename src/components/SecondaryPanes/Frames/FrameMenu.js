@@ -26,7 +26,7 @@ function formatMenuElement(
 }
 
 function copySourceElement(url) {
-  return formatMenuElement("copySourceUrl", () => copyToTheClipboard(url));
+  return formatMenuElement("copySourceUri2", () => copyToTheClipboard(url));
 }
 
 function copyStackTraceElement(copyStackTrace) {
@@ -72,8 +72,8 @@ export default function FrameMenu(
   menuOptions.push(toggleFrameworkElement);
 
   if (source) {
-    const copySourceUrl = copySourceElement(source.url);
-    menuOptions.push(copySourceUrl);
+    const copySourceUri2 = copySourceElement(source.url);
+    menuOptions.push(copySourceUri2);
     menuOptions.push(blackBoxSource(source, callbacks.toggleBlackBox));
   }
 
