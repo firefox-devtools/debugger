@@ -160,7 +160,6 @@ ShallowWrapper {
       "_hostParent": null,
       "_instance": SearchBar {
         "_reactInternalInstance": [Circular],
-        "buildSummaryMsg": [Function],
         "clearSearch": [Function],
         "closeSearch": [Function],
         "context": Object {
@@ -202,6 +201,7 @@ ShallowWrapper {
         },
         "toggleSearch": [Function],
         "traverseResults": [Function],
+        "updateSearchResults": [Function],
         "updater": Object {
           "enqueueCallback": [Function],
           "enqueueCallbackInternal": [Function],

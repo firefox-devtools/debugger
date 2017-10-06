@@ -17,15 +17,9 @@ type ModalProps = {
 export class Modal extends Component {
   props: ModalProps;
 
-  constructor(props: ModalProps) {
-    super(props);
-    const self: any = this;
-    self.onClick = this.onClick.bind(this);
-  }
-
-  onClick(e: SyntheticEvent) {
+  onClick = (e: SyntheticEvent) => {
     e.stopPropagation();
-  }
+  };
 
   render() {
     const { status } = this.props;

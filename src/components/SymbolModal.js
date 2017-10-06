@@ -79,18 +79,6 @@ class SymbolModal extends Component {
   constructor(props) {
     super(props);
     this.state = { results: null, query: "", resultsIndex: 0 };
-
-    const self: any = this;
-    self.onClick = this.onClick.bind(this);
-    self.closeModal = this.closeModal.bind(this);
-    self.onChange = this.onChange.bind(this);
-    self.onKeyUp = this.onKeyUp.bind(this);
-    self.updateResults = this.updateResults.bind(this);
-    self.traverseResults = this.traverseResults.bind(this);
-    self.renderResults = this.renderResults.bind(this);
-    self.buildSummaryMsg = this.buildSummaryMsg.bind(this);
-    self.buildPlaceHolder = this.buildPlaceHolder.bind(this);
-    self.selectResultItem = this.selectResultItem.bind(this);
   }
 
   componentDidMount() {
@@ -107,11 +95,11 @@ class SymbolModal extends Component {
     }
   }
 
-  onClick(e: SyntheticEvent) {
+  onClick = (e: SyntheticEvent) => {
     e.stopPropagation();
-  }
+  };
 
-  onChange(e: SyntheticInputEvent) {
+  onChange = (e: SyntheticInputEvent) => {
     const { selectedSource } = this.props;
     if (!selectedSource || !selectedSource.get("text")) {
       return;
@@ -119,14 +107,14 @@ class SymbolModal extends Component {
 
     this.setState({ query: e.target.value });
     return this.updateResults(e.target.value);
-  }
+  };
 
-  closeModal() {
+  closeModal = () => {
     this.props.closeActiveSearch();
     this.props.clearHighlightLineRange();
-  }
+  };
 
-  selectResultItem(e: SyntheticEvent, item: ?FormattedSymbolDeclaration) {
+  selectResultItem = (e: SyntheticEvent, item: ?FormattedSymbolDeclaration) => {
     const { selectSource, selectedSource } = this.props;
 
     if (!selectedSource || !item) {
@@ -138,9 +126,9 @@ class SymbolModal extends Component {
     });
 
     this.closeModal();
-  }
+  };
 
-  updateResults(query) {
+  updateResults = query => {
     const { symbolType, symbols } = this.props;
 
     let symbolSearchResults = symbols[symbolType];
@@ -154,9 +142,9 @@ class SymbolModal extends Component {
     });
 
     this.setState({ results: symbolSearchResults });
-  }
+  };
 
-  traverseResults(direction: number) {
+  traverseResults = (direction: number) => {
     const { resultsIndex, results } = this.state;
     const resultCount = this.resultsCount();
     const index = resultsIndex + direction;
@@ -167,7 +155,7 @@ class SymbolModal extends Component {
     if (results) {
       this.onSelectResultItem(results[nextIndex]);
     }
-  }
+  };
 
   onSelectResultItem(item: FormattedSymbolDeclaration) {
     const {
@@ -192,7 +180,7 @@ class SymbolModal extends Component {
     }
   }
 
-  onKeyUp(e: SyntheticKeyboardEvent) {
+  onKeyUp = (e: SyntheticKeyboardEvent) => {
     e.preventDefault();
     const { enabled } = this.props;
     const { results, resultsIndex } = this.state;
@@ -211,9 +199,9 @@ class SymbolModal extends Component {
     } else if (e.key === "Tab") {
       this.closeModal();
     }
-  }
+  };
 
-  renderResults() {
+  renderResults = () => {
     const { resultsIndex, results } = this.state;
 
     const { enabled } = this.props;
@@ -230,7 +218,7 @@ class SymbolModal extends Component {
         ref="resultList"
       />
     );
-  }
+  };
 
   renderInput() {
     const { query } = this.state;
@@ -252,7 +240,7 @@ class SymbolModal extends Component {
     );
   }
 
-  buildSummaryMsg() {
+  buildSummaryMsg = () => {
     const { resultsIndex } = this.state;
     const count = this.resultsCount();
 
@@ -261,16 +249,16 @@ class SymbolModal extends Component {
     } else if (count === 1) {
       return L10N.getFormatStr("editor.singleResult");
     }
-  }
+  };
 
   resultsCount() {
     return this.state.results ? this.state.results.length : 0;
   }
 
-  buildPlaceHolder() {
+  buildPlaceHolder = () => {
     const { symbolType } = this.props;
     return L10N.getFormatStr(`symbolSearch.search.${symbolType}Placeholder`);
-  }
+  };
 
   render() {
     const { enabled } = this.props;
