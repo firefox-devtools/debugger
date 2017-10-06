@@ -47,6 +47,8 @@ import EditorTabs from "./Editor/Tabs";
 
 import SymbolModal from "./SymbolModal";
 
+import GotoLineModal from "./GotoLineModal";
+
 type Props = {
   selectSource: Function,
   selectedSource: SourceRecord,
@@ -71,6 +73,7 @@ class App extends Component {
   renderEditorPane: Function;
   renderVerticalLayout: Function;
   toggleSymbolModal: Function;
+  toggleGoToLineModal: Function;
   onEscape: Function;
   onCommandSlash: Function;
 
@@ -86,6 +89,7 @@ class App extends Component {
     this.getChildContext = this.getChildContext.bind(this);
     this.onLayoutChange = this.onLayoutChange.bind(this);
     this.toggleSymbolModal = this.toggleSymbolModal.bind(this);
+    this.toggleGoToLineModal = this.toggleGoToLineModal.bind(this);
     this.renderEditorPane = this.renderEditorPane.bind(this);
     this.renderVerticalLayout = this.renderVerticalLayout.bind(this);
     this.onEscape = this.onEscape.bind(this);
@@ -98,10 +102,17 @@ class App extends Component {
 
   componentDidMount() {
     verticalLayoutBreakpoint.addListener(this.onLayoutChange);
+
     shortcuts.on(
       L10N.getStr("symbolSearch.search.key2"),
       this.toggleSymbolModal
     );
+
+    shortcuts.on(
+      L10N.getStr("gotoLineModal.commandKey"),
+      this.toggleGoToLineModal
+    );
+
     shortcuts.on("Escape", this.onEscape);
     shortcuts.on("Cmd+/", this.onCommandSlash);
   }
@@ -112,6 +123,9 @@ class App extends Component {
       L10N.getStr("symbolSearch.search.key2"),
       this.toggleSymbolModal
     );
+
+    shortcuts.off(L10N.getStr("gotoLineModal.key"), this.toggleGoToLineModal);
+
     shortcuts.off("Escape", this.onEscape);
   }
 
@@ -148,6 +162,28 @@ class App extends Component {
     }
 
     setActiveSearch("symbol");
+  }
+
+  toggleGoToLineModal(_, e: SyntheticEvent) {
+    const {
+      selectedSource,
+      activeSearch,
+      closeActiveSearch,
+      setActiveSearch
+    } = this.props;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!selectedSource) {
+      return;
+    }
+
+    if (activeSearch == "line") {
+      return closeActiveSearch();
+    }
+
+    setActiveSearch("line");
   }
 
   onLayoutChange() {
@@ -275,6 +311,21 @@ class App extends Component {
     );
   }
 
+  renderGotoLineModal() {
+    const { selectSource, selectedSource, activeSearch } = this.props;
+
+    if (activeSearch !== "line") {
+      return;
+    }
+
+    return (
+      <GotoLineModal
+        selectSource={selectSource}
+        selectedSource={selectedSource}
+      />
+    );
+  }
+
   renderShortcutsModal() {
     const additionalClass = isMacOS ? "mac" : "";
 
@@ -298,6 +349,7 @@ class App extends Component {
           ? this.renderHorizontalLayout()
           : this.renderVerticalLayout()}
         {this.renderSymbolModal()}
+        {this.renderGotoLineModal()}
         {this.renderShortcutsModal()}
       </div>
     );

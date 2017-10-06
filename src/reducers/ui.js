@@ -18,7 +18,12 @@ export type FileSearchModifiers = Record<{
 }>;
 
 export type SymbolSearchType = "functions" | "variables";
-export type ActiveSearchType = "project" | "source" | "file" | "symbol";
+export type ActiveSearchType =
+  | "project"
+  | "source"
+  | "file"
+  | "symbol"
+  | "line";
 
 export type MatchedLocations = {
   line: number,
