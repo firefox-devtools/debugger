@@ -617,10 +617,17 @@ function togglePauseOnExceptions(
  * @return {Promise}
  * @static
  */
-function invokeInTab(fnc) {
+function invokeInTab(fnc, args) {
   info(`Invoking function ${fnc} in tab`);
-  return ContentTask.spawn(gBrowser.selectedBrowser, fnc, function*(fnc) {
-    content.wrappedJSObject[fnc](); // eslint-disable-line mozilla/no-cpows-in-tests, max-len
+  return ContentTask.spawn(gBrowser.selectedBrowser, fnc, function*(fnc, args) {
+    content.wrappedJSObject.apply(func, args); // eslint-disable-line mozilla/no-cpows-in-tests, max-len
+  });
+}
+
+function evalInTab(script) {
+  info(`Invoking function ${script} in tab`);
+  return ContentTask.spawn(gBrowser.selectedBrowser, script, function*(script) {
+    content.wrappedJSObject.window.eval(script)
   });
 }
 
