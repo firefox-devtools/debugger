@@ -233,7 +233,7 @@ class SourcesTree extends Component {
     return (
       <div
         className={classnames("node", { focused })}
-        style={{ [paddingDir]: `${depth * 15}px` }}
+        style={{ [paddingDir]: `${depth * 15 + 5}px` }}
         key={item.path}
         onClick={() => {
           this.selectItem(item);
