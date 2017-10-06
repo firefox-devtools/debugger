@@ -1,6 +1,19 @@
+import React, { PureComponent } from "react";
 import { showMenu } from "devtools-launchpad";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { lineAtHeight } from "../../utils/editor";
+import {
+  getContextMenu,
+  getSelectedLocation,
+  getSelectedSource,
+  getVisibleBreakpoints,
+  getPause
+} from "../../selectors";
 
-export default function GutterMenu({
+import actions from "../../actions";
+
+export function gutterMenu({
   breakpoint,
   line,
   event,
@@ -99,3 +112,48 @@ export default function GutterMenu({
 
   showMenu(event, items);
 }
+
+class GutterContextMenuComponent extends PureComponent {
+  constructor() {
+    super();
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return nextProps.contextMenu.type === "Gutter";
+  }
+
+  componentWillUpdate(nextProps) {
+    // clear the context menu since it is open
+    this.props.setContextMenu("", null);
+    return this.showMenu(nextProps);
+  }
+
+  showMenu(nextProps) {
+    const { contextMenu, ...props } = nextProps;
+    const { event } = contextMenu;
+    const sourceId = props.selectedSource ? props.selectedSource.get("id") : "";
+    const line = lineAtHeight(props.editor, sourceId, event);
+    const breakpoint = nextProps.breakpoints.find(
+      bp => bp.location.line === line
+    );
+
+    gutterMenu({ event, sourceId, line, breakpoint, ...props });
+  }
+
+  render() {
+    return null;
+  }
+}
+
+export default connect(
+  state => {
+    return {
+      selectedLocation: getSelectedLocation(state),
+      selectedSource: getSelectedSource(state),
+      breakpoints: getVisibleBreakpoints(state),
+      pauseData: getPause(state),
+      contextMenu: getContextMenu(state)
+    };
+  },
+  dispatch => bindActionCreators(actions, dispatch)
+)(GutterContextMenuComponent);

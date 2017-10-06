@@ -19,7 +19,7 @@ import { prefs } from "./prefs";
 
 export function bootstrapStore(client, { services, toolboxActions }) {
   const createStore = configureStore({
-    log: getValue("logging.actions"),
+    log: true, //getValue("logging.actions"),
     timing: getValue("performance.actions"),
     makeThunkArgs: (args, state) => {
       return Object.assign({}, args, { client }, services, toolboxActions);

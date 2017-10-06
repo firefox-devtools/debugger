@@ -140,15 +140,19 @@ class Editor extends PureComponent {
     codeMirrorGutter.addEventListener("mouseenter", toggleFoldMarkerVisibility);
 
     if (!isFirefox()) {
-      codeMirror.on("gutterContextMenu", (cm, line, eventName, event) =>
-        this.onGutterContextMenu(event)
-      );
+      codeMirror.on("gutterContextMenu", (cm, line, eventName, event) => {
+        event.stopPropagation();
+        event.preventDefault();
+        return this.onGutterContextMenu(event);
+      });
 
       codeMirror.on("contextmenu", (cm, event) => this.openMenu(event, editor));
     } else {
-      codeMirrorWrapper.addEventListener("contextmenu", event =>
-        this.openMenu(event, editor)
-      );
+      codeMirrorWrapper.addEventListener("contextmenu", event => {
+        event.stopPropagation();
+        event.preventDefault();
+        return this.openMenu(event, editor);
+      });
     }
 
     this.setState({ editor });
@@ -306,29 +310,14 @@ class Editor extends PureComponent {
     );
   }
 
-  openMenu(event, editor) {
-    const {
-      selectedSource,
-      selectedLocation,
-      showSource,
-      jumpToMappedLocation,
-      addExpression,
-      toggleBlackBox,
-      getFunctionText
-    } = this.props;
+  openMenu(event) {
+    const { setContextMenu } = this.props;
 
-    return EditorMenu({
-      editor,
-      event,
-      selectedLocation,
-      selectedSource,
-      showSource,
-      jumpToMappedLocation,
-      addExpression,
-      toggleBlackBox,
-      getFunctionText,
-      onGutterContextMenu: this.onGutterContextMenu
-    });
+    if (event.target.classList.contains("CodeMirror-linenumber")) {
+      return setContextMenu("Gutter", event);
+    }
+
+    return setContextMenu("Editor", event);
   }
 
   onGutterClick = (cm, line, gutter, ev) => {
@@ -357,6 +346,8 @@ class Editor extends PureComponent {
     }
 
     if (gutter !== "CodeMirror-foldgutter") {
+      // triggerGutter(line, event);
+
       if (ev.altKey) {
         continueToHere(toSourceLine(selectedSource.get("id"), line));
       } else if (ev.shiftKey) {
@@ -370,37 +361,7 @@ class Editor extends PureComponent {
   };
 
   onGutterContextMenu = event => {
-    const {
-      selectedSource,
-      breakpoints,
-      toggleBreakpoint,
-      toggleDisabledBreakpoint,
-      pauseData,
-      continueToHere
-    } = this.props;
-
-    if (selectedSource && selectedSource.get("isBlackBoxed")) {
-      event.preventDefault();
-      return;
-    }
-
-    const sourceId = selectedSource ? selectedSource.get("id") : "";
-    const line = lineAtHeight(this.state.editor, sourceId, event);
-    const breakpoint = breakpoints.find(bp => bp.location.line === line);
-
-    GutterMenu({
-      event,
-      line,
-      breakpoint,
-      toggleBreakpoint,
-      toggleDisabledBreakpoint,
-      pauseData,
-      continueToHere,
-
-      showConditionalPanel: this.toggleConditionalPanel,
-      isCbPanelOpen: this.isCbPanelOpen(),
-      closeConditionalPanel: this.closeConditionalPanel
-    });
+    return this.props.setContextMenu("Gutter", event);
   };
 
   onClick(e: MouseEvent) {
@@ -565,21 +526,6 @@ class Editor extends PureComponent {
     };
   }
 
-  renderHighlightLines() {
-    const { highlightedLineRange } = this.props;
-
-    if (!highlightedLineRange || !this.state.editor) {
-      return;
-    }
-
-    return (
-      <HighlightLines
-        editor={this.state.editor}
-        highlightedLineRange={highlightedLineRange}
-      />
-    );
-  }
-
   renderHitCounts() {
     const { hitCount, selectedSource } = this.props;
 
@@ -601,24 +547,6 @@ class Editor extends PureComponent {
           editor={this.state.editor.codeMirror}
         />
       ));
-  }
-
-  renderPreview() {
-    const { selectedSource } = this.props;
-    if (!this.state.editor || !selectedSource) {
-      return null;
-    }
-
-    return <Preview editor={this.state.editor} />;
-  }
-
-  renderCallSites() {
-    const editor = this.state.editor;
-
-    if (!editor || !isEnabled("columnBreakpoints")) {
-      return null;
-    }
-    return <CallSites editor={editor} />;
   }
 
   renderSearchBar() {
@@ -669,10 +597,10 @@ class Editor extends PureComponent {
         <CallSites editor={editor} />
         <Preview editor={editor} />;
         <Footer editor={editor} horizontal={horizontal} />
+        <HighlightLines editor={editor} />
+        <EditorMenu editor={editor} />
+        <GutterMenu editor={editor} />
         {this.renderHitCounts()}
-        {/*
-          {this.renderHighlightLines()}
-        */}
       </div>
     );
   }
@@ -728,14 +656,12 @@ Editor.propTypes = {
   // }),
   startPanelSize: PropTypes.number,
   endPanelSize: PropTypes.number,
-  // linesInScope: PropTypes.array,
   // toggleBreakpoint: PropTypes.func,
   // addOrToggleDisabledBreakpoint: PropTypes.func,
   // toggleDisabledBreakpoint: PropTypes.func,
   conditionalBreakpointPanel: PropTypes.number
   // toggleConditionalBreakpointPanel: PropTypes.func,
   // continueToHere: PropTypes.func,
-  // getFunctionText: PropTypes.func
 };
 
 Editor.contextTypes = {
@@ -744,14 +670,9 @@ Editor.contextTypes = {
 
 export default connect(
   state => {
-    const selectedLocation = getSelectedLocation(state);
-    // const sourceId = selectedLocation && selectedLocation.sourceId;
-    const selectedSource = getSelectedSource(state);
-
     return {
-      selectedLocation,
-      selectedSource,
-      // highlightedLineRange: getHighlightedLineRange(state),
+      selectedLocation: getSelectedLocation(state),
+      selectedSource: getSelectedSource(state),
       // searchOn: getActiveSearch(state) === "file",
       // loadedObjects: getLoadedObjects(state),
       // breakpoints: getVisibleBreakpoints(state),
@@ -761,13 +682,6 @@ export default connect(
       // coverageOn: getCoverageEnabled(state),
       // query: getFileSearchQueryState(state),
       // searchModifiers: getFileSearchModifierState(state),
-      // linesInScope: getInScopeLines(state),
-      // getFunctionText: line =>
-      //   findFunctionText(
-      //     line,
-      //     selectedSource.toJS(),
-      //     getSymbols(state, selectedSource.toJS())
-      //   ),
       conditionalBreakpointPanel: getConditionalBreakpointPanel(state)
     };
   },

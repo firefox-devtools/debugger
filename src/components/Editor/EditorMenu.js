@@ -1,7 +1,19 @@
+import React, { PureComponent } from "react";
 import { showMenu } from "devtools-launchpad";
 import { isOriginalId } from "devtools-source-map";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { getSourceLocationFromMouseEvent } from "../../utils/editor";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { findFunctionText } from "../../utils/function";
+import {
+  getContextMenu,
+  getSelectedLocation,
+  getSelectedSource,
+  getSymbols
+} from "../../selectors";
+
+import actions from "../../actions";
 
 function getMenuItems(
   event,
@@ -121,17 +133,48 @@ function getMenuItems(
   return menuItems;
 }
 
-async function EditorMenu(options) {
-  const { event, onGutterContextMenu } = options;
-
-  if (event.target.classList.contains("CodeMirror-linenumber")) {
-    return onGutterContextMenu(event);
+class EditorMenu extends PureComponent {
+  constructor() {
+    super();
   }
 
-  event.stopPropagation();
-  event.preventDefault();
+  shouldComponentUpdate(nextProps) {
+    console.log(nextProps.contextMenu.type === "Editor");
+    return nextProps.contextMenu.type === "Editor";
+  }
 
-  showMenu(event, getMenuItems(event, options));
+  componentWillUpdate(nextProps) {
+    // clear the context menu since it is open
+    console.log("hi");
+    this.props.setContextMenu("", null);
+    return this.showMenu(nextProps);
+  }
+
+  showMenu(nextProps) {
+    const { contextMenu, ...options } = nextProps;
+    const { event } = contextMenu;
+    showMenu(event, getMenuItems(event, options));
+  }
+
+  render() {
+    return null;
+  }
 }
 
-export default EditorMenu;
+export default connect(
+  state => {
+    const selectedSource = getSelectedSource(state);
+    return {
+      selectedLocation: getSelectedLocation(state),
+      selectedSource,
+      contextMenu: getContextMenu(state),
+      getFunctionText: line =>
+        findFunctionText(
+          line,
+          selectedSource.toJS(),
+          getSymbols(state, selectedSource.toJS())
+        )
+    };
+  },
+  dispatch => bindActionCreators(actions, dispatch)
+)(EditorMenu);
