@@ -72,6 +72,7 @@ describe("expressions", () => {
 
   it("should evaluate expressions in specific scope", async () => {
     const { dispatch, getState } = createStore(mockThreadClient);
+    await createFrames(dispatch);
 
     dispatch(actions.addExpression("foo"));
     dispatch(actions.addExpression("bar"));
@@ -79,15 +80,28 @@ describe("expressions", () => {
     expect(selectors.getExpression(getState(), "foo").value).toBe(null);
     expect(selectors.getExpression(getState(), "bar").value).toBe(null);
 
-    await dispatch(
-      actions.selectFrame({
-        id: 2,
-        location: { sourceId: "example.js", line: 3 }
-      })
-    );
     await dispatch(actions.evaluateExpressions("boo"));
 
     expect(selectors.getExpression(getState(), "foo").value).toBe("boo");
     expect(selectors.getExpression(getState(), "bar").value).toBe("boo");
   });
 });
+
+async function createFrames(dispatch) {
+  const sourceId = "example.js";
+  const frame = {
+    id: 2,
+    location: { sourceId, line: 3 }
+  };
+
+  await dispatch(actions.newSource({ id: sourceId }));
+
+  await dispatch(
+    actions.paused({
+      frames: [frame],
+      why: { type: "just because" }
+    })
+  );
+
+  await dispatch(actions.selectFrame(frame));
+}
