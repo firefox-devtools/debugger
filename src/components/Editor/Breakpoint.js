@@ -7,12 +7,12 @@ import classnames from "classnames";
 import Svg from "../shared/Svg";
 
 import { getDocument, showSourceText, toEditorLine } from "../../utils/editor";
-
-const breakpointSvg = document.createElement("div");
-ReactDOM.render(<Svg name="breakpoint" />, breakpointSvg);
+//
+const breakpointDiv = document.createElement("div");
+ReactDOM.render(<img className="breakpoint" />, breakpointDiv);
 
 function makeMarker(isDisabled: boolean) {
-  const bp = breakpointSvg.cloneNode(true);
+  const bp = breakpointDiv.cloneNode(true);
   bp.className = classnames("editor new-breakpoint", {
     "breakpoint-disabled": isDisabled,
     "folding-enabled": isEnabled("codeFolding")

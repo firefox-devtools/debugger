@@ -67,8 +67,7 @@ html[dir="rtl"] .editor-mount {
   opacity: 0.5;
 }
 
-.editor.new-breakpoint svg {
-  fill: var(--theme-selection-background);
+.editor.new-breakpoint {
   width: 60px;
   height: 14px;
   position: absolute;
@@ -86,26 +85,33 @@ html[dir="rtl"] .editor-mount {
   border: 1px solid #00b6ff;
 }
 
-.editor.new-breakpoint.folding-enabled svg {
+.editor.new-breakpoint img {
+  mask: url("/dbg-assets/breakpoint.svg") no-repeat;
+  background-color: var(--theme-selection-background);
+  width: 60px;
+  height: 14px;
+}
+
+.editor.new-breakpoint.folding-enabled img {
   right: -16px;
 }
 
-.new-breakpoint.has-condition svg {
+.new-breakpoint.has-condition img {
   fill: var(--theme-graphs-yellow);
 }
 
-.editor.new-breakpoint.breakpoint-disabled svg {
+.editor.new-breakpoint.breakpoint-disabled img {
   opacity: 0.3;
 }
 
-.editor.column-breakpoint svg {
+.editor.column-breakpoint img {
   fill: var(--theme-selection-background);
   vertical-align: middle;
   width: 17px;
   height: 14px;
 }
 
-.editor.column-breakpoint.breakpoint-disabled svg {
+.editor.column-breakpoint.breakpoint-disabled img {
   opacity: 0.3;
 }
 
