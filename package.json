@@ -61,7 +61,8 @@
     "precommit": "lint-staged",
     "prepush": "run-p lint test flow",
     "nom": "node bin/nom",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "validate": "npm-run-all --parallel lint flow"
   },
   "dependencies": {
     "babel-preset-env": "^1.6.0",
