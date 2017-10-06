@@ -8,7 +8,8 @@ const {
   getPaneCollapse,
   getSymbolSearchType,
   getHighlightedLineRange,
-  getSearchResults
+  getSearchResults,
+  getProjectDirectoryRoot
 } = selectors;
 
 describe("ui", () => {
@@ -115,4 +116,11 @@ describe("ui", () => {
     dispatch(actions.clearHighlightLineRange());
     expect(getHighlightedLineRange(getState())).toEqual({});
   });
+});
+
+it("should set a directory as root directory", () => {
+  const { dispatch, getState } = createStore();
+  const projectRoot = getProjectDirectoryRoot(getState());
+  dispatch(actions.setProjectDirectoryRoot(projectRoot));
+  expect(getProjectDirectoryRoot(getState())).toBe(projectRoot);
 });
