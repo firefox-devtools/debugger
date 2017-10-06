@@ -1,5 +1,6 @@
 // @flow
 import React, { createFactory, Component } from "react";
+import { nodeHasChildren } from "../../utils/sources-tree";
 import "./ManagedTree.css";
 
 import { Tree as _Tree } from "devtools-components";
@@ -68,13 +69,35 @@ class ManagedTree extends Component {
     }
   }
 
-  setExpanded = (item: Item, isExpanded: boolean) => {
+  setExpanded = (item: Item, isExpanded: boolean, isRecursive: boolean) => {
     const expanded = this.state.expanded;
-    const itemPath = this.props.getPath(item);
+    let itemPath = this.props.getPath(item);
     if (isExpanded) {
       expanded.add(itemPath);
     } else {
       expanded.delete(itemPath);
+    }
+    if (isRecursive) {
+      let children = null;
+      let parents = [item];
+      while (parents.length) {
+        children = [];
+        for (const parent of parents) {
+          if (!nodeHasChildren(parent)) {
+            continue;
+          }
+          for (const child of parent.contents) {
+            itemPath = this.props.getPath(child);
+            if (isExpanded) {
+              expanded.add(itemPath);
+            } else {
+              expanded.delete(itemPath);
+            }
+            children.push(child);
+          }
+        }
+        parents = children;
+      }
     }
     this.setState({ expanded });
 
@@ -125,8 +148,8 @@ class ManagedTree extends Component {
       isExpanded: item => expanded.has(this.props.getPath(item)),
       focused: focusedItem,
       getKey: this.props.getPath,
-      onExpand: item => this.setExpanded(item, true),
-      onCollapse: item => this.setExpanded(item, false),
+      onExpand: item => this.setExpanded(item, true, false),
+      onCollapse: item => this.setExpanded(item, false, false),
       onFocus: this.focusItem,
       renderItem: (...args) =>
         this.props.renderItem(...args, {
