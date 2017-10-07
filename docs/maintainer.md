@@ -8,6 +8,21 @@ Helping maintain a project is the best way to contribute to its overall health.
 
 ### Triaging Issues
 
+We encourage the community to help make bugs actionale, make features available,
+ and close stale issues. Triaging is one of the most important contributions a
+community member can make for a projects health. Stave Klabnik's
+[article][gardening] on how to be an open source gardener expresses our values.
+
+#### Making Bugs Actionable
+
+Bugs are labeled [`not-actionable`][na] when they are filed. Here is a checklist
+for making bugs actionable:
+
+1. Check for duplicate bugs
+2. Verify that the bug is reproducable
+3. Define steps to reproduce with expected and actual results
+4. Create a small test case. We have a [glitch] template for sharing examples.
+
 #### Closing Stale Issues
 
 We define *stale* as issues that are 30 days or older. Stale is often an indicator of another issue: it is unnecessary, too vague, too broad, or a low priority.
@@ -17,7 +32,7 @@ We define *stale* as issues that are 30 days or older. Stale is often an indicat
 * *broad* - create more focused issues, such as "add flow types to `WhyPaused` component"
 * *low priority* - close it and add it to the [enhancements board]
 
-#### Making Issues `available`
+#### Making features `available`
 
 Available is short for two things:
 
@@ -98,3 +113,7 @@ Notes:
 [github-2fa]:https://help.github.com/articles/securing-your-account-with-two-factor-authentication-2fa/
 [github-pat]:https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/
 [github-remote]:https://help.github.com/articles/adding-a-remote/
+
+[gardening]: http://words.steveklabnik.com/how-to-be-an-open-source-gardener
+[glitch]:https://fabulous-umbrella.glitch.me/
+[na]: https://github.com/devtools-html/debugger.html/labels/not-actionable
