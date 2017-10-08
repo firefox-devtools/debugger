@@ -80,8 +80,8 @@ add_task(async function() {
   await addExpression(dbg, "2");
 
   // check the value of
-  is(getValue(dbg, 2), "(unavailable)")
-  is(getValue(dbg, 3), "(unavailable)")
+  is(getValue(dbg, 2), "(unavailable)");
+  is(getValue(dbg, 3), "(unavailable)");
   is(getValue(dbg, 4), 2);
 
   toggleExpression(dbg, 1);
