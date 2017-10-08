@@ -3,8 +3,10 @@
 }
 
 .close-btn .close {
-  width: 14px;
-  height: 14px;
+  mask: url("/dbg-assets/close.svg") no-repeat;
+  background-color: grey;
+  width: 10px;
+  height: 12px;
   transition: all 0.15s ease-in-out;
   border: 1px solid transparent;
   border-radius: 2px;
@@ -14,7 +16,7 @@
   justify-content: center;
 }
 
-.close-btn .close svg {
+.close-btn .close img {
   width: 8px;
 }
 
@@ -26,7 +28,7 @@
   background: var(--theme-selection-background);
 }
 
-.close-btn:hover .close path {
+.close-btn:hover .close img {
   fill: white;
 }
 
@@ -42,6 +44,6 @@
   height: 16px;
 }
 
-.close-btn.big .close svg {
+.close-btn.big .close img {
   width: 9px;
 }

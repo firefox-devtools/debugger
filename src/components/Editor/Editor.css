@@ -71,8 +71,8 @@ html[dir="rtl"] .editor-mount {
   width: 60px;
   height: 14px;
   position: absolute;
-  top: 0px;
-  right: -4px;
+  top: 1px;
+  right: -6px;
 }
 
 .inline-bp {
@@ -88,6 +88,7 @@ html[dir="rtl"] .editor-mount {
 .editor.new-breakpoint img {
   mask: url("/dbg-assets/breakpoint.svg") no-repeat;
   background-color: var(--theme-selection-background);
+  float: right;
   width: 60px;
   height: 14px;
 }
@@ -138,6 +139,8 @@ html[dir="rtl"] .editor-mount {
 /* set the linenumber white when there is a breakpoint */
 .new-breakpoint .CodeMirror-gutter-wrapper .CodeMirror-linenumber {
   color: white;
+  left: 0px;
+  width: 33px;
 }
 
 /* move the breakpoint below the other gutter elements */

@@ -95,7 +95,7 @@ ShallowWrapper {
                       }
         }
 />,
-      "_debugID": 6,
+      "_debugID": 4,
       "_hostContainerInfo": null,
       "_hostParent": null,
       "_instance": Breakpoints {
@@ -167,7 +167,7 @@ ShallowWrapper {
           />,
                   ]
 </div>,
-        "_debugID": 7,
+        "_debugID": 5,
         "_renderedOutput": <div>
           Array [
                     <Breakpoint

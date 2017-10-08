@@ -16,7 +16,8 @@ function CloseButton({ handleClick, buttonClass, tooltip }: Props) {
       onClick={handleClick}
       title={tooltip}
     >
-      <Svg name="close" />
+
+    <img className="close" />
     </div>
   );
 }

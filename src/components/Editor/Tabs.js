@@ -485,7 +485,7 @@ class SourceTabs extends PureComponent {
       return <Svg name="prettyPrint" />;
     }
     if (sourceObj.isBlackBoxed) {
-      return <Svg name="blackBox" />;
+      return <img className="blackBox" />;
     }
   }
 

@@ -85,7 +85,7 @@ class SourceFooter extends PureComponent {
         title={tooltip}
         aria-label={tooltip}
       >
-        <Svg name="blackBox" />
+        <img className="blackBox" />
       </button>
     );
   }
