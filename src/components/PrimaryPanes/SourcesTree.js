@@ -1,19 +1,29 @@
 // @flow
 
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
+// React
 import React, { Component } from "react";
 import classnames from "classnames";
-import ImPropTypes from "react-immutable-proptypes";
-import { Set } from "immutable";
+
+// Redux
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 import {
   getShownSource,
   getSelectedSource,
   getDebuggeeUrl,
   getExpandedState
 } from "../../selectors";
+import actions from "../../actions";
 
+// Types
+import type { SourcesMap } from "../../reducers/types";
+import type { SourceRecord } from "../reducers/sources";
+
+// Components
+import ManagedTree from "../shared/ManagedTree";
+import Svg from "../shared/Svg";
+
+// Utils
 import {
   nodeHasChildren,
   createParentMap,
@@ -23,11 +33,7 @@ import {
   createTree,
   getDirectories
 } from "../../utils/sources-tree";
-
-import ManagedTree from "../shared/ManagedTree";
-
-import actions from "../../actions";
-import Svg from "../shared/Svg";
+import { Set } from "immutable";
 import { showMenu } from "devtools-launchpad";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { throttle } from "../../utils/utils";
@@ -41,7 +47,18 @@ type CreateTree = {
   highlightItems?: any
 };
 
+type Props = {
+  sources: SourcesMap,
+  selectSource: (string, Object) => void,
+  shownSource?: String,
+  selectedSource?: SourceRecord,
+  debuggeeUrl: String,
+  setExpandedState?: any => void,
+  expanded?: any
+};
+
 class SourcesTree extends Component {
+  props: Props;
   state: CreateTree;
   focusItem: Function;
   selectItem: Function;
@@ -300,16 +317,6 @@ class SourcesTree extends Component {
     );
   }
 }
-
-SourcesTree.propTypes = {
-  sources: ImPropTypes.map.isRequired,
-  selectSource: PropTypes.func.isRequired,
-  shownSource: PropTypes.string,
-  selectedSource: ImPropTypes.map,
-  debuggeeUrl: PropTypes.string.isRequired,
-  setExpandedState: PropTypes.func,
-  expanded: PropTypes.any
-};
 
 export default connect(
   state => {
