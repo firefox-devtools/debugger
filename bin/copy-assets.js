@@ -66,6 +66,7 @@ function start() {
   if (shouldSymLink) {
     symlinkTests({ projectPath, mcTestPath, projectTestPath });
   } else {
+    // we should rm the test dir first
     copyFile(projectTestPath, mcTestPath, { cwd: projectPath });
   }
 

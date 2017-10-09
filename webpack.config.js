@@ -36,11 +36,15 @@ function buildConfig(envConfig) {
   if (isDevelopment()) {
     webpackConfig.plugins = [];
   } else {
+    webpackConfig.plugins = [];
     webpackConfig.output.libraryTarget = "umd";
-    const viz = new Visualizer({
-      filename: "webpack-stats.html"
-    });
-    webpackConfig.plugins = [viz];
+
+    if (false) {
+      const viz = new Visualizer({
+        filename: "webpack-stats.html"
+      });
+      webpackConfig.plugins = [viz];
+    }
 
     const mappings = [
       [/\.\/mocha/, "./mochitest"],
