@@ -560,7 +560,7 @@ Editor.propTypes = {
   coverageOn: PropTypes.bool,
   selectedFrame: PropTypes.object,
   searchModifiers: PropTypes.object,
-  query: PropTypes.object,
+  query: PropTypes.string,
   horizontal: PropTypes.bool,
   startPanelSize: PropTypes.number,
   endPanelSize: PropTypes.number,

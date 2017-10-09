@@ -3,7 +3,6 @@ import { Component } from "react";
 import { markText, toEditorPosition } from "../../utils/editor";
 import { getDocument } from "../../utils/editor/source-documents";
 
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { getSelectedLocation, getSelectedFrame } from "../../selectors";
 
@@ -15,10 +14,15 @@ type props = {
 
 export class DebugLine extends Component {
   props: props;
-  debugExpression: null;
+  state: {
+    debugExpression: {
+      clear: Function
+    }
+  };
 
   constructor() {
     super();
+    this.state = { debugExpression: { clear: () => {} } };
   }
 
   componentDidMount() {
@@ -29,12 +33,12 @@ export class DebugLine extends Component {
     );
   }
 
-  componentDidUpdate(prevProps: props) {
-    this.clearDebugLine(prevProps.selectedFrame, prevProps.editor);
+  componentWillReceiveProps(nextProps: props) {
+    this.clearDebugLine(this.props.selectedFrame, this.props.editor);
     this.setDebugLine(
-      this.props.selectedFrame,
-      this.props.selectedLocation,
-      this.props.editor
+      nextProps.selectedFrame,
+      nextProps.selectedLocation,
+      nextProps.editor
     );
   }
 
@@ -59,10 +63,11 @@ export class DebugLine extends Component {
     }
 
     doc.addLineClass(line, "line", "new-debug-line");
-    this.debugExpression = markText(editor, "debug-expression", {
+    const debugExpression = markText(editor, "debug-expression", {
       start: { line, column },
       end: { line, column: null }
     });
+    this.setState({ debugExpression });
   }
 
   clearDebugLine(selectedFrame: Object, editor: Object) {
@@ -70,8 +75,9 @@ export class DebugLine extends Component {
       return;
     }
     const { line, sourceId } = selectedFrame.location;
-    if (this.debugExpression) {
-      this.debugExpression.clear();
+    const { debugExpression } = this.state;
+    if (debugExpression) {
+      debugExpression.clear();
     }
 
     const editorLine = line - 1;

@@ -73,6 +73,7 @@ describe("DebugLine Component", () => {
 
     it("should clear the previous debugExpression", async () => {
       const { component } = render();
+      component.setState({ debugExpression: { clear: jest.fn() } });
       const previousState = component.state();
       component.setProps({ selectedLocation });
       expect(previousState.debugExpression.clear).toHaveBeenCalled();
