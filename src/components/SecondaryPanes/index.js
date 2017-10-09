@@ -31,7 +31,7 @@ import UtilsBar from "./UtilsBar";
 import _chromeScopes from "./ChromeScopes";
 import _Scopes from "./Scopes";
 
-const Scopes = _Scopes;
+const Scopes = isEnabled("chromeScopes") ? _chromeScopes : _Scopes;
 
 import "./SecondaryPanes.css";
 

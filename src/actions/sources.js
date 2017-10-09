@@ -396,6 +396,8 @@ export function loadAllSources() {
 export function ensureParserHasSourceText(sourceId: string) {
   return async ({ dispatch, getState }: ThunkArgs) => {
     if (!await parser.hasSource(sourceId)) {
+      await dispatch(loadSourceText(getSource(getState(), sourceId).toJS()));
+      await parser.setSource(getSource(getState(), sourceId).toJS());
     }
   };
 }

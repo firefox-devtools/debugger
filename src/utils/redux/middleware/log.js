@@ -4,9 +4,8 @@
  */
 export function log({ dispatch, getState }) {
   return next => action => {
-    const asyncMsg = !action.status
-      ? ""
-      : action.status == "done" ? `<-` : `->`;
+    const status = action.status == "done" ? "<-" : "->";
+    const asyncMsg = !action.status ? "" : status;
     console.log(action, asyncMsg);
     next(action);
   };

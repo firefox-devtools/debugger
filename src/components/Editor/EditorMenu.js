@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import { PureComponent } from "react";
 import { showMenu } from "devtools-launchpad";
 import { isOriginalId } from "devtools-source-map";
 import { copyToTheClipboard } from "../../utils/clipboard";
@@ -14,6 +14,9 @@ import {
 } from "../../selectors";
 
 import actions from "../../actions";
+type Props = {
+  setContextMenu: Function
+};
 
 function getMenuItems(
   event,
@@ -134,6 +137,8 @@ function getMenuItems(
 }
 
 class EditorMenu extends PureComponent {
+  props: Props;
+
   constructor() {
     super();
   }

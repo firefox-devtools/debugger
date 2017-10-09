@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import { PureComponent } from "react";
 import { showMenu } from "devtools-launchpad";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -12,6 +12,10 @@ import {
 } from "../../selectors";
 
 import actions from "../../actions";
+
+type Props = {
+  setContextMenu: Function
+};
 
 export function gutterMenu({
   breakpoint,
@@ -114,6 +118,8 @@ export function gutterMenu({
 }
 
 class GutterContextMenuComponent extends PureComponent {
+  props: Props;
+
   constructor() {
     super();
   }

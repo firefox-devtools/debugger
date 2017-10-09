@@ -135,12 +135,12 @@ class Editor extends PureComponent {
         return this.onGutterContextMenu(event);
       });
 
-      codeMirror.on("contextmenu", (cm, event) => this.openMenu(event, editor));
+      codeMirror.on("contextmenu", (cm, event) => this.openMenu(event));
     } else {
       codeMirrorWrapper.addEventListener("contextmenu", event => {
         event.stopPropagation();
         event.preventDefault();
-        return this.openMenu(event, editor);
+        return this.openMenu(event);
       });
     }
 
