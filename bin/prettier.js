@@ -16,8 +16,8 @@ const args = [
   "src/*.js",
   "src/*/*.js",
   "src/components/**/*.css",
-  "src/*/!(mochitest)**/*.js",
-  "src/*/!(mochitest)*/**/*.js"
+  // "src/*/!(mochitest)**/*.js",
+  // "src/*/!(mochitest)*/**/*.js"
 ];
 
 const prettierArgs = process.argv.slice(2).concat(args);
