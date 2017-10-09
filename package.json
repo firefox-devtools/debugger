@@ -110,6 +110,7 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "babel-preset-react": "^6.24.1",
+    "chalk": "^2.1.0",
     "devtools-license-check": "^0.5.0",
     "documentation": "^5.2.1",
     "enzyme": "^2.9.1",

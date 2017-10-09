@@ -1,6 +1,6 @@
 /* eslint max-nested-callbacks: ["error", 4]*/
 
-import { formatSymbols } from "../getSymbols";
+import { formatSymbols } from "../utils/formatSymbols";
 import { getSource } from "./helpers";
 
 describe("Parser.getSymbols", () => {

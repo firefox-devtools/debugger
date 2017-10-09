@@ -102,6 +102,10 @@ function update(
       return state.set("outOfScopeLocations", null);
     }
 
+    case "NAVIGATE": {
+      return initialState();
+    }
+
     default: {
       return state;
     }
