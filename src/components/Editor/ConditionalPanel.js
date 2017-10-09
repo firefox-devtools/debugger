@@ -4,58 +4,116 @@ import ReactDOM from "react-dom";
 
 import CloseButton from "../shared/Button/Close";
 import "./ConditionalPanel.css";
+import { toEditorLine } from "../../utils/editor";
 
-function renderConditionalPanel({
-  condition,
-  closePanel,
-  setBreakpoint
-}: {
-  condition: ?string,
-  closePanel: Function,
-  setBreakpoint: Function
-}) {
-  const panel = document.createElement("div");
-  let input = null;
-
-  function setInput(node) {
-    input = node;
+export class ConditionalPanel {
+  constructor() {
+    super();
+    this.state = {
+      cbPanel: null
+    };
+    this.input = null;
   }
 
-  function saveAndClose() {
-    if (input) {
-      setBreakpoint(input.value);
+  setInput = (node) => {
+    this.input = node;
+  };
+
+  saveAndClose = () => {
+    if (this.input) {
+      this.setBreakpoint(this.input.value);
     }
 
-    closePanel();
-  }
+    this.props.closeConditionalPanel();
+  };
 
-  function onKey(e: SyntheticKeyboardEvent) {
+  onKey = (e: SyntheticKeyboardEvent) => {
     if (e.key === "Enter") {
-      saveAndClose();
+      this.saveAndClose();
     } else if (e.key === "Escape") {
-      closePanel();
+      this.props.closeConditionalPanel();
     }
+  };
+
+  setBreakpoint(condition) {
+    return this.props.setBreakpointCondition(location, { condition })
   }
 
-  ReactDOM.render(
-    <div className="conditional-breakpoint-panel">
-      <div className="prompt">»</div>
-      <input
-        defaultValue={condition}
-        placeholder={L10N.getStr("editor.conditionalPanel.placeholder")}
-        onKeyDown={onKey}
-        ref={setInput}
-      />
-      <CloseButton
-        handleClick={closePanel}
-        buttonClass="big"
-        tooltip={L10N.getStr("editor.conditionalPanel.close")}
-      />
-    </div>,
-    panel
-  );
+  clearConditionalPanel() {
+    this.state.cbPanel.clear();
+    this.setState({ cbPanel: null });
+  }
 
-  return panel;
+  componentWillUpdate(nextProps) {
+    if (nextProps.conditionalPanelLine) {
+      return this.renderToWidget(nextProps);
+    }
+    return this.clearConditionalPanel();
+  }
+
+  renderToWidget(props) {
+    const { selectedLocation, conditionalPanelLine, editor } = props;
+    const sourceId = selectedLocation ? selectedLocation.sourceId : "";
+    const line = conditionalPanelLine;
+
+    const editorLine = toEditorLine(sourceId, line);
+    const cbPanel = editor.codeMirror.addLineWidget(
+      editorLine,
+      this.renderConditionalPanel(),
+      {
+        coverGutter: true,
+        noHScroll: false
+      }
+    );
+    this.input.focus()
+    this.setState({ cbPanel });
+  }
+
+  renderConditionalPanel() {
+    const breakpoint = this.props.breakpoint;
+    const condition = breakpoint ? breakpoint.condition : "";
+    return (
+      <div className="conditional-breakpoint-panel">
+        <div className="prompt">»</div>
+        <input
+          defaultValue={condition}
+          placeholder={L10N.getStr("editor.conditionalPanel.placeholder")}
+          onKeyDown={this.onKey}
+          ref={this.setInput}
+        />
+        <CloseButton
+          handleClick={this.props.closeConditionalPanel}
+          buttonClass="big"
+          tooltip={L10N.getStr("editor.conditionalPanel.close")}
+        />
+      </div>
+    );
+  }
+
+  render() {
+    return null;
+  }
 }
 
-export { renderConditionalPanel };
+ConditionalPanel.propTypes = {
+  breakpoint: ImPropTypes.map,
+  selectedLocation: PropTypes.object,
+  selectedSource: ImPropTypes.map,
+  setBreakpointCondition: PropTypes.func,
+  conditionalPanelLine: PropTypes.number,
+  openConditionalBreakpointPanel: PropTypes.func,
+  closeConditionalBreakpointPanel: PropTypes.func
+};
+
+
+export default connect(
+  state => {
+    return {
+      selectedLocation: getSelectedLocation(state),
+      selectedSource: getSelectedSource(state),
+      breakpoints: getBreakpointForLine(state, line),
+      conditionalPanelLine: getConditionalPanelLine(state)
+    };
+  },
+  dispatch => bindActionCreators(actions, dispatch)
+)(ConditionalPanel);
