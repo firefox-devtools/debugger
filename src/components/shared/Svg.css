@@ -6,7 +6,37 @@
 .refresh,
 .shortcut,
 .add-button {
-  fill: var(--theme-splitter-color);
+  background-color: var(--theme-splitter-color);
+}
+
+.arrow {
+  mask: url("/dbg-assets/arrow.svg") no-repeat;
+  width: 16px;
+  height: 16px;
+}
+
+.folder {
+  mask: url("/dbg-assets/folder.svg") no-repeat;
+  width: 16px;
+  height: 16px;
+}
+
+.domain {
+  mask: url("/dbg-assets/domain.svg") no-repeat;
+  width: 16px;
+  height: 16px;
+}
+
+.file {
+  mask: url("/dbg-assets/file.svg") no-repeat;
+  width: 16px;
+  height: 16px;
+}
+
+.worker {
+  mask: url("/dbg-assets/worker.svg") no-repeat;
+  width: 16px;
+  height: 16px;
 }
 
 .worker,
@@ -24,47 +54,47 @@
   top: 1px;
 }
 
-.domain svg,
-.folder svg,
-.worker svg,
-.refresh svg,
-.shortcut svg,
-.add-button svg {
+img.domain,
+img.folder,
+img.worker,
+img.refresh,
+img.shortcut,
+.addimg-button {
   width: 15px;
 }
 
-.file svg {
+img.file {
   width: 13px;
 }
 
-.file svg,
-.domain svg,
-.folder svg,
-.refresh svg,
-.shortcut svg,
-.worker svg {
+img.file,
+img.domain,
+img.folder,
+img.refresh,
+img.shortcut,
+img.worker {
   margin-inline-end: 5px;
 }
 
-.arrow svg {
+img.arrow {
   fill: var(--theme-splitter-color);
   margin-top: 3px;
   transition: transform 0.25s ease;
   width: 10px;
 }
 
-html:not([dir="rtl"]) .arrow svg {
+html:not([dir="rtl"]) img.arrow {
   margin-right: 5px;
   transform: rotate(-90deg);
 }
 
-html[dir="rtl"] .arrow svg {
+html[dir="rtl"] img.arrow {
   margin-left: 5px;
   transform: rotate(90deg);
 }
 
 /* TODO (Amit): html is just for specificity. keep it like this? */
-html .arrow.expanded svg {
+html img.arrow.expanded {
   transform: rotate(0deg);
 }
 
@@ -72,7 +102,7 @@ html .arrow.expanded svg {
   visibility: hidden;
 }
 
-.webpack svg {
+img.webpack {
   width: 15px;
   height: 15px;
   margin-right: 5px;

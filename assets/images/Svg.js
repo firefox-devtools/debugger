@@ -83,10 +83,10 @@ function Svg({ name, className, onClick, "aria-label": ariaLabel }) {
     className,
     onClick,
     ["aria-label"]: ariaLabel,
-    src: svg[name]
+    src: svg[name].match(/;(.*)+&quot;/)[1]
   };
 
-  return <InlineSVG {...props} />;
+  return <img {...props}/>;
 }
 
 Svg.displayName = "Svg";

@@ -14,6 +14,7 @@ let webpackConfig = require("../webpack.config");
 let { app } = toolbox.startDevServer(envConfig, webpackConfig, __dirname);
 
 app.use("/integration/examples", express.static("src/test/mochitest/examples"));
+app.use("/dbg-assets", express.static(path.join(__dirname, "../assets/images")));
 
 console.log("View debugger examples here:");
 console.log("https://github.com/devtools-html/debugger-examples");
