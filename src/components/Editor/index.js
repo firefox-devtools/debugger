@@ -227,7 +227,7 @@ class Editor extends PureComponent {
     // keep the jump state around until the real source text is
     // loaded.
     if (selectedSource && selectedSource.has("text")) {
-      this.highlightLine();
+      this.flashLine();
     }
 
     if (
@@ -301,15 +301,6 @@ class Editor extends PureComponent {
     traverseResults(e, ctx, query, direction, searchModifiers.toJS());
   };
 
-  inSelectedFrameSource() {
-    const { selectedLocation, selectedFrame } = this.props;
-    return (
-      selectedFrame &&
-      selectedLocation &&
-      selectedFrame.location.sourceId == selectedLocation.sourceId
-    );
-  }
-
   openMenu(event) {
     const { setContextMenu } = this.props;
 
@@ -346,7 +337,7 @@ class Editor extends PureComponent {
     }
 
     if (gutter !== "CodeMirror-foldgutter") {
-      // triggerGutter(line, event);
+      // this.props.clickGutter(line, event);
 
       if (ev.altKey) {
         continueToHere(toSourceLine(selectedSource.get("id"), line));
@@ -424,7 +415,7 @@ class Editor extends PureComponent {
 
   // If the location has changed and a specific line is requested,
   // move to that line and flash it.
-  highlightLine() {
+  flashLine() {
     if (!this.pendingJumpLocation) {
       return;
     }
@@ -549,46 +540,13 @@ class Editor extends PureComponent {
       ));
   }
 
-  renderSearchBar() {
-    const {
-      selectSource,
-      selectedSource,
-      highlightLineRange,
-      clearHighlightLineRange
-    } = this.props;
-
-    if (!this.state.editor) {
-      return null;
-    }
-
-    return (
-      <SearchBar
-        editor={this.state.editor}
-        selectSource={selectSource}
-        selectedSource={selectedSource}
-        highlightLineRange={highlightLineRange}
-        clearHighlightLineRange={clearHighlightLineRange}
-      />
-    );
-  }
-
-  renderBreakpoints() {
-    if (!this.state.editor) {
-      return null;
-    }
-
-    return;
-  }
-
-  renderEditorThings() {
-    // this is jason's fault
+  renderItems() {
     const { selectedSource, horizontal } = this.props;
     const { editor } = this.state;
 
     if (!editor || !isLoaded(selectedSource.toJS())) {
       return null;
     }
-
     return (
       <div>
         <DebugLine editor={editor} />
@@ -605,6 +563,16 @@ class Editor extends PureComponent {
     );
   }
 
+  renderSearchBar() {
+    const { editor } = this.state;
+
+    if (!editor) {
+      return null;
+    }
+
+    return <SearchBar editor={editor} />;
+  }
+
   render() {
     const { coverageOn } = this.props;
 
@@ -614,12 +582,12 @@ class Editor extends PureComponent {
           "coverage-on": coverageOn
         })}
       >
-        {/* {this.renderSearchBar()} */}
+        {this.renderSearchBar()}
         <div
           className="editor-mount devtools-monospace"
           style={this.getInlineEditorStyles()}
         />
-        {this.renderEditorThings()}
+        {this.renderItems()}
       </div>
     );
   }
@@ -633,7 +601,7 @@ Editor.propTypes = {
   // highlightLineRange: PropTypes.func,
   // clearHighlightLineRange: PropTypes.func,
   // highlightedLineRange: PropTypes.object,
-  // searchOn: PropTypes.bool,
+  searchOn: PropTypes.bool,
   // addBreakpoint: PropTypes.func,
   // disableBreakpoint: PropTypes.func,
   // enableBreakpoint: PropTypes.func,
@@ -643,8 +611,7 @@ Editor.propTypes = {
   // jumpToMappedLocation: PropTypes.func,
   // toggleBlackBox: PropTypes.func,
   // showSource: PropTypes.func,
-  // coverageOn: PropTypes.bool,
-  // pauseData: PropTypes.object,
+  coverageOn: PropTypes.bool,
   // selectedFrame: PropTypes.object,
   // addExpression: PropTypes.func,
   horizontal: PropTypes.bool,
@@ -673,13 +640,11 @@ export default connect(
     return {
       selectedLocation: getSelectedLocation(state),
       selectedSource: getSelectedSource(state),
-      // searchOn: getActiveSearch(state) === "file",
-      // loadedObjects: getLoadedObjects(state),
+      searchOn: getActiveSearch(state) === "file",
       // breakpoints: getVisibleBreakpoints(state),
       // hitCount: getHitCountForSource(state, sourceId),
       // selectedFrame: getSelectedFrame(state),
-      // pauseData: getPause(state),
-      // coverageOn: getCoverageEnabled(state),
+      coverageOn: getCoverageEnabled(state),
       // query: getFileSearchQueryState(state),
       // searchModifiers: getFileSearchModifierState(state),
       conditionalBreakpointPanel: getConditionalBreakpointPanel(state)

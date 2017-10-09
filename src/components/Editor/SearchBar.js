@@ -9,9 +9,12 @@ import Svg from "../shared/Svg";
 import actions from "../../actions";
 import {
   getActiveSearch,
+  getSelectedSource,
+  getSelectedLocation,
   getFileSearchQueryState,
   getFileSearchModifierState,
-  getSearchResults
+  getSearchResults,
+  getHighlightedLineRange
 } from "../../selectors";
 
 import { find, findNext, findPrev, removeOverlay } from "../../utils/editor";
@@ -403,8 +406,11 @@ export default connect(
   state => {
     return {
       searchOn: getActiveSearch(state) === "file",
+      selectedSource: getSelectedSource(state),
+      selectedLocation: getSelectedLocation(state),
       query: getFileSearchQueryState(state),
       modifiers: getFileSearchModifierState(state),
+      highlightedLineRange: getHighlightedLineRange(state),
       searchResults: getSearchResults(state)
     };
   },
