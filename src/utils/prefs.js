@@ -27,6 +27,8 @@ if (isDevelopment()) {
   pref("devtools.debugger.features.async-stepping", true);
   pref("devtools.debugger.features.wasm", true);
   pref("devtools.debugger.features.shortcuts", true);
+  pref("devtools.debugger.features.workers", true);
+  pref("devtools.debugger.features.event-listeners", true);
 }
 
 export const prefs = new PrefsHelper("devtools", {
@@ -51,8 +53,14 @@ export const features = new PrefsHelper("devtools.debugger.features", {
   asyncStepping: ["Bool", "async-stepping", false],
   projectTextSearch: ["Bool", "project-text-search", true],
   wasm: ["Bool", "wasm", true],
-  shortcuts: ["Bool", "shortcuts", false]
+  shortcuts: ["Bool", "shortcuts", false],
+  workers: ["Bool", "workers", false],
+  eventListeners: ["Bool", "event-listeners", false]
 });
+
+export function isEnabled(key) {
+  return features[key];
+}
 
 if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {
   // clear pending Breakpoints

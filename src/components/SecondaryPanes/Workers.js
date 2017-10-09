@@ -1,19 +1,32 @@
 import React, { PureComponent } from "react";
 import "./Workers.css";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+
+import actions from "../../actions";
+
 import { getWorkers } from "../../selectors";
 import type { List } from "immutable";
 import type { Worker } from "../../types";
 
 export class Workers extends PureComponent {
   props: {
-    workers: List<Worker>
+    workers: List<Worker>,
+    openWorkerToolbox: string => void
   };
 
+  selectWorker(url) {
+    this.props.openWorkerToolbox(url);
+  }
+
   renderWorkers(workers) {
-    return workers.map(w => (
-      <div className="worker" key={w.url}>
-        {w.url}
+    return workers.map(worker => (
+      <div
+        className="worker"
+        key={worker.url}
+        onClick={() => this.selectWorker(worker.url)}
+      >
+        {worker.url}
       </div>
     ));
   }
@@ -37,4 +50,6 @@ export class Workers extends PureComponent {
 function mapStateToProps(state) {
   return { workers: getWorkers(state) };
 }
-export default connect(mapStateToProps)(Workers);
+export default connect(mapStateToProps, dispatch =>
+  bindActionCreators(actions, dispatch)
+)(Workers);

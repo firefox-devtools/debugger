@@ -24,13 +24,21 @@ export default function debuggee(
   switch (action.type) {
     case "SET_WORKERS":
       return state.set("workers", List(action.workers.workers));
+    case "NAVIGATE":
+      return State();
     default:
       return state;
   }
 }
+
+type OuterState = { debuggee: Record<DebuggeeState> };
 
 const getDebuggeeWrapper = state => state.debuggee;
 
 export const getWorkers = createSelector(getDebuggeeWrapper, debuggeeState =>
   debuggeeState.get("workers")
 );
+
+export function getWorker(state: OuterState, url: string) {
+  return getWorkers(state).find(worker => worker.url === url);
+}
