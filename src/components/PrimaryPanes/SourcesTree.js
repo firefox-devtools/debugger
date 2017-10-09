@@ -17,7 +17,7 @@ import actions from "../../actions";
 
 // Types
 import type { SourcesMap } from "../../reducers/types";
-import type { SourceRecord } from "../reducers/sources";
+import type { SourceRecord } from "../../reducers/sources";
 
 // Components
 import ManagedTree from "../shared/ManagedTree";
@@ -49,11 +49,11 @@ type CreateTree = {
 
 type Props = {
   sources: SourcesMap,
-  selectSource: (string, Object) => void,
+  selectSource: string => void,
   shownSource?: String,
   selectedSource?: SourceRecord,
   debuggeeUrl: String,
-  setExpandedState?: any => void,
+  setExpandedState: any => void,
   expanded?: any
 };
 
