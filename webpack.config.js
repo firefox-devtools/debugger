@@ -36,6 +36,7 @@ function buildConfig(envConfig) {
   if (isDevelopment()) {
     webpackConfig.plugins = [];
   } else {
+    webpackConfig.plugins = [];
     webpackConfig.output.libraryTarget = "umd";
 
     if (false) {
