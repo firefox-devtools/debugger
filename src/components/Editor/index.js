@@ -160,7 +160,10 @@ class Editor extends PureComponent {
     );
 
     shortcuts.on(L10N.getStr("toggleBreakpoint.key"), this.onToggleBreakpoint);
-    shortcuts.on(L10N.getStr("toggleCondPanel.key"), this.toggleConditionalPanel);
+    shortcuts.on(
+      L10N.getStr("toggleCondPanel.key"),
+      this.toggleConditionalPanel
+    );
     shortcuts.on("Esc", this.onEscape);
     shortcuts.on(searchAgainPrevKey, this.onSearchAgain);
     shortcuts.on(searchAgainKey, this.onSearchAgain);
