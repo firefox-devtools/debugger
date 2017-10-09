@@ -30,7 +30,7 @@ function generateDefaults(overrides) {
 
 function render(overrides = {}) {
   const props = generateDefaults(overrides);
-  const component = shallow(<DebugLine {...props} />);
+  const component = shallow(<DebugLine.WrappedComponent {...props} />);
   return { component, props };
 }
 

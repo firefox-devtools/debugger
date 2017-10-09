@@ -1,21 +1,41 @@
 // @flow
-import React from "react";
+import React, { PureComponent } from "react";
 import ReactDOM from "react-dom";
-
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 import CloseButton from "../shared/Button/Close";
 import "./ConditionalPanel.css";
 import { toEditorLine } from "../../utils/editor";
+import actions from "../../actions";
 
-export class ConditionalPanel {
+import {
+  getSelectedLocation,
+  getBreakpointForLine,
+  getConditionalPanelLine
+} from "../../selectors";
+
+type Props = {
+  breakpoint: Object,
+  selectedLocation: Object,
+  setBreakpointCondition: Function,
+  line: number,
+  editor: Object,
+  openConditionalPanel: () => void,
+  closeConditionalPanel: () => void
+};
+
+export class ConditionalPanel extends PureComponent {
+  cbPanel: null | Object;
+  input: Object;
+  props: Props;
+
   constructor() {
     super();
-    this.state = {
-      cbPanel: null
-    };
-    this.input = null;
+    this.cbPanel = null;
+    this.input = {};
   }
 
-  setInput = (node) => {
+  setInput = (node: Object) => {
     this.input = node;
   };
 
@@ -35,29 +55,33 @@ export class ConditionalPanel {
     }
   };
 
-  setBreakpoint(condition) {
-    return this.props.setBreakpointCondition(location, { condition })
+  setBreakpoint(condition: string) {
+    const { selectedLocation, line } = this.props;
+    const sourceId = selectedLocation ? selectedLocation.sourceId : "";
+    const location = { sourceId, line };
+    return this.props.setBreakpointCondition(location, { condition });
   }
 
   clearConditionalPanel() {
-    this.state.cbPanel.clear();
-    this.setState({ cbPanel: null });
+    if (this.cbPanel) {
+      this.cbPanel.clear();
+      this.cbPanel = null;
+    }
   }
 
-  componentWillUpdate(nextProps) {
-    if (nextProps.conditionalPanelLine) {
+  componentWillUpdate(nextProps: Props) {
+    if (nextProps.line) {
       return this.renderToWidget(nextProps);
     }
     return this.clearConditionalPanel();
   }
 
-  renderToWidget(props) {
-    const { selectedLocation, conditionalPanelLine, editor } = props;
+  renderToWidget(props: Props) {
+    const { selectedLocation, line, editor } = props;
     const sourceId = selectedLocation ? selectedLocation.sourceId : "";
-    const line = conditionalPanelLine;
 
     const editorLine = toEditorLine(sourceId, line);
-    const cbPanel = editor.codeMirror.addLineWidget(
+    this.cbPanel = editor.codeMirror.addLineWidget(
       editorLine,
       this.renderConditionalPanel(),
       {
@@ -65,14 +89,14 @@ export class ConditionalPanel {
         noHScroll: false
       }
     );
-    this.input.focus()
-    this.setState({ cbPanel });
+    this.input.focus();
   }
 
   renderConditionalPanel() {
     const breakpoint = this.props.breakpoint;
     const condition = breakpoint ? breakpoint.condition : "";
-    return (
+    const panel = document.createElement("div");
+    ReactDOM.render(
       <div className="conditional-breakpoint-panel">
         <div className="prompt">»</div>
         <input
@@ -86,8 +110,10 @@ export class ConditionalPanel {
           buttonClass="big"
           tooltip={L10N.getStr("editor.conditionalPanel.close")}
         />
-      </div>
+      </div>,
+      panel
     );
+    return panel;
   }
 
   render() {
@@ -95,24 +121,14 @@ export class ConditionalPanel {
   }
 }
 
-ConditionalPanel.propTypes = {
-  breakpoint: ImPropTypes.map,
-  selectedLocation: PropTypes.object,
-  selectedSource: ImPropTypes.map,
-  setBreakpointCondition: PropTypes.func,
-  conditionalPanelLine: PropTypes.number,
-  openConditionalBreakpointPanel: PropTypes.func,
-  closeConditionalBreakpointPanel: PropTypes.func
-};
-
-
 export default connect(
   state => {
+    const line = getConditionalPanelLine(state);
+    const selectedLocation = getSelectedLocation(state);
     return {
-      selectedLocation: getSelectedLocation(state),
-      selectedSource: getSelectedSource(state),
-      breakpoints: getBreakpointForLine(state, line),
-      conditionalPanelLine: getConditionalPanelLine(state)
+      selectedLocation,
+      breakpoints: getBreakpointForLine(state, selectedLocation.sourceId, line),
+      line
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

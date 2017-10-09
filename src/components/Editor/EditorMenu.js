@@ -139,13 +139,11 @@ class EditorMenu extends PureComponent {
   }
 
   shouldComponentUpdate(nextProps) {
-    console.log(nextProps.contextMenu.type === "Editor");
     return nextProps.contextMenu.type === "Editor";
   }
 
   componentWillUpdate(nextProps) {
     // clear the context menu since it is open
-    console.log("hi");
     this.props.setContextMenu("", null);
     return this.showMenu(nextProps);
   }

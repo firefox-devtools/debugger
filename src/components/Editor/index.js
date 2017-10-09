@@ -6,30 +6,21 @@ import ImPropTypes from "react-immutable-proptypes";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import classnames from "classnames";
-import { isEnabled } from "devtools-config";
-import GutterMenu from "./GutterMenu";
-import EditorMenu from "./EditorMenu";
-import ConditionalPanel from "./ConditionalPanel";
 import { debugGlobal } from "devtools-launchpad";
 import { isLoaded } from "../../utils/source";
-import { findFunctionText } from "../../utils/function";
+import { isFirefox } from "devtools-config";
+import { SourceEditor } from "devtools-source-editor";
 
 import {
   getActiveSearch,
   getSelectedLocation,
   getSelectedFrame,
   getSelectedSource,
-  getHighlightedLineRange,
   getHitCountForSource,
   getCoverageEnabled,
-  getLoadedObjects,
-  getPause,
-  getFileSearchQueryState,
+  getConditionalPanelLine,
   getFileSearchModifierState,
-  getVisibleBreakpoints,
-  getInScopeLines,
-  getConditionalBreakpointPanel,
-  getSymbols
+  getFileSearchQueryState
 } from "../../selectors";
 
 import actions from "../../actions";
@@ -42,6 +33,9 @@ import HitMarker from "./HitMarker";
 import CallSites from "./CallSites";
 import DebugLine from "./DebugLine";
 import EmptyLines from "./EmptyLines";
+import GutterMenu from "./GutterMenu";
+import EditorMenu from "./EditorMenu";
+import ConditionalPanel from "./ConditionalPanel";
 
 import {
   showSourceText,
@@ -59,11 +53,8 @@ import {
   getSourceLocationFromMouseEvent
 } from "../../utils/editor";
 
-import { isFirefox } from "devtools-config";
 import "./Editor.css";
 import "./Highlight.css";
-
-import { SourceEditor } from "devtools-source-editor";
 
 const cssVars = {
   searchbarHeight: "var(--editor-searchbar-height)",
@@ -141,7 +132,7 @@ class Editor extends PureComponent {
       codeMirror.on("gutterContextMenu", (cm, line, eventName, event) => {
         event.stopPropagation();
         event.preventDefault();
-        return this.onGutterContextMenu(event)
+        return this.onGutterContextMenu(event);
       });
 
       codeMirror.on("contextmenu", (cm, event) => this.openMenu(event, editor));
@@ -149,7 +140,7 @@ class Editor extends PureComponent {
       codeMirrorWrapper.addEventListener("contextmenu", event => {
         event.stopPropagation();
         event.preventDefault();
-        return this.openMenu(event, editor)
+        return this.openMenu(event, editor);
       });
     }
 
@@ -169,7 +160,7 @@ class Editor extends PureComponent {
     );
 
     shortcuts.on(L10N.getStr("toggleBreakpoint.key"), this.onToggleBreakpoint);
-    shortcuts.on(L10N.getStr("toggleCondPanel.key"), this.onToggleConditionalPanel);
+    shortcuts.on(L10N.getStr("toggleCondPanel.key"), this.toggleConditionalPanel);
     shortcuts.on("Esc", this.onEscape);
     shortcuts.on(searchAgainPrevKey, this.onSearchAgain);
     shortcuts.on(searchAgainKey, this.onSearchAgain);
@@ -335,10 +326,10 @@ class Editor extends PureComponent {
       return continueToHere(sourceLine);
     }
 
-    // if (ev.shiftKey) {
-    //   return addOrToggleDisabledBreakpoint(sourceLine);
-    // }
-    return addBreakpoint(sourceLine);
+    if (ev.shiftKey) {
+      return addOrToggleDisabledBreakpoint(sourceLine);
+    }
+    return toggleBreakpoint(sourceLine);
   };
 
   onGutterContextMenu = event => {
@@ -358,7 +349,7 @@ class Editor extends PureComponent {
     }
   }
 
-  onToggleConditionalPanel = line => {
+  toggleConditionalPanel = line => {
     const {
       conditionalPanelLine,
       closeConditionalPanel,
@@ -504,7 +495,7 @@ class Editor extends PureComponent {
     const { selectedSource, horizontal } = this.props;
     const { editor } = this.state;
 
-    if (!editor || !isLoaded(selectedSource.toJS())) {
+    if (!editor || !selectedSource || !isLoaded(selectedSource.toJS())) {
       return null;
     }
     return (
@@ -559,18 +550,22 @@ Editor.propTypes = {
   selectedLocation: PropTypes.object,
   selectedSource: ImPropTypes.map,
   searchOn: PropTypes.bool,
-  addBreakpoint: PropTypes.func,
+  addOrToggleDisabledBreakpoint: PropTypes.func,
+  toggleBreakpoint: PropTypes.func,
   selectSource: PropTypes.func,
   jumpToMappedLocation: PropTypes.func,
   coverageOn: PropTypes.bool,
-  // selectedFrame: PropTypes.object,
+  selectedFrame: PropTypes.object,
+  searchModifiers: PropTypes.object,
+  query: PropTypes.object,
   horizontal: PropTypes.bool,
   startPanelSize: PropTypes.number,
   endPanelSize: PropTypes.number,
-  conditionalPanelLine: PropTypes.number
+  conditionalPanelLine: PropTypes.number,
   openConditionalPanel: PropTypes.func,
   closeConditionalPanel: PropTypes.func,
   continueToHere: PropTypes.func,
+  setContextMenu: PropTypes.func
 };
 
 Editor.contextTypes = {
@@ -579,15 +574,17 @@ Editor.contextTypes = {
 
 export default connect(
   state => {
+    const selectedSource = getSelectedSource(state);
+    const sourceId = selectedSource ? selectedSource.get("id") : "";
     return {
       selectedLocation: getSelectedLocation(state),
-      selectedSource: getSelectedSource(state),
+      selectedSource,
       searchOn: getActiveSearch(state) === "file",
       hitCount: getHitCountForSource(state, sourceId),
-      // selectedFrame: getSelectedFrame(state),
+      selectedFrame: getSelectedFrame(state),
+      query: getFileSearchQueryState(state),
+      modifiers: getFileSearchModifierState(state),
       coverageOn: getCoverageEnabled(state),
-      // query: getFileSearchQueryState(state),
-      // searchModifiers: getFileSearchModifierState(state),
       conditionalPanelLine: getConditionalPanelLine(state)
     };
   },

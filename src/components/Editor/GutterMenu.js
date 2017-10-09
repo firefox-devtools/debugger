@@ -19,7 +19,7 @@ export function gutterMenu({
   event,
   pauseData,
   toggleBreakpoint,
-  showConditionalPanel,
+  openConditionalPanel,
   toggleDisabledBreakpoint,
   isCbPanelOpen,
   closeConditionalPanel,
@@ -77,7 +77,7 @@ export function gutterMenu({
     {
       accesskey: "C",
       disabled: false,
-      click: () => showConditionalPanel(line)
+      click: () => openConditionalPanel(line)
     },
     breakpoint && breakpoint.condition
       ? gutterItems.editConditional

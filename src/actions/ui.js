@@ -130,9 +130,15 @@ export function clearHighlightLineRange() {
   };
 }
 
-export function toggleConditionalBreakpointPanel(line?: number) {
+export function openConditionalPanel(line?: number) {
   return {
-    type: "TOGGLE_CONDITIONAL_BREAKPOINT_PANEL",
+    type: "OPEN_CONDITIONAL_PANEL",
     line: line
+  };
+}
+
+export function closeConditionalPanel() {
+  return {
+    type: "CLOSE_CONDITIONAL_PANEL"
   };
 }

@@ -173,6 +173,18 @@ export function getBreakpointsForSource(state: OuterState, sourceId: string) {
   });
 }
 
+export function getBreakpointForLine(
+  state: OuterState,
+  sourceId: string,
+  line: number
+) {
+  if (!sourceId) {
+    return I.Map();
+  }
+  const breakpoints = getBreakpointsForSource(state, sourceId);
+  return breakpoints.find(breakpoint => breakpoint.location.line === line);
+}
+
 export const getHiddenBreakpoint = createSelector(getBreakpoints, function(
   breakpoints
 ) {

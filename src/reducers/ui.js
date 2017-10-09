@@ -48,7 +48,7 @@ export type UIState = {
     end?: number,
     sourceId?: number
   },
-  conditionalBreakpointPanel: null | number
+  conditionalPanelLine: null | number
 };
 
 export const State = makeRecord(
@@ -73,7 +73,7 @@ export const State = makeRecord(
     endPanelCollapsed: prefs.endPanelCollapsed,
     frameworkGroupingOn: prefs.frameworkGroupingOn,
     highlightedLineRange: undefined,
-    conditionalBreakpointPanel: null
+    conditionalPanelLine: null
   }: UIState)
 );
 
@@ -152,8 +152,11 @@ function update(
     case "CLEAR_HIGHLIGHT_LINES":
       return state.set("highlightedLineRange", {});
 
-    case "TOGGLE_CONDITIONAL_BREAKPOINT_PANEL":
-      return state.set("conditionalBreakpointPanel", action.line);
+    case "OPEN_CONDITIONAL_PANEL":
+      return state.set("conditionalPanelLine", action.line);
+
+    case "CLOSE_CONDITIONAL_PANEL":
+      return state.set("conditionalPanelLine", null);
 
     default: {
       return state;
@@ -214,10 +217,8 @@ export function getHighlightedLineRange(state: OuterState) {
   return state.ui.get("highlightedLineRange");
 }
 
-export function getConditionalBreakpointPanel(
-  state: OuterState
-): null | number {
-  return state.ui.get("conditionalBreakpointPanel");
+export function getConditionalPanelLine(state: OuterState): null | number {
+  return state.ui.get("conditionalPanelLine");
 }
 
 export default update;
