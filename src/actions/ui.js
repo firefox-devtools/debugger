@@ -4,6 +4,12 @@ import type { ThunkArgs } from "./types";
 import type { ActiveSearchType, SymbolSearchType } from "../reducers/ui";
 import { clearSourceSearchQuery } from "./source-search";
 
+export function setContextMenu(type: string, event: any) {
+  return ({ dispatch }: ThunkArgs) => {
+    dispatch({ type: "SET_CONTEXT_MENU", contextMenu: { type, event } });
+  };
+}
+
 export function closeActiveSearch() {
   return ({ getState, dispatch }: ThunkArgs) => {
     const activeSearch = getActiveSearch(getState());
@@ -118,9 +124,15 @@ export function clearHighlightLineRange() {
   };
 }
 
-export function toggleConditionalBreakpointPanel(line?: number) {
+export function openConditionalPanel(line?: number) {
   return {
-    type: "TOGGLE_CONDITIONAL_BREAKPOINT_PANEL",
+    type: "OPEN_CONDITIONAL_PANEL",
     line: line
+  };
+}
+
+export function closeConditionalPanel() {
+  return {
+    type: "CLOSE_CONDITIONAL_PANEL"
   };
 }

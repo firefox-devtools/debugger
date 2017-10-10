@@ -3,13 +3,16 @@ import { Component } from "react";
 import { markText, toEditorPosition } from "../../utils/editor";
 import { getDocument } from "../../utils/editor/source-documents";
 
+import { connect } from "react-redux";
+import { getSelectedLocation, getSelectedFrame } from "../../selectors";
+
 type props = {
   editor: Object,
   selectedFrame: Object,
   selectedLocation: Object
 };
 
-export default class DebugLine extends Component {
+export class DebugLine extends Component {
   props: props;
   state: {
     debugExpression: {
@@ -22,7 +25,7 @@ export default class DebugLine extends Component {
     this.state = { debugExpression: { clear: () => {} } };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.setDebugLine(
       this.props.selectedFrame,
       this.props.selectedLocation,
@@ -48,6 +51,9 @@ export default class DebugLine extends Component {
     selectedLocation: Object,
     editor: Object
   ) {
+    if (!selectedFrame) {
+      return;
+    }
     const { location, location: { sourceId } } = selectedFrame;
     const { line, column } = toEditorPosition(sourceId, location);
 
@@ -65,6 +71,9 @@ export default class DebugLine extends Component {
   }
 
   clearDebugLine(selectedFrame: Object, editor: Object) {
+    if (!selectedFrame) {
+      return;
+    }
     const { line, sourceId } = selectedFrame.location;
     const { debugExpression } = this.state;
     if (debugExpression) {
@@ -84,3 +93,8 @@ export default class DebugLine extends Component {
     return null;
   }
 }
+
+export default connect(state => ({
+  selectedLocation: getSelectedLocation(state),
+  selectedFrame: getSelectedFrame(state)
+}))(DebugLine);

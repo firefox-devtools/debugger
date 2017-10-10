@@ -57,22 +57,9 @@ async function checkSelectedSource(state: State, dispatch, source) {
   }
 }
 
-async function checkPendingBreakpoint(
-  state: State,
-  dispatch,
-  pendingBreakpoint,
-  source
-) {
-  const { sourceUrl } = pendingBreakpoint.location;
-  const sameSource = sourceUrl && sourceUrl === source.url;
-
-  if (sameSource) {
-    await dispatch(loadSourceText(source));
-    await dispatch(syncBreakpoint(source.id, pendingBreakpoint));
-  }
-}
-
-async function checkPendingBreakpoints(state, dispatch, source) {
+async function checkPendingBreakpoints(state, dispatch, sourceId) {
+  // source may have been modified by selectSource
+  const source = getSource(state, sourceId).toJS();
   const pendingBreakpoints = getPendingBreakpointsForSource(state, source.url);
   if (!pendingBreakpoints.size) {
     return;
@@ -82,7 +69,7 @@ async function checkPendingBreakpoints(state, dispatch, source) {
   await dispatch(loadSourceText(source));
   const pendingBreakpointsArray = pendingBreakpoints.valueSeq().toJS();
   for (const pendingBreakpoint of pendingBreakpointsArray) {
-    await checkPendingBreakpoint(state, dispatch, pendingBreakpoint, source);
+    await dispatch(syncBreakpoint(sourceId, pendingBreakpoint));
   }
 }
 
@@ -105,7 +92,7 @@ export function newSource(source: Source) {
     }
 
     await checkSelectedSource(getState(), dispatch, source);
-    await checkPendingBreakpoints(getState(), dispatch, source);
+    await checkPendingBreakpoints(getState(), dispatch, source.id);
   };
 }
 
@@ -133,7 +120,6 @@ function loadSourceMap(generatedSource) {
       return;
     }
 
-    const state = getState();
     const originalSources = urls.map(
       originalUrl =>
         ({
@@ -148,9 +134,9 @@ function loadSourceMap(generatedSource) {
 
     dispatch({ type: "ADD_SOURCES", sources: originalSources });
 
-    originalSources.forEach(source => {
-      checkSelectedSource(state, dispatch, source);
-      checkPendingBreakpoints(state, dispatch, source);
+    originalSources.forEach(async source => {
+      await checkSelectedSource(getState(), dispatch, source);
+      checkPendingBreakpoints(getState(), dispatch, source.id);
     });
   };
 }
