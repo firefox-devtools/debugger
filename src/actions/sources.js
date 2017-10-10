@@ -69,7 +69,7 @@ async function checkPendingBreakpoints(state, dispatch, sourceId) {
   await dispatch(loadSourceText(source));
   const pendingBreakpointsArray = pendingBreakpoints.valueSeq().toJS();
   for (const pendingBreakpoint of pendingBreakpointsArray) {
-    await dispatch(syncBreakpoint(source.id, pendingBreakpoint));
+    await dispatch(syncBreakpoint(sourceId, pendingBreakpoint));
   }
 }
 
@@ -135,9 +135,9 @@ function loadSourceMap(generatedSource) {
 
     dispatch({ type: "ADD_SOURCES", sources: originalSources });
 
-    originalSources.forEach(source => {
-      checkSelectedSource(state, dispatch, source);
-      checkPendingBreakpoints(state, dispatch, source);
+    originalSources.forEach(async source => {
+      await checkSelectedSource(getState(), dispatch, source);
+      checkPendingBreakpoints(getState(), dispatch, source.id);
     });
   };
 }

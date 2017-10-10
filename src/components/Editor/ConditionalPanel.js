@@ -83,7 +83,7 @@ export class ConditionalPanel extends PureComponent {
     const editorLine = toEditorLine(sourceId, line);
     this.cbPanel = editor.codeMirror.addLineWidget(
       editorLine,
-      this.renderConditionalPanel(),
+      this.renderConditionalPanel(props),
       {
         coverGutter: true,
         noHScroll: false
@@ -92,8 +92,8 @@ export class ConditionalPanel extends PureComponent {
     this.input.focus();
   }
 
-  renderConditionalPanel() {
-    const breakpoint = this.props.breakpoint;
+  renderConditionalPanel(props: Props) {
+    const { breakpoint } = props;
     const condition = breakpoint ? breakpoint.condition : "";
     const panel = document.createElement("div");
     ReactDOM.render(
@@ -127,7 +127,7 @@ export default connect(
     const selectedLocation = getSelectedLocation(state);
     return {
       selectedLocation,
-      breakpoints: getBreakpointForLine(state, selectedLocation.sourceId, line),
+      breakpoint: getBreakpointForLine(state, selectedLocation.sourceId, line),
       line
     };
   },
