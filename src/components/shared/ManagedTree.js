@@ -1,6 +1,5 @@
 // @flow
 import React, { createFactory, Component } from "react";
-import { nodeHasChildren } from "../../utils/sources-tree";
 import "./ManagedTree.css";
 
 import { Tree as _Tree } from "devtools-components";
@@ -69,31 +68,32 @@ class ManagedTree extends Component {
     }
   }
 
-  setExpanded = (item: Item, isExpanded: boolean, isRecursive: boolean) => {
+  setExpanded = (
+    item: Item,
+    isExpanded: boolean,
+    shouldIncludeChildren: boolean
+  ) => {
+    const expandItem = i => {
+      const path = this.props.getPath(i);
+      if (isExpanded) {
+        expanded.add(path);
+      } else {
+        expanded.delete(path);
+      }
+    };
     const expanded = this.state.expanded;
-    let itemPath = this.props.getPath(item);
-    if (isExpanded) {
-      expanded.add(itemPath);
-    } else {
-      expanded.delete(itemPath);
-    }
-    if (isRecursive) {
-      let children = null;
+    expandItem(item);
+
+    if (shouldIncludeChildren) {
       let parents = [item];
       while (parents.length) {
-        children = [];
+        const children = [];
         for (const parent of parents) {
-          if (!nodeHasChildren(parent)) {
-            continue;
-          }
-          for (const child of parent.contents) {
-            itemPath = this.props.getPath(child);
-            if (isExpanded) {
-              expanded.add(itemPath);
-            } else {
-              expanded.delete(itemPath);
+          if (parent.contents && parent.contents.length) {
+            for (const child of parent.contents) {
+              expandItem(child);
+              children.push(child);
             }
-            children.push(child);
           }
         }
         parents = children;
