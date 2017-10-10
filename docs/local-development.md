@@ -122,6 +122,55 @@ prefs.clientSourceMapsEnabled = false;
 ### SVGs
 
 We use SVGs in DevTools because they look good at any resolution.
+Recently we switched from inline SVGs where each svg is a react component
+to CSS SVGs where SVGs are defined in CSS.
+
+#### New Style
+
+**Adding a new SVG**
+
+Add an SVG file to `assets/images` and include it as a `mask` in CSS.
+
+```diff
+diff --git a/src/components/PrimaryPanes/Sources.css b/src/components/PrimaryPanes/Sources.css
+index 1f625ef..b75d6ff 100644
+--- a/src/components/PrimaryPanes/Sources.css
++++ b/src/components/PrimaryPanes/Sources.css
+@@ -47,6 +47,11 @@
+   background-color: var(--theme-selection-background);
+ }
+
++.sources-list img.webpack {
++  mask: url(/dbg/webpack.svg);
++  background-color: var(--theme-selection-background);
++}
+```
+
+**Using a shared DevTools SVG**
+
+We like to use shared devtools styles and components when we can.
+Here is where the [themes], [images], and [widgets] are defined.
+
+[images]:https://searchfox.org/mozilla-central/source/devtools/client/themes/images
+[themes]:https://searchfox.org/mozilla-central/source/devtools/client/themes
+[widgets]:https://searchfox.org/mozilla-central/source/devtools/client/shared/widgets
+
+```diff
+diff --git a/src/components/SecondaryPanes/CommandBar.css b/src/components/SecondaryPanes/CommandBar.css
+index 990825c..b4f59e2 100644
+--- a/src/components/SecondaryPanes/CommandBar.css
++++ b/src/components/SecondaryPanes/CommandBar.css
+@@ -36,6 +36,10 @@ html[dir="rtl"] .command-bar {
+   color: var(--theme-body-color);
+ }
+
++.command-bar > button.stepIn {
++  mask: url(chrome://devtools/content/stepIn.svg);
++}
++
+```
+
+#### Old Style
 
 **Adding a new SVG**
 
