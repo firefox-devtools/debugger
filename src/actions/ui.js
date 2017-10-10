@@ -4,12 +4,6 @@ import type { ThunkArgs } from "./types";
 import type { ActiveSearchType, SymbolSearchType } from "../reducers/ui";
 import { clearSourceSearchQuery } from "./source-search";
 
-export function clickGutter(line: number) {
-  return ({ dispatch }: ThunkArgs) => {
-    dispatch({ type: "GUTTER_CLICK", line });
-  };
-}
-
 export function setContextMenu(type: string, event: any) {
   return ({ dispatch }: ThunkArgs) => {
     dispatch({ type: "SET_CONTEXT_MENU", contextMenu: { type, event } });
