@@ -120,7 +120,6 @@ function loadSourceMap(generatedSource) {
       return;
     }
 
-    const state = getState();
     const originalSources = urls.map(
       originalUrl =>
         ({
