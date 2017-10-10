@@ -231,7 +231,7 @@ class SourcesTree extends Component {
         })}
         onClick={e => {
           e.stopPropagation();
-          setExpanded(item, !expanded);
+          setExpanded(item, !expanded, e.altKey);
         }}
       />
     ) : (
@@ -252,9 +252,9 @@ class SourcesTree extends Component {
         className={classnames("node", { focused })}
         style={{ [paddingDir]: `${depth * 15 + 5}px` }}
         key={item.path}
-        onClick={() => {
+        onClick={e => {
           this.selectItem(item);
-          setExpanded(item, !expanded);
+          setExpanded(item, !expanded, e.altKey);
         }}
         onContextMenu={e => this.onContextMenu(e, item)}
       >
