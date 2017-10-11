@@ -31,12 +31,20 @@
   padding: 0px 0px 0px 3px;
 }
 
-.sources-list .tree .arrow svg {
-  margin-top: 0px;
+.sources-list .tree img.arrow {
+  margin-right: 5px;
 }
 
-.theme-dark .sources-list .tree .node:not(.focused) svg {
-  fill: var(--theme-content-color3);
+.sources-list .tree .focused img.arrow {
+  background-color: white;
+}
+
+.sources-list .tree img.arrow.expanded {
+  transform: rotate(0deg);
+}
+
+.theme-dark .sources-list .tree .node:not(.focused) img.arrow {
+  background: var(--theme-content-color3);
 }
 
 .theme-dark .source-list .tree .node.focused {

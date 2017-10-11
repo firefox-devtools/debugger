@@ -3,6 +3,7 @@ build
 node_modules
 configs/local.json
 npm-debug.log
+assets-error.log
 .idea/
 .vscode/
 /firefox

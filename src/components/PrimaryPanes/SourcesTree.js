@@ -224,9 +224,8 @@ class SourcesTree extends Component {
 
   renderItem(item, depth, focused, _, expanded, { setExpanded }) {
     const arrow = nodeHasChildren(item) ? (
-      <Svg
-        name="arrow"
-        className={classnames({
+      <img
+        className={classnames("arrow", {
           expanded: expanded
         })}
         onClick={e => {
