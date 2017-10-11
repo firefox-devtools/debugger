@@ -54,6 +54,7 @@ exports[`ast setPreview member expression 1`] = `
 Object {
   "cursorPos": undefined,
   "expression": "this.bazz",
+  "extra": undefined,
   "location": Object {
     "end": Object {
       "column": 37,
@@ -80,6 +81,7 @@ exports[`ast setPreview this 1`] = `
 Object {
   "cursorPos": undefined,
   "expression": "this",
+  "extra": undefined,
   "location": Object {
     "end": Object {
       "column": 32,

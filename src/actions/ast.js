@@ -24,6 +24,10 @@ import type { SourceId } from "debugger-html";
 import type { ThunkArgs } from "./types";
 import type { AstLocation } from "../workers/parser";
 
+const extraProps = {
+  react: { displayName: "this._reactInternalInstance.getName()" }
+};
+
 export function setSymbols(sourceId: SourceId) {
   return async ({ dispatch, getState }: ThunkArgs) => {
     const sourceRecord = getSource(getState(), sourceId);
@@ -173,6 +177,10 @@ export function setPreview(
           frameId: selectedFrame.id
         });
 
+        const data = await client.evaluate(extraProps.react.displayName, {
+          frameId: selectedFrame.id
+        });
+
         if (result === undefined) {
           return;
         }
@@ -182,7 +190,8 @@ export function setPreview(
           result,
           location,
           tokenPos,
-          cursorPos
+          cursorPos,
+          extra: data && data.result
         };
       })()
     });

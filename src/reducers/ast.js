@@ -89,7 +89,8 @@ function update(
         location,
         result,
         tokenPos,
-        cursorPos
+        cursorPos,
+        extra
       } = action.value;
       return state.set("preview", {
         updating: false,
@@ -97,7 +98,8 @@ function update(
         location,
         result,
         tokenPos,
-        cursorPos
+        cursorPos,
+        extra
       });
     }
 
