@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 /**
- * Breakpoints reducer
+ * Pending breakpoints reducer
  * @module reducers/pending-breakpoints
  */
 
