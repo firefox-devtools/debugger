@@ -5,7 +5,7 @@
 
 /**
  * Breakpoints reducer
- * @module reducers/breakpoints
+ * @module reducers/pending-breakpoints
  */
 
 import * as I from "immutable";
