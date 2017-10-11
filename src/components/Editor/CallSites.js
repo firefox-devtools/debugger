@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { isEnabled } from "devtools-config";
 
-import { range, keyBy, find, isEqualWith } from "lodash";
+import { range, keyBy, isEqualWith } from "lodash";
 
 import CallSite from "./CallSite";
 
@@ -19,7 +19,7 @@ import { getTokenLocation, isWasm } from "../../utils/editor";
 import actions from "../../actions";
 
 function getCallSiteAtLocation(callSites, location) {
-  return find(callSites, callSite =>
+  return callSites.find(callSite =>
     isEqualWith(callSite.location, location, (cloc, loc) => {
       return (
         loc.line === cloc.start.line &&
