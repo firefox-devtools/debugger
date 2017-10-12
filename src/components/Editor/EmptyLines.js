@@ -4,6 +4,7 @@ import { Component } from "react";
 import actions from "../../actions";
 import { getSelectedSource, getEmptyLines } from "../../selectors";
 import type { SourceRecord } from "../../reducers/types";
+import { toEditorLine } from "../../utils/editor";
 
 import "./EmptyLines.css";
 
@@ -27,28 +28,30 @@ class EmptyLines extends Component {
   }
 
   componentWillUnmount() {
-    const { emptyLines, editor } = this.props;
+    const { emptyLines, selectedSource, editor } = this.props;
 
     if (!emptyLines) {
       return;
     }
     editor.codeMirror.operation(() => {
-      emptyLines.forEach(line =>
-        editor.codeMirror.removeLineClass(line, "line", "empty-line")
-      );
+      emptyLines.forEach(emptyLine => {
+        const line = toEditorLine(selectedSource.get("id"), emptyLine);
+        editor.codeMirror.removeLineClass(line, "line", "empty-line");
+      });
     });
   }
 
   disableEmptyLines() {
-    const { emptyLines, editor } = this.props;
+    const { emptyLines, selectedSource, editor } = this.props;
 
     if (!emptyLines) {
       return;
     }
     editor.codeMirror.operation(() => {
-      emptyLines.forEach(line =>
-        editor.codeMirror.addLineClass(line, "line", "empty-line")
-      );
+      emptyLines.forEach(emptyLine => {
+        const line = toEditorLine(selectedSource.get("id"), emptyLine);
+        editor.codeMirror.addLineClass(line, "line", "empty-line");
+      });
     });
   }
 

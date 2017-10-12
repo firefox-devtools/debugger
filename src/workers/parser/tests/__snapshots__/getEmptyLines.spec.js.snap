@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getEmptyLines allSymbols 1`] = `
+Array [
+  3,
+  7,
+  9,
+  19,
+  22,
+  27,
+  32,
+]
+`;
+
+exports[`getEmptyLines class 1`] = `
+Array [
+  5,
+  10,
+  12,
+  14,
+]
+`;
+
+exports[`getEmptyLines math 1`] = `
+Array [
+  3,
+  6,
+  7,
+  9,
+  13,
+  16,
+]
+`;
