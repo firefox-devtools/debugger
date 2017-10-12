@@ -71,7 +71,6 @@ ShallowWrapper {
       "_hostParent": null,
       "_instance": Editor {
         "_reactInternalInstance": [Circular],
-        "cbPanel": null,
         "closeConditionalPanel": [Function],
         "context": Object {
           "shortcuts": undefined,

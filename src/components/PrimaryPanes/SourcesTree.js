@@ -1,19 +1,29 @@
 // @flow
 
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
+// React
 import React, { Component } from "react";
 import classnames from "classnames";
-import ImPropTypes from "react-immutable-proptypes";
-import { Set } from "immutable";
+
+// Redux
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 import {
   getShownSource,
   getSelectedSource,
   getDebuggeeUrl,
   getExpandedState
 } from "../../selectors";
+import actions from "../../actions";
 
+// Types
+import type { SourcesMap } from "../../reducers/types";
+import type { SourceRecord } from "../../reducers/sources";
+
+// Components
+import ManagedTree from "../shared/ManagedTree";
+import Svg from "../shared/Svg";
+
+// Utils
 import {
   nodeHasChildren,
   createParentMap,
@@ -23,11 +33,7 @@ import {
   createTree,
   getDirectories
 } from "../../utils/sources-tree";
-
-import ManagedTree from "../shared/ManagedTree";
-
-import actions from "../../actions";
-import Svg from "../shared/Svg";
+import { Set } from "immutable";
 import { showMenu } from "devtools-launchpad";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { throttle } from "../../utils/utils";
@@ -41,7 +47,18 @@ type CreateTree = {
   highlightItems?: any
 };
 
+type Props = {
+  sources: SourcesMap,
+  selectSource: string => void,
+  shownSource?: String,
+  selectedSource?: SourceRecord,
+  debuggeeUrl: String,
+  setExpandedState: any => void,
+  expanded?: any
+};
+
 class SourcesTree extends Component {
+  props: Props;
   state: CreateTree;
   focusItem: Function;
   selectItem: Function;
@@ -207,14 +224,13 @@ class SourcesTree extends Component {
 
   renderItem(item, depth, focused, _, expanded, { setExpanded }) {
     const arrow = nodeHasChildren(item) ? (
-      <Svg
-        name="arrow"
-        className={classnames({
+      <img
+        className={classnames("arrow", {
           expanded: expanded
         })}
         onClick={e => {
           e.stopPropagation();
-          setExpanded(item, !expanded);
+          setExpanded(item, !expanded, e.altKey);
         }}
       />
     ) : (
@@ -235,9 +251,9 @@ class SourcesTree extends Component {
         className={classnames("node", { focused })}
         style={{ [paddingDir]: `${depth * 15 + 5}px` }}
         key={item.path}
-        onClick={() => {
+        onClick={e => {
           this.selectItem(item);
-          setExpanded(item, !expanded);
+          setExpanded(item, !expanded, e.altKey);
         }}
         onContextMenu={e => this.onContextMenu(e, item)}
       >
@@ -300,16 +316,6 @@ class SourcesTree extends Component {
     );
   }
 }
-
-SourcesTree.propTypes = {
-  sources: ImPropTypes.map.isRequired,
-  selectSource: PropTypes.func.isRequired,
-  shownSource: PropTypes.string,
-  selectedSource: ImPropTypes.map,
-  debuggeeUrl: PropTypes.string.isRequired,
-  setExpandedState: PropTypes.func,
-  expanded: PropTypes.any
-};
 
 export default connect(
   state => {

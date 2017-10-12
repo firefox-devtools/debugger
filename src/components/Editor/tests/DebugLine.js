@@ -30,7 +30,7 @@ function generateDefaults(overrides) {
 
 function render(overrides = {}) {
   const props = generateDefaults(overrides);
-  const component = shallow(<DebugLine {...props} />);
+  const component = shallow(<DebugLine.WrappedComponent {...props} />);
   return { component, props };
 }
 
@@ -73,6 +73,7 @@ describe("DebugLine Component", () => {
 
     it("should clear the previous debugExpression", async () => {
       const { component } = render();
+      component.setState({ debugExpression: { clear: jest.fn() } });
       const previousState = component.state();
       component.setProps({ selectedLocation });
       expect(previousState.debugExpression.clear).toHaveBeenCalled();

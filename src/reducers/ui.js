@@ -1,4 +1,7 @@
 // @flow
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 /**
  * UI reducer
@@ -18,7 +21,12 @@ export type FileSearchModifiers = Record<{
 }>;
 
 export type SymbolSearchType = "functions" | "variables";
-export type ActiveSearchType = "project" | "source" | "file" | "symbol";
+export type ActiveSearchType =
+  | "project"
+  | "source"
+  | "file"
+  | "symbol"
+  | "line";
 
 export type MatchedLocations = {
   line: number,
@@ -34,6 +42,7 @@ export type SearchResults = {
 
 export type UIState = {
   activeSearch: ?ActiveSearchType,
+  contextMenu: any,
   fileSearchQuery: string,
   fileSearchModifiers: FileSearchModifiers,
   symbolSearchType: SymbolSearchType,
@@ -47,12 +56,13 @@ export type UIState = {
     end?: number,
     sourceId?: number
   },
-  conditionalBreakpointPanel: null | number
+  conditionalPanelLine: null | number
 };
 
 export const State = makeRecord(
   ({
     activeSearch: null,
+    contextMenu: {},
     fileSearchQuery: "",
     fileSearchModifiers: makeRecord({
       caseSensitive: prefs.fileSearchCaseSensitive,
@@ -71,7 +81,7 @@ export const State = makeRecord(
     endPanelCollapsed: prefs.endPanelCollapsed,
     frameworkGroupingOn: prefs.frameworkGroupingOn,
     highlightedLineRange: undefined,
-    conditionalBreakpointPanel: null
+    conditionalPanelLine: null
   }: UIState)
 );
 
@@ -119,6 +129,10 @@ function update(
       return state.set("symbolSearchType", action.symbolType);
     }
 
+    case "SET_CONTEXT_MENU": {
+      return state.set("contextMenu", action.contextMenu);
+    }
+
     case "SHOW_SOURCE": {
       return state.set("shownSource", action.sourceUrl);
     }
@@ -146,8 +160,11 @@ function update(
     case "CLEAR_HIGHLIGHT_LINES":
       return state.set("highlightedLineRange", {});
 
-    case "TOGGLE_CONDITIONAL_BREAKPOINT_PANEL":
-      return state.set("conditionalBreakpointPanel", action.line);
+    case "OPEN_CONDITIONAL_PANEL":
+      return state.set("conditionalPanelLine", action.line);
+
+    case "CLOSE_CONDITIONAL_PANEL":
+      return state.set("conditionalPanelLine", null);
 
     default: {
       return state;
@@ -161,6 +178,10 @@ type OuterState = { ui: Record<UIState> };
 
 export function getActiveSearch(state: OuterState): ActiveSearchType {
   return state.ui.get("activeSearch");
+}
+
+export function getContextMenu(state: OuterState): any {
+  return state.ui.get("contextMenu");
 }
 
 export function getFileSearchQueryState(state: OuterState): string {
@@ -204,10 +225,8 @@ export function getHighlightedLineRange(state: OuterState) {
   return state.ui.get("highlightedLineRange");
 }
 
-export function getConditionalBreakpointPanel(
-  state: OuterState
-): null | number {
-  return state.ui.get("conditionalBreakpointPanel");
+export function getConditionalPanelLine(state: OuterState): null | number {
+  return state.ui.get("conditionalPanelLine");
 }
 
 export default update;

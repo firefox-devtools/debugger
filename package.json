@@ -18,19 +18,16 @@
     "start": "node bin/dev-server",
     "start-app": "TARGET=application node bin/dev-server",
     "flow": "flow",
-    "eslint-check":
-      "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
+    "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
     "prettier": "node bin/prettier.js",
     "license-check": "devtools-license-check",
     "links": "ls -l node_modules/ | grep ^l || echo 'no linked packages'",
     "lint": "run-p lint-css lint-js lint-md",
     "lint-css": "stylelint \"src/components/**/*.css\"",
     "lint-js": "eslint *.js \"src/**/*.js\" --fix",
-    "lint-md":
-      "remark -u devtools-linters/markdown/preset -qf *.md src configs docs",
+    "lint-md": "remark -u devtools-linters/markdown/preset -qf *.md src configs docs",
     "lint-fix": "yarn lint-js -- --fix",
-    "mochi":
-      "mochii --mc ./firefox --default-test-path devtools/client/debugger/new",
+    "mochi": "mochii --mc ./firefox --default-test-path devtools/client/debugger/new",
     "mochid": "yarn mochi -- --jsdebugger --",
     "mochir": "yarn mochi -- --repeat 10 --",
     "mochih": "yarn mochi -- --setenv MOZ_HEADLESS=1 --",
@@ -38,20 +35,14 @@
     "test:watch": "jest --watch",
     "test-coverage": "yarn test -- --coverage",
     "test-all": "yarn test; yarn lint; yarn flow",
-    "firefox":
-      "start-firefox --start --location https://devtools-html.github.io/debugger-examples/",
-    "chrome":
-      "start-chrome --location https://devtools-html.github.io/debugger-examples/",
+    "firefox": "start-firefox --start --location https://devtools-html.github.io/debugger-examples/",
+    "chrome": "start-chrome --location https://devtools-html.github.io/debugger-examples/",
     "copy-assets": "node bin/copy-assets --symlink",
     "copy-assets-watch": "node bin/copy-assets --watch --symlink",
-    "build-docs":
-      "documentation build --format html --sort-order alpha --shallow  --document-exported --output docs/reference/ src/types.js src/utils/ src/reducers/ src/actions/ src/test/mochitest/head.js",
-    "flow-coverage":
-      "flow-coverage-report --threshold 50 -i 'src/actions/*.js' -i 'src/reducers/*.js' -i 'src/utils/*.js' -i 'src/components/*.js' -i 'src/components/**/*.js' -t html -t text",
-    "flow-utils":
-      "flow-coverage-report -i 'src/utils/*.js' -i 'src/utils/**/*.js' -t text",
-    "flow-redux":
-      "flow-coverage-report  -i 'src/reducers/*.js' -i 'src/actions/*.js'  -t text",
+    "build-docs": "documentation build --format html --sort-order alpha --shallow  --document-exported --output docs/reference/ src/types.js src/utils/ src/reducers/ src/actions/ src/test/mochitest/head.js",
+    "flow-coverage": "flow-coverage-report --threshold 50 -i 'src/actions/*.js' -i 'src/reducers/*.js' -i 'src/utils/*.js' -i 'src/components/*.js' -i 'src/components/**/*.js' -t html -t text",
+    "flow-utils": "flow-coverage-report -i 'src/utils/*.js' -i 'src/utils/**/*.js' -t text",
+    "flow-redux": "flow-coverage-report  -i 'src/reducers/*.js' -i 'src/actions/*.js'  -t text",
     "flow-react": "flow-coverage-report -i 'src/components/**/*.js' -t text",
     "storybook": "start-storybook -p 6006",
     "snapshot": "NODE_ENV='development' build-storybook && percy-storybook",
@@ -61,7 +52,8 @@
     "precommit": "lint-staged",
     "prepush": "run-p lint test flow",
     "nom": "node bin/nom",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "diff": "node bin/diff"
   },
   "dependencies": {
     "babel-preset-env": "^1.6.0",
@@ -70,13 +62,13 @@
     "babylon": "^6.18.0",
     "codemirror": "^5.28.0",
     "devtools-components": "^0.0.2",
-    "devtools-launchpad": "^0.0.100",
+    "devtools-launchpad": "0.0.104",
     "devtools-linters": "^0.0.3",
     "devtools-map-bindings": "^0.2.0",
     "devtools-reps": "^0.12.3",
     "devtools-source-editor": "0.0.6",
-    "devtools-source-map": "^0.14.2",
-    "devtools-splitter": "^0.0.3",
+    "devtools-source-map": "^0.14.3",
+    "devtools-splitter": "^0.0.4",
     "devtools-utils": "^0.0.9",
     "fuzzaldrin-plus": "^0.4.1",
     "immutable": "^3.7.6",
@@ -97,9 +89,18 @@
     "svg-inline-react": "^1.0.2",
     "wasmparser": "^0.4.10"
   },
-  "files": ["src", "assets"],
+  "files": [
+    "src",
+    "assets"
+  ],
   "greenkeeper": {
-    "ignore": ["react", "react-dom", "react-redux", "redux", "codemirror"]
+    "ignore": [
+      "react",
+      "react-dom",
+      "react-redux",
+      "redux",
+      "codemirror"
+    ]
   },
   "main": "src/main.js",
   "author": "Jason Laster <jlaster@mozilla.com>",
@@ -110,7 +111,9 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "babel-preset-react": "^6.24.1",
-    "devtools-license-check": "^0.5.0",
+    "chalk": "^2.1.0",
+    "copy-paste": "^1.3.0",
+    "devtools-license-check": "^0.5.1",
     "documentation": "^5.2.1",
     "enzyme": "^2.9.1",
     "eslint": "^4.2.0",
@@ -158,19 +161,47 @@
     "workerjs": "github:jasonLaster/workerjs"
   },
   "lint-staged": {
-    "*.js": ["prettier", "git add"],
-    "src/*.js": ["prettier", "git add"],
-    "src/*/*.js": ["prettier", "git add"],
-    "src/*/!(mochitest)**/*.js": ["prettier", "git add"],
-    "src/*/!(mochitest)*/**/*.js": ["prettier", "git add"]
+    "*.js": [
+      "prettier",
+      "git add"
+    ],
+    "src/*.js": [
+      "prettier",
+      "git add"
+    ],
+    "src/*/*.js": [
+      "prettier",
+      "git add"
+    ],
+    "src/*/!(mochitest)**/*.js": [
+      "prettier",
+      "git add"
+    ],
+    "src/*/!(mochitest)*/**/*.js": [
+      "prettier",
+      "git add"
+    ]
   },
   "jest": {
     "rootDir": "src",
-    "testMatch": ["**/tests/**/*.js"],
-    "testPathIgnorePatterns": ["/node_modules/", "/helpers/", "/fixtures/"],
-    "transformIgnorePatterns": ["node_modules/(?!devtools-)"],
-    "setupFiles": ["<rootDir>/test/tests-setup.js", "jest-localstorage-mock"],
-    "snapshotSerializers": ["jest-serializer-babel-ast"],
+    "testMatch": [
+      "**/tests/**/*.js"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/helpers/",
+      "/fixtures/"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!devtools-)"
+    ],
+    "setupFiles": [
+      "<rootDir>/test/tests-setup.js",
+      "jest-localstorage-mock"
+    ],
+    "snapshotSerializers": [
+      "jest-serializer-babel-ast"
+    ],
     "setupTestFrameworkScriptFile": "<rootDir>/test/tests-framework.js",
     "moduleNameMapper": {
       "\\.css$": "<rootDir>/test/__mocks__/styleMock.js",

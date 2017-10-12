@@ -4,8 +4,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 /**
- * Breakpoints reducer
- * @module reducers/breakpoints
+ * Pending breakpoints reducer
+ * @module reducers/pending-breakpoints
  */
 
 import * as I from "immutable";

@@ -2,6 +2,11 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+/**
+ * Reducer index
+ * @module reducers/index
+ */
+
 import expressions from "./expressions";
 import eventListeners from "./event-listeners";
 import sources from "./sources";

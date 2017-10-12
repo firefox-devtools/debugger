@@ -175,10 +175,17 @@ Go to [Pull Requests](./docs/pull-requests.md) to learn about:
 ### Maintainer Tips
 
 Helping maintain a project is the best way to contribute to its overall health.
+Here are some [notes][mdoc] on how we work.
 
-+ [Pushing to a branch](./docs/maintainer.md#pushing-to-a-branch)
-+ [Triaging issues](./docs/maintainer.md#triaging-issues)
++ [Triaging Issues](./docs/maintainer.md#triaging-issues)
++ [Making Bugs Actionable](./docs/maintainer.md#making-bugs-actionable)
++ [Closing Stale Issues](./docs/maintainer.md#reviewing-stale-issues)
++ [Making Issues available](./docs/maintainer.md#making-issues-available)
++ [Following up on In Progress work](./docs/maintainer.md#following-up-on-in-progress-work)
 + [Adding a Patch](./docs/maintainer.md#adding-a-patch)
++ [Pushing to a branch](./docs/maintainer.md#pushing-to-a-branch)
+
+[mdoc]: ./docs/maintainer.md
 
 ### Debugging Tips
 

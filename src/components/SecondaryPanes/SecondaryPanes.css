@@ -1,4 +1,5 @@
 .secondary-panes {
+  overflow: scroll;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -13,8 +14,12 @@
   the wrapper.
   Ref: https://github.com/devtools-html/debugger.html/issues/3426
 */
-.secondary-panes--sticky-commandbar {
-  overflow-y: scroll;
+
+.secondary-panes-wrapper {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .secondary-panes .accordion {

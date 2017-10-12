@@ -63,6 +63,10 @@ function isEmber(frame) {
   return getFrameUrl(frame).match(/ember/i);
 }
 
+function isChoo(frame) {
+  return getFrameUrl(frame).match(/choo/i);
+}
+
 function isVueJS(frame) {
   return getFrameUrl(frame).match(/vue\.js/i);
 }
@@ -118,6 +122,10 @@ export function getLibraryFromUrl(frame: Frame) {
 
   if (isExpress(frame)) {
     return "Express";
+  }
+
+  if (isChoo(frame)) {
+    return "Choo";
   }
 
   if (isPug(frame)) {

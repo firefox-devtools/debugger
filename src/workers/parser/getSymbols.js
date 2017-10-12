@@ -2,8 +2,8 @@
 
 import { traverseAst } from "./utils/ast";
 import { isVariable, isFunction } from "./utils/helpers";
+import { inferClassName } from "./utils/inferClassName";
 import * as t from "babel-types";
-
 import getFunctionName from "./utils/getFunctionName";
 
 import type { Source } from "debugger-html";
@@ -71,15 +71,6 @@ function getComments(ast) {
   }));
 }
 
-function getClassName(path: NodePath): ?string {
-  const classDeclaration = path.findParent(_p => _p.isClassDeclaration());
-  if (!classDeclaration) {
-    return null;
-  }
-
-  return classDeclaration.node.id.name;
-}
-
 function extractSymbols(source: Source) {
   const functions = [];
   const variables = [];
@@ -97,7 +88,7 @@ function extractSymbols(source: Source) {
       if (isFunction(path)) {
         functions.push({
           name: getFunctionName(path),
-          klass: getClassName(path),
+          klass: inferClassName(path),
           location: path.node.loc,
           parameterNames: getFunctionParameterNames(path),
           identifier: path.node.id
@@ -341,36 +332,6 @@ function getSnippet(path, prevPath, expression = "") {
   if (t.isArrayExpression(path)) {
     return getArraySnippet(path, prevPath, expression);
   }
-}
-
-export function formatSymbols(source: Source) {
-  const symbols = getSymbols(source);
-
-  function formatLocation(loc) {
-    if (!loc) {
-      return "";
-    }
-    const { start, end } = loc;
-
-    const startLoc = `(${start.line}, ${start.column})`;
-    const endLoc = `(${end.line}, ${end.column})`;
-    return `[${startLoc}, ${endLoc}]`;
-  }
-
-  function summarize(symbol) {
-    const loc = formatLocation(symbol.location);
-    const exprLoc = formatLocation(symbol.expressionLocation);
-    const params = symbol.parameterNames
-      ? symbol.parameterNames.join(", ")
-      : "";
-    const expression = symbol.expression || "";
-    const klass = symbol.klass || "";
-    return `${loc} ${exprLoc} ${expression} ${symbol.name} ${params} ${klass}`;
-  }
-
-  return Object.keys(symbols).map(
-    name => `${name}:\n ${symbols[name].map(summarize).join("\n")}`
-  );
 }
 
 export function clearSymbols() {

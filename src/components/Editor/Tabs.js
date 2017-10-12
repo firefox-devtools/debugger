@@ -182,7 +182,7 @@ class SourceTabs extends PureComponent {
     const closeTabsToEndLabel = L10N.getStr("sourceTabs.closeTabsToEnd");
     const closeAllTabsLabel = L10N.getStr("sourceTabs.closeAllTabs");
     const revealInTreeLabel = L10N.getStr("sourceTabs.revealInTree");
-    const copyLinkLabel = L10N.getStr("sourceTabs.copyLink");
+    const copyLinkLabel = L10N.getStr("copySourceUri2");
     const prettyPrintLabel = L10N.getStr("sourceTabs.prettyPrint");
 
     const closeTabKey = L10N.getStr("sourceTabs.closeTab.accesskey");
@@ -194,7 +194,7 @@ class SourceTabs extends PureComponent {
     );
     const closeAllTabsKey = L10N.getStr("sourceTabs.closeAllTabs.accesskey");
     const revealInTreeKey = L10N.getStr("sourceTabs.revealInTree.accesskey");
-    const copyLinkKey = L10N.getStr("sourceTabs.copyLink.accesskey");
+    const copyLinkKey = L10N.getStr("copySourceUri2.accesskey");
     const prettyPrintKey = L10N.getStr("sourceTabs.prettyPrint.accesskey");
 
     const tabs = sourceTabs.map(t => t.get("id"));
