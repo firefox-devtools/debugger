@@ -208,7 +208,15 @@ class SourcesTree extends Component {
 
     if (!isDirectory(item)) {
       const source = item.contents.get("url");
-      const copySourceUri2 = {
+
+      const open = {
+        id: "node-menu-open",
+        label: "Open",
+        disabled: false,
+        click: () => this.selectItem(item)
+      };
+
+      const copySourceUri = {
         id: "node-menu-copy-source",
         label: copySourceUri2Label,
         accesskey: copySourceUri2Key,
@@ -216,7 +224,8 @@ class SourcesTree extends Component {
         click: () => copyToTheClipboard(source)
       };
 
-      menuOptions.push(copySourceUri2);
+      menuOptions.push(open);
+      menuOptions.push(copySourceUri);
     }
 
     showMenu(event, menuOptions);
