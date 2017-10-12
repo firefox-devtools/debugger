@@ -4,8 +4,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 /**
- * Search reducer
- * @module reducers/search
+ * Project text search reducer
+ * @module reducers/project-text-search
  */
 
 import * as I from "immutable";
