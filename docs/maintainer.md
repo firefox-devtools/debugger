@@ -2,13 +2,17 @@
 
 Helping maintain a project is the best way to contribute to its overall health.
 
-+ [Pushing to a branch](#pushing-to-a-branch)
-+ [Triaging issues](#triaging-issues)
++ [Triaging Issues](#triaging-issues)
++ [Making Bugs Actionable](#making-bugs-actionable)
++ [Reviewing Stale Issues](#reviewing-stale-issues)
++ [Making Issues available](#making-issues-available)
++ [Following up on In Progress work](#following-up-on-in-progress-work)
 + [Adding a Patch](#adding-a-patch)
++ [Pushing to a branch](#pushing-to-a-branch)
 
 ### Triaging Issues
 
-We encourage the community to help make bugs actionale, make features available,
+We encourage the community to help make bugs actionable, make features available,
  and close stale issues. Triaging is one of the most important contributions a
 community member can make for a projects health. Stave Klabnik's
 [article][gardening] on how to be an open source gardener expresses our values.
@@ -19,11 +23,12 @@ Bugs are labeled [`not-actionable`][na] when they are filed. Here is a checklist
 for making bugs actionable:
 
 1. Check for duplicate bugs
-2. Verify that the bug is reproducable
+2. Verify that the bug is reproducible
 3. Define steps to reproduce with expected and actual results
 4. Create a small test case. We have a [glitch] template for sharing examples.
+5. Add [labels](./issues.md#labels)
 
-#### Closing Stale Issues
+#### Reviewing Stale Issues
 
 We define *stale* as issues that are 30 days or older. Stale is often an indicator of another issue: it is unnecessary, too vague, too broad, or a low priority.
 
@@ -32,7 +37,7 @@ We define *stale* as issues that are 30 days or older. Stale is often an indicat
 * *broad* - create more focused issues, such as "add flow types to `WhyPaused` component"
 * *low priority* - close it and add it to the [enhancements board]
 
-#### Making features `available`
+#### Making Issues available
 
 Available is short for two things:
 
@@ -46,7 +51,7 @@ If you find an issue that is not available you can:
 2. share questions or offer reasonable solutions that can be implemented
 3. [add a patch](#adding-a-patch) to help the person who picks up the issue
 
-#### Following up on "In Progress" work
+#### Following up on In Progress work
 
 Following up on in progress work is delicate, but tremendously important.
 
