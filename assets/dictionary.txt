@@ -21,3 +21,7 @@ displayNames
 componentDidMount
 .png
 Klabnik
+rebasing
+unstaged
+rebases
+sha
