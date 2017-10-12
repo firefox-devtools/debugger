@@ -7,6 +7,7 @@
  * Source tree reducer
  * @module reducers/source-tree
  */
+ 
 import makeRecord from "../utils/makeRecord";
 
 import type { SourceTreeAction } from "../actions/types";
