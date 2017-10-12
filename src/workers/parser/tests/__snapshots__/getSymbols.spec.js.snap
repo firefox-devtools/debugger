@@ -153,73 +153,73 @@ exports[`Parser.getSymbols component 1`] = `
 [(13, 2), (13, 14)]   onClick() Punny
 [(15, 2), (17, 3)]   renderMe() Punny
 [(19, 2), (19, 13)]   render() Punny
-[(30, 10), (32, 3)]   render() TodoView
-[(38, 10), (40, 3)]   render() TodoClass
-[(46, 10), (48, 3)]   render() createClass
-[(54, 10), (56, 3)]   render() TodoClass
-[(64, 0), (68, 1)]   Button()
-[(72, 8), (73, 1)]   x()
-[(75, 33), (82, 1)]   createElement(color)
-[(85, 26), (87, 1)]   update(newColor)
+[(29, 10), (31, 3)]   render() TodoView
+[(37, 10), (39, 3)]   render() TodoClass
+[(45, 10), (47, 3)]   render() createClass
+[(53, 10), (55, 3)]   render() TodoClass
+[(62, 0), (66, 1)]   Button()
+[(70, 8), (70, 21)]   x()
+[(72, 33), (79, 1)]   createElement(color)
+[(82, 26), (84, 1)]   update(newColor)
 
 [34mvariables[39m:
 [(5, 0), (20, 1)]   Punny
 [(6, 14), (6, 19)]   props
-[(27, 6), (33, 2)]   TodoView
-[(28, 1), (28, 15)]   tagName
-[(35, 6), (41, 2)]   TodoClass
-[(36, 1), (36, 15)]   tagName
-[(44, 1), (44, 15)]   tagName
-[(52, 1), (52, 15)]   tagName
-[(72, 4), (73, 1)]   x
-[(75, 43), (75, 48)]   color
-[(85, 36), (85, 44)]   newColor
+[(26, 6), (32, 2)]   TodoView
+[(27, 2), (27, 15)]   tagName
+[(34, 6), (40, 2)]   TodoClass
+[(35, 2), (35, 15)]   tagName
+[(43, 2), (43, 15)]   tagName
+[(51, 2), (51, 15)]   tagName
+[(70, 4), (70, 21)]   x
+[(72, 42), (72, 47)]   color
+[(82, 35), (82, 43)]   newColor
 
 [34mcallExpressions[39m:
 [(7, 4), (7, 9)]   undefined
-[(35, 18), (35, 29)]   createClass
-[(43, 12), (43, 23)]   createClass
-[(51, 16), (51, 27)]   createClass
+[(34, 18), (34, 29)]   createClass
+[(42, 12), (42, 23)]   createClass
+[(50, 16), (50, 27)]   createClass
 
 [34mmemberExpressions[39m:
 [(8, 9), (8, 16)] [(8, 4), (8, 16)] this.onClick onClick
 [(8, 32), (8, 36)] [(8, 19), (8, 36)] this.onClick.bind bind
 [(8, 24), (8, 31)] [(8, 19), (8, 31)] this.onClick onClick
 [(16, 30), (16, 37)] [(16, 25), (16, 37)] this.onClick onClick
-[(27, 31), (27, 37)] [(27, 17), (27, 37)] Backbone.View.extend extend
-[(27, 26), (27, 30)] [(27, 17), (27, 30)] Backbone.View View
-[(31, 12), (31, 15)] [(31, 4), (31, 15)] console.log log
-[(39, 12), (39, 15)] [(39, 4), (39, 15)] console.log log
-[(47, 12), (47, 15)] [(47, 4), (47, 15)] console.log log
-[(51, 4), (51, 13)] [(51, 0), (51, 13)] app.TodoClass TodoClass
-[(55, 12), (55, 15)] [(55, 4), (55, 15)] console.log log
-[(66, 7), (66, 12)] [(66, 2), (66, 12)] this.color color
-[(67, 16), (67, 20)] [(67, 2), (67, 20)] Nanocomponent.call call
-[(70, 7), (70, 16)] [(70, 0), (70, 16)] Button.prototype prototype
-[(70, 26), (70, 32)] [(70, 19), (70, 32)] Object.create create
-[(70, 47), (70, 56)] [(70, 33), (70, 56)] Nanocomponent.prototype prototype
-[(75, 17), (75, 30)] [(75, 0), (75, 30)] Button.prototype.createElement createElement
-[(75, 7), (75, 16)] [(75, 0), (75, 16)] Button.prototype prototype
-[(76, 7), (76, 12)] [(76, 2), (76, 12)] this.color color
-[(85, 17), (85, 23)] [(85, 0), (85, 23)] Button.prototype.update update
-[(85, 7), (85, 16)] [(85, 0), (85, 16)] Button.prototype prototype
-[(86, 27), (86, 32)] [(86, 22), (86, 32)] this.color color
+[(26, 31), (26, 37)] [(26, 17), (26, 37)] Backbone.View.extend extend
+[(26, 26), (26, 30)] [(26, 17), (26, 30)] Backbone.View View
+[(30, 12), (30, 15)] [(30, 4), (30, 15)] console.log log
+[(38, 12), (38, 15)] [(38, 4), (38, 15)] console.log log
+[(46, 12), (46, 15)] [(46, 4), (46, 15)] console.log log
+[(50, 4), (50, 13)] [(50, 0), (50, 13)] app.TodoClass TodoClass
+[(54, 12), (54, 15)] [(54, 4), (54, 15)] console.log log
+[(64, 7), (64, 12)] [(64, 2), (64, 12)] this.color color
+[(65, 16), (65, 20)] [(65, 2), (65, 20)] Nanocomponent.call call
+[(68, 7), (68, 16)] [(68, 0), (68, 16)] Button.prototype prototype
+[(68, 26), (68, 32)] [(68, 19), (68, 32)] Object.create create
+[(68, 47), (68, 56)] [(68, 33), (68, 56)] Nanocomponent.prototype prototype
+[(72, 17), (72, 30)] [(72, 0), (72, 30)] Button.prototype.createElement createElement
+[(72, 7), (72, 16)] [(72, 0), (72, 16)] Button.prototype prototype
+[(73, 7), (73, 12)] [(73, 2), (73, 12)] this.color color
+[(82, 17), (82, 23)] [(82, 0), (82, 23)] Button.prototype.update update
+[(82, 7), (82, 16)] [(82, 0), (82, 16)] Button.prototype prototype
+[(83, 27), (83, 32)] [(83, 22), (83, 32)] this.color color
 
 [34mobjectProperties[39m:
-[(28, 1), (28, 8)]   tagName
-[(30, 2), (30, 8)]   render
-[(36, 1), (36, 8)]   tagName
-[(38, 2), (38, 8)]   render
-[(44, 1), (44, 8)]   tagName
-[(46, 2), (46, 8)]   render
-[(52, 1), (52, 8)]   tagName
-[(54, 2), (54, 8)]   render
+[(27, 2), (27, 9)]   tagName
+[(29, 2), (29, 8)]   render
+[(35, 2), (35, 9)]   tagName
+[(37, 2), (37, 8)]   render
+[(43, 2), (43, 9)]   tagName
+[(45, 2), (45, 8)]   render
+[(51, 2), (51, 9)]   tagName
+[(53, 2), (53, 8)]   render
 
 [34mcomments[39m:
 [(1, 0), (3, 3)]   undefined
 [(22, 0), (24, 3)]   undefined
-[(60, 0), (62, 3)]   undefined
-[(84, 0), (84, 34)]   undefined
+[(58, 0), (60, 3)]   undefined
+[(81, 0), (81, 34)]   undefined
 
 [34midentifiers[39m:
 [(5, 6), (5, 11)]  Punny Punny
@@ -238,68 +238,68 @@ exports[`Parser.getSymbols component 1`] = `
 [(16, 30), (16, 37)]  onClick onClick
 [(19, 2), (19, 8)]  render render
 [(5, 20), (5, 29)]  Component Component
-[(27, 6), (33, 2)]  TodoView TodoView
-[(27, 6), (27, 14)]  TodoView TodoView
-[(27, 17), (27, 25)]  Backbone Backbone
-[(27, 26), (27, 30)]  View View
-[(27, 31), (27, 37)]  extend extend
-[(28, 1), (28, 8)]  tagName tagName
-[(30, 2), (30, 8)]  render render
-[(31, 4), (31, 11)]  console console
-[(31, 12), (31, 15)]  log log
-[(35, 6), (41, 2)]  TodoClass TodoClass
-[(35, 6), (35, 15)]  TodoClass TodoClass
-[(35, 18), (35, 29)]  createClass createClass
-[(36, 1), (36, 8)]  tagName tagName
-[(38, 2), (38, 8)]  render render
-[(39, 4), (39, 11)]  console console
-[(39, 12), (39, 15)]  log log
-[(43, 0), (43, 9)]  TodoClass TodoClass
-[(43, 12), (43, 23)]  createClass createClass
-[(44, 1), (44, 8)]  tagName tagName
-[(46, 2), (46, 8)]  render render
-[(47, 4), (47, 11)]  console console
-[(47, 12), (47, 15)]  log log
-[(51, 0), (51, 3)]  app app
-[(51, 4), (51, 13)]  TodoClass TodoClass
-[(51, 16), (51, 27)]  createClass createClass
-[(52, 1), (52, 8)]  tagName tagName
-[(54, 2), (54, 8)]  render render
-[(55, 4), (55, 11)]  console console
-[(55, 12), (55, 15)]  log log
-[(64, 9), (64, 15)]  Button Button
-[(65, 8), (65, 12)] [(65, 8), (65, 12)] this this
-[(65, 24), (65, 30)]  Button Button
-[(65, 44), (65, 50)]  Button Button
-[(66, 2), (66, 6)] [(66, 2), (66, 6)] this this
-[(66, 7), (66, 12)]  color color
-[(67, 2), (67, 15)]  Nanocomponent Nanocomponent
-[(67, 16), (67, 20)]  call call
-[(67, 21), (67, 25)] [(67, 21), (67, 25)] this this
-[(70, 0), (70, 6)]  Button Button
-[(70, 7), (70, 16)]  prototype prototype
-[(70, 19), (70, 25)]  Object Object
-[(70, 26), (70, 32)]  create create
-[(70, 33), (70, 46)]  Nanocomponent Nanocomponent
-[(70, 47), (70, 56)]  prototype prototype
-[(72, 4), (73, 1)]  x x
-[(72, 4), (72, 5)]  x x
-[(75, 0), (75, 6)]  Button Button
-[(75, 7), (75, 16)]  prototype prototype
-[(75, 17), (75, 30)]  createElement createElement
-[(75, 43), (75, 48)]  color color
-[(76, 2), (76, 6)] [(76, 2), (76, 6)] this this
-[(76, 7), (76, 12)]  color color
-[(76, 15), (76, 20)]  color color
-[(77, 9), (77, 13)]  html html
-[(78, 39), (78, 44)]  color color
-[(85, 0), (85, 6)]  Button Button
-[(85, 7), (85, 16)]  prototype prototype
-[(85, 17), (85, 23)]  update update
-[(85, 36), (85, 44)]  newColor newColor
-[(86, 9), (86, 17)]  newColor newColor
-[(86, 22), (86, 26)] [(86, 22), (86, 26)] this this
-[(86, 27), (86, 32)]  color color"
+[(26, 6), (32, 2)]  TodoView TodoView
+[(26, 6), (26, 14)]  TodoView TodoView
+[(26, 17), (26, 25)]  Backbone Backbone
+[(26, 26), (26, 30)]  View View
+[(26, 31), (26, 37)]  extend extend
+[(27, 2), (27, 9)]  tagName tagName
+[(29, 2), (29, 8)]  render render
+[(30, 4), (30, 11)]  console console
+[(30, 12), (30, 15)]  log log
+[(34, 6), (40, 2)]  TodoClass TodoClass
+[(34, 6), (34, 15)]  TodoClass TodoClass
+[(34, 18), (34, 29)]  createClass createClass
+[(35, 2), (35, 9)]  tagName tagName
+[(37, 2), (37, 8)]  render render
+[(38, 4), (38, 11)]  console console
+[(38, 12), (38, 15)]  log log
+[(42, 0), (42, 9)]  TodoClass TodoClass
+[(42, 12), (42, 23)]  createClass createClass
+[(43, 2), (43, 9)]  tagName tagName
+[(45, 2), (45, 8)]  render render
+[(46, 4), (46, 11)]  console console
+[(46, 12), (46, 15)]  log log
+[(50, 0), (50, 3)]  app app
+[(50, 4), (50, 13)]  TodoClass TodoClass
+[(50, 16), (50, 27)]  createClass createClass
+[(51, 2), (51, 9)]  tagName tagName
+[(53, 2), (53, 8)]  render render
+[(54, 4), (54, 11)]  console console
+[(54, 12), (54, 15)]  log log
+[(62, 9), (62, 15)]  Button Button
+[(63, 8), (63, 12)] [(63, 8), (63, 12)] this this
+[(63, 24), (63, 30)]  Button Button
+[(63, 44), (63, 50)]  Button Button
+[(64, 2), (64, 6)] [(64, 2), (64, 6)] this this
+[(64, 7), (64, 12)]  color color
+[(65, 2), (65, 15)]  Nanocomponent Nanocomponent
+[(65, 16), (65, 20)]  call call
+[(65, 21), (65, 25)] [(65, 21), (65, 25)] this this
+[(68, 0), (68, 6)]  Button Button
+[(68, 7), (68, 16)]  prototype prototype
+[(68, 19), (68, 25)]  Object Object
+[(68, 26), (68, 32)]  create create
+[(68, 33), (68, 46)]  Nanocomponent Nanocomponent
+[(68, 47), (68, 56)]  prototype prototype
+[(70, 4), (70, 21)]  x x
+[(70, 4), (70, 5)]  x x
+[(72, 0), (72, 6)]  Button Button
+[(72, 7), (72, 16)]  prototype prototype
+[(72, 17), (72, 30)]  createElement createElement
+[(72, 42), (72, 47)]  color color
+[(73, 2), (73, 6)] [(73, 2), (73, 6)] this this
+[(73, 7), (73, 12)]  color color
+[(73, 15), (73, 20)]  color color
+[(74, 9), (74, 13)]  html html
+[(75, 39), (75, 44)]  color color
+[(82, 0), (82, 6)]  Button Button
+[(82, 7), (82, 16)]  prototype prototype
+[(82, 17), (82, 23)]  update update
+[(82, 35), (82, 43)]  newColor newColor
+[(83, 9), (83, 17)]  newColor newColor
+[(83, 22), (83, 26)] [(83, 22), (83, 26)] this this
+[(83, 27), (83, 32)]  color color"
 `;
 
 exports[`Parser.getSymbols es6 1`] = `
