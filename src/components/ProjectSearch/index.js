@@ -10,7 +10,6 @@ import TextSearch from "./TextSearch";
 import SourceSearch from "./SourceSearch";
 import ToggleSearch from "./ToggleSearch";
 
-import { features } from "../../utils/prefs";
 import {
   getSources,
   getActiveSearch,
@@ -68,10 +67,6 @@ class ProjectSearch extends Component {
     const { closeActiveSearch, setActiveSearch } = this.props;
     if (e) {
       e.preventDefault();
-    }
-
-    if (!features.projectTextSearch) {
-      return;
     }
 
     if (this.isProjectSearchEnabled()) {

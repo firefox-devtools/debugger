@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { isEnabled } from "devtools-config";
+import { features } from "../../utils/prefs";
 
 import { range, keyBy, isEqualWith } from "lodash";
 
@@ -55,18 +55,22 @@ class CallSites extends Component {
     const { editor } = this.props;
     const codeMirrorWrapper = editor.codeMirror.getWrapperElement();
 
-    codeMirrorWrapper.addEventListener("click", e => this.onTokenClick(e));
-    document.body.addEventListener("keydown", this.onKeyDown);
-    document.body.addEventListener("keyup", this.onKeyUp);
+    if (features.columnBreakpoints) {
+      codeMirrorWrapper.addEventListener("click", e => this.onTokenClick(e));
+      document.body.addEventListener("keydown", this.onKeyDown);
+      document.body.addEventListener("keyup", this.onKeyUp);
+    }
   }
 
   componentDidUnMount() {
     const { editor } = this.props;
     const codeMirrorWrapper = editor.codeMirror.getWrapperElement();
 
-    codeMirrorWrapper.addEventListener("click", e => this.onTokenClick(e));
-    document.body.removeEventListener("keydown", e => this.onKeyDown);
-    document.body.removeEventListener("keyup", this.onKeyUp);
+    if (features.columnBreakpoints) {
+      codeMirrorWrapper.addEventListener("click", e => this.onTokenClick(e));
+      document.body.removeEventListener("keydown", e => this.onKeyDown);
+      document.body.removeEventListener("keyup", this.onKeyUp);
+    }
   }
 
   onKeyUp(e) {
@@ -88,7 +92,6 @@ class CallSites extends Component {
     const { editor, selectedLocation } = this.props;
 
     if (
-      !isEnabled("columnBreakpoints") ||
       (!e.altKey && !target.classList.contains("call-site-bp")) ||
       (!target.classList.contains("call-site") &&
         !target.classList.contains("call-site-bp"))
