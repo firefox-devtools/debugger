@@ -35,7 +35,6 @@ class Popover extends Component {
   }
 
   calculateLeft(target, editor, popover) {
-    const leftOffset = target.width / 2 - popover.width / 5;
     const estimatedLeft = target.left;
     const estimatedRight = estimatedLeft + popover.width;
     const isOverflowingRight = estimatedRight > editor.right;
