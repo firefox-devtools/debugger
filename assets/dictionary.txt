@@ -25,3 +25,7 @@ rebasing
 unstaged
 rebases
 sha
+7x
+8x
+1x
+un-hide

@@ -8,6 +8,7 @@ assets-error.log
 .vscode/
 /firefox
 lerna-debug.log
+assets-error.log
 flow-coverage
 .node-version
 yarn-error.log
