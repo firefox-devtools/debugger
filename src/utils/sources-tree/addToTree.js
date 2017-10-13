@@ -139,7 +139,8 @@ function addSourceToNode(node: Node, url: Object, source: SourceRecord) {
 export function addToTree(
   tree: Node,
   source: SourceRecord,
-  debuggeeUrl: string
+  debuggeeUrl: string,
+  projectRoot: string
 ) {
   const url = getURL(source.get("url"), debuggeeUrl);
   const debuggeeHost = getDomain(debuggeeUrl);

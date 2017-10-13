@@ -51,6 +51,7 @@ export type UIState = {
   startPanelCollapsed: boolean,
   endPanelCollapsed: boolean,
   frameworkGroupingOn: boolean,
+  projectDirectoryRoot: string,
   highlightedLineRange?: {
     start?: number,
     end?: number,
@@ -77,6 +78,7 @@ export const State = makeRecord(
       count: 0
     },
     shownSource: "",
+    projectDirectoryRoot: "",
     startPanelCollapsed: prefs.startPanelCollapsed,
     endPanelCollapsed: prefs.endPanelCollapsed,
     frameworkGroupingOn: prefs.frameworkGroupingOn,
@@ -166,6 +168,10 @@ function update(
     case "CLOSE_CONDITIONAL_PANEL":
       return state.set("conditionalPanelLine", null);
 
+    case "SET_PROJECT_DIRECTORY_ROOT":
+      prefs.projectDirectoryRoot = action.url;
+      return state.set("projectDirectoryRoot", action.url);
+
     default: {
       return state;
     }
@@ -227,6 +233,10 @@ export function getHighlightedLineRange(state: OuterState) {
 
 export function getConditionalPanelLine(state: OuterState): null | number {
   return state.ui.get("conditionalPanelLine");
+}
+
+export function getProjectDirectoryRoot(state: OuterState): boolean {
+  return state.ui.get("projectDirectoryRoot");
 }
 
 export default update;

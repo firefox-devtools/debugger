@@ -136,3 +136,10 @@ export function closeConditionalPanel() {
     type: "CLOSE_CONDITIONAL_PANEL"
   };
 }
+
+export function setProjectDirectoryRoot(url: Object) {
+  return {
+    type: "SET_PROJECT_DIRECTORY_ROOT",
+    url
+  };
+}
