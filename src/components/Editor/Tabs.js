@@ -20,7 +20,6 @@ import CloseButton from "../shared/Button/Close";
 import Svg from "../shared/Svg";
 import { showMenu, buildMenu } from "devtools-launchpad";
 import { debounce } from "lodash";
-import { formatKeyShortcut } from "../../utils/text";
 import "./Tabs.css";
 
 import PaneToggleButton from "../shared/Button/PaneToggle";
@@ -91,7 +90,6 @@ class SourceTabs extends PureComponent {
   renderTab: Function;
   renderSourceTab: Function;
   renderSearchTab: Function;
-  renderNewButton: Function;
   renderDropDown: Function;
   renderStartPanelToggleButton: Function;
   renderEndPanelToggleButton: Function;
@@ -134,7 +132,6 @@ class SourceTabs extends PureComponent {
     this.renderTabs = this.renderTabs.bind(this);
     this.renderSourceTab = this.renderSourceTab.bind(this);
     this.renderSearchTab = this.renderSearchTab.bind(this);
-    this.renderNewButton = this.renderNewButton.bind(this);
     this.renderDropDown = this.renderDropdown.bind(this);
     this.renderStartPanelToggleButton = this.renderStartPanelToggleButton.bind(
       this
@@ -418,30 +415,6 @@ class SourceTabs extends PureComponent {
     );
   }
 
-  renderNewButton() {
-    const newTabTooltip = L10N.getFormatStr(
-      "sourceTabs.newTabButtonTooltip",
-      formatKeyShortcut(L10N.getStr("sources.search.key2"))
-    );
-
-    const onButtonClick = () => {
-      if (this.props.searchOn) {
-        return this.props.closeActiveSearch();
-      }
-      this.props.setActiveSearch("source");
-    };
-
-    return (
-      <div
-        className="new-tab-btn"
-        onClick={onButtonClick}
-        title={newTabTooltip}
-      >
-        <Svg name="plus" />
-      </div>
-    );
-  }
-
   renderDropdown() {
     const hiddenSourceTabs = this.state.hiddenSourceTabs;
     if (!hiddenSourceTabs || hiddenSourceTabs.size == 0) {
@@ -494,7 +467,6 @@ class SourceTabs extends PureComponent {
       <div className="source-header">
         {this.renderStartPanelToggleButton()}
         {this.renderTabs()}
-        {this.renderNewButton()}
         {this.renderDropdown()}
         {this.renderEndPanelToggleButton()}
       </div>
