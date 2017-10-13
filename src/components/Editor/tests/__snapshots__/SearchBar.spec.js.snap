@@ -133,6 +133,7 @@ ShallowWrapper {
       "_compositeType": 0,
       "_context": Object {},
       "_currentElement": <SearchBar
+        doSearch={[Function]}
         editor={Object {}}
         modifiers={
                 Object {
@@ -170,6 +171,7 @@ ShallowWrapper {
         "onEscape": [Function],
         "onKeyUp": [Function],
         "props": Object {
+          "doSearch": [Function],
           "editor": Object {},
           "modifiers": Object {
             "get": [Function],
@@ -190,13 +192,10 @@ ShallowWrapper {
         },
         "refs": Object {},
         "renderSearchModifiers": [Function],
-        "searchContents": [Function],
-        "searchInput": [Function],
-        "selectSearchInput": [Function],
-        "setSearchValue": [Function],
         "state": Object {
           "count": 0,
           "index": -1,
+          "query": "",
           "selectedResultIndex": 0,
         },
         "toggleSearch": [Function],
@@ -349,6 +348,7 @@ ShallowWrapper {
   },
   "root": [Circular],
   "unrendered": <SearchBar
+    doSearch={[Function]}
     editor={Object {}}
     modifiers={
         Object {
@@ -374,13 +374,4 @@ ShallowWrapper {
 }
 `;
 
-exports[`doSearch should complete a search 1`] = `
-Object {
-  "count": 1,
-  "index": "1",
-  "matchIndex": -1,
-  "matches": Array [
-    "result",
-  ],
-}
-`;
+exports[`doSearch should complete a search 1`] = `"query"`;

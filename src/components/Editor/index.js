@@ -19,8 +19,8 @@ import {
   getHitCountForSource,
   getCoverageEnabled,
   getConditionalPanelLine,
-  getFileSearchModifierState,
-  getFileSearchQueryState
+  getFileSearchModifiers,
+  getFileSearchQuery
 } from "../../selectors";
 
 import actions from "../../actions";
@@ -585,8 +585,8 @@ export default connect(
       searchOn: getActiveSearch(state) === "file",
       hitCount: getHitCountForSource(state, sourceId),
       selectedFrame: getSelectedFrame(state),
-      query: getFileSearchQueryState(state),
-      modifiers: getFileSearchModifierState(state),
+      query: getFileSearchQuery(state),
+      modifiers: getFileSearchModifiers(state),
       coverageOn: getCoverageEnabled(state),
       conditionalPanelLine: getConditionalPanelLine(state)
     };

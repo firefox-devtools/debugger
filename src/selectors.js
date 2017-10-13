@@ -7,6 +7,7 @@ import * as breakpoints from "./reducers/breakpoints";
 import * as pendingBreakpoints from "./reducers/pending-breakpoints";
 import * as eventListeners from "./reducers/event-listeners";
 import * as ui from "./reducers/ui";
+import * as fileSearch from "./reducers/file-search";
 import * as ast from "./reducers/ast";
 import * as coverage from "./reducers/coverage";
 import * as projectTextSearch from "./reducers/project-text-search";
@@ -33,6 +34,7 @@ module.exports = {
   ...ui,
   ...ast,
   ...coverage,
+  ...fileSearch,
   ...projectTextSearch,
   ...sourceSearch,
   ...sourceTree,
