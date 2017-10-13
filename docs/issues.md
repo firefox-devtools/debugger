@@ -8,6 +8,7 @@
 * [Triaging](#triaging)
 * [Issue Organization](#issue-organization)
 * [Community Friendly](#community-friendly)
+* [Git Workflow](#git-workflow)
 
 ### Issue Titles
 
@@ -178,6 +179,46 @@ In addition to labels and components, we use a couple of boards to organize our 
 **Bugs** [bugs][bugs-board] a prioritized list of reported bugs.
 
 **Enhancements** [enhancements-board] a list of feature suggestions that are reviewed twice a quarter.
+
+### Git Workflow
+
+Working on OSS is an exercise in git collaboration. No matter how well you know
+git you're going to learn something new. Here is a great overview of the github [workflow][forking].
+Also, we highly recommend the [learn git branching][git-tutorial]!
+
+[forking]: https://gist.github.com/Chaser324/ce0505fbed06b947d962#file-github-forking-md
+[git-tutorial]: https://learngitbranching.js.org/
+
+#### Merge Conflicts
+
+It's common to create a PR and a couple days later see that it has a conflict.
+There are two approaches: the github ui, update your branch locally.
+
+If the problem is simple, you can use the ui. Generally, you'll want to update your branch locally.
+The first thing to do is to clean up your unstaged work by either committing it, stashing it, or checking it out.
+Once your branch is clean, you should update your local master branch. It's a good rule of thumb that master should
+point to [origin][orig], but often the `master` branch points to
+your fork. If this is the case, then you'll need to add `origin` as a [remote][rdoc].
+
+Once master is uptodate, you can go back to your feature branch and update it.
+Generally the best thing to do is to rebase it against master: `git rebase master`,
+but rebases are complicated so checkout the [servo], [edx], and [docs][rebase-docs].
+
+In some cases, where your feature branch has some nasty conflicts you can cherry pick your
+work on top of master. There are three steps:
+
+1. squash your new commits into one commit. (save the commit sha)
+2. reset your branch against master (temporarily wiping everything) `git reset --hard master`
+3. cherry-pick your commit. `git cherry-pick 2bc3D`
+
+![rebase-screen]
+
+[orig]: https://github.com/devtools-html/debugger.html
+[edx]: https://github.com/edx/edx-platform/wiki/How-to-Rebase-a-Pull-Request
+[servo]: https://github.com/servo/servo/wiki/Beginner%27s-guide-to-rebasing-and-squashing
+[rebase-docs]: https://help.github.com/articles/about-git-rebase/
+[rebase-screen]: https://shipusercontent.com/351d31ccee0a1ba552b56627a35d7118/Screen%20Shot%202017-10-12%20at%206.29.49%20PM.png
+[rdoc]: https://help.github.com/articles/adding-a-remote/
 
 
 ### Community Friendly
