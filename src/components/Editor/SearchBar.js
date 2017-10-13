@@ -45,6 +45,7 @@ function getShortcuts() {
 }
 
 type SearchBarState = {
+  query: string,
   selectedResultIndex: number,
   count: number,
   index: number
@@ -97,8 +98,10 @@ class SearchBar extends Component {
   }
 
   componentDidMount() {
-    const shortcuts = this.context.shortcuts;
+    // overwrite this.doSearch with debounced version to
+    // reduce frequency of queries
     this.doSearch = debounce(this.doSearch, 100);
+    const shortcuts = this.context.shortcuts;
     const {
       searchShortcut,
       searchAgainShortcut,
@@ -161,21 +164,12 @@ class SearchBar extends Component {
 
     if (this.props.searchOn && editor) {
       const selection = editor.codeMirror.getSelection();
-      this.setSearchValue(selection);
+      this.setState({ query: selection });
       if (selection !== "") {
         this.doSearch(selection);
       }
       this.selectSearchInput();
     }
-  };
-
-  setSearchValue = (value: string) => {
-    const searchInput = this.searchInput();
-    if (value == "" || !searchInput) {
-      return;
-    }
-
-    searchInput.value = value;
   };
 
   selectSearchInput = () => {

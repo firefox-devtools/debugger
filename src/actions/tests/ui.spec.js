@@ -2,13 +2,10 @@ import { createStore, selectors, actions } from "../../utils/test-head";
 
 const {
   getActiveSearch,
-  getFileSearchQueryState,
-  getFileSearchModifierState,
   getFrameworkGroupingState,
   getPaneCollapse,
   getSymbolSearchType,
   getHighlightedLineRange,
-  getSearchResults,
   getProjectDirectoryRoot
 } = selectors;
 
