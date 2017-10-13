@@ -29,6 +29,7 @@ import type { Modifiers, SearchResults } from "../../reducers/file-search";
 
 import type { SelectSourceOptions } from "../../actions/sources";
 import SearchInput from "../shared/SearchInput";
+import { debounce } from "lodash";
 import "./SearchBar.css";
 
 function getShortcuts() {
@@ -58,7 +59,6 @@ type Props = {
   closeFileSearch: SourceEditor => void,
   doSearch: (string, SourceEditor) => void,
   traverseResults: (boolean, SourceEditor) => void,
-  searchContents: (string, SourceEditor) => void,
   searchResults: SearchResults,
   modifiers: Modifiers,
   toggleFileSearchModifier: string => any,
@@ -75,6 +75,7 @@ class SearchBar extends Component {
   constructor(props: Props) {
     super(props);
     this.state = {
+      query: props.query,
       selectedResultIndex: 0,
       count: 0,
       index: -1
@@ -97,6 +98,7 @@ class SearchBar extends Component {
 
   componentDidMount() {
     const shortcuts = this.context.shortcuts;
+    this.doSearch = debounce(this.doSearch, 100);
     const {
       searchShortcut,
       searchAgainShortcut,
@@ -216,11 +218,6 @@ class SearchBar extends Component {
     });
   };
 
-  searchContents = async (query: string) => {
-    const editor = this.props.editor;
-    return await this.props.searchContents(query, editor);
-  };
-
   traverseResults = (e: SyntheticEvent, rev: boolean) => {
     e.stopPropagation();
     e.preventDefault();
@@ -235,6 +232,8 @@ class SearchBar extends Component {
   // Handlers
 
   onChange = (e: any) => {
+    this.setState({ query: e.target.value });
+
     return this.doSearch(e.target.value);
   };
 
@@ -325,7 +324,7 @@ class SearchBar extends Component {
   }
 
   render() {
-    const { searchResults: { count }, query, searchOn } = this.props;
+    const { searchResults: { count }, searchOn } = this.props;
 
     if (!searchOn) {
       return <div />;
@@ -334,7 +333,7 @@ class SearchBar extends Component {
     return (
       <div className="search-bar">
         <SearchInput
-          query={query}
+          query={this.state.query}
           count={count}
           placeholder={L10N.getStr("sourceSearch.search.placeholder")}
           summaryMsg={this.buildSummaryMsg()}
