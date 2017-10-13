@@ -11,9 +11,9 @@ import {
   getActiveSearch,
   getSelectedSource,
   getSelectedLocation,
-  getFileSearchQueryState,
-  getFileSearchModifierState,
-  getSearchResults,
+  getFileSearchQuery,
+  getFileSearchModifiers,
+  getFileSearchResults,
   getHighlightedLineRange
 } from "../../selectors";
 
@@ -24,11 +24,9 @@ import classnames from "classnames";
 
 import { SourceEditor } from "devtools-source-editor";
 import type { SourceRecord } from "../../reducers/sources";
-import type {
-  ActiveSearchType,
-  FileSearchModifiers,
-  SearchResults
-} from "../../reducers/ui";
+import type { ActiveSearchType } from "../../reducers/ui";
+import type { Modifiers, SearchResults } from "../../reducers/file-search";
+
 import type { SelectSourceOptions } from "../../actions/sources";
 import SearchInput from "../shared/SearchInput";
 import "./SearchBar.css";
@@ -55,12 +53,14 @@ type Props = {
   editor?: SourceEditor,
   selectSource: (string, ?SelectSourceOptions) => any,
   selectedSource?: SourceRecord,
-  highlightLineRange: ({ start: number, end: number }) => void,
-  clearHighlightLineRange: () => void,
   searchOn?: boolean,
   setActiveSearch: (?ActiveSearchType) => any,
+  closeFileSearch: SourceEditor => void,
+  doSearch: (string, SourceEditor) => void,
+  traverseResults: (boolean, SourceEditor) => void,
+  searchContents: (string, SourceEditor) => void,
   searchResults: SearchResults,
-  modifiers: FileSearchModifiers,
+  modifiers: Modifiers,
   toggleFileSearchModifier: string => any,
   query: string,
   setFileSearchQuery: string => any,
@@ -363,10 +363,10 @@ export default connect(
       searchOn: getActiveSearch(state) === "file",
       selectedSource: getSelectedSource(state),
       selectedLocation: getSelectedLocation(state),
-      query: getFileSearchQueryState(state),
-      modifiers: getFileSearchModifierState(state),
+      query: getFileSearchQuery(state),
+      modifiers: getFileSearchModifiers(state),
       highlightedLineRange: getHighlightedLineRange(state),
-      searchResults: getSearchResults(state)
+      searchResults: getFileSearchResults(state)
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

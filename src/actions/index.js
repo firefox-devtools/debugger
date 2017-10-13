@@ -7,6 +7,7 @@ import * as sources from "./sources";
 import * as pause from "./pause";
 import * as navigation from "./navigation";
 import * as ui from "./ui";
+import * as fileSearch from "./file-search";
 import * as ast from "./ast";
 import * as coverage from "./coverage";
 import * as projectTextSearch from "./project-text-search";
@@ -25,6 +26,7 @@ export default Object.assign(
   sources,
   pause,
   ui,
+  fileSearch,
   ast,
   coverage,
   projectTextSearch,

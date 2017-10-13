@@ -8,7 +8,7 @@ import {
   getSelectedSource,
   getFileSearchModifiers,
   getFileSearchQuery,
-  getSearchResults
+  getFileSearchResults
 } from "../selectors";
 
 import {
@@ -100,7 +100,7 @@ export function traverseResults(rev: boolean, editor: Editor) {
 
     const query = getFileSearchQuery(getState());
     const modifiers = getFileSearchModifiers(getState());
-    const { matches } = getSearchResults(getState());
+    const { matches } = getFileSearchResults(getState());
 
     if (query === "") {
       dispatch(setActiveSearch("file"));
@@ -112,6 +112,7 @@ export function traverseResults(rev: boolean, editor: Editor) {
         ? findPrev(ctx, query, true, modifiers.toJS())
         : findNext(ctx, query, true, modifiers.toJS());
 
+      console.log(line);
       dispatch(updateSearchResults(ch, line, matchedLocations));
     }
   };
