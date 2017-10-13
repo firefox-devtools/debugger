@@ -644,21 +644,21 @@ exports[`Parser.getSymbols func 1`] = `
 
 exports[`Parser.getSymbols math 1`] = `
 "[34mfunctions[39m:
-[(1, 0), (8, 1)]   math(n)
-[(2, 2), (4, 3)]   square(n)
-[(10, 12), (10, 25)]   child()
-[(11, 9), (11, 22)]   child2()
+[(1, 0), (12, 1)]   math(n)
+[(2, 2), (5, 3)]   square(n)
+[(14, 12), (14, 25)]   child()
+[(15, 9), (15, 22)]   child2()
 
 [34mvariables[39m:
 [(1, 14), (1, 15)]   n
 [(2, 18), (2, 19)]   n
-[(5, 8), (5, 23)]   two
-[(6, 8), (6, 25)]   four
-[(10, 4), (10, 25)]   child
+[(8, 8), (8, 23)]   two
+[(10, 8), (10, 25)]   four
+[(14, 4), (14, 25)]   child
 
 [34mcallExpressions[39m:
-[(5, 14), (5, 20)]   square
-[(6, 15), (6, 22)]   squaare
+[(8, 14), (8, 20)]   square
+[(10, 15), (10, 22)]   squaare
 
 [34mmemberExpressions[39m:
 
@@ -667,26 +667,27 @@ exports[`Parser.getSymbols math 1`] = `
 
 
 [34mcomments[39m:
-
+[(3, 4), (3, 21)]   undefined
+[(7, 2), (7, 24)]   undefined
 
 [34midentifiers[39m:
 [(1, 9), (1, 13)]  math math
 [(1, 14), (1, 15)]  n n
 [(2, 11), (2, 17)]  square square
 [(2, 18), (2, 19)]  n n
-[(3, 4), (3, 5)]  n n
-[(3, 8), (3, 9)]  n n
-[(5, 8), (5, 23)]  two two
-[(5, 8), (5, 11)]  two two
-[(5, 14), (5, 20)]  square square
-[(6, 8), (6, 25)]  four four
-[(6, 8), (6, 12)]  four four
-[(6, 15), (6, 22)]  squaare squaare
-[(7, 9), (7, 12)]  two two
-[(7, 15), (7, 19)]  four four
-[(10, 4), (10, 25)]  child child
-[(10, 4), (10, 9)]  child child
-[(11, 0), (11, 6)]  child2 child2"
+[(4, 4), (4, 5)]  n n
+[(4, 8), (4, 9)]  n n
+[(8, 8), (8, 23)]  two two
+[(8, 8), (8, 11)]  two two
+[(8, 14), (8, 20)]  square square
+[(10, 8), (10, 25)]  four four
+[(10, 8), (10, 12)]  four four
+[(10, 15), (10, 22)]  squaare squaare
+[(11, 9), (11, 12)]  two two
+[(11, 15), (11, 19)]  four four
+[(14, 4), (14, 25)]  child child
+[(14, 4), (14, 9)]  child child
+[(15, 0), (15, 6)]  child2 child2"
 `;
 
 exports[`Parser.getSymbols proto 1`] = `

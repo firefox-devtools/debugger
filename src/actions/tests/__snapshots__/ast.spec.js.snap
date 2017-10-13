@@ -42,10 +42,9 @@ Array [
 
 exports[`ast setEmptyLines scopes 1`] = `
 Array [
-  0,
   1,
-  6,
-  11,
+  2,
+  7,
   12,
 ]
 `;
