@@ -54,7 +54,7 @@ describe("SearchBar", () => {
 describe("doSearch", () => {
   it("should complete a search", async () => {
     const { component, props } = render();
-    await component
+    component
       .find("SearchInput")
       .simulate("change", { target: { value: "query" } });
 

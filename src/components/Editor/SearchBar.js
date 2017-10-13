@@ -119,12 +119,6 @@ class SearchBar extends Component {
   }
 
   componentDidUpdate(prevProps: Props, prevState: SearchBarState) {
-    const searchInput = this.searchInput();
-
-    if (searchInput) {
-      searchInput.focus();
-    }
-
     if (this.refs.resultList && this.refs.resultList.refs) {
       scrollList(this.refs.resultList.refs, this.state.selectedResultIndex);
     }
@@ -168,27 +162,7 @@ class SearchBar extends Component {
       if (selection !== "") {
         this.doSearch(selection);
       }
-      this.selectSearchInput();
     }
-  };
-
-  selectSearchInput = () => {
-    const searchInput = this.searchInput();
-    if (searchInput) {
-      searchInput.setSelectionRange(0, searchInput.value.length);
-      searchInput.focus();
-    }
-  };
-
-  searchInput = (): ?HTMLInputElement => {
-    const node = findDOMNode(this);
-    if (node instanceof HTMLElement) {
-      const input = node.querySelector("input");
-      if (input instanceof HTMLInputElement) {
-        return input;
-      }
-    }
-    return null;
   };
 
   doSearch = (query: string) => {
