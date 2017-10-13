@@ -17,13 +17,10 @@ import {
   getHighlightedLineRange
 } from "../../selectors";
 
-import { find, findNext, findPrev, removeOverlay } from "../../utils/editor";
-
-import { getMatches } from "../../workers/search";
+import { removeOverlay } from "../../utils/editor";
 
 import { scrollList } from "../../utils/result-list";
 import classnames from "classnames";
-import { debounce } from "lodash";
 
 import { SourceEditor } from "devtools-source-editor";
 import type { SourceRecord } from "../../reducers/sources";
@@ -99,10 +96,6 @@ class SearchBar extends Component {
   }
 
   componentDidMount() {
-    // overwrite searchContents with a debounced version to reduce the
-    // frequency of queries which improves perf on large files
-    this.searchContents = debounce(this.searchContents, 100);
-
     const shortcuts = this.context.shortcuts;
     const {
       searchShortcut,
@@ -145,13 +138,11 @@ class SearchBar extends Component {
   };
 
   closeSearch = (e: SyntheticEvent) => {
-    const { editor, setFileSearchQuery, searchOn } = this.props;
+    const { editor, searchOn } = this.props;
 
     if (editor && searchOn) {
-      setFileSearchQuery("");
       this.clearSearch();
-      this.props.setActiveSearch();
-      this.props.clearHighlightLineRange();
+      this.props.closeFileSearch(editor);
       e.stopPropagation();
       e.preventDefault();
     }
@@ -205,14 +196,12 @@ class SearchBar extends Component {
   };
 
   doSearch = (query: string) => {
-    const { selectedSource, setFileSearchQuery } = this.props;
+    const { selectedSource } = this.props;
     if (!selectedSource || !selectedSource.get("text")) {
       return;
     }
 
-    setFileSearchQuery(query);
-
-    this.searchContents(query);
+    this.props.doSearch(query, this.props.editor);
   };
 
   updateSearchResults = (characterIndex, line, matches) => {
@@ -228,54 +217,19 @@ class SearchBar extends Component {
   };
 
   searchContents = async (query: string) => {
-    const { selectedSource, modifiers, editor: ed } = this.props;
-
-    if (
-      !query ||
-      !ed ||
-      !selectedSource ||
-      !selectedSource.get("text") ||
-      !modifiers
-    ) {
-      return;
-    }
-
-    const ctx = { ed, cm: ed.codeMirror };
-
-    const _modifiers = modifiers.toJS();
-    const matches = await getMatches(
-      query,
-      selectedSource.get("text"),
-      _modifiers
-    );
-    const { ch, line } = find(ctx, query, true, _modifiers);
-    this.updateSearchResults(ch, line, matches);
+    const editor = this.props.editor;
+    return await this.props.searchContents(query, editor);
   };
 
   traverseResults = (e: SyntheticEvent, rev: boolean) => {
     e.stopPropagation();
     e.preventDefault();
-    const ed = this.props.editor;
+    const editor = this.props.editor;
 
-    if (!ed) {
+    if (!editor) {
       return;
     }
-
-    const ctx = { ed, cm: ed.codeMirror };
-
-    const { query, modifiers, searchResults: { matches } } = this.props;
-
-    if (query === "") {
-      this.props.setActiveSearch("file");
-    }
-
-    if (modifiers) {
-      const matchedLocations = matches || [];
-      const { ch, line } = rev
-        ? findPrev(ctx, query, true, modifiers.toJS())
-        : findNext(ctx, query, true, modifiers.toJS());
-      this.updateSearchResults(ch, line, matchedLocations);
-    }
+    this.props.traverseResults(rev, editor);
   };
 
   // Handlers
@@ -292,6 +246,7 @@ class SearchBar extends Component {
     this.traverseResults(e, e.shiftKey);
     e.preventDefault();
   };
+
   // Renderers
   buildSummaryMsg() {
     const { searchResults: { matchIndex, count, index }, query } = this.props;
