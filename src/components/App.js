@@ -109,7 +109,7 @@ class App extends Component {
     );
 
     shortcuts.on(
-      L10N.getStr("gotoLineModal.commandKey"),
+      L10N.getStr("gotoLineModal.key"),
       this.toggleGoToLineModal
     );
 

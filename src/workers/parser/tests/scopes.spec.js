@@ -17,7 +17,7 @@ describe("scopes", () => {
       expect(vars.map(v => v.name)).toEqual(["n"]);
       expect(vars[0].references[0].node.loc.start).toEqual({
         column: 4,
-        line: 3
+        line: 4
       });
     });
 
@@ -32,7 +32,7 @@ describe("scopes", () => {
       expect(vars.map(v => v.name)).toEqual(["n"]);
       expect(vars[0].references[0].node.loc.start).toEqual({
         column: 4,
-        line: 3
+        line: 4
       });
     });
 

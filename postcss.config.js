@@ -24,20 +24,19 @@ function mapUrlDevelopment(url) {
   return newUrl;
 }
 
-module.exports =  ({ file, options, env }) => {
-    if (env === "production") {
-        return {
-          plugins: [ mapUrl(mapUrlProduction) ]
-        };
-    }
-
+module.exports = ({ file, options, env }) => {
+  if (env === "production") {
     return {
-      plugins: [
-        require("postcss-bidirection"),
-        require("autoprefixer"),
-        require("postcss-class-namespace")(),
-        mapUrl(mapUrlDevelopment)
-      ]
+      plugins: [mapUrl(mapUrlProduction)]
     };
+  }
 
+  return {
+    plugins: [
+      require("postcss-bidirection"),
+      require("autoprefixer"),
+      require("postcss-class-namespace")(),
+      mapUrl(mapUrlDevelopment)
+    ]
+  };
 };

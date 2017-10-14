@@ -31,7 +31,8 @@ type Props = {
   range: EditorRange,
   editor: any,
   selectSourceURL: (string, Object) => void,
-  openLink: string => void
+  openLink: string => void,
+  extra: string
 };
 
 function isReactComponent(roots) {
@@ -99,7 +100,8 @@ export class Popup extends Component {
     );
   }
 
-  renderObjectPreview(expression: string, root: Object) {
+  renderObjectPreview(expression: string, root: Object, extra: string) {
+    let reactHeader = null;
     const { loadedObjects } = this.props;
     const getObjectProperties = id => loadedObjects[id];
     let roots = this.getChildren(root, getObjectProperties);
@@ -109,11 +111,22 @@ export class Popup extends Component {
     }
 
     if (isReactComponent(roots)) {
+      if (typeof extra !== "undefined") {
+        reactHeader = (
+          <div className="header-container">
+            <h3>{extra}</h3>
+          </div>
+        );
+      }
+
       roots = roots.filter(r => ["state", "props"].includes(r.name));
     }
 
     return (
-      <div className="preview-popup">{this.renderObjectInspector(roots)}</div>
+      <div className="preview-popup">
+        {reactHeader}
+        {this.renderObjectInspector(roots)}
+      </div>
     );
   }
 
@@ -170,7 +183,7 @@ export class Popup extends Component {
     );
   }
 
-  renderPreview(expression: string, value: Object) {
+  renderPreview(expression: string, value: Object, extra: string) {
     const root = {
       name: expression,
       path: expression,
@@ -184,7 +197,7 @@ export class Popup extends Component {
     if (value.type === "object") {
       return (
         <div>
-          {this.renderObjectPreview(expression, root)}
+          {this.renderObjectPreview(expression, root, extra)}
           {this.renderAddToExpressionBar(expression)}
         </div>
       );
@@ -210,12 +223,12 @@ export class Popup extends Component {
   }
 
   render() {
-    const { popoverPos, onClose, value, expression } = this.props;
+    const { popoverPos, onClose, value, expression, extra } = this.props;
     const type = this.getPreviewType(value);
 
     return (
       <Popover targetPosition={popoverPos} onMouseLeave={onClose} type={type}>
-        {this.renderPreview(expression, value)}
+        {this.renderPreview(expression, value, extra)}
       </Popover>
     );
   }
