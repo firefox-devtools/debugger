@@ -11,9 +11,11 @@ import { ShortcutsModal } from "./ShortcutsModal";
 import {
   getSelectedSource,
   getPaneCollapse,
-  getActiveSearch
+  getActiveSearch,
+  getOrientation
 } from "../selectors";
-import type { SourceRecord } from "../reducers/sources";
+
+import type { SourceRecord, OrientationType } from "../reducers/types";
 import { isVisible } from "../utils/ui";
 
 import { KeyShortcuts } from "devtools-modules";
@@ -52,17 +54,18 @@ import GotoLineModal from "./GotoLineModal";
 type Props = {
   selectSource: Function,
   selectedSource: SourceRecord,
+  orientation: OrientationType,
   startPanelCollapsed: boolean,
   closeActiveSearch: () => void,
   endPanelCollapsed: boolean,
   activeSearch: string,
-  setActiveSearch: string => void
+  setActiveSearch: string => void,
+  setOrientation: OrientationType => void
 };
 
 class App extends Component {
   state: {
     shortcutsModalEnabled: boolean,
-    horizontal: boolean,
     startPanelSize: number,
     endPanelSize: number
   };
@@ -81,7 +84,6 @@ class App extends Component {
     super(props);
     this.state = {
       shortcutsModalEnabled: false,
-      horizontal: verticalLayoutBreakpoint.matches,
       startPanelSize: 0,
       endPanelSize: 0
     };
@@ -108,10 +110,7 @@ class App extends Component {
       this.toggleSymbolModal
     );
 
-    shortcuts.on(
-      L10N.getStr("gotoLineModal.key"),
-      this.toggleGoToLineModal
-    );
+    shortcuts.on(L10N.getStr("gotoLineModal.key"), this.toggleGoToLineModal);
 
     shortcuts.on("Escape", this.onEscape);
     shortcuts.on("Cmd+/", this.onCommandSlash);
@@ -140,6 +139,10 @@ class App extends Component {
 
   onCommandSlash() {
     this.toggleShortcutsModal();
+  }
+
+  isHorizontal() {
+    return this.props.orientation === "horizontal";
   }
 
   toggleSymbolModal(_, e: SyntheticEvent) {
@@ -188,13 +191,16 @@ class App extends Component {
 
   onLayoutChange() {
     if (isVisible()) {
-      this.setState({ horizontal: verticalLayoutBreakpoint.matches });
+      this.props.setOrientation(
+        verticalLayoutBreakpoint.matches ? "horizontal" : "vertical"
+      );
     }
   }
 
   renderEditorPane() {
     const { startPanelCollapsed, endPanelCollapsed } = this.props;
-    const { horizontal, endPanelSize, startPanelSize } = this.state;
+    const { endPanelSize, startPanelSize } = this.state;
+    const horizontal = this.isHorizontal();
 
     return (
       <div className="editor-pane">
@@ -228,7 +234,7 @@ class App extends Component {
 
   renderHorizontalLayout() {
     const { startPanelCollapsed, endPanelCollapsed } = this.props;
-    const { horizontal } = this.state;
+    const horizontal = this.isHorizontal();
 
     const overflowX = endPanelCollapsed ? "hidden" : "auto";
 
@@ -268,7 +274,7 @@ class App extends Component {
 
   renderVerticalLayout() {
     const { startPanelCollapsed, endPanelCollapsed } = this.props;
-    const { horizontal } = this.state;
+    const horizontal = this.isHorizontal();
 
     return (
       <SplitBox
@@ -345,7 +351,7 @@ class App extends Component {
   render() {
     return (
       <div className="debugger">
-        {this.state.horizontal
+        {this.isHorizontal()
           ? this.renderHorizontalLayout()
           : this.renderVerticalLayout()}
         {this.renderSymbolModal()}
@@ -358,12 +364,16 @@ class App extends Component {
 
 App.childContextTypes = { shortcuts: PropTypes.object };
 
-export default connect(
-  state => ({
+function mapStateToProps(state) {
+  return {
     selectedSource: getSelectedSource(state),
     startPanelCollapsed: getPaneCollapse(state, "start"),
     endPanelCollapsed: getPaneCollapse(state, "end"),
-    activeSearch: getActiveSearch(state)
-  }),
-  dispatch => bindActionCreators(actions, dispatch)
+    activeSearch: getActiveSearch(state),
+    orientation: getOrientation(state)
+  };
+}
+
+export default connect(mapStateToProps, dispatch =>
+  bindActionCreators(actions, dispatch)
 )(App);

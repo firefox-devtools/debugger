@@ -1,7 +1,11 @@
 // @flow
 import { getSource, getActiveSearch } from "../selectors";
 import type { ThunkArgs } from "./types";
-import type { ActiveSearchType, SymbolSearchType } from "../reducers/ui";
+import type {
+  ActiveSearchType,
+  SymbolSearchType,
+  OrientationType
+} from "../reducers/ui";
 import { clearSourceSearchQuery } from "./source-search";
 
 export function setContextMenu(type: string, event: any) {
@@ -124,4 +128,8 @@ export function setProjectDirectoryRoot(url: Object) {
     type: "SET_PROJECT_DIRECTORY_ROOT",
     url
   };
+}
+
+export function setOrientation(orientation: OrientationType) {
+  return { type: "SET_ORIENTATION", orientation };
 }

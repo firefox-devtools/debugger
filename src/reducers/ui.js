@@ -22,6 +22,8 @@ export type ActiveSearchType =
   | "symbol"
   | "line";
 
+export type OrientationType = "horizontal" | "vertical";
+
 export type UIState = {
   activeSearch: ?ActiveSearchType,
   contextMenu: any,
@@ -31,6 +33,7 @@ export type UIState = {
   endPanelCollapsed: boolean,
   frameworkGroupingOn: boolean,
   projectDirectoryRoot: string,
+  orientation: OrientationType,
   highlightedLineRange?: {
     start?: number,
     end?: number,
@@ -50,7 +53,8 @@ export const State = makeRecord(
     endPanelCollapsed: prefs.endPanelCollapsed,
     frameworkGroupingOn: prefs.frameworkGroupingOn,
     highlightedLineRange: undefined,
-    conditionalPanelLine: null
+    conditionalPanelLine: null,
+    orientation: "horizontal"
   }: UIState)
 );
 
@@ -74,6 +78,10 @@ function update(
 
     case "SET_CONTEXT_MENU": {
       return state.set("contextMenu", action.contextMenu);
+    }
+
+    case "SET_ORIENTATION": {
+      return state.set("orientation", action.orientation);
     }
 
     case "SHOW_SOURCE": {
@@ -164,6 +172,10 @@ export function getConditionalPanelLine(state: OuterState): null | number {
 
 export function getProjectDirectoryRoot(state: OuterState): boolean {
   return state.ui.get("projectDirectoryRoot");
+}
+
+export function getOrientation(state: OuterState): boolean {
+  return state.ui.get("orientation");
 }
 
 export default update;

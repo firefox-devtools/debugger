@@ -362,7 +362,8 @@ function createDebuggerContext(toolbox) {
     store: store,
     client: client,
     toolbox: toolbox,
-    win: win
+    win: win,
+    panel: panel
   };
 }
 
@@ -504,7 +505,7 @@ function stepOut(dbg) {
 function resume(dbg) {
   info("Resuming");
   dbg.actions.resume();
-  return waitForState(dbg, (state) => !dbg.selectors.isPaused(state));
+  return waitForState(dbg, state => !dbg.selectors.isPaused(state));
 }
 
 function deleteExpression(dbg, input) {
