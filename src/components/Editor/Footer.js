@@ -8,7 +8,6 @@ import {
   getPrettySource,
   getPaneCollapse
 } from "../../selectors";
-import Svg from "../shared/Svg";
 
 import classnames from "classnames";
 import { isEnabled } from "devtools-config";

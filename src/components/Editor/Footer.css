@@ -55,7 +55,7 @@
 
 .source-footer > .commands > .action > img.prettyPrint {
   mask: url("images/prettyPrint.svg") no-repeat;
-  mask-size: 105%;
+  mask-size: 100%;
   height: 16px;
   width: 16px;
   background: black;
@@ -63,7 +63,7 @@
 
 .source-footer > .commands > .action > img.blackBox {
   mask: url("images/blackBox.svg") no-repeat;
-  mask-size: 105%;
+  mask-size: 100%;
   height: 16px;
   width: 16px;
   background: black;
@@ -79,8 +79,8 @@
   border-radius: 2px;
 }
 
-.source-footer .black-box.blackboxed svg {
-  fill: var(--theme-highlight-blue);
+.source-footer > .commands > .blackboxed > img.blackBox {
+  background: var(--theme-highlight-blue);
 }
 
 .source-footer .blackbox-summary {

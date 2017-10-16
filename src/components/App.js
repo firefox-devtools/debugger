@@ -108,10 +108,7 @@ class App extends Component {
       this.toggleSymbolModal
     );
 
-    shortcuts.on(
-      L10N.getStr("gotoLineModal.key"),
-      this.toggleGoToLineModal
-    );
+    shortcuts.on(L10N.getStr("gotoLineModal.key"), this.toggleGoToLineModal);
 
     shortcuts.on("Escape", this.onEscape);
     shortcuts.on("Cmd+/", this.onCommandSlash);
