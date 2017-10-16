@@ -1,8 +1,9 @@
 // @flow
 
-import { isEnabled } from "devtools-config";
 import { getBreakpoint } from "../../selectors";
 import assert from "../assert";
+import { features } from "../prefs";
+
 export { getASTLocation, findScopeByName } from "./astBreakpointLocation";
 
 import type {
@@ -89,7 +90,7 @@ export function breakpointAtLocation(
 
     // NOTE: when column breakpoints are disabled we want to find
     // the first breakpoint
-    if (!isEnabled("columnBreakpoints")) {
+    if (!features.columnBreakpoints) {
       return true;
     }
 

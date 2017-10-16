@@ -86,3 +86,15 @@ html .command-bar > button:disabled {
 .command-bar > button {
   padding: 6px 5px;
 }
+
+.command-bar.bottom {
+  justify-content: flex-end;
+}
+
+.command-bar.bottom > button {
+  color: var(--theme-comment);
+  width: 26px;
+}
+.command-bar.bottom > button:hover {
+  color: var(--theme-body-color);
+}
