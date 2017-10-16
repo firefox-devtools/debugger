@@ -67,13 +67,11 @@
   fill: var(--theme-body-color);
 }
 
-.source-tab .prettyPrint {
-  line-height: 0;
-}
-
-.source-tab .prettyPrint svg {
+.source-tab img.prettyPrint {
+  mask: url("/images/prettyPrint.svg") no-repeat;
   height: 12px;
   width: 12px;
+  background: var(--theme-textbox-box-shadow);
 }
 
 .source-tab .prettyPrint path {
@@ -82,13 +80,14 @@
 
 .source-tab .blackBox,
 .source-tab .prettyPrint {
-  line-height: 0;
   align-self: center;
 }
 
-.source-tab .blackBox svg {
+.source-tab img.blackBox {
+  mask: url("/images/blackBox.svg") no-repeat;
   height: 12px;
   width: 12px;
+  background: var(--theme-textbox-box-shadow);
 }
 
 .source-tab .blackBox path {

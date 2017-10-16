@@ -31,10 +31,10 @@
   transition: opacity 200ms;
   border: none;
   background: transparent;
-  padding: 6px 0.7em;
+  padding: 6px;
 }
 
-.source-footer > .commands > .action i {
+.source-footer > .commands > .action img {
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -53,9 +53,20 @@
   fill: var(--theme-selection-color);
 }
 
-.source-footer > .commands > .action svg {
+.source-footer > .commands > .action > img.prettyPrint {
+  mask: url("images/prettyPrint.svg") no-repeat;
+  mask-size: 105%;
   height: 16px;
   width: 16px;
+  background: black;
+}
+
+.source-footer > .commands > .action > img.blackBox {
+  mask: url("images/blackBox.svg") no-repeat;
+  mask-size: 105%;
+  height: 16px;
+  width: 16px;
+  background: black;
 }
 
 .source-footer .commands .coverage {

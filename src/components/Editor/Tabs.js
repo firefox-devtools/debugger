@@ -455,10 +455,10 @@ class SourceTabs extends PureComponent {
     const sourceObj = source.toJS();
 
     if (isPretty(sourceObj)) {
-      return <Svg name="prettyPrint" />;
+      return <img className="prettyPrint" />;
     }
     if (sourceObj.isBlackBoxed) {
-      return <Svg name="blackBox" />;
+      return <img className="blackBox" />;
     }
   }
 
