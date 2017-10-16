@@ -108,10 +108,7 @@ class App extends Component {
       this.toggleSymbolModal
     );
 
-    shortcuts.on(
-      L10N.getStr("gotoLineModal.key"),
-      this.toggleGoToLineModal
-    );
+    shortcuts.on(L10N.getStr("gotoLineModal.key"), this.toggleGoToLineModal);
 
     shortcuts.on("Escape", this.onEscape);
     shortcuts.on("Cmd+/", this.onCommandSlash);
@@ -290,7 +287,12 @@ class App extends Component {
             endPanel={this.renderEditorPane()}
           />
         }
-        endPanel={<SecondaryPanes horizontal={horizontal} />}
+        endPanel={
+          <SecondaryPanes
+            horizontal={horizontal}
+            toggleShortcutsModal={() => this.toggleShortcutsModal()}
+          />
+        }
         endPanelCollapsed={endPanelCollapsed}
       />
     );
