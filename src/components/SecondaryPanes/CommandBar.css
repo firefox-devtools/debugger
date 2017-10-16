@@ -2,6 +2,7 @@
   flex: 0 0 29px;
   border-bottom: 1px solid var(--theme-splitter-color);
   display: flex;
+  justify-content: flex-end;
   overflow: hidden;
   z-index: 1;
   background-color: var(--theme-toolbar-background);
@@ -16,6 +17,7 @@ html[dir="rtl"] .command-bar {
 }
 
 .command-bar > button {
+  color: var(--theme-body-color);
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -34,10 +36,6 @@ html[dir="rtl"] .command-bar {
 
 :root.theme-dark .command-bar > button {
   color: var(--theme-body-color);
-}
-
-.command-bar > button {
-  margin-inline-end: 0.7em;
 }
 
 .command-bar > button:focus {
