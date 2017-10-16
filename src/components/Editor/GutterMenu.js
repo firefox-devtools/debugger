@@ -65,7 +65,7 @@ export function gutterMenu({
 
   const toggleBreakpointItem = Object.assign(
     {
-      accesskey: "B",
+      accesskey: L10N.getStr("shortcuts.toggleBreakpoint.accesskey"),
       disabled: false,
       click: () => {
         toggleBreakpoint(line);
@@ -79,7 +79,7 @@ export function gutterMenu({
 
   const conditionalBreakpoint = Object.assign(
     {
-      accesskey: "C",
+      accesskey: L10N.getStr("editor.addConditionalBreakpoint.accesskey"),
       disabled: false,
       click: () => openConditionalPanel(line)
     },
@@ -103,7 +103,7 @@ export function gutterMenu({
   if (breakpoint) {
     const disableBreakpoint = Object.assign(
       {
-        accesskey: "D",
+        accesskey: L10N.getStr("editor.disableBreakpoint.accesskey"),
         disabled: false,
         click: () => toggleDisabledBreakpoint(line)
       },
