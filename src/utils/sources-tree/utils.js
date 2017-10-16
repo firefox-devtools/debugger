@@ -51,6 +51,15 @@ export function isInvalidUrl(url: Object, source: Object) {
   );
 }
 
+export function notInRoot(url: String, projectRoot: String) {
+  // console.log(projectRoot);
+  if (!projectRoot) {
+    return false;
+  } else {
+    return url.includes(projectRoot);
+  }
+}
+
 export function partIsFile(index: number, parts: Array<string>, url: Object) {
   const isLastPart = index === parts.length - 1;
   return !isDirectory(url) && isLastPart;

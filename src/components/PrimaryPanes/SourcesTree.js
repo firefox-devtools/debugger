@@ -39,7 +39,7 @@ import { showMenu } from "devtools-launchpad";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { throttle } from "../../utils/utils";
 import { features } from "../../utils/prefs";
-import { setProjectDirectoryRoot } from "../../actions/ui";
+// import { setProjectDirectoryRoot } from "../../actions/ui";
 
 type CreateTree = {
   focusedItem?: any,
@@ -227,6 +227,7 @@ class SourcesTree extends Component {
   }
 
   onContextMenu(event, item) {
+    const { setProjectDirectoryRoot } = this.props;
     const copySourceUri2Label = L10N.getStr("copySourceUri2");
     const copySourceUri2Key = L10N.getStr("copySourceUri2.accesskey");
     const setDirectoryRootLabel = L10N.getStr("setDirectoryRoot.label");

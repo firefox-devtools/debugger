@@ -4,6 +4,7 @@ import {
   nodeHasChildren,
   isDirectory,
   isInvalidUrl,
+  notInRoot,
   partIsFile,
   createNode
 } from "./utils";
@@ -143,12 +144,21 @@ export function addToTree(
   projectRoot: string
 ) {
   const url = getURL(source.get("url"), debuggeeUrl);
+  const projectRootUrl = getURL(projectRoot, debuggeeUrl);
   const debuggeeHost = getDomain(debuggeeUrl);
 
-  if (isInvalidUrl(url, source)) {
+  if (isInvalidUrl(url, source) || notInRoot(source.get("url"), projectRoot)) {
     return;
   }
 
-  const finalNode = traverseTree(url, tree, debuggeeHost);
-  finalNode.contents = addSourceToNode(finalNode, url, source);
+  if (!projectRoot) {
+    const finalNode = traverseTree(url, tree, debuggeeHost);
+    finalNode.contents = addSourceToNode(finalNode, url, source);
+  } else {
+    var res = projectRoot.split("/");
+    const shortenedUrl = getURL(res[res.length - 1], debuggeeUrl);
+
+    const finalNode = traverseTree(url, tree, debuggeeHost);
+    finalNode.contents = addSourceToNode(finalNode, shortenedUrl, source);
+  }
 }
