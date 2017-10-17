@@ -54,19 +54,17 @@
 }
 
 .source-footer > .commands > .action > img.prettyPrint {
-  mask: url("images/prettyPrint.svg") no-repeat;
-  mask-size: 100%;
+  mask: url(/images/prettyPrint.svg) no-repeat;
   height: 16px;
   width: 16px;
-  background: black;
+  background: var(--theme-body-color);
 }
 
 .source-footer > .commands > .action > img.blackBox {
-  mask: url("images/blackBox.svg") no-repeat;
-  mask-size: 100%;
+  mask: url(/images/blackBox.svg) no-repeat;
   height: 16px;
   width: 16px;
-  background: black;
+  background: var(--theme-body-color);
 }
 
 .source-footer .commands .coverage {

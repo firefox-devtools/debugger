@@ -68,9 +68,9 @@
 }
 
 .source-tab img.prettyPrint {
-  mask: url("/images/prettyPrint.svg") no-repeat;
+  mask: url(/images/prettyPrint.svg) no-repeat;
   mask-size: 100%;
-  margin-top: 2px;
+  padding-top: 12px;
   height: 12px;
   width: 12px;
   background: var(--theme-highlight-blue);
@@ -86,9 +86,9 @@
 }
 
 .source-tab img.blackBox {
-  mask: url("/images/blackBox.svg") no-repeat;
+  mask: url(/images/blackBox.svg) no-repeat;
   mask-size: 100%;
-  margin-top: 2px;
+  padding-top: 12px;
   height: 12px;
   width: 12px;
   background: var(--theme-highlight-blue);
