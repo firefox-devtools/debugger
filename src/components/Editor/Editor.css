@@ -120,8 +120,9 @@ html[dir="rtl"] .editor-mount {
 }
 
 .CodeMirror-linenumber {
-  font-size: 11px;
-  line-height: 14px;
+  font-size: 12px;
+  line-height: 15px;
+  font-family: monospace;
 }
 
 .folding-enabled .CodeMirror-linenumber {
