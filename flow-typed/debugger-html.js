@@ -259,6 +259,21 @@ declare module "debugger-html" {
   declare type Script = any;
 
   /**
+ * Describes content of the binding.
+ * FIXME Define these type more clearly
+ */
+  declare type BindingContents = {
+    value: any
+  };
+
+  /**
+ * Defines map of binding name to its content.
+ */
+  declare type ScopeBindings = {
+    [name: string]: BindingContents
+  };
+
+  /**
  * Scope
  * @memberof types
  * @static
@@ -267,9 +282,8 @@ declare module "debugger-html" {
     actor: ActorId,
     parent: ?Scope,
     bindings: {
-      // FIXME Define these types more clearly
-      arguments: Array<Object>,
-      variables: Object
+      arguments: Array<ScopeBindings>,
+      variables: ScopeBindings
     },
     sourceBindings?: {
       [originalName: string]: string
@@ -280,8 +294,7 @@ declare module "debugger-html" {
       class: string,
       displayName: string,
       location: Location,
-      // FIXME Define this type more clearly
-      parameterNames: Array<Object>
+      parameterNames: string[]
     },
     type: string
   };
