@@ -27,7 +27,7 @@ const prettierProc = spawn(prettierCmd, prettierArgs);
 prettierProc.stdout.on("data", data => console.log(`${data}`));
 prettierProc.stderr.on("data", data => console.log(`stderr: ${data}`));
 prettierProc.on("close", code =>
-  console.log(`prettier exited with code ${code}`)
+  console.log(`prettier ${code === 0 ? "succeeded" : "failed"}`)
 );
 prettierProc.on("error", error => {
   if (error.code == "ENOENT") {
