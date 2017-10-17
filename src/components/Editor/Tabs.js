@@ -17,7 +17,6 @@ import { getFilename, getFileURL, isPretty } from "../../utils/source";
 import classnames from "classnames";
 import actions from "../../actions";
 import CloseButton from "../shared/Button/Close";
-import Svg from "../shared/Svg";
 import { showMenu, buildMenu } from "devtools-launchpad";
 import { debounce } from "lodash";
 import "./Tabs.css";
@@ -455,10 +454,10 @@ class SourceTabs extends PureComponent {
     const sourceObj = source.toJS();
 
     if (isPretty(sourceObj)) {
-      return <Svg name="prettyPrint" />;
+      return <img className="prettyPrint" />;
     }
     if (sourceObj.isBlackBoxed) {
-      return <Svg name="blackBox" />;
+      return <img className="blackBox" />;
     }
   }
 
