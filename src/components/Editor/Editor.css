@@ -119,7 +119,7 @@ html[dir="rtl"] .editor-mount {
   background-color: var(--theme-body-background);
 }
 
-.CodeMirror-linenumber {
+.CodeMirror-code {
   font-size: 12px;
   line-height: 15px;
   font-family: monospace;
@@ -138,10 +138,6 @@ html[dir="rtl"] .editor-mount {
 /* move the breakpoint below the other gutter elements */
 .new-breakpoint .CodeMirror-gutter-elt:nth-child(2) {
   z-index: 0;
-}
-
-.editor-wrapper .CodeMirror-line {
-  font-size: 11px;
 }
 
 .theme-dark .editor-wrapper .CodeMirror-line .cm-comment {
