@@ -67,7 +67,7 @@ function copySVGs({ projectPath, mcPath }) {
   );
 
   let usedSvgs = [];
-  const svgTest = new RegExp(/url\(\/images\/(.*)\);/, "g");
+  const svgTest = new RegExp(/url\(\/images\/(.*)\)/, "g");
   const cssFiles = walkSync(path.join(projectPath, "src/components"))
     .filter(file => file.match(/css$/))
     .forEach(file =>
