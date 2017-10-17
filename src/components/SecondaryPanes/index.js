@@ -94,18 +94,18 @@ class SecondaryPanes extends Component {
   }
 
   renderBreakpointsDropdown() {
-    const { breakOnNext } = this.props;
+    const { 
+      breakOnNext,
+      shouldPauseOnExceptions,
+      shouldIgnoreCaughtExceptions,
+      pauseOnExceptions } = this.props;
+
     const pauseBtn = debugBtn(
       breakOnNext,
       "pause",
       "active",
       L10N.getFormatStr("pauseButtonTooltip", formatKey("pause"))
     );
-    const {
-      shouldPauseOnExceptions,
-      shouldIgnoreCaughtExceptions,
-      pauseOnExceptions
-    } = this.props;
 
     const dontPauseOnExceptionsBtn = debugBtn(
       () => pauseOnExceptions(true, true),

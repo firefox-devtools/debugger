@@ -120,6 +120,7 @@ export function pauseOnExceptions(
   shouldIgnoreCaughtExceptions: boolean
 ) {
   return ({ dispatch, client }: ThunkArgs) => {
+    console.log("PauseOnExceptions()")
     dispatch({
       type: "PAUSE_ON_EXCEPTIONS",
       shouldPauseOnExceptions,
@@ -220,6 +221,7 @@ export function resume() {
 export function breakOnNext() {
   return ({ dispatch, client }: ThunkArgs) => {
     client.breakOnNext();
+    console.log("breakOnNext()")
 
     return dispatch({
       type: "BREAK_ON_NEXT",
