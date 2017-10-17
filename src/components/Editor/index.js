@@ -227,7 +227,20 @@ class Editor extends PureComponent {
     // Only update and jump around in real source texts. This will
     // keep the jump state around until the real source text is
     // loaded.
-    if (selectedSource && selectedSource.has("text")) {
+    if (
+      !prevProps.selectedLocation ||
+      !prevProps.selectedLocation.location ||
+      (selectedLocation &&
+        selectedLocation.location &&
+        prevProps.selectedLocation &&
+        prevProps.selectedLocation.location &&
+        selectedSource &&
+        selectedSource.has("text") &&
+        (prevProps.selectedLocation.location.line !==
+          selectedLocation.location.line &&
+          prevProps.selectedLocation.location.column !==
+            selectedLocation.location.column))
+    ) {
       this.highlightLine();
     }
 
