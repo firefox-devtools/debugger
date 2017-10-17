@@ -20,9 +20,23 @@
   box-shadow: 1px 1px 3px 1px var(--popup-shadow-color);
 }
 
+.modal .input-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.modal .close-btn {
+  padding: 6px;
+}
+
+.modal .result-list {
+  height: calc(100% - 28px);
+  overflow-y: auto;
+}
+
 .modal.entering,
 .modal.exited {
-  transform: translateY(-250px);
+  transform: translateY(-101%);
 }
 
 .modal.entered,

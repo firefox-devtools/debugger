@@ -8,14 +8,14 @@ exports[`SymbolModal should render 1`] = `
         <div className=\\"modal-wrapper\\" onClick={[Function]}>
           <div className=\\"modal entering\\" onClick={[Function]}>
             <div className=\\"input-wrapper\\">
-              <SearchInput query=\\"\\" count={2} placeholder=\\"Search functions…\\" summaryMsg=\\"1 of 2 results\\" onChange={[Function]} onKeyUp={[Function]} handleNext={[Function]} handlePrev={[Function]} handleClose={[Function]} size=\\"\\" showErrorEmoji={true}>
+              <SearchInput query=\\"\\" count={2} placeholder=\\"Search functions…\\" summaryMsg=\\"1 of 2 results\\" onChange={[Function]} onKeyDown={[Function]} handleNext={[Function]} handlePrev={[Function]} handleClose={[Function]} size=\\"\\" showErrorEmoji={true}>
                 <div className=\\"search-field\\">
                   <Svg name=\\"magnifying-glass\\">
                     <InlineSVG className=\\"magnifying-glass \\" onClick={[undefined]} aria-label={[undefined]} src=\\"<svg></svg>\\" element=\\"i\\" raw={false}>
                       <i className=\\"magnifying-glass \\" onClick={[undefined]} aria-label={[undefined]} src={{...}} dangerouslySetInnerHTML={{...}} />
                     </InlineSVG>
                   </Svg>
-                  <input className=\\"\\" onChange={[Function]} onKeyDown={[undefined]} onKeyUp={[Function]} onFocus={[undefined]} onBlur={[undefined]} placeholder=\\"Search functions…\\" value=\\"\\" spellCheck={false} />
+                  <input className=\\"\\" onChange={[Function]} onKeyDown={[Function]} onKeyUp={[undefined]} onFocus={[undefined]} onBlur={[undefined]} placeholder=\\"Search functions…\\" value=\\"\\" spellCheck={false} />
                   <div className=\\"summary\\">
                     1 of 2 results
                   </div>

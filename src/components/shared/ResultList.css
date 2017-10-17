@@ -6,10 +6,6 @@
   width: calc(100% - 1px); /* 1px fixes the hidden right border */
 }
 
-.result-list.big {
-  max-height: calc(100% - 32px);
-}
-
 .result-list * {
   -moz-user-select: none;
   user-select: none;
@@ -74,6 +70,10 @@
 
 .result-list.big li .subtitle {
   line-height: 1.5em;
+}
+
+.theme-dark .result-list.big li .subtitle {
+  color: var(--theme-comment-alt);
 }
 
 .search-bar .result-list li.selected .subtitle {
