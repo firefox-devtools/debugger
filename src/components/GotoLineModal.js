@@ -17,8 +17,6 @@ type GotoLineModalState = {
   query: ?string
 };
 
-import "./SymbolModal.css";
-
 class GotoLineModal extends Component {
   state: GotoLineModalState;
 

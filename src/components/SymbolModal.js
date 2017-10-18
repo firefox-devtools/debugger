@@ -58,8 +58,6 @@ type SymbolModalState = {
   query: ?string
 };
 
-import "./SymbolModal.css";
-
 class SymbolModal extends Component {
   state: SymbolModalState;
 
@@ -180,8 +178,7 @@ class SymbolModal extends Component {
     }
   }
 
-  onKeyUp = (e: SyntheticKeyboardEvent) => {
-    e.preventDefault();
+  onKeyDown = (e: SyntheticKeyboardEvent) => {
     const { enabled } = this.props;
     const { results, resultsIndex } = this.state;
 
@@ -231,7 +228,7 @@ class SymbolModal extends Component {
           placeholder={this.buildPlaceHolder()}
           summaryMsg={this.buildSummaryMsg()}
           onChange={this.onChange}
-          onKeyUp={this.onKeyUp}
+          onKeyDown={this.onKeyDown}
           handleNext={() => this.traverseResults(1)}
           handlePrev={() => this.traverseResults(-1)}
           handleClose={this.closeModal}

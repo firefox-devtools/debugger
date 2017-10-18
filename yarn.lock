@@ -6689,7 +6689,7 @@ mocha@^3.2.0:
     mkdirp "0.5.1"
     supports-color "3.1.2"
 
-mochii@0.0.9:
+mochii@^0.0.9:
   version "0.0.9"
   resolved "https://registry.yarnpkg.com/mochii/-/mochii-0.0.9.tgz#563b46fd41b1d14fdb074f6c66136183551f2f85"
   dependencies:
