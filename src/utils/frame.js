@@ -91,6 +91,10 @@ function isPreact(frame) {
   return getFrameUrl(frame).match(/preact/i);
 }
 
+function isMarko(frame) {
+  return getFrameUrl(frame).match(/marko/i);
+}
+
 export function getLibraryFromUrl(frame: Frame) {
   // @TODO each of these fns calls getFrameUrl, just call it once
   // (assuming there's not more complex logic to identify a lib)
@@ -170,6 +174,10 @@ export function getLibraryFromUrl(frame: Frame) {
 
   if (isImmutable(frame)) {
     return "Immutable";
+  }
+
+  if (isMarko(frame)) {
+    return "Marko";
   }
 }
 
