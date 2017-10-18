@@ -222,7 +222,6 @@ class Editor extends PureComponent {
       }
     }
 
-    // Only highlight the line if the selected location has moved
     // (i.e the line and column are different).
     // Only update and jump around in real source texts. This will
     // keep the jump state around until the real source text is
@@ -235,11 +234,7 @@ class Editor extends PureComponent {
         prevProps.selectedLocation &&
         prevProps.selectedLocation.location &&
         selectedSource &&
-        selectedSource.has("text") &&
-        (prevProps.selectedLocation.location.line !==
-          selectedLocation.location.line &&
-          prevProps.selectedLocation.location.column !==
-            selectedLocation.location.column))
+        selectedSource.has("text"))
     ) {
       this.highlightLine();
     }
