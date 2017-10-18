@@ -15,11 +15,19 @@ describe("expressions", () => {
     it("should wrap expression with a comment", () => {
       expect(wrapExpression("foo // yo yo")).toMatchSnapshot();
     });
+
+    it("should wrap quotes", () => {
+      expect(wrapExpression('"2"')).toMatchSnapshot();
+    });
   });
 
   describe("sanitize input", () => {
     it("sanitizes quotes", () => {
-      expect(sanitizeInput('foo"')).toEqual('foo\\"');
+      expect(sanitizeInput('foo"')).toEqual('foo"');
+    });
+
+    it("sanitizes 2 quotes", () => {
+      expect(sanitizeInput('"3"')).toEqual('"3"');
     });
 
     it("sanitizes forward slashes", () => {
