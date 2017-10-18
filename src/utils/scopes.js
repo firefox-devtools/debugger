@@ -3,7 +3,13 @@
 import { toPairs } from "lodash";
 import { get } from "lodash";
 import { simplifyDisplayName } from "./frame";
-import type { Frame, Pause, Scope, BindingContents } from "debugger-html";
+import type {
+  Frame,
+  Pause,
+  Scope,
+  SyntheticScope,
+  BindingContents
+} from "debugger-html";
 
 export type NamedValue = {
   name: string,
@@ -12,13 +18,13 @@ export type NamedValue = {
   contents: BindingContents | NamedValue[]
 };
 
-// VarAndBindingsPair actually is [name: string, contents: ScopeBindings]
+// VarAndBindingsPair actually is [name: string, contents: BindingContents]
 type VarAndBindingsPair = Array<any>;
 type VarAndBindingsPairs = Array<VarAndBindingsPair>;
 
 // Create the tree nodes representing all the variables and arguments
 // for the bindings from a scope.
-function getBindingVariables(bindings, parentName) {
+function getBindingVariables(bindings, parentName): NamedValue[] {
   const args: VarAndBindingsPairs = bindings.arguments.map(
     arg => toPairs(arg)[0]
   );
@@ -41,7 +47,7 @@ function getSourceBindingVariables(
     [originalName: string]: string
   },
   parentName: string
-) {
+): NamedValue[] {
   const result = getBindingVariables(bindings, parentName);
   const index: any = Object.create(null);
   result.forEach(entry => {
@@ -70,7 +76,10 @@ function getSourceBindingVariables(
   return bound.concat(unused);
 }
 
-export function getSpecialVariables(pauseInfo: Pause, path: string) {
+export function getSpecialVariables(
+  pauseInfo: Pause,
+  path: string
+): NamedValue[] {
   const thrown = get(pauseInfo, "why.frameFinished.throw", undefined);
 
   const returned = get(pauseInfo, "why.frameFinished.return", undefined);
@@ -99,7 +108,7 @@ export function getSpecialVariables(pauseInfo: Pause, path: string) {
   return vars;
 }
 
-function getThisVariable(frame: any, path: string) {
+function getThisVariable(frame: any, path: string): ?NamedValue {
   const this_ = frame.this;
 
   if (!this_) {
@@ -111,6 +120,233 @@ function getThisVariable(frame: any, path: string) {
     path: `${path}/<this>`,
     contents: { value: this_ }
   };
+}
+
+type SynthesizeScopeContext = {
+  actor: string,
+  scopeIndex: number,
+  lastScopeIndex: number,
+  generatedScopes: Scope[],
+  foundGeneratedNames: { [name: string]: boolean },
+  selectedFrame: ?Frame,
+  pauseInfo: ?Pause,
+  result: NamedValue[]
+};
+
+// Create a synthesized scope based on its binding names and
+// generated/original scopes information.
+function synthesizeScope(
+  acc: SynthesizeScopeContext,
+  syntheticScope: SyntheticScope,
+  index: number
+): SynthesizeScopeContext {
+  const {
+    actor,
+    scopeIndex,
+    lastScopeIndex,
+    generatedScopes,
+    foundGeneratedNames,
+    selectedFrame,
+    pauseInfo,
+    result
+  } = acc;
+  const { type, bindingsNames } = syntheticScope;
+  const key = `${actor}-${scopeIndex + index}`;
+  const isLast = index === lastScopeIndex;
+
+  let title;
+  if (type === "function") {
+    // FIXME Use original function name here
+    const lastGeneratedScope = generatedScopes[generatedScopes.length - 1];
+    const isLastGeneratedScopeFn =
+      lastGeneratedScope && lastGeneratedScope.type === "function";
+    title =
+      isLastGeneratedScopeFn && lastGeneratedScope.function.displayName
+        ? simplifyDisplayName(lastGeneratedScope.function.displayName)
+        : L10N.getStr("anonymous");
+  } else {
+    title = L10N.getStr("scopes.block");
+  }
+
+  let vars = [];
+  bindingsNames.forEach(name => {
+    // Find binding name in the original source bindings
+    const generatedScope = generatedScopes.find(
+      gs => gs.sourceBindings && name in gs.sourceBindings
+    );
+    if (!generatedScope || !generatedScope.sourceBindings) {
+      return;
+    }
+    // .. and map it to the generated name
+    const generatedName = generatedScope.sourceBindings[name];
+    // Skip if we already use the generated name
+    if (generatedName && !foundGeneratedNames[generatedName]) {
+      if (generatedScope.bindings.variables[generatedName]) {
+        vars.push({
+          name,
+          generatedName,
+          path: `${key}/${generatedName}`,
+          contents: generatedScope.bindings.variables[generatedName]
+        });
+        foundGeneratedNames[generatedName] = true;
+        return;
+      }
+
+      const arg = generatedScope.bindings.arguments.find(
+        arg_ => arg_[generatedName]
+      );
+      if (arg) {
+        vars.push({
+          name,
+          generatedName,
+          path: `${key}/${generatedName}`,
+          contents: arg[generatedName]
+        });
+        foundGeneratedNames[generatedName] = true;
+        return;
+      }
+    }
+
+    vars.push({
+      name,
+      generatedName,
+      path: `${key}/${generatedName}`,
+      contents: { value: { type: "undefined" } }
+    });
+  });
+
+  if (isLast) {
+    // For the last synthesized scope, apply all generated names we did not use
+    const allGeneratedVars = generatedScopes.reduce((acc_, { bindings }) => {
+      return acc_.concat(getBindingVariables(bindings, key));
+    }, []);
+    vars = vars.concat(
+      allGeneratedVars.filter(v => !foundGeneratedNames[v.name])
+    );
+  }
+
+  if (index === 0) {
+    // For the first synthesized scope, add this and other vars.
+    if (pauseInfo) {
+      vars = vars.concat(getSpecialVariables(pauseInfo, key));
+    }
+
+    if (selectedFrame) {
+      const this_ = getThisVariable(selectedFrame, key);
+
+      if (this_) {
+        vars.push(this_);
+      }
+    }
+  }
+
+  if (vars && vars.length) {
+    vars.sort((a, b) => a.name.localeCompare(b.name));
+    result.push({
+      name: title,
+      path: key,
+      contents: vars
+    });
+  }
+  return acc;
+}
+
+function synthesizeScopes(
+  scope: Scope,
+  selectedFrame: ?Frame,
+  pauseInfo: ?Pause,
+  scopeIndex: number,
+  scopes
+): NamedValue[] {
+  const { actor, syntheticScopes } = scope;
+  if (!syntheticScopes) {
+    return [];
+  }
+
+  // Collect all connected generated scopes.
+  const generatedScopes = [];
+  for (
+    let count = syntheticScopes.groupLength, s = scope;
+    count > 0 && s;
+    count--
+  ) {
+    generatedScopes.push(s);
+    s = s.parent;
+  }
+
+  const { result } = syntheticScopes.scopes.reduce(synthesizeScope, {
+    actor,
+    scopeIndex,
+    lastScopeIndex: syntheticScopes.scopes.length - 1,
+    generatedScopes,
+    foundGeneratedNames: Object.create(null),
+    selectedFrame,
+    pauseInfo,
+    result: []
+  });
+  return result;
+}
+
+function translateScope(
+  scope: Scope,
+  selectedFrame: ?Frame,
+  pauseInfo: ?Pause,
+  scopeIndex: number
+): ?NamedValue {
+  const { type, actor } = scope;
+
+  const key = `${actor}-${scopeIndex}`;
+  if (type === "function" || type === "block") {
+    const bindings = scope.bindings;
+    const sourceBindings = scope.sourceBindings;
+    let title;
+    if (type === "function") {
+      title = scope.function.displayName
+        ? simplifyDisplayName(scope.function.displayName)
+        : L10N.getStr("anonymous");
+    } else {
+      title = L10N.getStr("scopes.block");
+    }
+
+    let vars = sourceBindings
+      ? getSourceBindingVariables(bindings, sourceBindings, key)
+      : getBindingVariables(bindings, key);
+
+    // show exception, return, and this variables in innermost scope
+    if (pauseInfo) {
+      vars = vars.concat(getSpecialVariables(pauseInfo, key));
+    }
+
+    if (selectedFrame) {
+      const this_ = getThisVariable(selectedFrame, key);
+
+      if (this_) {
+        vars.push(this_);
+      }
+    }
+
+    if (vars && vars.length) {
+      vars.sort((a, b) => a.name.localeCompare(b.name));
+      return {
+        name: title,
+        path: key,
+        contents: vars
+      };
+    }
+  } else if (type === "object") {
+    let value = scope.object;
+    // If this is the global window scope, mark it as such so that it will
+    // preview Window: Global instead of Window: Window
+    if (value.class === "Window") {
+      value = Object.assign({}, scope.object, { displayClass: "Global" });
+    }
+    return {
+      name: scope.object.class,
+      path: key,
+      contents: { value }
+    };
+  }
+  return null;
 }
 
 export function getScopes(
@@ -136,61 +372,51 @@ export function getScopes(
   const pausedScopeActor = get(pauseInfo, "frame.scope.actor");
   let scopeIndex = 1;
 
-  do {
-    const { type, actor } = scope;
-    const key = `${actor}-${scopeIndex}`;
-    if (type === "function" || type === "block") {
-      const bindings = scope.bindings;
-      const sourceBindings = scope.sourceBindings;
-      let title;
-      if (type === "function") {
-        title = scope.function.displayName
-          ? simplifyDisplayName(scope.function.displayName)
-          : L10N.getStr("anonymous");
-      } else {
-        title = L10N.getStr("scopes.block");
-      }
+  while (scope) {
+    const { actor, syntheticScopes } = scope;
+    let maybeSelectedFrame =
+      actor === selectedScope.actor ? selectedFrame : null;
+    let maybePauseInfo = actor === pausedScopeActor ? pauseInfo : null;
 
-      let vars = sourceBindings
-        ? getSourceBindingVariables(bindings, sourceBindings, key)
-        : getBindingVariables(bindings, key);
-
-      // show exception, return, and this variables in innermost scope
-      if (scope.actor === pausedScopeActor) {
-        vars = vars.concat(getSpecialVariables(pauseInfo, key));
-      }
-
-      if (scope.actor === selectedScope.actor) {
-        const this_ = getThisVariable(selectedFrame, key);
-
-        if (this_) {
-          vars.push(this_);
+    if (syntheticScopes) {
+      const scopeDepth = syntheticScopes.groupLength;
+      let lastScope = scope;
+      // Scanning to check it scopes will contain pausedScopeActor or
+      // selectedScope.actor actors.
+      for (let i = 1; lastScope.parent && i < scopeDepth; i++) {
+        const nextScope = lastScope.parent;
+        if (!maybeSelectedFrame && nextScope.actor === selectedScope.actor) {
+          maybeSelectedFrame = selectedFrame;
         }
+        if (!maybePauseInfo && nextScope.actor === pausedScopeActor) {
+          maybePauseInfo = pauseInfo;
+        }
+        lastScope = nextScope;
       }
-
-      if (vars && vars.length) {
-        vars.sort((a, b) => a.name.localeCompare(b.name));
-        scopes.push({
-          name: title,
-          path: key,
-          contents: vars
-        });
+      scopes.push(
+        ...synthesizeScopes(
+          scope,
+          maybeSelectedFrame,
+          maybePauseInfo,
+          scopeIndex
+        )
+      );
+      scope = lastScope;
+      scopeIndex += syntheticScopes.scopes.length;
+    } else {
+      const translated = translateScope(
+        scope,
+        maybeSelectedFrame,
+        maybePauseInfo,
+        scopeIndex
+      );
+      if (translated) {
+        scopes.push(translated);
       }
-    } else if (type === "object") {
-      let value = scope.object;
-      // If this is the global window scope, mark it as such so that it will
-      // preview Window: Global instead of Window: Window
-      if (value.class === "Window") {
-        value = Object.assign({}, scope.object, { displayClass: "Global" });
-      }
-      scopes.push({
-        name: scope.object.class,
-        path: key,
-        contents: { value }
-      });
+      scopeIndex++;
     }
-    scopeIndex++;
-  } while ((scope = scope.parent)); // eslint-disable-line no-cond-assign
+    scope = scope.parent;
+  }
 
   return scopes;
 }

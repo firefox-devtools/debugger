@@ -14,12 +14,18 @@ export function fetchScopes() {
       return;
     }
 
-    const sourceRecord = getSource(
+    const sourceRecord = getSource(getState(), frame.location.sourceId);
+
+    if (sourceRecord.get("isPrettyPrinted")) {
+      return;
+    }
+
+    const generatedSourceRecord = getSource(
       getState(),
       frame.generatedLocation.sourceId
     );
 
-    if (sourceRecord.get("isWasm")) {
+    if (generatedSourceRecord.get("isWasm")) {
       return;
     }
 
@@ -37,6 +43,7 @@ export function fetchScopes() {
     const mappedScopes = await updateScopeBindings(
       scopes,
       frame.generatedLocation,
+      frame.location,
       sourceMaps
     );
 

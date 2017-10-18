@@ -175,5 +175,93 @@ describe("scopes", () => {
         contents: {}
       });
     });
+
+    it("synthetic scope", () => {
+      const pauseData = {
+        frame: {
+          scope: {
+            actor: "actor1"
+          },
+          this: {}
+        }
+      };
+
+      const syntheticScopes = [
+        {
+          type: "block",
+          bindingsNames: ["first"]
+        },
+        {
+          type: "block",
+          bindingsNames: ["second"]
+        },
+        {
+          type: "block",
+          bindingsNames: []
+        }
+      ];
+
+      const selectedFrame = {
+        scope: {
+          actor: "actor1",
+          type: "block",
+          sourceBindings: {
+            first: "a",
+            second: "b"
+          },
+          bindings: {
+            arguments: [
+              {
+                b: {}
+              }
+            ],
+            variables: {
+              a: {}
+            }
+          },
+          syntheticScopes: {
+            groupIndex: 0,
+            groupLength: 2,
+            scopes: syntheticScopes
+          },
+          parent: {
+            actor: "actor2",
+            type: "block",
+            bindings: {
+              arguments: [],
+              variables: {
+                foo: {}
+              }
+            },
+            syntheticScopes: {
+              groupIndex: 1,
+              groupLength: 2,
+              scopes: syntheticScopes
+            }
+          }
+        },
+        this: {}
+      };
+
+      const scopes = getScopes(pauseData, selectedFrame);
+      expect(scopes.length).toEqual(3);
+      expect(scopes[0].contents[1]).toEqual({
+        name: "first",
+        generatedName: "a",
+        path: "actor1-1/a",
+        contents: {}
+      });
+      expect(scopes[1].contents[0]).toEqual({
+        name: "second",
+        generatedName: "b",
+        path: "actor1-2/b",
+        contents: {}
+      });
+      expect(scopes[2].contents[0]).toEqual({
+        name: "foo",
+        path: "actor1-3/foo",
+        contents: {}
+      });
+    });
   });
 });

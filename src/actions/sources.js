@@ -135,6 +135,7 @@ function loadSourceMap(generatedSource) {
 
     await dispatch(loadSourceText(generatedSource));
     originalSources.forEach(async source => {
+      await dispatch(loadSourceText(source));
       await checkSelectedSource(getState(), dispatch, source);
       checkPendingBreakpoints(getState(), dispatch, source.id);
     });
