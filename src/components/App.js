@@ -221,10 +221,11 @@ class App extends Component {
   }
 
   onLayoutChange() {
+    const orientation = verticalLayoutBreakpoint.matches
+      ? "horizontal"
+      : "vertical";
     if (isVisible()) {
-      this.props.setOrientation(
-        verticalLayoutBreakpoint.matches ? "horizontal" : "vertical"
-      );
+      this.props.setOrientation(orientation);
     }
   }
 
