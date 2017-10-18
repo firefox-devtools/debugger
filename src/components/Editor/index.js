@@ -238,13 +238,6 @@ class Editor extends PureComponent {
     ) {
       this.highlightLine();
     }
-
-    if (
-      this.props.conditionalBreakpointPanel !== null &&
-      this.cbPanel == null
-    ) {
-      this.toggleConditionalPanel(this.props.conditionalBreakpointPanel);
-    }
   }
 
   onToggleBreakpoint = (key, e) => {
