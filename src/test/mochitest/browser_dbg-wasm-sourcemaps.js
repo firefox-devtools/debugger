@@ -13,6 +13,9 @@ add_task(async function() {
 
   await reload(dbg);
   await waitForPaused(dbg);
+  // await waitForMappedScopes(dbg);
+
+  await waitForLoadedSource(dbg, "doc-wasm-sourcemaps")
   assertPausedLocation(dbg);
 
   await waitForSource(dbg, "wasm-sourcemaps/average.c");
@@ -21,6 +24,9 @@ add_task(async function() {
   clickElement(dbg, "resume");
 
   await waitForPaused(dbg);
+  await waitForLoadedSource(dbg, "average.c")
+  // await waitForMappedScopes(dbg);
+  // await (new Promise(r => r))
   assertPausedLocation(dbg);
 
   const frames = findAllElements(dbg, "frames");

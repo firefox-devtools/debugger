@@ -149,14 +149,16 @@ function waitForThreadEvents(dbg, eventName) {
  * @return {Promise}
  * @static
  */
-function waitForState(dbg, predicate) {
+function waitForState(dbg, predicate, msg) {
   return new Promise(resolve => {
+    info(`Waiting for state change: ${msg || ""}`);
     if (predicate(dbg.store.getState())) {
       return resolve();
     }
 
     const unsubscribe = dbg.store.subscribe(() => {
       if (predicate(dbg.store.getState())) {
+        info(`Finished waiting for state change: ${msg || ""}`)
         unsubscribe();
         resolve();
       }
@@ -226,7 +228,7 @@ function waitForSelectedSource(dbg, sourceId) {
     }
 
     return isLoaded;
-  });
+  }, "selected source");
 }
 
 /**
@@ -252,6 +254,13 @@ function assertPausedLocation(dbg) {
 function assertDebugLine(dbg, line) {
   // Check the debug line
   const lineInfo = getCM(dbg).lineInfo(line - 1);
+  const source = dbg.selectors.getSelectedSource(dbg.getState())
+  if (source && source.get("loadedState") == "loading") {
+    const url = source.get("url")
+    ok(false, `Looks like the source ${url} is still loading. Try adding waitForLoadedSource in the test.`)
+    return;
+  }
+
   ok(
     lineInfo.wrapClass.includes("debug-line"),
     "Line is highlighted as paused"
@@ -321,8 +330,24 @@ async function waitForPaused(dbg) {
   // We want to make sure that we get both a real paused event and
   // that the state is fully populated. The client may do some more
   // work (call other client methods) before populating the state.
+  let loading = waitForDispatch(dbg, "LOAD_OBJECT_PROPERTIES");
   await waitForThreadEvents(dbg, "paused");
-  await waitForState(dbg, state => isTopFrameSelected(dbg, state));
+  await waitForState(dbg, state => isPaused(dbg));
+  await loading;
+}
+
+/**
+ * Waits for the debugger to be fully paused.
+ *
+ * @memberof mochitest/waits
+ * @param {Object} dbg
+ * @static
+ */
+async function waitForMappedScopes(dbg) {
+  await waitForState(dbg, state => {
+    const scopes = dbg.selectors.getScopes(state);
+    return scopes && scopes.sourceBindings;
+  }, "mapped scopes");
 }
 
 function isTopFrameSelected(dbg, state) {
@@ -436,6 +461,11 @@ function findSource(dbg, url) {
   return source.toJS();
 }
 
+function waitForLoadedSource(dbg, url) {
+  return waitForState(dbg, state => findSource(dbg, url).loadedState == "loaded",
+`loaded source`)
+}
+
 /**
  * Selects the source.
  *
@@ -511,7 +541,8 @@ function stepOut(dbg) {
 function resume(dbg) {
   info("Resuming");
   dbg.actions.resume();
-  return waitForState(dbg, state => !dbg.selectors.isPaused(state));
+  return waitForState(dbg, state => !dbg.selectors.isPaused(state),
+"resumed");
 }
 
 function deleteExpression(dbg, input) {
@@ -529,7 +560,7 @@ function deleteExpression(dbg, input) {
  * @static
  */
 function reload(dbg, ...sources) {
-  return dbg.client.reload().then(() => waitForSources(dbg, ...sources));
+  return dbg.client.reload().then(() => waitForSources(dbg, ...sources), "reloaded");
 }
 
 /**

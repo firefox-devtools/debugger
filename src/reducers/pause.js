@@ -1,4 +1,6 @@
 // @flow
+/* eslint complexity: ["error", 30]*/
+
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
@@ -69,6 +71,14 @@ function update(state: PauseState = State(), action: Action): PauseState {
       });
     }
 
+    case "MAP_SCOPES":
+      const { frame, scopes } = action;
+      const selectedFrameId = frame.id;
+
+      return {
+        ...state,
+        frameScopes: { ...state.frameScopes, [selectedFrameId]: scopes }
+      };
     case "RESUME":
       return Object.assign({}, state, {
         pause: null,
@@ -93,12 +103,9 @@ function update(state: PauseState = State(), action: Action): PauseState {
       return Object.assign({}, state, { isWaitingOnBreak: true });
 
     case "SELECT_FRAME":
-      const { frame, scopes } = action;
-      const selectedFrameId = frame.id;
       return {
         ...state,
-        frameScopes: { ...state.frameScopes, [selectedFrameId]: scopes },
-        selectedFrameId
+        selectedFrameId: action.frame.id
       };
 
     case "LOAD_OBJECT_PROPERTIES":
@@ -240,12 +247,14 @@ export function getFrameScopes(state: OuterState, frameId: string) {
   return state.pause.frameScopes[frameId];
 }
 
-export const getSelectedFrameId = createSelector(
-  getPauseState,
-  pauseWrapper => {
-    return pauseWrapper.selectedFrameId;
-  }
-);
+export function getScopes(state: OuterState) {
+  const selectedFrameId = getSelectedFrameId(state);
+  return state.pause.frameScopes[selectedFrameId];
+}
+
+export function getSelectedFrameId(state: OuterState) {
+  return state.pause.selectedFrameId;
+}
 
 export const getSelectedFrame = createSelector(
   getSelectedFrameId,
