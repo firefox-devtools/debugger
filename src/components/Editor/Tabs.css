@@ -50,6 +50,10 @@
   cursor: default;
 }
 
+.source-tab:first-child {
+  margin-inline-start: 0;
+}
+
 .source-tab:hover {
   background-color: var(--theme-toolbar-background-alt);
   border-color: var(--theme-splitter-color);
