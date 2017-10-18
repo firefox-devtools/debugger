@@ -7,6 +7,7 @@
 import { getSource, getSelectedFrame, getFrameScope } from "../../selectors";
 import { updateScopeBindings } from "../../utils/pause";
 import { isGeneratedId } from "devtools-source-map";
+import { loadSourceText } from "../sources/loadSourceText";
 
 import type { ThunkArgs } from "../types";
 
@@ -25,12 +26,18 @@ export function fetchScopes() {
       scopes
     });
 
-    const sourceRecord = getSource(
+    const generatedSourceRecord = getSource(
       getState(),
       frame.generatedLocation.sourceId
     );
 
-    if (sourceRecord.get("isWasm")) {
+    if (generatedSourceRecord.get("isWasm")) {
+      return;
+    }
+
+    const sourceRecord = getSource(getState(), frame.location.sourceId);
+
+    if (sourceRecord.get("isPrettyPrinted")) {
       return;
     }
 
@@ -41,7 +48,16 @@ export function fetchScopes() {
     const mappedScopes = await updateScopeBindings(
       scopes,
       frame.generatedLocation,
-      sourceMaps
+      frame.location,
+      {
+        async getLocationScopes(location, astScopes) {
+          return sourceMaps.getLocationScopes(location, astScopes);
+        },
+        async loadSourceText(sourceId) {
+          const source = getSource(getState(), sourceId).toJS();
+          await dispatch(loadSourceText(source));
+        }
+      }
     );
 
     dispatch({
