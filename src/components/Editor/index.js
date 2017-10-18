@@ -202,11 +202,14 @@ class Editor extends PureComponent {
     // `this.props` to be the current props. This lifecycle method is
     // responsible for updating the editor annotations.
     const { selectedLocation, selectedSource } = this.props;
-
+    if (!selectedLocation) {
+      return;
+    }
     // If the location is different and a new line is requested,
     // update the pending jump line. Note that if jumping to a line in
     // a source where the text hasn't been loaded yet, we will set the
     // line here but not jump until rendering the actual source.
+
     if (
       !prevProps.selectedLocation ||
       prevProps.selectedLocation.location !== selectedLocation.location
