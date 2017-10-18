@@ -21,14 +21,14 @@ add_task(async function() {
     ["vertical", "side"],
     ["horizontal", "window:big"],
     ["vertical", "window:small"]
-  ]
+  ];
 
   for (let layout of layouts) {
     const [orientation, host] = layout;
-    await testLayout(dbg, orientation, host)
+    await testLayout(dbg, orientation, host);
   }
 
-  ok(true, "Orientations are correct")
+  ok(true, "Orientations are correct");
 });
 
 async function testLayout(dbg, orientation, host) {
@@ -37,7 +37,10 @@ async function testLayout(dbg, orientation, host) {
 
   await switchHost(dbg, host);
   await resizeToolboxWindow(dbg, host);
-  return waitForState(dbg, state => dbg.selectors.getOrientation(state) == orientation)
+  return waitForState(
+    dbg,
+    state => dbg.selectors.getOrientation(state) == orientation
+  );
 }
 
 function getHost(host) {
