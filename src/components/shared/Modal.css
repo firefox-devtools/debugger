@@ -14,7 +14,7 @@
 .modal {
   width: 80%;
   height: auto;
-  overflow-y: scroll;
+  overflow-y: auto;
   background-color: var(--theme-toolbar-background);
   transition: transform 150ms cubic-bezier(0.07, 0.95, 0, 1);
   box-shadow: 1px 1px 3px 1px var(--popup-shadow-color);

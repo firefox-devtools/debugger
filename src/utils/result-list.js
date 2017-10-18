@@ -8,7 +8,7 @@ function scrollList(resultList, index) {
   const resultEl = resultList[index];
 
   if (isFirefox()) {
-    resultEl.scrollIntoView({ block: "end", behavior: "smooth" });
+    resultEl.scrollIntoView({ block: "center", behavior: "smooth" });
   } else {
     chromeScrollList(resultEl, index);
   }
