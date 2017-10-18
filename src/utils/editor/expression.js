@@ -18,7 +18,7 @@ export function getTokenLocation(codeMirror: any, tokenEl: HTMLElement) {
 export function updatePreview(
   target: HTMLElement,
   editor: any,
-  { linesInScope, preview, setPreview, clearPreview }: any
+  { linesInScope, preview, setPreview, clearPreview, outOfScopeLocations }: any
 ) {
   const location = getTokenLocation(editor.codeMirror, target);
   const tokenText = target.innerText ? target.innerText.trim() : "";
@@ -46,7 +46,25 @@ export function updatePreview(
 
   const isUpdating = preview && preview.updating;
 
-  const inScope = linesInScope && linesInScope.includes(location.line);
+  let inScope;
+  const isLineInScope = linesInScope && linesInScope.includes(location.line);
+  if (isLineInScope) {
+    inScope = true;
+  } else {
+    const startLineLocation = outOfScopeLocations.find(
+      loc => loc.start.line === location.line
+    );
+    if (startLineLocation) {
+      inScope = startLineLocation.start.column > location.column;
+    } else if (!inScope) {
+      const endLineLocation = outOfScopeLocations.find(
+        loc => loc.end.line === location.line
+      );
+      if (endLineLocation) {
+        inScope = endLineLocation.end.column < location.column;
+      }
+    }
+  }
 
   const invaildType =
     target.className === "cm-string" ||
