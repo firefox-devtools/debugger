@@ -202,7 +202,7 @@ class Editor extends PureComponent {
     // `this.props` to be the current props. This lifecycle method is
     // responsible for updating the editor annotations.
     const { selectedLocation, selectedSource } = this.props;
-    if (!selectedLocation) {
+    if (!selectedLocation || !selectedLocation.location) {
       return;
     }
     // If the location is different and a new line is requested,
@@ -214,11 +214,7 @@ class Editor extends PureComponent {
       !prevProps.selectedLocation ||
       prevProps.selectedLocation.location !== selectedLocation.location
     ) {
-      if (
-        selectedLocation &&
-        selectedLocation.location &&
-        selectedLocation.location.line != undefined
-      ) {
+      if (selectedLocation.location.line != undefined) {
         this.pendingJumpLocation = selectedLocation;
       } else {
         this.pendingJumpLocation = null;
@@ -232,9 +228,7 @@ class Editor extends PureComponent {
     if (
       !prevProps.selectedLocation ||
       !prevProps.selectedLocation.location ||
-      (selectedLocation &&
-        selectedLocation.location &&
-        prevProps.selectedLocation &&
+      (prevProps.selectedLocation &&
         prevProps.selectedLocation.location &&
         selectedSource &&
         selectedSource.has("text"))
@@ -415,6 +409,7 @@ class Editor extends PureComponent {
     // Also, if it the first time the debugger is being loaded, we don't want
     // to flash the previously saved selected line.
     if (
+      line &&
       this.lastJumpLine &&
       (!this.props.selectedFrame ||
         this.props.selectedFrame.location.line !== line)
