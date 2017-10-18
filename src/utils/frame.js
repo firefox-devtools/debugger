@@ -14,171 +14,113 @@ function getFrameUrl(frame) {
 }
 
 function isBackbone(frame) {
-  return getFrameUrl(frame).match(/backbone/i);
+  return getFrameUrl(frame).match(/backbone/i) && "Backbone";
 }
 
 function isJQuery(frame) {
-  return getFrameUrl(frame).match(/jquery/i);
+  return getFrameUrl(frame).match(/jquery/i) && "jQuery";
 }
 
 function isReact(frame) {
-  return getFrameUrl(frame).match(/react/i);
+  return getFrameUrl(frame).match(/react/i) && "React";
 }
 
 function isImmutable(frame) {
-  return getFrameUrl(frame).match(/immutable/i);
+  return getFrameUrl(frame).match(/immutable/i) && "Immutable";
 }
 
 function isWebpack(frame) {
-  return getFrameUrl(frame).match(/webpack\/bootstrap/i);
+  return getFrameUrl(frame).match(/webpack\/bootstrap/i) && "Webpack";
 }
 
 function isNodeInternal(frame) {
   // starts with "internal/" OR no path, just "timers.js", "url.js" etc
   // (normally frameUrl will be a FQ pathname)
-  return /(^internal\/|^[^.\/]+\.js)/.test(getFrameUrl(frame));
+  return /(^internal\/|^[^.\/]+\.js)/.test(getFrameUrl(frame)) && "Node";
 }
 
 function isExpress(frame) {
-  return /node_modules\/express/.test(getFrameUrl(frame));
+  return /node_modules\/express/.test(getFrameUrl(frame)) && "Express";
 }
 
 function isPug(frame) {
-  return /node_modules\/pug/.test(getFrameUrl(frame));
+  return /node_modules\/pug/.test(getFrameUrl(frame)) && "Pug";
 }
 
 function isExtJs(frame) {
-  return /\/ext-all[\.\-]/.test(getFrameUrl(frame));
+  return /\/ext-all[\.\-]/.test(getFrameUrl(frame)) && "ExtJS";
 }
 
 function isUnderscore(frame) {
-  return getFrameUrl(frame).match(/underscore/i);
+  return getFrameUrl(frame).match(/underscore/i) && "Underscore";
 }
 
 function isLodash(frame) {
-  return getFrameUrl(frame).match(/lodash/i);
+  return getFrameUrl(frame).match(/lodash/i) && "Lodash";
 }
 
 function isEmber(frame) {
-  return getFrameUrl(frame).match(/ember/i);
+  return getFrameUrl(frame).match(/ember/i) && "Ember";
 }
 
 function isChoo(frame) {
-  return getFrameUrl(frame).match(/choo/i);
+  return getFrameUrl(frame).match(/choo/i) && "Choo";
 }
 
 function isVueJS(frame) {
-  return getFrameUrl(frame).match(/vue\.js/i);
+  return getFrameUrl(frame).match(/vue\.js/i) && "VueJS";
 }
 
 function isRxJs(frame) {
-  return getFrameUrl(frame).match(/rxjs/i);
+  return getFrameUrl(frame).match(/rxjs/i) && "RxJS";
 }
 
 function isAngular(frame) {
-  return getFrameUrl(frame).match(/angular/i);
+  return getFrameUrl(frame).match(/angular/i) && "Angular";
 }
 
 function isRedux(frame) {
-  return getFrameUrl(frame).match(/redux/i);
+  return getFrameUrl(frame).match(/redux/i) && "Redux";
 }
 
 function isDojo(frame) {
-  return getFrameUrl(frame).match(/dojo/i);
+  return getFrameUrl(frame).match(/dojo/i) && "Dojo";
 }
 
 function isPreact(frame) {
-  return getFrameUrl(frame).match(/preact/i);
+  return getFrameUrl(frame).match(/preact/i) && "Preact";
 }
 
 function isMarko(frame) {
-  return getFrameUrl(frame).match(/marko/i);
+  return getFrameUrl(frame).match(/marko/i) && "Marko";
 }
 
 export function getLibraryFromUrl(frame: Frame) {
   // @TODO each of these fns calls getFrameUrl, just call it once
   // (assuming there's not more complex logic to identify a lib)
 
-  if (isBackbone(frame)) {
-    return "Backbone";
-  }
-
-  if (isJQuery(frame)) {
-    return "jQuery";
-  }
-
-  // Needs to remain before "react", otherwise "react" can also match "preact"
-  if (isPreact(frame)) {
-    return "Preact";
-  }
-
-  if (isReact(frame)) {
-    return "React";
-  }
-
-  if (isWebpack(frame)) {
-    return "Webpack";
-  }
-
-  if (isNodeInternal(frame)) {
-    return "Node";
-  }
-
-  if (isExpress(frame)) {
-    return "Express";
-  }
-
-  if (isChoo(frame)) {
-    return "Choo";
-  }
-
-  if (isPug(frame)) {
-    return "Pug";
-  }
-
-  if (isExtJs(frame)) {
-    return "ExtJS";
-  }
-
-  if (isUnderscore(frame)) {
-    return "Underscore";
-  }
-
-  if (isLodash(frame)) {
-    return "Lodash";
-  }
-
-  if (isEmber(frame)) {
-    return "Ember";
-  }
-
-  if (isVueJS(frame)) {
-    return "VueJS";
-  }
-
-  if (isRxJs(frame)) {
-    return "RxJS";
-  }
-
-  if (isAngular(frame)) {
-    return "Angular";
-  }
-
-  if (isRedux(frame)) {
-    return "Redux";
-  }
-
-  if (isDojo(frame)) {
-    return "Dojo";
-  }
-
-  if (isImmutable(frame)) {
-    return "Immutable";
-  }
-
-  if (isMarko(frame)) {
-    return "Marko";
-  }
+  return (
+    isBackbone(frame) ||
+    isJQuery(frame) ||
+    isPreact(frame) ||
+    isReact(frame) ||
+    isWebpack(frame) ||
+    isNodeInternal(frame) ||
+    isExpress(frame) ||
+    isChoo(frame) ||
+    isPug(frame) ||
+    isExtJs(frame) ||
+    isUnderscore(frame) ||
+    isLodash(frame) ||
+    isEmber(frame) ||
+    isVueJS(frame) ||
+    isRxJs(frame) ||
+    isAngular(frame) ||
+    isRedux(frame) ||
+    isDojo(frame) ||
+    isImmutable(frame) ||
+    isMarko(frame)
+  );
 }
 
 const displayNameMap = {
