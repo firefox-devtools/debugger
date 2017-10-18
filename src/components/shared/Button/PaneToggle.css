@@ -2,7 +2,7 @@
 .toggle-button-end {
   transform: translate(0, 0px);
   transition: transform 0.25s ease-in-out;
-  padding: 5px 5px;
+  padding: 5px 7px 5px 6px;
 }
 
 .toggle-button-start.vertical,
