@@ -41,16 +41,6 @@ import { throttle } from "../../utils/utils";
 import { features } from "../../utils/prefs";
 import { setProjectDirectoryRoot } from "../../actions/ui";
 
-type CreateTree = {
-  focusedItem?: any,
-  parentMap: any,
-  sourceTree: any,
-  projectRoot: string,
-  uncollapsedTree: any,
-  listItems?: any,
-  highlightItems?: any
-};
-
 type Props = {
   sources: SourcesMap,
   selectSource: string => void,
@@ -62,9 +52,17 @@ type Props = {
   expanded?: any
 };
 
-class SourcesTree extends Component {
-  props: Props;
-  state: CreateTree;
+type State = {
+  focusedItem?: any,
+  parentMap: any,
+  sourceTree: any,
+  projectRoot: string,
+  uncollapsedTree: any,
+  listItems?: any,
+  highlightItems?: any
+};
+
+class SourcesTree extends Component<Props, State> {
   focusItem: Function;
   selectItem: Function;
   getIcon: Function;

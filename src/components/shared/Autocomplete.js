@@ -15,7 +15,10 @@ type State = {
 };
 
 type Props = {
-  selectItem: (event: SyntheticKeyboardEvent, item: Object) => void,
+  selectItem: (
+    event: SyntheticKeyboardEvent<HTMLElement>,
+    item: Object
+  ) => void,
   onSelectedItem: (selectedItem: Object) => void,
   items: Array<Object>,
   close: (value: any) => void,
@@ -26,10 +29,7 @@ type Props = {
   children: any
 };
 
-export default class Autocomplete extends Component {
-  props: Props;
-  state: State;
-
+export default class Autocomplete extends Component<Props, State> {
   static defaultProps = {
     size: ""
   };
@@ -61,7 +61,7 @@ export default class Autocomplete extends Component {
     });
   }
 
-  onKeyDown(e: SyntheticKeyboardEvent) {
+  onKeyDown(e: SyntheticKeyboardEvent<HTMLElement>) {
     const searchResults = this.getSearchResults(),
       resultCount = searchResults.length;
 

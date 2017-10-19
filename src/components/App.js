@@ -63,14 +63,13 @@ type Props = {
   setOrientation: OrientationType => void
 };
 
-class App extends Component {
-  state: {
-    shortcutsModalEnabled: boolean,
-    startPanelSize: number,
-    endPanelSize: number
-  };
+type State = {
+  shortcutsModalEnabled: boolean,
+  startPanelSize: number,
+  endPanelSize: number
+};
 
-  props: Props;
+class App extends Component<Props, State> {
   onLayoutChange: Function;
   getChildContext: Function;
   renderEditorPane: Function;

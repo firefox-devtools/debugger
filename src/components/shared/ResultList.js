@@ -15,16 +15,15 @@ type Props = {
   items: Array<ResultListItem>,
   selected: number,
   selectItem: (
-    event: SyntheticKeyboardEvent,
+    event: SyntheticKeyboardEvent<HTMLElement>,
     item: ResultListItem,
     index: number
   ) => void,
   size: string
 };
 
-export default class ResultList extends Component {
+export default class ResultList extends Component<Props> {
   displayName: "ResultList";
-  props: Props;
 
   static defaultProps = {
     size: "small"

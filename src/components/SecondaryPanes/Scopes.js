@@ -24,12 +24,11 @@ type Props = {
   frameScopes: Object
 };
 
-class Scopes extends PureComponent {
-  props: Props;
-  state: {
-    scopes: any
-  };
+type State = {
+  scopes: any
+};
 
+class Scopes extends PureComponent<Props, State> {
   constructor(props: Props, ...args) {
     const { pauseInfo, selectedFrame, frameScopes } = props;
 

@@ -52,7 +52,20 @@ function formatSymbol(symbol: SymbolDeclaration): FormattedSymbolDeclaration {
   };
 }
 
-type SymbolModalState = {
+type Props = {
+  enabled: boolean,
+  selectSource: (string, ?SelectSourceOptions) => void,
+  selectedSource?: SourceRecord,
+  symbols: FormattedSymbolDeclarations,
+  symbolType: SymbolSearchType,
+  setActiveSearch: (?ActiveSearchType) => void,
+  closeActiveSearch: () => void,
+  highlightLineRange: ({ start: number, end: number }) => void,
+  clearHighlightLineRange: () => void,
+  symbolSearchResults: any
+};
+
+type State = {
   resultsIndex: number,
   results: ?Array<FormattedSymbolDeclaration>,
   query: ?string

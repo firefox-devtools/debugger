@@ -14,25 +14,24 @@ import "./Expressions.css";
 import type { List } from "immutable";
 import type { Expression } from "../../types";
 
-class Expressions extends PureComponent {
+type State = {
+  editing: null | Node
+};
+
+type Props = {
+  expressions: List<Expression>,
+  addExpression: (string, ?Object) => void,
+  evaluateExpressions: () => void,
+  updateExpression: (string, Expression) => void,
+  deleteExpression: Expression => void,
+  loadObjectProperties: () => void,
+  loadedObjects: Map<string, any>,
+  openLink: (url: string) => void
+};
+
+class Expressions extends PureComponent<Props, State> {
   _input: null | any;
-
-  state: {
-    editing: null | Node
-  };
-
   renderExpression: Function;
-
-  props: {
-    expressions: List<Expression>,
-    addExpression: (string, ?Object) => void,
-    evaluateExpressions: () => void,
-    updateExpression: (string, Expression) => void,
-    deleteExpression: Expression => void,
-    loadObjectProperties: () => void,
-    loadedObjects: Map<string, any>,
-    openLink: (url: string) => void
-  };
 
   constructor(...args) {
     super(...args);

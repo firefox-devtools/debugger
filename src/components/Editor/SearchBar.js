@@ -43,7 +43,7 @@ function getShortcuts() {
   };
 }
 
-type SearchBarState = {
+type State = {
   query: string,
   selectedResultIndex: number,
   count: number,
@@ -67,11 +67,7 @@ type Props = {
   updateSearchResults: ({ count: number, index?: number }) => any
 };
 
-class SearchBar extends Component {
-  state: SearchBarState;
-
-  props: Props;
-
+class SearchBar extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -198,13 +194,13 @@ class SearchBar extends Component {
 
   // Handlers
 
-  onChange = (e: any) => {
+  onChange = (e: SyntheticInputEvent<HTMLElement>) => {
     this.setState({ query: e.target.value });
 
     return this.doSearch(e.target.value);
   };
 
-  onKeyUp = (e: SyntheticKeyboardEvent) => {
+  onKeyUp = (e: SyntheticKeyboardEvent<HTMLElement>) => {
     if (e.key !== "Enter" && e.key !== "F3") {
       return;
     }

@@ -24,10 +24,9 @@ type Props = {
   closeConditionalPanel: () => void
 };
 
-export class ConditionalPanel extends PureComponent {
+export class ConditionalPanel extends PureComponent<Props> {
   cbPanel: null | Object;
   input: Object;
-  props: Props;
 
   constructor() {
     super();
@@ -47,7 +46,7 @@ export class ConditionalPanel extends PureComponent {
     this.props.closeConditionalPanel();
   };
 
-  onKey = (e: SyntheticKeyboardEvent) => {
+  onKey = (e: SyntheticKeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       this.saveAndClose();
     } else if (e.key === "Escape") {

@@ -6,13 +6,13 @@ import { formatKeyShortcut } from "../utils/text";
 
 import "./ShortcutsModal.css";
 
-export class ShortcutsModal extends Component {
-  props: {
-    enabled: boolean,
-    additionalClass: string,
-    handleClose: () => void
-  };
+type Props = {
+  enabled: boolean,
+  additionalClass: string,
+  handleClose: () => void
+};
 
+export class ShortcutsModal extends Component<Props> {
   renderPrettyCombos(combo: string) {
     return combo
       .split(" ")
