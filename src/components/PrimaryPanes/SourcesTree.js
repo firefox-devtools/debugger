@@ -13,6 +13,7 @@ import {
   getDebuggeeUrl,
   getExpandedState,
   getProjectDirectoryRoot
+  getSources
 } from "../../selectors";
 import actions from "../../actions";
 
@@ -208,7 +209,7 @@ class SourcesTree extends Component<Props, State> {
     }
   }
 
-  getIcon(item, depth) {
+  getIcon(sources, item, depth) {
     if (item.path === "/Webpack") {
       return <Svg name="webpack" />;
     }
@@ -218,6 +219,10 @@ class SourcesTree extends Component<Props, State> {
     }
 
     if (!nodeHasChildren(item)) {
+      const source = sources.get(item.contents.get("id"));
+      if (source.get("isBlackBoxed")) {
+        return <Svg name="blackBox" />;
+      }
       return <Svg name="file" />;
     }
 
@@ -258,7 +263,7 @@ class SourcesTree extends Component<Props, State> {
     showMenu(event, menuOptions);
   }
 
-  renderItem(item, depth, focused, _, expanded, { setExpanded }) {
+  renderItem(sources, item, depth, focused, _, expanded, { setExpanded }) {
     const arrow = nodeHasChildren(item) ? (
       <img
         className={classnames("arrow", {
@@ -273,7 +278,7 @@ class SourcesTree extends Component<Props, State> {
       <i className="no-arrow" />
     );
 
-    const icon = this.getIcon(item, depth);
+    const icon = this.getIcon(sources, item, depth);
     let paddingDir = "paddingRight";
     if (document.body && document.body.parentElement) {
       paddingDir =
@@ -301,7 +306,7 @@ class SourcesTree extends Component<Props, State> {
   }
 
   render() {
-    const { setExpandedState, expanded } = this.props;
+    const { setExpandedState, expanded, sources } = this.props;
     const {
       focusedItem,
       sourceTree,
@@ -316,7 +321,11 @@ class SourcesTree extends Component<Props, State> {
       getParent: item => parentMap.get(item),
       getChildren: item => (nodeHasChildren(item) ? item.contents : []),
       getRoots: () => sourceTree.contents,
-      getPath: item => `${item.path}/${item.name}`,
+      getPath: item =>
+        `${item.path}/${item.name}/${item.contents.get &&
+        sources.get(item.contents.get("id")).get("isBlackBoxed")
+          ? "update"
+          : ""}`,
       itemHeight: 21,
       autoExpandDepth: expanded ? 0 : 1,
       autoExpandAll: false,
@@ -326,7 +335,7 @@ class SourcesTree extends Component<Props, State> {
       expanded,
       onExpand: (item, expandedState) => setExpandedState(expandedState),
       onCollapse: (item, expandedState) => setExpandedState(expandedState),
-      renderItem: this.renderItem
+      renderItem: this.renderItem.bind(this, sources)
     };
 
     const tree = <ManagedTree {...treeProps} />;
@@ -360,7 +369,8 @@ export default connect(
       selectedSource: getSelectedSource(state),
       debuggeeUrl: getDebuggeeUrl(state),
       expanded: getExpandedState(state),
-      projectRoot: getProjectDirectoryRoot(state)
+      projectRoot: getProjectDirectoryRoot(state),
+      sources: getSources(state)
     };
   },
   dispatch => bindActionCreators(actions, dispatch)
