@@ -187,7 +187,18 @@ class SourcesTree extends Component {
     }
 
     if (depth === 0) {
-      return <Svg name="domain" />;
+      /*
+        focusedItem?: any,
+  parentMap: any,
+  sourceTree: any,
+  uncollapsedTree: any,
+  listItems?: any,
+  highlightItems?: any
+      */
+      console.log("Lol:"+JSON.stringify(this.state.highlightItems));
+      return <Svg name="domain" className={classnames({
+        expanded: (this.state.focusedItem != null && this.state.focusedItem.name==item.name)
+      })}/>;
     }
 
     if (!nodeHasChildren(item)) {
@@ -260,7 +271,7 @@ class SourcesTree extends Component {
       >
         {arrow}
         {icon}
-        <span className="label"> {item.name} </span>
+        <span className="label"> {item.name}</span>
       </div>
     );
   }

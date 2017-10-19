@@ -68,6 +68,10 @@ html .arrow.expanded svg {
   transform: rotate(0deg);
 }
 
+.domain.expanded svg {
+  fill: lightgreen;
+}
+
 .arrow.hidden {
   visibility: hidden;
 }
