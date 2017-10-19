@@ -342,6 +342,7 @@ export type ThreadClient = {
   pauseOnExceptions: (boolean, boolean) => Promise<*>,
   interrupt: () => Promise<*>,
   eventListeners: () => Promise<*>,
+  clientPaused: () => void,
   getFrames: (number, number) => FramesResponse,
   getEnvironment: (frame: Frame) => Promise<*>,
   addListener: (string, Function) => void,

@@ -117,6 +117,7 @@ export function paused(pauseInfo: Pause) {
         )
       : frameScopes;
 
+    client.showPausedOverlay();
     dispatch({
       type: "PAUSED",
       pauseInfo: { why, frame, frames },

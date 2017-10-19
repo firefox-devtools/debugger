@@ -14,6 +14,7 @@ const mockThreadClient = {
       stepInResolve = _resolve;
     }),
   evaluate: () => new Promise(_resolve => {}),
+  showPausedOverlay: jest.fn(),
   getFrameScopes: frame => frame.scope,
   sourceContents: sourceId => {
     return new Promise((resolve, reject) => {
@@ -39,6 +40,13 @@ function createPauseInfo(overrides = {}) {
 
 describe("pause", () => {
   describe("stepping", () => {
+    it("should inform the server that it is paused", async () => {
+      const { dispatch } = createStore(mockThreadClient);
+      const mockPauseInfo = createPauseInfo();
+      await dispatch(actions.paused(mockPauseInfo));
+      expect(mockThreadClient.showPausedOverlay).toHaveBeenCalled();
+    });
+
     it("should set and clear the command", async () => {
       const { dispatch, getState } = createStore(mockThreadClient);
       const mockPauseInfo = createPauseInfo();

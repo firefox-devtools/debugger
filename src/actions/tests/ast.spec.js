@@ -21,6 +21,7 @@ const threadClient = {
   getFrameScopes: function() {
     return Promise.resolve({});
   },
+  showPausedOverlay: jest.fn(),
   evaluate: function(expression) {
     return new Promise((resolve, reject) =>
       resolve({ result: evaluationResult[expression] })
