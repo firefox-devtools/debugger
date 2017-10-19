@@ -45,9 +45,9 @@ function FrameLocation({ frame }: FrameLocationProps) {
 FrameLocation.displayName = "FrameLocation";
 
 export default class FrameComponent extends Component {
-  static defaultProps: {
-    hideLocation: boolean,
-    shouldMapDisplayName: boolean
+  static defaultProps = {
+    hideLocation: false,
+    shouldMapDisplayName: true
   };
 
   props: {
@@ -122,10 +122,5 @@ export default class FrameComponent extends Component {
     );
   }
 }
-
-FrameComponent.defaultProps = {
-  hideLocation: false,
-  shouldMapDisplayName: true
-};
 
 FrameComponent.displayName = "Frame";

@@ -29,7 +29,10 @@ type Props = {
 export default class Autocomplete extends Component {
   props: Props;
   state: State;
-  static defaultProps: Object;
+
+  static defaultProps = {
+    size: ""
+  };
 
   constructor(props: Props) {
     super(props);
@@ -152,7 +155,3 @@ export default class Autocomplete extends Component {
     );
   }
 }
-
-Autocomplete.defaultProps = {
-  size: ""
-};

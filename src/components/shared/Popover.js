@@ -16,6 +16,11 @@ type Props = {
 class Popover extends Component {
   props: Props;
 
+  static defaultProps = {
+    onMouseLeave: () => {},
+    type: "popover"
+  };
+
   constructor() {
     super();
     this.onMouseLeave = this.onMouseLeave.bind(this);
@@ -164,10 +169,5 @@ class Popover extends Component {
     return this.renderPopover();
   }
 }
-
-Popover.defaultProps = {
-  onMouseLeave: () => {},
-  type: "popover"
-};
 
 export default Popover;

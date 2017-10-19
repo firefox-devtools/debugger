@@ -26,7 +26,9 @@ export default class ResultList extends Component {
   displayName: "ResultList";
   props: Props;
 
-  static defaultProps: Object;
+  static defaultProps = {
+    size: "small"
+  };
 
   constructor(props: Props) {
     super(props);
@@ -63,7 +65,3 @@ export default class ResultList extends Component {
     );
   }
 }
-
-ResultList.defaultProps = {
-  size: "small"
-};
