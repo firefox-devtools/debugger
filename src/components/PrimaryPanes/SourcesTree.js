@@ -263,7 +263,7 @@ class SourcesTree extends Component<Props, State> {
     showMenu(event, menuOptions);
   }
 
-  renderItem(sources, item, depth, focused, _, expanded, { setExpanded }) {
+  renderItem(item, depth, focused, _, expanded, { setExpanded }) {
     const arrow = nodeHasChildren(item) ? (
       <img
         className={classnames("arrow", {
@@ -277,7 +277,7 @@ class SourcesTree extends Component<Props, State> {
     ) : (
       <i className="no-arrow" />
     );
-
+    const { sources } = this.props;
     const icon = this.getIcon(sources, item, depth);
     let paddingDir = "paddingRight";
     if (document.body && document.body.parentElement) {
@@ -335,7 +335,7 @@ class SourcesTree extends Component<Props, State> {
       expanded,
       onExpand: (item, expandedState) => setExpandedState(expandedState),
       onCollapse: (item, expandedState) => setExpandedState(expandedState),
-      renderItem: this.renderItem.bind(this, sources)
+      renderItem: this.renderItem
     };
 
     const tree = <ManagedTree {...treeProps} />;
