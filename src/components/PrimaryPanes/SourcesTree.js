@@ -66,6 +66,7 @@ type State = {
 class SourcesTree extends Component<Props, State> {
   focusItem: Function;
   selectItem: Function;
+  getPath: Function;
   getIcon: Function;
   queueUpdate: Function;
   onContextMenu: Function;
@@ -81,6 +82,7 @@ class SourcesTree extends Component<Props, State> {
     );
     this.focusItem = this.focusItem.bind(this);
     this.selectItem = this.selectItem.bind(this);
+    this.getPath = this.getPath.bind(this);
     this.getIcon = this.getIcon.bind(this);
     this.onContextMenu = this.onContextMenu.bind(this);
     this.renderItem = this.renderItem.bind(this);
@@ -209,6 +211,14 @@ class SourcesTree extends Component<Props, State> {
     }
   }
 
+  getPath(item) {
+    const { sources } = this.props;
+    return `${item.path}/${item.name}/${item.contents.get &&
+    sources.get(item.contents.get("id")).get("isBlackBoxed")
+      ? "update"
+      : ""}`;
+  }
+
   getIcon(sources, item, depth) {
     if (item.path === "/Webpack") {
       return <Svg name="webpack" />;
@@ -306,7 +316,7 @@ class SourcesTree extends Component<Props, State> {
   }
 
   render() {
-    const { setExpandedState, expanded, sources } = this.props;
+    const { setExpandedState, expanded } = this.props;
     const {
       focusedItem,
       sourceTree,
@@ -321,11 +331,7 @@ class SourcesTree extends Component<Props, State> {
       getParent: item => parentMap.get(item),
       getChildren: item => (nodeHasChildren(item) ? item.contents : []),
       getRoots: () => sourceTree.contents,
-      getPath: item =>
-        `${item.path}/${item.name}/${item.contents.get &&
-        sources.get(item.contents.get("id")).get("isBlackBoxed")
-          ? "update"
-          : ""}`,
+      getPath: this.getPath,
       itemHeight: 21,
       autoExpandDepth: expanded ? 0 : 1,
       autoExpandAll: false,
