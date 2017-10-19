@@ -144,7 +144,7 @@ class App extends Component<Props, State> {
     return this.props.orientation === "horizontal";
   }
 
-  toggleSymbolModal(_, e: SyntheticEvent) {
+  toggleSymbolModal(_, e: SyntheticEvent<HTMLElement>) {
     const {
       selectedSource,
       activeSearch,
@@ -166,7 +166,7 @@ class App extends Component<Props, State> {
     setActiveSearch("symbol");
   }
 
-  toggleGoToLineModal(_, e: SyntheticEvent) {
+  toggleGoToLineModal(_, e: SyntheticEvent<HTMLElement>) {
     const {
       selectedSource,
       activeSearch,

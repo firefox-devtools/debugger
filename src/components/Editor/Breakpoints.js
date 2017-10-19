@@ -13,16 +13,14 @@ import { isLoaded } from "../../utils/source";
 
 import type { SourceRecord, BreakpointsMap } from "../../reducers/types";
 
-type props = {
+type Props = {
   selectedSource: SourceRecord,
   breakpoints: BreakpointsMap,
   editor: Object
 };
 
-class Breakpoints extends Component {
-  props: props;
-
-  shouldComponentUpdate(nextProps: any) {
+class Breakpoints extends Component<Props> {
+  shouldComponentUpdate(nextProps: Props) {
     if (
       nextProps.selectedSource &&
       !isLoaded(nextProps.selectedSource.toJS())

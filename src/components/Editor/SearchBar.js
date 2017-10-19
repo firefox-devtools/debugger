@@ -113,13 +113,13 @@ class SearchBar extends Component<Props, State> {
     shortcuts.on(searchAgainShortcut, (_, e) => this.traverseResults(e, false));
   }
 
-  componentDidUpdate(prevProps: Props, prevState: SearchBarState) {
+  componentDidUpdate(prevProps: Props, prevState: State) {
     if (this.refs.resultList && this.refs.resultList.refs) {
       scrollList(this.refs.resultList.refs, this.state.selectedResultIndex);
     }
   }
 
-  onEscape = (e: SyntheticKeyboardEvent) => {
+  onEscape = (e: SyntheticKeyboardEvent<HTMLElement>) => {
     this.closeSearch(e);
   };
 
@@ -131,7 +131,7 @@ class SearchBar extends Component<Props, State> {
     }
   };
 
-  closeSearch = (e: SyntheticEvent) => {
+  closeSearch = (e: SyntheticEvent<HTMLElement>) => {
     const { editor, searchOn } = this.props;
 
     if (editor && searchOn) {
@@ -142,7 +142,7 @@ class SearchBar extends Component<Props, State> {
     }
   };
 
-  toggleSearch = (e: SyntheticKeyboardEvent) => {
+  toggleSearch = (e: SyntheticKeyboardEvent<HTMLElement>) => {
     e.stopPropagation();
     e.preventDefault();
     const { editor } = this.props;
@@ -181,7 +181,7 @@ class SearchBar extends Component<Props, State> {
     });
   };
 
-  traverseResults = (e: SyntheticEvent, rev: boolean) => {
+  traverseResults = (e: SyntheticEvent<HTMLElement>, rev: boolean) => {
     e.stopPropagation();
     e.preventDefault();
     const editor = this.props.editor;
