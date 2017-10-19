@@ -213,10 +213,12 @@ class SourcesTree extends Component<Props, State> {
 
   getPath(item) {
     const { sources } = this.props;
-    return `${item.path}/${item.name}/${item.contents.get &&
-    sources.get(item.contents.get("id")).get("isBlackBoxed")
-      ? "update"
-      : ""}`;
+    const blackBoxedPart =
+      item.contents.get &&
+      sources.get(item.contents.get("id")).get("isBlackBoxed")
+        ? "update"
+        : "";
+    return `${item.path}/${item.name}/${blackBoxedPart}`;
   }
 
   getIcon(sources, item, depth) {
