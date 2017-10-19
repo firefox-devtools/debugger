@@ -82,7 +82,7 @@ export function setOutOfScopeLocations() {
     const source = getSource(getState(), sourceObject.sourceId);
     const location = sourceObject.location;
 
-    if (!location.line || !source) {
+    if (!location || !location.line || !source) {
       return dispatch({
         type: "OUT_OF_SCOPE_LOCATIONS",
         locations: null

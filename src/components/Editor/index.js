@@ -423,10 +423,11 @@ class Editor extends PureComponent {
 
   scrollToPosition() {
     const { sourceId, location } = this.props.selectedLocation;
+    if (!location) {
+      return null;
+    }
     const line = toEditorLine(sourceId, location.line);
-
     scrollToColumn(this.state.editor.codeMirror, line, location.column);
-
     return line;
   }
 
