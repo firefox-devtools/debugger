@@ -28,12 +28,14 @@ import type { Location as BabelLocation } from "babel-traverse";
 import type { SourceRecord } from "../reducers/sources";
 import type { SelectSourceOptions } from "../actions/sources";
 
+import "./SymbolModal.css";
+
 export type FormattedSymbolDeclaration = {
   id: string,
   title: string,
   subtitle: string,
   value: string,
-  location: BabelLocation,
+  location: BabelLocation
 };
 
 export type FormattedSymbolDeclarations = {
@@ -69,8 +71,6 @@ type State = {
   results: ?Array<FormattedSymbolDeclaration>,
   query: ?string
 };
-
-import "./SymbolModal.css";
 
 class SymbolModal extends Component<Props, State> {
   constructor(props) {
@@ -111,7 +111,10 @@ class SymbolModal extends Component<Props, State> {
     this.props.clearHighlightLineRange();
   };
 
-  selectResultItem = (e: SyntheticEvent<HTMLElement>, item: ?FormattedSymbolDeclaration) => {
+  selectResultItem = (
+    e: SyntheticEvent<HTMLElement>,
+    item: ?FormattedSymbolDeclaration
+  ) => {
     const { selectSource, selectedSource } = this.props;
 
     if (!selectedSource || !item) {
@@ -177,8 +180,7 @@ class SymbolModal extends Component<Props, State> {
     }
   }
 
-  onKeyUp = (e: SyntheticKeyboardEvent<HTMLElement>) => {
-    e.preventDefault();
+  onKeyDown = (e: SyntheticKeyboardEvent<HTMLElement>) => {
     const { enabled } = this.props;
     const { results, resultsIndex } = this.state;
 
@@ -228,7 +230,7 @@ class SymbolModal extends Component<Props, State> {
           placeholder={this.buildPlaceHolder()}
           summaryMsg={this.buildSummaryMsg()}
           onChange={this.onChange}
-          onKeyUp={this.onKeyUp}
+          onKeyDown={this.onKeyDown}
           handleNext={() => this.traverseResults(1)}
           handlePrev={() => this.traverseResults(-1)}
           handleClose={this.closeModal}

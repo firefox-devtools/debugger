@@ -8,7 +8,6 @@ import {
   getPrettySource,
   getPaneCollapse
 } from "../../selectors";
-import Svg from "../shared/Svg";
 
 import classnames from "classnames";
 import { isEnabled } from "devtools-config";
@@ -56,7 +55,7 @@ class SourceFooter extends PureComponent<Props> {
         title={tooltip}
         aria-label={tooltip}
       >
-        <Svg name={type} />
+        <img className={type} />
       </button>
     );
   }
@@ -85,7 +84,7 @@ class SourceFooter extends PureComponent<Props> {
         title={tooltip}
         aria-label={tooltip}
       >
-        <Svg name="blackBox" />
+        <img className="blackBox" />
       </button>
     );
   }
