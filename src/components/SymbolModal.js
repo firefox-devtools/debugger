@@ -34,7 +34,6 @@ export type FormattedSymbolDeclaration = {
   subtitle: string,
   value: string,
   location: BabelLocation,
-  parameterNames?: string[]
 };
 
 export type FormattedSymbolDeclarations = {
@@ -73,22 +72,7 @@ type State = {
 
 import "./SymbolModal.css";
 
-class SymbolModal extends Component {
-  state: SymbolModalState;
-
-  props: {
-    enabled: boolean,
-    selectSource: (string, ?SelectSourceOptions) => void,
-    selectedSource?: SourceRecord,
-    symbols: FormattedSymbolDeclarations,
-    symbolType: SymbolSearchType,
-    setActiveSearch: (?ActiveSearchType) => void,
-    closeActiveSearch: () => void,
-    highlightLineRange: ({ start: number, end: number }) => void,
-    clearHighlightLineRange: () => void,
-    symbolSearchResults: any
-  };
-
+class SymbolModal extends Component<Props, State> {
   constructor(props) {
     super(props);
     this.state = { results: null, query: "", resultsIndex: 0 };
@@ -108,11 +92,11 @@ class SymbolModal extends Component {
     }
   }
 
-  onClick = (e: SyntheticEvent) => {
+  onClick = (e: SyntheticEvent<HTMLElement>) => {
     e.stopPropagation();
   };
 
-  onChange = (e: SyntheticInputEvent) => {
+  onChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
     const { selectedSource } = this.props;
     if (!selectedSource || !selectedSource.get("text")) {
       return;
@@ -127,7 +111,7 @@ class SymbolModal extends Component {
     this.props.clearHighlightLineRange();
   };
 
-  selectResultItem = (e: SyntheticEvent, item: ?FormattedSymbolDeclaration) => {
+  selectResultItem = (e: SyntheticEvent<HTMLElement>, item: ?FormattedSymbolDeclaration) => {
     const { selectSource, selectedSource } = this.props;
 
     if (!selectedSource || !item) {
@@ -193,7 +177,7 @@ class SymbolModal extends Component {
     }
   }
 
-  onKeyUp = (e: SyntheticKeyboardEvent) => {
+  onKeyUp = (e: SyntheticKeyboardEvent<HTMLElement>) => {
     e.preventDefault();
     const { enabled } = this.props;
     const { results, resultsIndex } = this.state;

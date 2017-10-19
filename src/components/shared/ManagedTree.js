@@ -29,15 +29,12 @@ type Props = {
   expanded?: any
 };
 
-type ManagedTreeState = {
+type State = {
   expanded: any,
   focusedItem: ?Item
 };
 
-class ManagedTree extends Component {
-  state: ManagedTreeState;
-  props: Props;
-
+class ManagedTree extends Component<Props, State> {
   constructor(props: Props) {
     super();
 

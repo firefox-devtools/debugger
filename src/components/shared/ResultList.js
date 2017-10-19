@@ -6,6 +6,7 @@ import "./ResultList.css";
 
 type ResultListItem = {
   id: string,
+  location: string,
   subtitle: string,
   title: string,
   value: string
@@ -39,7 +40,7 @@ export default class ResultList extends Component<Props> {
     const props = {
       onClick: event => selectItem(event, item, index),
       key: `${item.id}${item.value}${index}`,
-      ref: index,
+      ref: String(index),
       title: item.value,
       className: classnames("result-item", {
         selected: index === selected
