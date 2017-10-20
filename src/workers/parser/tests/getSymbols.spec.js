@@ -2,65 +2,28 @@
 
 import { formatSymbols } from "../utils/formatSymbols";
 import { getSource } from "./helpers";
+import cases from "jest-in-case";
 
-describe("Parser.getSymbols", () => {
-  it("es6", () => {
-    const symbols = formatSymbols(getSource("es6"));
-    expect(symbols).toMatchSnapshot();
-  });
-
-  it("func", () => {
-    const symbols = formatSymbols(getSource("func"));
-    expect(symbols).toMatchSnapshot();
-  });
-
-  it("math", () => {
-    const symbols = formatSymbols(getSource("math"));
-    expect(symbols).toMatchSnapshot();
-  });
-
-  it("proto", () => {
-    const symbols = formatSymbols(getSource("proto"));
-    expect(symbols).toMatchSnapshot();
-  });
-
-  it("class", () => {
-    const symbols = formatSymbols(getSource("class"));
-    expect(symbols).toMatchSnapshot();
-  });
-
-  it("var", () => {
-    const symbols = formatSymbols(getSource("var"));
-    expect(symbols).toMatchSnapshot();
-  });
-
-  it("expression", () => {
-    const symbols = formatSymbols(getSource("expression"));
-    expect(symbols).toMatchSnapshot();
-  });
-
-  it("allSymbols", () => {
-    const symbols = formatSymbols(getSource("allSymbols"));
-    expect(symbols).toMatchSnapshot();
-  });
-
-  it("call sites", () => {
-    const symbols = formatSymbols(getSource("call-sites"));
-    expect(symbols).toMatchSnapshot();
-  });
-
-  it("finds symbols in an html file", () => {
-    const symbols = formatSymbols(getSource("parseScriptTags", "html"));
-    expect(symbols).toMatchSnapshot();
-  });
-
-  it("component", () => {
-    const symbols = formatSymbols(getSource("component"));
-    expect(symbols).toMatchSnapshot();
-  });
-
-  it("react component", () => {
-    const symbols = formatSymbols(getSource("frameworks/component"));
-    expect(symbols).toMatchSnapshot();
-  });
-});
+cases(
+  "Parser.getSymbols",
+  ({ name, file, type }) =>
+    expect(formatSymbols(getSource(file, type))).toMatchSnapshot(),
+  [
+    { name: "es6", file: "es6" },
+    { name: "func", file: "func" },
+    { name: "math", file: "math" },
+    { name: "proto", file: "proto" },
+    { name: "class", file: "class" },
+    { name: "var", file: "var" },
+    { name: "expression", file: "expression" },
+    { name: "allSymbols", file: "allSymbols" },
+    { name: "call sites", file: "call-sites" },
+    {
+      name: "finds symbols in an html file",
+      file: "parseScriptTags",
+      type: "html"
+    },
+    { name: "component", file: "component" },
+    { name: "react component", file: "frameworks/component" }
+  ]
+);
