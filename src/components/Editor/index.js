@@ -245,7 +245,7 @@ class Editor extends PureComponent<Props, State> {
     // Only update and jump around in real source texts. This will
     // keep the jump state around until the real source text is
     // loaded.
-    if (selectedSource && selectedSource.get("loadedState") === "loaded") {
+    if (selectedSource && isLoaded(selectedSource.toJS())) {
       this.highlightLine();
     }
   }
