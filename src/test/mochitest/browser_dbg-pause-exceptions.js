@@ -28,18 +28,24 @@ add_task(async function() {
   uncaughtException();
   await waitForPaused(dbg);
   assertPausedLocation(dbg);
+  // assertPausedOverlay();
   await resume(dbg);
+  // assertNoPausedOverlay();
 
   // Test pausing on a caught Error
   caughtException();
   await waitForPaused(dbg);
   assertPausedLocation(dbg);
+  // assertPausedOverlay();
   await resume(dbg);
+  // assertNoPausedOverlay();
 
   // Test skipping a caught error
   await togglePauseOnExceptions(dbg, true, true);
   caughtException();
   await waitForPaused(dbg);
   assertPausedLocation(dbg);
+  // assertPausedOverlay();
   await resume(dbg);
+  // assertNoPausedOverlay();
 });

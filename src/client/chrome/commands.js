@@ -64,6 +64,11 @@ function sourceContents(sourceId: string) {
     }));
 }
 
+function showPausedOverlay() {
+  // not yet implemented
+  return null;
+}
+
 async function setBreakpoint(location: Location, condition: string) {
   const {
     breakpointId,
@@ -116,6 +121,7 @@ const clientCommands = {
   pauseOnExceptions,
   breakOnNext,
   sourceContents,
+  showPausedOverlay,
   setBreakpoint,
   removeBreakpoint,
   evaluate,

@@ -10,6 +10,7 @@ const mockThreadClient = {
       }
     });
   },
+  showPausedOverlay: jest.fn(),
   getFrameScopes: () => {}
 };
 

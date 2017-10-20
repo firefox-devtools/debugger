@@ -231,6 +231,12 @@ function pauseOnExceptions(
   );
 }
 
+function showPausedOverlay() {
+  // we can pass a message to the paused overlay here
+  console.log(threadClient.clientPaused)
+  return threadClient.clientPaused();
+}
+
 function prettyPrint(sourceId: SourceId, indentSize: number): Promise<*> {
   const sourceClient = threadClient.source({ actor: sourceId });
   return sourceClient.prettyPrint(indentSize);
@@ -291,6 +297,7 @@ const clientCommands = {
   getProperties,
   getFrameScopes,
   pauseOnExceptions,
+  showPausedOverlay,
   prettyPrint,
   disablePrettyPrint,
   fetchSources
