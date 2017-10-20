@@ -245,7 +245,7 @@ class Editor extends PureComponent<Props, State> {
     // Only update and jump around in real source texts. This will
     // keep the jump state around until the real source text is
     // loaded.
-    if (selectedSource && selectedSource.has("text")) {
+    if (selectedSource && isLoaded(selectedSource.toJS())) {
       this.highlightLine();
     }
   }
@@ -409,7 +409,7 @@ class Editor extends PureComponent<Props, State> {
     // cancel any existing animation, but it avoids it from
     // happening ever again (in case CodeMirror re-applies the
     // class, etc).
-    if (this.lastJumpLine) {
+    if (this.lastJumpLine !== null) {
       clearLineClass(this.state.editor.codeMirror, "highlight-line");
     }
 
@@ -423,8 +423,8 @@ class Editor extends PureComponent<Props, State> {
     // Also, if it the first time the debugger is being loaded, we don't want
     // to flash the previously saved selected line.
     if (
-      line &&
-      this.lastJumpLine &&
+      line !== null &&
+      this.lastJumpLine !== null &&
       (!selectedFrame || selectedFrame.location.line !== line)
     ) {
       this.state.editor.codeMirror.addLineClass(line, "line", "highlight-line");
@@ -437,7 +437,6 @@ class Editor extends PureComponent<Props, State> {
   scrollToPosition() {
     const { sourceId, line, column } = this.props.selectedLocation;
     const editorLine = toEditorLine(sourceId, line);
-
     scrollToColumn(this.state.editor.codeMirror, editorLine, column);
     return editorLine;
   }
