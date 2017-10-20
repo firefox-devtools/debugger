@@ -52,6 +52,7 @@ const svg = {
   express: require("./express.svg"),
   pug: require("./pug.svg"),
   extjs: require("./sencha-extjs.svg"),
+  marko: require("./marko.svg"),
   showSources: require("./showSources.svg"),
   showOutline: require("./showOutline.svg")
 };
