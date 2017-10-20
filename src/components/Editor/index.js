@@ -62,12 +62,38 @@ const cssVars = {
   footerHeight: "var(--editor-footer-height)"
 };
 
-class Editor extends PureComponent {
+type Props = {
+  hitCount: Object,
+  selectedLocation: Object,
+  selectedSource: Object,
+  searchOn: Boolean,
+  addOrToggleDisabledBreakpoint: Function,
+  toggleBreakpoint: Function,
+  selectSource: Function,
+  jumpToMappedLocation: Function,
+  coverageOn: Boolean,
+  selectedFrame: Object,
+  searchModifiers: Object,
+  query: String,
+  horizontal: Boolean,
+  startPanelSize: Number,
+  endPanelSize: Number,
+  conditionalPanelLine: Number,
+  openConditionalPanel: Function,
+  closeConditionalPanel: Function,
+  continueToHere: Function,
+  setContextMenu: Function
+};
+
+type State = {
+  editor: SourceEditor
+};
+
+class Editor extends PureComponent<Props, State> {
   cbPanel: any;
   editor: SourceEditor;
   pendingJumpLocation: any;
   lastJumpLine: any;
-  state: Object;
 
   constructor() {
     super();

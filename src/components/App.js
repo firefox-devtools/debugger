@@ -204,7 +204,7 @@ class App extends Component<Props, State> {
     setActiveSearch("line");
   }
 
-  toggleSourcesModal(_, e: SyntheticEvent) {
+  toggleSourcesModal(_, e: SyntheticEvent<HTMLElement>) {
     const { activeSearch, closeActiveSearch, setActiveSearch } = this.props;
 
     e.preventDefault();
