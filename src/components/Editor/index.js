@@ -202,16 +202,14 @@ class Editor extends PureComponent {
     // `this.props` to be the current props. This lifecycle method is
     // responsible for updating the editor annotations.
     const { selectedLocation, selectedSource } = this.props;
-    if (!selectedLocation) {
-      return;
-    }
+
     // If the location is different and a new line is requested,
     // update the pending jump line. Note that if jumping to a line in
     // a source where the text hasn't been loaded yet, we will set the
     // line here but not jump until rendering the actual source.
 
     if (prevProps.selectedLocation !== selectedLocation) {
-      if (selectedLocation.line != undefined) {
+      if (selectedLocation && selectedLocation.line != undefined) {
         this.pendingJumpLocation = selectedLocation;
       } else {
         this.pendingJumpLocation = null;
@@ -221,12 +219,7 @@ class Editor extends PureComponent {
     // Only update and jump around in real source texts. This will
     // keep the jump state around until the real source text is
     // loaded.
-    if (
-      !prevProps.selectedLocation ||
-      (prevProps.selectedLocation &&
-        selectedSource &&
-        selectedSource.has("text"))
-    ) {
+    if (selectedSource && selectedSource.has("text")) {
       this.highlightLine();
     }
   }
@@ -381,7 +374,8 @@ class Editor extends PureComponent {
   // If the location has changed and a specific line is requested,
   // move to that line and flash it.
   highlightLine() {
-    if (!this.props.selectedLocation) {
+    const { selectedLocation, selectedFrame } = this.props;
+    if (!selectedLocation) {
       return;
     }
 
@@ -394,7 +388,7 @@ class Editor extends PureComponent {
     }
 
     let line = null;
-    if (this.props.selectedLocation.line >= 0) {
+    if (selectedLocation.line >= 0) {
       line = this.scrollToPosition();
     }
 
@@ -405,8 +399,7 @@ class Editor extends PureComponent {
     if (
       line &&
       this.lastJumpLine &&
-      (!this.props.selectedFrame ||
-        this.props.selectedFrame.location.line !== line)
+      (!selectedFrame || selectedFrame.location.line !== line)
     ) {
       this.state.editor.codeMirror.addLineClass(line, "line", "highlight-line");
     }
