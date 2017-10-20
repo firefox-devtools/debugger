@@ -13,8 +13,6 @@ import SearchInput from "./shared/SearchInput";
 import type { SourceRecord } from "../reducers/sources";
 import type { SelectSourceOptions } from "../actions/sources";
 
-import "./SymbolModal.css";
-
 type Props = {
   enabled: boolean,
   selectSource: (string, ?SelectSourceOptions) => void,

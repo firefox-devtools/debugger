@@ -51,7 +51,7 @@ export default class Group extends Component<Props, State> {
     this.state = { expanded: false };
   }
 
-  onContextMenu(event: SyntheticKeyboardEvent) {
+  onContextMenu(event: SyntheticKeyboardEvent<HTMLElement>) {
     const {
       group,
       copyStackTrace,

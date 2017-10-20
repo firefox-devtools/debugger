@@ -51,9 +51,7 @@ type State = {
   selectedIndex: number
 };
 
-class SourcesModal extends Component {
-  props: Props;
-  state: State;
+class SourcesModal extends Component<Props, State> {
   constructor(props) {
     super(props);
     this.state = { results: null, selectedIndex: 0 };
@@ -91,7 +89,7 @@ class SourcesModal extends Component {
     return this.state.results ? this.state.results.length : 0;
   }
 
-  selectResultItem = (e: SyntheticEvent, result) => {
+  selectResultItem = (e: SyntheticEvent<HTMLElement>, result) => {
     const { selectSource } = this.props;
 
     if (!result) {
@@ -112,12 +110,12 @@ class SourcesModal extends Component {
     this.setState({ selectedIndex: nextIndex });
   };
 
-  onChange = (e: SyntheticInputEvent) => {
+  onChange = (e: SyntheticInputEvent<HTMLElement>) => {
     this.props.setSourceSearchQuery(e.target.value);
     this.searchSources(e.target.value);
   };
 
-  onKeyDown = (e: SyntheticKeyboardEvent) => {
+  onKeyDown = (e: SyntheticKeyboardEvent<HTMLElement>) => {
     const { enabled } = this.props;
     const { results, selectedIndex } = this.state;
 

@@ -28,8 +28,6 @@ import type { Location as BabelLocation } from "babel-traverse";
 import type { SourceRecord } from "../reducers/sources";
 import type { SelectSourceOptions } from "../actions/sources";
 
-import "./SymbolModal.css";
-
 export type FormattedSymbolDeclaration = {
   id: string,
   title: string,
