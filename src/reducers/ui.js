@@ -1,4 +1,7 @@
 // @flow
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 /**
  * UI reducer
@@ -11,38 +14,26 @@ import { prefs } from "../utils/prefs";
 import type { Action, panelPositionType } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
-export type FileSearchModifiers = Record<{
-  caseSensitive: boolean,
-  wholeWord: boolean,
-  regexMatch: boolean
-}>;
-
 export type SymbolSearchType = "functions" | "variables";
-export type ActiveSearchType = "project" | "source" | "file" | "symbol";
+export type ActiveSearchType =
+  | "project"
+  | "source"
+  | "file"
+  | "symbol"
+  | "line";
 
-export type MatchedLocations = {
-  line: number,
-  ch: number
-};
-
-export type SearchResults = {
-  matches: Array<MatchedLocations>,
-  matchIndex: number,
-  index: number,
-  count: number
-};
+export type OrientationType = "horizontal" | "vertical";
 
 export type UIState = {
   activeSearch: ?ActiveSearchType,
   contextMenu: any,
-  fileSearchQuery: string,
-  fileSearchModifiers: FileSearchModifiers,
   symbolSearchType: SymbolSearchType,
-  searchResults: SearchResults,
   shownSource: string,
   startPanelCollapsed: boolean,
   endPanelCollapsed: boolean,
   frameworkGroupingOn: boolean,
+  projectDirectoryRoot: string,
+  orientation: OrientationType,
   highlightedLineRange?: {
     start?: number,
     end?: number,
@@ -55,25 +46,15 @@ export const State = makeRecord(
   ({
     activeSearch: null,
     contextMenu: {},
-    fileSearchQuery: "",
-    fileSearchModifiers: makeRecord({
-      caseSensitive: prefs.fileSearchCaseSensitive,
-      wholeWord: prefs.fileSearchWholeWord,
-      regexMatch: prefs.fileSearchRegexMatch
-    })(),
     symbolSearchType: "functions",
-    searchResults: {
-      matches: [],
-      matchIndex: -1,
-      index: -1,
-      count: 0
-    },
     shownSource: "",
+    projectDirectoryRoot: "",
     startPanelCollapsed: prefs.startPanelCollapsed,
     endPanelCollapsed: prefs.endPanelCollapsed,
     frameworkGroupingOn: prefs.frameworkGroupingOn,
     highlightedLineRange: undefined,
-    conditionalPanelLine: null
+    conditionalPanelLine: null,
+    orientation: "horizontal"
   }: UIState)
 );
 
@@ -91,38 +72,16 @@ function update(
       return state.set("frameworkGroupingOn", action.value);
     }
 
-    case "UPDATE_FILE_SEARCH_QUERY": {
-      return state.set("fileSearchQuery", action.query);
-    }
-
-    case "UPDATE_SEARCH_RESULTS": {
-      return state.set("searchResults", action.results);
-    }
-
-    case "TOGGLE_FILE_SEARCH_MODIFIER": {
-      const actionVal = !state.getIn(["fileSearchModifiers", action.modifier]);
-
-      if (action.modifier == "caseSensitive") {
-        prefs.fileSearchCaseSensitive = actionVal;
-      }
-
-      if (action.modifier == "wholeWord") {
-        prefs.fileSearchWholeWord = actionVal;
-      }
-
-      if (action.modifier == "regexMatch") {
-        prefs.fileSearchRegexMatch = actionVal;
-      }
-
-      return state.setIn(["fileSearchModifiers", action.modifier], actionVal);
-    }
-
     case "SET_SYMBOL_SEARCH_TYPE": {
       return state.set("symbolSearchType", action.symbolType);
     }
 
     case "SET_CONTEXT_MENU": {
       return state.set("contextMenu", action.contextMenu);
+    }
+
+    case "SET_ORIENTATION": {
+      return state.set("orientation", action.orientation);
     }
 
     case "SHOW_SOURCE": {
@@ -158,6 +117,10 @@ function update(
     case "CLOSE_CONDITIONAL_PANEL":
       return state.set("conditionalPanelLine", null);
 
+    case "SET_PROJECT_DIRECTORY_ROOT":
+      prefs.projectDirectoryRoot = action.url;
+      return state.set("projectDirectoryRoot", action.url);
+
     default: {
       return state;
     }
@@ -174,20 +137,6 @@ export function getActiveSearch(state: OuterState): ActiveSearchType {
 
 export function getContextMenu(state: OuterState): any {
   return state.ui.get("contextMenu");
-}
-
-export function getFileSearchQueryState(state: OuterState): string {
-  return state.ui.get("fileSearchQuery");
-}
-
-export function getFileSearchModifierState(
-  state: OuterState
-): FileSearchModifiers {
-  return state.ui.get("fileSearchModifiers");
-}
-
-export function getSearchResults(state: OuterState) {
-  return state.ui.get("searchResults");
 }
 
 export function getFrameworkGroupingState(state: OuterState): boolean {
@@ -219,6 +168,14 @@ export function getHighlightedLineRange(state: OuterState) {
 
 export function getConditionalPanelLine(state: OuterState): null | number {
   return state.ui.get("conditionalPanelLine");
+}
+
+export function getProjectDirectoryRoot(state: OuterState): boolean {
+  return state.ui.get("projectDirectoryRoot");
+}
+
+export function getOrientation(state: OuterState): boolean {
+  return state.ui.get("orientation");
 }
 
 export default update;

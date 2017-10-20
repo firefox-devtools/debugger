@@ -2,6 +2,8 @@
 
 ![][debugger-intro-gif]
 
+:construction_worker: If something goes wrong, checkout our [most common issues][common-issues] and find us in [slack]!
+
 ### Step 1. Installing the Debugger
 
 First, we'll clone the debugger locally, then we'll install its
@@ -18,7 +20,7 @@ yarn install
 
 *What should I do if I get an error?*
 
-Ask in our [slack] channel or file an issue [issue][yarn-issue] here.
+
 
 *Why Yarn and not NPM?*
 
@@ -43,6 +45,8 @@ Congratulations! You're now up and running. :sweat_smile:
 *What should I do if I get an error?*
 
 Ask in our [slack] channel or file an issue [issue][yarn-run-firefox-fails] here.
+
+Here is a list of some of the [most common issues][common-issues]
 
 ### Next Steps
 
@@ -193,3 +197,4 @@ If you want to hack the debugger even with being offline, you might want to get 
 
 [launchpad-screenshot]:https://cloud.githubusercontent.com/assets/2134/22162697/913777b2-df04-11e6-9150-f6ad676c31ef.png
 [nvm]:https://github.com/creationix/nvm
+[common-issues]:./most-common-issues.md

@@ -7,7 +7,7 @@ import actions from "../../actions";
 import { getSelectedSource, getSymbols } from "../../selectors";
 import "./Outline.css";
 import PreviewFunction from "../shared/PreviewFunction";
-import { uniq, find } from "lodash";
+import { uniq } from "lodash";
 import type {
   SymbolDeclarations,
   SymbolDeclaration
@@ -66,7 +66,7 @@ export class Outline extends Component {
     }
 
     const klass = classFunctions[0].klass;
-    const klassFunc = find(functions, func => func.name === klass);
+    const klassFunc = functions.find(func => func.name === klass);
 
     return (
       <div className="outline-list__class">

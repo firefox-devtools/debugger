@@ -362,8 +362,21 @@ function createDebuggerContext(toolbox) {
     store: store,
     client: client,
     toolbox: toolbox,
-    win: win
+    win: win,
+    panel: panel
   };
+}
+
+/**
+ * Clear all the debugger related preferences.
+ */
+function clearDebuggerPreferences() {
+  Services.prefs.clearUserPref("devtools.debugger.pause-on-exceptions");
+  Services.prefs.clearUserPref("devtools.debugger.ignore-caught-exceptions");
+  Services.prefs.clearUserPref("devtools.debugger.tabs");
+  Services.prefs.clearUserPref("devtools.debugger.pending-selected-location");
+  Services.prefs.clearUserPref("devtools.debugger.pending-breakpoints");
+  Services.prefs.clearUserPref("devtools.debugger.expressions");
 }
 
 /**
@@ -371,18 +384,12 @@ function createDebuggerContext(toolbox) {
  *
  * @memberof mochitest
  * @param {String} url
- * @param {Array} sources
  * @return {Promise} dbg
  * @static
  */
-function initDebugger(url, ...sources) {
+function initDebugger(url) {
   return Task.spawn(function*() {
-    Services.prefs.clearUserPref("devtools.debugger.pause-on-exceptions");
-    Services.prefs.clearUserPref("devtools.debugger.ignore-caught-exceptions");
-    Services.prefs.clearUserPref("devtools.debugger.tabs");
-    Services.prefs.clearUserPref("devtools.debugger.pending-selected-location");
-    Services.prefs.clearUserPref("devtools.debugger.pending-breakpoints");
-    Services.prefs.clearUserPref("devtools.debugger.expressions");
+    clearDebuggerPreferences();
     const toolbox = yield openNewTabAndToolbox(EXAMPLE_URL + url, "jsdebugger");
     return createDebuggerContext(toolbox);
   });
@@ -504,7 +511,7 @@ function stepOut(dbg) {
 function resume(dbg) {
   info("Resuming");
   dbg.actions.resume();
-  return waitForState(dbg, (state) => !dbg.selectors.isPaused(state));
+  return waitForState(dbg, state => !dbg.selectors.isPaused(state));
 }
 
 function deleteExpression(dbg, input) {

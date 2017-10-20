@@ -46,6 +46,10 @@ class SearchInput extends Component {
     this.$input.focus();
   }
 
+  componentDidUpdate() {
+    this.$input.focus();
+  }
+
   shouldShowErrorEmoji() {
     const { count, query, showErrorEmoji } = this.props;
     return count === 0 && query.trim() !== "" && !showErrorEmoji;

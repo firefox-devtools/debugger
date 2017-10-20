@@ -37,7 +37,12 @@ export async function onConnect(connection: any, actions: Object): Object {
 
   // NOTE: The Worker and Browser Content toolboxes do not have a parent
   // with a listWorkers function
-  if (threadClient._parent && threadClient._parent.listWorkers) {
+  // TODO: there is a listWorkers property, but it is not a function on the
+  // parent. Investigate what it is
+  if (
+    threadClient._parent &&
+    typeof threadClient._parent.listWorkers === "function"
+  ) {
     threadClient._parent
       .listWorkers()
       .then(workers => actions.setWorkers(workers));

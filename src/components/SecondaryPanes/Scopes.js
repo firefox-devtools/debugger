@@ -13,6 +13,7 @@ import { getScopes } from "../../utils/scopes";
 
 import { ObjectInspector } from "devtools-reps";
 import type { Pause, LoadedObject } from "debugger-html";
+import type { NamedValue } from "../../utils/scopes";
 
 import "./Scopes.css";
 
@@ -27,7 +28,7 @@ type Props = {
 class Scopes extends PureComponent {
   props: Props;
   state: {
-    scopes: any
+    scopes: ?(NamedValue[])
   };
 
   constructor(props: Props, ...args) {

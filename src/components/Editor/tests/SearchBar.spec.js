@@ -32,7 +32,8 @@ function generateDefaults() {
       toJS: () => ({ caseSensitive: true, wholeWord: false, regexMatch: false })
     },
     selectedResultIndex: 0,
-    updateSearchResults: jest.fn()
+    updateSearchResults: jest.fn(),
+    doSearch: jest.fn()
   };
 }
 
@@ -53,10 +54,11 @@ describe("SearchBar", () => {
 describe("doSearch", () => {
   it("should complete a search", async () => {
     const { component, props } = render();
-    await component
+    component
       .find("SearchInput")
       .simulate("change", { target: { value: "query" } });
-    const updateSearchArgs = props.updateSearchResults.mock.calls[0][0];
-    expect(updateSearchArgs).toMatchSnapshot();
+
+    const doSearchArgs = props.doSearch.mock.calls[0][0];
+    expect(doSearchArgs).toMatchSnapshot();
   });
 });

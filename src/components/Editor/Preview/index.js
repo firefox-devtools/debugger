@@ -85,7 +85,7 @@ class Preview extends PureComponent {
       return null;
     }
 
-    const { result, expression, location, cursorPos } = preview;
+    const { result, expression, location, cursorPos, extra } = preview;
     const value = result;
     if (typeof value == "undefined" || value.optimizedOut) {
       return null;
@@ -100,6 +100,7 @@ class Preview extends PureComponent {
         range={editorRange}
         expression={expression}
         popoverPos={cursorPos}
+        extra={extra}
         onClose={e => this.onClose(e)}
       />
     );

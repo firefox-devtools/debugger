@@ -1,8 +1,12 @@
 function math(n) {
   function square(n) {
+    // inline comment
     n * n;
   }
+
+  // document some lines
   const two = square(2);
+
   const four = squaare(4);
   return two * four;
 }

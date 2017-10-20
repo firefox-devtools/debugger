@@ -40,10 +40,6 @@
   width: calc(100% - 1px); /* 1px fixes the hidden right border */
 }
 
-.shortcuts-modal {
-  width: 45%;
-}
-
 .shortcuts-list li {
   font-size: 12px;
   color: var(--theme-body-color);
@@ -51,4 +47,10 @@
   display: flex;
   justify-content: space-between;
   border: 1px solid transparent;
+}
+
+@media (max-width: 640px) {
+  .shortcuts-section {
+    width: 100%;
+  }
 }

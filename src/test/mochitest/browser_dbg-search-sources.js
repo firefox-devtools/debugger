@@ -7,13 +7,20 @@ add_task(async function() {
 
   // test opening and closing
   pressKey(dbg, "sourceSearch");
-  is(dbg.selectors.getActiveSearch(dbg.getState()), "source");
+  is(
+    dbg.selectors.getActiveSearch(dbg.getState()),
+    "source",
+    "source search enabled"
+  );
   pressKey(dbg, "Escape");
-  is(dbg.selectors.getActiveSearch(dbg.getState()), null);
+  is(
+    dbg.selectors.getActiveSearch(dbg.getState()),
+    null,
+    "source search disabled"
+  );
 
   pressKey(dbg, "sourceSearch");
   await waitForElement(dbg, "input");
-  findElementWithSelector(dbg, "input").focus();
   type(dbg, "sw");
   pressKey(dbg, "Enter");
 
@@ -23,7 +30,6 @@ add_task(async function() {
 
   // 2. arrow keys and check to see if source is selected
   pressKey(dbg, "sourceSearch");
-  findElementWithSelector(dbg, "input").focus();
   type(dbg, "sw");
   pressKey(dbg, "Down");
   pressKey(dbg, "Enter");
@@ -31,4 +37,17 @@ add_task(async function() {
   await waitForDispatch(dbg, "LOAD_SOURCE_TEXT");
   source = dbg.selectors.getSelectedSource(dbg.getState());
   ok(source.get("url").match(/switching-02/), "second source is selected");
+  pressKey(dbg, "sourceSearch");
+  is(
+    dbg.selectors.getActiveSearch(dbg.getState()),
+    "source",
+    "source search enabled"
+  );
+  type(dbg, "sw");
+  pressKey(dbg, "Tab");
+  is(
+    dbg.selectors.getActiveSearch(dbg.getState()),
+    null,
+    "source search disabled"
+  );
 });

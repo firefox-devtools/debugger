@@ -15,12 +15,19 @@
   box-shadow: 1px 2px 3px var(--popup-shadow-color);
 }
 
-.popover .preview-popup .header {
+.popover .preview-popup .header-container {
   width: 100%;
   line-height: 20px;
-  border-bottom: 1px solid #cccccc;
   display: flex;
   flex-direction: column;
+  margin-bottom: 5px;
+}
+
+.popover .preview-popup .header-container h3 {
+  margin: 0;
+  margin-bottom: 5px;
+  font-weight: normal;
+  font-size: 14px;
 }
 
 .popover .preview-popup .header .link {

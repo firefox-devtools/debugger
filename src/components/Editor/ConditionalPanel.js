@@ -39,6 +39,10 @@ export class ConditionalPanel extends PureComponent {
     this.input = node;
   };
 
+  keepFocusOnInput() {
+    this.input.focus();
+  }
+
   saveAndClose = () => {
     if (this.input) {
       this.setBreakpoint(this.input.value);
@@ -97,7 +101,10 @@ export class ConditionalPanel extends PureComponent {
     const condition = breakpoint ? breakpoint.condition : "";
     const panel = document.createElement("div");
     ReactDOM.render(
-      <div className="conditional-breakpoint-panel">
+      <div
+        className="conditional-breakpoint-panel"
+        onClick={() => this.keepFocusOnInput()}
+      >
         <div className="prompt">»</div>
         <input
           defaultValue={condition}

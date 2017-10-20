@@ -13,6 +13,7 @@ import type {
 
 import type { State } from "../reducers/types";
 import type { ActiveSearchType } from "../reducers/ui";
+import type { MatchedLocations } from "../reducers/file-search";
 
 import type { SymbolDeclaration, AstLocation } from "../workers/parser";
 
@@ -67,7 +68,7 @@ type AddBreakpointResult = {
 type ProjectTextSearchResult = {
   sourceId: string,
   filepath: string,
-  matches: Array<any>
+  matches: MatchedLocations[]
 };
 
 type BreakpointAction =
@@ -147,10 +148,6 @@ type UIAction =
   | {
       type: "TOGGLE_ACTIVE_SEARCH",
       value: ?ActiveSearchType
-    }
-  | {
-      type: "TOGGLE_FILE_SEARCH_MODIFIER",
-      modifier: "caseSensitive" | "wholeWord" | "regexMatch"
     }
   | {
       type: "TOGGLE_FRAMEWORK_GROUPING",
@@ -236,7 +233,8 @@ type ASTAction =
         result: any,
         location: AstLocation,
         tokenPos: any,
-        cursorPos: any
+        cursorPos: any,
+        extra: string
       }
     }
   | {
@@ -254,6 +252,25 @@ export type ProjectTextSearchAction = {
 } & {
     type: "CLEAR_QUERY"
   };
+
+export type FileTextSearchAction =
+  | {
+      type: "TOGGLE_FILE_SEARCH_MODIFIER",
+      modifier: "caseSensitive" | "wholeWord" | "regexMatch"
+    }
+  | {
+      type: "UPDATE_FILE_SEARCH_QUERY",
+      query: string
+    }
+  | {
+      type: "UPDATE_SEARCH_RESULTS",
+      results: {
+        matches: MatchedLocations[],
+        matchIndex: number,
+        count: number,
+        index: number
+      }
+    };
 
 /**
  * Actions: Source, Breakpoint, and Navigation

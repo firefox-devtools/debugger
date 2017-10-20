@@ -46,11 +46,18 @@
   margin-inline-end: 5px;
 }
 
-.arrow svg {
-  fill: var(--theme-splitter-color);
+img.arrow {
+  mask: url(/images/arrow.svg);
   margin-top: 3px;
-  transition: transform 0.25s ease;
-  width: 10px;
+  width: 9px;
+  height: 9px;
+  padding-top: 9px;
+  background: var(--theme-splitter-color);
+  mask-size: 100%;
+  display: inline-block;
+  margin-bottom: 1px;
+  transform: rotate(-90deg);
+  transition: transform 0.18s ease;
 }
 
 html:not([dir="rtl"]) .arrow svg {

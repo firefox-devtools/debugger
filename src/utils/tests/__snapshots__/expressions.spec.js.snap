@@ -15,3 +15,11 @@ exports[`expressions wrap exxpression should wrap expression with a comment 1`] 
  e
 }"
 `;
+
+exports[`expressions wrap exxpression should wrap quotes 1`] = `
+"try {
+ \\"2\\"
+} catch (e) {
+ e
+}"
+`;

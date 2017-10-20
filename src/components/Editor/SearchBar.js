@@ -2,7 +2,6 @@
 
 import PropTypes from "prop-types";
 import React, { Component } from "react";
-import { findDOMNode } from "react-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Svg from "../shared/Svg";
@@ -11,29 +10,25 @@ import {
   getActiveSearch,
   getSelectedSource,
   getSelectedLocation,
-  getFileSearchQueryState,
-  getFileSearchModifierState,
-  getSearchResults,
+  getFileSearchQuery,
+  getFileSearchModifiers,
+  getFileSearchResults,
   getHighlightedLineRange
 } from "../../selectors";
 
-import { find, findNext, findPrev, removeOverlay } from "../../utils/editor";
-
-import { getMatches } from "../../workers/search";
+import { removeOverlay } from "../../utils/editor";
 
 import { scrollList } from "../../utils/result-list";
 import classnames from "classnames";
-import { debounce } from "lodash";
 
 import { SourceEditor } from "devtools-source-editor";
 import type { SourceRecord } from "../../reducers/sources";
-import type {
-  ActiveSearchType,
-  FileSearchModifiers,
-  SearchResults
-} from "../../reducers/ui";
+import type { ActiveSearchType } from "../../reducers/ui";
+import type { Modifiers, SearchResults } from "../../reducers/file-search";
+
 import type { SelectSourceOptions } from "../../actions/sources";
 import SearchInput from "../shared/SearchInput";
+import { debounce } from "lodash";
 import "./SearchBar.css";
 
 function getShortcuts() {
@@ -49,6 +44,7 @@ function getShortcuts() {
 }
 
 type SearchBarState = {
+  query: string,
   selectedResultIndex: number,
   count: number,
   index: number
@@ -58,12 +54,13 @@ type Props = {
   editor?: SourceEditor,
   selectSource: (string, ?SelectSourceOptions) => any,
   selectedSource?: SourceRecord,
-  highlightLineRange: ({ start: number, end: number }) => void,
-  clearHighlightLineRange: () => void,
   searchOn?: boolean,
   setActiveSearch: (?ActiveSearchType) => any,
+  closeFileSearch: SourceEditor => void,
+  doSearch: (string, SourceEditor) => void,
+  traverseResults: (boolean, SourceEditor) => void,
   searchResults: SearchResults,
-  modifiers: FileSearchModifiers,
+  modifiers: Modifiers,
   toggleFileSearchModifier: string => any,
   query: string,
   setFileSearchQuery: string => any,
@@ -78,6 +75,7 @@ class SearchBar extends Component {
   constructor(props: Props) {
     super(props);
     this.state = {
+      query: props.query,
       selectedResultIndex: 0,
       count: 0,
       index: -1
@@ -99,10 +97,9 @@ class SearchBar extends Component {
   }
 
   componentDidMount() {
-    // overwrite searchContents with a debounced version to reduce the
-    // frequency of queries which improves perf on large files
-    this.searchContents = debounce(this.searchContents, 100);
-
+    // overwrite this.doSearch with debounced version to
+    // reduce frequency of queries
+    this.doSearch = debounce(this.doSearch, 100);
     const shortcuts = this.context.shortcuts;
     const {
       searchShortcut,
@@ -121,12 +118,6 @@ class SearchBar extends Component {
   }
 
   componentDidUpdate(prevProps: Props, prevState: SearchBarState) {
-    const searchInput = this.searchInput();
-
-    if (searchInput) {
-      searchInput.focus();
-    }
-
     if (this.refs.resultList && this.refs.resultList.refs) {
       scrollList(this.refs.resultList.refs, this.state.selectedResultIndex);
     }
@@ -145,13 +136,11 @@ class SearchBar extends Component {
   };
 
   closeSearch = (e: SyntheticEvent) => {
-    const { editor, setFileSearchQuery, searchOn } = this.props;
+    const { editor, searchOn } = this.props;
 
     if (editor && searchOn) {
-      setFileSearchQuery("");
       this.clearSearch();
-      this.props.setActiveSearch();
-      this.props.clearHighlightLineRange();
+      this.props.closeFileSearch(editor);
       e.stopPropagation();
       e.preventDefault();
     }
@@ -168,51 +157,20 @@ class SearchBar extends Component {
 
     if (this.props.searchOn && editor) {
       const selection = editor.codeMirror.getSelection();
-      this.setSearchValue(selection);
+      this.setState({ query: selection });
       if (selection !== "") {
         this.doSearch(selection);
       }
-      this.selectSearchInput();
     }
-  };
-
-  setSearchValue = (value: string) => {
-    const searchInput = this.searchInput();
-    if (value == "" || !searchInput) {
-      return;
-    }
-
-    searchInput.value = value;
-  };
-
-  selectSearchInput = () => {
-    const searchInput = this.searchInput();
-    if (searchInput) {
-      searchInput.setSelectionRange(0, searchInput.value.length);
-      searchInput.focus();
-    }
-  };
-
-  searchInput = (): ?HTMLInputElement => {
-    const node = findDOMNode(this);
-    if (node instanceof HTMLElement) {
-      const input = node.querySelector("input");
-      if (input instanceof HTMLInputElement) {
-        return input;
-      }
-    }
-    return null;
   };
 
   doSearch = (query: string) => {
-    const { selectedSource, setFileSearchQuery } = this.props;
+    const { selectedSource } = this.props;
     if (!selectedSource || !selectedSource.get("text")) {
       return;
     }
 
-    setFileSearchQuery(query);
-
-    this.searchContents(query);
+    this.props.doSearch(query, this.props.editor);
   };
 
   updateSearchResults = (characterIndex, line, matches) => {
@@ -227,60 +185,22 @@ class SearchBar extends Component {
     });
   };
 
-  searchContents = async (query: string) => {
-    const { selectedSource, modifiers, editor: ed } = this.props;
-
-    if (
-      !query ||
-      !ed ||
-      !selectedSource ||
-      !selectedSource.get("text") ||
-      !modifiers
-    ) {
-      return;
-    }
-
-    const ctx = { ed, cm: ed.codeMirror };
-
-    const _modifiers = modifiers.toJS();
-    const matches = await getMatches(
-      query,
-      selectedSource.get("text"),
-      _modifiers
-    );
-    const { ch, line } = find(ctx, query, true, _modifiers);
-    this.updateSearchResults(ch, line, matches);
-  };
-
   traverseResults = (e: SyntheticEvent, rev: boolean) => {
     e.stopPropagation();
     e.preventDefault();
-    const ed = this.props.editor;
+    const editor = this.props.editor;
 
-    if (!ed) {
+    if (!editor) {
       return;
     }
-
-    const ctx = { ed, cm: ed.codeMirror };
-
-    const { query, modifiers, searchResults: { matches } } = this.props;
-
-    if (query === "") {
-      this.props.setActiveSearch("file");
-    }
-
-    if (modifiers) {
-      const matchedLocations = matches || [];
-      const { ch, line } = rev
-        ? findPrev(ctx, query, true, modifiers.toJS())
-        : findNext(ctx, query, true, modifiers.toJS());
-      this.updateSearchResults(ch, line, matchedLocations);
-    }
+    this.props.traverseResults(rev, editor);
   };
 
   // Handlers
 
   onChange = (e: any) => {
+    this.setState({ query: e.target.value });
+
     return this.doSearch(e.target.value);
   };
 
@@ -292,6 +212,7 @@ class SearchBar extends Component {
     this.traverseResults(e, e.shiftKey);
     e.preventDefault();
   };
+
   // Renderers
   buildSummaryMsg() {
     const { searchResults: { matchIndex, count, index }, query } = this.props;
@@ -370,7 +291,7 @@ class SearchBar extends Component {
   }
 
   render() {
-    const { searchResults: { count }, query, searchOn } = this.props;
+    const { searchResults: { count }, searchOn } = this.props;
 
     if (!searchOn) {
       return <div />;
@@ -379,7 +300,7 @@ class SearchBar extends Component {
     return (
       <div className="search-bar">
         <SearchInput
-          query={query}
+          query={this.state.query}
           count={count}
           placeholder={L10N.getStr("sourceSearch.search.placeholder")}
           summaryMsg={this.buildSummaryMsg()}
@@ -408,10 +329,10 @@ export default connect(
       searchOn: getActiveSearch(state) === "file",
       selectedSource: getSelectedSource(state),
       selectedLocation: getSelectedLocation(state),
-      query: getFileSearchQueryState(state),
-      modifiers: getFileSearchModifierState(state),
+      query: getFileSearchQuery(state),
+      modifiers: getFileSearchModifiers(state),
       highlightedLineRange: getHighlightedLineRange(state),
-      searchResults: getSearchResults(state)
+      searchResults: getFileSearchResults(state)
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

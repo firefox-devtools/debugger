@@ -1,7 +1,11 @@
 // @flow
 import { getSource, getActiveSearch } from "../selectors";
 import type { ThunkArgs } from "./types";
-import type { ActiveSearchType, SymbolSearchType } from "../reducers/ui";
+import type {
+  ActiveSearchType,
+  SymbolSearchType,
+  OrientationType
+} from "../reducers/ui";
 import { clearSourceSearchQuery } from "./source-search";
 
 export function setContextMenu(type: string, event: any) {
@@ -55,24 +59,6 @@ export function setSelectedSymbolType(symbolType: SymbolSearchType) {
       symbolType
     });
   };
-}
-
-export function setFileSearchQuery(query: string) {
-  return {
-    type: "UPDATE_FILE_SEARCH_QUERY",
-    query
-  };
-}
-
-export function updateSearchResults(results: Object) {
-  return {
-    type: "UPDATE_SEARCH_RESULTS",
-    results
-  };
-}
-
-export function toggleFileSearchModifier(modifier: string) {
-  return { type: "TOGGLE_FILE_SEARCH_MODIFIER", modifier };
 }
 
 export function showSource(sourceId: string) {
@@ -135,4 +121,15 @@ export function closeConditionalPanel() {
   return {
     type: "CLOSE_CONDITIONAL_PANEL"
   };
+}
+
+export function setProjectDirectoryRoot(url: Object) {
+  return {
+    type: "SET_PROJECT_DIRECTORY_ROOT",
+    url
+  };
+}
+
+export function setOrientation(orientation: OrientationType) {
+  return { type: "SET_ORIENTATION", orientation };
 }

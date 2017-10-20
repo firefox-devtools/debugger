@@ -45,16 +45,15 @@ const svg = {
   togglePanes: require("./toggle-panes.svg"),
   "whole-word-match": require("./whole-word-match.svg"),
   worker: require("./worker.svg"),
-  "sad-face": require("./sad-face.svg"),
-  refresh: require("./refresh.svg"),
+  "sad-face": require("devtools-mc-assets/assets/devtools/client/themes/images/sad-face.svg"),
+  refresh: require("devtools-mc-assets/assets/devtools/client/themes/images/reload.svg"),
   webpack: require("./webpack.svg"),
   node: require("./node.svg"),
   express: require("./express.svg"),
   pug: require("./pug.svg"),
   extjs: require("./sencha-extjs.svg"),
   showSources: require("./showSources.svg"),
-  showOutline: require("./showOutline.svg"),
-  shortcut: require("./shortcut.svg")
+  showOutline: require("./showOutline.svg")
 };
 
 type SvgType = {

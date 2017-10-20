@@ -9,7 +9,11 @@ import type { Node } from "./types";
 /*
  * Gets domain from url (without www prefix)
  */
-export function getDomain(url: string): ?string {
+export function getDomain(url?: string): ?string {
+  // TODO: define how files should be ordered on the browser debugger
+  if (!url) {
+    return null;
+  }
   const { host } = parse(url);
   if (!host) {
     return null;
