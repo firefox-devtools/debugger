@@ -3079,9 +3079,9 @@ devtools-source-map@^0.14.3:
     regenerator-runtime "^0.10.3"
     source-map "^0.6.1"
 
-devtools-splitter@^0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/devtools-splitter/-/devtools-splitter-0.0.4.tgz#7fdb179f1a4238daa9ccebf10ef6bf3527cc417f"
+devtools-splitter@0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/devtools-splitter/-/devtools-splitter-0.0.5.tgz#1b61708f348e7783dee86f76c9a6f980d275f427"
   dependencies:
     "@percy-io/react-percy-storybook" "^0.1.2"
 
