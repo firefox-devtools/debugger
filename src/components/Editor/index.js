@@ -202,7 +202,7 @@ class Editor extends PureComponent {
     // `this.props` to be the current props. This lifecycle method is
     // responsible for updating the editor annotations.
     const { selectedLocation, selectedSource } = this.props;
-    if (!selectedLocation || !selectedLocation.location) {
+    if (!selectedLocation) {
       return;
     }
     // If the location is different and a new line is requested,
@@ -210,26 +210,20 @@ class Editor extends PureComponent {
     // a source where the text hasn't been loaded yet, we will set the
     // line here but not jump until rendering the actual source.
 
-    if (
-      !prevProps.selectedLocation ||
-      prevProps.selectedLocation.location !== selectedLocation.location
-    ) {
-      if (selectedLocation.location.line != undefined) {
+    if (prevProps.selectedLocation !== selectedLocation) {
+      if (selectedLocation.line != undefined) {
         this.pendingJumpLocation = selectedLocation;
       } else {
         this.pendingJumpLocation = null;
       }
     }
 
-    // (i.e the line and column are different).
     // Only update and jump around in real source texts. This will
     // keep the jump state around until the real source text is
     // loaded.
     if (
       !prevProps.selectedLocation ||
-      !prevProps.selectedLocation.location ||
       (prevProps.selectedLocation &&
-        prevProps.selectedLocation.location &&
         selectedSource &&
         selectedSource.has("text"))
     ) {
@@ -387,7 +381,7 @@ class Editor extends PureComponent {
   // If the location has changed and a specific line is requested,
   // move to that line and flash it.
   highlightLine() {
-    if (!this.props.selectedLocation || !this.props.selectedLocation.location) {
+    if (!this.props.selectedLocation) {
       return;
     }
 
@@ -400,7 +394,7 @@ class Editor extends PureComponent {
     }
 
     let line = null;
-    if (this.props.selectedLocation.location.line >= 0) {
+    if (this.props.selectedLocation.line >= 0) {
       line = this.scrollToPosition();
     }
 
@@ -422,13 +416,11 @@ class Editor extends PureComponent {
   }
 
   scrollToPosition() {
-    const { sourceId, location } = this.props.selectedLocation;
-    if (!location) {
-      return null;
-    }
-    const line = toEditorLine(sourceId, location.line);
-    scrollToColumn(this.state.editor.codeMirror, line, location.column);
-    return line;
+    const { sourceId, line, column } = this.props.selectedLocation;
+    const editorLine = toEditorLine(sourceId, line);
+
+    scrollToColumn(this.state.editor.codeMirror, editorLine, column);
+    return editorLine;
   }
 
   setSize(nextProps) {

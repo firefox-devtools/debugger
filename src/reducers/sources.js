@@ -79,7 +79,7 @@ function update(
       return state
         .set("selectedLocation", {
           sourceId: action.source.id,
-          location: action.location
+          ...action.location
         })
         .set("pendingSelectedLocation", location);
 
