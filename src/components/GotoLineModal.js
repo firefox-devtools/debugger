@@ -13,32 +13,30 @@ import SearchInput from "./shared/SearchInput";
 import type { SourceRecord } from "../reducers/sources";
 import type { SelectSourceOptions } from "../actions/sources";
 
-type GotoLineModalState = {
+type Props = {
+  enabled: boolean,
+  selectSource: (string, ?SelectSourceOptions) => void,
+  selectedSource?: SourceRecord,
+  closeActiveSearch: () => void,
+  highlightLineRange: ({ start: number, end: number }) => void,
+  clearHighlightLineRange: () => void
+};
+
+type State = {
   query: ?string
 };
 
-class GotoLineModal extends Component {
-  state: GotoLineModalState;
-
-  props: {
-    enabled: boolean,
-    selectSource: (string, ?SelectSourceOptions) => void,
-    selectedSource?: SourceRecord,
-    closeActiveSearch: () => void,
-    highlightLineRange: ({ start: number, end: number }) => void,
-    clearHighlightLineRange: () => void
-  };
-
+class GotoLineModal extends Component<Props, State> {
   constructor(props) {
     super(props);
     this.state = { query: "" };
   }
 
-  onClick = (e: SyntheticEvent) => {
+  onClick = (e: SyntheticEvent<HTMLElement>) => {
     e.stopPropagation();
   };
 
-  onChange = (e: SyntheticInputEvent) => {
+  onChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
     const { selectedSource } = this.props;
     if (!selectedSource || !selectedSource.get("text")) {
       return;
@@ -52,7 +50,7 @@ class GotoLineModal extends Component {
     this.props.clearHighlightLineRange();
   };
 
-  onKeyUp = (e: SyntheticKeyboardEvent) => {
+  onKeyUp = (e: SyntheticKeyboardEvent<HTMLElement>) => {
     e.preventDefault();
     const { selectSource, selectedSource, enabled } = this.props;
     const { query } = this.state;

@@ -21,13 +21,13 @@ function makeMarker(isDisabled: boolean) {
   return bp;
 }
 
-class Breakpoint extends Component {
-  props: {
-    breakpoint: Object,
-    selectedSource: Object,
-    editor: Object
-  };
+type Props = {
+  breakpoint: Object,
+  selectedSource: Object,
+  editor: Object
+};
 
+class Breakpoint extends Component<Props> {
   addBreakpoint: Function;
 
   constructor() {

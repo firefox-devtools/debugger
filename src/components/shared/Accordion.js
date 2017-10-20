@@ -7,6 +7,7 @@ import "./Accordion.css";
 type AccordionItem = {
   buttons?: Array<Object>,
   component(): any,
+  componentProps: Object,
   header: string,
   opened: boolean,
   onToggle?: () => void,
@@ -15,16 +16,12 @@ type AccordionItem = {
 
 type Props = { items: Array<Object> };
 
-type AccordionState = {
+type State = {
   opened: boolean[],
   created: boolean[]
 };
 
-class Accordion extends Component {
-  state: AccordionState;
-
-  props: Props;
-
+class Accordion extends Component<Props, State> {
   constructor(props: Props) {
     super();
 

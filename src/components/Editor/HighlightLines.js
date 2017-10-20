@@ -5,13 +5,13 @@ import { isEmpty } from "lodash";
 import { connect } from "react-redux";
 import { getHighlightedLineRange } from "../../selectors";
 
-class HighlightLines extends Component {
-  highlightLineRange: Function;
+type Props = {
+  highlightedLineRange: Object,
+  editor: Object
+};
 
-  props: {
-    highlightedLineRange: Object,
-    editor: Object
-  };
+class HighlightLines extends Component<Props> {
+  highlightLineRange: Function;
 
   constructor() {
     super();

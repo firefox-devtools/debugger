@@ -19,12 +19,12 @@ function debugBtn(onClick, type, className, tooltip, disabled = false) {
   );
 }
 
-class UtilsBar extends Component {
-  props: {
-    horizontal: boolean,
-    toggleShortcutsModal: () => void
-  };
+type Props = {
+  horizontal: boolean,
+  toggleShortcutsModal: () => void
+};
 
+class UtilsBar extends Component<Props> {
   renderUtilButtons() {
     return [
       debugBtn(

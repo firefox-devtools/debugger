@@ -80,9 +80,7 @@ function renderSourceLocation(source, line, column) {
   );
 }
 
-class Breakpoints extends PureComponent {
-  props: Props;
-
+class Breakpoints extends PureComponent<Props> {
   shouldComponentUpdate(nextProps, nextState) {
     const { breakpoints } = this.props;
     return breakpoints !== nextProps.breakpoints;

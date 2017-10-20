@@ -24,23 +24,19 @@ type Props = {
   closeConditionalPanel: () => void
 };
 
-export class ConditionalPanel extends PureComponent {
+export class ConditionalPanel extends PureComponent<Props> {
   cbPanel: null | Object;
-  input: Object;
-  props: Props;
+  input: ?HTMLInputElement;
 
   constructor() {
     super();
     this.cbPanel = null;
-    this.input = {};
   }
 
-  setInput = (node: Object) => {
-    this.input = node;
-  };
-
   keepFocusOnInput() {
-    this.input.focus();
+    if (this.input) {
+      this.input.focus();
+    }
   }
 
   saveAndClose = () => {
@@ -51,7 +47,7 @@ export class ConditionalPanel extends PureComponent {
     this.props.closeConditionalPanel();
   };
 
-  onKey = (e: SyntheticKeyboardEvent) => {
+  onKey = (e: SyntheticKeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       this.saveAndClose();
     } else if (e.key === "Escape") {
@@ -93,7 +89,9 @@ export class ConditionalPanel extends PureComponent {
         noHScroll: false
       }
     );
-    this.input.focus();
+    if (this.input) {
+      this.input.focus();
+    }
   }
 
   renderConditionalPanel(props: Props) {
@@ -110,7 +108,7 @@ export class ConditionalPanel extends PureComponent {
           defaultValue={condition}
           placeholder={L10N.getStr("editor.conditionalPanel.placeholder")}
           onKeyDown={this.onKey}
-          ref={this.setInput}
+          ref={input => (this.input = input)}
         />
         <CloseButton
           handleClick={this.props.closeConditionalPanel}

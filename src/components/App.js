@@ -65,14 +65,13 @@ type Props = {
   setOrientation: OrientationType => void
 };
 
-class App extends Component {
-  state: {
-    shortcutsModalEnabled: boolean,
-    startPanelSize: number,
-    endPanelSize: number
-  };
+type State = {
+  shortcutsModalEnabled: boolean,
+  startPanelSize: number,
+  endPanelSize: number
+};
 
-  props: Props;
+class App extends Component<Props, State> {
   onLayoutChange: Function;
   getChildContext: Function;
   renderEditorPane: Function;
@@ -161,7 +160,7 @@ class App extends Component {
     return this.props.orientation === "horizontal";
   }
 
-  toggleSymbolModal(_, e: SyntheticEvent) {
+  toggleSymbolModal(_, e: SyntheticEvent<HTMLElement>) {
     const {
       selectedSource,
       activeSearch,
@@ -183,7 +182,7 @@ class App extends Component {
     setActiveSearch("symbol");
   }
 
-  toggleGoToLineModal(_, e: SyntheticEvent) {
+  toggleGoToLineModal(_, e: SyntheticEvent<HTMLElement>) {
     const {
       selectedSource,
       activeSearch,
@@ -205,7 +204,7 @@ class App extends Component {
     setActiveSearch("line");
   }
 
-  toggleSourcesModal(_, e: SyntheticEvent) {
+  toggleSourcesModal(_, e: SyntheticEvent<HTMLElement>) {
     const { activeSearch, closeActiveSearch, setActiveSearch } = this.props;
 
     e.preventDefault();
