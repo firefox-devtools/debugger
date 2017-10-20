@@ -89,7 +89,9 @@ describe("ast", () => {
       const { dispatch, getState } = createStore(threadClient);
       const source = makeSource("scopes.js");
       await dispatch(actions.newSource(source));
-      await dispatch(actions.selectSource("scopes.js", { line: 5 }));
+      await dispatch(
+        actions.selectSource("scopes.js", { location: { line: 5 } })
+      );
 
       const locations = getOutOfScopeLocations(getState());
       const lines = getInScopeLines(getState());

@@ -48,6 +48,7 @@ import {
   resizeBreakpointGutter,
   traverseResults,
   toSourceLine,
+  scrollToColumn,
   toEditorLine,
   resetLineNumberFormat,
   getSourceLocationFromMouseEvent
@@ -206,6 +207,7 @@ class Editor extends PureComponent {
     // update the pending jump line. Note that if jumping to a line in
     // a source where the text hasn't been loaded yet, we will set the
     // line here but not jump until rendering the actual source.
+
     if (prevProps.selectedLocation !== selectedLocation) {
       if (selectedLocation && selectedLocation.line != undefined) {
         this.pendingJumpLocation = selectedLocation;
@@ -218,7 +220,7 @@ class Editor extends PureComponent {
     // keep the jump state around until the real source text is
     // loaded.
     if (selectedSource && selectedSource.has("text")) {
-      this.flashLine();
+      this.highlightLine();
     }
   }
 
@@ -371,8 +373,9 @@ class Editor extends PureComponent {
 
   // If the location has changed and a specific line is requested,
   // move to that line and flash it.
-  flashLine() {
-    if (!this.pendingJumpLocation) {
+  highlightLine() {
+    const { selectedLocation, selectedFrame } = this.props;
+    if (!selectedLocation) {
       return;
     }
 
@@ -384,24 +387,33 @@ class Editor extends PureComponent {
       clearLineClass(this.state.editor.codeMirror, "highlight-line");
     }
 
-    const { sourceId, line: sourceLine } = this.pendingJumpLocation;
-    const line = toEditorLine(sourceId, sourceLine);
-    this.state.editor.alignLine(line);
+    let line = null;
+    if (selectedLocation.line >= 0) {
+      line = this.scrollToPosition();
+    }
 
     // We only want to do the flashing animation if it's not a debug
     // line, which has it's own styling.
     // Also, if it the first time the debugger is being loaded, we don't want
     // to flash the previously saved selected line.
     if (
+      line &&
       this.lastJumpLine &&
-      (!this.props.selectedFrame ||
-        this.props.selectedFrame.location.line !== line)
+      (!selectedFrame || selectedFrame.location.line !== line)
     ) {
       this.state.editor.codeMirror.addLineClass(line, "line", "highlight-line");
     }
 
     this.lastJumpLine = line;
     this.pendingJumpLocation = null;
+  }
+
+  scrollToPosition() {
+    const { sourceId, line, column } = this.props.selectedLocation;
+    const editorLine = toEditorLine(sourceId, line);
+
+    scrollToColumn(this.state.editor.codeMirror, editorLine, column);
+    return editorLine;
   }
 
   setSize(nextProps) {

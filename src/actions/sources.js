@@ -53,7 +53,7 @@ async function checkSelectedSource(state: State, dispatch, source) {
   const pendingLocation = getPendingSelectedLocation(state);
 
   if (pendingLocation && !!source.url && pendingLocation.url === source.url) {
-    await dispatch(selectSource(source.id, { line: pendingLocation.line }));
+    await dispatch(selectSource(source.id, { location: pendingLocation }));
   }
 }
 
@@ -141,7 +141,10 @@ function loadSourceMap(generatedSource) {
   };
 }
 
-export type SelectSourceOptions = { tabIndex?: number, line?: number };
+export type SelectSourceOptions = {
+  tabIndex?: number,
+  location?: { line?: number, column?: number }
+};
 
 /**
  * Deterministically select a source that has a given URL. This will
@@ -165,7 +168,7 @@ export function selectSourceURL(
         type: "SELECT_SOURCE_URL",
         url: url,
         tabIndex: options.tabIndex,
-        line: options.line
+        location: options.location
       });
     }
   };
@@ -200,7 +203,7 @@ export function selectSource(id: string, options: SelectSourceOptions = {}) {
       type: "SELECT_SOURCE",
       source: source.toJS(),
       tabIndex: options.tabIndex,
-      line: options.line,
+      location: options.location || {},
       [PROMISE]: (async () => {
         await dispatch(loadSourceText(source.toJS()));
         await dispatch(setOutOfScopeLocations());
@@ -236,7 +239,7 @@ export function jumpToMappedLocation(sourceLocation: any) {
     }
 
     return dispatch(
-      selectSource(pairedLocation.sourceId, { line: pairedLocation.line })
+      selectSource(pairedLocation.sourceId, { location: pairedLocation })
     );
   };
 }
@@ -329,7 +332,7 @@ export function togglePrettyPrint(sourceId: string) {
     if (prettySource) {
       return dispatch(
         selectSource(prettySource.get("id"), {
-          line: selectedOriginalLocation.line
+          location: selectedOriginalLocation
         })
       );
     }
@@ -342,9 +345,7 @@ export function togglePrettyPrint(sourceId: string) {
     await dispatch(setEmptyLines(newPrettySource.id));
 
     return dispatch(
-      selectSource(newPrettySource.id, {
-        line: selectedOriginalLocation.line
-      })
+      selectSource(newPrettySource.id, { location: selectedOriginalLocation })
     );
   };
 }

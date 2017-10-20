@@ -449,7 +449,7 @@ function findSource(dbg, url) {
 function selectSource(dbg, url, line) {
   info("Selecting source: " + url);
   const source = findSource(dbg, url);
-  return dbg.actions.selectSource(source.id, { line });
+  return dbg.actions.selectSource(source.id, { location: { line } });
 }
 
 function closeTab(dbg, url) {

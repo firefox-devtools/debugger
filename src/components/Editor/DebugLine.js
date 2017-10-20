@@ -63,6 +63,11 @@ export class DebugLine extends Component {
     }
 
     doc.addLineClass(line, "line", "new-debug-line");
+    // make sure the line is visible
+    if (editor && editor.alignLine) {
+      editor.alignLine(line);
+    }
+
     const debugExpression = markText(editor, "debug-expression", {
       start: { line, column },
       end: { line, column: null }
