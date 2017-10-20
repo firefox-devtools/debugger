@@ -23,6 +23,10 @@ const libraryMap = [
     pattern: /jquery/i
   },
   {
+    label: "Preact",
+    pattern: /preact/i
+  },
+  {
     label: "React",
     pattern: /react/i
   },
@@ -85,10 +89,6 @@ const libraryMap = [
   {
     label: "Dojo",
     pattern: /dojo/i
-  },
-  {
-    label: "Preact",
-    pattern: /preact/i
   },
   {
     label: "Marko",
