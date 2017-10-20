@@ -26,6 +26,8 @@ if (isDevelopment()) {
   pref("devtools.debugger.prefs-schema-version", "1.0.1");
   pref("devtools.debugger.features.project-text-search", true);
   pref("devtools.debugger.features.async-stepping", true);
+  // not sure if i can remove this line or not concerning wasm
+  // as it was added to the features
   pref("devtools.debugger.features.wasm", true);
   pref("devtools.debugger.features.shortcuts", true);
   pref("devtools.debugger.features.root", true);

@@ -93,6 +93,13 @@ html[dir="rtl"] .source-footer .command-bar {
 ### Prefs
 
 User preferences are stored in Prefs. Prefs uses localStorage locally and firefox's profiles in the panel.
+See
+
+```bash
+src/utils/prefs.js
+```
+
+for implementation deails
 
 **Setting a default value**
 

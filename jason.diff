@@ -1,0 +1,42 @@
+diff --git a/assets/panel/prefs.js b/assets/panel/prefs.js
+index a63bc03..b558c99 100644
+--- a/assets/panel/prefs.js
++++ b/assets/panel/prefs.js
+@@ -44,4 +44,5 @@ pref("devtools.debugger.file-search-case-sensitive", false);
+ pref("devtools.debugger.file-search-whole-word", false);
+ pref("devtools.debugger.file-search-regex-match", false);
+ pref("devtools.debugger.features.async-stepping", false)
++pref("devtools.debugger.features.wasm", true)
+ pref("devtools.debugger.project-text-search-enabled", true);
+diff --git a/src/client/firefox.js b/src/client/firefox.js
+index 3bd78ff..4d369cc 100644
+--- a/src/client/firefox.js
++++ b/src/client/firefox.js
+@@ -2,7 +2,7 @@
+
+ import { setupCommands, clientCommands } from "./firefox/commands";
+ import { setupEvents, clientEvents } from "./firefox/events";
+-import { isEnabled } from "devtools-config";
++import { features } from "../utils/prefs";
+
+ export async function onConnect(connection: any, actions: Object) {
+   const {
+@@ -14,7 +14,7 @@ export async function onConnect(connection: any, actions: Object) {
+   }
+
+   const supportsWasm =
+-    isEnabled("wasm") && !!debuggerClient.mainRoot.traits.wasmBinarySource;
++    features.wasm && !!debuggerClient.mainRoot.traits.wasmBinarySource;
+
+   setupCommands({
+     threadClient,
+diff --git a/src/utils/prefs.js b/src/utils/prefs.js
+index cb9e3e4..312ed98 100644
+--- a/src/utils/prefs.js
++++ b/src/utils/prefs.js
+@@ -54,6 +54,7 @@ export const prefs = new PrefsHelper("devtools", {
+
+ export const features = new PrefsHelper("devtools.debugger.features", {
+   asyncStepping: ["Bool", "async-stepping", false]
++  wasm: ["Bool", "wasm", true]
+ });
