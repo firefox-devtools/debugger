@@ -78,6 +78,8 @@ function extractSymbols(source: Source) {
   const callExpressions = [];
   const objectProperties = [];
   const identifiers = [];
+  const classes = [];
+  const imports = [];
 
   const ast = traverseAst(source, {
     enter(path: NodePath) {
@@ -96,9 +98,18 @@ function extractSymbols(source: Source) {
       }
 
       if (t.isClassDeclaration(path)) {
-        variables.push({
+        classes.push({
           name: path.node.id.name,
+          parent: path.node.superClass,
           location: path.node.loc
+        });
+      }
+
+      if (t.isImportDeclaration(path)) {
+        imports.push({
+          source: path.node.source.value,
+          location: path.node.loc,
+          specifiers: path.node.specifiers
         });
       }
 
@@ -175,7 +186,9 @@ function extractSymbols(source: Source) {
     memberExpressions,
     objectProperties,
     comments,
-    identifiers
+    identifiers,
+    classes,
+    imports
   };
 }
 
