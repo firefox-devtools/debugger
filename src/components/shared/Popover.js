@@ -10,7 +10,7 @@ type Props = {
   targetPosition: Object,
   children: Object,
   onMouseLeave?: () => void,
-  type?: String
+  type?: string
 };
 
 class Popover extends Component {

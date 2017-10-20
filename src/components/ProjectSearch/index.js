@@ -20,11 +20,11 @@ import "./ProjectSearch.css";
 type Props = {
   sources: Object,
   results: Object,
-  textSearchQuery: String,
+  textSearchQuery: string,
   setActiveSearch: Function,
   closeActiveSearch: Function,
   searchSources: Function,
-  activeSearch: String,
+  activeSearch: string,
   selectSource: Function
 };
 

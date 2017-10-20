@@ -44,10 +44,10 @@ import { setProjectDirectoryRoot } from "../../actions/ui";
 type Props = {
   sources: SourcesMap,
   selectSource: string => void,
-  shownSource?: String,
+  shownSource?: string,
   selectedSource?: SourceRecord,
-  debuggeeUrl: String,
-  projectRoot: String,
+  debuggeeUrl: string,
+  projectRoot: string,
   setExpandedState: any => void,
   expanded?: any
 };

@@ -13,7 +13,7 @@ type Props = {
   editor: Object,
   source: Object,
   breakpoint: Object,
-  showCallSite: Boolean
+  showCallSite: boolean
 };
 
 export default class CallSite extends Component<Props> {
