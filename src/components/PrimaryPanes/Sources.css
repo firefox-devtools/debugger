@@ -146,12 +146,12 @@
 }
 
 .theme-dark
-  .sources-list
-  .managed-tree
-  .tree
-  .node:not(.focused)
-  .blackBox
-  svg {
+.sources-list
+.managed-tree
+.tree
+.node:not(.focused)
+.blackBox
+svg {
   fill: var(--theme-content-color3);
 }
 
