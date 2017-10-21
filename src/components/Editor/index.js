@@ -16,9 +16,7 @@ import {
   getSelectedSource,
   getHitCountForSource,
   getCoverageEnabled,
-  getConditionalPanelLine,
-  getFileSearchModifiers,
-  getFileSearchQuery
+  getConditionalPanelLine
 } from "../../selectors";
 
 // Redux actions
@@ -27,13 +25,13 @@ import {
   closeConditionalPanel,
   setContextMenu
 } from "../../actions/ui";
-
 import { continueToHere } from "../../actions/pause.js";
 import { jumpToMappedLocation } from "../../actions/sources.js";
 import {
   toggleBreakpoint,
   addOrToggleDisabledBreakpoint
 } from "../../actions/breakpoints.js";
+import { traverseResults } from "../../actions/file-search.js";
 
 import Footer from "./Footer";
 import SearchBar from "./SearchBar";
@@ -57,7 +55,6 @@ import {
   createEditor,
   getCursorLine,
   resizeBreakpointGutter,
-  traverseResults,
   toSourceLine,
   scrollToColumn,
   toEditorLine,
@@ -81,8 +78,6 @@ type Props = {
   searchOn: boolean,
   coverageOn: boolean,
   selectedFrame: Object,
-  searchModifiers: Object,
-  query: string,
   horizontal: boolean,
   startPanelSize: number,
   endPanelSize: number,
@@ -91,11 +86,12 @@ type Props = {
   // Actions
   openConditionalPanel: number => void,
   closeConditionalPanel: void => void,
-  setContextMenu: (type, any) => void,
+  setContextMenu: (string, any) => void,
   continueToHere: number => void,
   toggleBreakpoint: number => void,
   addOrToggleDisabledBreakpoint: number => void,
-  jumpToMappedLocation: any => void
+  jumpToMappedLocation: any => void,
+  traverseResults: (boolean, Object) => void
 };
 
 type State = {
@@ -318,12 +314,7 @@ class Editor extends PureComponent<Props, State> {
   };
 
   onSearchAgain = (_, e) => {
-    const { query, searchModifiers } = this.props;
-    const { editor: { codeMirror } } = this.state.editor;
-    const ctx = { ed: this.state.editor, cm: codeMirror };
-
-    const direction = e.shiftKey ? "prev" : "next";
-    traverseResults(e, ctx, query, direction, searchModifiers.toJS());
+    this.props.traverseResults(e.shiftKey, this.state.editor);
   };
 
   openMenu(event) {
@@ -595,8 +586,6 @@ const mapStateToProps = state => {
     searchOn: getActiveSearch(state) === "file",
     hitCount: getHitCountForSource(state, sourceId),
     selectedFrame: getSelectedFrame(state),
-    query: getFileSearchQuery(state),
-    modifiers: getFileSearchModifiers(state),
     coverageOn: getCoverageEnabled(state),
     conditionalPanelLine: getConditionalPanelLine(state)
   };
@@ -611,7 +600,8 @@ const mapDispatchToProps = dispatch => {
     jumpToMappedLocation: location => dispatch(jumpToMappedLocation(location)),
     toggleBreakpoint: line => dispatch(toggleBreakpoint(line)),
     addOrToggleDisabledBreakpoint: line =>
-      dispatch(addOrToggleDisabledBreakpoint(line))
+      dispatch(addOrToggleDisabledBreakpoint(line)),
+    traverseResults: (rev, editor) => dispatch(traverseResults(rev, editor))
   };
 };
 
