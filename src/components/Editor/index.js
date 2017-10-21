@@ -2,8 +2,6 @@
 import PropTypes from "prop-types";
 import React, { PureComponent } from "react";
 import ReactDOM from "react-dom";
-import ImPropTypes from "react-immutable-proptypes";
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import classnames from "classnames";
 import { debugGlobal } from "devtools-launchpad";
@@ -23,7 +21,20 @@ import {
   getFileSearchQuery
 } from "../../selectors";
 
-import actions from "../../actions";
+// Redux actions
+import {
+  openConditionalPanel,
+  closeConditionalPanel,
+  setContextMenu
+} from "../../actions/ui";
+
+import { continueToHere } from "../../actions/pause.js";
+import { jumpToMappedLocation } from "../../actions/sources.js";
+import {
+  toggleBreakpoint,
+  addOrToggleDisabledBreakpoint
+} from "../../actions/breakpoints.js";
+
 import Footer from "./Footer";
 import SearchBar from "./SearchBar";
 import HighlightLines from "./HighlightLines";
@@ -68,10 +79,6 @@ type Props = {
   selectedLocation: Object,
   selectedSource: Object,
   searchOn: boolean,
-  addOrToggleDisabledBreakpoint: Function,
-  toggleBreakpoint: Function,
-  selectSource: Function,
-  jumpToMappedLocation: Function,
   coverageOn: boolean,
   selectedFrame: Object,
   searchModifiers: Object,
@@ -80,10 +87,15 @@ type Props = {
   startPanelSize: number,
   endPanelSize: number,
   conditionalPanelLine: number,
-  openConditionalPanel: Function,
-  closeConditionalPanel: Function,
-  continueToHere: Function,
-  setContextMenu: Function
+
+  // Actions
+  openConditionalPanel: number => void,
+  closeConditionalPanel: void => void,
+  setContextMenu: (type, any) => void,
+  continueToHere: number => void,
+  toggleBreakpoint: number => void,
+  addOrToggleDisabledBreakpoint: number => void,
+  jumpToMappedLocation: any => void
 };
 
 type State = {
@@ -91,6 +103,7 @@ type State = {
 };
 
 class Editor extends PureComponent<Props, State> {
+  props: Props;
   cbPanel: any;
   editor: SourceEditor;
   pendingJumpLocation: any;
@@ -314,24 +327,15 @@ class Editor extends PureComponent<Props, State> {
   };
 
   openMenu(event) {
-    const { setContextMenu } = this.props;
-
     if (event.target.classList.contains("CodeMirror-linenumber")) {
-      return setContextMenu("Gutter", event);
+      return this.props.setContextMenu("Gutter", event);
     }
 
-    return setContextMenu("Editor", event);
+    return this.props.setContextMenu("Editor", event);
   }
 
   onGutterClick = (cm, line, gutter, ev) => {
-    const {
-      selectedSource,
-      toggleBreakpoint,
-      conditionalPanelLine,
-      closeConditionalPanel,
-      addOrToggleDisabledBreakpoint,
-      continueToHere
-    } = this.props;
+    const { selectedSource, conditionalPanelLine } = this.props;
 
     // ignore right clicks in the gutter
     if (
@@ -344,7 +348,7 @@ class Editor extends PureComponent<Props, State> {
     }
 
     if (conditionalPanelLine) {
-      return closeConditionalPanel();
+      return this.props.closeConditionalPanel();
     }
 
     if (gutter === "CodeMirror-foldgutter") {
@@ -354,13 +358,13 @@ class Editor extends PureComponent<Props, State> {
     const sourceLine = toSourceLine(selectedSource.get("id"), line);
 
     if (ev.altKey) {
-      return continueToHere(sourceLine);
+      return this.props.continueToHere(sourceLine);
     }
 
     if (ev.shiftKey) {
-      return addOrToggleDisabledBreakpoint(sourceLine);
+      return this.props.addOrToggleDisabledBreakpoint(sourceLine);
     }
-    return toggleBreakpoint(sourceLine);
+    return this.props.toggleBreakpoint(sourceLine);
   };
 
   onGutterContextMenu = event => {
@@ -368,29 +372,22 @@ class Editor extends PureComponent<Props, State> {
   };
 
   onClick(e: MouseEvent) {
-    const { selectedLocation, jumpToMappedLocation } = this.props;
-
     if (e.metaKey && e.altKey) {
       const sourceLocation = getSourceLocationFromMouseEvent(
         this.state.editor,
-        selectedLocation,
+        this.props.selectedLocation,
         e
       );
-      jumpToMappedLocation(sourceLocation);
+      this.props.jumpToMappedLocation(sourceLocation);
     }
   }
 
   toggleConditionalPanel = line => {
-    const {
-      conditionalPanelLine,
-      closeConditionalPanel,
-      openConditionalPanel
-    } = this.props;
-    if (conditionalPanelLine) {
-      return closeConditionalPanel();
+    if (this.props.conditionalPanelLine) {
+      return this.props.closeConditionalPanel();
     }
 
-    return openConditionalPanel(line);
+    return this.props.openConditionalPanel(line);
   };
 
   closeConditionalPanel = () => {
@@ -585,48 +582,37 @@ class Editor extends PureComponent<Props, State> {
   }
 }
 
-Editor.propTypes = {
-  hitCount: PropTypes.object,
-  selectedLocation: PropTypes.object,
-  selectedSource: ImPropTypes.map,
-  searchOn: PropTypes.bool,
-  addOrToggleDisabledBreakpoint: PropTypes.func,
-  toggleBreakpoint: PropTypes.func,
-  selectSource: PropTypes.func,
-  jumpToMappedLocation: PropTypes.func,
-  coverageOn: PropTypes.bool,
-  selectedFrame: PropTypes.object,
-  searchModifiers: PropTypes.object,
-  query: PropTypes.string,
-  horizontal: PropTypes.bool,
-  startPanelSize: PropTypes.number,
-  endPanelSize: PropTypes.number,
-  conditionalPanelLine: PropTypes.number,
-  openConditionalPanel: PropTypes.func,
-  closeConditionalPanel: PropTypes.func,
-  continueToHere: PropTypes.func,
-  setContextMenu: PropTypes.func
-};
-
 Editor.contextTypes = {
   shortcuts: PropTypes.object
 };
 
-export default connect(
-  state => {
-    const selectedSource = getSelectedSource(state);
-    const sourceId = selectedSource ? selectedSource.get("id") : "";
-    return {
-      selectedLocation: getSelectedLocation(state),
-      selectedSource,
-      searchOn: getActiveSearch(state) === "file",
-      hitCount: getHitCountForSource(state, sourceId),
-      selectedFrame: getSelectedFrame(state),
-      query: getFileSearchQuery(state),
-      modifiers: getFileSearchModifiers(state),
-      coverageOn: getCoverageEnabled(state),
-      conditionalPanelLine: getConditionalPanelLine(state)
-    };
-  },
-  dispatch => bindActionCreators(actions, dispatch)
-)(Editor);
+const mapStateToProps = state => {
+  const selectedSource = getSelectedSource(state);
+  const sourceId = selectedSource ? selectedSource.get("id") : "";
+  return {
+    selectedLocation: getSelectedLocation(state),
+    selectedSource,
+    searchOn: getActiveSearch(state) === "file",
+    hitCount: getHitCountForSource(state, sourceId),
+    selectedFrame: getSelectedFrame(state),
+    query: getFileSearchQuery(state),
+    modifiers: getFileSearchModifiers(state),
+    coverageOn: getCoverageEnabled(state),
+    conditionalPanelLine: getConditionalPanelLine(state)
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    openConditionalPanel: line => dispatch(openConditionalPanel(line)),
+    closeConditionalPanel: () => dispatch(closeConditionalPanel()),
+    setContextMenu: (type, event) => dispatch(setContextMenu(type, event)),
+    continueToHere: line => dispatch(continueToHere(line)),
+    jumpToMappedLocation: location => dispatch(jumpToMappedLocation(location)),
+    toggleBreakpoint: line => dispatch(toggleBreakpoint(line)),
+    addOrToggleDisabledBreakpoint: line =>
+      dispatch(addOrToggleDisabledBreakpoint(line))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Editor);
