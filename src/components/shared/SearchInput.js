@@ -6,7 +6,7 @@ import CloseButton from "./Button/Close";
 import "./SearchInput.css";
 
 const arrowBtn = (onClick, type, className, tooltip) => {
-  var props = {
+  const props = {
     onClick,
     type,
     className,

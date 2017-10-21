@@ -97,13 +97,16 @@ const libraryMap = [
   {
     label: "NuxtJS",
     pattern: /[\._]nuxt/i
+  },
+  {
+    label: "Aframe",
+    pattern: /aframe/i
   }
 ];
 
 export function getLibraryFromUrl(frame: Frame) {
   // @TODO each of these fns calls getFrameUrl, just call it once
   // (assuming there's not more complex logic to identify a lib)
-
   const frameUrl = getFrameUrl(frame);
   const match = find(libraryMap, o => frameUrl.match(o.pattern));
   return match && match.label;
