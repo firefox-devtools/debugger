@@ -95,6 +95,10 @@ const libraryMap = [
     pattern: /marko/i
   },
   {
+    label: "NuxtJS",
+    pattern: /[\._]nuxt/i
+  },
+  {
     label: "Aframe",
     pattern: /aframe/i
   }
