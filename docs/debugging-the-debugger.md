@@ -6,15 +6,14 @@ Debugging the Debugger is one of the highest levels of inception. Before you beg
 
 Setup the Debugger so that your environment looks like this [gif][debugger-intro-gif].
 
-If you have any questions, go back to the [getting setup][getting-setup]
-instructions.
+If you have any questions, go back to the [getting setup][getting-setup] instructions.
 
 
 ### Design a new theme :snowflake:
 
 Lets design a new theme for the debugger, it's not too hard! Our goal here is to style the source tree, editor, and other UI components.
 
-Share your a screenshot of your theme [here][getting-started-issue]! Here's an example camo [theme][camo-theme] that I designed the other day.
+Share your a screenshot of your theme [here](./getting-setup.md) ! Here's an example camo [theme][camo-theme] that I designed the other day.
 
 
 ### Make breakpoints dance :dancers:
@@ -95,9 +94,8 @@ Now that you've internalized the debugger philosophy, it's time to start putting
 
 - here are @amitzur's [slides][amit-slides] from his [talk][amit-tweet]
 
-**Contribute back** take a look at how you can [contributing][contributing]. We would love the help!
-
-
+**Contribute back** take a look at how you can start [contributing][contributing]. We would love the help!
+---
 
 [contributing]: ../CONTRIBUTING.md
 [getting-setup]: ./getting-setup.md
