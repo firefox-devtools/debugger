@@ -13,7 +13,7 @@ describe("scopes", () => {
         column: 2
       });
 
-      var vars = getVariablesInLocalScope(scope);
+      const vars = getVariablesInLocalScope(scope);
       expect(vars.map(v => v.name)).toEqual(["n"]);
       expect(vars[0].references[0].node.loc.start).toEqual({
         column: 4,
@@ -27,7 +27,7 @@ describe("scopes", () => {
         column: 5
       });
 
-      var vars = getVariablesInLocalScope(scope);
+      const vars = getVariablesInLocalScope(scope);
 
       expect(vars.map(v => v.name)).toEqual(["n"]);
       expect(vars[0].references[0].node.loc.start).toEqual({
@@ -42,7 +42,7 @@ describe("scopes", () => {
         column: 13
       });
 
-      var vars = getVariablesInLocalScope(scope);
+      const vars = getVariablesInLocalScope(scope);
 
       expect(vars.map(v => v.name)).toEqual(["x"]);
     });
@@ -55,7 +55,7 @@ describe("scopes", () => {
         column: 5
       });
 
-      var vars = getVariablesInScope(scope);
+      const vars = getVariablesInScope(scope);
 
       expect(vars).toEqual([
         "this",
