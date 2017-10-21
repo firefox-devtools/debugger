@@ -4,7 +4,6 @@ const {
   getActiveSearch,
   getFrameworkGroupingState,
   getPaneCollapse,
-  getSymbolSearchType,
   getHighlightedLineRange,
   getProjectDirectoryRoot
 } = selectors;
@@ -38,12 +37,6 @@ describe("ui", () => {
     dispatch(actions.setActiveSearch("file"));
     dispatch(actions.closeActiveSearch());
     expect(getActiveSearch(getState())).toBe(null);
-  });
-
-  it("should change the selected symbol type", () => {
-    const { dispatch, getState } = createStore();
-    dispatch(actions.setSelectedSymbolType("variables"));
-    expect(getSymbolSearchType(getState())).toBe("variables");
   });
 
   it("should toggle the collapse state of a pane", () => {

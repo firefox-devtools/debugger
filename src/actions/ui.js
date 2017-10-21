@@ -1,12 +1,7 @@
 // @flow
 import { getSource, getActiveSearch } from "../selectors";
 import type { ThunkArgs } from "./types";
-import type {
-  ActiveSearchType,
-  SymbolSearchType,
-  OrientationType
-} from "../reducers/ui";
-import { clearSourceSearchQuery } from "./source-search";
+import type { ActiveSearchType, OrientationType } from "../reducers/ui";
 
 export function setContextMenu(type: string, event: any) {
   return ({ dispatch }: ThunkArgs) => {
@@ -14,18 +9,21 @@ export function setContextMenu(type: string, event: any) {
   };
 }
 
+export function openQuickOpen(query?: string) {
+  if (query != null) {
+    return { type: "OPEN_QUICK_OPEN", query };
+  }
+  return { type: "OPEN_QUICK_OPEN" };
+}
+
+export function closeQuickOpen() {
+  return { type: "CLOSE_QUICK_OPEN" };
+}
+
 export function closeActiveSearch() {
-  return ({ getState, dispatch }: ThunkArgs) => {
-    const activeSearch = getActiveSearch(getState());
-
-    if (activeSearch == "source") {
-      dispatch(clearSourceSearchQuery());
-    }
-
-    dispatch({
-      type: "TOGGLE_ACTIVE_SEARCH",
-      value: null
-    });
+  return {
+    type: "TOGGLE_ACTIVE_SEARCH",
+    value: null
   };
 }
 
@@ -48,15 +46,6 @@ export function toggleFrameworkGrouping(toggleValue: boolean) {
     dispatch({
       type: "TOGGLE_FRAMEWORK_GROUPING",
       value: toggleValue
-    });
-  };
-}
-
-export function setSelectedSymbolType(symbolType: SymbolSearchType) {
-  return ({ dispatch, getState }: ThunkArgs) => {
-    dispatch({
-      type: "SET_SYMBOL_SEARCH_TYPE",
-      symbolType
     });
   };
 }

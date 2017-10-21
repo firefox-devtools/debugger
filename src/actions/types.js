@@ -150,6 +150,13 @@ type UIAction =
       value: ?ActiveSearchType
     }
   | {
+      type: "OPEN_QUICK_OPEN",
+      query?: string
+    }
+  | {
+      type: "CLOSE_QUICK_OPEN"
+    }
+  | {
       type: "TOGGLE_FRAMEWORK_GROUPING",
       value: boolean
     }
@@ -272,6 +279,8 @@ export type FileTextSearchAction =
       }
     };
 
+export type QuickOpenAction = { type: "SET_QUERY_STRING", queryString: string };
+
 /**
  * Actions: Source, Breakpoint, and Navigation
  *
@@ -284,4 +293,5 @@ export type Action =
   | PauseAction
   | NavigateAction
   | UIAction
-  | ASTAction;
+  | ASTAction
+  | QuickOpenAction;

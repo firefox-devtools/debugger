@@ -14,20 +14,14 @@ import { prefs } from "../utils/prefs";
 import type { Action, panelPositionType } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
-export type SymbolSearchType = "functions" | "variables";
-export type ActiveSearchType =
-  | "project"
-  | "source"
-  | "file"
-  | "symbol"
-  | "line";
+export type ActiveSearchType = "project" | "file";
 
 export type OrientationType = "horizontal" | "vertical";
 
 export type UIState = {
   activeSearch: ?ActiveSearchType,
+  quickOpenEnabled: boolean,
   contextMenu: any,
-  symbolSearchType: SymbolSearchType,
   shownSource: string,
   startPanelCollapsed: boolean,
   endPanelCollapsed: boolean,
@@ -45,8 +39,8 @@ export type UIState = {
 export const State = makeRecord(
   ({
     activeSearch: null,
+    quickOpenEnabled: false,
     contextMenu: {},
-    symbolSearchType: "functions",
     shownSource: "",
     projectDirectoryRoot: "",
     startPanelCollapsed: prefs.startPanelCollapsed,
@@ -67,13 +61,15 @@ function update(
       return state.set("activeSearch", action.value);
     }
 
+    case "OPEN_QUICK_OPEN":
+      return state.set("quickOpenEnabled", true);
+
+    case "CLOSE_QUICK_OPEN":
+      return state.set("quickOpenEnabled", false);
+
     case "TOGGLE_FRAMEWORK_GROUPING": {
       prefs.frameworkGroupingOn = action.value;
       return state.set("frameworkGroupingOn", action.value);
-    }
-
-    case "SET_SYMBOL_SEARCH_TYPE": {
-      return state.set("symbolSearchType", action.symbolType);
     }
 
     case "SET_CONTEXT_MENU": {
@@ -135,16 +131,16 @@ export function getActiveSearch(state: OuterState): ActiveSearchType {
   return state.ui.get("activeSearch");
 }
 
+export function getQuickOpenEnabled(state: OuterState): boolean {
+  return state.ui.get("quickOpenEnabled");
+}
+
 export function getContextMenu(state: OuterState): any {
   return state.ui.get("contextMenu");
 }
 
 export function getFrameworkGroupingState(state: OuterState): boolean {
   return state.ui.get("frameworkGroupingOn");
-}
-
-export function getSymbolSearchType(state: OuterState): SymbolSearchType {
-  return state.ui.get("symbolSearchType");
 }
 
 export function getShownSource(state: OuterState): boolean {

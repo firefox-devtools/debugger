@@ -4,20 +4,12 @@ import classnames from "classnames";
 
 import "./ResultList.css";
 
-type ResultListItem = {
-  id: string,
-  location: string,
-  subtitle: string,
-  title: string,
-  value: string
-};
-
 type Props = {
-  items: Array<ResultListItem>,
+  items: Array<any>,
   selected: number,
   selectItem: (
     event: SyntheticKeyboardEvent<HTMLElement>,
-    item: ResultListItem,
+    item: any,
     index: number
   ) => void,
   size: string
@@ -35,7 +27,7 @@ export default class ResultList extends Component<Props> {
     (this: any).renderListItem = this.renderListItem.bind(this);
   }
 
-  renderListItem(item: ResultListItem, index: number) {
+  renderListItem(item: any, index: number) {
     const { selectItem, selected } = this.props;
     const props = {
       onClick: event => selectItem(event, item, index),

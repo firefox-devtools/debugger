@@ -640,7 +640,7 @@ const shiftOrAlt = isMac
 
 const cmdShift = isMac
   ? { accelKey: true, shiftKey: true, metaKey: true }
-  : { accelKey: true, altKey: true, ctrlKey: true };
+  : { accelKey: true, shiftKey: true, ctrlKey: true };
 
 // On Mac, going to beginning/end only works with meta+left/right.  On
 // Windows, it only works with home/end.  On Linux, apparently, either
@@ -655,9 +655,10 @@ const startKey = isMac
 const keyMappings = {
   debugger: { code: "s", modifiers: shiftOrAlt },
   inspector: { code: "c", modifiers: shiftOrAlt },
-  sourceSearch: { code: "p", modifiers: cmdOrCtrl },
+  quickOpen: { code: "p", modifiers: cmdOrCtrl },
+  quickOpenFunc: { code: "o", modifiers: cmdShift },
+  quickOpenLine: { code: ":", modifiers: cmdOrCtrl },
   fileSearch: { code: "f", modifiers: cmdOrCtrl },
-  functionSearch: { code: "o", modifiers: cmdShift },
   Enter: { code: "VK_RETURN" },
   ShiftEnter: { code: "VK_RETURN", modifiers: shiftOrAlt },
   Up: { code: "VK_UP" },
