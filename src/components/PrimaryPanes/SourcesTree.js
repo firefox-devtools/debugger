@@ -12,7 +12,7 @@ import {
   getSelectedSource,
   getDebuggeeUrl,
   getExpandedState,
-  getProjectDirectoryRoot
+  getProjectDirectoryRoot,
   getSources
 } from "../../selectors";
 import actions from "../../actions";
