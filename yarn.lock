@@ -2860,9 +2860,9 @@ devtools-contextmenu@^0.0.7:
   dependencies:
     devtools-modules "^0.0.32"
 
-devtools-launchpad@^0.0.106:
-  version "0.0.106"
-  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.106.tgz#e22277ac1455d5be2571325c9d413979471a3e6b"
+devtools-launchpad@^0.0.108:
+  version "0.0.108"
+  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.108.tgz#4ad411dcec6a7e9eb75de32a4084c5995aaf9277"
   dependencies:
     amd-loader "0.0.8"
     autoprefixer "^7.1.2"
