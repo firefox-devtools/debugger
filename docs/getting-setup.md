@@ -193,8 +193,7 @@ If you want to hack the debugger even with being offline, you might want to get 
 [yarn-install]:https://yarnpkg.com/en/docs/install
 [dev-server]:https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-launchpad/README.md#dev-server
 [first-activity]: ./debugging-the-debugger.md
+[common-issues]: ./most-common-issues.md
 [slack]:https://devtools-html-slack.herokuapp.com/
-
 [launchpad-screenshot]:https://cloud.githubusercontent.com/assets/2134/22162697/913777b2-df04-11e6-9150-f6ad676c31ef.png
 [nvm]:https://github.com/creationix/nvm
-[common-issues]:./most-common-issues.md
