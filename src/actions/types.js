@@ -261,8 +261,8 @@ export type ProjectTextSearchAction = {
   type: "ADD_SEARCH_RESULT",
   result: ProjectTextSearchResult
 } & {
-  type: "CLEAR_QUERY"
-};
+    type: "CLEAR_QUERY"
+  };
 
 export type FileTextSearchAction =
   | {
