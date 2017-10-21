@@ -110,12 +110,18 @@ function showSourceText(editor: Object, source: Source) {
 function resizeBreakpointGutter(editor: Object) {
   const gutters = editor.display.gutters;
   const breakpoints = gutters.querySelector(".breakpoints");
-  breakpoints.style.width = `${getLineNumberWidth(editor)}px`;
+  if (breakpoints) {
+    breakpoints.style.width = `${getLineNumberWidth(editor)}px`;
+  }
 }
 
 function resizeToggleButton(editor: Object) {
-  const toggleButton = document.querySelector(".toggle-button-start");
-  toggleButton.style.width = `${getLineNumberWidth(editor)}px`;
+  const toggleButton = document.querySelector(
+    ".source-header .toggle-button-start"
+  );
+  if (toggleButton) {
+    toggleButton.style.width = `${getLineNumberWidth(editor)}px`;
+  }
 }
 
 export {
