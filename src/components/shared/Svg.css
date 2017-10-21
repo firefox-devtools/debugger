@@ -46,13 +46,8 @@
   margin-inline-end: 5px;
 }
 
-<<<<<<< 43452598b0ebf1f2520c8845de3ab6dffdeb0554
 img.arrow {
   mask: url(/images/arrow.svg);
-=======
-.arrow svg {
-  fill: var(--theme-splitter-color);
->>>>>>> Created getPath() helper function, moved CSS to Sources.css, updated blackbox icon CSS to match tabs in different themes
   margin-top: 3px;
   width: 9px;
   height: 9px;
