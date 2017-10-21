@@ -214,14 +214,14 @@ class SourcesTree extends Component<Props, State> {
     }
 
     if (depth === 0) {
-      return <Svg name="domain" />;
+      return <img className="domain" />;
     }
 
     if (!nodeHasChildren(item)) {
-      return <Svg name="file" />;
+      return <img className="file" />;
     }
 
-    return <Svg name="folder" />;
+    return <img className="folder" />;
   }
 
   onContextMenu(event, item) {
