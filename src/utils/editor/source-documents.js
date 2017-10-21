@@ -5,7 +5,7 @@ import { getMode } from "../source";
 import type { Source } from "debugger-html";
 import { isWasm, getWasmLineNumberFormatter, renderWasmText } from "../wasm";
 import { SourceEditorUtils } from "devtools-source-editor";
-const { resizeBreakpointGutter } = SourceEditorUtils;
+const { getLineNumberWidth } = SourceEditorUtils;
 
 let sourceDocs = {};
 
@@ -29,6 +29,7 @@ function resetLineNumberFormat(editor: Object) {
   const cm = editor.codeMirror;
   cm.setOption("lineNumberFormatter", number => number);
   resizeBreakpointGutter(cm);
+  resizeToggleButton(cm);
 }
 
 function updateLineNumberFormat(editor: Object, sourceId: string) {
@@ -39,6 +40,7 @@ function updateLineNumberFormat(editor: Object, sourceId: string) {
   const lineNumberFormatter = getWasmLineNumberFormatter(sourceId);
   cm.setOption("lineNumberFormatter", lineNumberFormatter);
   resizeBreakpointGutter(cm);
+  resizeToggleButton(cm);
 }
 
 function updateDocument(editor: Object, sourceId: string) {
@@ -105,6 +107,17 @@ function showSourceText(editor: Object, source: Source) {
   updateLineNumberFormat(editor, source.id);
 }
 
+function resizeBreakpointGutter(editor: Object) {
+  const gutters = editor.display.gutters;
+  const breakpoints = gutters.querySelector(".breakpoints");
+  breakpoints.style.width = `${getLineNumberWidth(editor)}px`;
+}
+
+function resizeToggleButton(editor: Object) {
+  const toggleButton = document.querySelector(".toggle-button-start");
+  toggleButton.style.width = `${getLineNumberWidth(editor)}px`;
+}
+
 export {
   getDocument,
   setDocument,
@@ -114,5 +127,7 @@ export {
   updateLineNumberFormat,
   updateDocument,
   showSourceText,
-  showLoading
+  showLoading,
+  resizeBreakpointGutter,
+  resizeToggleButton
 };

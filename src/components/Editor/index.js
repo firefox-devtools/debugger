@@ -46,6 +46,7 @@ import {
   createEditor,
   getCursorLine,
   resizeBreakpointGutter,
+  resizeToggleButton,
   traverseResults,
   toSourceLine,
   toEditorLine,
@@ -87,6 +88,7 @@ class Editor extends PureComponent {
     }
 
     resizeBreakpointGutter(this.state.editor.codeMirror);
+    resizeToggleButton(this.state.editor.codeMirror);
   }
 
   setupEditor() {
@@ -105,6 +107,8 @@ class Editor extends PureComponent {
     const codeMirrorWrapper = codeMirror.getWrapperElement();
 
     resizeBreakpointGutter(codeMirror);
+    resizeToggleButton(codeMirror);
+
     debugGlobal("cm", codeMirror);
 
     codeMirror.on("gutterClick", this.onGutterClick);
