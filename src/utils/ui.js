@@ -3,7 +3,44 @@
  * because it is more reliable than either checking a focus state or
  * the visibleState or hidden property.
  */
-export function isVisible() {
+function isVisible() {
   const el = document.querySelector("#mount");
   return el && el.getBoundingClientRect().width;
 }
+
+/* Gets the line numbers width in the code editor
+ */
+function getLineNumberWidth(editor) {
+  const gutters = editor.display.gutters;
+  const lineNumbers = gutters.querySelector(".CodeMirror-linenumbers");
+  return lineNumbers && lineNumbers.clientWidth;
+}
+
+/**
+ * Forces the breakpoint gutter to be the same size as the line
+ * numbers gutter. Editor CSS will absolutely position the gutter
+ * beneath the line numbers. This makes it easy to be flexible with
+ * how we overlay breakpoints.
+ */
+function resizeBreakpointGutter(editor: Object) {
+  const gutters = editor.display.gutters;
+  const breakpoints = gutters.querySelector(".breakpoints");
+  if (breakpoints) {
+    breakpoints.style.width = `${getLineNumberWidth(editor)}px`;
+  }
+}
+
+/**
+ * Forces the left toggle button in source header to be the same size
+ * as the line numbers gutter.
+ */
+function resizeToggleButton(editor: Object) {
+  const toggleButton = document.querySelector(
+    ".source-header .toggle-button-start"
+  );
+  if (toggleButton) {
+    toggleButton.style.width = `${getLineNumberWidth(editor)}px`;
+  }
+}
+
+export { isVisible, resizeBreakpointGutter, resizeToggleButton };

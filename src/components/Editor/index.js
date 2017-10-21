@@ -45,14 +45,14 @@ import {
   clearLineClass,
   createEditor,
   getCursorLine,
-  resizeBreakpointGutter,
-  resizeToggleButton,
   traverseResults,
   toSourceLine,
   toEditorLine,
   resetLineNumberFormat,
   getSourceLocationFromMouseEvent
 } from "../../utils/editor";
+
+import { resizeBreakpointGutter, resizeToggleButton } from "../../utils/ui";
 
 import "./Editor.css";
 import "./Highlight.css";
