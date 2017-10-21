@@ -54,7 +54,8 @@ const svg = {
   extjs: require("./sencha-extjs.svg"),
   marko: require("./marko.svg"),
   showSources: require("./showSources.svg"),
-  showOutline: require("./showOutline.svg")
+  showOutline: require("./showOutline.svg"),
+  nuxtjs: require("./nuxtjs.svg")
 };
 
 type SvgType = {
