@@ -30,6 +30,7 @@ const svg = {
   "pause-exceptions": require("./pause-exceptions.svg"),
   plus: require("./plus.svg"),
   preact: require("./preact.svg"),
+  aframe: require("./aframe.svg"),
   prettyPrint: require("./prettyPrint.svg"),
   react: require("./react.svg"),
   "regex-match": require("./regex-match.svg"),
