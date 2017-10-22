@@ -168,7 +168,6 @@ debug-expression-error {
   display: none;
 }
 
-
 .new-debug-line-error .CodeMirror-line {
   background-color: var(--debug-expression-error-background) !important;
   outline: var(--debug-line-error-border) solid 1px;
@@ -179,7 +178,6 @@ debug-expression-error {
 .new-debug-line-error .CodeMirror-activeline-background {
   display: none;
 }
-
 
 .highlight-line .CodeMirror-line {
   animation: fade-highlight-out 1.5s normal forwards;
