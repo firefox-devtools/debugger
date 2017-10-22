@@ -25,12 +25,13 @@ async function makeScopedLocation({ name, offset }, location, source) {
 }
 
 function createSyncData(
+  id,
   pendingBreakpoint,
   location,
   generatedLocation,
   previousLocation = null
 ) {
-  const overrides = { ...pendingBreakpoint, generatedLocation };
+  const overrides = { ...pendingBreakpoint, generatedLocation, id };
   const breakpoint = createBreakpoint(location, overrides);
 
   assertBreakpoint(breakpoint);
@@ -102,7 +103,7 @@ export async function syncClientBreakpoint(
   /** ******* Case 2: Add New Breakpoint ***********/
   // If we are not disabled, set the breakpoint on the server and get
   // that info so we can set it on our breakpoints.
-  const clientBreakpoint = await client.setBreakpoint(
+  const { id, actualLocation } = await client.setBreakpoint(
     scopedGeneratedLocation,
     pendingBreakpoint.condition,
     sourceMaps.isOriginalId(sourceId)
@@ -110,12 +111,13 @@ export async function syncClientBreakpoint(
 
   // the breakpoint might have slid server side, so we want to get the location
   // based on the server's return value
-  const newGeneratedLocation = clientBreakpoint.actualLocation;
+  const newGeneratedLocation = actualLocation;
   const newLocation = await sourceMaps.getOriginalLocation(
     newGeneratedLocation
   );
 
   return createSyncData(
+    id,
     pendingBreakpoint,
     newLocation,
     newGeneratedLocation,

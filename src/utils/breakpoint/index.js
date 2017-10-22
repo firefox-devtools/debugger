@@ -109,10 +109,12 @@ export function createBreakpoint(location: Location, overrides: Object = {}) {
     disabled,
     hidden,
     generatedLocation,
-    astLocation
+    astLocation,
+    id
   } = overrides;
 
   const properties = {
+    id,
     condition: condition || null,
     disabled: disabled || false,
     hidden: hidden || false,
