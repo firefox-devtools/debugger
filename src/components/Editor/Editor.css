@@ -3,6 +3,8 @@
   --debug-expression-background: rgba(202, 227, 255, 0.5);
   --editor-searchbar-height: 27px;
   --editor-second-searchbar-height: 27px;
+  --debug-line-error-border: rgb(255, 0, 0);
+  --debug-expression-error-background: rgba(255, 127, 127, 0.5);
 }
 
 .theme-dark .editor-wrapper {
@@ -151,6 +153,10 @@ html[dir="rtl"] .editor-mount {
   background-color: var(--debug-expression-background);
 }
 
+debug-expression-error {
+  background-color: var(--debug-expression-error-background);
+}
+
 .new-debug-line .CodeMirror-line {
   background-color: transparent !important;
   outline: var(--debug-line-border) solid 1px;
@@ -161,6 +167,19 @@ html[dir="rtl"] .editor-mount {
 .new-debug-line .CodeMirror-activeline-background {
   display: none;
 }
+
+
+.new-debug-line-error .CodeMirror-line {
+  background-color: var(--debug-expression-error-background) !important;
+  outline: var(--debug-line-error-border) solid 1px;
+}
+
+/* Don't display the highlight color since the debug line
+  is already highlighted */
+.new-debug-line-error .CodeMirror-activeline-background {
+  display: none;
+}
+
 
 .highlight-line .CodeMirror-line {
   animation: fade-highlight-out 1.5s normal forwards;
