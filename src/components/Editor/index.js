@@ -20,18 +20,8 @@ import {
 } from "../../selectors";
 
 // Redux actions
-import {
-  openConditionalPanel,
-  closeConditionalPanel,
-  setContextMenu
-} from "../../actions/ui";
-import { continueToHere } from "../../actions/pause.js";
-import { jumpToMappedLocation } from "../../actions/sources.js";
-import {
-  toggleBreakpoint,
-  addOrToggleDisabledBreakpoint
-} from "../../actions/breakpoints.js";
-import { traverseResults } from "../../actions/file-search.js";
+import { bindActionCreators } from "redux";
+import actions from "../../actions";
 
 import Footer from "./Footer";
 import SearchBar from "./SearchBar";
@@ -99,7 +89,6 @@ type State = {
 };
 
 class Editor extends PureComponent<Props, State> {
-  props: Props;
   cbPanel: any;
   editor: SourceEditor;
   pendingJumpLocation: any;
@@ -326,7 +315,11 @@ class Editor extends PureComponent<Props, State> {
   }
 
   onGutterClick = (cm, line, gutter, ev) => {
-    const { selectedSource, conditionalPanelLine } = this.props;
+    const {
+      selectedSource,
+      conditionalPanelLine,
+      closeConditionalPanel
+    } = this.props;
 
     // ignore right clicks in the gutter
     if (
@@ -339,7 +332,7 @@ class Editor extends PureComponent<Props, State> {
     }
 
     if (conditionalPanelLine) {
-      return this.props.closeConditionalPanel();
+      return closeConditionalPanel();
     }
 
     if (gutter === "CodeMirror-foldgutter") {
@@ -363,22 +356,30 @@ class Editor extends PureComponent<Props, State> {
   };
 
   onClick(e: MouseEvent) {
+    const { selectedLocation, jumpToMappedLocation } = this.props;
+
     if (e.metaKey && e.altKey) {
       const sourceLocation = getSourceLocationFromMouseEvent(
         this.state.editor,
-        this.props.selectedLocation,
+        selectedLocation,
         e
       );
-      this.props.jumpToMappedLocation(sourceLocation);
+      jumpToMappedLocation(sourceLocation);
     }
   }
 
   toggleConditionalPanel = line => {
-    if (this.props.conditionalPanelLine) {
-      return this.props.closeConditionalPanel();
+    const {
+      conditionalPanelLine,
+      closeConditionalPanel,
+      openConditionalPanel
+    } = this.props;
+
+    if (conditionalPanelLine) {
+      return closeConditionalPanel();
     }
 
-    return this.props.openConditionalPanel(line);
+    return openConditionalPanel(line);
   };
 
   closeConditionalPanel = () => {
@@ -591,18 +592,4 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    openConditionalPanel: line => dispatch(openConditionalPanel(line)),
-    closeConditionalPanel: () => dispatch(closeConditionalPanel()),
-    setContextMenu: (type, event) => dispatch(setContextMenu(type, event)),
-    continueToHere: line => dispatch(continueToHere(line)),
-    jumpToMappedLocation: location => dispatch(jumpToMappedLocation(location)),
-    toggleBreakpoint: line => dispatch(toggleBreakpoint(line)),
-    addOrToggleDisabledBreakpoint: line =>
-      dispatch(addOrToggleDisabledBreakpoint(line)),
-    traverseResults: (rev, editor) => dispatch(traverseResults(rev, editor))
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Editor);
+export default connect(mapStateToProps, bindActionCreators(actions))(Editor);
