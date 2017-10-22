@@ -117,7 +117,8 @@ function findBestMatch(symbols, tokenPos, token) {
     const overlaps =
       expression.location.start.line == line &&
       expression.location.start.column <= column &&
-      expression.location.end.column >= column;
+      expression.location.end.column >= column &&
+      !expression.computed;
 
     if (overlaps) {
       return expression;

@@ -128,7 +128,8 @@ function extractSymbols(source: Source) {
           name: path.node.property.name,
           location: { start, end },
           expressionLocation: path.node.loc,
-          expression: getSnippet(path)
+          expression: getSnippet(path),
+          computed: path.node.computed
         });
       }
 
