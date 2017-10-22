@@ -592,4 +592,6 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, bindActionCreators(actions))(Editor);
+export default connect(mapStateToProps, dispatch =>
+  bindActionCreators(actions, dispatch)
+)(Editor);
