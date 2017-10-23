@@ -17,7 +17,8 @@ export type SymbolDeclaration = {|
   location: BabelLocation,
   expressionLocation?: BabelLocation,
   parameterNames?: string[],
-  identifier?: Object
+  identifier?: Object,
+  computed?: Boolean
 |};
 
 export type FunctionDeclaration = SymbolDeclaration & {|
