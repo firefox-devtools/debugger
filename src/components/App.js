@@ -51,6 +51,8 @@ import SymbolModal from "./SymbolModal";
 
 import GotoLineModal from "./GotoLineModal";
 
+import SourcesModal from "./SourcesModal";
+
 type Props = {
   selectSource: Function,
   selectedSource: SourceRecord,
@@ -63,20 +65,20 @@ type Props = {
   setOrientation: OrientationType => void
 };
 
-class App extends Component {
-  state: {
-    shortcutsModalEnabled: boolean,
-    startPanelSize: number,
-    endPanelSize: number
-  };
+type State = {
+  shortcutsModalEnabled: boolean,
+  startPanelSize: number,
+  endPanelSize: number
+};
 
-  props: Props;
+class App extends Component<Props, State> {
   onLayoutChange: Function;
   getChildContext: Function;
   renderEditorPane: Function;
   renderVerticalLayout: Function;
   toggleSymbolModal: Function;
   toggleGoToLineModal: Function;
+  toggleSourcesModal: Function;
   onEscape: Function;
   onCommandSlash: Function;
 
@@ -92,6 +94,7 @@ class App extends Component {
     this.onLayoutChange = this.onLayoutChange.bind(this);
     this.toggleSymbolModal = this.toggleSymbolModal.bind(this);
     this.toggleGoToLineModal = this.toggleGoToLineModal.bind(this);
+    this.toggleSourcesModal = this.toggleSourcesModal.bind(this);
     this.renderEditorPane = this.renderEditorPane.bind(this);
     this.renderVerticalLayout = this.renderVerticalLayout.bind(this);
     this.onEscape = this.onEscape.bind(this);
@@ -110,6 +113,12 @@ class App extends Component {
       this.toggleSymbolModal
     );
 
+    const searchKeys = [
+      L10N.getStr("sources.search.key2"),
+      L10N.getStr("sources.search.alt.key")
+    ];
+    searchKeys.forEach(key => shortcuts.on(key, this.toggleSourcesModal));
+
     shortcuts.on(L10N.getStr("gotoLineModal.key"), this.toggleGoToLineModal);
 
     shortcuts.on("Escape", this.onEscape);
@@ -122,6 +131,12 @@ class App extends Component {
       L10N.getStr("symbolSearch.search.key2"),
       this.toggleSymbolModal
     );
+
+    const searchKeys = [
+      L10N.getStr("sources.search.key2"),
+      L10N.getStr("sources.search.alt.key")
+    ];
+    searchKeys.forEach(key => shortcuts.off(key, this.toggleSourcesModal));
 
     shortcuts.off(L10N.getStr("gotoLineModal.key"), this.toggleGoToLineModal);
 
@@ -145,7 +160,7 @@ class App extends Component {
     return this.props.orientation === "horizontal";
   }
 
-  toggleSymbolModal(_, e: SyntheticEvent) {
+  toggleSymbolModal(_, e: SyntheticEvent<HTMLElement>) {
     const {
       selectedSource,
       activeSearch,
@@ -167,7 +182,7 @@ class App extends Component {
     setActiveSearch("symbol");
   }
 
-  toggleGoToLineModal(_, e: SyntheticEvent) {
+  toggleGoToLineModal(_, e: SyntheticEvent<HTMLElement>) {
     const {
       selectedSource,
       activeSearch,
@@ -189,11 +204,27 @@ class App extends Component {
     setActiveSearch("line");
   }
 
+  toggleSourcesModal(_, e: SyntheticEvent<HTMLElement>) {
+    const { activeSearch, closeActiveSearch, setActiveSearch } = this.props;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (activeSearch === "source") {
+      closeActiveSearch();
+      return;
+    }
+
+    setActiveSearch("source");
+    return;
+  }
+
   onLayoutChange() {
+    const orientation = verticalLayoutBreakpoint.matches
+      ? "horizontal"
+      : "vertical";
     if (isVisible()) {
-      this.props.setOrientation(
-        verticalLayoutBreakpoint.matches ? "horizontal" : "vertical"
-      );
+      this.props.setOrientation(orientation);
     }
   }
 
@@ -353,6 +384,15 @@ class App extends Component {
     );
   }
 
+  renderSourcesModal() {
+    const { activeSearch } = this.props;
+    if (activeSearch !== "source") {
+      return;
+    }
+
+    return <SourcesModal />;
+  }
+
   render() {
     return (
       <div className="debugger">
@@ -361,6 +401,7 @@ class App extends Component {
           : this.renderVerticalLayout()}
         {this.renderSymbolModal()}
         {this.renderGotoLineModal()}
+        {this.renderSourcesModal()}
         {this.renderShortcutsModal()}
       </div>
     );

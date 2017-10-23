@@ -19,9 +19,7 @@ type Props = {
   setActiveSearch: (?ActiveSearchType) => any
 };
 
-class WelcomeBox extends Component {
-  props: Props;
-
+class WelcomeBox extends Component<Props> {
   renderToggleButton() {
     const { horizontal, endPanelCollapsed, togglePaneCollapse } = this.props;
     if (horizontal) {

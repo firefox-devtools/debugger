@@ -4,6 +4,17 @@ permalink: docs/updates
 
 ### Weekly Updates
 
+### [October 17th](./updates-10-17-2017.md)
+
+* New Go to line Modal, allowing users to go to a specific line in an open file
+* Showing react classes in preview
+* Improvements to the source tree panel including
+  * Setting a root folder
+  * Collapsing all nodes
+* we managed a substantial refactoring of our editor, making it more modular and easy to work with for developers
+* new docs were added regarding triaging and merge conflicts
+
+
 ### [September 26th](./updates-9-26-2017.md)
 
 * UCOSP Students

@@ -6,6 +6,7 @@ import "./ResultList.css";
 
 type ResultListItem = {
   id: string,
+  location: string,
   subtitle: string,
   title: string,
   value: string
@@ -15,18 +16,19 @@ type Props = {
   items: Array<ResultListItem>,
   selected: number,
   selectItem: (
-    event: SyntheticKeyboardEvent,
+    event: SyntheticKeyboardEvent<HTMLElement>,
     item: ResultListItem,
     index: number
   ) => void,
   size: string
 };
 
-export default class ResultList extends Component {
+export default class ResultList extends Component<Props> {
   displayName: "ResultList";
-  props: Props;
 
-  static defaultProps: Object;
+  static defaultProps = {
+    size: "small"
+  };
 
   constructor(props: Props) {
     super(props);
@@ -38,7 +40,7 @@ export default class ResultList extends Component {
     const props = {
       onClick: event => selectItem(event, item, index),
       key: `${item.id}${item.value}${index}`,
-      ref: index,
+      ref: String(index),
       title: item.value,
       className: classnames("result-item", {
         selected: index === selected
@@ -63,7 +65,3 @@ export default class ResultList extends Component {
     );
   }
 }
-
-ResultList.defaultProps = {
-  size: "small"
-};

@@ -29,29 +29,29 @@ function FrameLocation({ frame }: FrameLocationProps) {
 
 FrameLocation.displayName = "FrameLocation";
 
-export default class Group extends Component {
-  state: {
-    expanded: boolean
-  };
+type Props = {
+  group: LocalFrame[],
+  selectedFrame: LocalFrame,
+  selectFrame: Function,
+  toggleFrameworkGrouping: Function,
+  copyStackTrace: Function,
+  toggleBlackBox: Function,
+  frameworkGroupingOn: boolean
+};
 
+type State = {
+  expanded: boolean
+};
+
+export default class Group extends Component<Props, State> {
   toggleFrames: Function;
-
-  props: {
-    group: LocalFrame[],
-    selectedFrame: LocalFrame,
-    selectFrame: Function,
-    toggleFrameworkGrouping: Function,
-    copyStackTrace: Function,
-    toggleBlackBox: Function,
-    frameworkGroupingOn: boolean
-  };
 
   constructor(...args: any[]) {
     super(...args);
     this.state = { expanded: false };
   }
 
-  onContextMenu(event: SyntheticKeyboardEvent) {
+  onContextMenu(event: SyntheticKeyboardEvent<HTMLElement>) {
     const {
       group,
       copyStackTrace,

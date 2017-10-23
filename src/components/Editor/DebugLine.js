@@ -6,20 +6,19 @@ import { getDocument } from "../../utils/editor/source-documents";
 import { connect } from "react-redux";
 import { getSelectedLocation, getSelectedFrame } from "../../selectors";
 
-type props = {
+type Props = {
   editor: Object,
   selectedFrame: Object,
   selectedLocation: Object
 };
 
-export class DebugLine extends Component {
-  props: props;
-  state: {
-    debugExpression: {
-      clear: Function
-    }
-  };
+type State = {
+  debugExpression: {
+    clear: Function
+  }
+};
 
+export class DebugLine extends Component<Props, State> {
   constructor() {
     super();
     this.state = { debugExpression: { clear: () => {} } };
@@ -33,7 +32,7 @@ export class DebugLine extends Component {
     );
   }
 
-  componentWillReceiveProps(nextProps: props) {
+  componentWillReceiveProps(nextProps: Props) {
     this.clearDebugLine(this.props.selectedFrame, this.props.editor);
     this.setDebugLine(
       nextProps.selectedFrame,
@@ -63,6 +62,11 @@ export class DebugLine extends Component {
     }
 
     doc.addLineClass(line, "line", "new-debug-line");
+    // make sure the line is visible
+    if (editor && editor.alignLine) {
+      editor.alignLine(line);
+    }
+
     const debugExpression = markText(editor, "debug-expression", {
       start: { line, column },
       end: { line, column: null }

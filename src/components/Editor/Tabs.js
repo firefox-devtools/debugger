@@ -73,13 +73,33 @@ function copyToTheClipboard(string) {
   document.removeEventListener("copy", doCopy);
 }
 
+type Props = {
+  sourceTabs: SourcesList,
+  searchTabs: List<ActiveSearchType>,
+  selectedSource: SourceRecord,
+  selectSource: (string, ?Object) => void,
+  moveTab: (string, number) => void,
+  closeTab: string => void,
+  closeTabs: (List<string>) => void,
+  setActiveSearch: (?ActiveSearchType) => void,
+  closeActiveSearch: () => void,
+  activeSearch: string,
+  togglePrettyPrint: string => void,
+  togglePaneCollapse: () => void,
+  toggleActiveSearch: (?string) => void,
+  showSource: string => void,
+  horizontal: boolean,
+  startPanelCollapsed: boolean,
+  endPanelCollapsed: boolean,
+  searchOn: boolean
+};
+
 type State = {
   dropdownShown: boolean,
   hiddenSourceTabs: SourcesList
 };
 
-class SourceTabs extends PureComponent {
-  state: State;
+class SourceTabs extends PureComponent<Props, State> {
   onTabContextMenu: Function;
   showContextMenu: Function;
   updateHiddenSourceTabs: Function;
@@ -92,28 +112,6 @@ class SourceTabs extends PureComponent {
   renderDropDown: Function;
   renderStartPanelToggleButton: Function;
   renderEndPanelToggleButton: Function;
-
-  props: {
-    sourceTabs: SourcesList,
-    searchTabs: List<ActiveSearchType>,
-    selectedSource: SourceRecord,
-    selectSource: (string, ?Object) => void,
-    moveTab: (string, number) => void,
-    closeTab: string => void,
-    closeTabs: (List<string>) => void,
-    setActiveSearch: (?ActiveSearchType) => void,
-    closeActiveSearch: () => void,
-    activeSearch: string,
-    togglePrettyPrint: string => void,
-    togglePaneCollapse: () => void,
-    toggleActiveSearch: (?string) => void,
-    showSource: string => void,
-    horizontal: boolean,
-    startPanelCollapsed: boolean,
-    endPanelCollapsed: boolean,
-    searchOn: boolean
-  };
-
   onResize: Function;
 
   constructor(props) {

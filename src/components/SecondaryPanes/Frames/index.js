@@ -38,11 +38,21 @@ import "./Frames.css";
 
 const NUM_FRAMES_SHOWN = 7;
 
-class Frames extends Component {
-  state: {
-    showAllFrames: boolean
-  };
+type Props = {
+  frames: Array<Frame>,
+  frameworkGroupingOn: boolean,
+  toggleFrameworkGrouping: Function,
+  selectedFrame: Object,
+  selectFrame: Function,
+  toggleBlackBox: Function,
+  pause: Object
+};
 
+type State = {
+  showAllFrames: boolean
+};
+
+class Frames extends Component<Props, State> {
   renderFrames: Function;
   toggleFramesDisplay: Function;
   truncateFrames: Function;
@@ -50,8 +60,8 @@ class Frames extends Component {
   toggleFrameworkGrouping: Function;
   renderToggleButton: Function;
 
-  constructor(...args) {
-    super(...args);
+  constructor(props) {
+    super(props);
 
     this.state = {
       showAllFrames: false
@@ -131,7 +141,7 @@ class Frames extends Component {
                 selectFrame={selectFrame}
                 selectedFrame={selectedFrame}
                 toggleBlackBox={toggleBlackBox}
-                key={frameOrGroup.id}
+                key={String(frameOrGroup.id)}
               />
             ) : (
               <Group

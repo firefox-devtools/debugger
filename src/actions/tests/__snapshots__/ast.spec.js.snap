@@ -106,6 +106,7 @@ Object {
 exports[`ast setSymbols when the source is loaded should be able to set symbols 1`] = `
 Object {
   "callExpressions": Array [],
+  "classes": Array [],
   "comments": Array [],
   "functions": Array [
     Object {
@@ -173,6 +174,7 @@ Object {
       "name": "boo",
     },
   ],
+  "imports": Array [],
   "memberExpressions": Array [],
   "objectProperties": Array [],
   "variables": Array [

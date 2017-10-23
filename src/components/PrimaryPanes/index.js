@@ -14,9 +14,6 @@ import Outline from "./Outline";
 import SourcesTree from "./SourcesTree";
 
 import type { SourcesMap } from "../../reducers/types";
-type SourcesState = {
-  selectedPane: string
-};
 
 type Props = {
   sources: SourcesMap,
@@ -27,14 +24,16 @@ type Props = {
   sourceSearchOn: boolean
 };
 
-class PrimaryPanes extends Component {
+type State = {
+  selectedPane: string
+};
+
+class PrimaryPanes extends Component<Props, State> {
   renderShortcut: Function;
   selectedPane: String;
   showPane: Function;
   renderTabs: Function;
   renderChildren: Function;
-  state: SourcesState;
-  props: Props;
 
   constructor(props: Props) {
     super(props);

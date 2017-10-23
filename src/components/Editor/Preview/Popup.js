@@ -39,10 +39,9 @@ function isReactComponent(roots) {
   return roots.some(root => root.name === "_reactInternalInstance");
 }
 
-export class Popup extends Component {
+export class Popup extends Component<Props> {
   marker: any;
   pos: any;
-  props: Props;
 
   componentDidMount() {
     const {

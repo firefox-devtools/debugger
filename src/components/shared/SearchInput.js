@@ -6,7 +6,7 @@ import CloseButton from "./Button/Close";
 import "./SearchInput.css";
 
 const arrowBtn = (onClick, type, className, tooltip) => {
-  var props = {
+  const props = {
     onClick,
     type,
     className,
@@ -40,7 +40,10 @@ class SearchInput extends Component {
     handlePrev: () => void
   };
 
-  static defaultProps: Object;
+  static defaultProps = {
+    size: "",
+    showErrorEmoji: true
+  };
 
   componentDidMount() {
     this.$input.focus();
@@ -137,10 +140,5 @@ class SearchInput extends Component {
     );
   }
 }
-
-SearchInput.defaultProps = {
-  size: "",
-  showErrorEmoji: true
-};
 
 export default SearchInput;

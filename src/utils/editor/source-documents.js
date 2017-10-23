@@ -4,8 +4,7 @@ import { getMode } from "../source";
 
 import type { Source } from "debugger-html";
 import { isWasm, getWasmLineNumberFormatter, renderWasmText } from "../wasm";
-import { SourceEditorUtils } from "devtools-source-editor";
-const { resizeBreakpointGutter } = SourceEditorUtils;
+import { resizeBreakpointGutter, resizeToggleButton } from "../ui";
 
 let sourceDocs = {};
 
@@ -29,6 +28,7 @@ function resetLineNumberFormat(editor: Object) {
   const cm = editor.codeMirror;
   cm.setOption("lineNumberFormatter", number => number);
   resizeBreakpointGutter(cm);
+  resizeToggleButton(cm);
 }
 
 function updateLineNumberFormat(editor: Object, sourceId: string) {
@@ -39,6 +39,7 @@ function updateLineNumberFormat(editor: Object, sourceId: string) {
   const lineNumberFormatter = getWasmLineNumberFormatter(sourceId);
   cm.setOption("lineNumberFormatter", lineNumberFormatter);
   resizeBreakpointGutter(cm);
+  resizeToggleButton(cm);
 }
 
 function updateDocument(editor: Object, sourceId: string) {
