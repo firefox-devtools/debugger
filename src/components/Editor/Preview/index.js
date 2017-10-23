@@ -39,9 +39,9 @@ class Preview extends PureComponent {
     const self = this;
     self.onScroll = this.onScroll.bind(this);
     self.onMouseOver = debounce(this.onMouseOver, 40);
-    self._onMouseOver = e => this.onMouseOver(e);
-    self._onMouseUp = e => this.onMouseUp(e);
-    self._onMouseDown = e => this.onMouseDown(e);
+    self.onMouseOver = this.onMouseOver.bind(this);
+    self.onMouseUp = this.onMouseUp.bind(this);
+    self.onMouseDown = this.onMouseDown.bind(this);
   }
 
   componentDidMount() {
@@ -49,18 +49,18 @@ class Preview extends PureComponent {
     const codeMirrorWrapper = codeMirror.getWrapperElement();
 
     codeMirror.on("scroll", this.onScroll);
-    codeMirrorWrapper.addEventListener("mouseover", this._onMouseOver);
-    codeMirrorWrapper.addEventListener("mouseup", this._onMouseUp);
-    codeMirrorWrapper.addEventListener("mousedown", this._onMouseDown);
+    codeMirrorWrapper.addEventListener("mouseover", this.onMouseOver);
+    codeMirrorWrapper.addEventListener("mouseup", this.onMouseUp);
+    codeMirrorWrapper.addEventListener("mousedown", this.onMouseDown);
   }
 
   componentWillUnmount() {
     const codeMirror = this.props.editor.codeMirror;
     const codeMirrorWrapper = codeMirror.getWrapperElement();
+    codeMirrorWrapper.removeEventListener("mouseover", this.onMouseOver);
+    codeMirrorWrapper.removeEventListener("mouseup", this.onMouseUp);
+    codeMirrorWrapper.removeEventListener("mousedown", this.onMouseDown);
 
-    codeMirrorWrapper.removeEventListener("mouseover", this._onMouseOver);
-    codeMirrorWrapper.removeEventListener("mouseup", this._onMouseUp);
-    codeMirrorWrapper.removeEventListener("mousedown", this._onMouseDown);
     codeMirror.off("scroll", this.onScroll);
   }
 
