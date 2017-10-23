@@ -23,6 +23,10 @@ type State = {
   }
 };
 
+type TextClasses = {
+  markTextClass: string,
+  lineClass: string
+};
 export class DebugLine extends Component<Props, State> {
   constructor() {
     super();
@@ -75,22 +79,14 @@ export class DebugLine extends Component<Props, State> {
       editor.alignLine(line);
     }
 
-    if (pauseInfo && pauseInfo.why.type === "exception") {
-      doc.addLineClass(line, "line", "new-debug-line-error");
-      const debugExpression = markText(editor, "debug-expression-error", {
-        start: { line, column },
-        end: { line, column: null }
-      });
-      this.setState({ debugExpression });
-    } else {
-      doc.addLineClass(line, "line", "new-debug-line");
+    const { markTextClass, lineClass } = this.getTextClasses(pauseInfo);
+    doc.addLineClass(line, "line", lineClass);
 
-      const debugExpression = markText(editor, "debug-expression", {
-        start: { line, column },
-        end: { line, column: null }
-      });
-      this.setState({ debugExpression });
-    }
+    const debugExpression = markText(editor, markTextClass, {
+      start: { line, column },
+      end: { line, column: null }
+    });
+    this.setState({ debugExpression });
   }
 
   clearDebugLine(selectedFrame: Object, editor: Object) {
@@ -111,6 +107,16 @@ export class DebugLine extends Component<Props, State> {
 
     doc.removeLineClass(editorLine, "line", "new-debug-line");
     doc.removeLineClass(editorLine, "line", "new-debug-line-error");
+  }
+
+  getTextClasses(pauseInfo: Object): TextClasses {
+    if (pauseInfo && pauseInfo.why.type === "exception") {
+      return {
+        markTextClass: "debug-expression-error",
+        lineClass: "new-debug-line-error"
+      };
+    }
+    return { markTextClass: "debug-expression", lineClass: "new-debug-line" };
   }
 
   render() {
