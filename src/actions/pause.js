@@ -3,6 +3,7 @@
 import { selectSource, ensureParserHasSourceText } from "./sources";
 import { PROMISE } from "../utils/redux/middleware/promise";
 
+import { togglePaneCollapse } from "./ui";
 import {
   getPause,
   pausedInEval,
@@ -137,6 +138,8 @@ export function paused(pauseInfo: Pause) {
 
     const { line, column } = frame.location;
     dispatch(selectSource(frame.location.sourceId, { line, column }));
+
+    dispatch(togglePaneCollapse("end", false));
   };
 }
 
