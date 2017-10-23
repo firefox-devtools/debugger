@@ -18,6 +18,8 @@ import {
   getOutOfScopeLocations
 } from "../workers/parser";
 
+import { findBestMatchExpression } from "../utils/ast";
+
 import { isGeneratedId } from "devtools-source-map";
 
 import type { SourceId } from "debugger-html";
@@ -110,24 +112,6 @@ export function clearPreview() {
   };
 }
 
-function findBestMatch(symbols, tokenPos, token) {
-  const { memberExpressions, identifiers } = symbols;
-  const { line, column } = tokenPos;
-  return identifiers.concat(memberExpressions).reduce((found, expression) => {
-    const overlaps =
-      expression.location.start.line == line &&
-      expression.location.start.column <= column &&
-      expression.location.end.column >= column &&
-      !expression.computed;
-
-    if (overlaps) {
-      return expression;
-    }
-
-    return found;
-  }, {});
-}
-
 export function setPreview(
   token: string,
   tokenPos: AstLocation,
@@ -145,7 +129,7 @@ export function setPreview(
         const source = getSelectedSource(getState());
         const _symbols = await getSymbols(source.toJS());
 
-        const found = findBestMatch(_symbols, tokenPos, token);
+        const found = findBestMatchExpression(_symbols, tokenPos, token);
         if (!found) {
           return;
         }
