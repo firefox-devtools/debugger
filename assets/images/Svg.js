@@ -54,6 +54,7 @@ const svg = {
   pug: require("./pug.svg"),
   extjs: require("./sencha-extjs.svg"),
   marko: require("./marko.svg"),
+  nextjs: require("./nextjs.svg"),
   showSources: require("./showSources.svg"),
   showOutline: require("./showOutline.svg"),
   nuxtjs: require("./nuxtjs.svg")

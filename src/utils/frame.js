@@ -101,6 +101,10 @@ const libraryMap = [
   {
     label: "Aframe",
     pattern: /aframe/i
+  },
+  {
+    label: "NextJS",
+    pattern: /[\._]next/i
   }
 ];
 
