@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`find the best expression for the token should find the expression for the property 1`] = `
+Object {
+  "computed": false,
+  "expression": "obj.b",
+  "expressionLocation": SourceLocation {
+    "end": Position {
+      "column": 17,
+      "line": 6,
+    },
+    "start": Position {
+      "column": 12,
+      "line": 6,
+    },
+  },
+  "location": Object {
+    "end": Position {
+      "column": 17,
+      "line": 6,
+    },
+    "start": Position {
+      "column": 16,
+      "line": 6,
+    },
+  },
+  "name": "b",
+}
+`;
+
+exports[`find the best expression for the token should find the identifier 1`] = `
+Object {
+  "expression": "key",
+  "location": Object {
+    "end": Position {
+      "column": 14,
+      "line": 1,
+    },
+    "start": Position {
+      "column": 11,
+      "line": 1,
+    },
+  },
+  "name": "key",
+}
+`;
+
+exports[`find the best expression for the token should find the identifier for computed member expressions 1`] = `
+Object {
+  "expression": "key",
+  "location": Object {
+    "end": Position {
+      "column": 9,
+      "line": 5,
+    },
+    "start": Position {
+      "column": 6,
+      "line": 5,
+    },
+  },
+  "name": "key",
+}
+`;
