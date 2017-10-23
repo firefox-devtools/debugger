@@ -33,11 +33,11 @@ Object {
   "expression": "key",
   "location": Object {
     "end": Position {
-      "column": 14,
+      "column": 13,
       "line": 1,
     },
     "start": Position {
-      "column": 11,
+      "column": 10,
       "line": 1,
     },
   },
