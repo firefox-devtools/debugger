@@ -109,9 +109,6 @@ export class DebugLine extends Component<Props, State> {
       return;
     }
 
-    // if (pauseInfo && pauseInfo.why.type === "exception") {
-    // }
-
     doc.removeLineClass(editorLine, "line", "new-debug-line");
     doc.removeLineClass(editorLine, "line", "new-debug-line-error");
   }
