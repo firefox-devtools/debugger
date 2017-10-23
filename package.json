@@ -34,8 +34,8 @@
     "mochid": "yarn mochi -- --jsdebugger --",
     "mochir": "yarn mochi -- --repeat 10 --",
     "mochih": "yarn mochi -- --setenv MOZ_HEADLESS=1 --",
-    "test": "jest",
-    "test:watch": "jest --watch",
+    "test": "jest --no-colors",
+    "test:watch": "jest --no-colors --watch",
     "test-coverage": "yarn test -- --coverage",
     "test-all": "yarn test; yarn lint; yarn flow",
     "firefox":
