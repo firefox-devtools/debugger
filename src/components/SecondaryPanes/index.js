@@ -103,7 +103,7 @@ class SecondaryPanes extends Component {
   }
 
   renderBreakpointsDropdown() {
-    return <Dropdown panel={ Panel }/>;
+    return <Dropdown />;
   }
 
   watchExpressionHeaderButtons() {

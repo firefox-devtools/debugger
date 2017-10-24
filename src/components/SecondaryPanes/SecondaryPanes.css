@@ -39,14 +39,10 @@
 
 .secondary-panes .breakpoints-buttons {
   display: flex;
- }
+}
  
- .breakpoints-buttons .plus {
-   color: ;
- }
- 
- .accordion .breakpoints-buttons .plus svg {
+.accordion .breakpoints-buttons .plus svg {
   width: 12px;
   margin-top: 3px;
   fill: var(--theme-comment-alt);
- }
+}
