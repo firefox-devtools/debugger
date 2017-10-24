@@ -1,12 +1,15 @@
 .arrow,
-.folder,
-.domain,
-.file,
 .worker,
 .refresh,
 .shortcut,
 .add-button {
   fill: var(--theme-splitter-color);
+}
+
+.file,
+.folder,
+.domain {
+  background-color: var(--theme-splitter-color);
 }
 
 .worker,
@@ -24,8 +27,6 @@
   top: 1px;
 }
 
-.domain svg,
-.folder svg,
 .worker svg,
 .refresh svg,
 .shortcut svg,
@@ -33,13 +34,34 @@
   width: 15px;
 }
 
-.file svg {
-  width: 13px;
+img.domain,
+img.folder {
+  width: 15px;
+  height: 15px;
 }
 
-.file svg,
-.domain svg,
-.folder svg,
+img.domain {
+  mask: url(/images/domain.svg) no-repeat;
+}
+
+img.folder {
+  mask: url(/images/folder.svg) no-repeat;
+}
+
+img.file {
+  mask: url(/images/file.svg) no-repeat;
+  width: 13px;
+  height: 13px;
+}
+
+img.domain,
+img.folder,
+img.file {
+    mask-size: 100%;
+    margin-inline-end: 5px;
+    display: inline-block;
+}
+
 .refresh svg,
 .shortcut svg,
 .worker svg {

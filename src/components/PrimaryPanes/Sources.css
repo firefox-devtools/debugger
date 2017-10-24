@@ -131,18 +131,19 @@
   fill: var(--theme-body-color);
 }
 
-.sources-list .managed-tree .tree .node .blackBox svg {
+.sources-list .managed-tree .tree .node img.blackBox {
+  mask: url(/images/blackBox.svg) no-repeat;
+  mask-size: 100%;
+  background-color: var(--theme-highlight-blue);
   width: 13px;
-  position: relative;
-  top: 2px;
+  height: 13px;
+  display: inline-block;
   margin-inline-end: 5px;
-}
-.sources-list .managed-tree .tree .node .blackBox path {
-  fill: var(--theme-textbox-box-shadow);
+  margin-bottom: -2px;
 }
 
-.sources-list .managed-tree .tree .node.focused .blackBox path {
-  fill: white;
+.sources-list .managed-tree .tree .node.focused img.blackBox {
+  background-color: white;
 }
 
 .theme-dark
@@ -150,15 +151,14 @@
 .managed-tree
 .tree
 .node:not(.focused)
-.blackBox
-svg {
-  fill: var(--theme-content-color3);
+img.blackBox {
+  background-color: var(--theme-content-color3);
 }
 
-.theme-dark .sources-list .managed-tree .tree .node .blackBox circle {
-  fill: var(--theme-body-color);
+.theme-dark .sources-list .managed-tree .tree .node img.blackBox {
+  background-color: var(--theme-body-color);
 }
 
-.theme-dark .sources-list .managed-tree .tree .node.focused .blackBox circle {
-  fill: white;
+.theme-dark .sources-list .managed-tree .tree .node.focused img.blackBox {
+  background-color: white;
 }
