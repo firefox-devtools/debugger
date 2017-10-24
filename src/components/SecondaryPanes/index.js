@@ -102,8 +102,19 @@ class SecondaryPanes extends Component {
      );
   }
 
+   
+
   renderBreakpointsDropdown() {
-    return <Dropdown />;
+    
+    const Panel = (
+       <ul>
+         <li>Pause on Next Statement</li>
+         <li>Pause on Uncaught Exceptions</li>
+         <li>Pause on Exceptions</li>
+       </ul>
+     );
+
+    return <Dropdown panel={ Panel }/>;
   }
 
   watchExpressionHeaderButtons() {
