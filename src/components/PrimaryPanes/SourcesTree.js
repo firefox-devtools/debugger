@@ -218,7 +218,7 @@ class SourcesTree extends Component {
     if (depth === 0) {
       return <Svg name="domain" 
        className={classnames({
-          debuggee: (this.props.debuggeeUrl != null && item.name != null && this.props.debuggeeUrl.indexOf(item.name) !== -1) ? true : false
+          debuggee: this.props.debuggeeUrl != null && item.name != null && this.props.debuggeeUrl.includes(item.name)
       })}/>;
     }
 
