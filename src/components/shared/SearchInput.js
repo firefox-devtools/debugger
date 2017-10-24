@@ -28,6 +28,7 @@ class SearchInput extends Component {
     count: number,
     placeholder: string,
     summaryMsg: string,
+    summaryId: string,
     onChange: () => void,
     handleClose: () => void,
     showErrorEmoji: boolean,
@@ -102,6 +103,7 @@ class SearchInput extends Component {
       query,
       placeholder,
       summaryMsg,
+      summaryId,
       onChange,
       onKeyDown,
       onKeyUp,
@@ -123,6 +125,7 @@ class SearchInput extends Component {
       placeholder,
       value: query,
       spellCheck: false,
+      "aria-describedby": summaryId,
       ref: c => (this.$input = c)
     };
 
@@ -130,7 +133,9 @@ class SearchInput extends Component {
       <div className={classnames("search-field", size)}>
         {this.renderSvg()}
         <input {...inputProps} />
-        <div className="summary">{summaryMsg || ""}</div>
+        <div className="summary" id={summaryId}>
+          {summaryMsg || ""}
+        </div>
         {this.renderNav()}
         <CloseButton handleClick={handleClose} buttonClass={size} />
       </div>
@@ -140,7 +145,8 @@ class SearchInput extends Component {
 
 SearchInput.defaultProps = {
   size: "",
-  showErrorEmoji: true
+  showErrorEmoji: true,
+  summaryId: "summary"
 };
 
 export default SearchInput;

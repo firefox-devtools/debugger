@@ -304,6 +304,7 @@ class SearchBar extends Component {
           count={count}
           placeholder={L10N.getStr("sourceSearch.search.placeholder")}
           summaryMsg={this.buildSummaryMsg()}
+          summaryId="summary"
           onChange={this.onChange}
           onKeyUp={this.onKeyUp}
           handleNext={e => this.traverseResults(e, false)}

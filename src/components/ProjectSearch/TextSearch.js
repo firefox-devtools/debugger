@@ -182,6 +182,7 @@ export default class TextSearch extends Component {
         placeholder={L10N.getStr("projectTextSearch.placeholder")}
         size="big"
         summaryMsg={summaryMsg}
+        summaryId="summary"
         onChange={e => this.inputOnChange(e)}
         onFocus={() => (this.inputFocused = true)}
         onBlur={() => (this.inputFocused = false)}
