@@ -4,13 +4,20 @@ import type { ThunkArgs } from "./types";
 import type {
   ActiveSearchType,
   SymbolSearchType,
-  OrientationType
+  OrientationType,
+  SelectedPrimaryPaneTabType
 } from "../reducers/ui";
 import { clearSourceSearchQuery } from "./source-search";
 
 export function setContextMenu(type: string, event: any) {
   return ({ dispatch }: ThunkArgs) => {
     dispatch({ type: "SET_CONTEXT_MENU", contextMenu: { type, event } });
+  };
+}
+
+export function setPrimaryPaneTab(tabName: SelectedPrimaryPaneTabType) {
+  return ({ dispatch }: ThunkArgs) => {
+    dispatch({ type: "SET_PRIMARY_PANE_TAB", tabName });
   };
 }
 
@@ -65,6 +72,7 @@ export function showSource(sourceId: string) {
   return ({ dispatch, getState }: ThunkArgs) => {
     const source = getSource(getState(), sourceId);
 
+    dispatch(setPrimaryPaneTab("sources"));
     dispatch({
       type: "SHOW_SOURCE",
       sourceUrl: ""

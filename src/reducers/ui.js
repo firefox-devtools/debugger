@@ -24,7 +24,10 @@ export type ActiveSearchType =
 
 export type OrientationType = "horizontal" | "vertical";
 
+export type SelectedPrimaryPaneTabType = "sources" | "outline";
+
 export type UIState = {
+  selectedPrimaryPaneTab: selectedPrimaryPaneTabType,
   activeSearch: ?ActiveSearchType,
   contextMenu: any,
   symbolSearchType: SymbolSearchType,
@@ -44,6 +47,7 @@ export type UIState = {
 
 export const State = makeRecord(
   ({
+    selectedPrimaryPaneTab: "sources",
     activeSearch: null,
     contextMenu: {},
     symbolSearchType: "functions",
@@ -121,6 +125,9 @@ function update(
       prefs.projectDirectoryRoot = action.url;
       return state.set("projectDirectoryRoot", action.url);
 
+    case "SET_PRIMARY_PANE_TAB":
+      return state.set("selectedPrimaryPaneTab", action.tabName);
+
     default: {
       return state;
     }
@@ -130,6 +137,12 @@ function update(
 // NOTE: we'd like to have the app state fully typed
 // https://github.com/devtools-html/debugger.html/blob/master/src/reducers/sources.js#L179-L185
 type OuterState = { ui: Record<UIState> };
+
+export function getSelectedPrimaryPaneTab(
+  state: OuterState
+): selectedPrimaryPaneTabType {
+  return state.ui.get("selectedPrimaryPaneTab");
+}
 
 export function getActiveSearch(state: OuterState): ActiveSearchType {
   return state.ui.get("activeSearch");
