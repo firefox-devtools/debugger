@@ -57,9 +57,9 @@ img.file {
 img.domain,
 img.folder,
 img.file {
-    mask-size: 100%;
-    margin-inline-end: 5px;
-    display: inline-block;
+  mask-size: 100%;
+  margin-inline-end: 5px;
+  display: inline-block;
 }
 
 .refresh svg,
