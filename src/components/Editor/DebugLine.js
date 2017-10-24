@@ -4,12 +4,17 @@ import { markText, toEditorPosition } from "../../utils/editor";
 import { getDocument } from "../../utils/editor/source-documents";
 
 import { connect } from "react-redux";
-import { getSelectedLocation, getSelectedFrame } from "../../selectors";
+import {
+  getSelectedLocation,
+  getSelectedFrame,
+  getPause
+} from "../../selectors";
 
 type Props = {
   editor: Object,
   selectedFrame: Object,
-  selectedLocation: Object
+  selectedLocation: Object,
+  pauseInfo: Object
 };
 
 type State = {
@@ -18,6 +23,10 @@ type State = {
   }
 };
 
+type TextClasses = {
+  markTextClass: string,
+  lineClass: string
+};
 export class DebugLine extends Component<Props, State> {
   constructor() {
     super();
@@ -26,6 +35,7 @@ export class DebugLine extends Component<Props, State> {
 
   componentDidMount() {
     this.setDebugLine(
+      this.props.pauseInfo,
       this.props.selectedFrame,
       this.props.selectedLocation,
       this.props.editor
@@ -35,6 +45,7 @@ export class DebugLine extends Component<Props, State> {
   componentWillReceiveProps(nextProps: Props) {
     this.clearDebugLine(this.props.selectedFrame, this.props.editor);
     this.setDebugLine(
+      nextProps.pauseInfo,
       nextProps.selectedFrame,
       nextProps.selectedLocation,
       nextProps.editor
@@ -46,6 +57,7 @@ export class DebugLine extends Component<Props, State> {
   }
 
   setDebugLine(
+    pauseInfo: Object,
     selectedFrame: Object,
     selectedLocation: Object,
     editor: Object
@@ -53,21 +65,24 @@ export class DebugLine extends Component<Props, State> {
     if (!selectedFrame) {
       return;
     }
-    const { location, location: { sourceId } } = selectedFrame;
-    const { line, column } = toEditorPosition(sourceId, location);
 
+    const { location, location: { sourceId } } = selectedFrame;
     const doc = getDocument(sourceId);
     if (!doc) {
       return;
     }
 
-    doc.addLineClass(line, "line", "new-debug-line");
+    const { line, column } = toEditorPosition(sourceId, location);
+
     // make sure the line is visible
     if (editor && editor.alignLine) {
       editor.alignLine(line);
     }
 
-    const debugExpression = markText(editor, "debug-expression", {
+    const { markTextClass, lineClass } = this.getTextClasses(pauseInfo);
+    doc.addLineClass(line, "line", lineClass);
+
+    const debugExpression = markText(editor, markTextClass, {
       start: { line, column },
       end: { line, column: null }
     });
@@ -91,6 +106,17 @@ export class DebugLine extends Component<Props, State> {
     }
 
     doc.removeLineClass(editorLine, "line", "new-debug-line");
+    doc.removeLineClass(editorLine, "line", "new-debug-line-error");
+  }
+
+  getTextClasses(pauseInfo: Object): TextClasses {
+    if (pauseInfo && pauseInfo.why.type === "exception") {
+      return {
+        markTextClass: "debug-expression-error",
+        lineClass: "new-debug-line-error"
+      };
+    }
+    return { markTextClass: "debug-expression", lineClass: "new-debug-line" };
   }
 
   render() {
@@ -100,5 +126,6 @@ export class DebugLine extends Component<Props, State> {
 
 export default connect(state => ({
   selectedLocation: getSelectedLocation(state),
-  selectedFrame: getSelectedFrame(state)
+  selectedFrame: getSelectedFrame(state),
+  pauseInfo: getPause(state)
 }))(DebugLine);
