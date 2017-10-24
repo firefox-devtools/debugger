@@ -17,7 +17,8 @@ export type SymbolDeclaration = {|
   location: BabelLocation,
   expressionLocation?: BabelLocation,
   parameterNames?: string[],
-  identifier?: Object
+  identifier?: Object,
+  computed?: Boolean
 |};
 
 export type FunctionDeclaration = SymbolDeclaration & {|
@@ -128,7 +129,8 @@ function extractSymbols(source: Source) {
           name: path.node.property.name,
           location: { start, end },
           expressionLocation: path.node.loc,
-          expression: getSnippet(path)
+          expression: getSnippet(path),
+          computed: path.node.computed
         });
       }
 
