@@ -28,8 +28,8 @@
  */
 .editor-wrapper {
   position: absolute;
-  height: calc(100% - 31px);
-  width: calc(100% - 1.5px);
+  height: calc(100% - 29px);
+  width: calc(100% - 1px);
   top: 29px;
   left: 0px;
   --editor-footer-height: 24px;
