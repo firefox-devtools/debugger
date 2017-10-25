@@ -9,7 +9,8 @@ import {
   getPreview,
   getSelectedSource,
   getInScopeLines,
-  isSelectedFrameVisible
+  isSelectedFrameVisible,
+  getOutOfScopeLocations
 } from "../../../selectors";
 import actions from "../../../actions";
 import { updatePreview, toEditorRange } from "../../../utils/editor";
@@ -112,6 +113,7 @@ export default connect(
     preview: getPreview(state),
     selectedSource: getSelectedSource(state),
     linesInScope: getInScopeLines(state),
+    outOfScopeLocations: getOutOfScopeLocations(state),
     selectedFrameVisible: isSelectedFrameVisible(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
