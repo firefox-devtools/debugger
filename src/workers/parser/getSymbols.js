@@ -41,6 +41,14 @@ function getFunctionParameterNames(path: NodePath): string[] {
 
 function getVariableNames(path: NodePath): SymbolDeclaration[] {
   if (t.isObjectProperty(path) && !isFunction(path.node.value)) {
+    if (path.node.key.type === "StringLiteral") {
+      return [
+        {
+          name: path.node.key.value,
+          location: path.node.loc
+        }
+      ];
+    }
     return [
       {
         name: path.node.key.name,

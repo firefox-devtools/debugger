@@ -273,19 +273,6 @@ class SearchBar extends Component<Props, State> {
     );
   };
 
-  renderSearchType() {
-    return (
-      <div className="search-type-toggles">
-        <span
-          className="search-type-name"
-          onClick={() => this.props.setActiveSearch("symbol")}
-        >
-          {L10N.getStr("symbolSearch.search.functionsPlaceholder")}
-        </span>
-      </div>
-    );
-  }
-
   render() {
     const { searchResults: { count }, searchOn } = this.props;
 
@@ -306,10 +293,7 @@ class SearchBar extends Component<Props, State> {
           handlePrev={e => this.traverseResults(e, true)}
           handleClose={this.closeSearch}
         />
-        <div className="search-bottom-bar">
-          {this.renderSearchType()}
-          {this.renderSearchModifiers()}
-        </div>
+        <div className="search-bottom-bar">{this.renderSearchModifiers()}</div>
       </div>
     );
   }
