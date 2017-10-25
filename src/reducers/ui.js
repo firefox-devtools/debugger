@@ -20,7 +20,6 @@ export type OrientationType = "horizontal" | "vertical";
 
 export type UIState = {
   activeSearch: ?ActiveSearchType,
-  quickOpenEnabled: boolean,
   contextMenu: any,
   shownSource: string,
   startPanelCollapsed: boolean,
@@ -39,7 +38,6 @@ export type UIState = {
 export const State = makeRecord(
   ({
     activeSearch: null,
-    quickOpenEnabled: false,
     contextMenu: {},
     shownSource: "",
     projectDirectoryRoot: "",
@@ -60,12 +58,6 @@ function update(
     case "TOGGLE_ACTIVE_SEARCH": {
       return state.set("activeSearch", action.value);
     }
-
-    case "OPEN_QUICK_OPEN":
-      return state.set("quickOpenEnabled", true);
-
-    case "CLOSE_QUICK_OPEN":
-      return state.set("quickOpenEnabled", false);
 
     case "TOGGLE_FRAMEWORK_GROUPING": {
       prefs.frameworkGroupingOn = action.value;
@@ -129,10 +121,6 @@ type OuterState = { ui: Record<UIState> };
 
 export function getActiveSearch(state: OuterState): ActiveSearchType {
   return state.ui.get("activeSearch");
-}
-
-export function getQuickOpenEnabled(state: OuterState): boolean {
-  return state.ui.get("quickOpenEnabled");
 }
 
 export function getContextMenu(state: OuterState): any {

@@ -15,7 +15,11 @@ import {
   getSymbols
 } from "../selectors";
 import { scrollList } from "../utils/result-list";
-import { formatSymbols, formatSources } from "../utils/quick-open";
+import {
+  formatSymbols,
+  formatSources,
+  parseLineColumn
+} from "../utils/quick-open";
 import Modal from "./shared/Modal";
 import SearchInput from "./shared/SearchInput";
 import ResultList from "./shared/ResultList";
@@ -103,7 +107,7 @@ export class QuickOpenModal extends Component<Props, State> {
     if (searchType === "variables") {
       results = variables;
     }
-    if (query == "" || query == "@" || query == "#") {
+    if (query === "@" || query === "#") {
       this.setState({ results });
       return;
     }
@@ -116,62 +120,36 @@ export class QuickOpenModal extends Component<Props, State> {
   };
 
   updateResults = (query: string) => {
-    const { searchType } = this.props;
-    switch (searchType) {
-      case "functions":
-      case "variables":
-        return this.searchSymbols(query);
-      case "sources":
-      case "gotoSource":
-      default:
-        return this.searchSources(query);
+    if (this.isSymbolSearch()) {
+      return this.searchSymbols(query);
     }
+    return this.searchSources(query);
   };
 
   selectResultItem = (
     e: SyntheticEvent<HTMLElement>,
     item: ?FormattedSource | ?FormattedSymbolDeclaration
   ) => {
+    if (item == null) {
+      return;
+    }
     const { selectSource, selectedSource, query, searchType } = this.props;
-
-    switch (searchType) {
-      case "functions":
-      case "variables":
-        if (selectedSource == null || item == null) {
-          return;
+    if (this.isSymbolSearch()) {
+      if (selectedSource == null) {
+        return;
+      }
+      selectSource(selectedSource.get("id"), {
+        location: {
+          ...(item.location != null ? { line: item.location.start.line } : {})
         }
-        selectSource(selectedSource.get("id"), {
-          location: {
-            ...(item.location != null ? { line: item.location.start.line } : {})
-          }
-        });
-        break;
-      case "gotoSource":
-        if (item == null) {
-          return;
-        }
-
-        const [, line, column] = query.split(":");
-        const lineNumber = parseInt(line, 10);
-        const columnNumber = parseInt(column, 10);
-        if (!isNaN(lineNumber)) {
-          selectSource(item.id, {
-            location: {
-              line: lineNumber,
-              ...(!isNaN(columnNumber) ? { column: columnNumber } : null)
-            }
-          });
-          break;
-        }
-        break;
-      case "sources":
-      default:
-        if (item == null) {
-          return;
-        }
-
-        selectSource(item.id);
-        break;
+      });
+    } else if (searchType === "gotoSource") {
+      const location = parseLineColumn(query);
+      if (location != null) {
+        selectSource(item.id, { location });
+      }
+    } else {
+      selectSource(item.id);
     }
 
     this.closeModal();
@@ -184,8 +162,11 @@ export class QuickOpenModal extends Component<Props, State> {
       highlightLineRange,
       searchType
     } = this.props;
+    if (!this.isSymbolSearch() || selectedSource == null) {
+      return;
+    }
 
-    if (selectedSource != null && searchType !== "functions") {
+    if (searchType === "variables") {
       selectSource(selectedSource.get("id"), {
         location: {
           ...(item.location != null ? { line: item.location.start.line } : {})
@@ -193,7 +174,7 @@ export class QuickOpenModal extends Component<Props, State> {
       });
     }
 
-    if (selectedSource != null && searchType === "functions") {
+    if (searchType === "functions") {
       highlightLineRange({
         ...(item.location != null
           ? { start: item.location.start.line, end: item.location.end.line }
@@ -204,7 +185,6 @@ export class QuickOpenModal extends Component<Props, State> {
   };
 
   traverseResults = (direction: number) => {
-    const { searchType } = this.props;
     const { selectedIndex, results } = this.state;
     const resultCount = this.resultCount();
     const index = selectedIndex + direction;
@@ -212,30 +192,19 @@ export class QuickOpenModal extends Component<Props, State> {
 
     this.setState({ selectedIndex: nextIndex });
 
-    const isSymbolSearch =
-      searchType === "functions" || searchType === "variables";
-    if (isSymbolSearch && results != null) {
+    if (results != null) {
       this.onSelectResultItem(results[nextIndex]);
     }
   };
 
   onChange = (e: SyntheticInputEvent<HTMLElement>) => {
-    const { selectedSource, searchType } = this.props;
-    this.props.setQuickOpenQuery(e.target.value);
-    switch (searchType) {
-      case "functions":
-      case "variables":
-        if (!selectedSource || !selectedSource.get("text")) {
-          return;
-        }
-        this.updateResults(e.target.value);
-        return;
-      case "sources":
-      case "gotoSource":
-      default:
-        this.updateResults(e.target.value);
-        return;
+    const { selectedSource, setQuickOpenQuery } = this.props;
+    setQuickOpenQuery(e.target.value);
+    const noSource = !selectedSource || !selectedSource.get("text");
+    if (this.isSymbolSearch() && noSource) {
+      return;
     }
+    this.updateResults(e.target.value);
   };
 
   onKeyDown = (e: SyntheticKeyboardEvent<HTMLElement>) => {
@@ -252,47 +221,33 @@ export class QuickOpenModal extends Component<Props, State> {
       return;
     }
 
-    if (e.key === "ArrowUp") {
-      this.traverseResults(-1);
-    } else if (e.key === "ArrowDown") {
-      this.traverseResults(1);
+    const canTraverse = searchType !== "goto";
+    if (e.key === "ArrowUp" && canTraverse) {
+      return this.traverseResults(-1);
+    } else if (e.key === "ArrowDown" && canTraverse) {
+      return this.traverseResults(1);
     } else if (e.key === "Enter") {
-      switch (searchType) {
-        case "goto":
-          if (!selectedSource) {
-            return;
-          }
-          const [, line, column] = query.split(":");
-          const lineNumber = parseInt(line, 10);
-          const columnNumber = parseInt(column, 10);
-          if (!isNaN(lineNumber)) {
-            selectSource(selectedSource.get("id"), {
-              location: {
-                line: lineNumber,
-                ...(!isNaN(columnNumber) ? { column: columnNumber } : null)
-              }
-            });
-            this.closeModal();
-            return;
-          }
-          this.closeModal();
+      if (searchType === "goto") {
+        if (!selectedSource) {
           return;
-        case "sources":
-        case "functions":
-        case "variables":
-        default:
-          this.selectResultItem(e, results[selectedIndex]);
-          this.closeModal();
-          return;
+        }
+        const location = parseLineColumn(query);
+        if (location != null) {
+          selectSource(selectedSource.get("id"), { location });
+        }
+      } else {
+        this.selectResultItem(e, results[selectedIndex]);
       }
+      return this.closeModal();
     } else if (e.key === "Tab") {
-      this.closeModal();
+      return this.closeModal();
     }
   };
 
-  resultCount() {
-    return this.state.results ? this.state.results.length : 0;
-  }
+  resultCount = () => (this.state.results ? this.state.results.length : 0);
+
+  isSymbolSearch = () =>
+    ["functions", "variables"].includes(this.props.searchType);
 
   renderResults() {
     const { enabled, searchType } = this.props;
@@ -358,21 +313,22 @@ export class QuickOpenModal extends Component<Props, State> {
   }
 }
 
-export default connect(
-  state => {
-    const source = getSelectedSource(state);
-    let symbols = null;
-    if (source != null) {
-      symbols = getSymbols(state, source.toJS());
-    }
-    return {
-      enabled: getQuickOpenEnabled(state),
-      sources: formatSources(getSources(state)),
-      selectedSource: getSelectedSource(state),
-      symbols: formatSymbols(symbols),
-      query: getQuickOpenQuery(state),
-      searchType: getQuickOpenType(state)
-    };
-  },
-  dispatch => bindActionCreators(actions, dispatch)
+function mapStateToProps(state) {
+  const selectedSource = getSelectedSource(state);
+  let symbols = null;
+  if (selectedSource != null) {
+    symbols = getSymbols(state, selectedSource.toJS());
+  }
+  return {
+    enabled: getQuickOpenEnabled(state),
+    sources: formatSources(getSources(state)),
+    selectedSource,
+    symbols: formatSymbols(symbols),
+    query: getQuickOpenQuery(state),
+    searchType: getQuickOpenType(state)
+  };
+}
+
+export default connect(mapStateToProps, dispatch =>
+  bindActionCreators(actions, dispatch)
 )(QuickOpenModal);

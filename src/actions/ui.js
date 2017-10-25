@@ -9,17 +9,6 @@ export function setContextMenu(type: string, event: any) {
   };
 }
 
-export function openQuickOpen(query?: string) {
-  if (query != null) {
-    return { type: "OPEN_QUICK_OPEN", query };
-  }
-  return { type: "OPEN_QUICK_OPEN" };
-}
-
-export function closeQuickOpen() {
-  return { type: "CLOSE_QUICK_OPEN" };
-}
-
 export function closeActiveSearch() {
   return {
     type: "TOGGLE_ACTIVE_SEARCH",

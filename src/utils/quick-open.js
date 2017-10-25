@@ -33,6 +33,18 @@ export function parseQuickOpenQuery(query: string): QuickOpenType {
   return "sources";
 }
 
+export function parseLineColumn(query: string) {
+  const [, line, column] = query.split(":");
+  const lineNumber = parseInt(line, 10);
+  const columnNumber = parseInt(column, 10);
+  if (!isNaN(lineNumber)) {
+    return {
+      line: lineNumber,
+      ...(!isNaN(columnNumber) ? { column: columnNumber } : null)
+    };
+  }
+}
+
 export type FormattedSymbolDeclaration = {|
   id: string,
   title: string,

@@ -279,7 +279,10 @@ export type FileTextSearchAction =
       }
     };
 
-export type QuickOpenAction = { type: "SET_QUERY_STRING", queryString: string };
+export type QuickOpenAction =
+  | { type: "SET_QUICK_OPEN_QUERY", query: string }
+  | { type: "OPEN_QUICK_OPEN", query?: string }
+  | { type: "CLOSE_QUICK_OPEN" };
 
 /**
  * Actions: Source, Breakpoint, and Navigation
