@@ -140,7 +140,7 @@ type OuterState = { ui: Record<UIState> };
 
 export function getSelectedPrimaryPaneTab(
   state: OuterState
-): selectedPrimaryPaneTabType {
+): SelectedPrimaryPaneTabType {
   return state.ui.get("selectedPrimaryPaneTab");
 }
 
