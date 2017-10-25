@@ -31,9 +31,11 @@ export function createPrettySource(sourceId) {
       loadedState: "loaded"
     };
 
-    return dispatch({
+    dispatch({
       type: "ADD_SOURCE",
       source: prettySource
     });
+
+    return prettySource;
   };
 }

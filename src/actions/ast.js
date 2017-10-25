@@ -9,7 +9,6 @@ import {
   getPreview
 } from "../selectors";
 
-import { ensureParserHasSourceText } from "./sources";
 import { getMappedExpression } from "./expressions";
 import { PROMISE } from "../utils/redux/middleware/promise";
 import {
@@ -38,7 +37,7 @@ export function setSymbols(sourceId: SourceId) {
     }
 
     const source = sourceRecord.toJS();
-    if (!source.text || hasSymbols(getState(), source)) {
+    if (!source.text || source.isWasm || hasSymbols(getState(), source)) {
       return;
     }
 
@@ -60,7 +59,7 @@ export function setEmptyLines(sourceId: SourceId) {
     }
 
     const source = sourceRecord.toJS();
-    if (!source.text) {
+    if (!source.text || source.isWasm) {
       return;
     }
 
@@ -146,9 +145,6 @@ export function setPreview(
             { ...location.start, sourceId },
             source.toJS()
           );
-
-          const generatedSourceId = generatedLocation.sourceId;
-          await dispatch(ensureParserHasSourceText(generatedSourceId));
 
           expression = await getMappedExpression(
             { sourceMaps },
