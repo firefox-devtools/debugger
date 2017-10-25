@@ -4381,6 +4381,13 @@ handlebars@^4.0.3:
   optionalDependencies:
     uglify-js "^2.6"
 
+hankey@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/hankey/-/hankey-0.0.2.tgz#f906047f4b848be419f943c658e8c8156aef4d73"
+  dependencies:
+    chalk "^2.2.0"
+    node-emoji "^1.8.1"
+
 har-schema@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/har-schema/-/har-schema-1.0.5.tgz#d263135f43307c02c602afc8fe95970c0151369e"
@@ -5793,6 +5800,10 @@ jsesc@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/jsesc/-/jsesc-1.3.0.tgz#46c3fec8c1892b12b0833db9bc7622176dbab34b"
 
+jsesc@^2.5.1:
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/jsesc/-/jsesc-2.5.1.tgz#e421a2a8e20d6b0819df28908f782526b96dd1fe"
+
 jsesc@~0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/jsesc/-/jsesc-0.5.0.tgz#e7dee66e35d6fc16f710fe91d5cf69f70f08911d"
@@ -6649,13 +6660,16 @@ mocha@^3.2.0:
     mkdirp "0.5.1"
     supports-color "3.1.2"
 
-mochii@^0.0.9:
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/mochii/-/mochii-0.0.9.tgz#563b46fd41b1d14fdb074f6c66136183551f2f85"
+mochii@^0.0.10:
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/mochii/-/mochii-0.0.10.tgz#ab56676cfca260680e8233216be80a86fc01e59f"
   dependencies:
     chalk "^2.1.0"
     eslint "^4.7.2"
+    hankey "^0.0.2"
     inquirer "^3.3.0"
+    jest-in-case "^1.0.2"
+    jsesc "^2.5.1"
     minimist "^1.2.0"
     shelljs "^0.7.8"
 
