@@ -27,7 +27,7 @@ export type OrientationType = "horizontal" | "vertical";
 export type SelectedPrimaryPaneTabType = "sources" | "outline";
 
 export type UIState = {
-  selectedPrimaryPaneTab: selectedPrimaryPaneTabType,
+  selectedPrimaryPaneTab: SelectedPrimaryPaneTabType,
   activeSearch: ?ActiveSearchType,
   contextMenu: any,
   symbolSearchType: SymbolSearchType,
