@@ -37,7 +37,12 @@ export function loadSourceText(source: Source) {
       [PROMISE]: loadSource(source, { sourceMaps, client })
     });
 
-    await setSource(getSource(getState(), source.id).toJS());
+    const newSource = getSource(getState(), source.id).toJS();
+    if (newSource.isWasm) {
+      return;
+    }
+
+    await setSource(newSource);
     await dispatch(setSymbols(source.id));
     await dispatch(setEmptyLines(source.id));
   };

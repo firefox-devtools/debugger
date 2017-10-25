@@ -37,7 +37,7 @@ export function setSymbols(sourceId: SourceId) {
     }
 
     const source = sourceRecord.toJS();
-    if (!source.text || hasSymbols(getState(), source)) {
+    if (!source.text || source.isWasm || hasSymbols(getState(), source)) {
       return;
     }
 
@@ -59,7 +59,7 @@ export function setEmptyLines(sourceId: SourceId) {
     }
 
     const source = sourceRecord.toJS();
-    if (!source.text) {
+    if (!source.text || source.isWasm) {
       return;
     }
 

@@ -8,6 +8,8 @@ import { updateFrameLocations } from "../../utils/pause";
 import { removeBreakpoint } from "../breakpoints";
 import { evaluateExpressions } from "../expressions";
 import { selectSource } from "../sources";
+import { togglePaneCollapse } from "../ui";
+
 import { mapScopes } from "./mapScopes";
 
 import type { Pause } from "../../types";
@@ -46,10 +48,10 @@ export function paused(pauseInfo: Pause) {
       dispatch(evaluateExpressions());
     }
 
-    await dispatch(
-      selectSource(frame.location.sourceId, { line: frame.location.line })
-    );
+    const { line, column } = frame.location;
+    await dispatch(selectSource(frame.location.sourceId, { line, column }));
 
+    dispatch(togglePaneCollapse("end", false));
     dispatch(mapScopes());
   };
 }

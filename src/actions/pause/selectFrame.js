@@ -18,9 +18,8 @@ export function selectFrame(frame: Frame) {
       frame
     });
 
-    dispatch(
-      selectSource(frame.location.sourceId, { line: frame.location.line })
-    );
+    const { line, column } = frame.location;
+    dispatch(selectSource(frame.location.sourceId, { line, column }));
 
     dispatch(evaluateExpressions());
     dispatch(mapScopes());
