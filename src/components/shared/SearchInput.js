@@ -72,10 +72,10 @@ class SearchInput extends Component {
 
   renderSvg() {
     if (this.shouldShowErrorEmoji()) {
-      return <Svg name="sad-face" />;
+      return <Svg name="sad-face" role="presentation" />;
     }
 
-    return <Svg name="magnifying-glass" />;
+    return <Svg name="magnifying-glass" role="presentation" />;
   }
 
   renderArrowButtons() {
