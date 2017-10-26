@@ -67,6 +67,35 @@ ContentTask.spawn(gBrowser.selectedBrowser, null, function* () {
 
 The above calls the function `foo` that exists in the page itself. You can also access the DOM this way: `content.document.querySelector`, if you want to click a button or do other things. You can even you use assertions inside this callback to check DOM state.
 
+### Debugging Tips
+
+The first step for debugging an integration test is establishing a clear sequence of events: where did the test break and what were the events that preceded it.
+
+The mochitest logs provide some context:
+
+1. The actions that fired
+2. Assertion Passes/Failures
+3. Events that the test waited for: dispatches, state changes
+
+> NOTE: it might be nice to run the tests in headless mode: `yarn mochih browser_dbg-editor-highlight`
+
+![](https://shipusercontent.com/90d3d0484aedcdbe9e2bc1aa291a6eb8/Screen%20Shot%202017-10-26%20at%205.42.41%20PM.png)
+
+The next step is to add additional logging in the test and debugger code with `info` calls.
+We recommend prefixing your logs and formatting them so they are easy to scan e.g.:
+
+* `info(\`>> Add breakpoint ${line} -> ${condition}\n\`)`
+* `info(\`>> Current breakpoints ${breakpoints.map(bp => bp.location.line).join(", ")}\n\`)`
+* `info(\`>> Symbols for source ${source.url} ${JSON.stringify(symbols)}\n\`)`
+
+At some point, it can be nice to pause the test and debug it. We are working on a debugger after all :)
+Mochitest, makes it easy to pause the test at `debugger` statements  with the `--jsdebugger` flag.
+You can run the test like this `yarn mochid browser_dbg-editor-highlight`.
+
+![](https://shipusercontent.com/e8441c77ab9ff6e84e5561b05bc25da2/Screen%20Shot%202017-10-26%20at%205.45.05%20PM.png)
+![](https://shipusercontent.com/57e41ae7227a46b2b6ae8b66956729ea/Screen%20Shot%202017-10-26%20at%205.44.54%20PM.png)
+
+
 #### Debugging Intermittents
 
 Intermittents are when a test succeeds most the time (95%) of the time, but not all the time.
@@ -138,13 +167,6 @@ add_task(function* () {
 ```
 
 The Debugger Mochitest API Documentation can be found [here](https://devtools-html.github.io/debugger.html/reference#mochitest).
-
-## Debugging Tips
-
-* Run your mochitest with `yarn mochid <filename>` and add a `debugger` statement to your test before or after a failure.
-* Go back to the development server and watch the Redux logs (either with the Redux Devtools or by setting action logging on in your [local config][local-config].) as you perform your mochitest step by step. Watch the actions that fire. Sometimes all you need is a `waitForDispatch("THE_ACTION")` to ensure enough time has passed for your assertion to be true.
-* Write simple helpers that describe the actions you take so that your mochitest reads more like you would describe the workflow, this will help with clarity and maintainability.
-
 
 [head]: https://github.com/devtools-html/debugger.html/blob/master/src/test/mochitest/head.js
 [mochitests]: https://developer.mozilla.org/en-US/docs/Mozilla/Projects/Mochitest

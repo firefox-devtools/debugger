@@ -218,18 +218,27 @@ async function waitForElement(dbg, selector) {
   return findElementWithSelector(dbg, selector);
 }
 
-function waitForSelectedSource(dbg, sourceId) {
+function waitForSelectedSource(dbg, url) {
   return waitForState(
     dbg,
     state => {
       const source = dbg.selectors.getSelectedSource(state);
-      const isLoaded =
-        source && source.has("loadedState") && sourceUtils.isLoaded(source);
-      if (sourceId) {
-        return isLoaded && sourceId == source.get("id");
+      const isLoaded = source && sourceUtils.isLoaded(source);
+      if (!isLoaded) {
+        return false;
       }
 
-      return isLoaded;
+      if (!url) {
+        return true;
+      }
+
+      const newSource = findSource(dbg, url);
+      if (newSource.id != source.get("id")) {
+        return false;
+      }
+
+      // wait for async work to be done
+      return dbg.selectors.hasSymbols(state, source.toJS());
     },
     "selected source"
   );
