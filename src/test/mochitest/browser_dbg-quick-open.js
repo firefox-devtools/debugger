@@ -74,7 +74,7 @@ add_task(async function() {
   pressKey(dbg, "Down");
   pressKey(dbg, "Enter");
   await waitForDispatch(dbg, "SELECT_SOURCE");
-  await waitForSymbols(dbg, "switching-01");
+  await waitForSymbols(dbg, "switching-02");
 
   source = dbg.selectors.getSelectedSource(dbg.getState());
   ok(source.get("url").match(/switching-02/), "second source is selected");
