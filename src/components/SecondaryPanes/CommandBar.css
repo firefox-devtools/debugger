@@ -83,23 +83,17 @@ img.resume {
   mask: url(/images/resume.svg) no-repeat;
 }
 
-.command-bar >
-button.pause-exceptions.uncaught.enabled >
-img.pause-exceptions {
+.command-bar > button.pause-exceptions.uncaught.enabled > img.pause-exceptions {
   /*background-color: var(--theme-highlight-purple);*/
   background-color: orange;
 }
 
-.command-bar >
-button.pause-exceptions.all >
-img.pause-exceptions {
+.command-bar > button.pause-exceptions.all > img.pause-exceptions {
   /*background-color: var(--theme-highlight-blue) !important;*/
   background-color: red !important;
 }
 
-.command-bar >
-button.pause-exceptions.enabled >
-img.pause-exceptions {
+.command-bar > button.pause-exceptions.enabled > img.pause-exceptions {
   /*background-color: var(--theme-body-color);*/
   background-color: green;
 }

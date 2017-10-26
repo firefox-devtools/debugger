@@ -10,7 +10,6 @@ import {
   getShouldPauseOnExceptions,
   getShouldIgnoreCaughtExceptions
 } from "../../selectors";
-import Svg from "../shared/Svg";
 import { formatKeyShortcut } from "../../utils/text";
 import actions from "../../actions";
 import "./CommandBar.css";
