@@ -73,7 +73,6 @@ function debugBtn(onClick, type, className, tooltip, disabled = false) {
   const props = {
     onClick,
     key: type,
-    "aria-label": tooltip,
     title: tooltip,
     disabled
   };
