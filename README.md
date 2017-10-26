@@ -1,5 +1,5 @@
 # debugger.html
-
+#
 [![slack-badge]][slack] ![][ci-status] [![npm-version]][npm-package] [![PRs Welcome]][make-a-pull-request]
 
 debugger.html is a hackable debugger for modern times, built from the ground up using [React] and [Redux].  It is designed to be approachable, yet powerful.  And it is engineered to be predictable, understandable, and testable.
