@@ -1,7 +1,7 @@
 # debugger.html
 #
 
-## HELLO ALL!
+## HELLO ALL
 
 [![slack-badge]][slack] ![][ci-status] [![npm-version]][npm-package] [![PRs Welcome]][make-a-pull-request]
 
