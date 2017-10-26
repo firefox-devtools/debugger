@@ -307,18 +307,22 @@ class Editor extends PureComponent<Props, State> {
   };
 
   openMenu(event) {
+    const { setContextMenu } = this.props;
     if (event.target.classList.contains("CodeMirror-linenumber")) {
-      return this.props.setContextMenu("Gutter", event);
+      return setContextMenu("Gutter", event);
     }
 
-    return this.props.setContextMenu("Editor", event);
+    return setContextMenu("Editor", event);
   }
 
   onGutterClick = (cm, line, gutter, ev) => {
     const {
       selectedSource,
       conditionalPanelLine,
-      closeConditionalPanel
+      closeConditionalPanel,
+      addOrToggleDisabledBreakpoint,
+      toggleBreakpoint,
+      continueToHere
     } = this.props;
 
     // ignore right clicks in the gutter
@@ -342,13 +346,13 @@ class Editor extends PureComponent<Props, State> {
     const sourceLine = toSourceLine(selectedSource.get("id"), line);
 
     if (ev.altKey) {
-      return this.props.continueToHere(sourceLine);
+      return continueToHere(sourceLine);
     }
 
     if (ev.shiftKey) {
-      return this.props.addOrToggleDisabledBreakpoint(sourceLine);
+      return addOrToggleDisabledBreakpoint(sourceLine);
     }
-    return this.props.toggleBreakpoint(sourceLine);
+    return toggleBreakpoint(sourceLine);
   };
 
   onGutterContextMenu = event => {
