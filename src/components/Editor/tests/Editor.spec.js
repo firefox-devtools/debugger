@@ -38,4 +38,13 @@ describe("Editor", () => {
     const { component } = render();
     expect(component).toMatchSnapshot();
   });
+
+  it("should set text", async () => {
+    const { component } = render();
+    const testMap = new Map();
+    testMap.set("loadedState", "loaded");
+    testMap.set("test", "Test Text");
+    component.setProps(testMap);
+    expect(component.find("Test Text")).toHaveLength(1);
+  });
 });
