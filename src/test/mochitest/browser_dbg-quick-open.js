@@ -33,6 +33,11 @@ function assertColumn(dbg, columnNumber) {
   );
 }
 
+function waitForSymbols(dbg, url) {
+  const source = findSource(dbg, url);
+  return waitForState(dbg, state => dbg.selectors.getSymbols(state, source.id));
+}
+
 async function waitToClose(dbg) {
   pressKey(dbg, "Escape");
   return new Promise(r => setTimeout(r, 200));
@@ -52,7 +57,7 @@ function quickOpen(dbg, query, shortcut = "quickOpen") {
 add_task(async function() {
   const dbg = await initDebugger("doc-script-switching.html");
 
-  info('test opening and closing');
+  info("test opening and closing");
   quickOpen(dbg, "");
   pressKey(dbg, "Escape");
   assertDisabled(dbg);
@@ -60,48 +65,45 @@ add_task(async function() {
   quickOpen(dbg, "sw");
   pressKey(dbg, "Enter");
 
-  await waitForDispatch(dbg, "LOAD_SOURCE_TEXT");
   let source = dbg.selectors.getSelectedSource(dbg.getState());
   ok(source.get("url").match(/switching-01/), "first source is selected");
 
-  info('Arrow keys and check to see if source is selected');
+  info("Arrow keys and check to see if source is selected");
   quickOpen(dbg, "sw");
   is(resultCount(dbg), 2);
   pressKey(dbg, "Down");
   pressKey(dbg, "Enter");
+  await waitForDispatch(dbg, "SELECT_SOURCE");
+  await waitForSymbols(dbg, "switching-01");
 
-  await waitForDispatch(dbg, "LOAD_SOURCE_TEXT");
   source = dbg.selectors.getSelectedSource(dbg.getState());
   ok(source.get("url").match(/switching-02/), "second source is selected");
   quickOpen(dbg, "sw");
   pressKey(dbg, "Tab");
   assertDisabled(dbg);
 
-  info('Testing function search');
-  await selectSource(dbg, "switching-01");
+  info("Testing function search");
   quickOpen(dbg, "", "quickOpenFunc");
-  pressKey(dbg, "Escape");
-  assertDisabled(dbg);
-
-  quickOpen(dbg, "", "quickOpenFunc");
-  is(resultCount(dbg), 1);
+  is(resultCount(dbg), 2);
 
   type(dbg, "x");
   is(resultCount(dbg), 0);
+
   pressKey(dbg, "Escape");
   assertDisabled(dbg);
 
-  info('Testing variable search');
+  info("Testing variable search");
   quickOpen(dbg, "sw2");
   pressKey(dbg, "Enter");
-  await selectSource(dbg, "switching-02");
+  await waitForDispatch(dbg, "SELECT_SOURCE");
+  await waitForSymbols(dbg, "switching-02");
   quickOpen(dbg, "#");
   is(resultCount(dbg), 1);
   const results = findAllElements(dbg, "resultItems");
   results.forEach(result => is(result.textContent, "x:13"));
   await waitToClose(dbg);
 
-  info('Testing goto line:column');
+  info("Testing goto line:column");
   assertLine(dbg, undefined);
   assertColumn(dbg, undefined);
   quickOpen(dbg, ":7:12");
@@ -109,7 +111,7 @@ add_task(async function() {
   assertLine(dbg, 7);
   assertColumn(dbg, 12);
 
-  info('Testing gotoSource');
+  info("Testing gotoSource");
   quickOpen(dbg, "sw1:5");
   pressKey(dbg, "Enter");
   source = dbg.selectors.getSelectedSource(dbg.getState());
