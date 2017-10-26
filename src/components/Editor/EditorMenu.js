@@ -6,6 +6,7 @@ import { PureComponent } from "react";
 import { showMenu } from "devtools-launchpad";
 import { isOriginalId } from "devtools-source-map";
 import { copyToTheClipboard } from "../../utils/clipboard";
+import { isPretty, getPrettySourceURL } from "../../utils/source";
 import { getSourceLocationFromMouseEvent } from "../../utils/editor";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -15,7 +16,8 @@ import {
   getContextMenu,
   getSelectedLocation,
   getSelectedSource,
-  getSymbols
+  getSymbols,
+  getSourceTabs
 } from "../../selectors";
 
 import actions from "../../actions";
@@ -30,6 +32,7 @@ function getMenuItems(
     editor,
     selectedLocation,
     selectedSource,
+    tabs,
     showSource,
     onGutterContextMenu,
     jumpToMappedLocation,
@@ -83,14 +86,19 @@ function getMenuItems(
     event
   );
 
-  const pairedType = isOriginalId(selectedLocation.sourceId)
-    ? L10N.getStr("generated")
-    : L10N.getStr("original");
+  const isOriginal = isOriginalId(selectedLocation.sourceId);
+  const isPrettyTabOpen =
+    !isOriginal && tabs.includes(getPrettySourceURL(selectedSource.get("url")));
+  const hasSourceMap = selectedSource.toJS().sourceMapURL;
+  const isPrettyPrinted = isPretty(selectedSource.toJS());
 
   const jumpLabel = {
     accesskey: L10N.getStr("editor.jumpToMappedLocation1.accesskey"),
-    disabled: false,
-    label: L10N.getFormatStr("editor.jumpToMappedLocation1", pairedType),
+    disabled: isOriginal || hasSourceMap ? false : !isPrettyTabOpen,
+    label: L10N.getFormatStr(
+      "editor.jumpToMappedLocation1",
+      isOriginal ? L10N.getStr("generated") : L10N.getStr("original")
+    ),
     click: () => jumpToMappedLocation(sourceLocation)
   };
 
@@ -104,7 +112,7 @@ function getMenuItems(
     id: "node-menu-blackbox",
     label: toggleBlackBoxLabel,
     accesskey: blackboxKey,
-    disabled: false,
+    disabled: isOriginal || hasSourceMap,
     click: () => toggleBlackBox(selectedSource.toJS())
   };
 
@@ -115,7 +123,7 @@ function getMenuItems(
     id: "node-menu-show-source",
     label: revealInTreeLabel,
     accesskey: revealInTreeKey,
-    disabled: false,
+    disabled: isPrettyPrinted,
     click: () => showSource(selectedSource.get("id"))
   };
 
@@ -184,9 +192,11 @@ class EditorMenu extends PureComponent {
 export default connect(
   state => {
     const selectedSource = getSelectedSource(state);
+    const tabs = getSourceTabs(state);
     return {
       selectedLocation: getSelectedLocation(state),
       selectedSource,
+      tabs,
       contextMenu: getContextMenu(state),
       getFunctionText: line =>
         findFunctionText(
