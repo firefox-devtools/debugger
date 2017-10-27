@@ -1,14 +1,15 @@
 // @flow
 
 import PropTypes from "prop-types";
-import * as React from "react";
+import React from "react";
+import type { Node as ReactNode } from "react";
 import classnames from "classnames";
 import Transition from "react-transition-group/Transition";
 import "./Modal.css";
 
 type ModalProps = {
   status: string,
-  children?: React.Node,
+  children?: ReactNode,
   additionalClass?: string,
   handleClose: () => any
 };
@@ -40,7 +41,7 @@ Modal.contextTypes = {
 
 type SlideProps = {
   in: boolean,
-  children?: React.Node,
+  children?: ReactNode,
   additionalClass?: string,
   handleClose: () => any
 };
