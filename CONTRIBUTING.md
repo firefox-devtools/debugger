@@ -17,6 +17,7 @@ We respect your time and want to help you make the most of it as you learn more 
   * [Your First Code Contribution](#your-first-code-contribution)
   * [Coding Standards](#coding-standards)
   * [Development Guide](#development-guide-computer)
+  * [Terminology](#terminology)
   * [Issues](#issues)
   * [Pull Requests](#pull-requests)
   * [Maintainer Tips](#maintainer-tips)
@@ -148,6 +149,10 @@ Go to [local Development](./docs/local-development.md) to learn about:
 * [Logging](./docs/local-development.md#logging)
 * [Testing](./docs/local-development.md#testing)
 * [Linting](./docs/local-development.md#linting)
+
+### Terminology
+
+* [Generated / Original](./docs/terminology.md#generated--original)
 
 ### Issues
 
