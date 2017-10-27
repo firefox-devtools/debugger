@@ -45,6 +45,6 @@ describe("Editor", () => {
     testMap.set("loadedState", "loaded");
     testMap.set("test", "Test Text");
     component.setProps(testMap);
-    expect(component.find("Test Text")).toHaveLength(1);
+    expect(component).toMatchSnapshot();
   });
 });
