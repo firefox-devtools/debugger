@@ -103,7 +103,7 @@ export default class TextSearch extends Component {
         onClick={e => setExpanded(file, !expanded)}
       >
         <Svg name="arrow" className={classnames({ expanded })} />
-        <Svg name="file" />
+        <img className="file" />
         <span className="file-path">{getRelativePath(file.filepath)}</span>
         <span className="matches-summary">{matches}</span>
       </div>
