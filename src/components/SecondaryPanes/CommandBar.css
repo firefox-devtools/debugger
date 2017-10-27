@@ -87,8 +87,8 @@ img.resume {
   background-color: var(--theme-highlight-purple);
 }
 
-.command-bar > button.pause-exceptions.all > img.pause-exceptions {
-  background-color: var(--theme-highlight-blue) !important;
+.command-bar > button.pause-exceptions.all.enabled > img.pause-exceptions {
+  background-color: var(--theme-highlight-blue);
 }
 
 .command-bar > button.pause-exceptions.enabled > img.pause-exceptions {
