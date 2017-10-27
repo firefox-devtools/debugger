@@ -23,7 +23,10 @@ export function formatSymbols(source: Source) {
     const expression = symbol.expression || "";
     const klass = symbol.klass || "";
 
-    return `${loc} ${exprLoc} ${expression} ${symbol.name}${params} ${klass}`.trim(); // eslint-disable-line max-len
+    const name = symbol.name || "";
+    const names = symbol.specifiers ? symbol.specifiers.join(", ") : "";
+
+    return `${loc} ${exprLoc} ${expression} ${name}${params} ${klass} ${names}`.trim(); // eslint-disable-line max-len
   }
 
   return Object.keys(symbols)
