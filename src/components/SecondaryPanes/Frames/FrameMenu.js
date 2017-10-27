@@ -56,7 +56,7 @@ export default function FrameMenu(
   frame: LocalFrame,
   frameworkGroupingOn: boolean,
   callbacks: Object,
-  event: SyntheticKeyboardEvent
+  event: SyntheticKeyboardEvent<HTMLElement>
 ) {
   event.stopPropagation();
   event.preventDefault();

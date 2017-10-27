@@ -13,6 +13,7 @@ import { getScopes } from "../../utils/scopes";
 
 import { ObjectInspector } from "devtools-reps";
 import type { Pause, LoadedObject } from "debugger-html";
+import type { NamedValue } from "../../utils/scopes";
 
 import "./Scopes.css";
 
@@ -24,12 +25,11 @@ type Props = {
   frameScopes: Object
 };
 
-class Scopes extends PureComponent {
-  props: Props;
-  state: {
-    scopes: any
-  };
+type State = {
+  scopes: ?(NamedValue[])
+};
 
+class Scopes extends PureComponent<Props, State> {
   constructor(props: Props, ...args) {
     const { pauseInfo, selectedFrame, frameScopes } = props;
 
@@ -41,11 +41,12 @@ class Scopes extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { pauseInfo, selectedFrame } = this.props;
+    const { pauseInfo, selectedFrame, frameScopes } = this.props;
     const pauseInfoChanged = pauseInfo !== nextProps.pauseInfo;
-    const selectedFrameChange = selectedFrame !== nextProps.selectedFrame;
+    const selectedFrameChanged = selectedFrame !== nextProps.selectedFrame;
+    const frameScopesChanged = frameScopes !== nextProps.frameScopes;
 
-    if (pauseInfoChanged || selectedFrameChange) {
+    if (pauseInfoChanged || selectedFrameChanged || frameScopesChanged) {
       this.setState({
         scopes: getScopes(
           nextProps.pauseInfo,

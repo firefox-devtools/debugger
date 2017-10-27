@@ -19,7 +19,7 @@ import fileSearch from "./file-search";
 import ast from "./ast";
 import coverage from "./coverage";
 import projectTextSearch from "./project-text-search";
-import sourceSearch from "./source-search";
+import quickOpen from "./quick-open";
 import sourceTree from "./source-tree";
 import debuggee from "./debuggee";
 
@@ -36,7 +36,7 @@ export default {
   ast,
   coverage,
   projectTextSearch,
-  sourceSearch,
+  quickOpen,
   sourceTree,
   debuggee
 };

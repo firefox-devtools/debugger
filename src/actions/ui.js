@@ -1,8 +1,7 @@
 // @flow
 import { getSource, getActiveSearch } from "../selectors";
 import type { ThunkArgs } from "./types";
-import type { ActiveSearchType, SymbolSearchType } from "../reducers/ui";
-import { clearSourceSearchQuery } from "./source-search";
+import type { ActiveSearchType, OrientationType } from "../reducers/ui";
 
 export function setContextMenu(type: string, event: any) {
   return ({ dispatch }: ThunkArgs) => {
@@ -11,17 +10,9 @@ export function setContextMenu(type: string, event: any) {
 }
 
 export function closeActiveSearch() {
-  return ({ getState, dispatch }: ThunkArgs) => {
-    const activeSearch = getActiveSearch(getState());
-
-    if (activeSearch == "source") {
-      dispatch(clearSourceSearchQuery());
-    }
-
-    dispatch({
-      type: "TOGGLE_ACTIVE_SEARCH",
-      value: null
-    });
+  return {
+    type: "TOGGLE_ACTIVE_SEARCH",
+    value: null
   };
 }
 
@@ -44,15 +35,6 @@ export function toggleFrameworkGrouping(toggleValue: boolean) {
     dispatch({
       type: "TOGGLE_FRAMEWORK_GROUPING",
       value: toggleValue
-    });
-  };
-}
-
-export function setSelectedSymbolType(symbolType: SymbolSearchType) {
-  return ({ dispatch, getState }: ThunkArgs) => {
-    dispatch({
-      type: "SET_SYMBOL_SEARCH_TYPE",
-      symbolType
     });
   };
 }
@@ -124,4 +106,8 @@ export function setProjectDirectoryRoot(url: Object) {
     type: "SET_PROJECT_DIRECTORY_ROOT",
     url
   };
+}
+
+export function setOrientation(orientation: OrientationType) {
+  return { type: "SET_ORIENTATION", orientation };
 }

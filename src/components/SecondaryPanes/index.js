@@ -40,7 +40,7 @@ type SecondaryPanesItems = {
   component: any,
   opened?: boolean,
   onToggle?: () => void,
-  shouldOpen?: () => void,
+  shouldOpen?: () => boolean,
   buttons?: any
 };
 
@@ -57,7 +57,18 @@ function debugBtn(onClick, type, className, tooltip) {
   );
 }
 
-class SecondaryPanes extends Component {
+type Props = {
+  evaluateExpressions: Function,
+  pauseData: Object,
+  horizontal: boolean,
+  breakpoints: Object,
+  breakpointsDisabled: boolean,
+  breakpointsLoading: boolean,
+  toggleAllBreakpoints: Function,
+  toggleShortcutsModal: Function
+};
+
+class SecondaryPanes extends Component<Props> {
   renderBreakpointsToggle() {
     const {
       toggleAllBreakpoints,

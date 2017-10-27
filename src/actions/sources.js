@@ -26,7 +26,6 @@ import { prefs } from "../utils/prefs";
 import { removeDocument } from "../utils/editor";
 import { isThirdParty } from "../utils/source";
 import { getGeneratedLocation } from "../utils/source-maps";
-import * as parser from "../workers/parser";
 
 import {
   getSource,
@@ -53,7 +52,7 @@ async function checkSelectedSource(state: State, dispatch, source) {
   const pendingLocation = getPendingSelectedLocation(state);
 
   if (pendingLocation && !!source.url && pendingLocation.url === source.url) {
-    await dispatch(selectSource(source.id, { line: pendingLocation.line }));
+    await dispatch(selectSource(source.id, { location: pendingLocation }));
   }
 }
 
@@ -134,6 +133,7 @@ function loadSourceMap(generatedSource) {
 
     dispatch({ type: "ADD_SOURCES", sources: originalSources });
 
+    await dispatch(loadSourceText(generatedSource));
     originalSources.forEach(async source => {
       await checkSelectedSource(getState(), dispatch, source);
       checkPendingBreakpoints(getState(), dispatch, source.id);
@@ -141,7 +141,10 @@ function loadSourceMap(generatedSource) {
   };
 }
 
-export type SelectSourceOptions = { tabIndex?: number, line?: number };
+export type SelectSourceOptions = {
+  tabIndex?: number,
+  location?: { line?: number, column?: number }
+};
 
 /**
  * Deterministically select a source that has a given URL. This will
@@ -165,7 +168,7 @@ export function selectSourceURL(
         type: "SELECT_SOURCE_URL",
         url: url,
         tabIndex: options.tabIndex,
-        line: options.line
+        location: options.location
       });
     }
   };
@@ -200,7 +203,7 @@ export function selectSource(id: string, options: SelectSourceOptions = {}) {
       type: "SELECT_SOURCE",
       source: source.toJS(),
       tabIndex: options.tabIndex,
-      line: options.line,
+      location: options.location || {},
       [PROMISE]: (async () => {
         await dispatch(loadSourceText(source.toJS()));
         await dispatch(setOutOfScopeLocations());
@@ -236,7 +239,7 @@ export function jumpToMappedLocation(sourceLocation: any) {
     }
 
     return dispatch(
-      selectSource(pairedLocation.sourceId, { line: pairedLocation.line })
+      selectSource(pairedLocation.sourceId, { location: pairedLocation })
     );
   };
 }
@@ -329,22 +332,17 @@ export function togglePrettyPrint(sourceId: string) {
     if (prettySource) {
       return dispatch(
         selectSource(prettySource.get("id"), {
-          line: selectedOriginalLocation.line
+          location: selectedOriginalLocation
         })
       );
     }
 
-    const { source: newPrettySource } = await dispatch(
-      createPrettySource(sourceId)
-    );
-
+    const newPrettySource = await dispatch(createPrettySource(sourceId));
     await dispatch(remapBreakpoints(sourceId));
     await dispatch(setEmptyLines(newPrettySource.id));
 
     return dispatch(
-      selectSource(newPrettySource.id, {
-        line: selectedOriginalLocation.line
-      })
+      selectSource(newPrettySource.id, { location: selectedOriginalLocation })
     );
   };
 }
@@ -382,21 +380,6 @@ export function loadAllSources() {
       if (query) {
         await dispatch(searchSource(source.id, query));
       }
-    }
-  };
-}
-
-/**
- * Ensures parser has source text
- *
- * @memberof actions/sources
- * @static
- */
-export function ensureParserHasSourceText(sourceId: string) {
-  return async ({ dispatch, getState }: ThunkArgs) => {
-    if (!await parser.hasSource(sourceId)) {
-      await dispatch(loadSourceText(getSource(getState(), sourceId).toJS()));
-      await parser.setSource(getSource(getState(), sourceId).toJS());
     }
   };
 }

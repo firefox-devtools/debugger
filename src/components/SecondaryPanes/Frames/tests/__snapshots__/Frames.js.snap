@@ -1,2638 +1,485 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Frames Blackboxed Frames filters blackboxed frames 1`] = `
-ShallowWrapper {
-  "complexSelector": ComplexSelector {
-    "buildPredicate": [Function],
-    "childrenOfNode": [Function],
-    "findWhereUnwrapped": [Function],
-  },
-  "length": 1,
-  "node": <div
-    className="pane frames"
+<div
+  className="pane frames"
 >
-    <ul>
-        <Frame
-            copyStackTrace={[Function]}
-            frame={
-                Object {
-                    "id": 1,
-                    "location": Object {
-                      "sourceId": "1",
-                    },
-                    "source": Object {},
-                  }
-            }
-            frameworkGroupingOn={false}
-            hideLocation={false}
-            selectFrame={[Function]}
-            selectedFrame={
-                Object {
-                    "id": 1,
-                    "location": Object {
-                      "sourceId": "1",
-                    },
-                  }
-            }
-            shouldMapDisplayName={true}
-            toggleBlackBox={[Function]}
-            toggleFrameworkGrouping={[Function]}
-        />
-        <Frame
-            copyStackTrace={[Function]}
-            frame={
-                Object {
-                    "id": 3,
-                    "location": Object {
-                      "sourceId": "1",
-                    },
-                    "source": Object {},
-                  }
-            }
-            frameworkGroupingOn={false}
-            hideLocation={false}
-            selectFrame={[Function]}
-            selectedFrame={
-                Object {
-                    "id": 1,
-                    "location": Object {
-                      "sourceId": "1",
-                    },
-                  }
-            }
-            shouldMapDisplayName={true}
-            toggleBlackBox={[Function]}
-            toggleFrameworkGrouping={[Function]}
-        />
-    </ul>
-</div>,
-  "nodes": Array [
-    <div
-      className="pane frames"
->
-      <ul>
-            <Frame
-                  copyStackTrace={[Function]}
-                  frame={
-                        Object {
-                              "id": 1,
-                              "location": Object {
-                                "sourceId": "1",
-                              },
-                              "source": Object {},
-                            }
-                  }
-                  frameworkGroupingOn={false}
-                  hideLocation={false}
-                  selectFrame={[Function]}
-                  selectedFrame={
-                        Object {
-                              "id": 1,
-                              "location": Object {
-                                "sourceId": "1",
-                              },
-                            }
-                  }
-                  shouldMapDisplayName={true}
-                  toggleBlackBox={[Function]}
-                  toggleFrameworkGrouping={[Function]}
-            />
-            <Frame
-                  copyStackTrace={[Function]}
-                  frame={
-                        Object {
-                              "id": 3,
-                              "location": Object {
-                                "sourceId": "1",
-                              },
-                              "source": Object {},
-                            }
-                  }
-                  frameworkGroupingOn={false}
-                  hideLocation={false}
-                  selectFrame={[Function]}
-                  selectedFrame={
-                        Object {
-                              "id": 1,
-                              "location": Object {
-                                "sourceId": "1",
-                              },
-                            }
-                  }
-                  shouldMapDisplayName={true}
-                  toggleBlackBox={[Function]}
-                  toggleFrameworkGrouping={[Function]}
-            />
-      </ul>
-</div>,
-  ],
-  "options": Object {},
-  "renderer": ReactShallowRenderer {
-    "_instance": ShallowComponentWrapper {
-      "_calledComponentWillUnmount": false,
-      "_compositeType": 0,
-      "_context": Object {},
-      "_currentElement": <Frames
-        contextTypes={Object {}}
-        frames={
-                Array [
-                        Object {
-                          "id": 1,
-                          "location": Object {
-                            "sourceId": "1",
-                          },
-                          "source": Object {},
-                        },
-                        Object {
-                          "id": 3,
-                          "location": Object {
-                            "sourceId": "1",
-                          },
-                          "source": Object {},
-                        },
-                      ]
-        }
-        frameworkGroupingOn={false}
-        selectFrame={[Function]}
-        selectedFrame={
-                Object {
-                        "id": 1,
-                        "location": Object {
-                          "sourceId": "1",
-                        },
-                      }
-        }
-        toggleBlackBox={[Function]}
-        toggleFrameworkGrouping={[Function]}
-/>,
-      "_debugID": 7,
-      "_hostContainerInfo": null,
-      "_hostParent": null,
-      "_instance": Frames {
-        "_reactInternalInstance": [Circular],
-        "context": Object {},
-        "copyStackTrace": [Function],
-        "props": Object {
-          "contextTypes": Object {},
-          "frames": Array [
-            Object {
-              "id": 1,
-              "location": Object {
-                "sourceId": "1",
-              },
-              "source": Object {},
-            },
-            Object {
-              "id": 3,
-              "location": Object {
-                "sourceId": "1",
-              },
-              "source": Object {},
-            },
-          ],
-          "frameworkGroupingOn": false,
-          "selectFrame": [Function],
-          "selectedFrame": Object {
-            "id": 1,
-            "location": Object {
-              "sourceId": "1",
-            },
-          },
-          "toggleBlackBox": [Function],
-          "toggleFrameworkGrouping": [Function],
-        },
-        "refs": Object {},
-        "state": Object {
-          "showAllFrames": false,
-        },
-        "toggleFramesDisplay": [Function],
-        "toggleFrameworkGrouping": [Function],
-        "updater": Object {
-          "enqueueCallback": [Function],
-          "enqueueCallbackInternal": [Function],
-          "enqueueElementInternal": [Function],
-          "enqueueForceUpdate": [Function],
-          "enqueueReplaceState": [Function],
-          "enqueueSetState": [Function],
-          "isMounted": [Function],
-          "validateCallback": [Function],
-        },
-      },
-      "_mountOrder": 4,
-      "_pendingCallbacks": null,
-      "_pendingElement": null,
-      "_pendingForceUpdate": false,
-      "_pendingReplaceState": false,
-      "_pendingStateQueue": null,
-      "_renderedComponent": NoopInternalComponent {
-        "_currentElement": <div
-          className="pane frames"
->
-          <ul>
-                    <Frame
-                              copyStackTrace={[Function]}
-                              frame={
-                                        Object {
-                                                  "id": 1,
-                                                  "location": Object {
-                                                    "sourceId": "1",
-                                                  },
-                                                  "source": Object {},
-                                                }
-                              }
-                              frameworkGroupingOn={false}
-                              hideLocation={false}
-                              selectFrame={[Function]}
-                              selectedFrame={
-                                        Object {
-                                                  "id": 1,
-                                                  "location": Object {
-                                                    "sourceId": "1",
-                                                  },
-                                                }
-                              }
-                              shouldMapDisplayName={true}
-                              toggleBlackBox={[Function]}
-                              toggleFrameworkGrouping={[Function]}
-                    />
-                    <Frame
-                              copyStackTrace={[Function]}
-                              frame={
-                                        Object {
-                                                  "id": 3,
-                                                  "location": Object {
-                                                    "sourceId": "1",
-                                                  },
-                                                  "source": Object {},
-                                                }
-                              }
-                              frameworkGroupingOn={false}
-                              hideLocation={false}
-                              selectFrame={[Function]}
-                              selectedFrame={
-                                        Object {
-                                                  "id": 1,
-                                                  "location": Object {
-                                                    "sourceId": "1",
-                                                  },
-                                                }
-                              }
-                              shouldMapDisplayName={true}
-                              toggleBlackBox={[Function]}
-                              toggleFrameworkGrouping={[Function]}
-                    />
-          </ul>
-</div>,
-        "_debugID": 8,
-        "_renderedOutput": <div
-          className="pane frames"
->
-          <ul>
-                    <Frame
-                              copyStackTrace={[Function]}
-                              frame={
-                                        Object {
-                                                  "id": 1,
-                                                  "location": Object {
-                                                    "sourceId": "1",
-                                                  },
-                                                  "source": Object {},
-                                                }
-                              }
-                              frameworkGroupingOn={false}
-                              hideLocation={false}
-                              selectFrame={[Function]}
-                              selectedFrame={
-                                        Object {
-                                                  "id": 1,
-                                                  "location": Object {
-                                                    "sourceId": "1",
-                                                  },
-                                                }
-                              }
-                              shouldMapDisplayName={true}
-                              toggleBlackBox={[Function]}
-                              toggleFrameworkGrouping={[Function]}
-                    />
-                    <Frame
-                              copyStackTrace={[Function]}
-                              frame={
-                                        Object {
-                                                  "id": 3,
-                                                  "location": Object {
-                                                    "sourceId": "1",
-                                                  },
-                                                  "source": Object {},
-                                                }
-                              }
-                              frameworkGroupingOn={false}
-                              hideLocation={false}
-                              selectFrame={[Function]}
-                              selectedFrame={
-                                        Object {
-                                                  "id": 1,
-                                                  "location": Object {
-                                                    "sourceId": "1",
-                                                  },
-                                                }
-                              }
-                              shouldMapDisplayName={true}
-                              toggleBlackBox={[Function]}
-                              toggleFrameworkGrouping={[Function]}
-                    />
-          </ul>
-</div>,
-      },
-      "_renderedNodeType": 0,
-      "_rootNodeID": 0,
-      "_topLevelWrapper": null,
-      "_updateBatchNumber": null,
-      "_warnedAboutRefsInRender": false,
-    },
-    "getRenderOutput": [Function],
-    "render": [Function],
-  },
-  "root": [Circular],
-  "unrendered": <Frames
-    contextTypes={Object {}}
-    frames={
-        Array [
-            Object {
-              "id": 1,
-              "location": Object {
-                "sourceId": "1",
-              },
-              "source": Object {},
-            },
-            Object {
-              "id": 3,
-              "location": Object {
-                "sourceId": "1",
-              },
-              "source": Object {},
-            },
-          ]
-    }
-    frameworkGroupingOn={false}
-    selectFrame={[Function]}
-    selectedFrame={
+  <ul>
+    <Frame
+      copyStackTrace={[Function]}
+      frame={
         Object {
-            "id": 1,
-            "location": Object {
-              "sourceId": "1",
-            },
-          }
-    }
-    toggleBlackBox={[Function]}
-    toggleFrameworkGrouping={[Function]}
-/>,
-}
+          "id": 1,
+          "location": Object {
+            "sourceId": "1",
+          },
+          "source": Object {},
+        }
+      }
+      frameworkGroupingOn={false}
+      hideLocation={false}
+      key="1"
+      selectFrame={[Function]}
+      selectedFrame={
+        Object {
+          "id": 1,
+          "location": Object {
+            "sourceId": "1",
+          },
+        }
+      }
+      shouldMapDisplayName={true}
+      toggleBlackBox={[Function]}
+      toggleFrameworkGrouping={[Function]}
+    />
+    <Frame
+      copyStackTrace={[Function]}
+      frame={
+        Object {
+          "id": 3,
+          "location": Object {
+            "sourceId": "1",
+          },
+          "source": Object {},
+        }
+      }
+      frameworkGroupingOn={false}
+      hideLocation={false}
+      key="3"
+      selectFrame={[Function]}
+      selectedFrame={
+        Object {
+          "id": 1,
+          "location": Object {
+            "sourceId": "1",
+          },
+        }
+      }
+      shouldMapDisplayName={true}
+      toggleBlackBox={[Function]}
+      toggleFrameworkGrouping={[Function]}
+    />
+  </ul>
+</div>
 `;
 
 exports[`Frames Library Frames toggling framework frames 1`] = `
-ShallowWrapper {
-  "complexSelector": ComplexSelector {
-    "buildPredicate": [Function],
-    "childrenOfNode": [Function],
-    "findWhereUnwrapped": [Function],
-  },
-  "length": 1,
-  "node": <div
-    className="pane frames"
+<div
+  className="pane frames"
 >
-    <ul>
-        <Frame
-            copyStackTrace={[Function]}
-            frame={
-                Object {
-                    "id": 1,
-                  }
-            }
-            frameworkGroupingOn={false}
-            hideLocation={false}
-            selectFrame={[Function]}
-            selectedFrame={
-                Object {
-                    "id": 1,
-                  }
-            }
-            shouldMapDisplayName={true}
-            toggleBlackBox={[Function]}
-            toggleFrameworkGrouping={[Function]}
-        />
-        <Frame
-            copyStackTrace={[Function]}
-            frame={
-                Object {
-                    "id": 2,
-                    "library": "back",
-                  }
-            }
-            frameworkGroupingOn={false}
-            hideLocation={false}
-            selectFrame={[Function]}
-            selectedFrame={
-                Object {
-                    "id": 1,
-                  }
-            }
-            shouldMapDisplayName={true}
-            toggleBlackBox={[Function]}
-            toggleFrameworkGrouping={[Function]}
-        />
-        <Frame
-            copyStackTrace={[Function]}
-            frame={
-                Object {
-                    "id": 3,
-                    "library": "back",
-                  }
-            }
-            frameworkGroupingOn={false}
-            hideLocation={false}
-            selectFrame={[Function]}
-            selectedFrame={
-                Object {
-                    "id": 1,
-                  }
-            }
-            shouldMapDisplayName={true}
-            toggleBlackBox={[Function]}
-            toggleFrameworkGrouping={[Function]}
-        />
-        <Frame
-            copyStackTrace={[Function]}
-            frame={
-                Object {
-                    "id": 8,
-                  }
-            }
-            frameworkGroupingOn={false}
-            hideLocation={false}
-            selectFrame={[Function]}
-            selectedFrame={
-                Object {
-                    "id": 1,
-                  }
-            }
-            shouldMapDisplayName={true}
-            toggleBlackBox={[Function]}
-            toggleFrameworkGrouping={[Function]}
-        />
-    </ul>
-</div>,
-  "nodes": Array [
-    <div
-      className="pane frames"
->
-      <ul>
-            <Frame
-                  copyStackTrace={[Function]}
-                  frame={
-                        Object {
-                              "id": 1,
-                            }
-                  }
-                  frameworkGroupingOn={false}
-                  hideLocation={false}
-                  selectFrame={[Function]}
-                  selectedFrame={
-                        Object {
-                              "id": 1,
-                            }
-                  }
-                  shouldMapDisplayName={true}
-                  toggleBlackBox={[Function]}
-                  toggleFrameworkGrouping={[Function]}
-            />
-            <Frame
-                  copyStackTrace={[Function]}
-                  frame={
-                        Object {
-                              "id": 2,
-                              "library": "back",
-                            }
-                  }
-                  frameworkGroupingOn={false}
-                  hideLocation={false}
-                  selectFrame={[Function]}
-                  selectedFrame={
-                        Object {
-                              "id": 1,
-                            }
-                  }
-                  shouldMapDisplayName={true}
-                  toggleBlackBox={[Function]}
-                  toggleFrameworkGrouping={[Function]}
-            />
-            <Frame
-                  copyStackTrace={[Function]}
-                  frame={
-                        Object {
-                              "id": 3,
-                              "library": "back",
-                            }
-                  }
-                  frameworkGroupingOn={false}
-                  hideLocation={false}
-                  selectFrame={[Function]}
-                  selectedFrame={
-                        Object {
-                              "id": 1,
-                            }
-                  }
-                  shouldMapDisplayName={true}
-                  toggleBlackBox={[Function]}
-                  toggleFrameworkGrouping={[Function]}
-            />
-            <Frame
-                  copyStackTrace={[Function]}
-                  frame={
-                        Object {
-                              "id": 8,
-                            }
-                  }
-                  frameworkGroupingOn={false}
-                  hideLocation={false}
-                  selectFrame={[Function]}
-                  selectedFrame={
-                        Object {
-                              "id": 1,
-                            }
-                  }
-                  shouldMapDisplayName={true}
-                  toggleBlackBox={[Function]}
-                  toggleFrameworkGrouping={[Function]}
-            />
-      </ul>
-</div>,
-  ],
-  "options": Object {},
-  "renderer": ReactShallowRenderer {
-    "_instance": ShallowComponentWrapper {
-      "_calledComponentWillUnmount": false,
-      "_compositeType": 0,
-      "_context": Object {},
-      "_currentElement": <Frames
-        contextTypes={Object {}}
-        frames={
-                Array [
-                        Object {
-                          "id": 1,
-                        },
-                        Object {
-                          "id": 2,
-                          "library": "back",
-                        },
-                        Object {
-                          "id": 3,
-                          "library": "back",
-                        },
-                        Object {
-                          "id": 8,
-                        },
-                      ]
-        }
-        frameworkGroupingOn={false}
-        selectFrame={[Function]}
-        selectedFrame={
-                Object {
-                        "id": 1,
-                      }
-        }
-        toggleBlackBox={[Function]}
-        toggleFrameworkGrouping={[Function]}
-/>,
-      "_debugID": 9,
-      "_hostContainerInfo": null,
-      "_hostParent": null,
-      "_instance": Frames {
-        "_reactInternalInstance": [Circular],
-        "context": Object {},
-        "copyStackTrace": [Function],
-        "props": Object {
-          "contextTypes": Object {},
-          "frames": Array [
-            Object {
-              "id": 1,
-            },
-            Object {
-              "id": 2,
-              "library": "back",
-            },
-            Object {
-              "id": 3,
-              "library": "back",
-            },
-            Object {
-              "id": 8,
-            },
-          ],
-          "frameworkGroupingOn": false,
-          "selectFrame": [Function],
-          "selectedFrame": Object {
-            "id": 1,
-          },
-          "toggleBlackBox": [Function],
-          "toggleFrameworkGrouping": [Function],
-        },
-        "refs": Object {},
-        "state": Object {
-          "showAllFrames": false,
-        },
-        "toggleFramesDisplay": [Function],
-        "toggleFrameworkGrouping": [Function],
-        "updater": Object {
-          "enqueueCallback": [Function],
-          "enqueueCallbackInternal": [Function],
-          "enqueueElementInternal": [Function],
-          "enqueueForceUpdate": [Function],
-          "enqueueReplaceState": [Function],
-          "enqueueSetState": [Function],
-          "isMounted": [Function],
-          "validateCallback": [Function],
-        },
-      },
-      "_mountOrder": 5,
-      "_pendingCallbacks": null,
-      "_pendingElement": null,
-      "_pendingForceUpdate": false,
-      "_pendingReplaceState": false,
-      "_pendingStateQueue": null,
-      "_renderedComponent": NoopInternalComponent {
-        "_currentElement": <div
-          className="pane frames"
->
-          <ul>
-                    <Frame
-                              copyStackTrace={[Function]}
-                              frame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              frameworkGroupingOn={false}
-                              hideLocation={false}
-                              selectFrame={[Function]}
-                              selectedFrame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              shouldMapDisplayName={true}
-                              toggleBlackBox={[Function]}
-                              toggleFrameworkGrouping={[Function]}
-                    />
-                    <Frame
-                              copyStackTrace={[Function]}
-                              frame={
-                                        Object {
-                                                  "id": 2,
-                                                  "library": "back",
-                                                }
-                              }
-                              frameworkGroupingOn={false}
-                              hideLocation={false}
-                              selectFrame={[Function]}
-                              selectedFrame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              shouldMapDisplayName={true}
-                              toggleBlackBox={[Function]}
-                              toggleFrameworkGrouping={[Function]}
-                    />
-                    <Frame
-                              copyStackTrace={[Function]}
-                              frame={
-                                        Object {
-                                                  "id": 3,
-                                                  "library": "back",
-                                                }
-                              }
-                              frameworkGroupingOn={false}
-                              hideLocation={false}
-                              selectFrame={[Function]}
-                              selectedFrame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              shouldMapDisplayName={true}
-                              toggleBlackBox={[Function]}
-                              toggleFrameworkGrouping={[Function]}
-                    />
-                    <Frame
-                              copyStackTrace={[Function]}
-                              frame={
-                                        Object {
-                                                  "id": 8,
-                                                }
-                              }
-                              frameworkGroupingOn={false}
-                              hideLocation={false}
-                              selectFrame={[Function]}
-                              selectedFrame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              shouldMapDisplayName={true}
-                              toggleBlackBox={[Function]}
-                              toggleFrameworkGrouping={[Function]}
-                    />
-          </ul>
-</div>,
-        "_debugID": 10,
-        "_renderedOutput": <div
-          className="pane frames"
->
-          <ul>
-                    <Frame
-                              copyStackTrace={[Function]}
-                              frame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              frameworkGroupingOn={false}
-                              hideLocation={false}
-                              selectFrame={[Function]}
-                              selectedFrame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              shouldMapDisplayName={true}
-                              toggleBlackBox={[Function]}
-                              toggleFrameworkGrouping={[Function]}
-                    />
-                    <Frame
-                              copyStackTrace={[Function]}
-                              frame={
-                                        Object {
-                                                  "id": 2,
-                                                  "library": "back",
-                                                }
-                              }
-                              frameworkGroupingOn={false}
-                              hideLocation={false}
-                              selectFrame={[Function]}
-                              selectedFrame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              shouldMapDisplayName={true}
-                              toggleBlackBox={[Function]}
-                              toggleFrameworkGrouping={[Function]}
-                    />
-                    <Frame
-                              copyStackTrace={[Function]}
-                              frame={
-                                        Object {
-                                                  "id": 3,
-                                                  "library": "back",
-                                                }
-                              }
-                              frameworkGroupingOn={false}
-                              hideLocation={false}
-                              selectFrame={[Function]}
-                              selectedFrame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              shouldMapDisplayName={true}
-                              toggleBlackBox={[Function]}
-                              toggleFrameworkGrouping={[Function]}
-                    />
-                    <Frame
-                              copyStackTrace={[Function]}
-                              frame={
-                                        Object {
-                                                  "id": 8,
-                                                }
-                              }
-                              frameworkGroupingOn={false}
-                              hideLocation={false}
-                              selectFrame={[Function]}
-                              selectedFrame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              shouldMapDisplayName={true}
-                              toggleBlackBox={[Function]}
-                              toggleFrameworkGrouping={[Function]}
-                    />
-          </ul>
-</div>,
-      },
-      "_renderedNodeType": 0,
-      "_rootNodeID": 0,
-      "_topLevelWrapper": null,
-      "_updateBatchNumber": null,
-      "_warnedAboutRefsInRender": false,
-    },
-    "getRenderOutput": [Function],
-    "render": [Function],
-  },
-  "root": [Circular],
-  "unrendered": <Frames
-    contextTypes={Object {}}
-    frames={
-        Array [
-            Object {
-              "id": 1,
-            },
-            Object {
-              "id": 2,
-              "library": "back",
-            },
-            Object {
-              "id": 3,
-              "library": "back",
-            },
-            Object {
-              "id": 8,
-            },
-          ]
-    }
-    frameworkGroupingOn={false}
-    selectFrame={[Function]}
-    selectedFrame={
+  <ul>
+    <Frame
+      copyStackTrace={[Function]}
+      frame={
         Object {
-            "id": 1,
-          }
-    }
-    toggleBlackBox={[Function]}
-    toggleFrameworkGrouping={[Function]}
-/>,
-}
+          "id": 1,
+        }
+      }
+      frameworkGroupingOn={false}
+      hideLocation={false}
+      key="1"
+      selectFrame={[Function]}
+      selectedFrame={
+        Object {
+          "id": 1,
+        }
+      }
+      shouldMapDisplayName={true}
+      toggleBlackBox={[Function]}
+      toggleFrameworkGrouping={[Function]}
+    />
+    <Frame
+      copyStackTrace={[Function]}
+      frame={
+        Object {
+          "id": 2,
+          "library": "back",
+        }
+      }
+      frameworkGroupingOn={false}
+      hideLocation={false}
+      key="2"
+      selectFrame={[Function]}
+      selectedFrame={
+        Object {
+          "id": 1,
+        }
+      }
+      shouldMapDisplayName={true}
+      toggleBlackBox={[Function]}
+      toggleFrameworkGrouping={[Function]}
+    />
+    <Frame
+      copyStackTrace={[Function]}
+      frame={
+        Object {
+          "id": 3,
+          "library": "back",
+        }
+      }
+      frameworkGroupingOn={false}
+      hideLocation={false}
+      key="3"
+      selectFrame={[Function]}
+      selectedFrame={
+        Object {
+          "id": 1,
+        }
+      }
+      shouldMapDisplayName={true}
+      toggleBlackBox={[Function]}
+      toggleFrameworkGrouping={[Function]}
+    />
+    <Frame
+      copyStackTrace={[Function]}
+      frame={
+        Object {
+          "id": 8,
+        }
+      }
+      frameworkGroupingOn={false}
+      hideLocation={false}
+      key="8"
+      selectFrame={[Function]}
+      selectedFrame={
+        Object {
+          "id": 1,
+        }
+      }
+      shouldMapDisplayName={true}
+      toggleBlackBox={[Function]}
+      toggleFrameworkGrouping={[Function]}
+    />
+  </ul>
+</div>
 `;
 
 exports[`Frames Library Frames toggling framework frames 2`] = `
-ShallowWrapper {
-  "complexSelector": ComplexSelector {
-    "buildPredicate": [Function],
-    "childrenOfNode": [Function],
-    "findWhereUnwrapped": [Function],
-  },
-  "length": 1,
-  "node": <div
-    className="pane frames"
+<div
+  className="pane frames"
 >
-    <ul>
-        <Frame
-            copyStackTrace={[Function]}
-            frame={
-                Object {
-                    "id": 1,
-                  }
-            }
-            frameworkGroupingOn={true}
-            hideLocation={false}
-            selectFrame={[Function]}
-            selectedFrame={
-                Object {
-                    "id": 1,
-                  }
-            }
-            shouldMapDisplayName={true}
-            toggleBlackBox={[Function]}
-            toggleFrameworkGrouping={[Function]}
-        />
-        <Group
-            copyStackTrace={[Function]}
-            frameworkGroupingOn={true}
-            group={
-                Array [
-                    Object {
-                      "id": 2,
-                      "library": "back",
-                    },
-                    Object {
-                      "id": 3,
-                      "library": "back",
-                    },
-                  ]
-            }
-            selectFrame={[Function]}
-            selectedFrame={
-                Object {
-                    "id": 1,
-                  }
-            }
-            toggleBlackBox={[Function]}
-            toggleFrameworkGrouping={[Function]}
-        />
-        <Frame
-            copyStackTrace={[Function]}
-            frame={
-                Object {
-                    "id": 8,
-                  }
-            }
-            frameworkGroupingOn={true}
-            hideLocation={false}
-            selectFrame={[Function]}
-            selectedFrame={
-                Object {
-                    "id": 1,
-                  }
-            }
-            shouldMapDisplayName={true}
-            toggleBlackBox={[Function]}
-            toggleFrameworkGrouping={[Function]}
-        />
-    </ul>
-</div>,
-  "nodes": Array [
-    <div
-      className="pane frames"
->
-      <ul>
-            <Frame
-                  copyStackTrace={[Function]}
-                  frame={
-                        Object {
-                              "id": 1,
-                            }
-                  }
-                  frameworkGroupingOn={true}
-                  hideLocation={false}
-                  selectFrame={[Function]}
-                  selectedFrame={
-                        Object {
-                              "id": 1,
-                            }
-                  }
-                  shouldMapDisplayName={true}
-                  toggleBlackBox={[Function]}
-                  toggleFrameworkGrouping={[Function]}
-            />
-            <Group
-                  copyStackTrace={[Function]}
-                  frameworkGroupingOn={true}
-                  group={
-                        Array [
-                              Object {
-                                "id": 2,
-                                "library": "back",
-                              },
-                              Object {
-                                "id": 3,
-                                "library": "back",
-                              },
-                            ]
-                  }
-                  selectFrame={[Function]}
-                  selectedFrame={
-                        Object {
-                              "id": 1,
-                            }
-                  }
-                  toggleBlackBox={[Function]}
-                  toggleFrameworkGrouping={[Function]}
-            />
-            <Frame
-                  copyStackTrace={[Function]}
-                  frame={
-                        Object {
-                              "id": 8,
-                            }
-                  }
-                  frameworkGroupingOn={true}
-                  hideLocation={false}
-                  selectFrame={[Function]}
-                  selectedFrame={
-                        Object {
-                              "id": 1,
-                            }
-                  }
-                  shouldMapDisplayName={true}
-                  toggleBlackBox={[Function]}
-                  toggleFrameworkGrouping={[Function]}
-            />
-      </ul>
-</div>,
-  ],
-  "options": Object {},
-  "renderer": ReactShallowRenderer {
-    "_instance": ShallowComponentWrapper {
-      "_calledComponentWillUnmount": false,
-      "_compositeType": 0,
-      "_context": Object {},
-      "_currentElement": <Frames
-        contextTypes={Object {}}
-        frames={
-                Array [
-                        Object {
-                          "id": 1,
-                        },
-                        Object {
-                          "id": 2,
-                          "library": "back",
-                        },
-                        Object {
-                          "id": 3,
-                          "library": "back",
-                        },
-                        Object {
-                          "id": 8,
-                        },
-                      ]
-        }
-        frameworkGroupingOn={true}
-        selectFrame={[Function]}
-        selectedFrame={
-                Object {
-                        "id": 1,
-                      }
-        }
-        toggleBlackBox={[Function]}
-        toggleFrameworkGrouping={[Function]}
-/>,
-      "_debugID": 9,
-      "_hostContainerInfo": null,
-      "_hostParent": null,
-      "_instance": Frames {
-        "_reactInternalInstance": [Circular],
-        "context": Object {},
-        "copyStackTrace": [Function],
-        "props": Object {
-          "contextTypes": Object {},
-          "frames": Array [
-            Object {
-              "id": 1,
-            },
-            Object {
-              "id": 2,
-              "library": "back",
-            },
-            Object {
-              "id": 3,
-              "library": "back",
-            },
-            Object {
-              "id": 8,
-            },
-          ],
-          "frameworkGroupingOn": true,
-          "selectFrame": [Function],
-          "selectedFrame": Object {
-            "id": 1,
-          },
-          "toggleBlackBox": [Function],
-          "toggleFrameworkGrouping": [Function],
-        },
-        "refs": Object {},
-        "state": Object {
-          "showAllFrames": false,
-        },
-        "toggleFramesDisplay": [Function],
-        "toggleFrameworkGrouping": [Function],
-        "updater": Object {
-          "enqueueCallback": [Function],
-          "enqueueCallbackInternal": [Function],
-          "enqueueElementInternal": [Function],
-          "enqueueForceUpdate": [Function],
-          "enqueueReplaceState": [Function],
-          "enqueueSetState": [Function],
-          "isMounted": [Function],
-          "validateCallback": [Function],
-        },
-      },
-      "_mountOrder": 5,
-      "_pendingCallbacks": null,
-      "_pendingElement": null,
-      "_pendingForceUpdate": false,
-      "_pendingReplaceState": false,
-      "_pendingStateQueue": null,
-      "_renderedComponent": NoopInternalComponent {
-        "_currentElement": <div
-          className="pane frames"
->
-          <ul>
-                    <Frame
-                              copyStackTrace={[Function]}
-                              frame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              frameworkGroupingOn={true}
-                              hideLocation={false}
-                              selectFrame={[Function]}
-                              selectedFrame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              shouldMapDisplayName={true}
-                              toggleBlackBox={[Function]}
-                              toggleFrameworkGrouping={[Function]}
-                    />
-                    <Group
-                              copyStackTrace={[Function]}
-                              frameworkGroupingOn={true}
-                              group={
-                                        Array [
-                                                  Object {
-                                                    "id": 2,
-                                                    "library": "back",
-                                                  },
-                                                  Object {
-                                                    "id": 3,
-                                                    "library": "back",
-                                                  },
-                                                ]
-                              }
-                              selectFrame={[Function]}
-                              selectedFrame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              toggleBlackBox={[Function]}
-                              toggleFrameworkGrouping={[Function]}
-                    />
-                    <Frame
-                              copyStackTrace={[Function]}
-                              frame={
-                                        Object {
-                                                  "id": 8,
-                                                }
-                              }
-                              frameworkGroupingOn={true}
-                              hideLocation={false}
-                              selectFrame={[Function]}
-                              selectedFrame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              shouldMapDisplayName={true}
-                              toggleBlackBox={[Function]}
-                              toggleFrameworkGrouping={[Function]}
-                    />
-          </ul>
-</div>,
-        "_debugID": 10,
-        "_renderedOutput": <div
-          className="pane frames"
->
-          <ul>
-                    <Frame
-                              copyStackTrace={[Function]}
-                              frame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              frameworkGroupingOn={true}
-                              hideLocation={false}
-                              selectFrame={[Function]}
-                              selectedFrame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              shouldMapDisplayName={true}
-                              toggleBlackBox={[Function]}
-                              toggleFrameworkGrouping={[Function]}
-                    />
-                    <Group
-                              copyStackTrace={[Function]}
-                              frameworkGroupingOn={true}
-                              group={
-                                        Array [
-                                                  Object {
-                                                    "id": 2,
-                                                    "library": "back",
-                                                  },
-                                                  Object {
-                                                    "id": 3,
-                                                    "library": "back",
-                                                  },
-                                                ]
-                              }
-                              selectFrame={[Function]}
-                              selectedFrame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              toggleBlackBox={[Function]}
-                              toggleFrameworkGrouping={[Function]}
-                    />
-                    <Frame
-                              copyStackTrace={[Function]}
-                              frame={
-                                        Object {
-                                                  "id": 8,
-                                                }
-                              }
-                              frameworkGroupingOn={true}
-                              hideLocation={false}
-                              selectFrame={[Function]}
-                              selectedFrame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              shouldMapDisplayName={true}
-                              toggleBlackBox={[Function]}
-                              toggleFrameworkGrouping={[Function]}
-                    />
-          </ul>
-</div>,
-      },
-      "_renderedNodeType": 0,
-      "_rootNodeID": 0,
-      "_topLevelWrapper": null,
-      "_updateBatchNumber": null,
-      "_warnedAboutRefsInRender": false,
-    },
-    "getRenderOutput": [Function],
-    "render": [Function],
-  },
-  "root": [Circular],
-  "unrendered": <Frames
-    contextTypes={Object {}}
-    frames={
-        Array [
-            Object {
-              "id": 1,
-            },
-            Object {
-              "id": 2,
-              "library": "back",
-            },
-            Object {
-              "id": 3,
-              "library": "back",
-            },
-            Object {
-              "id": 8,
-            },
-          ]
-    }
-    frameworkGroupingOn={true}
-    selectFrame={[Function]}
-    selectedFrame={
+  <ul>
+    <Frame
+      copyStackTrace={[Function]}
+      frame={
         Object {
-            "id": 1,
-          }
-    }
-    toggleBlackBox={[Function]}
-    toggleFrameworkGrouping={[Function]}
-/>,
-}
+          "id": 1,
+        }
+      }
+      frameworkGroupingOn={true}
+      hideLocation={false}
+      key="1"
+      selectFrame={[Function]}
+      selectedFrame={
+        Object {
+          "id": 1,
+        }
+      }
+      shouldMapDisplayName={true}
+      toggleBlackBox={[Function]}
+      toggleFrameworkGrouping={[Function]}
+    />
+    <Group
+      copyStackTrace={[Function]}
+      frameworkGroupingOn={true}
+      group={
+        Array [
+          Object {
+            "id": 2,
+            "library": "back",
+          },
+          Object {
+            "id": 3,
+            "library": "back",
+          },
+        ]
+      }
+      key="2"
+      selectFrame={[Function]}
+      selectedFrame={
+        Object {
+          "id": 1,
+        }
+      }
+      toggleBlackBox={[Function]}
+      toggleFrameworkGrouping={[Function]}
+    />
+    <Frame
+      copyStackTrace={[Function]}
+      frame={
+        Object {
+          "id": 8,
+        }
+      }
+      frameworkGroupingOn={true}
+      hideLocation={false}
+      key="8"
+      selectFrame={[Function]}
+      selectedFrame={
+        Object {
+          "id": 1,
+        }
+      }
+      shouldMapDisplayName={true}
+      toggleBlackBox={[Function]}
+      toggleFrameworkGrouping={[Function]}
+    />
+  </ul>
+</div>
 `;
 
 exports[`Frames Supports different number of frames empty frames 1`] = `
-ShallowWrapper {
-  "complexSelector": ComplexSelector {
-    "buildPredicate": [Function],
-    "childrenOfNode": [Function],
-    "findWhereUnwrapped": [Function],
-  },
-  "length": 1,
-  "node": <div
-    className="pane frames"
+<div
+  className="pane frames"
 >
-    <div
-        className="pane-info empty"
-    >
-        Not paused
-    </div>
-</div>,
-  "nodes": Array [
-    <div
-      className="pane frames"
->
-      <div
-            className="pane-info empty"
-      >
-            Not paused
-      </div>
-</div>,
-  ],
-  "options": Object {},
-  "renderer": ReactShallowRenderer {
-    "_instance": ShallowComponentWrapper {
-      "_calledComponentWillUnmount": false,
-      "_compositeType": 0,
-      "_context": Object {},
-      "_currentElement": <Frames
-        contextTypes={Object {}}
-        frames={null}
-        frameworkGroupingOn={false}
-        selectFrame={[Function]}
-        selectedFrame={null}
-        toggleBlackBox={[Function]}
-        toggleFrameworkGrouping={[Function]}
-/>,
-      "_debugID": 1,
-      "_hostContainerInfo": null,
-      "_hostParent": null,
-      "_instance": Frames {
-        "_reactInternalInstance": [Circular],
-        "context": Object {},
-        "copyStackTrace": [Function],
-        "props": Object {
-          "contextTypes": Object {},
-          "frames": null,
-          "frameworkGroupingOn": false,
-          "selectFrame": [Function],
-          "selectedFrame": null,
-          "toggleBlackBox": [Function],
-          "toggleFrameworkGrouping": [Function],
-        },
-        "refs": Object {},
-        "state": Object {
-          "showAllFrames": false,
-        },
-        "toggleFramesDisplay": [Function],
-        "toggleFrameworkGrouping": [Function],
-        "updater": Object {
-          "enqueueCallback": [Function],
-          "enqueueCallbackInternal": [Function],
-          "enqueueElementInternal": [Function],
-          "enqueueForceUpdate": [Function],
-          "enqueueReplaceState": [Function],
-          "enqueueSetState": [Function],
-          "isMounted": [Function],
-          "validateCallback": [Function],
-        },
-      },
-      "_mountOrder": 1,
-      "_pendingCallbacks": null,
-      "_pendingElement": null,
-      "_pendingForceUpdate": false,
-      "_pendingReplaceState": false,
-      "_pendingStateQueue": null,
-      "_renderedComponent": NoopInternalComponent {
-        "_currentElement": <div
-          className="pane frames"
->
-          <div
-                    className="pane-info empty"
-          >
-                    Not paused
-          </div>
-</div>,
-        "_debugID": 2,
-        "_renderedOutput": <div
-          className="pane frames"
->
-          <div
-                    className="pane-info empty"
-          >
-                    Not paused
-          </div>
-</div>,
-      },
-      "_renderedNodeType": 0,
-      "_rootNodeID": 0,
-      "_topLevelWrapper": null,
-      "_updateBatchNumber": null,
-      "_warnedAboutRefsInRender": false,
-    },
-    "getRenderOutput": [Function],
-    "render": [Function],
-  },
-  "root": [Circular],
-  "unrendered": <Frames
-    contextTypes={Object {}}
-    frames={null}
-    frameworkGroupingOn={false}
-    selectFrame={[Function]}
-    selectedFrame={null}
-    toggleBlackBox={[Function]}
-    toggleFrameworkGrouping={[Function]}
-/>,
-}
+  <div
+    className="pane-info empty"
+  >
+    Not paused
+  </div>
+</div>
 `;
 
 exports[`Frames Supports different number of frames one frame 1`] = `
-ShallowWrapper {
-  "complexSelector": ComplexSelector {
-    "buildPredicate": [Function],
-    "childrenOfNode": [Function],
-    "findWhereUnwrapped": [Function],
-  },
-  "length": 1,
-  "node": <div
-    className="pane frames"
+<div
+  className="pane frames"
 >
-    <ul>
-        <Frame
-            copyStackTrace={[Function]}
-            frame={
-                Object {
-                    "id": 1,
-                  }
-            }
-            frameworkGroupingOn={false}
-            hideLocation={false}
-            selectFrame={[Function]}
-            selectedFrame={
-                Object {
-                    "id": 1,
-                  }
-            }
-            shouldMapDisplayName={true}
-            toggleBlackBox={[Function]}
-            toggleFrameworkGrouping={[Function]}
-        />
-    </ul>
-</div>,
-  "nodes": Array [
-    <div
-      className="pane frames"
->
-      <ul>
-            <Frame
-                  copyStackTrace={[Function]}
-                  frame={
-                        Object {
-                              "id": 1,
-                            }
-                  }
-                  frameworkGroupingOn={false}
-                  hideLocation={false}
-                  selectFrame={[Function]}
-                  selectedFrame={
-                        Object {
-                              "id": 1,
-                            }
-                  }
-                  shouldMapDisplayName={true}
-                  toggleBlackBox={[Function]}
-                  toggleFrameworkGrouping={[Function]}
-            />
-      </ul>
-</div>,
-  ],
-  "options": Object {},
-  "renderer": ReactShallowRenderer {
-    "_instance": ShallowComponentWrapper {
-      "_calledComponentWillUnmount": false,
-      "_compositeType": 0,
-      "_context": Object {},
-      "_currentElement": <Frames
-        contextTypes={Object {}}
-        frames={
-                Array [
-                        Object {
-                          "id": 1,
-                        },
-                      ]
-        }
-        frameworkGroupingOn={false}
-        selectFrame={[Function]}
-        selectedFrame={
-                Object {
-                        "id": 1,
-                      }
-        }
-        toggleBlackBox={[Function]}
-        toggleFrameworkGrouping={[Function]}
-/>,
-      "_debugID": 3,
-      "_hostContainerInfo": null,
-      "_hostParent": null,
-      "_instance": Frames {
-        "_reactInternalInstance": [Circular],
-        "context": Object {},
-        "copyStackTrace": [Function],
-        "props": Object {
-          "contextTypes": Object {},
-          "frames": Array [
-            Object {
-              "id": 1,
-            },
-          ],
-          "frameworkGroupingOn": false,
-          "selectFrame": [Function],
-          "selectedFrame": Object {
-            "id": 1,
-          },
-          "toggleBlackBox": [Function],
-          "toggleFrameworkGrouping": [Function],
-        },
-        "refs": Object {},
-        "state": Object {
-          "showAllFrames": false,
-        },
-        "toggleFramesDisplay": [Function],
-        "toggleFrameworkGrouping": [Function],
-        "updater": Object {
-          "enqueueCallback": [Function],
-          "enqueueCallbackInternal": [Function],
-          "enqueueElementInternal": [Function],
-          "enqueueForceUpdate": [Function],
-          "enqueueReplaceState": [Function],
-          "enqueueSetState": [Function],
-          "isMounted": [Function],
-          "validateCallback": [Function],
-        },
-      },
-      "_mountOrder": 2,
-      "_pendingCallbacks": null,
-      "_pendingElement": null,
-      "_pendingForceUpdate": false,
-      "_pendingReplaceState": false,
-      "_pendingStateQueue": null,
-      "_renderedComponent": NoopInternalComponent {
-        "_currentElement": <div
-          className="pane frames"
->
-          <ul>
-                    <Frame
-                              copyStackTrace={[Function]}
-                              frame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              frameworkGroupingOn={false}
-                              hideLocation={false}
-                              selectFrame={[Function]}
-                              selectedFrame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              shouldMapDisplayName={true}
-                              toggleBlackBox={[Function]}
-                              toggleFrameworkGrouping={[Function]}
-                    />
-          </ul>
-</div>,
-        "_debugID": 4,
-        "_renderedOutput": <div
-          className="pane frames"
->
-          <ul>
-                    <Frame
-                              copyStackTrace={[Function]}
-                              frame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              frameworkGroupingOn={false}
-                              hideLocation={false}
-                              selectFrame={[Function]}
-                              selectedFrame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              shouldMapDisplayName={true}
-                              toggleBlackBox={[Function]}
-                              toggleFrameworkGrouping={[Function]}
-                    />
-          </ul>
-</div>,
-      },
-      "_renderedNodeType": 0,
-      "_rootNodeID": 0,
-      "_topLevelWrapper": null,
-      "_updateBatchNumber": null,
-      "_warnedAboutRefsInRender": false,
-    },
-    "getRenderOutput": [Function],
-    "render": [Function],
-  },
-  "root": [Circular],
-  "unrendered": <Frames
-    contextTypes={Object {}}
-    frames={
-        Array [
-            Object {
-              "id": 1,
-            },
-          ]
-    }
-    frameworkGroupingOn={false}
-    selectFrame={[Function]}
-    selectedFrame={
+  <ul>
+    <Frame
+      copyStackTrace={[Function]}
+      frame={
         Object {
-            "id": 1,
-          }
-    }
-    toggleBlackBox={[Function]}
-    toggleFrameworkGrouping={[Function]}
-/>,
-}
+          "id": 1,
+        }
+      }
+      frameworkGroupingOn={false}
+      hideLocation={false}
+      key="1"
+      selectFrame={[Function]}
+      selectedFrame={
+        Object {
+          "id": 1,
+        }
+      }
+      shouldMapDisplayName={true}
+      toggleBlackBox={[Function]}
+      toggleFrameworkGrouping={[Function]}
+    />
+  </ul>
+</div>
 `;
 
 exports[`Frames Supports different number of frames toggling the show more button 1`] = `
-ShallowWrapper {
-  "complexSelector": ComplexSelector {
-    "buildPredicate": [Function],
-    "childrenOfNode": [Function],
-    "findWhereUnwrapped": [Function],
-  },
-  "length": 1,
-  "node": <div
-    className="pane frames"
+<div
+  className="pane frames"
 >
-    <ul>
-        <Frame
-            copyStackTrace={[Function]}
-            frame={
-                Object {
-                    "id": 1,
-                  }
-            }
-            frameworkGroupingOn={false}
-            hideLocation={false}
-            selectFrame={[Function]}
-            selectedFrame={
-                Object {
-                    "id": 1,
-                  }
-            }
-            shouldMapDisplayName={true}
-            toggleBlackBox={[Function]}
-            toggleFrameworkGrouping={[Function]}
-        />
-        <Frame
-            copyStackTrace={[Function]}
-            frame={
-                Object {
-                    "id": 2,
-                  }
-            }
-            frameworkGroupingOn={false}
-            hideLocation={false}
-            selectFrame={[Function]}
-            selectedFrame={
-                Object {
-                    "id": 1,
-                  }
-            }
-            shouldMapDisplayName={true}
-            toggleBlackBox={[Function]}
-            toggleFrameworkGrouping={[Function]}
-        />
-        <Frame
-            copyStackTrace={[Function]}
-            frame={
-                Object {
-                    "id": 3,
-                  }
-            }
-            frameworkGroupingOn={false}
-            hideLocation={false}
-            selectFrame={[Function]}
-            selectedFrame={
-                Object {
-                    "id": 1,
-                  }
-            }
-            shouldMapDisplayName={true}
-            toggleBlackBox={[Function]}
-            toggleFrameworkGrouping={[Function]}
-        />
-        <Frame
-            copyStackTrace={[Function]}
-            frame={
-                Object {
-                    "id": 4,
-                  }
-            }
-            frameworkGroupingOn={false}
-            hideLocation={false}
-            selectFrame={[Function]}
-            selectedFrame={
-                Object {
-                    "id": 1,
-                  }
-            }
-            shouldMapDisplayName={true}
-            toggleBlackBox={[Function]}
-            toggleFrameworkGrouping={[Function]}
-        />
-        <Frame
-            copyStackTrace={[Function]}
-            frame={
-                Object {
-                    "id": 5,
-                  }
-            }
-            frameworkGroupingOn={false}
-            hideLocation={false}
-            selectFrame={[Function]}
-            selectedFrame={
-                Object {
-                    "id": 1,
-                  }
-            }
-            shouldMapDisplayName={true}
-            toggleBlackBox={[Function]}
-            toggleFrameworkGrouping={[Function]}
-        />
-        <Frame
-            copyStackTrace={[Function]}
-            frame={
-                Object {
-                    "id": 6,
-                  }
-            }
-            frameworkGroupingOn={false}
-            hideLocation={false}
-            selectFrame={[Function]}
-            selectedFrame={
-                Object {
-                    "id": 1,
-                  }
-            }
-            shouldMapDisplayName={true}
-            toggleBlackBox={[Function]}
-            toggleFrameworkGrouping={[Function]}
-        />
-        <Frame
-            copyStackTrace={[Function]}
-            frame={
-                Object {
-                    "id": 7,
-                  }
-            }
-            frameworkGroupingOn={false}
-            hideLocation={false}
-            selectFrame={[Function]}
-            selectedFrame={
-                Object {
-                    "id": 1,
-                  }
-            }
-            shouldMapDisplayName={true}
-            toggleBlackBox={[Function]}
-            toggleFrameworkGrouping={[Function]}
-        />
-        <Frame
-            copyStackTrace={[Function]}
-            frame={
-                Object {
-                    "id": 8,
-                  }
-            }
-            frameworkGroupingOn={false}
-            hideLocation={false}
-            selectFrame={[Function]}
-            selectedFrame={
-                Object {
-                    "id": 1,
-                  }
-            }
-            shouldMapDisplayName={true}
-            toggleBlackBox={[Function]}
-            toggleFrameworkGrouping={[Function]}
-        />
-        <Frame
-            copyStackTrace={[Function]}
-            frame={
-                Object {
-                    "id": 9,
-                  }
-            }
-            frameworkGroupingOn={false}
-            hideLocation={false}
-            selectFrame={[Function]}
-            selectedFrame={
-                Object {
-                    "id": 1,
-                  }
-            }
-            shouldMapDisplayName={true}
-            toggleBlackBox={[Function]}
-            toggleFrameworkGrouping={[Function]}
-        />
-        <Frame
-            copyStackTrace={[Function]}
-            frame={
-                Object {
-                    "id": 10,
-                  }
-            }
-            frameworkGroupingOn={false}
-            hideLocation={false}
-            selectFrame={[Function]}
-            selectedFrame={
-                Object {
-                    "id": 1,
-                  }
-            }
-            shouldMapDisplayName={true}
-            toggleBlackBox={[Function]}
-            toggleFrameworkGrouping={[Function]}
-        />
-    </ul>
-    <div
-        className="show-more"
-        onClick={[Function]}
-    >
-        Collapse rows
-    </div>
-</div>,
-  "nodes": Array [
-    <div
-      className="pane frames"
->
-      <ul>
-            <Frame
-                  copyStackTrace={[Function]}
-                  frame={
-                        Object {
-                              "id": 1,
-                            }
-                  }
-                  frameworkGroupingOn={false}
-                  hideLocation={false}
-                  selectFrame={[Function]}
-                  selectedFrame={
-                        Object {
-                              "id": 1,
-                            }
-                  }
-                  shouldMapDisplayName={true}
-                  toggleBlackBox={[Function]}
-                  toggleFrameworkGrouping={[Function]}
-            />
-            <Frame
-                  copyStackTrace={[Function]}
-                  frame={
-                        Object {
-                              "id": 2,
-                            }
-                  }
-                  frameworkGroupingOn={false}
-                  hideLocation={false}
-                  selectFrame={[Function]}
-                  selectedFrame={
-                        Object {
-                              "id": 1,
-                            }
-                  }
-                  shouldMapDisplayName={true}
-                  toggleBlackBox={[Function]}
-                  toggleFrameworkGrouping={[Function]}
-            />
-            <Frame
-                  copyStackTrace={[Function]}
-                  frame={
-                        Object {
-                              "id": 3,
-                            }
-                  }
-                  frameworkGroupingOn={false}
-                  hideLocation={false}
-                  selectFrame={[Function]}
-                  selectedFrame={
-                        Object {
-                              "id": 1,
-                            }
-                  }
-                  shouldMapDisplayName={true}
-                  toggleBlackBox={[Function]}
-                  toggleFrameworkGrouping={[Function]}
-            />
-            <Frame
-                  copyStackTrace={[Function]}
-                  frame={
-                        Object {
-                              "id": 4,
-                            }
-                  }
-                  frameworkGroupingOn={false}
-                  hideLocation={false}
-                  selectFrame={[Function]}
-                  selectedFrame={
-                        Object {
-                              "id": 1,
-                            }
-                  }
-                  shouldMapDisplayName={true}
-                  toggleBlackBox={[Function]}
-                  toggleFrameworkGrouping={[Function]}
-            />
-            <Frame
-                  copyStackTrace={[Function]}
-                  frame={
-                        Object {
-                              "id": 5,
-                            }
-                  }
-                  frameworkGroupingOn={false}
-                  hideLocation={false}
-                  selectFrame={[Function]}
-                  selectedFrame={
-                        Object {
-                              "id": 1,
-                            }
-                  }
-                  shouldMapDisplayName={true}
-                  toggleBlackBox={[Function]}
-                  toggleFrameworkGrouping={[Function]}
-            />
-            <Frame
-                  copyStackTrace={[Function]}
-                  frame={
-                        Object {
-                              "id": 6,
-                            }
-                  }
-                  frameworkGroupingOn={false}
-                  hideLocation={false}
-                  selectFrame={[Function]}
-                  selectedFrame={
-                        Object {
-                              "id": 1,
-                            }
-                  }
-                  shouldMapDisplayName={true}
-                  toggleBlackBox={[Function]}
-                  toggleFrameworkGrouping={[Function]}
-            />
-            <Frame
-                  copyStackTrace={[Function]}
-                  frame={
-                        Object {
-                              "id": 7,
-                            }
-                  }
-                  frameworkGroupingOn={false}
-                  hideLocation={false}
-                  selectFrame={[Function]}
-                  selectedFrame={
-                        Object {
-                              "id": 1,
-                            }
-                  }
-                  shouldMapDisplayName={true}
-                  toggleBlackBox={[Function]}
-                  toggleFrameworkGrouping={[Function]}
-            />
-            <Frame
-                  copyStackTrace={[Function]}
-                  frame={
-                        Object {
-                              "id": 8,
-                            }
-                  }
-                  frameworkGroupingOn={false}
-                  hideLocation={false}
-                  selectFrame={[Function]}
-                  selectedFrame={
-                        Object {
-                              "id": 1,
-                            }
-                  }
-                  shouldMapDisplayName={true}
-                  toggleBlackBox={[Function]}
-                  toggleFrameworkGrouping={[Function]}
-            />
-            <Frame
-                  copyStackTrace={[Function]}
-                  frame={
-                        Object {
-                              "id": 9,
-                            }
-                  }
-                  frameworkGroupingOn={false}
-                  hideLocation={false}
-                  selectFrame={[Function]}
-                  selectedFrame={
-                        Object {
-                              "id": 1,
-                            }
-                  }
-                  shouldMapDisplayName={true}
-                  toggleBlackBox={[Function]}
-                  toggleFrameworkGrouping={[Function]}
-            />
-            <Frame
-                  copyStackTrace={[Function]}
-                  frame={
-                        Object {
-                              "id": 10,
-                            }
-                  }
-                  frameworkGroupingOn={false}
-                  hideLocation={false}
-                  selectFrame={[Function]}
-                  selectedFrame={
-                        Object {
-                              "id": 1,
-                            }
-                  }
-                  shouldMapDisplayName={true}
-                  toggleBlackBox={[Function]}
-                  toggleFrameworkGrouping={[Function]}
-            />
-      </ul>
-      <div
-            className="show-more"
-            onClick={[Function]}
-      >
-            Collapse rows
-      </div>
-</div>,
-  ],
-  "options": Object {},
-  "renderer": ReactShallowRenderer {
-    "_instance": ShallowComponentWrapper {
-      "_calledComponentWillUnmount": false,
-      "_compositeType": 0,
-      "_context": Object {},
-      "_currentElement": <Frames
-        contextTypes={Object {}}
-        frames={
-                Array [
-                        Object {
-                          "id": 1,
-                        },
-                        Object {
-                          "id": 2,
-                        },
-                        Object {
-                          "id": 3,
-                        },
-                        Object {
-                          "id": 4,
-                        },
-                        Object {
-                          "id": 5,
-                        },
-                        Object {
-                          "id": 6,
-                        },
-                        Object {
-                          "id": 7,
-                        },
-                        Object {
-                          "id": 8,
-                        },
-                        Object {
-                          "id": 9,
-                        },
-                        Object {
-                          "id": 10,
-                        },
-                      ]
-        }
-        frameworkGroupingOn={false}
-        selectFrame={[Function]}
-        selectedFrame={
-                Object {
-                        "id": 1,
-                      }
-        }
-        toggleBlackBox={[Function]}
-        toggleFrameworkGrouping={[Function]}
-/>,
-      "_debugID": 5,
-      "_hostContainerInfo": null,
-      "_hostParent": null,
-      "_instance": Frames {
-        "_reactInternalInstance": [Circular],
-        "context": Object {},
-        "copyStackTrace": [Function],
-        "props": Object {
-          "contextTypes": Object {},
-          "frames": Array [
-            Object {
-              "id": 1,
-            },
-            Object {
-              "id": 2,
-            },
-            Object {
-              "id": 3,
-            },
-            Object {
-              "id": 4,
-            },
-            Object {
-              "id": 5,
-            },
-            Object {
-              "id": 6,
-            },
-            Object {
-              "id": 7,
-            },
-            Object {
-              "id": 8,
-            },
-            Object {
-              "id": 9,
-            },
-            Object {
-              "id": 10,
-            },
-          ],
-          "frameworkGroupingOn": false,
-          "selectFrame": [Function],
-          "selectedFrame": Object {
-            "id": 1,
-          },
-          "toggleBlackBox": [Function],
-          "toggleFrameworkGrouping": [Function],
-        },
-        "refs": Object {},
-        "state": Object {
-          "showAllFrames": true,
-        },
-        "toggleFramesDisplay": [Function],
-        "toggleFrameworkGrouping": [Function],
-        "updater": Object {
-          "enqueueCallback": [Function],
-          "enqueueCallbackInternal": [Function],
-          "enqueueElementInternal": [Function],
-          "enqueueForceUpdate": [Function],
-          "enqueueReplaceState": [Function],
-          "enqueueSetState": [Function],
-          "isMounted": [Function],
-          "validateCallback": [Function],
-        },
-      },
-      "_mountOrder": 3,
-      "_pendingCallbacks": null,
-      "_pendingElement": null,
-      "_pendingForceUpdate": false,
-      "_pendingReplaceState": false,
-      "_pendingStateQueue": null,
-      "_renderedComponent": NoopInternalComponent {
-        "_currentElement": <div
-          className="pane frames"
->
-          <ul>
-                    <Frame
-                              copyStackTrace={[Function]}
-                              frame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              frameworkGroupingOn={false}
-                              hideLocation={false}
-                              selectFrame={[Function]}
-                              selectedFrame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              shouldMapDisplayName={true}
-                              toggleBlackBox={[Function]}
-                              toggleFrameworkGrouping={[Function]}
-                    />
-                    <Frame
-                              copyStackTrace={[Function]}
-                              frame={
-                                        Object {
-                                                  "id": 2,
-                                                }
-                              }
-                              frameworkGroupingOn={false}
-                              hideLocation={false}
-                              selectFrame={[Function]}
-                              selectedFrame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              shouldMapDisplayName={true}
-                              toggleBlackBox={[Function]}
-                              toggleFrameworkGrouping={[Function]}
-                    />
-                    <Frame
-                              copyStackTrace={[Function]}
-                              frame={
-                                        Object {
-                                                  "id": 3,
-                                                }
-                              }
-                              frameworkGroupingOn={false}
-                              hideLocation={false}
-                              selectFrame={[Function]}
-                              selectedFrame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              shouldMapDisplayName={true}
-                              toggleBlackBox={[Function]}
-                              toggleFrameworkGrouping={[Function]}
-                    />
-                    <Frame
-                              copyStackTrace={[Function]}
-                              frame={
-                                        Object {
-                                                  "id": 4,
-                                                }
-                              }
-                              frameworkGroupingOn={false}
-                              hideLocation={false}
-                              selectFrame={[Function]}
-                              selectedFrame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              shouldMapDisplayName={true}
-                              toggleBlackBox={[Function]}
-                              toggleFrameworkGrouping={[Function]}
-                    />
-                    <Frame
-                              copyStackTrace={[Function]}
-                              frame={
-                                        Object {
-                                                  "id": 5,
-                                                }
-                              }
-                              frameworkGroupingOn={false}
-                              hideLocation={false}
-                              selectFrame={[Function]}
-                              selectedFrame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              shouldMapDisplayName={true}
-                              toggleBlackBox={[Function]}
-                              toggleFrameworkGrouping={[Function]}
-                    />
-                    <Frame
-                              copyStackTrace={[Function]}
-                              frame={
-                                        Object {
-                                                  "id": 6,
-                                                }
-                              }
-                              frameworkGroupingOn={false}
-                              hideLocation={false}
-                              selectFrame={[Function]}
-                              selectedFrame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              shouldMapDisplayName={true}
-                              toggleBlackBox={[Function]}
-                              toggleFrameworkGrouping={[Function]}
-                    />
-                    <Frame
-                              copyStackTrace={[Function]}
-                              frame={
-                                        Object {
-                                                  "id": 7,
-                                                }
-                              }
-                              frameworkGroupingOn={false}
-                              hideLocation={false}
-                              selectFrame={[Function]}
-                              selectedFrame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              shouldMapDisplayName={true}
-                              toggleBlackBox={[Function]}
-                              toggleFrameworkGrouping={[Function]}
-                    />
-                    <Frame
-                              copyStackTrace={[Function]}
-                              frame={
-                                        Object {
-                                                  "id": 8,
-                                                }
-                              }
-                              frameworkGroupingOn={false}
-                              hideLocation={false}
-                              selectFrame={[Function]}
-                              selectedFrame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              shouldMapDisplayName={true}
-                              toggleBlackBox={[Function]}
-                              toggleFrameworkGrouping={[Function]}
-                    />
-                    <Frame
-                              copyStackTrace={[Function]}
-                              frame={
-                                        Object {
-                                                  "id": 9,
-                                                }
-                              }
-                              frameworkGroupingOn={false}
-                              hideLocation={false}
-                              selectFrame={[Function]}
-                              selectedFrame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              shouldMapDisplayName={true}
-                              toggleBlackBox={[Function]}
-                              toggleFrameworkGrouping={[Function]}
-                    />
-                    <Frame
-                              copyStackTrace={[Function]}
-                              frame={
-                                        Object {
-                                                  "id": 10,
-                                                }
-                              }
-                              frameworkGroupingOn={false}
-                              hideLocation={false}
-                              selectFrame={[Function]}
-                              selectedFrame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              shouldMapDisplayName={true}
-                              toggleBlackBox={[Function]}
-                              toggleFrameworkGrouping={[Function]}
-                    />
-          </ul>
-          <div
-                    className="show-more"
-                    onClick={[Function]}
-          >
-                    Collapse rows
-          </div>
-</div>,
-        "_debugID": 6,
-        "_renderedOutput": <div
-          className="pane frames"
->
-          <ul>
-                    <Frame
-                              copyStackTrace={[Function]}
-                              frame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              frameworkGroupingOn={false}
-                              hideLocation={false}
-                              selectFrame={[Function]}
-                              selectedFrame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              shouldMapDisplayName={true}
-                              toggleBlackBox={[Function]}
-                              toggleFrameworkGrouping={[Function]}
-                    />
-                    <Frame
-                              copyStackTrace={[Function]}
-                              frame={
-                                        Object {
-                                                  "id": 2,
-                                                }
-                              }
-                              frameworkGroupingOn={false}
-                              hideLocation={false}
-                              selectFrame={[Function]}
-                              selectedFrame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              shouldMapDisplayName={true}
-                              toggleBlackBox={[Function]}
-                              toggleFrameworkGrouping={[Function]}
-                    />
-                    <Frame
-                              copyStackTrace={[Function]}
-                              frame={
-                                        Object {
-                                                  "id": 3,
-                                                }
-                              }
-                              frameworkGroupingOn={false}
-                              hideLocation={false}
-                              selectFrame={[Function]}
-                              selectedFrame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              shouldMapDisplayName={true}
-                              toggleBlackBox={[Function]}
-                              toggleFrameworkGrouping={[Function]}
-                    />
-                    <Frame
-                              copyStackTrace={[Function]}
-                              frame={
-                                        Object {
-                                                  "id": 4,
-                                                }
-                              }
-                              frameworkGroupingOn={false}
-                              hideLocation={false}
-                              selectFrame={[Function]}
-                              selectedFrame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              shouldMapDisplayName={true}
-                              toggleBlackBox={[Function]}
-                              toggleFrameworkGrouping={[Function]}
-                    />
-                    <Frame
-                              copyStackTrace={[Function]}
-                              frame={
-                                        Object {
-                                                  "id": 5,
-                                                }
-                              }
-                              frameworkGroupingOn={false}
-                              hideLocation={false}
-                              selectFrame={[Function]}
-                              selectedFrame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              shouldMapDisplayName={true}
-                              toggleBlackBox={[Function]}
-                              toggleFrameworkGrouping={[Function]}
-                    />
-                    <Frame
-                              copyStackTrace={[Function]}
-                              frame={
-                                        Object {
-                                                  "id": 6,
-                                                }
-                              }
-                              frameworkGroupingOn={false}
-                              hideLocation={false}
-                              selectFrame={[Function]}
-                              selectedFrame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              shouldMapDisplayName={true}
-                              toggleBlackBox={[Function]}
-                              toggleFrameworkGrouping={[Function]}
-                    />
-                    <Frame
-                              copyStackTrace={[Function]}
-                              frame={
-                                        Object {
-                                                  "id": 7,
-                                                }
-                              }
-                              frameworkGroupingOn={false}
-                              hideLocation={false}
-                              selectFrame={[Function]}
-                              selectedFrame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              shouldMapDisplayName={true}
-                              toggleBlackBox={[Function]}
-                              toggleFrameworkGrouping={[Function]}
-                    />
-                    <Frame
-                              copyStackTrace={[Function]}
-                              frame={
-                                        Object {
-                                                  "id": 8,
-                                                }
-                              }
-                              frameworkGroupingOn={false}
-                              hideLocation={false}
-                              selectFrame={[Function]}
-                              selectedFrame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              shouldMapDisplayName={true}
-                              toggleBlackBox={[Function]}
-                              toggleFrameworkGrouping={[Function]}
-                    />
-                    <Frame
-                              copyStackTrace={[Function]}
-                              frame={
-                                        Object {
-                                                  "id": 9,
-                                                }
-                              }
-                              frameworkGroupingOn={false}
-                              hideLocation={false}
-                              selectFrame={[Function]}
-                              selectedFrame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              shouldMapDisplayName={true}
-                              toggleBlackBox={[Function]}
-                              toggleFrameworkGrouping={[Function]}
-                    />
-                    <Frame
-                              copyStackTrace={[Function]}
-                              frame={
-                                        Object {
-                                                  "id": 10,
-                                                }
-                              }
-                              frameworkGroupingOn={false}
-                              hideLocation={false}
-                              selectFrame={[Function]}
-                              selectedFrame={
-                                        Object {
-                                                  "id": 1,
-                                                }
-                              }
-                              shouldMapDisplayName={true}
-                              toggleBlackBox={[Function]}
-                              toggleFrameworkGrouping={[Function]}
-                    />
-          </ul>
-          <div
-                    className="show-more"
-                    onClick={[Function]}
-          >
-                    Collapse rows
-          </div>
-</div>,
-      },
-      "_renderedNodeType": 0,
-      "_rootNodeID": 0,
-      "_topLevelWrapper": null,
-      "_updateBatchNumber": null,
-      "_warnedAboutRefsInRender": false,
-    },
-    "getRenderOutput": [Function],
-    "render": [Function],
-  },
-  "root": [Circular],
-  "unrendered": <Frames
-    contextTypes={Object {}}
-    frames={
-        Array [
-            Object {
-              "id": 1,
-            },
-            Object {
-              "id": 2,
-            },
-            Object {
-              "id": 3,
-            },
-            Object {
-              "id": 4,
-            },
-            Object {
-              "id": 5,
-            },
-            Object {
-              "id": 6,
-            },
-            Object {
-              "id": 7,
-            },
-            Object {
-              "id": 8,
-            },
-            Object {
-              "id": 9,
-            },
-            Object {
-              "id": 10,
-            },
-          ]
-    }
-    frameworkGroupingOn={false}
-    selectFrame={[Function]}
-    selectedFrame={
+  <ul>
+    <Frame
+      copyStackTrace={[Function]}
+      frame={
         Object {
-            "id": 1,
-          }
-    }
-    toggleBlackBox={[Function]}
-    toggleFrameworkGrouping={[Function]}
-/>,
-}
+          "id": 1,
+        }
+      }
+      frameworkGroupingOn={false}
+      hideLocation={false}
+      key="1"
+      selectFrame={[Function]}
+      selectedFrame={
+        Object {
+          "id": 1,
+        }
+      }
+      shouldMapDisplayName={true}
+      toggleBlackBox={[Function]}
+      toggleFrameworkGrouping={[Function]}
+    />
+    <Frame
+      copyStackTrace={[Function]}
+      frame={
+        Object {
+          "id": 2,
+        }
+      }
+      frameworkGroupingOn={false}
+      hideLocation={false}
+      key="2"
+      selectFrame={[Function]}
+      selectedFrame={
+        Object {
+          "id": 1,
+        }
+      }
+      shouldMapDisplayName={true}
+      toggleBlackBox={[Function]}
+      toggleFrameworkGrouping={[Function]}
+    />
+    <Frame
+      copyStackTrace={[Function]}
+      frame={
+        Object {
+          "id": 3,
+        }
+      }
+      frameworkGroupingOn={false}
+      hideLocation={false}
+      key="3"
+      selectFrame={[Function]}
+      selectedFrame={
+        Object {
+          "id": 1,
+        }
+      }
+      shouldMapDisplayName={true}
+      toggleBlackBox={[Function]}
+      toggleFrameworkGrouping={[Function]}
+    />
+    <Frame
+      copyStackTrace={[Function]}
+      frame={
+        Object {
+          "id": 4,
+        }
+      }
+      frameworkGroupingOn={false}
+      hideLocation={false}
+      key="4"
+      selectFrame={[Function]}
+      selectedFrame={
+        Object {
+          "id": 1,
+        }
+      }
+      shouldMapDisplayName={true}
+      toggleBlackBox={[Function]}
+      toggleFrameworkGrouping={[Function]}
+    />
+    <Frame
+      copyStackTrace={[Function]}
+      frame={
+        Object {
+          "id": 5,
+        }
+      }
+      frameworkGroupingOn={false}
+      hideLocation={false}
+      key="5"
+      selectFrame={[Function]}
+      selectedFrame={
+        Object {
+          "id": 1,
+        }
+      }
+      shouldMapDisplayName={true}
+      toggleBlackBox={[Function]}
+      toggleFrameworkGrouping={[Function]}
+    />
+    <Frame
+      copyStackTrace={[Function]}
+      frame={
+        Object {
+          "id": 6,
+        }
+      }
+      frameworkGroupingOn={false}
+      hideLocation={false}
+      key="6"
+      selectFrame={[Function]}
+      selectedFrame={
+        Object {
+          "id": 1,
+        }
+      }
+      shouldMapDisplayName={true}
+      toggleBlackBox={[Function]}
+      toggleFrameworkGrouping={[Function]}
+    />
+    <Frame
+      copyStackTrace={[Function]}
+      frame={
+        Object {
+          "id": 7,
+        }
+      }
+      frameworkGroupingOn={false}
+      hideLocation={false}
+      key="7"
+      selectFrame={[Function]}
+      selectedFrame={
+        Object {
+          "id": 1,
+        }
+      }
+      shouldMapDisplayName={true}
+      toggleBlackBox={[Function]}
+      toggleFrameworkGrouping={[Function]}
+    />
+    <Frame
+      copyStackTrace={[Function]}
+      frame={
+        Object {
+          "id": 8,
+        }
+      }
+      frameworkGroupingOn={false}
+      hideLocation={false}
+      key="8"
+      selectFrame={[Function]}
+      selectedFrame={
+        Object {
+          "id": 1,
+        }
+      }
+      shouldMapDisplayName={true}
+      toggleBlackBox={[Function]}
+      toggleFrameworkGrouping={[Function]}
+    />
+    <Frame
+      copyStackTrace={[Function]}
+      frame={
+        Object {
+          "id": 9,
+        }
+      }
+      frameworkGroupingOn={false}
+      hideLocation={false}
+      key="9"
+      selectFrame={[Function]}
+      selectedFrame={
+        Object {
+          "id": 1,
+        }
+      }
+      shouldMapDisplayName={true}
+      toggleBlackBox={[Function]}
+      toggleFrameworkGrouping={[Function]}
+    />
+    <Frame
+      copyStackTrace={[Function]}
+      frame={
+        Object {
+          "id": 10,
+        }
+      }
+      frameworkGroupingOn={false}
+      hideLocation={false}
+      key="10"
+      selectFrame={[Function]}
+      selectedFrame={
+        Object {
+          "id": 1,
+        }
+      }
+      shouldMapDisplayName={true}
+      toggleBlackBox={[Function]}
+      toggleFrameworkGrouping={[Function]}
+    />
+  </ul>
+  <div
+    className="show-more"
+    onClick={[Function]}
+  >
+    Collapse rows
+  </div>
+</div>
 `;

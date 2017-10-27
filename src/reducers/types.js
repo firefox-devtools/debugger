@@ -32,5 +32,5 @@ export type PendingSelectedLocation = {
 };
 
 export type { SourceRecord, SourcesMap } from "./sources";
-
+export type { ActiveSearchType, OrientationType } from "./ui";
 export type { BreakpointsMap } from "./breakpoints";

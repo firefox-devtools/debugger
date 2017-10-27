@@ -8,7 +8,6 @@ import {
   getPrettySource,
   getPaneCollapse
 } from "../../selectors";
-import Svg from "../shared/Svg";
 
 import classnames from "classnames";
 import { isEnabled } from "devtools-config";
@@ -21,19 +20,19 @@ import type { SourceRecord } from "../../reducers/sources";
 
 import "./Footer.css";
 
-class SourceFooter extends PureComponent {
-  props: {
-    selectedSource: SourceRecord,
-    selectSource: (string, ?Object) => void,
-    editor: any,
-    togglePrettyPrint: string => void,
-    toggleBlackBox: Object => void,
-    recordCoverage: () => void,
-    togglePaneCollapse: () => void,
-    endPanelCollapsed: boolean,
-    horizontal: boolean
-  };
+type Props = {
+  selectedSource: SourceRecord,
+  selectSource: (string, ?Object) => void,
+  editor: any,
+  togglePrettyPrint: string => void,
+  toggleBlackBox: Object => void,
+  recordCoverage: () => void,
+  togglePaneCollapse: () => void,
+  endPanelCollapsed: boolean,
+  horizontal: boolean
+};
 
+class SourceFooter extends PureComponent<Props> {
   prettyPrintButton() {
     const { selectedSource, togglePrettyPrint } = this.props;
     const sourceLoaded = selectedSource && isLoaded(selectedSource.toJS());
@@ -56,7 +55,7 @@ class SourceFooter extends PureComponent {
         title={tooltip}
         aria-label={tooltip}
       >
-        <Svg name={type} />
+        <img className={type} />
       </button>
     );
   }
@@ -85,7 +84,7 @@ class SourceFooter extends PureComponent {
         title={tooltip}
         aria-label={tooltip}
       >
-        <Svg name="blackBox" />
+        <img className="blackBox" />
       </button>
     );
   }

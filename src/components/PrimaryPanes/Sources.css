@@ -130,3 +130,30 @@
 .source-outline-tabs .tab:hover path {
   fill: var(--theme-body-color);
 }
+
+.sources-list .managed-tree .tree .node img.blackBox {
+  mask: url(/images/blackBox.svg) no-repeat;
+  mask-size: 100%;
+  background-color: var(--theme-highlight-blue);
+  width: 13px;
+  height: 13px;
+  display: inline-block;
+  margin-inline-end: 5px;
+  margin-bottom: -2px;
+}
+
+.sources-list .managed-tree .tree .node.focused img.blackBox {
+  background-color: white;
+}
+
+.theme-dark .sources-list .managed-tree .tree .node:not(.focused) img.blackBox {
+  background-color: var(--theme-content-color3);
+}
+
+.theme-dark .sources-list .managed-tree .tree .node img.blackBox {
+  background-color: var(--theme-body-color);
+}
+
+.theme-dark .sources-list .managed-tree .tree .node.focused img.blackBox {
+  background-color: white;
+}

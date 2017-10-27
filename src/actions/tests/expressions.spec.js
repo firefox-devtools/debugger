@@ -10,7 +10,8 @@ const mockThreadClient = {
       }
     });
   },
-  getFrameScopes: () => {}
+  getFrameScopes: () => {},
+  sourceContents: () => ({})
 };
 
 describe("expressions", () => {

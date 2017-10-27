@@ -101,6 +101,18 @@ function toSourceLine(sourceId: string, line: number): ?number {
   return isWasm(sourceId) ? lineToWasmOffset(sourceId, line) : line + 1;
 }
 
+function scrollToColumn(codeMirror: any, line: number, column: number) {
+  const { top, left } = codeMirror.charCoords(
+    { line: line, ch: column },
+    "local"
+  );
+
+  const centeredX = left - codeMirror.getScrollerElement().offsetWidth / 2;
+  const centeredY = top - codeMirror.getScrollerElement().offsetHeight / 2;
+
+  codeMirror.scrollTo(centeredX, centeredY);
+}
+
 function toSourceLocation(
   sourceId: string,
   location: EditorPosition
@@ -152,6 +164,7 @@ module.exports = Object.assign(
     toEditorPosition,
     toEditorRange,
     toSourceLine,
+    scrollToColumn,
     toSourceLocation,
     shouldShowPrettyPrint,
     shouldShowFooter,

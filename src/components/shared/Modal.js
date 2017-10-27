@@ -1,23 +1,20 @@
 // @flow
 
 import PropTypes from "prop-types";
-import React, { Component } from "react";
-import type { Children } from "react";
+import * as React from "react";
 import classnames from "classnames";
 import Transition from "react-transition-group/Transition";
 import "./Modal.css";
 
 type ModalProps = {
   status: string,
-  children?: Children,
+  children?: React.Node,
   additionalClass?: string,
   handleClose: () => any
 };
 
-export class Modal extends Component {
-  props: ModalProps;
-
-  onClick = (e: SyntheticEvent) => {
+export class Modal extends React.Component<ModalProps> {
+  onClick = (e: SyntheticEvent<HTMLElement>) => {
     e.stopPropagation();
   };
 
@@ -43,7 +40,7 @@ Modal.contextTypes = {
 
 type SlideProps = {
   in: boolean,
-  children?: Children,
+  children?: React.Node,
   additionalClass?: string,
   handleClose: () => any
 };

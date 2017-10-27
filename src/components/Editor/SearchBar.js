@@ -43,7 +43,7 @@ function getShortcuts() {
   };
 }
 
-type SearchBarState = {
+type State = {
   query: string,
   selectedResultIndex: number,
   count: number,
@@ -67,11 +67,7 @@ type Props = {
   updateSearchResults: ({ count: number, index?: number }) => any
 };
 
-class SearchBar extends Component {
-  state: SearchBarState;
-
-  props: Props;
-
+class SearchBar extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -117,13 +113,13 @@ class SearchBar extends Component {
     shortcuts.on(searchAgainShortcut, (_, e) => this.traverseResults(e, false));
   }
 
-  componentDidUpdate(prevProps: Props, prevState: SearchBarState) {
+  componentDidUpdate(prevProps: Props, prevState: State) {
     if (this.refs.resultList && this.refs.resultList.refs) {
       scrollList(this.refs.resultList.refs, this.state.selectedResultIndex);
     }
   }
 
-  onEscape = (e: SyntheticKeyboardEvent) => {
+  onEscape = (e: SyntheticKeyboardEvent<HTMLElement>) => {
     this.closeSearch(e);
   };
 
@@ -135,7 +131,7 @@ class SearchBar extends Component {
     }
   };
 
-  closeSearch = (e: SyntheticEvent) => {
+  closeSearch = (e: SyntheticEvent<HTMLElement>) => {
     const { editor, searchOn } = this.props;
 
     if (editor && searchOn) {
@@ -146,7 +142,7 @@ class SearchBar extends Component {
     }
   };
 
-  toggleSearch = (e: SyntheticKeyboardEvent) => {
+  toggleSearch = (e: SyntheticKeyboardEvent<HTMLElement>) => {
     e.stopPropagation();
     e.preventDefault();
     const { editor } = this.props;
@@ -185,7 +181,7 @@ class SearchBar extends Component {
     });
   };
 
-  traverseResults = (e: SyntheticEvent, rev: boolean) => {
+  traverseResults = (e: SyntheticEvent<HTMLElement>, rev: boolean) => {
     e.stopPropagation();
     e.preventDefault();
     const editor = this.props.editor;
@@ -198,13 +194,13 @@ class SearchBar extends Component {
 
   // Handlers
 
-  onChange = (e: any) => {
+  onChange = (e: SyntheticInputEvent<HTMLElement>) => {
     this.setState({ query: e.target.value });
 
     return this.doSearch(e.target.value);
   };
 
-  onKeyUp = (e: SyntheticKeyboardEvent) => {
+  onKeyUp = (e: SyntheticKeyboardEvent<HTMLElement>) => {
     if (e.key !== "Enter" && e.key !== "F3") {
       return;
     }
@@ -277,19 +273,6 @@ class SearchBar extends Component {
     );
   };
 
-  renderSearchType() {
-    return (
-      <div className="search-type-toggles">
-        <span
-          className="search-type-name"
-          onClick={() => this.props.setActiveSearch("symbol")}
-        >
-          {L10N.getStr("symbolSearch.search.functionsPlaceholder")}
-        </span>
-      </div>
-    );
-  }
-
   render() {
     const { searchResults: { count }, searchOn } = this.props;
 
@@ -310,10 +293,7 @@ class SearchBar extends Component {
           handlePrev={e => this.traverseResults(e, true)}
           handleClose={this.closeSearch}
         />
-        <div className="search-bottom-bar">
-          {this.renderSearchType()}
-          {this.renderSearchModifiers()}
-        </div>
+        <div className="search-bottom-bar">{this.renderSearchModifiers()}</div>
       </div>
     );
   }

@@ -1,4 +1,3 @@
-import chalk from "chalk";
 import getSymbols from "../getSymbols";
 
 export function formatSymbols(source: Source) {
@@ -28,8 +27,6 @@ export function formatSymbols(source: Source) {
   }
 
   return Object.keys(symbols)
-    .map(
-      name => `${chalk.blue(name)}:\n${symbols[name].map(summarize).join("\n")}`
-    )
+    .map(name => `${name}:\n${symbols[name].map(summarize).join("\n")}`)
     .join("\n\n");
 }

@@ -15,15 +15,13 @@ import type {
 import type { AstLocation } from "../../workers/parser/types";
 import type { SourceRecord } from "../../reducers/sources";
 
-export class Outline extends Component {
-  state: any;
+type Props = {
+  symbols: SymbolDeclarations,
+  selectSource: (string, { line: number }) => void,
+  selectedSource: ?SourceRecord
+};
 
-  props: {
-    symbols: SymbolDeclarations,
-    selectSource: (string, { line: number }) => void,
-    selectedSource: ?SourceRecord
-  };
-
+export class Outline extends Component<Props> {
   selectItem(location: AstLocation) {
     const { selectedSource, selectSource } = this.props;
     if (!selectedSource) {

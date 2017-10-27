@@ -1,9 +1,8 @@
 // @flow
-import React, { createFactory, Component } from "react";
+import React, { Component } from "react";
 import "./ManagedTree.css";
 
-import { Tree as _Tree } from "devtools-components";
-const Tree = createFactory(_Tree);
+import { Tree } from "devtools-components";
 
 export type Item = {
   contents: any,
@@ -30,15 +29,12 @@ type Props = {
   expanded?: any
 };
 
-type ManagedTreeState = {
+type State = {
   expanded: any,
   focusedItem: ?Item
 };
 
-class ManagedTree extends Component {
-  state: ManagedTreeState;
-  props: Props;
-
+class ManagedTree extends Component<Props, State> {
   constructor(props: Props) {
     super();
 

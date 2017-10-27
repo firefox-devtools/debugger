@@ -5,7 +5,7 @@ import type { Expression } from "debugger-html";
 
 // replace quotes and slashes that could interfere with the evaluation.
 export function sanitizeInput(input: string) {
-  return input.replace(/\\/g, "\\\\").replace(/"/g, "\\$&");
+  return input.replace(/\\/g, "\\\\").replace(/"/g, '"');
 }
 
 /*

@@ -82,7 +82,7 @@
   "firefox": {
     "webSocketConnection": false,
     "host": "localhost",
-    "webSocketPort": 9000,
+    "webSocketPort": 8116,
     "tcpPort": 6080,
     "mcPath": "./firefox"
   },

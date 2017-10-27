@@ -1,7 +1,6 @@
 // @flow
 import React, { Component } from "react";
 import classnames from "classnames";
-import Svg from "../shared/Svg";
 import "./CommandBar.css";
 
 function debugBtn(onClick, type, className, tooltip, disabled = false) {
@@ -15,17 +14,17 @@ function debugBtn(onClick, type, className, tooltip, disabled = false) {
 
   return (
     <button className={classnames(type, className)} {...props}>
-      <Svg name={type} />
+      ?
     </button>
   );
 }
 
-class UtilsBar extends Component {
-  props: {
-    horizontal: boolean,
-    toggleShortcutsModal: () => void
-  };
+type Props = {
+  horizontal: boolean,
+  toggleShortcutsModal: () => void
+};
 
+class UtilsBar extends Component<Props> {
   renderUtilButtons() {
     return [
       debugBtn(

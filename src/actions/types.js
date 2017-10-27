@@ -109,7 +109,7 @@ type SourceAction =
   | {
       type: "SELECT_SOURCE",
       source: Source,
-      line?: number,
+      location?: { line?: number, column?: number },
       tabIndex?: number
     }
   | { type: "SELECT_SOURCE_URL", url: string, line?: number }
@@ -148,6 +148,13 @@ type UIAction =
   | {
       type: "TOGGLE_ACTIVE_SEARCH",
       value: ?ActiveSearchType
+    }
+  | {
+      type: "OPEN_QUICK_OPEN",
+      query?: string
+    }
+  | {
+      type: "CLOSE_QUICK_OPEN"
     }
   | {
       type: "TOGGLE_FRAMEWORK_GROUPING",
@@ -272,6 +279,11 @@ export type FileTextSearchAction =
       }
     };
 
+export type QuickOpenAction =
+  | { type: "SET_QUICK_OPEN_QUERY", query: string }
+  | { type: "OPEN_QUICK_OPEN", query?: string }
+  | { type: "CLOSE_QUICK_OPEN" };
+
 /**
  * Actions: Source, Breakpoint, and Navigation
  *
@@ -284,4 +296,5 @@ export type Action =
   | PauseAction
   | NavigateAction
   | UIAction
-  | ASTAction;
+  | ASTAction
+  | QuickOpenAction;

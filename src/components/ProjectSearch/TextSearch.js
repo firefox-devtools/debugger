@@ -39,7 +39,8 @@ export default class TextSearch extends Component {
   }
 
   selectMatchItem(matchItem) {
-    this.props.selectSource(matchItem.sourceId, { line: matchItem.line });
+    const { line, column } = matchItem;
+    this.props.selectSource(matchItem.sourceId, { location: { line, column } });
   }
 
   getResults() {
@@ -131,8 +132,9 @@ export default class TextSearch extends Component {
   }
 
   renderResults() {
-    const results = this.getResults();
-    results = results.filter(result => result.matches.length > 0);
+    const results = this.getResults().filter(
+      result => result.matches.length > 0
+    );
     function getFilePath(item, index) {
       return item.filepath
         ? `${item.sourceId}-${index}`

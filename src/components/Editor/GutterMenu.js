@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { lineAtHeight } from "../../utils/editor";
 import {
   getContextMenu,
+  getEmptyLines,
   getSelectedLocation,
   getSelectedSource,
   getVisibleBreakpoints,
@@ -65,7 +66,7 @@ export function gutterMenu({
 
   const toggleBreakpointItem = Object.assign(
     {
-      accesskey: "B",
+      accesskey: L10N.getStr("shortcuts.toggleBreakpoint.accesskey"),
       disabled: false,
       click: () => {
         toggleBreakpoint(line);
@@ -79,7 +80,7 @@ export function gutterMenu({
 
   const conditionalBreakpoint = Object.assign(
     {
-      accesskey: "C",
+      accesskey: L10N.getStr("editor.addConditionalBreakpoint.accesskey"),
       disabled: false,
       click: () => openConditionalPanel(line)
     },
@@ -103,7 +104,7 @@ export function gutterMenu({
   if (breakpoint) {
     const disableBreakpoint = Object.assign(
       {
-        accesskey: "D",
+        accesskey: L10N.getStr("editor.disableBreakpoint.accesskey"),
         disabled: false,
         click: () => toggleDisabledBreakpoint(line)
       },
@@ -143,6 +144,10 @@ class GutterContextMenuComponent extends PureComponent {
       bp => bp.location.line === line
     );
 
+    if (props.emptyLines.includes(line)) {
+      return;
+    }
+
     gutterMenu({ event, sourceId, line, breakpoint, ...props });
   }
 
@@ -153,12 +158,16 @@ class GutterContextMenuComponent extends PureComponent {
 
 export default connect(
   state => {
+    const selectedSource = getSelectedSource(state);
     return {
       selectedLocation: getSelectedLocation(state),
-      selectedSource: getSelectedSource(state),
+      selectedSource: selectedSource,
       breakpoints: getVisibleBreakpoints(state),
       pauseData: getPause(state),
-      contextMenu: getContextMenu(state)
+      contextMenu: getContextMenu(state),
+      emptyLines: selectedSource
+        ? getEmptyLines(state, selectedSource.toJS())
+        : []
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

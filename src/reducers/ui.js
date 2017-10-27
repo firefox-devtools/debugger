@@ -14,23 +14,19 @@ import { prefs } from "../utils/prefs";
 import type { Action, panelPositionType } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
-export type SymbolSearchType = "functions" | "variables";
-export type ActiveSearchType =
-  | "project"
-  | "source"
-  | "file"
-  | "symbol"
-  | "line";
+export type ActiveSearchType = "project" | "file";
+
+export type OrientationType = "horizontal" | "vertical";
 
 export type UIState = {
   activeSearch: ?ActiveSearchType,
   contextMenu: any,
-  symbolSearchType: SymbolSearchType,
   shownSource: string,
   startPanelCollapsed: boolean,
   endPanelCollapsed: boolean,
   frameworkGroupingOn: boolean,
   projectDirectoryRoot: string,
+  orientation: OrientationType,
   highlightedLineRange?: {
     start?: number,
     end?: number,
@@ -43,14 +39,14 @@ export const State = makeRecord(
   ({
     activeSearch: null,
     contextMenu: {},
-    symbolSearchType: "functions",
     shownSource: "",
     projectDirectoryRoot: "",
     startPanelCollapsed: prefs.startPanelCollapsed,
     endPanelCollapsed: prefs.endPanelCollapsed,
     frameworkGroupingOn: prefs.frameworkGroupingOn,
     highlightedLineRange: undefined,
-    conditionalPanelLine: null
+    conditionalPanelLine: null,
+    orientation: "horizontal"
   }: UIState)
 );
 
@@ -68,12 +64,12 @@ function update(
       return state.set("frameworkGroupingOn", action.value);
     }
 
-    case "SET_SYMBOL_SEARCH_TYPE": {
-      return state.set("symbolSearchType", action.symbolType);
-    }
-
     case "SET_CONTEXT_MENU": {
       return state.set("contextMenu", action.contextMenu);
+    }
+
+    case "SET_ORIENTATION": {
+      return state.set("orientation", action.orientation);
     }
 
     case "SHOW_SOURCE": {
@@ -135,10 +131,6 @@ export function getFrameworkGroupingState(state: OuterState): boolean {
   return state.ui.get("frameworkGroupingOn");
 }
 
-export function getSymbolSearchType(state: OuterState): SymbolSearchType {
-  return state.ui.get("symbolSearchType");
-}
-
 export function getShownSource(state: OuterState): boolean {
   return state.ui.get("shownSource");
 }
@@ -164,6 +156,10 @@ export function getConditionalPanelLine(state: OuterState): null | number {
 
 export function getProjectDirectoryRoot(state: OuterState): boolean {
   return state.ui.get("projectDirectoryRoot");
+}
+
+export function getOrientation(state: OuterState): boolean {
+  return state.ui.get("orientation");
 }
 
 export default update;

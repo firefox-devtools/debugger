@@ -85,23 +85,23 @@ function debugBtn(onClick, type, className, tooltip, disabled = false) {
   );
 }
 
-class CommandBar extends Component {
-  props: {
-    sources: SourcesMap,
-    selectedSource: SourceRecord,
-    resume: () => void,
-    stepIn: () => void,
-    stepOut: () => void,
-    stepOver: () => void,
-    breakOnNext: () => void,
-    pause: any,
-    pauseOnExceptions: (boolean, boolean) => void,
-    shouldPauseOnExceptions: boolean,
-    shouldIgnoreCaughtExceptions: boolean,
-    isWaitingOnBreak: boolean,
-    horizontal: boolean
-  };
+type Props = {
+  sources: SourcesMap,
+  selectedSource: SourceRecord,
+  resume: () => void,
+  stepIn: () => void,
+  stepOut: () => void,
+  stepOver: () => void,
+  breakOnNext: () => void,
+  pause: any,
+  pauseOnExceptions: (boolean, boolean) => void,
+  shouldPauseOnExceptions: boolean,
+  shouldIgnoreCaughtExceptions: boolean,
+  isWaitingOnBreak: boolean,
+  horizontal: boolean
+};
 
+class CommandBar extends Component<Props> {
   componentWillUnmount() {
     const shortcuts = this.context.shortcuts;
     COMMANDS.forEach(action => shortcuts.off(getKey(action)));

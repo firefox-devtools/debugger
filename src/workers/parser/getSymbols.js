@@ -17,7 +17,8 @@ export type SymbolDeclaration = {|
   location: BabelLocation,
   expressionLocation?: BabelLocation,
   parameterNames?: string[],
-  identifier?: Object
+  identifier?: Object,
+  computed?: Boolean
 |};
 
 export type FunctionDeclaration = SymbolDeclaration & {|
@@ -40,6 +41,14 @@ function getFunctionParameterNames(path: NodePath): string[] {
 
 function getVariableNames(path: NodePath): SymbolDeclaration[] {
   if (t.isObjectProperty(path) && !isFunction(path.node.value)) {
+    if (path.node.key.type === "StringLiteral") {
+      return [
+        {
+          name: path.node.key.value,
+          location: path.node.loc
+        }
+      ];
+    }
     return [
       {
         name: path.node.key.name,
@@ -78,6 +87,8 @@ function extractSymbols(source: Source) {
   const callExpressions = [];
   const objectProperties = [];
   const identifiers = [];
+  const classes = [];
+  const imports = [];
 
   const ast = traverseAst(source, {
     enter(path: NodePath) {
@@ -96,9 +107,18 @@ function extractSymbols(source: Source) {
       }
 
       if (t.isClassDeclaration(path)) {
-        variables.push({
+        classes.push({
           name: path.node.id.name,
+          parent: path.node.superClass,
           location: path.node.loc
+        });
+      }
+
+      if (t.isImportDeclaration(path)) {
+        imports.push({
+          source: path.node.source.value,
+          location: path.node.loc,
+          specifiers: path.node.specifiers
         });
       }
 
@@ -117,7 +137,8 @@ function extractSymbols(source: Source) {
           name: path.node.property.name,
           location: { start, end },
           expressionLocation: path.node.loc,
-          expression: getSnippet(path)
+          expression: getSnippet(path),
+          computed: path.node.computed
         });
       }
 
@@ -175,7 +196,9 @@ function extractSymbols(source: Source) {
     memberExpressions,
     objectProperties,
     comments,
-    identifiers
+    identifiers,
+    classes,
+    imports
   };
 }
 

@@ -11,7 +11,7 @@ import * as fileSearch from "./reducers/file-search";
 import * as ast from "./reducers/ast";
 import * as coverage from "./reducers/coverage";
 import * as projectTextSearch from "./reducers/project-text-search";
-import * as sourceSearch from "./reducers/source-search";
+import * as quickOpen from "./reducers/quick-open";
 import * as sourceTree from "./reducers/source-tree";
 
 import getBreakpointAtLocation from "./selectors/breakpointAtLocation";
@@ -36,7 +36,7 @@ module.exports = {
   ...coverage,
   ...fileSearch,
   ...projectTextSearch,
-  ...sourceSearch,
+  ...quickOpen,
   ...sourceTree,
   getBreakpointAtLocation,
   getInScopeLines,

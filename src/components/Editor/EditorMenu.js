@@ -65,7 +65,8 @@ function getMenuItems(
   };
 
   const { line } = editor.codeMirror.coordsChar({
-    left: event.clientX
+    left: event.clientX,
+    top: event.clientY
   });
 
   const sourceLocation = getSourceLocationFromMouseEvent(
@@ -79,14 +80,14 @@ function getMenuItems(
     : L10N.getStr("original");
 
   const jumpLabel = {
-    accesskey: "C",
+    accesskey: L10N.getStr("editor.jumpToMappedLocation1.accesskey"),
     disabled: false,
     label: L10N.getFormatStr("editor.jumpToMappedLocation1", pairedType),
     click: () => jumpToMappedLocation(sourceLocation)
   };
 
   const watchExpressionLabel = {
-    accesskey: "E",
+    accesskey: L10N.getStr("expressions.placeholder.accesskey"),
     label: L10N.getStr("expressions.placeholder"),
     click: () => addExpression(editor.codeMirror.getSelection())
   };

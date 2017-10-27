@@ -11,9 +11,12 @@ import { ShortcutsModal } from "./ShortcutsModal";
 import {
   getSelectedSource,
   getPaneCollapse,
-  getActiveSearch
+  getActiveSearch,
+  getQuickOpenEnabled,
+  getOrientation
 } from "../selectors";
-import type { SourceRecord } from "../reducers/sources";
+
+import type { SourceRecord, OrientationType } from "../reducers/types";
 import { isVisible } from "../utils/ui";
 
 import { KeyShortcuts } from "devtools-modules";
@@ -45,35 +48,34 @@ import WelcomeBox from "./WelcomeBox";
 
 import EditorTabs from "./Editor/Tabs";
 
-import SymbolModal from "./SymbolModal";
-
-import GotoLineModal from "./GotoLineModal";
+import QuickOpenModal from "./QuickOpenModal";
 
 type Props = {
-  selectSource: Function,
   selectedSource: SourceRecord,
+  orientation: OrientationType,
   startPanelCollapsed: boolean,
-  closeActiveSearch: () => void,
   endPanelCollapsed: boolean,
   activeSearch: string,
-  setActiveSearch: string => void
+  quickOpenEnabled: boolean,
+  setActiveSearch: string => void,
+  closeActiveSearch: () => void,
+  openQuickOpen: (query?: string) => void,
+  closeQuickOpen: () => void,
+  setOrientation: OrientationType => void
 };
 
-class App extends Component {
-  state: {
-    shortcutsModalEnabled: boolean,
-    horizontal: boolean,
-    startPanelSize: number,
-    endPanelSize: number
-  };
+type State = {
+  shortcutsModalEnabled: boolean,
+  startPanelSize: number,
+  endPanelSize: number
+};
 
-  props: Props;
+class App extends Component<Props, State> {
   onLayoutChange: Function;
   getChildContext: Function;
   renderEditorPane: Function;
   renderVerticalLayout: Function;
-  toggleSymbolModal: Function;
-  toggleGoToLineModal: Function;
+  toggleQuickOpenModal: Function;
   onEscape: Function;
   onCommandSlash: Function;
 
@@ -81,15 +83,13 @@ class App extends Component {
     super(props);
     this.state = {
       shortcutsModalEnabled: false,
-      horizontal: verticalLayoutBreakpoint.matches,
       startPanelSize: 0,
       endPanelSize: 0
     };
 
     this.getChildContext = this.getChildContext.bind(this);
     this.onLayoutChange = this.onLayoutChange.bind(this);
-    this.toggleSymbolModal = this.toggleSymbolModal.bind(this);
-    this.toggleGoToLineModal = this.toggleGoToLineModal.bind(this);
+    this.toggleQuickOpenModal = this.toggleQuickOpenModal.bind(this);
     this.renderEditorPane = this.renderEditorPane.bind(this);
     this.renderVerticalLayout = this.renderVerticalLayout.bind(this);
     this.onEscape = this.onEscape.bind(this);
@@ -103,14 +103,18 @@ class App extends Component {
   componentDidMount() {
     verticalLayoutBreakpoint.addListener(this.onLayoutChange);
 
-    shortcuts.on(
-      L10N.getStr("symbolSearch.search.key2"),
-      this.toggleSymbolModal
+    shortcuts.on(L10N.getStr("symbolSearch.search.key2"), (_, e) =>
+      this.toggleQuickOpenModal(_, e, "@")
     );
 
-    shortcuts.on(
-      L10N.getStr("gotoLineModal.key"),
-      this.toggleGoToLineModal
+    const searchKeys = [
+      L10N.getStr("sources.search.key2"),
+      L10N.getStr("sources.search.alt.key")
+    ];
+    searchKeys.forEach(key => shortcuts.on(key, this.toggleQuickOpenModal));
+
+    shortcuts.on(L10N.getStr("gotoLineModal.key"), (_, e) =>
+      this.toggleQuickOpenModal(_, e, ":")
     );
 
     shortcuts.on("Escape", this.onEscape);
@@ -121,20 +125,35 @@ class App extends Component {
     verticalLayoutBreakpoint.removeListener(this.onLayoutChange);
     shortcuts.off(
       L10N.getStr("symbolSearch.search.key2"),
-      this.toggleSymbolModal
+      this.toggleQuickOpenModal
     );
 
-    shortcuts.off(L10N.getStr("gotoLineModal.key"), this.toggleGoToLineModal);
+    const searchKeys = [
+      L10N.getStr("sources.search.key2"),
+      L10N.getStr("sources.search.alt.key")
+    ];
+    searchKeys.forEach(key => shortcuts.off(key, this.toggleQuickOpenModal));
+
+    shortcuts.off(L10N.getStr("gotoLineModal.key"), this.toggleQuickOpenModal);
 
     shortcuts.off("Escape", this.onEscape);
   }
 
   onEscape(_, e) {
-    const { activeSearch, closeActiveSearch } = this.props;
+    const {
+      activeSearch,
+      quickOpenEnabled,
+      closeActiveSearch,
+      closeQuickOpen
+    } = this.props;
 
     if (activeSearch) {
       e.preventDefault();
       closeActiveSearch();
+    }
+
+    if (quickOpenEnabled === true) {
+      closeQuickOpen();
     }
   }
 
@@ -142,59 +161,42 @@ class App extends Component {
     this.toggleShortcutsModal();
   }
 
-  toggleSymbolModal(_, e: SyntheticEvent) {
-    const {
-      selectedSource,
-      activeSearch,
-      closeActiveSearch,
-      setActiveSearch
-    } = this.props;
-
-    e.preventDefault();
-    e.stopPropagation();
-
-    if (!selectedSource) {
-      return;
-    }
-
-    if (activeSearch == "symbol") {
-      return closeActiveSearch();
-    }
-
-    setActiveSearch("symbol");
+  isHorizontal() {
+    return this.props.orientation === "horizontal";
   }
 
-  toggleGoToLineModal(_, e: SyntheticEvent) {
-    const {
-      selectedSource,
-      activeSearch,
-      closeActiveSearch,
-      setActiveSearch
-    } = this.props;
+  toggleQuickOpenModal(_, e: SyntheticEvent<HTMLElement>, query?: string) {
+    const { quickOpenEnabled, openQuickOpen, closeQuickOpen } = this.props;
 
     e.preventDefault();
     e.stopPropagation();
 
-    if (!selectedSource) {
+    if (quickOpenEnabled === true) {
+      closeQuickOpen();
       return;
     }
 
-    if (activeSearch == "line") {
-      return closeActiveSearch();
+    if (query != null) {
+      openQuickOpen(query);
+      return;
     }
-
-    setActiveSearch("line");
+    openQuickOpen();
+    return;
   }
 
   onLayoutChange() {
+    const orientation = verticalLayoutBreakpoint.matches
+      ? "horizontal"
+      : "vertical";
     if (isVisible()) {
-      this.setState({ horizontal: verticalLayoutBreakpoint.matches });
+      this.props.setOrientation(orientation);
     }
   }
 
   renderEditorPane() {
     const { startPanelCollapsed, endPanelCollapsed } = this.props;
-    const { horizontal, endPanelSize, startPanelSize } = this.state;
+    const { endPanelSize, startPanelSize } = this.state;
+    const horizontal = this.isHorizontal();
 
     return (
       <div className="editor-pane">
@@ -228,7 +230,7 @@ class App extends Component {
 
   renderHorizontalLayout() {
     const { startPanelCollapsed, endPanelCollapsed } = this.props;
-    const { horizontal } = this.state;
+    const horizontal = this.isHorizontal();
 
     const overflowX = endPanelCollapsed ? "hidden" : "auto";
 
@@ -268,7 +270,7 @@ class App extends Component {
 
   renderVerticalLayout() {
     const { startPanelCollapsed, endPanelCollapsed } = this.props;
-    const { horizontal } = this.state;
+    const horizontal = this.isHorizontal();
 
     return (
       <SplitBox
@@ -290,38 +292,13 @@ class App extends Component {
             endPanel={this.renderEditorPane()}
           />
         }
-        endPanel={<SecondaryPanes horizontal={horizontal} />}
+        endPanel={
+          <SecondaryPanes
+            horizontal={horizontal}
+            toggleShortcutsModal={() => this.toggleShortcutsModal()}
+          />
+        }
         endPanelCollapsed={endPanelCollapsed}
-      />
-    );
-  }
-
-  renderSymbolModal() {
-    const { selectSource, selectedSource, activeSearch } = this.props;
-
-    if (activeSearch !== "symbol") {
-      return;
-    }
-
-    return (
-      <SymbolModal
-        selectSource={selectSource}
-        selectedSource={selectedSource}
-      />
-    );
-  }
-
-  renderGotoLineModal() {
-    const { selectSource, selectedSource, activeSearch } = this.props;
-
-    if (activeSearch !== "line") {
-      return;
-    }
-
-    return (
-      <GotoLineModal
-        selectSource={selectSource}
-        selectedSource={selectedSource}
       />
     );
   }
@@ -343,13 +320,13 @@ class App extends Component {
   }
 
   render() {
+    const { quickOpenEnabled } = this.props;
     return (
       <div className="debugger">
-        {this.state.horizontal
+        {this.isHorizontal()
           ? this.renderHorizontalLayout()
           : this.renderVerticalLayout()}
-        {this.renderSymbolModal()}
-        {this.renderGotoLineModal()}
+        {quickOpenEnabled === true && <QuickOpenModal />}
         {this.renderShortcutsModal()}
       </div>
     );
@@ -358,12 +335,17 @@ class App extends Component {
 
 App.childContextTypes = { shortcuts: PropTypes.object };
 
-export default connect(
-  state => ({
+function mapStateToProps(state) {
+  return {
     selectedSource: getSelectedSource(state),
     startPanelCollapsed: getPaneCollapse(state, "start"),
     endPanelCollapsed: getPaneCollapse(state, "end"),
-    activeSearch: getActiveSearch(state)
-  }),
-  dispatch => bindActionCreators(actions, dispatch)
+    activeSearch: getActiveSearch(state),
+    quickOpenEnabled: getQuickOpenEnabled(state),
+    orientation: getOrientation(state)
+  };
+}
+
+export default connect(mapStateToProps, dispatch =>
+  bindActionCreators(actions, dispatch)
 )(App);
