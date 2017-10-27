@@ -84,19 +84,16 @@ img.resume {
 }
 
 .command-bar > button.pause-exceptions.uncaught.enabled > img.pause-exceptions {
-  /*background-color: var(--theme-highlight-purple);*/
-  background-color: orange;
+  background-color: var(--theme-highlight-purple);
 }
 
 .command-bar > button.pause-exceptions.all > img.pause-exceptions {
-  /*background-color: var(--theme-highlight-blue) !important;*/
-  background-color: red !important;
+  background-color: var(--theme-highlight-blue) !important;
 }
 
 .command-bar > button.pause-exceptions.enabled > img.pause-exceptions {
-  /*background-color: var(--theme-body-color);*/
-  background-color: green;
-}
+  background-color: var(--theme-body-color);
+}  
 
 .command-bar > button > img.pause-exceptions {
   mask: url(/images/pause-exceptions.svg) no-repeat;
