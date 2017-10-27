@@ -93,7 +93,7 @@ img.resume {
 
 .command-bar > button.pause-exceptions.enabled > img.pause-exceptions {
   background-color: var(--theme-body-color);
-}  
+}
 
 .command-bar > button > img.pause-exceptions {
   mask: url(/images/pause-exceptions.svg) no-repeat;
