@@ -88,6 +88,7 @@ export class QuickOpenModal extends Component<Props, State> {
       this.setState({ results });
       return;
     }
+
     const { searchType } = this.props;
 
     if (searchType === "gotoSource") {
