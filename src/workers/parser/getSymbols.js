@@ -80,6 +80,14 @@ function getComments(ast) {
   }));
 }
 
+function getSpecifiers(specifiers) {
+  if (!specifiers) {
+    return null;
+  }
+
+  return specifiers.map(specifier => specifier.local && specifier.local.name);
+}
+
 function extractSymbols(source: Source) {
   const functions = [];
   const variables = [];
@@ -118,7 +126,7 @@ function extractSymbols(source: Source) {
         imports.push({
           source: path.node.source.value,
           location: path.node.loc,
-          specifiers: path.node.specifiers
+          specifiers: getSpecifiers(path.node.specifiers)
         });
       }
 
