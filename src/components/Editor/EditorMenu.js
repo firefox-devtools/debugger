@@ -87,8 +87,8 @@ function getMenuItems(
   };
 
   const watchExpressionLabel = {
-    accesskey: L10N.getStr("expressions.placeholder.accesskey"),
-    label: L10N.getStr("expressions.placeholder"),
+    accesskey: L10N.getStr("expressions.accesskey"),
+    label: L10N.getStr("expressions.label"),
     click: () => addExpression(editor.codeMirror.getSelection())
   };
 
