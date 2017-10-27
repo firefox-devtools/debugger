@@ -18,6 +18,7 @@ We respect your time and want to help you make the most of it as you learn more 
   * [Coding Standards](#coding-standards)
   * [Development Guide](#development-guide-computer)
   * [Terminology](#terminology)
+  * [Debugging Firefox](#debugging-firefox)
   * [Issues](#issues)
   * [Pull Requests](#pull-requests)
   * [Maintainer Tips](#maintainer-tips)
@@ -153,6 +154,12 @@ Go to [local Development](./docs/local-development.md) to learn about:
 ### Terminology
 
 * [Generated / Original](./docs/terminology.md#generated--original)
+
+### Debugging Firefox
+
+At some point, you'll want to debug firefox to see your changes in the devtools panel or inspect the debugger server.
+
+Here's a guide to help you get started [guide](./docs/debugging-firefox.md)
 
 ### Issues
 
