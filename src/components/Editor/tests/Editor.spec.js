@@ -45,4 +45,13 @@ describe("Editor", () => {
     // Todo: Add Checks for Set Text Working
     expect(component).toMatchSnapshot();
   });
+
+  it("should highlight line", async () => {
+    const { component } = render();
+    component.setProps({
+      selectedLocation: { line: 1, column: 1 },
+      selectedFrame: { location: { line: 1, column: 1 } }
+    });
+    expect(component).toMatchSnapshot();
+  });
 });
