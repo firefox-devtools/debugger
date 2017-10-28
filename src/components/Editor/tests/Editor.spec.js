@@ -41,10 +41,8 @@ describe("Editor", () => {
 
   it("should set text", async () => {
     const { component } = render();
-    const testMap = new Map();
-    testMap.set("loadedState", "loaded");
-    testMap.set("test", "Test Text");
-    component.setProps(testMap);
+    component.setProps({ selectedSource: I.fromJS({ text: "test" }) });
+    // Todo: Add Checks for Set Text Working
     expect(component).toMatchSnapshot();
   });
 });
