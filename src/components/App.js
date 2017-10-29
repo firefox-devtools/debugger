@@ -12,6 +12,7 @@ import {
   getSelectedSource,
   getPaneCollapse,
   getActiveSearch,
+  getQuickOpenEnabled,
   getOrientation
 } from "../selectors";
 
@@ -47,21 +48,19 @@ import WelcomeBox from "./WelcomeBox";
 
 import EditorTabs from "./Editor/Tabs";
 
-import SymbolModal from "./SymbolModal";
-
-import GotoLineModal from "./GotoLineModal";
-
-import SourcesModal from "./SourcesModal";
+import QuickOpenModal from "./QuickOpenModal";
 
 type Props = {
-  selectSource: Function,
   selectedSource: SourceRecord,
   orientation: OrientationType,
   startPanelCollapsed: boolean,
-  closeActiveSearch: () => void,
   endPanelCollapsed: boolean,
   activeSearch: string,
+  quickOpenEnabled: boolean,
   setActiveSearch: string => void,
+  closeActiveSearch: () => void,
+  openQuickOpen: (query?: string) => void,
+  closeQuickOpen: () => void,
   setOrientation: OrientationType => void
 };
 
@@ -76,9 +75,7 @@ class App extends Component<Props, State> {
   getChildContext: Function;
   renderEditorPane: Function;
   renderVerticalLayout: Function;
-  toggleSymbolModal: Function;
-  toggleGoToLineModal: Function;
-  toggleSourcesModal: Function;
+  toggleQuickOpenModal: Function;
   onEscape: Function;
   onCommandSlash: Function;
 
@@ -92,9 +89,7 @@ class App extends Component<Props, State> {
 
     this.getChildContext = this.getChildContext.bind(this);
     this.onLayoutChange = this.onLayoutChange.bind(this);
-    this.toggleSymbolModal = this.toggleSymbolModal.bind(this);
-    this.toggleGoToLineModal = this.toggleGoToLineModal.bind(this);
-    this.toggleSourcesModal = this.toggleSourcesModal.bind(this);
+    this.toggleQuickOpenModal = this.toggleQuickOpenModal.bind(this);
     this.renderEditorPane = this.renderEditorPane.bind(this);
     this.renderVerticalLayout = this.renderVerticalLayout.bind(this);
     this.onEscape = this.onEscape.bind(this);
@@ -108,18 +103,19 @@ class App extends Component<Props, State> {
   componentDidMount() {
     verticalLayoutBreakpoint.addListener(this.onLayoutChange);
 
-    shortcuts.on(
-      L10N.getStr("symbolSearch.search.key2"),
-      this.toggleSymbolModal
+    shortcuts.on(L10N.getStr("symbolSearch.search.key2"), (_, e) =>
+      this.toggleQuickOpenModal(_, e, "@")
     );
 
     const searchKeys = [
       L10N.getStr("sources.search.key2"),
       L10N.getStr("sources.search.alt.key")
     ];
-    searchKeys.forEach(key => shortcuts.on(key, this.toggleSourcesModal));
+    searchKeys.forEach(key => shortcuts.on(key, this.toggleQuickOpenModal));
 
-    shortcuts.on(L10N.getStr("gotoLineModal.key"), this.toggleGoToLineModal);
+    shortcuts.on(L10N.getStr("gotoLineModal.key"), (_, e) =>
+      this.toggleQuickOpenModal(_, e, ":")
+    );
 
     shortcuts.on("Escape", this.onEscape);
     shortcuts.on("Cmd+/", this.onCommandSlash);
@@ -129,26 +125,35 @@ class App extends Component<Props, State> {
     verticalLayoutBreakpoint.removeListener(this.onLayoutChange);
     shortcuts.off(
       L10N.getStr("symbolSearch.search.key2"),
-      this.toggleSymbolModal
+      this.toggleQuickOpenModal
     );
 
     const searchKeys = [
       L10N.getStr("sources.search.key2"),
       L10N.getStr("sources.search.alt.key")
     ];
-    searchKeys.forEach(key => shortcuts.off(key, this.toggleSourcesModal));
+    searchKeys.forEach(key => shortcuts.off(key, this.toggleQuickOpenModal));
 
-    shortcuts.off(L10N.getStr("gotoLineModal.key"), this.toggleGoToLineModal);
+    shortcuts.off(L10N.getStr("gotoLineModal.key"), this.toggleQuickOpenModal);
 
     shortcuts.off("Escape", this.onEscape);
   }
 
   onEscape(_, e) {
-    const { activeSearch, closeActiveSearch } = this.props;
+    const {
+      activeSearch,
+      quickOpenEnabled,
+      closeActiveSearch,
+      closeQuickOpen
+    } = this.props;
 
     if (activeSearch) {
       e.preventDefault();
       closeActiveSearch();
+    }
+
+    if (quickOpenEnabled === true) {
+      closeQuickOpen();
     }
   }
 
@@ -160,62 +165,22 @@ class App extends Component<Props, State> {
     return this.props.orientation === "horizontal";
   }
 
-  toggleSymbolModal(_, e: SyntheticEvent<HTMLElement>) {
-    const {
-      selectedSource,
-      activeSearch,
-      closeActiveSearch,
-      setActiveSearch
-    } = this.props;
+  toggleQuickOpenModal(_, e: SyntheticEvent<HTMLElement>, query?: string) {
+    const { quickOpenEnabled, openQuickOpen, closeQuickOpen } = this.props;
 
     e.preventDefault();
     e.stopPropagation();
 
-    if (!selectedSource) {
+    if (quickOpenEnabled === true) {
+      closeQuickOpen();
       return;
     }
 
-    if (activeSearch == "symbol") {
-      return closeActiveSearch();
-    }
-
-    setActiveSearch("symbol");
-  }
-
-  toggleGoToLineModal(_, e: SyntheticEvent<HTMLElement>) {
-    const {
-      selectedSource,
-      activeSearch,
-      closeActiveSearch,
-      setActiveSearch
-    } = this.props;
-
-    e.preventDefault();
-    e.stopPropagation();
-
-    if (!selectedSource) {
+    if (query != null) {
+      openQuickOpen(query);
       return;
     }
-
-    if (activeSearch == "line") {
-      return closeActiveSearch();
-    }
-
-    setActiveSearch("line");
-  }
-
-  toggleSourcesModal(_, e: SyntheticEvent<HTMLElement>) {
-    const { activeSearch, closeActiveSearch, setActiveSearch } = this.props;
-
-    e.preventDefault();
-    e.stopPropagation();
-
-    if (activeSearch === "source") {
-      closeActiveSearch();
-      return;
-    }
-
-    setActiveSearch("source");
+    openQuickOpen();
     return;
   }
 
@@ -338,36 +303,6 @@ class App extends Component<Props, State> {
     );
   }
 
-  renderSymbolModal() {
-    const { selectSource, selectedSource, activeSearch } = this.props;
-
-    if (activeSearch !== "symbol") {
-      return;
-    }
-
-    return (
-      <SymbolModal
-        selectSource={selectSource}
-        selectedSource={selectedSource}
-      />
-    );
-  }
-
-  renderGotoLineModal() {
-    const { selectSource, selectedSource, activeSearch } = this.props;
-
-    if (activeSearch !== "line") {
-      return;
-    }
-
-    return (
-      <GotoLineModal
-        selectSource={selectSource}
-        selectedSource={selectedSource}
-      />
-    );
-  }
-
   renderShortcutsModal() {
     const additionalClass = isMacOS ? "mac" : "";
 
@@ -384,24 +319,14 @@ class App extends Component<Props, State> {
     );
   }
 
-  renderSourcesModal() {
-    const { activeSearch } = this.props;
-    if (activeSearch !== "source") {
-      return;
-    }
-
-    return <SourcesModal />;
-  }
-
   render() {
+    const { quickOpenEnabled } = this.props;
     return (
       <div className="debugger">
         {this.isHorizontal()
           ? this.renderHorizontalLayout()
           : this.renderVerticalLayout()}
-        {this.renderSymbolModal()}
-        {this.renderGotoLineModal()}
-        {this.renderSourcesModal()}
+        {quickOpenEnabled === true && <QuickOpenModal />}
         {this.renderShortcutsModal()}
       </div>
     );
@@ -416,6 +341,7 @@ function mapStateToProps(state) {
     startPanelCollapsed: getPaneCollapse(state, "start"),
     endPanelCollapsed: getPaneCollapse(state, "end"),
     activeSearch: getActiveSearch(state),
+    quickOpenEnabled: getQuickOpenEnabled(state),
     orientation: getOrientation(state)
   };
 }

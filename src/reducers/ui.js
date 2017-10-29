@@ -14,13 +14,7 @@ import { prefs } from "../utils/prefs";
 import type { Action, panelPositionType } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
-export type SymbolSearchType = "functions" | "variables";
-export type ActiveSearchType =
-  | "project"
-  | "source"
-  | "file"
-  | "symbol"
-  | "line";
+export type ActiveSearchType = "project" | "file";
 
 export type OrientationType = "horizontal" | "vertical";
 
@@ -30,7 +24,6 @@ export type UIState = {
   selectedPrimaryPaneTab: SelectedPrimaryPaneTabType,
   activeSearch: ?ActiveSearchType,
   contextMenu: any,
-  symbolSearchType: SymbolSearchType,
   shownSource: string,
   startPanelCollapsed: boolean,
   endPanelCollapsed: boolean,
@@ -50,7 +43,6 @@ export const State = makeRecord(
     selectedPrimaryPaneTab: "sources",
     activeSearch: null,
     contextMenu: {},
-    symbolSearchType: "functions",
     shownSource: "",
     projectDirectoryRoot: "",
     startPanelCollapsed: prefs.startPanelCollapsed,
@@ -74,10 +66,6 @@ function update(
     case "TOGGLE_FRAMEWORK_GROUPING": {
       prefs.frameworkGroupingOn = action.value;
       return state.set("frameworkGroupingOn", action.value);
-    }
-
-    case "SET_SYMBOL_SEARCH_TYPE": {
-      return state.set("symbolSearchType", action.symbolType);
     }
 
     case "SET_CONTEXT_MENU": {
@@ -154,10 +142,6 @@ export function getContextMenu(state: OuterState): any {
 
 export function getFrameworkGroupingState(state: OuterState): boolean {
   return state.ui.get("frameworkGroupingOn");
-}
-
-export function getSymbolSearchType(state: OuterState): SymbolSearchType {
-  return state.ui.get("symbolSearchType");
 }
 
 export function getShownSource(state: OuterState): boolean {

@@ -14,14 +14,13 @@ export function updateFrameLocations(
   }
 
   return Promise.all(
-    frames.map(frame => {
-      return sourceMaps.getOriginalLocation(frame.location).then(loc => {
-        return Object.assign({}, frame, {
-          location: loc,
-          generatedLocation: frame.location
-        });
-      });
-    })
+    frames.map(frame =>
+      sourceMaps.getOriginalLocation(frame.location).then(loc => ({
+        ...frame,
+        location: loc,
+        generatedLocation: frame.location
+      }))
+    )
   );
 }
 

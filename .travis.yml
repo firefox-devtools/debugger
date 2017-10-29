@@ -11,6 +11,9 @@ env:
     - YARN_VERSION='0.24.5'
     - MC_COMMIT='f27105b62753' # https://hg.mozilla.org/mozilla-central/shortlog
 
+notifications:
+  slack: devtools-html:Il9fkod7dpUFo6m0tv5buGIh
+
 addons:
   apt:
     packages:

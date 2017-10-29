@@ -19,7 +19,7 @@ process.on("unhandledRejection", (reason, p) => {});
 
 describe("sources", () => {
   it("should add sources to state", async () => {
-    const { dispatch, getState } = createStore();
+    const { dispatch, getState } = createStore(threadClient);
     await dispatch(actions.newSource(makeSource("base.js")));
     await dispatch(actions.newSource(makeSource("jquery.js")));
 
@@ -31,7 +31,7 @@ describe("sources", () => {
   });
 
   it("should not add multiple identical sources", async () => {
-    const { dispatch, getState } = createStore();
+    const { dispatch, getState } = createStore(threadClient);
 
     await dispatch(actions.newSource(makeSource("base.js")));
     await dispatch(actions.newSource(makeSource("base.js")));
@@ -111,11 +111,13 @@ describe("sources", () => {
 
     await dispatch(actions.loadSourceText({ id: "foo1" }));
     const fooSource = getSource(getState(), "foo1");
-    expect(fooSource.get("text").indexOf("return 5")).not.toBe(-1);
+
+    expect(fooSource.get("text").indexOf("return foo1")).not.toBe(-1);
 
     await dispatch(actions.loadSourceText({ id: "foo2" }));
     const foo2Source = getSource(getState(), "foo2");
-    expect(foo2Source.get("text").indexOf("return x + y")).not.toBe(-1);
+
+    expect(foo2Source.get("text").indexOf("return foo2")).not.toBe(-1);
   });
 
   it("should load all the texts for the existing sources", async () => {
@@ -131,8 +133,8 @@ describe("sources", () => {
     const fooSource = getSource(getState(), "foobar.js");
     const barSource = getSource(getState(), "barfoo.js");
 
-    expect(fooSource.get("text").indexOf("return 2")).not.toBe(-1);
-    expect(barSource.get("text").indexOf("return 3")).not.toBe(-1);
+    expect(fooSource.get("text").indexOf("return foobar.js")).not.toBe(-1);
+    expect(barSource.get("text").indexOf("return barfoo.js")).not.toBe(-1);
   });
 
   it("should cache subsequent source text loads", async () => {

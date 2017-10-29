@@ -9,8 +9,7 @@ function render(overrides = {}) {
     query: "foo",
     closeActiveSearch: jest.fn(),
     searchSources: jest.fn(),
-    selectSource: jest.fn(),
-    searchBottomBar: {}
+    selectSource: jest.fn()
   };
   const props = Object.assign({}, defaultProps, overrides);
 

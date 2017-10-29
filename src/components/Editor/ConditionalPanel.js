@@ -102,6 +102,7 @@ export class ConditionalPanel extends PureComponent<Props> {
       <div
         className="conditional-breakpoint-panel"
         onClick={() => this.keepFocusOnInput()}
+        onBlur={this.props.closeConditionalPanel}
       >
         <div className="prompt">»</div>
         <input

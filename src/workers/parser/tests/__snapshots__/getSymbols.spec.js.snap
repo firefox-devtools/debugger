@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Parser.getSymbols allSymbols 1`] = `
-"[34mfunctions[39m:
+"functions:
 [(4, 0), (6, 1)]   incrementCounter(counter)
 [(8, 12), (8, 27)]   sum(a, b)
 [(12, 2), (14, 3)]   doThing()
@@ -10,7 +10,7 @@ exports[`Parser.getSymbols allSymbols 1`] = `
 [(24, 2), (26, 3)]   constructor() Ultra
 [(28, 2), (30, 3)]   beAwesome(person) Ultra
 
-[34mvariables[39m:
+variables:
 [(1, 6), (1, 15)]   TIME
 [(2, 4), (2, 13)]   count
 [(4, 26), (4, 33)]   counter
@@ -21,24 +21,24 @@ exports[`Parser.getSymbols allSymbols 1`] = `
 [(11, 2), (11, 8)]   foo
 [(28, 12), (28, 18)]   person
 
-[34mcallExpressions[39m:
+callExpressions:
 
 
-[34mmemberExpressions[39m:
+memberExpressions:
 [(13, 12), (13, 15)] [(13, 4), (13, 15)] console.log log
 [(20, 4), (20, 12)] [(20, 0), (20, 12)] Obj.property property
 [(21, 4), (21, 17)] [(21, 0), (21, 17)] Obj.otherProperty otherProperty
 [(25, 9), (25, 16)] [(25, 4), (25, 16)] this.awesome awesome
 [(29, 12), (29, 15)] [(29, 4), (29, 15)] console.log log
 
-[34mobjectProperties[39m:
+objectProperties:
 [(11, 2), (11, 5)]  Obj.foo foo
 [(15, 2), (15, 14)]  Obj.doOtherThing doOtherThing
 
-[34mcomments[39m:
+comments:
 
 
-[34midentifiers[39m:
+identifiers:
 [(1, 6), (1, 15)]  TIME TIME
 [(1, 6), (1, 10)]  TIME TIME
 [(2, 4), (2, 13)]  count count
@@ -73,37 +73,37 @@ exports[`Parser.getSymbols allSymbols 1`] = `
 [(29, 12), (29, 15)]  log log
 [(29, 19), (29, 25)]  person person
 
-[34mclasses[39m:
+classes:
 [(23, 0), (31, 1)]   Ultra
 
-[34mimports[39m:
+imports:
 "
 `;
 
 exports[`Parser.getSymbols call sites 1`] = `
-"[34mfunctions[39m:
+"functions:
 
 
-[34mvariables[39m:
+variables:
 
 
-[34mcallExpressions[39m:
+callExpressions:
 [(1, 0), (1, 3)]   aaa
 [(1, 4), (1, 7)]   bbb
 [(1, 11), (1, 14)]   ccc
 [(2, 0), (2, 4)]   dddd
 
-[34mmemberExpressions[39m:
+memberExpressions:
 [(4, 3), (4, 7)] [(2, 0), (4, 7)]  ffff
 [(3, 3), (3, 6)] [(2, 0), (3, 6)]  eee
 
-[34mobjectProperties[39m:
+objectProperties:
 
 
-[34mcomments[39m:
+comments:
 
 
-[34midentifiers[39m:
+identifiers:
 [(1, 0), (1, 3)]  aaa aaa
 [(1, 4), (1, 7)]  bbb bbb
 [(1, 11), (1, 14)]  ccc ccc
@@ -111,36 +111,36 @@ exports[`Parser.getSymbols call sites 1`] = `
 [(3, 3), (3, 6)]  eee eee
 [(4, 3), (4, 7)]  ffff ffff
 
-[34mclasses[39m:
+classes:
 
 
-[34mimports[39m:
+imports:
 "
 `;
 
 exports[`Parser.getSymbols class 1`] = `
-"[34mfunctions[39m:
+"functions:
 [(2, 2), (4, 3)]   constructor() Test
 [(6, 2), (8, 3)]   bar(a) Test
 
-[34mvariables[39m:
+variables:
 [(6, 6), (6, 7)]   a
 [(13, 4), (13, 30)]   expressiveClass
 
-[34mcallExpressions[39m:
+callExpressions:
 
 
-[34mmemberExpressions[39m:
+memberExpressions:
 [(3, 9), (3, 12)] [(3, 4), (3, 12)] this.foo foo
 [(7, 12), (7, 15)] [(7, 4), (7, 15)] console.log log
 
-[34mobjectProperties[39m:
+objectProperties:
 
 
-[34mcomments[39m:
+comments:
 
 
-[34midentifiers[39m:
+identifiers:
 [(1, 6), (1, 10)]  Test Test
 [(2, 2), (2, 13)]  constructor constructor
 [(3, 4), (3, 8)] [(3, 4), (3, 8)] this this
@@ -154,16 +154,16 @@ exports[`Parser.getSymbols class 1`] = `
 [(13, 4), (13, 30)]  expressiveClass expressiveClass
 [(13, 4), (13, 19)]  expressiveClass expressiveClass
 
-[34mclasses[39m:
+classes:
 [(1, 0), (9, 1)]   Test
 [(11, 0), (11, 14)]   Test2
 
-[34mimports[39m:
+imports:
 "
 `;
 
 exports[`Parser.getSymbols component 1`] = `
-"[34mfunctions[39m:
+"functions:
 [(6, 2), (9, 3)]   constructor(props) Punny
 [(11, 2), (11, 24)]   componentDidMount() Punny
 [(13, 2), (13, 14)]   onClick() Punny
@@ -178,7 +178,7 @@ exports[`Parser.getSymbols component 1`] = `
 [(72, 33), (79, 1)]   createElement(color)
 [(82, 26), (84, 1)]   update(newColor)
 
-[34mvariables[39m:
+variables:
 [(6, 14), (6, 19)]   props
 [(26, 6), (32, 2)]   TodoView
 [(27, 2), (27, 15)]   tagName
@@ -190,13 +190,13 @@ exports[`Parser.getSymbols component 1`] = `
 [(72, 42), (72, 47)]   color
 [(82, 35), (82, 43)]   newColor
 
-[34mcallExpressions[39m:
+callExpressions:
 [(7, 4), (7, 9)]   undefined
 [(34, 18), (34, 29)]   createClass
 [(42, 12), (42, 23)]   createClass
 [(50, 16), (50, 27)]   createClass
 
-[34mmemberExpressions[39m:
+memberExpressions:
 [(8, 9), (8, 16)] [(8, 4), (8, 16)] this.onClick onClick
 [(8, 32), (8, 36)] [(8, 19), (8, 36)] this.onClick.bind bind
 [(8, 24), (8, 31)] [(8, 19), (8, 31)] this.onClick onClick
@@ -220,7 +220,7 @@ exports[`Parser.getSymbols component 1`] = `
 [(82, 7), (82, 16)] [(82, 0), (82, 16)] Button.prototype prototype
 [(83, 27), (83, 32)] [(83, 22), (83, 32)] this.color color
 
-[34mobjectProperties[39m:
+objectProperties:
 [(27, 2), (27, 9)]   tagName
 [(29, 2), (29, 8)]   render
 [(35, 2), (35, 9)]   tagName
@@ -230,13 +230,13 @@ exports[`Parser.getSymbols component 1`] = `
 [(51, 2), (51, 9)]   tagName
 [(53, 2), (53, 8)]   render
 
-[34mcomments[39m:
+comments:
 [(1, 0), (3, 3)]   undefined
 [(22, 0), (24, 3)]   undefined
 [(58, 0), (60, 3)]   undefined
 [(81, 0), (81, 34)]   undefined
 
-[34midentifiers[39m:
+identifiers:
 [(5, 6), (5, 11)]  Punny Punny
 [(6, 2), (6, 13)]  constructor constructor
 [(6, 14), (6, 19)]  props props
@@ -316,52 +316,52 @@ exports[`Parser.getSymbols component 1`] = `
 [(83, 22), (83, 26)] [(83, 22), (83, 26)] this this
 [(83, 27), (83, 32)]  color color
 
-[34mclasses[39m:
+classes:
 [(5, 0), (20, 1)]   Punny
 
-[34mimports[39m:
+imports:
 "
 `;
 
 exports[`Parser.getSymbols es6 1`] = `
-"[34mfunctions[39m:
+"functions:
 
 
-[34mvariables[39m:
+variables:
 [(1, 22), (1, 40)]   PROMISE
 
-[34mcallExpressions[39m:
+callExpressions:
 [(1, 0), (1, 8)]   dispatch
 
-[34mmemberExpressions[39m:
+memberExpressions:
 
 
-[34mobjectProperties[39m:
+objectProperties:
 [(1, 23), (1, 30)]   PROMISE
 
-[34mcomments[39m:
+comments:
 
 
-[34midentifiers[39m:
+identifiers:
 [(1, 0), (1, 8)]  dispatch dispatch
 [(1, 14), (1, 20)]  action action
 [(1, 23), (1, 30)]  PROMISE PROMISE
 [(1, 33), (1, 40)]  promise promise
 
-[34mclasses[39m:
+classes:
 
 
-[34mimports[39m:
+imports:
 "
 `;
 
 exports[`Parser.getSymbols expression 1`] = `
-"[34mfunctions[39m:
+"functions:
 [(8, 10), (8, 23)]   render() TodoView
 [(25, 0), (25, 28)]   params()
 [(26, 11), (26, 32)]   pars()
 
-[34mvariables[39m:
+variables:
 [(1, 6), (1, 27)]   obj
 [(1, 14), (1, 25)]   a
 [(1, 19), (1, 23)]   b
@@ -404,11 +404,11 @@ exports[`Parser.getSymbols expression 1`] = `
 [(26, 25), (26, 26)]   b
 [(27, 6), (27, 43)]   evil
 
-[34mcallExpressions[39m:
+callExpressions:
 [(22, 21), (22, 28)]   compute
 [(23, 21), (23, 28)]   compute
 
-[34mmemberExpressions[39m:
+memberExpressions:
 [(2, 19), (2, 33)] [(2, 12), (2, 33)] obj2.c.secondProperty secondProperty
 [(2, 17), (2, 18)] [(2, 12), (2, 18)] obj2.c c
 [(7, 4), (7, 12)] [(7, 0), (7, 12)] app.TodoView TodoView
@@ -422,7 +422,7 @@ exports[`Parser.getSymbols expression 1`] = `
 [(27, 27), (27, 28)] [(27, 13), (27, 28)]  c
 [(27, 18), (27, 24)] [(27, 13), (27, 24)] obj2.doEvil doEvil
 
-[34mobjectProperties[39m:
+objectProperties:
 [(1, 14), (1, 15)]  obj.a a
 [(1, 19), (1, 20)]  obj.a.b b
 [(5, 15), (5, 16)]  com[a] a
@@ -453,7 +453,7 @@ exports[`Parser.getSymbols expression 1`] = `
 [(26, 22), (26, 23)]  a a
 [(26, 25), (26, 26)]  b b
 
-[34mcomments[39m:
+comments:
 [(1, 29), (1, 44)]   undefined
 [(2, 35), (2, 68)]   undefined
 [(4, 0), (4, 22)]   undefined
@@ -471,7 +471,7 @@ exports[`Parser.getSymbols expression 1`] = `
 [(25, 29), (25, 38)]   undefined
 [(27, 45), (27, 70)]   undefined
 
-[34midentifiers[39m:
+identifiers:
 [(1, 6), (1, 27)]  obj obj
 [(1, 6), (1, 9)]  obj obj
 [(1, 14), (1, 15)]  a a
@@ -554,20 +554,20 @@ exports[`Parser.getSymbols expression 1`] = `
 [(27, 27), (27, 28)]  c c
 [(27, 29), (27, 43)]  secondProperty secondProperty
 
-[34mclasses[39m:
+classes:
 
 
-[34mimports[39m:
+imports:
 "
 `;
 
 exports[`Parser.getSymbols finds symbols in an html file 1`] = `
-"[34mfunctions[39m:
+"functions:
 [(8, 2), (10, 3)]   sayHello(name)
 [(22, 21), (24, 3)]   capitalize(name)
 [(36, 3), (39, 3)]   iife()
 
-[34mvariables[39m:
+variables:
 [(4, 6), (7, 3)]   globalObject
 [(5, 3), (5, 16)]   first
 [(6, 3), (6, 16)]   last
@@ -577,11 +577,11 @@ exports[`Parser.getSymbols finds symbols in an html file 1`] = `
 [(25, 8), (28, 14)]   greetAll
 [(37, 9), (37, 36)]   greeting
 
-[34mcallExpressions[39m:
+callExpressions:
 [(36, 3), (39, 3)]   undefined
 [(37, 20), (37, 28)]   sayHello
 
-[34mmemberExpressions[39m:
+memberExpressions:
 [(23, 18), (23, 29)] [(23, 10), (23, 29)] name.undefined.toUpperCase toUpperCase
 [(23, 15), (23, 16)] [(23, 10), (23, 17)] name. undefined
 [(23, 39), (23, 48)] [(23, 34), (23, 48)] name.substring substring
@@ -591,14 +591,14 @@ exports[`Parser.getSymbols finds symbols in an html file 1`] = `
 [(30, 15), (30, 24)] [(30, 2), (30, 24)] globalObject.greetings greetings
 [(38, 11), (38, 14)] [(38, 3), (38, 14)] console.log log
 
-[34mobjectProperties[39m:
+objectProperties:
 [(5, 3), (5, 8)]  globalObject.first first
 [(6, 3), (6, 7)]  globalObject.last last
 
-[34mcomments[39m:
+comments:
 
 
-[34midentifiers[39m:
+identifiers:
 [(4, 6), (7, 3)]  globalObject globalObject
 [(4, 6), (4, 18)]  globalObject globalObject
 [(5, 3), (5, 8)]  first first
@@ -631,15 +631,15 @@ exports[`Parser.getSymbols finds symbols in an html file 1`] = `
 [(38, 11), (38, 14)]  log log
 [(38, 15), (38, 23)]  greeting greeting
 
-[34mclasses[39m:
+classes:
 
 
-[34mimports[39m:
+imports:
 "
 `;
 
 exports[`Parser.getSymbols func 1`] = `
-"[34mfunctions[39m:
+"functions:
 [(1, 0), (3, 1)]   square(n)
 [(5, 7), (7, 1)]   exFoo()
 [(9, 0), (11, 1)]   slowFoo()
@@ -649,23 +649,23 @@ exports[`Parser.getSymbols func 1`] = `
 [(24, 7), (26, 3)]   name()
 [(28, 2), (30, 3)]   bar()
 
-[34mvariables[39m:
+variables:
 [(1, 16), (1, 17)]   n
 [(23, 6), (31, 1)]   obj
 
-[34mcallExpressions[39m:
+callExpressions:
 [(19, 1), (21, 1)]   undefined
 
-[34mmemberExpressions[39m:
+memberExpressions:
 
 
-[34mobjectProperties[39m:
+objectProperties:
 [(24, 2), (24, 5)]  obj.foo foo
 
-[34mcomments[39m:
+comments:
 
 
-[34midentifiers[39m:
+identifiers:
 [(1, 9), (1, 15)]  square square
 [(1, 16), (1, 17)]  n n
 [(2, 9), (2, 10)]  n n
@@ -680,42 +680,42 @@ exports[`Parser.getSymbols func 1`] = `
 [(24, 16), (24, 20)]  name name
 [(28, 2), (28, 5)]  bar bar
 
-[34mclasses[39m:
+classes:
 
 
-[34mimports[39m:
+imports:
 "
 `;
 
 exports[`Parser.getSymbols math 1`] = `
-"[34mfunctions[39m:
+"functions:
 [(1, 0), (12, 1)]   math(n)
 [(2, 2), (5, 3)]   square(n)
 [(14, 12), (14, 25)]   child()
 [(15, 9), (15, 22)]   child2()
 
-[34mvariables[39m:
+variables:
 [(1, 14), (1, 15)]   n
 [(2, 18), (2, 19)]   n
 [(8, 8), (8, 23)]   two
 [(10, 8), (10, 25)]   four
 [(14, 4), (14, 25)]   child
 
-[34mcallExpressions[39m:
+callExpressions:
 [(8, 14), (8, 20)]   square
 [(10, 15), (10, 22)]   squaare
 
-[34mmemberExpressions[39m:
+memberExpressions:
 
 
-[34mobjectProperties[39m:
+objectProperties:
 
 
-[34mcomments[39m:
+comments:
 [(3, 4), (3, 21)]   undefined
 [(7, 2), (7, 24)]   undefined
 
-[34midentifiers[39m:
+identifiers:
 [(1, 9), (1, 13)]  math math
 [(1, 14), (1, 15)]  n n
 [(2, 11), (2, 17)]  square square
@@ -734,45 +734,45 @@ exports[`Parser.getSymbols math 1`] = `
 [(14, 4), (14, 9)]  child child
 [(15, 0), (15, 6)]  child2 child2
 
-[34mclasses[39m:
+classes:
 
 
-[34mimports[39m:
+imports:
 "
 `;
 
 exports[`Parser.getSymbols proto 1`] = `
-"[34mfunctions[39m:
+"functions:
 [(1, 12), (1, 25)]   foo()
 [(3, 12), (3, 20)]   bar()
 [(7, 14), (7, 27)]   initialize() TodoView
 [(8, 2), (10, 3)]   doThing(b) TodoView
 [(11, 10), (13, 3)]   render() TodoView
 
-[34mvariables[39m:
+variables:
 [(1, 6), (1, 25)]   foo
 [(3, 6), (3, 20)]   bar
 [(5, 6), (14, 2)]   TodoView
 [(6, 2), (6, 15)]   tagName
 [(8, 10), (8, 11)]   b
 
-[34mcallExpressions[39m:
+callExpressions:
 
 
-[34mmemberExpressions[39m:
+memberExpressions:
 [(5, 31), (5, 37)] [(5, 17), (5, 37)] Backbone.View.extend extend
 [(5, 26), (5, 30)] [(5, 17), (5, 30)] Backbone.View View
 [(9, 12), (9, 15)] [(9, 4), (9, 15)] console.log log
 
-[34mobjectProperties[39m:
+objectProperties:
 [(6, 2), (6, 9)]   tagName
 [(7, 2), (7, 12)]   initialize
 [(11, 2), (11, 8)]   render
 
-[34mcomments[39m:
+comments:
 
 
-[34midentifiers[39m:
+identifiers:
 [(1, 6), (1, 25)]  foo foo
 [(1, 6), (1, 9)]  foo foo
 [(3, 6), (3, 20)]  bar bar
@@ -792,70 +792,70 @@ exports[`Parser.getSymbols proto 1`] = `
 [(11, 2), (11, 8)]  render render
 [(12, 11), (12, 15)] [(12, 11), (12, 15)] this this
 
-[34mclasses[39m:
+classes:
 
 
-[34mimports[39m:
+imports:
 "
 `;
 
 exports[`Parser.getSymbols react component 1`] = `
-"[34mfunctions[39m:
+"functions:
 
 
-[34mvariables[39m:
+variables:
 
 
-[34mcallExpressions[39m:
+callExpressions:
 
 
-[34mmemberExpressions[39m:
+memberExpressions:
 
 
-[34mobjectProperties[39m:
+objectProperties:
 
 
-[34mcomments[39m:
+comments:
 
 
-[34midentifiers[39m:
+identifiers:
 [(1, 7), (1, 12)]  React React
 [(1, 16), (1, 25)]  Component Component
 [(1, 16), (1, 25)]  Component Component
 [(3, 6), (3, 18)]  PrimaryPanes PrimaryPanes
 [(3, 27), (3, 36)]  Component Component
 
-[34mclasses[39m:
+classes:
 [(3, 0), (3, 39)]   PrimaryPanes
 
-[34mimports[39m:
+imports:
 [(1, 0), (1, 41)]   undefined"
 `;
 
 exports[`Parser.getSymbols var 1`] = `
-"[34mfunctions[39m:
+"functions:
 
 
-[34mvariables[39m:
+variables:
 [(1, 4), (1, 11)]   foo
 [(2, 4), (2, 11)]   bar
 [(3, 6), (3, 13)]   baz
 [(4, 6), (4, 11)]   a
 [(5, 2), (5, 7)]   b
 
-[34mcallExpressions[39m:
+callExpressions:
 
 
-[34mmemberExpressions[39m:
+memberExpressions:
 
 
-[34mobjectProperties[39m:
+objectProperties:
 
 
-[34mcomments[39m:
+comments:
 
 
-[34midentifiers[39m:
+identifiers:
 [(1, 4), (1, 11)]  foo foo
 [(1, 4), (1, 7)]  foo foo
 [(2, 4), (2, 11)]  bar bar
@@ -867,9 +867,9 @@ exports[`Parser.getSymbols var 1`] = `
 [(5, 2), (5, 7)]  b b
 [(5, 2), (5, 3)]  b b
 
-[34mclasses[39m:
+classes:
 
 
-[34mimports[39m:
+imports:
 "
 `;

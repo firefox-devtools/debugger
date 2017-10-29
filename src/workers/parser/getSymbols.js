@@ -17,7 +17,8 @@ export type SymbolDeclaration = {|
   location: BabelLocation,
   expressionLocation?: BabelLocation,
   parameterNames?: string[],
-  identifier?: Object
+  identifier?: Object,
+  computed?: Boolean
 |};
 
 export type FunctionDeclaration = SymbolDeclaration & {|
@@ -40,6 +41,14 @@ function getFunctionParameterNames(path: NodePath): string[] {
 
 function getVariableNames(path: NodePath): SymbolDeclaration[] {
   if (t.isObjectProperty(path) && !isFunction(path.node.value)) {
+    if (path.node.key.type === "StringLiteral") {
+      return [
+        {
+          name: path.node.key.value,
+          location: path.node.loc
+        }
+      ];
+    }
     return [
       {
         name: path.node.key.name,
@@ -128,7 +137,8 @@ function extractSymbols(source: Source) {
           name: path.node.property.name,
           location: { start, end },
           expressionLocation: path.node.loc,
-          expression: getSnippet(path)
+          expression: getSnippet(path),
+          computed: path.node.computed
         });
       }
 

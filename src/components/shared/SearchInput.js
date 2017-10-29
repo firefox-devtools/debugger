@@ -47,10 +47,22 @@ class SearchInput extends Component {
 
   componentDidMount() {
     this.$input.focus();
+    if (this.$input.value != "") {
+      this.$input.setSelectionRange(
+        this.$input.value.length + 1,
+        this.$input.value.length + 1
+      );
+    }
   }
 
   componentDidUpdate() {
     this.$input.focus();
+    if (this.$input.value != "") {
+      this.$input.setSelectionRange(
+        this.$input.value.length + 1,
+        this.$input.value.length + 1
+      );
+    }
   }
 
   shouldShowErrorEmoji() {

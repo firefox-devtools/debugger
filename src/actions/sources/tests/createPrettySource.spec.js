@@ -2,9 +2,11 @@ import { actions, createStore, makeSource } from "../../../utils/test-head";
 import { createPrettySource } from "../createPrettySource";
 import { getSourceByURL } from "../../../selectors";
 
+import { sourceThreadClient } from "../../tests/helpers/threadClient.js";
+
 describe("createPrettySource", () => {
   it("returns a pretty source for a minified file", async () => {
-    const { dispatch, getState } = createStore();
+    const { dispatch, getState } = createStore(sourceThreadClient);
     const url = "base.js";
     const source = makeSource(url);
     await dispatch(actions.newSource(source));

@@ -160,19 +160,14 @@ class Editor extends PureComponent<Props, State> {
     codeMirrorGutter.addEventListener("mouseenter", toggleFoldMarkerVisibility);
 
     if (!isFirefox()) {
-      codeMirror.on("gutterContextMenu", (cm, line, eventName, event) => {
-        event.stopPropagation();
-        event.preventDefault();
-        return this.onGutterContextMenu(event);
-      });
-
+      codeMirror.on("gutterContextMenu", (cm, line, eventName, event) =>
+        this.onGutterContextMenu(event)
+      );
       codeMirror.on("contextmenu", (cm, event) => this.openMenu(event));
     } else {
-      codeMirrorWrapper.addEventListener("contextmenu", event => {
-        event.stopPropagation();
-        event.preventDefault();
-        return this.openMenu(event);
-      });
+      codeMirrorWrapper.addEventListener("contextmenu", event =>
+        this.openMenu(event)
+      );
     }
 
     this.setState({ editor });
@@ -318,6 +313,9 @@ class Editor extends PureComponent<Props, State> {
   };
 
   openMenu(event) {
+    event.stopPropagation();
+    event.preventDefault();
+
     const { setContextMenu } = this.props;
 
     if (event.target.classList.contains("CodeMirror-linenumber")) {
@@ -368,6 +366,8 @@ class Editor extends PureComponent<Props, State> {
   };
 
   onGutterContextMenu = event => {
+    event.stopPropagation();
+    event.preventDefault();
     return this.props.setContextMenu("Gutter", event);
   };
 
