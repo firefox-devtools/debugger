@@ -227,7 +227,10 @@ class SourcesTree extends Component<Props, State> {
     }
 
     if (depth === 0) {
-      return <img className="domain" />;
+      return <img className="domain" 
+       className={classnames({
+          debuggee: this.props.debuggeeUrl != null && item.name != null && this.props.debuggeeUrl.includes(item.name)
+      })}/>;
     }
 
     if (!nodeHasChildren(item)) {
