@@ -43,6 +43,9 @@ img.folder {
 img.domain {
   mask: url(/images/domain.svg) no-repeat;
 }
+img.domain.debuggee {
+  fill: lightgreen;
+}
 
 img.folder {
   mask: url(/images/folder.svg) no-repeat;
