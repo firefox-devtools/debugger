@@ -42,18 +42,21 @@ export default class TextSearch extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.updateCount) {
-      const resultCount = this.getResultCount();
-
-      if (resultCount !== prevState.resultCount) {
-        const summaryMsg = L10N.getFormatStr(
-          "sourceSearch.resultsSummary1",
-          resultCount
-        );
-
-        this.setState({ resultCount, summaryMsg });
-      }
+    if (!this.state.updateCount) {
+      return;
     }
+
+    const resultCount = this.getResultCount();
+
+    if (resultCount === prevState.resultCount) {
+      return;
+    }
+
+    const summaryMsg = L10N.getFormatStr(
+      "sourceSearch.resultsSummary1",
+      resultCount
+    );
+    this.setState({ resultCount, summaryMsg });
   }
 
   selectMatchItem(matchItem) {
