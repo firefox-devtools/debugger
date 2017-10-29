@@ -16,7 +16,10 @@ export default class TextSearch extends Component {
   constructor(props: Props) {
     super(props);
     this.state = {
-      inputValue: this.props.query || ""
+      inputValue: this.props.query || "",
+      resultCount: -1,
+      summaryMsg: "",
+      updateCount: false
     };
 
     this.focusedItem = null;
@@ -36,6 +39,25 @@ export default class TextSearch extends Component {
   componentWillUnmount() {
     const shortcuts = this.context.shortcuts;
     shortcuts.off("Enter", this.onEnterPress);
+
+    const updateCount = false;
+    this.setState({ updateCount });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.updateCount) {
+      const resultCount = this.getResultCount();
+
+      if (resultCount !== prevState.resultCount) {
+        const summaryMsg = L10N.getFormatStr(
+          "sourceSearch.resultsSummary1",
+          resultCount
+        );
+
+        this.setState({ resultCount, summaryMsg });
+        console.log(this.state);
+      }
+    }
   }
 
   selectMatchItem(matchItem) {
@@ -70,6 +92,9 @@ export default class TextSearch extends Component {
     }
     this.focusedItem = null;
     this.props.searchSources(this.state.inputValue);
+
+    const updateCount = true;
+    this.setState({ updateCount });
   }
 
   onEnterPress() {
@@ -170,19 +195,13 @@ export default class TextSearch extends Component {
   }
 
   renderInput() {
-    const resultCount = this.getResultCount();
-    const summaryMsg = L10N.getFormatStr(
-      "sourceSearch.resultsSummary1",
-      resultCount
-    );
-
     return (
       <SearchInput
         query={this.state.inputValue}
-        count={resultCount}
+        count={this.state.resultCount}
         placeholder={L10N.getStr("projectTextSearch.placeholder")}
         size="big"
-        summaryMsg={summaryMsg}
+        summaryMsg={this.state.summaryMsg}
         onChange={e => this.inputOnChange(e)}
         onFocus={() => (this.inputFocused = true)}
         onBlur={() => (this.inputFocused = false)}
