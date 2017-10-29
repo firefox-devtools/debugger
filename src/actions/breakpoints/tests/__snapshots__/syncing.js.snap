@@ -4,9 +4,11 @@ exports[`loading the debugger loads the initial breakpoint state 1`] = `
 Object {
   "breakpoint": Object {
     "astLocation": Object {
-      "name": undefined,
       "offset": Object {
+        "column": undefined,
         "line": 3,
+        "sourceId": "gen.js",
+        "sourceUrl": "http://localhost:8000/gen.js",
       },
     },
     "condition": null,
@@ -18,11 +20,34 @@ Object {
       "sourceUrl": "http://localhost:8000/gen.js",
     },
     "hidden": false,
+    "id": Object {
+      "astLocation": Object {
+        "name": undefined,
+        "offset": Object {
+          "line": 3,
+        },
+      },
+      "condition": null,
+      "disabled": false,
+      "generatedLocation": Object {
+        "column": undefined,
+        "line": 3,
+        "sourceId": "gen.js",
+        "sourceUrl": "http://localhost:8000/gen.js",
+      },
+      "hidden": false,
+      "location": Object {
+        "column": undefined,
+        "line": 3,
+        "sourceId": "magic.js",
+        "sourceUrl": "http://localhost:8000/magic.js",
+      },
+    },
     "location": Object {
       "column": undefined,
       "line": 3,
-      "sourceId": "magic.js",
-      "sourceUrl": "http://localhost:8000/examples/magic.js",
+      "sourceId": "gen.js",
+      "sourceUrl": "http://localhost:8000/gen.js",
     },
   },
   "previousLocation": null,
@@ -62,9 +87,11 @@ exports[`reloading debuggee syncs with unchanged source with an existing BP 1`] 
 Object {
   "breakpoint": Object {
     "astLocation": Object {
-      "name": undefined,
       "offset": Object {
+        "column": undefined,
         "line": 3,
+        "sourceId": "gen.js",
+        "sourceUrl": "http://localhost:8000/gen.js",
       },
     },
     "condition": null,
@@ -76,11 +103,34 @@ Object {
       "sourceUrl": "http://localhost:8000/gen.js",
     },
     "hidden": false,
+    "id": Object {
+      "astLocation": Object {
+        "name": undefined,
+        "offset": Object {
+          "line": 3,
+        },
+      },
+      "condition": null,
+      "disabled": false,
+      "generatedLocation": Object {
+        "column": undefined,
+        "line": 3,
+        "sourceId": "gen.js",
+        "sourceUrl": "http://localhost:8000/gen.js",
+      },
+      "hidden": false,
+      "location": Object {
+        "column": undefined,
+        "line": 3,
+        "sourceId": "magic.js",
+        "sourceUrl": "http://localhost:8000/magic.js",
+      },
+    },
     "location": Object {
       "column": undefined,
       "line": 3,
-      "sourceId": "magic.js",
-      "sourceUrl": "http://localhost:8000/examples/magic.js",
+      "sourceId": "gen.js",
+      "sourceUrl": "http://localhost:8000/gen.js",
     },
   },
   "previousLocation": null,
@@ -105,6 +155,7 @@ Object {
       "sourceUrl": "http://localhost:8000/gen.js",
     },
     "hidden": false,
+    "id": "gen.js:5:",
     "location": Object {
       "column": undefined,
       "line": 3,
