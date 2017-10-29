@@ -39,9 +39,6 @@ export default class TextSearch extends Component {
   componentWillUnmount() {
     const shortcuts = this.context.shortcuts;
     shortcuts.off("Enter", this.onEnterPress);
-
-    const updateCount = false;
-    this.setState({ updateCount });
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -55,7 +52,6 @@ export default class TextSearch extends Component {
         );
 
         this.setState({ resultCount, summaryMsg });
-        console.log(this.state);
       }
     }
   }
