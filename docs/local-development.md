@@ -635,7 +635,7 @@ When you're starting a new feature, it's always good to ask yourself if the feat
 It's easy to add a new feature flag to the project.
 
 1. add the flag to `assets/panel/prefs.js` and `utils/prefs.js`
-2. add `isEnabled` calls in the code
+2. import `features`
 
 Here's an example of adding a new feature "awesome sauce" to the Debugger:
 
