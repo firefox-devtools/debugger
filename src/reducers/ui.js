@@ -96,6 +96,7 @@ function update(
 
       return state.set("highlightedLineRange", lineRange);
 
+    case "CLOSE_QUICK_OPEN":
     case "CLEAR_HIGHLIGHT_LINES":
       return state.set("highlightedLineRange", {});
 
