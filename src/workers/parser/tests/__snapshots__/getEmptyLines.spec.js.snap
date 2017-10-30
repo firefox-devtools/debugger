@@ -15,9 +15,10 @@ Array [
 exports[`getEmptyLines class 1`] = `
 Array [
   5,
-  10,
-  12,
+  9,
   14,
+  16,
+  18,
 ]
 `;
 

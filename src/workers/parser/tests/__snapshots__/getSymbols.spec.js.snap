@@ -122,10 +122,12 @@ exports[`Parser.getSymbols class 1`] = `
 "functions:
 [(2, 2), (4, 3)]   constructor() Test
 [(6, 2), (8, 3)]   bar(a) Test
+[(10, 8), (12, 3)]   baz(b) Test
 
 variables:
 [(6, 6), (6, 7)]   a
-[(13, 4), (13, 30)]   expressiveClass
+[(10, 8), (10, 9)]   b
+[(17, 4), (17, 30)]   expressiveClass
 
 callExpressions:
 
@@ -150,13 +152,16 @@ identifiers:
 [(7, 4), (7, 11)]  console console
 [(7, 12), (7, 15)]  log log
 [(7, 23), (7, 24)]  a a
-[(11, 6), (11, 11)]  Test2 Test2
-[(13, 4), (13, 30)]  expressiveClass expressiveClass
-[(13, 4), (13, 19)]  expressiveClass expressiveClass
+[(10, 2), (10, 5)]  baz baz
+[(10, 8), (10, 9)]  b b
+[(11, 11), (11, 12)]  b b
+[(15, 6), (15, 11)]  Test2 Test2
+[(17, 4), (17, 30)]  expressiveClass expressiveClass
+[(17, 4), (17, 19)]  expressiveClass expressiveClass
 
 classes:
-[(1, 0), (9, 1)]   Test
-[(11, 0), (11, 14)]   Test2
+[(1, 0), (13, 1)]   Test
+[(15, 0), (15, 14)]   Test2
 
 imports:
 "

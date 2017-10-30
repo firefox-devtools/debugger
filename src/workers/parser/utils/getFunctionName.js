@@ -1,9 +1,14 @@
 // @flow
+import * as t from "babel-types";
 import type { NodePath } from "babel-traverse";
 
 export default function getFunctionName(path: NodePath): string {
   if (path.node.id) {
     return path.node.id.name;
+  }
+
+  if (path.type === "MethodDefinition") {
+    return path.node.key.name;
   }
 
   const parent = path.parent;
@@ -25,6 +30,10 @@ export default function getFunctionName(path: NodePath): string {
     }
 
     return parent.left.name;
+  }
+
+  if (t.isClassProperty(parent) && t.isArrowFunctionExpression(path)) {
+    return parent.key.name;
   }
 
   return "anonymous";
