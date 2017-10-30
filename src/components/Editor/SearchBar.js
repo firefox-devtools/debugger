@@ -200,7 +200,7 @@ class SearchBar extends Component<Props, State> {
     return this.doSearch(e.target.value);
   };
 
-  onKeyUp = (e: SyntheticKeyboardEvent<HTMLElement>) => {
+  onKeyDown = (e: SyntheticKeyboardEvent<HTMLElement>) => {
     if (e.key !== "Enter" && e.key !== "F3") {
       return;
     }
@@ -288,7 +288,7 @@ class SearchBar extends Component<Props, State> {
           placeholder={L10N.getStr("sourceSearch.search.placeholder")}
           summaryMsg={this.buildSummaryMsg()}
           onChange={this.onChange}
-          onKeyUp={this.onKeyUp}
+          onKeyDown={this.onKeyDown}
           handleNext={e => this.traverseResults(e, false)}
           handlePrev={e => this.traverseResults(e, true)}
           handleClose={this.closeSearch}
