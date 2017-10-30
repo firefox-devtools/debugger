@@ -11,20 +11,6 @@
   color: var(--theme-content-color1);
 }
 
-.mac .keystroke {
-  border-style: solid;
-  border-width: 1px;
-  border-radius: 3px;
-  border-color: var(--theme-graphs-grey);
-  background-color: var(--theme-selection-color);
-  width: 21px;
-  height: 17px;
-  display: inline-block;
-  font-size: 10px;
-  text-align: center;
-  padding-top: 2px;
-}
-
 .shortcuts-section {
   display: inline-block;
   margin: 5px;
