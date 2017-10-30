@@ -4714,7 +4714,7 @@ http-signature@~1.2.0:
     jsprim "^1.2.2"
     sshpk "^1.7.0"
 
-httpplease@^0.16:
+httpplease@^0.16.4:
   version "0.16.4"
   resolved "https://registry.yarnpkg.com/httpplease/-/httpplease-0.16.4.tgz#d382ebe230ef5079080b4e9ffebf316a9e75c0da"
   dependencies:
@@ -7077,7 +7077,7 @@ on-finished@~2.3.0:
   dependencies:
     ee-first "1.1.1"
 
-once@^1.3.0, once@^1.3.3, once@^1.4, once@^1.4.0:
+once@^1.3.0, once@^1.3.3, once@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/once/-/once-1.4.0.tgz#583b1aa775961d4b113ac17d9c50baef9dd76bd1"
   dependencies:
@@ -8086,12 +8086,12 @@ react-immutable-proptypes@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/react-immutable-proptypes/-/react-immutable-proptypes-2.1.0.tgz#023d6f39bb15c97c071e9e60d00d136eac5fa0b4"
 
-react-inlinesvg@^0.6.2:
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/react-inlinesvg/-/react-inlinesvg-0.6.2.tgz#cad181824652934f6235ff2b09e39b8c86344aab"
+react-inlinesvg@0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/react-inlinesvg/-/react-inlinesvg-0.7.0.tgz#33f5de4712abeee4568e238b75b32751a33846ae"
   dependencies:
-    httpplease "^0.16"
-    once "^1.4"
+    httpplease "^0.16.4"
+    once "^1.4.0"
 
 react-inspector@^2.2.0:
   version "2.2.0"
