@@ -37,5 +37,7 @@ add_task(async function() {
   invokeInTab("logMessage");
 
   await waitForPaused(dbg);
+  await waitForSelectedSource(dbg, "main.js")
+
   assertPausedLocation(dbg);
 });

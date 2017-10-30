@@ -335,6 +335,7 @@ function isPaused(dbg) {
   return !!getPause(getState());
 }
 
+
 /**
  * Waits for the debugger to be fully paused.
  *
@@ -343,13 +344,22 @@ function isPaused(dbg) {
  * @static
  */
 async function waitForPaused(dbg) {
-  // We want to make sure that we get both a real paused event and
-  // that the state is fully populated. The client may do some more
-  // work (call other client methods) before populating the state.
-  let loading = waitForDispatch(dbg, "LOAD_OBJECT_PROPERTIES");
-  await waitForThreadEvents(dbg, "paused");
-  await waitForState(dbg, state => isPaused(dbg));
-  await loading;
+  function scopeIsLoaded(dbg) {
+    const { getLoadedObjects } = dbg.selectors;
+
+    const loadedObjects = Object.values(getLoadedObjects(dbg.getState()))
+    if (loadedObjects.length == 0) {
+      return false;
+    }
+
+    return Object.keys(loadedObjects[0]).length !== 0;;
+  }
+
+  await waitForState(
+    dbg,
+    state => isPaused(dbg) && scopeIsLoaded(dbg),
+    "paused"
+ );
 }
 
 /**
@@ -519,9 +529,9 @@ function closeTab(dbg, url) {
  * @return {Promise}
  * @static
  */
-function stepOver(dbg) {
+async function stepOver(dbg) {
   info("Stepping over");
-  dbg.actions.stepOver();
+  await dbg.actions.stepOver();
   return waitForPaused(dbg);
 }
 
@@ -533,9 +543,9 @@ function stepOver(dbg) {
  * @return {Promise}
  * @static
  */
-function stepIn(dbg) {
+async function stepIn(dbg) {
   info("Stepping in");
-  dbg.actions.stepIn();
+  await dbg.actions.stepIn();
   return waitForPaused(dbg);
 }
 
@@ -547,9 +557,9 @@ function stepIn(dbg) {
  * @return {Promise}
  * @static
  */
-function stepOut(dbg) {
+async function stepOut(dbg) {
   info("Stepping out");
-  dbg.actions.stepOut();
+  await dbg.actions.stepOut();
   return waitForPaused(dbg);
 }
 
@@ -563,8 +573,7 @@ function stepOut(dbg) {
  */
 function resume(dbg) {
   info("Resuming");
-  dbg.actions.resume();
-  return waitForState(dbg, state => !dbg.selectors.isPaused(state), "resumed");
+  return dbg.actions.resume();
 }
 
 function deleteExpression(dbg, input) {
@@ -679,9 +688,9 @@ function togglePauseOnExceptions(
  * @return {Promise}
  * @static
  */
-function invokeInTab(fnc) {
+async function invokeInTab(fnc) {
   info(`Invoking function ${fnc} in tab`);
-  return ContentTask.spawn(gBrowser.selectedBrowser, fnc, function*(fnc) {
+  ContentTask.spawn(gBrowser.selectedBrowser, fnc, function*(fnc) {
     content.wrappedJSObject[fnc](); // eslint-disable-line mozilla/no-cpows-in-tests, max-len
   });
 }

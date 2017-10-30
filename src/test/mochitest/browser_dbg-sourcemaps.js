@@ -78,7 +78,7 @@ add_task(async function() {
   assertPausedLocation(dbg);
 
   await stepIn(dbg);
-  // await waitForMappedScopes(dbg);
+  await waitForSelectedSource(dbg, "times2.js")
   assertPausedLocation(dbg);
 
   await stepOver(dbg);
@@ -86,5 +86,6 @@ add_task(async function() {
 
   await stepOut(dbg);
   await stepOut(dbg);
+  await waitForSelectedSource(dbg, "entry.js")
   assertPausedLocation(dbg);
 });

@@ -41,6 +41,13 @@ export const State = (): PauseState => ({
   command: ""
 });
 
+const emptyPauseState = {
+  pause: null,
+  frames: null,
+  selectedFrameId: null,
+  loadedObjects: {}
+};
+
 function update(state: PauseState = State(), action: Action): PauseState {
   switch (action.type) {
     case "PAUSED": {
@@ -80,12 +87,7 @@ function update(state: PauseState = State(), action: Action): PauseState {
         frameScopes: { ...state.frameScopes, [selectedFrameId]: scopes }
       };
     case "RESUME":
-      return Object.assign({}, state, {
-        pause: null,
-        frames: null,
-        selectedFrameId: null,
-        loadedObjects: {}
-      });
+      return { ...state, emptyPauseState };
 
     case "TOGGLE_PRETTY_PRINT":
       if (action.status == "done") {
@@ -153,10 +155,9 @@ function update(state: PauseState = State(), action: Action): PauseState {
       });
 
     case "COMMAND":
-      return { ...state, command: action.value.type };
-
-    case "CLEAR_COMMAND":
-      return { ...state, command: "" };
+      return action.status === "start"
+        ? { ...state, ...emptyPauseState, command: action.command }
+        : { ...state, command: "" };
 
     case "EVALUATE_EXPRESSION":
       return {
@@ -165,7 +166,7 @@ function update(state: PauseState = State(), action: Action): PauseState {
       };
 
     case "NAVIGATE":
-      return { ...state, debuggeeUrl: action.url };
+      return { ...state, ...emptyPauseState, debuggeeUrl: action.url };
   }
 
   return state;
