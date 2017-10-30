@@ -9,6 +9,7 @@ import { isOriginalId } from "devtools-source-map";
 import { endTruncateStr } from "./utils";
 import { basename } from "../utils/path";
 import { parse as parseURL } from "url";
+import { isReactComponent } from "../workers/parser/frameworks";
 
 import type { Source } from "../types";
 
@@ -204,6 +205,10 @@ function getMode(source: Source) {
 
   if (!text || isWasm) {
     return { name: "text" };
+  }
+
+  if (isReactComponent(source)) {
+    return { name: "jsx" };
   }
 
   // if the url ends with .marko we set the name to Javascript so
