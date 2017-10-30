@@ -6,6 +6,10 @@ class Test {
   bar(a) {
     console.log("bar", a);
   }
+
+  baz = b => {
+    return b * 2;
+  };
 }
 
 class Test2 {}

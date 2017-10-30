@@ -36,7 +36,10 @@ export type SymbolDeclarations = {
 };
 
 function getFunctionParameterNames(path: NodePath): string[] {
-  return path.node.params.map(param => param.name);
+  if (path.node.params != null) {
+    return path.node.params.map(param => param.name);
+  }
+  return [];
 }
 
 function getVariableNames(path: NodePath): SymbolDeclaration[] {
