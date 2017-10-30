@@ -1,7 +1,6 @@
 /* Any copyright is dedicated to the Public Domain.
  * http://creativecommons.org/publicdomain/zero/1.0/ */
 
-
 function assertBpInGutter(dbg, lineNumber) {
   const el = findElement(dbg, "breakpoint");
   const bpLineNumber = +el.querySelector(".CodeMirror-linenumber").innerText;
