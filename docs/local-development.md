@@ -682,6 +682,19 @@ index 429d56c..dadb36c 100644
  });
 
  if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {
+ 
+diff --git a/src/components/SecondaryPanes/index.js b/src/components/SecondaryPanes/index.js
+index a390df2..c610c1a 100644
+--- a/src/components/SecondaryPanes/index.js
++++ b/src/components/SecondaryPanes/index.js
+@@ -127,6 +127,10 @@ class SecondaryPanes extends Component<Props> {
+   getScopeItem() {
+     const isPaused = () => !!this.props.pauseData;
+
++    if (features.aweseome) {
++      return <div>The Best</div>;
++    }
++
 ```
 
 ### Hot Reloading :fire:
