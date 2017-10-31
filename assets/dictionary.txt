@@ -29,3 +29,14 @@ sha
 8x
 1x
 un-hide
+Jiel
+Tohm
+Sneha
+Bomsy
+prettyPrint
+Aframe
+contextmenu
+cmd
+monospace
+nuxt
+stacktraces

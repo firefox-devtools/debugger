@@ -10,7 +10,6 @@ import {
   getShouldPauseOnExceptions,
   getShouldIgnoreCaughtExceptions
 } from "../../selectors";
-import Svg from "../shared/Svg";
 import { formatKeyShortcut } from "../../utils/text";
 import actions from "../../actions";
 import "./CommandBar.css";
@@ -80,7 +79,7 @@ function debugBtn(onClick, type, className, tooltip, disabled = false) {
 
   return (
     <button className={classnames(type, className)} {...props}>
-      <Svg name={type} />
+      <img className={type} />
     </button>
   );
 }

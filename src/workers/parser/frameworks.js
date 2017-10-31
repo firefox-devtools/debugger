@@ -11,19 +11,11 @@ export function isReactComponent(source) {
 }
 
 function importsReact(imports) {
-  let result = false;
-
-  imports.some(importObj => {
-    if (importObj.source === "react") {
-      importObj.specifiers.some(specifier => {
-        if (specifier.local.name === "React") {
-          result = true;
-        }
-      });
-    }
-  });
-
-  return result;
+  return imports.some(
+    importObj =>
+      importObj.source === "react" &&
+      importObj.specifiers.some(specifier => specifier === "React")
+  );
 }
 
 function extendsComponent(classes) {

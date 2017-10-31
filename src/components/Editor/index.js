@@ -175,7 +175,10 @@ class Editor extends PureComponent<Props, State> {
   }
 
   componentDidMount() {
+    console.log("Did mount");
     const editor = this.setupEditor();
+    console.log("editor", this.setupEditor);
+    this.setState({ editor });
 
     const { selectedSource, selectedLocation } = this.props;
     const { shortcuts } = this.context;
@@ -460,6 +463,8 @@ class Editor extends PureComponent<Props, State> {
 
   setText(props) {
     const { selectedSource } = props;
+    console.log("Test: ", selectedSource);
+
     if (!this.state.editor) {
       return;
     }
@@ -578,7 +583,7 @@ class Editor extends PureComponent<Props, State> {
           "coverage-on": coverageOn
         })}
       >
-        {this.renderSearchBar()}
+        {/*{this.renderSearchBar()}*/}
         <div
           className="editor-mount devtools-monospace"
           style={this.getInlineEditorStyles()}
