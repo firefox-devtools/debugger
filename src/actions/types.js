@@ -150,6 +150,13 @@ type UIAction =
       value: ?ActiveSearchType
     }
   | {
+      type: "OPEN_QUICK_OPEN",
+      query?: string
+    }
+  | {
+      type: "CLOSE_QUICK_OPEN"
+    }
+  | {
       type: "TOGGLE_FRAMEWORK_GROUPING",
       value: boolean
     }
@@ -272,6 +279,11 @@ export type FileTextSearchAction =
       }
     };
 
+export type QuickOpenAction =
+  | { type: "SET_QUICK_OPEN_QUERY", query: string }
+  | { type: "OPEN_QUICK_OPEN", query?: string }
+  | { type: "CLOSE_QUICK_OPEN" };
+
 /**
  * Actions: Source, Breakpoint, and Navigation
  *
@@ -284,4 +296,5 @@ export type Action =
   | PauseAction
   | NavigateAction
   | UIAction
-  | ASTAction;
+  | ASTAction
+  | QuickOpenAction;

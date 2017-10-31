@@ -65,7 +65,8 @@ function getMenuItems(
   };
 
   const { line } = editor.codeMirror.coordsChar({
-    left: event.clientX
+    left: event.clientX,
+    top: event.clientY
   });
 
   const sourceLocation = getSourceLocationFromMouseEvent(

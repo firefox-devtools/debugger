@@ -30,6 +30,7 @@ const svg = {
   "pause-exceptions": require("./pause-exceptions.svg"),
   plus: require("./plus.svg"),
   preact: require("./preact.svg"),
+  aframe: require("./aframe.svg"),
   prettyPrint: require("./prettyPrint.svg"),
   react: require("./react.svg"),
   "regex-match": require("./regex-match.svg"),
@@ -53,8 +54,10 @@ const svg = {
   pug: require("./pug.svg"),
   extjs: require("./sencha-extjs.svg"),
   marko: require("./marko.svg"),
+  nextjs: require("./nextjs.svg"),
   showSources: require("./showSources.svg"),
-  showOutline: require("./showOutline.svg")
+  showOutline: require("./showOutline.svg"),
+  nuxtjs: require("./nuxtjs.svg")
 };
 
 type SvgType = {

@@ -1,7 +1,12 @@
 import React from "react";
 import { bindActionCreators, combineReducers } from "redux";
 import ReactDOM from "react-dom";
-import { getValue, isFirefoxPanel } from "devtools-config";
+import {
+  getValue,
+  isFirefoxPanel,
+  isDevelopment,
+  isTesting
+} from "devtools-config";
 import { renderRoot } from "devtools-launchpad";
 import { startSourceMapWorker, stopSourceMapWorker } from "devtools-source-map";
 import { startSearchWorker, stopSearchWorker } from "../workers/search";
@@ -19,8 +24,8 @@ import { prefs } from "./prefs";
 
 export function bootstrapStore(client, { services, toolboxActions }) {
   const createStore = configureStore({
-    log: getValue("logging.actions"),
-    timing: getValue("performance.actions"),
+    log: isTesting() || getValue("logging.actions"),
+    timing: isDevelopment(),
     makeThunkArgs: (args, state) => {
       return Object.assign({}, args, { client }, services, toolboxActions);
     }

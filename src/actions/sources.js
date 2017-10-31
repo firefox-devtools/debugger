@@ -26,7 +26,6 @@ import { prefs } from "../utils/prefs";
 import { removeDocument } from "../utils/editor";
 import { isThirdParty } from "../utils/source";
 import { getGeneratedLocation } from "../utils/source-maps";
-import * as parser from "../workers/parser";
 
 import {
   getSource,
@@ -134,6 +133,7 @@ function loadSourceMap(generatedSource) {
 
     dispatch({ type: "ADD_SOURCES", sources: originalSources });
 
+    await dispatch(loadSourceText(generatedSource));
     originalSources.forEach(async source => {
       await checkSelectedSource(getState(), dispatch, source);
       checkPendingBreakpoints(getState(), dispatch, source.id);
@@ -337,10 +337,7 @@ export function togglePrettyPrint(sourceId: string) {
       );
     }
 
-    const { source: newPrettySource } = await dispatch(
-      createPrettySource(sourceId)
-    );
-
+    const newPrettySource = await dispatch(createPrettySource(sourceId));
     await dispatch(remapBreakpoints(sourceId));
     await dispatch(setEmptyLines(newPrettySource.id));
 
@@ -383,21 +380,6 @@ export function loadAllSources() {
       if (query) {
         await dispatch(searchSource(source.id, query));
       }
-    }
-  };
-}
-
-/**
- * Ensures parser has source text
- *
- * @memberof actions/sources
- * @static
- */
-export function ensureParserHasSourceText(sourceId: string) {
-  return async ({ dispatch, getState }: ThunkArgs) => {
-    if (!await parser.hasSource(sourceId)) {
-      await dispatch(loadSourceText(getSource(getState(), sourceId).toJS()));
-      await parser.setSource(getSource(getState(), sourceId).toJS());
     }
   };
 }

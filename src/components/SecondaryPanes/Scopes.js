@@ -41,11 +41,12 @@ class Scopes extends PureComponent<Props, State> {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { pauseInfo, selectedFrame } = this.props;
+    const { pauseInfo, selectedFrame, frameScopes } = this.props;
     const pauseInfoChanged = pauseInfo !== nextProps.pauseInfo;
-    const selectedFrameChange = selectedFrame !== nextProps.selectedFrame;
+    const selectedFrameChanged = selectedFrame !== nextProps.selectedFrame;
+    const frameScopesChanged = frameScopes !== nextProps.frameScopes;
 
-    if (pauseInfoChanged || selectedFrameChange) {
+    if (pauseInfoChanged || selectedFrameChanged || frameScopesChanged) {
       this.setState({
         scopes: getScopes(
           nextProps.pauseInfo,

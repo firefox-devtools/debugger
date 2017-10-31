@@ -1,4 +1,4 @@
-import { Source } from "../../../flow-typed/debugger-html";
+import type { Source } from "debugger-html";
 import { AstPosition } from "./types";
 import { getClosestPath } from "./utils/closest";
 import { isAwaitExpression, isYieldExpression } from "./utils/helpers";

@@ -12,7 +12,8 @@ import {
   getSelectedSource,
   getDebuggeeUrl,
   getExpandedState,
-  getProjectDirectoryRoot
+  getProjectDirectoryRoot,
+  getSources
 } from "../../selectors";
 import actions from "../../actions";
 
@@ -65,6 +66,7 @@ type State = {
 class SourcesTree extends Component<Props, State> {
   focusItem: Function;
   selectItem: Function;
+  getPath: Function;
   getIcon: Function;
   queueUpdate: Function;
   onContextMenu: Function;
@@ -80,6 +82,7 @@ class SourcesTree extends Component<Props, State> {
     );
     this.focusItem = this.focusItem.bind(this);
     this.selectItem = this.selectItem.bind(this);
+    this.getPath = this.getPath.bind(this);
     this.getIcon = this.getIcon.bind(this);
     this.onContextMenu = this.onContextMenu.bind(this);
     this.renderItem = this.renderItem.bind(this);
@@ -208,20 +211,34 @@ class SourcesTree extends Component<Props, State> {
     }
   }
 
-  getIcon(item, depth) {
+  getPath(item) {
+    const { sources } = this.props;
+    const blackBoxedPart =
+      item.contents.get &&
+      sources.get(item.contents.get("id")).get("isBlackBoxed")
+        ? "update"
+        : "";
+    return `${item.path}/${item.name}/${blackBoxedPart}`;
+  }
+
+  getIcon(sources, item, depth) {
     if (item.path === "/Webpack") {
       return <Svg name="webpack" />;
     }
 
     if (depth === 0) {
-      return <Svg name="domain" />;
+      return <img className="domain" />;
     }
 
     if (!nodeHasChildren(item)) {
-      return <Svg name="file" />;
+      const source = sources.get(item.contents.get("id"));
+      if (source.get("isBlackBoxed")) {
+        return <img className="blackBox" />;
+      }
+      return <img className="file" />;
     }
 
-    return <Svg name="folder" />;
+    return <img className="folder" />;
   }
 
   onContextMenu(event, item) {
@@ -272,8 +289,8 @@ class SourcesTree extends Component<Props, State> {
     ) : (
       <i className="no-arrow" />
     );
-
-    const icon = this.getIcon(item, depth);
+    const { sources } = this.props;
+    const icon = this.getIcon(sources, item, depth);
     let paddingDir = "paddingRight";
     if (document.body && document.body.parentElement) {
       paddingDir =
@@ -316,7 +333,7 @@ class SourcesTree extends Component<Props, State> {
       getParent: item => parentMap.get(item),
       getChildren: item => (nodeHasChildren(item) ? item.contents : []),
       getRoots: () => sourceTree.contents,
-      getPath: item => `${item.path}/${item.name}`,
+      getPath: this.getPath,
       itemHeight: 21,
       autoExpandDepth: expanded ? 0 : 1,
       autoExpandAll: false,
@@ -360,7 +377,8 @@ export default connect(
       selectedSource: getSelectedSource(state),
       debuggeeUrl: getDebuggeeUrl(state),
       expanded: getExpandedState(state),
-      projectRoot: getProjectDirectoryRoot(state)
+      projectRoot: getProjectDirectoryRoot(state),
+      sources: getSources(state)
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

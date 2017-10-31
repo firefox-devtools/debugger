@@ -44,6 +44,7 @@ import {
   clearLineClass,
   createEditor,
   getCursorLine,
+  traverseResults,
   resizeBreakpointGutter,
   toSourceLine,
   scrollToColumn,
@@ -51,6 +52,8 @@ import {
   resetLineNumberFormat,
   getSourceLocationFromMouseEvent
 } from "../../utils/editor";
+
+import { resizeBreakpointGutter, resizeToggleButton } from "../../utils/ui";
 
 import "./Editor.css";
 import "./Highlight.css";
@@ -112,6 +115,7 @@ class Editor extends PureComponent<Props, State> {
     }
 
     resizeBreakpointGutter(this.state.editor.codeMirror);
+    resizeToggleButton(this.state.editor.codeMirror);
   }
 
   setupEditor() {
@@ -130,6 +134,8 @@ class Editor extends PureComponent<Props, State> {
     const codeMirrorWrapper = codeMirror.getWrapperElement();
 
     resizeBreakpointGutter(codeMirror);
+    resizeToggleButton(codeMirror);
+
     debugGlobal("cm", codeMirror);
 
     codeMirror.on("gutterClick", this.onGutterClick);
@@ -154,19 +160,14 @@ class Editor extends PureComponent<Props, State> {
     codeMirrorGutter.addEventListener("mouseenter", toggleFoldMarkerVisibility);
 
     if (!isFirefox()) {
-      codeMirror.on("gutterContextMenu", (cm, line, eventName, event) => {
-        event.stopPropagation();
-        event.preventDefault();
-        return this.onGutterContextMenu(event);
-      });
-
+      codeMirror.on("gutterContextMenu", (cm, line, eventName, event) =>
+        this.onGutterContextMenu(event)
+      );
       codeMirror.on("contextmenu", (cm, event) => this.openMenu(event));
     } else {
-      codeMirrorWrapper.addEventListener("contextmenu", event => {
-        event.stopPropagation();
-        event.preventDefault();
-        return this.openMenu(event);
-      });
+      codeMirrorWrapper.addEventListener("contextmenu", event =>
+        this.openMenu(event)
+      );
     }
 
     this.setState({ editor });
@@ -356,6 +357,8 @@ class Editor extends PureComponent<Props, State> {
   };
 
   onGutterContextMenu = event => {
+    event.stopPropagation();
+    event.preventDefault();
     return this.props.setContextMenu("Gutter", event);
   };
 
