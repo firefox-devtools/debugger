@@ -86,8 +86,6 @@ function update(state: PauseState = State(), action: Action): PauseState {
         ...state,
         frameScopes: { ...state.frameScopes, [selectedFrameId]: scopes }
       };
-    case "RESUME":
-      return { ...state, emptyPauseState };
 
     case "TOGGLE_PRETTY_PRINT":
       if (action.status == "done") {

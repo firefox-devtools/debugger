@@ -12,18 +12,7 @@ import type { ThunkArgs } from "../types";
  */
 export function resumed() {
   return ({ dispatch, client, getState }: ThunkArgs) => {
-    if (!isPaused(getState())) {
-      return;
-    }
-
-    const wasPausedInEval = pausedInEval(getState());
-
-    dispatch({
-      type: "RESUME",
-      value: undefined
-    });
-
-    if (!isStepping(getState()) && !wasPausedInEval) {
+    if (!isStepping(getState())) {
       dispatch(evaluateExpressions());
     }
   };
