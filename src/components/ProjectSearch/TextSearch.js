@@ -17,12 +17,11 @@ export default class TextSearch extends Component {
     super(props);
     this.state = {
       inputValue: this.props.query || "",
-      resultCount: -1
+      resultCount: 0
     };
 
     this.focusedItem = null;
     this.inputFocused = false;
-    this.updateCount = false;
 
     this.inputOnChange = this.inputOnChange.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
@@ -41,7 +40,7 @@ export default class TextSearch extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (!this.updateCount) {
+    if (this.props.query === "") {
       return;
     }
 
@@ -85,7 +84,6 @@ export default class TextSearch extends Component {
     }
     this.focusedItem = null;
     this.props.searchSources(this.state.inputValue);
-    this.updateCount = true;
   }
 
   onEnterPress() {
@@ -97,12 +95,6 @@ export default class TextSearch extends Component {
         this.selectMatchItem(match);
       }
     }
-  }
-
-  buildSummaryMsg(updateCount, resultCount) {
-    return !updateCount
-      ? ""
-      : L10N.getFormatStr("sourceSearch.resultsSummary1", resultCount);
   }
 
   inputOnChange(e) {
@@ -157,6 +149,7 @@ export default class TextSearch extends Component {
     const results = this.getResults().filter(
       result => result.matches.length > 0
     );
+
     function getFilePath(item, index) {
       return item.filepath
         ? `${item.sourceId}-${index}`
@@ -198,10 +191,14 @@ export default class TextSearch extends Component {
         count={this.state.resultCount}
         placeholder={L10N.getStr("projectTextSearch.placeholder")}
         size="big"
-        summaryMsg={this.buildSummaryMsg(
-          this.updateCount,
-          this.state.resultCount
-        )}
+        summaryMsg={
+          this.props.query !== ""
+            ? L10N.getFormatStr(
+                "sourceSearch.resultsSummary1",
+                this.state.resultCount
+              )
+            : ""
+        }
         onChange={e => this.inputOnChange(e)}
         onFocus={() => (this.inputFocused = true)}
         onBlur={() => (this.inputFocused = false)}
