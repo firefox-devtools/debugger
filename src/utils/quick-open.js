@@ -71,7 +71,7 @@ export function formatSymbol(
   return {
     id: `${symbol.name}:${symbol.location.start.line}`,
     title: symbol.name,
-    subtitle: `:${symbol.location.start.line}`,
+    subtitle: `${symbol.location.start.line}`,
     value: symbol.name,
     location: symbol.location
   };
