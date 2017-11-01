@@ -169,5 +169,103 @@ describe("scopes", () => {
         contents: {}
       });
     });
+
+    it("returning scope", () => {
+      const pauseData = {
+        frame: {
+          this: {}
+        },
+        why: {
+          frameFinished: {
+            return: "to sender"
+          }
+        }
+      };
+
+      const selectedFrame = {
+        scope: {
+          actor: "actor1",
+          type: "block",
+          bindings: {
+            arguments: [],
+            variables: {}
+          },
+          parent: null
+        },
+        this: {}
+      };
+
+      const scopes = getScopes(pauseData, selectedFrame);
+      expect(scopes).toMatchObject([
+        {
+          path: "actor1-1",
+          contents: [
+            {
+              name: "<return>",
+              path: "actor1-1/<return>",
+              contents: {
+                value: "to sender"
+              }
+            },
+            {
+              name: "<this>",
+              path: "actor1-1/<this>",
+              contents: {
+                value: {}
+              }
+            }
+          ]
+        }
+      ]);
+    });
+
+    it("throwing scope", () => {
+      const pauseData = {
+        frame: {
+          this: {}
+        },
+        why: {
+          frameFinished: {
+            throw: "a party"
+          }
+        }
+      };
+
+      const selectedFrame = {
+        scope: {
+          actor: "actor1",
+          type: "block",
+          bindings: {
+            arguments: [],
+            variables: {}
+          },
+          parent: null
+        },
+        this: {}
+      };
+
+      const scopes = getScopes(pauseData, selectedFrame);
+      expect(scopes).toMatchObject([
+        {
+          path: "actor1-1",
+          contents: [
+            {
+              name: "<exception>",
+              path: "actor1-1/<exception>",
+              contents: {
+                value: "a party"
+              }
+            },
+            {
+              name: "<this>",
+              path: "actor1-1/<this>",
+              contents: {
+                value: {}
+              }
+            }
+          ]
+        }
+      ]);
+    });
   });
 });
