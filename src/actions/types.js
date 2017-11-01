@@ -190,7 +190,7 @@ type PauseAction =
       shouldPauseOnExceptions: boolean,
       shouldIgnoreCaughtExceptions: boolean
     }
-  | { type: "COMMAND", value: { type: string } }
+  | { type: "COMMAND", command: string, status: AsyncStatus }
   | { type: "SELECT_FRAME", frame: Frame, scopes: Scope[] }
   | {
       type: "LOAD_OBJECT_PROPERTIES",

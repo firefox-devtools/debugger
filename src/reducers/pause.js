@@ -12,6 +12,7 @@
 
 import { createSelector } from "reselect";
 import { prefs } from "../utils/prefs";
+import { isEmpty } from "lodash";
 
 import type { Action } from "../actions/types";
 
@@ -40,6 +41,14 @@ export const State = (): PauseState => ({
   debuggeeUrl: "",
   command: ""
 });
+
+const emptyPauseState = {
+  pause: null,
+  frames: null,
+  frameScopes: {},
+  selectedFrameId: null,
+  loadedObjects: {}
+};
 
 function update(state: PauseState = State(), action: Action): PauseState {
   switch (action.type) {
@@ -79,13 +88,6 @@ function update(state: PauseState = State(), action: Action): PauseState {
         ...state,
         frameScopes: { ...state.frameScopes, [selectedFrameId]: scopes }
       };
-    case "RESUME":
-      return Object.assign({}, state, {
-        pause: null,
-        frames: null,
-        selectedFrameId: null,
-        loadedObjects: {}
-      });
 
     case "TOGGLE_PRETTY_PRINT":
       if (action.status == "done") {
@@ -153,10 +155,9 @@ function update(state: PauseState = State(), action: Action): PauseState {
       });
 
     case "COMMAND":
-      return { ...state, command: action.value.type };
-
-    case "CLEAR_COMMAND":
-      return { ...state, command: "" };
+      return action.status === "start"
+        ? { ...state, ...emptyPauseState, command: action.command }
+        : { ...state, command: "" };
 
     case "EVALUATE_EXPRESSION":
       return {
@@ -165,7 +166,7 @@ function update(state: PauseState = State(), action: Action): PauseState {
       };
 
     case "NAVIGATE":
-      return { ...state, debuggeeUrl: action.url };
+      return { ...state, ...emptyPauseState, debuggeeUrl: action.url };
   }
 
   return state;
@@ -223,6 +224,11 @@ export function getLoadedObject(state: OuterState, objectId: string) {
   return getLoadedObjects(state)[objectId];
 }
 
+export function hasLoadingObjects(state: OuterState) {
+  const objects = getLoadedObjects(state);
+  return Object.values(objects).some(isEmpty);
+}
+
 export function getObjectProperties(state: OuterState, parentId: string) {
   return getLoadedObjects(state).filter(obj => obj.parentId == parentId);
 }
@@ -243,8 +249,17 @@ export function getFrames(state: OuterState) {
   return state.pause.frames;
 }
 
-export function getFrameScopes(state: OuterState, frameId: string) {
+export function getFrameScope(state: OuterState, frameId: ?string) {
+  if (!frameId) {
+    return null;
+  }
+
   return state.pause.frameScopes[frameId];
+}
+
+export function getSelectedScope(state: OuterState) {
+  const frameId = getSelectedFrameId(state);
+  return getFrameScope(state, frameId);
 }
 
 export function getScopes(state: OuterState) {
