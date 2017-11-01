@@ -3,7 +3,7 @@ import type { Pause, Frame, Location } from "../types";
 import { get } from "lodash";
 import { getScopes } from "../workers/parser";
 
-import type { Scope, MappedScopeBindings } from "debugger-html";
+import type { Scope, MappedScopeBindings, Why } from "debugger-html";
 
 export function updateFrameLocations(
   frames: Frame[],
@@ -97,4 +97,20 @@ export async function getPausedPosition(pauseInfo: Pause, sourceMaps: any) {
   const frame = frames[0];
   const { location } = frame;
   return location;
+}
+
+type PauseHistoryItem = { why: Why };
+export function inDebuggerEval(pause?: PauseHistoryItem) {
+  if (!pause) {
+    return false;
+  }
+
+  const { why } = pause;
+
+  const exception = why.exception;
+  if (!exception) {
+    return false;
+  }
+
+  return exception.preview.fileName === "debugger eval code";
 }

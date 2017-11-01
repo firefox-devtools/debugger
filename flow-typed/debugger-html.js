@@ -153,6 +153,7 @@ declare module "debugger-html" {
  * @static
  */
   declare type Why = {
+    exception?: any
     type: string
   };
 
