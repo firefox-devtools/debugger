@@ -4,7 +4,7 @@
 function assertBpInGutter(dbg, lineNumber) {
   const el = findElement(dbg, "breakpoint");
   const bpLineNumber = +el.querySelector(".CodeMirror-linenumber").innerText;
-  is(bpLineNumber, lineNumber);
+  is(bpLineNumber, lineNumber, "Breakpoint is on the correct line in the gutter");
 }
 
 // Tests loading sourcemapped sources, setting breakpoints, and
@@ -37,7 +37,5 @@ add_task(async function() {
   invokeInTab("logMessage");
 
   await waitForPaused(dbg);
-  await waitForSelectedSource(dbg, "main.js")
-
   assertPausedLocation(dbg);
 });

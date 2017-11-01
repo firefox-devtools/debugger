@@ -12,6 +12,7 @@
 
 import { createSelector } from "reselect";
 import { prefs } from "../utils/prefs";
+import { isEmpty } from "lodash";
 
 import type { Action } from "../actions/types";
 
@@ -44,6 +45,7 @@ export const State = (): PauseState => ({
 const emptyPauseState = {
   pause: null,
   frames: null,
+  frameScopes: {},
   selectedFrameId: null,
   loadedObjects: {}
 };
@@ -222,6 +224,11 @@ export function getLoadedObject(state: OuterState, objectId: string) {
   return getLoadedObjects(state)[objectId];
 }
 
+export function hasLoadingObjects(state: OuterState) {
+  const objects = getLoadedObjects(state);
+  return Object.values(objects).some(isEmpty);
+}
+
 export function getObjectProperties(state: OuterState, parentId: string) {
   return getLoadedObjects(state).filter(obj => obj.parentId == parentId);
 }
@@ -242,8 +249,17 @@ export function getFrames(state: OuterState) {
   return state.pause.frames;
 }
 
-export function getFrameScopes(state: OuterState, frameId: string) {
+export function getFrameScope(state: OuterState, frameId: ?string) {
+  if (!frameId) {
+    return null;
+  }
+
   return state.pause.frameScopes[frameId];
+}
+
+export function getSelectedScope(state: OuterState) {
+  const frameId = getSelectedFrameId(state);
+  return getFrameScope(state, frameId);
 }
 
 export function getScopes(state: OuterState) {

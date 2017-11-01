@@ -344,20 +344,11 @@ function isPaused(dbg) {
  * @static
  */
 async function waitForPaused(dbg) {
-  function scopeIsLoaded(dbg) {
-    const { getLoadedObjects } = dbg.selectors;
+  const { getSelectedScope, hasLoadingObjects } = dbg.selectors;
 
-    const loadedObjects = Object.values(getLoadedObjects(dbg.getState()))
-    if (loadedObjects.length == 0) {
-      return false;
-    }
-
-    return Object.keys(loadedObjects[0]).length !== 0;;
-  }
-
-  await waitForState(
+  return waitForState(
     dbg,
-    state => isPaused(dbg) && scopeIsLoaded(dbg),
+    state => isPaused(dbg) && getSelectedScope(state) && !hasLoadingObjects(state),
     "paused"
  );
 }
@@ -688,9 +679,9 @@ function togglePauseOnExceptions(
  * @return {Promise}
  * @static
  */
-async function invokeInTab(fnc) {
+function invokeInTab(fnc) {
   info(`Invoking function ${fnc} in tab`);
-  ContentTask.spawn(gBrowser.selectedBrowser, fnc, function*(fnc) {
+  return ContentTask.spawn(gBrowser.selectedBrowser, fnc, function*(fnc) {
     content.wrappedJSObject[fnc](); // eslint-disable-line mozilla/no-cpows-in-tests, max-len
   });
 }

@@ -10,12 +10,10 @@ add_task(async function test() {
   await addBreakpoint(dbg, "async", 8);
   invokeInTab("main");
 
-  info(">>> invoked")
   await waitForPaused(dbg);
   assertPausedLocation(dbg);
   assertDebugLine(dbg, 8);
 
-info(">>> stepOver")
   await stepOver(dbg);
   assertPausedLocation(dbg);
   assertDebugLine(dbg, 9);
