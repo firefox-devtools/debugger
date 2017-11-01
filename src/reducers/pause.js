@@ -42,6 +42,14 @@ export const State = (): PauseState => ({
   command: ""
 });
 
+const emptyPauseState = {
+  pause: null,
+  frames: null,
+  frameScopes: {},
+  selectedFrameId: null,
+  loadedObjects: {}
+};
+
 function update(state: PauseState = State(), action: Action): PauseState {
   switch (action.type) {
     case "PAUSED": {
