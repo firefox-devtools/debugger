@@ -106,9 +106,6 @@ describe("scopes", () => {
     it("single scope", () => {
       const pauseData = {
         frame: {
-          scope: {
-            actor: "actor1"
-          },
           this: {}
         }
       };
@@ -138,9 +135,6 @@ describe("scopes", () => {
     it("second scope", () => {
       const pauseData = {
         frame: {
-          scope: {
-            actor: "actor1"
-          },
           this: {}
         }
       };
