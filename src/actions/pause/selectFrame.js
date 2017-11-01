@@ -2,7 +2,7 @@
 
 import { selectSource } from "../sources";
 import { evaluateExpressions } from "../expressions";
-import { mapScopes } from "./mapScopes";
+import { fetchScopes } from "./fetchScopes";
 
 import type { Frame } from "../../types";
 import type { ThunkArgs } from "../types";
@@ -22,6 +22,6 @@ export function selectFrame(frame: Frame) {
     dispatch(selectSource(frame.location.sourceId, { line, column }));
 
     dispatch(evaluateExpressions());
-    dispatch(mapScopes());
+    dispatch(fetchScopes());
   };
 }

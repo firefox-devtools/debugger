@@ -10,7 +10,7 @@ import { evaluateExpressions } from "../expressions";
 import { selectSource } from "../sources";
 import { togglePaneCollapse } from "../ui";
 
-import { mapScopes } from "./mapScopes";
+import { fetchScopes } from "./fetchScopes";
 
 import type { Pause } from "../../types";
 import type { ThunkArgs } from "../types";
@@ -52,6 +52,6 @@ export function paused(pauseInfo: Pause) {
     await dispatch(selectSource(frame.location.sourceId, { line, column }));
 
     dispatch(togglePaneCollapse("end", false));
-    dispatch(mapScopes());
+    dispatch(fetchScopes());
   };
 }

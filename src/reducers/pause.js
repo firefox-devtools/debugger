@@ -72,7 +72,7 @@ function update(state: PauseState = State(), action: Action): PauseState {
       });
     }
 
-    case "MAP_SCOPES":
+    case "ADD_SCOPES":
       const { frame, scopes } = action;
       const selectedFrameId = frame.id;
 
