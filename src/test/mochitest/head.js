@@ -343,13 +343,13 @@ function isPaused(dbg) {
  * @static
  */
 async function waitForPaused(dbg) {
-  // We want to make sure that we get both a real paused event and
-  // that the state is fully populated. The client may do some more
-  // work (call other client methods) before populating the state.
-  let loading = waitForDispatch(dbg, "LOAD_OBJECT_PROPERTIES");
-  await waitForThreadEvents(dbg, "paused");
-  await waitForState(dbg, state => isPaused(dbg));
-  await loading;
+  const { getSelectedScope, hasLoadingObjects } = dbg.selectors;
+
+  return waitForState(
+    dbg,
+    state => isPaused(dbg) && getSelectedScope(state) && !hasLoadingObjects(state),
+    "paused"
+ );
 }
 
 /**
@@ -519,9 +519,9 @@ function closeTab(dbg, url) {
  * @return {Promise}
  * @static
  */
-function stepOver(dbg) {
+async function stepOver(dbg) {
   info("Stepping over");
-  dbg.actions.stepOver();
+  await dbg.actions.stepOver();
   return waitForPaused(dbg);
 }
 
@@ -533,9 +533,9 @@ function stepOver(dbg) {
  * @return {Promise}
  * @static
  */
-function stepIn(dbg) {
+async function stepIn(dbg) {
   info("Stepping in");
-  dbg.actions.stepIn();
+  await dbg.actions.stepIn();
   return waitForPaused(dbg);
 }
 
@@ -547,9 +547,9 @@ function stepIn(dbg) {
  * @return {Promise}
  * @static
  */
-function stepOut(dbg) {
+async function stepOut(dbg) {
   info("Stepping out");
-  dbg.actions.stepOut();
+  await dbg.actions.stepOut();
   return waitForPaused(dbg);
 }
 
@@ -563,8 +563,7 @@ function stepOut(dbg) {
  */
 function resume(dbg) {
   info("Resuming");
-  dbg.actions.resume();
-  return waitForState(dbg, state => !dbg.selectors.isPaused(state), "resumed");
+  return dbg.actions.resume();
 }
 
 function deleteExpression(dbg, input) {
