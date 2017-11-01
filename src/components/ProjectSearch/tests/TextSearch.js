@@ -18,6 +18,13 @@ function render(overrides = {}) {
 }
 
 describe("TextSearch", () => {
+  it("where <Enter> has not been pressed", () => {
+    const component = render({
+      query: ""
+    });
+    expect(component).toMatchSnapshot();
+  });
+
   it("found no search results", () => {
     const component = render();
     expect(component).toMatchSnapshot();

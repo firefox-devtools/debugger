@@ -16,8 +16,7 @@ export default class TextSearch extends Component {
   constructor(props: Props) {
     super(props);
     this.state = {
-      inputValue: this.props.query || "",
-      resultCount: 0
+      inputValue: this.props.query || ""
     };
 
     this.focusedItem = null;
@@ -37,19 +36,6 @@ export default class TextSearch extends Component {
   componentWillUnmount() {
     const shortcuts = this.context.shortcuts;
     shortcuts.off("Enter", this.onEnterPress);
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.query === "") {
-      return;
-    }
-
-    const resultCount = this.getResultCount();
-    if (resultCount === prevState.resultCount) {
-      return;
-    }
-
-    this.setState({ resultCount });
   }
 
   selectMatchItem(matchItem) {
@@ -185,18 +171,17 @@ export default class TextSearch extends Component {
   }
 
   renderInput() {
+    const resultCount = this.getResultCount();
+
     return (
       <SearchInput
         query={this.state.inputValue}
-        count={this.state.resultCount}
+        count={resultCount}
         placeholder={L10N.getStr("projectTextSearch.placeholder")}
         size="big"
         summaryMsg={
           this.props.query !== ""
-            ? L10N.getFormatStr(
-                "sourceSearch.resultsSummary1",
-                this.state.resultCount
-              )
+            ? L10N.getFormatStr("sourceSearch.resultsSummary1", resultCount)
             : ""
         }
         onChange={e => this.inputOnChange(e)}
