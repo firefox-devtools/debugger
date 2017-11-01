@@ -2,24 +2,6 @@ import React from "react";
 import { mount } from "enzyme";
 import Editor from "../index";
 import * as I from "immutable";
-import { JSDOM } from "jsdom";
-
-const jsdom = new JSDOM("<!doctype html><html><body></body></html>");
-const { window } = jsdom;
-
-function copyProps(src, target) {
-  const props = Object.getOwnPropertyNames(src)
-    .filter(prop => typeof target[prop] === "undefined")
-    .map(prop => Object.getOwnPropertyDescriptor(src, prop));
-  Object.defineProperties(target, props);
-}
-
-global.window = window;
-global.document = window.document;
-global.navigator = {
-  userAgent: "node.js"
-};
-copyProps(window, global);
 
 function generateDefaults(overrides) {
   return {
@@ -57,15 +39,9 @@ function render(overrides = {}) {
   };
   const component = mount(<Editor.WrappedComponent {...props} />, {
     context: {
-      shortcuts: { on: jest.fn() },
-      store: {
-        getState: jest.fn(),
-        subscribe: jest.fn(),
-        dispatch: jest.fn()
-      }
+      shortcuts: { on: jest.fn() }
     }
   });
-  console.log("Wrapped Component");
   return { component, props, mockCodeMirror };
 }
 

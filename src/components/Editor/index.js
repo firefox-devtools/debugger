@@ -175,7 +175,6 @@ class Editor extends PureComponent<Props, State> {
   }
 
   componentDidMount() {
-    console.log("Did mount");
     const editor = this.setupEditor();
     console.log("editor", this.setupEditor);
     this.setState({ editor });
@@ -221,6 +220,7 @@ class Editor extends PureComponent<Props, State> {
   }
 
   componentWillUpdate(nextProps) {
+    console.log("Props", nextProps.selectedSource);
     this.setText(nextProps);
     this.setSize(nextProps);
   }
@@ -463,7 +463,6 @@ class Editor extends PureComponent<Props, State> {
 
   setText(props) {
     const { selectedSource } = props;
-    console.log("Test: ", selectedSource);
 
     if (!this.state.editor) {
       return;
