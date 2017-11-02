@@ -6,7 +6,7 @@ import actions from "../../actions";
 import {
   getSelectedFrame,
   getLoadedObjects,
-  getFrameScopes,
+  getFrameScope,
   getPause
 } from "../../selectors";
 import { getScopes } from "../../utils/scopes";
@@ -95,7 +95,7 @@ export default connect(
   state => {
     const selectedFrame = getSelectedFrame(state);
     const frameScopes = selectedFrame
-      ? getFrameScopes(state, selectedFrame.id)
+      ? getFrameScope(state, selectedFrame.id)
       : null;
     return {
       selectedFrame,
