@@ -91,7 +91,7 @@
     "react": "^15.6.2",
     "react-dom": "^15.6.2",
     "react-immutable-proptypes": "^2.1.0",
-    "react-inlinesvg": "^0.6.2",
+    "react-inlinesvg": "^0.7.0",
     "react-redux": "^5.0.6",
     "react-transition-group": "^2.2.0",
     "redux-saga": "^0.15.4",
