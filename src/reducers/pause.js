@@ -45,16 +45,8 @@ export const State = (): PauseState => ({
 function update(state: PauseState = State(), action: Action): PauseState {
   switch (action.type) {
     case "PAUSED": {
-      const {
-        selectedFrameId,
-        frames,
-        scopes,
-        loadedObjects,
-        pauseInfo
-      } = action;
+      const { selectedFrameId, frames, loadedObjects, pauseInfo } = action;
       pauseInfo.isInterrupted = pauseInfo.why.type === "interrupted";
-
-      const frameScopes = { [selectedFrameId]: scopes };
 
       // turn this into an object keyed by object id
       const objectMap = {};
@@ -67,19 +59,17 @@ function update(state: PauseState = State(), action: Action): PauseState {
         pause: pauseInfo,
         selectedFrameId,
         frames,
-        frameScopes,
+        frameScopes: {},
         loadedObjects: objectMap
       });
     }
 
+    case "ADD_SCOPES":
     case "MAP_SCOPES":
       const { frame, scopes } = action;
       const selectedFrameId = frame.id;
-
-      return {
-        ...state,
-        frameScopes: { ...state.frameScopes, [selectedFrameId]: scopes }
-      };
+      const frameScopes = { ...state.frameScopes, [selectedFrameId]: scopes };
+      return { ...state, frameScopes };
     case "RESUME":
       return Object.assign({}, state, {
         pause: null,
