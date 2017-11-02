@@ -7,7 +7,7 @@ export function asyncTimes(name) {
   ).map(([start, end]) => +(end.startTime - start.startTime).toPrecision(2));
 }
 
-function times(name) {
+function getTimes(name) {
   return window.performance
     .getEntriesByName(name)
     .map(time => +time.duration.toPrecision(2));
@@ -29,7 +29,7 @@ function stats(times) {
 
 export function steppingTimings() {
   const commands = asyncTimes("COMMAND");
-  const paused = times("PAUSED");
+  const paused = getTimes("PAUSED");
 
   return {
     commands: stats(commands),
