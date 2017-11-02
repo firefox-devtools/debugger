@@ -73,7 +73,7 @@ function getSourceBindingVariables(
   return bound.concat(unused);
 }
 
-export function getSpecialVariables(pauseInfo: Pause, path: string) {
+export function getFramePopVariables(pauseInfo: Pause, path: string) {
   const vars = [];
 
   if (pauseInfo.why && pauseInfo.why.frameFinished) {
@@ -167,7 +167,7 @@ export function getScopes(
         scope.actor === selectedScope.actor &&
         selectedFrame.id == pauseInfo.frame.id
       ) {
-        vars = vars.concat(getSpecialVariables(pauseInfo, key));
+        vars = vars.concat(getFramePopVariables(pauseInfo, key));
       }
 
       if (scope.actor === selectedScope.actor) {
