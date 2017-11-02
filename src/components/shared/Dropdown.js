@@ -8,7 +8,7 @@ import "./Dropdown.css";
 
 type Props = {
   panel: Object,
-  icon: Object
+  icon: any
 };
 
 type State = {
