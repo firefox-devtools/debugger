@@ -3,6 +3,8 @@
   --debug-expression-background: rgba(202, 227, 255, 0.5);
   --editor-searchbar-height: 27px;
   --editor-second-searchbar-height: 27px;
+  --debug-line-error-border: rgb(255, 0, 0);
+  --debug-expression-error-background: rgba(231, 116, 113, 0.3);
 }
 
 .theme-dark .editor-wrapper {
@@ -22,19 +24,14 @@
   --theme-conditional-breakpoint-color: var(--theme-body-color);
 }
 
-.paused .CodeMirror-line,
-.paused .CodeMirror-linenumber {
-  opacity: 0.7;
-}
-
 /**
  * There's a known codemirror flex issue with chrome that this addresses.
  * BUG https://github.com/devtools-html/debugger.html/issues/63
  */
 .editor-wrapper {
   position: absolute;
-  height: calc(100% - 31px);
-  width: calc(100% - 1.5px);
+  height: calc(100% - 29px);
+  width: calc(100% - 1px);
   top: 29px;
   left: 0px;
   --editor-footer-height: 24px;
@@ -156,6 +153,10 @@ html[dir="rtl"] .editor-mount {
   background-color: var(--debug-expression-background);
 }
 
+debug-expression-error {
+  background-color: var(--debug-expression-error-background);
+}
+
 .new-debug-line .CodeMirror-line {
   background-color: transparent !important;
   outline: var(--debug-line-border) solid 1px;
@@ -164,6 +165,17 @@ html[dir="rtl"] .editor-mount {
 /* Don't display the highlight color since the debug line
    is already highlighted */
 .new-debug-line .CodeMirror-activeline-background {
+  display: none;
+}
+
+.new-debug-line-error .CodeMirror-line {
+  background-color: var(--debug-expression-error-background) !important;
+  outline: var(--debug-line-error-border) solid 1px;
+}
+
+/* Don't display the highlight color since the debug line
+  is already highlighted */
+.new-debug-line-error .CodeMirror-activeline-background {
   display: none;
 }
 

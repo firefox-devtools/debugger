@@ -16,12 +16,11 @@ type Props = {
   horizontal: boolean,
   togglePaneCollapse: Function,
   endPanelCollapsed: boolean,
-  setActiveSearch: (?ActiveSearchType) => any
+  setActiveSearch: (?ActiveSearchType) => any,
+  openQuickOpen: (query?: string) => void
 };
 
-class WelcomeBox extends Component {
-  props: Props;
-
+class WelcomeBox extends Component<Props> {
   renderToggleButton() {
     const { horizontal, endPanelCollapsed, togglePaneCollapse } = this.props;
     if (horizontal) {
@@ -49,28 +48,36 @@ class WelcomeBox extends Component {
 
     const searchSourcesLabel = L10N.getStr("welcome.search").substring(2);
     const searchProjectLabel = L10N.getStr("welcome.findInFiles").substring(2);
-    const { setActiveSearch } = this.props;
+    const { setActiveSearch, openQuickOpen } = this.props;
 
     return (
       <div className="welcomebox">
-        <div className="alignlabel">
-          <div className="shortcutKeys">
-            <p onClick={setActiveSearch.bind(null, "source")}>
-              {searchSourcesShortcut}
+        <div className="alignlabel small-size-layout">
+          <div className="shortcutFunction">
+            <p onClick={() => openQuickOpen()}>
+              <span className="shortcutKey">{searchSourcesShortcut}</span>
+              {searchSourcesLabel}
             </p>
+            <p onClick={setActiveSearch.bind(null, "project")}>
+              <span className="shortcutKey">{searchProjectShortcut}</span>
+              {searchProjectLabel}
+            </p>
+          </div>
+          {this.renderToggleButton()}
+        </div>
+        <div className="alignlabel normal-layout">
+          <div className="shortcutKeys">
+            <p onClick={() => openQuickOpen()}>{searchSourcesShortcut}</p>
             <p onClick={setActiveSearch.bind(null, "project")}>
               {searchProjectShortcut}
             </p>
           </div>
           <div className="shortcutFunction">
-            <p onClick={setActiveSearch.bind(null, "source")}>
-              {searchSourcesLabel}
-            </p>
+            <p onClick={() => openQuickOpen()}>{searchSourcesLabel}</p>
             <p onClick={setActiveSearch.bind(null, "project")}>
               {searchProjectLabel}
             </p>
           </div>
-          {this.renderToggleButton()}
         </div>
       </div>
     );

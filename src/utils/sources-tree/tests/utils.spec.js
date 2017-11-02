@@ -10,7 +10,8 @@ import {
   addToTree,
   sortEntireTree,
   getURL,
-  getDirectories
+  getDirectories,
+  isNotJavaScript
 } from "../index";
 
 describe("sources tree", () => {
@@ -49,7 +50,7 @@ describe("sources tree", () => {
       ];
 
       const tree = createNode("root", "", []);
-      sources.forEach(source => addToTree(tree, source));
+      sources.forEach(source => addToTree(tree, source, "http://example.com/"));
       sortEntireTree(tree);
       const [bFolderNode, aFileNode] = tree.contents[0].contents;
       const [cFolderNode] = bFolderNode.contents;
@@ -100,9 +101,9 @@ describe("sources tree", () => {
       });
 
       const tree = createNode("root", "", []);
-      addToTree(tree, source1);
-      addToTree(tree, source2);
-      addToTree(tree, source3);
+      addToTree(tree, source1, "http://a/");
+      addToTree(tree, source2, "http://a/");
+      addToTree(tree, source3, "http://a/");
       const paths = getDirectories("http://a/b.js", tree);
 
       expect(paths[1].path).toBe("/a");
@@ -121,8 +122,8 @@ describe("sources tree", () => {
       });
 
       const tree = createNode("root", "", []);
-      addToTree(tree, source1);
-      addToTree(tree, source2);
+      addToTree(tree, source1, "http://a/");
+      addToTree(tree, source2, "http://a/");
       const paths = getDirectories("http://a/b.js?key=hi", tree);
 
       expect(paths[1].path).toBe("/a");
@@ -141,8 +142,8 @@ describe("sources tree", () => {
       });
 
       const tree = createNode("root", "", []);
-      addToTree(tree, source1);
-      addToTree(tree, source2);
+      addToTree(tree, source1, "http://a/");
+      addToTree(tree, source2, "http://a/");
       const paths = getDirectories("https://a/b.js", tree);
 
       expect(paths[1].path).toBe("/a");
@@ -175,6 +176,40 @@ describe("sources tree", () => {
       const urlObject = getURL("https://a/c");
 
       expect(urlObject.filename).toBe("(index)");
+    });
+  });
+
+  describe("isNotJavaScript", () => {
+    it("js file", () => {
+      expect(
+        isNotJavaScript({
+          url: "http://example.com/foo.js"
+        })
+      ).toBe(false);
+    });
+
+    it("css file", () => {
+      expect(
+        isNotJavaScript({
+          url: "http://example.com/foo.css"
+        })
+      ).toBe(true);
+    });
+
+    it("svg file", () => {
+      expect(
+        isNotJavaScript({
+          url: "http://example.com/foo.svg"
+        })
+      ).toBe(true);
+    });
+
+    it("png file", () => {
+      expect(
+        isNotJavaScript({
+          url: "http://example.com/foo.png"
+        })
+      ).toBe(true);
     });
   });
 });

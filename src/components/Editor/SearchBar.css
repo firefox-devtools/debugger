@@ -20,7 +20,7 @@
 .search-bottom-bar {
   display: flex;
   flex-shrink: 0;
-  justify-content: space-between;
+  justify-content: flex-end;
   width: calc(100% - 1px);
   height: var(--editor-second-searchbar-height);
   background-color: var(--theme-toolbar-background);

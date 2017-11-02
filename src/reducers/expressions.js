@@ -1,4 +1,12 @@
 // @flow
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+/**
+ * Expressions reducer
+ * @module reducers/expressions
+ */
 
 import makeRecord from "../utils/makeRecord";
 import { List } from "immutable";
@@ -39,14 +47,11 @@ function update(
         updating: true
       });
     case "EVALUATE_EXPRESSION":
-      if (action.status === "done") {
-        return updateItemInList(state, ["expressions"], action.input, {
-          input: action.input,
-          value: action.value,
-          updating: false
-        });
-      }
-      break;
+      return updateItemInList(state, ["expressions"], action.input, {
+        input: action.input,
+        value: action.value,
+        updating: false
+      });
     case "DELETE_EXPRESSION":
       return deleteExpression(state, action.input);
   }

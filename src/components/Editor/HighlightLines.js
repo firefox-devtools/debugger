@@ -2,14 +2,16 @@
 import { Component } from "react";
 import { range } from "lodash";
 import { isEmpty } from "lodash";
+import { connect } from "react-redux";
+import { getHighlightedLineRange } from "../../selectors";
 
-class HighlightLines extends Component {
+type Props = {
+  highlightedLineRange: Object,
+  editor: Object
+};
+
+class HighlightLines extends Component<Props> {
   highlightLineRange: Function;
-
-  props: {
-    highlightedLineRange: Object,
-    editor: Object
-  };
 
   constructor() {
     super();
@@ -74,4 +76,6 @@ class HighlightLines extends Component {
   }
 }
 
-export default HighlightLines;
+export default connect(state => ({
+  highlightedLineRange: getHighlightedLineRange(state)
+}))(HighlightLines);

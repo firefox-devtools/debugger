@@ -1,36 +1,33 @@
 // @flow
 
-import React, { PropTypes, Component } from "react";
-import type { Children } from "react";
+import PropTypes from "prop-types";
+import React from "react";
+import type { Node as ReactNode } from "react";
 import classnames from "classnames";
 import Transition from "react-transition-group/Transition";
 import "./Modal.css";
 
 type ModalProps = {
   status: string,
-  children?: Children,
+  children?: ReactNode,
+  additionalClass?: string,
   handleClose: () => any
 };
 
-export class Modal extends Component {
-  props: ModalProps;
-
-  constructor(props: ModalProps) {
-    super(props);
-    const self: any = this;
-    self.onClick = this.onClick.bind(this);
-  }
-
-  onClick(e: SyntheticEvent) {
+export class Modal extends React.Component<ModalProps> {
+  onClick = (e: SyntheticEvent<HTMLElement>) => {
     e.stopPropagation();
-  }
+  };
 
   render() {
     const { status } = this.props;
 
     return (
       <div className="modal-wrapper" onClick={this.props.handleClose}>
-        <div className={classnames("modal", status)} onClick={this.onClick}>
+        <div
+          className={classnames("modal", this.props.additionalClass, status)}
+          onClick={this.onClick}
+        >
           {this.props.children}
         </div>
       </div>
@@ -44,19 +41,25 @@ Modal.contextTypes = {
 
 type SlideProps = {
   in: boolean,
-  children?: Children,
+  children?: ReactNode,
+  additionalClass?: string,
   handleClose: () => any
 };
 
 export default function Slide({
   in: inProp,
   children,
+  additionalClass,
   handleClose
 }: SlideProps) {
   return (
     <Transition in={inProp} timeout={175} appear>
       {status => (
-        <Modal status={status} handleClose={handleClose}>
+        <Modal
+          status={status}
+          additionalClass={additionalClass}
+          handleClose={handleClose}
+        >
           {children}
         </Modal>
       )}

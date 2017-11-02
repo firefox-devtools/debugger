@@ -1,19 +1,29 @@
 /* Any copyright is dedicated to the Public Domain.
  * http://creativecommons.org/publicdomain/zero/1.0/ */
 
-function clickStepOver(dbg) {
-  clickElement(dbg, "stepOver");
+function clickButton(dbg, button) {
+  const resumeFired = waitForDispatch(dbg, "CLEAR_COMMAND");
+  clickElement(dbg, button);
+  return resumeFired;
+}
+
+async function clickStepOver(dbg) {
+  await clickButton(dbg, "stepOver");
   return waitForPaused(dbg);
 }
 
-function clickStepIn(dbg) {
-  clickElement(dbg, "stepIn");
+async function clickStepIn(dbg) {
+  await clickButton(dbg, "stepIn");
   return waitForPaused(dbg);
 }
 
-function clickStepOut(dbg) {
-  clickElement(dbg, "stepOut");
+async function clickStepOut(dbg) {
+  await clickButton(dbg, "stepOut");
   return waitForPaused(dbg);
+}
+
+async function clickResume(dbg) {
+  return clickButton(dbg, "resume");
 }
 
 /**
@@ -29,10 +39,11 @@ add_task(async function() {
 
   await reload(dbg);
   await waitForPaused(dbg);
+  await waitForLoadedSource(dbg, "debugger-statements.html");
   assertPausedLocation(dbg);
 
   // resume
-  clickElement(dbg, "resume");
+  await clickResume(dbg)
   await waitForPaused(dbg);
   assertPausedLocation(dbg);
 

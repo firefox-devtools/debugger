@@ -13,7 +13,7 @@ import { isWasm, lineToWasmOffset, wasmOffsetToLine } from "../wasm";
 
 import { SourceEditor, SourceEditorUtils } from "devtools-source-editor";
 
-import type { AstPosition, AstLocation } from "../parser/types";
+import type { AstPosition, AstLocation } from "../../workers/parser/types";
 import type { EditorPosition, EditorRange } from "../editor/types";
 
 function shouldShowPrettyPrint(selectedSource) {
@@ -101,6 +101,18 @@ function toSourceLine(sourceId: string, line: number): ?number {
   return isWasm(sourceId) ? lineToWasmOffset(sourceId, line) : line + 1;
 }
 
+function scrollToColumn(codeMirror: any, line: number, column: number) {
+  const { top, left } = codeMirror.charCoords(
+    { line: line, ch: column },
+    "local"
+  );
+
+  const centeredX = left - codeMirror.getScrollerElement().offsetWidth / 2;
+  const centeredY = top - codeMirror.getScrollerElement().offsetHeight / 2;
+
+  codeMirror.scrollTo(centeredX, centeredY);
+}
+
 function toSourceLocation(
   sourceId: string,
   location: EditorPosition
@@ -126,6 +138,19 @@ function lineAtHeight(editor, sourceId, event) {
   return toSourceLine(sourceId, editorLine);
 }
 
+function getSourceLocationFromMouseEvent(editor, selectedLocation, e) {
+  const { line, ch } = editor.codeMirror.coordsChar({
+    left: e.clientX,
+    top: e.clientY
+  });
+
+  return {
+    sourceId: selectedLocation.sourceId,
+    line: line + 1,
+    column: ch + 1
+  };
+}
+
 module.exports = Object.assign(
   {},
   expressionUtils,
@@ -139,11 +164,13 @@ module.exports = Object.assign(
     toEditorPosition,
     toEditorRange,
     toSourceLine,
+    scrollToColumn,
     toSourceLocation,
     shouldShowPrettyPrint,
     shouldShowFooter,
     traverseResults,
     markText,
-    lineAtHeight
+    lineAtHeight,
+    getSourceLocationFromMouseEvent
   }
 );

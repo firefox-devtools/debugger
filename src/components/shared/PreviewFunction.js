@@ -17,15 +17,14 @@ type FunctionType = {
   parameterNames?: string[]
 };
 
-type PreviewFunctionProps = { func: FunctionType };
+type Props = { func: FunctionType };
 
 function getFunctionName(func: FunctionType) {
   const name = func.userDisplayName || func.displayName || func.name;
   return simplifyDisplayName(name);
 }
 
-export default class PreviewFunction extends Component {
-  props: PreviewFunctionProps;
+export default class PreviewFunction extends Component<Props> {
   renderFunctionName(func: FunctionType) {
     const name = getFunctionName(func);
     return <span className="function-name">{name}</span>;

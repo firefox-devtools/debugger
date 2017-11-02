@@ -1,50 +1,72 @@
 // @flow
 
+// React
+import React, { Component } from "react";
+import classnames from "classnames";
+
+// Redux
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import React, { PropTypes, Component } from "react";
-import classnames from "classnames";
-import ImPropTypes from "react-immutable-proptypes";
-import { Set } from "immutable";
 import {
   getShownSource,
   getSelectedSource,
   getDebuggeeUrl,
-  getExpandedState
+  getExpandedState,
+  getProjectDirectoryRoot,
+  getSources
 } from "../../selectors";
+import actions from "../../actions";
 
+// Types
+import type { SourcesMap } from "../../reducers/types";
+import type { SourceRecord } from "../../reducers/sources";
+
+// Components
+import ManagedTree from "../shared/ManagedTree";
+import Svg from "../shared/Svg";
+
+// Utils
 import {
   nodeHasChildren,
   createParentMap,
   isDirectory,
   addToTree,
-  sortEntireTree,
   collapseTree,
   createTree,
   getDirectories
 } from "../../utils/sources-tree";
-
-import ManagedTree from "../shared/ManagedTree";
-
-import actions from "../../actions";
-import Svg from "../shared/Svg";
+import { Set } from "immutable";
 import { showMenu } from "devtools-launchpad";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { throttle } from "../../utils/utils";
+import { features } from "../../utils/prefs";
+import { setProjectDirectoryRoot } from "../../actions/ui";
 
-type CreateTree = {
+type Props = {
+  sources: SourcesMap,
+  selectSource: string => void,
+  shownSource?: string,
+  selectedSource?: SourceRecord,
+  debuggeeUrl: string,
+  projectRoot: string,
+  setExpandedState: any => void,
+  expanded?: any
+};
+
+type State = {
   focusedItem?: any,
   parentMap: any,
   sourceTree: any,
+  projectRoot: string,
   uncollapsedTree: any,
   listItems?: any,
   highlightItems?: any
 };
 
-class SourcesTree extends Component {
-  state: CreateTree;
+class SourcesTree extends Component<Props, State> {
   focusItem: Function;
   selectItem: Function;
+  getPath: Function;
   getIcon: Function;
   queueUpdate: Function;
   onContextMenu: Function;
@@ -53,9 +75,14 @@ class SourcesTree extends Component {
 
   constructor(props) {
     super(props);
-    this.state = createTree(this.props.sources, this.props.debuggeeUrl);
+    this.state = createTree(
+      this.props.sources,
+      this.props.debuggeeUrl,
+      this.props.projectRoot
+    );
     this.focusItem = this.focusItem.bind(this);
     this.selectItem = this.selectItem.bind(this);
+    this.getPath = this.getPath.bind(this);
     this.getIcon = this.getIcon.bind(this);
     this.onContextMenu = this.onContextMenu.bind(this);
     this.renderItem = this.renderItem.bind(this);
@@ -83,12 +110,20 @@ class SourcesTree extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.debuggeeUrl !== nextProps.debuggeeUrl) {
+    if (
+      this.props.projectRoot !== nextProps.projectRoot ||
+      this.props.debuggeeUrl !== nextProps.debuggeeUrl
+    ) {
       // Recreate tree because the sort order changed
-      this.setState(createTree(nextProps.sources, nextProps.debuggeeUrl));
+      this.setState(
+        createTree(
+          nextProps.sources,
+          nextProps.debuggeeUrl,
+          nextProps.projectRoot
+        )
+      );
       return;
     }
-    const { selectedSource } = this.props;
     if (
       nextProps.shownSource &&
       nextProps.shownSource != this.props.shownSource
@@ -107,7 +142,7 @@ class SourcesTree extends Component {
 
     if (
       nextProps.selectedSource &&
-      nextProps.selectedSource != selectedSource
+      nextProps.selectedSource != this.props.selectedSource
     ) {
       const highlightItems = getDirectories(
         nextProps.selectedSource.get("url"),
@@ -123,7 +158,13 @@ class SourcesTree extends Component {
 
     if (nextProps.sources.size === 0) {
       // remove all sources
-      this.setState(createTree(nextProps.sources, this.props.debuggeeUrl));
+      this.setState(
+        createTree(
+          nextProps.sources,
+          nextProps.debuggeeUrl,
+          nextProps.projectRoot
+        )
+      );
       return;
     }
 
@@ -142,10 +183,14 @@ class SourcesTree extends Component {
     let sourceTree = this.state.sourceTree;
     if (newSet.size > 0) {
       for (const source of newSet) {
-        addToTree(uncollapsedTree, source, this.props.debuggeeUrl);
+        addToTree(
+          uncollapsedTree,
+          source,
+          this.props.debuggeeUrl,
+          this.props.projectRoot
+        );
       }
-      const unsortedTree = collapseTree(uncollapsedTree);
-      sourceTree = sortEntireTree(unsortedTree, nextProps.debuggeeUrl);
+      sourceTree = collapseTree(uncollapsedTree);
     }
 
     this.setState({
@@ -165,21 +210,49 @@ class SourcesTree extends Component {
     }
   }
 
-  getIcon(item, depth) {
+  getPath(item) {
+    const { sources } = this.props;
+    const blackBoxedPart =
+      item.contents.get &&
+      sources.get(item.contents.get("id")).get("isBlackBoxed")
+        ? "update"
+        : "";
+    return `${item.path}/${item.name}/${blackBoxedPart}`;
+  }
+
+  getIcon(sources, item, depth) {
+    const { debuggeeUrl } = this.props;
+
+    if (item.path === "/Webpack") {
+      return <Svg name="webpack" />;
+    }
+
     if (depth === 0) {
-      return <Svg name="domain" />;
+      return (
+        <img
+          className={classnames("domain", {
+            debuggee: debuggeeUrl && debuggeeUrl.includes(item.name)
+          })}
+        />
+      );
     }
 
     if (!nodeHasChildren(item)) {
-      return <Svg name="file" />;
+      const source = sources.get(item.contents.get("id"));
+      if (source.get("isBlackBoxed")) {
+        return <img className="blackBox" />;
+      }
+      return <img className="file" />;
     }
 
-    return <Svg name="folder" />;
+    return <img className="folder" />;
   }
 
   onContextMenu(event, item) {
-    const copySourceUrlLabel = L10N.getStr("copySourceUrl");
-    const copySourceUrlKey = L10N.getStr("copySourceUrl.accesskey");
+    const copySourceUri2Label = L10N.getStr("copySourceUri2");
+    const copySourceUri2Key = L10N.getStr("copySourceUri2.accesskey");
+    const setDirectoryRootLabel = L10N.getStr("setDirectoryRoot.label");
+    const setDirectoryRootKey = L10N.getStr("setDirectoryRoot.accesskey");
 
     event.stopPropagation();
     event.preventDefault();
@@ -188,36 +261,43 @@ class SourcesTree extends Component {
 
     if (!isDirectory(item)) {
       const source = item.contents.get("url");
-      const copySourceUrl = {
+      const copySourceUri2 = {
         id: "node-menu-copy-source",
-        label: copySourceUrlLabel,
-        accesskey: copySourceUrlKey,
+        label: copySourceUri2Label,
+        accesskey: copySourceUri2Key,
         disabled: false,
         click: () => copyToTheClipboard(source)
       };
 
-      menuOptions.push(copySourceUrl);
+      menuOptions.push(copySourceUri2);
+    } else if (features.root) {
+      menuOptions.push({
+        id: "node-set-directory-root",
+        label: setDirectoryRootLabel,
+        accesskey: setDirectoryRootKey,
+        disabled: false,
+        click: () => setProjectDirectoryRoot(item.path)
+      });
     }
-
     showMenu(event, menuOptions);
   }
 
   renderItem(item, depth, focused, _, expanded, { setExpanded }) {
-    const arrow = (
-      <Svg
-        name="arrow"
-        className={classnames({
-          expanded: expanded,
-          hidden: !nodeHasChildren(item)
+    const arrow = nodeHasChildren(item) ? (
+      <img
+        className={classnames("arrow", {
+          expanded: expanded
         })}
         onClick={e => {
           e.stopPropagation();
-          setExpanded(item, !expanded);
+          setExpanded(item, !expanded, e.altKey);
         }}
       />
+    ) : (
+      <i className="no-arrow" />
     );
-
-    const icon = this.getIcon(item, depth);
+    const { sources } = this.props;
+    const icon = this.getIcon(sources, item, depth);
     let paddingDir = "paddingRight";
     if (document.body && document.body.parentElement) {
       paddingDir =
@@ -229,25 +309,23 @@ class SourcesTree extends Component {
     return (
       <div
         className={classnames("node", { focused })}
-        style={{ [paddingDir]: `${depth * 15}px` }}
+        style={{ [paddingDir]: `${depth * 15 + 5}px` }}
         key={item.path}
-        onClick={() => {
+        onClick={e => {
           this.selectItem(item);
-          setExpanded(item, !expanded);
+          setExpanded(item, !expanded, e.altKey);
         }}
         onContextMenu={e => this.onContextMenu(e, item)}
       >
-        <div>
-          {arrow}
-          {icon}
-          {item.name}
-        </div>
+        {arrow}
+        {icon}
+        <span className="label"> {item.name} </span>
       </div>
     );
   }
 
   render() {
-    const { isHidden, setExpandedState, expanded } = this.props;
+    const { setExpandedState, expanded } = this.props;
     const {
       focusedItem,
       sourceTree,
@@ -262,7 +340,7 @@ class SourcesTree extends Component {
       getParent: item => parentMap.get(item),
       getChildren: item => (nodeHasChildren(item) ? item.contents : []),
       getRoots: () => sourceTree.contents,
-      getPath: item => `${item.path}/${item.name}`,
+      getPath: this.getPath,
       itemHeight: 21,
       autoExpandDepth: expanded ? 0 : 1,
       autoExpandAll: false,
@@ -292,26 +370,12 @@ class SourcesTree extends Component {
     };
 
     return (
-      <div
-        className={classnames("sources-list", { hidden: isHidden })}
-        onKeyDown={onKeyDown}
-      >
+      <div className="sources-list" onKeyDown={onKeyDown}>
         {tree}
       </div>
     );
   }
 }
-
-SourcesTree.propTypes = {
-  isHidden: PropTypes.bool,
-  sources: ImPropTypes.map.isRequired,
-  selectSource: PropTypes.func.isRequired,
-  shownSource: PropTypes.string,
-  selectedSource: ImPropTypes.map,
-  debuggeeUrl: PropTypes.string.isRequired,
-  setExpandedState: PropTypes.func,
-  expanded: PropTypes.any
-};
 
 export default connect(
   state => {
@@ -319,7 +383,9 @@ export default connect(
       shownSource: getShownSource(state),
       selectedSource: getSelectedSource(state),
       debuggeeUrl: getDebuggeeUrl(state),
-      expanded: getExpandedState(state)
+      expanded: getExpandedState(state),
+      projectRoot: getProjectDirectoryRoot(state),
+      sources: getSources(state)
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

@@ -7,6 +7,7 @@ import "./Accordion.css";
 type AccordionItem = {
   buttons?: Array<Object>,
   component(): any,
+  componentProps: Object,
   header: string,
   opened: boolean,
   onToggle?: () => void,
@@ -15,16 +16,12 @@ type AccordionItem = {
 
 type Props = { items: Array<Object> };
 
-type AccordionState = {
+type State = {
   opened: boolean[],
   created: boolean[]
 };
 
-class Accordion extends Component {
-  state: AccordionState;
-
-  props: Props;
-
+class Accordion extends Component<Props, State> {
   constructor(props: Props) {
     super();
 
@@ -32,9 +29,6 @@ class Accordion extends Component {
       opened: props.items.map(item => item.opened),
       created: []
     };
-
-    const self: any = this;
-    self.renderContainer = this.renderContainer.bind(this);
   }
 
   componentWillReceiveProps(nextProps: Props) {
@@ -66,7 +60,7 @@ class Accordion extends Component {
     this.setState({ opened, created });
   }
 
-  renderContainer(item: AccordionItem, i: number) {
+  renderContainer = (item: AccordionItem, i: number) => {
     const { opened, created } = this.state;
     const containerClassName = `${item.header
       .toLowerCase()
@@ -91,7 +85,7 @@ class Accordion extends Component {
         ) : null}
       </div>
     );
-  }
+  };
 
   render() {
     return (

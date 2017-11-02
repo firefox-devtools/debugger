@@ -1,14 +1,17 @@
 // @flow
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 /**
- * UI reducer
- * @module reducers/ui
+ * Ast reducer
+ * @module reducers/ast
  */
 
 import * as I from "immutable";
 
 import makeRecord from "../utils/makeRecord";
-import type { SymbolDeclarations, AstLocation } from "../utils/parser/types";
+import type { SymbolDeclarations, AstLocation } from "../workers/parser/types";
 
 import type { Map } from "immutable";
 import type { Source } from "../types";
@@ -86,7 +89,8 @@ function update(
         location,
         result,
         tokenPos,
-        cursorPos
+        cursorPos,
+        extra
       } = action.value;
       return state.set("preview", {
         updating: false,
@@ -94,12 +98,17 @@ function update(
         location,
         result,
         tokenPos,
-        cursorPos
+        cursorPos,
+        extra
       });
     }
 
     case "RESUMED": {
       return state.set("outOfScopeLocations", null);
+    }
+
+    case "NAVIGATE": {
+      return initialState();
     }
 
     default: {

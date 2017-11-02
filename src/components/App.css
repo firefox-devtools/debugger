@@ -2,6 +2,17 @@
   box-sizing: border-box;
 }
 
+button {
+  background: transparent;
+  outline: none;
+  border: none;
+}
+
+button:hover,
+button:focus {
+  background-color: var(--theme-toolbar-background-hover);
+}
+
 .debugger {
   display: flex;
   flex: 1;

@@ -88,11 +88,16 @@ Include screenshots and animated GIFs in your pull request whenever possible.
 
 ### Claiming Issues
 
-If you'd like to work on an issue, comment on the issue and we'll mark it `in-progress`.
+If you'd like to work on an issue, `/claim` it in the issue and it'll be marked `in-progress`.
 
 * We'll check up regularly to see how it's progressing and if we can help
 * Don't hesitate to ask questions on the issue or in our slack channel. Communication is the most important part. Don't worry about over communicating!
 * Don't feel bad taking yourself off the issue if you no longer have the time or interest in the issue.
+
+
+![cl]
+
+[cl]: https://shipusercontent.com/51cd3f15f1679d995cc20e3547827ea0/Screen%20Shot%202017-10-03%20at%209.47.25%20AM.png
 
 ### Labels
 
@@ -156,7 +161,7 @@ a triaged issue is:
 * in line with the goals of the debugger
 * a single bigger issue that is still manageable
   *or* a set of smaller issues around a shippable goal (for example, transition the code base to JSX from `dom.div` syntax)
-* labelled (see [Labels](#labels) for more info)
+* labeled (see [Labels](#labels) for more info)
 * ready to be worked on,
   *or* has a request for more information
   *or* has a clear next step
@@ -173,7 +178,6 @@ In addition to labels and components, we use a couple of boards to organize our 
 **Bugs** [bugs][bugs-board] a prioritized list of reported bugs.
 
 **Enhancements** [enhancements-board] a list of feature suggestions that are reviewed twice a quarter.
-
 
 ### Community Friendly
 

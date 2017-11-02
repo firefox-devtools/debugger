@@ -71,7 +71,7 @@ function update(
       }
 
       location = {
-        line: action.line,
+        ...action.location,
         url: action.source.url
       };
 
@@ -79,7 +79,7 @@ function update(
       return state
         .set("selectedLocation", {
           sourceId: action.source.id,
-          line: action.line
+          ...action.location
         })
         .set("pendingSelectedLocation", location);
 

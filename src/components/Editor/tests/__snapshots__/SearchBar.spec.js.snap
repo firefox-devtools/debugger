@@ -1,386 +1,53 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SearchBar should render 1`] = `
-ShallowWrapper {
-  "complexSelector": ComplexSelector {
-    "buildPredicate": [Function],
-    "childrenOfNode": [Function],
-    "findWhereUnwrapped": [Function],
-  },
-  "length": 1,
-  "node": <div
-    className="search-bar"
+<div
+  className="search-bar"
 >
-    <SearchInput
-        count={undefined}
-        handleClose={[Function]}
-        handleNext={[Function]}
-        handlePrev={[Function]}
-        onChange={[Function]}
-        onKeyUp={[Function]}
-        placeholder="Search in file…"
-        query=""
-        showErrorEmoji={true}
-        size=""
-        summaryMsg=""
-    />
-    <div
-        className="search-bottom-bar"
-    >
-        <div
-            className="search-type-toggles"
-        >
-            <span
-                className="search-type-name"
-                onClick={[Function]}
-            >
-                Search functions…
-            </span>
-        </div>
-        <div
-            className="search-modifiers"
-        >
-            <span
-                className="search-type-name"
-            >
-                Modifiers:
-            </span>
-            <SearchModBtn
-                className="regex-match-btn"
-                modVal="regexMatch"
-                svgName="regex-match"
-                tooltip="Regex"
-            />
-            <SearchModBtn
-                className="case-sensitive-btn"
-                modVal="caseSensitive"
-                svgName="case-match"
-                tooltip="Case sensitive"
-            />
-            <SearchModBtn
-                className="whole-word-btn"
-                modVal="wholeWord"
-                svgName="whole-word-match"
-                tooltip="Whole word"
-            />
-        </div>
-    </div>
-</div>,
-  "nodes": Array [
-    <div
-      className="search-bar"
->
-      <SearchInput
-            count={undefined}
-            handleClose={[Function]}
-            handleNext={[Function]}
-            handlePrev={[Function]}
-            onChange={[Function]}
-            onKeyUp={[Function]}
-            placeholder="Search in file…"
-            query=""
-            showErrorEmoji={true}
-            size=""
-            summaryMsg=""
-      />
-      <div
-            className="search-bottom-bar"
-      >
-            <div
-                  className="search-type-toggles"
-            >
-                  <span
-                        className="search-type-name"
-                        onClick={[Function]}
-                  >
-                        Search functions…
-                  </span>
-            </div>
-            <div
-                  className="search-modifiers"
-            >
-                  <span
-                        className="search-type-name"
-                  >
-                        Modifiers:
-                  </span>
-                  <SearchModBtn
-                        className="regex-match-btn"
-                        modVal="regexMatch"
-                        svgName="regex-match"
-                        tooltip="Regex"
-                  />
-                  <SearchModBtn
-                        className="case-sensitive-btn"
-                        modVal="caseSensitive"
-                        svgName="case-match"
-                        tooltip="Case sensitive"
-                  />
-                  <SearchModBtn
-                        className="whole-word-btn"
-                        modVal="wholeWord"
-                        svgName="whole-word-match"
-                        tooltip="Whole word"
-                  />
-            </div>
-      </div>
-</div>,
-  ],
-  "options": Object {},
-  "renderer": ReactShallowRenderer {
-    "_instance": ShallowComponentWrapper {
-      "_calledComponentWillUnmount": false,
-      "_compositeType": 0,
-      "_context": Object {},
-      "_currentElement": <SearchBar
-        editor={Object {}}
-        modifiers={
-                Object {
-                        "get": [Function],
-                        "toJS": [Function],
-                      }
-        }
-        query=""
-        searchOn={true}
-        searchResults={Object {}}
-        selectedResultIndex={0}
-        selectedSource={
-                Object {
-                        "get": [Function],
-                      }
-        }
-        selectedSymbolType="functions"
-        setFileSearchQuery={[Function]}
-        symbolSearchOn={true}
-        symbolSearchResults={Array []}
-        updateSearchResults={[Function]}
-/>,
-      "_debugID": 1,
-      "_hostContainerInfo": null,
-      "_hostParent": null,
-      "_instance": SearchBar {
-        "_reactInternalInstance": [Circular],
-        "buildSummaryMsg": [Function],
-        "clearSearch": [Function],
-        "closeSearch": [Function],
-        "context": Object {
-          "shortcuts": undefined,
-        },
-        "doSearch": [Function],
-        "onChange": [Function],
-        "onEscape": [Function],
-        "onKeyUp": [Function],
-        "props": Object {
-          "editor": Object {},
-          "modifiers": Object {
-            "get": [Function],
-            "toJS": [Function],
-          },
-          "query": "",
-          "searchOn": true,
-          "searchResults": Object {},
-          "selectedResultIndex": 0,
-          "selectedSource": Object {
-            "get": [Function],
-          },
-          "selectedSymbolType": "functions",
-          "setFileSearchQuery": [Function],
-          "symbolSearchOn": true,
-          "symbolSearchResults": Array [],
-          "updateSearchResults": [Function],
-        },
-        "refs": Object {},
-        "renderSearchModifiers": [Function],
-        "searchContents": [Function],
-        "searchInput": [Function],
-        "selectSearchInput": [Function],
-        "setSearchValue": [Function],
-        "state": Object {
-          "count": 0,
-          "index": -1,
-          "selectedResultIndex": 0,
-        },
-        "toggleSearch": [Function],
-        "traverseResults": [Function],
-        "updater": Object {
-          "enqueueCallback": [Function],
-          "enqueueCallbackInternal": [Function],
-          "enqueueElementInternal": [Function],
-          "enqueueForceUpdate": [Function],
-          "enqueueReplaceState": [Function],
-          "enqueueSetState": [Function],
-          "isMounted": [Function],
-          "validateCallback": [Function],
-        },
-      },
-      "_mountOrder": 1,
-      "_pendingCallbacks": null,
-      "_pendingElement": null,
-      "_pendingForceUpdate": false,
-      "_pendingReplaceState": false,
-      "_pendingStateQueue": null,
-      "_renderedComponent": Object {
-        "_currentElement": <div
-          className="search-bar"
->
-          <SearchInput
-                    count={undefined}
-                    handleClose={[Function]}
-                    handleNext={[Function]}
-                    handlePrev={[Function]}
-                    onChange={[Function]}
-                    onKeyUp={[Function]}
-                    placeholder="Search in file…"
-                    query=""
-                    showErrorEmoji={true}
-                    size=""
-                    summaryMsg=""
-          />
-          <div
-                    className="search-bottom-bar"
-          >
-                    <div
-                              className="search-type-toggles"
-                    >
-                              <span
-                                        className="search-type-name"
-                                        onClick={[Function]}
-                              >
-                                        Search functions…
-                              </span>
-                    </div>
-                    <div
-                              className="search-modifiers"
-                    >
-                              <span
-                                        className="search-type-name"
-                              >
-                                        Modifiers:
-                              </span>
-                              <SearchModBtn
-                                        className="regex-match-btn"
-                                        modVal="regexMatch"
-                                        svgName="regex-match"
-                                        tooltip="Regex"
-                              />
-                              <SearchModBtn
-                                        className="case-sensitive-btn"
-                                        modVal="caseSensitive"
-                                        svgName="case-match"
-                                        tooltip="Case sensitive"
-                              />
-                              <SearchModBtn
-                                        className="whole-word-btn"
-                                        modVal="wholeWord"
-                                        svgName="whole-word-match"
-                                        tooltip="Whole word"
-                              />
-                    </div>
-          </div>
-</div>,
-        "_debugID": 2,
-        "_renderedOutput": <div
-          className="search-bar"
->
-          <SearchInput
-                    count={undefined}
-                    handleClose={[Function]}
-                    handleNext={[Function]}
-                    handlePrev={[Function]}
-                    onChange={[Function]}
-                    onKeyUp={[Function]}
-                    placeholder="Search in file…"
-                    query=""
-                    showErrorEmoji={true}
-                    size=""
-                    summaryMsg=""
-          />
-          <div
-                    className="search-bottom-bar"
-          >
-                    <div
-                              className="search-type-toggles"
-                    >
-                              <span
-                                        className="search-type-name"
-                                        onClick={[Function]}
-                              >
-                                        Search functions…
-                              </span>
-                    </div>
-                    <div
-                              className="search-modifiers"
-                    >
-                              <span
-                                        className="search-type-name"
-                              >
-                                        Modifiers:
-                              </span>
-                              <SearchModBtn
-                                        className="regex-match-btn"
-                                        modVal="regexMatch"
-                                        svgName="regex-match"
-                                        tooltip="Regex"
-                              />
-                              <SearchModBtn
-                                        className="case-sensitive-btn"
-                                        modVal="caseSensitive"
-                                        svgName="case-match"
-                                        tooltip="Case sensitive"
-                              />
-                              <SearchModBtn
-                                        className="whole-word-btn"
-                                        modVal="wholeWord"
-                                        svgName="whole-word-match"
-                                        tooltip="Whole word"
-                              />
-                    </div>
-          </div>
-</div>,
-      },
-      "_renderedNodeType": 0,
-      "_rootNodeID": 0,
-      "_topLevelWrapper": null,
-      "_updateBatchNumber": null,
-      "_warnedAboutRefsInRender": false,
-    },
-    "getRenderOutput": [Function],
-    "render": [Function],
-  },
-  "root": [Circular],
-  "unrendered": <SearchBar
-    editor={Object {}}
-    modifiers={
-        Object {
-            "get": [Function],
-            "toJS": [Function],
-          }
-    }
+  <SearchInput
+    handleClose={[Function]}
+    handleNext={[Function]}
+    handlePrev={[Function]}
+    onChange={[Function]}
+    onKeyDown={[Function]}
+    placeholder="Search in file…"
     query=""
-    searchOn={true}
-    searchResults={Object {}}
-    selectedResultIndex={0}
-    selectedSource={
-        Object {
-            "get": [Function],
-          }
-    }
-    selectedSymbolType="functions"
-    setFileSearchQuery={[Function]}
-    symbolSearchOn={true}
-    symbolSearchResults={Array []}
-    updateSearchResults={[Function]}
-/>,
-}
+    showErrorEmoji={true}
+    size=""
+    summaryMsg=""
+  />
+  <div
+    className="search-bottom-bar"
+  >
+    <div
+      className="search-modifiers"
+    >
+      <span
+        className="search-type-name"
+      >
+        Modifiers:
+      </span>
+      <SearchModBtn
+        className="regex-match-btn"
+        modVal="regexMatch"
+        svgName="regex-match"
+        tooltip="Regex"
+      />
+      <SearchModBtn
+        className="case-sensitive-btn"
+        modVal="caseSensitive"
+        svgName="case-match"
+        tooltip="Case sensitive"
+      />
+      <SearchModBtn
+        className="whole-word-btn"
+        modVal="wholeWord"
+        svgName="whole-word-match"
+        tooltip="Whole word"
+      />
+    </div>
+  </div>
+</div>
 `;
 
-exports[`doSearch should complete a search 1`] = `
-Object {
-  "count": 1,
-  "index": "1",
-  "matchIndex": -1,
-  "matches": Array [
-    "result",
-  ],
-}
-`;
+exports[`doSearch should complete a search 1`] = `"query"`;

@@ -3,25 +3,71 @@
 import { toPairs } from "lodash";
 import { get } from "lodash";
 import { simplifyDisplayName } from "./frame";
-import type { Frame, Pause, Scope } from "debugger-html";
+import type { Frame, Pause, Scope, BindingContents } from "debugger-html";
 
-type ScopeData = {
+export type NamedValue = {
   name: string,
+  generatedName?: string,
   path: string,
-  contents: Object[] | Object
+  contents: BindingContents | NamedValue[]
 };
+
+// VarAndBindingsPair actually is [name: string, contents: ScopeBindings]
+type VarAndBindingsPair = Array<any>;
+type VarAndBindingsPairs = Array<VarAndBindingsPair>;
 
 // Create the tree nodes representing all the variables and arguments
 // for the bindings from a scope.
 function getBindingVariables(bindings, parentName) {
-  const args = bindings.arguments.map(arg => toPairs(arg)[0]);
-  const variables = toPairs(bindings.variables);
+  const args: VarAndBindingsPairs = bindings.arguments.map(
+    arg => toPairs(arg)[0]
+  );
+  const variables: VarAndBindingsPairs = toPairs(bindings.variables);
 
-  return args.concat(variables).map(binding => ({
-    name: binding[0],
-    path: `${parentName}/${binding[0]}`,
-    contents: binding[1]
-  }));
+  return args.concat(variables).map(binding => {
+    const name = (binding[0]: string);
+    const contents = (binding[1]: BindingContents);
+    return {
+      name,
+      path: `${parentName}/${name}`,
+      contents
+    };
+  });
+}
+
+function getSourceBindingVariables(
+  bindings,
+  sourceBindings: {
+    [originalName: string]: string
+  },
+  parentName: string
+) {
+  const result = getBindingVariables(bindings, parentName);
+  const index: any = Object.create(null);
+  result.forEach(entry => {
+    index[entry.name] = { used: false, entry };
+  });
+  // Find and replace variables that is present in sourceBindings.
+  const bound = Object.keys(sourceBindings).map(name => {
+    const generatedName = sourceBindings[name];
+    const foundMap = index[generatedName];
+    let contents;
+    if (foundMap) {
+      foundMap.used = true;
+      contents = foundMap.entry.contents;
+    } else {
+      contents = { value: { type: "undefined" } };
+    }
+    return {
+      name,
+      generatedName,
+      path: `${parentName}/${generatedName}`,
+      contents
+    };
+  });
+  // Use rest of them (not found in the sourceBindings) as is.
+  const unused = result.filter(entry => !index[entry.name].used);
+  return bound.concat(unused);
 }
 
 export function getSpecialVariables(pauseInfo: Pause, path: string) {
@@ -71,7 +117,7 @@ export function getScopes(
   pauseInfo: Pause,
   selectedFrame: Frame,
   selectedScope: ?Scope
-): ?(ScopeData[]) {
+): ?(NamedValue[]) {
   if (!pauseInfo || !selectedFrame) {
     return null;
   }
@@ -95,6 +141,7 @@ export function getScopes(
     const key = `${actor}-${scopeIndex}`;
     if (type === "function" || type === "block") {
       const bindings = scope.bindings;
+      const sourceBindings = scope.sourceBindings;
       let title;
       if (type === "function") {
         title = scope.function.displayName
@@ -104,7 +151,9 @@ export function getScopes(
         title = L10N.getStr("scopes.block");
       }
 
-      let vars = getBindingVariables(bindings, key);
+      let vars = sourceBindings
+        ? getSourceBindingVariables(bindings, sourceBindings, key)
+        : getBindingVariables(bindings, key);
 
       // show exception, return, and this variables in innermost scope
       if (scope.actor === pausedScopeActor) {

@@ -5,7 +5,11 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { formatKeyShortcut } from "../../utils/text";
 import actions from "../../actions";
-import { getSources, getActiveSearch } from "../../selectors";
+import {
+  getSources,
+  getActiveSearch,
+  getSelectedPrimaryPaneTab
+} from "../../selectors";
 import { isEnabled } from "devtools-config";
 import "./Sources.css";
 import classnames from "classnames";
@@ -14,11 +18,10 @@ import Outline from "./Outline";
 import SourcesTree from "./SourcesTree";
 
 import type { SourcesMap } from "../../reducers/types";
-type SourcesState = {
-  selectedPane: string
-};
 
 type Props = {
+  selectedTab: string,
+  setPrimaryPaneTab: string => void,
   sources: SourcesMap,
   selectSource: (string, Object) => void,
   horizontal: boolean,
@@ -27,18 +30,15 @@ type Props = {
   sourceSearchOn: boolean
 };
 
-class PrimaryPanes extends Component {
+class PrimaryPanes extends Component<Props> {
   renderShortcut: Function;
   selectedPane: String;
   showPane: Function;
   renderTabs: Function;
   renderChildren: Function;
-  state: SourcesState;
-  props: Props;
 
   constructor(props: Props) {
     super(props);
-    this.state = { selectedPane: "sources" };
 
     this.renderShortcut = this.renderShortcut.bind(this);
     this.showPane = this.showPane.bind(this);
@@ -46,7 +46,7 @@ class PrimaryPanes extends Component {
   }
 
   showPane(selectedPane: string) {
-    this.setState({ selectedPane });
+    this.props.setPrimaryPaneTab(selectedPane);
   }
 
   renderOutlineTabs() {
@@ -61,7 +61,7 @@ class PrimaryPanes extends Component {
     return [
       <div
         className={classnames("tab", {
-          active: this.state.selectedPane === "sources"
+          active: this.props.selectedTab === "sources"
         })}
         onClick={() => this.showPane("sources")}
         key="sources-tab"
@@ -70,7 +70,7 @@ class PrimaryPanes extends Component {
       </div>,
       <div
         className={classnames("tab", {
-          active: this.state.selectedPane === "outline"
+          active: this.props.selectedTab === "outline"
         })}
         onClick={() => this.showPane("outline")}
         key="outline-tab"
@@ -105,31 +105,30 @@ class PrimaryPanes extends Component {
     }
   }
 
-  renderHeader() {
-    return <div className="sources-header">{this.renderShortcut()}</div>;
+  renderOutline() {
+    const { selectSource } = this.props;
+
+    const outlineComp = isEnabled("outline") ? (
+      <Outline selectSource={selectSource} />
+    ) : null;
+
+    return outlineComp;
+  }
+
+  renderSources() {
+    const { sources, selectSource } = this.props;
+    return <SourcesTree sources={sources} selectSource={selectSource} />;
   }
 
   render() {
-    const { selectedPane } = this.state;
-    const { sources, selectSource } = this.props;
-
-    const outlineComp = isEnabled("outline") ? (
-      <Outline
-        selectSource={selectSource}
-        isHidden={selectedPane === "sources"}
-      />
-    ) : null;
+    const { selectedTab } = this.props;
 
     return (
       <div className="sources-panel">
-        {this.renderHeader()}
         {this.renderTabs()}
-        <SourcesTree
-          sources={sources}
-          selectSource={selectSource}
-          isHidden={selectedPane === "outline"}
-        />
-        {outlineComp}
+        {selectedTab === "sources"
+          ? this.renderSources()
+          : this.renderOutline()}
       </div>
     );
   }
@@ -137,6 +136,7 @@ class PrimaryPanes extends Component {
 
 export default connect(
   state => ({
+    selectedTab: getSelectedPrimaryPaneTab(state),
     sources: getSources(state),
     sourceSearchOn: getActiveSearch(state) === "source"
   }),

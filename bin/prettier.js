@@ -16,8 +16,8 @@ const args = [
   "src/*.js",
   "src/*/*.js",
   "src/components/**/*.css",
-  "src/*/!(mochitest)**/*.js",
-  "src/*/!(mochitest)*/**/*.js"
+  "src/test/mochitest/*.js",
+  "src/test/mochitest/!(examples)/**/*.js"
 ];
 
 const prettierArgs = process.argv.slice(2).concat(args);
@@ -27,7 +27,7 @@ const prettierProc = spawn(prettierCmd, prettierArgs);
 prettierProc.stdout.on("data", data => console.log(`${data}`));
 prettierProc.stderr.on("data", data => console.log(`stderr: ${data}`));
 prettierProc.on("close", code =>
-  console.log(`prettier exited with code ${code}`)
+  console.log(`prettier ${code === 0 ? "succeeded" : "failed"}`)
 );
 prettierProc.on("error", error => {
   if (error.code == "ENOENT") {

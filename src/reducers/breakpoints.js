@@ -17,7 +17,6 @@ import { makeLocationId } from "../utils/breakpoint";
 import type { Breakpoint, Location } from "../types";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
-import { createSelector } from "reselect";
 
 export type BreakpointsMap = I.Map<string, Breakpoint>;
 
@@ -173,24 +172,31 @@ export function getBreakpointsForSource(state: OuterState, sourceId: string) {
   });
 }
 
-export const getHiddenBreakpoint = createSelector(getBreakpoints, function(
-  breakpoints
+export function getBreakpointForLine(
+  state: OuterState,
+  sourceId: string,
+  line: number
 ) {
-  const hiddenBreakpoints = breakpoints
+  if (!sourceId) {
+    return I.Map();
+  }
+  const breakpoints = getBreakpointsForSource(state, sourceId);
+  return breakpoints.find(breakpoint => breakpoint.location.line === line);
+}
+
+export function getHiddenBreakpoint(state: OuterState) {
+  return getBreakpoints(state)
     .valueSeq()
     .filter(breakpoint => breakpoint.hidden)
     .first();
-  return hiddenBreakpoints;
-});
+}
 
-export const getHiddenBreakpointLocation = createSelector(
-  getHiddenBreakpoint,
-  function(hiddenBreakpoint) {
-    if (!hiddenBreakpoint) {
-      return null;
-    }
-    return hiddenBreakpoint.location;
+export function getHiddenBreakpointLocation(state: OuterState) {
+  const hiddenBreakpoint = getHiddenBreakpoint(state);
+  if (!hiddenBreakpoint) {
+    return null;
   }
-);
+  return hiddenBreakpoint.location;
+}
 
 export default update;

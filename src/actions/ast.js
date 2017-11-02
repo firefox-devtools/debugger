@@ -9,12 +9,25 @@ import {
   getPreview
 } from "../selectors";
 
+import { getMappedExpression } from "./expressions";
 import { PROMISE } from "../utils/redux/middleware/promise";
-import * as parser from "../utils/parser";
+import {
+  getSymbols,
+  getEmptyLines,
+  getOutOfScopeLocations
+} from "../workers/parser";
+
+import { findBestMatchExpression } from "../utils/ast";
+
+import { isGeneratedId } from "devtools-source-map";
 
 import type { SourceId } from "debugger-html";
 import type { ThunkArgs } from "./types";
-import type { AstLocation } from "../utils/parser";
+import type { AstLocation } from "../workers/parser";
+
+const extraProps = {
+  react: { displayName: "this._reactInternalInstance.getName()" }
+};
 
 export function setSymbols(sourceId: SourceId) {
   return async ({ dispatch, getState }: ThunkArgs) => {
@@ -24,11 +37,11 @@ export function setSymbols(sourceId: SourceId) {
     }
 
     const source = sourceRecord.toJS();
-    if (!source.text || hasSymbols(getState(), source)) {
+    if (!source.text || source.isWasm || hasSymbols(getState(), source)) {
       return;
     }
 
-    const symbols = await parser.getSymbols(source);
+    const symbols = await getSymbols(source);
 
     dispatch({
       type: "SET_SYMBOLS",
@@ -46,11 +59,11 @@ export function setEmptyLines(sourceId: SourceId) {
     }
 
     const source = sourceRecord.toJS();
-    if (!source.text) {
+    if (!source.text || source.isWasm) {
       return;
     }
 
-    const emptyLines = await parser.getEmptyLines(source);
+    const emptyLines = await getEmptyLines(source);
 
     dispatch({
       type: "SET_EMPTY_LINES",
@@ -76,10 +89,7 @@ export function setOutOfScopeLocations() {
       });
     }
 
-    const locations = await parser.getOutOfScopeLocations(
-      source.toJS(),
-      location
-    );
+    const locations = await getOutOfScopeLocations(source.toJS(), location);
 
     return dispatch({
       type: "OUT_OF_SCOPE_LOCATIONS",
@@ -101,29 +111,12 @@ export function clearPreview() {
   };
 }
 
-function findBestMatch(symbols, tokenPos, token) {
-  const { memberExpressions, identifiers } = symbols;
-  const { line, column } = tokenPos;
-  return identifiers.concat(memberExpressions).reduce((found, expression) => {
-    const overlaps =
-      expression.location.start.line == line &&
-      expression.location.start.column <= column &&
-      expression.location.end.column >= column;
-
-    if (overlaps) {
-      return expression;
-    }
-
-    return found;
-  }, {});
-}
-
 export function setPreview(
   token: string,
   tokenPos: AstLocation,
   cursorPos: any
 ) {
-  return async ({ dispatch, getState, client }: ThunkArgs) => {
+  return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     const currentSelection = getPreview(getState());
     if (currentSelection && currentSelection.updating) {
       return;
@@ -133,21 +126,39 @@ export function setPreview(
       type: "SET_PREVIEW",
       [PROMISE]: (async function() {
         const source = getSelectedSource(getState());
-        const _symbols = await parser.getSymbols(source.toJS());
+        const _symbols = await getSymbols(source.toJS());
 
-        const found = findBestMatch(_symbols, tokenPos, token);
+        const found = findBestMatchExpression(_symbols, tokenPos, token);
         if (!found) {
           return;
         }
 
-        const { expression, location } = found;
+        let { expression, location } = found;
 
         if (!expression) {
           return;
         }
 
+        const sourceId = source.get("id");
+        if (location && !isGeneratedId(sourceId)) {
+          const generatedLocation = await sourceMaps.getGeneratedLocation(
+            { ...location.start, sourceId },
+            source.toJS()
+          );
+
+          expression = await getMappedExpression(
+            { sourceMaps },
+            generatedLocation,
+            expression
+          );
+        }
+
         const selectedFrame = getSelectedFrame(getState());
         const { result } = await client.evaluate(expression, {
+          frameId: selectedFrame.id
+        });
+
+        const data = await client.evaluate(extraProps.react.displayName, {
           frameId: selectedFrame.id
         });
 
@@ -160,7 +171,8 @@ export function setPreview(
           result,
           location,
           tokenPos,
-          cursorPos
+          cursorPos,
+          extra: data && data.result
         };
       })()
     });

@@ -1,21 +1,26 @@
 // @flow
 import { getSource, getActiveSearch } from "../selectors";
 import type { ThunkArgs } from "./types";
-import type { ActiveSearchType, SymbolSearchType } from "../reducers/ui";
-import { clearSourceSearchQuery } from "./source-search";
+import type {
+  ActiveSearchType,
+  OrientationType,
+  SelectedPrimaryPaneTabType
+} from "../reducers/ui";
+
+export function setContextMenu(type: string, event: any) {
+  return ({ dispatch }: ThunkArgs) => {
+    dispatch({ type: "SET_CONTEXT_MENU", contextMenu: { type, event } });
+  };
+}
+
+export function setPrimaryPaneTab(tabName: SelectedPrimaryPaneTabType) {
+  return { type: "SET_PRIMARY_PANE_TAB", tabName };
+}
 
 export function closeActiveSearch() {
-  return ({ getState, dispatch }: ThunkArgs) => {
-    const activeSearch = getActiveSearch(getState());
-
-    if (activeSearch == "source") {
-      dispatch(clearSourceSearchQuery());
-    }
-
-    dispatch({
-      type: "TOGGLE_ACTIVE_SEARCH",
-      value: null
-    });
+  return {
+    type: "TOGGLE_ACTIVE_SEARCH",
+    value: null
   };
 }
 
@@ -42,37 +47,11 @@ export function toggleFrameworkGrouping(toggleValue: boolean) {
   };
 }
 
-export function setSelectedSymbolType(symbolType: SymbolSearchType) {
-  return ({ dispatch, getState }: ThunkArgs) => {
-    dispatch({
-      type: "SET_SYMBOL_SEARCH_TYPE",
-      symbolType
-    });
-  };
-}
-
-export function setFileSearchQuery(query: string) {
-  return {
-    type: "UPDATE_FILE_SEARCH_QUERY",
-    query
-  };
-}
-
-export function updateSearchResults(results: Object) {
-  return {
-    type: "UPDATE_SEARCH_RESULTS",
-    results
-  };
-}
-
-export function toggleFileSearchModifier(modifier: string) {
-  return { type: "TOGGLE_FILE_SEARCH_MODIFIER", modifier };
-}
-
 export function showSource(sourceId: string) {
   return ({ dispatch, getState }: ThunkArgs) => {
     const source = getSource(getState(), sourceId);
 
+    dispatch(setPrimaryPaneTab("sources"));
     dispatch({
       type: "SHOW_SOURCE",
       sourceUrl: ""
@@ -118,9 +97,26 @@ export function clearHighlightLineRange() {
   };
 }
 
-export function toggleConditionalBreakpointPanel(line: null | number) {
+export function openConditionalPanel(line?: number) {
   return {
-    type: "TOGGLE_CONDITIONAL_BREAKPOINT_PANEL",
-    line
+    type: "OPEN_CONDITIONAL_PANEL",
+    line: line
   };
+}
+
+export function closeConditionalPanel() {
+  return {
+    type: "CLOSE_CONDITIONAL_PANEL"
+  };
+}
+
+export function setProjectDirectoryRoot(url: Object) {
+  return {
+    type: "SET_PROJECT_DIRECTORY_ROOT",
+    url
+  };
+}
+
+export function setOrientation(orientation: OrientationType) {
+  return { type: "SET_ORIENTATION", orientation };
 }

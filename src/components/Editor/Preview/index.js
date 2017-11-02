@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import debounce from "lodash/debounce";
+import { debounce } from "lodash";
 
 import Popup from "./Popup";
 
@@ -39,6 +39,9 @@ class Preview extends PureComponent {
     const self = this;
     self.onScroll = this.onScroll.bind(this);
     self.onMouseOver = debounce(this.onMouseOver, 40);
+    self.onMouseOver = this.onMouseOver.bind(this);
+    self.onMouseUp = this.onMouseUp.bind(this);
+    self.onMouseDown = this.onMouseDown.bind(this);
   }
 
   componentDidMount() {
@@ -46,9 +49,19 @@ class Preview extends PureComponent {
     const codeMirrorWrapper = codeMirror.getWrapperElement();
 
     codeMirror.on("scroll", this.onScroll);
-    codeMirrorWrapper.addEventListener("mouseover", e => this.onMouseOver(e));
-    codeMirrorWrapper.addEventListener("mouseup", e => this.onMouseUp(e));
-    codeMirrorWrapper.addEventListener("mousedown", e => this.onMouseDown(e));
+    codeMirrorWrapper.addEventListener("mouseover", this.onMouseOver);
+    codeMirrorWrapper.addEventListener("mouseup", this.onMouseUp);
+    codeMirrorWrapper.addEventListener("mousedown", this.onMouseDown);
+  }
+
+  componentWillUnmount() {
+    const codeMirror = this.props.editor.codeMirror;
+    const codeMirrorWrapper = codeMirror.getWrapperElement();
+    codeMirrorWrapper.removeEventListener("mouseover", this.onMouseOver);
+    codeMirrorWrapper.removeEventListener("mouseup", this.onMouseUp);
+    codeMirrorWrapper.removeEventListener("mousedown", this.onMouseDown);
+
+    codeMirror.off("scroll", this.onScroll);
   }
 
   onMouseOver(e) {
@@ -85,7 +98,7 @@ class Preview extends PureComponent {
       return null;
     }
 
-    const { result, expression, location, cursorPos } = preview;
+    const { result, expression, location, cursorPos, extra } = preview;
     const value = result;
     if (typeof value == "undefined" || value.optimizedOut) {
       return null;
@@ -100,6 +113,7 @@ class Preview extends PureComponent {
         range={editorRange}
         expression={expression}
         popoverPos={cursorPos}
+        extra={extra}
         onClose={e => this.onClose(e)}
       />
     );

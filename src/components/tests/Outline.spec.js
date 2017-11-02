@@ -4,7 +4,6 @@ import Outline from "../../components/PrimaryPanes/Outline";
 import devtoolsConfig from "devtools-config";
 import { makeSymbolDeclaration } from "../../utils/test-head";
 
-const OutlineComponent = React.createFactory(Outline.WrappedComponent);
 const sourceId = "id";
 
 function generateDefaults(symbols) {
@@ -20,7 +19,7 @@ function generateDefaults(symbols) {
 
 function render(symbols = {}) {
   const props = generateDefaults(symbols);
-  const component = shallow(new OutlineComponent(props));
+  const component = shallow(<Outline.WrappedComponent {...props} />);
   return { component, props };
 }
 

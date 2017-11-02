@@ -1,9 +1,8 @@
 // @flow
-import React, { createFactory, Component } from "react";
+import React, { Component } from "react";
 import "./ManagedTree.css";
 
-import { Tree as _Tree } from "devtools-components";
-const Tree = createFactory(_Tree);
+import { Tree } from "devtools-components";
 
 export type Item = {
   contents: any,
@@ -30,15 +29,12 @@ type Props = {
   expanded?: any
 };
 
-type ManagedTreeState = {
+type State = {
   expanded: any,
   focusedItem: ?Item
 };
 
-class ManagedTree extends Component {
-  state: ManagedTreeState;
-  props: Props;
-
+class ManagedTree extends Component<Props, State> {
   constructor(props: Props) {
     super();
 
@@ -46,10 +42,6 @@ class ManagedTree extends Component {
       expanded: props.expanded || new Set(),
       focusedItem: null
     };
-
-    const self: any = this;
-    self.setExpanded = this.setExpanded.bind(this);
-    self.focusItem = this.focusItem.bind(this);
   }
 
   componentWillReceiveProps(nextProps: Props) {
@@ -72,13 +64,36 @@ class ManagedTree extends Component {
     }
   }
 
-  setExpanded(item: Item, isExpanded: boolean) {
+  setExpanded = (
+    item: Item,
+    isExpanded: boolean,
+    shouldIncludeChildren: boolean
+  ) => {
+    const expandItem = i => {
+      const path = this.props.getPath(i);
+      if (isExpanded) {
+        expanded.add(path);
+      } else {
+        expanded.delete(path);
+      }
+    };
     const expanded = this.state.expanded;
-    const itemPath = this.props.getPath(item);
-    if (isExpanded) {
-      expanded.add(itemPath);
-    } else {
-      expanded.delete(itemPath);
+    expandItem(item);
+
+    if (shouldIncludeChildren) {
+      let parents = [item];
+      while (parents.length) {
+        const children = [];
+        for (const parent of parents) {
+          if (parent.contents && parent.contents.length) {
+            for (const child of parent.contents) {
+              expandItem(child);
+              children.push(child);
+            }
+          }
+        }
+        parents = children;
+      }
     }
     this.setState({ expanded });
 
@@ -87,7 +102,7 @@ class ManagedTree extends Component {
     } else if (!isExpanded && this.props.onCollapse) {
       this.props.onCollapse(item, expanded);
     }
-  }
+  };
 
   expandListItems(listItems: Array<Item>) {
     const expanded = this.state.expanded;
@@ -112,7 +127,7 @@ class ManagedTree extends Component {
     }
   }
 
-  focusItem(item: Item) {
+  focusItem = (item: Item) => {
     if (!this.props.disabledFocus && this.state.focusedItem !== item) {
       this.setState({ focusedItem: item });
 
@@ -120,7 +135,7 @@ class ManagedTree extends Component {
         this.props.onFocus(item);
       }
     }
-  }
+  };
 
   render() {
     const { expanded, focusedItem } = this.state;
@@ -129,8 +144,8 @@ class ManagedTree extends Component {
       isExpanded: item => expanded.has(this.props.getPath(item)),
       focused: focusedItem,
       getKey: this.props.getPath,
-      onExpand: item => this.setExpanded(item, true),
-      onCollapse: item => this.setExpanded(item, false),
+      onExpand: item => this.setExpanded(item, true, false),
+      onCollapse: item => this.setExpanded(item, false, false),
       onFocus: this.focusItem,
       renderItem: (...args) =>
         this.props.renderItem(...args, {
@@ -146,7 +161,5 @@ class ManagedTree extends Component {
     );
   }
 }
-
-ManagedTree.propTypes = Object.assign({}, Tree.propTypes);
 
 export default ManagedTree;

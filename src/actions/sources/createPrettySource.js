@@ -1,5 +1,5 @@
 import { getFrames, getSource } from "../../selectors";
-import { prettyPrint } from "../../utils/pretty-print";
+import { prettyPrint } from "../../workers/pretty-print";
 import { updateFrameLocations } from "../../utils/pause";
 import { getPrettySourceURL } from "../../utils/source";
 
@@ -31,9 +31,11 @@ export function createPrettySource(sourceId) {
       loadedState: "loaded"
     };
 
-    return dispatch({
+    dispatch({
       type: "ADD_SOURCE",
       source: prettySource
     });
+
+    return prettySource;
   };
 }

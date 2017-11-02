@@ -1,26 +1,36 @@
 // @flow
-import React, { PropTypes, PureComponent } from "react";
+import React, { PureComponent } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import actions from "../../actions";
 import {
   getSelectedFrame,
   getLoadedObjects,
-  getFrameScopes,
+  getFrameScope,
   getPause
 } from "../../selectors";
 import { getScopes } from "../../utils/scopes";
 
 import { ObjectInspector } from "devtools-reps";
+import type { Pause, LoadedObject } from "debugger-html";
+import type { NamedValue } from "../../utils/scopes";
 
 import "./Scopes.css";
 
-class Scopes extends PureComponent {
-  state: {
-    scopes: any
-  };
+type Props = {
+  pauseInfo: Pause,
+  loadedObjects: LoadedObject[],
+  loadObjectProperties: Object => void,
+  selectedFrame: Object,
+  frameScopes: Object
+};
 
-  constructor(props, ...args) {
+type State = {
+  scopes: ?(NamedValue[])
+};
+
+class Scopes extends PureComponent<Props, State> {
+  constructor(props: Props, ...args) {
     const { pauseInfo, selectedFrame, frameScopes } = props;
 
     super(props, ...args);
@@ -31,11 +41,12 @@ class Scopes extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { pauseInfo, selectedFrame } = this.props;
+    const { pauseInfo, selectedFrame, frameScopes } = this.props;
     const pauseInfoChanged = pauseInfo !== nextProps.pauseInfo;
-    const selectedFrameChange = selectedFrame !== nextProps.selectedFrame;
+    const selectedFrameChanged = selectedFrame !== nextProps.selectedFrame;
+    const frameScopesChanged = frameScopes !== nextProps.frameScopes;
 
-    if (pauseInfoChanged || selectedFrameChange) {
+    if (pauseInfoChanged || selectedFrameChanged || frameScopesChanged) {
       this.setState({
         scopes: getScopes(
           nextProps.pauseInfo,
@@ -80,19 +91,11 @@ class Scopes extends PureComponent {
   }
 }
 
-Scopes.propTypes = {
-  pauseInfo: PropTypes.object,
-  loadedObjects: PropTypes.object,
-  loadObjectProperties: PropTypes.func,
-  selectedFrame: PropTypes.object,
-  frameScopes: PropTypes.object
-};
-
 export default connect(
   state => {
     const selectedFrame = getSelectedFrame(state);
     const frameScopes = selectedFrame
-      ? getFrameScopes(state, selectedFrame.id)
+      ? getFrameScope(state, selectedFrame.id)
       : null;
     return {
       selectedFrame,

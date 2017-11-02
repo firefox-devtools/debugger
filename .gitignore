@@ -3,10 +3,12 @@ build
 node_modules
 configs/local.json
 npm-debug.log
+assets-error.log
 .idea/
 .vscode/
 /firefox
 lerna-debug.log
+assets-error.log
 flow-coverage
 .node-version
 yarn-error.log
@@ -15,3 +17,5 @@ coverage
 storybook-static
 tags
 **/*.swp
+**/*.orig
+*~

@@ -79,6 +79,7 @@ add_task(async function() {
 
   await stepIn(dbg);
   assertPausedLocation(dbg);
+
   await stepOver(dbg);
   assertPausedLocation(dbg);
 

@@ -4,8 +4,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 /**
- * Breakpoints reducer
- * @module reducers/breakpoints
+ * Pending breakpoints reducer
+ * @module reducers/pending-breakpoints
  */
 
 import * as I from "immutable";
@@ -42,6 +42,9 @@ function update(
 ) {
   switch (action.type) {
     case "ADD_BREAKPOINT": {
+      if (action.breakpoint.hidden) {
+        return state;
+      }
       return addBreakpoint(state, action);
     }
 
@@ -62,6 +65,9 @@ function update(
     }
 
     case "REMOVE_BREAKPOINT": {
+      if (action.breakpoint.hidden) {
+        return state;
+      }
       return removeBreakpoint(state, action);
     }
   }

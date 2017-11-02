@@ -112,6 +112,7 @@ declare module "debugger-html" {
     id: FrameId,
     displayName: string,
     location: Location,
+    generatedLocation: Location,
     source?: Source,
     scope: Scope,
     // FIXME Define this type more clearly
@@ -178,8 +179,9 @@ declare module "debugger-html" {
  * @static
  */
   declare type Expression = {
-    id: number,
-    input: string
+    input: string,
+    value: Object,
+    from: string
   };
 
   /**
@@ -257,17 +259,34 @@ declare module "debugger-html" {
   declare type Script = any;
 
   /**
+ * Describes content of the binding.
+ * FIXME Define these type more clearly
+ */
+  declare type BindingContents = {
+    value: any
+  };
+
+  /**
+ * Defines map of binding name to its content.
+ */
+  declare type ScopeBindings = {
+    [name: string]: BindingContents
+  };
+
+  /**
  * Scope
  * @memberof types
  * @static
  */
   declare type Scope = {
     actor: ActorId,
-    parent: Scope,
+    parent: ?Scope,
     bindings: {
-      // FIXME Define these types more clearly
-      arguments: Array<Object>,
-      variables: Object
+      arguments: Array<ScopeBindings>,
+      variables: ScopeBindings
+    },
+    sourceBindings?: {
+      [originalName: string]: string
     },
     object: Object,
     function: {
@@ -275,8 +294,7 @@ declare module "debugger-html" {
       class: string,
       displayName: string,
       location: Location,
-      // FIXME Define this type more clearly
-      parameterNames: Array<Object>
+      parameterNames: string[]
     },
     type: string
   };

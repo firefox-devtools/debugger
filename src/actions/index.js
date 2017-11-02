@@ -7,10 +7,11 @@ import * as sources from "./sources";
 import * as pause from "./pause";
 import * as navigation from "./navigation";
 import * as ui from "./ui";
+import * as fileSearch from "./file-search";
 import * as ast from "./ast";
 import * as coverage from "./coverage";
 import * as projectTextSearch from "./project-text-search";
-import * as sourceSearch from "./source-search";
+import * as quickOpen from "./quick-open";
 import * as sourceTree from "./source-tree";
 import * as loadSourceText from "./sources/loadSourceText";
 import * as debuggee from "./debuggee";
@@ -25,10 +26,11 @@ export default Object.assign(
   sources,
   pause,
   ui,
+  fileSearch,
   ast,
   coverage,
   projectTextSearch,
-  sourceSearch,
+  quickOpen,
   sourceTree,
   loadSourceText,
   debuggee,

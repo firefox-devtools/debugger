@@ -1,7 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import TextSearchComponent from "../TextSearch.js";
-const TextSearch = React.createFactory(TextSearchComponent);
+import TextSearch from "../TextSearch.js";
 
 function render(overrides = {}) {
   const defaultProps = {
@@ -10,16 +9,22 @@ function render(overrides = {}) {
     query: "foo",
     closeActiveSearch: jest.fn(),
     searchSources: jest.fn(),
-    selectSource: jest.fn(),
-    searchBottomBar: {}
+    selectSource: jest.fn()
   };
   const props = Object.assign({}, defaultProps, overrides);
 
-  const component = shallow(new TextSearch(props));
+  const component = shallow(<TextSearch {...props} />);
   return component;
 }
 
 describe("TextSearch", () => {
+  it("where <Enter> has not been pressed", () => {
+    const component = render({
+      query: ""
+    });
+    expect(component).toMatchSnapshot();
+  });
+
   it("found no search results", () => {
     const component = render();
     expect(component).toMatchSnapshot();

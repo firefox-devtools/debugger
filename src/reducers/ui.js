@@ -1,4 +1,7 @@
 // @flow
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 /**
  * UI reducer
@@ -11,67 +14,43 @@ import { prefs } from "../utils/prefs";
 import type { Action, panelPositionType } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
-export type FileSearchModifiers = Record<{
-  caseSensitive: boolean,
-  wholeWord: boolean,
-  regexMatch: boolean
-}>;
+export type ActiveSearchType = "project" | "file";
 
-export type SymbolSearchType = "functions" | "variables";
-export type ActiveSearchType = "project" | "source" | "file" | "symbol";
+export type OrientationType = "horizontal" | "vertical";
 
-export type MatchedLocations = {
-  line: number,
-  ch: number
-};
-
-export type SearchResults = {
-  matches: Array<MatchedLocations>,
-  matchIndex: number,
-  index: number,
-  count: number
-};
+export type SelectedPrimaryPaneTabType = "sources" | "outline";
 
 export type UIState = {
+  selectedPrimaryPaneTab: SelectedPrimaryPaneTabType,
   activeSearch: ?ActiveSearchType,
-  fileSearchQuery: string,
-  fileSearchModifiers: FileSearchModifiers,
-  symbolSearchType: SymbolSearchType,
-  searchResults: SearchResults,
+  contextMenu: any,
   shownSource: string,
   startPanelCollapsed: boolean,
   endPanelCollapsed: boolean,
   frameworkGroupingOn: boolean,
+  projectDirectoryRoot: string,
+  orientation: OrientationType,
   highlightedLineRange?: {
     start?: number,
     end?: number,
     sourceId?: number
   },
-  conditionalBreakpointPanel: null | number
+  conditionalPanelLine: null | number
 };
 
 export const State = makeRecord(
   ({
+    selectedPrimaryPaneTab: "sources",
     activeSearch: null,
-    fileSearchQuery: "",
-    fileSearchModifiers: makeRecord({
-      caseSensitive: prefs.fileSearchCaseSensitive,
-      wholeWord: prefs.fileSearchWholeWord,
-      regexMatch: prefs.fileSearchRegexMatch
-    })(),
-    symbolSearchType: "functions",
-    searchResults: {
-      matches: [],
-      matchIndex: -1,
-      index: -1,
-      count: 0
-    },
+    contextMenu: {},
     shownSource: "",
+    projectDirectoryRoot: "",
     startPanelCollapsed: prefs.startPanelCollapsed,
     endPanelCollapsed: prefs.endPanelCollapsed,
     frameworkGroupingOn: prefs.frameworkGroupingOn,
     highlightedLineRange: undefined,
-    conditionalBreakpointPanel: null
+    conditionalPanelLine: null,
+    orientation: "horizontal"
   }: UIState)
 );
 
@@ -89,34 +68,12 @@ function update(
       return state.set("frameworkGroupingOn", action.value);
     }
 
-    case "UPDATE_FILE_SEARCH_QUERY": {
-      return state.set("fileSearchQuery", action.query);
+    case "SET_CONTEXT_MENU": {
+      return state.set("contextMenu", action.contextMenu);
     }
 
-    case "UPDATE_SEARCH_RESULTS": {
-      return state.set("searchResults", action.results);
-    }
-
-    case "TOGGLE_FILE_SEARCH_MODIFIER": {
-      const actionVal = !state.getIn(["fileSearchModifiers", action.modifier]);
-
-      if (action.modifier == "caseSensitive") {
-        prefs.fileSearchCaseSensitive = actionVal;
-      }
-
-      if (action.modifier == "wholeWord") {
-        prefs.fileSearchWholeWord = actionVal;
-      }
-
-      if (action.modifier == "regexMatch") {
-        prefs.fileSearchRegexMatch = actionVal;
-      }
-
-      return state.setIn(["fileSearchModifiers", action.modifier], actionVal);
-    }
-
-    case "SET_SYMBOL_SEARCH_TYPE": {
-      return state.set("symbolSearchType", action.symbolType);
+    case "SET_ORIENTATION": {
+      return state.set("orientation", action.orientation);
     }
 
     case "SHOW_SOURCE": {
@@ -143,11 +100,22 @@ function update(
 
       return state.set("highlightedLineRange", lineRange);
 
+    case "CLOSE_QUICK_OPEN":
     case "CLEAR_HIGHLIGHT_LINES":
       return state.set("highlightedLineRange", {});
 
-    case "TOGGLE_CONDITIONAL_BREAKPOINT_PANEL":
-      return state.set("conditionalBreakpointPanel", action.line);
+    case "OPEN_CONDITIONAL_PANEL":
+      return state.set("conditionalPanelLine", action.line);
+
+    case "CLOSE_CONDITIONAL_PANEL":
+      return state.set("conditionalPanelLine", null);
+
+    case "SET_PROJECT_DIRECTORY_ROOT":
+      prefs.projectDirectoryRoot = action.url;
+      return state.set("projectDirectoryRoot", action.url);
+
+    case "SET_PRIMARY_PANE_TAB":
+      return state.set("selectedPrimaryPaneTab", action.tabName);
 
     default: {
       return state;
@@ -159,30 +127,22 @@ function update(
 // https://github.com/devtools-html/debugger.html/blob/master/src/reducers/sources.js#L179-L185
 type OuterState = { ui: Record<UIState> };
 
+export function getSelectedPrimaryPaneTab(
+  state: OuterState
+): SelectedPrimaryPaneTabType {
+  return state.ui.get("selectedPrimaryPaneTab");
+}
+
 export function getActiveSearch(state: OuterState): ActiveSearchType {
   return state.ui.get("activeSearch");
 }
 
-export function getFileSearchQueryState(state: OuterState): string {
-  return state.ui.get("fileSearchQuery");
-}
-
-export function getFileSearchModifierState(
-  state: OuterState
-): FileSearchModifiers {
-  return state.ui.get("fileSearchModifiers");
-}
-
-export function getSearchResults(state: OuterState) {
-  return state.ui.get("searchResults");
+export function getContextMenu(state: OuterState): any {
+  return state.ui.get("contextMenu");
 }
 
 export function getFrameworkGroupingState(state: OuterState): boolean {
   return state.ui.get("frameworkGroupingOn");
-}
-
-export function getSymbolSearchType(state: OuterState): SymbolSearchType {
-  return state.ui.get("symbolSearchType");
 }
 
 export function getShownSource(state: OuterState): boolean {
@@ -204,10 +164,16 @@ export function getHighlightedLineRange(state: OuterState) {
   return state.ui.get("highlightedLineRange");
 }
 
-export function getConditionalBreakpointPanel(
-  state: OuterState
-): null | number {
-  return state.ui.get("conditionalBreakpointPanel");
+export function getConditionalPanelLine(state: OuterState): null | number {
+  return state.ui.get("conditionalPanelLine");
+}
+
+export function getProjectDirectoryRoot(state: OuterState): boolean {
+  return state.ui.get("projectDirectoryRoot");
+}
+
+export function getOrientation(state: OuterState): boolean {
+  return state.ui.get("orientation");
 }
 
 export default update;

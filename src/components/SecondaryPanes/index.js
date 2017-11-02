@@ -1,7 +1,9 @@
 // @flow
-import React, { PropTypes, Component } from "react";
+import PropTypes from "prop-types";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { features } from "../../utils/prefs";
 import ImPropTypes from "react-immutable-proptypes";
 
 import actions from "../../actions";
@@ -25,6 +27,7 @@ import Workers from "./Workers";
 import Accordion from "../shared/Accordion";
 import CommandBar from "./CommandBar";
 import Dropdown from "../shared/Dropdown";
+import UtilsBar from "./UtilsBar";
 
 import _chromeScopes from "./ChromeScopes";
 import _Scopes from "./Scopes";
@@ -38,7 +41,7 @@ type SecondaryPanesItems = {
   component: any,
   opened?: boolean,
   onToggle?: () => void,
-  shouldOpen?: () => void,
+  shouldOpen?: () => boolean,
   buttons?: any
 };
 
@@ -55,7 +58,18 @@ function debugBtn(onClick, type, className, tooltip) {
   );
 }
 
-class SecondaryPanes extends Component {
+type Props = {
+  evaluateExpressions: Function,
+  pauseData: Object,
+  horizontal: boolean,
+  breakpoints: Object,
+  breakpointsDisabled: boolean,
+  breakpointsLoading: boolean,
+  toggleAllBreakpoints: Function,
+  toggleShortcutsModal: Function
+};
+
+class SecondaryPanes extends Component<Props> {
   renderBreakpointsToggle() {
     const {
       toggleAllBreakpoints,
@@ -225,7 +239,6 @@ class SecondaryPanes extends Component {
   renderVerticalLayout() {
     return (
       <SplitBox
-        style={{ width: "100vw" }}
         initialSize="300px"
         minSize={10}
         maxSize="50%"
@@ -236,13 +249,29 @@ class SecondaryPanes extends Component {
     );
   }
 
+  renderUtilsBar() {
+    if (!features.shortcuts) {
+      return;
+    }
+
+    return (
+      <UtilsBar
+        horizontal={this.props.horizontal}
+        toggleShortcutsModal={this.props.toggleShortcutsModal}
+      />
+    );
+  }
+
   render() {
     return (
-      <div className="secondary-panes secondary-panes--sticky-commandbar">
+      <div className="secondary-panes-wrapper">
         <CommandBar horizontal={this.props.horizontal} />
-        {this.props.horizontal
-          ? this.renderHorizontalLayout()
-          : this.renderVerticalLayout()}
+        <div className="secondary-panes">
+          {this.props.horizontal
+            ? this.renderHorizontalLayout()
+            : this.renderVerticalLayout()}
+        </div>
+        {this.renderUtilsBar()}
       </div>
     );
   }
@@ -255,7 +284,8 @@ SecondaryPanes.propTypes = {
   breakpoints: ImPropTypes.map.isRequired,
   breakpointsDisabled: PropTypes.bool,
   breakpointsLoading: PropTypes.bool,
-  toggleAllBreakpoints: PropTypes.func.isRequired
+  toggleAllBreakpoints: PropTypes.func.isRequired,
+  toggleShortcutsModal: PropTypes.func
 };
 
 SecondaryPanes.contextTypes = {

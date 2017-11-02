@@ -132,7 +132,7 @@ function removeBreakpoint(generatedLocation: Location) {
     const bpClient = bpClients[id];
     if (!bpClient) {
       console.warn("No breakpoint to delete on server");
-      return;
+      return Promise.resolve();
     }
     delete bpClients[id];
     return bpClient.remove();

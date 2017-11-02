@@ -9,7 +9,7 @@
  * @module actions/search
  */
 
-import { findSourceMatches } from "../utils/search";
+import { findSourceMatches } from "../workers/search";
 import { getSources, getSource } from "../selectors";
 import { isThirdParty, isLoaded } from "../utils/source";
 import { loadAllSources } from "./sources";

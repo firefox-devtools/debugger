@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from "react";
+import PropTypes from "prop-types";
+import React, { Component } from "react";
 import classnames from "classnames";
 
 import Svg from "../shared/Svg";
@@ -38,7 +39,8 @@ export default class TextSearch extends Component {
   }
 
   selectMatchItem(matchItem) {
-    this.props.selectSource(matchItem.sourceId, { line: matchItem.line });
+    const { line, column } = matchItem;
+    this.props.selectSource(matchItem.sourceId, { location: { line, column } });
   }
 
   getResults() {
@@ -101,7 +103,7 @@ export default class TextSearch extends Component {
         onClick={e => setExpanded(file, !expanded)}
       >
         <Svg name="arrow" className={classnames({ expanded })} />
-        <Svg name="file" />
+        <img className="file" />
         <span className="file-path">{getRelativePath(file.filepath)}</span>
         <span className="matches-summary">{matches}</span>
       </div>
@@ -130,8 +132,10 @@ export default class TextSearch extends Component {
   }
 
   renderResults() {
-    const results = this.getResults();
-    results = results.filter(result => result.matches.length > 0);
+    const results = this.getResults().filter(
+      result => result.matches.length > 0
+    );
+
     function getFilePath(item, index) {
       return item.filepath
         ? `${item.sourceId}-${index}`
@@ -168,10 +172,6 @@ export default class TextSearch extends Component {
 
   renderInput() {
     const resultCount = this.getResultCount();
-    const summaryMsg = L10N.getFormatStr(
-      "sourceSearch.resultsSummary1",
-      resultCount
-    );
 
     return (
       <SearchInput
@@ -179,7 +179,11 @@ export default class TextSearch extends Component {
         count={resultCount}
         placeholder={L10N.getStr("projectTextSearch.placeholder")}
         size="big"
-        summaryMsg={summaryMsg}
+        summaryMsg={
+          this.props.query !== ""
+            ? L10N.getFormatStr("sourceSearch.resultsSummary1", resultCount)
+            : ""
+        }
         onChange={e => this.inputOnChange(e)}
         onFocus={() => (this.inputFocused = true)}
         onBlur={() => (this.inputFocused = false)}

@@ -1,10 +1,18 @@
 // @flow
+/* eslint complexity: ["error", 30]*/
+
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+/**
+ * Pause reducer
+ * @module reducers/pause
+ */
+
 import { createSelector } from "reselect";
 import { prefs } from "../utils/prefs";
+import { isEmpty } from "lodash";
 
 import type { Action } from "../actions/types";
 
@@ -64,6 +72,14 @@ function update(state: PauseState = State(), action: Action): PauseState {
       });
     }
 
+    case "MAP_SCOPES":
+      const { frame, scopes } = action;
+      const selectedFrameId = frame.id;
+
+      return {
+        ...state,
+        frameScopes: { ...state.frameScopes, [selectedFrameId]: scopes }
+      };
     case "RESUME":
       return Object.assign({}, state, {
         pause: null,
@@ -88,12 +104,9 @@ function update(state: PauseState = State(), action: Action): PauseState {
       return Object.assign({}, state, { isWaitingOnBreak: true });
 
     case "SELECT_FRAME":
-      const { frame, scopes } = action;
-      const selectedFrameId = frame.id;
       return {
         ...state,
-        frameScopes: { ...state.frameScopes, [selectedFrameId]: scopes },
-        selectedFrameId
+        selectedFrameId: action.frame.id
       };
 
     case "LOAD_OBJECT_PROPERTIES":
@@ -194,15 +207,26 @@ export function isEvaluatingExpression(state: OuterState) {
   return state.pause.command === "expression";
 }
 
-export function hasWatchExpressionErrored(state: OuterState) {
-  const pause = getPause(state);
-  return (
-    isEvaluatingExpression(state) && pause && pause.why.type === "exception"
-  );
+export function pausedInEval(state: OuterState) {
+  if (!state.pause.pause) {
+    return false;
+  }
+
+  const exception = state.pause.pause.why.exception;
+  if (!exception) {
+    return false;
+  }
+
+  return exception.preview.fileName === "debugger eval code";
 }
 
 export function getLoadedObject(state: OuterState, objectId: string) {
   return getLoadedObjects(state)[objectId];
+}
+
+export function hasLoadingObjects(state: OuterState) {
+  const objects = getLoadedObjects(state);
+  return Object.values(objects).some(isEmpty);
 }
 
 export function getObjectProperties(state: OuterState, parentId: string) {
@@ -225,13 +249,27 @@ export function getFrames(state: OuterState) {
   return state.pause.frames;
 }
 
-export function getFrameScopes(state: OuterState, frameId: string) {
+export function getFrameScope(state: OuterState, frameId: ?string) {
+  if (!frameId) {
+    return null;
+  }
+
   return state.pause.frameScopes[frameId];
 }
 
-const getSelectedFrameId = createSelector(getPauseState, pauseWrapper => {
-  return pauseWrapper.selectedFrameId;
-});
+export function getSelectedScope(state: OuterState) {
+  const frameId = getSelectedFrameId(state);
+  return getFrameScope(state, frameId);
+}
+
+export function getScopes(state: OuterState) {
+  const selectedFrameId = getSelectedFrameId(state);
+  return state.pause.frameScopes[selectedFrameId];
+}
+
+export function getSelectedFrameId(state: OuterState) {
+  return state.pause.selectedFrameId;
+}
 
 export const getSelectedFrame = createSelector(
   getSelectedFrameId,

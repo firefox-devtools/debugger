@@ -1,6 +1,9 @@
 // @flow
-import type { Pause, Frame } from "../types";
+import type { Pause, Frame, Location } from "../types";
 import { get } from "lodash";
+import { getScopes } from "../workers/parser";
+
+import type { Scope, MappedScopeBindings } from "debugger-html";
 
 export function updateFrameLocations(
   frames: Frame[],
@@ -11,14 +14,47 @@ export function updateFrameLocations(
   }
 
   return Promise.all(
-    frames.map(frame => {
-      return sourceMaps.getOriginalLocation(frame.location).then(loc => {
-        return Object.assign({}, frame, {
-          location: loc
-        });
-      });
-    })
+    frames.map(frame =>
+      sourceMaps.getOriginalLocation(frame.location).then(loc => ({
+        ...frame,
+        location: loc,
+        generatedLocation: frame.location
+      }))
+    )
   );
+}
+
+function extendScope(
+  scope: ?Scope,
+  generatedScopes: MappedScopeBindings[],
+  index: number
+): ?Scope {
+  if (!scope) {
+    return undefined;
+  }
+  if (index >= generatedScopes.length) {
+    return scope;
+  }
+  return Object.assign({}, scope, {
+    parent: extendScope(scope.parent, generatedScopes, index + 1),
+    sourceBindings: generatedScopes[index].bindings
+  });
+}
+
+export async function updateScopeBindings(
+  scope: any,
+  location: Location,
+  sourceMaps: any
+) {
+  const astScopes = await getScopes(location);
+  const generatedScopes = await sourceMaps.getLocationScopes(
+    location,
+    astScopes
+  );
+  if (!generatedScopes) {
+    return scope;
+  }
+  return extendScope(scope, generatedScopes, 0);
 }
 
 // Map protocol pause "why" reason to a valid L10N key

@@ -1,8 +1,10 @@
 import {
   getFilename,
+  getFileURL,
   getMode,
   getSourceLineCount,
-  isThirdParty
+  isThirdParty,
+  isJavaScript
 } from "../source.js";
 
 describe("sources", () => {
@@ -19,6 +21,58 @@ describe("sources", () => {
           id: ""
         })
       ).toBe("hello.html");
+    });
+    it("should truncate the file name when it is more than 50 chars", () => {
+      expect(
+        getFileURL({
+          url:
+            "http://localhost/really-really-really-really-really-really-long-name.html",
+          id: ""
+        })
+      ).toBe("...-really-really-really-really-really-long-name.html");
+    });
+    it("should give us the filename excluding the query strings", () => {
+      expect(
+        getFilename({
+          url: "http://localhost.com:7999/increment/hello.html?query_strings",
+          id: ""
+        })
+      ).toBe("hello.html");
+    });
+  });
+
+  describe("getFileURL", () => {
+    it("should give us the file url", () => {
+      expect(
+        getFileURL({
+          url: "http://localhost.com:7999/increment/hello.html",
+          id: ""
+        })
+      ).toBe("http://localhost.com:7999/increment/hello.html");
+    });
+    it("should truncate the file url when it is more than 50 chars", () => {
+      expect(
+        getFileURL({
+          url: "http://localhost-long.com:7999/increment/hello.html",
+          id: ""
+        })
+      ).toBe("...ttp://localhost-long.com:7999/increment/hello.html");
+    });
+  });
+
+  describe("isJavaScript", () => {
+    it("is not JavaScript", () => {
+      expect(isJavaScript({ url: "foo.html" })).toBe(false);
+      expect(isJavaScript({ contentType: "text/html" })).toBe(false);
+    });
+
+    it("is JavaScript", () => {
+      expect(isJavaScript({ url: "foo.js" })).toBe(true);
+      expect(isJavaScript({ url: "bar.jsm" })).toBe(true);
+      expect(isJavaScript({ contentType: "text/javascript" })).toBe(true);
+      expect(isJavaScript({ contentType: "application/javascript" })).toBe(
+        true
+      );
     });
   });
 

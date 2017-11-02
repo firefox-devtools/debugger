@@ -1,11 +1,26 @@
-import React, { PropTypes, Component } from "react";
+import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import classNames from "classnames";
 import BracketArrow from "./BracketArrow";
 
 import "./Popover.css";
 
+type Props = {
+  target: Object,
+  targetPosition: Object,
+  children: Object,
+  onMouseLeave?: () => void,
+  type?: string
+};
+
 class Popover extends Component {
+  props: Props;
+
+  static defaultProps = {
+    onMouseLeave: () => {},
+    type: "popover"
+  };
+
   constructor() {
     super();
     this.onMouseLeave = this.onMouseLeave.bind(this);
@@ -25,8 +40,7 @@ class Popover extends Component {
   }
 
   calculateLeft(target, editor, popover) {
-    const leftOffset = target.width / 2 - popover.width / 5;
-    const estimatedLeft = target.left + leftOffset;
+    const estimatedLeft = target.left;
     const estimatedRight = estimatedLeft + popover.width;
     const isOverflowingRight = estimatedRight > editor.right;
     if (isOverflowingRight) {
@@ -155,18 +169,5 @@ class Popover extends Component {
     return this.renderPopover();
   }
 }
-
-Popover.propTypes = {
-  target: PropTypes.object,
-  targetPosition: PropTypes.object,
-  children: PropTypes.object,
-  onMouseLeave: PropTypes.func,
-  type: PropTypes.string
-};
-
-Popover.defaultProps = {
-  onMouseLeave: () => {},
-  type: "popover"
-};
 
 export default Popover;

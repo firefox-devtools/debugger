@@ -3,8 +3,11 @@
 .*node_modules/fbjs.*
 .*node_modules/npm.*
 .*node_modules/stylelint.*
+.*node_modules/radium.*
 .*node_modules/config-chain.*
 .*node_modules/documentation.*
+.*node_modules/devtools-reps/src/object-inspector/index.js
+.*node_modules/jest-in-case/index.js
 <PROJECT_ROOT>/firefox/.*
 .*mozilla-central/.*
 .*flow-coverage-report/.*

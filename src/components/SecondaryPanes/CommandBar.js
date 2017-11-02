@@ -1,5 +1,6 @@
 // @flow
-import React, { Component, PropTypes } from "react";
+import PropTypes from "prop-types";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import classnames from "classnames";
@@ -9,7 +10,6 @@ import {
   getShouldPauseOnExceptions,
   getShouldIgnoreCaughtExceptions
 } from "../../selectors";
-import Svg from "../shared/Svg";
 import { formatKeyShortcut } from "../../utils/text";
 import actions from "../../actions";
 import "./CommandBar.css";
@@ -79,28 +79,28 @@ function debugBtn(onClick, type, className, tooltip, disabled = false) {
 
   return (
     <button className={classnames(type, className)} {...props}>
-      <Svg name={type} />
+      <img className={type} />
     </button>
   );
 }
 
-class CommandBar extends Component {
-  props: {
-    sources: SourcesMap,
-    selectedSource: SourceRecord,
-    resume: () => void,
-    stepIn: () => void,
-    stepOut: () => void,
-    stepOver: () => void,
-    breakOnNext: () => void,
-    pause: any,
-    pauseOnExceptions: (boolean, boolean) => void,
-    shouldPauseOnExceptions: boolean,
-    shouldIgnoreCaughtExceptions: boolean,
-    isWaitingOnBreak: boolean,
-    horizontal: boolean
-  };
+type Props = {
+  sources: SourcesMap,
+  selectedSource: SourceRecord,
+  resume: () => void,
+  stepIn: () => void,
+  stepOut: () => void,
+  stepOver: () => void,
+  breakOnNext: () => void,
+  pause: any,
+  pauseOnExceptions: (boolean, boolean) => void,
+  shouldPauseOnExceptions: boolean,
+  shouldIgnoreCaughtExceptions: boolean,
+  isWaitingOnBreak: boolean,
+  horizontal: boolean
+};
 
+class CommandBar extends Component<Props> {
   componentWillUnmount() {
     const shortcuts = this.context.shortcuts;
     COMMANDS.forEach(action => shortcuts.off(getKey(action)));
