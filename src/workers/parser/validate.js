@@ -1,10 +1,10 @@
 // @flow
 
-import { parseExpression } from "./utils/ast";
+import { parseScript } from "./utils/ast";
 
 export function hasSyntaxError(input: string) {
   try {
-    parseExpression(input);
+    parseScript(input);
     return false;
   } catch (e) {
     return `${e.name} : ${e.message}`;
