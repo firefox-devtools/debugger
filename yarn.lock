@@ -6744,9 +6744,9 @@ mocha@^3.2.0:
     mkdirp "0.5.1"
     supports-color "3.1.2"
 
-mochii@^0.0.10:
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/mochii/-/mochii-0.0.10.tgz#ab56676cfca260680e8233216be80a86fc01e59f"
+mochii@0.0.11:
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/mochii/-/mochii-0.0.11.tgz#137c30f47b433404efa30aeaedef7d9089e90be1"
   dependencies:
     chalk "^2.1.0"
     eslint "^4.7.2"
@@ -6755,6 +6755,7 @@ mochii@^0.0.10:
     jest-in-case "^1.0.2"
     jsesc "^2.5.1"
     minimist "^1.2.0"
+    node-emoji "^1.8.1"
     shelljs "^0.7.8"
 
 mock-require@^2.0.2:
