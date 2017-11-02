@@ -1,6 +1,6 @@
 import { zip } from "lodash";
 
-export function asyncTimes(name) {
+export function getAsyncTimes(name) {
   return zip(
     window.performance.getEntriesByName(`${name}_start`),
     window.performance.getEntriesByName(`${name}_end`)
@@ -13,7 +13,7 @@ function getTimes(name) {
     .map(time => +time.duration.toPrecision(2));
 }
 
-function stats(times) {
+function getStats(times) {
   if (times.length == 0) {
     return { times: [], avg: null, median: null };
   }
@@ -28,12 +28,12 @@ function stats(times) {
 }
 
 export function steppingTimings() {
-  const commands = asyncTimes("COMMAND");
-  const paused = getTimes("PAUSED");
+  const commandTimings = getAsyncTimes("COMMAND");
+  const pausedTimings = getTimes("PAUSED");
 
   return {
-    commands: stats(commands),
-    paused: stats(paused)
+    commands: getStats(commandTimings),
+    paused: getStats(pausedTimings)
   };
 }
 
