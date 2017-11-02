@@ -6,6 +6,9 @@ permalink: docs/updates
 
 ### [October 31st](./updates-10-31-2017.md)
 
++ Wellington unified our search UX to create an editor style modal for searching for files, functions, variables, and jumping to a line. We now have helpful prefixes for changing modes: @, #, :.
++ Lots of great UI polish
++ Sped up stepping with large files
 
 
 ### [October 24th](./updates-10-24-2017.md)
