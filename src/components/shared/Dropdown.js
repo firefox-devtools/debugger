@@ -8,7 +8,7 @@ import "./Dropdown.css";
 
 type Props = {
   panel: Object,
-  icon: SVGElement
+  icon: Object
 };
 
 type State = {
@@ -23,7 +23,6 @@ class Dropdown extends Component<Props, State> {
 
   constructor(props: any) {
     super(props);
-    this.icon = "»";
     this.state = {
       dropdownShown: false
     };
