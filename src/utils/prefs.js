@@ -30,7 +30,7 @@ if (isDevelopment()) {
   pref("devtools.debugger.features.shortcuts", true);
   pref("devtools.debugger.features.root", true);
   pref("devtools.debugger.features.column-breakpoints", true);
-  pref("devtools.debugger.features.dropdown", true);
+  pref("devtools.debugger.features.breakpoints-dropdown", true);
 }
 
 export const prefs = new PrefsHelper("devtools", {
@@ -59,7 +59,7 @@ export const features = new PrefsHelper("devtools.debugger.features", {
   shortcuts: ["Bool", "shortcuts", true],
   root: ["Bool", "root", false],
   columnBreakpoints: ["Bool", "column-breakpoints", false],
-  dropdown: ["Bool", "dropdown", true]
+  breakpointsDropdown: ["Bool", "breakpoints-dropdown", true]
 });
 
 if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {

@@ -108,7 +108,7 @@ class SecondaryPanes extends Component<Props> {
         : L10N.getStr("breakpoints.disable")
     };
 
-    if (!features.dropdown) {
+    if (!features.breakpointsDropdown) {
       return;
     }
 
