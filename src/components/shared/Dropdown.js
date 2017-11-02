@@ -1,6 +1,7 @@
 // @flow
 import React, { Component } from "react";
 import "./Dropdown.css";
+import Svg from "../shared/Svg";
 
 type Props = {
   panel: Object
@@ -49,7 +50,7 @@ class Dropdown extends Component<Props, State> {
   renderButton() {
     return (
       <button className="dropdown-button" onClick={this.toggleDropdown}>
-        »
+        <Svg name="plus" />
       </button>
     );
   }

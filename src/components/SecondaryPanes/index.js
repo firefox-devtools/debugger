@@ -26,6 +26,7 @@ import EventListeners from "./EventListeners";
 import Workers from "./Workers";
 import Accordion from "../shared/Accordion";
 import CommandBar from "./CommandBar";
+import Dropdown from "../shared/Dropdown";
 import UtilsBar from "./UtilsBar";
 
 import _chromeScopes from "./ChromeScopes";
@@ -107,7 +108,27 @@ class SecondaryPanes extends Component<Props> {
         : L10N.getStr("breakpoints.disable")
     };
 
-    return <input {...inputProps} />;
+    return (
+       <div className="breakpoints-buttons">
+         {this.renderBreakpointsDropdown()}
+         <input {...inputProps} />
+       </div>
+     );
+  }
+
+   
+
+  renderBreakpointsDropdown() {
+    
+    const Panel = (
+       <ul>
+         <li>Pause on Next Statement</li>
+         <li>Pause on Uncaught Exceptions</li>
+         <li>Pause on Exceptions</li>
+       </ul>
+     );
+
+    return <Dropdown panel={ Panel }/>;
   }
 
   watchExpressionHeaderButtons() {
