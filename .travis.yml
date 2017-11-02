@@ -12,7 +12,9 @@ env:
     - MC_COMMIT='f27105b62753' # https://hg.mozilla.org/mozilla-central/shortlog
 
 notifications:
-  slack: devtools-html:Il9fkod7dpUFo6m0tv5buGIh
+  slack:
+    on_success: never
+    on_failure: always
 
 addons:
   apt:

@@ -43,7 +43,6 @@ type Props = {
   selectSource: (id: string, ?SelectSourceOptions) => void,
   setQuickOpenQuery: (query: string) => void,
   highlightLineRange: ({ start: number, end: number }) => void,
-  clearHighlightLineRange: () => void,
   closeQuickOpen: () => void
 };
 
@@ -79,7 +78,6 @@ export class QuickOpenModal extends Component<Props, State> {
 
   closeModal = () => {
     this.props.closeQuickOpen();
-    this.props.clearHighlightLineRange();
   };
 
   searchSources = (query: string) => {

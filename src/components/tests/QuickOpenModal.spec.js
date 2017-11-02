@@ -76,7 +76,6 @@ describe("QuickOpenModal", () => {
     expect(wrapper).toMatchSnapshot();
     wrapper.find("CloseButton").simulate("click");
     expect(props.closeQuickOpen).toHaveBeenCalled();
-    expect(props.clearHighlightLineRange).toHaveBeenCalled();
   });
 
   test("updateResults on enable", () => {

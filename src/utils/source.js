@@ -134,7 +134,12 @@ function getFilename(source: Source) {
     return getFormattedSourceId(id);
   }
 
-  return getFilenameFromURL(url);
+  let filename = getFilenameFromURL(url);
+  const qMarkIdx = filename.indexOf("?");
+  if (qMarkIdx > 0) {
+    filename = filename.slice(0, qMarkIdx);
+  }
+  return filename;
 }
 
 /**

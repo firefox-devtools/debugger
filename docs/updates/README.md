@@ -2,7 +2,17 @@
 permalink: docs/updates
 ---
 
-### Weekly Updates
+## Weekly Updates
+
+### [October 24th](./updates-10-24-2017.md)
+
+This week we had 25 contributors and 30+ PRs.
+
+* Andrew helped us upgrade to flow 53
+* Jiel helped us convert SVGs to background images
+* Tohm blackboxed sources are now identified in the source tree
+* Sneha Aligned the first tab with wide gutters
+* Bomsy and James got jump to line to support scrolling to columns.
 
 ### [October 17th](./updates-10-17-2017.md)
 
