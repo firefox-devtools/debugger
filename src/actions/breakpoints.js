@@ -8,7 +8,7 @@
  * @module actions/breakpoints
  */
 
-import { PROMISE } from "../utils/redux/middleware/promise";
+import { PROMISE } from "./utils/promise";
 import {
   getBreakpoint,
   getBreakpoints,

@@ -1,6 +1,6 @@
 // @flow
 
-import { PROMISE } from "../../utils/redux/middleware/promise";
+import { PROMISE } from "../utils/promise";
 import type { ThunkArgs } from "../types";
 
 /**

@@ -16,7 +16,7 @@ import {
   stopPrettyPrintWorker
 } from "../workers/pretty-print";
 import { startParserWorker, stopParserWorker } from "../workers/parser";
-import configureStore from "./create-store";
+import configureStore from "../actions/utils/create-store";
 import reducers from "../reducers";
 import selectors from "../selectors";
 import App from "../components/App";
