@@ -109,30 +109,27 @@ class SecondaryPanes extends Component<Props> {
     };
 
     if (!features.dropdown) {
-      return
+      return;
     }
 
     return (
-     <div className="breakpoints-buttons">
-       {this.renderBreakpointsDropdown()}
-       <input {...inputProps} />
-     </div>
+      <div className="breakpoints-buttons">
+        {this.renderBreakpointsDropdown()}
+        <input {...inputProps} />
+      </div>
     );
   }
 
-   
-
   renderBreakpointsDropdown() {
-    
     const Panel = (
-       <ul>
-         <li>Pause on Next Statement</li>
-         <li>Pause on Uncaught Exceptions</li>
-         <li>Pause on Exceptions</li>
-       </ul>
-     );
+      <ul>
+        <li>Pause on Next Statement</li>
+        <li>Pause on Uncaught Exceptions</li>
+        <li>Pause on Exceptions</li>
+      </ul>
+    );
 
-    return <Dropdown panel={ Panel }/>;
+    return <Dropdown panel={Panel} icon={<Svg name="plus" />} />;
   }
 
   watchExpressionHeaderButtons() {
