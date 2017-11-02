@@ -9,11 +9,8 @@ import type { ThunkArgs } from "../types";
 export function fetchScopes() {
   return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
     const frame = getSelectedFrame(getState());
-    if (!frame || getFrameScope(getState(), frame.id)) {
-      return;
-    }
 
-    if (isGeneratedId(frame.location.sourceId)) {
+    if (!frame || getFrameScope(getState(), frame.id)) {
       return;
     }
 
@@ -26,17 +23,27 @@ export function fetchScopes() {
       return;
     }
 
-    const frameScopes = await client.getFrameScope(frame);
-    const scopes = await updateScopeBindings(
-      frameScopes,
+    const scopes = await client.getFrameScopes(frame);
+    dispatch({
+      type: "ADD_SCOPES",
+      frame,
+      scopes
+    });
+
+    if (isGeneratedId(frame.location.sourceId)) {
+      return;
+    }
+
+    const mappedScopes = await updateScopeBindings(
+      scopes,
       frame.generatedLocation,
       sourceMaps
     );
 
     dispatch({
-      type: "ADD_SCOPES",
+      type: "MAP_SCOPES",
       frame,
-      scopes
+      scopes: mappedScopes
     });
   };
 }

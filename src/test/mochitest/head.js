@@ -52,6 +52,10 @@ registerCleanupFunction(() => {
   delete window.resumeTest;
 });
 
+function log(msg, data) {
+  info(`${msg} ${JSON.stringify(data)}`);
+}
+
 // Wait until an action of `type` is dispatched. This is different
 // then `_afterDispatchDone` because it doesn't wait for async actions
 // to be done/errored. Use this if you want to listen for the "start"
@@ -347,9 +351,16 @@ async function waitForPaused(dbg) {
 
   return waitForState(
     dbg,
-    state => isPaused(dbg) && getSelectedScope(state) && !hasLoadingObjects(state),
+    state => {
+      const paused = isPaused(dbg);
+      const scope = !!getSelectedScope(state);
+      const loaded = !hasLoadingObjects(state);
+      return (
+        isPaused(dbg) && getSelectedScope(state) && !hasLoadingObjects(state)
+      );
+    },
     "paused"
- );
+  );
 }
 
 /**

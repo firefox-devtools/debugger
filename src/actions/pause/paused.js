@@ -28,13 +28,11 @@ export function paused(pauseInfo: Pause) {
 
     const mappedFrames = await updateFrameLocations(frames, sourceMaps);
     const frame = mappedFrames[0];
-    const frameScopes = await client.getFrameScopes(frame);
 
     dispatch({
       type: "PAUSED",
       pauseInfo: { why, frame, frames },
       frames: mappedFrames,
-      scopes: frameScopes,
       selectedFrameId: frame.id,
       loadedObjects: loadedObjects || []
     });
