@@ -45,7 +45,7 @@ export type ASTState = {
   emptyLines: EmptyLinesMap,
   outOfScopeLocations: ?Array<AstLocation>,
   preview: Preview,
-  metaData: SourceMetaDataMap
+  sourceMetaData: SourceMetaDataMap
 };
 
 export function initialState() {
@@ -55,7 +55,7 @@ export function initialState() {
       emptyLines: I.Map(),
       outOfScopeLocations: null,
       preview: null,
-      metaData: I.Map()
+      sourceMetaData: I.Map()
     }: ASTState)
   )();
 }
@@ -120,7 +120,7 @@ function update(
     }
 
     case "SET_SOURCE_METADATA": {
-      return state.set("metaData", action.metaData);
+      return state.set("sourceMetaData", action.sourceMetaData);
     }
 
     default: {
@@ -179,8 +179,8 @@ export function getPreview(state: OuterState) {
   return state.ast.get("preview");
 }
 
-export function getMetaData(state: OuterState) {
-  return state.ast.get("metaData");
+export function getSourceMetaData(state: OuterState) {
+  return state.ast.get("sourceMetaData");
 }
 
 export default update;

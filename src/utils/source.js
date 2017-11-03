@@ -205,14 +205,14 @@ function getSourceLineCount(source: Source) {
  * @static
  */
 
-function getMode(source: Source, metaData: SourceMetaDataType) {
+function getMode(source: Source, sourceMetaData: SourceMetaDataType) {
   const { contentType, text, isWasm, url } = source;
 
   if (!text || isWasm) {
     return { name: "text" };
   }
 
-  if (metaData && metaData.isReactComponent) {
+  if (sourceMetaData && sourceMetaData.isReactComponent) {
     return { name: "jsx" };
   }
 

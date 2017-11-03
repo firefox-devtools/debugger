@@ -6,7 +6,7 @@ import React, { Component } from "react";
 import Breakpoint from "./Breakpoint";
 
 import actions from "../../actions";
-import { getSelectedSource, getMetaData } from "../../selectors";
+import { getSelectedSource, getSourceMetaData } from "../../selectors";
 import getVisibleBreakpoints from "../../selectors/visibleBreakpoints";
 import { makeLocationId } from "../../utils/breakpoint";
 import { isLoaded } from "../../utils/source";
@@ -17,7 +17,7 @@ type Props = {
   selectedSource: SourceRecord,
   breakpoints: BreakpointsMap,
   editor: Object,
-  metaData: Object
+  sourceMetaData: Object
 };
 
 class Breakpoints extends Component<Props> {
@@ -33,7 +33,7 @@ class Breakpoints extends Component<Props> {
   }
 
   render() {
-    const { breakpoints, selectedSource, editor, metaData } = this.props;
+    const { breakpoints, selectedSource, editor, sourceMetaData } = this.props;
 
     if (!selectedSource || !breakpoints || selectedSource.get("isBlackBoxed")) {
       return null;
@@ -47,7 +47,7 @@ class Breakpoints extends Component<Props> {
               key={makeLocationId(bp.location)}
               breakpoint={bp}
               selectedSource={selectedSource}
-              metaData={metaData}
+              sourceMetaData={sourceMetaData}
               editor={editor}
             />
           );
@@ -61,7 +61,7 @@ export default connect(
   state => ({
     breakpoints: getVisibleBreakpoints(state),
     selectedSource: getSelectedSource(state),
-    metaData: getMetaData(state)
+    sourceMetaData: getSourceMetaData(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Breakpoints);

@@ -85,7 +85,7 @@ function setEditorText(editor: Object, source: Source) {
 function showSourceText(
   editor: Object,
   source: Source,
-  metaData: SourceMetaDataType
+  sourceMetaData: SourceMetaDataType
 ) {
   if (!source) {
     return;
@@ -93,14 +93,14 @@ function showSourceText(
 
   let doc = getDocument(source.id);
   if (editor.codeMirror.doc === doc) {
-    editor.setMode(getMode(source, metaData));
+    editor.setMode(getMode(source, sourceMetaData));
     return;
   }
 
   if (doc) {
     editor.replaceDocument(doc);
     updateLineNumberFormat(editor, source.id);
-    editor.setMode(getMode(source, metaData));
+    editor.setMode(getMode(source, sourceMetaData));
     return doc;
   }
 
@@ -109,7 +109,7 @@ function showSourceText(
   editor.replaceDocument(doc);
 
   setEditorText(editor, source);
-  editor.setMode(getMode(source, metaData));
+  editor.setMode(getMode(source, sourceMetaData));
   updateLineNumberFormat(editor, source.id);
 }
 

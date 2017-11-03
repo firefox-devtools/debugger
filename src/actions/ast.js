@@ -30,7 +30,7 @@ const extraProps = {
   react: { displayName: "this._reactInternalInstance.getName()" }
 };
 
-export function setMetaData(sourceId: SourceId) {
+export function setSourceMetaData(sourceId: SourceId) {
   return async ({ dispatch, getState }: ThunkArgs) => {
     const sourceRecord = getSource(getState(), sourceId);
     if (!sourceRecord) {
@@ -46,7 +46,7 @@ export function setMetaData(sourceId: SourceId) {
     dispatch({
       type: "SET_SOURCE_METADATA",
       source,
-      metaData: {
+      sourceMetaData: {
         isReactComponent: isReactComp
       }
     });

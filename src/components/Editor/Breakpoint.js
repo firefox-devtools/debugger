@@ -25,7 +25,7 @@ type Props = {
   breakpoint: Object,
   selectedSource: Object,
   editor: Object,
-  metaData: Object
+  sourceMetaData: Object
 };
 
 class Breakpoint extends Component<Props> {
@@ -37,7 +37,7 @@ class Breakpoint extends Component<Props> {
   }
 
   addBreakpoint() {
-    const { breakpoint, editor, selectedSource, metaData } = this.props;
+    const { breakpoint, editor, selectedSource, sourceMetaData } = this.props;
 
     // Hidden Breakpoints are never rendered on the client
     if (breakpoint.hidden) {
@@ -53,7 +53,7 @@ class Breakpoint extends Component<Props> {
     const sourceId = selectedSource.get("id");
     const line = toEditorLine(sourceId, breakpoint.location.line);
 
-    showSourceText(editor, selectedSource.toJS(), metaData);
+    showSourceText(editor, selectedSource.toJS(), sourceMetaData);
 
     editor.codeMirror.setGutterMarker(
       line,

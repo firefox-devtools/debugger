@@ -16,7 +16,7 @@ import {
   getSelectedSource,
   getHitCountForSource,
   getCoverageEnabled,
-  getMetaData,
+  getSourceMetaData,
   getConditionalPanelLine
 } from "../../selectors";
 
@@ -76,7 +76,7 @@ type Props = {
   startPanelSize: number,
   endPanelSize: number,
   conditionalPanelLine: number,
-  metaData: SourceMetaDataType,
+  sourceMetaData: SourceMetaDataType,
 
   // Actions
   openConditionalPanel: number => void,
@@ -456,7 +456,7 @@ class Editor extends PureComponent<Props, State> {
   }
 
   setText(props) {
-    const { selectedSource, metaData } = props;
+    const { selectedSource, sourceMetaData } = props;
     if (!this.state.editor) {
       return;
     }
@@ -474,7 +474,11 @@ class Editor extends PureComponent<Props, State> {
     }
 
     if (selectedSource) {
-      return showSourceText(this.state.editor, selectedSource.toJS(), metaData);
+      return showSourceText(
+        this.state.editor,
+        selectedSource.toJS(),
+        sourceMetaData
+      );
     }
   }
 
@@ -601,7 +605,7 @@ const mapStateToProps = state => {
     selectedFrame: getSelectedFrame(state),
     coverageOn: getCoverageEnabled(state),
     conditionalPanelLine: getConditionalPanelLine(state),
-    metaData: getMetaData(state)
+    sourceMetaData: getSourceMetaData(state)
   };
 };
 
