@@ -1,36 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Editor should highlight line 1`] = `
-<div
-  className="editor-wrapper"
->
-  <div
-    className="editor-mount devtools-monospace"
-    style={
-      Object {
-        "height": "calc(100% - var(--editor-footer-height))",
-      }
-    }
-  />
-</div>
-`;
-
 exports[`Editor should render 1`] = `
-<div
-  className="editor-wrapper"
->
-  <div
-    className="editor-mount devtools-monospace"
-    style={
-      Object {
-        "height": "calc(100% - var(--editor-footer-height))",
-      }
-    }
-  />
-</div>
-`;
-
-exports[`Editor should set text 1`] = `
 <div
   className="editor-wrapper"
 >

@@ -82,7 +82,6 @@
     "devtools-utils": "^0.0.9",
     "fuzzaldrin-plus": "^0.4.1",
     "immutable": "^3.7.6",
-    "jsdom": "^11.3.0",
     "lodash": "^4.17.4",
     "lodash.kebabcase": "^4.1.1",
     "md5": "^2.2.1",
