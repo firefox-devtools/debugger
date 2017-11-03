@@ -20,8 +20,8 @@ function render(frameToSelect = {}, overrides = {}) {
       line: 10
     }
   };
-  const frame = Object.assign({}, defaultFrame, overrides);
-  const selectedFrame = Object.assign({}, frame, frameToSelect);
+  const frame = { ...defaultFrame, ...overrides };
+  const selectedFrame = { ...frame, ...frameToSelect };
   const selectFrame = jest.fn();
   const toggleBlackBox = jest.fn();
 

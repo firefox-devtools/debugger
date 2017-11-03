@@ -191,7 +191,7 @@ export function getScopes(
       // If this is the global window scope, mark it as such so that it will
       // preview Window: Global instead of Window: Window
       if (value.class === "Window") {
-        value = Object.assign({}, scope.object, { displayClass: "Global" });
+        value = { ...scope.object, displayClass: "Global" };
       }
       scopes.push({
         name: scope.object.class,

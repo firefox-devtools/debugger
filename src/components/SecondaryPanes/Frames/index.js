@@ -219,9 +219,7 @@ function getSourceForFrame(sources, frame) {
 }
 
 function appendSource(sources, frame) {
-  return Object.assign({}, frame, {
-    source: getSourceForFrame(sources, frame).toJS()
-  });
+  return { ...frame, source: getSourceForFrame(sources, frame).toJS() };
 }
 
 export function getAndProcessFrames(frames: Frame[], sources: SourcesMap) {

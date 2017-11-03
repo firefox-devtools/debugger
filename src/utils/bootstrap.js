@@ -31,7 +31,7 @@ export function bootstrapStore(client, { services, toolboxActions }) {
     log: isTesting() || getValue("logging.actions"),
     timing: isDevelopment(),
     makeThunkArgs: (args, state) => {
-      return Object.assign({}, args, { client }, services, toolboxActions);
+      return { ...args, client, ...services, ...toolboxActions };
     }
   });
 

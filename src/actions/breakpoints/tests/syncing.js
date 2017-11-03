@@ -31,9 +31,7 @@ import { findScopeByName } from "../../../utils/breakpoint/astBreakpointLocation
 import { syncClientBreakpoint } from "../../breakpoints/syncBreakpoint.js";
 
 function setBreakpoint(location, condition) {
-  const actualLocation = Object.assign({}, location, {
-    line: location.line
-  });
+  const actualLocation = { ...location, line: location.line };
 
   return Promise.resolve({
     id: makeLocationId(location),

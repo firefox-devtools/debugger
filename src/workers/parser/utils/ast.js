@@ -14,25 +14,23 @@ import type { Source } from "debugger-html";
 let ASTs = new Map();
 
 function _parse(code, opts) {
-  return babylon.parse(
-    code,
-    Object.assign({}, opts, {
-      sourceType: "module",
-      plugins: [
-        "jsx",
-        "flow",
-        "doExpressions",
-        "objectRestSpread",
-        "classProperties",
-        "exportExtensions",
-        "asyncGenerators",
-        "functionBind",
-        "functionSent",
-        "dynamicImport",
-        "templateInvalidEscapes"
-      ]
-    })
-  );
+  return babylon.parse(code, {
+    ...opts,
+    sourceType: "module",
+    plugins: [
+      "jsx",
+      "flow",
+      "doExpressions",
+      "objectRestSpread",
+      "classProperties",
+      "exportExtensions",
+      "asyncGenerators",
+      "functionBind",
+      "functionSent",
+      "dynamicImport",
+      "templateInvalidEscapes"
+    ]
+  });
 }
 
 function parse(text: ?string, opts?: Object) {

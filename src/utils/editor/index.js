@@ -157,27 +157,24 @@ function getSourceLocationFromMouseEvent(editor, selectedLocation, e) {
   };
 }
 
-module.exports = Object.assign(
-  {},
-  expressionUtils,
-  sourceDocumentUtils,
-  sourceSearchUtils,
-  SourceEditorUtils,
-  {
-    createEditor,
-    isWasm,
-    toEditorLine,
-    toEditorPosition,
-    toEditorRange,
-    toSourceLine,
-    scrollToColumn,
-    toSourceLocation,
-    shouldShowPrettyPrint,
-    shouldShowFooter,
-    traverseResults,
-    markText,
-    lineAtHeight,
-    getSourceLocationFromMouseEvent,
-    resizeBreakpointGutter
-  }
-);
+module.exports = {
+  ...expressionUtils,
+  ...sourceDocumentUtils,
+  ...sourceSearchUtils,
+  ...SourceEditorUtils,
+  createEditor,
+  isWasm,
+  toEditorLine,
+  toEditorPosition,
+  toEditorRange,
+  toSourceLine,
+  scrollToColumn,
+  toSourceLocation,
+  shouldShowPrettyPrint,
+  shouldShowFooter,
+  traverseResults,
+  markText,
+  lineAtHeight,
+  getSourceLocationFromMouseEvent,
+  resizeBreakpointGutter
+};
