@@ -2962,6 +2962,19 @@ devtools-linters@^0.0.3:
     retext-syntax-urls "^1.0.0"
     unified "^6.1.0"
 
+devtools-map-bindings@0.3.0-rc1:
+  version "0.3.0-rc1"
+  resolved "https://registry.yarnpkg.com/devtools-map-bindings/-/devtools-map-bindings-0.3.0-rc1.tgz#67a863d63c3b59e1e9d9c14bce8ce0cb69472246"
+  dependencies:
+    babel-plugin-transform-async-to-generator "^6.22.0"
+    babel-plugin-transform-flow-strip-types "^6.22.0"
+    babel-traverse "^6.26.0"
+    babel-types "^6.26.0"
+    babylon "^6.18.0"
+    devtools-utils "0.0.9"
+    jest "^19.0.2"
+    source-map "^0.5.6"
+
 devtools-map-bindings@^0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/devtools-map-bindings/-/devtools-map-bindings-0.2.2.tgz#ce107d8bf203fcc1f45eb3449bf45111c6737e91"
@@ -3033,17 +3046,17 @@ devtools-utils@0.0.8:
     babel-preset-stage-3 "^6.22.0"
     jest "^19.0.2"
 
-devtools-utils@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/devtools-utils/-/devtools-utils-0.0.5.tgz#e0d0e02dff3af4ef383543c4a8985fabf2dce4a1"
+devtools-utils@0.0.9, devtools-utils@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/devtools-utils/-/devtools-utils-0.0.9.tgz#7abd48b80ab800152182e6401b20c10dc2e83d2d"
   dependencies:
     babel-plugin-transform-flow-strip-types "^6.22.0"
     babel-preset-stage-3 "^6.22.0"
     jest "^19.0.2"
 
-devtools-utils@^0.0.9:
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/devtools-utils/-/devtools-utils-0.0.9.tgz#7abd48b80ab800152182e6401b20c10dc2e83d2d"
+devtools-utils@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/devtools-utils/-/devtools-utils-0.0.5.tgz#e0d0e02dff3af4ef383543c4a8985fabf2dce4a1"
   dependencies:
     babel-plugin-transform-flow-strip-types "^6.22.0"
     babel-preset-stage-3 "^6.22.0"
