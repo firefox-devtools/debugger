@@ -24,7 +24,8 @@ function makeMarker(isDisabled: boolean) {
 type Props = {
   breakpoint: Object,
   selectedSource: Object,
-  editor: Object
+  editor: Object,
+  metaData: Object
 };
 
 class Breakpoint extends Component<Props> {
@@ -36,7 +37,7 @@ class Breakpoint extends Component<Props> {
   }
 
   addBreakpoint() {
-    const { breakpoint, editor, selectedSource } = this.props;
+    const { breakpoint, editor, selectedSource, metaData } = this.props;
 
     // Hidden Breakpoints are never rendered on the client
     if (breakpoint.hidden) {
@@ -52,7 +53,7 @@ class Breakpoint extends Component<Props> {
     const sourceId = selectedSource.get("id");
     const line = toEditorLine(sourceId, breakpoint.location.line);
 
-    showSourceText(editor, selectedSource.toJS());
+    showSourceText(editor, selectedSource.toJS(), metaData);
 
     editor.codeMirror.setGutterMarker(
       line,

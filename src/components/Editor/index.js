@@ -20,7 +20,8 @@ import {
   getCoverageEnabled,
   getConditionalPanelLine,
   getFileSearchModifiers,
-  getFileSearchQuery
+  getFileSearchQuery,
+  getMetaData
 } from "../../selectors";
 
 import actions from "../../actions";
@@ -459,7 +460,7 @@ class Editor extends PureComponent<Props, State> {
   }
 
   setText(props) {
-    const { selectedSource } = props;
+    const { selectedSource, metaData } = props;
     if (!this.state.editor) {
       return;
     }
@@ -477,7 +478,7 @@ class Editor extends PureComponent<Props, State> {
     }
 
     if (selectedSource) {
-      return showSourceText(this.state.editor, selectedSource.toJS());
+      return showSourceText(this.state.editor, selectedSource.toJS(), metaData);
     }
   }
 
@@ -629,7 +630,8 @@ export default connect(
       query: getFileSearchQuery(state),
       modifiers: getFileSearchModifiers(state),
       coverageOn: getCoverageEnabled(state),
-      conditionalPanelLine: getConditionalPanelLine(state)
+      conditionalPanelLine: getConditionalPanelLine(state),
+      metaData: getMetaData(state)
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

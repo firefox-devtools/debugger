@@ -81,19 +81,21 @@ function setEditorText(editor: Object, source: Source) {
  * Handle getting the source document or creating a new
  * document with the correct mode and text.
  */
-function showSourceText(editor: Object, source: Source) {
+function showSourceText(editor: Object, source: Source, metaData) {
   if (!source) {
     return;
   }
 
   let doc = getDocument(source.id);
   if (editor.codeMirror.doc === doc) {
+    editor.setMode(getMode(source, metaData));
     return;
   }
 
   if (doc) {
     editor.replaceDocument(doc);
     updateLineNumberFormat(editor, source.id);
+    editor.setMode(getMode(source, metaData));
     return doc;
   }
 
@@ -102,7 +104,7 @@ function showSourceText(editor: Object, source: Source) {
   editor.replaceDocument(doc);
 
   setEditorText(editor, source);
-  editor.setMode(getMode(source));
+  editor.setMode(getMode(source, metaData));
   updateLineNumberFormat(editor, source.id);
 }
 

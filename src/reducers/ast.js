@@ -38,7 +38,8 @@ export type ASTState = {
   symbols: SymbolsMap,
   emptyLines: EmptyLinesMap,
   outOfScopeLocations: ?Array<AstLocation>,
-  preview: Preview
+  preview: Preview,
+  metaData: Object
 };
 
 export function initialState() {
@@ -47,7 +48,8 @@ export function initialState() {
       symbols: I.Map(),
       emptyLines: I.Map(),
       outOfScopeLocations: null,
-      preview: null
+      preview: null,
+      metaData: {}
     }: ASTState)
   )();
 }
@@ -111,6 +113,10 @@ function update(
       return initialState();
     }
 
+    case "SET_METADATA": {
+      return state.set("metaData", action.metaData);
+    }
+
     default: {
       return state;
     }
@@ -165,6 +171,10 @@ export function getOutOfScopeLocations(state: OuterState) {
 
 export function getPreview(state: OuterState) {
   return state.ast.get("preview");
+}
+
+export function getMetaData(state: OuterState) {
+  return state.ast.get("metaData");
 }
 
 export default update;

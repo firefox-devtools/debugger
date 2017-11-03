@@ -9,7 +9,6 @@ import { isOriginalId } from "devtools-source-map";
 import { endTruncateStr } from "./utils";
 import { basename } from "../utils/path";
 import { parse as parseURL } from "url";
-import { isReactComponent } from "../workers/parser/frameworks";
 
 import type { Source } from "../types";
 
@@ -200,14 +199,14 @@ function getSourceLineCount(source: Source) {
  * @static
  */
 
-function getMode(source: Source) {
+function getMode(source: Source, metaData) {
   const { contentType, text, isWasm, url } = source;
 
   if (!text || isWasm) {
     return { name: "text" };
   }
 
-  if (isReactComponent(source)) {
+  if (metaData && metaData.isReactComponent) {
     return { name: "jsx" };
   }
 
