@@ -109,7 +109,7 @@ class SecondaryPanes extends Component<Props> {
     };
 
     if (!features.breakpointsDropdown) {
-      return;
+      return <input {...inputProps} />;
     }
 
     return (
