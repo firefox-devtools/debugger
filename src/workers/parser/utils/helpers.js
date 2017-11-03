@@ -12,7 +12,9 @@ export function isFunction(path: NodePath) {
     t.isFunction(path) ||
     t.isArrowFunctionExpression(path) ||
     t.isObjectMethod(path) ||
-    t.isClassMethod(path)
+    t.isClassMethod(path) ||
+    path.type === "MethodDefinition" ||
+    (t.isClassProperty(path.parent) && t.isArrowFunctionExpression(path))
   );
 }
 
@@ -35,7 +37,7 @@ export function isYieldExpression(path: NodePath) {
 export function isVariable(path: NodePath) {
   return (
     t.isVariableDeclaration(path) ||
-    (isFunction(path) && path.node.params.length) ||
+    (isFunction(path) && path.node.params != null && path.node.params.length) ||
     (t.isObjectProperty(path) && !isFunction(path.node.value))
   );
 }

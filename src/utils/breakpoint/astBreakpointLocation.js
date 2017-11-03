@@ -3,7 +3,7 @@
 import { getSymbols } from "../../workers/parser";
 
 import type { Scope, AstPosition } from "../../workers/parser/types";
-import type { Location, Source } from "debugger-html";
+import type { Location, Source, ASTLocation } from "debugger-html";
 
 export function containsPosition(a: AstPosition, b: AstPosition) {
   const startsBefore =
@@ -42,7 +42,10 @@ export function findClosestScope(functions: Scope[], location: Location) {
   }, null);
 }
 
-export async function getASTLocation(source: Source, location: Location) {
+export async function getASTLocation(
+  source: Source,
+  location: Location
+): Promise<ASTLocation> {
   const symbols = await getSymbols(source);
   const functions = [...symbols.functions];
 
@@ -53,13 +56,13 @@ export async function getASTLocation(source: Source, location: Location) {
     const line = location.line - scope.location.start.line;
     return {
       name: scope.name,
-      offset: { line }
+      offset: { line, column: undefined }
     };
   }
   return { name: undefined, offset: location };
 }
 
-export async function findScopeByName(source: Source, name: String) {
+export async function findScopeByName(source: Source, name: ?string) {
   const symbols = await getSymbols(source);
   const functions = symbols.functions;
 

@@ -1,5 +1,5 @@
 // @flow
-import { getSource, getActiveSearch } from "../selectors";
+import { getSource, getActiveSearch, getPaneCollapse } from "../selectors";
 import type { ThunkArgs } from "./types";
 import type {
   ActiveSearchType,
@@ -65,10 +65,17 @@ export function showSource(sourceId: string) {
 }
 
 export function togglePaneCollapse(position: string, paneCollapsed: boolean) {
-  return {
-    type: "TOGGLE_PANE",
-    position,
-    paneCollapsed
+  return ({ dispatch, getState }: ThunkArgs) => {
+    const prevPaneCollapse = getPaneCollapse(getState(), position);
+    if (prevPaneCollapse === paneCollapsed) {
+      return;
+    }
+
+    dispatch({
+      type: "TOGGLE_PANE",
+      position,
+      paneCollapsed
+    });
   };
 }
 

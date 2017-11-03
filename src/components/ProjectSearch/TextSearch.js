@@ -135,6 +135,7 @@ export default class TextSearch extends Component {
     const results = this.getResults().filter(
       result => result.matches.length > 0
     );
+
     function getFilePath(item, index) {
       return item.filepath
         ? `${item.sourceId}-${index}`
@@ -171,10 +172,6 @@ export default class TextSearch extends Component {
 
   renderInput() {
     const resultCount = this.getResultCount();
-    const summaryMsg = L10N.getFormatStr(
-      "sourceSearch.resultsSummary1",
-      resultCount
-    );
 
     return (
       <SearchInput
@@ -182,7 +179,11 @@ export default class TextSearch extends Component {
         count={resultCount}
         placeholder={L10N.getStr("projectTextSearch.placeholder")}
         size="big"
-        summaryMsg={summaryMsg}
+        summaryMsg={
+          this.props.query !== ""
+            ? L10N.getFormatStr("sourceSearch.resultsSummary1", resultCount)
+            : ""
+        }
         onChange={e => this.inputOnChange(e)}
         onFocus={() => (this.inputFocused = true)}
         onBlur={() => (this.inputFocused = false)}

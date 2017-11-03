@@ -1,5 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`TextSearch where <Enter> has not been pressed 1`] = `
+<div
+  className="project-text-search"
+>
+  <div
+    className="header"
+  >
+    <SearchInput
+      count={0}
+      handleClose={[Function]}
+      onBlur={[Function]}
+      onChange={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      placeholder="Find in files…"
+      query=""
+      showErrorEmoji={true}
+      size="big"
+      summaryMsg=""
+    />
+  </div>
+</div>
+`;
+
 exports[`TextSearch found no search results 1`] = `
 <div
   className="project-text-search"

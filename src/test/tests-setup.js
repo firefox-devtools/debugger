@@ -25,3 +25,7 @@ global.L10N = require("devtools-launchpad").L10N;
 global.L10N.setBundle(readFileSync("./assets/panel/debugger.properties"));
 
 setConfig(config);
+
+process.on("unhandledRejection", (reason, p) => {
+  console.log("Unhandled Rejection at:", p, "reason:", reason);
+});
