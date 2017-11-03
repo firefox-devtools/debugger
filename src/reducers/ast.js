@@ -113,7 +113,7 @@ function update(
       return initialState();
     }
 
-    case "SET_METADATA": {
+    case "SET_SOURCE_METADATA": {
       return state.set("metaData", action.metaData);
     }
 

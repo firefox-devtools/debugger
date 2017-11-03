@@ -44,7 +44,7 @@ export function setMetaData(sourceId: SourceId) {
 
     const isReactComp = await isReactComponent(source);
     dispatch({
-      type: "SET_METADATA",
+      type: "SET_SOURCE_METADATA",
       source,
       metaData: {
         isReactComponent: isReactComp
