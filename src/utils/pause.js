@@ -99,18 +99,16 @@ export async function getPausedPosition(pauseInfo: Pause, sourceMaps: any) {
   return location;
 }
 
-type PauseHistoryItem = { why: Why };
-export function inDebuggerEval(pause?: PauseHistoryItem) {
-  if (!pause) {
-    return false;
+export function inDebuggerEval(why: ?Why) {
+  if (
+    why &&
+    why.type === "exception" &&
+    why.exception &&
+    why.exception.preview &&
+    why.exception.preview.fileName
+  ) {
+    return why.exception.preview.fileName === "debugger eval code";
   }
 
-  const { why } = pause;
-
-  const exception = why.exception;
-  if (!exception) {
-    return false;
-  }
-
-  return exception.preview.fileName === "debugger eval code";
+  return false;
 }

@@ -15,9 +15,11 @@ import { prefs } from "../utils/prefs";
 import { isEmpty } from "lodash";
 
 import type { Action } from "../actions/types";
+import type { Why } from "debugger-html";
 
 type PauseState = {
   pause: ?any,
+  why: ?Why,
   isWaitingOnBreak: boolean,
   frames: ?(any[]),
   frameScopes: any,
@@ -26,12 +28,12 @@ type PauseState = {
   shouldPauseOnExceptions: boolean,
   shouldIgnoreCaughtExceptions: boolean,
   debuggeeUrl: string,
-  command: string,
-  history: any
+  command: string
 };
 
 export const State = (): PauseState => ({
   pause: undefined,
+  why: null,
   isWaitingOnBreak: false,
   frames: undefined,
   selectedFrameId: undefined,
@@ -40,8 +42,7 @@ export const State = (): PauseState => ({
   shouldPauseOnExceptions: prefs.pauseOnExceptions,
   shouldIgnoreCaughtExceptions: prefs.ignoreCaughtExceptions,
   debuggeeUrl: "",
-  command: "",
-  history: []
+  command: ""
 });
 
 const emptyPauseState = {
@@ -49,8 +50,7 @@ const emptyPauseState = {
   frames: null,
   frameScopes: {},
   selectedFrameId: null,
-  loadedObjects: {},
-  history: []
+  loadedObjects: {}
 };
 
 function update(state: PauseState = State(), action: Action): PauseState {
@@ -75,7 +75,7 @@ function update(state: PauseState = State(), action: Action): PauseState {
         frames,
         frameScopes: {},
         loadedObjects: objectMap,
-        history: state.history.concat({ why })
+        why
       };
     }
 
@@ -157,6 +157,11 @@ function update(state: PauseState = State(), action: Action): PauseState {
         ? { ...state, ...emptyPauseState, command: action.command }
         : { ...state, command: "" };
 
+    case "RESUME":
+      // We clear why on resume because we need it to decide if
+      // we shoul re-evaluate watch expressions.
+      return { ...state, why: null };
+
     case "EVALUATE_EXPRESSION":
       return {
         ...state,
@@ -193,8 +198,8 @@ export const getLoadedObjects = createSelector(
   pauseWrapper => pauseWrapper.loadedObjects
 );
 
-export function getPauseHistory(state: OuterState) {
-  return state.pause.history;
+export function getPauseReason(state: OuterState): ?Why {
+  return state.pause.why;
 }
 
 export function isStepping(state: OuterState) {

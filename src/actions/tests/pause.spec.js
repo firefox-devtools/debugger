@@ -2,9 +2,7 @@ import {
   actions,
   selectors,
   createStore,
-  getHistory,
-  makeSource,
-  waitForState
+  makeSource
 } from "../../utils/test-head";
 
 const { isStepping } = selectors;
