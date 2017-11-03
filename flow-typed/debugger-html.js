@@ -44,11 +44,13 @@ declare module "debugger-html" {
     sourceUrl?: string
   };
 
-  declare type ASTLocation = {
+  declare type ASTLocation = {|
     name: ?string,
-    column: ?number,
-    line: number
-  };
+    offset: {
+      column: ?number,
+      line: number
+    }
+  |};
 
   /**
  * Breakpoint
@@ -66,6 +68,17 @@ declare module "debugger-html" {
     hidden: boolean,
     text: string,
     condition: ?string
+  };
+
+  /**
+ * Breakpoint sync data
+ *
+ * @memberof types
+ * @static
+ */
+  declare type BreakpointSyncData = {
+    previousLocation: Location | null,
+    breakpoint: Breakpoint
   };
 
   /**
@@ -87,7 +100,7 @@ declare module "debugger-html" {
  */
   declare type PendingBreakpoint = {
     location: PendingLocation,
-    astLocaton: ASTLocation,
+    astLocation: ASTLocation,
     generatedLocation: PendingLocation,
     loading: boolean,
     disabled: boolean,
