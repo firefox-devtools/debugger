@@ -11,7 +11,7 @@ import reducers from "../reducers";
 import actions from "../actions";
 import selectors from "../selectors";
 import { getHistory } from "../test/utils/history";
-import configureStore from "../utils/create-store";
+import configureStore from "../actions/utils/create-store";
 
 /**
  * @memberof utils/test-head
