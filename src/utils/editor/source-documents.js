@@ -82,7 +82,11 @@ function setEditorText(editor: Object, source: Source) {
  * Handle getting the source document or creating a new
  * document with the correct mode and text.
  */
-function showSourceText(editor: Object, source: Source, metaData: SourceMetaDataType) {
+function showSourceText(
+  editor: Object,
+  source: Source,
+  metaData: SourceMetaDataType
+) {
   if (!source) {
     return;
   }
