@@ -89,7 +89,7 @@ export async function syncClientBreakpoint(
   // send update only to redux
   if (pendingBreakpoint.disabled || (existingClient && isSameLocation)) {
     return createSyncData(
-      pendingBreakpoint.location.sourceId,
+      existingClient.id,
       pendingBreakpoint,
       scopedLocation,
       scopedGeneratedLocation
