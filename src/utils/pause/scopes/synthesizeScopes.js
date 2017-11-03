@@ -27,20 +27,36 @@ function getSynteticScopeTitle(type, generatedScopes) {
 
 function findOriginalBindings(
   bindingsNames,
+  sourceBindings,
   generatedScopes,
   key,
   foundGeneratedNames
 ) {
   return bindingsNames.reduce((vars, name) => {
-    // Find binding name in the original source bindings
-    const generatedScope = generatedScopes.find(
-      gs => gs.sourceBindings && name in gs.sourceBindings
-    );
-    if (!generatedScope || !generatedScope.sourceBindings) {
-      return vars;
+    let generatedName, generatedScope;
+    if (sourceBindings) {
+      generatedName = sourceBindings[name];
+      generatedScope = generatedScopes.find(
+        ({ bindings }) =>
+          bindings &&
+          (generatedName in bindings.variables ||
+            bindings.arguments.some(arg => generatedName in arg))
+      );
+      if (!generatedScope) {
+        return vars;
+      }
+    } else {
+      // Find binding name in the original source bindings
+      generatedScope = generatedScopes.find(
+        gs => gs.sourceBindings && name in gs.sourceBindings
+      );
+      if (!generatedScope || !generatedScope.sourceBindings) {
+        return vars;
+      }
+      // .. and map it to the generated name
+      generatedName = generatedScope.sourceBindings[name];
     }
-    // .. and map it to the generated name
-    const generatedName = generatedScope.sourceBindings[name];
+
     // Skip if we already use the generated name
     if (generatedName && !foundGeneratedNames[generatedName]) {
       if (generatedScope.bindings.variables[generatedName]) {
@@ -102,11 +118,12 @@ function synthesizeScope(
   selectedFrame: Frame,
   why: Why
 ): NamedValue[] {
-  const { bindingsNames } = syntheticScope;
+  const { bindingsNames, sourceBindings } = syntheticScope;
   const isLast = index === lastScopeIndex;
 
   let vars = findOriginalBindings(
     bindingsNames,
+    sourceBindings,
     generatedScopes,
     key,
     foundGeneratedNames

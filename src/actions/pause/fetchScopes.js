@@ -28,6 +28,9 @@ function mapScopes(scopes: Scope, frame: Frame) {
           const astScopes: ?(SourceScope[]) = await getScopes(location);
           return sourceMaps.getLocationScopes(location, astScopes);
         },
+        async getSourceMapsOriginalScopes(location) {
+          return sourceMaps.getOriginalScopes(location);
+        },
         async getOriginalSourceScopes(location) {
           const source = getSource(getState(), location.sourceId);
           await dispatch(loadSourceText(source));
