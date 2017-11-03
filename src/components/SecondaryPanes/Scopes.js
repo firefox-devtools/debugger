@@ -66,6 +66,7 @@ class Scopes extends PureComponent<Props, State> {
         <div className="pane scopes-list">
           <ObjectInspector
             roots={scopes}
+            autoExpandAll={false}
             autoExpandDepth={1}
             getObjectProperties={id => loadedObjects[id]}
             loadObjectProperties={loadObjectProperties}
