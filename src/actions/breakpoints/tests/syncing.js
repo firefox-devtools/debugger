@@ -43,6 +43,7 @@ function setBreakpoint(location, condition) {
 }
 
 const clientBreakpoint = {
+  id: "foo",
   actualLocation: {
     sourceUrl: "http://localhost:8000/gen.js",
     sourceId: "gen.js",
