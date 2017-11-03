@@ -22,6 +22,12 @@ type EmptyLinesType = number[];
 export type SymbolsMap = Map<string, SymbolDeclarations>;
 export type EmptyLinesMap = Map<string, EmptyLinesType>;
 
+export type SourceMetaDataType = {
+  isReactComponent: boolean
+};
+
+export type SourceMetaDataMap = Map<string, SourceMetaDataType>;
+
 export type Preview =
   | {| updating: true |}
   | null
@@ -39,7 +45,7 @@ export type ASTState = {
   emptyLines: EmptyLinesMap,
   outOfScopeLocations: ?Array<AstLocation>,
   preview: Preview,
-  metaData: Object
+  metaData: SourceMetaDataMap
 };
 
 export function initialState() {
@@ -49,7 +55,7 @@ export function initialState() {
       emptyLines: I.Map(),
       outOfScopeLocations: null,
       preview: null,
-      metaData: {}
+      metaData: I.Map()
     }: ASTState)
   )();
 }

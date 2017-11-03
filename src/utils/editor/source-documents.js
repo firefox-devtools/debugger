@@ -5,6 +5,7 @@ import { getMode } from "../source";
 import type { Source } from "debugger-html";
 import { isWasm, getWasmLineNumberFormatter, renderWasmText } from "../wasm";
 import { resizeBreakpointGutter, resizeToggleButton } from "../ui";
+import type { SourceMetaDataType } from "../../reducers/ast";
 
 let sourceDocs = {};
 
@@ -81,7 +82,7 @@ function setEditorText(editor: Object, source: Source) {
  * Handle getting the source document or creating a new
  * document with the correct mode and text.
  */
-function showSourceText(editor: Object, source: Source, metaData) {
+function showSourceText(editor: Object, source: Source, metaData: SourceMetaDataType) {
   if (!source) {
     return;
   }

@@ -11,6 +11,7 @@ import { basename } from "../utils/path";
 import { parse as parseURL } from "url";
 
 import type { Source } from "../types";
+import type { SourceMetaDataType } from "../reducers/ast";
 
 type transformUrlCallback = string => string;
 
@@ -199,7 +200,7 @@ function getSourceLineCount(source: Source) {
  * @static
  */
 
-function getMode(source: Source, metaData) {
+function getMode(source: Source, metaData: SourceMetaDataType) {
   const { contentType, text, isWasm, url } = source;
 
   if (!text || isWasm) {
