@@ -24,6 +24,7 @@ exports[`ast valid location returns name for a nested anon fn as the parent func
 Object {
   "name": "outer",
   "offset": Object {
+    "column": undefined,
     "line": 22,
   },
 }
@@ -33,6 +34,7 @@ exports[`ast valid location returns name for a nested named fn 1`] = `
 Object {
   "name": "inner",
   "offset": Object {
+    "column": undefined,
     "line": 1,
   },
 }
@@ -42,6 +44,7 @@ exports[`ast valid location returns name for an anon fn with a named variable 1`
 Object {
   "name": "globalDeclaration",
   "offset": Object {
+    "column": undefined,
     "line": 1,
   },
 }
@@ -51,6 +54,7 @@ exports[`ast valid location returns the scope and offset 1`] = `
 Object {
   "name": "math",
   "offset": Object {
+    "column": undefined,
     "line": 5,
   },
 }

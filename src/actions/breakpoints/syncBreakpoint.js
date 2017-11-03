@@ -1,3 +1,4 @@
+// @flow
 import {
   locationMoved,
   createBreakpoint,
@@ -9,8 +10,19 @@ import {
 import { getGeneratedLocation } from "../../utils/source-maps";
 import { originalToGeneratedId } from "devtools-source-map";
 import { getSource } from "../../selectors";
+import type {
+  BreakpointSyncData,
+  Location,
+  ASTLocation,
+  PendingBreakpoint,
+  SourceId
+} from "debugger-html";
 
-async function makeScopedLocation({ name, offset }, location, source) {
+async function makeScopedLocation(
+  { name, offset }: ASTLocation,
+  location: Location,
+  source
+) {
   const scope = await findScopeByName(source, name);
   // fallback onto the location line, if the scope is not found
   // note: we may at some point want to delete the breakpoint if the scope
@@ -25,12 +37,12 @@ async function makeScopedLocation({ name, offset }, location, source) {
 }
 
 function createSyncData(
-  id,
-  pendingBreakpoint,
-  location,
-  generatedLocation,
-  previousLocation = null
-) {
+  id: SourceId,
+  pendingBreakpoint: PendingBreakpoint,
+  location: Location,
+  generatedLocation: Location,
+  previousLocation: Location | null = null
+): BreakpointSyncData {
   const overrides = { ...pendingBreakpoint, generatedLocation, id };
   const breakpoint = createBreakpoint(location, overrides);
 
@@ -41,12 +53,12 @@ function createSyncData(
 // we have three forms of syncing: disabled syncing, existing server syncing
 // and adding a new breakpoint
 export async function syncClientBreakpoint(
-  getState,
-  client,
-  sourceMaps,
-  sourceId,
+  getState: Function,
+  client: Object,
+  sourceMaps: Object,
+  sourceId: SourceId,
   pendingBreakpoint: PendingBreakpoint
-) {
+): Promise<BreakpointSyncData> {
   assertPendingBreakpoint(pendingBreakpoint);
 
   const source = getSource(getState(), sourceId).toJS();
@@ -88,8 +100,9 @@ export async function syncClientBreakpoint(
   // early return if breakpoint is disabled or we are in the sameLocation
   // send update only to redux
   if (pendingBreakpoint.disabled || (existingClient && isSameLocation)) {
+    const id = pendingBreakpoint.disabled ? "" : existingClient.id;
     return createSyncData(
-      existingClient.id,
+      id,
       pendingBreakpoint,
       scopedLocation,
       scopedGeneratedLocation
