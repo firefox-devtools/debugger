@@ -16,7 +16,8 @@ import type { SourceRecord, BreakpointsMap } from "../../reducers/types";
 type Props = {
   selectedSource: SourceRecord,
   breakpoints: BreakpointsMap,
-  editor: Object
+  editor: Object,
+  metaData: Object
 };
 
 class Breakpoints extends Component<Props> {
