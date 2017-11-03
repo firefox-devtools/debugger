@@ -53,7 +53,15 @@ registerCleanupFunction(() => {
 });
 
 function log(msg, data) {
-  info(`${msg} ${JSON.stringify(data)}`);
+  info(`${msg} ${!data ? "" : JSON.stringify(data)}`);
+}
+
+function logThreadEvents(dbg, event) {
+  const thread = dbg.toolbox.threadClient;
+
+  thread.addListener(event, function onEvent(eventName, ...args) {
+    info(`Thread event '${eventName}' fired.`);
+  });
 }
 
 // Wait until an action of `type` is dispatched. This is different
@@ -113,11 +121,11 @@ function waitForDispatch(dbg, type, eventRepeat = 1) {
   let count = 0;
 
   return Task.spawn(function*() {
-    info("Waiting for " + type + " to dispatch " + eventRepeat + " time(s)");
+    info(`Waiting for ${type} to dispatch ${eventRepeat} time(s)`);
     while (count < eventRepeat) {
       yield _afterDispatchDone(dbg.store, type);
       count++;
-      info(type + " dispatched " + count + " time(s)");
+      info(`${type} dispatched ${count} time(s)`);
     }
   });
 }
@@ -132,12 +140,12 @@ function waitForDispatch(dbg, type, eventRepeat = 1) {
  * @static
  */
 function waitForThreadEvents(dbg, eventName) {
-  info("Waiting for thread event '" + eventName + "' to fire.");
+  info(`Waiting for thread event '${eventName}' to fire.`);
   const thread = dbg.toolbox.threadClient;
 
   return new Promise(function(resolve, reject) {
     thread.addListener(eventName, function onEvent(eventName, ...args) {
-      info("Thread event '" + eventName + "' fired.");
+      info(`Thread event '${eventName}' fired.`);
       thread.removeListener(eventName, onEvent);
       resolve.apply(resolve, args);
     });
@@ -184,7 +192,7 @@ function waitForSources(dbg, ...sources) {
     return Promise.resolve();
   }
 
-  info("Waiting on sources: " + sources.join(", "));
+  info(`Waiting on sources: ${sources.join(", ")}`);
   const { selectors: { getSources }, store } = dbg;
   return Promise.all(
     sources.map(url => {
@@ -339,6 +347,14 @@ function isPaused(dbg) {
   return !!getPause(getState());
 }
 
+async function waitForLoadedObjects(dbg) {
+  const { hasLoadingObjects } = dbg.selectors;
+  return waitForState(
+    dbg,
+    state => !hasLoadingObjects(state),
+    "loaded objects"
+  );
+}
 /**
  * Waits for the debugger to be fully paused.
  *
@@ -355,9 +371,7 @@ async function waitForPaused(dbg) {
       const paused = isPaused(dbg);
       const scope = !!getSelectedScope(state);
       const loaded = !hasLoadingObjects(state);
-      return (
-        isPaused(dbg) && getSelectedScope(state) && !hasLoadingObjects(state)
-      );
+      return paused && scope && loaded;
     },
     "paused"
   );
@@ -486,7 +500,7 @@ function findSource(dbg, url) {
   const source = sources.find(s => (s.get("url") || "").includes(url));
 
   if (!source) {
-    throw new Error("Unable to find source: " + url);
+    throw new Error(`Unable to find source: ${url}`);
   }
 
   return source.toJS();
@@ -496,7 +510,7 @@ function waitForLoadedSource(dbg, url) {
   return waitForState(
     dbg,
     state => findSource(dbg, url).loadedState == "loaded",
-    `loaded source`
+    "loaded source"
   );
 }
 
@@ -511,13 +525,13 @@ function waitForLoadedSource(dbg, url) {
  * @static
  */
 function selectSource(dbg, url, line) {
-  info("Selecting source: " + url);
+  info(`Selecting source: ${url}`);
   const source = findSource(dbg, url);
   return dbg.actions.selectSource(source.id, { location: { line } });
 }
 
 function closeTab(dbg, url) {
-  info("Closing tab: " + url);
+  info(`Closing tab: ${url}`);
   const source = findSource(dbg, url);
   return dbg.actions.closeTab(source.url);
 }
@@ -662,7 +676,7 @@ function removeBreakpoint(dbg, sourceId, line, col) {
  * @return {Promise}
  * @static
  */
-function togglePauseOnExceptions(
+async function togglePauseOnExceptions(
   dbg,
   pauseOnExceptions,
   ignoreCaughtExceptions
@@ -673,10 +687,15 @@ function togglePauseOnExceptions(
   );
 
   if (!isPaused(dbg)) {
-    return waitForThreadEvents(dbg, "resumed");
+    await waitForThreadEvents(dbg, "resumed");
+    await waitForLoadedObjects(dbg);
   }
 
   return command;
+}
+
+function waitForActive(dbg) {
+  return waitForState(dbg, state => !dbg.selectors.isPaused(state), "active");
 }
 
 // Helpers
@@ -795,7 +814,7 @@ const selectors = {
   highlightLine: ".CodeMirror-code > .highlight-line",
   codeMirror: ".CodeMirror",
   resume: ".resume.active",
-  sourceTabs: `.source-tabs`,
+  sourceTabs: ".source-tabs",
   stepOver: ".stepOver.active",
   stepOut: ".stepOut.active",
   stepIn: ".stepIn.active",
@@ -806,8 +825,8 @@ const selectors = {
   sourceNode: i => `.sources-list .tree-node:nth-child(${i})`,
   sourceNodes: ".sources-list .tree-node",
   sourceArrow: i => `.sources-list .tree-node:nth-child(${i}) .arrow`,
-  resultItems: `.result-list .result-item`,
-  fileMatch: `.managed-tree .result`
+  resultItems: ".result-list .result-item",
+  fileMatch: ".managed-tree .result"
 };
 
 function getSelector(elementName, ...args) {
