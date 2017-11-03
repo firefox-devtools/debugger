@@ -41,6 +41,9 @@ export async function updateScopeBindings(
       );
       return generatedScopes;
     },
+    async getSourceMapsOriginalScopes(location) {
+      return sourceMaps.getOriginalScopes(location);
+    },
     async getOriginalSourceScopes(location) {
       return getScopes(location);
     }

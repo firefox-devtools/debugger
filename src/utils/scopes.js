@@ -150,7 +150,7 @@ function synthesizeScope(
     pauseInfo,
     result
   } = acc;
-  const { type, bindingsNames } = syntheticScope;
+  const { type, bindingsNames, sourceBindings } = syntheticScope;
   const key = `${actor}-${scopeIndex + index}`;
   const isLast = index === lastScopeIndex;
 
@@ -170,15 +170,29 @@ function synthesizeScope(
 
   let vars = [];
   bindingsNames.forEach(name => {
-    // Find binding name in the original source bindings
-    const generatedScope = generatedScopes.find(
-      gs => gs.sourceBindings && name in gs.sourceBindings
-    );
-    if (!generatedScope || !generatedScope.sourceBindings) {
-      return;
+    let generatedName, generatedScope;
+    if (sourceBindings) {
+      generatedName = sourceBindings[name];
+      generatedScope = generatedScopes.find(
+        ({ bindings }) =>
+          bindings &&
+          (generatedName in bindings.variables ||
+            bindings.arguments.some(arg => generatedName in arg))
+      );
+      if (!generatedScope) {
+        return;
+      }
+    } else {
+      // Find binding name in the original source bindings
+      generatedScope = generatedScopes.find(
+        gs => gs.sourceBindings && name in gs.sourceBindings
+      );
+      if (!generatedScope || !generatedScope.sourceBindings) {
+        return;
+      }
+      // .. and map it to the generated name
+      generatedName = generatedScope.sourceBindings[name];
     }
-    // .. and map it to the generated name
-    const generatedName = generatedScope.sourceBindings[name];
     // Skip if we already use the generated name
     if (generatedName && !foundGeneratedNames[generatedName]) {
       if (generatedScope.bindings.variables[generatedName]) {
