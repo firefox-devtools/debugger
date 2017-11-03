@@ -37,6 +37,7 @@ import EmptyLines from "./EmptyLines";
 import GutterMenu from "./GutterMenu";
 import EditorMenu from "./EditorMenu";
 import ConditionalPanel from "./ConditionalPanel";
+import type { SourceMetaDataType } from "../../reducers/ast";
 
 import {
   showSourceText,
@@ -85,7 +86,8 @@ type Props = {
   openConditionalPanel: Function,
   closeConditionalPanel: Function,
   continueToHere: Function,
-  setContextMenu: Function
+  setContextMenu: Function,
+  metaData: SourceMetaDataType
 };
 
 type State = {
