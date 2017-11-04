@@ -134,7 +134,9 @@ class SecondaryPanes extends Component<Props> {
       </ul>
     );
 
-    return <Dropdown panel={Panel} icon={<Svg name="plus" />} />;
+    return (
+      <Dropdown class="dropdown" panel={Panel} icon={<Svg name="plus" />} />
+    );
   }
 
   watchExpressionHeaderButtons() {
