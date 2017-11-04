@@ -33,7 +33,6 @@ import CommandBar from "./CommandBar";
 import Dropdown from "../shared/Dropdown";
 import UtilsBar from "./UtilsBar";
 
-
 import _chromeScopes from "./ChromeScopes";
 import _Scopes from "./Scopes";
 import { Services } from "devtools-modules";
@@ -49,11 +48,11 @@ const KEYS = {
   },
   Darwin: {
     resume: "Cmd+\\",
-    pause: "Cmd+\\",
+    pause: "Cmd+\\"
   },
   Linux: {
     resume: "F8",
-    pause: "F8",
+    pause: "F8"
   }
 };
 const COMMANDS = ["resume", "pause"];
@@ -110,13 +109,15 @@ type Props = {
   toggleAllBreakpoints: Function,
   toggleShortcutsModal: Function,
   pause: any,
+  resume: any,
   pauseOnExceptions: (boolean, boolean) => void,
+  breakOnNext: () => void,
+  isWaitingOnBreak: any,
   shouldPauseOnExceptions: boolean,
-  shouldIgnoreCaughtExceptions: boolean,
+  shouldIgnoreCaughtExceptions: boolean
 };
 
 class SecondaryPanes extends Component<Props> {
-
   componentWillUnmount() {
     const shortcuts = this.context.shortcuts;
     COMMANDS.forEach(action => shortcuts.off(getKey(action)));
@@ -130,7 +131,7 @@ class SecondaryPanes extends Component<Props> {
 
     COMMANDS.forEach(action =>
       shortcuts.on(getKey(action), (_, e) => this.handleEvent(e, action))
-      );
+    );
   }
 
   renderBreakpointsToggle() {
@@ -211,7 +212,7 @@ class SecondaryPanes extends Component<Props> {
       "active",
       L10N.getFormatStr("pauseButtonTooltip", formatKey("pause"))
     );
-}
+  }
 
   /*
    * The pause on exception button has three states in this order:
@@ -220,43 +221,42 @@ class SecondaryPanes extends Component<Props> {
    *  3. pause on all exceptions        [true, false]
   */
   renderPauseOnExceptions() {
-    const {
-      shouldPauseOnExceptions,
-      shouldIgnoreCaughtExceptions
-    } = this.props;
-
-    if (!shouldPauseOnExceptions && !shouldIgnoreCaughtExceptions) {
-      return debugBtn(
-        () => actions.pauseOnExceptions(true, true),
-        "pause-exceptions",
-        "enabled",
-        L10N.getStr("ignoreExceptions")
-      );
-    }
-
-    if (shouldPauseOnExceptions && shouldIgnoreCaughtExceptions) {
-      return debugBtn(
-        () => actions.pauseOnExceptions(true, false),
-        "pause-exceptions",
-        "uncaught enabled",
-        L10N.getStr("pauseOnUncaughtExceptions")
-      );
-    }
-
     return debugBtn(
       () => actions.pauseOnExceptions(false, false),
       "pause-exceptions",
       "all enabled",
       L10N.getStr("pauseOnExceptions")
     );
-}
+  }
+
+  renderPauseOnUncaughtExceptions() {
+    return debugBtn(
+      () => actions.pauseOnExceptions(true, false),
+      "pause-exceptions",
+      "uncaught enabled",
+      L10N.getStr("pauseOnUncaughtExceptions")
+    );
+  }
+
+  renderIgnoreExceptions() {
+    return debugBtn(
+      () => actions.pauseOnExceptions(true, true),
+      "pause-exceptions",
+      "enabled",
+      L10N.getStr("ignoreExceptions")
+    );
+  }
 
   renderBreakpointsDropdown() {
     const Panel = (
       <ul>
-        <li> { this.renderPauseButton() } Pause on Next Statement</li>
-        <li>Pause on Uncaught Exceptions</li>
-        <li> { this.renderPauseOnExceptions() } Pause on Exceptions </li>
+        <li> {this.renderPauseButton()} Pause on Next Statement</li>
+        <li>
+          {" "}
+          {this.renderPauseOnUncaughtExceptions()} Pause on Uncaught Exceptions
+        </li>
+        <li> {this.renderPauseOnExceptions()} Pause on Exceptions </li>
+        <li> {this.renderIgnoreExceptions()} Ignore Exceptions </li>
       </ul>
     );
 
