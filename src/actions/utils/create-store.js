@@ -11,12 +11,12 @@
  */
 
 import { createStore, applyMiddleware } from "redux";
-import { waitUntilService } from "./wait-service";
-import { log } from "./log";
-import { history } from "./history";
-import { promise } from "./promise";
-import { thunk } from "./thunk";
-import { timing } from "./timing";
+import { waitUntilService } from "./middleware/wait-service";
+import { log } from "./middleware/log";
+import { history } from "./middleware/history";
+import { promise } from "./middleware/promise";
+import { thunk } from "./middleware/thunk";
+import { timing } from "./middleware/timing";
 
 /**
  * @memberof utils/create-store
