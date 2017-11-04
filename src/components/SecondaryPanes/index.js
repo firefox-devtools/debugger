@@ -18,12 +18,14 @@ import {
   getShouldIgnoreCaughtExceptions,
   getBreakpoints,
   getBreakpointsDisabled,
-  getBreakpointsLoading
+  getBreakpointsLoading,
+  getIsWaitingOnBreak
 } from "../../selectors";
 
 import { isEnabled } from "devtools-config";
 import Svg from "../shared/Svg";
 import { prefs } from "../../utils/prefs";
+import { formatKeyShortcut } from "../../utils/text";
 
 import Breakpoints from "./Breakpoints";
 import Expressions from "./Expressions";
@@ -36,12 +38,30 @@ import CommandBar from "./CommandBar";
 import Dropdown from "../shared/Dropdown";
 import UtilsBar from "./UtilsBar";
 
+
 import _chromeScopes from "./ChromeScopes";
 import _Scopes from "./Scopes";
-
-const Scopes = isEnabled("chromeScopes") ? _chromeScopes : _Scopes;
-
+import { Services } from "devtools-modules";
 import "./SecondaryPanes.css";
+
+const { appinfo } = Services;
+const Scopes = isEnabled("chromeScopes") ? _chromeScopes : _Scopes;
+const isMacOS = appinfo.OS === "Darwin";
+const KEYS = {
+  WINNT: {
+    resume: "F8",
+    pause: "F8"
+  },
+  Darwin: {
+    resume: "Cmd+\\",
+    pause: "Cmd+\\",
+  },
+  Linux: {
+    resume: "F8",
+    pause: "F8",
+  }
+};
+const COMMANDS = ["resume", "pause"];
 
 type SecondaryPanesItems = {
   header: string,
@@ -65,6 +85,26 @@ function debugBtn(onClick, type, className, tooltip) {
   );
 }
 
+function getKey(action) {
+  return getKeyForOS(appinfo.OS, action);
+}
+
+function getKeyForOS(os, action) {
+  const osActions = KEYS[os] || KEYS.Linux;
+  return osActions[action];
+}
+
+function formatKey(action) {
+  const key = getKey(`${action}Display`) || getKey(action);
+  if (isMacOS) {
+    const winKey =
+      getKeyForOS("WINNT", `${action}Display`) || getKeyForOS("WINNT", action);
+    // display both Windows type and Mac specific keys
+    return formatKeyShortcut([key, winKey].join(" "));
+  }
+  return formatKeyShortcut(key);
+}
+
 type Props = {
   evaluateExpressions: Function,
   pauseData: Object,
@@ -81,6 +121,23 @@ type Props = {
 };
 
 class SecondaryPanes extends Component<Props> {
+
+  componentWillUnmount() {
+    const shortcuts = this.context.shortcuts;
+    COMMANDS.forEach(action => shortcuts.off(getKey(action)));
+    if (isMacOS) {
+      COMMANDS.forEach(action => shortcuts.off(getKeyForOS("WINNT", action)));
+    }
+  }
+
+  componentDidMount() {
+    const shortcuts = this.context.shortcuts;
+
+    COMMANDS.forEach(action =>
+      shortcuts.on(getKey(action), (_, e) => this.handleEvent(e, action))
+      );
+  }
+
   renderBreakpointsToggle() {
     const {
       toggleAllBreakpoints,
@@ -131,6 +188,36 @@ class SecondaryPanes extends Component<Props> {
     );
   }
 
+  renderPauseButton() {
+    const { pauseData, breakOnNext, isWaitingOnBreak } = this.props;
+
+    if (pauseData) {
+      return debugBtn(
+        this.props.resume,
+        "resume",
+        "active",
+        L10N.getFormatStr("resumeButtonTooltip", formatKey("resume"))
+      );
+    }
+
+    if (isWaitingOnBreak) {
+      return debugBtn(
+        null,
+        "pause",
+        "disabled",
+        L10N.getStr("pausePendingButtonTooltip"),
+        true
+      );
+    }
+
+    return debugBtn(
+      breakOnNext,
+      "pause",
+      "active",
+      L10N.getFormatStr("pauseButtonTooltip", formatKey("pause"))
+    );
+}
+
   /*
    * The pause on exception button has three states in this order:
    *  1. don't pause on exceptions      [false, false]
@@ -140,8 +227,7 @@ class SecondaryPanes extends Component<Props> {
   renderPauseOnExceptions() {
     const {
       shouldPauseOnExceptions,
-      shouldIgnoreCaughtExceptions,
-      pauseOnExceptions
+      shouldIgnoreCaughtExceptions
     } = this.props;
 
     if (!shouldPauseOnExceptions && !shouldIgnoreCaughtExceptions) {
@@ -173,7 +259,7 @@ class SecondaryPanes extends Component<Props> {
   renderBreakpointsDropdown() {
     const Panel = (
       <ul>
-        <li>Pause on Next Statement</li>
+        <li> { this.renderPauseButton() } Pause on Next Statement</li>
         <li>Pause on Uncaught Exceptions</li>
         <li> { this.renderPauseOnExceptions() } Pause on Exceptions </li>
       </ul>
@@ -359,7 +445,7 @@ export default connect(
     breakpointsLoading: getBreakpointsLoading(state),
     shouldPauseOnExceptions: getShouldPauseOnExceptions(state),
     shouldIgnoreCaughtExceptions: getShouldIgnoreCaughtExceptions(state),
-    pause: getPause(state),
+    isWaitingOnBreak: getIsWaitingOnBreak(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(SecondaryPanes);
