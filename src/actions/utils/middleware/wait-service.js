@@ -1,5 +1,10 @@
 // @flow
 
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+/* global window */
+
 /**
  * A middleware which acts like a service, because it is stateful
  * and "long-running" in the background. It provides the ability
@@ -22,7 +27,7 @@
  */
 const NAME = (exports.NAME = "@@service/waitUntil");
 
-import type { ThunkArgs } from "../../../actions/types";
+import type { ThunkArgs } from "../../types";
 
 export function waitUntilService({ dispatch, getState }: ThunkArgs) {
   let pending = [];

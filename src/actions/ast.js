@@ -10,7 +10,7 @@ import {
 } from "../selectors";
 
 import { getMappedExpression } from "./expressions";
-import { PROMISE } from "../utils/redux/middleware/promise";
+import { PROMISE } from "./utils/middleware/promise";
 import {
   getSymbols,
   getEmptyLines,
