@@ -29,13 +29,51 @@ function generateDefaults(overrides) {
 
 function render(overrides = {}) {
   const props = generateDefaults(overrides);
-  const component = shallow(<Editor.WrappedComponent {...props} />);
-  return { component, props };
+  const mockEditor = {
+    codeMirror: {
+      doc: {},
+      setOption: jest.fn(),
+      display: { gutters: { querySelector: jest.fn() } }
+    },
+    setText: jest.fn(),
+    on: jest.fn(),
+    off: jest.fn(),
+    createDocument: () => ({}),
+    replaceDocument: jest.fn(),
+    setMode: jest.fn()
+  };
+  Editor.WrappedComponent.prototype.setupEditor = () => {
+    return mockEditor;
+  };
+  const component = shallow(<Editor.WrappedComponent {...props} />, {
+    context: {
+      shortcuts: { on: jest.fn() }
+    }
+  });
+  return { component, props, mockEditor };
 }
 
 describe("Editor", () => {
   it("should render", async () => {
     const { component } = render();
     expect(component).toMatchSnapshot();
+  });
+
+  it("should be loading", async () => {
+    const { component, mockEditor } = render();
+    await component.setState({ editor: mockEditor });
+    component.setProps({
+      selectedSource: I.fromJS({ loadedState: "loading" })
+    });
+    expect(mockEditor.setText.mock.calls).toEqual([["Loading…"]]);
+  });
+
+  it("should set text", async () => {
+    const { component, mockEditor } = render();
+    await component.setState({ editor: mockEditor });
+    component.setProps({
+      selectedSource: I.fromJS({ text: "text change", loadedState: "loaded" })
+    });
+    expect(mockEditor.setText.mock.calls).toEqual([["text change"]]);
   });
 });
