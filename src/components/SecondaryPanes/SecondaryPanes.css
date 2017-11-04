@@ -52,3 +52,9 @@
   margin-top: 3px;
   fill: var(--theme-comment-alt);
 }
+
+.dropdown {
+  width: 20em;
+  overflow: auto;
+}
+
