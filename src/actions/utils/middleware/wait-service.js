@@ -27,7 +27,7 @@
  */
 const NAME = (exports.NAME = "@@service/waitUntil");
 
-import type { ThunkArgs } from "../types";
+import type { ThunkArgs } from "../../types";
 
 export function waitUntilService({ dispatch, getState }: ThunkArgs) {
   let pending = [];

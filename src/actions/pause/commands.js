@@ -2,7 +2,7 @@
 
 import { getPause, getSelectedSource } from "../../selectors";
 import { getPausedPosition } from "../../utils/pause";
-import { PROMISE } from "../utils/promise";
+import { PROMISE } from "../utils/middleware/promise";
 import { getNextStep } from "../../workers/parser";
 import { addHiddenBreakpoint } from "../breakpoints";
 import { features } from "../../utils/prefs";

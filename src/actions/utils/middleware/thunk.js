@@ -5,7 +5,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 /* global window */
 
-import type { ThunkArgs, ActionType } from "../types";
+import type { ThunkArgs, ActionType } from "../../types";
 
 /**
  * A middleware that allows thunks (functions) to be dispatched. If

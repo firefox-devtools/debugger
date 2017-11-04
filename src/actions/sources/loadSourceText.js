@@ -1,5 +1,5 @@
 // @flow
-import { PROMISE } from "../utils/promise";
+import { PROMISE } from "../utils/middleware/promise";
 import { setEmptyLines, setSymbols } from "../ast";
 import { getSource } from "../../selectors";
 import { setSource } from "../../workers/parser";

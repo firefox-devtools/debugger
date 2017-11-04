@@ -8,7 +8,7 @@
  * @module actions/breakpoints
  */
 
-import { PROMISE } from "./utils/promise";
+import { PROMISE } from "./utils/middleware/promise";
 import {
   getBreakpoint,
   getBreakpoints,

@@ -7,7 +7,7 @@
 
 import { isDevelopment } from "devtools-config";
 
-import type { ThunkArgs } from "../types";
+import type { ThunkArgs } from "../../types";
 
 /**
  * A middleware that stores every action coming through the store in the passed

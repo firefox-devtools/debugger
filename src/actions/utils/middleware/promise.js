@@ -5,9 +5,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import { fromPairs, toPairs } from "lodash";
-import { executeSoon } from "../../utils/DevToolsUtils";
+import { executeSoon } from "../../../utils/DevToolsUtils";
 
-import type { ThunkArgs } from "../types";
+import type { ThunkArgs } from "../../types";
 
 let seqIdVal = 1;
 
