@@ -139,6 +139,13 @@ class SecondaryPanes extends Component<Props> {
     );
   }
 
+  handleEvent(e, action) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    this.props[action]();
+  }
+
   renderBreakpointsToggle() {
     const {
       toggleAllBreakpoints,
@@ -206,8 +213,7 @@ class SecondaryPanes extends Component<Props> {
         null,
         "pause",
         "disabled",
-        L10N.getStr("pausePendingButtonTooltip"),
-        true
+        L10N.getStr("pausePendingButtonTooltip", true)
       );
     }
 
