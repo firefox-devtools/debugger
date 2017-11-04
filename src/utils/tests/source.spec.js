@@ -127,11 +127,27 @@ describe("sources", () => {
       expect(getMode(source)).toBe("elm");
     });
 
-    it("jsx", () => {
+    it("returns jsx if contentType jsx is given", () => {
       const source = {
         contentType: "text/jsx",
         text: "<h1></h1>",
         url: ""
+      };
+      expect(getMode(source)).toBe("jsx");
+    });
+
+    it("returns jsx if sourceMetaData says it's a react component", () => {
+      const source = {
+        text: "<h1></h1>",
+        url: ""
+      };
+      expect(getMode(source, { isReactComponent: true })).toBe("jsx");
+    });
+
+    it("returns jsx if the fileExtension is .jsx", () => {
+      const source = {
+        text: "<h1></h1>",
+        url: "myComponent.jsx"
       };
       expect(getMode(source)).toBe("jsx");
     });
