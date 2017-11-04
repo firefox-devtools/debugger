@@ -14,6 +14,8 @@ import ImPropTypes from "react-immutable-proptypes";
 import actions from "../../actions";
 import {
   getPause,
+  getShouldPauseOnExceptions,
+  getShouldIgnoreCaughtExceptions,
   getBreakpoints,
   getBreakpointsDisabled,
   getBreakpointsLoading
@@ -71,7 +73,11 @@ type Props = {
   breakpointsDisabled: boolean,
   breakpointsLoading: boolean,
   toggleAllBreakpoints: Function,
-  toggleShortcutsModal: Function
+  toggleShortcutsModal: Function,
+  pause: any,
+  pauseOnExceptions: (boolean, boolean) => void,
+  shouldPauseOnExceptions: boolean,
+  shouldIgnoreCaughtExceptions: boolean,
 };
 
 class SecondaryPanes extends Component<Props> {
@@ -125,12 +131,51 @@ class SecondaryPanes extends Component<Props> {
     );
   }
 
+  /*
+   * The pause on exception button has three states in this order:
+   *  1. don't pause on exceptions      [false, false]
+   *  2. pause on uncaught exceptions   [true, true]
+   *  3. pause on all exceptions        [true, false]
+  */
+  renderPauseOnExceptions() {
+    const {
+      shouldPauseOnExceptions,
+      shouldIgnoreCaughtExceptions,
+      pauseOnExceptions
+    } = this.props;
+
+    if (!shouldPauseOnExceptions && !shouldIgnoreCaughtExceptions) {
+      return debugBtn(
+        () => actions.pauseOnExceptions(true, true),
+        "pause-exceptions",
+        "enabled",
+        L10N.getStr("ignoreExceptions")
+      );
+    }
+
+    if (shouldPauseOnExceptions && shouldIgnoreCaughtExceptions) {
+      return debugBtn(
+        () => actions.pauseOnExceptions(true, false),
+        "pause-exceptions",
+        "uncaught enabled",
+        L10N.getStr("pauseOnUncaughtExceptions")
+      );
+    }
+
+    return debugBtn(
+      () => actions.pauseOnExceptions(false, false),
+      "pause-exceptions",
+      "all enabled",
+      L10N.getStr("pauseOnExceptions")
+    );
+}
+
   renderBreakpointsDropdown() {
     const Panel = (
       <ul>
         <li>Pause on Next Statement</li>
         <li>Pause on Uncaught Exceptions</li>
-        <li>Pause on Exceptions</li>
+        <li> { this.renderPauseOnExceptions() } Pause on Exceptions </li>
       </ul>
     );
 
@@ -311,7 +356,10 @@ export default connect(
     pauseData: getPause(state),
     breakpoints: getBreakpoints(state),
     breakpointsDisabled: getBreakpointsDisabled(state),
-    breakpointsLoading: getBreakpointsLoading(state)
+    breakpointsLoading: getBreakpointsLoading(state),
+    shouldPauseOnExceptions: getShouldPauseOnExceptions(state),
+    shouldIgnoreCaughtExceptions: getShouldIgnoreCaughtExceptions(state),
+    pause: getPause(state),
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(SecondaryPanes);
