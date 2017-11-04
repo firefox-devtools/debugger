@@ -212,8 +212,11 @@ function getMode(source: Source, sourceMetaData: SourceMetaDataType) {
     return { name: "text" };
   }
 
-  if (sourceMetaData && sourceMetaData.isReactComponent) {
-    return { name: "jsx" };
+  if (
+    (url && url.match(/\.jsx$/i)) ||
+    (sourceMetaData && sourceMetaData.isReactComponent)
+  ) {
+    return "jsx";
   }
 
   // if the url ends with .marko we set the name to Javascript so
