@@ -253,10 +253,19 @@ class SecondaryPanes extends Component<Props> {
         <li> {this.renderPauseButton()} Pause on Next Statement</li>
         <li>
           {" "}
-          {this.renderPauseOnUncaughtExceptions()} Pause on Uncaught Exceptions
+          {this.renderPauseOnUncaughtExceptions()}
+          {L10N.getStr("pauseOnUncaughtExceptions")})
         </li>
-        <li> {this.renderPauseOnExceptions()} Pause on Exceptions </li>
-        <li> {this.renderIgnoreExceptions()} Ignore Exceptions </li>
+        <li>
+          {" "}
+          {this.renderPauseOnExceptions()}
+          {L10N.getStr("pauseOnExceptions")}
+        </li>
+        <li>
+          {" "}
+          {this.renderIgnoreExceptions()}
+          {L10N.getStr("ignoreExceptions")}
+        </li>
       </ul>
     );
 
