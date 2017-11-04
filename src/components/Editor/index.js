@@ -605,7 +605,7 @@ const mapStateToProps = state => {
     selectedFrame: getSelectedFrame(state),
     coverageOn: getCoverageEnabled(state),
     conditionalPanelLine: getConditionalPanelLine(state),
-    sourceMetaData: getSourceMetaData(state)
+    sourceMetaData: getSourceMetaData(state, sourceId)
   };
 };
 

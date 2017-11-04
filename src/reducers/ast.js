@@ -120,7 +120,10 @@ function update(
     }
 
     case "SET_SOURCE_METADATA": {
-      return state.set("sourceMetaData", action.sourceMetaData);
+      return state.setIn(
+        ["sourceMetaData", action.sourceId],
+        action.sourceMetaData
+      );
     }
 
     default: {
@@ -179,8 +182,8 @@ export function getPreview(state: OuterState) {
   return state.ast.get("preview");
 }
 
-export function getSourceMetaData(state: OuterState) {
-  return state.ast.get("sourceMetaData");
+export function getSourceMetaData(state: OuterState, sourceId: string) {
+  return state.ast.getIn(["sourceMetaData", sourceId]) || {};
 }
 
 export default update;

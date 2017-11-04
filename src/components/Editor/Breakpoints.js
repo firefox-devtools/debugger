@@ -61,7 +61,7 @@ export default connect(
   state => ({
     breakpoints: getVisibleBreakpoints(state),
     selectedSource: getSelectedSource(state),
-    sourceMetaData: getSourceMetaData(state)
+    sourceMetaData: getSourceMetaData(state, getSelectedSource(state).id)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Breakpoints);
