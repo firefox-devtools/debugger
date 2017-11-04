@@ -6,8 +6,11 @@
 
 add_task(async function() {
   const dbg = await initDebugger("doc-frame-parameters.html");
+  await selectSource(dbg, "doc-frame-parameters");
+  const editor = getCM(bdg);
   is(true, true);
 });
+// GET PREVIEW: dbg.selectors.getPreview(dbg.getState());
 
 /* functon test() {
   Task.spawn(function*() {
