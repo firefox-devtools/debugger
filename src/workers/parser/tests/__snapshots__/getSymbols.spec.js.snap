@@ -643,6 +643,39 @@ imports:
 "
 `;
 
+exports[`Parser.getSymbols flow 1`] = `
+"functions:
+[(2, 2), (4, 3)]   renderHello(name) App
+
+variables:
+[(2, 14), (2, 26)]   name
+
+callExpressions:
+
+
+memberExpressions:
+
+
+objectProperties:
+
+
+comments:
+
+
+identifiers:
+[(1, 6), (1, 9)]  App App
+[(2, 2), (2, 13)]  renderHello renderHello
+[(2, 14), (2, 18)]  name name
+[(3, 20), (3, 24)]  name name
+[(1, 18), (1, 27)]  Component Component
+
+classes:
+[(1, 0), (5, 1)]   App
+
+imports:
+"
+`;
+
 exports[`Parser.getSymbols func 1`] = `
 "functions:
 [(1, 0), (3, 1)]   square(n)
