@@ -826,7 +826,9 @@ const selectors = {
   sourceNodes: ".sources-list .tree-node",
   sourceArrow: i => `.sources-list .tree-node:nth-child(${i}) .arrow`,
   resultItems: ".result-list .result-item",
-  fileMatch: ".managed-tree .result"
+  fileMatch: ".managed-tree .result",
+  popup: ".popover",
+  tooltip: ".tooltip"
 };
 
 function getSelector(elementName, ...args) {

@@ -1,4 +1,5 @@
 function main() {
+  const obj = { foo: 1, bar: 2 };
   // A comment so we can test that breakpoint sliding works across
   // multiple lines
   const func = foo(1, 2);
@@ -7,25 +8,33 @@ function main() {
 }
 
 function doEval() {
-  eval("(" + function() {
-    debugger;
+  eval(
+    "(" +
+      function() {
+        debugger;
 
-    window.evaledFunc = function() {
-      var foo = 1;
-      var bar = 2;
-      return foo + bar;
-    };
-  }.toString() + ")()");
+        window.evaledFunc = function() {
+          var foo = 1;
+          var bar = 2;
+          return foo + bar;
+        };
+      }.toString() +
+      ")()"
+  );
 }
 
 function doNamedEval() {
-  eval("(" + function() {
-    debugger;
+  eval(
+    "(" +
+      function() {
+        debugger;
 
-    window.evaledFunc = function() {
-      var foo = 1;
-      var bar = 2;
-      return foo + bar;
-    };
-  }.toString() + ")();\n //# sourceURL=evaled.js");
+        window.evaledFunc = function() {
+          var foo = 1;
+          var bar = 2;
+          return foo + bar;
+        };
+      }.toString() +
+      ")();\n //# sourceURL=evaled.js"
+  );
 }
