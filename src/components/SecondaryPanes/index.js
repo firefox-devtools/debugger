@@ -18,9 +18,12 @@ import {
 } from "../../selectors";
 
 import { isEnabled } from "devtools-config";
+import _chromeScopes from "./ChromeScopes";
+import _Scopes from "./Scopes";
+const Scopes = isEnabled("chromeScopes") ? _chromeScopes : _Scopes;
 import Svg from "../shared/Svg";
 import { prefs } from "../../utils/prefs";
-import { formatKeyShortcut } from "../../utils/text";
+import renderBreakpointsDropdown from "./BreakpointsDropdown";
 
 import Breakpoints from "./Breakpoints";
 import Expressions from "./Expressions";
@@ -30,32 +33,9 @@ import EventListeners from "./EventListeners";
 import Workers from "./Workers";
 import Accordion from "../shared/Accordion";
 import CommandBar from "./CommandBar";
-import Dropdown from "../shared/Dropdown";
 import UtilsBar from "./UtilsBar";
 
-import _chromeScopes from "./ChromeScopes";
-import _Scopes from "./Scopes";
-import { Services } from "devtools-modules";
 import "./SecondaryPanes.css";
-
-const { appinfo } = Services;
-const Scopes = isEnabled("chromeScopes") ? _chromeScopes : _Scopes;
-const isMacOS = appinfo.OS === "Darwin";
-const KEYS = {
-  WINNT: {
-    resume: "F8",
-    pause: "F8"
-  },
-  Darwin: {
-    resume: "Cmd+\\",
-    pause: "Cmd+\\"
-  },
-  Linux: {
-    resume: "F8",
-    pause: "F8"
-  }
-};
-const COMMANDS = ["resume", "pause"];
 
 type SecondaryPanesItems = {
   header: string,
@@ -79,26 +59,6 @@ function debugBtn(onClick, type, className, tooltip) {
   );
 }
 
-function getKey(action) {
-  return getKeyForOS(appinfo.OS, action);
-}
-
-function getKeyForOS(os, action) {
-  const osActions = KEYS[os] || KEYS.Linux;
-  return osActions[action];
-}
-
-function formatKey(action) {
-  const key = getKey(`${action}Display`) || getKey(action);
-  if (isMacOS) {
-    const winKey =
-      getKeyForOS("WINNT", `${action}Display`) || getKeyForOS("WINNT", action);
-    // display both Windows type and Mac specific keys
-    return formatKeyShortcut([key, winKey].join(" "));
-  }
-  return formatKeyShortcut(key);
-}
-
 type Props = {
   evaluateExpressions: Function,
   pauseData: Object,
@@ -118,29 +78,6 @@ type Props = {
 };
 
 class SecondaryPanes extends Component<Props> {
-  componentWillUnmount() {
-    const shortcuts = this.context.shortcuts;
-    COMMANDS.forEach(action => shortcuts.off(getKey(action)));
-    if (isMacOS) {
-      COMMANDS.forEach(action => shortcuts.off(getKeyForOS("WINNT", action)));
-    }
-  }
-
-  componentDidMount() {
-    const shortcuts = this.context.shortcuts;
-
-    COMMANDS.forEach(action =>
-      shortcuts.on(getKey(action), (_, e) => this.handleEvent(e, action))
-    );
-  }
-
-  handleEvent(e, action) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    this.props[action]();
-  }
-
   renderBreakpointsToggle() {
     const {
       toggleAllBreakpoints,
@@ -185,98 +122,9 @@ class SecondaryPanes extends Component<Props> {
 
     return (
       <div className="breakpoints-buttons">
-        {this.renderBreakpointsDropdown()}
+        {renderBreakpointsDropdown(this, actions)}
         <input {...inputProps} />
       </div>
-    );
-  }
-
-  renderPauseButton() {
-    const { pauseData, breakOnNext, isWaitingOnBreak } = this.props;
-
-    if (pauseData) {
-      return debugBtn(
-        this.props.resume,
-        "resume",
-        "active",
-        L10N.getFormatStr("resumeButtonTooltip", formatKey("resume"))
-      );
-    }
-
-    if (isWaitingOnBreak) {
-      return debugBtn(
-        null,
-        "pause",
-        "disabled",
-        L10N.getStr("pausePendingButtonTooltip", true)
-      );
-    }
-
-    return debugBtn(
-      breakOnNext,
-      "pause",
-      "active",
-      L10N.getFormatStr("pauseButtonTooltip", formatKey("pause"))
-    );
-  }
-
-  /*
-   * The pause on exception button has three states in this order:
-   *  1. don't pause on exceptions      [false, false]
-   *  2. pause on uncaught exceptions   [true, true]
-   *  3. pause on all exceptions        [true, false]
-  */
-  renderPauseOnExceptions() {
-    return debugBtn(
-      () => actions.pauseOnExceptions(false, false),
-      "pause-exceptions",
-      "all enabled",
-      L10N.getStr("pauseOnExceptions")
-    );
-  }
-
-  renderPauseOnUncaughtExceptions() {
-    return debugBtn(
-      () => actions.pauseOnExceptions(true, false),
-      "pause-exceptions",
-      "uncaught enabled",
-      L10N.getStr("pauseOnUncaughtExceptions")
-    );
-  }
-
-  renderIgnoreExceptions() {
-    return debugBtn(
-      () => actions.pauseOnExceptions(true, true),
-      "pause-exceptions",
-      "enabled",
-      L10N.getStr("ignoreExceptions")
-    );
-  }
-
-  renderBreakpointsDropdown() {
-    const Panel = (
-      <ul>
-        <li> {this.renderPauseButton()} Pause on Next Statement</li>
-        <li>
-          {" "}
-          {this.renderPauseOnUncaughtExceptions()}
-          {L10N.getStr("pauseOnUncaughtExceptions")})
-        </li>
-        <li>
-          {" "}
-          {this.renderPauseOnExceptions()}
-          {L10N.getStr("pauseOnExceptions")}
-        </li>
-        <li>
-          {" "}
-          {this.renderIgnoreExceptions()}
-          {L10N.getStr("ignoreExceptions")}
-        </li>
-      </ul>
-    );
-
-    return (
-      <Dropdown class="dropdown" panel={Panel} icon={<Svg name="plus" />} />
     );
   }
 
