@@ -216,7 +216,7 @@ class CommandBar extends Component<Props> {
         () => pauseOnExceptions(true, true),
         "pause-exceptions",
         "enabled",
-        L10N.getStr("ignoreExceptions")
+        L10N.getStr("ignoreExceptionsTooltip")
       );
     }
 
@@ -225,7 +225,7 @@ class CommandBar extends Component<Props> {
         () => pauseOnExceptions(true, false),
         "pause-exceptions",
         "uncaught enabled",
-        L10N.getStr("pauseOnUncaughtExceptions")
+        L10N.getStr("pauseOnUncaughtExceptionsTooltip")
       );
     }
 
@@ -233,7 +233,7 @@ class CommandBar extends Component<Props> {
       () => pauseOnExceptions(false, false),
       "pause-exceptions",
       "all enabled",
-      L10N.getStr("pauseOnExceptions")
+      L10N.getStr("pauseOnExceptionsTooltip")
     );
   }
 
