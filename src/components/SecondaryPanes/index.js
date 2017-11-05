@@ -127,7 +127,6 @@ class SecondaryPanes extends Component<Props> {
 
     return (
       <div className="breakpoints-buttons">
-        {renderBreakpointsDropdown(this, actions)}
         <input {...inputProps} />
       </div>
     );
@@ -182,7 +181,7 @@ class SecondaryPanes extends Component<Props> {
       {
         header: L10N.getStr("breakpoints.header"),
         className: "breakpoints-pane",
-        buttons: this.renderBreakpointsToggle(),
+        buttons: [renderBreakpointsDropdown(this, actions), this.renderBreakpointsToggle()],
         component: Breakpoints,
         opened: true
       },
