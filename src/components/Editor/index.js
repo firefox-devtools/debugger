@@ -185,10 +185,7 @@ class Editor extends PureComponent<Props, State> {
     );
 
     shortcuts.on(L10N.getStr("toggleBreakpoint.key"), this.onToggleBreakpoint);
-    shortcuts.on(
-      L10N.getStr("toggleCondPanel.key"),
-      this.toggleConditionalPanel
-    );
+    shortcuts.on(L10N.getStr("toggleCondPanel.key"), this.toggleCondPanelKey);
     shortcuts.on("Esc", this.onEscape);
     shortcuts.on(searchAgainPrevKey, this.onSearchAgain);
     shortcuts.on(searchAgainKey, this.onSearchAgain);
@@ -265,6 +262,14 @@ class Editor extends PureComponent<Props, State> {
     } else {
       this.props.toggleBreakpoint(sourceLine);
     }
+  };
+
+  toggleCondPanelKey = () => {
+    const { codeMirror } = this.state.editor;
+    const { selectedSource } = this.props;
+    const line = getCursorLine(codeMirror);
+    const sourceLine = toSourceLine(selectedSource.get("id"), line);
+    this.toggleConditionalPanel(sourceLine);
   };
 
   onKeyDown(e) {
