@@ -103,7 +103,7 @@ function evaluate(script: string) {
   return runtimeAgent.evaluate({ expression: script });
 }
 
-function debuggeeCommand(script: string) {
+function debuggeeCommand(script: string): Promise<void> {
   evaluate(script);
   return Promise.resolve();
 }
