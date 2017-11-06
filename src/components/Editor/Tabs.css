@@ -123,6 +123,11 @@
   line-height: 0;
 }
 
+.source-tab .close-btn img.close {
+  margin-top: 3px;
+  margin-left: -2px;
+}
+
 .source-tab.active .close-btn {
   visibility: visible;
 }

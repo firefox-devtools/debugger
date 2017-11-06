@@ -82,6 +82,15 @@
   flex-grow: 1;
 }
 
+.project-text-search .search-field .close-btn.big {
+  margin-top: 10px;
+}
+
+.project-text-search .search-field .close-btn.big img.close {
+  margin-top: 0px;
+  margin-left: 0px;
+}
+
 .project-text-search .managed-tree {
   overflow-y: auto;
   height: calc(100% - 81px);

@@ -60,7 +60,17 @@
 .expression-container__close-btn {
   position: absolute;
   offset-inline-end: 0px;
-  top: 4px;
+  top: 0px;
+}
+
+.expression-container__close-btn .close-btn {
+  padding-left: 3px;
+  margin-top: 2px;
+}
+
+.expression-container__close-btn .close-btn img.close {
+  padding-top: 11px;
+  margin-left: -0.5px;
 }
 
 .expression-content {
@@ -77,7 +87,7 @@
 }
 
 .expression-container:hover .close-btn {
-  display: block;
+  display: inline-block;
 }
 
 .expression-input {

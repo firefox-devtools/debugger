@@ -107,6 +107,11 @@ html .breakpoints-list .breakpoint.paused {
   top: 9px;
 }
 
+.breakpoint .close-btn img.close {
+  padding-top: 8px;
+  margin-left: -2px;
+}
+
 .breakpoint .close {
   visibility: hidden;
 }

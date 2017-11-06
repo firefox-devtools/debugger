@@ -2,43 +2,40 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-.close-btn path {
-  fill: var(--theme-comment-alt);
+.close-btn {
+  width: 14px;
+  height: 14px;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  padding-left: 4px;
 }
 
 .close-btn .close {
-  width: 14px;
-  height: 14px;
+  mask: url(/images/close.svg) no-repeat;
+  mask-size: 100%;
+  background-color: var(--theme-comment-alt);
+  width: 8px;
+  height: 8px;
   transition: all 0.15s ease-in-out;
-  border: 1px solid transparent;
-  border-radius: 2px;
   padding: 0;
   margin-top: 0;
   display: inline-flex;
   justify-content: center;
 }
 
-.close-btn .close svg {
-  width: 8px;
+.close-btn:hover img.close {
+  background-color: white;
 }
 
 .close-btn:hover {
   display: block;
-}
-
-.close-btn:hover .close {
-  background: var(--theme-selection-background);
-}
-
-.close-btn:hover .close path {
-  fill: white;
+  background-color: var(--theme-selection-background);
 }
 
 .close-btn.big {
-  padding: 11px;
-  margin-right: 7px;
-  width: 27px;
-  height: 40px;
+  padding: 3px;
+  width: 20px;
+  height: 20px;
 }
 
 .close-btn.big .close {
@@ -46,6 +43,6 @@
   height: 16px;
 }
 
-.close-btn.big .close svg {
-  width: 9px;
+.close-btn.big img.close {
+  width: 12px;
 }
