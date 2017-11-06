@@ -8,6 +8,7 @@ import getOutOfScopeLocations from "./getOutOfScopeLocations";
 import { getNextStep } from "./steps";
 import getEmptyLines from "./getEmptyLines";
 import { hasSyntaxError } from "./validate";
+import { isReactComponent } from "./frameworks";
 
 import { workerUtils } from "devtools-utils";
 const { workerHandler } = workerUtils;
@@ -26,5 +27,6 @@ self.onmessage = workerHandler({
   getVariablesInScope,
   getNextStep,
   getEmptyLines,
-  hasSyntaxError
+  hasSyntaxError,
+  isReactComponent
 });

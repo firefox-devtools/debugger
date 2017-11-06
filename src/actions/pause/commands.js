@@ -2,6 +2,7 @@
 
 import { getPause, getSelectedSource } from "../../selectors";
 import { getPausedPosition } from "../../utils/pause";
+import { PROMISE } from "../utils/middleware/promise";
 import { getNextStep } from "../../workers/parser";
 import { addHiddenBreakpoint } from "../breakpoints";
 import { features } from "../../utils/prefs";
@@ -18,12 +19,11 @@ type CommandType = "stepOver" | "stepIn" | "stepOut" | "resume";
  */
 export function command(type: CommandType) {
   return async ({ dispatch, client }: ThunkArgs) => {
-    // execute debugger thread command e.g. stepIn, stepOver
-    dispatch({ type: "COMMAND", value: { type } });
-
-    await client[type]();
-
-    dispatch({ type: "CLEAR_COMMAND" });
+    return dispatch({
+      type: "COMMAND",
+      command: type,
+      [PROMISE]: client[type]()
+    });
   };
 }
 

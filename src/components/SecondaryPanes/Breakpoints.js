@@ -44,7 +44,7 @@ type Props = {
   toggleAllBreakpoints: boolean => void,
   toggleDisabledBreakpoint: number => void,
   setBreakpointCondition: Location => void,
-  toggleConditionalBreakpointPanel: number => void
+  openConditionalPanel: number => void
 };
 
 function isCurrentlyPausedAtBreakpoint(pause, breakpoint) {
@@ -107,7 +107,7 @@ class Breakpoints extends PureComponent<Props> {
       toggleAllBreakpoints,
       toggleDisabledBreakpoint,
       setBreakpointCondition,
-      toggleConditionalBreakpointPanel,
+      openConditionalPanel,
       breakpoints
     } = this.props;
 
@@ -268,7 +268,7 @@ class Breakpoints extends PureComponent<Props> {
       accesskey: addConditionKey,
       click: () => {
         this.selectBreakpoint(breakpoint);
-        toggleConditionalBreakpointPanel(breakpoint.location.line);
+        openConditionalPanel(breakpoint.location.line);
       }
     };
 
@@ -278,7 +278,7 @@ class Breakpoints extends PureComponent<Props> {
       accesskey: editConditionKey,
       click: () => {
         this.selectBreakpoint(breakpoint);
-        toggleConditionalBreakpointPanel(breakpoint.location.line);
+        openConditionalPanel(breakpoint.location.line);
       }
     };
 
@@ -337,10 +337,6 @@ class Breakpoints extends PureComponent<Props> {
   removeBreakpoint(event, breakpoint) {
     event.stopPropagation();
     this.props.removeBreakpoint(breakpoint.location);
-  }
-
-  toggleConditionalBreakpointPanel(line) {
-    this.props.toggleConditionalBreakpointPanel(line);
   }
 
   renderBreakpoint(breakpoint) {

@@ -40,3 +40,10 @@ cmd
 monospace
 nuxt
 stacktraces
+secondaryPanel
+onKeyDown
+Unselects
+CLRF
+svgs
+componentWillUnmount
+createClass
