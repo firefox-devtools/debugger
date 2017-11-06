@@ -9,7 +9,7 @@
  * @module actions/sources
  */
 
-import { PROMISE } from "../utils/redux/middleware/promise";
+import { PROMISE } from "./utils/middleware/promise";
 import assert from "../utils/assert";
 import { remapBreakpoints } from "./breakpoints";
 

@@ -12,6 +12,7 @@
 
 import { createSelector } from "reselect";
 import { prefs } from "../utils/prefs";
+import { isEmpty } from "lodash";
 
 import type { Action } from "../actions/types";
 
@@ -44,16 +45,8 @@ export const State = (): PauseState => ({
 function update(state: PauseState = State(), action: Action): PauseState {
   switch (action.type) {
     case "PAUSED": {
-      const {
-        selectedFrameId,
-        frames,
-        scopes,
-        loadedObjects,
-        pauseInfo
-      } = action;
+      const { selectedFrameId, frames, loadedObjects, pauseInfo } = action;
       pauseInfo.isInterrupted = pauseInfo.why.type === "interrupted";
-
-      const frameScopes = { [selectedFrameId]: scopes };
 
       // turn this into an object keyed by object id
       const objectMap = {};
@@ -66,19 +59,17 @@ function update(state: PauseState = State(), action: Action): PauseState {
         pause: pauseInfo,
         selectedFrameId,
         frames,
-        frameScopes,
+        frameScopes: {},
         loadedObjects: objectMap
       });
     }
 
+    case "ADD_SCOPES":
     case "MAP_SCOPES":
       const { frame, scopes } = action;
       const selectedFrameId = frame.id;
-
-      return {
-        ...state,
-        frameScopes: { ...state.frameScopes, [selectedFrameId]: scopes }
-      };
+      const frameScopes = { ...state.frameScopes, [selectedFrameId]: scopes };
+      return { ...state, frameScopes };
     case "RESUME":
       return Object.assign({}, state, {
         pause: null,
@@ -153,10 +144,9 @@ function update(state: PauseState = State(), action: Action): PauseState {
       });
 
     case "COMMAND":
-      return { ...state, command: action.value.type };
-
-    case "CLEAR_COMMAND":
-      return { ...state, command: "" };
+      return action.status === "start"
+        ? { ...state, command: action.command }
+        : { ...state, command: "" };
 
     case "EVALUATE_EXPRESSION":
       return {
@@ -223,6 +213,11 @@ export function getLoadedObject(state: OuterState, objectId: string) {
   return getLoadedObjects(state)[objectId];
 }
 
+export function hasLoadingObjects(state: OuterState) {
+  const objects = getLoadedObjects(state);
+  return Object.values(objects).some(isEmpty);
+}
+
 export function getObjectProperties(state: OuterState, parentId: string) {
   return getLoadedObjects(state).filter(obj => obj.parentId == parentId);
 }
@@ -243,8 +238,17 @@ export function getFrames(state: OuterState) {
   return state.pause.frames;
 }
 
-export function getFrameScopes(state: OuterState, frameId: string) {
+export function getFrameScope(state: OuterState, frameId: ?string) {
+  if (!frameId) {
+    return null;
+  }
+
   return state.pause.frameScopes[frameId];
+}
+
+export function getSelectedScope(state: OuterState) {
+  const frameId = getSelectedFrameId(state);
+  return getFrameScope(state, frameId);
 }
 
 export function getScopes(state: OuterState) {

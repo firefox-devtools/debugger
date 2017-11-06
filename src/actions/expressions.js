@@ -11,7 +11,7 @@ import {
   getSelectedFrameId,
   getSource
 } from "../selectors";
-import { PROMISE } from "../utils/redux/middleware/promise";
+import { PROMISE } from "./utils/middleware/promise";
 import { replaceOriginalVariableName } from "devtools-map-bindings/src/utils";
 import { isGeneratedId } from "devtools-source-map";
 import { wrapExpression } from "../utils/expressions";

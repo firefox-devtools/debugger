@@ -4,5 +4,5 @@
 # file, You can obtain one at <http://mozilla.org/MPL/2.0/>.
 
 node ./bin/copy-assets.js --mc firefox
-./node_modules/.bin/mochii --mc ./firefox --default-test-path devtools/client/debugger/new
+./node_modules/.bin/mochii --ci true --mc ./firefox --default-test-path devtools/client/debugger/new
 exit $?

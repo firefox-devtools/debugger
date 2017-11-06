@@ -6,7 +6,7 @@ import actions from "../../actions";
 import {
   getSelectedFrame,
   getLoadedObjects,
-  getFrameScopes,
+  getFrameScope,
   getPause
 } from "../../selectors";
 import { getScopes } from "../../utils/scopes";
@@ -66,6 +66,7 @@ class Scopes extends PureComponent<Props, State> {
         <div className="pane scopes-list">
           <ObjectInspector
             roots={scopes}
+            autoExpandAll={false}
             autoExpandDepth={1}
             getObjectProperties={id => loadedObjects[id]}
             loadObjectProperties={loadObjectProperties}
@@ -95,7 +96,7 @@ export default connect(
   state => {
     const selectedFrame = getSelectedFrame(state);
     const frameScopes = selectedFrame
-      ? getFrameScopes(state, selectedFrame.id)
+      ? getFrameScope(state, selectedFrame.id)
       : null;
     return {
       selectedFrame,

@@ -8,6 +8,7 @@ import * as firefox from "./firefox";
 import * as chrome from "./chrome";
 
 import { prefs, features } from "../utils/prefs";
+import * as timings from "../utils/timings";
 import { isFirefoxPanel } from "devtools-config";
 import {
   bootstrapApp,
@@ -57,7 +58,8 @@ async function onConnect(
       features,
       connection,
       bpClients,
-      services
+      services,
+      timings
     };
   };
 
