@@ -5,6 +5,7 @@ import { getMode } from "../source";
 import type { Source } from "debugger-html";
 import { isWasm, getWasmLineNumberFormatter, renderWasmText } from "../wasm";
 import { resizeBreakpointGutter, resizeToggleButton } from "../ui";
+import type { SourceMetaDataType } from "../../reducers/ast";
 
 let sourceDocs = {};
 
@@ -81,19 +82,25 @@ function setEditorText(editor: Object, source: Source) {
  * Handle getting the source document or creating a new
  * document with the correct mode and text.
  */
-function showSourceText(editor: Object, source: Source) {
+function showSourceText(
+  editor: Object,
+  source: Source,
+  sourceMetaData: SourceMetaDataType
+) {
   if (!source) {
     return;
   }
 
   let doc = getDocument(source.id);
   if (editor.codeMirror.doc === doc) {
+    editor.setMode(getMode(source, sourceMetaData));
     return;
   }
 
   if (doc) {
     editor.replaceDocument(doc);
     updateLineNumberFormat(editor, source.id);
+    editor.setMode(getMode(source, sourceMetaData));
     return doc;
   }
 
@@ -102,7 +109,7 @@ function showSourceText(editor: Object, source: Source) {
   editor.replaceDocument(doc);
 
   setEditorText(editor, source);
-  editor.setMode(getMode(source));
+  editor.setMode(getMode(source, sourceMetaData));
   updateLineNumberFormat(editor, source.id);
 }
 
