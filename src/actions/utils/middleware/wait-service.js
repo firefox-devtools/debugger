@@ -3,6 +3,7 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
+/* global window */
 
 /**
  * A middleware which acts like a service, because it is stateful
