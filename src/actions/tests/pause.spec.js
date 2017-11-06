@@ -2,7 +2,8 @@ import {
   actions,
   selectors,
   createStore,
-  getHistory
+  getHistory,
+  makeSource
 } from "../../utils/test-head";
 
 const { isStepping } = selectors;
@@ -43,6 +44,7 @@ describe("pause", () => {
       const { dispatch, getState } = createStore(mockThreadClient);
       const mockPauseInfo = createPauseInfo();
 
+      await dispatch(actions.newSource(makeSource("foo1")));
       await dispatch(actions.paused(mockPauseInfo));
       const stepped = dispatch(actions.stepIn());
       expect(isStepping(getState())).toBeTruthy();
@@ -66,6 +68,7 @@ describe("pause", () => {
       const { dispatch } = createStore(mockThreadClient);
       const mockPauseInfo = createPauseInfo();
 
+      await dispatch(actions.newSource(makeSource("foo1")));
       await dispatch(actions.paused(mockPauseInfo));
       await dispatch(actions.resumed());
 
@@ -74,6 +77,8 @@ describe("pause", () => {
 
     it("resuming when not paused", async () => {
       const { dispatch } = createStore(mockThreadClient);
+
+      await dispatch(actions.newSource(makeSource("foo1")));
       await dispatch(actions.resumed());
       expect(getHistory("RESUME").length).toEqual(0);
     });
