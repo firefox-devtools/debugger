@@ -4,8 +4,8 @@ exports[`ast getOutOfScopeLocations with selected line 1`] = `
 Array [
   Object {
     "end": Object {
-      "column": 16,
-      "line": 1,
+      "column": 63,
+      "line": 3,
     },
     "start": Object {
       "column": 0,
@@ -14,12 +14,12 @@ Array [
   },
   Object {
     "end": Object {
-      "column": 3,
-      "line": 10,
+      "column": 1,
+      "line": 15,
     },
     "start": Object {
-      "column": 22,
-      "line": 8,
+      "column": 14,
+      "line": 7,
     },
   },
 ]
@@ -27,16 +27,12 @@ Array [
 
 exports[`ast getOutOfScopeLocations with selected line 2`] = `
 Array [
-  1,
-  2,
   3,
   4,
   5,
   6,
-  7,
-  10,
-  11,
-  12,
+  15,
+  16,
 ]
 `;
 
@@ -44,8 +40,12 @@ exports[`ast setEmptyLines scopes 1`] = `
 Array [
   1,
   2,
-  7,
-  12,
+  3,
+  4,
+  5,
+  6,
+  11,
+  16,
 ]
 `;
 

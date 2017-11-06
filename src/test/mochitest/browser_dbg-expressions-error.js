@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+* License, v. 2.0. If a copy of the MPL was not distributed with this
+* file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 /* Any copyright is dedicated to the Public Domain.
  * http://creativecommons.org/publicdomain/zero/1.0/ */
 
@@ -47,7 +51,7 @@ async function editExpression(dbg, input) {
   info("updating the expression");
   dblClickElement(dbg, "expressionNode", 1);
   // Position cursor reliably at the end of the text.
-  const evaluation = waitForDispatch(dbg, "EVALUATE_EXPRESSION")
+  const evaluation = waitForDispatch(dbg, "EVALUATE_EXPRESSION");
   pressKey(dbg, "End");
   type(dbg, input);
   pressKey(dbg, "Enter");
@@ -59,7 +63,7 @@ async function editExpression(dbg, input) {
  * resume, and wait for the expression to finish being evaluated.
  */
 async function addBadExpression(dbg, input) {
-  const evaluation = waitForDispatch(dbg, "EVALUATE_EXPRESSION")
+  const evaluation = waitForDispatch(dbg, "EVALUATE_EXPRESSION");
 
   findElementWithSelector(dbg, expressionSelectors.input).focus();
   type(dbg, input);
@@ -70,7 +74,6 @@ async function addBadExpression(dbg, input) {
   ok(dbg.selectors.isEvaluatingExpression(dbg.getState()));
   await resume(dbg);
   await evaluation;
-
 }
 
 add_task(async function() {
