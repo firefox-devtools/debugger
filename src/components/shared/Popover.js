@@ -133,13 +133,15 @@ class Popover extends Component {
     const arrow = this.getPopoverArrow(orientation, targetMid);
 
     return (
-      <div
-        className={classNames("popover", { up: orientation === "up" })}
-        onMouseLeave={this.onMouseLeave}
-        style={{ top, left }}
-      >
-        {arrow}
-        {this.getChildren()}
+      <div>
+        <div
+          className={classNames("popover", { up: orientation === "up" })}
+          onMouseLeave={this.onMouseLeave}
+          style={{ top, left }}
+        >
+          {arrow}
+          {this.getChildren()}
+        </div>
       </div>
     );
   }
