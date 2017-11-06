@@ -125,6 +125,7 @@ function evaluateExpression(expression: Expression) {
     }
 
     const frameId = getSelectedFrameId(getState());
+
     return dispatch({
       type: "EVALUATE_EXPRESSION",
       input: expression.input,
