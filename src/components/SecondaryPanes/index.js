@@ -164,20 +164,20 @@ class SecondaryPanes extends Component<Props> {
     };
   }
 
-   breakpointButton() {
+  breakpointButton() {
     const {
       breakOnNext,
       pauseOnExceptions,
       pauseData,
-      isWaitingOnBreak,
+      isWaitingOnBreak
     } = this.props;
 
     return renderBreakpointsDropdown(
       breakOnNext,
       pauseOnExceptions,
       pauseData,
-      isWaitingOnBreak,
-    )
+      isWaitingOnBreak
+    );
   }
 
   getStartItems() {
@@ -189,10 +189,7 @@ class SecondaryPanes extends Component<Props> {
     const items: Array<SecondaryPanesItems> = [
       {
         header: L10N.getStr("breakpoints.header"),
-        buttons: [
-        this.breakpointButton(), 
-        this.renderBreakpointsToggle()
-        ],
+        buttons: [this.breakpointButton(), this.renderBreakpointsToggle()],
         component: Breakpoints,
         opened: true
       },
