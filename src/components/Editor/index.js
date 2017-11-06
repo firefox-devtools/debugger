@@ -248,22 +248,28 @@ class Editor extends PureComponent<Props, State> {
     }
   }
 
-  onToggleBreakpoint = (key, e) => {
-    e.preventDefault();
+  getCurrentLine() {
     const { codeMirror } = this.state.editor;
     const { selectedSource } = this.props;
     const line = getCursorLine(codeMirror);
+
+    return toSourceLine(selectedSource.get("id"), line);
+  }
+
+  onToggleBreakpoint = (key, e) => {
+    e.preventDefault();
+    const { selectedSource } = this.props;
 
     if (!selectedSource) {
       return;
     }
 
-    const sourceLine = toSourceLine(selectedSource.get("id"), line);
+    const line = this.getCurrentLine();
 
     if (e.shiftKey) {
-      this.toggleConditionalPanel(sourceLine);
+      this.toggleConditionalPanel(line);
     } else {
-      this.props.toggleBreakpoint(sourceLine);
+      this.props.toggleBreakpoint(line);
     }
   };
 
@@ -383,6 +389,10 @@ class Editor extends PureComponent<Props, State> {
       closeConditionalPanel,
       openConditionalPanel
     } = this.props;
+
+    if (!line || isNaN(line)) {
+      line = this.getCurrentLine();
+    }
 
     if (conditionalPanelLine) {
       return closeConditionalPanel();
