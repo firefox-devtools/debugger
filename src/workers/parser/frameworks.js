@@ -21,7 +21,10 @@ function importsReact(imports) {
 function extendsComponent(classes) {
   let result = false;
   classes.some(classObj => {
-    if (classObj.parent.name === "Component") {
+    if (
+      classObj.parent.name === "Component" ||
+      classObj.parent.name === "PureComponent"
+    ) {
       result = true;
     }
   });

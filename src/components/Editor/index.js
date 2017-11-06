@@ -16,6 +16,7 @@ import {
   getSelectedSource,
   getHitCountForSource,
   getCoverageEnabled,
+  getSourceMetaData,
   getConditionalPanelLine
 } from "../../selectors";
 
@@ -35,6 +36,7 @@ import EmptyLines from "./EmptyLines";
 import GutterMenu from "./GutterMenu";
 import EditorMenu from "./EditorMenu";
 import ConditionalPanel from "./ConditionalPanel";
+import type { SourceMetaDataType } from "../../reducers/ast";
 
 import {
   showSourceText,
@@ -74,6 +76,7 @@ type Props = {
   startPanelSize: number,
   endPanelSize: number,
   conditionalPanelLine: number,
+  sourceMetaData: SourceMetaDataType,
 
   // Actions
   openConditionalPanel: number => void,
@@ -248,22 +251,28 @@ class Editor extends PureComponent<Props, State> {
     }
   }
 
-  onToggleBreakpoint = (key, e) => {
-    e.preventDefault();
+  getCurrentLine() {
     const { codeMirror } = this.state.editor;
     const { selectedSource } = this.props;
     const line = getCursorLine(codeMirror);
+
+    return toSourceLine(selectedSource.get("id"), line);
+  }
+
+  onToggleBreakpoint = (key, e) => {
+    e.preventDefault();
+    const { selectedSource } = this.props;
 
     if (!selectedSource) {
       return;
     }
 
-    const sourceLine = toSourceLine(selectedSource.get("id"), line);
+    const line = this.getCurrentLine();
 
     if (e.shiftKey) {
-      this.toggleConditionalPanel(sourceLine);
+      this.toggleConditionalPanel(line);
     } else {
-      this.props.toggleBreakpoint(sourceLine);
+      this.props.toggleBreakpoint(line);
     }
   };
 
@@ -384,6 +393,10 @@ class Editor extends PureComponent<Props, State> {
       openConditionalPanel
     } = this.props;
 
+    if (!line || isNaN(line)) {
+      line = this.getCurrentLine();
+    }
+
     if (conditionalPanelLine) {
       return closeConditionalPanel();
     }
@@ -453,7 +466,7 @@ class Editor extends PureComponent<Props, State> {
   }
 
   setText(props) {
-    const { selectedSource } = props;
+    const { selectedSource, sourceMetaData } = props;
     if (!this.state.editor) {
       return;
     }
@@ -471,7 +484,11 @@ class Editor extends PureComponent<Props, State> {
     }
 
     if (selectedSource) {
-      return showSourceText(this.state.editor, selectedSource.toJS());
+      return showSourceText(
+        this.state.editor,
+        selectedSource.toJS(),
+        sourceMetaData
+      );
     }
   }
 
@@ -597,7 +614,8 @@ const mapStateToProps = state => {
     hitCount: getHitCountForSource(state, sourceId),
     selectedFrame: getSelectedFrame(state),
     coverageOn: getCoverageEnabled(state),
-    conditionalPanelLine: getConditionalPanelLine(state)
+    conditionalPanelLine: getConditionalPanelLine(state),
+    sourceMetaData: getSourceMetaData(state, sourceId)
   };
 };
 

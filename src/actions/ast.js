@@ -14,7 +14,8 @@ import { PROMISE } from "./utils/middleware/promise";
 import {
   getSymbols,
   getEmptyLines,
-  getOutOfScopeLocations
+  getOutOfScopeLocations,
+  isReactComponent
 } from "../workers/parser";
 
 import { findBestMatchExpression } from "../utils/ast";
@@ -28,6 +29,29 @@ import type { AstLocation } from "../workers/parser";
 const extraProps = {
   react: { displayName: "this._reactInternalInstance.getName()" }
 };
+
+export function setSourceMetaData(sourceId: SourceId) {
+  return async ({ dispatch, getState }: ThunkArgs) => {
+    const sourceRecord = getSource(getState(), sourceId);
+    if (!sourceRecord) {
+      return;
+    }
+
+    const source = sourceRecord.toJS();
+    if (!source.text || source.isWasm) {
+      return;
+    }
+
+    const isReactComp = await isReactComponent(source);
+    dispatch({
+      type: "SET_SOURCE_METADATA",
+      sourceId: source.id,
+      sourceMetaData: {
+        isReactComponent: isReactComp
+      }
+    });
+  };
+}
 
 export function setSymbols(sourceId: SourceId) {
   return async ({ dispatch, getState }: ThunkArgs) => {

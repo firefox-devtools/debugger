@@ -6,7 +6,12 @@ import {
 } from "../../utils/test-head";
 
 import readFixture from "./helpers/readFixture";
-const { getSymbols, getEmptyLines, getOutOfScopeLocations } = selectors;
+const {
+  getSymbols,
+  getEmptyLines,
+  getOutOfScopeLocations,
+  getSourceMetaData
+} = selectors;
 import getInScopeLines from "../../selectors/linesInScope";
 
 const threadClient = {
@@ -31,7 +36,8 @@ const threadClient = {
 const sourceTexts = {
   "base.js": "function base(boo) {}",
   "foo.js": "function base(boo) { return this.bazz; } outOfScope",
-  "scopes.js": readFixture("scopes.js")
+  "scopes.js": readFixture("scopes.js"),
+  "reactComponent.js": readFixture("reactComponent.js")
 };
 
 const evaluationResult = {
@@ -49,6 +55,26 @@ describe("ast", () => {
 
       const emptyLines = getEmptyLines(getState(), source);
       expect(emptyLines).toMatchSnapshot();
+    });
+  });
+  describe("setSourceMetaData", () => {
+    it("should detect react components", async () => {
+      const { dispatch, getState } = createStore(threadClient);
+      const source = makeSource("reactComponent.js");
+      await dispatch(actions.newSource(source));
+      await dispatch(actions.loadSourceText({ id: "reactComponent.js" }));
+
+      const sourceMetaData = getSourceMetaData(getState(), source.id);
+      expect(sourceMetaData).toEqual({ isReactComponent: true });
+    });
+    it("should not give false positive on non react components", async () => {
+      const { dispatch, getState } = createStore(threadClient);
+      const source = makeSource("base.js");
+      await dispatch(actions.newSource(source));
+      await dispatch(actions.loadSourceText({ id: "base.js" }));
+
+      const sourceMetaData = getSourceMetaData(getState(), source.id);
+      expect(sourceMetaData).toEqual({ isReactComponent: false });
     });
   });
   describe("setSymbols", () => {

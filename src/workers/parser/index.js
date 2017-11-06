@@ -21,6 +21,7 @@ export const hasSource = dispatcher.task("hasSource");
 export const setSource = dispatcher.task("setSource");
 export const clearSources = dispatcher.task("clearSources");
 export const hasSyntaxError = dispatcher.task("hasSyntaxError");
+export const isReactComponent = dispatcher.task("isReactComponent");
 
 export type { SymbolDeclaration, SymbolDeclarations } from "./getSymbols";
 export type { AstLocation } from "./types";

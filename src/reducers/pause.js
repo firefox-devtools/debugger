@@ -202,7 +202,7 @@ export function pausedInEval(state: OuterState) {
   }
 
   const exception = state.pause.pause.why.exception;
-  if (!exception) {
+  if (!exception || !exception.preview) {
     return false;
   }
 
