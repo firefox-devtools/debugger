@@ -2996,9 +2996,9 @@ devtools-reps@^0.12.3:
     react-dom "=15.3.2"
     svg-inline-react "^1.0.2"
 
-devtools-source-editor@0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/devtools-source-editor/-/devtools-source-editor-0.0.6.tgz#7b882b4fe9b2bc554e4f9d1e1365c846abd28950"
+devtools-source-editor@0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/devtools-source-editor/-/devtools-source-editor-0.0.7.tgz#35f0a18baa19e75db8319763800cc23570d7679f"
   dependencies:
     codemirror "^5.25.0"
 
@@ -4211,9 +4211,9 @@ git-url-parse@^6.0.1:
   dependencies:
     git-up "^2.0.0"
 
-github-airtable-bridge@0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/github-airtable-bridge/-/github-airtable-bridge-0.0.4.tgz#744793c485935cff8857b1f46759ff5acb9d2bd3"
+github-airtable-bridge@0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/github-airtable-bridge/-/github-airtable-bridge-0.0.5.tgz#91b8b2e3f1d216677aa45c6de0a3ed684863e8bf"
   dependencies:
     airtable "^0.5.0"
     date-names "^0.1.10"
@@ -6744,9 +6744,9 @@ mocha@^3.2.0:
     mkdirp "0.5.1"
     supports-color "3.1.2"
 
-mochii@0.0.12:
-  version "0.0.12"
-  resolved "https://registry.yarnpkg.com/mochii/-/mochii-0.0.12.tgz#a2ab8ca455a7265c9026bce96e42ef408c3dd278"
+mochii@^0.0.13:
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/mochii/-/mochii-0.0.13.tgz#fb3c1471721fdfbbf99dabf83426ed5d8d8bde76"
   dependencies:
     chalk "^2.1.0"
     eslint "^4.7.2"

@@ -1,5 +1,5 @@
 // @flow
-import { PROMISE } from "../../utils/redux/middleware/promise";
+import { PROMISE } from "../utils/middleware/promise";
 import { setEmptyLines, setSymbols, setSourceMetaData } from "../ast";
 import { getSource } from "../../selectors";
 import { setSource } from "../../workers/parser";
