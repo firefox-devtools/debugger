@@ -20,7 +20,7 @@ function renderPause(pauseData, isWaitingOnBreak) {
     return debugBtn("pause", L10N.getStr("pausePendingButtonTooltip"));
   }
 
-  return debugBtn("pause", L10N.getFormatStr("pauseButton"));
+  return debugBtn("pause", L10N.getFormatStr("pauseButtonItem"));
 }
 
 function renderPauseOnExceptions() {
@@ -28,14 +28,11 @@ function renderPauseOnExceptions() {
 }
 
 function renderPauseOnUncaughtExceptions() {
-  return debugBtn(
-    "pause-exceptions",
-    L10N.getStr("pauseOnUncaughtExceptionsTooltip")
-  );
+  return debugBtn("pause-exceptions", L10N.getStr("pauseOnUncaughtExceptions"));
 }
 
 function renderIgnoreExceptions() {
-  return debugBtn("pause-exceptions", L10N.getStr("ignoreExceptionsTooltip"));
+  return debugBtn("pause-exceptions", L10N.getStr("ignoreExceptions"));
 }
 
 export default function renderBreakpointsDropdown(
@@ -48,21 +45,25 @@ export default function renderBreakpointsDropdown(
     <ul>
       <li onClick={() => breakOnNext()}>
         {renderPause(pauseData, isWaitingOnBreak)}
-        <span className="icon-spacer">{L10N.getStr("pauseButton")}</span>
+        <span className="icon-spacer">{L10N.getStr("pauseButtonItem")}</span>
       </li>
       <li onClick={() => pauseOnExceptions(true, false)}>
         {renderPauseOnUncaughtExceptions()}
         <span className="icon-spacer">
-          {L10N.getStr("pauseOnUncaughtExceptions")}
+          {L10N.getStr("pauseOnUncaughtExceptionsItem")}
         </span>
       </li>
       <li onClick={() => pauseOnExceptions(false, false)}>
         {renderPauseOnExceptions()}
-        <span className="icon-spacer">{L10N.getStr("pauseOnExceptions")}</span>
+        <span className="icon-spacer">
+          {L10N.getStr("pauseOnExceptionsItem")}
+        </span>
       </li>
       <li onClick={() => pauseOnExceptions(true, true)}>
         {renderIgnoreExceptions()}
-        <span className="icon-spacer">{L10N.getStr("ignoreExceptions")}</span>
+        <span className="icon-spacer">
+          {L10N.getStr("ignoreExceptionsItem")}
+        </span>
       </li>
     </ul>
   );
