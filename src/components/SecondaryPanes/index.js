@@ -171,6 +171,22 @@ class SecondaryPanes extends Component<Props> {
     };
   }
 
+   breakpointButton() {
+    const {
+      breakOnNext,
+      pauseOnExceptions,
+      pauseData,
+      isWaitingOnBreak,
+    } = this.props;
+
+    return renderBreakpointsDropdown(
+      breakOnNext,
+      pauseOnExceptions,
+      pauseData,
+      isWaitingOnBreak,
+    )
+  }
+
   getStartItems() {
     const scopesContent: any = this.props.horizontal
       ? this.getScopeItem()
@@ -180,8 +196,15 @@ class SecondaryPanes extends Component<Props> {
     const items: Array<SecondaryPanesItems> = [
       {
         header: L10N.getStr("breakpoints.header"),
+<<<<<<< HEAD
         className: "breakpoints-pane",
         buttons: [renderBreakpointsDropdown(this, actions), this.renderBreakpointsToggle()],
+=======
+        buttons: [
+        this.breakpointButton(), 
+        this.renderBreakpointsToggle()
+        ],
+>>>>>>> Return functionality
         component: Breakpoints,
         opened: true
       },
@@ -292,7 +315,9 @@ SecondaryPanes.propTypes = {
   breakpointsDisabled: PropTypes.bool,
   breakpointsLoading: PropTypes.bool,
   toggleAllBreakpoints: PropTypes.func.isRequired,
-  toggleShortcutsModal: PropTypes.func
+  toggleShortcutsModal: PropTypes.func,
+  pauseOnExceptions: PropTypes.func,
+  breakOnNext: PropTypes.func
 };
 
 SecondaryPanes.contextTypes = {
