@@ -46,17 +46,17 @@ function assertPopup(dbg, { field, value, expression }) {
 add_task(async function() {
   const dbg = await initDebugger("doc-scripts.html");
   const { selectors: { getSelectedSource }, getState } = dbg;
-  const simple1 = findSource(dbg, "simple1.js");
+  const simple3 = findSource(dbg, "simple3.js");
 
-  await selectSource(dbg, "simple1");
+  await selectSource(dbg, "simple3");
 
-  await addBreakpoint(dbg, simple1, 7);
+  await addBreakpoint(dbg, simple3, 5);
 
-  invokeInTab("main");
+  invokeInTab("simple");
   await waitForPaused(dbg);
 
   const tooltipPreviewed = waitForDispatch(dbg, "SET_PREVIEW");
-  hoverAtPos(dbg, { line: 7, ch: 12 });
+  hoverAtPos(dbg, { line: 5, ch: 12 });
   await tooltipPreviewed;
   assertTooltip(dbg, { result: "3", expression: "result" });
 

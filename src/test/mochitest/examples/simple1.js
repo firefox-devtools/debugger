@@ -1,5 +1,4 @@
 function main() {
-  const obj = { foo: 1, bar: 2 };
   // A comment so we can test that breakpoint sliding works across
   // multiple lines
   const func = foo(1, 2);
