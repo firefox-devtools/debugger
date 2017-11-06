@@ -10,6 +10,7 @@ import * as sourceSearchUtils from "./source-search";
 const { findNext, findPrev } = sourceSearchUtils;
 
 import { isWasm, lineToWasmOffset, wasmOffsetToLine } from "../wasm";
+import { resizeBreakpointGutter } from "../ui";
 
 import { SourceEditor, SourceEditorUtils } from "devtools-source-editor";
 
@@ -171,6 +172,7 @@ module.exports = Object.assign(
     traverseResults,
     markText,
     lineAtHeight,
-    getSourceLocationFromMouseEvent
+    getSourceLocationFromMouseEvent,
+    resizeBreakpointGutter
   }
 );

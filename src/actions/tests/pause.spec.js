@@ -44,9 +44,10 @@ describe("pause", () => {
       const mockPauseInfo = createPauseInfo();
 
       await dispatch(actions.paused(mockPauseInfo));
-      dispatch(actions.stepIn());
+      const stepped = dispatch(actions.stepIn());
       expect(isStepping(getState())).toBeTruthy();
       await stepInResolve();
+      await stepped;
       expect(isStepping(getState())).toBeFalsy();
     });
   });

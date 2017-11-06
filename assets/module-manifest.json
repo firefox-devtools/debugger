@@ -20453,7 +20453,26 @@
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/workers/pretty-print/worker.js": 1630,
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/workers/search/worker.js": 1631,
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/workers/search/get-matches.js": 1632,
-      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/workers/search/project-search.js": 1633
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/workers/search/project-search.js": 1633,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/pause/mapScopes.js": 1634,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/reducers/quick-open.js": 1635,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/quick-open.js": 1636,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/pause/commands.js": 1637,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/ast.js": 1638,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/pause/index.js": 1639,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/pause/paused.js": 1640,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/pause/resumed.js": 1641,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/pause/continueToHere.js": 1642,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/pause/breakOnNext.js": 1643,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/pause/loadObjectProperties.js": 1644,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/pause/pauseOnExceptions.js": 1645,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/pause/selectFrame.js": 1646,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/quick-open.js": 1647,
+      "../../svg-inline-loader/index.js!../../../assets/images/aframe.svg": 1648,
+      "../../svg-inline-loader/index.js!../../../assets/images/marko.svg": 1649,
+      "../../svg-inline-loader/index.js!../../../assets/images/nextjs.svg": 1650,
+      "../../svg-inline-loader/index.js!../../../assets/images/nuxtjs.svg": 1651,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/QuickOpenModal.js": 1652
     },
     "usedIds": {
       "0": 0,
@@ -22089,7 +22108,26 @@
       "1630": 1630,
       "1631": 1631,
       "1632": 1632,
-      "1633": 1633
+      "1633": 1633,
+      "1634": 1634,
+      "1635": 1635,
+      "1636": 1636,
+      "1637": 1637,
+      "1638": 1638,
+      "1639": 1639,
+      "1640": 1640,
+      "1641": 1641,
+      "1642": 1642,
+      "1643": 1643,
+      "1644": 1644,
+      "1645": 1645,
+      "1646": 1646,
+      "1647": 1647,
+      "1648": 1648,
+      "1649": 1649,
+      "1650": 1650,
+      "1651": 1651,
+      "1652": 1652
     }
   },
   "chunks": {
@@ -25296,7 +25334,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25317,7 +25355,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25338,7 +25376,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25359,7 +25397,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25401,7 +25439,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25422,7 +25460,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25443,7 +25481,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25464,7 +25502,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25485,7 +25523,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25506,7 +25544,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25527,7 +25565,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25548,7 +25586,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25569,7 +25607,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25590,7 +25628,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25611,7 +25649,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25632,7 +25670,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25653,7 +25691,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25674,7 +25712,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25695,7 +25733,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25716,7 +25754,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25737,7 +25775,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25758,7 +25796,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25779,7 +25817,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25800,7 +25838,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25821,7 +25859,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25842,7 +25880,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25863,7 +25901,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25884,7 +25922,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25905,7 +25943,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25926,7 +25964,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25947,7 +25985,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25968,7 +26006,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25989,7 +26027,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26010,7 +26048,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26031,7 +26069,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26052,7 +26090,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26073,7 +26111,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26094,7 +26132,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26115,7 +26153,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26136,7 +26174,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26157,7 +26195,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26199,7 +26237,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26220,7 +26258,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26241,7 +26279,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26262,7 +26300,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26283,7 +26321,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26304,7 +26342,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26325,7 +26363,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26346,7 +26384,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }

@@ -10,7 +10,7 @@ import { evaluateExpressions } from "../expressions";
 import { selectSource } from "../sources";
 import { togglePaneCollapse } from "../ui";
 
-import { mapScopes } from "./mapScopes";
+import { fetchScopes } from "./fetchScopes";
 
 import type { Pause } from "../../types";
 import type { ThunkArgs } from "../types";
@@ -28,13 +28,11 @@ export function paused(pauseInfo: Pause) {
 
     const mappedFrames = await updateFrameLocations(frames, sourceMaps);
     const frame = mappedFrames[0];
-    const frameScopes = await client.getFrameScopes(frame);
 
     dispatch({
       type: "PAUSED",
       pauseInfo: { why, frame, frames },
       frames: mappedFrames,
-      scopes: frameScopes,
       selectedFrameId: frame.id,
       loadedObjects: loadedObjects || []
     });
@@ -52,6 +50,6 @@ export function paused(pauseInfo: Pause) {
     await dispatch(selectSource(frame.location.sourceId, { line, column }));
 
     dispatch(togglePaneCollapse("end", false));
-    dispatch(mapScopes());
+    dispatch(fetchScopes());
   };
 }

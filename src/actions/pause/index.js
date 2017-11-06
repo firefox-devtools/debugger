@@ -6,7 +6,7 @@
  */
 
 export { stepIn, stepOver, stepOut, resume } from "./commands";
-export { mapScopes } from "./mapScopes";
+export { fetchScopes } from "./fetchScopes";
 export { paused } from "./paused";
 export { resumed } from "./resumed";
 export { continueToHere } from "./continueToHere";

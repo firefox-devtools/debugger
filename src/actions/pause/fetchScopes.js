@@ -1,19 +1,16 @@
 // @flow
 
-import { getSource, getSelectedFrame } from "../../selectors";
+import { getSource, getSelectedFrame, getFrameScope } from "../../selectors";
 import { updateScopeBindings } from "../../utils/pause";
 import { isGeneratedId } from "devtools-source-map";
 
 import type { ThunkArgs } from "../types";
 
-export function mapScopes() {
+export function fetchScopes() {
   return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
     const frame = getSelectedFrame(getState());
-    if (!frame) {
-      return;
-    }
 
-    if (isGeneratedId(frame.location.sourceId)) {
+    if (!frame || getFrameScope(getState(), frame.id)) {
       return;
     }
 
@@ -26,9 +23,19 @@ export function mapScopes() {
       return;
     }
 
-    const frameScopes = await client.getFrameScopes(frame);
-    const scopes = await updateScopeBindings(
-      frameScopes,
+    const scopes = await client.getFrameScopes(frame);
+    dispatch({
+      type: "ADD_SCOPES",
+      frame,
+      scopes
+    });
+
+    if (isGeneratedId(frame.location.sourceId)) {
+      return;
+    }
+
+    const mappedScopes = await updateScopeBindings(
+      scopes,
       frame.generatedLocation,
       sourceMaps
     );
@@ -36,7 +43,7 @@ export function mapScopes() {
     dispatch({
       type: "MAP_SCOPES",
       frame,
-      scopes
+      scopes: mappedScopes
     });
   };
 }
