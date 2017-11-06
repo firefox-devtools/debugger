@@ -185,7 +185,10 @@ class Editor extends PureComponent<Props, State> {
     );
 
     shortcuts.on(L10N.getStr("toggleBreakpoint.key"), this.onToggleBreakpoint);
-    shortcuts.on(L10N.getStr("toggleCondPanel.key"), this.toggleCondPanelKey);
+    shortcuts.on(
+      L10N.getStr("toggleCondPanel.key"),
+      this.toggleConditionalPanel
+    );
     shortcuts.on("Esc", this.onEscape);
     shortcuts.on(searchAgainPrevKey, this.onSearchAgain);
     shortcuts.on(searchAgainKey, this.onSearchAgain);
@@ -245,31 +248,29 @@ class Editor extends PureComponent<Props, State> {
     }
   }
 
-  onToggleBreakpoint = (key, e) => {
-    e.preventDefault();
+  getCurrentLine() {
     const { codeMirror } = this.state.editor;
     const { selectedSource } = this.props;
     const line = getCursorLine(codeMirror);
+
+    return toSourceLine(selectedSource.get("id"), line);
+  }
+
+  onToggleBreakpoint = (key, e) => {
+    e.preventDefault();
+    const { selectedSource } = this.props;
 
     if (!selectedSource) {
       return;
     }
 
-    const sourceLine = toSourceLine(selectedSource.get("id"), line);
+    const line = this.getCurrentLine();
 
     if (e.shiftKey) {
-      this.toggleConditionalPanel(sourceLine);
+      this.toggleConditionalPanel(line);
     } else {
-      this.props.toggleBreakpoint(sourceLine);
+      this.props.toggleBreakpoint(line);
     }
-  };
-
-  toggleCondPanelKey = () => {
-    const { codeMirror } = this.state.editor;
-    const { selectedSource } = this.props;
-    const line = getCursorLine(codeMirror);
-    const sourceLine = toSourceLine(selectedSource.get("id"), line);
-    this.toggleConditionalPanel(sourceLine);
   };
 
   onKeyDown(e) {
@@ -388,6 +389,10 @@ class Editor extends PureComponent<Props, State> {
       closeConditionalPanel,
       openConditionalPanel
     } = this.props;
+
+    if (!line || isNaN(line)) {
+      line = this.getCurrentLine();
+    }
 
     if (conditionalPanelLine) {
       return closeConditionalPanel();
