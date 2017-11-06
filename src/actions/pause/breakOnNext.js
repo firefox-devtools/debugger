@@ -15,7 +15,7 @@ import type { ThunkArgs } from "../types";
  * @static
  */
 export function breakOnNext() {
-	console.log("breakOnNext()");
+  console.log("breakOnNext()");
   return ({ dispatch, client }: ThunkArgs) => {
     client.breakOnNext();
 

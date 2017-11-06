@@ -171,20 +171,20 @@ class SecondaryPanes extends Component<Props> {
     };
   }
 
-   breakpointButton() {
+  breakpointButton() {
     const {
       breakOnNext,
       pauseOnExceptions,
       pauseData,
-      isWaitingOnBreak,
+      isWaitingOnBreak
     } = this.props;
 
     return renderBreakpointsDropdown(
       breakOnNext,
       pauseOnExceptions,
       pauseData,
-      isWaitingOnBreak,
-    )
+      isWaitingOnBreak
+    );
   }
 
   getStartItems() {
@@ -197,6 +197,7 @@ class SecondaryPanes extends Component<Props> {
       {
         header: L10N.getStr("breakpoints.header"),
 <<<<<<< HEAD
+<<<<<<< HEAD
         className: "breakpoints-pane",
         buttons: [renderBreakpointsDropdown(this, actions), this.renderBreakpointsToggle()],
 =======
@@ -205,6 +206,9 @@ class SecondaryPanes extends Component<Props> {
         this.renderBreakpointsToggle()
         ],
 >>>>>>> Return functionality
+=======
+        buttons: [this.breakpointButton(), this.renderBreakpointsToggle()],
+>>>>>>> Update string IDs (and lint-css fix)
         component: Breakpoints,
         opened: true
       },
