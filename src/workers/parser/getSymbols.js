@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 import { traverseAst } from "./utils/ast";
@@ -165,7 +169,12 @@ function extractSymbols(source: Source) {
       }
 
       if (t.isIdentifier(path)) {
-        const { start, end } = path.node.loc;
+        let { start, end } = path.node.loc;
+
+        if (path.node.typeAnnotation) {
+          const column = path.node.typeAnnotation.loc.start.column;
+          end = { ...end, column };
+        }
 
         identifiers.push({
           name: path.node.name,

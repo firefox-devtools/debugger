@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 /**
@@ -73,7 +77,7 @@ function makeSymbolDeclaration(name: string, line: number) {
  * @memberof utils/test-head
  * @static
  */
-function waitForState(store: any, predicate: any) {
+function waitForState(store: any, predicate: any): Promise<void> {
   return new Promise(resolve => {
     const unsubscribe = store.subscribe(() => {
       if (predicate(store.getState())) {

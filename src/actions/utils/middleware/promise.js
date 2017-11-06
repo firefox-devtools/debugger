@@ -1,8 +1,8 @@
-// @flow
-
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
+// @flow
 
 import { fromPairs, toPairs } from "lodash";
 import { executeSoon } from "../../../utils/DevToolsUtils";
@@ -19,7 +19,10 @@ function filterAction(action: Object): Object {
   return fromPairs(toPairs(action).filter(pair => pair[0] !== PROMISE));
 }
 
-function promiseMiddleware({ dispatch, getState }: ThunkArgs) {
+function promiseMiddleware({
+  dispatch,
+  getState
+}: ThunkArgs): Function | Promise<mixed> {
   return (next: Function) => (action: Object) => {
     if (!(PROMISE in action)) {
       return next(action);

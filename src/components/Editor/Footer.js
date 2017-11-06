@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
@@ -11,7 +15,10 @@ import {
 
 import classnames from "classnames";
 import { isEnabled } from "devtools-config";
-import { isPretty, isLoaded } from "../../utils/source";
+import { isPretty, isLoaded, getFilename } from "../../utils/source";
+import { isOriginal } from "../../utils/source-maps";
+import { isOriginalId } from "devtools-source-map";
+import { getGeneratedSource } from "../../reducers/sources";
 import { shouldShowFooter, shouldShowPrettyPrint } from "../../utils/editor";
 
 import PaneToggleButton from "../shared/Button/PaneToggle";
@@ -116,9 +123,7 @@ class SourceFooter extends PureComponent<Props> {
         title={L10N.getStr("sourceFooter.codeCoverage")}
         onClick={() => recordCoverage()}
         aria-label={L10N.getStr("sourceFooter.codeCoverage")}
-      >
-        C
-      </button>
+      />
     );
   }
 
@@ -148,6 +153,20 @@ class SourceFooter extends PureComponent<Props> {
     );
   }
 
+  renderSourceSummary() {
+    const { selectedSource, mappedSource } = this.props;
+    const source = selectedSource.toJS();
+    if (isOriginalId(source.id)) {
+      const bundleSource = mappedSource.toJS();
+      return (
+        <span className="mapped-source">
+          (source mapped from ${getFilename(bundleSource)})
+        </span>
+      );
+    }
+    return null;
+  }
+
   render() {
     const { selectedSource, horizontal } = this.props;
 
@@ -159,6 +178,7 @@ class SourceFooter extends PureComponent<Props> {
       <div className="source-footer">
         {this.renderCommands()}
         {this.renderToggleButton()}
+        {this.renderSourceSummary()}
       </div>
     );
   }
@@ -167,9 +187,14 @@ class SourceFooter extends PureComponent<Props> {
 export default connect(
   state => {
     const selectedSource = getSelectedSource(state);
+    const source = selectedSource.toJS();
+    const mappedSource = isOriginal(source.id)
+      ? getGeneratedSource(state, source)
+      : null;
     const selectedId = selectedSource && selectedSource.get("id");
     return {
       selectedSource,
+      mappedSource,
       prettySource: getPrettySource(state, selectedId),
       endPanelCollapsed: getPaneCollapse(state, "end")
     };

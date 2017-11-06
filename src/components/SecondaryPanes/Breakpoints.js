@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 import React, { PureComponent } from "react";
 import * as I from "immutable";
@@ -36,7 +40,10 @@ type Props = {
   breakpoints: BreakpointsMap,
   enableBreakpoint: Location => void,
   disableBreakpoint: Location => void,
-  selectSource: (string, { line: number }) => void,
+  selectSource: (
+    string,
+    { location: { line: number, column: number } }
+  ) => void,
   removeBreakpoint: string => void,
   removeAllBreakpoints: () => void,
   removeBreakpoints: BreakpointsMap => void,
@@ -330,8 +337,8 @@ class Breakpoints extends PureComponent<Props> {
 
   selectBreakpoint(breakpoint) {
     const sourceId = breakpoint.location.sourceId;
-    const line = breakpoint.location.line;
-    this.props.selectSource(sourceId, { line });
+    const { location } = breakpoint;
+    this.props.selectSource(sourceId, { location });
   }
 
   removeBreakpoint(event, breakpoint) {

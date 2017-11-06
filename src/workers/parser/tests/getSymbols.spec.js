@@ -24,6 +24,7 @@ cases(
       type: "html"
     },
     { name: "component", file: "component" },
-    { name: "react component", file: "frameworks/component" }
+    { name: "react component", file: "frameworks/component" },
+    { name: "flow", file: "flow" }
   ]
 );
