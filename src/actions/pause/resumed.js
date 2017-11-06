@@ -1,6 +1,7 @@
 // @flow
-import { isPaused, pausedInEval, isStepping } from "../../selectors";
+import { isStepping, getPauseReason } from "../../selectors";
 import { evaluateExpressions } from "../expressions";
+import { inDebuggerEval } from "../../utils/pause";
 
 import type { ThunkArgs } from "../types";
 
@@ -11,20 +12,16 @@ import type { ThunkArgs } from "../types";
  * @static
  */
 export function resumed() {
-  return ({ dispatch, client, getState }: ThunkArgs) => {
-    if (!isPaused(getState())) {
-      return;
-    }
-
-    const wasPausedInEval = pausedInEval(getState());
-
-    dispatch({
-      type: "RESUME",
-      value: undefined
-    });
+  return async ({ dispatch, client, getState }: ThunkArgs) => {
+    const why = getPauseReason(getState());
+    const wasPausedInEval = inDebuggerEval(why);
 
     if (!isStepping(getState()) && !wasPausedInEval) {
-      dispatch(evaluateExpressions());
+      await dispatch(evaluateExpressions());
     }
+
+    dispatch({
+      type: "RESUME"
+    });
   };
 }

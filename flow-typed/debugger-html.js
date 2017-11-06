@@ -139,9 +139,12 @@ declare module "debugger-html" {
  * @memberof types
  * @static
  */
-  declare type Why = {
-    type: string
-  };
+  declare type Why =
+    | {|
+        exception: string | Grip,
+        type: "exception"
+      |}
+    | { type: string };
 
   /**
  * Why is the Debugger Paused?
@@ -198,7 +201,8 @@ declare module "debugger-html" {
     ownPropertyLength: number,
     preview: {
       kind: string,
-      url: string
+      url: string,
+      fileName: string
     },
     sealed: boolean,
     type: string
