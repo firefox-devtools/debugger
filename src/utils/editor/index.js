@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 import { isEnabled } from "devtools-config";
@@ -108,8 +112,9 @@ function scrollToColumn(codeMirror: any, line: number, column: number) {
     "local"
   );
 
-  const centeredX = left - codeMirror.getScrollerElement().offsetWidth / 2;
-  const centeredY = top - codeMirror.getScrollerElement().offsetHeight / 2;
+  const scroller = codeMirror.getScrollerElement();
+  const centeredX = Math.max(left - scroller.offsetWidth / 2, 0);
+  const centeredY = Math.max(top - scroller.offsetHeight / 2, 0);
 
   codeMirror.scrollTo(centeredX, centeredY);
 }

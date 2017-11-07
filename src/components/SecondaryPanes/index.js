@@ -1,4 +1,9 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
+
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
@@ -129,6 +134,7 @@ class SecondaryPanes extends Component<Props> {
 
     return {
       header: L10N.getStr("scopes.header"),
+      className: "scopes-pane",
       component: Scopes,
       opened: prefs.scopesVisible,
       onToggle: opened => {
@@ -141,6 +147,7 @@ class SecondaryPanes extends Component<Props> {
   getWatchItem() {
     return {
       header: L10N.getStr("watchExpressions.header"),
+      className: "watch-expressions-pane",
       buttons: this.watchExpressionHeaderButtons(),
       component: Expressions,
       opened: true
@@ -156,12 +163,14 @@ class SecondaryPanes extends Component<Props> {
     const items: Array<SecondaryPanesItems> = [
       {
         header: L10N.getStr("breakpoints.header"),
+        className: "breakpoints-pane",
         buttons: this.renderBreakpointsToggle(),
         component: Breakpoints,
         opened: true
       },
       {
         header: L10N.getStr("callStack.header"),
+        className: "call-stack-pane",
         component: Frames,
         opened: prefs.callStackVisible,
         onToggle: opened => {
@@ -175,6 +184,7 @@ class SecondaryPanes extends Component<Props> {
     if (isEnabled("eventListeners")) {
       items.push({
         header: L10N.getStr("eventListenersHeader"),
+        className: "event-listeners-pane",
         component: EventListeners
       });
     }
@@ -182,6 +192,7 @@ class SecondaryPanes extends Component<Props> {
     if (isEnabled("workers")) {
       items.push({
         header: L10N.getStr("workersHeader"),
+        className: "workers-pane",
         component: Workers
       });
     }

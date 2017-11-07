@@ -274,6 +274,8 @@ function assertPausedLocation(dbg) {
   const pause = getPause(getState());
   const pauseLine = pause && pause.frame && pause.frame.location.line;
   assertDebugLine(dbg, pauseLine);
+
+  ok(isVisibleInEditor(dbg, getCM(dbg).display.gutters), "gutter is visible");
 }
 
 function assertDebugLine(dbg, line) {
@@ -290,9 +292,14 @@ function assertDebugLine(dbg, line) {
   }
 
   ok(
-    lineInfo.wrapClass.includes("debug-line"),
+    lineInfo.wrapClass.includes("new-debug-line"),
     "Line is highlighted as paused"
   );
+
+  const debugLine = findElementWithSelector(dbg, ".new-debug-line")
+                    || findElementWithSelector(dbg, ".new-debug-line-error");
+
+  ok(isVisibleInEditor(dbg, debugLine), "debug line is visible");
 
   const markedSpans = lineInfo.handle.markedSpans;
   if (markedSpans && markedSpans.length > 0) {
@@ -323,10 +330,7 @@ function assertHighlightLocation(dbg, source, line) {
   // Check the highlight line
   const lineEl = findElement(dbg, "highlightLine");
   ok(lineEl, "Line is highlighted");
-  ok(
-    isVisibleWithin(findElement(dbg, "codeMirror"), lineEl),
-    "Highlighted line is visible"
-  );
+  ok(isVisibleInEditor(dbg, lineEl), "Highlighted line is visible");
   ok(
     getCM(dbg)
       .lineInfo(line - 1)
@@ -375,6 +379,24 @@ async function waitForPaused(dbg) {
     },
     "paused"
   );
+}
+
+/*
+ * useful for when you want to see what is happening
+ * e.g await waitForever()
+ */
+function waitForever() {
+  return new Promise(r => {});
+}
+
+/*
+ * useful for waiting for a short amount of time as
+ * a placeholder for a better waitForX handler.
+ *
+ * e.g await waitForTime(500)
+ */
+function waitForTime(ms) {
+  return new Promise(r => setTimeout(r, ms));
 }
 
 /**
@@ -784,10 +806,54 @@ function type(dbg, string) {
   string.split("").forEach(char => EventUtils.synthesizeKey(char, {}, dbg.win));
 }
 
-function isVisibleWithin(outerEl, innerEl) {
+
+/*
+ * Checks to see if the inner element is visible inside the editor.
+ *
+ * @memberof mochitest/helpers
+ * @param {Object} dbg
+ * @param {HTMLElement} inner element
+ * @return {boolean}
+ * @static
+ */
+
+function isVisibleInEditor(dbg, element) {
+  return isVisible(findElement(dbg, "codeMirror"), element);
+}
+
+/*
+ * Checks to see if the inner element is visible inside the
+ * outer element.
+ *
+ * Note, the inner element does not need to be entirely visible,
+ * it is possible for it to be somewhat clipped by the outer element's
+ * bounding element or for it to span the entire length, starting before the
+ * outer element and ending after.
+ *
+ * @memberof mochitest/helpers
+ * @param {HTMLElement} outer element
+ * @param {HTMLElement} inner element
+ * @return {boolean}
+ * @static
+ */
+function isVisible(outerEl, innerEl) {
+  if (!innerEl || !outerEl) {
+    return false;
+  }
+
   const innerRect = innerEl.getBoundingClientRect();
   const outerRect = outerEl.getBoundingClientRect();
-  return innerRect.top > outerRect.top && innerRect.bottom < outerRect.bottom;
+
+  const verticallyVisible =
+    (innerRect.top >= outerRect.top || innerRect.bottom <= outerRect.bottom)
+    || (innerRect.top < outerRect.top && innerRect.bottom > outerRect.bottom);
+
+  const horizontallyVisible =
+    (innerRect.left >= outerRect.left || innerRect.right <= outerRect.right)
+    || (innerRect.left < outerRect.left && innerRect.right > outerRect.right);
+
+  const visible = verticallyVisible && horizontallyVisible;
+  return visible;
 }
 
 const selectors = {
@@ -826,7 +892,9 @@ const selectors = {
   sourceNodes: ".sources-list .tree-node",
   sourceArrow: i => `.sources-list .tree-node:nth-child(${i}) .arrow`,
   resultItems: ".result-list .result-item",
-  fileMatch: ".managed-tree .result"
+  fileMatch: ".managed-tree .result",
+  popup: ".popover",
+  tooltip: ".tooltip"
 };
 
 function getSelector(elementName, ...args) {
