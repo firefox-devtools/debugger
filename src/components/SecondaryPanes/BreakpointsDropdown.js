@@ -28,7 +28,7 @@ function renderIgnoreExceptions() {
 }
 
 function handleClick(e) {
-	e.stopPropagation();
+  e.stopPropagation();
 }
 
 export default function renderBreakpointsDropdown(
@@ -63,8 +63,8 @@ export default function renderBreakpointsDropdown(
   );
 
   return (
-  	<div onClick={e => handleClick(e)}>
-  	<Dropdown class="dropdown" panel={Panel} icon={<Svg name="plus" />} />
-  	</div>
-  	);
+    <div onClick={e => handleClick(e)}>
+      <Dropdown class="dropdown" panel={Panel} icon={<Svg name="plus" />} />
+    </div>
+  );
 }
