@@ -27,6 +27,10 @@ function renderIgnoreExceptions() {
   return debugBtn("pause-exceptions", L10N.getStr("ignoreExceptionsItem"));
 }
 
+function handleClick(e) {
+	e.stopPropagation();
+}
+
 export default function renderBreakpointsDropdown(
   breakOnNext,
   pauseOnExceptions
@@ -58,5 +62,9 @@ export default function renderBreakpointsDropdown(
     </ul>
   );
 
-  return <Dropdown class="dropdown" panel={Panel} icon={<Svg name="plus" />} />;
+  return (
+  	<div onClick={e => handleClick(e)}>
+  	<Dropdown class="dropdown" panel={Panel} icon={<Svg name="plus" />} />
+  	</div>
+  	);
 }
