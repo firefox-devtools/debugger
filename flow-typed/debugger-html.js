@@ -155,9 +155,13 @@ declare module "debugger-html" {
   declare type Why =
     | {|
         exception: string | Grip,
-        type: "exception"
+        type: "exception",
+        frameFinished?: Object
       |}
-    | { type: string };
+    | {
+        type: string,
+        frameFinished?: Object
+      };
 
   /**
  * Why is the Debugger Paused?
@@ -185,6 +189,7 @@ declare module "debugger-html" {
  * @static
  */
   declare type Pause = {
+    frame: Frame,
     frames: Frame[],
     why: Why,
     loadedObjects?: LoadedObject[]
