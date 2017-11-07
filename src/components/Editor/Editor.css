@@ -5,6 +5,7 @@
   --editor-second-searchbar-height: 27px;
   --debug-line-error-border: rgb(255, 0, 0);
   --debug-expression-error-background: rgba(231, 116, 113, 0.3);
+  --editor-header-height: 30px;
 }
 
 .theme-dark .editor-wrapper {
@@ -30,9 +31,9 @@
  */
 .editor-wrapper {
   position: absolute;
-  height: calc(100% - 29px);
+  height: calc(100% - var(--editor-header-height));
   width: calc(100% - 1px);
-  top: 29px;
+  top: var(--editor-header-height);
   left: 0px;
   --editor-footer-height: 24px;
 }
