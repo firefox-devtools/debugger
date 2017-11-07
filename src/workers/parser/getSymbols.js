@@ -169,7 +169,12 @@ function extractSymbols(source: Source) {
       }
 
       if (t.isIdentifier(path)) {
-        const { start, end } = path.node.loc;
+        let { start, end } = path.node.loc;
+
+        if (path.node.typeAnnotation) {
+          const column = path.node.typeAnnotation.loc.start.column;
+          end = { ...end, column };
+        }
 
         identifiers.push({
           name: path.node.name,

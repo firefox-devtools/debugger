@@ -51,7 +51,9 @@ export function paused(pauseInfo: Pause) {
     }
 
     const { line, column } = frame.location;
-    await dispatch(selectSource(frame.location.sourceId, { line, column }));
+    await dispatch(
+      selectSource(frame.location.sourceId, { location: { line, column } })
+    );
 
     dispatch(togglePaneCollapse("end", false));
     dispatch(fetchScopes());

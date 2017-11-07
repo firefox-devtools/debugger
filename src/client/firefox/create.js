@@ -27,6 +27,7 @@ export function createFrame(frame: FramePacket): Frame {
     line: frame.where.line,
     column: frame.where.column
   };
+
   return {
     id: frame.actor,
     displayName: title,

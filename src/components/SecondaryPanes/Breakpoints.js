@@ -40,7 +40,10 @@ type Props = {
   breakpoints: BreakpointsMap,
   enableBreakpoint: Location => void,
   disableBreakpoint: Location => void,
-  selectSource: (string, { line: number }) => void,
+  selectSource: (
+    string,
+    { location: { line: number, column: number } }
+  ) => void,
   removeBreakpoint: string => void,
   removeAllBreakpoints: () => void,
   removeBreakpoints: BreakpointsMap => void,
@@ -334,8 +337,8 @@ class Breakpoints extends PureComponent<Props> {
 
   selectBreakpoint(breakpoint) {
     const sourceId = breakpoint.location.sourceId;
-    const line = breakpoint.location.line;
-    this.props.selectSource(sourceId, { line });
+    const { location } = breakpoint;
+    this.props.selectSource(sourceId, { location });
   }
 
   removeBreakpoint(event, breakpoint) {

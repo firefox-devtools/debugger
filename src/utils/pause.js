@@ -7,7 +7,7 @@ import type { Pause, Frame, Location } from "../types";
 import { get } from "lodash";
 import { getScopes } from "../workers/parser";
 
-import type { Scope, MappedScopeBindings } from "debugger-html";
+import type { Scope, MappedScopeBindings, Why } from "debugger-html";
 
 export function updateFrameLocations(
   frames: Frame[],
@@ -101,4 +101,18 @@ export async function getPausedPosition(pauseInfo: Pause, sourceMaps: any) {
   const frame = frames[0];
   const { location } = frame;
   return location;
+}
+
+export function inDebuggerEval(why: ?Why) {
+  if (
+    why &&
+    why.type === "exception" &&
+    why.exception &&
+    why.exception.preview &&
+    why.exception.preview.fileName
+  ) {
+    return why.exception.preview.fileName === "debugger eval code";
+  }
+
+  return false;
 }
