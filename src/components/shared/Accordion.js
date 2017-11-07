@@ -9,7 +9,7 @@ type AccordionItem = {
   component(): any,
   componentProps: Object,
   header: string,
-  cssClass: string,
+  className: string,
   opened: boolean,
   onToggle?: () => void,
   shouldOpen?: () => void
@@ -65,7 +65,7 @@ class Accordion extends Component<Props, State> {
     const { opened, created } = this.state;
 
     return (
-      <div className={item.cssClass} key={i}>
+      <div className={item.className} key={i}>
         <div className="_header" onClick={() => this.handleHeaderClick(i)}>
           <Svg name="arrow" className={opened[i] ? "expanded" : ""} />
           {item.header}
