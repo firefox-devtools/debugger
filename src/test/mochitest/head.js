@@ -381,6 +381,24 @@ async function waitForPaused(dbg) {
   );
 }
 
+/*
+ * useful for when you want to see what is happening
+ * e.g await waitForever()
+ */
+function waitForever() {
+  return new Promise(r => {});
+}
+
+/*
+ * useful for waiting for a short amount of time as
+ * a placeholder for a better waitForX handler.
+ *
+ * e.g await waitForTime(500)
+ */
+function waitForTime(ms) {
+  return new Promise(r => setTimeout(r, ms));
+}
+
 /**
  * Waits for the debugger to be fully paused.
  *
