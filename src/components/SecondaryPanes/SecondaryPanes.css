@@ -47,7 +47,7 @@
   display: flex;
 }
 
-.accordion .breakpoints-buttons .plus svg {
+.secondary-panes .accordion .plus svg {
   width: 12px;
   margin-top: 3px;
   fill: var(--theme-comment-alt);
@@ -56,8 +56,4 @@
 .dropdown {
   width: 20em;
   overflow: auto;
-}
-
-.debug-button {
-  margin: auto;
 }

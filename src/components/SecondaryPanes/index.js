@@ -116,10 +116,6 @@ class SecondaryPanes extends Component<Props> {
         : L10N.getStr("breakpoints.disable")
     };
 
-    if (!features.breakpointsDropdown) {
-      return <input {...inputProps} />;
-    }
-
     return (
       <div className="breakpoints-buttons">
         <input {...inputProps} />
@@ -165,15 +161,9 @@ class SecondaryPanes extends Component<Props> {
   }
 
   breakpointButton() {
-    const {
-      breakOnNext,
-      pauseOnExceptions
-    } = this.props;
+    const { breakOnNext, pauseOnExceptions } = this.props;
 
-    return renderBreakpointsDropdown(
-      breakOnNext,
-      pauseOnExceptions
-    );
+    return renderBreakpointsDropdown(breakOnNext, pauseOnExceptions);
   }
 
   getStartItems() {
