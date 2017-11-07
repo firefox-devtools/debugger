@@ -20,6 +20,12 @@ Another, important fix was with showing local scopes. Jim blandy fixed a bug, wh
 
 The last item, is more of a fun feature than anything else. But because we parse the original source text with babel, it was possible that you could hover on a function param, which has a flow type. Previously we would highlight the type as well, but now we're smarter and just highlight the param. Check out a video of how Jason fixed it!
 
+### [November 7th](./updates-11-07-2017.md)
+
++ we started optimistically clearing the pause state when we step, which eagerly clears the UI and prepares it for another step. We also defer fetching and mapping scopes when the debugger pauses, which makes the UI a bit snappier.
++ We devoted some of our time to improving our airtable config. Airtable will allow us to better manage our open source work / github progress, as well as give us faster access to what has happened over the past week.
++ The biggest fix we had this week was done by @nyrosmith, who noticed that our breakpoints were not responding when the page was reloaded. This turned out to be an issue with how breakpoints were being synced, and could have been avoided if we were stricter with our types!
+
 ### [October 31st](./updates-10-31-2017.md)
 
 + Wellington unified our search UX to create an editor style modal for searching for files, functions, variables, and jumping to a line. We now have helpful prefixes for changing modes: @, #, :.
