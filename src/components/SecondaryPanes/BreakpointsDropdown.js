@@ -12,7 +12,7 @@ function debugBtn(type, tooltip) {
 }
 
 function renderPause() {
-  return debugBtn("pause", L10N.getFormatStr("pauseButtonItem"));
+  return debugBtn("pause", L10N.getFormatStr("pauseButtonTooltip"));
 }
 
 function renderPauseOnExceptions() {
@@ -20,11 +20,11 @@ function renderPauseOnExceptions() {
 }
 
 function renderPauseOnUncaughtExceptions() {
-  return debugBtn("pause-exceptions", L10N.getStr("pauseOnUncaughtExceptions"));
+  return debugBtn("pause-exceptions", L10N.getStr("pauseOnUncaughtExceptionsTooltip"));
 }
 
 function renderIgnoreExceptions() {
-  return debugBtn("pause-exceptions", L10N.getStr("ignoreExceptionsItem"));
+  return debugBtn("pause-exceptions", L10N.getStr("ignoreExceptionsTooltip"));
 }
 
 function handleClick(e) {
