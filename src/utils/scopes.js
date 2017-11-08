@@ -165,7 +165,7 @@ export function getScopes(
       // the return value or the exception being thrown as special variables.
       if (
         scope.actor === selectedScope.actor &&
-        selectedFrame.id == pauseInfo.frame.id
+        selectedFrame.id === pauseInfo.frame.id
       ) {
         vars = vars.concat(getFramePopVariables(pauseInfo, key));
       }
