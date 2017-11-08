@@ -21,7 +21,7 @@ function handleError(err: any) {
  * @memberof utils/utils
  * @static
  */
-function promisify(context: any, method: any, ...args: any) {
+function promisify(context: any, method: any, ...args: any): Promise<mixed> {
   return new Promise((resolve, reject) => {
     args.push(response => {
       if (response.error) {
@@ -66,7 +66,7 @@ function throttle(func: any, ms: number) {
   };
 }
 
-function waitForMs(ms: number) {
+function waitForMs(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 

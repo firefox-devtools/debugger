@@ -12,6 +12,7 @@ type WasmState = {
   offsets: Array<number>
 };
 
+// $FlowIgnore
 var wasmStates: { [string]: WasmState } = Object.create(null);
 
 /**

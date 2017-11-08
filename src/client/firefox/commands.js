@@ -130,7 +130,9 @@ function setBreakpoint(
     });
 }
 
-function removeBreakpoint(generatedLocation: Location) {
+function removeBreakpoint(
+  generatedLocation: Location
+): Promise<void> | ?BreakpointResult {
   try {
     const id = makeLocationId(generatedLocation);
     const bpClient = bpClients[id];
@@ -166,7 +168,7 @@ type EvaluateParam = {
   frameId?: FrameId
 };
 
-function evaluate(script: Script, { frameId }: EvaluateParam) {
+function evaluate(script: Script, { frameId }: EvaluateParam): Promise<mixed> {
   const params = frameId ? { frameActor: frameId } : {};
   if (!tabTarget || !tabTarget.activeConsole) {
     return Promise.resolve();
@@ -181,7 +183,7 @@ function evaluate(script: Script, { frameId }: EvaluateParam) {
   });
 }
 
-function debuggeeCommand(script: Script) {
+function debuggeeCommand(script: Script): ?Promise<void> {
   tabTarget.activeConsole.evaluateJS(script, () => {}, {});
 
   if (!debuggerClient) {
