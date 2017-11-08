@@ -196,7 +196,7 @@ export default class TextSearch extends Component {
         onFocus={() => (this.inputFocused = true)}
         onBlur={() => (this.inputFocused = false)}
         onKeyDown={e => this.onKeyDown(e)}
-        handleClose={this.props.closeActiveSearch}
+        handleClose={this.props.closeProjectSearch}
         ref="searchInput"
       />
     );
@@ -221,7 +221,7 @@ TextSearch.propTypes = {
   results: PropTypes.array,
   status: PropTypes.string,
   query: PropTypes.string,
-  closeActiveSearch: PropTypes.func,
+  closeProjectSearch: PropTypes.func,
   searchSources: PropTypes.func,
   selectSource: PropTypes.func,
   searchBottomBar: PropTypes.object

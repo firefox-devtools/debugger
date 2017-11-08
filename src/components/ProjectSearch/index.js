@@ -28,6 +28,7 @@ type Props = {
   textSearchQuery: string,
   setActiveSearch: Function,
   closeActiveSearch: Function,
+  closeProjectSearch: Function,
   searchSources: Function,
   activeSearch: string,
   selectSource: Function,
@@ -83,7 +84,7 @@ class ProjectSearch extends Component<Props> {
       results,
       status,
       searchSources,
-      closeActiveSearch,
+      closeProjectSearch,
       selectSource,
       textSearchQuery
     } = this.props;
@@ -94,7 +95,7 @@ class ProjectSearch extends Component<Props> {
         results={results.toJS()}
         status={status}
         searchSources={searchSources}
-        closeActiveSearch={closeActiveSearch}
+        closeProjectSearch={closeProjectSearch}
         selectSource={selectSource}
         query={textSearchQuery}
       />
@@ -116,6 +117,7 @@ ProjectSearch.propTypes = {
   textSearchQuery: PropTypes.string,
   setActiveSearch: PropTypes.func.isRequired,
   closeActiveSearch: PropTypes.func.isRequired,
+  closeProjectSearch: PropTypes.func.isRequired,
   searchSources: PropTypes.func,
   activeSearch: PropTypes.string,
   selectSource: PropTypes.func.isRequired

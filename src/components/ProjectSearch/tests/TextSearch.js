@@ -7,7 +7,7 @@ function render(overrides = {}) {
     sources: {},
     results: [],
     query: "foo",
-    closeActiveSearch: jest.fn(),
+    closeProjectSearch: jest.fn(),
     searchSources: jest.fn(),
     selectSource: jest.fn()
   };

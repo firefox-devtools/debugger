@@ -113,4 +113,23 @@ describe("project text search", () => {
     dispatch(actions.updateSearchStatus(mockStatus));
     expect(getTextSearchStatus(getState())).toEqual(mockStatus);
   });
+
+  it("should close project search", async () => {
+    const { dispatch, getState } = createStore(threadClient);
+    const mockQuery = "foo";
+
+    await dispatch(actions.newSource(makeSource("foo1")));
+    await dispatch(actions.searchSources(mockQuery));
+
+    expect(getTextSearchResults(getState())).toMatchSnapshot();
+
+    dispatch(actions.closeProjectSearch());
+
+    expect(getTextSearchQuery(getState())).toEqual("");
+
+    const results = getTextSearchResults(getState());
+
+    expect(results).toMatchSnapshot();
+    expect(results.size).toEqual(0);
+  });
 });

@@ -63,6 +63,7 @@ type Props = {
   quickOpenEnabled: boolean,
   setActiveSearch: string => void,
   closeActiveSearch: () => void,
+  closeProjectSearch: () => void,
   openQuickOpen: (query?: string) => void,
   closeQuickOpen: () => void,
   setOrientation: OrientationType => void
