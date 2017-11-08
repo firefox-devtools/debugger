@@ -52,7 +52,7 @@ export function bootstrapApp(connection, { store, actions }) {
   // Expose the bound actions so external things can do things like
   // selecting a source.
   window.actions = {
-    selectSource: actions.selectSource,
+    selectLocation: actions.selectLocation,
     selectSourceURL: actions.selectSourceURL
   };
 

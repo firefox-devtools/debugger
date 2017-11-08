@@ -63,7 +63,7 @@ export default class TextSearch extends Component<Props> {
 
   selectMatchItem(matchItem) {
     const { line, column } = matchItem;
-    this.props.selectSource(matchItem.sourceId, { location: { line, column } });
+    this.props.selectLocation({ sourceId: matchItem.sourceId, line, column });
   }
 
   getResults() {
@@ -98,6 +98,7 @@ export default class TextSearch extends Component<Props> {
   onEnterPress() {
     if (this.focusedItem && !this.inputFocused) {
       const { setExpanded, file, expanded, match } = this.focusedItem;
+      match.location = { line: match.line, column: match.column };
       if (setExpanded) {
         setExpanded(file, !expanded);
       } else {

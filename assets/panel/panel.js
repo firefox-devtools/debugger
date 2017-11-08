@@ -98,8 +98,10 @@ DebuggerPanel.prototype = {
     return { frames, selected };
   },
 
-  selectSource(sourceURL, sourceLine) {
-    this._actions.selectSourceURL(sourceURL, { line: sourceLine });
+  selectLocation(locationObject) {
+    this._actions.selectSourceURL(locationObject.sourceId, {
+      line: locationObject.line
+    });
   },
 
   getSource(sourceURL) {

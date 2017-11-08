@@ -83,7 +83,7 @@ type Props = {
   sourceTabs: SourcesList,
   searchTabs: List<ActiveSearchType>,
   selectedSource: SourceRecord,
-  selectSource: (string, ?Object) => void,
+  selectLocation: Object => void,
   moveTab: (string, number) => void,
   closeTab: string => void,
   closeTabs: (List<string>) => void,
@@ -315,10 +315,9 @@ class SourceTabs extends PureComponent<Props, State> {
   }
 
   renderDropdownSource(source: SourceRecord) {
-    const { selectSource } = this.props;
+    const { selectLocation } = this.props;
     const filename = getFilename(source.toJS());
-
-    const onClick = () => selectSource(source.get("id"));
+    const onClick = () => selectLocation({ sourceId: source.get("id") });
     return (
       <li key={source.get("id")} onClick={onClick}>
         {filename}
@@ -382,11 +381,12 @@ class SourceTabs extends PureComponent<Props, State> {
   }
 
   renderSourceTab(source: SourceRecord) {
-    const { selectedSource, selectSource, closeTab } = this.props;
+    const { selectedSource, selectLocation, closeTab } = this.props;
+    const sourceId = source.get("id");
     const filename = getFilename(source.toJS());
     const active =
       selectedSource &&
-      source.get("id") == selectedSource.get("id") &&
+      sourceId == selectedSource.get("id") &&
       (!this.isProjectSearchEnabled() && !this.isSourceSearchEnabled());
     const isPrettyCode = isPretty(source.toJS());
     const sourceAnnotation = this.getSourceAnnotation(source);
@@ -404,9 +404,9 @@ class SourceTabs extends PureComponent<Props, State> {
     return (
       <div
         className={className}
-        key={source.get("id")}
-        onClick={() => selectSource(source.get("id"))}
-        onContextMenu={e => this.onTabContextMenu(e, source.get("id"))}
+        key={sourceId}
+        onClick={() => selectLocation({ sourceId })}
+        onContextMenu={e => this.onTabContextMenu(e, sourceId)}
         title={getFileURL(source.toJS())}
       >
         {sourceAnnotation}

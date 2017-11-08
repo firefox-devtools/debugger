@@ -48,9 +48,10 @@ import { features } from "../../utils/prefs";
 import { setProjectDirectoryRoot } from "../../actions/ui";
 
 type Props = {
-  selectSource: string => void,
+  selectLocation: Object => void,
   setExpandedState: any => void,
   sources: SourcesMap,
+  selectLocation: Object => void,
   shownSource?: string,
   selectedSource?: SourceRecord,
   debuggeeUrl: string,
@@ -211,7 +212,7 @@ class SourcesTree extends Component<Props, State> {
 
   selectItem(item) {
     if (!nodeHasChildren(item)) {
-      this.props.selectSource(item.contents.get("id"));
+      this.props.selectLocation({ sourceId: item.contents.get("id") });
     }
   }
 

@@ -38,13 +38,14 @@ export function parseQuickOpenQuery(query: string): QuickOpenType {
 }
 
 export function parseLineColumn(query: string) {
-  const [, line, column] = query.split(":");
-  const lineNumber = parseInt(line, 10);
-  const columnNumber = parseInt(column, 10);
-  if (!isNaN(lineNumber)) {
+  const [, lineNumber, columnNumber] = query.split(":");
+  const line = parseInt(lineNumber, 10);
+  const column = parseInt(columnNumber, 10);
+
+  if (!isNaN(line)) {
     return {
-      line: lineNumber,
-      ...(!isNaN(columnNumber) ? { column: columnNumber } : null)
+      line,
+      ...(!isNaN(column) ? { column } : null)
     };
   }
 }

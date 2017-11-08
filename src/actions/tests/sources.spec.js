@@ -66,6 +66,7 @@ describe("sources", () => {
 
     expect(getSelectedSource(getState())).toBe(undefined);
     await dispatch(actions.newSource(baseSource));
+
     expect(getSelectedSource(getState()).get("url")).toBe(baseSource.url);
   });
 
