@@ -8,7 +8,7 @@ It is basically automating the steps :)
 1. create a new up to date branch in MC and Github
 2. create the bundle and commit the `assets-manifest` in GH and commit the bundle patch in MC.
 3. check for changes in MC since the last bundle. If there have been any other changes, notify the user.
-4. run the tests in MC, if they pass: create a new bugzilla bug and append a patch and try run
+4. run the tests in MC, if they pass: create a new Bugzilla bug and append a patch and try run
 5. if the tests fail or the patch is bad for any reason, automate the steps for updating the bug.
 
 The automation steps are managed in the [ship2gecko][s2g] repo.
@@ -39,7 +39,7 @@ and which packages are taking up space is to look at the webpack visualizer.
 2. `cd ../gecko/devtools/client/debugger/new`
 3. `open webpack-stats.html`
 
-![vis]
+![][vis]
 
 ### Why are packages included in the bundle?
 
@@ -61,11 +61,11 @@ Notes:
 1. When modules like `react` are excluded, they show up as `external ...` with a small byte size
 2. `user-request` is a good way to see what the first request was. For instance `prop-types` resulted in `./node_modules/prop-types/index.js`
 
-![ana]
+![][ana]
 
 ---
 
-![ana2]
+![][ana2]
 
 [ana]: https://shipusercontent.com/05ace0ec040dc7af3067cb50b528d717/Screen%20Shot%202017-11-08%20at%209.42.07%20AM.png
 [vis]: https://shipusercontent.com/d00336549a3b754be1d6669c1dee2fd7/Screen%20Shot%202017-11-08%20at%209.41.09%20AM.png
