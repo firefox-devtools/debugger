@@ -64,6 +64,8 @@ describe("Outline", () => {
     const { selectSource } = props;
     const listItem = component.find("li").first();
     listItem.simulate("click");
-    expect(selectSource).toHaveBeenCalledWith(sourceId, { line: startLine });
+    expect(selectSource).toHaveBeenCalledWith(sourceId, {
+      location: { line: 12 }
+    });
   });
 });
