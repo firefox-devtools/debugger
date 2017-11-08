@@ -46,5 +46,6 @@ else
     echo "
 ac_add_options --enable-artifact-builds
 mk_add_options MOZ_OBJDIR=./objdir-frontend
+mk_add_options AUTOCLOBBER=1
 " > .mozconfig
 fi
