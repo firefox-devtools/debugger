@@ -295,6 +295,11 @@ declare module "debugger-html" {
     [name: string]: BindingContents
   };
 
+  declare type SyntheticScope = {
+    type: string,
+    bindingsNames: string[]
+  };
+
   /**
  * Scope
  * @memberof types
