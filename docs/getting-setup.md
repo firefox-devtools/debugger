@@ -40,7 +40,7 @@ tab to debug.
 
 | Launchpad | Tabs |
 | -- | -- |
-| ![pad2-screenshot] |  ![launchpad-screenshot] |
+| ![pad2-screenshot] | ![launchpad-screenshot] |
 
 Congratulations! You're now up and running. :sweat_smile:
 
