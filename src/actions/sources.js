@@ -51,7 +51,7 @@ import type { State } from "../reducers/types";
 async function checkSelectedSource(state: State, dispatch, source) {
   const pendingLocation = getPendingSelectedLocation(state);
   if (pendingLocation && !!source.url && pendingLocation.url === source.url) {
-    await dispatch(selectLocation({ sourceId: source.id, ...pendingLocation }));
+    await dispatch(selectLocation({ id: source.id, ...pendingLocation }));
   }
 }
 
@@ -162,7 +162,7 @@ export function selectSourceURL(
     const source = getSourceByURL(getState(), url);
     if (source) {
       await dispatch(
-        selectLocation({ sourceId: source.get("id"), ...options.location })
+        selectLocation({ id: source.get("id"), ...options.location })
       );
     } else {
       dispatch({
@@ -176,6 +176,7 @@ export function selectSourceURL(
 }
 
 declare type LocationObject = {
+  id: ?string,
   sourceId?: ?string,
   line?: ?number,
   column?: ?number,
@@ -190,7 +191,7 @@ export function selectLocation(location: LocationObject) {
       return;
     }
 
-    const source = getSource(getState(), location.sourceId);
+    const source = getSource(getState(), location.id);
     if (!source) {
       // If there is no source we deselect the current selected source
       return dispatch({ type: "CLEAR_SELECTED_SOURCE" });
@@ -210,7 +211,7 @@ export function selectLocation(location: LocationObject) {
       [PROMISE]: (async () => {
         await dispatch(loadSourceText(source.toJS()));
         await dispatch(setOutOfScopeLocations());
-        const src = getSource(getState(), location.sourceId).toJS();
+        const src = getSource(getState(), location.id).toJS();
         const { autoPrettyPrint } = prefs;
         if (
           autoPrettyPrint &&
@@ -350,13 +351,15 @@ export function togglePrettyPrint(sourceId: string) {
     }
 
     if (prettySource) {
-      return dispatch(selectLocation(options.location));
+      return dispatch(
+        selectLocation({ id: prettySource.get("id"), ...options.location })
+      );
     }
 
     const newPrettySource = await dispatch(createPrettySource(sourceId));
     await dispatch(remapBreakpoints(sourceId));
     await dispatch(setEmptyLines(newPrettySource.id));
-    return dispatch(selectLocation({ sourceId: newPrettySource.id }));
+    return dispatch(selectLocation({ id: newPrettySource.id }));
   };
 }
 

@@ -151,7 +151,7 @@ class SourceTabs extends PureComponent<Props, State> {
 
   componentDidUpdate(prevProps) {
     if (!(prevProps === this.props)) {
-      this.updateHiddenSourceTabs();
+      this.updateHiddenSourceTabs();sourceId
     }
   }
 
@@ -317,7 +317,7 @@ class SourceTabs extends PureComponent<Props, State> {
   renderDropdownSource(source: SourceRecord) {
     const { selectLocation } = this.props;
     const filename = getFilename(source.toJS());
-    const onClick = () => selectLocation({ sourceId: source.get("id") });
+    const onClick = () => selectLocation({ id: source.get("id") });
     return (
       <li key={source.get("id")} onClick={onClick}>
         {filename}
@@ -382,7 +382,7 @@ class SourceTabs extends PureComponent<Props, State> {
 
   renderSourceTab(source: SourceRecord) {
     const { selectedSource, selectLocation, closeTab } = this.props;
-    const sourceId = source.get("id");
+    const id = source.get("id");
     const filename = getFilename(source.toJS());
     const active =
       selectedSource &&
@@ -404,9 +404,9 @@ class SourceTabs extends PureComponent<Props, State> {
     return (
       <div
         className={className}
-        key={sourceId}
-        onClick={() => selectLocation({ sourceId })}
-        onContextMenu={e => this.onTabContextMenu(e, sourceId)}
+        key={id}
+        onClick={() => selectLocation({ id })}
+        onContextMenu={e => this.onTabContextMenu(e, id)}
         title={getFileURL(source.toJS())}
       >
         {sourceAnnotation}

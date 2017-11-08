@@ -44,6 +44,7 @@ type Props = {
   searchType: QuickOpenType,
   symbols: FormattedSymbolDeclarations,
   selectLocation: ({
+    id?: ? string,
     sourceId?: ?string,
     line?: ?number,
     column?: ?number
@@ -144,14 +145,14 @@ export class QuickOpenModal extends Component<Props, State> {
       if (selectedSource == null) {
         return;
       }
-
-      const line = item.location != null ? item.location.start.line : null;
-      const location = { sourceId: selectedSource.get("id"), line };
-      selectLocation(location);
+      selectLocation({
+        id: selectedSource.get("id"),
+        ...(item.location != null ? { line: item.location.start.line } : null)
+      });
     } else if (searchType === "gotoSource") {
       const location = parseLineColumn(query);
       if (location != null) {
-        selectLocation({ sourceId: item.id, ...location });
+        selectLocation({ sourceId: item.id, location });
       }
     } else {
       selectLocation({ sourceId: item.id });
@@ -172,9 +173,10 @@ export class QuickOpenModal extends Component<Props, State> {
     }
 
     if (searchType === "variables") {
-      const line = item.location != null ? item.location.start.line : null;
-      const location = { sourceId: selectedSource.get("id"), line };
-      selectLocation(location);
+      selectLocation({
+        id: selectedSource.get("id"),
+        ...(item.location != null ? { line: item.location.start.line } : null)
+      });
     }
 
     if (searchType === "functions") {
@@ -236,7 +238,7 @@ export class QuickOpenModal extends Component<Props, State> {
         }
         const location = parseLineColumn(query);
         if (location != null) {
-          selectLocation({ sourceId: selectedSource.get("id"), ...location });
+          selectLocation({ id: selectedSource.get("id"), ...location });
         }
       } else {
         this.selectResultItem(e, results[selectedIndex]);

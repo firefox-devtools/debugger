@@ -41,12 +41,12 @@ class EventListeners extends Component<Props> {
 
   renderListener({ type, selector, line, sourceId, breakpoint }) {
     const checked = breakpoint && !breakpoint.disabled;
-    const location = { sourceId, line };
+    const location = { id: sourceId, line };
 
     return (
       <div
         className="listener"
-        onClick={() => this.props.selectLocation(location)}
+        onClick={() => this.props.selectLocation({ ...location })}
         key={`${type}.${selector}.${sourceId}.${line}`}
       >
         <input
