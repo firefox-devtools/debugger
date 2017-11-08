@@ -51,6 +51,25 @@ describe("pause", () => {
       await stepped;
       expect(isStepping(getState())).toBeFalsy();
     });
+
+    fit("should only step when paused", async () => {
+      const client = { stepIn: jest.fn() };
+      const { dispatch } = createStore(client);
+
+      dispatch(actions.stepIn());
+      console.log(client.stepIn.calls);
+      expect(client.stepIn.calls.length).toEqual(0);
+    });
+
+    fit("should step when paused", async () => {
+      const client = { stepIn: jest.fn() };
+      const { dispatch } = createStore(client);
+      const mockPauseInfo = createPauseInfo();
+
+      await dispatch(actions.paused(mockPauseInfo));
+      dispatch(actions.stepIn());
+      expect(client.stepIn.calls.length).toEqual(1);
+    });
   });
 
   describe("resumed", () => {
