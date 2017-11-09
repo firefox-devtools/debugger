@@ -231,7 +231,7 @@ export function selectLocation(location: LocationObject) {
  */
 export function selectSource(id: string, options: SelectSourceOptions = {}) {
   const location = options.location;
-  return selectLocation({ sourceId: id, ...location });
+  return selectLocation({ id, ...location });
 }
 
 /**

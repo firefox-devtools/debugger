@@ -382,7 +382,11 @@ class SourceTabs extends PureComponent<Props, State> {
 
   renderSourceTab(source: SourceRecord) {
     const { selectedSource, selectLocation, closeTab } = this.props;
+<<<<<<< HEAD
     const id = source.get("id");
+=======
+    const sourceId = source.get("id");
+>>>>>>> Addresses most errors in previous commit
     const filename = getFilename(source.toJS());
     const active =
       selectedSource &&
