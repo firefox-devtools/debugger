@@ -182,19 +182,8 @@ class SecondaryPanes extends Component<Props> {
     const items: Array<SecondaryPanesItems> = [
       {
         header: L10N.getStr("breakpoints.header"),
-<<<<<<< HEAD
-<<<<<<< HEAD
         className: "breakpoints-pane",
-        buttons: [renderBreakpointsDropdown(this, actions), this.renderBreakpointsToggle()],
-=======
-        buttons: [
-        this.breakpointButton(), 
-        this.renderBreakpointsToggle()
-        ],
->>>>>>> Return functionality
-=======
         buttons: [this.breakpointButton(), this.renderBreakpointsToggle()],
->>>>>>> Update string IDs (and lint-css fix)
         component: Breakpoints,
         opened: true
       },
