@@ -2,35 +2,35 @@
 
 declare module "debugger-html" {
   /**
- * Breakpoint ID
- *
- * @memberof types
- * @static
- */
+   * Breakpoint ID
+   *
+   * @memberof types
+   * @static
+   */
   declare type BreakpointId = string;
 
   /**
- * Source ID
- *
- * @memberof types
- * @static
- */
+   * Source ID
+   *
+   * @memberof types
+   * @static
+   */
   declare type SourceId = string;
 
   /**
- * Actor ID
- *
- * @memberof types
- * @static
- */
+   * Actor ID
+   *
+   * @memberof types
+   * @static
+   */
   declare type ActorId = string;
 
   /**
- * Source File Location
- *
- * @memberof types
- * @static
- */
+   * Source File Location
+   *
+   * @memberof types
+   * @static
+   */
   declare type Location = {
     sourceId: SourceId,
     line: number,
@@ -53,11 +53,11 @@ declare module "debugger-html" {
   |};
 
   /**
- * Breakpoint
- *
- * @memberof types
- * @static
- */
+   * Breakpoint
+   *
+   * @memberof types
+   * @static
+   */
   declare type Breakpoint = {
     id: BreakpointId,
     location: Location,
@@ -71,33 +71,33 @@ declare module "debugger-html" {
   };
 
   /**
- * Breakpoint sync data
- *
- * @memberof types
- * @static
- */
+   * Breakpoint sync data
+   *
+   * @memberof types
+   * @static
+   */
   declare type BreakpointSyncData = {
     previousLocation: Location | null,
     breakpoint: Breakpoint
   };
 
   /**
- * Breakpoint Result is the return from an add/modify Breakpoint request
- *
- * @memberof types
- * @static
- */
+   * Breakpoint Result is the return from an add/modify Breakpoint request
+   *
+   * @memberof types
+   * @static
+   */
   declare type BreakpointResult = {
     id: ActorId,
     actualLocation: Location
   };
 
   /**
- * PendingBreakpoint
- *
- * @memberof types
- * @static
- */
+   * PendingBreakpoint
+   *
+   * @memberof types
+   * @static
+   */
   declare type PendingBreakpoint = {
     location: PendingLocation,
     astLocation: ASTLocation,
@@ -109,18 +109,18 @@ declare module "debugger-html" {
   };
 
   /**
- * Frame ID
- *
- * @memberof types
- * @static
- */
+   * Frame ID
+   *
+   * @memberof types
+   * @static
+   */
   declare type FrameId = string;
 
   /**
- * Frame
- * @memberof types
- * @static
- */
+   * Frame
+   * @memberof types
+   * @static
+   */
   declare type Frame = {
     id: FrameId,
     displayName: string,
@@ -148,10 +148,10 @@ declare module "debugger-html" {
   };
 
   /**
- * why
- * @memberof types
- * @static
- */
+   * why
+   * @memberof types
+   * @static
+   */
   declare type Why =
     | {|
         exception: string | Grip,
@@ -164,14 +164,14 @@ declare module "debugger-html" {
       };
 
   /**
- * Why is the Debugger Paused?
- * This is the generic state handling the reason the debugger is paused.
- * Reasons are usually related to "breakpoint" or "debuggerStatement"
- * and should eventually be specified here as an enum.  For now we will
- * just offer it as a string.
- * @memberof types
- * @static
- */
+   * Why is the Debugger Paused?
+   * This is the generic state handling the reason the debugger is paused.
+   * Reasons are usually related to "breakpoint" or "debuggerStatement"
+   * and should eventually be specified here as an enum.  For now we will
+   * just offer it as a string.
+   * @memberof types
+   * @static
+   */
   declare type WhyPaused = {
     type: string
   };
@@ -184,10 +184,10 @@ declare module "debugger-html" {
   };
 
   /**
- * Pause
- * @memberof types
- * @static
- */
+   * Pause
+   * @memberof types
+   * @static
+   */
   declare type Pause = {
     frame: Frame,
     frames: Frame[],
@@ -195,10 +195,10 @@ declare module "debugger-html" {
     loadedObjects?: LoadedObject[]
   };
   /**
- * Expression
- * @memberof types
- * @static
- */
+   * Expression
+   * @memberof types
+   * @static
+   */
   declare type Expression = {
     input: string,
     value: Object,
@@ -206,10 +206,10 @@ declare module "debugger-html" {
   };
 
   /**
-  * Grip
-  * @memberof types
-  * @static
-  */
+   * Grip
+   * @memberof types
+   * @static
+   */
   declare type Grip = {
     actor: string,
     class: string,
@@ -272,25 +272,25 @@ declare module "debugger-html" {
   };
 
   /**
- * Script
- * This describes scripts which are sent to the debug server to be eval'd
- * @memberof types
- * @static
- * FIXME: This needs a real type definition
- */
+   * Script
+   * This describes scripts which are sent to the debug server to be eval'd
+   * @memberof types
+   * @static
+   * FIXME: This needs a real type definition
+   */
   declare type Script = any;
 
   /**
- * Describes content of the binding.
- * FIXME Define these type more clearly
- */
+   * Describes content of the binding.
+   * FIXME Define these type more clearly
+   */
   declare type BindingContents = {
     value: any
   };
 
   /**
- * Defines map of binding name to its content.
- */
+   * Defines map of binding name to its content.
+   */
   declare type ScopeBindings = {
     [name: string]: BindingContents
   };
@@ -301,10 +301,10 @@ declare module "debugger-html" {
   };
 
   /**
- * Scope
- * @memberof types
- * @static
- */
+   * Scope
+   * @memberof types
+   * @static
+   */
   declare type Scope = {
     actor: ActorId,
     parent: ?Scope,
