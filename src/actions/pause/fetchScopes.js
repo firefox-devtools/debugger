@@ -18,6 +18,13 @@ export function fetchScopes() {
       return;
     }
 
+    const scopes = await client.getFrameScopes(frame);
+    dispatch({
+      type: "ADD_SCOPES",
+      frame,
+      scopes
+    });
+
     const sourceRecord = getSource(
       getState(),
       frame.generatedLocation.sourceId
@@ -26,13 +33,6 @@ export function fetchScopes() {
     if (sourceRecord.get("isWasm")) {
       return;
     }
-
-    const scopes = await client.getFrameScopes(frame);
-    dispatch({
-      type: "ADD_SCOPES",
-      frame,
-      scopes
-    });
 
     if (isGeneratedId(frame.location.sourceId)) {
       return;
