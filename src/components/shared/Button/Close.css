@@ -18,6 +18,10 @@
   width: 8px;
 }
 
+.close-btn:focus .close{
+  background: var(--theme-selection-background);
+
+}
 .close-btn:hover {
   display: block;
 }
