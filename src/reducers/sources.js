@@ -13,6 +13,7 @@ import * as I from "immutable";
 import { createSelector } from "reselect";
 import makeRecord from "../utils/makeRecord";
 import { getPrettySourceURL } from "../utils/source";
+import { getGeneratedSourceId, isOriginal } from "../utils/source-maps";
 import { prefs } from "../utils/prefs";
 
 import type { Map, List } from "immutable";
@@ -299,6 +300,13 @@ export function getSourceByURL(state: OuterState, url: string): ?SourceRecord {
   return getSourceByUrlInSources(state.sources.sources, url);
 }
 
+export function getGeneratedSource(state: OuterState, source: any) {
+  if (!isOriginal(source.id)) {
+    return source;
+  }
+  return getSource(state, getGeneratedSourceId(source.id));
+}
+
 export function getPendingSelectedLocation(state: OuterState) {
   return state.sources.pendingSelectedLocation;
 }
@@ -371,6 +379,10 @@ export const getSelectedSource = createSelector(
 
     return sources.get(selectedLocation.sourceId);
   }
+);
+
+export const generatedSource = createSelector(getSourcesState, source =>
+  getSource(source, source.id)
 );
 
 export const getSelectedSourceText = createSelector(
