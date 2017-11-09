@@ -69,12 +69,20 @@ function formatKey(action) {
   return formatKeyShortcut(key);
 }
 
-function debugBtn(onClick, type, className, tooltip, disabled = false) {
+function debugBtn(
+  onClick,
+  type,
+  className,
+  tooltip,
+  disabled = false,
+  ariaPressed = false
+) {
   const props = {
     onClick,
     key: type,
     title: tooltip,
-    disabled
+    disabled,
+    "aria-pressed": ariaPressed
   };
 
   return (
@@ -212,6 +220,7 @@ class CommandBar extends Component<Props> {
         () => pauseOnExceptions(true, true),
         "pause-exceptions",
         "enabled",
+        "false",
         L10N.getStr("ignoreExceptions")
       );
     }
@@ -221,6 +230,7 @@ class CommandBar extends Component<Props> {
         () => pauseOnExceptions(true, false),
         "pause-exceptions",
         "uncaught enabled",
+        "true",
         L10N.getStr("pauseOnUncaughtExceptions")
       );
     }
@@ -229,6 +239,7 @@ class CommandBar extends Component<Props> {
       () => pauseOnExceptions(false, false),
       "pause-exceptions",
       "all enabled",
+      "true",
       L10N.getStr("pauseOnExceptions")
     );
   }
