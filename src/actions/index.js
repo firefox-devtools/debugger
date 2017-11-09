@@ -21,22 +21,21 @@ import * as loadSourceText from "./sources/loadSourceText";
 import * as debuggee from "./debuggee";
 import * as toolbox from "./toolbox";
 
-export default Object.assign(
-  {},
-  navigation,
-  breakpoints,
-  expressions,
-  eventListeners,
-  sources,
-  pause,
-  ui,
-  fileSearch,
-  ast,
-  coverage,
-  projectTextSearch,
-  quickOpen,
-  sourceTree,
-  loadSourceText,
-  debuggee,
-  toolbox
-);
+export default {
+  ...navigation,
+  ...breakpoints,
+  ...expressions,
+  ...eventListeners,
+  ...sources,
+  ...pause,
+  ...ui,
+  ...fileSearch,
+  ...ast,
+  ...coverage,
+  ...projectTextSearch,
+  ...quickOpen,
+  ...sourceTree,
+  ...loadSourceText,
+  ...debuggee,
+  ...toolbox
+};

@@ -39,10 +39,11 @@ function extendScope(
   if (index >= generatedScopes.length) {
     return scope;
   }
-  return Object.assign({}, scope, {
+  return {
+    ...scope,
     parent: extendScope(scope.parent, generatedScopes, index + 1),
     sourceBindings: generatedScopes[index].bindings
-  });
+  };
 }
 
 export async function updateScopeBindings(

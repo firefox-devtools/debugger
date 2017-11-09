@@ -26,10 +26,11 @@ function createStore(client: any, initialState: any = {}, sourceMapsMock: any) {
     log: false,
     history: getHistory(),
     makeThunkArgs: args => {
-      return Object.assign({}, args, {
+      return {
+        ...args,
         client,
         sourceMaps: sourceMapsMock || sourceMaps
-      });
+      };
     }
   })(combineReducers(reducers), initialState);
 }
@@ -47,14 +48,12 @@ function commonLog(msg: string, data: any = {}) {
  * @static
  */
 function makeSource(name: string, props: any = {}) {
-  return Object.assign(
-    {
-      id: name,
-      loadedState: "loaded",
-      url: `http://localhost:8000/examples/${name}`
-    },
-    props
-  );
+  return {
+    id: name,
+    loadedState: "loaded",
+    url: `http://localhost:8000/examples/${name}`,
+    ...props
+  };
 }
 
 function makeFuncLocation(startLine) {

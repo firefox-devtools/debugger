@@ -60,10 +60,11 @@ export function createPause(
   // NOTE: useful when the debugger is already paused
   const frame = packet.frame || response.frames[0];
 
-  return Object.assign({}, packet, {
+  return {
+    ...packet,
     frame: createFrame(frame),
     frames: response.frames.map(createFrame)
-  });
+  };
 }
 
 // Firefox only returns `actualLocation` if it actually changed,
