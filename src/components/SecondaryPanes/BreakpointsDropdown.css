@@ -2,6 +2,47 @@
   margin-left: 8px;
 }
 
-.button-spacer {
+.dropdown button.pause-next {
   margin-top: 5px;
+}
+
+.dropdown button.pause-on-exceptions {
+  margin-top: 5px;
+}
+
+.dropdown button.pause-uncaught-exceptions {
+  margin-top: 5px;
+}
+
+.dropdown button.ignore-exceptions {
+  margin-top: 5px;
+}
+
+.dropdown button > img {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+}
+
+img.pause-next,
+img.pause-on-exceptions,
+img.pause-uncaught-exceptions,
+img.ignore-exceptions {
+  background-color: var(--theme-body-color);
+}
+
+.dropdown button > img.pause-next {
+  mask: url(/images/pause.svg) no-repeat;
+}
+
+.dropdown button > img.pause-on-exceptions {
+  mask: url(/images/pause-exceptions.svg) no-repeat;
+}
+
+.dropdown button > img.pause-uncaught-exceptions {
+  mask: url(/images/pause-exceptions.svg) no-repeat;
+}
+
+.dropdown button > img.ignore-exceptions {
+  mask: url(/images/pause-exceptions.svg) no-repeat;
 }

@@ -1,30 +1,81 @@
 import React from "react";
 import Svg from "../shared/Svg";
 import Dropdown from "../shared/Dropdown";
+import classnames from "classnames";
+
 import "./BreakpointsDropdown.css";
 
-function debugBtn(type, tooltip) {
+function debugBtn(type, tooltip, className, state = "inactive") {
   return (
-    <button className="button-spacer">
-      <Svg name={type} title={tooltip} aria-label={tooltip} />
+    <button className={classnames(className, state)}>
+      <img className={className} title={tooltip} />
     </button>
   );
 }
 
 function renderPause() {
-  return debugBtn("pause", L10N.getFormatStr("pauseButtonTooltip"));
+  return debugBtn(
+    "pause",
+    L10N.getFormatStr("pauseButtonTooltip"),
+    "pause-next"
+  );
 }
 
-function renderPauseOnExceptions() {
-  return debugBtn("pause-exceptions", L10N.getStr("pauseOnExceptionsTooltip"));
+function renderPauseOnExceptions(
+  shouldPauseOnExceptions,
+  shouldIgnoreCaughtExceptions
+) {
+  if (shouldPauseOnExceptions && shouldIgnoreCaughtExceptions) {
+    return debugBtn(
+      "pause-exceptions",
+      L10N.getStr("pauseOnExceptionsTooltip"),
+      "pause-on-exceptions",
+      "active"
+    );
+  }
+  return debugBtn(
+    "pause-exceptions",
+    L10N.getStr("ignoreExceptionsTooltip"),
+    "pause-on-exceptions"
+  );
 }
 
-function renderPauseOnUncaughtExceptions() {
-  return debugBtn("pause-exceptions", L10N.getStr("pauseOnUncaughtExceptionsTooltip"));
+function renderPauseOnUncaughtExceptions(
+  shouldPauseOnExceptions,
+  shouldIgnoreCaughtExceptions
+) {
+  if (shouldPauseOnExceptions || shouldIgnoreCaughtExceptions) {
+    return debugBtn(
+      "pause-exceptions",
+      L10N.getStr("pauseOnUncaughtExceptionsTooltip"),
+      "pause-uncaught-exceptions",
+      "active"
+    );
+  }
+  return debugBtn(
+    "pause-exceptions",
+    L10N.getStr("ignoreExceptionsTooltip"),
+    "pause-uncaught-exceptions"
+  );
 }
 
-function renderIgnoreExceptions() {
-  return debugBtn("pause-exceptions", L10N.getStr("ignoreExceptionsTooltip"));
+function renderIgnoreExceptions(
+  shouldPauseOnExceptions,
+  shouldIgnoreCaughtExceptions
+) {
+  if (!shouldPauseOnExceptions && !shouldIgnoreCaughtExceptions) {
+    return debugBtn(
+      "pause-exceptions",
+      L10N.getStr("ignoreExceptionsTooltip"),
+      "ignore-exceptions",
+      "active"
+    );
+  }
+  return debugBtn(
+    "pause-exceptions",
+    L10N.getStr("ignoreExceptionsTooltip"),
+    "ignore-exceptions"
+  );
 }
 
 function handleClick(e) {
@@ -33,7 +84,9 @@ function handleClick(e) {
 
 export default function renderBreakpointsDropdown(
   breakOnNext,
-  pauseOnExceptions
+  pauseOnExceptions,
+  shouldPauseOnExceptions,
+  shouldIgnoreCaughtExceptions
 ) {
   const Panel = (
     <ul>
@@ -42,19 +95,28 @@ export default function renderBreakpointsDropdown(
         <span className="icon-spacer">{L10N.getStr("pauseButtonItem")}</span>
       </li>
       <li onClick={() => pauseOnExceptions(true, false)}>
-        {renderPauseOnUncaughtExceptions()}
+        {renderPauseOnUncaughtExceptions(
+          shouldPauseOnExceptions,
+          shouldIgnoreCaughtExceptions
+        )}
         <span className="icon-spacer">
           {L10N.getStr("pauseOnUncaughtExceptionsItem")}
         </span>
       </li>
       <li onClick={() => pauseOnExceptions(false, false)}>
-        {renderPauseOnExceptions()}
+        {renderPauseOnExceptions(
+          shouldPauseOnExceptions,
+          shouldIgnoreCaughtExceptions
+        )}
         <span className="icon-spacer">
           {L10N.getStr("pauseOnExceptionsItem")}
         </span>
       </li>
       <li onClick={() => pauseOnExceptions(true, true)}>
-        {renderIgnoreExceptions()}
+        {renderIgnoreExceptions(
+          shouldPauseOnExceptions,
+          shouldIgnoreCaughtExceptions
+        )}
         <span className="icon-spacer">
           {L10N.getStr("ignoreExceptionsItem")}
         </span>
@@ -64,7 +126,7 @@ export default function renderBreakpointsDropdown(
 
   return (
     <div onClick={e => handleClick(e)}>
-      <Dropdown class="dropdown" panel={Panel} icon={<Svg name="plus" />} />
+      <Dropdown className="dropdown" panel={Panel} icon={<Svg name="plus" />} />
     </div>
   );
 }
