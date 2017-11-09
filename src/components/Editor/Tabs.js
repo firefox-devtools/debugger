@@ -109,6 +109,7 @@ class SourceTabs extends PureComponent<Props, State> {
   renderTab: Function;
   renderSourceTab: Function;
   renderSearchTab: Function;
+  renderNewButton: Function;
   renderDropDown: Function;
   renderStartPanelToggleButton: Function;
   renderEndPanelToggleButton: Function;
@@ -406,8 +407,32 @@ class SourceTabs extends PureComponent<Props, State> {
         <div className="filename">{filename}</div>
         <CloseButton
           handleClick={onClickClose}
-          tooltip={L10N.getStr("sourceTabs.closeTabButtonTooltip")}
+          tooltip={L10N.getStr("sourceTabs.closeTabButtonTooltip")} //ey girl
         />
+      </div>
+    );
+  }
+
+  renderNewButton() {
+    const newTabTooltip = L10N.getFormatStr(
+      "sourceTabs.newTabButtonTooltip",
+      formatKeyShortcut(L10N.getStr("sources.search.key2"))
+    );
+
+    const onButtonClick = () => {
+      if (this.props.searchOn) {
+        return this.props.closeActiveSearch();
+      }
+      this.props.setActiveSearch("source");
+    };
+
+    return (
+      <div
+        className="new-tab-btn"
+        onClick={onButtonClick}
+        title={newTabTooltip}
+      >
+        <Svg name="plus" />
       </div>
     );
   }
