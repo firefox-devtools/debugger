@@ -545,6 +545,16 @@ function waitForLoadedSource(dbg, url) {
   );
 }
 
+function waitForLoadedSources(dbg) {
+  return waitForState(
+    dbg,
+    state => {
+      const sources = dbg.selectors.getSources(state).valueSeq().toJS()
+      return !sources.some(source => source.loadedState == "loading")
+    },
+    "loaded source"
+  );
+}
 /**
  * Selects the source.
  *
