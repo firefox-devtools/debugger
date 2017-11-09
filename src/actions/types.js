@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 import type {
@@ -190,7 +194,7 @@ type PauseAction =
       shouldPauseOnExceptions: boolean,
       shouldIgnoreCaughtExceptions: boolean
     }
-  | { type: "COMMAND", value: { type: string } }
+  | { type: "COMMAND", value: { type: string }, command: string }
   | { type: "SELECT_FRAME", frame: Frame, scopes: Scope[] }
   | {
       type: "LOAD_OBJECT_PROPERTIES",

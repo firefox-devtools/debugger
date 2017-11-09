@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 import { PureComponent } from "react";
 import { showMenu } from "devtools-launchpad";
 import { bindActionCreators } from "redux";
@@ -64,30 +68,26 @@ export function gutterMenu({
     }
   };
 
-  const toggleBreakpointItem = Object.assign(
-    {
-      accesskey: L10N.getStr("shortcuts.toggleBreakpoint.accesskey"),
-      disabled: false,
-      click: () => {
-        toggleBreakpoint(line);
-        if (isCbPanelOpen) {
-          closeConditionalPanel();
-        }
+  const toggleBreakpointItem = {
+    accesskey: L10N.getStr("shortcuts.toggleBreakpoint.accesskey"),
+    disabled: false,
+    click: () => {
+      toggleBreakpoint(line);
+      if (isCbPanelOpen) {
+        closeConditionalPanel();
       }
     },
-    breakpoint ? gutterItems.removeBreakpoint : gutterItems.addBreakpoint
-  );
+    ...(breakpoint ? gutterItems.removeBreakpoint : gutterItems.addBreakpoint)
+  };
 
-  const conditionalBreakpoint = Object.assign(
-    {
-      accesskey: L10N.getStr("editor.addConditionalBreakpoint.accesskey"),
-      disabled: false,
-      click: () => openConditionalPanel(line)
-    },
-    breakpoint && breakpoint.condition
+  const conditionalBreakpoint = {
+    accesskey: L10N.getStr("editor.addConditionalBreakpoint.accesskey"),
+    disabled: false,
+    click: () => openConditionalPanel(line),
+    ...(breakpoint && breakpoint.condition
       ? gutterItems.editConditional
-      : gutterItems.addConditional
-  );
+      : gutterItems.addConditional)
+  };
 
   const items = [toggleBreakpointItem, conditionalBreakpoint];
 
@@ -102,16 +102,14 @@ export function gutterMenu({
   }
 
   if (breakpoint) {
-    const disableBreakpoint = Object.assign(
-      {
-        accesskey: L10N.getStr("editor.disableBreakpoint.accesskey"),
-        disabled: false,
-        click: () => toggleDisabledBreakpoint(line)
-      },
-      breakpoint.disabled
+    const disableBreakpoint = {
+      accesskey: L10N.getStr("editor.disableBreakpoint.accesskey"),
+      disabled: false,
+      click: () => toggleDisabledBreakpoint(line),
+      ...(breakpoint.disabled
         ? gutterItems.enableBreakpoint
-        : gutterItems.disableBreakpoint
-    );
+        : gutterItems.disableBreakpoint)
+    };
     items.push(disableBreakpoint);
   }
 

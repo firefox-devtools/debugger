@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 import React, { Component } from "react";
 import { isEnabled } from "devtools-config";
@@ -24,7 +28,8 @@ function makeMarker(isDisabled: boolean) {
 type Props = {
   breakpoint: Object,
   selectedSource: Object,
-  editor: Object
+  editor: Object,
+  sourceMetaData: Object
 };
 
 class Breakpoint extends Component<Props> {
@@ -36,7 +41,7 @@ class Breakpoint extends Component<Props> {
   }
 
   addBreakpoint() {
-    const { breakpoint, editor, selectedSource } = this.props;
+    const { breakpoint, editor, selectedSource, sourceMetaData } = this.props;
 
     // Hidden Breakpoints are never rendered on the client
     if (breakpoint.hidden) {
@@ -52,7 +57,7 @@ class Breakpoint extends Component<Props> {
     const sourceId = selectedSource.get("id");
     const line = toEditorLine(sourceId, breakpoint.location.line);
 
-    showSourceText(editor, selectedSource.toJS());
+    showSourceText(editor, selectedSource.toJS(), sourceMetaData);
 
     editor.codeMirror.setGutterMarker(
       line,

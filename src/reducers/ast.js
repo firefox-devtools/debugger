@@ -1,7 +1,8 @@
-// @flow
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
+// @flow
 
 /**
  * Ast reducer
@@ -22,6 +23,12 @@ type EmptyLinesType = number[];
 export type SymbolsMap = Map<string, SymbolDeclarations>;
 export type EmptyLinesMap = Map<string, EmptyLinesType>;
 
+export type SourceMetaDataType = {
+  isReactComponent: boolean
+};
+
+export type SourceMetaDataMap = Map<string, SourceMetaDataType>;
+
 export type Preview =
   | {| updating: true |}
   | null
@@ -38,7 +45,8 @@ export type ASTState = {
   symbols: SymbolsMap,
   emptyLines: EmptyLinesMap,
   outOfScopeLocations: ?Array<AstLocation>,
-  preview: Preview
+  preview: Preview,
+  sourceMetaData: SourceMetaDataMap
 };
 
 export function initialState() {
@@ -47,7 +55,8 @@ export function initialState() {
       symbols: I.Map(),
       emptyLines: I.Map(),
       outOfScopeLocations: null,
-      preview: null
+      preview: null,
+      sourceMetaData: I.Map()
     }: ASTState)
   )();
 }
@@ -111,6 +120,13 @@ function update(
       return initialState();
     }
 
+    case "SET_SOURCE_METADATA": {
+      return state.setIn(
+        ["sourceMetaData", action.sourceId],
+        action.sourceMetaData
+      );
+    }
+
     default: {
       return state;
     }
@@ -165,6 +181,10 @@ export function getOutOfScopeLocations(state: OuterState) {
 
 export function getPreview(state: OuterState) {
   return state.ast.get("preview");
+}
+
+export function getSourceMetaData(state: OuterState, sourceId: string) {
+  return state.ast.getIn(["sourceMetaData", sourceId]) || {};
 }
 
 export default update;

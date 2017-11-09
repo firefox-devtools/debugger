@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 import { getBreakpoint } from "../../selectors";
@@ -103,20 +107,28 @@ export function breakpointExists(state: State, location: Location) {
   return currentBp && !currentBp.disabled;
 }
 
-export function createBreakpoint(location: Location, overrides: Object = {}) {
+export function createBreakpoint(
+  location: Location,
+  overrides: Object = {}
+): Breakpoint {
   const {
     condition,
     disabled,
     hidden,
     generatedLocation,
-    astLocation
+    astLocation,
+    id
   } = overrides;
 
+  const defaultASTLocation = { name: undefined, offset: location };
   const properties = {
+    id,
     condition: condition || null,
     disabled: disabled || false,
     hidden: hidden || false,
-    astLocation: astLocation || { offset: location },
+    loading: false,
+    text: "",
+    astLocation: astLocation || defaultASTLocation,
     generatedLocation: generatedLocation || location,
     location
   };

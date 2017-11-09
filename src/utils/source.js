@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 /**
@@ -11,6 +15,7 @@ import { basename } from "../utils/path";
 import { parse as parseURL } from "url";
 
 import type { Source } from "../types";
+import type { SourceMetaDataType } from "../reducers/ast";
 
 type transformUrlCallback = string => string;
 
@@ -204,11 +209,18 @@ function getSourceLineCount(source: Source) {
  * @static
  */
 
-function getMode(source: Source) {
+function getMode(source: Source, sourceMetaData: SourceMetaDataType) {
   const { contentType, text, isWasm, url } = source;
 
   if (!text || isWasm) {
     return { name: "text" };
+  }
+
+  if (
+    (url && url.match(/\.jsx$/i)) ||
+    (sourceMetaData && sourceMetaData.isReactComponent)
+  ) {
+    return "jsx";
   }
 
   // if the url ends with .marko we set the name to Javascript so

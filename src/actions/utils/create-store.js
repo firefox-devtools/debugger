@@ -1,8 +1,9 @@
-// @flow
-
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
+// @flow
+
 /* global window */
 
 /**
@@ -11,12 +12,12 @@
  */
 
 import { createStore, applyMiddleware } from "redux";
-import { waitUntilService } from "./redux/middleware/wait-service";
-import { log } from "./redux/middleware/log";
-import { history } from "./redux/middleware/history";
-import { promise } from "./redux/middleware/promise";
-import { thunk } from "./redux/middleware/thunk";
-import { timing } from "./redux/middleware/timing";
+import { waitUntilService } from "./middleware/wait-service";
+import { log } from "./middleware/log";
+import { history } from "./middleware/history";
+import { promise } from "./middleware/promise";
+import { thunk } from "./middleware/thunk";
+import { timing } from "./middleware/timing";
 
 /**
  * @memberof utils/create-store

@@ -7,7 +7,8 @@ import { readFileSync } from "fs";
 const rootPath = path.join(__dirname, "../../");
 
 const envConfig = getConfig();
-const config = Object.assign({}, envConfig, {
+const config = {
+  ...envConfig,
   workers: {
     sourceMapURL: path.join(
       rootPath,
@@ -17,7 +18,7 @@ const config = Object.assign({}, envConfig, {
     prettyPrintURL: path.join(rootPath, "src/workers/pretty-print/worker.js"),
     searchURL: path.join(rootPath, "src/workers/search/worker.js")
   }
-});
+};
 
 global.DebuggerConfig = config;
 
@@ -28,4 +29,5 @@ setConfig(config);
 
 process.on("unhandledRejection", (reason, p) => {
   console.log("Unhandled Rejection at:", p, "reason:", reason);
+  throw reason;
 });

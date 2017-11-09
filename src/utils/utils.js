@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 /**
@@ -17,7 +21,7 @@ function handleError(err: any) {
  * @memberof utils/utils
  * @static
  */
-function promisify(context: any, method: any, ...args: any) {
+function promisify(context: any, method: any, ...args: any): Promise<mixed> {
   return new Promise((resolve, reject) => {
     args.push(response => {
       if (response.error) {
@@ -62,7 +66,7 @@ function throttle(func: any, ms: number) {
   };
 }
 
-function waitForMs(ms: number) {
+function waitForMs(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 

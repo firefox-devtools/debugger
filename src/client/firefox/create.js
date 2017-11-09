@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 // This module converts Firefox specific types to the generic types
 
@@ -23,6 +27,7 @@ export function createFrame(frame: FramePacket): Frame {
     line: frame.where.line,
     column: frame.where.column
   };
+
   return {
     id: frame.actor,
     displayName: title,
@@ -55,10 +60,11 @@ export function createPause(
   // NOTE: useful when the debugger is already paused
   const frame = packet.frame || response.frames[0];
 
-  return Object.assign({}, packet, {
+  return {
+    ...packet,
     frame: createFrame(frame),
     frames: response.frames.map(createFrame)
-  });
+  };
 }
 
 // Firefox only returns `actualLocation` if it actually changed,

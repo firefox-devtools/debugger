@@ -1,9 +1,13 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 import type { Pause, Frame, Location } from "../types";
 import { get } from "lodash";
 import { getScopes } from "../workers/parser";
 
-import type { Scope, MappedScopeBindings } from "debugger-html";
+import type { Scope, MappedScopeBindings, Why } from "debugger-html";
 
 export function updateFrameLocations(
   frames: Frame[],
@@ -35,10 +39,11 @@ function extendScope(
   if (index >= generatedScopes.length) {
     return scope;
   }
-  return Object.assign({}, scope, {
+  return {
+    ...scope,
     parent: extendScope(scope.parent, generatedScopes, index + 1),
     sourceBindings: generatedScopes[index].bindings
-  });
+  };
 }
 
 export async function updateScopeBindings(
@@ -97,4 +102,18 @@ export async function getPausedPosition(pauseInfo: Pause, sourceMaps: any) {
   const frame = frames[0];
   const { location } = frame;
   return location;
+}
+
+export function inDebuggerEval(why: ?Why) {
+  if (
+    why &&
+    why.type === "exception" &&
+    why.exception &&
+    why.exception.preview &&
+    why.exception.preview.fileName
+  ) {
+    return why.exception.preview.fileName === "debugger eval code";
+  }
+
+  return false;
 }

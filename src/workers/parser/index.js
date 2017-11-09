@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 import { workerUtils } from "devtools-utils";
@@ -21,6 +25,7 @@ export const hasSource = dispatcher.task("hasSource");
 export const setSource = dispatcher.task("setSource");
 export const clearSources = dispatcher.task("clearSources");
 export const hasSyntaxError = dispatcher.task("hasSyntaxError");
+export const isReactComponent = dispatcher.task("isReactComponent");
 
 export type { SymbolDeclaration, SymbolDeclarations } from "./getSymbols";
 export type { AstLocation } from "./types";
