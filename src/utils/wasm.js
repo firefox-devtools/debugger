@@ -12,7 +12,7 @@ type WasmState = {
   offsets: Array<number>
 };
 
-var wasmStates: { [string]: WasmState } = Object.create(null);
+var wasmStates: { [string]: WasmState } = (Object.create(null): any);
 
 /**
  * @memberof utils/wasm
@@ -117,7 +117,7 @@ function wasmOffsetToLine(sourceId: string, offset: number): ?number {
  * @static
  */
 function clearWasmStates() {
-  wasmStates = Object.create(null);
+  wasmStates = (Object.create(null): any);
 }
 
 function renderWasmText(sourceId: string, { binary }: Object) {

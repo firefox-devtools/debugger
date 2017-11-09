@@ -7,6 +7,7 @@
 .*node_modules/config-chain.*
 .*node_modules/documentation.*
 .*node_modules/devtools-reps/src/object-inspector/index.js
+.*node_modules/immutable/dist/immutable.js.flow
 .*node_modules/jest-in-case/index.js
 <PROJECT_ROOT>/firefox/.*
 .*mozilla-central/.*

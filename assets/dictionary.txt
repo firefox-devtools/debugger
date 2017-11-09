@@ -47,3 +47,4 @@ CLRF
 svgs
 componentWillUnmount
 createClass
+retext
