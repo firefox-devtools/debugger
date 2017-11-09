@@ -10,6 +10,7 @@ import { getSourceLocationFromMouseEvent } from "../../utils/editor";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { findFunctionText } from "../../utils/function";
+import { findClosestScope } from "../../utils/breakpoint/astBreakpointLocation";
 import {
   getContextMenu,
   getSelectedLocation,
@@ -18,6 +19,7 @@ import {
 } from "../../selectors";
 
 import actions from "../../actions";
+
 type Props = {
   setContextMenu: Function
 };
@@ -33,7 +35,9 @@ function getMenuItems(
     jumpToMappedLocation,
     toggleBlackBox,
     addExpression,
-    getFunctionText
+    getFunctionText,
+    getFunctionLocation,
+    flashLineRange
   }
 ) {
   const copySourceLabel = L10N.getStr("copySource");
@@ -121,7 +125,15 @@ function getMenuItems(
     label: copyFunctionLabel,
     accesskey: copyFunctionKey,
     disabled: !functionText,
-    click: () => copyToTheClipboard(functionText)
+    click: () => {
+      const { location: { start, end } } = getFunctionLocation(line);
+      flashLineRange({
+        start: start.line,
+        end: end.line,
+        sourceId: selectedLocation.sourceId
+      });
+      return copyToTheClipboard(functionText);
+    }
   };
 
   const menuItems = [
@@ -181,7 +193,12 @@ export default connect(
           line,
           selectedSource.toJS(),
           getSymbols(state, selectedSource.toJS())
-        )
+        ),
+      getFunctionLocation: line =>
+        findClosestScope(getSymbols(state, selectedSource.toJS()).functions, {
+          line,
+          column: Infinity
+        })
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

@@ -99,6 +99,17 @@ export function highlightLineRange(location: {
   };
 }
 
+export function flashLineRange(location: {
+  start: number,
+  end: number,
+  sourceId: number
+}) {
+  return ({ dispatch }: ThunkArgs) => {
+    dispatch(highlightLineRange(location));
+    setTimeout(() => dispatch(clearHighlightLineRange()), 200);
+  };
+}
+
 /**
  * @memberof actions/sources
  * @static
