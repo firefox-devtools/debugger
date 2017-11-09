@@ -128,7 +128,7 @@ function renderWasmText(sourceId: string, { binary }: Object) {
     data[i] = binary.charCodeAt(i);
   }
   const { lines } = getWasmText(sourceId, data);
-  const MAX_LINES = 100000;
+  const MAX_LINES = 1000000;
   if (lines.length > MAX_LINES) {
     lines.splice(MAX_LINES, lines.length - MAX_LINES);
     lines.push(";; .... text is truncated due to the size");
