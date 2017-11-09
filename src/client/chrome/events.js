@@ -62,13 +62,7 @@ async function paused({
 }: any) {
   const frames = callFrames.map(createFrame);
   const frame = frames[0];
-  const why = Object.assign(
-    {},
-    {
-      type: reason
-    },
-    data
-  );
+  const why = { type: reason, ...data };
 
   const objectId = frame.scopeChain[0].object.objectId;
   const { result } = await runtimeAgent.getProperties({

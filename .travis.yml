@@ -39,4 +39,4 @@ before_script:
 script:
   - node --version
   - du -sh firefox
-  - ./bin/ci/run-tests.sh $TRAVIS_COMMIT_RANGE
+  - node ./bin/ci/run-tests.js

@@ -33,9 +33,9 @@ function promiseMiddleware({
 
     // Create a new action that doesn't have the promise field and has
     // the `seqId` field that represents the sequence id
-    action = Object.assign(filterAction(action), { seqId });
+    action = { ...filterAction(action), seqId };
 
-    dispatch(Object.assign({}, action, { status: "start" }));
+    dispatch({ ...action, status: "start" });
 
     // Return the promise so action creators can still compose if they
     // want to.
@@ -43,23 +43,17 @@ function promiseMiddleware({
       promiseInst.then(
         value => {
           executeSoon(() => {
-            dispatch(
-              Object.assign({}, action, {
-                status: "done",
-                value: value
-              })
-            );
+            dispatch({ ...action, status: "done", value: value });
             resolve(value);
           });
         },
         error => {
           executeSoon(() => {
-            dispatch(
-              Object.assign({}, action, {
-                status: "error",
-                error: error.message || error
-              })
-            );
+            dispatch({
+              ...action,
+              status: "error",
+              error: error.message || error
+            });
             reject(error);
           });
         }

@@ -48,3 +48,5 @@ svgs
 componentWillUnmount
 createClass
 retext
+GH
+ship2gecko

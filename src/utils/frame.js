@@ -156,7 +156,7 @@ export function annotateFrame(frame: Frame) {
 
   const library = getLibraryFromUrl(frame);
   if (library) {
-    return Object.assign({}, frame, { library });
+    return { ...frame, library };
   }
 
   return frame;

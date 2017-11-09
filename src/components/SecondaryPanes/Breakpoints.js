@@ -415,12 +415,8 @@ function updateLocation(sources, pause, bp): LocalBreakpoint {
   const isCurrentlyPaused = isCurrentlyPausedAtBreakpoint(pause, bp);
   const locationId = makeLocationId(bp.location);
 
-  const location = Object.assign({}, bp.location, { source });
-  const localBP = Object.assign({}, bp, {
-    location,
-    locationId,
-    isCurrentlyPaused
-  });
+  const location = { ...bp.location, source };
+  const localBP = { ...bp, location, locationId, isCurrentlyPaused };
 
   return localBP;
 }

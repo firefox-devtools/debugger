@@ -4,8 +4,9 @@
 
 import { PureComponent } from "react";
 import { showMenu } from "devtools-launchpad";
-import { isOriginalId } from "devtools-source-map";
+import { isOriginalId, isGeneratedId } from "devtools-source-map";
 import { copyToTheClipboard } from "../../utils/clipboard";
+import { isPretty } from "../../utils/source";
 import { getSourceLocationFromMouseEvent } from "../../utils/editor";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -83,14 +84,17 @@ function getMenuItems(
     event
   );
 
-  const pairedType = isOriginalId(selectedLocation.sourceId)
-    ? L10N.getStr("generated")
-    : L10N.getStr("original");
+  const isOriginal = isOriginalId(selectedLocation.sourceId);
+  const hasSourceMap = selectedSource.get("sourceMapURL");
+  const isPrettyPrinted = isPretty(selectedSource.toJS());
 
   const jumpLabel = {
     accesskey: L10N.getStr("editor.jumpToMappedLocation1.accesskey"),
-    disabled: false,
-    label: L10N.getFormatStr("editor.jumpToMappedLocation1", pairedType),
+    disabled: isGeneratedId && !hasSourceMap,
+    label: L10N.getFormatStr(
+      "editor.jumpToMappedLocation1",
+      isOriginal ? L10N.getStr("generated") : L10N.getStr("original")
+    ),
     click: () => jumpToMappedLocation(sourceLocation)
   };
 
@@ -104,7 +108,7 @@ function getMenuItems(
     id: "node-menu-blackbox",
     label: toggleBlackBoxLabel,
     accesskey: blackboxKey,
-    disabled: false,
+    disabled: isOriginal || isPrettyPrinted || hasSourceMap,
     click: () => toggleBlackBox(selectedSource.toJS())
   };
 
@@ -115,7 +119,7 @@ function getMenuItems(
     id: "node-menu-show-source",
     label: revealInTreeLabel,
     accesskey: revealInTreeKey,
-    disabled: false,
+    disabled: isPrettyPrinted,
     click: () => showSource(selectedSource.get("id"))
   };
 
