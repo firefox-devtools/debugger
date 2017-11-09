@@ -48,6 +48,8 @@ export function setSymbols(sourceId: SourceId) {
       source,
       symbols
     });
+
+    dispatch(setEmptyLines(source.id));
   };
 }
 

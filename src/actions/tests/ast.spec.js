@@ -1,8 +1,11 @@
+/* eslint max-nested-callbacks: ["error", 6] */
+
 import {
   createStore,
   selectors,
   actions,
-  makeSource
+  makeSource,
+  waitForState
 } from "../../utils/test-head";
 
 import readFixture from "./helpers/readFixture";
@@ -42,22 +45,32 @@ const evaluationResult = {
 describe("ast", () => {
   describe("setEmptyLines", () => {
     it("scopes", async () => {
-      const { dispatch, getState } = createStore(threadClient);
+      const store = createStore(threadClient);
+      const { dispatch, getState } = store;
+
       const source = makeSource("scopes.js");
       await dispatch(actions.newSource(source));
       await dispatch(actions.loadSourceText({ id: "scopes.js" }));
+
+      await waitForState(store, state => {
+        const lines = getEmptyLines(state, source);
+        return lines && lines.length > 0;
+      });
 
       const emptyLines = getEmptyLines(getState(), source);
       expect(emptyLines).toMatchSnapshot();
     });
   });
+
   describe("setSymbols", () => {
     describe("when the source is loaded", () => {
       it("should be able to set symbols", async () => {
-        const { dispatch, getState } = createStore(threadClient);
+        const store = createStore(threadClient);
+        const { dispatch, getState } = store;
         const base = makeSource("base.js");
         await dispatch(actions.newSource(base));
         await dispatch(actions.loadSourceText({ id: "base.js" }));
+        await waitForState(store, state => getSymbols(state, base));
 
         const baseSymbols = getSymbols(getState(), base);
         expect(baseSymbols).toMatchSnapshot();
