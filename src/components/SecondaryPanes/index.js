@@ -172,14 +172,16 @@ class SecondaryPanes extends Component<Props> {
       breakOnNext,
       pauseOnExceptions,
       shouldPauseOnExceptions,
-      shouldIgnoreCaughtExceptions
+      shouldIgnoreCaughtExceptions,
+      isWaitingOnBreak
     } = this.props;
 
     return renderBreakpointsDropdown(
       breakOnNext,
       pauseOnExceptions,
       shouldPauseOnExceptions,
-      shouldIgnoreCaughtExceptions
+      shouldIgnoreCaughtExceptions,
+      isWaitingOnBreak
     );
   }
 

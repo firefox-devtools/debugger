@@ -13,7 +13,15 @@ function debugBtn(type, tooltip, className, state = "inactive") {
   );
 }
 
-function renderPause() {
+function renderPause(isWaitingOnBreak) {
+  if (!isWaitingOnBreak) {
+    return debugBtn(
+      "pause",
+      L10N.getFormatStr("pauseButtonTooltip"),
+      "pause-next",
+      "active"
+    );
+  }
   return debugBtn(
     "pause",
     L10N.getFormatStr("pauseButtonTooltip"),
@@ -86,12 +94,13 @@ export default function renderBreakpointsDropdown(
   breakOnNext,
   pauseOnExceptions,
   shouldPauseOnExceptions,
-  shouldIgnoreCaughtExceptions
+  shouldIgnoreCaughtExceptions,
+  isWaitingOnBreak
 ) {
   const Panel = (
     <ul>
       <li onClick={() => breakOnNext()}>
-        {renderPause()}
+        {renderPause(isWaitingOnBreak)}
         <span className="icon-spacer">{L10N.getStr("pauseButtonItem")}</span>
       </li>
       <li onClick={() => pauseOnExceptions(true, false)}>
