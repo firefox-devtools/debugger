@@ -29,6 +29,7 @@ import "./Footer.css";
 
 type Props = {
   selectedSource: SourceRecord,
+  mappedSource: SourceRecord,
   selectSource: (string, ?Object) => void,
   editor: any,
   togglePrettyPrint: string => void,

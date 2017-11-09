@@ -4,6 +4,8 @@
 
 //@flow
 import { getSource } from "../selectors";
+import type { SourceRecord } from "../reducers/sources";
+import type { Location } from "../types";
 
 export function getGeneratedSourceId(originalId: String) {
   const match = originalId.match(/(.*)\/originalSource/);
