@@ -4,9 +4,9 @@
 
 import { PureComponent } from "react";
 import { showMenu } from "devtools-launchpad";
-import { isOriginalId } from "devtools-source-map";
+import { isOriginalId, isGeneratedId } from "devtools-source-map";
 import { copyToTheClipboard } from "../../utils/clipboard";
-import { isPretty, getPrettySourceURL } from "../../utils/source";
+import { isPretty } from "../../utils/source";
 import { getSourceLocationFromMouseEvent } from "../../utils/editor";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -16,8 +16,7 @@ import {
   getContextMenu,
   getSelectedLocation,
   getSelectedSource,
-  getSymbols,
-  getSourceTabs
+  getSymbols
 } from "../../selectors";
 
 import actions from "../../actions";
@@ -32,7 +31,6 @@ function getMenuItems(
     editor,
     selectedLocation,
     selectedSource,
-    tabs,
     showSource,
     onGutterContextMenu,
     jumpToMappedLocation,
@@ -87,14 +85,12 @@ function getMenuItems(
   );
 
   const isOriginal = isOriginalId(selectedLocation.sourceId);
-  const isPrettyTabOpen =
-    !isOriginal && tabs.includes(getPrettySourceURL(selectedSource.get("url")));
-  const hasSourceMap = selectedSource.toJS().sourceMapURL;
+  const hasSourceMap = selectedSource.get("sourceMapURL");
   const isPrettyPrinted = isPretty(selectedSource.toJS());
 
   const jumpLabel = {
     accesskey: L10N.getStr("editor.jumpToMappedLocation1.accesskey"),
-    disabled: isOriginal || hasSourceMap ? false : !isPrettyTabOpen,
+    disabled: isGeneratedId && !hasSourceMap,
     label: L10N.getFormatStr(
       "editor.jumpToMappedLocation1",
       isOriginal ? L10N.getStr("generated") : L10N.getStr("original")
@@ -112,7 +108,7 @@ function getMenuItems(
     id: "node-menu-blackbox",
     label: toggleBlackBoxLabel,
     accesskey: blackboxKey,
-    disabled: isOriginal || hasSourceMap,
+    disabled: isOriginal || isPrettyPrinted || hasSourceMap,
     click: () => toggleBlackBox(selectedSource.toJS())
   };
 
@@ -192,11 +188,9 @@ class EditorMenu extends PureComponent {
 export default connect(
   state => {
     const selectedSource = getSelectedSource(state);
-    const tabs = getSourceTabs(state);
     return {
       selectedLocation: getSelectedLocation(state),
       selectedSource,
-      tabs,
       contextMenu: getContextMenu(state),
       getFunctionText: line =>
         findFunctionText(
