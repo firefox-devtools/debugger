@@ -3,7 +3,7 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 import { PureComponent } from "react";
-import { showMenu } from "devtools-launchpad";
+import { showMenu } from "devtools-contextmenu";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { lineAtHeight } from "../../utils/editor";

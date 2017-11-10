@@ -21,7 +21,7 @@ import {
 import { makeLocationId } from "../../utils/breakpoint";
 import { endTruncateStr } from "../../utils/utils";
 import { getFilename } from "../../utils/source";
-import { showMenu, buildMenu } from "devtools-launchpad";
+import { showMenu, buildMenu } from "devtools-contextmenu";
 import CloseButton from "../shared/Button/Close";
 import "./Breakpoints.css";
 import { get, sortBy } from "lodash";
