@@ -61,19 +61,3 @@
   width: 20em;
   overflow: auto;
 }
-
-.header-buttons button.pause-next.active > img.pause-next {
-  color: var(--theme-highlight-blue);
-}
-
-.header-buttons button.pause-on-exceptions.active > img.pause-on-exceptions {
-  color: var(--theme-highlight-blue);
-}
-
-.header-buttons button.pause-uncaught-exceptions.active > img.pause-uncaught-exceptions {
-  color: var(--theme-highlight-blue);
-}
-
-.header-buttons button.ignore-exceptions.active > img.ignore-exceptions {
-  color: var(--theme-highlight-blue);
-}
