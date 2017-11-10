@@ -324,7 +324,7 @@ function mapStateToProps(state) {
   if (selectedSource != null) {
     symbols = getSymbols(state, selectedSource.toJS());
   }
-  return {
+  return {.location
     enabled: getQuickOpenEnabled(state),
     sources: formatSources(getSources(state)),
     selectedSource,
