@@ -1,10 +1,11 @@
 .badge {
   --size: 23px;
-  --radius: calc(23px / 2);
+  --radius: calc(var(--size) / 2);
   height: var(--size);
-  width: var(--size);
+  min-width: var(--size);
   line-height: var(--size);
   background: var(--theme-toolbar-background-hover);
   color: var(--theme-body-color);
   border-radius: var(--radius);
+  padding: 0 4px;
 }

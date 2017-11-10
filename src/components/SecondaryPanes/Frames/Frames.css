@@ -21,10 +21,9 @@
 .frames ul li * {
   -moz-user-select: none;
   user-select: none;
-  min-width: 0;
 }
 
-.frames .num-badge {
+.frames .badge {
   flex-shrink: 0;
   margin-right: 4px;
 }

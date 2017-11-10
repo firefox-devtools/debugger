@@ -80,3 +80,7 @@ button:focus {
 .text-center {
   text-align: center;
 }
+
+.min-width-0 {
+  min-width: 0;
+}

@@ -123,7 +123,7 @@ export default class Group extends Component<Props, State> {
         onClick={this.toggleFrames}
         tabIndex={0}
       >
-        <div className="d-flex align-items-center">
+        <div className="d-flex align-items-center min-width-0">
           <div className="title">{displayName}</div>
           <Badge>{this.props.group.length}</Badge>
         </div>
