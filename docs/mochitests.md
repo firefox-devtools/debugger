@@ -84,9 +84,9 @@ The mochitest logs provide some context:
 The next step is to add additional logging in the test and debugger code with `info` calls.
 We recommend prefixing your logs and formatting them so they are easy to scan e.g.:
 
-* `info(\`>> Add breakpoint ${line} -> ${condition}\n\`)`
-* `info(\`>> Current breakpoints ${breakpoints.map(bp => bp.location.line).join(", ")}\n\`)`
-* `info(\`>> Symbols for source ${source.url} ${JSON.stringify(symbols)}\n\`)`
+* `info(">> Add breakpoint ${line} -> ${condition}\n")`
+* `info(">> Current breakpoints ${breakpoints.map(bp => bp.location.line).join(", ")}\n")`
+* `info(">> Symbols for source ${source.url} ${JSON.stringify(symbols)}\n")`
 
 At some point, it can be nice to pause the test and debug it. We are working on a debugger after all :)
 Mochitest, makes it easy to pause the test at `debugger` statements  with the `--jsdebugger` flag.
