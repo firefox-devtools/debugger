@@ -194,7 +194,7 @@ export default connect(
     const selectedSource = getSelectedSource(state);
     const selectedId = selectedSource && selectedSource.get("id");
     const source = selectedSource.toJS();
-    const mappedSource = isOriginal(source.id)
+    const mappedSource = isOriginal(source)
       ? getGeneratedSource(state, source)
       : null;
     return {

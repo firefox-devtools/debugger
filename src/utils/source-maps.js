@@ -2,21 +2,21 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-//@flow
+// @flow
 import { getSource } from "../selectors";
 import type { SourceRecord } from "../reducers/sources";
 import type { Location } from "../types";
 
-export function getGeneratedSourceId(originalId: String) {
+export function getGeneratedSourceId(originalId: string) {
   const match = originalId.match(/(.*)\/originalSource/);
   return match ? match[1] : "";
 }
 
-export function isOriginal(sourceId: String) {
-  if (!sourceId) {
+export function isOriginal(source: SourceRecord) {
+  if (!source) {
     return false;
   }
-  return !!getGeneratedSourceId(sourceId);
+  return !!getGeneratedSourceId(source.id);
 }
 
 export async function getGeneratedLocation(

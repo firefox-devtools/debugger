@@ -32,10 +32,15 @@ function shouldShowPrettyPrint(selectedSource) {
 }
 
 function shouldShowFooter(selectedSource, horizontal) {
-  if (!horizontal || selectedSource) {
+  if (!horizontal) {
     return true;
   }
-  return shouldShowPrettyPrint(selectedSource) || isOriginal(selectedSource);
+  if (!selectedSource) {
+    return false;
+  }
+  return (
+    shouldShowPrettyPrint(selectedSource) || isOriginal(selectedSource.toJS())
+  );
 }
 
 function traverseResults(e, ctx, query, dir, modifiers) {
