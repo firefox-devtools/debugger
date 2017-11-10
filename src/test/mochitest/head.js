@@ -244,7 +244,7 @@ function waitForSelectedSource(dbg, url) {
         return true;
       }
 
-      const newSource = findSource(dbg, url);
+      const newSource = findSource(dbg, url, { silent: true });
       if (newSource.id != source.get("id")) {
         return false;
       }
@@ -519,7 +519,7 @@ function pauseTest() {
  * @return {Object} source
  * @static
  */
-function findSource(dbg, url) {
+function findSource(dbg, url, { silent } = { silent: false }) {
   if (typeof url !== "string") {
     // Support passing in a source object itelf all APIs that use this
     // function support both styles
@@ -531,6 +531,10 @@ function findSource(dbg, url) {
   const source = sources.find(s => (s.get("url") || "").includes(url));
 
   if (!source) {
+    if (silent) {
+      return false;
+    }
+
     throw new Error(`Unable to find source: ${url}`);
   }
 
@@ -540,7 +544,7 @@ function findSource(dbg, url) {
 function waitForLoadedSource(dbg, url) {
   return waitForState(
     dbg,
-    state => findSource(dbg, url).loadedState == "loaded",
+    state => findSource(dbg, url, { silent: true }).loadedState == "loaded",
     "loaded source"
   );
 }
