@@ -9,7 +9,7 @@
 }
 
 .frames ul li {
-  padding: 7px 10px 7px 21px;
+  padding: 0 10px 0 21px;
   overflow: hidden;
   display: flex;
   justify-content: space-between;
@@ -21,6 +21,12 @@
 .frames ul li * {
   -moz-user-select: none;
   user-select: none;
+  min-width: 0;
+}
+
+.frames .num-badge {
+  flex-shrink: 0;
+  margin-right: 4px;
 }
 
 .frames .location {
@@ -30,6 +36,7 @@
   flex-direction: row;
   align-items: center;
   margin: 0;
+  flex-shrink: 0;
 }
 
 .theme-light .frames .location,
@@ -45,7 +52,7 @@
 .frames .title {
   text-overflow: ellipsis;
   overflow: hidden;
-  margin-right: 1em;
+  margin: 7px 1em 7px 0;
 }
 
 .frames ul li:hover,

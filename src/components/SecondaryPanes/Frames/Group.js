@@ -15,6 +15,7 @@ import FrameComponent from "./Frame";
 
 import type { LocalFrame } from "./types";
 import type { Frame } from "debugger-html";
+import Badge from "../../shared/Badge";
 
 type FrameLocationProps = { frame: Frame };
 function FrameLocation({ frame }: FrameLocationProps) {
@@ -122,7 +123,10 @@ export default class Group extends Component<Props, State> {
         onClick={this.toggleFrames}
         tabIndex={0}
       >
-        <div className="title">{displayName}</div>
+        <div className="d-flex align-items-center">
+          <div className="title">{displayName}</div>
+          <Badge>{this.props.group.length}</Badge>
+        </div>
         <FrameLocation frame={frame} />
       </li>
     );
