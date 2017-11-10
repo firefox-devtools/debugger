@@ -163,7 +163,9 @@ class SourceFooter extends PureComponent<Props> {
       const bundleSource = mappedSource.toJS();
       return (
         <span className="mapped-source">
-          (source mapped from ${getFilename(bundleSource)})
+          ({L10N.getStr("sourceFooter.mappedSource")} ${getFilename(
+            bundleSource
+          )})
         </span>
       );
     }
