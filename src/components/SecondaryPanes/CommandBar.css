@@ -87,21 +87,24 @@ img.resume {
   mask: url(/images/resume.svg) no-repeat;
 }
 
-.command-bar > button.pause-exceptions.uncaught.enabled > img.pause-exceptions {
+.pause-exceptions.uncaught {
   background-color: var(--theme-highlight-purple);
 }
 
-.command-bar > button.pause-exceptions.all.enabled > img.pause-exceptions {
+.pause-exceptions.all {
   background-color: var(--theme-highlight-blue);
 }
 
-.command-bar > button.pause-exceptions.enabled > img.pause-exceptions {
+.pause-exceptions {
   background-color: var(--theme-body-color);
 }
 
-.command-bar > button > img.pause-exceptions {
+.pause-exceptions {
   mask: url(/images/pause-exceptions.svg) no-repeat;
   margin-inline-start: 0.2em;
+  width: 16px;
+  height: 16px;
+  display: inline-block;
 }
 
 .command-bar .subSettings {
