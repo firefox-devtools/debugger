@@ -52,23 +52,22 @@ describe("pause", () => {
       expect(isStepping(getState())).toBeFalsy();
     });
 
-    fit("should only step when paused", async () => {
+    it("should only step when paused", async () => {
       const client = { stepIn: jest.fn() };
       const { dispatch } = createStore(client);
 
       dispatch(actions.stepIn());
-      console.log(client.stepIn.calls);
-      expect(client.stepIn.calls.length).toEqual(0);
+      expect(client.stepIn.mock.calls.length).toEqual(0);
     });
 
-    fit("should step when paused", async () => {
-      const client = { stepIn: jest.fn() };
-      const { dispatch } = createStore(client);
+    it("should step when paused", async () => {
+      const { dispatch, getState } = createStore(mockThreadClient);
       const mockPauseInfo = createPauseInfo();
 
+      await dispatch(actions.newSource(makeSource("foo1")));
       await dispatch(actions.paused(mockPauseInfo));
       dispatch(actions.stepIn());
-      expect(client.stepIn.calls.length).toEqual(1);
+      expect(isStepping(getState())).toBeTruthy();
     });
   });
 
