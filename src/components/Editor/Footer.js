@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-// @flow
+//@flow
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -163,9 +163,9 @@ class SourceFooter extends PureComponent<Props> {
       const bundleSource = mappedSource.toJS();
       return (
         <span className="mapped-source">
-          ({L10N.getStr("sourceFooter.mappedSource")} ${getFilename(
+          {L10N.getStr("sourceFooter.mappedSource")} ${getFilename(
             bundleSource
-          )})
+          )}
         </span>
       );
     }
