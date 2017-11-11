@@ -88,6 +88,7 @@ function getMenuItems(
     : L10N.getStr("original");
 
   const jumpLabel = {
+    id: "node-menu-jump",
     accesskey: L10N.getStr("editor.jumpToMappedLocation1.accesskey"),
     disabled: false,
     label: L10N.getFormatStr("editor.jumpToMappedLocation1", pairedType),
@@ -95,6 +96,7 @@ function getMenuItems(
   };
 
   const watchExpressionLabel = {
+    id: "node-menu-add-watch-expression",
     accesskey: L10N.getStr("expressions.accesskey"),
     label: L10N.getStr("expressions.label"),
     click: () => addExpression(editor.codeMirror.getSelection())
