@@ -40,7 +40,7 @@ import {
   getDirectories
 } from "../../utils/sources-tree";
 import { Set } from "immutable";
-import { showMenu } from "devtools-launchpad";
+import { showMenu } from "devtools-contextmenu";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { throttle } from "../../utils/utils";
 import { features } from "../../utils/prefs";

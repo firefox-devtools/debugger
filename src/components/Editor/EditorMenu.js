@@ -3,7 +3,7 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 import { PureComponent } from "react";
-import { showMenu } from "devtools-launchpad";
+import { showMenu } from "devtools-contextmenu";
 import { isOriginalId, isGeneratedId } from "devtools-source-map";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { isPretty } from "../../utils/source";
