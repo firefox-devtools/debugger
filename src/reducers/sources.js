@@ -381,10 +381,6 @@ export const getSelectedSource = createSelector(
   }
 );
 
-export const generatedSource = createSelector(getSourcesState, source =>
-  getSource(source, source.id)
-);
-
 export const getSelectedSourceText = createSelector(
   getSelectedSource,
   getSourcesState,

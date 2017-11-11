@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-//@flow
+// @flow
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -16,11 +16,9 @@ import {
 import classnames from "classnames";
 import { isEnabled } from "devtools-config";
 import { isPretty, isLoaded, getFilename } from "../../utils/source";
-import { isOriginal } from "../../utils/source-maps";
-import { isOriginalId } from "devtools-source-map";
 import { getGeneratedSource } from "../../reducers/sources";
 import { shouldShowFooter, shouldShowPrettyPrint } from "../../utils/editor";
-
+import { isOriginalId } from "devtools-source-map";
 import PaneToggleButton from "../shared/Button/PaneToggle";
 
 import type { SourceRecord } from "../../reducers/sources";
@@ -157,15 +155,12 @@ class SourceFooter extends PureComponent<Props> {
   }
 
   renderSourceSummary() {
-    const { selectedSource, mappedSource } = this.props;
-    const source = selectedSource.toJS();
-    if (isOriginalId(source.id)) {
+    const { mappedSource } = this.props;
+    if (mappedSource) {
       const bundleSource = mappedSource.toJS();
       return (
         <span className="mapped-source">
-          {L10N.getStr("sourceFooter.mappedSource")} ${getFilename(
-            bundleSource
-          )}
+          {L10N.getStr("sourceFooter.mappedSource", getFilename(bundleSource))}
         </span>
       );
     }
@@ -194,7 +189,7 @@ export default connect(
     const selectedSource = getSelectedSource(state);
     const selectedId = selectedSource && selectedSource.get("id");
     const source = selectedSource.toJS();
-    const mappedSource = isOriginal(source)
+    const mappedSource = isOriginalId(source.id)
       ? getGeneratedSource(state, source)
       : null;
     return {

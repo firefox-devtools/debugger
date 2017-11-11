@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-//@flow
+// @flow
 
 import { isEnabled } from "devtools-config";
 import * as sourceDocumentUtils from "./source-documents";
@@ -20,7 +20,7 @@ import { SourceEditor, SourceEditorUtils } from "devtools-source-editor";
 
 import type { AstPosition, AstLocation } from "../../workers/parser/types";
 import type { EditorPosition, EditorRange } from "../editor/types";
-import { isOriginal } from "../source-maps";
+import { isOriginalId } from "devtools-source-map";
 
 function shouldShowPrettyPrint(selectedSource) {
   if (!selectedSource) {
@@ -39,7 +39,8 @@ function shouldShowFooter(selectedSource, horizontal) {
     return false;
   }
   return (
-    shouldShowPrettyPrint(selectedSource) || isOriginal(selectedSource.toJS())
+    shouldShowPrettyPrint(selectedSource) ||
+    isOriginalId(selectedSource.get("id"))
   );
 }
 
