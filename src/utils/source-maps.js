@@ -2,7 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
+// @flow
 import { getSource } from "../selectors";
+import type { SourceRecord } from "../reducers/sources";
+import type { Location } from "../types";
 
 export async function getGeneratedLocation(
   state: Object,

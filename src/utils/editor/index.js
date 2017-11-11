@@ -20,6 +20,7 @@ import { SourceEditor, SourceEditorUtils } from "devtools-source-editor";
 
 import type { AstPosition, AstLocation } from "../../workers/parser/types";
 import type { EditorPosition, EditorRange } from "../editor/types";
+import { isOriginalId } from "devtools-source-map";
 
 function shouldShowPrettyPrint(selectedSource) {
   if (!selectedSource) {
@@ -34,8 +35,13 @@ function shouldShowFooter(selectedSource, horizontal) {
   if (!horizontal) {
     return true;
   }
-
-  return shouldShowPrettyPrint(selectedSource);
+  if (!selectedSource) {
+    return false;
+  }
+  return (
+    shouldShowPrettyPrint(selectedSource) ||
+    isOriginalId(selectedSource.get("id"))
+  );
 }
 
 function traverseResults(e, ctx, query, dir, modifiers) {
