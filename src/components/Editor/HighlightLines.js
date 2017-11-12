@@ -1,15 +1,21 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 import { Component } from "react";
 import { range } from "lodash";
 import { isEmpty } from "lodash";
+import { connect } from "react-redux";
+import { getHighlightedLineRange } from "../../selectors";
 
-class HighlightLines extends Component {
+type Props = {
+  highlightedLineRange: Object,
+  editor: Object
+};
+
+class HighlightLines extends Component<Props> {
   highlightLineRange: Function;
-
-  props: {
-    highlightedLineRange: Object,
-    editor: Object
-  };
 
   constructor() {
     super();
@@ -74,4 +80,6 @@ class HighlightLines extends Component {
   }
 }
 
-export default HighlightLines;
+export default connect(state => ({
+  highlightedLineRange: getHighlightedLineRange(state)
+}))(HighlightLines);

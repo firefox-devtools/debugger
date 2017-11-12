@@ -1,15 +1,15 @@
-// @flow
-
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
+// @flow
 
 /**
  * Redux actions for the sources state
  * @module actions/sources
  */
 
-import { PROMISE } from "../utils/redux/middleware/promise";
+import { PROMISE } from "./utils/middleware/promise";
 import assert from "../utils/assert";
 import { remapBreakpoints } from "./breakpoints";
 
@@ -26,7 +26,6 @@ import { prefs } from "../utils/prefs";
 import { removeDocument } from "../utils/editor";
 import { isThirdParty } from "../utils/source";
 import { getGeneratedLocation } from "../utils/source-maps";
-import * as parser from "../utils/parser";
 
 import {
   getSource,
@@ -53,25 +52,13 @@ async function checkSelectedSource(state: State, dispatch, source) {
   const pendingLocation = getPendingSelectedLocation(state);
 
   if (pendingLocation && !!source.url && pendingLocation.url === source.url) {
-    await dispatch(selectSource(source.id, { line: pendingLocation.line }));
+    await dispatch(selectSource(source.id, { location: pendingLocation }));
   }
 }
 
-async function checkPendingBreakpoint(
-  state: State,
-  dispatch,
-  pendingBreakpoint,
-  source
-) {
-  const { sourceUrl } = pendingBreakpoint.location;
-  const sameSource = sourceUrl && sourceUrl === source.url;
-
-  if (sameSource) {
-    await dispatch(syncBreakpoint(source.id, pendingBreakpoint));
-  }
-}
-
-async function checkPendingBreakpoints(state, dispatch, source) {
+async function checkPendingBreakpoints(state, dispatch, sourceId) {
+  // source may have been modified by selectSource
+  const source = getSource(state, sourceId).toJS();
   const pendingBreakpoints = getPendingBreakpointsForSource(state, source.url);
   if (!pendingBreakpoints.size) {
     return;
@@ -81,7 +68,7 @@ async function checkPendingBreakpoints(state, dispatch, source) {
   await dispatch(loadSourceText(source));
   const pendingBreakpointsArray = pendingBreakpoints.valueSeq().toJS();
   for (const pendingBreakpoint of pendingBreakpointsArray) {
-    await checkPendingBreakpoint(state, dispatch, pendingBreakpoint, source);
+    await dispatch(syncBreakpoint(sourceId, pendingBreakpoint));
   }
 }
 
@@ -104,7 +91,7 @@ export function newSource(source: Source) {
     }
 
     await checkSelectedSource(getState(), dispatch, source);
-    await checkPendingBreakpoints(getState(), dispatch, source);
+    await checkPendingBreakpoints(getState(), dispatch, source.id);
   };
 }
 
@@ -132,7 +119,6 @@ function loadSourceMap(generatedSource) {
       return;
     }
 
-    const state = getState();
     const originalSources = urls.map(
       originalUrl =>
         ({
@@ -147,14 +133,18 @@ function loadSourceMap(generatedSource) {
 
     dispatch({ type: "ADD_SOURCES", sources: originalSources });
 
-    originalSources.forEach(source => {
-      checkSelectedSource(state, dispatch, source);
-      checkPendingBreakpoints(state, dispatch, source);
+    await dispatch(loadSourceText(generatedSource));
+    originalSources.forEach(async source => {
+      await checkSelectedSource(getState(), dispatch, source);
+      checkPendingBreakpoints(getState(), dispatch, source.id);
     });
   };
 }
 
-export type SelectSourceOptions = { tabIndex?: number, line?: number };
+export type SelectSourceOptions = {
+  tabIndex?: number,
+  location?: { line: number, column?: ?number }
+};
 
 /**
  * Deterministically select a source that has a given URL. This will
@@ -178,7 +168,7 @@ export function selectSourceURL(
         type: "SELECT_SOURCE_URL",
         url: url,
         tabIndex: options.tabIndex,
-        line: options.line
+        location: options.location
       });
     }
   };
@@ -213,7 +203,7 @@ export function selectSource(id: string, options: SelectSourceOptions = {}) {
       type: "SELECT_SOURCE",
       source: source.toJS(),
       tabIndex: options.tabIndex,
-      line: options.line,
+      location: options.location || {},
       [PROMISE]: (async () => {
         await dispatch(loadSourceText(source.toJS()));
         await dispatch(setOutOfScopeLocations());
@@ -249,7 +239,7 @@ export function jumpToMappedLocation(sourceLocation: any) {
     }
 
     return dispatch(
-      selectSource(pairedLocation.sourceId, { line: pairedLocation.line })
+      selectSource(pairedLocation.sourceId, { location: pairedLocation })
     );
   };
 }
@@ -332,33 +322,23 @@ export function togglePrettyPrint(sourceId: string) {
     );
 
     const selectedLocation = getSelectedLocation(getState());
-    const selectedOriginalLocation = selectedLocation
-      ? await sourceMaps.getOriginalLocation(selectedLocation)
-      : {};
-
     const url = getPrettySourceURL(source.url);
     const prettySource = getSourceByURL(getState(), url);
 
-    if (prettySource) {
-      return dispatch(
-        selectSource(prettySource.get("id"), {
-          line: selectedOriginalLocation.line
-        })
-      );
+    const options = {};
+    if (selectedLocation) {
+      options.location = await sourceMaps.getOriginalLocation(selectedLocation);
     }
 
-    const { source: newPrettySource } = await dispatch(
-      createPrettySource(sourceId)
-    );
+    if (prettySource) {
+      return dispatch(selectSource(prettySource.get("id"), options));
+    }
 
+    const newPrettySource = await dispatch(createPrettySource(sourceId));
     await dispatch(remapBreakpoints(sourceId));
     await dispatch(setEmptyLines(newPrettySource.id));
 
-    return dispatch(
-      selectSource(newPrettySource.id, {
-        line: selectedOriginalLocation.line
-      })
-    );
+    return dispatch(selectSource(newPrettySource.id, options));
   };
 }
 
@@ -375,7 +355,7 @@ export function toggleBlackBox(source: Source) {
 }
 
 /**
-  Load the text for all the avaliable sources
+  Load the text for all the available sources
  * @memberof actions/sources
  * @static
  */
@@ -395,21 +375,6 @@ export function loadAllSources() {
       if (query) {
         await dispatch(searchSource(source.id, query));
       }
-    }
-  };
-}
-
-/**
- * Ensures parser has source text
- *
- * @memberof actions/sources
- * @static
- */
-export function ensureParserHasSourceText(sourceId: string) {
-  return async ({ dispatch, getState }: ThunkArgs) => {
-    if (!await parser.hasSource(sourceId)) {
-      await dispatch(loadSourceText(getSource(getState(), sourceId).toJS()));
-      await parser.setSource(getSource(getState(), sourceId).toJS());
     }
   };
 }

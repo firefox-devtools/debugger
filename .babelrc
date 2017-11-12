@@ -1,21 +1,45 @@
 {
-  "presets": ["react"],
+  "presets": [
+    "react",
+
+    [
+      "env",
+      {
+        "targets": {
+          "browsers": ["last 1 Chrome version", "last 1 Firefox version"]
+        },
+        "modules": "commonjs"
+      }
+    ]
+  ],
   "plugins": [
-    "transform-es2015-modules-commonjs",
-    "transform-es2015-block-scoping",
-    "transform-es2015-destructuring",
-    "transform-es2015-parameters",
-    "transform-es2015-spread",
     "transform-object-rest-spread",
     "transform-flow-strip-types",
-    "transform-async-to-generator",
     "syntax-trailing-function-commas",
-
-    ["module-resolver", {
-      "alias": {
-        "devtools/client/shared/vendor/react": "react",
-        "devtools/client/shared/vendor/react-dom": "react-dom"
+    "transform-class-properties",
+    [
+      "module-resolver",
+      {
+        "alias": {
+          "devtools/client/shared/vendor/react": "react",
+          "devtools/client/shared/vendor/react-dom": "react-dom"
+        }
       }
-    }]
-  ]
+    ]
+  ],
+  "env": {
+    "test": {
+      "presets": [
+        [
+          "env",
+          {
+            "targets": {
+              "node": 7
+            },
+            "modules": "commonjs"
+          }
+        ]
+      ]
+    }
+  }
 }

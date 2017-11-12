@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 import React, { Component } from "react";
 import classNames from "classnames";
@@ -44,29 +48,25 @@ function FrameLocation({ frame }: FrameLocationProps) {
 
 FrameLocation.displayName = "FrameLocation";
 
-export default class FrameComponent extends Component {
-  static defaultProps: {
-    hideLocation: boolean,
-    shouldMapDisplayName: boolean
+type FrameComponentProps = {
+  frame: LocalFrame,
+  selectedFrame: LocalFrame,
+  copyStackTrace: Function,
+  toggleFrameworkGrouping: Function,
+  selectFrame: Function,
+  frameworkGroupingOn: boolean,
+  hideLocation: boolean,
+  shouldMapDisplayName: boolean,
+  toggleBlackBox: Function
+};
+
+export default class FrameComponent extends Component<FrameComponentProps> {
+  static defaultProps = {
+    hideLocation: false,
+    shouldMapDisplayName: true
   };
 
-  props: {
-    frame: LocalFrame,
-    selectedFrame: LocalFrame,
-    copyStackTrace: Function,
-    toggleFrameworkGrouping: Function,
-    selectFrame: Function,
-    frameworkGroupingOn: boolean,
-    hideLocation: boolean,
-    shouldMapDisplayName: boolean,
-    toggleBlackBox: Function
-  };
-
-  constructor() {
-    super();
-  }
-
-  onContextMenu(event: SyntheticKeyboardEvent) {
+  onContextMenu(event: SyntheticKeyboardEvent<HTMLElement>) {
     const {
       frame,
       copyStackTrace,
@@ -82,14 +82,22 @@ export default class FrameComponent extends Component {
     );
   }
 
-  onMouseDown(e: SyntheticKeyboardEvent, frame: Frame, selectedFrame: Frame) {
+  onMouseDown(
+    e: SyntheticKeyboardEvent<HTMLElement>,
+    frame: Frame,
+    selectedFrame: Frame
+  ) {
     if (e.nativeEvent.which == 3 && selectedFrame.id != frame.id) {
       return;
     }
     this.props.selectFrame(frame);
   }
 
-  onKeyUp(event: SyntheticKeyboardEvent, frame: Frame, selectedFrame: Frame) {
+  onKeyUp(
+    event: SyntheticKeyboardEvent<HTMLElement>,
+    frame: Frame,
+    selectedFrame: Frame
+  ) {
     if (event.key != "Enter" || selectedFrame.id == frame.id) {
       return;
     }
@@ -122,10 +130,5 @@ export default class FrameComponent extends Component {
     );
   }
 }
-
-FrameComponent.defaultProps = {
-  hideLocation: false,
-  shouldMapDisplayName: true
-};
 
 FrameComponent.displayName = "Frame";

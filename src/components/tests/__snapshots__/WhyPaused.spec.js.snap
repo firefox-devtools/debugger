@@ -1,169 +1,46 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`WhyPaused should pause reason with message 1`] = `
-ShallowWrapper {
-  "complexSelector": ComplexSelector {
-    "buildPredicate": [Function],
-    "childrenOfNode": [Function],
-    "findWhereUnwrapped": [Function],
-  },
-  "length": 1,
-  "node": <div
-    className="pane why-paused"
+<div
+  className="pane why-paused"
 >
-    <div>
-        Paused on breakpoint
-    </div>
-    <div
-        className="message"
-    >
-        bla is hit
-    </div>
-</div>,
-  "nodes": Array [
-    <div
-      className="pane why-paused"
->
-      <div>
-            Paused on breakpoint
-      </div>
-      <div
-            className="message"
-      >
-            bla is hit
-      </div>
-</div>,
-  ],
-  "options": Object {},
-  "renderer": ReactShallowRenderer {
-    "_instance": null,
-    "getRenderOutput": [Function],
-    "render": [Function],
-  },
-  "root": [Circular],
-  "unrendered": <div
-    className="pane why-paused"
->
-    <div>
-        Paused on breakpoint
-    </div>
-    <div
-        className="message"
-    >
-        bla is hit
-    </div>
-</div>,
-}
+  <div>
+    Paused on breakpoint
+  </div>
+  <div
+    className="message"
+  >
+    bla is hit
+  </div>
+</div>
 `;
 
 exports[`WhyPaused should show pause reason with exception details 1`] = `
-ShallowWrapper {
-  "complexSelector": ComplexSelector {
-    "buildPredicate": [Function],
-    "childrenOfNode": [Function],
-    "findWhereUnwrapped": [Function],
-  },
-  "length": 1,
-  "node": <div
-    className="pane why-paused"
+<div
+  className="pane why-paused"
 >
-    <div>
-        Paused on exception
-    </div>
-    <div
-        className="message warning"
-    >
-        ReferenceError: o is not defined
-    </div>
-</div>,
-  "nodes": Array [
-    <div
-      className="pane why-paused"
->
-      <div>
-            Paused on exception
-      </div>
-      <div
-            className="message warning"
-      >
-            ReferenceError: o is not defined
-      </div>
-</div>,
-  ],
-  "options": Object {},
-  "renderer": ReactShallowRenderer {
-    "_instance": null,
-    "getRenderOutput": [Function],
-    "render": [Function],
-  },
-  "root": [Circular],
-  "unrendered": <div
-    className="pane why-paused"
->
-    <div>
-        Paused on exception
-    </div>
-    <div
-        className="message warning"
-    >
-        ReferenceError: o is not defined
-    </div>
-</div>,
-}
+  <div>
+    Paused on exception
+  </div>
+  <div
+    className="message warning"
+  >
+    ReferenceError: o is not defined
+  </div>
+</div>
 `;
 
 exports[`WhyPaused should show pause reason with exception string 1`] = `
-ShallowWrapper {
-  "complexSelector": ComplexSelector {
-    "buildPredicate": [Function],
-    "childrenOfNode": [Function],
-    "findWhereUnwrapped": [Function],
-  },
-  "length": 1,
-  "node": <div
-    className="pane why-paused"
+<div
+  className="pane why-paused"
 >
-    <div>
-        Paused on exception
-    </div>
-    <div
-        className="message warning"
-    >
-        Not Available
-    </div>
-</div>,
-  "nodes": Array [
-    <div
-      className="pane why-paused"
->
-      <div>
-            Paused on exception
-      </div>
-      <div
-            className="message warning"
-      >
-            Not Available
-      </div>
-</div>,
-  ],
-  "options": Object {},
-  "renderer": ReactShallowRenderer {
-    "_instance": null,
-    "getRenderOutput": [Function],
-    "render": [Function],
-  },
-  "root": [Circular],
-  "unrendered": <div
-    className="pane why-paused"
->
-    <div>
-        Paused on exception
-    </div>
-    <div
-        className="message warning"
-    >
-        Not Available
-    </div>
-</div>,
-}
+  <div>
+    Paused on exception
+  </div>
+  <div
+    className="message warning"
+  >
+    Not Available
+  </div>
+</div>
 `;

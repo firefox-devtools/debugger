@@ -1,15 +1,28 @@
 import { makeLocationId } from "../../../utils/breakpoint";
 
-const sourceFixtures = {
-  foo1: {
-    source: "function foo1() {\n  return 5;\n}",
+function createSource(name) {
+  return {
+    source: `function ${name}() {\n  return ${name} \n}`,
     contentType: "text/javascript"
-  },
-  foo2: {
-    source: "function foo2(x, y) {\n  return x + y;\n}",
-    contentType: "text/javascript"
-  }
-};
+  };
+}
+
+const sources = [
+  "a",
+  "b",
+  "foo",
+  "baz.js",
+  "bar",
+  "foo1",
+  "foo2",
+  "foobar.js",
+  "barfoo.js",
+  "foo.js",
+  "bar.js",
+  "base.js",
+  "bazz.js",
+  "jquery.js"
+];
 
 export const simpleMockThreadClient = {
   getBreakpointByLocation: jest.fn(),
@@ -23,8 +36,8 @@ export const simpleMockThreadClient = {
 
   sourceContents: sourceId =>
     new Promise((resolve, reject) => {
-      if (sourceFixtures[sourceId]) {
-        resolve(sourceFixtures[sourceId]);
+      if (sources.includes(sourceId)) {
+        resolve(createSource(sourceId));
       }
 
       reject(`unknown source: ${sourceId}`);
@@ -36,16 +49,15 @@ function generateCorrectingThreadClient(offset = 0) {
   return {
     getBreakpointByLocation: jest.fn(),
     setBreakpoint: (location, condition) => {
-      const actualLocation = Object.assign({}, location, {
-        line: location.line + offset
-      });
+      const actualLocation = { ...location, line: location.line + offset };
 
       return Promise.resolve({
         id: makeLocationId(location),
         actualLocation,
         condition
       });
-    }
+    },
+    sourceContents: sourceId => Promise.resolve(createSource(sourceId))
   };
 }
 
@@ -57,7 +69,7 @@ function generateCorrectingThreadClient(offset = 0) {
 export function simulateCorrectThreadClient(offset, location) {
   const correctedThreadClient = generateCorrectingThreadClient(offset);
   const offsetLine = { line: location.line + offset };
-  const correctedLocation = Object.assign({}, location, offsetLine);
+  const correctedLocation = { ...location, ...offsetLine };
   return { correctedThreadClient, correctedLocation };
 }
 
@@ -65,56 +77,8 @@ export function simulateCorrectThreadClient(offset, location) {
 export const sourceThreadClient = {
   sourceContents: function(sourceId) {
     return new Promise((resolve, reject) => {
-      switch (sourceId) {
-        case "foo1":
-          resolve({
-            source: "function foo1() {\n  return 5;\n}",
-            contentType: "text/javascript"
-          });
-          break;
-        case "foo2":
-          resolve({
-            source: "function foo2(x, y) {\n  return x + y;\n}",
-            contentType: "text/javascript"
-          });
-          break;
-        case "foobar.js":
-          resolve({
-            source: "function foo() {\n  return 2;\n}",
-            contentType: "text/javascript"
-          });
-          break;
-        case "barfoo.js":
-          resolve({
-            source: "function bar() {\n  return 3;\n}",
-            contentType: "text/javascript"
-          });
-          break;
-        case "foo.js":
-          resolve({
-            source: "function bar() {\n  return 3;\n}",
-            contentType: "text/javascript"
-          });
-          break;
-        case "bar.js":
-          resolve({
-            source: "function bar() {\n  return 3;\n}",
-            contentType: "text/javascript"
-          });
-          break;
-        case "base.js":
-          resolve({
-            source: "function base() {\n  return 3;\n}",
-            contentType: "text/javascript"
-          });
-          break;
-
-        case "bazz.js":
-          resolve({
-            source: "function bar() {\n  return 3;\n}",
-            contentType: "text/javascript"
-          });
-          break;
+      if (sources.includes(sourceId)) {
+        resolve(createSource(sourceId));
       }
 
       reject(`unknown source: ${sourceId}`);

@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
@@ -31,13 +35,14 @@ function createNode(name, path, contents) {
   return { name, path, contents };
 }
 
-class Scopes extends Component {
-  props: {
-    scopes: Array<Scope>,
-    loadedObjects: Map<string, any>,
-    loadObjectProperties: Object => void,
-    pauseInfo: Pause
-  };
+type Props = {
+  scopes: Array<Scope>,
+  loadedObjects: Map<string, any>,
+  loadObjectProperties: Object => void,
+  pauseInfo: Pause
+};
+
+class Scopes extends Component<Props> {
   objectCache: Object;
   getChildren: Function;
   onExpand: Function;

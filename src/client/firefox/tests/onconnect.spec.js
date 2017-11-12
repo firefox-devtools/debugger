@@ -35,7 +35,7 @@ const debuggerClient = {
 const actions = {
   _sources: [],
   connect: () => {},
-
+  setWorkers: () => {},
   newSources: function(sources) {
     return new Promise(resolve => {
       setTimeout(() => {

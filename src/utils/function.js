@@ -1,20 +1,9 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 import { findClosestScope } from "./breakpoint/astBreakpointLocation";
-
-function getIndentation(lines) {
-  const firstLine = lines[0];
-  const secondLine = lines[1];
-  const lastLine = lines[lines.length - 1];
-
-  const _getIndentation = line => line && line.match(/^\s*/)[0].length;
-
-  const indentations = [
-    _getIndentation(firstLine),
-    _getIndentation(secondLine),
-    _getIndentation(lastLine)
-  ];
-
-  return Math.max(...indentations, 0);
-}
+import { correctIndentation } from "./indentation";
 
 export function findFunctionText(line, source, symbols) {
   const func = findClosestScope(symbols.functions, { line, column: Infinity });
@@ -27,12 +16,8 @@ export function findFunctionText(line, source, symbols) {
   const firstLine = lines[start.line - 1].slice(start.column);
   const lastLine = lines[end.line - 1].slice(0, end.column);
   const middle = lines.slice(start.line, end.line - 1);
-  const functionLines = [firstLine, ...middle, lastLine];
+  const functionText = [firstLine, ...middle, lastLine].join("\n");
+  const indentedFunctionText = correctIndentation(functionText);
 
-  const indentation = getIndentation(functionLines);
-  const formattedLines = functionLines.map(_line =>
-    _line.replace(new RegExp(`^\\s{0,${indentation - 1}}`), "")
-  );
-
-  return formattedLines.join("\n").trim();
+  return indentedFunctionText;
 }

@@ -6,7 +6,7 @@ machine:
   environment:
     DOWNLOADS_PATH: "$HOME/downloads"
     YARN_PATH: "$HOME/.yarn"
-    YARN_VERSION: 0.24.5
+    YARN_VERSION: 0.28.4
     PATH: "${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
   post:
     - mkdir -p $DOWNLOADS_PATH
@@ -22,7 +22,7 @@ test:
     - mkdir -p $CIRCLE_TEST_REPORTS/mocha
     - mkdir -p $CIRCLE_TEST_REPORTS/flow-coverage
     - mkdir -p $CIRCLE_TEST_REPORTS/jest-coverage
-    - jest -i --testResultsProcessor jest-junit-reporter --coverage --coverageDirectory=$CIRCLE_TEST_REPORTS/jest-coverage
+    - jest -i --no-colors --testResultsProcessor jest-junit-reporter --coverage --coverageDirectory=$CIRCLE_TEST_REPORTS/jest-coverage
     - yarn license-check
     - yarn lint-css
     - yarn lint-js
@@ -36,7 +36,7 @@ test:
 dependencies:
   pre:
     - ./bin/ci/install-yarn
-    - yarn global add greenkeeper-lockfile@1
+    - yarn global add greenkeeper-lockfile@github:jasonLaster/greenkeeper-lockfile#146f2fcc27577
   cache_directories:
     - ~/.cache/yarn
     - ~/.yarn

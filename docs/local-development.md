@@ -206,13 +206,13 @@ Here's a simple example:
 const { showMenu } = require("devtools-launchpad");
 
 function onClick(event) {
-  const copySourceUrlLabel = L10N.getStr("copySourceUrl");
-  const copySourceUrlKey = L10N.getStr("copySourceUrl.accesskey");
+  const copySourceUri2Label = L10N.getStr("copySourceUri2");
+  const copySourceUri2Key = L10N.getStr("copySourceUri2.accesskey");
 
   showMenu(event, [{
     id: "node-menu-copy-source",
-    label: copySourceUrlLabel,
-    accesskey: copySourceUrlKey,
+    label: copySourceUri2Label,
+    accesskey: copySourceUri2Key,
     disabled: false,
     click: () => copyToClipboad(url),
     hidden: () => url.match(/chrome:\/\//)
@@ -236,13 +236,13 @@ Access Keys are defined in the properties file next to the menu item's string. Y
 
 
 ```
-# LOCALIZATION NOTE (copySourceUrl): This is the text that appears in the
+# LOCALIZATION NOTE (copySourceUri2): This is the text that appears in the
 # context menu to copy the source URL of file open.
-copySourceUrl=Copy Source Url
+copySourceUri2=Copy Source Url
 
-# LOCALIZATION NOTE (copySourceUrl.accesskey): Access key to copy the source URL of a file from
+# LOCALIZATION NOTE (copySourceUri2.accesskey): Access key to copy the source URL of a file from
 # the context menu.
-copySourceUrl.accesskey=u
+copySourceUri2.accesskey=u
 ```
 
 
@@ -254,13 +254,13 @@ You can use a menu item separator to create menu groups.
 const { showMenu } = require("devtools-launchpad");
 
 function onClick(event) {
-  const copySourceUrlLabel = L10N.getStr("copySourceUrl");
-  const copySourceUrlKey = L10N.getStr("copySourceUrl.accesskey");
+  const copySourceUri2Label = L10N.getStr("copySourceUri2");
+  const copySourceUri2Key = L10N.getStr("copySourceUri2.accesskey");
 
   const menuItem = {
     id: "node-menu-copy-source",
-    label: copySourceUrlLabel,
-    accesskey: copySourceUrlKey,
+    label: copySourceUri2Label,
+    accesskey: copySourceUri2Key,
     disabled: false,
     click: () => copyToClipboad(url),
     hidden: () => url.match(/chrome:\/\//)
@@ -295,7 +295,7 @@ practices, but have added our own flavor as well with the help of Flow and Immut
 We type our stores so that we can document the shape of the data and guarantee
 the data coming in and out is well formed.
 
-Lets look at the expressions reducer and see how it is typed
+Lets look at the expressions reducer and see how it is typed:
 
 ```js
 type ExpressionState = {
@@ -332,7 +332,7 @@ The `ExpressionState` documents the reducers fields. We use it in three places:
 
 We try to wrap our state in Immutable records when we can for two reasons.
 First it means that the state can only be modified in the reducers.
-Second, it helps our connected components avoid unecessary renders.
+Second, it helps our connected components avoid unnecessary renders.
 
 Connect will trigger a re-render when it sees new state, even if it has not changed.
 Immutable, will creates new objects if and only if the data changes,
@@ -429,7 +429,7 @@ yarn run test-all
 * [matchers][jest-matchers]
 * [mock functions][jest-mock]
 
-Running all the tests tends to be really slow. Most of the time it is realy useful to run a single test. You can do this by invoking jest directly like this:
+Running all the tests tends to be really slow. Most of the time it is really useful to run a single test. You can do this by invoking jest directly like this:
 
 ```bash
 node_modules/jest/bin/jest.js -o
@@ -635,7 +635,7 @@ When you're starting a new feature, it's always good to ask yourself if the feat
 It's easy to add a new feature flag to the project.
 
 1. add the flag to `assets/panel/prefs.js` and `utils/prefs.js`
-2. add `isEnabled` calls in the code
+2. import `features`
 
 Here's an example of adding a new feature "awesome sauce" to the Debugger:
 
@@ -682,6 +682,19 @@ index 429d56c..dadb36c 100644
  });
 
  if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {
+ 
+diff --git a/src/components/SecondaryPanes/index.js b/src/components/SecondaryPanes/index.js
+index a390df2..c610c1a 100644
+--- a/src/components/SecondaryPanes/index.js
++++ b/src/components/SecondaryPanes/index.js
+@@ -127,6 +127,10 @@ class SecondaryPanes extends Component<Props> {
+   getScopeItem() {
+     const isPaused = () => !!this.props.pauseData;
+
++    if (features.aweseome) {
++      return <div>The Best</div>;
++    }
++
 ```
 
 ### Hot Reloading :fire:

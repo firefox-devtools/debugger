@@ -12,6 +12,7 @@ const svg = {
   "column-breakpoint": require("./column-breakpoint.svg"),
   "case-match": require("./case-match.svg"),
   close: require("./close.svg"),
+  choo: require("./choo.svg"),
   dojo: require("./dojo.svg"),
   domain: require("./domain.svg"),
   file: require("./file.svg"),
@@ -28,6 +29,8 @@ const svg = {
   pause: require("./pause.svg"),
   "pause-exceptions": require("./pause-exceptions.svg"),
   plus: require("./plus.svg"),
+  preact: require("./preact.svg"),
+  aframe: require("./aframe.svg"),
   prettyPrint: require("./prettyPrint.svg"),
   react: require("./react.svg"),
   "regex-match": require("./regex-match.svg"),
@@ -43,16 +46,18 @@ const svg = {
   togglePanes: require("./toggle-panes.svg"),
   "whole-word-match": require("./whole-word-match.svg"),
   worker: require("./worker.svg"),
-  "sad-face": require("./sad-face.svg"),
-  refresh: require("./refresh.svg"),
+  "sad-face": require("devtools-mc-assets/assets/devtools/client/themes/images/sad-face.svg"),
+  refresh: require("devtools-mc-assets/assets/devtools/client/themes/images/reload.svg"),
   webpack: require("./webpack.svg"),
   node: require("./node.svg"),
   express: require("./express.svg"),
   pug: require("./pug.svg"),
   extjs: require("./sencha-extjs.svg"),
+  marko: require("./marko.svg"),
+  nextjs: require("./nextjs.svg"),
   showSources: require("./showSources.svg"),
   showOutline: require("./showOutline.svg"),
-  shortcut: require("./shortcut.svg")
+  nuxtjs: require("./nuxtjs.svg")
 };
 
 type SvgType = {

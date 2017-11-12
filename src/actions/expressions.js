@@ -1,12 +1,20 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
-import { PROMISE } from "../utils/redux/middleware/promise";
 import {
   getExpression,
   getExpressions,
-  getSelectedFrameId
+  getSelectedFrame,
+  getSelectedFrameId,
+  getSource
 } from "../selectors";
+import { PROMISE } from "./utils/middleware/promise";
+import { isGeneratedId } from "devtools-source-map";
 import { wrapExpression } from "../utils/expressions";
+import * as parser from "../workers/parser";
 import type { Expression } from "../types";
 import type { ThunkArgs } from "./types";
 
@@ -87,18 +95,67 @@ export function evaluateExpressions() {
 }
 
 function evaluateExpression(expression: Expression) {
-  return function({ dispatch, getState, client }: ThunkArgs) {
+  return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
     if (!expression.input) {
       console.warn("Expressions should not be empty");
       return;
     }
 
+    let input = expression.input;
+    const error = await parser.hasSyntaxError(input);
+    if (error) {
+      return dispatch({
+        type: "EVALUATE_EXPRESSION",
+        input: expression.input,
+        value: { input: expression.input, result: error }
+      });
+    }
+
+    const frame = getSelectedFrame(getState());
+
+    if (frame) {
+      const { location, generatedLocation } = frame;
+      const source = getSource(getState(), location.sourceId);
+      const sourceId = source.get("id");
+
+      if (!isGeneratedId(sourceId)) {
+        input = await getMappedExpression(
+          { sourceMaps },
+          generatedLocation,
+          input
+        );
+      }
+    }
+
     const frameId = getSelectedFrameId(getState());
-    const input = wrapExpression(expression.input);
+
     return dispatch({
       type: "EVALUATE_EXPRESSION",
       input: expression.input,
-      [PROMISE]: client.evaluate(input, { frameId })
+      [PROMISE]: client.evaluate(wrapExpression(input), { frameId })
     });
   };
+}
+
+/**
+ * Gets information about original variable names from the source map
+ * and replaces all posible generated names.
+ */
+export async function getMappedExpression(
+  { sourceMaps }: Object,
+  generatedLocation: Location,
+  expression: string
+): Promise<string> {
+  const astScopes = await parser.getScopes(generatedLocation);
+
+  const generatedScopes = await sourceMaps.getLocationScopes(
+    generatedLocation,
+    astScopes
+  );
+
+  if (!generatedScopes) {
+    return expression;
+  }
+
+  return parser.replaceOriginalVariableName(expression, generatedScopes);
 }

@@ -1,10 +1,15 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
+import { correctIndentation } from "./indentation";
 import type { Expression } from "debugger-html";
 
 // replace quotes and slashes that could interfere with the evaluation.
 export function sanitizeInput(input: string) {
-  return input.replace(/\\/g, "\\\\").replace(/"/g, "\\$&");
+  return input.replace(/\\/g, "\\\\").replace(/"/g, '"');
 }
 
 /*
@@ -14,13 +19,13 @@ export function sanitizeInput(input: string) {
  * NOTE: we add line after the expression to protect against comments.
 */
 export function wrapExpression(input: string) {
-  return `eval(\`
+  return correctIndentation(`
     try {
       ${sanitizeInput(input)}
     } catch (e) {
       e
     }
-  \`)`.trim();
+  `);
 }
 
 export function getValue(expression: Expression) {

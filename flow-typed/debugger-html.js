@@ -44,11 +44,13 @@ declare module "debugger-html" {
     sourceUrl?: string
   };
 
-  declare type ASTLocation = {
+  declare type ASTLocation = {|
     name: ?string,
-    column: ?number,
-    line: number
-  };
+    offset: {
+      column: ?number,
+      line: number
+    }
+  |};
 
   /**
  * Breakpoint
@@ -66,6 +68,17 @@ declare module "debugger-html" {
     hidden: boolean,
     text: string,
     condition: ?string
+  };
+
+  /**
+ * Breakpoint sync data
+ *
+ * @memberof types
+ * @static
+ */
+  declare type BreakpointSyncData = {
+    previousLocation: Location | null,
+    breakpoint: Breakpoint
   };
 
   /**
@@ -87,7 +100,7 @@ declare module "debugger-html" {
  */
   declare type PendingBreakpoint = {
     location: PendingLocation,
-    astLocaton: ASTLocation,
+    astLocation: ASTLocation,
     generatedLocation: PendingLocation,
     loading: boolean,
     disabled: boolean,
@@ -112,6 +125,7 @@ declare module "debugger-html" {
     id: FrameId,
     displayName: string,
     location: Location,
+    generatedLocation: Location,
     source?: Source,
     scope: Scope,
     // FIXME Define this type more clearly
@@ -138,9 +152,16 @@ declare module "debugger-html" {
  * @memberof types
  * @static
  */
-  declare type Why = {
-    type: string
-  };
+  declare type Why =
+    | {|
+        exception: string | Grip,
+        type: "exception",
+        frameFinished?: Object
+      |}
+    | {
+        type: string,
+        frameFinished?: Object
+      };
 
   /**
  * Why is the Debugger Paused?
@@ -168,6 +189,7 @@ declare module "debugger-html" {
  * @static
  */
   declare type Pause = {
+    frame: Frame,
     frames: Frame[],
     why: Why,
     loadedObjects?: LoadedObject[]
@@ -197,7 +219,8 @@ declare module "debugger-html" {
     ownPropertyLength: number,
     preview: {
       kind: string,
-      url: string
+      url: string,
+      fileName: string
     },
     sealed: boolean,
     type: string
@@ -258,17 +281,39 @@ declare module "debugger-html" {
   declare type Script = any;
 
   /**
+ * Describes content of the binding.
+ * FIXME Define these type more clearly
+ */
+  declare type BindingContents = {
+    value: any
+  };
+
+  /**
+ * Defines map of binding name to its content.
+ */
+  declare type ScopeBindings = {
+    [name: string]: BindingContents
+  };
+
+  declare type SyntheticScope = {
+    type: string,
+    bindingsNames: string[]
+  };
+
+  /**
  * Scope
  * @memberof types
  * @static
  */
   declare type Scope = {
     actor: ActorId,
-    parent: Scope,
+    parent: ?Scope,
     bindings: {
-      // FIXME Define these types more clearly
-      arguments: Array<Object>,
-      variables: Object
+      arguments: Array<ScopeBindings>,
+      variables: ScopeBindings
+    },
+    sourceBindings?: {
+      [originalName: string]: string
     },
     object: Object,
     function: {
@@ -276,8 +321,7 @@ declare module "debugger-html" {
       class: string,
       displayName: string,
       location: Location,
-      // FIXME Define this type more clearly
-      parameterNames: Array<Object>
+      parameterNames: string[]
     },
     type: string
   };

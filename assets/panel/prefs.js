@@ -12,10 +12,6 @@ pref("devtools.debugger.remote-timeout", 20000);
 pref("devtools.debugger.pause-on-exceptions", false);
 pref("devtools.debugger.ignore-caught-exceptions", false);
 pref("devtools.debugger.source-maps-enabled", true);
-// Temporarily leave this in place, even though it is unused, so the
-// options pane doesn't break.
-// https://bugzilla.mozilla.org/show_bug.cgi?id=1371849
-pref("devtools.debugger.client-source-maps-enabled", true);
 pref("devtools.debugger.pretty-print-enabled", true);
 pref("devtools.debugger.auto-pretty-print", false);
 pref("devtools.debugger.auto-black-box", true);
@@ -31,7 +27,6 @@ pref("devtools.debugger.ui.variables-only-enum-visible", false);
 pref("devtools.debugger.ui.variables-searchbox-visible", false);
 pref("devtools.debugger.ui.framework-grouping-on", true);
 pref("devtools.debugger.call-stack-visible", false);
-pref("devtools.debugger.scopes-visible", false);
 pref("devtools.debugger.start-panel-collapsed", false);
 pref("devtools.debugger.end-panel-collapsed", false);
 pref("devtools.debugger.tabs", "[]");
@@ -42,5 +37,10 @@ pref("devtools.debugger.file-search-case-sensitive", false);
 pref("devtools.debugger.file-search-whole-word", false);
 pref("devtools.debugger.file-search-regex-match", false);
 pref("devtools.debugger.features.async-stepping", true);
+
 pref("devtools.debugger.features.project-text-search", true);
 pref("devtools.debugger.features.wasm", true);
+pref("devtools.debugger.features.shortcuts", true);
+pref("devtools.debugger.project-directory-root", "");
+pref("devtools.debugger.features.root", false);
+pref("devtools.debugger.features.column-breakpoints", false);

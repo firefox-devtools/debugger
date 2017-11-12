@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 .search-container {
   position: absolute;
   top: 30px;
@@ -6,42 +10,7 @@
   height: calc(100% - 31px);
   display: flex;
   flex-direction: column;
-  z-index: 200;
+  z-index: 20;
   background-color: var(--theme-body-background);
   overflow-y: hidden;
-}
-
-.searchinput-container {
-  display: flex;
-  border-bottom: 1px solid var(--theme-splitter-color);
-}
-
-.theme-dark .result-list li .subtitle {
-  color: var(--theme-comment-alt);
-}
-
-.toggle-search {
-  background-color: var(--theme-toolbar-background);
-  border-bottom: 1px solid var(--theme-splitter-color);
-  color: var(--theme-comment-alt);
-  display: flex;
-  flex-shrink: 0;
-  justify-content: flex-start;
-  line-height: 40px;
-  padding: 0 13px;
-  width: calc(100% - 1px);
-}
-
-.toggle-search .title {
-  font-weight: 500;
-  font-size: 120%;
-}
-
-.toggle-search .text {
-  margin-left: 1em;
-  cursor: default;
-}
-
-.toggle-search .active {
-  color: var(--theme-selection-background);
 }

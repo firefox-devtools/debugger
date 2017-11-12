@@ -1,9 +1,14 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 import * as firefox from "./firefox";
 import * as chrome from "./chrome";
 
 import { prefs, features } from "../utils/prefs";
+import * as timings from "../utils/timings";
 import { isFirefoxPanel } from "devtools-config";
 import {
   bootstrapApp,
@@ -53,7 +58,8 @@ async function onConnect(
       features,
       connection,
       bpClients,
-      services
+      services,
+      timings
     };
   };
 

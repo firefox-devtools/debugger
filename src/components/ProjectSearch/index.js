@@ -1,36 +1,44 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
-import React, { PropTypes, Component } from "react";
+import PropTypes from "prop-types";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import actions from "../../actions";
 
 import TextSearch from "./TextSearch";
-import SourceSearch from "./SourceSearch";
-import ToggleSearch from "./ToggleSearch";
 
-import { features } from "../../utils/prefs";
 import {
   getSources,
   getActiveSearch,
   getTextSearchResults,
-  getTextSearchQuery,
-  getSourceSearchQuery
+  getTextSearchQuery
 } from "../../selectors";
 
 import "./ProjectSearch.css";
 
-class ProjectSearch extends Component {
-  state: Object;
+type Props = {
+  sources: Object,
+  results: Object,
+  textSearchQuery: string,
+  setActiveSearch: Function,
+  closeActiveSearch: Function,
+  searchSources: Function,
+  activeSearch: string,
+  selectSource: Function
+};
+
+class ProjectSearch extends Component<Props> {
   onEscape: Function;
   close: Function;
   toggleProjectTextSearch: Function;
-  toggleSourceSearch: Function;
 
   constructor(props) {
     super(props);
-
-    this.toggleSourceSearch = this.toggleSourceSearch.bind(this);
     this.toggleProjectTextSearch = this.toggleProjectTextSearch.bind(this);
   }
 
@@ -41,12 +49,6 @@ class ProjectSearch extends Component {
       L10N.getStr("projectTextSearch.key"),
       this.toggleProjectTextSearch
     );
-
-    const searchKeys = [
-      L10N.getStr("sources.search.key2"),
-      L10N.getStr("sources.search.alt.key")
-    ];
-    searchKeys.forEach(key => shortcuts.on(key, this.toggleSourceSearch));
   }
 
   componentWillUnmount() {
@@ -55,12 +57,6 @@ class ProjectSearch extends Component {
       L10N.getStr("projectTextSearch.key"),
       this.toggleProjectTextSearch
     );
-
-    const searchKeys = [
-      L10N.getStr("sources.search.key2"),
-      L10N.getStr("sources.search.alt.key")
-    ];
-    searchKeys.forEach(key => shortcuts.off(key, this.toggleSourceSearch));
   }
 
   toggleProjectTextSearch(key, e) {
@@ -69,58 +65,14 @@ class ProjectSearch extends Component {
       e.preventDefault();
     }
 
-    if (!features.projectTextSearch) {
-      return;
-    }
-
     if (this.isProjectSearchEnabled()) {
       return closeActiveSearch();
     }
     return setActiveSearch("project");
   }
 
-  toggleSourceSearch(key, e) {
-    const { closeActiveSearch, setActiveSearch } = this.props;
-    if (e) {
-      e.preventDefault();
-    }
-
-    if (this.isSourceSearchEnabled()) {
-      return closeActiveSearch();
-    }
-    return setActiveSearch("source");
-  }
-
   isProjectSearchEnabled() {
     return this.props.activeSearch === "project";
-  }
-
-  isSourceSearchEnabled() {
-    return this.props.activeSearch === "source";
-  }
-
-  renderSourceSearch() {
-    const {
-      sources,
-      selectSource,
-      closeActiveSearch,
-      sourceSearchQuery,
-      setSourceSearchQuery,
-      clearSourceSearchQuery
-    } = this.props;
-    return (
-      <SourceSearch
-        sources={sources}
-        selectSource={selectSource}
-        closeActiveSearch={closeActiveSearch}
-        searchBottomBar={
-          <ToggleSearch kind="sources" toggle={this.toggleProjectTextSearch} />
-        }
-        query={sourceSearchQuery}
-        setQuery={setSourceSearchQuery}
-        clearQuery={clearSourceSearchQuery}
-      />
-    );
   }
 
   renderTextSearch() {
@@ -141,25 +93,16 @@ class ProjectSearch extends Component {
         closeActiveSearch={closeActiveSearch}
         selectSource={selectSource}
         query={textSearchQuery}
-        searchBottomBar={
-          <ToggleSearch kind="project" toggle={this.toggleSourceSearch} />
-        }
       />
     );
   }
 
   render() {
-    if (!(this.isProjectSearchEnabled() || this.isSourceSearchEnabled())) {
+    if (!this.isProjectSearchEnabled()) {
       return null;
     }
 
-    return (
-      <div className="search-container">
-        {this.isProjectSearchEnabled()
-          ? this.renderTextSearch()
-          : this.renderSourceSearch()}
-      </div>
-    );
+    return <div className="search-container">{this.renderTextSearch()}</div>;
   }
 }
 
@@ -171,10 +114,7 @@ ProjectSearch.propTypes = {
   closeActiveSearch: PropTypes.func.isRequired,
   searchSources: PropTypes.func,
   activeSearch: PropTypes.string,
-  selectSource: PropTypes.func.isRequired,
-  sourceSearchQuery: PropTypes.string,
-  setSourceSearchQuery: PropTypes.func,
-  clearSourceSearchQuery: PropTypes.func
+  selectSource: PropTypes.func.isRequired
 };
 
 ProjectSearch.contextTypes = {
@@ -186,8 +126,7 @@ export default connect(
     sources: getSources(state),
     activeSearch: getActiveSearch(state),
     results: getTextSearchResults(state),
-    textSearchQuery: getTextSearchQuery(state),
-    sourceSearchQuery: getSourceSearchQuery(state)
+    textSearchQuery: getTextSearchQuery(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(ProjectSearch);

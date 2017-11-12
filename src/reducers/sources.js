@@ -1,7 +1,8 @@
-// @flow
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
+// @flow
 
 /**
  * Sources reducer
@@ -12,6 +13,7 @@ import * as I from "immutable";
 import { createSelector } from "reselect";
 import makeRecord from "../utils/makeRecord";
 import { getPrettySourceURL } from "../utils/source";
+import { originalToGeneratedId, isOriginalId } from "devtools-source-map";
 import { prefs } from "../utils/prefs";
 
 import type { Map, List } from "immutable";
@@ -71,7 +73,7 @@ function update(
       }
 
       location = {
-        line: action.line,
+        ...action.location,
         url: action.source.url
       };
 
@@ -79,7 +81,7 @@ function update(
       return state
         .set("selectedLocation", {
           sourceId: action.source.id,
-          line: action.line
+          ...action.location
         })
         .set("pendingSelectedLocation", location);
 
@@ -296,6 +298,13 @@ export function getSource(state: OuterState, id: string) {
 
 export function getSourceByURL(state: OuterState, url: string): ?SourceRecord {
   return getSourceByUrlInSources(state.sources.sources, url);
+}
+
+export function getGeneratedSource(state: OuterState, source: any) {
+  if (!isOriginalId(source.id)) {
+    return source;
+  }
+  return getSource(state, originalToGeneratedId(source.id));
 }
 
 export function getPendingSelectedLocation(state: OuterState) {

@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 import { isEnabled } from "devtools-config";
@@ -10,10 +14,12 @@ import * as sourceSearchUtils from "./source-search";
 const { findNext, findPrev } = sourceSearchUtils;
 
 import { isWasm, lineToWasmOffset, wasmOffsetToLine } from "../wasm";
+import { resizeBreakpointGutter } from "../ui";
 
 import { SourceEditor, SourceEditorUtils } from "devtools-source-editor";
+import { isOriginalId } from "devtools-source-map";
 
-import type { AstPosition, AstLocation } from "../parser/types";
+import type { AstPosition, AstLocation } from "../../workers/parser/types";
 import type { EditorPosition, EditorRange } from "../editor/types";
 
 function shouldShowPrettyPrint(selectedSource) {
@@ -29,8 +35,13 @@ function shouldShowFooter(selectedSource, horizontal) {
   if (!horizontal) {
     return true;
   }
-
-  return shouldShowPrettyPrint(selectedSource);
+  if (!selectedSource) {
+    return false;
+  }
+  return (
+    shouldShowPrettyPrint(selectedSource) ||
+    isOriginalId(selectedSource.get("id"))
+  );
 }
 
 function traverseResults(e, ctx, query, dir, modifiers) {
@@ -101,6 +112,19 @@ function toSourceLine(sourceId: string, line: number): ?number {
   return isWasm(sourceId) ? lineToWasmOffset(sourceId, line) : line + 1;
 }
 
+function scrollToColumn(codeMirror: any, line: number, column: number) {
+  const { top, left } = codeMirror.charCoords(
+    { line: line, ch: column },
+    "local"
+  );
+
+  const scroller = codeMirror.getScrollerElement();
+  const centeredX = Math.max(left - scroller.offsetWidth / 2, 0);
+  const centeredY = Math.max(top - scroller.offsetHeight / 2, 0);
+
+  codeMirror.scrollTo(centeredX, centeredY);
+}
+
 function toSourceLocation(
   sourceId: string,
   location: EditorPosition
@@ -128,36 +152,35 @@ function lineAtHeight(editor, sourceId, event) {
 
 function getSourceLocationFromMouseEvent(editor, selectedLocation, e) {
   const { line, ch } = editor.codeMirror.coordsChar({
-     left: e.clientX,
-     top: e.clientY
+    left: e.clientX,
+    top: e.clientY
   });
 
   return {
-     sourceId: selectedLocation.sourceId,
-     line: line + 1,
-     column: ch + 1
+    sourceId: selectedLocation.sourceId,
+    line: line + 1,
+    column: ch + 1
   };
 }
 
-module.exports = Object.assign(
-  {},
-  expressionUtils,
-  sourceDocumentUtils,
-  sourceSearchUtils,
-  SourceEditorUtils,
-  {
-    createEditor,
-    isWasm,
-    toEditorLine,
-    toEditorPosition,
-    toEditorRange,
-    toSourceLine,
-    toSourceLocation,
-    shouldShowPrettyPrint,
-    shouldShowFooter,
-    traverseResults,
-    markText,
-    lineAtHeight,
-    getSourceLocationFromMouseEvent
-  }
-);
+module.exports = {
+  ...expressionUtils,
+  ...sourceDocumentUtils,
+  ...sourceSearchUtils,
+  ...SourceEditorUtils,
+  createEditor,
+  isWasm,
+  toEditorLine,
+  toEditorPosition,
+  toEditorRange,
+  toSourceLine,
+  scrollToColumn,
+  toSourceLocation,
+  shouldShowPrettyPrint,
+  shouldShowFooter,
+  traverseResults,
+  markText,
+  lineAtHeight,
+  getSourceLocationFromMouseEvent,
+  resizeBreakpointGutter
+};

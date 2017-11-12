@@ -1,35 +1,38 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
-import React, { Component, PropTypes } from "react";
-import { findDOMNode } from "react-dom";
+import PropTypes from "prop-types";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Svg from "../shared/Svg";
 import actions from "../../actions";
 import {
   getActiveSearch,
-  getFileSearchQueryState,
-  getFileSearchModifierState,
-  getSearchResults
+  getSelectedSource,
+  getSelectedLocation,
+  getFileSearchQuery,
+  getFileSearchModifiers,
+  getFileSearchResults,
+  getHighlightedLineRange
 } from "../../selectors";
 
-import { find, findNext, findPrev, removeOverlay } from "../../utils/editor";
-
-import { getMatches } from "../../utils/search";
+import { removeOverlay } from "../../utils/editor";
 
 import { scrollList } from "../../utils/result-list";
 import classnames from "classnames";
-import { debounce } from "lodash";
 
 import { SourceEditor } from "devtools-source-editor";
 import type { SourceRecord } from "../../reducers/sources";
-import type {
-  ActiveSearchType,
-  FileSearchModifiers,
-  SearchResults
-} from "../../reducers/ui";
+import type { ActiveSearchType } from "../../reducers/ui";
+import type { Modifiers, SearchResults } from "../../reducers/file-search";
+
 import type { SelectSourceOptions } from "../../actions/sources";
 import SearchInput from "../shared/SearchInput";
+import { debounce } from "lodash";
 import "./SearchBar.css";
 
 function getShortcuts() {
@@ -44,7 +47,8 @@ function getShortcuts() {
   };
 }
 
-type SearchBarState = {
+type State = {
+  query: string,
   selectedResultIndex: number,
   count: number,
   index: number
@@ -54,46 +58,28 @@ type Props = {
   editor?: SourceEditor,
   selectSource: (string, ?SelectSourceOptions) => any,
   selectedSource?: SourceRecord,
-  highlightLineRange: ({ start: number, end: number }) => void,
-  clearHighlightLineRange: () => void,
   searchOn?: boolean,
   setActiveSearch: (?ActiveSearchType) => any,
+  closeFileSearch: SourceEditor => void,
+  doSearch: (string, SourceEditor) => void,
+  traverseResults: (boolean, SourceEditor) => void,
   searchResults: SearchResults,
-  modifiers: FileSearchModifiers,
+  modifiers: Modifiers,
   toggleFileSearchModifier: string => any,
   query: string,
   setFileSearchQuery: string => any,
   updateSearchResults: ({ count: number, index?: number }) => any
 };
 
-class SearchBar extends Component {
-  state: SearchBarState;
-
-  props: Props;
-
+class SearchBar extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
+      query: props.query,
       selectedResultIndex: 0,
       count: 0,
       index: -1
     };
-
-    const self: any = this;
-    self.onEscape = this.onEscape.bind(this);
-    self.clearSearch = this.clearSearch.bind(this);
-    self.closeSearch = this.closeSearch.bind(this);
-    self.toggleSearch = this.toggleSearch.bind(this);
-    self.setSearchValue = this.setSearchValue.bind(this);
-    self.selectSearchInput = this.selectSearchInput.bind(this);
-    self.searchInput = this.searchInput.bind(this);
-    self.doSearch = this.doSearch.bind(this);
-    self.searchContents = this.searchContents.bind(this);
-    self.traverseResults = this.traverseResults.bind(this);
-    self.onChange = this.onChange.bind(this);
-    self.onKeyUp = this.onKeyUp.bind(this);
-    self.buildSummaryMsg = this.buildSummaryMsg.bind(this);
-    self.renderSearchModifiers = this.renderSearchModifiers.bind(this);
   }
 
   componentWillUnmount() {
@@ -111,11 +97,9 @@ class SearchBar extends Component {
   }
 
   componentDidMount() {
-    // overwrite searchContents with a debounced version to reduce the
-    // frequency of queries which improves perf on large files
-    // $FlowIgnore
-    this.searchContents = debounce(this.searchContents, 100);
-
+    // overwrite this.doSearch with debounced version to
+    // reduce frequency of queries
+    this.doSearch = debounce(this.doSearch, 100);
     const shortcuts = this.context.shortcuts;
     const {
       searchShortcut,
@@ -133,44 +117,36 @@ class SearchBar extends Component {
     shortcuts.on(searchAgainShortcut, (_, e) => this.traverseResults(e, false));
   }
 
-  componentDidUpdate(prevProps: Props, prevState: SearchBarState) {
-    const searchInput = this.searchInput();
-
-    if (searchInput) {
-      searchInput.focus();
-    }
-
+  componentDidUpdate(prevProps: Props, prevState: State) {
     if (this.refs.resultList && this.refs.resultList.refs) {
       scrollList(this.refs.resultList.refs, this.state.selectedResultIndex);
     }
   }
 
-  onEscape(e: SyntheticKeyboardEvent) {
+  onEscape = (e: SyntheticKeyboardEvent<HTMLElement>) => {
     this.closeSearch(e);
-  }
+  };
 
-  clearSearch() {
+  clearSearch = () => {
     const { editor: ed, query, modifiers } = this.props;
     if (ed && modifiers) {
       const ctx = { ed, cm: ed.codeMirror };
       removeOverlay(ctx, query, modifiers.toJS());
     }
-  }
+  };
 
-  closeSearch(e: SyntheticEvent) {
-    const { editor, setFileSearchQuery, searchOn } = this.props;
+  closeSearch = (e: SyntheticEvent<HTMLElement>) => {
+    const { editor, searchOn } = this.props;
 
     if (editor && searchOn) {
-      setFileSearchQuery("");
       this.clearSearch();
-      this.props.setActiveSearch();
-      this.props.clearHighlightLineRange();
+      this.props.closeFileSearch(editor);
       e.stopPropagation();
       e.preventDefault();
     }
-  }
+  };
 
-  toggleSearch(e: SyntheticKeyboardEvent) {
+  toggleSearch = (e: SyntheticKeyboardEvent<HTMLElement>) => {
     e.stopPropagation();
     e.preventDefault();
     const { editor } = this.props;
@@ -181,54 +157,23 @@ class SearchBar extends Component {
 
     if (this.props.searchOn && editor) {
       const selection = editor.codeMirror.getSelection();
-      this.setSearchValue(selection);
+      this.setState({ query: selection });
       if (selection !== "") {
         this.doSearch(selection);
       }
-      this.selectSearchInput();
     }
-  }
+  };
 
-  setSearchValue(value: string) {
-    const searchInput = this.searchInput();
-    if (value == "" || !searchInput) {
-      return;
-    }
-
-    searchInput.value = value;
-  }
-
-  selectSearchInput() {
-    const searchInput = this.searchInput();
-    if (searchInput) {
-      searchInput.setSelectionRange(0, searchInput.value.length);
-      searchInput.focus();
-    }
-  }
-
-  searchInput(): ?HTMLInputElement {
-    const node = findDOMNode(this);
-    if (node instanceof HTMLElement) {
-      const input = node.querySelector("input");
-      if (input instanceof HTMLInputElement) {
-        return input;
-      }
-    }
-    return null;
-  }
-
-  doSearch(query: string) {
-    const { selectedSource, setFileSearchQuery } = this.props;
+  doSearch = (query: string) => {
+    const { selectedSource } = this.props;
     if (!selectedSource || !selectedSource.get("text")) {
       return;
     }
 
-    setFileSearchQuery(query);
+    this.props.doSearch(query, this.props.editor);
+  };
 
-    this.searchContents(query);
-  }
-
-  updateSearchResults(characterIndex, line, matches) {
+  updateSearchResults = (characterIndex, line, matches) => {
     const matchIndex = matches.findIndex(
       elm => elm.line === line && elm.ch === characterIndex
     );
@@ -238,73 +183,36 @@ class SearchBar extends Component {
       count: matches.length,
       index: characterIndex
     });
-  }
+  };
 
-  async searchContents(query: string) {
-    const { selectedSource, modifiers, editor: ed } = this.props;
-
-    if (
-      !query ||
-      !ed ||
-      !selectedSource ||
-      !selectedSource.get("text") ||
-      !modifiers
-    ) {
-      return;
-    }
-
-    const ctx = { ed, cm: ed.codeMirror };
-
-    const _modifiers = modifiers.toJS();
-    const matches = await getMatches(
-      query,
-      selectedSource.get("text"),
-      _modifiers
-    );
-    const { ch, line } = find(ctx, query, true, _modifiers);
-    this.updateSearchResults(ch, line, matches);
-  }
-
-  traverseResults(e: SyntheticEvent, rev: boolean) {
+  traverseResults = (e: SyntheticEvent<HTMLElement>, rev: boolean) => {
     e.stopPropagation();
     e.preventDefault();
-    const ed = this.props.editor;
+    const editor = this.props.editor;
 
-    if (!ed) {
+    if (!editor) {
       return;
     }
-
-    const ctx = { ed, cm: ed.codeMirror };
-
-    const { query, modifiers, searchResults: { matches } } = this.props;
-
-    if (query === "") {
-      this.props.setActiveSearch("file");
-    }
-
-    if (modifiers) {
-      const matchedLocations = matches || [];
-      const { ch, line } = rev
-        ? findPrev(ctx, query, true, modifiers.toJS())
-        : findNext(ctx, query, true, modifiers.toJS());
-      this.updateSearchResults(ch, line, matchedLocations);
-    }
-  }
+    this.props.traverseResults(rev, editor);
+  };
 
   // Handlers
 
-  onChange(e: any) {
-    return this.doSearch(e.target.value);
-  }
+  onChange = (e: SyntheticInputEvent<HTMLElement>) => {
+    this.setState({ query: e.target.value });
 
-  onKeyUp(e: SyntheticKeyboardEvent) {
+    return this.doSearch(e.target.value);
+  };
+
+  onKeyDown = (e: SyntheticKeyboardEvent<HTMLElement>) => {
     if (e.key !== "Enter" && e.key !== "F3") {
       return;
     }
 
     this.traverseResults(e, e.shiftKey);
     e.preventDefault();
-  }
+  };
+
   // Renderers
   buildSummaryMsg() {
     const { searchResults: { matchIndex, count, index }, query } = this.props;
@@ -324,7 +232,7 @@ class SearchBar extends Component {
     return L10N.getFormatStr("editor.searchResults", matchIndex + 1, count);
   }
 
-  renderSearchModifiers() {
+  renderSearchModifiers = () => {
     const { modifiers, toggleFileSearchModifier } = this.props;
 
     function SearchModBtn({ modVal, className, svgName, tooltip }) {
@@ -367,23 +275,10 @@ class SearchBar extends Component {
         />
       </div>
     );
-  }
-
-  renderSearchType() {
-    return (
-      <div className="search-type-toggles">
-        <span
-          className="search-type-name"
-          onClick={() => this.props.setActiveSearch("symbol")}
-        >
-          {L10N.getStr("symbolSearch.search.functionsPlaceholder")}
-        </span>
-      </div>
-    );
-  }
+  };
 
   render() {
-    const { searchResults: { count }, query, searchOn } = this.props;
+    const { searchResults: { count }, searchOn } = this.props;
 
     if (!searchOn) {
       return <div />;
@@ -392,20 +287,17 @@ class SearchBar extends Component {
     return (
       <div className="search-bar">
         <SearchInput
-          query={query}
+          query={this.state.query}
           count={count}
           placeholder={L10N.getStr("sourceSearch.search.placeholder")}
           summaryMsg={this.buildSummaryMsg()}
           onChange={this.onChange}
-          onKeyUp={this.onKeyUp}
+          onKeyDown={this.onKeyDown}
           handleNext={e => this.traverseResults(e, false)}
           handlePrev={e => this.traverseResults(e, true)}
           handleClose={this.closeSearch}
         />
-        <div className="search-bottom-bar">
-          {this.renderSearchType()}
-          {this.renderSearchModifiers()}
-        </div>
+        <div className="search-bottom-bar">{this.renderSearchModifiers()}</div>
       </div>
     );
   }
@@ -419,9 +311,12 @@ export default connect(
   state => {
     return {
       searchOn: getActiveSearch(state) === "file",
-      query: getFileSearchQueryState(state),
-      modifiers: getFileSearchModifierState(state),
-      searchResults: getSearchResults(state)
+      selectedSource: getSelectedSource(state),
+      selectedLocation: getSelectedLocation(state),
+      query: getFileSearchQuery(state),
+      modifiers: getFileSearchModifiers(state),
+      highlightedLineRange: getHighlightedLineRange(state),
+      searchResults: getFileSearchResults(state)
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

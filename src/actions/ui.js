@@ -1,21 +1,33 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
-import { getSource, getActiveSearch } from "../selectors";
+
+import { getSource, getActiveSearch, getPaneCollapse } from "../selectors";
 import type { ThunkArgs } from "./types";
-import type { ActiveSearchType, SymbolSearchType } from "../reducers/ui";
-import { clearSourceSearchQuery } from "./source-search";
+import type {
+  ActiveSearchType,
+  OrientationType,
+  SelectedPrimaryPaneTabType
+} from "../reducers/ui";
+
+export function setContextMenu(type: string, event: any) {
+  return ({ dispatch }: ThunkArgs) => {
+    dispatch({ type: "SET_CONTEXT_MENU", contextMenu: { type, event } });
+  };
+}
+
+export function setPrimaryPaneTab(tabName: SelectedPrimaryPaneTabType) {
+  return ({ dispatch }: ThunkArgs) => {
+    dispatch({ type: "SET_PRIMARY_PANE_TAB", tabName });
+  };
+}
 
 export function closeActiveSearch() {
-  return ({ getState, dispatch }: ThunkArgs) => {
-    const activeSearch = getActiveSearch(getState());
-
-    if (activeSearch == "source") {
-      dispatch(clearSourceSearchQuery());
-    }
-
-    dispatch({
-      type: "TOGGLE_ACTIVE_SEARCH",
-      value: null
-    });
+  return {
+    type: "TOGGLE_ACTIVE_SEARCH",
+    value: null
   };
 }
 
@@ -42,37 +54,11 @@ export function toggleFrameworkGrouping(toggleValue: boolean) {
   };
 }
 
-export function setSelectedSymbolType(symbolType: SymbolSearchType) {
-  return ({ dispatch, getState }: ThunkArgs) => {
-    dispatch({
-      type: "SET_SYMBOL_SEARCH_TYPE",
-      symbolType
-    });
-  };
-}
-
-export function setFileSearchQuery(query: string) {
-  return {
-    type: "UPDATE_FILE_SEARCH_QUERY",
-    query
-  };
-}
-
-export function updateSearchResults(results: Object) {
-  return {
-    type: "UPDATE_SEARCH_RESULTS",
-    results
-  };
-}
-
-export function toggleFileSearchModifier(modifier: string) {
-  return { type: "TOGGLE_FILE_SEARCH_MODIFIER", modifier };
-}
-
 export function showSource(sourceId: string) {
   return ({ dispatch, getState }: ThunkArgs) => {
     const source = getSource(getState(), sourceId);
 
+    dispatch(setPrimaryPaneTab("sources"));
     dispatch({
       type: "SHOW_SOURCE",
       sourceUrl: ""
@@ -86,10 +72,17 @@ export function showSource(sourceId: string) {
 }
 
 export function togglePaneCollapse(position: string, paneCollapsed: boolean) {
-  return {
-    type: "TOGGLE_PANE",
-    position,
-    paneCollapsed
+  return ({ dispatch, getState }: ThunkArgs) => {
+    const prevPaneCollapse = getPaneCollapse(getState(), position);
+    if (prevPaneCollapse === paneCollapsed) {
+      return;
+    }
+
+    dispatch({
+      type: "TOGGLE_PANE",
+      position,
+      paneCollapsed
+    });
   };
 }
 
@@ -108,6 +101,17 @@ export function highlightLineRange(location: {
   };
 }
 
+export function flashLineRange(location: {
+  start: number,
+  end: number,
+  sourceId: number
+}) {
+  return ({ dispatch }: ThunkArgs) => {
+    dispatch(highlightLineRange(location));
+    setTimeout(() => dispatch(clearHighlightLineRange()), 200);
+  };
+}
+
 /**
  * @memberof actions/sources
  * @static
@@ -118,9 +122,30 @@ export function clearHighlightLineRange() {
   };
 }
 
-export function toggleConditionalBreakpointPanel(line: null | number) {
+export function openConditionalPanel(line: ?number) {
+  if (!line) {
+    return;
+  }
+
   return {
-    type: "TOGGLE_CONDITIONAL_BREAKPOINT_PANEL",
+    type: "OPEN_CONDITIONAL_PANEL",
     line
   };
+}
+
+export function closeConditionalPanel() {
+  return {
+    type: "CLOSE_CONDITIONAL_PANEL"
+  };
+}
+
+export function setProjectDirectoryRoot(url: Object) {
+  return {
+    type: "SET_PROJECT_DIRECTORY_ROOT",
+    url
+  };
+}
+
+export function setOrientation(orientation: OrientationType) {
+  return { type: "SET_ORIENTATION", orientation };
 }

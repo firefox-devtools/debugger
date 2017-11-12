@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
@@ -14,25 +18,24 @@ import "./Expressions.css";
 import type { List } from "immutable";
 import type { Expression } from "../../types";
 
-class Expressions extends PureComponent {
+type State = {
+  editing: null | Node
+};
+
+type Props = {
+  expressions: List<Expression>,
+  addExpression: (string, ?Object) => void,
+  evaluateExpressions: () => void,
+  updateExpression: (string, Expression) => void,
+  deleteExpression: Expression => void,
+  loadObjectProperties: () => void,
+  loadedObjects: Map<string, any>,
+  openLink: (url: string) => void
+};
+
+class Expressions extends PureComponent<Props, State> {
   _input: null | any;
-
-  state: {
-    editing: null | Node
-  };
-
   renderExpression: Function;
-
-  props: {
-    expressions: List<Expression>,
-    addExpression: (string, ?Object) => void,
-    evaluateExpressions: () => void,
-    updateExpression: (string, Expression) => void,
-    deleteExpression: Expression => void,
-    loadObjectProperties: () => void,
-    loadedObjects: Map<string, any>,
-    openLink: (url: string) => void
-  };
 
   constructor(...args) {
     super(...args);
@@ -135,7 +138,8 @@ class Expressions extends PureComponent {
             disableWrap={true}
             disabledFocus={true}
             onDoubleClick={(items, options) =>
-              this.editExpression(expression, options)}
+              this.editExpression(expression, options)
+            }
             openLink={openLink}
             getObjectProperties={id => loadedObjects[id]}
             loadObjectProperties={loadObjectProperties}

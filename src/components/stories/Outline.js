@@ -1,4 +1,9 @@
-import React, { PropTypes } from "react";
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
+import PropTypes from "prop-types";
+import React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 
@@ -23,11 +28,12 @@ function makeFuncLocation(startLine) {
   };
 }
 
-function makeSymbolDeclaration(name, line) {
+function makeSymbolDeclaration(name, line, klass = "") {
   return {
     id: `${name}:${line}`,
     name,
-    location: makeFuncLocation(line)
+    location: makeFuncLocation(line),
+    klass
   };
 }
 
@@ -59,15 +65,37 @@ OutlineFactory.propTypes = {
 };
 
 storiesOf("Outline", module)
-  .add("empty view", () => {
+  .add("empty", () => {
     const symbols = { functions: [], variables: [] };
     return <OutlineFactory symbols={symbols} />;
   })
-  .add("simple view", () => {
+  .add("simple", () => {
     const symbols = {
       functions: [
         makeSymbolDeclaration("foo", 2),
         makeSymbolDeclaration("render", 2)
+      ],
+      variables: []
+    };
+    return <OutlineFactory symbols={symbols} />;
+  })
+  .add("component", () => {
+    const symbols = {
+      functions: [
+        makeSymbolDeclaration("foo", 2, "Fancy"),
+        makeSymbolDeclaration("render", 2, "Fancy")
+      ],
+      variables: []
+    };
+    return <OutlineFactory symbols={symbols} />;
+  })
+  .add("complex component", () => {
+    const symbols = {
+      functions: [
+        makeSymbolDeclaration("foo", 2, "Fancy"),
+        makeSymbolDeclaration("render", 2, "Fancy"),
+        makeSymbolDeclaration("other", 2),
+        makeSymbolDeclaration("utilBar", 2)
       ],
       variables: []
     };

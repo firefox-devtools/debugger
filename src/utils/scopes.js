@@ -1,52 +1,105 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 import { toPairs } from "lodash";
-import { get } from "lodash";
 import { simplifyDisplayName } from "./frame";
-import type { Frame, Pause, Scope } from "debugger-html";
+import type { Frame, Pause, Scope, BindingContents } from "debugger-html";
 
-type ScopeData = {
+export type NamedValue = {
   name: string,
+  generatedName?: string,
   path: string,
-  contents: Object[] | Object
+  contents: BindingContents | NamedValue[]
 };
+
+// VarAndBindingsPair actually is [name: string, contents: ScopeBindings]
+type VarAndBindingsPair = Array<any>;
+type VarAndBindingsPairs = Array<VarAndBindingsPair>;
 
 // Create the tree nodes representing all the variables and arguments
 // for the bindings from a scope.
 function getBindingVariables(bindings, parentName) {
-  const args = bindings.arguments.map(arg => toPairs(arg)[0]);
-  const variables = toPairs(bindings.variables);
+  const args: VarAndBindingsPairs = bindings.arguments.map(
+    arg => toPairs(arg)[0]
+  );
+  const variables: VarAndBindingsPairs = toPairs(bindings.variables);
 
-  return args.concat(variables).map(binding => ({
-    name: binding[0],
-    path: `${parentName}/${binding[0]}`,
-    contents: binding[1]
-  }));
+  return args.concat(variables).map(binding => {
+    const name = (binding[0]: string);
+    const contents = (binding[1]: BindingContents);
+    return {
+      name,
+      path: `${parentName}/${name}`,
+      contents
+    };
+  });
 }
 
-export function getSpecialVariables(pauseInfo: Pause, path: string) {
-  const thrown = get(pauseInfo, "why.frameFinished.throw", undefined);
+function getSourceBindingVariables(
+  bindings,
+  sourceBindings: {
+    [originalName: string]: string
+  },
+  parentName: string
+) {
+  const result = getBindingVariables(bindings, parentName);
+  const index: any = Object.create(null);
+  result.forEach(entry => {
+    index[entry.name] = { used: false, entry };
+  });
+  // Find and replace variables that is present in sourceBindings.
+  const bound = Object.keys(sourceBindings).map(name => {
+    const generatedName = sourceBindings[name];
+    const foundMap = index[generatedName];
+    let contents;
+    if (foundMap) {
+      foundMap.used = true;
+      contents = foundMap.entry.contents;
+    } else {
+      contents = { value: { type: "undefined" } };
+    }
+    return {
+      name,
+      generatedName,
+      path: `${parentName}/${generatedName}`,
+      contents
+    };
+  });
+  // Use rest of them (not found in the sourceBindings) as is.
+  const unused = result.filter(entry => !index[entry.name].used);
+  return bound.concat(unused);
+}
 
-  const returned = get(pauseInfo, "why.frameFinished.return", undefined);
-
+export function getFramePopVariables(pauseInfo: Pause, path: string) {
   const vars = [];
 
-  if (thrown !== undefined) {
-    vars.push({
-      name: "<exception>",
-      path: `${path}/<exception>`,
-      contents: { value: thrown }
-    });
-  }
+  if (pauseInfo.why && pauseInfo.why.frameFinished) {
+    const frameFinished = pauseInfo.why.frameFinished;
 
-  if (returned !== undefined) {
-    // Do not display a return value of "undefined",
-    if (!returned || !returned.type || returned.type !== "undefined") {
+    // Always display a `throw` property if present, even if it is falsy.
+    if (Object.prototype.hasOwnProperty.call(frameFinished, "throw")) {
       vars.push({
-        name: "<return>",
-        path: `${path}/<return>`,
-        contents: { value: returned }
+        name: "<exception>",
+        path: `${path}/<exception>`,
+        contents: { value: frameFinished.throw }
       });
+    }
+
+    if (Object.prototype.hasOwnProperty.call(frameFinished, "return")) {
+      const returned = frameFinished.return;
+
+      // Do not display undefined. Do display falsy values like 0 and false. The
+      // protocol grip for undefined is a JSON object: { type: "undefined" }.
+      if (typeof returned !== "object" || returned.type !== "undefined") {
+        vars.push({
+          name: "<return>",
+          path: `${path}/<return>`,
+          contents: { value: returned }
+        });
+      }
     }
   }
 
@@ -71,7 +124,7 @@ export function getScopes(
   pauseInfo: Pause,
   selectedFrame: Frame,
   selectedScope: ?Scope
-): ?(ScopeData[]) {
+): ?(NamedValue[]) {
   if (!pauseInfo || !selectedFrame) {
     return null;
   }
@@ -87,7 +140,6 @@ export function getScopes(
   const scopes = [];
 
   let scope = selectedScope;
-  const pausedScopeActor = get(pauseInfo, "frame.scope.actor");
   let scopeIndex = 1;
 
   do {
@@ -95,6 +147,7 @@ export function getScopes(
     const key = `${actor}-${scopeIndex}`;
     if (type === "function" || type === "block") {
       const bindings = scope.bindings;
+      const sourceBindings = scope.sourceBindings;
       let title;
       if (type === "function") {
         title = scope.function.displayName
@@ -104,11 +157,17 @@ export function getScopes(
         title = L10N.getStr("scopes.block");
       }
 
-      let vars = getBindingVariables(bindings, key);
+      let vars = sourceBindings
+        ? getSourceBindingVariables(bindings, sourceBindings, key)
+        : getBindingVariables(bindings, key);
 
-      // show exception, return, and this variables in innermost scope
-      if (scope.actor === pausedScopeActor) {
-        vars = vars.concat(getSpecialVariables(pauseInfo, key));
+      // On the innermost scope of a frame that is just about to be popped, show
+      // the return value or the exception being thrown as special variables.
+      if (
+        scope.actor === selectedScope.actor &&
+        selectedFrame.id === pauseInfo.frame.id
+      ) {
+        vars = vars.concat(getFramePopVariables(pauseInfo, key));
       }
 
       if (scope.actor === selectedScope.actor) {
@@ -132,7 +191,7 @@ export function getScopes(
       // If this is the global window scope, mark it as such so that it will
       // preview Window: Global instead of Window: Window
       if (value.class === "Window") {
-        value = Object.assign({}, scope.object, { displayClass: "Global" });
+        value = { ...scope.object, displayClass: "Global" };
       }
       scopes.push({
         name: scope.object.class,

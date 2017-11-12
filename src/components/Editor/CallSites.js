@@ -1,9 +1,13 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { isEnabled } from "devtools-config";
+import { features } from "../../utils/prefs";
 
-import { range, keyBy, find, isEqualWith } from "lodash";
+import { range, keyBy, isEqualWith } from "lodash";
 
 import CallSite from "./CallSite";
 
@@ -19,7 +23,7 @@ import { getTokenLocation, isWasm } from "../../utils/editor";
 import actions from "../../actions";
 
 function getCallSiteAtLocation(callSites, location) {
-  return find(callSites, callSite =>
+  return callSites.find(callSite =>
     isEqualWith(callSite.location, location, (cloc, loc) => {
       return (
         loc.line === cloc.start.line &&
@@ -55,18 +59,22 @@ class CallSites extends Component {
     const { editor } = this.props;
     const codeMirrorWrapper = editor.codeMirror.getWrapperElement();
 
-    codeMirrorWrapper.addEventListener("click", e => this.onTokenClick(e));
-    document.body.addEventListener("keydown", this.onKeyDown);
-    document.body.addEventListener("keyup", this.onKeyUp);
+    if (features.columnBreakpoints) {
+      codeMirrorWrapper.addEventListener("click", e => this.onTokenClick(e));
+      document.body.addEventListener("keydown", this.onKeyDown);
+      document.body.addEventListener("keyup", this.onKeyUp);
+    }
   }
 
   componentDidUnMount() {
     const { editor } = this.props;
     const codeMirrorWrapper = editor.codeMirror.getWrapperElement();
 
-    codeMirrorWrapper.addEventListener("click", e => this.onTokenClick(e));
-    document.body.removeEventListener("keydown", e => this.onKeyDown);
-    document.body.removeEventListener("keyup", this.onKeyUp);
+    if (features.columnBreakpoints) {
+      codeMirrorWrapper.addEventListener("click", e => this.onTokenClick(e));
+      document.body.removeEventListener("keydown", e => this.onKeyDown);
+      document.body.removeEventListener("keyup", this.onKeyUp);
+    }
   }
 
   onKeyUp(e) {
@@ -88,7 +96,6 @@ class CallSites extends Component {
     const { editor, selectedLocation } = this.props;
 
     if (
-      !isEnabled("columnBreakpoints") ||
       (!e.altKey && !target.classList.contains("call-site-bp")) ||
       (!target.classList.contains("call-site") &&
         !target.classList.contains("call-site-bp"))

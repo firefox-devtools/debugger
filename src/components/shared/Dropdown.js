@@ -1,14 +1,20 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 import React, { Component } from "react";
 import "./Dropdown.css";
 
-class Dropdown extends Component {
-  props: {
-    panel: Object
-  };
-  state: {
-    dropdownShown: boolean
-  };
+type Props = {
+  panel: Object
+};
+
+type State = {
+  dropdownShown: boolean
+};
+
+class Dropdown extends Component<Props, State> {
   toggleDropdown: Function;
   renderPanel: Function;
   renderButton: Function;
@@ -26,7 +32,7 @@ class Dropdown extends Component {
     this.renderMask = this.renderMask.bind(this);
   }
 
-  toggleDropdown(e: SyntheticKeyboardEvent) {
+  toggleDropdown(e: SyntheticKeyboardEvent<HTMLElement>) {
     this.setState({
       dropdownShown: !this.state.dropdownShown
     });

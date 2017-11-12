@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 .sources-panel {
   background-color: var(--theme-sidebar-background);
   display: flex;
@@ -17,6 +21,7 @@
   display: flex;
   overflow-x: hidden;
   overflow-y: auto;
+  padding-top: 11px;
 }
 
 .sources-list .managed-tree {
@@ -30,12 +35,20 @@
   padding: 0px 0px 0px 3px;
 }
 
-.sources-list .tree .arrow svg {
-  margin-top: 0px;
+.sources-list .tree img.arrow {
+  margin-right: 5px;
 }
 
-.theme-dark .sources-list .tree .node:not(.focused) svg {
-  fill: var(--theme-content-color3);
+.sources-list .tree .focused img.arrow {
+  background-color: white;
+}
+
+.sources-list .tree img.arrow.expanded {
+  transform: rotate(0deg);
+}
+
+.theme-dark .sources-list .tree .node:not(.focused) img.arrow {
+  background: var(--theme-content-color3);
 }
 
 .theme-dark .source-list .tree .node.focused {
@@ -51,13 +64,18 @@
   display: inline-block;
 }
 
+.sources-list .tree .node .no-arrow {
+  width: 10px;
+  display: inline-block;
+}
+
 .no-sources-message {
+  width: 100%;
+  font-style: italic;
+  text-align: center;
+  padding: 0.5em;
   font-size: 12px;
-  color: var(--theme-comment-alt);
-  font-weight: lighter;
-  padding-top: 5px;
-  flex-grow: 1;
-  display: flex;
+  user-select: none;
   justify-content: center;
   align-items: center;
 }
@@ -65,14 +83,6 @@
 .sources-panel .outline {
   display: flex;
   flex: 1;
-}
-
-.sources-panel .outline.hidden {
-  display: none;
-}
-
-.hidden {
-  display: none;
 }
 
 .source-outline-tabs {
@@ -83,6 +93,7 @@
   -moz-user-select: none;
   user-select: none;
   box-sizing: border-box;
+  height: 29px;
 }
 
 .source-outline-tabs .tab {
@@ -94,7 +105,7 @@
   position: relative;
   transition: all 0.25s ease;
   overflow: hidden;
-  padding: 6.5px;
+  padding: 8px 8px 7px 8px;
   margin-bottom: 0px;
   margin-top: -1px;
   cursor: default;
@@ -123,4 +134,31 @@
 .source-outline-tabs .tab.active path,
 .source-outline-tabs .tab:hover path {
   fill: var(--theme-body-color);
+}
+
+.sources-list .managed-tree .tree .node img.blackBox {
+  mask: url(/images/blackBox.svg) no-repeat;
+  mask-size: 100%;
+  background-color: var(--theme-highlight-blue);
+  width: 13px;
+  height: 13px;
+  display: inline-block;
+  margin-inline-end: 5px;
+  margin-bottom: -2px;
+}
+
+.sources-list .managed-tree .tree .node.focused img.blackBox {
+  background-color: white;
+}
+
+.theme-dark .sources-list .managed-tree .tree .node:not(.focused) img.blackBox {
+  background-color: var(--theme-content-color3);
+}
+
+.theme-dark .sources-list .managed-tree .tree .node img.blackBox {
+  background-color: var(--theme-body-color);
+}
+
+.theme-dark .sources-list .managed-tree .tree .node.focused img.blackBox {
+  background-color: white;
 }

@@ -1,18 +1,18 @@
-import { createFactory } from "react";
+import React from "react";
 import { shallow } from "enzyme";
 import SearchBar from "../SearchBar";
-import "../../../utils/search";
+import "../../../workers/search";
 import "../../../utils/editor";
 
-jest.mock("../../../utils/search", () => ({
+const SearchBarComponent = SearchBar.WrappedComponent;
+
+jest.mock("../../../workers/search", () => ({
   getMatches: () => Promise.resolve(["result"])
 }));
 
 jest.mock("../../../utils/editor", () => ({
   find: () => ({ ch: "1", line: "1" })
 }));
-
-const SearchBarComponent = createFactory(SearchBar.WrappedComponent);
 
 function generateDefaults() {
   return {
@@ -32,14 +32,15 @@ function generateDefaults() {
       toJS: () => ({ caseSensitive: true, wholeWord: false, regexMatch: false })
     },
     selectedResultIndex: 0,
-    updateSearchResults: jest.fn()
+    updateSearchResults: jest.fn(),
+    doSearch: jest.fn()
   };
 }
 
 function render(overrides = {}) {
   const defaults = generateDefaults();
   const props = { ...defaults, ...overrides };
-  const component = shallow(new SearchBarComponent(props));
+  const component = shallow(<SearchBarComponent {...props} />);
   return { component, props };
 }
 
@@ -53,10 +54,11 @@ describe("SearchBar", () => {
 describe("doSearch", () => {
   it("should complete a search", async () => {
     const { component, props } = render();
-    await component
+    component
       .find("SearchInput")
       .simulate("change", { target: { value: "query" } });
-    const updateSearchArgs = props.updateSearchResults.mock.calls[0][0];
-    expect(updateSearchArgs).toMatchSnapshot();
+
+    const doSearchArgs = props.doSearch.mock.calls[0][0];
+    expect(doSearchArgs).toMatchSnapshot();
   });
 });

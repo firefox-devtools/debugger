@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 import React, { Component } from "react";
 import { isEnabled } from "devtools-config";
 import Svg from "./Svg";
@@ -6,7 +10,7 @@ import CloseButton from "./Button/Close";
 import "./SearchInput.css";
 
 const arrowBtn = (onClick, type, className, tooltip) => {
-  var props = {
+  const props = {
     onClick,
     type,
     className,
@@ -40,10 +44,29 @@ class SearchInput extends Component {
     handlePrev: () => void
   };
 
-  static defaultProps: Object;
+  static defaultProps = {
+    size: "",
+    showErrorEmoji: true
+  };
 
   componentDidMount() {
     this.$input.focus();
+    if (this.$input.value != "") {
+      this.$input.setSelectionRange(
+        this.$input.value.length + 1,
+        this.$input.value.length + 1
+      );
+    }
+  }
+
+  componentDidUpdate() {
+    this.$input.focus();
+    if (this.$input.value != "") {
+      this.$input.setSelectionRange(
+        this.$input.value.length + 1,
+        this.$input.value.length + 1
+      );
+    }
   }
 
   shouldShowErrorEmoji() {
@@ -133,10 +156,5 @@ class SearchInput extends Component {
     );
   }
 }
-
-SearchInput.defaultProps = {
-  size: "",
-  showErrorEmoji: true
-};
 
 export default SearchInput;

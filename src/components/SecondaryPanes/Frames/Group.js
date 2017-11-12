@@ -1,5 +1,9 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
-import React, { Component, createFactory } from "react";
+import React, { Component } from "react";
 import classNames from "classnames";
 import Svg from "../../shared/Svg";
 import { formatDisplayName, getLibraryFromUrl } from "../../../utils/frame";
@@ -7,8 +11,7 @@ import FrameMenu from "./FrameMenu";
 
 import "./Group.css";
 
-import _FrameComponent from "./Frame";
-const FrameComponent = createFactory(_FrameComponent);
+import FrameComponent from "./Frame";
 
 import type { LocalFrame } from "./types";
 import type { Frame } from "debugger-html";
@@ -30,32 +33,29 @@ function FrameLocation({ frame }: FrameLocationProps) {
 
 FrameLocation.displayName = "FrameLocation";
 
-export default class Group extends Component {
-  state: {
-    expanded: boolean
-  };
+type Props = {
+  group: LocalFrame[],
+  selectedFrame: LocalFrame,
+  selectFrame: Function,
+  toggleFrameworkGrouping: Function,
+  copyStackTrace: Function,
+  toggleBlackBox: Function,
+  frameworkGroupingOn: boolean
+};
 
+type State = {
+  expanded: boolean
+};
+
+export default class Group extends Component<Props, State> {
   toggleFrames: Function;
-
-  props: {
-    group: LocalFrame[],
-    selectedFrame: LocalFrame,
-    selectFrame: Function,
-    toggleFrameworkGrouping: Function,
-    copyStackTrace: Function,
-    toggleBlackBox: Function,
-    frameworkGroupingOn: boolean
-  };
 
   constructor(...args: any[]) {
     super(...args);
     this.state = { expanded: false };
-    const self: any = this;
-
-    self.toggleFrames = this.toggleFrames.bind(this);
   }
 
-  onContextMenu(event: SyntheticKeyboardEvent) {
+  onContextMenu(event: SyntheticKeyboardEvent<HTMLElement>) {
     const {
       group,
       copyStackTrace,
@@ -72,9 +72,9 @@ export default class Group extends Component {
     );
   }
 
-  toggleFrames() {
+  toggleFrames = () => {
     this.setState({ expanded: !this.state.expanded });
-  }
+  };
 
   renderFrames() {
     const {
@@ -94,20 +94,20 @@ export default class Group extends Component {
 
     return (
       <div className="frames-list">
-        {group.map(frame =>
-          FrameComponent({
-            frame,
-            copyStackTrace,
-            toggleFrameworkGrouping,
-            frameworkGroupingOn,
-            selectFrame,
-            selectedFrame,
-            toggleBlackBox,
-            key: frame.id,
-            hideLocation: true,
-            shouldMapDisplayName: false
-          })
-        )}
+        {group.map(frame => (
+          <FrameComponent
+            copyStackTrace={copyStackTrace}
+            frame={frame}
+            frameworkGroupingOn={frameworkGroupingOn}
+            hideLocation={true}
+            key={frame.id}
+            selectedFrame={selectedFrame}
+            selectFrame={selectFrame}
+            shouldMapDisplayName={false}
+            toggleBlackBox={toggleBlackBox}
+            toggleFrameworkGrouping={toggleFrameworkGrouping}
+          />
+        ))}
       </div>
     );
   }

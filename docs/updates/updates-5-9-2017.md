@@ -86,7 +86,7 @@ our inline JS. Ryan wrote a great library for extracting the JS from our html fi
 
 #### Framework frames
 
-![fframes](https://camo.githubusercontent.com/00eeea03c674a65e9e55b11f9e6a15a8fbf1bef2/687474703a2f2f672e7265636f726469742e636f2f767662786457515130422e676966)
+![frames](https://camo.githubusercontent.com/00eeea03c674a65e9e55b11f9e6a15a8fbf1bef2/687474703a2f2f672e7265636f726469742e636f2f767662786457515130422e676966)
 
 #### Tab UI polish
 

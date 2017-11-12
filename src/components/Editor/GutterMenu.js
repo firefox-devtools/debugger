@@ -1,12 +1,34 @@
-import { showMenu } from "devtools-launchpad";
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-export default function GutterMenu({
+import { PureComponent } from "react";
+import { showMenu } from "devtools-contextmenu";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { lineAtHeight } from "../../utils/editor";
+import {
+  getContextMenu,
+  getEmptyLines,
+  getSelectedLocation,
+  getSelectedSource,
+  getVisibleBreakpoints,
+  getPause
+} from "../../selectors";
+
+import actions from "../../actions";
+
+type Props = {
+  setContextMenu: Function
+};
+
+export function gutterMenu({
   breakpoint,
   line,
   event,
   pauseData,
   toggleBreakpoint,
-  showConditionalPanel,
+  openConditionalPanel,
   toggleDisabledBreakpoint,
   isCbPanelOpen,
   closeConditionalPanel,
@@ -46,30 +68,26 @@ export default function GutterMenu({
     }
   };
 
-  const toggleBreakpointItem = Object.assign(
-    {
-      accesskey: "B",
-      disabled: false,
-      click: () => {
-        toggleBreakpoint(line);
-        if (isCbPanelOpen) {
-          closeConditionalPanel();
-        }
+  const toggleBreakpointItem = {
+    accesskey: L10N.getStr("shortcuts.toggleBreakpoint.accesskey"),
+    disabled: false,
+    click: () => {
+      toggleBreakpoint(line);
+      if (isCbPanelOpen) {
+        closeConditionalPanel();
       }
     },
-    breakpoint ? gutterItems.removeBreakpoint : gutterItems.addBreakpoint
-  );
+    ...(breakpoint ? gutterItems.removeBreakpoint : gutterItems.addBreakpoint)
+  };
 
-  const conditionalBreakpoint = Object.assign(
-    {
-      accesskey: "C",
-      disabled: false,
-      click: () => showConditionalPanel(line)
-    },
-    breakpoint && breakpoint.condition
+  const conditionalBreakpoint = {
+    accesskey: L10N.getStr("editor.addConditionalBreakpoint.accesskey"),
+    disabled: false,
+    click: () => openConditionalPanel(line),
+    ...(breakpoint && breakpoint.condition
       ? gutterItems.editConditional
-      : gutterItems.addConditional
-  );
+      : gutterItems.addConditional)
+  };
 
   const items = [toggleBreakpointItem, conditionalBreakpoint];
 
@@ -84,18 +102,71 @@ export default function GutterMenu({
   }
 
   if (breakpoint) {
-    const disableBreakpoint = Object.assign(
-      {
-        accesskey: "D",
-        disabled: false,
-        click: () => toggleDisabledBreakpoint(line)
-      },
-      breakpoint.disabled
+    const disableBreakpoint = {
+      accesskey: L10N.getStr("editor.disableBreakpoint.accesskey"),
+      disabled: false,
+      click: () => toggleDisabledBreakpoint(line),
+      ...(breakpoint.disabled
         ? gutterItems.enableBreakpoint
-        : gutterItems.disableBreakpoint
-    );
+        : gutterItems.disableBreakpoint)
+    };
     items.push(disableBreakpoint);
   }
 
   showMenu(event, items);
 }
+
+class GutterContextMenuComponent extends PureComponent {
+  props: Props;
+
+  constructor() {
+    super();
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return nextProps.contextMenu.type === "Gutter";
+  }
+
+  componentWillUpdate(nextProps) {
+    // clear the context menu since it is open
+    this.props.setContextMenu("", null);
+    return this.showMenu(nextProps);
+  }
+
+  showMenu(nextProps) {
+    const { contextMenu, ...props } = nextProps;
+    const { event } = contextMenu;
+    const sourceId = props.selectedSource ? props.selectedSource.get("id") : "";
+    const line = lineAtHeight(props.editor, sourceId, event);
+    const breakpoint = nextProps.breakpoints.find(
+      bp => bp.location.line === line
+    );
+
+    if (props.emptyLines.includes(line)) {
+      return;
+    }
+
+    gutterMenu({ event, sourceId, line, breakpoint, ...props });
+  }
+
+  render() {
+    return null;
+  }
+}
+
+export default connect(
+  state => {
+    const selectedSource = getSelectedSource(state);
+    return {
+      selectedLocation: getSelectedLocation(state),
+      selectedSource: selectedSource,
+      breakpoints: getVisibleBreakpoints(state),
+      pauseData: getPause(state),
+      contextMenu: getContextMenu(state),
+      emptyLines: selectedSource
+        ? getEmptyLines(state, selectedSource.toJS())
+        : []
+    };
+  },
+  dispatch => bindActionCreators(actions, dispatch)
+)(GutterContextMenuComponent);

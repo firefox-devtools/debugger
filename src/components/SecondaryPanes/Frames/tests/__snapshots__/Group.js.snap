@@ -1,196 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Group displays a group 1`] = `
-ShallowWrapper {
-  "complexSelector": ComplexSelector {
-    "buildPredicate": [Function],
-    "childrenOfNode": [Function],
-    "findWhereUnwrapped": [Function],
-  },
-  "length": 1,
-  "node": <div
-    className="frames-group"
-    onContextMenu={[Function]}
+<div
+  className="frames-group"
+  onContextMenu={[Function]}
 >
-    <li
-        className="group"
-        onClick={[Function]}
-        tabIndex={0}
-    >
-        <div
-            className="title"
-        >
-            foo
-        </div>
-        <FrameLocation
-            frame={
-                Object {
-                    "displayName": "foo",
-                  }
-            }
-        />
-    </li>
-</div>,
-  "nodes": Array [
+  <li
+    className="group"
+    onClick={[Function]}
+    tabIndex={0}
+  >
     <div
-      className="frames-group"
-      onContextMenu={[Function]}
->
-      <li
-            className="group"
-            onClick={[Function]}
-            tabIndex={0}
-      >
-            <div
-                  className="title"
-            >
-                  foo
-            </div>
-            <FrameLocation
-                  frame={
-                        Object {
-                              "displayName": "foo",
-                            }
-                  }
-            />
-      </li>
-</div>,
-  ],
-  "options": Object {},
-  "renderer": ReactShallowRenderer {
-    "_instance": ShallowComponentWrapper {
-      "_calledComponentWillUnmount": false,
-      "_compositeType": 0,
-      "_context": Object {},
-      "_currentElement": <Group
-        copyStackTrace={[Function]}
-        frameworkGroupingOn={true}
-        group={
-                Array [
-                        Object {
-                          "displayName": "foo",
-                        },
-                      ]
+      className="title"
+    >
+      foo
+    </div>
+    <FrameLocation
+      frame={
+        Object {
+          "displayName": "foo",
         }
-        selectFrame={[Function]}
-        selectedFrame={Object {}}
-        toggleBlackBox={[Function]}
-        toggleFrameworkGrouping={[Function]}
-/>,
-      "_debugID": 1,
-      "_hostContainerInfo": null,
-      "_hostParent": null,
-      "_instance": Group {
-        "_reactInternalInstance": [Circular],
-        "context": Object {},
-        "props": Object {
-          "copyStackTrace": [Function],
-          "frameworkGroupingOn": true,
-          "group": Array [
-            Object {
-              "displayName": "foo",
-            },
-          ],
-          "selectFrame": [Function],
-          "selectedFrame": Object {},
-          "toggleBlackBox": [Function],
-          "toggleFrameworkGrouping": [Function],
-        },
-        "refs": Object {},
-        "state": Object {
-          "expanded": false,
-        },
-        "toggleFrames": [Function],
-        "updater": Object {
-          "enqueueCallback": [Function],
-          "enqueueCallbackInternal": [Function],
-          "enqueueElementInternal": [Function],
-          "enqueueForceUpdate": [Function],
-          "enqueueReplaceState": [Function],
-          "enqueueSetState": [Function],
-          "isMounted": [Function],
-          "validateCallback": [Function],
-        },
-      },
-      "_mountOrder": 1,
-      "_pendingCallbacks": null,
-      "_pendingElement": null,
-      "_pendingForceUpdate": false,
-      "_pendingReplaceState": false,
-      "_pendingStateQueue": null,
-      "_renderedComponent": Object {
-        "_currentElement": <div
-          className="frames-group"
-          onContextMenu={[Function]}
->
-          <li
-                    className="group"
-                    onClick={[Function]}
-                    tabIndex={0}
-          >
-                    <div
-                              className="title"
-                    >
-                              foo
-                    </div>
-                    <FrameLocation
-                              frame={
-                                        Object {
-                                                  "displayName": "foo",
-                                                }
-                              }
-                    />
-          </li>
-</div>,
-        "_debugID": 2,
-        "_renderedOutput": <div
-          className="frames-group"
-          onContextMenu={[Function]}
->
-          <li
-                    className="group"
-                    onClick={[Function]}
-                    tabIndex={0}
-          >
-                    <div
-                              className="title"
-                    >
-                              foo
-                    </div>
-                    <FrameLocation
-                              frame={
-                                        Object {
-                                                  "displayName": "foo",
-                                                }
-                              }
-                    />
-          </li>
-</div>,
-      },
-      "_renderedNodeType": 0,
-      "_rootNodeID": 0,
-      "_topLevelWrapper": null,
-      "_updateBatchNumber": null,
-      "_warnedAboutRefsInRender": false,
-    },
-    "getRenderOutput": [Function],
-    "render": [Function],
-  },
-  "root": [Circular],
-  "unrendered": <Group
-    copyStackTrace={[Function]}
-    frameworkGroupingOn={true}
-    group={
-        Array [
-            Object {
-              "displayName": "foo",
-            },
-          ]
-    }
-    selectFrame={[Function]}
-    selectedFrame={Object {}}
-    toggleBlackBox={[Function]}
-    toggleFrameworkGrouping={[Function]}
-/>,
-}
+      }
+    />
+  </li>
+</div>
 `;

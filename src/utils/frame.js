@@ -1,10 +1,14 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 import { get } from "lodash";
 import { isEnabled } from "devtools-config";
 import { endTruncateStr } from "./utils";
 import { getFilename } from "./source";
-import { findIndex } from "lodash";
+import { find, findIndex } from "lodash";
 
 import type { Frame } from "debugger-html";
 import type { LocalFrame } from "../components/SecondaryPanes/Frames/types";
@@ -13,147 +17,107 @@ function getFrameUrl(frame) {
   return get(frame, "source.url", "") || "";
 }
 
-function isBackbone(frame) {
-  return getFrameUrl(frame).match(/backbone/i);
-}
-
-function isJQuery(frame) {
-  return getFrameUrl(frame).match(/jquery/i);
-}
-
-function isReact(frame) {
-  return getFrameUrl(frame).match(/react/i);
-}
-
-function isImmutable(frame) {
-  return getFrameUrl(frame).match(/immutable/i);
-}
-
-function isWebpack(frame) {
-  return getFrameUrl(frame).match(/webpack\/bootstrap/i);
-}
-
-function isNodeInternal(frame) {
-  // starts with "internal/" OR no path, just "timers.js", "url.js" etc
-  // (normally frameUrl will be a FQ pathname)
-  return /(^internal\/|^[^.\/]+\.js)/.test(getFrameUrl(frame));
-}
-
-function isExpress(frame) {
-  return /node_modules\/express/.test(getFrameUrl(frame));
-}
-
-function isPug(frame) {
-  return /node_modules\/pug/.test(getFrameUrl(frame));
-}
-
-function isExtJs(frame) {
-  return /\/ext-all[\.\-]/.test(getFrameUrl(frame));
-}
-
-function isUnderscore(frame) {
-  return getFrameUrl(frame).match(/underscore/i);
-}
-
-function isLodash(frame) {
-  return getFrameUrl(frame).match(/lodash/i);
-}
-
-function isEmber(frame) {
-  return getFrameUrl(frame).match(/ember/i);
-}
-
-function isVueJS(frame) {
-  return getFrameUrl(frame).match(/vue\.js/i);
-}
-
-function isRxJs(frame) {
-  return getFrameUrl(frame).match(/rxjs/i);
-}
-
-function isAngular(frame) {
-  return getFrameUrl(frame).match(/angular/i);
-}
-
-function isRedux(frame) {
-  return getFrameUrl(frame).match(/redux/i);
-}
-
-function isDojo(frame) {
-  return getFrameUrl(frame).match(/dojo/i);
-}
+const libraryMap = [
+  {
+    label: "Backbone",
+    pattern: /backbone/i
+  },
+  {
+    label: "jQuery",
+    pattern: /jquery/i
+  },
+  {
+    label: "Preact",
+    pattern: /preact/i
+  },
+  {
+    label: "React",
+    pattern: /react/i
+  },
+  {
+    label: "Immutable",
+    pattern: /immutable/i
+  },
+  {
+    label: "Webpack",
+    pattern: /webpack\/bootstrap/i
+  },
+  {
+    label: "Node",
+    pattern: /(^internal\/|^[^.\/]+\.js)/
+  },
+  {
+    label: "Express",
+    pattern: /node_modules\/express/
+  },
+  {
+    label: "Pug",
+    pattern: /node_modules\/pug/
+  },
+  {
+    label: "ExtJS",
+    pattern: /\/ext-all[\.\-]/
+  },
+  {
+    label: "Underscore",
+    pattern: /underscore/i
+  },
+  {
+    label: "Lodash",
+    pattern: /lodash/i
+  },
+  {
+    label: "Ember",
+    pattern: /ember/i
+  },
+  {
+    label: "Choo",
+    pattern: /choo/i
+  },
+  {
+    label: "VueJS",
+    pattern: /vue\.js/i
+  },
+  {
+    label: "RxJS",
+    pattern: /rxjs/i
+  },
+  {
+    label: "Angular",
+    pattern: /angular/i
+  },
+  {
+    label: "Redux",
+    pattern: /redux/i
+  },
+  {
+    label: "Dojo",
+    pattern: /dojo/i
+  },
+  {
+    label: "Marko",
+    pattern: /marko/i
+  },
+  {
+    label: "NuxtJS",
+    pattern: /[\._]nuxt/i
+  },
+  {
+    label: "Aframe",
+    pattern: /aframe/i
+  },
+  {
+    label: "NextJS",
+    pattern: /[\._]next/i
+  }
+];
 
 export function getLibraryFromUrl(frame: Frame) {
   // @TODO each of these fns calls getFrameUrl, just call it once
   // (assuming there's not more complex logic to identify a lib)
-
-  if (isBackbone(frame)) {
-    return "Backbone";
-  }
-
-  if (isJQuery(frame)) {
-    return "jQuery";
-  }
-
-  if (isReact(frame)) {
-    return "React";
-  }
-
-  if (isWebpack(frame)) {
-    return "Webpack";
-  }
-
-  if (isNodeInternal(frame)) {
-    return "Node";
-  }
-
-  if (isExpress(frame)) {
-    return "Express";
-  }
-
-  if (isPug(frame)) {
-    return "Pug";
-  }
-
-  if (isExtJs(frame)) {
-    return "ExtJS";
-  }
-
-  if (isUnderscore(frame)) {
-    return "Underscore";
-  }
-
-  if (isLodash(frame)) {
-    return "Lodash";
-  }
-
-  if (isEmber(frame)) {
-    return "Ember";
-  }
-
-  if (isVueJS(frame)) {
-    return "VueJS";
-  }
-
-  if (isRxJs(frame)) {
-    return "RxJS";
-  }
-
-  if (isAngular(frame)) {
-    return "Angular";
-  }
-
-  if (isRedux(frame)) {
-    return "Redux";
-  }
-
-  if (isDojo(frame)) {
-    return "Dojo";
-  }
-
-  if (isImmutable(frame)) {
-    return "Immutable";
-  }
+  const frameUrl = getFrameUrl(frame);
+  const match = find(libraryMap, o => frameUrl.match(o.pattern));
+  return match && match.label;
 }
 
 const displayNameMap = {
@@ -192,7 +156,7 @@ export function annotateFrame(frame: Frame) {
 
   const library = getLibraryFromUrl(frame);
   if (library) {
-    return Object.assign({}, frame, { library });
+    return { ...frame, library };
   }
 
   return frame;
@@ -293,7 +257,9 @@ export function collapseFrames(frames: Frame[]) {
 }
 
 function collapseLastFrames(frames) {
-  const index = findIndex(frames, isWebpack);
+  const index = findIndex(frames, frame =>
+    getFrameUrl(frame).match(/webpack\/bootstrap/i)
+  );
 
   if (index == -1) {
     return { newFrames: frames, lastGroup: [] };

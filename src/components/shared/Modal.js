@@ -1,30 +1,27 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
-import React, { PropTypes, Component } from "react";
-import type { Children } from "react";
+import PropTypes from "prop-types";
+import React from "react";
+import type { Node as ReactNode } from "react";
 import classnames from "classnames";
 import Transition from "react-transition-group/Transition";
 import "./Modal.css";
 
 type ModalProps = {
   status: string,
-  children?: Children,
+  children?: ReactNode,
   additionalClass?: string,
   handleClose: () => any
 };
 
-export class Modal extends Component {
-  props: ModalProps;
-
-  constructor(props: ModalProps) {
-    super(props);
-    const self: any = this;
-    self.onClick = this.onClick.bind(this);
-  }
-
-  onClick(e: SyntheticEvent) {
+export class Modal extends React.Component<ModalProps> {
+  onClick = (e: SyntheticEvent<HTMLElement>) => {
     e.stopPropagation();
-  }
+  };
 
   render() {
     const { status } = this.props;
@@ -48,7 +45,7 @@ Modal.contextTypes = {
 
 type SlideProps = {
   in: boolean,
-  children?: Children,
+  children?: ReactNode,
   additionalClass?: string,
   handleClose: () => any
 };

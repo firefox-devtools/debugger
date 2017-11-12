@@ -1,13 +1,13 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 .result-list {
   list-style: none;
   margin: 0px;
   padding: 0px;
   overflow: auto;
   width: calc(100% - 1px); /* 1px fixes the hidden right border */
-}
-
-.result-list.big {
-  max-height: calc(100% - 32px);
 }
 
 .result-list * {
@@ -74,6 +74,10 @@
 
 .result-list.big li .subtitle {
   line-height: 1.5em;
+}
+
+.theme-dark .result-list.big li .subtitle {
+  color: var(--theme-comment-alt);
 }
 
 .search-bar .result-list li.selected .subtitle {

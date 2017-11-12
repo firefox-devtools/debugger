@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 import { parse } from "url";
@@ -31,13 +35,13 @@ export function isDirectory(url: Object) {
 }
 
 export function isNotJavaScript(source: Object): boolean {
-  const parsedUrl = parse(source.url).pathname
+  const parsedUrl = parse(source.url).pathname;
   if (!parsedUrl) {
     return false;
   }
-  const parsedExtension = parsedUrl.split('.').pop();
+  const parsedExtension = parsedUrl.split(".").pop();
 
-  return ["css", "svg", "png"].includes(parsedExtension)
+  return ["css", "svg", "png"].includes(parsedExtension);
 }
 
 export function isInvalidUrl(url: Object, source: Object) {

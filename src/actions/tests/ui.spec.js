@@ -2,13 +2,10 @@ import { createStore, selectors, actions } from "../../utils/test-head";
 
 const {
   getActiveSearch,
-  getFileSearchQueryState,
-  getFileSearchModifierState,
   getFrameworkGroupingState,
   getPaneCollapse,
-  getSymbolSearchType,
   getHighlightedLineRange,
-  getSearchResults
+  getProjectDirectoryRoot
 } = selectors;
 
 describe("ui", () => {
@@ -34,57 +31,12 @@ describe("ui", () => {
     expect(getActiveSearch(getState())).toBe("file");
   });
 
-  it("should update search results", () => {
-    const { dispatch, getState } = createStore();
-    expect(getSearchResults(getState())).toEqual({
-      matches: [],
-      matchIndex: -1,
-      index: -1,
-      count: 0
-    });
-
-    const results = { count: 3, index: 2 };
-    dispatch(actions.updateSearchResults(results));
-    expect(getSearchResults(getState())).toEqual(results);
-  });
-
   it("should close file search", () => {
     const { dispatch, getState } = createStore();
     expect(getActiveSearch(getState())).toBe(null);
     dispatch(actions.setActiveSearch("file"));
     dispatch(actions.closeActiveSearch());
     expect(getActiveSearch(getState())).toBe(null);
-  });
-
-  it("should update the file search query", () => {
-    const { dispatch, getState } = createStore();
-    let fileSearchQueryState = getFileSearchQueryState(getState());
-    expect(fileSearchQueryState).toBe("");
-    dispatch(actions.setFileSearchQuery("foobar"));
-    fileSearchQueryState = getFileSearchQueryState(getState());
-    expect(fileSearchQueryState).toBe("foobar");
-  });
-
-  it("should toggle a file search modifier", () => {
-    const { dispatch, getState } = createStore();
-    let fileSearchModState = getFileSearchModifierState(getState());
-    expect(fileSearchModState.get("caseSensitive")).toBe(false);
-    dispatch(actions.toggleFileSearchModifier("caseSensitive"));
-    fileSearchModState = getFileSearchModifierState(getState());
-    expect(fileSearchModState.get("caseSensitive")).toBe(true);
-  });
-
-  it("should toggle the symbol search state", () => {
-    const { dispatch, getState } = createStore();
-    expect(getActiveSearch(getState())).toBe(null);
-    dispatch(actions.setActiveSearch("symbol"));
-    expect(getActiveSearch(getState())).toBe("symbol");
-  });
-
-  it("should change the selected symbol type", () => {
-    const { dispatch, getState } = createStore();
-    dispatch(actions.setSelectedSymbolType("variables"));
-    expect(getSymbolSearchType(getState())).toBe("variables");
   });
 
   it("should toggle the collapse state of a pane", () => {
@@ -114,5 +66,12 @@ describe("ui", () => {
     dispatch(actions.highlightLineRange(range));
     dispatch(actions.clearHighlightLineRange());
     expect(getHighlightedLineRange(getState())).toEqual({});
+  });
+
+  it("should set a directory as root directory", () => {
+    const { dispatch, getState } = createStore();
+    const projectRoot = getProjectDirectoryRoot(getState());
+    dispatch(actions.setProjectDirectoryRoot(projectRoot));
+    expect(getProjectDirectoryRoot(getState())).toBe(projectRoot);
   });
 });

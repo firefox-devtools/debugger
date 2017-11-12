@@ -1,525 +1,65 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Outline should render a list of functions when properties change 1`] = `
-ShallowWrapper {
-  "complexSelector": ComplexSelector {
-    "buildPredicate": [Function],
-    "childrenOfNode": [Function],
-    "findWhereUnwrapped": [Function],
-  },
-  "length": 1,
-  "node": <div
-    className="outline"
+<div
+  className="outline"
 >
-    <ul
-        className="outline-list"
+  <ul
+    className="outline-list"
+  >
+    <li
+      className="outline-list__element"
+      key="my_example_function1:21:undefined"
+      onClick={[Function]}
     >
-        <li
-            className="outline-list__element"
-            onClick={[Function]}
-        >
-            <PreviewFunction
-                func={
-                    Object {
-                        "name": "my_example_function1",
-                        "parameterNames": undefined,
-                      }
-                }
-            />
-        </li>
-        <li
-            className="outline-list__element"
-            onClick={[Function]}
-        >
-            <PreviewFunction
-                func={
-                    Object {
-                        "name": "my_example_function2",
-                        "parameterNames": undefined,
-                      }
-                }
-            />
-        </li>
-    </ul>
-</div>,
-  "nodes": Array [
-    <div
-      className="outline"
->
-      <ul
-            className="outline-list"
-      >
-            <li
-                  className="outline-list__element"
-                  onClick={[Function]}
-            >
-                  <PreviewFunction
-                        func={
-                              Object {
-                                    "name": "my_example_function1",
-                                    "parameterNames": undefined,
-                                  }
-                        }
-                  />
-            </li>
-            <li
-                  className="outline-list__element"
-                  onClick={[Function]}
-            >
-                  <PreviewFunction
-                        func={
-                              Object {
-                                    "name": "my_example_function2",
-                                    "parameterNames": undefined,
-                                  }
-                        }
-                  />
-            </li>
-      </ul>
-</div>,
-  ],
-  "options": Object {},
-  "renderer": ReactShallowRenderer {
-    "_instance": ShallowComponentWrapper {
-      "_calledComponentWillUnmount": false,
-      "_compositeType": 0,
-      "_context": Object {},
-      "_currentElement": <Outline
-        isHidden={false}
-        selectSource={[Function]}
-        selectedSource={
-                Object {
-                        "get": [Function],
-                      }
-        }
-        symbols={
-                Object {
-                        "functions": Array [
-                          Object {
-                            "id": "my_example_function1:21",
-                            "location": Object {
-                              "start": Object {
-                                "line": 21,
-                              },
-                            },
-                            "name": "my_example_function1",
-                          },
-                          Object {
-                            "id": "my_example_function2:22",
-                            "location": Object {
-                              "start": Object {
-                                "line": 22,
-                              },
-                            },
-                            "name": "my_example_function2",
-                          },
-                        ],
-                      }
-        }
-/>,
-      "_debugID": 1,
-      "_hostContainerInfo": null,
-      "_hostParent": null,
-      "_instance": Outline {
-        "_reactInternalInstance": [Circular],
-        "context": Object {},
-        "props": Object {
-          "isHidden": false,
-          "selectSource": [Function],
-          "selectedSource": Object {
-            "get": [Function],
-          },
-          "symbols": Object {
-            "functions": Array [
-              Object {
-                "id": "my_example_function1:21",
-                "location": Object {
-                  "start": Object {
-                    "line": 21,
-                  },
-                },
-                "name": "my_example_function1",
-              },
-              Object {
-                "id": "my_example_function2:22",
-                "location": Object {
-                  "start": Object {
-                    "line": 22,
-                  },
-                },
-                "name": "my_example_function2",
-              },
-            ],
-          },
-        },
-        "refs": Object {},
-        "state": null,
-        "updater": Object {
-          "enqueueCallback": [Function],
-          "enqueueCallbackInternal": [Function],
-          "enqueueElementInternal": [Function],
-          "enqueueForceUpdate": [Function],
-          "enqueueReplaceState": [Function],
-          "enqueueSetState": [Function],
-          "isMounted": [Function],
-          "validateCallback": [Function],
-        },
-      },
-      "_mountOrder": 1,
-      "_pendingCallbacks": null,
-      "_pendingElement": null,
-      "_pendingForceUpdate": false,
-      "_pendingReplaceState": false,
-      "_pendingStateQueue": null,
-      "_renderedComponent": Object {
-        "_currentElement": <div
-          className="outline"
->
-          <ul
-                    className="outline-list"
-          >
-                    <li
-                              className="outline-list__element"
-                              onClick={[Function]}
-                    >
-                              <PreviewFunction
-                                        func={
-                                                  Object {
-                                                            "name": "my_example_function1",
-                                                            "parameterNames": undefined,
-                                                          }
-                                        }
-                              />
-                    </li>
-                    <li
-                              className="outline-list__element"
-                              onClick={[Function]}
-                    >
-                              <PreviewFunction
-                                        func={
-                                                  Object {
-                                                            "name": "my_example_function2",
-                                                            "parameterNames": undefined,
-                                                          }
-                                        }
-                              />
-                    </li>
-          </ul>
-</div>,
-        "_debugID": 2,
-        "_renderedOutput": <div
-          className="outline"
->
-          <ul
-                    className="outline-list"
-          >
-                    <li
-                              className="outline-list__element"
-                              onClick={[Function]}
-                    >
-                              <PreviewFunction
-                                        func={
-                                                  Object {
-                                                            "name": "my_example_function1",
-                                                            "parameterNames": undefined,
-                                                          }
-                                        }
-                              />
-                    </li>
-                    <li
-                              className="outline-list__element"
-                              onClick={[Function]}
-                    >
-                              <PreviewFunction
-                                        func={
-                                                  Object {
-                                                            "name": "my_example_function2",
-                                                            "parameterNames": undefined,
-                                                          }
-                                        }
-                              />
-                    </li>
-          </ul>
-</div>,
-      },
-      "_renderedNodeType": 0,
-      "_rootNodeID": 0,
-      "_topLevelWrapper": null,
-      "_updateBatchNumber": null,
-      "_warnedAboutRefsInRender": false,
-    },
-    "getRenderOutput": [Function],
-    "render": [Function],
-  },
-  "root": [Circular],
-  "unrendered": <Outline
-    isHidden={false}
-    selectSource={[Function]}
-    selectedSource={
-        Object {
-            "get": [Function],
+      <PreviewFunction
+        func={
+          Object {
+            "name": "my_example_function1",
+            "parameterNames": undefined,
           }
-    }
-    symbols={
-        Object {
-            "functions": Array [
-              Object {
-                "id": "my_example_function1:21",
-                "location": Object {
-                  "start": Object {
-                    "line": 21,
-                  },
-                },
-                "name": "my_example_function1",
-              },
-              Object {
-                "id": "my_example_function2:22",
-                "location": Object {
-                  "start": Object {
-                    "line": 22,
-                  },
-                },
-                "name": "my_example_function2",
-              },
-            ],
+        }
+      />
+    </li>
+    <li
+      className="outline-list__element"
+      key="my_example_function2:22:undefined"
+      onClick={[Function]}
+    >
+      <PreviewFunction
+        func={
+          Object {
+            "name": "my_example_function2",
+            "parameterNames": undefined,
           }
-    }
-/>,
-}
+        }
+      />
+    </li>
+  </ul>
+</div>
 `;
 
 exports[`Outline should render ignore anonimous functions 1`] = `
-ShallowWrapper {
-  "complexSelector": ComplexSelector {
-    "buildPredicate": [Function],
-    "childrenOfNode": [Function],
-    "findWhereUnwrapped": [Function],
-  },
-  "length": 1,
-  "node": <div
-    className="outline"
+<div
+  className="outline"
 >
-    <ul
-        className="outline-list"
+  <ul
+    className="outline-list"
+  >
+    <li
+      className="outline-list__element"
+      key="my_example_function1:21:undefined"
+      onClick={[Function]}
     >
-        <li
-            className="outline-list__element"
-            onClick={[Function]}
-        >
-            <PreviewFunction
-                func={
-                    Object {
-                        "name": "my_example_function1",
-                        "parameterNames": undefined,
-                      }
-                }
-            />
-        </li>
-    </ul>
-</div>,
-  "nodes": Array [
-    <div
-      className="outline"
->
-      <ul
-            className="outline-list"
-      >
-            <li
-                  className="outline-list__element"
-                  onClick={[Function]}
-            >
-                  <PreviewFunction
-                        func={
-                              Object {
-                                    "name": "my_example_function1",
-                                    "parameterNames": undefined,
-                                  }
-                        }
-                  />
-            </li>
-      </ul>
-</div>,
-  ],
-  "options": Object {},
-  "renderer": ReactShallowRenderer {
-    "_instance": ShallowComponentWrapper {
-      "_calledComponentWillUnmount": false,
-      "_compositeType": 0,
-      "_context": Object {},
-      "_currentElement": <Outline
-        isHidden={false}
-        selectSource={[Function]}
-        selectedSource={
-                Object {
-                        "get": [Function],
-                      }
-        }
-        symbols={
-                Object {
-                        "functions": Array [
-                          Object {
-                            "id": "my_example_function1:21",
-                            "location": Object {
-                              "start": Object {
-                                "line": 21,
-                              },
-                            },
-                            "name": "my_example_function1",
-                          },
-                          Object {
-                            "id": "anonymous:25",
-                            "location": Object {
-                              "start": Object {
-                                "line": 25,
-                              },
-                            },
-                            "name": "anonymous",
-                          },
-                        ],
-                      }
-        }
-/>,
-      "_debugID": 3,
-      "_hostContainerInfo": null,
-      "_hostParent": null,
-      "_instance": Outline {
-        "_reactInternalInstance": [Circular],
-        "context": Object {},
-        "props": Object {
-          "isHidden": false,
-          "selectSource": [Function],
-          "selectedSource": Object {
-            "get": [Function],
-          },
-          "symbols": Object {
-            "functions": Array [
-              Object {
-                "id": "my_example_function1:21",
-                "location": Object {
-                  "start": Object {
-                    "line": 21,
-                  },
-                },
-                "name": "my_example_function1",
-              },
-              Object {
-                "id": "anonymous:25",
-                "location": Object {
-                  "start": Object {
-                    "line": 25,
-                  },
-                },
-                "name": "anonymous",
-              },
-            ],
-          },
-        },
-        "refs": Object {},
-        "state": null,
-        "updater": Object {
-          "enqueueCallback": [Function],
-          "enqueueCallbackInternal": [Function],
-          "enqueueElementInternal": [Function],
-          "enqueueForceUpdate": [Function],
-          "enqueueReplaceState": [Function],
-          "enqueueSetState": [Function],
-          "isMounted": [Function],
-          "validateCallback": [Function],
-        },
-      },
-      "_mountOrder": 2,
-      "_pendingCallbacks": null,
-      "_pendingElement": null,
-      "_pendingForceUpdate": false,
-      "_pendingReplaceState": false,
-      "_pendingStateQueue": null,
-      "_renderedComponent": Object {
-        "_currentElement": <div
-          className="outline"
->
-          <ul
-                    className="outline-list"
-          >
-                    <li
-                              className="outline-list__element"
-                              onClick={[Function]}
-                    >
-                              <PreviewFunction
-                                        func={
-                                                  Object {
-                                                            "name": "my_example_function1",
-                                                            "parameterNames": undefined,
-                                                          }
-                                        }
-                              />
-                    </li>
-          </ul>
-</div>,
-        "_debugID": 4,
-        "_renderedOutput": <div
-          className="outline"
->
-          <ul
-                    className="outline-list"
-          >
-                    <li
-                              className="outline-list__element"
-                              onClick={[Function]}
-                    >
-                              <PreviewFunction
-                                        func={
-                                                  Object {
-                                                            "name": "my_example_function1",
-                                                            "parameterNames": undefined,
-                                                          }
-                                        }
-                              />
-                    </li>
-          </ul>
-</div>,
-      },
-      "_renderedNodeType": 0,
-      "_rootNodeID": 0,
-      "_topLevelWrapper": null,
-      "_updateBatchNumber": null,
-      "_warnedAboutRefsInRender": false,
-    },
-    "getRenderOutput": [Function],
-    "render": [Function],
-  },
-  "root": [Circular],
-  "unrendered": <Outline
-    isHidden={false}
-    selectSource={[Function]}
-    selectedSource={
-        Object {
-            "get": [Function],
+      <PreviewFunction
+        func={
+          Object {
+            "name": "my_example_function1",
+            "parameterNames": undefined,
           }
-    }
-    symbols={
-        Object {
-            "functions": Array [
-              Object {
-                "id": "my_example_function1:21",
-                "location": Object {
-                  "start": Object {
-                    "line": 21,
-                  },
-                },
-                "name": "my_example_function1",
-              },
-              Object {
-                "id": "anonymous:25",
-                "location": Object {
-                  "start": Object {
-                    "line": 25,
-                  },
-                },
-                "name": "anonymous",
-              },
-            ],
-          }
-    }
-/>,
-}
+        }
+      />
+    </li>
+  </ul>
+</div>
 `;

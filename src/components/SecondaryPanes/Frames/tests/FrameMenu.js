@@ -1,9 +1,9 @@
 import FrameMenu from "../FrameMenu";
 import { kebabCase } from "lodash";
 
-import { showMenu } from "devtools-launchpad";
+import { showMenu } from "devtools-contextmenu";
 import { copyToTheClipboard } from "../../../../utils/clipboard";
-jest.mock("devtools-launchpad", () => ({ showMenu: jest.fn() }));
+jest.mock("devtools-contextmenu", () => ({ showMenu: jest.fn() }));
 jest.mock("../../../../utils/clipboard", () => ({
   copyToTheClipboard: jest.fn()
 }));
@@ -45,7 +45,7 @@ describe("FrameMenu", () => {
   });
 
   it("sends three element in menuOpts to showMenu if source is present", () => {
-    const sourceId = generateMockId("copySourceUrl");
+    const sourceId = generateMockId("copySourceUri2");
     const stacktraceId = generateMockId("copyStackTrace");
     const frameworkGroupingId = generateMockId("framework.enableGrouping");
     const blackBoxId = generateMockId("sourceFooter.blackbox");

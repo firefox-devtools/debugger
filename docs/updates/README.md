@@ -2,7 +2,35 @@
 permalink: docs/updates
 ---
 
-### Weekly Updates
+## Weekly Updates
+
+### [October 31st](./updates-10-31-2017.md)
+
++ Wellington unified our search UX to create an editor style modal for searching for files, functions, variables, and jumping to a line. We now have helpful prefixes for changing modes: @, #, :.
++ Lots of great UI polish
++ Sped up stepping with large files
+
+
+### [October 24th](./updates-10-24-2017.md)
+
+This week we had 25 contributors and 30+ PRs.
+
+* Andrew helped us upgrade to flow 53
+* Jiel helped us convert SVGs to background images
+* Tohm blackboxed sources are now identified in the source tree
+* Sneha Aligned the first tab with wide gutters
+* Bomsy and James got jump to line to support scrolling to columns.
+
+### [October 17th](./updates-10-17-2017.md)
+
+* New Go to line Modal, allowing users to go to a specific line in an open file
+* Showing react classes in preview
+* Improvements to the source tree panel including
+  * Setting a root folder
+  * Collapsing all nodes
+* we managed a substantial refactoring of our editor, making it more modular and easy to work with for developers
+* new docs were added regarding triaging and merge conflicts
+
 
 ### [September 26th](./updates-9-26-2017.md)
 
@@ -30,7 +58,7 @@ permalink: docs/updates
 * **WASM** We enabled wasm debugging in the new UI and it is now turned on in nightly. Debugging WASM source code in the native language (C, C++) is a blast.
 * **Worker List** added a new Workers right sidebar pane and populating the pane with debuggee workers. The next step is to add the about:debugging util for launching a new toolbox.
 * **Mapping minified variables** started working on mapping minified variables, which will show the the "original" variable name in the scopes pane, and enable preview, watch expressions and the console to work with original * expressions.
-* **Project Search** continued to polish project search. This week he fixed keyboard navigation of streaming results, and made result orders deterministic.
+* **Project Search** continued to polish project search. This week we fixed keyboard navigation of streaming results, and made result orders deterministic.
 * **Syncing CSS** removed the theme's CSS class namespace, which will make it easy to sync themes with m-c.
 * **Accidental Breakpoints** fixed and uplifted a bug to 56, where the debugger created new breakpoints when the user changed original code and reloaded.
 * **File Search** improved file search performance and fixed a bug where the debugger would crash on large files.

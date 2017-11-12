@@ -1,15 +1,14 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 .command-bar {
   flex: 0 0 29px;
   border-bottom: 1px solid var(--theme-splitter-color);
   display: flex;
   overflow: hidden;
-  position: sticky;
   z-index: 1;
   background-color: var(--theme-toolbar-background);
-}
-
-.command-bar.vertical {
-  width: 100vw;
 }
 
 html[dir="rtl"] .command-bar {
@@ -42,7 +41,7 @@ html[dir="rtl"] .command-bar {
 }
 
 .command-bar > button {
-  margin-inline-end: 0.7em;
+  margin-inline-end: 0.3em;
 }
 
 .command-bar > button:focus {
@@ -54,31 +53,59 @@ html .command-bar > button:disabled {
   cursor: default;
 }
 
-.command-bar > button > i {
-  height: 100%;
-  width: 100%;
-  display: block;
+img.pause,
+img.stepOver,
+img.stepIn,
+img.stepOut,
+img.resume {
+  background-color: var(--theme-body-color);
 }
 
-.command-bar > button > i > svg {
+.command-bar > button > img {
   width: 16px;
   height: 16px;
+  display: inline-block;
 }
 
-.command-bar button.pause-exceptions {
-  margin-inline-start: 0.5em;
+.command-bar > button > img.pause {
+  mask: url(/images/pause.svg) no-repeat;
+}
+
+.command-bar > button > img.stepOver {
+  mask: url(/images/stepOver.svg) no-repeat;
+}
+
+.command-bar > button > img.stepIn {
+  mask: url(/images/stepIn.svg) no-repeat;
+}
+
+.command-bar > button > img.stepOut {
+  mask: url(/images/stepOut.svg) no-repeat;
+}
+
+.command-bar > button > img.resume {
+  mask: url(/images/resume.svg) no-repeat;
+}
+
+.command-bar > button.pause-exceptions.uncaught.enabled > img.pause-exceptions {
+  background-color: var(--theme-highlight-purple);
+}
+
+.command-bar > button.pause-exceptions.all.enabled > img.pause-exceptions {
+  background-color: var(--theme-highlight-blue);
+}
+
+.command-bar > button.pause-exceptions.enabled > img.pause-exceptions {
+  background-color: var(--theme-body-color);
+}
+
+.command-bar > button > img.pause-exceptions {
+  mask: url(/images/pause-exceptions.svg) no-repeat;
+  margin-inline-start: 0.2em;
 }
 
 .command-bar .subSettings {
   float: right;
-}
-
-.command-bar button.pause-exceptions.uncaught {
-  color: var(--theme-highlight-purple);
-}
-
-.command-bar button.pause-exceptions.all {
-  color: var(--theme-highlight-blue);
 }
 
 .bottom {
@@ -90,4 +117,16 @@ html .command-bar > button:disabled {
 
 .command-bar > button {
   padding: 6px 5px;
+}
+
+.command-bar.bottom {
+  justify-content: flex-end;
+}
+
+.command-bar.bottom > button {
+  color: var(--theme-comment);
+  width: 26px;
+}
+.command-bar.bottom > button:hover {
+  color: var(--theme-body-color);
 }

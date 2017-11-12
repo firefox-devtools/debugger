@@ -1,5 +1,6 @@
 import {
   getFilename,
+  getFileURL,
   getMode,
   getSourceLineCount,
   isThirdParty,
@@ -20,6 +21,42 @@ describe("sources", () => {
           id: ""
         })
       ).toBe("hello.html");
+    });
+    it("should truncate the file name when it is more than 50 chars", () => {
+      expect(
+        getFileURL({
+          url:
+            "http://localhost/really-really-really-really-really-really-long-name.html",
+          id: ""
+        })
+      ).toBe("...-really-really-really-really-really-long-name.html");
+    });
+    it("should give us the filename excluding the query strings", () => {
+      expect(
+        getFilename({
+          url: "http://localhost.com:7999/increment/hello.html?query_strings",
+          id: ""
+        })
+      ).toBe("hello.html");
+    });
+  });
+
+  describe("getFileURL", () => {
+    it("should give us the file url", () => {
+      expect(
+        getFileURL({
+          url: "http://localhost.com:7999/increment/hello.html",
+          id: ""
+        })
+      ).toBe("http://localhost.com:7999/increment/hello.html");
+    });
+    it("should truncate the file url when it is more than 50 chars", () => {
+      expect(
+        getFileURL({
+          url: "http://localhost-long.com:7999/increment/hello.html",
+          id: ""
+        })
+      ).toBe("...ttp://localhost-long.com:7999/increment/hello.html");
     });
   });
 
@@ -90,11 +127,27 @@ describe("sources", () => {
       expect(getMode(source)).toBe("elm");
     });
 
-    it("jsx", () => {
+    it("returns jsx if contentType jsx is given", () => {
       const source = {
         contentType: "text/jsx",
         text: "<h1></h1>",
         url: ""
+      };
+      expect(getMode(source)).toBe("jsx");
+    });
+
+    it("returns jsx if sourceMetaData says it's a react component", () => {
+      const source = {
+        text: "<h1></h1>",
+        url: ""
+      };
+      expect(getMode(source, { isReactComponent: true })).toBe("jsx");
+    });
+
+    it("returns jsx if the fileExtension is .jsx", () => {
+      const source = {
+        text: "<h1></h1>",
+        url: "myComponent.jsx"
       };
       expect(getMode(source)).toBe("jsx");
     });

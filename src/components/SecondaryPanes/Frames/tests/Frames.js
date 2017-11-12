@@ -1,8 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 import { Map } from "immutable";
-import _Frames, { getAndProcessFrames } from "../index.js";
-const Frames = React.createFactory(_Frames.WrappedComponent);
+import Frames, { getAndProcessFrames } from "../index.js";
 
 function render(overrides = {}) {
   const defaultProps = {
@@ -15,8 +14,8 @@ function render(overrides = {}) {
     toggleBlackBox: jest.fn()
   };
 
-  const props = Object.assign({}, defaultProps, overrides);
-  const component = shallow(new Frames(props));
+  const props = { ...defaultProps, ...overrides };
+  const component = shallow(<Frames.WrappedComponent {...props} />);
 
   return component;
 }

@@ -1,7 +1,29 @@
-import { showMenu } from "devtools-launchpad";
-import { isOriginalId } from "devtools-source-map";
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
+import { PureComponent } from "react";
+import { showMenu } from "devtools-contextmenu";
+import { isOriginalId, isGeneratedId } from "devtools-source-map";
 import { copyToTheClipboard } from "../../utils/clipboard";
+import { isPretty } from "../../utils/source";
 import { getSourceLocationFromMouseEvent } from "../../utils/editor";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { findFunctionText } from "../../utils/function";
+import { findClosestScope } from "../../utils/breakpoint/astBreakpointLocation";
+import {
+  getContextMenu,
+  getSelectedLocation,
+  getSelectedSource,
+  getSymbols
+} from "../../selectors";
+
+import actions from "../../actions";
+
+type Props = {
+  setContextMenu: Function
+};
 
 function getMenuItems(
   event,
@@ -14,15 +36,17 @@ function getMenuItems(
     jumpToMappedLocation,
     toggleBlackBox,
     addExpression,
-    getFunctionText
+    getFunctionText,
+    getFunctionLocation,
+    flashLineRange
   }
 ) {
   const copySourceLabel = L10N.getStr("copySource");
   const copySourceKey = L10N.getStr("copySource.accesskey");
   const copyFunctionLabel = L10N.getStr("copyFunction.label");
   const copyFunctionKey = L10N.getStr("copyFunction.accesskey");
-  const copySourceUrlLabel = L10N.getStr("copySourceUrl");
-  const copySourceUrlKey = L10N.getStr("copySourceUrl.accesskey");
+  const copySourceUri2Label = L10N.getStr("copySourceUri2");
+  const copySourceUri2Key = L10N.getStr("copySourceUri2.accesskey");
   const revealInTreeLabel = L10N.getStr("sourceTabs.revealInTree");
   const revealInTreeKey = L10N.getStr("sourceTabs.revealInTree.accesskey");
   const blackboxLabel = L10N.getStr("sourceFooter.blackbox");
@@ -32,10 +56,10 @@ function getMenuItems(
     ? unblackboxLabel
     : blackboxLabel;
 
-  const copySourceUrl = {
+  const copySourceUri2 = {
     id: "node-menu-copy-source-url",
-    label: copySourceUrlLabel,
-    accesskey: copySourceUrlKey,
+    label: copySourceUri2Label,
+    accesskey: copySourceUri2Key,
     disabled: false,
     click: () => copyToTheClipboard(selectedSource.get("url"))
   };
@@ -50,25 +74,35 @@ function getMenuItems(
   };
 
   const { line } = editor.codeMirror.coordsChar({
-    left: event.clientX
+    left: event.clientX,
+    top: event.clientY
   });
 
-  const sourceLocation = getSourceLocationFromMouseEvent(editor, selectedLocation, event)
+  const sourceLocation = getSourceLocationFromMouseEvent(
+    editor,
+    selectedLocation,
+    event
+  );
 
-  const pairedType = isOriginalId(selectedLocation.sourceId)
-    ? L10N.getStr("generated")
-    : L10N.getStr("original");
+  const isOriginal = isOriginalId(selectedLocation.sourceId);
+  const hasSourceMap = selectedSource.get("sourceMapURL");
+  const isPrettyPrinted = isPretty(selectedSource.toJS());
 
   const jumpLabel = {
-    accesskey: "C",
-    disabled: false,
-    label: L10N.getFormatStr("editor.jumpToMappedLocation1", pairedType),
+    id: "node-menu-jump",
+    accesskey: L10N.getStr("editor.jumpToMappedLocation1.accesskey"),
+    disabled: isGeneratedId && !hasSourceMap,
+    label: L10N.getFormatStr(
+      "editor.jumpToMappedLocation1",
+      isOriginal ? L10N.getStr("generated") : L10N.getStr("original")
+    ),
     click: () => jumpToMappedLocation(sourceLocation)
   };
 
   const watchExpressionLabel = {
-    accesskey: "E",
-    label: L10N.getStr("expressions.placeholder"),
+    id: "node-menu-add-watch-expression",
+    accesskey: L10N.getStr("expressions.accesskey"),
+    label: L10N.getStr("expressions.label"),
     click: () => addExpression(editor.codeMirror.getSelection())
   };
 
@@ -76,7 +110,7 @@ function getMenuItems(
     id: "node-menu-blackbox",
     label: toggleBlackBoxLabel,
     accesskey: blackboxKey,
-    disabled: false,
+    disabled: isOriginal || isPrettyPrinted || hasSourceMap,
     click: () => toggleBlackBox(selectedSource.toJS())
   };
 
@@ -87,7 +121,7 @@ function getMenuItems(
     id: "node-menu-show-source",
     label: revealInTreeLabel,
     accesskey: revealInTreeKey,
-    disabled: false,
+    disabled: isPrettyPrinted,
     click: () => showSource(selectedSource.get("id"))
   };
 
@@ -97,12 +131,20 @@ function getMenuItems(
     label: copyFunctionLabel,
     accesskey: copyFunctionKey,
     disabled: !functionText,
-    click: () => copyToTheClipboard(functionText)
+    click: () => {
+      const { location: { start, end } } = getFunctionLocation(line);
+      flashLineRange({
+        start: start.line,
+        end: end.line,
+        sourceId: selectedLocation.sourceId
+      });
+      return copyToTheClipboard(functionText);
+    }
   };
 
   const menuItems = [
     copySource,
-    copySourceUrl,
+    copySourceUri2,
     copyFunction,
     { type: "separator" },
     jumpLabel,
@@ -117,17 +159,53 @@ function getMenuItems(
   return menuItems;
 }
 
-async function EditorMenu(options) {
-  const { event, onGutterContextMenu } = options;
+class EditorMenu extends PureComponent {
+  props: Props;
 
-  if (event.target.classList.contains("CodeMirror-linenumber")) {
-    return onGutterContextMenu(event);
+  constructor() {
+    super();
   }
 
-  event.stopPropagation();
-  event.preventDefault();
+  shouldComponentUpdate(nextProps) {
+    return nextProps.contextMenu.type === "Editor";
+  }
 
-  showMenu(event, getMenuItems(event, options));
+  componentWillUpdate(nextProps) {
+    // clear the context menu since it is open
+    this.props.setContextMenu("", null);
+    return this.showMenu(nextProps);
+  }
+
+  showMenu(nextProps) {
+    const { contextMenu, ...options } = nextProps;
+    const { event } = contextMenu;
+    showMenu(event, getMenuItems(event, options));
+  }
+
+  render() {
+    return null;
+  }
 }
 
-export default EditorMenu;
+export default connect(
+  state => {
+    const selectedSource = getSelectedSource(state);
+    return {
+      selectedLocation: getSelectedLocation(state),
+      selectedSource,
+      contextMenu: getContextMenu(state),
+      getFunctionText: line =>
+        findFunctionText(
+          line,
+          selectedSource.toJS(),
+          getSymbols(state, selectedSource.toJS())
+        ),
+      getFunctionLocation: line =>
+        findClosestScope(getSymbols(state, selectedSource.toJS()).functions, {
+          line,
+          column: Infinity
+        })
+    };
+  },
+  dispatch => bindActionCreators(actions, dispatch)
+)(EditorMenu);

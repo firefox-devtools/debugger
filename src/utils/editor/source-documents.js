@@ -1,11 +1,15 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 import { getMode } from "../source";
 
 import type { Source } from "debugger-html";
 import { isWasm, getWasmLineNumberFormatter, renderWasmText } from "../wasm";
-import { SourceEditorUtils } from "devtools-source-editor";
-const { resizeBreakpointGutter } = SourceEditorUtils;
+import { resizeBreakpointGutter, resizeToggleButton } from "../ui";
+import type { SourceMetaDataType } from "../../reducers/ast";
 
 let sourceDocs = {};
 
@@ -29,6 +33,7 @@ function resetLineNumberFormat(editor: Object) {
   const cm = editor.codeMirror;
   cm.setOption("lineNumberFormatter", number => number);
   resizeBreakpointGutter(cm);
+  resizeToggleButton(cm);
 }
 
 function updateLineNumberFormat(editor: Object, sourceId: string) {
@@ -39,16 +44,30 @@ function updateLineNumberFormat(editor: Object, sourceId: string) {
   const lineNumberFormatter = getWasmLineNumberFormatter(sourceId);
   cm.setOption("lineNumberFormatter", lineNumberFormatter);
   resizeBreakpointGutter(cm);
+  resizeToggleButton(cm);
 }
 
 function updateDocument(editor: Object, sourceId: string) {
   if (!sourceId) {
     return;
   }
+
   const doc = getDocument(sourceId) || editor.createDocument();
   editor.replaceDocument(doc);
 
   updateLineNumberFormat(editor, sourceId);
+}
+
+function showLoading(editor: Object) {
+  if (getDocument("loading")) {
+    return;
+  }
+
+  const doc = editor.createDocument();
+  setDocument("loading", doc);
+  editor.replaceDocument(doc);
+  editor.setText(L10N.getStr("loadingText"));
+  editor.setMode({ name: "text" });
 }
 
 function setEditorText(editor: Object, source: Source) {
@@ -67,19 +86,25 @@ function setEditorText(editor: Object, source: Source) {
  * Handle getting the source document or creating a new
  * document with the correct mode and text.
  */
-function showSourceText(editor: Object, source: Source) {
+function showSourceText(
+  editor: Object,
+  source: Source,
+  sourceMetaData: SourceMetaDataType
+) {
   if (!source) {
     return;
   }
 
   let doc = getDocument(source.id);
   if (editor.codeMirror.doc === doc) {
+    editor.setMode(getMode(source, sourceMetaData));
     return;
   }
 
   if (doc) {
     editor.replaceDocument(doc);
     updateLineNumberFormat(editor, source.id);
+    editor.setMode(getMode(source, sourceMetaData));
     return doc;
   }
 
@@ -88,7 +113,7 @@ function showSourceText(editor: Object, source: Source) {
   editor.replaceDocument(doc);
 
   setEditorText(editor, source);
-  editor.setMode(getMode(source));
+  editor.setMode(getMode(source, sourceMetaData));
   updateLineNumberFormat(editor, source.id);
 }
 
@@ -100,5 +125,6 @@ export {
   resetLineNumberFormat,
   updateLineNumberFormat,
   updateDocument,
-  showSourceText
+  showSourceText,
+  showLoading
 };

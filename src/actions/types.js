@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 import type {
@@ -13,8 +17,9 @@ import type {
 
 import type { State } from "../reducers/types";
 import type { ActiveSearchType } from "../reducers/ui";
+import type { MatchedLocations } from "../reducers/file-search";
 
-import type { SymbolDeclaration, AstLocation } from "../utils/parser";
+import type { SymbolDeclaration, AstLocation } from "../workers/parser";
 
 /**
  * Flow types
@@ -22,12 +27,12 @@ import type { SymbolDeclaration, AstLocation } from "../utils/parser";
  */
 
 /**
-  * Argument parameters via Thunk middleware for {@link https://github.com/gaearon/redux-thunk|Redux Thunk}
-  *
-  * @memberof actions/breakpoints
-  * @static
-  * @typedef {Object} ThunkArgs
-  */
+ * Argument parameters via Thunk middleware for {@link https://github.com/gaearon/redux-thunk|Redux Thunk}
+ *
+ * @memberof actions/breakpoints
+ * @static
+ * @typedef {Object} ThunkArgs
+ */
 export type ThunkArgs = {
   dispatch: (action: any) => Promise<any>,
   getState: () => State,
@@ -67,7 +72,7 @@ type AddBreakpointResult = {
 type ProjectTextSearchResult = {
   sourceId: string,
   filepath: string,
-  matches: Array<any>
+  matches: MatchedLocations[]
 };
 
 type BreakpointAction =
@@ -108,7 +113,7 @@ type SourceAction =
   | {
       type: "SELECT_SOURCE",
       source: Source,
-      line?: number,
+      location?: { line?: number, column?: number },
       tabIndex?: number
     }
   | { type: "SELECT_SOURCE_URL", url: string, line?: number }
@@ -149,8 +154,11 @@ type UIAction =
       value: ?ActiveSearchType
     }
   | {
-      type: "TOGGLE_FILE_SEARCH_MODIFIER",
-      modifier: "caseSensitive" | "wholeWord" | "regexMatch"
+      type: "OPEN_QUICK_OPEN",
+      query?: string
+    }
+  | {
+      type: "CLOSE_QUICK_OPEN"
     }
   | {
       type: "TOGGLE_FRAMEWORK_GROUPING",
@@ -186,7 +194,7 @@ type PauseAction =
       shouldPauseOnExceptions: boolean,
       shouldIgnoreCaughtExceptions: boolean
     }
-  | { type: "COMMAND", value: { type: string } }
+  | { type: "COMMAND", value: { type: string }, command: string }
   | { type: "SELECT_FRAME", frame: Frame, scopes: Scope[] }
   | {
       type: "LOAD_OBJECT_PROPERTIES",
@@ -204,7 +212,6 @@ type PauseAction =
   | {
       type: "EVALUATE_EXPRESSION",
       input: string,
-      status: string,
       value: Object,
       "@@dispatch/promise": any
     }
@@ -237,7 +244,8 @@ type ASTAction =
         result: any,
         location: AstLocation,
         tokenPos: any,
-        cursorPos: any
+        cursorPos: any,
+        extra: string
       }
     }
   | {
@@ -253,8 +261,32 @@ export type ProjectTextSearchAction = {
   type: "ADD_SEARCH_RESULT",
   result: ProjectTextSearchResult
 } & {
-    type: "CLEAR_QUERY"
-  };
+  type: "CLEAR_QUERY"
+};
+
+export type FileTextSearchAction =
+  | {
+      type: "TOGGLE_FILE_SEARCH_MODIFIER",
+      modifier: "caseSensitive" | "wholeWord" | "regexMatch"
+    }
+  | {
+      type: "UPDATE_FILE_SEARCH_QUERY",
+      query: string
+    }
+  | {
+      type: "UPDATE_SEARCH_RESULTS",
+      results: {
+        matches: MatchedLocations[],
+        matchIndex: number,
+        count: number,
+        index: number
+      }
+    };
+
+export type QuickOpenAction =
+  | { type: "SET_QUICK_OPEN_QUERY", query: string }
+  | { type: "OPEN_QUICK_OPEN", query?: string }
+  | { type: "CLOSE_QUICK_OPEN" };
 
 /**
  * Actions: Source, Breakpoint, and Navigation
@@ -268,4 +300,5 @@ export type Action =
   | PauseAction
   | NavigateAction
   | UIAction
-  | ASTAction;
+  | ASTAction
+  | QuickOpenAction;

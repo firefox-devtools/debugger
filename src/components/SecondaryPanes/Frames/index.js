@@ -1,6 +1,11 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
-import React, { PropTypes, Component, createFactory } from "react";
+import PropTypes from "prop-types";
+import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { createSelector } from "reselect";
@@ -9,11 +14,8 @@ import { get } from "lodash";
 import type { Frame } from "debugger-html";
 import type { SourcesMap } from "../../../reducers/sources";
 
-import _FrameComponent from "./Frame";
-const FrameComponent = createFactory(_FrameComponent);
-
-import _Group from "./Group";
-const Group = createFactory(_Group);
+import FrameComponent from "./Frame";
+import Group from "./Group";
 
 import renderWhyPaused from "./WhyPaused";
 
@@ -40,11 +42,21 @@ import "./Frames.css";
 
 const NUM_FRAMES_SHOWN = 7;
 
-class Frames extends Component {
-  state: {
-    showAllFrames: boolean
-  };
+type Props = {
+  frames: Array<Frame>,
+  frameworkGroupingOn: boolean,
+  toggleFrameworkGrouping: Function,
+  selectedFrame: Object,
+  selectFrame: Function,
+  toggleBlackBox: Function,
+  pause: Object
+};
 
+type State = {
+  showAllFrames: boolean
+};
+
+class Frames extends Component<Props, State> {
   renderFrames: Function;
   toggleFramesDisplay: Function;
   truncateFrames: Function;
@@ -52,8 +64,8 @@ class Frames extends Component {
   toggleFrameworkGrouping: Function;
   renderToggleButton: Function;
 
-  constructor(...args) {
-    super(...args);
+  constructor(props) {
+    super(props);
 
     this.state = {
       showAllFrames: false
@@ -124,27 +136,29 @@ class Frames extends Component {
       <ul>
         {framesOrGroups.map(
           (frameOrGroup: FrameOrGroup) =>
-            frameOrGroup.id
-              ? FrameComponent({
-                  frame: frameOrGroup,
-                  toggleFrameworkGrouping: this.toggleFrameworkGrouping,
-                  copyStackTrace: this.copyStackTrace,
-                  frameworkGroupingOn,
-                  selectFrame,
-                  selectedFrame,
-                  toggleBlackBox,
-                  key: frameOrGroup.id
-                })
-              : Group({
-                  group: frameOrGroup,
-                  toggleFrameworkGrouping: this.toggleFrameworkGrouping,
-                  copyStackTrace: this.copyStackTrace,
-                  frameworkGroupingOn,
-                  selectFrame,
-                  selectedFrame,
-                  toggleBlackBox,
-                  key: frameOrGroup[0].id
-                })
+            frameOrGroup.id ? (
+              <FrameComponent
+                frame={frameOrGroup}
+                toggleFrameworkGrouping={this.toggleFrameworkGrouping}
+                copyStackTrace={this.copyStackTrace}
+                frameworkGroupingOn={frameworkGroupingOn}
+                selectFrame={selectFrame}
+                selectedFrame={selectedFrame}
+                toggleBlackBox={toggleBlackBox}
+                key={String(frameOrGroup.id)}
+              />
+            ) : (
+              <Group
+                group={frameOrGroup}
+                toggleFrameworkGrouping={this.toggleFrameworkGrouping}
+                copyStackTrace={this.copyStackTrace}
+                frameworkGroupingOn={frameworkGroupingOn}
+                selectFrame={selectFrame}
+                selectedFrame={selectedFrame}
+                toggleBlackBox={toggleBlackBox}
+                key={frameOrGroup[0].id}
+              />
+            )
         )}
       </ul>
     );
@@ -205,9 +219,7 @@ function getSourceForFrame(sources, frame) {
 }
 
 function appendSource(sources, frame) {
-  return Object.assign({}, frame, {
-    source: getSourceForFrame(sources, frame).toJS()
-  });
+  return { ...frame, source: getSourceForFrame(sources, frame).toJS() };
 }
 
 export function getAndProcessFrames(frames: Frame[], sources: SourcesMap) {

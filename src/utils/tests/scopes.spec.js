@@ -1,4 +1,4 @@
-import { getSpecialVariables, getScopes } from "../scopes";
+import { getFramePopVariables, getScopes } from "../scopes";
 
 const errorGrip = {
   type: "object",
@@ -43,7 +43,7 @@ function throwWhy(grip) {
 }
 
 describe("scopes", () => {
-  describe("getSpecialVariables", () => {
+  describe("getFramePopVariables", () => {
     describe("falsey values", () => {
       // NOTE: null and undefined are treated like objects and given a type
       const falsey = { false: false, "0": 0, null: { type: "null" } };
@@ -51,7 +51,7 @@ describe("scopes", () => {
         const value = falsey[test];
         it(`shows ${test} returns`, () => {
           const pauseData = returnWhy(value);
-          const vars = getSpecialVariables(pauseData, "");
+          const vars = getFramePopVariables(pauseData, "");
           expect(vars[0].name).toEqual("<return>");
           expect(vars[0].name).toEqual("<return>");
           expect(vars[0].contents.value).toEqual(value);
@@ -59,7 +59,7 @@ describe("scopes", () => {
 
         it(`shows ${test} throws`, () => {
           const pauseData = throwWhy(value);
-          const vars = getSpecialVariables(pauseData, "");
+          const vars = getFramePopVariables(pauseData, "");
           expect(vars[0].name).toEqual("<exception>");
           expect(vars[0].name).toEqual("<exception>");
           expect(vars[0].contents.value).toEqual(value);
@@ -70,7 +70,7 @@ describe("scopes", () => {
     describe("Error / Objects", () => {
       it("shows Error returns", () => {
         const pauseData = returnWhy(errorGrip);
-        const vars = getSpecialVariables(pauseData, "");
+        const vars = getFramePopVariables(pauseData, "");
         expect(vars[0].name).toEqual("<return>");
         expect(vars[0].name).toEqual("<return>");
         expect(vars[0].contents.value.class).toEqual("Error");
@@ -78,7 +78,7 @@ describe("scopes", () => {
 
       it("shows error throws", () => {
         const pauseData = throwWhy(errorGrip);
-        const vars = getSpecialVariables(pauseData, "");
+        const vars = getFramePopVariables(pauseData, "");
         expect(vars[0].name).toEqual("<exception>");
         expect(vars[0].name).toEqual("<exception>");
         expect(vars[0].contents.value.class).toEqual("Error");
@@ -88,13 +88,13 @@ describe("scopes", () => {
     describe("undefined", () => {
       it("does not show undefined returns", () => {
         const pauseData = returnWhy({ type: "undefined" });
-        const vars = getSpecialVariables(pauseData, "");
+        const vars = getFramePopVariables(pauseData, "");
         expect(vars.length).toEqual(0);
       });
 
       it("shows undefined throws", () => {
         const pauseData = throwWhy({ type: "undefined" });
-        const vars = getSpecialVariables(pauseData, "");
+        const vars = getFramePopVariables(pauseData, "");
         expect(vars[0].name).toEqual("<exception>");
         expect(vars[0].name).toEqual("<exception>");
         expect(vars[0].contents.value).toEqual({ type: "undefined" });
@@ -106,9 +106,6 @@ describe("scopes", () => {
     it("single scope", () => {
       const pauseData = {
         frame: {
-          scope: {
-            actor: "actor1"
-          },
           this: {}
         }
       };
@@ -138,9 +135,6 @@ describe("scopes", () => {
     it("second scope", () => {
       const pauseData = {
         frame: {
-          scope: {
-            actor: "actor1"
-          },
           this: {}
         }
       };
@@ -174,6 +168,104 @@ describe("scopes", () => {
         path: "actor2-2/foo",
         contents: {}
       });
+    });
+
+    it("returning scope", () => {
+      const pauseData = {
+        frame: {
+          this: {}
+        },
+        why: {
+          frameFinished: {
+            return: "to sender"
+          }
+        }
+      };
+
+      const selectedFrame = {
+        scope: {
+          actor: "actor1",
+          type: "block",
+          bindings: {
+            arguments: [],
+            variables: {}
+          },
+          parent: null
+        },
+        this: {}
+      };
+
+      const scopes = getScopes(pauseData, selectedFrame);
+      expect(scopes).toMatchObject([
+        {
+          path: "actor1-1",
+          contents: [
+            {
+              name: "<return>",
+              path: "actor1-1/<return>",
+              contents: {
+                value: "to sender"
+              }
+            },
+            {
+              name: "<this>",
+              path: "actor1-1/<this>",
+              contents: {
+                value: {}
+              }
+            }
+          ]
+        }
+      ]);
+    });
+
+    it("throwing scope", () => {
+      const pauseData = {
+        frame: {
+          this: {}
+        },
+        why: {
+          frameFinished: {
+            throw: "a party"
+          }
+        }
+      };
+
+      const selectedFrame = {
+        scope: {
+          actor: "actor1",
+          type: "block",
+          bindings: {
+            arguments: [],
+            variables: {}
+          },
+          parent: null
+        },
+        this: {}
+      };
+
+      const scopes = getScopes(pauseData, selectedFrame);
+      expect(scopes).toMatchObject([
+        {
+          path: "actor1-1",
+          contents: [
+            {
+              name: "<exception>",
+              path: "actor1-1/<exception>",
+              contents: {
+                value: "a party"
+              }
+            },
+            {
+              name: "<this>",
+              path: "actor1-1/<this>",
+              contents: {
+                value: {}
+              }
+            }
+          ]
+        }
+      ]);
     });
   });
 });

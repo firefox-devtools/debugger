@@ -1,3 +1,8 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
+// @flow
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -7,32 +12,33 @@ import {
   getPrettySource,
   getPaneCollapse
 } from "../../selectors";
-import Svg from "../shared/Svg";
 
 import classnames from "classnames";
 import { isEnabled } from "devtools-config";
-import { isPretty, isLoaded } from "../../utils/source";
+import { isPretty, isLoaded, getFilename } from "../../utils/source";
+import { getGeneratedSource } from "../../reducers/sources";
 import { shouldShowFooter, shouldShowPrettyPrint } from "../../utils/editor";
-
+import { isOriginalId } from "devtools-source-map";
 import PaneToggleButton from "../shared/Button/PaneToggle";
 
 import type { SourceRecord } from "../../reducers/sources";
 
 import "./Footer.css";
 
-class SourceFooter extends PureComponent {
-  props: {
-    selectedSource: SourceRecord,
-    selectSource: (string, ?Object) => void,
-    editor: any,
-    togglePrettyPrint: string => void,
-    toggleBlackBox: () => void,
-    recordCoverage: () => void,
-    togglePaneCollapse: () => void,
-    endPanelCollapsed: boolean,
-    horizontal: boolean
-  };
+type Props = {
+  selectedSource: SourceRecord,
+  mappedSource: SourceRecord,
+  selectSource: (string, ?Object) => void,
+  editor: any,
+  togglePrettyPrint: string => void,
+  toggleBlackBox: Object => void,
+  recordCoverage: () => void,
+  togglePaneCollapse: () => void,
+  endPanelCollapsed: boolean,
+  horizontal: boolean
+};
 
+class SourceFooter extends PureComponent<Props> {
   prettyPrintButton() {
     const { selectedSource, togglePrettyPrint } = this.props;
     const sourceLoaded = selectedSource && isLoaded(selectedSource.toJS());
@@ -55,7 +61,7 @@ class SourceFooter extends PureComponent {
         title={tooltip}
         aria-label={tooltip}
       >
-        <Svg name={type} />
+        <img className={type} />
       </button>
     );
   }
@@ -64,11 +70,11 @@ class SourceFooter extends PureComponent {
     const { selectedSource, toggleBlackBox } = this.props;
     const sourceLoaded = selectedSource && isLoaded(selectedSource.toJS());
 
-    const blackboxed = selectedSource.get("isBlackBoxed");
-
-    if (!isEnabled("blackbox")) {
+    if (!isEnabled("blackbox") || !sourceLoaded) {
       return;
     }
+
+    const blackboxed = selectedSource.get("isBlackBoxed");
 
     const tooltip = L10N.getStr("sourceFooter.blackbox");
     const type = "black-box";
@@ -84,16 +90,15 @@ class SourceFooter extends PureComponent {
         title={tooltip}
         aria-label={tooltip}
       >
-        <Svg name="blackBox" />
+        <img className="blackBox" />
       </button>
     );
   }
 
   blackBoxSummary() {
     const { selectedSource } = this.props;
-    const blackboxed = selectedSource.get("isBlackBoxed");
 
-    if (!blackboxed) {
+    if (!selectedSource || !selectedSource.get("isBlackBoxed")) {
       return;
     }
 
@@ -149,6 +154,22 @@ class SourceFooter extends PureComponent {
     );
   }
 
+  renderSourceSummary() {
+    const { mappedSource } = this.props;
+    if (mappedSource) {
+      const bundleSource = mappedSource.toJS();
+      return (
+        <span className="mapped-source">
+          {L10N.getFormatStr(
+            "sourceFooter.mappedSource",
+            getFilename(bundleSource)
+          )}
+        </span>
+      );
+    }
+    return null;
+  }
+
   render() {
     const { selectedSource, horizontal } = this.props;
 
@@ -160,6 +181,7 @@ class SourceFooter extends PureComponent {
       <div className="source-footer">
         {this.renderCommands()}
         {this.renderToggleButton()}
+        {this.renderSourceSummary()}
       </div>
     );
   }
@@ -169,8 +191,13 @@ export default connect(
   state => {
     const selectedSource = getSelectedSource(state);
     const selectedId = selectedSource && selectedSource.get("id");
+    const source = selectedSource.toJS();
+    const mappedSource = isOriginalId(source.id)
+      ? getGeneratedSource(state, source)
+      : null;
     return {
       selectedSource,
+      mappedSource,
       prettySource: getPrettySource(state, selectedId),
       endPanelCollapsed: getPaneCollapse(state, "end")
     };

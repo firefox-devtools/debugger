@@ -103,8 +103,7 @@ describe("when adding breakpoints", () => {
       );
       const pendingBps = selectors.getPendingBreakpoints(getState());
 
-      // should be null
-      expect(pendingBps.get(breakpointLocationId1)).toBe(null);
+      expect(pendingBps.get(breakpointLocationId1)).toBeUndefined();
     });
 
     it("remove a corresponding pending breakpoint when deleting", async () => {
@@ -224,11 +223,10 @@ describe("initializing with disabled pending breakpoints in prefs", () => {
   });
 
   it("syncs breakpoints with pending breakpoints", async () => {
-    const expectedLocation = Object.assign(
-      {},
-      mockedPendingBreakpoint.location,
-      { sourceId: "bar.js" }
-    );
+    const expectedLocation = {
+      ...mockedPendingBreakpoint.location,
+      sourceId: "bar.js"
+    };
 
     const expectedId = makeLocationId(expectedLocation);
     const { getState, dispatch } = createStore(simpleMockThreadClient);

@@ -1,14 +1,15 @@
-// @flow
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
+// @flow
 
 /**
  * Redux actions for breakpoints
  * @module actions/breakpoints
  */
 
-import { PROMISE } from "../utils/redux/middleware/promise";
+import { PROMISE } from "./utils/middleware/promise";
 import {
   getBreakpoint,
   getBreakpoints,
@@ -18,6 +19,7 @@ import {
 import { createBreakpoint, assertBreakpoint } from "../utils/breakpoint";
 import addBreakpointPromise from "./breakpoints/addBreakpoint";
 import remapLocations from "./breakpoints/remapLocations";
+import { isEmptyLineInSource } from "../reducers/ast";
 
 // this will need to be changed so that addCLientBreakpoint is removed
 import { syncClientBreakpoint } from "./breakpoints/syncBreakpoint";
@@ -28,7 +30,8 @@ import type { PendingBreakpoint, Location } from "../types";
 import type { BreakpointsMap } from "../reducers/types";
 
 type addBreakpointOptions = {
-  condition: string
+  condition?: string,
+  hidden?: boolean
 };
 
 /**
@@ -72,8 +75,7 @@ export function syncBreakpoint(
 
 export function addBreakpoint(
   location: Location,
-  condition: ?string,
-  hidden: ?boolean
+  { condition, hidden }: addBreakpointOptions = {}
 ) {
   const breakpoint = createBreakpoint(location, { condition, hidden });
   return ({ dispatch, getState, sourceMaps, client }: ThunkArgs) => {
@@ -92,7 +94,7 @@ export function addBreakpoint(
  */
 export function addHiddenBreakpoint(location: Location) {
   return ({ dispatch }: ThunkArgs) => {
-    return dispatch(addBreakpoint(location, "", true));
+    return dispatch(addBreakpoint(location, { hidden: true }));
   };
 }
 
@@ -281,7 +283,7 @@ export function setBreakpointCondition(
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     const bp = getBreakpoint(getState(), location);
     if (!bp) {
-      return dispatch(addBreakpoint(location, condition));
+      return dispatch(addBreakpoint(location, { condition }));
     }
 
     if (bp.loading) {
@@ -313,10 +315,12 @@ export function setBreakpointCondition(
 
 export function toggleBreakpoint(line: number, column?: number) {
   return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
-    const selectedSource = getSelectedSource(getState());
-    const bp = getBreakpointAtLocation(getState(), { line, column });
+    const state = getState();
+    const selectedSource = getSelectedSource(state);
+    const bp = getBreakpointAtLocation(state, { line, column });
+    const isEmptyLine = isEmptyLineInSource(state, line, selectedSource.toJS());
 
-    if (bp && bp.loading) {
+    if (isEmptyLine || (bp && bp.loading)) {
       return;
     }
 

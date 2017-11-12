@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 import { Component } from "react";
 
@@ -8,16 +12,15 @@ type MarkerType = {
   clear: Function
 };
 
-type props = {
+type Props = {
   callSite: Object,
   editor: Object,
   source: Object,
   breakpoint: Object,
-  showCallSite: Boolean
+  showCallSite: boolean
 };
-export default class CallSite extends Component {
-  props: props;
 
+export default class CallSite extends Component<Props> {
   addCallSite: Function;
   marker: ?MarkerType;
 
@@ -25,27 +28,24 @@ export default class CallSite extends Component {
     super();
 
     this.marker = undefined;
-    const self: any = this;
-    self.addCallSite = this.addCallSite.bind(this);
-    self.clearCallSite = this.clearCallSite.bind(this);
   }
 
-  addCallSite(nextProps: props) {
+  addCallSite = (nextProps: ?Props) => {
     const { editor, callSite, breakpoint, source } = nextProps || this.props;
     const className = !breakpoint ? "call-site" : "call-site-bp";
     const sourceId = source.get("id");
     const editorRange = toEditorRange(sourceId, callSite.location);
     this.marker = markText(editor, className, editorRange);
-  }
+  };
 
-  clearCallSite() {
+  clearCallSite = () => {
     if (this.marker) {
       this.marker.clear();
       this.marker = null;
     }
-  }
+  };
 
-  shouldComponentUpdate(nextProps: any) {
+  shouldComponentUpdate(nextProps: Props) {
     return this.props.editor !== nextProps.editor;
   }
 
@@ -59,7 +59,7 @@ export default class CallSite extends Component {
     this.addCallSite();
   }
 
-  componentWillReceiveProps(nextProps: props) {
+  componentWillReceiveProps(nextProps: Props) {
     const { breakpoint, showCallSite } = this.props;
 
     if (nextProps.breakpoint !== breakpoint) {

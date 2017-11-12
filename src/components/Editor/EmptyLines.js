@@ -1,9 +1,14 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Component } from "react";
 import actions from "../../actions";
 import { getSelectedSource, getEmptyLines } from "../../selectors";
 import type { SourceRecord } from "../../reducers/types";
+import { toEditorLine } from "../../utils/editor";
 
 import "./EmptyLines.css";
 
@@ -27,28 +32,30 @@ class EmptyLines extends Component {
   }
 
   componentWillUnmount() {
-    const { emptyLines, editor } = this.props;
+    const { emptyLines, selectedSource, editor } = this.props;
 
     if (!emptyLines) {
       return;
     }
     editor.codeMirror.operation(() => {
-      emptyLines.forEach(line =>
-        editor.codeMirror.removeLineClass(line, "line", "empty-line")
-      );
+      emptyLines.forEach(emptyLine => {
+        const line = toEditorLine(selectedSource.get("id"), emptyLine);
+        editor.codeMirror.removeLineClass(line, "line", "empty-line");
+      });
     });
   }
 
   disableEmptyLines() {
-    const { emptyLines, editor } = this.props;
+    const { emptyLines, selectedSource, editor } = this.props;
 
     if (!emptyLines) {
       return;
     }
     editor.codeMirror.operation(() => {
-      emptyLines.forEach(line =>
-        editor.codeMirror.addLineClass(line, "line", "empty-line")
-      );
+      emptyLines.forEach(emptyLine => {
+        const line = toEditorLine(selectedSource.get("id"), emptyLine);
+        editor.codeMirror.addLineClass(line, "line", "empty-line");
+      });
     });
   }
 

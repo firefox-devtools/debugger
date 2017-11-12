@@ -1,1027 +1,197 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Expressions should always have unique keys 1`] = `
-ShallowWrapper {
-  "complexSelector": ComplexSelector {
-    "buildPredicate": [Function],
-    "childrenOfNode": [Function],
-    "findWhereUnwrapped": [Function],
-  },
-  "length": 1,
-  "node": <ul
-    className="pane expressions-list"
+<ul
+  className="pane expressions-list"
 >
-    <li
-        className="expression-container"
+  <li
+    className="expression-container"
+    key="expression1"
+  >
+    <div
+      className="expression-content"
     >
-        <div
-            className="expression-content"
-        >
-            <ObjectInspector
-                autoExpandDepth={0}
-                disableWrap={true}
-                disabledFocus={true}
-                getObjectEntries={[Function]}
-                getObjectProperties={[Function]}
-                loadObjectEntries={[Function]}
-                loadObjectProperties={[Function]}
-                onDoubleClick={[Function]}
-                openLink={undefined}
-                roots={
-                    Array [
-                        Object {
-                          "contents": Object {
-                            "value": Object {
-                              "class": "",
-                              "value": undefined,
-                            },
-                          },
-                          "name": "expression1",
-                          "path": "expression1",
-                        },
-                      ]
-                }
-            />
-            <div
-                className="expression-container__close-btn"
-            >
-                <CloseButton
-                    handleClick={[Function]}
-                />
-            </div>
-        </div>
-    </li>
-    <li
-        className="expression-container"
-    >
-        <div
-            className="expression-content"
-        >
-            <ObjectInspector
-                autoExpandDepth={0}
-                disableWrap={true}
-                disabledFocus={true}
-                getObjectEntries={[Function]}
-                getObjectProperties={[Function]}
-                loadObjectEntries={[Function]}
-                loadObjectProperties={[Function]}
-                onDoubleClick={[Function]}
-                openLink={undefined}
-                roots={
-                    Array [
-                        Object {
-                          "contents": Object {
-                            "value": Object {
-                              "class": "",
-                              "value": undefined,
-                            },
-                          },
-                          "name": "expression2",
-                          "path": "expression2",
-                        },
-                      ]
-                }
-            />
-            <div
-                className="expression-container__close-btn"
-            >
-                <CloseButton
-                    handleClick={[Function]}
-                />
-            </div>
-        </div>
-    </li>
-    <li
-        className="expression-input-container"
-    >
-        <input
-            className="input-expression"
-            onBlur={[Function]}
-            onKeyPress={[Function]}
-            placeholder="Add watch expression"
-            type="text"
-        />
-    </li>
-</ul>,
-  "nodes": Array [
-    <ul
-      className="pane expressions-list"
->
-      <li
-            className="expression-container"
-      >
-            <div
-                  className="expression-content"
-            >
-                  <ObjectInspector
-                        autoExpandDepth={0}
-                        disableWrap={true}
-                        disabledFocus={true}
-                        getObjectEntries={[Function]}
-                        getObjectProperties={[Function]}
-                        loadObjectEntries={[Function]}
-                        loadObjectProperties={[Function]}
-                        onDoubleClick={[Function]}
-                        openLink={undefined}
-                        roots={
-                              Array [
-                                    Object {
-                                      "contents": Object {
-                                        "value": Object {
-                                          "class": "",
-                                          "value": undefined,
-                                        },
-                                      },
-                                      "name": "expression1",
-                                      "path": "expression1",
-                                    },
-                                  ]
-                        }
-                  />
-                  <div
-                        className="expression-container__close-btn"
-                  >
-                        <CloseButton
-                              handleClick={[Function]}
-                        />
-                  </div>
-            </div>
-      </li>
-      <li
-            className="expression-container"
-      >
-            <div
-                  className="expression-content"
-            >
-                  <ObjectInspector
-                        autoExpandDepth={0}
-                        disableWrap={true}
-                        disabledFocus={true}
-                        getObjectEntries={[Function]}
-                        getObjectProperties={[Function]}
-                        loadObjectEntries={[Function]}
-                        loadObjectProperties={[Function]}
-                        onDoubleClick={[Function]}
-                        openLink={undefined}
-                        roots={
-                              Array [
-                                    Object {
-                                      "contents": Object {
-                                        "value": Object {
-                                          "class": "",
-                                          "value": undefined,
-                                        },
-                                      },
-                                      "name": "expression2",
-                                      "path": "expression2",
-                                    },
-                                  ]
-                        }
-                  />
-                  <div
-                        className="expression-container__close-btn"
-                  >
-                        <CloseButton
-                              handleClick={[Function]}
-                        />
-                  </div>
-            </div>
-      </li>
-      <li
-            className="expression-input-container"
-      >
-            <input
-                  className="input-expression"
-                  onBlur={[Function]}
-                  onKeyPress={[Function]}
-                  placeholder="Add watch expression"
-                  type="text"
-            />
-      </li>
-</ul>,
-  ],
-  "options": Object {},
-  "renderer": ReactShallowRenderer {
-    "_instance": ShallowComponentWrapper {
-      "_calledComponentWillUnmount": false,
-      "_compositeType": 1,
-      "_context": Object {},
-      "_currentElement": <Expressions
-        expressions={
-                Array [
-                        Object {
-                          "input": "expression1",
-                          "value": Object {
-                            "result": Object {
-                              "class": "",
-                              "value": undefined,
-                            },
-                          },
-                        },
-                        Object {
-                          "input": "expression2",
-                          "value": Object {
-                            "result": Object {
-                              "class": "",
-                              "value": undefined,
-                            },
-                          },
-                        },
-                      ]
-        }
+      <ObjectInspector
+        autoExpandDepth={0}
+        disableWrap={true}
+        disabledFocus={true}
+        getObjectEntries={[Function]}
+        getObjectProperties={[Function]}
+        loadObjectEntries={[Function]}
         loadObjectProperties={[Function]}
-/>,
-      "_debugID": 3,
-      "_hostContainerInfo": null,
-      "_hostParent": null,
-      "_instance": Expressions {
-        "_reactInternalInstance": [Circular],
-        "context": Object {},
-        "props": Object {
-          "expressions": Array [
+        onDoubleClick={[Function]}
+        roots={
+          Array [
             Object {
-              "input": "expression1",
-              "value": Object {
-                "result": Object {
+              "contents": Object {
+                "value": Object {
                   "class": "",
                   "value": undefined,
                 },
               },
-            },
-            Object {
-              "input": "expression2",
-              "value": Object {
-                "result": Object {
-                  "class": "",
-                  "value": undefined,
-                },
-              },
-            },
-          ],
-          "loadObjectProperties": [Function],
-        },
-        "refs": Object {},
-        "renderExpression": [Function],
-        "state": Object {
-          "editing": null,
-        },
-        "updater": Object {
-          "enqueueCallback": [Function],
-          "enqueueCallbackInternal": [Function],
-          "enqueueElementInternal": [Function],
-          "enqueueForceUpdate": [Function],
-          "enqueueReplaceState": [Function],
-          "enqueueSetState": [Function],
-          "isMounted": [Function],
-          "validateCallback": [Function],
-        },
-      },
-      "_mountOrder": 2,
-      "_pendingCallbacks": null,
-      "_pendingElement": null,
-      "_pendingForceUpdate": false,
-      "_pendingReplaceState": false,
-      "_pendingStateQueue": null,
-      "_renderedComponent": Object {
-        "_currentElement": <ul
-          className="pane expressions-list"
->
-          <li
-                    className="expression-container"
-          >
-                    <div
-                              className="expression-content"
-                    >
-                              <ObjectInspector
-                                        autoExpandDepth={0}
-                                        disableWrap={true}
-                                        disabledFocus={true}
-                                        getObjectEntries={[Function]}
-                                        getObjectProperties={[Function]}
-                                        loadObjectEntries={[Function]}
-                                        loadObjectProperties={[Function]}
-                                        onDoubleClick={[Function]}
-                                        openLink={undefined}
-                                        roots={
-                                                  Array [
-                                                            Object {
-                                                              "contents": Object {
-                                                                "value": Object {
-                                                                  "class": "",
-                                                                  "value": undefined,
-                                                                },
-                                                              },
-                                                              "name": "expression1",
-                                                              "path": "expression1",
-                                                            },
-                                                          ]
-                                        }
-                              />
-                              <div
-                                        className="expression-container__close-btn"
-                              >
-                                        <CloseButton
-                                                  handleClick={[Function]}
-                                        />
-                              </div>
-                    </div>
-          </li>
-          <li
-                    className="expression-container"
-          >
-                    <div
-                              className="expression-content"
-                    >
-                              <ObjectInspector
-                                        autoExpandDepth={0}
-                                        disableWrap={true}
-                                        disabledFocus={true}
-                                        getObjectEntries={[Function]}
-                                        getObjectProperties={[Function]}
-                                        loadObjectEntries={[Function]}
-                                        loadObjectProperties={[Function]}
-                                        onDoubleClick={[Function]}
-                                        openLink={undefined}
-                                        roots={
-                                                  Array [
-                                                            Object {
-                                                              "contents": Object {
-                                                                "value": Object {
-                                                                  "class": "",
-                                                                  "value": undefined,
-                                                                },
-                                                              },
-                                                              "name": "expression2",
-                                                              "path": "expression2",
-                                                            },
-                                                          ]
-                                        }
-                              />
-                              <div
-                                        className="expression-container__close-btn"
-                              >
-                                        <CloseButton
-                                                  handleClick={[Function]}
-                                        />
-                              </div>
-                    </div>
-          </li>
-          <li
-                    className="expression-input-container"
-          >
-                    <input
-                              className="input-expression"
-                              onBlur={[Function]}
-                              onKeyPress={[Function]}
-                              placeholder="Add watch expression"
-                              type="text"
-                    />
-          </li>
-</ul>,
-        "_debugID": 4,
-        "_renderedOutput": <ul
-          className="pane expressions-list"
->
-          <li
-                    className="expression-container"
-          >
-                    <div
-                              className="expression-content"
-                    >
-                              <ObjectInspector
-                                        autoExpandDepth={0}
-                                        disableWrap={true}
-                                        disabledFocus={true}
-                                        getObjectEntries={[Function]}
-                                        getObjectProperties={[Function]}
-                                        loadObjectEntries={[Function]}
-                                        loadObjectProperties={[Function]}
-                                        onDoubleClick={[Function]}
-                                        openLink={undefined}
-                                        roots={
-                                                  Array [
-                                                            Object {
-                                                              "contents": Object {
-                                                                "value": Object {
-                                                                  "class": "",
-                                                                  "value": undefined,
-                                                                },
-                                                              },
-                                                              "name": "expression1",
-                                                              "path": "expression1",
-                                                            },
-                                                          ]
-                                        }
-                              />
-                              <div
-                                        className="expression-container__close-btn"
-                              >
-                                        <CloseButton
-                                                  handleClick={[Function]}
-                                        />
-                              </div>
-                    </div>
-          </li>
-          <li
-                    className="expression-container"
-          >
-                    <div
-                              className="expression-content"
-                    >
-                              <ObjectInspector
-                                        autoExpandDepth={0}
-                                        disableWrap={true}
-                                        disabledFocus={true}
-                                        getObjectEntries={[Function]}
-                                        getObjectProperties={[Function]}
-                                        loadObjectEntries={[Function]}
-                                        loadObjectProperties={[Function]}
-                                        onDoubleClick={[Function]}
-                                        openLink={undefined}
-                                        roots={
-                                                  Array [
-                                                            Object {
-                                                              "contents": Object {
-                                                                "value": Object {
-                                                                  "class": "",
-                                                                  "value": undefined,
-                                                                },
-                                                              },
-                                                              "name": "expression2",
-                                                              "path": "expression2",
-                                                            },
-                                                          ]
-                                        }
-                              />
-                              <div
-                                        className="expression-container__close-btn"
-                              >
-                                        <CloseButton
-                                                  handleClick={[Function]}
-                                        />
-                              </div>
-                    </div>
-          </li>
-          <li
-                    className="expression-input-container"
-          >
-                    <input
-                              className="input-expression"
-                              onBlur={[Function]}
-                              onKeyPress={[Function]}
-                              placeholder="Add watch expression"
-                              type="text"
-                    />
-          </li>
-</ul>,
-      },
-      "_renderedNodeType": 0,
-      "_rootNodeID": 0,
-      "_topLevelWrapper": null,
-      "_updateBatchNumber": null,
-      "_warnedAboutRefsInRender": false,
-    },
-    "getRenderOutput": [Function],
-    "render": [Function],
-  },
-  "root": [Circular],
-  "unrendered": <Expressions
-    expressions={
-        Array [
-            Object {
-              "input": "expression1",
-              "value": Object {
-                "result": Object {
-                  "class": "",
-                  "value": undefined,
-                },
-              },
-            },
-            Object {
-              "input": "expression2",
-              "value": Object {
-                "result": Object {
-                  "class": "",
-                  "value": undefined,
-                },
-              },
+              "name": "expression1",
+              "path": "expression1",
             },
           ]
-    }
-    loadObjectProperties={[Function]}
-/>,
-}
+        }
+      />
+      <div
+        className="expression-container__close-btn"
+      >
+        <CloseButton
+          handleClick={[Function]}
+        />
+      </div>
+    </div>
+  </li>
+  <li
+    className="expression-container"
+    key="expression2"
+  >
+    <div
+      className="expression-content"
+    >
+      <ObjectInspector
+        autoExpandDepth={0}
+        disableWrap={true}
+        disabledFocus={true}
+        getObjectEntries={[Function]}
+        getObjectProperties={[Function]}
+        loadObjectEntries={[Function]}
+        loadObjectProperties={[Function]}
+        onDoubleClick={[Function]}
+        roots={
+          Array [
+            Object {
+              "contents": Object {
+                "value": Object {
+                  "class": "",
+                  "value": undefined,
+                },
+              },
+              "name": "expression2",
+              "path": "expression2",
+            },
+          ]
+        }
+      />
+      <div
+        className="expression-container__close-btn"
+      >
+        <CloseButton
+          handleClick={[Function]}
+        />
+      </div>
+    </div>
+  </li>
+  <li
+    className="expression-input-container"
+  >
+    <input
+      className="input-expression"
+      onBlur={[Function]}
+      onKeyPress={[Function]}
+      placeholder="Add watch expression"
+      type="text"
+    />
+  </li>
+</ul>
 `;
 
 exports[`Expressions should render 1`] = `
-ShallowWrapper {
-  "complexSelector": ComplexSelector {
-    "buildPredicate": [Function],
-    "childrenOfNode": [Function],
-    "findWhereUnwrapped": [Function],
-  },
-  "length": 1,
-  "node": <ul
-    className="pane expressions-list"
+<ul
+  className="pane expressions-list"
 >
-    <li
-        className="expression-container"
+  <li
+    className="expression-container"
+    key="expression1"
+  >
+    <div
+      className="expression-content"
     >
-        <div
-            className="expression-content"
-        >
-            <ObjectInspector
-                autoExpandDepth={0}
-                disableWrap={true}
-                disabledFocus={true}
-                getObjectEntries={[Function]}
-                getObjectProperties={[Function]}
-                loadObjectEntries={[Function]}
-                loadObjectProperties={[Function]}
-                onDoubleClick={[Function]}
-                openLink={undefined}
-                roots={
-                    Array [
-                        Object {
-                          "contents": Object {
-                            "value": Object {
-                              "class": "",
-                              "value": "foo",
-                            },
-                          },
-                          "name": "expression1",
-                          "path": "expression1",
-                        },
-                      ]
-                }
-            />
-            <div
-                className="expression-container__close-btn"
-            >
-                <CloseButton
-                    handleClick={[Function]}
-                />
-            </div>
-        </div>
-    </li>
-    <li
-        className="expression-container"
-    >
-        <div
-            className="expression-content"
-        >
-            <ObjectInspector
-                autoExpandDepth={0}
-                disableWrap={true}
-                disabledFocus={true}
-                getObjectEntries={[Function]}
-                getObjectProperties={[Function]}
-                loadObjectEntries={[Function]}
-                loadObjectProperties={[Function]}
-                onDoubleClick={[Function]}
-                openLink={undefined}
-                roots={
-                    Array [
-                        Object {
-                          "contents": Object {
-                            "value": Object {
-                              "class": "",
-                              "value": "bar",
-                            },
-                          },
-                          "name": "expression2",
-                          "path": "expression2",
-                        },
-                      ]
-                }
-            />
-            <div
-                className="expression-container__close-btn"
-            >
-                <CloseButton
-                    handleClick={[Function]}
-                />
-            </div>
-        </div>
-    </li>
-    <li
-        className="expression-input-container"
-    >
-        <input
-            className="input-expression"
-            onBlur={[Function]}
-            onKeyPress={[Function]}
-            placeholder="Add watch expression"
-            type="text"
-        />
-    </li>
-</ul>,
-  "nodes": Array [
-    <ul
-      className="pane expressions-list"
->
-      <li
-            className="expression-container"
-      >
-            <div
-                  className="expression-content"
-            >
-                  <ObjectInspector
-                        autoExpandDepth={0}
-                        disableWrap={true}
-                        disabledFocus={true}
-                        getObjectEntries={[Function]}
-                        getObjectProperties={[Function]}
-                        loadObjectEntries={[Function]}
-                        loadObjectProperties={[Function]}
-                        onDoubleClick={[Function]}
-                        openLink={undefined}
-                        roots={
-                              Array [
-                                    Object {
-                                      "contents": Object {
-                                        "value": Object {
-                                          "class": "",
-                                          "value": "foo",
-                                        },
-                                      },
-                                      "name": "expression1",
-                                      "path": "expression1",
-                                    },
-                                  ]
-                        }
-                  />
-                  <div
-                        className="expression-container__close-btn"
-                  >
-                        <CloseButton
-                              handleClick={[Function]}
-                        />
-                  </div>
-            </div>
-      </li>
-      <li
-            className="expression-container"
-      >
-            <div
-                  className="expression-content"
-            >
-                  <ObjectInspector
-                        autoExpandDepth={0}
-                        disableWrap={true}
-                        disabledFocus={true}
-                        getObjectEntries={[Function]}
-                        getObjectProperties={[Function]}
-                        loadObjectEntries={[Function]}
-                        loadObjectProperties={[Function]}
-                        onDoubleClick={[Function]}
-                        openLink={undefined}
-                        roots={
-                              Array [
-                                    Object {
-                                      "contents": Object {
-                                        "value": Object {
-                                          "class": "",
-                                          "value": "bar",
-                                        },
-                                      },
-                                      "name": "expression2",
-                                      "path": "expression2",
-                                    },
-                                  ]
-                        }
-                  />
-                  <div
-                        className="expression-container__close-btn"
-                  >
-                        <CloseButton
-                              handleClick={[Function]}
-                        />
-                  </div>
-            </div>
-      </li>
-      <li
-            className="expression-input-container"
-      >
-            <input
-                  className="input-expression"
-                  onBlur={[Function]}
-                  onKeyPress={[Function]}
-                  placeholder="Add watch expression"
-                  type="text"
-            />
-      </li>
-</ul>,
-  ],
-  "options": Object {},
-  "renderer": ReactShallowRenderer {
-    "_instance": ShallowComponentWrapper {
-      "_calledComponentWillUnmount": false,
-      "_compositeType": 1,
-      "_context": Object {},
-      "_currentElement": <Expressions
-        expressions={
-                Array [
-                        Object {
-                          "input": "expression1",
-                          "value": Object {
-                            "result": Object {
-                              "class": "",
-                              "value": "foo",
-                            },
-                          },
-                        },
-                        Object {
-                          "input": "expression2",
-                          "value": Object {
-                            "result": Object {
-                              "class": "",
-                              "value": "bar",
-                            },
-                          },
-                        },
-                      ]
-        }
+      <ObjectInspector
+        autoExpandDepth={0}
+        disableWrap={true}
+        disabledFocus={true}
+        getObjectEntries={[Function]}
+        getObjectProperties={[Function]}
+        loadObjectEntries={[Function]}
         loadObjectProperties={[Function]}
-/>,
-      "_debugID": 1,
-      "_hostContainerInfo": null,
-      "_hostParent": null,
-      "_instance": Expressions {
-        "_reactInternalInstance": [Circular],
-        "context": Object {},
-        "props": Object {
-          "expressions": Array [
+        onDoubleClick={[Function]}
+        roots={
+          Array [
             Object {
-              "input": "expression1",
-              "value": Object {
-                "result": Object {
+              "contents": Object {
+                "value": Object {
                   "class": "",
                   "value": "foo",
                 },
               },
-            },
-            Object {
-              "input": "expression2",
-              "value": Object {
-                "result": Object {
-                  "class": "",
-                  "value": "bar",
-                },
-              },
-            },
-          ],
-          "loadObjectProperties": [Function],
-        },
-        "refs": Object {},
-        "renderExpression": [Function],
-        "state": Object {
-          "editing": null,
-        },
-        "updater": Object {
-          "enqueueCallback": [Function],
-          "enqueueCallbackInternal": [Function],
-          "enqueueElementInternal": [Function],
-          "enqueueForceUpdate": [Function],
-          "enqueueReplaceState": [Function],
-          "enqueueSetState": [Function],
-          "isMounted": [Function],
-          "validateCallback": [Function],
-        },
-      },
-      "_mountOrder": 1,
-      "_pendingCallbacks": null,
-      "_pendingElement": null,
-      "_pendingForceUpdate": false,
-      "_pendingReplaceState": false,
-      "_pendingStateQueue": null,
-      "_renderedComponent": Object {
-        "_currentElement": <ul
-          className="pane expressions-list"
->
-          <li
-                    className="expression-container"
-          >
-                    <div
-                              className="expression-content"
-                    >
-                              <ObjectInspector
-                                        autoExpandDepth={0}
-                                        disableWrap={true}
-                                        disabledFocus={true}
-                                        getObjectEntries={[Function]}
-                                        getObjectProperties={[Function]}
-                                        loadObjectEntries={[Function]}
-                                        loadObjectProperties={[Function]}
-                                        onDoubleClick={[Function]}
-                                        openLink={undefined}
-                                        roots={
-                                                  Array [
-                                                            Object {
-                                                              "contents": Object {
-                                                                "value": Object {
-                                                                  "class": "",
-                                                                  "value": "foo",
-                                                                },
-                                                              },
-                                                              "name": "expression1",
-                                                              "path": "expression1",
-                                                            },
-                                                          ]
-                                        }
-                              />
-                              <div
-                                        className="expression-container__close-btn"
-                              >
-                                        <CloseButton
-                                                  handleClick={[Function]}
-                                        />
-                              </div>
-                    </div>
-          </li>
-          <li
-                    className="expression-container"
-          >
-                    <div
-                              className="expression-content"
-                    >
-                              <ObjectInspector
-                                        autoExpandDepth={0}
-                                        disableWrap={true}
-                                        disabledFocus={true}
-                                        getObjectEntries={[Function]}
-                                        getObjectProperties={[Function]}
-                                        loadObjectEntries={[Function]}
-                                        loadObjectProperties={[Function]}
-                                        onDoubleClick={[Function]}
-                                        openLink={undefined}
-                                        roots={
-                                                  Array [
-                                                            Object {
-                                                              "contents": Object {
-                                                                "value": Object {
-                                                                  "class": "",
-                                                                  "value": "bar",
-                                                                },
-                                                              },
-                                                              "name": "expression2",
-                                                              "path": "expression2",
-                                                            },
-                                                          ]
-                                        }
-                              />
-                              <div
-                                        className="expression-container__close-btn"
-                              >
-                                        <CloseButton
-                                                  handleClick={[Function]}
-                                        />
-                              </div>
-                    </div>
-          </li>
-          <li
-                    className="expression-input-container"
-          >
-                    <input
-                              className="input-expression"
-                              onBlur={[Function]}
-                              onKeyPress={[Function]}
-                              placeholder="Add watch expression"
-                              type="text"
-                    />
-          </li>
-</ul>,
-        "_debugID": 2,
-        "_renderedOutput": <ul
-          className="pane expressions-list"
->
-          <li
-                    className="expression-container"
-          >
-                    <div
-                              className="expression-content"
-                    >
-                              <ObjectInspector
-                                        autoExpandDepth={0}
-                                        disableWrap={true}
-                                        disabledFocus={true}
-                                        getObjectEntries={[Function]}
-                                        getObjectProperties={[Function]}
-                                        loadObjectEntries={[Function]}
-                                        loadObjectProperties={[Function]}
-                                        onDoubleClick={[Function]}
-                                        openLink={undefined}
-                                        roots={
-                                                  Array [
-                                                            Object {
-                                                              "contents": Object {
-                                                                "value": Object {
-                                                                  "class": "",
-                                                                  "value": "foo",
-                                                                },
-                                                              },
-                                                              "name": "expression1",
-                                                              "path": "expression1",
-                                                            },
-                                                          ]
-                                        }
-                              />
-                              <div
-                                        className="expression-container__close-btn"
-                              >
-                                        <CloseButton
-                                                  handleClick={[Function]}
-                                        />
-                              </div>
-                    </div>
-          </li>
-          <li
-                    className="expression-container"
-          >
-                    <div
-                              className="expression-content"
-                    >
-                              <ObjectInspector
-                                        autoExpandDepth={0}
-                                        disableWrap={true}
-                                        disabledFocus={true}
-                                        getObjectEntries={[Function]}
-                                        getObjectProperties={[Function]}
-                                        loadObjectEntries={[Function]}
-                                        loadObjectProperties={[Function]}
-                                        onDoubleClick={[Function]}
-                                        openLink={undefined}
-                                        roots={
-                                                  Array [
-                                                            Object {
-                                                              "contents": Object {
-                                                                "value": Object {
-                                                                  "class": "",
-                                                                  "value": "bar",
-                                                                },
-                                                              },
-                                                              "name": "expression2",
-                                                              "path": "expression2",
-                                                            },
-                                                          ]
-                                        }
-                              />
-                              <div
-                                        className="expression-container__close-btn"
-                              >
-                                        <CloseButton
-                                                  handleClick={[Function]}
-                                        />
-                              </div>
-                    </div>
-          </li>
-          <li
-                    className="expression-input-container"
-          >
-                    <input
-                              className="input-expression"
-                              onBlur={[Function]}
-                              onKeyPress={[Function]}
-                              placeholder="Add watch expression"
-                              type="text"
-                    />
-          </li>
-</ul>,
-      },
-      "_renderedNodeType": 0,
-      "_rootNodeID": 0,
-      "_topLevelWrapper": null,
-      "_updateBatchNumber": null,
-      "_warnedAboutRefsInRender": false,
-    },
-    "getRenderOutput": [Function],
-    "render": [Function],
-  },
-  "root": [Circular],
-  "unrendered": <Expressions
-    expressions={
-        Array [
-            Object {
-              "input": "expression1",
-              "value": Object {
-                "result": Object {
-                  "class": "",
-                  "value": "foo",
-                },
-              },
-            },
-            Object {
-              "input": "expression2",
-              "value": Object {
-                "result": Object {
-                  "class": "",
-                  "value": "bar",
-                },
-              },
+              "name": "expression1",
+              "path": "expression1",
             },
           ]
-    }
-    loadObjectProperties={[Function]}
-/>,
-}
+        }
+      />
+      <div
+        className="expression-container__close-btn"
+      >
+        <CloseButton
+          handleClick={[Function]}
+        />
+      </div>
+    </div>
+  </li>
+  <li
+    className="expression-container"
+    key="expression2"
+  >
+    <div
+      className="expression-content"
+    >
+      <ObjectInspector
+        autoExpandDepth={0}
+        disableWrap={true}
+        disabledFocus={true}
+        getObjectEntries={[Function]}
+        getObjectProperties={[Function]}
+        loadObjectEntries={[Function]}
+        loadObjectProperties={[Function]}
+        onDoubleClick={[Function]}
+        roots={
+          Array [
+            Object {
+              "contents": Object {
+                "value": Object {
+                  "class": "",
+                  "value": "bar",
+                },
+              },
+              "name": "expression2",
+              "path": "expression2",
+            },
+          ]
+        }
+      />
+      <div
+        className="expression-container__close-btn"
+      >
+        <CloseButton
+          handleClick={[Function]}
+        />
+      </div>
+    </div>
+  </li>
+  <li
+    className="expression-input-container"
+  >
+    <input
+      className="input-expression"
+      onBlur={[Function]}
+      onKeyPress={[Function]}
+      placeholder="Add watch expression"
+      type="text"
+    />
+  </li>
+</ul>
 `;

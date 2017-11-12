@@ -1,8 +1,13 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
-import { isEnabled } from "devtools-config";
 import { getBreakpoint } from "../../selectors";
 import assert from "../assert";
+import { features } from "../prefs";
+
 export { getASTLocation, findScopeByName } from "./astBreakpointLocation";
 
 import type {
@@ -89,7 +94,7 @@ export function breakpointAtLocation(
 
     // NOTE: when column breakpoints are disabled we want to find
     // the first breakpoint
-    if (!isEnabled("columnBreakpoints")) {
+    if (!features.columnBreakpoints) {
       return true;
     }
 
@@ -102,20 +107,28 @@ export function breakpointExists(state: State, location: Location) {
   return currentBp && !currentBp.disabled;
 }
 
-export function createBreakpoint(location: Location, overrides: Object = {}) {
+export function createBreakpoint(
+  location: Location,
+  overrides: Object = {}
+): Breakpoint {
   const {
     condition,
     disabled,
     hidden,
     generatedLocation,
-    astLocation
+    astLocation,
+    id
   } = overrides;
 
+  const defaultASTLocation = { name: undefined, offset: location };
   const properties = {
+    id,
     condition: condition || null,
     disabled: disabled || false,
     hidden: hidden || false,
-    astLocation: astLocation || { offset: location },
+    loading: false,
+    text: "",
+    astLocation: astLocation || defaultASTLocation,
     generatedLocation: generatedLocation || location,
     location
   };

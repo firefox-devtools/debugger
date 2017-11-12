@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 import { setupCommands, clientCommands } from "./firefox/commands";
@@ -35,9 +39,18 @@ export async function onConnect(connection: any, actions: Object): Object {
     wasmBinarySource: supportsWasm
   });
 
-  threadClient._parent
-    .listWorkers()
-    .then(workers => actions.setWorkers(workers));
+  // NOTE: The Worker and Browser Content toolboxes do not have a parent
+  // with a listWorkers function
+  // TODO: there is a listWorkers property, but it is not a function on the
+  // parent. Investigate what it is
+  if (
+    threadClient._parent &&
+    typeof threadClient._parent.listWorkers === "function"
+  ) {
+    threadClient._parent
+      .listWorkers()
+      .then(workers => actions.setWorkers(workers));
+  }
 
   // In Firefox, we need to initially request all of the sources. This
   // usually fires off individual `newSource` notifications as the

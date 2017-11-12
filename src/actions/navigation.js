@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 import { clearDocuments } from "../utils/editor";
 import { getSources } from "../reducers/sources";
 import { waitForMs } from "../utils/utils";
@@ -7,7 +11,7 @@ import {
   clearSymbols,
   clearScopes,
   clearSources
-} from "../utils/parser";
+} from "../workers/parser";
 import { clearWasmStates } from "../utils/wasm";
 
 /**

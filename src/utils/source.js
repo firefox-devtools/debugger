@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 /**
@@ -11,6 +15,9 @@ import { basename } from "../utils/path";
 import { parse as parseURL } from "url";
 
 import type { Source } from "../types";
+import type { SourceMetaDataType } from "../reducers/ast";
+
+type transformUrlCallback = string => string;
 
 /**
  * Trims the query part or reference identifier of a url string, if necessary.
@@ -101,10 +108,22 @@ function getRawSourceURL(url: string): string {
   return url.replace(/:formatted$/, "");
 }
 
-function getFilenameFromURL(url: string) {
+function resolveFileURL(
+  url: string,
+  transformUrl: transformUrlCallback = initialUrl => initialUrl
+) {
   url = getRawSourceURL(url || "");
-  const name = basename(url) || "(index)";
+  const name = transformUrl(url);
   return endTruncateStr(name, 50);
+}
+
+function getFilenameFromURL(url: string) {
+  return resolveFileURL(url, initialUrl => basename(initialUrl) || "(index)");
+}
+
+function getFormattedSourceId(id: string) {
+  const sourceId = id.split("/")[1];
+  return `SOURCE${sourceId}`;
 }
 
 /**
@@ -117,11 +136,31 @@ function getFilenameFromURL(url: string) {
 function getFilename(source: Source) {
   const { url, id } = source;
   if (!url) {
-    const sourceId = id.split("/")[1];
-    return `SOURCE${sourceId}`;
+    return getFormattedSourceId(id);
   }
 
-  return getFilenameFromURL(url);
+  let filename = getFilenameFromURL(url);
+  const qMarkIdx = filename.indexOf("?");
+  if (qMarkIdx > 0) {
+    filename = filename.slice(0, qMarkIdx);
+  }
+  return filename;
+}
+
+/**
+ * Show a source url.
+ * If the source does not have a url, use the source id.
+ *
+ * @memberof utils/source
+ * @static
+ */
+function getFileURL(source: Source) {
+  const { url, id } = source;
+  if (!url) {
+    return getFormattedSourceId(id);
+  }
+
+  return resolveFileURL(url);
 }
 
 const contentTypeModeMap = {
@@ -170,11 +209,18 @@ function getSourceLineCount(source: Source) {
  * @static
  */
 
-function getMode(source: Source) {
+function getMode(source: Source, sourceMetaData: SourceMetaDataType) {
   const { contentType, text, isWasm, url } = source;
 
   if (!text || isWasm) {
     return { name: "text" };
+  }
+
+  if (
+    (url && url.match(/\.jsx$/i)) ||
+    (sourceMetaData && sourceMetaData.isReactComponent)
+  ) {
+    return "jsx";
   }
 
   // if the url ends with .marko we set the name to Javascript so
@@ -226,6 +272,7 @@ export {
   getRawSourceURL,
   getFilename,
   getFilenameFromURL,
+  getFileURL,
   getSourcePath,
   getSourceLineCount,
   getMode,

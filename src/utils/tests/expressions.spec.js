@@ -7,20 +7,32 @@ function createError(preview) {
 }
 
 describe("expressions", () => {
-  it("wrap expression", () => {
-    expect(wrapExpression("foo")).toMatchSnapshot();
+  describe("wrap exxpression", () => {
+    it("should wrap an expression", () => {
+      expect(wrapExpression("foo")).toMatchSnapshot();
+    });
+
+    it("should wrap expression with a comment", () => {
+      expect(wrapExpression("foo // yo yo")).toMatchSnapshot();
+    });
+
+    it("should wrap quotes", () => {
+      expect(wrapExpression('"2"')).toMatchSnapshot();
+    });
   });
 
-  it("wrap expression with a comment", () => {
-    expect(wrapExpression("foo // yo yo")).toMatchSnapshot();
-  });
+  describe("sanitize input", () => {
+    it("sanitizes quotes", () => {
+      expect(sanitizeInput('foo"')).toEqual('foo"');
+    });
 
-  it("sanitizes quotes", () => {
-    expect(sanitizeInput('foo"')).toEqual('foo\\"');
-  });
+    it("sanitizes 2 quotes", () => {
+      expect(sanitizeInput('"3"')).toEqual('"3"');
+    });
 
-  it("sanitizes forward slashes", () => {
-    expect(sanitizeInput("foo\\\\")).toEqual("foo\\\\\\\\");
+    it("sanitizes forward slashes", () => {
+      expect(sanitizeInput("foo\\\\")).toEqual("foo\\\\\\\\");
+    });
   });
 
   describe("getValue", () => {
