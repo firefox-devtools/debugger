@@ -1,27 +1,9 @@
-.icon-spacer {
+.dropdown .icon-spacer {
   margin-left: 8px;
 }
 
-.dropdown button.pause-next {
-  margin-top: 5px;
-}
-
-.dropdown button.pause-on-exceptions {
-  margin-top: 5px;
-}
-
-.dropdown button.pause-uncaught-exceptions {
-  margin-top: 5px;
-}
-
-.dropdown button.ignore-exceptions {
-  margin-top: 5px;
-}
-
-.dropdown button > img {
-  width: 16px;
-  height: 16px;
-  display: inline-block;
+.dropdown div > img {
+  vertical-align: middle;
 }
 
 img.pause-next,
@@ -29,36 +11,39 @@ img.pause-on-exceptions,
 img.pause-uncaught-exceptions,
 img.ignore-exceptions {
   background-color: var(--theme-body-color);
+  width: 16px;
+  height: 16px;
+  display: inline-block;
 }
 
-.dropdown button > img.pause-next {
+.dropdown div > img.pause-next {
   mask: url(/images/pause.svg) no-repeat;
 }
 
-.dropdown button > img.pause-on-exceptions {
+.dropdown div > img.pause-on-exceptions {
   mask: url(/images/pause-exceptions.svg) no-repeat;
 }
 
-.dropdown button > img.pause-uncaught-exceptions {
+.dropdown div > img.pause-uncaught-exceptions {
   mask: url(/images/pause-exceptions.svg) no-repeat;
 }
 
-.dropdown button > img.ignore-exceptions {
+.dropdown div > img.ignore-exceptions {
   mask: url(/images/pause-exceptions.svg) no-repeat;
 }
 
-.dropdown button.pause-next.active > img.pause-next {
-  color: var(--theme-highlight-blue);
+.dropdown div.pause-next.active > img.pause-next {
+  background-color: var(--theme-highlight-blue);
 }
 
-.dropdown button.pause-on-exceptions.active > img.pause-on-exceptions {
-  color: var(--theme-highlight-blue);
+.dropdown div.pause-on-exceptions.active > img.pause-on-exceptions {
+  background-color: var(--theme-highlight-blue);
 }
 
-.dropdown button.pause-uncaught-exceptions.active > img.pause-uncaught-exceptions {
-  color: var(--theme-highlight-blue);
+.dropdown div.pause-uncaught-exceptions.active > img.pause-uncaught-exceptions {
+  background-color: var(--theme-highlight-blue);
 }
 
-.dropdown button.ignore-exceptions.active > img.ignore-exceptions {
-  color: var(--theme-highlight-blue);
+.dropdown div.ignore-exceptions.active > img.ignore-exceptions {
+  background-color: var(--theme-highlight-blue);
 }

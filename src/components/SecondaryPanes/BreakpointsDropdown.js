@@ -5,85 +5,84 @@ import classnames from "classnames";
 
 import "./BreakpointsDropdown.css";
 
-function debugBtn(type, tooltip, className, state = "inactive") {
-  return (
-    <button className={classnames(className, state)}>
-      <img className={className} title={tooltip} />
-    </button>
-  );
-}
-
 function renderPause(isWaitingOnBreak) {
-  if (!isWaitingOnBreak) {
-    return debugBtn(
-      "pause",
-      L10N.getFormatStr("pauseButtonTooltip"),
-      "pause-next",
-      "active"
-    );
+  if (isWaitingOnBreak) {
+    return (
+      <div className={classnames("pause-next", "active")} >
+        <img className="pause-next" />
+        <span className="icon-spacer">{L10N.getStr("pauseButtonItem")}</span>
+      </div>
+      )
   }
-  return debugBtn(
-    "pause",
-    L10N.getFormatStr("pauseButtonTooltip"),
-    "pause-next"
-  );
+  return (
+    <div className={classnames("pause-next", "inactive")} >
+        <img className="pause-next" />
+        <span className="icon-spacer">{L10N.getStr("pauseButtonItem")}</span>
+    </div>
+      )
 }
 
 function renderPauseOnExceptions(
   shouldPauseOnExceptions,
-  shouldIgnoreCaughtExceptions
+  shouldIgnoreCaughtExceptions,
+  isWaitingOnBreak
 ) {
-  if (shouldPauseOnExceptions && shouldIgnoreCaughtExceptions) {
-    return debugBtn(
-      "pause-exceptions",
-      L10N.getStr("pauseOnExceptionsTooltip"),
-      "pause-on-exceptions",
-      "active"
-    );
+  if (!shouldPauseOnExceptions && !shouldIgnoreCaughtExceptions && !isWaitingOnBreak) {
+    return (
+      <div className={classnames("pause-on-exceptions", "active")} >
+        <img className="pause-on-exceptions" />
+        <span className="icon-spacer">{L10N.getStr("pauseExceptionsItem")}</span>
+      </div>
+      )
   }
-  return debugBtn(
-    "pause-exceptions",
-    L10N.getStr("ignoreExceptionsTooltip"),
-    "pause-on-exceptions"
-  );
+  return (
+    <div className={classnames("pause-on-exceptions", "inactive")} >
+      <img className="pause-on-exceptions" />
+      <span className="icon-spacer">{L10N.getStr("pauseOnExceptionsItem")}</span>
+    </div>
+      )
 }
 
 function renderPauseOnUncaughtExceptions(
   shouldPauseOnExceptions,
-  shouldIgnoreCaughtExceptions
+  shouldIgnoreCaughtExceptions,
+  isWaitingOnBreak
 ) {
-  if (shouldPauseOnExceptions || shouldIgnoreCaughtExceptions) {
-    return debugBtn(
-      "pause-exceptions",
-      L10N.getStr("pauseOnUncaughtExceptionsTooltip"),
-      "pause-uncaught-exceptions",
-      "active"
-    );
+  if (shouldPauseOnExceptions && !shouldIgnoreCaughtExceptions && !isWaitingOnBreak) {
+    return (
+      <div className={classnames("pause-uncaught-exceptions", "active")} >
+        <img className="pause-uncaught-exceptions" />
+        <span className="icon-spacer">{L10N.getStr("pauseOnUncaughtExceptionsItem")}</span>
+      </div>
+      )
   }
-  return debugBtn(
-    "pause-exceptions",
-    L10N.getStr("ignoreExceptionsTooltip"),
-    "pause-uncaught-exceptions"
-  );
+  return (
+      <div className={classnames("pause-uncaught-exceptions", "inactive")} >
+        <img className="pause-uncaught-exceptions" />
+        <span className="icon-spacer">{L10N.getStr("pauseOnUncaughtExceptionsItem")}</span>
+      </div>
+      )
 }
 
 function renderIgnoreExceptions(
   shouldPauseOnExceptions,
-  shouldIgnoreCaughtExceptions
+  shouldIgnoreCaughtExceptions,
+  isWaitingOnBreak
 ) {
-  if (!shouldPauseOnExceptions && !shouldIgnoreCaughtExceptions) {
-    return debugBtn(
-      "pause-exceptions",
-      L10N.getStr("ignoreExceptionsTooltip"),
-      "ignore-exceptions",
-      "active"
-    );
+  if (shouldIgnoreCaughtExceptions && !isWaitingOnBreak) {
+    return (
+      <div className={classnames("ignore-exceptions", "active")} >
+        <img className="ignore-exceptions" />
+        <span className="icon-spacer">{L10N.getStr("ignoreExceptionsItem")}</span>
+      </div>
+      )
   }
-  return debugBtn(
-    "pause-exceptions",
-    L10N.getStr("ignoreExceptionsTooltip"),
-    "ignore-exceptions"
-  );
+  return (
+      <div className={classnames("ignore-exceptions", "inactive")} >
+        <img className="ignore-exceptions" />
+        <span className="icon-spacer">{L10N.getStr("ignoreExceptionsItem")}</span>
+      </div>
+      )
 }
 
 function handleClick(e) {
@@ -101,34 +100,27 @@ export default function renderBreakpointsDropdown(
     <ul>
       <li onClick={() => breakOnNext()}>
         {renderPause(isWaitingOnBreak)}
-        <span className="icon-spacer">{L10N.getStr("pauseButtonItem")}</span>
       </li>
       <li onClick={() => pauseOnExceptions(true, false)}>
         {renderPauseOnUncaughtExceptions(
           shouldPauseOnExceptions,
-          shouldIgnoreCaughtExceptions
+          shouldIgnoreCaughtExceptions,
+          isWaitingOnBreak
         )}
-        <span className="icon-spacer">
-          {L10N.getStr("pauseOnUncaughtExceptionsItem")}
-        </span>
       </li>
       <li onClick={() => pauseOnExceptions(false, false)}>
         {renderPauseOnExceptions(
           shouldPauseOnExceptions,
-          shouldIgnoreCaughtExceptions
+          shouldIgnoreCaughtExceptions,
+          isWaitingOnBreak
         )}
-        <span className="icon-spacer">
-          {L10N.getStr("pauseOnExceptionsItem")}
-        </span>
       </li>
       <li onClick={() => pauseOnExceptions(true, true)}>
         {renderIgnoreExceptions(
           shouldPauseOnExceptions,
-          shouldIgnoreCaughtExceptions
+          shouldIgnoreCaughtExceptions,
+          isWaitingOnBreak
         )}
-        <span className="icon-spacer">
-          {L10N.getStr("ignoreExceptionsItem")}
-        </span>
       </li>
     </ul>
   );
