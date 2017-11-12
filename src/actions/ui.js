@@ -19,9 +19,7 @@ export function setContextMenu(type: string, event: any) {
 }
 
 export function setPrimaryPaneTab(tabName: SelectedPrimaryPaneTabType) {
-  return ({ dispatch }: ThunkArgs) => {
-    dispatch({ type: "SET_PRIMARY_PANE_TAB", tabName });
-  };
+  return { type: "SET_PRIMARY_PANE_TAB", tabName };
 }
 
 export function closeActiveSearch() {
