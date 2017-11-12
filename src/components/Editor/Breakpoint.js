@@ -10,7 +10,7 @@ import ReactDOM from "react-dom";
 import classnames from "classnames";
 import Svg from "../shared/Svg";
 
-import { getDocument, showSourceText, toEditorLine } from "../../utils/editor";
+import { getDocument, toEditorLine } from "../../utils/editor";
 
 const breakpointSvg = document.createElement("div");
 ReactDOM.render(<Svg name="breakpoint" />, breakpointSvg);
