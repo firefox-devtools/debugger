@@ -5,6 +5,86 @@ import classnames from "classnames";
 
 import "./BreakpointsDropdown.css";
 
+function renderPause(isWaitingOnBreak) {
+  if (isWaitingOnBreak) {
+    return (
+      <div className={classnames("pause-next", "active")} >
+        <img className="pause-next" />
+        <span className="icon-spacer">{L10N.getStr("pauseButtonItem")}</span>
+      </div>
+      )
+  }
+  return (
+    <div className={classnames("pause-next", "inactive")} >
+        <img className="pause-next" />
+        <span className="icon-spacer">{L10N.getStr("pauseButtonItem")}</span>
+    </div>
+      )
+}
+
+function renderPauseOnExceptions(
+  shouldPauseOnExceptions,
+  shouldIgnoreCaughtExceptions,
+  isWaitingOnBreak
+) {
+  if (!shouldPauseOnExceptions && !shouldIgnoreCaughtExceptions && !isWaitingOnBreak) {
+    return (
+      <div className={classnames("pause-on-exceptions", "active")} >
+        <img className="pause-on-exceptions" />
+        <span className="icon-spacer">{L10N.getStr("pauseOnExceptionsItem")}</span>
+      </div>
+      )
+  }
+  return (
+    <div className={classnames("pause-on-exceptions", "inactive")} >
+      <img className="pause-on-exceptions" />
+      <span className="icon-spacer">{L10N.getStr("pauseOnExceptionsItem")}</span>
+    </div>
+      )
+}
+
+function renderPauseOnUncaughtExceptions(
+  shouldPauseOnExceptions,
+  shouldIgnoreCaughtExceptions,
+  isWaitingOnBreak
+) {
+  if (shouldPauseOnExceptions && !shouldIgnoreCaughtExceptions && !isWaitingOnBreak) {
+    return (
+      <div className={classnames("pause-uncaught-exceptions", "active")} >
+        <img className="pause-uncaught-exceptions" />
+        <span className="icon-spacer">{L10N.getStr("pauseOnUncaughtExceptionsItem")}</span>
+      </div>
+      )
+  }
+  return (
+      <div className={classnames("pause-uncaught-exceptions", "inactive")} >
+        <img className="pause-uncaught-exceptions" />
+        <span className="icon-spacer">{L10N.getStr("pauseOnUncaughtExceptionsItem")}</span>
+      </div>
+      )
+}
+
+function renderIgnoreExceptions(
+  shouldPauseOnExceptions,
+  shouldIgnoreCaughtExceptions,
+  isWaitingOnBreak
+) {
+  if (shouldIgnoreCaughtExceptions && !isWaitingOnBreak) {
+    return (
+      <div className={classnames("ignore-exceptions", "active")} >
+        <img className="ignore-exceptions" />
+        <span className="icon-spacer">{L10N.getStr("ignoreExceptionsItem")}</span>
+      </div>
+      )
+  }
+  return (
+      <div className={classnames("ignore-exceptions", "inactive")} >
+        <img className="ignore-exceptions" />
+        <span className="icon-spacer">{L10N.getStr("ignoreExceptionsItem")}</span>
+      </div>
+      )
+}
+
 function handleClick(e) {
   e.stopPropagation();
 }
@@ -19,38 +99,28 @@ export default function renderBreakpointsDropdown(
   const Panel = (
     <ul>
       <li onClick={() => breakOnNext()}>
-        <div
-          className="pause-exceptions"
-          title={L10N.getStr("pauseButtonTooltip")}
-        />
-        <span className="icon-spacer">{L10N.getStr("pauseButtonItem")}</span>
+        {renderPause(isWaitingOnBreak)}
       </li>
       <li onClick={() => pauseOnExceptions(true, false)}>
-        <div
-          className="pause-exceptions uncaught"
-          title={L10N.getStr("pauseOnUncaughtExceptionsTooltip")}
-        />
-        <span className="icon-spacer">
-          {L10N.getStr("pauseOnUncaughtExceptionsItem")}
-        </span>
+        {renderPauseOnUncaughtExceptions(
+          shouldPauseOnExceptions,
+          shouldIgnoreCaughtExceptions,
+          isWaitingOnBreak
+        )}
       </li>
       <li onClick={() => pauseOnExceptions(false, false)}>
-        <div
-          className="pause-exceptions.all"
-          title={L10N.getStr("pauseOnExceptionsTooltip")}
-        />
-        <span className="icon-spacer">
-          {L10N.getStr("pauseOnExceptionsItem")}
-        </span>
+        {renderPauseOnExceptions(
+          shouldPauseOnExceptions,
+          shouldIgnoreCaughtExceptions,
+          isWaitingOnBreak
+        )}
       </li>
       <li onClick={() => pauseOnExceptions(true, true)}>
-        <div
-          className="pause-exceptions"
-          title={L10N.getStr("ignoreExceptionsTooltip")}
-        />
-        <span className="icon-spacer">
-          {L10N.getStr("ignoreExceptionsItem")}
-        </span>
+        {renderIgnoreExceptions(
+          shouldPauseOnExceptions,
+          shouldIgnoreCaughtExceptions,
+          isWaitingOnBreak
+        )}
       </li>
     </ul>
   );
