@@ -55,7 +55,7 @@ type Props = {
 };
 
 function isCurrentlyPausedAtBreakpoint(pause, breakpoint) {
-  if (!pause || pause.isInterrupted) {
+  if (!pause || pause.why.type === "interrupted") {
     return false;
   }
 
