@@ -6,10 +6,37 @@
 
 import { getSource, getSelectedFrame, getFrameScope } from "../../selectors";
 import { updateScopeBindings } from "../../utils/pause";
+import { features } from "../../utils/prefs";
 import { isGeneratedId } from "devtools-source-map";
 import { loadSourceText } from "../sources/loadSourceText";
 
 import type { ThunkArgs } from "../types";
+import type { Scope, Frame } from "debugger-html";
+
+function mapScopes(scopes: Scope, frame: Frame) {
+  return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
+    const mappedScopes = await updateScopeBindings(
+      scopes,
+      frame.generatedLocation,
+      frame.location,
+      {
+        async getLocationScopes(location, astScopes) {
+          return sourceMaps.getLocationScopes(location, astScopes);
+        },
+        async loadSourceText(sourceId) {
+          const source = getSource(getState(), sourceId).toJS();
+          await dispatch(loadSourceText(source));
+        }
+      }
+    );
+
+    dispatch({
+      type: "MAP_SCOPES",
+      frame,
+      scopes: mappedScopes
+    });
+  };
+}
 
 export function fetchScopes() {
   return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
@@ -45,25 +72,8 @@ export function fetchScopes() {
       return;
     }
 
-    const mappedScopes = await updateScopeBindings(
-      scopes,
-      frame.generatedLocation,
-      frame.location,
-      {
-        async getLocationScopes(location, astScopes) {
-          return sourceMaps.getLocationScopes(location, astScopes);
-        },
-        async loadSourceText(sourceId) {
-          const source = getSource(getState(), sourceId).toJS();
-          await dispatch(loadSourceText(source));
-        }
-      }
-    );
-
-    dispatch({
-      type: "MAP_SCOPES",
-      frame,
-      scopes: mappedScopes
-    });
+    if (features.mapScopes) {
+      dispatch(mapScopes(scopes, frame));
+    }
   };
 }

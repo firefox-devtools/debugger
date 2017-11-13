@@ -2988,9 +2988,9 @@ devtools-linters@^0.0.3:
     retext-syntax-urls "^1.0.0"
     unified "^6.1.0"
 
-devtools-map-bindings@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/devtools-map-bindings/-/devtools-map-bindings-0.3.0.tgz#239eaf807b9a8680ceaf1491af1f7f2d4af4500e"
+devtools-map-bindings@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/devtools-map-bindings/-/devtools-map-bindings-0.3.2.tgz#cfd37d37f544844d77e55cb877e057a17dbbf739"
   dependencies:
     babel-plugin-transform-async-to-generator "^6.22.0"
     babel-plugin-transform-flow-strip-types "^6.22.0"
@@ -3047,13 +3047,13 @@ devtools-source-editor@^0.0.8:
   dependencies:
     codemirror "^5.28.0"
 
-devtools-source-map@^0.14.5:
-  version "0.14.5"
-  resolved "https://registry.yarnpkg.com/devtools-source-map/-/devtools-source-map-0.14.5.tgz#e95f1fa3bae47e56002b8d3750f96afafff8e072"
+devtools-source-map@^0.14.7:
+  version "0.14.7"
+  resolved "https://registry.yarnpkg.com/devtools-source-map/-/devtools-source-map-0.14.7.tgz#b0ad5993dca69c27991a7f06fbc3b3a0c2250044"
   dependencies:
     babel-plugin-transform-async-to-generator "^6.22.0"
     babel-plugin-transform-flow-strip-types "^6.22.0"
-    devtools-map-bindings "^0.3.0"
+    devtools-map-bindings "^0.3.2"
     devtools-utils "0.0.9"
     jest "^19.0.2"
     md5 "^2.2.1"

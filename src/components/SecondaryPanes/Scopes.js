@@ -13,11 +13,11 @@ import {
   getFrameScope,
   getPause
 } from "../../selectors";
-import { getScopes } from "../../utils/scopes";
+import { getScopes } from "../../utils/pause/scopes";
 
 import { ObjectInspector } from "devtools-reps";
 import type { Pause, LoadedObject } from "debugger-html";
-import type { NamedValue } from "../../utils/scopes";
+import type { NamedValue } from "../../utils/pause/scopes/types";
 
 import "./Scopes.css";
 
