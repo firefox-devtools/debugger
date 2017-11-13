@@ -51,7 +51,7 @@
 .frames .title {
   text-overflow: ellipsis;
   overflow: hidden;
-  margin: 7px 1em 7px 0;
+  margin: 7px 0.5em 7px 0;
 }
 
 .frames ul li:hover,

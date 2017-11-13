@@ -1,5 +1,5 @@
 .badge {
-  --size: 23px;
+  --size: 17px;
   --radius: calc(var(--size) / 2);
   height: var(--size);
   min-width: var(--size);
@@ -8,4 +8,5 @@
   color: var(--theme-body-color);
   border-radius: var(--radius);
   padding: 0 4px;
+  font-size: 0.9em;
 }
