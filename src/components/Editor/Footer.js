@@ -15,7 +15,8 @@ import {
 
 import classnames from "classnames";
 import { isEnabled } from "devtools-config";
-import { isPretty, isLoaded } from "../../utils/source";
+import { isPretty, isLoaded, getFilename } from "../../utils/source";
+import { getGeneratedSource } from "../../reducers/sources";
 import { shouldShowFooter, shouldShowPrettyPrint } from "../../utils/editor";
 
 import PaneToggleButton from "../shared/Button/PaneToggle";
@@ -26,6 +27,7 @@ import "./Footer.css";
 
 type Props = {
   selectedSource: SourceRecord,
+  mappedSource: SourceRecord,
   selectSource: (string, ?Object) => void,
   editor: any,
   togglePrettyPrint: string => void,
@@ -152,6 +154,22 @@ class SourceFooter extends PureComponent<Props> {
     );
   }
 
+  renderSourceSummary() {
+    const { mappedSource } = this.props;
+    if (mappedSource) {
+      const bundleSource = mappedSource.toJS();
+      return (
+        <span className="mapped-source">
+          {L10N.getFormatStr(
+            "sourceFooter.mappedSource",
+            getFilename(bundleSource)
+          )}
+        </span>
+      );
+    }
+    return null;
+  }
+
   render() {
     const { selectedSource, horizontal } = this.props;
 
@@ -163,6 +181,7 @@ class SourceFooter extends PureComponent<Props> {
       <div className="source-footer">
         {this.renderCommands()}
         {this.renderToggleButton()}
+        {this.renderSourceSummary()}
       </div>
     );
   }
@@ -172,8 +191,10 @@ export default connect(
   state => {
     const selectedSource = getSelectedSource(state);
     const selectedId = selectedSource && selectedSource.get("id");
+    const source = selectedSource.toJS();
     return {
       selectedSource,
+      mappedSource: getGeneratedSource(state, source),
       prettySource: getPrettySource(state, selectedId),
       endPanelCollapsed: getPaneCollapse(state, "end")
     };
