@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 import React, { Component } from "react";
@@ -43,7 +47,6 @@ type Props = {
   selectSource: (id: string, ?SelectSourceOptions) => void,
   setQuickOpenQuery: (query: string) => void,
   highlightLineRange: ({ start: number, end: number }) => void,
-  clearHighlightLineRange: () => void,
   closeQuickOpen: () => void
 };
 
@@ -79,7 +82,6 @@ export class QuickOpenModal extends Component<Props, State> {
 
   closeModal = () => {
     this.props.closeQuickOpen();
-    this.props.clearHighlightLineRange();
   };
 
   searchSources = (query: string) => {
@@ -88,6 +90,7 @@ export class QuickOpenModal extends Component<Props, State> {
       this.setState({ results });
       return;
     }
+
     const { searchType } = this.props;
 
     if (searchType === "gotoSource") {

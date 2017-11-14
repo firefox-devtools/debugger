@@ -1,7 +1,10 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 import { toPairs } from "lodash";
-import { get } from "lodash";
 import { simplifyDisplayName } from "./frame";
 import type { Frame, Pause, Scope, BindingContents } from "debugger-html";
 
@@ -70,29 +73,33 @@ function getSourceBindingVariables(
   return bound.concat(unused);
 }
 
-export function getSpecialVariables(pauseInfo: Pause, path: string) {
-  const thrown = get(pauseInfo, "why.frameFinished.throw", undefined);
-
-  const returned = get(pauseInfo, "why.frameFinished.return", undefined);
-
+export function getFramePopVariables(pauseInfo: Pause, path: string) {
   const vars = [];
 
-  if (thrown !== undefined) {
-    vars.push({
-      name: "<exception>",
-      path: `${path}/<exception>`,
-      contents: { value: thrown }
-    });
-  }
+  if (pauseInfo.why && pauseInfo.why.frameFinished) {
+    const frameFinished = pauseInfo.why.frameFinished;
 
-  if (returned !== undefined) {
-    // Do not display a return value of "undefined",
-    if (!returned || !returned.type || returned.type !== "undefined") {
+    // Always display a `throw` property if present, even if it is falsy.
+    if (Object.prototype.hasOwnProperty.call(frameFinished, "throw")) {
       vars.push({
-        name: "<return>",
-        path: `${path}/<return>`,
-        contents: { value: returned }
+        name: "<exception>",
+        path: `${path}/<exception>`,
+        contents: { value: frameFinished.throw }
       });
+    }
+
+    if (Object.prototype.hasOwnProperty.call(frameFinished, "return")) {
+      const returned = frameFinished.return;
+
+      // Do not display undefined. Do display falsy values like 0 and false. The
+      // protocol grip for undefined is a JSON object: { type: "undefined" }.
+      if (typeof returned !== "object" || returned.type !== "undefined") {
+        vars.push({
+          name: "<return>",
+          path: `${path}/<return>`,
+          contents: { value: returned }
+        });
+      }
     }
   }
 
@@ -133,7 +140,6 @@ export function getScopes(
   const scopes = [];
 
   let scope = selectedScope;
-  const pausedScopeActor = get(pauseInfo, "frame.scope.actor");
   let scopeIndex = 1;
 
   do {
@@ -155,9 +161,13 @@ export function getScopes(
         ? getSourceBindingVariables(bindings, sourceBindings, key)
         : getBindingVariables(bindings, key);
 
-      // show exception, return, and this variables in innermost scope
-      if (scope.actor === pausedScopeActor) {
-        vars = vars.concat(getSpecialVariables(pauseInfo, key));
+      // On the innermost scope of a frame that is just about to be popped, show
+      // the return value or the exception being thrown as special variables.
+      if (
+        scope.actor === selectedScope.actor &&
+        selectedFrame.id === pauseInfo.frame.id
+      ) {
+        vars = vars.concat(getFramePopVariables(pauseInfo, key));
       }
 
       if (scope.actor === selectedScope.actor) {
@@ -181,7 +191,7 @@ export function getScopes(
       // If this is the global window scope, mark it as such so that it will
       // preview Window: Global instead of Window: Window
       if (value.class === "Window") {
-        value = Object.assign({}, scope.object, { displayClass: "Global" });
+        value = { ...scope.object, displayClass: "Global" };
       }
       scopes.push({
         name: scope.object.class,

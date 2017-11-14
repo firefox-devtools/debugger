@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 import { traverseAst } from "./utils/ast";
@@ -36,7 +40,10 @@ export type SymbolDeclarations = {
 };
 
 function getFunctionParameterNames(path: NodePath): string[] {
-  return path.node.params.map(param => param.name);
+  if (path.node.params != null) {
+    return path.node.params.map(param => param.name);
+  }
+  return [];
 }
 
 function getVariableNames(path: NodePath): SymbolDeclaration[] {
@@ -80,6 +87,14 @@ function getComments(ast) {
   }));
 }
 
+function getSpecifiers(specifiers) {
+  if (!specifiers) {
+    return null;
+  }
+
+  return specifiers.map(specifier => specifier.local && specifier.local.name);
+}
+
 function extractSymbols(source: Source) {
   const functions = [];
   const variables = [];
@@ -118,7 +133,7 @@ function extractSymbols(source: Source) {
         imports.push({
           source: path.node.source.value,
           location: path.node.loc,
-          specifiers: path.node.specifiers
+          specifiers: getSpecifiers(path.node.specifiers)
         });
       }
 
@@ -154,7 +169,12 @@ function extractSymbols(source: Source) {
       }
 
       if (t.isIdentifier(path)) {
-        const { start, end } = path.node.loc;
+        let { start, end } = path.node.loc;
+
+        if (path.node.typeAnnotation) {
+          const column = path.node.typeAnnotation.loc.start.column;
+          end = { ...end, column };
+        }
 
         identifiers.push({
           name: path.node.name,

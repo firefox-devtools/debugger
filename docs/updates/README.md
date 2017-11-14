@@ -2,7 +2,24 @@
 permalink: docs/updates
 ---
 
-### Weekly Updates
+## Weekly Updates
+
+### [October 31st](./updates-10-31-2017.md)
+
++ Wellington unified our search UX to create an editor style modal for searching for files, functions, variables, and jumping to a line. We now have helpful prefixes for changing modes: @, #, :.
++ Lots of great UI polish
++ Sped up stepping with large files
+
+
+### [October 24th](./updates-10-24-2017.md)
+
+This week we had 25 contributors and 30+ PRs.
+
+* Andrew helped us upgrade to flow 53
+* Jiel helped us convert SVGs to background images
+* Tohm blackboxed sources are now identified in the source tree
+* Sneha Aligned the first tab with wide gutters
+* Bomsy and James got jump to line to support scrolling to columns.
 
 ### [October 17th](./updates-10-17-2017.md)
 

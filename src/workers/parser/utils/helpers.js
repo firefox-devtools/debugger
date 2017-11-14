@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 import * as t from "babel-types";
@@ -12,7 +16,9 @@ export function isFunction(path: NodePath) {
     t.isFunction(path) ||
     t.isArrowFunctionExpression(path) ||
     t.isObjectMethod(path) ||
-    t.isClassMethod(path)
+    t.isClassMethod(path) ||
+    path.type === "MethodDefinition" ||
+    (t.isClassProperty(path.parent) && t.isArrowFunctionExpression(path))
   );
 }
 
@@ -35,7 +41,7 @@ export function isYieldExpression(path: NodePath) {
 export function isVariable(path: NodePath) {
   return (
     t.isVariableDeclaration(path) ||
-    (isFunction(path) && path.node.params.length) ||
+    (isFunction(path) && path.node.params != null && path.node.params.length) ||
     (t.isObjectProperty(path) && !isFunction(path.node.value))
   );
 }

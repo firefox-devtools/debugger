@@ -1,7 +1,12 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 import { getPause, getSelectedSource } from "../../selectors";
 import { getPausedPosition } from "../../utils/pause";
+import { PROMISE } from "../utils/middleware/promise";
 import { getNextStep } from "../../workers/parser";
 import { addHiddenBreakpoint } from "../breakpoints";
 import { features } from "../../utils/prefs";
@@ -18,12 +23,11 @@ type CommandType = "stepOver" | "stepIn" | "stepOut" | "resume";
  */
 export function command(type: CommandType) {
   return async ({ dispatch, client }: ThunkArgs) => {
-    // execute debugger thread command e.g. stepIn, stepOver
-    dispatch({ type: "COMMAND", value: { type } });
-
-    await client[type]();
-
-    dispatch({ type: "CLEAR_COMMAND" });
+    return dispatch({
+      type: "COMMAND",
+      command: type,
+      [PROMISE]: client[type]()
+    });
   };
 }
 

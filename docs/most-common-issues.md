@@ -7,6 +7,7 @@
 * [global node packages](#global-packages)
 * [firefox plugin](#firefox-plugin)
 * [windows / linux](#windows--linux)
+* [Competing scripts](#competing-scripts)
 
 We do our best to have a 3 step / 1 minute install process,
 but we use bleeding edge technology and problems do arise. Here are our
@@ -88,3 +89,7 @@ and someone will help you out :)
 [slack]:https://devtools-html-slack.herokuapp.com/
 [nvm]:https://github.com/creationix/nvm
 [yarn]:https://yarnpkg.com/en/
+
+### Competing Scripts
+
+If you are reloading the launchpad and not seeing the bundle change, it's possible that you are running `yarn start` and `yarn copy-assets-watch` at the same time. The best thing to do is to `<ctrl>-c` and close all the running programs, and run `ps` to make sure everything has stopped. At that point, try running `yarn start`, making a change in a src file and checking `localhost:8000/assets/build/debugger.js`.

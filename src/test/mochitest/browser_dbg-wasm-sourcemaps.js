@@ -11,10 +11,11 @@ add_task(async function() {
   // "A promise chain failed to handle a rejection: Debugger.Frame is not live"
   await waitForSource(dbg, "doc-wasm-sourcemaps");
 
+  await waitForLoadedSources(dbg);
   await reload(dbg);
   await waitForPaused(dbg);
 
-  await waitForLoadedSource(dbg, "doc-wasm-sourcemaps")
+  await waitForLoadedSource(dbg, "doc-wasm-sourcemaps");
   assertPausedLocation(dbg);
 
   await waitForSource(dbg, "wasm-sourcemaps/average.c");
@@ -23,8 +24,9 @@ add_task(async function() {
   clickElement(dbg, "resume");
 
   await waitForPaused(dbg);
-  await waitForLoadedSource(dbg, "average.c")
+  await waitForLoadedSource(dbg, "average.c");
   assertPausedLocation(dbg);
+  toggleCallStack(dbg);
 
   const frames = findAllElements(dbg, "frames");
   const firstFrameTitle = frames[0].querySelector(".title").textContent;

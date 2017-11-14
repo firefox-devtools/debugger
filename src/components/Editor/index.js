@@ -1,9 +1,11 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 import PropTypes from "prop-types";
 import React, { PureComponent } from "react";
 import ReactDOM from "react-dom";
-import ImPropTypes from "react-immutable-proptypes";
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import classnames from "classnames";
 import { debugGlobal } from "devtools-launchpad";
@@ -18,12 +20,14 @@ import {
   getSelectedSource,
   getHitCountForSource,
   getCoverageEnabled,
-  getConditionalPanelLine,
-  getFileSearchModifiers,
-  getFileSearchQuery
+  getSourceMetaData,
+  getConditionalPanelLine
 } from "../../selectors";
 
+// Redux actions
+import { bindActionCreators } from "redux";
 import actions from "../../actions";
+
 import Footer from "./Footer";
 import SearchBar from "./SearchBar";
 import HighlightLines from "./HighlightLines";
@@ -36,6 +40,7 @@ import EmptyLines from "./EmptyLines";
 import GutterMenu from "./GutterMenu";
 import EditorMenu from "./EditorMenu";
 import ConditionalPanel from "./ConditionalPanel";
+import type { SourceMetaDataType } from "../../reducers/ast";
 
 import {
   showSourceText,
@@ -45,7 +50,7 @@ import {
   clearLineClass,
   createEditor,
   getCursorLine,
-  traverseResults,
+  resizeBreakpointGutter,
   toSourceLine,
   scrollToColumn,
   toEditorLine,
@@ -53,7 +58,7 @@ import {
   getSourceLocationFromMouseEvent
 } from "../../utils/editor";
 
-import { resizeBreakpointGutter, resizeToggleButton } from "../../utils/ui";
+import { resizeToggleButton } from "../../utils/ui";
 
 import "./Editor.css";
 import "./Highlight.css";
@@ -69,22 +74,23 @@ type Props = {
   selectedLocation: Object,
   selectedSource: Object,
   searchOn: boolean,
-  addOrToggleDisabledBreakpoint: Function,
-  toggleBreakpoint: Function,
-  selectSource: Function,
-  jumpToMappedLocation: Function,
   coverageOn: boolean,
   selectedFrame: Object,
-  searchModifiers: Object,
-  query: string,
   horizontal: boolean,
   startPanelSize: number,
   endPanelSize: number,
   conditionalPanelLine: number,
-  openConditionalPanel: Function,
-  closeConditionalPanel: Function,
-  continueToHere: Function,
-  setContextMenu: Function
+  sourceMetaData: SourceMetaDataType,
+
+  // Actions
+  openConditionalPanel: number => void,
+  closeConditionalPanel: void => void,
+  setContextMenu: (string, any) => void,
+  continueToHere: number => void,
+  toggleBreakpoint: number => void,
+  addOrToggleDisabledBreakpoint: number => void,
+  jumpToMappedLocation: any => void,
+  traverseResults: (boolean, Object) => void
 };
 
 type State = {
@@ -249,22 +255,28 @@ class Editor extends PureComponent<Props, State> {
     }
   }
 
-  onToggleBreakpoint = (key, e) => {
-    e.preventDefault();
+  getCurrentLine() {
     const { codeMirror } = this.state.editor;
     const { selectedSource } = this.props;
     const line = getCursorLine(codeMirror);
+
+    return toSourceLine(selectedSource.get("id"), line);
+  }
+
+  onToggleBreakpoint = (key, e) => {
+    e.preventDefault();
+    const { selectedSource } = this.props;
 
     if (!selectedSource) {
       return;
     }
 
-    const sourceLine = toSourceLine(selectedSource.get("id"), line);
+    const line = this.getCurrentLine();
 
     if (e.shiftKey) {
-      this.toggleConditionalPanel(sourceLine);
+      this.toggleConditionalPanel(line);
     } else {
-      this.props.toggleBreakpoint(sourceLine);
+      this.props.toggleBreakpoint(line);
     }
   };
 
@@ -304,12 +316,7 @@ class Editor extends PureComponent<Props, State> {
   };
 
   onSearchAgain = (_, e) => {
-    const { query, searchModifiers } = this.props;
-    const { editor: { codeMirror } } = this.state.editor;
-    const ctx = { ed: this.state.editor, cm: codeMirror };
-
-    const direction = e.shiftKey ? "prev" : "next";
-    traverseResults(e, ctx, query, direction, searchModifiers.toJS());
+    this.props.traverseResults(e.shiftKey, this.state.editor);
   };
 
   openMenu(event) {
@@ -317,7 +324,6 @@ class Editor extends PureComponent<Props, State> {
     event.preventDefault();
 
     const { setContextMenu } = this.props;
-
     if (event.target.classList.contains("CodeMirror-linenumber")) {
       return setContextMenu("Gutter", event);
     }
@@ -328,10 +334,10 @@ class Editor extends PureComponent<Props, State> {
   onGutterClick = (cm, line, gutter, ev) => {
     const {
       selectedSource,
-      toggleBreakpoint,
       conditionalPanelLine,
       closeConditionalPanel,
       addOrToggleDisabledBreakpoint,
+      toggleBreakpoint,
       continueToHere
     } = this.props;
 
@@ -390,6 +396,11 @@ class Editor extends PureComponent<Props, State> {
       closeConditionalPanel,
       openConditionalPanel
     } = this.props;
+
+    if (!line || isNaN(line)) {
+      line = this.getCurrentLine();
+    }
+
     if (conditionalPanelLine) {
       return closeConditionalPanel();
     }
@@ -459,7 +470,7 @@ class Editor extends PureComponent<Props, State> {
   }
 
   setText(props) {
-    const { selectedSource } = props;
+    const { selectedSource, sourceMetaData } = props;
     if (!this.state.editor) {
       return;
     }
@@ -477,7 +488,11 @@ class Editor extends PureComponent<Props, State> {
     }
 
     if (selectedSource) {
-      return showSourceText(this.state.editor, selectedSource.toJS());
+      return showSourceText(
+        this.state.editor,
+        selectedSource.toJS(),
+        sourceMetaData
+      );
     }
   }
 
@@ -589,48 +604,25 @@ class Editor extends PureComponent<Props, State> {
   }
 }
 
-Editor.propTypes = {
-  hitCount: PropTypes.object,
-  selectedLocation: PropTypes.object,
-  selectedSource: ImPropTypes.map,
-  searchOn: PropTypes.bool,
-  addOrToggleDisabledBreakpoint: PropTypes.func,
-  toggleBreakpoint: PropTypes.func,
-  selectSource: PropTypes.func,
-  jumpToMappedLocation: PropTypes.func,
-  coverageOn: PropTypes.bool,
-  selectedFrame: PropTypes.object,
-  searchModifiers: PropTypes.object,
-  query: PropTypes.string,
-  horizontal: PropTypes.bool,
-  startPanelSize: PropTypes.number,
-  endPanelSize: PropTypes.number,
-  conditionalPanelLine: PropTypes.number,
-  openConditionalPanel: PropTypes.func,
-  closeConditionalPanel: PropTypes.func,
-  continueToHere: PropTypes.func,
-  setContextMenu: PropTypes.func
-};
-
 Editor.contextTypes = {
   shortcuts: PropTypes.object
 };
 
-export default connect(
-  state => {
-    const selectedSource = getSelectedSource(state);
-    const sourceId = selectedSource ? selectedSource.get("id") : "";
-    return {
-      selectedLocation: getSelectedLocation(state),
-      selectedSource,
-      searchOn: getActiveSearch(state) === "file",
-      hitCount: getHitCountForSource(state, sourceId),
-      selectedFrame: getSelectedFrame(state),
-      query: getFileSearchQuery(state),
-      modifiers: getFileSearchModifiers(state),
-      coverageOn: getCoverageEnabled(state),
-      conditionalPanelLine: getConditionalPanelLine(state)
-    };
-  },
-  dispatch => bindActionCreators(actions, dispatch)
+const mapStateToProps = state => {
+  const selectedSource = getSelectedSource(state);
+  const sourceId = selectedSource ? selectedSource.get("id") : "";
+  return {
+    selectedLocation: getSelectedLocation(state),
+    selectedSource,
+    searchOn: getActiveSearch(state) === "file",
+    hitCount: getHitCountForSource(state, sourceId),
+    selectedFrame: getSelectedFrame(state),
+    coverageOn: getCoverageEnabled(state),
+    conditionalPanelLine: getConditionalPanelLine(state),
+    sourceMetaData: getSourceMetaData(state, sourceId)
+  };
+};
+
+export default connect(mapStateToProps, dispatch =>
+  bindActionCreators(actions, dispatch)
 )(Editor);

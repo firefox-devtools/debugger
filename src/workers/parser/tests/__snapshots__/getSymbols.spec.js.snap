@@ -122,10 +122,12 @@ exports[`Parser.getSymbols class 1`] = `
 "functions:
 [(2, 2), (4, 3)]   constructor() Test
 [(6, 2), (8, 3)]   bar(a) Test
+[(10, 8), (12, 3)]   baz(b) Test
 
 variables:
 [(6, 6), (6, 7)]   a
-[(13, 4), (13, 30)]   expressiveClass
+[(10, 8), (10, 9)]   b
+[(17, 4), (17, 30)]   expressiveClass
 
 callExpressions:
 
@@ -150,13 +152,16 @@ identifiers:
 [(7, 4), (7, 11)]  console console
 [(7, 12), (7, 15)]  log log
 [(7, 23), (7, 24)]  a a
-[(11, 6), (11, 11)]  Test2 Test2
-[(13, 4), (13, 30)]  expressiveClass expressiveClass
-[(13, 4), (13, 19)]  expressiveClass expressiveClass
+[(10, 2), (10, 5)]  baz baz
+[(10, 8), (10, 9)]  b b
+[(11, 11), (11, 12)]  b b
+[(15, 6), (15, 11)]  Test2 Test2
+[(17, 4), (17, 30)]  expressiveClass expressiveClass
+[(17, 4), (17, 19)]  expressiveClass expressiveClass
 
 classes:
-[(1, 0), (9, 1)]   Test
-[(11, 0), (11, 14)]   Test2
+[(1, 0), (13, 1)]   Test
+[(15, 0), (15, 14)]   Test2
 
 imports:
 "
@@ -191,7 +196,7 @@ variables:
 [(82, 35), (82, 43)]   newColor
 
 callExpressions:
-[(7, 4), (7, 9)]   undefined
+[(7, 4), (7, 9)]
 [(34, 18), (34, 29)]   createClass
 [(42, 12), (42, 23)]   createClass
 [(50, 16), (50, 27)]   createClass
@@ -231,10 +236,10 @@ objectProperties:
 [(53, 2), (53, 8)]   render
 
 comments:
-[(1, 0), (3, 3)]   undefined
-[(22, 0), (24, 3)]   undefined
-[(58, 0), (60, 3)]   undefined
-[(81, 0), (81, 34)]   undefined
+[(1, 0), (3, 3)]
+[(22, 0), (24, 3)]
+[(58, 0), (60, 3)]
+[(81, 0), (81, 34)]
 
 identifiers:
 [(5, 6), (5, 11)]  Punny Punny
@@ -391,15 +396,15 @@ variables:
 [(19, 6), (19, 45)]   res4
 [(19, 17), (19, 21)]   a
 [(19, 29), (19, 41)]   b
-[(22, 6), (22, 35)]   undefined
+[(22, 6), (22, 35)]
 [(22, 8), (22, 9)]   b
 [(22, 11), (22, 16)]   resty
-[(23, 6), (23, 35)]   undefined
-[(25, 16), (25, 24)]   undefined
+[(23, 6), (23, 35)]
+[(25, 16), (25, 24)]
 [(25, 18), (25, 19)]   a
 [(25, 21), (25, 22)]   b
 [(26, 4), (26, 32)]   pars
-[(26, 20), (26, 28)]   undefined
+[(26, 20), (26, 28)]
 [(26, 22), (26, 23)]   a
 [(26, 25), (26, 26)]   b
 [(27, 6), (27, 43)]   evil
@@ -454,22 +459,22 @@ objectProperties:
 [(26, 25), (26, 26)]  b b
 
 comments:
-[(1, 29), (1, 44)]   undefined
-[(2, 35), (2, 68)]   undefined
-[(4, 0), (4, 22)]   undefined
-[(5, 51), (5, 67)]   undefined
-[(11, 0), (11, 14)]   undefined
-[(12, 35), (12, 54)]   undefined
-[(13, 31), (13, 46)]   undefined
-[(15, 0), (15, 9)]   undefined
-[(16, 34), (16, 50)]   undefined
-[(17, 32), (17, 50)]   undefined
-[(18, 47), (18, 65)]   undefined
-[(19, 47), (19, 66)]   undefined
-[(21, 0), (21, 16)]   undefined
-[(22, 37), (22, 46)]   undefined
-[(25, 29), (25, 38)]   undefined
-[(27, 45), (27, 70)]   undefined
+[(1, 29), (1, 44)]
+[(2, 35), (2, 68)]
+[(4, 0), (4, 22)]
+[(5, 51), (5, 67)]
+[(11, 0), (11, 14)]
+[(12, 35), (12, 54)]
+[(13, 31), (13, 46)]
+[(15, 0), (15, 9)]
+[(16, 34), (16, 50)]
+[(17, 32), (17, 50)]
+[(18, 47), (18, 65)]
+[(19, 47), (19, 66)]
+[(21, 0), (21, 16)]
+[(22, 37), (22, 46)]
+[(25, 29), (25, 38)]
+[(27, 45), (27, 70)]
 
 identifiers:
 [(1, 6), (1, 27)]  obj obj
@@ -524,14 +529,14 @@ identifiers:
 [(19, 36), (19, 37)]  c c
 [(19, 38), (19, 39)]  v v
 [(19, 40), (19, 41)]  d d
-[(22, 6), (22, 35)]   undefined
+[(22, 6), (22, 35)]
 [(22, 8), (22, 9)]  b b
 [(22, 8), (22, 9)]  b b
 [(22, 11), (22, 16)]  resty resty
 [(22, 11), (22, 16)]  resty resty
 [(22, 21), (22, 28)]  compute compute
 [(22, 29), (22, 34)]  stuff stuff
-[(23, 6), (23, 35)]   undefined
+[(23, 6), (23, 35)]
 [(23, 7), (23, 8)]  a a
 [(23, 13), (23, 17)]  rest rest
 [(23, 21), (23, 28)]  compute compute
@@ -578,12 +583,12 @@ variables:
 [(37, 9), (37, 36)]   greeting
 
 callExpressions:
-[(36, 3), (39, 3)]   undefined
+[(36, 3), (39, 3)]
 [(37, 20), (37, 28)]   sayHello
 
 memberExpressions:
 [(23, 18), (23, 29)] [(23, 10), (23, 29)] name.undefined.toUpperCase toUpperCase
-[(23, 15), (23, 16)] [(23, 10), (23, 17)] name. undefined
+[(23, 15), (23, 16)] [(23, 10), (23, 17)] name.
 [(23, 39), (23, 48)] [(23, 34), (23, 48)] name.substring substring
 [(28, 4), (28, 8)] [(25, 19), (28, 8)]  join
 [(27, 4), (27, 7)] [(25, 19), (27, 7)]  map
@@ -638,6 +643,39 @@ imports:
 "
 `;
 
+exports[`Parser.getSymbols flow 1`] = `
+"functions:
+[(2, 2), (4, 3)]   renderHello(name) App
+
+variables:
+[(2, 14), (2, 26)]   name
+
+callExpressions:
+
+
+memberExpressions:
+
+
+objectProperties:
+
+
+comments:
+
+
+identifiers:
+[(1, 6), (1, 9)]  App App
+[(2, 2), (2, 13)]  renderHello renderHello
+[(2, 14), (2, 18)]  name name
+[(3, 20), (3, 24)]  name name
+[(1, 18), (1, 27)]  Component Component
+
+classes:
+[(1, 0), (5, 1)]   App
+
+imports:
+"
+`;
+
 exports[`Parser.getSymbols func 1`] = `
 "functions:
 [(1, 0), (3, 1)]   square(n)
@@ -654,7 +692,7 @@ variables:
 [(23, 6), (31, 1)]   obj
 
 callExpressions:
-[(19, 1), (21, 1)]   undefined
+[(19, 1), (21, 1)]
 
 memberExpressions:
 
@@ -712,8 +750,8 @@ objectProperties:
 
 
 comments:
-[(3, 4), (3, 21)]   undefined
-[(7, 2), (7, 24)]   undefined
+[(3, 4), (3, 21)]
+[(7, 2), (7, 24)]
 
 identifiers:
 [(1, 9), (1, 13)]  math math
@@ -829,7 +867,7 @@ classes:
 [(3, 0), (3, 39)]   PrimaryPanes
 
 imports:
-[(1, 0), (1, 41)]   undefined"
+[(1, 0), (1, 41)]     React, Component"
 `;
 
 exports[`Parser.getSymbols var 1`] = `

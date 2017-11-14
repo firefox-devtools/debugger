@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 import React, { PureComponent } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -39,6 +43,9 @@ class Preview extends PureComponent {
     const self = this;
     self.onScroll = this.onScroll.bind(this);
     self.onMouseOver = debounce(this.onMouseOver, 40);
+    self.onMouseOver = this.onMouseOver.bind(this);
+    self.onMouseUp = this.onMouseUp.bind(this);
+    self.onMouseDown = this.onMouseDown.bind(this);
   }
 
   componentDidMount() {
@@ -46,9 +53,19 @@ class Preview extends PureComponent {
     const codeMirrorWrapper = codeMirror.getWrapperElement();
 
     codeMirror.on("scroll", this.onScroll);
-    codeMirrorWrapper.addEventListener("mouseover", e => this.onMouseOver(e));
-    codeMirrorWrapper.addEventListener("mouseup", e => this.onMouseUp(e));
-    codeMirrorWrapper.addEventListener("mousedown", e => this.onMouseDown(e));
+    codeMirrorWrapper.addEventListener("mouseover", this.onMouseOver);
+    codeMirrorWrapper.addEventListener("mouseup", this.onMouseUp);
+    codeMirrorWrapper.addEventListener("mousedown", this.onMouseDown);
+  }
+
+  componentWillUnmount() {
+    const codeMirror = this.props.editor.codeMirror;
+    const codeMirrorWrapper = codeMirror.getWrapperElement();
+    codeMirrorWrapper.removeEventListener("mouseover", this.onMouseOver);
+    codeMirrorWrapper.removeEventListener("mouseup", this.onMouseUp);
+    codeMirrorWrapper.removeEventListener("mousedown", this.onMouseDown);
+
+    codeMirror.off("scroll", this.onScroll);
   }
 
   onMouseOver(e) {

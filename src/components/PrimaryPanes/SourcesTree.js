@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 // React
@@ -36,7 +40,7 @@ import {
   getDirectories
 } from "../../utils/sources-tree";
 import { Set } from "immutable";
-import { showMenu } from "devtools-launchpad";
+import { showMenu } from "devtools-contextmenu";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { throttle } from "../../utils/utils";
 import { features } from "../../utils/prefs";
@@ -124,7 +128,6 @@ class SourcesTree extends Component<Props, State> {
       );
       return;
     }
-    const { selectedSource } = this.props;
     if (
       nextProps.shownSource &&
       nextProps.shownSource != this.props.shownSource
@@ -143,7 +146,7 @@ class SourcesTree extends Component<Props, State> {
 
     if (
       nextProps.selectedSource &&
-      nextProps.selectedSource != selectedSource
+      nextProps.selectedSource != this.props.selectedSource
     ) {
       const highlightItems = getDirectories(
         nextProps.selectedSource.get("url"),
@@ -222,12 +225,20 @@ class SourcesTree extends Component<Props, State> {
   }
 
   getIcon(sources, item, depth) {
+    const { debuggeeUrl } = this.props;
+
     if (item.path === "/Webpack") {
       return <Svg name="webpack" />;
     }
 
     if (depth === 0) {
-      return <img className="domain" />;
+      return (
+        <img
+          className={classnames("domain", {
+            debuggee: debuggeeUrl && debuggeeUrl.includes(item.name)
+          })}
+        />
+      );
     }
 
     if (!nodeHasChildren(item)) {

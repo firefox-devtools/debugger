@@ -635,7 +635,7 @@ When you're starting a new feature, it's always good to ask yourself if the feat
 It's easy to add a new feature flag to the project.
 
 1. add the flag to `assets/panel/prefs.js` and `utils/prefs.js`
-2. add `isEnabled` calls in the code
+2. import `features`
 
 Here's an example of adding a new feature "awesome sauce" to the Debugger:
 
@@ -682,6 +682,19 @@ index 429d56c..dadb36c 100644
  });
 
  if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {
+ 
+diff --git a/src/components/SecondaryPanes/index.js b/src/components/SecondaryPanes/index.js
+index a390df2..c610c1a 100644
+--- a/src/components/SecondaryPanes/index.js
++++ b/src/components/SecondaryPanes/index.js
+@@ -127,6 +127,10 @@ class SecondaryPanes extends Component<Props> {
+   getScopeItem() {
+     const isPaused = () => !!this.props.pauseData;
+
++    if (features.aweseome) {
++      return <div>The Best</div>;
++    }
++
 ```
 
 ### Hot Reloading :fire:

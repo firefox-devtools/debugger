@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 import PropTypes from "prop-types";
@@ -215,9 +219,7 @@ function getSourceForFrame(sources, frame) {
 }
 
 function appendSource(sources, frame) {
-  return Object.assign({}, frame, {
-    source: getSourceForFrame(sources, frame).toJS()
-  });
+  return { ...frame, source: getSourceForFrame(sources, frame).toJS() };
 }
 
 export function getAndProcessFrames(frames: Frame[], sources: SourcesMap) {

@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 import { createFrame, createLoadedObject } from "./create";
@@ -58,13 +62,7 @@ async function paused({
 }: any) {
   const frames = callFrames.map(createFrame);
   const frame = frames[0];
-  const why = Object.assign(
-    {},
-    {
-      type: reason
-    },
-    data
-  );
+  const why = { type: reason, ...data };
 
   const objectId = frame.scopeChain[0].object.objectId;
   const { result } = await runtimeAgent.getProperties({

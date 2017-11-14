@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 import {
@@ -10,11 +14,12 @@ import {
 } from "../selectors";
 
 import { getMappedExpression } from "./expressions";
-import { PROMISE } from "../utils/redux/middleware/promise";
+import { PROMISE } from "./utils/middleware/promise";
 import {
   getSymbols,
   getEmptyLines,
-  getOutOfScopeLocations
+  getOutOfScopeLocations,
+  isReactComponent
 } from "../workers/parser";
 
 import { findBestMatchExpression } from "../utils/ast";
@@ -28,6 +33,29 @@ import type { AstLocation } from "../workers/parser";
 const extraProps = {
   react: { displayName: "this._reactInternalInstance.getName()" }
 };
+
+export function setSourceMetaData(sourceId: SourceId) {
+  return async ({ dispatch, getState }: ThunkArgs) => {
+    const sourceRecord = getSource(getState(), sourceId);
+    if (!sourceRecord) {
+      return;
+    }
+
+    const source = sourceRecord.toJS();
+    if (!source.text || source.isWasm) {
+      return;
+    }
+
+    const isReactComp = await isReactComponent(source);
+    dispatch({
+      type: "SET_SOURCE_METADATA",
+      sourceId: source.id,
+      sourceMetaData: {
+        isReactComponent: isReactComp
+      }
+    });
+  };
+}
 
 export function setSymbols(sourceId: SourceId) {
   return async ({ dispatch, getState }: ThunkArgs) => {
@@ -48,6 +76,9 @@ export function setSymbols(sourceId: SourceId) {
       source,
       symbols
     });
+
+    dispatch(setEmptyLines(source.id));
+    dispatch(setSourceMetaData(source.id));
   };
 }
 

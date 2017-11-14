@@ -1,9 +1,9 @@
-// @flow
-/* eslint complexity: ["error", 30]*/
-
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
+// @flow
+/* eslint complexity: ["error", 30]*/
 
 /**
  * Pause reducer
@@ -12,11 +12,14 @@
 
 import { createSelector } from "reselect";
 import { prefs } from "../utils/prefs";
+import { isEmpty } from "lodash";
 
 import type { Action } from "../actions/types";
+import type { Why } from "debugger-html";
 
 type PauseState = {
   pause: ?any,
+  why: ?Why,
   isWaitingOnBreak: boolean,
   frames: ?(any[]),
   frameScopes: any,
@@ -30,6 +33,7 @@ type PauseState = {
 
 export const State = (): PauseState => ({
   pause: undefined,
+  why: null,
   isWaitingOnBreak: false,
   frames: undefined,
   selectedFrameId: undefined,
@@ -41,19 +45,21 @@ export const State = (): PauseState => ({
   command: ""
 });
 
+const emptyPauseState = {
+  pause: null,
+  frames: null,
+  frameScopes: {},
+  selectedFrameId: null,
+  loadedObjects: {}
+};
+
 function update(state: PauseState = State(), action: Action): PauseState {
   switch (action.type) {
     case "PAUSED": {
-      const {
-        selectedFrameId,
-        frames,
-        scopes,
-        loadedObjects,
-        pauseInfo
-      } = action;
-      pauseInfo.isInterrupted = pauseInfo.why.type === "interrupted";
+      const { selectedFrameId, frames, loadedObjects, pauseInfo } = action;
 
-      const frameScopes = { [selectedFrameId]: scopes };
+      const { why } = pauseInfo;
+      pauseInfo.isInterrupted = pauseInfo.why.type === "interrupted";
 
       // turn this into an object keyed by object id
       const objectMap = {};
@@ -61,31 +67,25 @@ function update(state: PauseState = State(), action: Action): PauseState {
         objectMap[obj.value.objectId] = obj;
       });
 
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isWaitingOnBreak: false,
         pause: pauseInfo,
         selectedFrameId,
         frames,
-        frameScopes,
-        loadedObjects: objectMap
-      });
+        frameScopes: {},
+        loadedObjects: objectMap,
+        why
+      };
     }
 
+    case "ADD_SCOPES":
     case "MAP_SCOPES":
       const { frame, scopes } = action;
       const selectedFrameId = frame.id;
 
-      return {
-        ...state,
-        frameScopes: { ...state.frameScopes, [selectedFrameId]: scopes }
-      };
-    case "RESUME":
-      return Object.assign({}, state, {
-        pause: null,
-        frames: null,
-        selectedFrameId: null,
-        loadedObjects: {}
-      });
+      const frameScopes = { ...state.frameScopes, [selectedFrameId]: scopes };
+      return { ...state, frameScopes };
 
     case "TOGGLE_PRETTY_PRINT":
       if (action.status == "done") {
@@ -95,12 +95,13 @@ function update(state: PauseState = State(), action: Action): PauseState {
           pause.frame = frames[0];
         }
 
-        return Object.assign({}, state, { pause, frames });
+        return { ...state, pause, frames };
       }
 
       break;
+
     case "BREAK_ON_NEXT":
-      return Object.assign({}, state, { isWaitingOnBreak: true });
+      return { ...state, isWaitingOnBreak: true };
 
     case "SELECT_FRAME":
       return {
@@ -121,7 +122,7 @@ function update(state: PauseState = State(), action: Action): PauseState {
 
       if (action.status === "done") {
         if (!action.value) {
-          return Object.assign({}, state);
+          return { ...state };
         }
 
         const ownProperties = action.value.ownProperties;
@@ -139,7 +140,7 @@ function update(state: PauseState = State(), action: Action): PauseState {
       break;
 
     case "CONNECT":
-      return Object.assign({}, State(), { debuggeeUrl: action.url });
+      return { ...State(), debuggeeUrl: action.url };
 
     case "PAUSE_ON_EXCEPTIONS":
       const { shouldPauseOnExceptions, shouldIgnoreCaughtExceptions } = action;
@@ -147,16 +148,21 @@ function update(state: PauseState = State(), action: Action): PauseState {
       prefs.pauseOnExceptions = shouldPauseOnExceptions;
       prefs.ignoreCaughtExceptions = shouldIgnoreCaughtExceptions;
 
-      return Object.assign({}, state, {
+      return {
+        ...state,
         shouldPauseOnExceptions,
         shouldIgnoreCaughtExceptions
-      });
+      };
 
     case "COMMAND":
-      return { ...state, command: action.value.type };
+      return action.status === "start"
+        ? { ...state, ...emptyPauseState, command: action.command }
+        : { ...state, command: "" };
 
-    case "CLEAR_COMMAND":
-      return { ...state, command: "" };
+    case "RESUME":
+      // We clear why on resume because we need it to decide if
+      // we shoul re-evaluate watch expressions.
+      return { ...state, why: null };
 
     case "EVALUATE_EXPRESSION":
       return {
@@ -165,7 +171,7 @@ function update(state: PauseState = State(), action: Action): PauseState {
       };
 
     case "NAVIGATE":
-      return { ...state, debuggeeUrl: action.url };
+      return { ...state, ...emptyPauseState, debuggeeUrl: action.url };
   }
 
   return state;
@@ -194,6 +200,10 @@ export const getLoadedObjects = createSelector(
   pauseWrapper => pauseWrapper.loadedObjects
 );
 
+export function getPauseReason(state: OuterState): ?Why {
+  return state.pause.why;
+}
+
 export function isStepping(state: OuterState) {
   return ["stepIn", "stepOver", "stepOut"].includes(state.pause.command);
 }
@@ -206,21 +216,13 @@ export function isEvaluatingExpression(state: OuterState) {
   return state.pause.command === "expression";
 }
 
-export function pausedInEval(state: OuterState) {
-  if (!state.pause.pause) {
-    return false;
-  }
-
-  const exception = state.pause.pause.why.exception;
-  if (!exception) {
-    return false;
-  }
-
-  return exception.preview.fileName === "debugger eval code";
-}
-
 export function getLoadedObject(state: OuterState, objectId: string) {
   return getLoadedObjects(state)[objectId];
+}
+
+export function hasLoadingObjects(state: OuterState) {
+  const objects = getLoadedObjects(state);
+  return Object.values(objects).some(isEmpty);
 }
 
 export function getObjectProperties(state: OuterState, parentId: string) {
@@ -243,8 +245,17 @@ export function getFrames(state: OuterState) {
   return state.pause.frames;
 }
 
-export function getFrameScopes(state: OuterState, frameId: string) {
+export function getFrameScope(state: OuterState, frameId: ?string) {
+  if (!frameId) {
+    return null;
+  }
+
   return state.pause.frameScopes[frameId];
+}
+
+export function getSelectedScope(state: OuterState) {
+  const frameId = getSelectedFrameId(state);
+  return getFrameScope(state, frameId);
 }
 
 export function getScopes(state: OuterState) {

@@ -11,13 +11,20 @@ function render(overrides = {}) {
     searchSources: jest.fn(),
     selectSource: jest.fn()
   };
-  const props = Object.assign({}, defaultProps, overrides);
+  const props = { ...defaultProps, ...overrides };
 
   const component = shallow(<TextSearch {...props} />);
   return component;
 }
 
 describe("TextSearch", () => {
+  it("where <Enter> has not been pressed", () => {
+    const component = render({
+      query: ""
+    });
+    expect(component).toMatchSnapshot();
+  });
+
   it("found no search results", () => {
     const component = render();
     expect(component).toMatchSnapshot();

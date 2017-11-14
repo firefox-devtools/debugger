@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 import React, { Component } from "react";
 import { isEnabled } from "devtools-config";
@@ -6,7 +10,7 @@ import ReactDOM from "react-dom";
 import classnames from "classnames";
 import Svg from "../shared/Svg";
 
-import { getDocument, showSourceText, toEditorLine } from "../../utils/editor";
+import { getDocument, toEditorLine } from "../../utils/editor";
 
 const breakpointSvg = document.createElement("div");
 ReactDOM.render(<Svg name="breakpoint" />, breakpointSvg);
@@ -51,8 +55,6 @@ class Breakpoint extends Component<Props> {
 
     const sourceId = selectedSource.get("id");
     const line = toEditorLine(sourceId, breakpoint.location.line);
-
-    showSourceText(editor, selectedSource.toJS());
 
     editor.codeMirror.setGutterMarker(
       line,

@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 import React, { PureComponent } from "react";
@@ -17,7 +21,7 @@ import { getFilename, getFileURL, isPretty } from "../../utils/source";
 import classnames from "classnames";
 import actions from "../../actions";
 import CloseButton from "../shared/Button/Close";
-import { showMenu, buildMenu } from "devtools-launchpad";
+import { showMenu, buildMenu } from "devtools-contextmenu";
 import { debounce } from "lodash";
 import "./Tabs.css";
 

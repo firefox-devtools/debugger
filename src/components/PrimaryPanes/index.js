@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 import React, { Component } from "react";
@@ -5,7 +9,11 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { formatKeyShortcut } from "../../utils/text";
 import actions from "../../actions";
-import { getSources, getActiveSearch } from "../../selectors";
+import {
+  getSources,
+  getActiveSearch,
+  getSelectedPrimaryPaneTab
+} from "../../selectors";
 import { isEnabled } from "devtools-config";
 import "./Sources.css";
 import classnames from "classnames";
@@ -16,6 +24,8 @@ import SourcesTree from "./SourcesTree";
 import type { SourcesMap } from "../../reducers/types";
 
 type Props = {
+  selectedTab: string,
+  setPrimaryPaneTab: string => void,
   sources: SourcesMap,
   selectSource: (string, Object) => void,
   horizontal: boolean,
@@ -24,11 +34,7 @@ type Props = {
   sourceSearchOn: boolean
 };
 
-type State = {
-  selectedPane: string
-};
-
-class PrimaryPanes extends Component<Props, State> {
+class PrimaryPanes extends Component<Props> {
   renderShortcut: Function;
   selectedPane: String;
   showPane: Function;
@@ -37,7 +43,6 @@ class PrimaryPanes extends Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    this.state = { selectedPane: "sources" };
 
     this.renderShortcut = this.renderShortcut.bind(this);
     this.showPane = this.showPane.bind(this);
@@ -45,7 +50,7 @@ class PrimaryPanes extends Component<Props, State> {
   }
 
   showPane(selectedPane: string) {
-    this.setState({ selectedPane });
+    this.props.setPrimaryPaneTab(selectedPane);
   }
 
   renderOutlineTabs() {
@@ -60,7 +65,7 @@ class PrimaryPanes extends Component<Props, State> {
     return [
       <div
         className={classnames("tab", {
-          active: this.state.selectedPane === "sources"
+          active: this.props.selectedTab === "sources"
         })}
         onClick={() => this.showPane("sources")}
         key="sources-tab"
@@ -69,7 +74,7 @@ class PrimaryPanes extends Component<Props, State> {
       </div>,
       <div
         className={classnames("tab", {
-          active: this.state.selectedPane === "outline"
+          active: this.props.selectedTab === "outline"
         })}
         onClick={() => this.showPane("outline")}
         key="outline-tab"
@@ -120,12 +125,12 @@ class PrimaryPanes extends Component<Props, State> {
   }
 
   render() {
-    const { selectedPane } = this.state;
+    const { selectedTab } = this.props;
 
     return (
       <div className="sources-panel">
         {this.renderTabs()}
-        {selectedPane === "sources"
+        {selectedTab === "sources"
           ? this.renderSources()
           : this.renderOutline()}
       </div>
@@ -135,6 +140,7 @@ class PrimaryPanes extends Component<Props, State> {
 
 export default connect(
   state => ({
+    selectedTab: getSelectedPrimaryPaneTab(state),
     sources: getSources(state),
     sourceSearchOn: getActiveSearch(state) === "source"
   }),

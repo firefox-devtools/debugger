@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 import React, { PureComponent } from "react";
 import * as I from "immutable";
@@ -17,7 +21,7 @@ import {
 import { makeLocationId } from "../../utils/breakpoint";
 import { endTruncateStr } from "../../utils/utils";
 import { getFilename } from "../../utils/source";
-import { showMenu, buildMenu } from "devtools-launchpad";
+import { showMenu, buildMenu } from "devtools-contextmenu";
 import CloseButton from "../shared/Button/Close";
 import "./Breakpoints.css";
 import { get, sortBy } from "lodash";
@@ -36,7 +40,10 @@ type Props = {
   breakpoints: BreakpointsMap,
   enableBreakpoint: Location => void,
   disableBreakpoint: Location => void,
-  selectSource: (string, { line: number }) => void,
+  selectSource: (
+    string,
+    { location: { line: number, column: number } }
+  ) => void,
   removeBreakpoint: string => void,
   removeAllBreakpoints: () => void,
   removeBreakpoints: BreakpointsMap => void,
@@ -44,7 +51,7 @@ type Props = {
   toggleAllBreakpoints: boolean => void,
   toggleDisabledBreakpoint: number => void,
   setBreakpointCondition: Location => void,
-  toggleConditionalBreakpointPanel: number => void
+  openConditionalPanel: number => void
 };
 
 function isCurrentlyPausedAtBreakpoint(pause, breakpoint) {
@@ -107,7 +114,7 @@ class Breakpoints extends PureComponent<Props> {
       toggleAllBreakpoints,
       toggleDisabledBreakpoint,
       setBreakpointCondition,
-      toggleConditionalBreakpointPanel,
+      openConditionalPanel,
       breakpoints
     } = this.props;
 
@@ -268,7 +275,7 @@ class Breakpoints extends PureComponent<Props> {
       accesskey: addConditionKey,
       click: () => {
         this.selectBreakpoint(breakpoint);
-        toggleConditionalBreakpointPanel(breakpoint.location.line);
+        openConditionalPanel(breakpoint.location.line);
       }
     };
 
@@ -278,7 +285,7 @@ class Breakpoints extends PureComponent<Props> {
       accesskey: editConditionKey,
       click: () => {
         this.selectBreakpoint(breakpoint);
-        toggleConditionalBreakpointPanel(breakpoint.location.line);
+        openConditionalPanel(breakpoint.location.line);
       }
     };
 
@@ -330,17 +337,13 @@ class Breakpoints extends PureComponent<Props> {
 
   selectBreakpoint(breakpoint) {
     const sourceId = breakpoint.location.sourceId;
-    const line = breakpoint.location.line;
-    this.props.selectSource(sourceId, { line });
+    const { location } = breakpoint;
+    this.props.selectSource(sourceId, { location });
   }
 
   removeBreakpoint(event, breakpoint) {
     event.stopPropagation();
     this.props.removeBreakpoint(breakpoint.location);
-  }
-
-  toggleConditionalBreakpointPanel(line) {
-    this.props.toggleConditionalBreakpointPanel(line);
   }
 
   renderBreakpoint(breakpoint) {
@@ -412,12 +415,8 @@ function updateLocation(sources, pause, bp): LocalBreakpoint {
   const isCurrentlyPaused = isCurrentlyPausedAtBreakpoint(pause, bp);
   const locationId = makeLocationId(bp.location);
 
-  const location = Object.assign({}, bp.location, { source });
-  const localBP = Object.assign({}, bp, {
-    location,
-    locationId,
-    isCurrentlyPaused
-  });
+  const location = { ...bp.location, source };
+  const localBP = { ...bp, location, locationId, isCurrentlyPaused };
 
   return localBP;
 }

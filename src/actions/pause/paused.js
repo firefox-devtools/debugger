@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 import {
@@ -10,7 +14,7 @@ import { evaluateExpressions } from "../expressions";
 import { selectSource } from "../sources";
 import { togglePaneCollapse } from "../ui";
 
-import { mapScopes } from "./mapScopes";
+import { fetchScopes } from "./fetchScopes";
 
 import type { Pause } from "../../types";
 import type { ThunkArgs } from "../types";
@@ -28,13 +32,11 @@ export function paused(pauseInfo: Pause) {
 
     const mappedFrames = await updateFrameLocations(frames, sourceMaps);
     const frame = mappedFrames[0];
-    const frameScopes = await client.getFrameScopes(frame);
 
     dispatch({
       type: "PAUSED",
       pauseInfo: { why, frame, frames },
       frames: mappedFrames,
-      scopes: frameScopes,
       selectedFrameId: frame.id,
       loadedObjects: loadedObjects || []
     });
@@ -49,9 +51,11 @@ export function paused(pauseInfo: Pause) {
     }
 
     const { line, column } = frame.location;
-    await dispatch(selectSource(frame.location.sourceId, { line, column }));
+    await dispatch(
+      selectSource(frame.location.sourceId, { location: { line, column } })
+    );
 
     dispatch(togglePaneCollapse("end", false));
-    dispatch(mapScopes());
+    dispatch(fetchScopes());
   };
 }

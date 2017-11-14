@@ -4,6 +4,7 @@
 * [Test Steps](#test-steps)
 * [Testing](#testing)
 * [Reviews](#reviews)
+* [Spell Checking](#spell-checking)
 * [Git Workflow](#git-workflow)
 * [Updates](#updates)
 * [CI](#ci)
@@ -103,6 +104,15 @@ Steps:
 2. Add the user's remote: `git remote add <usenamer> <user's fork>` this is the URL you'd use to clone the user's fork.
 3. Fetch the user's branches `git fetch <username>`
 4. checkout the user's branch `git checkout --track <username>/<pr-branch>`. `--track` is helpful if you later want to pull down subsequent changes to the PR.
+
+### Spell Checking
+
+We use the fabulous [retext] project for spell checking and other grammatical checks. If you see a spell checking error in your markdown, you can add some of the misspelled words to our dictionary in [`assets/dictionary.txt`](../assets/dictionary.txt)
+
+![][sc]
+
+[retext]: https://unifiedjs.github.io/
+[sc]: https://user-images.githubusercontent.com/254562/32508090-342a0d62-c3b7-11e7-80aa-17b430a675fd.png
 
 ### Git Workflow
 
