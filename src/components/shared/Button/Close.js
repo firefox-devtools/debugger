@@ -6,18 +6,20 @@ import "./Close.css";
 type Props = {
   handleClick: Function,
   buttonClass?: string,
-  tooltip?: string
+  tooltip?: string,
+  tabIndex?: role
 };
 
-function CloseButton({ handleClick, buttonClass, tooltip }: Props) {
+function CloseButton({ handleClick, buttonClass, tooltip, tabIndex }: Props) {
   return (
-    <div
+    <button
       className={buttonClass ? `close-btn ${buttonClass}` : "close-btn"}
       onClick={handleClick}
       title={tooltip}
+      tabIndex={tabIndex}
     >
       <Svg name="close" />
-    </div>
+    </button>
   );
 }
 

@@ -147,7 +147,11 @@ class SearchInput extends Component {
         <input {...inputProps} />
         <div className="summary">{summaryMsg || ""}</div>
         {this.renderNav()}
-        <CloseButton handleClick={handleClose} buttonClass={size} />
+        <CloseButton
+          tabIndex="0"
+          handleClick={handleClose}
+          buttonClass={size}
+        />
       </div>
     );
   }
