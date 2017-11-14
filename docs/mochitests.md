@@ -81,7 +81,7 @@ The mochitest logs provide some context:
 
 ![](https://shipusercontent.com/90d3d0484aedcdbe9e2bc1aa291a6eb8/Screen%20Shot%202017-10-26%20at%205.42.41%20PM.png)
 
-**In depth [walkthrough][ex]**
+**In depth [walk through][ex]**
 
 [ex]: https://docs.google.com/document/d/1kH36V0bue0U_8Jmd2ohMutByMf4g8_iFNbTCx15d0kE/edit#
 
