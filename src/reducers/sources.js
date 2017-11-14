@@ -303,6 +303,10 @@ export function getPendingSelectedLocation(state: OuterState) {
   return state.sources.pendingSelectedLocation;
 }
 
+export function hasPrettySounce(state: OuterState, id: string) {
+  return !!getPrettySource(state, id);
+}
+
 export function getPrettySource(state: OuterState, id: string) {
   const source = getSource(state, id);
   if (!source) {

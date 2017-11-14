@@ -16,7 +16,8 @@ import {
   getContextMenu,
   getSelectedLocation,
   getSelectedSource,
-  getSymbols
+  getSymbols,
+  hasPrettySounce
 } from "../../selectors";
 
 import actions from "../../actions";
@@ -38,7 +39,8 @@ function getMenuItems(
     addExpression,
     getFunctionText,
     getFunctionLocation,
-    flashLineRange
+    flashLineRange,
+    hasPrettyPrint
   }
 ) {
   const copySourceLabel = L10N.getStr("copySource");
@@ -88,10 +90,16 @@ function getMenuItems(
   const hasSourceMap = selectedSource.get("sourceMapURL");
   const isPrettyPrinted = isPretty(selectedSource.toJS());
 
+  // the source is neither pretty nor affiliated w/ a pretty source
+  const notPretty = hasPrettyPrint || isPrettyPrinted;
+
+  // the source is generated and does not have a bundle
+  const noMapping = isGeneratedId && !hasSourceMap;
+
   const jumpLabel = {
     id: "node-menu-jump",
     accesskey: L10N.getStr("editor.jumpToMappedLocation1.accesskey"),
-    disabled: isGeneratedId && !hasSourceMap,
+    disabled: noMapping && !notPretty,
     label: L10N.getFormatStr(
       "editor.jumpToMappedLocation1",
       isOriginal ? L10N.getStr("generated") : L10N.getStr("original")
@@ -192,6 +200,7 @@ export default connect(
     const selectedSource = getSelectedSource(state);
     return {
       selectedLocation: getSelectedLocation(state),
+      hasPrettyPrint: hasPrettySounce(state, selectedSource.get("id")),
       selectedSource,
       contextMenu: getContextMenu(state),
       getFunctionText: line =>
