@@ -58,3 +58,7 @@ AUTOCLOBBER=1
 href
 linter
 findSource
+airtable
+waitForPaused
+togglePaneCollapse
+CRM
