@@ -7,7 +7,7 @@ type Props = {
   handleClick: Function,
   buttonClass?: string,
   tooltip?: string,
-  tabIndex?: role
+  tabIndex?: string
 };
 
 function CloseButton({ handleClick, buttonClass, tooltip, tabIndex }: Props) {
