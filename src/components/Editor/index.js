@@ -224,9 +224,7 @@ class Editor extends PureComponent<Props, State> {
   }
 
   componentWillUpdate(nextProps) {
-    if (nextProps.selectedSource !== this.props.selectedSource) {
-      this.setText(nextProps);
-    }
+    this.setText(nextProps);
     this.setSize(nextProps);
   }
 
