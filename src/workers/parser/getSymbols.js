@@ -117,7 +117,8 @@ function extractSymbols(source: Source) {
           klass: inferClassName(path),
           location: path.node.loc,
           parameterNames: getFunctionParameterNames(path),
-          identifier: path.node.id
+          identifier: path.node.id,
+          body: path.node.body
         });
       }
 
