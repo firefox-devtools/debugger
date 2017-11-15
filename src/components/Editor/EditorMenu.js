@@ -91,7 +91,7 @@ function getMenuItems(
   const hasSourceMap = selectedSource.get("sourceMapURL");
   const isPrettyPrinted = isPretty(selectedSource.toJS());
   const isPrettyTabOpen =
-    !isOriginal && tabs.includes(getPrettySourceURL(selectedSource.get("url")));
+    isGenerated && tabs.includes(getPrettySourceURL(selectedSource.get("url")));
 
   const jumpLabel = {
     accesskey: L10N.getStr("editor.jumpToMappedLocation1.accesskey"),
