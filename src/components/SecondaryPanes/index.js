@@ -168,6 +168,10 @@ class SecondaryPanes extends Component<Props> {
   }
 
   breakpointButton() {
+    if (features.breakpointsDropdown) {
+      return;
+    }
+
     const {
       breakOnNext,
       pauseOnExceptions,
@@ -175,10 +179,6 @@ class SecondaryPanes extends Component<Props> {
       shouldIgnoreCaughtExceptions,
       isWaitingOnBreak
     } = this.props;
-
-    if (!features.breakpointsDropdown) {
-      return;
-    }
 
     return renderBreakpointsDropdown(
       breakOnNext,

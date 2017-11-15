@@ -15,6 +15,7 @@ import {
   getShouldIgnoreCaughtExceptions
 } from "../../selectors";
 import { formatKeyShortcut } from "../../utils/text";
+import { features } from "../../utils/prefs";
 import actions from "../../actions";
 import "./CommandBar.css";
 
@@ -205,6 +206,10 @@ class CommandBar extends Component<Props> {
    *  3. pause on all exceptions        [true, false]
   */
   renderPauseOnExceptions() {
+    if (!features.breakpointsDropdown) {
+      return;
+    }
+
     const {
       shouldPauseOnExceptions,
       shouldIgnoreCaughtExceptions,
