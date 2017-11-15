@@ -2,15 +2,11 @@
   margin-left: 8px;
 }
 
-.dropdown div > img {
-  vertical-align: middle;
-}
-
 img.pause-next,
 img.pause-on-exceptions,
 img.pause-uncaught-exceptions,
 img.ignore-exceptions {
-  background-color: var(--theme-body-color);
+  vertical-align: middle;
   width: 16px;
   height: 16px;
   display: inline-block;
@@ -18,32 +14,27 @@ img.ignore-exceptions {
 
 .dropdown div > img.pause-next {
   mask: url(/images/pause.svg) no-repeat;
-}
-
-.dropdown div > img.pause-on-exceptions {
-  mask: url(/images/pause-exceptions.svg) no-repeat;
-}
-
-.dropdown div > img.pause-uncaught-exceptions {
-  mask: url(/images/pause-exceptions.svg) no-repeat;
+  background-color: var(--theme-body-color);
 }
 
 .dropdown div > img.ignore-exceptions {
   mask: url(/images/pause-exceptions.svg) no-repeat;
+  background-color: var(--theme-body-color);
 }
 
-.dropdown div.pause-next.active > img.pause-next {
+.dropdown div > img.pause-uncaught-exceptions {
+  mask: url(/images/pause-exceptions.svg) no-repeat;
+  background-color: var(--theme-highlight-purple);
+}
+
+.dropdown div > img.pause-on-exceptions {
+  mask: url(/images/pause-exceptions.svg) no-repeat;
   background-color: var(--theme-highlight-blue);
 }
 
-.dropdown div.pause-on-exceptions.active > img.pause-on-exceptions {
-  background-color: var(--theme-highlight-blue);
-}
-
-.dropdown div.pause-uncaught-exceptions.active > img.pause-uncaught-exceptions {
-  background-color: var(--theme-highlight-blue);
-}
-
-.dropdown div.ignore-exceptions.active > img.ignore-exceptions {
-  background-color: var(--theme-highlight-blue);
+.dropdown div.pause-next.active,
+.dropdown div.pause-on-exceptions.active,
+.dropdown div.pause-uncaught-exceptions.active,
+.dropdown div.ignore-exceptions.active > span.icon-spacer {
+  color: var(--theme-highlight-blue);
 }
