@@ -9,8 +9,7 @@ import ReactDOM from "react-dom";
 import { connect } from "react-redux";
 import classnames from "classnames";
 import { debugGlobal } from "devtools-launchpad";
-import { isLoaded, isMinified } from "../../utils/source";
-import { isOriginalId } from "devtools-source-map";
+import { isLoaded } from "../../utils/source";
 import { isFirefox } from "devtools-config";
 import { SourceEditor } from "devtools-source-editor";
 
@@ -89,7 +88,6 @@ type Props = {
   setContextMenu: (string, any) => void,
   continueToHere: number => void,
   toggleBreakpoint: number => void,
-  togglePrettyPrint: string => void,
   addOrToggleDisabledBreakpoint: number => void,
   jumpToMappedLocation: any => void,
   traverseResults: (boolean, Object) => void
@@ -474,7 +472,7 @@ class Editor extends PureComponent<Props, State> {
   }
 
   setText(props) {
-    const { selectedSource, sourceMetaData, togglePrettyPrint } = props;
+    const { selectedSource, sourceMetaData } = props;
     if (!this.state.editor) {
       return;
     }
@@ -492,15 +490,6 @@ class Editor extends PureComponent<Props, State> {
     }
 
     if (selectedSource) {
-      // auto-prettyprint the source
-      const selected = selectedSource.toJS();
-      if (
-        selected.text &&
-        !isOriginalId(selected.id) &&
-        isMinified(selected.id, selected.text)
-      ) {
-        togglePrettyPrint(selectedSource.get("id"));
-      }
       return showSourceText(
         this.state.editor,
         selectedSource.toJS(),

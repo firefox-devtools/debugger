@@ -24,7 +24,7 @@ import { loadSourceText } from "./sources/loadSourceText";
 
 import { prefs } from "../utils/prefs";
 import { removeDocument } from "../utils/editor";
-import { isThirdParty } from "../utils/source";
+import { isThirdParty, isMinified } from "../utils/source";
 import { getGeneratedLocation } from "../utils/source-maps";
 
 import {
@@ -207,6 +207,10 @@ export function selectSource(id: string, options: SelectSourceOptions = {}) {
       [PROMISE]: (async () => {
         await dispatch(loadSourceText(source.toJS()));
         await dispatch(setOutOfScopeLocations());
+        const src = getSource(getState(), id).toJS();
+        if (isMinified(src.id, src.text)) {
+          await dispatch(togglePrettyPrint(src.id));
+        }
       })()
     });
   };
