@@ -32,6 +32,7 @@ type Props = {
   editor: any,
   togglePrettyPrint: string => void,
   toggleBlackBox: Object => void,
+  jumpToMappedLocation: (SourceRecord: any) => void,
   recordCoverage: () => void,
   togglePaneCollapse: () => void,
   endPanelCollapsed: boolean,
@@ -155,16 +156,28 @@ class SourceFooter extends PureComponent<Props> {
   }
 
   renderSourceSummary() {
-    const { mappedSource } = this.props;
+    const { mappedSource, jumpToMappedLocation } = this.props;
     if (mappedSource) {
       const bundleSource = mappedSource.toJS();
+      const filename = getFilename(bundleSource);
+      const tooltip = L10N.getFormatStr(
+        "sourceFooter.mappedSourceTooltip",
+        filename
+      );
+      const title = L10N.getFormatStr("sourceFooter.mappedSource", filename);
+      const mappedSourceLocation = {
+        sourceId: bundleSource.id,
+        line: 1,
+        column: 1
+      };
       return (
-        <span className="mapped-source">
-          {L10N.getFormatStr(
-            "sourceFooter.mappedSource",
-            getFilename(bundleSource)
-          )}
-        </span>
+        <button
+          className="mapped-source"
+          onClick={() => jumpToMappedLocation(mappedSourceLocation)}
+          title={tooltip}
+        >
+          <span>{title}</span>
+        </button>
       );
     }
     return null;
