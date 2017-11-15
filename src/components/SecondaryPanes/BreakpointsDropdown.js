@@ -22,12 +22,11 @@ function renderPause(isWaitingOnBreak) {
 
 function renderPauseOnExceptions(
   shouldPauseOnExceptions,
-  shouldIgnoreCaughtExceptions,
-  isWaitingOnBreak
+  shouldIgnoreCaughtExceptions
 ) {
   const active =
     (shouldPauseOnExceptions || shouldIgnoreCaughtExceptions) &&
-    (!shouldPauseOnExceptions || !shouldIgnoreCaughtExceptions)
+    (!shouldPauseOnExceptions || !shouldIgnoreCaughtExceptions);
   return (
     <div
       className={classnames("pause-on-exceptions", {
@@ -45,12 +44,9 @@ function renderPauseOnExceptions(
 
 function renderPauseOnUncaughtExceptions(
   shouldPauseOnExceptions,
-  shouldIgnoreCaughtExceptions,
-  isWaitingOnBreak
+  shouldIgnoreCaughtExceptions
 ) {
-  const active =
-    shouldPauseOnExceptions &&
-    shouldIgnoreCaughtExceptions
+  const active = shouldPauseOnExceptions && shouldIgnoreCaughtExceptions;
   return (
     <div
       className={classnames("pause-uncaught-exceptions", {
@@ -68,12 +64,9 @@ function renderPauseOnUncaughtExceptions(
 
 function renderIgnoreExceptions(
   shouldPauseOnExceptions,
-  shouldIgnoreCaughtExceptions,
-  isWaitingOnBreak
+  shouldIgnoreCaughtExceptions
 ) {
-  const active =
-    !shouldPauseOnExceptions &&
-    !shouldIgnoreCaughtExceptions
+  const active = !shouldPauseOnExceptions && !shouldIgnoreCaughtExceptions;
   return (
     <div
       className={classnames("ignore-exceptions", {
@@ -104,22 +97,19 @@ export default function renderBreakpointsDropdown(
       <li onClick={() => pauseOnExceptions(true, true)}>
         {renderPauseOnUncaughtExceptions(
           shouldPauseOnExceptions,
-          shouldIgnoreCaughtExceptions,
-          isWaitingOnBreak
+          shouldIgnoreCaughtExceptions
         )}
       </li>
       <li onClick={() => pauseOnExceptions(true, false)}>
         {renderPauseOnExceptions(
           shouldPauseOnExceptions,
-          shouldIgnoreCaughtExceptions,
-          isWaitingOnBreak
+          shouldIgnoreCaughtExceptions
         )}
       </li>
       <li onClick={() => pauseOnExceptions(false, false)}>
         {renderIgnoreExceptions(
           shouldPauseOnExceptions,
-          shouldIgnoreCaughtExceptions,
-          isWaitingOnBreak
+          shouldIgnoreCaughtExceptions
         )}
       </li>
     </ul>
