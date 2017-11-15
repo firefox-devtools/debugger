@@ -35,3 +35,65 @@ function extendsComponent(classes) {
 
   return result;
 }
+
+export function isReduxAction(source) {
+  const { functions } = getSymbols(source);
+
+  if (!functions) {
+    return false;
+  }
+
+  return containsAction(functions);
+}
+
+function containsAction(functions) {
+  let result = false;
+
+  functions.some(action => {
+    if (!result && isAction(action)) {
+      result = true;
+    }
+  });
+
+  return result;
+}
+
+function isAction(action) {
+  let result = false;
+
+  if (action.body.type === "BlockStatement") {
+    const innerBodies = action.body.body;
+    innerBodies.some(innerBody => {
+      if (!result && innerBody.type === "ReturnStatement") {
+        const params = innerBody.argument.params;
+        params.some(param => {
+          const properties = param.properties;
+          properties.some(property => {
+            if (
+              property.key.name === "dispatch" ||
+              property.value.name === "dispatch"
+            ) {
+              result = true;
+            }
+          });
+        });
+      }
+    });
+  }
+
+  return result;
+}
+
+export function isReduxReducer(source) {
+  const { functions } = getSymbols(source);
+
+  if (!functions) {
+    return false;
+  }
+
+  return containsReducer(functions);
+}
+
+function containsReducer(functions) {
+  return false;
+}
