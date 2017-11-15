@@ -216,7 +216,7 @@ let _minifiedCache = new Map();
  * @static
  */
 
-function isMinified(key, text) {
+function isMinified(key: string, text: string) {
   if (_minifiedCache.has(key)) {
     return _minifiedCache.get(key);
   }
