@@ -94,6 +94,12 @@ export default function renderBreakpointsDropdown(
   const Panel = (
     <ul>
       <li onClick={() => breakOnNext()}>{renderPause(isWaitingOnBreak)}</li>
+      <li onClick={() => pauseOnExceptions(false, false)}>
+        {renderIgnoreExceptions(
+          shouldPauseOnExceptions,
+          shouldIgnoreCaughtExceptions
+        )}
+      </li>
       <li onClick={() => pauseOnExceptions(true, true)}>
         {renderPauseOnUncaughtExceptions(
           shouldPauseOnExceptions,
@@ -102,12 +108,6 @@ export default function renderBreakpointsDropdown(
       </li>
       <li onClick={() => pauseOnExceptions(true, false)}>
         {renderPauseOnExceptions(
-          shouldPauseOnExceptions,
-          shouldIgnoreCaughtExceptions
-        )}
-      </li>
-      <li onClick={() => pauseOnExceptions(false, false)}>
-        {renderIgnoreExceptions(
           shouldPauseOnExceptions,
           shouldIgnoreCaughtExceptions
         )}
