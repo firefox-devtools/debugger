@@ -156,7 +156,7 @@ class SourceFooter extends PureComponent<Props> {
   }
 
   renderSourceSummary() {
-    const { mappedSource, jumpToMappedLocation } = this.props;
+    const { mappedSource, jumpToMappedLocation, selectedSource } = this.props;
     if (mappedSource) {
       const bundleSource = mappedSource.toJS();
       const filename = getFilename(bundleSource);
@@ -166,7 +166,7 @@ class SourceFooter extends PureComponent<Props> {
       );
       const title = L10N.getFormatStr("sourceFooter.mappedSource", filename);
       const mappedSourceLocation = {
-        sourceId: bundleSource.id,
+        sourceId: selectedSource.get("id"),
         line: 1,
         column: 1
       };
