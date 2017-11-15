@@ -38,26 +38,26 @@ function getLocation(func) {
 }
 
 /**
- * Reduces an array of locations to remove items that are completely enclosed
- * by another location in the array.
+ * Return an new locations array which excludes
+ * items that are completely enclosed by another location in the input locations
+ *
+ * @param locations Notice! The locations MUST be sorted by `sortByStart`
+ *                  so that we can do linear time complexity operation.
  */
-function removeOverlaps(
-  locations: AstLocation | AstLocation[],
-  location: AstLocation
-) {
-  // support reducing without an initializing array
-  if (!Array.isArray(locations)) {
-    locations = [locations];
+function removeOverlaps(locations: AstLocation[]) {
+  const newLocs = [];
+  const length = locations.length;
+  if (length) {
+    newLocs.push(locations[0]);
+    for (let i = 1, parentIdx = 0; i < length; i++) {
+      const loc = locations[i];
+      if (containsLocation(locations[parentIdx], loc) == false) {
+        newLocs.push(loc);
+        parentIdx = i;
+      }
+    }
   }
-
-  const contains =
-    locations.filter(a => containsLocation(a, location)).length > 0;
-
-  if (!contains) {
-    locations.push(location);
-  }
-
-  return locations;
+  return newLocs;
 }
 
 /**
@@ -83,13 +83,12 @@ function getOutOfScopeLocations(
 ): AstLocation[] {
   const { functions, comments } = findSymbols(source);
   const commentLocations = comments.map(c => c.location);
-
-  return functions
+  const locations = functions
     .map(getLocation)
     .concat(commentLocations)
-    .filter(loc => !containsPosition(loc, position))
-    .reduce(removeOverlaps, [])
-    .sort(sortByStart);
+    .sort(sortByStart)
+    .filter(loc => !containsPosition(loc, position));
+  return removeOverlaps(locations);
 }
 
 export default getOutOfScopeLocations;
