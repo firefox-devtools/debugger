@@ -14,12 +14,6 @@
 
 .search-field .close-btn {
   margin-top: 7px;
-  display: inline-flex;
-}
-
-.search-field .close-btn img.close {
-  margin-top: 3px;
-  margin-left: -1.5px;
 }
 
 .search-bottom-bar * {

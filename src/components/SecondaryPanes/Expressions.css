@@ -64,13 +64,7 @@
 }
 
 .expression-container__close-btn .close-btn {
-  padding-left: 3px;
   margin-top: 2px;
-}
-
-.expression-container__close-btn .close-btn img.close {
-  padding-top: 11px;
-  margin-left: -0.5px;
 }
 
 .expression-content {
@@ -84,10 +78,6 @@
 
 .expression-content .tree-node {
   overflow-x: hidden;
-}
-
-.expression-container:hover .close-btn {
-  display: inline-block;
 }
 
 .expression-input {
