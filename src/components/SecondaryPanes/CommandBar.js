@@ -206,7 +206,7 @@ class CommandBar extends Component<Props> {
    *  3. pause on all exceptions        [true, false]
   */
   renderPauseOnExceptions() {
-    if (!features.breakpointsDropdown) {
+    if (features.breakpointsDropdown) {
       return;
     }
 

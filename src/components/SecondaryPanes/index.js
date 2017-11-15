@@ -168,7 +168,7 @@ class SecondaryPanes extends Component<Props> {
   }
 
   breakpointButton() {
-    if (features.breakpointsDropdown) {
+    if (!features.breakpointsDropdown) {
       return;
     }
 
