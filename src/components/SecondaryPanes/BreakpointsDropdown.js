@@ -93,7 +93,9 @@ export default function renderBreakpointsDropdown(
 ) {
   const Panel = (
     <ul>
-      <li onClick={() => breakOnNext()}>{renderPause(isWaitingOnBreak)}</li>
+      <li onClick={() => breakOnNext()} className="first">
+        {renderPause(isWaitingOnBreak)}
+      </li>
       <li onClick={() => pauseOnExceptions(false, false)}>
         {renderIgnoreExceptions(
           shouldPauseOnExceptions,
@@ -119,7 +121,11 @@ export default function renderBreakpointsDropdown(
     shouldPauseOnExceptions || shouldIgnoreCaughtExceptions || isWaitingOnBreak;
 
   return (
-    <div className="breakpoints-dropdown" onClick={e => handleClick(e)} key="breakpoints-dropdown">
+    <div
+      className="breakpoints-dropdown"
+      onClick={e => handleClick(e)}
+      key="breakpoints-dropdown"
+    >
       <Dropdown
         className="dropdown"
         panel={Panel}
