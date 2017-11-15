@@ -27,8 +27,7 @@ function renderPauseOnExceptions(
 ) {
   const active =
     (shouldPauseOnExceptions || shouldIgnoreCaughtExceptions) &&
-    (!shouldPauseOnExceptions || !shouldIgnoreCaughtExceptions) &&
-    !isWaitingOnBreak;
+    (!shouldPauseOnExceptions || !shouldIgnoreCaughtExceptions)
   return (
     <div
       className={classnames("pause-on-exceptions", {
@@ -51,8 +50,7 @@ function renderPauseOnUncaughtExceptions(
 ) {
   const active =
     shouldPauseOnExceptions &&
-    shouldIgnoreCaughtExceptions &&
-    !isWaitingOnBreak;
+    shouldIgnoreCaughtExceptions
   return (
     <div
       className={classnames("pause-uncaught-exceptions", {
@@ -75,8 +73,7 @@ function renderIgnoreExceptions(
 ) {
   const active =
     !shouldPauseOnExceptions &&
-    !shouldIgnoreCaughtExceptions &&
-    !isWaitingOnBreak;
+    !shouldIgnoreCaughtExceptions
   return (
     <div
       className={classnames("ignore-exceptions", {
