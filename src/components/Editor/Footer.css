@@ -91,8 +91,5 @@
 
 .source-footer .mapped-source {
   color: var(--theme-body-color);
-  padding: 2px;
-  font-size: 3;
-  align-items: right;
-  justify-content: right;
+  padding: 2.5px;
 }
