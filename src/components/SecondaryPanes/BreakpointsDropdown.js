@@ -119,7 +119,7 @@ export default function renderBreakpointsDropdown(
     shouldPauseOnExceptions || shouldIgnoreCaughtExceptions || isWaitingOnBreak;
 
   return (
-    <div className="breakpoints-dropdown" onClick={e => handleClick(e)}>
+    <div className="breakpoints-dropdown" onClick={e => handleClick(e)} key="breakpoints-dropdown">
       <Dropdown
         className="dropdown"
         panel={Panel}
