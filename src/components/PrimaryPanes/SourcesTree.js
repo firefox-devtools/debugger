@@ -9,7 +9,6 @@ import React, { Component } from "react";
 import classnames from "classnames";
 
 // Redux
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import {
   getShownSource,
@@ -19,7 +18,9 @@ import {
   getProjectDirectoryRoot,
   getSources
 } from "../../selectors";
-import actions from "../../actions";
+
+import { setExpandedState } from "../../actions/source-tree";
+import { selectSource } from "../../actions/sources";
 
 // Types
 import type { SourcesMap } from "../../reducers/types";
@@ -47,13 +48,13 @@ import { features } from "../../utils/prefs";
 import { setProjectDirectoryRoot } from "../../actions/ui";
 
 type Props = {
-  sources: SourcesMap,
   selectSource: string => void,
+  setExpandedState: any => void,
+  sources: SourcesMap,
   shownSource?: string,
   selectedSource?: SourceRecord,
   debuggeeUrl: string,
   projectRoot: string,
-  setExpandedState: any => void,
   expanded?: any
 };
 
@@ -329,7 +330,7 @@ class SourcesTree extends Component<Props, State> {
   }
 
   render() {
-    const { setExpandedState, expanded } = this.props;
+    const expanded = this.props.expanded;
     const {
       focusedItem,
       sourceTree,
@@ -337,6 +338,14 @@ class SourcesTree extends Component<Props, State> {
       listItems,
       highlightItems
     } = this.state;
+
+    const onExpand = (item, expandedState) => {
+      this.props.setExpandedState(expandedState);
+    };
+
+    const onCollapse = (item, expandedState) => {
+      this.props.setExpandedState(expandedState);
+    };
 
     const isEmpty = sourceTree.contents.length === 0;
     const treeProps = {
@@ -352,8 +361,8 @@ class SourcesTree extends Component<Props, State> {
       listItems,
       highlightItems,
       expanded,
-      onExpand: (item, expandedState) => setExpandedState(expandedState),
-      onCollapse: (item, expandedState) => setExpandedState(expandedState),
+      onExpand,
+      onCollapse,
       renderItem: this.renderItem
     };
 
@@ -381,16 +390,20 @@ class SourcesTree extends Component<Props, State> {
   }
 }
 
-export default connect(
-  state => {
-    return {
-      shownSource: getShownSource(state),
-      selectedSource: getSelectedSource(state),
-      debuggeeUrl: getDebuggeeUrl(state),
-      expanded: getExpandedState(state),
-      projectRoot: getProjectDirectoryRoot(state),
-      sources: getSources(state)
-    };
-  },
-  dispatch => bindActionCreators(actions, dispatch)
-)(SourcesTree);
+const mapStateToProps = state => {
+  return {
+    shownSource: getShownSource(state),
+    selectedSource: getSelectedSource(state),
+    debuggeeUrl: getDebuggeeUrl(state),
+    expanded: getExpandedState(state),
+    projectRoot: getProjectDirectoryRoot(state),
+    sources: getSources(state)
+  };
+};
+
+const actionCreators = {
+  setExpandedState,
+  selectSource
+};
+
+export default connect(mapStateToProps, actionCreators)(SourcesTree);
