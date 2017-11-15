@@ -6,7 +6,7 @@ import { PureComponent } from "react";
 import { showMenu } from "devtools-launchpad";
 import { isOriginalId, isGeneratedId } from "devtools-source-map";
 import { copyToTheClipboard } from "../../utils/clipboard";
-import { isPretty } from "../../utils/source";
+import { isPretty, getPrettySourceURL } from "../../utils/source";
 import { getSourceLocationFromMouseEvent } from "../../utils/editor";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -16,7 +16,8 @@ import {
   getContextMenu,
   getSelectedLocation,
   getSelectedSource,
-  getSymbols
+  getSymbols,
+  getSourceTabs
 } from "../../selectors";
 
 import actions from "../../actions";
@@ -38,7 +39,8 @@ function getMenuItems(
     addExpression,
     getFunctionText,
     getFunctionLocation,
-    flashLineRange
+    flashLineRange,
+    tabs
   }
 ) {
   const copySourceLabel = L10N.getStr("copySource");
@@ -85,12 +87,15 @@ function getMenuItems(
   );
 
   const isOriginal = isOriginalId(selectedLocation.sourceId);
+  const isGenerated = isGeneratedId(selectedLocation.sourceId);
   const hasSourceMap = selectedSource.get("sourceMapURL");
   const isPrettyPrinted = isPretty(selectedSource.toJS());
+  const isPrettyTabOpen =
+    !isOriginal && tabs.includes(getPrettySourceURL(selectedSource.get("url")));
 
   const jumpLabel = {
     accesskey: L10N.getStr("editor.jumpToMappedLocation1.accesskey"),
-    disabled: isGeneratedId && !hasSourceMap,
+    disabled: isGenerated && !hasSourceMap && !isPrettyTabOpen,
     label: L10N.getFormatStr(
       "editor.jumpToMappedLocation1",
       isOriginal ? L10N.getStr("generated") : L10N.getStr("original")
@@ -188,9 +193,11 @@ class EditorMenu extends PureComponent {
 export default connect(
   state => {
     const selectedSource = getSelectedSource(state);
+    const tabs = getSourceTabs(state);
     return {
       selectedLocation: getSelectedLocation(state),
       selectedSource,
+      tabs,
       contextMenu: getContextMenu(state),
       getFunctionText: line =>
         findFunctionText(
