@@ -4,7 +4,7 @@
 
 import { PureComponent } from "react";
 import { showMenu } from "devtools-launchpad";
-import { isOriginalId, isGeneratedId } from "devtools-source-map";
+import { isOriginalId } from "devtools-source-map";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { isPretty } from "../../utils/source";
 import { getSourceLocationFromMouseEvent } from "../../utils/editor";
