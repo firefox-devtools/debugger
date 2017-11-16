@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 .frames ul {
   list-style: none;
   margin: 0;
@@ -5,7 +9,7 @@
 }
 
 .frames ul li {
-  padding: 7px 10px 7px 21px;
+  padding: 0 10px 0 21px;
   overflow: hidden;
   display: flex;
   justify-content: space-between;
@@ -19,6 +23,11 @@
   user-select: none;
 }
 
+.frames .badge {
+  flex-shrink: 0;
+  margin-right: 4px;
+}
+
 .frames .location {
   font-weight: lighter;
   display: flex;
@@ -26,6 +35,7 @@
   flex-direction: row;
   align-items: center;
   margin: 0;
+  flex-shrink: 0;
 }
 
 .theme-light .frames .location,
@@ -41,7 +51,7 @@
 .frames .title {
   text-overflow: ellipsis;
   overflow: hidden;
-  margin-right: 1em;
+  margin: 7px 0.5em 7px 0;
 }
 
 .frames ul li:hover,

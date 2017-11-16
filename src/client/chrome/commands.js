@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 import {
@@ -99,7 +103,7 @@ function evaluate(script: string) {
   return runtimeAgent.evaluate({ expression: script });
 }
 
-function debuggeeCommand(script: string) {
+function debuggeeCommand(script: string): Promise<void> {
   evaluate(script);
   return Promise.resolve();
 }

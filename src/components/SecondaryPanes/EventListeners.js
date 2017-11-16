@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
@@ -97,14 +101,15 @@ class EventListeners extends Component<Props> {
 
 export default connect(
   state => {
-    const listeners = getEventListeners(state).map(l =>
-      Object.assign({}, l, {
+    const listeners = getEventListeners(state).map(l => {
+      return {
+        ...l,
         breakpoint: getBreakpoint(state, {
           sourceId: l.sourceId,
           line: l.line
         })
-      })
-    );
+      };
+    });
 
     return { listeners };
   },

@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 import {
@@ -8,7 +12,6 @@ import {
   getSource
 } from "../selectors";
 import { PROMISE } from "./utils/middleware/promise";
-import { replaceOriginalVariableName } from "devtools-map-bindings/src/utils";
 import { isGeneratedId } from "devtools-source-map";
 import { wrapExpression } from "../utils/expressions";
 import * as parser from "../workers/parser";
@@ -154,5 +157,5 @@ export async function getMappedExpression(
     return expression;
   }
 
-  return replaceOriginalVariableName(expression, generatedScopes);
+  return parser.replaceOriginalVariableName(expression, generatedScopes);
 }

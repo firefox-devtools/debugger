@@ -1,9 +1,9 @@
-// @flow
-/* eslint complexity: ["error", 30]*/
-
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
+// @flow
+/* eslint complexity: ["error", 30]*/
 
 /**
  * Pause reducer
@@ -83,6 +83,7 @@ function update(state: PauseState = State(), action: Action): PauseState {
     case "MAP_SCOPES":
       const { frame, scopes } = action;
       const selectedFrameId = frame.id;
+
       const frameScopes = { ...state.frameScopes, [selectedFrameId]: scopes };
       return { ...state, frameScopes };
 
@@ -94,13 +95,13 @@ function update(state: PauseState = State(), action: Action): PauseState {
           pause.frame = frames[0];
         }
 
-        return Object.assign({}, state, { pause, frames });
+        return { ...state, pause, frames };
       }
 
       break;
 
     case "BREAK_ON_NEXT":
-      return Object.assign({}, state, { isWaitingOnBreak: true });
+      return { ...state, isWaitingOnBreak: true };
 
     case "SELECT_FRAME":
       return {
@@ -121,7 +122,7 @@ function update(state: PauseState = State(), action: Action): PauseState {
 
       if (action.status === "done") {
         if (!action.value) {
-          return Object.assign({}, state);
+          return { ...state };
         }
 
         const ownProperties = action.value.ownProperties;
@@ -139,7 +140,7 @@ function update(state: PauseState = State(), action: Action): PauseState {
       break;
 
     case "CONNECT":
-      return Object.assign({}, State(), { debuggeeUrl: action.url });
+      return { ...State(), debuggeeUrl: action.url };
 
     case "PAUSE_ON_EXCEPTIONS":
       const { shouldPauseOnExceptions, shouldIgnoreCaughtExceptions } = action;
@@ -147,10 +148,11 @@ function update(state: PauseState = State(), action: Action): PauseState {
       prefs.pauseOnExceptions = shouldPauseOnExceptions;
       prefs.ignoreCaughtExceptions = shouldIgnoreCaughtExceptions;
 
-      return Object.assign({}, state, {
+      return {
+        ...state,
         shouldPauseOnExceptions,
         shouldIgnoreCaughtExceptions
-      });
+      };
 
     case "COMMAND":
       return action.status === "start"

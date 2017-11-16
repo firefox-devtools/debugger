@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 /**
@@ -22,10 +26,11 @@ function createStore(client: any, initialState: any = {}, sourceMapsMock: any) {
     log: false,
     history: getHistory(),
     makeThunkArgs: args => {
-      return Object.assign({}, args, {
+      return {
+        ...args,
         client,
         sourceMaps: sourceMapsMock || sourceMaps
-      });
+      };
     }
   })(combineReducers(reducers), initialState);
 }
@@ -43,14 +48,12 @@ function commonLog(msg: string, data: any = {}) {
  * @static
  */
 function makeSource(name: string, props: any = {}) {
-  return Object.assign(
-    {
-      id: name,
-      loadedState: "loaded",
-      url: `http://localhost:8000/examples/${name}`
-    },
-    props
-  );
+  return {
+    id: name,
+    loadedState: "loaded",
+    url: `http://localhost:8000/examples/${name}`,
+    ...props
+  };
 }
 
 function makeFuncLocation(startLine) {
@@ -73,7 +76,7 @@ function makeSymbolDeclaration(name: string, line: number) {
  * @memberof utils/test-head
  * @static
  */
-function waitForState(store: any, predicate: any) {
+function waitForState(store: any, predicate: any): Promise<void> {
   return new Promise(resolve => {
     const unsubscribe = store.subscribe(() => {
       if (predicate(store.getState())) {

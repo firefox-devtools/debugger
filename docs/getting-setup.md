@@ -38,7 +38,9 @@ Open `http://localhost:8000` in any browser and launch
 Firefox or Chrome. You should now be able to select a
 tab to debug.
 
-![][launchpad-screenshot]
+| Launchpad | Tabs |
+| -- | -- |
+| ![pad2-screenshot] | ![launchpad-screenshot] |
 
 Congratulations! You're now up and running. :sweat_smile:
 
@@ -197,3 +199,4 @@ If you want to hack the debugger even with being offline, you might want to get 
 [slack]:https://devtools-html-slack.herokuapp.com/
 [launchpad-screenshot]:https://cloud.githubusercontent.com/assets/2134/22162697/913777b2-df04-11e6-9150-f6ad676c31ef.png
 [nvm]:https://github.com/creationix/nvm
+[pad2-screenshot]: https://shipusercontent.com/1b41eb3d0f4630ed9197c737cb6e3cb4/Screen%20Shot%202017-11-08%20at%2010.08.51%20AM.png

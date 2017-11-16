@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 import parseScriptTags from "parse-script-tags";
@@ -10,25 +14,23 @@ import type { Source } from "debugger-html";
 let ASTs = new Map();
 
 function _parse(code, opts) {
-  return babylon.parse(
-    code,
-    Object.assign({}, opts, {
-      sourceType: "module",
-      plugins: [
-        "jsx",
-        "flow",
-        "doExpressions",
-        "objectRestSpread",
-        "classProperties",
-        "exportExtensions",
-        "asyncGenerators",
-        "functionBind",
-        "functionSent",
-        "dynamicImport",
-        "templateInvalidEscapes"
-      ]
-    })
-  );
+  return babylon.parse(code, {
+    ...opts,
+    sourceType: "module",
+    plugins: [
+      "jsx",
+      "flow",
+      "doExpressions",
+      "objectRestSpread",
+      "classProperties",
+      "exportExtensions",
+      "asyncGenerators",
+      "functionBind",
+      "functionSent",
+      "dynamicImport",
+      "templateInvalidEscapes"
+    ]
+  });
 }
 
 function parse(text: ?string, opts?: Object) {

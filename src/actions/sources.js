@@ -1,8 +1,8 @@
-// @flow
-
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
+// @flow
 
 /**
  * Redux actions for the sources state
@@ -143,7 +143,7 @@ function loadSourceMap(generatedSource) {
 
 export type SelectSourceOptions = {
   tabIndex?: number,
-  location?: { line?: number, column?: number }
+  location?: { line: number, column?: ?number }
 };
 
 /**
@@ -322,28 +322,23 @@ export function togglePrettyPrint(sourceId: string) {
     );
 
     const selectedLocation = getSelectedLocation(getState());
-    const selectedOriginalLocation = selectedLocation
-      ? await sourceMaps.getOriginalLocation(selectedLocation)
-      : {};
-
     const url = getPrettySourceURL(source.url);
     const prettySource = getSourceByURL(getState(), url);
 
+    const options = {};
+    if (selectedLocation) {
+      options.location = await sourceMaps.getOriginalLocation(selectedLocation);
+    }
+
     if (prettySource) {
-      return dispatch(
-        selectSource(prettySource.get("id"), {
-          location: selectedOriginalLocation
-        })
-      );
+      return dispatch(selectSource(prettySource.get("id"), options));
     }
 
     const newPrettySource = await dispatch(createPrettySource(sourceId));
     await dispatch(remapBreakpoints(sourceId));
     await dispatch(setEmptyLines(newPrettySource.id));
 
-    return dispatch(
-      selectSource(newPrettySource.id, { location: selectedOriginalLocation })
-    );
+    return dispatch(selectSource(newPrettySource.id, options));
   };
 }
 

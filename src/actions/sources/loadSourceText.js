@@ -1,6 +1,11 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
+
 import { PROMISE } from "../utils/middleware/promise";
-import { setEmptyLines, setSymbols, setSourceMetaData } from "../ast";
+import { setSymbols } from "../ast";
 import { getSource } from "../../selectors";
 import { setSource } from "../../workers/parser";
 import type { Source } from "../../types";
@@ -43,8 +48,6 @@ export function loadSourceText(source: Source) {
     }
 
     await setSource(newSource);
-    await dispatch(setSymbols(source.id));
-    await dispatch(setEmptyLines(source.id));
-    await dispatch(setSourceMetaData(source.id));
+    dispatch(setSymbols(source.id));
   };
 }

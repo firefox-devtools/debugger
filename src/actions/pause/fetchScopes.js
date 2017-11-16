@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 import { getSource, getSelectedFrame, getFrameScope } from "../../selectors";
@@ -14,6 +18,13 @@ export function fetchScopes() {
       return;
     }
 
+    const scopes = await client.getFrameScopes(frame);
+    dispatch({
+      type: "ADD_SCOPES",
+      frame,
+      scopes
+    });
+
     const sourceRecord = getSource(
       getState(),
       frame.generatedLocation.sourceId
@@ -22,13 +33,6 @@ export function fetchScopes() {
     if (sourceRecord.get("isWasm")) {
       return;
     }
-
-    const scopes = await client.getFrameScopes(frame);
-    dispatch({
-      type: "ADD_SCOPES",
-      frame,
-      scopes
-    });
 
     if (isGeneratedId(frame.location.sourceId)) {
       return;

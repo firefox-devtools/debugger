@@ -1,11 +1,17 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 import { PureComponent } from "react";
-import { showMenu } from "devtools-launchpad";
-import { isOriginalId } from "devtools-source-map";
+import { showMenu } from "devtools-contextmenu";
+import { isOriginalId, isGeneratedId } from "devtools-source-map";
 import { copyToTheClipboard } from "../../utils/clipboard";
+import { isPretty } from "../../utils/source";
 import { getSourceLocationFromMouseEvent } from "../../utils/editor";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { findFunctionText } from "../../utils/function";
+import { findClosestScope } from "../../utils/breakpoint/astBreakpointLocation";
 import {
   getContextMenu,
   getSelectedLocation,
@@ -14,6 +20,7 @@ import {
 } from "../../selectors";
 
 import actions from "../../actions";
+
 type Props = {
   setContextMenu: Function
 };
@@ -29,7 +36,9 @@ function getMenuItems(
     jumpToMappedLocation,
     toggleBlackBox,
     addExpression,
-    getFunctionText
+    getFunctionText,
+    getFunctionLocation,
+    flashLineRange
   }
 ) {
   const copySourceLabel = L10N.getStr("copySource");
@@ -75,18 +84,23 @@ function getMenuItems(
     event
   );
 
-  const pairedType = isOriginalId(selectedLocation.sourceId)
-    ? L10N.getStr("generated")
-    : L10N.getStr("original");
+  const isOriginal = isOriginalId(selectedLocation.sourceId);
+  const hasSourceMap = selectedSource.get("sourceMapURL");
+  const isPrettyPrinted = isPretty(selectedSource.toJS());
 
   const jumpLabel = {
+    id: "node-menu-jump",
     accesskey: L10N.getStr("editor.jumpToMappedLocation1.accesskey"),
-    disabled: false,
-    label: L10N.getFormatStr("editor.jumpToMappedLocation1", pairedType),
+    disabled: isGeneratedId && !hasSourceMap,
+    label: L10N.getFormatStr(
+      "editor.jumpToMappedLocation1",
+      isOriginal ? L10N.getStr("generated") : L10N.getStr("original")
+    ),
     click: () => jumpToMappedLocation(sourceLocation)
   };
 
   const watchExpressionLabel = {
+    id: "node-menu-add-watch-expression",
     accesskey: L10N.getStr("expressions.accesskey"),
     label: L10N.getStr("expressions.label"),
     click: () => addExpression(editor.codeMirror.getSelection())
@@ -96,7 +110,7 @@ function getMenuItems(
     id: "node-menu-blackbox",
     label: toggleBlackBoxLabel,
     accesskey: blackboxKey,
-    disabled: false,
+    disabled: isOriginal || isPrettyPrinted || hasSourceMap,
     click: () => toggleBlackBox(selectedSource.toJS())
   };
 
@@ -107,7 +121,7 @@ function getMenuItems(
     id: "node-menu-show-source",
     label: revealInTreeLabel,
     accesskey: revealInTreeKey,
-    disabled: false,
+    disabled: isPrettyPrinted,
     click: () => showSource(selectedSource.get("id"))
   };
 
@@ -117,7 +131,15 @@ function getMenuItems(
     label: copyFunctionLabel,
     accesskey: copyFunctionKey,
     disabled: !functionText,
-    click: () => copyToTheClipboard(functionText)
+    click: () => {
+      const { location: { start, end } } = getFunctionLocation(line);
+      flashLineRange({
+        start: start.line,
+        end: end.line,
+        sourceId: selectedLocation.sourceId
+      });
+      return copyToTheClipboard(functionText);
+    }
   };
 
   const menuItems = [
@@ -177,7 +199,12 @@ export default connect(
           line,
           selectedSource.toJS(),
           getSymbols(state, selectedSource.toJS())
-        )
+        ),
+      getFunctionLocation: line =>
+        findClosestScope(getSymbols(state, selectedSource.toJS()).functions, {
+          line,
+          column: Infinity
+        })
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

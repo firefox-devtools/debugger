@@ -42,7 +42,7 @@ function buildConfig(envConfig) {
     webpackConfig.plugins = [];
     webpackConfig.output.libraryTarget = "umd";
 
-    if (false) {
+    if (process.env.vis) {
       const viz = new Visualizer({
         filename: "webpack-stats.html"
       });
