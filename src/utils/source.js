@@ -201,10 +201,10 @@ function getSourceLineCount(source: Source) {
 }
 
 // Used to detect minification for automatic pretty printing
-const SAMPLE_SIZE = 50; // no of lines
-const INDENT_COUNT_THRESHOLD = 5; // percentage
-const CHARACTER_LIMIT = 250; // line character limit
-let _minifiedCache = new Map();
+const SAMPLE_SIZE = 50;
+const INDENT_COUNT_THRESHOLD = 5;
+const CHARACTER_LIMIT = 250;
+const _minifiedCache = new Map();
 
 /**
  *
@@ -246,11 +246,11 @@ function isMinified(key: string, text: string) {
     lineStartIndex = lineEndIndex + 1;
   }
 
-  const isMinified =
+  const minified =
     indentCount / lines * 100 < INDENT_COUNT_THRESHOLD || overCharLimit;
 
-  _minifiedCache.set(key, isMinified);
-  return isMinified;
+  _minifiedCache.set(key, minified);
+  return minified;
 }
 
 /**
