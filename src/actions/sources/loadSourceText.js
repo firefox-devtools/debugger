@@ -1,6 +1,6 @@
 // @flow
 import { PROMISE } from "../../utils/redux/middleware/promise";
-import { setEmptyLines, setSymbols } from "../ast";
+import { setSymbols } from "../ast";
 import { getSource } from "../../selectors";
 import { setSource } from "../../workers/parser";
 import type { Source } from "../../types";
@@ -43,7 +43,6 @@ export function loadSourceText(source: Source) {
     }
 
     await setSource(newSource);
-    await dispatch(setSymbols(source.id));
-    await dispatch(setEmptyLines(source.id));
+    dispatch(setSymbols(source.id));
   };
 }

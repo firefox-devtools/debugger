@@ -20,7 +20,8 @@ import {
   getCoverageEnabled,
   getConditionalPanelLine,
   getFileSearchModifiers,
-  getFileSearchQuery
+  getFileSearchQuery,
+  getSourceMetaData,
 } from "../../selectors";
 
 import actions from "../../actions";
@@ -36,6 +37,7 @@ import EmptyLines from "./EmptyLines";
 import GutterMenu from "./GutterMenu";
 import EditorMenu from "./EditorMenu";
 import ConditionalPanel from "./ConditionalPanel";
+import type { SourceMetaDataType } from "../../reducers/ast";
 
 import {
   showSourceText,
@@ -81,10 +83,17 @@ type Props = {
   startPanelSize: number,
   endPanelSize: number,
   conditionalPanelLine: number,
-  openConditionalPanel: Function,
-  closeConditionalPanel: Function,
-  continueToHere: Function,
-  setContextMenu: Function
+  sourceMetaData: SourceMetaDataType,
+
+  // Actions
+  openConditionalPanel: number => void,
+  closeConditionalPanel: void => void,
+  setContextMenu: (string, any) => void,
+  continueToHere: number => void,
+  toggleBreakpoint: number => void,
+  addOrToggleDisabledBreakpoint: number => void,
+  jumpToMappedLocation: any => void,
+  traverseResults: (boolean, Object) => void
 };
 
 type State = {
@@ -459,7 +468,7 @@ class Editor extends PureComponent<Props, State> {
   }
 
   setText(props) {
-    const { selectedSource } = props;
+    const { selectedSource, sourceMetaData } = props;
     if (!this.state.editor) {
       return;
     }
@@ -477,7 +486,11 @@ class Editor extends PureComponent<Props, State> {
     }
 
     if (selectedSource) {
-      return showSourceText(this.state.editor, selectedSource.toJS());
+      return showSourceText(
+        this.state.editor,
+        selectedSource.toJS(),
+        sourceMetaData
+      );
     }
   }
 

@@ -89,6 +89,7 @@
   -moz-user-select: none;
   user-select: none;
   box-sizing: border-box;
+  height: 29px;
 }
 
 .source-outline-tabs .tab {

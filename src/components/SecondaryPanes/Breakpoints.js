@@ -36,7 +36,10 @@ type Props = {
   breakpoints: BreakpointsMap,
   enableBreakpoint: Location => void,
   disableBreakpoint: Location => void,
-  selectSource: (string, { line: number }) => void,
+  selectSource: (
+    string,
+    { location: { line: number, column: number } }
+  ) => void,
   removeBreakpoint: string => void,
   removeAllBreakpoints: () => void,
   removeBreakpoints: BreakpointsMap => void,
@@ -44,7 +47,7 @@ type Props = {
   toggleAllBreakpoints: boolean => void,
   toggleDisabledBreakpoint: number => void,
   setBreakpointCondition: Location => void,
-  toggleConditionalBreakpointPanel: number => void
+  openConditionalPanel: number => void
 };
 
 function isCurrentlyPausedAtBreakpoint(pause, breakpoint) {
@@ -107,7 +110,7 @@ class Breakpoints extends PureComponent<Props> {
       toggleAllBreakpoints,
       toggleDisabledBreakpoint,
       setBreakpointCondition,
-      toggleConditionalBreakpointPanel,
+      openConditionalPanel,
       breakpoints
     } = this.props;
 
@@ -268,7 +271,7 @@ class Breakpoints extends PureComponent<Props> {
       accesskey: addConditionKey,
       click: () => {
         this.selectBreakpoint(breakpoint);
-        toggleConditionalBreakpointPanel(breakpoint.location.line);
+        openConditionalPanel(breakpoint.location.line);
       }
     };
 
@@ -278,7 +281,7 @@ class Breakpoints extends PureComponent<Props> {
       accesskey: editConditionKey,
       click: () => {
         this.selectBreakpoint(breakpoint);
-        toggleConditionalBreakpointPanel(breakpoint.location.line);
+        openConditionalPanel(breakpoint.location.line);
       }
     };
 
@@ -330,17 +333,13 @@ class Breakpoints extends PureComponent<Props> {
 
   selectBreakpoint(breakpoint) {
     const sourceId = breakpoint.location.sourceId;
-    const line = breakpoint.location.line;
-    this.props.selectSource(sourceId, { line });
+    const { location } = breakpoint;
+    this.props.selectSource(sourceId, { location });
   }
 
   removeBreakpoint(event, breakpoint) {
     event.stopPropagation();
     this.props.removeBreakpoint(breakpoint.location);
-  }
-
-  toggleConditionalBreakpointPanel(line) {
-    this.props.toggleConditionalBreakpointPanel(line);
   }
 
   renderBreakpoint(breakpoint) {
