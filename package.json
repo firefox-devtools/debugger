@@ -86,7 +86,7 @@
     "lodash.kebabcase": "^4.1.1",
     "md5": "^2.2.1",
     "parse-script-tags": "^0.1.4",
-    "pretty-fast": "^0.2.2",
+    "pretty-fast": "^0.2.3",
     "prop-types": "^15.6.0",
     "react": "^15.6.2",
     "react-dom": "^15.6.2",
