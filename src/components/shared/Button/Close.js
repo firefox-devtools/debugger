@@ -4,7 +4,6 @@
 
 // @flow
 import React from "react";
-import Svg from "../Svg";
 import "./Close.css";
 
 type Props = {
@@ -22,7 +21,7 @@ function CloseButton({ handleClick, buttonClass, tooltip, tabIndex }: Props) {
       title={tooltip}
       tabIndex={tabIndex}
     >
-      <Svg name="close" />
+      <img className="close" />
     </button>
   );
 }

@@ -107,26 +107,9 @@ exports[`QuickOpenModal Basic render with mount & searchType = functions 1`] = `
                       className="close-btn"
                       onClick={[Function]}
                     >
-                      <Svg
-                        name="close"
-                      >
-                        <InlineSVG
-                          className="close "
-                          element="i"
-                          raw={false}
-                          src="<svg></svg>"
-                        >
-                          <i
-                            className="close "
-                            dangerouslySetInnerHTML={
-                              Object {
-                                "__html": "<svg></svg>",
-                              }
-                            }
-                            src={null}
-                          />
-                        </InlineSVG>
-                      </Svg>
+                      <img
+                        className="close"
+                      />
                     </div>
                   </CloseButton>
                 </div>
@@ -258,26 +241,9 @@ exports[`QuickOpenModal Basic render with mount & searchType = variables 1`] = `
                       className="close-btn"
                       onClick={[Function]}
                     >
-                      <Svg
-                        name="close"
-                      >
-                        <InlineSVG
-                          className="close "
-                          element="i"
-                          raw={false}
-                          src="<svg></svg>"
-                        >
-                          <i
-                            className="close "
-                            dangerouslySetInnerHTML={
-                              Object {
-                                "__html": "<svg></svg>",
-                              }
-                            }
-                            src={null}
-                          />
-                        </InlineSVG>
-                      </Svg>
+                      <img
+                        className="close"
+                      />
                     </div>
                   </CloseButton>
                 </div>
@@ -403,26 +369,9 @@ exports[`QuickOpenModal Basic render with mount 1`] = `
                       className="close-btn"
                       onClick={[Function]}
                     >
-                      <Svg
-                        name="close"
-                      >
-                        <InlineSVG
-                          className="close "
-                          element="i"
-                          raw={false}
-                          src="<svg></svg>"
-                        >
-                          <i
-                            className="close "
-                            dangerouslySetInnerHTML={
-                              Object {
-                                "__html": "<svg></svg>",
-                              }
-                            }
-                            src={null}
-                          />
-                        </InlineSVG>
-                      </Svg>
+                      <img
+                        className="close"
+                      />
                     </div>
                   </CloseButton>
                 </div>
@@ -563,26 +512,9 @@ exports[`QuickOpenModal closeModal 1`] = `
                       className="close-btn"
                       onClick={[Function]}
                     >
-                      <Svg
-                        name="close"
-                      >
-                        <InlineSVG
-                          className="close "
-                          element="i"
-                          raw={false}
-                          src="<svg></svg>"
-                        >
-                          <i
-                            className="close "
-                            dangerouslySetInnerHTML={
-                              Object {
-                                "__html": "<svg></svg>",
-                              }
-                            }
-                            src={null}
-                          />
-                        </InlineSVG>
-                      </Svg>
+                      <img
+                        className="close"
+                      />
                     </div>
                   </CloseButton>
                 </div>
@@ -710,26 +642,9 @@ exports[`QuickOpenModal updateResults on enable 2`] = `
                       className="close-btn"
                       onClick={[Function]}
                     >
-                      <Svg
-                        name="close"
-                      >
-                        <InlineSVG
-                          className="close "
-                          element="i"
-                          raw={false}
-                          src="<svg></svg>"
-                        >
-                          <i
-                            className="close "
-                            dangerouslySetInnerHTML={
-                              Object {
-                                "__html": "<svg></svg>",
-                              }
-                            }
-                            src={null}
-                          />
-                        </InlineSVG>
-                      </Svg>
+                      <img
+                        className="close"
+                      />
                     </div>
                   </CloseButton>
                 </div>
