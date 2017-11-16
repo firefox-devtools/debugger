@@ -30,7 +30,9 @@ export function formatSymbols(source: Source) {
     const name = symbol.name || "";
     const names = symbol.specifiers ? symbol.specifiers.join(", ") : "";
 
-    return `${loc} ${exprLoc} ${expression} ${name}${params} ${klass} ${names}`.trim(); // eslint-disable-line max-len
+    return `${loc} ${exprLoc} ${expression} ${name}${params} ${klass} ${
+      names
+    }`.trim(); // eslint-disable-line max-len
   }
 
   return Object.keys(symbols)

@@ -27,12 +27,12 @@ import type { SymbolDeclaration, AstLocation } from "../workers/parser";
  */
 
 /**
-  * Argument parameters via Thunk middleware for {@link https://github.com/gaearon/redux-thunk|Redux Thunk}
-  *
-  * @memberof actions/breakpoints
-  * @static
-  * @typedef {Object} ThunkArgs
-  */
+ * Argument parameters via Thunk middleware for {@link https://github.com/gaearon/redux-thunk|Redux Thunk}
+ *
+ * @memberof actions/breakpoints
+ * @static
+ * @typedef {Object} ThunkArgs
+ */
 export type ThunkArgs = {
   dispatch: (action: any) => Promise<any>,
   getState: () => State,

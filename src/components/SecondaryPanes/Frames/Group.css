@@ -25,3 +25,7 @@
   border-top: 1px solid var(--theme-splitter-color);
   border-bottom: 1px solid var(--theme-splitter-color);
 }
+
+.frames ul .frames-group.expanded .badge {
+  color: var(--theme-highlight-blue);
+}

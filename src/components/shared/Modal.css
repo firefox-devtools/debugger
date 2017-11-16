@@ -29,10 +29,6 @@
   justify-content: center;
 }
 
-.modal .close-btn {
-  padding: 6px;
-}
-
 .modal .result-list {
   height: calc(100% - 28px);
   overflow-y: auto;

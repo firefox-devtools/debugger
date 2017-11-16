@@ -2,6 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
+import { replaceOriginalVariableName } from "devtools-map-bindings/src/utils";
 import { getClosestExpression } from "./utils/closest";
 import { getVariablesInScope } from "./scopes";
 import getSymbols, { clearSymbols } from "./getSymbols";
@@ -32,5 +33,6 @@ self.onmessage = workerHandler({
   getNextStep,
   getEmptyLines,
   hasSyntaxError,
-  isReactComponent
+  isReactComponent,
+  replaceOriginalVariableName
 });

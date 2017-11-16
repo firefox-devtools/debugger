@@ -20472,7 +20472,60 @@
       "../../svg-inline-loader/index.js!../../../assets/images/marko.svg": 1649,
       "../../svg-inline-loader/index.js!../../../assets/images/nextjs.svg": 1650,
       "../../svg-inline-loader/index.js!../../../assets/images/nuxtjs.svg": 1651,
-      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/QuickOpenModal.js": 1652
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/QuickOpenModal.js": 1652,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/utils/middleware/promise.js": 1653,
+      "../../babel-generator/lib/generators/types.js": 1654,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/pause/fetchScopes.js": 1655,
+      "../../babel-generator/lib/node/index.js": 1656,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/timings.js": 1657,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/utils/create-store.js": 1658,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/utils/middleware/wait-service.js": 1659,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/utils/middleware/log.js": 1660,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/utils/middleware/history.js": 1661,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/utils/middleware/thunk.js": 1662,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/utils/middleware/timing.js": 1663,
+      "../../babel-generator/lib/index.js": 1664,
+      "../../babel-runtime/helpers/possibleConstructorReturn.js": 1665,
+      "../../babel-runtime/helpers/inherits.js": 1666,
+      "../../babel-runtime/core-js/object/set-prototype-of.js": 1667,
+      "../../core-js/library/fn/object/set-prototype-of.js": 1668,
+      "../../core-js/library/modules/es6.object.set-prototype-of.js": 1669,
+      "../../core-js/library/modules/_set-proto.js": 1670,
+      "../../detect-indent/index.js": 1671,
+      "../../repeating/index.js": 1672,
+      "../../is-finite/index.js": 1673,
+      "../../number-is-nan/index.js": 1674,
+      "../../babel-generator/lib/source-map.js": 1675,
+      "../../babel-generator/lib/printer.js": 1676,
+      "../../babel-runtime/core-js/object/assign.js": 1677,
+      "../../core-js/library/fn/object/assign.js": 1678,
+      "../../core-js/library/modules/es6.object.assign.js": 1679,
+      "../../babel-runtime/core-js/weak-set.js": 1680,
+      "../../core-js/library/fn/weak-set.js": 1681,
+      "../../core-js/library/modules/es6.weak-set.js": 1682,
+      "../../core-js/library/modules/es7.weak-set.of.js": 1683,
+      "../../core-js/library/modules/es7.weak-set.from.js": 1684,
+      "../../lodash/findLast.js": 1685,
+      "../../lodash/findLastIndex.js": 1686,
+      "../../lodash/isInteger.js": 1687,
+      "../../babel-generator/lib/buffer.js": 1688,
+      "../../trim-right/index.js": 1689,
+      "../../babel-generator/lib/node/whitespace.js": 1690,
+      "../../babel-generator/lib/node/parentheses.js": 1691,
+      "../../babel-generator/lib/whitespace.js": 1692,
+      "../../babel-generator/lib/generators/template-literals.js": 1693,
+      "../../babel-generator/lib/generators/expressions.js": 1694,
+      "../../babel-generator/lib/generators/statements.js": 1695,
+      "../../babel-generator/lib/generators/classes.js": 1696,
+      "../../babel-generator/lib/generators/methods.js": 1697,
+      "../../babel-generator/lib/generators/modules.js": 1698,
+      "../../babel-generator/node_modules/jsesc/jsesc.js": 1699,
+      "../../babel-generator/lib/generators/flow.js": 1700,
+      "../../babel-generator/lib/generators/base.js": 1701,
+      "../../babel-generator/lib/generators/jsx.js": 1702,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/workers/parser/frameworks.js": 1703,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/shared/Badge.js": 1704,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Badge.css": 1705
     },
     "usedIds": {
       "0": 0,
@@ -22127,7 +22180,60 @@
       "1649": 1649,
       "1650": 1650,
       "1651": 1651,
-      "1652": 1652
+      "1652": 1652,
+      "1653": 1653,
+      "1654": 1654,
+      "1655": 1655,
+      "1656": 1656,
+      "1657": 1657,
+      "1658": 1658,
+      "1659": 1659,
+      "1660": 1660,
+      "1661": 1661,
+      "1662": 1662,
+      "1663": 1663,
+      "1664": 1664,
+      "1665": 1665,
+      "1666": 1666,
+      "1667": 1667,
+      "1668": 1668,
+      "1669": 1669,
+      "1670": 1670,
+      "1671": 1671,
+      "1672": 1672,
+      "1673": 1673,
+      "1674": 1674,
+      "1675": 1675,
+      "1676": 1676,
+      "1677": 1677,
+      "1678": 1678,
+      "1679": 1679,
+      "1680": 1680,
+      "1681": 1681,
+      "1682": 1682,
+      "1683": 1683,
+      "1684": 1684,
+      "1685": 1685,
+      "1686": 1686,
+      "1687": 1687,
+      "1688": 1688,
+      "1689": 1689,
+      "1690": 1690,
+      "1691": 1691,
+      "1692": 1692,
+      "1693": 1693,
+      "1694": 1694,
+      "1695": 1695,
+      "1696": 1696,
+      "1697": 1697,
+      "1698": 1698,
+      "1699": 1699,
+      "1700": 1700,
+      "1701": 1701,
+      "1702": 1702,
+      "1703": 1703,
+      "1704": 1704,
+      "1705": 1705
     }
   },
   "chunks": {
@@ -25334,7 +25440,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -25355,7 +25461,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -25376,7 +25482,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -25397,7 +25503,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -25439,7 +25545,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -25460,7 +25566,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -25481,7 +25587,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -25502,7 +25608,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -25523,7 +25629,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -25544,7 +25650,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -25565,7 +25671,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -25586,7 +25692,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -25607,7 +25713,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -25628,7 +25734,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -25649,7 +25755,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -25670,7 +25776,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -25691,7 +25797,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -25712,7 +25818,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -25733,7 +25839,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -25754,7 +25860,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -25775,7 +25881,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -25796,7 +25902,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -25817,7 +25923,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -25838,7 +25944,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -25859,7 +25965,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -25880,7 +25986,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -25901,7 +26007,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -25922,7 +26028,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -25943,7 +26049,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -25964,7 +26070,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -25985,7 +26091,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -26006,7 +26112,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -26027,7 +26133,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -26048,7 +26154,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -26069,7 +26175,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -26090,7 +26196,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -26111,7 +26217,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -26132,7 +26238,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -26153,7 +26259,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -26174,7 +26280,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -26195,7 +26301,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -26237,7 +26343,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -26258,7 +26364,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -26279,7 +26385,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -26300,7 +26406,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -26321,7 +26427,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -26342,7 +26448,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -26363,7 +26469,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -26384,7 +26490,28 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Badge.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/shared/Badge.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
         }
       }
     }

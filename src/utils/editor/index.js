@@ -17,6 +17,7 @@ import { isWasm, lineToWasmOffset, wasmOffsetToLine } from "../wasm";
 import { resizeBreakpointGutter } from "../ui";
 
 import { SourceEditor, SourceEditorUtils } from "devtools-source-editor";
+import { isOriginalId } from "devtools-source-map";
 
 import type { AstPosition, AstLocation } from "../../workers/parser/types";
 import type { EditorPosition, EditorRange } from "../editor/types";
@@ -34,8 +35,13 @@ function shouldShowFooter(selectedSource, horizontal) {
   if (!horizontal) {
     return true;
   }
-
-  return shouldShowPrettyPrint(selectedSource);
+  if (!selectedSource) {
+    return false;
+  }
+  return (
+    shouldShowPrettyPrint(selectedSource) ||
+    isOriginalId(selectedSource.get("id"))
+  );
 }
 
 function traverseResults(e, ctx, query, dir, modifiers) {

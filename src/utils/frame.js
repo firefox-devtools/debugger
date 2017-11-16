@@ -59,6 +59,10 @@ const libraryMap = [
     pattern: /\/ext-all[\.\-]/
   },
   {
+    label: "MobX",
+    pattern: /mobx/i
+  },
+  {
     label: "Underscore",
     pattern: /underscore/i
   },
