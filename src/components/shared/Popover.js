@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import classNames from "classnames";
@@ -129,19 +133,16 @@ class Popover extends Component {
 
   renderPopover() {
     const { top, left, orientation, targetMid } = this.state;
-
     const arrow = this.getPopoverArrow(orientation, targetMid);
 
     return (
-      <div>
-        <div
-          className={classNames("popover", { up: orientation === "up" })}
-          onMouseLeave={this.onMouseLeave}
-          style={{ top, left }}
-        >
-          {arrow}
-          {this.getChildren()}
-        </div>
+      <div
+        className={classNames("popover", { up: orientation === "up" })}
+        onMouseLeave={this.onMouseLeave}
+        style={{ top, left }}
+      >
+        {arrow}
+        {this.getChildren()}
       </div>
     );
   }
