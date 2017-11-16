@@ -11,13 +11,15 @@ type Props = {
 
 function CloseButton({ handleClick, buttonClass, tooltip }: Props) {
   return (
-    <div
+    <button
+      type="button"
+      class="btn"
       className={buttonClass ? `close-btn ${buttonClass}` : "close-btn"}
       onClick={handleClick}
       title={tooltip}
     >
       <Svg name="close" />
-    </div>
+    </button>
   );
 }
 
