@@ -14,6 +14,7 @@ function CloseButton({ handleClick, buttonClass, tooltip }: Props) {
     <button
       type="button"
       class="btn"
+      alt="Close "
       className={buttonClass ? `close-btn ${buttonClass}` : "close-btn"}
       onClick={handleClick}
       title={tooltip}
