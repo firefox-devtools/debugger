@@ -221,7 +221,6 @@ function isMinified(key: string, text: string) {
     return _minifiedCache.get(key);
   }
 
-  let isMinified;
   let lineEndIndex = 0;
   let lineStartIndex = 0;
   let lines = 0;
@@ -247,7 +246,7 @@ function isMinified(key: string, text: string) {
     lineStartIndex = lineEndIndex + 1;
   }
 
-  isMinified =
+  const isMinified =
     indentCount / lines * 100 < INDENT_COUNT_THRESHOLD || overCharLimit;
 
   _minifiedCache.set(key, isMinified);
