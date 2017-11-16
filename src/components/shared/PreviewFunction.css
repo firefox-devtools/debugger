@@ -11,7 +11,7 @@
 }
 
 .function-signature .param {
-  color: var(--string-color);
+  color: var(--theme-highlight-red);
 }
 
 .function-signature .paren {
