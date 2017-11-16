@@ -87,13 +87,15 @@ function getMenuItems(
   );
 
   const isOriginal = isOriginalId(selectedLocation.sourceId);
-  const isGenerated = isGeneratedId(selectedLocation.sourceId);
-  const hasSourceMap = selectedSource.get("sourceMapURL");
+  const hasSourceMap = !!selectedSource.get("sourceMapURL");
   const isPrettyPrinted = isPretty(selectedSource.toJS());
+
+  const isPrettified = isPrettyPrinted || hasPrettyPrint;
+  const isMapped = isOriginal || hasSourceMap;
 
   const jumpLabel = {
     accesskey: L10N.getStr("editor.jumpToMappedLocation1.accesskey"),
-    disabled: isGenerated && !hasSourceMap && !hasPrettyPrint,
+    disabled: !isMapped && !isPrettified,
     label: L10N.getFormatStr(
       "editor.jumpToMappedLocation1",
       isOriginal ? L10N.getStr("generated") : L10N.getStr("original")
