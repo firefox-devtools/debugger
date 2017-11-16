@@ -22,7 +22,7 @@ import { scrollList } from "../utils/result-list";
 import {
   formatSymbols,
   formatSources,
-  parseLineColumn
+  createLocationObject
 } from "../utils/quick-open";
 import Modal from "./shared/Modal";
 import SearchInput from "./shared/SearchInput";
@@ -150,9 +150,9 @@ export class QuickOpenModal extends Component<Props, State> {
         ...(item.location != null ? { line: item.location.start.line } : null)
       });
     } else if (searchType === "gotoSource") {
-      const location = parseLineColumn(query);
+      const location = createLocationObject(query);
       if (location != null) {
-        selectLocation({ sourceId: item.id, ...location });
+        selectLocation(location);
       }
     } else {
       selectLocation({ sourceId: item.id });
@@ -236,7 +236,7 @@ export class QuickOpenModal extends Component<Props, State> {
         if (!selectedSource) {
           return;
         }
-        const location = parseLineColumn(query);
+        const location = createLocationObject(query);
         if (location != null) {
           selectLocation({ id: selectedSource.get("id"), ...location });
         }
