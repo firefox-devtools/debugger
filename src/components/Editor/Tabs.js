@@ -21,7 +21,7 @@ import { getFilename, getFileURL, isPretty } from "../../utils/source";
 import classnames from "classnames";
 import actions from "../../actions";
 import CloseButton from "../shared/Button/Close";
-import { showMenu, buildMenu } from "devtools-launchpad";
+import { showMenu, buildMenu } from "devtools-contextmenu";
 import { debounce } from "lodash";
 import "./Tabs.css";
 

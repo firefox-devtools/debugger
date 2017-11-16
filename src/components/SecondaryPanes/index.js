@@ -9,7 +9,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { features } from "../../utils/prefs";
-import ImPropTypes from "react-immutable-proptypes";
 
 import actions from "../../actions";
 import {
@@ -179,8 +178,6 @@ class SecondaryPanes extends Component<Props> {
     const scopesContent: any = this.props.horizontal
       ? this.getScopeItem()
       : null;
-    const isPaused = () => !!this.props.pauseData;
-
     const items: Array<SecondaryPanesItems> = [
       {
         header: L10N.getStr("breakpoints.header"),
@@ -196,8 +193,7 @@ class SecondaryPanes extends Component<Props> {
         opened: prefs.callStackVisible,
         onToggle: opened => {
           prefs.callStackVisible = opened;
-        },
-        shouldOpen: isPaused
+        }
       },
       scopesContent
     ];
@@ -292,7 +288,7 @@ SecondaryPanes.propTypes = {
   evaluateExpressions: PropTypes.func.isRequired,
   pauseData: PropTypes.object,
   horizontal: PropTypes.bool,
-  breakpoints: ImPropTypes.map.isRequired,
+  breakpoints: PropTypes.object,
   breakpointsDisabled: PropTypes.bool,
   breakpointsLoading: PropTypes.bool,
   toggleAllBreakpoints: PropTypes.func.isRequired,

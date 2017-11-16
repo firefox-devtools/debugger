@@ -1,9 +1,9 @@
 import FrameMenu from "../FrameMenu";
 import { kebabCase } from "lodash";
 
-import { showMenu } from "devtools-launchpad";
+import { showMenu } from "devtools-contextmenu";
 import { copyToTheClipboard } from "../../../../utils/clipboard";
-jest.mock("devtools-launchpad", () => ({ showMenu: jest.fn() }));
+jest.mock("devtools-contextmenu", () => ({ showMenu: jest.fn() }));
 jest.mock("../../../../utils/clipboard", () => ({
   copyToTheClipboard: jest.fn()
 }));

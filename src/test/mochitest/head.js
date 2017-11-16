@@ -244,7 +244,7 @@ function waitForSelectedSource(dbg, url) {
         return true;
       }
 
-      const newSource = findSource(dbg, url);
+      const newSource = findSource(dbg, url, { silent: true });
       if (newSource.id != source.get("id")) {
         return false;
       }
@@ -305,8 +305,9 @@ function assertDebugLine(dbg, line) {
     "Line is highlighted as paused"
   );
 
-  const debugLine = findElementWithSelector(dbg, ".new-debug-line")
-                    || findElementWithSelector(dbg, ".new-debug-line-error");
+  const debugLine =
+    findElementWithSelector(dbg, ".new-debug-line") ||
+    findElementWithSelector(dbg, ".new-debug-line-error");
 
   ok(isVisibleInEditor(dbg, debugLine), "debug line is visible");
 
@@ -519,7 +520,7 @@ function pauseTest() {
  * @return {Object} source
  * @static
  */
-function findSource(dbg, url) {
+function findSource(dbg, url, { silent } = { silent: false }) {
   if (typeof url !== "string") {
     // Support passing in a source object itelf all APIs that use this
     // function support both styles
@@ -531,6 +532,10 @@ function findSource(dbg, url) {
   const source = sources.find(s => (s.get("url") || "").includes(url));
 
   if (!source) {
+    if (silent) {
+      return false;
+    }
+
     throw new Error(`Unable to find source: ${url}`);
   }
 
@@ -540,11 +545,24 @@ function findSource(dbg, url) {
 function waitForLoadedSource(dbg, url) {
   return waitForState(
     dbg,
-    state => findSource(dbg, url).loadedState == "loaded",
+    state => findSource(dbg, url, { silent: true }).loadedState == "loaded",
     "loaded source"
   );
 }
 
+function waitForLoadedSources(dbg) {
+  return waitForState(
+    dbg,
+    state => {
+      const sources = dbg.selectors
+        .getSources(state)
+        .valueSeq()
+        .toJS();
+      return !sources.some(source => source.loadedState == "loading");
+    },
+    "loaded source"
+  );
+}
 /**
  * Selects the source.
  *
@@ -821,7 +839,6 @@ function type(dbg, string) {
   string.split("").forEach(char => EventUtils.synthesizeKey(char, {}, dbg.win));
 }
 
-
 /*
  * Checks to see if the inner element is visible inside the editor.
  *
@@ -860,12 +877,14 @@ function isVisible(outerEl, innerEl) {
   const outerRect = outerEl.getBoundingClientRect();
 
   const verticallyVisible =
-    (innerRect.top >= outerRect.top || innerRect.bottom <= outerRect.bottom)
-    || (innerRect.top < outerRect.top && innerRect.bottom > outerRect.bottom);
+    innerRect.top >= outerRect.top ||
+    innerRect.bottom <= outerRect.bottom ||
+    (innerRect.top < outerRect.top && innerRect.bottom > outerRect.bottom);
 
   const horizontallyVisible =
-    (innerRect.left >= outerRect.left || innerRect.right <= outerRect.right)
-    || (innerRect.left < outerRect.left && innerRect.right > outerRect.right);
+    innerRect.left >= outerRect.left ||
+    innerRect.right <= outerRect.right ||
+    (innerRect.left < outerRect.left && innerRect.right > outerRect.right);
 
   const visible = verticallyVisible && horizontallyVisible;
   return visible;

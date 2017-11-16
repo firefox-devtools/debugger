@@ -60,3 +60,27 @@ button:focus {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+.d-flex {
+  display: flex;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.rounded-circle {
+  border-radius: 50%;
+}
+
+.text-white {
+  color: white;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.min-width-0 {
+  min-width: 0;
+}
