@@ -42,4 +42,12 @@ add_task(async function() {
 
   await waitForPaused(dbg);
   assertPausedLocation(dbg);
+
+  // Tests the existence of the sourcemap link in the original source.
+  ok(findElement(dbg, "sourceMapLink"), "Sourcemap link in original source");
+  await selectSource(dbg, "main.min.js");
+  ok(
+    !findElement(dbg, "sourceMapLink"),
+    "No Sourcemap link exists in generated source"
+  );
 });

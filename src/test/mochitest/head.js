@@ -295,7 +295,9 @@ function assertDebugLine(dbg, line) {
     const url = source.get("url");
     ok(
       false,
-      `Looks like the source ${url} is still loading. Try adding waitForLoadedSource in the test.`
+      `Looks like the source ${
+        url
+      } is still loading. Try adding waitForLoadedSource in the test.`
     );
     return;
   }
@@ -896,7 +898,9 @@ const selectors = {
   expressionNode: i =>
     `.expressions-list .expression-container:nth-child(${i}) .object-label`,
   expressionValue: i =>
-    `.expressions-list .expression-container:nth-child(${i}) .object-delimiter + *`,
+    `.expressions-list .expression-container:nth-child(${
+      i
+    }) .object-delimiter + *`,
   expressionClose: i =>
     `.expressions-list .expression-container:nth-child(${i}) .close`,
   expressionNodes: ".expressions-list .tree-node",
@@ -919,7 +923,8 @@ const selectors = {
   stepOut: ".stepOut.active",
   stepIn: ".stepIn.active",
   toggleBreakpoints: ".breakpoints-toggle",
-  prettyPrintButton: ".prettyPrint",
+  prettyPrintButton: ".source-footer .prettyPrint",
+  sourceMapLink: ".source-footer .mapped-source",
   sourcesFooter: ".sources-panel .source-footer",
   editorFooter: ".editor-pane .source-footer",
   sourceNode: i => `.sources-list .tree-node:nth-child(${i})`,
