@@ -208,7 +208,7 @@ export function selectSource(id: string, options: SelectSourceOptions = {}) {
         await dispatch(loadSourceText(source.toJS()));
         await dispatch(setOutOfScopeLocations());
         const src = getSource(getState(), id).toJS();
-        if (isMinified(src.id, src.text)) {
+        if (src.text && isMinified(src.id, src.text)) {
           await dispatch(togglePrettyPrint(src.id));
         }
       })()
