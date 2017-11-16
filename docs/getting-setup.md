@@ -18,8 +18,6 @@ cd debugger.html
 yarn install
 ```
 
-*What should I do if I get an error?*
-
 
 
 *Why Yarn and not NPM?*
