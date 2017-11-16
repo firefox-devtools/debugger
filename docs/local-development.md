@@ -416,7 +416,7 @@ Let's cover the logging types.
 
 Your code must pass all tests to be merged in.  Your tests should pass locally before you create a PR and the CI should run an automated test that also passes.
 
-Here's how can run all the unit tests, lints, and integration tests at once:
+Here's how you can run all the unit tests, lints, and integration tests at once:
 
 ```bash
 yarn run test-all

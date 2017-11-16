@@ -43,7 +43,7 @@
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
   display: inline-flex;
-  align-items: flex-end;
+  align-items: center;
   position: relative;
   transition: all 0.15s ease;
   min-width: 40px;

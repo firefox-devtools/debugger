@@ -4,6 +4,28 @@ permalink: docs/updates
 
 ## Weekly Updates
 
+### [November 14th](./updates-11-14-2017.md)
+
+**performance** This week we landed the architectural performance work, which lets the debugger UI show initial pause data like pause line and frames, before fetching scopes and re-mapping locations.
+
+We also landed a similar optimization where we no longer try to parse and traverse the files before showing the source text. Previously, the parser would block for up to 10 seconds while parsing large files. Yikes!
+
+**code health** This week was a big week for code health. We upgraded to flow 57, added license headers to all of our files, and switched to using object spread universally.
+
+Also, in an effort to reduce our bundle size, we dropped react-immutable-proptypes and stopped using devtools-launchpad for showing context menus. We're now using the launchpad in just one spot and should be able to remove it soon. When we do, the bundle size will get 20% smaller!
+
+**preview*** We landed 3 big fixes for preview this week. The craziest bug was an issue, which Ted Campbell filed, 6 weeks ago where clicking a link in the scopes pane would literally navigate you away from the debugger and to the page as opposed to opening a new tab. This of course is terrible, because the debugger is NOT a browser.
+
+Another, important fix was with showing local scopes. Jim blandy fixed a bug, which was introduced in August where the frame finished variables like return and thrown were no longer being shown. We now have unit test and integration test coverage to catch this in the future! The tests are really great too :)
+
+The last item, is more of a fun feature than anything else. But because we parse the original source text with babel, it was possible that you could hover on a function param, which has a flow type. Previously we would highlight the type as well, but now we're smarter and just highlight the param. Check out a video of how Jason fixed it!
+
+### [November 7th](./updates-11-07-2017.md)
+
++ we started optimistically clearing the pause state when we step, which eagerly clears the UI and prepares it for another step. We also defer fetching and mapping scopes when the debugger pauses, which makes the UI a bit snappier.
++ We devoted some of our time to improving our airtable config. Airtable will allow us to better manage our open source work / github progress, as well as give us faster access to what has happened over the past week.
++ The biggest fix we had this week was done by @nyrosmith, who noticed that our breakpoints were not responding when the page was reloaded. This turned out to be an issue with how breakpoints were being synced, and could have been avoided if we were stricter with our types!
+
 ### [October 31st](./updates-10-31-2017.md)
 
 + Wellington unified our search UX to create an editor style modal for searching for files, functions, variables, and jumping to a line. We now have helpful prefixes for changing modes: @, #, :.

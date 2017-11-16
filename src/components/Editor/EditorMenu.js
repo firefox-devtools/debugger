@@ -94,6 +94,7 @@ function getMenuItems(
   const isMapped = isOriginal || hasSourceMap;
 
   const jumpLabel = {
+    id: "node-menu-jump",
     accesskey: L10N.getStr("editor.jumpToMappedLocation1.accesskey"),
     disabled: !isMapped && !isPrettified,
     label: L10N.getFormatStr(
@@ -104,6 +105,7 @@ function getMenuItems(
   };
 
   const watchExpressionLabel = {
+    id: "node-menu-add-watch-expression",
     accesskey: L10N.getStr("expressions.accesskey"),
     label: L10N.getStr("expressions.label"),
     click: () => addExpression(editor.codeMirror.getSelection())

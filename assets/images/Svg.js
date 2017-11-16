@@ -53,6 +53,7 @@ const svg = {
   express: require("./express.svg"),
   pug: require("./pug.svg"),
   extjs: require("./sencha-extjs.svg"),
+  mobx: require("./mobx.svg"),
   marko: require("./marko.svg"),
   nextjs: require("./nextjs.svg"),
   showSources: require("./showSources.svg"),
