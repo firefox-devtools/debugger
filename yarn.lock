@@ -245,13 +245,9 @@ acorn@^4.0.3, acorn@^4.0.4:
   version "4.0.13"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-4.0.13.tgz#105495ae5361d697bd195c825192e1ad7f253787"
 
-acorn@^5.0.0, acorn@^5.1.1:
+acorn@^5.0.0, acorn@^5.1.1, acorn@~5.2.1:
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.2.1.tgz#317ac7821826c22c702d66189ab8359675f135d7"
-
-acorn@~2.6.4:
-  version "2.6.4"
-  resolved "https://registry.yarnpkg.com/acorn/-/acorn-2.6.4.tgz#eb1f45b4a43fa31d03701a5ec46f3b52673e90ee"
 
 adm-zip@0.4.7, adm-zip@^0.4.7:
   version "0.4.7"
@@ -7921,11 +7917,11 @@ prettier@^1.6.1:
   version "1.8.1"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.8.1.tgz#91064d778c08c85ac1cbe6b23195c34310d039f9"
 
-pretty-fast@^0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/pretty-fast/-/pretty-fast-0.2.2.tgz#916252bc722e912994e40033ec920e21106b04d0"
+pretty-fast@^0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/pretty-fast/-/pretty-fast-0.2.3.tgz#c07c8a7bc0f3a0555be86258ea7f315b1b42b2da"
   dependencies:
-    acorn "~2.6.4"
+    acorn "~5.2.1"
     optimist "~0.6.0"
     source-map "^0.5.7"
 
