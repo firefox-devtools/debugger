@@ -219,6 +219,7 @@ export default class TextSearch extends Component {
 TextSearch.propTypes = {
   sources: PropTypes.object,
   results: PropTypes.array,
+  status: PropTypes.string,
   query: PropTypes.string,
   closeActiveSearch: PropTypes.func,
   searchSources: PropTypes.func,
