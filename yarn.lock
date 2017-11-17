@@ -2247,7 +2247,7 @@ code-point-at@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
 
-codemirror@^5.25.0, codemirror@^5.28.0:
+codemirror@^5.28.0:
   version "5.31.0"
   resolved "https://registry.yarnpkg.com/codemirror/-/codemirror-5.31.0.tgz#ecf3d057eb74174147066bfc7c5f37b4c4e07df2"
 
@@ -3001,6 +3001,19 @@ devtools-map-bindings@^0.3.0:
     jest "^19.0.2"
     source-map "^0.5.6"
 
+devtools-map-bindings@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/devtools-map-bindings/-/devtools-map-bindings-0.3.2.tgz#cfd37d37f544844d77e55cb877e057a17dbbf739"
+  dependencies:
+    babel-plugin-transform-async-to-generator "^6.22.0"
+    babel-plugin-transform-flow-strip-types "^6.22.0"
+    babel-traverse "^6.26.0"
+    babel-types "^6.26.0"
+    babylon "^6.18.0"
+    devtools-utils "0.0.9"
+    jest "^19.0.2"
+    source-map "^0.5.6"
+
 devtools-mc-assets@^0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/devtools-mc-assets/-/devtools-mc-assets-0.0.2.tgz#082cf3fedc8c238d6731263f836bcc5c18490caa"
@@ -3028,11 +3041,11 @@ devtools-reps@^0.12.4:
     react-dom "=15.3.2"
     svg-inline-react "^1.0.2"
 
-devtools-source-editor@0.0.7:
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/devtools-source-editor/-/devtools-source-editor-0.0.7.tgz#35f0a18baa19e75db8319763800cc23570d7679f"
+devtools-source-editor@^0.0.8:
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/devtools-source-editor/-/devtools-source-editor-0.0.8.tgz#357b6c1daa4d9f199271f8a40b63c12e92d5f144"
   dependencies:
-    codemirror "^5.25.0"
+    codemirror "^5.28.0"
 
 devtools-source-map@^0.14.5:
   version "0.14.5"
