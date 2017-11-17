@@ -8,7 +8,7 @@ import type { ThunkArgs } from "../types";
 
 /**
  * Debugger breakOnNext command.
- * It's different from the comand action because we also want to
+ * It's different from the command action because we also want to
  * highlight the pause icon.
  *
  * @memberof actions/pause

@@ -57,7 +57,8 @@ img.pause,
 img.stepOver,
 img.stepIn,
 img.stepOut,
-img.resume {
+img.resume,
+img.pause-exceptions {
   background-color: var(--theme-body-color);
 }
 
@@ -87,21 +88,24 @@ img.resume {
   mask: url(/images/resume.svg) no-repeat;
 }
 
-.command-bar > button.pause-exceptions.uncaught.enabled > img.pause-exceptions {
+.command-bar .pause-exceptions.uncaught > img {
   background-color: var(--theme-highlight-purple);
 }
 
-.command-bar > button.pause-exceptions.all.enabled > img.pause-exceptions {
+.command-bar .pause-exceptions.all > img {
   background-color: var(--theme-highlight-blue);
 }
 
-.command-bar > button.pause-exceptions.enabled > img.pause-exceptions {
+.command-bar .pause-exceptions > img {
   background-color: var(--theme-body-color);
 }
 
-.command-bar > button > img.pause-exceptions {
+.command-bar img.pause-exceptions {
   mask: url(/images/pause-exceptions.svg) no-repeat;
   margin-inline-start: 0.2em;
+  width: 16px;
+  height: 16px;
+  display: inline-block;
 }
 
 .command-bar .subSettings {
