@@ -5,7 +5,12 @@ import {
   makeSource
 } from "../../utils/test-head";
 
-const { getTextSearchQuery, getTextSearchResults, getSource } = selectors;
+const {
+  getTextSearchQuery,
+  getTextSearchResults,
+  getSource,
+  getTextSearchStatus
+} = selectors;
 
 const threadClient = {
   sourceContents: function(sourceId) {
@@ -100,5 +105,12 @@ describe("project text search", () => {
     await dispatch(actions.clearSearchResults());
 
     expect(getTextSearchResults(getState())).toMatchSnapshot();
+  });
+
+  it("should set the status properly", () => {
+    const { dispatch, getState } = createStore();
+    const mockStatus = "Fetching";
+    dispatch(actions.updateStatus(mockStatus));
+    expect(getTextSearchStatus(getState())).toEqual(mockStatus);
   });
 });

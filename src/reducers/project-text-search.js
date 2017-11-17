@@ -3,6 +3,7 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
+// @format
 
 /**
  * Project text search reducer
@@ -22,16 +23,28 @@ export type Search = {
   matches: I.List<any>
 };
 
+export const statusEnum = {
+  initial: "INITIAL",
+  fetching: "FETCHING",
+  done: "DONE",
+  error: "ERROR"
+};
+
 export type ResultRecord = Record<Search>;
 export type ResultList = List<ResultRecord>;
 export type ProjectTextSearchState = {
   query: string,
-  results: ResultList
+  results: ResultList,
+  status: string
 };
 
 export function InitialState(): Record<ProjectTextSearchState> {
   return makeRecord(
-    ({ query: "", results: I.List() }: ProjectTextSearchState)
+    ({
+      query: "",
+      results: I.List(),
+      status: statusEnum.initial
+    }: ProjectTextSearchState)
   )();
 }
 
@@ -50,6 +63,9 @@ function update(
       const results = state.get("results");
       return state.merge({ results: results.push(action.result) });
 
+    case "UPDATE_STATUS":
+      return state.merge({ status: action.status });
+
     case "CLEAR_SEARCH_RESULTS":
       return state.merge({
         results: state.get("results").clear()
@@ -62,6 +78,10 @@ type OuterState = { projectTextSearch: Record<ProjectTextSearchState> };
 
 export function getTextSearchResults(state: OuterState) {
   return state.projectTextSearch.get("results");
+}
+
+export function getTextSearchStatus(state: OuterState) {
+  return state.projectTextSearch.get("status");
 }
 
 export function getTextSearchQuery(state: OuterState) {
