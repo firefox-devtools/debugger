@@ -62,3 +62,4 @@ airtable
 waitForPaused
 togglePaneCollapse
 CRM
+addon
