@@ -35,7 +35,7 @@ export function clearSearchResults() {
   };
 }
 
-export function updateStatus(status) {
+export function updateStatus(status: string) {
   return { type: "UPDATE_STATUS", status };
 }
 
@@ -73,6 +73,8 @@ export function searchSource(sourceId: string, query: string) {
         matches
       }
     });
-    if (matches.length) dispatch(updateStatus(statusEnum.done));
+    if (matches.length) {
+      dispatch(updateStatus(statusEnum.done));
+    }
   };
 }
