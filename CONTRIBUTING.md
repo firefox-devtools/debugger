@@ -69,8 +69,7 @@ The best talks can be as simple as walking through how the debugger works
 and adding a small feature. For the audience in the room, this will likely be
 the first time they've seen the internals of a developer tool.
 
-Here are two example talks [Debugging the Debugger][jlongster-talk] and [Inspector Inception][jlast-talk].
-Ofcourse, feel free to ask questions in [slack][slack] or share talk slides or videos in channel.
+Ofcourse, feel free to ask questions in [slack][slack] or share talk slides or videos in channel our our `#talks` channel.
 
 ### Write a Blog Post :pencil2:
 
@@ -234,6 +233,12 @@ From that original demo the devtools.html project has progressed quite a bit.  T
 ### Firefox Developer Tools
 
 The debugger.html project is targeted to land in Firefox for Firefox 52.  However if you're looking to work directly on the DevTools project which ships developer tools for Firefox and Firefox Developer Edition right now you can find more information on the Mozilla wiki [DevTools / Get Involved](https://wiki.mozilla.org/DevTools/GetInvolved).
+
+### Talks, Videos, Blog posts
+
++ [Talks](./docs/talks.md)
++ [Videos](./docs/videos.md)
+
 
 ## About Us
 
