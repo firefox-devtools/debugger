@@ -6,7 +6,6 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import { isEnabled } from "devtools-config";
 
 import Reps from "devtools-reps";
@@ -237,9 +236,23 @@ export class Popup extends Component<Props> {
   }
 }
 
+const {
+  addExpression,
+  selectSourceURL,
+  selectSource,
+  loadObjectProperties,
+  openLink
+} = actions;
+
 export default connect(
   state => ({
     loadedObjects: getLoadedObjects(state)
   }),
-  dispatch => bindActionCreators(actions, dispatch)
+  {
+    addExpression,
+    selectSourceURL,
+    selectSource,
+    loadObjectProperties,
+    openLink
+  }
 )(Popup);
