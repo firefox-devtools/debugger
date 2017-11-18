@@ -9,17 +9,19 @@ import { bindActionCreators } from "redux";
 import actions from "../../actions";
 import { getExpressions, getLoadedObjects } from "../../selectors";
 import { getValue } from "../../utils/expressions";
-
+import * as parser from "../../workers/parser";
 import CloseButton from "../shared/Button/Close";
 import { ObjectInspector } from "devtools-reps";
 
+import classnames from "classnames";
 import "./Expressions.css";
 
 import type { List } from "immutable";
 import type { Expression } from "../../types";
 
 type State = {
-  editing: null | Node
+  editing: null | Node,
+  error: null
 };
 
 type Props = {
@@ -41,7 +43,8 @@ class Expressions extends PureComponent<Props, State> {
     super(...args);
 
     this.state = {
-      editing: null
+      editing: null,
+      error: null
     };
 
     this.renderExpression = this.renderExpression.bind(this);
@@ -164,7 +167,7 @@ class Expressions extends PureComponent<Props, State> {
   }
 
   renderNewExpressionInput() {
-    const onKeyPress = e => {
+    const onKeyPress = async e => {
       if (e.key !== "Enter") {
         return;
       }
@@ -176,13 +179,25 @@ class Expressions extends PureComponent<Props, State> {
 
       e.stopPropagation();
       e.target.value = "";
+
+      const error = await parser.hasSyntaxError(value);
+      this.setState({ error });
+
+      if (error) {
+        // for debugging only
+        console.log("has syntax error");
+        return;
+      }
+
       this.props.addExpression(value);
     };
 
+    const { error } = this.state;
     return (
       <li className="expression-input-container">
         <input
           className="input-expression"
+          className={classnames("input-expression", { error })}
           type="text"
           placeholder={L10N.getStr("expressions.placeholder")}
           onBlur={e => (e.target.value = "")}

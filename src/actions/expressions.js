@@ -32,6 +32,13 @@ export function addExpression(input: string) {
       return;
     }
 
+    const error = await parser.hasSyntaxError(input);
+    if (error) {
+      // for debugging only
+      console.log("has syntax error");
+      return false;
+    }
+
     const expression = getExpression(getState(), input);
     if (expression) {
       return dispatch(evaluateExpression(expression));
@@ -102,15 +109,6 @@ function evaluateExpression(expression: Expression) {
     }
 
     let input = expression.input;
-    const error = await parser.hasSyntaxError(input);
-    if (error) {
-      return dispatch({
-        type: "EVALUATE_EXPRESSION",
-        input: expression.input,
-        value: { input: expression.input, result: error }
-      });
-    }
-
     const frame = getSelectedFrame(getState());
 
     if (frame) {
