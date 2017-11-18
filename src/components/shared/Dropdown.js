@@ -5,10 +5,10 @@
 // @flow
 import React, { Component } from "react";
 import "./Dropdown.css";
-import Svg from "../shared/Svg";
 
 type Props = {
   panel: Object
+  icon: any
 };
 
 type State = {
