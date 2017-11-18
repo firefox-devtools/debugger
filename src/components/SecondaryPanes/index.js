@@ -15,7 +15,10 @@ import {
   getPause,
   getBreakpoints,
   getBreakpointsDisabled,
-  getBreakpointsLoading
+  getBreakpointsLoading,
+  getIsWaitingOnBreak,
+  getShouldPauseOnExceptions,
+  getShouldIgnoreCaughtExceptions
 } from "../../selectors";
 
 import { isEnabled } from "devtools-config";
@@ -70,7 +73,12 @@ type Props = {
   breakpointsDisabled: boolean,
   breakpointsLoading: boolean,
   toggleAllBreakpoints: Function,
-  toggleShortcutsModal: Function
+  toggleShortcutsModal: Function,
+  pauseOnExceptions: (boolean, boolean) => void,
+  breakOnNext: () => void,
+  isWaitingOnBreak: any,
+  shouldPauseOnExceptions: boolean,
+  shouldIgnoreCaughtExceptions: boolean
 };
 
 class SecondaryPanes extends Component<Props> {
@@ -316,7 +324,10 @@ SecondaryPanes.propTypes = {
   breakpointsDisabled: PropTypes.bool,
   breakpointsLoading: PropTypes.bool,
   toggleAllBreakpoints: PropTypes.func.isRequired,
-  toggleShortcutsModal: PropTypes.func
+  toggleShortcutsModal: PropTypes.func,
+  isWaitingOnBreak: PropTypes.bool,
+  shouldPauseOnExceptions: PropTypes.bool,
+  shouldIgnoreCaughtExceptions: PropTypes.bool
 };
 
 SecondaryPanes.contextTypes = {
@@ -328,7 +339,10 @@ export default connect(
     pauseData: getPause(state),
     breakpoints: getBreakpoints(state),
     breakpointsDisabled: getBreakpointsDisabled(state),
-    breakpointsLoading: getBreakpointsLoading(state)
+    breakpointsLoading: getBreakpointsLoading(state),
+    isWaitingOnBreak: getIsWaitingOnBreak(state),
+    shouldPauseOnExceptions: getShouldPauseOnExceptions(state),
+    shouldIgnoreCaughtExceptions: getShouldIgnoreCaughtExceptions(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(SecondaryPanes);
