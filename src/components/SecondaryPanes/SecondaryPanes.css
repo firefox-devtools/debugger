@@ -51,7 +51,7 @@
   display: flex;
 }
 
-.accordion .accordion .plus svg {
+.secondary-panes .accordion .plus svg {
   width: 12px;
   margin-top: 3px;
   fill: var(--theme-comment-alt);
