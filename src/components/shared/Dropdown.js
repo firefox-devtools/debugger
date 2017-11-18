@@ -7,7 +7,8 @@ import React, { Component } from "react";
 import "./Dropdown.css";
 
 type Props = {
-  panel: Object
+  panel: Object,
+  icon: any
 };
 
 type State = {
@@ -53,7 +54,7 @@ class Dropdown extends Component<Props, State> {
   renderButton() {
     return (
       <button className="dropdown-button" onClick={this.toggleDropdown}>
-        »
+        {this.props.icon}
       </button>
     );
   }

@@ -8,6 +8,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import classnames from "classnames";
+import { features } from "../../utils/prefs";
 import {
   getPause,
   getIsWaitingOnBreak,
@@ -212,6 +213,10 @@ class CommandBar extends Component<Props> {
    *  3. pause on all exceptions        [true, false]
   */
   renderPauseOnExceptions() {
+    if (features.breakpointsDropdown) {
+      return;
+    }
+
     const {
       shouldPauseOnExceptions,
       shouldIgnoreCaughtExceptions,
