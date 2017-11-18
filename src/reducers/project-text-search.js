@@ -23,7 +23,7 @@ export type Search = {
   matches: I.List<any>
 };
 
-export const statusEnum = {
+export const statusType = {
   initial: "INITIAL",
   fetching: "FETCHING",
   done: "DONE",
@@ -43,7 +43,7 @@ export function InitialState(): Record<ProjectTextSearchState> {
     ({
       query: "",
       results: I.List(),
-      status: statusEnum.initial
+      status: statusType.initial
     }: ProjectTextSearchState)
   )();
 }

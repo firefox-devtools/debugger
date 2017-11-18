@@ -15,7 +15,7 @@ import "./TextSearch.css";
 
 import { getRelativePath } from "../../utils/sources-tree";
 import { highlightMatches } from "./textSearch/utils/highlight";
-import { statusEnum } from "../../reducers/project-text-search";
+import { statusType } from "../../reducers/project-text-search";
 
 export default class TextSearch extends Component {
   constructor(props: Props) {
@@ -154,7 +154,7 @@ export default class TextSearch extends Component {
         ? this.renderFile(item, focused, expanded, setExpanded)
         : this.renderMatch(item, focused);
     };
-    if (results.length && status === statusEnum.done) {
+    if (results.length && status === statusType.done) {
       return (
         <ManagedTree
           getRoots={() => results}
@@ -167,7 +167,7 @@ export default class TextSearch extends Component {
           renderItem={renderItem}
         />
       );
-    } else if (status === statusEnum.fetching) {
+    } else if (status === statusType.fetching) {
       return <div className="no-result-msg absolute-center">Loading...</div>;
     } else if (this.props.query && !results.length) {
       return (

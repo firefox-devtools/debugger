@@ -13,7 +13,7 @@ import { findSourceMatches } from "../workers/search";
 import { getSources, getSource } from "../selectors";
 import { isThirdParty, isLoaded } from "../utils/source";
 import { loadAllSources } from "./sources";
-import { statusEnum } from "../reducers/project-text-search";
+import { statusType } from "../reducers/project-text-search";
 
 import type { ThunkArgs } from "./types";
 
@@ -43,7 +43,7 @@ export function searchSources(query: string) {
   return async ({ dispatch, getState }: ThunkArgs) => {
     await dispatch(clearSearchResults());
     await dispatch(addSearchQuery(query));
-    dispatch(updateSearchStatus(statusEnum.fetching));
+    dispatch(updateSearchStatus(statusType.fetching));
     await dispatch(loadAllSources());
     const sources = getSources(getState());
     const validSources = sources
@@ -74,7 +74,7 @@ export function searchSource(sourceId: string, query: string) {
       }
     });
     if (matches.length) {
-      dispatch(updateSearchStatus(statusEnum.done));
+      dispatch(updateSearchStatus(statusType.done));
     }
   };
 }
