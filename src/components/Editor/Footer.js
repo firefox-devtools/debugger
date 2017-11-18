@@ -15,7 +15,8 @@ import {
 
 import classnames from "classnames";
 import { isEnabled } from "devtools-config";
-import { isPretty, isLoaded } from "../../utils/source";
+import { isPretty, isLoaded, getFilename } from "../../utils/source";
+import { getGeneratedSource } from "../../reducers/sources";
 import { shouldShowFooter, shouldShowPrettyPrint } from "../../utils/editor";
 
 import PaneToggleButton from "../shared/Button/PaneToggle";
@@ -26,10 +27,12 @@ import "./Footer.css";
 
 type Props = {
   selectedSource: SourceRecord,
+  mappedSource: SourceRecord,
   selectSource: (string, ?Object) => void,
   editor: any,
   togglePrettyPrint: string => void,
   toggleBlackBox: Object => void,
+  jumpToMappedLocation: (SourceRecord: any) => void,
   recordCoverage: () => void,
   togglePaneCollapse: () => void,
   endPanelCollapsed: boolean,
@@ -152,6 +155,34 @@ class SourceFooter extends PureComponent<Props> {
     );
   }
 
+  renderSourceSummary() {
+    const { mappedSource, jumpToMappedLocation, selectedSource } = this.props;
+    if (mappedSource) {
+      const bundleSource = mappedSource.toJS();
+      const filename = getFilename(bundleSource);
+      const tooltip = L10N.getFormatStr(
+        "sourceFooter.mappedSourceTooltip",
+        filename
+      );
+      const title = L10N.getFormatStr("sourceFooter.mappedSource", filename);
+      const mappedSourceLocation = {
+        sourceId: selectedSource.get("id"),
+        line: 1,
+        column: 1
+      };
+      return (
+        <button
+          className="mapped-source"
+          onClick={() => jumpToMappedLocation(mappedSourceLocation)}
+          title={tooltip}
+        >
+          <span>{title}</span>
+        </button>
+      );
+    }
+    return null;
+  }
+
   render() {
     const { selectedSource, horizontal } = this.props;
 
@@ -162,6 +193,7 @@ class SourceFooter extends PureComponent<Props> {
     return (
       <div className="source-footer">
         {this.renderCommands()}
+        {this.renderSourceSummary()}
         {this.renderToggleButton()}
       </div>
     );
@@ -172,8 +204,10 @@ export default connect(
   state => {
     const selectedSource = getSelectedSource(state);
     const selectedId = selectedSource && selectedSource.get("id");
+    const source = selectedSource.toJS();
     return {
       selectedSource,
+      mappedSource: getGeneratedSource(state, source),
       prettySource: getPrettySource(state, selectedId),
       endPanelCollapsed: getPaneCollapse(state, "end")
     };

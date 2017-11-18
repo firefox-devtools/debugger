@@ -6,8 +6,16 @@
 import type { Pause, Frame, Location } from "../types";
 import { get } from "lodash";
 import { getScopes } from "../workers/parser";
+// eslint-disable-next-line max-len
+import { updateScopeBindings as coreUpdateScopeBindings } from "devtools-map-bindings/src/updateScopeBindings";
 
-import type { Scope, MappedScopeBindings, Why } from "debugger-html";
+import type {
+  MappedScopeBindings,
+  Scope,
+  SourceId,
+  SourceScope,
+  Why
+} from "debugger-html";
 
 export function updateFrameLocations(
   frames: Frame[],
@@ -28,38 +36,30 @@ export function updateFrameLocations(
   );
 }
 
-function extendScope(
-  scope: ?Scope,
-  generatedScopes: MappedScopeBindings[],
-  index: number
-): ?Scope {
-  if (!scope) {
-    return undefined;
-  }
-  if (index >= generatedScopes.length) {
-    return scope;
-  }
-  return {
-    ...scope,
-    parent: extendScope(scope.parent, generatedScopes, index + 1),
-    sourceBindings: generatedScopes[index].bindings
-  };
-}
+type UpdateScopeBindingsContextArg = {
+  getLocationScopes: (
+    location: Location,
+    astScopes: ?(SourceScope[])
+  ) => Promise<MappedScopeBindings[] | null>,
+  loadSourceText: (sourceId: SourceId) => Promise<any>
+};
 
 export async function updateScopeBindings(
-  scope: any,
-  location: Location,
-  sourceMaps: any
-) {
-  const astScopes = await getScopes(location);
-  const generatedScopes = await sourceMaps.getLocationScopes(
-    location,
-    astScopes
-  );
-  if (!generatedScopes) {
-    return scope;
-  }
-  return extendScope(scope, generatedScopes, 0);
+  scope: ?Scope,
+  generatedLocation: Location,
+  originalLocation: Location,
+  { getLocationScopes, loadSourceText }: UpdateScopeBindingsContextArg
+): Promise<?Scope> {
+  return coreUpdateScopeBindings(scope, generatedLocation, originalLocation, {
+    async getSourceMapsScopes(location) {
+      const astScopes: ?(SourceScope[]) = await getScopes(location);
+      return getLocationScopes(location, astScopes);
+    },
+    async getOriginalSourceScopes(location) {
+      await loadSourceText(location.sourceId);
+      return getScopes(location);
+    }
+  });
 }
 
 // Map protocol pause "why" reason to a valid L10N key

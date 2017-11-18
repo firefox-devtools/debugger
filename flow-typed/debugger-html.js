@@ -323,6 +323,11 @@ declare module "debugger-html" {
       location: Location,
       parameterNames: string[]
     },
+    syntheticScopes?: {
+      scopes: SyntheticScope[],
+      groupIndex: number,
+      groupLength: number
+    },
     type: string
   };
 }

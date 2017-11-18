@@ -3,8 +3,8 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 import { PureComponent } from "react";
-import { showMenu } from "devtools-contextmenu";
-import { isOriginalId, isGeneratedId } from "devtools-source-map";
+import { showMenu } from "devtools-launchpad";
+import { isOriginalId } from "devtools-source-map";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { isPretty } from "../../utils/source";
 import { getSourceLocationFromMouseEvent } from "../../utils/editor";
@@ -16,7 +16,8 @@ import {
   getContextMenu,
   getSelectedLocation,
   getSelectedSource,
-  getSymbols
+  getSymbols,
+  getPrettySource
 } from "../../selectors";
 
 import actions from "../../actions";
@@ -38,7 +39,8 @@ function getMenuItems(
     addExpression,
     getFunctionText,
     getFunctionLocation,
-    flashLineRange
+    flashLineRange,
+    hasPrettyPrint
   }
 ) {
   const copySourceLabel = L10N.getStr("copySource");
@@ -85,13 +87,16 @@ function getMenuItems(
   );
 
   const isOriginal = isOriginalId(selectedLocation.sourceId);
-  const hasSourceMap = selectedSource.get("sourceMapURL");
+  const hasSourceMap = !!selectedSource.get("sourceMapURL");
   const isPrettyPrinted = isPretty(selectedSource.toJS());
+
+  const isPrettified = isPrettyPrinted || hasPrettyPrint;
+  const isMapped = isOriginal || hasSourceMap;
 
   const jumpLabel = {
     id: "node-menu-jump",
     accesskey: L10N.getStr("editor.jumpToMappedLocation1.accesskey"),
-    disabled: isGeneratedId && !hasSourceMap,
+    disabled: !isMapped && !isPrettified,
     label: L10N.getFormatStr(
       "editor.jumpToMappedLocation1",
       isOriginal ? L10N.getStr("generated") : L10N.getStr("original")
@@ -193,6 +198,7 @@ export default connect(
     return {
       selectedLocation: getSelectedLocation(state),
       selectedSource,
+      hasPrettyPrint: !!getPrettySource(state, selectedSource.get("id")),
       contextMenu: getContextMenu(state),
       getFunctionText: line =>
         findFunctionText(

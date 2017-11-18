@@ -190,8 +190,8 @@ We focus on being community friendly for many reasons.
 [labels-available]:https://github.com/devtools-html/debugger.html/labels/available
 [labels-first-timers-only]:https://github.com/devtools-html/debugger.html/labels/first-timers-only
 [labels-difficulty-easy]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%20easy
-[labels-difficulty-medium]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%medium
-[labels-difficulty-hard]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%hard
+[labels-difficulty-medium]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%20medium
+[labels-difficulty-hard]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%20hard
 [labels-docs]:https://github.com/devtools-html/debugger.html/labels/docs
 [labels-design]:https://github.com/devtools-html/debugger.html/labels/design
 [labels-enhancement]:https://github.com/devtools-html/debugger.html/labels/enhancement

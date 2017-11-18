@@ -34,6 +34,7 @@ if (isDevelopment()) {
   pref("devtools.debugger.features.shortcuts", true);
   pref("devtools.debugger.features.root", true);
   pref("devtools.debugger.features.column-breakpoints", true);
+  pref("devtools.debugger.features.map-scopes", true);
 }
 
 export const prefs = new PrefsHelper("devtools", {
@@ -61,7 +62,8 @@ export const features = new PrefsHelper("devtools.debugger.features", {
   wasm: ["Bool", "wasm", true],
   shortcuts: ["Bool", "shortcuts", true],
   root: ["Bool", "root", false],
-  columnBreakpoints: ["Bool", "column-breakpoints", false]
+  columnBreakpoints: ["Bool", "column-breakpoints", false],
+  mapScopes: ["Bool", "map-scopes", true]
 });
 
 if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {
