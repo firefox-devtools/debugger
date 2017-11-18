@@ -108,7 +108,7 @@
   padding-top: 12px;
   height: 14px;
   width: 14px;
-  background: var(--theme-highlight-blue);
+  background: var(--theme-highlight-bluegrey);
 }
 
 .source-tab .blackBox path {
