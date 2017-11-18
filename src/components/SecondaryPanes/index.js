@@ -34,7 +34,7 @@ import Workers from "./Workers";
 import Accordion from "../shared/Accordion";
 import CommandBar from "./CommandBar";
 import UtilsBar from "./UtilsBar";
-import renderBreakpointsDropdown from "./breakpointsDropdown";
+import renderBreakpointsDropdown from "./BreakpointsDropdown";
 
 import _chromeScopes from "./ChromeScopes";
 import _Scopes from "./Scopes";
