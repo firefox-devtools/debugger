@@ -200,6 +200,63 @@ function getSourceLineCount(source: Source) {
   return source.text != undefined ? source.text.split("\n").length : 0;
 }
 
+// Used to detect minification for automatic pretty printing
+const SAMPLE_SIZE = 50;
+const INDENT_COUNT_THRESHOLD = 5;
+const CHARACTER_LIMIT = 250;
+const _minifiedCache = new Map();
+
+/**
+ *
+ * Checks if a source is minified based on some heuristics
+ * @param key
+ * @param text
+ * @return boolean
+ * @memberof utils/source
+ * @static
+ */
+
+function isMinified(key: string, text: string) {
+  if (!key || !text) {
+    return false;
+  }
+
+  if (_minifiedCache.has(key)) {
+    return _minifiedCache.get(key);
+  }
+
+  let lineEndIndex = 0;
+  let lineStartIndex = 0;
+  let lines = 0;
+  let indentCount = 0;
+  let overCharLimit = false;
+
+  // Strip comments.
+  text = text.replace(/\/\*[\S\s]*?\*\/|\/\/(.+|\n)/g, "");
+
+  while (lines++ < SAMPLE_SIZE) {
+    lineEndIndex = text.indexOf("\n", lineStartIndex);
+    if (lineEndIndex == -1) {
+      break;
+    }
+    if (/^\s+/.test(text.slice(lineStartIndex, lineEndIndex))) {
+      indentCount++;
+    }
+    // For files with no indents but are not minified.
+    if (lineEndIndex - lineStartIndex > CHARACTER_LIMIT) {
+      overCharLimit = true;
+      break;
+    }
+    lineStartIndex = lineEndIndex + 1;
+  }
+
+  const minified =
+    indentCount / lines * 100 < INDENT_COUNT_THRESHOLD || overCharLimit;
+
+  _minifiedCache.set(key, minified);
+  return minified;
+}
+
 /**
  *
  * Returns Code Mirror mode for source content type
@@ -264,6 +321,7 @@ function isLoaded(source: Source) {
 }
 
 export {
+  isMinified,
   isJavaScript,
   isPretty,
   isThirdParty,
