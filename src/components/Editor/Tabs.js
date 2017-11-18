@@ -484,13 +484,16 @@ class SourceTabs extends PureComponent<Props, State> {
 
 export default connect(
   state => {
+    const selectedSource = getSelectedSource(state);
+    const sourceId = selectedSource ? selectedSource.get("id") : "";
+
     return {
-      selectedSource: getSelectedSource(state),
+      selectedSource: selectedSource,
       searchTabs: getSearchTabs(state),
       sourceTabs: getSourcesForTabs(state),
       activeSearch: getActiveSearch(state),
       searchOn: getActiveSearch(state) === "source",
-      sourceMetaData: { isReactComponent: true }
+      sourceMetaData: getSourceMetaData(state, sourceId)
     };
   },
   dispatch => bindActionCreators(actions, dispatch)
