@@ -35,7 +35,7 @@ export function clearSearchResults() {
   };
 }
 
-export function updateStatus(status: string) {
+export function updateSearchStatus(status: string) {
   return { type: "UPDATE_STATUS", status };
 }
 
@@ -43,7 +43,7 @@ export function searchSources(query: string) {
   return async ({ dispatch, getState }: ThunkArgs) => {
     await dispatch(clearSearchResults());
     await dispatch(addSearchQuery(query));
-    dispatch(updateStatus(statusEnum.fetching));
+    dispatch(updateSearchStatus(statusEnum.fetching));
     await dispatch(loadAllSources());
     const sources = getSources(getState());
     const validSources = sources
@@ -74,7 +74,7 @@ export function searchSource(sourceId: string, query: string) {
       }
     });
     if (matches.length) {
-      dispatch(updateStatus(statusEnum.done));
+      dispatch(updateSearchStatus(statusEnum.done));
     }
   };
 }
