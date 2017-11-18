@@ -54,7 +54,7 @@ class Dropdown extends Component<Props, State> {
   renderButton() {
     return (
       <button className="dropdown-button" onClick={this.toggleDropdown}>
-        <Svg name="plus" />
+        {this.props.icon}
       </button>
     );
   }
