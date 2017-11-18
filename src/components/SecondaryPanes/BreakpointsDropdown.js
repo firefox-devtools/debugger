@@ -120,8 +120,6 @@ export default function renderBreakpointsDropdown(
   const active =
     shouldPauseOnExceptions || shouldIgnoreCaughtExceptions || isWaitingOnBreak;
 
-  console.log(active);
-
   return (
     <div
       className="breakpoints-dropdown"

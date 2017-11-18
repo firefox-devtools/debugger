@@ -89,7 +89,6 @@ class SecondaryPanes extends Component<Props> {
       breakpointsDisabled,
       breakpointsLoading
     } = this.props;
-    const boxClassName = "breakpoints-toggle";
     const isIndeterminate =
       !breakpointsDisabled && breakpoints.some(x => x.disabled);
 
@@ -102,8 +101,9 @@ class SecondaryPanes extends Component<Props> {
       "aria-label": breakpointsDisabled
         ? L10N.getStr("breakpoints.enable")
         : L10N.getStr("breakpoints.disable"),
-      className: boxClassName,
+      className: "breakpoints-toggle",
       disabled: breakpointsLoading,
+      key: "breakpoints-toggle",
       onChange: e => {
         e.stopPropagation();
         toggleAllBreakpoints(!breakpointsDisabled);
@@ -120,11 +120,7 @@ class SecondaryPanes extends Component<Props> {
         : L10N.getStr("breakpoints.disable")
     };
 
-    return (
-      <div className="breakpoints-buttons">
-        <input {...inputProps} />
-      </div>
-    );
+    return <input {...inputProps} />;
   }
 
   watchExpressionHeaderButtons() {
