@@ -110,7 +110,7 @@ describe("project text search", () => {
   it("should set the status properly", () => {
     const { dispatch, getState } = createStore();
     const mockStatus = "Fetching";
-    dispatch(actions.updateStatus(mockStatus));
+    dispatch(actions.updateSearchStatus(mockStatus));
     expect(getTextSearchStatus(getState())).toEqual(mockStatus);
   });
 });
