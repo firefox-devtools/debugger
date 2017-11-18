@@ -32,6 +32,7 @@ import Dropdown from "../shared/Dropdown";
 import type { List } from "immutable";
 import type { SourceRecord } from "../../reducers/sources";
 import type { ActiveSearchType } from "../../reducers/ui";
+import type { SourceMetaDataMap } from "../../reducers/ast";
 type SourcesList = List<SourceRecord>;
 
 /*
@@ -96,7 +97,8 @@ type Props = {
   horizontal: boolean,
   startPanelCollapsed: boolean,
   endPanelCollapsed: boolean,
-  searchOn: boolean
+  searchOn: boolean,
+  sourceMetaData: SourceMetaDataMap
 };
 
 type State = {
@@ -488,7 +490,7 @@ export default connect(
       sourceTabs: getSourcesForTabs(state),
       activeSearch: getActiveSearch(state),
       searchOn: getActiveSearch(state) === "source",
-      sourceMetaData: getSourceMetaData(state, 0)
+      sourceMetaData: { isReactComponent: true }
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

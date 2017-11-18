@@ -102,9 +102,18 @@
   background: var(--theme-highlight-blue);
 }
 
+.source-tab img.react {
+  mask: url(/images/react.svg) no-repeat;
+  mask-size: 100%;
+  padding-top: 12px;
+  height: 14px;
+  width: 14px;
+  background: var(--theme-highlight-blue);
+}
+
 .source-tab .blackBox path {
   fill: var(--theme-textbox-box-shadow);
-}
+}Just
 
 .theme-dark .source-tab .blackBox circle {
   fill: var(--theme-body-color);
