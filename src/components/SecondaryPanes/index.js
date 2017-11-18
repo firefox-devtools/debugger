@@ -33,7 +33,6 @@ import EventListeners from "./EventListeners";
 import Workers from "./Workers";
 import Accordion from "../shared/Accordion";
 import CommandBar from "./CommandBar";
-import Dropdown from "../shared/Dropdown";
 import UtilsBar from "./UtilsBar";
 import renderBreakpointsDropdown from "./breakpointsDropdown";
 
@@ -122,10 +121,10 @@ class SecondaryPanes extends Component<Props> {
     };
 
     return (
-       <div className="breakpoints-buttons">
-         <input {...inputProps} />
-       </div>
-     );
+      <div className="breakpoints-buttons">
+        <input {...inputProps} />
+      </div>
+    );
   }
 
   watchExpressionHeaderButtons() {
@@ -197,9 +196,7 @@ class SecondaryPanes extends Component<Props> {
       {
         header: L10N.getStr("breakpoints.header"),
         className: "breakpoints-pane",
-        buttons: [
-        this.breakpointDropdown(),
-        this.renderBreakpointsToggle()],
+        buttons: [this.breakpointDropdown(), this.renderBreakpointsToggle()],
         component: Breakpoints,
         opened: true
       },
