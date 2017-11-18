@@ -13,6 +13,7 @@ import { findSourceMatches } from "../workers/search";
 import { getSources, getSource } from "../selectors";
 import { isThirdParty, isLoaded } from "../utils/source";
 import { loadAllSources } from "./sources";
+import { statusType } from "../reducers/project-text-search";
 
 import type { ThunkArgs } from "./types";
 
@@ -34,17 +35,21 @@ export function clearSearchResults() {
   };
 }
 
+export function updateSearchStatus(status: string) {
+  return { type: "UPDATE_STATUS", status };
+}
+
 export function searchSources(query: string) {
   return async ({ dispatch, getState }: ThunkArgs) => {
     await dispatch(clearSearchResults());
     await dispatch(addSearchQuery(query));
+    dispatch(updateSearchStatus(statusType.fetching));
     await dispatch(loadAllSources());
     const sources = getSources(getState());
     const validSources = sources
       .valueSeq()
       .filter(source => isLoaded(source.toJS()) && !isThirdParty(source.toJS()))
       .toJS();
-
     for (const source of validSources) {
       await dispatch(searchSource(source.id, query));
     }
@@ -68,5 +73,8 @@ export function searchSource(sourceId: string, query: string) {
         matches
       }
     });
+    if (matches.length) {
+      dispatch(updateSearchStatus(statusType.done));
+    }
   };
 }
