@@ -217,6 +217,10 @@ const _minifiedCache = new Map();
  */
 
 function isMinified(key: string, text: string) {
+  if (!key || !text) {
+    return false;
+  }
+
   if (_minifiedCache.has(key)) {
     return _minifiedCache.get(key);
   }
