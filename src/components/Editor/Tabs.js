@@ -13,7 +13,8 @@ import {
   getSelectedSource,
   getSourcesForTabs,
   getActiveSearch,
-  getSearchTabs
+  getSearchTabs,
+  getSourceMetaData
 } from "../../selectors";
 import { isVisible } from "../../utils/ui";
 
@@ -454,7 +455,11 @@ class SourceTabs extends PureComponent<Props, State> {
 
   getSourceAnnotation(source) {
     const sourceObj = source.toJS();
+    const { sourceMetaData } = this.props;
 
+    if (sourceMetaData && sourceMetaData.isReactComponent) {
+      return <img className="react" />;
+    }
     if (isPretty(sourceObj)) {
       return <img className="prettyPrint" />;
     }
@@ -482,7 +487,8 @@ export default connect(
       searchTabs: getSearchTabs(state),
       sourceTabs: getSourcesForTabs(state),
       activeSearch: getActiveSearch(state),
-      searchOn: getActiveSearch(state) === "source"
+      searchOn: getActiveSearch(state) === "source",
+      sourceMetaData: getSourceMetaData(state, 0)
     };
   },
   dispatch => bindActionCreators(actions, dispatch)
