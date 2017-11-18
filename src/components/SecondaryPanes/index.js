@@ -35,6 +35,7 @@ import Accordion from "../shared/Accordion";
 import CommandBar from "./CommandBar";
 import Dropdown from "../shared/Dropdown";
 import UtilsBar from "./UtilsBar";
+import renderBreakpointsDropdown from "./breakpointsDropdown";
 
 import _chromeScopes from "./ChromeScopes";
 import _Scopes from "./Scopes";
@@ -122,25 +123,9 @@ class SecondaryPanes extends Component<Props> {
 
     return (
        <div className="breakpoints-buttons">
-         {this.renderBreakpointsDropdown()}
          <input {...inputProps} />
        </div>
      );
-  }
-
-   
-
-  renderBreakpointsDropdown() {
-    
-    const Panel = (
-       <ul>
-         <li>Pause on Next Statement</li>
-         <li>Pause on Uncaught Exceptions</li>
-         <li>Pause on Exceptions</li>
-       </ul>
-     );
-
-    return <Dropdown panel={ Panel }/>;
   }
 
   watchExpressionHeaderButtons() {
