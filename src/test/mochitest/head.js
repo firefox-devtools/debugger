@@ -337,7 +337,7 @@ function assertHighlightLocation(dbg, source, line) {
   source = findSource(dbg, source);
 
   // Check the selected source
-  is(getSelectedSource(getState()).get("url"), source.url);
+  is(getSelectedSource(getState()).get("url"), source.url, "source url is correct");
 
   // Check the highlight line
   const lineEl = findElement(dbg, "highlightLine");
@@ -933,7 +933,9 @@ const selectors = {
   resultItems: ".result-list .result-item",
   fileMatch: ".managed-tree .result",
   popup: ".popover",
-  tooltip: ".tooltip"
+  tooltip: ".tooltip",
+  outlineItem: i => `.outline-list__element:nth-child(${i})`,
+  outlineItems: ".outline-list__element"
 };
 
 function getSelector(elementName, ...args) {
