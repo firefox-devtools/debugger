@@ -113,7 +113,7 @@
 
 .source-tab .blackBox path {
   fill: var(--theme-textbox-box-shadow);
-}Just
+}
 
 .theme-dark .source-tab .blackBox circle {
   fill: var(--theme-body-color);
