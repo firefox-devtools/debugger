@@ -7,7 +7,7 @@ import React, { Component } from "react";
 import "./Dropdown.css";
 
 type Props = {
-  panel: Object
+  panel: Object,
   icon: any
 };
 
