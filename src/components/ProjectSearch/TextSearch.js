@@ -168,7 +168,7 @@ export default class TextSearch extends Component {
         />
       );
     } else if (status === statusEnum.fetching) {
-      return <div className="no-result-msg absolute-center">Loading..</div>;
+      return <div className="no-result-msg absolute-center">Loading...</div>;
     } else if (this.props.query && !results.length) {
       return (
         <div className="no-result-msg absolute-center">
