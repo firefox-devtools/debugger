@@ -17,7 +17,18 @@ import { getRelativePath } from "../../utils/sources-tree";
 import { highlightMatches } from "./textSearch/utils/highlight";
 import { statusType } from "../../reducers/project-text-search";
 
-export default class TextSearch extends Component {
+type Props = {
+  sources: Object,
+  results: Object,
+  status: string,
+  query: string,
+  closeActiveSearch: Function,
+  searchSources: Function,
+  selectSource: Function,
+  searchBottomBar: Object
+};
+
+export default class TextSearch extends Component<Props> {
   constructor(props: Props) {
     super(props);
     this.state = {
