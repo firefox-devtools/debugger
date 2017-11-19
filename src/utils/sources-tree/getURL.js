@@ -46,6 +46,14 @@ export function getURL(
         filename: filename
       });
 
+    case "ng:":
+      // A Webpack source is a special case
+      return merge(def, {
+        path: path,
+        group: "Angular",
+        filename: filename
+      });
+
     case "about:":
       // An about page is a special case
       return merge(def, {
