@@ -19,7 +19,7 @@ import { statusType } from "../../reducers/project-text-search";
 
 type Props = {
   sources: Object,
-  results: Object,
+  results: Array,
   status: string,
   query: string,
   closeActiveSearch: Function,
