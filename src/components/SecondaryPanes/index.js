@@ -138,6 +138,11 @@ class SecondaryPanes extends Component<Props> {
   }
 
   getScopeItem() {
+
+    if (!this.props.pauseData) {
+      return;
+    }
+
     const isPaused = () => !!this.props.pauseData;
 
     return {
