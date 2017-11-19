@@ -151,6 +151,10 @@ class CommandBar extends Component<Props> {
     const className = isPaused ? "active" : "disabled";
     const isDisabled = !this.props.pause;
 
+    if (!isPaused) {
+      return;
+    }
+
     return [
       debugBtn(
         this.props.stepOver,
