@@ -5,13 +5,11 @@
 import getSymbols from "./getSymbols";
 
 export function isReactComponent(source) {
-  const { imports, classes } = getSymbols(source);
-
-  if (!imports || !classes) {
-    return false;
-  }
-
-  return importsReact(imports) && extendsComponent(classes);
+  const { imports, classes, callExpressions } = getSymbols(source);
+  return (
+    (importsReact(imports) || requiresReact(callExpressions)) &&
+    extendsComponent(classes)
+  );
 }
 
 function importsReact(imports) {
@@ -22,12 +20,21 @@ function importsReact(imports) {
   );
 }
 
+function requiresReact(callExpressions) {
+  return callExpressions.some(
+    callExpression =>
+      callExpression.name === "require" &&
+      callExpression.arguments.some(arg => arg.value === "react")
+  );
+}
+
 function extendsComponent(classes) {
   let result = false;
   classes.some(classObj => {
     if (
       classObj.parent.name === "Component" ||
-      classObj.parent.name === "PureComponent"
+      classObj.parent.name === "PureComponent" ||
+      classObj.parent.property.name === "Component"
     ) {
       result = true;
     }

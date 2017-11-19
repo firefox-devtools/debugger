@@ -22,7 +22,8 @@ export type SymbolDeclaration = {|
   expressionLocation?: BabelLocation,
   parameterNames?: string[],
   identifier?: Object,
-  computed?: Boolean
+  computed?: Boolean,
+  arguments?: Object[]
 |};
 
 export type FunctionDeclaration = SymbolDeclaration & {|
@@ -159,10 +160,12 @@ function extractSymbols(source: Source) {
 
       if (t.isCallExpression(path)) {
         const callee = path.node.callee;
+        const args = path.node.arguments;
         if (!t.isMemberExpression(callee)) {
           const { start, end, identifierName } = callee.loc;
           callExpressions.push({
             name: identifierName,
+            arguments: args,
             location: { start, end }
           });
         }
