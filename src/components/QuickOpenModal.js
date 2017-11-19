@@ -152,7 +152,7 @@ export class QuickOpenModal extends Component<Props, State> {
     } else if (searchType === "gotoSource") {
       const location = parseLineColumn(query);
       if (location != null) {
-        selectLocation(location);
+        selectLocation({ sourceId: item.id, ...location });
       }
     } else {
       selectLocation({ sourceId: item.id });
