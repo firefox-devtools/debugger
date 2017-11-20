@@ -66,18 +66,13 @@ export function setSymbols(sourceId: SourceId) {
     }
 
     const source = sourceRecord.toJS();
+
     if (!source.text || source.isWasm || hasSymbols(getState(), source)) {
       return;
     }
 
     const symbols = await getSymbols(source);
-
-    dispatch({
-      type: "SET_SYMBOLS",
-      source,
-      symbols
-    });
-
+    dispatch({ type: "SET_SYMBOLS", source, symbols });
     dispatch(setEmptyLines(source.id));
     dispatch(setSourceMetaData(source.id));
   };

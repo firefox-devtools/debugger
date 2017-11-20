@@ -317,8 +317,12 @@ class SourceTabs extends PureComponent<Props, State> {
   }
 
   getIconClass(source: SourceRecord) {
-    if (isPretty(source.toJS())) return "prettyPrint";
-    if (source.get("isBlackBoxed")) return "blackBox";
+    if (isPretty(source.toJS())) {
+      return "prettyPrint";
+    }
+    if (source.get("isBlackBoxed")) {
+      return "blackBox";
+    }
     return "file";
   }
 
@@ -330,7 +334,7 @@ class SourceTabs extends PureComponent<Props, State> {
       selectLocation({ sourceId: source.get("id"), line: 0 });
     return (
       <li key={source.get("id")} onClick={onClick}>
-        <img className={"dropdown-icon " + this.getIconClass(source)} />
+        <img className={`dropdown-icon ${this.getIconClass(source)}`} />
         {filename}
       </li>
     );

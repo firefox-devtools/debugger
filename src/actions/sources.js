@@ -27,6 +27,7 @@ import { prefs } from "../utils/prefs";
 import { removeDocument } from "../utils/editor";
 import { isThirdParty, isMinified, shouldPrettyPrint } from "../utils/source";
 import { getGeneratedLocation } from "../utils/source-maps";
+import { isOriginalId } from "devtools-source-map";
 
 import {
   getSource,
@@ -40,37 +41,52 @@ import {
   removeSourcesFromTabList,
   removeSourceFromTabList,
   getTextSearchQuery,
-  getActiveSearch
+  getActiveSearch,
+  getGeneratedSource
 } from "../selectors";
 
 import type { Source, Location } from "../types";
 import type { ThunkArgs } from "./types";
-import type { State } from "../reducers/types";
 
 // If a request has been made to show this source, go ahead and
 // select it.
-async function checkSelectedSource(state: State, dispatch, source) {
-  const pendingLocation = getPendingSelectedLocation(state);
+function checkSelectedSource(source) {
+  return async ({ dispatch, getState }: ThunkArgs) => {
+    const pendingLocation = getPendingSelectedLocation(getState());
 
-  if (pendingLocation && !!source.url && pendingLocation.url === source.url) {
-    await dispatch(selectLocation({ ...pendingLocation, sourceId: source.id }));
-  }
+    if (pendingLocation && !!source.url && pendingLocation.url === source.url) {
+      await dispatch(
+        selectLocation({ ...pendingLocation, sourceId: source.id })
+      );
+    }
+  };
 }
 
-async function checkPendingBreakpoints(state, dispatch, sourceId) {
-  // source may have been modified by selectLocation
-  const source = getSource(state, sourceId).toJS();
-  const pendingBreakpoints = getPendingBreakpointsForSource(state, source.url);
-  if (!pendingBreakpoints.size) {
-    return;
-  }
+function checkPendingBreakpoints(sourceId) {
+  return async ({ dispatch, getState }: ThunkArgs) => {
+    // source may have been modified by selectLocation
+    const source = getSource(getState(), sourceId).toJS();
 
-  // load the source text if there is a pending breakpoint for it
-  await dispatch(loadSourceText(source));
-  const pendingBreakpointsArray = pendingBreakpoints.valueSeq().toJS();
-  for (const pendingBreakpoint of pendingBreakpointsArray) {
-    await dispatch(syncBreakpoint(sourceId, pendingBreakpoint));
-  }
+    const pendingBreakpoints = getPendingBreakpointsForSource(
+      getState(),
+      source.url
+    );
+    if (!pendingBreakpoints.size) {
+      return;
+    }
+
+    await dispatch(loadSourceText(source));
+
+    if (isOriginalId(source.id)) {
+      const generatedSource = getGeneratedSource(getState(), source);
+      await dispatch(loadSourceText(generatedSource.toJS()));
+    }
+
+    const pendingBreakpointsArray = pendingBreakpoints.valueSeq().toJS();
+    for (const pendingBreakpoint of pendingBreakpointsArray) {
+      await dispatch(syncBreakpoint(sourceId, pendingBreakpoint));
+    }
+  };
 }
 
 /**
@@ -88,11 +104,11 @@ export function newSource(source: Source) {
     dispatch({ type: "ADD_SOURCE", source });
 
     if (prefs.clientSourceMapsEnabled) {
-      await dispatch(loadSourceMap(source));
+      dispatch(loadSourceMap(source));
     }
 
-    await checkSelectedSource(getState(), dispatch, source);
-    await checkPendingBreakpoints(getState(), dispatch, source.id);
+    dispatch(checkSelectedSource(source));
+    dispatch(checkPendingBreakpoints(source.id));
   };
 }
 
@@ -112,10 +128,25 @@ export function newSources(sources: Source[]) {
     });
 
     for (const source of filteredSources) {
-      await dispatch(loadSourceMap(source));
-      await checkSelectedSource(getState(), dispatch, source);
-      await checkPendingBreakpoints(getState(), dispatch, source.id);
+      dispatch(loadSourceMap(source));
+      dispatch(checkSelectedSource(source));
+      dispatch(checkPendingBreakpoints(source.id));
     }
+  };
+}
+
+function createOriginalSource(
+  originalUrl,
+  generatedSource,
+  sourceMaps
+): Source {
+  return {
+    url: originalUrl,
+    id: sourceMaps.generatedToOriginalId(generatedSource.id, originalUrl),
+    isPrettyPrinted: false,
+    isWasm: false,
+    isBlackBoxed: false,
+    loadedState: "unloaded"
   };
 }
 
@@ -132,16 +163,8 @@ function loadSourceMap(generatedSource) {
       return;
     }
 
-    const originalSources = urls.map(
-      originalUrl =>
-        ({
-          url: originalUrl,
-          id: sourceMaps.generatedToOriginalId(generatedSource.id, originalUrl),
-          isPrettyPrinted: false,
-          isWasm: false,
-          isBlackBoxed: false,
-          loadedState: "unloaded"
-        }: Source)
+    const originalSources = urls.map(url =>
+      createOriginalSource(url, generatedSource, sourceMaps)
     );
 
     // TODO: check if this line is really needed, it introduces
@@ -234,7 +257,7 @@ export function selectLocation(location: Location, tabIndex: string = "") {
       location,
       [PROMISE]: (async () => {
         await dispatch(loadSourceText(source.toJS()));
-        await dispatch(setOutOfScopeLocations());
+        dispatch(setOutOfScopeLocations());
         const src = getSource(getState(), location.sourceId).toJS();
         const { autoPrettyPrint } = prefs;
         if (
@@ -261,7 +284,7 @@ export function jumpToMappedLocation(sourceLocation: any) {
 
     const source = getSource(getState(), sourceLocation.sourceId);
     let pairedLocation;
-    if (sourceMaps.isOriginalId(sourceLocation.sourceId)) {
+    if (isOriginalId(sourceLocation.sourceId)) {
       pairedLocation = await getGeneratedLocation(
         getState(),
         source.toJS(),
@@ -347,7 +370,9 @@ export function togglePrettyPrint(sourceId: string) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     const source = getSource(getState(), sourceId).toJS();
 
-    if (!source) return {};
+    if (!source) {
+      return {};
+    }
 
     if (!isLoaded(source)) {
       await dispatch(loadSourceText(source));

@@ -40,10 +40,11 @@ import {
   createStore,
   selectors,
   actions,
-  makeSource
+  makeSource,
+  waitForState
 } from "../../utils/test-head";
 
-import { makePendingLocationId, makeLocationId } from "../../utils/breakpoint";
+import { makePendingLocationId } from "../../utils/breakpoint";
 
 describe("when adding breakpoints", () => {
   const mockedPendingBreakpoint = mockPendingBreakpoint();
@@ -228,13 +229,15 @@ describe("initializing with disabled pending breakpoints in prefs", () => {
       sourceId: "bar.js"
     };
 
-    const expectedId = makeLocationId(expectedLocation);
-    const { getState, dispatch } = createStore(simpleMockThreadClient);
+    const store = createStore(simpleMockThreadClient);
+    const { getState, dispatch } = store;
     const source = makeSource("bar.js");
     await dispatch(actions.newSource(source));
-    const bps = selectors.getBreakpoints(getState());
-    const bp = bps.get(expectedId);
+    await waitForState(store, state =>
+      selectors.getBreakpoint(state, expectedLocation)
+    );
 
+    const bp = selectors.getBreakpoint(getState(), expectedLocation);
     expect(bp.location).toEqual(expectedLocation);
     expect(bp.disabled).toEqual(mockedPendingBreakpoint.disabled);
   });
@@ -249,19 +252,26 @@ describe("adding sources", () => {
   });
 
   it("corresponding breakpoints are added for a single source", async () => {
-    const { dispatch, getState } = createStore(simpleMockThreadClient);
+    const store = createStore(simpleMockThreadClient);
+    const { getState, dispatch } = store;
 
     let bps = selectors.getBreakpoints(getState());
     expect(bps.size).toBe(0);
 
     const source = makeSource("bar.js");
     await dispatch(actions.newSource(source));
+    await waitForState(
+      store,
+      state => selectors.getBreakpoints(state).size > 0
+    );
+
     bps = selectors.getBreakpoints(getState());
     expect(bps.size).toBe(1);
   });
 
   it("add corresponding breakpoints for multiple sources", async () => {
-    const { dispatch, getState } = createStore(simpleMockThreadClient);
+    const store = createStore(simpleMockThreadClient);
+    const { getState, dispatch } = store;
 
     let bps = selectors.getBreakpoints(getState());
     expect(bps.size).toBe(0);
@@ -269,6 +279,11 @@ describe("adding sources", () => {
     const source1 = makeSource("bar.js");
     const source2 = makeSource("foo.js");
     await dispatch(actions.newSources([source1, source2]));
+    await waitForState(
+      store,
+      state => selectors.getBreakpoints(state).size > 0
+    );
+
     bps = selectors.getBreakpoints(getState());
     expect(bps.size).toBe(1);
   });
