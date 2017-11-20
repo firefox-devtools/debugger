@@ -8,16 +8,25 @@ import { PROMISE } from "../utils/middleware/promise";
 import { setSymbols } from "../ast";
 import { getSource } from "../../selectors";
 import { setSource } from "../../workers/parser";
+import { isLoading, isLoaded } from "../../utils/source";
 import type { Source } from "../../types";
 import type { ThunkArgs } from "../types";
 
+const requests = new Map();
+
 async function loadSource(source: Source, { sourceMaps, client }) {
+  console.log("load!");
   if (sourceMaps.isOriginalId(source.id)) {
     return await sourceMaps.getOriginalSourceText(source);
   }
 
+  console.log("...load!");
   const response = await client.sourceContents(source.id);
-
+  console.log("load! ...", {
+    id: source.id,
+    text: response.source,
+    contentType: response.contentType || "text/javascript"
+  });
   return {
     id: source.id,
     text: response.source,
@@ -31,16 +40,28 @@ async function loadSource(source: Source, { sourceMaps, client }) {
  */
 export function loadSourceText(source: Source) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
+    console.log("lst", source);
     // Fetch the source text only once.
-    if (source.text) {
+    if (isLoaded(source)) {
       return Promise.resolve(source);
     }
 
+    if (isLoading(source)) {
+      console.log("loading");
+      return requests.get(source.id);
+    }
+
+    const request = loadSource(source, { sourceMaps, client });
+    requests.set(source.id, request);
+    console.log({ request });
     await dispatch({
       type: "LOAD_SOURCE_TEXT",
       source: source,
-      [PROMISE]: loadSource(source, { sourceMaps, client })
+      [PROMISE]: request
     });
+
+    console.log("DONE");
+    requests.delete(source.id);
 
     const newSource = getSource(getState(), source.id).toJS();
     if (newSource.isWasm) {
