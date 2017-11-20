@@ -101,8 +101,15 @@ export function newSources(sources: Source[]) {
       source => !getSource(getState(), source.id)
     );
 
+    dispatch({
+      type: "ADD_SOURCES",
+      sources
+    });
+
     for (const source of filteredSources) {
-      await dispatch(newSource(source));
+      await dispatch(loadSourceMap(source));
+      await checkSelectedSource(getState(), dispatch, source);
+      await checkPendingBreakpoints(getState(), dispatch, source.id);
     }
   };
 }
@@ -113,7 +120,11 @@ export function newSources(sources: Source[]) {
  */
 function loadSourceMap(generatedSource) {
   return async function({ dispatch, getState, sourceMaps }: ThunkArgs) {
-    const urls = await sourceMaps.getOriginalURLs(generatedSource);
+    let urls = null;
+    try {
+      urls = await sourceMaps.getOriginalURLs(generatedSource);
+    } catch (e) {}
+
     if (!urls) {
       // If this source doesn't have a sourcemap, do nothing.
       return;
