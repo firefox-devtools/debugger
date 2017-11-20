@@ -86,6 +86,20 @@ describe("sources-tree", () => {
       expect(formatTree(tree)).toMatchSnapshot();
     });
 
+    it("supports data URLs", () => {
+      const sources = [
+        {
+          id: "server1.conn13.child1/39",
+          url: "data:text/html,<script>console.log(123)</script>"
+        }
+      ];
+
+      const sourceMap = createSourcesMap(sources);
+      const tree = createTree(sourceMap, "").sourceTree;
+
+      expect(formatTree(tree)).toMatchSnapshot();
+    });
+
     it("does not attempt to add two of the same file", () => {
       const sources = [
         {
