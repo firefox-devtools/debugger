@@ -26,7 +26,7 @@ import { prefs } from "../utils/prefs";
 import { removeDocument } from "../utils/editor";
 import { isThirdParty, isMinified, shouldPrettyPrint } from "../utils/source";
 import { getGeneratedLocation } from "../utils/source-maps";
-
+import { isOriginalId } from "devtools-source-map";
 import {
   getSource,
   getSources,
@@ -39,7 +39,8 @@ import {
   removeSourcesFromTabList,
   removeSourceFromTabList,
   getTextSearchQuery,
-  getActiveSearch
+  getActiveSearch,
+  getGeneratedSource
 } from "../selectors";
 
 import type { Source } from "../types";
@@ -66,6 +67,12 @@ async function checkPendingBreakpoints(state, dispatch, sourceId) {
 
   // load the source text if there is a pending breakpoint for it
   await dispatch(loadSourceText(source));
+
+  if (isOriginalId(source.id)) {
+    const generatedSource = getGeneratedSource(state, source);
+    await dispatch(loadSourceText(source.toJS()));
+  }
+
   const pendingBreakpointsArray = pendingBreakpoints.valueSeq().toJS();
   for (const pendingBreakpoint of pendingBreakpointsArray) {
     await dispatch(syncBreakpoint(sourceId, pendingBreakpoint));
@@ -87,11 +94,11 @@ export function newSource(source: Source) {
     dispatch({ type: "ADD_SOURCE", source });
 
     if (prefs.clientSourceMapsEnabled) {
-      await dispatch(loadSourceMap(source));
+      dispatch(loadSourceMap(source));
     }
 
-    await checkSelectedSource(getState(), dispatch, source);
-    await checkPendingBreakpoints(getState(), dispatch, source.id);
+    checkSelectedSource(getState(), dispatch, source);
+    checkPendingBreakpoints(getState(), dispatch, source.id);
   };
 }
 
@@ -133,9 +140,8 @@ function loadSourceMap(generatedSource) {
 
     dispatch({ type: "ADD_SOURCES", sources: originalSources });
 
-    await dispatch(loadSourceText(generatedSource));
     originalSources.forEach(async source => {
-      await checkSelectedSource(getState(), dispatch, source);
+      checkSelectedSource(getState(), dispatch, source);
       checkPendingBreakpoints(getState(), dispatch, source.id);
     });
   };
