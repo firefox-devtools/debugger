@@ -80,7 +80,7 @@
     "devtools-source-map": "^0.14.7",
     "devtools-splitter": "^0.0.5",
     "devtools-utils": "^0.0.10",
-    "fuzzaldrin-plus": "^0.4.1",
+    "fuzzaldrin-plus": "^0.6.0",
     "immutable": "^3.7.6",
     "lodash": "^4.17.4",
     "lodash.kebabcase": "^4.1.1",
