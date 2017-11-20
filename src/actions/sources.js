@@ -12,7 +12,7 @@
 import { PROMISE } from "./utils/middleware/promise";
 import assert from "../utils/assert";
 import { remapBreakpoints } from "./breakpoints";
-
+import { throttle } from "lodash";
 import { setEmptyLines, setOutOfScopeLocations } from "./ast";
 import { syncBreakpoint } from "./breakpoints";
 import { searchSource } from "./project-text-search";
@@ -46,117 +46,6 @@ import {
 import type { Source } from "../types";
 import type { ThunkArgs } from "./types";
 import type { State } from "../reducers/types";
-
-// If a request has been made to show this source, go ahead and
-// select it.
-async function checkSelectedSource(state: State, dispatch, source) {
-  const pendingLocation = getPendingSelectedLocation(state);
-
-  if (pendingLocation && !!source.url && pendingLocation.url === source.url) {
-    await dispatch(selectSource(source.id, { location: pendingLocation }));
-  }
-}
-
-async function checkPendingBreakpoints(state, dispatch, sourceId) {
-  // source may have been modified by selectSource
-  const source = getSource(state, sourceId).toJS();
-  const pendingBreakpoints = getPendingBreakpointsForSource(state, source.url);
-  if (!pendingBreakpoints.size) {
-    return;
-  }
-
-  // load the source text if there is a pending breakpoint for it
-  await dispatch(loadSourceText(source));
-
-  if (isOriginalId(source.id)) {
-    const generatedSource = getGeneratedSource(state, source);
-    await dispatch(loadSourceText(source.toJS()));
-  }
-
-  const pendingBreakpointsArray = pendingBreakpoints.valueSeq().toJS();
-  for (const pendingBreakpoint of pendingBreakpointsArray) {
-    await dispatch(syncBreakpoint(sourceId, pendingBreakpoint));
-  }
-}
-
-/**
- * Handler for the debugger client's unsolicited newSource notification.
- * @memberof actions/sources
- * @static
- */
-export function newSource(source: Source) {
-  return async ({ dispatch, getState }: ThunkArgs) => {
-    const _source = getSource(getState(), source.id);
-    if (_source) {
-      return;
-    }
-
-    dispatch({ type: "ADD_SOURCE", source });
-
-    if (prefs.clientSourceMapsEnabled) {
-      dispatch(loadSourceMap(source));
-    }
-
-    checkSelectedSource(getState(), dispatch, source);
-    checkPendingBreakpoints(getState(), dispatch, source.id);
-  };
-}
-
-export function newSources(sources: Source[]) {
-  return async ({ dispatch, getState }: ThunkArgs) => {
-    const filteredSources = sources.filter(
-      source => !getSource(getState(), source.id)
-    );
-
-    dispatch({
-      type: "ADD_SOURCES",
-      sources
-    });
-
-    for (const source of filteredSources) {
-      await dispatch(loadSourceMap(source));
-      await checkSelectedSource(getState(), dispatch, source);
-      await checkPendingBreakpoints(getState(), dispatch, source.id);
-    }
-  };
-}
-
-/**
- * @memberof actions/sources
- * @static
- */
-function loadSourceMap(generatedSource) {
-  return async function({ dispatch, getState, sourceMaps }: ThunkArgs) {
-    let urls = null;
-    try {
-      urls = await sourceMaps.getOriginalURLs(generatedSource);
-    } catch (e) {}
-
-    if (!urls) {
-      // If this source doesn't have a sourcemap, do nothing.
-      return;
-    }
-
-    const originalSources = urls.map(
-      originalUrl =>
-        ({
-          url: originalUrl,
-          id: sourceMaps.generatedToOriginalId(generatedSource.id, originalUrl),
-          isPrettyPrinted: false,
-          isWasm: false,
-          isBlackBoxed: false,
-          loadedState: "unloaded"
-        }: Source)
-    );
-
-    dispatch({ type: "ADD_SOURCES", sources: originalSources });
-
-    originalSources.forEach(async source => {
-      checkSelectedSource(getState(), dispatch, source);
-      checkPendingBreakpoints(getState(), dispatch, source.id);
-    });
-  };
-}
 
 export type SelectSourceOptions = {
   tabIndex?: number,
