@@ -139,6 +139,8 @@ class SearchInput extends Component {
       onKeyUp,
       onFocus,
       onBlur,
+      "aria-autocomplete": "list",
+      "aria-controls": "result-list",
       placeholder,
       value: query,
       spellCheck: false,
