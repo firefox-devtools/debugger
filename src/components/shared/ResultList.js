@@ -72,6 +72,8 @@ export default class ResultList extends Component<Props> {
             ? items[selected].id + "-title"
             : null
         }
+        aria-expanded={typeof items !== undefined && items.length > 0}
+        aria-live="polite"
       >
         {items.map(this.renderListItem)}
       </ul>
