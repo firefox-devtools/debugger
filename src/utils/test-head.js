@@ -50,7 +50,7 @@ function commonLog(msg: string, data: any = {}) {
 function makeSource(name: string, props: any = {}) {
   return {
     id: name,
-    loadedState: "loaded",
+    loadedState: "unloaded",
     url: `http://localhost:8000/examples/${name}`,
     ...props
   };
@@ -79,9 +79,10 @@ function makeSymbolDeclaration(name: string, line: number) {
 function waitForState(store: any, predicate: any): Promise<void> {
   return new Promise(resolve => {
     const unsubscribe = store.subscribe(() => {
-      if (predicate(store.getState())) {
+      const result = predicate(store.getState());
+      if (result) {
         unsubscribe();
-        resolve();
+        resolve(result);
       }
     });
   });

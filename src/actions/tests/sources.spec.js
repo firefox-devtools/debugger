@@ -177,10 +177,14 @@ describe("sources", () => {
 
   it("should create a source when first toggling pretty print", async () => {
     const { dispatch, getState } = createStore(threadClient);
-    const source = makeSource("foobar.js");
+    const source = makeSource("foobar.js", { loadedState: "loaded" });
+
     await dispatch(actions.newSource(source));
+    expect(getSources(getState()).size).toEqual(1);
+
     await dispatch(actions.togglePrettyPrint(source.id));
     expect(getSources(getState()).size).toEqual(2);
+
     await dispatch(actions.togglePrettyPrint(source.id));
     expect(getSources(getState()).size).toEqual(2);
   });

@@ -9,23 +9,27 @@
  * @module actions/sources
  */
 
-import { PROMISE } from "./utils/middleware/promise";
-import assert from "../utils/assert";
-import { remapBreakpoints } from "./breakpoints";
+import { PROMISE } from "../utils/middleware/promise";
+import assert from "../../utils/assert";
+import { remapBreakpoints } from "../breakpoints";
 import { throttle } from "lodash";
-import { setEmptyLines, setOutOfScopeLocations } from "./ast";
-import { syncBreakpoint } from "./breakpoints";
-import { searchSource } from "./project-text-search";
-import { closeActiveSearch } from "./ui";
+import { setEmptyLines, setOutOfScopeLocations } from "../ast";
+import { syncBreakpoint } from "../breakpoints";
+import { searchSource } from "../project-text-search";
+import { closeActiveSearch } from "../ui";
 
-import { getPrettySourceURL, isLoaded } from "../utils/source";
-import { createPrettySource } from "./sources/createPrettySource";
-import { loadSourceText } from "./sources/loadSourceText";
+import { getPrettySourceURL, isLoaded } from "../../utils/source";
+import { createPrettySource } from "../sources/createPrettySource";
+import { loadSourceText } from "../sources/loadSourceText";
 
-import { prefs } from "../utils/prefs";
-import { removeDocument } from "../utils/editor";
-import { isThirdParty, isMinified, shouldPrettyPrint } from "../utils/source";
-import { getGeneratedLocation } from "../utils/source-maps";
+import { prefs } from "../../utils/prefs";
+import { removeDocument } from "../../utils/editor";
+import {
+  isThirdParty,
+  isMinified,
+  shouldPrettyPrint
+} from "../../utils/source";
+import { getGeneratedLocation } from "../../utils/source-maps";
 import { isOriginalId } from "devtools-source-map";
 import {
   getSource,
@@ -41,11 +45,11 @@ import {
   getTextSearchQuery,
   getActiveSearch,
   getGeneratedSource
-} from "../selectors";
+} from "../../selectors";
 
-import type { Source } from "../types";
-import type { ThunkArgs } from "./types";
-import type { State } from "../reducers/types";
+import type { Source } from "../../types";
+import type { ThunkArgs } from "../types";
+import type { State } from "../../reducers/types";
 
 export type SelectSourceOptions = {
   tabIndex?: number,
@@ -103,8 +107,6 @@ export function selectSource(id: string, options: SelectSourceOptions = {}) {
       dispatch(closeActiveSearch());
     }
 
-    dispatch(addTab(source.toJS(), 0));
-
     return dispatch({
       type: "SELECT_SOURCE",
       source: source.toJS(),
@@ -119,90 +121,6 @@ export function selectSource(id: string, options: SelectSourceOptions = {}) {
         }
       })()
     });
-  };
-}
-
-/**
- * @memberof actions/sources
- * @static
- */
-export function jumpToMappedLocation(sourceLocation: any) {
-  return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
-    if (!client) {
-      return;
-    }
-
-    const source = getSource(getState(), sourceLocation.sourceId);
-    let pairedLocation;
-    if (sourceMaps.isOriginalId(sourceLocation.sourceId)) {
-      pairedLocation = await getGeneratedLocation(
-        getState(),
-        source.toJS(),
-        sourceLocation,
-        sourceMaps
-      );
-    } else {
-      pairedLocation = await sourceMaps.getOriginalLocation(
-        sourceLocation,
-        source.toJS()
-      );
-    }
-
-    return dispatch(
-      selectSource(pairedLocation.sourceId, { location: pairedLocation })
-    );
-  };
-}
-
-export function addTab(source: Source, tabIndex: number) {
-  return {
-    type: "ADD_TAB",
-    source,
-    tabIndex
-  };
-}
-
-export function moveTab(url: string, tabIndex: number) {
-  return {
-    type: "MOVE_TAB",
-    url,
-    tabIndex
-  };
-}
-
-/**
- * @memberof actions/sources
- * @static
- */
-export function closeTab(url: string) {
-  return ({ dispatch, getState, client }: ThunkArgs) => {
-    removeDocument(url);
-    const tabs = removeSourceFromTabList(getSourceTabs(getState()), url);
-    const sourceId = getNewSelectedSourceId(getState(), tabs);
-
-    dispatch({ type: "CLOSE_TAB", url, tabs });
-    dispatch(selectSource(sourceId));
-  };
-}
-
-/**
- * @memberof actions/sources
- * @static
- */
-export function closeTabs(urls: string[]) {
-  return ({ dispatch, getState, client }: ThunkArgs) => {
-    urls.forEach(url => {
-      const source = getSourceByURL(getState(), url);
-      if (source) {
-        removeDocument(source.get("id"));
-      }
-    });
-
-    const tabs = removeSourcesFromTabList(getSourceTabs(getState()), urls);
-    const sourceId = getNewSelectedSourceId(getState(), tabs);
-
-    dispatch({ type: "CLOSE_TABS", urls, tabs });
-    dispatch(selectSource(sourceId));
   };
 }
 
@@ -247,44 +165,6 @@ export function togglePrettyPrint(sourceId: string) {
     const newPrettySource = await dispatch(createPrettySource(sourceId));
     await dispatch(remapBreakpoints(sourceId));
     await dispatch(setEmptyLines(newPrettySource.id));
-
     return dispatch(selectSource(newPrettySource.id, options));
-  };
-}
-
-export function toggleBlackBox(source: Source) {
-  return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
-    const { isBlackBoxed, id } = source;
-
-    return dispatch({
-      type: "BLACKBOX",
-      source,
-      [PROMISE]: client.blackBox(id, isBlackBoxed)
-    });
-  };
-}
-
-/**
-  Load the text for all the available sources
- * @memberof actions/sources
- * @static
- */
-export function loadAllSources() {
-  return async ({ dispatch, getState }: ThunkArgs) => {
-    const sources = getSources(getState());
-    const query = getTextSearchQuery(getState());
-    for (const [, src] of sources) {
-      const source = src.toJS();
-      if (isThirdParty(source)) {
-        continue;
-      }
-
-      await dispatch(loadSourceText(source));
-      // If there is a current search query we search
-      // each of the source texts as they get loaded
-      if (query) {
-        await dispatch(searchSource(source.id, query));
-      }
-    }
   };
 }

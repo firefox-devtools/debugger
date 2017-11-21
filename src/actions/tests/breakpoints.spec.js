@@ -308,11 +308,12 @@ describe("breakpoints", () => {
     };
 
     const url = "a.js";
-    const source = makeSource(url);
+    const source = makeSource(url, { loadedState: "loaded" });
     source.text = "function(a,b,c){return {a,b,c}}";
 
     await dispatch(actions.newSource(source));
     await dispatch(actions.addBreakpoint(loc));
+
     await dispatch(actions.togglePrettyPrint(source.id));
 
     const breakpoint = selectors.getBreakpoints(getState()).first();
