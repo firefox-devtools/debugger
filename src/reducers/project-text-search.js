@@ -70,6 +70,12 @@ function update(
       return state.merge({
         results: state.get("results").clear()
       });
+
+    case "CLOSE_PROJECT_SEARCH":
+      return state.merge({
+        query: "",
+        results: state.get("results").clear()
+      });
   }
   return state;
 }

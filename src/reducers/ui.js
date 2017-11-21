@@ -118,6 +118,13 @@ function update(
     case "SET_PRIMARY_PANE_TAB":
       return state.set("selectedPrimaryPaneTab", action.tabName);
 
+    case "CLOSE_PROJECT_SEARCH": {
+      if (state.get("activeSearch") === "project") {
+        return state.set("activeSearch", null);
+      }
+      return state;
+    }
+
     default: {
       return state;
     }

@@ -39,6 +39,10 @@ export function updateSearchStatus(status: string) {
   return { type: "UPDATE_STATUS", status };
 }
 
+export function closeProjectSearch() {
+  return { type: "CLOSE_PROJECT_SEARCH" };
+}
+
 export function searchSources(query: string) {
   return async ({ dispatch, getState }: ThunkArgs) => {
     await dispatch(clearSearchResults());
