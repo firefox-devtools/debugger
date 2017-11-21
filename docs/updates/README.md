@@ -4,6 +4,13 @@ permalink: docs/updates
 
 ## Weekly Updates
 
+### [November 21st](./updates-11-21-2017.md)
+
+
+**source maps** Yury completed a prototype of scope and variable mapping. The proof of concept maps *let* and *const* variables from the generated scope into original scopes. This builds on the work to map minified variables where original variable names and original variable names are swapped at runtime. We think that we will be able to cover additional cases in 2018 so that users see the original variable names and values when they're paused!
+**pretty printing** Assaf hacked on pretty printing last week and it's now much better! The debugger now auto-pretty-prints minified sources. We'll have a preference for disabling it next week. Debugger also upgraded acorn, which has support for pretty printing template strings.
+
+
 ### [November 14th](./updates-11-14-2017.md)
 
 **performance** This week we landed the architectural performance work, which lets the debugger UI show initial pause data like pause line and frames, before fetching scopes and re-mapping locations.
