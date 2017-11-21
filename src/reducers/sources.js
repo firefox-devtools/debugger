@@ -83,7 +83,10 @@ function update(
           sourceId: action.source.id,
           ...action.location
         })
-        .set("pendingSelectedLocation", location);
+        .set("pendingSelectedLocation", location)
+        .merge({
+          tabs: updateTabList({ sources: state }, action.source.url)
+        });
 
     case "CLEAR_SELECTED_SOURCE":
       location = { url: "" };
@@ -101,11 +104,6 @@ function update(
 
       prefs.pendingSelectedLocation = location;
       return state.set("pendingSelectedLocation", location);
-
-    case "ADD_TAB":
-      return state.merge({
-        tabs: updateTabList({ sources: state }, action.source.url)
-      });
 
     case "MOVE_TAB":
       return state.merge({

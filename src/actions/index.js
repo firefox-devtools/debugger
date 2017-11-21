@@ -17,7 +17,6 @@ import * as coverage from "./coverage";
 import * as projectTextSearch from "./project-text-search";
 import * as quickOpen from "./quick-open";
 import * as sourceTree from "./source-tree";
-import * as loadSourceText from "./sources/loadSourceText";
 import * as debuggee from "./debuggee";
 import * as toolbox from "./toolbox";
 
@@ -35,7 +34,6 @@ export default {
   ...projectTextSearch,
   ...quickOpen,
   ...sourceTree,
-  ...loadSourceText,
   ...debuggee,
   ...toolbox
 };

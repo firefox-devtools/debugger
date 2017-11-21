@@ -8,8 +8,11 @@ import { PROMISE } from "../utils/middleware/promise";
 import { setSymbols } from "../ast";
 import { getSource } from "../../selectors";
 import { setSource } from "../../workers/parser";
+import { isLoading, isLoaded } from "../../utils/source";
 import type { Source } from "../../types";
 import type { ThunkArgs } from "../types";
+
+const requests = new Map();
 
 async function loadSource(source: Source, { sourceMaps, client }) {
   if (sourceMaps.isOriginalId(source.id)) {
@@ -32,15 +35,23 @@ async function loadSource(source: Source, { sourceMaps, client }) {
 export function loadSourceText(source: Source) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     // Fetch the source text only once.
-    if (source.text) {
+    if (isLoaded(source)) {
       return Promise.resolve(source);
     }
 
+    if (isLoading(source)) {
+      return requests.get(source.id);
+    }
+
+    const request = loadSource(source, { sourceMaps, client });
+    requests.set(source.id, request);
     await dispatch({
       type: "LOAD_SOURCE_TEXT",
       source: source,
-      [PROMISE]: loadSource(source, { sourceMaps, client })
+      [PROMISE]: request
     });
+
+    requests.delete(source.id);
 
     const newSource = getSource(getState(), source.id).toJS();
     if (newSource.isWasm) {

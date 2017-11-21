@@ -12,6 +12,7 @@ import type {
   Actions
 } from "./types";
 
+import { throttle } from "lodash";
 import { createPause, createSource } from "./create";
 import { isEnabled } from "devtools-config";
 
@@ -61,8 +62,17 @@ function resumed(_: "resumed", packet: ResumedPacket) {
   actions.resumed(packet);
 }
 
+let pendingSources = [];
+const newSources = throttle(() => {
+  actions.newSources(
+    pendingSources.map(source => createSource(source, { supportsWasm }))
+  );
+  pendingSources = [];
+}, 100);
+
 function newSource(_: "newSource", { source }: SourcePacket) {
-  actions.newSource(createSource(source, { supportsWasm }));
+  pendingSources.push(source);
+  newSources();
 
   if (isEnabled("eventListeners")) {
     actions.fetchEventListeners();

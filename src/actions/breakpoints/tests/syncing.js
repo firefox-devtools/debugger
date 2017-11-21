@@ -64,7 +64,8 @@ const sourceMaps = {
     column: undefined
   }),
   isOriginalId: () => true,
-  getGeneratedLocation: () => ({})
+  getGeneratedLocation: () => ({}),
+  getOriginalURLs: () => {}
 };
 
 function pendingBreakpoint(overrides) {
