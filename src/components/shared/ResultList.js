@@ -16,14 +16,16 @@ type Props = {
     item: any,
     index: number
   ) => void,
-  size: string
+  size: string,
+  role: string
 };
 
 export default class ResultList extends Component<Props> {
   displayName: "ResultList";
 
   static defaultProps = {
-    size: "small"
+    size: "small",
+    role: "listbox"
   };
 
   constructor(props: Props) {
@@ -38,6 +40,7 @@ export default class ResultList extends Component<Props> {
       key: `${item.id}${item.value}${index}`,
       ref: String(index),
       title: item.value,
+      role: "option",
       className: classnames("result-item", {
         selected: index === selected
       })
@@ -52,10 +55,10 @@ export default class ResultList extends Component<Props> {
   }
 
   render() {
-    const { size, items } = this.props;
+    const { size, items, role } = this.props;
 
     return (
-      <ul className={classnames("result-list", size)}>
+      <ul className={classnames("result-list", size)} role={role}>
         {items.map(this.renderListItem)}
       </ul>
     );
