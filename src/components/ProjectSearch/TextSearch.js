@@ -16,13 +16,20 @@ import "./TextSearch.css";
 import { getRelativePath } from "../../utils/sources-tree";
 import { highlightMatches } from "./textSearch/utils/highlight";
 import { statusType } from "../../reducers/project-text-search";
+import type { StatusType } from "../../reducers/project-text-search";
+
+type Match = Object;
+type Result = {
+  filepath: string,
+  matches: Array<Match>,
+  sourceId: string
+};
 
 type Props = {
-  sources: Object,
-  results: Array,
-  status: string,
+  results: Result[],
+  status: StatusType,
   query: string,
-  closeActiveSearch: Function,
+  closeProjectSearch: Function,
   searchSources: Function,
   selectSource: Function,
   searchBottomBar: Object
@@ -226,17 +233,6 @@ export default class TextSearch extends Component<Props> {
     );
   }
 }
-
-TextSearch.propTypes = {
-  sources: PropTypes.object,
-  results: PropTypes.array,
-  status: PropTypes.string,
-  query: PropTypes.string,
-  closeProjectSearch: PropTypes.func,
-  searchSources: PropTypes.func,
-  selectSource: PropTypes.func,
-  searchBottomBar: PropTypes.object
-};
 
 TextSearch.contextTypes = {
   shortcuts: PropTypes.object
