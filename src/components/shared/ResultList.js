@@ -58,7 +58,15 @@ export default class ResultList extends Component<Props> {
     const { size, items, role } = this.props;
 
     return (
-      <ul className={classnames("result-list", size)} role={role}>
+      <ul
+        className={classnames("result-list", size)}
+        role={role}
+        aria-activedescendant={
+          typeof items !== undefined && items.length > 0
+            ? items[selected].id + "-title"
+            : null
+        }
+      >
         {items.map(this.renderListItem)}
       </ul>
     );
