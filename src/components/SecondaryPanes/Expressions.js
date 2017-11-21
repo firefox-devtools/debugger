@@ -138,8 +138,7 @@ class Expressions extends PureComponent<Props, State> {
             disableWrap={true}
             disabledFocus={true}
             onDoubleClick={(items, options) =>
-              this.editExpression(expression, options)
-            }
+              this.editExpression(expression, options)}
             openLink={openLink}
             getObjectProperties={id => loadedObjects[id]}
             loadObjectProperties={loadObjectProperties}
