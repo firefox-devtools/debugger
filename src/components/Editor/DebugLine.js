@@ -7,6 +7,7 @@ import { Component } from "react";
 import { markText, toEditorPosition } from "../../utils/editor";
 import { getDocument } from "../../utils/editor/source-documents";
 
+import { isOriginalId } from "devtools-source-map";
 import { connect } from "react-redux";
 import {
   getSelectedLocation,
@@ -70,7 +71,11 @@ export class DebugLine extends Component<Props, State> {
       return;
     }
 
-    const { location, location: { sourceId } } = selectedFrame;
+    const isGeneratedSource = !isOriginalId(selectedLocation.sourceId);
+    const location = isGeneratedSource
+      ? selectedFrame.generatedLocation || selectedFrame.location
+      : selectedFrame.location;
+    const sourceId = location.sourceId;
     const doc = getDocument(sourceId);
     if (!doc) {
       return;
@@ -130,6 +135,9 @@ export class DebugLine extends Component<Props, State> {
 
 export default connect(state => ({
   selectedLocation: getSelectedLocation(state),
+
+  // we should give `getSelectedFrame` the breakpoints treatment
+  // and have it return the correct location: original or generated ...
   selectedFrame: getSelectedFrame(state),
   pauseInfo: getPause(state)
 }))(DebugLine);

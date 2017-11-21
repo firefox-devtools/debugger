@@ -18,6 +18,9 @@ function formatBreakpoint(breakpoint, selectedSource) {
   const isGeneratedSource = isGeneratedId(sourceId);
 
   return {
+    // when we get the location for the breakpoint
+    // we do the smart thing of returning the relevant location
+    // either the generated or original location!!!
     location: getLocation(breakpoint, isGeneratedSource),
     condition,
     loading,
