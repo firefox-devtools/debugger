@@ -64,7 +64,7 @@ class PrimaryPanes extends Component<Props> {
 
     return [
       <div
-        className={classnames("tab", {
+        className={classnames("tab sources-tab", {
           active: this.props.selectedTab === "sources"
         })}
         onClick={() => this.showPane("sources")}
@@ -73,7 +73,7 @@ class PrimaryPanes extends Component<Props> {
         {sources}
       </div>,
       <div
-        className={classnames("tab", {
+        className={classnames("tab outline-tab", {
           active: this.props.selectedTab === "outline"
         })}
         onClick={() => this.showPane("outline")}

@@ -183,8 +183,9 @@ export function getPreview(state: OuterState) {
   return state.ast.get("preview");
 }
 
+const emptySourceMetaData = {};
 export function getSourceMetaData(state: OuterState, sourceId: string) {
-  return state.ast.getIn(["sourceMetaData", sourceId]) || {};
+  return state.ast.getIn(["sourceMetaData", sourceId]) || emptySourceMetaData;
 }
 
 export default update;

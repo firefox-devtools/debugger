@@ -13,7 +13,8 @@ import {
   getSelectedSource,
   getSourcesForTabs,
   getActiveSearch,
-  getSearchTabs
+  getSearchTabs,
+  getSourceMetaData
 } from "../../selectors";
 import { isVisible } from "../../utils/ui";
 
@@ -31,6 +32,7 @@ import Dropdown from "../shared/Dropdown";
 import type { List } from "immutable";
 import type { SourceRecord } from "../../reducers/sources";
 import type { ActiveSearchType } from "../../reducers/ui";
+import type { SourceMetaDataMap } from "../../reducers/ast";
 type SourcesList = List<SourceRecord>;
 
 /*
@@ -95,7 +97,8 @@ type Props = {
   horizontal: boolean,
   startPanelCollapsed: boolean,
   endPanelCollapsed: boolean,
-  searchOn: boolean
+  searchOn: boolean,
+  sourceMetaData: SourceMetaDataMap
 };
 
 type State = {
@@ -424,7 +427,7 @@ class SourceTabs extends PureComponent<Props, State> {
 
     const Panel = <ul>{hiddenSourceTabs.map(this.renderDropdownSource)}</ul>;
 
-    return <Dropdown panel={Panel} />;
+    return <Dropdown panel={Panel} icon={"»"}/>;
   }
 
   renderStartPanelToggleButton() {
@@ -454,7 +457,11 @@ class SourceTabs extends PureComponent<Props, State> {
 
   getSourceAnnotation(source) {
     const sourceObj = source.toJS();
+    const { sourceMetaData } = this.props;
 
+    if (sourceMetaData && sourceMetaData.isReactComponent) {
+      return <img className="react" />;
+    }
     if (isPretty(sourceObj)) {
       return <img className="prettyPrint" />;
     }
@@ -477,12 +484,16 @@ class SourceTabs extends PureComponent<Props, State> {
 
 export default connect(
   state => {
+    const selectedSource = getSelectedSource(state);
+    const sourceId = selectedSource ? selectedSource.get("id") : "";
+
     return {
-      selectedSource: getSelectedSource(state),
+      selectedSource: selectedSource,
       searchTabs: getSearchTabs(state),
       sourceTabs: getSourcesForTabs(state),
       activeSearch: getActiveSearch(state),
-      searchOn: getActiveSearch(state) === "source"
+      searchOn: getActiveSearch(state) === "source",
+      sourceMetaData: getSourceMetaData(state, sourceId)
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

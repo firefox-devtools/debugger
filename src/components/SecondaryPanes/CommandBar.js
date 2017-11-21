@@ -8,6 +8,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import classnames from "classnames";
+import { features } from "../../utils/prefs";
 import {
   getPause,
   getIsWaitingOnBreak,
@@ -72,13 +73,20 @@ function formatKey(action) {
   return formatKeyShortcut(key);
 }
 
-function debugBtn(onClick, type, className, tooltip, disabled = false) {
+function debugBtn(
+  onClick,
+  type,
+  className,
+  tooltip,
+  disabled = false,
+  ariaPressed = false
+) {
   const props = {
     onClick,
     key: type,
-    "aria-label": tooltip,
     title: tooltip,
-    disabled
+    disabled,
+    "aria-pressed": ariaPressed
   };
 
   return (
@@ -205,6 +213,10 @@ class CommandBar extends Component<Props> {
    *  3. pause on all exceptions        [true, false]
   */
   renderPauseOnExceptions() {
+    if (features.breakpointsDropdown) {
+      return;
+    }
+
     const {
       shouldPauseOnExceptions,
       shouldIgnoreCaughtExceptions,
@@ -216,7 +228,9 @@ class CommandBar extends Component<Props> {
         () => pauseOnExceptions(true, true),
         "pause-exceptions",
         "enabled",
-        L10N.getStr("ignoreExceptions")
+        L10N.getStr("ignoreExceptions"),
+        false,
+        false
       );
     }
 
@@ -225,7 +239,9 @@ class CommandBar extends Component<Props> {
         () => pauseOnExceptions(true, false),
         "pause-exceptions",
         "uncaught enabled",
-        L10N.getStr("pauseOnUncaughtExceptions")
+        L10N.getStr("pauseOnUncaughtExceptions"),
+        false,
+        true
       );
     }
 
@@ -233,7 +249,9 @@ class CommandBar extends Component<Props> {
       () => pauseOnExceptions(false, false),
       "pause-exceptions",
       "all enabled",
-      L10N.getStr("pauseOnExceptions")
+      L10N.getStr("pauseOnExceptions"),
+      false,
+      true
     );
   }
 

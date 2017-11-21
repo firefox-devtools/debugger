@@ -62,3 +62,8 @@ airtable
 waitForPaused
 togglePaneCollapse
 CRM
+addon
+UIs
+Asynchronicity
+args
+APIs

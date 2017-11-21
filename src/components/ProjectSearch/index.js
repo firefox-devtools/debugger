@@ -16,6 +16,7 @@ import {
   getSources,
   getActiveSearch,
   getTextSearchResults,
+  getTextSearchStatus,
   getTextSearchQuery
 } from "../../selectors";
 
@@ -29,7 +30,8 @@ type Props = {
   closeActiveSearch: Function,
   searchSources: Function,
   activeSearch: string,
-  selectSource: Function
+  selectSource: Function,
+  status: string
 };
 
 class ProjectSearch extends Component<Props> {
@@ -79,6 +81,7 @@ class ProjectSearch extends Component<Props> {
     const {
       sources,
       results,
+      status,
       searchSources,
       closeActiveSearch,
       selectSource,
@@ -89,6 +92,7 @@ class ProjectSearch extends Component<Props> {
       <TextSearch
         sources={sources}
         results={results.toJS()}
+        status={status}
         searchSources={searchSources}
         closeActiveSearch={closeActiveSearch}
         selectSource={selectSource}
@@ -126,7 +130,8 @@ export default connect(
     sources: getSources(state),
     activeSearch: getActiveSearch(state),
     results: getTextSearchResults(state),
-    textSearchQuery: getTextSearchQuery(state)
+    textSearchQuery: getTextSearchQuery(state),
+    status: getTextSearchStatus(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(ProjectSearch);

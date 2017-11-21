@@ -35,3 +35,26 @@ This [video](https://youtu.be/NoMryxkNPk0) adds additional functionality to even
 [dev-server]:https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-launchpad/README.md#dev-server
 [first-activity]:./debugging-the-debugger.md
 [event-listeners]:http://github.com/devtools-html/debugger.html/issues/1232
+
+### Testing the Debugger
+
+The Debugger is a complex React + Redux app used by millions of crazy people called developers all over the world.
+
+This [video][testing] covers fixing a small bug and adding a new integration test. It reviews some of the techniques we use to make sure the debugger works the way we expect it to.
+
+Topics include:
+
+* writing an integration test that acts like a user and interacts w/ the dom
+* writing assertions and actions that take advantage of redux's Action and State APIs
+
+[testing]: https://www.youtube.com/watch?v=5K9Sx5529JE&t=547s
+
+<img src="https://shipusercontent.com/f3848fe2e9767891f45fabf4d7384816/Screen%20Shot%202017-11-14%20at%208.57.45%20PM.png" width="450" >
+
+### How the Firefox Debugger uses Babel to Know What's Up?
+
+In this [video][babel], we'll look at how the Firefox Debugger uses Babel to parse the code that's run in the browser and know what's going on.
+
+[babel]: https://www.youtube.com/watch?v=9z3jf69MVsU&t=17s
+
+<img src="https://shipusercontent.com/1a60560df7eacbb89e147507cc3e608e/Screen%20Shot%202017-11-14%20at%208.59.15%20PM.png" width="450" >

@@ -4,12 +4,10 @@
 
 // @flow
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import React, { Component } from "react";
 
 import Breakpoint from "./Breakpoint";
 
-import actions from "../../actions";
 import { getSelectedSource } from "../../selectors";
 import getVisibleBreakpoints from "../../selectors/visibleBreakpoints";
 import { makeLocationId } from "../../utils/breakpoint";
@@ -64,5 +62,4 @@ export default connect(
     breakpoints: getVisibleBreakpoints(state),
     selectedSource: getSelectedSource(state)
   }),
-  dispatch => bindActionCreators(actions, dispatch)
 )(Breakpoints);
