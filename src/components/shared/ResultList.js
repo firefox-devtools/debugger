@@ -40,6 +40,8 @@ export default class ResultList extends Component<Props> {
       key: `${item.id}${item.value}${index}`,
       ref: String(index),
       title: item.value,
+      "aria-labelledby": `${item.id}-title`,
+      "aria-describedby": `${item.id}-subtitle`,
       role: "option",
       className: classnames("result-item", {
         selected: index === selected
@@ -48,8 +50,12 @@ export default class ResultList extends Component<Props> {
 
     return (
       <li {...props}>
-        <div className="title">{item.title}</div>
-        <div className="subtitle">{item.subtitle}</div>
+        <div id={`${item.id}-title`} className="title">
+          {item.title}
+        </div>
+        <div id={`${item.id}-subtitle`} className="subtitle">
+          {item.subtitle}
+        </div>
       </li>
     );
   }
