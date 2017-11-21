@@ -61,7 +61,7 @@ export default class ResultList extends Component<Props> {
   }
 
   render() {
-    const { size, items, role } = this.props;
+    const { size, items, role, selected } = this.props;
 
     return (
       <ul
