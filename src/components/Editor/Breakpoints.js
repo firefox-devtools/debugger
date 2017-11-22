@@ -57,9 +57,7 @@ class Breakpoints extends Component<Props> {
   }
 }
 
-export default connect(
-  state => ({
-    breakpoints: getVisibleBreakpoints(state),
-    selectedSource: getSelectedSource(state)
-  }),
-)(Breakpoints);
+export default connect(state => ({
+  breakpoints: getVisibleBreakpoints(state),
+  selectedSource: getSelectedSource(state)
+}))(Breakpoints);
