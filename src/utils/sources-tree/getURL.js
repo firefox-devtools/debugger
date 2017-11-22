@@ -47,7 +47,7 @@ export function getURL(
       });
 
     case "ng:":
-      // A Webpack source is a special case
+      // An Angular source is a special case
       return merge(def, {
         path: path,
         group: "Angular",

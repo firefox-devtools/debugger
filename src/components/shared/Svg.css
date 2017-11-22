@@ -116,13 +116,13 @@ html .arrow.expanded svg {
   opacity: 0.5;
 }
 
-.managed-tree .tree-node .angular svg {
+.angular svg {
   width: 15px;
   height: 15px;
   margin-right: 5px;
   vertical-align: sub;
 }
 
-.theme-dark .managed-tree .tree-node .angular {
+.theme-dark .angular {
   opacity: 0.5;
 }
