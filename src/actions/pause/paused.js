@@ -11,7 +11,7 @@ import {
 import { updateFrameLocations } from "../../utils/pause";
 import { removeBreakpoint } from "../breakpoints";
 import { evaluateExpressions } from "../expressions";
-import { selectSource } from "../sources";
+import { selectLocation } from "../sources";
 import { togglePaneCollapse } from "../ui";
 
 import { fetchScopes } from "./fetchScopes";
@@ -50,10 +50,8 @@ export function paused(pauseInfo: Pause) {
       dispatch(evaluateExpressions());
     }
 
-    const { line, column } = frame.location;
-    await dispatch(
-      selectSource(frame.location.sourceId, { location: { line, column } })
-    );
+    const location = frame.location;
+    await dispatch(selectLocation({ ...location }));
 
     dispatch(togglePaneCollapse("end", false));
     dispatch(fetchScopes());

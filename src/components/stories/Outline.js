@@ -51,7 +51,7 @@ function OutlineFactory({ dir = "ltr", theme = "dark", ...props }) {
       }}
     >
       <Outline
-        selectSource={action("selectFrame")}
+        selectLocation={action("selectFrame")}
         isHidden={false}
         {...props}
       />

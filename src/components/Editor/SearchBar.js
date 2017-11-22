@@ -30,7 +30,6 @@ import type { SourceRecord } from "../../reducers/sources";
 import type { ActiveSearchType } from "../../reducers/ui";
 import type { Modifiers, SearchResults } from "../../reducers/file-search";
 
-import type { SelectSourceOptions } from "../../actions/sources";
 import SearchInput from "../shared/SearchInput";
 import { debounce } from "lodash";
 import "./SearchBar.css";
@@ -56,7 +55,6 @@ type State = {
 
 type Props = {
   editor?: SourceEditor,
-  selectSource: (string, ?SelectSourceOptions) => any,
   selectedSource?: SourceRecord,
   searchOn?: boolean,
   setActiveSearch: (?ActiveSearchType) => any,

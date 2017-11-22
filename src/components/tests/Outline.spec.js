@@ -8,7 +8,7 @@ const sourceId = "id";
 
 function generateDefaults(symbols) {
   return {
-    selectSource: jest.genMockFunction(),
+    selectLocation: jest.genMockFunction(),
     selectedSource: {
       get: () => sourceId
     },
@@ -54,18 +54,16 @@ describe("Outline", () => {
   });
 
   it("should select a line of code in the current file on click", async () => {
-    const startLine = 12;
+    const line = 12;
     const symbols = {
-      functions: [makeSymbolDeclaration("my_example_function", startLine)]
+      functions: [makeSymbolDeclaration("my_example_function", line)]
     };
 
     const { component, props } = render(symbols);
 
-    const { selectSource } = props;
+    const { selectLocation } = props;
     const listItem = component.find("li").first();
     listItem.simulate("click");
-    expect(selectSource).toHaveBeenCalledWith(sourceId, {
-      location: { line: 12 }
-    });
+    expect(selectLocation).toHaveBeenCalledWith({ sourceId, line });
   });
 });

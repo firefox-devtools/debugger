@@ -23,7 +23,7 @@ type Listener = {
 
 type Props = {
   listeners: Array<Listener>,
-  selectSource: (SourceId, { line: number }) => void,
+  selectLocation: Object => void,
   addBreakpoint: ({ sourceId: SourceId, line: number }) => void,
   enableBreakpoint: Location => void,
   disableBreakpoint: Location => void,
@@ -46,7 +46,7 @@ class EventListeners extends Component<Props> {
     return (
       <div
         className="listener"
-        onClick={() => this.props.selectSource(sourceId, { line })}
+        onClick={() => this.props.selectLocation(location)}
         key={`${type}.${selector}.${sourceId}.${line}`}
       >
         <input
