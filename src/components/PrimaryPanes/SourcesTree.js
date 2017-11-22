@@ -232,6 +232,10 @@ class SourcesTree extends Component<Props, State> {
       return <Svg name="webpack" />;
     }
 
+    if (item.path === "/Angular") {
+      return <Svg name="angular" />;
+    }
+
     if (depth === 0) {
       return (
         <img

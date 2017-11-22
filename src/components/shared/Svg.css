@@ -115,3 +115,14 @@ html .arrow.expanded svg {
 .theme-dark .webpack {
   opacity: 0.5;
 }
+
+.angular svg {
+  width: 15px;
+  height: 15px;
+  margin-right: 5px;
+  vertical-align: sub;
+}
+
+.theme-dark .angular {
+  opacity: 0.5;
+}
