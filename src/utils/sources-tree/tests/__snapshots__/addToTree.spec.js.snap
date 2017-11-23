@@ -53,6 +53,13 @@ exports[`sources-tree addToTree replaces a file with a directory 1`] = `
 "
 `;
 
+exports[`sources-tree addToTree supports data URLs 1`] = `
+" - root path= 
+  - (no domain) path=/(no domain) 
+    - data:text/html,<script>console.log(123)</script> path=data:text/html,<script>console.log(123)</script> source_id=server1.conn13.child1/39 
+"
+`;
+
 exports[`sources-tree addToTree uses debuggeeUrl as default 1`] = `
 " - root path= 
   - localhost:4242 path=/localhost:4242 
