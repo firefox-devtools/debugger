@@ -228,18 +228,6 @@ exports[`Frames Library Frames toggling framework frames 2`] = `
 </div>
 `;
 
-exports[`Frames Supports different number of frames empty frames 1`] = `
-<div
-  className="pane frames"
->
-  <div
-    className="pane-info empty"
-  >
-    Not paused
-  </div>
-</div>
-`;
-
 exports[`Frames Supports different number of frames one frame 1`] = `
 <div
   className="pane frames"
