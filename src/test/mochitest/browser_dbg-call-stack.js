@@ -1,4 +1,4 @@
-/* Any copyright is dedicated to the Public Domain.
+u/* Any copyright is dedicated to the Public Domain.
  * http://creativecommons.org/publicdomain/zero/1.0/ */
 
 // checks to see if the frame is selected and the title is correct
@@ -21,9 +21,6 @@ add_task(async function() {
   const dbg = await initDebugger("doc-script-switching.html");
 
   toggleCallStack(dbg);
-
-  const notPaused = findElement(dbg, "callStackBody").innerText;
-  is(notPaused, "Not paused", "Not paused message is shown");
 
   invokeInTab("firstCall");
   await waitForPaused(dbg);
