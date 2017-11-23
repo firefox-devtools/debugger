@@ -1,4 +1,4 @@
-u/* Any copyright is dedicated to the Public Domain.
+/* Any copyright is dedicated to the Public Domain.
  * http://creativecommons.org/publicdomain/zero/1.0/ */
 
 // checks to see if the frame is selected and the title is correct
