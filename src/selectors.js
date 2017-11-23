@@ -23,6 +23,7 @@ import getInScopeLines from "./selectors/linesInScope";
 import getVisibleBreakpoints from "./selectors/visibleBreakpoints";
 import isSelectedFrameVisible from "./selectors/isSelectedFrameVisible";
 import getCallStackFrames from "./selectors/getCallStackFrames";
+import getSelectedFrameLocation from "./selectors/getSelectedFrameLocation";
 
 /**
  * @param object - location
@@ -47,5 +48,6 @@ module.exports = {
   getInScopeLines,
   getVisibleBreakpoints,
   isSelectedFrameVisible,
-  getCallStackFrames
+  getCallStackFrames,
+  getSelectedFrameLocation
 };

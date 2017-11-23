@@ -7,17 +7,11 @@ import { Component } from "react";
 import { markText, toEditorPosition } from "../../utils/editor";
 import { getDocument } from "../../utils/editor/source-documents";
 
-import { isOriginalId } from "devtools-source-map";
 import { connect } from "react-redux";
-import {
-  getSelectedLocation,
-  getSelectedFrame,
-  getPause
-} from "../../selectors";
+import { getSelectedFrameLocation, getPause } from "../../selectors";
 
 type Props = {
   editor: Object,
-  selectedFrame: Object,
   selectedLocation: Object,
   pauseInfo: Object
 };
@@ -41,47 +35,36 @@ export class DebugLine extends Component<Props, State> {
   componentDidMount() {
     this.setDebugLine(
       this.props.pauseInfo,
-      this.props.selectedFrame,
       this.props.selectedLocation,
       this.props.editor
     );
   }
 
   componentWillReceiveProps(nextProps: Props) {
-    this.clearDebugLine(this.props.selectedFrame, this.props.editor);
+    this.clearDebugLine(this.props.selectedLocation, this.props.editor);
     this.setDebugLine(
       nextProps.pauseInfo,
-      nextProps.selectedFrame,
       nextProps.selectedLocation,
       nextProps.editor
     );
   }
 
   componentWillUnmount() {
-    this.clearDebugLine(this.props.selectedFrame, this.props.editor);
+    this.clearDebugLine(this.props.selectedLocation, this.props.editor);
   }
 
-  setDebugLine(
-    pauseInfo: Object,
-    selectedFrame: Object,
-    selectedLocation: Object,
-    editor: Object
-  ) {
-    if (!selectedFrame) {
+  setDebugLine(pauseInfo: Object, selectedLocation: Object, editor: Object) {
+    if (!selectedLocation) {
       return;
     }
 
-    const isGeneratedSource = !isOriginalId(selectedLocation.sourceId);
-    const location = isGeneratedSource
-      ? selectedFrame.generatedLocation || selectedFrame.location
-      : selectedFrame.location;
-    const sourceId = location.sourceId;
+    const sourceId = selectedLocation.sourceId;
     const doc = getDocument(sourceId);
     if (!doc) {
       return;
     }
 
-    const { line, column } = toEditorPosition(sourceId, location);
+    const { line, column } = toEditorPosition(sourceId, selectedLocation);
 
     // make sure the line is visible
     if (editor && editor.alignLine) {
@@ -98,11 +81,11 @@ export class DebugLine extends Component<Props, State> {
     this.setState({ debugExpression });
   }
 
-  clearDebugLine(selectedFrame: Object, editor: Object) {
-    if (!selectedFrame) {
+  clearDebugLine(selectedLocation: Object, editor: Object) {
+    if (!selectedLocation) {
       return;
     }
-    const { line, sourceId } = selectedFrame.location;
+    const { line, sourceId } = selectedLocation;
     const { debugExpression } = this.state;
     if (debugExpression) {
       debugExpression.clear();
@@ -134,10 +117,6 @@ export class DebugLine extends Component<Props, State> {
 }
 
 export default connect(state => ({
-  selectedLocation: getSelectedLocation(state),
-
-  // we should give `getSelectedFrame` the breakpoints treatment
-  // and have it return the correct location: original or generated ...
-  selectedFrame: getSelectedFrame(state),
+  selectedLocation: getSelectedFrameLocation(state),
   pauseInfo: getPause(state)
 }))(DebugLine);
