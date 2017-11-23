@@ -18,7 +18,7 @@ function generateDefaults(overrides) {
         markText: () => ({ clear: jest.fn() })
       }
     },
-    selectedFrame: {
+    selectedLocation: {
       location: {
         sourceId: "x",
         line: 2
