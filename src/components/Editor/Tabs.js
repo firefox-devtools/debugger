@@ -389,7 +389,7 @@ class SourceTabs extends PureComponent<Props, State> {
       source.get("id") == selectedSource.get("id") &&
       (!this.isProjectSearchEnabled() && !this.isSourceSearchEnabled());
     const isPrettyCode = isPretty(source.toJS());
-    const sourceAnnotation = this.getSourceAnnotation(source);
+    const sourceAnnotation = this.getSourceAnnotation(source, active);
 
     function onClickClose(ev) {
       ev.stopPropagation();
@@ -455,11 +455,11 @@ class SourceTabs extends PureComponent<Props, State> {
     );
   }
 
-  getSourceAnnotation(source) {
+  getSourceAnnotation(source, active) {
     const sourceObj = source.toJS();
     const { sourceMetaData } = this.props;
 
-    if (sourceMetaData && sourceMetaData.isReactComponent) {
+    if (sourceMetaData && sourceMetaData.isReactComponent && active) {
       return <img className="react" />;
     }
     if (isPretty(sourceObj)) {
