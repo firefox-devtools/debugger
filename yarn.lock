@@ -2882,9 +2882,9 @@ devtools-contextmenu@^0.0.7:
   dependencies:
     devtools-modules "^0.0.32"
 
-devtools-launchpad@^0.0.110:
-  version "0.0.110"
-  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.110.tgz#1810d954ffec7e09e1d2f63834182496f8bc14c5"
+devtools-launchpad@^0.0.112:
+  version "0.0.112"
+  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.112.tgz#e9c713c3eb2003f518e39f2ec8c08934a4c4dc0f"
   dependencies:
     amd-loader "0.0.8"
     autoprefixer "^7.1.2"
@@ -2910,7 +2910,7 @@ devtools-launchpad@^0.0.110:
     devtools-config "^0.0.15"
     devtools-connection "^0.0.7"
     devtools-contextmenu "^0.0.7"
-    devtools-mc-assets "^0.0.2"
+    devtools-mc-assets "^0.0.4"
     devtools-modules "^0.0.33"
     devtools-sprintf-js "^1.0.3"
     devtools-utils "^0.0.10"
@@ -3001,22 +3001,9 @@ devtools-map-bindings@^0.3.2:
     jest "^19.0.2"
     source-map "^0.5.6"
 
-devtools-map-bindings@^0.3.2:
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/devtools-map-bindings/-/devtools-map-bindings-0.3.2.tgz#cfd37d37f544844d77e55cb877e057a17dbbf739"
-  dependencies:
-    babel-plugin-transform-async-to-generator "^6.22.0"
-    babel-plugin-transform-flow-strip-types "^6.22.0"
-    babel-traverse "^6.26.0"
-    babel-types "^6.26.0"
-    babylon "^6.18.0"
-    devtools-utils "0.0.9"
-    jest "^19.0.2"
-    source-map "^0.5.6"
-
-devtools-mc-assets@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/devtools-mc-assets/-/devtools-mc-assets-0.0.2.tgz#082cf3fedc8c238d6731263f836bcc5c18490caa"
+devtools-mc-assets@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/devtools-mc-assets/-/devtools-mc-assets-0.0.4.tgz#80d8b5b9f48e8ba81bdb8f270bba90a0e6ab8793"
 
 devtools-modules@^0.0.32:
   version "0.0.32"
