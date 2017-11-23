@@ -98,7 +98,6 @@ export default class TextSearch extends Component<Props> {
   onEnterPress() {
     if (this.focusedItem && !this.inputFocused) {
       const { setExpanded, file, expanded, match } = this.focusedItem;
-      match.location = { line: match.line, column: match.column };
       if (setExpanded) {
         setExpanded(file, !expanded);
       } else {

@@ -44,10 +44,11 @@ type Props = {
   searchType: QuickOpenType,
   symbols: FormattedSymbolDeclarations,
   selectLocation: ({
-    id?: ? string,
+    id?: ?string,
     sourceId?: ?string,
     line?: ?number,
-    column?: ?number
+    column?: ?number,
+    url?: ?string
   }) => void,
   setQuickOpenQuery: (query: string) => void,
   highlightLineRange: ({ start: number, end: number }) => void,
@@ -152,10 +153,10 @@ export class QuickOpenModal extends Component<Props, State> {
     } else if (searchType === "gotoSource") {
       const location = parseLineColumn(query);
       if (location != null) {
-        selectLocation({ sourceId: item.id, ...location });
+        selectLocation({ id: item.id, ...location });
       }
     } else {
-      selectLocation({ sourceId: item.id });
+      selectLocation({ id: item.id });
     }
 
     this.closeModal();
@@ -324,7 +325,7 @@ function mapStateToProps(state) {
   if (selectedSource != null) {
     symbols = getSymbols(state, selectedSource.toJS());
   }
-  return {.location
+  return {
     enabled: getQuickOpenEnabled(state),
     sources: formatSources(getSources(state)),
     selectedSource,

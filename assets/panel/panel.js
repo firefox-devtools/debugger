@@ -99,7 +99,7 @@ DebuggerPanel.prototype = {
   },
 
   selectLocation(locationObject) {
-    this._actions.selectSourceURL(locationObject.sourceId, {
+    this._actions.selectSourceURL(locationObject.id, {
       line: locationObject.line
     });
   },

@@ -51,7 +51,7 @@ export function paused(pauseInfo: Pause) {
     }
 
     const location = frame.location;
-    await dispatch(selectLocation({ ...location }));
+    await dispatch(selectLocation({ id: location.sourceId, ...location }));
 
     dispatch(togglePaneCollapse("end", false));
     dispatch(fetchScopes());

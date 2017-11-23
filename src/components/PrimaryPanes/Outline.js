@@ -31,9 +31,9 @@ export class Outline extends Component<Props> {
     if (!selectedSource) {
       return;
     }
-    const sourceId = selectedSource.get("id");
+    const id = selectedSource.get("id");
     const line = location.start.line;
-    selectLocation({ sourceId, line });
+    selectLocation({ id, line });
   }
 
   renderPlaceholder() {

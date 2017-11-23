@@ -176,7 +176,7 @@ export function selectSourceURL(
 }
 
 declare type LocationObject = {
-  id: ?string,
+  id?: ?string,
   sourceId?: ?string,
   line?: ?number,
   column?: ?number,
@@ -260,7 +260,12 @@ export function jumpToMappedLocation(sourceLocation: any) {
       );
     }
 
-    return dispatch(selectLocation(pairedLocation));
+    return dispatch(
+      selectLocation({
+        id: pairedLocation.sourceId,
+        ...pairedLocation
+      })
+    );
   };
 }
 
@@ -291,7 +296,7 @@ export function closeTab(url: string) {
     const sourceId = getNewSelectedSourceId(getState(), tabs);
 
     dispatch({ type: "CLOSE_TAB", url, tabs });
-    dispatch(selectLocation({ sourceId }));
+    dispatch(selectLocation({ id: sourceId }));
   };
 }
 
@@ -312,7 +317,7 @@ export function closeTabs(urls: string[]) {
     const sourceId = getNewSelectedSourceId(getState(), tabs);
 
     dispatch({ type: "CLOSE_TABS", urls, tabs });
-    dispatch(selectLocation({ sourceId }));
+    dispatch(selectLocation({ id: sourceId }));
   };
 }
 

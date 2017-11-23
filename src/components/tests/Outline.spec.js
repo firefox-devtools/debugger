@@ -4,13 +4,13 @@ import Outline from "../../components/PrimaryPanes/Outline";
 import devtoolsConfig from "devtools-config";
 import { makeSymbolDeclaration } from "../../utils/test-head";
 
-const sourceId = "id";
+const id = "id";
 
 function generateDefaults(symbols) {
   return {
     selectLocation: jest.genMockFunction(),
     selectedSource: {
-      get: () => sourceId
+      get: () => id
     },
     isHidden: false,
     symbols
@@ -64,6 +64,6 @@ describe("Outline", () => {
     const { selectLocation } = props;
     const listItem = component.find("li").first();
     listItem.simulate("click");
-    expect(selectLocation).toHaveBeenCalledWith({ sourceId, line });
+    expect(selectLocation).toHaveBeenCalledWith({ id, line });
   });
 });

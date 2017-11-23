@@ -23,7 +23,12 @@ export function selectFrame(frame: Frame) {
     });
 
     const location = frame.location;
-    await dispatch(selectLocation({ ...location }));
+    await dispatch(
+      selectLocation({
+        id: location.sourceId,
+        ...location
+      })
+    );
     dispatch(evaluateExpressions());
     dispatch(fetchScopes());
   };
