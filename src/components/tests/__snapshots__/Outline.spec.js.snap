@@ -12,6 +12,9 @@ exports[`Outline should render a list of functions when properties change 1`] = 
       key="my_example_function1:21:undefined"
       onClick={[Function]}
     >
+      <Svg
+        name="function"
+      />
       <PreviewFunction
         func={
           Object {
@@ -26,6 +29,9 @@ exports[`Outline should render a list of functions when properties change 1`] = 
       key="my_example_function2:22:undefined"
       onClick={[Function]}
     >
+      <Svg
+        name="function"
+      />
       <PreviewFunction
         func={
           Object {
@@ -51,6 +57,9 @@ exports[`Outline should render ignore anonimous functions 1`] = `
       key="my_example_function1:21:undefined"
       onClick={[Function]}
     >
+      <Svg
+        name="function"
+      />
       <PreviewFunction
         func={
           Object {
