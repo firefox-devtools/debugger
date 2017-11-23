@@ -115,3 +115,12 @@ html .arrow.expanded svg {
 .theme-dark .webpack {
   opacity: 0.5;
 }
+
+.function svg {
+  height: 10px;
+  width: 15px;
+}
+
+.function path {
+  fill: var(--theme-body-color);
+}

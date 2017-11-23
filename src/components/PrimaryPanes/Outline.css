@@ -26,7 +26,6 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  padding-left: 10px;
 }
 
 .outline-list h2 {
@@ -37,8 +36,7 @@
 }
 
 .outline-list__element {
-  color: blue;
-  padding-bottom: 0.2rem;
+  padding-bottom: 0.5rem;
   padding-right: 0.5rem;
   padding-top: 0.2rem;
   cursor: default;
