@@ -427,7 +427,7 @@ class SourceTabs extends PureComponent<Props, State> {
 
     const Panel = <ul>{hiddenSourceTabs.map(this.renderDropdownSource)}</ul>;
 
-    return <Dropdown panel={Panel} icon={"»"}/>;
+    return <Dropdown panel={Panel} icon={"»"} />;
   }
 
   renderStartPanelToggleButton() {

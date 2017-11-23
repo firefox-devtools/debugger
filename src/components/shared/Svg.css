@@ -124,3 +124,14 @@ html .arrow.expanded svg {
 .function path {
   fill: var(--theme-body-color);
 }
+
+.angular svg {
+  width: 15px;
+  height: 15px;
+  margin-right: 5px;
+  vertical-align: sub;
+}
+
+.theme-dark .angular {
+  opacity: 0.5;
+}

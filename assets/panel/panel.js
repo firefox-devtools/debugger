@@ -99,7 +99,7 @@ DebuggerPanel.prototype = {
   },
 
   selectSource(sourceURL, sourceLine) {
-    this._actions.selectSourceURL(sourceURL, { line: sourceLine });
+    this._actions.selectSourceURL(sourceURL, { location: { line: sourceLine }});
   },
 
   getSource(sourceURL) {

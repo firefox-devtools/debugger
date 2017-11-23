@@ -11,3 +11,11 @@
   height: 5px;
   padding-top: 5px;
 }
+
+.popover .preview-popup {
+  margin-left: -55px;
+}
+
+.popover .add-to-expression-bar {
+  margin-left: -55px;
+}

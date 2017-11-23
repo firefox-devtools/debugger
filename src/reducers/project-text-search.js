@@ -22,7 +22,7 @@ export type Search = {
   filepath: string,
   matches: I.List<any>
 };
-
+export type StatusType = "INITIAL" | "FETCHING" | "DONE" | "ERROR";
 export const statusType = {
   initial: "INITIAL",
   fetching: "FETCHING",
@@ -68,6 +68,12 @@ function update(
 
     case "CLEAR_SEARCH_RESULTS":
       return state.merge({
+        results: state.get("results").clear()
+      });
+
+    case "CLOSE_PROJECT_SEARCH":
+      return state.merge({
+        query: "",
         results: state.get("results").clear()
       });
   }

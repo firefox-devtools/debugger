@@ -133,7 +133,6 @@ class Popover extends Component {
 
   renderPopover() {
     const { top, left, orientation, targetMid } = this.state;
-
     const arrow = this.getPopoverArrow(orientation, targetMid);
 
     return (

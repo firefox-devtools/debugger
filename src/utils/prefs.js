@@ -12,6 +12,7 @@ const prefsSchemaVersion = "1.0.3";
 const pref = Services.pref;
 
 if (isDevelopment()) {
+  pref("devtools.debugger.auto-pretty-print", true);
   pref("devtools.source-map.client-service.enabled", true);
   pref("devtools.debugger.pause-on-exceptions", false);
   pref("devtools.debugger.ignore-caught-exceptions", false);
@@ -36,9 +37,11 @@ if (isDevelopment()) {
   pref("devtools.debugger.features.column-breakpoints", true);
   pref("devtools.debugger.features.map-scopes", true);
   pref("devtools.debugger.features.breakpoints-dropdown", true);
+  pref("devtools.debugger.features.remove-command-bar-options", true);
 }
 
 export const prefs = new PrefsHelper("devtools", {
+  autoPrettyPrint: ["Bool", "debugger.auto-pretty-print"],
   clientSourceMapsEnabled: ["Bool", "source-map.client-service.enabled"],
   pauseOnExceptions: ["Bool", "debugger.pause-on-exceptions"],
   ignoreCaughtExceptions: ["Bool", "debugger.ignore-caught-exceptions"],
@@ -65,7 +68,8 @@ export const features = new PrefsHelper("devtools.debugger.features", {
   root: ["Bool", "root", false],
   columnBreakpoints: ["Bool", "column-breakpoints", false],
   mapScopes: ["Bool", "map-scopes", true],
-  breakpointsDropdown: ["Bool", "breakpoints-dropdown", true]
+  breakpointsDropdown: ["Bool", "breakpoints-dropdown", true],
+  removeCommandBarOptions: ["Bool", "remove-command-bar-options", true]
 });
 
 if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {

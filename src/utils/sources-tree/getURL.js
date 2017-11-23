@@ -7,6 +7,12 @@
 import { parse } from "url";
 import { merge } from "lodash";
 
+export type ParsedURL = {
+  path: string,
+  group: string,
+  filename: string
+};
+
 export function getFilenameFromPath(pathname?: string) {
   let filename = "";
   if (pathname) {
@@ -19,10 +25,8 @@ export function getFilenameFromPath(pathname?: string) {
   return filename;
 }
 
-export function getURL(
-  sourceUrl: string,
-  debuggeeUrl: string = ""
-): { path: string, group: string } {
+const NoDomain = "(no domain)";
+export function getURL(sourceUrl: string, debuggeeUrl: string = ""): ParsedURL {
   const url = sourceUrl;
   const def = { path: "", group: "", filename: "" };
   if (!url) {
@@ -46,12 +50,27 @@ export function getURL(
         filename: filename
       });
 
+    case "ng:":
+      // An Angular source is a special case
+      return merge(def, {
+        path: path,
+        group: "Angular",
+        filename: filename
+      });
+
     case "about:":
       // An about page is a special case
       return merge(def, {
         path: "/",
         group: url,
         filename: filename
+      });
+
+    case "data:":
+      return merge(def, {
+        path: "/",
+        group: NoDomain,
+        filename: url
       });
 
     case null:

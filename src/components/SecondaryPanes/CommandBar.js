@@ -151,6 +151,10 @@ class CommandBar extends Component<Props> {
     const className = isPaused ? "active" : "disabled";
     const isDisabled = !this.props.pause;
 
+    if (!isPaused && features.removeCommandBarOptions) {
+      return;
+    }
+
     return [
       debugBtn(
         this.props.stepOver,
@@ -186,6 +190,10 @@ class CommandBar extends Component<Props> {
         "active",
         L10N.getFormatStr("resumeButtonTooltip", formatKey("resume"))
       );
+    }
+
+    if (features.removeCommandBarOptions) {
+      return;
     }
 
     if (isWaitingOnBreak) {
