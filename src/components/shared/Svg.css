@@ -116,6 +116,15 @@ html .arrow.expanded svg {
   opacity: 0.5;
 }
 
+.function svg {
+  height: 10px;
+  width: 15px;
+}
+
+.function path {
+  fill: var(--theme-body-color);
+}
+
 .angular svg {
   width: 15px;
   height: 15px;

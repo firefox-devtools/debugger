@@ -17,6 +17,7 @@ const svg = {
   domain: require("./domain.svg"),
   file: require("./file.svg"),
   folder: require("./folder.svg"),
+  function: require("./function.svg"),
   globe: require("./globe.svg"),
   jquery: require("./jquery.svg"),
   underscore: require("./underscore.svg"),
