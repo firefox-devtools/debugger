@@ -168,6 +168,7 @@ class Expressions extends PureComponent<Props, State> {
 
   renderNewExpressionInput() {
     const onKeyPress = async e => {
+      e.target.style.color = "black";
       if (e.key !== "Enter") {
         return;
       }
@@ -177,30 +178,30 @@ class Expressions extends PureComponent<Props, State> {
         return;
       }
 
+      e.persist();
       e.stopPropagation();
-      e.target.value = "";
 
       const error = await parser.hasSyntaxError(value);
       this.setState({ error });
 
       if (error) {
-        // for debugging only
-        console.log("has syntax error");
+        e.target.value = value;
+        e.target.style.color = "red";
+        alert("'" + value + "' " + " Cannot be added, has syntax error");
         return;
+      } else {
+        e.target.value = "";
+        this.props.addExpression(value);
       }
-
-      this.props.addExpression(value);
     };
 
     const { error } = this.state;
     return (
       <li className="expression-input-container">
         <input
-          className="input-expression"
           className={classnames("input-expression", { error })}
           type="text"
           placeholder={L10N.getStr("expressions.placeholder")}
-          onBlur={e => (e.target.value = "")}
           onKeyPress={onKeyPress}
         />
       </li>
