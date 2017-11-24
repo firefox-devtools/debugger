@@ -4,8 +4,9 @@
 
 // @flow
 
+import { flatten } from "lodash";
 import { traverseAst } from "./utils/ast";
-import { isVariable, isFunction } from "./utils/helpers";
+import { isVariable, isFunction, getVariables } from "./utils/helpers";
 import { inferClassName } from "./utils/inferClassName";
 import * as t from "babel-types";
 import getFunctionName from "./utils/getFunctionName";
@@ -57,7 +58,12 @@ function getVariableNames(path: NodePath): SymbolDeclaration[] {
           location: path.node.loc
         }
       ];
+    } else if (path.node.value.type === "Identifier") {
+      return [{ name: path.node.value.name, location: path.node.loc }];
+    } else if (path.node.value.type === "AssignmentPattern") {
+      return [{ name: path.node.value.left.name, location: path.node.loc }];
     }
+
     return [
       {
         name: path.node.key.name,
@@ -73,10 +79,11 @@ function getVariableNames(path: NodePath): SymbolDeclaration[] {
     }));
   }
 
-  return path.node.declarations.map(dec => ({
-    name: dec.id.name,
-    location: dec.loc
-  }));
+  const declarations = path.node.declarations
+    .filter(dec => dec.id.type !== "ObjectPattern")
+    .map(getVariables);
+
+  return flatten(declarations);
 }
 
 function getComments(ast) {

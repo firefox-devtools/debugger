@@ -67,3 +67,21 @@ export function getMemberExpression(root: Node) {
   const expr = _getMemberExpression(root, []);
   return expr.join(".");
 }
+
+export function getVariables(dec: Node) {
+  if (dec.id.type === "ArrayPattern") {
+    return dec.id.elements.map(element => {
+      return {
+        name: element.name || element.argument.name,
+        location: element.loc
+      };
+    });
+  }
+
+  return [
+    {
+      name: dec.id.name,
+      location: dec.loc
+    }
+  ];
+}
