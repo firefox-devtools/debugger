@@ -32,6 +32,7 @@ import Dropdown from "../shared/Dropdown";
 import type { List } from "immutable";
 import type { SourceRecord } from "../../reducers/sources";
 import type { ActiveSearchType } from "../../reducers/ui";
+import type { SourceMetaDataMap } from "../../reducers/ast";
 type SourcesList = List<SourceRecord>;
 
 /*
@@ -97,7 +98,9 @@ type Props = {
   startPanelCollapsed: boolean,
   endPanelCollapsed: boolean,
   searchOn: boolean,
-  sourceTabsMetaData: any
+  sourceTabsMetaData: {
+    [key: string]: SourceMetaDataMap
+  }
 };
 
 type State = {
