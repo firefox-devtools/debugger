@@ -65,3 +65,11 @@
   width: 20em;
   overflow: auto;
 }
+
+.secondary-panes .accordion .scopes-pane.inactive {
+  visibility: hidden;
+}
+
+.secondary-panes .accordion .call-stack-pane.inactive {
+  visibility: hidden;
+}
