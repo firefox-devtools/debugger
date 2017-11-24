@@ -5,20 +5,22 @@
 import getSymbols from "./getSymbols";
 
 export function isReactComponent(source) {
-  const { imports, classes } = getSymbols(source);
+  const { imports, identifiers, classes } = getSymbols(source);
 
   if (!imports || !classes) {
     return false;
   }
 
-  return importsReact(imports) && extendsComponent(classes);
+  return importsReact(imports, identifiers) || extendsComponent(classes);
 }
 
-function importsReact(imports) {
-  return imports.some(
-    importObj =>
-      importObj.source === "react" &&
-      importObj.specifiers.some(specifier => specifier === "React")
+function importsReact(imports, identifiers) {
+  return (
+    imports.some(
+      importObj =>
+        importObj.source === "react" &&
+        importObj.specifiers.some(specifier => specifier === "React")
+    ) || identifiers.some(identifier => identifier.name === "React")
   );
 }
 
