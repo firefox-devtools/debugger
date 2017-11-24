@@ -11,6 +11,8 @@ import { getFrames } from "../reducers/pause";
 import { annotateFrame } from "../utils/frame";
 import { isOriginalId } from "devtools-source-map";
 import { get } from "lodash";
+import type { Frame, Source } from "debugger-html";
+import type { SourcesMap } from "../reducers/sources";
 
 function getLocation(frame, isGeneratedSource) {
   return isGeneratedSource
@@ -31,11 +33,11 @@ function appendSource(sources, frame, selectedSource) {
   };
 }
 
-export default function getAndProcessFrames(state) {
-  const selectedSource = getSelectedSource(state);
-  const sources = getSources(state);
-  const frames = getFrames(state);
-
+export function getAndProcessFrames(
+  frames: Frame[],
+  sources: SourcesMap,
+  selectedSource: Source
+) {
   if (!frames) {
     return null;
   }
@@ -45,4 +47,12 @@ export default function getAndProcessFrames(state) {
     .map(frame => appendSource(sources, frame, selectedSource))
     .filter(frame => !get(frame, "source.isBlackBoxed"))
     .map(annotateFrame);
+}
+
+export default function getCallStackFrames(state) {
+  const selectedSource = getSelectedSource(state);
+  const sources = getSources(state);
+  const frames = getFrames(state);
+
+  return getAndProcessFrames(frames, sources, selectedSource);
 }

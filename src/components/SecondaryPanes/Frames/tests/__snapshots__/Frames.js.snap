@@ -13,7 +13,9 @@ exports[`Frames Blackboxed Frames filters blackboxed frames 1`] = `
           "location": Object {
             "sourceId": "1",
           },
-          "source": Object {},
+          "source": Object {
+            "id": "1",
+          },
         }
       }
       frameworkGroupingOn={false}
@@ -40,7 +42,9 @@ exports[`Frames Blackboxed Frames filters blackboxed frames 1`] = `
           "location": Object {
             "sourceId": "1",
           },
-          "source": Object {},
+          "source": Object {
+            "id": "1",
+          },
         }
       }
       frameworkGroupingOn={false}
