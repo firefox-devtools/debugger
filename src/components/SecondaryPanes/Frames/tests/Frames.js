@@ -24,7 +24,6 @@ describe("Frames", () => {
   describe("Supports different number of frames", () => {
     it("empty frames", () => {
       const component = render();
-      expect(component).toMatchSnapshot();
       expect(component.find(".show-more").exists()).toBeFalsy();
     });
 
