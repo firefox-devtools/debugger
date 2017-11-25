@@ -52,12 +52,12 @@ async function checkSelectedSource(state: State, dispatch, source) {
   const pendingLocation = getPendingSelectedLocation(state);
 
   if (pendingLocation && !!source.url && pendingLocation.url === source.url) {
-    await dispatch(selectSource(source.id, { location: pendingLocation }));
+    await dispatch(selectLocation({ id: source.id, ...pendingLocation }));
   }
 }
 
 async function checkPendingBreakpoints(state, dispatch, sourceId) {
-  // source may have been modified by selectSource
+  // source may have been modified by selectLocation
   const source = getSource(state, sourceId).toJS();
   const pendingBreakpoints = getPendingBreakpointsForSource(state, source.url);
   if (!pendingBreakpoints.size) {
@@ -141,9 +141,9 @@ function loadSourceMap(generatedSource) {
   };
 }
 
-export type SelectSourceOptions = {
+declare type SelectSourceOptions = {
   tabIndex?: number,
-  location?: { line: number, column?: ?number }
+  location?: { line: ?number, column?: ?number }
 };
 
 /**
@@ -162,7 +162,7 @@ export function selectSourceURL(
   return async ({ dispatch, getState }: ThunkArgs) => {
     const source = getSourceByURL(getState(), url);
     if (source) {
-      await dispatch(selectSource(source.get("id"), options));
+      await dispatch(selectLocation({ id: source.get("id"), ...options }));
     } else {
       dispatch({
         type: "SELECT_SOURCE_URL",
@@ -174,11 +174,20 @@ export function selectSourceURL(
   };
 }
 
+declare type LocationObject = {
+  id?: ?string,
+  sourceId?: ?string,
+  tabIndex?: ?number,
+  line?: ?number,
+  column?: ?number,
+  sourceUrl?: ?string
+};
+
 /**
  * @memberof actions/sources
  * @static
  */
-export function selectSource(id: string, options: SelectSourceOptions = {}) {
+export function selectLocation(location: LocationObject) {
   return ({ dispatch, getState, client }: ThunkArgs) => {
     if (!client) {
       // No connection, do nothing. This happens when the debugger is
@@ -186,7 +195,7 @@ export function selectSource(id: string, options: SelectSourceOptions = {}) {
       return;
     }
 
-    const source = getSource(getState(), id);
+    const source = getSource(getState(), location.id);
     if (!source) {
       // If there is no source we deselect the current selected source
       return dispatch({ type: "CLEAR_SELECTED_SOURCE" });
@@ -202,12 +211,12 @@ export function selectSource(id: string, options: SelectSourceOptions = {}) {
     return dispatch({
       type: "SELECT_SOURCE",
       source: source.toJS(),
-      tabIndex: options.tabIndex,
-      location: options.location || {},
+      tabIndex: location.tabIndex,
+      location,
       [PROMISE]: (async () => {
         await dispatch(loadSourceText(source.toJS()));
         await dispatch(setOutOfScopeLocations());
-        const src = getSource(getState(), id).toJS();
+        const src = getSource(getState(), location.id).toJS();
         const { autoPrettyPrint } = prefs;
         if (
           autoPrettyPrint &&
@@ -248,7 +257,7 @@ export function jumpToMappedLocation(sourceLocation: any) {
     }
 
     return dispatch(
-      selectSource(pairedLocation.sourceId, { location: pairedLocation })
+      selectLocation({ id: pairedLocation.sourceId, ...pairedLocation })
     );
   };
 }
@@ -280,7 +289,7 @@ export function closeTab(url: string) {
     const sourceId = getNewSelectedSourceId(getState(), tabs);
 
     dispatch({ type: "CLOSE_TAB", url, tabs });
-    dispatch(selectSource(sourceId));
+    dispatch(selectLocation({ id: sourceId }));
   };
 }
 
@@ -301,7 +310,7 @@ export function closeTabs(urls: string[]) {
     const sourceId = getNewSelectedSourceId(getState(), tabs);
 
     dispatch({ type: "CLOSE_TABS", urls, tabs });
-    dispatch(selectSource(sourceId));
+    dispatch(selectLocation({ id: sourceId }));
   };
 }
 
@@ -340,14 +349,17 @@ export function togglePrettyPrint(sourceId: string) {
     }
 
     if (prettySource) {
-      return dispatch(selectSource(prettySource.get("id"), options));
+      options.location.id = prettySource.get("id");
+      return dispatch(selectLocation({ ...options.location }));
     }
 
     const newPrettySource = await dispatch(createPrettySource(sourceId));
     await dispatch(remapBreakpoints(sourceId));
     await dispatch(setEmptyLines(newPrettySource.id));
 
-    return dispatch(selectSource(newPrettySource.id, options));
+    return dispatch(
+      selectLocation({ id: newPrettySource.id, ...options.location })
+    );
   };
 }
 

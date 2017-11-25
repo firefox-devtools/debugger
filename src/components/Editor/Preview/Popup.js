@@ -239,7 +239,7 @@ export class Popup extends Component<Props> {
 const {
   addExpression,
   selectSourceURL,
-  selectSource,
+  selectLocation,
   loadObjectProperties,
   openLink
 } = actions;
@@ -251,7 +251,7 @@ export default connect(
   {
     addExpression,
     selectSourceURL,
-    selectSource,
+    selectLocation,
     loadObjectProperties,
     openLink
   }

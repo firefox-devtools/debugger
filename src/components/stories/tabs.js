@@ -54,7 +54,7 @@ function TabsFactory({ dir = "ltr", theme = "light", ...props }) {
           sourceTabs={fromJS([])}
           searchOn={false}
           selectedSource={null}
-          selectSource={action("selectSource")}
+          selectLocation={action("selectLocation")}
           closeActiveSearch={() => {}}
           moveTab={action("moveTab")}
           closeTab={action("closeTab")}

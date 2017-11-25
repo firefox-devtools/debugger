@@ -31,7 +31,7 @@ type Props = {
   query: string,
   closeProjectSearch: Function,
   searchSources: Function,
-  selectSource: Function,
+  selectLocation: Function,
   searchBottomBar: Object
 };
 
@@ -63,7 +63,7 @@ export default class TextSearch extends Component<Props> {
 
   selectMatchItem(matchItem) {
     const { line, column } = matchItem;
-    this.props.selectSource(matchItem.sourceId, { location: { line, column } });
+    this.props.selectLocation({ id: matchItem.sourceId, line, column });
   }
 
   getResults() {
