@@ -6,7 +6,13 @@ import { getSelectedLocation } from "../reducers/sources";
 import { getSelectedFrame } from "../reducers/pause";
 import { isOriginalId } from "devtools-source-map";
 
-export default function getSelectedFrameLocation(state: OuterState) {
+function getLocation(frame, isGeneratedSource) {
+  return isGeneratedSource
+    ? frame.generatedLocation || frame.location
+    : frame.location;
+}
+
+export default function getVisibleSelectedFrame(state: OuterState) {
   const selectedLocation = getSelectedLocation(state);
   const isGeneratedSource = !isOriginalId(selectedLocation.sourceId);
   const selectedFrame = getSelectedFrame(state);
@@ -15,7 +21,7 @@ export default function getSelectedFrameLocation(state: OuterState) {
     return;
   }
 
-  return isGeneratedSource
-    ? selectedFrame.generatedLocation || selectedFrame.location
-    : selectedFrame.location;
+  return {
+    location: getLocation(selectedFrame, isGeneratedSource)
+  };
 }

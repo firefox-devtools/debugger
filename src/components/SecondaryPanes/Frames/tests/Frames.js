@@ -2,7 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 import { Map } from "immutable";
 import Frames from "../index.js";
-import { getAndProcessFrames } from "../../../../selectors/getCallStackFrames";
+import { formatCallStackFrames } from "../../../../selectors/getCallStackFrames";
 
 function render(overrides = {}) {
   const defaultProps = {
@@ -82,7 +82,7 @@ describe("Frames", () => {
         2: Map({ id: "2", isBlackBoxed: true })
       });
 
-      const processedFrames = getAndProcessFrames(
+      const processedFrames = formatCallStackFrames(
         frames,
         sources,
         sources.get("1")

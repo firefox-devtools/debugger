@@ -33,7 +33,7 @@ function appendSource(sources, frame, selectedSource) {
   };
 }
 
-export function getAndProcessFrames(
+export function formatCallStackFrames(
   frames: Frame[],
   sources: SourcesMap,
   selectedSource: Source
@@ -54,5 +54,5 @@ export default function getCallStackFrames(state) {
   const sources = getSources(state);
   const frames = getFrames(state);
 
-  return getAndProcessFrames(frames, sources, selectedSource);
+  return formatCallStackFrames(frames, sources, selectedSource);
 }
