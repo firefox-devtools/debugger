@@ -29,10 +29,6 @@ describe("expressions", () => {
     it("sanitizes 2 quotes", () => {
       expect(sanitizeInput('"3"')).toEqual('"3"');
     });
-
-    it("sanitizes forward slashes", () => {
-      expect(sanitizeInput("foo\\\\")).toEqual("foo\\\\\\\\");
-    });
   });
 
   describe("getValue", () => {
