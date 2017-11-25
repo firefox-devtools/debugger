@@ -15,23 +15,28 @@ import type { ThunkArgs } from "../types";
 const requests = new Map();
 
 async function loadSource(source: Source, { sourceMaps, client }) {
-  console.log("load!");
   if (sourceMaps.isOriginalId(source.id)) {
     return await sourceMaps.getOriginalSourceText(source);
   }
 
-  console.log("...load!");
   const response = await client.sourceContents(source.id);
-  console.log("load! ...", {
-    id: source.id,
-    text: response.source,
-    contentType: response.contentType || "text/javascript"
-  });
+
   return {
     id: source.id,
     text: response.source,
     contentType: response.contentType || "text/javascript"
   };
+}
+
+function defer() {
+  let resolve = () => {};
+  let reject = () => {};
+  const promise = new Promise((_res, _rej) => {
+    resolve = _res;
+    reject = _rej;
+  });
+
+  return { resolve, reject, promise };
 }
 
 /**
@@ -40,27 +45,25 @@ async function loadSource(source: Source, { sourceMaps, client }) {
  */
 export function loadSourceText(source: Source) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
-    console.log("lst", source);
+    const deferred = defer();
+
+    deferred.resolve();
     // Fetch the source text only once.
     if (isLoaded(source)) {
       return Promise.resolve(source);
     }
 
-    if (isLoading(source)) {
-      console.log("loading");
+    if (isLoading(source) || requests.has(source.id)) {
       return requests.get(source.id);
     }
 
-    const request = loadSource(source, { sourceMaps, client });
-    requests.set(source.id, request);
-    console.log({ request });
+    requests.set(source.id, deferred.promise);
     await dispatch({
       type: "LOAD_SOURCE_TEXT",
       source: source,
-      [PROMISE]: request
+      [PROMISE]: loadSource(source, { sourceMaps, client })
     });
 
-    console.log("DONE");
     requests.delete(source.id);
 
     const newSource = getSource(getState(), source.id).toJS();
@@ -70,5 +73,6 @@ export function loadSourceText(source: Source) {
 
     await setSource(newSource);
     dispatch(setSymbols(source.id));
+    return deferred.resolve();
   };
 }
