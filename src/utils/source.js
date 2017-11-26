@@ -280,6 +280,23 @@ function getMode(source: Source, sourceMetaData: SourceMetaDataType) {
     return "jsx";
   }
 
+  const languageMimeMap = [
+    { ext: ".c", mode: "text/x-csrc" },
+    { ext: ".kt", mode: "text/x-kotlin" },
+    { ext: ".cpp", mode: "text/x-c++src" },
+    { ext: ".m", mode: "text/x-objectivec" },
+    { ext: ".rs", mode: "text/x-rustsrc" }
+  ];
+
+  // check for C and other non JS languages
+  if (url) {
+    const result = languageMimeMap.find(({ ext }) => url.endsWith(ext));
+
+    if (result !== undefined) {
+      return result.mode;
+    }
+  }
+
   // if the url ends with .marko we set the name to Javascript so
   // syntax highlighting works for marko too
   if (url && url.match(/\.marko$/i)) {
