@@ -216,7 +216,7 @@ function updateTabList(state: OuterState, url: ?string, tabIndex?: number) {
       tabs = tabs.delete(urlIndex).insert(tabIndex, url);
     }
   } else {
-    tabs = tabs.insert(0, url);
+    tabs = tabs.insert(tabs.size, url);
   }
 
   prefs.tabs = tabs.toJS();
