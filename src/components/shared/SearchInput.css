@@ -65,6 +65,7 @@
 }
 
 .search-field input:focus {
+  background: var(--theme-toolbar-background-hover);
   outline-width: 0;
 }
 

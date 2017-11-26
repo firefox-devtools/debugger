@@ -24,8 +24,20 @@
   margin-top: 0;
 }
 
+
+.close-btn:focus .close {
+  background: var(--theme-selection-background);
+}
+.close-btn:hover {
+  display: block;
+}
+
+.close-btn:hover .close {
+  background: var(--theme-selection-background);
+}
 .close-btn:hover img.close {
   background-color: white;
+
 }
 
 .close-btn:hover {

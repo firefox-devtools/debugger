@@ -66,10 +66,11 @@ type SvgType = {
   name: string,
   className?: string,
   onClick?: () => void,
-  "aria-label"?: string
+  "aria-label"?: string,
+  role?: string
 };
 
-function Svg({ name, className, onClick, "aria-label": ariaLabel }) {
+function Svg({ name, className, onClick, "aria-label": ariaLabel, role }) {
   if (!svg[name]) {
     const error = `Unknown SVG: ${name}`;
     if (isDevelopment()) {
@@ -89,6 +90,7 @@ function Svg({ name, className, onClick, "aria-label": ariaLabel }) {
     className,
     onClick,
     ["aria-label"]: ariaLabel,
+    role,
     src: svg[name]
   };
 

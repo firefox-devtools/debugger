@@ -76,10 +76,10 @@ class SearchInput extends Component {
 
   renderSvg() {
     if (this.shouldShowErrorEmoji()) {
-      return <Svg name="sad-face" />;
+      return <Svg name="sad-face" role="presentation" />;
     }
 
-    return <Svg name="magnifying-glass" />;
+    return <Svg name="magnifying-glass" role="presentation" />;
   }
 
   renderArrowButtons() {
@@ -151,7 +151,11 @@ class SearchInput extends Component {
         <input {...inputProps} />
         <div className="summary">{summaryMsg || ""}</div>
         {this.renderNav()}
-        <CloseButton handleClick={handleClose} buttonClass={size} />
+        <CloseButton
+          tabIndex="0"
+          handleClick={handleClose}
+          buttonClass={size}
+        />
       </div>
     );
   }

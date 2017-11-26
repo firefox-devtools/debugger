@@ -14,10 +14,9 @@ It is easy to pick up on trends by running `less logs`
 and looking for `TEST-START <test-name>`
 */
 
-
 function run(count) {
   fs.writeFileSync("logs", "");
-  const headlessParam = headless ? '': `-- --setenv MOZ_HEADLESS=1`
+  const headlessParam = headless ? "" : `-- --setenv MOZ_HEADLESS=1`;
   const cmd = `mochii --ci true --mc ./firefox --default-test-path devtools/client/debugger/new`;
   _.times(count).forEach(i => {
     console.log(`### RUN ${i}`);
@@ -29,24 +28,24 @@ function run(count) {
   });
 }
 
-
 function uniqErrors() {
-  const text = fs.readFileSync("logs", "utf8")
-  const errors = text.split("\n")
+  const text = fs.readFileSync("logs", "utf8");
+  const errors = text
+    .split("\n")
     .filter(line => line.includes("TEST-START"))
-    .map(line => line.match(/TEST-START (.*)/)[1])
+    .map(line => line.match(/TEST-START (.*)/)[1]);
 
-  const uniq_errors = _.uniq(errors)
+  const uniq_errors = _.uniq(errors);
 
   errorCounts = uniq_errors.map(error => ({
     error,
     count: errors.filter(e => e == error).length
-  }))
+  }));
 
-  console.log(errors.length)
+  console.log(errors.length);
 }
 
 (() => {
   // run(50);
   // uniqErrors();
-})()
+})();
