@@ -265,7 +265,7 @@ class Editor extends PureComponent<Props, State> {
 
   onToggleBreakpoint = (key, e) => {
     e.preventDefault();
-    const { selectedSource } = this.props;
+    const { selectedSource, conditionalPanelLine } = this.props;
 
     if (!selectedSource) {
       return;
@@ -275,7 +275,10 @@ class Editor extends PureComponent<Props, State> {
 
     if (e.shiftKey) {
       this.toggleConditionalPanel(line);
+    } else if (!conditionalPanelLine) {
+      this.props.toggleBreakpoint(line);
     } else {
+      this.toggleConditionalPanel(line);
       this.props.toggleBreakpoint(line);
     }
   };
