@@ -98,7 +98,9 @@ type Props = {
   startPanelCollapsed: boolean,
   endPanelCollapsed: boolean,
   searchOn: boolean,
-  sourceMetaData: SourceMetaDataMap
+  sourceTabsMetaData: {
+    [key: string]: SourceMetaDataMap
+  }
 };
 
 type State = {
@@ -457,7 +459,8 @@ class SourceTabs extends PureComponent<Props, State> {
 
   getSourceAnnotation(source) {
     const sourceObj = source.toJS();
-    const { sourceMetaData } = this.props;
+    const sourceId = source.get("id");
+    const sourceMetaData = this.props.sourceTabsMetaData[sourceId];
 
     if (sourceMetaData && sourceMetaData.isReactComponent) {
       return <img className="react" />;
@@ -484,16 +487,20 @@ class SourceTabs extends PureComponent<Props, State> {
 
 export default connect(
   state => {
-    const selectedSource = getSelectedSource(state);
-    const sourceId = selectedSource ? selectedSource.get("id") : "";
+    const sourceTabs = getSourcesForTabs(state);
+    const sourceTabsMetaData = {};
+    sourceTabs.forEach(source => {
+      const sourceId = source ? source.get("id") : "";
+      sourceTabsMetaData[sourceId] = getSourceMetaData(state, sourceId);
+    });
 
     return {
-      selectedSource: selectedSource,
+      selectedSource: getSelectedSource(state),
       searchTabs: getSearchTabs(state),
-      sourceTabs: getSourcesForTabs(state),
+      sourceTabs: sourceTabs,
       activeSearch: getActiveSearch(state),
       searchOn: getActiveSearch(state) === "source",
-      sourceMetaData: getSourceMetaData(state, sourceId)
+      sourceTabsMetaData: sourceTabsMetaData
     };
   },
   dispatch => bindActionCreators(actions, dispatch)
