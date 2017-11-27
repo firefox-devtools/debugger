@@ -20,16 +20,18 @@ function getLocation(frame, isGeneratedSource) {
     : frame.location;
 }
 
-function getSourceForFrame(sources, frame) {
-  return getSourceInSources(sources, frame.location.sourceId);
+function getSourceForFrame(sources, frame, isGeneratedSource) {
+  const sourceId = getLocation(frame, isGeneratedSource).sourceId;
+  return getSourceInSources(sources, sourceId);
 }
 
 function appendSource(sources, frame, selectedSource) {
-  const isGeneratedSource = !isOriginalId(selectedSource.get("id"));
+  const isGeneratedSource =
+    selectedSource && !isOriginalId(selectedSource.get("id"));
   return {
     ...frame,
     location: getLocation(frame, isGeneratedSource),
-    source: getSourceForFrame(sources, frame).toJS()
+    source: getSourceForFrame(sources, frame, isGeneratedSource).toJS()
   };
 }
 
