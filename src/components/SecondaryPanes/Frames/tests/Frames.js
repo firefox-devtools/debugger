@@ -2,7 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 import { Map } from "immutable";
 import Frames from "../index.js";
-import { formatCallStackFrames } from "../../../../selectors/getCallStackFrames";
+import formatCallStackFrames from "../../../../selectors/getCallStackFrames";
 
 function render(overrides = {}) {
   const defaultProps = {
