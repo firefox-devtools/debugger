@@ -11,6 +11,7 @@
   background: var(--theme-toolbar-background);
   border-top: 1px solid var(--theme-splitter-color);
   border-bottom: 1px solid var(--theme-splitter-color);
+  padding-right: 16px;
 }
 
 .conditional-breakpoint-panel .prompt {

@@ -70,7 +70,16 @@ export class ConditionalPanel extends PureComponent<Props> {
       this.cbPanel.clear();
       this.cbPanel = null;
     }
+    if (this.scrollParent) {
+      this.scrollParent.removeEventListener("scroll", this.repositionOnScroll);
+    }
   }
+
+  repositionOnScroll = () => {
+    const { scrollLeft } = this.scrollParent;
+
+    this.panelNode.style.transform = `translateX(${scrollLeft}px)`;
+  };
 
   componentWillUpdate(nextProps: Props) {
     if (nextProps.line) {
@@ -94,6 +103,19 @@ export class ConditionalPanel extends PureComponent<Props> {
     );
     if (this.input) {
       this.input.focus();
+
+      let parent = this.input.parentNode;
+      while (parent && parent.classList) {
+        parent = parent.parentNode;
+        if (parent.classList.contains("CodeMirror-scroll")) {
+          this.scrollParent = parent;
+          break;
+        }
+      }
+
+      if (this.scrollParent) {
+        this.scrollParent.addEventListener("scroll", this.repositionOnScroll);
+      }
     }
   }
 
@@ -106,6 +128,7 @@ export class ConditionalPanel extends PureComponent<Props> {
         className="conditional-breakpoint-panel"
         onClick={() => this.keepFocusOnInput()}
         onBlur={this.props.closeConditionalPanel}
+        ref={node => (this.panelNode = node)}
       >
         <div className="prompt">»</div>
         <input
