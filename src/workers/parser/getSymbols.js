@@ -165,7 +165,7 @@ function extractSymbols(source: Source) {
           const { start, end, identifierName } = callee.loc;
           callExpressions.push({
             name: identifierName,
-            arguments: args,
+            values: args.filter(arg => arg.value).map(arg => arg.value),
             location: { start, end }
           });
         }

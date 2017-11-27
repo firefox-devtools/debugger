@@ -24,7 +24,7 @@ function requiresReact(callExpressions) {
   return callExpressions.some(
     callExpression =>
       callExpression.name === "require" &&
-      callExpression.arguments.some(arg => arg.value === "react")
+      callExpression.values.some(value => value === "react")
   );
 }
 
