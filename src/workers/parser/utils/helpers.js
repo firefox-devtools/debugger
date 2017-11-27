@@ -67,3 +67,10 @@ export function getMemberExpression(root: Node) {
   const expr = _getMemberExpression(root, []);
   return expr.join(".");
 }
+
+export function isJSXElement(path: NodePath): boolean {
+  if (t.isJSXElement(path)) {
+    return true;
+  }
+  return false;
+}
