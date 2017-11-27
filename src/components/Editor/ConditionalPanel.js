@@ -30,6 +30,8 @@ type Props = {
 export class ConditionalPanel extends PureComponent<Props> {
   cbPanel: null | Object;
   input: ?HTMLInputElement;
+  panelNode: ?HTMLDivElement;
+  scrollParent: ?HTMLElement;
 
   constructor() {
     super();
@@ -76,9 +78,10 @@ export class ConditionalPanel extends PureComponent<Props> {
   }
 
   repositionOnScroll = () => {
-    const { scrollLeft } = this.scrollParent;
-
-    this.panelNode.style.transform = `translateX(${scrollLeft}px)`;
+    if (this.panelNode && this.scrollParent) {
+      const { scrollLeft } = this.scrollParent;
+      this.panelNode.style.transform = `translateX(${scrollLeft}px)`;
+    }
   };
 
   componentWillUpdate(nextProps: Props) {
@@ -102,20 +105,23 @@ export class ConditionalPanel extends PureComponent<Props> {
       }
     );
     if (this.input) {
-      this.input.focus();
-
-      let parent = this.input.parentNode;
-      while (parent && parent.classList) {
-        parent = parent.parentNode;
-        if (parent.classList.contains("CodeMirror-scroll")) {
+      let parent: ?Node = this.input.parentNode;
+      while (parent) {
+        if (
+          parent instanceof HTMLElement &&
+          parent.classList.contains("CodeMirror-scroll")
+        ) {
           this.scrollParent = parent;
           break;
         }
+        parent = (parent.parentNode: ?Node);
       }
 
       if (this.scrollParent) {
         this.scrollParent.addEventListener("scroll", this.repositionOnScroll);
       }
+
+      this.input.focus();
     }
   }
 
