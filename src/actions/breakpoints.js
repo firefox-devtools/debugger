@@ -320,7 +320,7 @@ export function toggleBreakpoint(line: number, column?: number) {
     const bp = getBreakpointAtLocation(state, { line, column });
     const isEmptyLine = isEmptyLineInSource(state, line, selectedSource.toJS());
 
-    if (isEmptyLine || (bp && bp.loading)) {
+    if ((!bp && isEmptyLine) || (bp && bp.loading)) {
       return;
     }
 
