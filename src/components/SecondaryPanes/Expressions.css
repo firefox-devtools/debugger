@@ -12,6 +12,16 @@
   color: var(--theme-body-color);
 }
 
+.input-expression-error {
+  width: 100%;
+  margin: 0px;
+  border: 1px;
+  background-color: var(--theme-sidebar-background);
+  font-size: 12px;
+  padding: 0px 20px;
+  color: red;
+}
+
 .input-expression::placeholder {
   text-align: center;
   font-style: italic;

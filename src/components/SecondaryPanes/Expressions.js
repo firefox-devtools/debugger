@@ -9,11 +9,10 @@ import { bindActionCreators } from "redux";
 import actions from "../../actions";
 import { getExpressions, getLoadedObjects } from "../../selectors";
 import { getValue } from "../../utils/expressions";
-import * as parser from "../../workers/parser";
+import { hasSyntaxError } from "../../workers/parser";
 import CloseButton from "../shared/Button/Close";
 import { ObjectInspector } from "devtools-reps";
 
-import classnames from "classnames";
 import "./Expressions.css";
 
 import type { List } from "immutable";
@@ -168,7 +167,8 @@ class Expressions extends PureComponent<Props, State> {
 
   renderNewExpressionInput() {
     const onKeyPress = async e => {
-      e.target.style.color = "black";
+      e.target.className = "input-expression";
+
       if (e.key !== "Enter") {
         return;
       }
@@ -181,25 +181,22 @@ class Expressions extends PureComponent<Props, State> {
       e.persist();
       e.stopPropagation();
 
-      const error = await parser.hasSyntaxError(value);
-      this.setState({ error });
+      const syntaxError = await hasSyntaxError(value);
+      this.setState({ error: syntaxError });
 
-      if (error) {
-        e.target.value = value;
-        e.target.style.color = "red";
-        alert("'" + value + "' " + " Cannot be added, has syntax error");
+      if (syntaxError) {
+        e.target.className = "input-expression-error";
         return;
-      } else {
-        e.target.value = "";
-        this.props.addExpression(value);
       }
+
+      e.target.value = "";
+      this.props.addExpression(value);
     };
 
-    const { error } = this.state;
     return (
       <li className="expression-input-container">
         <input
-          className={classnames("input-expression", { error })}
+          className="input-expression"
           type="text"
           placeholder={L10N.getStr("expressions.placeholder")}
           onKeyPress={onKeyPress}

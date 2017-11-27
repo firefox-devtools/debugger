@@ -34,8 +34,6 @@ export function addExpression(input: string) {
 
     const error = await parser.hasSyntaxError(input);
     if (error) {
-      // for debugging only
-      alert("'" + input + "' " + "has syntax error");
       return false;
     }
 
