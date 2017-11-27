@@ -20,6 +20,8 @@ We use [mochitests] to do integration testing. Mochitests are part of Firefox an
 
 **Setup Firefox**
 
+* Inside the main debugger.html folder run:
+
 ```
 ./bin/prepare-mochitests-dev
 ```
