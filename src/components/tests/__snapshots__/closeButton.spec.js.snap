@@ -6,8 +6,8 @@ exports[`CloseButton should render a button 1`] = `
   onClick={[Function]}
   title="Close button"
 >
-  <Svg
-    name="close"
+  <img
+    className="close"
   />
 </div>
 `;

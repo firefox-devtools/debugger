@@ -70,6 +70,76 @@ Immutable.List [
 ]
 `;
 
+exports[`project text search should close project search 1`] = `
+Immutable.List [
+  Object {
+    "filepath": "http://localhost:8000/examples/foo1",
+    "matches": Array [
+      Object {
+        "column": 9,
+        "line": 1,
+        "match": "foo",
+        "sourceId": "foo1",
+        "text": "function foo1() {",
+        "value": "function foo1() {",
+      },
+      Object {
+        "column": 8,
+        "line": 2,
+        "match": "foo",
+        "sourceId": "foo1",
+        "text": "  const foo = 5; return foo;",
+        "value": "  const foo = 5; return foo;",
+      },
+      Object {
+        "column": 24,
+        "line": 2,
+        "match": "foo",
+        "sourceId": "foo1",
+        "text": "  const foo = 5; return foo;",
+        "value": "  const foo = 5; return foo;",
+      },
+    ],
+    "sourceId": "foo1",
+  },
+  Object {
+    "filepath": "http://localhost:8000/examples/foo1",
+    "matches": Array [
+      Object {
+        "column": 9,
+        "line": 1,
+        "match": "foo",
+        "sourceId": "foo1",
+        "text": "function foo1() {",
+        "value": "function foo1() {",
+      },
+      Object {
+        "column": 8,
+        "line": 2,
+        "match": "foo",
+        "sourceId": "foo1",
+        "text": "  const foo = 5; return foo;",
+        "value": "  const foo = 5; return foo;",
+      },
+      Object {
+        "column": 24,
+        "line": 2,
+        "match": "foo",
+        "sourceId": "foo1",
+        "text": "  const foo = 5; return foo;",
+        "value": "  const foo = 5; return foo;",
+      },
+    ],
+    "sourceId": "foo1",
+  },
+]
+`;
+
+exports[`project text search should close project search 2`] = `
+Immutable.List [
+]
+`;
+
 exports[`project text search should search a specific source 1`] = `
 Immutable.List [
   Object {

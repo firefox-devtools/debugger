@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 import {
@@ -12,8 +16,9 @@ import {
   findNodeInContents,
   getDomain
 } from "./treeOrder";
-import { getURL, getFilenameFromPath } from "./getURL";
+import { getURL } from "./getURL";
 
+import type { ParsedURL } from "./getURL";
 import type { Node } from "./types";
 import type { SourceRecord } from "../../reducers/types";
 
@@ -102,7 +107,7 @@ function traverseTree(url: Object, tree: Node, debuggeeHost: ?string) {
 /*
  * Add a source file to a directory node in the tree
  */
-function addSourceToNode(node: Node, url: Object, source: SourceRecord) {
+function addSourceToNode(node: Node, url: ParsedURL, source: SourceRecord) {
   const isFile = !isDirectory(url);
 
   // if we have a file, and the subtree has no elements, overwrite the
@@ -111,10 +116,10 @@ function addSourceToNode(node: Node, url: Object, source: SourceRecord) {
     return source;
   }
 
-  const name = getFilenameFromPath(url.path);
+  const { filename } = url;
   const { found: childFound, index: childIndex } = findNodeInContents(
     node,
-    createTreeNodeMatcher(name, false, null)
+    createTreeNodeMatcher(filename, false, null)
   );
 
   // if we are readding an existing file in the node, overwrite the existing
@@ -126,7 +131,7 @@ function addSourceToNode(node: Node, url: Object, source: SourceRecord) {
   }
 
   // if this is a new file, add the new file;
-  const newNode = createNode(name, source.get("url"), source);
+  const newNode = createNode(filename, source.get("url"), source);
   const contents = node.contents.slice(0);
   contents.splice(childIndex, 0, newNode);
   return contents;

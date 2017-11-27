@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 import React, { Component } from "react";
@@ -5,6 +9,8 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import actions from "../../actions";
 import { getSelectedSource, getSymbols } from "../../selectors";
+import Svg from "../shared/Svg";
+
 import "./Outline.css";
 import PreviewFunction from "../shared/PreviewFunction";
 import { uniq } from "lodash";
@@ -17,7 +23,7 @@ import type { SourceRecord } from "../../reducers/sources";
 
 type Props = {
   symbols: SymbolDeclarations,
-  selectSource: (string, { line: number }) => void,
+  selectSource: (string, { location: { line: number } }) => void,
   selectedSource: ?SourceRecord
 };
 
@@ -29,7 +35,7 @@ export class Outline extends Component<Props> {
     }
     const selectedSourceId = selectedSource.get("id");
     const startLine = location.start.line;
-    selectSource(selectedSourceId, { line: startLine });
+    selectSource(selectedSourceId, { location: { line: startLine } });
   }
 
   renderPlaceholder() {
@@ -49,6 +55,7 @@ export class Outline extends Component<Props> {
         className="outline-list__element"
         onClick={() => this.selectItem(location)}
       >
+        <Svg name="function" />
         <PreviewFunction func={{ name, parameterNames }} />
       </li>
     );

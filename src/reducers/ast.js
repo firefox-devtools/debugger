@@ -1,7 +1,8 @@
-// @flow
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
+// @flow
 
 /**
  * Ast reducer
@@ -182,8 +183,9 @@ export function getPreview(state: OuterState) {
   return state.ast.get("preview");
 }
 
+const emptySourceMetaData = {};
 export function getSourceMetaData(state: OuterState, sourceId: string) {
-  return state.ast.getIn(["sourceMetaData", sourceId]) || {};
+  return state.ast.getIn(["sourceMetaData", sourceId]) || emptySourceMetaData;
 }
 
 export default update;

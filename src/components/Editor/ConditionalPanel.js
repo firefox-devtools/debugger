@@ -1,7 +1,10 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 import React, { PureComponent } from "react";
 import ReactDOM from "react-dom";
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import CloseButton from "../shared/Button/Close";
 import "./ConditionalPanel.css";
@@ -127,6 +130,12 @@ export class ConditionalPanel extends PureComponent<Props> {
   }
 }
 
+const {
+  setBreakpointCondition,
+  openConditionalPanel,
+  closeConditionalPanel
+} = actions;
+
 export default connect(
   state => {
     const line = getConditionalPanelLine(state);
@@ -137,5 +146,9 @@ export default connect(
       line
     };
   },
-  dispatch => bindActionCreators(actions, dispatch)
+  {
+    setBreakpointCondition,
+    openConditionalPanel,
+    closeConditionalPanel
+  }
 )(ConditionalPanel);

@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 .arrow,
 .worker,
 .refresh,
@@ -109,5 +113,25 @@ html .arrow.expanded svg {
 }
 
 .theme-dark .webpack {
+  opacity: 0.5;
+}
+
+.function svg {
+  height: 10px;
+  width: 15px;
+}
+
+.function path {
+  fill: var(--theme-body-color);
+}
+
+.angular svg {
+  width: 15px;
+  height: 15px;
+  margin-right: 5px;
+  vertical-align: sub;
+}
+
+.theme-dark .angular {
   opacity: 0.5;
 }

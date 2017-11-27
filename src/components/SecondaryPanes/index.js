@@ -1,17 +1,24 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
+
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { features } from "../../utils/prefs";
-import ImPropTypes from "react-immutable-proptypes";
 
 import actions from "../../actions";
 import {
   getPause,
   getBreakpoints,
   getBreakpointsDisabled,
-  getBreakpointsLoading
+  getBreakpointsLoading,
+  getIsWaitingOnBreak,
+  getShouldPauseOnExceptions,
+  getShouldIgnoreCaughtExceptions
 } from "../../selectors";
 
 import { isEnabled } from "devtools-config";
@@ -27,6 +34,7 @@ import Workers from "./Workers";
 import Accordion from "../shared/Accordion";
 import CommandBar from "./CommandBar";
 import UtilsBar from "./UtilsBar";
+import renderBreakpointsDropdown from "./BreakpointsDropdown";
 
 import _chromeScopes from "./ChromeScopes";
 import _Scopes from "./Scopes";
@@ -65,7 +73,12 @@ type Props = {
   breakpointsDisabled: boolean,
   breakpointsLoading: boolean,
   toggleAllBreakpoints: Function,
-  toggleShortcutsModal: Function
+  toggleShortcutsModal: Function,
+  pauseOnExceptions: (boolean, boolean) => void,
+  breakOnNext: () => void,
+  isWaitingOnBreak: any,
+  shouldPauseOnExceptions: boolean,
+  shouldIgnoreCaughtExceptions: boolean
 };
 
 class SecondaryPanes extends Component<Props> {
@@ -76,7 +89,6 @@ class SecondaryPanes extends Component<Props> {
       breakpointsDisabled,
       breakpointsLoading
     } = this.props;
-    const boxClassName = "breakpoints-toggle";
     const isIndeterminate =
       !breakpointsDisabled && breakpoints.some(x => x.disabled);
 
@@ -89,8 +101,9 @@ class SecondaryPanes extends Component<Props> {
       "aria-label": breakpointsDisabled
         ? L10N.getStr("breakpoints.enable")
         : L10N.getStr("breakpoints.disable"),
-      className: boxClassName,
+      className: "breakpoints-toggle",
       disabled: breakpointsLoading,
+      key: "breakpoints-toggle",
       onChange: e => {
         e.stopPropagation();
         toggleAllBreakpoints(!breakpointsDisabled);
@@ -129,6 +142,7 @@ class SecondaryPanes extends Component<Props> {
 
     return {
       header: L10N.getStr("scopes.header"),
+      className: "scopes-pane",
       component: Scopes,
       opened: prefs.scopesVisible,
       onToggle: opened => {
@@ -141,33 +155,55 @@ class SecondaryPanes extends Component<Props> {
   getWatchItem() {
     return {
       header: L10N.getStr("watchExpressions.header"),
+      className: "watch-expressions-pane",
       buttons: this.watchExpressionHeaderButtons(),
       component: Expressions,
       opened: true
     };
   }
 
+  breakpointDropdown() {
+    if (!features.breakpointsDropdown) {
+      return;
+    }
+
+    const {
+      breakOnNext,
+      pauseOnExceptions,
+      shouldPauseOnExceptions,
+      shouldIgnoreCaughtExceptions,
+      isWaitingOnBreak
+    } = this.props;
+
+    return renderBreakpointsDropdown(
+      breakOnNext,
+      pauseOnExceptions,
+      shouldPauseOnExceptions,
+      shouldIgnoreCaughtExceptions,
+      isWaitingOnBreak
+    );
+  }
+
   getStartItems() {
     const scopesContent: any = this.props.horizontal
       ? this.getScopeItem()
       : null;
-    const isPaused = () => !!this.props.pauseData;
-
     const items: Array<SecondaryPanesItems> = [
       {
         header: L10N.getStr("breakpoints.header"),
-        buttons: this.renderBreakpointsToggle(),
+        className: "breakpoints-pane",
+        buttons: [this.breakpointDropdown(), this.renderBreakpointsToggle()],
         component: Breakpoints,
         opened: true
       },
       {
         header: L10N.getStr("callStack.header"),
+        className: "call-stack-pane",
         component: Frames,
         opened: prefs.callStackVisible,
         onToggle: opened => {
           prefs.callStackVisible = opened;
-        },
-        shouldOpen: isPaused
+        }
       },
       scopesContent
     ];
@@ -175,6 +211,7 @@ class SecondaryPanes extends Component<Props> {
     if (isEnabled("eventListeners")) {
       items.push({
         header: L10N.getStr("eventListenersHeader"),
+        className: "event-listeners-pane",
         component: EventListeners
       });
     }
@@ -182,6 +219,7 @@ class SecondaryPanes extends Component<Props> {
     if (isEnabled("workers")) {
       items.push({
         header: L10N.getStr("workersHeader"),
+        className: "workers-pane",
         component: Workers
       });
     }
@@ -260,11 +298,14 @@ SecondaryPanes.propTypes = {
   evaluateExpressions: PropTypes.func.isRequired,
   pauseData: PropTypes.object,
   horizontal: PropTypes.bool,
-  breakpoints: ImPropTypes.map.isRequired,
+  breakpoints: PropTypes.object,
   breakpointsDisabled: PropTypes.bool,
   breakpointsLoading: PropTypes.bool,
   toggleAllBreakpoints: PropTypes.func.isRequired,
-  toggleShortcutsModal: PropTypes.func
+  toggleShortcutsModal: PropTypes.func,
+  isWaitingOnBreak: PropTypes.bool,
+  shouldPauseOnExceptions: PropTypes.bool,
+  shouldIgnoreCaughtExceptions: PropTypes.bool
 };
 
 SecondaryPanes.contextTypes = {
@@ -276,7 +317,10 @@ export default connect(
     pauseData: getPause(state),
     breakpoints: getBreakpoints(state),
     breakpointsDisabled: getBreakpointsDisabled(state),
-    breakpointsLoading: getBreakpointsLoading(state)
+    breakpointsLoading: getBreakpointsLoading(state),
+    isWaitingOnBreak: getIsWaitingOnBreak(state),
+    shouldPauseOnExceptions: getShouldPauseOnExceptions(state),
+    shouldIgnoreCaughtExceptions: getShouldIgnoreCaughtExceptions(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(SecondaryPanes);

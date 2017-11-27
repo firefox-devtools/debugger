@@ -16,7 +16,7 @@ function render(overrides = {}) {
     toggleBlackBox: jest.fn()
   };
 
-  const props = Object.assign({}, defaultProps, overrides);
+  const props = { ...defaultProps, ...overrides };
   const component = shallow(<Group {...props} />);
   return { component, props };
 }

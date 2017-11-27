@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 import React, { createElement, Component } from "react";
 import Svg from "./Svg";
@@ -9,6 +13,7 @@ type AccordionItem = {
   component(): any,
   componentProps: Object,
   header: string,
+  className: string,
   opened: boolean,
   onToggle?: () => void,
   shouldOpen?: () => void
@@ -62,12 +67,9 @@ class Accordion extends Component<Props, State> {
 
   renderContainer = (item: AccordionItem, i: number) => {
     const { opened, created } = this.state;
-    const containerClassName = `${item.header
-      .toLowerCase()
-      .replace(/\s/g, "-")}-pane`;
 
     return (
-      <div className={containerClassName} key={i}>
+      <div className={item.className} key={i}>
         <div className="_header" onClick={() => this.handleHeaderClick(i)}>
           <Svg name="arrow" className={opened[i] ? "expanded" : ""} />
           {item.header}

@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 .source-header {
   border-bottom: 1px solid var(--theme-splitter-color);
   width: 100%;
@@ -39,7 +43,7 @@
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
   display: inline-flex;
-  align-items: flex-end;
+  align-items: center;
   position: relative;
   transition: all 0.15s ease;
   min-width: 40px;
@@ -96,6 +100,15 @@
   height: 12px;
   width: 12px;
   background: var(--theme-highlight-blue);
+}
+
+.source-tab img.react {
+  mask: url(/images/react.svg) no-repeat;
+  mask-size: 100%;
+  padding-top: 12px;
+  height: 14px;
+  width: 14px;
+  background: var(--theme-highlight-bluegrey);
 }
 
 .source-tab .blackBox path {

@@ -1,7 +1,8 @@
-// @flow
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
+// @flow
 
 /**
  * UI reducer
@@ -116,6 +117,13 @@ function update(
 
     case "SET_PRIMARY_PANE_TAB":
       return state.set("selectedPrimaryPaneTab", action.tabName);
+
+    case "CLOSE_PROJECT_SEARCH": {
+      if (state.get("activeSearch") === "project") {
+        return state.set("activeSearch", null);
+      }
+      return state;
+    }
 
     default: {
       return state;

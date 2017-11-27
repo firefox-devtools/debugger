@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import classnames from "classnames";
@@ -11,8 +15,27 @@ import "./TextSearch.css";
 
 import { getRelativePath } from "../../utils/sources-tree";
 import { highlightMatches } from "./textSearch/utils/highlight";
+import { statusType } from "../../reducers/project-text-search";
+import type { StatusType } from "../../reducers/project-text-search";
 
-export default class TextSearch extends Component {
+type Match = Object;
+type Result = {
+  filepath: string,
+  matches: Array<Match>,
+  sourceId: string
+};
+
+type Props = {
+  results: Result[],
+  status: StatusType,
+  query: string,
+  closeProjectSearch: Function,
+  searchSources: Function,
+  selectSource: Function,
+  searchBottomBar: Object
+};
+
+export default class TextSearch extends Component<Props> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -136,6 +159,8 @@ export default class TextSearch extends Component {
       result => result.matches.length > 0
     );
 
+    const { status } = this.props;
+
     function getFilePath(item, index) {
       return item.filepath
         ? `${item.sourceId}-${index}`
@@ -147,8 +172,7 @@ export default class TextSearch extends Component {
         ? this.renderFile(item, focused, expanded, setExpanded)
         : this.renderMatch(item, focused);
     };
-
-    if (results.length) {
+    if (results.length && status === statusType.done) {
       return (
         <ManagedTree
           getRoots={() => results}
@@ -161,6 +185,8 @@ export default class TextSearch extends Component {
           renderItem={renderItem}
         />
       );
+    } else if (status === statusType.fetching) {
+      return <div className="no-result-msg absolute-center">Loading...</div>;
     } else if (this.props.query && !results.length) {
       return (
         <div className="no-result-msg absolute-center">
@@ -188,7 +214,7 @@ export default class TextSearch extends Component {
         onFocus={() => (this.inputFocused = true)}
         onBlur={() => (this.inputFocused = false)}
         onKeyDown={e => this.onKeyDown(e)}
-        handleClose={this.props.closeActiveSearch}
+        handleClose={this.props.closeProjectSearch}
         ref="searchInput"
       />
     );
@@ -207,16 +233,6 @@ export default class TextSearch extends Component {
     );
   }
 }
-
-TextSearch.propTypes = {
-  sources: PropTypes.object,
-  results: PropTypes.array,
-  query: PropTypes.string,
-  closeActiveSearch: PropTypes.func,
-  searchSources: PropTypes.func,
-  selectSource: PropTypes.func,
-  searchBottomBar: PropTypes.object
-};
 
 TextSearch.contextTypes = {
   shortcuts: PropTypes.object

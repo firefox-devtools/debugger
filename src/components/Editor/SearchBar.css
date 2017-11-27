@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 .search-bar {
   display: flex;
   flex-direction: column;
@@ -8,8 +12,8 @@
   height: var(--editor-searchbar-height);
 }
 
-.search-bar .close-btn {
-  padding: 6px;
+.search-field .close-btn {
+  margin-top: 7px;
 }
 
 .search-bottom-bar * {

@@ -14,6 +14,7 @@
 * [Linting](#linting)
   * [Lint JS](#lint-js)
   * [Lint CSS](#lint-css)
+* [Performance](#performance)
 * [Colors](#colors)
 * [Configs](#configs)
 * [Workers](#workers)
@@ -416,7 +417,7 @@ Let's cover the logging types.
 
 Your code must pass all tests to be merged in.  Your tests should pass locally before you create a PR and the CI should run an automated test that also passes.
 
-Here's how can run all the unit tests, lints, and integration tests at once:
+Here's how you can run all the unit tests, lints, and integration tests at once:
 
 ```bash
 yarn run test-all
@@ -557,6 +558,11 @@ The Debugger has a [styleguide][mdn-colors] that we use to keep the colors consi
 The common colors are represented as [css variables] in a [devtools variables][devtools-css-variables] file. This lets define the colors
 for each theme: [light][light-theme], [dark][dark-theme], [firebug][firebug-theme].
 
+### Performance
+
+Performance problems can be tricky to understand because they're silent. There are rarely error messages to start with.
+This [performance](./performance.md) outlines some good places to start digging.
+
 #### Making a color change
 
 Most color changes can be made by finding a different [css variable][devtools-css-variables].
@@ -682,7 +688,7 @@ index 429d56c..dadb36c 100644
  });
 
  if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {
- 
+
 diff --git a/src/components/SecondaryPanes/index.js b/src/components/SecondaryPanes/index.js
 index a390df2..c610c1a 100644
 --- a/src/components/SecondaryPanes/index.js

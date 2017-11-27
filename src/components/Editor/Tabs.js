@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 import React, { PureComponent } from "react";
@@ -9,7 +13,8 @@ import {
   getSelectedSource,
   getSourcesForTabs,
   getActiveSearch,
-  getSearchTabs
+  getSearchTabs,
+  getSourceMetaData
 } from "../../selectors";
 import { isVisible } from "../../utils/ui";
 
@@ -17,7 +22,7 @@ import { getFilename, getFileURL, isPretty } from "../../utils/source";
 import classnames from "classnames";
 import actions from "../../actions";
 import CloseButton from "../shared/Button/Close";
-import { showMenu, buildMenu } from "devtools-launchpad";
+import { showMenu, buildMenu } from "devtools-contextmenu";
 import { debounce } from "lodash";
 import "./Tabs.css";
 
@@ -27,6 +32,7 @@ import Dropdown from "../shared/Dropdown";
 import type { List } from "immutable";
 import type { SourceRecord } from "../../reducers/sources";
 import type { ActiveSearchType } from "../../reducers/ui";
+import type { SourceMetaDataMap } from "../../reducers/ast";
 type SourcesList = List<SourceRecord>;
 
 /*
@@ -91,7 +97,10 @@ type Props = {
   horizontal: boolean,
   startPanelCollapsed: boolean,
   endPanelCollapsed: boolean,
-  searchOn: boolean
+  searchOn: boolean,
+  sourceTabsMetaData: {
+    [key: string]: SourceMetaDataMap
+  }
 };
 
 type State = {
@@ -420,7 +429,7 @@ class SourceTabs extends PureComponent<Props, State> {
 
     const Panel = <ul>{hiddenSourceTabs.map(this.renderDropdownSource)}</ul>;
 
-    return <Dropdown panel={Panel} />;
+    return <Dropdown panel={Panel} icon={"»"} />;
   }
 
   renderStartPanelToggleButton() {
@@ -450,7 +459,12 @@ class SourceTabs extends PureComponent<Props, State> {
 
   getSourceAnnotation(source) {
     const sourceObj = source.toJS();
+    const sourceId = source.get("id");
+    const sourceMetaData = this.props.sourceTabsMetaData[sourceId];
 
+    if (sourceMetaData && sourceMetaData.isReactComponent) {
+      return <img className="react" />;
+    }
     if (isPretty(sourceObj)) {
       return <img className="prettyPrint" />;
     }
@@ -473,12 +487,20 @@ class SourceTabs extends PureComponent<Props, State> {
 
 export default connect(
   state => {
+    const sourceTabs = getSourcesForTabs(state);
+    const sourceTabsMetaData = {};
+    sourceTabs.forEach(source => {
+      const sourceId = source ? source.get("id") : "";
+      sourceTabsMetaData[sourceId] = getSourceMetaData(state, sourceId);
+    });
+
     return {
       selectedSource: getSelectedSource(state),
       searchTabs: getSearchTabs(state),
-      sourceTabs: getSourcesForTabs(state),
+      sourceTabs: sourceTabs,
       activeSearch: getActiveSearch(state),
-      searchOn: getActiveSearch(state) === "source"
+      searchOn: getActiveSearch(state) === "source",
+      sourceTabsMetaData: sourceTabsMetaData
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 import React, { Component } from "react";
@@ -60,7 +64,7 @@ class PrimaryPanes extends Component<Props> {
 
     return [
       <div
-        className={classnames("tab", {
+        className={classnames("tab sources-tab", {
           active: this.props.selectedTab === "sources"
         })}
         onClick={() => this.showPane("sources")}
@@ -69,7 +73,7 @@ class PrimaryPanes extends Component<Props> {
         {sources}
       </div>,
       <div
-        className={classnames("tab", {
+        className={classnames("tab outline-tab", {
           active: this.props.selectedTab === "outline"
         })}
         onClick={() => this.showPane("outline")}

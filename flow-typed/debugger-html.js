@@ -152,9 +152,16 @@ declare module "debugger-html" {
  * @memberof types
  * @static
  */
-  declare type Why = {
-    type: string
-  };
+  declare type Why =
+    | {|
+        exception: string | Grip,
+        type: "exception",
+        frameFinished?: Object
+      |}
+    | {
+        type: string,
+        frameFinished?: Object
+      };
 
   /**
  * Why is the Debugger Paused?
@@ -182,6 +189,7 @@ declare module "debugger-html" {
  * @static
  */
   declare type Pause = {
+    frame: Frame,
     frames: Frame[],
     why: Why,
     loadedObjects?: LoadedObject[]
@@ -211,7 +219,8 @@ declare module "debugger-html" {
     ownPropertyLength: number,
     preview: {
       kind: string,
-      url: string
+      url: string,
+      fileName: string
     },
     sealed: boolean,
     type: string
@@ -286,6 +295,11 @@ declare module "debugger-html" {
     [name: string]: BindingContents
   };
 
+  declare type SyntheticScope = {
+    type: string,
+    bindingsNames: string[]
+  };
+
   /**
  * Scope
  * @memberof types
@@ -308,6 +322,11 @@ declare module "debugger-html" {
       displayName: string,
       location: Location,
       parameterNames: string[]
+    },
+    syntheticScopes?: {
+      scopes: SyntheticScope[],
+      groupIndex: number,
+      groupLength: number
     },
     type: string
   };

@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 import React, { PureComponent } from "react";
 import { bindActionCreators } from "redux";
@@ -9,11 +13,11 @@ import {
   getFrameScope,
   getPause
 } from "../../selectors";
-import { getScopes } from "../../utils/scopes";
+import { getScopes } from "../../utils/pause/scopes";
 
 import { ObjectInspector } from "devtools-reps";
 import type { Pause, LoadedObject } from "debugger-html";
-import type { NamedValue } from "../../utils/scopes";
+import type { NamedValue } from "../../utils/pause/scopes/types";
 
 import "./Scopes.css";
 

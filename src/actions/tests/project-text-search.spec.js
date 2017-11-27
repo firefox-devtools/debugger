@@ -5,7 +5,12 @@ import {
   makeSource
 } from "../../utils/test-head";
 
-const { getTextSearchQuery, getTextSearchResults, getSource } = selectors;
+const {
+  getTextSearchQuery,
+  getTextSearchResults,
+  getSource,
+  getTextSearchStatus
+} = selectors;
 
 const threadClient = {
   sourceContents: function(sourceId) {
@@ -100,5 +105,31 @@ describe("project text search", () => {
     await dispatch(actions.clearSearchResults());
 
     expect(getTextSearchResults(getState())).toMatchSnapshot();
+  });
+
+  it("should set the status properly", () => {
+    const { dispatch, getState } = createStore();
+    const mockStatus = "Fetching";
+    dispatch(actions.updateSearchStatus(mockStatus));
+    expect(getTextSearchStatus(getState())).toEqual(mockStatus);
+  });
+
+  it("should close project search", async () => {
+    const { dispatch, getState } = createStore(threadClient);
+    const mockQuery = "foo";
+
+    await dispatch(actions.newSource(makeSource("foo1")));
+    await dispatch(actions.searchSources(mockQuery));
+
+    expect(getTextSearchResults(getState())).toMatchSnapshot();
+
+    dispatch(actions.closeProjectSearch());
+
+    expect(getTextSearchQuery(getState())).toEqual("");
+
+    const results = getTextSearchResults(getState());
+
+    expect(results).toMatchSnapshot();
+    expect(results.size).toEqual(0);
   });
 });

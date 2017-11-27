@@ -1,5 +1,8 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 import React, { PureComponent } from "react";
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { debounce } from "lodash";
 
@@ -120,6 +123,13 @@ class Preview extends PureComponent {
   }
 }
 
+const {
+  addExpression,
+  loadObjectProperties,
+  setPreview,
+  clearPreview
+} = actions;
+
 export default connect(
   state => ({
     preview: getPreview(state),
@@ -127,5 +137,10 @@ export default connect(
     linesInScope: getInScopeLines(state),
     selectedFrameVisible: isSelectedFrameVisible(state)
   }),
-  dispatch => bindActionCreators(actions, dispatch)
+  {
+    addExpression,
+    loadObjectProperties,
+    setPreview,
+    clearPreview
+  }
 )(Preview);

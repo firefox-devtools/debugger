@@ -1,6 +1,9 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import { features } from "../../utils/prefs";
 
 import { range, keyBy, isEqualWith } from "lodash";
@@ -208,6 +211,8 @@ function getCallSites(symbols, breakpoints) {
     .map(callSite => ({ ...callSite, breakpoint: findBreakpoint(callSite) }));
 }
 
+const { addBreakpoint, removeBreakpoint } = actions;
+
 export default connect(
   state => {
     const selectedLocation = getSelectedLocation(state);
@@ -225,5 +230,8 @@ export default connect(
       breakpoints: breakpoints
     };
   },
-  dispatch => bindActionCreators(actions, dispatch)
+  {
+    addBreakpoint,
+    removeBreakpoint
+  }
 )(CallSites);

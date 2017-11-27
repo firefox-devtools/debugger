@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 import React from "react";
 import { bindActionCreators, combineReducers } from "redux";
 import ReactDOM from "react-dom";
@@ -27,7 +31,7 @@ export function bootstrapStore(client, { services, toolboxActions }) {
     log: isTesting() || getValue("logging.actions"),
     timing: isDevelopment(),
     makeThunkArgs: (args, state) => {
-      return Object.assign({}, args, { client }, services, toolboxActions);
+      return { ...args, client, ...services, ...toolboxActions };
     }
   });
 

@@ -1,9 +1,14 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 import React, { Component } from "react";
 import "./Dropdown.css";
 
 type Props = {
-  panel: Object
+  panel: Object,
+  icon: any
 };
 
 type State = {
@@ -49,7 +54,7 @@ class Dropdown extends Component<Props, State> {
   renderButton() {
     return (
       <button className="dropdown-button" onClick={this.toggleDropdown}>
-        »
+        {this.props.icon}
       </button>
     );
   }

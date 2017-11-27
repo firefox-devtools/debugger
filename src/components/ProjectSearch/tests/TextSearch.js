@@ -7,11 +7,11 @@ function render(overrides = {}) {
     sources: {},
     results: [],
     query: "foo",
-    closeActiveSearch: jest.fn(),
+    closeProjectSearch: jest.fn(),
     searchSources: jest.fn(),
     selectSource: jest.fn()
   };
-  const props = Object.assign({}, defaultProps, overrides);
+  const props = { ...defaultProps, ...overrides };
 
   const component = shallow(<TextSearch {...props} />);
   return component;

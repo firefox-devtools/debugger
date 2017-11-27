@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 /* @flow */
 
 import { BinaryReader } from "wasmparser/dist/WasmParser";
@@ -8,7 +12,7 @@ type WasmState = {
   offsets: Array<number>
 };
 
-var wasmStates: { [string]: WasmState } = Object.create(null);
+var wasmStates: { [string]: WasmState } = (Object.create(null): any);
 
 /**
  * @memberof utils/wasm
@@ -113,7 +117,7 @@ function wasmOffsetToLine(sourceId: string, offset: number): ?number {
  * @static
  */
 function clearWasmStates() {
-  wasmStates = Object.create(null);
+  wasmStates = (Object.create(null): any);
 }
 
 function renderWasmText(sourceId: string, { binary }: Object) {
@@ -123,7 +127,7 @@ function renderWasmText(sourceId: string, { binary }: Object) {
     data[i] = binary.charCodeAt(i);
   }
   const { lines } = getWasmText(sourceId, data);
-  const MAX_LINES = 100000;
+  const MAX_LINES = 1000000;
   if (lines.length > MAX_LINES) {
     lines.splice(MAX_LINES, lines.length - MAX_LINES);
     lines.push(";; .... text is truncated due to the size");

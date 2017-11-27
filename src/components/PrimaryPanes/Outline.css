@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 .outline {
   overflow-y: auto;
 }
@@ -22,7 +26,6 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  padding-left: 10px;
 }
 
 .outline-list h2 {
@@ -33,8 +36,7 @@
 }
 
 .outline-list__element {
-  color: blue;
-  padding-bottom: 0.2rem;
+  padding-bottom: 0.5rem;
   padding-right: 0.5rem;
   padding-top: 0.2rem;
   cursor: default;

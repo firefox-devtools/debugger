@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 import React, { Component } from "react";
 import classNames from "classnames";
@@ -11,6 +15,7 @@ import FrameComponent from "./Frame";
 
 import type { LocalFrame } from "./types";
 import type { Frame } from "debugger-html";
+import Badge from "../../shared/Badge";
 
 type FrameLocationProps = { frame: Frame };
 function FrameLocation({ frame }: FrameLocationProps) {
@@ -118,7 +123,10 @@ export default class Group extends Component<Props, State> {
         onClick={this.toggleFrames}
         tabIndex={0}
       >
-        <div className="title">{displayName}</div>
+        <div className="d-flex align-items-center min-width-0">
+          <div className="title">{displayName}</div>
+          <Badge>{this.props.group.length}</Badge>
+        </div>
         <FrameLocation frame={frame} />
       </li>
     );
