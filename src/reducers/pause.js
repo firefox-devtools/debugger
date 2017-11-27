@@ -56,10 +56,7 @@ const emptyPauseState = {
 function update(state: PauseState = State(), action: Action): PauseState {
   switch (action.type) {
     case "PAUSED": {
-      const { selectedFrameId, frames, loadedObjects, pauseInfo } = action;
-
-      const { why } = pauseInfo;
-      pauseInfo.isInterrupted = pauseInfo.why.type === "interrupted";
+      const { selectedFrameId, frames, loadedObjects, pauseInfo, why } = action;
 
       // turn this into an object keyed by object id
       const objectMap = {};

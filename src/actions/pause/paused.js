@@ -36,6 +36,7 @@ export function paused(pauseInfo: Pause) {
     dispatch({
       type: "PAUSED",
       pauseInfo: { why, frame, frames },
+      why,
       frames: mappedFrames,
       selectedFrameId: frame.id,
       loadedObjects: loadedObjects || []
