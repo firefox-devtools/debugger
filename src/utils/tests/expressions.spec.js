@@ -30,8 +30,12 @@ describe("expressions", () => {
       expect(sanitizeInput('"3"')).toEqual('"3"');
     });
 
-    it("sanitizes forward slashes", () => {
-      expect(sanitizeInput("foo\\\\")).toEqual("foo\\\\\\\\");
+    it("evaluates \\u{61} as a", () => {
+      expect(sanitizeInput("\u{61}")).toEqual("a");
+    });
+
+    it("evaluates N\\u{61}N as NaN", () => {
+      expect(sanitizeInput("N\u{61}N")).toEqual("NaN");
     });
   });
 
