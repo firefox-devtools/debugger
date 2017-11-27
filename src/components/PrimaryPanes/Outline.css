@@ -40,6 +40,7 @@
   padding-right: 0.5rem;
   padding-top: 0.2rem;
   cursor: default;
+  white-space: nowrap;
 }
 
 .outline-list__element:hover {
