@@ -29,6 +29,14 @@ describe("expressions", () => {
     it("sanitizes 2 quotes", () => {
       expect(sanitizeInput('"3"')).toEqual('"3"');
     });
+
+    it("evaluates \\u{61} as a", () => {
+      expect(sanitizeInput("\u{61}")).toEqual("a");
+    });
+
+    it("evaluates N\\u{61}N as NaN", () => {
+      expect(sanitizeInput("N\u{61}N")).toEqual("NaN");
+    });
   });
 
   describe("getValue", () => {
