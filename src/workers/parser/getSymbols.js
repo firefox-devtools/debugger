@@ -5,7 +5,7 @@
 // @flow
 
 import { traverseAst } from "./utils/ast";
-import { isVariable, isFunction } from "./utils/helpers";
+import { isVariable, isFunction, isJSXElement } from "./utils/helpers";
 import { inferClassName } from "./utils/inferClassName";
 import * as t from "babel-types";
 import getFunctionName from "./utils/getFunctionName";
@@ -13,6 +13,7 @@ import getFunctionName from "./utils/getFunctionName";
 import type { Source } from "debugger-html";
 import type { NodePath, Node, Location as BabelLocation } from "babel-traverse";
 let symbolDeclarations = new Map();
+var hasJSX = false;
 
 export type SymbolDeclaration = {|
   name: string,
@@ -95,6 +96,10 @@ function getSpecifiers(specifiers) {
   return specifiers.map(specifier => specifier.local && specifier.local.name);
 }
 
+export function getHasJSX(): boolean {
+  return hasJSX;
+}
+
 function extractSymbols(source: Source) {
   const functions = [];
   const variables = [];
@@ -119,6 +124,10 @@ function extractSymbols(source: Source) {
           parameterNames: getFunctionParameterNames(path),
           identifier: path.node.id
         });
+      }
+
+      if (isJSXElement(path)) {
+        hasJSX = true;
       }
 
       if (t.isClassDeclaration(path)) {
