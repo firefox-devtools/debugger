@@ -116,12 +116,16 @@ We use the fabulous [retext] project for spell checking and other grammatical ch
 
 ### Git Workflow
 
-Working on OSS is an exercise in git collaboration. No matter how well you know
-git you're going to learn something new. Here is a great overview of the github [workflow][forking].
-Also, we highly recommend the [learn git branching][git-tutorial]!
+Working on OSS will test your git game! No matter how well you know
+git you're going to learn something new. Here are some links we've found useful:
+
+* [Learn git branching][git-tutorial] - an interactive environment for learning how git commands work
+* [Git Forking][forking] - Overview of creating a feature branch, keeping it uptodate, and publishing it
+* [Flight Rules][flight-rules] - A guide about what to do when things go wrong
 
 [forking]: https://gist.github.com/Chaser324/ce0505fbed06b947d962#file-github-forking-md
 [git-tutorial]: https://learngitbranching.js.org/
+[flight-rules]:https://github.com/k88hudson/git-flight-rules
 
 #### Merge Conflicts
 
