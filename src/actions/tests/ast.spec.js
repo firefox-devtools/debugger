@@ -144,87 +144,39 @@ describe("ast", () => {
     });
   });
 
-  describe("not prettyPrinted", () => {
+  describe("getOutOfScopeLocations", () => {
     beforeEach(async () => {
       prefs.autoPrettyPrint = false;
     });
 
-    it("autoPrettyPrint is off", async () => {
-      expect(prefs.autoPrettyPrint).toBe(false);
+    it("with selected line", async () => {
+      const store = createStore(threadClient);
+      const { dispatch, getState } = store;
+      const source = makeSource("scopes.js");
+      await dispatch(actions.newSource(source));
+      await dispatch(
+        actions.selectLocation({ sourceId: "scopes.js", line: 5 })
+      );
+      await waitForState(store, state => getOutOfScopeLocations(state));
+
+      const locations = getOutOfScopeLocations(getState());
+      const lines = getInScopeLines(getState());
+
+      expect(locations).toMatchSnapshot();
+      expect(lines).toMatchSnapshot();
     });
 
-    describe("getOutOfScopeLocations", () => {
-      it("with selected line", async () => {
-        const store = createStore(threadClient);
-        const { dispatch, getState } = store;
-        const source = makeSource("scopes.js");
-        await dispatch(actions.newSource(source));
-        await dispatch(
-          actions.selectLocation({ sourceId: "scopes.js", line: 5 })
-        );
-        await waitForState(store, state => getOutOfScopeLocations(state));
+    it("without a selected line", async () => {
+      const { dispatch, getState } = createStore(threadClient);
+      const base = makeSource("base.js");
+      await dispatch(actions.newSource(base));
+      await dispatch(actions.selectSource("base.js"));
 
-        const locations = getOutOfScopeLocations(getState());
-        const lines = getInScopeLines(getState());
+      const locations = getOutOfScopeLocations(getState());
+      const lines = getInScopeLines(getState());
 
-        expect(locations).toMatchSnapshot();
-        expect(lines).toMatchSnapshot();
-      });
-
-      it("without a selected line", async () => {
-        const { dispatch, getState } = createStore(threadClient);
-        const base = makeSource("base.js");
-        await dispatch(actions.newSource(base));
-        await dispatch(actions.selectSource("base.js"));
-
-        const locations = getOutOfScopeLocations(getState());
-        const lines = getInScopeLines(getState());
-
-        expect(locations).toEqual(null);
-        expect(lines).toEqual([1]);
-      });
-    });
-  });
-
-  describe("prettyPrinted", () => {
-    beforeEach(async () => {
-      prefs.autoPrettyPrint = true;
-    });
-
-    it("autoPrettyPrint is on", async () => {
-      expect(prefs.autoPrettyPrint).toBe(true);
-    });
-
-    describe("getOutOfScopeLocations", () => {
-      it("with selected line", async () => {
-        const store = createStore(threadClient);
-        const { dispatch, getState } = store;
-        const source = makeSource("scopes.js");
-        await dispatch(actions.newSource(source));
-        await dispatch(
-          actions.selectLocation({ sourceId: "scopes.js", line: 5 })
-        );
-
-        await waitForState(store, state => getOutOfScopeLocations(state));
-
-        const locations = getOutOfScopeLocations(getState());
-        const lines = getInScopeLines(getState());
-
-        expect(locations).toMatchSnapshot();
-        expect(lines).toMatchSnapshot();
-      });
-
-      it("without a selected line", async () => {
-        const { dispatch, getState } = createStore(threadClient);
-        const base = makeSource("base.js");
-        await dispatch(actions.newSource(base));
-        await dispatch(actions.selectSource("base.js"));
-
-        const locations = getOutOfScopeLocations(getState());
-        const lines = getInScopeLines(getState());
-        expect(locations).toEqual(null);
-        expect(lines).toEqual([1, 2, 3]);
-      });
+      expect(locations).toEqual(null);
+      expect(lines).toEqual([1]);
     });
   });
 });
