@@ -82,6 +82,10 @@ function waitForState(store: any, predicate: any): Promise<void> {
   }
 
   return new Promise(resolve => {
+    if (predicate(store.getState())) {
+      resolve();
+    }
+
     const unsubscribe = store.subscribe(() => {
       if (predicate(store.getState())) {
         unsubscribe();

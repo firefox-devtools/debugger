@@ -143,17 +143,17 @@ function update(
 // https://github.com/devtools-html/debugger.html/blob/master/src/reducers/sources.js#L179-L185
 type OuterState = { ast: Record<ASTState> };
 
+const emptySymbols = { variables: [], functions: [] };
 export function getSymbols(
   state: OuterState,
   source: Source
 ): SymbolDeclarations {
-  const emptySet = { variables: [], functions: [] };
   if (!source) {
-    return emptySet;
+    return emptySymbols;
   }
 
   const symbols = state.ast.getIn(["symbols", source.id]);
-  return symbols || emptySet;
+  return symbols || emptySymbols;
 }
 
 export function hasSymbols(state: OuterState, source: Source): boolean {

@@ -8,7 +8,7 @@ import { isEnabled } from "devtools-config";
 import * as sourceDocumentUtils from "./source-documents";
 import { shouldPrettyPrint } from "../../utils/source";
 
-import * as expressionUtils from "./expression.js";
+import { getTokenLocation } from "./getTokenLocation.js";
 
 import * as sourceSearchUtils from "./source-search";
 const { findNext, findPrev } = sourceSearchUtils;
@@ -164,7 +164,6 @@ function getSourceLocationFromMouseEvent(editor, selectedLocation, e) {
 }
 
 module.exports = {
-  ...expressionUtils,
   ...sourceDocumentUtils,
   ...sourceSearchUtils,
   ...SourceEditorUtils,
@@ -182,5 +181,6 @@ module.exports = {
   markText,
   lineAtHeight,
   getSourceLocationFromMouseEvent,
-  resizeBreakpointGutter
+  resizeBreakpointGutter,
+  getTokenLocation
 };

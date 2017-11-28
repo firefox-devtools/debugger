@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`setPreview member expression 1`] = `
+Object {
+  "cursorPos": undefined,
+  "expression": "this.bazz",
+  "extra": Object {
+    "immutable": Object {
+      "entries": null,
+      "isImmutable": undefined,
+      "type": null,
+    },
+    "react": Object {
+      "displayName": undefined,
+    },
+  },
+  "location": Object {
+    "end": Object {
+      "column": 37,
+      "line": 1,
+    },
+    "start": Object {
+      "column": 33,
+      "line": 1,
+    },
+  },
+  "result": Object {
+    "actor": "bazz",
+    "preview": Object {},
+  },
+  "tokenPos": Object {
+    "column": 34,
+    "line": 1,
+  },
+  "updating": false,
+}
+`;
+
+exports[`setPreview this 1`] = `
+Object {
+  "cursorPos": undefined,
+  "expression": "this",
+  "extra": Object {
+    "immutable": Object {
+      "entries": null,
+      "isImmutable": undefined,
+      "type": null,
+    },
+    "react": Object {
+      "displayName": undefined,
+    },
+  },
+  "location": Object {
+    "end": Object {
+      "column": 32,
+      "line": 1,
+    },
+    "start": Object {
+      "column": 28,
+      "line": 1,
+    },
+  },
+  "result": Object {
+    "actor": "this",
+    "preview": Object {},
+  },
+  "tokenPos": Object {
+    "column": 30,
+    "line": 1,
+  },
+  "updating": false,
+}
+`;

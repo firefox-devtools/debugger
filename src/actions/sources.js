@@ -25,7 +25,7 @@ import { loadSourceText } from "./sources/loadSourceText";
 
 import { prefs } from "../utils/prefs";
 import { removeDocument } from "../utils/editor";
-import { isThirdParty, isMinified, shouldPrettyPrint } from "../utils/source";
+import { isThirdParty, shouldPrettyPrint, isMinified } from "../utils/source";
 import { getGeneratedLocation } from "../utils/source-maps";
 import { isOriginalId } from "devtools-source-map";
 

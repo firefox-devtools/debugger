@@ -20,6 +20,7 @@ import * as sourceTree from "./source-tree";
 import * as loadSourceText from "./sources/loadSourceText";
 import * as debuggee from "./debuggee";
 import * as toolbox from "./toolbox";
+import * as preview from "./preview";
 
 export default {
   ...navigation,
@@ -37,5 +38,6 @@ export default {
   ...sourceTree,
   ...loadSourceText,
   ...debuggee,
-  ...toolbox
+  ...toolbox,
+  ...preview
 };
