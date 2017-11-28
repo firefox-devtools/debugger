@@ -32,9 +32,17 @@
   background-color: var(--theme-selection-background);
 }
 
+.close-btn:focus {
+  background-color: var(--theme-selection-background);
+}
+
 .close-btn.big {
   width: 16px;
   height: 16px;
+}
+
+.close-btn.big img {
+    padding: 5px;
 }
 
 .close-btn.big .close {
