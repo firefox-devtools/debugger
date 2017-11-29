@@ -38,7 +38,7 @@ Once you've narrowed the question down to an action you can debug it either in t
 It's easy to try invoking an action in the console with the `getGlobalsForTesting` helper:
 
 ```js
-getGlobalsForTesting().actions.selectSource()
+getGlobalsForTesting().actions.selectLocation()
 ```
 
 We have unit tests for several of our actions in `src/actions/tests`.

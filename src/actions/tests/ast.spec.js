@@ -140,9 +140,7 @@ describe("ast", () => {
       const { dispatch, getState } = createStore(threadClient);
       const source = makeSource("scopes.js");
       await dispatch(actions.newSource(source));
-      await dispatch(
-        actions.selectSource("scopes.js", { location: { line: 5 } })
-      );
+      await dispatch(actions.selectLocation({ id: "scopes.js", line: 5 }));
 
       const locations = getOutOfScopeLocations(getState());
       const lines = getInScopeLines(getState());
@@ -155,7 +153,7 @@ describe("ast", () => {
       const { dispatch, getState } = createStore(threadClient);
       const base = makeSource("base.js");
       await dispatch(actions.newSource(base));
-      await dispatch(actions.selectSource("base.js"));
+      await dispatch(actions.selectLocation({ id: "base.js" }));
 
       const locations = getOutOfScopeLocations(getState());
       const lines = getInScopeLines(getState());
@@ -177,7 +175,7 @@ describe("ast", () => {
       const foo = makeSource("foo.js");
       await dispatch(actions.newSource(foo));
       await dispatch(actions.loadSourceText({ id: "foo.js" }));
-      await dispatch(actions.selectSource("foo.js"));
+      await dispatch(actions.selectLocation({ id: "foo.js" }));
       await dispatch(
         actions.paused({
           why: { type: "resumeLimit" },

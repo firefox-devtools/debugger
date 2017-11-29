@@ -160,9 +160,9 @@ const actions = require("../actions");
 .
 
 module.exports = connect(
- state => ({ 
+ state => ({
   pauseInfo: getPause(state),
-  expressions: getExpressions(state) 
+  expressions: getExpressions(state)
  }),
  dispatch => bindActionCreators(actions, dispatch)
 )(Expressions);
@@ -578,7 +578,7 @@ file exports the following functions:
 
 -   <code>selectFrame()</code> – This function is called from the Frames component when
     a user selects a specific frame under the Call Stack UI. This
-    function first calls <code>selectSource()</code> function, which is defined in the
+    function first calls <code>selectLocation()</code> function, which is defined in the
     sources action. This loads up the editor with text for the
     specific frame. The <code>SELECT\_FRAME</code> action is then dispatched.
 
@@ -605,9 +605,9 @@ action file exports the following functions:
     to see if a source map needs to be loaded and if so dispatches the
     <code>LOAD\_SOURCE\_MAP</code> action, then
     the <code>ADD\_SOURCE</code> action. Finally, if this source is to be displayed
-    in the editor the <code>selectSource()</code> function is called.
+    in the editor the <code>selectLocation()</code> function is called.
 
--   <code>selectSource()</code> – This function is called any place in the
+-   <code>selectLocation()</code> – This function is called any place in the
     UI where a specific source needs to be displayed in the editor. This
     can happen from the source tree, the tabs across the top of the
     editor, in the Call Stack panel, and when the Prettify Source button
@@ -623,7 +623,7 @@ action file exports the following functions:
     src/main.js file to external clients. The function first
     dispatches a <code>SELECT\_SOURCE</code> action and then dispatches the
     <code>SELECT\_SOURCE\_URL</code> action. As stated above the text is loaded with
-    the <code>selectSource()</code> function.
+    the <code>selectLocation()</code> function.
 
 -   <code>closeTab()</code> – This function is called from the <code>SourceTabs()</code> component
     whenever a tab is closed. The function dispatches the
@@ -642,11 +642,11 @@ action file exports the following functions:
     adds the new file to the project. Next, the function dispatches a
     <code>TOGGLE\_PRETTY\_PRINT</code> action, which contains a promise that starts a
     Worker thread to transform the source. The worker is defined
-    in assets/build/pretty-print-worker.js. The <code>selectSource()</code> function is then
+    in assets/build/pretty-print-worker.js. The <code>selectLocation()</code> function is then
     called to select the new source.
 
 -   <code>loadSourceText()</code> – This function is called whenever a source is
-    selected using the <code>selectSource()</code> function (described above) and
+    selected using the <code>selectLocation()</code> function (described above) and
     whenever <code>getTextForSources()</code> is called (described below). The
     <code>loadSourceText()</code> function is responsible for loading the source text
     for an individual file. The function first checks to see if the text

@@ -2956,9 +2956,9 @@ devtools-license-check@^0.5.1:
   dependencies:
     license-checker "^9.0.3"
 
-devtools-linters@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/devtools-linters/-/devtools-linters-0.0.3.tgz#000739f4277c658eb19bbab702f5d9b69a8056c2"
+devtools-linters@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/devtools-linters/-/devtools-linters-0.0.4.tgz#ab5bea591bd8d04830a40c6d95035fbb1157df87"
   dependencies:
     dictionary-en-us "^2.0.0"
     rehype-parse "^4.0.0"

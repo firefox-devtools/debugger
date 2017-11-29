@@ -591,7 +591,7 @@ function waitForLoadedSources(dbg) {
 function selectSource(dbg, url, line) {
   info(`Selecting source: ${url}`);
   const source = findSource(dbg, url);
-  return dbg.actions.selectSource(source.id, { location: { line } });
+  return dbg.actions.selectLocation({ id: source.id, line });
 }
 
 function closeTab(dbg, url) {

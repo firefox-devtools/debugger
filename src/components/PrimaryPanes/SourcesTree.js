@@ -20,7 +20,7 @@ import {
 } from "../../selectors";
 
 import { setExpandedState } from "../../actions/source-tree";
-import { selectSource } from "../../actions/sources";
+import { selectLocation } from "../../actions/sources";
 
 // Types
 import type { SourcesMap } from "../../reducers/types";
@@ -48,7 +48,7 @@ import { features } from "../../utils/prefs";
 import { setProjectDirectoryRoot } from "../../actions/ui";
 
 type Props = {
-  selectSource: string => void,
+  selectLocation: Object => void,
   setExpandedState: any => void,
   sources: SourcesMap,
   shownSource?: string,
@@ -211,7 +211,7 @@ class SourcesTree extends Component<Props, State> {
 
   selectItem(item) {
     if (!nodeHasChildren(item)) {
-      this.props.selectSource(item.contents.get("id"));
+      this.props.selectLocation({ id: item.contents.get("id") });
     }
   }
 
@@ -407,7 +407,7 @@ const mapStateToProps = state => {
 
 const actionCreators = {
   setExpandedState,
-  selectSource
+  selectLocation
 };
 
 export default connect(mapStateToProps, actionCreators)(SourcesTree);

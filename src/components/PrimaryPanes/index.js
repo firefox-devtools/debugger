@@ -27,7 +27,7 @@ type Props = {
   selectedTab: string,
   setPrimaryPaneTab: string => void,
   sources: SourcesMap,
-  selectSource: (string, Object) => void,
+  selectLocation: Object => void,
   horizontal: boolean,
   setActiveSearch: string => void,
   closeActiveSearch: () => void,
@@ -110,18 +110,18 @@ class PrimaryPanes extends Component<Props> {
   }
 
   renderOutline() {
-    const { selectSource } = this.props;
+    const { selectLocation } = this.props;
 
     const outlineComp = isEnabled("outline") ? (
-      <Outline selectSource={selectSource} />
+      <Outline selectLocation={selectLocation} />
     ) : null;
 
     return outlineComp;
   }
 
   renderSources() {
-    const { sources, selectSource } = this.props;
-    return <SourcesTree sources={sources} selectSource={selectSource} />;
+    const { sources, selectLocation } = this.props;
+    return <SourcesTree sources={sources} selectLocation={selectLocation} />;
   }
 
   render() {
