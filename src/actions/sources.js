@@ -209,11 +209,7 @@ export function selectSource(id: string, options: SelectSourceOptions = {}) {
         await dispatch(setOutOfScopeLocations());
         const src = getSource(getState(), id).toJS();
         const { autoPrettyPrint } = prefs;
-        if (
-          autoPrettyPrint &&
-          shouldPrettyPrint(src) &&
-          isMinified(src.id, src.text)
-        ) {
+        if (autoPrettyPrint && shouldPrettyPrint(src) && isMinified(src)) {
           await dispatch(togglePrettyPrint(src.id));
         }
       })()
