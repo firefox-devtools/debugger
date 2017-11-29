@@ -12,7 +12,6 @@ import { debugGlobal } from "devtools-launchpad";
 import { isLoaded } from "../../utils/source";
 import { isFirefox } from "devtools-config";
 import { SourceEditor } from "devtools-source-editor";
-import { getHasJSX } from "../../workers/parser/getSymbols";
 
 import {
   getActiveSearch,
@@ -42,6 +41,7 @@ import GutterMenu from "./GutterMenu";
 import EditorMenu from "./EditorMenu";
 import ConditionalPanel from "./ConditionalPanel";
 import type { SourceMetaDataType } from "../../reducers/ast";
+import { getHasJSX } from "../../workers/parser/getSymbols";
 
 import {
   showSourceText,
@@ -472,7 +472,6 @@ class Editor extends PureComponent<Props, State> {
 
   setText(props) {
     const { selectedSource } = props;
-    const hasJSX = getHasJSX();
 
     if (!this.state.editor) {
       return;
@@ -491,6 +490,7 @@ class Editor extends PureComponent<Props, State> {
     }
 
     if (selectedSource) {
+      const hasJSX = getHasJSX(selectedSource);
       return showSourceText(this.state.editor, selectedSource.toJS(), hasJSX);
     }
   }
