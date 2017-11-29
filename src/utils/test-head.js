@@ -50,7 +50,7 @@ function commonLog(msg: string, data: any = {}) {
 function makeSource(name: string, props: any = {}) {
   return {
     id: name,
-    loadedState: "loaded",
+    loadedState: "unloaded",
     url: `http://localhost:8000/examples/${name}`,
     ...props
   };

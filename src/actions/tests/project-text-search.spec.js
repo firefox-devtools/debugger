@@ -65,9 +65,11 @@ describe("project text search", () => {
   it("should search all the loaded sources based on the query", async () => {
     const { dispatch, getState } = createStore(threadClient);
     const mockQuery = "foo";
+    const source1 = makeSource("foo1");
+    const source2 = makeSource("foo2");
 
-    await dispatch(actions.newSource(makeSource("foo1")));
-    await dispatch(actions.newSource(makeSource("foo2")));
+    await dispatch(actions.newSource(source1));
+    await dispatch(actions.newSource(source2));
 
     await dispatch(actions.searchSources(mockQuery));
 

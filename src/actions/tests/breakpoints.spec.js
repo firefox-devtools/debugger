@@ -308,8 +308,8 @@ describe("breakpoints", () => {
     };
 
     const url = "a.js";
-    const source = makeSource(url);
-    source.text = "function(a,b,c){return {a,b,c}}";
+    const text = "function(a,b,c){return {a,b,c}}";
+    const source = makeSource(url, { loadedState: "loaded", text });
 
     await dispatch(actions.newSource(source));
     await dispatch(actions.addBreakpoint(loc));
