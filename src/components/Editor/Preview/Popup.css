@@ -27,6 +27,12 @@
   margin-bottom: 5px;
 }
 
+.popover .preview-popup .immutable-logo {
+  width: 20px;
+  position: absolute;
+  right: 10px;
+}
+
 .popover .preview-popup .header-container h3 {
   margin: 0;
   margin-bottom: 5px;

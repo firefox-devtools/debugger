@@ -18,6 +18,7 @@ import { getLoadedObjects } from "../../../selectors";
 import Popover from "../../shared/Popover";
 import PreviewFunction from "../../shared/PreviewFunction";
 import { markText } from "../../../utils/editor";
+import Svg from "../../shared/Svg";
 
 import "./Popup.css";
 
@@ -132,6 +133,7 @@ export class Popup extends Component<Props> {
       header = (
         <div className="header-container">
           <h3>Immutable</h3>
+          <Svg name="immutable" className="immutable-logo" />
         </div>
       );
 
