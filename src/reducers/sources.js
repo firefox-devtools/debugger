@@ -60,7 +60,7 @@ function update(
 
     case "ADD_SOURCES": {
       return action.sources.reduce(
-        (state, source) => updateSource(state, source),
+        (newState, source) => updateSource(newState, source),
         state
       );
     }
