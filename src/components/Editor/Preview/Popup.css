@@ -21,16 +21,15 @@
 
 .popover .preview-popup .header-container {
   width: 100%;
-  line-height: 20px;
+  line-height: 15px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   margin-bottom: 5px;
 }
 
 .popover .preview-popup .immutable-logo {
   width: 20px;
-  position: absolute;
-  right: 10px;
+  margin-left: 5px;
 }
 
 .popover .preview-popup .header-container h3 {
