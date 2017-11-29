@@ -4,19 +4,7 @@ import {
   createStore,
   makeSource
 } from "../../../utils/test-head";
-const {
-  getSource,
-  getSources,
-  getSelectedSource,
-  getSourceTabs,
-  getOutOfScopeLocations,
-  getSelectedLocation
-} = selectors;
-
-import { sourceThreadClient as threadClient } from "../../tests/helpers/threadClient.js";
-
-// import { loadSourceText, newSource } from "../../index";
-// import { loadSourceText } from "../loadSourceText";
+const { getSource } = selectors;
 
 describe("loadSourceText", async () => {
   it("loads two sources w/ one request", async () => {
