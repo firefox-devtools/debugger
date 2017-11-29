@@ -5,7 +5,7 @@
 // @flow
 
 import { traverseAst } from "./utils/ast";
-import { isVariable, isFunction, isJSXElement } from "./utils/helpers";
+import { isVariable, isFunction } from "./utils/helpers";
 import { inferClassName } from "./utils/inferClassName";
 import * as t from "babel-types";
 import getFunctionName from "./utils/getFunctionName";
@@ -13,7 +13,6 @@ import getFunctionName from "./utils/getFunctionName";
 import type { Source } from "debugger-html";
 import type { NodePath, Node, Location as BabelLocation } from "babel-traverse";
 let symbolDeclarations = new Map();
-var hasJSX = false;
 
 export type SymbolDeclaration = {|
   name: string,
@@ -96,10 +95,6 @@ function getSpecifiers(specifiers) {
   return specifiers.map(specifier => specifier.local && specifier.local.name);
 }
 
-export function getHasJSX(): boolean {
-  return hasJSX;
-}
-
 function extractSymbols(source: Source) {
   const functions = [];
   const variables = [];
@@ -109,6 +104,7 @@ function extractSymbols(source: Source) {
   const identifiers = [];
   const classes = [];
   const imports = [];
+  const hasJSX = [];
 
   const ast = traverseAst(source, {
     enter(path: NodePath) {
@@ -126,8 +122,15 @@ function extractSymbols(source: Source) {
         });
       }
 
-      if (isJSXElement(path)) {
-        hasJSX = true;
+      if (t.isJSXElement(path)) {
+        hasJSX.push({
+          location: path.node.loc,
+          openingElement: path.node.openingElement,
+          closingElement: path.node.closingElement,
+          children: path.node.children
+        });
+      } else {
+        hasJSX.splice(0, hasJSX.length);
       }
 
       if (t.isClassDeclaration(path)) {
@@ -227,7 +230,8 @@ function extractSymbols(source: Source) {
     comments,
     identifiers,
     classes,
-    imports
+    imports,
+    hasJSX
   };
 }
 
@@ -242,6 +246,11 @@ export default function getSymbols(source: Source): SymbolDeclarations {
   const symbols = extractSymbols(source);
   symbolDeclarations.set(source.id, symbols);
   return symbols;
+}
+
+export function getHasJSX(source: Source): boolean {
+  const symbols = getSymbols(source);
+  return symbols.hasJSX.length > 0;
 }
 
 function extendSnippet(
