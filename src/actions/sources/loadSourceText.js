@@ -47,7 +47,6 @@ export function loadSourceText(source: Source) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     const deferred = defer();
 
-    deferred.resolve();
     // Fetch the source text only once.
     if (isLoaded(source)) {
       return Promise.resolve(source);
