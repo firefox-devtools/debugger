@@ -84,10 +84,23 @@ export class ConditionalPanel extends PureComponent<Props> {
     }
   };
 
+  componentWillMount() {
+    if (this.props.line) {
+      return this.renderToWidget(this.props);
+    }
+  }
+
   componentWillUpdate(nextProps: Props) {
     if (nextProps.line) {
       return this.renderToWidget(nextProps);
     }
+    return this.clearConditionalPanel();
+  }
+
+  componentWillUnmount() {
+    // This is called if CodeMirror is re-initializing itself before the
+    // user closes the conditional panel. Clear the widget, and re-render it
+    // as soon as this component gets remounted
     return this.clearConditionalPanel();
   }
 
@@ -119,6 +132,7 @@ export class ConditionalPanel extends PureComponent<Props> {
 
       if (this.scrollParent) {
         this.scrollParent.addEventListener("scroll", this.repositionOnScroll);
+        this.repositionOnScroll();
       }
 
       this.input.focus();
