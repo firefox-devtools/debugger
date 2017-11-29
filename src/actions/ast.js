@@ -14,6 +14,7 @@ import {
 } from "../selectors";
 
 import { getMappedExpression } from "./expressions";
+import { setInScopeLines } from "./ast/setInScopeLines";
 import { PROMISE } from "./utils/middleware/promise";
 import {
   getSymbols,
@@ -107,25 +108,24 @@ export function setEmptyLines(sourceId: SourceId) {
 export function setOutOfScopeLocations() {
   return async ({ dispatch, getState }: ThunkArgs) => {
     const location = getSelectedLocation(getState());
+
     if (!location) {
       return;
     }
 
     const source = getSource(getState(), location.sourceId);
 
-    if (!location.line || !source) {
-      return dispatch({
-        type: "OUT_OF_SCOPE_LOCATIONS",
-        locations: null
-      });
-    }
+    const locations =
+      !location.line || !source
+        ? null
+        : await getOutOfScopeLocations(source.toJS(), location);
 
-    const locations = await getOutOfScopeLocations(source.toJS(), location);
-
-    return dispatch({
+    dispatch({
       type: "OUT_OF_SCOPE_LOCATIONS",
       locations
     });
+
+    dispatch(setInScopeLines());
   };
 }
 

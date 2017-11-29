@@ -19,7 +19,6 @@ import * as quickOpen from "./reducers/quick-open";
 import * as sourceTree from "./reducers/source-tree";
 
 import getBreakpointAtLocation from "./selectors/breakpointAtLocation";
-import getInScopeLines from "./selectors/linesInScope";
 import getVisibleBreakpoints from "./selectors/visibleBreakpoints";
 import isSelectedFrameVisible from "./selectors/isSelectedFrameVisible";
 
@@ -43,7 +42,6 @@ module.exports = {
   ...quickOpen,
   ...sourceTree,
   getBreakpointAtLocation,
-  getInScopeLines,
   getVisibleBreakpoints,
   isSelectedFrameVisible
 };
