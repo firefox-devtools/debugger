@@ -63,8 +63,6 @@ export function loadSourceText(source: Source) {
       [PROMISE]: loadSource(source, { sourceMaps, client })
     });
 
-    requests.delete(source.id);
-
     const newSource = getSource(getState(), source.id).toJS();
     if (newSource.isWasm) {
       return;
@@ -72,6 +70,9 @@ export function loadSourceText(source: Source) {
 
     await setSource(newSource);
     dispatch(setSymbols(source.id));
-    return deferred.resolve();
+
+    // signal that the action is finished
+    deferred.resolve();
+    requests.delete(source.id);
   };
 }

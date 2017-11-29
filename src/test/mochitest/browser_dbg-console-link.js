@@ -9,18 +9,16 @@
 async function waitForLink(toolbox) {
   const { hud } = toolbox.getPanel("webconsole");
 
-  return waitFor(() =>
-    hud.ui.outputNode.querySelector(".frame-link-source")
-  );
+  return waitFor(() => hud.ui.outputNode.querySelector(".frame-link-source"));
 }
 
 add_task(async function() {
   const toolbox = await initPane("doc-script-switching.html", "webconsole");
-  const node = await waitForLink(toolbox)
+  const node = await waitForLink(toolbox);
   node.click();
 
-  await waitFor(() => toolbox.getPanel("jsdebugger"))
+  await waitFor(() => toolbox.getPanel("jsdebugger"));
   const dbg = createDebuggerContext(toolbox);
-  await waitForElement(dbg, ".CodeMirror-code > .highlight-line")
+  await waitForElement(dbg, ".CodeMirror-code > .highlight-line");
   assertHighlightLocation(dbg, "script-switching-02", 14);
 });
