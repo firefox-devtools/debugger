@@ -50,6 +50,10 @@ export async function getASTLocation(
   source: Source,
   location: Location
 ): Promise<ASTLocation> {
+  if (source.isWasm) {
+    return { name: undefined, offset: location };
+  }
+
   const symbols = await getSymbols(source);
   const functions = [...symbols.functions];
 

@@ -28,7 +28,6 @@ import Modal from "./shared/Modal";
 import SearchInput from "./shared/SearchInput";
 import ResultList from "./shared/ResultList";
 
-import type { SelectSourceOptions } from "../actions/sources";
 import type {
   FormattedSource,
   FormattedSymbolDeclaration,
@@ -44,7 +43,7 @@ type Props = {
   query: string,
   searchType: QuickOpenType,
   symbols: FormattedSymbolDeclarations,
-  selectSource: (id: string, ?SelectSourceOptions) => void,
+  selectLocation: Object => void,
   setQuickOpenQuery: (query: string) => void,
   highlightLineRange: ({ start: number, end: number }) => void,
   closeQuickOpen: () => void
@@ -136,23 +135,22 @@ export class QuickOpenModal extends Component<Props, State> {
     if (item == null) {
       return;
     }
-    const { selectSource, selectedSource, query, searchType } = this.props;
+    const { selectLocation, selectedSource, query, searchType } = this.props;
     if (this.isSymbolSearch()) {
       if (selectedSource == null) {
         return;
       }
-      selectSource(selectedSource.get("id"), {
-        location: {
-          ...(item.location != null ? { line: item.location.start.line } : {})
-        }
+      selectLocation({
+        id: selectedSource.get("id"),
+        ...(item.location != null ? { line: item.location.start.line } : null)
       });
     } else if (searchType === "gotoSource") {
       const location = parseLineColumn(query);
       if (location != null) {
-        selectSource(item.id, { location });
+        selectLocation({ id: item.id, ...location });
       }
     } else {
-      selectSource(item.id);
+      selectLocation({ id: item.id });
     }
 
     this.closeModal();
@@ -160,7 +158,7 @@ export class QuickOpenModal extends Component<Props, State> {
 
   onSelectResultItem = (item: FormattedSource | FormattedSymbolDeclaration) => {
     const {
-      selectSource,
+      selectLocation,
       selectedSource,
       highlightLineRange,
       searchType
@@ -170,10 +168,9 @@ export class QuickOpenModal extends Component<Props, State> {
     }
 
     if (searchType === "variables") {
-      selectSource(selectedSource.get("id"), {
-        location: {
-          ...(item.location != null ? { line: item.location.start.line } : {})
-        }
+      selectLocation({
+        id: selectedSource.get("id"),
+        ...(item.location != null ? { line: item.location.start.line } : null)
       });
     }
 
@@ -212,7 +209,7 @@ export class QuickOpenModal extends Component<Props, State> {
 
   onKeyDown = (e: SyntheticKeyboardEvent<HTMLElement>) => {
     const {
-      selectSource,
+      selectLocation,
       selectedSource,
       enabled,
       query,
@@ -236,7 +233,7 @@ export class QuickOpenModal extends Component<Props, State> {
         }
         const location = parseLineColumn(query);
         if (location != null) {
-          selectSource(selectedSource.get("id"), { location });
+          selectLocation({ id: selectedSource.get("id"), ...location });
         }
       } else {
         this.selectResultItem(e, results[selectedIndex]);

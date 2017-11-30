@@ -30,6 +30,8 @@ type Props = {
 export class ConditionalPanel extends PureComponent<Props> {
   cbPanel: null | Object;
   input: ?HTMLInputElement;
+  panelNode: ?HTMLDivElement;
+  scrollParent: ?HTMLElement;
 
   constructor() {
     super();
@@ -70,12 +72,35 @@ export class ConditionalPanel extends PureComponent<Props> {
       this.cbPanel.clear();
       this.cbPanel = null;
     }
+    if (this.scrollParent) {
+      this.scrollParent.removeEventListener("scroll", this.repositionOnScroll);
+    }
+  }
+
+  repositionOnScroll = () => {
+    if (this.panelNode && this.scrollParent) {
+      const { scrollLeft } = this.scrollParent;
+      this.panelNode.style.transform = `translateX(${scrollLeft}px)`;
+    }
+  };
+
+  componentWillMount() {
+    if (this.props.line) {
+      return this.renderToWidget(this.props);
+    }
   }
 
   componentWillUpdate(nextProps: Props) {
     if (nextProps.line) {
       return this.renderToWidget(nextProps);
     }
+    return this.clearConditionalPanel();
+  }
+
+  componentWillUnmount() {
+    // This is called if CodeMirror is re-initializing itself before the
+    // user closes the conditional panel. Clear the widget, and re-render it
+    // as soon as this component gets remounted
     return this.clearConditionalPanel();
   }
 
@@ -93,6 +118,23 @@ export class ConditionalPanel extends PureComponent<Props> {
       }
     );
     if (this.input) {
+      let parent: ?Node = this.input.parentNode;
+      while (parent) {
+        if (
+          parent instanceof HTMLElement &&
+          parent.classList.contains("CodeMirror-scroll")
+        ) {
+          this.scrollParent = parent;
+          break;
+        }
+        parent = (parent.parentNode: ?Node);
+      }
+
+      if (this.scrollParent) {
+        this.scrollParent.addEventListener("scroll", this.repositionOnScroll);
+        this.repositionOnScroll();
+      }
+
       this.input.focus();
     }
   }
@@ -106,6 +148,7 @@ export class ConditionalPanel extends PureComponent<Props> {
         className="conditional-breakpoint-panel"
         onClick={() => this.keepFocusOnInput()}
         onBlur={this.props.closeConditionalPanel}
+        ref={node => (this.panelNode = node)}
       >
         <div className="prompt">»</div>
         <input

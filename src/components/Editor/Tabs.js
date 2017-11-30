@@ -83,7 +83,7 @@ type Props = {
   sourceTabs: SourcesList,
   searchTabs: List<ActiveSearchType>,
   selectedSource: SourceRecord,
-  selectSource: (string, ?Object) => void,
+  selectLocation: Object => void,
   moveTab: (string, number) => void,
   closeTab: string => void,
   closeTabs: (List<string>) => void,
@@ -317,10 +317,10 @@ class SourceTabs extends PureComponent<Props, State> {
   }
 
   renderDropdownSource(source: SourceRecord) {
-    const { selectSource } = this.props;
+    const { selectLocation } = this.props;
     const filename = getFilename(source.toJS());
 
-    const onClick = () => selectSource(source.get("id"));
+    const onClick = () => selectLocation({ id: source.get("id") });
     return (
       <li key={source.get("id")} onClick={onClick}>
         {filename}
@@ -384,7 +384,7 @@ class SourceTabs extends PureComponent<Props, State> {
   }
 
   renderSourceTab(source: SourceRecord) {
-    const { selectedSource, selectSource, closeTab } = this.props;
+    const { selectedSource, selectLocation, closeTab } = this.props;
     const filename = getFilename(source.toJS());
     const active =
       selectedSource &&
@@ -407,7 +407,7 @@ class SourceTabs extends PureComponent<Props, State> {
       <div
         className={className}
         key={source.get("id")}
-        onClick={() => selectSource(source.get("id"))}
+        onClick={() => selectLocation({ id: source.get("id") })}
         onContextMenu={e => this.onTabContextMenu(e, source.get("id"))}
         title={getFileURL(source.toJS())}
       >

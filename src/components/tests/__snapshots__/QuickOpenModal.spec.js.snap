@@ -8,7 +8,7 @@ exports[`QuickOpenModal Basic render with mount & searchType = functions 1`] = `
   highlightLineRange={[Function]}
   query="@"
   searchType="functions"
-  selectSource={[Function]}
+  selectLocation={[Function]}
   setQuickOpenQuery={[Function]}
   symbols={
     Object {
@@ -142,7 +142,7 @@ exports[`QuickOpenModal Basic render with mount & searchType = variables 1`] = `
   highlightLineRange={[Function]}
   query="#"
   searchType="variables"
-  selectSource={[Function]}
+  selectLocation={[Function]}
   setQuickOpenQuery={[Function]}
   symbols={
     Object {
@@ -276,7 +276,7 @@ exports[`QuickOpenModal Basic render with mount 1`] = `
   highlightLineRange={[Function]}
   query=""
   searchType="sources"
-  selectSource={[Function]}
+  selectLocation={[Function]}
   setQuickOpenQuery={[Function]}
 >
   <Slide
@@ -419,7 +419,7 @@ exports[`QuickOpenModal closeModal 1`] = `
   highlightLineRange={[Function]}
   query=""
   searchType="sources"
-  selectSource={[Function]}
+  selectLocation={[Function]}
   setQuickOpenQuery={[Function]}
 >
   <Slide
@@ -536,7 +536,7 @@ exports[`QuickOpenModal updateResults on enable 1`] = `
   highlightLineRange={[Function]}
   query=""
   searchType="sources"
-  selectSource={[Function]}
+  selectLocation={[Function]}
   setQuickOpenQuery={[Function]}
 />
 `;
@@ -549,7 +549,7 @@ exports[`QuickOpenModal updateResults on enable 2`] = `
   highlightLineRange={[Function]}
   query=""
   searchType="sources"
-  selectSource={[Function]}
+  selectLocation={[Function]}
   setQuickOpenQuery={[Function]}
 >
   <Slide

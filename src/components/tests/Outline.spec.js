@@ -8,7 +8,7 @@ const sourceId = "id";
 
 function generateDefaults(symbols) {
   return {
-    selectSource: jest.genMockFunction(),
+    selectLocation: jest.genMockFunction(),
     selectedSource: {
       get: () => sourceId
     },
@@ -61,11 +61,9 @@ describe("Outline", () => {
 
     const { component, props } = render(symbols);
 
-    const { selectSource } = props;
+    const { selectLocation } = props;
     const listItem = component.find("li").first();
     listItem.simulate("click");
-    expect(selectSource).toHaveBeenCalledWith(sourceId, {
-      location: { line: 12 }
-    });
+    expect(selectLocation).toHaveBeenCalledWith({ id: sourceId, line: 12 });
   });
 });

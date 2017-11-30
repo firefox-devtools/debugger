@@ -4,7 +4,6 @@
 
 // @flow
 
-import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -76,7 +75,7 @@ class Frames extends Component<Props, State> {
     this.toggleFrameworkGrouping = this.toggleFrameworkGrouping.bind(this);
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps, nextState): boolean {
     const { frames, selectedFrame, frameworkGroupingOn } = this.props;
     const { showAllFrames } = this.state;
     return (
@@ -87,7 +86,7 @@ class Frames extends Component<Props, State> {
     );
   }
 
-  toggleFramesDisplay() {
+  toggleFramesDisplay(): void {
     this.setState({
       showAllFrames: !this.state.showAllFrames
     });
@@ -203,16 +202,6 @@ class Frames extends Component<Props, State> {
     );
   }
 }
-
-Frames.propTypes = {
-  frames: PropTypes.array,
-  frameworkGroupingOn: PropTypes.bool.isRequired,
-  toggleFrameworkGrouping: PropTypes.func.isRequired,
-  selectedFrame: PropTypes.object,
-  selectFrame: PropTypes.func.isRequired,
-  toggleBlackBox: PropTypes.func,
-  pause: PropTypes.object
-};
 
 function getSourceForFrame(sources, frame) {
   return getSourceInSources(sources, frame.location.sourceId);

@@ -336,6 +336,9 @@ function getMode(source: Source, sourceMetaData: SourceMetaDataType) {
 function isLoaded(source: Source) {
   return source.loadedState === "loaded";
 }
+function isLoading(source: Source) {
+  return source.loadedState === "loading";
+}
 
 export {
   isMinified,
@@ -351,5 +354,6 @@ export {
   getSourcePath,
   getSourceLineCount,
   getMode,
-  isLoaded
+  isLoaded,
+  isLoading
 };

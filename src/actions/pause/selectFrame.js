@@ -4,7 +4,7 @@
 
 // @flow
 
-import { selectSource } from "../sources";
+import { selectLocation } from "../sources";
 import { evaluateExpressions } from "../expressions";
 import { fetchScopes } from "./fetchScopes";
 
@@ -23,7 +23,7 @@ export function selectFrame(frame: Frame) {
     });
 
     const { line, column } = frame.location;
-    dispatch(selectSource(frame.location.sourceId, { line, column }));
+    dispatch(selectLocation({ id: frame.location.sourceId, line, column }));
 
     dispatch(evaluateExpressions());
     dispatch(fetchScopes());

@@ -9,7 +9,7 @@ function render(overrides = {}) {
     query: "foo",
     closeProjectSearch: jest.fn(),
     searchSources: jest.fn(),
-    selectSource: jest.fn()
+    selectLocation: jest.fn()
   };
   const props = { ...defaultProps, ...overrides };
 
