@@ -180,7 +180,9 @@ describe("ast", () => {
         const locations = getOutOfScopeLocations(getState());
         const lines = getInScopeLines(getState());
 
-        expect(locations).toEqual(null);
+        expect(locations).toEqual([
+          { end: { column: 21, line: 1 }, start: { column: 13, line: 1 } }
+        ]);
         expect(lines).toEqual([1]);
       });
     });
@@ -222,8 +224,11 @@ describe("ast", () => {
 
         const locations = getOutOfScopeLocations(getState());
         const lines = getInScopeLines(getState());
-        expect(locations).toEqual(null);
-        expect(lines).toEqual([1, 2, 3]);
+
+        expect(locations).toEqual([
+          { end: { column: 1, line: 2 }, start: { column: 13, line: 1 } }
+        ]);
+        expect(lines).toEqual([2, 3]);
       });
     });
   });

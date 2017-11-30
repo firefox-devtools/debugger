@@ -11,6 +11,7 @@ import Popup from "./Popup";
 import {
   getPreview,
   getSelectedSource,
+  getInScopeLines,
   isSelectedFrameVisible
 } from "../../../selectors";
 import actions from "../../../actions";
@@ -134,6 +135,7 @@ export default connect(
   state => ({
     preview: getPreview(state),
     selectedSource: getSelectedSource(state),
+    linesInScope: getInScopeLines(state),
     selectedFrameVisible: isSelectedFrameVisible(state)
   }),
   {

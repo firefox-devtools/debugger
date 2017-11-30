@@ -247,6 +247,11 @@ export function selectLocation(location: Location, tabIndex: string = "") {
 
     dispatch(addTab(source.toJS(), 0));
 
+    if (source.get("loadedState") == "unloaded") {
+      if (!location.line) location.line = 1;
+      if (!location.column) location.column = 1;
+    }
+
     return dispatch({
       type: "SELECT_SOURCE",
       source: source.toJS(),
