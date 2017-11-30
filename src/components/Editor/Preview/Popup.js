@@ -145,8 +145,8 @@ export class Popup extends Component<Props> {
 
       header = (
         <div className="header-container">
-          <h3>{immutableHeader}</h3>
           <Svg name="immutable" className="immutable-logo" />
+          <h3>{immutableHeader}</h3>
         </div>
       );
 
