@@ -47,6 +47,17 @@ function isImmutable(roots) {
   return roots.some(root => root.name === "__altered");
 }
 
+function getImmutableType(roots) {
+  const root = roots.find(r => r.name === "__proto__");
+
+  if (
+    root &&
+    root.contents.value.preview.ownProperties.constructor.value.name
+  ) {
+    return root.contents.value.preview.ownProperties.constructor.value.name;
+  }
+}
+
 export class Popup extends Component<Props> {
   marker: any;
   pos: any;
@@ -130,14 +141,18 @@ export class Popup extends Component<Props> {
     }
 
     if (isImmutable(roots)) {
+      const immutableHeader = getImmutableType(roots) || "Immutable";
+
       header = (
         <div className="header-container">
-          <h3>Immutable</h3>
+          <h3>{immutableHeader}</h3>
           <Svg name="immutable" className="immutable-logo" />
         </div>
       );
 
-      roots = roots.filter(r => ["_root", "_tail", "size"].includes(r.name));
+      roots = roots.filter(r =>
+        ["_root", "_tail", "size", "_head"].includes(r.name)
+      );
     }
 
     return (
