@@ -48,6 +48,30 @@ html[dir="rtl"] .dropdown {
   background-color: var(--search-overlays-semitransparent);
 }
 
+.dropdown-icon {
+  width: var(--icon-size);
+  height: var(--icon-size);
+  margin-right: 5px;
+  vertical-align: middle;
+}
+
+.dropdown-icon.prettyPrint {
+  mask: url(/images/prettyPrint.svg) no-repeat;
+  mask-size: 100%;
+  background: var(--theme-highlight-blue);
+}
+
+.dropdown-icon.blackBox {
+  mask: url(/images/blackBox.svg) no-repeat;
+  mask-size: 100%;
+  background: var(--theme-highlight-blue);
+}
+
+.dropdown-icon.file {
+  mask: url(/images/file.svg) no-repeat;
+  mask-size: 100%;
+}
+
 .dropdown ul {
   list-style: none;
   line-height: 2em;

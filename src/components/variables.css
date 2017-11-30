@@ -4,6 +4,7 @@
 
 :root {
   --arrow-width: 10px;
+  --icon-size: 13px;
 }
 
 :root.theme-light,
