@@ -23,8 +23,7 @@ export type SymbolDeclaration = {|
   parameterNames?: string[],
   identifier?: Object,
   computed?: Boolean,
-  arguments?: Object[],
-  values?: string
+  values?: string[]
 |};
 
 export type FunctionDeclaration = SymbolDeclaration & {|
