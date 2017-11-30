@@ -8,7 +8,6 @@ import { isOriginalId } from "devtools-source-map";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { isPretty } from "../../utils/source";
 import { getSourceLocationFromMouseEvent } from "../../utils/editor";
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { findFunctionText } from "../../utils/function";
 import { findClosestScope } from "../../utils/breakpoint/astBreakpointLocation";
@@ -192,6 +191,15 @@ class EditorMenu extends PureComponent {
   }
 }
 
+const {
+  addExpression,
+  jumpToMappedLocation,
+  toggleBlackBox,
+  setContextMenu,
+  showSource,
+  flashLineRange
+} = actions;
+
 export default connect(
   state => {
     const selectedSource = getSelectedSource(state);
@@ -213,5 +221,12 @@ export default connect(
         })
     };
   },
-  dispatch => bindActionCreators(actions, dispatch)
+  {
+    addExpression,
+    jumpToMappedLocation,
+    toggleBlackBox,
+    setContextMenu,
+    showSource,
+    flashLineRange
+  }
 )(EditorMenu);

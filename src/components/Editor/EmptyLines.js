@@ -3,9 +3,7 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import { Component } from "react";
-import actions from "../../actions";
 import { getSelectedSource, getEmptyLines } from "../../selectors";
 import type { SourceRecord } from "../../reducers/types";
 import { toEditorLine } from "../../utils/editor";
@@ -64,15 +62,12 @@ class EmptyLines extends Component {
   }
 }
 
-export default connect(
-  state => {
-    const selectedSource = getSelectedSource(state);
-    return {
-      selectedSource,
-      emptyLines: selectedSource
-        ? getEmptyLines(state, selectedSource.toJS())
-        : []
-    };
-  },
-  dispatch => bindActionCreators(actions, dispatch)
-)(EmptyLines);
+export default connect(state => {
+  const selectedSource = getSelectedSource(state);
+  return {
+    selectedSource,
+    emptyLines: selectedSource
+      ? getEmptyLines(state, selectedSource.toJS())
+      : []
+  };
+})(EmptyLines);
