@@ -264,7 +264,7 @@ export function getNewSelectedSourceId(
   const leftNeighborIndex = Math.max(tabUrls.indexOf(selectedTabUrl) - 1, 0);
   const lastAvailbleTabIndex = availableTabs.size - 1;
   const newSelectedTabIndex = Math.min(leftNeighborIndex, lastAvailbleTabIndex);
-  const availableTab = availableTabs.toJS()[newSelectedTabIndex];
+  const availableTab = availableTabs.get(newSelectedTabIndex);
   const tabSource = getSourceByUrlInSources(
     state.sources.sources,
     availableTab

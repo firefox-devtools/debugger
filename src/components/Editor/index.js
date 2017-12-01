@@ -482,7 +482,8 @@ class Editor extends PureComponent<Props, State> {
       return this.showMessage("");
     }
 
-    if (!isLoaded(selectedSource.toJS())) {
+    const selectedSourceRecord = selectedSource.toJS();
+    if (!isLoaded(selectedSourceRecord)) {
       return showLoading(this.state.editor);
     }
 
@@ -493,7 +494,7 @@ class Editor extends PureComponent<Props, State> {
     if (selectedSource) {
       return showSourceText(
         this.state.editor,
-        selectedSource.toJS(),
+        selectedSourceRecord,
         sourceMetaData
       );
     }

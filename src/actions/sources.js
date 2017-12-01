@@ -218,15 +218,16 @@ export function selectLocation(location: LocationObject) {
       dispatch(closeActiveSearch());
     }
 
-    dispatch(addTab(source.toJS(), 0));
+    const sourceRecord = source.toJS();
+    dispatch(addTab(sourceRecord, 0));
 
     return dispatch({
       type: "SELECT_SOURCE",
-      source: source.toJS(),
+      source: sourceRecord,
       tabIndex: location.tabIndex,
       location,
       [PROMISE]: (async () => {
-        await dispatch(loadSourceText(source.toJS()));
+        await dispatch(loadSourceText(sourceRecord));
         await dispatch(setOutOfScopeLocations());
         const src = getSource(getState(), location.id).toJS();
         const { autoPrettyPrint } = prefs;

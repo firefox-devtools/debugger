@@ -50,8 +50,7 @@ export function isInvalidUrl(url: Object, source: Object) {
     !source.get("url") ||
     source.get("loadedState") === "loading" ||
     !url.group ||
-    isPretty(source.toJS()) ||
-    isNotJavaScript(source.toJS())
+    (sourceJS => isPretty(sourceJS) || isNotJavaScript(sourceJS))(source.toJS())
   );
 }
 

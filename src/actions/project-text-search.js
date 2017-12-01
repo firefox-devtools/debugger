@@ -52,8 +52,8 @@ export function searchSources(query: string) {
     const sources = getSources(getState());
     const validSources = sources
       .valueSeq()
-      .filter(source => isLoaded(source.toJS()) && !isThirdParty(source.toJS()))
-      .toJS();
+      .map(source => source.toJS())
+      .filter(source => isLoaded(source) && !isThirdParty(source));
     for (const source of validSources) {
       await dispatch(searchSource(source.id, query));
     }
