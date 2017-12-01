@@ -23,7 +23,7 @@ import type { SourceRecord } from "../../reducers/sources";
 
 type Props = {
   symbols: SymbolDeclarations,
-  selectLocation: ({ id: string, line: number }) => void,
+  selectLocation: ({ sourceId: string, line: number }) => void,
   selectedSource: ?SourceRecord
 };
 
@@ -35,7 +35,7 @@ export class Outline extends Component<Props> {
     }
     const selectedSourceId = selectedSource.get("id");
     const startLine = location.start.line;
-    selectLocation({ id: selectedSourceId, line: startLine });
+    selectLocation({ sourceId: selectedSourceId, line: startLine });
   }
 
   renderPlaceholder() {

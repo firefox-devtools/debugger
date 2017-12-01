@@ -140,17 +140,16 @@ export class QuickOpenModal extends Component<Props, State> {
       if (selectedSource == null) {
         return;
       }
-      selectLocation({
-        id: selectedSource.get("id"),
-        ...(item.location != null ? { line: item.location.start.line } : null)
-      });
+      const line =
+        item.location && item.location.start ? item.location.start.line : 0;
+      selectLocation({ sourceId: selectedSource.get("id"), line });
     } else if (searchType === "gotoSource") {
       const location = parseLineColumn(query);
       if (location != null) {
-        selectLocation({ id: item.id, ...location });
+        selectLocation({ ...location, sourceId: item.id });
       }
     } else {
-      selectLocation({ id: item.id });
+      selectLocation({ sourceId: item.id, line: 0 });
     }
 
     this.closeModal();
@@ -168,10 +167,9 @@ export class QuickOpenModal extends Component<Props, State> {
     }
 
     if (searchType === "variables") {
-      selectLocation({
-        id: selectedSource.get("id"),
-        ...(item.location != null ? { line: item.location.start.line } : null)
-      });
+      const line =
+        item.location && item.location.start ? item.location.start.line : 0;
+      selectLocation({ sourceId: selectedSource.get("id"), line });
     }
 
     if (searchType === "functions") {
@@ -233,7 +231,7 @@ export class QuickOpenModal extends Component<Props, State> {
         }
         const location = parseLineColumn(query);
         if (location != null) {
-          selectLocation({ id: selectedSource.get("id"), ...location });
+          selectLocation({ ...location, sourceId: selectedSource.get("id") });
         }
       } else {
         this.selectResultItem(e, results[selectedIndex]);

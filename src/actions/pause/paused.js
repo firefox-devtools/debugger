@@ -50,10 +50,7 @@ export function paused(pauseInfo: Pause) {
       dispatch(evaluateExpressions());
     }
 
-    const { line, column } = frame.location;
-    await dispatch(
-      selectLocation({ id: frame.location.sourceId, line, column })
-    );
+    await dispatch(selectLocation(frame.location));
 
     dispatch(togglePaneCollapse("end", false));
     dispatch(fetchScopes());

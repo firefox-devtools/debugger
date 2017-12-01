@@ -76,3 +76,4 @@ urls
 mapDispatchToProps
 amelzer
 selectSource
+selectLocation
