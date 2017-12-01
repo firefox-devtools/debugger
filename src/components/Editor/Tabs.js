@@ -385,12 +385,13 @@ class SourceTabs extends PureComponent<Props, State> {
 
   renderSourceTab(source: SourceRecord) {
     const { selectedSource, selectLocation, closeTab } = this.props;
-    const filename = getFilename(source.toJS());
+    const sourceRecord = source.toJS();
+    const filename = getFilename(sourceRecord);
     const active =
       selectedSource &&
       source.get("id") == selectedSource.get("id") &&
       (!this.isProjectSearchEnabled() && !this.isSourceSearchEnabled());
-    const isPrettyCode = isPretty(source.toJS());
+    const isPrettyCode = isPretty(sourceRecord);
     const sourceAnnotation = this.getSourceAnnotation(source);
 
     function onClickClose(ev) {
@@ -409,7 +410,7 @@ class SourceTabs extends PureComponent<Props, State> {
         key={source.get("id")}
         onClick={() => selectLocation({ id: source.get("id") })}
         onContextMenu={e => this.onTabContextMenu(e, source.get("id"))}
-        title={getFileURL(source.toJS())}
+        title={getFileURL(sourceRecord)}
       >
         {sourceAnnotation}
         <div className="filename">{filename}</div>

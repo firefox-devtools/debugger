@@ -31,12 +31,10 @@ export default function getInScopeLines(state: OuterState) {
     return;
   }
 
-  const linesOutOfScope = getOutOfScopeLines(
-    outOfScopeLocations,
-    source.toJS()
-  );
+  const sourceRecord = source.toJS();
+  const linesOutOfScope = getOutOfScopeLines(outOfScopeLocations, sourceRecord);
 
-  const sourceNumLines = getSourceLineCount(source.toJS());
+  const sourceNumLines = getSourceLineCount(sourceRecord);
   const sourceLines = range(1, sourceNumLines + 1);
 
   if (!linesOutOfScope) {

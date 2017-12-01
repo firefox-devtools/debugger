@@ -157,7 +157,8 @@ export function setPreview(
       type: "SET_PREVIEW",
       [PROMISE]: (async function() {
         const source = getSelectedSource(getState());
-        const _symbols = await getSymbols(source.toJS());
+        const sourceRecord = source.toJS();
+        const _symbols = await getSymbols(sourceRecord);
 
         const found = findBestMatchExpression(_symbols, tokenPos, token);
         if (!found) {
@@ -174,7 +175,7 @@ export function setPreview(
         if (location && !isGeneratedId(sourceId)) {
           const generatedLocation = await sourceMaps.getGeneratedLocation(
             { ...location.start, sourceId },
-            source.toJS()
+            sourceRecord
           );
 
           expression = await getMappedExpression(
