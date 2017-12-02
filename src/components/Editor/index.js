@@ -41,7 +41,6 @@ import GutterMenu from "./GutterMenu";
 import EditorMenu from "./EditorMenu";
 import ConditionalPanel from "./ConditionalPanel";
 import type { SourceMetaDataType } from "../../reducers/ast";
-import { getHasJSX } from "../../workers/parser/getSymbols";
 
 import {
   showSourceText,
@@ -471,7 +470,7 @@ class Editor extends PureComponent<Props, State> {
   }
 
   setText(props) {
-    const { selectedSource } = props;
+    const { selectedSource, sourceMetaData } = props;
 
     if (!this.state.editor) {
       return;
@@ -490,8 +489,11 @@ class Editor extends PureComponent<Props, State> {
     }
 
     if (selectedSource) {
-      const hasJSX = getHasJSX(selectedSource);
-      return showSourceText(this.state.editor, selectedSource.toJS(), hasJSX);
+      return showSourceText(
+        this.state.editor,
+        selectedSource.toJS(),
+        sourceMetaData
+      );
     }
   }
 
