@@ -12,6 +12,7 @@ import getFunctionName from "./utils/getFunctionName";
 
 import type { Source } from "debugger-html";
 import type { NodePath, Node, Location as BabelLocation } from "babel-traverse";
+import { setJSXMetaData } from "../../reducers/ast";
 let symbolDeclarations = new Map();
 
 export type SymbolDeclaration = {|
@@ -104,7 +105,6 @@ function extractSymbols(source: Source) {
   const identifiers = [];
   const classes = [];
   const imports = [];
-  const hasJSX = [];
 
   const ast = traverseAst(source, {
     enter(path: NodePath) {
@@ -123,14 +123,9 @@ function extractSymbols(source: Source) {
       }
 
       if (t.isJSXElement(path)) {
-        hasJSX.push({
-          location: path.node.loc,
-          openingElement: path.node.openingElement,
-          closingElement: path.node.closingElement,
-          children: path.node.children
-        });
+        setJSXMetaData(source, true);
       } else {
-        hasJSX.splice(0, hasJSX.length);
+        setJSXMetaData(source, false);
       }
 
       if (t.isClassDeclaration(path)) {
@@ -230,8 +225,7 @@ function extractSymbols(source: Source) {
     comments,
     identifiers,
     classes,
-    imports,
-    hasJSX
+    imports
   };
 }
 
@@ -246,11 +240,6 @@ export default function getSymbols(source: Source): SymbolDeclarations {
   const symbols = extractSymbols(source);
   symbolDeclarations.set(source.id, symbols);
   return symbols;
-}
-
-export function getHasJSX(source: Source): boolean {
-  const symbols = getSymbols(source);
-  return symbols.hasJSX.length > 0;
 }
 
 function extendSnippet(
