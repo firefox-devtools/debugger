@@ -13,6 +13,25 @@ export function createPrettySource(sourceId) {
     const url = getPrettySourceURL(source.get("url"));
     const id = await sourceMaps.generatedToOriginalId(sourceId, url);
 
+    const prettySource = {
+      url,
+      id,
+      isPrettyPrinted: true,
+      text: "Loading...",
+      contentType: "text/javascript",
+      frames: [],
+      loadedState: "loadeding"
+    };
+    dispatch({ type: "ADD_SOURCE", source: prettySource });
+
+    dispatch({
+      type: "UPDATE_SOURCE",
+      source: {
+        id: sourceId,
+        loadedState: "loading"
+      }
+    });
+
     const { code, mappings } = await prettyPrint({
       source,
       url
@@ -25,19 +44,19 @@ export function createPrettySource(sourceId) {
       frames = await updateFrameLocations(frames, sourceMaps);
     }
 
-    const prettySource = {
-      url,
-      id,
-      isPrettyPrinted: true,
-      text: code,
-      contentType: "text/javascript",
-      frames,
-      loadedState: "loaded"
-    };
+    prettySource.text = code;
+    prettySource.frames = frames;
+    prettySource.loadedState = "loaded";
 
     dispatch({
-      type: "ADD_SOURCE",
-      source: prettySource
+      type: "UPDATE_SOURCES",
+      sources: [
+        {
+          id: sourceId,
+          loadedState: "loaded"
+        },
+        prettySource
+      ]
     });
 
     return prettySource;
