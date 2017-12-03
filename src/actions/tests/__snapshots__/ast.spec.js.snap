@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ast getOutOfScopeLocations with selected line 1`] = `
+exports[`ast not prettyPrinted getOutOfScopeLocations with selected line 1`] = `
 Array [
   Object {
     "end": Object {
@@ -25,7 +25,7 @@ Array [
 ]
 `;
 
-exports[`ast getOutOfScopeLocations with selected line 2`] = `
+exports[`ast not prettyPrinted getOutOfScopeLocations with selected line 2`] = `
 Array [
   1,
   2,
@@ -40,16 +40,7 @@ Array [
 ]
 `;
 
-exports[`ast setEmptyLines scopes 1`] = `
-Array [
-  1,
-  2,
-  7,
-  12,
-]
-`;
-
-exports[`ast setPreview member expression 1`] = `
+exports[`ast not prettyPrinted setPreview member expression 1`] = `
 Object {
   "cursorPos": undefined,
   "expression": "this.bazz",
@@ -76,7 +67,7 @@ Object {
 }
 `;
 
-exports[`ast setPreview this 1`] = `
+exports[`ast not prettyPrinted setPreview this 1`] = `
 Object {
   "cursorPos": undefined,
   "expression": "this",
@@ -101,6 +92,59 @@ Object {
   },
   "updating": false,
 }
+`;
+
+exports[`ast prettyPrinted getOutOfScopeLocations with selected line 1`] = `
+Array [
+  Object {
+    "end": Object {
+      "column": 16,
+      "line": 1,
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+    },
+  },
+  Object {
+    "end": Object {
+      "column": 3,
+      "line": 10,
+    },
+    "start": Object {
+      "column": 22,
+      "line": 8,
+    },
+  },
+]
+`;
+
+exports[`ast prettyPrinted getOutOfScopeLocations with selected line 2`] = `
+Array [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  10,
+  11,
+  12,
+]
+`;
+
+exports[`ast prettyPrinted setPreview member expression 1`] = `null`;
+
+exports[`ast prettyPrinted setPreview this 1`] = `null`;
+
+exports[`ast setEmptyLines scopes 1`] = `
+Array [
+  1,
+  2,
+  7,
+  12,
+]
 `;
 
 exports[`ast setSymbols when the source is loaded should be able to set symbols 1`] = `
