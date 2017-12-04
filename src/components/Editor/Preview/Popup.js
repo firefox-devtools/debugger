@@ -43,21 +43,6 @@ function isReactComponent(roots) {
   return roots.some(root => root.name === "_reactInternalInstance");
 }
 
-function isImmutable(roots) {
-  return roots.some(root => root.name === "__altered");
-}
-
-function getImmutableType(roots) {
-  const root = roots.find(r => r.name === "__proto__");
-
-  if (
-    root &&
-    root.contents.value.preview.ownProperties.constructor.value.name
-  ) {
-    return root.contents.value.preview.ownProperties.constructor.value.name;
-  }
-}
-
 export class Popup extends Component<Props> {
   marker: any;
   pos: any;
@@ -121,6 +106,7 @@ export class Popup extends Component<Props> {
   renderObjectPreview(expression: string, root: Object, extra: string) {
     let header = null;
     const { loadedObjects } = this.props;
+    const { extra: { immutable, immutableType } } = this.props;
     const getObjectProperties = id => loadedObjects[id];
     let roots = this.getChildren(root, getObjectProperties);
 
@@ -140,8 +126,8 @@ export class Popup extends Component<Props> {
       roots = roots.filter(r => ["state", "props"].includes(r.name));
     }
 
-    if (isImmutable(roots)) {
-      const immutableHeader = getImmutableType(roots) || "Immutable";
+    if (immutable) {
+      const immutableHeader = immutableType || "Immutable";
 
       header = (
         <div className="header-container">

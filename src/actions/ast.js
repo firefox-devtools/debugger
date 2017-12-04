@@ -156,6 +156,7 @@ export function setPreview(
     await dispatch({
       type: "SET_PREVIEW",
       [PROMISE]: (async function() {
+        let iType = null;
         const source = getSelectedSource(getState());
         const _symbols = await getSymbols(source.toJS());
 
@@ -193,6 +194,29 @@ export function setPreview(
           frameId: selectedFrame.id
         });
 
+        const immutable = await client.evaluate(
+          `Immutable.Iterable.isIterable(${expression})`,
+          {
+            frameId: selectedFrame.id
+          }
+        );
+
+        if (immutable.result) {
+          iContents = await client.evaluate(`${expression}.toJS()`, {
+            frameId: selectedFrame.id
+          });
+
+          iType = await client.evaluate(`${expression}.constructor.name`, {
+            frameId: selectedFrame.id
+          });
+        }
+
+        const extra = {
+          data,
+          immutable: immutable.result,
+          immutableType: iType && iType.result
+        };
+
         if (result === undefined) {
           return;
         }
@@ -203,7 +227,7 @@ export function setPreview(
           location,
           tokenPos,
           cursorPos,
-          extra: data && data.result
+          extra
         };
       })()
     });
