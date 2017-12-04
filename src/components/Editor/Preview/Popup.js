@@ -206,7 +206,7 @@ export class Popup extends Component<Props> {
     );
   }
 
-  renderPreview(expression: string, value: Object, extra: string) {
+  renderPreview(expression: string, value: Object, extra: Object) {
     const root = {
       name: expression,
       path: expression,
