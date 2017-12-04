@@ -103,7 +103,7 @@ export class Popup extends Component<Props> {
     );
   }
 
-  renderObjectPreview(expression: string, root: Object, extra: string) {
+  renderObjectPreview(expression: string, root: Object, extra: Object) {
     let header = null;
     const { loadedObjects } = this.props;
     const { extra: { react, immutable } } = this.props;
