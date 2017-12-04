@@ -88,7 +88,7 @@
 
 .project-text-search .managed-tree {
   overflow-y: auto;
-  height: calc(100% - 81px);
+  height: 100%;
 }
 
 .project-text-search .managed-tree .tree {
