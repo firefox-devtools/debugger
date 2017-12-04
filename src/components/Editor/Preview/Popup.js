@@ -106,7 +106,9 @@ export class Popup extends Component<Props> {
   renderObjectPreview(expression: string, root: Object, extra: string) {
     let header = null;
     const { loadedObjects } = this.props;
-    const { extra: { immutable, immutableType } } = this.props;
+    const {
+      extra: { immutable, immutableType, immutableContent }
+    } = this.props;
     const getObjectProperties = id => loadedObjects[id];
     let roots = this.getChildren(root, getObjectProperties);
 
@@ -136,9 +138,9 @@ export class Popup extends Component<Props> {
         </div>
       );
 
-      roots = roots.filter(r =>
-        ["_root", "_tail", "size", "_head"].includes(r.name)
-      );
+      roots = roots.filter(r => ["size"].includes(r.name));
+
+      roots.push({ name: "entries", contents: { value: immutableContent } });
     }
 
     return (

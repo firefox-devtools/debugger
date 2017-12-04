@@ -157,6 +157,7 @@ export function setPreview(
       type: "SET_PREVIEW",
       [PROMISE]: (async function() {
         let iType = null;
+        let iContents = null;
         const source = getSelectedSource(getState());
         const _symbols = await getSymbols(source.toJS());
 
@@ -214,7 +215,8 @@ export function setPreview(
         const extra = {
           data,
           immutable: immutable.result,
-          immutableType: iType && iType.result
+          immutableType: iType && iType.result,
+          immutableContent: iContents && iContents.result
         };
 
         if (result === undefined) {
