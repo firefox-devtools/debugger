@@ -19,6 +19,7 @@ import { searchSource } from "./project-text-search";
 import { closeActiveSearch } from "./ui";
 
 import { getPrettySourceURL, isLoaded } from "../utils/source";
+import { createLocation } from "../utils/location";
 import { createPrettySource } from "./sources/createPrettySource";
 import { loadSourceText } from "./sources/loadSourceText";
 
@@ -175,13 +176,13 @@ export function selectSourceURL(
     const source = getSourceByURL(getState(), url);
     if (source) {
       const sourceId = source.get("id");
-      const location = { ...options.location, sourceId };
+      const location = createLocation({ ...options.location, sourceId });
       // flow is unable to comprehend that if an options.location object
       // exists, that we have a valid Location object, and if it doesnt,
       // we have a valid { sourceId: string } object. So we are overriding
       // the error
       // $FlowIgnore
-      await dispatch(selectLocation(location), options.tabIndex);
+      await dispatch(selectLocation(location, options.tabIndex));
     } else {
       dispatch({
         type: "SELECT_SOURCE_URL",
@@ -197,10 +198,18 @@ export function selectSourceURL(
  * @memberof actions/sources
  * @static
  */
-export function selectLocation(
-  location: Location | { sourceId: string },
-  tabIndex: string = ""
-) {
+export function selectSource(sourceId: string, tabIndex: string = "") {
+  return ({ dispatch }: ThunkArgs) => {
+    const location = createLocation({ sourceId });
+    return dispatch(selectLocation(location, tabIndex));
+  };
+}
+
+/**
+ * @memberof actions/sources
+ * @static
+ */
+export function selectLocation(location: Location, tabIndex: string = "") {
   return ({ dispatch, getState, client }: ThunkArgs) => {
     if (!client) {
       // No connection, do nothing. This happens when the debugger is
@@ -300,7 +309,7 @@ export function closeTab(url: string) {
     const sourceId = getNewSelectedSourceId(getState(), tabs);
 
     dispatch({ type: "CLOSE_TAB", url, tabs });
-    dispatch(selectLocation({ sourceId }));
+    dispatch(selectSource(sourceId));
   };
 }
 
@@ -321,7 +330,7 @@ export function closeTabs(urls: string[]) {
     const sourceId = getNewSelectedSourceId(getState(), tabs);
 
     dispatch({ type: "CLOSE_TABS", urls, tabs });
-    dispatch(selectLocation({ sourceId, line: 0 }));
+    dispatch(selectSource(sourceId));
   };
 }
 
