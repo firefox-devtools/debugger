@@ -31,7 +31,12 @@ import type { ThunkArgs } from "./types";
 import type { AstLocation } from "../workers/parser";
 
 const extraProps = {
-  react: { displayName: "this._reactInternalInstance.getName()" }
+  react: { displayName: "this._reactInternalInstance.getName()" },
+  immutable: {
+    isImmutable: exp => `Immutable.Iterable.isIterable(${exp})`,
+    entries: exp => `${exp}.toJS()`,
+    type: exp => `${exp}.constructor.name`
+  }
 };
 
 export function setSourceMetaData(sourceId: SourceId) {
@@ -156,8 +161,8 @@ export function setPreview(
     await dispatch({
       type: "SET_PREVIEW",
       [PROMISE]: (async function() {
-        let iType = null;
-        let iContents = null;
+        let immutableType = null;
+        let immutableEntries = null;
         const source = getSelectedSource(getState());
         const _symbols = await getSymbols(source.toJS());
 
@@ -191,32 +196,46 @@ export function setPreview(
           frameId: selectedFrame.id
         });
 
-        const data = await client.evaluate(extraProps.react.displayName, {
-          frameId: selectedFrame.id
-        });
-
-        const immutable = await client.evaluate(
-          `Immutable.Iterable.isIterable(${expression})`,
+        const reactDisplayName = await client.evaluate(
+          extraProps.react.displayName,
           {
             frameId: selectedFrame.id
           }
         );
 
-        if (immutable.result) {
-          iContents = await client.evaluate(`${expression}.toJS()`, {
+        const immutable = await client.evaluate(
+          extraProps.immutable.isImmutable(expression),
+          {
             frameId: selectedFrame.id
-          });
+          }
+        );
 
-          iType = await client.evaluate(`${expression}.constructor.name`, {
-            frameId: selectedFrame.id
-          });
+        if (immutable.result === true) {
+          immutableEntries = await client.evaluate(
+            extraProps.immutable.entries(expression),
+            {
+              frameId: selectedFrame.id
+            }
+          );
+
+          immutableType = await client.evaluate(
+            extraProps.immutable.type(expression),
+            {
+              frameId: selectedFrame.id
+            }
+          );
         }
 
         const extra = {
-          data,
-          immutable: immutable.result,
-          immutableType: iType && iType.result,
-          immutableContent: iContents && iContents.result
+          react: {
+            displayName: reactDisplayName.result
+          },
+          immutable: {
+            isImmutable:
+              immutable.result && immutable.result.type !== "undefined",
+            type: immutableType && immutableType.result,
+            entries: immutableEntries && immutableEntries.result
+          }
         };
 
         if (result === undefined) {

@@ -106,9 +106,7 @@ export class Popup extends Component<Props> {
   renderObjectPreview(expression: string, root: Object, extra: string) {
     let header = null;
     const { loadedObjects } = this.props;
-    const {
-      extra: { immutable, immutableType, immutableContent }
-    } = this.props;
+    const { extra: { react, immutable } } = this.props;
     const getObjectProperties = id => loadedObjects[id];
     let roots = this.getChildren(root, getObjectProperties);
 
@@ -117,19 +115,19 @@ export class Popup extends Component<Props> {
     }
 
     if (isReactComponent(roots)) {
-      if (typeof extra !== "undefined") {
-        header = (
-          <div className="header-container">
-            <h3>{extra}</h3>
-          </div>
-        );
-      }
+      const reactHeader = react.displayName || "React Component";
+
+      header = (
+        <div className="header-container">
+          <h3>{reactHeader}</h3>
+        </div>
+      );
 
       roots = roots.filter(r => ["state", "props"].includes(r.name));
     }
 
-    if (immutable) {
-      const immutableHeader = immutableType || "Immutable";
+    if (immutable.isImmutable) {
+      const immutableHeader = immutable.type || "Immutable";
 
       header = (
         <div className="header-container">
@@ -140,7 +138,11 @@ export class Popup extends Component<Props> {
 
       roots = roots.filter(r => ["size"].includes(r.name));
 
-      roots.push({ name: "entries", contents: { value: immutableContent } });
+      roots.push({
+        name: "entries",
+        contents: { value: immutable.entries },
+        path: "entries"
+      });
     }
 
     return (
