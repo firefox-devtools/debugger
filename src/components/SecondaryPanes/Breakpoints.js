@@ -333,9 +333,7 @@ class Breakpoints extends PureComponent<Props> {
   }
 
   selectBreakpoint(breakpoint) {
-    const id = breakpoint.location.sourceId;
-    const { location } = breakpoint;
-    this.props.selectLocation({ id, ...location });
+    this.props.selectLocation(breakpoint.location);
   }
 
   removeBreakpoint(event, breakpoint) {

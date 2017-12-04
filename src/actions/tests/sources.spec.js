@@ -45,7 +45,9 @@ describe("sources", () => {
     const { dispatch, getState } = createStore(threadClient);
 
     await dispatch(actions.newSource(makeSource("foo1")));
-    await dispatch(actions.selectLocation({ id: "foo1", line: 1, column: 5 }));
+    await dispatch(
+      actions.selectLocation({ sourceId: "foo1", line: 1, column: 5 })
+    );
 
     const selectedSource = getSelectedSource(getState());
     expect(selectedSource.get("id")).toEqual("foo1");
@@ -70,7 +72,7 @@ describe("sources", () => {
   it("should open a tab for the source", async () => {
     const { dispatch, getState } = createStore(threadClient);
     await dispatch(actions.newSource(makeSource("foo.js")));
-    dispatch(actions.selectLocation({ id: "foo.js" }));
+    dispatch(actions.selectLocation({ sourceId: "foo.js" }));
 
     const tabs = getSourceTabs(getState());
     expect(tabs.size).toEqual(1);
@@ -82,9 +84,9 @@ describe("sources", () => {
     await dispatch(actions.newSource(makeSource("foo.js")));
     await dispatch(actions.newSource(makeSource("bar.js")));
     await dispatch(actions.newSource(makeSource("baz.js")));
-    dispatch(actions.selectLocation({ id: "foo.js" }));
-    dispatch(actions.selectLocation({ id: "bar.js" }));
-    dispatch(actions.selectLocation({ id: "baz.js" }));
+    dispatch(actions.selectLocation({ sourceId: "foo.js" }));
+    dispatch(actions.selectLocation({ sourceId: "bar.js" }));
+    dispatch(actions.selectLocation({ sourceId: "baz.js" }));
     dispatch(actions.closeTab("http://localhost:8000/examples/baz.js"));
     expect(getSelectedSource(getState()).get("id")).toBe("bar.js");
     expect(getSourceTabs(getState()).size).toBe(2);
@@ -95,10 +97,10 @@ describe("sources", () => {
     await dispatch(actions.newSource(makeSource("foo.js")));
     await dispatch(actions.newSource(makeSource("bar.js")));
     await dispatch(actions.newSource(makeSource("baz.js")));
-    dispatch(actions.selectLocation({ id: "foo.js" }));
-    dispatch(actions.selectLocation({ id: "bar.js" }));
-    dispatch(actions.selectLocation({ id: "baz.js" }));
-    dispatch(actions.selectLocation({ id: "foo.js" }));
+    dispatch(actions.selectLocation({ sourceId: "foo.js" }));
+    dispatch(actions.selectLocation({ sourceId: "bar.js" }));
+    dispatch(actions.selectLocation({ sourceId: "baz.js" }));
+    dispatch(actions.selectLocation({ sourceId: "foo.js" }));
     dispatch(actions.closeTab("http://localhost:8000/examples/foo.js"));
     expect(getSelectedSource(getState()).get("id")).toBe("bar.js");
     expect(getSourceTabs(getState()).size).toBe(2);

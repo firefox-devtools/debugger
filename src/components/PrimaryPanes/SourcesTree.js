@@ -211,7 +211,7 @@ class SourcesTree extends Component<Props, State> {
 
   selectItem(item) {
     if (!nodeHasChildren(item)) {
-      this.props.selectLocation({ id: item.contents.get("id") });
+      this.props.selectLocation({ sourceId: item.contents.get("id") });
     }
   }
 

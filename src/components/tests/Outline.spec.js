@@ -64,6 +64,6 @@ describe("Outline", () => {
     const { selectLocation } = props;
     const listItem = component.find("li").first();
     listItem.simulate("click");
-    expect(selectLocation).toHaveBeenCalledWith({ id: sourceId, line: 12 });
+    expect(selectLocation).toHaveBeenCalledWith({ line: 12, sourceId });
   });
 });

@@ -19,6 +19,7 @@ import { searchSource } from "./project-text-search";
 import { closeActiveSearch } from "./ui";
 
 import { getPrettySourceURL, isLoaded } from "../utils/source";
+import { createLocation } from "../utils/location";
 import { createPrettySource } from "./sources/createPrettySource";
 import { loadSourceText } from "./sources/loadSourceText";
 
@@ -42,7 +43,7 @@ import {
   getActiveSearch
 } from "../selectors";
 
-import type { Source } from "../types";
+import type { Source, Location } from "../types";
 import type { ThunkArgs } from "./types";
 import type { State } from "../reducers/types";
 
@@ -52,7 +53,7 @@ async function checkSelectedSource(state: State, dispatch, source) {
   const pendingLocation = getPendingSelectedLocation(state);
 
   if (pendingLocation && !!source.url && pendingLocation.url === source.url) {
-    await dispatch(selectLocation({ id: source.id, ...pendingLocation }));
+    await dispatch(selectLocation({ ...pendingLocation, sourceId: source.id }));
   }
 }
 
@@ -155,7 +156,7 @@ function loadSourceMap(generatedSource) {
 
 declare type SelectSourceOptions = {
   tabIndex?: number,
-  location?: { line: ?number, column?: ?number }
+  location?: { line: number, column?: ?number }
 };
 
 /**
@@ -174,7 +175,14 @@ export function selectSourceURL(
   return async ({ dispatch, getState }: ThunkArgs) => {
     const source = getSourceByURL(getState(), url);
     if (source) {
-      await dispatch(selectLocation({ id: source.get("id"), ...options }));
+      const sourceId = source.get("id");
+      const location = createLocation({ ...options.location, sourceId });
+      // flow is unable to comprehend that if an options.location object
+      // exists, that we have a valid Location object, and if it doesnt,
+      // we have a valid { sourceId: string } object. So we are overriding
+      // the error
+      // $FlowIgnore
+      await dispatch(selectLocation(location, options.tabIndex));
     } else {
       dispatch({
         type: "SELECT_SOURCE_URL",
@@ -186,20 +194,22 @@ export function selectSourceURL(
   };
 }
 
-declare type LocationObject = {
-  id?: ?string,
-  sourceId?: ?string,
-  tabIndex?: ?number,
-  line?: ?number,
-  column?: ?number,
-  sourceUrl?: ?string
-};
+/**
+ * @memberof actions/sources
+ * @static
+ */
+export function selectSource(sourceId: string, tabIndex: string = "") {
+  return ({ dispatch }: ThunkArgs) => {
+    const location = createLocation({ sourceId });
+    return dispatch(selectLocation(location, tabIndex));
+  };
+}
 
 /**
  * @memberof actions/sources
  * @static
  */
-export function selectLocation(location: LocationObject) {
+export function selectLocation(location: Location, tabIndex: string = "") {
   return ({ dispatch, getState, client }: ThunkArgs) => {
     if (!client) {
       // No connection, do nothing. This happens when the debugger is
@@ -207,7 +217,7 @@ export function selectLocation(location: LocationObject) {
       return;
     }
 
-    const source = getSource(getState(), location.id);
+    const source = getSource(getState(), location.sourceId);
     if (!source) {
       // If there is no source we deselect the current selected source
       return dispatch({ type: "CLEAR_SELECTED_SOURCE" });
@@ -223,12 +233,12 @@ export function selectLocation(location: LocationObject) {
     return dispatch({
       type: "SELECT_SOURCE",
       source: source.toJS(),
-      tabIndex: location.tabIndex,
+      tabIndex,
       location,
       [PROMISE]: (async () => {
         await dispatch(loadSourceText(source.toJS()));
         await dispatch(setOutOfScopeLocations());
-        const src = getSource(getState(), location.id).toJS();
+        const src = getSource(getState(), location.sourceId).toJS();
         const { autoPrettyPrint } = prefs;
         if (
           autoPrettyPrint &&
@@ -268,9 +278,7 @@ export function jumpToMappedLocation(sourceLocation: any) {
       );
     }
 
-    return dispatch(
-      selectLocation({ id: pairedLocation.sourceId, ...pairedLocation })
-    );
+    return dispatch(selectLocation({ ...pairedLocation }));
   };
 }
 
@@ -301,7 +309,7 @@ export function closeTab(url: string) {
     const sourceId = getNewSelectedSourceId(getState(), tabs);
 
     dispatch({ type: "CLOSE_TAB", url, tabs });
-    dispatch(selectLocation({ id: sourceId }));
+    dispatch(selectSource(sourceId));
   };
 }
 
@@ -322,7 +330,7 @@ export function closeTabs(urls: string[]) {
     const sourceId = getNewSelectedSourceId(getState(), tabs);
 
     dispatch({ type: "CLOSE_TABS", urls, tabs });
-    dispatch(selectLocation({ id: sourceId }));
+    dispatch(selectSource(sourceId));
   };
 }
 
@@ -361,8 +369,10 @@ export function togglePrettyPrint(sourceId: string) {
     }
 
     if (prettySource) {
-      options.location.id = prettySource.get("id");
-      return dispatch(selectLocation({ ...options.location }));
+      const _sourceId = prettySource.get("id");
+      return dispatch(
+        selectLocation({ ...options.location, sourceId: _sourceId })
+      );
     }
 
     const newPrettySource = await dispatch(createPrettySource(sourceId));
@@ -370,7 +380,7 @@ export function togglePrettyPrint(sourceId: string) {
     await dispatch(setEmptyLines(newPrettySource.id));
 
     return dispatch(
-      selectLocation({ id: newPrettySource.id, ...options.location })
+      selectLocation({ ...options.location, sourceId: newPrettySource.id })
     );
   };
 }

@@ -22,8 +22,7 @@ export function selectFrame(frame: Frame) {
       frame
     });
 
-    const { line, column } = frame.location;
-    dispatch(selectLocation({ id: frame.location.sourceId, line, column }));
+    dispatch(selectLocation(frame.location));
 
     dispatch(evaluateExpressions());
     dispatch(fetchScopes());

@@ -62,8 +62,7 @@ export default class TextSearch extends Component<Props> {
   }
 
   selectMatchItem(matchItem) {
-    const { line, column } = matchItem;
-    this.props.selectLocation({ id: matchItem.sourceId, line, column });
+    this.props.selectLocation({ ...matchItem });
   }
 
   getResults() {
