@@ -1,7 +1,9 @@
 import React from "react";
 import { shallow } from "enzyme";
 import { Map } from "immutable";
-import Frames, { getAndProcessFrames } from "../index.js";
+import Frames from "../index.js";
+// eslint-disable-next-line
+import { formatCallStackFrames } from "../../../../selectors/getCallStackFrames";
 
 function render(overrides = {}) {
   const defaultProps = {
@@ -77,11 +79,15 @@ describe("Frames", () => {
       ];
 
       const sources = Map({
-        1: Map({}),
-        2: Map({ isBlackBoxed: true })
+        1: Map({ id: "1" }),
+        2: Map({ id: "2", isBlackBoxed: true })
       });
 
-      const processedFrames = getAndProcessFrames(frames, sources);
+      const processedFrames = formatCallStackFrames(
+        frames,
+        sources,
+        sources.get("1")
+      );
       const selectedFrame = frames[0];
 
       const component = render({

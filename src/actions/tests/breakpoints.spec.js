@@ -175,7 +175,7 @@ describe("breakpoints", () => {
     const { dispatch, getState } = createStore(simpleMockThreadClient);
 
     await dispatch(actions.newSource(makeSource("foo1")));
-    await dispatch(actions.selectLocation({ id: "foo1", line: 1 }));
+    await dispatch(actions.selectLocation({ sourceId: "foo1", line: 1 }));
 
     await dispatch(actions.toggleBreakpoint(5));
     await dispatch(actions.toggleBreakpoint(6, 1));
@@ -212,7 +212,7 @@ describe("breakpoints", () => {
     const { dispatch, getState } = createStore(simpleMockThreadClient);
 
     await dispatch(actions.newSource(makeSource("foo1")));
-    await dispatch(actions.selectLocation({ id: "foo1", line: 1 }));
+    await dispatch(actions.selectLocation({ sourceId: "foo1", line: 1 }));
 
     await dispatch(actions.toggleBreakpoint(5));
     await dispatch(actions.toggleBreakpoint(6, 1));

@@ -12,7 +12,7 @@ describe("closing tabs", () => {
   it("closing a tab", async () => {
     const { dispatch, getState } = createStore(threadClient);
     await dispatch(actions.newSource(makeSource("foo.js")));
-    await dispatch(actions.selectLocation({ id: "foo.js" }));
+    await dispatch(actions.selectLocation({ sourceId: "foo.js" }));
     dispatch(actions.closeTab("http://localhost:8000/examples/foo.js"));
 
     expect(getSelectedSource(getState())).toBe(undefined);
@@ -23,8 +23,8 @@ describe("closing tabs", () => {
     const { dispatch, getState } = createStore(threadClient);
     await dispatch(actions.newSource(makeSource("foo.js")));
     await dispatch(actions.newSource(makeSource("bar.js")));
-    await dispatch(actions.selectLocation({ id: "foo.js" }));
-    await dispatch(actions.selectLocation({ id: "bar.js" }));
+    await dispatch(actions.selectLocation({ sourceId: "foo.js" }));
+    await dispatch(actions.selectLocation({ sourceId: "bar.js" }));
     dispatch(actions.closeTab("http://localhost:8000/examples/foo.js"));
 
     expect(getSelectedSource(getState()).get("id")).toBe("bar.js");
@@ -34,7 +34,7 @@ describe("closing tabs", () => {
   it("closing the only tab", async () => {
     const { dispatch, getState } = createStore(threadClient);
     await dispatch(actions.newSource(makeSource("foo.js")));
-    await dispatch(actions.selectLocation({ id: "foo.js" }));
+    await dispatch(actions.selectLocation({ sourceId: "foo.js" }));
     dispatch(actions.closeTab("http://localhost:8000/examples/foo.js"));
 
     expect(getSelectedSource(getState())).toBe(undefined);
@@ -45,8 +45,8 @@ describe("closing tabs", () => {
     const { dispatch, getState } = createStore(threadClient);
     await dispatch(actions.newSource(makeSource("foo.js")));
     await dispatch(actions.newSource(makeSource("bar.js")));
-    await dispatch(actions.selectLocation({ id: "foo.js" }));
-    await dispatch(actions.selectLocation({ id: "bar.js" }));
+    await dispatch(actions.selectLocation({ sourceId: "foo.js" }));
+    await dispatch(actions.selectLocation({ sourceId: "bar.js" }));
     dispatch(actions.closeTab("http://localhost:8000/examples/bar.js"));
 
     expect(getSelectedSource(getState()).get("id")).toBe("foo.js");
@@ -58,9 +58,9 @@ describe("closing tabs", () => {
     await dispatch(actions.newSource(makeSource("foo.js")));
     await dispatch(actions.newSource(makeSource("bar.js")));
     await dispatch(actions.newSource(makeSource("bazz.js")));
-    await dispatch(actions.selectLocation({ id: "foo.js" }));
-    await dispatch(actions.selectLocation({ id: "bar.js" }));
-    await dispatch(actions.selectLocation({ id: "bazz.js" }));
+    await dispatch(actions.selectLocation({ sourceId: "foo.js" }));
+    await dispatch(actions.selectLocation({ sourceId: "bar.js" }));
+    await dispatch(actions.selectLocation({ sourceId: "bazz.js" }));
     dispatch(
       actions.closeTabs([
         "http://localhost:8000/examples/foo.js",
@@ -77,9 +77,9 @@ describe("closing tabs", () => {
     await dispatch(actions.newSource(makeSource("foo.js")));
     await dispatch(actions.newSource(makeSource("bar.js")));
     await dispatch(actions.newSource(makeSource("bazz.js")));
-    await dispatch(actions.selectLocation({ id: "foo.js" }));
-    await dispatch(actions.selectLocation({ id: "bar.js" }));
-    await dispatch(actions.selectLocation({ id: "bazz.js" }));
+    await dispatch(actions.selectLocation({ sourceId: "foo.js" }));
+    await dispatch(actions.selectLocation({ sourceId: "bar.js" }));
+    await dispatch(actions.selectLocation({ sourceId: "bazz.js" }));
     dispatch(
       actions.closeTabs([
         "http://localhost:8000/examples/bar.js",
@@ -95,8 +95,8 @@ describe("closing tabs", () => {
     const { dispatch, getState } = createStore(threadClient);
     await dispatch(actions.newSource(makeSource("foo.js")));
     await dispatch(actions.newSource(makeSource("bar.js")));
-    await dispatch(actions.selectLocation({ id: "foo.js" }));
-    await dispatch(actions.selectLocation({ id: "bar.js" }));
+    await dispatch(actions.selectLocation({ sourceId: "foo.js" }));
+    await dispatch(actions.selectLocation({ sourceId: "bar.js" }));
     dispatch(
       actions.closeTabs([
         "http://localhost:8000/examples/foo.js",

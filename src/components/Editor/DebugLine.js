@@ -8,16 +8,11 @@ import { markText, toEditorPosition } from "../../utils/editor";
 import { getDocument } from "../../utils/editor/source-documents";
 
 import { connect } from "react-redux";
-import {
-  getSelectedLocation,
-  getSelectedFrame,
-  getPause
-} from "../../selectors";
+import { getVisibleSelectedFrame, getPause } from "../../selectors";
 
 type Props = {
   editor: Object,
   selectedFrame: Object,
-  selectedLocation: Object,
   pauseInfo: Object
 };
 
@@ -41,7 +36,6 @@ export class DebugLine extends Component<Props, State> {
     this.setDebugLine(
       this.props.pauseInfo,
       this.props.selectedFrame,
-      this.props.selectedLocation,
       this.props.editor
     );
   }
@@ -51,7 +45,6 @@ export class DebugLine extends Component<Props, State> {
     this.setDebugLine(
       nextProps.pauseInfo,
       nextProps.selectedFrame,
-      nextProps.selectedLocation,
       nextProps.editor
     );
   }
@@ -60,23 +53,18 @@ export class DebugLine extends Component<Props, State> {
     this.clearDebugLine(this.props.selectedFrame, this.props.editor);
   }
 
-  setDebugLine(
-    pauseInfo: Object,
-    selectedFrame: Object,
-    selectedLocation: Object,
-    editor: Object
-  ) {
+  setDebugLine(pauseInfo: Object, selectedFrame: Object, editor: Object) {
     if (!selectedFrame) {
       return;
     }
 
-    const { location, location: { sourceId } } = selectedFrame;
+    const sourceId = selectedFrame.location.sourceId;
     const doc = getDocument(sourceId);
     if (!doc) {
       return;
     }
 
-    const { line, column } = toEditorPosition(sourceId, location);
+    const { line, column } = toEditorPosition(sourceId, selectedFrame.location);
 
     // make sure the line is visible
     if (editor && editor.alignLine) {
@@ -129,7 +117,6 @@ export class DebugLine extends Component<Props, State> {
 }
 
 export default connect(state => ({
-  selectedLocation: getSelectedLocation(state),
-  selectedFrame: getSelectedFrame(state),
+  selectedFrame: getVisibleSelectedFrame(state),
   pauseInfo: getPause(state)
 }))(DebugLine);

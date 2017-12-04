@@ -21,6 +21,8 @@ import * as sourceTree from "./reducers/source-tree";
 import getBreakpointAtLocation from "./selectors/breakpointAtLocation";
 import getVisibleBreakpoints from "./selectors/visibleBreakpoints";
 import isSelectedFrameVisible from "./selectors/isSelectedFrameVisible";
+import getCallStackFrames from "./selectors/getCallStackFrames";
+import getVisibleSelectedFrame from "./selectors/visibleSelectedFrame";
 
 /**
  * @param object - location
@@ -43,5 +45,7 @@ module.exports = {
   ...sourceTree,
   getBreakpointAtLocation,
   getVisibleBreakpoints,
-  isSelectedFrameVisible
+  isSelectedFrameVisible,
+  getCallStackFrames,
+  getVisibleSelectedFrame
 };

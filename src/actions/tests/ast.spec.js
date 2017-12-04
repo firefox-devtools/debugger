@@ -17,6 +17,8 @@ const {
   getInScopeLines
 } = selectors;
 
+import { prefs } from "../../utils/prefs";
+
 const threadClient = {
   sourceContents: function(sourceId) {
     return new Promise((resolve, reject) =>
@@ -138,32 +140,152 @@ describe("ast", () => {
     });
   });
 
-  describe("getOutOfScopeLocations", () => {
-    it("with selected line", async () => {
-      const { dispatch, getState } = createStore(threadClient);
-      const source = makeSource("scopes.js");
-      await dispatch(actions.newSource(source));
-      await dispatch(actions.selectLocation({ id: "scopes.js", line: 5 }));
-
-      const locations = getOutOfScopeLocations(getState());
-      const lines = getInScopeLines(getState());
-
-      expect(locations).toMatchSnapshot();
-      expect(lines).toMatchSnapshot();
+  describe("not prettyPrinted", () => {
+    beforeEach(async () => {
+      prefs.autoPrettyPrint = false;
     });
 
-    it("without a selected line", async () => {
-      const store = createStore(threadClient);
-      const { dispatch, getState } = store;
-      const base = makeSource("base.js");
-      await dispatch(actions.newSource(base));
-      await dispatch(actions.selectLocation({ id: "base.js" }));
+    it("autoPrettyPrint is off", async () => {
+      expect(prefs.autoPrettyPrint).toBe(false);
+    });
 
-      const locations = getOutOfScopeLocations(getState());
+    describe("getOutOfScopeLocations", () => {
+      it("with selected line", async () => {
+        const { dispatch, getState } = createStore(threadClient);
+        const source = makeSource("scopes.js");
+        await dispatch(actions.newSource(source));
+        await dispatch(
+          actions.selectLocation({ sourceId: "scopes.js", line: 5 })
+        );
 
-      const lines = getInScopeLines(getState());
-      expect(locations).toEqual(null);
-      expect(lines).toEqual([1]);
+        const locations = getOutOfScopeLocations(getState());
+        const lines = getInScopeLines(getState());
+
+        expect(locations).toMatchSnapshot();
+        expect(lines).toMatchSnapshot();
+      });
+
+      it("without a selected line", async () => {
+        const { dispatch, getState } = createStore(threadClient);
+        const base = makeSource("base.js");
+        await dispatch(actions.newSource(base));
+        await dispatch(actions.selectLocation({ sourceId: "base.js" }));
+
+        const locations = getOutOfScopeLocations(getState());
+        const lines = getInScopeLines(getState());
+
+        expect(locations).toEqual(null);
+        expect(lines).toEqual([1]);
+      });
+    });
+
+    describe("setPreview", () => {
+      let dispatch = undefined;
+      let getState = undefined;
+
+      beforeEach(async () => {
+        const store = createStore(threadClient);
+        dispatch = store.dispatch;
+        getState = store.getState;
+
+        const foo = makeSource("foo.js");
+        await dispatch(actions.newSource(foo));
+        await dispatch(actions.loadSourceText({ id: "foo.js" }));
+        await dispatch(actions.selectLocation({ sourceId: "foo.js" }));
+        await dispatch(
+          actions.paused({
+            why: { type: "resumeLimit" },
+            frames: [{ id: "frame1", location: { sourceId: "foo.js" } }]
+          })
+        );
+      });
+
+      it("member expression", async () => {
+        await dispatch(actions.setPreview("bazz", { line: 1, column: 34 }));
+        const preview = selectors.getPreview(getState());
+        expect(preview).toMatchSnapshot();
+      });
+
+      it("this", async () => {
+        await dispatch(actions.setPreview("this", { line: 1, column: 30 }));
+        const preview = selectors.getPreview(getState());
+        expect(preview).toMatchSnapshot();
+      });
     });
   });
+
+  describe("prettyPrinted", () => {
+    beforeEach(async () => {
+      prefs.autoPrettyPrint = true;
+    });
+
+    it("autoPrettyPrint is on", async () => {
+      expect(prefs.autoPrettyPrint).toBe(true);
+    });
+
+    describe("getOutOfScopeLocations", () => {
+      it("with selected line", async () => {
+        const { dispatch, getState } = createStore(threadClient);
+        const source = makeSource("scopes.js");
+        await dispatch(actions.newSource(source));
+        await dispatch(
+          actions.selectLocation({ sourceId: "scopes.js", line: 5 })
+        );
+
+        const locations = getOutOfScopeLocations(getState());
+        const lines = getInScopeLines(getState());
+
+        expect(locations).toMatchSnapshot();
+        expect(lines).toMatchSnapshot();
+      });
+
+      it("without a selected line", async () => {
+        const { dispatch, getState } = createStore(threadClient);
+        const base = makeSource("base.js");
+        await dispatch(actions.newSource(base));
+        await dispatch(actions.selectLocation({ sourceId: "base.js" }));
+
+        const locations = getOutOfScopeLocations(getState());
+        const lines = getInScopeLines(getState());
+
+        expect(locations).toEqual(null);
+        expect(lines).toEqual([1, 2, 3]);
+      });
+    });
+
+    describe("setPreview", () => {
+      let dispatch = undefined;
+      let getState = undefined;
+
+      beforeEach(async () => {
+        const store = createStore(threadClient);
+        dispatch = store.dispatch;
+        getState = store.getState;
+
+        const foo = makeSource("foo.js");
+        await dispatch(actions.newSource(foo));
+        await dispatch(actions.loadSourceText({ id: "foo.js" }));
+        await dispatch(actions.selectLocation({ sourceId: "foo.js" }));
+        await dispatch(
+          actions.paused({
+            why: { type: "resumeLimit" },
+            frames: [{ id: "frame1", location: { sourceId: "foo.js" } }]
+          })
+        );
+      });
+
+      it("member expression", async () => {
+        await dispatch(actions.setPreview("bazz", { line: 1, column: 34 }));
+        const preview = selectors.getPreview(getState());
+        expect(preview).toMatchSnapshot();
+      });
+
+      it("this", async () => {
+        await dispatch(actions.setPreview("this", { line: 1, column: 30 }));
+        const preview = selectors.getPreview(getState());
+        expect(preview).toMatchSnapshot();
+      });
+    });
+  });
+
 });

@@ -320,7 +320,8 @@ class SourceTabs extends PureComponent<Props, State> {
     const { selectLocation } = this.props;
     const filename = getFilename(source.toJS());
 
-    const onClick = () => selectLocation({ id: source.get("id") });
+    const onClick = () =>
+      selectLocation({ sourceId: source.get("id"), line: 0 });
     return (
       <li key={source.get("id")} onClick={onClick}>
         {filename}
@@ -407,7 +408,7 @@ class SourceTabs extends PureComponent<Props, State> {
       <div
         className={className}
         key={source.get("id")}
-        onClick={() => selectLocation({ id: source.get("id") })}
+        onClick={() => selectLocation({ sourceId: source.get("id") })}
         onContextMenu={e => this.onTabContextMenu(e, source.get("id"))}
         title={getFileURL(source.toJS())}
       >
