@@ -474,6 +474,7 @@ class Editor extends PureComponent<Props, State> {
 
   setText(props) {
     const { selectedSource, sourceMetaData } = props;
+
     if (!this.state.editor) {
       return;
     }

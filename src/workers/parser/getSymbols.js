@@ -12,6 +12,7 @@ import getFunctionName from "./utils/getFunctionName";
 
 import type { Source } from "debugger-html";
 import type { NodePath, Node, Location as BabelLocation } from "babel-traverse";
+import { setJSXMetaData } from "../../reducers/ast";
 let symbolDeclarations = new Map();
 
 export type SymbolDeclaration = {|
@@ -119,6 +120,12 @@ function extractSymbols(source: Source) {
           parameterNames: getFunctionParameterNames(path),
           identifier: path.node.id
         });
+      }
+
+      if (t.isJSXElement(path)) {
+        setJSXMetaData(source, true);
+      } else {
+        setJSXMetaData(source, false);
       }
 
       if (t.isClassDeclaration(path)) {

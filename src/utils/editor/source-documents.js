@@ -5,11 +5,9 @@
 // @flow
 
 import { getMode } from "../source";
-
 import type { Source } from "debugger-html";
 import { isWasm, getWasmLineNumberFormatter, renderWasmText } from "../wasm";
 import { resizeBreakpointGutter, resizeToggleButton } from "../ui";
-import type { SourceMetaDataType } from "../../reducers/ast";
 
 let sourceDocs = {};
 

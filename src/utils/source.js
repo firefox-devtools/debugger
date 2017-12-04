@@ -13,7 +13,6 @@ import { isOriginalId } from "devtools-source-map";
 import { endTruncateStr } from "./utils";
 import { basename } from "../utils/path";
 import { parse as parseURL } from "url";
-
 import type { Source } from "../types";
 import type { SourceMetaDataType } from "../reducers/ast";
 
@@ -275,7 +274,8 @@ function getMode(source: Source, sourceMetaData: SourceMetaDataType) {
 
   if (
     (url && url.match(/\.jsx$/i)) ||
-    (sourceMetaData && sourceMetaData.isReactComponent)
+    (sourceMetaData && sourceMetaData.isReactComponent) ||
+    (sourceMetaData && sourceMetaData.isJSXElement)
   ) {
     return "jsx";
   }

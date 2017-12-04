@@ -25,6 +25,7 @@ cases(
     },
     { name: "component", file: "component" },
     { name: "react component", file: "frameworks/component" },
-    { name: "flow", file: "flow" }
+    { name: "flow", file: "flow" },
+    { name: "jsx", file: "frameworks/jsx" }
   ]
 );
