@@ -36,7 +36,7 @@ type Props = {
   editor: any,
   selectSourceURL: (string, Object) => void,
   openLink: string => void,
-  extra: string
+  extra: Object
 };
 
 function isReactComponent(roots) {
