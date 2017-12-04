@@ -13,7 +13,7 @@ import { PROMISE } from "./utils/middleware/promise";
 import assert from "../utils/assert";
 import { remapBreakpoints } from "./breakpoints";
 
-import { setEmptyLines, setOutOfScopeLocations } from "./ast";
+import { setEmptyLines, setOutOfScopeLocations, setSymbols } from "./ast";
 import { syncBreakpoint } from "./breakpoints";
 import { searchSource } from "./project-text-search";
 import { closeActiveSearch } from "./ui";
@@ -378,6 +378,7 @@ export function togglePrettyPrint(sourceId: string) {
     const newPrettySource = await dispatch(createPrettySource(sourceId));
     await dispatch(remapBreakpoints(sourceId));
     await dispatch(setEmptyLines(newPrettySource.id));
+    await dispatch(setSymbols(newPrettySource.id));
 
     return dispatch(
       selectLocation({ ...options.location, sourceId: newPrettySource.id })
