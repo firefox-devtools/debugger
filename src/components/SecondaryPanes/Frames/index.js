@@ -7,11 +7,8 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { createSelector } from "reselect";
 
-import { get } from "lodash";
 import type { Frame } from "debugger-html";
-import type { SourcesMap } from "../../../reducers/sources";
 
 import FrameComponent from "./Frame";
 import Group from "./Group";
@@ -19,20 +16,14 @@ import Group from "./Group";
 import renderWhyPaused from "./WhyPaused";
 
 import actions from "../../../actions";
-import {
-  annotateFrame,
-  collapseFrames,
-  formatCopyName
-} from "../../../utils/frame";
+import { collapseFrames, formatCopyName } from "../../../utils/frame";
 import { copyToTheClipboard } from "../../../utils/clipboard";
 
 import {
-  getFrames,
   getFrameworkGroupingState,
   getSelectedFrame,
-  getSourceInSources,
-  getSources,
-  getPause
+  getPause,
+  getCallStackFrames
 } from "../../../selectors";
 
 import type { LocalFrame } from "./types";
@@ -203,37 +194,9 @@ class Frames extends Component<Props, State> {
   }
 }
 
-function getSourceForFrame(sources, frame) {
-  return getSourceInSources(sources, frame.location.sourceId);
-}
-
-function appendSource(sources, frame) {
-  return { ...frame, source: getSourceForFrame(sources, frame).toJS() };
-}
-
-export function getAndProcessFrames(frames: Frame[], sources: SourcesMap) {
-  if (!frames) {
-    return null;
-  }
-
-  const processedFrames = frames
-    .filter(frame => getSourceForFrame(sources, frame))
-    .map(frame => appendSource(sources, frame))
-    .filter(frame => !get(frame, "source.isBlackBoxed"))
-    .map(annotateFrame);
-
-  return processedFrames;
-}
-
-const getAndProcessFramesSelector = createSelector(
-  getFrames,
-  getSources,
-  getAndProcessFrames
-);
-
 export default connect(
   state => ({
-    frames: getAndProcessFramesSelector(state),
+    frames: getCallStackFrames(state),
     frameworkGroupingOn: getFrameworkGroupingState(state),
     selectedFrame: getSelectedFrame(state),
     pause: getPause(state)
