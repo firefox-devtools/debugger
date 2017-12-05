@@ -45,6 +45,7 @@ export type ASTState = {
   symbols: SymbolsMap,
   emptyLines: EmptyLinesMap,
   outOfScopeLocations: ?Array<AstLocation>,
+  inScopeLines: ?Array<Number>,
   preview: Preview,
   sourceMetaData: SourceMetaDataMap
 };
@@ -55,6 +56,7 @@ export function initialState() {
       symbols: I.Map(),
       emptyLines: I.Map(),
       outOfScopeLocations: null,
+      inScopeLines: null,
       preview: null,
       sourceMetaData: I.Map()
     }: ASTState)
@@ -78,6 +80,10 @@ function update(
 
     case "OUT_OF_SCOPE_LOCATIONS": {
       return state.set("outOfScopeLocations", action.locations);
+    }
+
+    case "IN_SCOPE_LINES": {
+      return state.set("inScopeLines", action.lines);
     }
 
     case "CLEAR_SELECTION": {
@@ -186,6 +192,10 @@ export function getPreview(state: OuterState) {
 const emptySourceMetaData = {};
 export function getSourceMetaData(state: OuterState, sourceId: string) {
   return state.ast.getIn(["sourceMetaData", sourceId]) || emptySourceMetaData;
+}
+
+export function getInScopeLines(state: OuterState, sourceId: string) {
+  return state.ast.get("inScopeLines");
 }
 
 export default update;

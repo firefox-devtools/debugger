@@ -13,9 +13,9 @@ const {
   getSymbols,
   getEmptyLines,
   getOutOfScopeLocations,
-  getSourceMetaData
+  getSourceMetaData,
+  getInScopeLines
 } = selectors;
-import getInScopeLines from "../../selectors/linesInScope";
 
 import { prefs } from "../../utils/prefs";
 
@@ -110,7 +110,10 @@ describe("ast", () => {
         const base = makeSource("base.js");
         await dispatch(actions.newSource(base));
         await dispatch(actions.loadSourceText({ id: "base.js" }));
-        await waitForState(store, state => getSymbols(state, base));
+        await waitForState(
+          store,
+          state => getSymbols(state, base).functions.length > 0
+        );
 
         const baseSymbols = getSymbols(getState(), base);
         expect(baseSymbols).toMatchSnapshot();
@@ -284,4 +287,5 @@ describe("ast", () => {
       });
     });
   });
+
 });
