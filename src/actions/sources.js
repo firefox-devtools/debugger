@@ -342,8 +342,10 @@ export function togglePrettyPrint(sourceId: string) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     const source = getSource(getState(), sourceId).toJS();
 
-    if (!source || !isLoaded(source)) {
-      return {};
+    if (!source) return {};
+
+    if (!isLoaded(source)) {
+      await dispatch(loadSourceText(source));
     }
 
     assert(
