@@ -1,5 +1,3 @@
-
-
 "use strict";
 
 /* global ExtensionTestUtils, closeTab, openToolboxForTab, assertDebugLine,
@@ -31,17 +29,17 @@ async function installAndStartExtension() {
 
   let extension = ExtensionTestUtils.loadExtension({
     manifest: {
-      "content_scripts": [
+      content_scripts: [
         {
-          "js": ["content_script.js"],
-          "matches": ["http://example.com/*"],
-          "run_at": "document_start",
-        },
-      ],
+          js: ["content_script.js"],
+          matches: ["http://example.com/*"],
+          run_at: "document_start"
+        }
+      ]
     },
     files: {
-      "content_script.js": contentScript,
-    },
+      "content_script.js": contentScript
+    }
   });
 
   await extension.startup();
@@ -49,7 +47,7 @@ async function installAndStartExtension() {
   return extension;
 }
 
-add_task(async function () {
+add_task(async function() {
   const extension = await installAndStartExtension();
 
   let dbg = await initDebugger("doc-content-script-sources.html");
