@@ -144,6 +144,9 @@ function loadSourceMap(generatedSource) {
         }: Source)
     );
 
+    // TODO: check if this line is really needed, it introduces
+    // a lot of lag to the application.
+    await dispatch(loadSourceText(generatedSource));
     dispatch(newSources(originalSources));
   };
 }
