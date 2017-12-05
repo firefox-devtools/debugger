@@ -66,6 +66,7 @@ export default class ResultList extends Component<Props> {
     return (
       <ul
         className={classnames("result-list", size)}
+        id="result-list"
         role={role}
         aria-activedescendant={
           typeof items !== undefined && items.length > 0
