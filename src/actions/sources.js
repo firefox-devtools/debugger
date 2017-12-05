@@ -144,13 +144,10 @@ function loadSourceMap(generatedSource) {
         }: Source)
     );
 
-    dispatch({ type: "ADD_SOURCES", sources: originalSources });
-
+    // TODO: check if this line is really needed, it introduces
+    // a lot of lag to the application.
     await dispatch(loadSourceText(generatedSource));
-    originalSources.forEach(async source => {
-      await checkSelectedSource(getState(), dispatch, source);
-      checkPendingBreakpoints(getState(), dispatch, source.id);
-    });
+    dispatch(newSources(originalSources));
   };
 }
 
