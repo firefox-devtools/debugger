@@ -152,6 +152,7 @@ class SearchInput extends Component {
         className={classnames("search-field", size)}
         role="combobox"
         aria-haspopup="listbox"
+        aria-owns="result-list"
       >
         {this.renderSvg()}
         <input {...inputProps} />
