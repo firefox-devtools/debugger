@@ -9,6 +9,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { features } from "../../utils/prefs";
+import classnames from "classnames";
 
 import actions from "../../actions";
 import {
@@ -142,7 +143,9 @@ class SecondaryPanes extends Component<Props> {
 
     return {
       header: L10N.getStr("scopes.header"),
-      className: "scopes-pane",
+      className: classnames("scopes-pane", {
+        inactive: !this.props.pauseData
+      }),
       component: Scopes,
       opened: prefs.scopesVisible,
       onToggle: opened => {
@@ -198,7 +201,9 @@ class SecondaryPanes extends Component<Props> {
       },
       {
         header: L10N.getStr("callStack.header"),
-        className: "call-stack-pane",
+        className: classnames("call-stack-pane", {
+          inactive: !this.props.pauseData
+        }),
         component: Frames,
         opened: prefs.callStackVisible,
         onToggle: opened => {
