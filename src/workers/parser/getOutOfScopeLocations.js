@@ -8,6 +8,8 @@ import type { Source } from "debugger-html";
 import type { AstLocation, AstPosition } from "./types";
 
 import get from "lodash/fp/get";
+import findIndex from "lodash/findIndex";
+import findLastIndex from "lodash/findLastIndex";
 
 import { containsLocation, containsPosition } from "./utils/contains";
 
@@ -38,26 +40,62 @@ function getLocation(func) {
 }
 
 /**
- * Reduces an array of locations to remove items that are completely enclosed
- * by another location in the array.
+ * Find the nearest location containing the input position and
+ * return new locations without inner locations under that nearest location
+ *
+ * @param locations Notice! The locations MUST be sorted by `sortByStart`
+ *                  so that we can do linear time complexity operation.
  */
-function removeOverlaps(
-  locations: AstLocation | AstLocation[],
-  location: AstLocation
-) {
-  // support reducing without an initializing array
-  if (!Array.isArray(locations)) {
-    locations = [locations];
+function removeInnerLocations(locations: AstLocation[], position: AstPosition) {
+  // First, let's find the nearest position-enclosing function location,
+  // which is to find the last location enclosing the position.
+  const newLocs = locations.slice();
+  const parentIndex = findLastIndex(newLocs, loc =>
+    containsPosition(loc, position)
+  );
+  if (parentIndex < 0) {
+    return newLocs;
   }
 
-  const contains =
-    locations.filter(a => containsLocation(a, location)).length > 0;
+  // Second, from the nearest location, loop locations again, stop looping
+  // once seeing the 1st location not enclosed by the nearest location
+  // to find the last inner locations inside the nearest location.
+  const innerStartIndex = parentIndex + 1;
+  const parentLoc = newLocs[parentIndex];
+  const outerBoundaryIndex = findIndex(
+    newLocs,
+    loc => !containsLocation(parentLoc, loc),
+    innerStartIndex
+  );
+  const innerBoundaryIndex =
+    outerBoundaryIndex < 0 ? newLocs.length - 1 : outerBoundaryIndex - 1;
 
-  if (!contains) {
-    locations.push(location);
+  // Third, remove those inner functions
+  newLocs.splice(innerStartIndex, innerBoundaryIndex - parentIndex);
+  return newLocs;
+}
+
+/**
+ * Return an new locations array which excludes
+ * items that are completely enclosed by another location in the input locations
+ *
+ * @param locations Notice! The locations MUST be sorted by `sortByStart`
+ *                  so that we can do linear time complexity operation.
+ */
+function removeOverlaps(locations: AstLocation[]) {
+  if (locations.length == 0) {
+    return [];
   }
+  const firstParent = locations[0];
+  return locations.reduce(deduplicateNode, [firstParent]);
+}
 
-  return locations;
+function deduplicateNode(nodes, location) {
+  const parent = nodes[nodes.length - 1];
+  if (!containsLocation(parent, location)) {
+    nodes.push(location);
+  }
+  return nodes;
 }
 
 /**
@@ -83,13 +121,16 @@ function getOutOfScopeLocations(
 ): AstLocation[] {
   const { functions, comments } = findSymbols(source);
   const commentLocations = comments.map(c => c.location);
-
-  return functions
+  let locations = functions
     .map(getLocation)
     .concat(commentLocations)
-    .filter(loc => !containsPosition(loc, position))
-    .reduce(removeOverlaps, [])
     .sort(sortByStart);
+  // Must remove inner locations then filter, otherwise,
+  // we will mis-judge in-scope inner locations as out of scope.
+  locations = removeInnerLocations(locations, position).filter(
+    loc => !containsPosition(loc, position)
+  );
+  return removeOverlaps(locations);
 }
 
 export default getOutOfScopeLocations;

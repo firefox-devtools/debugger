@@ -47,3 +47,16 @@ globalAssignment = (function() {
 const globalIifeDeclaration = (function() {
   const x = 1;
 })();
+
+function parentFunc() {
+  let MAX = 3;
+  let nums = [0, 1, 2, 3];
+  let x = 1;
+  let y = nums.find(function(n) {
+    return n == x;
+  });
+  function innerFunc(a) {
+    return Math.max(a, MAX);
+  }
+  return innerFunc(y);
+}

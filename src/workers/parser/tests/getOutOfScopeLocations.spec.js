@@ -51,4 +51,12 @@ describe("Parser.getOutOfScopeLocations", () => {
       { end: { column: 15, line: 1 }, start: { column: 0, line: 1 } }
     ]);
   });
+
+  it("should not exclude in-scope inner locations", () => {
+    const actual = getOutOfScopeLocations(getSource("outOfScope"), {
+      line: 61,
+      column: 0
+    });
+    expect(formatLines(actual)).toMatchSnapshot();
+  });
 });
