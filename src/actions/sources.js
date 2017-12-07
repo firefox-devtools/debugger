@@ -41,8 +41,7 @@ import {
   removeSourcesFromTabList,
   removeSourceFromTabList,
   getTextSearchQuery,
-  getActiveSearch,
-  getGeneratedSource
+  getActiveSearch
 } from "../selectors";
 
 import type { Source, Location } from "../types";
@@ -71,16 +70,12 @@ function checkPendingBreakpoints(sourceId) {
       getState(),
       source.url
     );
+
     if (!pendingBreakpoints.size) {
       return;
     }
 
     await dispatch(loadSourceText(source));
-
-    if (isOriginalId(source.id)) {
-      const generatedSource = getGeneratedSource(getState(), source);
-      await dispatch(loadSourceText(generatedSource.toJS()));
-    }
 
     const pendingBreakpointsArray = pendingBreakpoints.valueSeq().toJS();
     for (const pendingBreakpoint of pendingBreakpointsArray) {

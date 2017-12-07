@@ -16,7 +16,7 @@ import type { ThunkArgs } from "../types";
 const requests = new Map();
 
 async function loadSource(source: Source, { sourceMaps, client }) {
-  if (sourceMaps.isOriginalId(source.id)) {
+  if (isOriginalId(source.id)) {
     return sourceMaps.getOriginalSourceText(source);
   }
 
