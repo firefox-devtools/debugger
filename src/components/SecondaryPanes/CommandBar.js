@@ -108,8 +108,7 @@ type Props = {
   pauseOnExceptions: (boolean, boolean) => void,
   shouldPauseOnExceptions: boolean,
   shouldIgnoreCaughtExceptions: boolean,
-  isWaitingOnBreak: boolean,
-  horizontal: boolean
+  isWaitingOnBreak: boolean
 };
 
 class CommandBar extends Component<Props> {
@@ -265,11 +264,7 @@ class CommandBar extends Component<Props> {
 
   render() {
     return (
-      <div
-        className={classnames("command-bar", {
-          vertical: !this.props.horizontal
-        })}
-      >
+      <div className="command-bar">
         {this.renderPauseButton()}
         {this.renderStepButtons()}
         {this.renderPauseOnExceptions()}

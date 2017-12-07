@@ -34,8 +34,7 @@ type Props = {
   jumpToMappedLocation: (SourceRecord: any) => void,
   recordCoverage: () => void,
   togglePaneCollapse: () => void,
-  endPanelCollapsed: boolean,
-  horizontal: boolean
+  endPanelCollapsed: boolean
 };
 
 class SourceFooter extends PureComponent<Props> {
@@ -129,15 +128,10 @@ class SourceFooter extends PureComponent<Props> {
   }
 
   renderToggleButton() {
-    if (this.props.horizontal) {
-      return;
-    }
-
     return (
       <PaneToggleButton
         position="end"
         collapsed={!this.props.endPanelCollapsed}
-        horizontal={this.props.horizontal}
         handleClick={this.props.togglePaneCollapse}
       />
     );
@@ -183,9 +177,9 @@ class SourceFooter extends PureComponent<Props> {
   }
 
   render() {
-    const { selectedSource, horizontal } = this.props;
+    const { selectedSource } = this.props;
 
-    if (!shouldShowFooter(selectedSource, horizontal)) {
+    if (!shouldShowFooter(selectedSource)) {
       return null;
     }
 

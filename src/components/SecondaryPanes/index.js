@@ -27,13 +27,11 @@ import { prefs } from "../../utils/prefs";
 
 import Breakpoints from "./Breakpoints";
 import Expressions from "./Expressions";
-import SplitBox from "devtools-splitter";
 import Frames from "./Frames";
 import EventListeners from "./EventListeners";
 import Workers from "./Workers";
 import Accordion from "../shared/Accordion";
-import CommandBar from "./CommandBar";
-import UtilsBar from "./UtilsBar";
+
 import renderBreakpointsDropdown from "./BreakpointsDropdown";
 
 import _chromeScopes from "./ChromeScopes";
@@ -68,7 +66,6 @@ function debugBtn(onClick, type, className, tooltip) {
 type Props = {
   evaluateExpressions: Function,
   pauseData: Object,
-  horizontal: boolean,
   breakpoints: Object,
   breakpointsDisabled: boolean,
   breakpointsLoading: boolean,
@@ -184,11 +181,10 @@ class SecondaryPanes extends Component<Props> {
     );
   }
 
-  getStartItems() {
-    const scopesContent: any = this.props.horizontal
-      ? this.getScopeItem()
-      : null;
+  getItems() {
     const items: Array<SecondaryPanesItems> = [
+      this.getWatchItem(),
+      this.getScopeItem(),
       {
         header: L10N.getStr("breakpoints.header"),
         className: "breakpoints-pane",
@@ -205,7 +201,7 @@ class SecondaryPanes extends Component<Props> {
           prefs.callStackVisible = opened;
         }
       },
-      scopesContent
+      this.getScopeItem()
     ];
 
     if (isEnabled("eventListeners")) {
@@ -224,71 +220,16 @@ class SecondaryPanes extends Component<Props> {
       });
     }
 
-    if (this.props.horizontal) {
-      items.unshift(this.getWatchItem());
-    }
-
-    return items.filter(item => item);
-  }
-
-  renderHorizontalLayout() {
-    return <Accordion items={this.getItems()} />;
-  }
-
-  getEndItems() {
-    const items: Array<SecondaryPanesItems> = [];
-
-    if (!this.props.horizontal) {
-      items.unshift(this.getScopeItem());
-    }
-
-    if (!this.props.horizontal) {
-      items.unshift(this.getWatchItem());
-    }
-
     return items;
-  }
-
-  getItems() {
-    return [...this.getStartItems(), ...this.getEndItems()];
-  }
-
-  renderVerticalLayout() {
-    return (
-      <SplitBox
-        initialSize="300px"
-        minSize={10}
-        maxSize="50%"
-        splitterSize={1}
-        startPanel={<Accordion items={this.getStartItems()} />}
-        endPanel={<Accordion items={this.getEndItems()} />}
-      />
-    );
-  }
-
-  renderUtilsBar() {
-    if (!features.shortcuts) {
-      return;
-    }
-
-    return (
-      <UtilsBar
-        horizontal={this.props.horizontal}
-        toggleShortcutsModal={this.props.toggleShortcutsModal}
-      />
-    );
   }
 
   render() {
     return (
       <div className="secondary-panes-wrapper">
-        <CommandBar horizontal={this.props.horizontal} />
-        <div className="secondary-panes">
-          {this.props.horizontal
-            ? this.renderHorizontalLayout()
-            : this.renderVerticalLayout()}
-        </div>
-        {this.renderUtilsBar()}
+        <Accordion
+          items={this.getItems()}
+          className="secondary-panes-wrapper-accordion"
+        />
       </div>
     );
   }
@@ -297,7 +238,6 @@ class SecondaryPanes extends Component<Props> {
 SecondaryPanes.propTypes = {
   evaluateExpressions: PropTypes.func.isRequired,
   pauseData: PropTypes.object,
-  horizontal: PropTypes.bool,
   breakpoints: PropTypes.object,
   breakpointsDisabled: PropTypes.bool,
   breakpointsLoading: PropTypes.bool,

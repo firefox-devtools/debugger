@@ -4,11 +4,10 @@
 
 .sources-panel {
   background-color: var(--theme-sidebar-background);
-  display: flex;
-  flex: 1;
   flex-direction: column;
   overflow: hidden;
-  position: relative;
+  grid-row: 2 / 3;
+  grid-column: 1 / 2;
 }
 
 .sources-panel * {

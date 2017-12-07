@@ -94,7 +94,6 @@ type Props = {
   togglePaneCollapse: () => void,
   toggleActiveSearch: (?string) => void,
   showSource: string => void,
-  horizontal: boolean,
   startPanelCollapsed: boolean,
   endPanelCollapsed: boolean,
   searchOn: boolean,
@@ -451,16 +450,11 @@ class SourceTabs extends PureComponent<Props, State> {
   }
 
   renderEndPanelToggleButton() {
-    if (!this.props.horizontal) {
-      return;
-    }
-
     return (
       <PaneToggleButton
         position="end"
         collapsed={!this.props.endPanelCollapsed}
         handleClick={this.props.togglePaneCollapse}
-        horizontal={this.props.horizontal}
       />
     );
   }

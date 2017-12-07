@@ -18,9 +18,10 @@ button:focus {
 }
 
 .debugger {
-  display: flex;
-  flex: 1;
+  display: grid;
   height: 100%;
+  grid-template-rows: auto 1fr auto auto;
+  grid-template-columns: auto 1fr auto auto;
 }
 
 .editor-pane {
@@ -33,7 +34,8 @@ button:focus {
 }
 
 .editor-container {
-  width: 100%;
+  grid-row: 2 / 3;
+  grid-column: 2 / 3;
 }
 
 .search-container {
@@ -83,4 +85,68 @@ button:focus {
 
 .min-width-0 {
   min-width: 0;
+}
+
+@media (max-width: 800px) {
+  .rszr-right {
+    display: none;
+  }
+
+  .rszr-bottom {
+    display: block;
+    grid-column: -1 / 1;
+    grid-row: 3 / -1;
+    transform: translateY(calc(-1 * var(--resizer-width)));
+  }
+
+  .rszr-bottom::before {
+    content: "";
+    border: var(--resizer-width) solid transparent;
+    cursor: row-resize;
+    display: block;
+  }
+
+  .toolbar {
+    grid-column: 1 / -1;
+    grid-row: 3 / 4;
+    border-top: var(--border);
+  }
+
+  main {
+    border-inline-end-width: 0;
+  }
+
+  .debugging {
+    grid-column: 1 / -1;
+    grid-row: 4 / 5;
+  }
+
+  .watch {
+    grid-column: 2 / 3;
+    grid-row: 1 / 3;
+  }
+
+  .breakpoints {
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+    border-inline-end: var(--border);
+  }
+
+  .callstack {
+    grid-column: 1 / 2;
+    grid-row: 3 / 5;
+    border-block-end-width: 0;
+    border-inline-end: var(--border);
+  }
+
+  .scopes {
+    grid-column: 2 / 3;
+    grid-row: 3 / 5;
+  }
+
+  .rszr-debugging {
+    grid-column: 1 / 2;
+    grid-row: 1 / -1;
+    display: flex;
+  }
 }

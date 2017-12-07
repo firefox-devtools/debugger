@@ -8,6 +8,8 @@
   height: 30px;
   display: flex;
   align-items: flex-end;
+  grid-row: 1 / 2;
+  grid-column: 2 / 3;
 }
 
 .source-header * {

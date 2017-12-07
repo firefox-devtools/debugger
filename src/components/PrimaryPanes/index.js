@@ -28,7 +28,6 @@ type Props = {
   setPrimaryPaneTab: string => void,
   sources: SourcesMap,
   selectLocation: Object => void,
-  horizontal: boolean,
   setActiveSearch: string => void,
   closeActiveSearch: () => void,
   sourceSearchOn: boolean
@@ -59,11 +58,10 @@ class PrimaryPanes extends Component<Props> {
     }
 
     const sources = formatKeyShortcut(L10N.getStr("sources.header"));
-
     const outline = formatKeyShortcut(L10N.getStr("outline.header"));
 
     return [
-      <div
+      <span
         className={classnames("tab sources-tab", {
           active: this.props.selectedTab === "sources"
         })}
@@ -71,8 +69,8 @@ class PrimaryPanes extends Component<Props> {
         key="sources-tab"
       >
         {sources}
-      </div>,
-      <div
+      </span>,
+      <span
         className={classnames("tab outline-tab", {
           active: this.props.selectedTab === "outline"
         })}
@@ -80,7 +78,7 @@ class PrimaryPanes extends Component<Props> {
         key="outline-tab"
       >
         {outline}
-      </div>
+      </span>
     ];
   }
 
@@ -91,22 +89,20 @@ class PrimaryPanes extends Component<Props> {
   }
 
   renderShortcut() {
-    if (this.props.horizontal) {
-      const onClick = () => {
-        if (this.props.sourceSearchOn) {
-          return this.props.closeActiveSearch();
-        }
-        this.props.setActiveSearch("source");
-      };
-      return (
-        <span className="sources-header-info" dir="ltr" onClick={onClick}>
-          {L10N.getFormatStr(
-            "sources.search",
-            formatKeyShortcut(L10N.getStr("sources.search.key2"))
-          )}
-        </span>
-      );
-    }
+    const onClick = () => {
+      if (this.props.sourceSearchOn) {
+        return this.props.closeActiveSearch();
+      }
+      this.props.setActiveSearch("source");
+    };
+    return (
+      <span className="sources-header-info" dir="ltr" onClick={onClick}>
+        {L10N.getFormatStr(
+          "sources.search",
+          formatKeyShortcut(L10N.getStr("sources.search.key2"))
+        )}
+      </span>
+    );
   }
 
   renderOutline() {

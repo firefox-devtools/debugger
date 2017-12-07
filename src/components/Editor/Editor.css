@@ -39,11 +39,8 @@
  * BUG https://github.com/devtools-html/debugger.html/issues/63
  */
 .editor-wrapper {
-  position: absolute;
-  height: calc(100% - var(--editor-header-height));
-  width: calc(100% - 1px);
-  top: var(--editor-header-height);
-  left: 0px;
+  grid-row: 2 / 3;
+  grid-column: 2 / 3;
   --editor-footer-height: 24px;
 }
 

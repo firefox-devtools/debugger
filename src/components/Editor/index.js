@@ -76,7 +76,6 @@ type Props = {
   searchOn: boolean,
   coverageOn: boolean,
   selectedFrame: Object,
-  horizontal: boolean,
   startPanelSize: number,
   endPanelSize: number,
   conditionalPanelLine: number,
@@ -508,28 +507,6 @@ class Editor extends PureComponent<Props, State> {
     resetLineNumberFormat(editor);
   }
 
-  getInlineEditorStyles() {
-    const { selectedSource, horizontal, searchOn } = this.props;
-
-    const subtractions = [];
-
-    if (shouldShowFooter(selectedSource, horizontal)) {
-      subtractions.push(cssVars.footerHeight);
-    }
-
-    if (searchOn) {
-      subtractions.push(cssVars.searchbarHeight);
-      subtractions.push(cssVars.secondSearchbarHeight);
-    }
-
-    return {
-      height:
-        subtractions.length === 0
-          ? "100%"
-          : `calc(100% - ${subtractions.join(" - ")})`
-    };
-  }
-
   renderHitCounts() {
     const { hitCount, selectedSource } = this.props;
 
@@ -554,7 +531,7 @@ class Editor extends PureComponent<Props, State> {
   }
 
   renderItems() {
-    const { selectedSource, horizontal } = this.props;
+    const { selectedSource } = this.props;
     const { editor } = this.state;
 
     if (!editor || !selectedSource || !isLoaded(selectedSource.toJS())) {
@@ -567,7 +544,7 @@ class Editor extends PureComponent<Props, State> {
         <Breakpoints editor={editor} />
         <CallSites editor={editor} />
         <Preview editor={editor} />;
-        <Footer editor={editor} horizontal={horizontal} />
+        <Footer editor={editor} />
         <HighlightLines editor={editor} />
         <EditorMenu editor={editor} />
         <GutterMenu editor={editor} />
@@ -597,10 +574,7 @@ class Editor extends PureComponent<Props, State> {
         })}
       >
         {this.renderSearchBar()}
-        <div
-          className="editor-mount devtools-monospace"
-          style={this.getInlineEditorStyles()}
-        />
+        <div className="editor-mount devtools-monospace" />
         {this.renderItems()}
       </div>
     );
