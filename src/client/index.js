@@ -45,7 +45,13 @@ async function onConnect(
   });
 
   bootstrapWorkers();
-  const { bpClients } = await client.onConnect(connection, actions);
+  const { bpClients } = await client
+    .onConnect(connection, actions)
+    .then(clients => clients)
+    .catch(err => {
+      console.log(err);
+      return {};
+    });
   await loadFromPrefs(actions);
 
   window.getGlobalsForTesting = () => {
