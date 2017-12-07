@@ -2,26 +2,34 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
+// @flow
+
 import { getSelectedLocation } from "../reducers/sources";
 import { getSelectedFrame } from "../reducers/pause";
 import { isOriginalId } from "devtools-source-map";
+import { createSelector } from "reselect";
 
-function getLocation(frame, isGeneratedSource) {
-  return isGeneratedSource
+function getLocation(frame, location) {
+  return !isOriginalId(location.sourceId)
     ? frame.generatedLocation || frame.location
     : frame.location;
 }
 
-export default function getVisibleSelectedFrame(state: OuterState) {
-  const selectedLocation = getSelectedLocation(state);
-  const isGeneratedSource = !isOriginalId(selectedLocation.sourceId);
-  const selectedFrame = getSelectedFrame(state);
+const getVisibleSelectedFrame = createSelector(
+  getSelectedLocation,
+  getSelectedFrame,
+  (selectedLocation, selectedFrame) => {
+    if (!selectedFrame || !selectedLocation) {
+      return null;
+    }
 
-  if (!selectedFrame) {
-    return;
+    const { id } = selectedFrame;
+
+    return {
+      id,
+      location: getLocation(selectedFrame, selectedLocation)
+    };
   }
+);
 
-  return {
-    location: getLocation(selectedFrame, isGeneratedSource)
-  };
-}
+export default getVisibleSelectedFrame;

@@ -84,26 +84,25 @@ function createEditor() {
 }
 
 function toEditorLine(sourceId: string, lineOrOffset: number): ?number {
-  return isWasm(sourceId)
-    ? wasmOffsetToLine(sourceId, lineOrOffset)
-    : lineOrOffset - 1;
+  if (isWasm(sourceId)) {
+    return wasmOffsetToLine(sourceId, lineOrOffset);
+  }
+
+  return !lineOrOffset ? 1 : lineOrOffset - 1;
 }
 
-function toEditorPosition(
-  sourceId: string,
-  location: AstPosition
-): EditorPosition {
+function toEditorPosition(location: AstPosition): EditorPosition {
   return {
-    line: toEditorLine(sourceId, location.line),
-    column: isWasm(sourceId) ? 0 : location.column
+    line: toEditorLine(location.sourceId, location.line),
+    column: isWasm(location.sourceId) || !location.column ? 0 : location.column
   };
 }
 
 function toEditorRange(sourceId: string, location: AstLocation): EditorRange {
   const { start, end } = location;
   return {
-    start: toEditorPosition(sourceId, start),
-    end: toEditorPosition(sourceId, end)
+    start: toEditorPosition({ ...start, sourceId }),
+    end: toEditorPosition({ ...end, sourceId })
   };
 }
 
