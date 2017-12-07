@@ -22,6 +22,7 @@ add_task(async function() {
   invokeInTab("main");
   await waitForPaused(dbg);
   await waitForLoadedSource(dbg, "simple1");
+  toggleScopes(dbg);
 
   assertPausedLocation(dbg);
   is(countSources(dbg), 5, "5 sources are loaded.");
