@@ -26,12 +26,12 @@ function onLoadObjectProperties(dbg) {
 add_task(async function() {
   const dbg = await initDebugger("doc-script-mutate.html");
 
-  toggleScopes(dbg);
-
   let onPaused = waitForPaused(dbg);
   invokeInTab("mutate");
   await onPaused;
   await waitForLoadedSource(dbg, "script-mutate");
+
+  toggleScopes(dbg);
 
   is(
     getScopeNodeLabel(dbg, 2),

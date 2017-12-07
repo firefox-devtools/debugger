@@ -28,6 +28,8 @@ add_task(async function() {
   await waitForMappedScopes(dbg);
   toggleScopes(dbg);
 
+  toggleScopes(dbg);
+
   is(getScopeNodeLabel(dbg, 1), "sum", "check scope label");
   is(getScopeNodeLabel(dbg, 2), "<this>", "check scope label");
   is(getScopeNodeLabel(dbg, 3), "arguments", "check scope label");

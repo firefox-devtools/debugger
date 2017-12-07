@@ -142,7 +142,7 @@ class SecondaryPanes extends Component<Props> {
       header: L10N.getStr("scopes.header"),
       className: "scopes-pane",
       component: Scopes,
-      opened: prefs.scopesVisible,
+      opened: true,
       onToggle: opened => {
         prefs.scopesVisible = opened;
       },
@@ -183,9 +183,10 @@ class SecondaryPanes extends Component<Props> {
   }
 
   getStartItems() {
-    const scopesContent: any = this.props.horizontal
-      ? this.getScopeItem()
-      : null;
+    const scopesContent: any =
+      this.props.horizontal && this.props.pauseData
+        ? this.getScopeItem()
+        : null;
     const items: Array<SecondaryPanesItems> = [
       {
         header: L10N.getStr("breakpoints.header"),
@@ -194,17 +195,20 @@ class SecondaryPanes extends Component<Props> {
         component: Breakpoints,
         opened: true
       },
-      {
+      scopesContent
+    ];
+
+    if (this.props.pauseData) {
+      items.push({
         header: L10N.getStr("callStack.header"),
         className: "call-stack-pane",
         component: Frames,
-        opened: prefs.callStackVisible,
+        opened: true,
         onToggle: opened => {
           prefs.callStackVisible = opened;
         }
-      },
-      scopesContent
-    ];
+      });
+    }
 
     if (isEnabled("eventListeners")) {
       items.push({
