@@ -36,16 +36,23 @@
   background-color: var(--theme-selection-background);
 }
 
+.close-btn:focus img.close {
+  background-color: white;
+}
+
 .close-btn.big {
   width: 16px;
   height: 16px;
 }
 
-.close-btn.big img {
-    padding: 5px;
-}
-
 .close-btn.big .close {
   width: 9px;
   height: 9px;
+}
+
+img.close::before {
+  width: 100%;
+  height: 100%;
+  padding: 5px;
+
 }
