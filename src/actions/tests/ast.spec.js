@@ -151,12 +151,14 @@ describe("ast", () => {
 
     describe("getOutOfScopeLocations", () => {
       it("with selected line", async () => {
-        const { dispatch, getState } = createStore(threadClient);
+        const store = createStore(threadClient);
+        const { dispatch, getState } = store;
         const source = makeSource("scopes.js");
         await dispatch(actions.newSource(source));
         await dispatch(
           actions.selectLocation({ sourceId: "scopes.js", line: 5 })
         );
+        await waitForState(store, state => getOutOfScopeLocations(state));
 
         const locations = getOutOfScopeLocations(getState());
         const lines = getInScopeLines(getState());
@@ -225,12 +227,15 @@ describe("ast", () => {
 
     describe("getOutOfScopeLocations", () => {
       it("with selected line", async () => {
-        const { dispatch, getState } = createStore(threadClient);
+        const store = createStore(threadClient);
+        const { dispatch, getState } = store;
         const source = makeSource("scopes.js");
         await dispatch(actions.newSource(source));
         await dispatch(
           actions.selectLocation({ sourceId: "scopes.js", line: 5 })
         );
+
+        await waitForState(store, state => getOutOfScopeLocations(state));
 
         const locations = getOutOfScopeLocations(getState());
         const lines = getInScopeLines(getState());
@@ -287,5 +292,4 @@ describe("ast", () => {
       });
     });
   });
-
 });

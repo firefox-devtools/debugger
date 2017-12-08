@@ -4,9 +4,10 @@
 
 // @flow
 
+import { isOriginalId } from "devtools-source-map";
 import { PROMISE } from "../utils/middleware/promise";
 import { setSymbols } from "../ast";
-import { getSource } from "../../selectors";
+import { getSource, getGeneratedSource } from "../../selectors";
 import { setSource } from "../../workers/parser";
 import { isLoading, isLoaded } from "../../utils/source";
 import type { Source } from "../../types";
@@ -15,14 +16,12 @@ import type { ThunkArgs } from "../types";
 const requests = new Map();
 
 async function loadSource(source: Source, { sourceMaps, client }) {
-  if (sourceMaps.isOriginalId(source.id)) {
-    return await sourceMaps.getOriginalSourceText(source);
+  if (isOriginalId(source.id)) {
+    return sourceMaps.getOriginalSourceText(source);
   }
 
   const response = await client.sourceContents(source.id);
-
   return {
-    id: source.id,
     text: response.source,
     contentType: response.contentType || "text/javascript"
   };
@@ -66,6 +65,11 @@ export function loadSourceText(source: Source) {
     const newSource = getSource(getState(), source.id).toJS();
     if (newSource.isWasm) {
       return;
+    }
+
+    if (isOriginalId(newSource.id)) {
+      const generatedSource = getGeneratedSource(getState(), source);
+      await dispatch(loadSourceText(generatedSource.toJS()));
     }
 
     await setSource(newSource);

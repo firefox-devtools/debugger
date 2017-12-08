@@ -2,7 +2,8 @@ import {
   actions,
   selectors,
   createStore,
-  makeSource
+  makeSource,
+  waitForState
 } from "../../utils/test-head";
 const {
   getSource,
@@ -42,7 +43,8 @@ describe("sources", () => {
   it("should select a source", async () => {
     // Note that we pass an empty client in because the action checks
     // if it exists.
-    const { dispatch, getState } = createStore(threadClient);
+    const store = createStore(threadClient);
+    const { dispatch, getState } = store;
 
     await dispatch(actions.newSource(makeSource("foo1")));
     await dispatch(
@@ -55,6 +57,7 @@ describe("sources", () => {
     const source = getSource(getState(), selectedSource.get("id"));
     expect(source.get("id")).toEqual("foo1");
 
+    await waitForState(store, state => getOutOfScopeLocations(state));
     const locations = getOutOfScopeLocations(getState());
     expect(locations.length).toEqual(1);
   });
