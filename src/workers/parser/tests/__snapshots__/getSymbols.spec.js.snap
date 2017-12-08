@@ -30,6 +30,12 @@ memberExpressions:
 [(21, 4), (21, 17)] [(21, 0), (21, 17)] Obj.otherProperty otherProperty
 [(25, 9), (25, 16)] [(25, 4), (25, 16)] this.awesome awesome
 [(29, 12), (29, 15)] [(29, 4), (29, 15)] console.log log
+[(33, 19), (33, 23)] [(33, 0), (33, 23)] this.props.history.push push
+[(33, 11), (33, 18)] [(33, 0), (33, 18)] this.props.history history
+[(33, 5), (33, 10)] [(33, 0), (33, 10)] this.props props
+[(33, 48), (33, 50)] [(33, 33), (33, 50)] this.props.dac.id id
+[(33, 44), (33, 47)] [(33, 33), (33, 47)] this.props.dac dac
+[(33, 38), (33, 43)] [(33, 33), (33, 43)] this.props props
 
 objectProperties:
 [(11, 2), (11, 5)]  Obj.foo foo
@@ -72,6 +78,14 @@ identifiers:
 [(29, 4), (29, 11)]  console console
 [(29, 12), (29, 15)]  log log
 [(29, 19), (29, 25)]  person person
+[(33, 0), (33, 4)] [(33, 0), (33, 4)] this this
+[(33, 5), (33, 10)]  props props
+[(33, 11), (33, 18)]  history history
+[(33, 19), (33, 23)]  push push
+[(33, 33), (33, 37)] [(33, 33), (33, 37)] this this
+[(33, 38), (33, 43)]  props props
+[(33, 44), (33, 47)]  dac dac
+[(33, 48), (33, 50)]  id id
 
 classes:
 [(23, 0), (31, 1)]   Ultra
