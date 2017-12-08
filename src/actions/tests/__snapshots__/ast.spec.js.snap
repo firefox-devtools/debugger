@@ -40,78 +40,6 @@ Array [
 ]
 `;
 
-exports[`ast not prettyPrinted setPreview member expression 1`] = `
-Object {
-  "cursorPos": undefined,
-  "expression": "this.bazz",
-  "extra": Object {
-    "immutable": Object {
-      "entries": null,
-      "isImmutable": undefined,
-      "type": null,
-    },
-    "react": Object {
-      "displayName": undefined,
-    },
-  },
-  "location": Object {
-    "end": Object {
-      "column": 37,
-      "line": 1,
-    },
-    "start": Object {
-      "column": 33,
-      "line": 1,
-    },
-  },
-  "result": Object {
-    "actor": "bazz",
-    "preview": Object {},
-  },
-  "tokenPos": Object {
-    "column": 34,
-    "line": 1,
-  },
-  "updating": false,
-}
-`;
-
-exports[`ast not prettyPrinted setPreview this 1`] = `
-Object {
-  "cursorPos": undefined,
-  "expression": "this",
-  "extra": Object {
-    "immutable": Object {
-      "entries": null,
-      "isImmutable": undefined,
-      "type": null,
-    },
-    "react": Object {
-      "displayName": undefined,
-    },
-  },
-  "location": Object {
-    "end": Object {
-      "column": 32,
-      "line": 1,
-    },
-    "start": Object {
-      "column": 28,
-      "line": 1,
-    },
-  },
-  "result": Object {
-    "actor": "this",
-    "preview": Object {},
-  },
-  "tokenPos": Object {
-    "column": 30,
-    "line": 1,
-  },
-  "updating": false,
-}
-`;
-
 exports[`ast prettyPrinted getOutOfScopeLocations with selected line 1`] = `
 Array [
   Object {
@@ -151,10 +79,6 @@ Array [
   12,
 ]
 `;
-
-exports[`ast prettyPrinted setPreview member expression 1`] = `null`;
-
-exports[`ast prettyPrinted setPreview this 1`] = `null`;
 
 exports[`ast setEmptyLines scopes 1`] = `
 Array [

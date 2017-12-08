@@ -11,11 +11,10 @@ import Popup from "./Popup";
 import {
   getPreview,
   getSelectedSource,
-  getInScopeLines,
   isSelectedFrameVisible
 } from "../../../selectors";
 import actions from "../../../actions";
-import { updatePreview, toEditorRange } from "../../../utils/editor";
+import { toEditorRange } from "../../../utils/editor";
 
 import type { SelectedLocation, SourceRecord } from "../../../reducers/types";
 import type { Preview as PreviewType } from "../../../reducers/ast";
@@ -30,7 +29,8 @@ type Props = {
   selectedFrame: any,
   clearPreview: () => void,
   preview: PreviewType,
-  selectedFrameVisible: boolean
+  selectedFrameVisible: boolean,
+  updatePreview: any => void
 };
 
 class Preview extends PureComponent {
@@ -70,7 +70,7 @@ class Preview extends PureComponent {
   onMouseOver(e) {
     const { target } = e;
     if (this.props.selectedFrameVisible) {
-      updatePreview(target, this.props.editor, this.props);
+      this.props.updatePreview(target, this.props.editor);
     }
   }
 
@@ -126,7 +126,7 @@ class Preview extends PureComponent {
 const {
   addExpression,
   loadObjectProperties,
-  setPreview,
+  updatePreview,
   clearPreview
 } = actions;
 
@@ -134,13 +134,12 @@ export default connect(
   state => ({
     preview: getPreview(state),
     selectedSource: getSelectedSource(state),
-    linesInScope: getInScopeLines(state),
     selectedFrameVisible: isSelectedFrameVisible(state)
   }),
   {
     addExpression,
     loadObjectProperties,
-    setPreview,
+    updatePreview,
     clearPreview
   }
 )(Preview);

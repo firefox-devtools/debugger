@@ -69,6 +69,7 @@ describe("ast", () => {
       expect(emptyLines).toMatchSnapshot();
     });
   });
+
   describe("setSourceMetaData", () => {
     it("should detect react components", async () => {
       const store = createStore(threadClient);
@@ -180,40 +181,6 @@ describe("ast", () => {
         expect(lines).toEqual([1]);
       });
     });
-
-    describe("setPreview", () => {
-      let dispatch = undefined;
-      let getState = undefined;
-
-      beforeEach(async () => {
-        const store = createStore(threadClient);
-        dispatch = store.dispatch;
-        getState = store.getState;
-
-        const foo = makeSource("foo.js");
-        await dispatch(actions.newSource(foo));
-        await dispatch(actions.loadSourceText({ id: "foo.js" }));
-        await dispatch(actions.selectLocation({ sourceId: "foo.js" }));
-        await dispatch(
-          actions.paused({
-            why: { type: "resumeLimit" },
-            frames: [{ id: "frame1", location: { sourceId: "foo.js" } }]
-          })
-        );
-      });
-
-      it("member expression", async () => {
-        await dispatch(actions.setPreview("bazz", { line: 1, column: 34 }));
-        const preview = selectors.getPreview(getState());
-        expect(preview).toMatchSnapshot();
-      });
-
-      it("this", async () => {
-        await dispatch(actions.setPreview("this", { line: 1, column: 30 }));
-        const preview = selectors.getPreview(getState());
-        expect(preview).toMatchSnapshot();
-      });
-    });
   });
 
   describe("prettyPrinted", () => {
@@ -255,40 +222,6 @@ describe("ast", () => {
 
         expect(locations).toEqual(null);
         expect(lines).toEqual([1, 2, 3]);
-      });
-    });
-
-    describe("setPreview", () => {
-      let dispatch = undefined;
-      let getState = undefined;
-
-      beforeEach(async () => {
-        const store = createStore(threadClient);
-        dispatch = store.dispatch;
-        getState = store.getState;
-
-        const foo = makeSource("foo.js");
-        await dispatch(actions.newSource(foo));
-        await dispatch(actions.loadSourceText({ id: "foo.js" }));
-        await dispatch(actions.selectLocation({ sourceId: "foo.js" }));
-        await dispatch(
-          actions.paused({
-            why: { type: "resumeLimit" },
-            frames: [{ id: "frame1", location: { sourceId: "foo.js" } }]
-          })
-        );
-      });
-
-      it("member expression", async () => {
-        await dispatch(actions.setPreview("bazz", { line: 1, column: 34 }));
-        const preview = selectors.getPreview(getState());
-        expect(preview).toMatchSnapshot();
-      });
-
-      it("this", async () => {
-        await dispatch(actions.setPreview("this", { line: 1, column: 30 }));
-        const preview = selectors.getPreview(getState());
-        expect(preview).toMatchSnapshot();
       });
     });
   });
