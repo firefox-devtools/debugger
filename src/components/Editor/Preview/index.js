@@ -11,7 +11,6 @@ import Popup from "./Popup";
 import {
   getPreview,
   getSelectedSource,
-  getInScopeLines,
   isSelectedFrameVisible
 } from "../../../selectors";
 import actions from "../../../actions";
