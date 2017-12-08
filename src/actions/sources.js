@@ -237,11 +237,7 @@ export function selectLocation(location: Location, tabIndex: string = "") {
         await dispatch(setOutOfScopeLocations());
         const src = getSource(getState(), location.sourceId).toJS();
         const { autoPrettyPrint } = prefs;
-        if (
-          autoPrettyPrint &&
-          shouldPrettyPrint(src) &&
-          isMinified(src.id, src.text)
-        ) {
+        if (autoPrettyPrint && shouldPrettyPrint(src) && isMinified(src)) {
           await dispatch(togglePrettyPrint(src.id));
         }
       })()
