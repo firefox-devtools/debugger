@@ -4,7 +4,7 @@
 
 // @flow
 
-import parseScriptTags from "parse-script-tags";
+import parseScriptTags from "parse-script-tags/customParse";
 import * as babylon from "babylon";
 import traverse from "babel-traverse";
 import isEmpty from "lodash/isEmpty";
