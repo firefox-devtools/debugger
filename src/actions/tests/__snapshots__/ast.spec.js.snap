@@ -44,7 +44,16 @@ exports[`ast not prettyPrinted setPreview member expression 1`] = `
 Object {
   "cursorPos": undefined,
   "expression": "this.bazz",
-  "extra": undefined,
+  "extra": Object {
+    "immutable": Object {
+      "entries": null,
+      "isImmutable": undefined,
+      "type": null,
+    },
+    "react": Object {
+      "displayName": undefined,
+    },
+  },
   "location": Object {
     "end": Object {
       "column": 37,
@@ -71,7 +80,16 @@ exports[`ast not prettyPrinted setPreview this 1`] = `
 Object {
   "cursorPos": undefined,
   "expression": "this",
-  "extra": undefined,
+  "extra": Object {
+    "immutable": Object {
+      "entries": null,
+      "isImmutable": undefined,
+      "type": null,
+    },
+    "react": Object {
+      "displayName": undefined,
+    },
+  },
   "location": Object {
     "end": Object {
       "column": 32,

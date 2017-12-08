@@ -245,7 +245,7 @@ type ASTAction =
         location: AstLocation,
         tokenPos: any,
         cursorPos: any,
-        extra: string
+        extra: any
       }
     }
   | {
