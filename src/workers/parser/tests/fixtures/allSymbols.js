@@ -29,3 +29,5 @@ class Ultra {
     console.log(`${person} is Awesome!`);
   }
 }
+
+this.props.history.push(`/dacs/${this.props.dac.id}`);
