@@ -41,7 +41,7 @@ type Props = {
 class SourceFooter extends PureComponent<Props> {
   prettyPrintButton() {
     const { selectedSource, togglePrettyPrint } = this.props;
-    const sourceLoaded = selectedSource && isLoaded(selectedSource.toJS());
+    const sourceLoaded = selectedSource && isLoaded(selectedSource);
 
     if (!shouldShowPrettyPrint(selectedSource)) {
       return;
@@ -55,7 +55,7 @@ class SourceFooter extends PureComponent<Props> {
         onClick={() => togglePrettyPrint(selectedSource.get("id"))}
         className={classnames("action", type, {
           active: sourceLoaded,
-          pretty: isPretty(selectedSource.toJS())
+          pretty: isPretty(selectedSource)
         })}
         key={type}
         title={tooltip}
@@ -68,7 +68,7 @@ class SourceFooter extends PureComponent<Props> {
 
   blackBoxButton() {
     const { selectedSource, toggleBlackBox } = this.props;
-    const sourceLoaded = selectedSource && isLoaded(selectedSource.toJS());
+    const sourceLoaded = selectedSource && isLoaded(selectedSource);
 
     if (!isEnabled("blackbox") || !sourceLoaded) {
       return;

@@ -29,7 +29,7 @@ function mapScopes(scopes: Scope, frame: Frame) {
           return sourceMaps.getLocationScopes(location, astScopes);
         },
         async getOriginalSourceScopes(location) {
-          const source = getSource(getState(), location.sourceId).toJS();
+          const source = getSource(getState(), location.sourceId);
           await dispatch(loadSourceText(source));
           return getScopes(location);
         }

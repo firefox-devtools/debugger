@@ -250,7 +250,7 @@ class Editor extends PureComponent<Props, State> {
     // Only update and jump around in real source texts. This will
     // keep the jump state around until the real source text is
     // loaded.
-    if (selectedSource && isLoaded(selectedSource.toJS())) {
+    if (selectedSource && isLoaded(selectedSource)) {
       this.highlightLine();
     }
   }
@@ -482,7 +482,7 @@ class Editor extends PureComponent<Props, State> {
       return this.showMessage("");
     }
 
-    if (!isLoaded(selectedSource.toJS())) {
+    if (!isLoaded(selectedSource)) {
       return showLoading(this.state.editor);
     }
 
@@ -535,7 +535,7 @@ class Editor extends PureComponent<Props, State> {
 
     if (
       !selectedSource ||
-      !isLoaded(selectedSource.toJS()) ||
+      !isLoaded(selectedSource) ||
       !hitCount ||
       !this.state.editor
     ) {
@@ -557,7 +557,7 @@ class Editor extends PureComponent<Props, State> {
     const { selectedSource, horizontal } = this.props;
     const { editor } = this.state;
 
-    if (!editor || !selectedSource || !isLoaded(selectedSource.toJS())) {
+    if (!editor || !selectedSource || !isLoaded(selectedSource)) {
       return null;
     }
     return (

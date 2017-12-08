@@ -64,17 +64,18 @@ function checkSelectedSource(source) {
 function checkPendingBreakpoints(sourceId) {
   return async ({ dispatch, getState }: ThunkArgs) => {
     // source may have been modified by selectLocation
-    const source = getSource(getState(), sourceId).toJS();
+    const source = getSource(getState(), sourceId);
 
     const pendingBreakpoints = getPendingBreakpointsForSource(
       getState(),
-      source.url
+      source.get("url")
     );
 
     if (!pendingBreakpoints.size) {
       return;
     }
 
+    // load the source text if there is a pending breakpoint for it
     await dispatch(loadSourceText(source));
 
     const pendingBreakpointsArray = pendingBreakpoints.valueSeq().toJS();
@@ -164,7 +165,8 @@ function loadSourceMap(generatedSource) {
 
     // TODO: check if this line is really needed, it introduces
     // a lot of lag to the application.
-    await dispatch(loadSourceText(generatedSource));
+    const generatedSourceRecord = getSource(getState(), generatedSource.id);
+    await dispatch(loadSourceText(generatedSourceRecord));
     dispatch(newSources(originalSources));
   };
 }
@@ -214,9 +216,9 @@ export function selectSourceURL(
  * @static
  */
 export function selectSource(sourceId: string, tabIndex: string = "") {
-  return ({ dispatch }: ThunkArgs) => {
+  return async ({ dispatch }: ThunkArgs) => {
     const location = createLocation({ sourceId });
-    return dispatch(selectLocation(location, tabIndex));
+    return await dispatch(selectLocation(location, tabIndex));
   };
 }
 
@@ -251,12 +253,12 @@ export function selectLocation(location: Location, tabIndex: string = "") {
       tabIndex,
       location,
       [PROMISE]: (async () => {
-        await dispatch(loadSourceText(source.toJS()));
+        await dispatch(loadSourceText(source));
         dispatch(setOutOfScopeLocations());
-        const src = getSource(getState(), location.sourceId).toJS();
+        const src = getSource(getState(), location.sourceId);
         const { autoPrettyPrint } = prefs;
         if (autoPrettyPrint && shouldPrettyPrint(src) && isMinified(src)) {
-          await dispatch(togglePrettyPrint(src.id));
+          await dispatch(togglePrettyPrint(src.get("id")));
         }
       })()
     });
@@ -359,7 +361,7 @@ export function closeTabs(urls: string[]) {
  */
 export function togglePrettyPrint(sourceId: string) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
-    const source = getSource(getState(), sourceId).toJS();
+    const source = getSource(getState(), sourceId);
 
     if (!source) {
       return {};
@@ -375,7 +377,7 @@ export function togglePrettyPrint(sourceId: string) {
     );
 
     const selectedLocation = getSelectedLocation(getState());
-    const url = getPrettySourceURL(source.url);
+    const url = getPrettySourceURL(source.get("url"));
     const prettySource = getSourceByURL(getState(), url);
 
     const options = {};
@@ -422,8 +424,7 @@ export function loadAllSources() {
   return async ({ dispatch, getState }: ThunkArgs) => {
     const sources = getSources(getState());
     const query = getTextSearchQuery(getState());
-    for (const [, src] of sources) {
-      const source = src.toJS();
+    for (const [, source] of sources) {
       if (isThirdParty(source)) {
         continue;
       }
@@ -432,7 +433,7 @@ export function loadAllSources() {
       // If there is a current search query we search
       // each of the source texts as they get loaded
       if (query) {
-        await dispatch(searchSource(source.id, query));
+        await dispatch(searchSource(source.get("id"), query));
       }
     }
   };

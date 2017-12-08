@@ -29,8 +29,8 @@ type InvertedMapping = {
   name?: string
 };
 
-function prettyPrint({ url, indent, source }) {
-  const prettified = prettyFast(source, {
+function prettyPrint({ url, indent, sourceText }) {
+  const prettified = prettyFast(sourceText, {
     url: url,
     indent: " ".repeat(indent)
   });

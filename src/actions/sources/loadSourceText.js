@@ -10,18 +10,21 @@ import { setSymbols } from "../ast";
 import { getSource, getGeneratedSource } from "../../selectors";
 import { setSource } from "../../workers/parser";
 import { isLoading, isLoaded } from "../../utils/source";
-import type { Source } from "../../types";
 import type { ThunkArgs } from "../types";
+import type { SourceRecord } from "../../reducers/types";
 
 const requests = new Map();
 
-async function loadSource(source: Source, { sourceMaps, client }) {
-  if (isOriginalId(source.id)) {
-    return sourceMaps.getOriginalSourceText(source);
+async function loadSource(source: SourceRecord, { sourceMaps, client }) {
+  const id = source.get("id");
+  if (isOriginalId(id)) {
+    return await sourceMaps.getOriginalSourceText(source.toJS());
   }
 
-  const response = await client.sourceContents(source.id);
+  const response = await client.sourceContents(id);
+
   return {
+    id,
     text: response.source,
     contentType: response.contentType || "text/javascript"
   };
@@ -42,7 +45,7 @@ function defer() {
  * @memberof actions/sources
  * @static
  */
-export function loadSourceText(source: Source) {
+export function loadSourceText(source: SourceRecord) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     const deferred = defer();
 
@@ -51,32 +54,34 @@ export function loadSourceText(source: Source) {
       return Promise.resolve(source);
     }
 
-    if (isLoading(source) || requests.has(source.id)) {
-      return requests.get(source.id);
+    const id = source.get("id");
+
+    if (isLoading(source) || requests.has(id)) {
+      return requests.get(id);
     }
 
-    requests.set(source.id, deferred.promise);
+    requests.set(id, deferred.promise);
     await dispatch({
       type: "LOAD_SOURCE_TEXT",
-      source: source,
+      source: { id: source.get("id") },
       [PROMISE]: loadSource(source, { sourceMaps, client })
     });
 
-    const newSource = getSource(getState(), source.id).toJS();
+    const newSource = getSource(getState(), source.get("id")).toJS();
     if (newSource.isWasm) {
       return;
     }
 
     if (isOriginalId(newSource.id)) {
-      const generatedSource = getGeneratedSource(getState(), source);
-      await dispatch(loadSourceText(generatedSource.toJS()));
+      const generatedSource = getGeneratedSource(getState(), source.toJS());
+      await dispatch(loadSourceText(generatedSource));
     }
 
     await setSource(newSource);
-    dispatch(setSymbols(source.id));
+    dispatch(setSymbols(id));
 
     // signal that the action is finished
     deferred.resolve();
-    requests.delete(source.id);
+    requests.delete(id);
   };
 }

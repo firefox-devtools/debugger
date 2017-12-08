@@ -3,11 +3,10 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // Maybe reuse file search's functions?
-import { isLoaded } from "../../utils/source";
 
 export function findSourceMatches(source, queryText) {
-  const { text } = source;
-  if (!isLoaded(source) || !text || queryText == "") {
+  const text = source.text;
+  if (source.loadedState !== "loaded" || !text || queryText == "") {
     return [];
   }
 

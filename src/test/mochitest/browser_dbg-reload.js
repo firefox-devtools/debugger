@@ -11,10 +11,10 @@ async function waitForBreakpoint(dbg, location) {
   return waitForState(
     dbg,
     state => {
-      return dbg.selectors.getBreakpoint(dbg.getState(), location)
+      return dbg.selectors.getBreakpoint(dbg.getState(), location);
     },
     "Waiting for breakpoint"
-  )
+  );
 }
 
 add_task(async function() {
@@ -26,8 +26,8 @@ add_task(async function() {
 
   await reload(dbg, "sjs_code_reload");
 
-  const source = findSource(dbg, "sjs_code_reload")
-  const location = { sourceId: source.id, line: 6 }
+  const source = findSource(dbg, "sjs_code_reload");
+  const location = { sourceId: source.id, line: 6 };
 
   await waitForBreakpoint(dbg, location);
 

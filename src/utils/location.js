@@ -15,8 +15,8 @@ export function createLocation({
 }: IncompleteLocation): Location {
   return {
     sourceId,
-    line: line || 0,
-    column: column || 0,
+    line: line,
+    column: column,
     sourceUrl: sourceUrl || null
   };
 }

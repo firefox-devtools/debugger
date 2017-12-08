@@ -12,6 +12,8 @@ const {
   getTextSearchStatus
 } = selectors;
 
+import I from "immutable";
+
 const threadClient = {
   sourceContents: function(sourceId) {
     return new Promise((resolve, reject) => {
@@ -81,7 +83,7 @@ describe("project text search", () => {
     const { dispatch, getState } = createStore(threadClient);
 
     await dispatch(actions.newSource(makeSource("bar")));
-    await dispatch(actions.loadSourceText({ id: "bar" }));
+    await dispatch(actions.loadSourceText(I.Map({ id: "bar" })));
 
     dispatch(actions.addSearchQuery("bla"));
 

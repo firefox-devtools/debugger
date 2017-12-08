@@ -4,7 +4,7 @@
 
 // @flow
 
-import type { Source } from "debugger-html";
+import type { SourceRecord } from "../reducers/types";
 
 // Used to detect minification for automatic pretty printing
 const SAMPLE_SIZE = 50;
@@ -12,12 +12,12 @@ const INDENT_COUNT_THRESHOLD = 5;
 const CHARACTER_LIMIT = 250;
 const _minifiedCache = new Map();
 
-export function isMinified(source: Source) {
-  if (_minifiedCache.has(source.id)) {
-    return _minifiedCache.get(source.id);
+export function isMinified(source: SourceRecord) {
+  if (_minifiedCache.has(source.get("id"))) {
+    return _minifiedCache.get(source.get("id"));
   }
 
-  let text = source.text;
+  let text = source.get("text");
   if (!text) {
     return false;
   }

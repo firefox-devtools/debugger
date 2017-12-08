@@ -23,10 +23,7 @@ type Props = {
 
 class Breakpoints extends Component<Props> {
   shouldComponentUpdate(nextProps: Props) {
-    if (
-      nextProps.selectedSource &&
-      !isLoaded(nextProps.selectedSource.toJS())
-    ) {
+    if (nextProps.selectedSource && !isLoaded(nextProps.selectedSource)) {
       return false;
     }
 

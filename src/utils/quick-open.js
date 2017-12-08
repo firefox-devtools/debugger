@@ -99,15 +99,15 @@ export function formatSymbols(
 export function formatSources(sources: SourcesMap): Array<FormattedSource> {
   return sources
     .valueSeq()
-    .toJS()
     .filter(source => !isPretty(source) && !isThirdParty(source))
-    .map(source => ({
-      value: getSourcePath(source),
-      title: getSourcePath(source)
-        .split("/")
-        .pop(),
-      subtitle: endTruncateStr(getSourcePath(source), 100),
-      id: source.id
-    }))
+    .map(source => {
+      const sourcePath = getSourcePath(source);
+      return {
+        value: sourcePath,
+        title: sourcePath.split("/").pop(),
+        subtitle: endTruncateStr(sourcePath, 100),
+        id: source.get("id")
+      };
+    })
     .filter(formattedSource => formattedSource.value != "");
 }

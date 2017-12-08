@@ -14,6 +14,8 @@ import {
   isNotJavaScript
 } from "../index";
 
+import I from "immutable";
+
 describe("sources tree", () => {
   describe("isExactUrlMatch", () => {
     it("recognizes root url match", () => {
@@ -181,34 +183,26 @@ describe("sources tree", () => {
 
   describe("isNotJavaScript", () => {
     it("js file", () => {
-      expect(
-        isNotJavaScript({
-          url: "http://example.com/foo.js"
-        })
-      ).toBe(false);
+      expect(isNotJavaScript(I.Map({ url: "http://example.com/foo.js" }))).toBe(
+        false
+      );
     });
 
     it("css file", () => {
       expect(
-        isNotJavaScript({
-          url: "http://example.com/foo.css"
-        })
+        isNotJavaScript(I.Map({ url: "http://example.com/foo.css" }))
       ).toBe(true);
     });
 
     it("svg file", () => {
       expect(
-        isNotJavaScript({
-          url: "http://example.com/foo.svg"
-        })
+        isNotJavaScript(I.Map({ url: "http://example.com/foo.svg" }))
       ).toBe(true);
     });
 
     it("png file", () => {
       expect(
-        isNotJavaScript({
-          url: "http://example.com/foo.png"
-        })
+        isNotJavaScript(I.Map({ url: "http://example.com/foo.png" }))
       ).toBe(true);
     });
   });

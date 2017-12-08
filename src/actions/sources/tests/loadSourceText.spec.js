@@ -17,20 +17,21 @@ describe("loadSourceText", async () => {
           resolve = r;
         })
     });
-    let source = makeSource("foo", { loadedState: "unloaded" });
+    const id = "foo";
+    let source = makeSource(id, { loadedState: "unloaded" });
 
     await dispatch(actions.newSource(source));
 
-    source = getSource(getState(), source.id).toJS();
+    source = getSource(getState(), id);
     dispatch(actions.loadSourceText(source));
 
-    source = getSource(getState(), source.id).toJS();
+    source = getSource(getState(), id);
     const loading = dispatch(actions.loadSourceText(source));
 
     resolve({ source: "yay", contentType: "text/javascript" });
     await loading;
     expect(count).toEqual(1);
-    expect(getSource(getState(), source.id).toJS().text).toEqual("yay");
+    expect(getSource(getState(), id).get("text")).toEqual("yay");
   });
 
   it("doesn't re-load loaded sources", async () => {
@@ -43,17 +44,18 @@ describe("loadSourceText", async () => {
           resolve = r;
         })
     });
-    let source = makeSource("foo", { loadedState: "unloaded" });
+    const id = "foo";
+    let source = makeSource(id, { loadedState: "unloaded" });
 
     await dispatch(actions.newSource(source));
-    source = getSource(getState(), source.id).toJS();
+    source = getSource(getState(), id);
     const loading = dispatch(actions.loadSourceText(source));
     resolve({ source: "yay", contentType: "text/javascript" });
     await loading;
 
-    source = getSource(getState(), source.id).toJS();
+    source = getSource(getState(), id);
     await dispatch(actions.loadSourceText(source));
     expect(count).toEqual(1);
-    expect(getSource(getState(), source.id).toJS().text).toEqual("yay");
+    expect(getSource(getState(), id).get("text")).toEqual("yay");
   });
 });

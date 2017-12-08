@@ -4,7 +4,7 @@ import {
   actions,
   makeSource
 } from "../../utils/test-head";
-
+import I from "immutable";
 import readFixture from "./helpers/readFixture";
 import { prefs } from "../../utils/prefs";
 
@@ -52,7 +52,7 @@ describe("setPreview", () => {
 
     const foo = makeSource("foo.js");
     await dispatch(actions.newSource(foo));
-    await dispatch(actions.loadSourceText({ id: "foo.js" }));
+    await dispatch(actions.loadSourceText(I.Map({ id: "foo.js" })));
     await dispatch(actions.selectLocation({ sourceId: "foo.js" }));
     await dispatch(actions.setSymbols("foo.js"));
     await dispatch(

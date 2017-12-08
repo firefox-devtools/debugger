@@ -9,7 +9,7 @@ const { WorkerDispatcher } = workerUtils;
 import { isJavaScript } from "../../utils/source";
 import assert from "../../utils/assert";
 
-import type { Source } from "../../types";
+import type { SourceRecord } from "../../reducers/types";
 
 const dispatcher = new WorkerDispatcher();
 export const startPrettyPrintWorker = dispatcher.start.bind(dispatcher);
@@ -17,7 +17,7 @@ export const stopPrettyPrintWorker = dispatcher.stop.bind(dispatcher);
 const _prettyPrint = dispatcher.task("prettyPrint");
 
 type PrettyPrintOpts = {
-  source: Source,
+  source: SourceRecord,
   url: string
 };
 
@@ -29,6 +29,6 @@ export async function prettyPrint({ source, url }: PrettyPrintOpts) {
   return await _prettyPrint({
     url,
     indent,
-    source: source.text
+    sourceText: source.get("text")
   });
 }
