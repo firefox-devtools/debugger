@@ -87,19 +87,6 @@ function update(state: PauseState = State(), action: Action): PauseState {
       const frameScopes = { ...state.frameScopes, [selectedFrameId]: scopes };
       return { ...state, frameScopes };
 
-    case "TOGGLE_PRETTY_PRINT":
-      if (action.status == "done") {
-        const frames = action.value.frames;
-        const pause = state.pause;
-        if (pause) {
-          pause.frame = frames[0];
-        }
-
-        return { ...state, pause, frames };
-      }
-
-      break;
-
     case "BREAK_ON_NEXT":
       return { ...state, isWaitingOnBreak: true };
 

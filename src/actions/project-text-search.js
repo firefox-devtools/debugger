@@ -52,10 +52,9 @@ export function searchSources(query: string) {
     const sources = getSources(getState());
     const validSources = sources
       .valueSeq()
-      .filter(source => isLoaded(source.toJS()) && !isThirdParty(source.toJS()))
-      .toJS();
+      .filter(source => isLoaded(source) && !isThirdParty(source));
     for (const source of validSources) {
-      await dispatch(searchSource(source.id, query));
+      await dispatch(searchSource(source.get("id"), query));
     }
   };
 }
@@ -67,13 +66,12 @@ export function searchSource(sourceId: string, query: string) {
       return;
     }
 
-    const source = sourceRecord.toJS();
-    const matches = await findSourceMatches(source, query);
+    const matches = await findSourceMatches(sourceRecord.toJS(), query);
     dispatch({
       type: "ADD_SEARCH_RESULT",
       result: {
-        sourceId: source.id,
-        filepath: source.url,
+        sourceId: sourceRecord.get("id"),
+        filepath: sourceRecord.get("url"),
         matches
       }
     });

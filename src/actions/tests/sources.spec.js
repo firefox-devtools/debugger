@@ -15,6 +15,7 @@ const {
 } = selectors;
 
 import { sourceThreadClient as threadClient } from "./helpers/threadClient.js";
+import I from "immutable";
 
 process.on("unhandledRejection", (reason, p) => {});
 
@@ -112,12 +113,12 @@ describe("sources", () => {
   it("should load source text", async () => {
     const { dispatch, getState } = createStore(threadClient);
 
-    await dispatch(actions.loadSourceText({ id: "foo1" }));
+    await dispatch(actions.loadSourceText(I.Map({ id: "foo1" })));
     const fooSource = getSource(getState(), "foo1");
 
     expect(fooSource.get("text").indexOf("return foo1")).not.toBe(-1);
 
-    await dispatch(actions.loadSourceText({ id: "foo2" }));
+    await dispatch(actions.loadSourceText(I.Map({ id: "foo2" })));
     const foo2Source = getSource(getState(), "foo2");
 
     expect(foo2Source.get("text").indexOf("return foo2")).not.toBe(-1);
@@ -143,10 +144,10 @@ describe("sources", () => {
   it("should cache subsequent source text loads", async () => {
     const { dispatch, getState } = createStore(threadClient);
 
-    await dispatch(actions.loadSourceText({ id: "foo1" }));
+    await dispatch(actions.loadSourceText(I.Map({ id: "foo1" })));
     const prevSource = getSource(getState(), "foo1");
 
-    await dispatch(actions.loadSourceText(prevSource.toJS()));
+    await dispatch(actions.loadSourceText(prevSource));
     const curSource = getSource(getState(), "foo1");
 
     expect(prevSource === curSource).toBeTruthy();
@@ -156,7 +157,7 @@ describe("sources", () => {
     const { dispatch, getState } = createStore(threadClient);
 
     // Don't block on this so we can check the loading state.
-    dispatch(actions.loadSourceText({ id: "foo1" }));
+    dispatch(actions.loadSourceText(I.Map({ id: "foo1" })));
     const fooSource = getSource(getState(), "foo1");
     expect(fooSource.get("loadedState")).toEqual("loading");
   });
@@ -164,7 +165,9 @@ describe("sources", () => {
   it("should indicate an errored source text", async () => {
     const { dispatch, getState } = createStore(threadClient);
 
-    await dispatch(actions.loadSourceText({ id: "bad-id" })).catch(() => {});
+    await dispatch(actions.loadSourceText(I.Map({ id: "bad-id" }))).catch(
+      () => {}
+    );
     const badSource = getSource(getState(), "bad-id");
     expect(badSource.get("error").indexOf("unknown source")).not.toBe(-1);
   });

@@ -17,6 +17,7 @@ import { parse as parseURL } from "url";
 export { isMinified } from "./isMinified";
 
 import type { Source } from "../types";
+import type { SourceRecord } from "../reducers/types";
 import type { SourceMetaDataType } from "../reducers/ast";
 
 type transformUrlCallback = string => string;
@@ -41,15 +42,15 @@ function trimUrlQuery(url: string): string {
   return url.slice(0, q);
 }
 
-function shouldPrettyPrint(source: any) {
+function shouldPrettyPrint(source: SourceRecord) {
   if (!source) {
     return false;
   }
 
   const _isPretty = isPretty(source);
   const _isJavaScript = isJavaScript(source);
-  const isOriginal = isOriginalId(source.id);
-  const hasSourceMap = source.sourceMapURL;
+  const isOriginal = isOriginalId(source.get("id"));
+  const hasSourceMap = source.get("sourceMapURL");
 
   if (_isPretty || isOriginal || hasSourceMap || !_isJavaScript) {
     return false;
@@ -68,10 +69,12 @@ function shouldPrettyPrint(source: any) {
  * @memberof utils/source
  * @static
  */
-function isJavaScript(source: Source): boolean {
+function isJavaScript(source: SourceRecord): boolean {
+  const url = source.get("url");
+  const contentType = source.get("contentType");
   return (
-    (source.url && /\.(jsm|js)?$/.test(trimUrlQuery(source.url))) ||
-    !!(source.contentType && source.contentType.includes("javascript"))
+    (url && /\.(jsm|js)?$/.test(trimUrlQuery(url))) ||
+    !!(contentType && contentType.includes("javascript"))
   );
 }
 
@@ -79,16 +82,18 @@ function isJavaScript(source: Source): boolean {
  * @memberof utils/source
  * @static
  */
-function isPretty(source: Source): boolean {
-  return source.url ? /formatted$/.test(source.url) : false;
+function isPretty(source: SourceRecord): boolean {
+  const url = source.get("url");
+  return url ? /formatted$/.test(url) : false;
 }
 
-function isThirdParty(source: Source) {
-  if (!source || !source.url) {
+function isThirdParty(source: SourceRecord) {
+  const url = source.get("url");
+  if (!source || !url) {
     return false;
   }
 
-  return !!source.url.match(/(node_modules|bower_components)/);
+  return !!url.match(/(node_modules|bower_components)/);
 }
 
 /**
@@ -288,11 +293,11 @@ function getMode(source: Source, sourceMetaData: SourceMetaDataType) {
   return { name: "text" };
 }
 
-function isLoaded(source: Source) {
-  return source.loadedState === "loaded";
+function isLoaded(source: SourceRecord) {
+  return source.get("loadedState") === "loaded";
 }
-function isLoading(source: Source) {
-  return source.loadedState === "loading";
+function isLoading(source: SourceRecord) {
+  return source.get("loadedState") === "loading";
 }
 
 export {

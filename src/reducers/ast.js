@@ -107,6 +107,7 @@ function update(
         cursorPos,
         extra
       } = action.value;
+
       return state.set("preview", {
         updating: false,
         expression,

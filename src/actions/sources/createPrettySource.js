@@ -9,8 +9,8 @@ import { getPrettySourceURL } from "../../utils/source";
 
 export function createPrettySource(sourceId) {
   return async ({ dispatch, getState, sourceMaps }) => {
-    const source = getSource(getState(), sourceId).toJS();
-    const url = getPrettySourceURL(source.url);
+    const source = getSource(getState(), sourceId);
+    const url = getPrettySourceURL(source.get("url"));
     const id = await sourceMaps.generatedToOriginalId(sourceId, url);
 
     const { code, mappings } = await prettyPrint({
@@ -18,7 +18,7 @@ export function createPrettySource(sourceId) {
       url
     });
 
-    await sourceMaps.applySourceMap(source.id, url, code, mappings);
+    await sourceMaps.applySourceMap(source.get("id"), url, code, mappings);
 
     let frames = getFrames(getState());
     if (frames) {

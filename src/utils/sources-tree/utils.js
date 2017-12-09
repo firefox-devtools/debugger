@@ -35,7 +35,7 @@ export function isDirectory(url: Object) {
 }
 
 export function isNotJavaScript(source: Object): boolean {
-  const parsedUrl = parse(source.url).pathname;
+  const parsedUrl = parse(source.get("url")).pathname;
   if (!parsedUrl) {
     return false;
   }
@@ -44,14 +44,14 @@ export function isNotJavaScript(source: Object): boolean {
   return ["css", "svg", "png"].includes(parsedExtension);
 }
 
-export function isInvalidUrl(url: Object, source: Object) {
+export function isInvalidUrl(url: Object, source: SourceRecord) {
   return (
     IGNORED_URLS.indexOf(url) != -1 ||
     !source.get("url") ||
     source.get("loadedState") === "loading" ||
     !url.group ||
-    isPretty(source.toJS()) ||
-    isNotJavaScript(source.toJS())
+    isPretty(source) ||
+    isNotJavaScript(source)
   );
 }
 

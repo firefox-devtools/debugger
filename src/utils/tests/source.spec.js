@@ -7,6 +7,8 @@ import {
   isJavaScript
 } from "../source.js";
 
+import I from "immutable";
+
 describe("sources", () => {
   describe("getFilename", () => {
     it("should give us a default of (index)", () => {
@@ -62,31 +64,35 @@ describe("sources", () => {
 
   describe("isJavaScript", () => {
     it("is not JavaScript", () => {
-      expect(isJavaScript({ url: "foo.html" })).toBe(false);
-      expect(isJavaScript({ contentType: "text/html" })).toBe(false);
+      expect(isJavaScript(I.Map({ url: "foo.html" }))).toBe(false);
+      expect(isJavaScript(I.Map({ contentType: "text/html" }))).toBe(false);
     });
 
     it("is JavaScript", () => {
-      expect(isJavaScript({ url: "foo.js" })).toBe(true);
-      expect(isJavaScript({ url: "bar.jsm" })).toBe(true);
-      expect(isJavaScript({ contentType: "text/javascript" })).toBe(true);
-      expect(isJavaScript({ contentType: "application/javascript" })).toBe(
+      expect(isJavaScript(I.Map({ url: "foo.js" }))).toBe(true);
+      expect(isJavaScript(I.Map({ url: "bar.jsm" }))).toBe(true);
+      expect(isJavaScript(I.Map({ contentType: "text/javascript" }))).toBe(
         true
       );
+      expect(
+        isJavaScript(I.Map({ contentType: "application/javascript" }))
+      ).toBe(true);
     });
   });
 
   describe("isThirdParty", () => {
     it("node_modules", () => {
-      expect(isThirdParty({ url: "/node_modules/foo.js" })).toBe(true);
+      expect(isThirdParty(I.Map({ url: "/node_modules/foo.js" }))).toBe(true);
     });
 
     it("bower_components", () => {
-      expect(isThirdParty({ url: "/bower_components/foo.js" })).toBe(true);
+      expect(isThirdParty(I.Map({ url: "/bower_components/foo.js" }))).toBe(
+        true
+      );
     });
 
     it("not third party", () => {
-      expect(isThirdParty({ url: "/bar/foo.js" })).toBe(false);
+      expect(isThirdParty(I.Map({ url: "/bar/foo.js" }))).toBe(false);
     });
   });
 

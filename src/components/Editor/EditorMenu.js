@@ -87,7 +87,7 @@ function getMenuItems(
 
   const isOriginal = isOriginalId(selectedLocation.sourceId);
   const hasSourceMap = !!selectedSource.get("sourceMapURL");
-  const isPrettyPrinted = isPretty(selectedSource.toJS());
+  const isPrettyPrinted = isPretty(selectedSource);
 
   const isPrettified = isPrettyPrinted || hasPrettyPrint;
   const isMapped = isOriginal || hasSourceMap;

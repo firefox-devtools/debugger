@@ -83,7 +83,7 @@ type Props = {
   sourceTabs: SourcesList,
   searchTabs: List<ActiveSearchType>,
   selectedSource: SourceRecord,
-  selectLocation: Object => void,
+  selectSource: Object => void,
   moveTab: (string, number) => void,
   closeTab: string => void,
   closeTabs: (List<string>) => void,
@@ -210,7 +210,7 @@ class SourceTabs extends PureComponent<Props, State> {
       return;
     }
 
-    const isPrettySource = isPretty(sourceTab.toJS());
+    const isPrettySource = isPretty(sourceTab);
 
     const closeTabMenuItem = {
       id: "node-menu-close-tab",
@@ -317,7 +317,7 @@ class SourceTabs extends PureComponent<Props, State> {
   }
 
   getIconClass(source: SourceRecord) {
-    if (isPretty(source.toJS())) {
+    if (isPretty(source)) {
       return "prettyPrint";
     }
     if (source.get("isBlackBoxed")) {
@@ -327,11 +327,10 @@ class SourceTabs extends PureComponent<Props, State> {
   }
 
   renderDropdownSource(source: SourceRecord) {
-    const { selectLocation } = this.props;
+    const { selectSource } = this.props;
     const filename = getFilename(source.toJS());
 
-    const onClick = () =>
-      selectLocation({ sourceId: source.get("id"), line: 0 });
+    const onClick = () => selectSource(source.get("id"));
     return (
       <li key={source.get("id")} onClick={onClick}>
         <img className={`dropdown-icon ${this.getIconClass(source)}`} />
@@ -396,13 +395,13 @@ class SourceTabs extends PureComponent<Props, State> {
   }
 
   renderSourceTab(source: SourceRecord) {
-    const { selectedSource, selectLocation, closeTab } = this.props;
+    const { selectedSource, selectSource, closeTab } = this.props;
     const filename = getFilename(source.toJS());
     const active =
       selectedSource &&
       source.get("id") == selectedSource.get("id") &&
       (!this.isProjectSearchEnabled() && !this.isSourceSearchEnabled());
-    const isPrettyCode = isPretty(source.toJS());
+    const isPrettyCode = isPretty(source);
     const sourceAnnotation = this.getSourceAnnotation(source);
 
     function onClickClose(ev) {
@@ -419,7 +418,7 @@ class SourceTabs extends PureComponent<Props, State> {
       <div
         className={className}
         key={source.get("id")}
-        onClick={() => selectLocation({ sourceId: source.get("id") })}
+        onClick={() => selectSource(source.get("id"))}
         onContextMenu={e => this.onTabContextMenu(e, source.get("id"))}
         title={getFileURL(source.toJS())}
       >
@@ -470,17 +469,16 @@ class SourceTabs extends PureComponent<Props, State> {
   }
 
   getSourceAnnotation(source) {
-    const sourceObj = source.toJS();
     const sourceId = source.get("id");
     const sourceMetaData = this.props.sourceTabsMetaData[sourceId];
 
     if (sourceMetaData && sourceMetaData.isReactComponent) {
       return <img className="react" />;
     }
-    if (isPretty(sourceObj)) {
+    if (isPretty(source)) {
       return <img className="prettyPrint" />;
     }
-    if (sourceObj.isBlackBoxed) {
+    if (source.get("isBlackBoxed")) {
       return <img className="blackBox" />;
     }
   }

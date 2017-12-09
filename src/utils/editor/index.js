@@ -27,7 +27,6 @@ function shouldShowPrettyPrint(selectedSource) {
     return false;
   }
 
-  selectedSource = selectedSource.toJS();
   return shouldPrettyPrint(selectedSource);
 }
 

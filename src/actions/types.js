@@ -130,18 +130,6 @@ type SourceAction =
       error: string,
       value: { isBlackBoxed: boolean }
     }
-  | {
-      type: "TOGGLE_PRETTY_PRINT",
-      source: Source,
-      originalSource: Source,
-      status: AsyncStatus,
-      error: string,
-      value: {
-        isPrettyPrinted: boolean,
-        source: Source,
-        frames: Frame[]
-      }
-    }
   | { type: "MOVE_TAB", url: string, tabIndex: number }
   | { type: "CLOSE_TAB", url: string, tabs: any }
   | { type: "CLOSE_TABS", urls: string[], tabs: any };
