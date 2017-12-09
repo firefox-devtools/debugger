@@ -12,6 +12,7 @@ import { debugGlobal } from "devtools-launchpad";
 import { isLoaded } from "../../utils/source";
 import { isFirefox } from "devtools-config";
 import { SourceEditor } from "devtools-source-editor";
+import { features } from "../../utils/prefs";
 
 import {
   getActiveSearch,
@@ -560,18 +561,19 @@ class Editor extends PureComponent<Props, State> {
     if (!editor || !selectedSource || !isLoaded(selectedSource)) {
       return null;
     }
+
     return (
       <div>
         <DebugLine editor={editor} />
         <EmptyLines editor={editor} />
         <Breakpoints editor={editor} />
-        <CallSites editor={editor} />
         <Preview editor={editor} />;
         <Footer editor={editor} horizontal={horizontal} />
         <HighlightLines editor={editor} />
         <EditorMenu editor={editor} />
         <GutterMenu editor={editor} />
         <ConditionalPanel editor={editor} />
+        {features.columnBreakpoints ? <CallSites editor={editor} /> : null}
         {this.renderHitCounts()}
       </div>
     );

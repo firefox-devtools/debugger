@@ -4,7 +4,6 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { features } from "../../utils/prefs";
 
 import { range, keyBy, isEqualWith } from "lodash";
 
@@ -58,22 +57,18 @@ class CallSites extends Component {
     const { editor } = this.props;
     const codeMirrorWrapper = editor.codeMirror.getWrapperElement();
 
-    if (features.columnBreakpoints) {
-      codeMirrorWrapper.addEventListener("click", e => this.onTokenClick(e));
-      document.body.addEventListener("keydown", this.onKeyDown);
-      document.body.addEventListener("keyup", this.onKeyUp);
-    }
+    codeMirrorWrapper.addEventListener("click", e => this.onTokenClick(e));
+    document.body.addEventListener("keydown", this.onKeyDown);
+    document.body.addEventListener("keyup", this.onKeyUp);
   }
 
   componentDidUnMount() {
     const { editor } = this.props;
     const codeMirrorWrapper = editor.codeMirror.getWrapperElement();
 
-    if (features.columnBreakpoints) {
-      codeMirrorWrapper.addEventListener("click", e => this.onTokenClick(e));
-      document.body.removeEventListener("keydown", e => this.onKeyDown);
-      document.body.removeEventListener("keyup", this.onKeyUp);
-    }
+    codeMirrorWrapper.addEventListener("click", e => this.onTokenClick(e));
+    document.body.removeEventListener("keydown", e => this.onKeyDown);
+    document.body.removeEventListener("keyup", this.onKeyUp);
   }
 
   onKeyUp(e) {
