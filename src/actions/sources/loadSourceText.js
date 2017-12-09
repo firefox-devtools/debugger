@@ -63,7 +63,7 @@ export function loadSourceText(source: SourceRecord) {
     requests.set(id, deferred.promise);
     await dispatch({
       type: "LOAD_SOURCE_TEXT",
-      source: { id: source.get("id") },
+      sourceId: id,
       [PROMISE]: loadSource(source, { sourceMaps, client })
     });
 

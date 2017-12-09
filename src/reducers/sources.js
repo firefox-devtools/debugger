@@ -130,9 +130,6 @@ function update(
       }
       break;
 
-    case "TOGGLE_PRETTY_PRINT":
-      return setSourceTextProps(state, action);
-
     case "NAVIGATE":
       const source = getSelectedSource({ sources: state });
       const url = source && source.get("url");
@@ -148,17 +145,16 @@ function update(
 }
 
 function getTextPropsFromAction(action: any) {
-  const source = action.source;
-  const { value } = action;
+  const { value, sourceId } = action;
 
   if (action.status === "start") {
-    return { id: source.id, loadedState: "loading" };
+    return { id: sourceId, loadedState: "loading" };
   } else if (action.status === "error") {
-    return { id: source.id, error: action.error, loadedState: "loaded" };
+    return { id: sourceId, error: action.error, loadedState: "loaded" };
   }
   return {
     text: value.text,
-    id: source.id,
+    id: sourceId,
     contentType: value.contentType,
     loadedState: "loaded"
   };
