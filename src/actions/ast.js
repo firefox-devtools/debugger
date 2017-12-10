@@ -10,7 +10,7 @@ import { setInScopeLines } from "./ast/setInScopeLines";
 import {
   getSymbols,
   getEmptyLines,
-  getOutOfScopeLocations,
+  findOutOfScopeLocations,
   isReactComponent
 } from "../workers/parser";
 
@@ -95,7 +95,7 @@ export function setOutOfScopeLocations() {
     const locations =
       !location.line || !source
         ? null
-        : await getOutOfScopeLocations(source.toJS(), location);
+        : await findOutOfScopeLocations(source.toJS(), location);
 
     dispatch({
       type: "OUT_OF_SCOPE_LOCATIONS",

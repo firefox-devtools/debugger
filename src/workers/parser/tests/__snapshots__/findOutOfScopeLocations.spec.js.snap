@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Parser.getOutOfScopeLocations should exclude function for locations on declaration 1`] = `
+exports[`Parser.findOutOfScopeLocations should exclude function for locations on declaration 1`] = `
 "(1, 0) -> (1, 16)
 (3, 14) -> (27, 1)
 (29, 16) -> (33, 1)
@@ -11,7 +11,7 @@ exports[`Parser.getOutOfScopeLocations should exclude function for locations on 
 (51, 19) -> (62, 1)"
 `;
 
-exports[`Parser.getOutOfScopeLocations should exclude non-enclosing function blocks 1`] = `
+exports[`Parser.findOutOfScopeLocations should exclude non-enclosing function blocks 1`] = `
 "(1, 0) -> (1, 16)
 (8, 16) -> (10, 3)
 (12, 22) -> (14, 3)
@@ -26,7 +26,7 @@ exports[`Parser.getOutOfScopeLocations should exclude non-enclosing function blo
 (51, 19) -> (62, 1)"
 `;
 
-exports[`Parser.getOutOfScopeLocations should not exclude in-scope inner locations 1`] = `
+exports[`Parser.findOutOfScopeLocations should not exclude in-scope inner locations 1`] = `
 "(1, 0) -> (1, 16)
 (3, 14) -> (27, 1)
 (29, 16) -> (33, 1)
@@ -36,7 +36,7 @@ exports[`Parser.getOutOfScopeLocations should not exclude in-scope inner locatio
 (47, 31) -> (49, 1)"
 `;
 
-exports[`Parser.getOutOfScopeLocations should roll up function blocks 1`] = `
+exports[`Parser.findOutOfScopeLocations should roll up function blocks 1`] = `
 "(1, 0) -> (1, 16)
 (29, 16) -> (33, 1)
 (35, 20) -> (37, 1)

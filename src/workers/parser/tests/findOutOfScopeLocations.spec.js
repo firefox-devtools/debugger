@@ -1,6 +1,6 @@
 /* eslint max-nested-callbacks: ["error", 4]*/
 
-import getOutOfScopeLocations from "../getOutOfScopeLocations";
+import findOutOfScopeLocations from "../findOutOfScopeLocations";
 
 import { getSource } from "./helpers";
 
@@ -13,9 +13,9 @@ function formatLines(actual) {
     .join("\n");
 }
 
-describe("Parser.getOutOfScopeLocations", () => {
+describe("Parser.findOutOfScopeLocations", () => {
   it("should exclude non-enclosing function blocks", () => {
-    const actual = getOutOfScopeLocations(getSource("outOfScope"), {
+    const actual = findOutOfScopeLocations(getSource("outOfScope"), {
       line: 5,
       column: 5
     });
@@ -24,7 +24,7 @@ describe("Parser.getOutOfScopeLocations", () => {
   });
 
   it("should roll up function blocks", () => {
-    const actual = getOutOfScopeLocations(getSource("outOfScope"), {
+    const actual = findOutOfScopeLocations(getSource("outOfScope"), {
       line: 24,
       column: 0
     });
@@ -33,7 +33,7 @@ describe("Parser.getOutOfScopeLocations", () => {
   });
 
   it("should exclude function for locations on declaration", () => {
-    const actual = getOutOfScopeLocations(getSource("outOfScope"), {
+    const actual = findOutOfScopeLocations(getSource("outOfScope"), {
       line: 3,
       column: 12
     });
@@ -42,7 +42,7 @@ describe("Parser.getOutOfScopeLocations", () => {
   });
 
   it("should treat comments as out of scope", () => {
-    const actual = getOutOfScopeLocations(getSource("outOfScopeComment"), {
+    const actual = findOutOfScopeLocations(getSource("outOfScopeComment"), {
       line: 3,
       column: 2
     });
@@ -53,7 +53,7 @@ describe("Parser.getOutOfScopeLocations", () => {
   });
 
   it("should not exclude in-scope inner locations", () => {
-    const actual = getOutOfScopeLocations(getSource("outOfScope"), {
+    const actual = findOutOfScopeLocations(getSource("outOfScope"), {
       line: 61,
       column: 0
     });
