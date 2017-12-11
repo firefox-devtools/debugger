@@ -12,7 +12,7 @@ import getFunctionName from "./utils/getFunctionName";
 
 import type { Source } from "debugger-html";
 import type { NodePath, Node, Location as BabelLocation } from "babel-traverse";
-import { setJSXMetaData } from "../../reducers/ast";
+
 let symbolDeclarations = new Map();
 
 export type SymbolDeclaration = {|
@@ -105,6 +105,7 @@ function extractSymbols(source: Source) {
   const identifiers = [];
   const classes = [];
   const imports = [];
+  const hasJSX = [];
 
   const ast = traverseAst(source, {
     enter(path: NodePath) {
@@ -122,11 +123,7 @@ function extractSymbols(source: Source) {
         });
       }
 
-      if (t.isJSXElement(path)) {
-        setJSXMetaData(source, true);
-      } else {
-        setJSXMetaData(source, false);
-      }
+      hasJSX[0] = t.isJSXElement(path);
 
       if (t.isClassDeclaration(path)) {
         classes.push({
@@ -225,7 +222,8 @@ function extractSymbols(source: Source) {
     comments,
     identifiers,
     classes,
-    imports
+    imports,
+    hasJSX
   };
 }
 
