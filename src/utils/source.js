@@ -14,7 +14,6 @@ import { endTruncateStr } from "./utils";
 import { basename } from "../utils/path";
 import { parse as parseURL } from "url";
 import type { Source } from "../types";
-import type { SourceMetaDataType } from "../reducers/ast";
 
 type transformUrlCallback = string => string;
 
@@ -265,18 +264,14 @@ function isMinified(key: string, text: string) {
  * @static
  */
 
-function getMode(source: Source, sourceMetaData: SourceMetaDataType) {
+function getMode(source: Source, hasJSX: boolean) {
   const { contentType, text, isWasm, url } = source;
 
   if (!text || isWasm) {
     return { name: "text" };
   }
 
-  if (
-    (url && url.match(/\.jsx$/i)) ||
-    (sourceMetaData && sourceMetaData.isReactComponent) ||
-    (sourceMetaData && sourceMetaData.isJSXElement)
-  ) {
+  if ((url && url.match(/\.jsx$/i)) || hasJSX) {
     return "jsx";
   }
 
