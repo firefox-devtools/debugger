@@ -15,7 +15,9 @@ export const getClosestExpression = dispatcher.task("getClosestExpression");
 export const getSymbols = dispatcher.task("getSymbols");
 export const getScopes = dispatcher.task("getScopes");
 export const getVariablesInScope = dispatcher.task("getVariablesInScope");
-export const getOutOfScopeLocations = dispatcher.task("getOutOfScopeLocations");
+export const findOutOfScopeLocations = dispatcher.task(
+  "findOutOfScopeLocations"
+);
 export const clearSymbols = dispatcher.task("clearSymbols");
 export const clearScopes = dispatcher.task("clearScopes");
 export const clearASTs = dispatcher.task("clearASTs");

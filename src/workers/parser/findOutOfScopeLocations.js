@@ -115,7 +115,7 @@ function sortByStart(a: AstLocation, b: AstLocation) {
  * Returns an array of locations that are considered out of scope for the given
  * location.
  */
-function getOutOfScopeLocations(
+function findOutOfScopeLocations(
   source: Source,
   position: AstPosition
 ): AstLocation[] {
@@ -133,4 +133,4 @@ function getOutOfScopeLocations(
   return removeOverlaps(locations);
 }
 
-export default getOutOfScopeLocations;
+export default findOutOfScopeLocations;

@@ -9,7 +9,7 @@ import getSymbols, { clearSymbols } from "./getSymbols";
 import { clearASTs } from "./utils/ast";
 import getScopes, { clearScopes } from "./getScopes";
 import { hasSource, setSource, clearSources } from "./sources";
-import getOutOfScopeLocations from "./getOutOfScopeLocations";
+import findOutOfScopeLocations from "./findOutOfScopeLocations";
 import { getNextStep } from "./steps";
 import getEmptyLines from "./getEmptyLines";
 import { hasSyntaxError } from "./validate";
@@ -20,7 +20,7 @@ const { workerHandler } = workerUtils;
 
 self.onmessage = workerHandler({
   getClosestExpression,
-  getOutOfScopeLocations,
+  findOutOfScopeLocations,
   getSymbols,
   getScopes,
   clearSymbols,
