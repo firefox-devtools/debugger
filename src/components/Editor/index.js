@@ -41,6 +41,7 @@ import GutterMenu from "./GutterMenu";
 import EditorMenu from "./EditorMenu";
 import ConditionalPanel from "./ConditionalPanel";
 import type { SourceMetaDataType } from "../../reducers/ast";
+import getSymbols from "../../workers/parser/getSymbols";
 
 import {
   showSourceText,
@@ -470,7 +471,7 @@ class Editor extends PureComponent<Props, State> {
   }
 
   setText(props) {
-    const { selectedSource, sourceMetaData } = props;
+    const { selectedSource } = props;
 
     if (!this.state.editor) {
       return;
@@ -489,11 +490,10 @@ class Editor extends PureComponent<Props, State> {
     }
 
     if (selectedSource) {
-      return showSourceText(
-        this.state.editor,
-        selectedSource.toJS(),
-        sourceMetaData
-      );
+      const symbols = getSymbols(selectedSource.toJS());
+      const hasJSX = symbols.hasJSX[0];
+
+      return showSourceText(this.state.editor, selectedSource.toJS(), hasJSX);
     }
   }
 
