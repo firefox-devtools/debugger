@@ -38,7 +38,9 @@ class Accordion extends Component<Props, State> {
 
   componentWillReceiveProps(nextProps: Props) {
     const newOpened = this.state.opened.map((isOpen, i) => {
-      const { shouldOpen } = nextProps.items[i];
+      const shouldOpen = nextProps.items[i]
+        ? nextProps.items[i].shouldOpen
+        : false;
 
       return isOpen || (shouldOpen && shouldOpen());
     });
