@@ -189,19 +189,4 @@ export function getSourceMetaData(state: OuterState, sourceId: string) {
   return state.ast.getIn(["sourceMetaData", sourceId]) || emptySourceMetaData;
 }
 
-export function setJSXMetaData(source: Source, hasJSXElement: boolean) {
-  const metaDataType: sourceMetaDataType = {
-    isReactComponent: false,
-    isJSXElement: hasJSXElement
-  };
-  const metaDataMap: SourceMetaDataMap = I.Map();
-  metaDataMap.set(source.id, metaDataType);
-  const action = {
-    type: "SET_SOURCE_METADATA",
-    sourceId: source.id,
-    sourceMetaData: metaDataMap
-  };
-  update(undefined, action);
-}
-
 export default update;
