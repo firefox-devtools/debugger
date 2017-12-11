@@ -18,7 +18,6 @@ import type { ActiveSearchType } from "../reducers/ui";
 import "./WelcomeBox.css";
 
 type Props = {
-  horizontal: boolean,
   togglePaneCollapse: Function,
   endPanelCollapsed: boolean,
   setActiveSearch: (?ActiveSearchType) => any,
@@ -27,16 +26,12 @@ type Props = {
 
 class WelcomeBox extends Component<Props> {
   renderToggleButton() {
-    const { horizontal, endPanelCollapsed, togglePaneCollapse } = this.props;
-    if (horizontal) {
-      return;
-    }
+    const { endPanelCollapsed, togglePaneCollapse } = this.props;
 
     return (
       <PaneToggleButton
         position="end"
         collapsed={!endPanelCollapsed}
-        horizontal={horizontal}
         handleClick={togglePaneCollapse}
       />
     );

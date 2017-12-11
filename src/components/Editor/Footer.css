@@ -5,17 +5,14 @@
 .source-footer {
   background: var(--theme-body-background);
   border-top: 1px solid var(--theme-splitter-color);
-  position: absolute;
   display: flex;
-  bottom: 0;
-  left: 0;
-  right: 0;
   opacity: 1;
   z-index: 1;
   -moz-user-select: none;
   user-select: none;
-  height: var(--editor-footer-height);
   box-sizing: border-box;
+  grid-row: 3 / 4;
+  grid-column: 2 / 3;
 }
 
 .source-footer .commands {

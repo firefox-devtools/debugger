@@ -64,7 +64,6 @@ function TabsFactory({ dir = "ltr", theme = "light", ...props }) {
           togglePrettyPrint={action("togglePrettyPrint")}
           togglePaneCollapse={action("togglePaneCollapse")}
           showSource={action("showSource")}
-          horizontal={true}
           startPanelCollapsed={false}
           endPanelCollapsed={false}
           {...props}

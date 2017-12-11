@@ -17,8 +17,6 @@ import type { Record } from "../utils/makeRecord";
 
 export type ActiveSearchType = "project" | "file";
 
-export type OrientationType = "horizontal" | "vertical";
-
 export type SelectedPrimaryPaneTabType = "sources" | "outline";
 
 export type UIState = {
@@ -30,7 +28,6 @@ export type UIState = {
   endPanelCollapsed: boolean,
   frameworkGroupingOn: boolean,
   projectDirectoryRoot: string,
-  orientation: OrientationType,
   highlightedLineRange?: {
     start?: number,
     end?: number,
@@ -50,8 +47,7 @@ export const State = makeRecord(
     endPanelCollapsed: prefs.endPanelCollapsed,
     frameworkGroupingOn: prefs.frameworkGroupingOn,
     highlightedLineRange: undefined,
-    conditionalPanelLine: null,
-    orientation: "horizontal"
+    conditionalPanelLine: null
   }: UIState)
 );
 

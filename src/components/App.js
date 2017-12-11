@@ -21,7 +21,6 @@ import {
 } from "../selectors";
 
 import type { SourceRecord, OrientationType } from "../reducers/types";
-import { isVisible } from "../utils/ui";
 
 import { KeyShortcuts } from "devtools-modules";
 const shortcuts = new KeyShortcuts({ window });
@@ -31,14 +30,11 @@ const { appinfo } = Services;
 
 const isMacOS = appinfo.OS === "Darwin";
 
-const verticalLayoutBreakpoint = window.matchMedia("(min-width: 800px)");
-
 import "./variables.css";
 import "./App.css";
 import "./shared/menu.css";
 import "./shared/reps.css";
-
-import SplitBox from "devtools-splitter";
+import CommandBar from "./SecondaryPanes/CommandBar";
 
 import ProjectSearch from "./ProjectSearch";
 
@@ -47,6 +43,7 @@ import PrimaryPanes from "./PrimaryPanes";
 import Editor from "./Editor";
 
 import SecondaryPanes from "./SecondaryPanes";
+import UtilsBar from "./SecondaryPanes/UtilsBar";
 
 import WelcomeBox from "./WelcomeBox";
 
@@ -76,7 +73,6 @@ type State = {
 };
 
 class App extends Component<Props, State> {
-  onLayoutChange: Function;
   getChildContext: Function;
   renderEditorPane: Function;
   renderVerticalLayout: Function;
@@ -93,10 +89,7 @@ class App extends Component<Props, State> {
     };
 
     this.getChildContext = this.getChildContext.bind(this);
-    this.onLayoutChange = this.onLayoutChange.bind(this);
     this.toggleQuickOpenModal = this.toggleQuickOpenModal.bind(this);
-    this.renderEditorPane = this.renderEditorPane.bind(this);
-    this.renderVerticalLayout = this.renderVerticalLayout.bind(this);
     this.onEscape = this.onEscape.bind(this);
     this.onCommandSlash = this.onCommandSlash.bind(this);
   }
@@ -106,8 +99,6 @@ class App extends Component<Props, State> {
   }
 
   componentDidMount() {
-    verticalLayoutBreakpoint.addListener(this.onLayoutChange);
-
     shortcuts.on(L10N.getStr("symbolSearch.search.key2"), (_, e) =>
       this.toggleQuickOpenModal(_, e, "@")
     );
@@ -127,7 +118,6 @@ class App extends Component<Props, State> {
   }
 
   componentWillUnmount() {
-    verticalLayoutBreakpoint.removeListener(this.onLayoutChange);
     shortcuts.off(
       L10N.getStr("symbolSearch.search.key2"),
       this.toggleQuickOpenModal
@@ -166,10 +156,6 @@ class App extends Component<Props, State> {
     this.toggleShortcutsModal();
   }
 
-  isHorizontal() {
-    return this.props.orientation === "horizontal";
-  }
-
   toggleQuickOpenModal(_, e: SyntheticEvent<HTMLElement>, query?: string) {
     const { quickOpenEnabled, openQuickOpen, closeQuickOpen } = this.props;
 
@@ -189,123 +175,10 @@ class App extends Component<Props, State> {
     return;
   }
 
-  onLayoutChange() {
-    const orientation = verticalLayoutBreakpoint.matches
-      ? "horizontal"
-      : "vertical";
-    if (isVisible()) {
-      this.props.setOrientation(orientation);
-    }
-  }
-
-  renderEditorPane() {
-    const { startPanelCollapsed, endPanelCollapsed } = this.props;
-    const { endPanelSize, startPanelSize } = this.state;
-    const horizontal = this.isHorizontal();
-
-    return (
-      <div className="editor-pane">
-        <div className="editor-container">
-          <EditorTabs
-            startPanelCollapsed={startPanelCollapsed}
-            endPanelCollapsed={endPanelCollapsed}
-            horizontal={horizontal}
-            startPanelSize={startPanelSize}
-            endPanelSize={endPanelSize}
-          />
-          <Editor
-            horizontal={horizontal}
-            startPanelSize={startPanelSize}
-            endPanelSize={endPanelSize}
-          />
-          {!this.props.selectedSource ? (
-            <WelcomeBox horizontal={horizontal} />
-          ) : null}
-          <ProjectSearch />
-        </div>
-      </div>
-    );
-  }
-
   toggleShortcutsModal() {
     this.setState({
       shortcutsModalEnabled: !this.state.shortcutsModalEnabled
     });
-  }
-
-  renderHorizontalLayout() {
-    const { startPanelCollapsed, endPanelCollapsed } = this.props;
-    const horizontal = this.isHorizontal();
-
-    const overflowX = endPanelCollapsed ? "hidden" : "auto";
-
-    return (
-      <SplitBox
-        style={{ width: "100vw" }}
-        initialSize="250px"
-        minSize={10}
-        maxSize="50%"
-        splitterSize={1}
-        onResizeEnd={size => this.setState({ startPanelSize: size })}
-        startPanel={<PrimaryPanes horizontal={horizontal} />}
-        startPanelCollapsed={startPanelCollapsed}
-        endPanel={
-          <SplitBox
-            style={{ overflowX }}
-            initialSize="300px"
-            minSize={10}
-            maxSize="80%"
-            splitterSize={1}
-            onResizeEnd={size => this.setState({ endPanelSize: size })}
-            endPanelControl={true}
-            startPanel={this.renderEditorPane()}
-            endPanel={
-              <SecondaryPanes
-                horizontal={horizontal}
-                toggleShortcutsModal={() => this.toggleShortcutsModal()}
-              />
-            }
-            endPanelCollapsed={endPanelCollapsed}
-            vert={horizontal}
-          />
-        }
-      />
-    );
-  }
-
-  renderVerticalLayout() {
-    const { startPanelCollapsed, endPanelCollapsed } = this.props;
-    const horizontal = this.isHorizontal();
-
-    return (
-      <SplitBox
-        style={{ width: "100vw" }}
-        initialSize="300px"
-        minSize={30}
-        maxSize="99%"
-        splitterSize={1}
-        vert={horizontal}
-        startPanel={
-          <SplitBox
-            style={{ width: "100vw" }}
-            initialSize="250px"
-            minSize={10}
-            maxSize="40%"
-            splitterSize={1}
-            startPanelCollapsed={startPanelCollapsed}
-            startPanel={<PrimaryPanes horizontal={horizontal} />}
-            endPanel={this.renderEditorPane()}
-          />
-        }
-        endPanel={
-          <SecondaryPanes
-            horizontal={horizontal}
-            toggleShortcutsModal={() => this.toggleShortcutsModal()}
-          />
-        }
-        endPanelCollapsed={endPanelCollapsed}
-      />
-    );
   }
 
   renderShortcutsModal() {
@@ -326,11 +199,29 @@ class App extends Component<Props, State> {
 
   render() {
     const { quickOpenEnabled } = this.props;
+
+    const {
+      startPanelCollapsed,
+      endPanelCollapsed,
+      selectedSource
+    } = this.props;
+    const { endPanelSize, startPanelSize } = this.state;
+
     return (
       <div className="debugger">
-        {this.isHorizontal()
-          ? this.renderHorizontalLayout()
-          : this.renderVerticalLayout()}
+        {!startPanelCollapsed && <PrimaryPanes />}
+        <EditorTabs
+          startPanelCollapsed={startPanelCollapsed}
+          endPanelCollapsed={endPanelCollapsed}
+        />
+        <Editor />
+        {(!endPanelCollapsed || true) && <CommandBar />}
+        {(!endPanelCollapsed || true) && <SecondaryPanes />}
+        {(!endPanelCollapsed || true) && (
+          <UtilsBar toggleShortcutsModal={this.toggleShortcutsModal} />
+        )}
+        {!selectedSource && <WelcomeBox />}
+        <ProjectSearch />
         {quickOpenEnabled === true && <QuickOpenModal />}
         {this.renderShortcutsModal()}
       </div>

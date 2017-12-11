@@ -30,10 +30,7 @@ function shouldShowPrettyPrint(selectedSource) {
   return shouldPrettyPrint(selectedSource);
 }
 
-function shouldShowFooter(selectedSource, horizontal) {
-  if (!horizontal) {
-    return true;
-  }
+function shouldShowFooter(selectedSource) {
   if (!selectedSource) {
     return false;
   }
