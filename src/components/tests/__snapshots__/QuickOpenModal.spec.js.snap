@@ -18,6 +18,7 @@ exports[`QuickOpenModal Basic render with mount & searchType = functions 1`] = `
   }
 >
   <Slide
+    additionalClass="quick-open-modal"
     handleClose={[Function]}
     in={true}
   >
@@ -37,6 +38,7 @@ exports[`QuickOpenModal Basic render with mount & searchType = functions 1`] = `
       unmountOnExit={false}
     >
       <Modal
+        additionalClass="quick-open-modal"
         handleClose={[Function]}
         status="entering"
       >
@@ -45,7 +47,7 @@ exports[`QuickOpenModal Basic render with mount & searchType = functions 1`] = `
           onClick={[Function]}
         >
           <div
-            className="modal entering"
+            className="modal quick-open-modal entering"
             onClick={[Function]}
           >
             <div
@@ -152,6 +154,7 @@ exports[`QuickOpenModal Basic render with mount & searchType = variables 1`] = `
   }
 >
   <Slide
+    additionalClass="quick-open-modal"
     handleClose={[Function]}
     in={true}
   >
@@ -171,6 +174,7 @@ exports[`QuickOpenModal Basic render with mount & searchType = variables 1`] = `
       unmountOnExit={false}
     >
       <Modal
+        additionalClass="quick-open-modal"
         handleClose={[Function]}
         status="entering"
       >
@@ -179,7 +183,7 @@ exports[`QuickOpenModal Basic render with mount & searchType = variables 1`] = `
           onClick={[Function]}
         >
           <div
-            className="modal entering"
+            className="modal quick-open-modal entering"
             onClick={[Function]}
           >
             <div
@@ -280,6 +284,7 @@ exports[`QuickOpenModal Basic render with mount 1`] = `
   setQuickOpenQuery={[Function]}
 >
   <Slide
+    additionalClass="quick-open-modal"
     handleClose={[Function]}
     in={true}
   >
@@ -299,6 +304,7 @@ exports[`QuickOpenModal Basic render with mount 1`] = `
       unmountOnExit={false}
     >
       <Modal
+        additionalClass="quick-open-modal"
         handleClose={[Function]}
         status="entering"
       >
@@ -307,7 +313,7 @@ exports[`QuickOpenModal Basic render with mount 1`] = `
           onClick={[Function]}
         >
           <div
-            className="modal entering"
+            className="modal quick-open-modal entering"
             onClick={[Function]}
           >
             <div
@@ -389,6 +395,7 @@ exports[`QuickOpenModal Doesn't render when disabled 1`] = `null`;
 
 exports[`QuickOpenModal Renders when enabled 1`] = `
 <Slide
+  additionalClass="quick-open-modal"
   handleClose={[Function]}
   in={true}
 >
@@ -423,6 +430,7 @@ exports[`QuickOpenModal closeModal 1`] = `
   setQuickOpenQuery={[Function]}
 >
   <Slide
+    additionalClass="quick-open-modal"
     handleClose={[Function]}
     in={true}
   >
@@ -442,6 +450,7 @@ exports[`QuickOpenModal closeModal 1`] = `
       unmountOnExit={false}
     >
       <Modal
+        additionalClass="quick-open-modal"
         handleClose={[Function]}
         status="entering"
       >
@@ -450,7 +459,7 @@ exports[`QuickOpenModal closeModal 1`] = `
           onClick={[Function]}
         >
           <div
-            className="modal entering"
+            className="modal quick-open-modal entering"
             onClick={[Function]}
           >
             <div
@@ -553,6 +562,7 @@ exports[`QuickOpenModal updateResults on enable 2`] = `
   setQuickOpenQuery={[Function]}
 >
   <Slide
+    additionalClass="quick-open-modal"
     handleClose={[Function]}
     in={true}
   >
@@ -572,6 +582,7 @@ exports[`QuickOpenModal updateResults on enable 2`] = `
       unmountOnExit={false}
     >
       <Modal
+        additionalClass="quick-open-modal"
         handleClose={[Function]}
         status="entering"
       >
@@ -580,7 +591,7 @@ exports[`QuickOpenModal updateResults on enable 2`] = `
           onClick={[Function]}
         >
           <div
-            className="modal entering"
+            className="modal quick-open-modal entering"
             onClick={[Function]}
           >
             <div
