@@ -14,8 +14,6 @@ import { endTruncateStr } from "./utils";
 import { basename } from "../utils/path";
 import { parse as parseURL } from "url";
 
-export { isMinified } from "./isMinified";
-
 import type { Source } from "../types";
 import type { SourceRecord } from "../reducers/types";
 import type { SourceMetaDataType } from "../reducers/ast";
