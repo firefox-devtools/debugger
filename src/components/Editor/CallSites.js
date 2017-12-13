@@ -62,12 +62,12 @@ class CallSites extends Component {
     document.body.addEventListener("keyup", this.onKeyUp);
   }
 
-  componentDidUnMount() {
+  componentWillUnmount() {
     const { editor } = this.props;
     const codeMirrorWrapper = editor.codeMirror.getWrapperElement();
 
-    codeMirrorWrapper.addEventListener("click", e => this.onTokenClick(e));
-    document.body.removeEventListener("keydown", e => this.onKeyDown);
+    codeMirrorWrapper.removeEventListener("click", e => this.onTokenClick(e));
+    document.body.removeEventListener("keydown", this.onKeyDown);
     document.body.removeEventListener("keyup", this.onKeyUp);
   }
 
