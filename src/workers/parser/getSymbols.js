@@ -12,6 +12,7 @@ import getFunctionName from "./utils/getFunctionName";
 
 import type { Source } from "debugger-html";
 import type { NodePath, Node, Location as BabelLocation } from "babel-traverse";
+
 let symbolDeclarations = new Map();
 
 export type SymbolDeclaration = {|
@@ -22,8 +23,7 @@ export type SymbolDeclaration = {|
   expressionLocation?: BabelLocation,
   parameterNames?: string[],
   identifier?: Object,
-  computed?: Boolean,
-  values?: string[]
+  computed?: Boolean
 |};
 
 export type FunctionDeclaration = SymbolDeclaration & {|
@@ -105,6 +105,7 @@ function extractSymbols(source: Source) {
   const identifiers = [];
   const classes = [];
   const imports = [];
+  const hasJSX = [];
 
   const ast = traverseAst(source, {
     enter(path: NodePath) {
@@ -121,6 +122,8 @@ function extractSymbols(source: Source) {
           identifier: path.node.id
         });
       }
+
+      hasJSX[0] = t.isJSXElement(path);
 
       if (t.isClassDeclaration(path)) {
         classes.push({
@@ -160,12 +163,10 @@ function extractSymbols(source: Source) {
 
       if (t.isCallExpression(path)) {
         const callee = path.node.callee;
-        const args = path.node.arguments;
         if (!t.isMemberExpression(callee)) {
           const { start, end, identifierName } = callee.loc;
           callExpressions.push({
             name: identifierName,
-            values: args.filter(arg => arg.value).map(arg => arg.value),
             location: { start, end }
           });
         }
@@ -221,7 +222,8 @@ function extractSymbols(source: Source) {
     comments,
     identifiers,
     classes,
-    imports
+    imports,
+    hasJSX
   };
 }
 
