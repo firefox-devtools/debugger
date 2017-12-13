@@ -55,14 +55,16 @@ function update(
 
   switch (action.type) {
     case "ADD_SOURCE": {
-      return updateSource(state, action.source);
+      const source = action.source;
+      return updateSource(state, source);
     }
 
     case "ADD_SOURCES": {
-      return action.sources.reduce(
-        (newState, source) => updateSource(newState, source),
-        state
-      );
+      action.sources.forEach(source => {
+        state = state.mergeIn(["sources", source.id], source);
+      });
+
+      return state;
     }
 
     case "SELECT_SOURCE":
