@@ -229,7 +229,7 @@ class Editor extends PureComponent<Props, State> {
     this.setSize(nextProps);
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     // This is in `componentDidUpdate` so helper functions can expect
     // `this.props` to be the current props. This lifecycle method is
     // responsible for updating the editor annotations.
@@ -253,6 +253,14 @@ class Editor extends PureComponent<Props, State> {
     // loaded.
     if (selectedSource && isLoaded(selectedSource)) {
       this.highlightLine();
+    }
+
+    // NOTE: when devtools are opened, the editor is not set when
+    // the source loads so we need to wait until the editor is
+    // set to update the text and size.
+    if (!prevState.editor && this.state.editor) {
+      this.setText(this.props);
+      this.setSize(this.props);
     }
   }
 
