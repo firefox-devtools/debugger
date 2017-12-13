@@ -221,7 +221,7 @@ export type ListTabsResponse = {
 export type Actions = {
   paused: Pause => void,
   resumed: ResumedPacket => void,
-  newSources: (Source[]) => void,
+  newSource: Source => void,
   fetchEventListeners: () => void
 };
 
