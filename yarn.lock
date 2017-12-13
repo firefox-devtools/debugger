@@ -6,16 +6,6 @@
   version "3.0.9"
   resolved "https://registry.yarnpkg.com/@hypnosphi/fuse.js/-/fuse.js-3.0.9.tgz#ea99f6121b4a8f065b4c71f85595db2714498807"
 
-"@percy-io/react-percy-api-client@^0.1.3":
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/@percy-io/react-percy-api-client/-/react-percy-api-client-0.1.6.tgz#40f1315bd737ed4235a386fddded91d6a4b29869"
-  dependencies:
-    debug "^2.6.3"
-    es6-promise-pool "^2.4.4"
-    mime-types "^2.1.14"
-    percy-client "^2.1.0"
-    slugify "^1.1.0"
-
 "@percy-io/react-percy-api-client@^0.2.0":
   version "0.2.5"
   resolved "https://registry.yarnpkg.com/@percy-io/react-percy-api-client/-/react-percy-api-client-0.2.5.tgz#c98974d8c1bc53e2ae38c1549b0ec967fdde628f"
@@ -27,18 +17,7 @@
     percy-client "^2.1.0"
     slugify "^1.1.0"
 
-"@percy-io/react-percy-storybook@^0.1.2":
-  version "0.1.12"
-  resolved "https://registry.yarnpkg.com/@percy-io/react-percy-storybook/-/react-percy-storybook-0.1.12.tgz#0ec2a7d72635ad768ea65849e22ac205d04dd311"
-  dependencies:
-    "@percy-io/react-percy-api-client" "^0.1.3"
-    debug "^2.6.3"
-    es6-promise-pool "^2.4.4"
-    jsdom "^9.12.0"
-    walk "^2.3.9"
-    yargs "^7.0.2"
-
-"@percy-io/react-percy-storybook@^1.0.2":
+"@percy-io/react-percy-storybook@^1.0.2", "@percy-io/react-percy-storybook@^1.1.5":
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/@percy-io/react-percy-storybook/-/react-percy-storybook-1.1.5.tgz#80e138afe01441aaafa8dfdd59ead8b0329b9ca7"
   dependencies:
@@ -3051,11 +3030,13 @@ devtools-source-map@^0.14.7:
     regenerator-runtime "^0.10.3"
     source-map "^0.6.1"
 
-devtools-splitter@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/devtools-splitter/-/devtools-splitter-0.0.5.tgz#1b61708f348e7783dee86f76c9a6f980d275f427"
+devtools-splitter@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/devtools-splitter/-/devtools-splitter-0.0.6.tgz#5692f71ab6fd44cdc5d5ecc1acffaa8771baa934"
   dependencies:
-    "@percy-io/react-percy-storybook" "^0.1.2"
+    "@percy-io/react-percy-storybook" "^1.1.5"
+    prop-types "^15.6.0"
+    react-dom-factories "^1.0.2"
 
 devtools-sprintf-js@^1.0.3:
   version "1.0.3"
@@ -4148,9 +4129,13 @@ fuse.js@^3.0.1:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/fuse.js/-/fuse.js-3.2.0.tgz#f0448e8069855bf2a3e683cdc1d320e7e2a07ef4"
 
-fuzzaldrin-plus@^0.4.0, fuzzaldrin-plus@^0.4.1:
+fuzzaldrin-plus@^0.4.0:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/fuzzaldrin-plus/-/fuzzaldrin-plus-0.4.1.tgz#979595024aab74184942307d631d7aa441eee379"
+
+fuzzaldrin-plus@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/fuzzaldrin-plus/-/fuzzaldrin-plus-0.6.0.tgz#832f6489fbe876769459599c914a670ec22947ee"
 
 gauge@~2.7.3:
   version "2.7.4"
@@ -4797,7 +4782,7 @@ http-signature@~1.2.0:
     jsprim "^1.2.2"
     sshpk "^1.7.0"
 
-httpplease@^0.16:
+httpplease@^0.16.4:
   version "0.16.4"
   resolved "https://registry.yarnpkg.com/httpplease/-/httpplease-0.16.4.tgz#d382ebe230ef5079080b4e9ffebf316a9e75c0da"
   dependencies:
@@ -4851,7 +4836,7 @@ ignore@^3.2.0, ignore@^3.3.3:
   version "3.3.7"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-3.3.7.tgz#612289bfb3c220e186a58118618d5be8c1bab021"
 
-immutable@^3.7.6, immutable@^3.8.1:
+immutable@^3.7.6, immutable@^3.8.1, immutable@^3.8.2:
   version "3.8.2"
   resolved "https://registry.yarnpkg.com/immutable/-/immutable-3.8.2.tgz#c2439951455bb39913daf281376f1530e104adf3"
 
@@ -7202,7 +7187,7 @@ on-finished@~2.3.0:
   dependencies:
     ee-first "1.1.1"
 
-once@^1.3.0, once@^1.3.3, once@^1.4, once@^1.4.0:
+once@^1.3.0, once@^1.3.3, once@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/once/-/once-1.4.0.tgz#583b1aa775961d4b113ac17d9c50baef9dd76bd1"
   dependencies:
@@ -7416,9 +7401,9 @@ parse-latin@^4.0.0:
     unist-util-modify-children "^1.0.0"
     unist-util-visit-children "^1.0.0"
 
-parse-script-tags@^0.1.1:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/parse-script-tags/-/parse-script-tags-0.1.3.tgz#abcc38665d4ff92bd5a2661b8f24c3e172db19d5"
+parse-script-tags@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/parse-script-tags/-/parse-script-tags-0.1.5.tgz#9d1a5370dadb37845030537b6dbf736bb524505c"
   dependencies:
     babel-types "^6.24.1"
     babylon "^6.17.0"
@@ -8250,12 +8235,12 @@ react-immutable-proptypes@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/react-immutable-proptypes/-/react-immutable-proptypes-2.1.0.tgz#023d6f39bb15c97c071e9e60d00d136eac5fa0b4"
 
-react-inlinesvg@^0.6.2:
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/react-inlinesvg/-/react-inlinesvg-0.6.2.tgz#cad181824652934f6235ff2b09e39b8c86344aab"
+react-inlinesvg@^0.7.4:
+  version "0.7.4"
+  resolved "https://registry.yarnpkg.com/react-inlinesvg/-/react-inlinesvg-0.7.4.tgz#c5191ebb94dd9eb9274f3dbd1dd437d989107557"
   dependencies:
-    httpplease "^0.16"
-    once "^1.4"
+    httpplease "^0.16.4"
+    once "^1.4.0"
 
 react-inspector@^2.2.1:
   version "2.2.1"
@@ -8348,7 +8333,7 @@ react-transition-group@^1.1.2:
     prop-types "^15.5.6"
     warning "^3.0.0"
 
-react-transition-group@^2.2.0:
+react-transition-group@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-2.2.1.tgz#e9fb677b79e6455fd391b03823afe84849df4a10"
   dependencies:
@@ -8572,9 +8557,9 @@ reduce-function-call@^1.0.1:
   dependencies:
     balanced-match "^0.4.2"
 
-redux-saga@^0.15.4:
-  version "0.15.6"
-  resolved "https://registry.yarnpkg.com/redux-saga/-/redux-saga-0.15.6.tgz#8638dc522de6c6c0a496fe8b2b5466287ac2dc4d"
+redux-saga@^0.16.0:
+  version "0.16.0"
+  resolved "https://registry.yarnpkg.com/redux-saga/-/redux-saga-0.16.0.tgz#0a231db0a1489301dd980f6f2f88d8ced418f724"
 
 redux@^3.7.2:
   version "3.7.2"
