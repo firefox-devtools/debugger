@@ -39,4 +39,5 @@ before_script:
 script:
   - node --version
   - du -sh firefox
+  - node ./bin/ci/run-try.js
   - node ./bin/ci/run-tests.js

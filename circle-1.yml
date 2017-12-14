@@ -1,0 +1,22 @@
+machine:
+  node:
+    version: 7.7.2
+  services:
+    - docker
+  environment:
+    DOWNLOADS_PATH: "$HOME/downloads"
+    YARN_PATH: "$HOME/.yarn"
+    YARN_VERSION: 0.28.4
+    PATH: "${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
+  post:
+    - mkdir -p $YARN_PATH
+
+dependencies:
+  pre:
+    - sudo pip install --upgrade pip
+    - ./bin/ci/install-yarn
+  override:
+    - yarn install
+
+
+# https://circleci.com/gh/devtools-html/debugger.html/9112
