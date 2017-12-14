@@ -6,6 +6,7 @@
 import React, { Component } from "react";
 import classnames from "classnames";
 import Svg from "../Svg";
+import CommandBarButton from "./CommandBarButton";
 import "./PaneToggle.css";
 
 type Props = {
@@ -31,8 +32,8 @@ class PaneToggleButton extends Component<Props> {
       : L10N.getStr("collapsePanes");
 
     return (
-      <button
-        className={classnames(`toggle-button-${position}`, {
+      <CommandBarButton
+        className={classnames("toggle-button", position, {
           collapsed,
           vertical: horizontal != null ? !horizontal : false
         })}
@@ -40,7 +41,7 @@ class PaneToggleButton extends Component<Props> {
         title={title}
       >
         <Svg name="togglePanes" />
-      </button>
+      </CommandBarButton>
     );
   }
 }

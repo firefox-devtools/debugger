@@ -19,40 +19,6 @@ html[dir="rtl"] .command-bar {
   background-color: var(--theme-tab-toolbar-background);
 }
 
-.command-bar > button {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background: transparent;
-  border: none;
-  display: inline-block;
-  text-align: center;
-  padding: 8px 5px;
-  position: relative;
-  fill: currentColor;
-}
-
-.command-bar > button:not(.disabled):hover {
-  background: var(--theme-toolbar-background-hover);
-}
-
-:root.theme-dark .command-bar > button {
-  color: var(--theme-body-color);
-}
-
-.command-bar > button {
-  margin-inline-end: 0.3em;
-}
-
-.command-bar > button:focus {
-  outline: none;
-}
-
-html .command-bar > button:disabled {
-  opacity: 0.8;
-  cursor: default;
-}
-
 img.pause,
 img.stepOver,
 img.stepIn,
@@ -61,45 +27,39 @@ img.resume {
   background-color: var(--theme-body-color);
 }
 
-.command-bar > button > img {
-  width: 16px;
-  height: 16px;
-  display: inline-block;
-}
-
-.command-bar > button > img.pause {
+.command-bar img.pause {
   mask: url(/images/pause.svg) no-repeat;
 }
 
-.command-bar > button > img.stepOver {
+.command-bar img.stepOver {
   mask: url(/images/stepOver.svg) no-repeat;
 }
 
-.command-bar > button > img.stepIn {
+.command-bar img.stepIn {
   mask: url(/images/stepIn.svg) no-repeat;
 }
 
-.command-bar > button > img.stepOut {
+.command-bar img.stepOut {
   mask: url(/images/stepOut.svg) no-repeat;
 }
 
-.command-bar > button > img.resume {
+.command-bar img.resume {
   mask: url(/images/resume.svg) no-repeat;
 }
 
-.command-bar > button.pause-exceptions.uncaught.enabled > img.pause-exceptions {
+.command-bar > .pause-exceptions.uncaught.enabled > img.pause-exceptions {
   background-color: var(--theme-highlight-purple);
 }
 
-.command-bar > button.pause-exceptions.all.enabled > img.pause-exceptions {
+.command-bar > .pause-exceptions.all.enabled > img.pause-exceptions {
   background-color: var(--theme-highlight-blue);
 }
 
-.command-bar > button.pause-exceptions.enabled > img.pause-exceptions {
+.command-bar > .pause-exceptions.enabled > img.pause-exceptions {
   background-color: var(--theme-body-color);
 }
 
-.command-bar > button > img.pause-exceptions {
+.command-bar img.pause-exceptions {
   mask: url(/images/pause-exceptions.svg) no-repeat;
   margin-inline-start: 0.2em;
 }
@@ -113,10 +73,6 @@ img.resume {
   background-color: var(--theme-body-background);
   border-top: 1px solid var(--theme-splitter-color);
   flex: 0 0 27px;
-}
-
-.command-bar > button {
-  padding: 6px 5px;
 }
 
 .command-bar.bottom {
