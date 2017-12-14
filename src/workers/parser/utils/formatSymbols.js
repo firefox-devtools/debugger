@@ -11,7 +11,6 @@ function formatLocation(loc) {
 
   const { start, end } = loc;
   const startLoc = `(${start.line}, ${start.column})`;
-
   const endLoc = `(${end.line}, ${end.column})`;
 
   return `[${startLoc}, ${endLoc}]`;
@@ -23,21 +22,14 @@ function summarize(symbol) {
   }
 
   const loc = formatLocation(symbol.location);
-
   const exprLoc = formatLocation(symbol.expressionLocation);
-
   const params = symbol.parameterNames
     ? `(${symbol.parameterNames.join(", ")})`
     : "";
-
   const expression = symbol.expression || "";
-
   const klass = symbol.klass || "";
-
   const name = symbol.name || "";
-
   const names = symbol.specifiers ? symbol.specifiers.join(", ") : "";
-
   const values = symbol.values ? symbol.values.join(", ") : "";
 
   return `${loc} ${exprLoc} ${expression} ${name}${params} ${klass} ${names} ${
@@ -59,6 +51,5 @@ export function formatSymbols(source: Source) {
   return Object.keys(symbols)
 
     .map(name => formatKey(name, symbols))
-
     .join("\n\n");
 }
