@@ -23,7 +23,8 @@ export type SymbolDeclaration = {|
   expressionLocation?: BabelLocation,
   parameterNames?: string[],
   identifier?: Object,
-  computed?: Boolean
+  computed?: Boolean,
+  values?: string[]
 |};
 
 export type FunctionDeclaration = SymbolDeclaration & {|
@@ -123,7 +124,9 @@ function extractSymbols(source: Source) {
         });
       }
 
-      hasJSX[0] = t.isJSXElement(path);
+      if (t.isJSXElement(path)) {
+        hasJSX.push(true);
+      }
 
       if (t.isClassDeclaration(path)) {
         classes.push({
@@ -163,10 +166,12 @@ function extractSymbols(source: Source) {
 
       if (t.isCallExpression(path)) {
         const callee = path.node.callee;
+        const args = path.node.arguments;
         if (!t.isMemberExpression(callee)) {
           const { start, end, identifierName } = callee.loc;
           callExpressions.push({
             name: identifierName,
+            values: args.filter(arg => arg.value).map(arg => arg.value),
             location: { start, end }
           });
         }
