@@ -1,7 +1,4 @@
-
 .command-bar-button {
-  -webkit-appearance: none;
-  -moz-appearance: none;
   appearance: none;
   background: transparent;
   border: none;
@@ -9,15 +6,8 @@
   text-align: center;
   position: relative;
   padding: 0px 5px;
-  fill: currentColor;
-}
-
-:root.theme-dark .command-bar-button {
-  color: var(--theme-body-color);
-}
-
-.command-bar-button {
   margin-inline-end: 0.3em;
+  fill: currentColor;
 }
 
 .command-bar-button:focus {
@@ -31,6 +21,10 @@
 
 .command-bar-button:not(.disabled):hover {
   background: var(--theme-toolbar-background-hover);
+}
+
+:root.theme-dark .command-bar-button {
+  color: var(--theme-body-color);
 }
 
 .command-bar-button > * {

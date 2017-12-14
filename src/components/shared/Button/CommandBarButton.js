@@ -4,18 +4,18 @@ import React from "react";
 import "./CommandBarButton.css";
 
 type Props = {
-  pressed: boolean,
+  children: any,
   className: string,
-  children: any
+  pressed: boolean
 };
 
 const CommandBarButton = (props: Props) => {
-  const { pressed = false, className, children, ...rest } = props;
+  const { children, className, pressed = false, ...rest } = props;
 
   return (
     <button
-      className={classnames("command-bar-button", className)}
       aria-pressed={pressed}
+      className={classnames("command-bar-button", className)}
       {...rest}
     >
       {children}

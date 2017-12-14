@@ -85,11 +85,11 @@ function debugBtn(
   return (
     <CommandBarButton
       className={classnames(type, className)}
-      onClick={onClick}
-      key={type}
-      title={tooltip}
       disabled={disabled}
+      key={type}
+      onClick={onClick}
       pressed={ariaPressed}
+      title={tooltip}
     >
       <img className={type} />
     </CommandBarButton>
