@@ -17,6 +17,7 @@ import {
 } from "../../selectors";
 import { formatKeyShortcut } from "../../utils/text";
 import actions from "../../actions";
+import CommandBarButton from "../shared/Button/CommandBarButton";
 import "./CommandBar.css";
 
 import { Services } from "devtools-modules";
@@ -81,18 +82,17 @@ function debugBtn(
   disabled = false,
   ariaPressed = false
 ) {
-  const props = {
-    onClick,
-    key: type,
-    title: tooltip,
-    disabled,
-    "aria-pressed": ariaPressed
-  };
-
   return (
-    <button className={classnames(type, className)} {...props}>
+    <CommandBarButton
+      className={classnames(type, className)}
+      onClick={onClick}
+      key={type}
+      title={tooltip}
+      disabled={disabled}
+      pressed={ariaPressed}
+    >
       <img className={type} />
-    </button>
+    </CommandBarButton>
   );
 }
 
