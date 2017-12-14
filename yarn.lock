@@ -9930,7 +9930,7 @@ svg-inline-loader@^0.8.0:
     object-assign "^4.0.1"
     simple-html-tokenizer "^0.1.1"
 
-svg-inline-react@3.0.0:
+svg-inline-react@3.0.0, svg-inline-react@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/svg-inline-react/-/svg-inline-react-3.0.0.tgz#fe1501fcbfcefbacc672513211549d74550e8e91"
   dependencies:
