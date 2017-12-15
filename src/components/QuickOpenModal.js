@@ -242,7 +242,14 @@ export class QuickOpenModal extends Component<Props, State> {
     }
   };
 
-  resultCount = () => (this.state.results ? this.state.results.length : 0);
+  resultCount = () => {
+    const results = this.state.results;
+
+    if (results && results.length) {
+      return results.length;
+    }
+    return 0;
+  };
 
   isSymbolSearch = () =>
     ["functions", "variables"].includes(this.props.searchType);
