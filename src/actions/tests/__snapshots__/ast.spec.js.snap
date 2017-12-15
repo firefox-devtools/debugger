@@ -188,6 +188,7 @@ Object {
       ],
     },
   ],
+  "hasJsx": false,
   "identifiers": Array [
     Object {
       "expression": "base",

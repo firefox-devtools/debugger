@@ -77,7 +77,9 @@ classes:
 [(23, 0), (31, 1)]   Ultra
 
 imports:
-"
+
+
+hasJsx: false"
 `;
 
 exports[`Parser.getSymbols call sites 1`] = `
@@ -115,7 +117,9 @@ classes:
 
 
 imports:
-"
+
+
+hasJsx: false"
 `;
 
 exports[`Parser.getSymbols class 1`] = `
@@ -164,7 +168,9 @@ classes:
 [(15, 0), (15, 14)]   Test2
 
 imports:
-"
+
+
+hasJsx: false"
 `;
 
 exports[`Parser.getSymbols component 1`] = `
@@ -325,7 +331,9 @@ classes:
 [(5, 0), (20, 1)]   Punny
 
 imports:
-"
+
+
+hasJsx: true"
 `;
 
 exports[`Parser.getSymbols es6 1`] = `
@@ -357,7 +365,9 @@ classes:
 
 
 imports:
-"
+
+
+hasJsx: false"
 `;
 
 exports[`Parser.getSymbols expression 1`] = `
@@ -563,7 +573,9 @@ classes:
 
 
 imports:
-"
+
+
+hasJsx: false"
 `;
 
 exports[`Parser.getSymbols finds symbols in an html file 1`] = `
@@ -640,7 +652,9 @@ classes:
 
 
 imports:
-"
+
+
+hasJsx: false"
 `;
 
 exports[`Parser.getSymbols flow 1`] = `
@@ -673,7 +687,9 @@ classes:
 [(1, 0), (5, 1)]   App
 
 imports:
-"
+
+
+hasJsx: false"
 `;
 
 exports[`Parser.getSymbols func 1`] = `
@@ -722,7 +738,41 @@ classes:
 
 
 imports:
-"
+
+
+hasJsx: false"
+`;
+
+exports[`Parser.getSymbols jsx 1`] = `
+"functions:
+
+
+variables:
+[(1, 6), (1, 45)]   jsxElement
+
+callExpressions:
+
+
+memberExpressions:
+
+
+objectProperties:
+
+
+comments:
+
+
+identifiers:
+[(1, 6), (1, 45)]  jsxElement jsxElement
+[(1, 6), (1, 16)]  jsxElement jsxElement
+
+classes:
+
+
+imports:
+
+
+hasJsx: true"
 `;
 
 exports[`Parser.getSymbols math 1`] = `
@@ -776,7 +826,9 @@ classes:
 
 
 imports:
-"
+
+
+hasJsx: false"
 `;
 
 exports[`Parser.getSymbols proto 1`] = `
@@ -834,7 +886,9 @@ classes:
 
 
 imports:
-"
+
+
+hasJsx: false"
 `;
 
 exports[`Parser.getSymbols react component 1`] = `
@@ -867,7 +921,9 @@ classes:
 [(3, 0), (3, 39)]   PrimaryPanes
 
 imports:
-[(1, 0), (1, 41)]     React, Component"
+[(1, 0), (1, 41)]     React, Component
+
+hasJsx: false"
 `;
 
 exports[`Parser.getSymbols var 1`] = `
@@ -909,5 +965,7 @@ classes:
 
 
 imports:
-"
+
+
+hasJsx: false"
 `;
