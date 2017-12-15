@@ -20,13 +20,16 @@ function toggleButton(dbg) {
 add_task(async function() {
   const dbg = await initDebugger("doc-script-switching.html");
 
-  toggleCallStack(dbg);
+  const found = findElement(dbg, "callStackBody");
+  is(found, null, "Call stack is hidden");
 
   const notPaused = findElement(dbg, "callStackBody").innerText;
   is(notPaused, "Not paused", "Not paused message is shown");
 
   invokeInTab("firstCall");
   await waitForPaused(dbg);
+
+  toggleCallStack(dbg);
 
   ok(isFrameSelected(dbg, 1, "secondCall"), "the first frame is selected");
 
@@ -37,10 +40,10 @@ add_task(async function() {
 add_task(async function() {
   const dbg = await initDebugger("doc-frames.html");
 
-  toggleCallStack(dbg);
-
   invokeInTab("startRecursion");
   await waitForPaused(dbg);
+
+  toggleCallStack(dbg);
 
   ok(isFrameSelected(dbg, 1, "recurseA"), "the first frame is selected");
 
