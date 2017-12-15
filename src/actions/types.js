@@ -42,7 +42,8 @@ export type ThunkArgs = {
   getState: () => State,
   client: any,
   sourceMaps: any,
-  openLink: (url: string) => void
+  openLink: (url: string) => void,
+  openWorkerToolbox: (url: string) => void
 };
 
 export type Thunk = ThunkArgs => any;

@@ -15,7 +15,7 @@ pref("devtools.debugger.source-maps-enabled", true);
 pref("devtools.debugger.pretty-print-enabled", true);
 pref("devtools.debugger.auto-pretty-print", false);
 pref("devtools.debugger.auto-black-box", true);
-pref("devtools.debugger.workers", false);
+pref("devtools.debugger.features.workers", false);
 
 // The default Debugger UI settings
 pref("devtools.debugger.prefs-schema-version", "1.0.0");

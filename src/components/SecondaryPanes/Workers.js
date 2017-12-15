@@ -3,21 +3,34 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 import React, { PureComponent } from "react";
-import "./Workers.css";
+import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { getWorkers } from "../../selectors";
 import type { List } from "immutable";
+
+import "./Workers.css";
+
+import actions from "../../actions";
+import { getWorkers } from "../../selectors";
 import type { Worker } from "../../types";
 
 export class Workers extends PureComponent {
   props: {
-    workers: List<Worker>
+    workers: List<Worker>,
+    openWorkerToolbox: string => void
   };
 
+  selectWorker(url) {
+    this.props.openWorkerToolbox(url);
+  }
+
   renderWorkers(workers) {
-    return workers.map(w => (
-      <div className="worker" key={w.url}>
-        {w.url}
+    return workers.map(worker => (
+      <div
+        className="worker"
+        key={worker.url}
+        onClick={() => this.selectWorker(worker.url)}
+      >
+        {worker.url}
       </div>
     ));
   }
@@ -38,7 +51,9 @@ export class Workers extends PureComponent {
   }
 }
 
-function mapStateToProps(state) {
-  return { workers: getWorkers(state) };
-}
-export default connect(mapStateToProps)(Workers);
+export default connect(
+  state => {
+    return { workers: getWorkers(state) };
+  },
+  dispatch => bindActionCreators(actions, dispatch)
+)(Workers);

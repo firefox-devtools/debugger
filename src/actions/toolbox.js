@@ -5,6 +5,7 @@
 // @flow
 
 const { isDevelopment } = require("devtools-config");
+const { getWorker } = require("../selectors");
 
 import type { ThunkArgs } from "./types";
 
@@ -19,6 +20,20 @@ export function openLink(url: string) {
       win.focus();
     } else {
       openLinkCommand(url);
+    }
+  };
+}
+
+export function openWorkerToolbox(url: string) {
+  return async function({
+    getState,
+    openWorkerToolbox: openWorkerToolboxCommand
+  }: ThunkArgs) {
+    const worker = getWorker(getState(), url);
+    if (isDevelopment()) {
+      alert(url);
+    } else {
+      openWorkerToolboxCommand(worker);
     }
   };
 }
