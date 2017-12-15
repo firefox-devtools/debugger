@@ -196,15 +196,6 @@ class SecondaryPanes extends Component<Props> {
         component: Breakpoints,
         opened: true
       },
-      {
-        header: L10N.getStr("callStack.header"),
-        className: "call-stack-pane",
-        component: Frames,
-        opened: prefs.callStackVisible,
-        onToggle: opened => {
-          prefs.callStackVisible = opened;
-        }
-      },
       scopesContent
     ];
 
