@@ -9,7 +9,75 @@
   </head>
 
   <body>
-      <script src="simple4.js"></script>
+    <script src="data:text/javascript,
+    (function(){
+      var A = {};
+      window.A = A;
+      A.F = function(){
+        A.G();
+      },
+      A.G = function(){
+        function _G(){};
+        A.H();
+      },
+      A.H = function(){
+        A.I()
+      },
+      A.I = function(){
+        function _I(){};
+        A.J();
+      };
+      A.J = function(){
+        function _J(){};
+        A.K();
+      };
+      A.K = function(){
+        console.log(123);
+      };
+      
+      addEventListener('click',A.F,false);
+    })()
+    //.js"></script>
+    
+    <!-- a bit confusing -->
+    
+    <script src="data:text/javascript,
+    (function () {
+    %0A  var A = {
+    %0A  };
+    %0A  window.A = A;
+    %0A  A.F = function () {
+    %0A    A.G();
+    %0A  },
+    %0A  A.G = function () {
+    %0A    function _G() {
+    %0A    };
+    %0A    A.H();
+    %0A  },
+    %0A  A.H = function () {
+    %0A    A.I()
+    %0A  },
+    %0A  A.I = function () {
+    %0A    function _I() {
+    %0A    };
+    %0A    A.J();
+    %0A  };
+    %0A  A.J = function () {
+    %0A    function _J() {
+    %0A    };
+    %0A    A.K();
+    %0A  };
+    %0A  A.K = function () {
+    %0A    console.log(123);
+    %0A  };
+    %0A  addEventListener('wheel', A.F, false);
+    %0A}) () //.js
+    %0A"></script>
+    <script>
+      function clickBody() {
+        document.body.click();
+      }
+    </script>
   </body>
 </html>
      

@@ -1,22 +1,33 @@
+function findBreakpoint(dbg, url, line) {
+  const { selectors: { getBreakpoint }, getState } = dbg;
+  const source = findSource(dbg, url);
+  return getBreakpoint(getState(), { sourceId: source.id, line });
+}
+
 add_task(async function() {
   const dbg = await initDebugger("doc-prettified-breakpoints.html");
 
-  await selectSource(dbg, "simple4.js");
+  await selectSource(dbg, "click");
 
-  clickElement(dbg, "prettyPrintButton");
+  await waitForSource(dbg, "click");
+  const src = findSource(dbg, "click");
 
-  await waitForSource(dbg, "simple4.js:formatted");
-  const ppSrc = findSource(dbg, "simple4.js:formatted");
+  await dbg.actions.togglePrettyPrint(src.id);
 
-  await addBreakpoint(dbg, ppSrc, 2);
+  const ppSrcUrl = `${src.url}:formatted`;
+  await waitForSelectedSource(dbg, ppSrcUrl);
+  const ppSrc = findSource(dbg, ppSrcUrl);
 
-  invokeInTab("F");
+  await addBreakpoint(dbg, ppSrc, 6);
 
-  for (let step = 0; step < 16; step++) {
-    await stepIn(dbg);
-    assertPausedLocation(dbg);
-  }
+  let bp = findBreakpoint(dbg, ppSrcUrl, 6);
+  is(bp.disabled, false, "breakpoint is enabled");
 
-  dbg.actions.stepIn();
-  assertNotPaused(dbg);
+  invokeInTab("clickBody");
+
+  await waitForPaused(dbg);
+
+  assertPausedLocation(dbg);
+
+  await resume(dbg);
 });
