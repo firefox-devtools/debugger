@@ -185,7 +185,7 @@ class SecondaryPanes extends Component<Props> {
   }
 
   getStartItems() {
-    const scopesContent: any = this.props.horizontal
+    const scopesContent: any = this.props.horizontal && this.props.pauseData
       ? this.getScopeItem()
       : null;
     const items: Array<SecondaryPanesItems> = [
@@ -196,7 +196,11 @@ class SecondaryPanes extends Component<Props> {
         component: Breakpoints,
         opened: true
       },
-      {
+      scopesContent
+    ];
+
+    if (this.props.pauseData) {
+      items.push({
         header: L10N.getStr("callStack.header"),
         className: "call-stack-pane",
         component: Frames,
@@ -204,9 +208,8 @@ class SecondaryPanes extends Component<Props> {
         onToggle: opened => {
           prefs.callStackVisible = opened;
         }
-      },
-      scopesContent
-    ];
+      })
+    }
 
     if (isEnabled("eventListeners")) {
       items.push({
