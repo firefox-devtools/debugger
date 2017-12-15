@@ -38,8 +38,8 @@ function summarize(symbol) {
 }
 
 function formatKey(name, symbols) {
-  if (name == "hasJSX") {
-    return `hasJSX: ${symbols.hasJSX[0] ? "true" : "false"}`;
+  if (name == "hasJsx") {
+    return `hasJsx: ${symbols.hasJsx ? "true" : "false"}`;
   }
 
   return `${name}:\n${symbols[name].map(summarize).join("\n")}`;
