@@ -208,6 +208,18 @@ class SecondaryPanes extends Component<Props> {
       scopesContent
     ];
 
+    if (this.props.pauseData) {
+      items.push({
+        header: L10N.getStr("callStack.header"),
+        className: "call-stack-pane",
+        component: Frames,
+        opened: prefs.callStackVisible,
+        onToggle: opened => {
+          prefs.callStackVisible = opened;
+        }
+      })
+    }
+
     if (isEnabled("eventListeners")) {
       items.push({
         header: L10N.getStr("eventListenersHeader"),
