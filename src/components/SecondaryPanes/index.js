@@ -185,7 +185,7 @@ class SecondaryPanes extends Component<Props> {
   }
 
   getStartItems() {
-    const scopesContent: any = this.props.horizontal
+    const scopesContent: any = this.props.horizontal && this.props.pauseData
       ? this.getScopeItem()
       : null;
     const items: Array<SecondaryPanesItems> = [
