@@ -23,11 +23,6 @@ add_task(async function() {
   const found = findElement(dbg, "callStackBody");
   is(found, null, "Call stack is hidden");
 
-  // toggleCallStack(dbg);
-
-  // const notPaused = findElement(dbg, "callStackBody").innerText;
-  // is(notPaused, "Not paused", "Not paused message is shown");
-
   invokeInTab("firstCall");
   await waitForPaused(dbg);
 
