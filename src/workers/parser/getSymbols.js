@@ -106,7 +106,7 @@ function extractSymbols(source: Source) {
   const identifiers = [];
   const classes = [];
   const imports = [];
-  const hasJSX = [];
+  let hasJsx = false;
 
   const ast = traverseAst(source, {
     enter(path: NodePath) {
@@ -125,7 +125,7 @@ function extractSymbols(source: Source) {
       }
 
       if (t.isJSXElement(path)) {
-        hasJSX.push(true);
+        hasJsx = true;
       }
 
       if (t.isClassDeclaration(path)) {
@@ -228,7 +228,7 @@ function extractSymbols(source: Source) {
     identifiers,
     classes,
     imports,
-    hasJSX
+    hasJsx
   };
 }
 
