@@ -36,8 +36,6 @@ import type {
 import type { SourceRecord } from "../reducers/sources";
 import type { QuickOpenType } from "../reducers/quick-open";
 
-import "./QuickOpenModal.css";
-
 type Props = {
   enabled: boolean,
   sources: Array<Object>,
@@ -312,11 +310,7 @@ export class QuickOpenModal extends Component<Props, State> {
     }
 
     return (
-      <Modal
-        in={enabled}
-        additionalClass="quick-open-modal"
-        handleClose={this.closeModal}
-      >
+      <Modal in={enabled} handleClose={this.closeModal}>
         {this.renderInput()}
         {this.renderResults()}
       </Modal>

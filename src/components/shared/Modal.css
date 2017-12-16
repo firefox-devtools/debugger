@@ -36,8 +36,8 @@
   flex-direction: column;
 }
 
-/* This rule is active when the screen is not short and narrow */
-@media (min-width: 580px) and (min-height: 340px) {
+/* This rule is active when the screen is not narrow */
+@media (min-width: 580px) {
   .modal {
     width: 50%;
   }
