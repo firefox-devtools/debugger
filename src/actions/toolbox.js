@@ -5,6 +5,7 @@
 // @flow
 
 const { isDevelopment } = require("devtools-config");
+const { getWorker, getSelectedFrameId } = require("../selectors");
 
 import type { ThunkArgs } from "./types";
 import type { Worker } from "../types";
@@ -34,5 +35,15 @@ export function openWorkerToolbox(worker: Worker) {
     } else {
       openWorkerToolboxCommand(worker);
     }
+  };
+}
+
+export function evaluateInConsole(inputString: string) {
+  return async ({ client, getState }: ThunkArgs) => {
+    const frameId = getSelectedFrameId(getState());
+    client.evaluate(
+      `console.log("${inputString}"); console.log(${inputString})`,
+      { frameId }
+    );
   };
 }
