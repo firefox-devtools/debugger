@@ -110,19 +110,6 @@ class ProjectSearch extends Component<Props> {
     return <div className="search-container">{this.renderTextSearch()}</div>;
   }
 }
-
-ProjectSearch.propTypes = {
-  sources: PropTypes.object.isRequired,
-  results: PropTypes.object,
-  textSearchQuery: PropTypes.string,
-  setActiveSearch: PropTypes.func.isRequired,
-  closeActiveSearch: PropTypes.func.isRequired,
-  closeProjectSearch: PropTypes.func.isRequired,
-  searchSources: PropTypes.func,
-  activeSearch: PropTypes.string,
-  selectLocation: PropTypes.func.isRequired
-};
-
 ProjectSearch.contextTypes = {
   shortcuts: PropTypes.object
 };
