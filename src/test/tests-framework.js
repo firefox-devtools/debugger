@@ -16,11 +16,16 @@ import { clearHistory } from "./utils/history";
 
 global.jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
+function formatException(reason, p) {
+  console && console.log("Unhandled Rejection at:", p, "reason:", reason);
+}
+
 beforeAll(() => {
   startSourceMapWorker(getValue("workers.sourceMapURL"));
   startPrettyPrintWorker(getValue("workers.prettyPrintURL"));
   startParserWorker(getValue("workers.parserURL"));
   startSearchWorker(getValue("workers.searchURL"));
+  process.on("unhandledRejection", formatException);
 });
 
 afterAll(() => {
@@ -28,6 +33,7 @@ afterAll(() => {
   stopPrettyPrintWorker();
   stopParserWorker();
   stopSearchWorker();
+  process.removeListener("unhandledRejection", formatException);
 });
 
 beforeEach(() => {
