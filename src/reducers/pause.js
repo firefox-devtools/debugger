@@ -123,6 +123,13 @@ function update(
       };
     }
 
+    case "TRAVEL_TO":
+      console.log(action.paused);
+      return {
+        ...state,
+        ...action.paused
+      };
+
     case "MAP_SCOPES": {
       const { frame, status, value } = action;
       const selectedFrameId = frame.id;

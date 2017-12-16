@@ -12,6 +12,7 @@ import actions from "../../actions";
 import {
   getSources,
   getActiveSearch,
+  getHistory,
   getSelectedPrimaryPaneTab
 } from "../../selectors";
 import { features } from "../../utils/prefs";
@@ -109,11 +110,22 @@ class PrimaryPanes extends Component<Props> {
     }
   }
 
+  setHistory() {
+    console.log("hi");
+    console.log(this.input);
+    this.props.travelTo(this.input.value);
+  }
+
   render() {
     const { selectedTab } = this.props;
 
     return (
       <div className="sources-panel">
+        <div>
+          History Length = {this.props.history.length}
+          <button onClick={() => this.setHistory()}>Travel To</button>
+          <input ref={node => (this.input = node)} />
+        </div>
         {this.renderTabs()}
         {selectedTab === "sources" ? <SourcesTree /> : <Outline />}
       </div>
@@ -125,6 +137,7 @@ export default connect(
   state => ({
     selectedTab: getSelectedPrimaryPaneTab(state),
     sources: getSources(state),
+    history: getHistory(state),
     sourceSearchOn: getActiveSearch(state) === "source"
   }),
   dispatch => bindActionCreators(actions, dispatch)

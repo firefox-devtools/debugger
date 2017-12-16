@@ -10,38 +10,62 @@
  */
 export type ReplayState = {
   history: any,
-  currentFrameIndex: number,
-  recording: boolean,
-  replaying: boolean
+  index: number
 };
 
 export function initialState(): ReplayState {
   return {
     history: [],
-    currentFrameIndex: -1,
-    recording: false,
-    replaying: false
+    index: -1
   };
 }
 
 function update(state: ReplayState = initialState(), action: any): ReplayState {
   switch (action.type) {
-    case "RECORD": {
-      return { ...state, recording: true };
+    case "TRAVEL_TO": {
+      return { ...state, index: action.index };
     }
 
-    case "STEP_FORWARD": {
-      const currentFrameIndex = state.currentFrameIndex - 1;
-      return { ...state, currentFrameIndex };
-    }
+    case "PAUSED": {
+      const { selectedFrameId, frames, loadedObjects, pauseInfo } = action;
+      const { why } = pauseInfo;
+      pauseInfo.isInterrupted = pauseInfo.why.type === "interrupted";
 
-    case "STEP_BACKWARD": {
-      const currentFrameIndex = state.currentFrameIndex + 1;
-      return { ...state, currentFrameIndex };
+      // turn this into an object keyed by object id
+      const objectMap = {};
+      loadedObjects.forEach(obj => {
+        objectMap[obj.value.objectId] = obj;
+      });
+
+      const paused = {
+        isWaitingOnBreak: false,
+        pause: pauseInfo,
+        selectedFrameId,
+        frames,
+        frameScopes: {},
+        loadedObjects: objectMap,
+        why
+      };
+
+      const history = [...state.history, paused];
+      return { ...state, history };
     }
   }
 
   return state;
+}
+
+export function getHistory(state: any): any {
+  return state.replay.history;
+}
+
+export function getHistoryFrame(state: any): any {
+  console.log(state.replay);
+  return state.replay.history[state.replay.index];
+}
+
+export function getHistoryPosition(state: any): any {
+  return state.replay.index;
 }
 
 export default update;
