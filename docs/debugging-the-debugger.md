@@ -21,29 +21,37 @@ Share your a screenshot of your theme [here](./getting-setup.md) ! Here's an exa
 Adding a breakpoint is a critical piece in the inception game...
 Lets make the debugger do something special when a breakpoint is added.
 
-```diff
-diff --git a/src/components/Editor/Breakpoint.js b/src/components/Editor/Breakpoint.js
-index e1f1afd1..4ab9ef59 100644
---- a/src/components/Editor/Breakpoint.js
-+++ b/src/components/Editor/Breakpoint.js
-@@ -38,6 +38,8 @@ class Breakpoint extends Component {
-   addBreakpoint() {
-     const { breakpoint, editor, selectedSource } = this.props;
+You can find the file that handles breakpoints here: `/debugger.html/src/components/Editor/Breakpoint.js`
+Then go ahead and find (Cntrl-F) "addBreakpoint".  This should pullup the addBreakpoint function, which (surprise!) adds a breakpoint!
+Then we are going to add an alert so can see something for our actions:
 
-+    // => hamster dance
-+
-     // Hidden Breakpoints are never rendered on the client
-     if (breakpoint.hidden) {
-       return;
+```javascript
+addBreakpoint() {
+    const { breakpoint, editor, selectedSource } = this.props;
+
+    // Hidden Breakpoints are never rendered on the client
+    if (breakpoint.hidden) {
+      return;
+    }
+	
+	//This our code we added
+	alert("Your first breakpoint! Congratulations!");
+	
+	
+    // NOTE: we need to wait for the breakpoint to be loaded
+    // to get the generated location
+    if (!selectedSource || breakpoint.loading) {
+      return;
+    }
 ```
 
-We currently don't have anything awesome as a demo. If you come up with something cool, feel free to share it  [here][getting-started-issue] and we can add it to the doc!
+This will show a popup when we create a breakpoint.
 
 ### Pausing FTW :red_circle:
 
 When the debugger pauses, the fun begins. Here's a [gif](http://g.recordit.co/qutDioRQvy.gif) of what the debugger does normally when it pauses. Your mission if you choose to accept it, is to make it do something truly weird.
 
-Here's a patch to get you started; `WhyPaused.js` renders the pause reason into the sidebar, and `utils/pause.js` is used in several places to expose the current paused state.
+Here's a patch to get you started; `WhyPaused.js` renders the pause reason into the sidebar, and `debugger.html/src/utils/pause.js` is used in several places to expose the current paused state.
 
 ```diff
 diff --git a/src/components/SecondaryPanes/Frames/WhyPaused.js b/src/components/SecondaryPanes/Frames/WhyPaused.js
