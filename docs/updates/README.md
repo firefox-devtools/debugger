@@ -165,7 +165,7 @@ We focused this week on getting lots of bugfixes and community prs in
 * Nightly is up to date with the latest debugger updates
 * new styling for the Outline View, big thanks to [@amelzer]
 * searchbar had a lot of improvements
-* lots of dependancies were updated, thanks to [@zaggy]
+* lots of dependencies were updated, thanks to [@zaggy]
 * further work on getting more frameworks included on our framework frames. Thanks to
   [@andreicristianpetcu]
 
