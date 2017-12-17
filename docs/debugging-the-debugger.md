@@ -22,7 +22,7 @@ Adding a breakpoint is a critical piece in the inception game...
 Lets make the debugger do something special when a breakpoint is added.
 
 You can find the file that handles breakpoints here: `/debugger.html/src/components/Editor/Breakpoint.js`
-Then go ahead and find (Cntrl-F) "addBreakpoint".  This should pullup the addBreakpoint function, which (surprise!) adds a breakpoint!
+Then go ahead and find (Cntrl-F) "addBreakpoint".  This should pull up the addBreakpoint function, which (surprise!) adds a breakpoint!
 Then we are going to add an alert so can see something for our actions:
 
 ```javascript
