@@ -51,7 +51,7 @@ This will show a popup when we create a breakpoint.
 
 When the debugger pauses, the fun begins. Here's a [gif](http://g.recordit.co/qutDioRQvy.gif) of what the debugger does normally when it pauses. Your mission if you choose to accept it, is to make it do something truly weird.
 
-Here's a patch to get you started; `WhyPaused.js` renders the pause reason into the sidebar, and `debugger.html/src/utils/pause.js` is used in several places to expose the current paused state.
+Here's a patch to get you started; `WhyPaused.js` renders the pause reason into the sidebar, and `/debugger.html/src/utils/pause.js` is used in several places to expose the current paused state.
 
 ```diff
 diff --git a/src/components/SecondaryPanes/Frames/WhyPaused.js b/src/components/SecondaryPanes/Frames/WhyPaused.js
