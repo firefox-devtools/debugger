@@ -12,6 +12,7 @@ import { isFirefoxPanel } from "devtools-config";
 
 import { onConnect } from "./client";
 import { teardownWorkers } from "./utils/bootstrap";
+import { clearSourceQueue } from "./utils/source-queue";
 
 if (process.env.NODE_ENV !== "production") {
   window.Perf = require("react-addons-perf");
@@ -43,6 +44,7 @@ if (isFirefoxPanel()) {
     },
     destroy: () => {
       unmountRoot(ReactDOM);
+      clearSourceQueue();
       teardownWorkers();
     }
   };

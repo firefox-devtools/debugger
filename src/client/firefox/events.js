@@ -12,8 +12,12 @@ import type {
   Actions
 } from "./types";
 
-import { throttle } from "lodash";
 import { createPause, createSource } from "./create";
+import {
+  initializeSourceQueue,
+  flushSources,
+  queueSource
+} from "../../utils/source-queue";
 import { isEnabled } from "devtools-config";
 
 const CALL_STACK_PAGE_SIZE = 1000;
@@ -32,6 +36,7 @@ function setupEvents(dependencies: Dependencies) {
   threadClient = dependencies.threadClient;
   actions = dependencies.actions;
   supportsWasm = dependencies.supportsWasm;
+  initializeSourceQueue({ actions, supportsWasm, createSource });
 
   if (threadClient) {
     Object.keys(clientEvents).forEach(eventName => {
@@ -54,7 +59,7 @@ async function paused(_: "paused", packet: PausedPacket) {
 
   if (why.type != "alreadyPaused") {
     const pause = createPause(packet, response);
-    newSources.flush();
+    flushSources();
     actions.paused(pause);
   }
 }
@@ -63,17 +68,8 @@ function resumed(_: "resumed", packet: ResumedPacket) {
   actions.resumed(packet);
 }
 
-let pendingSources = [];
-const newSources = throttle(() => {
-  actions.newSources(
-    pendingSources.map(source => createSource(source, { supportsWasm }))
-  );
-  pendingSources = [];
-}, 100);
-
 function newSource(_: "newSource", { source }: SourcePacket) {
-  pendingSources.push(source);
-  newSources();
+  queueSource(source);
 
   if (isEnabled("eventListeners")) {
     actions.fetchEventListeners();
