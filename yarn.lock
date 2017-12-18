@@ -7401,7 +7401,7 @@ parse-latin@^4.0.0:
     unist-util-modify-children "^1.0.0"
     unist-util-visit-children "^1.0.0"
 
-parse-script-tags@^0.1.5:
+parse-script-tags@^0.1.1:
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/parse-script-tags/-/parse-script-tags-0.1.5.tgz#9d1a5370dadb37845030537b6dbf736bb524505c"
   dependencies:

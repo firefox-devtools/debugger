@@ -20599,7 +20599,20 @@
       "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/BreakpointsDropdown.css": 1779,
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/scopes/index.js": 1780,
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/scopes/synthesizeScopes.js": 1781,
-      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/scopes/getScope.js": 1782
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/scopes/getScope.js": 1782,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../node_modules/fuzzaldrin-plus/lib/scorer.js": 1783,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../node_modules/fuzzaldrin-plus/lib/pathScorer.js": 1784,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../node_modules/fuzzaldrin-plus/lib/query.js": 1785,
+      "../../svg-inline-react/lib/index.js": 1786,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/shared/Button/CommandBarButton.js": 1787,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../node_modules/fuzzaldrin-plus/lib/fuzzaldrin.js": 1788,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../node_modules/fuzzaldrin-plus/lib/filter.js": 1789,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../node_modules/fuzzaldrin-plus/lib/matcher.js": 1790,
+      "../../svg-inline-react/lib/util.js": 1791,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Button/CommandBarButton.css": 1792,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../devtools-reps/node_modules/svg-inline-react/dist/index.js": 1793,
+      "../../parse-script-tags/customParse.js": 1794,
+      "../../parse-script-tags/parseScriptFragment.js": 1795
     },
     "usedIds": {
       "0": 0,
@@ -22384,7 +22397,20 @@
       "1779": 1779,
       "1780": 1780,
       "1781": 1781,
-      "1782": 1782
+      "1782": 1782,
+      "1783": 1783,
+      "1784": 1784,
+      "1785": 1785,
+      "1786": 1786,
+      "1787": 1787,
+      "1788": 1788,
+      "1789": 1789,
+      "1790": 1790,
+      "1791": 1791,
+      "1792": 1792,
+      "1793": 1793,
+      "1794": 1794,
+      "1795": 1795
     }
   },
   "chunks": {
@@ -26684,6 +26710,27 @@
         "byBlocks": {},
         "usedIds": {
           "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Button/CommandBarButton.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/shared/Button/CommandBarButton.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
         }
       }
     }
