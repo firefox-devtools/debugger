@@ -13,7 +13,7 @@ add_task(async function() {
   reload(dbg);
   await waitForPaused(dbg);
 
-  await waitForSelectedSource(dbg, "doc-scripts.html");
+  await waitForLoadedSource(dbg, "doc-scripts.html");
   assertPausedLocation(dbg);
   await resume(dbg);
 
