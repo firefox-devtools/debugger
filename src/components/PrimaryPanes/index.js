@@ -122,7 +122,7 @@ class PrimaryPanes extends Component<Props> {
         <div>
           History Length = {this.props.history.length}
           <button onClick={() => this.setHistory()}>Travel To</button>
-          <input ref={(node) => this.input = node}></input>
+          <input ref={node => (this.input = node)} />
         </div>
         {this.renderTabs()}
         {selectedTab === "sources" ? <SourcesTree /> : <Outline />}
