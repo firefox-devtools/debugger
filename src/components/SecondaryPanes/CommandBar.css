@@ -72,7 +72,7 @@ img.resume {
   border-bottom: none;
   background-color: var(--theme-body-background);
   border-top: 1px solid var(--theme-splitter-color);
-  flex: 0 0 27px;
+  flex: 0 0 26px;
 }
 
 .command-bar.bottom {
