@@ -255,9 +255,9 @@ debugger.html community team members help shepherd the community.
 They are here to help mentor new comers, review pull requests, and facilitate issue discussions.
 They are a fantastic resource and genuinely friendly human beings.
 
-| | | | | | |
-| ---------- | ------ | ----- | ---- | ---- | ---- |
-| ![][bomsy] <br /> [@bomsy][@bomsy] | ![][jbhoosreddy] <br /> [@jbhoosreddy][@jbhoosreddy] | ![][wldcordeiro] <br />[@wldcordeiro][@wldcordeiro] | ![][irfanhudda] <br />[@irfanhudda][@irfanhudda] | ![][darkwing] <br />[@darkwing][@darkwing] | ![][nyrosmith] <br />[@nyrosmith][@nyrosmith] |
+| | | | | | | |
+| ---------- | ------ | ----- | ---- | ---- | ---- | ---- |
+| ![][bomsy] <br /> [@bomsy][@bomsy] | ![][jbhoosreddy] <br /> [@jbhoosreddy][@jbhoosreddy] | ![][wldcordeiro] <br />[@wldcordeiro][@wldcordeiro] | ![][irfanhudda] <br />[@irfanhudda][@irfanhudda] | ![][darkwing] <br />[@darkwing][@darkwing] | ![][nyrosmith] <br />[@nyrosmith][@nyrosmith] | ![][lukaszsobek] <br />[@lukaszsobek][@lukaszsobek]
 
 ### Joining Mozilla
 
@@ -285,6 +285,7 @@ Mozilla has and continues to hire many people from within the Open Source Softwa
 [@violasong]:https://github.com/violasong
 [@darkwing]:https://github.com/darkwing
 [@nyrosmith]:https://github.com/nyrosmith
+[@lukaszsobek]:https://github.com/lukaszsobek
 
 [jasonlaster]:https://avatars.githubusercontent.com/jasonlaster?size=56
 [bomsy]:https://avatars.githubusercontent.com/bomsy?size=56
@@ -296,6 +297,7 @@ Mozilla has and continues to hire many people from within the Open Source Softwa
 [violasong]:https://avatars.githubusercontent.com/violasong?size=56
 [darkwing]:https://avatars.githubusercontent.com/darkwing?size=56
 [nyrosmith]:https://avatars.githubusercontent.com/nyrosmith?size=56
+[lukaszsobek]:https://avatars.githubusercontent.com/lukaszsobek?size=56
 
 [mozilla]:https://www.mozilla.org/
 [mozilla-firefox]:https://www.mozilla.org/firefox/
