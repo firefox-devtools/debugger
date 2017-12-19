@@ -451,6 +451,7 @@ class Editor extends PureComponent<Props, State> {
     // to flash the previously saved selected line.
     if (
       line !== null &&
+      this.lastJumpLine !== 1 &&
       this.lastJumpLine !== null &&
       (!selectedFrame || selectedFrame.location.line !== line)
     ) {
