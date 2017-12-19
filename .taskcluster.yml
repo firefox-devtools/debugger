@@ -1,0 +1,29 @@
+version: 0
+tasks:
+  - provisionerId: '{{ taskcluster.docker.provisionerId }}'
+    workerType: '{{ taskcluster.docker.workerType }}'
+    extra:
+      github:
+        events:
+          - pull_request.opened
+          - pull_request.reopened
+          - pull_request.synchronize
+          - push
+    payload:
+      maxRunTime: 3600
+      image: node
+      command:
+        - /bin/bash
+        - '--login'
+        - '-c'
+        - >-
+          git clone {{event.head.repo.url}} repo && cd repo && git config
+          advice.detachedHead false && git checkout {{event.head.sha}} &&
+          mkdir firefox && ./bin/ci/clone-gecko.sh &&
+          yarn && yarn test
+    metadata:
+      name: CI
+      description: Some tests that run for PRs
+      owner: '{{ event.head.user.email }}'
+      source: '{{ event.head.repo.url }}'
+allowPullRequests: public
