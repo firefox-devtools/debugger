@@ -15,7 +15,7 @@ import type {
 import { createPause, createSource } from "./create";
 import {
   initializeSourceQueue,
-  flushSources,
+  flushSourceQueue,
   queueSource
 } from "../../utils/source-queue";
 import { isEnabled } from "devtools-config";
@@ -59,7 +59,7 @@ async function paused(_: "paused", packet: PausedPacket) {
 
   if (why.type != "alreadyPaused") {
     const pause = createPause(packet, response);
-    flushSources();
+    flushSourceQueue();
     actions.paused(pause);
   }
 }

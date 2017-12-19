@@ -14,7 +14,7 @@ const queue = throttle(() => {
     })
   );
   queuedSources = [];
-}, 100)();
+}, 100);
 
 export function initializeSourceQueue(options) {
   newSources = options.actions.newSources;

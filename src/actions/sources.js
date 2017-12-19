@@ -124,9 +124,9 @@ export function newSources(sources: Source[]) {
     });
 
     for (const source of filteredSources) {
-      await dispatch(loadSourceMap(source));
-      await checkSelectedSource(getState(), dispatch, source);
-      await checkPendingBreakpoints(getState(), dispatch, source.id);
+      dispatch(loadSourceMap(source));
+      dispatch(checkSelectedSource(source));
+      dispatch(checkPendingBreakpoints(source.id));
     }
   };
 }
