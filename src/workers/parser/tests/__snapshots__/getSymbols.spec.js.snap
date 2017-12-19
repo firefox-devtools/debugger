@@ -446,7 +446,9 @@ classes:
 
 
 imports:
-"
+
+
+hasJsx: false"
 `;
 
 exports[`Parser.getSymbols es6 1`] = `
