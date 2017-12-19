@@ -1,12 +1,13 @@
 import { throttle } from "lodash";
 
-let newSources = () =>
-  console.error("sourceQueue: newSources must be initialized");
-let createSource = () =>
-  console.error("sourceQueue: createSource must be initialized");
+let newSources;
+let createSource;
 let queuedSources = [];
 let supportsWasm = false;
 const queue = throttle(() => {
+  if (!newSources || !createSource) {
+    return;
+  }
   newSources(
     queuedSources.map(source => {
       return createSource(source, { supportsWasm });
@@ -16,7 +17,7 @@ const queue = throttle(() => {
 }, 100)();
 
 export function initializeSourceQueue(options) {
-  newSources = options.newSources;
+  newSources = options.actions.newSources;
   createSource = options.createSource;
   supportsWasm = options.supportsWasm;
 }
