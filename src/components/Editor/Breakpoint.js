@@ -46,7 +46,7 @@ class Breakpoint extends Component<Props> {
     if (breakpoint.hidden) {
       return;
     }
-
+	
     // NOTE: we need to wait for the breakpoint to be loaded
     // to get the generated location
     if (!selectedSource || breakpoint.loading) {

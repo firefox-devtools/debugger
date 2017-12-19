@@ -21,57 +21,75 @@ Share your a screenshot of your theme [here](./getting-setup.md) ! Here's an exa
 Adding a breakpoint is a critical piece in the inception game...
 Lets make the debugger do something special when a breakpoint is added.
 
-```diff
-diff --git a/src/components/Editor/Breakpoint.js b/src/components/Editor/Breakpoint.js
-index e1f1afd1..4ab9ef59 100644
---- a/src/components/Editor/Breakpoint.js
-+++ b/src/components/Editor/Breakpoint.js
-@@ -38,6 +38,8 @@ class Breakpoint extends Component {
-   addBreakpoint() {
-     const { breakpoint, editor, selectedSource } = this.props;
+You can find the file that handles breakpoints here: `/debugger.html/src/components/Editor/Breakpoint.js`
+Then go ahead and find (Cntrl-F) "addBreakpoint".  This should pull up the addBreakpoint function, which (surprise!) adds a breakpoint!
+Then we are going to add an alert so can see something for our actions:
 
-+    // => hamster dance
-+
-     // Hidden Breakpoints are never rendered on the client
-     if (breakpoint.hidden) {
-       return;
+```javascript
+addBreakpoint() {
+    const { breakpoint, editor, selectedSource } = this.props;
+
+    // Hidden Breakpoints are never rendered on the client
+    if (breakpoint.hidden) {
+      return;
+    }
+	
+	//Add the code below
+	alert("Your first breakpoint! Congratulations!");
+	
+	
+    // NOTE: we need to wait for the breakpoint to be loaded
+    // to get the generated location
+    if (!selectedSource || breakpoint.loading) {
+      return;
+    }
 ```
 
-We currently don't have anything awesome as a demo. If you come up with something cool, feel free to share it  [here][getting-started-issue] and we can add it to the doc!
+This will show a popup when we create a breakpoint.
 
 ### Pausing FTW :red_circle:
 
 When the debugger pauses, the fun begins. Here's a [gif](http://g.recordit.co/qutDioRQvy.gif) of what the debugger does normally when it pauses. Your mission if you choose to accept it, is to make it do something truly weird.
 
-Here's a patch to get you started; `WhyPaused.js` renders the pause reason into the sidebar, and `utils/pause.js` is used in several places to expose the current paused state.
+Here's some example code that you can help you to get you started; `debugger.html/src/components/SecondaryPanes/Frames/WhyPaused.js` renders the pause reason into the sidebar, and `/debugger.html/src/utils/pause.js` is used in several places to expose the current paused state.
 
-```diff
-diff --git a/src/components/SecondaryPanes/Frames/WhyPaused.js b/src/components/SecondaryPanes/Frames/WhyPaused.js
-index 364a7c76..ee14b4e9 100644
---- a/src/components/SecondaryPanes/Frames/WhyPaused.js
-+++ b/src/components/SecondaryPanes/Frames/WhyPaused.js
-@@ -48,6 +48,8 @@ export default function renderWhyPaused({ pause }: { pause: Pause }) {
-     return null;
-   }
+WhyPaused.js (Starts at line 48):
 
-+  console.log("hello from src/components/SecondaryPanes/Frames/WhyPaused.js!");
-+
-   return (
-     <div className={"pane why-paused"}>
-       <div>{L10N.getStr(reason)}</div>
-diff --git a/src/utils/pause.js b/src/utils/pause.js
-index 2b11d247..c4778a36 100644
---- a/src/utils/pause.js
-+++ b/src/utils/pause.js
-@@ -85,6 +85,8 @@ export function getPauseReason(pauseInfo: Pause): string | null {
-     return null;
-   }
+```javascript
+export default function renderWhyPaused({ pause }: { pause: Pause }) {
+  const reason = getPauseReason(pause);
 
-+  console.log("hello from src/utils/pause.js!");
-+
-   const reasonType = get(pauseInfo, "why.type", null);
-   if (!reasons[reasonType]) {
-     console.log("Please file an issue: reasonType=", reasonType);
+  if (!reason) {
+    return null;
+  }
+  //Add the code below:
+  console.log("Hello from src/components/SecondaryPanes/Frames/WhyPaused.js!");
+  
+  return (
+    <div className={"pane why-paused"}>
+      <div>{L10N.getStr(reason)}</div>
+      {renderMessage(pause)}
+    </div>
+  );
+}
+renderWhyPaused.displayName = "whyPaused";
+```
+
+Then in pause.js (Starts at line 51) :
+```javascript
+export function getPauseReason(pauseInfo: Pause): string | null {
+  if (!pauseInfo) {
+    return null;
+  }
+  //Add the code below:
+  console.log("hello from src/utils/pause.js!");
+  
+  const reasonType = get(pauseInfo, "why.type", null);
+  if (!reasons[reasonType]) {
+    console.log("Please file an issue: reasonType=", reasonType);
+  }
+  return reasons[reasonType];
+}
 ```
 
 ### Debugger Philosophy
