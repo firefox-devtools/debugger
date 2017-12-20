@@ -4,7 +4,7 @@
 
 // @flow
 
-import { flatten } from "lodash";
+import flatten from "lodash/flatten";
 import { traverseAst } from "./utils/ast";
 import { isVariable, isFunction, getVariables } from "./utils/helpers";
 import { inferClassName } from "./utils/inferClassName";
