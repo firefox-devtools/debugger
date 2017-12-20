@@ -22,7 +22,7 @@ As with most documentation related to code, this document may be out of date. Th
 # Architecture
 
 
-Debugger.html is a React-Redux based application — the UI is constructed using React Components. the follow illustration provides a simplictic high level view:
+Debugger.html is a React-Redux based application — the UI is constructed using React Components. the follow illustration provides a simplistic high level view:
 
 ![](https://docs.google.com/drawings/d/1JTDI-62CG29M37rpTGIDh70rOTuCmJf1VqxCKPe9zxM/pub?w=960&h=720)
 [Click here to Edit](https://docs.google.com/drawings/d/1JTDI-62CG29M37rpTGIDh70rOTuCmJf1VqxCKPe9zxM/edit?usp=sharing)

@@ -47,7 +47,7 @@ reflected in the new firefox directory.
 Here are a few tips for writing mochitests:
 
 * There are lots of great helper methods in [head]
-* Try to write async user actions that involve a user action like clicking a button or typing a key press followed by a redux action to listen for. For example, the user step in action involvesthe user clicking the step in button followed by the "stepIn" action firing.
+* Try to write async user actions that involve a user action like clicking a button or typing a key press followed by a redux action to listen for. For example, the user step in action involves the user clicking the step in button followed by the "stepIn" action firing.
 * The `dbg` object has several helpful properties (actions, selectors, getState, store, toolbox, win)
 
 ### Testing the DOM
@@ -107,7 +107,7 @@ You can run the test like this `yarn mochid browser_dbg-editor-highlight`.
 Intermittents are when a test succeeds most the time (95%) of the time, but not all the time.
 There are several easy traps that result in intermittents:
 
-* **browser inconsistencies** sometimes the server is not as consistent as you would like. For instance, reloading can sometimes cause sources to load out of order. Also stepping too quickly can cause the debugger to enter a bad state. A memorable example of this type of inconsistency came when debugging stepping behavior. It turns out that 1% of the time the browser toolbox will step into an [unexpected location][server-oops]. The solution is too loosen our expections :)
+* **browser inconsistencies** sometimes the server is not as consistent as you would like. For instance, reloading can sometimes cause sources to load out of order. Also stepping too quickly can cause the debugger to enter a bad state. A memorable example of this type of inconsistency came when debugging stepping behavior. It turns out that 1% of the time the browser toolbox will step into an [unexpected location][server-oops]. The solution is too loosen our expectations :)
 * **missed actions** sometimes action "B" can fire before action "A" is done. This is a race condition that can be hard to track down. When you suspect this might happen, it is a good practice to start listening for "B" before you fire action "A". Here's an example where this happened with [reloading][waiting].
 * **state changes** One common way tests start failing occurs when the redux actions introduces a new asynchronous operation. A good way to safe guard your tests is to wait on state to have certain values. An example, of a test that we recently fixed was [pretty printing][pretty-printing]. The test initially waited for the "select source" action to fire, which was occasionally racey. Switching the test to wait for the formatted source to exist simplified the test tremendously.
 
@@ -154,7 +154,7 @@ It's annoying to have to manually update the bundle every single time though. If
 yarn copy-assets-watch
 ```
 
-Now you can make code changes the the bundle will be automatically built for you inside `firefox`, and you can simply run mochitests and edit code as much as you like.
+Now you can make code changes the bundle will be automatically built for you inside `firefox`, and you can simply run mochitests and edit code as much as you like.
 
 ## Adding New Tests
 
@@ -162,7 +162,7 @@ If you add new tests, make sure to list them in the `browser.ini` file. You will
 
 ## API
 
-In addition to the standard mochtest API, we provide the following functions to help write tests. All of these expect a `dbg` context which is returned from `initDebugger` which should be called at the beginning of the test. An example skeleton test looks like this:
+In addition to the standard Mochitest API, we provide the following functions to help write tests. All of these expect a `dbg` context which is returned from `initDebugger` which should be called at the beginning of the test. An example skeleton test looks like this:
 
 ```js
 add_task(function* () {

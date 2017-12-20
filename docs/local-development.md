@@ -337,7 +337,7 @@ Second, it helps our connected components avoid unnecessary renders.
 
 Connect will trigger a re-render when it sees new state, even if it has not changed.
 Immutable, will creates new objects if and only if the data changes,
-which means our components only render when it's approriate.
+which means our components only render when it's appropriate.
 
 The one situation where we do not use immutable is when it is too slow to do so.
 We avoid wrapping our pause state in immutable, because it takes too long to serialize the data.
@@ -436,7 +436,7 @@ Running all the tests tends to be really slow. Most of the time it is really use
 node_modules/jest/bin/jest.js -o
 ```
 
-This will run all the tests that have not been commited. Basically all the files that are returned by the `git status` command.
+This will run all the tests that have not been committed. Basically all the files that are returned by the `git status` command.
 
 If the snapshot changes then update it with:
 
@@ -569,7 +569,7 @@ Most color changes can be made by finding a different [css variable][devtools-cs
 For instance, `--theme-splitter-color` is often good for border colors. The advantage to using an existing variable is that you know it'll look good in all the themes.
 
 When you need to update a variable, you should check to make sure it looks good in the other places it is being used.
-Often, it is more practicle to create a new variable.
+Often, it is more practical to create a new variable.
 
 It's helpful to share the changes as a themes [table][pr-table] when you're done.
 
@@ -587,7 +587,7 @@ The default development configs are in [development-json]. It's easy to change a
 
 ### Workers
 
-The Debugger takes advantage of [web wokers][web-workers] to delegate work to
+The Debugger takes advantage of [web workers][web-workers] to delegate work to
 other processes. Some examples of this are source maps, parsing, and search.
 In these cases, the debugger asks the worker to do potentially difficult work
 so that the main thread doesn't have to.

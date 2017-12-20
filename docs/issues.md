@@ -166,7 +166,7 @@ a triaged issue is:
   *or* has a request for more information
   *or* has a clear next step
 
-An issue that does not fullfill those traits should probably be moved to one of the boards and
+An issue that does not fulfill those traits should probably be moved to one of the boards and
 closed.
 
 ### Issue Organization

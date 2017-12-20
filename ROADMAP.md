@@ -17,7 +17,7 @@
 #### Source Map Improvements
 
 * **map minified variables** it should be possible to preview and evaluate the original variables
-* **step over** stepping should always take you to the next statmenet
+* **step over** stepping should always take you to the next statement
 * **step in** should not land in a function signature or other bad location.
 
 #### Server Stability

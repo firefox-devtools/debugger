@@ -86,7 +86,7 @@ It's annoying to have to manually update the bundle every single time though. If
 yarn copy-assets-watch
 ```
 
-Now you can make code changes the the bundle will be automatically built for you inside `firefox`.
+Now you can make code changes the bundle will be automatically built for you inside `firefox`.
 
 
 ### Getting Help
