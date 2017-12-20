@@ -43,7 +43,7 @@ npm globally: `npm i -g yarn@0.28.4`. and check the version with `which yarn` an
 
 ### Repo
 
-The most common issue is an out of date repo. The first thing to check is if your master branch is uptodate:
+The most common issue is an out of date repo. The first thing to check is if your master branch is up-to-date:
 `git log`. Once your branch is up to date, it is still possible that your packages are out of date.
 It is always a good practice to run `yarn nom` when something goes wrong.
 The script will rm your `yarn.lock` file and `node_modules` directory.

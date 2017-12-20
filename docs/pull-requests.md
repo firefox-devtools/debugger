@@ -120,7 +120,7 @@ Working on OSS will test your git game! No matter how well you know
 git you're going to learn something new. Here are some links we've found useful:
 
 * [Learn git branching][git-tutorial] - an interactive environment for learning how git commands work
-* [Git Forking][forking] - Overview of creating a feature branch, keeping it uptodate, and publishing it
+* [Git Forking][forking] - Overview of creating a feature branch, keeping it up-to-date, and publishing it
 * [Flight Rules][flight-rules] - A guide about what to do when things go wrong
 
 [forking]: https://gist.github.com/Chaser324/ce0505fbed06b947d962#file-github-forking-md
@@ -138,7 +138,7 @@ Once your branch is clean, you should update your local master branch. It's a go
 point to [origin][orig], but often the `master` branch points to
 your fork. If this is the case, then you'll need to add `origin` as a [remote][rdoc].
 
-Once master is uptodate, you can go back to your feature branch and update it.
+Once master is up-to-date, you can go back to your feature branch and update it.
 Generally the best thing to do is to rebase it against master: `git rebase master`,
 but rebases are complicated so checkout the [servo], [edx], and [docs][rebase-docs].
 

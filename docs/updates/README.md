@@ -154,7 +154,7 @@ lots happened since the last update:
 ### [June 20th](./updates-6-20-2017.md)
 It's been a quieter week than last week. This weeks highlights include:
 
-* new UI improvements to search (thankyou to [@ruturajv]!
+* new UI improvements to search (thank you to [@ruturajv]!
 * some new documentation
 * WTR runner
 
