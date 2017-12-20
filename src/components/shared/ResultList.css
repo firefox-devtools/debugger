@@ -8,6 +8,7 @@
   padding: 0px;
   overflow: auto;
   width: calc(100% - 1px); /* 1px fixes the hidden right border */
+  background: var(--theme-body-background);
 }
 
 .result-list * {
@@ -30,6 +31,10 @@
 
 .result-list li:hover {
   background: var(--theme-tab-toolbar-background);
+}
+
+.result-list li.selected {
+  background: var(--accordion-header-background);
 }
 
 .result-list.small li.selected {

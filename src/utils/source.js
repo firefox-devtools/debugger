@@ -185,12 +185,12 @@ const contentTypeModeMap = {
   "text/html": { name: "htmlmixed" }
 };
 
-function getSourcePath(source: Source) {
-  if (!source.url) {
+function getSourcePath(url: string) {
+  if (!url) {
     return "";
   }
 
-  const { path, href } = parseURL(source.url);
+  const { path, href } = parseURL(url);
   // for URLs like "about:home" the path is null so we pass the full href
   return path || href;
 }
