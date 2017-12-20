@@ -71,7 +71,7 @@ describe("ui", () => {
   it("should set a directory as root directory", () => {
     const { dispatch, getState } = createStore();
     const projectRoot = getProjectDirectoryRoot(getState());
-    dispatch(actions.setProjectDirectoryRoot(projectRoot));
+    dispatch(actions.setProjectDirectoryRoot(projectRoot, projectRoot));
     expect(getProjectDirectoryRoot(getState())).toBe(projectRoot);
   });
 });

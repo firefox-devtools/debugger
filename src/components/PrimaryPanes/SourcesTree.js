@@ -23,7 +23,10 @@ import {
 // Actions
 import { setExpandedState } from "../../actions/source-tree";
 import { selectLocation } from "../../actions/sources";
-import { setProjectDirectoryRoot } from "../../actions/ui";
+import {
+  setProjectDirectoryRoot,
+  clearProjectDirectoryRoot
+} from "../../actions/ui";
 
 // Components
 import ManagedTree from "../shared/ManagedTree";
@@ -47,6 +50,8 @@ import type { SourcesMap, SourceRecord } from "../../reducers/types";
 type Props = {
   selectLocation: Object => void,
   setExpandedState: any => void,
+  setProjectDirectoryRoot: string => void,
+  clearProjectDirectoryRoot: void => void,
   sources: SourcesMap,
   shownSource?: string,
   selectedSource?: SourceRecord,
@@ -234,6 +239,7 @@ class SourcesTree extends Component<Props, State> {
     const copySourceUri2Key = L10N.getStr("copySourceUri2.accesskey");
     const setDirectoryRootLabel = L10N.getStr("setDirectoryRoot.label");
     const setDirectoryRootKey = L10N.getStr("setDirectoryRoot.accesskey");
+    const removeDirectoryRootLabel = L10N.getStr("removeDirectoryRoot.label");
 
     event.stopPropagation();
     event.preventDefault();
@@ -254,13 +260,26 @@ class SourcesTree extends Component<Props, State> {
     }
 
     if (isDirectory(item) && features.root) {
-      menuOptions.push({
-        id: "node-set-directory-root",
-        label: setDirectoryRootLabel,
-        accesskey: setDirectoryRootKey,
-        disabled: false,
-        click: () => setProjectDirectoryRoot(item.path)
-      });
+      const { path } = item;
+      const { projectRoot } = this.props;
+      console.log(path, projectRoot);
+
+      if (projectRoot.endsWith(path)) {
+        menuOptions.push({
+          id: "node-remove-directory-root",
+          label: removeDirectoryRootLabel,
+          disabled: false,
+          click: () => this.props.clearProjectDirectoryRoot()
+        });
+      } else {
+        menuOptions.push({
+          id: "node-set-directory-root",
+          label: setDirectoryRootLabel,
+          accesskey: setDirectoryRootKey,
+          disabled: false,
+          click: () => this.props.setProjectDirectoryRoot(path)
+        });
+      }
     }
 
     showMenu(event, menuOptions);
@@ -382,7 +401,9 @@ const mapStateToProps = state => {
 
 const actionCreators = {
   setExpandedState,
-  selectLocation
+  selectLocation,
+  setProjectDirectoryRoot,
+  clearProjectDirectoryRoot
 };
 
 export default connect(mapStateToProps, actionCreators)(SourcesTree);

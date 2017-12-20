@@ -176,7 +176,7 @@ export function getConditionalPanelLine(state: OuterState): null | number {
   return state.ui.get("conditionalPanelLine");
 }
 
-export function getProjectDirectoryRoot(state: OuterState): boolean {
+export function getProjectDirectoryRoot(state: OuterState): string {
   return state.ui.get("projectDirectoryRoot");
 }
 
