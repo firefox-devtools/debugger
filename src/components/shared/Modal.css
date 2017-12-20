@@ -16,22 +16,13 @@
 }
 
 .modal {
+  display: flex;
   width: 80%;
-  height: auto;
+  max-height: 80vh;
   overflow-y: auto;
   background-color: var(--theme-toolbar-background);
   transition: transform 150ms cubic-bezier(0.07, 0.95, 0, 1);
   box-shadow: 1px 1px 3px 1px var(--popup-shadow-color);
-}
-
-.modal .input-wrapper {
-  display: flex;
-  justify-content: center;
-}
-
-.modal .result-list {
-  height: calc(100% - 28px);
-  overflow-y: auto;
 }
 
 .modal.entering,
@@ -42,6 +33,7 @@
 .modal.entered,
 .modal.exiting {
   transform: translateY(5px);
+  flex-direction: column;
 }
 
 /* This rule is active when the screen is not short and narrow */
@@ -52,10 +44,6 @@
 }
 
 @media (min-height: 340px) {
-  .modal {
-    height: auto;
-    max-height: 80vh;
-  }
   .modal.entered,
   .modal.exiting {
     transform: translateY(30px);

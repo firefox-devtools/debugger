@@ -20,7 +20,6 @@
   padding: 4px 13px;
   display: flex;
   justify-content: space-between;
-  border: 1px solid transparent;
 }
 
 .result-list.big li {
@@ -31,10 +30,6 @@
 
 .result-list li:hover {
   background: var(--theme-tab-toolbar-background);
-}
-
-.result-list li.selected {
-  border-color: var(--theme-selection-background);
 }
 
 .result-list.small li.selected {
