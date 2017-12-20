@@ -45,10 +45,9 @@
   justify-content: center;
 }
 
-.source-footer > .commands > button.action:hover {
-background: var(--theme-toolbar-background-hover);
+.source-footer > button.action:hover {
+  background: var(--theme-toolbar-background-hover);
 }
-
 
 .source-footer > .commands > button.action:focus {
   outline: none;
