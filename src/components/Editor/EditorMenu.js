@@ -162,7 +162,7 @@ function getMenuItems(
     blackBoxMenuItem
   ];
 
-  //conditionally added items
+  // conditionally added items
   // TODO: Find a new way to only add this for mapped sources?
   if (textSelected) {
     menuItems.push(watchExpressionItem);

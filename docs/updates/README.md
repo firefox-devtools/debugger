@@ -86,7 +86,7 @@ This week we had 25 contributors and 30+ PRs.
 * **Async Stepping** landed the utilities for identifying async expressions, and the logical "next" statement to step to. Async Stepping will land in the next release.
 * **WASM** We enabled wasm debugging in the new UI and it is now turned on in nightly. Debugging WASM source code in the native language (C, C++) is a blast.
 * **Worker List** added a new Workers right sidebar pane and populating the pane with debuggee workers. The next step is to add the about:debugging util for launching a new toolbox.
-* **Mapping minified variables** started working on mapping minified variables, which will show the the "original" variable name in the scopes pane, and enable preview, watch expressions and the console to work with original * expressions.
+* **Mapping minified variables** started working on mapping minified variables, which will show the "original" variable name in the scopes pane, and enable preview, watch expressions and the console to work with original * expressions.
 * **Project Search** continued to polish project search. This week we fixed keyboard navigation of streaming results, and made result orders deterministic.
 * **Syncing CSS** removed the theme's CSS class namespace, which will make it easy to sync themes with m-c.
 * **Accidental Breakpoints** fixed and uplifted a bug to 56, where the debugger created new breakpoints when the user changed original code and reloaded.
@@ -154,7 +154,7 @@ lots happened since the last update:
 ### [June 20th](./updates-6-20-2017.md)
 It's been a quieter week than last week. This weeks highlights include:
 
-* new UI improvements to search (thankyou to [@ruturajv]!
+* new UI improvements to search (thank you to [@ruturajv]!
 * some new documentation
 * WTR runner
 
@@ -236,7 +236,7 @@ One of the most interesting debugger questions is what happens when the debugger
 
 * :diamond_shape_with_a_dot_inside: Highlighting libraries
 * :envelope: Simplifying Function Names
-* :spaghetti: Collapsing Libarary frames
+* :spaghetti: Collapsing Library frames
 * :baby: Naming Library frames
 * :black_medium_small_square: Blackboxing libraries
 

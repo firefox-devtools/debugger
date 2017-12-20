@@ -49,7 +49,7 @@ pass consistently on different platforms in debug mode. We disabled `visible` ch
 * [Fix linting table][pr-20] - [@wldcordeiro]
 * [Remove unused expressions field][pr-22] - [@jasonLaster]
 * [remove isVisible checks][pr-23] - [@jasonLaster]
-* [Hardcoded string to contants in actions/sources][pr-24] - [@rrandom]
+* [Hardcoded string to constant in actions/sources][pr-24] - [@rrandom]
 
 
 

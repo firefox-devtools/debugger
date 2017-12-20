@@ -20,7 +20,7 @@ Symbol Modal: [animated-modal]
 * [Animate the SymbolModal's entrance/exit][pr-18] - [@wldcordeiro]
 
 #### Dark Theme Tweaks
-Dark Theme Tweeks: [dark-theme-tweaks]
+Dark Theme Tweaks: [dark-theme-tweaks]
 
 * [Style popup shadows][pr-23] - [@jasonLaster]
 * [Dark theme tweaks][pr-28] - [@jasonLaster]

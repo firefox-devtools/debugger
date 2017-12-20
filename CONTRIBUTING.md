@@ -69,7 +69,7 @@ The best talks can be as simple as walking through how the debugger works
 and adding a small feature. For the audience in the room, this will likely be
 the first time they've seen the internals of a developer tool.
 
-Ofcourse, feel free to ask questions in [slack][slack] or share talk slides or videos in channel our our `#talks` channel.
+Of course, feel free to ask questions in [slack][slack] or share talk slides or videos in channel our `#talks` channel.
 
 ### Write a Blog Post :pencil2:
 
@@ -82,7 +82,7 @@ Blog posts can either be technical "how x works" or narrative "how we built x".
 The most important piece is that it helps people feel welcome.
 
 If you would like to write a post and have questions ask one of us in [slack][slack].
-Also, ofcourse share what you've written in [slack][slack]!
+Also, of course share what you've written in [slack][slack]!
 Here are some examples [search boxes][search-boxes], [getting into the flow][getting-into-the-flow], [better source maps][better-sourcemaps], [stepping debugger][stepping-debugger].
 
 ### Organize a meetup :beer:
