@@ -3,7 +3,7 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 import { clearDocuments } from "../utils/editor";
-import { clearSourceQueue } from "../utils/source-queue";
+import sourceQueue from "../utils/source-queue";
 import { getSources } from "../reducers/sources";
 import { waitForMs } from "../utils/utils";
 import { newSources } from "./sources";
@@ -33,7 +33,7 @@ export function willNavigate(_, event) {
     clearASTs();
     clearScopes();
     clearSources();
-    clearSourceQueue();
+    sourceQueue.clear();
 
     dispatch(navigate(event.url));
   };

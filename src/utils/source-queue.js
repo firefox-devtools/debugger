@@ -2,8 +2,9 @@ import { throttle } from "lodash";
 
 let newSources;
 let createSource;
-let queuedSources = [];
+let queuedSources;
 let supportsWasm = false;
+
 const queue = throttle(() => {
   if (!newSources || !createSource) {
     return;
@@ -16,21 +17,17 @@ const queue = throttle(() => {
   queuedSources = [];
 }, 100);
 
-export function initializeSourceQueue(options) {
-  newSources = options.actions.newSources;
-  createSource = options.createSource;
-  supportsWasm = options.supportsWasm;
-}
-
-export function queueSource(source) {
-  queuedSources.push(source);
-  queue();
-}
-
-export function flushSourceQueue() {
-  queue.flush();
-}
-
-export function clearSourceQueue() {
-  queue.cancel();
-}
+export default {
+  initialize: options => {
+    newSources = options.actions.newSources;
+    createSource = options.createSource;
+    supportsWasm = options.supportsWasm;
+    queuedSources = [];
+  },
+  queue: source => {
+    queuedSources.push(source);
+    queue();
+  },
+  flush: () => queue.flush(),
+  clear: () => queue.cancel()
+};
