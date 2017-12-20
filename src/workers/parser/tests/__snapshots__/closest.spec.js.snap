@@ -55,7 +55,7 @@ Object {
   "location": SourceLocation {
     "end": Position {
       "column": 0,
-      "line": 28,
+      "line": 24,
     },
     "start": Position {
       "column": 0,

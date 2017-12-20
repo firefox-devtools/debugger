@@ -18,10 +18,6 @@ const res2 = { a: [{ b: 2 }] }; // e.g. res.a[0].b
 const res3 = { a: [{ b: 2 }], b: [{ c: 3 }] }; // e.g. res.a[0].b
 const res4 = [[{ a: 3 }], [{ b: a.b.c.v.d }]]; // e.g. res[1][0].b
 
-// destructuring
-const { b, resty } = compute(stuff); // e.g. a
-const [a, ...rest] = compute(stuff);
-
 function params({ a, b }) {} // e.g. a
 var pars = function({ a, b }) {};
 const evil = obj2.doEvil().c.secondProperty; // e.g. obj2.doEvil or ""
