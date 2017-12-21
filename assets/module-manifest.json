@@ -20574,7 +20574,44 @@
       "../../parse5/lib/serializer/serializer_stream.js": 1752,
       "../../parse5/lib/sax/index.js": 1753,
       "../../parse5/lib/sax/dev_null_stream.js": 1754,
-      "../../parse5/lib/sax/parser_feedback_simulator.js": 1755
+      "../../parse5/lib/sax/parser_feedback_simulator.js": 1755,
+      "../../react-dom-factories/index.js": 1758,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../devtools-contextmenu/node_modules/devtools-modules/src/utils/event-emitter.js": 1759,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../node_modules/fuzzaldrin-plus/lib/scorer.js": 1760,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../node_modules/fuzzaldrin-plus/lib/pathScorer.js": 1761,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../node_modules/fuzzaldrin-plus/lib/query.js": 1762,
+      "../../svg-inline-react/lib/index.js": 1763,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/shared/Button/CommandBarButton.js": 1764,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/scopes/getVariables.js": 1765,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/scopes/utils.js": 1766,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../devtools-contextmenu/node_modules/devtools-modules/index.js": 1767,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../devtools-contextmenu/node_modules/devtools-modules/src/menu/index.js": 1768,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../devtools-contextmenu/node_modules/devtools-modules/src/utils/promise.js": 1769,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../devtools-contextmenu/node_modules/devtools-modules/src/menu/menu-item.js": 1770,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../devtools-contextmenu/node_modules/devtools-modules/src/prefs.js": 1771,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../devtools-contextmenu/node_modules/devtools-modules/src/key-shortcuts.js": 1772,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../devtools-contextmenu/node_modules/devtools-modules/src/zoom-keys.js": 1773,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../node_modules/fuzzaldrin-plus/lib/fuzzaldrin.js": 1774,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../node_modules/fuzzaldrin-plus/lib/filter.js": 1775,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../node_modules/fuzzaldrin-plus/lib/matcher.js": 1776,
+      "../../svg-inline-react/lib/util.js": 1777,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/isMinified.js": 1778,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/selectors/getCallStackFrames.js": 1779,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/selectors/visibleSelectedFrame.js": 1780,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/ast/setInScopeLines.js": 1781,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/location.js": 1782,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/editor/getTokenLocation.js": 1783,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../devtools-map-bindings/src/updateScopeBindings.js": 1784,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../devtools-map-bindings/src/remapScopes.js": 1785,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/preview.js": 1786,
+      "../../svg-inline-loader/index.js!../../../assets/images/function.svg": 1787,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Button/CommandBarButton.css": 1788,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../devtools-reps/node_modules/svg-inline-react/dist/index.js": 1789,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/SecondaryPanes/BreakpointsDropdown.js": 1790,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/BreakpointsDropdown.css": 1791,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/scopes/index.js": 1792,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/scopes/synthesizeScopes.js": 1793,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/scopes/getScope.js": 1794
     },
     "usedIds": {
       "0": 0,
@@ -22334,7 +22371,44 @@
       "1754": 1754,
       "1755": 1755,
       "1756": 1756,
-      "1757": 1757
+      "1757": 1757,
+      "1758": 1758,
+      "1759": 1759,
+      "1760": 1760,
+      "1761": 1761,
+      "1762": 1762,
+      "1763": 1763,
+      "1764": 1764,
+      "1765": 1765,
+      "1766": 1766,
+      "1767": 1767,
+      "1768": 1768,
+      "1769": 1769,
+      "1770": 1770,
+      "1771": 1771,
+      "1772": 1772,
+      "1773": 1773,
+      "1774": 1774,
+      "1775": 1775,
+      "1776": 1776,
+      "1777": 1777,
+      "1778": 1778,
+      "1779": 1779,
+      "1780": 1780,
+      "1781": 1781,
+      "1782": 1782,
+      "1783": 1783,
+      "1784": 1784,
+      "1785": 1785,
+      "1786": 1786,
+      "1787": 1787,
+      "1788": 1788,
+      "1789": 1789,
+      "1790": 1790,
+      "1791": 1791,
+      "1792": 1792,
+      "1793": 1793,
+      "1794": 1794
     }
   },
   "chunks": {
@@ -25541,7 +25615,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25562,7 +25636,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25583,7 +25657,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25604,7 +25678,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25646,7 +25720,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25667,7 +25741,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25688,7 +25762,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25709,7 +25783,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25730,7 +25804,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25751,7 +25825,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25772,7 +25846,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25793,7 +25867,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25814,7 +25888,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25835,7 +25909,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25856,7 +25930,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25877,7 +25951,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25898,7 +25972,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25919,7 +25993,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25940,7 +26014,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25961,7 +26035,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -25982,7 +26056,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26003,7 +26077,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26024,7 +26098,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26045,7 +26119,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26066,7 +26140,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26087,7 +26161,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26108,7 +26182,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26129,7 +26203,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26150,7 +26224,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26171,7 +26245,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26192,7 +26266,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26213,7 +26287,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26234,7 +26308,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26255,7 +26329,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26276,7 +26350,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26297,7 +26371,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26318,7 +26392,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26339,7 +26413,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26360,7 +26434,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26381,7 +26455,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26402,7 +26476,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26444,7 +26518,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26465,7 +26539,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26486,7 +26560,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26507,7 +26581,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26528,7 +26602,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26549,7 +26623,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26570,7 +26644,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26591,7 +26665,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -26612,7 +26686,49 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Button/CommandBarButton.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/shared/Button/CommandBarButton.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
           "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/BreakpointsDropdown.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/BreakpointsDropdown.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
         }
       }
     }
