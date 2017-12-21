@@ -5,7 +5,6 @@
 // @flow
 
 import React, { Component } from "react";
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
 import type { Frame } from "debugger-html";
@@ -201,5 +200,5 @@ export default connect(
     selectedFrame: getSelectedFrame(state),
     pause: getPause(state)
   }),
-  dispatch => bindActionCreators(actions, dispatch)
+  actions
 )(Frames);

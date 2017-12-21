@@ -5,7 +5,6 @@
 // @flow
 
 import React, { Component } from "react";
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import actions from "../../actions";
 import { getSelectedSource, getSymbols } from "../../selectors";
@@ -116,13 +115,10 @@ export class Outline extends Component<Props> {
   }
 }
 
-export default connect(
-  state => {
-    const selectedSource = getSelectedSource(state);
-    return {
-      symbols: getSymbols(state, selectedSource && selectedSource.toJS()),
-      selectedSource
-    };
-  },
-  dispatch => bindActionCreators(actions, dispatch)
-)(Outline);
+export default connect(state => {
+  const selectedSource = getSelectedSource(state);
+  return {
+    symbols: getSymbols(state, selectedSource && selectedSource.toJS()),
+    selectedSource
+  };
+}, actions)(Outline);

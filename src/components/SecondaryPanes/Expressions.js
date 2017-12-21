@@ -5,7 +5,6 @@
 // @flow
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import actions from "../../actions";
 import { getExpressions, getLoadedObjects, getPause } from "../../selectors";
 import { getValue } from "../../utils/expressions";
@@ -209,5 +208,5 @@ export default connect(
     expressions: getExpressions(state),
     loadedObjects: getLoadedObjects(state)
   }),
-  dispatch => bindActionCreators(actions, dispatch)
+  actions
 )(Expressions);

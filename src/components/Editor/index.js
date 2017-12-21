@@ -25,7 +25,6 @@ import {
 } from "../../selectors";
 
 // Redux actions
-import { bindActionCreators } from "redux";
 import actions from "../../actions";
 
 import Footer from "./Footer";
@@ -588,6 +587,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, dispatch =>
-  bindActionCreators(actions, dispatch)
-)(Editor);
+export default connect(mapStateToProps, dispatch => actions)(Editor);

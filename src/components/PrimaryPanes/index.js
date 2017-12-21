@@ -5,7 +5,6 @@
 // @flow
 
 import React, { Component } from "react";
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { formatKeyShortcut } from "../../utils/text";
 import actions from "../../actions";
@@ -144,5 +143,5 @@ export default connect(
     sources: getSources(state),
     sourceSearchOn: getActiveSearch(state) === "source"
   }),
-  dispatch => bindActionCreators(actions, dispatch)
+  actions
 )(PrimaryPanes);

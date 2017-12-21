@@ -7,7 +7,6 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import actions from "../../actions";
 
 import TextSearch from "./TextSearch";
@@ -122,5 +121,5 @@ export default connect(
     textSearchQuery: getTextSearchQuery(state),
     status: getTextSearchStatus(state)
   }),
-  dispatch => bindActionCreators(actions, dispatch)
+  actions
 )(ProjectSearch);

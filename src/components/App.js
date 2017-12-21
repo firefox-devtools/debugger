@@ -7,7 +7,6 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import { features } from "../utils/prefs";
 import actions from "../actions";
 import { ShortcutsModal } from "./ShortcutsModal";
@@ -351,6 +350,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, dispatch =>
-  bindActionCreators(actions, dispatch)
-)(App);
+export default connect(mapStateToProps, dispatch => actions)(App);
