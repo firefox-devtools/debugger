@@ -4,7 +4,6 @@
 
 import { PureComponent } from "react";
 import { showMenu } from "devtools-contextmenu";
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { lineAtHeight } from "../../utils/editor";
 import {
@@ -154,6 +153,19 @@ class GutterContextMenuComponent extends PureComponent {
   }
 }
 
+const {
+  addBreakpoint,
+  removeBreakpoint,
+  enableBreakpoint,
+  disableBreakpoint,
+  toggleBreakpoint,
+  toggleDisabledBreakpoint,
+  continueToHere,
+  setContextMenu,
+  openConditionalPanel,
+  closeConditionalPanel
+} = actions;
+
 export default connect(
   state => {
     const selectedSource = getSelectedSource(state);
@@ -168,5 +180,16 @@ export default connect(
         : []
     };
   },
-  dispatch => bindActionCreators(actions, dispatch)
+  {
+    addBreakpoint,
+    removeBreakpoint,
+    enableBreakpoint,
+    disableBreakpoint,
+    toggleBreakpoint,
+    toggleDisabledBreakpoint,
+    continueToHere,
+    setContextMenu,
+    openConditionalPanel,
+    closeConditionalPanel
+  }
 )(GutterContextMenuComponent);

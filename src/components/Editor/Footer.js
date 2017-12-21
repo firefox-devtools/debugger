@@ -5,7 +5,6 @@
 // @flow
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import actions from "../../actions";
 import {
   getSelectedSource,
@@ -199,6 +198,14 @@ class SourceFooter extends PureComponent<Props> {
   }
 }
 
+const {
+  jumpToMappedLocation,
+  togglePrettyPrint,
+  toggleBlackBox,
+  togglePaneCollapse,
+  recordCoverage
+} = actions;
+
 export default connect(
   state => {
     const selectedSource = getSelectedSource(state);
@@ -211,5 +218,11 @@ export default connect(
       endPanelCollapsed: getPaneCollapse(state, "end")
     };
   },
-  dispatch => bindActionCreators(actions, dispatch)
+  {
+    jumpToMappedLocation,
+    togglePrettyPrint,
+    toggleBlackBox,
+    togglePaneCollapse,
+    recordCoverage
+  }
 )(SourceFooter);
