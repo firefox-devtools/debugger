@@ -117,6 +117,46 @@ function copyTests({ mcPath, projectPath, mcModulePath, shouldSymLink }) {
   }
 }
 
+function copyWithReplace(source, target, { cwd }, what, replacement) {
+  if (cwd) {
+    source = path.resolve(cwd, source);
+    target = path.resolve(cwd, target);
+  }
+  const content = fs.readFileSync(source).toString();
+  const replaced = content.replace(what, replacement);
+  fs.writeFileSync(target, replaced);
+}
+
+function copyWasmParser({ mcPath, projectPath }) {
+  copyWithReplace(
+    require.resolve("wasmparser/dist/WasmParser.js"),
+    path.join(mcPath, "devtools/client/shared/vendor/WasmParser.js"),
+    { cwd: projectPath },
+    /^\/\/# sourceMappingURL=[^\n]*/m,
+    ""
+  );
+
+  copyWithReplace(
+    require.resolve("wasmparser/dist/WasmDis.js"),
+    path.join(mcPath, "devtools/client/shared/vendor/WasmDis.js"),
+    { cwd: projectPath },
+    /^\/\/# sourceMappingURL=[^\n]*/m,
+    ""
+  );
+
+  const wasmparserPackageLocation = require.resolve("wasmparser/package.json");
+  const wasmparserVersion = JSON.parse(
+    fs.readFileSync(wasmparserPackageLocation).toString()
+  ).version;
+  copyWithReplace(
+    path.join(projectPath, "./assets/panel/WASMPARSER_UPGRADING"),
+    path.join(mcPath, "devtools/client/shared/vendor/WASMPARSER_UPGRADING"),
+    { cwd: projectPath },
+    /\$\(WASMPARSER_VERSION\)/g,
+    wasmparserVersion
+  );
+}
+
 function start() {
   console.log("start: copy assets");
   const projectPath = path.resolve(__dirname, "..");
@@ -163,6 +203,7 @@ function start() {
 
   copySVGs(config);
   copyTests(config);
+  copyWasmParser(config);
   writeReadme(path.join(mcPath, "devtools/client/debugger/new/README.mozilla"));
 
   makeBundle({
