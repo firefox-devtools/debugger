@@ -296,7 +296,6 @@ function getMode(source: Source, sourceMetaData: SourceMetaDataType) {
 function isLoaded(source: SourceRecord) {
   return source.get("loadedState") === "loaded";
 }
-
 function isLoading(source: SourceRecord) {
   return source.get("loadedState") === "loading";
 }

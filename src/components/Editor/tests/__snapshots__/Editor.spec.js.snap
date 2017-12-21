@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Editor When empty should render 1`] = `
+exports[`Editor should render 1`] = `
 <div
   className="editor-wrapper"
 >

@@ -16,7 +16,6 @@ import actions from "../actions";
 import selectors from "../selectors";
 import { getHistory } from "../test/utils/history";
 import configureStore from "../actions/utils/create-store";
-import * as I from "immutable";
 
 /**
  * @memberof utils/test-head
@@ -55,10 +54,6 @@ function makeSource(name: string, props: any = {}) {
     url: `http://localhost:8000/examples/${name}`,
     ...props
   };
-}
-
-function makeSourceRecord(name: string, props: any = {}) {
-  return I.Map(makeSource(name, props));
 }
 
 function makeFuncLocation(startLine) {
@@ -107,7 +102,6 @@ export {
   createStore,
   commonLog,
   makeSource,
-  makeSourceRecord,
   makeSymbolDeclaration,
   waitForState,
   getHistory
