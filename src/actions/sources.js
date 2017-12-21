@@ -124,10 +124,13 @@ export function newSources(sources: Source[]) {
     });
 
     for (const source of filteredSources) {
-      dispatch(loadSourceMap(source));
       dispatch(checkSelectedSource(source));
       dispatch(checkPendingBreakpoints(source.id));
     }
+
+    return Promise.all(
+      filteredSources.map(source => dispatch(loadSourceMap(source)))
+    );
   };
 }
 
