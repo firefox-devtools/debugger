@@ -199,6 +199,7 @@ class Expressions extends PureComponent<Props, State> {
           className="input-expression"
           type="text"
           placeholder={L10N.getStr("expressions.placeholder")}
+          onBlur={e => (e.target.value = "")}
           onKeyPress={onKeyPress}
         />
       </li>
