@@ -10642,7 +10642,7 @@ warning@^3.0.0:
   dependencies:
     loose-envify "^1.0.0"
 
-wasmparser@0.5.2:
+wasmparser@^0.5.2:
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/wasmparser/-/wasmparser-0.5.2.tgz#fc32b9ce7bdc4743e84be7b07e473dd35ea38272"
   dependencies:
