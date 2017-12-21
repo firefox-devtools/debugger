@@ -34,7 +34,7 @@ export function addExpression(input: string) {
 
     const error = await parser.hasSyntaxError(input);
     if (error) {
-      return false;
+      return;
     }
 
     const expression = getExpression(getState(), input);
@@ -48,7 +48,7 @@ export function addExpression(input: string) {
     });
 
     const newExpression = getExpression(getState(), input);
-    dispatch(evaluateExpression(newExpression));
+    return dispatch(evaluateExpression(newExpression));
   };
 }
 

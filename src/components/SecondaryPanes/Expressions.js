@@ -167,29 +167,29 @@ class Expressions extends PureComponent<Props, State> {
 
   renderNewExpressionInput() {
     const onKeyPress = async e => {
-      e.target.className = "input-expression";
+      e.stopPropagation();
+
+      const target = e.target;
+      target.className = "input-expression";
 
       if (e.key !== "Enter") {
         return;
       }
 
-      const value = e.target.value;
+      const value = target.value;
       if (value == "") {
         return;
       }
-
-      e.persist();
-      e.stopPropagation();
 
       const syntaxError = await hasSyntaxError(value);
       this.setState({ error: syntaxError });
 
       if (syntaxError) {
-        e.target.className = "input-expression-error";
+        target.className = "input-expression-error";
         return;
       }
 
-      e.target.value = "";
+      target.value = "";
       this.props.addExpression(value);
     };
 
@@ -199,6 +199,7 @@ class Expressions extends PureComponent<Props, State> {
           className="input-expression"
           type="text"
           placeholder={L10N.getStr("expressions.placeholder")}
+          onBlur={e => (e.target.value = "")}
           onKeyPress={onKeyPress}
         />
       </li>
