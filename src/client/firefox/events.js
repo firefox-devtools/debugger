@@ -13,7 +13,6 @@ import type {
 } from "./types";
 
 import { createPause, createSource } from "./create";
-import sourceQueue from "../../utils/source-queue";
 import { isEnabled } from "devtools-config";
 
 const CALL_STACK_PAGE_SIZE = 1000;
@@ -32,7 +31,6 @@ function setupEvents(dependencies: Dependencies) {
   threadClient = dependencies.threadClient;
   actions = dependencies.actions;
   supportsWasm = dependencies.supportsWasm;
-  sourceQueue.initialize({ actions, supportsWasm, createSource });
 
   if (threadClient) {
     Object.keys(clientEvents).forEach(eventName => {
@@ -55,7 +53,6 @@ async function paused(_: "paused", packet: PausedPacket) {
 
   if (why.type != "alreadyPaused") {
     const pause = createPause(packet, response);
-    sourceQueue.flush();
     actions.paused(pause);
   }
 }
@@ -65,7 +62,7 @@ function resumed(_: "resumed", packet: ResumedPacket) {
 }
 
 function newSource(_: "newSource", { source }: SourcePacket) {
-  sourceQueue.queue(source);
+  actions.newSource(createSource(source, { supportsWasm }));
 
   if (isEnabled("eventListeners")) {
     actions.fetchEventListeners();
