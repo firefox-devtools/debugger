@@ -131,7 +131,7 @@
     "glob": "^7.0.3",
     "husky": "^0.14.2",
     "jest": "^20.0.4",
-    "jest-cli": "^20.0.4",
+    "jest-cli": "^22.0.4",
     "jest-in-case": "^1.0.2",
     "jest-junit-reporter": "^1.0.1",
     "jest-localstorage-mock": "^1.1.1",
