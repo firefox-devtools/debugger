@@ -66,10 +66,6 @@ function update(
     }
 
     case "SELECT_SOURCE":
-      if (action.status != "start") {
-        return state;
-      }
-
       location = {
         ...action.location,
         url: action.source.url
@@ -169,7 +165,7 @@ function setSourceTextProps(state, action: any): Record<SourcesState> {
   return updateSource(state, text);
 }
 
-function updateSource(state: Record<SourcesState>, source: Object | Source) {
+function updateSource(state: Record<SourcesState>, source: Source | Object) {
   if (!source.id) {
     return state;
   }

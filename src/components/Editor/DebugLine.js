@@ -52,6 +52,11 @@ export class DebugLine extends Component<Props> {
     this.clearDebugLine(selectedFrame, selectedSource, pauseInfo);
   }
 
+  componentDidMount() {
+    const { pauseInfo, selectedFrame, selectedSource } = this.props;
+    this.setDebugLine(pauseInfo, selectedFrame, selectedSource);
+  }
+
   setDebugLine(
     pauseInfo: Pause,
     selectedFrame: Frame,

@@ -6,10 +6,14 @@ function getScrollTop(dbg) {
 }
 
 async function waitForMatch(dbg, { matchIndex, count }) {
-  await waitForState(dbg, state => {
-    const result = dbg.selectors.getFileSearchResults(state);
-    return result.matchIndex == matchIndex && result.count == count;
-  });
+  await waitForState(
+    dbg,
+    state => {
+      const result = dbg.selectors.getFileSearchResults(state);
+      return result.matchIndex == matchIndex && result.count == count;
+    },
+    "wait for match"
+  );
 }
 
 add_task(async function() {
