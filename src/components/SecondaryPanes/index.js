@@ -139,6 +139,7 @@ class SecondaryPanes extends Component<Props> {
 
   getScopeItem() {
     const isPaused = () => !!this.props.pauseData;
+
     return {
       header: L10N.getStr("scopes.header"),
       className: "scopes-pane",
