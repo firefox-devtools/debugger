@@ -9,12 +9,17 @@ import { getMode } from "../source";
 import type { Source } from "debugger-html";
 import { isWasm, getWasmLineNumberFormatter, renderWasmText } from "../wasm";
 import { resizeBreakpointGutter, resizeToggleButton } from "../ui";
-import type { SourceMetaDataType } from "../../reducers/ast";
+
+import type { SourceMetaDataType, SourceRecord } from "../../reducers/types";
 
 let sourceDocs = {};
 
 function getDocument(key: string) {
   return sourceDocs[key];
+}
+
+function hasDocument(key: string) {
+  return !!getDocument(key);
 }
 
 function setDocument(key: string, doc: any) {
@@ -47,11 +52,12 @@ function updateLineNumberFormat(editor: Object, sourceId: string) {
   resizeToggleButton(cm);
 }
 
-function updateDocument(editor: Object, sourceId: string) {
-  if (!sourceId) {
+function updateDocument(editor: Object, source: SourceRecord) {
+  if (!source) {
     return;
   }
 
+  const sourceId = source.get("id");
   const doc = getDocument(sourceId) || editor.createDocument();
   editor.replaceDocument(doc);
 
@@ -59,7 +65,7 @@ function updateDocument(editor: Object, sourceId: string) {
 }
 
 function showLoading(editor: Object) {
-  if (getDocument("loading")) {
+  if (hasDocument("loading")) {
     return;
   }
 
@@ -95,20 +101,20 @@ function showSourceText(
     return;
   }
 
-  let doc = getDocument(source.id);
-  if (editor.codeMirror.doc === doc) {
-    editor.setMode(getMode(source, sourceMetaData));
-    return;
-  }
+  if (hasDocument(source.id)) {
+    const doc = getDocument(source.id);
+    if (editor.codeMirror.doc === doc) {
+      editor.setMode(getMode(source, sourceMetaData));
+      return;
+    }
 
-  if (doc) {
     editor.replaceDocument(doc);
     updateLineNumberFormat(editor, source.id);
     editor.setMode(getMode(source, sourceMetaData));
     return doc;
   }
 
-  doc = editor.createDocument();
+  const doc = editor.createDocument();
   setDocument(source.id, doc);
   editor.replaceDocument(doc);
 
@@ -120,6 +126,7 @@ function showSourceText(
 export {
   getDocument,
   setDocument,
+  hasDocument,
   removeDocument,
   clearDocuments,
   resetLineNumberFormat,
