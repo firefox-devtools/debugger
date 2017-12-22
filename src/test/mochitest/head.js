@@ -208,7 +208,7 @@ function waitForSources(dbg, ...sources) {
       }
 
       if (!sourceExists(store.getState())) {
-        return waitForState(dbg, sourceExists);
+        return waitForState(dbg, sourceExists, `source ${url}`);
       }
     })
   );
