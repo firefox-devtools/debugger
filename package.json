@@ -75,7 +75,7 @@
     "devtools-launchpad": "^0.0.112",
     "devtools-linters": "^0.0.4",
     "devtools-map-bindings": "^0.3.2",
-    "devtools-reps": "^0.12.4",
+    "devtools-reps": "^0.17.0",
     "devtools-source-editor": "^0.0.8",
     "devtools-source-map": "^0.14.7",
     "devtools-splitter": "^0.0.6",
