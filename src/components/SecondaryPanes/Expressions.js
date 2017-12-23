@@ -70,7 +70,6 @@ class Expressions extends PureComponent<Props, State> {
     if (depth > 0) {
       return;
     }
-
     this.setState({ editing: expression.input });
   }
 
@@ -80,18 +79,31 @@ class Expressions extends PureComponent<Props, State> {
     deleteExpression(expression);
   }
 
-  inputKeyPress(e, expression) {
+  async inputKeyPress(e, expression) {
+    const target = e.target;
+    target.className = "input-expression";
+
     if (e.key !== "Enter") {
       return;
     }
 
-    const value = e.target.value;
+    const value = target.value;
+
     if (value == "") {
       return;
     }
 
+    const syntaxError = await hasSyntaxError(value);
+    this.setState({ error: syntaxError });
+
+    if (syntaxError) {
+      target.className = "input-expression-error";
+      return;
+    }
+
     this.setState({ editing: null });
-    e.target.value = "";
+    target.value = "";
+
     this.props.updateExpression(value, expression);
   }
 
