@@ -34,6 +34,7 @@ permalink: docs/
   * [Communication](./debugging.md)
 
 * [Debugger Server Architecture](./client.md)
+* [Debugger Client](../src/client/README.md)
 
 ### Firefox panel
 
