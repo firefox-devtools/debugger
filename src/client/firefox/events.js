@@ -27,6 +27,7 @@ type Dependencies = {
 let threadClient: ThreadClient;
 let actions: Actions;
 let supportsWasm: boolean;
+let isInterrupted: boolean;
 
 function setupEvents(dependencies: Dependencies) {
   threadClient = dependencies.threadClient;
@@ -47,6 +48,7 @@ async function paused(_: "paused", packet: PausedPacket) {
   // breakpoints, ignore the event.
   const { why } = packet;
   if (why.type === "interrupted" && !packet.why.onNext) {
+    isInterrupted = true;
     return;
   }
 
@@ -61,6 +63,14 @@ async function paused(_: "paused", packet: PausedPacket) {
 }
 
 function resumed(_: "resumed", packet: ResumedPacket) {
+  // NOTE: the client suppresses resumed events while interrupted
+  // to prevent unintentional behavior.
+  // see [client docs](../README.md#interrupted) for more information.
+  if (isInterrupted) {
+    isInterrupted = false;
+    return;
+  }
+
   actions.resumed(packet);
 }
 
