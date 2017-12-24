@@ -8,19 +8,19 @@ permalink: docs/
 
 * [Getting Setup](./getting-setup.md)
 * [Terminology](./terminology.md)
-* [Debugging the debugger](.debugging-the-debugger.md)
+* [Debugging the debugger](./debugging-the-debugger.md)
 
 ### Development
 
 * [Local Development](./local-development.md)
 * [Lerna](./lerna.md)
-* [Flow types](.flow.md)
+* [Flow types](./flow.md)
 * [Feature flags](./feature-flags.md)
 * [Issues](./issues.md)
-* [Pullrequests](.pull-requests.md)
+* [Pull requests](./pull-requests.md)
 * [Maintainer information](./maintainer.md)
 * [Frequently Asked Questions & Issues](./most-common-issues.md)
-* [Fix Perfomance bugs](./performance.md)
+* [Fix Performance bugs](./performance.md)
 * [Bundling and Releasing](./bundling.md)
 
 ### Testing
@@ -40,11 +40,11 @@ permalink: docs/
 * [Debugging Firefox](./debugging-firefox.md)
 * [Remotely debuggable browsers](./remotely-debuggable-browsers.md)
 
-### Learnings
+### Learning
 
 * [Conference Talks](./talks.md)
 * [Screencasts](./videos.md)
-* [When the world stops](./when-the-world-stops.md)
+* [When the world stops](./updates/when-the-world-stops.md)
 
 ### Updates
 
