@@ -17,7 +17,6 @@ import { features } from "../../utils/prefs";
 import {
   getActiveSearch,
   getSelectedLocation,
-  getSelectedFrame,
   getSelectedSource,
   getHitCountForSource,
   getCoverageEnabled,
@@ -37,6 +36,7 @@ import Breakpoints from "./Breakpoints";
 import HitMarker from "./HitMarker";
 import CallSites from "./CallSites";
 import DebugLine from "./DebugLine";
+import HighlightLine from "./HighlightLine";
 import EmptyLines from "./EmptyLines";
 import GutterMenu from "./GutterMenu";
 import EditorMenu from "./EditorMenu";
@@ -48,13 +48,12 @@ import {
   updateDocument,
   showLoading,
   shouldShowFooter,
-  clearLineClass,
   createEditor,
   getCursorLine,
   resizeBreakpointGutter,
   toSourceLine,
   scrollToColumn,
-  toEditorLine,
+  toEditorPosition,
   resetLineNumberFormat,
   getSourceLocationFromMouseEvent
 } from "../../utils/editor";
@@ -70,13 +69,12 @@ const cssVars = {
   footerHeight: "var(--editor-footer-height)"
 };
 
-type Props = {
+export type Props = {
   hitCount: Object,
   selectedLocation: Object,
   selectedSource: Object,
   searchOn: boolean,
   coverageOn: boolean,
-  selectedFrame: Object,
   horizontal: boolean,
   startPanelSize: number,
   endPanelSize: number,
@@ -101,14 +99,9 @@ type State = {
 class Editor extends PureComponent<Props, State> {
   cbPanel: any;
   editor: SourceEditor;
-  pendingJumpLocation: any;
-  lastJumpLine: any;
 
   constructor() {
     super();
-
-    this.pendingJumpLocation = null;
-    this.lastJumpLine = null;
 
     this.state = {
       highlightedLineRange: null,
@@ -123,6 +116,12 @@ class Editor extends PureComponent<Props, State> {
 
     resizeBreakpointGutter(this.state.editor.codeMirror);
     resizeToggleButton(this.state.editor.codeMirror);
+  }
+
+  componentWillUpdate(nextProps) {
+    this.setText(nextProps);
+    this.setSize(nextProps);
+    this.scrollToLocation(nextProps);
   }
 
   setupEditor() {
@@ -184,7 +183,7 @@ class Editor extends PureComponent<Props, State> {
   componentDidMount() {
     const editor = this.setupEditor();
 
-    const { selectedSource, selectedLocation } = this.props;
+    const { selectedSource } = this.props;
     const { shortcuts } = this.context;
 
     const searchAgainKey = L10N.getStr("sourceSearch.search.again.key2");
@@ -201,12 +200,7 @@ class Editor extends PureComponent<Props, State> {
     shortcuts.on(searchAgainPrevKey, this.onSearchAgain);
     shortcuts.on(searchAgainKey, this.onSearchAgain);
 
-    if (selectedLocation && !!selectedLocation.line) {
-      this.pendingJumpLocation = selectedLocation;
-    }
-
-    const sourceId = selectedSource ? selectedSource.get("id") : undefined;
-    updateDocument(editor, sourceId);
+    updateDocument(editor, selectedSource);
   }
 
   componentWillUnmount() {
@@ -224,37 +218,7 @@ class Editor extends PureComponent<Props, State> {
     shortcuts.off(searchAgainKey);
   }
 
-  componentWillUpdate(nextProps) {
-    this.setText(nextProps);
-    this.setSize(nextProps);
-  }
-
   componentDidUpdate(prevProps, prevState) {
-    // This is in `componentDidUpdate` so helper functions can expect
-    // `this.props` to be the current props. This lifecycle method is
-    // responsible for updating the editor annotations.
-    const { selectedLocation, selectedSource } = this.props;
-
-    // If the location is different and a new line is requested,
-    // update the pending jump line. Note that if jumping to a line in
-    // a source where the text hasn't been loaded yet, we will set the
-    // line here but not jump until rendering the actual source.
-
-    if (prevProps.selectedLocation !== selectedLocation) {
-      if (selectedLocation && selectedLocation.line != undefined) {
-        this.pendingJumpLocation = selectedLocation;
-      } else {
-        this.pendingJumpLocation = null;
-      }
-    }
-
-    // Only update and jump around in real source texts. This will
-    // keep the jump state around until the real source text is
-    // loaded.
-    if (selectedSource && isLoaded(selectedSource)) {
-      this.highlightLine();
-    }
-
     // NOTE: when devtools are opened, the editor is not set when
     // the source loads so we need to wait until the editor is
     // set to update the text and size.
@@ -424,48 +388,37 @@ class Editor extends PureComponent<Props, State> {
     return this.props.closeConditionalPanel();
   };
 
-  // If the location has changed and a specific line is requested,
-  // move to that line and flash it.
-  highlightLine() {
-    const { selectedLocation, selectedFrame } = this.props;
-    if (!selectedLocation) {
-      return;
+  shouldScrollToLocation(nextProps) {
+    const { selectedLocation, selectedSource } = this.props;
+    const { editor } = this.state;
+
+    if (!nextProps.selectedSource || !editor || !nextProps.selectedLocation) {
+      return false;
     }
 
-    // Make sure to clean up after ourselves. Not only does this
-    // cancel any existing animation, but it avoids it from
-    // happening ever again (in case CodeMirror re-applies the
-    // class, etc).
-    if (this.lastJumpLine !== null) {
-      clearLineClass(this.state.editor.codeMirror, "highlight-line");
+    if (!isLoaded(nextProps.selectedSource)) {
+      return false;
     }
 
-    let line = null;
-    if (selectedLocation.line >= 0) {
-      line = this.scrollToPosition();
+    if (!nextProps.selectedLocation.line) {
+      return false;
     }
 
-    // We only want to do the flashing animation if it's not a debug
-    // line, which has it's own styling.
-    // Also, if it the first time the debugger is being loaded, we don't want
-    // to flash the previously saved selected line.
-    if (
-      line !== null &&
-      this.lastJumpLine !== null &&
-      (!selectedFrame || selectedFrame.location.line !== line)
-    ) {
-      this.state.editor.codeMirror.addLineClass(line, "line", "highlight-line");
-    }
+    const isFirstLoad =
+      (!selectedSource || !isLoaded(selectedSource)) &&
+      isLoaded(nextProps.selectedSource);
 
-    this.lastJumpLine = line;
-    this.pendingJumpLocation = null;
+    const locationChanged = selectedLocation !== nextProps.selectedLocation;
+    return isFirstLoad || locationChanged;
   }
 
-  scrollToPosition() {
-    const { sourceId, line, column } = this.props.selectedLocation;
-    const editorLine = toEditorLine(sourceId, line);
-    scrollToColumn(this.state.editor.codeMirror, editorLine, column);
-    return editorLine;
+  scrollToLocation(nextProps) {
+    const { editor } = this.state;
+
+    if (this.shouldScrollToLocation(nextProps)) {
+      const { line, column } = toEditorPosition(nextProps.selectedLocation);
+      scrollToColumn(editor.codeMirror, line, column);
+    }
   }
 
   setSize(nextProps) {
@@ -483,6 +436,7 @@ class Editor extends PureComponent<Props, State> {
 
   setText(props) {
     const { selectedSource, sourceMetaData } = props;
+
     if (!this.state.editor) {
       return;
     }
@@ -499,13 +453,11 @@ class Editor extends PureComponent<Props, State> {
       return this.showMessage(selectedSource.get("error"));
     }
 
-    if (selectedSource) {
-      return showSourceText(
-        this.state.editor,
-        selectedSource.toJS(),
-        sourceMetaData
-      );
-    }
+    return showSourceText(
+      this.state.editor,
+      selectedSource.toJS(),
+      sourceMetaData
+    );
   }
 
   showMessage(msg) {
@@ -563,16 +515,17 @@ class Editor extends PureComponent<Props, State> {
   }
 
   renderItems() {
-    const { selectedSource, horizontal } = this.props;
+    const { horizontal, selectedSource } = this.props;
     const { editor } = this.state;
 
-    if (!editor || !selectedSource || !isLoaded(selectedSource)) {
+    if (!editor || !selectedSource) {
       return null;
     }
 
     return (
       <div>
-        <DebugLine editor={editor} />
+        <DebugLine />
+        <HighlightLine />
         <EmptyLines editor={editor} />
         <Breakpoints editor={editor} />
         <Preview editor={editor} />;
@@ -629,7 +582,6 @@ const mapStateToProps = state => {
     selectedSource,
     searchOn: getActiveSearch(state) === "file",
     hitCount: getHitCountForSource(state, sourceId),
-    selectedFrame: getSelectedFrame(state),
     coverageOn: getCoverageEnabled(state),
     conditionalPanelLine: getConditionalPanelLine(state),
     sourceMetaData: getSourceMetaData(state, sourceId)
