@@ -202,7 +202,7 @@ class SourceFooter extends PureComponent<Props> {
 export default connect(
   state => {
     const selectedSource = getSelectedSource(state);
-    const selectedId = selectedSource && selectedSource.get("id");
+    const selectedId = selectedSource.get("id");
     const source = selectedSource.toJS();
     return {
       selectedSource,

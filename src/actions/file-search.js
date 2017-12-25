@@ -116,7 +116,6 @@ export function traverseResults(rev: boolean, editor: Editor) {
         ? findPrev(ctx, query, true, modifiers.toJS())
         : findNext(ctx, query, true, modifiers.toJS());
 
-      console.log(line);
       dispatch(updateSearchResults(ch, line, matchedLocations));
     }
   };

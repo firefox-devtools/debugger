@@ -230,7 +230,7 @@ export function selectSource(sourceId: string, tabIndex: string = "") {
  * @static
  */
 export function selectLocation(location: Location, tabIndex: string = "") {
-  return ({ dispatch, getState, client }: ThunkArgs) => {
+  return async ({ dispatch, getState, client }: ThunkArgs) => {
     if (!client) {
       // No connection, do nothing. This happens when the debugger is
       // shut down too fast and it tries to display a default source.
@@ -250,21 +250,20 @@ export function selectLocation(location: Location, tabIndex: string = "") {
 
     dispatch(addTab(source.toJS(), 0));
 
-    return dispatch({
+    dispatch({
       type: "SELECT_SOURCE",
       source: source.toJS(),
       tabIndex,
-      location,
-      [PROMISE]: (async () => {
-        await dispatch(loadSourceText(source));
-        dispatch(setOutOfScopeLocations());
-        const src = getSource(getState(), location.sourceId);
-        const { autoPrettyPrint } = prefs;
-        if (autoPrettyPrint && shouldPrettyPrint(src) && isMinified(src)) {
-          await dispatch(togglePrettyPrint(src.get("id")));
-        }
-      })()
+      location
     });
+
+    await dispatch(loadSourceText(source));
+    dispatch(setOutOfScopeLocations());
+    const src = getSource(getState(), location.sourceId);
+    const { autoPrettyPrint } = prefs;
+    if (autoPrettyPrint && shouldPrettyPrint(src) && isMinified(src)) {
+      await dispatch(togglePrettyPrint(src.get("id")));
+    }
   };
 }
 
