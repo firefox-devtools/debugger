@@ -69,6 +69,7 @@
   display: inline-block;
 }
 
+.sources-loading-message,
 .no-sources-message {
   width: 100%;
   font-style: italic;
