@@ -274,17 +274,17 @@ function onClick(event) {
 }
 ```
 
-### Flow
+### [Flow](flow.md)
 
-- [Adding flow to a file](./flow.md#adding-flow-to-a-file)
-- [Running flow](./flow.md#running-flow)
-- [Missing Annotation](./flow.md#missing-annotation)
-- [Where are types defined?](./flow.md#where-are-types-defined)
-- [Checking flow coverage](./flow.md#checking-flow-coverage)
-- [Common Errors](./flow.md#common-errors)
-  - [Required property](./flow.md#required-property)
-  - [Missing Annotation](./flow.md#missing-annotation)
-  - [Type Inconsistencies](./flow.md#type-inconsistencies)
+- [Adding flow to a file](flow.md#adding-flow-to-a-file)
+- [Running flow](flow.md#running-flow)
+- [Missing Annotation](flow.md#missing-annotation)
+- [Where are types defined?](flow.md#where-are-types-defined)
+- [Checking flow coverage](flow.md#checking-flow-coverage)
+- [Common Errors](flow.md#common-errors)
+  - [Required property](flow.md#required-property)
+  - [Missing Annotation](flow.md#missing-annotation)
+  - [Type Inconsistencies](flow.md#type-inconsistencies)
 
 ### Reducers
 
