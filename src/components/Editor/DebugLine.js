@@ -93,7 +93,7 @@ export class DebugLine extends Component<Props> {
     }
 
     const sourceId = selectedFrame.location.sourceId;
-    const { line } = toEditorPosition(sourceId, selectedFrame.location);
+    const { line } = toEditorPosition(selectedFrame.location);
     const doc = getDocument(sourceId);
     const { lineClass } = this.getTextClasses(pause);
     doc.removeLineClass(line, "line", lineClass);

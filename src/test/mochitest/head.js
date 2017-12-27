@@ -313,8 +313,14 @@ function assertDebugLine(dbg, line) {
   );
 
   const debugLine =
-    findElementWithSelector(dbg, ".new-debug-line") ||
-    findElementWithSelector(dbg, ".new-debug-line-error");
+    findElement(dbg, "debugLine") || findElement(dbg, "debugErrorLine");
+
+  is(
+    findAllElements(dbg, "debugLine").length +
+      findAllElements(dbg, "debugErrorLine").length,
+    1,
+    "There is only one line"
+  );
 
   ok(isVisibleInEditor(dbg, debugLine), "debug line is visible");
 
@@ -935,6 +941,8 @@ const selectors = {
   pauseOnExceptions: ".pause-exceptions",
   breakpoint: ".CodeMirror-code > .new-breakpoint",
   highlightLine: ".CodeMirror-code > .highlight-line",
+  debugLine: ".new-debug-line",
+  debugErrorLine: ".new-debug-line-error",
   codeMirror: ".CodeMirror",
   resume: ".resume.active",
   sourceTabs: ".source-tabs",
