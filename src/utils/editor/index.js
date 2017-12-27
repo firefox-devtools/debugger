@@ -88,7 +88,7 @@ function toEditorLine(sourceId: string, lineOrOffset: number): ?number {
     return wasmOffsetToLine(sourceId, lineOrOffset);
   }
 
-  return !lineOrOffset ? 1 : lineOrOffset - 1;
+  return lineOrOffset ? lineOrOffset - 1 : 1;
 }
 
 function toEditorPosition(location: AstPosition): EditorPosition {
