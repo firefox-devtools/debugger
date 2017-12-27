@@ -88,7 +88,7 @@ Here are some examples [search boxes][search-boxes], [getting into the flow][get
 ### Organize a meetup :beer:
 
 Open source workshops are a great way to bring people together and contribute.
-The best thing about workshops is that it's the best way for new comers to make their first PR.
+The best thing about workshops is that it's the best way for newcomers to make their first PR.
 It's also a lot of fun!
 
 There's been four workshops so far. Two in New York, one in Tel Aviv, and one in Vancouver.
