@@ -9,10 +9,11 @@ import {
   getPreview,
   getInScopeLines,
   getSelectedSource,
-  getMappedExpression,
   getSelectedFrame,
   getSymbols
 } from "../selectors";
+
+import { getMappedExpression } from "./expressions";
 
 import { isEqual } from "lodash";
 
@@ -48,7 +49,9 @@ export function updatePreview(target: HTMLElement, editor: any) {
     }
 
     const source = getSelectedSource(getState());
-    if (getSymbols(getState(), source.toJS()).functions.length == 0) {
+
+    const symbols = getSymbols(getState(), source.toJS());
+    if (symbols.functions.length == 0) {
       return;
     }
 
