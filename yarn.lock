@@ -6753,7 +6753,7 @@ mocha@^3.2.0:
     mkdirp "0.5.1"
     supports-color "3.1.2"
 
-mochii@0.0.17:
+mochii@^0.0.17:
   version "0.0.17"
   resolved "https://registry.yarnpkg.com/mochii/-/mochii-0.0.17.tgz#cc28a42e88ae8031454a40a593844cc92e8b18f3"
   dependencies:
