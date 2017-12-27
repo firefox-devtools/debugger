@@ -138,7 +138,6 @@ class SecondaryPanes extends Component<Props> {
   }
 
   getScopeItem() {
-    const isPaused = () => !!this.props.pauseData;
     return {
       header: L10N.getStr("scopes.header"),
       className: "scopes-pane",
@@ -146,8 +145,7 @@ class SecondaryPanes extends Component<Props> {
       opened: prefs.scopesVisible,
       onToggle: opened => {
         prefs.scopesVisible = opened;
-      },
-      shouldOpen: isPaused
+      }
     };
   }
 
