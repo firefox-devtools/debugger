@@ -16,7 +16,11 @@ import type {
 } from "debugger-html";
 
 import type { State } from "../reducers/types";
-import type { ActiveSearchType } from "../reducers/ui";
+import type {
+  ActiveSearchType,
+  OrientationType,
+  SelectedPrimaryPaneTabType
+} from "../reducers/ui";
 import type { MatchedLocations } from "../reducers/file-search";
 
 import type { SymbolDeclaration, AstLocation } from "../workers/parser";
@@ -105,7 +109,21 @@ type BreakpointAction =
       status: AsyncStatus,
       error: string,
       value: any
-    };
+    }
+  | {
+      type: "SYNC_BREAKPOINT",
+      breakpoint: Breakpoint,
+      previousLocation: Location
+    }
+  | {
+      type: "ENABLE_BREAKPOINT",
+      breakpoint: Breakpoint,
+      status: AsyncStatus,
+      error: string,
+      value: AddBreakpointResult
+    }
+  | { type: "DISABLE_BREAKPOINT", breakpoint: Breakpoint }
+  | { type: "REMAP_BREAKPOINTS", breakpoints: Breakpoint[] };
 
 type SourceAction =
   | { type: "ADD_SOURCE", source: Source }
@@ -124,12 +142,14 @@ type SourceAction =
       error: string,
       value: Source
     }
+  | { type: "CLEAR_SELECTED_SOURCE" }
   | {
       type: "BLACKBOX",
       source: Source,
       error: string,
       value: { isBlackBoxed: boolean }
     }
+  | { type: "ADD_TAB", source: Source, tabIndex: number }
   | { type: "MOVE_TAB", url: string, tabIndex: number }
   | { type: "CLOSE_TAB", url: string, tabs: any }
   | { type: "CLOSE_TABS", urls: string[], tabs: any };
@@ -160,6 +180,43 @@ type UIAction =
       type: "TOGGLE_PANE",
       position: panelPositionType,
       paneCollapsed: boolean
+    }
+  | {
+      type: "SET_CONTEXT_MENU",
+      contextMenu: { type: string, event: any }
+    }
+  | {
+      type: "SET_ORIENTATION",
+      orientation: OrientationType
+    }
+  | {
+      type: "HIGHLIGHT_LINES",
+      location: {
+        start: number,
+        end: number,
+        sourceId: number
+      }
+    }
+  | {
+      type: "CLEAR_HIGHLIGHT_LINES"
+    }
+  | {
+      type: "OPEN_CONDITIONAL_PANEL",
+      line: number
+    }
+  | {
+      type: "CLOSE_CONDITIONAL_PANEL"
+    }
+  | {
+      type: "SET_PROJECT_DIRECTORY_ROOT",
+      url: Object
+    }
+  | {
+      type: "SET_PRIMARY_PANE_TAB",
+      tabName: SelectedPrimaryPaneTabType
+    }
+  | {
+      type: "CLOSE_PROJECT_SEARCH"
     };
 
 type PauseAction =
@@ -211,9 +268,21 @@ type PauseAction =
   | {
       type: "DELETE_EXPRESSION",
       input: string
+    }
+  | {
+      type: "MAP_SCOPES",
+      frame: Frame,
+      scopes: Scope[]
+    }
+  | {
+      type: "ADD_SCOPES",
+      frame: Frame,
+      scopes: Scope[]
     };
 
-type NavigateAction = { type: "NAVIGATE", url: string };
+type NavigateAction =
+  | { type: "CONNECT", url: string }
+  | { type: "NAVIGATE", url: string };
 
 type ASTAction =
   | {
@@ -222,8 +291,17 @@ type ASTAction =
       symbols: SymbolDeclaration[]
     }
   | {
+      type: "SET_EMPTY_LINES",
+      source: Source,
+      emptyLines: AstLocation[]
+    }
+  | {
       type: "OUT_OF_SCOPE_LOCATIONS",
       locations: AstLocation[]
+    }
+  | {
+      type: "IN_SCOPE_LINES",
+      lines: AstLocation[]
     }
   | {
       type: "SET_PREVIEW",
@@ -237,20 +315,27 @@ type ASTAction =
       }
     }
   | {
+      type: "SET_SOURCE_METADATA",
+      sourceId: string,
+      sourceMetaData: {
+        isReactComponent: boolean
+      }
+    }
+  | {
       type: "CLEAR_SELECTION"
     };
 
 export type SourceTreeAction = { type: "SET_EXPANDED_STATE", expanded: any };
 
-export type ProjectTextSearchAction = {
-  type: "ADD_QUERY",
-  query: string
-} & {
-  type: "ADD_SEARCH_RESULT",
-  result: ProjectTextSearchResult
-} & {
-  type: "CLEAR_QUERY"
-};
+export type ProjectTextSearchAction =
+  | { type: "ADD_QUERY", query: string }
+  | {
+      type: "ADD_SEARCH_RESULT",
+      result: ProjectTextSearchResult
+    }
+  | { type: "CLEAR_QUERY" }
+  | { type: "UPDATE_STATUS", status: string }
+  | { type: "CLEAR_SEARCH_RESULTS" };
 
 export type FileTextSearchAction =
   | {
@@ -276,6 +361,18 @@ export type QuickOpenAction =
   | { type: "OPEN_QUICK_OPEN", query?: string }
   | { type: "CLOSE_QUICK_OPEN" };
 
+export type CoverageAction = {
+  type: "RECORD_COVERAGE",
+  value: { coverage: Object }
+};
+
+export type DebugeeAction = {
+  type: "SET_WORKERS",
+  workers: {
+    workers: Object[]
+  }
+};
+
 /**
  * Actions: Source, Breakpoint, and Navigation
  *
@@ -289,4 +386,8 @@ export type Action =
   | NavigateAction
   | UIAction
   | ASTAction
-  | QuickOpenAction;
+  | QuickOpenAction
+  | FileTextSearchAction
+  | ProjectTextSearchAction
+  | CoverageAction
+  | DebugeeAction;
