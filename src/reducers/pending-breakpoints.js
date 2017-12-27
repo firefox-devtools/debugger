@@ -80,7 +80,6 @@ function addBreakpoint(state, action) {
   if (action.status !== "done") {
     return state;
   }
-
   // when the action completes, we can commit the breakpoint
   const { value: { breakpoint } } = action;
   const locationId = makePendingLocationId(breakpoint.location);
