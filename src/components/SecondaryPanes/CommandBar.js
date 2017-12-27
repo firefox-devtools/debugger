@@ -10,7 +10,7 @@ import { bindActionCreators } from "redux";
 import classnames from "classnames";
 import { features } from "../../utils/prefs";
 import {
-  getPause,
+  isPaused as getIsPaused,
   getIsWaitingOnBreak,
   getShouldPauseOnExceptions,
   getShouldIgnoreCaughtExceptions
@@ -104,7 +104,7 @@ type Props = {
   stepOut: () => void,
   stepOver: () => void,
   breakOnNext: () => void,
-  pause: any,
+  isPaused: boolean,
   pauseOnExceptions: (boolean, boolean) => void,
   shouldPauseOnExceptions: boolean,
   shouldIgnoreCaughtExceptions: boolean,
@@ -147,9 +147,9 @@ class CommandBar extends Component<Props> {
   }
 
   renderStepButtons() {
-    const isPaused = this.props.pause;
+    const { isPaused } = this.props;
     const className = isPaused ? "active" : "disabled";
-    const isDisabled = !this.props.pause;
+    const isDisabled = !isPaused;
 
     if (!isPaused && features.removeCommandBarOptions) {
       return;
@@ -181,9 +181,9 @@ class CommandBar extends Component<Props> {
   }
 
   renderPauseButton() {
-    const { pause, breakOnNext, isWaitingOnBreak } = this.props;
+    const { isPaused, breakOnNext, isWaitingOnBreak } = this.props;
 
-    if (pause) {
+    if (isPaused) {
       return debugBtn(
         this.props.resume,
         "resume",
@@ -285,7 +285,7 @@ CommandBar.contextTypes = {
 export default connect(
   state => {
     return {
-      pause: getPause(state),
+      isPaused: getIsPaused(state),
       isWaitingOnBreak: getIsWaitingOnBreak(state),
       shouldPauseOnExceptions: getShouldPauseOnExceptions(state),
       shouldIgnoreCaughtExceptions: getShouldIgnoreCaughtExceptions(state)

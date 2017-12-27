@@ -4,7 +4,7 @@
 
 // @flow
 
-import { getPause, getSelectedSource, getTopFrame } from "../../selectors";
+import { isPaused, getSelectedSource, getTopFrame } from "../../selectors";
 import { PROMISE } from "../utils/middleware/promise";
 import { getNextStep } from "../../workers/parser";
 import { addHiddenBreakpoint } from "../breakpoints";
@@ -38,7 +38,7 @@ export function command(type: CommandType) {
  */
 export function stepIn() {
   return ({ dispatch, getState }: ThunkArgs) => {
-    if (getPause(getState())) {
+    if (isPaused(getState())) {
       return dispatch(command("stepIn"));
     }
   };
@@ -52,7 +52,7 @@ export function stepIn() {
  */
 export function stepOver() {
   return ({ dispatch, getState }: ThunkArgs) => {
-    if (getPause(getState())) {
+    if (isPaused(getState())) {
       return dispatch(astCommand("stepOver"));
     }
   };
@@ -66,7 +66,7 @@ export function stepOver() {
  */
 export function stepOut() {
   return ({ dispatch, getState }: ThunkArgs) => {
-    if (getPause(getState())) {
+    if (isPaused(getState())) {
       return dispatch(command("stepOut"));
     }
   };
@@ -80,7 +80,7 @@ export function stepOut() {
  */
 export function resume() {
   return ({ dispatch, getState }: ThunkArgs) => {
-    if (getPause(getState())) {
+    if (isPaused(getState())) {
       return dispatch(command("resume"));
     }
   };
@@ -101,7 +101,6 @@ export function astCommand(stepType: CommandType) {
     if (stepType == "stepOver") {
       const frame = getTopFrame(getState());
       const source = getSelectedSource(getState()).toJS();
-
       const nextLocation = await getNextStep(source, frame.location);
       if (nextLocation) {
         await dispatch(addHiddenBreakpoint(nextLocation));

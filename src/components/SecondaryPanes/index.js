@@ -12,7 +12,7 @@ import { features } from "../../utils/prefs";
 
 import actions from "../../actions";
 import {
-  getPause,
+  isPaused as getIsPaused,
   getBreakpoints,
   getBreakpointsDisabled,
   getBreakpointsLoading,
@@ -67,7 +67,7 @@ function debugBtn(onClick, type, className, tooltip) {
 
 type Props = {
   evaluateExpressions: Function,
-  pauseData: Object,
+  isPaused: boolean,
   horizontal: boolean,
   breakpoints: Object,
   breakpointsDisabled: boolean,
@@ -145,7 +145,8 @@ class SecondaryPanes extends Component<Props> {
       opened: prefs.scopesVisible,
       onToggle: opened => {
         prefs.scopesVisible = opened;
-      }
+      },
+      shouldOpen: () => this.props.isPaused
     };
   }
 
@@ -291,27 +292,13 @@ class SecondaryPanes extends Component<Props> {
   }
 }
 
-SecondaryPanes.propTypes = {
-  evaluateExpressions: PropTypes.func.isRequired,
-  pauseData: PropTypes.object,
-  horizontal: PropTypes.bool,
-  breakpoints: PropTypes.object,
-  breakpointsDisabled: PropTypes.bool,
-  breakpointsLoading: PropTypes.bool,
-  toggleAllBreakpoints: PropTypes.func.isRequired,
-  toggleShortcutsModal: PropTypes.func,
-  isWaitingOnBreak: PropTypes.bool,
-  shouldPauseOnExceptions: PropTypes.bool,
-  shouldIgnoreCaughtExceptions: PropTypes.bool
-};
-
 SecondaryPanes.contextTypes = {
   shortcuts: PropTypes.object
 };
 
 export default connect(
   state => ({
-    pauseData: getPause(state),
+    isPaused: getIsPaused(state),
     breakpoints: getBreakpoints(state),
     breakpointsDisabled: getBreakpointsDisabled(state),
     breakpointsLoading: getBreakpointsLoading(state),

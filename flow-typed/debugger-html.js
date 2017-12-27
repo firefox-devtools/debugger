@@ -152,12 +152,20 @@ declare module "debugger-html" {
    * @memberof types
    * @static
    */
+  declare type ExceptionReason = {|
+    exception: string | Grip,
+    message: string,
+    type: "exception",
+    frameFinished?: Object
+  |};
+
+  /**
+   * why
+   * @memberof types
+   * @static
+   */
   declare type Why =
-    | {|
-        exception: string | Grip,
-        type: "exception",
-        frameFinished?: Object
-      |}
+    | ExceptionReason
     | {
         type: string,
         frameFinished?: Object
@@ -206,6 +214,20 @@ declare module "debugger-html" {
   };
 
   /**
+   * PreviewGrip
+   * @memberof types
+   * @static
+   */
+
+  declare type PreviewGrip = {
+    kind: string,
+    url: string,
+    fileName: string,
+    message: string,
+    name: string
+  };
+
+  /**
    * Grip
    * @memberof types
    * @static
@@ -217,11 +239,7 @@ declare module "debugger-html" {
     frozen: boolean,
     isGlobal: boolean,
     ownPropertyLength: number,
-    preview: {
-      kind: string,
-      url: string,
-      fileName: string
-    },
+    preview: PreviewGrip,
     sealed: boolean,
     type: string
   };

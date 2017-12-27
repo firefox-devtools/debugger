@@ -10,16 +10,16 @@ import { isException } from "../../utils/pause";
 import { connect } from "react-redux";
 import {
   getVisibleSelectedFrame,
-  getPause,
+  getPauseReason,
   getSelectedSource
 } from "../../selectors";
 
-import type { Frame, Pause } from "debugger-html";
+import type { Frame, Why } from "debugger-html";
 import type { SourceRecord } from "../../reducers/types";
 
 type Props = {
   selectedFrame: Frame,
-  pauseInfo: Pause,
+  why: Why,
   selectedSource: SourceRecord
 };
 
@@ -40,25 +40,21 @@ export class DebugLine extends Component<Props> {
   debugExpression: null;
 
   componentDidUpdate(prevProps: Props) {
-    const { pauseInfo, selectedFrame, selectedSource } = this.props;
-    this.setDebugLine(pauseInfo, selectedFrame, selectedSource);
+    const { why, selectedFrame, selectedSource } = this.props;
+    this.setDebugLine(why, selectedFrame, selectedSource);
   }
 
   componentWillUpdate() {
-    const { pauseInfo, selectedFrame, selectedSource } = this.props;
-    this.clearDebugLine(selectedFrame, selectedSource, pauseInfo);
+    const { why, selectedFrame, selectedSource } = this.props;
+    this.clearDebugLine(selectedFrame, selectedSource, why);
   }
 
   componentDidMount() {
-    const { pauseInfo, selectedFrame, selectedSource } = this.props;
-    this.setDebugLine(pauseInfo, selectedFrame, selectedSource);
+    const { why, selectedFrame, selectedSource } = this.props;
+    this.setDebugLine(why, selectedFrame, selectedSource);
   }
 
-  setDebugLine(
-    pauseInfo: Pause,
-    selectedFrame: Frame,
-    selectedSource: SourceRecord
-  ) {
+  setDebugLine(why: Why, selectedFrame: Frame, selectedSource: SourceRecord) {
     if (!isDocumentReady(selectedSource, selectedFrame)) {
       return;
     }
@@ -66,7 +62,7 @@ export class DebugLine extends Component<Props> {
     const doc = getDocument(sourceId);
 
     const { line, column } = toEditorPosition(selectedFrame.location);
-    const { markTextClass, lineClass } = this.getTextClasses(pauseInfo);
+    const { markTextClass, lineClass } = this.getTextClasses(why);
     doc.addLineClass(line, "line", lineClass);
 
     this.debugExpression = doc.markText(
@@ -76,11 +72,7 @@ export class DebugLine extends Component<Props> {
     );
   }
 
-  clearDebugLine(
-    selectedFrame: Frame,
-    selectedSource: SourceRecord,
-    pause: Pause
-  ) {
+  clearDebugLine(selectedFrame: Frame, selectedSource: SourceRecord, why: Why) {
     if (!isDocumentReady(selectedSource, selectedFrame)) {
       return;
     }
@@ -92,12 +84,12 @@ export class DebugLine extends Component<Props> {
     const sourceId = selectedFrame.location.sourceId;
     const { line } = toEditorPosition(selectedFrame.location);
     const doc = getDocument(sourceId);
-    const { lineClass } = this.getTextClasses(pause);
+    const { lineClass } = this.getTextClasses(why);
     doc.removeLineClass(line, "line", lineClass);
   }
 
-  getTextClasses(pause: Pause): TextClasses {
-    if (isException(pause.why)) {
+  getTextClasses(why: Why): TextClasses {
+    if (isException(why)) {
       return {
         markTextClass: "debug-expression-error",
         lineClass: "new-debug-line-error"
@@ -116,6 +108,6 @@ export default connect(state => {
   return {
     selectedFrame: getVisibleSelectedFrame(state),
     selectedSource: getSelectedSource(state),
-    pauseInfo: getPause(state)
+    why: getPauseReason(state)
   };
 })(DebugLine);

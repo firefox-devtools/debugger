@@ -11,7 +11,7 @@
  */
 
 import { reportException } from "../utils/DevToolsUtils";
-import { getPause, getSourceByURL } from "../selectors";
+import { isPaused, getSourceByURL } from "../selectors";
 
 // delay is in ms
 const FETCH_EVENT_LISTENERS_DELAY = 200;
@@ -22,7 +22,7 @@ let fetchListenersTimerID;
  * @static
  */
 async function asPaused(state: any, client: any, func: any) {
-  if (!getPause(state)) {
+  if (!isPaused(state)) {
     await client.interrupt();
     let result;
 

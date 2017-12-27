@@ -7,7 +7,7 @@ import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import actions from "../../actions";
-import { getExpressions, getLoadedObjects, getPause } from "../../selectors";
+import { getExpressions, getLoadedObjects } from "../../selectors";
 import { getValue } from "../../utils/expressions";
 
 import CloseButton from "../shared/Button/Close";
@@ -205,7 +205,6 @@ class Expressions extends PureComponent<Props, State> {
 
 export default connect(
   state => ({
-    pauseInfo: getPause(state),
     expressions: getExpressions(state),
     loadedObjects: getLoadedObjects(state)
   }),

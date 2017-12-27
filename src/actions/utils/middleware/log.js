@@ -42,7 +42,7 @@ function formatFrame(frame) {
 function formatPause(pause) {
   return {
     ...pause,
-    pauseInfo: { why: pause.pauseInfo.why },
+    pauseInfo: { why: pause.why },
     scopes: [],
     frames: pause.frames.map(formatFrame),
     loadedObjects: []
