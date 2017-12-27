@@ -11,9 +11,9 @@
 
 import { isOriginalId } from "devtools-source-map";
 import { endTruncateStr } from "./utils";
-import { basename } from "../utils/path";
-import { parse as parseURL } from "url";
+import { basename } from "./path";
 
+import { parse as parseURL } from "url";
 export { isMinified } from "./isMinified";
 
 import type { Source } from "../types";
@@ -46,7 +46,6 @@ function shouldPrettyPrint(source: SourceRecord) {
   if (!source) {
     return false;
   }
-
   const _isPretty = isPretty(source);
   const _isJavaScript = isJavaScript(source);
   const isOriginal = isOriginalId(source.get("id"));

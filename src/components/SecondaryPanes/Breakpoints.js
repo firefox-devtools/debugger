@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import { createSelector } from "reselect";
 import { bindActionCreators } from "redux";
 import { features } from "../../utils/prefs";
+import { isInterrupted } from "../../utils/pause";
 import classnames from "classnames";
 import actions from "../../actions";
 import {
@@ -24,7 +25,7 @@ import { getFilename } from "../../utils/source";
 import { showMenu, buildMenu } from "devtools-contextmenu";
 import CloseButton from "../shared/Button/Close";
 import "./Breakpoints.css";
-import { get, sortBy } from "lodash";
+import { sortBy } from "lodash";
 
 import type { Breakpoint, Location } from "../../types";
 
@@ -52,12 +53,12 @@ type Props = {
 };
 
 function isCurrentlyPausedAtBreakpoint(pause, breakpoint) {
-  if (!pause || pause.isInterrupted) {
+  if (!pause || !isInterrupted(pause.why)) {
     return false;
   }
 
   const bpId = makeLocationId(breakpoint.location);
-  const pausedId = makeLocationId(get(pause, "frame.location"));
+  const pausedId = makeLocationId(pause.frame.location);
   return bpId === pausedId;
 }
 

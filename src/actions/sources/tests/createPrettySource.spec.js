@@ -1,5 +1,5 @@
 import { actions, createStore, makeSource } from "../../../utils/test-head";
-import { createPrettySource } from "../createPrettySource";
+import { createPrettySource } from "../prettyPrint";
 import { getSourceByURL } from "../../../selectors";
 
 import { sourceThreadClient } from "../../tests/helpers/threadClient.js";
