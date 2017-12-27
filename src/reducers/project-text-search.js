@@ -13,7 +13,7 @@
 import * as I from "immutable";
 import makeRecord from "../utils/makeRecord";
 
-import type { ProjectTextSearchAction } from "../actions/types";
+import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 import type { List } from "immutable";
 
@@ -50,11 +50,12 @@ export function InitialState(): Record<ProjectTextSearchState> {
 
 function update(
   state: Record<ProjectTextSearchState> = InitialState(),
-  action: ProjectTextSearchAction
+  action: Action
 ): Record<ProjectTextSearchState> {
   switch (action.type) {
     case "ADD_QUERY":
-      return state.update("query", value => action.query);
+      const actionCopy = action;
+      return state.update("query", value => actionCopy.query);
 
     case "CLEAR_QUERY":
       return state.remove("query");

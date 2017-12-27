@@ -119,7 +119,7 @@ function update(
       });
     }
 
-    case "RESUMED": {
+    case "RESUME": {
       return state.set("outOfScopeLocations", null);
     }
 
