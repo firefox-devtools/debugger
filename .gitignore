@@ -5,6 +5,7 @@ configs/local.json
 npm-debug.log
 assets-error.log
 .idea/
+.vscode/
 /firefox
 lerna-debug.log
 assets-error.log
