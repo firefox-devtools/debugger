@@ -48,8 +48,8 @@ class SourceFooter extends PureComponent<Props> {
     }
 
     const tooltip = L10N.getStr("sourceTabs.prettyPrint");
-    const type = "prettyPrint";
 
+    const type = "prettyPrint";
     return (
       <button
         onClick={() => togglePrettyPrint(selectedSource.get("id"))}
