@@ -5,10 +5,9 @@ Immutable.Map {
   url: "http://localhost:8000/examples/base.js:formatted",
   id: "base.js/originalSource-36c718d4bde9a75edb388ff7733efe7f",
   isPrettyPrinted: true,
+  contentType: "text/javascript",
+  loadedState: "loaded",
   text: "undefined
   ",
-  contentType: "text/javascript",
-  frames: undefined,
-  loadedState: "loaded",
 }
 `;

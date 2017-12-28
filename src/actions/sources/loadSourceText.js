@@ -10,6 +10,7 @@ import { setSymbols } from "../ast";
 import { getSource, getGeneratedSource } from "../../selectors";
 import { setSource } from "../../workers/parser";
 import { isLoading, isLoaded } from "../../utils/source";
+import defer from "../../utils/defer";
 import type { ThunkArgs } from "../types";
 import type { SourceRecord } from "../../reducers/types";
 
@@ -28,17 +29,6 @@ async function loadSource(source: SourceRecord, { sourceMaps, client }) {
     text: response.source,
     contentType: response.contentType || "text/javascript"
   };
-}
-
-function defer() {
-  let resolve = () => {};
-  let reject = () => {};
-  const promise = new Promise((_res, _rej) => {
-    resolve = _res;
-    reject = _rej;
-  });
-
-  return { resolve, reject, promise };
 }
 
 /**
