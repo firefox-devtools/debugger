@@ -59,14 +59,6 @@ function update(
       return updateSource(state, source);
     }
 
-    case "UPDATE_SOURCES": {
-      const sources = action.sources;
-      sources.forEach(source => {
-        state = updateSource(state, source);
-      });
-      return state;
-    }
-
     case "ADD_SOURCE": {
       return updateSource(state, action.source);
     }

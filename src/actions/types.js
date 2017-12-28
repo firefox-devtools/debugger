@@ -128,6 +128,7 @@ type BreakpointAction =
 type SourceAction =
   | { type: "ADD_SOURCE", source: Source }
   | { type: "ADD_SOURCES", sources: Array<Source> }
+  | { type: "UPDATE_SOURCE", source: Source }
   | {
       type: "SELECT_SOURCE",
       source: Source,
