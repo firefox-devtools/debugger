@@ -30,6 +30,7 @@ if (isDevelopment()) {
   pref("devtools.debugger.project-directory-root", "");
   pref("devtools.debugger.prefs-schema-version", "1.0.1");
   pref("devtools.debugger.features.project-text-search", true);
+  pref("devtools.debugger.features.workers", true);
   pref("devtools.debugger.features.async-stepping", true);
   pref("devtools.debugger.features.wasm", true);
   pref("devtools.debugger.features.shortcuts", true);
@@ -69,7 +70,8 @@ export const features = new PrefsHelper("devtools.debugger.features", {
   columnBreakpoints: ["Bool", "column-breakpoints", false],
   mapScopes: ["Bool", "map-scopes", true],
   breakpointsDropdown: ["Bool", "breakpoints-dropdown", true],
-  removeCommandBarOptions: ["Bool", "remove-command-bar-options", true]
+  removeCommandBarOptions: ["Bool", "remove-command-bar-options", true],
+  workers: ["Bool", "workers", true]
 });
 
 if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {
