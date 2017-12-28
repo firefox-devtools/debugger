@@ -43,3 +43,9 @@ const getDebuggeeWrapper = state => state.debuggee;
 export const getWorkers = createSelector(getDebuggeeWrapper, debuggeeState =>
   debuggeeState.get("workers")
 );
+
+type OuterState = { debuggee: DebuggeeState };
+
+export function getWorker(state: OuterState, url: string) {
+  return getWorkers(state).find(value => url);
+}

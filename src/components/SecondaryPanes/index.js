@@ -213,7 +213,7 @@ class SecondaryPanes extends Component<Props> {
       });
     }
 
-    if (isEnabled("workers")) {
+    if (features.workers) {
       items.push({
         header: L10N.getStr("workersHeader"),
         className: "workers-pane",
