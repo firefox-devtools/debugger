@@ -147,7 +147,7 @@ describe("sources", () => {
         text: "<h1></h1>",
         url: ""
       };
-      expect(getMode(source, { isReactComponent: true })).toBe("jsx");
+      expect(getMode(source, { hasJsx: true })).toBe("jsx");
     });
 
     it("returns jsx if the fileExtension is .jsx", () => {

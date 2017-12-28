@@ -18,7 +18,7 @@ export { isMinified } from "./isMinified";
 
 import type { Source } from "../types";
 import type { SourceRecord } from "../reducers/types";
-import type { SourceMetaDataType } from "../reducers/ast";
+import type { SymbolDeclarations } from "../workers/parser/types";
 
 type transformUrlCallback = string => string;
 
@@ -226,17 +226,14 @@ function getSourceLineCount(source: Source) {
  * @static
  */
 
-function getMode(source: Source, sourceMetaData: SourceMetaDataType) {
+function getMode(source: Source, symbols?: SymbolDeclarations) {
   const { contentType, text, isWasm, url } = source;
 
   if (!text || isWasm) {
     return { name: "text" };
   }
 
-  if (
-    (url && url.match(/\.jsx$/i)) ||
-    (sourceMetaData && sourceMetaData.isReactComponent)
-  ) {
+  if ((url && url.match(/\.jsx$/i)) || (symbols && symbols.hasJsx)) {
     return "jsx";
   }
 
