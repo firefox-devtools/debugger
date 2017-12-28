@@ -20,7 +20,6 @@ import {
   getSelectedSource,
   getHitCountForSource,
   getCoverageEnabled,
-  getSourceMetaData,
   getConditionalPanelLine,
   getSymbols
 } from "../../selectors";
@@ -42,7 +41,6 @@ import EmptyLines from "./EmptyLines";
 import GutterMenu from "./GutterMenu";
 import EditorMenu from "./EditorMenu";
 import ConditionalPanel from "./ConditionalPanel";
-import type { SourceMetaDataType } from "../../reducers/ast";
 import type { SymbolDeclarations } from "../../workers/parser/types";
 
 import {
@@ -81,7 +79,6 @@ export type Props = {
   startPanelSize: number,
   endPanelSize: number,
   conditionalPanelLine: number,
-  sourceMetaData: SourceMetaDataType,
   symbols: SymbolDeclarations,
 
   // Actions
@@ -438,7 +435,7 @@ class Editor extends PureComponent<Props, State> {
   }
 
   setText(props) {
-    const { selectedSource, sourceMetaData, symbols } = props;
+    const { selectedSource, symbols } = props;
 
     if (!this.state.editor) {
       return;
@@ -456,12 +453,7 @@ class Editor extends PureComponent<Props, State> {
       return this.showMessage(selectedSource.get("error"));
     }
     if (selectedSource) {
-      return showSourceText(
-        this.state.editor,
-        selectedSource.toJS(),
-        sourceMetaData,
-        symbols
-      );
+      return showSourceText(this.state.editor, selectedSource.toJS(), symbols);
     }
   }
 
@@ -589,7 +581,6 @@ const mapStateToProps = state => {
     hitCount: getHitCountForSource(state, sourceId),
     coverageOn: getCoverageEnabled(state),
     conditionalPanelLine: getConditionalPanelLine(state),
-    sourceMetaData: getSourceMetaData(state, sourceId),
     symbols: getSymbols(state, selectedSource)
   };
 };

@@ -9,11 +9,7 @@ import { getMode } from "../source";
 import type { Source } from "debugger-html";
 import { isWasm, getWasmLineNumberFormatter, renderWasmText } from "../wasm";
 import { resizeBreakpointGutter, resizeToggleButton } from "../ui";
-import type {
-  SourceMetaDataType,
-  SymbolDeclarations,
-  SourceRecord
-} from "../../reducers/types";
+import type { SymbolDeclarations, SourceRecord } from "../../reducers/types";
 
 let sourceDocs = {};
 
@@ -98,8 +94,7 @@ function setEditorText(editor: Object, source: Source) {
 function showSourceText(
   editor: Object,
   source: Source,
-  sourceMetaData: SourceMetaDataType,
-  symbols: SymbolDeclarations
+  symbols?: SymbolDeclarations
 ) {
   if (!source) {
     return;
@@ -108,13 +103,13 @@ function showSourceText(
   if (hasDocument(source.id)) {
     const doc = getDocument(source.id);
     if (editor.codeMirror.doc === doc) {
-      editor.setMode(getMode(source, sourceMetaData, symbols));
+      editor.setMode(getMode(source, symbols));
       return;
     }
 
     editor.replaceDocument(doc);
     updateLineNumberFormat(editor, source.id);
-    editor.setMode(getMode(source, sourceMetaData, symbols));
+    editor.setMode(getMode(source, symbols));
     return doc;
   }
 
@@ -123,7 +118,7 @@ function showSourceText(
   editor.replaceDocument(doc);
 
   setEditorText(editor, source);
-  editor.setMode(getMode(source, sourceMetaData, symbols));
+  editor.setMode(getMode(source, symbols));
   updateLineNumberFormat(editor, source.id);
 }
 
