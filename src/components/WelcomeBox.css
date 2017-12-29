@@ -28,20 +28,18 @@
   display: inline-block;
 }
 
-.welcomebox .toggle-button-end {
-  position: absolute;
-  top: auto;
-  bottom: 0;
-  offset-inline-end: 0;
-  offset-inline-start: auto;
-}
 
-.welcomebox .small-size-layout {
+.welcomebox .normal-layout {
   display: none;
 }
 
-.welcomebox .normal-layout {
-  display: inline-block;
+.welcomebox .command-bar-button {
+  position: absolute;
+  top: auto;
+  offset-inline-end: 0;
+  offset-inline-start: auto;
+  bottom: 0;
+
 }
 
 .shortcutKeys {
