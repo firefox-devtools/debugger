@@ -22,7 +22,8 @@ import { scrollList } from "../utils/result-list";
 import {
   formatSymbols,
   formatSources,
-  parseLineColumn
+  parseLineColumn,
+  formatGeneralQuery
 } from "../utils/quick-open";
 import Modal from "./shared/Modal";
 import SearchInput from "./shared/SearchInput";
@@ -41,6 +42,7 @@ type Props = {
   sources: Array<Object>,
   selectedSource?: SourceRecord,
   query: string,
+  generalItems: Array<Object>,
   searchType: QuickOpenType,
   symbols: FormattedSymbolDeclarations,
   selectLocation: Object => void,
@@ -50,7 +52,10 @@ type Props = {
 };
 
 type State = {
-  results: ?Array<FormattedSource> | ?Array<FormattedSymbolDeclaration>,
+  results:
+    | ?Array<FormattedSource>
+    | ?Array<FormattedSymbolDeclaration>
+    | ?Array<FomattedGeneralQuery>,
   selectedIndex: number
 };
 
@@ -121,9 +126,18 @@ export class QuickOpenModal extends Component<Props, State> {
     this.setState({ results });
   };
 
+  generalQuery = (query: string) => {
+    const results = formatGeneralQuery();
+    this.setState({ results });
+    return;
+  };
+
   updateResults = (query: string) => {
     if (this.isSymbolSearch()) {
       return this.searchSymbols(query);
+    }
+    if (this.isGeneralQuery()) {
+      return this.generalQuery(query);
     }
     return this.searchSources(query);
   };
@@ -182,6 +196,22 @@ export class QuickOpenModal extends Component<Props, State> {
     }
   };
 
+  updateQuery = (item: FormattedGeneralQuery) => {
+    const { selectedSource, setQuickOpenQuery } = this.props;
+    if (item.id == "id.123") {
+      setQuickOpenQuery("@");
+    } else if (item.id == "id.124") {
+      setQuickOpenQuery("#");
+    } else {
+      setQuickOpenQuery(":");
+    }
+    const noSource = !selectedSource || !selectedSource.get("text");
+    if (this.isSymbolSearch() && noSource) {
+      return;
+    }
+    this.updateResults(e.target.value);
+  };
+
   traverseResults = (direction: number) => {
     const { selectedIndex, results } = this.state;
     const resultCount = this.resultCount();
@@ -233,6 +263,8 @@ export class QuickOpenModal extends Component<Props, State> {
         if (location != null) {
           selectLocation({ ...location, sourceId: selectedSource.get("id") });
         }
+      } else if (searchType === "query") {
+        this.updateQuery(results[selectedIndex]);
       } else {
         this.selectResultItem(e, results[selectedIndex]);
       }
@@ -254,10 +286,11 @@ export class QuickOpenModal extends Component<Props, State> {
   isSymbolSearch = () =>
     ["functions", "variables"].includes(this.props.searchType);
 
+  isGeneralQuery = () => ["query"].includes(this.props.searchType);
+
   renderResults() {
     const { enabled, searchType } = this.props;
     const { selectedIndex, results } = this.state;
-
     if (!enabled || !results) {
       return null;
     }
@@ -286,7 +319,8 @@ export class QuickOpenModal extends Component<Props, State> {
     const showSummary =
       searchType === "sources" ||
       searchType === "functions" ||
-      searchType === "variables";
+      searchType === "variables" ||
+      searchType === "query";
 
     return (
       <div key="input" className="input-wrapper">

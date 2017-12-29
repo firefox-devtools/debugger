@@ -15,7 +15,7 @@ import type {
 } from "../workers/parser/types";
 
 export function parseQuickOpenQuery(query: string): QuickOpenType {
-  const modifierPattern = /^@|#|\:$/;
+  const modifierPattern = /^@|#|:|\?$/;
   const gotoSourcePattern = /^(\w+)\:/;
   const startsWithModifier = modifierPattern.test(query[0]);
   const isGotoSource = gotoSourcePattern.test(query);
@@ -24,7 +24,8 @@ export function parseQuickOpenQuery(query: string): QuickOpenType {
     const modifiers = {
       "@": "functions",
       "#": "variables",
-      ":": "goto"
+      ":": "goto",
+      "?": "query"
     };
     const modifier = query[0];
     return modifiers[modifier];
@@ -94,6 +95,31 @@ export function formatSymbols(
     variables: variables.map(formatSymbol),
     functions: functions.map(formatSymbol)
   };
+}
+
+export function formatGeneralQuery(): Array<FomattedGeneralQuery> {
+  const queryResult = [
+    {
+      value: "Seach for a function in a file",
+      title: "@ Function Search",
+      subtitle: "",
+      id: "id.123"
+    },
+    {
+      value: "Search forr a variable in a file",
+      title: "# Variable Search",
+      subtitle: "",
+      id: "id.124"
+    },
+    {
+      value: "Go to a line number in a file",
+      title: ": Go to line",
+      subtitle: "",
+      id: "id.125"
+    }
+  ];
+
+  return queryResult;
 }
 
 export function formatSources(sources: SourcesMap): Array<FormattedSource> {
