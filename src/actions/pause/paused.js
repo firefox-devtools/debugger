@@ -6,9 +6,10 @@
 
 import {
   getHiddenBreakpointLocation,
-  isEvaluatingExpression
+  isEvaluatingExpression,
+  getSelectedFrame
 } from "../../selectors";
-import { updateFrameLocations } from "../../utils/pause";
+import { mapFrames } from ".";
 import { removeBreakpoint } from "../breakpoints";
 import { evaluateExpressions } from "../expressions";
 import { selectLocation } from "../sources";
@@ -30,14 +31,11 @@ export function paused(pauseInfo: Pause) {
   return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
     const { frames, why, loadedObjects } = pauseInfo;
 
-    const mappedFrames = await updateFrameLocations(frames, sourceMaps);
-    const frame = mappedFrames[0];
-
     dispatch({
       type: "PAUSED",
-      pauseInfo: { why, frame, frames },
-      frames: mappedFrames,
-      selectedFrameId: frame.id,
+      why,
+      frames,
+      selectedFrameId: frames[0].id,
       loadedObjects: loadedObjects || []
     });
 
@@ -50,7 +48,9 @@ export function paused(pauseInfo: Pause) {
       dispatch(evaluateExpressions());
     }
 
-    await dispatch(selectLocation(frame.location));
+    await dispatch(mapFrames());
+    const selectedFrame = getSelectedFrame(getState());
+    await dispatch(selectLocation(selectedFrame.location));
 
     dispatch(togglePaneCollapse("end", false));
     dispatch(fetchScopes());

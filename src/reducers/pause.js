@@ -56,10 +56,7 @@ const emptyPauseState = {
 function update(state: PauseState = State(), action: Action): PauseState {
   switch (action.type) {
     case "PAUSED": {
-      const { selectedFrameId, frames, loadedObjects, pauseInfo } = action;
-
-      const { why } = pauseInfo;
-      pauseInfo.isInterrupted = pauseInfo.why.type === "interrupted";
+      const { selectedFrameId, frames, loadedObjects, why } = action;
 
       // turn this into an object keyed by object id
       const objectMap = {};
@@ -70,13 +67,16 @@ function update(state: PauseState = State(), action: Action): PauseState {
       return {
         ...state,
         isWaitingOnBreak: false,
-        pause: pauseInfo,
         selectedFrameId,
         frames,
         frameScopes: {},
         loadedObjects: objectMap,
         why
       };
+    }
+
+    case "MAP_FRAMES": {
+      return { ...state, frames: action.frames };
     }
 
     case "ADD_SCOPES":
@@ -177,10 +177,16 @@ type OuterState = { pause: PauseState };
 
 const getPauseState = state => state.pause;
 
-export const getPause = createSelector(
-  getPauseState,
-  pauseWrapper => pauseWrapper.pause
-);
+export const getPause = createSelector(getPauseState, pauseWrapper => {
+  if (!pauseWrapper.frames) {
+    return null;
+  }
+
+  return {
+    why: pauseWrapper.why,
+    frame: pauseWrapper.frames && pauseWrapper.frames[0]
+  };
+});
 
 export const getLoadedObjects = createSelector(
   getPauseState,
@@ -252,6 +258,11 @@ export function getScopes(state: OuterState) {
 
 export function getSelectedFrameId(state: OuterState) {
   return state.pause.selectedFrameId;
+}
+
+export function getTopFrame(state: OuterState) {
+  const frames = getFrames(state);
+  return frames && frames[0];
 }
 
 export const getSelectedFrame = createSelector(

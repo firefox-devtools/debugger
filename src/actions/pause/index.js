@@ -15,6 +15,7 @@ export { paused } from "./paused";
 export { resumed } from "./resumed";
 export { continueToHere } from "./continueToHere";
 export { breakOnNext } from "./breakOnNext";
+export { mapFrames } from "./mapFrames";
 export { loadObjectProperties } from "./loadObjectProperties";
 export { pauseOnExceptions } from "./pauseOnExceptions";
 export { selectFrame } from "./selectFrame";

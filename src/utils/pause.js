@@ -3,28 +3,8 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-import type { Pause, Frame } from "../types";
-import { get } from "lodash";
+import type { Pause } from "../types";
 import type { Why } from "debugger-html";
-
-export function updateFrameLocations(
-  frames: Frame[],
-  sourceMaps: any
-): Promise<Frame[]> {
-  if (!frames || frames.length == 0) {
-    return Promise.resolve(frames);
-  }
-
-  return Promise.all(
-    frames.map(frame =>
-      sourceMaps.getOriginalLocation(frame.location).then(loc => ({
-        ...frame,
-        location: loc,
-        generatedLocation: frame.location
-      }))
-    )
-  );
-}
 
 // Map protocol pause "why" reason to a valid L10N key
 // These are the known unhandled reasons:
@@ -53,19 +33,19 @@ export function getPauseReason(pauseInfo: Pause): string | null {
     return null;
   }
 
-  const reasonType = get(pauseInfo, "why.type", null);
+  const reasonType = pauseInfo.why && pauseInfo.why.type;
   if (!reasons[reasonType]) {
     console.log("Please file an issue: reasonType=", reasonType);
   }
   return reasons[reasonType];
 }
 
-export async function getPausedPosition(pauseInfo: Pause, sourceMaps: any) {
-  let { frames } = pauseInfo;
-  frames = await updateFrameLocations(frames, sourceMaps);
-  const frame = frames[0];
-  const { location } = frame;
-  return location;
+export function isException(why: Why) {
+  return why && why.type && why.type === "exception";
+}
+
+export function isInterrupted(why: Why) {
+  return why && why.type && why.type === "interrupted";
 }
 
 export function inDebuggerEval(why: ?Why) {

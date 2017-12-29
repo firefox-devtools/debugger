@@ -4,8 +4,7 @@
 
 // @flow
 
-import { getPause, getSelectedSource } from "../../selectors";
-import { getPausedPosition } from "../../utils/pause";
+import { getPause, getSelectedSource, getTopFrame } from "../../selectors";
 import { PROMISE } from "../utils/middleware/promise";
 import { getNextStep } from "../../workers/parser";
 import { addHiddenBreakpoint } from "../breakpoints";
@@ -99,13 +98,11 @@ export function astCommand(stepType: CommandType) {
       return dispatch(command(stepType));
     }
 
-    const pauseInfo = getPause(getState());
-    const source = getSelectedSource(getState()).toJS();
-
-    const pausedPosition = await getPausedPosition(pauseInfo, sourceMaps);
-
     if (stepType == "stepOver") {
-      const nextLocation = await getNextStep(source, pausedPosition);
+      const frame = getTopFrame(getState());
+      const source = getSelectedSource(getState()).toJS();
+
+      const nextLocation = await getNextStep(source, frame.location);
       if (nextLocation) {
         await dispatch(addHiddenBreakpoint(nextLocation));
         return dispatch(command("resume"));

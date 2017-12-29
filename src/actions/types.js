@@ -226,11 +226,7 @@ type PauseAction =
   | { type: "RESUME", value: void }
   | {
       type: "PAUSED",
-      pauseInfo: {
-        why: Why,
-        frame: Frame,
-        isInterrupted?: boolean
-      },
+      why: Why,
       scopes: Scope[],
       frames: Frame[],
       selectedFrameId: string,
@@ -275,6 +271,10 @@ type PauseAction =
       type: "MAP_SCOPES",
       frame: Frame,
       scopes: Scope[]
+    }
+  | {
+      type: "MAP_FRAMES",
+      frames: Frame[]
     }
   | {
       type: "ADD_SCOPES",
