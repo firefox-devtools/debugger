@@ -6,6 +6,7 @@
 import { Component } from "react";
 import { toEditorPosition, getDocument, hasDocument } from "../../utils/editor";
 import { isLoaded } from "../../utils/source";
+import { isException } from "../../utils/pause";
 import { connect } from "react-redux";
 import {
   getVisibleSelectedFrame,
@@ -26,10 +27,6 @@ type TextClasses = {
   markTextClass: string,
   lineClass: string
 };
-
-function isException(pauseInfo: Pause) {
-  return pauseInfo && pauseInfo.why.type === "exception";
-}
 
 function isDocumentReady(selectedSource, selectedFrame) {
   return (
@@ -100,7 +97,7 @@ export class DebugLine extends Component<Props> {
   }
 
   getTextClasses(pause: Pause): TextClasses {
-    if (isException(pause)) {
+    if (isException(pause.why)) {
       return {
         markTextClass: "debug-expression-error",
         lineClass: "new-debug-line-error"

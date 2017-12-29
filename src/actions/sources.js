@@ -10,17 +10,14 @@
  */
 
 import { PROMISE } from "./utils/middleware/promise";
-import assert from "../utils/assert";
-import { remapBreakpoints } from "./breakpoints";
 
-import { setEmptyLines, setOutOfScopeLocations, setSymbols } from "./ast";
+import { setOutOfScopeLocations } from "./ast";
 import { syncBreakpoint } from "./breakpoints";
 import { searchSource } from "./project-text-search";
 import { closeActiveSearch } from "./ui";
 
-import { getPrettySourceURL, isLoaded } from "../utils/source";
 import { createLocation } from "../utils/location";
-import { createPrettySource } from "./sources/createPrettySource";
+import { togglePrettyPrint } from "./sources/prettyPrint";
 import { loadSourceText } from "./sources/loadSourceText";
 
 import { prefs } from "../utils/prefs";
@@ -33,12 +30,13 @@ import {
   getSource,
   getSources,
   getSourceByURL,
+  getSelectedSource,
   getPendingSelectedLocation,
   getPendingBreakpointsForSource,
   getSourceTabs,
   getNewSelectedSourceId,
-  getSelectedLocation,
   removeSourcesFromTabList,
+  getPrettySource,
   removeSourceFromTabList,
   getTextSearchQuery,
   getActiveSearch
@@ -258,12 +256,18 @@ export function selectLocation(location: Location, tabIndex: string = "") {
     });
 
     await dispatch(loadSourceText(source));
-    dispatch(setOutOfScopeLocations());
-    const src = getSource(getState(), location.sourceId);
-    const { autoPrettyPrint } = prefs;
-    if (autoPrettyPrint && shouldPrettyPrint(src) && isMinified(src)) {
-      await dispatch(togglePrettyPrint(src.get("id")));
+    const selectedSource = getSelectedSource(getState());
+    if (
+      prefs.autoPrettyPrint &&
+      !getPrettySource(getState(), source.get("id")) &&
+      shouldPrettyPrint(selectedSource) &&
+      isMinified(source)
+    ) {
+      await dispatch(togglePrettyPrint(source.get("id")));
+      dispatch(closeTab(source.get("url")));
     }
+
+    dispatch(setOutOfScopeLocations());
   };
 }
 
@@ -346,62 +350,6 @@ export function closeTabs(urls: string[]) {
 
     dispatch({ type: "CLOSE_TABS", urls, tabs });
     dispatch(selectSource(sourceId));
-  };
-}
-
-/**
- * Toggle the pretty printing of a source's text. All subsequent calls to
- * |getText| will return the pretty-toggled text. Nothing will happen for
- * non-javascript files.
- *
- * @memberof actions/sources
- * @static
- * @param string id The source form from the RDP.
- * @returns Promise
- *          A promise that resolves to [aSource, prettyText] or rejects to
- *          [aSource, error].
- */
-export function togglePrettyPrint(sourceId: string) {
-  return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
-    const source = getSource(getState(), sourceId);
-
-    if (!source) {
-      return {};
-    }
-
-    if (!isLoaded(source)) {
-      await dispatch(loadSourceText(source));
-    }
-
-    assert(
-      sourceMaps.isGeneratedId(sourceId),
-      "Pretty-printing only allowed on generated sources"
-    );
-
-    const selectedLocation = getSelectedLocation(getState());
-    const url = getPrettySourceURL(source.get("url"));
-    const prettySource = getSourceByURL(getState(), url);
-
-    const options = {};
-    if (selectedLocation) {
-      options.location = await sourceMaps.getOriginalLocation(selectedLocation);
-    }
-
-    if (prettySource) {
-      const _sourceId = prettySource.get("id");
-      return dispatch(
-        selectLocation({ ...options.location, sourceId: _sourceId })
-      );
-    }
-
-    const newPrettySource = await dispatch(createPrettySource(sourceId));
-    await dispatch(remapBreakpoints(sourceId));
-    await dispatch(setEmptyLines(newPrettySource.id));
-    await dispatch(setSymbols(newPrettySource.id));
-
-    return dispatch(
-      selectLocation({ ...options.location, sourceId: newPrettySource.id })
-    );
   };
 }
 
