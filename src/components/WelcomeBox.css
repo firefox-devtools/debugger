@@ -28,7 +28,6 @@
   display: inline-block;
 }
 
-
 .welcomebox .normal-layout {
   display: none;
 }
@@ -39,7 +38,6 @@
   offset-inline-end: 0;
   offset-inline-start: auto;
   bottom: 0;
-
 }
 
 .shortcutKeys {
