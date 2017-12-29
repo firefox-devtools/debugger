@@ -6,7 +6,6 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import { filter } from "fuzzaldrin-plus";
 
 import actions from "../actions";
@@ -334,6 +333,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, dispatch =>
-  bindActionCreators(actions, dispatch)
-)(QuickOpenModal);
+export default connect(mapStateToProps, dispatch => actions)(QuickOpenModal);

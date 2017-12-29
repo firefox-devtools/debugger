@@ -8,7 +8,6 @@ import * as I from "immutable";
 
 import { connect } from "react-redux";
 import { createSelector } from "reselect";
-import { bindActionCreators } from "redux";
 import { features } from "../../utils/prefs";
 import { isInterrupted } from "../../utils/pause";
 import classnames from "classnames";
@@ -431,5 +430,5 @@ const _getBreakpoints = createSelector(
 
 export default connect(
   (state, props) => ({ breakpoints: _getBreakpoints(state) }),
-  dispatch => bindActionCreators(actions, dispatch)
+  actions
 )(Breakpoints);

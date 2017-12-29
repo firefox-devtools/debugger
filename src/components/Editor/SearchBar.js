@@ -7,7 +7,6 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import Svg from "../shared/Svg";
 import actions from "../../actions";
 import {
@@ -305,17 +304,14 @@ SearchBar.contextTypes = {
   shortcuts: PropTypes.object
 };
 
-export default connect(
-  state => {
-    return {
-      searchOn: getActiveSearch(state) === "file",
-      selectedSource: getSelectedSource(state),
-      selectedLocation: getSelectedLocation(state),
-      query: getFileSearchQuery(state),
-      modifiers: getFileSearchModifiers(state),
-      highlightedLineRange: getHighlightedLineRange(state),
-      searchResults: getFileSearchResults(state)
-    };
-  },
-  dispatch => bindActionCreators(actions, dispatch)
-)(SearchBar);
+export default connect(state => {
+  return {
+    searchOn: getActiveSearch(state) === "file",
+    selectedSource: getSelectedSource(state),
+    selectedLocation: getSelectedLocation(state),
+    query: getFileSearchQuery(state),
+    modifiers: getFileSearchModifiers(state),
+    highlightedLineRange: getHighlightedLineRange(state),
+    searchResults: getFileSearchResults(state)
+  };
+}, actions)(SearchBar);

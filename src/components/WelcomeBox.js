@@ -4,9 +4,7 @@
 
 // @flow
 import React, { Component } from "react";
-
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 
 import actions from "../actions";
 import { getPaneCollapse } from "../selectors";
@@ -93,5 +91,5 @@ export default connect(
   state => ({
     endPanelCollapsed: getPaneCollapse(state, "end")
   }),
-  dispatch => bindActionCreators(actions, dispatch)
+  actions
 )(WelcomeBox);

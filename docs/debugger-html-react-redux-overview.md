@@ -164,7 +164,7 @@ module.exports = connect(
   pauseInfo: getPause(state),
   expressions: getExpressions(state)
  }),
- dispatch => bindActionCreators(actions, dispatch)
+ actions
 )(Expressions);
 ```
 

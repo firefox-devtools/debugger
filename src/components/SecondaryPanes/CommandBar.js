@@ -6,7 +6,6 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import classnames from "classnames";
 import { features } from "../../utils/prefs";
 import {
@@ -282,14 +281,11 @@ CommandBar.contextTypes = {
   shortcuts: PropTypes.object
 };
 
-export default connect(
-  state => {
-    return {
-      pause: getPause(state),
-      isWaitingOnBreak: getIsWaitingOnBreak(state),
-      shouldPauseOnExceptions: getShouldPauseOnExceptions(state),
-      shouldIgnoreCaughtExceptions: getShouldIgnoreCaughtExceptions(state)
-    };
-  },
-  dispatch => bindActionCreators(actions, dispatch)
-)(CommandBar);
+export default connect(state => {
+  return {
+    pause: getPause(state),
+    isWaitingOnBreak: getIsWaitingOnBreak(state),
+    shouldPauseOnExceptions: getShouldPauseOnExceptions(state),
+    shouldIgnoreCaughtExceptions: getShouldIgnoreCaughtExceptions(state)
+  };
+}, actions)(CommandBar);

@@ -6,7 +6,6 @@
 
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import * as I from "immutable";
 
 import {
@@ -495,23 +494,20 @@ class SourceTabs extends PureComponent<Props, State> {
   }
 }
 
-export default connect(
-  state => {
-    const sourceTabs = getSourcesForTabs(state);
-    const sourceTabsMetaData = {};
-    sourceTabs.forEach(source => {
-      const sourceId = source ? source.get("id") : "";
-      sourceTabsMetaData[sourceId] = getSourceMetaData(state, sourceId);
-    });
+export default connect(state => {
+  const sourceTabs = getSourcesForTabs(state);
+  const sourceTabsMetaData = {};
+  sourceTabs.forEach(source => {
+    const sourceId = source ? source.get("id") : "";
+    sourceTabsMetaData[sourceId] = getSourceMetaData(state, sourceId);
+  });
 
-    return {
-      selectedSource: getSelectedSource(state),
-      searchTabs: getSearchTabs(state),
-      sourceTabs: sourceTabs,
-      activeSearch: getActiveSearch(state),
-      searchOn: getActiveSearch(state) === "source",
-      sourceTabsMetaData: sourceTabsMetaData
-    };
-  },
-  dispatch => bindActionCreators(actions, dispatch)
-)(SourceTabs);
+  return {
+    selectedSource: getSelectedSource(state),
+    searchTabs: getSearchTabs(state),
+    sourceTabs: sourceTabs,
+    activeSearch: getActiveSearch(state),
+    searchOn: getActiveSearch(state) === "source",
+    sourceTabsMetaData: sourceTabsMetaData
+  };
+}, actions)(SourceTabs);

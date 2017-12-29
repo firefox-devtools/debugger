@@ -7,7 +7,6 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import { features } from "../../utils/prefs";
 
 import actions from "../../actions";
@@ -319,5 +318,5 @@ export default connect(
     shouldPauseOnExceptions: getShouldPauseOnExceptions(state),
     shouldIgnoreCaughtExceptions: getShouldIgnoreCaughtExceptions(state)
   }),
-  dispatch => bindActionCreators(actions, dispatch)
+  actions
 )(SecondaryPanes);

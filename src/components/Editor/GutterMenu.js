@@ -4,7 +4,6 @@
 
 import { PureComponent } from "react";
 import { showMenu } from "devtools-contextmenu";
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { lineAtHeight } from "../../utils/editor";
 import {
@@ -154,19 +153,16 @@ class GutterContextMenuComponent extends PureComponent {
   }
 }
 
-export default connect(
-  state => {
-    const selectedSource = getSelectedSource(state);
-    return {
-      selectedLocation: getSelectedLocation(state),
-      selectedSource: selectedSource,
-      breakpoints: getVisibleBreakpoints(state),
-      pauseData: getPause(state),
-      contextMenu: getContextMenu(state),
-      emptyLines: selectedSource
-        ? getEmptyLines(state, selectedSource.toJS())
-        : []
-    };
-  },
-  dispatch => bindActionCreators(actions, dispatch)
-)(GutterContextMenuComponent);
+export default connect(state => {
+  const selectedSource = getSelectedSource(state);
+  return {
+    selectedLocation: getSelectedLocation(state),
+    selectedSource: selectedSource,
+    breakpoints: getVisibleBreakpoints(state),
+    pauseData: getPause(state),
+    contextMenu: getContextMenu(state),
+    emptyLines: selectedSource
+      ? getEmptyLines(state, selectedSource.toJS())
+      : []
+  };
+}, actions)(GutterContextMenuComponent);

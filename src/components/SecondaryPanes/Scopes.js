@@ -4,7 +4,6 @@
 
 // @flow
 import React, { PureComponent } from "react";
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import actions from "../../actions";
 import {
@@ -96,18 +95,15 @@ class Scopes extends PureComponent<Props, State> {
   }
 }
 
-export default connect(
-  state => {
-    const selectedFrame = getSelectedFrame(state);
-    const frameScopes = selectedFrame
-      ? getFrameScope(state, selectedFrame.id)
-      : null;
-    return {
-      selectedFrame,
-      pauseInfo: getPause(state),
-      frameScopes: frameScopes,
-      loadedObjects: getLoadedObjects(state)
-    };
-  },
-  dispatch => bindActionCreators(actions, dispatch)
-)(Scopes);
+export default connect(state => {
+  const selectedFrame = getSelectedFrame(state);
+  const frameScopes = selectedFrame
+    ? getFrameScope(state, selectedFrame.id)
+    : null;
+  return {
+    selectedFrame,
+    pauseInfo: getPause(state),
+    frameScopes: frameScopes,
+    loadedObjects: getLoadedObjects(state)
+  };
+}, actions)(Scopes);
