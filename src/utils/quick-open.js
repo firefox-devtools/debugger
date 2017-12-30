@@ -70,6 +70,13 @@ export type FormattedSource = {|
   id: string
 |};
 
+export type FormattedGeneralQuery = {|
+  value: string,
+  title: string,
+  subtitle: string,
+  id: string
+|};
+
 export function formatSymbol(
   symbol: SymbolDeclaration
 ): FormattedSymbolDeclaration {
@@ -97,7 +104,7 @@ export function formatSymbols(
   };
 }
 
-export function formatGeneralQuery(): Array<FomattedGeneralQuery> {
+export function formatGeneralQuery(): Array<FormattedGeneralQuery> {
   const queryResult = [
     {
       value: "Seach for a function in a file",

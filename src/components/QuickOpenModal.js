@@ -32,7 +32,8 @@ import ResultList from "./shared/ResultList";
 import type {
   FormattedSource,
   FormattedSymbolDeclaration,
-  FormattedSymbolDeclarations
+  FormattedSymbolDeclarations,
+  FormattedGeneralQuery
 } from "../utils/quick-open";
 import type { SourceRecord } from "../reducers/sources";
 import type { QuickOpenType } from "../reducers/quick-open";
@@ -55,7 +56,7 @@ type State = {
   results:
     | ?Array<FormattedSource>
     | ?Array<FormattedSymbolDeclaration>
-    | ?Array<FomattedGeneralQuery>,
+    | ?Array<FormattedGeneralQuery>,
   selectedIndex: number
 };
 
@@ -142,26 +143,43 @@ export class QuickOpenModal extends Component<Props, State> {
     return this.searchSources(query);
   };
 
+  updateQuery = (item: FormattedGeneralQuery) => {
+    const { setQuickOpenQuery } = this.props;
+    if (item.id == "id.123") {
+      setQuickOpenQuery("@");
+    } else if (item.id == "id.124") {
+      setQuickOpenQuery("#");
+    } else {
+      setQuickOpenQuery(":");
+    }
+  };
+
   selectResultItem = (
     e: SyntheticEvent<HTMLElement>,
-    item: ?FormattedSource | ?FormattedSymbolDeclaration
+    item:
+      | ?FormattedSource
+      | ?FormattedSymbolDeclaration
+      | ?FormattedGeneralQuery
   ) => {
     if (item == null) {
       return;
     }
     const { selectLocation, selectedSource, query, searchType } = this.props;
-    if (this.isSymbolSearch()) {
+    if (this.isGeneralQuery()) {
+      this.updateQuery(item);
+      return;
+    } else if (searchType === "gotoSource") {
+      const location = parseLineColumn(query);
+      if (location != null) {
+        selectLocation({ ...location, sourceId: item.id });
+      }
+    } else if (this.isSymbolSearch()) {
       if (selectedSource == null) {
         return;
       }
       const line =
         item.location && item.location.start ? item.location.start.line : 0;
       selectLocation({ sourceId: selectedSource.get("id"), line });
-    } else if (searchType === "gotoSource") {
-      const location = parseLineColumn(query);
-      if (location != null) {
-        selectLocation({ ...location, sourceId: item.id });
-      }
     } else {
       selectLocation({ sourceId: item.id, line: 0 });
     }
@@ -194,22 +212,6 @@ export class QuickOpenModal extends Component<Props, State> {
         sourceId: selectedSource.get("id")
       });
     }
-  };
-
-  updateQuery = (item: FormattedGeneralQuery) => {
-    const { selectedSource, setQuickOpenQuery } = this.props;
-    if (item.id == "id.123") {
-      setQuickOpenQuery("@");
-    } else if (item.id == "id.124") {
-      setQuickOpenQuery("#");
-    } else {
-      setQuickOpenQuery(":");
-    }
-    const noSource = !selectedSource || !selectedSource.get("text");
-    if (this.isSymbolSearch() && noSource) {
-      return;
-    }
-    this.updateResults(e.target.value);
   };
 
   traverseResults = (direction: number) => {
@@ -265,6 +267,7 @@ export class QuickOpenModal extends Component<Props, State> {
         }
       } else if (searchType === "query") {
         this.updateQuery(results[selectedIndex]);
+        return;
       } else {
         this.selectResultItem(e, results[selectedIndex]);
       }
