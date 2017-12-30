@@ -4,17 +4,14 @@
 
 // @flow
 
-import type { Pause } from "debugger-html";
+import type { Why } from "debugger-html";
 import type { NamedValue } from "./types";
 
-export function getFramePopVariables(
-  pauseInfo: Pause,
-  path: string
-): NamedValue[] {
+export function getFramePopVariables(why: Why, path: string): NamedValue[] {
   const vars: Array<NamedValue> = [];
 
-  if (pauseInfo.why && pauseInfo.why.frameFinished) {
-    const frameFinished = pauseInfo.why.frameFinished;
+  if (why && why.frameFinished) {
+    const frameFinished = why.frameFinished;
 
     // Always display a `throw` property if present, even if it is falsy.
     if (Object.prototype.hasOwnProperty.call(frameFinished, "throw")) {

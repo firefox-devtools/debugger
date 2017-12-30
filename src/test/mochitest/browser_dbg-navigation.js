@@ -12,7 +12,7 @@ function countSources(dbg) {
  */
 add_task(async function() {
   const dbg = await initDebugger("doc-script-switching.html");
-  const { selectors: { getSelectedSource, getPause }, getState } = dbg;
+  const { selectors: { getSelectedSource, isPaused }, getState } = dbg;
 
   invokeInTab("firstCall");
   await waitForPaused(dbg);
@@ -30,7 +30,7 @@ add_task(async function() {
   await navigate(dbg, "about:blank");
   await waitForDispatch(dbg, "NAVIGATE");
   is(countSources(dbg), 0, "0 sources are loaded.");
-  ok(!getPause(getState()), "No pause state exists");
+  ok(!isPaused(getState()), "Is not paused");
 
   await navigate(
     dbg,

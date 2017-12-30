@@ -8,7 +8,7 @@ import { getBindingVariables } from "./getVariables";
 import { simplifyDisplayName } from "../../frame";
 import { getFramePopVariables, getThisVariable } from "./utils";
 
-import type { Frame, Pause, Scope, SyntheticScope } from "debugger-html";
+import type { Frame, Why, Scope, SyntheticScope } from "debugger-html";
 
 import type { NamedValue } from "./types";
 
@@ -100,7 +100,7 @@ function synthesizeScope(
   scope,
   frameScopes: Scope,
   selectedFrame: Frame,
-  pauseInfo: Pause
+  why: Why
 ): NamedValue[] {
   const { bindingsNames } = syntheticScope;
   const isLast = index === lastScopeIndex;
@@ -125,7 +125,7 @@ function synthesizeScope(
 
     // For the first synthesized scope, add this and other vars.
     if (isLocalScope) {
-      vars = [...vars, ...getFramePopVariables(pauseInfo, key)];
+      vars = [...vars, ...getFramePopVariables(why, key)];
 
       const this_ = getThisVariable(selectedFrame, key);
 
@@ -142,7 +142,7 @@ export function synthesizeScopes(
   scope: Scope,
   selectedFrame: Frame,
   frameScopes: Scope,
-  pauseInfo: Pause,
+  why: Why,
   scopeIndex: number
 ): NamedValue[] {
   const { actor, syntheticScopes } = scope;
@@ -177,7 +177,7 @@ export function synthesizeScopes(
       scope,
       frameScopes,
       selectedFrame,
-      pauseInfo
+      why
     );
 
     if (bindings && bindings.length) {

@@ -24,22 +24,18 @@ const errorGrip = {
 
 function returnWhy(grip) {
   return {
-    why: {
-      type: "resumeLimit",
-      frameFinished: {
-        return: grip
-      }
+    type: "resumeLimit",
+    frameFinished: {
+      return: grip
     }
   };
 }
 
 function throwWhy(grip) {
   return {
-    why: {
-      type: "resumeLimit",
-      frameFinished: {
-        throw: grip
-      }
+    type: "resumeLimit",
+    frameFinished: {
+      throw: grip
     }
   };
 }
@@ -51,16 +47,16 @@ describe("pause - scopes", () => {
       for (const test in falsey) {
         const value = falsey[test];
         it(`shows ${test} returns`, () => {
-          const pauseData = returnWhy(value);
-          const vars = getFramePopVariables(pauseData, "");
+          const why = returnWhy(value);
+          const vars = getFramePopVariables(why, "");
           expect(vars[0].name).toEqual("<return>");
           expect(vars[0].name).toEqual("<return>");
           expect(vars[0].contents.value).toEqual(value);
         });
 
         it(`shows ${test} throws`, () => {
-          const pauseData = throwWhy(value);
-          const vars = getFramePopVariables(pauseData, "");
+          const why = throwWhy(value);
+          const vars = getFramePopVariables(why, "");
           expect(vars[0].name).toEqual("<exception>");
           expect(vars[0].name).toEqual("<exception>");
           expect(vars[0].contents.value).toEqual(value);
@@ -70,16 +66,16 @@ describe("pause - scopes", () => {
 
     describe("Error / Objects", () => {
       it("shows Error returns", () => {
-        const pauseData = returnWhy(errorGrip);
-        const vars = getFramePopVariables(pauseData, "");
+        const why = returnWhy(errorGrip);
+        const vars = getFramePopVariables(why, "");
         expect(vars[0].name).toEqual("<return>");
         expect(vars[0].name).toEqual("<return>");
         expect(vars[0].contents.value.class).toEqual("Error");
       });
 
       it("shows error throws", () => {
-        const pauseData = throwWhy(errorGrip);
-        const vars = getFramePopVariables(pauseData, "");
+        const why = throwWhy(errorGrip);
+        const vars = getFramePopVariables(why, "");
         expect(vars[0].name).toEqual("<exception>");
         expect(vars[0].name).toEqual("<exception>");
         expect(vars[0].contents.value.class).toEqual("Error");
@@ -88,14 +84,14 @@ describe("pause - scopes", () => {
 
     describe("undefined", () => {
       it("does not show undefined returns", () => {
-        const pauseData = returnWhy({ type: "undefined" });
-        const vars = getFramePopVariables(pauseData, "");
+        const why = returnWhy({ type: "undefined" });
+        const vars = getFramePopVariables(why, "");
         expect(vars.length).toEqual(0);
       });
 
       it("shows undefined throws", () => {
-        const pauseData = throwWhy({ type: "undefined" });
-        const vars = getFramePopVariables(pauseData, "");
+        const why = throwWhy({ type: "undefined" });
+        const vars = getFramePopVariables(why, "");
         expect(vars[0].name).toEqual("<exception>");
         expect(vars[0].name).toEqual("<exception>");
         expect(vars[0].contents.value).toEqual({ type: "undefined" });

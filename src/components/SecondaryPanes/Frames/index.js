@@ -8,7 +8,7 @@ import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
-import type { Frame } from "debugger-html";
+import type { Frame, Why } from "debugger-html";
 
 import FrameComponent from "./Frame";
 import Group from "./Group";
@@ -22,8 +22,9 @@ import { copyToTheClipboard } from "../../../utils/clipboard";
 import {
   getFrameworkGroupingState,
   getSelectedFrame,
-  getPause,
-  getCallStackFrames
+  isPaused as getIsPaused,
+  getCallStackFrames,
+  getPauseReason
 } from "../../../selectors";
 
 import type { LocalFrame } from "./types";
@@ -39,7 +40,7 @@ type Props = {
   selectedFrame: Object,
   selectFrame: Function,
   toggleBlackBox: Function,
-  pause: Object
+  why: Why
 };
 
 type State = {
@@ -172,7 +173,7 @@ class Frames extends Component<Props, State> {
   }
 
   render() {
-    const { frames, pause } = this.props;
+    const { frames, why } = this.props;
 
     if (!frames) {
       return (
@@ -187,7 +188,7 @@ class Frames extends Component<Props, State> {
     return (
       <div className="pane frames">
         {this.renderFrames(frames)}
-        {renderWhyPaused({ pause })}
+        {renderWhyPaused(why)}
         {this.renderToggleButton(frames)}
       </div>
     );
@@ -197,9 +198,10 @@ class Frames extends Component<Props, State> {
 export default connect(
   state => ({
     frames: getCallStackFrames(state),
+    why: getPauseReason(state),
     frameworkGroupingOn: getFrameworkGroupingState(state),
     selectedFrame: getSelectedFrame(state),
-    pause: getPause(state)
+    pause: getIsPaused(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Frames);

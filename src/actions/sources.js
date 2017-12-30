@@ -259,9 +259,9 @@ export function selectLocation(location: Location, tabIndex: string = "") {
     const selectedSource = getSelectedSource(getState());
     if (
       prefs.autoPrettyPrint &&
-      !getPrettySource(getState(), source.get("id")) &&
+      !getPrettySource(getState(), selectedSource.get("id")) &&
       shouldPrettyPrint(selectedSource) &&
-      isMinified(source)
+      isMinified(selectedSource)
     ) {
       await dispatch(togglePrettyPrint(source.get("id")));
       dispatch(closeTab(source.get("url")));

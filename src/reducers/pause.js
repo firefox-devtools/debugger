@@ -18,7 +18,6 @@ import type { Action } from "../actions/types";
 import type { Why } from "debugger-html";
 
 type PauseState = {
-  pause: ?any,
   why: ?Why,
   isWaitingOnBreak: boolean,
   frames: ?(any[]),
@@ -32,7 +31,6 @@ type PauseState = {
 };
 
 export const State = (): PauseState => ({
-  pause: undefined,
   why: null,
   isWaitingOnBreak: false,
   frames: undefined,
@@ -177,17 +175,6 @@ type OuterState = { pause: PauseState };
 
 const getPauseState = state => state.pause;
 
-export const getPause = createSelector(getPauseState, pauseWrapper => {
-  if (!pauseWrapper.frames) {
-    return null;
-  }
-
-  return {
-    why: pauseWrapper.why,
-    frame: pauseWrapper.frames && pauseWrapper.frames[0]
-  };
-});
-
 export const getLoadedObjects = createSelector(
   getPauseState,
   pauseWrapper => pauseWrapper.loadedObjects
@@ -202,7 +189,7 @@ export function isStepping(state: OuterState) {
 }
 
 export function isPaused(state: OuterState) {
-  return !!getPause(state);
+  return !!getFrames(state);
 }
 
 export function isEvaluatingExpression(state: OuterState) {
