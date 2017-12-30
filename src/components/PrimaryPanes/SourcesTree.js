@@ -4,12 +4,13 @@
 
 // @flow
 
-// React
+// Dependencies
 import React, { Component } from "react";
 import classnames from "classnames";
-
-// Redux
+import { showMenu } from "devtools-contextmenu";
 import { connect } from "react-redux";
+
+// Selectors
 import {
   getShownSource,
   getSelectedSource,
@@ -19,12 +20,13 @@ import {
   getSources
 } from "../../selectors";
 
+// Actions
 import { setExpandedState } from "../../actions/source-tree";
 import { selectLocation } from "../../actions/sources";
+import { setProjectDirectoryRoot } from "../../actions/ui";
 
 // Types
-import type { SourcesMap } from "../../reducers/types";
-import type { SourceRecord } from "../../reducers/sources";
+import type { Props, State } from "../../utils/sources-tree/types";
 
 // Components
 import ManagedTree from "../shared/ManagedTree";
@@ -32,41 +34,16 @@ import Svg from "../shared/Svg";
 
 // Utils
 import {
-  nodeHasChildren,
-  createParentMap,
-  isDirectory,
-  addToTree,
-  collapseTree,
   createTree,
-  getDirectories
+  getDirectories,
+  isDirectory,
+  nodeHasChildren,
+  updateTree
 } from "../../utils/sources-tree";
-import { Set } from "immutable";
-import { showMenu } from "devtools-contextmenu";
+
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { throttle } from "../../utils/utils";
 import { features } from "../../utils/prefs";
-import { setProjectDirectoryRoot } from "../../actions/ui";
-
-type Props = {
-  selectLocation: Object => void,
-  setExpandedState: any => void,
-  sources: SourcesMap,
-  shownSource?: string,
-  selectedSource?: SourceRecord,
-  debuggeeUrl: string,
-  projectRoot: string,
-  expanded?: any
-};
-
-type State = {
-  focusedItem?: any,
-  parentMap: any,
-  sourceTree: any,
-  projectRoot: string,
-  uncollapsedTree: any,
-  listItems?: any,
-  highlightItems?: any
-};
 
 class SourcesTree extends Component<Props, State> {
   focusItem: Function;
@@ -80,11 +57,9 @@ class SourcesTree extends Component<Props, State> {
 
   constructor(props) {
     super(props);
-    this.state = createTree(
-      this.props.sources,
-      this.props.debuggeeUrl,
-      this.props.projectRoot
-    );
+
+    this.state = createTree(this.props);
+
     this.focusItem = this.focusItem.bind(this);
     this.selectItem = this.selectItem.bind(this);
     this.getPath = this.getPath.bind(this);
@@ -116,18 +91,12 @@ class SourcesTree extends Component<Props, State> {
 
   componentWillReceiveProps(nextProps) {
     if (
-      this.props.projectRoot !== nextProps.projectRoot ||
-      this.props.debuggeeUrl !== nextProps.debuggeeUrl
+      this.props.projectRoot != nextProps.projectRoot ||
+      this.props.debuggeeUrl != nextProps.debuggeeUrl ||
+      nextProps.sources.size === 0
     ) {
-      // Recreate tree because the sort order changed
-      this.setState(
-        createTree(
-          nextProps.sources,
-          nextProps.debuggeeUrl,
-          nextProps.projectRoot
-        )
-      );
-      return;
+      // early recreate tree because of changes
+      return this.setState(createTree(nextProps));
     }
     if (
       nextProps.shownSource &&
@@ -157,52 +126,18 @@ class SourcesTree extends Component<Props, State> {
       return this.setState({ highlightItems });
     }
 
-    if (nextProps.sources === this.props.sources) {
-      return;
-    }
-
-    if (nextProps.sources.size === 0) {
-      // remove all sources
-      this.setState(
-        createTree(
-          nextProps.sources,
-          nextProps.debuggeeUrl,
-          nextProps.projectRoot
-        )
-      );
+    if (nextProps.sources == this.props.sources) {
       return;
     }
 
     // TODO: do not run this every time a source is clicked,
     // only when a new source is added
-    const next = Set(nextProps.sources.valueSeq());
-    const prev = Set(this.props.sources.valueSeq());
-    const newSet = next.subtract(prev);
-
-    const uncollapsedTree = this.state.uncollapsedTree;
 
     // TODO: recreating the tree every time messes with the expanded
     // state of ManagedTree, because it depends on item instances
     // being the same. The result is that if a source is added at a
     // later time, all expanded state is lost.
-    let sourceTree = this.state.sourceTree;
-    if (newSet.size > 0) {
-      for (const source of newSet) {
-        addToTree(
-          uncollapsedTree,
-          source,
-          this.props.debuggeeUrl,
-          this.props.projectRoot
-        );
-      }
-      sourceTree = collapseTree(uncollapsedTree);
-    }
-
-    this.setState({
-      uncollapsedTree,
-      sourceTree,
-      parentMap: createParentMap(sourceTree)
-    });
+    this.setState(updateTree(nextProps, this.props, this.state));
   }
 
   focusItem(item) {
@@ -231,7 +166,6 @@ class SourcesTree extends Component<Props, State> {
     if (item.path === "/Webpack") {
       return <Svg name="webpack" />;
     }
-
     if (item.path === "/Angular") {
       return <Svg name="angular" />;
     }
@@ -340,10 +274,10 @@ class SourcesTree extends Component<Props, State> {
     const expanded = this.props.expanded;
     const {
       focusedItem,
-      sourceTree,
-      parentMap,
+      highlightItems,
       listItems,
-      highlightItems
+      parentMap,
+      sourceTree
     } = this.state;
 
     const onExpand = (item, expandedState) => {
@@ -356,20 +290,20 @@ class SourcesTree extends Component<Props, State> {
 
     const isEmpty = sourceTree.contents.length === 0;
     const treeProps = {
-      key: isEmpty ? "empty" : "full",
-      getParent: item => parentMap.get(item),
-      getChildren: item => (nodeHasChildren(item) ? item.contents : []),
-      getRoots: () => sourceTree.contents,
-      getPath: this.getPath,
-      itemHeight: 21,
-      autoExpandDepth: expanded ? 0 : 1,
       autoExpandAll: false,
-      onFocus: this.focusItem,
-      listItems,
-      highlightItems,
+      autoExpandDepth: expanded ? 0 : 1,
       expanded,
-      onExpand,
+      getChildren: item => (nodeHasChildren(item) ? item.contents : []),
+      getParent: item => parentMap.get(item),
+      getPath: this.getPath,
+      getRoots: () => sourceTree.contents,
+      highlightItems,
+      itemHeight: 21,
+      key: isEmpty ? "empty" : "full",
+      listItems,
       onCollapse,
+      onExpand,
+      onFocus: this.focusItem,
       renderItem: this.renderItem
     };
 

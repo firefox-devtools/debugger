@@ -7,13 +7,15 @@
  * @module utils/sources-tree
  */
 
-export { formatTree } from "./formatTree";
 export { addToTree } from "./addToTree";
-export { sortTree, sortEntireTree } from "./sortTree";
 export { collapseTree } from "./collapseTree";
-export { getDirectories } from "./getDirectories";
 export { createTree } from "./createTree";
-export { getURL, getFilenameFromPath } from "./getURL";
+export { formatTree } from "./formatTree";
+export { getDirectories } from "./getDirectories";
+export { sortEntireTree, sortTree } from "./sortTree";
+export { updateTree } from "./updateTree";
+
+export { getFilenameFromPath, getURL } from "./getURL";
 
 export {
   nodeHasChildren,

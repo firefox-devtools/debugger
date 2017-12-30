@@ -4,7 +4,7 @@
 
 // @flow
 
-import type { SourceRecord } from "../../reducers/types";
+import type { SourcesMap, SourceRecord } from "../../reducers/types";
 
 /**
  * TODO: createNode is exported so this type could be useful to other modules
@@ -15,4 +15,35 @@ export type Node = {
   name: string,
   path: string,
   contents: SourceRecord | Array<Node>
+};
+
+/**
+ * Props are exported as property type for this.props and NextProps
+ * @memberof utils/sources-tree
+ * @static
+ */
+export type Props = {
+  selectLocation: Object => void,
+  setExpandedState: any => void,
+  sources: SourcesMap,
+  shownSource?: string,
+  selectedSource?: SourceRecord,
+  debuggeeUrl: string,
+  projectRoot: string,
+  expanded?: any
+};
+
+/**
+ * State is exported as state type for in the source tree
+ * @memberof utils/sources-tree
+ * @static
+ */
+export type State = {
+  focusedItem?: any,
+  parentMap: any,
+  sourceTree: Node,
+  projectRoot: string,
+  uncollapsedTree: any,
+  listItems?: any,
+  highlightItems?: any
 };
