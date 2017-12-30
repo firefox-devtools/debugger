@@ -72,14 +72,9 @@ describe("scopes", () => {
     });
 
     it("returning scope", () => {
-      const pauseData = {
-        frame: {
-          this: {}
-        },
-        why: {
-          frameFinished: {
-            return: "to sender"
-          }
+      const why = {
+        frameFinished: {
+          return: "to sender"
         }
       };
 
@@ -97,7 +92,7 @@ describe("scopes", () => {
       };
 
       const frameScopes = selectedFrame.scope;
-      const scopes = getScopes(pauseData, selectedFrame, frameScopes);
+      const scopes = getScopes(why, selectedFrame, frameScopes);
       expect(scopes).toMatchObject([
         {
           path: "actor1-1",
@@ -122,14 +117,9 @@ describe("scopes", () => {
     });
 
     it("throwing scope", () => {
-      const pauseData = {
-        frame: {
-          this: {}
-        },
-        why: {
-          frameFinished: {
-            throw: "a party"
-          }
+      const why = {
+        frameFinished: {
+          throw: "a party"
         }
       };
 
@@ -147,7 +137,7 @@ describe("scopes", () => {
       };
 
       const frameScopes = selectedFrame.scope;
-      const scopes = getScopes(pauseData, selectedFrame, frameScopes);
+      const scopes = getScopes(why, selectedFrame, frameScopes);
       expect(scopes).toMatchObject([
         {
           path: "actor1-1",

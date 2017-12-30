@@ -7,7 +7,7 @@ import { getBindingVariables, getSourceBindingVariables } from "./getVariables";
 import { getFramePopVariables, getThisVariable } from "./utils";
 import { simplifyDisplayName } from "../../frame";
 
-import type { Frame, Pause, Scope } from "debugger-html";
+import type { Frame, Why, Scope } from "debugger-html";
 
 import type { NamedValue } from "./types";
 
@@ -24,7 +24,7 @@ export function getScope(
   scope: Scope,
   selectedFrame: Frame,
   frameScopes: Scope,
-  pauseInfo: Pause,
+  why: Why,
   scopeIndex: number
 ): ?NamedValue {
   const { type, actor } = scope;
@@ -42,7 +42,7 @@ export function getScope(
 
     // show exception, return, and this variables in innermost scope
     if (isLocalScope) {
-      vars = vars.concat(getFramePopVariables(pauseInfo, key));
+      vars = vars.concat(getFramePopVariables(why, key));
 
       const this_ = getThisVariable(selectedFrame, key);
 

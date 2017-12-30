@@ -13,7 +13,7 @@ import {
   getSelectedLocation,
   getSelectedSource,
   getVisibleBreakpoints,
-  getPause
+  isPaused as getIsPaused
 } from "../../selectors";
 
 import actions from "../../actions";
@@ -26,7 +26,7 @@ export function gutterMenu({
   breakpoint,
   line,
   event,
-  pauseData,
+  isPaused,
   toggleBreakpoint,
   openConditionalPanel,
   toggleDisabledBreakpoint,
@@ -91,7 +91,7 @@ export function gutterMenu({
 
   const items = [toggleBreakpointItem, conditionalBreakpoint];
 
-  if (pauseData) {
+  if (isPaused) {
     const continueToHereItem = {
       accesskey: L10N.getStr("editor.continueToHere.accesskey"),
       disabled: false,
@@ -161,7 +161,7 @@ export default connect(
       selectedLocation: getSelectedLocation(state),
       selectedSource: selectedSource,
       breakpoints: getVisibleBreakpoints(state),
-      pauseData: getPause(state),
+      isPaused: getIsPaused(state),
       contextMenu: getContextMenu(state),
       emptyLines: selectedSource
         ? getEmptyLines(state, selectedSource.toJS())

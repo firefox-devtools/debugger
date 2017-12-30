@@ -10,7 +10,11 @@ import classnames from "classnames";
 
 import actions from "../../actions";
 import type { Scope, Pause } from "debugger-html";
-import { getChromeScopes, getLoadedObjects, getPause } from "../../selectors";
+import {
+  getChromeScopes,
+  getLoadedObjects,
+  isPaused as getIsPaused
+} from "../../selectors";
 import Svg from "../shared/Svg";
 import ManagedTree from "../shared/ManagedTree";
 import "./Scopes.css";
@@ -39,7 +43,7 @@ type Props = {
   scopes: Array<Scope>,
   loadedObjects: Map<string, any>,
   loadObjectProperties: Object => void,
-  pauseInfo: Pause
+  isPaused: Pause
 };
 
 class Scopes extends Component<Props> {
@@ -173,9 +177,9 @@ class Scopes extends Component<Props> {
   }
 
   render() {
-    const { pauseInfo } = this.props;
+    const { isPaused } = this.props;
 
-    if (!pauseInfo) {
+    if (!isPaused) {
       return (
         <div className={classnames("pane", "scopes-list")}>
           <div className="pane-info">{L10N.getStr("scopes.notPaused")}</div>
@@ -207,7 +211,7 @@ class Scopes extends Component<Props> {
 
 export default connect(
   state => ({
-    pauseInfo: getPause(state),
+    isPaused: getIsPaused(state),
     loadedObjects: getLoadedObjects(state),
     scopes: getChromeScopes(state)
   }),

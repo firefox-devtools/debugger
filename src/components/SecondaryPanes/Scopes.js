@@ -11,22 +11,24 @@ import {
   getSelectedFrame,
   getLoadedObjects,
   getFrameScope,
-  getPause
+  isPaused as getIsPaused,
+  getPauseReason
 } from "../../selectors";
 import { getScopes } from "../../utils/pause/scopes";
 
 import { ObjectInspector } from "devtools-reps";
-import type { Pause, LoadedObject } from "debugger-html";
+import type { Pause, LoadedObject, Why } from "debugger-html";
 import type { NamedValue } from "../../utils/pause/scopes/types";
 
 import "./Scopes.css";
 
 type Props = {
-  pauseInfo: Pause,
+  isPaused: Pause,
   loadedObjects: LoadedObject[],
   loadObjectProperties: Object => void,
   selectedFrame: Object,
-  frameScopes: Object
+  frameScopes: Object,
+  why: Why
 };
 
 type State = {
@@ -35,25 +37,25 @@ type State = {
 
 class Scopes extends PureComponent<Props, State> {
   constructor(props: Props, ...args) {
-    const { pauseInfo, selectedFrame, frameScopes } = props;
+    const { why, selectedFrame, frameScopes } = props;
 
     super(props, ...args);
 
     this.state = {
-      scopes: getScopes(pauseInfo, selectedFrame, frameScopes)
+      scopes: getScopes(why, selectedFrame, frameScopes)
     };
   }
 
   componentWillReceiveProps(nextProps) {
-    const { pauseInfo, selectedFrame, frameScopes } = this.props;
-    const pauseInfoChanged = pauseInfo !== nextProps.pauseInfo;
+    const { isPaused, selectedFrame, frameScopes } = this.props;
+    const isPausedChanged = isPaused !== nextProps.isPaused;
     const selectedFrameChanged = selectedFrame !== nextProps.selectedFrame;
     const frameScopesChanged = frameScopes !== nextProps.frameScopes;
 
-    if (pauseInfoChanged || selectedFrameChanged || frameScopesChanged) {
+    if (isPausedChanged || selectedFrameChanged || frameScopesChanged) {
       this.setState({
         scopes: getScopes(
-          nextProps.pauseInfo,
+          nextProps.why,
           nextProps.selectedFrame,
           nextProps.frameScopes
         )
@@ -62,7 +64,7 @@ class Scopes extends PureComponent<Props, State> {
   }
 
   render() {
-    const { pauseInfo, loadObjectProperties, loadedObjects } = this.props;
+    const { isPaused, loadObjectProperties, loadedObjects } = this.props;
     const { scopes } = this.state;
 
     if (scopes) {
@@ -87,7 +89,7 @@ class Scopes extends PureComponent<Props, State> {
     return (
       <div className="pane scopes-list">
         <div className="pane-info">
-          {pauseInfo
+          {isPaused
             ? L10N.getStr("scopes.notAvailable")
             : L10N.getStr("scopes.notPaused")}
         </div>
@@ -104,7 +106,8 @@ export default connect(
       : null;
     return {
       selectedFrame,
-      pauseInfo: getPause(state),
+      isPaused: getIsPaused(state),
+      why: getPauseReason(state),
       frameScopes: frameScopes,
       loadedObjects: getLoadedObjects(state)
     };

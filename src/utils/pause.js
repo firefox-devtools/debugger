@@ -3,7 +3,6 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-import type { Pause } from "../types";
 import type { Why } from "debugger-html";
 
 // Map protocol pause "why" reason to a valid L10N key
@@ -28,12 +27,12 @@ const reasons = {
   other: "whyPaused.other"
 };
 
-export function getPauseReason(pauseInfo: Pause): string | null {
-  if (!pauseInfo) {
+export function getPauseReason(why?: Why): string | null {
+  if (!why) {
     return null;
   }
 
-  const reasonType = pauseInfo.why && pauseInfo.why.type;
+  const reasonType = why.type;
   if (!reasons[reasonType]) {
     console.log("Please file an issue: reasonType=", reasonType);
   }

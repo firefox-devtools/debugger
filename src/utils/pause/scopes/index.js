@@ -7,7 +7,7 @@
 import { synthesizeScopes } from "./synthesizeScopes";
 import { getScope } from "./getScope";
 
-import type { Frame, Pause, Scope, BindingContents } from "debugger-html";
+import type { Frame, Why, Scope, BindingContents } from "debugger-html";
 
 export type NamedValue = {
   name: string,
@@ -17,11 +17,11 @@ export type NamedValue = {
 };
 
 export function getScopes(
-  pauseInfo: Pause,
+  why: Why,
   selectedFrame: Frame,
   frameScopes: ?Scope
 ): ?(NamedValue[]) {
-  if (!pauseInfo || !selectedFrame) {
+  if (!why || !selectedFrame) {
     return null;
   }
 
@@ -43,7 +43,7 @@ export function getScopes(
         scope,
         selectedFrame,
         frameScopes,
-        pauseInfo,
+        why,
         scopeIndex
       );
 
@@ -53,13 +53,7 @@ export function getScopes(
       scopeIndex++;
     } else {
       scopes.push(
-        ...synthesizeScopes(
-          scope,
-          selectedFrame,
-          frameScopes,
-          pauseInfo,
-          scopeIndex
-        )
+        ...synthesizeScopes(scope, selectedFrame, frameScopes, why, scopeIndex)
       );
 
       // skip to the next generated scope

@@ -10,18 +10,19 @@ import { connect } from "react-redux";
 import { createSelector } from "reselect";
 import { bindActionCreators } from "redux";
 import { features } from "../../utils/prefs";
-import { isInterrupted } from "../../utils/pause";
 import classnames from "classnames";
 import actions from "../../actions";
 import {
   getSources,
   getSourceInSources,
-  getPause,
-  getBreakpoints
+  getBreakpoints,
+  getPauseReason,
+  getTopFrame
 } from "../../selectors";
 import { makeLocationId } from "../../utils/breakpoint";
 import { endTruncateStr } from "../../utils/utils";
 import { getFilename } from "../../utils/source";
+import { isInterrupted } from "../../utils/pause";
 import { showMenu, buildMenu } from "devtools-contextmenu";
 import CloseButton from "../shared/Button/Close";
 import "./Breakpoints.css";
@@ -52,13 +53,13 @@ type Props = {
   openConditionalPanel: number => void
 };
 
-function isCurrentlyPausedAtBreakpoint(pause, breakpoint) {
-  if (!pause || !isInterrupted(pause.why)) {
+function isCurrentlyPausedAtBreakpoint(frame, why, breakpoint) {
+  if (!isInterrupted(why)) {
     return false;
   }
 
   const bpId = makeLocationId(breakpoint.location);
-  const pausedId = makeLocationId(pause.frame.location);
+  const pausedId = makeLocationId(frame.location);
   return bpId === pausedId;
 }
 
@@ -406,9 +407,9 @@ class Breakpoints extends PureComponent<Props> {
   }
 }
 
-function updateLocation(sources, pause, bp): LocalBreakpoint {
+function updateLocation(sources, frame, why, bp): LocalBreakpoint {
   const source = getSourceInSources(sources, bp.location.sourceId);
-  const isCurrentlyPaused = isCurrentlyPausedAtBreakpoint(pause, bp);
+  const isCurrentlyPaused = isCurrentlyPausedAtBreakpoint(frame, why, bp);
   const locationId = makeLocationId(bp.location);
 
   const location = { ...bp.location, source };
@@ -420,10 +421,11 @@ function updateLocation(sources, pause, bp): LocalBreakpoint {
 const _getBreakpoints = createSelector(
   getBreakpoints,
   getSources,
-  getPause,
-  (breakpoints, sources, pause) =>
+  getTopFrame,
+  getPauseReason,
+  (breakpoints, sources, frame, why) =>
     breakpoints
-      .map(bp => updateLocation(sources, pause, bp))
+      .map(bp => updateLocation(sources, frame, why, bp))
       .filter(
         bp => bp.location.source && !bp.location.source.get("isBlackBoxed")
       )
