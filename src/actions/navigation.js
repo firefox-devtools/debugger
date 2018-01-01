@@ -6,7 +6,7 @@ import { clearDocuments } from "../utils/editor";
 import sourceQueue from "../utils/source-queue";
 import { getSources } from "../reducers/sources";
 import { waitForMs } from "../utils/utils";
-import { newSources } from "./sources";
+import { newSources } from "./sources/index";
 import {
   clearASTs,
   clearSymbols,
