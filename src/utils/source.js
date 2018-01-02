@@ -42,7 +42,7 @@ function trimUrlQuery(url: string): string {
   return url.slice(0, q);
 }
 
-function shouldPrettyPrint(source: SourceRecord) {
+export function shouldPrettyPrint(source: SourceRecord) {
   if (!source) {
     return false;
   }
@@ -68,7 +68,7 @@ function shouldPrettyPrint(source: SourceRecord) {
  * @memberof utils/source
  * @static
  */
-function isJavaScript(source: SourceRecord): boolean {
+export function isJavaScript(source: SourceRecord): boolean {
   const url = source.get("url");
   const contentType = source.get("contentType");
   return (
@@ -81,12 +81,12 @@ function isJavaScript(source: SourceRecord): boolean {
  * @memberof utils/source
  * @static
  */
-function isPretty(source: SourceRecord): boolean {
+export function isPretty(source: SourceRecord): boolean {
   const url = source.get("url");
   return url ? /formatted$/.test(url) : false;
 }
 
-function isThirdParty(source: SourceRecord) {
+export function isThirdParty(source: SourceRecord) {
   const url = source.get("url");
   if (!source || !url) {
     return false;
@@ -99,7 +99,7 @@ function isThirdParty(source: SourceRecord) {
  * @memberof utils/source
  * @static
  */
-function getPrettySourceURL(url: ?string): string {
+export function getPrettySourceURL(url: ?string): string {
   if (!url) {
     url = "";
   }
@@ -110,7 +110,7 @@ function getPrettySourceURL(url: ?string): string {
  * @memberof utils/source
  * @static
  */
-function getRawSourceURL(url: string): string {
+export function getRawSourceURL(url: string): string {
   return url.replace(/:formatted$/, "");
 }
 
@@ -123,11 +123,11 @@ function resolveFileURL(
   return endTruncateStr(name, 50);
 }
 
-function getFilenameFromURL(url: string) {
+export function getFilenameFromURL(url: string) {
   return resolveFileURL(url, initialUrl => basename(initialUrl) || "(index)");
 }
 
-function getFormattedSourceId(id: string) {
+export function getFormattedSourceId(id: string) {
   const sourceId = id.split("/")[1];
   return `SOURCE${sourceId}`;
 }
@@ -139,7 +139,7 @@ function getFormattedSourceId(id: string) {
  * @memberof utils/source
  * @static
  */
-function getFilename(source: Source) {
+export function getFilename(source: Source) {
   const { url, id } = source;
   if (!url) {
     return getFormattedSourceId(id);
@@ -160,7 +160,7 @@ function getFilename(source: Source) {
  * @memberof utils/source
  * @static
  */
-function getFileURL(source: Source) {
+export function getFileURL(source: Source) {
   const { url, id } = source;
   if (!url) {
     return getFormattedSourceId(id);
@@ -184,7 +184,7 @@ const contentTypeModeMap = {
   "text/html": { name: "htmlmixed" }
 };
 
-function getSourcePath(url: string) {
+export function getSourcePath(url: string) {
   if (!url) {
     return "";
   }
@@ -198,7 +198,7 @@ function getSourcePath(url: string) {
  * Returns amount of lines in the source. If source is a WebAssembly binary,
  * the function returns amount of bytes.
  */
-function getSourceLineCount(source: Source) {
+export function getSourceLineCount(source: Source) {
   if (source.isWasm) {
     const { binary } = (source.text: any);
     return binary.length;
@@ -225,7 +225,7 @@ function getSourceLineCount(source: Source) {
  * @static
  */
 
-function getMode(source: Source, symbols?: SymbolDeclarations) {
+export function getMode(source: Source, symbols?: SymbolDeclarations) {
   const { contentType, text, isWasm, url } = source;
 
   if (!text || isWasm) {
@@ -289,27 +289,10 @@ function getMode(source: Source, symbols?: SymbolDeclarations) {
   return { name: "text" };
 }
 
-function isLoaded(source: SourceRecord) {
+export function isLoaded(source: SourceRecord) {
   return source.get("loadedState") === "loaded";
 }
 
-function isLoading(source: SourceRecord) {
+export function isLoading(source: SourceRecord) {
   return source.get("loadedState") === "loading";
 }
-
-export {
-  isJavaScript,
-  isPretty,
-  isThirdParty,
-  shouldPrettyPrint,
-  getPrettySourceURL,
-  getRawSourceURL,
-  getFilename,
-  getFilenameFromURL,
-  getFileURL,
-  getSourcePath,
-  getSourceLineCount,
-  getMode,
-  isLoaded,
-  isLoading
-};
