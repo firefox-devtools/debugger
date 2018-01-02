@@ -7,7 +7,6 @@
 import * as breakpoints from "./breakpoints";
 import * as expressions from "./expressions";
 import * as eventListeners from "./event-listeners";
-import * as sources from "./sources";
 import * as pause from "./pause";
 import * as navigation from "./navigation";
 import * as ui from "./ui";
@@ -17,7 +16,7 @@ import * as coverage from "./coverage";
 import * as projectTextSearch from "./project-text-search";
 import * as quickOpen from "./quick-open";
 import * as sourceTree from "./source-tree";
-import * as sourceActions from "./sources/index";
+import * as sources from "./sources";
 import * as debuggee from "./debuggee";
 import * as toolbox from "./toolbox";
 import * as preview from "./preview";
@@ -36,7 +35,6 @@ export default {
   ...projectTextSearch,
   ...quickOpen,
   ...sourceTree,
-  ...sourceActions,
   ...debuggee,
   ...toolbox,
   ...preview

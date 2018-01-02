@@ -4,8 +4,9 @@
 
 // @flow
 
-export { loadSourceText } from "./loadSourceText";
-export { togglePrettyPrint } from "./prettyPrint";
-export { newSource, newSources } from "./newSources";
-export { toggleBlackBox } from "./blackbox";
+export * from "./loadSourceText";
+export * from "./prettyPrint";
+export * from "./newSources";
+export * from "./blackbox";
+export * from "./select";
 export * from "./tabs";
