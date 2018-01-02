@@ -58,7 +58,7 @@ describe("firefox onConnect", () => {
       },
       actions
     );
-    expect(actions._sources.length).toEqual(1);
+    expect(actions._sources).toHaveLength(1);
     expect(actions._sources[0].url).toEqual("file:///tmp/s.js");
   });
 });

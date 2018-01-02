@@ -33,7 +33,7 @@ describe("Breakpoints Component", () => {
     const breakpoints = I.Map({ id1: { location: { sourceId } } });
 
     const { component, props } = render({ breakpoints });
-    expect(component.find("Breakpoint").length).toBe(props.breakpoints.size);
+    expect(component.find("Breakpoint")).toHaveLength(props.breakpoints.size);
   });
 
   it("should render breakpoints with columns", async () => {
@@ -41,7 +41,7 @@ describe("Breakpoints Component", () => {
     const breakpoints = I.Map({ id1: { location: { column: 2, sourceId } } });
 
     const { component, props } = render({ breakpoints });
-    expect(component.find("Breakpoint").length).toBe(props.breakpoints.size);
+    expect(component.find("Breakpoint")).toHaveLength(props.breakpoints.size);
     expect(component).toMatchSnapshot();
   });
 });

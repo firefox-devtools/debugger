@@ -60,11 +60,11 @@ describe("Frames", () => {
       const getFrames = () => component.find("FrameComponent");
 
       expect(getToggleBtn().text()).toEqual("Expand rows");
-      expect(getFrames().length).toEqual(7);
+      expect(getFrames()).toHaveLength(7);
 
       getToggleBtn().simulate("click");
       expect(getToggleBtn().text()).toEqual("Collapse rows");
-      expect(getFrames().length).toEqual(10);
+      expect(getFrames()).toHaveLength(10);
       expect(component).toMatchSnapshot();
     });
   });
@@ -96,7 +96,7 @@ describe("Frames", () => {
         selectedFrame
       });
 
-      expect(component.find("FrameComponent").length).toEqual(2);
+      expect(component.find("FrameComponent")).toHaveLength(2);
       expect(component).toMatchSnapshot();
     });
   });
@@ -114,12 +114,12 @@ describe("Frames", () => {
       const frameworkGroupingOn = false;
       const component = render({ frames, frameworkGroupingOn, selectedFrame });
 
-      expect(component.find("FrameComponent").length).toEqual(4);
+      expect(component.find("FrameComponent")).toHaveLength(4);
       expect(component).toMatchSnapshot();
 
       component.setProps({ frameworkGroupingOn: true });
 
-      expect(component.find("FrameComponent").length).toEqual(2);
+      expect(component.find("FrameComponent")).toHaveLength(2);
       expect(component).toMatchSnapshot();
     });
   });

@@ -29,7 +29,7 @@ describe("sources-tree", () => {
       const base = tree.contents[0];
       const fooNode = base.contents[0];
       expect(fooNode.name).toBe("foo");
-      expect(fooNode.contents.length).toBe(2);
+      expect(fooNode.contents).toHaveLength(2);
 
       const source1Node = base.contents[1];
       expect(source1Node.name).toBe("source1.js");
@@ -89,13 +89,13 @@ describe("sources-tree", () => {
       expect(formatTree(tree)).toMatchSnapshot();
       expect(indexNode.name).toBe("(index)");
       expect(bFolderNode.name).toBe("b.js");
-      expect(bFolderNode.contents.length).toBe(1);
+      expect(bFolderNode.contents).toHaveLength(1);
       expect(bFolderNode.contents[0].name).toBe("b_source.js");
 
       expect(b2FileNode.name).toBe("b2");
 
       expect(dFolderNode.name).toBe("d");
-      expect(dFolderNode.contents.length).toBe(1);
+      expect(dFolderNode.contents).toHaveLength(1);
       expect(dFolderNode.contents[0].name).toBe("d_source.js");
 
       expect(aFileNode.name).toBe("a.js");
@@ -132,11 +132,11 @@ describe("sources-tree", () => {
       ] = tree.contents[0].contents[0].contents;
 
       expect(bFolderNode.name).toBe("b");
-      expect(bFolderNode.contents.length).toBe(1);
+      expect(bFolderNode.contents).toHaveLength(1);
       expect(bFolderNode.contents[0].name).toBe("b.js");
 
       expect(cFolderNode.name).toBe("c");
-      expect(cFolderNode.contents.length).toBe(1);
+      expect(cFolderNode.contents).toHaveLength(1);
       expect(cFolderNode.contents[0].name).toBe("(index)");
 
       expect(aFileNode.name).toBe("a.js");

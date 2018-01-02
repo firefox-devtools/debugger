@@ -57,7 +57,7 @@ describe("pause", () => {
       const { dispatch } = createStore(client);
 
       dispatch(actions.stepIn());
-      expect(client.stepIn.mock.calls.length).toEqual(0);
+      expect(client.stepIn.mock.calls).toHaveLength(0);
     });
 
     it("should step when paused", async () => {
@@ -78,7 +78,7 @@ describe("pause", () => {
 
       dispatch(actions.stepIn());
       await dispatch(actions.resumed());
-      expect(client.evaluate.mock.calls.length).toEqual(0);
+      expect(client.evaluate.mock.calls).toHaveLength(0);
     });
 
     it("resuming - will re-evaluate watch expressions", async () => {
