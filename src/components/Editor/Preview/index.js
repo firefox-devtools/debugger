@@ -38,13 +38,8 @@ class Preview extends PureComponent {
 
   constructor() {
     super();
-
-    const self = this;
-    self.onScroll = this.onScroll.bind(this);
+    this.state = { selecting: false };
     self.onMouseOver = debounce(this.onMouseOver, 40);
-    self.onMouseOver = this.onMouseOver.bind(this);
-    self.onMouseUp = this.onMouseUp.bind(this);
-    self.onMouseDown = this.onMouseDown.bind(this);
   }
 
   componentDidMount() {
@@ -63,37 +58,38 @@ class Preview extends PureComponent {
     codeMirrorWrapper.removeEventListener("mouseover", this.onMouseOver);
     codeMirrorWrapper.removeEventListener("mouseup", this.onMouseUp);
     codeMirrorWrapper.removeEventListener("mousedown", this.onMouseDown);
-
     codeMirror.off("scroll", this.onScroll);
   }
 
-  onMouseOver(e) {
+  onMouseOver = e => {
     const { target } = e;
     if (this.props.selectedFrameVisible) {
       this.props.updatePreview(target, this.props.editor);
     }
-  }
+  };
 
-  onMouseUp() {
-    this.currentlySelecting = false;
-  }
+  onMouseUp = () => {
+    this.setState({ selecting: false });
+    return true;
+  };
 
-  onMouseDown() {
-    this.currentlySelecting = true;
-  }
+  onMouseDown = () => {
+    this.setState({ selecting: true });
+    return true;
+  };
 
-  onScroll() {
+  onScroll = () => {
     this.props.clearPreview();
-  }
+  };
 
-  onClose(e) {
+  onClose = e => {
     this.props.clearPreview();
-  }
+  };
 
   render() {
     const { selectedSource, preview } = this.props;
 
-    if (!this.props.editor || !selectedSource || this.currentlySelecting) {
+    if (!this.props.editor || !selectedSource || this.state.selecting) {
       return null;
     }
 
