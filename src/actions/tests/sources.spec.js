@@ -73,6 +73,24 @@ describe("sources", () => {
     expect(getSelectedSource(getState()).get("url")).toBe(baseSource.url);
   });
 
+  it("should automatically toggle a formatted source", async () => {
+    const store = createStore(threadClient);
+    const { dispatch, getState } = store;
+
+    const formattedBaseSource = makeSource("base.js:formatted");
+    const baseSource = makeSource("base.js");
+
+    await dispatch(actions.selectSourceURL(formattedBaseSource.url));
+    expect(getSelectedSource(getState())).toBe(undefined);
+
+    await dispatch(actions.newSource(baseSource));
+    const selectedSource = await waitForState(store, state =>
+      getSelectedSource(getState())
+    );
+
+    expect(selectedSource.get("url")).toBe(formattedBaseSource.url);
+  });
+
   it("should open a tab for the source", async () => {
     const { dispatch, getState } = createStore(threadClient);
     await dispatch(actions.newSource(makeSource("foo.js")));
