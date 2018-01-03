@@ -89,17 +89,16 @@ export function loadSourceText(source: SourceRecord) {
     });
 
     const newSource = getSource(getState(), source.get("id")).toJS();
-    if (newSource.isWasm) {
-      return;
-    }
 
-    if (isOriginalId(newSource.id)) {
+    if (isOriginalId(newSource.id) && !newSource.isWasm) {
       const generatedSource = getGeneratedSource(getState(), source.toJS());
       await dispatch(loadSourceText(generatedSource));
     }
 
-    await setSource(newSource);
-    dispatch(setSymbols(id));
+    if (!newSource.isWasm) {
+      await setSource(newSource);
+      dispatch(setSymbols(id));
+    }
 
     // signal that the action is finished
     deferred.resolve();
