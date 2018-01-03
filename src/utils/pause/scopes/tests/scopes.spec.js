@@ -230,7 +230,7 @@ describe("scopes", () => {
 
       const frameScopes = selectedFrame.scope;
       const scopes = getScopes(pauseData, selectedFrame, frameScopes);
-      expect(scopes.length).toEqual(3);
+      expect(scopes).toHaveLength(3);
       expect(scopes[0].contents[1]).toEqual({
         name: "first",
         generatedName: "a",

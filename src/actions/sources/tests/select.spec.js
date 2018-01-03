@@ -43,7 +43,7 @@ describe("sources", () => {
         getOutOfScopeLocations(state) && getSourceMetaData(state, source.id)
     );
     const locations = getOutOfScopeLocations(getState());
-    expect(locations.length).toEqual(1);
+    expect(locations).toHaveLength(1);
   });
 
   it("should automatically select a pending source", async () => {

@@ -35,7 +35,7 @@ describe("sources-tree", () => {
       const root = createNode("root", "", [createNode("foo", "/foo", source)]);
       expect(root.name).toBe("root");
       expect(nodeHasChildren(root)).toBe(true);
-      expect(root.contents.length).toBe(1);
+      expect(root.contents).toHaveLength(1);
 
       const child = root.contents[0];
       expect(child.name).toBe("foo");
@@ -52,15 +52,15 @@ describe("sources-tree", () => {
       const tree = createNode("root", "", []);
 
       addToTree(tree, source1, "http://example.com/");
-      expect(tree.contents.length).toBe(1);
+      expect(tree.contents).toHaveLength(1);
 
       const base = tree.contents[0];
       expect(base.name).toBe("example.com");
-      expect(base.contents.length).toBe(1);
+      expect(base.contents).toHaveLength(1);
 
       const fooNode = base.contents[0];
       expect(fooNode.name).toBe("foo");
-      expect(fooNode.contents.length).toBe(1);
+      expect(fooNode.contents).toHaveLength(1);
 
       const source1Node = fooNode.contents[0];
       expect(source1Node.name).toBe("source1.js");
@@ -80,9 +80,9 @@ describe("sources-tree", () => {
 
       const sourceMap = createSourcesMap(sources);
       const tree = createTree(sourceMap, "").sourceTree;
-      expect(tree.contents.length).toBe(1);
+      expect(tree.contents).toHaveLength(1);
       const subtree = tree.contents[0];
-      expect(subtree.contents.length).toBe(2);
+      expect(subtree.contents).toHaveLength(2);
       expect(formatTree(tree)).toMatchSnapshot();
     });
 
@@ -114,9 +114,9 @@ describe("sources-tree", () => {
 
       const sourceMap = createSourcesMap(sources);
       const tree = createTree(sourceMap, "").sourceTree;
-      expect(tree.contents.length).toBe(1);
+      expect(tree.contents).toHaveLength(1);
       const subtree = tree.contents[0];
-      expect(subtree.contents.length).toBe(1);
+      expect(subtree.contents).toHaveLength(1);
       expect(formatTree(tree)).toMatchSnapshot();
     });
 
@@ -140,7 +140,7 @@ describe("sources-tree", () => {
       addToTree(tree, source3, "http://example.com/");
 
       const base = tree.contents[0];
-      expect(tree.contents.length).toBe(1);
+      expect(tree.contents).toHaveLength(1);
 
       const source1Node = base.contents[0];
       expect(source1Node.name).toBe("source1.js");
@@ -155,15 +155,15 @@ describe("sources-tree", () => {
       const tree = createNode("root", "", []);
 
       addToTree(tree, source, "file:///a/index.html");
-      expect(tree.contents.length).toBe(1);
+      expect(tree.contents).toHaveLength(1);
 
       const base = tree.contents[0];
       expect(base.name).toBe("file://");
-      expect(base.contents.length).toBe(1);
+      expect(base.contents).toHaveLength(1);
 
       const aNode = base.contents[0];
       expect(aNode.name).toBe("a");
-      expect(aNode.contents.length).toBe(1);
+      expect(aNode.contents).toHaveLength(1);
 
       const bNode = aNode.contents[0];
       expect(bNode.name).toBe("b.js");

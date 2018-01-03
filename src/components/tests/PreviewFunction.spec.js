@@ -129,7 +129,7 @@ describe("PreviewFunction", () => {
     });
 
     it("should render spans according to the dynamic params given", () => {
-      expect(children.length).toEqual(8);
+      expect(children).toHaveLength(8);
     });
 
     it("should render the parameters names", () => {

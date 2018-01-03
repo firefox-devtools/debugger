@@ -86,7 +86,7 @@ describe("pause - scopes", () => {
       it("does not show undefined returns", () => {
         const why = returnWhy({ type: "undefined" });
         const vars = getFramePopVariables(why, "");
-        expect(vars.length).toEqual(0);
+        expect(vars).toHaveLength(0);
       });
 
       it("shows undefined throws", () => {
