@@ -11,6 +11,7 @@ cases(
     { name: "variables query", type: "variables", query: "#test" },
     { name: "goto line", type: "goto", query: ":30" },
     { name: "goto line:column", type: "goto", query: ":30:60" },
-    { name: "goto source line", type: "gotoSource", query: "test:30:60" }
+    { name: "goto source line", type: "gotoSource", query: "test:30:60" },
+    { name: "shortcuts", type: "shortcuts", query: "?" }
   ]
 );
