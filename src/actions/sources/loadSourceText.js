@@ -13,7 +13,7 @@ import {
   getSources,
   getTextSearchQuery
 } from "../../selectors";
-import { setSource } from "../../workers/parser";
+import * as parser from "../../workers/parser";
 import { isThirdParty, isLoading, isLoaded } from "../../utils/source";
 
 import defer from "../../utils/defer";
@@ -96,7 +96,7 @@ export function loadSourceText(source: SourceRecord) {
     }
 
     if (!newSource.isWasm) {
-      await setSource(newSource);
+      await parser.setSource(newSource);
       dispatch(setSymbols(id));
     }
 
