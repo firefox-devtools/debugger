@@ -7,11 +7,14 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import classnames from "classnames";
 import { bindActionCreators } from "redux";
 import actions from "../../actions";
 
-import TextSearch from "./TextSearch";
+import { highlightMatches } from "./textSearch/utils/highlight";
 
+import { statusType } from "../../reducers/project-text-search";
+import { getRelativePath } from "../../utils/sources-tree";
 import {
   getSources,
   getActiveSearch,
@@ -20,11 +23,36 @@ import {
   getTextSearchQuery
 } from "../../selectors";
 
-import "./ProjectSearch.css";
+import Svg from "../shared/Svg";
+import ManagedTree from "../shared/ManagedTree";
+import SearchInput from "../shared/SearchInput";
+
+import type { List } from "immutable";
+import type { StatusType } from "../../reducers/project-text-search";
+
+import "./TextSearch.css";
+
+type Match = Object;
+type Result = {
+  filepath: string,
+  matches: Array<Match>,
+  sourceId: string
+};
+
+type State = {
+  inputValue: string,
+  inputFocused: boolean,
+  focusedItem: ?{
+    setExpanded?: any,
+    file?: any,
+    expanded?: any,
+    match?: any
+  }
+};
 
 type Props = {
   sources: Object,
-  results: Object,
+  results: List<Result>,
   textSearchQuery: string,
   setActiveSearch: Function,
   closeActiveSearch: Function,
@@ -32,16 +60,33 @@ type Props = {
   searchSources: Function,
   activeSearch: string,
   selectLocation: Function,
-  status: string
+  status: string,
+  status: StatusType,
+  query: string,
+  searchBottomBar: Object
 };
 
-class ProjectSearch extends Component<Props> {
+class ProjectSearch extends Component<Props, State> {
   onEscape: Function;
   close: Function;
+  inputOnChange: Function;
+  onKeyDown: Function;
+  onEnterPress: Function;
+  selectMatchItem: Function;
   toggleProjectTextSearch: Function;
 
   constructor(props) {
     super(props);
+    this.state = {
+      inputValue: this.props.query || "",
+      inputFocused: false,
+      focusedItem: null
+    };
+
+    this.inputOnChange = this.inputOnChange.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
+    this.onEnterPress = this.onEnterPress.bind(this);
+    this.selectMatchItem = this.selectMatchItem.bind(this);
     this.toggleProjectTextSearch = this.toggleProjectTextSearch.bind(this);
   }
 
@@ -52,6 +97,7 @@ class ProjectSearch extends Component<Props> {
       L10N.getStr("projectTextSearch.key"),
       this.toggleProjectTextSearch
     );
+    shortcuts.on("Enter", this.onEnterPress);
   }
 
   componentWillUnmount() {
@@ -60,6 +106,7 @@ class ProjectSearch extends Component<Props> {
       L10N.getStr("projectTextSearch.key"),
       this.toggleProjectTextSearch
     );
+    shortcuts.off("Enter", this.onEnterPress);
   }
 
   toggleProjectTextSearch(key, e) {
@@ -78,26 +125,160 @@ class ProjectSearch extends Component<Props> {
     return this.props.activeSearch === "project";
   }
 
-  renderTextSearch() {
-    const {
-      sources,
-      results,
-      status,
-      searchSources,
-      closeProjectSearch,
-      selectLocation,
-      textSearchQuery
-    } = this.props;
+  selectMatchItem(matchItem) {
+    this.props.selectLocation({ ...matchItem });
+  }
+
+  getResults() {
+    const { results } = this.props;
+    return results
+      .toJS()
+      .filter(result => result.filepath && result.matches.length > 0);
+  }
+
+  getResultCount() {
+    const results = this.getResults();
+    return results.reduce(
+      (count, file) => count + (file.matches ? file.matches.length : 0),
+      0
+    );
+  }
+
+  onKeyDown(e) {
+    if (e.key === "Escape") {
+      return;
+    }
+
+    e.stopPropagation();
+
+    if (e.key !== "Enter") {
+      return;
+    }
+    this.setState({ focusedItem: null });
+    this.props.searchSources(this.state.inputValue);
+  }
+
+  onEnterPress() {
+    if (this.state.focusedItem && !this.state.inputFocused) {
+      const { setExpanded, file, expanded, match } = this.state.focusedItem;
+      if (setExpanded) {
+        setExpanded(file, !expanded);
+      } else {
+        this.selectMatchItem(match);
+      }
+    }
+  }
+
+  inputOnChange(e) {
+    const inputValue = e.target.value;
+    this.setState({ inputValue });
+  }
+
+  renderFile(file, focused, expanded, setExpanded) {
+    if (focused) {
+      this.setState({ focusedItem: { setExpanded, file, expanded } });
+    }
+
+    const matchesLength = file.matches.length;
+    const matches = ` (${matchesLength} match${matchesLength > 1 ? "es" : ""})`;
 
     return (
-      <TextSearch
-        sources={sources}
-        results={results.toJS()}
-        status={status}
-        searchSources={searchSources}
-        closeProjectSearch={closeProjectSearch}
-        selectLocation={selectLocation}
-        query={textSearchQuery}
+      <div
+        className={classnames("file-result", { focused })}
+        key={file.sourceId}
+        onClick={e => setExpanded(file, !expanded)}
+      >
+        <Svg name="arrow" className={classnames({ expanded })} />
+        <img className="file" />
+        <span className="file-path">{getRelativePath(file.filepath)}</span>
+        <span className="matches-summary">{matches}</span>
+      </div>
+    );
+  }
+
+  renderMatch(match, focused) {
+    if (focused) {
+      this.setState({ focusedItem: { match } });
+    }
+    return (
+      <div
+        className={classnames("result", { focused })}
+        onClick={() => setTimeout(() => this.selectMatchItem(match), 50)}
+      >
+        <span className="line-number" key={match.line}>
+          {match.line}
+        </span>
+        {this.renderMatchValue(match)}
+      </div>
+    );
+  }
+
+  renderMatchValue(lineMatch) {
+    return highlightMatches(lineMatch);
+  }
+
+  renderResults() {
+    const results = this.getResults().filter(
+      result => result.matches.length > 0
+    );
+
+    const { status } = this.props;
+
+    function getFilePath(item, index) {
+      return item.filepath
+        ? `${item.sourceId}-${index}`
+        : `${item.sourceId}-${item.line}-${item.column}-${index}`;
+    }
+
+    const renderItem = (item, depth, focused, _, expanded, { setExpanded }) => {
+      return item.filepath
+        ? this.renderFile(item, focused, expanded, setExpanded)
+        : this.renderMatch(item, focused);
+    };
+    if (results.length && status === statusType.done) {
+      return (
+        <ManagedTree
+          getRoots={() => results}
+          getChildren={file => file.matches || []}
+          itemHeight={24}
+          autoExpand={1}
+          autoExpandDepth={1}
+          getParent={item => null}
+          getPath={getFilePath}
+          renderItem={renderItem}
+        />
+      );
+    } else if (status === statusType.fetching) {
+      return <div className="no-result-msg absolute-center">Loading...</div>;
+    } else if (this.props.query && !results.length) {
+      return (
+        <div className="no-result-msg absolute-center">
+          {L10N.getStr("projectTextSearch.noResults")}
+        </div>
+      );
+    }
+  }
+
+  renderInput() {
+    const resultCount = this.getResultCount();
+
+    return (
+      <SearchInput
+        query={this.state.inputValue}
+        count={resultCount}
+        placeholder={L10N.getStr("projectTextSearch.placeholder")}
+        size="big"
+        summaryMsg={
+          this.props.query !== ""
+            ? L10N.getFormatStr("sourceSearch.resultsSummary1", resultCount)
+            : ""
+        }
+        onChange={e => this.inputOnChange(e)}
+        onFocus={() => this.setState({ inputFocused: true })}
+        onBlur={() => this.setState({ inputFocused: false })}
+        onKeyDown={e => this.onKeyDown(e)}
+        handleClose={this.props.closeProjectSearch}
+        ref="searchInput"
       />
     );
   }
@@ -107,7 +288,14 @@ class ProjectSearch extends Component<Props> {
       return null;
     }
 
-    return <div className="search-container">{this.renderTextSearch()}</div>;
+    return (
+      <div className="search-container">
+        <div className="project-text-search">
+          <div className="header">{this.renderInput()}</div>
+          {this.renderResults()}
+        </div>
+      </div>
+    );
   }
 }
 ProjectSearch.contextTypes = {
