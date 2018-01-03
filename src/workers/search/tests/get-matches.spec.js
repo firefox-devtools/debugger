@@ -10,7 +10,7 @@ describe("search", () => {
         wholeWord: false,
         regexMatch: false
       });
-      expect(matchLocations.length).toBe(3);
+      expect(matchLocations).toHaveLength(3);
     });
 
     it("gets basic string match case-sensitive", () => {
@@ -21,7 +21,7 @@ describe("search", () => {
         wholeWord: false,
         regexMatch: false
       });
-      expect(matchLocations.length).toBe(1);
+      expect(matchLocations).toHaveLength(1);
     });
 
     it("gets whole word string match", () => {
@@ -32,7 +32,7 @@ describe("search", () => {
         wholeWord: true,
         regexMatch: false
       });
-      expect(matchLocations.length).toBe(2);
+      expect(matchLocations).toHaveLength(2);
     });
 
     it("gets regex match", () => {
@@ -43,7 +43,7 @@ describe("search", () => {
         wholeWord: false,
         regexMatch: true
       });
-      expect(matchLocations.length).toBe(4);
+      expect(matchLocations).toHaveLength(4);
     });
 
     it("it doesnt fail on empty data", () => {
@@ -54,7 +54,7 @@ describe("search", () => {
         wholeWord: false,
         regexMatch: true
       });
-      expect(matchLocations.length).toBe(0);
+      expect(matchLocations).toHaveLength(0);
     });
 
     it("fails gracefully when the line is too long", () => {
@@ -65,7 +65,7 @@ describe("search", () => {
         wholeWord: false,
         regexMatch: true
       });
-      expect(matchLocations.length).toBe(0);
+      expect(matchLocations).toHaveLength(0);
     });
   });
 });

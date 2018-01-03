@@ -26,16 +26,16 @@ describe("sources tree", () => {
     it("can collapse a single source", () => {
       const fullTree = createNode("root", "", []);
       addToTree(fullTree, abcSource, "http://example.com/");
-      expect(fullTree.contents.length).toBe(1);
+      expect(fullTree.contents).toHaveLength(1);
       const tree = collapseTree(fullTree);
 
       const host = tree.contents[0];
       expect(host.name).toBe("example.com");
-      expect(host.contents.length).toBe(1);
+      expect(host.contents).toHaveLength(1);
 
       const abFolder = host.contents[0];
       expect(abFolder.name).toBe("a/b");
-      expect(abFolder.contents.length).toBe(1);
+      expect(abFolder.contents).toHaveLength(1);
 
       const abcNode = abFolder.contents[0];
       expect(abcNode.name).toBe("c.js");
@@ -50,15 +50,15 @@ describe("sources tree", () => {
       const tree = collapseTree(fullTree);
 
       sortEntireTree(tree);
-      expect(tree.contents.length).toBe(1);
+      expect(tree.contents).toHaveLength(1);
 
       const host = tree.contents[0];
       expect(host.name).toBe("example.com");
-      expect(host.contents.length).toBe(1);
+      expect(host.contents).toHaveLength(1);
 
       const abFolder = host.contents[0];
       expect(abFolder.name).toBe("a/b");
-      expect(abFolder.contents.length).toBe(2);
+      expect(abFolder.contents).toHaveLength(2);
 
       const [cdFolder, abcNode] = abFolder.contents;
       expect(abcNode.name).toBe("c.js");
@@ -77,15 +77,15 @@ describe("sources tree", () => {
       addToTree(fullTree, abxSource, "http://example.com/");
       const tree = collapseTree(fullTree);
 
-      expect(tree.contents.length).toBe(1);
+      expect(tree.contents).toHaveLength(1);
 
       const host = tree.contents[0];
       expect(host.name).toBe("example.com");
-      expect(host.contents.length).toBe(1);
+      expect(host.contents).toHaveLength(1);
 
       const abFolder = host.contents[0];
       expect(abFolder.name).toBe("a/b");
-      expect(abFolder.contents.length).toBe(2);
+      expect(abFolder.contents).toHaveLength(2);
 
       const [abcNode, abxNode] = abFolder.contents;
       expect(abcNode.name).toBe("c.js");
@@ -101,15 +101,15 @@ describe("sources tree", () => {
       addToTree(fullTree, abcSource, "http://example.com/");
       const tree = collapseTree(fullTree);
 
-      expect(tree.contents.length).toBe(1);
+      expect(tree.contents).toHaveLength(1);
 
       const host = tree.contents[0];
       expect(host.name).toBe("example.com");
-      expect(host.contents.length).toBe(1);
+      expect(host.contents).toHaveLength(1);
 
       const abFolder = host.contents[0];
       expect(abFolder.name).toBe("a/b");
-      expect(abFolder.contents.length).toBe(2);
+      expect(abFolder.contents).toHaveLength(2);
 
       const [cdFolder, abcNode] = abFolder.contents;
       expect(abcNode.name).toBe("c.js");
