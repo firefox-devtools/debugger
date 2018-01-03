@@ -20,14 +20,54 @@ import { isEqual } from "lodash";
 import type { ThunkArgs } from "./types";
 import type { AstLocation } from "../workers/parser";
 
-const extraProps = {
-  react: { displayName: "this._reactInternalInstance.getName()" },
-  immutable: {
-    isImmutable: exp => `Immutable.Iterable.isIterable(${exp})`,
-    entries: exp => `${exp}.toJS()`,
-    type: exp => `${exp}.constructor.name`
+function isImmutableResult(preview) {
+  if (!preview || !preview.ownProperties) {
+    return false;
   }
-};
+  const { _root, __ownerID, __altered, __hash } = preview.ownProperties;
+  return !!(_root && __ownerID && __altered && __hash);
+}
+
+async function getExtraProps(client, frame, expression, result) {
+  let immutableType = null;
+  let immutableEntries = null;
+  const isImmutable = isImmutableResult(result.preview);
+  const frameId = frame.id;
+
+  const reactDisplayName = await client.evaluate(
+    "this._reactInternalInstance.getName()",
+    {
+      frameId
+    }
+  );
+
+  if (isImmutable) {
+    immutableEntries = await client.evaluate(
+      (exp => `${exp}.toJS()`)(expression),
+      {
+        frameId
+      }
+    );
+
+    immutableType = await client.evaluate(
+      (exp => `${exp}.constructor.name`)(expression),
+      {
+        frameId
+      }
+    );
+  }
+
+  return {
+    react: {
+      displayName: reactDisplayName.result
+    },
+    immutable: {
+      isImmutable,
+      type: immutableType && immutableType.result,
+      entries: immutableEntries && immutableEntries.result
+    }
+  };
+}
 
 export function updatePreview(target: HTMLElement, editor: any) {
   return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
@@ -101,13 +141,10 @@ export function setPreview(
     await dispatch({
       type: "SET_PREVIEW",
       [PROMISE]: (async function() {
-        let immutableType = null;
-        let immutableEntries = null;
-
         const source = getSelectedSource(getState());
         const symbols = getSymbols(getState(), source.toJS());
-
         const found = findBestMatchExpression(symbols, tokenPos, token);
+
         if (!found) {
           return;
         }
@@ -137,51 +174,16 @@ export function setPreview(
           frameId: selectedFrame.id
         });
 
-        const reactDisplayName = await client.evaluate(
-          extraProps.react.displayName,
-          {
-            frameId: selectedFrame.id
-          }
-        );
-
-        const immutable = await client.evaluate(
-          extraProps.immutable.isImmutable(expression),
-          {
-            frameId: selectedFrame.id
-          }
-        );
-
-        if (immutable.result === true) {
-          immutableEntries = await client.evaluate(
-            extraProps.immutable.entries(expression),
-            {
-              frameId: selectedFrame.id
-            }
-          );
-
-          immutableType = await client.evaluate(
-            extraProps.immutable.type(expression),
-            {
-              frameId: selectedFrame.id
-            }
-          );
-        }
-
-        const extra = {
-          react: {
-            displayName: reactDisplayName.result
-          },
-          immutable: {
-            isImmutable:
-              immutable.result && immutable.result.type !== "undefined",
-            type: immutableType && immutableType.result,
-            entries: immutableEntries && immutableEntries.result
-          }
-        };
-
         if (result === undefined) {
           return;
         }
+
+        const extra = await getExtraProps(
+          client,
+          selectedFrame,
+          expression,
+          result
+        );
 
         return {
           expression,
