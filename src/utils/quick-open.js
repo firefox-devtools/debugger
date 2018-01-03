@@ -14,7 +14,7 @@ import type {
   SymbolDeclarations
 } from "../workers/parser/types";
 
-export const QUICKOPEN_MODIFIERS = {
+const MODIFIERS = {
   "@": "functions",
   "#": "variables",
   ":": "goto",
@@ -29,7 +29,7 @@ export function parseQuickOpenQuery(query: string): QuickOpenType {
 
   if (startsWithModifier) {
     const modifier = query[0];
-    return QUICKOPEN_MODIFIERS[modifier];
+    return MODIFIERS[modifier];
   }
 
   if (isGotoSource) {
@@ -92,18 +92,18 @@ export function formatSymbols(
 export function formatShortcutResults(): Array<QuickOpenResult> {
   return [
     {
-      value: "Seach for a function in a file",
-      title: "@ Function Search",
+      value: L10N.getStr("symbolSearch.search.functionsPlaceholder.title"),
+      title: `@ ${L10N.getStr("symbolSearch.search.functionsPlaceholder")}`,
       id: "@"
     },
     {
-      value: "Search forr a variable in a file",
-      title: "# Variable Search",
+      value: L10N.getStr("symbolSearch.search.variablesPlaceholder.title"),
+      title: `# ${L10N.getStr("symbolSearch.search.variablesPlaceholder")}`,
       id: "#"
     },
     {
-      value: "Go to a line number in a file",
-      title: ": Go to line",
+      value: L10N.getStr("gotoLineModal.title"),
+      title: `: ${L10N.getStr("gotoLineModal.placeholder")}`,
       id: ":"
     }
   ];
