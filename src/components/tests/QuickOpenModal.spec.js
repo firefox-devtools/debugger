@@ -71,6 +71,23 @@ describe("QuickOpenModal", () => {
     expect(wrapper).toMatchSnapshot();
   });
 
+  test("Basic render with mount & searchType = shortcuts", () => {
+    const { wrapper } = generateModal(
+      {
+        enabled: true,
+        query: "?",
+        searchType: "shortcuts",
+        symbols: {
+          functions: [],
+          variables: []
+        }
+      },
+      "mount"
+    );
+    expect(wrapper.find("ResultList")).toHaveLength(1);
+    expect(wrapper.find("li")).toHaveLength(3);
+  });
+
   test("closeModal", () => {
     const { wrapper, props } = generateModal({ enabled: true }, "mount");
     expect(wrapper).toMatchSnapshot();
