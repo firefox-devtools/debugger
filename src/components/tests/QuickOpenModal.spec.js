@@ -2,11 +2,16 @@ import React from "react";
 import { shallow, mount } from "enzyme";
 import { QuickOpenModal } from "../QuickOpenModal";
 
+jest.mock("fuzzaldrin-plus");
+
+import { filter } from "fuzzaldrin-plus";
+
 function generateModal(propOverrides, renderType = "shallow") {
   const props = {
     enabled: false,
     query: "",
     searchType: "sources",
+    sources: [],
     selectLocation: jest.fn(),
     setQuickOpenQuery: jest.fn(),
     highlightLineRange: jest.fn(),
@@ -24,6 +29,9 @@ function generateModal(propOverrides, renderType = "shallow") {
 }
 
 describe("QuickOpenModal", () => {
+  beforeEach(() => {
+    filter.mockClear();
+  });
   test("Doesn't render when disabled", () => {
     const { wrapper } = generateModal();
     expect(wrapper).toMatchSnapshot();
@@ -100,5 +108,56 @@ describe("QuickOpenModal", () => {
     expect(wrapper).toMatchSnapshot();
     wrapper.setProps({ enabled: true });
     expect(wrapper).toMatchSnapshot();
+  });
+
+  test("basic source search", () => {
+    const { wrapper } = generateModal(
+      {
+        enabled: true,
+        symbols: {
+          functions: [],
+          variables: []
+        }
+      },
+      "mount"
+    );
+    wrapper.find("input").simulate("change", { target: { value: "somefil" } });
+    expect(filter).toHaveBeenCalled();
+  });
+
+  test("basic gotoSource search", () => {
+    const { wrapper } = generateModal(
+      {
+        enabled: true,
+        searchType: "gotoSource",
+        symbols: {
+          functions: [],
+          variables: []
+        }
+      },
+      "mount"
+    );
+    wrapper
+      .find("input")
+      .simulate("change", { target: { value: "somefil:33" } });
+    expect(filter).toHaveBeenCalled();
+  });
+
+  test("basic symbol seach", () => {
+    const { wrapper } = generateModal(
+      {
+        enabled: true,
+        searchType: "functions",
+        symbols: {
+          functions: [],
+          variables: []
+        }
+      },
+      "mount"
+    );
+    wrapper
+      .find("input")
+      .simulate("change", { target: { value: "@someFunc" } });
+    expect(filter).toHaveBeenCalled();
   });
 });

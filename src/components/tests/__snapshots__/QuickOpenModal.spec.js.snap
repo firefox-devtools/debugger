@@ -10,6 +10,7 @@ exports[`QuickOpenModal Basic render with mount & searchType = functions 1`] = `
   searchType="functions"
   selectLocation={[Function]}
   setQuickOpenQuery={[Function]}
+  sources={Array []}
   symbols={
     Object {
       "functions": Array [],
@@ -48,73 +49,68 @@ exports[`QuickOpenModal Basic render with mount & searchType = functions 1`] = `
             className="modal entering"
             onClick={[Function]}
           >
-            <div
-              className="input-wrapper"
-              key="input"
+            <SearchInput
+              count={0}
+              handleClose={[Function]}
+              onChange={[Function]}
+              onKeyDown={[Function]}
+              placeholder="Search sources…"
+              query="@"
+              showErrorEmoji={true}
+              size=""
+              summaryMsg="0 results"
             >
-              <SearchInput
-                count={0}
-                handleClose={[Function]}
-                onChange={[Function]}
-                onKeyDown={[Function]}
-                placeholder="Search sources…"
-                query="@"
-                showErrorEmoji={true}
-                size=""
-                summaryMsg="0 results"
+              <div
+                className="search-field"
               >
-                <div
-                  className="search-field"
+                <Svg
+                  name="magnifying-glass"
                 >
-                  <Svg
-                    name="magnifying-glass"
+                  <InlineSVG
+                    className="magnifying-glass "
+                    element="i"
+                    raw={false}
+                    src="<svg></svg>"
                   >
-                    <InlineSVG
+                    <i
                       className="magnifying-glass "
-                      element="i"
-                      raw={false}
-                      src="<svg></svg>"
-                    >
-                      <i
-                        className="magnifying-glass "
-                        dangerouslySetInnerHTML={
-                          Object {
-                            "__html": "<svg></svg>",
-                          }
+                      dangerouslySetInnerHTML={
+                        Object {
+                          "__html": "<svg></svg>",
                         }
-                        src={null}
-                      />
-                    </InlineSVG>
-                  </Svg>
-                  <input
-                    className=""
-                    onChange={[Function]}
-                    onKeyDown={[Function]}
-                    placeholder="Search sources…"
-                    spellCheck={false}
-                    value="@"
-                  />
-                  <div
-                    className="summary"
-                  >
-                    0 results
-                  </div>
-                  <CloseButton
-                    buttonClass=""
-                    handleClick={[Function]}
-                  >
-                    <div
-                      className="close-btn"
-                      onClick={[Function]}
-                    >
-                      <img
-                        className="close"
-                      />
-                    </div>
-                  </CloseButton>
+                      }
+                      src={null}
+                    />
+                  </InlineSVG>
+                </Svg>
+                <input
+                  className=""
+                  onChange={[Function]}
+                  onKeyDown={[Function]}
+                  placeholder="Search sources…"
+                  spellCheck={false}
+                  value="@"
+                />
+                <div
+                  className="summary"
+                >
+                  0 results
                 </div>
-              </SearchInput>
-            </div>
+                <CloseButton
+                  buttonClass=""
+                  handleClick={[Function]}
+                >
+                  <div
+                    className="close-btn"
+                    onClick={[Function]}
+                  >
+                    <img
+                      className="close"
+                    />
+                  </div>
+                </CloseButton>
+              </div>
+            </SearchInput>
             <ResultList
               items={Array []}
               key="results"
@@ -144,6 +140,7 @@ exports[`QuickOpenModal Basic render with mount & searchType = variables 1`] = `
   searchType="variables"
   selectLocation={[Function]}
   setQuickOpenQuery={[Function]}
+  sources={Array []}
   symbols={
     Object {
       "functions": Array [],
@@ -182,73 +179,68 @@ exports[`QuickOpenModal Basic render with mount & searchType = variables 1`] = `
             className="modal entering"
             onClick={[Function]}
           >
-            <div
-              className="input-wrapper"
-              key="input"
+            <SearchInput
+              count={0}
+              handleClose={[Function]}
+              onChange={[Function]}
+              onKeyDown={[Function]}
+              placeholder="Search sources…"
+              query="#"
+              showErrorEmoji={true}
+              size=""
+              summaryMsg="0 results"
             >
-              <SearchInput
-                count={0}
-                handleClose={[Function]}
-                onChange={[Function]}
-                onKeyDown={[Function]}
-                placeholder="Search sources…"
-                query="#"
-                showErrorEmoji={true}
-                size=""
-                summaryMsg="0 results"
+              <div
+                className="search-field"
               >
-                <div
-                  className="search-field"
+                <Svg
+                  name="magnifying-glass"
                 >
-                  <Svg
-                    name="magnifying-glass"
+                  <InlineSVG
+                    className="magnifying-glass "
+                    element="i"
+                    raw={false}
+                    src="<svg></svg>"
                   >
-                    <InlineSVG
+                    <i
                       className="magnifying-glass "
-                      element="i"
-                      raw={false}
-                      src="<svg></svg>"
-                    >
-                      <i
-                        className="magnifying-glass "
-                        dangerouslySetInnerHTML={
-                          Object {
-                            "__html": "<svg></svg>",
-                          }
+                      dangerouslySetInnerHTML={
+                        Object {
+                          "__html": "<svg></svg>",
                         }
-                        src={null}
-                      />
-                    </InlineSVG>
-                  </Svg>
-                  <input
-                    className=""
-                    onChange={[Function]}
-                    onKeyDown={[Function]}
-                    placeholder="Search sources…"
-                    spellCheck={false}
-                    value="#"
-                  />
-                  <div
-                    className="summary"
-                  >
-                    0 results
-                  </div>
-                  <CloseButton
-                    buttonClass=""
-                    handleClick={[Function]}
-                  >
-                    <div
-                      className="close-btn"
-                      onClick={[Function]}
-                    >
-                      <img
-                        className="close"
-                      />
-                    </div>
-                  </CloseButton>
+                      }
+                      src={null}
+                    />
+                  </InlineSVG>
+                </Svg>
+                <input
+                  className=""
+                  onChange={[Function]}
+                  onKeyDown={[Function]}
+                  placeholder="Search sources…"
+                  spellCheck={false}
+                  value="#"
+                />
+                <div
+                  className="summary"
+                >
+                  0 results
                 </div>
-              </SearchInput>
-            </div>
+                <CloseButton
+                  buttonClass=""
+                  handleClick={[Function]}
+                >
+                  <div
+                    className="close-btn"
+                    onClick={[Function]}
+                  >
+                    <img
+                      className="close"
+                    />
+                  </div>
+                </CloseButton>
+              </div>
+            </SearchInput>
             <ResultList
               items={Array []}
               key="results"
@@ -278,6 +270,7 @@ exports[`QuickOpenModal Basic render with mount 1`] = `
   searchType="sources"
   selectLocation={[Function]}
   setQuickOpenQuery={[Function]}
+  sources={Array []}
 >
   <Slide
     handleClose={[Function]}
@@ -310,73 +303,79 @@ exports[`QuickOpenModal Basic render with mount 1`] = `
             className="modal entering"
             onClick={[Function]}
           >
-            <div
-              className="input-wrapper"
-              key="input"
+            <SearchInput
+              count={0}
+              handleClose={[Function]}
+              onChange={[Function]}
+              onKeyDown={[Function]}
+              placeholder="Search sources…"
+              query=""
+              showErrorEmoji={true}
+              size=""
+              summaryMsg="0 results"
             >
-              <SearchInput
-                count={0}
-                handleClose={[Function]}
-                onChange={[Function]}
-                onKeyDown={[Function]}
-                placeholder="Search sources…"
-                query=""
-                showErrorEmoji={true}
-                size=""
-                summaryMsg="0 results"
+              <div
+                className="search-field"
               >
-                <div
-                  className="search-field"
+                <Svg
+                  name="magnifying-glass"
                 >
-                  <Svg
-                    name="magnifying-glass"
+                  <InlineSVG
+                    className="magnifying-glass "
+                    element="i"
+                    raw={false}
+                    src="<svg></svg>"
                   >
-                    <InlineSVG
+                    <i
                       className="magnifying-glass "
-                      element="i"
-                      raw={false}
-                      src="<svg></svg>"
-                    >
-                      <i
-                        className="magnifying-glass "
-                        dangerouslySetInnerHTML={
-                          Object {
-                            "__html": "<svg></svg>",
-                          }
+                      dangerouslySetInnerHTML={
+                        Object {
+                          "__html": "<svg></svg>",
                         }
-                        src={null}
-                      />
-                    </InlineSVG>
-                  </Svg>
-                  <input
-                    className=""
-                    onChange={[Function]}
-                    onKeyDown={[Function]}
-                    placeholder="Search sources…"
-                    spellCheck={false}
-                    value=""
-                  />
-                  <div
-                    className="summary"
-                  >
-                    0 results
-                  </div>
-                  <CloseButton
-                    buttonClass=""
-                    handleClick={[Function]}
-                  >
-                    <div
-                      className="close-btn"
-                      onClick={[Function]}
-                    >
-                      <img
-                        className="close"
-                      />
-                    </div>
-                  </CloseButton>
+                      }
+                      src={null}
+                    />
+                  </InlineSVG>
+                </Svg>
+                <input
+                  className=""
+                  onChange={[Function]}
+                  onKeyDown={[Function]}
+                  placeholder="Search sources…"
+                  spellCheck={false}
+                  value=""
+                />
+                <div
+                  className="summary"
+                >
+                  0 results
                 </div>
-              </SearchInput>
-            </div>
+                <CloseButton
+                  buttonClass=""
+                  handleClick={[Function]}
+                >
+                  <div
+                    className="close-btn"
+                    onClick={[Function]}
+                  >
+                    <img
+                      className="close"
+                    />
+                  </div>
+                </CloseButton>
+              </div>
+            </SearchInput>
+            <ResultList
+              items={Array []}
+              key="results"
+              selectItem={[Function]}
+              selected={0}
+              size="big"
+            >
+              <ul
+                className="result-list big"
+              />
+            </ResultList>
           </div>
         </div>
       </Modal>
@@ -392,22 +391,17 @@ exports[`QuickOpenModal Renders when enabled 1`] = `
   handleClose={[Function]}
   in={true}
 >
-  <div
-    className="input-wrapper"
-    key="input"
-  >
-    <SearchInput
-      count={0}
-      handleClose={[Function]}
-      onChange={[Function]}
-      onKeyDown={[Function]}
-      placeholder="Search sources…"
-      query=""
-      showErrorEmoji={true}
-      size=""
-      summaryMsg="0 results"
-    />
-  </div>
+  <SearchInput
+    count={0}
+    handleClose={[Function]}
+    onChange={[Function]}
+    onKeyDown={[Function]}
+    placeholder="Search sources…"
+    query=""
+    showErrorEmoji={true}
+    size=""
+    summaryMsg="0 results"
+  />
 </Slide>
 `;
 
@@ -421,6 +415,7 @@ exports[`QuickOpenModal closeModal 1`] = `
   searchType="sources"
   selectLocation={[Function]}
   setQuickOpenQuery={[Function]}
+  sources={Array []}
 >
   <Slide
     handleClose={[Function]}
@@ -453,73 +448,79 @@ exports[`QuickOpenModal closeModal 1`] = `
             className="modal entering"
             onClick={[Function]}
           >
-            <div
-              className="input-wrapper"
-              key="input"
+            <SearchInput
+              count={0}
+              handleClose={[Function]}
+              onChange={[Function]}
+              onKeyDown={[Function]}
+              placeholder="Search sources…"
+              query=""
+              showErrorEmoji={true}
+              size=""
+              summaryMsg="0 results"
             >
-              <SearchInput
-                count={0}
-                handleClose={[Function]}
-                onChange={[Function]}
-                onKeyDown={[Function]}
-                placeholder="Search sources…"
-                query=""
-                showErrorEmoji={true}
-                size=""
-                summaryMsg="0 results"
+              <div
+                className="search-field"
               >
-                <div
-                  className="search-field"
+                <Svg
+                  name="magnifying-glass"
                 >
-                  <Svg
-                    name="magnifying-glass"
+                  <InlineSVG
+                    className="magnifying-glass "
+                    element="i"
+                    raw={false}
+                    src="<svg></svg>"
                   >
-                    <InlineSVG
+                    <i
                       className="magnifying-glass "
-                      element="i"
-                      raw={false}
-                      src="<svg></svg>"
-                    >
-                      <i
-                        className="magnifying-glass "
-                        dangerouslySetInnerHTML={
-                          Object {
-                            "__html": "<svg></svg>",
-                          }
+                      dangerouslySetInnerHTML={
+                        Object {
+                          "__html": "<svg></svg>",
                         }
-                        src={null}
-                      />
-                    </InlineSVG>
-                  </Svg>
-                  <input
-                    className=""
-                    onChange={[Function]}
-                    onKeyDown={[Function]}
-                    placeholder="Search sources…"
-                    spellCheck={false}
-                    value=""
-                  />
-                  <div
-                    className="summary"
-                  >
-                    0 results
-                  </div>
-                  <CloseButton
-                    buttonClass=""
-                    handleClick={[Function]}
-                  >
-                    <div
-                      className="close-btn"
-                      onClick={[Function]}
-                    >
-                      <img
-                        className="close"
-                      />
-                    </div>
-                  </CloseButton>
+                      }
+                      src={null}
+                    />
+                  </InlineSVG>
+                </Svg>
+                <input
+                  className=""
+                  onChange={[Function]}
+                  onKeyDown={[Function]}
+                  placeholder="Search sources…"
+                  spellCheck={false}
+                  value=""
+                />
+                <div
+                  className="summary"
+                >
+                  0 results
                 </div>
-              </SearchInput>
-            </div>
+                <CloseButton
+                  buttonClass=""
+                  handleClick={[Function]}
+                >
+                  <div
+                    className="close-btn"
+                    onClick={[Function]}
+                  >
+                    <img
+                      className="close"
+                    />
+                  </div>
+                </CloseButton>
+              </div>
+            </SearchInput>
+            <ResultList
+              items={Array []}
+              key="results"
+              selectItem={[Function]}
+              selected={0}
+              size="big"
+            >
+              <ul
+                className="result-list big"
+              />
+            </ResultList>
           </div>
         </div>
       </Modal>
@@ -538,6 +539,7 @@ exports[`QuickOpenModal updateResults on enable 1`] = `
   searchType="sources"
   selectLocation={[Function]}
   setQuickOpenQuery={[Function]}
+  sources={Array []}
 />
 `;
 
@@ -551,6 +553,7 @@ exports[`QuickOpenModal updateResults on enable 2`] = `
   searchType="sources"
   selectLocation={[Function]}
   setQuickOpenQuery={[Function]}
+  sources={Array []}
 >
   <Slide
     handleClose={[Function]}
@@ -583,73 +586,79 @@ exports[`QuickOpenModal updateResults on enable 2`] = `
             className="modal entering"
             onClick={[Function]}
           >
-            <div
-              className="input-wrapper"
-              key="input"
+            <SearchInput
+              count={0}
+              handleClose={[Function]}
+              onChange={[Function]}
+              onKeyDown={[Function]}
+              placeholder="Search sources…"
+              query=""
+              showErrorEmoji={true}
+              size=""
+              summaryMsg="0 results"
             >
-              <SearchInput
-                count={0}
-                handleClose={[Function]}
-                onChange={[Function]}
-                onKeyDown={[Function]}
-                placeholder="Search sources…"
-                query=""
-                showErrorEmoji={true}
-                size=""
-                summaryMsg="0 results"
+              <div
+                className="search-field"
               >
-                <div
-                  className="search-field"
+                <Svg
+                  name="magnifying-glass"
                 >
-                  <Svg
-                    name="magnifying-glass"
+                  <InlineSVG
+                    className="magnifying-glass "
+                    element="i"
+                    raw={false}
+                    src="<svg></svg>"
                   >
-                    <InlineSVG
+                    <i
                       className="magnifying-glass "
-                      element="i"
-                      raw={false}
-                      src="<svg></svg>"
-                    >
-                      <i
-                        className="magnifying-glass "
-                        dangerouslySetInnerHTML={
-                          Object {
-                            "__html": "<svg></svg>",
-                          }
+                      dangerouslySetInnerHTML={
+                        Object {
+                          "__html": "<svg></svg>",
                         }
-                        src={null}
-                      />
-                    </InlineSVG>
-                  </Svg>
-                  <input
-                    className=""
-                    onChange={[Function]}
-                    onKeyDown={[Function]}
-                    placeholder="Search sources…"
-                    spellCheck={false}
-                    value=""
-                  />
-                  <div
-                    className="summary"
-                  >
-                    0 results
-                  </div>
-                  <CloseButton
-                    buttonClass=""
-                    handleClick={[Function]}
-                  >
-                    <div
-                      className="close-btn"
-                      onClick={[Function]}
-                    >
-                      <img
-                        className="close"
-                      />
-                    </div>
-                  </CloseButton>
+                      }
+                      src={null}
+                    />
+                  </InlineSVG>
+                </Svg>
+                <input
+                  className=""
+                  onChange={[Function]}
+                  onKeyDown={[Function]}
+                  placeholder="Search sources…"
+                  spellCheck={false}
+                  value=""
+                />
+                <div
+                  className="summary"
+                >
+                  0 results
                 </div>
-              </SearchInput>
-            </div>
+                <CloseButton
+                  buttonClass=""
+                  handleClick={[Function]}
+                >
+                  <div
+                    className="close-btn"
+                    onClick={[Function]}
+                  >
+                    <img
+                      className="close"
+                    />
+                  </div>
+                </CloseButton>
+              </div>
+            </SearchInput>
+            <ResultList
+              items={Array []}
+              key="results"
+              selectItem={[Function]}
+              selected={0}
+              size="big"
+            >
+              <ul
+                className="result-list big"
+              />
+            </ResultList>
           </div>
         </div>
       </Modal>

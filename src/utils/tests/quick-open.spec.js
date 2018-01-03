@@ -1,5 +1,5 @@
 import cases from "jest-in-case";
-import { parseQuickOpenQuery } from "../quick-open";
+import { parseQuickOpenQuery, parseLineColumn } from "../quick-open";
 
 cases(
   "parseQuickOpenQuery utility",
@@ -13,5 +13,19 @@ cases(
     { name: "goto line:column", type: "goto", query: ":30:60" },
     { name: "goto source line", type: "gotoSource", query: "test:30:60" },
     { name: "shortcuts", type: "shortcuts", query: "?" }
+  ]
+);
+
+cases(
+  "parseLineColumn utility",
+  ({ query, location }) => expect(parseLineColumn(query)).toEqual(location),
+  [
+    { name: "empty query", query: "", location: undefined },
+    { name: "just line", query: ":30", location: { line: 30 } },
+    {
+      name: "line and column",
+      query: ":30:90",
+      location: { column: 90, line: 30 }
+    }
   ]
 );

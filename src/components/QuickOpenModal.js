@@ -6,7 +6,6 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import { filter } from "fuzzaldrin-plus";
 
 import actions from "../actions";
@@ -193,7 +192,7 @@ export class QuickOpenModal extends Component<Props, State> {
 
   traverseResults = (direction: number) => {
     const { selectedIndex, results } = this.state;
-    const resultCount = this.resultCount();
+    const resultCount = this.getResultCount();
     const index = selectedIndex + direction;
     const nextIndex = (index + resultCount) % resultCount;
 
@@ -201,6 +200,17 @@ export class QuickOpenModal extends Component<Props, State> {
 
     if (results != null) {
       this.onSelectResultItem(results[nextIndex]);
+    }
+  };
+
+  gotoLocation = () => {
+    const { selectLocation, selectedSource, query } = this.props;
+    if (!selectedSource) {
+      return;
+    }
+    const location = parseLineColumn(query);
+    if (location != null) {
+      selectLocation({ ...location, sourceId: selectedSource.get("id") });
     }
   };
 
@@ -215,7 +225,7 @@ export class QuickOpenModal extends Component<Props, State> {
   };
 
   onKeyDown = (e: SyntheticKeyboardEvent<HTMLElement>) => {
-    const { selectLocation, selectedSource, enabled, query } = this.props;
+    const { enabled } = this.props;
     const { results, selectedIndex } = this.state;
 
     if (!enabled || !results) {
@@ -223,19 +233,12 @@ export class QuickOpenModal extends Component<Props, State> {
     }
 
     const canTraverse = !this.isGotoQuery();
-    if (e.key === "ArrowUp" && canTraverse) {
-      return this.traverseResults(-1);
-    } else if (e.key === "ArrowDown" && canTraverse) {
-      return this.traverseResults(1);
+    const isKeyUpDown = e.key === "ArrowUp" || e.key === "ArrowDown";
+    if (canTraverse && isKeyUpDown) {
+      return this.traverseResults(e.key === "ArrowUp" ? -1 : 1);
     } else if (e.key === "Enter") {
       if (this.isGotoQuery()) {
-        if (!selectedSource) {
-          return;
-        }
-        const location = parseLineColumn(query);
-        if (location != null) {
-          selectLocation({ ...location, sourceId: selectedSource.get("id") });
-        }
+        this.gotoLocation();
       } else if (this.isShortcutQuery()) {
         this.setModifier(results[selectedIndex]);
         return;
@@ -248,15 +251,12 @@ export class QuickOpenModal extends Component<Props, State> {
     }
   };
 
-  resultCount = () => {
+  getResultCount = () => {
     const results = this.state.results;
-
-    if (results && results.length) {
-      return results.length;
-    }
-    return 0;
+    return results && results.length ? results.length : 0;
   };
 
+  // Query helpers
   isFunctionQuery = () => this.props.searchType === "functions";
   isVariableQuery = () => this.props.searchType === "variables";
   isSymbolSearch = () => this.isFunctionQuery() || this.isVariableQuery();
@@ -264,32 +264,17 @@ export class QuickOpenModal extends Component<Props, State> {
   isGotoSourceQuery = () => this.props.searchType === "gotoSource";
   isShortcutQuery = () => this.props.searchType === "shortcuts";
 
-  renderResults() {
-    const { enabled, searchType } = this.props;
+  render() {
+    const { enabled, query, searchType } = this.props;
     const { selectedIndex, results } = this.state;
-    if (!enabled || !results) {
+
+    if (!enabled) {
       return null;
     }
 
-    return (
-      <ResultList
-        key="results"
-        items={results}
-        selected={selectedIndex}
-        selectItem={this.selectResultItem}
-        ref="resultList"
-        {...(searchType === "sources" || searchType === "gotoSource"
-          ? { size: "big" }
-          : {})}
-      />
-    );
-  }
-
-  renderInput() {
-    const { query, searchType } = this.props;
     const summaryMsg = L10N.getFormatStr(
       "sourceSearch.resultsSummary1",
-      this.resultCount()
+      this.getResultCount()
     );
 
     const showSummary =
@@ -299,35 +284,34 @@ export class QuickOpenModal extends Component<Props, State> {
       searchType === "shortcuts";
 
     return (
-      <div key="input" className="input-wrapper">
+      <Modal in={enabled} handleClose={this.closeModal}>
         <SearchInput
           query={query}
-          count={this.resultCount()}
+          count={this.getResultCount()}
           placeholder={L10N.getStr("sourceSearch.search")}
           {...(showSummary === true ? { summaryMsg } : {})}
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}
           handleClose={this.closeModal}
         />
-      </div>
-    );
-  }
-  render() {
-    const { enabled } = this.props;
-
-    if (!enabled) {
-      return null;
-    }
-
-    return (
-      <Modal in={enabled} handleClose={this.closeModal}>
-        {this.renderInput()}
-        {this.renderResults()}
+        {results && (
+          <ResultList
+            key="results"
+            items={results}
+            selected={selectedIndex}
+            selectItem={this.selectResultItem}
+            ref="resultList"
+            {...(searchType === "sources" || searchType === "gotoSource"
+              ? { size: "big" }
+              : {})}
+          />
+        )}
       </Modal>
     );
   }
 }
 
+/* istanbul ignore next: ignoring testing of redux connection stuff */
 function mapStateToProps(state) {
   const selectedSource = getSelectedSource(state);
   let symbols = null;
@@ -344,6 +328,5 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, dispatch =>
-  bindActionCreators(actions, dispatch)
-)(QuickOpenModal);
+/* istanbul ignore next: ignoring testing of redux connection stuff */
+export default connect(mapStateToProps, actions)(QuickOpenModal);
