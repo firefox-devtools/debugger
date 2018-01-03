@@ -23,17 +23,15 @@ import {
   formatSymbols,
   formatSources,
   parseLineColumn,
-  formatGeneralQuery
+  formatShortcutResults
 } from "../utils/quick-open";
 import Modal from "./shared/Modal";
 import SearchInput from "./shared/SearchInput";
 import ResultList from "./shared/ResultList";
 
 import type {
-  FormattedSource,
-  FormattedSymbolDeclaration,
   FormattedSymbolDeclarations,
-  FormattedGeneralQuery
+  QuickOpenResult
 } from "../utils/quick-open";
 import type { SourceRecord } from "../reducers/sources";
 import type { QuickOpenType } from "../reducers/quick-open";
@@ -43,7 +41,6 @@ type Props = {
   sources: Array<Object>,
   selectedSource?: SourceRecord,
   query: string,
-  generalItems: Array<Object>,
   searchType: QuickOpenType,
   symbols: FormattedSymbolDeclarations,
   selectLocation: Object => void,
@@ -53,10 +50,7 @@ type Props = {
 };
 
 type State = {
-  results:
-    | ?Array<FormattedSource>
-    | ?Array<FormattedSymbolDeclaration>
-    | ?Array<FormattedGeneralQuery>,
+  results: ?Array<QuickOpenResult>,
   selectedIndex: number
 };
 
@@ -127,46 +121,36 @@ export class QuickOpenModal extends Component<Props, State> {
     this.setState({ results });
   };
 
-  generalQuery = (query: string) => {
-    const results = formatGeneralQuery();
-    this.setState({ results });
-    return;
+  showShortcuts = (query: string) => {
+    this.setState({ results: formatShortcutResults() });
   };
 
   updateResults = (query: string) => {
     if (this.isSymbolSearch()) {
       return this.searchSymbols(query);
     }
-    if (this.isGeneralQuery()) {
-      return this.generalQuery(query);
+    if (this.isShortcutQuery()) {
+      return this.showShortcuts(query);
     }
     return this.searchSources(query);
   };
 
-  updateQuery = (item: FormattedGeneralQuery) => {
-    const { setQuickOpenQuery } = this.props;
-    if (item.id == "id.123") {
-      setQuickOpenQuery("@");
-    } else if (item.id == "id.124") {
-      setQuickOpenQuery("#");
-    } else {
-      setQuickOpenQuery(":");
+  setModifier = (item: QuickOpenResult) => {
+    if (["@", "#", ":"].includes(item.id)) {
+      this.props.setQuickOpenQuery(item.id);
     }
   };
 
   selectResultItem = (
     e: SyntheticEvent<HTMLElement>,
-    item:
-      | ?FormattedSource
-      | ?FormattedSymbolDeclaration
-      | ?FormattedGeneralQuery
+    item: ?QuickOpenResult
   ) => {
     if (item == null) {
       return;
     }
     const { selectLocation, selectedSource, query, searchType } = this.props;
-    if (this.isGeneralQuery()) {
-      this.updateQuery(item);
+    if (this.isShortcutQuery()) {
+      this.setModifier(item);
       return;
     } else if (searchType === "gotoSource") {
       const location = parseLineColumn(query);
@@ -187,7 +171,7 @@ export class QuickOpenModal extends Component<Props, State> {
     this.closeModal();
   };
 
-  onSelectResultItem = (item: FormattedSource | FormattedSymbolDeclaration) => {
+  onSelectResultItem = (item: QuickOpenResult) => {
     const {
       selectLocation,
       selectedSource,
@@ -265,8 +249,8 @@ export class QuickOpenModal extends Component<Props, State> {
         if (location != null) {
           selectLocation({ ...location, sourceId: selectedSource.get("id") });
         }
-      } else if (searchType === "query") {
-        this.updateQuery(results[selectedIndex]);
+      } else if (searchType === "shortcuts") {
+        this.setModifier(results[selectedIndex]);
         return;
       } else {
         this.selectResultItem(e, results[selectedIndex]);
@@ -289,7 +273,7 @@ export class QuickOpenModal extends Component<Props, State> {
   isSymbolSearch = () =>
     ["functions", "variables"].includes(this.props.searchType);
 
-  isGeneralQuery = () => ["query"].includes(this.props.searchType);
+  isShortcutQuery = () => this.props.searchType === "shortcuts";
 
   renderResults() {
     const { enabled, searchType } = this.props;
@@ -323,7 +307,7 @@ export class QuickOpenModal extends Component<Props, State> {
       searchType === "sources" ||
       searchType === "functions" ||
       searchType === "variables" ||
-      searchType === "query";
+      searchType === "shortcuts";
 
     return (
       <div key="input" className="input-wrapper">

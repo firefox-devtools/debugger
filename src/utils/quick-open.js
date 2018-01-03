@@ -14,6 +14,13 @@ import type {
   SymbolDeclarations
 } from "../workers/parser/types";
 
+export const QUICKOPEN_MODIFIERS = {
+  "@": "functions",
+  "#": "variables",
+  ":": "goto",
+  "?": "shortcuts"
+};
+
 export function parseQuickOpenQuery(query: string): QuickOpenType {
   const modifierPattern = /^@|#|:|\?$/;
   const gotoSourcePattern = /^(\w+)\:/;
@@ -21,14 +28,8 @@ export function parseQuickOpenQuery(query: string): QuickOpenType {
   const isGotoSource = gotoSourcePattern.test(query);
 
   if (startsWithModifier) {
-    const modifiers = {
-      "@": "functions",
-      "#": "variables",
-      ":": "goto",
-      "?": "query"
-    };
     const modifier = query[0];
-    return modifiers[modifier];
+    return QUICKOPEN_MODIFIERS[modifier];
   }
 
   if (isGotoSource) {
@@ -50,36 +51,20 @@ export function parseLineColumn(query: string) {
   }
 }
 
-export type FormattedSymbolDeclaration = {|
+export type QuickOpenResult = {|
   id: string,
-  title: string,
-  subtitle: string,
   value: string,
-  location: BabelLocation
+  title: string,
+  subtitle?: string,
+  location?: BabelLocation
 |};
 
 export type FormattedSymbolDeclarations = {|
-  variables: Array<FormattedSymbolDeclaration>,
-  functions: Array<FormattedSymbolDeclaration>
+  variables: Array<QuickOpenResult>,
+  functions: Array<QuickOpenResult>
 |};
 
-export type FormattedSource = {|
-  value: string,
-  title: string,
-  subtitle: string,
-  id: string
-|};
-
-export type FormattedGeneralQuery = {|
-  value: string,
-  title: string,
-  subtitle: string,
-  id: string
-|};
-
-export function formatSymbol(
-  symbol: SymbolDeclaration
-): FormattedSymbolDeclaration {
+export function formatSymbol(symbol: SymbolDeclaration): QuickOpenResult {
   return {
     id: `${symbol.name}:${symbol.location.start.line}`,
     title: symbol.name,
@@ -104,32 +89,27 @@ export function formatSymbols(
   };
 }
 
-export function formatGeneralQuery(): Array<FormattedGeneralQuery> {
-  const queryResult = [
+export function formatShortcutResults(): Array<QuickOpenResult> {
+  return [
     {
       value: "Seach for a function in a file",
       title: "@ Function Search",
-      subtitle: "",
-      id: "id.123"
+      id: "@"
     },
     {
       value: "Search forr a variable in a file",
       title: "# Variable Search",
-      subtitle: "",
-      id: "id.124"
+      id: "#"
     },
     {
       value: "Go to a line number in a file",
       title: ": Go to line",
-      subtitle: "",
-      id: "id.125"
+      id: ":"
     }
   ];
-
-  return queryResult;
 }
 
-export function formatSources(sources: SourcesMap): Array<FormattedSource> {
+export function formatSources(sources: SourcesMap): Array<QuickOpenResult> {
   return sources
     .valueSeq()
     .filter(source => !isPretty(source) && !isThirdParty(source))
