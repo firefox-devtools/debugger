@@ -90,9 +90,7 @@ export class QuickOpenModal extends Component<Props, State> {
       return;
     }
 
-    const { searchType } = this.props;
-
-    if (searchType === "gotoSource") {
+    if (this.isGotoSourceQuery()) {
       const [baseQuery] = query.split(":");
       const results = filter(this.props.sources, baseQuery, { key: "value" });
       this.setState({ results });
@@ -103,10 +101,10 @@ export class QuickOpenModal extends Component<Props, State> {
   };
 
   searchSymbols = (query: string) => {
-    const { symbols: { functions, variables }, searchType } = this.props;
+    const { symbols: { functions, variables } } = this.props;
 
     let results = functions;
-    if (searchType === "variables") {
+    if (this.isVariableQuery()) {
       results = variables;
     }
     if (query === "@" || query === "#") {
@@ -148,11 +146,11 @@ export class QuickOpenModal extends Component<Props, State> {
     if (item == null) {
       return;
     }
-    const { selectLocation, selectedSource, query, searchType } = this.props;
+    const { selectLocation, selectedSource, query } = this.props;
     if (this.isShortcutQuery()) {
       this.setModifier(item);
       return;
-    } else if (searchType === "gotoSource") {
+    } else if (this.isGotoSourceQuery()) {
       const location = parseLineColumn(query);
       if (location != null) {
         selectLocation({ ...location, sourceId: item.id });
@@ -172,23 +170,18 @@ export class QuickOpenModal extends Component<Props, State> {
   };
 
   onSelectResultItem = (item: QuickOpenResult) => {
-    const {
-      selectLocation,
-      selectedSource,
-      highlightLineRange,
-      searchType
-    } = this.props;
+    const { selectLocation, selectedSource, highlightLineRange } = this.props;
     if (!this.isSymbolSearch() || selectedSource == null) {
       return;
     }
 
-    if (searchType === "variables") {
+    if (this.isVariableQuery()) {
       const line =
         item.location && item.location.start ? item.location.start.line : 0;
       selectLocation({ sourceId: selectedSource.get("id"), line });
     }
 
-    if (searchType === "functions") {
+    if (this.isFunctionQuery()) {
       highlightLineRange({
         ...(item.location != null
           ? { start: item.location.start.line, end: item.location.end.line }
@@ -222,26 +215,20 @@ export class QuickOpenModal extends Component<Props, State> {
   };
 
   onKeyDown = (e: SyntheticKeyboardEvent<HTMLElement>) => {
-    const {
-      selectLocation,
-      selectedSource,
-      enabled,
-      query,
-      searchType
-    } = this.props;
+    const { selectLocation, selectedSource, enabled, query } = this.props;
     const { results, selectedIndex } = this.state;
 
     if (!enabled || !results) {
       return;
     }
 
-    const canTraverse = searchType !== "goto";
+    const canTraverse = !this.isGotoQuery();
     if (e.key === "ArrowUp" && canTraverse) {
       return this.traverseResults(-1);
     } else if (e.key === "ArrowDown" && canTraverse) {
       return this.traverseResults(1);
     } else if (e.key === "Enter") {
-      if (searchType === "goto") {
+      if (this.isGotoQuery()) {
         if (!selectedSource) {
           return;
         }
@@ -249,7 +236,7 @@ export class QuickOpenModal extends Component<Props, State> {
         if (location != null) {
           selectLocation({ ...location, sourceId: selectedSource.get("id") });
         }
-      } else if (searchType === "shortcuts") {
+      } else if (this.isShortcutQuery()) {
         this.setModifier(results[selectedIndex]);
         return;
       } else {
@@ -270,9 +257,11 @@ export class QuickOpenModal extends Component<Props, State> {
     return 0;
   };
 
-  isSymbolSearch = () =>
-    ["functions", "variables"].includes(this.props.searchType);
-
+  isFunctionQuery = () => this.props.searchType === "functions";
+  isVariableQuery = () => this.props.searchType === "variables";
+  isSymbolSearch = () => this.isFunctionQuery() || this.isVariableQuery();
+  isGotoQuery = () => this.props.searchType === "goto";
+  isGotoSourceQuery = () => this.props.searchType === "gotoSource";
   isShortcutQuery = () => this.props.searchType === "shortcuts";
 
   renderResults() {

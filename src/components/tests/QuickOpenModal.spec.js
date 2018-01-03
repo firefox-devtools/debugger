@@ -84,7 +84,8 @@ describe("QuickOpenModal", () => {
       },
       "mount"
     );
-    expect(wrapper).toMatchSnapshot();
+    expect(wrapper.find("ResultList")).toHaveLength(1);
+    expect(wrapper.find("li")).toHaveLength(3);
   });
 
   test("closeModal", () => {
