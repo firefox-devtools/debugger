@@ -6,8 +6,10 @@ import cases from "jest-in-case";
 
 cases(
   "Parser.getSymbols",
-  ({ name, file, type }) =>
-    expect(formatSymbols(getSource(file, type))).toMatchSnapshot(),
+  ({ name, file, type }) => {
+    // console.log(formatSymbols(getSource(file, type)));
+    expect(formatSymbols(getSource(file, type))).toMatchSnapshot();
+  },
   [
     { name: "es6", file: "es6" },
     { name: "func", file: "func" },
