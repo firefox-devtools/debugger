@@ -104,139 +104,139 @@ function getSpecifiers(specifiers) {
   return specifiers.map(specifier => specifier.local && specifier.local.name);
 }
 
+function extractSymbol(path, symbols) {
+  if (isVariable(path)) {
+    symbols.variables.push(...getVariableNames(path));
+  }
+
+  if (isFunction(path)) {
+    symbols.functions.push({
+      name: getFunctionName(path),
+      klass: inferClassName(path),
+      location: path.node.loc,
+      parameterNames: getFunctionParameterNames(path),
+      identifier: path.node.id
+    });
+  }
+
+  if (t.isJSXElement(path)) {
+    symbols.hasJsx = true;
+  }
+
+  if (t.isClassDeclaration(path)) {
+    symbols.classes.push({
+      name: path.node.id.name,
+      parent: path.node.superClass,
+      location: path.node.loc
+    });
+  }
+
+  if (t.isImportDeclaration(path)) {
+    symbols.imports.push({
+      source: path.node.source.value,
+      location: path.node.loc,
+      specifiers: getSpecifiers(path.node.specifiers)
+    });
+  }
+
+  if (t.isObjectProperty(path)) {
+    const { start, end, identifierName } = path.node.key.loc;
+    symbols.objectProperties.push({
+      name: identifierName,
+      location: { start, end },
+      expression: getSnippet(path)
+    });
+  }
+
+  if (t.isMemberExpression(path)) {
+    const { start, end } = path.node.property.loc;
+    symbols.memberExpressions.push({
+      name: path.node.property.name,
+      location: { start, end },
+      expressionLocation: path.node.loc,
+      expression: getSnippet(path),
+      computed: path.node.computed
+    });
+  }
+
+  if (t.isCallExpression(path)) {
+    const callee = path.node.callee;
+    const args = path.node.arguments;
+    if (!t.isMemberExpression(callee)) {
+      const { start, end, identifierName } = callee.loc;
+      symbols.callExpressions.push({
+        name: identifierName,
+        values: args.filter(arg => arg.value).map(arg => arg.value),
+        location: { start, end }
+      });
+    }
+  }
+
+  if (t.isIdentifier(path)) {
+    let { start, end } = path.node.loc;
+
+    if (path.node.typeAnnotation) {
+      const column = path.node.typeAnnotation.loc.start.column;
+      end = { ...end, column };
+    }
+
+    symbols.identifiers.push({
+      name: path.node.name,
+      expression: path.node.name,
+      location: { start, end }
+    });
+  }
+
+  if (t.isThisExpression(path.node)) {
+    const { start, end } = path.node.loc;
+    symbols.identifiers.push({
+      name: "this",
+      location: { start, end },
+      expressionLocation: path.node.loc,
+      expression: "this"
+    });
+  }
+
+  if (t.isVariableDeclarator(path)) {
+    const node = path.node.id;
+    const { start, end } = path.node.loc;
+
+    symbols.identifiers.push({
+      name: node.name,
+      expression: node.name,
+      location: { start, end }
+    });
+  }
+}
+
 function extractSymbols(source: Source) {
-  const functions = [];
-  const variables = [];
-  const memberExpressions = [];
-  const callExpressions = [];
-  const objectProperties = [];
-  const identifiers = [];
-  const classes = [];
-  const imports = [];
-  let hasJsx = false;
+  const symbols = {
+    functions: [],
+    variables: [],
+    callExpressions: [],
+    memberExpressions: [],
+    objectProperties: [],
+    comments: [],
+    identifiers: [],
+    classes: [],
+    imports: [],
+    hasJsx: false
+  };
 
   const ast = traverseAst(source, {
     enter(path: NodePath) {
-      if (isVariable(path)) {
-        variables.push(...getVariableNames(path));
-      }
-
-      if (isFunction(path)) {
-        functions.push({
-          name: getFunctionName(path),
-          klass: inferClassName(path),
-          location: path.node.loc,
-          parameterNames: getFunctionParameterNames(path),
-          identifier: path.node.id
-        });
-      }
-
-      if (t.isJSXElement(path)) {
-        hasJsx = true;
-      }
-
-      if (t.isClassDeclaration(path)) {
-        classes.push({
-          name: path.node.id.name,
-          parent: path.node.superClass,
-          location: path.node.loc
-        });
-      }
-
-      if (t.isImportDeclaration(path)) {
-        imports.push({
-          source: path.node.source.value,
-          location: path.node.loc,
-          specifiers: getSpecifiers(path.node.specifiers)
-        });
-      }
-
-      if (t.isObjectProperty(path)) {
-        const { start, end, identifierName } = path.node.key.loc;
-        objectProperties.push({
-          name: identifierName,
-          location: { start, end },
-          expression: getSnippet(path)
-        });
-      }
-
-      if (t.isMemberExpression(path)) {
-        const { start, end } = path.node.property.loc;
-        memberExpressions.push({
-          name: path.node.property.name,
-          location: { start, end },
-          expressionLocation: path.node.loc,
-          expression: getSnippet(path),
-          computed: path.node.computed
-        });
-      }
-
-      if (t.isCallExpression(path)) {
-        const callee = path.node.callee;
-        const args = path.node.arguments;
-        if (!t.isMemberExpression(callee)) {
-          const { start, end, identifierName } = callee.loc;
-          callExpressions.push({
-            name: identifierName,
-            values: args.filter(arg => arg.value).map(arg => arg.value),
-            location: { start, end }
-          });
-        }
-      }
-
-      if (t.isIdentifier(path)) {
-        let { start, end } = path.node.loc;
-
-        if (path.node.typeAnnotation) {
-          const column = path.node.typeAnnotation.loc.start.column;
-          end = { ...end, column };
-        }
-
-        identifiers.push({
-          name: path.node.name,
-          expression: path.node.name,
-          location: { start, end }
-        });
-      }
-
-      if (t.isThisExpression(path.node)) {
-        const { start, end } = path.node.loc;
-        identifiers.push({
-          name: "this",
-          location: { start, end },
-          expressionLocation: path.node.loc,
-          expression: "this"
-        });
-      }
-
-      if (t.isVariableDeclarator(path)) {
-        const node = path.node.id;
-        const { start, end } = path.node.loc;
-
-        identifiers.push({
-          name: node.name,
-          expression: node.name,
-          location: { start, end }
-        });
+      try {
+        extractSymbol(path, symbols);
+      } catch (e) {
+        console.error(e);
       }
     }
   });
 
   // comments are extracted separately from the AST
-  const comments = getComments(ast);
+  symbols.comments = getComments(ast);
 
-  return {
-    functions,
-    variables,
-    callExpressions,
-    memberExpressions,
-    objectProperties,
-    comments,
-    identifiers,
-    classes,
-    imports,
-    hasJsx
-  };
+  return symbols;
 }
 
 export default function getSymbols(source: Source): SymbolDeclarations {
@@ -248,6 +248,7 @@ export default function getSymbols(source: Source): SymbolDeclarations {
   }
 
   const symbols = extractSymbols(source);
+
   symbolDeclarations.set(source.id, symbols);
   return symbols;
 }
