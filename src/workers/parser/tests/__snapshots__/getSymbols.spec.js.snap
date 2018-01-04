@@ -371,6 +371,7 @@ variables:
 [(12, 17), (12, 27)]   foooo
 [(14, 6), (14, 16)]   foo
 [(14, 23), (14, 31)]   z
+[(16, 7), (16, 15)]   prefName
 
 callExpressions:
 [(1, 21), (1, 28)]   compute
@@ -379,6 +380,7 @@ callExpressions:
 memberExpressions:
 [(7, 35), (7, 42)] [(7, 31), (7, 42)] arr.entries entries
 [(8, 10), (8, 13)] [(8, 2), (8, 13)] console.log log
+[(16, 34), (16, 46)] [(16, 19), (16, 47)] prefsBlueprint.accessorName accessorName
 
 objectProperties:
 [(1, 8), (1, 9)]  b b
@@ -410,14 +412,11 @@ identifiers:
 [(2, 18), (2, 22)]  last last
 [(2, 24), (2, 25)]  l l
 [(2, 30), (2, 33)]  obj obj
-[(4, 6), (4, 35)]
 [(4, 7), (4, 8)]  a a
 [(4, 13), (4, 17)]  rest rest
 [(4, 21), (4, 28)]  compute compute
 [(4, 29), (4, 34)]  stuff stuff
-[(5, 6), (5, 17)]
 [(5, 7), (5, 8)]  x x
-[(7, 11), (7, 27)]
 [(7, 12), (7, 17)]  index index
 [(7, 19), (7, 26)]  element element
 [(7, 31), (7, 34)]  arr arr
@@ -441,6 +440,9 @@ identifiers:
 [(14, 7), (14, 10)]  key key
 [(14, 13), (14, 16)]  foo foo
 [(14, 23), (14, 24)]  z z
+[(16, 7), (16, 15)]  prefName prefName
+[(16, 19), (16, 33)]  prefsBlueprint prefsBlueprint
+[(16, 34), (16, 46)]  accessorName accessorName
 
 classes:
 
