@@ -20,7 +20,6 @@ async function testReturnValue(dbg, val) {
   await stepIn(dbg);
   await stepIn(dbg);
 
-  toggleScopes(dbg);
   is(getLabel(dbg, 1), "return_something", "check for return_something");
 
   // We don't show "undefined" but we do show other falsy values.
@@ -62,6 +61,7 @@ async function testThrowValue(dbg, val) {
 
 add_task(async function() {
   const dbg = await initDebugger("doc-return-values.html");
+  toggleScopes(dbg);
   await togglePauseOnExceptions(dbg, true, false);
 
   await testReturnValue(dbg, "to sender");

@@ -26,8 +26,6 @@ add_task(async function() {
   invokeInTab("firstCall");
   await waitForPaused(dbg);
 
-  toggleCallStack(dbg);
-
   ok(isFrameSelected(dbg, 1, "secondCall"), "the first frame is selected");
 
   let button = toggleButton(dbg);
@@ -37,12 +35,10 @@ add_task(async function() {
 add_task(async function() {
   const dbg = await initDebugger("doc-frames.html");
 
+  toggleCallStack(dbg);
+
   invokeInTab("startRecursion");
   await waitForPaused(dbg);
-
-  debugger;
-
-  toggleCallStack(dbg);
 
   ok(isFrameSelected(dbg, 1, "recurseA"), "the first frame is selected");
 

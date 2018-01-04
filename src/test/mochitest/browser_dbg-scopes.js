@@ -12,11 +12,11 @@ function getLabel(dbg, index) {
 add_task(async function() {
   const dbg = await initDebugger("doc-script-switching.html");
 
+  toggleScopes(dbg);
+
   invokeInTab("firstCall");
   await waitForPaused(dbg);
   await waitForLoadedSource(dbg, "switching-02");
-
-  toggleScopes(dbg);
 
   is(getLabel(dbg, 1), "secondCall");
   is(getLabel(dbg, 2), "<this>");
