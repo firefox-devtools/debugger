@@ -36,53 +36,38 @@ class Accordion extends Component<Props, State> {
     };
   }
 
-  componentWillReceiveProps(nextProps: Props) {
-    const newOpened = this.state.opened.map((isOpen, i) => {
-      const shouldOpen = nextProps.items[i]
-        ? nextProps.items[i].shouldOpen
-        : false;
-
-      return isOpen || (shouldOpen && shouldOpen());
-    });
-
-    this.setState({ opened: newOpened });
-  }
+  componentWillReceiveProps(nextProps: Props) {}
 
   handleHeaderClick(i: number) {
-    const opened = [...this.state.opened];
-    const created = [...this.state.created];
     const item = this.props.items[i];
-
-    opened[i] = !opened[i];
-    created[i] = true;
-
-    if (opened[i] && item.onOpened) {
-      item.onOpened();
-    }
+    const opened = !item.opened;
+    item.opened = opened;
 
     if (item.onToggle) {
-      item.onToggle(opened[i]);
+      item.onToggle(opened);
     }
 
-    this.setState({ opened, created });
+    // We force an update because otherwise the accordion
+    // would not re-render
+    this.forceUpdate();
   }
 
   renderContainer = (item: AccordionItem, i: number) => {
-    const { opened, created } = this.state;
+    const { opened } = item;
 
     return (
       <div className={item.className} key={i}>
         <div className="_header" onClick={() => this.handleHeaderClick(i)}>
-          <Svg name="arrow" className={opened[i] ? "expanded" : ""} />
+          <Svg name="arrow" className={opened ? "expanded" : ""} />
           {item.header}
           {item.buttons ? (
             <div className="header-buttons">{item.buttons}</div>
           ) : null}
         </div>
-        {created[i] || opened[i] ? (
+        {opened ? (
           <div
             className="_content"
-            style={{ display: opened[i] ? "block" : "none" }}
+            style={{ display: opened ? "block" : "none" }}
           >
             {createElement(item.component, item.componentProps || {})}
           </div>
