@@ -20613,7 +20613,15 @@
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/scopes/synthesizeScopes.js": 1793,
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/scopes/getScope.js": 1794,
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/source-queue.js": 1795,
-      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/Editor/HighlightLine.js": 1796
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/Editor/HighlightLine.js": 1796,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/sources/index.js": 1797,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/sources/prettyPrint.js": 1798,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/sources/tabs.js": 1799,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/defer.js": 1800,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/sources/newSources.js": 1801,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/sources/blackbox.js": 1802,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/sources/select.js": 1803,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/pause/mapFrames.js": 1804
     },
     "usedIds": {
       "0": 0,
@@ -22412,7 +22420,15 @@
       "1793": 1793,
       "1794": 1794,
       "1795": 1795,
-      "1796": 1796
+      "1796": 1796,
+      "1797": 1797,
+      "1798": 1798,
+      "1799": 1799,
+      "1800": 1800,
+      "1801": 1801,
+      "1802": 1802,
+      "1803": 1803,
+      "1804": 1804
     }
   },
   "chunks": {
