@@ -24,6 +24,8 @@ html[dir="rtl"] .dropdown {
   padding: 0px 2px;
   position: relative;
   align-self: center;
+  height:100%;
+  display:block;
 }
 
 .dropdown-button {
@@ -33,6 +35,8 @@ html[dir="rtl"] .dropdown {
   padding: 0;
   font-weight: 100;
   font-size: 14px;
+  height:100%;
+  width:24px;
 }
 
 .dropdown li {
@@ -59,12 +63,14 @@ html[dir="rtl"] .dropdown {
   mask: url(/images/prettyPrint.svg) no-repeat;
   mask-size: 100%;
   background: var(--theme-highlight-blue);
+  display:inline-block;
 }
 
 .dropdown-icon.blackBox {
   mask: url(/images/blackBox.svg) no-repeat;
   mask-size: 100%;
   background: var(--theme-highlight-blue);
+  display:inline-block;
 }
 
 .dropdown-icon.file {
