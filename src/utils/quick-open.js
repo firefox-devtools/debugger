@@ -14,20 +14,22 @@ import type {
   SymbolDeclarations
 } from "../workers/parser/types";
 
+const MODIFIERS = {
+  "@": "functions",
+  "#": "variables",
+  ":": "goto",
+  "?": "shortcuts"
+};
+
 export function parseQuickOpenQuery(query: string): QuickOpenType {
-  const modifierPattern = /^@|#|\:$/;
+  const modifierPattern = /^@|#|:|\?$/;
   const gotoSourcePattern = /^(\w+)\:/;
   const startsWithModifier = modifierPattern.test(query[0]);
   const isGotoSource = gotoSourcePattern.test(query);
 
   if (startsWithModifier) {
-    const modifiers = {
-      "@": "functions",
-      "#": "variables",
-      ":": "goto"
-    };
     const modifier = query[0];
-    return modifiers[modifier];
+    return MODIFIERS[modifier];
   }
 
   if (isGotoSource) {
@@ -49,29 +51,20 @@ export function parseLineColumn(query: string) {
   }
 }
 
-export type FormattedSymbolDeclaration = {|
+export type QuickOpenResult = {|
   id: string,
-  title: string,
-  subtitle: string,
   value: string,
-  location: BabelLocation
+  title: string,
+  subtitle?: string,
+  location?: BabelLocation
 |};
 
 export type FormattedSymbolDeclarations = {|
-  variables: Array<FormattedSymbolDeclaration>,
-  functions: Array<FormattedSymbolDeclaration>
+  variables: Array<QuickOpenResult>,
+  functions: Array<QuickOpenResult>
 |};
 
-export type FormattedSource = {|
-  value: string,
-  title: string,
-  subtitle: string,
-  id: string
-|};
-
-export function formatSymbol(
-  symbol: SymbolDeclaration
-): FormattedSymbolDeclaration {
+export function formatSymbol(symbol: SymbolDeclaration): QuickOpenResult {
   return {
     id: `${symbol.name}:${symbol.location.start.line}`,
     title: symbol.name,
@@ -96,7 +89,27 @@ export function formatSymbols(
   };
 }
 
-export function formatSources(sources: SourcesMap): Array<FormattedSource> {
+export function formatShortcutResults(): Array<QuickOpenResult> {
+  return [
+    {
+      value: L10N.getStr("symbolSearch.search.functionsPlaceholder.title"),
+      title: `@ ${L10N.getStr("symbolSearch.search.functionsPlaceholder")}`,
+      id: "@"
+    },
+    {
+      value: L10N.getStr("symbolSearch.search.variablesPlaceholder.title"),
+      title: `# ${L10N.getStr("symbolSearch.search.variablesPlaceholder")}`,
+      id: "#"
+    },
+    {
+      value: L10N.getStr("gotoLineModal.title"),
+      title: `: ${L10N.getStr("gotoLineModal.placeholder")}`,
+      id: ":"
+    }
+  ];
+}
+
+export function formatSources(sources: SourcesMap): Array<QuickOpenResult> {
   return sources
     .valueSeq()
     .filter(source => !isPretty(source) && !isThirdParty(source))

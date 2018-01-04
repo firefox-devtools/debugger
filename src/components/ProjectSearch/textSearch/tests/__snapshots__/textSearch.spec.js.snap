@@ -19,25 +19,3 @@ exports[`project search - highlightMatches simple 1`] = `
   />
 </span>
 `;
-
-exports[`project search - highlightMatches simple 2`] = `
-<span
-  className="line-value"
->
-  <span
-    className="line-match"
-  >
-    lets 
-  </span>
-  <span
-    className="query-match"
-  >
-    foo
-  </span>
-  <span
-    className="line-match"
-  >
-     and then baa
-  </span>
-</span>
-`;

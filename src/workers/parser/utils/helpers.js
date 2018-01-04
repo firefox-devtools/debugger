@@ -69,7 +69,15 @@ export function getMemberExpression(root: Node) {
 }
 
 export function getVariables(dec: Node) {
-  if (dec.id.type === "ArrayPattern") {
+  if (!dec.id) {
+    return [];
+  }
+
+  if (t.isArrayPattern(dec.id)) {
+    if (!dec.id.elements) {
+      return [];
+    }
+
     return dec.id.elements.map(element => {
       return {
         name: element.name || element.argument.name,

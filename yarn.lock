@@ -3478,6 +3478,10 @@ eslint-plugin-flowtype@^2.36.0:
   dependencies:
     lodash "^4.15.0"
 
+eslint-plugin-jest@^21.5.0:
+  version "21.5.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-jest/-/eslint-plugin-jest-21.5.0.tgz#c7a3bd2ee9d1c832b4e31dec89f6ad93e08d4853"
+
 eslint-plugin-mozilla@^0.4.4:
   version "0.4.6"
   resolved "https://registry.yarnpkg.com/eslint-plugin-mozilla/-/eslint-plugin-mozilla-0.4.6.tgz#edf6bc99ac25f4b623cd48cb5bc5d991457ea5a7"

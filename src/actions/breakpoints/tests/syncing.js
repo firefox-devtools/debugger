@@ -124,7 +124,7 @@ describe("loading the debugger", () => {
       pendingBreakpoint()
     );
 
-    expect(threadClient.removeBreakpoint.mock.calls.length).toBe(0);
+    expect(threadClient.removeBreakpoint.mock.calls).toHaveLength(0);
     expect(update).toMatchSnapshot();
   });
 
@@ -155,7 +155,7 @@ describe("loading the debugger", () => {
       pendingBreakpoint()
     );
 
-    expect(threadClient.removeBreakpoint.mock.calls.length).toBe(0);
+    expect(threadClient.removeBreakpoint.mock.calls).toHaveLength(0);
     expect(update.breakpoint.location.line).toBe(location.line + generated);
     expect(update).toMatchSnapshot();
   });
@@ -192,7 +192,7 @@ describe("reloading debuggee", () => {
       reloadedSource.id,
       pendingBreakpoint({ location: loc1 })
     );
-    expect(threadClient.removeBreakpoint.mock.calls.length).toBe(0);
+    expect(threadClient.removeBreakpoint.mock.calls).toHaveLength(0);
     expect(update).toMatchSnapshot();
   });
 
@@ -230,7 +230,7 @@ describe("reloading debuggee", () => {
       reloadedSource.id,
       pendingBreakpoint()
     );
-    expect(threadClient.removeBreakpoint.mock.calls.length).toBe(1);
+    expect(threadClient.removeBreakpoint.mock.calls).toHaveLength(1);
     expect(findScopeByName).toHaveBeenCalled();
     expect(update).toMatchSnapshot();
   });

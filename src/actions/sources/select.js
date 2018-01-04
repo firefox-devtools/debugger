@@ -9,32 +9,30 @@
  * @module actions/sources
  */
 
-import { setOutOfScopeLocations } from "./ast";
-import { searchSource } from "./project-text-search";
-import { closeActiveSearch } from "./ui";
-
-import { createLocation } from "../utils/location";
-import { togglePrettyPrint } from "./sources/prettyPrint";
-import { addTab, closeTab } from "./sources/tabs";
-import { loadSourceText } from "./sources/loadSourceText";
-
-import { prefs } from "../utils/prefs";
-import { isThirdParty, shouldPrettyPrint, isMinified } from "../utils/source";
-import { getGeneratedLocation } from "../utils/source-maps";
 import { isOriginalId } from "devtools-source-map";
+
+import { setOutOfScopeLocations } from "../ast";
+import { closeActiveSearch } from "../ui";
+
+import { togglePrettyPrint } from "./prettyPrint";
+import { addTab, closeTab } from "./tabs";
+import { loadSourceText } from "./loadSourceText";
+
+import { prefs } from "../../utils/prefs";
+import { shouldPrettyPrint, isMinified } from "../../utils/source";
+import { createLocation } from "../../utils/location";
+import { getGeneratedLocation } from "../../utils/source-maps";
 
 import {
   getSource,
-  getSources,
   getSourceByURL,
   getSelectedSource,
   getPrettySource,
-  getTextSearchQuery,
   getActiveSearch
-} from "../selectors";
+} from "../../selectors";
 
-import type { Location } from "../types";
-import type { ThunkArgs } from "./types";
+import type { Location } from "../../types";
+import type { ThunkArgs } from "../types";
 
 declare type SelectSourceOptions = {
   tabIndex?: number,
@@ -162,29 +160,5 @@ export function jumpToMappedLocation(sourceLocation: any) {
     }
 
     return dispatch(selectLocation({ ...pairedLocation }));
-  };
-}
-
-/**
-  Load the text for all the available sources
- * @memberof actions/sources
- * @static
- */
-export function loadAllSources() {
-  return async ({ dispatch, getState }: ThunkArgs) => {
-    const sources = getSources(getState());
-    const query = getTextSearchQuery(getState());
-    for (const [, source] of sources) {
-      if (isThirdParty(source)) {
-        continue;
-      }
-
-      await dispatch(loadSourceText(source));
-      // If there is a current search query we search
-      // each of the source texts as they get loaded
-      if (query) {
-        await dispatch(searchSource(source.get("id"), query));
-      }
-    }
   };
 }
