@@ -2,24 +2,38 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
+.expression-input-form {
+  width: 100%;
+}
+
 .input-expression {
   width: 100%;
-  margin: 0px;
+  margin: 0;
   border: 1px;
   background-color: var(--theme-sidebar-background);
   font-size: 12px;
-  padding: 0px 20px;
+  padding: 0.5em 2.16em;
   color: var(--theme-body-color);
 }
 
-.input-expression-error {
-  width: 100%;
-  margin: 0px;
-  border: 1px;
-  background-color: var(--theme-sidebar-background);
-  font-size: 12px;
-  padding: 0px 20px;
-  color: red;
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20%,
+  60% {
+    transform: translateX(-10px);
+  }
+  40%,
+  80% {
+    transform: translateX(10px);
+  }
+}
+
+.input-expression.error {
+  border: 1px solid red;
+  animation: 150ms cubic-bezier(0.07, 0.95, 0, 1) shake;
 }
 
 .input-expression::placeholder {
@@ -40,7 +54,6 @@
   padding: 0;
 }
 .expression-input-container {
-  padding: 0.5em;
   display: flex;
 }
 

@@ -253,6 +253,7 @@ type PauseAction =
       input: string,
       value: string
     }
+  | { type: "EXPRESSION_ERROR", value: boolean }
   | {
       type: "EVALUATE_EXPRESSION",
       input: string,

@@ -7,6 +7,7 @@
 import {
   getExpression,
   getExpressions,
+  getExpressionError,
   getSelectedFrame,
   getSelectedFrameId,
   getSource
@@ -28,13 +29,19 @@ import type { ThunkArgs } from "./types";
  */
 export function addExpression(input: string) {
   return async ({ dispatch, getState }: ThunkArgs) => {
-    if (!input) {
+    // clear previous error.
+    const prevErr = getExpressionError(getState());
+    const error = await parser.hasSyntaxError(input);
+    if (prevErr && !error) {
+      dispatch(setExpressionError(false));
+    }
+
+    if (!input && !prevErr) {
       return;
     }
 
-    const error = await parser.hasSyntaxError(input);
     if (error) {
-      return;
+      return dispatch(setExpressionError());
     }
 
     const expression = getExpression(getState(), input);
@@ -52,16 +59,24 @@ export function addExpression(input: string) {
   };
 }
 
+export function setExpressionError(value: boolean = true) {
+  return { type: "EXPRESSION_ERROR", value };
+}
+
 export function updateExpression(input: string, expression: Expression) {
-  return ({ dispatch, getState }: ThunkArgs) => {
+  return async ({ dispatch, getState }: ThunkArgs) => {
+    const error = await parser.hasSyntaxError(input);
     if (!input || input == expression.input) {
       return;
+    }
+    if (error) {
+      return dispatch(setExpressionError());
     }
 
     dispatch({
       type: "UPDATE_EXPRESSION",
       expression,
-      input: input
+      input
     });
 
     dispatch(evaluateExpressions());

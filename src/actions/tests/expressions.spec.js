@@ -37,7 +37,7 @@ describe("expressions", () => {
 
     await dispatch(actions.addExpression("foo"));
     const expression = selectors.getExpression(getState(), "foo");
-    dispatch(actions.updateExpression("bar", expression));
+    await dispatch(actions.updateExpression("bar", expression));
 
     expect(selectors.getExpression(getState(), "bar").input).toBe("bar");
   });

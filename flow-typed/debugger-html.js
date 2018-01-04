@@ -210,7 +210,8 @@ declare module "debugger-html" {
   declare type Expression = {
     input: string,
     value: Object,
-    from: string
+    from: string,
+    updating: boolean
   };
 
   /**

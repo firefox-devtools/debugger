@@ -5,47 +5,60 @@
 // @flow
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import actions from "../../actions";
-import { getExpressions, getLoadedObjects } from "../../selectors";
-import { getValue } from "../../utils/expressions";
-import { hasSyntaxError } from "../../workers/parser";
-import CloseButton from "../shared/Button/Close";
+import classnames from "classnames";
 import { ObjectInspector } from "devtools-reps";
+
+import {
+  addExpression as _addExpression,
+  setExpressionError as _setExpressionError,
+  evaluateExpressions as _evaluateExpressions,
+  updateExpression as _updateExpression,
+  deleteExpression as _deleteExpression
+} from "../../actions/expressions";
+import { loadObjectProperties as loadObjectProps } from "../../actions/pause";
+import { openLink as _openLink } from "../../actions/toolbox";
+import {
+  getExpressions,
+  getExpressionError,
+  getLoadedObjects
+} from "../../selectors";
+import { getValue } from "../../utils/expressions";
+import CloseButton from "../shared/Button/Close";
+
+import type { List } from "immutable";
+import type { Expression } from "debugger-html";
 
 import "./Expressions.css";
 
-import type { List } from "immutable";
-import type { Expression } from "../../types";
-
 type State = {
-  editing: null | Node,
-  error: null
+  editing: boolean,
+  editIndex: number,
+  inputValue: string
 };
 
 type Props = {
   expressions: List<Expression>,
-  addExpression: (string, ?Object) => void,
-  evaluateExpressions: () => void,
-  updateExpression: (string, Expression) => void,
-  deleteExpression: Expression => void,
-  loadObjectProperties: () => void,
+  expressionError: boolean,
   loadedObjects: Map<string, any>,
+  addExpression: (input: string) => void,
+  setExpressionError: (value: boolean) => void,
+  evaluateExpressions: () => void,
+  updateExpression: (input: string, expression: Expression) => void,
+  deleteExpression: (expression: Expression) => void,
+  loadObjectProperties: () => void,
   openLink: (url: string) => void
 };
 
 class Expressions extends PureComponent<Props, State> {
-  _input: null | any;
-  renderExpression: Function;
+  _input: ?HTMLInputElement;
+  renderExpression: (
+    expression: Expression,
+    index: number
+  ) => React$Element<"li">;
 
-  constructor(...args) {
-    super(...args);
-
-    this.state = {
-      editing: null,
-      error: null
-    };
-
+  constructor(props: Props) {
+    super(props);
+    this.state = { editing: false, editIndex: -1, inputValue: "" };
     this.renderExpression = this.renderExpression.bind(this);
   }
 
@@ -56,78 +69,100 @@ class Expressions extends PureComponent<Props, State> {
     }
   }
 
+  clear = () => {
+    this.setState(() => {
+      this.props.setExpressionError(false);
+      return { editing: false, editIndex: -1, inputValue: "" };
+    });
+  };
+
+  componentWillReceiveProps(nextProps) {
+    if (this.state.editing && !nextProps.expressionError) {
+      this.clear();
+    }
+  }
+
   shouldComponentUpdate(nextProps, nextState) {
-    const { editing } = this.state;
-    const { expressions, loadedObjects } = this.props;
+    const { editing, inputValue } = this.state;
+    const { expressions, expressionError, loadedObjects } = this.props;
     return (
       expressions !== nextProps.expressions ||
+      expressionError !== nextProps.expressionError ||
       loadedObjects !== nextProps.loadedObjects ||
-      editing !== nextState.editing
+      editing !== nextState.editing ||
+      inputValue !== nextState.inputValue
     );
   }
 
-  editExpression(expression, { depth }) {
+  componentDidUpdate() {
+    if (this._input) {
+      const input = this._input;
+      input.setSelectionRange(input.value.length + 1, input.value.length + 1);
+      input.focus();
+    }
+  }
+
+  editExpression(
+    expression: Expression,
+    index: number,
+    { depth }: { depth: number }
+  ) {
     if (depth > 0) {
       return;
     }
-    this.setState({ editing: expression.input });
+    this.setState({
+      inputValue: expression.input,
+      editing: true,
+      editIndex: index
+    });
   }
 
-  deleteExpression(e, expression) {
+  deleteExpression(
+    e: SyntheticMouseEvent<HTMLDivElement>,
+    expression: Expression
+  ) {
     e.stopPropagation();
     const { deleteExpression } = this.props;
     deleteExpression(expression);
   }
 
-  async inputKeyPress(e, expression) {
-    const target = e.target;
-    target.className = "input-expression";
+  handleChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
+    this.setState({ inputValue: e.target.value });
+  };
 
-    if (e.key !== "Enter") {
-      return;
+  handleKeyDown = (e: SyntheticKeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Escape") {
+      this.clear();
     }
+  };
 
-    const value = target.value;
+  handleExistingSubmit = async (
+    e: SyntheticEvent<HTMLFormElement>,
+    expression: Expression
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+    this.props.updateExpression(this.state.inputValue, expression);
+  };
 
-    if (value == "") {
-      return;
-    }
+  handleNewSubmit = async (e: SyntheticEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    this.props.addExpression(this.state.inputValue);
+    this.setState({ editing: false, editIndex: -1, inputValue: "" });
+  };
 
-    const syntaxError = await hasSyntaxError(value);
-    this.setState({ error: syntaxError });
-
-    if (syntaxError) {
-      target.className = "input-expression-error";
-      return;
-    }
-
-    this.setState({ editing: null });
-    target.value = "";
-
-    this.props.updateExpression(value, expression);
-  }
-
-  renderExpressionEditInput(expression) {
-    return (
-      <span className="expression-input-container" key={expression.input}>
-        <input
-          className="input-expression"
-          type="text"
-          onKeyPress={e => this.inputKeyPress(e, expression)}
-          onBlur={() => this.setState({ editing: null })}
-          defaultValue={expression.input}
-          ref={c => (this._input = c)}
-        />
-      </span>
-    );
-  }
-
-  renderExpression(expression) {
-    const { loadObjectProperties, loadedObjects, openLink } = this.props;
-    const { editing } = this.state;
+  renderExpression(expression: Expression, index: number) {
+    const {
+      expressionError,
+      loadObjectProperties,
+      loadedObjects,
+      openLink
+    } = this.props;
+    const { editing, editIndex } = this.state;
     const { input, updating } = expression;
-
-    if (editing == input) {
+    const isEditingExpr = editing && editIndex === index;
+    if (isEditingExpr || (isEditingExpr && expressionError)) {
       return this.renderExpressionEditInput(expression);
     }
 
@@ -152,7 +187,7 @@ class Expressions extends PureComponent<Props, State> {
             disableWrap={true}
             disabledFocus={true}
             onDoubleClick={(items, options) =>
-              this.editExpression(expression, options)
+              this.editExpression(expression, index, options)
             }
             openLink={openLink}
             getObjectProperties={id => loadedObjects[id]}
@@ -171,50 +206,55 @@ class Expressions extends PureComponent<Props, State> {
     );
   }
 
-  componentDidUpdate() {
-    if (this._input) {
-      this._input.focus();
-    }
-  }
-
   renderNewExpressionInput() {
-    const onKeyPress = async e => {
-      e.stopPropagation();
-
-      const target = e.target;
-      target.className = "input-expression";
-
-      if (e.key !== "Enter") {
-        return;
-      }
-
-      const value = target.value;
-      if (value == "") {
-        return;
-      }
-
-      const syntaxError = await hasSyntaxError(value);
-      this.setState({ error: syntaxError });
-
-      if (syntaxError) {
-        target.className = "input-expression-error";
-        return;
-      }
-
-      target.value = "";
-      this.props.addExpression(value);
-    };
-
+    const { expressionError } = this.props;
+    const { editing, inputValue } = this.state;
+    const error = editing === false && expressionError === true;
+    const placeholder: string = error
+      ? L10N.getStr("expressions.errorMsg")
+      : L10N.getStr("expressions.placeholder");
     return (
       <li className="expression-input-container">
-        <input
-          className="input-expression"
-          type="text"
-          placeholder={L10N.getStr("expressions.placeholder")}
-          onBlur={e => (e.target.value = "")}
-          onKeyPress={onKeyPress}
-        />
+        <form className="expression-input-form" onSubmit={this.handleNewSubmit}>
+          <input
+            className={classnames("input-expression", { error })}
+            type="text"
+            placeholder={placeholder}
+            onChange={this.handleChange}
+            onBlur={this.clear}
+            onKeyDown={this.handleKeyDown}
+            value={!editing ? inputValue : ""}
+          />
+          <input type="submit" style={{ display: "none" }} />
+        </form>
       </li>
+    );
+  }
+
+  renderExpressionEditInput(expression: Expression) {
+    const { expressionError } = this.props;
+    const { inputValue, editing } = this.state;
+    const error = editing === true && expressionError === true;
+    return (
+      <span className="expression-input-container" key={expression.input}>
+        <form
+          className="expression-input-form"
+          onSubmit={(e: SyntheticEvent<HTMLFormElement>) =>
+            this.handleExistingSubmit(e, expression)
+          }
+        >
+          <input
+            className={classnames("input-expression", { error })}
+            type="text"
+            onChange={this.handleChange}
+            onBlur={this.clear}
+            onKeyDown={this.handleKeyDown}
+            value={editing ? inputValue : expression.input}
+            ref={c => (this._input = c)}
+          />
+          <input type="submit" style={{ display: "none" }} />
+        </form>
+      </span>
     );
   }
 
@@ -232,7 +272,16 @@ class Expressions extends PureComponent<Props, State> {
 export default connect(
   state => ({
     expressions: getExpressions(state),
+    expressionError: getExpressionError(state),
     loadedObjects: getLoadedObjects(state)
   }),
-  dispatch => bindActionCreators(actions, dispatch)
+  {
+    addExpression: _addExpression,
+    setExpressionError: _setExpressionError,
+    evaluateExpressions: _evaluateExpressions,
+    updateExpression: _updateExpression,
+    deleteExpression: _deleteExpression,
+    loadObjectProperties: loadObjectProps,
+    openLink: _openLink
+  }
 )(Expressions);

@@ -20,12 +20,14 @@ import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 type ExpressionState = {
-  expressions: List<Expression>
+  expressions: List<Expression>,
+  expressionError: boolean
 };
 
 export const State = makeRecord(
   ({
-    expressions: List(restoreExpressions())
+    expressions: List(restoreExpressions()),
+    expressionError: false
   }: ExpressionState)
 );
 
@@ -40,6 +42,11 @@ function update(
         value: null,
         updating: true
       });
+    case "EXPRESSION_ERROR":
+      if (state.get("expressionError") === action.value) {
+        return state;
+      }
+      return state.set("expressionError", action.value);
     case "UPDATE_EXPRESSION":
       const key = action.expression.input;
       return updateItemInList(state, ["expressions"], key, {
@@ -121,5 +128,10 @@ export const getExpressions = createSelector(
 export function getExpression(state: OuterState, input: string) {
   return getExpressions(state).find(exp => exp.input == input);
 }
+
+export const getExpressionError = createSelector(
+  getExpressionsWrapper,
+  expressions => expressions.get("expressionError")
+);
 
 export default update;
