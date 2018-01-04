@@ -26,7 +26,6 @@ add_task(async function() {
   invokeInTab("test");
   await waitForPaused(dbg);
   await waitForMappedScopes(dbg);
-  toggleScopes(dbg);
 
   is(getScopeNodeLabel(dbg, 1), "sum", "check scope label");
   is(getScopeNodeLabel(dbg, 2), "<this>", "check scope label");
