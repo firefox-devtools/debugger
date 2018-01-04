@@ -145,8 +145,7 @@ class SecondaryPanes extends Component<Props> {
       opened: prefs.scopesVisible,
       onToggle: opened => {
         prefs.scopesVisible = opened;
-      },
-      shouldOpen: () => this.props.isPaused
+      }
     };
   }
 
@@ -156,6 +155,28 @@ class SecondaryPanes extends Component<Props> {
       className: "watch-expressions-pane",
       buttons: this.watchExpressionHeaderButtons(),
       component: Expressions,
+      opened: true
+    };
+  }
+
+  getCallStackItem() {
+    return {
+      header: L10N.getStr("callStack.header"),
+      className: "call-stack-pane",
+      component: Frames,
+      opened: prefs.callStackVisible,
+      onToggle: opened => {
+        prefs.callStackVisible = opened;
+      }
+    };
+  }
+
+  getBreakpointsItem() {
+    return {
+      header: L10N.getStr("breakpoints.header"),
+      className: "breakpoints-pane",
+      buttons: [this.breakpointDropdown(), this.renderBreakpointsToggle()],
+      component: Breakpoints,
       opened: true
     };
   }
@@ -183,28 +204,15 @@ class SecondaryPanes extends Component<Props> {
   }
 
   getStartItems() {
-    const scopesContent: any = this.props.horizontal
-      ? this.getScopeItem()
-      : null;
-    const items: Array<SecondaryPanesItems> = [
-      {
-        header: L10N.getStr("breakpoints.header"),
-        className: "breakpoints-pane",
-        buttons: [this.breakpointDropdown(), this.renderBreakpointsToggle()],
-        component: Breakpoints,
-        opened: true
-      },
-      {
-        header: L10N.getStr("callStack.header"),
-        className: "call-stack-pane",
-        component: Frames,
-        opened: prefs.callStackVisible,
-        onToggle: opened => {
-          prefs.callStackVisible = opened;
-        }
-      },
-      scopesContent
-    ];
+    const items: Array<SecondaryPanesItems> = [];
+    items.push(this.getBreakpointsItem());
+
+    if (this.props.isPaused) {
+      if (this.props.horizontal) {
+        items.push(this.getScopeItem());
+      }
+      items.push(this.getCallStackItem());
+    }
 
     if (isEnabled("eventListeners")) {
       items.push({
@@ -236,7 +244,7 @@ class SecondaryPanes extends Component<Props> {
   getEndItems() {
     const items: Array<SecondaryPanesItems> = [];
 
-    if (!this.props.horizontal) {
+    if (!this.props.horizontal && this.props.isPaused) {
       items.unshift(this.getScopeItem());
     }
 
