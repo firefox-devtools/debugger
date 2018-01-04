@@ -18,7 +18,8 @@ import {
   getBreakpointsLoading,
   getIsWaitingOnBreak,
   getShouldPauseOnExceptions,
-  getShouldIgnoreCaughtExceptions
+  getShouldIgnoreCaughtExceptions,
+  getWorkers
 } from "../../selectors";
 
 import { isEnabled } from "devtools-config";
@@ -155,7 +156,10 @@ class SecondaryPanes extends Component<Props> {
       className: "watch-expressions-pane",
       buttons: this.watchExpressionHeaderButtons(),
       component: Expressions,
-      opened: true
+      opened: prefs.expressionsVisible,
+      onToggle: opened => {
+        prefs.expressionsVisible = opened;
+      }
     };
   }
 
@@ -171,13 +175,28 @@ class SecondaryPanes extends Component<Props> {
     };
   }
 
+  getWorkersItem() {
+    return {
+      header: L10N.getStr("workersHeader"),
+      className: "workers-pane",
+      component: Workers,
+      opened: prefs.workersVisible,
+      onToggle: opened => {
+        prefs.workersVisible = opened;
+      }
+    };
+  }
+
   getBreakpointsItem() {
     return {
       header: L10N.getStr("breakpoints.header"),
       className: "breakpoints-pane",
       buttons: [this.breakpointDropdown(), this.renderBreakpointsToggle()],
       component: Breakpoints,
-      opened: true
+      opened: prefs.breakpointsVisible,
+      onToggle: opened => {
+        prefs.breakpointsVisible = opened;
+      }
     };
   }
 
@@ -204,7 +223,17 @@ class SecondaryPanes extends Component<Props> {
   }
 
   getStartItems() {
+    const { workers } = this.props;
+
     const items: Array<SecondaryPanesItems> = [];
+    if (this.props.horizontal) {
+      items.push(this.getWatchItem());
+    }
+
+    if (features.workers && workers.size > 0) {
+      items.push(this.getWorkersItem());
+    }
+
     items.push(this.getBreakpointsItem());
 
     if (this.props.isPaused) {
@@ -220,18 +249,6 @@ class SecondaryPanes extends Component<Props> {
         className: "event-listeners-pane",
         component: EventListeners
       });
-    }
-
-    if (features.workers) {
-      items.push({
-        header: L10N.getStr("workersHeader"),
-        className: "workers-pane",
-        component: Workers
-      });
-    }
-
-    if (this.props.horizontal) {
-      items.unshift(this.getWatchItem());
     }
 
     return items.filter(item => item);
@@ -312,7 +329,8 @@ export default connect(
     breakpointsLoading: getBreakpointsLoading(state),
     isWaitingOnBreak: getIsWaitingOnBreak(state),
     shouldPauseOnExceptions: getShouldPauseOnExceptions(state),
-    shouldIgnoreCaughtExceptions: getShouldIgnoreCaughtExceptions(state)
+    shouldIgnoreCaughtExceptions: getShouldIgnoreCaughtExceptions(state),
+    workers: getWorkers(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(SecondaryPanes);

@@ -275,6 +275,21 @@ async function fetchSources() {
   return sources.map(source => createSource(source, { supportsWasm }));
 }
 
+async function fetchWorkers() {
+  // NOTE: The Worker and Browser Content toolboxes do not have a parent
+  // with a listWorkers function
+  // TODO: there is a listWorkers property, but it is not a function on the
+  // parent. Investigate what it is
+  if (
+    !threadClient._parent ||
+    typeof threadClient._parent.listWorkers != "function"
+  ) {
+    return;
+  }
+
+  return threadClient._parent.listWorkers();
+}
+
 const clientCommands = {
   blackBox,
   interrupt,
@@ -299,7 +314,8 @@ const clientCommands = {
   pauseOnExceptions,
   prettyPrint,
   disablePrettyPrint,
-  fetchSources
+  fetchSources,
+  fetchWorkers
 };
 
 export { setupCommands, clientCommands };

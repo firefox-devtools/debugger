@@ -24,14 +24,13 @@ export function openLink(url: string) {
   };
 }
 
-export function openWorkerToolbox(url: string) {
+export function openWorkerToolbox(worker) {
   return async function({
     getState,
     openWorkerToolbox: openWorkerToolboxCommand
   }: ThunkArgs) {
-    const worker = getWorker(getState(), url);
     if (isDevelopment()) {
-      alert(url);
+      alert(worker.url);
     } else {
       openWorkerToolboxCommand(worker);
     }

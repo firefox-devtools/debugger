@@ -32,7 +32,7 @@ export default function debuggee(
 ): Record<DebuggeeState> {
   switch (action.type) {
     case "SET_WORKERS":
-      return state.set("workers", List(action.workers.workers));
+      return state.set("workers", List(action.workers));
     default:
       return state;
   }
