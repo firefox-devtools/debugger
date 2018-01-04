@@ -4,6 +4,8 @@
 
 // @flow
 
+import { isGeneratedId } from "devtools-source-map";
+
 import {
   getHiddenBreakpointLocation,
   isEvaluatingExpression,
@@ -53,15 +55,11 @@ export function paused(pauseInfo: Pause) {
     const selectedFrame = getSelectedFrame(getState());
     const visibleFrame = getVisibleSelectedFrame(getState());
 
-    if (
-      visibleFrame &&
-      visibleFrame.location.sourceId ===
-        selectedFrame.generatedLocation.sourceId
-    ) {
-      await dispatch(selectLocation(selectedFrame.generatedLocation));
-    } else {
-      await dispatch(selectLocation(selectedFrame.location));
-    }
+    const location = isGeneratedId(visibleFrame.location.sourceId)
+      ? selectedFrame.generatedLocation
+      : selectedFrame.location;
+
+    await dispatch(selectLocation(location));
 
     dispatch(togglePaneCollapse("end", false));
     dispatch(fetchScopes());
