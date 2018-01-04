@@ -86,7 +86,7 @@ export function isPretty(source: SourceRecord): boolean {
   return isPrettyURL(url);
 }
 
-function isPrettyURL(url: string): boolean {
+export function isPrettyURL(url: string): boolean {
   return url ? /formatted$/.test(url) : false;
 }
 
