@@ -200,6 +200,9 @@ function extractSymbol(path, symbols) {
   if (t.isVariableDeclarator(path)) {
     const node = path.node.id;
     const { start, end } = path.node.loc;
+    if (t.isArrayPattern(node)) {
+      return;
+    }
 
     symbols.identifiers.push({
       name: node.name,
