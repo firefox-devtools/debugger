@@ -7,7 +7,8 @@
 import {
   getHiddenBreakpointLocation,
   isEvaluatingExpression,
-  getSelectedFrame
+  getSelectedFrame,
+  getVisibleSelectedFrame
 } from "../../selectors";
 import { mapFrames } from ".";
 import { removeBreakpoint } from "../breakpoints";
@@ -50,7 +51,17 @@ export function paused(pauseInfo: Pause) {
 
     await dispatch(mapFrames());
     const selectedFrame = getSelectedFrame(getState());
-    await dispatch(selectLocation(selectedFrame.location));
+    const visibleFrame = getVisibleSelectedFrame(getState());
+
+    if (
+      visibleFrame &&
+      visibleFrame.location.sourceId ===
+        selectedFrame.generatedLocation.sourceId
+    ) {
+      await dispatch(selectLocation(selectedFrame.generatedLocation));
+    } else {
+      await dispatch(selectLocation(selectedFrame.location));
+    }
 
     dispatch(togglePaneCollapse("end", false));
     dispatch(fetchScopes());
