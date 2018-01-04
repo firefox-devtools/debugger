@@ -83,6 +83,10 @@ export function isJavaScript(source: SourceRecord): boolean {
  */
 export function isPretty(source: SourceRecord): boolean {
   const url = source.get("url");
+  return isPrettyURL(url);
+}
+
+export function isPrettyURL(url: string): boolean {
   return url ? /formatted$/.test(url) : false;
 }
 

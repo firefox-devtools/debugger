@@ -11,7 +11,9 @@
 
 import { syncBreakpoint } from "../breakpoints";
 import { loadSourceText } from "./loadSourceText";
+import { togglePrettyPrint } from "./prettyPrint";
 import { selectLocation } from "../sources";
+import { getRawSourceURL, isPrettyURL } from "../../utils/source";
 
 import { prefs } from "../../utils/prefs";
 
@@ -66,11 +68,22 @@ function loadSourceMap(generatedSource) {
 
 // If a request has been made to show this source, go ahead and
 // select it.
-function checkSelectedSource(source) {
+function checkSelectedSource(source: Source) {
   return async ({ dispatch, getState }: ThunkArgs) => {
     const pendingLocation = getPendingSelectedLocation(getState());
 
-    if (pendingLocation && !!source.url && pendingLocation.url === source.url) {
+    if (!pendingLocation || !pendingLocation.url || !source.url) {
+      return;
+    }
+
+    const pendingUrl = pendingLocation.url;
+    const rawPendingUrl = getRawSourceURL(pendingUrl);
+
+    if (rawPendingUrl === source.url) {
+      if (isPrettyURL(pendingUrl)) {
+        return await dispatch(togglePrettyPrint(source.id));
+      }
+
       await dispatch(
         selectLocation({ ...pendingLocation, sourceId: source.id })
       );

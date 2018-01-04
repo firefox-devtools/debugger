@@ -82,19 +82,17 @@ function makeSymbolDeclaration(name: string, line: number) {
  * @static
  */
 function waitForState(store: any, predicate: any): Promise<void> {
-  if (predicate(store.getState())) {
-    return Promise.resolve();
-  }
-
   return new Promise(resolve => {
-    if (predicate(store.getState())) {
-      resolve();
+    let ret = predicate(store.getState());
+    if (ret) {
+      resolve(ret);
     }
 
     const unsubscribe = store.subscribe(() => {
-      if (predicate(store.getState())) {
+      ret = predicate(store.getState());
+      if (ret) {
         unsubscribe();
-        resolve();
+        resolve(ret);
       }
     });
   });
