@@ -151,6 +151,9 @@
   background-color: white;
 }
 
+.sources-list .managed-tree .tree .node.focused img {
+  background-color: white;
+}
 .theme-dark .sources-list .managed-tree .tree .node:not(.focused) img.blackBox {
   background-color: var(--theme-content-color3);
 }
