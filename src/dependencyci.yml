@@ -1,0 +1,14 @@
+
+# don't run unlicensed test on any development dependencies
+type:
+  development:
+    tests:
+      unlicensed: skip
+      deprecated: skip
+      unmaintained: skip
+
+platform:
+  NPM:
+    tests:
+      deprecated: skip
+      unmaintained: skip
