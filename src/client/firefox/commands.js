@@ -12,7 +12,8 @@ import type {
   Location,
   Script,
   Source,
-  SourceId
+  SourceId,
+  Worker
 } from "debugger-html";
 
 import type {
@@ -275,7 +276,7 @@ async function fetchSources() {
   return sources.map(source => createSource(source, { supportsWasm }));
 }
 
-async function fetchWorkers() {
+async function fetchWorkers(): Promise<{ workers: Worker[] }> {
   // NOTE: The Worker and Browser Content toolboxes do not have a parent
   // with a listWorkers function
   // TODO: there is a listWorkers property, but it is not a function on the
@@ -284,7 +285,7 @@ async function fetchWorkers() {
     !threadClient._parent ||
     typeof threadClient._parent.listWorkers != "function"
   ) {
-    return;
+    return Promise.resolve({ workers: [] });
   }
 
   return threadClient._parent.listWorkers();

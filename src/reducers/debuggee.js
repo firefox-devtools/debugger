@@ -16,8 +16,10 @@ import type { Worker } from "../types";
 import type { Action } from "../actions/types";
 import makeRecord from "../utils/makeRecord";
 
+export type WorkersList = List<Worker>;
+
 type DebuggeeState = {
-  workers: List<Worker>
+  workers: WorkersList
 };
 
 export const State = makeRecord(

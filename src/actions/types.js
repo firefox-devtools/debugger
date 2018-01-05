@@ -12,7 +12,8 @@ import type {
   Location,
   Frame,
   Scope,
-  Why
+  Why,
+  Worker
 } from "debugger-html";
 
 import type { State } from "../reducers/types";
@@ -43,7 +44,7 @@ export type ThunkArgs = {
   client: any,
   sourceMaps: any,
   openLink: (url: string) => void,
-  openWorkerToolbox: (url: string) => void
+  openWorkerToolbox: (worker: Worker) => void
 };
 
 export type Thunk = ThunkArgs => any;

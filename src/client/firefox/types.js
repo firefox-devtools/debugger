@@ -222,7 +222,8 @@ export type Actions = {
   paused: Pause => void,
   resumed: ResumedPacket => void,
   newSources: (Source[]) => void,
-  fetchEventListeners: () => void
+  fetchEventListeners: () => void,
+  fetchWorkers: () => void
 };
 
 /**
@@ -268,6 +269,11 @@ export type DebuggerClient = {
   },
   connect: () => Promise<*>,
   listTabs: () => Promise<*>
+};
+
+export type TabClient = {
+  listWorkers: () => Promise<*>,
+  addListener: (string, Function) => void
 };
 
 /**
@@ -351,7 +357,8 @@ export type ThreadClient = {
   addListener: (string, Function) => void,
   getSources: () => Promise<SourcesPacket>,
   reconfigure: ({ observeAsmJS: boolean }) => Promise<*>,
-  getLastPausePacket: () => ?PausedPacket
+  getLastPausePacket: () => ?PausedPacket,
+  _parent: TabClient
 };
 
 /**

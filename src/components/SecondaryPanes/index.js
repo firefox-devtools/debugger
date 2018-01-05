@@ -44,7 +44,9 @@ const Scopes = isEnabled("chromeScopes") ? _chromeScopes : _Scopes;
 
 import "./SecondaryPanes.css";
 
-type SecondaryPanesItems = {
+import type { WorkersList } from "../../reducers/types";
+
+type AccordionPaneItem = {
   header: string,
   component: any,
   opened?: boolean,
@@ -79,7 +81,8 @@ type Props = {
   breakOnNext: () => void,
   isWaitingOnBreak: any,
   shouldPauseOnExceptions: boolean,
-  shouldIgnoreCaughtExceptions: boolean
+  shouldIgnoreCaughtExceptions: boolean,
+  workers: WorkersList
 };
 
 class SecondaryPanes extends Component<Props> {
@@ -138,7 +141,7 @@ class SecondaryPanes extends Component<Props> {
     ];
   }
 
-  getScopeItem() {
+  getScopeItem(): AccordionPaneItem {
     return {
       header: L10N.getStr("scopes.header"),
       className: "scopes-pane",
@@ -225,7 +228,7 @@ class SecondaryPanes extends Component<Props> {
   getStartItems() {
     const { workers } = this.props;
 
-    const items: Array<SecondaryPanesItems> = [];
+    const items: Array<AccordionPaneItem> = [];
     if (this.props.horizontal) {
       items.push(this.getWatchItem());
     }
@@ -259,14 +262,16 @@ class SecondaryPanes extends Component<Props> {
   }
 
   getEndItems() {
-    const items: Array<SecondaryPanesItems> = [];
+    let items: Array<AccordionPaneItem> = [];
 
-    if (!this.props.horizontal && this.props.isPaused) {
-      items.unshift(this.getScopeItem());
+    if (this.props.horizontal) {
+      return [];
     }
 
-    if (!this.props.horizontal) {
-      items.unshift(this.getWatchItem());
+    items = [this.getWatchItem(), ...items];
+
+    if (this.props.isPaused) {
+      items = [...items, this.getScopeItem()];
     }
 
     return items;
