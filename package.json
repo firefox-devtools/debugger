@@ -128,7 +128,6 @@
     "eslint-plugin-react": "^7.2.1",
     "expect.js": "^0.3.1",
     "flow-bin": "0.61.0",
-    "github-airtable-bridge": "0.0.5",
     "glob": "^7.0.3",
     "husky": "^0.14.2",
     "jest": "^20.0.4",
