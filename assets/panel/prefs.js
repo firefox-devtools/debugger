@@ -15,7 +15,7 @@ pref("devtools.debugger.source-maps-enabled", true);
 pref("devtools.debugger.pretty-print-enabled", true);
 pref("devtools.debugger.auto-pretty-print", false);
 pref("devtools.debugger.auto-black-box", true);
-pref("devtools.debugger.features.workers", false);
+pref("devtools.debugger.workers", false);
 
 // The default Debugger UI settings
 pref("devtools.debugger.prefs-schema-version", "1.0.0");
@@ -48,3 +48,4 @@ pref("devtools.debugger.features.column-breakpoints", false);
 pref("devtools.debugger.features.map-scopes", true);
 pref("devtools.debugger.features.breakpoints-dropdown", false);
 pref("devtools.debugger.features.remove-command-bar-options", false);
+pref("devtools.debugger.features.workers", false);
