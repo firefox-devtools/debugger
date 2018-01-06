@@ -9,7 +9,7 @@ import * as I from "immutable";
 import { connect } from "react-redux";
 import { createSelector } from "reselect";
 import { bindActionCreators } from "redux";
-import { features } from "../../utils/prefs";
+import { isEnabled } from "../../utils/prefs";
 import classnames from "classnames";
 import actions from "../../actions";
 import {
@@ -70,7 +70,8 @@ function getBreakpointFilename(source) {
 function renderSourceLocation(source, line, column) {
   const filename = getBreakpointFilename(source);
   const isWasm = source && source.get("isWasm");
-  const columnVal = features.columnBreakpoints && column ? `:${column}` : "";
+  const columnVal =
+    isEnabled("columnBreakpoints") && column ? `:${column}` : "";
   const bpLocation = isWasm
     ? `0x${line.toString(16).toUpperCase()}`
     : `${line}${columnVal}`;

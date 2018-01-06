@@ -6,7 +6,6 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { isEnabled } from "devtools-config";
 
 import Reps from "devtools-reps";
 const { REPS: { Rep }, MODE, ObjectInspectorUtils } = Reps;
@@ -186,26 +185,6 @@ export class Popup extends Component<Props> {
     );
   }
 
-  renderAddToExpressionBar(expression: string) {
-    if (!isEnabled("previewWatch")) {
-      return null;
-    }
-
-    const { addExpression } = this.props;
-    return (
-      <div className="add-to-expression-bar">
-        <div className="prompt">»</div>
-        <div className="expression-to-save-label">{expression}</div>
-        <div
-          className="expression-to-save-button"
-          onClick={event => addExpression(event)}
-        >
-          {L10N.getStr("addWatchExpressionButton")}
-        </div>
-      </div>
-    );
-  }
-
   renderPreview(expression: string, value: Object, extra: Object) {
     const root = {
       name: expression,
@@ -218,12 +197,7 @@ export class Popup extends Component<Props> {
     }
 
     if (value.type === "object") {
-      return (
-        <div>
-          {this.renderObjectPreview(expression, root, extra)}
-          {this.renderAddToExpressionBar(expression)}
-        </div>
-      );
+      return <div>{this.renderObjectPreview(expression, root, extra)}</div>;
     }
 
     return this.renderSimplePreview(value);

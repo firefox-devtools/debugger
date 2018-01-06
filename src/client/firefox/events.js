@@ -14,7 +14,7 @@ import type {
 
 import { createPause, createSource } from "./create";
 import sourceQueue from "../../utils/source-queue";
-import { isEnabled } from "devtools-config";
+import { isEnabled } from "../../utils/prefs";
 
 const CALL_STACK_PAGE_SIZE = 1000;
 

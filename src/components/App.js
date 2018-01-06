@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { features } from "../utils/prefs";
+import { isEnabled } from "../utils/prefs";
 import actions from "../actions";
 import { ShortcutsModal } from "./ShortcutsModal";
 
@@ -316,7 +316,7 @@ class App extends Component<Props, State> {
   renderShortcutsModal() {
     const additionalClass = isMacOS ? "mac" : "";
 
-    if (!features.shortcuts) {
+    if (!isEnabled("shortcuts")) {
       return;
     }
 

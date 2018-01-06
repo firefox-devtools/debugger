@@ -8,7 +8,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import classnames from "classnames";
-import { features } from "../../utils/prefs";
+import { isEnabled } from "../../utils/prefs";
 import {
   isPaused as getIsPaused,
   getIsWaitingOnBreak,
@@ -151,7 +151,7 @@ class CommandBar extends Component<Props> {
     const className = isPaused ? "active" : "disabled";
     const isDisabled = !isPaused;
 
-    if (!isPaused && features.removeCommandBarOptions) {
+    if (!isPaused && isEnabled("removeCommandBarOptions")) {
       return;
     }
 
@@ -192,7 +192,7 @@ class CommandBar extends Component<Props> {
       );
     }
 
-    if (features.removeCommandBarOptions) {
+    if (isEnabled("removeCommandBarOptions")) {
       return;
     }
 
@@ -221,7 +221,7 @@ class CommandBar extends Component<Props> {
    *  3. pause on all exceptions        [true, false]
   */
   renderPauseOnExceptions() {
-    if (features.breakpointsDropdown) {
+    if (isEnabled("breakpointsDropdown")) {
       return;
     }
 

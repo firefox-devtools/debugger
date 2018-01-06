@@ -22,9 +22,8 @@ import {
   getWorkers
 } from "../../selectors";
 
-import { isEnabled } from "devtools-config";
 import Svg from "../shared/Svg";
-import { prefs } from "../../utils/prefs";
+import { prefs, isEnabled } from "../../utils/prefs";
 
 import Breakpoints from "./Breakpoints";
 import Expressions from "./Expressions";
@@ -204,7 +203,7 @@ class SecondaryPanes extends Component<Props> {
   }
 
   breakpointDropdown() {
-    if (!features.breakpointsDropdown) {
+    if (!isEnabled("breakpointsDropdown")) {
       return;
     }
 
@@ -254,6 +253,10 @@ class SecondaryPanes extends Component<Props> {
       });
     }
 
+    if (this.props.horizontal) {
+      items.unshift(this.getWatchItem());
+    }
+
     return items.filter(item => item);
   }
 
@@ -301,7 +304,7 @@ class SecondaryPanes extends Component<Props> {
   }
 
   renderUtilsBar() {
-    if (!features.shortcuts) {
+    if (!isEnabled("shortcuts")) {
       return;
     }
 

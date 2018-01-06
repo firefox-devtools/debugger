@@ -531,7 +531,7 @@ class Editor extends PureComponent<Props, State> {
         <EditorMenu editor={editor} />
         <GutterMenu editor={editor} />
         <ConditionalPanel editor={editor} />
-        {features.columnBreakpoints ? <CallSites editor={editor} /> : null}
+        {isEnabled("columnBreakpoints") ? <CallSites editor={editor} /> : null}
         {this.renderHitCounts()}
       </div>
     );

@@ -14,7 +14,7 @@ import {
   getActiveSearch,
   getSelectedPrimaryPaneTab
 } from "../../selectors";
-import { isEnabled } from "devtools-config";
+import { isEnabled } from "../../utils/prefs";
 import "./Sources.css";
 import classnames from "classnames";
 
