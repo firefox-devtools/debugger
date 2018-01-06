@@ -4,25 +4,23 @@
 
 // @flow
 
+export * from "./source-documents";
+export * from "./getTokenLocation.js";
+export * from "./source-search";
+export * from "../ui";
+export * from "devtools-source-editor";
+
 import { isEnabled } from "devtools-config";
-import * as sourceDocumentUtils from "./source-documents";
-import { shouldPrettyPrint } from "../../utils/source";
-
-import { getTokenLocation } from "./getTokenLocation.js";
-
-import * as sourceSearchUtils from "./source-search";
-const { findNext, findPrev } = sourceSearchUtils;
-
+import { shouldPrettyPrint } from "../source";
+import { findNext, findPrev } from "./source-search";
 import { isWasm, lineToWasmOffset, wasmOffsetToLine } from "../wasm";
-import { resizeBreakpointGutter } from "../ui";
-
-import { SourceEditor, SourceEditorUtils } from "devtools-source-editor";
+import { SourceEditor } from "devtools-source-editor";
 import { isOriginalId } from "devtools-source-map";
 
 import type { AstPosition, AstLocation } from "../../workers/parser/types";
 import type { EditorPosition, EditorRange } from "../editor/types";
 
-function shouldShowPrettyPrint(selectedSource) {
+export function shouldShowPrettyPrint(selectedSource) {
   if (!selectedSource) {
     return false;
   }
@@ -30,7 +28,7 @@ function shouldShowPrettyPrint(selectedSource) {
   return shouldPrettyPrint(selectedSource);
 }
 
-function shouldShowFooter(selectedSource, horizontal) {
+export function shouldShowFooter(selectedSource, horizontal) {
   if (!horizontal) {
     return true;
   }
@@ -43,7 +41,7 @@ function shouldShowFooter(selectedSource, horizontal) {
   );
 }
 
-function traverseResults(e, ctx, query, dir, modifiers) {
+export function traverseResults(e, ctx, query, dir, modifiers) {
   e.stopPropagation();
   e.preventDefault();
 
@@ -54,7 +52,7 @@ function traverseResults(e, ctx, query, dir, modifiers) {
   }
 }
 
-function createEditor() {
+export function createEditor() {
   const gutters = ["breakpoints", "hit-markers", "CodeMirror-linenumbers"];
 
   if (isEnabled("codeFolding")) {
@@ -83,7 +81,7 @@ function createEditor() {
   });
 }
 
-function toEditorLine(sourceId: string, lineOrOffset: number): ?number {
+export function toEditorLine(sourceId: string, lineOrOffset: number): ?number {
   if (isWasm(sourceId)) {
     return wasmOffsetToLine(sourceId, lineOrOffset);
   }
@@ -91,14 +89,17 @@ function toEditorLine(sourceId: string, lineOrOffset: number): ?number {
   return lineOrOffset ? lineOrOffset - 1 : 1;
 }
 
-function toEditorPosition(location: AstPosition): EditorPosition {
+export function toEditorPosition(location: AstPosition): EditorPosition {
   return {
     line: toEditorLine(location.sourceId, location.line),
     column: isWasm(location.sourceId) || !location.column ? 0 : location.column
   };
 }
 
-function toEditorRange(sourceId: string, location: AstLocation): EditorRange {
+export function toEditorRange(
+  sourceId: string,
+  location: AstLocation
+): EditorRange {
   const { start, end } = location;
   return {
     start: toEditorPosition({ ...start, sourceId }),
@@ -106,11 +107,11 @@ function toEditorRange(sourceId: string, location: AstLocation): EditorRange {
   };
 }
 
-function toSourceLine(sourceId: string, line: number): ?number {
+export function toSourceLine(sourceId: string, line: number): ?number {
   return isWasm(sourceId) ? lineToWasmOffset(sourceId, line) : line + 1;
 }
 
-function scrollToColumn(codeMirror: any, line: number, column: number) {
+export function scrollToColumn(codeMirror: any, line: number, column: number) {
   const { top, left } = codeMirror.charCoords(
     { line: line, ch: column },
     "local"
@@ -123,7 +124,7 @@ function scrollToColumn(codeMirror: any, line: number, column: number) {
   codeMirror.scrollTo(centeredX, centeredY);
 }
 
-function toSourceLocation(
+export function toSourceLocation(
   sourceId: string,
   location: EditorPosition
 ): AstPosition {
@@ -133,7 +134,7 @@ function toSourceLocation(
   };
 }
 
-function markText(editor: any, className, location: EditorRange) {
+export function markText(editor: any, className, location: EditorRange) {
   const { start, end } = location;
 
   return editor.codeMirror.markText(
@@ -143,12 +144,12 @@ function markText(editor: any, className, location: EditorRange) {
   );
 }
 
-function lineAtHeight(editor, sourceId, event) {
+export function lineAtHeight(editor, sourceId, event) {
   const editorLine = editor.codeMirror.lineAtHeight(event.clientY);
   return toSourceLine(sourceId, editorLine);
 }
 
-function getSourceLocationFromMouseEvent(editor, selectedLocation, e) {
+export function getSourceLocationFromMouseEvent(editor, selectedLocation, e) {
   const { line, ch } = editor.codeMirror.coordsChar({
     left: e.clientX,
     top: e.clientY
@@ -160,25 +161,3 @@ function getSourceLocationFromMouseEvent(editor, selectedLocation, e) {
     column: ch + 1
   };
 }
-
-module.exports = {
-  ...sourceDocumentUtils,
-  ...sourceSearchUtils,
-  ...SourceEditorUtils,
-  createEditor,
-  isWasm,
-  toEditorLine,
-  toEditorPosition,
-  toEditorRange,
-  toSourceLine,
-  scrollToColumn,
-  toSourceLocation,
-  shouldShowPrettyPrint,
-  shouldShowFooter,
-  traverseResults,
-  markText,
-  lineAtHeight,
-  getSourceLocationFromMouseEvent,
-  resizeBreakpointGutter,
-  getTokenLocation
-};
