@@ -122,7 +122,7 @@ describe("QuickOpenModal", () => {
       "mount"
     );
     wrapper.find("input").simulate("change", { target: { value: "somefil" } });
-    expect(filter).toHaveBeenCalled();
+    expect(filter).toHaveBeenCalledWith([], "somefil", { key: "value" });
   });
 
   test("basic gotoSource search", () => {
@@ -140,7 +140,7 @@ describe("QuickOpenModal", () => {
     wrapper
       .find("input")
       .simulate("change", { target: { value: "somefil:33" } });
-    expect(filter).toHaveBeenCalled();
+    expect(filter).toHaveBeenCalledWith([], "somefil", { key: "value" });
   });
 
   test("basic symbol seach", () => {
@@ -151,13 +151,16 @@ describe("QuickOpenModal", () => {
         symbols: {
           functions: [],
           variables: []
-        }
+        },
+        // symbol searching relies on a source being selected.
+        // So we dummy out the source and the API.
+        selectedSource: { get: jest.fn(() => true) }
       },
       "mount"
     );
     wrapper
       .find("input")
       .simulate("change", { target: { value: "@someFunc" } });
-    expect(filter).toHaveBeenCalled();
+    expect(filter).toHaveBeenCalledWith([], "someFunc", { key: "value" });
   });
 });

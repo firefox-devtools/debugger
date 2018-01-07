@@ -32,6 +32,8 @@ import type {
   FormattedSymbolDeclarations,
   QuickOpenResult
 } from "../utils/quick-open";
+
+import type { Location } from "debugger-html";
 import type { SourceRecord } from "../reducers/sources";
 import type { QuickOpenType } from "../reducers/quick-open";
 
@@ -42,7 +44,7 @@ type Props = {
   query: string,
   searchType: QuickOpenType,
   symbols: FormattedSymbolDeclarations,
-  selectLocation: Object => void,
+  selectLocation: Location => void,
   setQuickOpenQuery: (query: string) => void,
   highlightLineRange: ({ start: number, end: number }) => void,
   closeQuickOpen: () => void
@@ -51,6 +53,12 @@ type Props = {
 type State = {
   results: ?Array<QuickOpenResult>,
   selectedIndex: number
+};
+
+type GotoLocationType = {
+  sourceId?: string,
+  line: number,
+  column?: number
 };
 
 export class QuickOpenModal extends Component<Props, State> {
@@ -85,8 +93,7 @@ export class QuickOpenModal extends Component<Props, State> {
   searchSources = (query: string) => {
     if (query == "") {
       const results = this.props.sources;
-      this.setState({ results });
-      return;
+      return this.setState({ results });
     }
 
     if (this.isGotoSourceQuery()) {
@@ -107,8 +114,7 @@ export class QuickOpenModal extends Component<Props, State> {
       results = variables;
     }
     if (query === "@" || query === "#") {
-      this.setState({ results });
-      return;
+      return this.setState({ results });
     }
 
     results = filter(results, query.slice(1), {
@@ -145,27 +151,24 @@ export class QuickOpenModal extends Component<Props, State> {
     if (item == null) {
       return;
     }
-    const { selectLocation, selectedSource, query } = this.props;
+
     if (this.isShortcutQuery()) {
-      this.setModifier(item);
-      return;
-    } else if (this.isGotoSourceQuery()) {
-      const location = parseLineColumn(query);
-      if (location != null) {
-        selectLocation({ ...location, sourceId: item.id });
-      }
-    } else if (this.isSymbolSearch()) {
-      if (selectedSource == null) {
-        return;
-      }
-      const line =
-        item.location && item.location.start ? item.location.start.line : 0;
-      selectLocation({ sourceId: selectedSource.get("id"), line });
-    } else {
-      selectLocation({ sourceId: item.id, line: 0 });
+      return this.setModifier(item);
     }
 
-    this.closeModal();
+    if (this.isGotoSourceQuery()) {
+      const location = parseLineColumn(this.props.query);
+      return this.gotoLocation({ ...location, sourceId: item.id });
+    }
+
+    if (this.isSymbolSearch()) {
+      return this.gotoLocation({
+        line:
+          item.location && item.location.start ? item.location.start.line : 0
+      });
+    }
+
+    this.gotoLocation({ sourceId: item.id, line: 0 });
   };
 
   onSelectResultItem = (item: QuickOpenResult) => {
@@ -177,11 +180,15 @@ export class QuickOpenModal extends Component<Props, State> {
     if (this.isVariableQuery()) {
       const line =
         item.location && item.location.start ? item.location.start.line : 0;
-      selectLocation({ sourceId: selectedSource.get("id"), line });
+      return selectLocation({
+        sourceId: selectedSource.get("id"),
+        line,
+        column: null
+      });
     }
 
     if (this.isFunctionQuery()) {
-      highlightLineRange({
+      return highlightLineRange({
         ...(item.location != null
           ? { start: item.location.start.line, end: item.location.end.line }
           : {}),
@@ -190,7 +197,8 @@ export class QuickOpenModal extends Component<Props, State> {
     }
   };
 
-  traverseResults = (direction: number) => {
+  traverseResults = (e: SyntheticKeyboardEvent<HTMLElement>) => {
+    const direction = e.key === "ArrowUp" ? -1 : 1;
     const { selectedIndex, results } = this.state;
     const resultCount = this.getResultCount();
     const index = selectedIndex + direction;
@@ -203,14 +211,17 @@ export class QuickOpenModal extends Component<Props, State> {
     }
   };
 
-  gotoLocation = () => {
-    const { selectLocation, selectedSource, query } = this.props;
-    if (!selectedSource) {
-      return;
-    }
-    const location = parseLineColumn(query);
+  gotoLocation = (location: ?GotoLocationType) => {
+    const { selectLocation, selectedSource } = this.props;
+    const selectedSourceId = selectedSource ? selectedSource.get("id") : "";
     if (location != null) {
-      selectLocation({ ...location, sourceId: selectedSource.get("id") });
+      const sourceId = location.sourceId ? location.sourceId : selectedSourceId;
+      selectLocation({
+        sourceId,
+        line: location.line,
+        column: location.column || null
+      });
+      this.closeModal();
     }
   };
 
@@ -225,29 +236,32 @@ export class QuickOpenModal extends Component<Props, State> {
   };
 
   onKeyDown = (e: SyntheticKeyboardEvent<HTMLElement>) => {
-    const { enabled } = this.props;
+    const { enabled, query } = this.props;
     const { results, selectedIndex } = this.state;
 
     if (!enabled || !results) {
       return;
     }
 
-    const canTraverse = !this.isGotoQuery();
-    const isKeyUpDown = e.key === "ArrowUp" || e.key === "ArrowDown";
-    if (canTraverse && isKeyUpDown) {
-      return this.traverseResults(e.key === "ArrowUp" ? -1 : 1);
-    } else if (e.key === "Enter") {
+    if (e.key === "Enter") {
       if (this.isGotoQuery()) {
-        this.gotoLocation();
-      } else if (this.isShortcutQuery()) {
-        this.setModifier(results[selectedIndex]);
-        return;
-      } else {
-        this.selectResultItem(e, results[selectedIndex]);
+        const location = parseLineColumn(query);
+        return this.gotoLocation(location);
       }
+
+      if (this.isShortcutQuery()) {
+        return this.setModifier(results[selectedIndex]);
+      }
+
+      return this.selectResultItem(e, results[selectedIndex]);
+    }
+
+    if (e.key === "Tab") {
       return this.closeModal();
-    } else if (e.key === "Tab") {
-      return this.closeModal();
+    }
+
+    if (["ArrowUp", "ArrowDown"].includes(e.key)) {
+      return this.traverseResults(e);
     }
   };
 
