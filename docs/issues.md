@@ -14,15 +14,25 @@
 **Components**
 
 Issues are organized in terms of components.
-Issue titles should include a component at the front e.g. `[Editor]`
+Issue titles should include the name of the component as a tag
+at the very beginning. Consider the following titles:
 
+Bad: `Fix input field padding of search bar`
+Good: `[SearchBar] Fix input field padding`
+
+or
+
+Bad: `Add information about titles to documentation`
+Good: `[Docs] Add information about titles`
+
+Some common tags include:
 |Editor|SecondaryPanes|UI|Other|
 |----------|------|-----|----|
 |Editor|CommandBar|SourceTree|Accessibility|
-|SourceTabs|WatchExpressions|SourcesSearch|Theme|
-|SearchBar|Breakpoints|WelcomePane|Reducer|
+|SourceTabs|WatchExpressions|TextSearch|Theme|
+|SearchBar|Breakpoints|WelcomeBox|Reducer|
 |SourceFooter|CallStack||Action|
-||Scopes|||RTL|
+||Scopes||Docs|RTL|
 
 **User Perspective**
 
