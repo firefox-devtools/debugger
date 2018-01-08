@@ -57,7 +57,7 @@ function buildConfig(envConfig) {
     ];
 
     extra.excludeMap = {
-      "./src/source-editor": "devtools/client/sourceeditor/editor",
+      "./source-editor": "devtools/client/sourceeditor/editor",
       "./test-flag": "devtools/shared/flags",
       react: "devtools/client/shared/vendor/react",
       "react-dom": "devtools/client/shared/vendor/react-dom",
