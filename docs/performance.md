@@ -22,21 +22,28 @@ Steps to get setup
 6. Do something
 7. click capture recording
 
-#### How to read Perf.html output
+#### Tips
 
-* determine which thread the debugger is running in
-![]()
+Here is an [example profile](https://perf-html.io/public/e7eb2d2677480a155854747cae0ba50238461cfc/calltree/?hiddenThreads=&implementation=js&thread=0&threadOrder=0-2-1&v=2) in case you want to take a look before getting started.
 
-* filter the output in the dropdown to "js only"
-![]()
+![](./images/perfhtml.png)
 
-* try inverting the callstack to see if something is really taking time
-![]()
+* determine which thread the debugger is running in, depending on whether the debugger is running as
+  a panel or as a webpage, it will be either main thread for the former, and content 1 for the
+  latter.
+![](./images/threads-perfhtml.png)
+
+* filter the output in the dropdown to "js only", since we are usually only interested in what the
+  JavaScript is doing
+![](./images/dropdown-perfhtml.png)
 
 * add performance markers to your code (using performance.mark()), they will show up in the top and also in the marker table
-![](https://shipusercontent.com/5296bfc98dea6acf9d222fa53fef4aea/Screen%20Shot%202017-11-16%20at%207.27.33%20PM.png)
+![](./images/performance-markers.png)
 
-Hints:
+* try inverting the callstack to see if something is really taking time. by inverting the call stack
+  you see which functions take the longest time without calling other functions. These are usually
+  more concrete areas to focus your attention.
+
 
 * you can share profiles by clicking the green share button in the perf app
 * you can profile the debugger in the firefox panel
@@ -51,63 +58,26 @@ Hints:
 ### Talos
 
 Talos is the Firefox performance benchmarking tool. You can find more information on the [Talos
-wiki](link). Talos is very similar to mochi tests, it runs an "end to end" (e2e) test which means
+wiki](http://docs.firefox-dev.tools/tests/performance-tests.html#how-to-run-it-on-try).
+Talos is very similar to mochi tests, it runs an "end to end" (e2e) test which means
 that it tests from the perspective of a user -- creating a firefox browser instance, opening the
 panel, waiting for certain conditions, and then closing it again.
 
-The devtools test suite in talos is called "DAMP" (devtools at maximum performance), and you can
+The devtools test suite in Talos is called "DAMP" (devtools at maximum performance), and you can
 find the test definitions inside of Mozilla-Central under
 `testing/talos/talos/tests/devtools/addon/content/damp.js`. These are the tests for all of the
 devtools tools, not just the debugger! The debugger has custom steps, but it also shares code
-with the rest of the dev tools. We have a mirror of this file in `src/test/talos/damp`.
-
-On the debugger we also have "experiments" -- these tests are not added to MC, instead they are for
-us to use whenever we need to investigate a performance regression in a programmatic way.
-
-Test results are depending on how the tests were run, inside of an `output` directory -- either
-`talos_output` or `perf_output`. Tests are saved in directories that have the current branch name,
-the list of tests run, and the results
-
-#### Basic commands
-
-If you have firefox built inside of your debugger directory, you can use yarn to run talos tests.
-
-* `yarn talos` - run the DAMP tests.
-* `yarn talos:subtest <name of test>` - run the DAMP test specific to a regex. (any flags that
-  work with talos will work with `yarn talos`)
-* `yarn talos:debugger` - run the DAMP tests specific *only* to the debugger.
-
-For running experiments, a few other things are enabled. First of all, by default the experiments
-are run only once and with a perf.html output, which is saved with the current time and a list of
-the tests that were run.
-
-* `yarn talos:experiment` - run the tests in the `test/talos/experiments` folder.
-
-flags:
-* `--cycles <number>` - run the tests in the `test/talos/experiments` folder WITHOUT
-  perf.html, but with a given number of reruns, outputing the average and saving it with the
-  timestamp and tests run.
-* `--subtest <name of test>` - run a specific test from the experiments
-  folder.
-
-#### How to read Talos output
-
-Talos output gives you the run times for each test, in the form of a json file. You can open the
-file in your favorite json viewer (firefox has some extensions for this) and take a look at the
-results for the test.
-
-The most interesting number will be the average for each test. This is the number that you can
-compare to other talos runs of other branches.
+with the rest of the dev tools.
 
 #### General Tests (DAMP)
 
-You can further specify a subtest using `yarn talos:debugger --subtest <name of test>`.
-The subtest flag (as well as any other flags) works the same way as described in the talos wiki.
+These are described in the damp documentation, but this is how the debugger differs from other
+tests.
 
 All of the devtools are run against the following sites:
 
-* simple.html - a simple web page without much javascript or css
-* complicated - a clone of the webpage "das spiegal" loading a lot of assets and code
+* simple.html - a simple web page without much JavaScript or css
+* complicated - a clone of the webpage for the "Bild" magazine loading a lot of assets and code
 
 the debugger has a custom page found in the `custom` subdirectory:
 
@@ -126,54 +96,23 @@ The debugger has a couple of extra steps:
 * opening a file
 * pausing and stepping through a few functions
 
-#### Custom Tests (experiments)
-
-Talos is a really powerful tool, you can run tests as many times as you like, and get the average
-speed. this reduces the likelyhood that a performance regression is "just a fluke" and makes it
-easier and more efficient to test performance fixes. However the DAMP tests are too general for
-everyday use. We also do not want to over burden talos tests, since they need to be maintained
-We can leverage the talos framework and get it to do what we want however, without adding overhead
-by using custom tests to run experiments on specific behavior.
-
-These tests can be written in the same way as a mochitest. In fact, you can even copy paste
-mochitests into the experiments folder and run them!
-
 #### Using Talos and Perf.html together!
 
-Experiment tests by default combine talos and perf, but they by default only run once. Damp tests do not
-run with the perf.html by default, but you can run them, and for multiple cycles. If you want to
-run perf on multiple cycles (for example to track down an intermittent slowdown) you can add the
-`--perf-record` flag, or using regular talos flags.
+You can run talos with the gecko profiler and display the output using perf.html. You can do this
+with:
 
-### Road Runner
+```
+./mach talos-test --activeTests damp --subtests debugger --geckoProfile --cycles 1 --tppagecycles 1
+--geckoProfileEntries 10000000
+```
 
-The Road runner is a special tool that runs talos tests against multiple branches, and outputs a
-graph showing how the performance changed between branches given a set of tests. Road runner can be
-used to run either DAMP tests or experiment tests
+the flags `activeTests`, `subtests` are detailed in the documentation of how to run damp. There are
+three new flags:
 
-#### Usage
-
-make sure roadrunner is installed globally with `npm install rrunner -g`
-
-to run DAMP tests: `yarn rrun:damp <commit list or branch name list>`
-to run experiment tests: `yarn rrun:experiments <commit list or branch name list>`
-to read a set of DAMP tests: `yarn rrun:damp --read <commit list or branch name list>`
-to read a set of experiment tests: `yarn rrun:experiments --read <commit list or branch name list>`
-
-rrunner can be used with any flags that you might use with yarn talos
-
-results will be saved into a `rrun_output` directory
-
-
-#### How to read roadRunner output
-
-There are a number of graphs for road runner, the first on you will see is a composite graph, with
-the tests on the x axis, and the times of each test on the y axis. the different branches are each
-given a colour.
-
-The following graphs break down the performance changes per test, with the branches on the x axis,
-and the timing of the average test on the y axis. hovering the branch hash in this view will give a
-summary of all the test values in a pop up.
+* `cycles` and `tppagecycles` limits the number of times the test is rerun. Normally the talos tests
+  run 25 times. by setting both to 1, we only run the test once
+* `geckoProfile` and `geckoProfileEntries` are what is allowing us to save the profile with a
+  certain amount of memory
 
 ### Chrome Performance
 
