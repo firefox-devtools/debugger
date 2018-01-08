@@ -11,7 +11,6 @@ import classnames from "classnames";
 import { debugGlobal } from "devtools-launchpad";
 import { isLoaded } from "../../utils/source";
 import { isFirefox } from "devtools-config";
-import { SourceEditor } from "devtools-source-editor";
 import { features } from "../../utils/prefs";
 
 import {
@@ -50,7 +49,6 @@ import {
   shouldShowFooter,
   createEditor,
   getCursorLine,
-  resizeBreakpointGutter,
   toSourceLine,
   scrollToColumn,
   toEditorPosition,
@@ -58,10 +56,12 @@ import {
   getSourceLocationFromMouseEvent
 } from "../../utils/editor";
 
-import { resizeToggleButton } from "../../utils/ui";
+import { resizeToggleButton, resizeBreakpointGutter } from "../../utils/ui";
 
 import "./Editor.css";
 import "./Highlight.css";
+
+import type { SourceEditor } from "../../utils/editor/source-editor";
 
 const cssVars = {
   searchbarHeight: "var(--editor-searchbar-height)",
@@ -82,12 +82,12 @@ export type Props = {
   symbols: SymbolDeclarations,
 
   // Actions
-  openConditionalPanel: number => void,
+  openConditionalPanel: (?number) => void,
   closeConditionalPanel: void => void,
   setContextMenu: (string, any) => void,
-  continueToHere: number => void,
-  toggleBreakpoint: number => void,
-  addOrToggleDisabledBreakpoint: number => void,
+  continueToHere: (?number) => void,
+  toggleBreakpoint: (?number) => void,
+  addOrToggleDisabledBreakpoint: (?number) => void,
   jumpToMappedLocation: any => void,
   traverseResults: (boolean, Object) => void
 };
@@ -97,9 +97,6 @@ type State = {
 };
 
 class Editor extends PureComponent<Props, State> {
-  cbPanel: any;
-  editor: SourceEditor;
-
   constructor() {
     super();
 
@@ -128,7 +125,7 @@ class Editor extends PureComponent<Props, State> {
     const editor = createEditor();
 
     // disables the default search shortcuts
-    // @flow
+    // $FlowIgnore
     editor._initShortcuts = () => {};
 
     const node = ReactDOM.findDOMNode(this);
@@ -344,6 +341,7 @@ class Editor extends PureComponent<Props, State> {
     if (ev.shiftKey) {
       return addOrToggleDisabledBreakpoint(sourceLine);
     }
+
     return toggleBreakpoint(sourceLine);
   };
 
@@ -381,7 +379,9 @@ class Editor extends PureComponent<Props, State> {
       return closeConditionalPanel();
     }
 
-    return openConditionalPanel(line);
+    if (line !== undefined) {
+      return openConditionalPanel(line);
+    }
   };
 
   closeConditionalPanel = () => {

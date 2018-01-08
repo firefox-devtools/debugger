@@ -120,7 +120,7 @@ export function clearHighlightLineRange() {
   };
 }
 
-export function openConditionalPanel(line: ?number) {
+export function openConditionalPanel(line: openConditionalPanel) {
   if (!line) {
     return;
   }

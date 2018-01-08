@@ -8,13 +8,11 @@ export * from "./source-documents";
 export * from "./getTokenLocation.js";
 export * from "./source-search";
 export * from "../ui";
-export * from "devtools-source-editor";
+export * from "./create-editor";
 
-import { isEnabled } from "devtools-config";
 import { shouldPrettyPrint } from "../source";
 import { findNext, findPrev } from "./source-search";
 import { isWasm, lineToWasmOffset, wasmOffsetToLine } from "../wasm";
-import { SourceEditor } from "devtools-source-editor";
 import { isOriginalId } from "devtools-source-map";
 
 import type { AstPosition, AstLocation } from "../../workers/parser/types";
@@ -50,35 +48,6 @@ export function traverseResults(e, ctx, query, dir, modifiers) {
   } else if (dir == "next") {
     findNext(ctx, query, true, modifiers);
   }
-}
-
-export function createEditor() {
-  const gutters = ["breakpoints", "hit-markers", "CodeMirror-linenumbers"];
-
-  if (isEnabled("codeFolding")) {
-    gutters.push("CodeMirror-foldgutter");
-  }
-
-  return new SourceEditor({
-    mode: "javascript",
-    foldGutter: isEnabled("codeFolding"),
-    enableCodeFolding: isEnabled("codeFolding"),
-    readOnly: true,
-    lineNumbers: true,
-    theme: "mozilla",
-    styleActiveLine: false,
-    lineWrapping: false,
-    matchBrackets: true,
-    showAnnotationRuler: true,
-    gutters,
-    value: " ",
-    extraKeys: {
-      // Override code mirror keymap to avoid conflicts with split console.
-      Esc: false,
-      "Cmd-F": false,
-      "Cmd-G": false
-    }
-  });
 }
 
 export function toEditorLine(sourceId: string, lineOrOffset: number): ?number {
@@ -160,4 +129,28 @@ export function getSourceLocationFromMouseEvent(editor, selectedLocation, e) {
     line: line + 1,
     column: ch + 1
   };
+}
+
+export function forEachLine(codeMirror, iter) {
+  codeMirror.operation(() => {
+    codeMirror.doc.iter(0, codeMirror.lineCount(), iter);
+  });
+}
+
+export function removeLineClass(codeMirror, line, className) {
+  codeMirror.removeLineClass(line, "line", className);
+}
+
+export function clearLineClass(codeMirror, className) {
+  forEachLine(codeMirror, line => {
+    removeLineClass(codeMirror, line, className);
+  });
+}
+
+export function getTextForLine(codeMirror, line) {
+  return codeMirror.getLine(line - 1).trim();
+}
+
+export function getCursorLine(codeMirror) {
+  return codeMirror.getCursor().line;
 }

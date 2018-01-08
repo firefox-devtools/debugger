@@ -25,7 +25,6 @@ import { removeOverlay } from "../../utils/editor";
 import { scrollList } from "../../utils/result-list";
 import classnames from "classnames";
 
-import { SourceEditor } from "devtools-source-editor";
 import type { SourceRecord } from "../../reducers/sources";
 import type { ActiveSearchType } from "../../reducers/ui";
 import type { Modifiers, SearchResults } from "../../reducers/file-search";
@@ -33,6 +32,8 @@ import type { Modifiers, SearchResults } from "../../reducers/file-search";
 import SearchInput from "../shared/SearchInput";
 import { debounce } from "lodash";
 import "./SearchBar.css";
+
+import type { SourceEditor } from "../../utils/editor/source-editor";
 
 function getShortcuts() {
   const searchAgainKey = L10N.getStr("sourceSearch.search.again.key2");

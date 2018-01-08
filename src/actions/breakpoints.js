@@ -313,8 +313,12 @@ export function setBreakpointCondition(
   };
 }
 
-export function toggleBreakpoint(line: number, column?: number) {
+export function toggleBreakpoint(line: ?number, column?: number) {
   return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
+    if (!line) {
+      return;
+    }
+
     const state = getState();
     const selectedSource = getSelectedSource(state);
     const bp = getBreakpointAtLocation(state, { line, column });
@@ -347,8 +351,12 @@ export function toggleBreakpoint(line: number, column?: number) {
   };
 }
 
-export function addOrToggleDisabledBreakpoint(line: number, column?: number) {
+export function addOrToggleDisabledBreakpoint(line: ?number, column?: number) {
   return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
+    if (!line) {
+      return;
+    }
+
     const selectedSource = getSelectedSource(getState());
     const bp = getBreakpointAtLocation(getState(), { line, column });
 

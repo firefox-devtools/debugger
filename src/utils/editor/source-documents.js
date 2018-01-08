@@ -10,6 +10,7 @@ import type { Source } from "debugger-html";
 import { isWasm, getWasmLineNumberFormatter, renderWasmText } from "../wasm";
 import { resizeBreakpointGutter, resizeToggleButton } from "../ui";
 import type { SymbolDeclarations, SourceRecord } from "../../reducers/types";
+import type { SourceEditor } from "./source-editor";
 
 let sourceDocs = {};
 
@@ -33,14 +34,14 @@ function clearDocuments() {
   sourceDocs = {};
 }
 
-function resetLineNumberFormat(editor: Object) {
+function resetLineNumberFormat(editor: SourceEditor) {
   const cm = editor.codeMirror;
   cm.setOption("lineNumberFormatter", number => number);
   resizeBreakpointGutter(cm);
   resizeToggleButton(cm);
 }
 
-function updateLineNumberFormat(editor: Object, sourceId: string) {
+function updateLineNumberFormat(editor: SourceEditor, sourceId: string) {
   if (!isWasm(sourceId)) {
     return resetLineNumberFormat(editor);
   }
@@ -51,7 +52,7 @@ function updateLineNumberFormat(editor: Object, sourceId: string) {
   resizeToggleButton(cm);
 }
 
-function updateDocument(editor: Object, source: SourceRecord) {
+function updateDocument(editor: SourceEditor, source: SourceRecord) {
   if (!source) {
     return;
   }
@@ -63,7 +64,7 @@ function updateDocument(editor: Object, source: SourceRecord) {
   updateLineNumberFormat(editor, sourceId);
 }
 
-function showLoading(editor: Object) {
+function showLoading(editor: SourceEditor) {
   if (hasDocument("loading")) {
     return;
   }
