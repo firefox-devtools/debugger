@@ -204,8 +204,10 @@ class Editor extends PureComponent<Props, State> {
   }
 
   componentWillUnmount() {
-    this.state.editor.destroy();
-    this.setState({ editor: null });
+    if (this.state.editor) {
+      this.state.editor.destroy();
+      this.setState({ editor: null });
+    }
 
     const searchAgainKey = L10N.getStr("sourceSearch.search.again.key2");
     const searchAgainPrevKey = L10N.getStr(
