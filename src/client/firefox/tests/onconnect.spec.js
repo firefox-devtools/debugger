@@ -22,6 +22,7 @@ const threadClient = {
   },
   getLastPausePacket: () => null,
   _parent: {
+    addListener: () => {},
     listWorkers: () => new Promise(resolve => resolve({ workers: [] }))
   }
 };

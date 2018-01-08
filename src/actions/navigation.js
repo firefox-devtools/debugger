@@ -2,18 +2,26 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
+// @flow
+
 import { clearDocuments } from "../utils/editor";
 import sourceQueue from "../utils/source-queue";
 import { getSources } from "../reducers/sources";
 import { waitForMs } from "../utils/utils";
-import { newSources } from "./sources/index";
+
+import { newSources } from "./sources";
+import { updateWorkers } from "./debuggee";
+
 import {
   clearASTs,
   clearSymbols,
   clearScopes,
   clearSources
 } from "../workers/parser";
+
 import { clearWasmStates } from "../utils/wasm";
+
+import type { ThunkArgs } from "./types";
 
 /**
  * Redux actions for the navigation state
@@ -24,7 +32,7 @@ import { clearWasmStates } from "../utils/wasm";
  * @memberof actions/navigation
  * @static
  */
-export function willNavigate(_, event) {
+export function willNavigate(_: any, event: Object) {
   return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
     await sourceMaps.clearSourceMaps();
     clearWasmStates();
@@ -39,17 +47,17 @@ export function willNavigate(_, event) {
   };
 }
 
-export function navigate(url) {
+export function navigate(url: string) {
   return {
     type: "NAVIGATE",
     url
   };
 }
 
-export function connect(url) {
-  return {
-    type: "CONNECT",
-    url
+export function connect(url: string) {
+  return async function({ dispatch }: ThunkArgs) {
+    dispatch(updateWorkers());
+    dispatch({ type: "CONNECT", url });
   };
 }
 

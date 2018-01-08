@@ -5,9 +5,9 @@
 // @flow
 
 const { isDevelopment } = require("devtools-config");
-const { getWorker } = require("../selectors");
 
 import type { ThunkArgs } from "./types";
+import type { Worker } from "debugger-html";
 
 /**
  * @memberof actions/toolbox
@@ -24,14 +24,13 @@ export function openLink(url: string) {
   };
 }
 
-export function openWorkerToolbox(url: string) {
+export function openWorkerToolbox(worker: Worker) {
   return async function({
     getState,
     openWorkerToolbox: openWorkerToolboxCommand
   }: ThunkArgs) {
-    const worker = getWorker(getState(), url);
     if (isDevelopment()) {
-      alert(url);
+      alert(worker.url);
     } else {
       openWorkerToolboxCommand(worker);
     }

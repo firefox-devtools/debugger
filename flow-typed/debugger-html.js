@@ -348,4 +348,10 @@ declare module "debugger-html" {
     },
     type: string
   };
+
+  declare type Worker = {
+    actor: string,
+    type: number,
+    url: string
+  };
 }
