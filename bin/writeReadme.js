@@ -44,27 +44,24 @@ function getInterestingPackagesVersions() {
   return Promise.all(packageOfInterest.map(p => getPackageVersion(p)));
 }
 
-function writeReadme(target) {
+async function writeReadme(target) {
   const buffer = [
     "This is the debugger.html project output.",
     "See https://github.com/devtools-html/debugger.html",
     ""
   ];
-  return getGitSha()
-    .then(sha => {
-      buffer.push(`Taken from upstream commit: ${sha}`, "");
-      return getInterestingPackagesVersions();
-    })
-    .then(packagesVersions => {
-      buffer.push("Packages:");
-      packagesVersions.forEach(({ name, version }) => {
-        buffer.push(`- ${name} @${version}`);
-      }, this);
-      buffer.push("");
-    })
-    .then(() => {
-      fs.writeFileSync(target, buffer.join("\n"));
-    });
+  const sha = await getGitSha();
+
+  buffer.push(`Taken from upstream commit: ${sha}`, "");
+  const packagesVersions = await getInterestingPackagesVersions();
+
+  buffer.push("Packages:");
+  packagesVersions.forEach(({ name, version }) => {
+    buffer.push(`- ${name} @${version}`);
+  });
+
+  buffer.push("");
+  fs.writeFileSync(target, buffer.join("\n"));
 }
 
 module.exports = writeReadme;
