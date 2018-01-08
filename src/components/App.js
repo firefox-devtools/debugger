@@ -107,6 +107,7 @@ class App extends Component<Props, State> {
 
   componentDidMount() {
     verticalLayoutBreakpoint.addListener(this.onLayoutChange);
+    this.setOrientation();
 
     shortcuts.on(L10N.getStr("symbolSearch.search.key2"), (_, e) =>
       this.toggleQuickOpenModal(_, e, "@")
@@ -190,6 +191,10 @@ class App extends Component<Props, State> {
   }
 
   onLayoutChange() {
+    this.setOrientation();
+  }
+
+  setOrientation() {
     const orientation = verticalLayoutBreakpoint.matches
       ? "horizontal"
       : "vertical";
