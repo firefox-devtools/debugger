@@ -6,7 +6,7 @@
 
 import type { ThunkArgs } from "./types";
 
-export function fetchWorkers() {
+export function updateWorkers() {
   return async function({ dispatch, client }: ThunkArgs) {
     const { workers } = await client.fetchWorkers();
     dispatch({ type: "SET_WORKERS", workers });

@@ -223,7 +223,7 @@ export type Actions = {
   resumed: ResumedPacket => void,
   newSources: (Source[]) => void,
   fetchEventListeners: () => void,
-  fetchWorkers: () => void
+  updateWorkers: () => void
 };
 
 /**

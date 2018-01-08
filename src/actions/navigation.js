@@ -10,7 +10,7 @@ import { getSources } from "../reducers/sources";
 import { waitForMs } from "../utils/utils";
 
 import { newSources } from "./sources";
-import { fetchWorkers } from "./debuggee";
+import { updateWorkers } from "./debuggee";
 
 import {
   clearASTs,
@@ -56,7 +56,7 @@ export function navigate(url: string) {
 
 export function connect(url: string) {
   return async function({ dispatch }: ThunkArgs) {
-    dispatch(fetchWorkers());
+    dispatch(updateWorkers());
     dispatch({ type: "CONNECT", url });
   };
 }

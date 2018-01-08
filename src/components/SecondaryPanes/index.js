@@ -153,7 +153,7 @@ class SecondaryPanes extends Component<Props> {
     };
   }
 
-  getWatchItem() {
+  getWatchItem(): AccordionPaneItem {
     return {
       header: L10N.getStr("watchExpressions.header"),
       className: "watch-expressions-pane",
@@ -166,7 +166,7 @@ class SecondaryPanes extends Component<Props> {
     };
   }
 
-  getCallStackItem() {
+  getCallStackItem(): AccordionPaneItem {
     return {
       header: L10N.getStr("callStack.header"),
       className: "call-stack-pane",
@@ -178,7 +178,7 @@ class SecondaryPanes extends Component<Props> {
     };
   }
 
-  getWorkersItem() {
+  getWorkersItem(): AccordionPaneItem {
     return {
       header: L10N.getStr("workersHeader"),
       className: "workers-pane",
@@ -190,7 +190,7 @@ class SecondaryPanes extends Component<Props> {
     };
   }
 
-  getBreakpointsItem() {
+  getBreakpointsItem(): AccordionPaneItem {
     return {
       header: L10N.getStr("breakpoints.header"),
       className: "breakpoints-pane",
@@ -230,11 +230,11 @@ class SecondaryPanes extends Component<Props> {
 
     const items: Array<AccordionPaneItem> = [];
     if (this.props.horizontal) {
-      items.push(this.getWatchItem());
-    }
+      if (features.workers && workers.size > 0) {
+        items.push(this.getWorkersItem());
+      }
 
-    if (features.workers && workers.size > 0) {
-      items.push(this.getWorkersItem());
+      items.push(this.getWatchItem());
     }
 
     items.push(this.getBreakpointsItem());
@@ -262,13 +262,19 @@ class SecondaryPanes extends Component<Props> {
   }
 
   getEndItems() {
+    const { workers } = this.props;
+
     let items: Array<AccordionPaneItem> = [];
 
     if (this.props.horizontal) {
       return [];
     }
 
-    items = [this.getWatchItem(), ...items];
+    if (features.workers && workers.size > 0) {
+      items.push(this.getWorkersItem());
+    }
+
+    items.push(this.getWatchItem());
 
     if (this.props.isPaused) {
       items = [...items, this.getScopeItem()];

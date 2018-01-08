@@ -87,7 +87,7 @@ function newSource(_: "newSource", { source }: SourcePacket) {
 }
 
 function workerListChanged() {
-  actions.fetchWorkers();
+  actions.updateWorkers();
 }
 
 const clientEvents = {
