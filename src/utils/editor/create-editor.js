@@ -4,7 +4,7 @@
 
 // @flow
 
-import { SourceEditor } from "./source-editor";
+import SourceEditor from "./source-editor";
 import { isEnabled } from "devtools-config";
 
 export function createEditor() {

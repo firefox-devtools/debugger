@@ -51,7 +51,7 @@ type SourceEditorOpts = {
   value: string
 };
 
-export class SourceEditor {
+export default class SourceEditor {
   opts: SourceEditorOpts;
   editor: any;
 

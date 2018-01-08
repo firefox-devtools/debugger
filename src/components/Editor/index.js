@@ -379,9 +379,7 @@ class Editor extends PureComponent<Props, State> {
       return closeConditionalPanel();
     }
 
-    if (line !== undefined) {
-      return openConditionalPanel(line);
-    }
+    return openConditionalPanel(line);
   };
 
   closeConditionalPanel = () => {
