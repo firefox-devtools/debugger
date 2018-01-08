@@ -17,6 +17,7 @@ import { getLoadedObjects } from "../../../selectors";
 import Popover from "../../shared/Popover";
 import PreviewFunction from "../../shared/PreviewFunction";
 import { markText } from "../../../utils/editor";
+import { isReactComponent, isImmutable } from "../../../utils/preview";
 import Svg from "../../shared/Svg";
 
 import "./Popup.css";
@@ -37,14 +38,6 @@ type Props = {
   openLink: string => void,
   extra: Object
 };
-
-function isReactComponent(roots) {
-  return roots.some(root => root.name === "_reactInternalInstance");
-}
-
-function isImmutable(immutable) {
-  return immutable.isImmutable;
-}
 
 export class Popup extends Component<Props> {
   marker: any;
@@ -154,18 +147,23 @@ export class Popup extends Component<Props> {
     const { extra: { react, immutable } } = this.props;
     const getObjectProperties = id => loadedObjects[id];
     const roots = this.getChildren(root, getObjectProperties);
+    const grip = root.contents.value;
 
     if (!roots) {
       return null;
     }
 
-    if (isReactComponent(roots)) {
+    if (isReactComponent(grip)) {
       return this.renderReact(react, roots);
     }
 
-    if (isImmutable(immutable)) {
+    if (isImmutable(grip)) {
       return this.renderImmutable(immutable, roots);
     }
+
+    return (
+      <div className="preview-popup">{this.renderObjectInspector(roots)}</div>
+    );
   }
 
   renderSimplePreview(value: Object) {

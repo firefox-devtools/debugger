@@ -169,6 +169,10 @@ type EvaluateParam = {
   frameId?: FrameId
 };
 
+function evaluateInFrame(frameId: string, script: Script) {
+  return evaluate(script, { frameId });
+}
+
 function evaluate(script: Script, { frameId }: EvaluateParam): Promise<mixed> {
   const params = frameId ? { frameActor: frameId } : {};
   if (!tabTarget || !tabTarget.activeConsole) {
@@ -307,6 +311,7 @@ const clientCommands = {
   removeBreakpoint,
   setBreakpointCondition,
   evaluate,
+  evaluateInFrame,
   debuggeeCommand,
   navigate,
   reload,

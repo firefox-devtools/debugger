@@ -1,7 +1,12 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 import { findBestMatchExpression } from "../utils/ast";
 import { getTokenLocation } from "../utils/editor";
+import { isReactComponent, isImmutable } from "../utils/preview";
 import { isGeneratedId } from "devtools-source-map";
 import { PROMISE } from "./utils/middleware/promise";
 
@@ -20,53 +25,40 @@ import { isEqual } from "lodash";
 import type { ThunkArgs } from "./types";
 import type { AstLocation } from "../workers/parser";
 
-function isImmutableResult(preview) {
-  if (!preview || !preview.ownProperties) {
-    return false;
-  }
-  const { _root, __ownerID, __altered, __hash } = preview.ownProperties;
-  return !!(_root && __ownerID && __altered && __hash);
-}
-
-async function getExtraProps(client, frame, expression, result) {
-  let immutableType = null;
-  let immutableEntries = null;
-  const isImmutable = isImmutableResult(result.preview);
-  const frameId = frame.id;
-
-  const reactDisplayName = await client.evaluate(
-    "this._reactInternalInstance.getName()",
-    {
-      frameId
-    }
+async function getReactProps(evaluate) {
+  const reactDisplayName = await evaluate(
+    "this._reactInternalInstance.getName()"
   );
 
-  if (isImmutable) {
-    immutableEntries = await client.evaluate(
-      (exp => `${exp}.toJS()`)(expression),
-      {
-        frameId
-      }
-    );
+  return {
+    displayName: reactDisplayName.result
+  };
+}
 
-    immutableType = await client.evaluate(
-      (exp => `${exp}.constructor.name`)(expression),
-      {
-        frameId
-      }
-    );
-  }
+async function getImmutableProps(expression: string, evaluate) {
+  const immutableEntries = await evaluate((exp => `${exp}.toJS()`)(expression));
+
+  const immutableType = await evaluate(
+    (exp => `${exp}.constructor.name`)(expression)
+  );
 
   return {
-    react: {
-      displayName: reactDisplayName.result
-    },
-    immutable: {
-      isImmutable,
-      type: immutableType && immutableType.result,
-      entries: immutableEntries && immutableEntries.result
-    }
+    type: immutableType.result,
+    entries: immutableEntries.result
   };
+}
+
+async function getExtraProps(expression, result, evaluate) {
+  const props = {};
+  if (isReactComponent(result)) {
+    props.react = await getReactProps(evaluate);
+  }
+
+  if (isImmutable(result)) {
+    props.immutable = await getImmutableProps(expression, evaluate);
+  }
+
+  return props;
 }
 
 export function updatePreview(target: HTMLElement, editor: any) {
@@ -170,19 +162,17 @@ export function setPreview(
         }
 
         const selectedFrame = getSelectedFrame(getState());
-        const { result } = await client.evaluate(expression, {
-          frameId: selectedFrame.id
-        });
+        const { result } = await client.evaluateInFrame(
+          selectedFrame.id,
+          expression
+        );
 
         if (result === undefined) {
           return;
         }
 
-        const extra = await getExtraProps(
-          client,
-          selectedFrame,
-          expression,
-          result
+        const extra = await getExtraProps(expression, result, expr =>
+          client.evaluateInFrame(selectedFrame.id, expr)
         );
 
         return {

@@ -71,17 +71,6 @@ declare module "debugger-html" {
   };
 
   /**
-   * Breakpoint sync data
-   *
-   * @memberof types
-   * @static
-   */
-  declare type BreakpointSyncData = {
-    previousLocation: Location | null,
-    breakpoint: Breakpoint
-  };
-
-  /**
    * Breakpoint Result is the return from an add/modify Breakpoint request
    *
    * @memberof types
@@ -225,7 +214,8 @@ declare module "debugger-html" {
     url: string,
     fileName: string,
     message: string,
-    name: string
+    name: string,
+    ownProperties?: Object
   };
 
   /**
@@ -240,7 +230,7 @@ declare module "debugger-html" {
     frozen: boolean,
     isGlobal: boolean,
     ownPropertyLength: number,
-    preview: PreviewGrip,
+    preview?: PreviewGrip,
     sealed: boolean,
     type: string
   };
