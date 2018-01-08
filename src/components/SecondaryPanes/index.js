@@ -18,7 +18,8 @@ import {
   getBreakpointsLoading,
   getIsWaitingOnBreak,
   getShouldPauseOnExceptions,
-  getShouldIgnoreCaughtExceptions
+  getShouldIgnoreCaughtExceptions,
+  getWorkers
 } from "../../selectors";
 
 import { isEnabled } from "devtools-config";
@@ -43,7 +44,9 @@ const Scopes = isEnabled("chromeScopes") ? _chromeScopes : _Scopes;
 
 import "./SecondaryPanes.css";
 
-type SecondaryPanesItems = {
+import type { WorkersList } from "../../reducers/types";
+
+type AccordionPaneItem = {
   header: string,
   component: any,
   opened?: boolean,
@@ -78,7 +81,8 @@ type Props = {
   breakOnNext: () => void,
   isWaitingOnBreak: any,
   shouldPauseOnExceptions: boolean,
-  shouldIgnoreCaughtExceptions: boolean
+  shouldIgnoreCaughtExceptions: boolean,
+  workers: WorkersList
 };
 
 class SecondaryPanes extends Component<Props> {
@@ -137,7 +141,7 @@ class SecondaryPanes extends Component<Props> {
     ];
   }
 
-  getScopeItem() {
+  getScopeItem(): AccordionPaneItem {
     return {
       header: L10N.getStr("scopes.header"),
       className: "scopes-pane",
@@ -149,17 +153,20 @@ class SecondaryPanes extends Component<Props> {
     };
   }
 
-  getWatchItem() {
+  getWatchItem(): AccordionPaneItem {
     return {
       header: L10N.getStr("watchExpressions.header"),
       className: "watch-expressions-pane",
       buttons: this.watchExpressionHeaderButtons(),
       component: Expressions,
-      opened: true
+      opened: prefs.expressionsVisible,
+      onToggle: opened => {
+        prefs.expressionsVisible = opened;
+      }
     };
   }
 
-  getCallStackItem() {
+  getCallStackItem(): AccordionPaneItem {
     return {
       header: L10N.getStr("callStack.header"),
       className: "call-stack-pane",
@@ -171,13 +178,28 @@ class SecondaryPanes extends Component<Props> {
     };
   }
 
-  getBreakpointsItem() {
+  getWorkersItem(): AccordionPaneItem {
+    return {
+      header: L10N.getStr("workersHeader"),
+      className: "workers-pane",
+      component: Workers,
+      opened: prefs.workersVisible,
+      onToggle: opened => {
+        prefs.workersVisible = opened;
+      }
+    };
+  }
+
+  getBreakpointsItem(): AccordionPaneItem {
     return {
       header: L10N.getStr("breakpoints.header"),
       className: "breakpoints-pane",
       buttons: [this.breakpointDropdown(), this.renderBreakpointsToggle()],
       component: Breakpoints,
-      opened: true
+      opened: prefs.breakpointsVisible,
+      onToggle: opened => {
+        prefs.breakpointsVisible = opened;
+      }
     };
   }
 
@@ -204,7 +226,17 @@ class SecondaryPanes extends Component<Props> {
   }
 
   getStartItems() {
-    const items: Array<SecondaryPanesItems> = [];
+    const { workers } = this.props;
+
+    const items: Array<AccordionPaneItem> = [];
+    if (this.props.horizontal) {
+      if (features.workers && workers.size > 0) {
+        items.push(this.getWorkersItem());
+      }
+
+      items.push(this.getWatchItem());
+    }
+
     items.push(this.getBreakpointsItem());
 
     if (this.props.isPaused) {
@@ -222,18 +254,6 @@ class SecondaryPanes extends Component<Props> {
       });
     }
 
-    if (features.workers) {
-      items.push({
-        header: L10N.getStr("workersHeader"),
-        className: "workers-pane",
-        component: Workers
-      });
-    }
-
-    if (this.props.horizontal) {
-      items.unshift(this.getWatchItem());
-    }
-
     return items.filter(item => item);
   }
 
@@ -242,14 +262,22 @@ class SecondaryPanes extends Component<Props> {
   }
 
   getEndItems() {
-    const items: Array<SecondaryPanesItems> = [];
+    const { workers } = this.props;
 
-    if (!this.props.horizontal && this.props.isPaused) {
-      items.unshift(this.getScopeItem());
+    let items: Array<AccordionPaneItem> = [];
+
+    if (this.props.horizontal) {
+      return [];
     }
 
-    if (!this.props.horizontal) {
-      items.unshift(this.getWatchItem());
+    if (features.workers && workers.size > 0) {
+      items.push(this.getWorkersItem());
+    }
+
+    items.push(this.getWatchItem());
+
+    if (this.props.isPaused) {
+      items = [...items, this.getScopeItem()];
     }
 
     return items;
@@ -312,7 +340,8 @@ export default connect(
     breakpointsLoading: getBreakpointsLoading(state),
     isWaitingOnBreak: getIsWaitingOnBreak(state),
     shouldPauseOnExceptions: getShouldPauseOnExceptions(state),
-    shouldIgnoreCaughtExceptions: getShouldIgnoreCaughtExceptions(state)
+    shouldIgnoreCaughtExceptions: getShouldIgnoreCaughtExceptions(state),
+    workers: getWorkers(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(SecondaryPanes);

@@ -18,6 +18,9 @@ if (isDevelopment()) {
   pref("devtools.debugger.ignore-caught-exceptions", false);
   pref("devtools.debugger.call-stack-visible", true);
   pref("devtools.debugger.scopes-visible", true);
+  pref("devtools.debugger.workers-visible", true);
+  pref("devtools.debugger.expressions-visible", true);
+  pref("devtools.debugger.breakpoints-visible", true);
   pref("devtools.debugger.start-panel-collapsed", false);
   pref("devtools.debugger.end-panel-collapsed", false);
   pref("devtools.debugger.tabs", "[]");
@@ -49,6 +52,9 @@ export const prefs = new PrefsHelper("devtools", {
   ignoreCaughtExceptions: ["Bool", "debugger.ignore-caught-exceptions"],
   callStackVisible: ["Bool", "debugger.call-stack-visible"],
   scopesVisible: ["Bool", "debugger.scopes-visible"],
+  workersVisible: ["Bool", "debugger.workers-visible"],
+  breakpointsVisible: ["Bool", "debugger.breakpoints-visible"],
+  expressionsVisible: ["Bool", "debugger.expressions-visible"],
   startPanelCollapsed: ["Bool", "debugger.start-panel-collapsed"],
   endPanelCollapsed: ["Bool", "debugger.end-panel-collapsed"],
   frameworkGroupingOn: ["Bool", "debugger.ui.framework-grouping-on"],

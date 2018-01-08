@@ -39,6 +39,10 @@ function setupEvents(dependencies: Dependencies) {
     Object.keys(clientEvents).forEach(eventName => {
       threadClient.addListener(eventName, clientEvents[eventName]);
     });
+
+    if (threadClient._parent) {
+      threadClient._parent.addListener("workerListChanged", workerListChanged);
+    }
   }
 }
 
@@ -80,6 +84,10 @@ function newSource(_: "newSource", { source }: SourcePacket) {
   if (isEnabled("eventListeners")) {
     actions.fetchEventListeners();
   }
+}
+
+function workerListChanged() {
+  actions.updateWorkers();
 }
 
 const clientEvents = {

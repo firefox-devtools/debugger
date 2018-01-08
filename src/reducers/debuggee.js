@@ -16,8 +16,10 @@ import type { Worker } from "../types";
 import type { Action } from "../actions/types";
 import makeRecord from "../utils/makeRecord";
 
+export type WorkersList = List<Worker>;
+
 type DebuggeeState = {
-  workers: List<Worker>
+  workers: WorkersList
 };
 
 export const State = makeRecord(
@@ -32,7 +34,7 @@ export default function debuggee(
 ): Record<DebuggeeState> {
   switch (action.type) {
     case "SET_WORKERS":
-      return state.set("workers", List(action.workers.workers));
+      return state.set("workers", List(action.workers));
     default:
       return state;
   }

@@ -11,6 +11,7 @@ import "./Workers.css";
 
 import actions from "../../actions";
 import { getWorkers } from "../../selectors";
+import { basename } from "../../utils/path";
 import type { Worker } from "../../types";
 
 export class Workers extends PureComponent {
@@ -19,18 +20,16 @@ export class Workers extends PureComponent {
     openWorkerToolbox: string => void
   };
 
-  selectWorker(url) {
-    this.props.openWorkerToolbox(url);
-  }
-
   renderWorkers(workers) {
+    const { openWorkerToolbox } = this.props;
     return workers.map(worker => (
       <div
         className="worker"
-        key={worker.url}
-        onClick={() => this.selectWorker(worker.url)}
+        key={worker.actor}
+        onClick={() => openWorkerToolbox(worker)}
       >
-        {worker.url}
+        <img className="domain" />
+        {basename(worker.url)}
       </div>
     ));
   }
