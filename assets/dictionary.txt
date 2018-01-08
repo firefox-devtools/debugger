@@ -77,3 +77,9 @@ mapDispatchToProps
 amelzer
 selectSource
 selectLocation
+talos
+Talos
+subdirectory
+webpage
+profiler
+benchmarking
