@@ -185,7 +185,9 @@ export default class TextSearch extends Component<Props> {
         />
       );
     } else if (status === statusType.fetching) {
-      return <div className="no-result-msg absolute-center">Loading...</div>;
+      return (
+        <div className="no-result-msg absolute-center">No results found.</div>
+      );
     } else if (this.props.query && !results.length) {
       return (
         <div className="no-result-msg absolute-center">
