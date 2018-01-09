@@ -32,6 +32,14 @@ describe("expressions", () => {
     expect(selectors.getExpressions(getState()).size).toBe(0);
   });
 
+  it("should not add invalid expressions", async () => {
+    const { dispatch, getState } = createStore(mockThreadClient);
+    await dispatch(actions.addExpression("foo#"));
+    const state = getState();
+    expect(selectors.getExpressions(state).size).toBe(0);
+    expect(selectors.getExpressionError(state)).toBe(true);
+  });
+
   it("should update an expression", async () => {
     const { dispatch, getState } = createStore(mockThreadClient);
 
@@ -40,6 +48,15 @@ describe("expressions", () => {
     await dispatch(actions.updateExpression("bar", expression));
 
     expect(selectors.getExpression(getState(), "bar").input).toBe("bar");
+  });
+
+  it("should not update an expression w/ invalid code", async () => {
+    const { dispatch, getState } = createStore(mockThreadClient);
+
+    await dispatch(actions.addExpression("foo"));
+    const expression = selectors.getExpression(getState(), "foo");
+    await dispatch(actions.updateExpression("#bar", expression));
+    expect(selectors.getExpression(getState(), "bar")).toBeUndefined();
   });
 
   it("should delete an expression", async () => {

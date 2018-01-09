@@ -28,7 +28,6 @@ import type { ThunkArgs } from "./types";
  */
 export function addExpression(input: string) {
   return async ({ dispatch, getState }: ThunkArgs) => {
-    const expressionError = await parser.hasSyntaxError(input);
     if (!input) {
       return;
     }
@@ -38,6 +37,7 @@ export function addExpression(input: string) {
       return dispatch(evaluateExpression(expression));
     }
 
+    const expressionError = await parser.hasSyntaxError(input);
     dispatch({ type: "ADD_EXPRESSION", input, expressionError });
 
     const newExpression = getExpression(getState(), input);
@@ -53,10 +53,11 @@ export function clearExpressionError() {
 
 export function updateExpression(input: string, expression: Expression) {
   return async ({ dispatch, getState }: ThunkArgs) => {
-    const expressionError = await parser.hasSyntaxError(input);
     if (!input || input == expression.input) {
       return;
     }
+
+    const expressionError = await parser.hasSyntaxError(input);
     dispatch({
       type: "UPDATE_EXPRESSION",
       expression,
