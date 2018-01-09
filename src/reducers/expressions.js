@@ -37,23 +37,21 @@ function update(
 ): Record<ExpressionState> {
   switch (action.type) {
     case "ADD_EXPRESSION":
+      if (action.expressionError) {
+        return state.set("expressionError", !!action.expressionError);
+      }
       return appendToList(state, ["expressions"], {
         input: action.input,
         value: null,
         updating: true
       });
-    case "EXPRESSION_ERROR":
-      if (state.get("expressionError") === action.value) {
-        return state;
-      }
-      return state.set("expressionError", action.value);
     case "UPDATE_EXPRESSION":
       const key = action.expression.input;
       return updateItemInList(state, ["expressions"], key, {
         input: action.input,
         value: null,
         updating: true
-      });
+      }).set("expressionError", !!action.expressionError);
     case "EVALUATE_EXPRESSION":
       return updateItemInList(state, ["expressions"], action.input, {
         input: action.input,
@@ -62,6 +60,8 @@ function update(
       });
     case "DELETE_EXPRESSION":
       return deleteExpression(state, action.input);
+    case "CLEAR_EXPRESSION_ERROR":
+      return state.set("expressionError", false);
   }
 
   return state;

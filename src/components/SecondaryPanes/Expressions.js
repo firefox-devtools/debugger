@@ -8,15 +8,7 @@ import { connect } from "react-redux";
 import classnames from "classnames";
 import { ObjectInspector } from "devtools-reps";
 
-import {
-  addExpression as _addExpression,
-  setExpressionError as _setExpressionError,
-  evaluateExpressions as _evaluateExpressions,
-  updateExpression as _updateExpression,
-  deleteExpression as _deleteExpression
-} from "../../actions/expressions";
-import { loadObjectProperties as loadObjectProps } from "../../actions/pause";
-import { openLink as _openLink } from "../../actions/toolbox";
+import actions from "../../actions";
 import {
   getExpressions,
   getExpressionError,
@@ -41,7 +33,7 @@ type Props = {
   expressionError: boolean,
   loadedObjects: Map<string, any>,
   addExpression: (input: string) => void,
-  setExpressionError: (value: boolean) => void,
+  clearExpressionError: () => void,
   evaluateExpressions: () => void,
   updateExpression: (input: string, expression: Expression) => void,
   deleteExpression: (expression: Expression) => void,
@@ -71,7 +63,7 @@ class Expressions extends PureComponent<Props, State> {
 
   clear = () => {
     this.setState(() => {
-      this.props.setExpressionError(false);
+      this.props.clearExpressionError();
       return { editing: false, editIndex: -1, inputValue: "" };
     });
   };
@@ -275,13 +267,5 @@ export default connect(
     expressionError: getExpressionError(state),
     loadedObjects: getLoadedObjects(state)
   }),
-  {
-    addExpression: _addExpression,
-    setExpressionError: _setExpressionError,
-    evaluateExpressions: _evaluateExpressions,
-    updateExpression: _updateExpression,
-    deleteExpression: _deleteExpression,
-    loadObjectProperties: loadObjectProps,
-    openLink: _openLink
-  }
+  actions
 )(Expressions);

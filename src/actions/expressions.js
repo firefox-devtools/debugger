@@ -7,7 +7,6 @@
 import {
   getExpression,
   getExpressions,
-  getExpressionError,
   getSelectedFrame,
   getSelectedFrameId,
   getSource
@@ -29,19 +28,9 @@ import type { ThunkArgs } from "./types";
  */
 export function addExpression(input: string) {
   return async ({ dispatch, getState }: ThunkArgs) => {
-    // clear previous error.
-    const prevErr = getExpressionError(getState());
-    const error = await parser.hasSyntaxError(input);
-    if (prevErr && !error) {
-      dispatch(setExpressionError(false));
-    }
-
-    if (!input && !prevErr) {
+    const expressionError = await parser.hasSyntaxError(input);
+    if (!input) {
       return;
-    }
-
-    if (error) {
-      return dispatch(setExpressionError());
     }
 
     const expression = getExpression(getState(), input);
@@ -49,34 +38,30 @@ export function addExpression(input: string) {
       return dispatch(evaluateExpression(expression));
     }
 
-    dispatch({
-      type: "ADD_EXPRESSION",
-      input
-    });
+    dispatch({ type: "ADD_EXPRESSION", input, expressionError });
 
     const newExpression = getExpression(getState(), input);
-    return dispatch(evaluateExpression(newExpression));
+    if (newExpression) {
+      return dispatch(evaluateExpression(newExpression));
+    }
   };
 }
 
-export function setExpressionError(value: boolean = true) {
-  return { type: "EXPRESSION_ERROR", value };
+export function clearExpressionError() {
+  return { type: "CLEAR_EXPRESSION_ERROR" };
 }
 
 export function updateExpression(input: string, expression: Expression) {
   return async ({ dispatch, getState }: ThunkArgs) => {
-    const error = await parser.hasSyntaxError(input);
+    const expressionError = await parser.hasSyntaxError(input);
     if (!input || input == expression.input) {
       return;
     }
-    if (error) {
-      return dispatch(setExpressionError());
-    }
-
     dispatch({
       type: "UPDATE_EXPRESSION",
       expression,
-      input
+      input: expressionError ? expression.input : input,
+      expressionError
     });
 
     dispatch(evaluateExpressions());
