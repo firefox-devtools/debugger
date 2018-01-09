@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import TextSearch from "../TextSearch.js";
+import { ProjectSearch } from "../index.js";
 
 function render(overrides = {}) {
   const defaultProps = {
@@ -13,13 +13,13 @@ function render(overrides = {}) {
   };
   const props = { ...defaultProps, ...overrides };
 
-  const component = shallow(<TextSearch {...props} />, {
+  const component = shallow(<ProjectSearch {...props} />, {
     disableLifecycleMethods: true
   });
   return component;
 }
 
-describe("TextSearch", () => {
+describe("ProjectSearch", () => {
   it("where <Enter> has not been pressed", () => {
     const component = render({
       query: ""

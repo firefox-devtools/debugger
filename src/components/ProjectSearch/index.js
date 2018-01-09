@@ -11,7 +11,7 @@ import classnames from "classnames";
 import { bindActionCreators } from "redux";
 import actions from "../../actions";
 
-import { highlightMatches } from "./textSearch/utils/highlight";
+import { highlightMatches } from "./utils/highlight";
 
 import { statusType } from "../../reducers/project-text-search";
 import { getRelativePath } from "../../utils/sources-tree";
@@ -32,7 +32,14 @@ import type { StatusType } from "../../reducers/project-text-search";
 
 import "./TextSearch.css";
 
-type Match = Object;
+type Match = {
+  sourceId: string,
+  line: number,
+  column: number,
+  match: string,
+  value: string,
+  text: string
+};
 type Result = {
   filepath: string,
   matches: Array<Match>,
@@ -66,7 +73,7 @@ type Props = {
   searchBottomBar: Object
 };
 
-class ProjectSearch extends Component<Props, State> {
+export class ProjectSearch extends Component<Props, State> {
   onEscape: Function;
   close: Function;
   inputOnChange: Function;
@@ -75,7 +82,7 @@ class ProjectSearch extends Component<Props, State> {
   selectMatchItem: Function;
   toggleProjectTextSearch: Function;
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       inputValue: this.props.query || "",
@@ -109,7 +116,7 @@ class ProjectSearch extends Component<Props, State> {
     shortcuts.off("Enter", this.onEnterPress);
   }
 
-  toggleProjectTextSearch(key, e) {
+  toggleProjectTextSearch(key: string, e: KeyboardEvent) {
     const { closeActiveSearch, setActiveSearch } = this.props;
     if (e) {
       e.preventDefault();
@@ -125,11 +132,11 @@ class ProjectSearch extends Component<Props, State> {
     return this.props.activeSearch === "project";
   }
 
-  selectMatchItem(matchItem) {
+  selectMatchItem(matchItem: Match) {
     this.props.selectLocation({ ...matchItem });
   }
 
-  getResults() {
+  getResults(): Result[] {
     const { results } = this.props;
     return results
       .toJS()
@@ -144,7 +151,7 @@ class ProjectSearch extends Component<Props, State> {
     );
   }
 
-  onKeyDown(e) {
+  onKeyDown(e: SyntheticKeyboardEvent<HTMLInputElement>) {
     if (e.key === "Escape") {
       return;
     }
@@ -169,12 +176,17 @@ class ProjectSearch extends Component<Props, State> {
     }
   }
 
-  inputOnChange(e) {
+  inputOnChange(e: SyntheticInputEvent<HTMLInputElement>) {
     const inputValue = e.target.value;
     this.setState({ inputValue });
   }
 
-  renderFile(file, focused, expanded, setExpanded) {
+  renderFile(
+    file: Result,
+    focused: boolean,
+    expanded: boolean,
+    setExpanded: Function
+  ) {
     if (focused) {
       this.setState({ focusedItem: { setExpanded, file, expanded } });
     }
@@ -196,7 +208,7 @@ class ProjectSearch extends Component<Props, State> {
     );
   }
 
-  renderMatch(match, focused) {
+  renderMatch(match: Match, focused: boolean) {
     if (focused) {
       this.setState({ focusedItem: { match } });
     }
@@ -213,7 +225,7 @@ class ProjectSearch extends Component<Props, State> {
     );
   }
 
-  renderMatchValue(lineMatch) {
+  renderMatchValue(lineMatch: Match) {
     return highlightMatches(lineMatch);
   }
 
@@ -224,10 +236,10 @@ class ProjectSearch extends Component<Props, State> {
 
     const { status } = this.props;
 
-    function getFilePath(item, index) {
+    function getFilePath(item: Match) {
       return item.filepath
-        ? `${item.sourceId}-${index}`
-        : `${item.sourceId}-${item.line}-${item.column}-${index}`;
+        ? `${item.sourceId}`
+        : `${item.sourceId}-${item.line}-${item.column}`;
     }
 
     const renderItem = (item, depth, focused, _, expanded, { setExpanded }) => {
@@ -241,16 +253,17 @@ class ProjectSearch extends Component<Props, State> {
           getRoots={() => results}
           getChildren={file => file.matches || []}
           itemHeight={24}
-          autoExpand={1}
+          autoExpandAll={true}
           autoExpandDepth={1}
           getParent={item => null}
           getPath={getFilePath}
           renderItem={renderItem}
         />
       );
-    } else if (status === statusType.fetching) {
-      return <div className="no-result-msg absolute-center">Loading...</div>;
-    } else if (this.props.query && !results.length) {
+    } else if (
+      (this.props.query && !results.length) ||
+      status === statusType.fetching
+    ) {
       return (
         <div className="no-result-msg absolute-center">
           {L10N.getStr("projectTextSearch.noResults")}

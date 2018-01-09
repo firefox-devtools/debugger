@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProjectSearch found no search results 1`] = `""`;
+
+exports[`ProjectSearch found search results 1`] = `""`;
+
+exports[`ProjectSearch where <Enter> has not been pressed 1`] = `""`;
