@@ -46,7 +46,7 @@ export async function onConnect(connection: any, actions: Object): Object {
   // bfcache) so explicity fire `newSource` events for all returned
   // sources.
   const sources = await clientCommands.fetchSources();
-  actions.connect(tabTarget.url);
+  await actions.connect(tabTarget.url);
   await actions.newSources(sources);
 
   // If the threadClient is already paused, make sure to show a
