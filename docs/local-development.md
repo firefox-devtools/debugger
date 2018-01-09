@@ -655,19 +655,6 @@ index 1cfe2da..7e3068f 100644
  pref("devtools.debugger.features.project-text-search", true);
  pref("devtools.debugger.features.wasm", true);
 +pref("devtools.debugger.features.awesome", false);
-diff --git a/src/components/Editor/index.js b/src/components/Editor/index.js
-index 47714d3..540c98d 100644
---- a/src/components/Editor/index.js
-+++ b/src/components/Editor/index.js
-@@ -152,7 +152,7 @@ class Editor extends PureComponent {
-       codeMirror.on("gutterContextMenu", (cm, line, eventName, event) =>
-         this.onGutterContextMenu(event)
-       );
--
-+
-       codeMirror.on("contextmenu", (cm, event) => this.openMenu(event, cm));
-     } else {
-       codeMirrorWrapper.addEventListener("contextmenu", event =>
 diff --git a/src/utils/prefs.js b/src/utils/prefs.js
 index 429d56c..dadb36c 100644
 --- a/src/utils/prefs.js

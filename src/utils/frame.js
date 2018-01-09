@@ -5,7 +5,6 @@
 // @flow
 
 import { get } from "lodash";
-import { isEnabled } from "devtools-config";
 import { endTruncateStr } from "./utils";
 import { getFilename } from "./source";
 import { find, findIndex } from "lodash";
@@ -154,10 +153,6 @@ function mapDisplayNames(frame, library) {
 }
 
 export function annotateFrame(frame: Frame) {
-  if (!isEnabled("collapseFrame")) {
-    return frame;
-  }
-
   const library = getLibraryFromUrl(frame);
   if (library) {
     return { ...frame, library };

@@ -33,16 +33,21 @@ if (isDevelopment()) {
   pref("devtools.debugger.file-search-regex-match", false);
   pref("devtools.debugger.project-directory-root", "");
   pref("devtools.debugger.prefs-schema-version", "1.0.1");
-  pref("devtools.debugger.features.project-text-search", true);
   pref("devtools.debugger.features.workers", true);
   pref("devtools.debugger.features.async-stepping", true);
   pref("devtools.debugger.features.wasm", true);
   pref("devtools.debugger.features.shortcuts", true);
   pref("devtools.debugger.features.root", true);
-  pref("devtools.debugger.features.column-breakpoints", true);
+  pref("devtools.debugger.features.column-breakpoints", false);
+  pref("devtools.debugger.features.chrome-scopes", false);
   pref("devtools.debugger.features.map-scopes", true);
   pref("devtools.debugger.features.breakpoints-dropdown", true);
   pref("devtools.debugger.features.remove-command-bar-options", true);
+  pref("devtools.debugger.features.code-coverage", true);
+  pref("devtools.debugger.features.event-listeners", true);
+  pref("devtools.debugger.features.code-folding", true);
+  pref("devtools.debugger.features.outline", true);
+  pref("devtools.debugger.features.column-breakpoints", true);
 }
 
 export const prefs = new PrefsHelper("devtools", {
@@ -70,16 +75,19 @@ export const prefs = new PrefsHelper("devtools", {
 });
 
 export const features = new PrefsHelper("devtools.debugger.features", {
-  asyncStepping: ["Bool", "async-stepping", false],
-  projectTextSearch: ["Bool", "project-text-search", true],
-  wasm: ["Bool", "wasm", true],
-  shortcuts: ["Bool", "shortcuts", true],
-  root: ["Bool", "root", false],
-  columnBreakpoints: ["Bool", "column-breakpoints", false],
-  mapScopes: ["Bool", "map-scopes", true],
-  breakpointsDropdown: ["Bool", "breakpoints-dropdown", true],
-  removeCommandBarOptions: ["Bool", "remove-command-bar-options", true],
-  workers: ["Bool", "workers", true]
+  asyncStepping: ["Bool", "async-stepping"],
+  wasm: ["Bool", "wasm"],
+  shortcuts: ["Bool", "shortcuts"],
+  root: ["Bool", "root"],
+  columnBreakpoints: ["Bool", "column-breakpoints"],
+  chromeScopes: ["Bool", "chrome-scopes"],
+  mapScopes: ["Bool", "map-scopes"],
+  breakpointsDropdown: ["Bool", "breakpoints-dropdown"],
+  removeCommandBarOptions: ["Bool", "remove-command-bar-options"],
+  workers: ["Bool", "workers"],
+  codeCoverage: ["Bool", "code-coverage"],
+  eventListeners: ["Bool", "event-listeners"],
+  outline: ["Bool", "outline"]
 });
 
 if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {

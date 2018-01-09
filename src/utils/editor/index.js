@@ -12,6 +12,7 @@ export * from "./create-editor";
 
 import { shouldPrettyPrint } from "../source";
 import { findNext, findPrev } from "./source-search";
+
 import { isWasm, lineToWasmOffset, wasmOffsetToLine } from "../wasm";
 import { isOriginalId } from "devtools-source-map";
 

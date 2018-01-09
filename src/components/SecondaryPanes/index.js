@@ -8,7 +8,6 @@ import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { features } from "../../utils/prefs";
 
 import actions from "../../actions";
 import {
@@ -22,9 +21,8 @@ import {
   getWorkers
 } from "../../selectors";
 
-import { isEnabled } from "devtools-config";
 import Svg from "../shared/Svg";
-import { prefs } from "../../utils/prefs";
+import { prefs, features } from "../../utils/prefs";
 
 import Breakpoints from "./Breakpoints";
 import Expressions from "./Expressions";
@@ -40,7 +38,7 @@ import renderBreakpointsDropdown from "./BreakpointsDropdown";
 import _chromeScopes from "./ChromeScopes";
 import _Scopes from "./Scopes";
 
-const Scopes = isEnabled("chromeScopes") ? _chromeScopes : _Scopes;
+const Scopes = features.chromeScopes ? _chromeScopes : _Scopes;
 
 import "./SecondaryPanes.css";
 
@@ -246,7 +244,7 @@ class SecondaryPanes extends Component<Props> {
       }
     }
 
-    if (isEnabled("eventListeners")) {
+    if (features.eventListeners) {
       items.push({
         header: L10N.getStr("eventListenersHeader"),
         className: "event-listeners-pane",

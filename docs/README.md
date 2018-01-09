@@ -15,7 +15,6 @@ permalink: docs/
 * [Local Development](./local-development.md)
 * [Lerna](./lerna.md)
 * [Flow types](./flow.md)
-* [Feature flags](./feature-flags.md)
 * [Issues](./issues.md)
 * [Pull requests](./pull-requests.md)
 * [Maintainer information](./maintainer.md)

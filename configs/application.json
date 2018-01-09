@@ -4,7 +4,8 @@
   "workers": {
     "parserURL": "http://localhost:8000/assets/build/parser-worker.js",
     "sourceMapURL": "http://localhost:8000/assets/build/source-map-worker.js",
-    "prettyPrintURL": "http://localhost:8000/assets/build/pretty-print-worker.js"
+    "prettyPrintURL":
+      "http://localhost:8000/assets/build/pretty-print-worker.js"
   },
   "theme": "light",
   "logging": {
@@ -15,28 +16,7 @@
   "performance": {
     "actions": false
   },
-  "features": {
-    "chromeScopes": {
-      "label": "Chrome Scopes",
-      "enabled": false
-    },
-    "eventListeners": {
-      "label": "Event Listeners",
-      "enabled": false
-    },
-    "codeCoverage": {
-      "label": "Code Coverage",
-      "enabled": false
-    },
-    "codeFolding": {
-      "label": "Code Folding",
-      "enabled": false
-    },
-    "searchNav": {
-      "label": "Search Navigation",
-      "enabled": false
-    }
-  },
+  "features": {},
   "chrome": {
     "debug": true,
     "host": "localhost",
