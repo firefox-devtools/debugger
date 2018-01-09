@@ -70,7 +70,8 @@ function getBreakpointFilename(source) {
 function renderSourceLocation(source, line, column) {
   const filename = getBreakpointFilename(source);
   const isWasm = source && source.get("isWasm");
-  const columnVal = features.columnBreakpoints && column ? `:${column}` : "";
+  const columnVal =
+    features.columnBreakpoints && column ? `:${column}` : "";
   const bpLocation = isWasm
     ? `0x${line.toString(16).toUpperCase()}`
     : `${line}${columnVal}`;

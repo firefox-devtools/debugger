@@ -279,7 +279,9 @@ class SourcesTree extends Component<Props, State> {
       };
 
       menuOptions.push(copySourceUri2);
-    } else if (features.root) {
+    }
+
+    if (isDirectory(item) && features.root) {
       menuOptions.push({
         id: "node-set-directory-root",
         label: setDirectoryRootLabel,
@@ -288,6 +290,7 @@ class SourcesTree extends Component<Props, State> {
         click: () => setProjectDirectoryRoot(item.path)
       });
     }
+
     showMenu(event, menuOptions);
   }
 

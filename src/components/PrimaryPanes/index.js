@@ -14,7 +14,7 @@ import {
   getActiveSearch,
   getSelectedPrimaryPaneTab
 } from "../../selectors";
-import { isEnabled } from "devtools-config";
+import { features } from "../../utils/prefs";
 import "./Sources.css";
 import classnames from "classnames";
 
@@ -54,7 +54,7 @@ class PrimaryPanes extends Component<Props> {
   }
 
   renderOutlineTabs() {
-    if (!isEnabled("outline")) {
+    if (!features.outline) {
       return;
     }
 
@@ -112,7 +112,7 @@ class PrimaryPanes extends Component<Props> {
   renderOutline() {
     const { selectLocation } = this.props;
 
-    const outlineComp = isEnabled("outline") ? (
+    const outlineComp = features.outline ? (
       <Outline selectLocation={selectLocation} />
     ) : null;
 

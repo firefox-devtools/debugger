@@ -1,12 +1,12 @@
 machine:
   node:
-    version: 7.7.2
+    version: 8.5.0
   services:
     - docker
   environment:
     DOWNLOADS_PATH: "$HOME/downloads"
     YARN_PATH: "$HOME/.yarn"
-    YARN_VERSION: 0.28.4
+    YARN_VERSION: 1.3.2
     PATH: "${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
   post:
     - mkdir -p $DOWNLOADS_PATH
@@ -19,7 +19,6 @@ test:
   pre:
     - greenkeeper-lockfile-update
   override:
-    - mkdir -p $CIRCLE_TEST_REPORTS/mocha
     - mkdir -p $CIRCLE_TEST_REPORTS/flow-coverage
     - mkdir -p $CIRCLE_TEST_REPORTS/jest-coverage
     - jest -i --no-colors --testResultsProcessor jest-junit-reporter --coverage --coverageDirectory=$CIRCLE_TEST_REPORTS/jest-coverage

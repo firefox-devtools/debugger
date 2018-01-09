@@ -4,13 +4,12 @@
 
 // @flow
 import React, { Component } from "react";
-import { isEnabled } from "devtools-config";
 import ReactDOM from "react-dom";
-
 import classnames from "classnames";
 import Svg from "../shared/Svg";
 
 import { getDocument, toEditorLine } from "../../utils/editor";
+import { features } from "../../utils/prefs";
 
 const breakpointSvg = document.createElement("div");
 ReactDOM.render(<Svg name="breakpoint" />, breakpointSvg);
@@ -19,7 +18,7 @@ function makeMarker(isDisabled: boolean) {
   const bp = breakpointSvg.cloneNode(true);
   bp.className = classnames("editor new-breakpoint", {
     "breakpoint-disabled": isDisabled,
-    "folding-enabled": isEnabled("codeFolding")
+    "folding-enabled": features.codeFolding
   });
 
   return bp;
