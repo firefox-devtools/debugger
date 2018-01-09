@@ -12,6 +12,8 @@
 
 import { reportException } from "../utils/DevToolsUtils";
 import { isPaused, getSourceByURL } from "../selectors";
+import waitUntilService from "./utils/middleware/wait-service";
+const services = { WAIT_UNTIL: waitUntilService.NAME };
 
 // delay is in ms
 const FETCH_EVENT_LISTENERS_DELAY = 200;
@@ -47,7 +49,7 @@ async function asPaused(state: any, client: any, func: any) {
  * @static
  */
 export function fetchEventListeners() {
-  return ({ dispatch, getState, client, services }) => {
+  return ({ dispatch, getState, client }) => {
     // Make sure we"re not sending a batch of closely repeated requests.
     // This can easily happen whenever new sources are fetched.
     if (fetchListenersTimerID) {
