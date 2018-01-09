@@ -252,10 +252,6 @@ class SecondaryPanes extends Component<Props> {
       });
     }
 
-    if (this.props.horizontal) {
-      items.unshift(this.getWatchItem());
-    }
-
     return items.filter(item => item);
   }
 

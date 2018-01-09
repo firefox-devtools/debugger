@@ -90,10 +90,6 @@ export const features = new PrefsHelper("devtools.debugger.features", {
   outline: ["Bool", "outline"]
 });
 
-// export function isEnabled(key: string) {
-//   // return features[key];
-// }
-
 if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {
   // clear pending Breakpoints
   prefs.pendingBreakpoints = {};
