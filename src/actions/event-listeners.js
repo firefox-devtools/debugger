@@ -47,7 +47,7 @@ async function asPaused(state: any, client: any, func: any) {
  * @static
  */
 export function fetchEventListeners() {
-  return ({ dispatch, getState, client }) => {
+  return ({ dispatch, getState, client, services }) => {
     // Make sure we"re not sending a batch of closely repeated requests.
     // This can easily happen whenever new sources are fetched.
     if (fetchListenersTimerID) {
