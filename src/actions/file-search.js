@@ -88,7 +88,13 @@ export function searchContents(query: string, editor: Object) {
       selectedSource.get("text"),
       _modifiers
     );
-    const { ch, line } = find(ctx, query, true, _modifiers);
+
+    const res = find(ctx, query, true, _modifiers);
+    if (!res) {
+      return;
+    }
+
+    const { ch, line } = res;
 
     dispatch(updateSearchResults(ch, line, matches));
   };
@@ -112,10 +118,14 @@ export function traverseResults(rev: boolean, editor: Editor) {
 
     if (modifiers) {
       const matchedLocations = matches || [];
-      const { ch, line } = rev
+      const results = rev
         ? findPrev(ctx, query, true, modifiers.toJS())
         : findNext(ctx, query, true, modifiers.toJS());
 
+      if (!results) {
+        return;
+      }
+      const { ch, line } = results;
       dispatch(updateSearchResults(ch, line, matchedLocations));
     }
   };
