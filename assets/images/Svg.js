@@ -77,7 +77,7 @@ function Svg({ name, className, onClick, "aria-label": ariaLabel }) {
     }
 
     console.warn(error);
-    return;
+    return null;
   }
 
   className = `${name} ${className || ""}`;
