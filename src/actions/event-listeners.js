@@ -12,9 +12,7 @@
 
 import { reportException } from "../utils/DevToolsUtils";
 import { isPaused, getSourceByURL } from "../selectors";
-const services = {
-  WAIT_UNTIL: require("./utils/middleware/wait-service").NAME
-};
+import { NAME as WAIT_UNTIL } from "./utils/middleware/wait-service";
 
 // delay is in ms
 const FETCH_EVENT_LISTENERS_DELAY = 200;
@@ -63,7 +61,7 @@ export function fetchEventListeners() {
       // on a currently running request
       if (getState().eventListeners.fetchingListeners) {
         dispatch({
-          type: services.WAIT_UNTIL,
+          type: WAIT_UNTIL,
           predicate: action =>
             action.type === "FETCH_EVENT_LISTENERS" && action.status === "done",
           run: dispatch => dispatch(fetchEventListeners())
