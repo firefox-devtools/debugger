@@ -56,7 +56,7 @@ export function navigate(url: string) {
 
 export function connect(url: string) {
   return async function({ dispatch }: ThunkArgs) {
-    dispatch(updateWorkers());
+    await dispatch(updateWorkers());
     dispatch({ type: "CONNECT", url });
   };
 }
