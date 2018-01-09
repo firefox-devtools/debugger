@@ -8,7 +8,7 @@ import { isPaused, getSelectedSource, getTopFrame } from "../../selectors";
 import { PROMISE } from "../utils/middleware/promise";
 import { getNextStep } from "../../workers/parser";
 import { addHiddenBreakpoint } from "../breakpoints";
-import { isEnabled } from "../../utils/prefs";
+import { features } from "../../utils/prefs";
 
 import type { ThunkArgs } from "../types";
 type CommandType = "stepOver" | "stepIn" | "stepOut" | "resume";
@@ -94,7 +94,7 @@ export function resume() {
  */
 export function astCommand(stepType: CommandType) {
   return async ({ dispatch, getState, sourceMaps }: ThunkArgs) => {
-    if (!isEnabled("asyncStepping")) {
+    if (!features.asyncStepping) {
       return dispatch(command(stepType));
     }
 

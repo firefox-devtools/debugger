@@ -38,8 +38,8 @@ if (isDevelopment()) {
   pref("devtools.debugger.features.wasm", true);
   pref("devtools.debugger.features.shortcuts", true);
   pref("devtools.debugger.features.root", true);
-  pref("devtools.debugger.features.column-breakpoints", true);
-  pref("devtools.debugger.features.chrome-scopes", true);
+  pref("devtools.debugger.features.column-breakpoints", false);
+  pref("devtools.debugger.features.chrome-scopes", false);
   pref("devtools.debugger.features.map-scopes", true);
   pref("devtools.debugger.features.breakpoints-dropdown", true);
   pref("devtools.debugger.features.remove-command-bar-options", true);
@@ -90,9 +90,9 @@ export const features = new PrefsHelper("devtools.debugger.features", {
   outline: ["Bool", "outline"]
 });
 
-export function isEnabled(key: string) {
-  return features[key];
-}
+// export function isEnabled(key: string) {
+//   // return features[key];
+// }
 
 if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {
   // clear pending Breakpoints

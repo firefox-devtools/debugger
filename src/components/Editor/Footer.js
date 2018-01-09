@@ -14,7 +14,7 @@ import {
 } from "../../selectors";
 
 import classnames from "classnames";
-import { isEnabled } from "../../utils/prefs";
+import { features } from "../../utils/prefs";
 import { isPretty, isLoaded, getFilename } from "../../utils/source";
 import { getGeneratedSource } from "../../reducers/sources";
 import { shouldShowFooter, shouldShowPrettyPrint } from "../../utils/editor";
@@ -112,7 +112,7 @@ class SourceFooter extends PureComponent<Props> {
   coverageButton() {
     const { recordCoverage } = this.props;
 
-    if (!isEnabled("codeCoverage")) {
+    if (!features.codeCoverage) {
       return;
     }
 

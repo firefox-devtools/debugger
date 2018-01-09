@@ -8,7 +8,6 @@ import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { features } from "../../utils/prefs";
 
 import actions from "../../actions";
 import {
@@ -23,7 +22,7 @@ import {
 } from "../../selectors";
 
 import Svg from "../shared/Svg";
-import { prefs, isEnabled } from "../../utils/prefs";
+import { prefs, features } from "../../utils/prefs";
 
 import Breakpoints from "./Breakpoints";
 import Expressions from "./Expressions";
@@ -39,7 +38,7 @@ import renderBreakpointsDropdown from "./BreakpointsDropdown";
 import _chromeScopes from "./ChromeScopes";
 import _Scopes from "./Scopes";
 
-const Scopes = isEnabled("chromeScopes") ? _chromeScopes : _Scopes;
+const Scopes = features.chromeScopes ? _chromeScopes : _Scopes;
 
 import "./SecondaryPanes.css";
 
@@ -203,7 +202,7 @@ class SecondaryPanes extends Component<Props> {
   }
 
   breakpointDropdown() {
-    if (!isEnabled("breakpointsDropdown")) {
+    if (!features.breakpointsDropdown) {
       return;
     }
 
@@ -245,7 +244,7 @@ class SecondaryPanes extends Component<Props> {
       }
     }
 
-    if (isEnabled("eventListeners")) {
+    if (features.eventListeners) {
       items.push({
         header: L10N.getStr("eventListenersHeader"),
         className: "event-listeners-pane",
@@ -304,7 +303,7 @@ class SecondaryPanes extends Component<Props> {
   }
 
   renderUtilsBar() {
-    if (!isEnabled("shortcuts")) {
+    if (!features.shortcuts) {
       return;
     }
 

@@ -44,7 +44,7 @@ import { Set } from "immutable";
 import { showMenu } from "devtools-contextmenu";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { throttle } from "../../utils/utils";
-import { isEnabled } from "../../utils/prefs";
+import { features } from "../../utils/prefs";
 import { setProjectDirectoryRoot } from "../../actions/ui";
 
 type Props = {
@@ -281,7 +281,7 @@ class SourcesTree extends Component<Props, State> {
       menuOptions.push(copySourceUri2);
     }
 
-    if (isDirectory(item) && isEnabled("root")) {
+    if (isDirectory(item) && features.root) {
       menuOptions.push({
         id: "node-set-directory-root",
         label: setDirectoryRootLabel,

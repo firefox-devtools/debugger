@@ -6,7 +6,7 @@
 
 import { getBreakpoint } from "../../selectors";
 import assert from "../assert";
-import { isEnabled } from "../prefs";
+import { features } from "../prefs";
 
 export { getASTLocation, findScopeByName } from "./astBreakpointLocation";
 
@@ -94,7 +94,7 @@ export function breakpointAtLocation(
 
     // NOTE: when column breakpoints are disabled we want to find
     // the first breakpoint
-    if (!isEnabled("olumnBreakpoints")) {
+    if (!features.olumnBreakpoints) {
       return true;
     }
 

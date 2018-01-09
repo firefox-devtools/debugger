@@ -5,7 +5,7 @@
 // @flow
 
 import { getSource, getSelectedFrame, getFrameScope } from "../../selectors";
-import { isEnabled } from "../../utils/prefs";
+import { features } from "../../utils/prefs";
 import { isGeneratedId } from "devtools-source-map";
 import { loadSourceText } from "../sources/loadSourceText";
 import { getScopes } from "../../workers/parser";
@@ -78,7 +78,7 @@ export function fetchScopes() {
       return;
     }
 
-    if (isEnabled("mapScopes")) {
+    if (features.mapScopes) {
       dispatch(mapScopes(scopes, frame));
     }
   };
