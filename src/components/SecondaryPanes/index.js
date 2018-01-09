@@ -240,10 +240,10 @@ class SecondaryPanes extends Component<Props> {
     items.push(this.getBreakpointsItem());
 
     if (this.props.isPaused) {
+      items.push(this.getCallStackItem());
       if (this.props.horizontal) {
         items.push(this.getScopeItem());
       }
-      items.push(this.getCallStackItem());
     }
 
     if (isEnabled("eventListeners")) {
