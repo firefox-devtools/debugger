@@ -12,8 +12,9 @@
 
 import { reportException } from "../utils/DevToolsUtils";
 import { isPaused, getSourceByURL } from "../selectors";
-import waitUntilService from "./utils/middleware/wait-service";
-const services = { WAIT_UNTIL: waitUntilService.NAME };
+const services = {
+  WAIT_UNTIL: require("./utils/middleware/wait-service").NAME
+};
 
 // delay is in ms
 const FETCH_EVENT_LISTENERS_DELAY = 200;
