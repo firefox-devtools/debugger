@@ -59,7 +59,8 @@ const svg = {
   nextjs: require("./nextjs.svg"),
   showSources: require("./showSources.svg"),
   showOutline: require("./showOutline.svg"),
-  nuxtjs: require("./nuxtjs.svg")
+  nuxtjs: require("./nuxtjs.svg"),
+  rxjs: require("./rxjs.svg")
 };
 
 type SvgType = {
