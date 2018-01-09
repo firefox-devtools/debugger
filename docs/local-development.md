@@ -632,7 +632,6 @@ index dbba6c1..75f7b2c 100644
 
 #### Creating a new Feature Flag
 
-
 When you're starting a new feature, it's always good to ask yourself if the feature should be added behind a feature flag.
 
 * does this feature need testing or introduce risk?
