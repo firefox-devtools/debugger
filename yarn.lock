@@ -2979,12 +2979,6 @@ devtools-reps@^0.12.4:
     react-dom "=15.3.2"
     svg-inline-react "^1.0.2"
 
-devtools-source-editor@^0.0.8:
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/devtools-source-editor/-/devtools-source-editor-0.0.8.tgz#357b6c1daa4d9f199271f8a40b63c12e92d5f144"
-  dependencies:
-    codemirror "^5.28.0"
-
 devtools-source-map@^0.14.7:
   version "0.14.7"
   resolved "https://registry.yarnpkg.com/devtools-source-map/-/devtools-source-map-0.14.7.tgz#b0ad5993dca69c27991a7f06fbc3b3a0c2250044"
