@@ -57,8 +57,16 @@ Object.keys(fileSizes).forEach(key => {
   }
 });
 
+const otherTests = [
+  "browser_net_open_in_debugger.js"
+];
+
 console.log(chalk.blue("Running Tests"));
-const defaultPath = `--default-test-path devtools/client/debugger/new`;
+const defaultPath = `devtools/client/debugger/new`;
 const mcPath = `--mc ${firefoxPath}`;
-code = exec(`./node_modules/.bin/mochii --ci true ${mcPath} ${defaultPath}`);
+
+shell.cd("firefox");
+code = shell.exec(`./mach mochitest --headless --log-tbpl=mochitest.log ${defaultPath} ${otherTests.join(" ")}`);
+shell.cd("..")
+exec(`./node_modules/.bin/mochii --read mochitest.log`);
 process.exit(code);

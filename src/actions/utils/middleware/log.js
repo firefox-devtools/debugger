@@ -21,6 +21,14 @@ function cloneAction(action) {
     action.source = source;
   }
 
+  if (action.sources) {
+    const sources = action.sources.slice(0, 30).map(source => {
+      const url = !source.url || source.url.includes("data:") ? "" : source.url;
+      return { ...source, url };
+    });
+    action.sources = sources;
+  }
+
   // LOAD_SOURCE_TEXT
   if (action.text) {
     action.text = "";
