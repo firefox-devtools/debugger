@@ -43,8 +43,8 @@ if (isDevelopment()) {
   pref("devtools.debugger.features.map-scopes", true);
   pref("devtools.debugger.features.breakpoints-dropdown", true);
   pref("devtools.debugger.features.remove-command-bar-options", true);
-  pref("devtools.debugger.features.code-coverage", true);
-  pref("devtools.debugger.features.event-listeners", true);
+  pref("devtools.debugger.features.code-coverage", false);
+  pref("devtools.debugger.features.event-listeners", false);
   pref("devtools.debugger.features.code-folding", true);
   pref("devtools.debugger.features.outline", true);
   pref("devtools.debugger.features.column-breakpoints", true);
