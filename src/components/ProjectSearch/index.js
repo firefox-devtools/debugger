@@ -76,11 +76,6 @@ type Props = {
 export class ProjectSearch extends Component<Props, State> {
   onEscape: Function;
   close: Function;
-  inputOnChange: Function;
-  onKeyDown: Function;
-  onEnterPress: Function;
-  selectMatchItem: Function;
-  toggleProjectTextSearch: Function;
 
   constructor(props: Props) {
     super(props);
@@ -89,12 +84,6 @@ export class ProjectSearch extends Component<Props, State> {
       inputFocused: false,
       focusedItem: null
     };
-
-    this.inputOnChange = this.inputOnChange.bind(this);
-    this.onKeyDown = this.onKeyDown.bind(this);
-    this.onEnterPress = this.onEnterPress.bind(this);
-    this.selectMatchItem = this.selectMatchItem.bind(this);
-    this.toggleProjectTextSearch = this.toggleProjectTextSearch.bind(this);
   }
 
   componentDidMount() {
@@ -116,7 +105,7 @@ export class ProjectSearch extends Component<Props, State> {
     shortcuts.off("Enter", this.onEnterPress);
   }
 
-  toggleProjectTextSearch(key: string, e: KeyboardEvent) {
+  toggleProjectTextSearch = (key: string, e: KeyboardEvent) => {
     const { closeActiveSearch, setActiveSearch } = this.props;
     if (e) {
       e.preventDefault();
@@ -126,15 +115,15 @@ export class ProjectSearch extends Component<Props, State> {
       return closeActiveSearch();
     }
     return setActiveSearch("project");
-  }
+  };
 
   isProjectSearchEnabled() {
     return this.props.activeSearch === "project";
   }
 
-  selectMatchItem(matchItem: Match) {
+  selectMatchItem = (matchItem: Match) => {
     this.props.selectLocation({ ...matchItem });
-  }
+  };
 
   getResults(): Result[] {
     const { results } = this.props;
@@ -151,7 +140,7 @@ export class ProjectSearch extends Component<Props, State> {
     );
   }
 
-  onKeyDown(e: SyntheticKeyboardEvent<HTMLInputElement>) {
+  onKeyDown = (e: SyntheticKeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Escape") {
       return;
     }
@@ -163,9 +152,9 @@ export class ProjectSearch extends Component<Props, State> {
     }
     this.setState({ focusedItem: null });
     this.props.searchSources(this.state.inputValue);
-  }
+  };
 
-  onEnterPress() {
+  onEnterPress = () => {
     if (this.state.focusedItem && !this.state.inputFocused) {
       const { setExpanded, file, expanded, match } = this.state.focusedItem;
       if (setExpanded) {
@@ -174,12 +163,12 @@ export class ProjectSearch extends Component<Props, State> {
         this.selectMatchItem(match);
       }
     }
-  }
+  };
 
-  inputOnChange(e: SyntheticInputEvent<HTMLInputElement>) {
+  inputOnChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
     this.setState({ inputValue });
-  }
+  };
 
   renderFile(
     file: Result,
