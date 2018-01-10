@@ -384,7 +384,7 @@ exports[`QuickOpenModal Basic render with mount 1`] = `
 </QuickOpenModal>
 `;
 
-exports[`QuickOpenModal Doesn't render when disabled 1`] = `null`;
+exports[`QuickOpenModal Doesn't render when disabled 1`] = `""`;
 
 exports[`QuickOpenModal Renders when enabled 1`] = `
 <Slide
@@ -401,6 +401,13 @@ exports[`QuickOpenModal Renders when enabled 1`] = `
     showErrorEmoji={true}
     size=""
     summaryMsg="0 results"
+  />
+  <ResultList
+    items={Array []}
+    key="results"
+    selectItem={[Function]}
+    selected={0}
+    size="big"
   />
 </Slide>
 `;

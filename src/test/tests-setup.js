@@ -4,6 +4,9 @@ import path from "path";
 import getConfig from "../../bin/getConfig";
 import { setConfig } from "devtools-config";
 import { readFileSync } from "fs";
+import Enzyme from "enzyme";
+import Adapter from "enzyme-adapter-react-15";
+
 const rootPath = path.join(__dirname, "../../");
 
 const envConfig = getConfig();
@@ -24,5 +27,7 @@ global.DebuggerConfig = config;
 
 global.L10N = require("devtools-launchpad").L10N;
 global.L10N.setBundle(readFileSync("./assets/panel/debugger.properties"));
+
+Enzyme.configure({ adapter: new Adapter() });
 
 setConfig(config);
