@@ -47,7 +47,8 @@ function render(overrides = {}) {
   const component = shallow(<Editor.WrappedComponent {...props} />, {
     context: {
       shortcuts: { on: jest.fn() }
-    }
+    },
+    disableLifecycleMethods: true
   });
 
   return { component, props, mockEditor };

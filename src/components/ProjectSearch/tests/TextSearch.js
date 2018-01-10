@@ -13,7 +13,9 @@ function render(overrides = {}) {
   };
   const props = { ...defaultProps, ...overrides };
 
-  const component = shallow(<TextSearch {...props} />);
+  const component = shallow(<TextSearch {...props} />, {
+    disableLifecycleMethods: true
+  });
   return component;
 }
 
