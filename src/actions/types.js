@@ -251,7 +251,8 @@ type PauseAction =
       type: "ADD_EXPRESSION",
       id: number,
       input: string,
-      value: string
+      value: string,
+      expressionError: ?string
     }
   | {
       type: "EVALUATE_EXPRESSION",
@@ -262,12 +263,14 @@ type PauseAction =
   | {
       type: "UPDATE_EXPRESSION",
       expression: Expression,
-      input: string
+      input: string,
+      expressionError: ?string
     }
   | {
       type: "DELETE_EXPRESSION",
       input: string
     }
+  | { type: "CLEAR_EXPRESSION_ERROR" }
   | {
       type: "MAP_SCOPES",
       frame: Frame,

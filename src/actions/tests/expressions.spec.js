@@ -15,10 +15,10 @@ const mockThreadClient = {
 };
 
 describe("expressions", () => {
-  it("should add an expression", () => {
+  it("should add an expression", async () => {
     const { dispatch, getState } = createStore(mockThreadClient);
 
-    dispatch(actions.addExpression("foo"));
+    await dispatch(actions.addExpression("foo"));
 
     expect(selectors.getExpressions(getState()).size).toBe(1);
   });
@@ -32,21 +32,38 @@ describe("expressions", () => {
     expect(selectors.getExpressions(getState()).size).toBe(0);
   });
 
-  it("should update an expression", () => {
+  it("should not add invalid expressions", async () => {
+    const { dispatch, getState } = createStore(mockThreadClient);
+    await dispatch(actions.addExpression("foo#"));
+    const state = getState();
+    expect(selectors.getExpressions(state).size).toBe(0);
+    expect(selectors.getExpressionError(state)).toBe(true);
+  });
+
+  it("should update an expression", async () => {
     const { dispatch, getState } = createStore(mockThreadClient);
 
-    dispatch(actions.addExpression("foo"));
+    await dispatch(actions.addExpression("foo"));
     const expression = selectors.getExpression(getState(), "foo");
-    dispatch(actions.updateExpression("bar", expression));
+    await dispatch(actions.updateExpression("bar", expression));
 
     expect(selectors.getExpression(getState(), "bar").input).toBe("bar");
   });
 
-  it("should delete an expression", () => {
+  it("should not update an expression w/ invalid code", async () => {
     const { dispatch, getState } = createStore(mockThreadClient);
 
-    dispatch(actions.addExpression("foo"));
-    dispatch(actions.addExpression("bar"));
+    await dispatch(actions.addExpression("foo"));
+    const expression = selectors.getExpression(getState(), "foo");
+    await dispatch(actions.updateExpression("#bar", expression));
+    expect(selectors.getExpression(getState(), "bar")).toBeUndefined();
+  });
+
+  it("should delete an expression", async () => {
+    const { dispatch, getState } = createStore(mockThreadClient);
+
+    await dispatch(actions.addExpression("foo"));
+    await dispatch(actions.addExpression("bar"));
 
     expect(selectors.getExpressions(getState()).size).toBe(2);
 
@@ -60,11 +77,12 @@ describe("expressions", () => {
   it("should evaluate expressions global scope", async () => {
     const { dispatch, getState } = createStore(mockThreadClient);
 
-    dispatch(actions.addExpression("foo"));
-    dispatch(actions.addExpression("bar"));
+    await dispatch(actions.addExpression("foo"));
+    await dispatch(actions.addExpression("bar"));
 
-    expect(selectors.getExpression(getState(), "foo").value).toBe(null);
-    expect(selectors.getExpression(getState(), "bar").value).toBe(null);
+    expect(selectors.getExpression(getState(), "foo").value).toBe("bla");
+    expect(selectors.getExpression(getState(), "bar").value).toBe("bla");
+
     await dispatch(actions.evaluateExpressions());
 
     expect(selectors.getExpression(getState(), "foo").value).toBe("bla");
@@ -75,13 +93,13 @@ describe("expressions", () => {
     const { dispatch, getState } = createStore(mockThreadClient);
     await createFrames(dispatch);
 
-    dispatch(actions.addExpression("foo"));
-    dispatch(actions.addExpression("bar"));
+    await dispatch(actions.addExpression("foo"));
+    await dispatch(actions.addExpression("bar"));
 
-    expect(selectors.getExpression(getState(), "foo").value).toBe(null);
-    expect(selectors.getExpression(getState(), "bar").value).toBe(null);
+    expect(selectors.getExpression(getState(), "foo").value).toBe("boo");
+    expect(selectors.getExpression(getState(), "bar").value).toBe("boo");
 
-    await dispatch(actions.evaluateExpressions("boo"));
+    await dispatch(actions.evaluateExpressions());
 
     expect(selectors.getExpression(getState(), "foo").value).toBe("boo");
     expect(selectors.getExpression(getState(), "bar").value).toBe("boo");
