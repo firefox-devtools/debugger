@@ -1,5 +1,34 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`breakpoints adding a breakpoint to an invalid location adds only one breakpoint with a corrected location 1`] = `
+Object {
+  "astLocation": Object {
+    "name": undefined,
+    "offset": Object {
+      "line": 7,
+      "sourceId": "a",
+      "sourceUrl": "http://localhost:8000/examples/a",
+    },
+  },
+  "condition": null,
+  "disabled": false,
+  "generatedLocation": Object {
+    "line": 7,
+    "sourceId": "a",
+    "sourceUrl": "http://localhost:8000/examples/a",
+  },
+  "hidden": false,
+  "hitCount": undefined,
+  "id": "a:5:",
+  "loading": false,
+  "location": Object {
+    "line": 7,
+    "sourceId": "a",
+    "sourceUrl": "http://localhost:8000/examples/a",
+  },
+}
+`;
+
 exports[`breakpoints should remap breakpoints on pretty print 1`] = `
 Object {
   "astLocation": Object {
