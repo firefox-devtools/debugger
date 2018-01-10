@@ -37,26 +37,32 @@ export function addExpression(input: string) {
       return dispatch(evaluateExpression(expression));
     }
 
-    dispatch({
-      type: "ADD_EXPRESSION",
-      input
-    });
+    const expressionError = await parser.hasSyntaxError(input);
+    dispatch({ type: "ADD_EXPRESSION", input, expressionError });
 
     const newExpression = getExpression(getState(), input);
-    dispatch(evaluateExpression(newExpression));
+    if (newExpression) {
+      return dispatch(evaluateExpression(newExpression));
+    }
   };
 }
 
+export function clearExpressionError() {
+  return { type: "CLEAR_EXPRESSION_ERROR" };
+}
+
 export function updateExpression(input: string, expression: Expression) {
-  return ({ dispatch, getState }: ThunkArgs) => {
+  return async ({ dispatch, getState }: ThunkArgs) => {
     if (!input || input == expression.input) {
       return;
     }
 
+    const expressionError = await parser.hasSyntaxError(input);
     dispatch({
       type: "UPDATE_EXPRESSION",
       expression,
-      input: input
+      input: expressionError ? expression.input : input,
+      expressionError
     });
 
     dispatch(evaluateExpressions());
@@ -102,15 +108,6 @@ function evaluateExpression(expression: Expression) {
     }
 
     let input = expression.input;
-    const error = await parser.hasSyntaxError(input);
-    if (error) {
-      return dispatch({
-        type: "EVALUATE_EXPRESSION",
-        input: expression.input,
-        value: { input: expression.input, result: error }
-      });
-    }
-
     const frame = getSelectedFrame(getState());
 
     if (frame) {

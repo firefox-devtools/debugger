@@ -87,7 +87,7 @@ describe("pause", () => {
       const mockPauseInfo = createPauseInfo();
 
       await dispatch(actions.newSource(makeSource("foo1")));
-      await dispatch(actions.addExpression("foo"));
+      dispatch(actions.addExpression("foo"));
 
       mockThreadClient.evaluate = () => new Promise(r => r("YAY"));
       await dispatch(actions.paused(mockPauseInfo));
