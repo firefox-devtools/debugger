@@ -66,8 +66,20 @@ const defaultPath = `devtools/client/debugger/new`;
 const mcPath = `--mc ${firefoxPath}`;
 
 shell.cd("firefox");
-const mochitest = `./mach mochitest --headless --log-tbpl=mochitest.log ${defaultPath} ${otherTests.join(" ")}`;
-const out = shell.exec(mochitest, { silent: true });
+
+const dbg_mochitest = `./mach mochitest --headless --log-tbpl=dbg_mochitest.log ${defaultPath}`;
+const dbg_out = shell.exec(dbg_mochitest, { silent: true });
+
+const dt_mochitest = `./mach mochitest --headless --log-tbpl=dt_mochitest.log ${otherTests.join(" ")}`;
+const dt_out = shell.exec(dt_mochitest, { silent: true });
+
 shell.cd("..")
-exec(`./node_modules/.bin/mochii --read ./firefox/mochitest.log`);
-process.exit(out.code);
+
+exec(`./node_modules/.bin/mochii --read ./firefox/dbg_mochitest.log`);
+exec(`./node_modules/.bin/mochii --read ./firefox/dt_mochitest.log`);
+
+if (dbg_out.code !== 0 || dt_out.code !== 0) {
+  process.exit(dbg_out.code || dt_out.code);
+}
+
+process.exit(0);
