@@ -71,7 +71,7 @@
     ],
 
     // Enforce the spacing around the * in generator functions.
-    "babel/generator-star-spacing": [2, "after"],
+    "generator-star-spacing": [2, "after"],
 
     "flowtype/define-flow-type": 1,
     "flowtype/use-flow-type": 1,
