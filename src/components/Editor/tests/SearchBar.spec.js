@@ -40,7 +40,9 @@ function generateDefaults() {
 function render(overrides = {}) {
   const defaults = generateDefaults();
   const props = { ...defaults, ...overrides };
-  const component = shallow(<SearchBarComponent {...props} />);
+  const component = shallow(<SearchBarComponent {...props} />, {
+    disableLifecycleMethods: true
+  });
   return { component, props };
 }
 
