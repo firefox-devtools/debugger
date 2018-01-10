@@ -16,6 +16,10 @@ function renderExceptionSummary(exception: string | Grip) {
   }
 
   const preview = exception.preview;
+  if (!preview) {
+    return;
+  }
+
   return `${preview.name}: ${preview.message}`;
 }
 

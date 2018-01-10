@@ -15,12 +15,17 @@ import { getGeneratedLocation } from "../../utils/source-maps";
 import { originalToGeneratedId } from "devtools-source-map";
 import { getSource } from "../../selectors";
 import type {
-  BreakpointSyncData,
   Location,
   ASTLocation,
   PendingBreakpoint,
-  SourceId
+  SourceId,
+  Breakpoint
 } from "debugger-html";
+
+type BreakpointSyncData = {
+  previousLocation: Location | null,
+  breakpoint: Breakpoint
+};
 
 async function makeScopedLocation(
   { name, offset }: ASTLocation,

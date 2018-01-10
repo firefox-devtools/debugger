@@ -17,6 +17,7 @@ import { getLoadedObjects } from "../../../selectors";
 import Popover from "../../shared/Popover";
 import PreviewFunction from "../../shared/PreviewFunction";
 import { markText } from "../../../utils/editor";
+import { isReactComponent, isImmutable } from "../../../utils/preview";
 import Svg from "../../shared/Svg";
 
 import "./Popup.css";
@@ -37,10 +38,6 @@ type Props = {
   openLink: string => void,
   extra: Object
 };
-
-function isReactComponent(roots) {
-  return roots.some(root => root.name === "_reactInternalInstance");
-}
 
 export class Popup extends Component<Props> {
   marker: any;
@@ -102,53 +99,70 @@ export class Popup extends Component<Props> {
     );
   }
 
-  renderObjectPreview(expression: string, root: Object, extra: Object) {
-    let header = null;
-    const { loadedObjects } = this.props;
-    const { extra: { react, immutable } } = this.props;
-    const getObjectProperties = id => loadedObjects[id];
-    let roots = this.getChildren(root, getObjectProperties);
+  renderReact(react: Object, roots: Array<Object>) {
+    const reactHeader = react.displayName || "React Component";
 
-    if (!roots) {
-      return null;
-    }
+    const header = (
+      <div className="header-container">
+        <h3>{reactHeader}</h3>
+      </div>
+    );
 
-    if (isReactComponent(roots)) {
-      const reactHeader = react.displayName || "React Component";
+    roots = roots.filter(r => ["state", "props"].includes(r.name));
+    return (
+      <div className="preview-popup">
+        {header}
+        {this.renderObjectInspector(roots)}
+      </div>
+    );
+  }
 
-      header = (
-        <div className="header-container">
-          <h3>{reactHeader}</h3>
-        </div>
-      );
+  renderImmutable(immutable: Object, roots: Array<Object>) {
+    const immutableHeader = immutable.type || "Immutable";
 
-      roots = roots.filter(r => ["state", "props"].includes(r.name));
-    }
+    const header = (
+      <div className="header-container">
+        <Svg name="immutable" className="immutable-logo" />
+        <h3>{immutableHeader}</h3>
+      </div>
+    );
 
-    if (immutable.isImmutable) {
-      const immutableHeader = immutable.type || "Immutable";
-
-      header = (
-        <div className="header-container">
-          <Svg name="immutable" className="immutable-logo" />
-          <h3>{immutableHeader}</h3>
-        </div>
-      );
-
-      roots = roots.filter(r => ["size"].includes(r.name));
-
-      roots.push({
-        name: "entries",
-        contents: { value: immutable.entries },
-        path: "entries"
-      });
-    }
+    roots = [
+      {
+        path: "entries",
+        contents: { value: immutable.entries }
+      }
+    ];
 
     return (
       <div className="preview-popup">
         {header}
         {this.renderObjectInspector(roots)}
       </div>
+    );
+  }
+
+  renderObjectPreview(expression: string, root: Object, extra: Object) {
+    const { loadedObjects } = this.props;
+    const { extra: { react, immutable } } = this.props;
+    const getObjectProperties = id => loadedObjects[id];
+    const roots = this.getChildren(root, getObjectProperties);
+    const grip = root.contents.value;
+
+    if (!roots) {
+      return null;
+    }
+
+    if (isReactComponent(grip)) {
+      return this.renderReact(react, roots);
+    }
+
+    if (isImmutable(grip)) {
+      return this.renderImmutable(immutable, roots);
+    }
+
+    return (
+      <div className="preview-popup">{this.renderObjectInspector(roots)}</div>
     );
   }
 
@@ -165,7 +179,7 @@ export class Popup extends Component<Props> {
     );
   }
 
-  renderObjectInspector(roots: Object) {
+  renderObjectInspector(roots: Array<Object>) {
     const { loadObjectProperties, loadedObjects, openLink } = this.props;
     const getObjectProperties = id => loadedObjects[id];
 
