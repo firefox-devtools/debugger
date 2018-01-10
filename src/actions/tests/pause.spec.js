@@ -2,6 +2,7 @@ import {
   actions,
   selectors,
   createStore,
+  waitForState,
   makeSource
 } from "../../utils/test-head";
 
@@ -83,19 +84,20 @@ describe("pause", () => {
 
     it("resuming - will re-evaluate watch expressions", async () => {
       const store = createStore(mockThreadClient);
-      const { dispatch } = store;
+      const { dispatch, getState } = store;
       const mockPauseInfo = createPauseInfo();
 
       await dispatch(actions.newSource(makeSource("foo1")));
-      await dispatch(actions.addExpression("foo"));
+
+      dispatch(actions.addExpression("foo"));
+      await waitForState(store, state => selectors.getExpression(state, "foo"));
 
       mockThreadClient.evaluate = () => new Promise(r => r("YAY"));
       await dispatch(actions.paused(mockPauseInfo));
 
       await dispatch(actions.resumed());
-      expect(selectors.getExpression(store.getState(), "foo").value).toEqual(
-        "YAY"
-      );
+      const expression = selectors.getExpression(getState(), "foo");
+      expect(expression.value).toEqual("YAY");
     });
   });
 });

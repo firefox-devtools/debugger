@@ -1,7 +1,12 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 import { findBestMatchExpression } from "../utils/ast";
 import { getTokenLocation } from "../utils/editor";
+import { isReactComponent, isImmutable } from "../utils/preview";
 import { isGeneratedId } from "devtools-source-map";
 import { PROMISE } from "./utils/middleware/promise";
 
@@ -20,14 +25,41 @@ import { isEqual } from "lodash";
 import type { ThunkArgs } from "./types";
 import type { AstLocation } from "../workers/parser";
 
-const extraProps = {
-  react: { displayName: "this._reactInternalInstance.getName()" },
-  immutable: {
-    isImmutable: exp => `Immutable.Iterable.isIterable(${exp})`,
-    entries: exp => `${exp}.toJS()`,
-    type: exp => `${exp}.constructor.name`
+async function getReactProps(evaluate) {
+  const reactDisplayName = await evaluate(
+    "this._reactInternalInstance.getName()"
+  );
+
+  return {
+    displayName: reactDisplayName.result
+  };
+}
+
+async function getImmutableProps(expression: string, evaluate) {
+  const immutableEntries = await evaluate((exp => `${exp}.toJS()`)(expression));
+
+  const immutableType = await evaluate(
+    (exp => `${exp}.constructor.name`)(expression)
+  );
+
+  return {
+    type: immutableType.result,
+    entries: immutableEntries.result
+  };
+}
+
+async function getExtraProps(expression, result, evaluate) {
+  const props = {};
+  if (isReactComponent(result)) {
+    props.react = await getReactProps(evaluate);
   }
-};
+
+  if (isImmutable(result)) {
+    props.immutable = await getImmutableProps(expression, evaluate);
+  }
+
+  return props;
+}
 
 export function updatePreview(target: HTMLElement, editor: any) {
   return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
@@ -101,13 +133,10 @@ export function setPreview(
     await dispatch({
       type: "SET_PREVIEW",
       [PROMISE]: (async function() {
-        let immutableType = null;
-        let immutableEntries = null;
-
         const source = getSelectedSource(getState());
         const symbols = getSymbols(getState(), source.toJS());
-
         const found = findBestMatchExpression(symbols, tokenPos, token);
+
         if (!found) {
           return;
         }
@@ -133,55 +162,18 @@ export function setPreview(
         }
 
         const selectedFrame = getSelectedFrame(getState());
-        const { result } = await client.evaluate(expression, {
-          frameId: selectedFrame.id
-        });
-
-        const reactDisplayName = await client.evaluate(
-          extraProps.react.displayName,
-          {
-            frameId: selectedFrame.id
-          }
+        const { result } = await client.evaluateInFrame(
+          selectedFrame.id,
+          expression
         );
-
-        const immutable = await client.evaluate(
-          extraProps.immutable.isImmutable(expression),
-          {
-            frameId: selectedFrame.id
-          }
-        );
-
-        if (immutable.result === true) {
-          immutableEntries = await client.evaluate(
-            extraProps.immutable.entries(expression),
-            {
-              frameId: selectedFrame.id
-            }
-          );
-
-          immutableType = await client.evaluate(
-            extraProps.immutable.type(expression),
-            {
-              frameId: selectedFrame.id
-            }
-          );
-        }
-
-        const extra = {
-          react: {
-            displayName: reactDisplayName.result
-          },
-          immutable: {
-            isImmutable:
-              immutable.result && immutable.result.type !== "undefined",
-            type: immutableType && immutableType.result,
-            entries: immutableEntries && immutableEntries.result
-          }
-        };
 
         if (result === undefined) {
           return;
         }
+
+        const extra = await getExtraProps(expression, result, expr =>
+          client.evaluateInFrame(selectedFrame.id, expr)
+        );
 
         return {
           expression,
