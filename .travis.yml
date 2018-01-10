@@ -5,6 +5,7 @@ cache:
   - pip
   - yarn
 
+
 env:
   global:
     - DISPLAY=':99.0'
@@ -22,6 +23,9 @@ addons:
       - autoconf2.13
       - sshpass
       - p7zip-full
+  artifacts:
+    paths:
+      - $HOME/firefox/mochitest.log
 
 install:
   - pip install --upgrade pip
