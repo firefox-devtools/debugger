@@ -29,7 +29,7 @@ Object {
   "astLocation": Object {
     "name": undefined,
     "offset": Object {
-      "line": 5,
+      "line": 7,
       "sourceId": "foo.js",
       "sourceUrl": "http://localhost:8000/examples/foo.js",
     },

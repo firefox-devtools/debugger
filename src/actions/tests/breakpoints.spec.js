@@ -66,7 +66,7 @@ describe("breakpoints", () => {
       const bps = selectors.getBreakpoints(state);
       const bp = selectors.getBreakpoint(state, correctedLocation);
       expect(bps.size).toBe(1);
-      expect(bp.location).toEqual(correctedLocation);
+      expect(bp).toMatchSnapshot();
     });
   });
 

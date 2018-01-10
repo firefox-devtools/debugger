@@ -50,7 +50,7 @@ export default async function addBreakpoint(
     newGeneratedLocation
   );
 
-  const astLocation = await getASTLocation(sourceRecord, location);
+  const astLocation = await getASTLocation(sourceRecord, newLocation);
 
   const newBreakpoint = {
     id,
