@@ -52,7 +52,6 @@ const svg = {
   webpack: require("./webpack.svg"),
   node: require("./node.svg"),
   express: require("./express.svg"),
-  prettyPrint: require("./prettyPrint.svg"),
   pug: require("./pug.svg"),
   extjs: require("./sencha-extjs.svg"),
   mobx: require("./mobx.svg"),

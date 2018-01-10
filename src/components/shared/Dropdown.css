@@ -25,7 +25,6 @@ html[dir="rtl"] .dropdown {
   position: relative;
   align-self: center;
   height: 100%;
-  display: block;
 }
 
 .dropdown-button {
@@ -57,20 +56,19 @@ html[dir="rtl"] .dropdown {
   height: var(--icon-size);
   margin-right: 5px;
   vertical-align: middle;
+  display: inline-block;
 }
 
 .dropdown-icon.prettyPrint {
   mask: url(/images/prettyPrint.svg) no-repeat;
   mask-size: 100%;
   background: var(--theme-highlight-blue);
-  display: inline-block;
 }
 
 .dropdown-icon.blackBox {
   mask: url(/images/blackBox.svg) no-repeat;
   mask-size: 100%;
   background: var(--theme-highlight-blue);
-  display: inline-block;
 }
 
 .dropdown-icon.file {
