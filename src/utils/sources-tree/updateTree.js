@@ -4,24 +4,39 @@
 
 // @flow
 
-import { Set } from "immutable";
-
 import type { Props, State } from "./types";
 
 import { addToTree } from "./addToTree";
 import { collapseTree } from "./collapseTree";
 import { createParentMap } from "./utils";
 
-function compareProps(nextProps: Props, props: Props) {
-  const next = Set(nextProps.sources.valueSeq());
-  const prev = Set(props.sources.valueSeq());
+import type { SourcesMap } from "../../reducers/types";
+import type { Node } from "./types";
+
+function newSourcesSet(newSources, prevSources) {
+  const next = newSources.toSet();
+  const prev = prevSources.toSet();
   return next.subtract(prev);
 }
 
-export function updateTree(nextProps: Props, props: Props, state: State) {
-  const newSet = compareProps(nextProps, props);
-  const { uncollapsedTree, sourceTree } = state;
-  const { debuggeeUrl, projectRoot } = nextProps;
+type Params = {
+  newSources: SourcesMap,
+  prevSources: SourcesMap,
+  uncollapsedTree: Node,
+  sourceTree: Node,
+  debuggeeUrl: string,
+  projectRoot: string
+};
+
+export function updateTree({
+  newSources,
+  prevSources,
+  debuggeeUrl,
+  projectRoot,
+  uncollapsedTree,
+  sourceTree
+}: Params) {
+  const newSet = newSourcesSet(newSources, prevSources);
 
   for (const source of newSet) {
     addToTree(uncollapsedTree, source, debuggeeUrl, projectRoot);

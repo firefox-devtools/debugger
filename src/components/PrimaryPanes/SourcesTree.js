@@ -25,9 +25,6 @@ import { setExpandedState } from "../../actions/source-tree";
 import { selectLocation } from "../../actions/sources";
 import { setProjectDirectoryRoot } from "../../actions/ui";
 
-// Types
-import type { Props, State } from "../../utils/sources-tree/types";
-
 // Components
 import ManagedTree from "../shared/ManagedTree";
 import Svg from "../shared/Svg";
@@ -45,6 +42,29 @@ import { copyToTheClipboard } from "../../utils/clipboard";
 import { throttle } from "../../utils/utils";
 import { features } from "../../utils/prefs";
 
+import type { SourcesMap, SourceRecord } from "../../reducers/types";
+
+type Props = {
+  selectLocation: Object => void,
+  setExpandedState: any => void,
+  sources: SourcesMap,
+  shownSource?: string,
+  selectedSource?: SourceRecord,
+  debuggeeUrl: string,
+  projectRoot: string,
+  expanded?: any
+};
+
+type State = {
+  focusedItem?: any,
+  parentMap: any,
+  sourceTree: Node,
+  projectRoot: string,
+  uncollapsedTree: any,
+  listItems?: any,
+  highlightItems?: any
+};
+
 class SourcesTree extends Component<Props, State> {
   focusItem: Function;
   selectItem: Function;
@@ -57,23 +77,7 @@ class SourcesTree extends Component<Props, State> {
 
   constructor(props) {
     super(props);
-
     this.state = createTree(this.props);
-
-    this.focusItem = this.focusItem.bind(this);
-    this.selectItem = this.selectItem.bind(this);
-    this.getPath = this.getPath.bind(this);
-    this.getIcon = this.getIcon.bind(this);
-    this.onContextMenu = this.onContextMenu.bind(this);
-    this.renderItem = this.renderItem.bind(this);
-
-    this.queueUpdate = throttle(function() {
-      if (!this.mounted) {
-        return;
-      }
-
-      this.forceUpdate();
-    }, 50);
   }
 
   componentDidMount() {
@@ -90,22 +94,32 @@ class SourcesTree extends Component<Props, State> {
   }
 
   componentWillReceiveProps(nextProps) {
+    const {
+      projectRoot,
+      debuggeeUrl,
+      sources,
+      shownSource,
+      selectedSource
+    } = this.props;
+
+    const { uncollapsedTree, sourceTree } = this.state;
+
     if (
-      this.props.projectRoot != nextProps.projectRoot ||
-      this.props.debuggeeUrl != nextProps.debuggeeUrl ||
+      projectRoot != nextProps.projectRoot ||
+      debuggeeUrl != nextProps.debuggeeUrl ||
       nextProps.sources.size === 0
     ) {
       // early recreate tree because of changes
-      return this.setState(createTree(nextProps));
-    }
-    if (
-      nextProps.shownSource &&
-      nextProps.shownSource != this.props.shownSource
-    ) {
-      const listItems = getDirectories(
-        nextProps.shownSource,
-        this.state.sourceTree
+      return this.setState(
+        createTree({
+          projectRoot,
+          debuggeeUrl,
+          sources
+        })
       );
+    }
+    if (nextProps.shownSource && nextProps.shownSource != shownSource) {
+      const listItems = getDirectories(nextProps.shownSource, sourceTree);
 
       if (listItems && listItems[0]) {
         this.selectItem(listItems[0]);
@@ -116,41 +130,51 @@ class SourcesTree extends Component<Props, State> {
 
     if (
       nextProps.selectedSource &&
-      nextProps.selectedSource != this.props.selectedSource
+      nextProps.selectedSource != selectedSource
     ) {
       const highlightItems = getDirectories(
         nextProps.selectedSource.get("url"),
-        this.state.sourceTree
+        sourceTree
       );
 
       return this.setState({ highlightItems });
     }
 
-    if (nextProps.sources == this.props.sources) {
+    // NOTE: do not run this every time a source is clicked,
+    // only when a new source is added
+    if (nextProps.sources != this.props.sources) {
+      this.setState(
+        updateTree({
+          newSources: nextProps.sources,
+          prevSources: sources,
+          debuggeeUrl,
+          projectRoot,
+          uncollapsedTree,
+          sourceTree
+        })
+      );
+    }
+  }
+
+  queueUpdate = throttle(function() {
+    if (!this.mounted) {
       return;
     }
 
-    // TODO: do not run this every time a source is clicked,
-    // only when a new source is added
+    this.forceUpdate();
+  }, 50);
 
-    // TODO: recreating the tree every time messes with the expanded
-    // state of ManagedTree, because it depends on item instances
-    // being the same. The result is that if a source is added at a
-    // later time, all expanded state is lost.
-    this.setState(updateTree(nextProps, this.props, this.state));
-  }
-
-  focusItem(item) {
+  focusItem = item => {
     this.setState({ focusedItem: item });
-  }
+  };
 
-  selectItem(item) {
+  selectItem = item => {
     if (!nodeHasChildren(item)) {
       this.props.selectLocation({ sourceId: item.contents.get("id") });
     }
-  }
+  };
 
-  getPath(item) {
+  getPath = item => {
     const { sources } = this.props;
     const blackBoxedPart =
       item.contents.get &&
@@ -158,9 +182,9 @@ class SourcesTree extends Component<Props, State> {
         ? "update"
         : "";
     return `${item.path}/${item.name}/${blackBoxedPart}`;
-  }
+  };
 
-  getIcon(sources, item, depth) {
+  getIcon = (sources, item, depth) => {
     const { debuggeeUrl } = this.props;
 
     if (item.path === "/Webpack") {
@@ -189,9 +213,9 @@ class SourcesTree extends Component<Props, State> {
     }
 
     return <img className="folder" />;
-  }
+  };
 
-  onContextMenu(event, item) {
+  onContextMenu = (event, item) => {
     const copySourceUri2Label = L10N.getStr("copySourceUri2");
     const copySourceUri2Key = L10N.getStr("copySourceUri2.accesskey");
     const setDirectoryRootLabel = L10N.getStr("setDirectoryRoot.label");
@@ -226,9 +250,9 @@ class SourcesTree extends Component<Props, State> {
     }
 
     showMenu(event, menuOptions);
-  }
+  };
 
-  renderItem(item, depth, focused, _, expanded, { setExpanded }) {
+  renderItem = (item, depth, focused, _, expanded, { setExpanded }) => {
     const arrow = nodeHasChildren(item) ? (
       <img
         className={classnames("arrow", {
@@ -268,7 +292,7 @@ class SourcesTree extends Component<Props, State> {
         <span className="label"> {item.name} </span>
       </div>
     );
-  }
+  };
 
   render() {
     const expanded = this.props.expanded;

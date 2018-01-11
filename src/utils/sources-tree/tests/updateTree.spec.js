@@ -1,5 +1,5 @@
 import { Map } from "immutable";
-import { updateTree } from "../index";
+import { updateTree, createTree } from "../index";
 import { createNode } from "../utils";
 
 function createSourcesMap(sources) {
@@ -12,52 +12,84 @@ function createSourcesMap(sources) {
   return sourcesMap;
 }
 
+function formatTree(tree) {
+  return JSON.stringify(tree.uncollapsedTree, null, 2);
+}
+
+const sources = [
+  {
+    id: "server1.conn13.child1/39",
+    url: "https://davidwalsh.name/"
+  },
+  {
+    id: "server1.conn13.child1/37",
+    url: "https://davidwalsh.name/source1.js"
+  },
+  {
+    id: "server1.conn13.child1/40",
+    url: "https://davidwalsh.name/source2.js"
+  }
+];
+
+const debuggeeUrl = "blah";
+
 describe("calls updateTree.js", () => {
-  it("updates source tree correclty", () => {
-    const sources1 = [
-      {
-        id: "server1.conn13.child1/39",
-        url: "https://davidwalsh.name/"
-      }
-    ];
+  it("adds one source", () => {
+    const prevSources = createSourcesMap([sources[0]]);
 
-    const sources2 = [
-      {
-        id: "server1.conn13.child1/39",
-        url: "https://davidwalsh.name/"
-      },
-      {
-        id: "server1.conn13.child1/37",
-        url: "https://davidwalsh.name/source1.js"
-      }
-    ];
+    const { sourceTree, uncollapsedTree } = createTree({
+      debuggeeUrl,
+      sources: prevSources
+    });
 
-    // set props
-    const props = {
-      debuggeeUrl: "blah",
-      sources: createSourcesMap(sources1)
-    };
+    const newTree = updateTree({
+      debuggeeUrl,
+      prevSources,
+      newSources: createSourcesMap([sources[0], sources[1]]),
+      uncollapsedTree,
+      sourceTree
+    });
 
-    // set nextProps
-    const nextProps = {
-      debuggeeUrl: "blah",
-      projectRoot: "",
-      sources: createSourcesMap(sources2)
-    };
+    expect(formatTree(newTree)).toMatchSnapshot();
+  });
 
-    // set state
-    const state = {
-      uncollapsedTree: createNode("root", "", []),
-      sourceTree: {
-        contents: [],
-        name: "root",
-        path: ""
-      }
-    };
+  it("adds two sources", () => {
+    const prevSources = createSourcesMap([sources[0]]);
 
-    const returnvalue = updateTree(nextProps, props, state);
-    expect(
-      returnvalue.uncollapsedTree.contents[0].contents[0].contents.get("url")
-    ).toBe("https://davidwalsh.name/source1.js");
+    const { sourceTree, uncollapsedTree } = createTree({
+      debuggeeUrl,
+      sources: prevSources
+    });
+
+    const newTree = updateTree({
+      debuggeeUrl,
+      prevSources,
+      newSources: createSourcesMap([sources[0], sources[1], sources[2]]),
+      uncollapsedTree,
+      sourceTree
+    });
+
+    expect(formatTree(newTree)).toMatchSnapshot();
+  });
+
+  // NOTE: we currently only add sources to the tree and clear the tree
+  // on navigate.
+  it("shows all the sources", () => {
+    const prevSources = createSourcesMap([sources[0]]);
+
+    const { sourceTree, uncollapsedTree } = createTree({
+      debuggeeUrl,
+      sources: prevSources
+    });
+
+    const newTree = updateTree({
+      debuggeeUrl,
+      prevSources,
+      newSources: createSourcesMap([sources[1]]),
+      uncollapsedTree,
+      sourceTree
+    });
+
+    expect(formatTree(newTree)).toMatchSnapshot();
   });
 });

@@ -9,10 +9,15 @@ import { collapseTree } from "./collapseTree";
 import { createNode, createParentMap } from "./utils";
 
 import type { Props } from "./types";
+import type { SourcesMap } from "../../reducers/types";
 
-export function createTree(props: Props) {
-  const { sources, debuggeeUrl, projectRoot } = props;
+type Params = {
+  sources: SourcesMap,
+  debuggeeUrl: string,
+  projectRoot: string
+};
 
+export function createTree({ sources, debuggeeUrl, projectRoot }: Params) {
   const uncollapsedTree = createNode("root", "", []);
   for (const source of sources.valueSeq()) {
     addToTree(uncollapsedTree, source, debuggeeUrl, projectRoot);
