@@ -41,13 +41,13 @@ export function willNavigate(_: any, event: Object) {
     clearASTs();
     clearScopes();
     clearSources();
-    sourceQueue.clear();
-
     dispatch(navigate(event.url));
   };
 }
 
 export function navigate(url: string) {
+  sourceQueue.clear();
+
   return {
     type: "NAVIGATE",
     url

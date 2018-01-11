@@ -61,7 +61,7 @@ async function paused(_: "paused", packet: PausedPacket) {
 
   if (why.type != "alreadyPaused") {
     const pause = createPause(packet, response);
-    sourceQueue.flush();
+    await sourceQueue.flush();
     actions.paused(pause);
   }
 }

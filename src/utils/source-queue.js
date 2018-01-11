@@ -2,20 +2,19 @@ import { throttle } from "lodash";
 
 let newSources;
 let createSource;
-let queuedSources;
 let supportsWasm = false;
+let queuedSources;
 
-const queue = throttle(() => {
-  if (!newSources || !createSource) {
-    return;
-  }
-  newSources(
-    queuedSources.map(source => {
-      return createSource(source, { supportsWasm });
-    })
-  );
+async function dispatchNewSources() {
+  const sources = queuedSources;
   queuedSources = [];
-}, 100);
+
+  await newSources(
+    sources.map(source => createSource(source, { supportsWasm }))
+  );
+}
+
+const queue = throttle(dispatchNewSources, 100);
 
 export default {
   initialize: options => {
