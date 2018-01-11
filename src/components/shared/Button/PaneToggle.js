@@ -18,11 +18,11 @@ type Props = {
 
 class PaneToggleButton extends Component<Props> {
   shouldComponentUpdate(nextProps: Props) {
-    const { collapsed, horizontal } = this.props;
-
-    return (
-      horizontal !== nextProps.horizontal || collapsed !== nextProps.collapsed
-    );
+    const { collapsed, horizontal, position } = this.props;
+    const diffHorizontal = horizontal !== nextProps.horizontal;
+    const diffCollapsed = collapsed !== nextProps.collapsed;
+    const diffPosition = position !== nextProps.position;
+    return diffHorizontal || diffCollapsed || diffPosition;
   }
 
   render() {
