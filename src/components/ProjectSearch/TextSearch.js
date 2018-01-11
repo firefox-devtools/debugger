@@ -184,11 +184,10 @@ export default class TextSearch extends Component<Props> {
           renderItem={renderItem}
         />
       );
-    } else if (status === statusType.fetching) {
-      return (
-        <div className="no-result-msg absolute-center">No results found.</div>
-      );
-    } else if (this.props.query && !results.length) {
+    } else if (
+      (this.props.query && !results.length) ||
+      status === statusType.fetching
+    ) {
       return (
         <div className="no-result-msg absolute-center">
           {L10N.getStr("projectTextSearch.noResults")}
