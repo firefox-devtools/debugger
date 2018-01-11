@@ -3005,6 +3005,15 @@ detective@^4.0.0, detective@^4.3.1:
     acorn "^5.2.1"
     defined "^1.0.0"
 
+devtools-components@0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/devtools-components/-/devtools-components-0.1.4.tgz#a59d380060a4d802d25fb8b7227ecfa59dc46c18"
+  dependencies:
+    prop-types "^15.6.0"
+    react-dom-factories "^1.0.2"
+    svg-inline-loader "^0.8.0"
+    svg-inline-react "^3.0.0"
+
 devtools-components@^0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/devtools-components/-/devtools-components-0.0.2.tgz#4eb22cb5140e65741b00b79a7f76454ff56fa501"
