@@ -18,7 +18,7 @@
 .outline-list {
   list-style-type: none;
   width: 100%;
-  padding: 10px;
+  padding: 10px 0px;
   margin: 0;
 }
 
@@ -31,7 +31,7 @@
 .outline-list h2 {
   font-weight: normal;
   font-size: 1em;
-  margin: 10px 0;
+  margin: 10px 0 10px 10px;
   color: var(--theme-body-color);
 }
 
@@ -45,4 +45,8 @@
 
 .outline-list__element:hover {
   background: var(--theme-toolbar-background-hover);
+}
+
+.outline-list__element .function {
+  padding-left: 10px;
 }
