@@ -203,7 +203,7 @@ export function getSourcePath(url: string) {
  * the function returns amount of bytes.
  */
 export function getSourceLineCount(source: Source) {
-  if (source.isWasm) {
+  if (source.isWasm && !source.error) {
     const { binary } = (source.text: any);
     return binary.length;
   }
