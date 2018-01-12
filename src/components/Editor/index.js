@@ -46,13 +46,14 @@ import {
   showSourceText,
   updateDocument,
   showLoading,
+  showErrorMessage,
   shouldShowFooter,
   createEditor,
+  clearEditor,
   getCursorLine,
   toSourceLine,
   scrollToColumn,
   toEditorPosition,
-  resetLineNumberFormat,
   getSourceLocationFromMouseEvent
 } from "../../utils/editor";
 
@@ -442,7 +443,7 @@ class Editor extends PureComponent<Props, State> {
     }
 
     if (!selectedSource) {
-      return this.showMessage("");
+      return this.clearEditor();
     }
 
     if (!isLoaded(selectedSource)) {
@@ -450,20 +451,29 @@ class Editor extends PureComponent<Props, State> {
     }
 
     if (selectedSource.get("error")) {
-      return this.showMessage(selectedSource.get("error"));
+      return this.showErrorMessage(selectedSource.get("error"));
     }
     if (selectedSource) {
       return showSourceText(this.state.editor, selectedSource.toJS(), symbols);
     }
   }
 
-  showMessage(msg) {
+  clearEditor() {
     const { editor } = this.state;
     if (!editor) {
       return;
     }
 
-    resetLineNumberFormat(editor);
+    clearEditor(editor);
+  }
+
+  showErrorMessage(msg) {
+    const { editor } = this.state;
+    if (!editor) {
+      return;
+    }
+
+    showErrorMessage(editor, msg);
   }
 
   getInlineEditorStyles() {

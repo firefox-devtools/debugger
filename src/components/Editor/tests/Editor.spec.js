@@ -70,7 +70,7 @@ describe("Editor", () => {
         selectedSource: I.fromJS({ loadedState: "loading" })
       });
 
-      expect(mockEditor.setText.mock.calls).toEqual([["Loading…"]]);
+      expect(mockEditor.setText.mock.calls).toEqual([[""], ["Loading…"]]);
       expect(mockEditor.codeMirror.scrollTo.mock.calls).toEqual([]);
     });
   });
@@ -86,8 +86,51 @@ describe("Editor", () => {
         selectedLocation: { sourceId: "foo", line: 3, column: 1 }
       });
 
-      expect(mockEditor.setText.mock.calls).toEqual([["the text"]]);
+      expect(mockEditor.setText.mock.calls).toEqual([[""], ["the text"]]);
       expect(mockEditor.codeMirror.scrollTo.mock.calls).toEqual([[1, 2]]);
+    });
+  });
+
+  describe("When error", () => {
+    it("should show error text", async () => {
+      const { component, mockEditor, props } = render({});
+
+      await component.setState({ editor: mockEditor });
+      await component.setProps({
+        ...props,
+        selectedSource: createMockSource({
+          loadedState: "loaded",
+          text: undefined,
+          error: "error text"
+        }),
+        selectedLocation: { sourceId: "bad-foo", line: 3, column: 1 }
+      });
+
+      expect(mockEditor.setText.mock.calls).toEqual([
+        [""],
+        ["Error loading this URI: error text"]
+      ]);
+    });
+
+    it("should show wasm error", async () => {
+      const { component, mockEditor, props } = render({});
+
+      await component.setState({ editor: mockEditor });
+      await component.setProps({
+        ...props,
+        selectedSource: createMockSource({
+          loadedState: "loaded",
+          isWasm: true,
+          text: undefined,
+          error: "blah WebAssembly binary source is not available blah"
+        }),
+        selectedLocation: { sourceId: "bad-foo", line: 3, column: 1 }
+      });
+
+      expect(mockEditor.setText.mock.calls).toEqual([
+        [""],
+        ["Please refresh to debug this module"]
+      ]);
     });
   });
 
@@ -113,6 +156,7 @@ describe("Editor", () => {
       });
 
       expect(mockEditor.setText.mock.calls).toEqual([
+        [""],
         ["the text"],
         ["Loading…"]
       ]);
@@ -142,6 +186,7 @@ describe("Editor", () => {
       });
 
       expect(mockEditor.setText.mock.calls).toEqual([
+        [""],
         ["Loading…"],
         ["the text"]
       ]);
