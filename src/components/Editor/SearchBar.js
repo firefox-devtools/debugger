@@ -232,7 +232,8 @@ class SearchBar extends Component<Props, State> {
   }
 
   renderSearchModifiers = () => {
-    const { modifiers, toggleFileSearchModifier } = this.props;
+    const { modifiers, toggleFileSearchModifier, query } = this.props;
+    const { doSearch } = this;
 
     function SearchModBtn({ modVal, className, svgName, tooltip }) {
       const preppedClass = classnames(className, {
@@ -241,7 +242,10 @@ class SearchBar extends Component<Props, State> {
       return (
         <button
           className={preppedClass}
-          onClick={() => toggleFileSearchModifier(modVal)}
+          onClick={() => {
+            toggleFileSearchModifier(modVal);
+            doSearch(query);
+          }}
           title={tooltip}
         >
           <Svg name={svgName} />
