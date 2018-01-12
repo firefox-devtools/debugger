@@ -14,6 +14,7 @@ import { removeBreakpoint } from "../breakpoints";
 import { evaluateExpressions } from "../expressions";
 import { selectLocation } from "../sources";
 import { togglePaneCollapse } from "../ui";
+import { setOutOfScopeLocations } from "../ast";
 
 import { fetchScopes } from "./fetchScopes";
 
@@ -54,5 +55,6 @@ export function paused(pauseInfo: Pause) {
 
     dispatch(togglePaneCollapse("end", false));
     dispatch(fetchScopes());
+    dispatch(setOutOfScopeLocations());
   };
 }

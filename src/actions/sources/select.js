@@ -11,7 +11,7 @@
 
 import { isOriginalId } from "devtools-source-map";
 
-import { setOutOfScopeLocations } from "../ast";
+import { setSymbols, setOutOfScopeLocations } from "../ast";
 import { closeActiveSearch } from "../ui";
 
 import { togglePrettyPrint } from "./prettyPrint";
@@ -129,7 +129,7 @@ export function selectLocation(location: Location, tabIndex: string = "") {
       dispatch(closeTab(source.get("url")));
     }
 
-    dispatch(setOutOfScopeLocations());
+    dispatch(setSymbols(selectedSource.get("id")));
   };
 }
 

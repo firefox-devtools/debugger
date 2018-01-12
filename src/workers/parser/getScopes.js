@@ -20,7 +20,7 @@ export default function getScopes(location: Location): SourceScope[] {
   let parsedScopes = parsedScopesCache.get(sourceId);
   if (!parsedScopes) {
     const visitor = createParseJSScopeVisitor(sourceId);
-    traverseAst(getSource(sourceId), visitor.traverseVisitor);
+    traverseAst(sourceId, visitor.traverseVisitor);
     parsedScopes = visitor.toParsedScopes();
     parsedScopesCache.set(sourceId, parsedScopes);
   }

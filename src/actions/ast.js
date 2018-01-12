@@ -4,7 +4,12 @@
 
 // @flow
 
-import { getSource, hasSymbols, getSelectedLocation } from "../selectors";
+import {
+  getSource,
+  hasSymbols,
+  getSelectedLocation,
+  getSymbols as _getSymbols
+} from "../selectors";
 
 import { setInScopeLines } from "./ast/setInScopeLines";
 import {
@@ -47,13 +52,17 @@ export function setSymbols(sourceId: SourceId) {
       return;
     }
 
+    if (_getSymbols(getState(), sourceRecord)) {
+      return;
+    }
+
     const source = sourceRecord.toJS();
 
     if (!source.text || source.isWasm || hasSymbols(getState(), source)) {
       return;
     }
 
-    const symbols = await getSymbols(source);
+    const symbols = await getSymbols(source.id);
     dispatch({ type: "SET_SYMBOLS", source, symbols });
     dispatch(setEmptyLines(source.id));
     dispatch(setSourceMetaData(source.id));
@@ -72,7 +81,7 @@ export function setEmptyLines(sourceId: SourceId) {
       return;
     }
 
-    const emptyLines = await getEmptyLines(source);
+    const emptyLines = await getEmptyLines(source.id);
 
     dispatch({
       type: "SET_EMPTY_LINES",
@@ -95,7 +104,7 @@ export function setOutOfScopeLocations() {
     const locations =
       !location.line || !source
         ? null
-        : await findOutOfScopeLocations(source.toJS(), location);
+        : await findOutOfScopeLocations(source.id, location);
 
     dispatch({
       type: "OUT_OF_SCOPE_LOCATIONS",
