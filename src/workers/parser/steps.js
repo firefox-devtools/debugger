@@ -8,8 +8,8 @@ import { getClosestPath } from "./utils/closest";
 import { isAwaitExpression, isYieldExpression } from "./utils/helpers";
 import type { NodePath } from "babel-traverse";
 
-export function getNextStep(source: Source, pausedPosition: AstPosition) {
-  const currentExpression = getSteppableExpression(source, pausedPosition);
+export function getNextStep(sourceId: Source, pausedPosition: AstPosition) {
+  const currentExpression = getSteppableExpression(sourceId, pausedPosition);
   if (!currentExpression) {
     return null;
   }
@@ -17,8 +17,8 @@ export function getNextStep(source: Source, pausedPosition: AstPosition) {
   return _getNextStep(currentStatement, pausedPosition);
 }
 
-function getSteppableExpression(source: Source, pausedPosition: AstPosition) {
-  const closestPath = getClosestPath(source, pausedPosition);
+function getSteppableExpression(sourceId: string, pausedPosition: AstPosition) {
+  const closestPath = getClosestPath(sourceId, pausedPosition);
 
   if (!closestPath) {
     return null;

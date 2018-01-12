@@ -72,7 +72,7 @@ export function getASTLocation(
 }
 
 export async function findScopeByName(source: Source, name: ?string) {
-  const symbols = await getSymbols(source);
+  const symbols = await getSymbols(source.id);
   const functions = symbols.functions;
 
   return functions.find(node => node.name === name);

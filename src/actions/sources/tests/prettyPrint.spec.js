@@ -5,12 +5,12 @@ import {
   makeSource
 } from "../../../utils/test-head";
 import { createPrettySource } from "../prettyPrint";
-
 import { sourceThreadClient } from "../../tests/helpers/threadClient.js";
 
 describe("sources - pretty print", () => {
+  const { dispatch, getState } = createStore(sourceThreadClient);
+
   it("returns a pretty source for a minified file", async () => {
-    const { dispatch, getState } = createStore(sourceThreadClient);
     const url = "base.js";
     const source = makeSource(url);
     await dispatch(actions.newSource(source));
@@ -24,12 +24,15 @@ describe("sources - pretty print", () => {
   });
 
   it("should create a source when first toggling pretty print", async () => {
-    const { dispatch, getState } = createStore(sourceThreadClient);
     const source = makeSource("foobar.js", { loadedState: "loaded" });
-    await dispatch(actions.newSource(source));
-    await dispatch(actions.togglePrettyPrint(source.id));
+    await dispatch(actions.togglePrettyPrint(source));
     expect(selectors.getSources(getState()).size).toEqual(2);
-    // ensure that it doesnt create a second source
+  });
+
+  it("should not make a second source when toggling pretty print", async () => {
+    const source = makeSource("foobar.js", { loadedState: "loaded" });
+    await dispatch(actions.togglePrettyPrint(source));
+    expect(selectors.getSources(getState()).size).toEqual(2);
     await dispatch(actions.togglePrettyPrint(source.id));
     expect(selectors.getSources(getState()).size).toEqual(2);
   });

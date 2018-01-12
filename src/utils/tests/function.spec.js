@@ -2,20 +2,22 @@ import { findFunctionText } from "../function";
 
 import getSymbols from "../../workers/parser/getSymbols";
 import { getOriginalSource } from "../../workers/parser/tests/helpers";
+import { setSource } from "../../workers/parser/sources";
 
 describe("function", () => {
   describe("findFunctionText", () => {
     it("finds function", () => {
       const source = getOriginalSource("func");
-      const symbols = getSymbols(source);
-
+      setSource(source);
+      const symbols = getSymbols(source.id);
       const text = findFunctionText(14, source, symbols);
       expect(text).toMatchSnapshot();
     });
 
     it("finds function signature", () => {
       const source = getOriginalSource("func");
-      const symbols = getSymbols(source);
+      setSource(source);
+      const symbols = getSymbols(source.id);
 
       const text = findFunctionText(13, source, symbols);
       expect(text).toMatchSnapshot();
@@ -23,7 +25,8 @@ describe("function", () => {
 
     it("misses function closing brace", () => {
       const source = getOriginalSource("func");
-      const symbols = getSymbols(source);
+      setSource(source);
+      const symbols = getSymbols(source.id);
 
       const text = findFunctionText(15, source, symbols);
 
@@ -33,7 +36,8 @@ describe("function", () => {
 
     it("finds property function", () => {
       const source = getOriginalSource("func");
-      const symbols = getSymbols(source);
+      setSource(source);
+      const symbols = getSymbols(source.id);
 
       const text = findFunctionText(25, source, symbols);
       expect(text).toMatchSnapshot();
@@ -41,7 +45,8 @@ describe("function", () => {
 
     it("finds class function", () => {
       const source = getOriginalSource("func");
-      const symbols = getSymbols(source);
+      setSource(source);
+      const symbols = getSymbols(source.id);
 
       const text = findFunctionText(29, source, symbols);
       expect(text).toMatchSnapshot();
@@ -49,7 +54,8 @@ describe("function", () => {
 
     it("cant find function", () => {
       const source = getOriginalSource("func");
-      const symbols = getSymbols(source);
+      setSource(source);
+      const symbols = getSymbols(source.id);
 
       const text = findFunctionText(17, source, symbols);
       expect(text).toEqual(null);

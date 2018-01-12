@@ -42,16 +42,14 @@ const config = {
 };
 
 global.DebuggerConfig = config;
-
 global.L10N = require("devtools-launchpad").L10N;
 global.L10N.setBundle(readFileSync("./assets/panel/debugger.properties"));
+global.jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+global.performance = { now: () => 0 };
 
 Enzyme.configure({ adapter: new Adapter() });
 
 setConfig(config);
-
-global.jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
-global.performance = { now: () => 0 };
 
 function formatException(reason, p) {
   console && console.log("Unhandled Rejection at:", p, "reason:", reason);

@@ -1,4 +1,5 @@
 import { getAst } from "../ast";
+import { setSource } from "../../sources";
 import cases from "jest-in-case";
 
 function createSource(contentType) {
@@ -17,8 +18,11 @@ const astKeys = [
 
 cases(
   "ast.getAst",
-  ({ name }) =>
-    expect(Object.keys(getAst(createSource(name)))).toEqual(astKeys),
+  ({ name }) => {
+    const source = createSource(name);
+    setSource(source);
+    expect(Object.keys(getAst("foo"))).toEqual(astKeys);
+  },
   [
     { name: "text/javascript" },
     { name: "application/javascript" },

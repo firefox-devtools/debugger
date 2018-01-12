@@ -1,13 +1,13 @@
 import { getASTLocation } from "../astBreakpointLocation.js";
 import { getSource } from "../../../workers/parser/tests/helpers";
+import { setSource } from "../../../workers/parser/sources";
 import getSymbols from "../../../workers/parser/getSymbols";
 import cases from "jest-in-case";
 
-import * as I from "immutable";
-
 async function setup({ fileName, location, functionName }) {
-  const source = I.Map(getSource(fileName));
-  const symbols = getSymbols(source.toJS());
+  const source = getSource(fileName);
+  setSource(source);
+  const symbols = getSymbols(source.id);
 
   const astLocation = getASTLocation(source, symbols, location);
   expect(astLocation.name).toBe(functionName);

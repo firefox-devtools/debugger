@@ -34,12 +34,12 @@ function getExecutableLines(ast) {
   return uniq(lines);
 }
 
-export default function getEmptyLines(sourceToJS) {
-  if (!sourceToJS) {
+export default function getEmptyLines(sourceId) {
+  if (!sourceId) {
     return null;
   }
 
-  const ast = getAst(sourceToJS);
+  const ast = getAst(sourceId);
   if (!ast || !ast.comments) {
     return [];
   }
