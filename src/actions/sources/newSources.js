@@ -15,8 +15,6 @@ import { togglePrettyPrint } from "./prettyPrint";
 import { selectLocation } from "../sources";
 import { getRawSourceURL, isPrettyURL } from "../../utils/source";
 
-import { prefs } from "../../utils/prefs";
-
 import {
   getSource,
   getPendingSelectedLocation,
@@ -121,20 +119,8 @@ function checkPendingBreakpoints(sourceId) {
  * @static
  */
 export function newSource(source: Source) {
-  return async ({ dispatch, getState }: ThunkArgs) => {
-    const _source = getSource(getState(), source.id);
-    if (_source) {
-      return;
-    }
-
-    dispatch({ type: "ADD_SOURCE", source });
-
-    if (prefs.clientSourceMapsEnabled) {
-      dispatch(loadSourceMap(source));
-    }
-
-    dispatch(checkSelectedSource(source));
-    dispatch(checkPendingBreakpoints(source.id));
+  return async ({ dispatch }: ThunkArgs) => {
+    await dispatch(newSources([source]));
   };
 }
 

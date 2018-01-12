@@ -63,6 +63,7 @@ const sourceMaps = {
     line: 3,
     column: undefined
   }),
+  getOriginalURLs: () => {},
   isOriginalId: () => true,
   getGeneratedLocation: () => ({})
 };
