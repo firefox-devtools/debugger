@@ -2,6 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
+// @flow
+
 import React, { Component } from "react";
 import Svg from "./Svg";
 import classnames from "classnames";
@@ -24,24 +26,26 @@ const arrowBtn = (onClick, type, className, tooltip) => {
   );
 };
 
-class SearchInput extends Component {
+type Props = {
+  query: string,
+  count: number,
+  placeholder: string,
+  summaryMsg: string,
+  size: string,
+  showErrorEmoji: boolean,
+  onChange: (e: SyntheticInputEvent<HTMLInputElement>) => void,
+  handleClose: (e: SyntheticMouseEvent<HTMLDivElement>) => void,
+  onKeyUp?: (e: SyntheticKeyboardEvent<HTMLInputElement>) => void,
+  onKeyDown: (e: SyntheticKeyboardEvent<HTMLInputElement>) => void,
+  onFocus?: (e: SyntheticFocusEvent<HTMLInputElement>) => void,
+  onBlur?: (e: SyntheticFocusEvent<HTMLInputElement>) => void,
+  handleNext?: (e: SyntheticMouseEvent<HTMLButtonElement>) => void,
+  handlePrev?: (e: SyntheticMouseEvent<HTMLButtonElement>) => void
+};
+
+class SearchInput extends Component<Props> {
   displayName: "SearchInput";
-  props: {
-    query: string,
-    count: number,
-    placeholder: string,
-    summaryMsg: string,
-    onChange: () => void,
-    handleClose: () => void,
-    showErrorEmoji: boolean,
-    onKeyUp: () => void,
-    onKeyDown: () => void,
-    onFocus: () => void,
-    onBlur: () => void,
-    size: string,
-    handleNext: () => void,
-    handlePrev: () => void
-  };
+  $input: ?HTMLInputElement;
 
   static defaultProps = {
     size: "",
@@ -49,29 +53,29 @@ class SearchInput extends Component {
   };
 
   componentDidMount() {
-    this.$input.focus();
-    if (this.$input.value != "") {
-      this.$input.setSelectionRange(
-        this.$input.value.length + 1,
-        this.$input.value.length + 1
-      );
+    if (this.$input) {
+      const input = this.$input;
+      input.focus();
+      if (input.value != "") {
+        input.setSelectionRange(input.value.length + 1, input.value.length + 1);
+      }
     }
   }
 
   componentDidUpdate() {
-    this.$input.focus();
-    if (this.$input.value != "") {
-      this.$input.setSelectionRange(
-        this.$input.value.length + 1,
-        this.$input.value.length + 1
-      );
+    if (this.$input) {
+      const input = this.$input;
+      input.focus();
+      if (input.value != "") {
+        input.setSelectionRange(input.value.length + 1, input.value.length + 1);
+      }
     }
   }
 
-  shouldShowErrorEmoji() {
+  shouldShowErrorEmoji = () => {
     const { count, query, showErrorEmoji } = this.props;
-    return count === 0 && query.trim() !== "" && !showErrorEmoji;
-  }
+    return count === 0 && query.trim() !== "" && showErrorEmoji;
+  };
 
   renderSvg() {
     if (this.shouldShowErrorEmoji()) {
