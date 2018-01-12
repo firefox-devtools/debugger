@@ -143,7 +143,7 @@ class SecondaryPanes extends Component<Props> {
     return {
       header: L10N.getStr("scopes.header"),
       className: "scopes-pane",
-      component: Scopes,
+      component: <Scopes />,
       opened: prefs.scopesVisible,
       onToggle: opened => {
         prefs.scopesVisible = opened;
@@ -156,7 +156,7 @@ class SecondaryPanes extends Component<Props> {
       header: L10N.getStr("watchExpressions.header"),
       className: "watch-expressions-pane",
       buttons: this.watchExpressionHeaderButtons(),
-      component: Expressions,
+      component: <Expressions />,
       opened: prefs.expressionsVisible,
       onToggle: opened => {
         prefs.expressionsVisible = opened;
@@ -168,7 +168,7 @@ class SecondaryPanes extends Component<Props> {
     return {
       header: L10N.getStr("callStack.header"),
       className: "call-stack-pane",
-      component: Frames,
+      component: <Frames />,
       opened: prefs.callStackVisible,
       onToggle: opened => {
         prefs.callStackVisible = opened;
@@ -180,7 +180,7 @@ class SecondaryPanes extends Component<Props> {
     return {
       header: L10N.getStr("workersHeader"),
       className: "workers-pane",
-      component: Workers,
+      component: <Workers />,
       opened: prefs.workersVisible,
       onToggle: opened => {
         prefs.workersVisible = opened;
@@ -193,7 +193,7 @@ class SecondaryPanes extends Component<Props> {
       header: L10N.getStr("breakpoints.header"),
       className: "breakpoints-pane",
       buttons: [this.breakpointDropdown(), this.renderBreakpointsToggle()],
-      component: Breakpoints,
+      component: <Breakpoints />,
       opened: prefs.breakpointsVisible,
       onToggle: opened => {
         prefs.breakpointsVisible = opened;
@@ -248,7 +248,7 @@ class SecondaryPanes extends Component<Props> {
       items.push({
         header: L10N.getStr("eventListenersHeader"),
         className: "event-listeners-pane",
-        component: EventListeners
+        component: <EventListeners />
       });
     }
 

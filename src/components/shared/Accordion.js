@@ -3,14 +3,14 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-import React, { createElement, Component } from "react";
+import React, { cloneElement, Component } from "react";
 import Svg from "./Svg";
 
 import "./Accordion.css";
 
 type AccordionItem = {
   buttons?: Array<Object>,
-  component(): any,
+  component: any,
   componentProps: Object,
   header: string,
   className: string,
@@ -28,15 +28,12 @@ type State = {
 
 class Accordion extends Component<Props, State> {
   constructor(props: Props) {
-    super();
-
+    super(props);
     this.state = {
       opened: props.items.map(item => item.opened),
       created: []
     };
   }
-
-  componentWillReceiveProps(nextProps: Props) {}
 
   handleHeaderClick(i: number) {
     const item = this.props.items[i];
@@ -58,20 +55,17 @@ class Accordion extends Component<Props, State> {
     return (
       <div className={item.className} key={i}>
         <div className="_header" onClick={() => this.handleHeaderClick(i)}>
-          <Svg name="arrow" className={opened ? "expanded" : ""} />
+          <Svg name="arrow" className={opened === true ? "expanded" : ""} />
           {item.header}
           {item.buttons ? (
             <div className="header-buttons">{item.buttons}</div>
           ) : null}
         </div>
-        {opened ? (
-          <div
-            className="_content"
-            style={{ display: opened ? "block" : "none" }}
-          >
-            {createElement(item.component, item.componentProps || {})}
+        {opened && (
+          <div className="_content">
+            {cloneElement(item.component, item.componentProps || {})}
           </div>
-        ) : null}
+        )}
       </div>
     );
   };
