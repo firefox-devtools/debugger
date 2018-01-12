@@ -10,7 +10,7 @@ import "./Accordion.css";
 
 type AccordionItem = {
   buttons?: Array<Object>,
-  component: any,
+  component: React$Element<any>,
   componentProps: Object,
   header: string,
   className: string,

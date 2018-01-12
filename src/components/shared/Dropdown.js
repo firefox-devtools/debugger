@@ -4,11 +4,12 @@
 
 // @flow
 import React, { Component } from "react";
+import type { Node } from "react";
 import "./Dropdown.css";
 
 type Props = {
-  panel: Object,
-  icon: any
+  panel: React$Element<any>,
+  icon: Node
 };
 
 type State = {
