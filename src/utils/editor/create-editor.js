@@ -5,19 +5,19 @@
 // @flow
 
 import SourceEditor from "./source-editor";
-import { isEnabled } from "devtools-config";
+import { features } from "../prefs";
 
 export function createEditor() {
   const gutters = ["breakpoints", "hit-markers", "CodeMirror-linenumbers"];
 
-  if (isEnabled("codeFolding")) {
+  if (features.codeFolding) {
     gutters.push("CodeMirror-foldgutter");
   }
 
   return new SourceEditor({
     mode: "javascript",
-    foldGutter: isEnabled("codeFolding"),
-    enableCodeFolding: isEnabled("codeFolding"),
+    foldGutter: features.codeFolding,
+    enableCodeFolding: features.codeFolding,
     readOnly: true,
     lineNumbers: true,
     theme: "mozilla",

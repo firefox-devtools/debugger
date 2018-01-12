@@ -45,7 +45,7 @@ if (isDevelopment()) {
   pref("devtools.debugger.features.remove-command-bar-options", true);
   pref("devtools.debugger.features.code-coverage", false);
   pref("devtools.debugger.features.event-listeners", false);
-  pref("devtools.debugger.features.code-folding", true);
+  pref("devtools.debugger.features.code-folding", false);
   pref("devtools.debugger.features.outline", true);
   pref("devtools.debugger.features.column-breakpoints", true);
 }
@@ -87,7 +87,8 @@ export const features = new PrefsHelper("devtools.debugger.features", {
   workers: ["Bool", "workers"],
   codeCoverage: ["Bool", "code-coverage"],
   eventListeners: ["Bool", "event-listeners"],
-  outline: ["Bool", "outline"]
+  outline: ["Bool", "outline"],
+  codeFolding: ["Bool", "code-folding"]
 });
 
 if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {
