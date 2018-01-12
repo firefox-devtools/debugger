@@ -48,7 +48,6 @@ export function isInvalidUrl(url: Object, source: SourceRecord) {
   return (
     IGNORED_URLS.indexOf(url) != -1 ||
     !source.get("url") ||
-    source.get("loadedState") === "loading" ||
     !url.group ||
     isPretty(source) ||
     isNotJavaScript(source)
