@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import PreviewFunction from "../../components/shared/PreviewFunction";
+import PreviewFunction from "../PreviewFunction";
 
 describe("PreviewFunction", () => {
   it("should return a span", () => {
