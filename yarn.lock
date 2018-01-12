@@ -4421,7 +4421,7 @@ gemoji@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/gemoji/-/gemoji-4.2.0.tgz#94b0685497791ab0aabeab7918b13468fa967317"
 
-get-caller-file@^1.0.1:
+get-caller-file@^1.0.1, get-caller-file@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/get-caller-file/-/get-caller-file-1.0.2.tgz#f702e63127e7e231c160a80c1554acb70d5047e5"
 
@@ -7030,11 +7030,12 @@ mochii@^0.0.20:
     node-emoji "^1.8.1"
     shelljs "^0.7.8"
 
-mock-require@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/mock-require/-/mock-require-2.0.2.tgz#1eaa71aad23013773d127dc7e91a3fbb4837d60d"
+mock-require@3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/mock-require/-/mock-require-3.0.0.tgz#33256b61af6efc4a307da9019aaa0f55393d22d6"
   dependencies:
     caller-id "^0.1.0"
+    get-caller-file "^1.0.2"
 
 module-deps-sortable@4.0.6:
   version "4.0.6"

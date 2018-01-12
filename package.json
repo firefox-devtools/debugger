@@ -139,7 +139,7 @@
     "jest-serializer-babel-ast": "^0.0.5",
     "lint-staged": "^4.0.1",
     "mochii": "^0.0.20",
-    "mock-require": "^2.0.2",
+    "mock-require": "^3.0.0",
     "node-emoji": "^1.8.1",
     "npm-run-all": "^4.0.2",
     "prettier": "^1.6.1",
