@@ -64,6 +64,14 @@ function updateDocument(editor: SourceEditor, source: SourceRecord) {
   updateLineNumberFormat(editor, sourceId);
 }
 
+function clearEditor(editor: SourceEditor) {
+  const doc = editor.createDocument();
+  editor.replaceDocument(doc);
+  editor.setText("");
+  editor.setMode({ name: "text" });
+  resetLineNumberFormat(editor);
+}
+
 function showLoading(editor: SourceEditor) {
   if (hasDocument("loading")) {
     return;
@@ -74,6 +82,20 @@ function showLoading(editor: SourceEditor) {
   editor.replaceDocument(doc);
   editor.setText(L10N.getStr("loadingText"));
   editor.setMode({ name: "text" });
+}
+
+function showErrorMessage(editor: Object, msg: string) {
+  let error;
+  if (msg.includes("WebAssembly binary source is not available")) {
+    error = L10N.getStr("wasmIsNotAvailable");
+  } else {
+    error = L10N.getFormatStr("errorLoadingText3", msg);
+  }
+  const doc = editor.createDocument();
+  editor.replaceDocument(doc);
+  editor.setText(error);
+  editor.setMode({ name: "text" });
+  resetLineNumberFormat(editor);
 }
 
 function setEditorText(editor: Object, source: Source) {
@@ -129,9 +151,10 @@ export {
   hasDocument,
   removeDocument,
   clearDocuments,
-  resetLineNumberFormat,
   updateLineNumberFormat,
   updateDocument,
+  clearEditor,
   showSourceText,
+  showErrorMessage,
   showLoading
 };

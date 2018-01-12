@@ -116,9 +116,7 @@ describe("loadSourceText", async () => {
   it("should indicate an errored source text", async () => {
     const { dispatch, getState } = createStore(sourceThreadClient);
 
-    await dispatch(actions.loadSourceText(I.Map({ id: "bad-id" }))).catch(
-      () => {}
-    );
+    await dispatch(actions.loadSourceText(I.Map({ id: "bad-id" })));
     const badSource = selectors.getSource(getState(), "bad-id");
     expect(badSource.get("error").indexOf("unknown source")).not.toBe(-1);
   });
