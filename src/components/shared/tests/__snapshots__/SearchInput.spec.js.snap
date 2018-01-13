@@ -11,38 +11,12 @@ exports[`SearchInput render 1`] = `
     className=""
     placeholder="A placeholder"
     spellCheck={false}
-    value="test"
+    value=""
   />
   <div
     className="summary"
   >
     So many results
-  </div>
-  <div
-    className="search-nav-buttons"
-  >
-    <button
-      className="nav-btn next"
-      key="arrow-down"
-      onClick={[Function]}
-      title="Next result"
-      type="arrow-down"
-    >
-      <Svg
-        name="arrow-down"
-      />
-    </button>
-    <button
-      className="nav-btn prev"
-      key="arrow-up"
-      onClick={[Function]}
-      title="Previous result"
-      type="arrow-up"
-    >
-      <Svg
-        name="arrow-up"
-      />
-    </button>
   </div>
   <CloseButton
     buttonClass=""
@@ -105,10 +79,10 @@ exports[`SearchInput show svg (emoji) 1`] = `
   className="search-field"
 >
   <Svg
-    name="magnifying-glass"
+    name="sad-face"
   />
   <input
-    className=""
+    className="empty"
     placeholder="A placeholder"
     spellCheck={false}
     value="test"
@@ -117,32 +91,6 @@ exports[`SearchInput show svg (emoji) 1`] = `
     className="summary"
   >
     So many results
-  </div>
-  <div
-    className="search-nav-buttons"
-  >
-    <button
-      className="nav-btn next"
-      key="arrow-down"
-      onClick={[Function]}
-      title="Next result"
-      type="arrow-down"
-    >
-      <Svg
-        name="arrow-down"
-      />
-    </button>
-    <button
-      className="nav-btn prev"
-      key="arrow-up"
-      onClick={[Function]}
-      title="Previous result"
-      type="arrow-up"
-    >
-      <Svg
-        name="arrow-up"
-      />
-    </button>
   </div>
   <CloseButton
     buttonClass=""
@@ -167,32 +115,6 @@ exports[`SearchInput show svg magnifying glass 1`] = `
     className="summary"
   >
     So many results
-  </div>
-  <div
-    className="search-nav-buttons"
-  >
-    <button
-      className="nav-btn next"
-      key="arrow-down"
-      onClick={[Function]}
-      title="Next result"
-      type="arrow-down"
-    >
-      <Svg
-        name="arrow-down"
-      />
-    </button>
-    <button
-      className="nav-btn prev"
-      key="arrow-up"
-      onClick={[Function]}
-      title="Previous result"
-      type="arrow-up"
-    >
-      <Svg
-        name="arrow-up"
-      />
-    </button>
   </div>
   <CloseButton
     buttonClass=""

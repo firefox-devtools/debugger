@@ -36,17 +36,28 @@ describe("PaneToggleButton", () => {
     <PaneToggleButton collapsed={false} handleClick={spy} position="start" />
   );
   test("renders start", () => expect(wrapper).toMatchSnapshot());
-  wrapper.setProps({ horizontal: true });
-  test("renders start horizontal", () => expect(wrapper).toMatchSnapshot());
-  wrapper.setProps({ collapsed: true, horizontal: false });
-  test("renders start collapsed", () => expect(wrapper).toMatchSnapshot());
-  wrapper.setProps({ position: "end" });
-  test("renders end", () => expect(wrapper).toMatchSnapshot());
-  wrapper.setProps({ horizontal: true });
-  test("renders end horizontal", () => expect(wrapper).toMatchSnapshot());
-  wrapper.setProps({ collapsed: true, horizontal: false });
-  test("renders end collapsed", () => expect(wrapper).toMatchSnapshot());
-  wrapper.find("CommandBarButton").simulate("click");
-  test("handleClick is called", () =>
-    expect(spy).toHaveBeenCalledWith("end", true));
+  test("renders start horizontal", () => {
+    wrapper.setProps({ horizontal: true });
+    expect(wrapper).toMatchSnapshot();
+  });
+  test("renders start collapsed", () => {
+    wrapper.setProps({ collapsed: true, horizontal: false });
+    expect(wrapper).toMatchSnapshot();
+  });
+  test("renders end", () => {
+    wrapper.setProps({ position: "end" });
+    expect(wrapper).toMatchSnapshot();
+  });
+  test("renders end horizontal", () => {
+    wrapper.setProps({ horizontal: true });
+    expect(wrapper).toMatchSnapshot();
+  });
+  test("renders end collapsed", () => {
+    wrapper.setProps({ collapsed: true, horizontal: false });
+    expect(wrapper).toMatchSnapshot();
+  });
+  test("handleClick is called", () => {
+    wrapper.find("CommandBarButton").simulate("click");
+    expect(spy).toHaveBeenCalledWith("end", true);
+  });
 });

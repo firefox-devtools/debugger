@@ -12,11 +12,14 @@ import "./PaneToggle.css";
 type Props = {
   collapsed: boolean,
   handleClick: (string, boolean) => void,
-  horizontal?: boolean,
+  horizontal: boolean,
   position: string
 };
 
 class PaneToggleButton extends Component<Props> {
+  static defaultProps = {
+    horizontal: false
+  };
   shouldComponentUpdate(nextProps: Props) {
     const { collapsed, horizontal, position } = this.props;
     const diffHorizontal = horizontal !== nextProps.horizontal;
@@ -35,7 +38,7 @@ class PaneToggleButton extends Component<Props> {
       <CommandBarButton
         className={classnames("toggle-button", position, {
           collapsed,
-          vertical: horizontal != null ? !horizontal : false
+          vertical: !horizontal
         })}
         onClick={() => handleClick(position, collapsed)}
         title={title}

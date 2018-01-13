@@ -14,14 +14,20 @@ describe("SearchInput", () => {
     />
   );
   test("render", () => expect(wrapper).toMatchSnapshot());
-  wrapper.setProps({ query: "test" });
-  test("show svg (emoji)", () => expect(wrapper).toMatchSnapshot());
-  wrapper.setProps({ count: 3 });
-  test("show svg magnifying glass", () => expect(wrapper).toMatchSnapshot());
-  wrapper.setProps({
-    count: 5,
-    handleNext: jest.fn(),
-    handlePrev: jest.fn()
+  test("show svg (emoji)", () => {
+    wrapper.setProps({ query: "test" });
+    expect(wrapper).toMatchSnapshot();
   });
-  test("show nav buttons", () => expect(wrapper).toMatchSnapshot());
+  test("show svg magnifying glass", () => {
+    wrapper.setProps({ count: 3 });
+    expect(wrapper).toMatchSnapshot();
+  });
+  test("show nav buttons", () => {
+    wrapper.setProps({
+      count: 5,
+      handleNext: jest.fn(),
+      handlePrev: jest.fn()
+    });
+    expect(wrapper).toMatchSnapshot();
+  });
 });

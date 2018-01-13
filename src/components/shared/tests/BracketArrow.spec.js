@@ -8,6 +8,8 @@ describe("BracketArrow", () => {
     <BracketArrow orientation="down" left={10} top={20} bottom={50} />
   );
   test("render", () => expect(wrapper).toMatchSnapshot());
-  wrapper.setProps({ orientation: null });
-  test("render up", () => expect(wrapper).toMatchSnapshot());
+  test("render up", () => {
+    wrapper.setProps({ orientation: null });
+    expect(wrapper).toMatchSnapshot();
+  });
 });

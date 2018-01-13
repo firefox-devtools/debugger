@@ -47,7 +47,7 @@ exports[`PaneToggleButton renders end collapsed 1`] = `
 
 exports[`PaneToggleButton renders end horizontal 1`] = `
 <CommandBarButton
-  className="toggle-button end collapsed vertical"
+  className="toggle-button end collapsed"
   onClick={[Function]}
   title="Collapse panes"
 >
@@ -59,9 +59,9 @@ exports[`PaneToggleButton renders end horizontal 1`] = `
 
 exports[`PaneToggleButton renders start 1`] = `
 <CommandBarButton
-  className="toggle-button end collapsed vertical"
+  className="toggle-button start vertical"
   onClick={[Function]}
-  title="Collapse panes"
+  title="Expand panes"
 >
   <Svg
     name="togglePanes"
@@ -71,7 +71,7 @@ exports[`PaneToggleButton renders start 1`] = `
 
 exports[`PaneToggleButton renders start collapsed 1`] = `
 <CommandBarButton
-  className="toggle-button end collapsed vertical"
+  className="toggle-button start collapsed vertical"
   onClick={[Function]}
   title="Collapse panes"
 >
@@ -83,9 +83,9 @@ exports[`PaneToggleButton renders start collapsed 1`] = `
 
 exports[`PaneToggleButton renders start horizontal 1`] = `
 <CommandBarButton
-  className="toggle-button end collapsed vertical"
+  className="toggle-button start"
   onClick={[Function]}
-  title="Collapse panes"
+  title="Expand panes"
 >
   <Svg
     name="togglePanes"
