@@ -34,6 +34,7 @@ type Props = {
   onClose: () => void,
   range: EditorRange,
   editor: any,
+  editorRef: ?HTMLDivElement,
   selectSourceURL: (string, Object) => void,
   openLink: string => void,
   extra: Object
@@ -234,11 +235,23 @@ export class Popup extends Component<Props> {
   }
 
   render() {
-    const { popoverPos, onClose, value, expression, extra } = this.props;
+    const {
+      popoverPos,
+      onClose,
+      value,
+      expression,
+      extra,
+      editorRef
+    } = this.props;
     const type = this.getPreviewType(value);
 
     return (
-      <Popover targetPosition={popoverPos} onMouseLeave={onClose} type={type}>
+      <Popover
+        targetPosition={popoverPos}
+        onMouseLeave={onClose}
+        type={type}
+        editorRef={editorRef}
+      >
         {this.renderPreview(expression, value, extra)}
       </Popover>
     );

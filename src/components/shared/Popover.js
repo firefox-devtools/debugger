@@ -2,37 +2,46 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
+// @flow
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import classNames from "classnames";
 import BracketArrow from "./BracketArrow";
 
 import "./Popover.css";
 
 type Props = {
-  target: Object,
+  editorRef: ?HTMLDivElement,
   targetPosition: Object,
-  children: Object,
-  onMouseLeave?: () => void,
-  type?: string
+  children: React$Element<any>,
+  onMouseLeave: () => void,
+  type?: "popover" | "tooltip"
 };
 
-class Popover extends Component {
-  props: Props;
+type Orientation = "up" | "down";
+type State = {
+  left: number,
+  top: number,
+  targetMid: number,
+  orientation: Orientation
+};
+
+class Popover extends Component<Props, State> {
+  $popover: ?HTMLDivElement;
+  $tooltip: ?HTMLDivElement;
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      left: 0,
+      top: 0,
+      targetMid: 0,
+      orientation: "up"
+    };
+  }
 
   static defaultProps = {
     onMouseLeave: () => {},
     type: "popover"
   };
-
-  constructor() {
-    super();
-    this.onMouseLeave = this.onMouseLeave.bind(this);
-    this.state = {
-      left: 0,
-      top: 0
-    };
-  }
 
   componentDidMount() {
     const { type } = this.props;
@@ -43,7 +52,7 @@ class Popover extends Component {
     this.setState({ left, top, orientation, targetMid });
   }
 
-  calculateLeft(target, editor, popover) {
+  calculateLeft(target: ClientRect, editor: ClientRect, popover: ClientRect) {
     const estimatedLeft = target.left;
     const estimatedRight = estimatedLeft + popover.width;
     const isOverflowingRight = estimatedRight > editor.right;
@@ -54,49 +63,59 @@ class Popover extends Component {
     return estimatedLeft;
   }
 
-  calculateVerticalOrientation(target, editor, popover) {
+  calculateVerticalOrientation(
+    target: ClientRect,
+    editor: ClientRect,
+    popover: ClientRect
+  ) {
     const estimatedBottom = target.bottom + popover.height;
 
     return estimatedBottom > editor.bottom ? "up" : "down";
   }
 
   getPopoverCoords() {
-    const popover = ReactDOM.findDOMNode(this);
-    const popoverRect = popover.getBoundingClientRect();
+    if (this.$popover && this.props.editorRef) {
+      const popover = this.$popover;
+      const editor = this.props.editorRef;
+      const popoverRect = popover.getBoundingClientRect();
+      const editorRect = editor.getBoundingClientRect();
+      const targetRect = this.props.targetPosition;
+      const popoverLeft = this.calculateLeft(
+        targetRect,
+        editorRect,
+        popoverRect
+      );
+      const orientation = this.calculateVerticalOrientation(
+        targetRect,
+        editorRect,
+        popoverRect
+      );
+      const top =
+        orientation == "down"
+          ? targetRect.bottom
+          : targetRect.top - popoverRect.height;
 
-    const editor = document.querySelector(".editor-wrapper");
-    const editorRect = editor.getBoundingClientRect();
+      const targetMid =
+        targetRect.left - popoverLeft + targetRect.width / 2 - 8;
 
-    const targetRect = this.props.targetPosition;
-
-    const popoverLeft = this.calculateLeft(targetRect, editorRect, popoverRect);
-    const orientation = this.calculateVerticalOrientation(
-      targetRect,
-      editorRect,
-      popoverRect
-    );
-    const top =
-      orientation == "down"
-        ? targetRect.bottom
-        : targetRect.top - popoverRect.height;
-
-    const targetMid = targetRect.left - popoverLeft + targetRect.width / 2 - 8;
-
-    return { left: popoverLeft, top, orientation, targetMid };
+      return { left: popoverLeft, top, orientation, targetMid };
+    }
+    return { left: 0, top: 0, orientation: "down", targetMid: 0 };
   }
 
   getTooltipCoords() {
-    const tooltip = ReactDOM.findDOMNode(this);
-    const tooltipRect = tooltip.getBoundingClientRect();
-    const targetRect = this.props.targetPosition;
+    if (this.$tooltip && this.props.editorRef) {
+      const tooltip = this.$tooltip;
+      const editor = this.props.editorRef;
+      const tooltipRect = tooltip.getBoundingClientRect();
+      const editorRect = editor.getBoundingClientRect();
+      const targetRect = this.props.targetPosition;
+      const left = this.calculateLeft(targetRect, editorRect, tooltipRect);
+      const top = targetRect.top - tooltipRect.height;
 
-    const editor = document.querySelector(".editor-wrapper");
-    const editorRect = editor.getBoundingClientRect();
-
-    const left = this.calculateLeft(targetRect, editorRect, tooltipRect);
-    const top = targetRect.top - tooltipRect.height;
-
-    return { left, top, orientation: "up", targetMid: 0 };
+      return { left, top, orientation: "up", targetMid: 0 };
+    }
+    return { left: 0, top: 0, orientation: "up", targetMid: 0 };
   }
 
   getChildren() {
@@ -106,7 +125,7 @@ class Popover extends Component {
     return orientation === "up" ? [children, gap] : [gap, children];
   }
 
-  getPopoverArrow(orientation, left) {
+  getPopoverArrow(orientation: Orientation, left: number) {
     const arrowOrientation = orientation === "up" ? "down" : "up";
 
     const arrowProp = arrowOrientation === "up" ? "top" : "bottom";
@@ -121,15 +140,18 @@ class Popover extends Component {
     return <BracketArrow {...arrowProps} />;
   }
 
-  onMouseLeave(e) {
+  onMouseLeave = (e: any) => {
     const { onMouseLeave } = this.props;
 
-    if (e.target.className.match(/(bracket-arrow|gap)/)) {
+    // Flow doesn't seem to understand that event targets can have classNames.
+    // Thus the any type above. Otherwise this would be:
+    // SyntheticEvent<HTMLDivElement>
+    if (/^(bracket-arrow|gap)$/.test(e.target.className)) {
       return;
     }
 
     onMouseLeave();
-  }
+  };
 
   renderPopover() {
     const { top, left, orientation, targetMid } = this.state;
@@ -140,6 +162,7 @@ class Popover extends Component {
         className={classNames("popover", { up: orientation === "up" })}
         onMouseLeave={this.onMouseLeave}
         style={{ top, left }}
+        ref={c => (this.$popover = c)}
       >
         {arrow}
         {this.getChildren()}
@@ -156,6 +179,7 @@ class Popover extends Component {
         className="tooltip"
         onMouseLeave={onMouseLeave}
         style={{ top, left }}
+        ref={c => (this.$tooltip = c)}
       >
         {this.getChildren()}
       </div>

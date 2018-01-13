@@ -98,8 +98,9 @@ type State = {
 };
 
 class Editor extends PureComponent<Props, State> {
-  constructor() {
-    super();
+  $editorWrapper: ?HTMLDivElement;
+  constructor(props: Props) {
+    super(props);
 
     this.state = {
       highlightedLineRange: null,
@@ -535,7 +536,7 @@ class Editor extends PureComponent<Props, State> {
         <HighlightLine />
         <EmptyLines editor={editor} />
         <Breakpoints editor={editor} />
-        <Preview editor={editor} />;
+        <Preview editor={editor} editorRef={this.$editorWrapper} />;
         <Footer editor={editor} horizontal={horizontal} />
         <HighlightLines editor={editor} />
         <EditorMenu editor={editor} />
@@ -565,6 +566,7 @@ class Editor extends PureComponent<Props, State> {
         className={classnames("editor-wrapper", {
           "coverage-on": coverageOn
         })}
+        ref={c => (this.$editorWrapper = c)}
       >
         {this.renderSearchBar()}
         <div
