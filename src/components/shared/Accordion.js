@@ -55,7 +55,7 @@ class Accordion extends Component<Props, State> {
     return (
       <div className={item.className} key={i}>
         <div className="_header" onClick={() => this.handleHeaderClick(i)}>
-          <Svg name="arrow" className={opened === true ? "expanded" : ""} />
+          <Svg name="arrow" className={opened ? "expanded" : ""} />
           {item.header}
           {item.buttons ? (
             <div className="header-buttons">{item.buttons}</div>

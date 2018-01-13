@@ -3,7 +3,7 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import classnames from "classnames";
 import Svg from "../Svg";
 import CommandBarButton from "./CommandBarButton";
@@ -16,17 +16,10 @@ type Props = {
   position: string
 };
 
-class PaneToggleButton extends Component<Props> {
+class PaneToggleButton extends PureComponent<Props> {
   static defaultProps = {
     horizontal: false
   };
-  shouldComponentUpdate(nextProps: Props) {
-    const { collapsed, horizontal, position } = this.props;
-    const diffHorizontal = horizontal !== nextProps.horizontal;
-    const diffCollapsed = collapsed !== nextProps.collapsed;
-    const diffPosition = position !== nextProps.position;
-    return diffHorizontal || diffCollapsed || diffPosition;
-  }
 
   render() {
     const { position, collapsed, horizontal, handleClick } = this.props;
