@@ -9,7 +9,7 @@ import React from "react";
 import "./CommandBarButton.css";
 
 type Props = {
-  children: any,
+  children: React$Element<any>,
   className: string,
   pressed?: boolean
 };

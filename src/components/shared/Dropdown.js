@@ -16,29 +16,22 @@ type State = {
   dropdownShown: boolean
 };
 
-class Dropdown extends Component<Props, State> {
+export class Dropdown extends Component<Props, State> {
   toggleDropdown: Function;
-  renderPanel: Function;
-  renderButton: Function;
-  renderMask: Function;
-
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       dropdownShown: false
     };
 
     this.toggleDropdown = this.toggleDropdown.bind(this);
-    this.renderPanel = this.renderPanel.bind(this);
-    this.renderButton = this.renderButton.bind(this);
-    this.renderMask = this.renderMask.bind(this);
   }
 
-  toggleDropdown(e: SyntheticKeyboardEvent<HTMLElement>) {
+  toggleDropdown = (e: SyntheticKeyboardEvent<HTMLElement>) => {
     this.setState({
       dropdownShown: !this.state.dropdownShown
     });
-  }
+  };
 
   renderPanel() {
     return (
