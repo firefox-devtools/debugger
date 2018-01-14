@@ -1,0 +1,824 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProjectSearch found no search results 1`] = `
+<div
+  className="search-container"
+>
+  <div
+    className="project-text-search"
+  >
+    <div
+      className="header"
+    >
+      <SearchInput
+        count={0}
+        handleClose={[Function]}
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        placeholder="Find in files…"
+        query="foo"
+        showErrorEmoji={true}
+        size="big"
+        summaryMsg="0 results"
+      />
+    </div>
+    <div
+      className="no-result-msg absolute-center"
+    >
+      No results found
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ProjectSearch found search results 1`] = `
+<ProjectSearch
+  activeSearch="project"
+  closeProjectSearch={[Function]}
+  query="match"
+  results={
+    Immutable.List [
+      Object {
+        "filepath": "testFilePath1",
+        "matches": Array [
+          Object {
+            "column": 30,
+            "match": "match1",
+            "value": "some thing match1",
+          },
+          Object {
+            "column": 60,
+            "match": "match2",
+            "value": "some thing match2",
+          },
+          Object {
+            "column": 90,
+            "match": "match3",
+            "value": "some thing match3",
+          },
+        ],
+      },
+      Object {
+        "filepath": "testFilePath2",
+        "matches": Array [
+          Object {
+            "column": 80,
+            "match": "match4",
+            "value": "some thing match4",
+          },
+          Object {
+            "column": 40,
+            "match": "match5",
+            "value": "some thing match5",
+          },
+        ],
+      },
+    ]
+  }
+  searchSources={[Function]}
+  selectLocation={[Function]}
+  sources={Object {}}
+  status="DONE"
+>
+  <div
+    className="search-container"
+  >
+    <div
+      className="project-text-search"
+    >
+      <div
+        className="header"
+      >
+        <SearchInput
+          count={5}
+          handleClose={[Function]}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          placeholder="Find in files…"
+          query="match"
+          showErrorEmoji={true}
+          size="big"
+          summaryMsg="5 results"
+        >
+          <div
+            className="search-field big"
+          >
+            <Svg
+              name="magnifying-glass"
+            >
+              <InlineSVG
+                className="magnifying-glass "
+                element="i"
+                raw={false}
+                src="<svg></svg>"
+              >
+                <i
+                  className="magnifying-glass "
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "<svg></svg>",
+                    }
+                  }
+                  src={null}
+                />
+              </InlineSVG>
+            </Svg>
+            <input
+              className=""
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              placeholder="Find in files…"
+              spellCheck={false}
+              value="match"
+            />
+            <div
+              className="summary"
+            >
+              5 results
+            </div>
+            <CloseButton
+              buttonClass="big"
+              handleClick={[Function]}
+            >
+              <div
+                className="close-btn big"
+                onClick={[Function]}
+              >
+                <img
+                  className="close"
+                />
+              </div>
+            </CloseButton>
+          </div>
+        </SearchInput>
+      </div>
+      <ManagedTree
+        autoExpandAll={true}
+        autoExpandDepth={1}
+        getChildren={[Function]}
+        getParent={[Function]}
+        getPath={[Function]}
+        getRoots={[Function]}
+        itemHeight={24}
+        renderItem={[Function]}
+      >
+        <div
+          className="managed-tree"
+        >
+          <Tree
+            autoExpandAll={true}
+            autoExpandDepth={1}
+            focused={null}
+            getChildren={[Function]}
+            getKey={[Function]}
+            getParent={[Function]}
+            getPath={[Function]}
+            getRoots={[Function]}
+            isExpanded={[Function]}
+            itemHeight={24}
+            onCollapse={[Function]}
+            onExpand={[Function]}
+            onFocus={[Function]}
+            renderItem={[Function]}
+          >
+            <div
+              className="tree "
+              onKeyDown={[Function]}
+              onKeyPress={[Function]}
+              onKeyUp={[Function]}
+              onScroll={[Function]}
+              style={
+                Object {
+                  "margin": 0,
+                  "padding": 0,
+                }
+              }
+            >
+              <TreeNode
+                depth={0}
+                expanded={true}
+                focused={false}
+                hasChildren={true}
+                index={0}
+                item={
+                  Object {
+                    "filepath": "testFilePath1",
+                    "matches": Array [
+                      Object {
+                        "column": 30,
+                        "match": "match1",
+                        "type": "MATCH",
+                        "value": "some thing match1",
+                      },
+                      Object {
+                        "column": 60,
+                        "match": "match2",
+                        "type": "MATCH",
+                        "value": "some thing match2",
+                      },
+                      Object {
+                        "column": 90,
+                        "match": "match3",
+                        "type": "MATCH",
+                        "value": "some thing match3",
+                      },
+                    ],
+                    "type": "RESULT",
+                  }
+                }
+                key="undefined-$"
+                onCollapse={[Function]}
+                onExpand={[Function]}
+                onFocus={[Function]}
+                renderItem={[Function]}
+              >
+                <div
+                  className="tree-node div "
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  style={
+                    Object {
+                      "margin": 0,
+                      "padding": 0,
+                    }
+                  }
+                >
+                  <div
+                    className="file-result"
+                    onClick={[Function]}
+                  >
+                    <Svg
+                      className="expanded"
+                      name="arrow"
+                    >
+                      <InlineSVG
+                        className="arrow expanded"
+                        element="i"
+                        raw={false}
+                        src="<svg></svg>"
+                      >
+                        <i
+                          className="arrow expanded"
+                          dangerouslySetInnerHTML={
+                            Object {
+                              "__html": "<svg></svg>",
+                            }
+                          }
+                          src={null}
+                        />
+                      </InlineSVG>
+                    </Svg>
+                    <img
+                      className="file"
+                    />
+                    <span
+                      className="file-path"
+                    />
+                    <span
+                      className="matches-summary"
+                    >
+                       (3 matches)
+                    </span>
+                  </div>
+                  <button
+                    style={
+                      Object {
+                        "MozAppearance": "none",
+                        "MozMarginStart": "-1000px !important",
+                        "height": "0 !important",
+                        "opacity": 0,
+                        "outline": "none",
+                        "padding": "0 !important",
+                        "width": "0 !important",
+                      }
+                    }
+                  />
+                </div>
+              </TreeNode>
+              <TreeNode
+                depth={1}
+                expanded={false}
+                focused={false}
+                hasChildren={false}
+                index={1}
+                item={
+                  Object {
+                    "column": 30,
+                    "match": "match1",
+                    "type": "MATCH",
+                    "value": "some thing match1",
+                  }
+                }
+                key="undefined-undefined-30-1"
+                onCollapse={[Function]}
+                onExpand={[Function]}
+                onFocus={[Function]}
+                renderItem={[Function]}
+              >
+                <div
+                  className="tree-node div tree-node-odd"
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  style={
+                    Object {
+                      "margin": 0,
+                      "padding": 0,
+                    }
+                  }
+                >
+                  <div
+                    className="result"
+                    onClick={[Function]}
+                  >
+                    <span
+                      className="line-number"
+                    />
+                    <span
+                      className="line-value"
+                    >
+                      <span
+                        className="line-match"
+                        key="0"
+                      >
+                        some thing match1
+                      </span>
+                      <span
+                        className="query-match"
+                        key="1"
+                      />
+                      <span
+                        className="line-match"
+                        key="2"
+                      />
+                    </span>
+                  </div>
+                  <button
+                    style={
+                      Object {
+                        "MozAppearance": "none",
+                        "MozMarginStart": "-1000px !important",
+                        "height": "0 !important",
+                        "opacity": 0,
+                        "outline": "none",
+                        "padding": "0 !important",
+                        "width": "0 !important",
+                      }
+                    }
+                  />
+                </div>
+              </TreeNode>
+              <TreeNode
+                depth={1}
+                expanded={false}
+                focused={false}
+                hasChildren={false}
+                index={2}
+                item={
+                  Object {
+                    "column": 60,
+                    "match": "match2",
+                    "type": "MATCH",
+                    "value": "some thing match2",
+                  }
+                }
+                key="undefined-undefined-60-2"
+                onCollapse={[Function]}
+                onExpand={[Function]}
+                onFocus={[Function]}
+                renderItem={[Function]}
+              >
+                <div
+                  className="tree-node div "
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  style={
+                    Object {
+                      "margin": 0,
+                      "padding": 0,
+                    }
+                  }
+                >
+                  <div
+                    className="result"
+                    onClick={[Function]}
+                  >
+                    <span
+                      className="line-number"
+                    />
+                    <span
+                      className="line-value"
+                    >
+                      <span
+                        className="line-match"
+                        key="0"
+                      >
+                        some thing match2
+                      </span>
+                      <span
+                        className="query-match"
+                        key="1"
+                      />
+                      <span
+                        className="line-match"
+                        key="2"
+                      />
+                    </span>
+                  </div>
+                  <button
+                    style={
+                      Object {
+                        "MozAppearance": "none",
+                        "MozMarginStart": "-1000px !important",
+                        "height": "0 !important",
+                        "opacity": 0,
+                        "outline": "none",
+                        "padding": "0 !important",
+                        "width": "0 !important",
+                      }
+                    }
+                  />
+                </div>
+              </TreeNode>
+              <TreeNode
+                depth={1}
+                expanded={false}
+                focused={false}
+                hasChildren={false}
+                index={3}
+                item={
+                  Object {
+                    "column": 90,
+                    "match": "match3",
+                    "type": "MATCH",
+                    "value": "some thing match3",
+                  }
+                }
+                key="undefined-undefined-90-3"
+                onCollapse={[Function]}
+                onExpand={[Function]}
+                onFocus={[Function]}
+                renderItem={[Function]}
+              >
+                <div
+                  className="tree-node div tree-node-odd"
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  style={
+                    Object {
+                      "margin": 0,
+                      "padding": 0,
+                    }
+                  }
+                >
+                  <div
+                    className="result"
+                    onClick={[Function]}
+                  >
+                    <span
+                      className="line-number"
+                    />
+                    <span
+                      className="line-value"
+                    >
+                      <span
+                        className="line-match"
+                        key="0"
+                      >
+                        some thing match3
+                      </span>
+                      <span
+                        className="query-match"
+                        key="1"
+                      />
+                      <span
+                        className="line-match"
+                        key="2"
+                      />
+                    </span>
+                  </div>
+                  <button
+                    style={
+                      Object {
+                        "MozAppearance": "none",
+                        "MozMarginStart": "-1000px !important",
+                        "height": "0 !important",
+                        "opacity": 0,
+                        "outline": "none",
+                        "padding": "0 !important",
+                        "width": "0 !important",
+                      }
+                    }
+                  />
+                </div>
+              </TreeNode>
+              <TreeNode
+                depth={0}
+                expanded={true}
+                focused={false}
+                hasChildren={true}
+                index={4}
+                item={
+                  Object {
+                    "filepath": "testFilePath2",
+                    "matches": Array [
+                      Object {
+                        "column": 80,
+                        "match": "match4",
+                        "type": "MATCH",
+                        "value": "some thing match4",
+                      },
+                      Object {
+                        "column": 40,
+                        "match": "match5",
+                        "type": "MATCH",
+                        "value": "some thing match5",
+                      },
+                    ],
+                    "type": "RESULT",
+                  }
+                }
+                key="undefined-4"
+                onCollapse={[Function]}
+                onExpand={[Function]}
+                onFocus={[Function]}
+                renderItem={[Function]}
+              >
+                <div
+                  className="tree-node div "
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  style={
+                    Object {
+                      "margin": 0,
+                      "padding": 0,
+                    }
+                  }
+                >
+                  <div
+                    className="file-result"
+                    onClick={[Function]}
+                  >
+                    <Svg
+                      className="expanded"
+                      name="arrow"
+                    >
+                      <InlineSVG
+                        className="arrow expanded"
+                        element="i"
+                        raw={false}
+                        src="<svg></svg>"
+                      >
+                        <i
+                          className="arrow expanded"
+                          dangerouslySetInnerHTML={
+                            Object {
+                              "__html": "<svg></svg>",
+                            }
+                          }
+                          src={null}
+                        />
+                      </InlineSVG>
+                    </Svg>
+                    <img
+                      className="file"
+                    />
+                    <span
+                      className="file-path"
+                    />
+                    <span
+                      className="matches-summary"
+                    >
+                       (2 matches)
+                    </span>
+                  </div>
+                  <button
+                    style={
+                      Object {
+                        "MozAppearance": "none",
+                        "MozMarginStart": "-1000px !important",
+                        "height": "0 !important",
+                        "opacity": 0,
+                        "outline": "none",
+                        "padding": "0 !important",
+                        "width": "0 !important",
+                      }
+                    }
+                  />
+                </div>
+              </TreeNode>
+              <TreeNode
+                depth={1}
+                expanded={false}
+                focused={false}
+                hasChildren={false}
+                index={5}
+                item={
+                  Object {
+                    "column": 80,
+                    "match": "match4",
+                    "type": "MATCH",
+                    "value": "some thing match4",
+                  }
+                }
+                key="undefined-undefined-80-5"
+                onCollapse={[Function]}
+                onExpand={[Function]}
+                onFocus={[Function]}
+                renderItem={[Function]}
+              >
+                <div
+                  className="tree-node div tree-node-odd"
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  style={
+                    Object {
+                      "margin": 0,
+                      "padding": 0,
+                    }
+                  }
+                >
+                  <div
+                    className="result"
+                    onClick={[Function]}
+                  >
+                    <span
+                      className="line-number"
+                    />
+                    <span
+                      className="line-value"
+                    >
+                      <span
+                        className="line-match"
+                        key="0"
+                      >
+                        some thing match4
+                      </span>
+                      <span
+                        className="query-match"
+                        key="1"
+                      />
+                      <span
+                        className="line-match"
+                        key="2"
+                      />
+                    </span>
+                  </div>
+                  <button
+                    style={
+                      Object {
+                        "MozAppearance": "none",
+                        "MozMarginStart": "-1000px !important",
+                        "height": "0 !important",
+                        "opacity": 0,
+                        "outline": "none",
+                        "padding": "0 !important",
+                        "width": "0 !important",
+                      }
+                    }
+                  />
+                </div>
+              </TreeNode>
+              <TreeNode
+                depth={1}
+                expanded={false}
+                focused={false}
+                hasChildren={false}
+                index={6}
+                item={
+                  Object {
+                    "column": 40,
+                    "match": "match5",
+                    "type": "MATCH",
+                    "value": "some thing match5",
+                  }
+                }
+                key="undefined-undefined-40-6"
+                onCollapse={[Function]}
+                onExpand={[Function]}
+                onFocus={[Function]}
+                renderItem={[Function]}
+              >
+                <div
+                  className="tree-node div "
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  style={
+                    Object {
+                      "margin": 0,
+                      "padding": 0,
+                    }
+                  }
+                >
+                  <div
+                    className="result"
+                    onClick={[Function]}
+                  >
+                    <span
+                      className="line-number"
+                    />
+                    <span
+                      className="line-value"
+                    >
+                      <span
+                        className="line-match"
+                        key="0"
+                      >
+                        some thing match5
+                      </span>
+                      <span
+                        className="query-match"
+                        key="1"
+                      />
+                      <span
+                        className="line-match"
+                        key="2"
+                      />
+                    </span>
+                  </div>
+                  <button
+                    style={
+                      Object {
+                        "MozAppearance": "none",
+                        "MozMarginStart": "-1000px !important",
+                        "height": "0 !important",
+                        "opacity": 0,
+                        "outline": "none",
+                        "padding": "0 !important",
+                        "width": "0 !important",
+                      }
+                    }
+                  />
+                </div>
+              </TreeNode>
+            </div>
+          </Tree>
+        </div>
+      </ManagedTree>
+    </div>
+  </div>
+</ProjectSearch>
+`;
+
+exports[`ProjectSearch renders nothing when disabled 1`] = `""`;
+
+exports[`ProjectSearch turns off shortcuts on unmount 1`] = `
+<div
+  className="search-container"
+>
+  <div
+    className="project-text-search"
+  >
+    <div
+      className="header"
+    >
+      <SearchInput
+        count={0}
+        handleClose={[Function]}
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        placeholder="Find in files…"
+        query=""
+        showErrorEmoji={true}
+        size="big"
+        summaryMsg=""
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ProjectSearch where <Enter> has not been pressed 1`] = `
+<div
+  className="search-container"
+>
+  <div
+    className="project-text-search"
+  >
+    <div
+      className="header"
+    >
+      <SearchInput
+        count={0}
+        handleClose={[Function]}
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        placeholder="Find in files…"
+        query=""
+        showErrorEmoji={true}
+        size="big"
+        summaryMsg=""
+      />
+    </div>
+  </div>
+</div>
+`;

@@ -17,9 +17,9 @@ export type Item = {
 type Props = {
   autoExpandAll: boolean,
   autoExpandDepth: number,
-  getChildren: Item => Item[],
-  getPath: Item => string,
-  getParent: () => any,
+  getChildren: Object => Object[],
+  getPath: (Object, index?: number) => string,
+  getParent: Item => any,
   getRoots: () => any,
   highlightItems?: Array<Item>,
   itemHeight: number,
