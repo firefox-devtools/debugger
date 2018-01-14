@@ -18,7 +18,7 @@ type Props = {
   autoExpandAll: boolean,
   autoExpandDepth: number,
   getChildren: Object => Object[],
-  getPath: Object => string,
+  getPath: (Object, index?: number) => string,
   getParent: Item => any,
   getRoots: () => any,
   highlightItems?: Array<Item>,
