@@ -1,0 +1,150 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Popover mount popover 1`] = `
+<Popover
+  editorRef={
+    Object {
+      "getBoundingClientRect": [Function],
+    }
+  }
+  onMouseLeave={[Function]}
+  targetPosition={
+    Object {
+      "bottom": 0,
+      "height": 300,
+      "left": 200,
+      "right": 0,
+      "top": 50,
+      "width": 300,
+      "x": 100,
+      "y": 200,
+    }
+  }
+  type="popover"
+>
+  <div
+    className="popover"
+    onMouseLeave={[Function]}
+    style={
+      Object {
+        "left": -8,
+        "top": 0,
+      }
+    }
+  >
+    <BracketArrow
+      left={350}
+      orientation="up"
+      top={-7}
+    >
+      <div
+        className="bracket-arrow up"
+        style={
+          Object {
+            "bottom": undefined,
+            "left": 350,
+            "top": -7,
+          }
+        }
+      />
+    </BracketArrow>
+    <div
+      className="gap"
+      key="gap"
+    />
+    <h1>
+      Poppy!
+    </h1>
+  </div>
+</Popover>
+`;
+
+exports[`Popover mount tooltip 1`] = `
+<Popover
+  editorRef={
+    Object {
+      "getBoundingClientRect": [Function],
+    }
+  }
+  onMouseLeave={[Function]}
+  targetPosition={
+    Object {
+      "bottom": 0,
+      "height": 300,
+      "left": 200,
+      "right": 0,
+      "top": 50,
+      "width": 300,
+      "x": 100,
+      "y": 200,
+    }
+  }
+  type="tooltip"
+>
+  <div
+    className="tooltip"
+    onMouseLeave={[Function]}
+    style={
+      Object {
+        "left": -8,
+        "top": 50,
+      }
+    }
+  >
+    <h1>
+      Toolie!
+    </h1>
+    <div
+      className="gap"
+      key="gap"
+    />
+  </div>
+</Popover>
+`;
+
+exports[`Popover render (tooltip) 1`] = `
+<div
+  className="tooltip"
+  onMouseLeave={[Function]}
+  style={
+    Object {
+      "left": 0,
+      "top": 0,
+    }
+  }
+>
+  <h1>
+    Toolie!
+  </h1>
+  <div
+    className="gap"
+    key="gap"
+  />
+</div>
+`;
+
+exports[`Popover render 1`] = `
+<div
+  className="popover"
+  onMouseLeave={[Function]}
+  style={
+    Object {
+      "left": 0,
+      "top": 0,
+    }
+  }
+>
+  <BracketArrow
+    left={0}
+    orientation="up"
+    top={-7}
+  />
+  <div
+    className="gap"
+    key="gap"
+  />
+  <h1>
+    Poppy!
+  </h1>
+</div>
+`;

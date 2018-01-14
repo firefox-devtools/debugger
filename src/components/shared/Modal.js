@@ -11,8 +11,10 @@ import classnames from "classnames";
 import Transition from "react-transition-group/Transition";
 import "./Modal.css";
 
+type TransitionStatus = "entering" | "exiting" | "entered" | "exited";
+
 type ModalProps = {
-  status: string,
+  status: TransitionStatus,
   children?: ReactNode,
   additionalClass?: string,
   handleClose: () => any
@@ -58,7 +60,7 @@ export default function Slide({
 }: SlideProps) {
   return (
     <Transition in={inProp} timeout={175} appear>
-      {status => (
+      {(status: TransitionStatus) => (
         <Modal
           status={status}
           additionalClass={additionalClass}

@@ -3,7 +3,7 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import classnames from "classnames";
 import Svg from "../Svg";
 import CommandBarButton from "./CommandBarButton";
@@ -12,18 +12,14 @@ import "./PaneToggle.css";
 type Props = {
   collapsed: boolean,
   handleClick: (string, boolean) => void,
-  horizontal?: boolean,
+  horizontal: boolean,
   position: string
 };
 
-class PaneToggleButton extends Component<Props> {
-  shouldComponentUpdate(nextProps: Props) {
-    const { collapsed, horizontal } = this.props;
-
-    return (
-      horizontal !== nextProps.horizontal || collapsed !== nextProps.collapsed
-    );
-  }
+class PaneToggleButton extends PureComponent<Props> {
+  static defaultProps = {
+    horizontal: false
+  };
 
   render() {
     const { position, collapsed, horizontal, handleClick } = this.props;
@@ -35,7 +31,7 @@ class PaneToggleButton extends Component<Props> {
       <CommandBarButton
         className={classnames("toggle-button", position, {
           collapsed,
-          vertical: horizontal != null ? !horizontal : false
+          vertical: !horizontal
         })}
         onClick={() => handleClick(position, collapsed)}
         title={title}

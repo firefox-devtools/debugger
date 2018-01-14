@@ -38,7 +38,8 @@ export type Preview =
       location: AstLocation,
       cursorPos: any,
       tokenPos: AstLocation,
-      result: Object
+      result: Object,
+      extra: Object
     |};
 
 export type ASTState = {

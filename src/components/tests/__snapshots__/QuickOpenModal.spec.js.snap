@@ -64,16 +64,16 @@ exports[`QuickOpenModal Basic render with mount & searchType = functions 1`] = `
                 className="search-field"
               >
                 <Svg
-                  name="magnifying-glass"
+                  name="sad-face"
                 >
                   <InlineSVG
-                    className="magnifying-glass "
+                    className="sad-face "
                     element="i"
                     raw={false}
                     src="<svg></svg>"
                   >
                     <i
-                      className="magnifying-glass "
+                      className="sad-face "
                       dangerouslySetInnerHTML={
                         Object {
                           "__html": "<svg></svg>",
@@ -84,7 +84,7 @@ exports[`QuickOpenModal Basic render with mount & searchType = functions 1`] = `
                   </InlineSVG>
                 </Svg>
                 <input
-                  className=""
+                  className="empty"
                   onChange={[Function]}
                   onKeyDown={[Function]}
                   placeholder="Search sources…"
@@ -194,16 +194,16 @@ exports[`QuickOpenModal Basic render with mount & searchType = variables 1`] = `
                 className="search-field"
               >
                 <Svg
-                  name="magnifying-glass"
+                  name="sad-face"
                 >
                   <InlineSVG
-                    className="magnifying-glass "
+                    className="sad-face "
                     element="i"
                     raw={false}
                     src="<svg></svg>"
                   >
                     <i
-                      className="magnifying-glass "
+                      className="sad-face "
                       dangerouslySetInnerHTML={
                         Object {
                           "__html": "<svg></svg>",
@@ -214,7 +214,7 @@ exports[`QuickOpenModal Basic render with mount & searchType = variables 1`] = `
                   </InlineSVG>
                 </Svg>
                 <input
-                  className=""
+                  className="empty"
                   onChange={[Function]}
                   onKeyDown={[Function]}
                   placeholder="Search sources…"

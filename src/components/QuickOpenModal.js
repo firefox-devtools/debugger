@@ -225,7 +225,7 @@ export class QuickOpenModal extends Component<Props, State> {
     }
   };
 
-  onChange = (e: SyntheticInputEvent<HTMLElement>) => {
+  onChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
     const { selectedSource, setQuickOpenQuery } = this.props;
     setQuickOpenQuery(e.target.value);
     const noSource = !selectedSource || !selectedSource.get("text");
@@ -235,7 +235,7 @@ export class QuickOpenModal extends Component<Props, State> {
     this.updateResults(e.target.value);
   };
 
-  onKeyDown = (e: SyntheticKeyboardEvent<HTMLElement>) => {
+  onKeyDown = (e: SyntheticKeyboardEvent<HTMLInputElement>) => {
     const { enabled, query } = this.props;
     const { results, selectedIndex } = this.state;
 
