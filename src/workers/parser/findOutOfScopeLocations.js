@@ -116,10 +116,10 @@ function sortByStart(a: AstLocation, b: AstLocation) {
  * location.
  */
 function findOutOfScopeLocations(
-  source: Source,
+  sourceId: string,
   position: AstPosition
 ): AstLocation[] {
-  const { functions, comments } = findSymbols(source);
+  const { functions, comments } = findSymbols(sourceId);
   const commentLocations = comments.map(c => c.location);
   let locations = functions
     .map(getLocation)

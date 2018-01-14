@@ -6,7 +6,6 @@
 
 import { isOriginalId } from "devtools-source-map";
 import { PROMISE } from "../utils/middleware/promise";
-import { setSymbols } from "../ast";
 import {
   getSource,
   getGeneratedSource,
@@ -103,8 +102,9 @@ export function loadSourceText(source: SourceRecord) {
 
     if (!newSource.isWasm) {
       await parser.setSource(newSource);
-      dispatch(setSymbols(id));
     }
+
+    console.log("LOAD_SOURCE_TEXT LOADED");
 
     // signal that the action is finished
     deferred.resolve();

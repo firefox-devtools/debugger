@@ -5,10 +5,12 @@
 // @flow
 
 import flatten from "lodash/flatten";
+import * as t from "babel-types";
+
+import { getSource } from "./sources";
 import { traverseAst } from "./utils/ast";
 import { isVariable, isFunction, getVariables } from "./utils/helpers";
 import { inferClassName } from "./utils/inferClassName";
-import * as t from "babel-types";
 import getFunctionName from "./utils/getFunctionName";
 
 import type { Source } from "debugger-html";
@@ -212,7 +214,7 @@ function extractSymbol(path, symbols) {
   }
 }
 
-function extractSymbols(source: Source) {
+function extractSymbols(sourceId) {
   const symbols = {
     functions: [],
     variables: [],
@@ -226,7 +228,7 @@ function extractSymbols(source: Source) {
     hasJsx: false
   };
 
-  const ast = traverseAst(source, {
+  const ast = traverseAst(sourceId, {
     enter(path: NodePath) {
       try {
         extractSymbol(path, symbols);
@@ -239,20 +241,6 @@ function extractSymbols(source: Source) {
   // comments are extracted separately from the AST
   symbols.comments = getComments(ast);
 
-  return symbols;
-}
-
-export default function getSymbols(source: Source): SymbolDeclarations {
-  if (symbolDeclarations.has(source.id)) {
-    const symbols = symbolDeclarations.get(source.id);
-    if (symbols) {
-      return symbols;
-    }
-  }
-
-  const symbols = extractSymbols(source);
-
-  symbolDeclarations.set(source.id, symbols);
   return symbols;
 }
 
@@ -400,4 +388,18 @@ function getSnippet(path, prevPath, expression = "") {
 
 export function clearSymbols() {
   symbolDeclarations = new Map();
+}
+
+export default function getSymbols(sourceId: string): SymbolDeclarations {
+  if (symbolDeclarations.has(sourceId)) {
+    const symbols = symbolDeclarations.get(sourceId);
+    if (symbols) {
+      return symbols;
+    }
+  }
+
+  const symbols = extractSymbols(sourceId);
+
+  symbolDeclarations.set(sourceId, symbols);
+  return symbols;
 }
