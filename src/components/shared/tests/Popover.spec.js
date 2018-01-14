@@ -50,22 +50,22 @@ describe("Popover", () => {
   );
   const event = { target: { className: "" } };
   beforeEach(() => onMouseLeave.mockClear());
-  test("render", () => expect(popover).toMatchSnapshot());
-  test("render (tooltip)", () => expect(tooltip).toMatchSnapshot());
-  test("calls mouseLeave", () => {
+  it("render", () => expect(popover).toMatchSnapshot());
+  it("render (tooltip)", () => expect(tooltip).toMatchSnapshot());
+  it("calls mouseLeave", () => {
     popover.find(".popover").simulate("mouseleave", event);
     expect(onMouseLeave).toHaveBeenCalled();
   });
-  test("calls mouseLeave (tooltip)", () => {
+  it("calls mouseLeave (tooltip)", () => {
     tooltip.find(".tooltip").simulate("mouseleave", event);
     expect(onMouseLeave).toHaveBeenCalled();
   });
-  test("no mouse leave on bracket or gap", () => {
+  it("no mouse leave on bracket or gap", () => {
     const event2 = { target: { className: "bracket-arrow" } };
     popover.find(".popover").simulate("mouseleave", event2);
     expect(onMouseLeave).not.toHaveBeenCalled();
   });
-  test("mount popover", () => {
+  it("mount popover", () => {
     const mountedPopover = mount(
       <Popover
         onMouseLeave={onMouseLeave}
@@ -77,7 +77,7 @@ describe("Popover", () => {
     );
     expect(mountedPopover).toMatchSnapshot();
   });
-  test("mount tooltip", () => {
+  it("mount tooltip", () => {
     const mountedTooltip = mount(
       <Popover
         type="tooltip"

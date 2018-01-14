@@ -4,7 +4,7 @@ import { shallow } from "enzyme";
 import Badge from "../Badge";
 
 describe("Badge", () => {
-  test("render", () =>
+  it("render", () =>
     expect(
       shallow(
         <Badge>

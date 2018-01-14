@@ -5,8 +5,8 @@ import Dropdown from "../Dropdown";
 
 describe("Dropdown", () => {
   const wrapper = shallow(<Dropdown panel={<div />} icon="✅" />);
-  test("render", () => expect(wrapper).toMatchSnapshot());
+  it("render", () => expect(wrapper).toMatchSnapshot());
   wrapper.find(".dropdown").simulate("click");
-  test("handle toggleDropdown", () =>
+  it("handle toggleDropdown", () =>
     expect(wrapper.state().dropdownShown).toEqual(true));
 });

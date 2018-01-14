@@ -11,15 +11,15 @@ describe("CloseButton", () => {
   const wrapper = shallow(
     <CloseButton buttonClass="error" handleClick={spy} tooltip={tooltip} />
   );
-  test("renders", () => expect(wrapper).toMatchSnapshot());
+  it("renders", () => expect(wrapper).toMatchSnapshot());
   wrapper.find("div").simulate("click");
-  test("handleClick is called", () => expect(spy).toHaveBeenCalled());
-  test("tooltip is passed through", () =>
+  it("handleClick is called", () => expect(spy).toHaveBeenCalled());
+  it("tooltip is passed through", () =>
     expect(wrapper.find("div").prop("title")).toEqual(tooltip));
 });
 
 describe("CommandBarButton", () => {
-  test("renders", () => {
+  it("renders", () => {
     expect(
       shallow(
         <CommandBarButton className="resume" pressed={false}>
@@ -35,28 +35,28 @@ describe("PaneToggleButton", () => {
   const wrapper = shallow(
     <PaneToggleButton collapsed={false} handleClick={spy} position="start" />
   );
-  test("renders start", () => expect(wrapper).toMatchSnapshot());
-  test("renders start horizontal", () => {
+  it("renders start", () => expect(wrapper).toMatchSnapshot());
+  it("renders start horizontal", () => {
     wrapper.setProps({ horizontal: true });
     expect(wrapper).toMatchSnapshot();
   });
-  test("renders start collapsed", () => {
+  it("renders start collapsed", () => {
     wrapper.setProps({ collapsed: true, horizontal: false });
     expect(wrapper).toMatchSnapshot();
   });
-  test("renders end", () => {
+  it("renders end", () => {
     wrapper.setProps({ position: "end" });
     expect(wrapper).toMatchSnapshot();
   });
-  test("renders end horizontal", () => {
+  it("renders end horizontal", () => {
     wrapper.setProps({ horizontal: true });
     expect(wrapper).toMatchSnapshot();
   });
-  test("renders end collapsed", () => {
+  it("renders end collapsed", () => {
     wrapper.setProps({ collapsed: true, horizontal: false });
     expect(wrapper).toMatchSnapshot();
   });
-  test("handleClick is called", () => {
+  it("handleClick is called", () => {
     wrapper.find("CommandBarButton").simulate("click");
     expect(spy).toHaveBeenCalledWith("end", true);
   });

@@ -13,16 +13,16 @@ describe("SearchInput", () => {
       showErrorEmoji
     />
   );
-  test("render", () => expect(wrapper).toMatchSnapshot());
-  test("show svg (emoji)", () => {
+  it("render", () => expect(wrapper).toMatchSnapshot());
+  it("show svg (emoji)", () => {
     wrapper.setProps({ query: "test" });
     expect(wrapper).toMatchSnapshot();
   });
-  test("show svg magnifying glass", () => {
+  it("show svg magnifying glass", () => {
     wrapper.setProps({ count: 3 });
     expect(wrapper).toMatchSnapshot();
   });
-  test("show nav buttons", () => {
+  it("show nav buttons", () => {
     wrapper.setProps({
       count: 5,
       handleNext: jest.fn(),
