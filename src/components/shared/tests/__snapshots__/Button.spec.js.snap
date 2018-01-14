@@ -1,0 +1,94 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CloseButton renders 1`] = `
+<div
+  className="close-btn error"
+  onClick={[Function]}
+  title="Close something"
+>
+  <img
+    className="close"
+  />
+</div>
+`;
+
+exports[`CommandBarButton renders 1`] = `
+<button
+  aria-pressed={false}
+  className="command-bar-button resume"
+>
+  <img />
+</button>
+`;
+
+exports[`PaneToggleButton renders end 1`] = `
+<CommandBarButton
+  className="toggle-button end collapsed vertical"
+  onClick={[Function]}
+  title="Collapse panes"
+>
+  <Svg
+    name="togglePanes"
+  />
+</CommandBarButton>
+`;
+
+exports[`PaneToggleButton renders end collapsed 1`] = `
+<CommandBarButton
+  className="toggle-button end collapsed vertical"
+  onClick={[Function]}
+  title="Collapse panes"
+>
+  <Svg
+    name="togglePanes"
+  />
+</CommandBarButton>
+`;
+
+exports[`PaneToggleButton renders end horizontal 1`] = `
+<CommandBarButton
+  className="toggle-button end collapsed"
+  onClick={[Function]}
+  title="Collapse panes"
+>
+  <Svg
+    name="togglePanes"
+  />
+</CommandBarButton>
+`;
+
+exports[`PaneToggleButton renders start 1`] = `
+<CommandBarButton
+  className="toggle-button start vertical"
+  onClick={[Function]}
+  title="Expand panes"
+>
+  <Svg
+    name="togglePanes"
+  />
+</CommandBarButton>
+`;
+
+exports[`PaneToggleButton renders start collapsed 1`] = `
+<CommandBarButton
+  className="toggle-button start collapsed vertical"
+  onClick={[Function]}
+  title="Collapse panes"
+>
+  <Svg
+    name="togglePanes"
+  />
+</CommandBarButton>
+`;
+
+exports[`PaneToggleButton renders start horizontal 1`] = `
+<CommandBarButton
+  className="toggle-button start"
+  onClick={[Function]}
+  title="Expand panes"
+>
+  <Svg
+    name="togglePanes"
+  />
+</CommandBarButton>
+`;

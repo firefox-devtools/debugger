@@ -3,14 +3,14 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-import React, { createElement, Component } from "react";
+import React, { cloneElement, Component } from "react";
 import Svg from "./Svg";
 
 import "./Accordion.css";
 
 type AccordionItem = {
   buttons?: Array<Object>,
-  component(): any,
+  component: React$Element<any>,
   componentProps: Object,
   header: string,
   className: string,
@@ -28,15 +28,12 @@ type State = {
 
 class Accordion extends Component<Props, State> {
   constructor(props: Props) {
-    super();
-
+    super(props);
     this.state = {
       opened: props.items.map(item => item.opened),
       created: []
     };
   }
-
-  componentWillReceiveProps(nextProps: Props) {}
 
   handleHeaderClick(i: number) {
     const item = this.props.items[i];
@@ -64,14 +61,11 @@ class Accordion extends Component<Props, State> {
             <div className="header-buttons">{item.buttons}</div>
           ) : null}
         </div>
-        {opened ? (
-          <div
-            className="_content"
-            style={{ display: opened ? "block" : "none" }}
-          >
-            {createElement(item.component, item.componentProps || {})}
+        {opened && (
+          <div className="_content">
+            {cloneElement(item.component, item.componentProps || {})}
           </div>
-        ) : null}
+        )}
       </div>
     );
   };

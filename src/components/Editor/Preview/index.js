@@ -2,6 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
+// @flow
+
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import { debounce } from "lodash";
@@ -24,20 +26,23 @@ type Props = {
   addExpression: (string, ?Object) => void,
   loadedObjects: Object,
   editor: any,
+  editorRef: ?HTMLDivElement,
   selectedSource: SourceRecord,
   selectedLocation: SelectedLocation,
   selectedFrame: any,
   clearPreview: () => void,
   preview: PreviewType,
   selectedFrameVisible: boolean,
-  updatePreview: any => void
+  updatePreview: (any, any) => void
 };
 
-class Preview extends PureComponent {
-  props: Props;
+type State = {
+  selecting: boolean
+};
 
-  constructor() {
-    super();
+class Preview extends PureComponent<Props, State> {
+  constructor(props) {
+    super(props);
     this.state = { selecting: false };
     self.onMouseOver = debounce(this.onMouseOver, 40);
   }
@@ -109,6 +114,7 @@ class Preview extends PureComponent {
       <Popup
         value={value}
         editor={this.props.editor}
+        editorRef={this.props.editorRef}
         range={editorRange}
         expression={expression}
         popoverPos={cursorPos}
