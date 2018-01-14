@@ -1,12 +1,12 @@
 import { findFunctionText } from "../function";
 
 import getSymbols from "../../workers/parser/getSymbols";
-import { getSource } from "../../workers/parser/tests/helpers";
+import { getOriginalSource } from "../../workers/parser/tests/helpers";
 
 describe("function", () => {
   describe("findFunctionText", () => {
     it("finds function", () => {
-      const source = getSource("func");
+      const source = getOriginalSource("func");
       const symbols = getSymbols(source);
 
       const text = findFunctionText(14, source, symbols);
@@ -14,7 +14,7 @@ describe("function", () => {
     });
 
     it("finds function signature", () => {
-      const source = getSource("func");
+      const source = getOriginalSource("func");
       const symbols = getSymbols(source);
 
       const text = findFunctionText(13, source, symbols);
@@ -22,7 +22,7 @@ describe("function", () => {
     });
 
     it("misses function closing brace", () => {
-      const source = getSource("func");
+      const source = getOriginalSource("func");
       const symbols = getSymbols(source);
 
       const text = findFunctionText(15, source, symbols);
@@ -32,7 +32,7 @@ describe("function", () => {
     });
 
     it("finds property function", () => {
-      const source = getSource("func");
+      const source = getOriginalSource("func");
       const symbols = getSymbols(source);
 
       const text = findFunctionText(25, source, symbols);
@@ -40,7 +40,7 @@ describe("function", () => {
     });
 
     it("finds class function", () => {
-      const source = getSource("func");
+      const source = getOriginalSource("func");
       const symbols = getSymbols(source);
 
       const text = findFunctionText(29, source, symbols);
@@ -48,7 +48,7 @@ describe("function", () => {
     });
 
     it("cant find function", () => {
-      const source = getSource("func");
+      const source = getOriginalSource("func");
       const symbols = getSymbols(source);
 
       const text = findFunctionText(17, source, symbols);

@@ -1,4 +1,4 @@
-import { getSource } from "./helpers";
+import { getSource, getOriginalSource } from "./helpers";
 import getEmptyLines from "../getEmptyLines";
 
 describe("getEmptyLines", () => {
@@ -11,6 +11,6 @@ describe("getEmptyLines", () => {
   });
 
   it("class", () => {
-    expect(getEmptyLines(getSource("class"))).toMatchSnapshot();
+    expect(getEmptyLines(getOriginalSource("class"))).toMatchSnapshot();
   });
 });

@@ -13,3 +13,8 @@ export function getSource(name, type = "js") {
     contentType
   };
 }
+
+export function getOriginalSource(name, type) {
+  const source = getSource(name, type);
+  return { ...source, id: `${name}-original` };
+}

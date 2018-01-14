@@ -20,7 +20,7 @@ function _parse(code, opts) {
 const sourceOptions = {
   generated: {},
   original: {
-    sourceType: "script",
+    sourceType: "module",
     plugins: [
       "jsx",
       "flow",
@@ -55,9 +55,7 @@ function parse(text: ?string, opts?: Object) {
 // Custom parser for parse-script-tags that adapts its input structure to
 // our parser's signature
 function htmlParser({ source, line }) {
-  return parse(source, {
-    startLine: line
-  });
+  return parse(source, { startLine: line });
 }
 
 export function parseScript(text: string, opts?: Object) {
