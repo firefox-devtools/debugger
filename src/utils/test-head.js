@@ -57,6 +57,11 @@ function makeSource(name: string, props: any = {}) {
   };
 }
 
+function makeOriginalSource(name: string, props?: Object) {
+  const source = makeSource(name, props);
+  return { ...source, id: `${name}-original` };
+}
+
 function makeSourceRecord(name: string, props: any = {}) {
   return I.Map(makeSource(name, props));
 }
@@ -105,6 +110,7 @@ export {
   createStore,
   commonLog,
   makeSource,
+  makeOriginalSource,
   makeSourceRecord,
   makeSymbolDeclaration,
   waitForState,

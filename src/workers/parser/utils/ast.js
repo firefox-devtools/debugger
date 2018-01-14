@@ -14,8 +14,12 @@ import type { Source } from "debugger-html";
 let ASTs = new Map();
 
 function _parse(code, opts) {
-  return babylon.parse(code, {
-    ...opts,
+  return babylon.parse(code, opts);
+}
+
+const sourceOptions = {
+  generated: {},
+  original: {
     sourceType: "module",
     plugins: [
       "jsx",
@@ -30,8 +34,8 @@ function _parse(code, opts) {
       "dynamicImport",
       "templateInvalidEscapes"
     ]
-  });
-}
+  }
+};
 
 function parse(text: ?string, opts?: Object) {
   let ast;
@@ -51,9 +55,7 @@ function parse(text: ?string, opts?: Object) {
 // Custom parser for parse-script-tags that adapts its input structure to
 // our parser's signature
 function htmlParser({ source, line }) {
-  return parse(source, {
-    startLine: line
-  });
+  return parse(source, { startLine: line });
 }
 
 export function parseScript(text: string, opts?: Object) {
@@ -74,7 +76,9 @@ export function getAst(source: Source) {
   if (contentType == "text/html") {
     ast = parseScriptTags(source.text, htmlParser) || {};
   } else if (contentType && contentType.match(/(javascript|jsx)/)) {
-    ast = parse(source.text);
+    const type = source.id.includes("original") ? "original" : "generated";
+    const options = sourceOptions[type];
+    ast = parse(source.text, options);
   }
 
   ASTs.set(source.id, ast);

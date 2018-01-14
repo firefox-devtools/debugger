@@ -1,9 +1,11 @@
 import { isReactComponent } from "../frameworks";
-import { getSource } from "./helpers";
+import { getSource, getOriginalSource } from "./helpers";
 
 describe("Parser.frameworks", () => {
   it("should be a react component", () => {
-    expect(isReactComponent(getSource("frameworks/component"))).toBe(true);
+    expect(isReactComponent(getOriginalSource("frameworks/component"))).toBe(
+      true
+    );
   });
 
   it("should handle es5 implementation of a component", () => {

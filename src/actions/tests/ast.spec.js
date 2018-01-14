@@ -5,6 +5,7 @@ import {
   selectors,
   actions,
   makeSource,
+  makeOriginalSource,
   waitForState
 } from "../../utils/test-head";
 
@@ -43,7 +44,7 @@ const sourceTexts = {
   "base.js": "function base(boo) {}",
   "foo.js": "function base(boo) { return this.bazz; } outOfScope",
   "scopes.js": readFixture("scopes.js"),
-  "reactComponent.js": readFixture("reactComponent.js")
+  "reactComponent.js-original": readFixture("reactComponent.js")
 };
 
 const evaluationResult = {
@@ -75,12 +76,12 @@ describe("ast", () => {
     it("should detect react components", async () => {
       const store = createStore(threadClient);
       const { dispatch, getState } = store;
-      const source = makeSource("reactComponent.js");
+      const source = makeOriginalSource("reactComponent.js");
+
       await dispatch(actions.newSource(source));
 
-      await dispatch(
-        actions.loadSourceText(I.Map({ id: "reactComponent.js" }))
-      );
+      await dispatch(actions.loadSourceText(I.Map({ id: source.id })));
+
       await waitForState(store, state => {
         const metaData = getSourceMetaData(state, source.id);
         return metaData && metaData.isReactComponent;

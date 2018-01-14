@@ -2,7 +2,7 @@
 
 import { getClosestScope, getClosestExpression } from "../utils/closest";
 
-import { getSource } from "./helpers";
+import { getSource, getOriginalSource } from "./helpers";
 
 describe("parser", () => {
   describe("getClosestExpression", () => {
@@ -63,7 +63,7 @@ describe("parser", () => {
 
   describe("getClosestScope", () => {
     it("finds the scope at the beginning", () => {
-      const scope = getClosestScope(getSource("func"), {
+      const scope = getClosestScope(getOriginalSource("func"), {
         line: 5,
         column: 8
       });
@@ -73,7 +73,7 @@ describe("parser", () => {
     });
 
     it("finds a scope given at the end", () => {
-      const scope = getClosestScope(getSource("func"), {
+      const scope = getClosestScope(getOriginalSource("func"), {
         line: 9,
         column: 1
       });
@@ -83,7 +83,7 @@ describe("parser", () => {
     });
 
     it("Can find the function declaration for square", () => {
-      const scope = getClosestScope(getSource("func"), {
+      const scope = getClosestScope(getOriginalSource("func"), {
         line: 1,
         column: 1
       });
