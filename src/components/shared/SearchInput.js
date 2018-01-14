@@ -62,16 +62,6 @@ class SearchInput extends Component<Props> {
     }
   }
 
-  componentDidUpdate() {
-    if (this.$input) {
-      const input = this.$input;
-      input.focus();
-      if (input.value != "") {
-        input.setSelectionRange(input.value.length + 1, input.value.length + 1);
-      }
-    }
-  }
-
   shouldShowErrorEmoji = () => {
     const { count, query, showErrorEmoji } = this.props;
     return count === 0 && query.trim() !== "" && showErrorEmoji;

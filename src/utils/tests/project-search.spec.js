@@ -1,4 +1,4 @@
-import { highlightMatches } from "../utils/highlight";
+import { highlightMatches } from "../project-search";
 
 describe("project search - highlightMatches", () => {
   it("simple", () => {

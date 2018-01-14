@@ -2,6 +2,19 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
+.search-container {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  width: calc(100% - 1px);
+  height: calc(100% - 31px);
+  display: flex;
+  flex-direction: column;
+  z-index: 20;
+  background-color: var(--theme-body-background);
+  overflow-y: hidden;
+}
+
 .project-text-search {
   flex-grow: 1;
   display: flex;
