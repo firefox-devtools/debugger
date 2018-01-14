@@ -1,7 +1,90 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ProjectSearch found no search results 1`] = `""`;
+exports[`ProjectSearch found no search results 1`] = `
+<div
+  className="search-container"
+>
+  <div
+    className="project-text-search"
+  >
+    <div
+      className="header"
+    >
+      <SearchInput
+        count={0}
+        handleClose={[Function]}
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        placeholder="Find in files…"
+        query="foo"
+        showErrorEmoji={true}
+        size="big"
+        summaryMsg="0 results"
+      />
+    </div>
+    <div
+      className="no-result-msg absolute-center"
+    >
+      No results found
+    </div>
+  </div>
+</div>
+`;
 
-exports[`ProjectSearch found search results 1`] = `""`;
+exports[`ProjectSearch found search results 1`] = `
+<div
+  className="search-container"
+>
+  <div
+    className="project-text-search"
+  >
+    <div
+      className="header"
+    >
+      <SearchInput
+        count={5}
+        handleClose={[Function]}
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        placeholder="Find in files…"
+        query="match"
+        showErrorEmoji={true}
+        size="big"
+        summaryMsg="5 results"
+      />
+    </div>
+  </div>
+</div>
+`;
 
-exports[`ProjectSearch where <Enter> has not been pressed 1`] = `""`;
+exports[`ProjectSearch where <Enter> has not been pressed 1`] = `
+<div
+  className="search-container"
+>
+  <div
+    className="project-text-search"
+  >
+    <div
+      className="header"
+    >
+      <SearchInput
+        count={0}
+        handleClose={[Function]}
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        placeholder="Find in files…"
+        query=""
+        showErrorEmoji={true}
+        size="big"
+        summaryMsg=""
+      />
+    </div>
+  </div>
+</div>
+`;

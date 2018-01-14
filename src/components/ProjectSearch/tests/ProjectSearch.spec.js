@@ -1,12 +1,14 @@
 import React from "react";
 import { shallow } from "enzyme";
+import { List } from "immutable";
 import { ProjectSearch } from "../index.js";
 
 function render(overrides = {}) {
   const defaultProps = {
     sources: {},
-    results: [],
+    results: new List(),
     query: "foo",
+    activeSearch: "project",
     closeProjectSearch: jest.fn(),
     searchSources: jest.fn(),
     selectLocation: jest.fn()
@@ -35,7 +37,7 @@ describe("ProjectSearch", () => {
   it("found search results", () => {
     const component = render({
       query: "match",
-      results: [
+      results: new List([
         {
           filepath: "testFilePath1",
           matches: ["match1", "match2", "match3"]
@@ -44,7 +46,7 @@ describe("ProjectSearch", () => {
           filepath: "testFilePath2",
           matches: ["match4", "match5"]
         }
-      ]
+      ])
     });
     expect(component).toMatchSnapshot();
   });
