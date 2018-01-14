@@ -35,6 +35,7 @@ import type { StatusType } from "../../reducers/project-text-search";
 import "./ProjectSearch.css";
 
 type Match = {
+  type: "MATCH",
   sourceId: string,
   line: number,
   column: number,
@@ -42,11 +43,15 @@ type Match = {
   value: string,
   text: string
 };
+
 type Result = {
+  type: "RESULT",
   filepath: string,
   matches: Array<Match>,
   sourceId: string
 };
+
+type Item = Result | Match;
 
 type State = {
   inputValue: string,
@@ -64,6 +69,12 @@ type Props = {
   searchSources: (query: string) => void,
   selectLocation: (location: Location, tabIndex?: string) => void
 };
+
+function getFilePath(item: Item, index?: number) {
+  return item.type === "RESULT"
+    ? `${item.sourceId}-${index || "$"}`
+    : `${item.sourceId}-${item.line}-${item.column}-${index || "$"}`;
+}
 
 export class ProjectSearch extends Component<Props, State> {
   focusedItem: ?{
@@ -121,16 +132,16 @@ export class ProjectSearch extends Component<Props, State> {
     const { results } = this.props;
     return results
       .toJS()
+      .map(result => ({
+        type: "RESULT",
+        ...result,
+        matches: result.matches.map(m => ({ type: "MATCH", ...m }))
+      }))
       .filter(result => result.filepath && result.matches.length > 0);
   };
 
-  getResultCount = () => {
-    const results = this.getResults();
-    return results.reduce(
-      (count, file) => count + (file.matches ? file.matches.length : 0),
-      0
-    );
-  };
+  getResultCount = () =>
+    this.getResults().reduce((count, file) => count + file.matches.length, 0);
 
   onKeyDown = (e: SyntheticKeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Escape") {
@@ -162,12 +173,12 @@ export class ProjectSearch extends Component<Props, State> {
     this.setState({ inputValue });
   };
 
-  renderFile(
+  renderFile = (
     file: Result,
     focused: boolean,
     expanded: boolean,
     setExpanded: Function
-  ) {
+  ) => {
     if (focused) {
       this.focusedItem = { setExpanded, file, expanded };
     }
@@ -187,9 +198,9 @@ export class ProjectSearch extends Component<Props, State> {
         <span className="matches-summary">{matches}</span>
       </div>
     );
-  }
+  };
 
-  renderMatch(match: Match, focused: boolean) {
+  renderMatch = (match: Match, focused: boolean) => {
     if (focused) {
       this.focusedItem = { match };
     }
@@ -201,33 +212,28 @@ export class ProjectSearch extends Component<Props, State> {
         <span className="line-number" key={match.line}>
           {match.line}
         </span>
-        {this.renderMatchValue(match)}
+        {highlightMatches(match)}
       </div>
     );
-  }
+  };
 
-  renderMatchValue(lineMatch: Match) {
-    return highlightMatches(lineMatch);
-  }
-
-  renderResults() {
-    const results = this.getResults().filter(
-      result => result.matches.length > 0
-    );
-
-    const { status } = this.props;
-
-    function getFilePath(item: Match, index?: number) {
-      return item.filepath
-        ? `${item.sourceId}-${index || "$"}`
-        : `${item.sourceId}-${item.line}-${item.column}-${index || "$"}`;
+  renderItem = (
+    item: Item,
+    depth: number,
+    focused: boolean,
+    _: any,
+    expanded: boolean,
+    { setExpanded }: { setExpanded: Function }
+  ) => {
+    if (item.type === "RESULT") {
+      return this.renderFile(item, focused, expanded, setExpanded);
     }
+    return this.renderMatch(item, focused);
+  };
 
-    const renderItem = (item, depth, focused, _, expanded, { setExpanded }) => {
-      return item.filepath
-        ? this.renderFile(item, focused, expanded, setExpanded)
-        : this.renderMatch(item, focused);
-    };
+  renderResults = () => {
+    const results = this.getResults();
+    const { status } = this.props;
     if (results.length && status === statusType.done) {
       return (
         <ManagedTree
@@ -238,12 +244,13 @@ export class ProjectSearch extends Component<Props, State> {
           autoExpandDepth={1}
           getParent={item => null}
           getPath={getFilePath}
-          renderItem={renderItem}
+          renderItem={this.renderItem}
         />
       );
-    } else if (
-      (this.props.query && !results.length) ||
-      status === statusType.fetching
+    }
+    if (
+      status === statusType.fetching ||
+      (this.props.query && !results.length)
     ) {
       return (
         <div className="no-result-msg absolute-center">
@@ -251,26 +258,25 @@ export class ProjectSearch extends Component<Props, State> {
         </div>
       );
     }
-  }
+  };
+
+  renderSummary = () =>
+    this.props.query !== ""
+      ? L10N.getFormatStr("sourceSearch.resultsSummary1", this.getResultCount())
+      : "";
 
   renderInput() {
-    const resultCount = this.getResultCount();
-
     return (
       <SearchInput
         query={this.state.inputValue}
-        count={resultCount}
+        count={this.getResultCount()}
         placeholder={L10N.getStr("projectTextSearch.placeholder")}
         size="big"
-        summaryMsg={
-          this.props.query !== ""
-            ? L10N.getFormatStr("sourceSearch.resultsSummary1", resultCount)
-            : ""
-        }
-        onChange={e => this.inputOnChange(e)}
+        summaryMsg={this.renderSummary()}
+        onChange={this.inputOnChange}
         onFocus={() => this.setState({ inputFocused: true })}
         onBlur={() => this.setState({ inputFocused: false })}
-        onKeyDown={e => this.onKeyDown(e)}
+        onKeyDown={this.onKeyDown}
         handleClose={this.props.closeProjectSearch}
         ref="searchInput"
       />
