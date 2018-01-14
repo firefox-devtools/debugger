@@ -1,21 +1,24 @@
 /* eslint max-nested-callbacks: ["error", 4]*/
 
 import { formatSymbols } from "../utils/formatSymbols";
-import { getSource } from "./helpers";
+import { getSource, getOriginalSource } from "./helpers";
 import cases from "jest-in-case";
 
 cases(
   "Parser.getSymbols",
-  ({ name, file, type }) => {
+  ({ name, file, original, type }) => {
     // console.log(formatSymbols(getSource(file, type)));
-    expect(formatSymbols(getSource(file, type))).toMatchSnapshot();
+    const source = original
+      ? getOriginalSource(file, type)
+      : getSource(file, type);
+    expect(formatSymbols(source)).toMatchSnapshot();
   },
   [
-    { name: "es6", file: "es6" },
-    { name: "func", file: "func" },
+    { name: "es6", file: "es6", original: true },
+    { name: "func", file: "func", original: true },
     { name: "math", file: "math" },
     { name: "proto", file: "proto" },
-    { name: "class", file: "class" },
+    { name: "class", file: "class", original: true },
     { name: "var", file: "var" },
     { name: "expression", file: "expression" },
     { name: "allSymbols", file: "allSymbols" },
@@ -25,10 +28,10 @@ cases(
       file: "parseScriptTags",
       type: "html"
     },
-    { name: "component", file: "component" },
-    { name: "react component", file: "frameworks/component" },
-    { name: "flow", file: "flow" },
-    { name: "jsx", file: "jsx" },
+    { name: "component", file: "component", original: true },
+    { name: "react component", file: "frameworks/component", original: true },
+    { name: "flow", file: "flow", original: true },
+    { name: "jsx", file: "jsx", original: true },
     { name: "destruct", file: "destructuring" }
   ]
 );
