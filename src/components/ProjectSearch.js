@@ -9,28 +9,28 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import classnames from "classnames";
 import { bindActionCreators } from "redux";
-import actions from "../../actions";
+import actions from "../actions";
 
-import { highlightMatches } from "./utils/highlight";
+import { highlightMatches } from "../utils/project-search";
 
-import { statusType } from "../../reducers/project-text-search";
-import { getRelativePath } from "../../utils/sources-tree";
+import { statusType } from "../reducers/project-text-search";
+import { getRelativePath } from "../utils/sources-tree";
 import {
   getSources,
   getActiveSearch,
   getTextSearchResults,
   getTextSearchStatus,
   getTextSearchQuery
-} from "../../selectors";
+} from "../selectors";
 
-import Svg from "../shared/Svg";
-import ManagedTree from "../shared/ManagedTree";
-import SearchInput from "../shared/SearchInput";
+import Svg from "./shared/Svg";
+import ManagedTree from "./shared/ManagedTree";
+import SearchInput from "./shared/SearchInput";
 
 import type { List } from "immutable";
-import type { Location } from "../../types";
-import type { ActiveSearchType } from "../../reducers/types";
-import type { StatusType } from "../../reducers/project-text-search";
+import type { Location } from "../types";
+import type { ActiveSearchType } from "../reducers/types";
+import type { StatusType } from "../reducers/project-text-search";
 
 import "./ProjectSearch.css";
 

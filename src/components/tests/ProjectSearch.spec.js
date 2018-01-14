@@ -1,7 +1,7 @@
 import React from "react";
 import { mount, shallow } from "enzyme";
 import { List } from "immutable";
-import { ProjectSearch } from "../index.js";
+import { ProjectSearch } from "../ProjectSearch";
 
 const hooks = { on: [], off: [] };
 const shortcuts = {
