@@ -11,7 +11,7 @@
 
 import { isOriginalId } from "devtools-source-map";
 
-import { setOutOfScopeLocations } from "../ast";
+import { setOutOfScopeLocations, setSymbols } from "../ast";
 import { closeActiveSearch } from "../ui";
 
 import { togglePrettyPrint } from "./prettyPrint";
@@ -119,16 +119,18 @@ export function selectLocation(location: Location, tabIndex: string = "") {
 
     await dispatch(loadSourceText(source));
     const selectedSource = getSelectedSource(getState());
+    const sourceId = selectedSource.get("id");
     if (
       prefs.autoPrettyPrint &&
-      !getPrettySource(getState(), selectedSource.get("id")) &&
+      !getPrettySource(getState()) &&
       shouldPrettyPrint(selectedSource) &&
       isMinified(selectedSource)
     ) {
-      await dispatch(togglePrettyPrint(source.get("id")));
+      await dispatch(togglePrettyPrint(sourceId));
       dispatch(closeTab(source.get("url")));
     }
 
+    dispatch(setSymbols(sourceId));
     dispatch(setOutOfScopeLocations());
   };
 }

@@ -4,7 +4,12 @@
 
 // @flow
 
-import { getSource, hasSymbols, getSelectedLocation } from "../selectors";
+import {
+  getSource,
+  hasSymbols,
+  getSelectedLocation,
+  isPaused
+} from "../selectors";
 
 import { setInScopeLines } from "./ast/setInScopeLines";
 import {
@@ -86,16 +91,12 @@ export function setOutOfScopeLocations() {
   return async ({ dispatch, getState }: ThunkArgs) => {
     const location = getSelectedLocation(getState());
 
-    if (!location) {
+    if (!location || !location.line || !isPaused(getState())) {
       return;
     }
 
     const source = getSource(getState(), location.sourceId);
-
-    const locations =
-      !location.line || !source
-        ? null
-        : await findOutOfScopeLocations(source.toJS(), location);
+    const locations = await findOutOfScopeLocations(source.toJS(), location);
 
     dispatch({
       type: "OUT_OF_SCOPE_LOCATIONS",

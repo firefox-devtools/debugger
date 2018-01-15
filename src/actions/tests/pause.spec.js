@@ -3,7 +3,8 @@ import {
   selectors,
   createStore,
   waitForState,
-  makeSource
+  makeSource,
+  makeFrame
 } from "../../utils/test-head";
 
 const { isStepping } = selectors;
@@ -31,7 +32,7 @@ const mockThreadClient = {
 
 function createPauseInfo(overrides = {}) {
   return {
-    frames: [{ id: 1, scope: [], location: { sourceId: "foo1", line: 4 } }],
+    frames: [makeFrame({ id: 1, sourceId: "foo" })],
     loadedObjects: [],
     why: {},
     ...overrides

@@ -83,5 +83,6 @@ export const sourceThreadClient = {
 
       reject(`unknown source: ${sourceId}`);
     });
-  }
+  },
+  getFrameScopes: () => {}
 };

@@ -44,6 +44,10 @@ function commonLog(msg: string, data: any = {}) {
   console.log(`[INFO] ${msg} ${JSON.stringify(data)}`);
 }
 
+function makeFrame({ id, sourceId }, opts = {}) {
+  return { id, scope: [], location: { sourceId, line: 4 }, ...opts };
+}
+
 /**
  * @memberof utils/test-head
  * @static
@@ -109,6 +113,7 @@ export {
   reducers,
   createStore,
   commonLog,
+  makeFrame,
   makeSource,
   makeOriginalSource,
   makeSourceRecord,

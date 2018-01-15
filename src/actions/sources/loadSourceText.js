@@ -103,7 +103,6 @@ export function loadSourceText(source: SourceRecord) {
 
     if (!newSource.isWasm) {
       await parser.setSource(newSource);
-      dispatch(setSymbols(id));
     }
 
     // signal that the action is finished
