@@ -48,24 +48,25 @@ import { features } from "../../utils/prefs";
 import { setProjectDirectoryRoot } from "../../actions/ui";
 
 type Props = {
-  selectLocation: Object => void,
-  setExpandedState: any => void,
-  sources: SourcesMap,
-  shownSource?: string,
-  selectedSource?: SourceRecord,
   debuggeeUrl: string,
+  expanded?: any,
   projectRoot: string,
-  expanded?: any
+  selectLocation: Object => void,
+  selectedSource?: SourceRecord,
+  setExpandedState: any => void,
+  shownSource?: string,
+  sources: SourcesMap
 };
 
 type State = {
   focusedItem?: any,
-  parentMap: any,
-  sourceTree: any,
-  projectRoot: string,
-  uncollapsedTree: any,
+  highlightItems?: any,
+  isSourceTreeLoaded: boolean,
   listItems?: any,
-  highlightItems?: any
+  parentMap: any,
+  projectRoot: string,
+  sourceTree: any,
+  uncollapsedTree: any
 };
 
 class SourcesTree extends Component<Props, State> {
@@ -80,11 +81,14 @@ class SourcesTree extends Component<Props, State> {
 
   constructor(props) {
     super(props);
-    this.state = createTree(
-      this.props.sources,
-      this.props.debuggeeUrl,
-      this.props.projectRoot
-    );
+    this.state = {
+      ...createTree(
+        this.props.sources,
+        this.props.debuggeeUrl,
+        this.props.projectRoot
+      ),
+      isSourceTreeLoaded: true
+    };
     this.focusItem = this.focusItem.bind(this);
     this.selectItem = this.selectItem.bind(this);
     this.getPath = this.getPath.bind(this);
@@ -115,6 +119,14 @@ class SourcesTree extends Component<Props, State> {
   }
 
   componentWillReceiveProps(nextProps) {
+    // set isSourceTreeLoaded state
+    if (
+      this.props.debuggeeUrl != nextProps.debuggeeUrl ||
+      this.props.sources.size != nextProps.sources.size
+    ) {
+      this.setState({ ...this.state, isSourceTreeLoaded: false });
+    }
+
     if (
       this.props.projectRoot !== nextProps.projectRoot ||
       this.props.debuggeeUrl !== nextProps.debuggeeUrl
@@ -376,11 +388,15 @@ class SourcesTree extends Component<Props, State> {
     const tree = <ManagedTree {...treeProps} />;
 
     if (isEmpty) {
-      return (
-        <div className="no-sources-message">
-          {L10N.getStr("sources.noSourcesAvailable")}
-        </div>
-      );
+      if (!this.state.isSourceTreeLoaded) {
+        const returnMessage = L10N.getStr("loadingText");
+        const className = "sources-loading-message";
+        return <div className={className}>{returnMessage}</div>;
+      }
+
+      const returnMessage = L10N.getStr("sources.noSourcesAvailable");
+      const className = "no-sources-message";
+      return <div className={className}>{returnMessage}</div>;
     }
 
     const onKeyDown = e => {

@@ -69,6 +69,7 @@
   display: inline-block;
 }
 
+.sources-loading-message,
 .no-sources-message {
   width: 100%;
   font-style: italic;
@@ -113,6 +114,29 @@
 
 .source-outline-tabs .tab:first-child {
   border-left: 0;
+}
+
+.source-outline-tabs .tab .loader-spinner {
+  z-index: 100;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  float: right;
+  border: 2px solid var(--theme-splitter-color);
+  border-top: 2px solid var(--theme-body-color);
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .source-outline-tabs .tab:hover {

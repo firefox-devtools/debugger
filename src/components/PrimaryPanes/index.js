@@ -71,6 +71,7 @@ class PrimaryPanes extends Component<Props> {
         key="sources-tab"
       >
         {sources}
+        <div className="loader-spinner" />
       </div>,
       <div
         className={classnames("tab outline-tab", {
