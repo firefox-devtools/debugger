@@ -47,6 +47,19 @@ export function initialState(): Record<SourcesState> {
   )();
 }
 
+export const SourceRecordClass = new I.Record({
+  id: undefined,
+  url: undefined,
+  sourceMapURL: undefined,
+  isBlackBoxed: false,
+  isPrettyPrinted: false,
+  isWasm: false,
+  text: undefined,
+  contentType: "",
+  error: undefined,
+  loadedState: "unloaded"
+});
+
 function update(
   state: Record<SourcesState> = initialState(),
   action: Action
@@ -60,7 +73,8 @@ function update(
     }
 
     case "ADD_SOURCE": {
-      return updateSource(state, action.source);
+      const source = action.source;
+      return updateSource(state, source);
     }
 
     case "ADD_SOURCES": {
@@ -133,7 +147,7 @@ function update(
 
     case "NAVIGATE":
       const source = getSelectedSource({ sources: state });
-      const url = source && source.get("url");
+      const url = source && source.url;
 
       if (!url) {
         return initialState();
@@ -165,7 +179,10 @@ function getTextPropsFromAction(action: any) {
 // asynchronous actions is wrong. The `value` may be null for the
 // "start" and "error" states but we don't type it like that. We need
 // to rethink how we type async actions.
-function setSourceTextProps(state, action: any): Record<SourcesState> {
+function setSourceTextProps(
+  state: Record<SourcesState>,
+  action: any
+): Record<SourcesState> {
   const text = getTextPropsFromAction(action);
   return updateSource(state, text);
 }
@@ -174,8 +191,12 @@ function updateSource(state: Record<SourcesState>, source: Source | Object) {
   if (!source.id) {
     return state;
   }
-
-  return state.mergeIn(["sources", source.id], source);
+  const existingSource = state.getIn(["sources", source.id]);
+  if (existingSource) {
+    const updatedSource = existingSource.merge(source);
+    return state.setIn(["sources", source.id], updatedSource);
+  }
+  return state.mergeIn(["sources", source.id], new SourceRecordClass(source));
 }
 
 export function removeSourceFromTabList(tabs: any, url: string) {
@@ -200,6 +221,7 @@ function restoreTabs() {
  * @memberof reducers/sources
  * @static
  */
+
 function updateTabList(state: OuterState, url: ?string, tabIndex?: number) {
   let tabs = state.sources.get("tabs");
 
@@ -287,7 +309,7 @@ type OuterState = { sources: Record<SourcesState> };
 
 const getSourcesState = state => state.sources;
 
-export function getSource(state: OuterState, id: string) {
+export function getSource(state: OuterState, id: string): SourceRecord {
   return getSourceInSources(getSources(state), id);
 }
 
@@ -306,7 +328,7 @@ export function getPendingSelectedLocation(state: OuterState) {
   return state.sources.pendingSelectedLocation;
 }
 
-export function getPrettySource(state: OuterState, id: string) {
+export function getPrettySource(state: OuterState, id: string): ?SourceRecord {
   const source = getSource(state, id);
   if (!source) {
     return;
@@ -315,12 +337,17 @@ export function getPrettySource(state: OuterState, id: string) {
   return getSourceByURL(state, getPrettySourceURL(source.get("url")));
 }
 
-function getSourceByUrlInSources(sources: SourcesMap, url: string) {
+function getSourceByUrlInSources(
+  sources: SourcesMap,
+  url: string
+): ?SourceRecord {
   if (!url) {
     return null;
   }
 
-  return sources.find(source => source.get("url") === url);
+  return sources.find(source => {
+    return source.get("url") === url;
+  });
 }
 
 export function getSourceInSources(
@@ -381,6 +408,7 @@ export const getSelectedSourceText = createSelector(
   getSourcesState,
   (selectedSource, sources) => {
     const id = selectedSource.get("id");
+
     return id ? sources.sourcesText.get(id) : null;
   }
 );
