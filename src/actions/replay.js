@@ -10,15 +10,24 @@
  */
 
 import { getHistoryFrame } from "../selectors";
+import { selectLocation } from "./sources";
 
-export function travelTo(index: any) {
+export function timeTravelTo(position: number) {
   return ({ dispatch, getState }: any) => {
-    console.log(index);
-    const paused = getHistoryFrame(getState());
-    return dispatch({
+    const data = getHistoryFrame(getState(), position);
+    dispatch({
       type: "TRAVEL_TO",
-      paused,
-      index
+      data,
+      position
+    });
+    dispatch(selectLocation(data.paused.frames[0].location));
+  };
+}
+
+export function clearHistory() {
+  return ({ dispatch, getState }: any) => {
+    dispatch({
+      type: "CLEAR_HISTORY"
     });
   };
 }

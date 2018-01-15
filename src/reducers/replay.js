@@ -10,62 +10,105 @@
  */
 export type ReplayState = {
   history: any,
-  index: number
+  position: number
 };
 
 export function initialState(): ReplayState {
   return {
     history: [],
-    index: -1
+    position: -1
   };
 }
 
 function update(state: ReplayState = initialState(), action: any): ReplayState {
   switch (action.type) {
     case "TRAVEL_TO": {
-      return { ...state, index: action.index };
+      return { ...state, position: action.position };
+    }
+
+    case "ADD_SCOPES":
+    case "MAP_SCOPES": {
+      return mapScopes(state, action);
+    }
+
+    case "CLEAR_HISTORY": {
+      return { history: [], position: -1 };
     }
 
     case "PAUSED": {
-      const { selectedFrameId, frames, loadedObjects, pauseInfo } = action;
-      const { why } = pauseInfo;
-      pauseInfo.isInterrupted = pauseInfo.why.type === "interrupted";
+      return paused(state, action);
+    }
 
-      // turn this into an object keyed by object id
-      const objectMap = {};
-      loadedObjects.forEach(obj => {
-        objectMap[obj.value.objectId] = obj;
-      });
-
-      const paused = {
-        isWaitingOnBreak: false,
-        pause: pauseInfo,
-        selectedFrameId,
-        frames,
-        frameScopes: {},
-        loadedObjects: objectMap,
-        why
-      };
-
-      const history = [...state.history, paused];
-      return { ...state, history };
+    case "EVALUATE_EXPRESSION": {
+      return evaluateExpression(state, action);
     }
   }
 
   return state;
 }
 
+function mapScopes(state: ReplayState, action: any) {
+  const { frame, scopes } = action;
+  const instance = state.history[state.position];
+
+  const frameScopes = {
+    ...instance.frameScopes,
+    [frame.id]: scopes
+  };
+
+  const history = [...state.history];
+  history[state.position] = { ...instance, frameScopes };
+  return { ...state, history };
+}
+
+function evaluateExpression(state, action) {
+  const { input, value } = action;
+  const instance = state.history[state.position];
+  if (!instance) {
+    return state;
+  }
+  const prevExpressions = instance.expressions || [];
+  const expression = { input, value };
+  const expressions = [...prevExpressions, expression];
+
+  const history = [...state.history];
+  history[state.position] = { ...instance, expressions };
+  return { ...state, history };
+}
+
+function paused(state, action) {
+  const { selectedFrameId, frames, loadedObjects, why } = action;
+
+  // turn this into an object keyed by object id
+  const objectMap = {};
+  loadedObjects.forEach(obj => {
+    objectMap[obj.value.objectId] = obj;
+  });
+
+  const pausedInfo = {
+    isWaitingOnBreak: false,
+    selectedFrameId,
+    frames,
+    frameScopes: {},
+    loadedObjects: objectMap,
+    why
+  };
+
+  const history = [...state.history, { paused: pausedInfo }];
+  const position = state.position + 1;
+  return { ...state, history, position };
+}
+
 export function getHistory(state: any): any {
   return state.replay.history;
 }
 
-export function getHistoryFrame(state: any): any {
-  console.log(state.replay);
-  return state.replay.history[state.replay.index];
+export function getHistoryFrame(state: any, position: Number): any {
+  return state.replay.history[position];
 }
 
 export function getHistoryPosition(state: any): any {
-  return state.replay.index;
+  return state.replay.position;
 }
 
 export default update;

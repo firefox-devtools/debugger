@@ -124,10 +124,9 @@ function update(
     }
 
     case "TRAVEL_TO":
-      console.log(action.paused);
       return {
         ...state,
-        ...action.paused
+        ...action.data.paused
       };
 
     case "MAP_SCOPES": {

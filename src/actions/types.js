@@ -222,6 +222,25 @@ type UIAction =
       type: "CLOSE_PROJECT_SEARCH"
     };
 
+type ReplayAction =
+  | {
+      type: "TRAVEL_TO",
+      data: {
+        paused: {
+          why: Why,
+          scopes: Scope[],
+          frames: Frame[],
+          selectedFrameId: string,
+          loadedObjects: Object
+        },
+        expressions?: Object[]
+      },
+      position: number
+    }
+  | {
+      type: "CLEAR_HISTORY"
+    };
+
 type PauseAction =
   | { type: "BREAK_ON_NEXT", value: boolean }
   | { type: "RESUME", value: void }
@@ -397,4 +416,5 @@ export type Action =
   | FileTextSearchAction
   | ProjectTextSearchAction
   | CoverageAction
-  | DebugeeAction;
+  | DebugeeAction
+  | ReplayAction;
