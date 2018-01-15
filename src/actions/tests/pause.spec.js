@@ -25,6 +25,11 @@ const mockThreadClient = {
             source: "function foo1() {\n  return 5;\n}",
             contentType: "text/javascript"
           });
+        case "foo":
+          resolve({
+            source: "function foo() {\n  return -5;\n}",
+            contentType: "text/javascript"
+          });
       }
     });
   }
@@ -89,6 +94,7 @@ describe("pause", () => {
       const mockPauseInfo = createPauseInfo();
 
       await dispatch(actions.newSource(makeSource("foo1")));
+      await dispatch(actions.newSource(makeSource("foo")));
       dispatch(actions.addExpression("foo"));
       await waitForState(store, state => selectors.getExpression(state, "foo"));
 

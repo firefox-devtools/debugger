@@ -6,6 +6,7 @@ import {
   actions,
   makeSource,
   makeOriginalSource,
+  makeFrame,
   waitForState
 } from "../../utils/test-head";
 
@@ -57,11 +58,10 @@ describe("ast", () => {
     it("scopes", async () => {
       const store = createStore(threadClient);
       const { dispatch, getState } = store;
-
       const source = makeSource("scopes.js");
       await dispatch(actions.newSource(source));
       await dispatch(actions.loadSourceText(I.Map({ id: "scopes.js" })));
-
+      await dispatch(actions.setEmptyLines("scopes.js"));
       await waitForState(store, state => {
         const lines = getEmptyLines(state, source);
         return lines && lines.length > 0;
@@ -81,6 +81,7 @@ describe("ast", () => {
       await dispatch(actions.newSource(source));
 
       await dispatch(actions.loadSourceText(I.Map({ id: source.id })));
+      await dispatch(actions.setSourceMetaData(source.id));
 
       await waitForState(store, state => {
         const metaData = getSourceMetaData(state, source.id);
@@ -97,6 +98,7 @@ describe("ast", () => {
       const source = makeSource("base.js");
       await dispatch(actions.newSource(source));
       await dispatch(actions.loadSourceText(I.Map({ id: "base.js" })));
+      await dispatch(actions.setSourceMetaData("base.js"));
       await waitForState(store, state => {
         const metaData = getSourceMetaData(state, source.id);
         return metaData && metaData.isReactComponent === false;
@@ -115,6 +117,7 @@ describe("ast", () => {
         const base = makeSource("base.js");
         await dispatch(actions.newSource(base));
         await dispatch(actions.loadSourceText(I.Map({ id: "base.js" })));
+        await dispatch(actions.setSymbols("base.js"));
         await waitForState(
           store,
           state => getSymbols(state, base).functions.length > 0
@@ -158,6 +161,12 @@ describe("ast", () => {
       await dispatch(
         actions.selectLocation({ sourceId: "scopes.js", line: 5 })
       );
+      await dispatch(
+        actions.paused({
+          frames: [makeFrame({ id: 1, sourceId: "scopes.js" })]
+        })
+      );
+      await dispatch(actions.setOutOfScopeLocations("scopes.js"));
       await waitForState(store, state => getOutOfScopeLocations(state));
 
       const locations = getOutOfScopeLocations(getState());

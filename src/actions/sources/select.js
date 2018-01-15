@@ -119,6 +119,10 @@ export function selectLocation(location: Location, tabIndex: string = "") {
 
     await dispatch(loadSourceText(source));
     const selectedSource = getSelectedSource(getState());
+    if (!selectedSource) {
+      return;
+    }
+
     const sourceId = selectedSource.get("id");
     if (
       prefs.autoPrettyPrint &&
