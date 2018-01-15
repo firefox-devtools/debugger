@@ -338,11 +338,13 @@ export function getPrettySource(state: OuterState, id: string): ?SourceRecord {
 }
 
 
+
 export function hasPrettySource(state: OuterState, id: string) {
   return !!getPrettySource(state, id);
 }
 
 function getSourceByUrlInSources(sources: SourcesMap, url: string) {
+
 
   if (!url) {
     return null;
@@ -404,8 +406,8 @@ export const getSelectedSourceText = createSelector(
   getSelectedSource,
   getSourcesState,
   (selectedSource, sources) => {
-    const id = selectedSource.id;
 
+    const id = selectedSource.id;
     return id ? sources.sourcesText.get(id) : null;
   }
 );
