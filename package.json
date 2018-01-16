@@ -135,7 +135,7 @@
     "jest-cli": "^20.0.4",
     "jest-in-case": "^1.0.2",
     "jest-junit-reporter": "^1.0.1",
-    "jest-localstorage-mock": "^1.1.1",
+    "jest-localstorage-mock": "^2.2.0",
     "jest-serializer-babel-ast": "^0.0.5",
     "lint-staged": "^4.0.1",
     "mochii": "^0.0.20",
