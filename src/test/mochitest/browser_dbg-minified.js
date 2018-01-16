@@ -16,6 +16,8 @@ function getScopeNodeValue(dbg, index) {
 }
 
 add_task(async function() {
+  Services.prefs.setBoolPref("devtools.debugger.features.map-scopes", true);
+
   const dbg = await initDebugger("doc-minified2.html");
 
   await waitForSources(dbg, "sum.js");
