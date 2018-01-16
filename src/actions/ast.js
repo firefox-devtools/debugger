@@ -4,7 +4,12 @@
 
 // @flow
 
-import { getSource, hasSymbols, getSelectedLocation } from "../selectors";
+import {
+  getSource,
+  hasSymbols,
+  getSelectedLocation,
+  isPaused
+} from "../selectors";
 
 import { setInScopeLines } from "./ast/setInScopeLines";
 import {
@@ -55,8 +60,8 @@ export function setSymbols(sourceId: SourceId) {
 
     const symbols = await getSymbols(source);
     dispatch({ type: "SET_SYMBOLS", source, symbols });
-    dispatch(setEmptyLines(source.id));
-    dispatch(setSourceMetaData(source.id));
+    dispatch(setEmptyLines(sourceId));
+    dispatch(setSourceMetaData(sourceId));
   };
 }
 
@@ -92,10 +97,10 @@ export function setOutOfScopeLocations() {
 
     const source = getSource(getState(), location.sourceId);
 
-    const locations =
-      !location.line || !source
-        ? null
-        : await findOutOfScopeLocations(source.toJS(), location);
+    let locations = null;
+    if (location.line && source && isPaused(getState())) {
+      locations = await findOutOfScopeLocations(source.toJS(), location);
+    }
 
     dispatch({
       type: "OUT_OF_SCOPE_LOCATIONS",
