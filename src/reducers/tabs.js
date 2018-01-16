@@ -19,12 +19,13 @@ import type { Record } from "../utils/makeRecord";
 type Tab = {
   id: string,
   title: string,
-  tooltip?: string
+  tooltip?: string,
+  sourceId: string
 };
 
 type TabList = List<Tab>;
 export type TabsState = {
-  currentTabIndex: number
+  currentTabIndex: number,
   tabs: TabList
 }
 
@@ -77,7 +78,7 @@ function updateTabList(state: OuterState, currentTab: Tab, moveIndex?: number) {
   if (currentTabIndex === -1) {
     tabs = tabs.insert(0, currentTab);
   }
-    
+
   if (moveIndex !== undefined) {
     const currentIndex = tabs.indexOf(currentTab);
     tabs = tabs.delete(currentIndex).insert(moveIndex, currentTab);

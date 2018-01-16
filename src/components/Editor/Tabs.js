@@ -13,7 +13,6 @@ import {
   getSelectedSource,
   getSourcesForTabs,
   getActiveSearch,
-  getSearchTabs,
   getSourceMetaData
 } from "../../selectors";
 import { isVisible } from "../../utils/ui";
@@ -26,6 +25,7 @@ import { showMenu, buildMenu } from "devtools-contextmenu";
 import { debounce } from "lodash";
 import "./Tabs.css";
 
+import Tab from "./Tab";
 import PaneToggleButton from "../shared/Button/PaneToggle";
 import Dropdown from "../shared/Dropdown";
 
@@ -80,8 +80,7 @@ function copyToTheClipboard(string) {
 }
 
 type Props = {
-  sourceTabs: SourcesList,
-  searchTabs: List<ActiveSearchType>,
+  tabs: SourcesList,
   selectedSource: SourceRecord,
   selectSource: Object => void,
   moveTab: (string, number) => void,
@@ -105,19 +104,16 @@ type Props = {
 
 type State = {
   dropdownShown: boolean,
-  hiddenSourceTabs: SourcesList
+  hiddenTabs: SourcesList
 };
 
-class SourceTabs extends PureComponent<Props, State> {
+class Tabs extends PureComponent<Props, State> {
   onTabContextMenu: Function;
   showContextMenu: Function;
-  updateHiddenSourceTabs: Function;
+  updateHiddenTabs: Function;
   toggleSourcesDropdown: Function;
   renderDropdownSource: Function;
   renderTabs: Function;
-  renderTab: Function;
-  renderSourceTab: Function;
-  renderSearchTab: Function;
   renderDropDown: Function;
   renderStartPanelToggleButton: Function;
   renderEndPanelToggleButton: Function;
@@ -127,17 +123,16 @@ class SourceTabs extends PureComponent<Props, State> {
     super(props);
     this.state = {
       dropdownShown: false,
-      hiddenSourceTabs: I.List()
+      hiddenTabs: I.List()
     };
 
     this.onTabContextMenu = this.onTabContextMenu.bind(this);
     this.showContextMenu = this.showContextMenu.bind(this);
-    this.updateHiddenSourceTabs = this.updateHiddenSourceTabs.bind(this);
+    this.updateHiddenTabs = this.updateHiddenTabs.bind(this);
     this.toggleSourcesDropdown = this.toggleSourcesDropdown.bind(this);
     this.renderDropdownSource = this.renderDropdownSource.bind(this);
     this.renderTabs = this.renderTabs.bind(this);
     this.renderSourceTab = this.renderSourceTab.bind(this);
-    this.renderSearchTab = this.renderSearchTab.bind(this);
     this.renderDropDown = this.renderDropdown.bind(this);
     this.renderStartPanelToggleButton = this.renderStartPanelToggleButton.bind(
       this
@@ -147,18 +142,18 @@ class SourceTabs extends PureComponent<Props, State> {
     );
 
     this.onResize = debounce(() => {
-      this.updateHiddenSourceTabs();
+      this.updateHiddenTabs();
     });
   }
 
   componentDidUpdate(prevProps) {
     if (!(prevProps === this.props)) {
-      this.updateHiddenSourceTabs();
+      this.updateHiddenTabs();
     }
   }
 
   componentDidMount() {
-    this.updateHiddenSourceTabs();
+    this.updateHiddenTabs();
     window.addEventListener("resize", this.onResize);
   }
 
@@ -295,19 +290,19 @@ class SourceTabs extends PureComponent<Props, State> {
    * Updates the hiddenSourceTabs state, by
    * finding the source tabs which are wrapped and are not on the top row.
    */
-  updateHiddenSourceTabs() {
+  updateHiddenTabs() {
     if (!this.refs.sourceTabs) {
       return;
     }
     const { selectedSource, sourceTabs, moveTab } = this.props;
     const sourceTabEls = this.refs.sourceTabs.children;
-    const hiddenSourceTabs = getHiddenTabs(sourceTabs, sourceTabEls);
+    const hiddenTabs = getHiddenTabs(sourceTabs, sourceTabEls);
 
-    if (isVisible() && hiddenSourceTabs.indexOf(selectedSource) !== -1) {
+    if (isVisible() && hiddenTabs.indexOf(selectedSource) !== -1) {
       return moveTab(selectedSource.get("url"), 0);
     }
 
-    this.setState({ hiddenSourceTabs });
+    this.setState({ hiddenTabs });
   }
 
   toggleSourcesDropdown(e) {
@@ -340,14 +335,16 @@ class SourceTabs extends PureComponent<Props, State> {
   }
 
   renderTabs() {
-    const { sourceTabs } = this.props;
-    if (!sourceTabs) {
+    const { tabs } = this.props;
+    if (!tabs) {
       return;
     }
 
     return (
       <div className="source-tabs" ref="sourceTabs">
-        {sourceTabs.map(this.renderSourceTab)}
+        {tabs.map((tab, index) => {
+          return <Tab />;
+        })}
       </div>
     );
   }
@@ -360,85 +357,13 @@ class SourceTabs extends PureComponent<Props, State> {
     return this.props.activeSearch === "source";
   }
 
-  renderSearchTab(source: ActiveSearchType) {
-    const { closeTab, closeActiveSearch, setActiveSearch } = this.props;
-
-    function tabName(tab) {
-      return `${tab} search results`;
-    }
-
-    function onClickClose(ev) {
-      ev.stopPropagation();
-      closeActiveSearch();
-      closeTab(source);
-    }
-    const className = classnames("source-tab", {
-      active: this.isProjectSearchEnabled() || this.isSourceSearchEnabled(),
-      pretty: false
-    });
-
-    return (
-      <div
-        className={className}
-        key={source}
-        onClick={() => setActiveSearch(source)}
-        onContextMenu={e => this.onTabContextMenu(e, source)}
-        title={tabName(source)}
-      >
-        <div className="filename">{tabName(source)}</div>
-        <CloseButton
-          handleClick={onClickClose}
-          tooltip={L10N.getStr("sourceTabs.closeTabButtonTooltip")}
-        />
-      </div>
-    );
-  }
-
-  renderSourceTab(source: SourceRecord) {
-    const { selectedSource, selectSource, closeTab } = this.props;
-    const filename = getFilename(source.toJS());
-    const active =
-      selectedSource &&
-      source.get("id") == selectedSource.get("id") &&
-      (!this.isProjectSearchEnabled() && !this.isSourceSearchEnabled());
-    const isPrettyCode = isPretty(source);
-    const sourceAnnotation = this.getSourceAnnotation(source);
-
-    function onClickClose(ev) {
-      ev.stopPropagation();
-      closeTab(source.get("url"));
-    }
-
-    const className = classnames("source-tab", {
-      active,
-      pretty: isPrettyCode
-    });
-
-    return (
-      <div
-        className={className}
-        key={source.get("id")}
-        onClick={() => selectSource(source.get("id"))}
-        onContextMenu={e => this.onTabContextMenu(e, source.get("id"))}
-        title={getFileURL(source.toJS())}
-      >
-        {sourceAnnotation}
-        <div className="filename">{filename}</div>
-        <CloseButton
-          handleClick={onClickClose}
-          tooltip={L10N.getStr("sourceTabs.closeTabButtonTooltip")}
-        />
-      </div>
-    );
-  }
-
   renderDropdown() {
-    const hiddenSourceTabs = this.state.hiddenSourceTabs;
-    if (!hiddenSourceTabs || hiddenSourceTabs.size == 0) {
+    const hiddenTabs = this.state.hiddenTabs;
+    if (!hiddenTabs || hiddenTabs.size == 0) {
       return null;
     }
 
-    const Panel = <ul>{hiddenSourceTabs.map(this.renderDropdownSource)}</ul>;
+    const Panel = <ul>{hiddenTabs.map(this.renderDropdownSource)}</ul>;
 
     return <Dropdown panel={Panel} icon={"»"} />;
   }
@@ -506,12 +431,11 @@ export default connect(
 
     return {
       selectedSource: getSelectedSource(state),
-      searchTabs: getSearchTabs(state),
-      sourceTabs: sourceTabs,
+      tabs: sourceTabs,
       activeSearch: getActiveSearch(state),
       searchOn: getActiveSearch(state) === "source",
       sourceTabsMetaData: sourceTabsMetaData
     };
   },
   dispatch => bindActionCreators(actions, dispatch)
-)(SourceTabs);
+)(Tabs);
