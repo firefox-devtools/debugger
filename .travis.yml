@@ -43,4 +43,5 @@ before_script:
 script:
   - node --version
   - du -sh firefox
+  - node ./bin/copy-assets.js --mc ./firefox
   - node ./bin/ci/run-tests.js
