@@ -21,12 +21,12 @@ const mockThreadClient = {
     return new Promise((resolve, reject) => {
       switch (sourceId) {
         case "foo1":
-          resolve({
+          return resolve({
             source: "function foo1() {\n  return 5;\n}",
             contentType: "text/javascript"
           });
         case "foo":
-          resolve({
+          return resolve({
             source: "function foo() {\n  return -5;\n}",
             contentType: "text/javascript"
           });

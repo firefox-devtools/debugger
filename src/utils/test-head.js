@@ -44,7 +44,7 @@ function commonLog(msg: string, data: any = {}) {
   console.log(`[INFO] ${msg} ${JSON.stringify(data)}`);
 }
 
-function makeFrame({ id, sourceId }, opts = {}) {
+function makeFrame({ id, sourceId }: Object, opts: Object = {}) {
   return { id, scope: [], location: { sourceId, line: 4 }, ...opts };
 }
 

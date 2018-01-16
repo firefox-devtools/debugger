@@ -6,7 +6,6 @@
 
 import { isOriginalId } from "devtools-source-map";
 import { PROMISE } from "../utils/middleware/promise";
-import { setSymbols } from "../ast";
 import {
   getSource,
   getGeneratedSource,
