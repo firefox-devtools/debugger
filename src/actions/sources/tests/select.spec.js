@@ -2,6 +2,7 @@ import {
   actions,
   selectors,
   createStore,
+  makeFrame,
   makeSource,
   waitForState
 } from "../../../utils/test-head";
@@ -27,6 +28,10 @@ describe("sources", () => {
     const { dispatch, getState } = store;
 
     await dispatch(actions.newSource(makeSource("foo1")));
+    await dispatch(
+      actions.paused({ frames: [makeFrame({ id: 1, sourceId: "foo1" })] })
+    );
+
     await dispatch(
       actions.selectLocation({ sourceId: "foo1", line: 1, column: 5 })
     );

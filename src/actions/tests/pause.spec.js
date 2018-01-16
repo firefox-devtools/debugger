@@ -3,7 +3,8 @@ import {
   selectors,
   createStore,
   waitForState,
-  makeSource
+  makeSource,
+  makeFrame
 } from "../../utils/test-head";
 
 const { isStepping } = selectors;
@@ -20,8 +21,13 @@ const mockThreadClient = {
     return new Promise((resolve, reject) => {
       switch (sourceId) {
         case "foo1":
-          resolve({
+          return resolve({
             source: "function foo1() {\n  return 5;\n}",
+            contentType: "text/javascript"
+          });
+        case "foo":
+          return resolve({
+            source: "function foo() {\n  return -5;\n}",
             contentType: "text/javascript"
           });
       }
@@ -31,7 +37,7 @@ const mockThreadClient = {
 
 function createPauseInfo(overrides = {}) {
   return {
-    frames: [{ id: 1, scope: [], location: { sourceId: "foo1", line: 4 } }],
+    frames: [makeFrame({ id: 1, sourceId: "foo" })],
     loadedObjects: [],
     why: {},
     ...overrides
@@ -88,6 +94,7 @@ describe("pause", () => {
       const mockPauseInfo = createPauseInfo();
 
       await dispatch(actions.newSource(makeSource("foo1")));
+      await dispatch(actions.newSource(makeSource("foo")));
       dispatch(actions.addExpression("foo"));
       await waitForState(store, state => selectors.getExpression(state, "foo"));
 
