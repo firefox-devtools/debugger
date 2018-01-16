@@ -40,8 +40,7 @@ type State = {
 
 class ManagedTree extends Component<Props, State> {
   constructor(props: Props) {
-    super();
-
+    super(props);
     this.state = {
       expanded: props.expanded || new Set(),
       focusedItem: null
@@ -49,21 +48,24 @@ class ManagedTree extends Component<Props, State> {
   }
 
   componentWillReceiveProps(nextProps: Props) {
-    const listItems = nextProps.listItems;
-    if (listItems && listItems != this.props.listItems && listItems.length) {
-      this.expandListItems(listItems);
-    }
-
-    const highlightItems = nextProps.highlightItems;
+    const { listItems, highlightItems, focused } = this.props;
     if (
-      highlightItems &&
-      highlightItems != this.props.highlightItems &&
-      highlightItems.length
+      nextProps.listItems &&
+      nextProps.listItems != listItems &&
+      nextProps.listItems.length
     ) {
-      this.highlightItem(highlightItems);
+      this.expandListItems(nextProps.listItems);
     }
 
-    if (nextProps.focused && nextProps.focused !== this.props.focused) {
+    if (
+      nextProps.highlightItems &&
+      nextProps.highlightItems != highlightItems &&
+      nextProps.highlightItems.length
+    ) {
+      this.highlightItem(nextProps.highlightItems);
+    }
+
+    if (nextProps.focused && nextProps.focused !== focused) {
       this.focusItem(nextProps.focused);
     }
   }
@@ -81,7 +83,7 @@ class ManagedTree extends Component<Props, State> {
         expanded.delete(path);
       }
     };
-    const expanded = this.state.expanded;
+    const { expanded } = this.state;
     expandItem(item);
 
     if (shouldIncludeChildren) {
@@ -109,15 +111,14 @@ class ManagedTree extends Component<Props, State> {
   };
 
   expandListItems(listItems: Array<Item>) {
-    const expanded = this.state.expanded;
+    const { expanded } = this.state;
     listItems.forEach(item => expanded.add(this.props.getPath(item)));
     this.focusItem(listItems[0]);
     this.setState({ expanded });
   }
 
   highlightItem(highlightItems: Array<Item>) {
-    const expanded = this.state.expanded;
-
+    const { expanded } = this.state;
     // This file is visible, so we highlight it.
     if (expanded.has(this.props.getPath(highlightItems[0]))) {
       this.focusItem(highlightItems[0]);
@@ -143,24 +144,22 @@ class ManagedTree extends Component<Props, State> {
 
   render() {
     const { expanded, focusedItem } = this.state;
-
-    const overrides = {
-      isExpanded: item => expanded.has(this.props.getPath(item)),
-      focused: focusedItem,
-      getKey: this.props.getPath,
-      onExpand: item => this.setExpanded(item, true, false),
-      onCollapse: item => this.setExpanded(item, false, false),
-      onFocus: this.focusItem,
-      renderItem: (...args) =>
-        this.props.renderItem(...args, {
-          setExpanded: this.setExpanded
-        })
-    };
-
-    const props = { ...this.props, ...overrides };
     return (
       <div className="managed-tree">
-        <Tree {...props} />
+        <Tree
+          {...this.props}
+          isExpanded={item => expanded.has(this.props.getPath(item))}
+          focused={focusedItem}
+          getKey={this.props.getPath}
+          onExpand={item => this.setExpanded(item, true, false)}
+          onCollapse={item => this.setExpanded(item, false, false)}
+          onFocus={this.focusItem}
+          renderItem={(...args) =>
+            this.props.renderItem(...args, {
+              setExpanded: this.setExpanded
+            })
+          }
+        />
       </div>
     );
   }
