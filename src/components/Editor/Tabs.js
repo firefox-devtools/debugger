@@ -17,11 +17,10 @@ import {
 } from "../../selectors";
 import { isVisible } from "../../utils/ui";
 
-import { getFilename, getFileURL, isPretty } from "../../utils/source";
-import classnames from "classnames";
+import { getHiddenTabs } from "../../utils/tabs";
+import { getFilename, isPretty } from "../../utils/source";
 import actions from "../../actions";
-import CloseButton from "../shared/Button/Close";
-import { showMenu, buildMenu } from "devtools-contextmenu";
+
 import { debounce } from "lodash";
 import "./Tabs.css";
 
@@ -35,52 +34,8 @@ import type { ActiveSearchType } from "../../reducers/ui";
 import type { SourceMetaDataMap } from "../../reducers/ast";
 type SourcesList = List<SourceRecord>;
 
-/*
- * Finds the hidden tabs by comparing the tabs' top offset.
- * hidden tabs will have a great top offset.
- *
- * @param sourceTabs Immutable.list
- * @param sourceTabEls HTMLCollection
- *
- * @returns Immutable.list
- */
-function getHiddenTabs(sourceTabs: SourcesList, sourceTabEls) {
-  sourceTabEls = [].slice.call(sourceTabEls);
-  function getTopOffset() {
-    const topOffsets = sourceTabEls.map(t => t.getBoundingClientRect().top);
-    return Math.min(...topOffsets);
-  }
-
-  function hasTopOffset(el) {
-    // adding 10px helps account for cases where the tab might be offset by
-    // styling such as selected tabs which don't have a border.
-    const tabTopOffset = getTopOffset();
-    return el.getBoundingClientRect().top > tabTopOffset + 10;
-  }
-
-  return sourceTabs.filter((tab, index) => {
-    const element = sourceTabEls[index];
-    return element && hasTopOffset(element);
-  });
-}
-
-/**
- * Clipboard function taken from
- * https://dxr.mozilla.org/mozilla-central/source/devtools/shared/platform/content/clipboard.js
- */
-function copyToTheClipboard(string) {
-  const doCopy = function(e: any) {
-    e.clipboardData.setData("text/plain", string);
-    e.preventDefault();
-  };
-
-  document.addEventListener("copy", doCopy);
-  document.execCommand("copy", false, null);
-  document.removeEventListener("copy", doCopy);
-}
-
 type Props = {
-  tabs: SourcesList,
+  tabSources: SourcesList,
   selectedSource: SourceRecord,
   selectSource: Object => void,
   moveTab: (string, number) => void,
@@ -126,21 +81,6 @@ class Tabs extends PureComponent<Props, State> {
       hiddenTabs: I.List()
     };
 
-    this.onTabContextMenu = this.onTabContextMenu.bind(this);
-    this.showContextMenu = this.showContextMenu.bind(this);
-    this.updateHiddenTabs = this.updateHiddenTabs.bind(this);
-    this.toggleSourcesDropdown = this.toggleSourcesDropdown.bind(this);
-    this.renderDropdownSource = this.renderDropdownSource.bind(this);
-    this.renderTabs = this.renderTabs.bind(this);
-    this.renderSourceTab = this.renderSourceTab.bind(this);
-    this.renderDropDown = this.renderDropdown.bind(this);
-    this.renderStartPanelToggleButton = this.renderStartPanelToggleButton.bind(
-      this
-    );
-    this.renderEndPanelToggleButton = this.renderEndPanelToggleButton.bind(
-      this
-    );
-
     this.onResize = debounce(() => {
       this.updateHiddenTabs();
     });
@@ -161,131 +101,6 @@ class Tabs extends PureComponent<Props, State> {
     window.removeEventListener("resize", this.onResize);
   }
 
-  onTabContextMenu(event, tab: string) {
-    event.preventDefault();
-    this.showContextMenu(event, tab);
-  }
-
-  showContextMenu(e, tab) {
-    const {
-      closeTab,
-      closeTabs,
-      sourceTabs,
-      showSource,
-      togglePrettyPrint
-    } = this.props;
-
-    const closeTabLabel = L10N.getStr("sourceTabs.closeTab");
-    const closeOtherTabsLabel = L10N.getStr("sourceTabs.closeOtherTabs");
-    const closeTabsToEndLabel = L10N.getStr("sourceTabs.closeTabsToEnd");
-    const closeAllTabsLabel = L10N.getStr("sourceTabs.closeAllTabs");
-    const revealInTreeLabel = L10N.getStr("sourceTabs.revealInTree");
-    const copyLinkLabel = L10N.getStr("copySourceUri2");
-    const prettyPrintLabel = L10N.getStr("sourceTabs.prettyPrint");
-
-    const closeTabKey = L10N.getStr("sourceTabs.closeTab.accesskey");
-    const closeOtherTabsKey = L10N.getStr(
-      "sourceTabs.closeOtherTabs.accesskey"
-    );
-    const closeTabsToEndKey = L10N.getStr(
-      "sourceTabs.closeTabsToEnd.accesskey"
-    );
-    const closeAllTabsKey = L10N.getStr("sourceTabs.closeAllTabs.accesskey");
-    const revealInTreeKey = L10N.getStr("sourceTabs.revealInTree.accesskey");
-    const copyLinkKey = L10N.getStr("copySourceUri2.accesskey");
-    const prettyPrintKey = L10N.getStr("sourceTabs.prettyPrint.accesskey");
-
-    const tabs = sourceTabs.map(t => t.get("id"));
-    const otherTabs = sourceTabs.filter(t => t.get("id") !== tab);
-    const sourceTab = sourceTabs.find(t => t.get("id") == tab);
-    const tabURLs = sourceTabs.map(thisTab => thisTab.get("url"));
-    const otherTabURLs = otherTabs.map(thisTab => thisTab.get("url"));
-
-    if (!sourceTab) {
-      return;
-    }
-
-    const isPrettySource = isPretty(sourceTab);
-
-    const closeTabMenuItem = {
-      id: "node-menu-close-tab",
-      label: closeTabLabel,
-      accesskey: closeTabKey,
-      disabled: false,
-      click: () => closeTab(sourceTab.get("url"))
-    };
-
-    const closeOtherTabsMenuItem = {
-      id: "node-menu-close-other-tabs",
-      label: closeOtherTabsLabel,
-      accesskey: closeOtherTabsKey,
-      disabled: false,
-      click: () => closeTabs(otherTabURLs)
-    };
-
-    const closeTabsToEndMenuItem = {
-      id: "node-menu-close-tabs-to-end",
-      label: closeTabsToEndLabel,
-      accesskey: closeTabsToEndKey,
-      disabled: false,
-      click: () => {
-        const tabIndex = tabs.findIndex(t => t == tab);
-        closeTabs(tabURLs.filter((t, i) => i > tabIndex));
-      }
-    };
-
-    const closeAllTabsMenuItem = {
-      id: "node-menu-close-all-tabs",
-      label: closeAllTabsLabel,
-      accesskey: closeAllTabsKey,
-      disabled: false,
-      click: () => closeTabs(tabURLs)
-    };
-
-    const showSourceMenuItem = {
-      id: "node-menu-show-source",
-      label: revealInTreeLabel,
-      accesskey: revealInTreeKey,
-      disabled: false,
-      click: () => showSource(tab)
-    };
-
-    const copySourceUri2 = {
-      id: "node-menu-copy-source-url",
-      label: copyLinkLabel,
-      accesskey: copyLinkKey,
-      disabled: false,
-      click: () => copyToTheClipboard(sourceTab.get("url"))
-    };
-
-    const prettyPrint = {
-      id: "node-menu-pretty-print",
-      label: prettyPrintLabel,
-      accesskey: prettyPrintKey,
-      disabled: false,
-      click: () => togglePrettyPrint(sourceTab.get("id"))
-    };
-
-    const items = [
-      { item: closeTabMenuItem },
-      { item: closeOtherTabsMenuItem, hidden: () => tabs.size === 1 },
-      {
-        item: closeTabsToEndMenuItem,
-        hidden: () => tabs.some((t, i) => t === tab && tabs.size - 1 === i)
-      },
-      { item: closeAllTabsMenuItem },
-      { item: { type: "separator" } },
-      { item: copySourceUri2 }
-    ];
-
-    if (!isPrettySource) {
-      items.push({ item: showSourceMenuItem });
-      items.push({ item: prettyPrint });
-    }
-
-    showMenu(e, buildMenu(items));
-  }
-
   /*
    * Updates the hiddenSourceTabs state, by
    * finding the source tabs which are wrapped and are not on the top row.
@@ -294,9 +109,9 @@ class Tabs extends PureComponent<Props, State> {
     if (!this.refs.sourceTabs) {
       return;
     }
-    const { selectedSource, sourceTabs, moveTab } = this.props;
+    const { selectedSource, tabSources, moveTab } = this.props;
     const sourceTabEls = this.refs.sourceTabs.children;
-    const hiddenTabs = getHiddenTabs(sourceTabs, sourceTabEls);
+    const hiddenTabs = getHiddenTabs(tabSources, sourceTabEls);
 
     if (isVisible() && hiddenTabs.indexOf(selectedSource) !== -1) {
       return moveTab(selectedSource.get("url"), 0);
@@ -321,7 +136,7 @@ class Tabs extends PureComponent<Props, State> {
     return "file";
   }
 
-  renderDropdownSource(source: SourceRecord) {
+  renderDropdownSource = (source: SourceRecord) => {
     const { selectSource } = this.props;
     const filename = getFilename(source.toJS());
 
@@ -332,29 +147,40 @@ class Tabs extends PureComponent<Props, State> {
         {filename}
       </li>
     );
-  }
+  };
 
   renderTabs() {
-    const { tabs } = this.props;
-    if (!tabs) {
+    const {
+      tabSources,
+      selectedSource,
+      closeTab,
+      togglePrettyPrint,
+      showSource,
+      sourceTabsMetaData,
+      selectSource
+    } = this.props;
+    if (!tabSources) {
       return;
     }
 
     return (
       <div className="source-tabs" ref="sourceTabs">
-        {tabs.map((tab, index) => {
-          return <Tab />;
+        {tabSources.map((source, index) => {
+          const props = {
+            key: index,
+            source,
+            tabSources,
+            selectedSource,
+            closeTab,
+            togglePrettyPrint,
+            showSource,
+            sourceTabsMetaData,
+            selectSource
+          };
+          return <Tab {...props} />;
         })}
       </div>
     );
-  }
-
-  isProjectSearchEnabled() {
-    return this.props.activeSearch === "project";
-  }
-
-  isSourceSearchEnabled() {
-    return this.props.activeSearch === "source";
   }
 
   renderDropdown() {
@@ -393,21 +219,6 @@ class Tabs extends PureComponent<Props, State> {
     );
   }
 
-  getSourceAnnotation(source) {
-    const sourceId = source.get("id");
-    const sourceMetaData = this.props.sourceTabsMetaData[sourceId];
-
-    if (sourceMetaData && sourceMetaData.isReactComponent) {
-      return <img className="react" />;
-    }
-    if (isPretty(source)) {
-      return <img className="prettyPrint" />;
-    }
-    if (source.get("isBlackBoxed")) {
-      return <img className="blackBox" />;
-    }
-  }
-
   render() {
     return (
       <div className="source-header">
@@ -422,16 +233,16 @@ class Tabs extends PureComponent<Props, State> {
 
 export default connect(
   state => {
-    const sourceTabs = getSourcesForTabs(state);
+    const tabSources = getSourcesForTabs(state);
     const sourceTabsMetaData = {};
-    sourceTabs.forEach(source => {
+    tabSources.forEach(source => {
       const sourceId = source ? source.get("id") : "";
       sourceTabsMetaData[sourceId] = getSourceMetaData(state, sourceId);
     });
 
     return {
       selectedSource: getSelectedSource(state),
-      tabs: sourceTabs,
+      tabSources,
       activeSearch: getActiveSearch(state),
       searchOn: getActiveSearch(state) === "source",
       sourceTabsMetaData: sourceTabsMetaData
