@@ -67,6 +67,7 @@ type Props = {
   setActiveSearch: (activeSearch?: ActiveSearchType) => void,
   closeProjectSearch: () => void,
   searchSources: (query: string) => void,
+  clearSearch: () => void,
   selectLocation: (location: Location, tabIndex?: string) => void
 };
 
@@ -74,6 +75,10 @@ function getFilePath(item: Item, index?: number) {
   return item.type === "RESULT"
     ? `${item.sourceId}-${index || "$"}`
     : `${item.sourceId}-${item.line}-${item.column}-${index || "$"}`;
+}
+
+function sanitizeQuery(query) {
+  return query.replace(/\\$/, ""); // no '\' at end of query
 }
 
 export class ProjectSearch extends Component<Props, State> {
@@ -154,7 +159,7 @@ export class ProjectSearch extends Component<Props, State> {
       return;
     }
     this.focusedItem = null;
-    this.props.searchSources(this.state.inputValue);
+    this.props.searchSources(sanitizeQuery(this.state.inputValue));
   };
 
   onEnterPress = () => {
@@ -170,7 +175,11 @@ export class ProjectSearch extends Component<Props, State> {
 
   inputOnChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
+    this.props.updateSearchStatus(statusType.initial);
     this.setState({ inputValue });
+    if (inputValue === "") {
+      this.props.clearSearch();
+    }
   };
 
   renderFile = (
@@ -272,6 +281,7 @@ export class ProjectSearch extends Component<Props, State> {
         count={this.getResultCount()}
         placeholder={L10N.getStr("projectTextSearch.placeholder")}
         size="big"
+        status={this.props.status}
         summaryMsg={this.renderSummary()}
         onChange={this.inputOnChange}
         onFocus={() => this.setState({ inputFocused: true })}

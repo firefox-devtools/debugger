@@ -26,12 +26,20 @@ export function addSearchQuery(query: string) {
 export function clearSearchQuery() {
   return ({ dispatch, getState }: ThunkArgs) => {
     dispatch({ type: "CLEAR_QUERY" });
+    dispatch(updateSearchStatus(statusType.initial));
   };
 }
 
 export function clearSearchResults() {
   return ({ dispatch, getState }: ThunkArgs) => {
     dispatch({ type: "CLEAR_SEARCH_RESULTS" });
+  };
+}
+
+export function clearSearch() {
+  return ({ dispatch, getState }: ThunkArgs) => {
+    dispatch(clearSearchQuery());
+    dispatch(clearSearchResults());
   };
 }
 
@@ -45,6 +53,9 @@ export function closeProjectSearch() {
 
 export function searchSources(query: string) {
   return async ({ dispatch, getState }: ThunkArgs) => {
+    if (!query) {
+      return;
+    }
     await dispatch(clearSearchResults());
     await dispatch(addSearchQuery(query));
     dispatch(updateSearchStatus(statusType.fetching));
@@ -56,6 +67,7 @@ export function searchSources(query: string) {
     for (const source of validSources) {
       await dispatch(searchSource(source.get("id"), query));
     }
+    dispatch(updateSearchStatus(statusType.done));
   };
 }
 
@@ -75,8 +87,5 @@ export function searchSource(sourceId: string, query: string) {
         matches
       }
     });
-    if (matches.length) {
-      dispatch(updateSearchStatus(statusType.done));
-    }
   };
 }
