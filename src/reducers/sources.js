@@ -223,7 +223,7 @@ function restoreTabs() {
  */
 
 function updateTabList(state: OuterState, url: ?string, tabIndex?: number) {
-  let tabs = state.sources.get("tabs");
+  let tabs = state.sources.tabs;
 
   const urlIndex = tabs.indexOf(url);
   const includesUrl = !!tabs.find(tab => tab == url);
@@ -334,7 +334,7 @@ export function getPrettySource(state: OuterState, id: string): ?SourceRecord {
     return;
   }
 
-  return getSourceByURL(state, getPrettySourceURL(source.get("url")));
+  return getSourceByURL(state, getPrettySourceURL(source.url));
 }
 
 function getSourceByUrlInSources(
@@ -407,7 +407,7 @@ export const getSelectedSourceText = createSelector(
   getSelectedSource,
   getSourcesState,
   (selectedSource, sources) => {
-    const id = selectedSource.get("id");
+    const id = selectedSource.id;
 
     return id ? sources.sourcesText.get(id) : null;
   }
