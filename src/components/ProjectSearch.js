@@ -68,6 +68,7 @@ type Props = {
   closeProjectSearch: () => void,
   searchSources: (query: string) => void,
   clearSearch: () => void,
+  updateSearchStatus: (type: StatusType) => void,
   selectLocation: (location: Location, tabIndex?: string) => void
 };
 
@@ -78,7 +79,8 @@ function getFilePath(item: Item, index?: number) {
 }
 
 function sanitizeQuery(query) {
-  return query.replace(/\\$/, ""); // no '\' at end of query
+  // no '\' at end of query
+  return query.replace(/\\$/, "");
 }
 
 export class ProjectSearch extends Component<Props, State> {
