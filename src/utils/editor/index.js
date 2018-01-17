@@ -5,7 +5,7 @@
 // @flow
 
 export * from "./source-documents";
-export * from "./getTokenLocation.js";
+export * from "./get-token-location";
 export * from "./source-search";
 export * from "../ui";
 export * from "./create-editor";
