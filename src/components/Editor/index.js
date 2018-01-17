@@ -419,7 +419,7 @@ class Editor extends PureComponent<Props, State> {
 
     if (this.shouldScrollToLocation(nextProps)) {
       const { line, column } = toEditorPosition(nextProps.selectedLocation);
-      scrollToColumn(editor.codeMirror, line, column);
+      scrollToColumn(editor.codeMirror, line || 0, column);
     }
   }
 

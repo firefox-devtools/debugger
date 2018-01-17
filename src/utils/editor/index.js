@@ -99,7 +99,7 @@ export function toSourceLocation(
   location: EditorPosition
 ): AstPosition {
   return {
-    line: toSourceLine(sourceId, location.line),
+    line: toSourceLine(sourceId, location.line || 0),
     column: isWasm(sourceId) ? undefined : location.column
   };
 }
