@@ -1,0 +1,573 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ManagedTree expands list items 1`] = `
+<div
+  className="managed-tree"
+>
+  <Tree
+    autoExpandAll={true}
+    autoExpandDepth={1}
+    focused={
+      Object {
+        "value": "A",
+      }
+    }
+    getChildren={[Function]}
+    getKey={[Function]}
+    getParent={[Function]}
+    getPath={[Function]}
+    getRoots={[Function]}
+    isExpanded={[Function]}
+    itemHeight={24}
+    listItems={
+      Array [
+        Object {
+          "value": "A",
+        },
+        Object {
+          "value": "B",
+        },
+        Object {
+          "value": "C",
+        },
+        Object {
+          "value": "D",
+        },
+        Object {
+          "value": "E",
+        },
+      ]
+    }
+    onCollapse={[Function]}
+    onExpand={[Function]}
+    onFocus={[Function]}
+    renderItem={[Function]}
+  />
+</div>
+`;
+
+exports[`ManagedTree focuses list items 1`] = `
+<div
+  className="managed-tree"
+>
+  <Tree
+    autoExpandAll={true}
+    autoExpandDepth={1}
+    focused={
+      Object {
+        "children": Array [
+          Object {
+            "value": 5,
+          },
+          Object {
+            "value": 4,
+          },
+          Object {
+            "value": 3,
+          },
+          Object {
+            "value": 2,
+          },
+          Object {
+            "value": 1,
+          },
+        ],
+        "value": "FOO",
+      }
+    }
+    getChildren={[Function]}
+    getKey={[Function]}
+    getParent={[Function]}
+    getPath={[Function]}
+    getRoots={[Function]}
+    highlightItems={
+      Array [
+        Object {
+          "value": 5,
+        },
+        Object {
+          "value": 4,
+        },
+        Object {
+          "value": 3,
+        },
+        Object {
+          "value": 2,
+        },
+        Object {
+          "value": 1,
+        },
+      ]
+    }
+    isExpanded={[Function]}
+    itemHeight={24}
+    listItems={
+      Array [
+        Object {
+          "value": "A",
+        },
+        Object {
+          "value": "B",
+        },
+        Object {
+          "value": "C",
+        },
+        Object {
+          "value": "D",
+        },
+        Object {
+          "value": "E",
+        },
+      ]
+    }
+    onCollapse={[Function]}
+    onExpand={[Function]}
+    onFocus={[Function]}
+    renderItem={[Function]}
+  />
+</div>
+`;
+
+exports[`ManagedTree highlights list items 1`] = `
+<div
+  className="managed-tree"
+>
+  <Tree
+    autoExpandAll={true}
+    autoExpandDepth={1}
+    focused={
+      Object {
+        "value": 5,
+      }
+    }
+    getChildren={[Function]}
+    getKey={[Function]}
+    getParent={[Function]}
+    getPath={[Function]}
+    getRoots={[Function]}
+    highlightItems={
+      Array [
+        Object {
+          "value": 5,
+        },
+        Object {
+          "value": 4,
+        },
+        Object {
+          "value": 3,
+        },
+        Object {
+          "value": 2,
+        },
+        Object {
+          "value": 1,
+        },
+      ]
+    }
+    isExpanded={[Function]}
+    itemHeight={24}
+    listItems={
+      Array [
+        Object {
+          "value": "A",
+        },
+        Object {
+          "value": "B",
+        },
+        Object {
+          "value": "C",
+        },
+        Object {
+          "value": "D",
+        },
+        Object {
+          "value": "E",
+        },
+      ]
+    }
+    onCollapse={[Function]}
+    onExpand={[Function]}
+    onFocus={[Function]}
+    renderItem={[Function]}
+  />
+</div>
+`;
+
+exports[`ManagedTree render 1`] = `
+<div
+  className="managed-tree"
+>
+  <Tree
+    autoExpandAll={true}
+    autoExpandDepth={1}
+    focused={null}
+    getChildren={[Function]}
+    getKey={[Function]}
+    getParent={[Function]}
+    getPath={[Function]}
+    getRoots={[Function]}
+    isExpanded={[Function]}
+    itemHeight={24}
+    onCollapse={[Function]}
+    onExpand={[Function]}
+    onFocus={[Function]}
+    renderItem={[Function]}
+  />
+</div>
+`;
+
+exports[`ManagedTree sets expanded items 1`] = `
+<ManagedTree
+  autoExpandAll={true}
+  autoExpandDepth={1}
+  getChildren={[Function]}
+  getParent={[Function]}
+  getPath={[Function]}
+  getRoots={[Function]}
+  itemHeight={24}
+  onCollapse={[Function]}
+  onExpand={[Function]}
+  onFocus={[Function]}
+  renderItem={[Function]}
+>
+  <div
+    className="managed-tree"
+  >
+    <Tree
+      autoExpandAll={true}
+      autoExpandDepth={1}
+      focused={null}
+      getChildren={[Function]}
+      getKey={[Function]}
+      getParent={[Function]}
+      getPath={[Function]}
+      getRoots={[Function]}
+      isExpanded={[Function]}
+      itemHeight={24}
+      onCollapse={[Function]}
+      onExpand={[Function]}
+      onFocus={[Function]}
+      renderItem={[Function]}
+    >
+      <div
+        className="tree "
+        onKeyDown={[Function]}
+        onKeyPress={[Function]}
+        onKeyUp={[Function]}
+        onScroll={[Function]}
+        style={
+          Object {
+            "margin": 0,
+            "padding": 0,
+          }
+        }
+      >
+        <TreeNode
+          depth={0}
+          expanded={true}
+          focused={false}
+          hasChildren={false}
+          index={0}
+          item="a"
+          key="a-$"
+          onCollapse={[Function]}
+          onExpand={[Function]}
+          onFocus={[Function]}
+          renderItem={[Function]}
+        >
+          <div
+            className="tree-node div "
+            onClick={[Function]}
+            onFocus={[Function]}
+            style={
+              Object {
+                "margin": 0,
+                "padding": 0,
+              }
+            }
+          >
+            <div>
+              a
+            </div>
+            <button
+              style={
+                Object {
+                  "MozAppearance": "none",
+                  "MozMarginStart": "-1000px !important",
+                  "height": "0 !important",
+                  "opacity": 0,
+                  "outline": "none",
+                  "padding": "0 !important",
+                  "width": "0 !important",
+                }
+              }
+            />
+          </div>
+        </TreeNode>
+        <TreeNode
+          depth={0}
+          expanded={true}
+          focused={false}
+          hasChildren={false}
+          index={1}
+          item="b"
+          key="1"
+          onCollapse={[Function]}
+          onExpand={[Function]}
+          onFocus={[Function]}
+          renderItem={[Function]}
+        >
+          <div
+            className="tree-node div tree-node-odd"
+            onClick={[Function]}
+            onFocus={[Function]}
+            style={
+              Object {
+                "margin": 0,
+                "padding": 0,
+              }
+            }
+          >
+            <div>
+              b
+            </div>
+            <button
+              style={
+                Object {
+                  "MozAppearance": "none",
+                  "MozMarginStart": "-1000px !important",
+                  "height": "0 !important",
+                  "opacity": 0,
+                  "outline": "none",
+                  "padding": "0 !important",
+                  "width": "0 !important",
+                }
+              }
+            />
+          </div>
+        </TreeNode>
+        <TreeNode
+          depth={0}
+          expanded={true}
+          focused={false}
+          hasChildren={false}
+          index={2}
+          item="c"
+          key="2"
+          onCollapse={[Function]}
+          onExpand={[Function]}
+          onFocus={[Function]}
+          renderItem={[Function]}
+        >
+          <div
+            className="tree-node div "
+            onClick={[Function]}
+            onFocus={[Function]}
+            style={
+              Object {
+                "margin": 0,
+                "padding": 0,
+              }
+            }
+          >
+            <div>
+              c
+            </div>
+            <button
+              style={
+                Object {
+                  "MozAppearance": "none",
+                  "MozMarginStart": "-1000px !important",
+                  "height": "0 !important",
+                  "opacity": 0,
+                  "outline": "none",
+                  "padding": "0 !important",
+                  "width": "0 !important",
+                }
+              }
+            />
+          </div>
+        </TreeNode>
+      </div>
+    </Tree>
+  </div>
+</ManagedTree>
+`;
+
+exports[`ManagedTree sets expanded items 2`] = `
+<ManagedTree
+  autoExpandAll={true}
+  autoExpandDepth={1}
+  getChildren={[Function]}
+  getParent={[Function]}
+  getPath={[Function]}
+  getRoots={[Function]}
+  itemHeight={24}
+  onCollapse={[Function]}
+  onExpand={[Function]}
+  onFocus={[Function]}
+  renderItem={[Function]}
+>
+  <div
+    className="managed-tree"
+  >
+    <Tree
+      autoExpandAll={true}
+      autoExpandDepth={1}
+      focused="a"
+      getChildren={[Function]}
+      getKey={[Function]}
+      getParent={[Function]}
+      getPath={[Function]}
+      getRoots={[Function]}
+      isExpanded={[Function]}
+      itemHeight={24}
+      onCollapse={[Function]}
+      onExpand={[Function]}
+      onFocus={[Function]}
+      renderItem={[Function]}
+    >
+      <div
+        className="tree "
+        onKeyDown={[Function]}
+        onKeyPress={[Function]}
+        onKeyUp={[Function]}
+        onScroll={[Function]}
+        style={
+          Object {
+            "margin": 0,
+            "padding": 0,
+          }
+        }
+      >
+        <TreeNode
+          depth={0}
+          expanded={true}
+          focused={true}
+          hasChildren={false}
+          index={0}
+          item="a"
+          key="a-$"
+          onCollapse={[Function]}
+          onExpand={[Function]}
+          onFocus={[Function]}
+          renderItem={[Function]}
+        >
+          <div
+            className="tree-node div "
+            onClick={[Function]}
+            onFocus={[Function]}
+            style={
+              Object {
+                "margin": 0,
+                "padding": 0,
+              }
+            }
+          >
+            <div>
+              a
+            </div>
+            <button
+              style={
+                Object {
+                  "MozAppearance": "none",
+                  "MozMarginStart": "-1000px !important",
+                  "height": "0 !important",
+                  "opacity": 0,
+                  "outline": "none",
+                  "padding": "0 !important",
+                  "width": "0 !important",
+                }
+              }
+            />
+          </div>
+        </TreeNode>
+        <TreeNode
+          depth={0}
+          expanded={true}
+          focused={false}
+          hasChildren={false}
+          index={1}
+          item="b"
+          key="1"
+          onCollapse={[Function]}
+          onExpand={[Function]}
+          onFocus={[Function]}
+          renderItem={[Function]}
+        >
+          <div
+            className="tree-node div tree-node-odd"
+            onClick={[Function]}
+            onFocus={[Function]}
+            style={
+              Object {
+                "margin": 0,
+                "padding": 0,
+              }
+            }
+          >
+            <div>
+              b
+            </div>
+            <button
+              style={
+                Object {
+                  "MozAppearance": "none",
+                  "MozMarginStart": "-1000px !important",
+                  "height": "0 !important",
+                  "opacity": 0,
+                  "outline": "none",
+                  "padding": "0 !important",
+                  "width": "0 !important",
+                }
+              }
+            />
+          </div>
+        </TreeNode>
+        <TreeNode
+          depth={0}
+          expanded={true}
+          focused={false}
+          hasChildren={false}
+          index={2}
+          item="c"
+          key="2"
+          onCollapse={[Function]}
+          onExpand={[Function]}
+          onFocus={[Function]}
+          renderItem={[Function]}
+        >
+          <div
+            className="tree-node div "
+            onClick={[Function]}
+            onFocus={[Function]}
+            style={
+              Object {
+                "margin": 0,
+                "padding": 0,
+              }
+            }
+          >
+            <div>
+              c
+            </div>
+            <button
+              style={
+                Object {
+                  "MozAppearance": "none",
+                  "MozMarginStart": "-1000px !important",
+                  "height": "0 !important",
+                  "opacity": 0,
+                  "outline": "none",
+                  "padding": "0 !important",
+                  "width": "0 !important",
+                }
+              }
+            />
+          </div>
+        </TreeNode>
+      </div>
+    </Tree>
+  </div>
+</ManagedTree>
+`;

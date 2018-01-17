@@ -48,7 +48,8 @@ describe("Popover", () => {
       <h1>Toolie!</h1>
     </Popover>
   );
-  const event = { target: { className: "" } };
+  const div = document.createElement("div");
+  const event = { currentTarget: div };
   beforeEach(() => onMouseLeave.mockClear());
   it("render", () => expect(popover).toMatchSnapshot());
   it("render (tooltip)", () => expect(tooltip).toMatchSnapshot());
@@ -61,8 +62,8 @@ describe("Popover", () => {
     expect(onMouseLeave).toHaveBeenCalled();
   });
   it("no mouse leave on bracket or gap", () => {
-    const event2 = { target: { className: "bracket-arrow" } };
-    popover.find(".popover").simulate("mouseleave", event2);
+    div.className = "bracket-arrow";
+    popover.find(".popover").simulate("mouseleave", event);
     expect(onMouseLeave).not.toHaveBeenCalled();
   });
   it("mount popover", () => {

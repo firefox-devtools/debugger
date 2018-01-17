@@ -140,13 +140,9 @@ class Popover extends Component<Props, State> {
     return <BracketArrow {...arrowProps} />;
   }
 
-  onMouseLeave = (e: any) => {
+  onMouseLeave = (e: SyntheticMouseEvent<HTMLDivElement>) => {
     const { onMouseLeave } = this.props;
-
-    // Flow doesn't seem to understand that event targets can have classNames.
-    // Thus the any type above. Otherwise this would be:
-    // SyntheticEvent<HTMLDivElement>
-    if (/^(bracket-arrow|gap)$/.test(e.target.className)) {
+    if (/^(bracket-arrow|gap)$/.test(e.currentTarget.className)) {
       return;
     }
 
