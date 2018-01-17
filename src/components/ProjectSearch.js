@@ -281,7 +281,7 @@ export class ProjectSearch extends Component<Props, State> {
         count={this.getResultCount()}
         placeholder={L10N.getStr("projectTextSearch.placeholder")}
         size="big"
-        status={this.props.status}
+        showErrorEmoji={this.props.status === statusType.done}
         summaryMsg={this.renderSummary()}
         onChange={this.inputOnChange}
         onFocus={() => this.setState({ inputFocused: true })}

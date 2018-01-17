@@ -10,8 +10,6 @@ import classnames from "classnames";
 import CloseButton from "./Button/Close";
 import "./SearchInput.css";
 
-import { statusType } from "../../reducers/project-text-search";
-
 const arrowBtn = (onClick, type, className, tooltip) => {
   const props = {
     onClick,
@@ -34,7 +32,6 @@ type Props = {
   placeholder: string,
   summaryMsg: string,
   size: string,
-  status: string,
   showErrorEmoji: boolean,
   onChange: (e: SyntheticInputEvent<HTMLInputElement>) => void,
   handleClose: (e: SyntheticMouseEvent<HTMLDivElement>) => void,
@@ -66,13 +63,8 @@ class SearchInput extends Component<Props> {
   }
 
   shouldShowErrorEmoji = () => {
-    const { count, query, showErrorEmoji, status } = this.props;
-    return (
-      showErrorEmoji &&
-      count === 0 &&
-      query.trim() !== "" &&
-      status === statusType.done
-    );
+    const { count, query, showErrorEmoji } = this.props;
+    return showErrorEmoji && count === 0 && query.trim() !== "";
   };
 
   renderSvg() {
