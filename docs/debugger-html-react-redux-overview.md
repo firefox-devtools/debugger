@@ -582,13 +582,10 @@ file exports the following functions:
     sources action. This loads up the editor with text for the
     specific frame. The <code>SELECT\_FRAME</code> action is then dispatched.
 
--   <code>loadObjectProperties()</code> – This function is called from the <code>Scopes</code>
-    component, which passes the data to the <code>ObjectInspector</code> component as
-    a property to display in the variable tree under the Scopes panel.
-    This function is also called directly from the <code>ObjectInspector</code> as
-    the variable tree is expanded. The function calls the connected
-    client to retrieve the values and dispatches the
-    <code>LOAD\_OBJECT\_PROPERTIES</code> action.
+-   <code>setPopupObjectProperties()</code> – This function is called from the
+    <code>Popup</code> component, which then use this data to pass all the properties from
+    the hovered variable as root nodes of the <code>ObjectInspector</code> component.
+    The function dispatches the <code>SET\_POPUP\_OBJECT\_PROPERTIES</code> action.
 
 
 ## sources

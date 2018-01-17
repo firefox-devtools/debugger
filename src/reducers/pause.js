@@ -12,7 +12,6 @@
 
 import { createSelector } from "reselect";
 import { prefs } from "../utils/prefs";
-import { isEmpty } from "lodash";
 
 import type { Action } from "../actions/types";
 import type { Why } from "debugger-html";
@@ -94,35 +93,18 @@ function update(state: PauseState = State(), action: Action): PauseState {
         selectedFrameId: action.frame.id
       };
 
-    case "LOAD_OBJECT_PROPERTIES":
-      if (action.status === "start") {
-        return {
-          ...state,
-          loadedObjects: {
-            ...state.loadedObjects,
-            [action.objectId]: {}
-          }
-        };
+    case "SET_POPUP_OBJECT_PROPERTIES":
+      if (!action.properties) {
+        return { ...state };
       }
 
-      if (action.status === "done") {
-        if (!action.value) {
-          return { ...state };
+      return {
+        ...state,
+        loadedObjects: {
+          ...state.loadedObjects,
+          [action.objectId]: action.properties
         }
-
-        const ownProperties = action.value.ownProperties;
-        const ownSymbols = action.value.ownSymbols || [];
-        const prototype = action.value.prototype;
-
-        return {
-          ...state,
-          loadedObjects: {
-            ...state.loadedObjects,
-            [action.objectId]: { ownProperties, prototype, ownSymbols }
-          }
-        };
-      }
-      break;
+      };
 
     case "CONNECT":
       return { ...State(), debuggeeUrl: action.url };
@@ -175,7 +157,7 @@ type OuterState = { pause: PauseState };
 
 const getPauseState = state => state.pause;
 
-export const getLoadedObjects = createSelector(
+export const getAllPopupObjectProperties = createSelector(
   getPauseState,
   pauseWrapper => pauseWrapper.loadedObjects
 );
@@ -196,17 +178,8 @@ export function isEvaluatingExpression(state: OuterState) {
   return state.pause.command === "expression";
 }
 
-export function getLoadedObject(state: OuterState, objectId: string) {
-  return getLoadedObjects(state)[objectId];
-}
-
-export function hasLoadingObjects(state: OuterState) {
-  const objects = getLoadedObjects(state);
-  return Object.values(objects).some(isEmpty);
-}
-
-export function getObjectProperties(state: OuterState, parentId: string) {
-  return getLoadedObjects(state).filter(obj => obj.parentId == parentId);
+export function getPopupObjectProperties(state: OuterState, objectId: string) {
+  return getAllPopupObjectProperties(state)[objectId];
 }
 
 export function getIsWaitingOnBreak(state: OuterState) {

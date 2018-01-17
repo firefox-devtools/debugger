@@ -22,7 +22,7 @@ import type { SelectedLocation, SourceRecord } from "../../../reducers/types";
 import type { Preview as PreviewType } from "../../../reducers/ast";
 
 type Props = {
-  loadObjectProperties: Object => void,
+  setPopupObjectProperties: Object => void,
   addExpression: (string, ?Object) => void,
   loadedObjects: Object,
   editor: any,
@@ -127,7 +127,7 @@ class Preview extends PureComponent<Props, State> {
 
 const {
   addExpression,
-  loadObjectProperties,
+  setPopupObjectProperties,
   updatePreview,
   clearPreview
 } = actions;
@@ -140,7 +140,7 @@ export default connect(
   }),
   {
     addExpression,
-    loadObjectProperties,
+    setPopupObjectProperties,
     updatePreview,
     clearPreview
   }

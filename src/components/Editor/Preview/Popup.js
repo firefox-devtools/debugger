@@ -8,28 +8,37 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import Reps from "devtools-reps";
-const { REPS: { Rep }, MODE, ObjectInspectorUtils } = Reps;
-const { ObjectInspector } = Reps;
-const { getChildren } = ObjectInspectorUtils;
+const { REPS: { Rep }, MODE, ObjectInspector, ObjectInspectorUtils } = Reps;
+
+const {
+  createNode,
+  getChildren,
+  getValue,
+  nodeIsPrimitive
+} = ObjectInspectorUtils.node;
+const { loadItemProperties } = ObjectInspectorUtils.loadProperties;
 
 import actions from "../../../actions";
-import { getLoadedObjects } from "../../../selectors";
+import { getAllPopupObjectProperties } from "../../../selectors";
 import Popover from "../../shared/Popover";
 import PreviewFunction from "../../shared/PreviewFunction";
 import { markText } from "../../../utils/editor";
 import { isReactComponent, isImmutable } from "../../../utils/preview";
 import Svg from "../../shared/Svg";
+import { createObjectClient } from "../../../client/firefox";
 
 import "./Popup.css";
 
 import type { EditorRange } from "../../../utils/editor/types";
+import type { Node } from "../../../utils/sources-tree/types";
 
+type PopupValue = Object | null;
 type Props = {
-  loadObjectProperties: Object => void,
+  setPopupObjectProperties: (Object, Object) => void,
   addExpression: (string, ?Object) => void,
-  loadedObjects: Object,
+  popupObjectProperties: Object,
   popoverPos: Object,
-  value: Object,
+  value: PopupValue,
   expression: string,
   onClose: () => void,
   range: EditorRange,
@@ -44,24 +53,37 @@ export class Popup extends Component<Props> {
   marker: any;
   pos: any;
 
-  componentDidMount() {
+  async componentWillMount() {
     const {
-      loadObjectProperties,
-      loadedObjects,
       value,
-      editor,
-      range
+      expression,
+      setPopupObjectProperties,
+      popupObjectProperties
     } = this.props;
+    const root = createNode(null, expression, expression, { value });
+
+    if (
+      !nodeIsPrimitive(root) &&
+      value &&
+      value.actor &&
+      !popupObjectProperties[value.actor]
+    ) {
+      const onLoadItemProperties = loadItemProperties(root, createObjectClient);
+      if (onLoadItemProperties !== null) {
+        const properties = await onLoadItemProperties;
+        setPopupObjectProperties(value, properties);
+      }
+    }
+  }
+
+  componentDidMount() {
+    const { value, editor, range } = this.props;
 
     if (!value || !value.type == "object") {
       return;
     }
 
     this.marker = markText(editor, "preview-selection", range);
-
-    if (value.actor && !loadedObjects[value.actor]) {
-      loadObjectProperties(value);
-    }
   }
 
   componentWillUnmount() {
@@ -81,16 +103,19 @@ export class Popup extends Component<Props> {
   }
 
   getChildren() {
-    const { loadedObjects } = this.props;
-    const getObjectProperties = id => loadedObjects[id];
+    const { popupObjectProperties } = this.props;
 
     const root = this.getRoot();
-    const actors = {};
+    const value = getValue(root);
+    const actor = value ? value.actor : null;
+    const loadedRootProperties = popupObjectProperties[actor];
+    if (!loadedRootProperties) {
+      return null;
+    }
 
     const children = getChildren({
-      getObjectProperties,
-      actors,
-      item: root
+      item: root,
+      loadedProperties: new Map([[root.path, loadedRootProperties]])
     });
 
     if (children.length > 0) {
@@ -102,8 +127,12 @@ export class Popup extends Component<Props> {
 
   renderFunctionPreview() {
     const { selectSourceURL, value } = this.props;
-    const { location } = value;
 
+    if (!value) {
+      return null;
+    }
+
+    const { location } = value;
     return (
       <div
         className="preview-popup"
@@ -114,7 +143,7 @@ export class Popup extends Component<Props> {
     );
   }
 
-  renderReact(react: Object, roots: Array<Object>) {
+  renderReact(react: Object, roots: Array<Node>) {
     const reactHeader = react.displayName || "React Component";
 
     const header = (
@@ -132,7 +161,7 @@ export class Popup extends Component<Props> {
     );
   }
 
-  renderImmutable(immutable: Object, roots: Array<Object>) {
+  renderImmutable(immutable: Object) {
     const immutableHeader = immutable.type || "Immutable";
 
     const header = (
@@ -142,11 +171,8 @@ export class Popup extends Component<Props> {
       </div>
     );
 
-    roots = [
-      {
-        path: "entries",
-        contents: { value: immutable.entries }
-      }
+    const roots = [
+      createNode(null, "entries", "entries", { value: immutable.entries })
     ];
 
     return (
@@ -158,21 +184,26 @@ export class Popup extends Component<Props> {
   }
 
   renderObjectPreview() {
-    const { extra: { react, immutable } } = this.props;
     const root = this.getRoot();
-    const roots = this.getChildren();
-    const grip = root.contents.value;
 
-    if (!roots) {
+    if (nodeIsPrimitive(root)) {
       return null;
     }
+
+    const roots = this.getChildren();
+    if (!Array.isArray(roots) || roots.length === 0) {
+      return null;
+    }
+
+    const { extra: { react, immutable } } = this.props;
+    const grip = getValue(root);
 
     if (isReactComponent(grip)) {
       return this.renderReact(react, roots);
     }
 
     if (isImmutable(grip)) {
-      return this.renderImmutable(immutable, roots);
+      return this.renderImmutable(immutable);
     }
 
     return (
@@ -194,8 +225,7 @@ export class Popup extends Component<Props> {
   }
 
   renderObjectInspector(roots: Array<Object>) {
-    const { loadObjectProperties, loadedObjects, openLink } = this.props;
-    const getObjectProperties = id => loadedObjects[id];
+    const { openLink } = this.props;
 
     return (
       <ObjectInspector
@@ -204,17 +234,17 @@ export class Popup extends Component<Props> {
         disableWrap={true}
         disabledFocus={true}
         openLink={openLink}
-        getObjectProperties={getObjectProperties}
-        loadObjectProperties={loadObjectProperties}
-        // TODO: See https://github.com/devtools-html/debugger.html/issues/3555.
-        getObjectEntries={actor => {}}
-        loadObjectEntries={grip => {}}
+        createObjectClient={grip => createObjectClient(grip)}
       />
     );
   }
 
   renderPreview() {
     const { value } = this.props;
+    if (!value) {
+      return null;
+    }
+
     if (value.class === "Function") {
       return this.renderFunctionPreview();
     }
@@ -246,7 +276,7 @@ export class Popup extends Component<Props> {
     const { popoverPos, onClose, value, editorRef } = this.props;
     const type = this.getPreviewType(value);
 
-    if (value.type === "object" && !this.getChildren()) {
+    if (value && value.type === "object" && !this.getChildren()) {
       return null;
     }
 
@@ -267,19 +297,19 @@ const {
   addExpression,
   selectSourceURL,
   selectLocation,
-  loadObjectProperties,
+  setPopupObjectProperties,
   openLink
 } = actions;
 
 export default connect(
   state => ({
-    loadedObjects: getLoadedObjects(state)
+    popupObjectProperties: getAllPopupObjectProperties(state)
   }),
   {
     addExpression,
     selectSourceURL,
     selectLocation,
-    loadObjectProperties,
+    setPopupObjectProperties,
     openLink
   }
 )(Popup);

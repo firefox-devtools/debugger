@@ -7,9 +7,10 @@ import React, { PureComponent } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import actions from "../../actions";
+import { createObjectClient } from "../../client/firefox";
+
 import {
   getSelectedFrame,
-  getLoadedObjects,
   getFrameScope,
   isPaused as getIsPaused,
   getPauseReason
@@ -17,15 +18,13 @@ import {
 import { getScopes } from "../../utils/pause/scopes";
 
 import { ObjectInspector } from "devtools-reps";
-import type { Pause, LoadedObject, Why } from "debugger-html";
+import type { Pause, Why } from "debugger-html";
 import type { NamedValue } from "../../utils/pause/scopes/types";
 
 import "./Scopes.css";
 
 type Props = {
   isPaused: Pause,
-  loadedObjects: LoadedObject[],
-  loadObjectProperties: Object => void,
   selectedFrame: Object,
   frameScopes: Object,
   why: Why
@@ -64,7 +63,7 @@ class Scopes extends PureComponent<Props, State> {
   }
 
   render() {
-    const { isPaused, loadObjectProperties, loadedObjects } = this.props;
+    const { isPaused } = this.props;
     const { scopes } = this.state;
 
     if (scopes) {
@@ -74,14 +73,10 @@ class Scopes extends PureComponent<Props, State> {
             roots={scopes}
             autoExpandAll={false}
             autoExpandDepth={1}
-            getObjectProperties={id => loadedObjects[id]}
-            loadObjectProperties={loadObjectProperties}
             disableWrap={true}
             disabledFocus={true}
             dimTopLevelWindow={true}
-            // TODO: See https://github.com/devtools-html/debugger.html/issues/3555.
-            getObjectEntries={actor => {}}
-            loadObjectEntries={grip => {}}
+            createObjectClient={grip => createObjectClient(grip)}
           />
         </div>
       );
@@ -108,8 +103,7 @@ export default connect(
       selectedFrame,
       isPaused: getIsPaused(state),
       why: getPauseReason(state),
-      frameScopes: frameScopes,
-      loadedObjects: getLoadedObjects(state)
+      frameScopes: frameScopes
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

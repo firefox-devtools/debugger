@@ -4,7 +4,6 @@ import Expressions from "../Expressions";
 
 function generateDefaults(overrides) {
   return {
-    loadObjectProperties: jest.fn(),
     expressions: [
       {
         input: "expression1",

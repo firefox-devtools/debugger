@@ -7,11 +7,19 @@
 import { setupCommands, clientCommands } from "./firefox/commands";
 import { setupEvents, clientEvents } from "./firefox/events";
 import { features } from "../utils/prefs";
+import type { Grip } from "debugger-html";
+let DebuggerClient;
+
+function createObjectClient(grip: Grip) {
+  return DebuggerClient.createObjectClient(grip);
+}
 
 export async function onConnect(connection: any, actions: Object): Object {
   const {
     tabConnection: { tabTarget, threadClient, debuggerClient }
   } = connection;
+
+  DebuggerClient = debuggerClient;
 
   if (!tabTarget || !threadClient || !debuggerClient) {
     return { bpClients: {} };
@@ -59,4 +67,4 @@ export async function onConnect(connection: any, actions: Object): Object {
   return { bpClients };
 }
 
-export { clientCommands, clientEvents };
+export { createObjectClient, clientCommands, clientEvents };
