@@ -406,6 +406,7 @@ export const getSelectedSourceText = createSelector(
   getSourcesState,
   (selectedSource, sources) => {
 
+
     const id = selectedSource.id;
     return id ? sources.sourcesText.get(id) : null;
   }
