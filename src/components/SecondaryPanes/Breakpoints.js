@@ -20,7 +20,7 @@ import {
   getTopFrame
 } from "../../selectors";
 import { makeLocationId } from "../../utils/breakpoint";
-//import { endTruncateStr } from "../../utils/utils";
+// import { endTruncateStr } from "../../utils/utils";
 import { getFilename } from "../../utils/source";
 import { isInterrupted } from "../../utils/pause";
 import CloseButton from "../shared/Button/Close";

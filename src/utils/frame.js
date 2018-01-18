@@ -5,7 +5,7 @@
 // @flow
 
 import { get } from "lodash";
-//import { endTruncateStr } from "./utils";
+// import { endTruncateStr } from "./utils";
 import { getFilename } from "./source";
 import { find, findIndex } from "lodash";
 
