@@ -20,7 +20,7 @@ import {
   getTopFrame
 } from "../../selectors";
 import { makeLocationId } from "../../utils/breakpoint";
-import { endTruncateStr } from "../../utils/utils";
+//import { endTruncateStr } from "../../utils/utils";
 import { getFilename } from "../../utils/source";
 import { isInterrupted } from "../../utils/pause";
 import CloseButton from "../shared/Button/Close";
@@ -70,8 +70,7 @@ function getBreakpointFilename(source) {
 function renderSourceLocation(source, line, column) {
   const filename = getBreakpointFilename(source);
   const isWasm = source && source.get("isWasm");
-  const columnVal =
-    features.columnBreakpoints && column ? `:${column}` : "";
+  const columnVal = features.columnBreakpoints && column ? `:${column}` : "";
   const bpLocation = isWasm
     ? `0x${line.toString(16).toUpperCase()}`
     : `${line}${columnVal}`;
@@ -80,11 +79,7 @@ function renderSourceLocation(source, line, column) {
     return null;
   }
 
-  return (
-    <div className="location">
-      {`${endTruncateStr(filename, 30)}: ${bpLocation}`}
-    </div>
-  );
+  return <div className="location">{`${filename}: ${bpLocation}`}</div>;
 }
 
 class Breakpoints extends PureComponent<Props> {
