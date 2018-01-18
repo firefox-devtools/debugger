@@ -53,11 +53,11 @@ export class Popup extends Component<Props> {
       range
     } = this.props;
 
-    this.marker = markText(editor, "preview-selection", range);
-
     if (!value || !value.type == "object") {
       return;
     }
+
+    this.marker = markText(editor, "preview-selection", range);
 
     if (value.actor && !loadedObjects[value.actor]) {
       loadObjectProperties(value);
@@ -70,7 +70,21 @@ export class Popup extends Component<Props> {
     }
   }
 
-  getChildren(root: Object, getObjectProperties: Function) {
+  getRoot() {
+    const { expression, value } = this.props;
+
+    return {
+      name: expression,
+      path: expression,
+      contents: { value }
+    };
+  }
+
+  getChildren() {
+    const { loadedObjects } = this.props;
+    const getObjectProperties = id => loadedObjects[id];
+
+    const root = this.getRoot();
     const actors = {};
 
     const children = getChildren({
@@ -86,8 +100,8 @@ export class Popup extends Component<Props> {
     return null;
   }
 
-  renderFunctionPreview(value: Object, root: Object) {
-    const { selectSourceURL } = this.props;
+  renderFunctionPreview() {
+    const { selectSourceURL, value } = this.props;
     const { location } = value;
 
     return (
@@ -143,11 +157,10 @@ export class Popup extends Component<Props> {
     );
   }
 
-  renderObjectPreview(expression: string, root: Object, extra: Object) {
-    const { loadedObjects } = this.props;
+  renderObjectPreview() {
     const { extra: { react, immutable } } = this.props;
-    const getObjectProperties = id => loadedObjects[id];
-    const roots = this.getChildren(root, getObjectProperties);
+    const root = this.getRoot();
+    const roots = this.getChildren();
     const grip = root.contents.value;
 
     if (!roots) {
@@ -200,19 +213,14 @@ export class Popup extends Component<Props> {
     );
   }
 
-  renderPreview(expression: string, value: Object, extra: Object) {
-    const root = {
-      name: expression,
-      path: expression,
-      contents: { value }
-    };
-
+  renderPreview() {
+    const { value } = this.props;
     if (value.class === "Function") {
-      return this.renderFunctionPreview(value, root);
+      return this.renderFunctionPreview();
     }
 
     if (value.type === "object") {
-      return <div>{this.renderObjectPreview(expression, root, extra)}</div>;
+      return <div>{this.renderObjectPreview()}</div>;
     }
 
     return this.renderSimplePreview(value);
@@ -235,15 +243,12 @@ export class Popup extends Component<Props> {
   }
 
   render() {
-    const {
-      popoverPos,
-      onClose,
-      value,
-      expression,
-      extra,
-      editorRef
-    } = this.props;
+    const { popoverPos, onClose, value, editorRef } = this.props;
     const type = this.getPreviewType(value);
+
+    if (value.type === "object" && !this.getChildren()) {
+      return null;
+    }
 
     return (
       <Popover
@@ -252,7 +257,7 @@ export class Popup extends Component<Props> {
         type={type}
         editorRef={editorRef}
       >
-        {this.renderPreview(expression, value, extra)}
+        {this.renderPreview()}
       </Popover>
     );
   }
