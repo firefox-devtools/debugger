@@ -32,7 +32,13 @@ function assertEmptyValue(dbg, index) {
 }
 
 function toggleExpression(dbg, index) {
-  findElement(dbg, "expressionNode", index).click();
+  const node = findElement(dbg, "expressionNode", index);
+  const objectInspector = node.closest(".object-inspector");
+  const properties = objectInspector.querySelectorAll(".node").length;
+  node.click();
+  return waitUntil(
+    () => objectInspector.querySelectorAll(".node").length !== properties
+  );
 }
 
 async function addExpression(dbg, input) {
@@ -75,8 +81,7 @@ add_task(async function() {
   ok(getValue(dbg, 2).includes("Location"), "has a value");
 
   // can expand an expression
-  toggleExpression(dbg, 2);
-  await waitForDispatch(dbg, "LOAD_OBJECT_PROPERTIES");
+  await toggleExpression(dbg, 2);
 
   await deleteExpression(dbg, "foo");
   await deleteExpression(dbg, "location");
@@ -85,8 +90,7 @@ add_task(async function() {
   // Test expanding properties when the debuggee is active
   await resume(dbg);
   await addExpression(dbg, "location");
-  toggleExpression(dbg, 1);
-  await waitForDispatch(dbg, "LOAD_OBJECT_PROPERTIES");
+  await toggleExpression(dbg, 1);
 
   is(findAllElements(dbg, "expressionNodes").length, 17);
 

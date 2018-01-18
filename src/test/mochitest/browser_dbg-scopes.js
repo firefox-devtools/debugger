@@ -2,7 +2,13 @@
  * http://creativecommons.org/publicdomain/zero/1.0/ */
 
 function toggleNode(dbg, index) {
-  clickElement(dbg, "scopeNode", index);
+  const node = findElement(dbg, "scopeNode", index);
+  const objectInspector = node.closest(".object-inspector");
+  const properties = objectInspector.querySelectorAll(".node").length;
+  node.click();
+  return waitUntil(
+    () => objectInspector.querySelectorAll(".node").length !== properties
+  );
 }
 
 function getLabel(dbg, index) {
@@ -20,8 +26,7 @@ add_task(async function() {
   is(getLabel(dbg, 2), "<this>");
   is(getLabel(dbg, 4), "foo()");
 
-  toggleNode(dbg, 4);
-  await waitForDispatch(dbg, "LOAD_OBJECT_PROPERTIES");
+  await toggleNode(dbg, 4);
   is(getLabel(dbg, 5), "arguments");
 
   await stepOver(dbg);

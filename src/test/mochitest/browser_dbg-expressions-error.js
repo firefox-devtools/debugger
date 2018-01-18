@@ -21,18 +21,14 @@ function getValue(dbg, index) {
   return findElement(dbg, "expressionValue", index).innerText;
 }
 
-function assertEmptyValue(dbg, index) {
-  const value = findElement(dbg, "expressionValue", index);
-  if (value) {
-    is(value.innerText, "");
-    return;
-  }
-
-  is(value, null);
-}
-
 function toggleExpression(dbg, index) {
-  findElement(dbg, "expressionNode", index).click();
+  const node = findElement(dbg, "expressionNode", index);
+  const objectInspector = node.closest(".object-inspector");
+  const properties = objectInspector.querySelectorAll(".node").length;
+  node.click();
+  return waitUntil(
+    () => objectInspector.querySelectorAll(".node").length !== properties
+  );
 }
 
 async function addExpression(dbg, input) {
@@ -75,7 +71,7 @@ async function addBadExpression(dbg, input) {
 add_task(async function() {
   const dbg = await initDebugger("doc-script-switching.html");
 
-  await togglePauseOnExceptions(dbg, true, false);
+  const onPausedOnException = togglePauseOnExceptions(dbg, true, false);
 
   // add a good expression, 2 bad expressions, and another good one
   await addExpression(dbg, "location");
@@ -83,12 +79,13 @@ add_task(async function() {
   await addBadExpression(dbg, "foo.batt");
   await addExpression(dbg, "2");
 
+  await onPausedOnException;
+
   // check the value of
   is(getValue(dbg, 2), "(unavailable)");
   is(getValue(dbg, 3), "(unavailable)");
   is(getValue(dbg, 4), 2);
 
-  toggleExpression(dbg, 1);
-  await waitForDispatch(dbg, "LOAD_OBJECT_PROPERTIES");
+  await toggleExpression(dbg, 1);
   is(findAllElements(dbg, "expressionNodes").length, 20);
 });
