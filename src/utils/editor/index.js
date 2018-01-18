@@ -104,9 +104,7 @@ export function toSourceLocation(
   };
 }
 
-export function markText(editor: any, className, location: EditorRange) {
-  const { start, end } = location;
-
+export function markText(editor: any, className, { start, end }: EditorRange) {
   return editor.codeMirror.markText(
     { ch: start.column, line: start.line },
     { ch: end.column, line: end.line },

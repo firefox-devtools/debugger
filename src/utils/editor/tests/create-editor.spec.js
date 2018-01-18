@@ -1,8 +1,6 @@
 import { createEditor } from "../create-editor";
 import SourceEditor from "../source-editor";
 
-// jest.mock("../../prefs");
-
 import { features } from "../../prefs";
 
 describe("createEditor", () => {
