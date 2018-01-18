@@ -230,7 +230,12 @@ function waitForSource(dbg, url) {
   });
 }
 
-async function waitForElement(dbg, selector) {
+async function waitForElement(dbg, name) {
+  await waitUntil(() => findElement(dbg, name));
+  return findElement(dbg, name);
+}
+
+async function waitForElementWithSelector(dbg, selector) {
   await waitUntil(() => findElementWithSelector(dbg, selector));
   return findElementWithSelector(dbg, selector);
 }
@@ -994,7 +999,7 @@ function findAllElements(dbg, elementName, ...args) {
  */
 async function clickElement(dbg, elementName, ...args) {
   const selector = getSelector(elementName, ...args);
-  const el = await waitForElement(dbg, selector);
+  const el = await waitForElementWithSelector(dbg, selector);
 
   el.scrollIntoView();
 

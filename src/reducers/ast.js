@@ -100,23 +100,9 @@ function update(
         return state.set("preview", null);
       }
 
-      const {
-        expression,
-        location,
-        result,
-        tokenPos,
-        cursorPos,
-        extra
-      } = action.value;
-
       return state.set("preview", {
-        updating: false,
-        expression,
-        location,
-        result,
-        tokenPos,
-        cursorPos,
-        extra
+        ...action.value,
+        updating: false
       });
     }
 
