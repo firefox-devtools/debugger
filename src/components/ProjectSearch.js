@@ -180,10 +180,13 @@ export class ProjectSearch extends Component<Props, State> {
 
   inputOnChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
-    this.props.updateSearchStatus(statusType.initial);
+    const { status, clearSearch, updateSearchStatus } = this.props;
     this.setState({ inputValue });
     if (inputValue === "") {
-      this.props.clearSearch();
+      clearSearch();
+    }
+    if (status !== statusType.initial) {
+      updateSearchStatus(statusType.initial);
     }
   };
 
