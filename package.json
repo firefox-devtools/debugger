@@ -137,7 +137,7 @@
     "jest-junit-reporter": "^1.0.1",
     "jest-localstorage-mock": "^1.1.1",
     "jest-serializer-babel-ast": "^0.0.5",
-    "lint-staged": "^4.0.1",
+    "lint-staged": "^6.0.1",
     "mochii": "^0.0.20",
     "mock-require": "^3.0.0",
     "node-emoji": "^1.8.1",
