@@ -29,7 +29,7 @@ export const State = makeRecord({
   enabled: false,
   query: "",
   searchType: "sources",
-  includeThirdParties: true
+  includeThirdParties: false
 });
 
 export default function update(
