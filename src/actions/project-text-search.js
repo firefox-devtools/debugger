@@ -38,8 +38,7 @@ export function clearSearchResults() {
 
 export function clearSearch() {
   return ({ dispatch, getState }: ThunkArgs) => {
-    dispatch(clearSearchQuery());
-    dispatch(clearSearchResults());
+    dispatch({ type: "CLEAR_SEARCH" });
   };
 }
 

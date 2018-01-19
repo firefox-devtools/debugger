@@ -72,6 +72,12 @@ function update(
         results: state.get("results").clear()
       });
 
+    case "CLEAR_SEARCH":
+      const newSate = state.remove("query");
+      return newSate.merge({
+        results: state.get("results").clear()
+      });
+
     case "CLOSE_PROJECT_SEARCH":
       return state.merge({
         query: "",
