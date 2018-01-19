@@ -341,7 +341,8 @@ export type ProjectTextSearchAction =
     }
   | { type: "CLEAR_QUERY" }
   | { type: "UPDATE_STATUS", status: string }
-  | { type: "CLEAR_SEARCH_RESULTS" };
+  | { type: "CLEAR_SEARCH_RESULTS" }
+  | { type: "CLEAR_SEARCH" };
 
 export type FileTextSearchAction =
   | {
