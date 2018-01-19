@@ -241,11 +241,9 @@ type PauseAction =
   | { type: "COMMAND", value: { type: string }, command: string }
   | { type: "SELECT_FRAME", frame: Frame, scopes: Scope[] }
   | {
-      type: "LOAD_OBJECT_PROPERTIES",
+      type: "SET_POPUP_OBJECT_PROPERTIES",
       objectId: string,
-      status: string,
-      value: Object,
-      "@@dispatch/promise": any
+      properties: Object
     }
   | {
       type: "ADD_EXPRESSION",
