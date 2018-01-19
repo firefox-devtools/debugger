@@ -142,6 +142,32 @@ exports[`ProjectSearch found search results 1`] = `
             >
               5 results
             </div>
+            <IncludeThirdPartiesToggle>
+              <button
+                title="Exclude third party files"
+              >
+                <Svg
+                  name="arrow-down"
+                >
+                  <InlineSVG
+                    className="arrow-down "
+                    element="i"
+                    raw={false}
+                    src="<svg></svg>"
+                  >
+                    <i
+                      className="arrow-down "
+                      dangerouslySetInnerHTML={
+                        Object {
+                          "__html": "<svg></svg>",
+                        }
+                      }
+                      src={null}
+                    />
+                  </InlineSVG>
+                </Svg>
+              </button>
+            </IncludeThirdPartiesToggle>
             <CloseButton
               buttonClass="big"
               handleClick={[Function]}

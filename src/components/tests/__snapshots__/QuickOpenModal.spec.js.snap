@@ -59,6 +59,7 @@ exports[`QuickOpenModal Basic render with mount & searchType = functions 1`] = `
               showErrorEmoji={true}
               size=""
               summaryMsg="0 results"
+              toggleIncludeThirdParties={[Function]}
             >
               <div
                 className="search-field"
@@ -96,6 +97,35 @@ exports[`QuickOpenModal Basic render with mount & searchType = functions 1`] = `
                 >
                   0 results
                 </div>
+                <IncludeThirdPartiesToggle
+                  toggleIncludeThirdParties={[Function]}
+                >
+                  <button
+                    onClick={[Function]}
+                    title="Exclude third party files"
+                  >
+                    <Svg
+                      name="arrow-down"
+                    >
+                      <InlineSVG
+                        className="arrow-down "
+                        element="i"
+                        raw={false}
+                        src="<svg></svg>"
+                      >
+                        <i
+                          className="arrow-down "
+                          dangerouslySetInnerHTML={
+                            Object {
+                              "__html": "<svg></svg>",
+                            }
+                          }
+                          src={null}
+                        />
+                      </InlineSVG>
+                    </Svg>
+                  </button>
+                </IncludeThirdPartiesToggle>
                 <CloseButton
                   buttonClass=""
                   handleClick={[Function]}
@@ -189,6 +219,7 @@ exports[`QuickOpenModal Basic render with mount & searchType = variables 1`] = `
               showErrorEmoji={true}
               size=""
               summaryMsg="0 results"
+              toggleIncludeThirdParties={[Function]}
             >
               <div
                 className="search-field"
@@ -226,6 +257,35 @@ exports[`QuickOpenModal Basic render with mount & searchType = variables 1`] = `
                 >
                   0 results
                 </div>
+                <IncludeThirdPartiesToggle
+                  toggleIncludeThirdParties={[Function]}
+                >
+                  <button
+                    onClick={[Function]}
+                    title="Exclude third party files"
+                  >
+                    <Svg
+                      name="arrow-down"
+                    >
+                      <InlineSVG
+                        className="arrow-down "
+                        element="i"
+                        raw={false}
+                        src="<svg></svg>"
+                      >
+                        <i
+                          className="arrow-down "
+                          dangerouslySetInnerHTML={
+                            Object {
+                              "__html": "<svg></svg>",
+                            }
+                          }
+                          src={null}
+                        />
+                      </InlineSVG>
+                    </Svg>
+                  </button>
+                </IncludeThirdPartiesToggle>
                 <CloseButton
                   buttonClass=""
                   handleClick={[Function]}
@@ -313,6 +373,7 @@ exports[`QuickOpenModal Basic render with mount 1`] = `
               showErrorEmoji={true}
               size=""
               summaryMsg="0 results"
+              toggleIncludeThirdParties={[Function]}
             >
               <div
                 className="search-field"
@@ -350,6 +411,35 @@ exports[`QuickOpenModal Basic render with mount 1`] = `
                 >
                   0 results
                 </div>
+                <IncludeThirdPartiesToggle
+                  toggleIncludeThirdParties={[Function]}
+                >
+                  <button
+                    onClick={[Function]}
+                    title="Exclude third party files"
+                  >
+                    <Svg
+                      name="arrow-down"
+                    >
+                      <InlineSVG
+                        className="arrow-down "
+                        element="i"
+                        raw={false}
+                        src="<svg></svg>"
+                      >
+                        <i
+                          className="arrow-down "
+                          dangerouslySetInnerHTML={
+                            Object {
+                              "__html": "<svg></svg>",
+                            }
+                          }
+                          src={null}
+                        />
+                      </InlineSVG>
+                    </Svg>
+                  </button>
+                </IncludeThirdPartiesToggle>
                 <CloseButton
                   buttonClass=""
                   handleClick={[Function]}
@@ -401,6 +491,7 @@ exports[`QuickOpenModal Renders when enabled 1`] = `
     showErrorEmoji={true}
     size=""
     summaryMsg="0 results"
+    toggleIncludeThirdParties={[Function]}
   />
   <ResultList
     items={Array []}
@@ -465,6 +556,7 @@ exports[`QuickOpenModal closeModal 1`] = `
               showErrorEmoji={true}
               size=""
               summaryMsg="0 results"
+              toggleIncludeThirdParties={[Function]}
             >
               <div
                 className="search-field"
@@ -502,6 +594,35 @@ exports[`QuickOpenModal closeModal 1`] = `
                 >
                   0 results
                 </div>
+                <IncludeThirdPartiesToggle
+                  toggleIncludeThirdParties={[Function]}
+                >
+                  <button
+                    onClick={[Function]}
+                    title="Exclude third party files"
+                  >
+                    <Svg
+                      name="arrow-down"
+                    >
+                      <InlineSVG
+                        className="arrow-down "
+                        element="i"
+                        raw={false}
+                        src="<svg></svg>"
+                      >
+                        <i
+                          className="arrow-down "
+                          dangerouslySetInnerHTML={
+                            Object {
+                              "__html": "<svg></svg>",
+                            }
+                          }
+                          src={null}
+                        />
+                      </InlineSVG>
+                    </Svg>
+                  </button>
+                </IncludeThirdPartiesToggle>
                 <CloseButton
                   buttonClass=""
                   handleClick={[Function]}
@@ -603,6 +724,7 @@ exports[`QuickOpenModal updateResults on enable 2`] = `
               showErrorEmoji={true}
               size=""
               summaryMsg="0 results"
+              toggleIncludeThirdParties={[Function]}
             >
               <div
                 className="search-field"
@@ -640,6 +762,35 @@ exports[`QuickOpenModal updateResults on enable 2`] = `
                 >
                   0 results
                 </div>
+                <IncludeThirdPartiesToggle
+                  toggleIncludeThirdParties={[Function]}
+                >
+                  <button
+                    onClick={[Function]}
+                    title="Exclude third party files"
+                  >
+                    <Svg
+                      name="arrow-down"
+                    >
+                      <InlineSVG
+                        className="arrow-down "
+                        element="i"
+                        raw={false}
+                        src="<svg></svg>"
+                      >
+                        <i
+                          className="arrow-down "
+                          dangerouslySetInnerHTML={
+                            Object {
+                              "__html": "<svg></svg>",
+                            }
+                          }
+                          src={null}
+                        />
+                      </InlineSVG>
+                    </Svg>
+                  </button>
+                </IncludeThirdPartiesToggle>
                 <CloseButton
                   buttonClass=""
                   handleClick={[Function]}
