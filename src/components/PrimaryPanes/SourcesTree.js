@@ -35,7 +35,8 @@ import {
   getDirectories,
   isDirectory,
   nodeHasChildren,
-  updateTree
+  updateTree,
+  getExtension
 } from "../../utils/sources-tree";
 
 import { copyToTheClipboard } from "../../utils/clipboard";
@@ -223,7 +224,17 @@ class SourcesTree extends Component<Props, State> {
       if (source && source.get("isBlackBoxed")) {
         return <img className="blackBox" />;
       }
-      return <img className="file" />;
+      const sourceType = {
+        coffee: "coffeescript",
+        js: "javascript",
+        jsx: "react",
+        ts: "typescript"
+      }[getExtension(source)];
+      return sourceType ? (
+        <Svg className="devicon" name={sourceType} />
+      ) : (
+        <img className="file" />
+      );
     }
 
     return <img className="folder" />;

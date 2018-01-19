@@ -124,7 +124,7 @@ html .arrow.expanded svg {
   fill: var(--theme-body-color);
 }
 
-.angular svg {
+.angular svg, .devicon svg {
   width: 15px;
   height: 15px;
   margin-right: 5px;

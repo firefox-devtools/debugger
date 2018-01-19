@@ -23,5 +23,6 @@ export {
   isDirectory,
   isExactUrlMatch,
   isNotJavaScript,
-  nodeHasChildren
+  nodeHasChildren,
+  getExtension
 } from "./utils";
