@@ -28,7 +28,8 @@ type QuickOpenState = {
 export const State = makeRecord({
   enabled: false,
   query: "",
-  searchType: "sources"
+  searchType: "sources",
+  includeThirdParties: true
 });
 
 export default function update(
@@ -52,6 +53,10 @@ export default function update(
         query: action.query,
         searchType: parseQuickOpenQuery(action.query)
       });
+    case "TOGGLE_QUICK_OPEN_INCLUDE_THIRD_PARTIES":
+      return state.merge({
+        includeThirdParties: !state.includeThirdParties
+      });
     default:
       return state;
   }
@@ -71,4 +76,8 @@ export function getQuickOpenQuery(state: OuterState) {
 
 export function getQuickOpenType(state: OuterState): QuickOpenType {
   return state.quickOpen.get("searchType");
+}
+
+export function getQuickOpenIncludeThirdParties(state: OuterState): boolean {
+  return state.quickOpen.get("includeThirdParties");
 }

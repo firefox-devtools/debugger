@@ -23,3 +23,7 @@ export function openQuickOpen(query?: string): QuickOpenAction {
 export function closeQuickOpen(): QuickOpenAction {
   return { type: "CLOSE_QUICK_OPEN" };
 }
+
+export function toggleQuickOpenIncludeThirdParties(): QuickOpenAction {
+  return { type: "TOGGLE_QUICK_OPEN_INCLUDE_THIRD_PARTIES" };
+}
