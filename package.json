@@ -131,7 +131,7 @@
     "flow-bin": "0.63.1",
     "glob": "^7.0.3",
     "husky": "^0.14.2",
-    "jest": "^20.0.4",
+    "jest": "^22.1.4",
     "jest-cli": "^20.0.4",
     "jest-in-case": "^1.0.2",
     "jest-junit-reporter": "^1.0.1",
