@@ -31,16 +31,6 @@ function assertEmptyValue(dbg, index) {
   is(value, null);
 }
 
-function toggleExpression(dbg, index) {
-  const node = findElement(dbg, "expressionNode", index);
-  const objectInspector = node.closest(".object-inspector");
-  const properties = objectInspector.querySelectorAll(".node").length;
-  node.click();
-  return waitUntil(
-    () => objectInspector.querySelectorAll(".node").length !== properties
-  );
-}
-
 async function addExpression(dbg, input) {
   info("Adding an expression");
   findElementWithSelector(dbg, expressionSelectors.input).focus();
@@ -81,7 +71,7 @@ add_task(async function() {
   ok(getValue(dbg, 2).includes("Location"), "has a value");
 
   // can expand an expression
-  await toggleExpression(dbg, 2);
+  await toggleExpressionNode(dbg, 2);
 
   await deleteExpression(dbg, "foo");
   await deleteExpression(dbg, "location");
@@ -90,7 +80,7 @@ add_task(async function() {
   // Test expanding properties when the debuggee is active
   await resume(dbg);
   await addExpression(dbg, "location");
-  await toggleExpression(dbg, 1);
+  await toggleExpressionNode(dbg, 1);
 
   is(findAllElements(dbg, "expressionNodes").length, 17);
 
