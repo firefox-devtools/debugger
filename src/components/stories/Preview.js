@@ -184,7 +184,7 @@ function PreviewFactory({ dir = "ltr", theme = "light", ...props }) {
           editor={editor}
           popoverPos={popoverPos}
           range={range}
-          loadObjectProperties={() => {}}
+          setPopupObjectProperties={() => {}}
           onClose={action("onClose")}
           {...props}
         />

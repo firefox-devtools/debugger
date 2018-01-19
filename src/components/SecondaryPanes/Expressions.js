@@ -9,12 +9,10 @@ import classnames from "classnames";
 import { ObjectInspector } from "devtools-reps";
 
 import actions from "../../actions";
-import {
-  getExpressions,
-  getExpressionError,
-  getLoadedObjects
-} from "../../selectors";
+import { getExpressions, getExpressionError } from "../../selectors";
 import { getValue } from "../../utils/expressions";
+import { createObjectClient } from "../../client/firefox";
+
 import CloseButton from "../shared/Button/Close";
 
 import type { List } from "immutable";
@@ -31,13 +29,11 @@ type State = {
 type Props = {
   expressions: List<Expression>,
   expressionError: boolean,
-  loadedObjects: Map<string, any>,
   addExpression: (input: string) => void,
   clearExpressionError: () => void,
   evaluateExpressions: () => void,
   updateExpression: (input: string, expression: Expression) => void,
   deleteExpression: (expression: Expression) => void,
-  loadObjectProperties: () => void,
   openLink: (url: string) => void
 };
 
@@ -76,11 +72,10 @@ class Expressions extends PureComponent<Props, State> {
 
   shouldComponentUpdate(nextProps, nextState) {
     const { editing, inputValue } = this.state;
-    const { expressions, expressionError, loadedObjects } = this.props;
+    const { expressions, expressionError } = this.props;
     return (
       expressions !== nextProps.expressions ||
       expressionError !== nextProps.expressionError ||
-      loadedObjects !== nextProps.loadedObjects ||
       editing !== nextState.editing ||
       inputValue !== nextState.inputValue
     );
@@ -145,12 +140,7 @@ class Expressions extends PureComponent<Props, State> {
   };
 
   renderExpression(expression: Expression, index: number) {
-    const {
-      expressionError,
-      loadObjectProperties,
-      loadedObjects,
-      openLink
-    } = this.props;
+    const { expressionError, openLink } = this.props;
     const { editing, editIndex } = this.state;
     const { input, updating } = expression;
     const isEditingExpr = editing && editIndex === index;
@@ -182,11 +172,7 @@ class Expressions extends PureComponent<Props, State> {
               this.editExpression(expression, index, options)
             }
             openLink={openLink}
-            getObjectProperties={id => loadedObjects[id]}
-            loadObjectProperties={loadObjectProperties}
-            // TODO: See https://github.com/devtools-html/debugger.html/issues/3555.
-            getObjectEntries={actor => {}}
-            loadObjectEntries={grip => {}}
+            createObjectClient={grip => createObjectClient(grip)}
           />
           <div className="expression-container__close-btn">
             <CloseButton
@@ -264,8 +250,7 @@ class Expressions extends PureComponent<Props, State> {
 export default connect(
   state => ({
     expressions: getExpressions(state),
-    expressionError: getExpressionError(state),
-    loadedObjects: getLoadedObjects(state)
+    expressionError: getExpressionError(state)
   }),
   actions
 )(Expressions);

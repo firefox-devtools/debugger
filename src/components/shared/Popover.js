@@ -12,7 +12,7 @@ import "./Popover.css";
 type Props = {
   editorRef: ?HTMLDivElement,
   targetPosition: Object,
-  children: React$Element<any>,
+  children: ?React$Element<any>,
   onMouseLeave: () => void,
   type?: "popover" | "tooltip"
 };

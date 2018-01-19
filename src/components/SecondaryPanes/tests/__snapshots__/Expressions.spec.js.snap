@@ -13,12 +13,9 @@ exports[`Expressions should always have unique keys 1`] = `
     >
       <ObjectInspector
         autoExpandDepth={0}
+        createObjectClient={[Function]}
         disableWrap={true}
         disabledFocus={true}
-        getObjectEntries={[Function]}
-        getObjectProperties={[Function]}
-        loadObjectEntries={[Function]}
-        loadObjectProperties={[Function]}
         onDoubleClick={[Function]}
         roots={
           Array [
@@ -53,12 +50,9 @@ exports[`Expressions should always have unique keys 1`] = `
     >
       <ObjectInspector
         autoExpandDepth={0}
+        createObjectClient={[Function]}
         disableWrap={true}
         disabledFocus={true}
-        getObjectEntries={[Function]}
-        getObjectProperties={[Function]}
-        loadObjectEntries={[Function]}
-        loadObjectProperties={[Function]}
         onDoubleClick={[Function]}
         roots={
           Array [
@@ -126,12 +120,9 @@ exports[`Expressions should render 1`] = `
     >
       <ObjectInspector
         autoExpandDepth={0}
+        createObjectClient={[Function]}
         disableWrap={true}
         disabledFocus={true}
-        getObjectEntries={[Function]}
-        getObjectProperties={[Function]}
-        loadObjectEntries={[Function]}
-        loadObjectProperties={[Function]}
         onDoubleClick={[Function]}
         roots={
           Array [
@@ -166,12 +157,9 @@ exports[`Expressions should render 1`] = `
     >
       <ObjectInspector
         autoExpandDepth={0}
+        createObjectClient={[Function]}
         disableWrap={true}
         disabledFocus={true}
-        getObjectEntries={[Function]}
-        getObjectProperties={[Function]}
-        loadObjectEntries={[Function]}
-        loadObjectProperties={[Function]}
         onDoubleClick={[Function]}
         roots={
           Array [

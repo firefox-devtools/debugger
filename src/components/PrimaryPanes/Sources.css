@@ -33,6 +33,7 @@
 
 .sources-list .managed-tree .tree .node {
   padding: 0px 0px 0px 3px;
+  width: 100%;
 }
 
 .sources-list .tree img.arrow {

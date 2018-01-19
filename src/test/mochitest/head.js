@@ -388,13 +388,11 @@ function isPaused(dbg) {
   return !!isPaused(getState());
 }
 
-async function waitForLoadedObjects(dbg) {
-  const { hasLoadingObjects } = dbg.selectors;
-  return waitForState(
-    dbg,
-    state => !hasLoadingObjects(state),
-    "loaded objects"
-  );
+async function waitForLoadedScopes(dbg) {
+  const scopes = await waitForElement(dbg, "scopes");
+  // Since scopes auto-expand, we can assume they are loaded when there is a tree node
+  // with the aria-level attribute equal to "1".
+  await waitUntil(() => scopes.querySelector(`.tree-node[aria-level="1"]`));
 }
 /**
  * Waits for the debugger to be fully paused.
@@ -404,18 +402,20 @@ async function waitForLoadedObjects(dbg) {
  * @static
  */
 async function waitForPaused(dbg) {
-  const { getSelectedScope, hasLoadingObjects } = dbg.selectors;
+  const { getSelectedScope } = dbg.selectors;
 
-  return waitForState(
+  const onScopesLoaded = waitForLoadedScopes(dbg);
+  const onStateChanged = waitForState(
     dbg,
     state => {
       const paused = isPaused(dbg);
       const scope = !!getSelectedScope(state);
-      const loaded = !hasLoadingObjects(state);
-      return paused && scope && loaded;
+      return paused && scope;
     },
     "paused"
   );
+
+  await Promise.all([onStateChanged, onScopesLoaded]);
 }
 
 /*
@@ -761,7 +761,6 @@ async function togglePauseOnExceptions(
 
   if (!isPaused(dbg)) {
     await waitForThreadEvents(dbg, "resumed");
-    await waitForLoadedObjects(dbg);
   }
 
   return command;
@@ -926,6 +925,7 @@ const selectors = {
   expressionNodes: ".expressions-list .tree-node",
   scopesHeader: ".scopes-pane ._header",
   breakpointItem: i => `.breakpoints-list .breakpoint:nth-child(${i})`,
+  scopes: ".scopes-list",
   scopeNode: i => `.scopes-list .tree-node:nth-child(${i}) .object-label`,
   scopeValue: i =>
     `.scopes-list .tree-node:nth-child(${i}) .object-delimiter + *`,
@@ -1059,6 +1059,23 @@ function toggleCallStack(dbg) {
 
 function toggleScopes(dbg) {
   return findElement(dbg, "scopesHeader").click();
+}
+
+function toggleExpressionNode(dbg, index) {
+  return toggleObjectInspectorNode(findElement(dbg, "expressionNode", index));
+}
+
+function toggleScopeNode(dbg, index) {
+  return toggleObjectInspectorNode(findElement(dbg, "scopeNode", index));
+}
+
+function toggleObjectInspectorNode(node) {
+  const objectInspector = node.closest(".object-inspector");
+  const properties = objectInspector.querySelectorAll(".node").length;
+  node.click();
+  return waitUntil(
+    () => objectInspector.querySelectorAll(".node").length !== properties
+  );
 }
 
 function getCM(dbg) {
