@@ -53,9 +53,6 @@ export function closeProjectSearch() {
 
 export function searchSources(query: string) {
   return async ({ dispatch, getState }: ThunkArgs) => {
-    if (!query) {
-      return;
-    }
     await dispatch(clearSearchResults());
     await dispatch(addSearchQuery(query));
     dispatch(updateSearchStatus(statusType.fetching));

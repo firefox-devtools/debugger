@@ -78,7 +78,7 @@ function getFilePath(item: Item, index?: number) {
     : `${item.sourceId}-${item.line}-${item.column}-${index || "$"}`;
 }
 
-function sanitizeQuery(query) {
+function sanitizeQuery(query: string): string {
   // no '\' at end of query
   return query.replace(/\\$/, "");
 }
@@ -161,7 +161,10 @@ export class ProjectSearch extends Component<Props, State> {
       return;
     }
     this.focusedItem = null;
-    this.props.searchSources(sanitizeQuery(this.state.inputValue));
+    const query = sanitizeQuery(this.state.inputValue);
+    if (query) {
+      this.props.searchSources(query);
+    }
   };
 
   onEnterPress = () => {
