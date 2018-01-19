@@ -389,8 +389,7 @@ function isPaused(dbg) {
 }
 
 async function waitForLoadedScopes(dbg) {
-  await waitUntil(() => findElement(dbg, "scopes"));
-  const scopes = findElement(dbg, "scopes");
+  const scopes = await waitForElement(dbg, "scopes");
   // Since scopes auto-expand, we can assume they are loaded when there is a tree node
   // with the aria-level attribute equal to "1".
   await waitUntil(() => scopes.querySelector(`.tree-node[aria-level="1"]`));
@@ -1060,6 +1059,23 @@ function toggleCallStack(dbg) {
 
 function toggleScopes(dbg) {
   return findElement(dbg, "scopesHeader").click();
+}
+
+function toggleExpressionNode(dbg, index) {
+  return toggleObjectInspectorNode(findElement(dbg, "expressionNode", index));
+}
+
+function toggleScopeNode(dbg, index) {
+  return toggleObjectInspectorNode(findElement(dbg, "scopeNode", index));
+}
+
+function toggleObjectInspectorNode(node) {
+  const objectInspector = node.closest(".object-inspector");
+  const properties = objectInspector.querySelectorAll(".node").length;
+  node.click();
+  return waitUntil(
+    () => objectInspector.querySelectorAll(".node").length !== properties
+  );
 }
 
 function getCM(dbg) {

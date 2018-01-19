@@ -21,16 +21,6 @@ function getValue(dbg, index) {
   return findElement(dbg, "expressionValue", index).innerText;
 }
 
-function toggleExpression(dbg, index) {
-  const node = findElement(dbg, "expressionNode", index);
-  const objectInspector = node.closest(".object-inspector");
-  const properties = objectInspector.querySelectorAll(".node").length;
-  node.click();
-  return waitUntil(
-    () => objectInspector.querySelectorAll(".node").length !== properties
-  );
-}
-
 async function addExpression(dbg, input) {
   info("Adding an expression");
   findElementWithSelector(dbg, expressionSelectors.input).focus();
@@ -86,6 +76,6 @@ add_task(async function() {
   is(getValue(dbg, 3), "(unavailable)");
   is(getValue(dbg, 4), 2);
 
-  await toggleExpression(dbg, 1);
+  await toggleExpressionNode(dbg, 1);
   is(findAllElements(dbg, "expressionNodes").length, 20);
 });
