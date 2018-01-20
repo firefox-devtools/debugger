@@ -39,6 +39,16 @@
   overflow: hidden;
 }
 
+.fileLocation{
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+}
+
+
+.lineNumber{
+  position: fixed; 
+}
+
 .theme-light .frames .location,
 .theme-firebug .frames .location {
   color: var(--theme-comment);
