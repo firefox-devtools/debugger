@@ -106,10 +106,6 @@ export default class FrameComponent extends Component<FrameComponentProps> {
     }
     this.props.selectFrame(frame);
   }
-  onMouseOver(e, frame) {
-    console.log(frame.sourceUrl);
-  }
-
   render() {
     const {
       frame,
