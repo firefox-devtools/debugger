@@ -39,14 +39,13 @@
   overflow: hidden;
 }
 
-.fileLocation{
-  overflow: hidden; 
-  text-overflow: ellipsis; 
+.fileLocation {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-
-.lineNumber{
-  position: fixed; 
+.lineNumber {
+  position: fixed;
 }
 
 .theme-light .frames .location,
