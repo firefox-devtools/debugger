@@ -41,7 +41,8 @@ type Props = {
   togglePrettyPrint: string => void,
   showSource: string => void,
   source: SourceRecord,
-  activeSearch: string
+  activeSearch: string,
+  getMetaData: string => any
 };
 
 class Tab extends PureComponent<Props> {
@@ -50,8 +51,14 @@ class Tab extends PureComponent<Props> {
     this.showContextMenu(event, tab);
   };
 
-  showContextMenu(e, tab) {
-    const { closeTab, tabSources, showSource, togglePrettyPrint } = this.props;
+  showContextMenu(e, tab: string) {
+    const {
+      closeTab,
+      closeTabs,
+      tabSources,
+      showSource,
+      togglePrettyPrint
+    } = this.props;
 
     const closeTabLabel = L10N.getStr("sourceTabs.closeTab");
     const closeOtherTabsLabel = L10N.getStr("sourceTabs.closeOtherTabs");
@@ -73,24 +80,23 @@ class Tab extends PureComponent<Props> {
     const copyLinkKey = L10N.getStr("copySourceUri2.accesskey");
     const prettyPrintKey = L10N.getStr("sourceTabs.prettyPrint.accesskey");
 
-    const tabIDs = tabSources.map(t => t.get("id"));
-    const otherTabs = tabSources.filter(t => t.get(id) !== tab);
-    const tab = tab.find(t => t == tab);
+    const otherTabs = tabSources.filter(t => t.get("id") !== tab);
+    const sourceTab = tabSources.find(t => t.get("id") == tab);
     const tabURLs = tabSources.map(t => t.get("url"));
     const otherTabURLs = otherTabs.map(t => t.get("url"));
 
-    if (!tabID) {
+    if (!sourceTab) {
       return;
     }
 
-    const isPrettySource = isPretty(tabID);
+    const isPrettySource = isPretty(sourceTab);
 
     const closeTabMenuItem = {
       id: "node-menu-close-tab",
       label: closeTabLabel,
       accesskey: closeTabKey,
       disabled: false,
-      click: () => closeTab(tab.get("url"))
+      click: () => closeTab(sourceTab.get("url"))
     };
 
     const closeOtherTabsMenuItem = {
@@ -125,7 +131,7 @@ class Tab extends PureComponent<Props> {
       label: revealInTreeLabel,
       accesskey: revealInTreeKey,
       disabled: false,
-      click: () => showSource(tab)
+      click: () => showSource(sourceTab)
     };
 
     const copySourceUri2 = {

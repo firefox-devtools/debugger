@@ -1,4 +1,12 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
+// @flow
+
 import React from "react";
+
+import type { SourceRecord } from "../reducers/sources";
 /*
  * Finds the hidden tabs by comparing the tabs' top offset.
  * hidden tabs will have a great top offset.
@@ -30,11 +38,11 @@ export function getHiddenTabs(sourceTabs: SourcesList, sourceTabEls) {
   });
 }
 
-export function getSourceAnnotation(source, metaData) {
+export function getSourceAnnotation(source: SourceRecord, getMetaData) {
   const sourceId = source.get("id");
-  const sourceMetaData = metaData[sourceId];
+  const sourceMetaData = getMetaData(sourceId);
 
-  if (metaData && metaData.isReactComponent) {
+  if (sourceMetaData && sourceMetaData.isReactComponent) {
     return <img className="react" />;
   }
   if (isPretty(source)) {
