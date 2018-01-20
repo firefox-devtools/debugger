@@ -1,4 +1,12 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
+// @flow
+
 import React, { PureComponent } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
 import { showMenu, buildMenu } from "devtools-contextmenu";
 
@@ -7,8 +15,19 @@ import CloseButton from "../shared/Button/Close";
 import type { List } from "immutable";
 import type { SourceRecord } from "../../reducers/sources";
 
+import actions from "../../actions";
+
 import { getFilename, getFileURL, isPretty } from "../../utils/source";
 import { copyToTheClipboard } from "../../utils/clipboard";
+import { getSourceAnnotation } from "../../utils/tabs";
+
+import {
+  getSelectedSource,
+  getSourceMetaData,
+  getActiveSearch,
+  getSourcesForTabs
+} from "../../selectors";
+
 import classnames from "classnames";
 
 type SourcesList = List<SourceRecord>;
@@ -22,35 +41,14 @@ type Props = {
   togglePrettyPrint: string => void,
   showSource: string => void,
   source: SourceRecord,
-  sourceTabsMetaData: {
-    [key: string]: SourceMetaDataMap
-  }
+  activeSearch: string
 };
 
-export default class Tab extends PureComponent<Props, State> {
-  constructor() {
-    super();
-  }
-
+class Tab extends PureComponent<Props> {
   onTabContextMenu = (event, tab: string) => {
     event.preventDefault();
     this.showContextMenu(event, tab);
   };
-
-  getSourceAnnotation(source) {
-    const sourceId = source.get("id");
-    const sourceMetaData = this.props.sourceTabsMetaData[sourceId];
-
-    if (sourceMetaData && sourceMetaData.isReactComponent) {
-      return <img className="react" />;
-    }
-    if (isPretty(source)) {
-      return <img className="prettyPrint" />;
-    }
-    if (source.get("isBlackBoxed")) {
-      return <img className="blackBox" />;
-    }
-  }
 
   showContextMenu(e, tab) {
     const { closeTab, tabSources, showSource, togglePrettyPrint } = this.props;
@@ -76,8 +74,8 @@ export default class Tab extends PureComponent<Props, State> {
     const prettyPrintKey = L10N.getStr("sourceTabs.prettyPrint.accesskey");
 
     const tabIDs = tabSources.map(t => t.get("id"));
-    const otherTabs = tabSources.filter(t => t !== tab);
-    const tabID = tabIDs.find(t => t == tab);
+    const otherTabs = tabSources.filter(t => t.get(id) !== tab);
+    const tab = tab.find(t => t == tab);
     const tabURLs = tabSources.map(t => t.get("url"));
     const otherTabURLs = otherTabs.map(t => t.get("url"));
 
@@ -176,7 +174,13 @@ export default class Tab extends PureComponent<Props, State> {
   }
 
   render() {
-    const { selectedSource, selectSource, closeTab, source } = this.props;
+    const {
+      selectedSource,
+      selectSource,
+      closeTab,
+      source,
+      getMetaData
+    } = this.props;
     const src = source.toJS();
     const filename = getFilename(src);
     const sourceId = source.get("id");
@@ -185,7 +189,7 @@ export default class Tab extends PureComponent<Props, State> {
       sourceId == selectedSource.get("id") &&
       (!this.isProjectSearchEnabled() && !this.isSourceSearchEnabled());
     const isPrettyCode = isPretty(source);
-    const sourceAnnotation = this.getSourceAnnotation(source);
+    const sourceAnnotation = getSourceAnnotation(source, getMetaData);
 
     function onClickClose(ev) {
       ev.stopPropagation();
@@ -215,3 +219,15 @@ export default class Tab extends PureComponent<Props, State> {
     );
   }
 }
+
+export default connect(
+  state => {
+    return {
+      tabSources: getSourcesForTabs(state),
+      selectedSource: getSelectedSource(state),
+      getMetaData: sourceId => getSourceMetaData(state, sourceId),
+      activeSearch: getActiveSearch(state)
+    };
+  },
+  dispatch => bindActionCreators(actions, dispatch)
+)(Tab);

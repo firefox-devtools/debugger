@@ -1,3 +1,4 @@
+import React from "react";
 /*
  * Finds the hidden tabs by comparing the tabs' top offset.
  * hidden tabs will have a great top offset.
@@ -7,6 +8,8 @@
  *
  * @returns Immutable.list
  */
+import { isPretty } from "./source";
+
 export function getHiddenTabs(sourceTabs: SourcesList, sourceTabEls) {
   sourceTabEls = [].slice.call(sourceTabEls);
   function getTopOffset() {
@@ -25,4 +28,19 @@ export function getHiddenTabs(sourceTabs: SourcesList, sourceTabEls) {
     const element = sourceTabEls[index];
     return element && hasTopOffset(element);
   });
+}
+
+export function getSourceAnnotation(source, metaData) {
+  const sourceId = source.get("id");
+  const sourceMetaData = metaData[sourceId];
+
+  if (metaData && metaData.isReactComponent) {
+    return <img className="react" />;
+  }
+  if (isPretty(source)) {
+    return <img className="prettyPrint" />;
+  }
+  if (source.get("isBlackBoxed")) {
+    return <img className="blackBox" />;
+  }
 }

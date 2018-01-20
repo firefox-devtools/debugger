@@ -9,12 +9,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as I from "immutable";
 
-import {
-  getSelectedSource,
-  getSourcesForTabs,
-  getActiveSearch,
-  getSourceMetaData
-} from "../../selectors";
+import { getSelectedSource, getSourcesForTabs } from "../../selectors";
 import { isVisible } from "../../utils/ui";
 
 import { getHiddenTabs } from "../../utils/tabs";
@@ -31,7 +26,7 @@ import Dropdown from "../shared/Dropdown";
 import type { List } from "immutable";
 import type { SourceRecord } from "../../reducers/sources";
 import type { ActiveSearchType } from "../../reducers/ui";
-import type { SourceMetaDataMap } from "../../reducers/ast";
+
 type SourcesList = List<SourceRecord>;
 
 type Props = {
@@ -40,21 +35,11 @@ type Props = {
   selectSource: Object => void,
   moveTab: (string, number) => void,
   closeTab: string => void,
-  closeTabs: (List<string>) => void,
-  setActiveSearch: (?ActiveSearchType) => void,
-  closeActiveSearch: () => void,
-  activeSearch: string,
-  togglePrettyPrint: string => void,
   togglePaneCollapse: () => void,
-  toggleActiveSearch: (?string) => void,
   showSource: string => void,
   horizontal: boolean,
   startPanelCollapsed: boolean,
-  endPanelCollapsed: boolean,
-  searchOn: boolean,
-  sourceTabsMetaData: {
-    [key: string]: SourceMetaDataMap
-  }
+  endPanelCollapsed: boolean
 };
 
 type State = {
@@ -150,35 +135,14 @@ class Tabs extends PureComponent<Props, State> {
   };
 
   renderTabs() {
-    const {
-      tabSources,
-      selectedSource,
-      closeTab,
-      togglePrettyPrint,
-      showSource,
-      sourceTabsMetaData,
-      selectSource
-    } = this.props;
+    const { tabSources } = this.props;
     if (!tabSources) {
       return;
     }
 
     return (
       <div className="source-tabs" ref="sourceTabs">
-        {tabSources.map((source, index) => {
-          const props = {
-            key: index,
-            source,
-            tabSources,
-            selectedSource,
-            closeTab,
-            togglePrettyPrint,
-            showSource,
-            sourceTabsMetaData,
-            selectSource
-          };
-          return <Tab {...props} />;
-        })}
+        {tabSources.map((source, index) => <Tab key={index} source={source} />)}
       </div>
     );
   }
@@ -205,16 +169,17 @@ class Tabs extends PureComponent<Props, State> {
   }
 
   renderEndPanelToggleButton() {
-    if (!this.props.horizontal) {
+    const { horizontal, endPanelCollapsed, togglePaneCollapse } = this.props;
+    if (!horizontal) {
       return;
     }
 
     return (
       <PaneToggleButton
         position="end"
-        collapsed={!this.props.endPanelCollapsed}
-        handleClick={this.props.togglePaneCollapse}
-        horizontal={this.props.horizontal}
+        collapsed={!endPanelCollapsed}
+        handleClick={togglePaneCollapse}
+        horizontal={horizontal}
       />
     );
   }
@@ -233,19 +198,9 @@ class Tabs extends PureComponent<Props, State> {
 
 export default connect(
   state => {
-    const tabSources = getSourcesForTabs(state);
-    const sourceTabsMetaData = {};
-    tabSources.forEach(source => {
-      const sourceId = source ? source.get("id") : "";
-      sourceTabsMetaData[sourceId] = getSourceMetaData(state, sourceId);
-    });
-
     return {
       selectedSource: getSelectedSource(state),
-      tabSources,
-      activeSearch: getActiveSearch(state),
-      searchOn: getActiveSearch(state) === "source",
-      sourceTabsMetaData: sourceTabsMetaData
+      tabSources: getSourcesForTabs(state)
     };
   },
   dispatch => bindActionCreators(actions, dispatch)
