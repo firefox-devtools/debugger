@@ -18,28 +18,19 @@ import { statusType } from "../reducers/project-text-search";
 import type { ThunkArgs } from "./types";
 
 export function addSearchQuery(query: string) {
-  return ({ dispatch, getState }: ThunkArgs) => {
-    dispatch({ type: "ADD_QUERY", query });
-  };
+  return { type: "ADD_QUERY", query };
 }
 
 export function clearSearchQuery() {
-  return ({ dispatch, getState }: ThunkArgs) => {
-    dispatch({ type: "CLEAR_QUERY" });
-    dispatch(updateSearchStatus(statusType.initial));
-  };
+  return { type: "CLEAR_QUERY" };
 }
 
 export function clearSearchResults() {
-  return ({ dispatch, getState }: ThunkArgs) => {
-    dispatch({ type: "CLEAR_SEARCH_RESULTS" });
-  };
+  return { type: "CLEAR_SEARCH_RESULTS" };
 }
 
 export function clearSearch() {
-  return ({ dispatch, getState }: ThunkArgs) => {
-    dispatch({ type: "CLEAR_SEARCH" });
-  };
+  return { type: "CLEAR_SEARCH" };
 }
 
 export function updateSearchStatus(status: string) {
@@ -75,6 +66,9 @@ export function searchSource(sourceId: string, query: string) {
     }
 
     const matches = await findSourceMatches(sourceRecord.toJS(), query);
+    if (!matches.length) {
+      return;
+    }
     dispatch({
       type: "ADD_SEARCH_RESULT",
       result: {

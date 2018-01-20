@@ -58,7 +58,10 @@ function update(
       return state.update("query", value => actionCopy.query);
 
     case "CLEAR_QUERY":
-      return state.remove("query");
+      return state.merge({
+        query: "",
+        status: statusType.initial
+      });
 
     case "ADD_SEARCH_RESULT":
       const results = state.get("results");
@@ -73,9 +76,10 @@ function update(
       });
 
     case "CLEAR_SEARCH":
-      const newSate = state.remove("query");
-      return newSate.merge({
-        results: state.get("results").clear()
+      return state.merge({
+        query: "",
+        results: state.get("results").clear(),
+        status: statusType.initial
       });
 
     case "CLOSE_PROJECT_SEARCH":
