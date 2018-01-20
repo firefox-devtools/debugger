@@ -76,16 +76,11 @@ function update(
       });
 
     case "CLEAR_SEARCH":
+    case "CLOSE_PROJECT_SEARCH":
       return state.merge({
         query: "",
         results: state.get("results").clear(),
         status: statusType.initial
-      });
-
-    case "CLOSE_PROJECT_SEARCH":
-      return state.merge({
-        query: "",
-        results: state.get("results").clear()
       });
   }
   return state;

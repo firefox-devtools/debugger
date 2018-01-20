@@ -68,7 +68,6 @@ type Props = {
   closeProjectSearch: () => void,
   searchSources: (query: string) => void,
   clearSearch: () => void,
-  updateSearchStatus: (type: StatusType) => void,
   selectLocation: (location: Location, tabIndex?: string) => void
 };
 
@@ -180,13 +179,10 @@ export class ProjectSearch extends Component<Props, State> {
 
   inputOnChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
-    const { status, clearSearch, updateSearchStatus } = this.props;
+    const { clearSearch } = this.props;
     this.setState({ inputValue });
     if (inputValue === "") {
       clearSearch();
-    }
-    if (status !== statusType.initial) {
-      updateSearchStatus(statusType.initial);
     }
   };
 
