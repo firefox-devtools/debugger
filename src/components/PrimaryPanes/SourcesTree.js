@@ -361,7 +361,7 @@ class SourcesTree extends Component<Props, State> {
       getChildren: item => (nodeHasChildren(item) ? item.contents : []),
       getRoots: () => sourceTree.contents,
       getPath: this.getPath,
-      itemHeight: 21,
+      itemHeight: 20,
       autoExpandDepth: expanded ? 0 : 1,
       autoExpandAll: false,
       onFocus: this.focusItem,
