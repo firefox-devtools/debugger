@@ -7,6 +7,9 @@
 import React from "react";
 
 import type { SourceRecord } from "../reducers/sources";
+import { isPretty } from "./source";
+
+type SourcesList = List<SourceRecord>;
 /*
  * Finds the hidden tabs by comparing the tabs' top offset.
  * hidden tabs will have a great top offset.
@@ -16,9 +19,11 @@ import type { SourceRecord } from "../reducers/sources";
  *
  * @returns Immutable.list
  */
-import { isPretty } from "./source";
 
-export function getHiddenTabs(sourceTabs: SourcesList, sourceTabEls) {
+export function getHiddenTabs(
+  sourceTabs: SourcesList,
+  sourceTabEls: Array<object>
+) {
   sourceTabEls = [].slice.call(sourceTabEls);
   function getTopOffset() {
     const topOffsets = sourceTabEls.map(t => t.getBoundingClientRect().top);
@@ -38,7 +43,10 @@ export function getHiddenTabs(sourceTabs: SourcesList, sourceTabEls) {
   });
 }
 
-export function getSourceAnnotation(source: SourceRecord, getMetaData) {
+export function getSourceAnnotation(
+  source: SourceRecord,
+  getMetaData: string => any
+) {
   const sourceId = source.get("id");
   const sourceMetaData = getMetaData(sourceId);
 
