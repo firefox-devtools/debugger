@@ -96,4 +96,7 @@
 .source-footer .mapped-source {
   color: var(--theme-body-color);
   padding: 2.5px;
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
 }
