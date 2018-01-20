@@ -10,7 +10,7 @@
  */
 
 import { findSourceMatches } from "../workers/search";
-import { getSources, getSource } from "../selectors";
+import { getSources, getSource, hasPrettySource } from "../selectors";
 import { isThirdParty, isLoaded } from "../utils/source";
 import { loadAllSources } from "./sources";
 import { statusType } from "../reducers/project-text-search";
@@ -52,7 +52,12 @@ export function searchSources(query: string) {
     const sources = getSources(getState());
     const validSources = sources
       .valueSeq()
-      .filter(source => isLoaded(source) && !isThirdParty(source));
+      .filter(
+        source =>
+          isLoaded(source) &&
+          !hasPrettySource(getState(), source.get("id")) &&
+          !isThirdParty(source)
+      );
     for (const source of validSources) {
       await dispatch(searchSource(source.get("id"), query));
     }
