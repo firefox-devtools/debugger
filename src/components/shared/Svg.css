@@ -17,13 +17,13 @@
 }
 
 .worker,
+.file,
 .folder {
   position: relative;
   top: 2px;
 }
 
 .domain,
-.file,
 .worker,
 .refresh,
 .add-button {

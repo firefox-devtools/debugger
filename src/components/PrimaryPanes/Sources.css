@@ -21,7 +21,6 @@
   display: flex;
   overflow-x: hidden;
   overflow-y: auto;
-  padding-top: 11px;
 }
 
 .sources-list .managed-tree {
@@ -33,6 +32,7 @@
 
 .sources-list .managed-tree .tree .node {
   padding: 0px 0px 0px 3px;
+  height: 21px;
   width: 100%;
 }
 
