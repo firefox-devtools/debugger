@@ -21,7 +21,6 @@
   display: flex;
   overflow-x: hidden;
   overflow-y: auto;
-  padding-top: 11px;
 }
 
 .sources-list .managed-tree {
