@@ -385,6 +385,7 @@ class SourceTabs extends PureComponent<Props, State> {
         onContextMenu={e => this.onTabContextMenu(e, source)}
         title={tabName(source)}
       >
+        {sourceAnnotation}
         <div className="filename">{tabName(source)}</div>
         <CloseButton
           handleClick={onClickClose}
@@ -422,7 +423,7 @@ class SourceTabs extends PureComponent<Props, State> {
         onContextMenu={e => this.onTabContextMenu(e, source.get("id"))}
         title={getFileURL(source.toJS())}
       >
-        {sourceAnnotation}
+        {}
         <div className="filename">{filename}</div>
         <CloseButton
           handleClick={onClickClose}
