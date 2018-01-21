@@ -36,6 +36,12 @@ const threadClient = {
             contentType: "text/javascript"
           });
           break;
+        case "bar:formatted":
+          resolve({
+            source: "function bla(x, y) {\n const bar = 4; return 2;\n}",
+            contentType: "text/javascript"
+          });
+          break;
       }
 
       reject(`unknown source: ${sourceId}`);
@@ -69,6 +75,21 @@ describe("project text search", () => {
     const mockQuery = "foo";
     const source1 = makeSource("foo1");
     const source2 = makeSource("foo2");
+
+    await dispatch(actions.newSource(source1));
+    await dispatch(actions.newSource(source2));
+
+    await dispatch(actions.searchSources(mockQuery));
+
+    const results = getTextSearchResults(getState());
+    expect(results).toMatchSnapshot();
+  });
+
+  it("should ignore sources with minified versions", async () => {
+    const { dispatch, getState } = createStore(threadClient);
+    const mockQuery = "bla";
+    const source1 = makeSource("bar");
+    const source2 = makeSource("bar:formatted");
 
     await dispatch(actions.newSource(source1));
     await dispatch(actions.newSource(source2));
