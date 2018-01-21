@@ -152,9 +152,12 @@ export class QuickOpenModal extends Component<Props, State> {
     if (this.isShortcutQuery()) {
       return this.showShortcuts(query);
     }
+<<<<<<< HEAD
     if (this.isGotoQuery()) {
       return this.searchSources(null);
     }
+=======
+>>>>>>> fix type error
     return this.searchSources(query);
   };
 
