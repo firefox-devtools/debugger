@@ -6,6 +6,7 @@
 
 import React from "react";
 
+import type { List } from "immutable";
 import type { SourceRecord } from "../reducers/sources";
 import { isPretty } from "./source";
 
@@ -22,7 +23,7 @@ type SourcesList = List<SourceRecord>;
 
 export function getHiddenTabs(
   sourceTabs: SourcesList,
-  sourceTabEls: Array<object>
+  sourceTabEls: Array<any>
 ) {
   sourceTabEls = [].slice.call(sourceTabEls);
   function getTopOffset() {
