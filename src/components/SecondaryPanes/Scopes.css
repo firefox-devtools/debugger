@@ -29,6 +29,10 @@
   overflow: auto;
 }
 
+.scopes-list {
+  padding-left: 4px;
+}
+
 .scopes-list .function-signature {
   display: inline-block;
 }
