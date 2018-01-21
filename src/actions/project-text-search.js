@@ -11,8 +11,8 @@
 
 import { findSourceMatches } from "../workers/search";
 import { getSources, getSource, hasPrettySource } from "../selectors";
-import { isThirdParty, isLoaded } from "../utils/source";
-import { loadAllSources } from "./sources";
+import { isThirdParty } from "../utils/source";
+import { loadSourceText } from "./sources";
 import { statusType } from "../reducers/project-text-search";
 
 import type { ThunkArgs } from "./types";
@@ -46,17 +46,16 @@ export function searchSources(query: string) {
     await dispatch(clearSearchResults());
     await dispatch(addSearchQuery(query));
     dispatch(updateSearchStatus(statusType.fetching));
-    await dispatch(loadAllSources());
     const sources = getSources(getState());
     const validSources = sources
       .valueSeq()
       .filter(
         source =>
-          isLoaded(source) &&
           !hasPrettySource(getState(), source.get("id")) &&
           !isThirdParty(source)
       );
     for (const source of validSources) {
+      await dispatch(loadSourceText(source));
       await dispatch(searchSource(source.get("id"), query));
     }
     dispatch(updateSearchStatus(statusType.done));

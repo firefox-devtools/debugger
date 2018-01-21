@@ -6,19 +6,13 @@
 
 import { isOriginalId } from "devtools-source-map";
 import { PROMISE } from "../utils/middleware/promise";
-import {
-  getSource,
-  getGeneratedSource,
-  getSources,
-  getTextSearchQuery
-} from "../../selectors";
+import { getSource, getGeneratedSource } from "../../selectors";
 import * as parser from "../../workers/parser";
-import { isThirdParty, isLoading, isLoaded } from "../../utils/source";
+import { isLoading, isLoaded } from "../../utils/source";
 
 import defer from "../../utils/defer";
 import type { ThunkArgs } from "../types";
 import type { SourceRecord } from "../../reducers/types";
-import { searchSource } from "../project-text-search";
 
 const requests = new Map();
 
@@ -34,30 +28,6 @@ async function loadSource(source: SourceRecord, { sourceMaps, client }) {
     id,
     text: response.source,
     contentType: response.contentType || "text/javascript"
-  };
-}
-
-/**
-  Load the text for all the available sources
- * @memberof actions/sources
- * @static
- */
-export function loadAllSources() {
-  return async ({ dispatch, getState }: ThunkArgs) => {
-    const sources = getSources(getState());
-    const query = getTextSearchQuery(getState());
-    for (const [, source] of sources) {
-      if (isThirdParty(source)) {
-        continue;
-      }
-
-      await dispatch(loadSourceText(source));
-      // If there is a current search query we search
-      // each of the source texts as they get loaded
-      if (query) {
-        await dispatch(searchSource(source.get("id"), query));
-      }
-    }
   };
 }
 

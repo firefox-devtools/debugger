@@ -75,23 +75,6 @@ describe("loadSourceText", async () => {
     expect(selectors.getSource(getState(), id).get("text")).toEqual("yay");
   });
 
-  it("should load all the texts for the existing sources", async () => {
-    const { dispatch, getState } = createStore(sourceThreadClient);
-
-    await dispatch(actions.newSource(makeSource("foobar.js")));
-    await dispatch(actions.newSource(makeSource("barfoo.js")));
-
-    expect(selectors.getSources(getState()).size).toBe(2);
-
-    await dispatch(actions.loadAllSources());
-
-    const fooSource = selectors.getSource(getState(), "foobar.js");
-    const barSource = selectors.getSource(getState(), "barfoo.js");
-
-    expect(fooSource.get("text").indexOf("return foobar.js")).not.toBe(-1);
-    expect(barSource.get("text").indexOf("return barfoo.js")).not.toBe(-1);
-  });
-
   it("should cache subsequent source text loads", async () => {
     const { dispatch, getState } = createStore(sourceThreadClient);
 
