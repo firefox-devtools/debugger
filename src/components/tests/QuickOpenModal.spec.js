@@ -122,7 +122,10 @@ describe("QuickOpenModal", () => {
       "mount"
     );
     wrapper.find("input").simulate("change", { target: { value: "somefil" } });
-    expect(filter).toHaveBeenCalledWith([], "somefil", { key: "value" });
+    expect(filter).toHaveBeenCalledWith([], "somefil", {
+      key: "value",
+      maxResults: 1000
+    });
   });
 
   test("basic gotoSource search", () => {
@@ -140,7 +143,10 @@ describe("QuickOpenModal", () => {
     wrapper
       .find("input")
       .simulate("change", { target: { value: "somefil:33" } });
-    expect(filter).toHaveBeenCalledWith([], "somefil", { key: "value" });
+    expect(filter).toHaveBeenCalledWith([], "somefil", {
+      key: "value",
+      maxResults: 1000
+    });
   });
 
   test("basic symbol seach", () => {
@@ -161,6 +167,9 @@ describe("QuickOpenModal", () => {
     wrapper
       .find("input")
       .simulate("change", { target: { value: "@someFunc" } });
-    expect(filter).toHaveBeenCalledWith([], "someFunc", { key: "value" });
+    expect(filter).toHaveBeenCalledWith([], "someFunc", {
+      key: "value",
+      maxResults: 1000
+    });
   });
 });

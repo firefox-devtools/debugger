@@ -6,7 +6,7 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { filter } from "fuzzaldrin-plus";
+import fuzzyAldrin from "fuzzaldrin-plus";
 
 import actions from "../actions";
 import {
@@ -61,6 +61,13 @@ type GotoLocationType = {
   column?: number
 };
 
+function filter(values, query) {
+  return fuzzyAldrin.filter(values, query, {
+    key: "value",
+    maxResults: 1000
+  });
+}
+
 export class QuickOpenModal extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -98,10 +105,10 @@ export class QuickOpenModal extends Component<Props, State> {
 
     if (this.isGotoSourceQuery()) {
       const [baseQuery] = query.split(":");
-      const results = filter(this.props.sources, baseQuery, { key: "value" });
+      const results = filter(this.props.sources, baseQuery);
       this.setState({ results });
     } else {
-      const results = filter(this.props.sources, query, { key: "value" });
+      const results = filter(this.props.sources, query);
       this.setState({ results });
     }
   };
@@ -117,9 +124,7 @@ export class QuickOpenModal extends Component<Props, State> {
       return this.setState({ results });
     }
 
-    results = filter(results, query.slice(1), {
-      key: "value"
-    });
+    results = filter(results, query.slice(1));
 
     this.setState({ results });
   };
@@ -128,13 +133,24 @@ export class QuickOpenModal extends Component<Props, State> {
     this.setState({ results: formatShortcutResults() });
   };
 
+  showTopSources = () => {
+    const results = this.props.sources.slice(0, 100);
+    this.setState({ results });
+  };
+
   updateResults = (query: string) => {
+    if (query == "") {
+      return this.showTopSources();
+    }
+
     if (this.isSymbolSearch()) {
       return this.searchSymbols(query);
     }
+
     if (this.isShortcutQuery()) {
       return this.showShortcuts(query);
     }
+
     return this.searchSources(query);
   };
 
@@ -297,6 +313,7 @@ export class QuickOpenModal extends Component<Props, State> {
       searchType === "variables" ||
       searchType === "shortcuts";
 
+    const newResults = results && results.slice(0, 100);
     return (
       <Modal in={enabled} handleClose={this.closeModal}>
         <SearchInput
@@ -308,10 +325,10 @@ export class QuickOpenModal extends Component<Props, State> {
           onKeyDown={this.onKeyDown}
           handleClose={this.closeModal}
         />
-        {results && (
+        {newResults && (
           <ResultList
             key="results"
-            items={results}
+            items={newResults}
             selected={selectedIndex}
             selectItem={this.selectResultItem}
             ref="resultList"
