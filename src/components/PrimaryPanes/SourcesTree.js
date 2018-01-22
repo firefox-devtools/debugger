@@ -58,7 +58,7 @@ type Props = {
 type State = {
   focusedItem?: any,
   parentMap: any,
-  sourceTree: Node,
+  sourceTree: Object,
   projectRoot: string,
   uncollapsedTree: any,
   listItems?: any,
