@@ -64,7 +64,7 @@ class SearchInput extends Component<Props> {
 
   shouldShowErrorEmoji = () => {
     const { count, query, showErrorEmoji } = this.props;
-    return count === 0 && query.trim() !== "" && showErrorEmoji;
+    return showErrorEmoji && count === 0 && query.trim() !== "";
   };
 
   renderSvg() {

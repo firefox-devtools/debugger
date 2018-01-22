@@ -6,9 +6,9 @@ import {
 } from "../../utils/test-head";
 
 const {
+  getSource,
   getTextSearchQuery,
   getTextSearchResults,
-  getSource,
   getTextSearchStatus
 } = selectors;
 
@@ -65,9 +65,11 @@ describe("project text search", () => {
 
     dispatch(actions.addSearchQuery(mockQuery));
     expect(getTextSearchQuery(getState())).toEqual(mockQuery);
-
+    dispatch(actions.updateSearchStatus("DONE"));
     dispatch(actions.clearSearchQuery());
     expect(getTextSearchQuery(getState())).toEqual("");
+    const status = getTextSearchStatus(getState());
+    expect(status).toEqual("INITIAL");
   });
 
   it("should search all the loaded sources based on the query", async () => {
@@ -156,5 +158,7 @@ describe("project text search", () => {
 
     expect(results).toMatchSnapshot();
     expect(results.size).toEqual(0);
+    const status = getTextSearchStatus(getState());
+    expect(status).toEqual("INITIAL");
   });
 });
