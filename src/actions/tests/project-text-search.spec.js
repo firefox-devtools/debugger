@@ -6,10 +6,10 @@ import {
 } from "../../utils/test-head";
 
 const {
+  getSource,
   getTextSearchQuery,
   getTextSearchResults,
-  getTextSearchStatus,
-  getSource
+  getTextSearchStatus
 } = selectors;
 
 import I from "immutable";
