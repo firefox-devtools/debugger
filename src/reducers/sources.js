@@ -347,12 +347,6 @@ export const getSourceTabs = createSelector(
   (tabs, sources) => tabs.filter(tab => getSourceByUrlInSources(sources, tab))
 );
 
-export const getSearchTabs = createSelector(
-  getTabs,
-  getSources,
-  (tabs, sources) => tabs.filter(tab => !getSourceByUrlInSources(sources, tab))
-);
-
 export const getSourcesForTabs = createSelector(
   getSourceTabs,
   getSources,
