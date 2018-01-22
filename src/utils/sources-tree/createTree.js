@@ -8,7 +8,6 @@ import { addToTree } from "./addToTree";
 import { collapseTree } from "./collapseTree";
 import { createNode, createParentMap } from "./utils";
 
-import type { Props } from "./types";
 import type { SourcesMap } from "../../reducers/types";
 
 type Params = {

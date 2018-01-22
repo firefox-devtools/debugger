@@ -1,6 +1,5 @@
 import { Map } from "immutable";
 import { updateTree, createTree } from "../index";
-import { createNode } from "../utils";
 
 function createSourcesMap(sources) {
   const msources = sources.map((s, i) => new Map(s));

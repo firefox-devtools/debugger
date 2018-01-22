@@ -4,8 +4,6 @@
 
 // @flow
 
-import type { Props, State } from "./types";
-
 import { addToTree } from "./addToTree";
 import { collapseTree } from "./collapseTree";
 import { createParentMap } from "./utils";
