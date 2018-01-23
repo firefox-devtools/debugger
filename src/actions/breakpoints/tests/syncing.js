@@ -235,4 +235,42 @@ describe("reloading debuggee", () => {
     expect(findScopeByName).toHaveBeenCalled();
     expect(update).toMatchSnapshot();
   });
+
+  it("syncs with changed source and an existing disabled BP", async () => {
+    getGeneratedLocation.mockImplementationOnce(() => newGeneratedLocation(5));
+
+    const { dispatch, getState } = createStore(threadClient, {}, sourceMaps);
+
+    const reloadedSource = makeSource("magic.js");
+    await dispatch(actions.newSource(reloadedSource));
+
+    await dispatch(
+      actions.addBreakpoint({
+        sourceId: reloadedSource.id,
+        line: 3,
+        column: undefined
+      })
+    );
+
+    await dispatch(
+      actions.disableBreakpoint({
+        sourceId: reloadedSource.id,
+        line: 3,
+        column: undefined
+      })
+    );
+
+    getGeneratedLocation.mockImplementationOnce(() => newGeneratedLocation(1));
+
+    await dispatch(
+      actions.syncBreakpoint(
+        reloadedSource.id,
+        pendingBreakpoint({
+          disabled: true
+        })
+      )
+    );
+
+    expect(selectors.getPendingBreakpoints(getState())).toMatchSnapshot();
+  });
 });
