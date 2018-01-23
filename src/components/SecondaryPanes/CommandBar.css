@@ -23,7 +23,11 @@ img.pause,
 img.stepOver,
 img.stepIn,
 img.stepOut,
-img.resume {
+img.resume,
+img.rewind,
+img.reverseStepOver,
+img.reverseStepIn,
+img.reverseStepOut {
   background-color: var(--theme-body-color);
 }
 
@@ -45,6 +49,26 @@ img.resume {
 
 .command-bar img.resume {
   mask: url(/images/resume.svg) no-repeat;
+}
+
+.command-bar img.rewind {
+  mask: url(/images/resume.svg) no-repeat;
+  transform: scaleX(-1);
+}
+
+.command-bar img.reverseStepOver {
+  mask: url(/images/stepOver.svg) no-repeat;
+  transform: scaleX(-1);
+}
+
+.command-bar img.reverseStepIn {
+  mask: url(/images/stepIn.svg) no-repeat;
+  transform: scaleX(-1);
+}
+
+.command-bar img.reverseStepOut {
+  mask: url(/images/stepOut.svg) no-repeat;
+  transform: scaleX(-1);
 }
 
 .command-bar > .pause-exceptions.uncaught.enabled > img.pause-exceptions {
