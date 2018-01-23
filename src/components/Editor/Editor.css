@@ -126,6 +126,10 @@ html[dir="rtl"] .editor-mount {
   height: 100%;
 }
 
+.CodeMirror-scroll {
+  margin-right: 0px;
+}
+
 .editor-wrapper .editor-mount {
   width: 100%;
   background-color: var(--theme-body-background);
