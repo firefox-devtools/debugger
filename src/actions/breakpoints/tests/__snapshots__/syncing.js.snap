@@ -28,7 +28,12 @@ Object {
     },
     "text": "",
   },
-  "previousLocation": null,
+  "previousLocation": Object {
+    "column": undefined,
+    "line": 3,
+    "sourceId": "magic.js",
+    "sourceUrl": "http://localhost:8000/magic.js",
+  },
 }
 `;
 
@@ -60,7 +65,37 @@ Object {
     },
     "text": "",
   },
-  "previousLocation": null,
+  "previousLocation": Object {
+    "column": undefined,
+    "line": 3,
+    "sourceId": "magic.js",
+    "sourceUrl": "http://localhost:8000/magic.js",
+  },
+}
+`;
+
+exports[`reloading debuggee syncs with changed source and an existing disabled BP 1`] = `
+Immutable.Map {
+  http://localhost:8000/examples/magic.js:3:: Object {
+    "astLocation": Object {
+      "name": undefined,
+      "offset": Object {
+        "line": 3,
+      },
+    },
+    "condition": null,
+    "disabled": true,
+    "generatedLocation": Object {
+      "column": undefined,
+      "line": 1,
+      "sourceUrl": "http://localhost:8000/gen.js",
+    },
+    "location": Object {
+      "column": undefined,
+      "line": 3,
+      "sourceUrl": "http://localhost:8000/examples/magic.js",
+    },
+  },
 }
 `;
 
@@ -92,7 +127,12 @@ Object {
     },
     "text": "",
   },
-  "previousLocation": null,
+  "previousLocation": Object {
+    "column": undefined,
+    "line": 3,
+    "sourceId": "magic.js",
+    "sourceUrl": "http://localhost:8000/magic.js",
+  },
 }
 `;
 
