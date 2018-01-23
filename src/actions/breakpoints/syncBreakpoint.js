@@ -114,7 +114,8 @@ export async function syncClientBreakpoint(
       id,
       pendingBreakpoint,
       scopedLocation,
-      scopedGeneratedLocation
+      scopedGeneratedLocation,
+      previousLocation
     );
   }
 
