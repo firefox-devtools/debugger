@@ -4,12 +4,14 @@ permalink: docs/updates
 
 ## Weekly Updates
 
+### [January 16th](./updates-1-16-2018.md)
+
+### [January 23rd](./updates-1-23-2018.md)
+
 ### [November 21st](./updates-11-21-2017.md)
 
-
-**source maps** Yury completed a prototype of scope and variable mapping. The proof of concept maps *let* and *const* variables from the generated scope into original scopes. This builds on the work to map minified variables where original variable names and original variable names are swapped at runtime. We think that we will be able to cover additional cases in 2018 so that users see the original variable names and values when they're paused!
+**source maps** Yury completed a prototype of scope and variable mapping. The proof of concept maps _let_ and _const_ variables from the generated scope into original scopes. This builds on the work to map minified variables where original variable names and original variable names are swapped at runtime. We think that we will be able to cover additional cases in 2018 so that users see the original variable names and values when they're paused!
 **pretty printing** Assaf hacked on pretty printing last week and it's now much better! The debugger now auto-pretty-prints minified sources. We'll have a preference for disabling it next week. Debugger also upgraded acorn, which has support for pretty printing template strings.
-
 
 ### [November 14th](./updates-11-14-2017.md)
 
@@ -21,7 +23,7 @@ We also landed a similar optimization where we no longer try to parse and traver
 
 Also, in an effort to reduce our bundle size, we dropped react-immutable-proptypes and stopped using devtools-launchpad for showing context menus. We're now using the launchpad in just one spot and should be able to remove it soon. When we do, the bundle size will get 20% smaller!
 
-**preview*** We landed 3 big fixes for preview this week. The craziest bug was an issue, which Ted Campbell filed, 6 weeks ago where clicking a link in the scopes pane would literally navigate you away from the debugger and to the page as opposed to opening a new tab. This of course is terrible, because the debugger is NOT a browser.
+**preview\*** We landed 3 big fixes for preview this week. The craziest bug was an issue, which Ted Campbell filed, 6 weeks ago where clicking a link in the scopes pane would literally navigate you away from the debugger and to the page as opposed to opening a new tab. This of course is terrible, because the debugger is NOT a browser.
 
 Another, important fix was with showing local scopes. Jim blandy fixed a bug, which was introduced in August where the frame finished variables like return and thrown were no longer being shown. We now have unit test and integration test coverage to catch this in the future! The tests are really great too :)
 
@@ -29,16 +31,15 @@ The last item, is more of a fun feature than anything else. But because we parse
 
 ### [November 7th](./updates-11-07-2017.md)
 
-+ we started optimistically clearing the pause state when we step, which eagerly clears the UI and prepares it for another step. We also defer fetching and mapping scopes when the debugger pauses, which makes the UI a bit snappier.
-+ We devoted some of our time to improving our airtable config. Airtable will allow us to better manage our open source work / github progress, as well as give us faster access to what has happened over the past week.
-+ The biggest fix we had this week was done by @nyrosmith, who noticed that our breakpoints were not responding when the page was reloaded. This turned out to be an issue with how breakpoints were being synced, and could have been avoided if we were stricter with our types!
+* we started optimistically clearing the pause state when we step, which eagerly clears the UI and prepares it for another step. We also defer fetching and mapping scopes when the debugger pauses, which makes the UI a bit snappier.
+* We devoted some of our time to improving our airtable config. Airtable will allow us to better manage our open source work / github progress, as well as give us faster access to what has happened over the past week.
+* The biggest fix we had this week was done by @nyrosmith, who noticed that our breakpoints were not responding when the page was reloaded. This turned out to be an issue with how breakpoints were being synced, and could have been avoided if we were stricter with our types!
 
 ### [October 31st](./updates-10-31-2017.md)
 
-+ Wellington unified our search UX to create an editor style modal for searching for files, functions, variables, and jumping to a line. We now have helpful prefixes for changing modes: @, #, :.
-+ Lots of great UI polish
-+ Sped up stepping with large files
-
+* Wellington unified our search UX to create an editor style modal for searching for files, functions, variables, and jumping to a line. We now have helpful prefixes for changing modes: @, #, :.
+* Lots of great UI polish
+* Sped up stepping with large files
 
 ### [October 24th](./updates-10-24-2017.md)
 
@@ -60,7 +61,6 @@ This week we had 25 contributors and 30+ PRs.
 * we managed a substantial refactoring of our editor, making it more modular and easy to work with for developers
 * new docs were added regarding triaging and merge conflicts
 
-
 ### [September 26th](./updates-9-26-2017.md)
 
 * UCOSP Students
@@ -81,12 +81,11 @@ This week we had 25 contributors and 30+ PRs.
 
 ### [September 5th](./updates-9-5-2017.md)
 
-
-* **AST Breakpoints** landed the final changes for finding a breakpoint ast location and setting an ast location when a breakpoint is created.  We should be able to land AST Breakpoints this week!
+* **AST Breakpoints** landed the final changes for finding a breakpoint ast location and setting an ast location when a breakpoint is created. We should be able to land AST Breakpoints this week!
 * **Async Stepping** landed the utilities for identifying async expressions, and the logical "next" statement to step to. Async Stepping will land in the next release.
 * **WASM** We enabled wasm debugging in the new UI and it is now turned on in nightly. Debugging WASM source code in the native language (C, C++) is a blast.
 * **Worker List** added a new Workers right sidebar pane and populating the pane with debuggee workers. The next step is to add the about:debugging util for launching a new toolbox.
-* **Mapping minified variables** started working on mapping minified variables, which will show the "original" variable name in the scopes pane, and enable preview, watch expressions and the console to work with original * expressions.
+* **Mapping minified variables** started working on mapping minified variables, which will show the "original" variable name in the scopes pane, and enable preview, watch expressions and the console to work with original \* expressions.
 * **Project Search** continued to polish project search. This week we fixed keyboard navigation of streaming results, and made result orders deterministic.
 * **Syncing CSS** removed the theme's CSS class namespace, which will make it easy to sync themes with m-c.
 * **Accidental Breakpoints** fixed and uplifted a bug to 56, where the debugger created new breakpoints when the user changed original code and reloaded.
@@ -96,7 +95,6 @@ This week we had 25 contributors and 30+ PRs.
 * **Welcome Box** styled the welcome box and added some additional shortcuts.
 * **Release** released a new version of the debugger to nightly, which included the last month of work. We'll start getting feedback on it now that it's in nightly.
 
-
 ### [August 29nd](./updates-8-29-2017.md)
 
 * Finished move to JSX for all of our components
@@ -105,6 +103,7 @@ This week we had 25 contributors and 30+ PRs.
 * Improved breakpoints syncing -- we can now delete breakpoints that move outside of a source
 
 #### User Visible
+
 * the search combination keys for text are now displayed and style
 * Added copy functionality to the context menu of the editor
 
@@ -139,6 +138,7 @@ This week we had 25 contributors and 30+ PRs.
 * wasm support is coming to the debugger
 
 ### [July 11th](./updates-7-11-2017.md)
+
 lots happened since the last update:
 
 * Edge Cases: pretty print, symmetric breakpoints, …
@@ -152,6 +152,7 @@ lots happened since the last update:
 * [Tests Review](./5-1-2017-tests.md)
 
 ### [June 20th](./updates-6-20-2017.md)
+
 It's been a quieter week than last week. This weeks highlights include:
 
 * new UI improvements to search (thank you to [@ruturajv]!
@@ -204,7 +205,7 @@ One of the most interesting debugger questions is what happens when the debugger
 * [Adam][@asolove] dramatically improved our startup performance. [pr][pr-6]
 * [Ryan][@ryanjduffy] completed the heroic and insane project of getting babel working with HTML inline JS. [pr][pr-23]
 * [Diéssica][@diessica] jumped in and polished our Tabs UI
-* We started converting our Prop Types to Flow Props. Thanks [Mateusz][@Andarist] and others for the help kicking this off!
+* We started converting our Prop Types to Flow Props. Thanks [Mateusz][@andarist] and others for the help kicking this off!
 * We added several new Jest component tests. Big thanks to [Andrei][@andreicristianpetcu] for tackling async component updates. It was not an easy task!
 * We re-added storybook this week and wrote our first stories for Frames and Tabs! The stories are also being tested on CI with the great [percy.io](http://percy.io).
 
@@ -273,15 +274,14 @@ One of the most interesting debugger questions is what happens when the debugger
 * :red_circle: Testing Improvements
 * :ant: Lots of bug squashing
 
-
-[@asolove]:http://github.com/asolove
-[@ryanjduffy]:http://github.com/ryanjduffy
-[@diessica]:http://github.com/diessica
-[@codehag]:http://github.com/codehag
-[@andreicristianpetcu]:http://github.com/andreicristianpetcu
-[@Andarist]:http://github.com/Andarist
-[pr-6]:https://github.com/devtools-html/debugger.html/pull/2784
-[pr-23]:https://github.com/devtools-html/debugger.html/pull/2810
-[@zaggy]:http://github.com/zaggy
-[@amelzer]:http://github.com/amelzer
-[@ruturajv]:http://github.com/ruturajv
+[@asolove]: http://github.com/asolove
+[@ryanjduffy]: http://github.com/ryanjduffy
+[@diessica]: http://github.com/diessica
+[@codehag]: http://github.com/codehag
+[@andreicristianpetcu]: http://github.com/andreicristianpetcu
+[@andarist]: http://github.com/Andarist
+[pr-6]: https://github.com/devtools-html/debugger.html/pull/2784
+[pr-23]: https://github.com/devtools-html/debugger.html/pull/2810
+[@zaggy]: http://github.com/zaggy
+[@amelzer]: http://github.com/amelzer
+[@ruturajv]: http://github.com/ruturajv
