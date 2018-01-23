@@ -14,6 +14,7 @@ import {
   getQuickOpenEnabled,
   getQuickOpenQuery,
   getQuickOpenType,
+  getQuickOpenIncludeThirdParties,
   getSelectedSource,
   getSymbols
 } from "../selectors";
@@ -44,10 +45,12 @@ type Props = {
   query: string,
   searchType: QuickOpenType,
   symbols: FormattedSymbolDeclarations,
+  includeThirdParties: boolean,
   selectLocation: Location => void,
   setQuickOpenQuery: (query: string) => void,
   highlightLineRange: ({ start: number, end: number }) => void,
-  closeQuickOpen: () => void
+  closeQuickOpen: () => void,
+  toggleQuickOpenIncludeThirdParties: () => void
 };
 
 type State = {
@@ -81,7 +84,9 @@ export class QuickOpenModal extends Component<Props, State> {
 
     const nowEnabled = !prevProps.enabled && this.props.enabled;
     const queryChanged = prevProps.query !== this.props.query;
-    if (nowEnabled || queryChanged) {
+    const includeThirdPartiesChanged =
+      prevProps.includeThirdParties !== this.props.includeThirdParties;
+    if (nowEnabled || queryChanged || includeThirdPartiesChanged) {
       this.updateResults(this.props.query);
     }
   }
@@ -270,6 +275,10 @@ export class QuickOpenModal extends Component<Props, State> {
     return results && results.length ? results.length : 0;
   };
 
+  toggleIncludeThirdParties = () => {
+    this.props.toggleQuickOpenIncludeThirdParties();
+  };
+
   // Query helpers
   isFunctionQuery = () => this.props.searchType === "functions";
   isVariableQuery = () => this.props.searchType === "variables";
@@ -279,7 +288,7 @@ export class QuickOpenModal extends Component<Props, State> {
   isShortcutQuery = () => this.props.searchType === "shortcuts";
 
   render() {
-    const { enabled, query, searchType } = this.props;
+    const { enabled, query, searchType, includeThirdParties } = this.props;
     const { selectedIndex, results } = this.state;
 
     if (!enabled) {
@@ -304,9 +313,11 @@ export class QuickOpenModal extends Component<Props, State> {
           count={this.getResultCount()}
           placeholder={L10N.getStr("sourceSearch.search")}
           {...(showSummary === true ? { summaryMsg } : {})}
+          includeThirdParties={includeThirdParties}
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}
           handleClose={this.closeModal}
+          toggleIncludeThirdParties={this.toggleIncludeThirdParties}
         />
         {results && (
           <ResultList
@@ -334,11 +345,15 @@ function mapStateToProps(state) {
   }
   return {
     enabled: getQuickOpenEnabled(state),
-    sources: formatSources(getSources(state)),
+    sources: formatSources(
+      getSources(state),
+      getQuickOpenIncludeThirdParties(state)
+    ),
     selectedSource,
     symbols: formatSymbols(symbols),
     query: getQuickOpenQuery(state),
-    searchType: getQuickOpenType(state)
+    searchType: getQuickOpenType(state),
+    includeThirdParties: getQuickOpenIncludeThirdParties(state)
   };
 }
 

@@ -109,10 +109,16 @@ export function formatShortcutResults(): Array<QuickOpenResult> {
   ];
 }
 
-export function formatSources(sources: SourcesMap): Array<QuickOpenResult> {
+export function formatSources(
+  sources: SourcesMap,
+  includeThirdParties: boolean = false
+): Array<QuickOpenResult> {
   return sources
     .valueSeq()
-    .filter(source => !isPretty(source) && !isThirdParty(source))
+    .filter(
+      source =>
+        !isPretty(source) && (includeThirdParties || !isThirdParty(source))
+    )
     .map(source => {
       const sourcePath = getSourcePath(source.get("url"));
       return {

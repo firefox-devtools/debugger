@@ -8,6 +8,7 @@ import React, { Component } from "react";
 import Svg from "./Svg";
 import classnames from "classnames";
 import CloseButton from "./Button/Close";
+import IncludeThirdPartiesToggle from "./Button/IncludeThirdPartiesToggle";
 import "./SearchInput.css";
 
 const arrowBtn = (onClick, type, className, tooltip) => {
@@ -33,6 +34,7 @@ type Props = {
   summaryMsg: string,
   size: string,
   showErrorEmoji: boolean,
+  includeThirdParties: boolean,
   onChange: (e: SyntheticInputEvent<HTMLInputElement>) => void,
   handleClose: (e: SyntheticMouseEvent<HTMLDivElement>) => void,
   onKeyUp?: (e: SyntheticKeyboardEvent<HTMLInputElement>) => void,
@@ -40,7 +42,8 @@ type Props = {
   onFocus?: (e: SyntheticFocusEvent<HTMLInputElement>) => void,
   onBlur?: (e: SyntheticFocusEvent<HTMLInputElement>) => void,
   handleNext?: (e: SyntheticMouseEvent<HTMLButtonElement>) => void,
-  handlePrev?: (e: SyntheticMouseEvent<HTMLButtonElement>) => void
+  handlePrev?: (e: SyntheticMouseEvent<HTMLButtonElement>) => void,
+  toggleIncludeThirdParties?: () => void
 };
 
 class SearchInput extends Component<Props> {
@@ -110,12 +113,14 @@ class SearchInput extends Component<Props> {
       query,
       placeholder,
       summaryMsg,
+      includeThirdParties,
       onChange,
       onKeyDown,
       onKeyUp,
       onFocus,
       onBlur,
       handleClose,
+      toggleIncludeThirdParties,
       size
     } = this.props;
 
@@ -134,12 +139,18 @@ class SearchInput extends Component<Props> {
       ref: c => (this.$input = c)
     };
 
+    const includeThirdPartiesToggleProps = {
+      includeThirdParties,
+      toggleIncludeThirdParties
+    };
+
     return (
       <div className={classnames("search-field", size)}>
         {this.renderSvg()}
         <input {...inputProps} />
         <div className="summary">{summaryMsg || ""}</div>
         {this.renderNav()}
+        <IncludeThirdPartiesToggle {...includeThirdPartiesToggleProps} />
         <CloseButton handleClick={handleClose} buttonClass={size} />
       </div>
     );

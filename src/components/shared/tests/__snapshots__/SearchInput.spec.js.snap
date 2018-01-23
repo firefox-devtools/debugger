@@ -18,6 +18,7 @@ exports[`SearchInput render 1`] = `
   >
     So many results
   </div>
+  <IncludeThirdPartiesToggle />
   <CloseButton
     buttonClass=""
   />
@@ -68,6 +69,7 @@ exports[`SearchInput show nav buttons 1`] = `
       />
     </button>
   </div>
+  <IncludeThirdPartiesToggle />
   <CloseButton
     buttonClass=""
   />
@@ -92,6 +94,7 @@ exports[`SearchInput show svg (emoji) 1`] = `
   >
     So many results
   </div>
+  <IncludeThirdPartiesToggle />
   <CloseButton
     buttonClass=""
   />
@@ -116,6 +119,7 @@ exports[`SearchInput show svg magnifying glass 1`] = `
   >
     So many results
   </div>
+  <IncludeThirdPartiesToggle />
   <CloseButton
     buttonClass=""
   />

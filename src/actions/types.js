@@ -364,7 +364,8 @@ export type FileTextSearchAction =
 export type QuickOpenAction =
   | { type: "SET_QUICK_OPEN_QUERY", query: string }
   | { type: "OPEN_QUICK_OPEN", query?: string }
-  | { type: "CLOSE_QUICK_OPEN" };
+  | { type: "CLOSE_QUICK_OPEN" }
+  | { type: "TOGGLE_QUICK_OPEN_INCLUDE_THIRD_PARTIES" };
 
 export type CoverageAction = {
   type: "RECORD_COVERAGE",
