@@ -1,3 +1,4 @@
+/* -*- indent-tabs-mode: nil; js-indent-level: 2; js-indent-level: 2 -*- */
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
@@ -13,7 +14,8 @@ import {
   isPaused as getIsPaused,
   getIsWaitingOnBreak,
   getShouldPauseOnExceptions,
-  getShouldIgnoreCaughtExceptions
+  getShouldIgnoreCaughtExceptions,
+  getCanRewind
 } from "../../selectors";
 import { formatKeyShortcut } from "../../utils/text";
 import actions from "../../actions";
@@ -104,12 +106,17 @@ type Props = {
   stepOut: () => void,
   stepOver: () => void,
   breakOnNext: () => void,
+  rewind: () => void,
+  reverseStepIn: () => void,
+  reverseStepOut: () => void,
+  reverseStepOver: () => void,
   isPaused: boolean,
   pauseOnExceptions: (boolean, boolean) => void,
   shouldPauseOnExceptions: boolean,
   shouldIgnoreCaughtExceptions: boolean,
   isWaitingOnBreak: boolean,
-  horizontal: boolean
+  horizontal: boolean,
+  canRewind: boolean
 };
 
 class CommandBar extends Component<Props> {
@@ -192,7 +199,7 @@ class CommandBar extends Component<Props> {
       );
     }
 
-    if (features.removeCommandBarOptions) {
+    if (features.removeCommandBarOptions && !this.props.canRewind) {
       return;
     }
 
@@ -263,6 +270,41 @@ class CommandBar extends Component<Props> {
     );
   }
 
+  renderRewindButton() {
+    if (!this.props.canRewind || !this.props.isPaused) {
+      return;
+    }
+
+    return debugBtn(this.props.rewind, "rewind", "active", "Rewind Execution");
+  }
+
+  renderReverseStepButtons() {
+    if (!this.props.canRewind || !this.props.isPaused) {
+      return;
+    }
+
+    return [
+      debugBtn(
+        this.props.reverseStepOver,
+        "reverseStepOver",
+        "active",
+        "Reverse step over"
+      ),
+      debugBtn(
+        this.props.reverseStepIn,
+        "reverseStepIn",
+        "active",
+        "Reverse step in"
+      ),
+      debugBtn(
+        this.props.reverseStepOut,
+        "reverseStepOut",
+        "active",
+        "Reverse step out"
+      )
+    ];
+  }
+
   render() {
     return (
       <div
@@ -271,8 +313,10 @@ class CommandBar extends Component<Props> {
         })}
       >
         {this.renderPauseButton()}
+        {this.renderRewindButton()}
         {this.renderStepButtons()}
         {this.renderPauseOnExceptions()}
+        {this.renderReverseStepButtons()}
       </div>
     );
   }
@@ -288,7 +332,8 @@ export default connect(
       isPaused: getIsPaused(state),
       isWaitingOnBreak: getIsWaitingOnBreak(state),
       shouldPauseOnExceptions: getShouldPauseOnExceptions(state),
-      shouldIgnoreCaughtExceptions: getShouldIgnoreCaughtExceptions(state)
+      shouldIgnoreCaughtExceptions: getShouldIgnoreCaughtExceptions(state),
+      canRewind: getCanRewind(state)
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

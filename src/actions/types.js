@@ -285,7 +285,7 @@ type PauseAction =
     };
 
 type NavigateAction =
-  | { type: "CONNECT", url: string }
+  | { type: "CONNECT", url: string, canRewind: boolean }
   | { type: "NAVIGATE", url: string };
 
 type ASTAction =

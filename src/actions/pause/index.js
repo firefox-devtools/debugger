@@ -9,7 +9,16 @@
  * @module actions/pause
  */
 
-export { stepIn, stepOver, stepOut, resume } from "./commands";
+export {
+  stepIn,
+  stepOver,
+  stepOut,
+  resume,
+  rewind,
+  reverseStepIn,
+  reverseStepOver,
+  reverseStepOut
+} from "./commands";
 export { fetchScopes } from "./fetchScopes";
 export { paused } from "./paused";
 export { resumed } from "./resumed";

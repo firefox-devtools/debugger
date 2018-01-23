@@ -54,10 +54,10 @@ export function navigate(url: string) {
   };
 }
 
-export function connect(url: string) {
+export function connect(url: string, canRewind: boolean) {
   return async function({ dispatch }: ThunkArgs) {
     await dispatch(updateWorkers());
-    dispatch({ type: "CONNECT", url });
+    dispatch({ type: "CONNECT", url, canRewind });
   };
 }
 
