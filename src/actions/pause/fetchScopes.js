@@ -64,13 +64,13 @@ export function fetchScopes() {
       frame.generatedLocation.sourceId
     );
 
-    if (generatedSourceRecord && generatedSourceRecord.get("isWasm")) {
+    if (generatedSourceRecord.get("isWasm")) {
       return;
     }
 
     const sourceRecord = getSource(getState(), frame.location.sourceId);
 
-    if (sourceRecord && sourceRecord.get("isPrettyPrinted")) {
+    if (sourceRecord.get("isPrettyPrinted")) {
       return;
     }
 

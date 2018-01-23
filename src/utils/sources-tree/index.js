@@ -12,17 +12,16 @@ export { collapseTree } from "./collapseTree";
 export { createTree } from "./createTree";
 export { formatTree } from "./formatTree";
 export { getDirectories } from "./getDirectories";
+export { getFilenameFromPath, getURL } from "./getURL";
 export { sortEntireTree, sortTree } from "./sortTree";
 export { updateTree } from "./updateTree";
 
-export { getFilenameFromPath, getURL } from "./getURL";
-
 export {
-  nodeHasChildren,
-  isExactUrlMatch,
-  isDirectory,
   createNode,
   createParentMap,
   getRelativePath,
-  isNotJavaScript
+  isDirectory,
+  isExactUrlMatch,
+  isNotJavaScript,
+  nodeHasChildren
 } from "./utils";

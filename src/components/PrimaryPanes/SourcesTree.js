@@ -77,7 +77,12 @@ class SourcesTree extends Component<Props, State> {
 
   constructor(props) {
     super(props);
-    this.state = createTree(this.props);
+    const { projectRoot, debuggeeUrl, sources } = this.props;
+    this.state = createTree({
+      projectRoot,
+      debuggeeUrl,
+      sources
+    });
   }
 
   componentDidMount() {
@@ -110,6 +115,7 @@ class SourcesTree extends Component<Props, State> {
       nextProps.sources.size === 0
     ) {
       // early recreate tree because of changes
+      // to project root, debugee url or lack of sources
       return this.setState(
         createTree({
           projectRoot,
