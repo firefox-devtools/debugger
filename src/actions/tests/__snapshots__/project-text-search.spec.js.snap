@@ -83,34 +83,6 @@ Immutable.List [
 exports[`project text search should ignore sources with minified versions 1`] = `
 Immutable.List [
   Object {
-    "filepath": "http://localhost:8000/examples/bar",
-    "matches": Array [
-      Object {
-        "column": 9,
-        "line": 1,
-        "match": "bla",
-        "sourceId": "bar",
-        "text": "function bla(x, y) {",
-        "value": "function bla(x, y) {",
-      },
-    ],
-    "sourceId": "bar",
-  },
-  Object {
-    "filepath": "http://localhost:8000/examples/bar:formatted",
-    "matches": Array [
-      Object {
-        "column": 9,
-        "line": 1,
-        "match": "bla",
-        "sourceId": "bar:formatted",
-        "text": "function bla(x, y) {",
-        "value": "function bla(x, y) {",
-      },
-    ],
-    "sourceId": "bar:formatted",
-  },
-  Object {
     "filepath": "http://localhost:8000/examples/bar:formatted",
     "matches": Array [
       Object {
