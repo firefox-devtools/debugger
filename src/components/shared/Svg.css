@@ -74,6 +74,7 @@ img.file {
 
 img.arrow {
   mask: url(/images/arrow.svg);
+  margin-inline-end: 5px;
   margin-top: 3px;
   width: 9px;
   height: 9px;
@@ -86,13 +87,11 @@ img.arrow {
   transition: transform 0.18s ease;
 }
 
-html:not([dir="rtl"]) .arrow svg {
-  margin-right: 5px;
+html[dir="ltr"] img.arrow {
   transform: rotate(-90deg);
 }
 
-html[dir="rtl"] .arrow svg {
-  margin-left: 5px;
+html[dir="rtl"] img.arrow {
   transform: rotate(90deg);
 }
 
