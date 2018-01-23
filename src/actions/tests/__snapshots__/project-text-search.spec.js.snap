@@ -32,36 +32,6 @@ Immutable.List [
     ],
     "sourceId": "foo1",
   },
-  Object {
-    "filepath": "http://localhost:8000/examples/foo1",
-    "matches": Array [
-      Object {
-        "column": 9,
-        "line": 1,
-        "match": "foo",
-        "sourceId": "foo1",
-        "text": "function foo1() {",
-        "value": "function foo1() {",
-      },
-      Object {
-        "column": 8,
-        "line": 2,
-        "match": "foo",
-        "sourceId": "foo1",
-        "text": "  const foo = 5; return foo;",
-        "value": "  const foo = 5; return foo;",
-      },
-      Object {
-        "column": 24,
-        "line": 2,
-        "match": "foo",
-        "sourceId": "foo1",
-        "text": "  const foo = 5; return foo;",
-        "value": "  const foo = 5; return foo;",
-      },
-    ],
-    "sourceId": "foo1",
-  },
 ]
 `;
 
@@ -72,36 +42,6 @@ Immutable.List [
 
 exports[`project text search should close project search 1`] = `
 Immutable.List [
-  Object {
-    "filepath": "http://localhost:8000/examples/foo1",
-    "matches": Array [
-      Object {
-        "column": 9,
-        "line": 1,
-        "match": "foo",
-        "sourceId": "foo1",
-        "text": "function foo1() {",
-        "value": "function foo1() {",
-      },
-      Object {
-        "column": 8,
-        "line": 2,
-        "match": "foo",
-        "sourceId": "foo1",
-        "text": "  const foo = 5; return foo;",
-        "value": "  const foo = 5; return foo;",
-      },
-      Object {
-        "column": 24,
-        "line": 2,
-        "match": "foo",
-        "sourceId": "foo1",
-        "text": "  const foo = 5; return foo;",
-        "value": "  const foo = 5; return foo;",
-      },
-    ],
-    "sourceId": "foo1",
-  },
   Object {
     "filepath": "http://localhost:8000/examples/foo1",
     "matches": Array [
@@ -143,34 +83,6 @@ Immutable.List [
 exports[`project text search should ignore sources with minified versions 1`] = `
 Immutable.List [
   Object {
-    "filepath": "http://localhost:8000/examples/bar",
-    "matches": Array [
-      Object {
-        "column": 9,
-        "line": 1,
-        "match": "bla",
-        "sourceId": "bar",
-        "text": "function bla(x, y) {",
-        "value": "function bla(x, y) {",
-      },
-    ],
-    "sourceId": "bar",
-  },
-  Object {
-    "filepath": "http://localhost:8000/examples/bar:formatted",
-    "matches": Array [
-      Object {
-        "column": 9,
-        "line": 1,
-        "match": "bla",
-        "sourceId": "bar:formatted",
-        "text": "function bla(x, y) {",
-        "value": "function bla(x, y) {",
-      },
-    ],
-    "sourceId": "bar:formatted",
-  },
-  Object {
     "filepath": "http://localhost:8000/examples/bar:formatted",
     "matches": Array [
       Object {
@@ -208,50 +120,6 @@ Immutable.List [
 
 exports[`project text search should search all the loaded sources based on the query 1`] = `
 Immutable.List [
-  Object {
-    "filepath": "http://localhost:8000/examples/foo1",
-    "matches": Array [
-      Object {
-        "column": 9,
-        "line": 1,
-        "match": "foo",
-        "sourceId": "foo1",
-        "text": "function foo1() {",
-        "value": "function foo1() {",
-      },
-      Object {
-        "column": 8,
-        "line": 2,
-        "match": "foo",
-        "sourceId": "foo1",
-        "text": "  const foo = 5; return foo;",
-        "value": "  const foo = 5; return foo;",
-      },
-      Object {
-        "column": 24,
-        "line": 2,
-        "match": "foo",
-        "sourceId": "foo1",
-        "text": "  const foo = 5; return foo;",
-        "value": "  const foo = 5; return foo;",
-      },
-    ],
-    "sourceId": "foo1",
-  },
-  Object {
-    "filepath": "http://localhost:8000/examples/foo2",
-    "matches": Array [
-      Object {
-        "column": 9,
-        "line": 1,
-        "match": "foo",
-        "sourceId": "foo2",
-        "text": "function foo2(x, y) {",
-        "value": "function foo2(x, y) {",
-      },
-    ],
-    "sourceId": "foo2",
-  },
   Object {
     "filepath": "http://localhost:8000/examples/foo1",
     "matches": Array [
