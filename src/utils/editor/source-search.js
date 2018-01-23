@@ -104,7 +104,11 @@ function updateCursor(cm, state, keepSelection) {
   }
 }
 
-function getMatchIndex(count: number, currentIndex: number, rev: boolean) {
+export function getMatchIndex(
+  count: number,
+  currentIndex: number,
+  rev: boolean
+) {
   if (!rev) {
     if (currentIndex == count - 1) {
       return 0;
@@ -210,7 +214,11 @@ function searchNext(ctx, rev, query, newQuery, modifiers) {
  * @memberof utils/source-search
  * @static
  */
-function removeOverlay(ctx: any, query: string, modifiers: SearchModifiers) {
+export function removeOverlay(
+  ctx: any,
+  query: string,
+  modifiers: SearchModifiers
+) {
   const state = getSearchState(ctx.cm, query, modifiers);
   ctx.cm.removeOverlay(state.overlay);
   const { line, ch } = ctx.cm.getCursor();
@@ -241,7 +249,7 @@ function clearSearch(cm, query: string, modifiers: SearchModifiers) {
  * @memberof utils/source-search
  * @static
  */
-function find(
+export function find(
   ctx: any,
   query: string,
   keepSelection: boolean,
@@ -257,7 +265,7 @@ function find(
  * @memberof utils/source-search
  * @static
  */
-function findNext(
+export function findNext(
   ctx: any,
   query: string,
   keepSelection: boolean,
@@ -272,7 +280,7 @@ function findNext(
  * @memberof utils/source-search
  * @static
  */
-function findPrev(
+export function findPrev(
   ctx: any,
   query: string,
   keepSelection: boolean,
@@ -281,4 +289,4 @@ function findPrev(
   return doSearch(ctx, true, query, keepSelection, modifiers);
 }
 
-export { buildQuery, find, findNext, findPrev, removeOverlay, getMatchIndex };
+export { buildQuery };
