@@ -15,6 +15,10 @@ import type { ThunkArgs } from "../types";
 import type { SourceRecord } from "../../reducers/types";
 
 const requests = new Map();
+import { Services } from "devtools-modules";
+const loadSourceHistogram = Services.telemetry.getHistogramById(
+  "DEVTOOLS_DEBUGGER_LOAD_SOURCE_MS"
+);
 
 async function loadSource(source: SourceRecord, { sourceMaps, client }) {
   const id = source.get("id");
@@ -37,6 +41,7 @@ async function loadSource(source: SourceRecord, { sourceMaps, client }) {
  */
 export function loadSourceText(source: SourceRecord) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
+    const telemetryStart = performance.now();
     const deferred = defer();
 
     // Fetch the source text only once.
@@ -77,5 +82,9 @@ export function loadSourceText(source: SourceRecord) {
     // signal that the action is finished
     deferred.resolve();
     requests.delete(id);
+
+    const telemetryEnd = performance.now();
+    const duration = telemetryEnd - telemetryStart;
+    loadSourceHistogram.add(duration);
   };
 }

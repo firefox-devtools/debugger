@@ -17,6 +17,7 @@ import { getValue } from "devtools-config";
 import { clearHistory } from "./utils/history";
 
 global.jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+global.performance = { now: () => 0 };
 
 function formatException(reason, p) {
   console && console.log("Unhandled Rejection at:", p, "reason:", reason);
