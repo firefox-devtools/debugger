@@ -51,9 +51,10 @@ export function traverseResults(e, ctx, query, dir, modifiers) {
   }
 }
 
-export function toEditorLine(sourceId: string, lineOrOffset: number): ?number {
+export function toEditorLine(sourceId: string, lineOrOffset: number): number {
   if (isWasm(sourceId)) {
-    return wasmOffsetToLine(sourceId, lineOrOffset);
+    // TODO ensure offset is always "mappable" to edit line.
+    return wasmOffsetToLine(sourceId, lineOrOffset) || 0;
   }
 
   return lineOrOffset ? lineOrOffset - 1 : 1;
@@ -99,7 +100,7 @@ export function toSourceLocation(
   location: EditorPosition
 ): AstPosition {
   return {
-    line: toSourceLine(sourceId, location.line || 0),
+    line: toSourceLine(sourceId, location.line),
     column: isWasm(sourceId) ? undefined : location.column
   };
 }
