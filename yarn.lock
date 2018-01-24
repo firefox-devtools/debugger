@@ -9095,7 +9095,7 @@ relateurl@0.2.x:
   version "0.2.7"
   resolved "https://registry.yarnpkg.com/relateurl/-/relateurl-0.2.7.tgz#54dbf377e51440aca90a4cd274600d3ff2d888a9"
 
-remark-cli@5.0.0:
+remark-cli@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/remark-cli/-/remark-cli-5.0.0.tgz#9feefd06474f3d0ff132df21b5334c546df12ab6"
   dependencies:
