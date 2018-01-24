@@ -39,11 +39,6 @@
   overflow: hidden;
 }
 
-.lineNumber {
-  border-left: 100% solid grey; 
-  border-right: 100% solid grey; 
-}
-
 .theme-light .frames .location,
 .theme-firebug .frames .location {
   color: var(--theme-comment);
