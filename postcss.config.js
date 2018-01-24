@@ -35,10 +35,10 @@ module.exports = ({ file, options, env }) => {
     plugins: [
       require("postcss-bidirection"),
       require("autoprefixer")({
-				browsers: ['last 2 Firefox versions', 'last 2 Chrome versions'],
+        browsers: ["last 2 Firefox versions", "last 2 Chrome versions"],
         flexbox: false,
         grid: false
-			}),
+      }),
       require("postcss-class-namespace")(),
       mapUrl(mapUrlDevelopment)
     ]
