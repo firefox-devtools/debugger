@@ -66,6 +66,10 @@ function update(
     case "REMAP_BREAKPOINTS": {
       return remapBreakpoints(state, action);
     }
+
+    case "NAVIGATE": {
+      return initialState();
+    }
   }
 
   return state;
