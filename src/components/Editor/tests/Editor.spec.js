@@ -20,6 +20,14 @@ function createMockEditor() {
       scrollTo: jest.fn(),
       charCoords: ({ line, ch }) => ({ top: line, left: ch }),
       getScrollerElement: () => ({ offsetWidth: 0, offsetHeight: 0 }),
+      getScrollInfo: () => ({
+        top: 0,
+        left: 0,
+        clientWidth: 0,
+        clientHeight: 0
+      }),
+      defaultCharWidth: () => 0,
+      defaultTextHeight: () => 0,
       display: { gutters: { querySelector: jest.fn() } }
     },
     setText: jest.fn(),
