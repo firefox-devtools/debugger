@@ -5,7 +5,7 @@
 // @flow
 
 export * from "./source-documents";
-export * from "./getTokenLocation.js";
+export * from "./get-token-location";
 export * from "./source-search";
 export * from "../ui";
 export * from "./create-editor";
@@ -51,9 +51,10 @@ export function traverseResults(e, ctx, query, dir, modifiers) {
   }
 }
 
-export function toEditorLine(sourceId: string, lineOrOffset: number): ?number {
+export function toEditorLine(sourceId: string, lineOrOffset: number): number {
   if (isWasm(sourceId)) {
-    return wasmOffsetToLine(sourceId, lineOrOffset);
+    // TODO ensure offset is always "mappable" to edit line.
+    return wasmOffsetToLine(sourceId, lineOrOffset) || 0;
   }
 
   return lineOrOffset ? lineOrOffset - 1 : 1;
@@ -104,9 +105,7 @@ export function toSourceLocation(
   };
 }
 
-export function markText(editor: any, className, location: EditorRange) {
-  const { start, end } = location;
-
+export function markText(editor: any, className, { start, end }: EditorRange) {
   return editor.codeMirror.markText(
     { ch: start.column, line: start.line },
     { ch: end.column, line: end.line },
