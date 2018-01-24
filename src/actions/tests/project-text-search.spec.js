@@ -6,9 +6,9 @@ import {
 } from "../../utils/test-head";
 
 const {
+  getSource,
   getTextSearchQuery,
   getTextSearchResults,
-  getSource,
   getTextSearchStatus
 } = selectors;
 
@@ -31,6 +31,12 @@ const threadClient = {
           });
           break;
         case "bar":
+          resolve({
+            source: "function bla(x, y) {\n const bar = 4; return 2;\n}",
+            contentType: "text/javascript"
+          });
+          break;
+        case "bar:formatted":
           resolve({
             source: "function bla(x, y) {\n const bar = 4; return 2;\n}",
             contentType: "text/javascript"
@@ -59,9 +65,11 @@ describe("project text search", () => {
 
     dispatch(actions.addSearchQuery(mockQuery));
     expect(getTextSearchQuery(getState())).toEqual(mockQuery);
-
+    dispatch(actions.updateSearchStatus("DONE"));
     dispatch(actions.clearSearchQuery());
     expect(getTextSearchQuery(getState())).toEqual("");
+    const status = getTextSearchStatus(getState());
+    expect(status).toEqual("INITIAL");
   });
 
   it("should search all the loaded sources based on the query", async () => {
@@ -69,6 +77,21 @@ describe("project text search", () => {
     const mockQuery = "foo";
     const source1 = makeSource("foo1");
     const source2 = makeSource("foo2");
+
+    await dispatch(actions.newSource(source1));
+    await dispatch(actions.newSource(source2));
+
+    await dispatch(actions.searchSources(mockQuery));
+
+    const results = getTextSearchResults(getState());
+    expect(results).toMatchSnapshot();
+  });
+
+  it("should ignore sources with minified versions", async () => {
+    const { dispatch, getState } = createStore(threadClient);
+    const mockQuery = "bla";
+    const source1 = makeSource("bar");
+    const source2 = makeSource("bar:formatted");
 
     await dispatch(actions.newSource(source1));
     await dispatch(actions.newSource(source2));
@@ -135,5 +158,7 @@ describe("project text search", () => {
 
     expect(results).toMatchSnapshot();
     expect(results.size).toEqual(0);
+    const status = getTextSearchStatus(getState());
+    expect(status).toEqual("INITIAL");
   });
 });

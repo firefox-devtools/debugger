@@ -162,6 +162,10 @@ export function setPreview(
         }
 
         const selectedFrame = getSelectedFrame(getState());
+        if (!selectedFrame) {
+          return;
+        }
+
         const { result } = await client.evaluateInFrame(
           selectedFrame.id,
           expression

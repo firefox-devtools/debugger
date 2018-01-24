@@ -10,29 +10,27 @@
  */
 
 import { findSourceMatches } from "../workers/search";
-import { getSources, getSource } from "../selectors";
-import { isThirdParty, isLoaded } from "../utils/source";
-import { loadAllSources } from "./sources";
+import { getSources, getSource, hasPrettySource } from "../selectors";
+import { isThirdParty } from "../utils/source";
+import { loadSourceText } from "./sources";
 import { statusType } from "../reducers/project-text-search";
 
 import type { ThunkArgs } from "./types";
 
 export function addSearchQuery(query: string) {
-  return ({ dispatch, getState }: ThunkArgs) => {
-    dispatch({ type: "ADD_QUERY", query });
-  };
+  return { type: "ADD_QUERY", query };
 }
 
 export function clearSearchQuery() {
-  return ({ dispatch, getState }: ThunkArgs) => {
-    dispatch({ type: "CLEAR_QUERY" });
-  };
+  return { type: "CLEAR_QUERY" };
 }
 
 export function clearSearchResults() {
-  return ({ dispatch, getState }: ThunkArgs) => {
-    dispatch({ type: "CLEAR_SEARCH_RESULTS" });
-  };
+  return { type: "CLEAR_SEARCH_RESULTS" };
+}
+
+export function clearSearch() {
+  return { type: "CLEAR_SEARCH" };
 }
 
 export function updateSearchStatus(status: string) {
@@ -48,14 +46,19 @@ export function searchSources(query: string) {
     await dispatch(clearSearchResults());
     await dispatch(addSearchQuery(query));
     dispatch(updateSearchStatus(statusType.fetching));
-    await dispatch(loadAllSources());
     const sources = getSources(getState());
     const validSources = sources
       .valueSeq()
-      .filter(source => isLoaded(source) && !isThirdParty(source));
+      .filter(
+        source =>
+          !hasPrettySource(getState(), source.get("id")) &&
+          !isThirdParty(source)
+      );
     for (const source of validSources) {
+      await dispatch(loadSourceText(source));
       await dispatch(searchSource(source.get("id"), query));
     }
+    dispatch(updateSearchStatus(statusType.done));
   };
 }
 
@@ -67,6 +70,9 @@ export function searchSource(sourceId: string, query: string) {
     }
 
     const matches = await findSourceMatches(sourceRecord.toJS(), query);
+    if (!matches.length) {
+      return;
+    }
     dispatch({
       type: "ADD_SEARCH_RESULT",
       result: {
@@ -75,8 +81,5 @@ export function searchSource(sourceId: string, query: string) {
         matches
       }
     });
-    if (matches.length) {
-      dispatch(updateSearchStatus(statusType.done));
-    }
   };
 }

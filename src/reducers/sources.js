@@ -337,10 +337,13 @@ export function getPrettySource(state: OuterState, id: string): ?SourceRecord {
   return getSourceByURL(state, getPrettySourceURL(source.url));
 }
 
-function getSourceByUrlInSources(
-  sources: SourcesMap,
-  url: string
-): ?SourceRecord {
+
+export function hasPrettySource(state: OuterState, id: string) {
+  return !!getPrettySource(state, id);
+}
+
+function getSourceByUrlInSources(sources: SourcesMap, url: string) {
+
   if (!url) {
     return null;
   }
@@ -368,12 +371,6 @@ export const getSourceTabs = createSelector(
   getTabs,
   getSources,
   (tabs, sources) => tabs.filter(tab => getSourceByUrlInSources(sources, tab))
-);
-
-export const getSearchTabs = createSelector(
-  getTabs,
-  getSources,
-  (tabs, sources) => tabs.filter(tab => !getSourceByUrlInSources(sources, tab))
 );
 
 export const getSourcesForTabs = createSelector(

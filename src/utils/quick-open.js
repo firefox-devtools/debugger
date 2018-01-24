@@ -4,7 +4,7 @@
 
 // @flow
 import { endTruncateStr } from "./utils";
-import { isPretty, getSourcePath, isThirdParty } from "./source";
+import { isPretty, getSourcePath } from "./source";
 
 import type { Location as BabelLocation } from "babel-traverse";
 import type { SourcesMap } from "../reducers/sources";
@@ -112,7 +112,7 @@ export function formatShortcutResults(): Array<QuickOpenResult> {
 export function formatSources(sources: SourcesMap): Array<QuickOpenResult> {
   return sources
     .valueSeq()
-    .filter(source => !isPretty(source) && !isThirdParty(source))
+    .filter(source => !isPretty(source))
     .map(source => {
       const sourcePath = getSourcePath(source.get("url"));
       return {

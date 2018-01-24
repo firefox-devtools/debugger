@@ -36,6 +36,7 @@ exports[`ProjectSearch found no search results 1`] = `
 exports[`ProjectSearch found search results 1`] = `
 <ProjectSearch
   activeSearch="project"
+  clearSearch={[Function]}
   closeProjectSearch={[Function]}
   query="match"
   results={
@@ -81,6 +82,7 @@ exports[`ProjectSearch found search results 1`] = `
   selectLocation={[Function]}
   sources={Object {}}
   status="DONE"
+  updateSearchStatus={[Function]}
 >
   <div
     className="search-container"
