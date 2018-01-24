@@ -306,7 +306,10 @@ declare module "debugger-html" {
 
   declare type SyntheticScope = {
     type: string,
-    bindingsNames: string[]
+    bindingsNames: string[],
+    sourceBindings?: {
+      [originalName: string]: string
+    }
   };
 
   /**
