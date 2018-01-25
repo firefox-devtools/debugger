@@ -25,7 +25,8 @@ addons:
       - p7zip-full
   artifacts:
     paths:
-      - $HOME/firefox/mochitest.log
+      - $HOME/firefox/dt_mochitest.log
+      - $HOME/firefox/dbg_mochitest.log
 
 install:
   - pip install --upgrade pip
