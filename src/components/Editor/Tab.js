@@ -19,7 +19,7 @@ import actions from "../../actions";
 
 import { getFilename, getFileURL, isPretty } from "../../utils/source";
 import { copyToTheClipboard } from "../../utils/clipboard";
-import { getSourceAnnotation, tabMenuItems } from "../../utils/tabs";
+import { getSourceAnnotation, getTabMenuItems } from "../../utils/tabs";
 
 import {
   getSelectedSource,
@@ -70,7 +70,7 @@ class Tab extends PureComponent<Props> {
     }
 
     const isPrettySource = isPretty(sourceTab);
-
+    const tabMenuItems = getTabMenuItems();
     const items = [
       {
         item: {
