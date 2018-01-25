@@ -115,3 +115,4 @@ highlightLine
 welcomebox
 Quickopen
 CommandBarButton
+dbg

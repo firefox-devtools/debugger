@@ -5,6 +5,7 @@
   * [L10N](#l10n)
   * [RTL](#rtl)
 * [Prefs](#prefs)
+  * [Creating a new Feature Flag](#creating-a-new-feature-flag)
 * [SVGs](#svgs)
 * [ContextMenus](#context-menus)
 * [Flow](#flow)
@@ -68,13 +69,9 @@ RTL stands for right to left and is an important feature for arabic languages an
 
 _How do I set the Debugger to right to left?_
 
-Set the `dir` field in your the local config to either "rtl" or "ltr".
+Set the `dir` field in the Launchpad's settings pane.
 
-`configs/local.json`
-
-```json
-"dir": "rtl"
-```
+![](https://shipusercontent.com/c7d4f59c170f3676a186216108410f9a/Screen%20Shot%202018-01-24%20at%209.20.54%20PM.png)
 
 _How do I change how something looks in rtl?_
 
@@ -95,6 +92,11 @@ html[dir="rtl"] .source-footer .command-bar {
 ### Prefs
 
 User preferences are stored in Prefs. Prefs uses localStorage locally and firefox's profiles in the panel.
+
+The two relevant files to look at are:
+
+* `[assets/panel/prefs.js](https://github.com/devtools-html/debugger.html/blob/master/assets/panel/prefs.js)`
+* `[src/utils/prefs.js](https://github.com/devtools-html/debugger.html/blob/master/src/utils/prefs.js)`
 
 **Setting a default value**
 
@@ -122,6 +124,66 @@ console.log(prefs.clientSourceMapsEnabled);
 ```js
 const { prefs } = require("./utils/prefs");
 prefs.clientSourceMapsEnabled = false;
+```
+
+#### Creating a new Feature Flag
+
+When you're starting a new feature, it's always good to ask yourself if the feature should be added behind a feature flag.
+
+* does this feature need testing or introduce risk?
+* will this feature be built over several PRs?
+* is it possible we'll want to turn it off quickly?
+
+It's easy to add a new feature flag to the project.
+
+1. add the flag to `assets/panel/prefs.js` and `utils/prefs.js`
+2. import `features`
+
+Here's an example of adding a new feature "awesome sauce" to the Debugger:
+
+```diff
+diff --git a/assets/panel/prefs.js b/assets/panel/prefs.js
+index 1cfe2da..7e3068f 100644
+--- a/assets/panel/prefs.js
++++ b/assets/panel/prefs.js
+@@ -44,3 +44,4 @@ pref("devtools.debugger.file-search-regex-match", false);
+ pref("devtools.debugger.features.async-stepping", true);
+ pref("devtools.debugger.features.project-text-search", true);
+ pref("devtools.debugger.features.wasm", true);
++pref("devtools.debugger.features.awesome", false);
+diff --git a/src/utils/prefs.js b/src/utils/prefs.js
+index 429d56c..dadb36c 100644
+--- a/src/utils/prefs.js
++++ b/src/utils/prefs.js
+@@ -28,6 +28,7 @@ if (isDevelopment()) {
+   pref("devtools.debugger.features.async-stepping", true);
+   pref("devtools.debugger.features.wasm", true);
+   pref("devtools.debugger.features.shortcuts", true);
++  pref("devtools.debugger.features.awesome", true);
+ }
+
+ export const prefs = new PrefsHelper("devtools", {
+@@ -54,6 +55,7 @@ export const features = new PrefsHelper("devtools.debugger.features", {
+   projectTextSearch: ["Bool", "project-text-search", true],
+   wasm: ["Bool", "wasm", true],
+   shortcuts: ["Bool", "shortcuts", false]
++  awesome: ["Bool", "shortcuts", false]
+ });
+
+ if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {
+
+diff --git a/src/components/SecondaryPanes/index.js b/src/components/SecondaryPanes/index.js
+index a390df2..c610c1a 100644
+--- a/src/components/SecondaryPanes/index.js
++++ b/src/components/SecondaryPanes/index.js
+@@ -127,6 +127,10 @@ class SecondaryPanes extends Component<Props> {
+   getScopeItem() {
+     const isPaused = () => !!this.props.pauseData;
+
++    if (features.aweseome) {
++      return <div>The Best</div>;
++    }
++
 ```
 
 ### SVGs
@@ -626,66 +688,6 @@ index dbba6c1..75f7b2c 100644
 
 -self.onmessage = workerHandler({ countMatches });
 +self.onmessage = workerHandler({ countMatches, getMatches });
-```
-
-#### Creating a new Feature Flag
-
-When you're starting a new feature, it's always good to ask yourself if the feature should be added behind a feature flag.
-
-* does this feature need testing or introduce risk?
-* will this feature be built over several PRs?
-* is it possible we'll want to turn it off quickly?
-
-It's easy to add a new feature flag to the project.
-
-1. add the flag to `assets/panel/prefs.js` and `utils/prefs.js`
-2. import `features`
-
-Here's an example of adding a new feature "awesome sauce" to the Debugger:
-
-```diff
-diff --git a/assets/panel/prefs.js b/assets/panel/prefs.js
-index 1cfe2da..7e3068f 100644
---- a/assets/panel/prefs.js
-+++ b/assets/panel/prefs.js
-@@ -44,3 +44,4 @@ pref("devtools.debugger.file-search-regex-match", false);
- pref("devtools.debugger.features.async-stepping", true);
- pref("devtools.debugger.features.project-text-search", true);
- pref("devtools.debugger.features.wasm", true);
-+pref("devtools.debugger.features.awesome", false);
-diff --git a/src/utils/prefs.js b/src/utils/prefs.js
-index 429d56c..dadb36c 100644
---- a/src/utils/prefs.js
-+++ b/src/utils/prefs.js
-@@ -28,6 +28,7 @@ if (isDevelopment()) {
-   pref("devtools.debugger.features.async-stepping", true);
-   pref("devtools.debugger.features.wasm", true);
-   pref("devtools.debugger.features.shortcuts", true);
-+  pref("devtools.debugger.features.awesome", true);
- }
-
- export const prefs = new PrefsHelper("devtools", {
-@@ -54,6 +55,7 @@ export const features = new PrefsHelper("devtools.debugger.features", {
-   projectTextSearch: ["Bool", "project-text-search", true],
-   wasm: ["Bool", "wasm", true],
-   shortcuts: ["Bool", "shortcuts", false]
-+  awesome: ["Bool", "shortcuts", false]
- });
-
- if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {
-
-diff --git a/src/components/SecondaryPanes/index.js b/src/components/SecondaryPanes/index.js
-index a390df2..c610c1a 100644
---- a/src/components/SecondaryPanes/index.js
-+++ b/src/components/SecondaryPanes/index.js
-@@ -127,6 +127,10 @@ class SecondaryPanes extends Component<Props> {
-   getScopeItem() {
-     const isPaused = () => !!this.props.pauseData;
-
-+    if (features.aweseome) {
-+      return <div>The Best</div>;
-+    }
-+
 ```
 
 ### Telemetry
