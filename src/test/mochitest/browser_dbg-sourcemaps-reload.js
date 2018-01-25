@@ -25,7 +25,7 @@ function getBreakpoints(dbg) {
 add_task(async function() {
   const dbg = await initDebugger("doc-minified.html");
 
-  await navigate(dbg, "sourcemaps-reload/doc-sourcemaps-reload.html", "v1")
+  await navigate(dbg, "sourcemaps-reload/doc-sourcemaps-reload.html", "v1");
 
   await waitForSource(dbg, "v1");
   await selectSource(dbg, "v1");
@@ -34,7 +34,7 @@ add_task(async function() {
   let breakpoint = getBreakpoints(dbg)[0];
   is(breakpoint.location.line, 6);
 
-  let syncBp =  waitForDispatch(dbg, "SYNC_BREAKPOINT");
+  let syncBp = waitForDispatch(dbg, "SYNC_BREAKPOINT");
   await reload(dbg);
 
   await waitForPaused(dbg);
@@ -46,7 +46,7 @@ add_task(async function() {
   is(breakpoint.generatedLocation.line, 73);
 
   await resume(dbg);
-  syncBp =  waitForDispatch(dbg, "SYNC_BREAKPOINT", 2)
+  syncBp = waitForDispatch(dbg, "SYNC_BREAKPOINT", 2);
   await selectSource(dbg, "v1");
   await addBreakpoint(dbg, "v1", 13);
 
@@ -55,5 +55,5 @@ add_task(async function() {
   await syncBp;
   await waitForSelectedSource(dbg, "v1");
 
-  is(getBreakpoints(dbg).length, 0, "No breakpoints")
+  is(getBreakpoints(dbg).length, 0, "No breakpoints");
 });
