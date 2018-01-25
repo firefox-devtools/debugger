@@ -133,8 +133,8 @@
     "jest": "^20.0.4",
     "jest-cli": "^20.0.4",
     "jest-in-case": "^1.0.2",
-    "jest-junit-reporter": "^1.0.1",
-    "jest-localstorage-mock": "^1.1.1",
+    "jest-junit-reporter": "^1.1.0",
+    "jest-localstorage-mock": "^2.2.0",
     "jest-serializer-babel-ast": "^0.0.5",
     "lint-staged": "^6.0.1",
     "mochii": "^0.0.25",
@@ -172,19 +172,30 @@
     "src/*/!(mochitest)*/**/*.js": ["prettier", "git add"]
   },
   "jest": {
-    "rootDir": "src",
-    "testMatch": ["**/tests/**/*.js"],
-    "testPathIgnorePatterns": ["/node_modules/", "/helpers/", "/fixtures/"],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/helpers/",
+      "/fixtures/",
+      "src/test/mochitest/examples/"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!src/**/fixtures/*.js",
+      "!src/test/**/*.js",
+      "!src/components/stories/**/*.js",
+      "!**/*.mock.js",
+      "!**/*.spec.js"
+    ],
     "transformIgnorePatterns": ["node_modules/(?!devtools-)"],
-    "setupFiles": ["<rootDir>/test/tests-setup.js", "jest-localstorage-mock"],
+    "setupTestFrameworkScriptFile": "<rootDir>/src/test/tests-setup.js",
+    "setupFiles": ["jest-localstorage-mock"],
     "snapshotSerializers": [
       "jest-serializer-babel-ast",
       "enzyme-to-json/serializer"
     ],
-    "setupTestFrameworkScriptFile": "<rootDir>/test/tests-framework.js",
     "moduleNameMapper": {
-      "\\.css$": "<rootDir>/test/__mocks__/styleMock.js",
-      "\\.svg$": "<rootDir>/test/__mocks__/svgMock.js"
+      "\\.css$": "<rootDir>/src/test/__mocks__/styleMock.js",
+      "\\.svg$": "<rootDir>/src/test/__mocks__/svgMock.js"
     }
   }
 }
