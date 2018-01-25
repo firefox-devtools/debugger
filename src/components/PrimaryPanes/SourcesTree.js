@@ -118,9 +118,9 @@ class SourcesTree extends Component<Props, State> {
       // to project root, debugee url or lack of sources
       return this.setState(
         createTree({
-          projectRoot,
-          debuggeeUrl,
-          sources
+          sources: nextProps.sources,
+          debuggeeUrl: nextProps.debuggeeUrl,
+          projectRoot: nextProps.projectRoot
         })
       );
     }
@@ -182,11 +182,18 @@ class SourcesTree extends Component<Props, State> {
 
   getPath = item => {
     const { sources } = this.props;
-    const blackBoxedPart =
-      item.contents.get &&
-      sources.get(item.contents.get("id")).get("isBlackBoxed")
-        ? "update"
-        : "";
+    const obj = item.contents.get && item.contents.get("id");
+
+    let blackBoxedPart = "";
+
+    if (
+      typeof obj !== "undefined" &&
+      sources.has(obj) &&
+      sources.get(obj).get("isBlackBoxed")
+    ) {
+      blackBoxedPart = "update";
+    }
+
     return `${item.path}/${item.name}/${blackBoxedPart}`;
   };
 
@@ -211,8 +218,9 @@ class SourcesTree extends Component<Props, State> {
     }
 
     if (!nodeHasChildren(item)) {
-      const source = sources.get(item.contents.get("id"));
-      if (source.get("isBlackBoxed")) {
+      const obj = item.contents.get("id");
+      const source = sources.get(obj);
+      if (source && source.get("isBlackBoxed")) {
         return <img className="blackBox" />;
       }
       return <img className="file" />;
