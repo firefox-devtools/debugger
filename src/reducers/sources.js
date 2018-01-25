@@ -124,9 +124,12 @@ function update(
 
     case "BLACKBOX":
       if (action.status === "done") {
+        const url = action.source.url;
+        const isBlackBoxed = action.value.isBlackBoxed;
+        updateBlackBoxList(url, isBlackBoxed);
         return state.setIn(
           ["sources", action.source.id, "isBlackBoxed"],
-          action.value.isBlackBoxed
+          isBlackBoxed
         );
       }
       break;
@@ -141,7 +144,6 @@ function update(
 
       return initialState().set("pendingSelectedLocation", { url });
   }
-
   return state;
 }
 
@@ -215,6 +217,27 @@ function updateTabList(state: OuterState, url: ?string, tabIndex?: number) {
   }
 
   prefs.tabs = tabs.toJS();
+  return tabs;
+}
+
+function updateBlackBoxList(url, isBlackBoxed) {
+  let tabs = getBlackBoxList();
+  const i = tabs.indexOf(url);
+  if (i >= 0) {
+    if (!isBlackBoxed) {
+      tabs.splice(i, 1);
+    }
+  } else if (isBlackBoxed) {
+    tabs.push(url);
+  }
+  prefs.tabsBlackBoxed = tabs;
+}
+
+export function getBlackBoxList() {
+  let tabs = prefs.tabsBlackBoxed;
+  if (!tabs) {
+    tabs = [];
+  }
   return tabs;
 }
 
