@@ -70,7 +70,7 @@ shell.cd("firefox");
 const dbg_mochitest = `./mach mochitest --headless --log-tbpl=dbg_mochitest.log ${defaultPath}`;
 const dbg_out = shell.exec(dbg_mochitest, { silent: true });
 
-const dt_mochitest = `./mach mochitest --headless --log-tbpl=dt_mochitest.log ${otherTests.join(" ")}`;
+const dt_mochitest = `./mach mochitest --headless --log-tbpl=}}${otherTests.join(" ")}`;
 const dt_out = shell.exec(dt_mochitest, { silent: true });
 
 shell.cd("..")

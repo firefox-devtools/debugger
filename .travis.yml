@@ -5,6 +5,10 @@ cache:
   - pip
   - yarn
 
+notifications:
+  slack:
+    on_success: never
+    on_failure: always
 
 env:
   global:
@@ -12,36 +16,10 @@ env:
     - YARN_VERSION='0.24.5'
     - MC_COMMIT='e2bb11b88bd4' # https://hg.mozilla.org/mozilla-central/shortlog
 
-notifications:
-  slack:
-    on_success: never
-    on_failure: always
-
-addons:
-  apt:
-    packages:
-      - autoconf2.13
-      - sshpass
-      - p7zip-full
-  artifacts:
-    paths:
-      - $HOME/firefox/dt_mochitest.log
-      - $HOME/firefox/dbg_mochitest.log
-
 install:
-  - pip install --upgrade pip
-  - pip install -U mercurial
-  - . $HOME/.nvm/nvm.sh; nvm install stable; nvm use stable
   - ./bin/ci/install-yarn
-  - ./bin/ci/clone-gecko.sh
-  - du -sh firefox
   - yarn
 
-before_script:
-  - ./bin/ci/build-firefox.sh
-  - sh -e /etc/init.d/xvfb start
-
 script:
-  - node --version
-  - du -sh firefox
-  - node ./bin/ci/run-tests.js
+  - echo "hi" > foo3.log
+  - node bin/ci/upload-artifact.js ./foo3.log
