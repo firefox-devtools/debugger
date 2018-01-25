@@ -143,16 +143,5 @@ export async function getMappedExpression(
   generatedLocation: Location,
   expression: string
 ): Promise<string> {
-  const astScopes = await parser.getScopes(generatedLocation);
-
-  const generatedScopes = await sourceMaps.getLocationScopes(
-    generatedLocation,
-    astScopes
-  );
-
-  if (!generatedScopes) {
-    return expression;
-  }
-
-  return parser.replaceOriginalVariableName(expression, generatedScopes);
+  return expression;
 }

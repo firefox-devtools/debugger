@@ -5,10 +5,7 @@
 // @flow
 
 import { traverseAst } from "./utils/ast";
-import {
-  createParseJSScopeVisitor,
-  findScopes
-} from "devtools-map-bindings/src/parser";
+import { createParseJSScopeVisitor, findScopes } from "./visitor";
 
 import type { Location, SourceScope } from "debugger-html";
 
