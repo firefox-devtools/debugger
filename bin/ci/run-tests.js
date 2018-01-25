@@ -5,6 +5,7 @@ const fs = require("fs");
 const _ = require("lodash");
 const minimist = require("minimist");
 const emoji = require("node-emoji");
+const checkFileSizes = require("./checkFileSizes")
 
 function exec(cmd) {
   const { stdout, stderr, code } = shell.exec(cmd, {
@@ -16,46 +17,26 @@ function exec(cmd) {
   return code;
 }
 
-const firefoxPath = "./firefox";
 
-let code;
-console.log(chalk.blue("Copying Assets"));
-code = exec(`node ./bin/copy-assets.js --mc ${firefoxPath}`);
-if (code !== 0) {
-  process.exit(code);
+function copyAssets(path) {
+  console.log(chalk.blue("Copying Assets"));
+  const code = exec(`node ./bin/copy-assets.js --mc ${path}`);
+  if (code !== 0) {
+    process.exit(code);
+  }
 }
 
-const fileSizes = {
-  "debugger.js": 50000,
-  "parser-worker.js": 57000,
-  "pretty-print-worker.js": 10000,
-  "search-worker.js": 5000
-};
+function runMochitests(pathOrTests) {
+  const { code } = shell.exec(`./node_modules/.bin/mochii --ci --mc ./firefox --headless ${pathOrTests}`);
+  return code === 0
+}
 
-Object.keys(fileSizes).forEach(key => {
-  const fullFirefoxPath = path.join(process.cwd(), firefoxPath);
-  const testFile = fs.readFileSync(
-    path.join(fullFirefoxPath, `devtools/client/debugger/new/${key}`),
-    "utf8"
-  );
-  const lineCount = testFile.split("\n").length;
-  if (lineCount > fileSizes[key]) {
-    console.log(
-      chalk.red(
-        `Oh no, ${key} is ${lineCount} lines, which is greater than ${
-          fileSizes[key]
-        } lines`
-      )
-    );
-    process.exit(1);
-  } else {
-    console.log(
-      chalk.yellow(
-        `${key} is ${lineCount} lines, which is not great, but fine...`
-      )
-    );
-  }
-});
+const firefoxPath = "./firefox";
+copyAssets(firefoxPath);
+const fileSizeSuccess = checkFileSizes(firefoxPath);
+
+console.log(chalk.blue("Running Tests"));
+const dbgSuccess = runMochitests("devtools/client/debugger/new")
 
 const otherTests = [
   "devtools/client/framework/test/browser_browser_toolbox_debugger.js",
@@ -71,25 +52,8 @@ const otherTests = [
   "devtools/client/webconsole/new-console-output/test/mochitest/browser_webconsole_stacktrace_location_debugger_link.js",
 ];
 
-console.log(chalk.blue("Running Tests"));
-const defaultPath = `devtools/client/debugger/new`;
-const mcPath = `--mc ${firefoxPath}`;
+const dtSuccess = runMochitests(otherTests.join(" "))
 
-shell.cd("firefox");
-
-const dbg_mochitest = `./mach mochitest --headless --log-tbpl=dbg_mochitest.log ${defaultPath}`;
-const dbg_out = shell.exec(dbg_mochitest, { silent: true });
-
-const dt_mochitest = `./mach mochitest --headless --log-tbpl=dt_mochitest.log ${otherTests.join(" ")}`;
-const dt_out = shell.exec(dt_mochitest, { silent: true });
-
-shell.cd("..")
-
-exec(`./node_modules/.bin/mochii --read ./firefox/dbg_mochitest.log`);
-exec(`./node_modules/.bin/mochii --read ./firefox/dt_mochitest.log`);
-
-if (dbg_out.code !== 0 || dt_out.code !== 0) {
-  process.exit(dbg_out.code || dt_out.code);
-}
-
-process.exit(0);
+const success = fileSizeSuccess && dbgSuccess && dtSuccess;
+const code = success ? 0 : 1
+process.exit(code);
