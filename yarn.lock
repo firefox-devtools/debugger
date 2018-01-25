@@ -3051,9 +3051,9 @@ devtools-contextmenu@^0.0.7:
   dependencies:
     devtools-modules "^0.0.32"
 
-devtools-launchpad@^0.0.113:
-  version "0.0.113"
-  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.113.tgz#60e5112ec8f0f3a6ed342e89149b79a2fca0e873"
+devtools-launchpad@0.0.115:
+  version "0.0.115"
+  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.115.tgz#44f42fe416aa18fa1ab79c8db0b15e8c6c3f707a"
   dependencies:
     amd-loader "0.0.8"
     autoprefixer "^7.1.2"
@@ -3079,7 +3079,7 @@ devtools-launchpad@^0.0.113:
     devtools-config "^0.0.15"
     devtools-connection "^0.0.8"
     devtools-contextmenu "^0.0.7"
-    devtools-mc-assets "^0.0.4"
+    devtools-mc-assets "^0.0.5"
     devtools-modules "^0.0.33"
     devtools-sprintf-js "^1.0.3"
     devtools-utils "^0.0.10"
@@ -3170,9 +3170,9 @@ devtools-map-bindings@^0.3.2:
     jest "^19.0.2"
     source-map "^0.5.6"
 
-devtools-mc-assets@^0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/devtools-mc-assets/-/devtools-mc-assets-0.0.4.tgz#80d8b5b9f48e8ba81bdb8f270bba90a0e6ab8793"
+devtools-mc-assets@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/devtools-mc-assets/-/devtools-mc-assets-0.0.5.tgz#cfa501248c4e025c8cfb28ff0cabdea32f40eb8a"
 
 devtools-modules@^0.0.32:
   version "0.0.32"
