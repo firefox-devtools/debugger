@@ -19,7 +19,7 @@ import actions from "../../actions";
 
 import { getFilename, getFileURL, isPretty } from "../../utils/source";
 import { copyToTheClipboard } from "../../utils/clipboard";
-import { getSourceAnnotation } from "../../utils/tabs";
+import { getSourceAnnotation, getTabMenuItems } from "../../utils/tabs";
 
 import {
   getSelectedSource,
@@ -60,26 +60,6 @@ class Tab extends PureComponent<Props> {
       togglePrettyPrint
     } = this.props;
 
-    const closeTabLabel = L10N.getStr("sourceTabs.closeTab");
-    const closeOtherTabsLabel = L10N.getStr("sourceTabs.closeOtherTabs");
-    const closeTabsToEndLabel = L10N.getStr("sourceTabs.closeTabsToEnd");
-    const closeAllTabsLabel = L10N.getStr("sourceTabs.closeAllTabs");
-    const revealInTreeLabel = L10N.getStr("sourceTabs.revealInTree");
-    const copyLinkLabel = L10N.getStr("copySourceUri2");
-    const prettyPrintLabel = L10N.getStr("sourceTabs.prettyPrint");
-
-    const closeTabKey = L10N.getStr("sourceTabs.closeTab.accesskey");
-    const closeOtherTabsKey = L10N.getStr(
-      "sourceTabs.closeOtherTabs.accesskey"
-    );
-    const closeTabsToEndKey = L10N.getStr(
-      "sourceTabs.closeTabsToEnd.accesskey"
-    );
-    const closeAllTabsKey = L10N.getStr("sourceTabs.closeAllTabs.accesskey");
-    const revealInTreeKey = L10N.getStr("sourceTabs.revealInTree.accesskey");
-    const copyLinkKey = L10N.getStr("copySourceUri2.accesskey");
-    const prettyPrintKey = L10N.getStr("sourceTabs.prettyPrint.accesskey");
-
     const otherTabs = tabSources.filter(t => t.get("id") !== tab);
     const sourceTab = tabSources.find(t => t.get("id") == tab);
     const tabURLs = tabSources.map(t => t.get("url"));
@@ -90,82 +70,55 @@ class Tab extends PureComponent<Props> {
     }
 
     const isPrettySource = isPretty(sourceTab);
-
-    const closeTabMenuItem = {
-      id: "node-menu-close-tab",
-      label: closeTabLabel,
-      accesskey: closeTabKey,
-      disabled: false,
-      click: () => closeTab(sourceTab.get("url"))
-    };
-
-    const closeOtherTabsMenuItem = {
-      id: "node-menu-close-other-tabs",
-      label: closeOtherTabsLabel,
-      accesskey: closeOtherTabsKey,
-      disabled: false,
-      click: () => closeTabs(otherTabURLs)
-    };
-
-    const closeTabsToEndMenuItem = {
-      id: "node-menu-close-tabs-to-end",
-      label: closeTabsToEndLabel,
-      accesskey: closeTabsToEndKey,
-      disabled: false,
-      click: () => {
-        const tabIndex = tabSources.findIndex(t => t == tab);
-        closeTabs(tabURLs.filter((t, i) => i > tabIndex));
-      }
-    };
-
-    const closeAllTabsMenuItem = {
-      id: "node-menu-close-all-tabs",
-      label: closeAllTabsLabel,
-      accesskey: closeAllTabsKey,
-      disabled: false,
-      click: () => closeTabs(tabURLs)
-    };
-
-    const showSourceMenuItem = {
-      id: "node-menu-show-source",
-      label: revealInTreeLabel,
-      accesskey: revealInTreeKey,
-      disabled: false,
-      click: () => showSource(sourceTab)
-    };
-
-    const copySourceUri2 = {
-      id: "node-menu-copy-source-url",
-      label: copyLinkLabel,
-      accesskey: copyLinkKey,
-      disabled: false,
-      click: () => copyToTheClipboard(sourceTab.get("url"))
-    };
-
-    const prettyPrint = {
-      id: "node-menu-pretty-print",
-      label: prettyPrintLabel,
-      accesskey: prettyPrintKey,
-      disabled: false,
-      click: () => togglePrettyPrint(sourceTab.get("id"))
-    };
-
+    const tabMenuItems = getTabMenuItems();
     const items = [
-      { item: closeTabMenuItem },
-      { item: closeOtherTabsMenuItem, hidden: () => tabSources.size === 1 },
       {
-        item: closeTabsToEndMenuItem,
+        item: {
+          ...tabMenuItems.closeTab,
+          click: () => closeTab(sourceTab.get("url"))
+        }
+      },
+      {
+        item: {
+          ...tabMenuItems.closeOtherTabs,
+          click: () => closeTabs(otherTabURLs)
+        },
+        hidden: () => tabSources.size === 1
+      },
+      {
+        item: {
+          ...tabMenuItems.closeTabsToEnd,
+          click: () => {
+            const tabIndex = tabSources.findIndex(t => t.get("id") == tab);
+            closeTabs(tabURLs.filter((t, i) => i > tabIndex));
+          }
+        },
         hidden: () =>
           tabSources.some((t, i) => t === tab && tabSources.size - 1 === i)
       },
-      { item: closeAllTabsMenuItem },
+      {
+        item: { ...tabMenuItems.closeAllTabs, click: () => closeTabs(tabURLs) }
+      },
       { item: { type: "separator" } },
-      { item: copySourceUri2 }
+      {
+        item: {
+          ...tabMenuItems.copySourceUri2,
+          click: () => copyToTheClipboard(sourceTab.get("url"))
+        }
+      }
     ];
 
     if (!isPrettySource) {
-      items.push({ item: showSourceMenuItem });
-      items.push({ item: prettyPrint });
+      items.push({
+        item: { ...tabMenuItems.showSource, click: () => showSource(tab) }
+      });
+
+      items.push({
+        item: {
+          ...tabMenuItems.prettyPrint,
+          click: () => togglePrettyPrint(tab)
+        }
+      });
     }
 
     showMenu(e, buildMenu(items));
