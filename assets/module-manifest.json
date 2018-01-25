@@ -21060,7 +21060,9 @@
       "../../../src/node_modules/lodash/findLastIndex.js": 2240,
       "../../../src/node_modules/lodash/difference.js": 2241,
       "../../../src/node_modules/lodash/_baseDifference.js": 2242,
-      "../../../src/node_modules/lodash/isArrayLikeObject.js": 2243
+      "../../../src/node_modules/lodash/isArrayLikeObject.js": 2243,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/editor/get-token-location.js": 2244,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/sources-tree/updateTree.js": 2245
     },
     "usedIds": {
       "0": 0,
@@ -23306,7 +23308,9 @@
       "2240": 2240,
       "2241": 2241,
       "2242": 2242,
-      "2243": 2243
+      "2243": 2243,
+      "2244": 2244,
+      "2245": 2245
     }
   },
   "chunks": {
