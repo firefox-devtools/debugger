@@ -4,7 +4,6 @@
 
 // @flow
 
-import { synthesizeScopes } from "./synthesizeScopes";
 import { getScope } from "./getScope";
 
 import type { Frame, Why, Scope, BindingContents } from "debugger-html";
@@ -35,37 +34,18 @@ export function getScopes(
   let scopeIndex = 1;
 
   while (scope) {
-    const { syntheticScopes } = scope;
-    let lastScope = scope;
+    const scopeItem = getScope(
+      scope,
+      selectedFrame,
+      frameScopes,
+      why,
+      scopeIndex
+    );
 
-    if (!syntheticScopes) {
-      const scopeItem = getScope(
-        scope,
-        selectedFrame,
-        frameScopes,
-        why,
-        scopeIndex
-      );
-
-      if (scopeItem) {
-        scopes.push(scopeItem);
-      }
-      scopeIndex++;
-    } else {
-      scopes.push(
-        ...synthesizeScopes(scope, selectedFrame, frameScopes, why, scopeIndex)
-      );
-
-      // skip to the next generated scope
-      const scopeDepth = syntheticScopes.groupLength;
-      for (let i = 1; lastScope.parent && i < scopeDepth; i++) {
-        const nextScope = lastScope.parent;
-        lastScope = nextScope;
-      }
-
-      scope = lastScope;
-      scopeIndex += syntheticScopes.scopes.length;
+    if (scopeItem) {
+      scopes.push(scopeItem);
     }
+    scopeIndex++;
     scope = scope.parent;
   }
 

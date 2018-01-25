@@ -268,18 +268,6 @@ declare module "debugger-html" {
     }
   };
 
-  /*
-   * MappedScopeBindings
-   * @memberof types
-   * @static
-   */
-  declare type MappedScopeBindings = {
-    type: string,
-    bindings: {
-      [originalName: string]: string
-    }
-  };
-
   /**
    * Script
    * This describes scripts which are sent to the debug server to be eval'd
@@ -304,11 +292,6 @@ declare module "debugger-html" {
     [name: string]: BindingContents
   };
 
-  declare type SyntheticScope = {
-    type: string,
-    bindingsNames: string[]
-  };
-
   /**
    * Scope
    * @memberof types
@@ -321,9 +304,6 @@ declare module "debugger-html" {
       arguments: Array<ScopeBindings>,
       variables: ScopeBindings
     },
-    sourceBindings?: {
-      [originalName: string]: string
-    },
     object: Object,
     function: {
       actor: ActorId,
@@ -331,11 +311,6 @@ declare module "debugger-html" {
       displayName: string,
       location: Location,
       parameterNames: string[]
-    },
-    syntheticScopes?: {
-      scopes: SyntheticScope[],
-      groupIndex: number,
-      groupLength: number
     },
     type: string
   };

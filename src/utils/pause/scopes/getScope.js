@@ -3,7 +3,7 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-import { getBindingVariables, getSourceBindingVariables } from "./getVariables";
+import { getBindingVariables } from "./getVariables";
 import { getFramePopVariables, getThisVariable } from "./utils";
 import { simplifyDisplayName } from "../../frame";
 
@@ -34,11 +34,8 @@ export function getScope(
   const key = `${actor}-${scopeIndex}`;
   if (type === "function" || type === "block") {
     const bindings = scope.bindings;
-    const sourceBindings = scope.sourceBindings;
 
-    let vars = sourceBindings
-      ? getSourceBindingVariables(bindings, sourceBindings, key)
-      : getBindingVariables(bindings, key);
+    let vars = getBindingVariables(bindings, key);
 
     // show exception, return, and this variables in innermost scope
     if (isLocalScope) {
