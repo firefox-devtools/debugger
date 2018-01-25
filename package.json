@@ -72,7 +72,7 @@
     "babylon": "^6.18.0",
     "codemirror": "^5.28.0",
     "devtools-components": "^0.0.2",
-    "devtools-launchpad": "^0.0.113",
+    "devtools-launchpad": "^0.0.115",
     "devtools-linters": "^0.0.4",
     "devtools-map-bindings": "^0.3.2",
     "devtools-reps": "^0.19.1",
