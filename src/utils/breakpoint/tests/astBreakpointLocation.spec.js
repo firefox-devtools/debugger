@@ -1,57 +1,59 @@
 import { getASTLocation } from "../astBreakpointLocation.js";
 import { getSource } from "../../../workers/parser/tests/helpers";
+import getSymbols from "../../../workers/parser/getSymbols";
+import cases from "jest-in-case";
+
 import * as I from "immutable";
 
+async function setup({ fileName, location, functionName }) {
+  const source = I.Map(getSource(fileName));
+  const symbols = getSymbols(source.toJS());
+
+  const astLocation = getASTLocation(source, symbols, location);
+  expect(astLocation.name).toBe(functionName);
+  expect(astLocation).toMatchSnapshot();
+}
+
 describe("ast", () => {
-  describe("valid location", () => {
-    it("returns the scope and offset", async () => {
-      const source = I.Map(getSource("math"));
-      const location = { line: 6, column: 0 };
-      const astLocation = await getASTLocation(source, location);
-      expect(astLocation.name).toBe("math");
-      expect(astLocation).toMatchSnapshot();
-    });
+  cases("valid location", setup, [
+    {
+      name: "returns the scope and offset",
+      fileName: "math",
+      location: { line: 6, column: 0 },
+      functionName: "math"
+    },
+    {
+      name: "returns name for a nested anon fn as the parent func",
+      fileName: "outOfScope",
+      location: { line: 25, column: 0 },
+      functionName: "outer"
+    },
+    {
+      name: "returns name for a nested named fn",
+      fileName: "outOfScope",
+      location: { line: 5, column: 0 },
+      functionName: "inner"
+    },
+    {
+      name: "returns name for an anon fn with a named variable",
+      fileName: "outOfScope",
+      location: { line: 40, column: 0 },
+      functionName: "globalDeclaration"
+    }
+  ]);
 
-    it("returns name for a nested anon fn as the parent func", async () => {
-      const source = I.Map(getSource("outOfScope"));
-      const location = { line: 25, column: 0 };
-      const astLocation = await getASTLocation(source, location);
-      expect(astLocation.name).toBe("outer");
-      expect(astLocation).toMatchSnapshot();
-    });
-
-    it("returns name for a nested named fn", async () => {
-      const source = I.Map(getSource("outOfScope"));
-      const location = { line: 5, column: 0 };
-      const astLocation = await getASTLocation(source, location);
-      expect(astLocation.name).toBe("inner");
-      expect(astLocation).toMatchSnapshot();
-    });
-
-    it("returns name for an anon fn with a named variable", async () => {
-      const source = I.Map(getSource("outOfScope"));
-      const location = { line: 40, column: 0 };
-      const astLocation = await getASTLocation(source, location);
-      expect(astLocation.name).toBe("globalDeclaration");
-      expect(astLocation).toMatchSnapshot();
-    });
-  });
-
-  describe("invalid location", () => {
-    it("returns the scope name for global scope as undefined", async () => {
-      const source = I.Map(getSource("class"));
-      const location = { line: 10, column: 0 };
-      const astLocation = await getASTLocation(source, location);
-      expect(astLocation.name).toBe(undefined);
-      expect(astLocation).toMatchSnapshot();
-    });
-
-    it("returns name for an anon fn in global scope as undefined", async () => {
-      const source = I.Map(getSource("outOfScope"));
-      const location = { line: 44, column: 0 };
-      const astLocation = await getASTLocation(source, location);
-      expect(astLocation.name).toBe(undefined);
-      expect(astLocation).toMatchSnapshot();
-    });
-  });
+  cases("invalid location", setup, [
+    {
+      name: "returns the scope name for global scope as undefined",
+      fileName: "class",
+      location: { line: 10, column: 0 },
+      functionName: undefined
+    },
+    {
+      name: "returns name for an anon fn in global scope as undefined",
+      fileName: "outOfScope",
+      location: { line: 44, column: 0 },
+      functionName: undefined
+    }
+  ]);
 });
