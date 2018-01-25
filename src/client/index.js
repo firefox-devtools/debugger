@@ -7,8 +7,9 @@
 import * as firefox from "./firefox";
 import * as chrome from "./chrome";
 
-import { prefs, features } from "../utils/prefs";
-import * as timings from "../utils/timings";
+import { prefs } from "../utils/prefs";
+import { setupHelper } from "../utils/dbg";
+
 import { isFirefoxPanel } from "devtools-config";
 import {
   bootstrapApp,
@@ -48,28 +49,16 @@ async function onConnect(
   const { bpClients } = await client.onConnect(connection, actions);
   await loadFromPrefs(actions);
 
-  window.getGlobalsForTesting = () => {
-    return {
+  if (!isFirefoxPanel()) {
+    setupHelper({
       store,
       actions,
       selectors,
       client: client.clientCommands,
-      prefs,
-      features,
       connection,
       bpClients,
-      services,
-      timings
-    };
-  };
-
-  if (!isFirefoxPanel()) {
-    console.group("Development Notes");
-    const baseUrl = "https://devtools-html.github.io/debugger.html";
-    const localDevelopmentUrl = `${baseUrl}/docs/local-development.html`;
-    console.log("Debugging Tips", localDevelopmentUrl);
-    console.log("getGlobalsForTesting", window.getGlobalsForTesting());
-    console.groupEnd();
+      services
+    });
   }
 
   bootstrapApp(connection, { store, actions });
