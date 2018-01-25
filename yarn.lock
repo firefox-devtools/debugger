@@ -3051,7 +3051,7 @@ devtools-contextmenu@^0.0.7:
   dependencies:
     devtools-modules "^0.0.32"
 
-devtools-launchpad@0.0.115:
+devtools-launchpad@^0.0.115:
   version "0.0.115"
   resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.115.tgz#44f42fe416aa18fa1ab79c8db0b15e8c6c3f707a"
   dependencies:
@@ -7108,9 +7108,9 @@ mocha@^3.2.0:
     mkdirp "0.5.1"
     supports-color "3.1.2"
 
-mochii@^0.0.20:
-  version "0.0.20"
-  resolved "https://registry.yarnpkg.com/mochii/-/mochii-0.0.20.tgz#620be4aba1d6a76f2c5859827f749e1ac5244a7a"
+mochii@0.0.21:
+  version "0.0.21"
+  resolved "https://registry.yarnpkg.com/mochii/-/mochii-0.0.21.tgz#ab0385785ce17fdb4fe75a91e6b020f956fcf217"
   dependencies:
     chalk "^2.1.0"
     eslint "^4.7.2"
