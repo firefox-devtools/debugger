@@ -32,6 +32,10 @@ button:focus {
   overflow: hidden;
 }
 
+.theme-dark .editor-pane {
+  background-color: var(--theme-toolbar-background);
+}
+
 .editor-container {
   width: 100%;
 }
