@@ -47,7 +47,6 @@ function mapScopes(scopes: Scope, frame: Frame) {
 export function fetchScopes() {
   return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
     const frame = getSelectedFrame(getState());
-
     if (!frame || getFrameScope(getState(), frame.id)) {
       return;
     }
@@ -69,7 +68,6 @@ export function fetchScopes() {
     }
 
     const sourceRecord = getSource(getState(), frame.location.sourceId);
-
     if (sourceRecord.get("isPrettyPrinted")) {
       return;
     }
