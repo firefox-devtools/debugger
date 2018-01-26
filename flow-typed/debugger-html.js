@@ -290,8 +290,8 @@ declare module "debugger-html" {
       arguments: Array<ScopeBindings>,
       variables: ScopeBindings
     },
-    object: Object,
-    function: {
+    object: ?Object,
+    function: ?{
       actor: ActorId,
       class: string,
       displayName: string,

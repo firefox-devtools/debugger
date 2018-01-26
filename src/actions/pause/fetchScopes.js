@@ -5,7 +5,10 @@
 // @flow
 
 import { getSource, getSelectedFrame, getFrameScope } from "../../selectors";
+import { features } from "../../utils/prefs";
 import { isGeneratedId } from "devtools-source-map";
+import { mapScopes } from "./mapScopes";
+
 import type { ThunkArgs } from "../types";
 
 export function fetchScopes() {
@@ -38,6 +41,10 @@ export function fetchScopes() {
 
     if (isGeneratedId(frame.location.sourceId)) {
       return;
+    }
+
+    if (features.mapScopes) {
+      dispatch(mapScopes(scopes, frame));
     }
   };
 }

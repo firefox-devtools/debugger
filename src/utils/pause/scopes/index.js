@@ -4,9 +4,9 @@
 
 // @flow
 
-import { getScope } from "./getScope";
+import { getScope, type RenderableScope } from "./getScope";
 
-import type { Frame, Why, Scope, BindingContents } from "debugger-html";
+import type { Frame, Why, BindingContents } from "debugger-html";
 
 export type NamedValue = {
   name: string,
@@ -18,7 +18,7 @@ export type NamedValue = {
 export function getScopes(
   why: Why,
   selectedFrame: Frame,
-  frameScopes: ?Scope
+  frameScopes: ?RenderableScope
 ): ?(NamedValue[]) {
   if (!why || !selectedFrame) {
     return null;
