@@ -43,7 +43,7 @@ function FrameLocation({ frame }: FrameLocationProps) {
   const filename = getFilename(frame.source);
   return (
     <div className="location" title={"Line number:" + frame.location.line}>
-      <div className="fileName">{filename}</div>
+      <div className="fileName">{filename}: </div>
       <div className="lineNumber">{frame.location.line}</div>
     </div>
   );

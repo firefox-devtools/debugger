@@ -45,6 +45,19 @@ function promisify(context: any, method: any, ...args: any): Promise<mixed> {
   return str;
 }*/
 
+function throttle(func: any, ms: number) {
+  let timeout, _this;
+  return function(...args: any) {
+    _this = this;
+    if (!timeout) {
+      timeout = setTimeout(() => {
+        func.apply(_this, ...args);
+        timeout = null;
+      }, ms);
+    }
+  };
+}
+
 function waitForMs(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
