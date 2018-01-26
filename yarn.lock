@@ -7108,9 +7108,9 @@ mocha@^3.2.0:
     mkdirp "0.5.1"
     supports-color "3.1.2"
 
-mochii@^0.0.22:
-  version "0.0.22"
-  resolved "https://registry.yarnpkg.com/mochii/-/mochii-0.0.22.tgz#4b736b9f4decb9a406643f4df4ac045e64c198b3"
+mochii@^0.0.23:
+  version "0.0.23"
+  resolved "https://registry.yarnpkg.com/mochii/-/mochii-0.0.23.tgz#d884264b2748d8c67485b8fe4efd8f99ea7e08d9"
   dependencies:
     chalk "^2.1.0"
     eslint "^4.7.2"
