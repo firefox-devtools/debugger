@@ -25,7 +25,7 @@ import type {
   BPClients
 } from "./types";
 
-import { makeLocationId } from "../../utils/breakpoint";
+import { makePendingLocationId } from "../../utils/breakpoint";
 
 import { createSource, createBreakpointLocation } from "./create";
 
@@ -86,7 +86,7 @@ function sourceContents(sourceId: SourceId): Source {
 }
 
 function getBreakpointByLocation(location: Location) {
-  const id = makeLocationId(location);
+  const id = makePendingLocationId(location);
   const bpClient = bpClients[id];
 
   if (bpClient) {
@@ -121,7 +121,7 @@ function setBreakpoint(
     })
     .then(([{ actualLocation }, bpClient]) => {
       actualLocation = createBreakpointLocation(location, actualLocation);
-      const id = makeLocationId(actualLocation);
+      const id = makePendingLocationId(actualLocation);
       bpClients[id] = bpClient;
       bpClient.location.line = actualLocation.line;
       bpClient.location.column = actualLocation.column;
@@ -135,7 +135,7 @@ function removeBreakpoint(
   generatedLocation: Location
 ): Promise<void> | ?BreakpointResult {
   try {
-    const id = makeLocationId(generatedLocation);
+    const id = makePendingLocationId(generatedLocation);
     const bpClient = bpClients[id];
     if (!bpClient) {
       console.warn("No breakpoint to delete on server");
