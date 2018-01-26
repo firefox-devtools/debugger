@@ -10,7 +10,9 @@ const fileSizes = {
   "search-worker.js": 5000
 };
 
-function checkFileSizes(firefoxPath) {
+const firefoxPath = "./firefox";
+
+function checkFileSizes() {
   let success = true;
 
   Object.keys(fileSizes).forEach(key => {
@@ -41,4 +43,4 @@ function checkFileSizes(firefoxPath) {
   return success;
 }
 
-module.exports = checkFileSizes
+checkFileSizes();
