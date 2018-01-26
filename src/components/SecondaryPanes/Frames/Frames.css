@@ -21,6 +21,7 @@
 .frames ul li * {
   -moz-user-select: none;
   user-select: none;
+  cursor: default; 
 }
 
 .frames .badge {
