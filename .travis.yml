@@ -43,4 +43,6 @@ before_script:
 script:
   - node --version
   - du -sh firefox
-  - node ./bin/ci/run-tests.js
+  - node ./bin/copy-assets.js --mc ./firefox
+  - node ./bin/ci/check-file-sizes.js
+  - ./node_modules/.bin/mochii --ci --mc ./firefox --headless devtools/client/debugger/new
