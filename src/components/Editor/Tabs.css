@@ -33,7 +33,7 @@
 }
 
 .source-tabs {
-  width: calc(100% - 80px); 
+  width: calc(100% - 80px);
   align-self: flex-start;
 }
 
@@ -50,7 +50,7 @@
   margin-inline-start: 3px;
   margin-top: 3px;
   cursor: default;
-  min-width: 25%; 
+  min-width: 25%;
   max-width: 30%;
 }
 
