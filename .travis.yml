@@ -46,3 +46,15 @@ script:
   - node ./bin/copy-assets.js --mc ./firefox
   - node ./bin/ci/check-file-sizes.js
   - ./node_modules/.bin/mochii --ci --mc ./firefox --headless devtools/client/debugger/new
+  - ./node_modules/.bin/mochii --ci --mc ./firefox --headless
+    browser_toolbox_debugger.js
+    browser_keybindings_01.js
+    browser_toolbox_getpanelwhenready.js
+    browser_markup_links_06.js
+    browser_net_open_in_debugger.js
+    browser_net_view-source-debugger.js
+    browser_jsterm_autocomplete_in_debugger_stackframe.js
+    browser_webconsole_eval_in_debugger_stackframe1.js
+    browser_webconsole_eval_in_debugger_stackframe2.js
+    browser_webconsole_location_debugger_link.js
+    browser_webconsole_stacktrace_location_debugger_link.js
