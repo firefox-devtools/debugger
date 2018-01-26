@@ -4,19 +4,17 @@
 
 // @flow
 
-import { addToTree } from "./addToTree";
-import { collapseTree } from "./collapseTree";
 import { createNode, createParentMap } from "./utils";
+import { collapseTree } from "./collapseTree";
+import { addToTree } from "./addToTree";
 
 import type { SourcesMap } from "../../reducers/types";
 
-type Params = {
+export function createTree(
   sources: SourcesMap,
   debuggeeUrl: string,
   projectRoot: string
-};
-
-export function createTree({ sources, debuggeeUrl, projectRoot }: Params) {
+) {
   const uncollapsedTree = createNode("root", "", []);
   for (const source of sources.valueSeq()) {
     addToTree(uncollapsedTree, source, debuggeeUrl, projectRoot);

@@ -22,22 +22,23 @@ add_task(async function() {
   await waitForSources(dbg, "simple1", "simple2", "nested-source", "long.js");
 
   // Expand nodes and make sure more sources appear.
-  is(findAllElements(dbg, "sourceNodes").length, 2);
+  is(findAllElements(dbg, "sourceNodes").length, 2, "2 sources");
 
   await clickElement(dbg, "sourceArrow", 2);
-  is(findAllElements(dbg, "sourceNodes").length, 7);
+  is(findAllElements(dbg, "sourceNodes").length, 7, "7 sources");
 
   await clickElement(dbg, "sourceArrow", 3);
-  is(findAllElements(dbg, "sourceNodes").length, 8);
+  is(findAllElements(dbg, "sourceNodes").length, 8, "8 sources");
 
   // Select a source.
   ok(
     !findElementWithSelector(dbg, ".sources-list .focused"),
     "Source is not focused"
   );
-  const selected = waitForDispatch(dbg, "SELECT_SOURCE");
+
   await clickElement(dbg, "sourceNode", 4);
-  await selected;
+  await waitForSelectedSource(dbg, "nested-source");
+
   ok(
     findElementWithSelector(dbg, ".sources-list .focused"),
     "Source is focused"
