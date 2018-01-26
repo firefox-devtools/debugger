@@ -7,21 +7,20 @@
  * @module utils/sources-tree
  */
 
-export { addToTree } from "./addToTree";
-export { collapseTree } from "./collapseTree";
-export { createTree } from "./createTree";
 export { formatTree } from "./formatTree";
+export { addToTree } from "./addToTree";
+export { sortTree, sortEntireTree } from "./sortTree";
+export { collapseTree } from "./collapseTree";
 export { getDirectories } from "./getDirectories";
-export { getFilenameFromPath, getURL } from "./getURL";
-export { sortEntireTree, sortTree } from "./sortTree";
-export { updateTree } from "./updateTree";
+export { createTree } from "./createTree";
+export { getURL, getFilenameFromPath } from "./getURL";
 
 export {
+  nodeHasChildren,
+  isExactUrlMatch,
+  isDirectory,
   createNode,
   createParentMap,
   getRelativePath,
-  isDirectory,
-  isExactUrlMatch,
-  isNotJavaScript,
-  nodeHasChildren
+  isNotJavaScript
 } from "./utils";
