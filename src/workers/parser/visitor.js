@@ -103,7 +103,10 @@ function parseDeclarator(
   type: string
 ) {
   if (isNode(declaratorId, "Identifier")) {
-    targetScope.names[declaratorId.name] = { type, refs: [] };
+    targetScope.names[declaratorId.name] = {
+      type,
+      refs: []
+    };
   } else if (isNode(declaratorId, "ObjectPattern")) {
     declaratorId.properties.forEach(prop => {
       parseDeclarator(prop.value, targetScope, type);
@@ -124,12 +127,10 @@ function isLetOrConst(node) {
 }
 
 function hasLetOrConst(path) {
-  return path.node.body.some(node => {
-    if (!isNode(node, "VariableDeclaration")) {
-      return false;
-    }
-    return isLetOrConst(node);
-  });
+  return path.node.body.some(node => isLexicalVariable(node));
+}
+function isLexicalVariable(node) {
+  return isNode(node, "VariableDeclaration") && isLetOrConst(node);
 }
 
 function findIdentifierInScopes(
@@ -163,6 +164,7 @@ function toParsedScopes(
         case "const":
         case "param":
         case "fn":
+        case "import":
           _bindings[n] = nameRefs.refs.map(({ start, end }) => ({
             start: fromBabelLocation(start, sourceId),
             end: fromBabelLocation(end, sourceId)
@@ -203,20 +205,33 @@ function createParseJSScopeVisitor(sourceId: SourceId): ParseJSScopeVisitor {
         parent = createTempScope("module", "Module", parent, location);
         return;
       }
-      if (
-        path.isFunctionDeclaration() ||
-        path.isFunctionExpression() ||
-        path.isArrowFunctionExpression()
-      ) {
+      if (path.isFunction()) {
         savedParents.set(path, parent);
+
+        if (path.isFunctionExpression() && isNode(tree.id, "Identifier")) {
+          parent = createTempScope(
+            "block",
+            "Function Expression",
+            parent,
+            location
+          );
+          parent.names[tree.id.name] = {
+            type: "const",
+            refs: []
+          };
+        }
+
         const scope = createTempScope("function", "Function", parent, {
           // Being at the start of a function doesn't count as
           // being inside of it.
           start: tree.params[0] ? tree.params[0].loc.start : location.start,
           end: location.end
         });
-        if (isNode(tree.id, "Identifier")) {
-          const functionName = { type: "fn", refs: [] };
+        if (path.isFunctionDeclaration() && isNode(tree.id, "Identifier")) {
+          const functionName = {
+            type: "fn",
+            refs: []
+          };
           getFunctionScope(parent).names[tree.id.name] = functionName;
           scope.names[tree.id.name] = functionName;
         }
@@ -260,11 +275,39 @@ function createParseJSScopeVisitor(sourceId: SourceId): ParseJSScopeVisitor {
         });
         return;
       }
-      if (path.isIdentifier()) {
+      if (path.isImportDeclaration()) {
+        path.get("specifiers").forEach(spec => {
+          parent.names[spec.node.local.name] = {
+            type: "import",
+            refs: []
+          };
+        });
+        return;
+      }
+
+      if (path.isReferencedIdentifier()) {
         const scope = findIdentifierInScopes(parent, tree.name);
         if (scope) {
           scope.names[tree.name].refs.push(tree.loc);
         }
+        return;
+      }
+
+      if (path.parentPath.isClassProperty({ value: tree })) {
+        savedParents.set(path, parent);
+        parent = createTempScope("block", "Class Field", parent, location);
+        return;
+      }
+
+      if (
+        path.isSwitchStatement() &&
+        path.node.cases.some(node =>
+          node.consequent.some(child => isLexicalVariable(child))
+        )
+      ) {
+        savedParents.set(path, parent);
+        parent = createTempScope("block", "Switch", parent, location);
+        return;
       }
     },
     exit(path: NodePath) {
