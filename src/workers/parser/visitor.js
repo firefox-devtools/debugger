@@ -7,24 +7,23 @@
 import type { SourceId, Location } from "debugger-html";
 import type { NodePath, Node, Location as BabelLocation } from "babel-traverse";
 
+export type BindingLocation = {
+  start: Location,
+  end: Location
+};
+export type BindingData = Array<BindingLocation>;
+export type ScopeBindingList = {
+  [name: string]: BindingData
+};
+
 export type SourceScope = {
   type: string,
   start: Location,
   end: Location,
-  bindings: {
-    [name: string]: Location[]
-  }
+  bindings: ScopeBindingList
 };
 
-export type ParsedScopeNamesReferences = {
-  [name: string]: Location[]
-};
-
-export type ParsedScope = {
-  start: Location,
-  end: Location,
-  type: string,
-  bindings: ParsedScopeNamesReferences,
+export type ParsedScope = SourceScope & {
   children: ?(ParsedScope[])
 };
 
@@ -35,7 +34,7 @@ export type ParseJSScopeVisitor = {
 
 type TempScopeNameReferences = {
   type: string,
-  refs: BabelLocation[]
+  refs: Array<BindingLocation>
 };
 
 type TempScopeNamesReferences = {
@@ -159,13 +158,14 @@ function toParsedScopes(
         case "let":
         case "const":
         case "param":
-          _bindings[n] = nameRefs.refs.map(location => {
-            return fromBabelLocation(location, sourceId);
-          });
+          _bindings[n] = nameRefs.refs.map(({ start, end }) => ({
+            start: fromBabelLocation(start, sourceId),
+            end: fromBabelLocation(end, sourceId)
+          }));
           break;
       }
       return _bindings;
-    }, ((Object.create(null): any): ParsedScopeNamesReferences));
+    }, ((Object.create(null): any): ScopeBindingList));
     return {
       start: fromBabelLocation(scope.loc.start, sourceId),
       end: fromBabelLocation(scope.loc.end, sourceId),
@@ -243,7 +243,7 @@ function createParseJSScopeVisitor(sourceId: SourceId): ParseJSScopeVisitor {
       if (path.isIdentifier()) {
         const scope = findIdentifierInScopes(parent, tree.name);
         if (scope) {
-          scope.names[tree.name].refs.push(tree.loc.start);
+          scope.names[tree.name].refs.push(tree.loc);
         }
       }
     },
