@@ -140,7 +140,7 @@
     "mock-require": "^3.0.0",
     "node-emoji": "^1.8.1",
     "npm-run-all": "^4.0.2",
-    "prettier": "^1.6.1",
+    "prettier": "^1.10.2",
     "react-addons-perf": "^15.4.2",
     "react-test-renderer": "15.6.2",
     "remark-cli": "^5.0.0",

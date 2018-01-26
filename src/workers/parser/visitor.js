@@ -6,6 +6,7 @@
 
 import type { SourceId, Location } from "debugger-html";
 import type { NodePath, Node, Location as BabelLocation } from "babel-traverse";
+import getFunctionName from "./utils/getFunctionName";
 
 export type BindingLocation = {
   start: Location,
@@ -244,12 +245,17 @@ function createParseJSScopeVisitor(sourceId: SourceId): ParseJSScopeVisitor {
           };
         }
 
-        const scope = createTempScope("function", "Function", parent, {
-          // Being at the start of a function doesn't count as
-          // being inside of it.
-          start: tree.params[0] ? tree.params[0].loc.start : location.start,
-          end: location.end
-        });
+        const scope = createTempScope(
+          "function",
+          getFunctionName(path),
+          parent,
+          {
+            // Being at the start of a function doesn't count as
+            // being inside of it.
+            start: tree.params[0] ? tree.params[0].loc.start : location.start,
+            end: location.end
+          }
+        );
         if (path.isFunctionDeclaration() && isNode(tree.id, "Identifier")) {
           const functionName = {
             type: "fn",
