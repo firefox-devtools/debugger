@@ -53,5 +53,4 @@ add_task(async function() {
     }),
     "Breakpoint has correct line"
   );
-  ok(false, "fff")
 });
