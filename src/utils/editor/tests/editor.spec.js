@@ -145,6 +145,7 @@ const codeMirror = {
     offsetWidth: 100,
     offsetHeight: 100
   })),
+  getScrollInfo: () => {},
   removeLineClass: jest.fn(),
   operation: jest.fn(cb => cb()),
   charCoords: jest.fn(() => ({

@@ -108,7 +108,7 @@ function isVisible(codeMirror: any, top: number, left: number) {
   const inXView = withinBounds(
     left,
     scrollArea.left,
-    scrollArea.left + scrollArea.clientWidth - charWidth
+    scrollArea.left + (scrollArea.clientWidth - 30) - charWidth
   );
 
   const fontHeight = codeMirror.defaultTextHeight();
