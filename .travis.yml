@@ -10,7 +10,7 @@ env:
   global:
     - DISPLAY=':99.0'
     - YARN_VERSION='0.24.5'
-    - MC_COMMIT='6ffbba9ce0ef' # https://hg.mozilla.org/mozilla-central/shortlog
+    - MC_COMMIT='e2bb11b88bd4' # https://hg.mozilla.org/mozilla-central/shortlog
 
 notifications:
   slack:
@@ -43,4 +43,6 @@ before_script:
 script:
   - node --version
   - du -sh firefox
-  - node ./bin/ci/run-tests.js
+  - node ./bin/copy-assets.js --mc ./firefox
+  - node ./bin/ci/check-file-sizes.js
+  - ./node_modules/.bin/mochii --ci --mc ./firefox --headless devtools/client/debugger/new

@@ -16,7 +16,7 @@ html[dir="rtl"] .command-bar {
 }
 
 .theme-dark .command-bar {
-  background-color: var(--theme-tab-toolbar-background);
+  background-color: var(--theme-toolbar-background);
 }
 
 img.pause,

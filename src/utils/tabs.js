@@ -61,3 +61,50 @@ export function getSourceAnnotation(
     return <img className="blackBox" />;
   }
 }
+
+export function getTabMenuItems() {
+  return {
+    closeTab: {
+      id: "node-menu-close-tab",
+      label: L10N.getStr("sourceTabs.closeTab"),
+      accesskey: L10N.getStr("sourceTabs.closeTab.accesskey"),
+      disabled: false
+    },
+    closeOtherTabs: {
+      id: "node-menu-close-other-tabs",
+      label: L10N.getStr("sourceTabs.closeOtherTabs"),
+      accesskey: L10N.getStr("sourceTabs.closeOtherTabs.accesskey"),
+      disabled: false
+    },
+    closeTabsToEnd: {
+      id: "node-menu-close-tabs-to-end",
+      label: L10N.getStr("sourceTabs.closeTabsToEnd"),
+      accesskey: L10N.getStr("sourceTabs.closeTabsToEnd.accesskey"),
+      disabled: false
+    },
+    closeAllTabs: {
+      id: "node-menu-close-all-tabs",
+      label: L10N.getStr("sourceTabs.closeAllTabs"),
+      accesskey: L10N.getStr("sourceTabs.closeAllTabs.accesskey"),
+      disabled: false
+    },
+    showSource: {
+      id: "node-menu-show-source",
+      label: L10N.getStr("sourceTabs.revealInTree"),
+      accesskey: L10N.getStr("sourceTabs.revealInTree.accesskey"),
+      disabled: false
+    },
+    copySourceUri2: {
+      id: "node-menu-copy-source-url",
+      label: L10N.getStr("copySourceUri2"),
+      accesskey: L10N.getStr("copySourceUri2.accesskey"),
+      disabled: false
+    },
+    prettyPrint: {
+      id: "node-menu-pretty-print",
+      label: L10N.getStr("sourceTabs.prettyPrint"),
+      accesskey: L10N.getStr("sourceTabs.prettyPrint.accesskey"),
+      disabled: false
+    }
+  };
+}

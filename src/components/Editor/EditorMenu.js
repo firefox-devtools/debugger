@@ -10,7 +10,10 @@ import { isOriginalId } from "devtools-source-map";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { findFunctionText } from "../../utils/function";
 import { findClosestScope } from "../../utils/breakpoint/astBreakpointLocation";
-import { getSourceLocationFromMouseEvent } from "../../utils/editor";
+import {
+  getSourceLocationFromMouseEvent,
+  toSourceLine
+} from "../../utils/editor";
 import { isPretty } from "../../utils/source";
 import {
   getContextMenu,
@@ -103,14 +106,17 @@ function getMenuItems(
     click: () => copyToTheClipboard(selectedSource.get("url"))
   };
 
-  const functionText = getFunctionText(line + 1);
+  const sourceId = selectedSource.get("id");
+  const sourceLine = toSourceLine(sourceId, line);
+
+  const functionText = getFunctionText(sourceLine);
   const copyFunctionItem = {
     id: "node-menu-copy-function",
     label: copyFunctionLabel,
     accesskey: copyFunctionKey,
     disabled: !functionText,
     click: () => {
-      const { location: { start, end } } = getFunctionLocation(line);
+      const { location: { start, end } } = getFunctionLocation(sourceLine);
       flashLineRange({
         start: start.line,
         end: end.line,
@@ -133,7 +139,7 @@ function getMenuItems(
     label: revealInTreeLabel,
     accesskey: revealInTreeKey,
     disabled: isPrettyPrinted,
-    click: () => showSource(selectedSource.get("id"))
+    click: () => showSource(sourceId)
   };
 
   const blackBoxMenuItem = {
