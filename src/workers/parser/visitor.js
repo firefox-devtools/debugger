@@ -11,7 +11,16 @@ export type BindingLocation = {
   start: Location,
   end: Location
 };
-export type BindingData = Array<BindingLocation>;
+export type BindingData = {
+  declarations: Array<{
+    start: Location,
+    end: Location
+  }>,
+  refs: Array<{
+    start: Location,
+    end: Location
+  }>
+};
 export type ScopeBindingList = {
   [name: string]: BindingData
 };
@@ -35,7 +44,8 @@ export type ParseJSScopeVisitor = {
 
 type TempScopeNameReferences = {
   type: string,
-  refs: Array<BindingLocation>
+  declarations: $ElementType<BindingData, "declarations">,
+  refs: $ElementType<BindingData, "refs">
 };
 
 type TempScopeNamesReferences = {
@@ -103,10 +113,16 @@ function parseDeclarator(
   type: string
 ) {
   if (isNode(declaratorId, "Identifier")) {
-    targetScope.names[declaratorId.name] = {
-      type,
-      refs: []
-    };
+    let existing = targetScope.names[declaratorId.name];
+    if (!existing) {
+      existing = {
+        type,
+        declarations: [],
+        refs: []
+      };
+      targetScope.names[declaratorId.name] = existing;
+    }
+    existing.declarations.push(declaratorId.loc);
   } else if (isNode(declaratorId, "ObjectPattern")) {
     declaratorId.properties.forEach(prop => {
       parseDeclarator(prop.value, targetScope, type);
@@ -165,10 +181,16 @@ function toParsedScopes(
         case "param":
         case "fn":
         case "import":
-          _bindings[n] = nameRefs.refs.map(({ start, end }) => ({
-            start: fromBabelLocation(start, sourceId),
-            end: fromBabelLocation(end, sourceId)
-          }));
+          _bindings[n] = {
+            declarations: nameRefs.declarations.map(({ start, end }) => ({
+              start: fromBabelLocation(start, sourceId),
+              end: fromBabelLocation(end, sourceId)
+            })),
+            refs: nameRefs.refs.map(({ start, end }) => ({
+              start: fromBabelLocation(start, sourceId),
+              end: fromBabelLocation(end, sourceId)
+            }))
+          };
           break;
       }
       return _bindings;
@@ -217,6 +239,7 @@ function createParseJSScopeVisitor(sourceId: SourceId): ParseJSScopeVisitor {
           );
           parent.names[tree.id.name] = {
             type: "const",
+            declarations: [tree.id.loc],
             refs: []
           };
         }
@@ -230,6 +253,7 @@ function createParseJSScopeVisitor(sourceId: SourceId): ParseJSScopeVisitor {
         if (path.isFunctionDeclaration() && isNode(tree.id, "Identifier")) {
           const functionName = {
             type: "fn",
+            declarations: [tree.id.loc],
             refs: []
           };
           getFunctionScope(parent).names[tree.id.name] = functionName;
@@ -279,6 +303,7 @@ function createParseJSScopeVisitor(sourceId: SourceId): ParseJSScopeVisitor {
         path.get("specifiers").forEach(spec => {
           parent.names[spec.node.local.name] = {
             type: "import",
+            declarations: [spec.node.local.loc],
             refs: []
           };
         });
