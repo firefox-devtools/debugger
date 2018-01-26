@@ -6,6 +6,7 @@
 
 import type { SourceId, Location } from "debugger-html";
 import type { NodePath, Node, Location as BabelLocation } from "babel-traverse";
+import { isGeneratedId } from "devtools-source-map";
 import getFunctionName from "./utils/getFunctionName";
 
 export type BindingLocation = {
@@ -215,13 +216,46 @@ function toParsedScopes(
 function createParseJSScopeVisitor(sourceId: SourceId): ParseJSScopeVisitor {
   let parent: TempScope;
   const savedParents: WeakMap<NodePath, TempScope> = new WeakMap();
+
+  let isUnambiguousModule = false;
+
   const traverseVisitor = {
+    // eslint-disable-next-line complexity
     enter(path: NodePath) {
       const tree = path.node;
       const location = path.node.loc;
       if (path.isProgram()) {
         parent = createTempScope("object", "Global", null, location);
         savedParents.set(path, parent);
+
+        // Include fake bindings to collect references to CommonJS
+        Object.assign(parent.names, {
+          module: {
+            type: "var",
+            declarations: [],
+            refs: []
+          },
+          exports: {
+            type: "var",
+            declarations: [],
+            refs: []
+          },
+          __dirname: {
+            type: "var",
+            declarations: [],
+            refs: []
+          },
+          __filename: {
+            type: "var",
+            declarations: [],
+            refs: []
+          },
+          require: {
+            type: "var",
+            declarations: [],
+            refs: []
+          }
+        });
 
         parent = createTempScope("block", "Lexical Global", parent, location);
 
@@ -306,6 +340,8 @@ function createParseJSScopeVisitor(sourceId: SourceId): ParseJSScopeVisitor {
         return;
       }
       if (path.isImportDeclaration()) {
+        isUnambiguousModule = true;
+
         path.get("specifiers").forEach(spec => {
           parent.names[spec.node.local.name] = {
             type: "import",
@@ -313,6 +349,10 @@ function createParseJSScopeVisitor(sourceId: SourceId): ParseJSScopeVisitor {
             refs: []
           };
         });
+        return;
+      }
+      if (path.isExportDeclaration()) {
+        isUnambiguousModule = true;
         return;
       }
 
@@ -352,9 +392,50 @@ function createParseJSScopeVisitor(sourceId: SourceId): ParseJSScopeVisitor {
   return {
     traverseVisitor,
     toParsedScopes() {
+      // TODO: This should probably check for ".mjs" extension on the
+      // original file, and should also be skipped if the the generated
+      // code is an ES6 module rather than a script.
+      if (
+        isGeneratedId(sourceId) ||
+        (!isUnambiguousModule && !looksLikeCommonJS(parent))
+      ) {
+        stripModuleScope(parent);
+      }
+
       return toParsedScopes([parent], sourceId) || [];
     }
   };
+}
+
+function looksLikeCommonJS(rootScope: TempScope): boolean {
+  return (
+    rootScope.names.__dirname.refs.length > 0 ||
+    rootScope.names.__filename.refs.length > 0 ||
+    rootScope.names.require.refs.length > 0 ||
+    rootScope.names.exports.refs.length > 0 ||
+    rootScope.names.module.refs.length > 0
+  );
+}
+
+function stripModuleScope(rootScope: TempScope): void {
+  const rootLexicalScope = rootScope.children[0];
+  const moduleScope = rootLexicalScope.children[0];
+  if (moduleScope.type !== "module") {
+    throw new Error("Assertion failure - should be module");
+  }
+
+  Object.keys(moduleScope.names).forEach(name => {
+    const binding = moduleScope.names[name];
+    if (binding.type === "let" || binding.type === "const") {
+      rootLexicalScope.names[name] = binding;
+    } else {
+      rootScope.names[name] = binding;
+    }
+  });
+  rootLexicalScope.children = moduleScope.children;
+  rootLexicalScope.children.forEach(child => {
+    child.parent = rootLexicalScope;
+  });
 }
 
 function compareLocations(a: Location, b: Location): number {
