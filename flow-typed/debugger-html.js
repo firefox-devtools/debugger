@@ -255,20 +255,6 @@ declare module "debugger-html" {
   };
 
   /**
-   * SourceScope
-   * @memberof types
-   * @static
-   */
-  declare type SourceScope = {
-    type: string,
-    start: Location,
-    end: Location,
-    bindings: {
-      [name: string]: Location[]
-    }
-  };
-
-  /**
    * Script
    * This describes scripts which are sent to the debug server to be eval'd
    * @memberof types

@@ -5,9 +5,13 @@
 // @flow
 
 import { traverseAst } from "./utils/ast";
-import { createParseJSScopeVisitor, findScopes } from "./visitor";
+import {
+  createParseJSScopeVisitor,
+  findScopes,
+  type SourceScope
+} from "./visitor";
 
-import type { Location, SourceScope } from "debugger-html";
+import type { Location } from "debugger-html";
 
 let parsedScopesCache = new Map();
 

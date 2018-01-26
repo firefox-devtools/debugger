@@ -4,11 +4,20 @@
 
 // @flow
 
-import type { Source, SourceId, Location, SourceScope } from "debugger-html";
+import type { SourceId, Location } from "debugger-html";
 import type { NodePath, Node, Location as BabelLocation } from "babel-traverse";
 
+export type SourceScope = {
+  type: string,
+  start: Location,
+  end: Location,
+  bindings: {
+    [name: string]: Location[]
+  }
+};
+
 export type ParsedScopeNamesReferences = {
-  [name: string]: BabelLocation[]
+  [name: string]: Location[]
 };
 
 export type ParsedScope = {
