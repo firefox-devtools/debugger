@@ -17,7 +17,8 @@ export type ScopeBindingList = {
 };
 
 export type SourceScope = {
-  type: string,
+  type: "object" | "function" | "block",
+  displayName: string,
   start: Location,
   end: Location,
   bindings: ScopeBindingList
@@ -42,7 +43,8 @@ type TempScopeNamesReferences = {
 };
 
 type TempScope = {
-  type: string,
+  type: "object" | "function" | "block" | "module",
+  displayName: string,
   parent: TempScope | null,
   children: Array<TempScope>,
   loc: BabelLocation,
@@ -50,15 +52,17 @@ type TempScope = {
 };
 
 function createTempScope(
-  type: string,
+  type: "object" | "function" | "block" | "module",
+  displayName: string,
   parent: TempScope | null,
   loc: BabelLocation
 ): TempScope {
   const result = {
     type,
+    displayName,
     parent,
     children: [],
-    loc: loc,
+    loc,
     names: (Object.create(null): any)
   };
   if (parent) {
@@ -73,7 +77,7 @@ function isNode(node?: Node, type: string): boolean {
 
 function getFunctionScope(scope: TempScope): TempScope {
   let s = scope;
-  while (s.type !== "Function" && s.type !== "Script") {
+  while (s.type !== "function" && s.type !== "module") {
     if (!s.parent) {
       return s;
     }
@@ -158,6 +162,7 @@ function toParsedScopes(
         case "let":
         case "const":
         case "param":
+        case "fn":
           _bindings[n] = nameRefs.refs.map(({ start, end }) => ({
             start: fromBabelLocation(start, sourceId),
             end: fromBabelLocation(end, sourceId)
@@ -169,7 +174,8 @@ function toParsedScopes(
     return {
       start: fromBabelLocation(scope.loc.start, sourceId),
       end: fromBabelLocation(scope.loc.end, sourceId),
-      type: scope.type.toLowerCase(),
+      type: scope.type === "module" ? "block" : scope.type,
+      displayName: scope.displayName,
       bindings,
       children: toParsedScopes(scope.children, sourceId)
     };
@@ -182,15 +188,19 @@ function toParsedScopes(
  * scope information for specific location.
  */
 function createParseJSScopeVisitor(sourceId: SourceId): ParseJSScopeVisitor {
-  let parent: TempScope = createTempScope("Global", null, null);
-  let savedParents: WeakMap<NodePath, TempScope> = new WeakMap();
+  let parent: TempScope;
+  const savedParents: WeakMap<NodePath, TempScope> = new WeakMap();
   const traverseVisitor = {
     enter(path: NodePath) {
       const tree = path.node;
       const location = path.node.loc;
       if (path.isProgram()) {
+        parent = createTempScope("object", "Global", null, location);
         savedParents.set(path, parent);
-        parent = createTempScope("Script", parent, location);
+
+        parent = createTempScope("block", "Lexical Global", parent, location);
+
+        parent = createTempScope("module", "Module", parent, location);
         return;
       }
       if (
@@ -199,7 +209,12 @@ function createParseJSScopeVisitor(sourceId: SourceId): ParseJSScopeVisitor {
         path.isArrowFunctionExpression()
       ) {
         savedParents.set(path, parent);
-        const scope = createTempScope("Function", parent, location);
+        const scope = createTempScope("function", "Function", parent, {
+          // Being at the start of a function doesn't count as
+          // being inside of it.
+          start: tree.params[0] ? tree.params[0].loc.start : location.start,
+          end: location.end
+        });
         if (isNode(tree.id, "Identifier")) {
           const functionName = { type: "fn", refs: [] };
           getFunctionScope(parent).names[tree.id.name] = functionName;
@@ -209,18 +224,23 @@ function createParseJSScopeVisitor(sourceId: SourceId): ParseJSScopeVisitor {
         parent = scope;
         return;
       }
-      if (path.isForInStatement() || path.isForStatement()) {
+      if (path.isForXStatement() || path.isForStatement()) {
         const init = tree.init || tree.left;
         if (isNode(init, "VariableDeclaration") && isLetOrConst(init)) {
           // Debugger will create new lexical environment for the for.
           savedParents.set(path, parent);
-          parent = createTempScope("For", parent, location);
+          parent = createTempScope("block", "For", parent, {
+            // Being at the start of a for loop doesn't count as
+            // being inside it.
+            start: init.start,
+            end: location.end
+          });
         }
         return;
       }
       if (path.isCatchClause()) {
         savedParents.set(path, parent);
-        parent = createTempScope("Catch", parent, location);
+        parent = createTempScope("block", "Catch", parent, location);
         parseDeclarator(tree.param, parent, "param");
         return;
       }
@@ -228,7 +248,7 @@ function createParseJSScopeVisitor(sourceId: SourceId): ParseJSScopeVisitor {
         if (hasLetOrConst(path)) {
           // Debugger will create new lexical environment for the block.
           savedParents.set(path, parent);
-          parent = createTempScope("Block", parent, location);
+          parent = createTempScope("block", "Block", parent, location);
         }
         return;
       }
@@ -258,7 +278,7 @@ function createParseJSScopeVisitor(sourceId: SourceId): ParseJSScopeVisitor {
   return {
     traverseVisitor,
     toParsedScopes() {
-      return toParsedScopes(parent.children, sourceId) || [];
+      return toParsedScopes([parent], sourceId) || [];
     }
   };
 }
@@ -275,10 +295,10 @@ function compareLocations(a: Location, b: Location): number {
  */
 function findScopes(scopes: ParsedScope[], location: Location): SourceScope[] {
   // Find inner most in the tree structure.
-  let searchInScopes = scopes;
+  let searchInScopes: ?(ParsedScope[]) = scopes;
   const found = [];
   while (searchInScopes) {
-    let foundOne = searchInScopes.some(s => {
+    const foundOne = searchInScopes.some(s => {
       if (
         compareLocations(s.start, location) <= 0 &&
         compareLocations(location, s.end) < 0
@@ -297,6 +317,7 @@ function findScopes(scopes: ParsedScope[], location: Location): SourceScope[] {
   return found.map(i => {
     return {
       type: i.type,
+      displayName: i.displayName,
       start: i.start,
       end: i.end,
       bindings: i.bindings
