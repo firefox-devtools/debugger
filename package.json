@@ -138,7 +138,7 @@
     "jest-localstorage-mock": "^2.2.0",
     "jest-serializer-babel-ast": "^0.0.5",
     "lint-staged": "^6.0.1",
-    "mochii": "^0.0.20",
+    "mochii": "^0.0.22",
     "mock-require": "^3.0.0",
     "node-emoji": "^1.8.1",
     "npm-run-all": "^4.0.2",
