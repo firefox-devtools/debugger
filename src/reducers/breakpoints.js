@@ -98,16 +98,14 @@ function addBreakpoint(state, action) {
 
 function syncBreakpoint(state, data) {
   const { breakpoint, previousLocation } = data;
+  const locationId = makeLocationId(breakpoint.location);
 
   if (previousLocation) {
-    state = state.deleteIn(["breakpoints", makeLocationId(previousLocation)]);
+    return state
+      .deleteIn(["breakpoints", makeLocationId(previousLocation)])
+      .setIn(["breakpoints", locationId], breakpoint);
   }
 
-  if (!breakpoint) {
-    return state;
-  }
-
-  const locationId = makeLocationId(breakpoint.location);
   return state.setIn(["breakpoints", locationId], breakpoint);
 }
 

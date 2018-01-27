@@ -24,8 +24,6 @@ function handleRequest(request, response) {
 
   // Redirect to a different file each time.
   let counter = 1 + (+getState("counter") % 4);
-
-  dump(`>> ${counter} ${JSON.stringify(request)}\n`)
   const newUrl = _getUrl(request, counter);
 
   response.setStatusLine(request.httpVersion, 302, "Found");
