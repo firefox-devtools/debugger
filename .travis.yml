@@ -45,8 +45,8 @@ script:
   - du -sh firefox
   - node ./bin/copy-assets.js --mc ./firefox
   - node ./bin/ci/check-file-sizes.js
-  - ./node_modules/.bin/mochii --ci --mc ./firefox --headless devtools/client/debugger/new
-  - ./node_modules/.bin/mochii --ci --mc ./firefox --headless
+  - ./node_modules/.bin/mochii --ci --mc ./firefox devtools/client/debugger/new
+  - ./node_modules/.bin/mochii --ci --mc ./firefox
     browser_toolbox_debugger.js
     browser_keybindings_01.js
     browser_toolbox_getpanelwhenready.js
