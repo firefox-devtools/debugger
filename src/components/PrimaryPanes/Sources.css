@@ -31,7 +31,8 @@
 }
 
 .sources-list .managed-tree .tree .node {
-  padding: 0px 10px 0px 3px;
+  padding: 0px 0px 0px 3px;
+  height: 21px;
   width: 100%;
 }
 
