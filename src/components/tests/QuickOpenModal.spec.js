@@ -172,4 +172,20 @@ describe("QuickOpenModal", () => {
       maxResults: 1000
     });
   });
+
+  test("Simple goto search query = :abc & searchType = goto", () => {
+    const { wrapper } = generateModal(
+      {
+        enabled: true,
+        query: ":abc",
+        searchType: "goto",
+        symbols: {
+          functions: [],
+          variables: []
+        }
+      },
+      "mount"
+    );
+    expect(wrapper).toMatchSnapshot();
+  });
 });
