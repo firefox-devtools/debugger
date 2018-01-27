@@ -520,17 +520,6 @@ exports[`QuickOpenModal Simple goto search query = :abc & searchType = goto 1`] 
                 </CloseButton>
               </div>
             </SearchInput>
-            <ResultList
-              items={Array []}
-              key="results"
-              selectItem={[Function]}
-              selected={0}
-              size="small"
-            >
-              <ul
-                className="result-list small"
-              />
-            </ResultList>
           </div>
         </div>
       </Modal>

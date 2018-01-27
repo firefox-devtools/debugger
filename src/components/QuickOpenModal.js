@@ -102,9 +102,6 @@ export class QuickOpenModal extends Component<Props, State> {
       const results = this.props.sources;
       return this.setState({ results });
     }
-    if (this.isGotoQuery()) {
-      return this.setState({ results: [] });
-    }
     if (this.isGotoSourceQuery()) {
       const [baseQuery] = query.split(":");
       const results = filter(this.props.sources, baseQuery);
@@ -141,6 +138,10 @@ export class QuickOpenModal extends Component<Props, State> {
   };
 
   updateResults = (query: string) => {
+    if (this.isGotoQuery()) {
+      return;
+    }
+
     if (query == "") {
       return this.showTopSources();
     }
@@ -152,12 +153,6 @@ export class QuickOpenModal extends Component<Props, State> {
     if (this.isShortcutQuery()) {
       return this.showShortcuts(query);
     }
-<<<<<<< HEAD
-    if (this.isGotoQuery()) {
-      return this.searchSources(null);
-    }
-=======
->>>>>>> fix type error
     return this.searchSources(query);
   };
 
@@ -252,7 +247,7 @@ export class QuickOpenModal extends Component<Props, State> {
     const { selectedSource, setQuickOpenQuery } = this.props;
     setQuickOpenQuery(e.target.value);
     const noSource = !selectedSource || !selectedSource.get("text");
-    if (this.isSymbolSearch() && noSource) {
+    if ((this.isSymbolSearch() && noSource) || this.isGotoQuery()) {
       return;
     }
     this.updateResults(e.target.value);
@@ -262,7 +257,7 @@ export class QuickOpenModal extends Component<Props, State> {
     const { enabled, query } = this.props;
     const { results, selectedIndex } = this.state;
 
-    if (!enabled || !results) {
+    if (!this.isGotoQuery() && (!enabled || !results)) {
       return;
     }
 
@@ -272,11 +267,13 @@ export class QuickOpenModal extends Component<Props, State> {
         return this.gotoLocation(location);
       }
 
-      if (this.isShortcutQuery()) {
-        return this.setModifier(results[selectedIndex]);
-      }
+      if (results) {
+        if (this.isShortcutQuery()) {
+          return this.setModifier(results[selectedIndex]);
+        }
 
-      return this.selectResultItem(e, results[selectedIndex]);
+        return this.selectResultItem(e, results[selectedIndex]);
+      }
     }
 
     if (e.key === "Tab") {
