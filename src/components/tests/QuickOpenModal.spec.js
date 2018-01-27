@@ -187,5 +187,6 @@ describe("QuickOpenModal", () => {
       "mount"
     );
     expect(wrapper).toMatchSnapshot();
+    expect(wrapper.state().results).toEqual([]);
   });
 });
