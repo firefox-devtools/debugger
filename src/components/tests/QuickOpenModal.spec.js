@@ -187,9 +187,6 @@ describe("QuickOpenModal", () => {
       "mount"
     );
     expect(wrapper).toMatchSnapshot();
-<<<<<<< 19b21e20161fb4b31cb685381fb8b4f2e92d0aad
     expect(wrapper.state().results).toEqual([]);
-=======
->>>>>>> test case for goto in QuickOpen
   });
 });
