@@ -23,8 +23,8 @@ import type {
 } from "debugger-html";
 
 type BreakpointSyncData = {
-  previousLocation: Location,
-  breakpoint: ?Breakpoint
+  previousLocation: Location | null,
+  breakpoint: Breakpoint
 };
 
 async function makeScopedLocation(
@@ -50,7 +50,7 @@ function createSyncData(
   pendingBreakpoint: PendingBreakpoint,
   location: Location,
   generatedLocation: Location,
-  previousLocation: Location
+  previousLocation: Location | null = null
 ): BreakpointSyncData {
   const overrides = { ...pendingBreakpoint, generatedLocation, id };
   const breakpoint = createBreakpoint(location, overrides);
@@ -127,11 +127,6 @@ export async function syncClientBreakpoint(
   /** ******* Case 2: Add New Breakpoint ***********/
   // If we are not disabled, set the breakpoint on the server and get
   // that info so we can set it on our breakpoints.
-
-  if (!scopedGeneratedLocation.line) {
-    return { previousLocation, breakpoint: null };
-  }
-
   const { id, actualLocation } = await client.setBreakpoint(
     scopedGeneratedLocation,
     pendingBreakpoint.condition,
