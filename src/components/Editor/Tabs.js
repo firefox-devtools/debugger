@@ -385,7 +385,6 @@ class SourceTabs extends PureComponent<Props, State> {
         onContextMenu={e => this.onTabContextMenu(e, source)}
         title={tabName(source)}
       >
-        {sourceAnnotation}
         <div className="filename">{tabName(source)}</div>
         <CloseButton
           handleClick={onClickClose}
@@ -403,7 +402,6 @@ class SourceTabs extends PureComponent<Props, State> {
       source.get("id") == selectedSource.get("id") &&
       (!this.isProjectSearchEnabled() && !this.isSourceSearchEnabled());
     const isPrettyCode = isPretty(source);
-    const sourceAnnotation = this.getSourceAnnotation(source);
 
     function onClickClose(ev) {
       ev.stopPropagation();
