@@ -68,6 +68,10 @@ function filter(values, query) {
   });
 }
 
+const styles = {
+  color: "blue"
+};
+
 export class QuickOpenModal extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -290,6 +294,40 @@ export class QuickOpenModal extends Component<Props, State> {
     return results && results.length ? results.length : 0;
   };
 
+  fuzzyhighlight = (query, results) => {
+    var queryElem = 0;
+    var resultElem = 0;
+
+    for (resultElem; resultElem < results.length; resultElem++) {
+      var titleElem = 0;
+      var title = results[resultElem].title;
+
+      var styledResults = [];
+      results[resultElem].title = "";
+
+      if (query[0] === "@" || query[0] === "#" || query[0] === ":") {
+        queryElem++;
+      }
+
+      for (queryElem; queryElem < query.length; queryElem++) {
+        for (titleElem; titleElem < title.length; titleElem++) {
+          if (query[queryElem] === title[titleElem]) {
+            styledResults.push(
+              <span key={queryElem + titleElem} style={styles}>
+                {title.charAt(titleElem)}
+              </span>
+            );
+            queryElem++;
+          } else {
+            styledResults.push(title.charAt(titleElem));
+          }
+        }
+      }
+
+      results[resultElem].title = styledResults;
+    }
+  };
+
   // Query helpers
   isFunctionQuery = () => this.props.searchType === "functions";
   isVariableQuery = () => this.props.searchType === "variables";
@@ -304,6 +342,10 @@ export class QuickOpenModal extends Component<Props, State> {
 
     if (!enabled) {
       return null;
+    }
+
+    if (results) {
+      this.fuzzyhighlight(query, results);
     }
 
     const summaryMsg = L10N.getFormatStr(
