@@ -102,7 +102,9 @@ export class QuickOpenModal extends Component<Props, State> {
       const results = this.props.sources;
       return this.setState({ results });
     }
-
+    if (this.isGotoQuery()) {
+      return this.setState({ results: [] });
+    }
     if (this.isGotoSourceQuery()) {
       const [baseQuery] = query.split(":");
       const results = filter(this.props.sources, baseQuery);
@@ -150,7 +152,6 @@ export class QuickOpenModal extends Component<Props, State> {
     if (this.isShortcutQuery()) {
       return this.showShortcuts(query);
     }
-
     return this.searchSources(query);
   };
 
