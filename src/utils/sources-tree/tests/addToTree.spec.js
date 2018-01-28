@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 /* eslint max-nested-callbacks: ["error", 4]*/
 
 import { Map } from "immutable";
@@ -5,9 +9,9 @@ import { Map } from "immutable";
 import {
   addToTree,
   createNode,
-  nodeHasChildren,
   createTree,
-  formatTree
+  formatTree,
+  nodeHasChildren
 } from "../index";
 
 function createSourcesMap(sources) {
@@ -79,7 +83,10 @@ describe("sources-tree", () => {
       ];
 
       const sourceMap = createSourcesMap(sources);
-      const tree = createTree(sourceMap, "").sourceTree;
+      const tree = createTree({
+        sources: sourceMap,
+        debugeeURL: ""
+      }).sourceTree;
       expect(tree.contents).toHaveLength(1);
       const subtree = tree.contents[0];
       expect(subtree.contents).toHaveLength(2);
@@ -95,8 +102,10 @@ describe("sources-tree", () => {
       ];
 
       const sourceMap = createSourcesMap(sources);
-      const tree = createTree(sourceMap, "").sourceTree;
-
+      const tree = createTree({
+        sources: sourceMap,
+        debugeeURL: ""
+      }).sourceTree;
       expect(formatTree(tree)).toMatchSnapshot();
     });
 
@@ -113,7 +122,10 @@ describe("sources-tree", () => {
       ];
 
       const sourceMap = createSourcesMap(sources);
-      const tree = createTree(sourceMap, "").sourceTree;
+      const tree = createTree({
+        sources: sourceMap,
+        debugeeURL: ""
+      }).sourceTree;
       expect(tree.contents).toHaveLength(1);
       const subtree = tree.contents[0];
       expect(subtree.contents).toHaveLength(1);
