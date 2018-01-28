@@ -37,7 +37,7 @@ const mockThreadClient = {
 
 function createPauseInfo(overrides = {}) {
   return {
-    frames: [makeFrame({ id: 1, sourceId: "foo" })],
+    frames: [makeFrame({ id: 1, sourceId: "foo1" })],
     loadedObjects: [],
     why: {},
     ...overrides
