@@ -81,10 +81,10 @@ class Expressions extends PureComponent<Props, State> {
     );
   }
 
-  componentDidUpdate() {
-    if (this._input) {
+  componentDidUpdate(prevProps, prevState) {
+    if (this._input && !prevState.editing) {
       const input = this._input;
-      input.setSelectionRange(input.value.length + 1, input.value.length + 1);
+      input.setSelectionRange(0, input.value.length);
       input.focus();
     }
   }
