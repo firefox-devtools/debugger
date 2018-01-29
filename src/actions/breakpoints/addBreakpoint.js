@@ -9,7 +9,7 @@ import {
   getASTLocation,
   assertLocation
 } from "../../utils/breakpoint";
-import { getSource } from "../../selectors";
+import { getSource, getSymbols } from "../../selectors";
 import { getGeneratedLocation } from "../../utils/source-maps";
 
 export default async function addBreakpoint(
@@ -50,7 +50,8 @@ export default async function addBreakpoint(
     newGeneratedLocation
   );
 
-  const astLocation = await getASTLocation(sourceRecord, newLocation);
+  const symbols = getSymbols(getState(), sourceRecord);
+  const astLocation = await getASTLocation(sourceRecord, symbols, newLocation);
 
   const newBreakpoint = {
     id,
