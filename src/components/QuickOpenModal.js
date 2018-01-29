@@ -37,6 +37,8 @@ import type { Location } from "debugger-html";
 import type { SourceRecord } from "../reducers/sources";
 import type { QuickOpenType } from "../reducers/quick-open";
 
+import "./QuickOpenModal.css";
+
 type Props = {
   enabled: boolean,
   sources: Array<Object>,
@@ -48,12 +50,6 @@ type Props = {
   setQuickOpenQuery: (query: string) => void,
   highlightLineRange: ({ start: number, end: number }) => void,
   closeQuickOpen: () => void
-};
-
-const styles = {
-  // color: "#AACCFF",
-  fontWeight: "bold",
-  fontStyle: "italic"
 };
 
 type State = {
@@ -323,7 +319,10 @@ export class QuickOpenModal extends Component<Props, State> {
             const t = title[titleElem];
             if (q === t || queryUpper[queryElem] === t) {
               styledResults.push(
-                <span key={q + titleElem} style={styles}>
+                <span
+                  key={q + titleElem}
+                  className="result-item title matching-letter"
+                >
                   {title[titleElem]}
                 </span>
               );
@@ -335,7 +334,6 @@ export class QuickOpenModal extends Component<Props, State> {
         }
         fullRes[resultElem] = results[resultElem];
         fullRes[resultElem].title = styledResults;
-        console.log(fullRes[resultElem].title);
       }
     }
     return fullRes;
@@ -357,9 +355,11 @@ export class QuickOpenModal extends Component<Props, State> {
       return null;
     }
 
-    let highlightedResults = results;
+    let highlightedResults;
     if (results) {
       highlightedResults = this.fuzzyhighlight(query, results);
+    } else {
+      highlightedResults = [];
     }
 
     const summaryMsg = L10N.getFormatStr(
