@@ -412,6 +412,122 @@ exports[`QuickOpenModal Renders when enabled 1`] = `
 </Slide>
 `;
 
+exports[`QuickOpenModal Simple goto search query = :abc & searchType = goto 1`] = `
+<QuickOpenModal
+  clearHighlightLineRange={[Function]}
+  closeQuickOpen={[Function]}
+  enabled={true}
+  highlightLineRange={[Function]}
+  query=":abc"
+  searchType="goto"
+  selectLocation={[Function]}
+  setQuickOpenQuery={[Function]}
+  sources={Array []}
+  symbols={
+    Object {
+      "functions": Array [],
+      "variables": Array [],
+    }
+  }
+>
+  <Slide
+    handleClose={[Function]}
+    in={true}
+  >
+    <Transition
+      appear={true}
+      enter={true}
+      exit={true}
+      in={true}
+      mountOnEnter={false}
+      onEnter={[Function]}
+      onEntered={[Function]}
+      onEntering={[Function]}
+      onExit={[Function]}
+      onExited={[Function]}
+      onExiting={[Function]}
+      timeout={175}
+      unmountOnExit={false}
+    >
+      <Modal
+        handleClose={[Function]}
+        status="entering"
+      >
+        <div
+          className="modal-wrapper"
+          onClick={[Function]}
+        >
+          <div
+            className="modal entering"
+            onClick={[Function]}
+          >
+            <SearchInput
+              count={0}
+              handleClose={[Function]}
+              onChange={[Function]}
+              onKeyDown={[Function]}
+              placeholder="Search sources…"
+              query=":abc"
+              showErrorEmoji={true}
+              size=""
+            >
+              <div
+                className="search-field"
+              >
+                <Svg
+                  name="sad-face"
+                >
+                  <InlineSVG
+                    className="sad-face "
+                    element="i"
+                    raw={false}
+                    src="<svg></svg>"
+                  >
+                    <i
+                      className="sad-face "
+                      dangerouslySetInnerHTML={
+                        Object {
+                          "__html": "<svg></svg>",
+                        }
+                      }
+                      src={null}
+                    />
+                  </InlineSVG>
+                </Svg>
+                <input
+                  className="empty"
+                  onChange={[Function]}
+                  onKeyDown={[Function]}
+                  placeholder="Search sources…"
+                  spellCheck={false}
+                  value=":abc"
+                />
+                <div
+                  className="summary"
+                />
+                <CloseButton
+                  buttonClass=""
+                  handleClick={[Function]}
+                >
+                  <div
+                    className="close-btn"
+                    onClick={[Function]}
+                  >
+                    <img
+                      className="close"
+                    />
+                  </div>
+                </CloseButton>
+              </div>
+            </SearchInput>
+          </div>
+        </div>
+      </Modal>
+    </Transition>
+  </Slide>
+</QuickOpenModal>
+`;
+
 exports[`QuickOpenModal closeModal 1`] = `
 <QuickOpenModal
   clearHighlightLineRange={[Function]}
