@@ -3031,10 +3031,6 @@ detective@^4.0.0, detective@^4.3.1:
     acorn "^5.2.1"
     defined "^1.0.0"
 
-devtools-components@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/devtools-components/-/devtools-components-0.0.2.tgz#4eb22cb5140e65741b00b79a7f76454ff56fa501"
-
 devtools-components@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/devtools-components/-/devtools-components-0.1.4.tgz#a59d380060a4d802d25fb8b7227ecfa59dc46c18"
@@ -7125,7 +7121,7 @@ mocha@^3.2.0:
     mkdirp "0.5.1"
     supports-color "3.1.2"
 
-mochii@0.0.25:
+mochii@^0.0.25:
   version "0.0.25"
   resolved "https://registry.yarnpkg.com/mochii/-/mochii-0.0.25.tgz#c060625a8b72494fe1b231cd034fe005fea9cb17"
   dependencies:

@@ -250,142 +250,105 @@ exports[`ManagedTree sets expanded items 1`] = `
       renderItem={[Function]}
     >
       <div
+        aria-activedescendant={null}
         className="tree "
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
         onKeyDown={[Function]}
         onKeyPress={[Function]}
         onKeyUp={[Function]}
-        onScroll={[Function]}
+        role="tree"
         style={
           Object {
             "margin": 0,
             "padding": 0,
           }
         }
+        tabIndex="0"
       >
         <TreeNode
           depth={0}
           expanded={true}
           focused={false}
-          hasChildren={false}
+          id="a-$"
           index={0}
+          isExpandable={false}
           item="a"
           key="a-$"
+          onClick={[Function]}
           onCollapse={[Function]}
           onExpand={[Function]}
-          onFocus={[Function]}
           renderItem={[Function]}
         >
           <div
-            className="tree-node div "
+            aria-expanded={true}
+            aria-level={0}
+            className="tree-node"
+            data-expandable={false}
+            id="a-$"
             onClick={[Function]}
-            onFocus={[Function]}
-            style={
-              Object {
-                "margin": 0,
-                "padding": 0,
-              }
-            }
+            role="treeitem"
           >
             <div>
               a
             </div>
-            <button
-              style={
-                Object {
-                  "MozAppearance": "none",
-                  "MozMarginStart": "-1000px !important",
-                  "height": "0 !important",
-                  "opacity": 0,
-                  "outline": "none",
-                  "padding": "0 !important",
-                  "width": "0 !important",
-                }
-              }
-            />
           </div>
         </TreeNode>
         <TreeNode
           depth={0}
           expanded={true}
           focused={false}
-          hasChildren={false}
+          id={1}
           index={1}
+          isExpandable={false}
           item="b"
           key="1"
+          onClick={[Function]}
           onCollapse={[Function]}
           onExpand={[Function]}
-          onFocus={[Function]}
           renderItem={[Function]}
         >
           <div
-            className="tree-node div tree-node-odd"
+            aria-expanded={true}
+            aria-level={0}
+            className="tree-node"
+            data-expandable={false}
+            id={1}
             onClick={[Function]}
-            onFocus={[Function]}
-            style={
-              Object {
-                "margin": 0,
-                "padding": 0,
-              }
-            }
+            role="treeitem"
           >
             <div>
               b
             </div>
-            <button
-              style={
-                Object {
-                  "MozAppearance": "none",
-                  "MozMarginStart": "-1000px !important",
-                  "height": "0 !important",
-                  "opacity": 0,
-                  "outline": "none",
-                  "padding": "0 !important",
-                  "width": "0 !important",
-                }
-              }
-            />
           </div>
         </TreeNode>
         <TreeNode
           depth={0}
           expanded={true}
           focused={false}
-          hasChildren={false}
+          id={2}
           index={2}
+          isExpandable={false}
           item="c"
           key="2"
+          onClick={[Function]}
           onCollapse={[Function]}
           onExpand={[Function]}
-          onFocus={[Function]}
           renderItem={[Function]}
         >
           <div
-            className="tree-node div "
+            aria-expanded={true}
+            aria-level={0}
+            className="tree-node"
+            data-expandable={false}
+            id={2}
             onClick={[Function]}
-            onFocus={[Function]}
-            style={
-              Object {
-                "margin": 0,
-                "padding": 0,
-              }
-            }
+            role="treeitem"
           >
             <div>
               c
             </div>
-            <button
-              style={
-                Object {
-                  "MozAppearance": "none",
-                  "MozMarginStart": "-1000px !important",
-                  "height": "0 !important",
-                  "opacity": 0,
-                  "outline": "none",
-                  "padding": "0 !important",
-                  "width": "0 !important",
-                }
-              }
-            />
           </div>
         </TreeNode>
       </div>
@@ -428,142 +391,104 @@ exports[`ManagedTree sets expanded items 2`] = `
       renderItem={[Function]}
     >
       <div
+        aria-activedescendant="a-$"
         className="tree "
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
         onKeyDown={[Function]}
         onKeyPress={[Function]}
         onKeyUp={[Function]}
-        onScroll={[Function]}
+        role="tree"
         style={
           Object {
             "margin": 0,
             "padding": 0,
           }
         }
+        tabIndex="0"
       >
         <TreeNode
           depth={0}
-          expanded={true}
+          expanded={false}
           focused={true}
-          hasChildren={false}
+          id="a-$"
           index={0}
+          isExpandable={false}
           item="a"
           key="a-$"
+          onClick={[Function]}
           onCollapse={[Function]}
           onExpand={[Function]}
-          onFocus={[Function]}
           renderItem={[Function]}
         >
           <div
-            className="tree-node div "
+            aria-level={0}
+            className="tree-node focused"
+            data-expandable={false}
+            id="a-$"
             onClick={[Function]}
-            onFocus={[Function]}
-            style={
-              Object {
-                "margin": 0,
-                "padding": 0,
-              }
-            }
+            role="treeitem"
           >
             <div>
               a
             </div>
-            <button
-              style={
-                Object {
-                  "MozAppearance": "none",
-                  "MozMarginStart": "-1000px !important",
-                  "height": "0 !important",
-                  "opacity": 0,
-                  "outline": "none",
-                  "padding": "0 !important",
-                  "width": "0 !important",
-                }
-              }
-            />
           </div>
         </TreeNode>
         <TreeNode
           depth={0}
           expanded={true}
           focused={false}
-          hasChildren={false}
+          id={1}
           index={1}
+          isExpandable={false}
           item="b"
           key="1"
+          onClick={[Function]}
           onCollapse={[Function]}
           onExpand={[Function]}
-          onFocus={[Function]}
           renderItem={[Function]}
         >
           <div
-            className="tree-node div tree-node-odd"
+            aria-expanded={true}
+            aria-level={0}
+            className="tree-node"
+            data-expandable={false}
+            id={1}
             onClick={[Function]}
-            onFocus={[Function]}
-            style={
-              Object {
-                "margin": 0,
-                "padding": 0,
-              }
-            }
+            role="treeitem"
           >
             <div>
               b
             </div>
-            <button
-              style={
-                Object {
-                  "MozAppearance": "none",
-                  "MozMarginStart": "-1000px !important",
-                  "height": "0 !important",
-                  "opacity": 0,
-                  "outline": "none",
-                  "padding": "0 !important",
-                  "width": "0 !important",
-                }
-              }
-            />
           </div>
         </TreeNode>
         <TreeNode
           depth={0}
           expanded={true}
           focused={false}
-          hasChildren={false}
+          id={2}
           index={2}
+          isExpandable={false}
           item="c"
           key="2"
+          onClick={[Function]}
           onCollapse={[Function]}
           onExpand={[Function]}
-          onFocus={[Function]}
           renderItem={[Function]}
         >
           <div
-            className="tree-node div "
+            aria-expanded={true}
+            aria-level={0}
+            className="tree-node"
+            data-expandable={false}
+            id={2}
             onClick={[Function]}
-            onFocus={[Function]}
-            style={
-              Object {
-                "margin": 0,
-                "padding": 0,
-              }
-            }
+            role="treeitem"
           >
             <div>
               c
             </div>
-            <button
-              style={
-                Object {
-                  "MozAppearance": "none",
-                  "MozMarginStart": "-1000px !important",
-                  "height": "0 !important",
-                  "opacity": 0,
-                  "outline": "none",
-                  "padding": "0 !important",
-                  "width": "0 !important",
-                }
-              }
-            />
           </div>
         </TreeNode>
       </div>
