@@ -67,11 +67,27 @@ describe("ui", () => {
     dispatch(actions.clearHighlightLineRange());
     expect(getHighlightedLineRange(getState())).toEqual({});
   });
+});
 
+describe("setProjectDirectoryRoot", () => {
   it("should set a directory as root directory", () => {
     const { dispatch, getState } = createStore();
-    const projectRoot = getProjectDirectoryRoot(getState());
-    dispatch(actions.setProjectDirectoryRoot(projectRoot));
-    expect(getProjectDirectoryRoot(getState())).toBe(projectRoot);
+    dispatch(actions.setProjectDirectoryRoot("/example.com/foo"));
+    expect(getProjectDirectoryRoot(getState())).toBe("/example.com/foo");
+  });
+
+  it("should add to the directory ", () => {
+    const { dispatch, getState } = createStore();
+    dispatch(actions.setProjectDirectoryRoot("/example.com/foo"));
+    dispatch(actions.setProjectDirectoryRoot("/foo/bar"));
+    expect(getProjectDirectoryRoot(getState())).toBe("/example.com/foo/bar");
+  });
+
+  it("should update the directory ", () => {
+    const { dispatch, getState } = createStore();
+    dispatch(actions.setProjectDirectoryRoot("/example.com/foo"));
+    dispatch(actions.clearProjectDirectoryRoot());
+    dispatch(actions.setProjectDirectoryRoot("/example.com/bar"));
+    expect(getProjectDirectoryRoot(getState())).toBe("/example.com/bar");
   });
 });

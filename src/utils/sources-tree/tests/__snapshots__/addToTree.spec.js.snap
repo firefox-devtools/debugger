@@ -80,3 +80,12 @@ exports[`sources-tree addToTree uses debuggeeUrl as default 1`] = `
           - TodoItem.js path=/voz37vlg5.codesandbox.io/static/js/components/TodoItem.js source_id=undefined 
 "
 `;
+
+exports[`sources-tree addToTree uses projectRoot to filter the list 1`] = `
+" - root path= 
+  - components path=/components 
+    - Header.js path=/components/Header.js source_id=undefined 
+    - TodoItem.js path=/components/TodoItem.js source_id=undefined 
+    - TodoTextInput.js path=/components/TodoTextInput.js source_id=undefined 
+"
+`;

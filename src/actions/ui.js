@@ -5,6 +5,7 @@
 // @flow
 
 import { getSource, getActiveSearch, getPaneCollapse } from "../selectors";
+import { getProjectDirectoryRoot } from "../reducers/ui";
 import type { ThunkArgs } from "./types";
 import type {
   ActiveSearchType,
@@ -137,10 +138,26 @@ export function closeConditionalPanel() {
   };
 }
 
-export function setProjectDirectoryRoot(url: Object) {
+export function clearProjectDirectoryRoot() {
   return {
     type: "SET_PROJECT_DIRECTORY_ROOT",
-    url
+    url: ""
+  };
+}
+
+export function setProjectDirectoryRoot(newRoot: string) {
+  return ({ dispatch, getState }: ThunkArgs) => {
+    const curRoot = getProjectDirectoryRoot(getState());
+    if (newRoot && curRoot) {
+      const temp = newRoot.split("/");
+      temp.splice(0, 2);
+      newRoot = `${curRoot}/${temp.join("/")}`;
+    }
+
+    dispatch({
+      type: "SET_PROJECT_DIRECTORY_ROOT",
+      url: newRoot
+    });
   };
 }
 
