@@ -177,7 +177,8 @@
       "/node_modules/",
       "/helpers/",
       "/fixtures/",
-      "src/test/mochitest/examples/"
+      "src/test/mochitest/examples/",
+      "<rootDir>/firefox"
     ],
     "collectCoverageFrom": [
       "src/**/*.js",
