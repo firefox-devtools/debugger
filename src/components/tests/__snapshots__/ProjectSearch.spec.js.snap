@@ -190,24 +190,30 @@ exports[`ProjectSearch found search results 1`] = `
             renderItem={[Function]}
           >
             <div
+              aria-activedescendant={null}
               className="tree "
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
               onKeyDown={[Function]}
               onKeyPress={[Function]}
               onKeyUp={[Function]}
-              onScroll={[Function]}
+              role="tree"
               style={
                 Object {
                   "margin": 0,
                   "padding": 0,
                 }
               }
+              tabIndex="0"
             >
               <TreeNode
                 depth={0}
                 expanded={true}
                 focused={false}
-                hasChildren={true}
+                id="undefined-$"
                 index={0}
+                isExpandable={true}
                 item={
                   Object {
                     "filepath": "testFilePath1",
@@ -235,21 +241,19 @@ exports[`ProjectSearch found search results 1`] = `
                   }
                 }
                 key="undefined-$"
+                onClick={[Function]}
                 onCollapse={[Function]}
                 onExpand={[Function]}
-                onFocus={[Function]}
                 renderItem={[Function]}
               >
                 <div
-                  className="tree-node div "
+                  aria-expanded={true}
+                  aria-level={0}
+                  className="tree-node"
+                  data-expandable={true}
+                  id="undefined-$"
                   onClick={[Function]}
-                  onFocus={[Function]}
-                  style={
-                    Object {
-                      "margin": 0,
-                      "padding": 0,
-                    }
-                  }
+                  role="treeitem"
                 >
                   <div
                     className="file-result"
@@ -288,27 +292,15 @@ exports[`ProjectSearch found search results 1`] = `
                        (3 matches)
                     </span>
                   </div>
-                  <button
-                    style={
-                      Object {
-                        "MozAppearance": "none",
-                        "MozMarginStart": "-1000px !important",
-                        "height": "0 !important",
-                        "opacity": 0,
-                        "outline": "none",
-                        "padding": "0 !important",
-                        "width": "0 !important",
-                      }
-                    }
-                  />
                 </div>
               </TreeNode>
               <TreeNode
                 depth={1}
                 expanded={false}
                 focused={false}
-                hasChildren={false}
+                id="undefined-undefined-30-1"
                 index={1}
+                isExpandable={false}
                 item={
                   Object {
                     "column": 30,
@@ -318,22 +310,24 @@ exports[`ProjectSearch found search results 1`] = `
                   }
                 }
                 key="undefined-undefined-30-1"
+                onClick={[Function]}
                 onCollapse={[Function]}
                 onExpand={[Function]}
-                onFocus={[Function]}
                 renderItem={[Function]}
               >
                 <div
-                  className="tree-node div tree-node-odd"
+                  aria-level={1}
+                  className="tree-node"
+                  data-expandable={false}
+                  id="undefined-undefined-30-1"
                   onClick={[Function]}
-                  onFocus={[Function]}
-                  style={
-                    Object {
-                      "margin": 0,
-                      "padding": 0,
-                    }
-                  }
+                  role="treeitem"
                 >
+                  <span
+                    className="tree-indent"
+                  >
+                    ​
+                  </span>
                   <div
                     className="result"
                     onClick={[Function]}
@@ -360,27 +354,15 @@ exports[`ProjectSearch found search results 1`] = `
                       />
                     </span>
                   </div>
-                  <button
-                    style={
-                      Object {
-                        "MozAppearance": "none",
-                        "MozMarginStart": "-1000px !important",
-                        "height": "0 !important",
-                        "opacity": 0,
-                        "outline": "none",
-                        "padding": "0 !important",
-                        "width": "0 !important",
-                      }
-                    }
-                  />
                 </div>
               </TreeNode>
               <TreeNode
                 depth={1}
                 expanded={false}
                 focused={false}
-                hasChildren={false}
+                id="undefined-undefined-60-2"
                 index={2}
+                isExpandable={false}
                 item={
                   Object {
                     "column": 60,
@@ -390,22 +372,24 @@ exports[`ProjectSearch found search results 1`] = `
                   }
                 }
                 key="undefined-undefined-60-2"
+                onClick={[Function]}
                 onCollapse={[Function]}
                 onExpand={[Function]}
-                onFocus={[Function]}
                 renderItem={[Function]}
               >
                 <div
-                  className="tree-node div "
+                  aria-level={1}
+                  className="tree-node"
+                  data-expandable={false}
+                  id="undefined-undefined-60-2"
                   onClick={[Function]}
-                  onFocus={[Function]}
-                  style={
-                    Object {
-                      "margin": 0,
-                      "padding": 0,
-                    }
-                  }
+                  role="treeitem"
                 >
+                  <span
+                    className="tree-indent"
+                  >
+                    ​
+                  </span>
                   <div
                     className="result"
                     onClick={[Function]}
@@ -432,27 +416,15 @@ exports[`ProjectSearch found search results 1`] = `
                       />
                     </span>
                   </div>
-                  <button
-                    style={
-                      Object {
-                        "MozAppearance": "none",
-                        "MozMarginStart": "-1000px !important",
-                        "height": "0 !important",
-                        "opacity": 0,
-                        "outline": "none",
-                        "padding": "0 !important",
-                        "width": "0 !important",
-                      }
-                    }
-                  />
                 </div>
               </TreeNode>
               <TreeNode
                 depth={1}
                 expanded={false}
                 focused={false}
-                hasChildren={false}
+                id="undefined-undefined-90-3"
                 index={3}
+                isExpandable={false}
                 item={
                   Object {
                     "column": 90,
@@ -462,22 +434,24 @@ exports[`ProjectSearch found search results 1`] = `
                   }
                 }
                 key="undefined-undefined-90-3"
+                onClick={[Function]}
                 onCollapse={[Function]}
                 onExpand={[Function]}
-                onFocus={[Function]}
                 renderItem={[Function]}
               >
                 <div
-                  className="tree-node div tree-node-odd"
+                  aria-level={1}
+                  className="tree-node"
+                  data-expandable={false}
+                  id="undefined-undefined-90-3"
                   onClick={[Function]}
-                  onFocus={[Function]}
-                  style={
-                    Object {
-                      "margin": 0,
-                      "padding": 0,
-                    }
-                  }
+                  role="treeitem"
                 >
+                  <span
+                    className="tree-indent"
+                  >
+                    ​
+                  </span>
                   <div
                     className="result"
                     onClick={[Function]}
@@ -504,27 +478,15 @@ exports[`ProjectSearch found search results 1`] = `
                       />
                     </span>
                   </div>
-                  <button
-                    style={
-                      Object {
-                        "MozAppearance": "none",
-                        "MozMarginStart": "-1000px !important",
-                        "height": "0 !important",
-                        "opacity": 0,
-                        "outline": "none",
-                        "padding": "0 !important",
-                        "width": "0 !important",
-                      }
-                    }
-                  />
                 </div>
               </TreeNode>
               <TreeNode
                 depth={0}
                 expanded={true}
                 focused={false}
-                hasChildren={true}
+                id="undefined-4"
                 index={4}
+                isExpandable={true}
                 item={
                   Object {
                     "filepath": "testFilePath2",
@@ -546,21 +508,19 @@ exports[`ProjectSearch found search results 1`] = `
                   }
                 }
                 key="undefined-4"
+                onClick={[Function]}
                 onCollapse={[Function]}
                 onExpand={[Function]}
-                onFocus={[Function]}
                 renderItem={[Function]}
               >
                 <div
-                  className="tree-node div "
+                  aria-expanded={true}
+                  aria-level={0}
+                  className="tree-node"
+                  data-expandable={true}
+                  id="undefined-4"
                   onClick={[Function]}
-                  onFocus={[Function]}
-                  style={
-                    Object {
-                      "margin": 0,
-                      "padding": 0,
-                    }
-                  }
+                  role="treeitem"
                 >
                   <div
                     className="file-result"
@@ -599,27 +559,15 @@ exports[`ProjectSearch found search results 1`] = `
                        (2 matches)
                     </span>
                   </div>
-                  <button
-                    style={
-                      Object {
-                        "MozAppearance": "none",
-                        "MozMarginStart": "-1000px !important",
-                        "height": "0 !important",
-                        "opacity": 0,
-                        "outline": "none",
-                        "padding": "0 !important",
-                        "width": "0 !important",
-                      }
-                    }
-                  />
                 </div>
               </TreeNode>
               <TreeNode
                 depth={1}
                 expanded={false}
                 focused={false}
-                hasChildren={false}
+                id="undefined-undefined-80-5"
                 index={5}
+                isExpandable={false}
                 item={
                   Object {
                     "column": 80,
@@ -629,22 +577,24 @@ exports[`ProjectSearch found search results 1`] = `
                   }
                 }
                 key="undefined-undefined-80-5"
+                onClick={[Function]}
                 onCollapse={[Function]}
                 onExpand={[Function]}
-                onFocus={[Function]}
                 renderItem={[Function]}
               >
                 <div
-                  className="tree-node div tree-node-odd"
+                  aria-level={1}
+                  className="tree-node"
+                  data-expandable={false}
+                  id="undefined-undefined-80-5"
                   onClick={[Function]}
-                  onFocus={[Function]}
-                  style={
-                    Object {
-                      "margin": 0,
-                      "padding": 0,
-                    }
-                  }
+                  role="treeitem"
                 >
+                  <span
+                    className="tree-indent"
+                  >
+                    ​
+                  </span>
                   <div
                     className="result"
                     onClick={[Function]}
@@ -671,27 +621,15 @@ exports[`ProjectSearch found search results 1`] = `
                       />
                     </span>
                   </div>
-                  <button
-                    style={
-                      Object {
-                        "MozAppearance": "none",
-                        "MozMarginStart": "-1000px !important",
-                        "height": "0 !important",
-                        "opacity": 0,
-                        "outline": "none",
-                        "padding": "0 !important",
-                        "width": "0 !important",
-                      }
-                    }
-                  />
                 </div>
               </TreeNode>
               <TreeNode
                 depth={1}
                 expanded={false}
                 focused={false}
-                hasChildren={false}
+                id="undefined-undefined-40-6"
                 index={6}
+                isExpandable={false}
                 item={
                   Object {
                     "column": 40,
@@ -701,22 +639,24 @@ exports[`ProjectSearch found search results 1`] = `
                   }
                 }
                 key="undefined-undefined-40-6"
+                onClick={[Function]}
                 onCollapse={[Function]}
                 onExpand={[Function]}
-                onFocus={[Function]}
                 renderItem={[Function]}
               >
                 <div
-                  className="tree-node div "
+                  aria-level={1}
+                  className="tree-node"
+                  data-expandable={false}
+                  id="undefined-undefined-40-6"
                   onClick={[Function]}
-                  onFocus={[Function]}
-                  style={
-                    Object {
-                      "margin": 0,
-                      "padding": 0,
-                    }
-                  }
+                  role="treeitem"
                 >
+                  <span
+                    className="tree-indent"
+                  >
+                    ​
+                  </span>
                   <div
                     className="result"
                     onClick={[Function]}
@@ -743,19 +683,6 @@ exports[`ProjectSearch found search results 1`] = `
                       />
                     </span>
                   </div>
-                  <button
-                    style={
-                      Object {
-                        "MozAppearance": "none",
-                        "MozMarginStart": "-1000px !important",
-                        "height": "0 !important",
-                        "opacity": 0,
-                        "outline": "none",
-                        "padding": "0 !important",
-                        "width": "0 !important",
-                      }
-                    }
-                  />
                 </div>
               </TreeNode>
             </div>
