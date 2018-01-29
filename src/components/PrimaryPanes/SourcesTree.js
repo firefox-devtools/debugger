@@ -262,7 +262,6 @@ class SourcesTree extends Component<Props, State> {
     if (isDirectory(item) && features.root) {
       const { path } = item;
       const { projectRoot } = this.props;
-      console.log(path, projectRoot);
 
       if (projectRoot.endsWith(path)) {
         menuOptions.push({
