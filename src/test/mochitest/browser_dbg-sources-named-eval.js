@@ -27,5 +27,6 @@ add_task(async function() {
 
   await waitForSourceCount(dbg, 3);
 
-  is(getLabel(dbg, 3), "evaled.js", "the eval script exists");
+  const labelText = getLabel(dbg, 3).trim();
+  is(labelText, "evaled.js", "the eval script exists");
 });
