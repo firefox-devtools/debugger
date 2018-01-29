@@ -124,11 +124,15 @@ html .arrow.expanded svg {
   fill: var(--theme-body-color);
 }
 
-.angular svg, .devicon svg {
+.angular svg, .source-icon svg {
   width: 15px;
   height: 15px;
   margin-right: 5px;
   vertical-align: sub;
+}
+
+.source-icon svg {
+  fill: var(--theme-body-color);
 }
 
 .theme-dark .angular {
