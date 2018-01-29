@@ -17,7 +17,7 @@
 
 .outline-list {
   list-style-type: none;
-  width: 100%;
+  flex: 1 0 100%;
   padding: 10px 0px;
   margin: 0;
 }
@@ -36,17 +36,11 @@
 }
 
 .outline-list__element {
-  padding-bottom: 0.5rem;
-  padding-right: 0.5rem;
-  padding-top: 0.2rem;
+  padding: 3px 10px 3px 10px;
   cursor: default;
   white-space: nowrap;
 }
 
 .outline-list__element:hover {
   background: var(--theme-toolbar-background-hover);
-}
-
-.outline-list__element .function {
-  padding-left: 10px;
 }
