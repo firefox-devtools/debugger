@@ -34,14 +34,16 @@ export function isDirectory(url: Object) {
   );
 }
 
-export function isNotJavaScript(source: Object): boolean {
+export function getExtension(source: Object): string {
   const parsedUrl = parse(source.get("url")).pathname;
   if (!parsedUrl) {
-    return false;
+    return "";
   }
-  const parsedExtension = parsedUrl.split(".").pop();
+  return parsedUrl.split(".").pop();
+}
 
-  return ["css", "svg", "png"].includes(parsedExtension);
+export function isNotJavaScript(source: Object): boolean {
+  return ["css", "svg", "png"].includes(getExtension(source));
 }
 
 export function isInvalidUrl(url: Object, source: SourceRecord) {
