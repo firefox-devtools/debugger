@@ -51,7 +51,7 @@ type Props = {
 };
 
 const styles = {
-  color: "blue"
+  color: "magenta"
 };
 
 type State = {
@@ -294,41 +294,47 @@ export class QuickOpenModal extends Component<Props, State> {
     return results && results.length ? results.length : 0;
   };
 
-  fuzzyhighlight = (query, results) => {
-    query = query.toLowerCase();
-    var queryUpper = query.toUpperCase();
-    var queryElem = 0;
-    var resultElem = 0;
-    var fullRes = [];
-    for (resultElem; resultElem < results.length; resultElem++) {
-      var titleElem = 0;
-      var title = results[resultElem].title;
+  fuzzyhighlight = (query: any, results: ?Array<QuickOpenResult>) => {
+    const fullRes = [];
 
-      var styledResults = [];
-      results[resultElem].title = "";
+    if (results) {
+      query = query.toLowerCase();
+      const queryUpper = query.toUpperCase();
 
-      if (query[0] === "@" || query[0] === "#" || query[0] === ":") {
-        queryElem++;
-      }
+      let resultElem = 0;
 
-      for (queryElem; queryElem < query.length; queryElem++) {
-        for (titleElem; titleElem < title.length; titleElem++) {
-          var q = query[queryElem];
-          var t = title[titleElem];
-          if (q === t || queryUpper[queryElem] === t) {
-            styledResults.push(
-              <span key={queryElem + titleElem} style={styles}>
-                {title[titleElem]}
-              </span>
-            );
-            queryElem++;
-          } else {
-            styledResults.push(title[titleElem]);
+      for (resultElem; resultElem < results.length; resultElem++) {
+        let queryElem = 0;
+        if (query[0] === "@" || query[0] === "#" || query[0] === ":") {
+          queryElem++;
+        }
+
+        let titleElem = 0;
+        const title = results[resultElem].title;
+        const styledResults: Array<any> = [];
+
+        results[resultElem].title = "";
+
+        for (queryElem; queryElem < query.length; queryElem++) {
+          for (titleElem; titleElem < title.length; titleElem++) {
+            const q = query[queryElem];
+            const t = title[titleElem];
+            if (q === t || queryUpper[queryElem] === t) {
+              styledResults.push(
+                <span key={queryElem + titleElem} style={styles}>
+                  {title[titleElem]}
+                </span>
+              );
+              queryElem++;
+            } else {
+              styledResults.push(title[titleElem]);
+            }
           }
         }
+        fullRes[resultElem] = results[resultElem];
+        fullRes[resultElem].title = styledResults;
+        console.log(fullRes[resultElem].title);
       }
-      fullRes[resultElem] = results[resultElem];
-      fullRes[resultElem].title = styledResults;
     }
     return fullRes;
   };
@@ -350,7 +356,6 @@ export class QuickOpenModal extends Component<Props, State> {
     }
 
     let highlightedResults = results;
-
     if (results) {
       highlightedResults = this.fuzzyhighlight(query, results);
     }

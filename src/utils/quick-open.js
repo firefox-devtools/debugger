@@ -54,7 +54,7 @@ export function parseLineColumn(query: string) {
 export type QuickOpenResult = {|
   id: string,
   value: string,
-  title: string,
+  title: string | any,
   subtitle?: string,
   location?: BabelLocation
 |};
