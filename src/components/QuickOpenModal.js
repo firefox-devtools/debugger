@@ -51,7 +51,9 @@ type Props = {
 };
 
 const styles = {
-  color: "magenta"
+  // color: "#AACCFF",
+  fontWeight: "bold",
+  fontStyle: "italic"
 };
 
 type State = {
@@ -321,7 +323,7 @@ export class QuickOpenModal extends Component<Props, State> {
             const t = title[titleElem];
             if (q === t || queryUpper[queryElem] === t) {
               styledResults.push(
-                <span key={queryElem + titleElem} style={styles}>
+                <span key={q + titleElem} style={styles}>
                   {title[titleElem]}
                 </span>
               );
