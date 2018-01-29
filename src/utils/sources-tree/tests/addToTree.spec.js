@@ -251,5 +251,40 @@ describe("sources-tree", () => {
       sources.forEach(source => addToTree(tree, source, domain));
       expect(formatTree(tree)).toMatchSnapshot();
     });
+
+    it("uses projectRoot to filter the list", () => {
+      const testData = [
+        {
+          url: "http://example.com/components/TodoTextInput.js"
+        },
+        {
+          url: "http://example.com/components/Header.js"
+        },
+        {
+          url: "http://example.com/reducers/index.js"
+        },
+        {
+          url: "http://example.com/components/TodoItem.js"
+        },
+        {
+          url: "resource://gre/modules/ExtensionContent.jsm"
+        },
+        {
+          url:
+            "https://voz37vlg5.codesandbox.io/static/js/components/TodoItem.js"
+        },
+        {
+          url: "http://example.com/index.js"
+        }
+      ];
+
+      const domain = "http://example.com/";
+      const sources = createSourcesList(testData);
+      const root = "/example.com/components";
+
+      const tree = createNode("root", "", []);
+      sources.forEach(source => addToTree(tree, source, domain, root));
+      expect(formatTree(tree)).toMatchSnapshot();
+    });
   });
 });
