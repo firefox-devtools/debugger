@@ -50,6 +50,10 @@ type Props = {
   closeQuickOpen: () => void
 };
 
+const styles = {
+  color: "blue"
+};
+
 type State = {
   results: ?Array<QuickOpenResult>,
   selectedIndex: number
@@ -67,10 +71,6 @@ function filter(values, query) {
     maxResults: 1000
   });
 }
-
-const styles = {
-  color: "blue"
-};
 
 export class QuickOpenModal extends Component<Props, State> {
   constructor(props: Props) {
@@ -295,9 +295,11 @@ export class QuickOpenModal extends Component<Props, State> {
   };
 
   fuzzyhighlight = (query, results) => {
+    query = query.toLowerCase();
+    var queryUpper = query.toUpperCase();
     var queryElem = 0;
     var resultElem = 0;
-
+    var fullRes = [];
     for (resultElem; resultElem < results.length; resultElem++) {
       var titleElem = 0;
       var title = results[resultElem].title;
@@ -311,21 +313,24 @@ export class QuickOpenModal extends Component<Props, State> {
 
       for (queryElem; queryElem < query.length; queryElem++) {
         for (titleElem; titleElem < title.length; titleElem++) {
-          if (query[queryElem] === title[titleElem]) {
+          var q = query[queryElem];
+          var t = title[titleElem];
+          if (q === t || queryUpper[queryElem] === t) {
             styledResults.push(
               <span key={queryElem + titleElem} style={styles}>
-                {title.charAt(titleElem)}
+                {title[titleElem]}
               </span>
             );
             queryElem++;
           } else {
-            styledResults.push(title.charAt(titleElem));
+            styledResults.push(title[titleElem]);
           }
         }
       }
-
-      results[resultElem].title = styledResults;
+      fullRes[resultElem] = results[resultElem];
+      fullRes[resultElem].title = styledResults;
     }
+    return fullRes;
   };
 
   // Query helpers
@@ -344,8 +349,10 @@ export class QuickOpenModal extends Component<Props, State> {
       return null;
     }
 
+    let highlightedResults = results;
+
     if (results) {
-      this.fuzzyhighlight(query, results);
+      highlightedResults = this.fuzzyhighlight(query, results);
     }
 
     const summaryMsg = L10N.getFormatStr(
@@ -359,7 +366,7 @@ export class QuickOpenModal extends Component<Props, State> {
       searchType === "variables" ||
       searchType === "shortcuts";
 
-    const newResults = results && results.slice(0, 100);
+    const newResults = highlightedResults && highlightedResults.slice(0, 100);
     return (
       <Modal in={enabled} handleClose={this.closeModal}>
         <SearchInput
