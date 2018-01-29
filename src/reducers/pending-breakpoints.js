@@ -90,14 +90,20 @@ function addBreakpoint(state, action) {
 
 function syncBreakpoint(state, action) {
   const { breakpoint, previousLocation } = action;
-  const locationId = makePendingLocationId(breakpoint.location);
-  const pendingBreakpoint = createPendingBreakpoint(breakpoint);
 
   if (previousLocation) {
-    return state
-      .deleteIn(["pendingBreakpoints", makePendingLocationId(previousLocation)])
-      .setIn(["pendingBreakpoints", locationId], pendingBreakpoint);
+    state = state.deleteIn([
+      "pendingBreakpoints",
+      makePendingLocationId(previousLocation)
+    ]);
   }
+
+  if (!breakpoint) {
+    return state;
+  }
+
+  const locationId = makePendingLocationId(breakpoint.location);
+  const pendingBreakpoint = createPendingBreakpoint(breakpoint);
 
   return state.setIn(["pendingBreakpoints", locationId], pendingBreakpoint);
 }
