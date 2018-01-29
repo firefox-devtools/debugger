@@ -88,11 +88,37 @@ export function scrollToColumn(codeMirror: any, line: number, column: number) {
     "local"
   );
 
-  const scroller = codeMirror.getScrollerElement();
-  const centeredX = Math.max(left - scroller.offsetWidth / 2, 0);
-  const centeredY = Math.max(top - scroller.offsetHeight / 2, 0);
+  if (!isVisible(codeMirror, top, left)) {
+    const scroller = codeMirror.getScrollerElement();
+    const centeredX = Math.max(left - scroller.offsetWidth / 2, 0);
+    const centeredY = Math.max(top - scroller.offsetHeight / 2, 0);
 
-  codeMirror.scrollTo(centeredX, centeredY);
+    codeMirror.scrollTo(centeredX, centeredY);
+  }
+}
+
+function isVisible(codeMirror: any, top: number, left: number) {
+  function withinBounds(x, min, max) {
+    return x >= min && x <= max;
+  }
+
+  const scrollArea = codeMirror.getScrollInfo();
+
+  const charWidth = codeMirror.defaultCharWidth();
+  const inXView = withinBounds(
+    left,
+    scrollArea.left,
+    scrollArea.left + (scrollArea.clientWidth - 30) - charWidth
+  );
+
+  const fontHeight = codeMirror.defaultTextHeight();
+  const inYView = withinBounds(
+    top,
+    scrollArea.top,
+    scrollArea.top + scrollArea.clientHeight - fontHeight
+  );
+
+  return inXView && inYView;
 }
 
 export function toSourceLocation(
