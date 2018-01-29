@@ -21062,7 +21062,11 @@
       "../../../src/node_modules/lodash/_baseDifference.js": 2242,
       "../../../src/node_modules/lodash/isArrayLikeObject.js": 2243,
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/editor/get-token-location.js": 2244,
-      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/sources-tree/updateTree.js": 2245
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/sources-tree/updateTree.js": 2245,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/dbg.js": 2246,
+      "../../svg-inline-loader/index.js!../../devtools-components/src/images/arrow.svg": 2247,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../devtools-components/src/tree.css": 2248,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../devtools-reps/src/shared/grip-length-bubble.js": 2249
     },
     "usedIds": {
       "0": 0,
@@ -23310,7 +23314,11 @@
       "2242": 2242,
       "2243": 2243,
       "2244": 2244,
-      "2245": 2245
+      "2245": 2245,
+      "2246": 2246,
+      "2247": 2247,
+      "2248": 2248,
+      "2249": 2249
     }
   },
   "chunks": {
@@ -27661,6 +27669,27 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/ProjectSearch.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../devtools-components/src/tree.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../devtools-components/src/tree.css": 0,
           "../../css-loader/lib/css-base.js": 1
         },
         "usedIds": {

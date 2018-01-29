@@ -12,9 +12,9 @@ async function waitForSourceCount(dbg, i) {
 }
 
 function getLabel(dbg, index) {
-  return findElement(dbg, "sourceNode", index).textContent
-    .trim()
-    .replace(/^[\s\u200b]*/g, '');
+  return findElement(dbg, "sourceNode", index)
+    .textContent.trim()
+    .replace(/^[\s\u200b]*/g, "");
 }
 
 add_task(async function() {
