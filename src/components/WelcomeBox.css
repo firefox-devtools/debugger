@@ -13,7 +13,6 @@
   padding: 50px 0 0 0;
   text-align: center;
   font-size: 1.25em;
-  color: var(--theme-comment-alt);
   background-color: var(--theme-toolbar-background);
   font-weight: lighter;
   z-index: 10;
