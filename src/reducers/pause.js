@@ -25,6 +25,7 @@ type PauseState = {
   loadedObjects: Object,
   shouldPauseOnExceptions: boolean,
   shouldIgnoreCaughtExceptions: boolean,
+  canRewind: boolean,
   debuggeeUrl: string,
   command: string
 };
@@ -38,6 +39,7 @@ export const State = (): PauseState => ({
   loadedObjects: {},
   shouldPauseOnExceptions: prefs.pauseOnExceptions,
   shouldIgnoreCaughtExceptions: prefs.ignoreCaughtExceptions,
+  canRewind: false,
   debuggeeUrl: "",
   command: ""
 });
@@ -107,7 +109,11 @@ function update(state: PauseState = State(), action: Action): PauseState {
       };
 
     case "CONNECT":
-      return { ...State(), debuggeeUrl: action.url };
+      return {
+        ...State(),
+        debuggeeUrl: action.url,
+        canRewind: action.canRewind
+      };
 
     case "PAUSE_ON_EXCEPTIONS":
       const { shouldPauseOnExceptions, shouldIgnoreCaughtExceptions } = action;
@@ -192,6 +198,10 @@ export function getShouldPauseOnExceptions(state: OuterState) {
 
 export function getShouldIgnoreCaughtExceptions(state: OuterState) {
   return state.pause.shouldIgnoreCaughtExceptions;
+}
+
+export function getCanRewind(state: OuterState) {
+  return state.pause.canRewind;
 }
 
 export function getFrames(state: OuterState) {

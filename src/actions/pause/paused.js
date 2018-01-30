@@ -35,7 +35,7 @@ export function paused(pauseInfo: Pause) {
       type: "PAUSED",
       why,
       frames,
-      selectedFrameId: frames[0].id,
+      selectedFrameId: frames[0] ? frames[0].id : undefined,
       loadedObjects: loadedObjects || []
     });
 
@@ -50,7 +50,9 @@ export function paused(pauseInfo: Pause) {
 
     await dispatch(mapFrames());
     const selectedFrame = getSelectedFrame(getState());
-    await dispatch(selectLocation(selectedFrame.location));
+    if (selectedFrame) {
+      await dispatch(selectLocation(selectedFrame.location));
+    }
 
     dispatch(togglePaneCollapse("end", false));
     dispatch(fetchScopes());
