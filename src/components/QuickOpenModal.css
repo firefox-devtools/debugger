@@ -1,0 +1,12 @@
+.result-item .title .fuzzy-match {
+  font-weight: bold;
+}
+
+.result-item .subtitle .fuzzy-match {
+  color: var(--grey-90);
+}
+
+.theme-dark .result-item .title .fuzzy-match,
+.theme-dark .result-item .subtitle .fuzzy-match {
+  color: white;
+}

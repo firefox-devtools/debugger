@@ -14,7 +14,7 @@ import type {
   SymbolDeclarations
 } from "../workers/parser/types";
 
-const MODIFIERS = {
+export const MODIFIERS = {
   "@": "functions",
   "#": "variables",
   ":": "goto",
@@ -124,4 +124,45 @@ export function formatSources(sources: SourcesMap): Array<QuickOpenResult> {
     })
     .filter(({ value }) => value != "")
     .toJS();
+}
+
+export function groupFuzzyMatches(input: string, query: string) {
+  const parts = input.toLowerCase().split("");
+  const queryChars = query.toLowerCase().split("");
+  const shared = parts.filter(char => queryChars.includes(char));
+  const output = [];
+  let matched;
+  let missed;
+  parts.forEach((char, i) => {
+    if (shared.includes(char)) {
+      if (!matched) {
+        matched = { type: "match", value: input[i] };
+        output.push(matched);
+        return;
+      }
+      matched = output[output.length - 1];
+      if (matched.type === "match") {
+        matched.value = `${matched.value}${input[i]}`;
+      } else {
+        matched = { type: "match", value: input[i] };
+        output.push(matched);
+      }
+      return;
+    }
+
+    if (!missed) {
+      missed = { type: "miss", value: input[i] };
+      output.push(missed);
+      return;
+    }
+
+    missed = output[output.length - 1];
+    if (missed.type === "miss") {
+      missed.value = `${missed.value}${input[i]}`;
+    } else {
+      missed = { type: "miss", value: input[i] };
+      output.push(missed);
+    }
+  });
+  return output;
 }
