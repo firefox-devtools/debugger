@@ -102,3 +102,7 @@
 .expression-input {
   max-width: 50%;
 }
+
+.expressions-list .tree:focus {
+  outline: none;
+}
