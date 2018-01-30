@@ -22,7 +22,8 @@ import {
   formatSymbols,
   formatSources,
   parseLineColumn,
-  formatShortcutResults
+  formatShortcutResults,
+  groupSharedChars
 } from "../utils/quick-open";
 import Modal from "./shared/Modal";
 import SearchInput from "./shared/SearchInput";
@@ -292,53 +293,6 @@ export class QuickOpenModal extends Component<Props, State> {
     return results && results.length ? results.length : 0;
   };
 
-  fuzzyhighlight = (query: any, results: ?Array<QuickOpenResult>) => {
-    const fullRes = [];
-
-    if (results) {
-      query = query.toLowerCase();
-      const queryUpper = query.toUpperCase();
-
-      let resultElem = 0;
-
-      for (resultElem; resultElem < results.length; resultElem++) {
-        let queryElem = 0;
-        if (query[0] === "@" || query[0] === "#" || query[0] === ":") {
-          queryElem++;
-        }
-
-        let titleElem = 0;
-        const title = results[resultElem].title;
-        const styledResults: Array<any> = [];
-
-        results[resultElem].title = "";
-
-        for (queryElem; queryElem < query.length; queryElem++) {
-          for (titleElem; titleElem < title.length; titleElem++) {
-            const q = query[queryElem];
-            const t = title[titleElem];
-            if (q === t || queryUpper[queryElem] === t) {
-              styledResults.push(
-                <span
-                  key={q + titleElem}
-                  className="result-item title matching-letter"
-                >
-                  {title[titleElem]}
-                </span>
-              );
-              queryElem++;
-            } else {
-              styledResults.push(title[titleElem]);
-            }
-          }
-        }
-        fullRes[resultElem] = results[resultElem];
-        fullRes[resultElem].title = styledResults;
-      }
-    }
-    return fullRes;
-  };
-
   // Query helpers
   isFunctionQuery = () => this.props.searchType === "functions";
   isVariableQuery = () => this.props.searchType === "variables";
@@ -347,19 +301,39 @@ export class QuickOpenModal extends Component<Props, State> {
   isGotoSourceQuery = () => this.props.searchType === "gotoSource";
   isShortcutQuery = () => this.props.searchType === "shortcuts";
 
+  highlightMatching = (query: string, results: QuickOpenResult[]) => {
+    if (query === "") {
+      return results;
+    }
+    const queryLetters = query.toLowerCase().split("");
+    return results.map(result => {
+      const resultParts = result.title.toLowerCase().split("");
+      const title = groupSharedChars(resultParts, queryLetters);
+      return {
+        ...result,
+        title: title.map((part, i) => {
+          if (Array.isArray(part)) {
+            return (
+              <span
+                key={`${part.join("")}-${i}`}
+                className="matching-character"
+              >
+                {part.join("")}
+              </span>
+            );
+          }
+          return part;
+        })
+      };
+    });
+  };
+
   render() {
     const { enabled, query, searchType } = this.props;
     const { selectedIndex, results } = this.state;
 
     if (!enabled) {
       return null;
-    }
-
-    let highlightedResults;
-    if (results) {
-      highlightedResults = this.fuzzyhighlight(query, results);
-    } else {
-      highlightedResults = [];
     }
 
     const summaryMsg = L10N.getFormatStr(
@@ -373,7 +347,7 @@ export class QuickOpenModal extends Component<Props, State> {
       searchType === "variables" ||
       searchType === "shortcuts";
 
-    const newResults = highlightedResults && highlightedResults.slice(0, 100);
+    const newResults = results && results.slice(0, 100);
     return (
       <Modal in={enabled} handleClose={this.closeModal}>
         <SearchInput
@@ -388,7 +362,7 @@ export class QuickOpenModal extends Component<Props, State> {
         {newResults && (
           <ResultList
             key="results"
-            items={newResults}
+            items={this.highlightMatching(query, newResults)}
             selected={selectedIndex}
             selectItem={this.selectResultItem}
             ref="resultList"

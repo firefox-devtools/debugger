@@ -14,7 +14,7 @@ import type {
   SymbolDeclarations
 } from "../workers/parser/types";
 
-const MODIFIERS = {
+export const MODIFIERS = {
   "@": "functions",
   "#": "variables",
   ":": "goto",
@@ -54,7 +54,7 @@ export function parseLineColumn(query: string) {
 export type QuickOpenResult = {|
   id: string,
   value: string,
-  title: string | any,
+  title: string,
   subtitle?: string,
   location?: BabelLocation
 |};
@@ -124,4 +124,29 @@ export function formatSources(sources: SourcesMap): Array<QuickOpenResult> {
     })
     .filter(({ value }) => value != "")
     .toJS();
+}
+
+export function groupSharedChars(parts: string[], letters: string[]) {
+  const shared = parts.filter(char => letters.includes(char));
+  const title = [];
+  let matched;
+  parts.forEach((char, i) => {
+    if (shared.includes(char)) {
+      if (!matched) {
+        matched = [char];
+        title.push(matched);
+        return;
+      }
+      matched = title[title.length - 1];
+      if (Array.isArray(matched)) {
+        matched.push(char);
+      } else {
+        matched = [char];
+        title.push(matched);
+      }
+      return;
+    }
+    title.push(char);
+  });
+  return title;
 }
