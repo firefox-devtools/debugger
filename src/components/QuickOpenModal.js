@@ -15,7 +15,8 @@ import {
   getQuickOpenQuery,
   getQuickOpenType,
   getSelectedSource,
-  getSymbols
+  getSymbols,
+  getTabs
 } from "../selectors";
 import { scrollList } from "../utils/result-list";
 import {
@@ -47,6 +48,7 @@ type Props = {
   query: string,
   searchType: QuickOpenType,
   symbols: FormattedSymbolDeclarations,
+  tabs: string[],
   selectLocation: Location => void,
   setQuickOpenQuery: (query: string) => void,
   highlightLineRange: ({ start: number, end: number }) => void,
@@ -140,8 +142,15 @@ export class QuickOpenModal extends Component<Props, State> {
   };
 
   showTopSources = () => {
-    const results = this.props.sources.slice(0, 100);
-    this.setState({ results });
+    const { tabs, sources } = this.props;
+    console.log(tabs);
+    if (tabs.length > 0) {
+      this.setState({
+        results: sources.filter(source => tabs.includes(source.url))
+      });
+    } else {
+      this.setState({ results: sources.slice(0, 100) });
+    }
   };
 
   updateResults = (query: string) => {
@@ -391,7 +400,8 @@ function mapStateToProps(state) {
     selectedSource,
     symbols: formatSymbols(symbols),
     query: getQuickOpenQuery(state),
-    searchType: getQuickOpenType(state)
+    searchType: getQuickOpenType(state),
+    tabs: getTabs(state).toArray()
   };
 }
 
