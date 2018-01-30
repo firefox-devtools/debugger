@@ -143,7 +143,6 @@ export class QuickOpenModal extends Component<Props, State> {
 
   showTopSources = () => {
     const { tabs, sources } = this.props;
-    console.log(tabs);
     if (tabs.length > 0) {
       this.setState({
         results: sources.filter(source => tabs.includes(source.url))
