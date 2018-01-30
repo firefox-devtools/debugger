@@ -1,6 +1,12 @@
 .result-item .title .fuzzy-match {
   font-weight: bold;
 }
+
 .result-item .subtitle .fuzzy-match {
   color: black;
+}
+
+.theme-dark .result-item .title .fuzzy-match,
+.theme-dark .result-item .subtitle .fuzzy-match {
+  color: white;
 }

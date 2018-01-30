@@ -329,7 +329,7 @@ export class QuickOpenModal extends Component<Props, State> {
       return {
         ...result,
         title: title.map(this.renderHighlight),
-        ...(subtitle != null
+        ...(subtitle != null && !this.isSymbolSearch()
           ? { subtitle: subtitle.map(this.renderHighlight) }
           : null)
       };
