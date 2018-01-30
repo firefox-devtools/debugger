@@ -145,7 +145,14 @@ const codeMirror = {
     offsetWidth: 100,
     offsetHeight: 100
   })),
-  getScrollInfo: () => {},
+  getScrollInfo: () => ({
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    clientHeight: 100,
+    clientWidth: 100
+  }),
   removeLineClass: jest.fn(),
   operation: jest.fn(cb => cb()),
   charCoords: jest.fn(() => ({
@@ -157,7 +164,9 @@ const codeMirror = {
   coordsChar: jest.fn(() => ({ line: 6, ch: 30 })),
   lineAtHeight: jest.fn(() => 300),
   markText: jest.fn(),
-  scrollTo: jest.fn()
+  scrollTo: jest.fn(),
+  defaultCharWidth: jest.fn(() => 8),
+  defaultTextHeight: jest.fn(() => 16)
 };
 
 const editor = { codeMirror };
