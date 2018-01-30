@@ -33,6 +33,10 @@
   padding-inline-start: 4px;
 }
 
+.scopes-list .tree:focus {
+  outline: none;
+}
+
 .scopes-list .function-signature {
   display: inline-block;
 }
