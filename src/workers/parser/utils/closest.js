@@ -11,7 +11,7 @@ import { isLexicalScope, getMemberExpression } from "./helpers";
 
 import { nodeContainsPosition } from "./contains";
 
-import type { Source, Location } from "debugger-html";
+import type { Location } from "debugger-html";
 import type { NodePath, Node } from "babel-traverse";
 
 function getNodeValue(node: Node) {
@@ -22,9 +22,9 @@ function getNodeValue(node: Node) {
   return node.name;
 }
 
-function getClosestMemberExpression(source, token, location: Location) {
+function getClosestMemberExpression(sourceId, token, location: Location) {
   let expression = null;
-  traverseAst(source, {
+  traverseAst(sourceId, {
     enter(path: NodePath) {
       const { node } = path;
       if (!nodeContainsPosition(node, location)) {
@@ -45,16 +45,20 @@ function getClosestMemberExpression(source, token, location: Location) {
 }
 
 export function getClosestExpression(
-  source: Source,
+  sourceId: string,
   token: string,
   location: Location
 ) {
-  const memberExpression = getClosestMemberExpression(source, token, location);
+  const memberExpression = getClosestMemberExpression(
+    sourceId,
+    token,
+    location
+  );
   if (memberExpression) {
     return memberExpression;
   }
 
-  const path = getClosestPath(source, location);
+  const path = getClosestPath(sourceId, location);
   if (!path || !path.node) {
     return;
   }
@@ -63,10 +67,10 @@ export function getClosestExpression(
   return { expression: getNodeValue(node), location: node.loc };
 }
 
-export function getClosestScope(source: Source, location: Location) {
+export function getClosestScope(sourceId: string, location: Location) {
   let closestPath = null;
 
-  traverseAst(source, {
+  traverseAst(sourceId, {
     enter(path) {
       if (!nodeContainsPosition(path.node, location)) {
         return path.skip();
@@ -85,10 +89,10 @@ export function getClosestScope(source: Source, location: Location) {
   return closestPath.scope;
 }
 
-export function getClosestPath(source: Source, location: Location) {
+export function getClosestPath(sourceId: string, location: Location) {
   let closestPath = null;
 
-  traverseAst(source, {
+  traverseAst(sourceId, {
     enter(path) {
       if (!nodeContainsPosition(path.node, location)) {
         return path.skip();

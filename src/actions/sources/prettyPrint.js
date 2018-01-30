@@ -9,6 +9,7 @@ import { remapBreakpoints } from "../breakpoints";
 
 import { setEmptyLines, setSymbols } from "../ast";
 import { prettyPrint } from "../../workers/pretty-print";
+import { setSource } from "../../workers/parser";
 import { getPrettySourceURL, isLoaded } from "../../utils/source";
 import { loadSourceText } from "./loadSourceText";
 import { selectLocation } from "../sources";
@@ -40,10 +41,15 @@ export function createPrettySource(sourceId: string) {
     const { code, mappings } = await prettyPrint({ source, url });
     await sourceMaps.applySourceMap(source.get("id"), url, code, mappings);
 
-    dispatch({
-      type: "UPDATE_SOURCE",
-      source: { ...prettySource, text: code, loadedState: "loaded" }
-    });
+    const loadedPrettySource = {
+      ...prettySource,
+      text: code,
+      loadedState: "loaded"
+    };
+
+    setSource(loadedPrettySource);
+
+    dispatch({ type: "UPDATE_SOURCE", source: loadedPrettySource });
 
     return prettySource;
   };
@@ -64,7 +70,6 @@ export function createPrettySource(sourceId: string) {
 export function togglePrettyPrint(sourceId: string) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     const source = getSource(getState(), sourceId);
-
     if (!source) {
       return {};
     }
@@ -95,6 +100,7 @@ export function togglePrettyPrint(sourceId: string) {
     }
 
     const newPrettySource = await dispatch(createPrettySource(sourceId));
+
     await dispatch(remapBreakpoints(sourceId));
     await dispatch(mapFrames());
     await dispatch(setEmptyLines(newPrettySource.id));

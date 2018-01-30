@@ -3,6 +3,7 @@
 import findOutOfScopeLocations from "../findOutOfScopeLocations";
 
 import { getSource } from "./helpers";
+import { setSource } from "../sources";
 
 function formatLines(actual) {
   return actual
@@ -15,7 +16,9 @@ function formatLines(actual) {
 
 describe("Parser.findOutOfScopeLocations", () => {
   it("should exclude non-enclosing function blocks", () => {
-    const actual = findOutOfScopeLocations(getSource("outOfScope"), {
+    const source = getSource("outOfScope");
+    setSource(source);
+    const actual = findOutOfScopeLocations("outOfScope", {
       line: 5,
       column: 5
     });
@@ -24,7 +27,9 @@ describe("Parser.findOutOfScopeLocations", () => {
   });
 
   it("should roll up function blocks", () => {
-    const actual = findOutOfScopeLocations(getSource("outOfScope"), {
+    const source = getSource("outOfScope");
+    setSource(source);
+    const actual = findOutOfScopeLocations("outOfScope", {
       line: 24,
       column: 0
     });
@@ -33,7 +38,9 @@ describe("Parser.findOutOfScopeLocations", () => {
   });
 
   it("should exclude function for locations on declaration", () => {
-    const actual = findOutOfScopeLocations(getSource("outOfScope"), {
+    const source = getSource("outOfScope");
+    setSource(source);
+    const actual = findOutOfScopeLocations("outOfScope", {
       line: 3,
       column: 12
     });
@@ -42,7 +49,9 @@ describe("Parser.findOutOfScopeLocations", () => {
   });
 
   it("should treat comments as out of scope", () => {
-    const actual = findOutOfScopeLocations(getSource("outOfScopeComment"), {
+    const source = getSource("outOfScopeComment");
+    setSource(source);
+    const actual = findOutOfScopeLocations("outOfScopeComment", {
       line: 3,
       column: 2
     });
@@ -53,7 +62,9 @@ describe("Parser.findOutOfScopeLocations", () => {
   });
 
   it("should not exclude in-scope inner locations", () => {
-    const actual = findOutOfScopeLocations(getSource("outOfScope"), {
+    const source = getSource("outOfScope");
+    setSource(source);
+    const actual = findOutOfScopeLocations("outOfScope", {
       line: 61,
       column: 0
     });

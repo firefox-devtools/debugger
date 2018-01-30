@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`scopes getVariablesInScope finds scope binding variables 1`] = `
+Array [
+  "this",
+  "arguments",
+  "n",
+  "square",
+  "two",
+  "four",
+  "math",
+  "child",
+]
+`;
+
+exports[`scopes getVariablesInScope finds variables from multiple scopes 1`] = `
+Array [
+  "this",
+  "arguments",
+  "y",
+  "x",
+  "innerScope",
+  "outer",
+  "fromIIFE",
+  "a",
+  "b",
+  "getA",
+  "setB",
+  "plusAB",
+  "withMultipleScopes",
+]
+`;
+
+exports[`scopes getVariablesInScope finds variables from multiple scopes 2`] = `
+Array [
+  "this",
+  "arguments",
+  "x",
+  "innerScope",
+  "outer",
+  "fromIIFE",
+  "a",
+  "b",
+  "getA",
+  "setB",
+  "plusAB",
+  "withMultipleScopes",
+]
+`;
+
+exports[`scopes getVariablesInScope finds variables from multiple scopes 3`] = `
+Array [
+  "this",
+  "arguments",
+  "inner",
+  "innerScope",
+  "outer",
+  "fromIIFE",
+  "a",
+  "b",
+  "getA",
+  "setB",
+  "plusAB",
+  "withMultipleScopes",
+]
+`;
+
+exports[`scopes getVariablesInScope finds variables from multiple scopes 4`] = `
+Array [
+  "this",
+  "arguments",
+  "toIIFE",
+  "innerScope",
+  "outer",
+  "fromIIFE",
+  "a",
+  "b",
+  "getA",
+  "setB",
+  "plusAB",
+  "withMultipleScopes",
+]
+`;

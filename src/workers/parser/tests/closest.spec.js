@@ -1,28 +1,28 @@
 /* eslint max-nested-callbacks: ["error", 4]*/
 
 import { getClosestScope, getClosestExpression } from "../utils/closest";
-
 import { getSource, getOriginalSource } from "./helpers";
+import { setSource } from "../sources";
 
 describe("parser", () => {
   describe("getClosestExpression", () => {
     describe("member expressions", () => {
       it("Can find a member expression", () => {
-        const expression = getClosestExpression(
-          getSource("resolveToken"),
-          "x",
-          {
-            line: 15,
-            column: 31
-          }
-        );
+        const source = getSource("resolveToken");
+        setSource(source);
+        const expression = getClosestExpression(source.id, "x", {
+          line: 15,
+          column: 31
+        });
 
         expect(expression).toMatchSnapshot();
       });
 
       it("find a nested expression", () => {
+        const source = getSource("expression");
+        setSource(source);
         const expression = getClosestExpression(
-          getSource("expression"),
+          "expression",
           "secondProperty",
           {
             line: 2,
@@ -34,28 +34,24 @@ describe("parser", () => {
       });
 
       it("finds an expression with a call", () => {
-        const expression = getClosestExpression(
-          getSource("expression"),
-          "secondProperty",
-          {
-            line: 6,
-            column: 32
-          }
-        );
+        const source = getSource("expression");
+        setSource(source);
+        const expression = getClosestExpression(source.id, "secondProperty", {
+          line: 6,
+          column: 32
+        });
 
         expect(expression).toMatchSnapshot();
       });
     });
 
     it("Can find a local var", () => {
-      const expression = getClosestExpression(
-        getSource("resolveToken"),
-        "beta",
-        {
-          line: 15,
-          column: 21
-        }
-      );
+      const source = getSource("resolveToken");
+      setSource(source);
+      const expression = getClosestExpression(source.id, "beta", {
+        line: 15,
+        column: 21
+      });
 
       expect(expression).toMatchSnapshot();
     });
@@ -63,7 +59,9 @@ describe("parser", () => {
 
   describe("getClosestScope", () => {
     it("finds the scope at the beginning", () => {
-      const scope = getClosestScope(getOriginalSource("func"), {
+      const source = getOriginalSource("func");
+      setSource(source);
+      const scope = getClosestScope(source.id, {
         line: 5,
         column: 8
       });
@@ -73,7 +71,9 @@ describe("parser", () => {
     });
 
     it("finds a scope given at the end", () => {
-      const scope = getClosestScope(getOriginalSource("func"), {
+      const source = getOriginalSource("func");
+      setSource(source);
+      const scope = getClosestScope(source.id, {
         line: 9,
         column: 1
       });
@@ -83,7 +83,9 @@ describe("parser", () => {
     });
 
     it("Can find the function declaration for square", () => {
-      const scope = getClosestScope(getOriginalSource("func"), {
+      const source = getOriginalSource("func");
+      setSource(source);
+      const scope = getClosestScope(source.id, {
         line: 1,
         column: 1
       });

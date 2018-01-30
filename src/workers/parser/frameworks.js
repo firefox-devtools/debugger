@@ -4,8 +4,8 @@
 
 import getSymbols from "./getSymbols";
 
-export function isReactComponent(source) {
-  const { imports, classes, callExpressions } = getSymbols(source);
+export function isReactComponent(sourceId) {
+  const { imports, classes, callExpressions } = getSymbols(sourceId);
   return (
     (importsReact(imports) || requiresReact(callExpressions)) &&
     extendsComponent(classes)

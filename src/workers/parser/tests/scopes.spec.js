@@ -2,13 +2,16 @@
 
 import { getVariablesInLocalScope, getVariablesInScope } from "../scopes";
 import { getClosestScope } from "../utils/closest";
+import { setSource } from "../sources";
 
 import { getSource } from "./helpers";
 
 describe("scopes", () => {
   describe("getVariablesInLocalScope", () => {
     it("finds scope binding variables", () => {
-      const scope = getClosestScope(getSource("math"), {
+      const source = getSource("math");
+      setSource(source);
+      const scope = getClosestScope(source.id, {
         line: 2,
         column: 2
       });
@@ -22,7 +25,9 @@ describe("scopes", () => {
     });
 
     it("only gets local variables", () => {
-      const scope = getClosestScope(getSource("math"), {
+      const source = getSource("math");
+      setSource(source);
+      const scope = getClosestScope(source.id, {
         line: 3,
         column: 5
       });
@@ -37,7 +42,9 @@ describe("scopes", () => {
     });
 
     it("finds variables in block scope", () => {
-      const scope = getClosestScope(getSource("resolveToken"), {
+      const source = getSource("resolveToken");
+      setSource(source);
+      const scope = getClosestScope(source.id, {
         line: 34,
         column: 13
       });
@@ -50,117 +57,35 @@ describe("scopes", () => {
 
   describe("getVariablesInScope", () => {
     it("finds scope binding variables", () => {
-      const scope = getClosestScope(getSource("math"), {
-        line: 3,
-        column: 5
-      });
+      const source = getSource("math");
+      setSource(source);
 
-      const vars = getVariablesInScope(scope);
-
-      expect(vars).toEqual([
-        "this",
-        "arguments",
-        "n",
-        "square",
-        "two",
-        "four",
-        "math",
-        "child"
-      ]);
+      expect(
+        getVariablesInScope(
+          getClosestScope(source.id, {
+            line: 3,
+            column: 5
+          })
+        )
+      ).toMatchSnapshot();
     });
 
     it("finds variables from multiple scopes", () => {
-      let vars;
       const source = getSource("resolveToken");
+      setSource(source);
 
-      vars = getVariablesInScope(
-        getClosestScope(source, {
-          line: 36,
-          column: 19
-        })
+      const locations = [
+        { line: 36, column: 19 },
+        { line: 34, column: 14 },
+        { line: 24, column: 9 },
+        { line: 28, column: 33 }
+      ];
+
+      locations.forEach(location =>
+        expect(
+          getVariablesInScope(getClosestScope(source.id, location))
+        ).toMatchSnapshot()
       );
-
-      expect(vars).toEqual([
-        "this",
-        "arguments",
-        "y",
-        "x",
-        "innerScope",
-        "outer",
-        "fromIIFE",
-        "a",
-        "b",
-        "getA",
-        "setB",
-        "plusAB",
-        "withMultipleScopes"
-      ]);
-
-      vars = getVariablesInScope(
-        getClosestScope(source, {
-          line: 34,
-          column: 14
-        })
-      );
-
-      expect(vars).toEqual([
-        "this",
-        "arguments",
-        "x",
-        "innerScope",
-        "outer",
-        "fromIIFE",
-        "a",
-        "b",
-        "getA",
-        "setB",
-        "plusAB",
-        "withMultipleScopes"
-      ]);
-
-      vars = getVariablesInScope(
-        getClosestScope(source, {
-          line: 24,
-          column: 9
-        })
-      );
-
-      expect(vars).toEqual([
-        "this",
-        "arguments",
-        "inner",
-        "innerScope",
-        "outer",
-        "fromIIFE",
-        "a",
-        "b",
-        "getA",
-        "setB",
-        "plusAB",
-        "withMultipleScopes"
-      ]);
-
-      vars = getVariablesInScope(
-        getClosestScope(source, {
-          line: 28,
-          column: 33
-        })
-      );
-
-      expect(vars).toEqual([
-        "this",
-        "arguments",
-        "toIIFE",
-        "innerScope",
-        "outer",
-        "fromIIFE",
-        "a",
-        "b",
-        "getA",
-        "setB",
-        "plusAB",
-        "withMultipleScopes"
-      ]);
     });
   });
 });
