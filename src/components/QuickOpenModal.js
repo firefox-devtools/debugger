@@ -78,17 +78,14 @@ function filter(values, query) {
 export class QuickOpenModal extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = {
-      results: null,
-      selectedIndex: 0
-    };
+    this.state = { results: null, selectedIndex: 0 };
   }
 
   componentDidMount() {
     this.updateResults(this.props.query);
   }
 
-  componentDidUpdate(prevProps: any) {
+  componentDidUpdate(prevProps: Props) {
     if (this.refs.resultList && this.refs.resultList.refs) {
       scrollList(this.refs.resultList.refs, this.state.selectedIndex);
     }
@@ -130,13 +127,16 @@ export class QuickOpenModal extends Component<Props, State> {
       return this.setState({ results });
     }
 
-    results = filter(results, query.slice(1));
-
-    this.setState({ results });
+    this.setState({ results: filter(results, query.slice(1)) });
   };
 
-  showShortcuts = (query: string) => {
-    this.setState({ results: formatShortcutResults() });
+  searchShortcuts = (query: string) => {
+    const results = formatShortcutResults();
+    if (query == "?") {
+      this.setState({ results });
+    } else {
+      this.setState({ results: filter(results, query.slice(1)) });
+    }
   };
 
   showTopSources = () => {
@@ -158,7 +158,7 @@ export class QuickOpenModal extends Component<Props, State> {
     }
 
     if (this.isShortcutQuery()) {
-      return this.showShortcuts(query);
+      return this.searchShortcuts(query);
     }
     return this.searchSources(query);
   };
@@ -304,6 +304,8 @@ export class QuickOpenModal extends Component<Props, State> {
   isGotoQuery = () => this.props.searchType === "goto";
   isGotoSourceQuery = () => this.props.searchType === "gotoSource";
   isShortcutQuery = () => this.props.searchType === "shortcuts";
+  isSourcesQuery = () => this.props.searchType === "sources";
+  isSourceSearch = () => this.isSourcesQuery() || this.isGotoSourceQuery();
 
   renderHighlight = (part: FuzzyResult, i: number) => {
     if (part.type === "match") {
@@ -337,24 +339,18 @@ export class QuickOpenModal extends Component<Props, State> {
   };
 
   render() {
-    const { enabled, query, searchType } = this.props;
+    const { enabled, query } = this.props;
     const { selectedIndex, results } = this.state;
 
     if (!enabled) {
       return null;
     }
-
     const summaryMsg = L10N.getFormatStr(
       "sourceSearch.resultsSummary1",
       this.getResultCount()
     );
-
     const showSummary =
-      searchType === "sources" ||
-      searchType === "functions" ||
-      searchType === "variables" ||
-      searchType === "shortcuts";
-
+      this.isSourcesQuery() || this.isSymbolSearch() || this.isShortcutQuery();
     const newResults = results && results.slice(0, 100);
     return (
       <Modal in={enabled} handleClose={this.closeModal}>
@@ -374,9 +370,7 @@ export class QuickOpenModal extends Component<Props, State> {
             selected={selectedIndex}
             selectItem={this.selectResultItem}
             ref="resultList"
-            {...(searchType === "sources" || searchType === "gotoSource"
-              ? { size: "big" }
-              : {})}
+            {...(this.isSourceSearch() ? { size: "big" } : {})}
           />
         )}
       </Modal>
