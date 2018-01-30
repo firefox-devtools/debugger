@@ -22,7 +22,8 @@ import {
   formatSymbols,
   formatSources,
   parseLineColumn,
-  formatShortcutResults
+  formatShortcutResults,
+  groupFuzzyMatches
 } from "../utils/quick-open";
 import Modal from "./shared/Modal";
 import SearchInput from "./shared/SearchInput";
@@ -36,6 +37,8 @@ import type {
 import type { Location } from "debugger-html";
 import type { SourceRecord } from "../reducers/sources";
 import type { QuickOpenType } from "../reducers/quick-open";
+
+import "./QuickOpenModal.css";
 
 type Props = {
   enabled: boolean,
@@ -61,6 +64,10 @@ type GotoLocationType = {
   column?: number
 };
 
+type FuzzyMatch = { type: "match", value: string };
+type FuzzyMiss = { type: "miss", value: string };
+type FuzzyResult = FuzzyMatch | FuzzyMiss;
+
 function filter(values, query) {
   return fuzzyAldrin.filter(values, query, {
     key: "value",
@@ -71,17 +78,14 @@ function filter(values, query) {
 export class QuickOpenModal extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = {
-      results: null,
-      selectedIndex: 0
-    };
+    this.state = { results: null, selectedIndex: 0 };
   }
 
   componentDidMount() {
     this.updateResults(this.props.query);
   }
 
-  componentDidUpdate(prevProps: any) {
+  componentDidUpdate(prevProps: Props) {
     if (this.refs.resultList && this.refs.resultList.refs) {
       scrollList(this.refs.resultList.refs, this.state.selectedIndex);
     }
@@ -123,13 +127,16 @@ export class QuickOpenModal extends Component<Props, State> {
       return this.setState({ results });
     }
 
-    results = filter(results, query.slice(1));
-
-    this.setState({ results });
+    this.setState({ results: filter(results, query.slice(1)) });
   };
 
-  showShortcuts = (query: string) => {
-    this.setState({ results: formatShortcutResults() });
+  searchShortcuts = (query: string) => {
+    const results = formatShortcutResults();
+    if (query == "?") {
+      this.setState({ results });
+    } else {
+      this.setState({ results: filter(results, query.slice(1)) });
+    }
   };
 
   showTopSources = () => {
@@ -151,7 +158,7 @@ export class QuickOpenModal extends Component<Props, State> {
     }
 
     if (this.isShortcutQuery()) {
-      return this.showShortcuts(query);
+      return this.searchShortcuts(query);
     }
     return this.searchSources(query);
   };
@@ -297,26 +304,53 @@ export class QuickOpenModal extends Component<Props, State> {
   isGotoQuery = () => this.props.searchType === "goto";
   isGotoSourceQuery = () => this.props.searchType === "gotoSource";
   isShortcutQuery = () => this.props.searchType === "shortcuts";
+  isSourcesQuery = () => this.props.searchType === "sources";
+  isSourceSearch = () => this.isSourcesQuery() || this.isGotoSourceQuery();
+
+  renderHighlight = (part: FuzzyResult, i: number) => {
+    if (part.type === "match") {
+      return (
+        <span key={`${part.value}-${i}`} className="fuzzy-match">
+          {part.value}
+        </span>
+      );
+    }
+    return part.value;
+  };
+
+  highlightMatching = (query: string, results: QuickOpenResult[]) => {
+    if (query === "") {
+      return results;
+    }
+    return results.map(result => {
+      const title = groupFuzzyMatches(result.title, query);
+      const subtitle =
+        result.subtitle != null
+          ? groupFuzzyMatches(result.subtitle, query)
+          : null;
+      return {
+        ...result,
+        title: title.map(this.renderHighlight),
+        ...(subtitle != null && !this.isSymbolSearch()
+          ? { subtitle: subtitle.map(this.renderHighlight) }
+          : null)
+      };
+    });
+  };
 
   render() {
-    const { enabled, query, searchType } = this.props;
+    const { enabled, query } = this.props;
     const { selectedIndex, results } = this.state;
 
     if (!enabled) {
       return null;
     }
-
     const summaryMsg = L10N.getFormatStr(
       "sourceSearch.resultsSummary1",
       this.getResultCount()
     );
-
     const showSummary =
-      searchType === "sources" ||
-      searchType === "functions" ||
-      searchType === "variables" ||
-      searchType === "shortcuts";
-
+      this.isSourcesQuery() || this.isSymbolSearch() || this.isShortcutQuery();
     const newResults = results && results.slice(0, 100);
     return (
       <Modal in={enabled} handleClose={this.closeModal}>
@@ -332,13 +366,11 @@ export class QuickOpenModal extends Component<Props, State> {
         {newResults && (
           <ResultList
             key="results"
-            items={newResults}
+            items={this.highlightMatching(query, newResults)}
             selected={selectedIndex}
             selectItem={this.selectResultItem}
             ref="resultList"
-            {...(searchType === "sources" || searchType === "gotoSource"
-              ? { size: "big" }
-              : {})}
+            {...(this.isSourceSearch() ? { size: "big" } : {})}
           />
         )}
       </Modal>
