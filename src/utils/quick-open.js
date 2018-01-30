@@ -126,27 +126,43 @@ export function formatSources(sources: SourcesMap): Array<QuickOpenResult> {
     .toJS();
 }
 
-export function groupSharedChars(parts: string[], letters: string[]) {
-  const shared = parts.filter(char => letters.includes(char));
+export function groupFuzzyMatches(input: string, query: string) {
+  const parts = input.toLowerCase().split("");
+  const queryChars = query.toLowerCase().split("");
+  const shared = parts.filter(char => queryChars.includes(char));
   const title = [];
   let matched;
+  let missed;
   parts.forEach((char, i) => {
     if (shared.includes(char)) {
       if (!matched) {
-        matched = [char];
+        matched = { type: "match", value: input[i] };
         title.push(matched);
         return;
       }
       matched = title[title.length - 1];
-      if (Array.isArray(matched)) {
-        matched.push(char);
+      if (matched.type === "match") {
+        matched.value = `${matched.value}${input[i]}`;
       } else {
-        matched = [char];
+        matched = { type: "match", value: input[i] };
         title.push(matched);
       }
       return;
     }
-    title.push(char);
+
+    if (!missed) {
+      missed = { type: "miss", value: input[i] };
+      title.push(missed);
+      return;
+    }
+
+    missed = title[title.length - 1];
+    if (missed.type === "miss") {
+      missed.value = `${missed.value}${input[i]}`;
+    } else {
+      missed = { type: "miss", value: input[i] };
+      title.push(missed);
+    }
   });
   return title;
 }

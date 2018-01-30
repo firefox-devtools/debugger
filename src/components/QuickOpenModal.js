@@ -23,7 +23,7 @@ import {
   formatSources,
   parseLineColumn,
   formatShortcutResults,
-  groupSharedChars
+  groupFuzzyMatches
 } from "../utils/quick-open";
 import Modal from "./shared/Modal";
 import SearchInput from "./shared/SearchInput";
@@ -63,6 +63,10 @@ type GotoLocationType = {
   line: number,
   column?: number
 };
+
+type FuzzyMatch = { type: "match", value: string };
+type FuzzyMiss = { type: "miss", value: string };
+type FuzzyResult = FuzzyMatch | FuzzyMiss;
 
 function filter(values, query) {
   return fuzzyAldrin.filter(values, query, {
@@ -301,31 +305,26 @@ export class QuickOpenModal extends Component<Props, State> {
   isGotoSourceQuery = () => this.props.searchType === "gotoSource";
   isShortcutQuery = () => this.props.searchType === "shortcuts";
 
-  renderHighlight = (part: string[] | string, i: number) => {
-    if (Array.isArray(part)) {
+  renderHighlight = (part: FuzzyResult, i: number) => {
+    if (part.type === "match") {
       return (
-        <span key={`${part.join("")}-${i}`} className="fuzzy-match">
-          {part.join("")}
+        <span key={`${part.value}-${i}`} className="fuzzy-match">
+          {part.value}
         </span>
       );
     }
-    return part;
+    return part.value;
   };
 
   highlightMatching = (query: string, results: QuickOpenResult[]) => {
     if (query === "") {
       return results;
     }
-    const queryLetters = query.toLowerCase().split("");
     return results.map(result => {
-      const resultParts = result.title.toLowerCase().split("");
-      const title = groupSharedChars(resultParts, queryLetters);
+      const title = groupFuzzyMatches(result.title, query);
       const subtitle =
         result.subtitle != null
-          ? groupSharedChars(
-              result.subtitle.toLowerCase().split(""),
-              queryLetters
-            )
+          ? groupFuzzyMatches(result.subtitle, query)
           : null;
       return {
         ...result,
