@@ -130,39 +130,39 @@ export function groupFuzzyMatches(input: string, query: string) {
   const parts = input.toLowerCase().split("");
   const queryChars = query.toLowerCase().split("");
   const shared = parts.filter(char => queryChars.includes(char));
-  const title = [];
+  const output = [];
   let matched;
   let missed;
   parts.forEach((char, i) => {
     if (shared.includes(char)) {
       if (!matched) {
         matched = { type: "match", value: input[i] };
-        title.push(matched);
+        output.push(matched);
         return;
       }
-      matched = title[title.length - 1];
+      matched = output[output.length - 1];
       if (matched.type === "match") {
         matched.value = `${matched.value}${input[i]}`;
       } else {
         matched = { type: "match", value: input[i] };
-        title.push(matched);
+        output.push(matched);
       }
       return;
     }
 
     if (!missed) {
       missed = { type: "miss", value: input[i] };
-      title.push(missed);
+      output.push(missed);
       return;
     }
 
-    missed = title[title.length - 1];
+    missed = output[output.length - 1];
     if (missed.type === "miss") {
       missed.value = `${missed.value}${input[i]}`;
     } else {
       missed = { type: "miss", value: input[i] };
-      title.push(missed);
+      output.push(missed);
     }
   });
-  return title;
+  return output;
 }
