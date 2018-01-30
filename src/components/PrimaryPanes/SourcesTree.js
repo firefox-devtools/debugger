@@ -311,18 +311,10 @@ class SourcesTree extends Component<Props, State> {
     );
     const { sources } = this.props;
     const icon = this.getIcon(sources, item, depth);
-    let paddingDir = "paddingRight";
-    if (document.body && document.body.parentElement) {
-      paddingDir =
-        document.body.parentElement.dir == "ltr"
-          ? "paddingLeft"
-          : "paddingRight";
-    }
 
     return (
       <div
         className={classnames("node", { focused })}
-        style={{ [paddingDir]: `${depth * 15 + 5}px` }}
         key={item.path}
         onClick={e => {
           this.selectItem(item);
