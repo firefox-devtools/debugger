@@ -116,3 +116,9 @@ welcomebox
 Quickopen
 CommandBarButton
 dbg
+Anshul
+sourcemap
+isPaused
+QuickOpen
+named-evals
+Greenkeeper
