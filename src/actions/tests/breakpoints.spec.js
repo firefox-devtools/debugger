@@ -2,7 +2,8 @@ import {
   createStore,
   selectors,
   actions,
-  makeSource
+  makeSource,
+  makeSourceRecord
 } from "../../utils/test-head";
 
 import {
@@ -19,6 +20,7 @@ describe("breakpoints", () => {
       sourceUrl: "http://localhost:8000/examples/a"
     };
     await dispatch(actions.newSource(makeSource("a")));
+    await dispatch(actions.loadSourceText(makeSourceRecord("a")));
     await dispatch(actions.addBreakpoint(loc1));
 
     const bps = selectors.getBreakpoints(getState());
@@ -36,6 +38,8 @@ describe("breakpoints", () => {
     };
 
     await dispatch(actions.newSource(makeSource("a")));
+    await dispatch(actions.loadSourceText(makeSourceRecord("a")));
+
     await dispatch(actions.addBreakpoint(loc1));
     let bps = selectors.getBreakpoints(getState());
     const bp = selectors.getBreakpoint(getState(), loc1);
@@ -61,6 +65,8 @@ describe("breakpoints", () => {
       const { dispatch, getState } = createStore(correctedThreadClient);
 
       await dispatch(actions.newSource(makeSource("a")));
+      await dispatch(actions.loadSourceText(makeSourceRecord("a")));
+
       await dispatch(actions.addBreakpoint(invalidLocation));
       const state = getState();
       const bps = selectors.getBreakpoints(state);
@@ -86,7 +92,11 @@ describe("breakpoints", () => {
     };
 
     await dispatch(actions.newSource(makeSource("a")));
+    await dispatch(actions.loadSourceText(makeSourceRecord("a")));
+
     await dispatch(actions.newSource(makeSource("b")));
+    await dispatch(actions.loadSourceText(makeSourceRecord("b")));
+
     await dispatch(actions.addBreakpoint(loc1));
     await dispatch(actions.addBreakpoint(loc2));
 
@@ -111,7 +121,10 @@ describe("breakpoints", () => {
     };
 
     await dispatch(actions.newSource(makeSource("a")));
+    await dispatch(actions.loadSourceText(makeSourceRecord("a")));
+
     await dispatch(actions.newSource(makeSource("b")));
+    await dispatch(actions.loadSourceText(makeSourceRecord("b")));
 
     await dispatch(actions.addBreakpoint(loc1));
     await dispatch(actions.addBreakpoint(loc2));
@@ -130,6 +143,8 @@ describe("breakpoints", () => {
     };
 
     await dispatch(actions.newSource(makeSource("a")));
+    await dispatch(actions.loadSourceText(makeSourceRecord("a")));
+
     await dispatch(actions.addBreakpoint(loc));
     await dispatch(actions.disableBreakpoint(loc));
 
@@ -156,7 +171,11 @@ describe("breakpoints", () => {
     };
 
     await dispatch(actions.newSource(makeSource("a")));
+    await dispatch(actions.loadSourceText(makeSourceRecord("a")));
+
     await dispatch(actions.newSource(makeSource("b")));
+    await dispatch(actions.loadSourceText(makeSourceRecord("b")));
+
     await dispatch(actions.addBreakpoint(loc1));
     await dispatch(actions.addBreakpoint(loc2));
 
@@ -175,6 +194,8 @@ describe("breakpoints", () => {
     const { dispatch, getState } = createStore(simpleMockThreadClient);
 
     await dispatch(actions.newSource(makeSource("foo1")));
+    await dispatch(actions.loadSourceText(makeSourceRecord("foo1")));
+
     await dispatch(actions.selectLocation({ sourceId: "foo1", line: 1 }));
 
     await dispatch(actions.toggleBreakpoint(5));
@@ -212,6 +233,8 @@ describe("breakpoints", () => {
     const { dispatch, getState } = createStore(simpleMockThreadClient);
 
     await dispatch(actions.newSource(makeSource("foo1")));
+    await dispatch(actions.loadSourceText(makeSourceRecord("foo1")));
+
     await dispatch(actions.selectLocation({ sourceId: "foo1", line: 1 }));
 
     await dispatch(actions.toggleBreakpoint(5));
@@ -256,6 +279,8 @@ describe("breakpoints", () => {
     };
 
     await dispatch(actions.newSource(makeSource("a")));
+    await dispatch(actions.loadSourceText(makeSourceRecord("a")));
+
     await dispatch(actions.addBreakpoint(loc));
 
     expect(selectors.getBreakpoint(getState(), loc).condition).toBe(null);
@@ -307,13 +332,12 @@ describe("breakpoints", () => {
       sourceUrl: "http://localhost:8000/examples/a.js"
     };
 
-    const url = "a.js";
-    const text = "function(a,b,c){return {a,b,c}}";
-    const source = makeSource(url, { loadedState: "loaded", text });
-
+    const source = makeSource("a.js");
     await dispatch(actions.newSource(source));
+    await dispatch(actions.loadSourceText(makeSourceRecord("a.js")));
+
     await dispatch(actions.addBreakpoint(loc));
-    await dispatch(actions.togglePrettyPrint(source.id));
+    await dispatch(actions.togglePrettyPrint("a.js"));
 
     const breakpoint = selectors.getBreakpoints(getState()).first();
 

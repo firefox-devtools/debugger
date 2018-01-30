@@ -158,15 +158,19 @@ describe("ast", () => {
       const { dispatch, getState } = store;
       const source = makeSource("scopes.js");
       await dispatch(actions.newSource(source));
+
       await dispatch(
         actions.selectLocation({ sourceId: "scopes.js", line: 5 })
       );
+
       await dispatch(
         actions.paused({
           frames: [makeFrame({ id: 1, sourceId: "scopes.js" })]
         })
       );
+
       await dispatch(actions.setOutOfScopeLocations("scopes.js"));
+
       await waitForState(store, state => getOutOfScopeLocations(state));
 
       const locations = getOutOfScopeLocations(getState());

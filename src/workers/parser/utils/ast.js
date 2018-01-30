@@ -8,8 +8,7 @@ import parseScriptTags from "parse-script-tags";
 import * as babylon from "babylon";
 import traverse from "babel-traverse";
 import isEmpty from "lodash/isEmpty";
-
-import type { Source } from "debugger-html";
+import { getSource } from "../sources";
 
 let ASTs = new Map();
 
@@ -62,14 +61,12 @@ export function parseScript(text: string, opts?: Object) {
   return _parse(text, opts);
 }
 
-export function getAst(source: Source) {
-  if (!source || !source.text) {
-    return {};
+export function getAst(sourceId: string) {
+  if (ASTs.has(sourceId)) {
+    return ASTs.get(sourceId);
   }
 
-  if (ASTs.has(source.id)) {
-    return ASTs.get(source.id);
-  }
+  const source = getSource(sourceId);
 
   let ast = {};
   const { contentType } = source;
@@ -90,8 +87,8 @@ export function clearASTs() {
 }
 
 type Visitor = { enter: Function };
-export function traverseAst(source: Source, visitor: Visitor) {
-  const ast = getAst(source);
+export function traverseAst(sourceId: string, visitor: Visitor) {
+  const ast = getAst(sourceId);
   if (isEmpty(ast)) {
     return null;
   }

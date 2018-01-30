@@ -50,7 +50,6 @@ export function loadSourceText(source: SourceRecord) {
     }
 
     const id = source.get("id");
-
     if (isLoading(source) || requests.has(id)) {
       return requests.get(id);
     }

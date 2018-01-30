@@ -34,7 +34,7 @@ export function setSourceMetaData(sourceId: SourceId) {
       return;
     }
 
-    const isReactComp = await isReactComponent(source);
+    const isReactComp = await isReactComponent(source.id);
     dispatch({
       type: "SET_SOURCE_METADATA",
       sourceId: source.id,
@@ -53,12 +53,11 @@ export function setSymbols(sourceId: SourceId) {
     }
 
     const source = sourceRecord.toJS();
-
     if (!source.text || source.isWasm || hasSymbols(getState(), source)) {
       return;
     }
 
-    const symbols = await getSymbols(source);
+    const symbols = await getSymbols(source.id);
     dispatch({ type: "SET_SYMBOLS", source, symbols });
     dispatch(setEmptyLines(sourceId));
     dispatch(setSourceMetaData(sourceId));
@@ -77,7 +76,7 @@ export function setEmptyLines(sourceId: SourceId) {
       return;
     }
 
-    const emptyLines = await getEmptyLines(source);
+    const emptyLines = await getEmptyLines(source.id);
 
     dispatch({
       type: "SET_EMPTY_LINES",
@@ -90,7 +89,6 @@ export function setEmptyLines(sourceId: SourceId) {
 export function setOutOfScopeLocations() {
   return async ({ dispatch, getState }: ThunkArgs) => {
     const location = getSelectedLocation(getState());
-
     if (!location) {
       return;
     }
@@ -99,7 +97,7 @@ export function setOutOfScopeLocations() {
 
     let locations = null;
     if (location.line && source && isPaused(getState())) {
-      locations = await findOutOfScopeLocations(source.toJS(), location);
+      locations = await findOutOfScopeLocations(source.get("id"), location);
     }
 
     dispatch({

@@ -75,8 +75,10 @@ function loadSourceMap(generatedSource) {
 
 // If a request has been made to show this source, go ahead and
 // select it.
-function checkSelectedSource(source: Source) {
+function checkSelectedSource(sourceId: string) {
   return async ({ dispatch, getState }: ThunkArgs) => {
+    const source = getSource(getState(), sourceId).toJS();
+
     const pendingLocation = getPendingSelectedLocation(getState());
 
     if (!pendingLocation || !pendingLocation.url || !source.url) {
@@ -98,7 +100,7 @@ function checkSelectedSource(source: Source) {
   };
 }
 
-function checkPendingBreakpoints(sourceId) {
+function checkPendingBreakpoints(sourceId: string) {
   return async ({ dispatch, getState }: ThunkArgs) => {
     // source may have been modified by selectLocation
     const source = getSource(getState(), sourceId);
@@ -149,7 +151,7 @@ export function newSources(sources: Source[]) {
     });
 
     for (const source of filteredSources) {
-      dispatch(checkSelectedSource(source));
+      dispatch(checkSelectedSource(source.id));
       dispatch(checkPendingBreakpoints(source.id));
     }
 

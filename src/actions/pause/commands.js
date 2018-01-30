@@ -101,10 +101,12 @@ export function astCommand(stepType: CommandType) {
     if (stepType == "stepOver") {
       const frame = getTopFrame(getState());
       const source = getSelectedSource(getState()).toJS();
-      const nextLocation = await getNextStep(source, frame.location);
-      if (nextLocation) {
-        await dispatch(addHiddenBreakpoint(nextLocation));
-        return dispatch(command("resume"));
+      if (source) {
+        const nextLocation = await getNextStep(source.id, frame.location);
+        if (nextLocation) {
+          await dispatch(addHiddenBreakpoint(nextLocation));
+          return dispatch(command("resume"));
+        }
       }
     }
 

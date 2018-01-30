@@ -3,6 +3,7 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 import getSymbols from "../getSymbols";
+import { setSource } from "../sources";
 
 function formatLocation(loc) {
   if (!loc) {
@@ -44,7 +45,8 @@ function formatKey(name, symbols) {
 }
 
 export function formatSymbols(source: Source) {
-  const symbols = getSymbols(source);
+  setSource(source);
+  const symbols = getSymbols(source.id);
 
   return Object.keys(symbols)
 

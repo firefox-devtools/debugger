@@ -1,16 +1,23 @@
 import { getSource, getOriginalSource } from "./helpers";
 import getEmptyLines from "../getEmptyLines";
+import { setSource } from "../sources";
 
 describe("getEmptyLines", () => {
   it("allSymbols", () => {
-    expect(getEmptyLines(getSource("allSymbols"))).toMatchSnapshot();
+    const source = getSource("allSymbols");
+    setSource(source);
+    expect(getEmptyLines(source.id)).toMatchSnapshot();
   });
 
   it("math", () => {
-    expect(getEmptyLines(getSource("math"))).toMatchSnapshot();
+    const source = getSource("math");
+    setSource(source);
+    expect(getEmptyLines(source.id)).toMatchSnapshot();
   });
 
   it("class", () => {
-    expect(getEmptyLines(getOriginalSource("class"))).toMatchSnapshot();
+    const source = getOriginalSource("class");
+    setSource(source);
+    expect(getEmptyLines(source.id)).toMatchSnapshot();
   });
 });
