@@ -92,7 +92,6 @@ export function scrollToColumn(codeMirror: any, line: number, column: number) {
     const scroller = codeMirror.getScrollerElement();
     const centeredX = Math.max(left - scroller.offsetWidth / 2, 0);
     const centeredY = Math.max(top - scroller.offsetHeight / 2, 0);
-
     codeMirror.scrollTo(centeredX, centeredY);
   }
 }
@@ -112,6 +111,7 @@ function isVisible(codeMirror: any, top: number, left: number) {
   );
 
   const fontHeight = codeMirror.defaultTextHeight();
+
   const inYView = withinBounds(
     top,
     scrollArea.top,

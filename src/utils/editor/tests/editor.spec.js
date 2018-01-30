@@ -135,6 +135,8 @@ describe("toSourceLocation", () => {
 });
 
 const codeMirror = {
+  defaultCharWidth: jest.fn(() => 10),
+  defaultTextHeight: jest.fn(() => 16),
   doc: {
     iter: jest.fn((_, __, cb) => cb())
   },
@@ -145,7 +147,14 @@ const codeMirror = {
     offsetWidth: 100,
     offsetHeight: 100
   })),
-  getScrollInfo: () => {},
+  getScrollInfo: jest.fn(() => ({
+    left: 0,
+    top: 400,
+    width: 300,
+    height: 400,
+    clientWidth: 270,
+    clientHeight: 370
+  })),
   removeLineClass: jest.fn(),
   operation: jest.fn(cb => cb()),
   charCoords: jest.fn(() => ({
