@@ -4,10 +4,13 @@
 
 // @flow
 
+import { isGeneratedId } from "devtools-source-map";
+
 import {
   getHiddenBreakpointLocation,
   isEvaluatingExpression,
-  getSelectedFrame
+  getSelectedFrame,
+  getVisibleSelectedFrame
 } from "../../selectors";
 import { mapFrames } from ".";
 import { removeBreakpoint } from "../breakpoints";
@@ -50,7 +53,13 @@ export function paused(pauseInfo: Pause) {
 
     await dispatch(mapFrames());
     const selectedFrame = getSelectedFrame(getState());
-    await dispatch(selectLocation(selectedFrame.location));
+    const visibleFrame = getVisibleSelectedFrame(getState());
+
+    const location = isGeneratedId(visibleFrame.location.sourceId)
+      ? selectedFrame.generatedLocation
+      : selectedFrame.location;
+
+    await dispatch(selectLocation(location));
 
     dispatch(togglePaneCollapse("end", false));
     dispatch(fetchScopes());
