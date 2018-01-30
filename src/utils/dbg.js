@@ -9,6 +9,11 @@ export function setupHelper(obj) {
     return bound;
   }, {});
 
+  const sendPacket = (packet, cbk) =>
+    obj.connection.tabConnection.debuggerClient
+      .request(packet)
+      .then(cbk || console.log);
+
   const actions = bindActionCreators(obj.actions, obj.store.dispatch);
   window.dbg = {
     ...obj,
@@ -16,7 +21,8 @@ export function setupHelper(obj) {
     actions,
     prefs,
     features,
-    timings
+    timings,
+    sendPacket
   };
 
   console.group("Development Notes");
