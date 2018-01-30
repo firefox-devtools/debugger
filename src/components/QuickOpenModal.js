@@ -312,8 +312,8 @@ export class QuickOpenModal extends Component<Props, State> {
       const title = groupSharedChars(resultParts, queryLetters);
       let subtitle = [""];
       if (
-        (result.subtitle !== undefined,
-        null || Object.keys(MODIFIERS).includes(queryLetters[0]))
+        result.subtitle !== undefined &&
+        Object.keys(MODIFIERS).includes(queryLetters[0])
       ) {
         const resultSubParts = result.subtitle.split("");
         subtitle = groupSharedChars(resultSubParts, queryLetters);
