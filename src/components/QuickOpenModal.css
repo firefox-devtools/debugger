@@ -1,6 +1,6 @@
-.result-item .title .matching-character {
+.result-item .title .fuzzy-match {
   font-weight: bold;
 }
-.result-item .subtitle .matching-character {
+.result-item .subtitle .fuzzy-match {
   color: black;
 }

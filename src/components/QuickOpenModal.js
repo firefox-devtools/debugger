@@ -304,7 +304,7 @@ export class QuickOpenModal extends Component<Props, State> {
   renderHighlight = (part: string[] | string, i: number) => {
     if (Array.isArray(part)) {
       return (
-        <span key={`${part.join("")}-${i}`} className="matching-character">
+        <span key={`${part.join("")}-${i}`} className="fuzzy-match">
           {part.join("")}
         </span>
       );
