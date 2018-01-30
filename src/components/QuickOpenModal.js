@@ -23,6 +23,7 @@ import {
   formatSources,
   parseLineColumn,
   formatShortcutResults,
+  MODIFIERS,
   groupSharedChars
 } from "../utils/quick-open";
 import Modal from "./shared/Modal";
@@ -309,6 +310,15 @@ export class QuickOpenModal extends Component<Props, State> {
     return results.map(result => {
       const resultParts = result.title.toLowerCase().split("");
       const title = groupSharedChars(resultParts, queryLetters);
+      let subtitle = [""];
+      if (
+        (result.subtitle !== undefined,
+        null || Object.keys(MODIFIERS).includes(queryLetters[0]))
+      ) {
+        const resultSubParts = result.subtitle.split("");
+        subtitle = groupSharedChars(resultSubParts, queryLetters);
+        console.log(subtitle);
+      }
       return {
         ...result,
         title: title.map((part, i) => {
@@ -323,6 +333,20 @@ export class QuickOpenModal extends Component<Props, State> {
             );
           }
           return part;
+        }),
+        subtitle: subtitle.map((partX, iX) => {
+          if (Array.isArray(partX)) {
+            return (
+              <span
+                key={`${partX.join("")}-${iX + 50}`}
+                className="matching-subtitle"
+                // style={{ color: "blue" }}
+              >
+                {partX.join("")}
+              </span>
+            );
+          }
+          return partX;
         })
       };
     });
