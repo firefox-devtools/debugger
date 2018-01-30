@@ -28,7 +28,8 @@ import {
   getSourceByURL,
   getSelectedSource,
   getPrettySource,
-  getActiveSearch
+  getActiveSearch,
+  getSelectedLocation
 } from "../../selectors";
 
 import type { Location } from "../../types";
@@ -143,28 +144,35 @@ export function selectLocation(location: Location, tabIndex: string = "") {
  * @memberof actions/sources
  * @static
  */
-export function jumpToMappedLocation(sourceLocation: any) {
+export function jumpToMappedLocation(location: Location) {
   return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
     if (!client) {
       return;
     }
 
-    const source = getSource(getState(), sourceLocation.sourceId);
+    const source = getSource(getState(), location.sourceId);
     let pairedLocation;
-    if (isOriginalId(sourceLocation.sourceId)) {
+    if (isOriginalId(location.sourceId)) {
       pairedLocation = await getGeneratedLocation(
         getState(),
         source.toJS(),
-        sourceLocation,
+        location,
         sourceMaps
       );
     } else {
       pairedLocation = await sourceMaps.getOriginalLocation(
-        sourceLocation,
+        location,
         source.toJS()
       );
     }
 
     return dispatch(selectLocation({ ...pairedLocation }));
+  };
+}
+
+export function jumpToMappedSelectedLocation() {
+  return async function({ dispatch, getState }: ThunkArgs) {
+    const location = getSelectedLocation(getState());
+    await dispatch(jumpToMappedLocation(location));
   };
 }
