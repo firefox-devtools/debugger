@@ -3,7 +3,7 @@
 }
 
 .result-item .subtitle .fuzzy-match {
-  color: black;
+  color: var(--grey-90);
 }
 
 .theme-dark .result-item .title .fuzzy-match,
