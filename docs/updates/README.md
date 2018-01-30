@@ -4,9 +4,11 @@ permalink: docs/updates
 
 ## Weekly Updates
 
-### [January 16th](./updates-1-16-2018.md)
+### [January 30th](./updates-1-30-2018.md)
 
 ### [January 23rd](./updates-1-23-2018.md)
+
+### [January 16th](./updates-1-16-2018.md)
 
 ### [November 21st](./updates-11-21-2017.md)
 
