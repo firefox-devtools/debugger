@@ -86,6 +86,10 @@
   flex: 1;
 }
 
+.tree-indent {
+  border-inline-start: 0 none;
+}
+
 .source-outline-tabs {
   width: 100%;
   background: var(--theme-body-background);
