@@ -302,6 +302,17 @@ export class QuickOpenModal extends Component<Props, State> {
   isGotoSourceQuery = () => this.props.searchType === "gotoSource";
   isShortcutQuery = () => this.props.searchType === "shortcuts";
 
+  renderHighlight = (part: string[] | string, i: number) => {
+    if (Array.isArray(part)) {
+      return (
+        <span key={`${part.join("")}-${i}`} className="matching-character">
+          {part.join("")}
+        </span>
+      );
+    }
+    return part;
+  };
+
   highlightMatching = (query: string, results: QuickOpenResult[]) => {
     if (query === "") {
       return results;
@@ -310,44 +321,19 @@ export class QuickOpenModal extends Component<Props, State> {
     return results.map(result => {
       const resultParts = result.title.toLowerCase().split("");
       const title = groupSharedChars(resultParts, queryLetters);
-      let subtitle = [""];
-      if (
-        result.subtitle !== undefined &&
-        Object.keys(MODIFIERS).includes(queryLetters[0])
-      ) {
-        const resultSubParts = result.subtitle.split("");
-        subtitle = groupSharedChars(resultSubParts, queryLetters);
-        console.log(subtitle);
-      }
+      const subtitle =
+        result.subtitle != null
+          ? groupSharedChars(
+              result.subtitle.toLowerCase().split(""),
+              queryLetters
+            )
+          : null;
       return {
         ...result,
-        title: title.map((part, i) => {
-          if (Array.isArray(part)) {
-            return (
-              <span
-                key={`${part.join("")}-${i}`}
-                className="matching-character"
-              >
-                {part.join("")}
-              </span>
-            );
-          }
-          return part;
-        }),
-        subtitle: subtitle.map((partX, iX) => {
-          if (Array.isArray(partX)) {
-            return (
-              <span
-                key={`${partX.join("")}-${iX + 50}`}
-                className="matching-subtitle"
-                // style={{ color: "blue" }}
-              >
-                {partX.join("")}
-              </span>
-            );
-          }
-          return partX;
-        })
+        title: title.map(this.renderHighlight),
+        ...(subtitle != null
+          ? { subtitle: subtitle.map(this.renderHighlight) }
+          : null)
       };
     });
   };

@@ -1,8 +1,7 @@
-.result-item .title .matching-character {
+
+.result-item .title .matching-character{
   font-weight: bold;
 }
-
-.result-item .subtitle .matching-subtitle {
-  color: black;
-  font-weight: bold;
+.result-item .subtitle .matching-character {
+  color:black;
 }
