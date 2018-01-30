@@ -56,7 +56,8 @@ export type QuickOpenResult = {|
   value: string,
   title: string,
   subtitle?: string,
-  location?: BabelLocation
+  location?: BabelLocation,
+  url?: string
 |};
 
 export type FormattedSymbolDeclarations = {|
@@ -119,7 +120,8 @@ export function formatSources(sources: SourcesMap): Array<QuickOpenResult> {
         value: sourcePath,
         title: sourcePath.split("/").pop(),
         subtitle: endTruncateStr(sourcePath, 100),
-        id: source.get("id")
+        id: source.get("id"),
+        url: source.get("url")
       };
     })
     .filter(({ value }) => value != "")

@@ -339,7 +339,7 @@ export const getSources = createSelector(
   sources => sources.sources
 );
 
-const getTabs = createSelector(getSourcesState, sources => sources.tabs);
+export const getTabs = createSelector(getSourcesState, sources => sources.tabs);
 
 export const getSourceTabs = createSelector(
   getTabs,

@@ -17,6 +17,7 @@ exports[`QuickOpenModal Basic render with mount & searchType = functions 1`] = `
       "variables": Array [],
     }
   }
+  tabs={Array []}
 >
   <Slide
     handleClose={[Function]}
@@ -147,6 +148,7 @@ exports[`QuickOpenModal Basic render with mount & searchType = variables 1`] = `
       "variables": Array [],
     }
   }
+  tabs={Array []}
 >
   <Slide
     handleClose={[Function]}
@@ -271,6 +273,7 @@ exports[`QuickOpenModal Basic render with mount 1`] = `
   selectLocation={[Function]}
   setQuickOpenQuery={[Function]}
   sources={Array []}
+  tabs={Array []}
 >
   <Slide
     handleClose={[Function]}
@@ -429,6 +432,7 @@ exports[`QuickOpenModal Simple goto search query = :abc & searchType = goto 1`] 
       "variables": Array [],
     }
   }
+  tabs={Array []}
 >
   <Slide
     handleClose={[Function]}
@@ -539,6 +543,7 @@ exports[`QuickOpenModal closeModal 1`] = `
   selectLocation={[Function]}
   setQuickOpenQuery={[Function]}
   sources={Array []}
+  tabs={Array []}
 >
   <Slide
     handleClose={[Function]}
@@ -663,6 +668,7 @@ exports[`QuickOpenModal updateResults on enable 1`] = `
   selectLocation={[Function]}
   setQuickOpenQuery={[Function]}
   sources={Array []}
+  tabs={Array []}
 />
 `;
 
@@ -677,6 +683,7 @@ exports[`QuickOpenModal updateResults on enable 2`] = `
   selectLocation={[Function]}
   setQuickOpenQuery={[Function]}
   sources={Array []}
+  tabs={Array []}
 >
   <Slide
     handleClose={[Function]}
