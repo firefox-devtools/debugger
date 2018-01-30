@@ -23,7 +23,6 @@ import {
   formatSources,
   parseLineColumn,
   formatShortcutResults,
-  MODIFIERS,
   groupSharedChars
 } from "../utils/quick-open";
 import Modal from "./shared/Modal";
