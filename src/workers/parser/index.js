@@ -32,5 +32,6 @@ export const replaceOriginalVariableName = dispatcher.task(
   "replaceOriginalVariableName"
 );
 
+export type { SourceScope, BindingData, BindingLocation } from "./visitor";
 export type { SymbolDeclaration, SymbolDeclarations } from "./getSymbols";
 export type { AstLocation } from "./types";

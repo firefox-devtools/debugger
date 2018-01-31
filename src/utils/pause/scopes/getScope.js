@@ -3,7 +3,7 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-import { getBindingVariables, getSourceBindingVariables } from "./getVariables";
+import { getBindingVariables } from "./getVariables";
 import { getFramePopVariables, getThisVariable } from "./utils";
 import { simplifyDisplayName } from "../../frame";
 
@@ -11,8 +11,26 @@ import type { Frame, Why, Scope } from "debugger-html";
 
 import type { NamedValue } from "./types";
 
-function getScopeTitle(type, scope) {
-  if (type === "function") {
+export type RenderableScope = {
+  type: $ElementType<Scope, "type">,
+  actor: $ElementType<Scope, "actor">,
+  bindings: $ElementType<Scope, "bindings">,
+  parent: ?RenderableScope,
+  object?: ?Object,
+  function?: ?{
+    displayName: string
+  },
+  block?: ?{
+    displayName: string
+  }
+};
+
+function getScopeTitle(type, scope: RenderableScope) {
+  if (type === "block" && scope.block && scope.block.displayName) {
+    return scope.block.displayName;
+  }
+
+  if (type === "function" && scope.function) {
     return scope.function.displayName
       ? simplifyDisplayName(scope.function.displayName)
       : L10N.getStr("anonymous");
@@ -21,9 +39,9 @@ function getScopeTitle(type, scope) {
 }
 
 export function getScope(
-  scope: Scope,
+  scope: RenderableScope,
   selectedFrame: Frame,
-  frameScopes: Scope,
+  frameScopes: RenderableScope,
   why: Why,
   scopeIndex: number
 ): ?NamedValue {
@@ -34,11 +52,8 @@ export function getScope(
   const key = `${actor}-${scopeIndex}`;
   if (type === "function" || type === "block") {
     const bindings = scope.bindings;
-    const sourceBindings = scope.sourceBindings;
 
-    let vars = sourceBindings
-      ? getSourceBindingVariables(bindings, sourceBindings, key)
-      : getBindingVariables(bindings, key);
+    let vars = getBindingVariables(bindings, key);
 
     // show exception, return, and this variables in innermost scope
     if (isLocalScope) {
@@ -60,7 +75,7 @@ export function getScope(
         contents: vars
       };
     }
-  } else if (type === "object") {
+  } else if (type === "object" && scope.object) {
     let value = scope.object;
     // If this is the global window scope, mark it as such so that it will
     // preview Window: Global instead of Window: Window
