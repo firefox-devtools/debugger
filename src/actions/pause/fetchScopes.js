@@ -8,6 +8,7 @@ import { getSource, getSelectedFrame, getFrameScope } from "../../selectors";
 import { features } from "../../utils/prefs";
 import { isGeneratedId } from "devtools-source-map";
 import { mapScopes } from "./mapScopes";
+import { PROMISE } from "../utils/middleware/promise";
 
 import type { ThunkArgs } from "../types";
 
@@ -18,11 +19,10 @@ export function fetchScopes() {
       return;
     }
 
-    const scopes = await client.getFrameScopes(frame);
-    dispatch({
+    const scopes = dispatch({
       type: "ADD_SCOPES",
       frame,
-      scopes
+      [PROMISE]: client.getFrameScopes(frame)
     });
 
     const generatedSourceRecord = getSource(

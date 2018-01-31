@@ -14,13 +14,18 @@ import { createSelector } from "reselect";
 import { prefs } from "../utils/prefs";
 
 import type { Action } from "../actions/types";
-import type { Why } from "debugger-html";
+import type { Why, Scope } from "debugger-html";
 
 type PauseState = {
   why: ?Why,
   isWaitingOnBreak: boolean,
   frames: ?(any[]),
-  frameScopes: any,
+  frameScopes: {
+    [string]: {
+      pending: boolean,
+      scope: Scope
+    }
+  },
   selectedFrameId: ?string,
   loadedObjects: Object,
   shouldPauseOnExceptions: boolean,
@@ -78,10 +83,16 @@ function update(state: PauseState = State(), action: Action): PauseState {
 
     case "ADD_SCOPES":
     case "MAP_SCOPES":
-      const { frame, scopes } = action;
+      const { frame, status, value } = action;
       const selectedFrameId = frame.id;
 
-      const frameScopes = { ...state.frameScopes, [selectedFrameId]: scopes };
+      const frameScopes = {
+        ...state.frameScopes,
+        [selectedFrameId]: {
+          pending: status !== "done",
+          scope: value
+        }
+      };
       return { ...state, frameScopes };
 
     case "BREAK_ON_NEXT":
@@ -208,7 +219,8 @@ export function getFrameScope(state: OuterState, frameId: ?string) {
 
 export function getSelectedScope(state: OuterState) {
   const frameId = getSelectedFrameId(state);
-  return getFrameScope(state, frameId);
+  const { scope } = getFrameScope(state, frameId) || {};
+  return scope || null;
 }
 
 export function getSelectedFrameId(state: OuterState) {

@@ -26,7 +26,8 @@ import "./Scopes.css";
 type Props = {
   isPaused: Pause,
   selectedFrame: Object,
-  frameScopes: Object,
+  frameScopes: Object | null,
+  isLoading: boolean,
   why: Why
 };
 
@@ -63,7 +64,7 @@ class Scopes extends PureComponent<Props, State> {
   }
 
   render() {
-    const { isPaused } = this.props;
+    const { isPaused, isLoading } = this.props;
     const { scopes } = this.state;
 
     if (scopes) {
@@ -81,13 +82,19 @@ class Scopes extends PureComponent<Props, State> {
         </div>
       );
     }
+
+    let stateText = L10N.getStr("scopes.notPaused");
+    if (isPaused) {
+      if (isLoading) {
+        stateText = L10N.getStr("loadingText");
+      } else {
+        stateText = L10N.getStr("scopes.notAvailable");
+      }
+    }
+
     return (
       <div className="pane scopes-list">
-        <div className="pane-info">
-          {isPaused
-            ? L10N.getStr("scopes.notAvailable")
-            : L10N.getStr("scopes.notPaused")}
-        </div>
+        <div className="pane-info">{stateText}</div>
       </div>
     );
   }
@@ -96,12 +103,16 @@ class Scopes extends PureComponent<Props, State> {
 export default connect(
   state => {
     const selectedFrame = getSelectedFrame(state);
-    const frameScopes = selectedFrame
-      ? getFrameScope(state, selectedFrame.id)
-      : null;
+
+    const { scope: frameScopes, pending } = getFrameScope(
+      state,
+      selectedFrame.id
+    ) || { pending: false };
+
     return {
       selectedFrame,
       isPaused: getIsPaused(state),
+      isLoading: pending,
       why: getPauseReason(state),
       frameScopes: frameScopes
     };

@@ -13,6 +13,7 @@ import {
   type BindingLocation
 } from "../../workers/parser";
 import type { RenderableScope } from "../../utils/pause/scopes/getScope";
+import { PROMISE } from "../utils/middleware/promise";
 
 import type {
   Frame,
@@ -24,55 +25,75 @@ import type {
 
 import type { ThunkArgs } from "../types";
 
-export function mapScopes(scopes: Scope, frame: Frame) {
+export function mapScopes(scopes: Promise<Scope>, frame: Frame) {
   return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
-    const sourceRecord = getSource(getState(), frame.location.sourceId);
-    await dispatch(loadSourceText(sourceRecord));
-    const source = sourceRecord.toJS();
-
-    const originalAstScopes = await getScopes(frame.location);
-    const generatedAstScopes = await getScopes(frame.generatedLocation);
-
-    if (!originalAstScopes || !generatedAstScopes) {
-      return;
-    }
-
-    const generatedAstBindings = buildGeneratedBindingList(
-      scopes,
-      generatedAstScopes
-    );
-
-    const mappedOriginalScopes = await Promise.all(
-      Array.from(originalAstScopes, async item => {
-        const generatedBindings = {};
-
-        await Promise.all(
-          Object.keys(item.bindings).map(async name => {
-            generatedBindings[name] = await findGeneratedBinding(
-              sourceMaps,
-              source,
-              name,
-              item.bindings[name],
-              generatedAstBindings
-            );
-          })
-        );
-
-        return {
-          ...item,
-          generatedBindings
-        };
-      })
-    );
-
-    const mappedScopes = generateClientScope(scopes, mappedOriginalScopes);
-
     dispatch({
       type: "MAP_SCOPES",
       frame,
-      scopes: mappedScopes
+      [PROMISE]: (async function() {
+        const sourceRecord = getSource(getState(), frame.location.sourceId);
+        await dispatch(loadSourceText(sourceRecord));
+
+        let mappedScopes;
+        try {
+          mappedScopes = await buildMappedScopes(
+            sourceRecord.toJS(),
+            frame,
+            await scopes,
+            sourceMaps
+          );
+        } catch (e) {
+          mappedScopes = null;
+        }
+
+        return mappedScopes || scopes;
+      })()
     });
   };
+}
+
+async function buildMappedScopes(
+  source: Source,
+  frame: Frame,
+  scopes: Scope,
+  sourceMaps: any
+): Promise<?RenderableScope> {
+  const originalAstScopes = await getScopes(frame.location);
+  const generatedAstScopes = await getScopes(frame.generatedLocation);
+
+  if (!originalAstScopes || !generatedAstScopes) {
+    return null;
+  }
+
+  const generatedAstBindings = buildGeneratedBindingList(
+    scopes,
+    generatedAstScopes
+  );
+
+  const mappedOriginalScopes = await Promise.all(
+    Array.from(originalAstScopes, async item => {
+      const generatedBindings = {};
+
+      await Promise.all(
+        Object.keys(item.bindings).map(async name => {
+          generatedBindings[name] = await findGeneratedBinding(
+            sourceMaps,
+            source,
+            name,
+            item.bindings[name],
+            generatedAstBindings
+          );
+        })
+      );
+
+      return {
+        ...item,
+        generatedBindings
+      };
+    })
+  );
+
+  return generateClientScope(scopes, mappedOriginalScopes);
 }
 
 function generateClientScope(

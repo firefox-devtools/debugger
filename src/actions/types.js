@@ -272,7 +272,8 @@ type PauseAction =
   | {
       type: "MAP_SCOPES",
       frame: Frame,
-      scopes: Scope
+      status: AsyncStatus,
+      value: Scope
     }
   | {
       type: "MAP_FRAMES",
@@ -281,7 +282,8 @@ type PauseAction =
   | {
       type: "ADD_SCOPES",
       frame: Frame,
-      scopes: Scope
+      status: AsyncStatus,
+      value: Scope
     };
 
 type NavigateAction =
