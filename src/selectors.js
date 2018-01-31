@@ -23,6 +23,7 @@ import getVisibleBreakpoints from "./selectors/visibleBreakpoints";
 import isSelectedFrameVisible from "./selectors/isSelectedFrameVisible";
 import getCallStackFrames from "./selectors/getCallStackFrames";
 import getVisibleSelectedFrame from "./selectors/visibleSelectedFrame";
+import getShortcutsModal from "./selectors/getShortcutsModal";
 
 /**
  * @param object - location
@@ -47,5 +48,6 @@ module.exports = {
   getVisibleBreakpoints,
   isSelectedFrameVisible,
   getCallStackFrames,
-  getVisibleSelectedFrame
+  getVisibleSelectedFrame,
+  getShortcutsModal
 };
