@@ -206,7 +206,7 @@ export default function showContextMenu(props) {
 
     { item: disableSelfItem, hidden: () => hideDisableSelfItem },
     { item: disableAllItem, hidden: () => hideDisableAllItem },
-    { item: disableOthersItem, hidden: () => hideDisableOthersTem },
+    { item: disableOthersItem, hidden: () => hideDisableOtherstItem },
     {
       item: { type: "separator" }
     },
