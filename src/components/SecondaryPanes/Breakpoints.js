@@ -4,15 +4,18 @@
 
 // @flow
 import React, { PureComponent } from "react";
-import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-
-import classnames from "classnames";
+import { connect } from "react-redux";
 import * as I from "immutable";
-import { sortBy } from "lodash";
+import classnames from "classnames";
 import { createSelector } from "reselect";
+import { sortBy } from "lodash";
 
 import actions from "../../actions";
+import CloseButton from "../shared/Button/Close";
+import { endTruncateStr } from "../../utils/utils";
+import { features } from "../../utils/prefs";
+import { getFilename } from "../../utils/source";
 import {
   getSources,
   getSourceInSources,
@@ -20,14 +23,10 @@ import {
   getPauseReason,
   getTopFrame
 } from "../../selectors";
-import { makeLocationId } from "../../utils/breakpoint";
 import { isInterrupted } from "../../utils/pause";
-import { features } from "../../utils/prefs";
-import { getFilename } from "../../utils/source";
-import { endTruncateStr } from "../../utils/utils";
-
+import { makeLocationId } from "../../utils/breakpoint";
 import showContextMenu from "./BreakpointsContextMenu";
-import CloseButton from "../shared/Button/Close";
+
 import type { Breakpoint, Location } from "../../types";
 
 import "./Breakpoints.css";

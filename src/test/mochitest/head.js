@@ -285,9 +285,15 @@ function assertNotPaused(dbg) {
  * @static
  */
 function assertPausedLocation(dbg) {
-  const { selectors: { getSelectedSource, getVisibleSelectedFrame }, getState } = dbg;
+  const {
+    selectors: { getSelectedSource, getVisibleSelectedFrame },
+    getState
+  } = dbg;
 
-  ok(isSelectedFrameSelected(dbg, getState()), "top frame's source is selected");
+  ok(
+    isSelectedFrameSelected(dbg, getState()),
+    "top frame's source is selected"
+  );
 
   // Check the pause location
   const frame = getVisibleSelectedFrame(getState());
@@ -1085,7 +1091,10 @@ function getCM(dbg) {
 
 // NOTE: still experimental, the screenshots might not be exactly correct
 async function takeScreenshot(dbg) {
-  let canvas = dbg.win.document.createElementNS("http://www.w3.org/1999/xhtml", "html:canvas");
+  let canvas = dbg.win.document.createElementNS(
+    "http://www.w3.org/1999/xhtml",
+    "html:canvas"
+  );
   let context = canvas.getContext("2d");
   canvas.width = dbg.win.innerWidth;
   canvas.height = dbg.win.innerHeight;
