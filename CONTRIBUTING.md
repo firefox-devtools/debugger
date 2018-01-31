@@ -245,9 +245,9 @@ The debugger.html project is targeted to land in Firefox for Firefox 52.  Howeve
 debugger.html is an Open Source [Mozilla][mozilla] [Firefox][mozilla-firefox] Developer Tools project.
 Our goal is to work with the community to build a universal JS debugger for modern times.
 
-| | | | |
-| ---------- | ------ | ------ | ------ |
-| ![][jasonlaster] <br/> [@jasonlaster][@jasonlaster] | ![][digitarald] <br/> [@digitarald][@digitarald] | ![][codehag] <br/> [@codehag][@codehag]  | ![][violasong] <br/> [@violasong][@violasong] |
+| Jason | Harald | Yulia | Victoria | David |
+| ---------- | ------ | ------ | ------ | ---- |
+| ![][jasonlaster] <br/> [@jasonlaster][@jasonlaster] | ![][digitarald] <br/> [@digitarald][@digitarald] | ![][codehag] <br/> [@codehag][@codehag]  | ![][violasong] <br/> [@violasong][@violasong] | ![][darkwing] <br />[@darkwing][@darkwing] |
 
 ### Team Members
 
@@ -255,9 +255,9 @@ debugger.html community team members help shepherd the community.
 They are here to help mentor new comers, review pull requests, and facilitate issue discussions.
 They are a fantastic resource and genuinely friendly human beings.
 
-| | | | | | | |
-| ---------- | ------ | ----- | ---- | ---- | ---- | ---- |
-| ![][bomsy] <br /> [@bomsy][@bomsy] | ![][jbhoosreddy] <br /> [@jbhoosreddy][@jbhoosreddy] | ![][wldcordeiro] <br />[@wldcordeiro][@wldcordeiro] | ![][irfanhudda] <br />[@irfanhudda][@irfanhudda] | ![][darkwing] <br />[@darkwing][@darkwing] | ![][nyrosmith] <br />[@nyrosmith][@nyrosmith] | ![][lukaszsobek] <br />[@lukaszsobek][@lukaszsobek]
+| Hubert | Jaideep | Wellington | Irfan | Martin | Lukas | Anshul |
+| ---------- | ------ | ----- | ---- | ----   |   ---- | ---- |
+| ![][bomsy] <br /> [@bomsy][@bomsy] | ![][jbhoosreddy] <br /> [@jbhoosreddy][@jbhoosreddy] | ![][wldcordeiro] <br />[@wldcordeiro][@wldcordeiro] | ![][irfanhudda] <br />[@irfanhudda][@irfanhudda] | ![][nyrosmith] <br />[@nyrosmith][@nyrosmith] | ![][lukaszsobek] <br />[@lukaszsobek][@lukaszsobek] | ![][anshulmalik] <br />[@anshulmalik][@anshulmalik] |
 
 ### Joining Mozilla
 
@@ -286,6 +286,7 @@ Mozilla has and continues to hire many people from within the Open Source Softwa
 [@darkwing]:https://github.com/darkwing
 [@nyrosmith]:https://github.com/nyrosmith
 [@lukaszsobek]:https://github.com/lukaszsobek
+[@anshulmalik]:https://github.com/anshulmalik
 
 [jasonlaster]:https://avatars.githubusercontent.com/jasonlaster?size=56
 [bomsy]:https://avatars.githubusercontent.com/bomsy?size=56
@@ -297,6 +298,7 @@ Mozilla has and continues to hire many people from within the Open Source Softwa
 [violasong]:https://avatars.githubusercontent.com/violasong?size=56
 [darkwing]:https://avatars.githubusercontent.com/darkwing?size=56
 [nyrosmith]:https://avatars.githubusercontent.com/nyrosmith?size=56
+[anshulmalik]:https://avatars.githubusercontent.com/anshulmalik?size=56
 [lukaszsobek]:https://avatars.githubusercontent.com/lukaszsobek?size=56
 
 [mozilla]:https://www.mozilla.org/
