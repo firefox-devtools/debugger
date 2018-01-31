@@ -15,6 +15,8 @@ import {
 import type { RenderableScope } from "../../utils/pause/scopes/getScope";
 import { PROMISE } from "../utils/middleware/promise";
 
+import { features } from "../../utils/prefs";
+import { isGeneratedId } from "devtools-source-map";
 import type {
   Frame,
   Scope,
@@ -27,23 +29,37 @@ import type { ThunkArgs } from "../types";
 
 export function mapScopes(scopes: Promise<Scope>, frame: Frame) {
   return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
+    const generatedSourceRecord = getSource(
+      getState(),
+      frame.generatedLocation.sourceId
+    );
+
+    const sourceRecord = getSource(getState(), frame.location.sourceId);
+
+    const shouldMapScopes =
+      features.mapScopes &&
+      !generatedSourceRecord.get("isWasm") &&
+      !sourceRecord.get("isPrettyPrinted") &&
+      !isGeneratedId(frame.location.sourceId);
+
     dispatch({
       type: "MAP_SCOPES",
       frame,
       [PROMISE]: (async function() {
-        const sourceRecord = getSource(getState(), frame.location.sourceId);
-        await dispatch(loadSourceText(sourceRecord));
-
         let mappedScopes;
-        try {
-          mappedScopes = await buildMappedScopes(
-            sourceRecord.toJS(),
-            frame,
-            await scopes,
-            sourceMaps
-          );
-        } catch (e) {
-          mappedScopes = null;
+        if (shouldMapScopes) {
+          await dispatch(loadSourceText(sourceRecord));
+
+          try {
+            mappedScopes = await buildMappedScopes(
+              sourceRecord.toJS(),
+              frame,
+              await scopes,
+              sourceMaps
+            );
+          } catch (e) {
+            mappedScopes = null;
+          }
         }
 
         return mappedScopes || scopes;

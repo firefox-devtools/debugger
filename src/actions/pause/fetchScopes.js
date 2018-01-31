@@ -4,9 +4,7 @@
 
 // @flow
 
-import { getSource, getSelectedFrame, getFrameScope } from "../../selectors";
-import { features } from "../../utils/prefs";
-import { isGeneratedId } from "devtools-source-map";
+import { getSelectedFrame, getFrameScope } from "../../selectors";
 import { mapScopes } from "./mapScopes";
 import { PROMISE } from "../utils/middleware/promise";
 
@@ -25,26 +23,6 @@ export function fetchScopes() {
       [PROMISE]: client.getFrameScopes(frame)
     });
 
-    const generatedSourceRecord = getSource(
-      getState(),
-      frame.generatedLocation.sourceId
-    );
-
-    if (generatedSourceRecord.get("isWasm")) {
-      return;
-    }
-
-    const sourceRecord = getSource(getState(), frame.location.sourceId);
-    if (sourceRecord.get("isPrettyPrinted")) {
-      return;
-    }
-
-    if (isGeneratedId(frame.location.sourceId)) {
-      return;
-    }
-
-    if (features.mapScopes) {
-      dispatch(mapScopes(scopes, frame));
-    }
+    dispatch(mapScopes(scopes, frame));
   };
 }
