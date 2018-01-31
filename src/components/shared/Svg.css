@@ -124,7 +124,8 @@ html .arrow.expanded svg {
   fill: var(--theme-body-color);
 }
 
-.angular svg, .source-icon svg {
+.angular svg,
+.source-icon svg {
   width: 15px;
   height: 15px;
   margin-right: 5px;
