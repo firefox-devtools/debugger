@@ -211,11 +211,6 @@ export function getSelectedScope(state: OuterState) {
   return getFrameScope(state, frameId);
 }
 
-export function getScopes(state: OuterState) {
-  const selectedFrameId = getSelectedFrameId(state);
-  return state.pause.frameScopes[selectedFrameId];
-}
-
 export function getSelectedFrameId(state: OuterState) {
   return state.pause.selectedFrameId;
 }
