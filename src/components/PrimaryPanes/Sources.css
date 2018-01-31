@@ -167,3 +167,7 @@
 .theme-dark .sources-list .managed-tree .tree .node.focused img.blackBox {
   background-color: white;
 }
+
+.tree-node[data-expandable="false"] .tree-indent:last-of-type {
+  margin-inline-end: 4px;
+}
