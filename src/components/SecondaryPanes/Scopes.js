@@ -10,6 +10,7 @@ import actions from "../../actions";
 import { createObjectClient } from "../../client/firefox";
 
 import {
+  getSelectedSource,
   getSelectedFrame,
   getFrameScope,
   isPaused as getIsPaused,
@@ -103,9 +104,11 @@ class Scopes extends PureComponent<Props, State> {
 export default connect(
   state => {
     const selectedFrame = getSelectedFrame(state);
+    const selectedSource = getSelectedSource(state);
 
     const { scope: frameScopes, pending } = getFrameScope(
       state,
+      selectedSource && selectedSource.get("id"),
       selectedFrame.id
     ) || { pending: false };
 

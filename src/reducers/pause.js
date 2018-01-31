@@ -11,19 +11,30 @@
  */
 
 import { createSelector } from "reselect";
+import { isGeneratedId } from "devtools-source-map";
 import { prefs } from "../utils/prefs";
+import { getSelectedSource } from "./sources";
 
+import type { RenderableScope } from "../utils/pause/scopes/getScope";
 import type { Action } from "../actions/types";
-import type { Why, Scope } from "debugger-html";
+import type { Why, Scope, SourceId } from "debugger-html";
 
 type PauseState = {
   why: ?Why,
   isWaitingOnBreak: boolean,
   frames: ?(any[]),
   frameScopes: {
-    [string]: {
-      pending: boolean,
-      scope: Scope
+    generated: {
+      [string]: {
+        pending: boolean,
+        scope: Scope
+      }
+    },
+    mapped: {
+      [string]: {
+        pending: boolean,
+        scope: RenderableScope
+      }
     }
   },
   selectedFrameId: ?string,
@@ -39,7 +50,10 @@ export const State = (): PauseState => ({
   isWaitingOnBreak: false,
   frames: undefined,
   selectedFrameId: undefined,
-  frameScopes: {},
+  frameScopes: {
+    generated: {},
+    mapped: {}
+  },
   loadedObjects: {},
   shouldPauseOnExceptions: prefs.pauseOnExceptions,
   shouldIgnoreCaughtExceptions: prefs.ignoreCaughtExceptions,
@@ -50,7 +64,10 @@ export const State = (): PauseState => ({
 const emptyPauseState = {
   pause: null,
   frames: null,
-  frameScopes: {},
+  frameScopes: {
+    generated: {},
+    mapped: {}
+  },
   selectedFrameId: null,
   loadedObjects: {}
 };
@@ -71,7 +88,7 @@ function update(state: PauseState = State(), action: Action): PauseState {
         isWaitingOnBreak: false,
         selectedFrameId,
         frames,
-        frameScopes: {},
+        frameScopes: { ...emptyPauseState.frameScopes },
         loadedObjects: objectMap,
         why
       };
@@ -81,19 +98,45 @@ function update(state: PauseState = State(), action: Action): PauseState {
       return { ...state, frames: action.frames };
     }
 
-    case "ADD_SCOPES":
-    case "MAP_SCOPES":
+    case "ADD_SCOPES": {
       const { frame, status, value } = action;
       const selectedFrameId = frame.id;
 
-      const frameScopes = {
-        ...state.frameScopes,
+      const generated = {
+        ...state.frameScopes.generated,
         [selectedFrameId]: {
           pending: status !== "done",
           scope: value
         }
       };
-      return { ...state, frameScopes };
+      return {
+        ...state,
+        frameScopes: {
+          ...state.frameScopes,
+          generated
+        }
+      };
+    }
+
+    case "MAP_SCOPES": {
+      const { frame, status, value } = action;
+      const selectedFrameId = frame.id;
+
+      const mapped = {
+        ...state.frameScopes.mapped,
+        [selectedFrameId]: {
+          pending: status !== "done",
+          scope: value
+        }
+      };
+      return {
+        ...state,
+        frameScopes: {
+          ...state.frameScopes,
+          mapped
+        }
+      };
+    }
 
     case "BREAK_ON_NEXT":
       return { ...state, isWaitingOnBreak: true };
@@ -209,17 +252,35 @@ export function getFrames(state: OuterState) {
   return state.pause.frames;
 }
 
-export function getFrameScope(state: OuterState, frameId: ?string) {
+export function getGeneratedFrameScope(state: OuterState, frameId: ?string) {
   if (!frameId) {
     return null;
   }
 
-  return state.pause.frameScopes[frameId];
+  return state.pause.frameScopes.generated[frameId];
+}
+
+export function getFrameScope(
+  state: OuterState,
+  sourceId: ?SourceId,
+  frameId: ?string
+) {
+  if (!frameId || !sourceId) {
+    return null;
+  }
+
+  const frameScopes = isGeneratedId(sourceId)
+    ? state.pause.frameScopes.generated
+    : state.pause.frameScopes.mapped;
+
+  return frameScopes[frameId];
 }
 
 export function getSelectedScope(state: OuterState) {
+  const sourceRecord = getSelectedSource(state);
   const frameId = getSelectedFrameId(state);
-  const { scope } = getFrameScope(state, frameId) || {};
+  const { scope } =
+    getFrameScope(state, sourceRecord && sourceRecord.get("id"), frameId) || {};
   return scope || null;
 }
 

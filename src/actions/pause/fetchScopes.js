@@ -4,7 +4,7 @@
 
 // @flow
 
-import { getSelectedFrame, getFrameScope } from "../../selectors";
+import { getSelectedFrame, getGeneratedFrameScope } from "../../selectors";
 import { mapScopes } from "./mapScopes";
 import { PROMISE } from "../utils/middleware/promise";
 
@@ -13,7 +13,7 @@ import type { ThunkArgs } from "../types";
 export function fetchScopes() {
   return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
     const frame = getSelectedFrame(getState());
-    if (!frame || getFrameScope(getState(), frame.id)) {
+    if (!frame || getGeneratedFrameScope(getState(), frame.id)) {
       return;
     }
 
