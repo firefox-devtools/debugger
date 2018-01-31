@@ -82,7 +82,9 @@ export function getVariables(dec: Node) {
     // e.g. const [, a] = arr
     return dec.id.elements.filter(element => element).map(element => {
       return {
-        name: element.name || element.argument.name,
+        name: t.isAssignmentPattern(element)
+          ? element.left.name
+          : element.name || element.argument.name,
         location: element.loc
       };
     });

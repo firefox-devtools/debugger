@@ -20,41 +20,6 @@ type ScopeBindingsWrapper = {
   arguments: BindingContents[]
 };
 
-export function getSourceBindingVariables(
-  bindings: ScopeBindingsWrapper,
-  sourceBindings: {
-    [originalName: string]: string
-  },
-  parentName: string
-): NamedValue[] {
-  const result = getBindingVariables(bindings, parentName);
-  const index: any = Object.create(null);
-  result.forEach(entry => {
-    index[entry.name] = { used: false, entry };
-  });
-  // Find and replace variables that is present in sourceBindings.
-  const bound = Object.keys(sourceBindings).map(name => {
-    const generatedName = sourceBindings[name];
-    const foundMap = index[generatedName];
-    let contents;
-    if (foundMap) {
-      foundMap.used = true;
-      contents = foundMap.entry.contents;
-    } else {
-      contents = { value: { type: "undefined" } };
-    }
-    return {
-      name,
-      generatedName,
-      path: `${parentName}/${generatedName}`,
-      contents
-    };
-  });
-  // Use rest of them (not found in the sourceBindings) as is.
-  const unused = result.filter(entry => !index[entry.name].used);
-  return bound.concat(unused);
-}
-
 // Create the tree nodes representing all the variables and arguments
 // for the bindings from a scope.
 export function getBindingVariables(
