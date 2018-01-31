@@ -1,4 +1,4 @@
-import { showMenu, buildMenu } from "devtools-contextmenu";
+import { buildMenu, showMenu } from "devtools-contextmenu";
 
 export default function showContextMenu(props) {
   const {
@@ -80,7 +80,7 @@ export default function showContextMenu(props) {
     b => b.disabled && b !== breakpoint
   );
 
-  const deleteSelf = {
+  const deleteSelfItem = {
     id: "node-menu-delete-self",
     label: deleteSelfLabel,
     accesskey: deleteSelfKey,
@@ -88,7 +88,7 @@ export default function showContextMenu(props) {
     click: () => removeBreakpoint(breakpoint.location)
   };
 
-  const deleteAll = {
+  const deleteAllItem = {
     id: "node-menu-delete-all",
     label: deleteAllLabel,
     accesskey: deleteAllKey,
@@ -96,7 +96,7 @@ export default function showContextMenu(props) {
     click: () => removeAllBreakpoints()
   };
 
-  const deleteOthers = {
+  const deleteOthersItem = {
     id: "node-menu-delete-other",
     label: deleteOthersLabel,
     accesskey: deleteOthersKey,
@@ -104,7 +104,7 @@ export default function showContextMenu(props) {
     click: () => removeBreakpoints(otherBreakpoints)
   };
 
-  const enableSelf = {
+  const enableSelfItem = {
     id: "node-menu-enable-self",
     label: enableSelfLabel,
     accesskey: enableSelfKey,
@@ -112,7 +112,7 @@ export default function showContextMenu(props) {
     click: () => toggleDisabledBreakpoint(breakpoint.location.line)
   };
 
-  const enableAll = {
+  const enableAllItem = {
     id: "node-menu-enable-all",
     label: enableAllLabel,
     accesskey: enableAllKey,
@@ -120,7 +120,7 @@ export default function showContextMenu(props) {
     click: () => toggleAllBreakpoints(false)
   };
 
-  const enableOthers = {
+  const enableOthersItem = {
     id: "node-menu-enable-others",
     label: enableOthersLabel,
     accesskey: enableOthersKey,
@@ -128,7 +128,7 @@ export default function showContextMenu(props) {
     click: () => toggleBreakpoints(false, otherDisabledBreakpoints)
   };
 
-  const disableSelf = {
+  const disableSelfItem = {
     id: "node-menu-disable-self",
     label: disableSelfLabel,
     accesskey: disableSelfKey,
@@ -136,7 +136,7 @@ export default function showContextMenu(props) {
     click: () => toggleDisabledBreakpoint(breakpoint.location.line)
   };
 
-  const disableAll = {
+  const disableAllItem = {
     id: "node-menu-disable-all",
     label: disableAllLabel,
     accesskey: disableAllKey,
@@ -144,14 +144,14 @@ export default function showContextMenu(props) {
     click: () => toggleAllBreakpoints(true)
   };
 
-  const disableOthers = {
+  const disableOthersItem = {
     id: "node-menu-disable-others",
     label: disableOthersLabel,
     accesskey: disableOthersKey,
     click: () => toggleBreakpoints(true, otherEnabledBreakpoints)
   };
 
-  const removeCondition = {
+  const removeConditionItem = {
     id: "node-menu-remove-condition",
     label: removeConditionLabel,
     accesskey: removeConditionKey,
@@ -159,7 +159,7 @@ export default function showContextMenu(props) {
     click: () => setBreakpointCondition(breakpoint.location)
   };
 
-  const addCondition = {
+  const addConditionItem = {
     id: "node-menu-add-condition",
     label: addConditionLabel,
     accesskey: addConditionKey,
@@ -169,7 +169,7 @@ export default function showContextMenu(props) {
     }
   };
 
-  const editCondition = {
+  const editConditionItem = {
     id: "node-menu-edit-condition",
     label: editConditionLabel,
     accesskey: editConditionKey,
@@ -179,45 +179,47 @@ export default function showContextMenu(props) {
     }
   };
 
-  const hideEnableSelf = !breakpoint.disabled;
-  const hideEnableAll = disabledBreakpoints.size === 0;
-  const hideEnableOthers = otherDisabledBreakpoints.size === 0;
-  const hideDisableAll = enabledBreakpoints.size === 0;
-  const hideDisableOthers = otherEnabledBreakpoints.size === 0;
-  const hideDisableSelf = breakpoint.disabled;
+  const hideEnableSelfItem = !breakpoint.disabled;
+  const hideEnableAllItem = disabledBreakpoints.size === 0;
+  const hideEnableOthersItem = otherDisabledBreakpoints.size === 0;
+  const hideDisableAllItem = enabledBreakpoints.size === 0;
+  const hideDisableOthersItem = otherEnabledBreakpoints.size === 0;
+  const hideDisableSelfItem = breakpoint.disabled;
 
   const items = [
-    { item: enableSelf, hidden: () => hideEnableSelf },
-    { item: enableAll, hidden: () => hideEnableAll },
-    { item: enableOthers, hidden: () => hideEnableOthers },
+    { item: enableSelfItem, hidden: () => hideEnableSelfItem },
+    { item: enableAllItem, hidden: () => hideEnableAllItem },
+    { item: enableOthersItem, hidden: () => hideEnableOthersItem },
     {
       item: { type: "separator" },
-      hidden: () => hideEnableSelf && hideEnableAll && hideEnableOthers
+      hidden: () =>
+        hideEnableSelfItem && hideEnableAllItem && hideEnableOthersItem
     },
-    { item: deleteSelf },
-    { item: deleteAll },
-    { item: deleteOthers, hidden: () => breakpoints.size === 1 },
+    { item: deleteSelfItem },
+    { item: deleteAllItem },
+    { item: deleteOthersItem, hidden: () => breakpoints.size === 1 },
     {
       item: { type: "separator" },
-      hidden: () => hideDisableSelf && hideDisableAll && hideDisableOthers
+      hidden: () =>
+        hideDisableSelfItem && hideDisableAllItem && hideDisableOthersItem
     },
 
-    { item: disableSelf, hidden: () => hideDisableSelf },
-    { item: disableAll, hidden: () => hideDisableAll },
-    { item: disableOthers, hidden: () => hideDisableOthers },
+    { item: disableSelfItem, hidden: () => hideDisableSelfItem },
+    { item: disableAllItem, hidden: () => hideDisableAllItem },
+    { item: disableOthersItem, hidden: () => hideDisableOthersItem },
     {
       item: { type: "separator" }
     },
     {
-      item: addCondition,
+      item: addConditionItem,
       hidden: () => breakpoint.condition
     },
     {
-      item: editCondition,
+      item: editConditionItem,
       hidden: () => !breakpoint.condition
     },
     {
-      item: removeCondition,
+      item: removeConditionItem,
       hidden: () => !breakpoint.condition
     }
   ];
