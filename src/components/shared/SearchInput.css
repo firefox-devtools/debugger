@@ -61,7 +61,7 @@
 }
 
 .search-field input::placeholder {
-  color: var(--theme-body-color-inactive);
+  color: var(--theme-toolbar-color);
 }
 
 .search-field input:focus {
