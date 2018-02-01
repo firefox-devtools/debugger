@@ -40,9 +40,7 @@ export function getFramePopVariables(why: Why, path: string): NamedValue[] {
   return vars;
 }
 
-export function getThisVariable(frame: any, path: string): ?NamedValue {
-  const this_ = frame.this;
-
+export function getThisVariable(this_: any, path: string): ?NamedValue {
   if (!this_) {
     return null;
   }

@@ -10,6 +10,9 @@ import { isGeneratedId } from "devtools-source-map";
 import getFunctionName from "./utils/getFunctionName";
 
 /**
+ * "implicit"
+ * Variables added automaticly like "this" and "arguments"
+ *
  * "var"
  * Variables declared with "var" or non-block function declarations
  *
@@ -20,7 +23,7 @@ import getFunctionName from "./utils/getFunctionName";
  * Variables declared with "const", imported bindings, or added as const
  * bindings like inner function expressions and inner class names.
  */
-export type BindingType = "var" | "const" | "let";
+export type BindingType = "implicit" | "var" | "const" | "let";
 
 export type BindingLocation = {
   start: Location,
@@ -257,6 +260,11 @@ function createParseJSScopeVisitor(sourceId: SourceId): ParseJSScopeVisitor {
         parent = createTempScope("block", "Lexical Global", parent, location);
 
         parent = createTempScope("module", "Module", parent, location);
+        parent.names.this = {
+          type: "implicit",
+          declarations: [],
+          refs: []
+        };
         return;
       }
       if (path.isFunction()) {
@@ -298,6 +306,20 @@ function createParseJSScopeVisitor(sourceId: SourceId): ParseJSScopeVisitor {
           };
         }
         tree.params.forEach(param => parseDeclarator(param, scope, "var"));
+
+        if (!path.isArrowFunctionExpression()) {
+          scope.names.this = {
+            type: "implicit",
+            declarations: [],
+            refs: []
+          };
+          scope.names.arguments = {
+            type: "implicit",
+            declarations: [],
+            refs: []
+          };
+        }
+
         parent = scope;
         return;
       }
@@ -387,10 +409,26 @@ function createParseJSScopeVisitor(sourceId: SourceId): ParseJSScopeVisitor {
         }
         return;
       }
+      if (path.isThisExpression()) {
+        const scope = findIdentifierInScopes(parent, "this");
+        if (scope) {
+          scope.names.this.refs.push(tree.loc);
+        }
+      }
 
       if (path.parentPath.isClassProperty({ value: tree })) {
         savedParents.set(path, parent);
         parent = createTempScope("block", "Class Field", parent, location);
+        parent.names.this = {
+          type: "implicit",
+          declarations: [],
+          refs: []
+        };
+        parent.names.arguments = {
+          type: "implicit",
+          declarations: [],
+          refs: []
+        };
         return;
       }
 
