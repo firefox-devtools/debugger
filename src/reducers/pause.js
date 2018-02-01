@@ -15,9 +15,9 @@ import { isGeneratedId } from "devtools-source-map";
 import { prefs } from "../utils/prefs";
 import { getSelectedSource } from "./sources";
 
-import type { RenderableScope } from "../utils/pause/scopes/getScope";
+import type { OriginalScope } from "../actions/pause/mapScopes";
 import type { Action } from "../actions/types";
-import type { Why, Scope, SourceId } from "debugger-html";
+import type { Why, Scope, SourceId, FrameId } from "debugger-html";
 
 type PauseState = {
   why: ?Why,
@@ -25,15 +25,15 @@ type PauseState = {
   frames: ?(any[]),
   frameScopes: {
     generated: {
-      [string]: {
+      [FrameId]: {
         pending: boolean,
         scope: Scope
       }
     },
-    mapped: {
-      [string]: {
+    original: {
+      [FrameId]: {
         pending: boolean,
-        scope: RenderableScope
+        scope: OriginalScope
       }
     }
   },
@@ -52,7 +52,7 @@ export const State = (): PauseState => ({
   selectedFrameId: undefined,
   frameScopes: {
     generated: {},
-    mapped: {}
+    original: {}
   },
   loadedObjects: {},
   shouldPauseOnExceptions: prefs.pauseOnExceptions,
@@ -66,7 +66,7 @@ const emptyPauseState = {
   frames: null,
   frameScopes: {
     generated: {},
-    mapped: {}
+    original: {}
   },
   selectedFrameId: null,
   loadedObjects: {}
@@ -122,8 +122,8 @@ function update(state: PauseState = State(), action: Action): PauseState {
       const { frame, status, value } = action;
       const selectedFrameId = frame.id;
 
-      const mapped = {
-        ...state.frameScopes.mapped,
+      const original = {
+        ...state.frameScopes.original,
         [selectedFrameId]: {
           pending: status !== "done",
           scope: value
@@ -133,7 +133,7 @@ function update(state: PauseState = State(), action: Action): PauseState {
         ...state,
         frameScopes: {
           ...state.frameScopes,
-          mapped
+          original
         }
       };
     }
@@ -264,16 +264,22 @@ export function getFrameScope(
   state: OuterState,
   sourceId: ?SourceId,
   frameId: ?string
-) {
+): ?{
+  pending: boolean,
+  +scope: OriginalScope | Scope
+} {
   if (!frameId || !sourceId) {
     return null;
   }
 
-  const frameScopes = isGeneratedId(sourceId)
-    ? state.pause.frameScopes.generated
-    : state.pause.frameScopes.mapped;
+  const isGenerated = isGeneratedId(sourceId);
+  const original = state.pause.frameScopes.original[frameId];
 
-  return frameScopes[frameId];
+  if (!isGenerated && original && (original.pending || original.scope)) {
+    return original;
+  }
+
+  return state.pause.frameScopes.generated[frameId];
 }
 
 export function getSelectedScope(state: OuterState) {

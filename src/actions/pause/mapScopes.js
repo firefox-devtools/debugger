@@ -27,6 +27,8 @@ import type {
 
 import type { ThunkArgs } from "../types";
 
+export type OriginalScope = RenderableScope;
+
 export function mapScopes(scopes: Promise<Scope>, frame: Frame) {
   return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
     const generatedSourceRecord = getSource(
@@ -46,23 +48,22 @@ export function mapScopes(scopes: Promise<Scope>, frame: Frame) {
       type: "MAP_SCOPES",
       frame,
       [PROMISE]: (async function() {
-        let mappedScopes;
-        if (shouldMapScopes) {
-          await dispatch(loadSourceText(sourceRecord));
-
-          try {
-            mappedScopes = await buildMappedScopes(
-              sourceRecord.toJS(),
-              frame,
-              await scopes,
-              sourceMaps
-            );
-          } catch (e) {
-            mappedScopes = null;
-          }
+        if (!shouldMapScopes) {
+          return null;
         }
 
-        return mappedScopes || scopes;
+        await dispatch(loadSourceText(sourceRecord));
+
+        try {
+          return await buildMappedScopes(
+            sourceRecord.toJS(),
+            frame,
+            await scopes,
+            sourceMaps
+          );
+        } catch (e) {
+          return null;
+        }
       })()
     });
   };
@@ -73,7 +74,7 @@ async function buildMappedScopes(
   frame: Frame,
   scopes: Scope,
   sourceMaps: any
-): Promise<?RenderableScope> {
+): Promise<?OriginalScope> {
   const originalAstScopes = await getScopes(frame.location);
   const generatedAstScopes = await getScopes(frame.generatedLocation);
 
@@ -115,12 +116,12 @@ async function buildMappedScopes(
 function generateClientScope(
   scopes: Scope,
   originalScopes: Array<SourceScope & { generatedBindings: ScopeBindings }>
-): RenderableScope {
+): OriginalScope {
   // Pull the root object scope and root lexical scope to reuse them in
   // our mapped scopes. This assumes that file file being processed is
   // a CommonJS or ES6 module, which might not be ideal. Potentially
   // should add some logic to try to detect those cases?
-  let globalLexicalScope: ?RenderableScope = null;
+  let globalLexicalScope: ?OriginalScope = null;
   for (let s = scopes; s.parent; s = s.parent) {
     // $FlowIgnore - Flow doesn't like casting 'parent'.
     globalLexicalScope = s;
@@ -136,7 +137,7 @@ function generateClientScope(
     .slice(0, -2)
     .reverse()
     .reduce(
-      (acc, orig, i): RenderableScope => ({
+      (acc, orig, i): OriginalScope => ({
         // Flow doesn't like casting 'parent'.
         parent: (acc: any),
         actor: `originalActor${i}`,
