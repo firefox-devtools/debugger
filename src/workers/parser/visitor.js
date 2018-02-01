@@ -303,6 +303,26 @@ function createParseJSScopeVisitor(sourceId: SourceId): ParseJSScopeVisitor {
         parent = scope;
         return;
       }
+      if (path.isClass()) {
+        if (path.isClassDeclaration() && path.get("id").isIdentifier()) {
+          parent.names[tree.id.name] = {
+            type: "let",
+            declarations: [tree.id.loc],
+            refs: []
+          };
+        }
+
+        if (path.get("id").isIdentifier()) {
+          savedParents.set(path, parent);
+          parent = createTempScope("block", "Class", parent, location);
+
+          parent.names[tree.id.name] = {
+            type: "const",
+            declarations: [tree.id.loc],
+            refs: []
+          };
+        }
+      }
       if (path.isForXStatement() || path.isForStatement()) {
         const init = tree.init || tree.left;
         if (isNode(init, "VariableDeclaration") && isLetOrConst(init)) {
