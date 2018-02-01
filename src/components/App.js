@@ -336,7 +336,12 @@ class App extends Component<Props, State> {
         {this.isHorizontal()
           ? this.renderHorizontalLayout()
           : this.renderVerticalLayout()}
-        {quickOpenEnabled === true && <QuickOpenModal />}
+        {quickOpenEnabled === true && (
+          <QuickOpenModal
+            shortcutsModalEnabled={this.state.shortcutsModalEnabled}
+            toggleShortcutsModal={() => this.toggleShortcutsModal()}
+          />
+        )}
         {this.renderShortcutsModal()}
       </div>
     );

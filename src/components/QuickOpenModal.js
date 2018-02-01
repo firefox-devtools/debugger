@@ -52,7 +52,9 @@ type Props = {
   selectLocation: Location => void,
   setQuickOpenQuery: (query: string) => void,
   highlightLineRange: ({ start: number, end: number }) => void,
-  closeQuickOpen: () => void
+  closeQuickOpen: () => void,
+  shortcutsModalEnabled: boolean,
+  toggleShortcutsModal: () => void
 };
 
 type State = {
@@ -84,7 +86,13 @@ export class QuickOpenModal extends Component<Props, State> {
   }
 
   componentDidMount() {
-    this.updateResults(this.props.query);
+    const { query, shortcutsModalEnabled, toggleShortcutsModal } = this.props;
+
+    this.updateResults(query);
+
+    if (shortcutsModalEnabled) {
+      toggleShortcutsModal();
+    }
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -393,6 +401,7 @@ function mapStateToProps(state) {
   if (selectedSource != null) {
     symbols = getSymbols(state, selectedSource.toJS());
   }
+
   return {
     enabled: getQuickOpenEnabled(state),
     sources: formatSources(getSources(state)),
