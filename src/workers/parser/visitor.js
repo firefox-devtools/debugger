@@ -349,7 +349,13 @@ function createParseJSScopeVisitor(sourceId: SourceId): ParseJSScopeVisitor {
         }
         return;
       }
-      if (path.isVariableDeclaration()) {
+      if (
+        path.isVariableDeclaration() &&
+        (path.node.kind === "var" ||
+          // Lexical declarations in for statements are handled above.
+          !path.parentPath.isForStatement({ init: tree }) ||
+          !path.parentPath.isXStatement({ left: tree }))
+      ) {
         // Finds right lexical environment
         const hoistAt = !isLetOrConst(tree) ? getFunctionScope(parent) : parent;
         tree.declarations.forEach(declarator => {
