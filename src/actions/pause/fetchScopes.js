@@ -4,47 +4,25 @@
 
 // @flow
 
-import { getSource, getSelectedFrame, getFrameScope } from "../../selectors";
-import { features } from "../../utils/prefs";
-import { isGeneratedId } from "devtools-source-map";
+import { getSelectedFrame, getGeneratedFrameScope } from "../../selectors";
 import { mapScopes } from "./mapScopes";
+import { PROMISE } from "../utils/middleware/promise";
 
 import type { ThunkArgs } from "../types";
 
 export function fetchScopes() {
   return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
     const frame = getSelectedFrame(getState());
-    if (!frame || getFrameScope(getState(), frame.id)) {
+    if (!frame || getGeneratedFrameScope(getState(), frame.id)) {
       return;
     }
 
-    const scopes = await client.getFrameScopes(frame);
-    dispatch({
+    const scopes = dispatch({
       type: "ADD_SCOPES",
       frame,
-      scopes
+      [PROMISE]: client.getFrameScopes(frame)
     });
 
-    const generatedSourceRecord = getSource(
-      getState(),
-      frame.generatedLocation.sourceId
-    );
-
-    if (generatedSourceRecord.get("isWasm")) {
-      return;
-    }
-
-    const sourceRecord = getSource(getState(), frame.location.sourceId);
-    if (sourceRecord.get("isPrettyPrinted")) {
-      return;
-    }
-
-    if (isGeneratedId(frame.location.sourceId)) {
-      return;
-    }
-
-    if (features.mapScopes) {
-      dispatch(mapScopes(scopes, frame));
-    }
+    dispatch(mapScopes(scopes, frame));
   };
 }

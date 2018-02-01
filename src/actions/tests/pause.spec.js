@@ -16,7 +16,7 @@ const mockThreadClient = {
       stepInResolve = _resolve;
     }),
   evaluate: () => new Promise(_resolve => {}),
-  getFrameScopes: frame => frame.scope,
+  getFrameScopes: async frame => frame.scope,
   sourceContents: sourceId => {
     return new Promise((resolve, reject) => {
       switch (sourceId) {

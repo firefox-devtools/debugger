@@ -228,7 +228,7 @@ type PauseAction =
   | {
       type: "PAUSED",
       why: Why,
-      scopes: Scope[],
+      scopes: Scope,
       frames: Frame[],
       selectedFrameId: string,
       loadedObjects: LoadedObject[]
@@ -239,7 +239,7 @@ type PauseAction =
       shouldIgnoreCaughtExceptions: boolean
     }
   | { type: "COMMAND", value: { type: string }, command: string }
-  | { type: "SELECT_FRAME", frame: Frame, scopes: Scope[] }
+  | { type: "SELECT_FRAME", frame: Frame }
   | {
       type: "SET_POPUP_OBJECT_PROPERTIES",
       objectId: string,
@@ -272,7 +272,8 @@ type PauseAction =
   | {
       type: "MAP_SCOPES",
       frame: Frame,
-      scopes: Scope[]
+      status: AsyncStatus,
+      value: Scope
     }
   | {
       type: "MAP_FRAMES",
@@ -281,7 +282,8 @@ type PauseAction =
   | {
       type: "ADD_SCOPES",
       frame: Frame,
-      scopes: Scope[]
+      status: AsyncStatus,
+      value: Scope
     };
 
 type NavigateAction =
