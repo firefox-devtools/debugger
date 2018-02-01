@@ -33,6 +33,8 @@ type Props = {
   summaryMsg: string,
   size: string,
   showErrorEmoji: boolean,
+  expanded: boolean,
+  selectedItemId?: string,
   onChange: (e: SyntheticInputEvent<HTMLInputElement>) => void,
   handleClose: (e: SyntheticMouseEvent<HTMLDivElement>) => void,
   onKeyUp?: (e: SyntheticKeyboardEvent<HTMLInputElement>) => void,
@@ -49,7 +51,9 @@ class SearchInput extends Component<Props> {
 
   static defaultProps = {
     size: "",
-    showErrorEmoji: true
+    showErrorEmoji: true,
+    expanded: false,
+    selectedItemId: ""
   };
 
   componentDidMount() {
@@ -116,7 +120,9 @@ class SearchInput extends Component<Props> {
       onFocus,
       onBlur,
       handleClose,
-      size
+      size,
+      expanded,
+      selectedItemId
     } = this.props;
 
     const inputProps = {
@@ -128,6 +134,10 @@ class SearchInput extends Component<Props> {
       onKeyUp,
       onFocus,
       onBlur,
+      "aria-autocomplete": "list",
+      "aria-controls": "result-list",
+      "aria-activedescendant":
+        expanded && selectedItemId ? `${selectedItemId}-title` : "",
       placeholder,
       value: query,
       spellCheck: false,
@@ -135,7 +145,13 @@ class SearchInput extends Component<Props> {
     };
 
     return (
-      <div className={classnames("search-field", size)}>
+      <div
+        className={classnames("search-field", size)}
+        role="combobox"
+        aria-haspopup="listbox"
+        aria-owns="result-list"
+        aria-expanded={expanded}
+      >
         {this.renderSvg()}
         <input {...inputProps} />
         <div className="summary">{summaryMsg || ""}</div>

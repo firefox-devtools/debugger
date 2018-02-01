@@ -2,12 +2,19 @@
 
 exports[`SearchInput render 1`] = `
 <div
+  aria-expanded={false}
+  aria-haspopup="listbox"
+  aria-owns="result-list"
   className="search-field"
+  role="combobox"
 >
   <Svg
     name="magnifying-glass"
   />
   <input
+    aria-activedescendant=""
+    aria-autocomplete="list"
+    aria-controls="result-list"
     className=""
     placeholder="A placeholder"
     spellCheck={false}
@@ -26,12 +33,19 @@ exports[`SearchInput render 1`] = `
 
 exports[`SearchInput show nav buttons 1`] = `
 <div
+  aria-expanded={false}
+  aria-haspopup="listbox"
+  aria-owns="result-list"
   className="search-field"
+  role="combobox"
 >
   <Svg
     name="magnifying-glass"
   />
   <input
+    aria-activedescendant=""
+    aria-autocomplete="list"
+    aria-controls="result-list"
     className=""
     placeholder="A placeholder"
     spellCheck={false}
@@ -76,12 +90,19 @@ exports[`SearchInput show nav buttons 1`] = `
 
 exports[`SearchInput show svg (emoji) 1`] = `
 <div
+  aria-expanded={false}
+  aria-haspopup="listbox"
+  aria-owns="result-list"
   className="search-field"
+  role="combobox"
 >
   <Svg
     name="sad-face"
   />
   <input
+    aria-activedescendant=""
+    aria-autocomplete="list"
+    aria-controls="result-list"
     className="empty"
     placeholder="A placeholder"
     spellCheck={false}
@@ -100,12 +121,19 @@ exports[`SearchInput show svg (emoji) 1`] = `
 
 exports[`SearchInput show svg magnifying glass 1`] = `
 <div
+  aria-expanded={false}
+  aria-haspopup="listbox"
+  aria-owns="result-list"
   className="search-field"
+  role="combobox"
 >
   <Svg
     name="magnifying-glass"
   />
   <input
+    aria-activedescendant=""
+    aria-autocomplete="list"
+    aria-controls="result-list"
     className=""
     placeholder="A placeholder"
     spellCheck={false}

@@ -52,17 +52,23 @@ exports[`QuickOpenModal Basic render with mount & searchType = functions 1`] = `
           >
             <SearchInput
               count={0}
+              expanded={false}
               handleClose={[Function]}
               onChange={[Function]}
               onKeyDown={[Function]}
               placeholder="Search sources…"
               query="@"
+              selectedItemId=""
               showErrorEmoji={true}
               size=""
               summaryMsg="0 results"
             >
               <div
+                aria-expanded={false}
+                aria-haspopup="listbox"
+                aria-owns="result-list"
                 className="search-field"
+                role="combobox"
               >
                 <Svg
                   name="sad-face"
@@ -85,6 +91,9 @@ exports[`QuickOpenModal Basic render with mount & searchType = functions 1`] = `
                   </InlineSVG>
                 </Svg>
                 <input
+                  aria-activedescendant=""
+                  aria-autocomplete="list"
+                  aria-controls="result-list"
                   className="empty"
                   onChange={[Function]}
                   onKeyDown={[Function]}
@@ -113,14 +122,19 @@ exports[`QuickOpenModal Basic render with mount & searchType = functions 1`] = `
               </div>
             </SearchInput>
             <ResultList
+              expanded={false}
               items={Array []}
               key="results"
+              role="listbox"
               selectItem={[Function]}
               selected={0}
               size="small"
             >
               <ul
+                aria-live="polite"
                 className="result-list small"
+                id="result-list"
+                role="listbox"
               />
             </ResultList>
           </div>
@@ -183,17 +197,23 @@ exports[`QuickOpenModal Basic render with mount & searchType = variables 1`] = `
           >
             <SearchInput
               count={0}
+              expanded={false}
               handleClose={[Function]}
               onChange={[Function]}
               onKeyDown={[Function]}
               placeholder="Search sources…"
               query="#"
+              selectedItemId=""
               showErrorEmoji={true}
               size=""
               summaryMsg="0 results"
             >
               <div
+                aria-expanded={false}
+                aria-haspopup="listbox"
+                aria-owns="result-list"
                 className="search-field"
+                role="combobox"
               >
                 <Svg
                   name="sad-face"
@@ -216,6 +236,9 @@ exports[`QuickOpenModal Basic render with mount & searchType = variables 1`] = `
                   </InlineSVG>
                 </Svg>
                 <input
+                  aria-activedescendant=""
+                  aria-autocomplete="list"
+                  aria-controls="result-list"
                   className="empty"
                   onChange={[Function]}
                   onKeyDown={[Function]}
@@ -244,14 +267,19 @@ exports[`QuickOpenModal Basic render with mount & searchType = variables 1`] = `
               </div>
             </SearchInput>
             <ResultList
+              expanded={false}
               items={Array []}
               key="results"
+              role="listbox"
               selectItem={[Function]}
               selected={0}
               size="small"
             >
               <ul
+                aria-live="polite"
                 className="result-list small"
+                id="result-list"
+                role="listbox"
               />
             </ResultList>
           </div>
@@ -308,17 +336,23 @@ exports[`QuickOpenModal Basic render with mount 1`] = `
           >
             <SearchInput
               count={0}
+              expanded={false}
               handleClose={[Function]}
               onChange={[Function]}
               onKeyDown={[Function]}
               placeholder="Search sources…"
               query=""
+              selectedItemId=""
               showErrorEmoji={true}
               size=""
               summaryMsg="0 results"
             >
               <div
+                aria-expanded={false}
+                aria-haspopup="listbox"
+                aria-owns="result-list"
                 className="search-field"
+                role="combobox"
               >
                 <Svg
                   name="magnifying-glass"
@@ -341,6 +375,9 @@ exports[`QuickOpenModal Basic render with mount 1`] = `
                   </InlineSVG>
                 </Svg>
                 <input
+                  aria-activedescendant=""
+                  aria-autocomplete="list"
+                  aria-controls="result-list"
                   className=""
                   onChange={[Function]}
                   onKeyDown={[Function]}
@@ -369,14 +406,19 @@ exports[`QuickOpenModal Basic render with mount 1`] = `
               </div>
             </SearchInput>
             <ResultList
+              expanded={false}
               items={Array []}
               key="results"
+              role="listbox"
               selectItem={[Function]}
               selected={0}
               size="big"
             >
               <ul
+                aria-live="polite"
                 className="result-list big"
+                id="result-list"
+                role="listbox"
               />
             </ResultList>
           </div>
@@ -396,18 +438,22 @@ exports[`QuickOpenModal Renders when enabled 1`] = `
 >
   <SearchInput
     count={0}
+    expanded={false}
     handleClose={[Function]}
     onChange={[Function]}
     onKeyDown={[Function]}
     placeholder="Search sources…"
     query=""
+    selectedItemId=""
     showErrorEmoji={true}
     size=""
     summaryMsg="0 results"
   />
   <ResultList
+    expanded={false}
     items={Array []}
     key="results"
+    role="listbox"
     selectItem={[Function]}
     selected={0}
     size="big"
@@ -467,16 +513,22 @@ exports[`QuickOpenModal Simple goto search query = :abc & searchType = goto 1`] 
           >
             <SearchInput
               count={0}
+              expanded={false}
               handleClose={[Function]}
               onChange={[Function]}
               onKeyDown={[Function]}
               placeholder="Search sources…"
               query=":abc"
+              selectedItemId=""
               showErrorEmoji={true}
               size=""
             >
               <div
+                aria-expanded={false}
+                aria-haspopup="listbox"
+                aria-owns="result-list"
                 className="search-field"
+                role="combobox"
               >
                 <Svg
                   name="sad-face"
@@ -499,6 +551,9 @@ exports[`QuickOpenModal Simple goto search query = :abc & searchType = goto 1`] 
                   </InlineSVG>
                 </Svg>
                 <input
+                  aria-activedescendant=""
+                  aria-autocomplete="list"
+                  aria-controls="result-list"
                   className="empty"
                   onChange={[Function]}
                   onKeyDown={[Function]}
@@ -578,17 +633,23 @@ exports[`QuickOpenModal closeModal 1`] = `
           >
             <SearchInput
               count={0}
+              expanded={false}
               handleClose={[Function]}
               onChange={[Function]}
               onKeyDown={[Function]}
               placeholder="Search sources…"
               query=""
+              selectedItemId=""
               showErrorEmoji={true}
               size=""
               summaryMsg="0 results"
             >
               <div
+                aria-expanded={false}
+                aria-haspopup="listbox"
+                aria-owns="result-list"
                 className="search-field"
+                role="combobox"
               >
                 <Svg
                   name="magnifying-glass"
@@ -611,6 +672,9 @@ exports[`QuickOpenModal closeModal 1`] = `
                   </InlineSVG>
                 </Svg>
                 <input
+                  aria-activedescendant=""
+                  aria-autocomplete="list"
+                  aria-controls="result-list"
                   className=""
                   onChange={[Function]}
                   onKeyDown={[Function]}
@@ -639,14 +703,19 @@ exports[`QuickOpenModal closeModal 1`] = `
               </div>
             </SearchInput>
             <ResultList
+              expanded={false}
               items={Array []}
               key="results"
+              role="listbox"
               selectItem={[Function]}
               selected={0}
               size="big"
             >
               <ul
+                aria-live="polite"
                 className="result-list big"
+                id="result-list"
+                role="listbox"
               />
             </ResultList>
           </div>
@@ -718,17 +787,23 @@ exports[`QuickOpenModal updateResults on enable 2`] = `
           >
             <SearchInput
               count={0}
+              expanded={false}
               handleClose={[Function]}
               onChange={[Function]}
               onKeyDown={[Function]}
               placeholder="Search sources…"
               query=""
+              selectedItemId=""
               showErrorEmoji={true}
               size=""
               summaryMsg="0 results"
             >
               <div
+                aria-expanded={false}
+                aria-haspopup="listbox"
+                aria-owns="result-list"
                 className="search-field"
+                role="combobox"
               >
                 <Svg
                   name="magnifying-glass"
@@ -751,6 +826,9 @@ exports[`QuickOpenModal updateResults on enable 2`] = `
                   </InlineSVG>
                 </Svg>
                 <input
+                  aria-activedescendant=""
+                  aria-autocomplete="list"
+                  aria-controls="result-list"
                   className=""
                   onChange={[Function]}
                   onKeyDown={[Function]}
@@ -779,14 +857,19 @@ exports[`QuickOpenModal updateResults on enable 2`] = `
               </div>
             </SearchInput>
             <ResultList
+              expanded={false}
               items={Array []}
               key="results"
+              role="listbox"
               selectItem={[Function]}
               selected={0}
               size="big"
             >
               <ul
+                aria-live="polite"
                 className="result-list big"
+                id="result-list"
+                role="listbox"
               />
             </ResultList>
           </div>
