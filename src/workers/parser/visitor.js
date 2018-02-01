@@ -9,11 +9,25 @@ import type { NodePath, Node, Location as BabelLocation } from "babel-traverse";
 import { isGeneratedId } from "devtools-source-map";
 import getFunctionName from "./utils/getFunctionName";
 
+/**
+ * "var"
+ * Variables declared with "var" or non-block function declarations
+ *
+ * "let"
+ * Variables declared with "let".
+ *
+ * "const"
+ * Variables declared with "const", imported bindings, or added as const
+ * bindings like inner function expressions and inner class names.
+ */
+export type BindingType = "var" | "const" | "let";
+
 export type BindingLocation = {
   start: Location,
   end: Location
 };
 export type BindingData = {
+  type: BindingType,
   declarations: Array<{
     start: Location,
     end: Location
@@ -44,23 +58,13 @@ export type ParseJSScopeVisitor = {
   toParsedScopes: () => ParsedScope[]
 };
 
-type TempScopeNameReferences = {
-  type: string,
-  declarations: $ElementType<BindingData, "declarations">,
-  refs: $ElementType<BindingData, "refs">
-};
-
-type TempScopeNamesReferences = {
-  [name: string]: TempScopeNameReferences
-};
-
 type TempScope = {
   type: "object" | "function" | "block" | "module",
   displayName: string,
   parent: TempScope | null,
   children: Array<TempScope>,
   loc: BabelLocation,
-  names: TempScopeNamesReferences
+  names: ScopeBindingList
 };
 
 function createTempScope(
@@ -112,7 +116,7 @@ function fromBabelLocation(
 function parseDeclarator(
   declaratorId: Node,
   targetScope: TempScope,
-  type: string
+  type: BindingType
 ) {
   if (isNode(declaratorId, "Identifier")) {
     let existing = targetScope.names[declaratorId.name];
@@ -172,29 +176,22 @@ function toParsedScopes(
     return undefined;
   }
   return children.map(scope => {
-    // Removing unneed information from TempScope such as parent reference and
-    // name types. We also need to convert BabelLocation to the Location type.
+    // Removing unneed information from TempScope such as parent reference.
+    // We also need to convert BabelLocation to the Location type.
     const bindings = Object.keys(scope.names).reduce((_bindings, n) => {
       const nameRefs = scope.names[n];
-      switch (nameRefs.type) {
-        case "var":
-        case "let":
-        case "const":
-        case "param":
-        case "fn":
-        case "import":
-          _bindings[n] = {
-            declarations: nameRefs.declarations.map(({ start, end }) => ({
-              start: fromBabelLocation(start, sourceId),
-              end: fromBabelLocation(end, sourceId)
-            })),
-            refs: nameRefs.refs.map(({ start, end }) => ({
-              start: fromBabelLocation(start, sourceId),
-              end: fromBabelLocation(end, sourceId)
-            }))
-          };
-          break;
-      }
+
+      _bindings[n] = {
+        type: nameRefs.type,
+        declarations: nameRefs.declarations.map(({ start, end }) => ({
+          start: fromBabelLocation(start, sourceId),
+          end: fromBabelLocation(end, sourceId)
+        })),
+        refs: nameRefs.refs.map(({ start, end }) => ({
+          start: fromBabelLocation(start, sourceId),
+          end: fromBabelLocation(end, sourceId)
+        }))
+      };
       return _bindings;
     }, ((Object.create(null): any): ScopeBindingList));
     return {
@@ -202,7 +199,7 @@ function toParsedScopes(
       end: fromBabelLocation(scope.loc.end, sourceId),
       type: scope.type === "module" ? "block" : scope.type,
       displayName: scope.displayName,
-      bindings,
+      bindings: bindings,
       children: toParsedScopes(scope.children, sourceId)
     };
   });
@@ -291,15 +288,16 @@ function createParseJSScopeVisitor(sourceId: SourceId): ParseJSScopeVisitor {
           }
         );
         if (path.isFunctionDeclaration() && isNode(tree.id, "Identifier")) {
-          const functionName = {
-            type: "fn",
+          // This ignores Annex B function declaration hoisting, which
+          // is probably a fine assumption.
+          const fnScope = getFunctionScope(parent);
+          scope.names[tree.id.name] = {
+            type: fnScope === scope ? "var" : "let",
             declarations: [tree.id.loc],
             refs: []
           };
-          getFunctionScope(parent).names[tree.id.name] = functionName;
-          scope.names[tree.id.name] = functionName;
         }
-        tree.params.forEach(param => parseDeclarator(param, scope, "param"));
+        tree.params.forEach(param => parseDeclarator(param, scope, "var"));
         parent = scope;
         return;
       }
@@ -340,7 +338,7 @@ function createParseJSScopeVisitor(sourceId: SourceId): ParseJSScopeVisitor {
       if (path.isCatchClause()) {
         savedParents.set(path, parent);
         parent = createTempScope("block", "Catch", parent, location);
-        parseDeclarator(tree.param, parent, "param");
+        parseDeclarator(tree.param, parent, "var");
         return;
       }
       if (path.isBlockStatement()) {
@@ -364,7 +362,7 @@ function createParseJSScopeVisitor(sourceId: SourceId): ParseJSScopeVisitor {
 
         path.get("specifiers").forEach(spec => {
           parent.names[spec.node.local.name] = {
-            type: "import",
+            type: "const",
             declarations: [spec.node.local.loc],
             refs: []
           };
