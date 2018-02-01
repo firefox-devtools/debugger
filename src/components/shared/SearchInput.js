@@ -128,6 +128,8 @@ class SearchInput extends Component<Props> {
       onKeyUp,
       onFocus,
       onBlur,
+      "aria-autocomplete": "list",
+      "aria-controls": "result-list",
       placeholder,
       value: query,
       spellCheck: false,
@@ -135,7 +137,12 @@ class SearchInput extends Component<Props> {
     };
 
     return (
-      <div className={classnames("search-field", size)}>
+      <div
+        className={classnames("search-field", size)}
+        role="combobox"
+        aria-haspopup="listbox"
+        aria-owns="result-list"
+      >
         {this.renderSvg()}
         <input {...inputProps} />
         <div className="summary">{summaryMsg || ""}</div>
