@@ -72,7 +72,7 @@ class SearchInput extends Component<Props> {
       return <Svg name="sad-face" />;
     }
 
-    return <Svg name="magnifying-glass" />;
+    return <Svg name="magnifying-glass" role="presentation" />;
   }
 
   renderArrowButtons() {

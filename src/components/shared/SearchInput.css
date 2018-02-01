@@ -65,6 +65,8 @@
 }
 
 .search-field input:focus {
+  background: var(--theme-toolbar-background-hover);
+  padding-inline-start: 10px;
   outline-width: 0;
 }
 
@@ -79,6 +81,7 @@
 .search-field .summary {
   line-height: 27px;
   padding-right: 10px;
+  padding-left: 10px;
   color: var(--theme-body-color-inactive);
 }
 
