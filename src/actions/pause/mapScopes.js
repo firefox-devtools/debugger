@@ -13,7 +13,10 @@ import {
   type BindingLocation
 } from "../../workers/parser";
 import type { RenderableScope } from "../../utils/pause/scopes/getScope";
+import { PROMISE } from "../utils/middleware/promise";
 
+import { features } from "../../utils/prefs";
+import { isGeneratedId } from "devtools-source-map";
 import type {
   Frame,
   Scope,
@@ -24,66 +27,101 @@ import type {
 
 import type { ThunkArgs } from "../types";
 
-export function mapScopes(scopes: Scope, frame: Frame) {
+export type OriginalScope = RenderableScope;
+
+export function mapScopes(scopes: Promise<Scope>, frame: Frame) {
   return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
+    const generatedSourceRecord = getSource(
+      getState(),
+      frame.generatedLocation.sourceId
+    );
+
     const sourceRecord = getSource(getState(), frame.location.sourceId);
-    await dispatch(loadSourceText(sourceRecord));
-    const source = sourceRecord.toJS();
 
-    const originalAstScopes = await getScopes(frame.location);
-    const generatedAstScopes = await getScopes(frame.generatedLocation);
-
-    if (!originalAstScopes || !generatedAstScopes) {
-      return;
-    }
-
-    const generatedAstBindings = buildGeneratedBindingList(
-      scopes,
-      generatedAstScopes
-    );
-
-    const mappedOriginalScopes = await Promise.all(
-      Array.from(originalAstScopes, async item => {
-        const generatedBindings = {};
-
-        await Promise.all(
-          Object.keys(item.bindings).map(async name => {
-            generatedBindings[name] = await findGeneratedBinding(
-              sourceMaps,
-              source,
-              name,
-              item.bindings[name],
-              generatedAstBindings
-            );
-          })
-        );
-
-        return {
-          ...item,
-          generatedBindings
-        };
-      })
-    );
-
-    const mappedScopes = generateClientScope(scopes, mappedOriginalScopes);
+    const shouldMapScopes =
+      features.mapScopes &&
+      !generatedSourceRecord.get("isWasm") &&
+      !sourceRecord.get("isPrettyPrinted") &&
+      !isGeneratedId(frame.location.sourceId);
 
     dispatch({
       type: "MAP_SCOPES",
       frame,
-      scopes: mappedScopes
+      [PROMISE]: (async function() {
+        if (!shouldMapScopes) {
+          return null;
+        }
+
+        await dispatch(loadSourceText(sourceRecord));
+
+        try {
+          return await buildMappedScopes(
+            sourceRecord.toJS(),
+            frame,
+            await scopes,
+            sourceMaps
+          );
+        } catch (e) {
+          return null;
+        }
+      })()
     });
   };
+}
+
+async function buildMappedScopes(
+  source: Source,
+  frame: Frame,
+  scopes: Scope,
+  sourceMaps: any
+): Promise<?OriginalScope> {
+  const originalAstScopes = await getScopes(frame.location);
+  const generatedAstScopes = await getScopes(frame.generatedLocation);
+
+  if (!originalAstScopes || !generatedAstScopes) {
+    return null;
+  }
+
+  const generatedAstBindings = buildGeneratedBindingList(
+    scopes,
+    generatedAstScopes
+  );
+
+  const mappedOriginalScopes = await Promise.all(
+    Array.from(originalAstScopes, async item => {
+      const generatedBindings = {};
+
+      await Promise.all(
+        Object.keys(item.bindings).map(async name => {
+          generatedBindings[name] = await findGeneratedBinding(
+            sourceMaps,
+            source,
+            name,
+            item.bindings[name],
+            generatedAstBindings
+          );
+        })
+      );
+
+      return {
+        ...item,
+        generatedBindings
+      };
+    })
+  );
+
+  return generateClientScope(scopes, mappedOriginalScopes);
 }
 
 function generateClientScope(
   scopes: Scope,
   originalScopes: Array<SourceScope & { generatedBindings: ScopeBindings }>
-): RenderableScope {
+): OriginalScope {
   // Pull the root object scope and root lexical scope to reuse them in
   // our mapped scopes. This assumes that file file being processed is
   // a CommonJS or ES6 module, which might not be ideal. Potentially
   // should add some logic to try to detect those cases?
-  let globalLexicalScope: ?RenderableScope = null;
+  let globalLexicalScope: ?OriginalScope = null;
   for (let s = scopes; s.parent; s = s.parent) {
     // $FlowIgnore - Flow doesn't like casting 'parent'.
     globalLexicalScope = s;
@@ -99,7 +137,7 @@ function generateClientScope(
     .slice(0, -2)
     .reverse()
     .reduce(
-      (acc, orig, i): RenderableScope => ({
+      (acc, orig, i): OriginalScope => ({
         // Flow doesn't like casting 'parent'.
         parent: (acc: any),
         actor: `originalActor${i}`,

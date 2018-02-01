@@ -453,7 +453,7 @@ async function waitForMappedScopes(dbg) {
   await waitForState(
     dbg,
     state => {
-      const scopes = dbg.selectors.getScopes(state);
+      const scopes = dbg.selectors.getSelectedScope(state);
       return scopes && scopes.sourceBindings;
     },
     "mapped scopes"

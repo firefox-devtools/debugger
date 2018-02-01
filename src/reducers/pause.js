@@ -11,16 +11,32 @@
  */
 
 import { createSelector } from "reselect";
+import { isGeneratedId } from "devtools-source-map";
 import { prefs } from "../utils/prefs";
+import { getSelectedSource } from "./sources";
 
+import type { OriginalScope } from "../actions/pause/mapScopes";
 import type { Action } from "../actions/types";
-import type { Why } from "debugger-html";
+import type { Why, Scope, SourceId, FrameId } from "debugger-html";
 
 type PauseState = {
   why: ?Why,
   isWaitingOnBreak: boolean,
   frames: ?(any[]),
-  frameScopes: any,
+  frameScopes: {
+    generated: {
+      [FrameId]: {
+        pending: boolean,
+        scope: Scope
+      }
+    },
+    original: {
+      [FrameId]: {
+        pending: boolean,
+        scope: OriginalScope
+      }
+    }
+  },
   selectedFrameId: ?string,
   loadedObjects: Object,
   shouldPauseOnExceptions: boolean,
@@ -34,7 +50,10 @@ export const State = (): PauseState => ({
   isWaitingOnBreak: false,
   frames: undefined,
   selectedFrameId: undefined,
-  frameScopes: {},
+  frameScopes: {
+    generated: {},
+    original: {}
+  },
   loadedObjects: {},
   shouldPauseOnExceptions: prefs.pauseOnExceptions,
   shouldIgnoreCaughtExceptions: prefs.ignoreCaughtExceptions,
@@ -45,7 +64,10 @@ export const State = (): PauseState => ({
 const emptyPauseState = {
   pause: null,
   frames: null,
-  frameScopes: {},
+  frameScopes: {
+    generated: {},
+    original: {}
+  },
   selectedFrameId: null,
   loadedObjects: {}
 };
@@ -66,7 +88,7 @@ function update(state: PauseState = State(), action: Action): PauseState {
         isWaitingOnBreak: false,
         selectedFrameId,
         frames,
-        frameScopes: {},
+        frameScopes: { ...emptyPauseState.frameScopes },
         loadedObjects: objectMap,
         why
       };
@@ -76,13 +98,45 @@ function update(state: PauseState = State(), action: Action): PauseState {
       return { ...state, frames: action.frames };
     }
 
-    case "ADD_SCOPES":
-    case "MAP_SCOPES":
-      const { frame, scopes } = action;
+    case "ADD_SCOPES": {
+      const { frame, status, value } = action;
       const selectedFrameId = frame.id;
 
-      const frameScopes = { ...state.frameScopes, [selectedFrameId]: scopes };
-      return { ...state, frameScopes };
+      const generated = {
+        ...state.frameScopes.generated,
+        [selectedFrameId]: {
+          pending: status !== "done",
+          scope: value
+        }
+      };
+      return {
+        ...state,
+        frameScopes: {
+          ...state.frameScopes,
+          generated
+        }
+      };
+    }
+
+    case "MAP_SCOPES": {
+      const { frame, status, value } = action;
+      const selectedFrameId = frame.id;
+
+      const original = {
+        ...state.frameScopes.original,
+        [selectedFrameId]: {
+          pending: status !== "done",
+          scope: value
+        }
+      };
+      return {
+        ...state,
+        frameScopes: {
+          ...state.frameScopes,
+          original
+        }
+      };
+    }
 
     case "BREAK_ON_NEXT":
       return { ...state, isWaitingOnBreak: true };
@@ -198,22 +252,42 @@ export function getFrames(state: OuterState) {
   return state.pause.frames;
 }
 
-export function getFrameScope(state: OuterState, frameId: ?string) {
+export function getGeneratedFrameScope(state: OuterState, frameId: ?string) {
   if (!frameId) {
     return null;
   }
 
-  return state.pause.frameScopes[frameId];
+  return state.pause.frameScopes.generated[frameId];
+}
+
+export function getFrameScope(
+  state: OuterState,
+  sourceId: ?SourceId,
+  frameId: ?string
+): ?{
+  pending: boolean,
+  +scope: OriginalScope | Scope
+} {
+  if (!frameId || !sourceId) {
+    return null;
+  }
+
+  const isGenerated = isGeneratedId(sourceId);
+  const original = state.pause.frameScopes.original[frameId];
+
+  if (!isGenerated && original && (original.pending || original.scope)) {
+    return original;
+  }
+
+  return state.pause.frameScopes.generated[frameId];
 }
 
 export function getSelectedScope(state: OuterState) {
+  const sourceRecord = getSelectedSource(state);
   const frameId = getSelectedFrameId(state);
-  return getFrameScope(state, frameId);
-}
-
-export function getScopes(state: OuterState) {
-  const selectedFrameId = getSelectedFrameId(state);
-  return state.pause.frameScopes[selectedFrameId];
+  const { scope } =
+    getFrameScope(state, sourceRecord && sourceRecord.get("id"), frameId) || {};
+  return scope || null;
 }
 
 export function getSelectedFrameId(state: OuterState) {
