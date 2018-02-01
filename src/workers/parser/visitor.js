@@ -91,7 +91,7 @@ function isNode(node?: Node, type: string): boolean {
   return node ? node.type === type : false;
 }
 
-function getFunctionScope(scope: TempScope): TempScope {
+function getVarScope(scope: TempScope): TempScope {
   let s = scope;
   while (s.type !== "function" && s.type !== "module") {
     if (!s.parent) {
@@ -290,7 +290,7 @@ function createParseJSScopeVisitor(sourceId: SourceId): ParseJSScopeVisitor {
         if (path.isFunctionDeclaration() && isNode(tree.id, "Identifier")) {
           // This ignores Annex B function declaration hoisting, which
           // is probably a fine assumption.
-          const fnScope = getFunctionScope(parent);
+          const fnScope = getVarScope(parent);
           scope.names[tree.id.name] = {
             type: fnScope === scope ? "var" : "let",
             declarations: [tree.id.loc],
@@ -357,7 +357,7 @@ function createParseJSScopeVisitor(sourceId: SourceId): ParseJSScopeVisitor {
           !path.parentPath.isXStatement({ left: tree }))
       ) {
         // Finds right lexical environment
-        const hoistAt = !isLetOrConst(tree) ? getFunctionScope(parent) : parent;
+        const hoistAt = !isLetOrConst(tree) ? getVarScope(parent) : parent;
         tree.declarations.forEach(declarator => {
           parseDeclarator(declarator.id, hoistAt, tree.kind);
         });
