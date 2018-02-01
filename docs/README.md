@@ -13,6 +13,8 @@ permalink: docs/
 ### Development
 
 * [Local Development](./local-development.md)
+* [Debugging](./debugging.md)
+* [DBG helper](./dbg.md)
 * [Lerna](./lerna.md)
 * [Flow types](./flow.md)
 * [Issues](./issues.md)
@@ -29,9 +31,6 @@ permalink: docs/
 ### Architecture
 
 * [React / Redux Architecture overview](./debugger-html-react-redux-overview.md)
-
-  * [Communication](./debugging.md)
-
 * [Debugger Server Architecture](./client.md)
 * [Debugger Client](../src/client/README.md)
 
