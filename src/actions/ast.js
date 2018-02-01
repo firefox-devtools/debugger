@@ -16,7 +16,7 @@ import {
   getSymbols,
   getEmptyLines,
   findOutOfScopeLocations,
-  isReactComponent
+  getFramework
 } from "../workers/parser";
 
 import type { SourceId } from "debugger-html";
@@ -34,12 +34,12 @@ export function setSourceMetaData(sourceId: SourceId) {
       return;
     }
 
-    const isReactComp = await isReactComponent(source.id);
+    const framework = await getFramework(source.id);
     dispatch({
       type: "SET_SOURCE_METADATA",
       sourceId: source.id,
       sourceMetaData: {
-        isReactComponent: isReactComp
+        framework
       }
     });
   };

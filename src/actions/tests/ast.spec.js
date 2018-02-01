@@ -85,27 +85,23 @@ describe("ast", () => {
 
       await waitForState(store, state => {
         const metaData = getSourceMetaData(state, source.id);
-        return metaData && metaData.isReactComponent;
+        return metaData && metaData.framework;
       });
 
       const sourceMetaData = getSourceMetaData(getState(), source.id);
-      expect(sourceMetaData).toEqual({ isReactComponent: true });
+      expect(sourceMetaData.framework).toBe("React");
     });
 
     it("should not give false positive on non react components", async () => {
       const store = createStore(threadClient);
       const { dispatch, getState } = store;
-      const source = makeSource("base.js");
-      await dispatch(actions.newSource(source));
+      const base = makeSource("base.js");
+      await dispatch(actions.newSource(base));
       await dispatch(actions.loadSourceText(I.Map({ id: "base.js" })));
       await dispatch(actions.setSourceMetaData("base.js"));
-      await waitForState(store, state => {
-        const metaData = getSourceMetaData(state, source.id);
-        return metaData && metaData.isReactComponent === false;
-      });
 
-      const sourceMetaData = getSourceMetaData(getState(), source.id);
-      expect(sourceMetaData).toEqual({ isReactComponent: false });
+      const sourceMetaData = getSourceMetaData(getState(), base.id);
+      expect(sourceMetaData.framework).toBe(undefined);
     });
   });
 

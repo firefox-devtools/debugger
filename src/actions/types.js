@@ -324,7 +324,7 @@ type ASTAction =
       type: "SET_SOURCE_METADATA",
       sourceId: string,
       sourceMetaData: {
-        isReactComponent: boolean
+        framework: ?string
       }
     }
   | {

@@ -51,9 +51,15 @@ export function getSourceAnnotation(
   const sourceId = source.get("id");
   const sourceMetaData = getMetaData(sourceId);
 
-  if (sourceMetaData && sourceMetaData.isReactComponent) {
-    return <img className="react" />;
+  const framework =
+    sourceMetaData && sourceMetaData.framework
+      ? sourceMetaData.framework
+      : false;
+
+  if (framework) {
+    return <img className={framework.toLowerCase()} />;
   }
+
   if (isPretty(source)) {
     return <img className="prettyPrint" />;
   }
