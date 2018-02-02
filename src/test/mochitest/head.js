@@ -955,7 +955,7 @@ const selectors = {
   sourceMapLink: ".source-footer .mapped-source",
   sourcesFooter: ".sources-panel .source-footer",
   editorFooter: ".editor-pane .source-footer",
-  sourceNode: i => `.sources-list .tree-node:nth-child(${i})`,
+  sourceNode: i => `.sources-list .tree-node:nth-child(${i}) .node`,
   sourceNodes: ".sources-list .tree-node",
   sourceArrow: i => `.sources-list .tree-node:nth-child(${i}) .arrow`,
   resultItems: ".result-list .result-item",
