@@ -50,9 +50,16 @@ add_task(async function() {
   await selectSource(dbg, "v1");
   await addBreakpoint(dbg, "v1", 13);
 
+
+  syncBp = waitForDispatch(dbg, "SYNC_BREAKPOINT");
+
   await reload(dbg);
   await waitForSource(dbg, "v1");
   await syncBp;
+
+
+  await selectSource(dbg, "v1");
+
   await waitForSelectedSource(dbg, "v1");
 
   is(getBreakpoints(dbg).length, 0, "No breakpoints");

@@ -2,12 +2,16 @@
 
 exports[`sources - pretty print returns a pretty source for a minified file 1`] = `
 Immutable.Map {
-  url: "http://localhost:8000/examples/base.js:formatted",
-  id: "base.js/originalSource-36c718d4bde9a75edb388ff7733efe7f",
+  error: undefined,
   isPrettyPrinted: true,
-  contentType: "text/javascript",
   loadedState: "loaded",
   text: "undefined
   ",
+  sourceMapURL: undefined,
+  isWasm: false,
+  url: "http://localhost:8000/examples/base.js:formatted",
+  contentType: "text/javascript",
+  isBlackBoxed: false,
+  id: "base.js/originalSource-36c718d4bde9a75edb388ff7733efe7f",
 }
 `;
