@@ -442,24 +442,6 @@ function waitForTime(ms) {
   return new Promise(r => setTimeout(r, ms));
 }
 
-/**
- * Waits for the debugger to be fully paused.
- *
- * @memberof mochitest/waits
- * @param {Object} dbg
- * @static
- */
-async function waitForMappedScopes(dbg) {
-  await waitForState(
-    dbg,
-    state => {
-      const scopes = dbg.selectors.getSelectedScope(state);
-      return scopes && scopes.sourceBindings;
-    },
-    "mapped scopes"
-  );
-}
-
 function isSelectedFrameSelected(dbg, state) {
   const frame = dbg.selectors.getVisibleSelectedFrame(state);
 
