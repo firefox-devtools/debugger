@@ -84,7 +84,8 @@ async function buildMappedScopes(
 
   const generatedAstBindings = buildGeneratedBindingList(
     scopes,
-    generatedAstScopes
+    generatedAstScopes,
+    frame.this
   );
 
   const mappedOriginalScopes = await Promise.all(
@@ -93,13 +94,19 @@ async function buildMappedScopes(
 
       await Promise.all(
         Object.keys(item.bindings).map(async name => {
-          generatedBindings[name] = await findGeneratedBinding(
+          const binding = item.bindings[name];
+
+          const result = await findGeneratedBinding(
             sourceMaps,
             source,
             name,
-            item.bindings[name],
+            binding,
             generatedAstBindings
           );
+
+          if (result) {
+            generatedBindings[name] = result;
+          }
         })
       );
 
@@ -136,15 +143,23 @@ function generateClientScope(
   const result = originalScopes
     .slice(0, -2)
     .reverse()
-    .reduce(
-      (acc, orig, i): OriginalScope => ({
+    .reduce((acc, orig, i): OriginalScope => {
+      const {
+        // The 'this' binding data we have is handled independently, so
+        // the binding data is not included here.
+        // eslint-disable-next-line no-unused-vars
+        this: _this,
+        ...variables
+      } = orig.generatedBindings;
+
+      return {
         // Flow doesn't like casting 'parent'.
         parent: (acc: any),
         actor: `originalActor${i}`,
         type: orig.type,
         bindings: {
           arguments: [],
-          variables: orig.generatedBindings
+          variables
         },
         ...(orig.type === "function"
           ? {
@@ -160,9 +175,16 @@ function generateClientScope(
               }
             }
           : null)
-      }),
-      globalLexicalScope
-    );
+      };
+    }, globalLexicalScope);
+
+  // The rendering logic in getScope 'this' bindings only runs on the current
+  // selected frame scope, so we pluck out the 'this' binding that was mapped,
+  // and put it in a special location
+  const thisScope = originalScopes.find(scope => scope.bindings.this);
+  if (thisScope) {
+    result.bindings.this = thisScope.generatedBindings.this || null;
+  }
 
   return result;
 }
@@ -174,6 +196,16 @@ async function findGeneratedBinding(
   originalBinding: BindingData,
   generatedAstBindings: Array<GeneratedBindingLocation>
 ): Promise<?BindingContents> {
+  // If there are no references to the implicits, then we have no way to
+  // even attempt to map it back to the original since there is no location
+  // data to use. Bail out instead of just showing it as unmapped.
+  if (
+    originalBinding.type === "implicit" &&
+    originalBinding.refs.length === 0
+  ) {
+    return null;
+  }
+
   const { declarations, refs } = originalBinding;
 
   const genContent = await declarations
@@ -185,6 +217,15 @@ async function findGeneratedBinding(
       }
 
       const gen = await sourceMaps.getGeneratedLocation(pos.start, source);
+      const genEnd = await sourceMaps.getGeneratedLocation(pos.end, source);
+
+      // Since the map takes the closest location, sometimes mapping a
+      // binding's location can point at the start of a binding listed after
+      // it, so we need to make sure it maps to a location that actually has
+      // a size in order to avoid picking up the wrong descriptor.
+      if (gen.line === genEnd.line && gen.column === genEnd.column) {
+        return null;
+      }
 
       return generatedAstBindings.find(
         val =>
@@ -192,7 +233,15 @@ async function findGeneratedBinding(
       );
     }, null);
 
-  if (genContent && !genContent.desc) {
+  if (genContent && genContent.desc) {
+    return genContent.desc;
+  } else if (genContent) {
+    // If there is no descriptor for 'this', then this is not the top-level
+    // 'this' that the server gave us a binding for, and we can just ignore it.
+    if (name === "this") {
+      return null;
+    }
+
     // If the location is found but the descriptor is not, then it
     // means that the server scope information didn't match the scope
     // information from the DevTools parsed scopes.
@@ -209,19 +258,6 @@ async function findGeneratedBinding(
         missingArguments: true
       }
     };
-  } else if (genContent) {
-    // If `this` is just mapped back to the same `this`, then
-    // we don't need to do any mapping for it at all.
-    // if (name === "this" && !genContent.desc) return null;
-    if (name === "this" && genContent.name === "this") {
-      return null;
-    }
-
-    // If the location is found but the descriptor is not, then this
-    // there is a bug. TODO to maybe log when this happens or something?
-    // For now mark these with a special type, but we should
-    // technically flag them.
-    return genContent.desc;
   }
 
   // If no location mapping is found, then the map is bad, or
@@ -251,24 +287,44 @@ type GeneratedBindingLocation = {
 
 function buildGeneratedBindingList(
   scopes: Scope,
-  generatedAstScopes: SourceScope[]
+  generatedAstScopes: SourceScope[],
+  thisBinding: ?BindingContents
 ): Array<GeneratedBindingLocation> {
   const clientScopes = [];
   for (let s = scopes; s; s = s.parent) {
     clientScopes.push(s);
   }
 
+  // The server's binding data doesn't include general 'this' binding
+  // information, so we manually inject the one 'this' binding we have into
+  // the normal binding data we are working with.
+  const frameThisOwner = generatedAstScopes.find(
+    generated => "this" in generated.bindings
+  );
+
   const generatedBindings = clientScopes
     .reverse()
-    .map((s, i) => ({
-      generated: generatedAstScopes[generatedAstScopes.length - 1 - i],
-      client: {
-        ...s,
-        bindings: s.bindings
-          ? Object.assign({}, ...s.bindings.arguments, s.bindings.variables)
-          : {}
+    .map((s, i) => {
+      const generated = generatedAstScopes[generatedAstScopes.length - 1 - i];
+
+      const bindings = s.bindings
+        ? Object.assign({}, ...s.bindings.arguments, s.bindings.variables)
+        : {};
+
+      if (generated === frameThisOwner && thisBinding) {
+        bindings.this = {
+          value: thisBinding
+        };
       }
-    }))
+
+      return {
+        generated,
+        client: {
+          ...s,
+          bindings
+        }
+      };
+    })
     .slice(2)
     .reduce((acc, { client: { bindings }, generated }) => {
       // If the parser worker's result didn't match the client scopes,
