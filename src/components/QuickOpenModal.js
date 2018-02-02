@@ -368,6 +368,8 @@ export class QuickOpenModal extends Component<Props, State> {
     const showSummary =
       this.isSourcesQuery() || this.isSymbolSearch() || this.isShortcutQuery();
     const newResults = results && results.slice(0, 100);
+    const items = this.highlightMatching(query, newResults || []);
+    const expanded = !!items && items.length > 0;
     return (
       <Modal in={enabled} handleClose={this.closeModal}>
         <SearchInput
@@ -378,14 +380,17 @@ export class QuickOpenModal extends Component<Props, State> {
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}
           handleClose={this.closeModal}
+          expanded={expanded}
+          selectedItemId={expanded ? items[selectedIndex].id : ""}
         />
         {newResults && (
           <ResultList
             key="results"
-            items={this.highlightMatching(query, newResults)}
+            items={items}
             selected={selectedIndex}
             selectItem={this.selectResultItem}
             ref="resultList"
+            expanded={expanded}
             {...(this.isSourceSearch() ? { size: "big" } : {})}
           />
         )}
