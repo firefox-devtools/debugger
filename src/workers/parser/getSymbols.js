@@ -44,7 +44,18 @@ export type SymbolDeclarations = {
 
 function getFunctionParameterNames(path: NodePath): string[] {
   if (path.node.params != null) {
-    return path.node.params.map(param => param.name);
+    return path.node.params.map(param => {
+      if (param.name) {
+        return param.name;
+      } else if (
+        // Parameter with default value
+        param.type === "AssignmentPattern" &&
+        param.left.type === "Identifier" &&
+        param.right.type === "Identifier"
+      ) {
+        return `${param.left.name} = ${param.right.name}`;
+      }
+    });
   }
   return [];
 }
