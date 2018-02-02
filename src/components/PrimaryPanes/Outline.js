@@ -61,21 +61,17 @@ export class Outline extends Component<Props> {
     );
   }
 
-  renderClassFunctions(functions: SymbolDeclaration[]) {
-    const classFunctions = functions.filter(
-      func => func.name != "anonymous" && !!func.klass
-    );
-
-    if (classFunctions.length == 0) {
+  renderClassFunctions(klass: string, functions: SymbolDeclaration[]) {
+    if (klass == null || functions.length == 0) {
       return null;
     }
 
-    const klass = classFunctions[0].klass;
-    const klassFunc = functions.find(func => func.name === klass);
+    const classFunc = functions.find(func => func.name === klass);
+    const classFunctions = functions.filter(func => func.klass === klass);
 
     return (
-      <div className="outline-list__class">
-        <h2>{klassFunc ? this.renderFunction(klassFunc) : klass}</h2>
+      <div className="outline-list__class" key={klass}>
+        <h2>{classFunc ? this.renderFunction(classFunc) : `class ${klass}`}</h2>
         <ul className="outline-list__class-list">
           {classFunctions.map(func => this.renderFunction(func))}
         </ul>
@@ -85,16 +81,19 @@ export class Outline extends Component<Props> {
 
   renderFunctions(functions: Array<SymbolDeclaration>) {
     const classes = uniq(functions.map(func => func.klass));
-
     const namedFunctions = functions.filter(
       func =>
         func.name != "anonymous" && !func.klass && !classes.includes(func.name)
     );
 
+    const classFunctions = functions.filter(
+      func => func.name != "anonymous" && !!func.klass
+    );
+
     return (
       <ul className="outline-list">
         {namedFunctions.map(func => this.renderFunction(func))}
-        {this.renderClassFunctions(functions)}
+        {classes.map(klass => this.renderClassFunctions(klass, classFunctions))}
       </ul>
     );
   }
