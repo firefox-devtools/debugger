@@ -61,9 +61,15 @@ export class DebugLine extends Component<Props> {
     const sourceId = selectedFrame.location.sourceId;
     const doc = getDocument(sourceId);
 
-    const { line, column } = toEditorPosition(selectedFrame.location);
+    let { line, column } = toEditorPosition(selectedFrame.location);
     const { markTextClass, lineClass } = this.getTextClasses(why);
     doc.addLineClass(line, "line", lineClass);
+
+    const lineText = doc.getLine(line);
+    const spaces = lineText.match(/^\s+/);
+    if (spaces) {
+      column = Math.max(column, spaces[0].length);
+    }
 
     this.debugExpression = doc.markText(
       { ch: column, line },
