@@ -57,7 +57,7 @@ class SearchInput extends Component<Props> {
       const input = this.$input;
       input.focus();
       if (input.value != "") {
-        input.setSelectionRange(input.value.length + 1, input.value.length + 1);
+        input.select();
       }
     }
   }
