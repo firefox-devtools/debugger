@@ -21,6 +21,11 @@ export const MODIFIERS = {
   "?": "shortcuts"
 };
 
+export const PATH = {
+  "/": "lin",
+  "\\": "win"
+};
+
 export function parseQuickOpenQuery(query: string): QuickOpenType {
   const modifierPattern = /^@|#|:|\?$/;
   const gotoSourcePattern = /^(\w+)\:/;
@@ -130,15 +135,16 @@ export function formatSources(sources: SourcesMap): Array<QuickOpenResult> {
 
 export function groupFuzzyMatches(input: string, matches: Array<number>) {
   const output = [];
+  const matchLen = matches.length;
   let first = 0,
     last = 0,
     counter = 0;
 
-  while (counter < matches.length + 1) {
+  while (counter < matchLen + 1) {
     first = last;
     last = matches[counter];
 
-    if (counter === matches.length) {
+    if (counter === matchLen) {
       last = input.length;
 
       output.push({

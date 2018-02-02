@@ -25,7 +25,8 @@ import {
   parseLineColumn,
   formatShortcutResults,
   groupFuzzyMatches,
-  MODIFIERS
+  MODIFIERS,
+  PATH
 } from "../utils/quick-open";
 import Modal from "./shared/Modal";
 import SearchInput from "./shared/SearchInput";
@@ -335,6 +336,15 @@ export class QuickOpenModal extends Component<Props, State> {
     return part.value;
   };
 
+  stripMostShallowFromQuery = (query: string) => {
+    for (let i = query.length; i--; ) {
+      if (Object.keys(PATH).includes(query[i])) {
+        return query.slice(i + 1, query.length);
+      }
+    }
+    return query;
+  };
+
   highlightMatching = (query: string, results: QuickOpenResult[]) => {
     if (query === "") {
       return results;
@@ -342,10 +352,11 @@ export class QuickOpenModal extends Component<Props, State> {
     if (Object.keys(MODIFIERS).includes(query[0])) {
       query = query.slice(1, query.length);
     }
+
     return results.map(result => {
       const title = groupFuzzyMatches(
         result.title,
-        fuzzyAldrin.match(result.title, query)
+        fuzzyAldrin.match(result.title, this.stripMostShallowFromQuery(query))
       );
       const subtitle =
         result.subtitle != null
