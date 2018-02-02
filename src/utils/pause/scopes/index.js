@@ -6,7 +6,7 @@
 
 import { getScope, type RenderableScope } from "./getScope";
 
-import type { Frame, Why, BindingContents } from "debugger-html";
+import type { Frame, Why, BindingContents } from "../../../types";
 
 export type NamedValue = {
   name: string,

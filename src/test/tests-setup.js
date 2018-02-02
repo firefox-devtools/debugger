@@ -2,7 +2,7 @@ global.Worker = require("workerjs");
 
 import path from "path";
 import getConfig from "../../bin/getConfig";
-import { setConfig } from "devtools-config";
+import { setConfig, getValue } from "devtools-config";
 import { readFileSync } from "fs";
 import Enzyme from "enzyme";
 import Adapter from "enzyme-adapter-react-15";
@@ -22,7 +22,6 @@ import {
 } from "../workers/parser";
 import { startSearchWorker, stopSearchWorker } from "../workers/search";
 import { clearDocuments } from "../utils/editor";
-import { getValue } from "devtools-config";
 import { clearHistory } from "./utils/history";
 
 const rootPath = path.join(__dirname, "../../");

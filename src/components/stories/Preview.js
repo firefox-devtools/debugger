@@ -7,14 +7,14 @@ import React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 
-import { Preview } from "../Editor/Preview";
+import Preview from "../Editor/Preview";
 import { L10N } from "devtools-launchpad";
 import { setValue } from "devtools-config";
 import * as I from "immutable";
 
 import "../App.css";
 import "../SecondaryPanes/Frames/Frames.css";
-import "devtools-modules/src/themes/dark-theme.css";
+require("devtools-modules/src/themes/dark-theme.css");
 
 function createArrayPreview(name) {
   return {

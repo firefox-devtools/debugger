@@ -1,6 +1,6 @@
 /* eslint max-nested-callbacks: ["error", 4]*/
 
-import { Map } from "immutable";
+import I, { Map } from "immutable";
 
 import {
   createNode,
@@ -13,8 +13,6 @@ import {
   getDirectories,
   isNotJavaScript
 } from "../index";
-
-import I from "immutable";
 
 describe("sources tree", () => {
   describe("isExactUrlMatch", () => {

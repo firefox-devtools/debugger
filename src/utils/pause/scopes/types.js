@@ -4,7 +4,7 @@
 
 // @flow
 
-import type { BindingContents } from "debugger-html";
+import type { BindingContents } from "../../../types";
 
 export type NamedValue = {
   name: string,

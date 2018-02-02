@@ -11,7 +11,7 @@ import { getEventListeners, getBreakpoint } from "../../selectors";
 import CloseButton from "../shared/Button/Close";
 import "./EventListeners.css";
 
-import type { Breakpoint, Location, SourceId } from "debugger-html";
+import type { Breakpoint, Location, SourceId } from "../../types";
 
 type Listener = {
   selector: string,

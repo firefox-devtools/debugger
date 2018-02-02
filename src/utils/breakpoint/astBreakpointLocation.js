@@ -7,8 +7,11 @@
 import { getSymbols } from "../../workers/parser";
 
 import type { Scope, AstPosition } from "../../workers/parser/types";
-import type { Location, Source, ASTLocation } from "debugger-html";
-import type { Symbols } from "../../reducers/types";
+import type { Location, Source, ASTLocation } from "../../types";
+
+// TODO - What was this?
+// import type { Symbols } from "../../reducers/types";
+type Symbols = any;
 
 export function containsPosition(a: AstPosition, b: AstPosition) {
   const startsBefore =

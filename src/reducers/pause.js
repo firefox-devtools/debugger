@@ -17,9 +17,9 @@ import { getSelectedSource } from "./sources";
 
 import type { OriginalScope } from "../actions/pause/mapScopes";
 import type { Action } from "../actions/types";
-import type { Why, Scope, SourceId, FrameId } from "debugger-html";
+import type { Why, Scope, SourceId, FrameId } from "../types";
 
-type PauseState = {
+export type PauseState = {
   why: ?Why,
   isWaitingOnBreak: boolean,
   frames: ?(any[]),

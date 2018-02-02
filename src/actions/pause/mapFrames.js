@@ -2,7 +2,7 @@
 
 import { getFrames } from "../../selectors";
 
-import type { Frame } from "debugger-html";
+import type { Frame } from "../../types";
 import type { ThunkArgs } from "../types";
 
 function updateFrameLocation(frame: Frame, sourceMaps: any) {

@@ -5,10 +5,7 @@
 import { getOutOfScopeLocations, getSelectedSource } from "../../selectors";
 import { getSourceLineCount } from "../../utils/source";
 
-import { range } from "lodash";
-import { flatMap } from "lodash";
-import { uniq } from "lodash";
-import { without } from "lodash";
+import { range, flatMap, uniq, without } from "lodash";
 
 function getOutOfScopeLines(outOfScopeLocations: AstLocation[]) {
   if (!outOfScopeLocations) {

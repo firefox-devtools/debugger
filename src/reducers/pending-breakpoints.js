@@ -19,7 +19,7 @@ import {
 
 import { prefs } from "../utils/prefs";
 
-import type { PendingBreakpoint } from "debugger-html";
+import type { PendingBreakpoint } from "../types";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 

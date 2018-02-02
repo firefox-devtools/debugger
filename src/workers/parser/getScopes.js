@@ -11,7 +11,7 @@ import {
   type SourceScope
 } from "./visitor";
 
-import type { Location } from "debugger-html";
+import type { Location } from "../../types";
 
 let parsedScopesCache = new Map();
 

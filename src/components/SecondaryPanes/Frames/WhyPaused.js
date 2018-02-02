@@ -6,7 +6,7 @@
 import React from "react";
 
 import { getPauseReason } from "../../../utils/pause";
-import type { Grip, ExceptionReason } from "debugger-html";
+import type { Grip, ExceptionReason } from "../../../types";
 
 import "./WhyPaused.css";
 

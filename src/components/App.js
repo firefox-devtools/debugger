@@ -23,10 +23,9 @@ import {
 import type { SourceRecord, OrientationType } from "../reducers/types";
 import { isVisible } from "../utils/ui";
 
-import { KeyShortcuts } from "devtools-modules";
+import { KeyShortcuts, Services } from "devtools-modules";
 const shortcuts = new KeyShortcuts({ window });
 
-import { Services } from "devtools-modules";
 const { appinfo } = Services;
 
 const isMacOS = appinfo.OS === "Darwin";

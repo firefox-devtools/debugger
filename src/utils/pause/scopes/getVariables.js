@@ -8,7 +8,7 @@
 import { toPairs } from "lodash";
 
 import type { NamedValue } from "./types";
-import type { BindingContents, ScopeBindings } from "debugger-html";
+import type { BindingContents, ScopeBindings } from "../../../types";
 
 // VarAndBindingsPair actually is [name: string, contents: BindingContents]
 type VarAndBindingsPair = Array<any>;

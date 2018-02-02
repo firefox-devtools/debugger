@@ -38,7 +38,7 @@ function isVisible(breakpoint, selectedSource) {
  *
  * This
  */
-export default function getVisibleBreakpoints(state: OuterState) {
+export function getVisibleBreakpoints(state: OuterState) {
   const selectedSource = getSelectedSource(state);
   if (!selectedSource) {
     return null;

@@ -4,7 +4,7 @@
 
 // @flow
 
-import type { Source, SourceId } from "debugger-html";
+import type { Source, SourceId } from "../../types";
 
 let cachedSources = new Map();
 

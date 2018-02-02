@@ -3,49 +3,23 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-import * as expressions from "./reducers/expressions";
-import * as sources from "./reducers/sources";
-import * as pause from "./reducers/pause";
-import * as debuggee from "./reducers/debuggee";
-import * as breakpoints from "./reducers/breakpoints";
-import * as pendingBreakpoints from "./reducers/pending-breakpoints";
-import * as eventListeners from "./reducers/event-listeners";
-import * as ui from "./reducers/ui";
-import * as fileSearch from "./reducers/file-search";
-import * as ast from "./reducers/ast";
-import * as coverage from "./reducers/coverage";
-import * as projectTextSearch from "./reducers/project-text-search";
-import * as quickOpen from "./reducers/quick-open";
-import * as sourceTree from "./reducers/source-tree";
-
-import getBreakpointAtLocation from "./selectors/breakpointAtLocation";
-import getVisibleBreakpoints from "./selectors/visibleBreakpoints";
-import isSelectedFrameVisible from "./selectors/isSelectedFrameVisible";
-import getCallStackFrames from "./selectors/getCallStackFrames";
-import getVisibleSelectedFrame from "./selectors/visibleSelectedFrame";
-
-/**
- * @param object - location
- */
-
-module.exports = {
-  ...expressions,
-  ...sources,
-  ...pause,
-  ...debuggee,
-  ...breakpoints,
-  ...pendingBreakpoints,
-  ...eventListeners,
-  ...ui,
-  ...ast,
-  ...coverage,
-  ...fileSearch,
-  ...projectTextSearch,
-  ...quickOpen,
-  ...sourceTree,
-  getBreakpointAtLocation,
-  getVisibleBreakpoints,
-  isSelectedFrameVisible,
-  getCallStackFrames,
-  getVisibleSelectedFrame
-};
+export * from "./reducers/expressions";
+export * from "./reducers/sources";
+export * from "./reducers/pause";
+export * from "./reducers/debuggee";
+export * from "./reducers/breakpoints";
+export * from "./reducers/pending-breakpoints";
+export * from "./reducers/event-listeners";
+export * from "./reducers/ui";
+export * from "./reducers/file-search";
+export * from "./reducers/ast";
+export * from "./reducers/coverage";
+export * from "./reducers/project-text-search";
+export * from "./reducers/quick-open";
+export * from "./reducers/source-tree";
+export * from "./selectors/breakpointAtLocation";
+export * from "./selectors/visibleBreakpoints";
+export * from "./selectors/isSelectedFrameVisible";
+export * from "./selectors/getCallStackFrames";
+export * from "./selectors/visibleSelectedFrame";
+export * from "./selectors/visibleSelectedFrame";
