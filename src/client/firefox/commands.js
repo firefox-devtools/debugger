@@ -76,6 +76,30 @@ function stepOut(): Promise<*> {
   });
 }
 
+function rewind(): Promise<*> {
+  return new Promise(resolve => {
+    threadClient.rewind(resolve);
+  });
+}
+
+function reverseStepIn(): Promise<*> {
+  return new Promise(resolve => {
+    threadClient.reverseStepIn(resolve);
+  });
+}
+
+function reverseStepOver(): Promise<*> {
+  return new Promise(resolve => {
+    threadClient.reverseStepOver(resolve);
+  });
+}
+
+function reverseStepOut(): Promise<*> {
+  return new Promise(resolve => {
+    threadClient.reverseStepOut(resolve);
+  });
+}
+
 function breakOnNext(): Promise<*> {
   return threadClient.breakOnNext();
 }
@@ -304,6 +328,10 @@ const clientCommands = {
   stepIn,
   stepOut,
   stepOver,
+  rewind,
+  reverseStepIn,
+  reverseStepOut,
+  reverseStepOver,
   breakOnNext,
   sourceContents,
   getBreakpointByLocation,
