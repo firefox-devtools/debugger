@@ -24,7 +24,8 @@ import {
   formatSources,
   parseLineColumn,
   formatShortcutResults,
-  groupFuzzyMatches
+  groupFuzzyMatches,
+  MODIFIERS
 } from "../utils/quick-open";
 import Modal from "./shared/Modal";
 import SearchInput from "./shared/SearchInput";
@@ -337,6 +338,9 @@ export class QuickOpenModal extends Component<Props, State> {
   highlightMatching = (query: string, results: QuickOpenResult[]) => {
     if (query === "") {
       return results;
+    }
+    if (Object.keys(MODIFIERS).includes(query[0])) {
+      query = query.slice(1, query.length);
     }
     return results.map(result => {
       const title = groupFuzzyMatches(
