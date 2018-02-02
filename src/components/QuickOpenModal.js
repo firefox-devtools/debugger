@@ -3,12 +3,10 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-const path = require("path");
-
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import fuzzyAldrin from "fuzzaldrin-plus";
-
+import { basename } from "../utils/path";
 import actions from "../actions";
 import {
   getSources,
@@ -336,15 +334,6 @@ export class QuickOpenModal extends Component<Props, State> {
     return part.value;
   };
 
-  stripMostShallowFromQuery = (query: string) => {
-    for (let i = query.length; i--; ) {
-      if (path.sep.includes(query[i])) {
-        return query.slice(i + 1, query.length);
-      }
-    }
-    return query;
-  };
-
   highlightMatching = (query: string, results: QuickOpenResult[]) => {
     let newQuery = query;
     if (newQuery === "") {
@@ -357,10 +346,7 @@ export class QuickOpenModal extends Component<Props, State> {
     return results.map(result => {
       const title = groupFuzzyMatches(
         result.title,
-        fuzzyAldrin.match(
-          result.title,
-          this.stripMostShallowFromQuery(newQuery)
-        )
+        fuzzyAldrin.match(result.title, basename(query))
       );
       const subtitle =
         result.subtitle != null
