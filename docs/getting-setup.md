@@ -150,11 +150,10 @@ Note that the [script](https://github.com/devtools-html/devtools-core/blob/maste
 
 It's easy to start Node in a mode where DevTools will find it:
 
-* `--inspect` - tells node to open a debugger server
-* `--debug-brk` - tells node to pause on the first statement
+* `--inspect-brk` - tells node to open a debugger server and pause on the first statement
 
 ```bash
-node --inspect --debug-brk ./node_modules/.bin/webpack
+node --inspect-brk ./node_modules/.bin/webpack
 ```
 
 **Note** *./node_modules/.bin/webpack* could be anything. We're often debugging webpack these days so it's often appropriate :unamused:
