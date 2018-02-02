@@ -339,10 +339,16 @@ export class QuickOpenModal extends Component<Props, State> {
       return results;
     }
     return results.map(result => {
-      const title = groupFuzzyMatches(result.title, query);
+      const title = groupFuzzyMatches(
+        result.title,
+        fuzzyAldrin.match(result.title, query)
+      );
       const subtitle =
         result.subtitle != null
-          ? groupFuzzyMatches(result.subtitle, query)
+          ? groupFuzzyMatches(
+              result.subtitle,
+              fuzzyAldrin.match(result.subtitle, query)
+            )
           : null;
       return {
         ...result,

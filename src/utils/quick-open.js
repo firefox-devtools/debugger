@@ -128,43 +128,44 @@ export function formatSources(sources: SourcesMap): Array<QuickOpenResult> {
     .toJS();
 }
 
-export function groupFuzzyMatches(input: string, query: string) {
-  const parts = input.toLowerCase().split("");
-  const queryChars = query.toLowerCase().split("");
-  const shared = parts.filter(char => queryChars.includes(char));
+export function groupFuzzyMatches(input: string, matches: Array<number>) {
   const output = [];
-  let matched;
-  let missed;
-  parts.forEach((char, i) => {
-    if (shared.includes(char)) {
-      if (!matched) {
-        matched = { type: "match", value: input[i] };
-        output.push(matched);
-        return;
-      }
-      matched = output[output.length - 1];
-      if (matched.type === "match") {
-        matched.value = `${matched.value}${input[i]}`;
-      } else {
-        matched = { type: "match", value: input[i] };
-        output.push(matched);
-      }
-      return;
+  let first = 0,
+    last = 0,
+    counter = 0;
+
+  while (counter < matches.length + 1) {
+    first = last;
+    last = matches[counter];
+
+    if (counter === matches.length) {
+      last = input.length;
+
+      output.push({
+        type: "miss",
+        value: input.substr(first, last - first)
+      });
+      return output;
     }
 
-    if (!missed) {
-      missed = { type: "miss", value: input[i] };
-      output.push(missed);
-      return;
+    output.push({
+      type: "miss",
+      value: input.substr(first, last - first)
+    });
+
+    while (matches[counter] === matches[counter + 1] - 1) {
+      counter++;
     }
 
-    missed = output[output.length - 1];
-    if (missed.type === "miss") {
-      missed.value = `${missed.value}${input[i]}`;
-    } else {
-      missed = { type: "miss", value: input[i] };
-      output.push(missed);
-    }
-  });
+    first = last;
+    last = matches[counter] + 1;
+    output.push({
+      type: "match",
+      value: input.substr(first, last - first)
+    });
+
+    counter++;
+  }
+
   return output;
 }
