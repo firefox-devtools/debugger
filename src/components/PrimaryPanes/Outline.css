@@ -43,6 +43,11 @@
   white-space: nowrap;
 }
 
+.outline-list__element-icon {
+  padding-right: 0.4rem;
+  padding-left: 1rem;
+}
+
 .outline-list__element:hover {
   background: var(--theme-toolbar-background-hover);
 }

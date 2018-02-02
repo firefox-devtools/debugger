@@ -9,7 +9,6 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import actions from "../../actions";
 import { getSelectedSource, getSymbols } from "../../selectors";
-import Svg from "../shared/Svg";
 
 import "./Outline.css";
 import PreviewFunction from "../shared/PreviewFunction";
@@ -55,7 +54,7 @@ export class Outline extends Component<Props> {
         className="outline-list__element"
         onClick={() => this.selectItem(location)}
       >
-        <Svg name="function" />
+        <span className="outline-list__element-icon">λ</span>
         <PreviewFunction func={{ name, parameterNames }} />
       </li>
     );
