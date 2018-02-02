@@ -346,23 +346,27 @@ export class QuickOpenModal extends Component<Props, State> {
   };
 
   highlightMatching = (query: string, results: QuickOpenResult[]) => {
-    if (query === "") {
+    let newQuery = query;
+    if (newQuery === "") {
       return results;
     }
     if (Object.keys(MODIFIERS).includes(query[0])) {
-      query = query.slice(1, query.length);
+      newQuery = query.slice(1, query.length);
     }
 
     return results.map(result => {
       const title = groupFuzzyMatches(
         result.title,
-        fuzzyAldrin.match(result.title, this.stripMostShallowFromQuery(query))
+        fuzzyAldrin.match(
+          result.title,
+          this.stripMostShallowFromQuery(newQuery)
+        )
       );
       const subtitle =
         result.subtitle != null
           ? groupFuzzyMatches(
               result.subtitle,
-              fuzzyAldrin.match(result.subtitle, query)
+              fuzzyAldrin.match(result.subtitle, newQuery)
             )
           : null;
       return {

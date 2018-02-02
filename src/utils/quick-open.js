@@ -133,7 +133,7 @@ export function formatSources(sources: SourcesMap): Array<QuickOpenResult> {
     .toJS();
 }
 
-export function groupFuzzyMatches(input: string, matches: Array<number>) {
+export function groupFuzzyMatches(input: string, matches: number[]) {
   const output = [];
   const matchLen = matches.length;
   let first = 0,

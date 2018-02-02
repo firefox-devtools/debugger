@@ -36,33 +36,37 @@ cases(
 
 cases(
   "groupFuzzyMatches utility",
-  ({ input, query, value }) =>
-    expect(groupFuzzyMatches(input, query)).toEqual(value),
+  ({ input, matches, value }) =>
+    expect(groupFuzzyMatches(input, matches)).toEqual(value),
   [
     {
       input: "anonymous",
-      query: "ano",
+      matches: [1, 5, 8],
       value: [
-        { type: "match", value: "anon" },
-        { type: "miss", value: "ym" },
-        { type: "match", value: "o" },
-        { type: "miss", value: "us" }
+        { type: "miss", value: "a" },
+        { type: "match", value: "n" },
+        { type: "miss", value: "ony" },
+        { type: "match", value: "m" },
+        { type: "miss", value: "ou" },
+        { type: "match", value: "s" },
+        { type: "miss", value: "" }
       ]
     },
     {
       input: "previousAttributes",
-      query: "prva",
+      matches: [0, 3, 4, 8, 9, 10, 11, 12, 15],
       value: [
-        { type: "match", value: "pr" },
-        { type: "miss", value: "e" },
-        { type: "match", value: "v" },
-        { type: "miss", value: "ious" },
-        { type: "match", value: "A" },
-        { type: "miss", value: "tt" },
-        { type: "match", value: "r" },
-        { type: "miss", value: "ibutes" }
+        { type: "miss", value: "" },
+        { type: "match", value: "p" },
+        { type: "miss", value: "re" },
+        { type: "match", value: "vi" },
+        { type: "miss", value: "ous" },
+        { type: "match", value: "Attri" },
+        { type: "miss", value: "bu" },
+        { type: "match", value: "t" },
+        { type: "miss", value: "es" }
       ]
     },
-    { input: "super", query: "x", value: [{ type: "miss", value: "super" }] }
+    { input: "super", matches: [], value: [{ type: "miss", value: "super" }] }
   ]
 );
