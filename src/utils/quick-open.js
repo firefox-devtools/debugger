@@ -21,11 +21,6 @@ export const MODIFIERS = {
   "?": "shortcuts"
 };
 
-export const PATH = {
-  "/": "lin",
-  "\\": "win"
-};
-
 export function parseQuickOpenQuery(query: string): QuickOpenType {
   const modifierPattern = /^@|#|:|\?$/;
   const gotoSourcePattern = /^(\w+)\:/;

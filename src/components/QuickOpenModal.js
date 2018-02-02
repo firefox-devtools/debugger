@@ -3,6 +3,7 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
+const path = require("path");
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
@@ -25,8 +26,7 @@ import {
   parseLineColumn,
   formatShortcutResults,
   groupFuzzyMatches,
-  MODIFIERS,
-  PATH
+  MODIFIERS
 } from "../utils/quick-open";
 import Modal from "./shared/Modal";
 import SearchInput from "./shared/SearchInput";
@@ -338,7 +338,7 @@ export class QuickOpenModal extends Component<Props, State> {
 
   stripMostShallowFromQuery = (query: string) => {
     for (let i = query.length; i--; ) {
-      if (Object.keys(PATH).includes(query[i])) {
+      if (path.sep.includes(query[i])) {
         return query.slice(i + 1, query.length);
       }
     }
