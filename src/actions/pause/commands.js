@@ -1,3 +1,4 @@
+/* -*- indent-tabs-mode: nil; js-indent-level: 2; js-indent-level: 2 -*- */
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
@@ -11,7 +12,15 @@ import { addHiddenBreakpoint } from "../breakpoints";
 import { features } from "../../utils/prefs";
 
 import type { ThunkArgs } from "../types";
-type CommandType = "stepOver" | "stepIn" | "stepOut" | "resume";
+type CommandType =
+  | "stepOver"
+  | "stepIn"
+  | "stepOut"
+  | "resume"
+  | "rewind"
+  | "reverseStepOver"
+  | "reverseStepIn"
+  | "reverseStepOut";
 
 /**
  * Debugger commands like stepOver, stepIn, stepUp
@@ -82,6 +91,62 @@ export function resume() {
   return ({ dispatch, getState }: ThunkArgs) => {
     if (isPaused(getState())) {
       return dispatch(command("resume"));
+    }
+  };
+}
+
+/**
+ * rewind
+ * @memberof actions/pause
+ * @static
+ * @returns {Function} {@link command}
+ */
+export function rewind() {
+  return ({ dispatch, getState }: ThunkArgs) => {
+    if (isPaused(getState())) {
+      return dispatch(command("rewind"));
+    }
+  };
+}
+
+/**
+ * reverseStepIn
+ * @memberof actions/pause
+ * @static
+ * @returns {Function} {@link command}
+ */
+export function reverseStepIn() {
+  return ({ dispatch, getState }: ThunkArgs) => {
+    if (isPaused(getState())) {
+      return dispatch(command("reverseStepIn"));
+    }
+  };
+}
+
+/**
+ * reverseStepOver
+ * @memberof actions/pause
+ * @static
+ * @returns {Function} {@link command}
+ */
+export function reverseStepOver() {
+  return ({ dispatch, getState }: ThunkArgs) => {
+    if (isPaused(getState())) {
+      return dispatch(astCommand("reverseStepOver"));
+    }
+  };
+}
+
+/**
+ * reverseStepOut
+ * @memberof actions/pause
+ * @static
+ * @returns {Function} {@link command}
+ */
+export function reverseStepOut() {
+  return ({ dispatch, getState }: ThunkArgs) => {
+    if (isPaused(getState())) {
+      return dispatch(command("reverseStepOut"));
     }
   };
 }
