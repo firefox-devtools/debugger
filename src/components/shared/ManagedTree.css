@@ -12,6 +12,11 @@
   white-space: nowrap;
   overflow: auto;
   min-width: 100%;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  align-content: start;
+
 }
 
 .managed-tree .tree button {
