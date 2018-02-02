@@ -962,7 +962,7 @@ const selectors = {
   fileMatch: ".managed-tree .result",
   popup: ".popover",
   tooltip: ".tooltip",
-  outlineItem: i => `.outline-list__element:nth-child(${i})`,
+  outlineItem: i => `.outline-list__element:nth-child(${i}) .function-signature`,
   outlineItems: ".outline-list__element"
 };
 
