@@ -24,7 +24,7 @@ export type SymbolsMap = Map<string, SymbolDeclarations>;
 export type EmptyLinesMap = Map<string, EmptyLinesType>;
 
 export type SourceMetaDataType = {
-  isReactComponent: boolean
+  getFramework: ?string
 };
 
 export type SourceMetaDataMap = Map<string, SourceMetaDataType>;
