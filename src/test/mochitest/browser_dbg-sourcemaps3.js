@@ -50,36 +50,47 @@ add_task(async function() {
   await waitForPaused(dbg);
   assertPausedLocation(dbg);
 
-  await waitForDispatch(dbg, "MAP_SCOPES");
-
   is(getLabel(dbg, 1), "Block");
-  is(getLabel(dbg, 2), "<this>");
-  is(getLabel(dbg, 3), "na");
-  is(getLabel(dbg, 4), "nb");
+  is(getLabel(dbg, 2), "na");
+  is(getLabel(dbg, 3), "nb");
 
-  is(getLabel(dbg, 5), "Block");
+  is(getLabel(dbg, 4), "Block");
   is(
-    hasScopeNode(dbg, 8) && !hasScopeNode(dbg, 9),
+    hasScopeNode(dbg, 7) && !hasScopeNode(dbg, 8),
     true,
-    "scope count before expand"
+    "scope count before expand 1"
   );
-  toggleNode(dbg, 5);
+  toggleNode(dbg, 4);
 
   await waitForScopeNode(dbg, 9);
 
-  is(getLabel(dbg, 6), "ma");
-  is(getLabel(dbg, 7), "mb");
+  is(getLabel(dbg, 5), "ma");
+  is(getLabel(dbg, 6), "mb");
 
   is(
-    hasScopeNode(dbg, 10) && !hasScopeNode(dbg, 11),
+    hasScopeNode(dbg, 9) && !hasScopeNode(dbg, 10),
     true,
-    "scope count before expand"
+    "scope count before expand 2"
   );
-  toggleNode(dbg, 8);
+  toggleNode(dbg, 7);
 
   await waitForScopeNode(dbg, 11);
 
-  is(getLabel(dbg, 9), "a");
-  is(getLabel(dbg, 10), "arguments");
-  is(getLabel(dbg, 11), "b");
+  is(getLabel(dbg, 8), "a");
+  is(getLabel(dbg, 9), "b");
+
+  is(getLabel(dbg, 10), "Module");
+
+  is(
+    hasScopeNode(dbg, 11) && !hasScopeNode(dbg, 12),
+    true,
+    "scope count before expand 3"
+  );
+  toggleNode(dbg, 10);
+
+  await waitForScopeNode(dbg, 12);
+
+  is(getLabel(dbg, 11), "binaryLookup:o()");
+  is(getLabel(dbg, 12), "comparer:t()");
+  is(getLabel(dbg, 13), "fancySort");
 });
