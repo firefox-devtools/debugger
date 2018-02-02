@@ -134,6 +134,9 @@ export function formatSources(sources: SourcesMap): Array<QuickOpenResult> {
 }
 
 export function groupFuzzyMatches(input: string, matches: number[]) {
+  if (!matches) {
+    return [];
+  }
   const output = [];
   const matchLen = matches.length;
   let first = 0,
