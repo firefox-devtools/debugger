@@ -38,3 +38,5 @@ class Cls {
 (function(){});
 
 export default function (){}
+
+function(first = defaultValue, second){}
