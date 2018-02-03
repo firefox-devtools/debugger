@@ -3,6 +3,7 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 import { isFirefox } from "devtools-config";
+import { transitionTimeout as modalTransitionTimeout } from "../components/shared/Modal";
 
 function scrollList(resultList, index) {
   if (!resultList.hasOwnProperty(index)) {
@@ -11,11 +12,14 @@ function scrollList(resultList, index) {
 
   const resultEl = resultList[index];
 
-  if (isFirefox()) {
-    resultEl.scrollIntoView({ block: "center", behavior: "smooth" });
-  } else {
-    chromeScrollList(resultEl, index);
-  }
+  // Wait for Modal Transition timeout before scrolling to resultEl.
+  setTimeout(() => {
+    if (isFirefox()) {
+      resultEl.scrollIntoView({ block: "center", behavior: "smooth" });
+    } else {
+      chromeScrollList(resultEl, index);
+    }
+  }, modalTransitionTimeout + 10);
 }
 
 function chromeScrollList(elem, index) {
