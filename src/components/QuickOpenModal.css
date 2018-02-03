@@ -1,15 +1,16 @@
-.result-item .title .fuzzy-match {
+
+.result-item .title .highlight {
   font-weight: bold;
   text-shadow: 2px 3px 3px rgba(0, 0, 0, 0.15);
 }
 
-.result-item .subtitle .fuzzy-match {
+.result-item .subtitle .highlight {
   color: var(--grey-90);
   text-shadow: 2px 1px 3px rgba(0, 0, 0, 0.15);
-
+  font-weight:500;
 }
 
-.theme-dark .result-item .title .fuzzy-match,
-.theme-dark .result-item .subtitle .fuzzy-match {
+.theme-dark .result-item .title .highlight,
+.theme-dark .result-item .subtitle .highlight {
   color: white;
 }
