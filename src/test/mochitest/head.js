@@ -1062,6 +1062,10 @@ function getScopeLabel(dbg, index) {
   return findElement(dbg, "scopeNode", index).innerText;
 }
 
+function getScopeValue(dbg, index) {
+  return findElement(dbg, "scopeValue", index).innerText;
+}
+
 function toggleObjectInspectorNode(node) {
   const objectInspector = node.closest(".object-inspector");
   const properties = objectInspector.querySelectorAll(".node").length;
