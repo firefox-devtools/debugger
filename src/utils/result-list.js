@@ -3,7 +3,9 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 import { isFirefox } from "devtools-config";
-import { transitionTimeout as modalTransitionTimeout } from "../components/shared/Modal";
+import {
+  transitionTimeout as modalTransitionTimeout
+} from "../components/shared/Modal";
 
 function scrollList(resultList, index, delayed = false) {
   if (!resultList.hasOwnProperty(index)) {
