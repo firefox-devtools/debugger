@@ -353,7 +353,7 @@ function createParseJSScopeVisitor(sourceId: SourceId): ParseJSScopeVisitor {
           parent = createTempScope("block", "For", parent, {
             // Being at the start of a for loop doesn't count as
             // being inside it.
-            start: init.start,
+            start: init.loc.start,
             end: location.end
           });
         }
