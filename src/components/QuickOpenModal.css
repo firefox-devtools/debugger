@@ -7,7 +7,7 @@
 .result-item .subtitle .highlight {
   color: var(--grey-90);
   text-shadow: 2px 1px 3px rgba(0, 0, 0, 0.15);
-  font-weight:500;
+  font-weight: 500;
 }
 
 .theme-dark .result-item .title .highlight,
