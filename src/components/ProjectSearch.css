@@ -29,6 +29,7 @@
   padding: 4px 0 4px 30px;
   line-height: 16px;
   font-size: 10px;
+  width: 100%;
 }
 
 .project-text-search .matches-summary {
