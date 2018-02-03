@@ -5,21 +5,28 @@
 import { isFirefox } from "devtools-config";
 import { transitionTimeout as modalTransitionTimeout } from "../components/shared/Modal";
 
-function scrollList(resultList, index) {
+function scrollList(resultList, index, delayed = false) {
   if (!resultList.hasOwnProperty(index)) {
     return;
   }
 
   const resultEl = resultList[index];
 
-  // Wait for Modal Transition timeout before scrolling to resultEl.
-  setTimeout(() => {
+  const scroll = () => {
     if (isFirefox()) {
       resultEl.scrollIntoView({ block: "center", behavior: "smooth" });
     } else {
       chromeScrollList(resultEl, index);
     }
-  }, modalTransitionTimeout + 10);
+  };
+
+  if (delayed) {
+    // Wait for Modal Transition timeout before scrolling to resultEl.
+    setTimeout(scroll, modalTransitionTimeout + 10);
+    return;
+  }
+
+  scroll();
 }
 
 function chromeScrollList(elem, index) {
