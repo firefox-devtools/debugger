@@ -13,7 +13,7 @@
 .file,
 .folder,
 .domain {
-  background-color: var(--theme-splitter-color);
+  background-color: var(--theme-comment);
 }
 
 .worker,
