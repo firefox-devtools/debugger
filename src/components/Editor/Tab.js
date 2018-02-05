@@ -7,7 +7,6 @@
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { createSelector } from "reselect";
 
 import { showMenu, buildMenu } from "devtools-contextmenu";
 

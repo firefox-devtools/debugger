@@ -48,8 +48,6 @@ export function getSourceAnnotation(
   source: SourceRecord,
   sourceMetaData: Object
 ) {
-  const sourceId = source.get("id");
-
   const framework =
     sourceMetaData && sourceMetaData.framework
       ? sourceMetaData.framework
