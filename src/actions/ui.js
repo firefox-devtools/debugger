@@ -6,7 +6,8 @@
 
 import { getSource, getActiveSearch, getPaneCollapse } from "../selectors";
 import { getProjectDirectoryRoot } from "../reducers/ui";
-import type { ThunkArgs } from "./types";
+import type { ThunkArgs, panelPositionType } from "./types";
+
 import type {
   ActiveSearchType,
   OrientationType,
@@ -70,7 +71,10 @@ export function showSource(sourceId: string) {
   };
 }
 
-export function togglePaneCollapse(position: string, paneCollapsed: boolean) {
+export function togglePaneCollapse(
+  position: panelPositionType,
+  paneCollapsed: boolean
+) {
   return ({ dispatch, getState }: ThunkArgs) => {
     const prevPaneCollapse = getPaneCollapse(getState(), position);
     if (prevPaneCollapse === paneCollapsed) {

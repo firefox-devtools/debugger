@@ -9,7 +9,7 @@ import { getSelectedFrame } from "../reducers/pause";
 import { isOriginalId } from "devtools-source-map";
 import { createSelector } from "reselect";
 
-import type { Frame, Location } from "debugger-html";
+import type { Frame, Location } from "../types";
 
 function getLocation(frame: Frame, location?: Location) {
   if (!location) {
@@ -21,7 +21,7 @@ function getLocation(frame: Frame, location?: Location) {
     : frame.location;
 }
 
-const getVisibleSelectedFrame = createSelector(
+export const getVisibleSelectedFrame = createSelector(
   getSelectedLocation,
   getSelectedFrame,
   (selectedLocation, selectedFrame) => {
@@ -37,5 +37,3 @@ const getVisibleSelectedFrame = createSelector(
     };
   }
 );
-
-export default getVisibleSelectedFrame;

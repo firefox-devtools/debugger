@@ -7,8 +7,8 @@
 import { getSymbols } from "../../workers/parser";
 
 import type { Scope, AstPosition } from "../../workers/parser/types";
-import type { Location, Source, ASTLocation } from "debugger-html";
-import type { Symbols } from "../../reducers/types";
+import type { SymbolDeclarations } from "../../workers/parser/getSymbols";
+import type { Location, Source, ASTLocation } from "../../types";
 
 export function containsPosition(a: AstPosition, b: AstPosition) {
   const startsBefore =
@@ -49,7 +49,7 @@ export function findClosestScope(functions: Scope[], location: Location) {
 
 export function getASTLocation(
   source: Source,
-  symbols: Symbols,
+  symbols: SymbolDeclarations,
   location: Location
 ): ASTLocation {
   if (source.isWasm) {

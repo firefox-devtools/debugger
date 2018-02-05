@@ -11,7 +11,7 @@ import { formatDisplayName } from "../../../utils/frame";
 import { getFilename } from "../../../utils/source";
 import FrameMenu from "./FrameMenu";
 
-import type { Frame } from "debugger-html";
+import type { Frame } from "../../../types";
 import type { LocalFrame } from "./types";
 
 type FrameTitleProps = {

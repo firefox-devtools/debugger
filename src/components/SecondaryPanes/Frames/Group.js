@@ -14,7 +14,7 @@ import "./Group.css";
 import FrameComponent from "./Frame";
 
 import type { LocalFrame } from "./types";
-import type { Frame } from "debugger-html";
+import type { Frame } from "../../../types";
 import Badge from "../../shared/Badge";
 
 type FrameLocationProps = { frame: Frame };

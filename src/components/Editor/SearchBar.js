@@ -33,7 +33,7 @@ import SearchInput from "../shared/SearchInput";
 import { debounce } from "lodash";
 import "./SearchBar.css";
 
-import type { SourceEditor } from "../../utils/editor/source-editor";
+import SourceEditor from "../../utils/editor/source-editor";
 
 function getShortcuts() {
   const searchAgainKey = L10N.getStr("sourceSearch.search.again.key2");

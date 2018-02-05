@@ -19,7 +19,7 @@ import {
 import { getScopes } from "../../utils/pause/scopes";
 
 import { ObjectInspector } from "devtools-reps";
-import type { Pause, Why } from "debugger-html";
+import type { Pause, Why } from "../../types";
 import type { NamedValue } from "../../utils/pause/scopes/types";
 
 import "./Scopes.css";
@@ -110,7 +110,7 @@ export default connect(
       state,
       selectedSource && selectedSource.get("id"),
       selectedFrame.id
-    ) || { pending: false };
+    ) || { scope: null, pending: false };
 
     return {
       selectedFrame,

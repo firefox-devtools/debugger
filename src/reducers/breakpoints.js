@@ -25,7 +25,7 @@ export type BreakpointsState = {
   breakpoints: BreakpointsMap
 };
 
-export function initialState(): Record<BreakpointsState> {
+export function initialBreakpointsState(): Record<BreakpointsState> {
   return makeRecord(
     ({
       breakpoints: I.Map(),
@@ -35,7 +35,7 @@ export function initialState(): Record<BreakpointsState> {
 }
 
 function update(
-  state: Record<BreakpointsState> = initialState(),
+  state: Record<BreakpointsState> = initialBreakpointsState(),
   action: Action
 ) {
   switch (action.type) {
@@ -68,7 +68,7 @@ function update(
     }
 
     case "NAVIGATE": {
-      return initialState();
+      return initialBreakpointsState();
     }
   }
 
@@ -182,8 +182,8 @@ export function getBreakpointsForSource(state: OuterState, sourceId: string) {
 export function getBreakpointForLine(
   state: OuterState,
   sourceId: string,
-  line: number
-) {
+  line: number | null
+): ?Breakpoint {
   if (!sourceId) {
     return I.Map();
   }

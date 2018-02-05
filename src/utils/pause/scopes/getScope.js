@@ -7,7 +7,7 @@ import { getBindingVariables } from "./getVariables";
 import { getFramePopVariables, getThisVariable } from "./utils";
 import { simplifyDisplayName } from "../../frame";
 
-import type { Frame, Why, Scope, BindingContents } from "debugger-html";
+import type { Frame, Why, Scope, BindingContents } from "../../../types";
 
 import type { NamedValue } from "./types";
 

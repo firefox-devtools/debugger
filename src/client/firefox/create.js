@@ -5,7 +5,7 @@
 // @flow
 // This module converts Firefox specific types to the generic types
 
-import type { Frame, Source, Location } from "debugger-html";
+import type { Frame, Source, Location } from "../../types";
 import type {
   PausedPacket,
   FramesResponse,

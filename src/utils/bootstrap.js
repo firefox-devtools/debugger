@@ -22,7 +22,7 @@ import {
 import { startParserWorker, stopParserWorker } from "../workers/parser";
 import configureStore from "../actions/utils/create-store";
 import reducers from "../reducers";
-import selectors from "../selectors";
+import * as selectors from "../selectors";
 import App from "../components/App";
 import { prefs } from "./prefs";
 

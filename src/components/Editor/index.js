@@ -62,7 +62,7 @@ import { resizeToggleButton, resizeBreakpointGutter } from "../../utils/ui";
 import "./Editor.css";
 import "./Highlight.css";
 
-import type { SourceEditor } from "../../utils/editor/source-editor";
+import SourceEditor from "../../utils/editor/source-editor";
 
 const cssVars = {
   searchbarHeight: "var(--editor-searchbar-height)",

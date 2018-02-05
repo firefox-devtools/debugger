@@ -6,7 +6,7 @@
 import { showMenu } from "devtools-contextmenu";
 import { copyToTheClipboard } from "../../../utils/clipboard";
 import type { LocalFrame } from "./types";
-import type { ContextMenuItem } from "debugger-html";
+import type { ContextMenuItem } from "../../../types";
 import { kebabCase } from "lodash";
 
 const blackboxString = "sourceFooter.blackbox";

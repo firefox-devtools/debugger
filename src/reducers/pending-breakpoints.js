@@ -19,7 +19,7 @@ import {
 
 import { prefs } from "../utils/prefs";
 
-import type { PendingBreakpoint } from "debugger-html";
+import type { PendingBreakpoint } from "../types";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
@@ -29,7 +29,9 @@ export type PendingBreakpointsState = {
   pendingBreakpoints: PendingBreakpointsMap
 };
 
-export function initialState(): Record<PendingBreakpointsState> {
+export function initialPendingBreakpointsState(): Record<
+  PendingBreakpointsState
+> {
   return makeRecord(
     ({
       pendingBreakpoints: restorePendingBreakpoints()
@@ -38,7 +40,7 @@ export function initialState(): Record<PendingBreakpointsState> {
 }
 
 function update(
-  state: Record<PendingBreakpointsState> = initialState(),
+  state: Record<PendingBreakpointsState> = initialPendingBreakpointsState(),
   action: Action
 ) {
   switch (action.type) {
@@ -141,8 +143,9 @@ export function getPendingBreakpoints(state: OuterState) {
 export function getPendingBreakpointsForSource(
   state: OuterState,
   sourceUrl: String
-) {
-  const pendingBreakpoints = state.pendingBreakpoints.pendingBreakpoints || [];
+): PendingBreakpointsMap {
+  const pendingBreakpoints =
+    state.pendingBreakpoints.pendingBreakpoints || I.Map();
   return pendingBreakpoints.filter(
     pendingBreakpoint => pendingBreakpoint.location.sourceUrl === sourceUrl
   );

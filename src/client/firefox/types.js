@@ -18,7 +18,7 @@ import type {
   Pause,
   Frame,
   SourceId
-} from "debugger-html";
+} from "../../types";
 
 type URL = string;
 
