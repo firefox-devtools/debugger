@@ -151,8 +151,15 @@ function isLetOrConst(node) {
   return node.kind === "let" || node.kind === "const";
 }
 
-function hasLetOrConst(path) {
-  return path.node.body.some(node => isLexicalVariable(node));
+function hasLexicalDeclaration(path) {
+  const isFunctionBody = path.parentPath.isFunction({ body: path.node });
+
+  return path.node.body.some(
+    node =>
+      isLexicalVariable(node) ||
+      (!isFunctionBody && node.type === "FunctionDeclaration") ||
+      node.type === "ClassDeclaration"
+  );
 }
 function isLexicalVariable(node) {
   return isNode(node, "VariableDeclaration") && isLetOrConst(node);
@@ -366,7 +373,7 @@ function createParseJSScopeVisitor(sourceId: SourceId): ParseJSScopeVisitor {
         return;
       }
       if (path.isBlockStatement()) {
-        if (hasLetOrConst(path)) {
+        if (hasLexicalDeclaration(path)) {
           // Debugger will create new lexical environment for the block.
           savedParents.set(path, parent);
           parent = createTempScope("block", "Block", parent, location);
