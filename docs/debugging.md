@@ -35,7 +35,7 @@ A good place to start is logging. You can log the Debugger's actions by enabling
 
 Once you've narrowed the question down to an action you can debug it either in the console or unit tests.
 
-It's easy to try invoking an action in the console with the `dbg helper:
+It's easy to try invoking an action in the console with the *dbg* helper:
 
 ```js
 dbg.actions.selectLocation();

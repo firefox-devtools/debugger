@@ -13,14 +13,14 @@ function findSource(dbg, url) {
   return source.toJS();
 }
 
-function sendPacket(dbg, packet, cbk) {
+function sendPacket(dbg, packet, callback) {
   dbg.connection.tabConnection.debuggerClient
     .request(packet)
-    .then(cbk || console.log);
+    .then(callback || console.log);
 }
 
-function evaluate(dbg, expression, cbk) {
-  dbg.client.evaluate(expression).then(cbk || console.log);
+function evaluate(dbg, expression, callback) {
+  dbg.client.evaluate(expression).then(callback || console.log);
 }
 
 function bindSelectors(obj) {
@@ -39,7 +39,7 @@ function getCM() {
 export function setupHelper(obj) {
   const selectors = bindSelectors(obj);
   const actions = bindActionCreators(obj.actions, obj.store.dispatch);
-  window.dbg = {
+  const dbg = {
     ...obj,
     selectors,
     actions,
@@ -53,6 +53,8 @@ export function setupHelper(obj) {
       sendPacket: (packet, cbk) => sendPacket(dbg, packet, cbk)
     }
   };
+
+  window.dbg = dbg;
 
   console.group("Development Notes");
   const baseUrl = "https://devtools-html.github.io/debugger.html";

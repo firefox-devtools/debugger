@@ -3,7 +3,7 @@
 
 ### store
 
-`dbg.store` is a convenient way for getting the redux store.
+`dbg.store` redux store.
 
 ```js
 const store = dbg.store.getState()
@@ -14,7 +14,7 @@ const source = dbg.store.getState().sources.sources.first();
 
 ### actions
 
-`dbg.actions` is a convenient way for getting the redux actions.
+`dbg.actions` redux actions.
 The actions are bound so you can call them directly!
 
 ```js
@@ -24,7 +24,7 @@ dbg.actions.selectSource(source.get("id")))
 
 ### selectors
 
-`dbg.selectors` is a convenient way for getting the redux selectors.
+`dbg.selectors` redux selectors.
 The selectors are bound so you can call them without `store.getState()`!
 
 ```js
@@ -33,7 +33,7 @@ const source = dbg.selectors.getSelectedSource();
 
 ### client
 
-`dbg.client` is a convenient way for getting the firefox commands.
+`dbg.client` firefox commands.
 The commands are the interface for talking to the debugger server.
 
 ```js
@@ -42,48 +42,6 @@ dbg.client
   .setBreakpoint({line: 24, sourceId: source.get("id")})
   .then(console.log)
 ```
-
-### connection
-
-`dbg.connection` has several useful properties for seeing the current connection to the tab.
-If you're looking for the current threadClient, debuggerClient, or tabTarget it is your friend!
-
-```js
-dbg.connection.tab
-/*
-{
-  "title": "Backbone.js • TodoMVC",
-  "url": "http://firefox-dev.tools/debugger-examples/examples/todomvc/",
-  "id": "server1.conn12.child1/tab1",
-  "tab": {
-    "actor": "server1.conn12.child1/tab1",
-    "title": "Backbone.js • TodoMVC",
-    "url": "http://firefox-dev.tools/debugger-examples/examples/todomvc/",
-    "outerWindowID": 2147483649,
-    "consoleActor": "server1.conn12.child1/consoleActor2",
-    "inspectorActor": "server1.conn12.child1/inspectorActor3",
-    "callWatcherActor": "server1.conn12.child1/callWatcherActor4",
-  },
-  "clientType": "firefox"
-}
-*/
-
-dbg.connection.connTarget // { type: "firefox", param: "child1/tab1" }
-
-dbg.connection.tabConnection // debuggerClient, threadClient, tabTarget
-```
-
-### bpClients
-
-`dbg.bpClients` stores the current set of breakpoint clients.
-
-### services
-
-`dbg.services` has a reference to the SourceMap worker, which is available to the redux actions.
-
-`dbg.services.sourceMaps`
-
-> originalToGeneratedId, generatedToOriginalId, isGeneratedId, isOriginalId, hasMappedSource, getOriginalURLs, getGeneratedLocation, getOriginalLocation, getLocationScopes, getOriginalSourceText, applySourceMap, clearSourceMaps, startSourceMapWorker, stopSourceMapWorker
 
 ### prefs
 
@@ -110,7 +68,7 @@ dbg.features.codeCoverage // true
 
 #### findSource
 
-Sometimes you want to quickly grab a source object from the store, but you dont know the full url or source id. The `findSource` function is your friend here :)
+Sometimes you want to quickly grab a source object from the store, but you don't know the full url or source id. The `findSource` function is your friend here :)
 
 ```js
 dbg.helpers.findSource("todo-view")
@@ -131,7 +89,7 @@ dbg.helpers.findSource("todo-view")
 
 #### sendPacket
 
-`dbg.sendPacket` is an easy way to send a packet to the server. This is a useful helper for prototyping new APIs that aren't used in the UI yet.
+`dbg.sendPacket` sends a packet to the server. This is a useful helper for prototyping new APIs that aren't used in the UI yet.
 
 ```js
 dbg
@@ -144,7 +102,7 @@ dbg
 
 #### evaluate
 
-`dbg.evaluate` is a convenient way of evaluating expressions in the context of the debuggee
+`dbg.helpers.evaluate` evaluate expressions in the context of the debuggee
 
 ```js
 dbg.helpers.evaluate("2+2")
