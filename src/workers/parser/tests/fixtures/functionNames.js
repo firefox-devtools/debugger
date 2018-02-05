@@ -39,4 +39,4 @@ class Cls {
 
 export default function (){}
 
-function(first = defaultValue, second){}
+function def(first = defaultValue, second){}

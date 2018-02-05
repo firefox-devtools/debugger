@@ -16,14 +16,16 @@ type Props = {
     item: any,
     index: number
   ) => void,
-  size: string
+  size: string,
+  role: string
 };
 
 export default class ResultList extends Component<Props> {
   displayName: "ResultList";
 
   static defaultProps = {
-    size: "small"
+    size: "small",
+    role: "listbox"
   };
 
   constructor(props: Props) {
@@ -38,6 +40,9 @@ export default class ResultList extends Component<Props> {
       key: `${item.id}${item.value}${index}`,
       ref: String(index),
       title: item.value,
+      "aria-labelledby": `${item.id}-title`,
+      "aria-describedby": `${item.id}-subtitle`,
+      role: "option",
       className: classnames("result-item", {
         selected: index === selected
       })
@@ -45,17 +50,26 @@ export default class ResultList extends Component<Props> {
 
     return (
       <li {...props}>
-        <div className="title">{item.title}</div>
-        <div className="subtitle">{item.subtitle}</div>
+        <div id={`${item.id}-title`} className="title">
+          {item.title}
+        </div>
+        <div id={`${item.id}-subtitle`} className="subtitle">
+          {item.subtitle}
+        </div>
       </li>
     );
   }
 
   render() {
-    const { size, items } = this.props;
+    const { size, items, role } = this.props;
 
     return (
-      <ul className={classnames("result-list", size)}>
+      <ul
+        className={classnames("result-list", size)}
+        id="result-list"
+        role={role}
+        aria-live="polite"
+      >
         {items.map(this.renderListItem)}
       </ul>
     );

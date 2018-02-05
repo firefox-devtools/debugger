@@ -4,7 +4,13 @@
 
 import getSymbols from "./getSymbols";
 
-export function isReactComponent(sourceId) {
+export function getFramework(sourceId) {
+  if (isReactComponent(sourceId)) {
+    return "React";
+  }
+}
+
+function isReactComponent(sourceId) {
   const { imports, classes, callExpressions } = getSymbols(sourceId);
   return (
     (importsReact(imports) || requiresReact(callExpressions)) &&

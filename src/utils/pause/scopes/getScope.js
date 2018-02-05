@@ -7,14 +7,14 @@ import { getBindingVariables } from "./getVariables";
 import { getFramePopVariables, getThisVariable } from "./utils";
 import { simplifyDisplayName } from "../../frame";
 
-import type { Frame, Why, Scope } from "debugger-html";
+import type { Frame, Why, Scope, BindingContents } from "debugger-html";
 
 import type { NamedValue } from "./types";
 
 export type RenderableScope = {
   type: $ElementType<Scope, "type">,
   actor: $ElementType<Scope, "actor">,
-  bindings: $ElementType<Scope, "bindings">,
+  bindings: $ElementType<Scope, "bindings"> & { this?: ?BindingContents },
   parent: ?RenderableScope,
   object?: ?Object,
   function?: ?{
@@ -59,7 +59,16 @@ export function getScope(
     if (isLocalScope) {
       vars = vars.concat(getFramePopVariables(why, key));
 
-      const this_ = getThisVariable(selectedFrame, key);
+      let thisDesc_ = selectedFrame.this;
+
+      if ("this" in bindings) {
+        // The presence of "this" means we're rendering a "this" binding
+        // generated from mapScopes and this can override the binding
+        // provided by the current frame.
+        thisDesc_ = bindings.this ? bindings.this.value : null;
+      }
+
+      const this_ = getThisVariable(thisDesc_, key);
 
       if (this_) {
         vars.push(this_);

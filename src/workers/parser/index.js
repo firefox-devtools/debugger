@@ -27,7 +27,7 @@ export const hasSource = dispatcher.task("hasSource");
 export const setSource = dispatcher.task("setSource");
 export const clearSources = dispatcher.task("clearSources");
 export const hasSyntaxError = dispatcher.task("hasSyntaxError");
-export const isReactComponent = dispatcher.task("isReactComponent");
+export const getFramework = dispatcher.task("getFramework");
 export const replaceOriginalVariableName = dispatcher.task(
   "replaceOriginalVariableName"
 );

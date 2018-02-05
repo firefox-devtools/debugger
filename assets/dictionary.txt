@@ -116,6 +116,7 @@ welcomebox
 Quickopen
 CommandBarButton
 dbg
+getFramework
 Anshul
 sourcemap
 isPaused

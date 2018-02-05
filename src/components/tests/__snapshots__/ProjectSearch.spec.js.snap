@@ -12,6 +12,7 @@ exports[`ProjectSearch found no search results 1`] = `
     >
       <SearchInput
         count={0}
+        expanded={false}
         handleClose={[Function]}
         onBlur={[Function]}
         onChange={[Function]}
@@ -19,6 +20,7 @@ exports[`ProjectSearch found no search results 1`] = `
         onKeyDown={[Function]}
         placeholder="Find in files…"
         query="foo"
+        selectedItemId=""
         showErrorEmoji={true}
         size="big"
         summaryMsg="0 results"
@@ -95,6 +97,7 @@ exports[`ProjectSearch found search results 1`] = `
       >
         <SearchInput
           count={5}
+          expanded={false}
           handleClose={[Function]}
           onBlur={[Function]}
           onChange={[Function]}
@@ -102,12 +105,17 @@ exports[`ProjectSearch found search results 1`] = `
           onKeyDown={[Function]}
           placeholder="Find in files…"
           query="match"
+          selectedItemId=""
           showErrorEmoji={true}
           size="big"
           summaryMsg="5 results"
         >
           <div
+            aria-expanded={false}
+            aria-haspopup="listbox"
+            aria-owns="result-list"
             className="search-field big"
+            role="combobox"
           >
             <Svg
               name="magnifying-glass"
@@ -130,6 +138,9 @@ exports[`ProjectSearch found search results 1`] = `
               </InlineSVG>
             </Svg>
             <input
+              aria-activedescendant=""
+              aria-autocomplete="list"
+              aria-controls="result-list"
               className=""
               onBlur={[Function]}
               onChange={[Function]}
@@ -708,6 +719,7 @@ exports[`ProjectSearch turns off shortcuts on unmount 1`] = `
     >
       <SearchInput
         count={0}
+        expanded={false}
         handleClose={[Function]}
         onBlur={[Function]}
         onChange={[Function]}
@@ -715,6 +727,7 @@ exports[`ProjectSearch turns off shortcuts on unmount 1`] = `
         onKeyDown={[Function]}
         placeholder="Find in files…"
         query=""
+        selectedItemId=""
         showErrorEmoji={true}
         size="big"
         summaryMsg=""
@@ -736,6 +749,7 @@ exports[`ProjectSearch where <Enter> has not been pressed 1`] = `
     >
       <SearchInput
         count={0}
+        expanded={false}
         handleClose={[Function]}
         onBlur={[Function]}
         onChange={[Function]}
@@ -743,6 +757,7 @@ exports[`ProjectSearch where <Enter> has not been pressed 1`] = `
         onKeyDown={[Function]}
         placeholder="Find in files…"
         query=""
+        selectedItemId=""
         showErrorEmoji={true}
         size="big"
         summaryMsg=""

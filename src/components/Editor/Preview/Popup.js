@@ -211,7 +211,7 @@ export class Popup extends Component<Props> {
     );
   }
 
-  renderSimplePreview(value: Object) {
+  renderSimplePreview(value: any) {
     const { openLink } = this.props;
     return (
       <div className="preview-popup">
@@ -240,16 +240,17 @@ export class Popup extends Component<Props> {
   }
 
   renderPreview() {
+    // We don't have to check and
+    // return on `false`, `""`, `0`, `undefined` etc,
+    // these falsy simple typed value because we want to
+    // do `renderSimplePreview` on these values below.
     const { value } = this.props;
-    if (!value) {
-      return null;
-    }
 
-    if (value.class === "Function") {
+    if (value && value.class === "Function") {
       return this.renderFunctionPreview();
     }
 
-    if (value.type === "object") {
+    if (value && value.type === "object") {
       return <div>{this.renderObjectPreview()}</div>;
     }
 
