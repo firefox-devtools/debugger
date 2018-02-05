@@ -68,14 +68,18 @@ If you want a convenience method for logging in the test, `log` is a bit cleaner
 
 ### Pausing the test
 
-There are two nice ways to pause the tests and see what are going on.
-The first is to add a `debugger` statement to the test and run `yarn mochid dbg-sources`. Here you'll have to click a modal when the test opens. When the test pauses, the browser toolbox will show your test with the `dbg` object you can interact with.
+There are two ways to pause the tests and see what is going on.
+
+The first is to add a `debugger` statement to the test and run `yarn mochid {test_name}` (ex: `dbg-sources`). Here you'll have to click a modal when the test opens. When the test pauses, the browser toolbox will show your test with the `dbg` object you can interact with.
 
 The other way is to add `await waitForever()` to your test. This stops the test and gives you a chance to interact with the debugger as the user would. Both ways of pausing are useful for different use cases!
 
 ### Waiting in a test
 
-It's really common to want to wait for something to happen in a test. Generally we wait for one of two things to happen, for the Redux state to change or for an action to be dispatched.
+It's really common to want to wait for something to happen in a test. Generally we wait for one of two things to happen:
+
+* waiting for the Redux state to change
+* waiting for an action to be dispatched
 
 ```js
 await waitForState(dbg, state => isPaused(state));
@@ -135,9 +139,8 @@ We recommend prefixing your logs and formatting them so they are easy to scan e.
 * `info(">> Current breakpoints ${breakpoints.map(bp => bp.location.line).join(", ")}\n")`
 * `info(">> Symbols for source ${source.url} ${JSON.stringify(symbols)}\n")`
 
-At some point, it can be nice to pause the test and debug it. We are working on a debugger after all :)
-Mochitest, makes it easy to pause the test at `debugger` statements  with the `--jsdebugger` flag.
-You can run the test like this `yarn mochid browser_dbg-editor-highlight`.
+At some point, it can be nice to pause the test and debug it.  Mochitest makes it easy to pause the test at `debugger` statements  with the `--jsdebugger` flag.
+You can run the test with `yarn mochid {test_name}` (ex: `browser_dbg-editor-highlight`).
 
 ![](https://shipusercontent.com/e8441c77ab9ff6e84e5561b05bc25da2/Screen%20Shot%202017-10-26%20at%205.45.05%20PM.png)
 ![](https://shipusercontent.com/57e41ae7227a46b2b6ae8b66956729ea/Screen%20Shot%202017-10-26%20at%205.44.54%20PM.png)
