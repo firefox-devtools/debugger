@@ -8,12 +8,13 @@
   padding: 5px;
 }
 
-.toggle-button.vertical {
-  padding: 2.5px 2.5px;
+.toggle-button .togglePanes {
+  vertical-align: -2px;
 }
 
 .toggle-button svg {
   fill: var(--theme-comment);
+  vertical-align: 0;
 }
 
 :root.theme-dark .toggle-button svg {
