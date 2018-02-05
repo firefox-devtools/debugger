@@ -322,9 +322,7 @@ export class QuickOpenModal extends Component<Props, State> {
   renderHighlight = (candidateString: string, query: string, name: string) => {
     const html = fuzzyAldrin.wrap(candidateString, query);
 
-    return (
-      <div className={{ name }} dangerouslySetInnerHTML={{ __html: html }} />
-    );
+    return <div dangerouslySetInnerHTML={{ __html: html }} />;
   };
 
   highlightMatching = (query: string, results: QuickOpenResult[]) => {

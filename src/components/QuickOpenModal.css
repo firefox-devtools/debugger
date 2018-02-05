@@ -1,11 +1,9 @@
 .result-item .title .highlight {
   font-weight: bold;
-  text-shadow: 2px 3px 3px rgba(0, 0, 0, 0.15);
 }
 
 .result-item .subtitle .highlight {
   color: var(--grey-90);
-  text-shadow: 2px 1px 3px rgba(0, 0, 0, 0.15);
   font-weight: 500;
 }
 
