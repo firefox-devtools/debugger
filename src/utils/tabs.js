@@ -46,10 +46,9 @@ export function getHiddenTabs(
 
 export function getSourceAnnotation(
   source: SourceRecord,
-  getMetaData: string => any
+  sourceMetaData: Object
 ) {
   const sourceId = source.get("id");
-  const sourceMetaData = getMetaData(sourceId);
 
   const framework =
     sourceMetaData && sourceMetaData.framework
