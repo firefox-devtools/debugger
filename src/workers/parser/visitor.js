@@ -385,7 +385,7 @@ function createParseJSScopeVisitor(sourceId: SourceId): ParseJSScopeVisitor {
         (path.node.kind === "var" ||
           // Lexical declarations in for statements are handled above.
           !path.parentPath.isForStatement({ init: tree }) ||
-          !path.parentPath.isXStatement({ left: tree }))
+          !path.parentPath.isForXStatement({ left: tree }))
       ) {
         // Finds right lexical environment
         const hoistAt = !isLetOrConst(tree) ? getVarScope(parent) : parent;
@@ -427,7 +427,7 @@ function createParseJSScopeVisitor(sourceId: SourceId): ParseJSScopeVisitor {
 
       if (path.parentPath.isClassProperty({ value: tree })) {
         savedParents.set(path, parent);
-        parent = createTempScope("block", "Class Field", parent, location);
+        parent = createTempScope("function", "Class Field", parent, location);
         parent.names.this = {
           type: "implicit",
           declarations: [],
