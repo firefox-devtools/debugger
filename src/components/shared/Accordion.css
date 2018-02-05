@@ -78,3 +78,7 @@
 .accordion .header-buttons button::-moz-focus-inner {
   border: none;
 }
+
+.accordion .arrow svg {
+  fill: var(--theme-comment);
+}
