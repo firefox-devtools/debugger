@@ -4,12 +4,11 @@
 
 // @flow
 
-import { get } from "lodash";
 import { endTruncateStr } from "./utils";
 import { getFilename } from "./source";
-import { find, findIndex } from "lodash";
+import { get, find, findIndex } from "lodash";
 
-import type { Frame } from "debugger-html";
+import type { Frame } from "../types";
 import type { LocalFrame } from "../components/SecondaryPanes/Frames/types";
 
 function getFrameUrl(frame) {

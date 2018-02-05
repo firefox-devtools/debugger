@@ -14,7 +14,7 @@ import type {
   Scope,
   Why,
   Worker
-} from "debugger-html";
+} from "../types";
 
 import type { State } from "../reducers/types";
 import type {

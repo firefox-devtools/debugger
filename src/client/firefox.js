@@ -7,7 +7,7 @@
 import { setupCommands, clientCommands } from "./firefox/commands";
 import { setupEvents, clientEvents } from "./firefox/events";
 import { features } from "../utils/prefs";
-import type { Grip } from "debugger-html";
+import type { Grip } from "../types";
 let DebuggerClient;
 
 function createObjectClient(grip: Grip) {

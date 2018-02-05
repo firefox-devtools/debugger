@@ -3,7 +3,7 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-import type { Why } from "debugger-html";
+import type { Why } from "../types";
 
 // Map protocol pause "why" reason to a valid L10N key
 // These are the known unhandled reasons:

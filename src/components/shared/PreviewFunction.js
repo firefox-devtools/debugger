@@ -6,9 +6,7 @@
 
 import React, { Component } from "react";
 
-import { times } from "lodash";
-import { zip } from "lodash";
-import { flatten } from "lodash";
+import { times, zip, flatten } from "lodash";
 
 import { simplifyDisplayName } from "../../utils/frame";
 

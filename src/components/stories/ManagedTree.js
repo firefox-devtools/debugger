@@ -10,7 +10,7 @@ import { L10N } from "devtools-launchpad";
 import { prefs } from "../../utils/prefs";
 
 import "../App.css";
-import "devtools-modules/src/themes/dark-theme.css";
+require("devtools-modules/src/themes/dark-theme.css");
 
 // NOTE: we need this for supporting L10N in storybook
 // we can move this to a shared helper as we add additional stories

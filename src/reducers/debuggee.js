@@ -22,14 +22,14 @@ type DebuggeeState = {
   workers: WorkersList
 };
 
-export const State = makeRecord(
+export const createDebuggeeState = makeRecord(
   ({
     workers: List()
   }: DebuggeeState)
 );
 
 export default function debuggee(
-  state: Record<DebuggeeState> = State(),
+  state: Record<DebuggeeState> = createDebuggeeState(),
   action: Action
 ): Record<DebuggeeState> {
   switch (action.type) {

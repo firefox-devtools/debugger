@@ -16,7 +16,8 @@ import {
   getBreakpointsForSource
 } from "../../selectors";
 
-import { getTokenLocation, isWasm } from "../../utils/editor";
+import { getTokenLocation } from "../../utils/editor";
+import { isWasm } from "../../utils/wasm";
 
 import actions from "../../actions";
 

@@ -4,7 +4,7 @@
 
 // @flow
 
-import type { Why } from "debugger-html";
+import type { Why } from "../../../types";
 import type { NamedValue } from "./types";
 
 export function getFramePopVariables(why: Why, path: string): NamedValue[] {

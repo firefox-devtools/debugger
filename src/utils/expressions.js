@@ -5,7 +5,7 @@
 // @flow
 
 import { correctIndentation } from "./indentation";
-import type { Expression } from "debugger-html";
+import type { Expression } from "../types";
 
 // replace quotes that could interfere with the evaluation.
 export function sanitizeInput(input: string) {

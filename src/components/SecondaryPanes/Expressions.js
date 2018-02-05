@@ -16,7 +16,7 @@ import { createObjectClient } from "../../client/firefox";
 import CloseButton from "../shared/Button/Close";
 
 import type { List } from "immutable";
-import type { Expression } from "debugger-html";
+import type { Expression } from "../../types";
 
 import "./Expressions.css";
 

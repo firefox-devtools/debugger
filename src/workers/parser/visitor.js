@@ -4,7 +4,7 @@
 
 // @flow
 
-import type { SourceId, Location } from "debugger-html";
+import type { SourceId, Location } from "../../types";
 import type { NodePath, Node, Location as BabelLocation } from "babel-traverse";
 import { isGeneratedId } from "devtools-source-map";
 import getFunctionName from "./utils/getFunctionName";
@@ -213,7 +213,9 @@ function toParsedScopes(
  * information from the source. See also findScopes to perform lookup of the
  * scope information for specific location.
  */
-function createParseJSScopeVisitor(sourceId: SourceId): ParseJSScopeVisitor {
+export function createParseJSScopeVisitor(
+  sourceId: SourceId
+): ParseJSScopeVisitor {
   let parent: TempScope;
   const savedParents: WeakMap<NodePath, TempScope> = new WeakMap();
 
@@ -512,7 +514,10 @@ function compareLocations(a: Location, b: Location): number {
 /**
  * Searches all scopes and their bindings at the specific location.
  */
-function findScopes(scopes: ParsedScope[], location: Location): SourceScope[] {
+export function findScopes(
+  scopes: ParsedScope[],
+  location: Location
+): SourceScope[] {
   // Find inner most in the tree structure.
   let searchInScopes: ?(ParsedScope[]) = scopes;
   const found = [];
@@ -543,8 +548,3 @@ function findScopes(scopes: ParsedScope[], location: Location): SourceScope[] {
     };
   });
 }
-
-module.exports = {
-  createParseJSScopeVisitor,
-  findScopes
-};

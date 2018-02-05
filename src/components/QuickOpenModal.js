@@ -34,7 +34,7 @@ import type {
   QuickOpenResult
 } from "../utils/quick-open";
 
-import type { Location } from "debugger-html";
+import type { Location } from "../types";
 import type { SourceRecord } from "../reducers/sources";
 import type { QuickOpenType } from "../reducers/quick-open";
 

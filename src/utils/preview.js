@@ -4,7 +4,7 @@
 
 // @flow
 
-import type { Grip } from "debugger-html";
+import type { Grip } from "../types";
 
 const IMMUTABLE_FIELDS = ["_root", "__ownerID", "__altered", "__hash"];
 

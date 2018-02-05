@@ -3,12 +3,15 @@ declare var describe: (name: string, func: () => void) => void;
 declare var it: (desc: string, func: () => void) => void;
 declare var expect: (value: any) => any;
 
-import { getBreakpointsForSource, initialState } from "../breakpoints";
+import {
+  getBreakpointsForSource,
+  initialBreakpointsState
+} from "../breakpoints";
 import * as I from "immutable";
 
 function initializeStateWith(data) {
   const mappedData = I.Map(data);
-  const state = initialState();
+  const state = initialBreakpointsState();
   return state.set("breakpoints", mappedData);
 }
 

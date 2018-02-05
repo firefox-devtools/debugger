@@ -365,14 +365,14 @@ type ExpressionState = {
   expressions: List<Expression>
 };
 
-export const State = makeRecord(
+export const createExpressionState = makeRecord(
   ({
     expressions: List()
   }: ExpressionState)
 );
 
 function update(
-  state: Record<ExpressionState> = State(),
+  state: Record<ExpressionState> = createExpressionState(),
   action: Action
 ): Record<ExpressionState> {
   // ...
@@ -411,14 +411,14 @@ type ExpressionState = {
   expressions: List<Expression>
 };
 
-export const State = makeRecord(
+export const createExpressionState = makeRecord(
   ({
     expressions: List()
   }: ExpressionState)
 );
 
 function update(
-  state: Record<ExpressionState> = State(),
+  state: Record<ExpressionState> = createExpressionState(),
   action: Action
 ): Record<ExpressionState> {
   case "DELETE_EXPRESSION":

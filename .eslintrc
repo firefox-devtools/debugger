@@ -1,6 +1,6 @@
 {
   "parser": "babel-eslint",
-  "plugins": ["react", "mozilla", "flowtype", "babel", "prettier"],
+  "plugins": ["react", "mozilla", "flowtype", "babel", "prettier", "import"],
   "globals": {
     "atob": true,
     "btoa": true,
@@ -69,6 +69,12 @@
         order: ["propTypes", "everything-else", "render"]
       }
     ],
+
+    // Check for import errors.
+    "import/no-duplicates": "error",
+    "import/no-unresolved": "error",
+    "import/named": "error",
+    "import/export": "error",
 
     // Enforce the spacing around the * in generator functions.
     "generator-star-spacing": [2, "after"],
