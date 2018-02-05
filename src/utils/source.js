@@ -229,7 +229,10 @@ export function getSourceLineCount(source: Source) {
  * @static
  */
 
-export function getMode(source: Source, symbols?: SymbolDeclarations) {
+export function getMode(
+  source: Source,
+  symbols?: SymbolDeclarations
+): { name: string } {
   const { contentType, text, isWasm, url } = source;
 
   if (!text || isWasm) {
@@ -237,7 +240,7 @@ export function getMode(source: Source, symbols?: SymbolDeclarations) {
   }
 
   if ((url && url.match(/\.jsx$/i)) || (symbols && symbols.hasJsx)) {
-    return "jsx";
+    return { name: "jsx" };
   }
 
   const languageMimeMap = [
