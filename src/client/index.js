@@ -46,7 +46,7 @@ async function onConnect(
   });
 
   bootstrapWorkers();
-  const { bpClients } = await client.onConnect(connection, actions);
+  await client.onConnect(connection, actions);
   await loadFromPrefs(actions);
 
   if (!isFirefoxPanel()) {
@@ -54,10 +54,7 @@ async function onConnect(
       store,
       actions,
       selectors,
-      client: client.clientCommands,
-      connection,
-      bpClients,
-      services
+      client: client.clientCommands
     });
   }
 
