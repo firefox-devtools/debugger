@@ -9,17 +9,23 @@ export * from "./reducers/pause";
 export * from "./reducers/debuggee";
 export * from "./reducers/breakpoints";
 export * from "./reducers/pending-breakpoints";
-export * from "./reducers/event-listeners";
 export * from "./reducers/ui";
 export * from "./reducers/file-search";
 export * from "./reducers/ast";
 export * from "./reducers/coverage";
 export * from "./reducers/project-text-search";
-export * from "./reducers/quick-open";
 export * from "./reducers/source-tree";
-// For some reason Flow wasn't able to find this using `export * from`
+
+// For some reason Flow was having trouble with these re-exports, so
+// they need to be made explicitly:
+export { getEventListeners } from "./reducers/event-listeners";
+export {
+  getQuickOpenEnabled,
+  getQuickOpenQuery,
+  getQuickOpenType
+} from "./reducers/quick-open";
 export { getBreakpointAtLocation } from "./selectors/breakpointAtLocation";
-export * from "./selectors/visibleBreakpoints";
-export * from "./selectors/isSelectedFrameVisible";
-export * from "./selectors/getCallStackFrames";
-export * from "./selectors/visibleSelectedFrame";
+export { getVisibleBreakpoints } from "./selectors/visibleBreakpoints";
+export { isSelectedFrameVisible } from "./selectors/isSelectedFrameVisible";
+export { getCallStackFrames } from "./selectors/getCallStackFrames";
+export { getVisibleSelectedFrame } from "./selectors/visibleSelectedFrame";

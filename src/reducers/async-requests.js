@@ -7,13 +7,13 @@
  * @module reducers/async-request
  */
 
-const initialState = [];
+const initialAsyncRequestState = [];
 
-function update(state = initialState, action) {
+function update(state = initialAsyncRequestState, action) {
   const { seqId } = action;
 
   if (action.type === "NAVIGATE") {
-    return initialState;
+    return initialAsyncRequestState;
   } else if (seqId) {
     let newState;
     if (action.status === "start") {

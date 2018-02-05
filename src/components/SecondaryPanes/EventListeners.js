@@ -106,7 +106,8 @@ export default connect(
         ...l,
         breakpoint: getBreakpoint(state, {
           sourceId: l.sourceId,
-          line: l.line
+          line: l.line,
+          column: null
         })
       };
     });

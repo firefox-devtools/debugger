@@ -46,7 +46,7 @@ export type PauseState = {
   command: string
 };
 
-export const State = (): PauseState => ({
+export const createPauseState = (): PauseState => ({
   why: null,
   isWaitingOnBreak: false,
   frames: undefined,
@@ -74,7 +74,10 @@ const emptyPauseState = {
   loadedObjects: {}
 };
 
-function update(state: PauseState = State(), action: Action): PauseState {
+function update(
+  state: PauseState = createPauseState(),
+  action: Action
+): PauseState {
   switch (action.type) {
     case "PAUSED": {
       const { selectedFrameId, frames, loadedObjects, why } = action;
@@ -164,7 +167,7 @@ function update(state: PauseState = State(), action: Action): PauseState {
 
     case "CONNECT":
       return {
-        ...State(),
+        ...createPauseState(),
         debuggeeUrl: action.url,
         canRewind: action.canRewind
       };

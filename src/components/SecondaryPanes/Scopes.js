@@ -110,7 +110,7 @@ export default connect(
       state,
       selectedSource && selectedSource.get("id"),
       selectedFrame.id
-    ) || { pending: false };
+    ) || { scope: null, pending: false };
 
     return {
       selectedFrame,

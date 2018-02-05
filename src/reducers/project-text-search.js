@@ -38,7 +38,9 @@ export type ProjectTextSearchState = {
   status: string
 };
 
-export function InitialState(): Record<ProjectTextSearchState> {
+export function initialProjectTextSearchState(): Record<
+  ProjectTextSearchState
+> {
   return makeRecord(
     ({
       query: "",
@@ -49,7 +51,7 @@ export function InitialState(): Record<ProjectTextSearchState> {
 }
 
 function update(
-  state: Record<ProjectTextSearchState> = InitialState(),
+  state: Record<ProjectTextSearchState> = initialProjectTextSearchState(),
   action: Action
 ): Record<ProjectTextSearchState> {
   switch (action.type) {

@@ -39,7 +39,7 @@ export type UIState = {
   conditionalPanelLine: null | number
 };
 
-export const State = makeRecord(
+export const createUIState = makeRecord(
   ({
     selectedPrimaryPaneTab: "sources",
     activeSearch: null,
@@ -56,7 +56,7 @@ export const State = makeRecord(
 );
 
 function update(
-  state: Record<UIState> = State(),
+  state: Record<UIState> = createUIState(),
   action: Action
 ): Record<UIState> {
   switch (action.type) {
