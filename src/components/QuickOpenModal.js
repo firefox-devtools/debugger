@@ -3,11 +3,10 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import fuzzyAldrin from "fuzzaldrin-plus";
-
+import { basename } from "../utils/path";
 import actions from "../actions";
 import {
   getSources,
@@ -24,7 +23,7 @@ import {
   formatSources,
   parseLineColumn,
   formatShortcutResults,
-  groupFuzzyMatches
+  MODIFIERS
 } from "../utils/quick-open";
 import Modal from "./shared/Modal";
 import SearchInput from "./shared/SearchInput";
@@ -67,10 +66,6 @@ type GotoLocationType = {
   line: number,
   column?: number
 };
-
-type FuzzyMatch = { type: "match", value: string };
-type FuzzyMiss = { type: "miss", value: string };
-type FuzzyResult = FuzzyMatch | FuzzyMiss;
 
 function filter(values, query) {
   return fuzzyAldrin.filter(values, query, {
@@ -328,32 +323,34 @@ export class QuickOpenModal extends Component<Props, State> {
   isSourcesQuery = () => this.props.searchType === "sources";
   isSourceSearch = () => this.isSourcesQuery() || this.isGotoSourceQuery();
 
-  renderHighlight = (part: FuzzyResult, i: number) => {
-    if (part.type === "match") {
-      return (
-        <span key={`${part.value}-${i}`} className="fuzzy-match">
-          {part.value}
-        </span>
-      );
-    }
-    return part.value;
+  /* eslint-disable react/no-danger */
+  renderHighlight = (candidateString: string, query: string, name: string) => {
+    const html = fuzzyAldrin.wrap(candidateString, query);
+
+    return <div dangerouslySetInnerHTML={{ __html: html }} />;
   };
 
   highlightMatching = (query: string, results: QuickOpenResult[]) => {
-    if (query === "") {
+    let newQuery = query;
+    if (newQuery === "") {
       return results;
     }
+    if (Object.keys(MODIFIERS).includes(query[0])) {
+      newQuery = query.slice(1, query.length);
+    }
+
     return results.map(result => {
-      const title = groupFuzzyMatches(result.title, query);
-      const subtitle =
-        result.subtitle != null
-          ? groupFuzzyMatches(result.subtitle, query)
-          : null;
       return {
         ...result,
-        title: title.map(this.renderHighlight),
-        ...(subtitle != null && !this.isSymbolSearch()
-          ? { subtitle: subtitle.map(this.renderHighlight) }
+        title: this.renderHighlight(result.title, basename(newQuery), "title"),
+        ...(result.subtitle != null && !this.isSymbolSearch()
+          ? {
+              subtitle: this.renderHighlight(
+                result.subtitle,
+                newQuery,
+                "subtitle"
+              )
+            }
           : null)
       };
     });

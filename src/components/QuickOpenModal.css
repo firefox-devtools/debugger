@@ -1,12 +1,13 @@
-.result-item .title .fuzzy-match {
+.result-item .title .highlight {
   font-weight: bold;
 }
 
-.result-item .subtitle .fuzzy-match {
+.result-item .subtitle .highlight {
   color: var(--grey-90);
+  font-weight: 500;
 }
 
-.theme-dark .result-item .title .fuzzy-match,
-.theme-dark .result-item .subtitle .fuzzy-match {
+.theme-dark .result-item .title .highlight,
+.theme-dark .result-item .subtitle .highlight {
   color: white;
 }
