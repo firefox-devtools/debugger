@@ -96,12 +96,17 @@ export class QuickOpenModal extends Component<Props, State> {
   }
 
   componentDidUpdate(prevProps: Props) {
-    if (this.refs.resultList && this.refs.resultList.refs) {
-      scrollList(this.refs.resultList.refs, this.state.selectedIndex);
-    }
-
     const nowEnabled = !prevProps.enabled && this.props.enabled;
     const queryChanged = prevProps.query !== this.props.query;
+
+    if (this.refs.resultList && this.refs.resultList.refs) {
+      scrollList(
+        this.refs.resultList.refs,
+        this.state.selectedIndex,
+        nowEnabled || !queryChanged
+      );
+    }
+
     if (nowEnabled || queryChanged) {
       this.updateResults(this.props.query);
     }
