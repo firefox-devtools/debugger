@@ -227,10 +227,20 @@ async function findGeneratedBinding(
         return null;
       }
 
-      return generatedAstBindings.find(
-        val =>
-          val.loc.start.line === gen.line && val.loc.start.column === gen.column
-      );
+      return generatedAstBindings.find(val => {
+        if (val.loc.start.line !== gen.line) {
+          return false;
+        }
+
+        // Allow the mapping to point anywhere within the generated binding
+        // location to allow for less than perfect sourcemaps. Since you also
+        // need at least one character between identifiers, we also give one
+        // characters of space at the front the generated binding in order
+        // to increase the probability of finding the right mapping.
+        const start = val.loc.start.column - 1;
+        const end = val.loc.end.column;
+        return gen.column >= start && gen.column <= end;
+      });
     }, null);
 
   if (genContent && genContent.desc) {

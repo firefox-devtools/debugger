@@ -284,6 +284,17 @@ function createParseJSScopeVisitor(sourceId: SourceId): ParseJSScopeVisitor {
           };
         }
 
+        if (path.isFunctionDeclaration() && isNode(tree.id, "Identifier")) {
+          // This ignores Annex B function declaration hoisting, which
+          // is probably a fine assumption.
+          const fnScope = getVarScope(parent);
+          parent.names[tree.id.name] = {
+            type: fnScope === parent ? "var" : "let",
+            declarations: [tree.id.loc],
+            refs: []
+          };
+        }
+
         const scope = createTempScope(
           "function",
           getFunctionName(path),
@@ -295,16 +306,7 @@ function createParseJSScopeVisitor(sourceId: SourceId): ParseJSScopeVisitor {
             end: location.end
           }
         );
-        if (path.isFunctionDeclaration() && isNode(tree.id, "Identifier")) {
-          // This ignores Annex B function declaration hoisting, which
-          // is probably a fine assumption.
-          const fnScope = getVarScope(parent);
-          scope.names[tree.id.name] = {
-            type: fnScope === scope ? "var" : "let",
-            declarations: [tree.id.loc],
-            refs: []
-          };
-        }
+
         tree.params.forEach(param => parseDeclarator(param, scope, "var"));
 
         if (!path.isArrowFunctionExpression()) {
@@ -351,7 +353,7 @@ function createParseJSScopeVisitor(sourceId: SourceId): ParseJSScopeVisitor {
           parent = createTempScope("block", "For", parent, {
             // Being at the start of a for loop doesn't count as
             // being inside it.
-            start: init.start,
+            start: init.loc.start,
             end: location.end
           });
         }
