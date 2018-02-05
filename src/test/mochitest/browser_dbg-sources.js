@@ -33,11 +33,15 @@ add_task(async function() {
   await clickElement(dbg, "sourceArrow", 2);
 
   await assertSourceCount(dbg, 7);
-  await clickElement(dbg, "sourceArrow", 3);
-
+  await clickElement(dbg, "sourceDirectory", 3);
   await assertSourceCount(dbg, 8);
 
-  // Select a source.
+  // Cleanup from opening source directory
+  dbg.win.document
+    .querySelector(".sources-list .focused")
+    .classList.remove("focused");
+
+  // Select a source
   ok(
     !findElementWithSelector(dbg, ".sources-list .focused"),
     "Source is not focused"
