@@ -9,4 +9,3 @@ export * from "./prettyPrint";
 export * from "./newSources";
 export * from "./blackbox";
 export * from "./select";
-export * from "./tabs";

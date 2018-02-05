@@ -9,7 +9,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as I from "immutable";
 
-import { getSelectedSource, getSourcesForTabs } from "../../selectors";
+import { getSelectedTab, getTabs, getSource } from "../../selectors";
 import { isVisible } from "../../utils/ui";
 
 import { getHiddenTabs } from "../../utils/tabs";
@@ -26,13 +26,14 @@ import Dropdown from "../shared/Dropdown";
 import type { List } from "immutable";
 import type { SourceRecord } from "../../reducers/sources";
 
-type SourcesList = List<SourceRecord>;
+type TabList = List<any>;
 
 type Props = {
-  tabSources: SourcesList,
+  tabs: TabList,
+  getTabSource: number => void,
   selectedSource: SourceRecord,
   selectSource: Object => void,
-  moveTab: (string, number) => void,
+  addTab: (string, number) => void,
   closeTab: string => void,
   togglePaneCollapse: () => void,
   showSource: string => void,
@@ -93,12 +94,12 @@ class Tabs extends PureComponent<Props, State> {
     if (!this.refs.sourceTabs) {
       return;
     }
-    const { selectedSource, tabSources, moveTab } = this.props;
+    const { selectedTab, tabs, addTab } = this.props;
     const sourceTabEls = this.refs.sourceTabs.children;
-    const hiddenTabs = getHiddenTabs(tabSources, sourceTabEls);
+    const hiddenTabs = getHiddenTabs(tabs, sourceTabEls);
 
-    if (isVisible() && hiddenTabs.indexOf(selectedSource) !== -1) {
-      return moveTab(selectedSource.get("url"), 0);
+    if (isVisible() && hiddenTabs.indexOf(selectedTab) !== -1) {
+      return addTab(selectedTab.id, 0);
     }
 
     this.setState({ hiddenTabs });
@@ -120,13 +121,14 @@ class Tabs extends PureComponent<Props, State> {
     return "file";
   }
 
-  renderDropdownSource = (source: SourceRecord) => {
-    const { selectSource } = this.props;
+  renderDropdownSource = tab => {
+    const { selectSource, getTabSource } = this.props;
+    const source = getTabSource(tab.id);
     const filename = getFilename(source.toJS());
 
-    const onClick = () => selectSource(source.get("id"));
+    const onClick = () => selectSource(tab.id, 0);
     return (
-      <li key={source.get("id")} onClick={onClick}>
+      <li key={tab.id} onClick={onClick}>
         <img className={`dropdown-icon ${this.getIconClass(source)}`} />
         {filename}
       </li>
@@ -134,14 +136,14 @@ class Tabs extends PureComponent<Props, State> {
   };
 
   renderTabs() {
-    const { tabSources } = this.props;
-    if (!tabSources) {
+    const { tabs } = this.props;
+    if (!tabs) {
       return;
     }
 
     return (
       <div className="source-tabs" ref="sourceTabs">
-        {tabSources.map((source, index) => <Tab key={index} source={source} />)}
+        {tabs.map((tab, index) => <Tab key={index} tab={tab} />)}
       </div>
     );
   }
@@ -198,8 +200,9 @@ class Tabs extends PureComponent<Props, State> {
 export default connect(
   state => {
     return {
-      selectedSource: getSelectedSource(state),
-      tabSources: getSourcesForTabs(state)
+      selectedTab: getSelectedTab(state),
+      getTabSource: sourceId => getSource(state, sourceId),
+      tabs: getTabs(state)
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

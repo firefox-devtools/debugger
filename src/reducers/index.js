@@ -10,6 +10,7 @@
 import expressions from "./expressions";
 import eventListeners from "./event-listeners";
 import sources from "./sources";
+import tabs from "./tabs";
 import breakpoints from "./breakpoints";
 import pendingBreakpoints from "./pending-breakpoints";
 import asyncRequests from "./async-requests";
@@ -28,6 +29,7 @@ export default {
   expressions,
   eventListeners,
   sources,
+  tabs,
   breakpoints,
   pendingBreakpoints,
   asyncRequests,
