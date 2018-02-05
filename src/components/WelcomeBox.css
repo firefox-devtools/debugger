@@ -55,6 +55,7 @@
   text-align: left;
   float: left;
   margin-left: 25px;
+  color: var(--theme-comment);
 }
 
 html .welcomebox .toggle-button-end.collapsed {

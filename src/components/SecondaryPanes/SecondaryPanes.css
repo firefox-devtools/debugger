@@ -43,10 +43,6 @@
   cursor: default;
 }
 
-.theme-dark .secondary-panes .accordion .arrow svg {
-  fill: var(--theme-content-color3);
-}
-
 .secondary-panes .breakpoints-buttons {
   display: flex;
 }
