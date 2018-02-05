@@ -39,4 +39,12 @@ class Cls {
 
 export default function (){}
 
-function def(first = defaultValue, second){}
+const defaultObj = {a: 1};
+const defaultArr = ['smthng'];
+function a(first, second){}
+function b(first = 'bla', second){}
+function c(first = {}, second){}
+function d(first = [], second){}
+function e(first = defaultObj, second){}
+function f(first = defaultArr, second){}
+function g(first = null, second){}
