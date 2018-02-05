@@ -16,5 +16,5 @@ export function getSource(name, type = "js") {
 
 export function getOriginalSource(name, type) {
   const source = getSource(name, type);
-  return { ...source, id: `${name}-original` };
+  return { ...source, id: `${name}/originalSource-1` };
 }
