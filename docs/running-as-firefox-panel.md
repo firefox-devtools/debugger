@@ -48,7 +48,9 @@ However if you have firefox installed elsewhere you can update this in `configs/
 called
 
 ```json
-mcPath: './firefox' // expecting firefox to be under `debugger.html/firefox`
+{
+  "firefox.mcPath": "./firefox" // expecting firefox to be under `debugger.html/firefox`
+}
 ```
 
 You can change this to what works for you!
