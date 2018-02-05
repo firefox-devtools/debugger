@@ -86,10 +86,10 @@ export class ShortcutsModal extends Component<Props> {
           L10N.getStr("shortcuts.functionSearch"),
           formatKeyShortcut(L10N.getStr("functionSearch.key"))
         )}
-         {this.renderShorcutItem(
-           L10N.getStr("shortcuts.gotoLine"),
-           formatKeyShortcut(L10N.getStr("gotoLineModal.key"))
-         )}
+        {this.renderShorcutItem(
+          L10N.getStr("shortcuts.gotoLine"),
+          formatKeyShortcut(L10N.getStr("gotoLineModal.key"))
+        )}
       </ul>
     );
   }
