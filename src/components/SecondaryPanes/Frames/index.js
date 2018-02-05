@@ -8,7 +8,7 @@ import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
-import type { Frame, Why } from "debugger-html";
+import type { Frame, Why } from "../../../types";
 
 import FrameComponent from "./Frame";
 import Group from "./Group";

@@ -164,7 +164,8 @@ export function astCommand(stepType: CommandType) {
     }
 
     if (stepType == "stepOver") {
-      const frame = getTopFrame(getState());
+      // This type definition is ambiguous:
+      const frame: any = getTopFrame(getState());
       const source = getSelectedSource(getState()).toJS();
       if (source) {
         const nextLocation = await getNextStep(source.id, frame.location);

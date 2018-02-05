@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-import type { Frame } from "debugger-html";
+import type { Frame } from "../../../types";
 
 export type LocalFrame = Frame & {
   library: string,

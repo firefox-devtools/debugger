@@ -14,7 +14,7 @@ import {
   getSelectedSource
 } from "../../selectors";
 
-import type { Frame, Why } from "debugger-html";
+import type { Frame, Why } from "../../types";
 import type { SourceRecord } from "../../reducers/types";
 
 type Props = {

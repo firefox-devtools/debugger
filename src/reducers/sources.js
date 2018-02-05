@@ -35,7 +35,7 @@ export type SourcesState = {
   tabs: TabList
 };
 
-export function initialState(): Record<SourcesState> {
+export function initialSourcesState(): Record<SourcesState> {
   return makeRecord(
     ({
       sources: I.Map(),
@@ -48,7 +48,7 @@ export function initialState(): Record<SourcesState> {
 }
 
 function update(
-  state: Record<SourcesState> = initialState(),
+  state: Record<SourcesState> = initialSourcesState(),
   action: Action
 ): Record<SourcesState> {
   let location = null;
@@ -136,10 +136,10 @@ function update(
       const url = source && source.get("url");
 
       if (!url) {
-        return initialState();
+        return initialSourcesState();
       }
 
-      return initialState().set("pendingSelectedLocation", { url });
+      return initialSourcesState().set("pendingSelectedLocation", { url });
   }
 
   return state;

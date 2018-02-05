@@ -23,7 +23,7 @@ import type {
   Source,
   BindingContents,
   ScopeBindings
-} from "debugger-html";
+} from "../../types";
 
 import type { ThunkArgs } from "../types";
 

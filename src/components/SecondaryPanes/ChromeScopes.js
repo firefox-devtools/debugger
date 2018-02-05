@@ -9,12 +9,8 @@ import { connect } from "react-redux";
 import classnames from "classnames";
 
 import actions from "../../actions";
-import type { Scope, Pause } from "debugger-html";
-import {
-  getChromeScopes,
-  getLoadedObjects,
-  isPaused as getIsPaused
-} from "../../selectors";
+import type { Scope, Pause } from "../../types";
+import { getChromeScopes, isPaused as getIsPaused } from "../../selectors";
 import Svg from "../shared/Svg";
 import ManagedTree from "../shared/ManagedTree";
 import "./Scopes.css";
@@ -212,7 +208,9 @@ class Scopes extends Component<Props> {
 export default connect(
   state => ({
     isPaused: getIsPaused(state),
-    loadedObjects: getLoadedObjects(state),
+    loadedObjects: () => {
+      throw new Error("This is not implemented.");
+    },
     scopes: getChromeScopes(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)

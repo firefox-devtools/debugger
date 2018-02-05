@@ -14,7 +14,7 @@ import { L10N } from "devtools-launchpad";
 import "../App.css";
 import "../SecondaryPanes/Frames/Frames.css";
 
-import "devtools-modules/src/themes/dark-theme.css";
+require("devtools-modules/src/themes/dark-theme.css");
 
 if (typeof window == "object") {
   window.L10N = L10N;

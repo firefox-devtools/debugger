@@ -14,7 +14,7 @@ import type {
   Source,
   SourceId,
   Worker
-} from "debugger-html";
+} from "../../types";
 
 import type {
   TabTarget,

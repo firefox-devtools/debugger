@@ -4,8 +4,7 @@
 
 // @flow
 import { Component } from "react";
-import { range } from "lodash";
-import { isEmpty } from "lodash";
+import { range, isEmpty } from "lodash";
 import { connect } from "react-redux";
 import { getHighlightedLineRange } from "../../selectors";
 
