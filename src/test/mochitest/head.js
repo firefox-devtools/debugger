@@ -940,6 +940,7 @@ const selectors = {
   sourceNode: i => `.sources-list .tree-node:nth-child(${i}) .node`,
   sourceNodes: ".sources-list .tree-node",
   sourceArrow: i => `.sources-list .tree-node:nth-child(${i}) .arrow`,
+  sourceDirectory: i => `.sources-list .tree-node:nth-child(${i})`,
   resultItems: ".result-list .result-item",
   fileMatch: ".managed-tree .result",
   popup: ".popover",
