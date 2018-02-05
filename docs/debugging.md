@@ -35,7 +35,7 @@ A good place to start is logging. You can log the Debugger's actions by enabling
 
 Once you've narrowed the question down to an action you can debug it either in the console or unit tests.
 
-It's easy to try invoking an action in the console with the `dbg helper:
+It's easy to try invoking an action in the console with the *dbg* helper:
 
 ```js
 dbg.actions.selectLocation();
@@ -49,8 +49,7 @@ It's nice to look at the unit tests to see how an action _should_ be called. If 
 ### Reducers
 
 It's really common to want to know what data the Debugger has.
-For instance, what does a breakpoint look like?
-In Redux, the reducers are like the application database and it's tremendously useful to be able to inspect them.
+For instance, what does a breakpoint look like? In Redux, the reducers are like the application database and it's tremendously useful to be able to inspect them.
 
 It's easy to view the current Debugger state in the console with
 the `dbg` global. Because the store is immutable, you'll need to request the state each time you want to see it.
@@ -62,8 +61,9 @@ dbg.store.getState().sources.toJS();
 You can also test out a selector in the console with the `dbg helper:
 
 ```js
-dbg.selectors.getBreakpoints(dbg.store.getState());
+dbg.selectors.getBreakpoints();
 ```
+
 
 ### Client
 
@@ -75,8 +75,8 @@ To answer these questions, you need to look at the Debugger's client, which talk
 The client commands are available on the console at `client` for testing purposes:
 
 ```js
-client.setBreakpoint(...) // will add a breakpoint
-client.resume() // will resume when paused
+dbg.client.setBreakpoint(...) // will add a breakpoint
+dbg.client.resume() // will resume when paused
 ```
 
 The best way to see what the client does is the view the communication over the websocket.
@@ -93,6 +93,12 @@ Here's a sample of some websocket frames from the Debugger attaching:
 {"sources":[{"actor":"server2.conn7.child1/29","generatedUrl":null,"url":"http://localhost:7999/mutating.html","isBlackBoxed":false,"isPrettyPrinted":false,"isSourceMapped":false,"sourceMapURL":null,"introductionUrl":null,"introductionType":null}],"from":"server2.conn7.child1/27"}
 {"to":"server2.conn7.child1/29","type":"source"}
 ```
+
+Chrome has a useful websocket monitor for viewing the communication:
+
+![ws]
+
+[ws]: https://shipusercontent.com/c96820fcf108cd3b17a4dcee1222a740/Screen%20Shot%202018-02-02%20at%207.11.33%20PM.png
 
 ### Communication
 
