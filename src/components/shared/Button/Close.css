@@ -16,7 +16,7 @@
 .close-btn .close {
   mask: url(/images/close.svg) no-repeat;
   mask-size: 100%;
-  background-color: var(--theme-comment-alt);
+  background-color: var(--theme-comment);
   width: 8px;
   height: 8px;
   transition: all 0.15s ease-in-out;

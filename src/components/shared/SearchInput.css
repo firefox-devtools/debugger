@@ -57,7 +57,7 @@
 
 .search-field .magnifying-glass path,
 .search-field .magnifying-glass ellipse {
-  stroke: var(--theme-splitter-color);
+  stroke: var(--theme-comment);
 }
 
 .search-field input::placeholder {

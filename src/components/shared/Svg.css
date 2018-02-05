@@ -79,7 +79,7 @@ img.arrow {
   width: 9px;
   height: 9px;
   padding-top: 9px;
-  background: var(--theme-splitter-color);
+  background: var(--disclosure-arrow);
   mask-size: 100%;
   display: inline-block;
   margin-bottom: 1px;
