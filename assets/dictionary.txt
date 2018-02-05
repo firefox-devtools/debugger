@@ -126,3 +126,13 @@ Greenkeeper
 headlessly
 natively
 outputed
+threadClient
+tabTarget
+bpClients
+originalToGeneratedId
+stopSourceMapWorker
+PreferencesHelper
+don't
+url
+sendPacket
+ws
