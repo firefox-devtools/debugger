@@ -142,6 +142,7 @@ export function getPendingBreakpointsForSource(
   state: OuterState,
   sourceUrl: String
 ) {
+  debugger;
   const pendingBreakpoints = state.pendingBreakpoints.pendingBreakpoints || [];
   return pendingBreakpoints.filter(
     pendingBreakpoint => pendingBreakpoint.location.sourceUrl === sourceUrl

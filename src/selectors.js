@@ -17,9 +17,9 @@ export * from "./reducers/coverage";
 export * from "./reducers/project-text-search";
 export * from "./reducers/quick-open";
 export * from "./reducers/source-tree";
-export * from "./selectors/breakpointAtLocation";
+// For some reason Flow wasn't able to find this using `export * from`
+export { getBreakpointAtLocation } from "./selectors/breakpointAtLocation";
 export * from "./selectors/visibleBreakpoints";
 export * from "./selectors/isSelectedFrameVisible";
 export * from "./selectors/getCallStackFrames";
-export * from "./selectors/visibleSelectedFrame";
 export * from "./selectors/visibleSelectedFrame";

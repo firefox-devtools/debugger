@@ -182,7 +182,7 @@ export function getSourceMetaData(state: OuterState, sourceId: string) {
   return state.ast.getIn(["sourceMetaData", sourceId]) || emptySourceMetaData;
 }
 
-export function getInScopeLines(state: OuterState, sourceId: string) {
+export function getInScopeLines(state: OuterState) {
   return state.ast.get("inScopeLines");
 }
 
