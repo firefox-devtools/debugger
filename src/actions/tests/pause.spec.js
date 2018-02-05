@@ -7,6 +7,7 @@ import {
   makeFrame
 } from "../../utils/test-head";
 
+import * as parser from "../../workers/parser/index";
 const { isStepping } = selectors;
 
 let stepInResolve = null;
@@ -15,6 +16,7 @@ const mockThreadClient = {
     new Promise(_resolve => {
       stepInResolve = _resolve;
     }),
+  stepOver: () => new Promise(_resolve => _resolve),
   evaluate: () => new Promise(_resolve => {}),
   getFrameScopes: async frame => frame.scope,
   sourceContents: sourceId => {
@@ -37,7 +39,12 @@ const mockThreadClient = {
 
 function createPauseInfo(overrides = {}) {
   return {
-    frames: [makeFrame({ id: 1, sourceId: "foo1" })],
+    frames: [
+      makeFrame(
+        { id: 1, sourceId: "foo1" },
+        { location: { sourceId: "foo1", line: 2 } }
+      )
+    ],
     loadedObjects: [],
     why: {},
     ...overrides
@@ -74,6 +81,19 @@ describe("pause", () => {
       await dispatch(actions.newSource(makeSource("foo1")));
       await dispatch(actions.paused(mockPauseInfo));
       dispatch(actions.stepIn());
+      expect(isStepping(getState())).toBeTruthy();
+    });
+
+    it("should step over when paused", async () => {
+      const store = createStore(mockThreadClient);
+      const { dispatch, getState } = store;
+      const mockPauseInfo = createPauseInfo();
+
+      await dispatch(actions.newSource(makeSource("foo1")));
+      await dispatch(actions.paused(mockPauseInfo));
+      const getNextStepSpy = jest.spyOn(parser, "getNextStep");
+      dispatch(actions.stepOver());
+      expect(getNextStepSpy).not.toBeCalled();
       expect(isStepping(getState())).toBeTruthy();
     });
   });
