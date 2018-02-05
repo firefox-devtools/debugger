@@ -1,0 +1,6818 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getScopes finds scope bindings for arrow functions 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "outer": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 9,
+              "line": 3,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 3,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 18,
+              "line": 4,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+            "start": Object {
+              "column": 14,
+              "line": 4,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+          },
+        ],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/arrow-function/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/arrow-function/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/arrow-function/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/arrow-function/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/arrow-function/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/arrow-function/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for arrow functions 2`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "p1": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 15,
+              "line": 3,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+            "start": Object {
+              "column": 13,
+              "line": 3,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "outer",
+    "end": Object {
+      "column": 1,
+      "line": 11,
+      "sourceId": "scopes/arrow-function/originalSource-1",
+    },
+    "start": Object {
+      "column": 13,
+      "line": 3,
+      "sourceId": "scopes/arrow-function/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "outer": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 9,
+              "line": 3,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 3,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 18,
+              "line": 4,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+            "start": Object {
+              "column": 14,
+              "line": 4,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+          },
+        ],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/arrow-function/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/arrow-function/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/arrow-function/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/arrow-function/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/arrow-function/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/arrow-function/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for arrow functions 3`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "arguments": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "inner": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 13,
+              "line": 7,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 7,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 22,
+              "line": 8,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+            "start": Object {
+              "column": 18,
+              "line": 8,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+          },
+        ],
+        "type": "implicit",
+      },
+    },
+    "displayName": "anonymous",
+    "end": Object {
+      "column": 3,
+      "line": 10,
+      "sourceId": "scopes/arrow-function/originalSource-1",
+    },
+    "start": Object {
+      "column": 3,
+      "line": 6,
+      "sourceId": "scopes/arrow-function/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "p1": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 15,
+              "line": 3,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+            "start": Object {
+              "column": 13,
+              "line": 3,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "outer",
+    "end": Object {
+      "column": 1,
+      "line": 11,
+      "sourceId": "scopes/arrow-function/originalSource-1",
+    },
+    "start": Object {
+      "column": 13,
+      "line": 3,
+      "sourceId": "scopes/arrow-function/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "outer": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 9,
+              "line": 3,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 3,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 18,
+              "line": 4,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+            "start": Object {
+              "column": 14,
+              "line": 4,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+          },
+        ],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/arrow-function/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/arrow-function/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/arrow-function/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/arrow-function/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/arrow-function/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/arrow-function/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for arrow functions 4`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "p2": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 19,
+              "line": 7,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+            "start": Object {
+              "column": 17,
+              "line": 7,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "inner",
+    "end": Object {
+      "column": 5,
+      "line": 9,
+      "sourceId": "scopes/arrow-function/originalSource-1",
+    },
+    "start": Object {
+      "column": 17,
+      "line": 7,
+      "sourceId": "scopes/arrow-function/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "arguments": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "inner": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 13,
+              "line": 7,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 7,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 22,
+              "line": 8,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+            "start": Object {
+              "column": 18,
+              "line": 8,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+          },
+        ],
+        "type": "implicit",
+      },
+    },
+    "displayName": "anonymous",
+    "end": Object {
+      "column": 3,
+      "line": 10,
+      "sourceId": "scopes/arrow-function/originalSource-1",
+    },
+    "start": Object {
+      "column": 3,
+      "line": 6,
+      "sourceId": "scopes/arrow-function/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "p1": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 15,
+              "line": 3,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+            "start": Object {
+              "column": 13,
+              "line": 3,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "outer",
+    "end": Object {
+      "column": 1,
+      "line": 11,
+      "sourceId": "scopes/arrow-function/originalSource-1",
+    },
+    "start": Object {
+      "column": 13,
+      "line": 3,
+      "sourceId": "scopes/arrow-function/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "outer": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 9,
+              "line": 3,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 3,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 18,
+              "line": 4,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+            "start": Object {
+              "column": 14,
+              "line": 4,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+          },
+        ],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/arrow-function/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/arrow-function/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/arrow-function/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/arrow-function/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/arrow-function/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/arrow-function/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for block statements 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "first": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 9,
+              "line": 3,
+              "sourceId": "scopes/block-statement/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 3,
+              "sourceId": "scopes/block-statement/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+      "second": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 12,
+              "line": 6,
+              "sourceId": "scopes/block-statement/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 6,
+              "sourceId": "scopes/block-statement/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "seventh": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 13,
+              "sourceId": "scopes/block-statement/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 13,
+              "sourceId": "scopes/block-statement/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/block-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/block-statement/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/block-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/block-statement/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/block-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/block-statement/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for block statements 2`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "Fourth": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 14,
+              "line": 8,
+              "sourceId": "scopes/block-statement/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 8,
+              "sourceId": "scopes/block-statement/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+      "fifth": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 9,
+              "sourceId": "scopes/block-statement/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 9,
+              "sourceId": "scopes/block-statement/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+      "sixth": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 13,
+              "line": 10,
+              "sourceId": "scopes/block-statement/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 10,
+              "sourceId": "scopes/block-statement/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "const",
+      },
+      "third": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 16,
+              "line": 7,
+              "sourceId": "scopes/block-statement/originalSource-1",
+            },
+            "start": Object {
+              "column": 11,
+              "line": 7,
+              "sourceId": "scopes/block-statement/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+    },
+    "displayName": "Block",
+    "end": Object {
+      "column": 1,
+      "line": 11,
+      "sourceId": "scopes/block-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 5,
+      "sourceId": "scopes/block-statement/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "first": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 9,
+              "line": 3,
+              "sourceId": "scopes/block-statement/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 3,
+              "sourceId": "scopes/block-statement/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+      "second": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 12,
+              "line": 6,
+              "sourceId": "scopes/block-statement/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 6,
+              "sourceId": "scopes/block-statement/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "seventh": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 13,
+              "sourceId": "scopes/block-statement/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 13,
+              "sourceId": "scopes/block-statement/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/block-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/block-statement/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/block-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/block-statement/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/block-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/block-statement/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for class declarations 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "Outer": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 3,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 3,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/class-declaration/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/class-declaration/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/class-declaration/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/class-declaration/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/class-declaration/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/class-declaration/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for class declarations 2`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "Inner": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 15,
+              "line": 5,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+            "start": Object {
+              "column": 10,
+              "line": 5,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+    },
+    "displayName": "Block",
+    "end": Object {
+      "column": 3,
+      "line": 10,
+      "sourceId": "scopes/class-declaration/originalSource-1",
+    },
+    "start": Object {
+      "column": 11,
+      "line": 4,
+      "sourceId": "scopes/class-declaration/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "arguments": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "method",
+    "end": Object {
+      "column": 3,
+      "line": 10,
+      "sourceId": "scopes/class-declaration/originalSource-1",
+    },
+    "start": Object {
+      "column": 2,
+      "line": 4,
+      "sourceId": "scopes/class-declaration/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "Outer": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 3,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 3,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "const",
+      },
+    },
+    "displayName": "Class",
+    "end": Object {
+      "column": 1,
+      "line": 11,
+      "sourceId": "scopes/class-declaration/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 3,
+      "sourceId": "scopes/class-declaration/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "Outer": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 3,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 3,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/class-declaration/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/class-declaration/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/class-declaration/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/class-declaration/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/class-declaration/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/class-declaration/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for class declarations 3`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "arguments": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 24,
+              "line": 7,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+            "start": Object {
+              "column": 20,
+              "line": 7,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+          },
+        ],
+        "type": "implicit",
+      },
+    },
+    "displayName": "m",
+    "end": Object {
+      "column": 7,
+      "line": 8,
+      "sourceId": "scopes/class-declaration/originalSource-1",
+    },
+    "start": Object {
+      "column": 6,
+      "line": 6,
+      "sourceId": "scopes/class-declaration/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "Inner": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 15,
+              "line": 5,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+            "start": Object {
+              "column": 10,
+              "line": 5,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "const",
+      },
+    },
+    "displayName": "Class",
+    "end": Object {
+      "column": 5,
+      "line": 9,
+      "sourceId": "scopes/class-declaration/originalSource-1",
+    },
+    "start": Object {
+      "column": 4,
+      "line": 5,
+      "sourceId": "scopes/class-declaration/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "Inner": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 15,
+              "line": 5,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+            "start": Object {
+              "column": 10,
+              "line": 5,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+    },
+    "displayName": "Block",
+    "end": Object {
+      "column": 3,
+      "line": 10,
+      "sourceId": "scopes/class-declaration/originalSource-1",
+    },
+    "start": Object {
+      "column": 11,
+      "line": 4,
+      "sourceId": "scopes/class-declaration/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "arguments": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "method",
+    "end": Object {
+      "column": 3,
+      "line": 10,
+      "sourceId": "scopes/class-declaration/originalSource-1",
+    },
+    "start": Object {
+      "column": 2,
+      "line": 4,
+      "sourceId": "scopes/class-declaration/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "Outer": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 3,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 3,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "const",
+      },
+    },
+    "displayName": "Class",
+    "end": Object {
+      "column": 1,
+      "line": 11,
+      "sourceId": "scopes/class-declaration/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 3,
+      "sourceId": "scopes/class-declaration/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "Outer": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 3,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 3,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/class-declaration/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/class-declaration/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/class-declaration/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/class-declaration/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/class-declaration/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/class-declaration/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for class expressions 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "Outer": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 9,
+              "line": 3,
+              "sourceId": "scopes/class-expression/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 3,
+              "sourceId": "scopes/class-expression/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/class-expression/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/class-expression/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/class-expression/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/class-expression/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/class-expression/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/class-expression/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for class expressions 2`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "Inner": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 13,
+              "line": 5,
+              "sourceId": "scopes/class-expression/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 5,
+              "sourceId": "scopes/class-expression/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "arguments": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "method",
+    "end": Object {
+      "column": 3,
+      "line": 10,
+      "sourceId": "scopes/class-expression/originalSource-1",
+    },
+    "start": Object {
+      "column": 2,
+      "line": 4,
+      "sourceId": "scopes/class-expression/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "Outer": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 23,
+              "line": 3,
+              "sourceId": "scopes/class-expression/originalSource-1",
+            },
+            "start": Object {
+              "column": 18,
+              "line": 3,
+              "sourceId": "scopes/class-expression/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "const",
+      },
+    },
+    "displayName": "Class",
+    "end": Object {
+      "column": 1,
+      "line": 11,
+      "sourceId": "scopes/class-expression/originalSource-1",
+    },
+    "start": Object {
+      "column": 12,
+      "line": 3,
+      "sourceId": "scopes/class-expression/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "Outer": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 9,
+              "line": 3,
+              "sourceId": "scopes/class-expression/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 3,
+              "sourceId": "scopes/class-expression/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/class-expression/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/class-expression/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/class-expression/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/class-expression/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/class-expression/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/class-expression/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for class expressions 3`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "arguments": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 24,
+              "line": 7,
+              "sourceId": "scopes/class-expression/originalSource-1",
+            },
+            "start": Object {
+              "column": 20,
+              "line": 7,
+              "sourceId": "scopes/class-expression/originalSource-1",
+            },
+          },
+        ],
+        "type": "implicit",
+      },
+    },
+    "displayName": "m",
+    "end": Object {
+      "column": 7,
+      "line": 8,
+      "sourceId": "scopes/class-expression/originalSource-1",
+    },
+    "start": Object {
+      "column": 6,
+      "line": 6,
+      "sourceId": "scopes/class-expression/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "Inner": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 13,
+              "line": 5,
+              "sourceId": "scopes/class-expression/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 5,
+              "sourceId": "scopes/class-expression/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "arguments": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "method",
+    "end": Object {
+      "column": 3,
+      "line": 10,
+      "sourceId": "scopes/class-expression/originalSource-1",
+    },
+    "start": Object {
+      "column": 2,
+      "line": 4,
+      "sourceId": "scopes/class-expression/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "Outer": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 23,
+              "line": 3,
+              "sourceId": "scopes/class-expression/originalSource-1",
+            },
+            "start": Object {
+              "column": 18,
+              "line": 3,
+              "sourceId": "scopes/class-expression/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "const",
+      },
+    },
+    "displayName": "Class",
+    "end": Object {
+      "column": 1,
+      "line": 11,
+      "sourceId": "scopes/class-expression/originalSource-1",
+    },
+    "start": Object {
+      "column": 12,
+      "line": 3,
+      "sourceId": "scopes/class-expression/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "Outer": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 9,
+              "line": 3,
+              "sourceId": "scopes/class-expression/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 3,
+              "sourceId": "scopes/class-expression/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/class-expression/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/class-expression/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/class-expression/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/class-expression/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/class-expression/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/class-expression/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for class properties 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "Foo": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 9,
+              "line": 3,
+              "sourceId": "scopes/class-property/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 3,
+              "sourceId": "scopes/class-property/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 11,
+      "sourceId": "scopes/class-property/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/class-property/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 11,
+      "sourceId": "scopes/class-property/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/class-property/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 11,
+      "sourceId": "scopes/class-property/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/class-property/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for class properties 2`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "arguments": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 13,
+              "line": 4,
+              "sourceId": "scopes/class-property/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 4,
+              "sourceId": "scopes/class-property/originalSource-1",
+            },
+          },
+        ],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Class Field",
+    "end": Object {
+      "column": 20,
+      "line": 4,
+      "sourceId": "scopes/class-property/originalSource-1",
+    },
+    "start": Object {
+      "column": 9,
+      "line": 4,
+      "sourceId": "scopes/class-property/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "Foo": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 9,
+              "line": 3,
+              "sourceId": "scopes/class-property/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 3,
+              "sourceId": "scopes/class-property/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "const",
+      },
+    },
+    "displayName": "Class",
+    "end": Object {
+      "column": 1,
+      "line": 10,
+      "sourceId": "scopes/class-property/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 3,
+      "sourceId": "scopes/class-property/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "Foo": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 9,
+              "line": 3,
+              "sourceId": "scopes/class-property/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 3,
+              "sourceId": "scopes/class-property/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 11,
+      "sourceId": "scopes/class-property/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/class-property/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 11,
+      "sourceId": "scopes/class-property/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/class-property/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 11,
+      "sourceId": "scopes/class-property/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/class-property/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for class properties 3`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "arguments": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "one": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 7,
+              "sourceId": "scopes/class-property/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 7,
+              "sourceId": "scopes/class-property/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Class Field",
+    "end": Object {
+      "column": 3,
+      "line": 9,
+      "sourceId": "scopes/class-property/originalSource-1",
+    },
+    "start": Object {
+      "column": 10,
+      "line": 6,
+      "sourceId": "scopes/class-property/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "Foo": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 9,
+              "line": 3,
+              "sourceId": "scopes/class-property/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 3,
+              "sourceId": "scopes/class-property/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "const",
+      },
+    },
+    "displayName": "Class",
+    "end": Object {
+      "column": 1,
+      "line": 10,
+      "sourceId": "scopes/class-property/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 3,
+      "sourceId": "scopes/class-property/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "Foo": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 9,
+              "line": 3,
+              "sourceId": "scopes/class-property/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 3,
+              "sourceId": "scopes/class-property/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 11,
+      "sourceId": "scopes/class-property/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/class-property/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 11,
+      "sourceId": "scopes/class-property/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/class-property/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 11,
+      "sourceId": "scopes/class-property/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/class-property/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for class properties 4`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "two": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 8,
+              "sourceId": "scopes/class-property/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 8,
+              "sourceId": "scopes/class-property/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+    },
+    "displayName": "Block",
+    "end": Object {
+      "column": 3,
+      "line": 9,
+      "sourceId": "scopes/class-property/originalSource-1",
+    },
+    "start": Object {
+      "column": 13,
+      "line": 6,
+      "sourceId": "scopes/class-property/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "arguments": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "one": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 7,
+              "sourceId": "scopes/class-property/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 7,
+              "sourceId": "scopes/class-property/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Class Field",
+    "end": Object {
+      "column": 3,
+      "line": 9,
+      "sourceId": "scopes/class-property/originalSource-1",
+    },
+    "start": Object {
+      "column": 10,
+      "line": 6,
+      "sourceId": "scopes/class-property/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "Foo": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 9,
+              "line": 3,
+              "sourceId": "scopes/class-property/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 3,
+              "sourceId": "scopes/class-property/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "const",
+      },
+    },
+    "displayName": "Class",
+    "end": Object {
+      "column": 1,
+      "line": 10,
+      "sourceId": "scopes/class-property/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 3,
+      "sourceId": "scopes/class-property/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "Foo": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 9,
+              "line": 3,
+              "sourceId": "scopes/class-property/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 3,
+              "sourceId": "scopes/class-property/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 11,
+      "sourceId": "scopes/class-property/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/class-property/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 11,
+      "sourceId": "scopes/class-property/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/class-property/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 11,
+      "sourceId": "scopes/class-property/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/class-property/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for for loops 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "four": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 13,
+              "line": 7,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 7,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "one": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 12,
+              "line": 3,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 3,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "seven": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 14,
+              "line": 11,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 11,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for for loops 2`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "four": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 13,
+              "line": 7,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 7,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "one": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 12,
+              "line": 3,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 3,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "seven": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 14,
+              "line": 11,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 11,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for for loops 3`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "two": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 12,
+              "line": 4,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 4,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+    },
+    "displayName": "For",
+    "end": Object {
+      "column": 18,
+      "line": 4,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "start": Object {
+      "column": 5,
+      "line": 4,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "four": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 13,
+              "line": 7,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 7,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "one": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 12,
+              "line": 3,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 3,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "seven": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 14,
+              "line": 11,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 11,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for for loops 4`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "three": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 16,
+              "line": 5,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+            "start": Object {
+              "column": 11,
+              "line": 5,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "const",
+      },
+    },
+    "displayName": "For",
+    "end": Object {
+      "column": 26,
+      "line": 5,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "start": Object {
+      "column": 5,
+      "line": 5,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "four": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 13,
+              "line": 7,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 7,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "one": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 12,
+              "line": 3,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 3,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "seven": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 14,
+              "line": 11,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 11,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for for loops 5`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "four": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 13,
+              "line": 7,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 7,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "one": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 12,
+              "line": 3,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 3,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "seven": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 14,
+              "line": 11,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 11,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for for loops 6`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "five": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 13,
+              "line": 8,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 8,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+    },
+    "displayName": "For",
+    "end": Object {
+      "column": 23,
+      "line": 8,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "start": Object {
+      "column": 5,
+      "line": 8,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "four": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 13,
+              "line": 7,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 7,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "one": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 12,
+              "line": 3,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 3,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "seven": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 14,
+              "line": 11,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 11,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for for loops 7`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "six": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 14,
+              "line": 9,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+            "start": Object {
+              "column": 11,
+              "line": 9,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "const",
+      },
+    },
+    "displayName": "For",
+    "end": Object {
+      "column": 24,
+      "line": 9,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "start": Object {
+      "column": 5,
+      "line": 9,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "four": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 13,
+              "line": 7,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 7,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "one": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 12,
+              "line": 3,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 3,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "seven": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 14,
+              "line": 11,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 11,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for for loops 8`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "four": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 13,
+              "line": 7,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 7,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "one": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 12,
+              "line": 3,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 3,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "seven": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 14,
+              "line": 11,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 11,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for for loops 9`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "eight": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 14,
+              "line": 12,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 12,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+    },
+    "displayName": "For",
+    "end": Object {
+      "column": 24,
+      "line": 12,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "start": Object {
+      "column": 5,
+      "line": 12,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "four": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 13,
+              "line": 7,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 7,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "one": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 12,
+              "line": 3,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 3,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "seven": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 14,
+              "line": 11,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 11,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for for loops 10`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "nine": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 15,
+              "line": 13,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+            "start": Object {
+              "column": 11,
+              "line": 13,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "const",
+      },
+    },
+    "displayName": "For",
+    "end": Object {
+      "column": 25,
+      "line": 13,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "start": Object {
+      "column": 5,
+      "line": 13,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "four": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 13,
+              "line": 7,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 7,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "one": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 12,
+              "line": 3,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 3,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "seven": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 14,
+              "line": 11,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 11,
+              "sourceId": "scopes/for-loops/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/for-loops/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for function declarations 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "outer": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 14,
+              "line": 3,
+              "sourceId": "scopes/function-declaration/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 3,
+              "sourceId": "scopes/function-declaration/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/function-declaration/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/function-declaration/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/function-declaration/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/function-declaration/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/function-declaration/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/function-declaration/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for function declarations 2`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "arguments": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "p1": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 17,
+              "line": 3,
+              "sourceId": "scopes/function-declaration/originalSource-1",
+            },
+            "start": Object {
+              "column": 15,
+              "line": 3,
+              "sourceId": "scopes/function-declaration/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "outer",
+    "end": Object {
+      "column": 21,
+      "line": 3,
+      "sourceId": "scopes/function-declaration/originalSource-1",
+    },
+    "start": Object {
+      "column": 15,
+      "line": 3,
+      "sourceId": "scopes/function-declaration/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "outer": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 14,
+              "line": 3,
+              "sourceId": "scopes/function-declaration/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 3,
+              "sourceId": "scopes/function-declaration/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/function-declaration/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/function-declaration/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/function-declaration/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/function-declaration/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/function-declaration/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/function-declaration/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for function declarations 3`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "middle": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 17,
+              "line": 6,
+              "sourceId": "scopes/function-declaration/originalSource-1",
+            },
+            "start": Object {
+              "column": 11,
+              "line": 6,
+              "sourceId": "scopes/function-declaration/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+    },
+    "displayName": "Block",
+    "end": Object {
+      "column": 1,
+      "line": 11,
+      "sourceId": "scopes/function-declaration/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 5,
+      "sourceId": "scopes/function-declaration/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "outer": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 14,
+              "line": 3,
+              "sourceId": "scopes/function-declaration/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 3,
+              "sourceId": "scopes/function-declaration/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/function-declaration/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/function-declaration/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/function-declaration/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/function-declaration/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/function-declaration/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/function-declaration/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for function declarations 4`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "arguments": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "inner": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 18,
+              "line": 7,
+              "sourceId": "scopes/function-declaration/originalSource-1",
+            },
+            "start": Object {
+              "column": 13,
+              "line": 7,
+              "sourceId": "scopes/function-declaration/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "p2": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 20,
+              "line": 6,
+              "sourceId": "scopes/function-declaration/originalSource-1",
+            },
+            "start": Object {
+              "column": 18,
+              "line": 6,
+              "sourceId": "scopes/function-declaration/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 20,
+              "line": 9,
+              "sourceId": "scopes/function-declaration/originalSource-1",
+            },
+            "start": Object {
+              "column": 16,
+              "line": 9,
+              "sourceId": "scopes/function-declaration/originalSource-1",
+            },
+          },
+        ],
+        "type": "implicit",
+      },
+    },
+    "displayName": "middle",
+    "end": Object {
+      "column": 3,
+      "line": 10,
+      "sourceId": "scopes/function-declaration/originalSource-1",
+    },
+    "start": Object {
+      "column": 18,
+      "line": 6,
+      "sourceId": "scopes/function-declaration/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "middle": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 17,
+              "line": 6,
+              "sourceId": "scopes/function-declaration/originalSource-1",
+            },
+            "start": Object {
+              "column": 11,
+              "line": 6,
+              "sourceId": "scopes/function-declaration/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+    },
+    "displayName": "Block",
+    "end": Object {
+      "column": 1,
+      "line": 11,
+      "sourceId": "scopes/function-declaration/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 5,
+      "sourceId": "scopes/function-declaration/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "outer": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 14,
+              "line": 3,
+              "sourceId": "scopes/function-declaration/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 3,
+              "sourceId": "scopes/function-declaration/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/function-declaration/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/function-declaration/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/function-declaration/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/function-declaration/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/function-declaration/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/function-declaration/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for function expressions 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "fn": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 6,
+              "line": 3,
+              "sourceId": "scopes/function-expression/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 3,
+              "sourceId": "scopes/function-expression/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+      "fn2": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 7,
+              "line": 5,
+              "sourceId": "scopes/function-expression/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 5,
+              "sourceId": "scopes/function-expression/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 8,
+      "sourceId": "scopes/function-expression/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/function-expression/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 8,
+      "sourceId": "scopes/function-expression/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/function-expression/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 8,
+      "sourceId": "scopes/function-expression/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/function-expression/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for function expressions 2`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "arguments": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "p1": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 20,
+              "line": 3,
+              "sourceId": "scopes/function-expression/originalSource-1",
+            },
+            "start": Object {
+              "column": 18,
+              "line": 3,
+              "sourceId": "scopes/function-expression/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "fn",
+    "end": Object {
+      "column": 24,
+      "line": 3,
+      "sourceId": "scopes/function-expression/originalSource-1",
+    },
+    "start": Object {
+      "column": 18,
+      "line": 3,
+      "sourceId": "scopes/function-expression/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "fn": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 6,
+              "line": 3,
+              "sourceId": "scopes/function-expression/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 3,
+              "sourceId": "scopes/function-expression/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+      "fn2": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 7,
+              "line": 5,
+              "sourceId": "scopes/function-expression/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 5,
+              "sourceId": "scopes/function-expression/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 8,
+      "sourceId": "scopes/function-expression/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/function-expression/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 8,
+      "sourceId": "scopes/function-expression/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/function-expression/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 8,
+      "sourceId": "scopes/function-expression/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/function-expression/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for function expressions 3`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "arguments": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "p2": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 30,
+              "line": 5,
+              "sourceId": "scopes/function-expression/originalSource-1",
+            },
+            "start": Object {
+              "column": 28,
+              "line": 5,
+              "sourceId": "scopes/function-expression/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 18,
+              "line": 6,
+              "sourceId": "scopes/function-expression/originalSource-1",
+            },
+            "start": Object {
+              "column": 14,
+              "line": 6,
+              "sourceId": "scopes/function-expression/originalSource-1",
+            },
+          },
+        ],
+        "type": "implicit",
+      },
+    },
+    "displayName": "withName",
+    "end": Object {
+      "column": 1,
+      "line": 7,
+      "sourceId": "scopes/function-expression/originalSource-1",
+    },
+    "start": Object {
+      "column": 28,
+      "line": 5,
+      "sourceId": "scopes/function-expression/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "withName": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 27,
+              "line": 5,
+              "sourceId": "scopes/function-expression/originalSource-1",
+            },
+            "start": Object {
+              "column": 19,
+              "line": 5,
+              "sourceId": "scopes/function-expression/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "const",
+      },
+    },
+    "displayName": "Function Expression",
+    "end": Object {
+      "column": 1,
+      "line": 7,
+      "sourceId": "scopes/function-expression/originalSource-1",
+    },
+    "start": Object {
+      "column": 10,
+      "line": 5,
+      "sourceId": "scopes/function-expression/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "fn": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 6,
+              "line": 3,
+              "sourceId": "scopes/function-expression/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 3,
+              "sourceId": "scopes/function-expression/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+      "fn2": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 7,
+              "line": 5,
+              "sourceId": "scopes/function-expression/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 5,
+              "sourceId": "scopes/function-expression/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 8,
+      "sourceId": "scopes/function-expression/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/function-expression/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 8,
+      "sourceId": "scopes/function-expression/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/function-expression/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 8,
+      "sourceId": "scopes/function-expression/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/function-expression/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for switch statements 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "zero": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 12,
+              "line": 5,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 5,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for switch statements 2`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "one": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 7,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 7,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+      "two": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 9,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 9,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+    },
+    "displayName": "Switch",
+    "end": Object {
+      "column": 1,
+      "line": 13,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 3,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "zero": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 12,
+              "line": 5,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 5,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for switch statements 3`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "one": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 7,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 7,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+      "two": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 9,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 9,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+    },
+    "displayName": "Switch",
+    "end": Object {
+      "column": 1,
+      "line": 13,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 3,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "zero": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 12,
+              "line": 5,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 5,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for switch statements 4`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "one": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 7,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 7,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+      "two": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 9,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 9,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+    },
+    "displayName": "Switch",
+    "end": Object {
+      "column": 1,
+      "line": 13,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 3,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "zero": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 12,
+              "line": 5,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 5,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for switch statements 5`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "three": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 13,
+              "line": 11,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 11,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+    },
+    "displayName": "Block",
+    "end": Object {
+      "column": 3,
+      "line": 12,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 16,
+      "line": 10,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "one": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 7,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 7,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+      "two": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 9,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 9,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+    },
+    "displayName": "Switch",
+    "end": Object {
+      "column": 1,
+      "line": 13,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 3,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "zero": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 12,
+              "line": 5,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 5,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for try..catch 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "first": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 4,
+              "sourceId": "scopes/try-catch/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 4,
+              "sourceId": "scopes/try-catch/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "third": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 7,
+              "sourceId": "scopes/try-catch/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 7,
+              "sourceId": "scopes/try-catch/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 10,
+      "sourceId": "scopes/try-catch/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/try-catch/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 10,
+      "sourceId": "scopes/try-catch/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/try-catch/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 10,
+      "sourceId": "scopes/try-catch/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/try-catch/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for try..catch 2`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "second": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 12,
+              "line": 5,
+              "sourceId": "scopes/try-catch/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 5,
+              "sourceId": "scopes/try-catch/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+    },
+    "displayName": "Block",
+    "end": Object {
+      "column": 1,
+      "line": 6,
+      "sourceId": "scopes/try-catch/originalSource-1",
+    },
+    "start": Object {
+      "column": 4,
+      "line": 3,
+      "sourceId": "scopes/try-catch/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "first": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 4,
+              "sourceId": "scopes/try-catch/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 4,
+              "sourceId": "scopes/try-catch/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "third": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 7,
+              "sourceId": "scopes/try-catch/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 7,
+              "sourceId": "scopes/try-catch/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 10,
+      "sourceId": "scopes/try-catch/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/try-catch/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 10,
+      "sourceId": "scopes/try-catch/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/try-catch/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 10,
+      "sourceId": "scopes/try-catch/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/try-catch/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for try..catch 3`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "fourth": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 12,
+              "line": 8,
+              "sourceId": "scopes/try-catch/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 8,
+              "sourceId": "scopes/try-catch/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+    },
+    "displayName": "Block",
+    "end": Object {
+      "column": 1,
+      "line": 9,
+      "sourceId": "scopes/try-catch/originalSource-1",
+    },
+    "start": Object {
+      "column": 14,
+      "line": 6,
+      "sourceId": "scopes/try-catch/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "err": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 12,
+              "line": 6,
+              "sourceId": "scopes/try-catch/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 6,
+              "sourceId": "scopes/try-catch/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Catch",
+    "end": Object {
+      "column": 1,
+      "line": 9,
+      "sourceId": "scopes/try-catch/originalSource-1",
+    },
+    "start": Object {
+      "column": 2,
+      "line": 6,
+      "sourceId": "scopes/try-catch/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "first": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 4,
+              "sourceId": "scopes/try-catch/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 4,
+              "sourceId": "scopes/try-catch/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "third": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 7,
+              "sourceId": "scopes/try-catch/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 7,
+              "sourceId": "scopes/try-catch/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 10,
+      "sourceId": "scopes/try-catch/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/try-catch/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 10,
+      "sourceId": "scopes/try-catch/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/try-catch/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 10,
+      "sourceId": "scopes/try-catch/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/try-catch/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings in a module 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "fn": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 9,
+              "sourceId": "scopes/simple-module/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 9,
+              "sourceId": "scopes/simple-module/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "foo": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 10,
+              "line": 1,
+              "sourceId": "scopes/simple-module/originalSource-1",
+            },
+            "start": Object {
+              "column": 7,
+              "line": 1,
+              "sourceId": "scopes/simple-module/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 15,
+              "line": 3,
+              "sourceId": "scopes/simple-module/originalSource-1",
+            },
+            "start": Object {
+              "column": 12,
+              "line": 3,
+              "sourceId": "scopes/simple-module/originalSource-1",
+            },
+          },
+        ],
+        "type": "const",
+      },
+      "one": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 7,
+              "line": 5,
+              "sourceId": "scopes/simple-module/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 5,
+              "sourceId": "scopes/simple-module/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 4,
+              "line": 11,
+              "sourceId": "scopes/simple-module/originalSource-1",
+            },
+            "start": Object {
+              "column": 0,
+              "line": 11,
+              "sourceId": "scopes/simple-module/originalSource-1",
+            },
+          },
+        ],
+        "type": "implicit",
+      },
+      "three": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 7,
+              "sourceId": "scopes/simple-module/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 7,
+              "sourceId": "scopes/simple-module/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "const",
+      },
+      "two": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 7,
+              "line": 6,
+              "sourceId": "scopes/simple-module/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 6,
+              "sourceId": "scopes/simple-module/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/simple-module/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/simple-module/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/simple-module/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/simple-module/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "scopes/simple-module/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/simple-module/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
