@@ -31,6 +31,11 @@ function bindSelectors(obj) {
   }, {});
 }
 
+function getCM() {
+  const cm = document.querySelector(".CodeMirror");
+  return cm && cm.CodeMirror;
+}
+
 export function setupHelper(obj) {
   const selectors = bindSelectors(obj);
   const actions = bindActionCreators(obj.actions, obj.store.dispatch);
@@ -41,6 +46,7 @@ export function setupHelper(obj) {
     prefs,
     features,
     timings,
+    getCM,
     helpers: {
       findSource: url => findSource(dbg, url),
       evaluate: (expression, cbk) => evaluate(dbg, expression, cbk),
