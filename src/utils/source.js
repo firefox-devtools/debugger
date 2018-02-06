@@ -59,6 +59,20 @@ export function shouldPrettyPrint(source: SourceRecord) {
 }
 
 /**
+ * Returns true if the specified source text contains inline javascript
+ *
+ * @return boolean
+ *         True if the source text likely contains javascript.
+ *
+ * @memberof utils/source
+ * @static
+ */
+export function hasJavaScript(source: SourceRecord): boolean {
+  const sourceText = source.get("text");
+  return /(<script|href=["']javascript)/i.test(sourceText);
+}
+
+/**
  * Returns true if the specified url and/or content type are specific to
  * javascript files.
  *
