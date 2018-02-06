@@ -127,7 +127,7 @@ export default class FrameComponent extends Component<FrameComponentProps> {
         tabIndex={0}
       >
         <FrameTitle frame={frame} options={{ shouldMapDisplayName }} />
-        <FrameLocation frame={frame} />
+        {!hideLocation && <FrameLocation frame={frame} />}
       </li>
     );
   }
