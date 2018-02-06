@@ -45,7 +45,7 @@ add_task(async function() {
   console.log(dbg.win.document.querySelector(".sources-list .tree-node:nth-child(3)"));
 
   console.log('clicked on `sourceDirectory!`');
-  debugger;
+  //debugger;
 
   await assertSourceCount(dbg, 8);
 
