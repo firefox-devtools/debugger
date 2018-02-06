@@ -3,7 +3,7 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-// import { endTruncateStr } from "./utils";
+
 import { isPretty, getSourcePath } from "./source";
 
 import type { Location as BabelLocation } from "babel-traverse";
