@@ -95,4 +95,175 @@ add_task(async function() {
     "forOf",
     "mod"
   ]);
+
+  await breakpointScopes(dbg, "shadowed-vars", { line: 18, column: 6 }, [
+    "Block",
+    ["aConst", '"const3"'],
+    ["aLet", '"let3"'],
+    "Block",
+    ["aConst", '"const2"'],
+    ["aLet", '"let2"'],
+    "Outer:_Outer()",
+    "Block",
+    ["aConst", '"const1"'],
+    ["aLet", '"let1"'],
+    "Outer()",
+    "default",
+    ["aVar", '"var3"']
+  ]);
+
+  await breakpointScopes(
+    dbg,
+    "this-arguments-bindings",
+    { line: 4, column: 4 },
+    [
+      "Block",
+      ["<this>", '"this-value"'],
+      ["arrow", "undefined"],
+      "fn",
+      ["arg", '"arg-value"'],
+      ["arguments", "Arguments"],
+      "root",
+      "fn()",
+      "Module",
+      "root()"
+    ]
+  );
+
+  // No '<this>' binding here because Babel does not currently general
+  // the current mappings for 'this' bindings.
+  await breakpointScopes(
+    dbg,
+    "this-arguments-bindings",
+    { line: 8, column: 6 },
+    [
+      "arrow",
+      ["argArrow", "(unavailable)"],
+      "Block",
+      "arrow()",
+      "fn",
+      ["arg", '"arg-value"'],
+      ["arguments", "Arguments"],
+      "root",
+      "fn()",
+      "Module",
+      "root()"
+    ]
+  );
+
+  await breakpointScopes(dbg, "imported-bindings", { line: 11, column: 2 }, [
+    "Module",
+    ["aDefault", "(unavailable)"],
+    ["anAliased", "(unavailable)"],
+    ["aNamed", "(unavailable)"],
+    ["aNamespace", "{\u2026}"],
+    "root()"
+  ]);
+
+  await breakpointScopes(dbg, "classes", { line: 12, column: 6 }, [
+    "Block",
+    ["three", "3"],
+    ["two", "2"],
+    "Class",
+    "Another()",
+    "Block",
+    "Another()",
+    ["one", "1"],
+    "Thing()",
+    "Module",
+    "root()"
+  ]);
+
+  await breakpointScopes(dbg, "for-loops", { line: 5, column: 4 }, [
+    "For",
+    ["i", "1"],
+    "Block",
+    ["i", "0"],
+    "Module",
+    "root()"
+  ]);
+
+  await breakpointScopes(dbg, "for-loops", { line: 9, column: 4 }, [
+    "For",
+    ["i", '"2"'],
+    "Block",
+    ["i", "0"],
+    "Module",
+    "root()"
+  ]);
+
+  await breakpointScopes(dbg, "for-loops", { line: 13, column: 4 }, [
+    "For",
+    ["i", "3"],
+    "Block",
+    ["i", "0"],
+    "Module",
+    "root()"
+  ]);
+
+  await breakpointScopes(dbg, "functions", { line: 6, column: 8 }, [
+    "arrow",
+    ["p3", "undefined"],
+    "Block",
+    "arrow()",
+    "inner",
+    ["p2", "undefined"],
+    "Function Expression",
+    "inner()",
+    "Block",
+    "inner()",
+    "decl",
+    ["p1", "undefined"],
+    "root",
+    "decl()",
+    "Module",
+    "root()"
+  ]);
+
+  await breakpointScopes(dbg, "modules", { line: 7, column: 2 }, [
+    "Module",
+    ["alsoModuleScoped", "2"],
+    ["moduleScoped", "1"],
+    "thirdModuleScoped()"
+  ]);
+
+  await breakpointScopes(dbg, "commonjs", { line: 7, column: 2 }, [
+    "Module",
+    ["alsoModuleScoped", "2"],
+    ["moduleScoped", "1"],
+    "thirdModuleScoped()"
+  ]);
+
+  await breakpointScopes(dbg, "non-modules", { line: 7, column: 2 }, []);
+
+  await breakpointScopes(dbg, "switches", { line: 7, column: 6 }, [
+    "Switch",
+    ["val", "2"],
+    "Block",
+    ["val", "1"],
+    "Module",
+    "root()"
+  ]);
+
+  await breakpointScopes(dbg, "switches", { line: 10, column: 6 }, [
+    "Block",
+    ["val", "3"],
+    "Switch",
+    ["val", "2"],
+    "Block",
+    ["val", "1"],
+    "Module",
+    "root()"
+  ]);
+
+  await breakpointScopes(dbg, "try-catches", { line: 8, column: 4 }, [
+    "Block",
+    ["two", "2"],
+    "Catch",
+    ["err", '"AnError"'],
+    "Block",
+    ["one", "1"],
+    "Module",
+    "root()"
+  ]);
 });
