@@ -7,6 +7,7 @@ import { Component } from "react";
 import { toEditorPosition, getDocument, hasDocument } from "../../utils/editor";
 import { isLoaded } from "../../utils/source";
 import { isException } from "../../utils/pause";
+import { getIndentationLength } from "../../utils/indentation";
 import { connect } from "react-redux";
 import {
   getVisibleSelectedFrame,
@@ -66,10 +67,7 @@ export class DebugLine extends Component<Props> {
     doc.addLineClass(line, "line", lineClass);
 
     const lineText = doc.getLine(line);
-    const spaces = lineText.match(/^\s+/);
-    if (spaces) {
-      column = Math.max(column, spaces[0].length);
-    }
+    column = Math.max(column, getIndentationLength(lineText));
 
     this.debugExpression = doc.markText(
       { ch: column, line },

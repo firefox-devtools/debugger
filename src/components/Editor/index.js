@@ -12,6 +12,7 @@ import { debugGlobal } from "devtools-launchpad";
 import { isLoaded } from "../../utils/source";
 import { isFirefox } from "devtools-config";
 import { features } from "../../utils/prefs";
+import { getIndentationLength } from "../../utils/indentation";
 
 import {
   getActiveSearch,
@@ -419,12 +420,8 @@ class Editor extends PureComponent<Props, State> {
 
     if (this.shouldScrollToLocation(nextProps)) {
       let { line, column } = toEditorPosition(nextProps.selectedLocation);
-
       const lineText = editor.editor.getLine(line);
-      const spaces = lineText.match(/^\s+/);
-      if (spaces) {
-        column = Math.max(column, spaces[0].length);
-      }
+      column = Math.max(column, getIndentationLength(lineText));
       scrollToColumn(editor.codeMirror, line, column);
     }
   }
