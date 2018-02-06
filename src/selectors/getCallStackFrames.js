@@ -52,12 +52,10 @@ export function formatCallStackFrames(
     .map(annotateFrame);
 }
 
-const getCallStackFrames = createSelector(
+export const getCallStackFrames = createSelector(
   getSelectedSource,
   getSources,
   getFrames,
   (selectedSource, sources, frames) =>
     formatCallStackFrames(frames, sources, selectedSource)
 );
-
-export default getCallStackFrames;
