@@ -22,6 +22,18 @@ function getLabel(dbg, index) {
     .replace(/^[\s\u200b]*/g, "");
 }
 
+async function clickEl(dbg, elementName, ...args) {
+  const selector = getSelector(elementName, ...args);
+  const el = await waitForElementWithSelector(dbg, selector);
+
+  el.scrollIntoView();
+  dump(`> EL ${el.innerText}\n`)
+
+  takeScreenshot(dbg)
+  el.click();
+}
+
+
 add_task(async function() {
   const dbg = await initDebugger("doc-sources.html");
   const { selectors: { getSelectedSource }, getState } = dbg;
