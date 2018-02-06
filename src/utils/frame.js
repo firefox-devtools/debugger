@@ -4,7 +4,6 @@
 
 // @flow
 
-import { get } from "lodash";
 import { getFilename } from "./source";
 import { get, find, findIndex } from "lodash";
 

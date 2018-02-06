@@ -23,8 +23,6 @@ import {
   getPauseReason,
   getTopFrame
 } from "../../selectors";
-import { makeLocationId } from "../../utils/breakpoint";
-import { getFilename } from "../../utils/source";
 import { isInterrupted } from "../../utils/pause";
 import { makeLocationId } from "../../utils/breakpoint";
 import showContextMenu from "./BreakpointsContextMenu";
