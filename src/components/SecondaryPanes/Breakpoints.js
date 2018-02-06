@@ -13,7 +13,6 @@ import { sortBy } from "lodash";
 
 import actions from "../../actions";
 import CloseButton from "../shared/Button/Close";
-import { endTruncateStr } from "../../utils/utils";
 import { features } from "../../utils/prefs";
 import { getFilename } from "../../utils/source";
 import {
