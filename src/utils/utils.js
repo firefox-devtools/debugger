@@ -38,7 +38,7 @@ function promisify(context: any, method: any, ...args: any): Promise<mixed> {
  * @memberof utils/utils
  * @static
  */
-/*function endTruncateStr(str: any, size: number) {
+/* function endTruncateStr(str: any, size: number) {
   if (str.length > size) {
     return `...${str.slice(str.length - size)}`;
   }
