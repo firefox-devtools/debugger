@@ -95,6 +95,7 @@ describe("pause", () => {
       dispatch(actions.stepOver());
       expect(getNextStepSpy).not.toBeCalled();
       expect(isStepping(getState())).toBeTruthy();
+      getNextStepSpy.mockRestore();
     });
   });
 

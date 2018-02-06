@@ -158,6 +158,10 @@ export function reverseStepOut() {
  */
 function hasAwait(source, pauseLocation) {
   const { line, column } = pauseLocation;
+  if (!source.text) {
+    return false;
+  }
+
   return source.text
     .split("\n")
     [line - 1].slice(column, column + 200)
