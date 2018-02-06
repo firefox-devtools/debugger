@@ -42,7 +42,7 @@ function FrameLocation({ frame }: FrameLocationProps) {
 
   const filename = getFilename(frame.source);
   return (
-    <div title={filename} className="location">
+    <div className="location">
       <div className="fileName">{filename}</div>
       <div className="lineNumber">{frame.location.line}</div>
     </div>
@@ -122,7 +122,6 @@ export default class FrameComponent extends Component<FrameComponentProps> {
         key={frame.id}
         className={className}
         onMouseDown={e => this.onMouseDown(e, frame, selectedFrame)}
-        onMouseOver={e => this.onMouseOver(e, frame)}
         onKeyUp={e => this.onKeyUp(e, frame, selectedFrame)}
         onContextMenu={e => this.onContextMenu(e)}
         tabIndex={0}

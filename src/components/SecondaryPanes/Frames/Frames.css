@@ -39,13 +39,9 @@
   overflow: hidden;
 }
 
-.fileLocation {
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
 .lineNumber {
-  position: fixed;
+  border-left: 100% solid grey; 
+  border-right: 100% solid grey; 
 }
 
 .theme-light .frames .location,
