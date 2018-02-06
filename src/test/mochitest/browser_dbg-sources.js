@@ -11,6 +11,14 @@ async function waitForSourceCount(dbg, i) {
   });
 }
 
+async function clickEl(dbg, elementName, ...args) {
+  const selector = getSelector(elementName, ...args);
+  const el = await waitForElementWithSelector(dbg, selector);
+
+  el.scrollIntoView();
+  el.click();
+}
+
 async function assertSourceCount(dbg, count) {
   await waitForSourceCount(dbg, count);
   is(findAllElements(dbg, "sourceNodes").length, count, `${count} sources`);
@@ -34,23 +42,23 @@ add_task(async function() {
 
   await assertSourceCount(dbg, 7);
 
-  console.log('about to click element: ', dbg.win.document.querySelector(".sources-list .tree-node:nth-child(3)"));
-  dbg.win.document.querySelector(".sources-list .tree-node:nth-child(3)").style.color='green';
-  dbg.win.document.querySelector(".sources-list .tree-node:nth-child(3)").style.border='1px solid yellow';
+  //console.log('about to click element: ', dbg.win.document.querySelector(".sources-list .tree-node:nth-child(3)"));
+  //dbg.win.document.querySelector(".sources-list .tree-node:nth-child(3)").style.color='green';
+  //dbg.win.document.querySelector(".sources-list .tree-node:nth-child(3)").style.border='1px solid yellow';
   //debugger;
 
   await clickElement(dbg, "sourceDirectory", 3);
 
-  dbg.win.document.querySelector(".sources-list .focused").style.color = 'red';
-  console.log(dbg.win.document.querySelector(".sources-list .tree-node:nth-child(3)"));
+  //dbg.win.document.querySelector(".sources-list .focused").style.color = 'red';
+  //console.log(dbg.win.document.querySelector(".sources-list .tree-node:nth-child(3)"));
 
-  console.log('clicked on `sourceDirectory!`');
+  //console.log('clicked on `sourceDirectory!`');
   //debugger;
 
   await assertSourceCount(dbg, 8);
 
   // Cleanup from opening source directory
-  dbg.win.document.querySelector(".sources-list .focused").classList.remove("focused");
+  //dbg.win.document.querySelector(".sources-list .focused").classList.remove("focused");
 
   // Select a source
   ok(
