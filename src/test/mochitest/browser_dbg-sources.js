@@ -58,7 +58,7 @@ add_task(async function() {
   await assertSourceCount(dbg, 8);
 
   // Cleanup from opening source directory
-  //dbg.win.document.querySelector(".sources-list .focused").classList.remove("focused");
+  dbg.win.document.querySelector(".sources-list .focused").classList.remove("focused");
 
   // Select a source
   ok(
