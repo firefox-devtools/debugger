@@ -43,8 +43,8 @@ function FrameLocation({ frame }: FrameLocationProps) {
   const filename = getFilename(frame.source);
   return (
     <div className="location" title={`Line number:${frame.location.line}`}>
-      <div className="fileName">{filename}: </div>
-      <div className="lineNumber">{frame.location.line}</div>
+      <span className="fileName">{filename}: </span>
+      <span className="lineNumber">{frame.location.line}</span>
     </div>
   );
 }
@@ -127,7 +127,7 @@ export default class FrameComponent extends Component<FrameComponentProps> {
         tabIndex={0}
       >
         <FrameTitle frame={frame} options={{ shouldMapDisplayName }} />
-        {!hideLocation && <FrameLocation frame={frame} />}
+        <FrameLocation frame={frame} />
       </li>
     );
   }
