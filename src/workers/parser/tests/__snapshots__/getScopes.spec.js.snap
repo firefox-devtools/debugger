@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`getScopes finds scope bindings for arrow functions 1`] = `
+exports[`getScopes finds scope bindings for arrow functions at line 2 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -113,7 +113,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for arrow functions 2`] = `
+exports[`getScopes finds scope bindings for arrow functions at line 4 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -260,7 +260,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for arrow functions 3`] = `
+exports[`getScopes finds scope bindings for arrow functions at line 7 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -464,7 +464,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for arrow functions 4`] = `
+exports[`getScopes finds scope bindings for arrow functions at line 8 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -702,7 +702,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for block statements 1`] = `
+exports[`getScopes finds scope bindings for block statements at line 2 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -838,7 +838,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for block statements 2`] = `
+exports[`getScopes finds scope bindings for block statements at line 6 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -1062,7 +1062,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for class declarations 1`] = `
+exports[`getScopes finds scope bindings for class declarations at line 2 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -1162,7 +1162,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for class declarations 2`] = `
+exports[`getScopes finds scope bindings for class declarations at line 5 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -1356,7 +1356,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for class declarations 3`] = `
+exports[`getScopes finds scope bindings for class declarations at line 7 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -1623,7 +1623,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for class expressions 1`] = `
+exports[`getScopes finds scope bindings for class expressions at line 2 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -1723,7 +1723,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for class expressions 2`] = `
+exports[`getScopes finds scope bindings for class expressions at line 5 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -1901,7 +1901,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for class expressions 3`] = `
+exports[`getScopes finds scope bindings for class expressions at line 7 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -2118,7 +2118,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for class properties 1`] = `
+exports[`getScopes finds scope bindings for class properties at line 2 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -2218,7 +2218,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for class properties 2`] = `
+exports[`getScopes finds scope bindings for class properties at line 4 column 16 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -2391,7 +2391,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for class properties 3`] = `
+exports[`getScopes finds scope bindings for class properties at line 6 column 12 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -2569,7 +2569,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for class properties 4`] = `
+exports[`getScopes finds scope bindings for class properties at line 7 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -2781,7 +2781,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for for loops 1`] = `
+exports[`getScopes finds scope bindings for for loops at line 2 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -2917,7 +2917,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for for loops 2`] = `
+exports[`getScopes finds scope bindings for for loops at line 3 column 17 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -3053,7 +3053,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for for loops 3`] = `
+exports[`getScopes finds scope bindings for for loops at line 4 column 17 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -3223,7 +3223,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for for loops 4`] = `
+exports[`getScopes finds scope bindings for for loops at line 5 column 25 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -3393,7 +3393,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for for loops 5`] = `
+exports[`getScopes finds scope bindings for for loops at line 7 column 22 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -3529,7 +3529,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for for loops 6`] = `
+exports[`getScopes finds scope bindings for for loops at line 8 column 22 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -3699,7 +3699,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for for loops 7`] = `
+exports[`getScopes finds scope bindings for for loops at line 9 column 23 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -3869,7 +3869,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for for loops 8`] = `
+exports[`getScopes finds scope bindings for for loops at line 11 column 23 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -4005,7 +4005,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for for loops 9`] = `
+exports[`getScopes finds scope bindings for for loops at line 12 column 23 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -4175,7 +4175,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for for loops 10`] = `
+exports[`getScopes finds scope bindings for for loops at line 13 column 24 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -4345,7 +4345,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for function declarations 1`] = `
+exports[`getScopes finds scope bindings for function declarations at line 2 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -4445,7 +4445,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for function declarations 2`] = `
+exports[`getScopes finds scope bindings for function declarations at line 3 column 20 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -4589,7 +4589,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for function declarations 3`] = `
+exports[`getScopes finds scope bindings for function declarations at line 5 column 1 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -4723,7 +4723,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for function declarations 4`] = `
+exports[`getScopes finds scope bindings for function declarations at line 9 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -4932,7 +4932,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for function expressions 1`] = `
+exports[`getScopes finds scope bindings for function expressions at line 2 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -5050,7 +5050,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for function expressions 2`] = `
+exports[`getScopes finds scope bindings for function expressions at line 3 column 23 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -5212,7 +5212,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for function expressions 3`] = `
+exports[`getScopes finds scope bindings for function expressions at line 6 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -5421,7 +5421,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for switch statements 1`] = `
+exports[`getScopes finds scope bindings for switch statements at line 2 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -5521,159 +5521,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for switch statements 2`] = `
-Array [
-  Object {
-    "bindings": Object {
-      "one": Object {
-        "declarations": Array [
-          Object {
-            "end": Object {
-              "column": 11,
-              "line": 7,
-              "sourceId": "scopes/switch-statement/originalSource-1",
-            },
-            "start": Object {
-              "column": 8,
-              "line": 7,
-              "sourceId": "scopes/switch-statement/originalSource-1",
-            },
-          },
-        ],
-        "refs": Array [],
-        "type": "let",
-      },
-      "two": Object {
-        "declarations": Array [
-          Object {
-            "end": Object {
-              "column": 11,
-              "line": 9,
-              "sourceId": "scopes/switch-statement/originalSource-1",
-            },
-            "start": Object {
-              "column": 8,
-              "line": 9,
-              "sourceId": "scopes/switch-statement/originalSource-1",
-            },
-          },
-        ],
-        "refs": Array [],
-        "type": "let",
-      },
-    },
-    "displayName": "Switch",
-    "end": Object {
-      "column": 1,
-      "line": 13,
-      "sourceId": "scopes/switch-statement/originalSource-1",
-    },
-    "start": Object {
-      "column": 0,
-      "line": 3,
-      "sourceId": "scopes/switch-statement/originalSource-1",
-    },
-    "type": "block",
-  },
-  Object {
-    "bindings": Object {
-      "this": Object {
-        "declarations": Array [],
-        "refs": Array [],
-        "type": "implicit",
-      },
-      "zero": Object {
-        "declarations": Array [
-          Object {
-            "end": Object {
-              "column": 12,
-              "line": 5,
-              "sourceId": "scopes/switch-statement/originalSource-1",
-            },
-            "start": Object {
-              "column": 8,
-              "line": 5,
-              "sourceId": "scopes/switch-statement/originalSource-1",
-            },
-          },
-        ],
-        "refs": Array [],
-        "type": "var",
-      },
-    },
-    "displayName": "Module",
-    "end": Object {
-      "column": 0,
-      "line": 14,
-      "sourceId": "scopes/switch-statement/originalSource-1",
-    },
-    "start": Object {
-      "column": 0,
-      "line": 1,
-      "sourceId": "scopes/switch-statement/originalSource-1",
-    },
-    "type": "block",
-  },
-  Object {
-    "bindings": Object {},
-    "displayName": "Lexical Global",
-    "end": Object {
-      "column": 0,
-      "line": 14,
-      "sourceId": "scopes/switch-statement/originalSource-1",
-    },
-    "start": Object {
-      "column": 0,
-      "line": 1,
-      "sourceId": "scopes/switch-statement/originalSource-1",
-    },
-    "type": "block",
-  },
-  Object {
-    "bindings": Object {
-      "__dirname": Object {
-        "declarations": Array [],
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "declarations": Array [],
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "declarations": Array [],
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "declarations": Array [],
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "declarations": Array [],
-        "refs": Array [],
-        "type": "var",
-      },
-    },
-    "displayName": "Global",
-    "end": Object {
-      "column": 0,
-      "line": 14,
-      "sourceId": "scopes/switch-statement/originalSource-1",
-    },
-    "start": Object {
-      "column": 0,
-      "line": 1,
-      "sourceId": "scopes/switch-statement/originalSource-1",
-    },
-    "type": "object",
-  },
-]
-`;
-
-exports[`getScopes finds scope bindings for switch statements 3`] = `
+exports[`getScopes finds scope bindings for switch statements at line 5 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -5825,7 +5673,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for switch statements 4`] = `
+exports[`getScopes finds scope bindings for switch statements at line 7 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -5977,7 +5825,159 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for switch statements 5`] = `
+exports[`getScopes finds scope bindings for switch statements at line 9 column 0 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "one": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 7,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 7,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+      "two": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 9,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 9,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+    },
+    "displayName": "Switch",
+    "end": Object {
+      "column": 1,
+      "line": 13,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 3,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "zero": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 12,
+              "line": 5,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 5,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for switch statements at line 11 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -6163,7 +6163,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for try..catch 1`] = `
+exports[`getScopes finds scope bindings for try..catch at line 2 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -6281,7 +6281,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for try..catch 2`] = `
+exports[`getScopes finds scope bindings for try..catch at line 4 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -6433,7 +6433,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for try..catch 3`] = `
+exports[`getScopes finds scope bindings for try..catch at line 7 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -6619,7 +6619,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings in a module 1`] = `
+exports[`getScopes finds scope bindings in a module at line 7 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
