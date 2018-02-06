@@ -42,7 +42,9 @@ const config = {
 
 global.DebuggerConfig = config;
 global.L10N = require("devtools-launchpad").L10N;
-global.L10N.setBundle(readFileSync("./assets/panel/debugger.properties"));
+global.L10N.setBundle(
+  readFileSync(path.join(__dirname, "../../assets/panel/debugger.properties"))
+);
 global.jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 global.performance = { now: () => 0 };
 
