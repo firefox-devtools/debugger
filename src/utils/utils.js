@@ -38,15 +38,15 @@ function promisify(context: any, method: any, ...args: any): Promise<mixed> {
  * @memberof utils/utils
  * @static
  */
-function endTruncateStr(str: any, size: number) {
+/*function endTruncateStr(str: any, size: number) {
   if (str.length > size) {
     return `...${str.slice(str.length - size)}`;
   }
   return str;
-}
+}*/
 
 function waitForMs(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-export { handleError, promisify, endTruncateStr, waitForMs };
+export { handleError, promisify, throttle, waitForMs };

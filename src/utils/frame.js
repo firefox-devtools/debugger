@@ -4,7 +4,8 @@
 
 // @flow
 
-import { endTruncateStr } from "./utils";
+import { get } from "lodash";
+//import { endTruncateStr } from "./utils";
 import { getFilename } from "./source";
 import { get, find, findIndex } from "lodash";
 
@@ -202,7 +203,8 @@ export function formatDisplayName(
   }
 
   displayName = simplifyDisplayName(displayName);
-  return endTruncateStr(displayName, 25);
+  // return endTruncateStr(displayName, 25);
+  return displayName;
 }
 
 export function formatCopyName(frame: LocalFrame) {

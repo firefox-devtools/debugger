@@ -23,6 +23,9 @@ import {
   getPauseReason,
   getTopFrame
 } from "../../selectors";
+import { makeLocationId } from "../../utils/breakpoint";
+//import { endTruncateStr } from "../../utils/utils";
+import { getFilename } from "../../utils/source";
 import { isInterrupted } from "../../utils/pause";
 import { makeLocationId } from "../../utils/breakpoint";
 import showContextMenu from "./BreakpointsContextMenu";
@@ -80,11 +83,7 @@ function renderSourceLocation(source, line, column) {
     return null;
   }
 
-  return (
-    <div className="location">
-      {`${endTruncateStr(filename, 30)}: ${bpLocation}`}
-    </div>
-  );
+  return <div className="location">{`${filename}: ${bpLocation}`}</div>;
 }
 
 class Breakpoints extends PureComponent<Props> {
