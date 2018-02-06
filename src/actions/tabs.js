@@ -15,6 +15,7 @@ import { selectSource } from "./sources";
 import {
   getSourceByURL,
   getSourceTabs,
+  getSelectedTab,
   getNewSelectedSourceId,
   removeSourcesFromTabList,
   removeSourceFromTabList
@@ -36,13 +37,14 @@ export function addTab(tab: Tab, tabIndex: number) {
  * @static
  */
 export function closeTab(id: string) {
-  return { type: "CLOSE_TAB", id };
-  /*return ({ dispatch, getState, client }: ThunkArgs) => {
-    //removeDocument(url);
+  return async ({ dispatch, getState, client }: ThunkArgs) => {
+    removeDocument(id);
+    await dispatch({ type: "CLOSE_TAB", id });
     //const tabs = removeSourceFromTabList(getSourceTabs(getState()), url);
     //const sourceId = getNewSelectedSourceId(getState(), tabs);
-    //dispatch(selectSource(sourceId));
-  };*/
+    const tab = getSelectedTab(getState());
+    dispatch(selectSource(tab.id));
+  };
 }
 
 /**
@@ -50,19 +52,15 @@ export function closeTab(id: string) {
  * @static
  */
 export function closeTabs(ids: string[]) {
-  return { type: "CLOSE_TABS", ids };
-  /*return ({ dispatch, getState, client }: ThunkArgs) => {
-    urls.forEach(url => {
-      const source = getSourceByURL(getState(), url);
-      if (source) {
-        removeDocument(source.get("id"));
-      }
-    });
+  //return { type: "CLOSE_TABS", ids };
+  return async ({ dispatch, getState, client }: ThunkArgs) => {
+    ids.forEach(id => removeDocument(id));
 
     //const tabs = removeSourcesFromTabList(getSourceTabs(getState()), urls);
-    //dispatch({ type: "CLOSE_TABS", urls, tabs });
+    await dispatch({ type: "CLOSE_TABS", ids });
 
     //const sourceId = getNewSelectedSourceId(getState(), tabs);
-    //dispatch(selectSource(sourceId));
-  };*/
+    const tab = getSelectedTab(getState());
+    dispatch(selectSource(tab.id));
+  };
 }

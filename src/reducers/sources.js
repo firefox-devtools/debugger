@@ -156,57 +156,6 @@ function updateSource(state: Record<SourcesState>, source: Source | Object) {
   return state.mergeIn(["sources", source.id], source);
 }
 
-/**
- * Gets the next tab to select when a tab closes. Heuristics:
- * 1. if the selected tab is available, it remains selected
- * 2. if it is gone, the next available tab to the left should be active
- * 3. if the first tab is active and closed, select the second tab
- *
- * @memberof reducers/sources
- * @static
- */
-export function getNewSelectedSourceId(
-  state: OuterState,
-  availableTabs: any
-): string {
-  const selectedLocation = state.sources.selectedLocation;
-  if (!selectedLocation) {
-    return "";
-  }
-
-  if (availableTabs.includes(selectedTabUrl)) {
-    const sources = state.sources.sources;
-    if (!sources) {
-      return "";
-    }
-
-    const selectedSource = sources.find(
-      source => source.get("url") == selectedTabUrl
-    );
-
-    if (selectedSource) {
-      return selectedSource.get("id");
-    }
-
-    return "";
-  }
-
-  const tabUrls = state.sources.tabs.toJS();
-  const leftNeighborIndex = Math.max(tabUrls.indexOf(selectedTabUrl) - 1, 0);
-  const lastAvailbleTabIndex = availableTabs.size - 1;
-  const newSelectedTabIndex = Math.min(leftNeighborIndex, lastAvailbleTabIndex);
-  const tabSource = getSourceByUrlInSources(
-    state.sources.sources,
-    availableTab
-  );
-
-  if (tabSource) {
-    return tabSource.get("id");
-  }
-
-  return "";
-}
-
 // Selectors
 
 // Unfortunately, it's really hard to make these functions accept just

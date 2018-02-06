@@ -46,7 +46,7 @@ export default function update(
       return state.set("currentTabIndex", action.tabIndex);
 
     case "CLOSE_TAB":
-      const _tabs = removeFromTabList({ tabsState: state }, [action.id]);
+      const tabSet = removeFromTabList({ tabsState: state }, [action.id]);
       prefs.tabs = _tabs;
       return state.merge({ _tabs, currentTabIndex: action.tabIndex });
 
@@ -79,6 +79,54 @@ function updateTabList(state: OuterState, currentTab: Tab, moveIndex?: number) {
 
   prefs.tabs = tabs.toJS();
   return tabs;
+}
+
+/**
+ * Gets the next tab to select when a tab closes. Heuristics:
+ * 1. if the selected tab is available, it remains selected
+ * 2. if it is gone, the next available tab to the left should be active
+ * 3. if the first tab is active and closed, select the second tab
+ *
+ * @memberof reducers/sources
+ * @static
+ */
+export function selectNewTab(state: OuterState, availableTabs: any): number {
+  const selectedLocation = state.sources.selectedLocation;
+  if (!selectedLocation) {
+    return "";
+  }
+
+  if (availableTabs.includes(selectedTabUrl)) {
+    const sources = state.sources.sources;
+    if (!sources) {
+      return "";
+    }
+
+    const selectedSource = sources.find(
+      source => source.get("url") == selectedTabUrl
+    );
+
+    if (selectedSource) {
+      return selectedSource.get("id");
+    }
+
+    return "";
+  }
+
+  const tabUrls = state.sources.tabs.toJS();
+  const leftNeighborIndex = Math.max(tabUrls.indexOf(selectedTabUrl) - 1, 0);
+  const lastAvailbleTabIndex = availableTabs.size - 1;
+  const newSelectedTabIndex = Math.min(leftNeighborIndex, lastAvailbleTabIndex);
+  const tabSource = getSourceByUrlInSources(
+    state.sources.sources,
+    availableTab
+  );
+
+  if (tabSource) {
+    return tabSource.get("id");
+  }
+
+  return "";
 }
 
 function removeFromTabList(state: OuterState, tabIds: Array<string>) {
