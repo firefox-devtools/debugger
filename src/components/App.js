@@ -21,7 +21,6 @@ import {
 } from "../selectors";
 
 import type { SourceRecord, OrientationType } from "../reducers/types";
-import { isVisible } from "../utils/ui";
 
 import { KeyShortcuts, Services } from "devtools-modules";
 const shortcuts = new KeyShortcuts({ window });
@@ -30,7 +29,10 @@ const { appinfo } = Services;
 
 const isMacOS = appinfo.OS === "Darwin";
 
-const verticalLayoutBreakpoint = window.matchMedia("(min-width: 800px)");
+const horizontalLayoutBreakpoint = window.matchMedia("(min-width: 800px)");
+const verticalLayoutBreakpoint = window.matchMedia(
+  "(min-width: 10px) and (max-width: 800px)"
+);
 
 import "./variables.css";
 import "./App.css";
@@ -105,6 +107,7 @@ class App extends Component<Props, State> {
   }
 
   componentDidMount() {
+    horizontalLayoutBreakpoint.addListener(this.onLayoutChange);
     verticalLayoutBreakpoint.addListener(this.onLayoutChange);
     this.setOrientation();
 
@@ -127,6 +130,7 @@ class App extends Component<Props, State> {
   }
 
   componentWillUnmount() {
+    horizontalLayoutBreakpoint.removeListener(this.onLayoutChange);
     verticalLayoutBreakpoint.removeListener(this.onLayoutChange);
     shortcuts.off(
       L10N.getStr("symbolSearch.search.key2"),
@@ -194,11 +198,13 @@ class App extends Component<Props, State> {
   }
 
   setOrientation() {
-    const orientation = verticalLayoutBreakpoint.matches
-      ? "horizontal"
-      : "vertical";
-    if (isVisible()) {
-      this.props.setOrientation(orientation);
+    // If the orientation does not match (if it is not visible) it will
+    // not setOrientation, or if it is the same as before, calling
+    // setOrientation will not cause a rerender.
+    if (horizontalLayoutBreakpoint.matches) {
+      this.props.setOrientation("horizontal");
+    } else if (verticalLayoutBreakpoint.matches) {
+      this.props.setOrientation("vertical");
     }
   }
 
