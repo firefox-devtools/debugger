@@ -307,7 +307,8 @@ class SourcesTree extends Component<Props, State> {
           expanded: expanded
         })}
         onClick={e => {
-          this.selectFolder(e, item, expanded, setExpanded);
+          e.stopPropagation();
+          setExpanded(item, !expanded, e.altKey);
         }}
       />
     ) : (
@@ -322,7 +323,9 @@ class SourcesTree extends Component<Props, State> {
         key={item.path}
         onClick={e => {
           if (nodeHasChildren(item)) {
-            this.selectFolder(e, item, expanded, setExpanded);
+            // this element is a folder
+            e.stopPropagation();
+            setExpanded(item, !expanded, e.altKey);
           } else {
             this.selectItem(item);
           }
