@@ -261,10 +261,14 @@ export class ProjectSearch extends Component<Props, State> {
         />
       );
     }
-    if (
-      status === statusType.fetching ||
-      (this.props.query && !results.length)
-    ) {
+    if (status === statusType.fetching) {
+      return (
+        <div className="no-result-msg absolute-center">
+          {L10N.getStr("loadingText")}
+        </div>
+      );
+    }
+    if (this.props.query && !results.length) {
       return (
         <div className="no-result-msg absolute-center">
           {L10N.getStr("projectTextSearch.noResults")}
