@@ -2,6 +2,7 @@ import React from "react";
 import { mount, shallow } from "enzyme";
 import { List } from "immutable";
 import { ProjectSearch } from "../ProjectSearch";
+import { statusType } from "../../reducers/project-text-search";
 
 const hooks = { on: [], off: [] };
 const shortcuts = {
