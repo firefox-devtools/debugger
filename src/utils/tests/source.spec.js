@@ -103,7 +103,7 @@ describe("sources", () => {
         text: "// @flow",
         url: ""
       };
-      expect(getMode(source).typescript).toBe(true);
+      expect(getMode(source)).toEqual({ name: "javascript", typescript: true });
     });
 
     it("/* @flow */", () => {
@@ -112,7 +112,7 @@ describe("sources", () => {
         text: "   /* @flow */",
         url: ""
       };
-      expect(getMode(source).typescript).toBe(true);
+      expect(getMode(source)).toEqual({ name: "javascript", typescript: true });
     });
 
     it("mixed html", () => {
@@ -130,7 +130,7 @@ describe("sources", () => {
         text: 'main = text "Hello, World!"',
         url: ""
       };
-      expect(getMode(source)).toBe("elm");
+      expect(getMode(source)).toEqual({ name: "elm" });
     });
 
     it("returns jsx if contentType jsx is given", () => {
@@ -139,7 +139,7 @@ describe("sources", () => {
         text: "<h1></h1>",
         url: ""
       };
-      expect(getMode(source)).toBe("jsx");
+      expect(getMode(source)).toEqual({ name: "jsx" });
     });
 
     it("returns jsx if sourceMetaData says it's a react component", () => {
@@ -147,7 +147,7 @@ describe("sources", () => {
         text: "<h1></h1>",
         url: ""
       };
-      expect(getMode(source, { hasJsx: true })).toBe("jsx");
+      expect(getMode(source, { hasJsx: true })).toEqual({ name: "jsx" });
     });
 
     it("returns jsx if the fileExtension is .jsx", () => {
@@ -155,7 +155,7 @@ describe("sources", () => {
         text: "<h1></h1>",
         url: "myComponent.jsx"
       };
-      expect(getMode(source)).toBe("jsx");
+      expect(getMode(source)).toEqual({ name: "jsx" });
     });
 
     it("typescript", () => {
@@ -164,7 +164,7 @@ describe("sources", () => {
         text: "function foo(){}",
         url: ""
       };
-      expect(getMode(source).typescript).toBe(true);
+      expect(getMode(source)).toEqual({ name: "javascript", typescript: true });
     });
 
     it("typescript-jsx", () => {
@@ -173,6 +173,7 @@ describe("sources", () => {
         text: "<h1></h1>",
         url: ""
       };
+
       expect(getMode(source).base.typescript).toBe(true);
     });
 
@@ -182,7 +183,7 @@ describe("sources", () => {
         text: "(+ 2 3)",
         url: ""
       };
-      expect(getMode(source)).toBe("clojure");
+      expect(getMode(source)).toEqual({ name: "clojure" });
     });
 
     it("coffeescript", () => {
@@ -191,7 +192,7 @@ describe("sources", () => {
         text: "x = (a) -> 3",
         url: ""
       };
-      expect(getMode(source)).toBe("coffeescript");
+      expect(getMode(source)).toEqual({ name: "coffeescript" });
     });
 
     it("wasm", () => {
