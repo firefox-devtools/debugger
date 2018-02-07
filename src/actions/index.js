@@ -21,6 +21,7 @@ import * as sources from "./sources";
 import * as debuggee from "./debuggee";
 import * as toolbox from "./toolbox";
 import * as preview from "./preview";
+import * as tabs from "./tabs";
 
 export default {
   ...navigation,
@@ -39,5 +40,6 @@ export default {
   ...sourceTree,
   ...debuggee,
   ...toolbox,
-  ...preview
+  ...preview,
+  ...tabs
 };

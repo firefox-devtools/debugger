@@ -84,7 +84,7 @@ export function selectSourceURL(
  * @memberof actions/sources
  * @static
  */
-export function selectSource(sourceId: string, tabIndex: number = undefined) {
+export function selectSource(sourceId: string, tabIndex?: number) {
   return async ({ dispatch }: ThunkArgs) => {
     const location = createLocation({ sourceId });
     return await dispatch(selectLocation(location, tabIndex));
@@ -95,10 +95,7 @@ export function selectSource(sourceId: string, tabIndex: number = undefined) {
  * @memberof actions/sources
  * @static
  */
-export function selectLocation(
-  location: Location,
-  tabIndex: number = undefined
-) {
+export function selectLocation(location: Location, tabIndex?: number) {
   return async ({ dispatch, getState, client }: ThunkArgs) => {
     if (!client) {
       // No connection, do nothing. This happens when the debugger is

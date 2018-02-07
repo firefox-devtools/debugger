@@ -156,7 +156,7 @@ type SourceAction =
 
 type TabAction =
   | { type: "ADD_TAB", tab: Tab, tabIndex: number }
-  | { type: "MOVE_TAB", id: string, tabIndex: number }
+  | { type: "SELECT_TAB", tabIndex: number }
   | { type: "CLOSE_TAB", id: string, tabs: any }
   | { type: "CLOSE_TABS", ids: string[], tabs: any };
 

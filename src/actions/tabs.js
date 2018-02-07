@@ -5,25 +5,22 @@
 // @flow
 
 /**
- * Redux actions for the sources state
- * @module actions/sources
+ * Redux actions for the tabs state
+ * @module actions/tabs
  */
 
 import { removeDocument } from "../utils/editor";
 import { selectSource } from "./sources";
 
-import {
-  getSourceByURL,
-  getSourceTabs,
-  getSelectedTab,
-  getNewSelectedSourceId,
-  removeSourcesFromTabList,
-  removeSourceFromTabList
-} from "../selectors";
+import { getSelectedTab, getTabIndex } from "../selectors";
 
 import type { Source, Tab } from "../types";
 import type { ThunkArgs } from "./types";
 
+/**
+ * @memberof actions/tabs
+ * @static
+ */
 export function addTab(tab: Tab, tabIndex: number) {
   return {
     type: "ADD_TAB",
@@ -33,34 +30,41 @@ export function addTab(tab: Tab, tabIndex: number) {
 }
 
 /**
- * @memberof actions/sources
+ * @memberof actions/tabs
+ * @static
+ */
+export function selectTab(tabIndex: number) {
+  return { type: "SELECT_TAB", tabIndex };
+}
+
+/**
+ * @memberof actions/tabs
  * @static
  */
 export function closeTab(id: string) {
   return async ({ dispatch, getState, client }: ThunkArgs) => {
     removeDocument(id);
+
     await dispatch({ type: "CLOSE_TAB", id });
-    //const tabs = removeSourceFromTabList(getSourceTabs(getState()), url);
-    //const sourceId = getNewSelectedSourceId(getState(), tabs);
+
     const tab = getSelectedTab(getState());
-    dispatch(selectSource(tab.id));
+    const index = getTabIndex(getState());
+    dispatch(selectSource(tab ? tab.id : "", index));
   };
 }
 
 /**
- * @memberof actions/sources
+ * @memberof actions/tabs
  * @static
  */
 export function closeTabs(ids: string[]) {
-  //return { type: "CLOSE_TABS", ids };
   return async ({ dispatch, getState, client }: ThunkArgs) => {
     ids.forEach(id => removeDocument(id));
 
-    //const tabs = removeSourcesFromTabList(getSourceTabs(getState()), urls);
     await dispatch({ type: "CLOSE_TABS", ids });
 
-    //const sourceId = getNewSelectedSourceId(getState(), tabs);
     const tab = getSelectedTab(getState());
-    dispatch(selectSource(tab.id));
+    const index = getTabIndex(getState());
+    dispatch(selectSource(tab ? tab.id : "", index));
   };
 }

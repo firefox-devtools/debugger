@@ -49,6 +49,7 @@ type Props = {
   togglePrettyPrint: string => void,
   showSource: string => void,
   tab: any,
+  tabIndex: number,
   activeSearch: string,
   getMetaData: string => any,
   getTabSource: string => SourceRecord
@@ -70,14 +71,13 @@ class Tab extends PureComponent<Props> {
       getTabSource
     } = this.props;
 
-    const source = getTabSource(tab);
-    const otherTabs = tabs.filter(t => t.id !== tab);
-    const sourceTab = tabs.find(t => t.id == tab);
-    const tabIds = tabs.map(t => t.id);
-
-    if (!sourceTab) {
+    if (!tab) {
       return;
     }
+
+    const source = getTabSource(tab);
+    const tabIds = tabs.map(t => t.id);
+    const otherTabIds = tabIds.filter(id => id !== tab.id);
 
     const isPrettySource = isPretty(source);
     const tabMenuItems = getTabMenuItems();
@@ -85,13 +85,13 @@ class Tab extends PureComponent<Props> {
       {
         item: {
           ...tabMenuItems.closeTab,
-          click: () => closeTab(tab)
+          click: () => closeTab(tab.id)
         }
       },
       {
         item: {
           ...tabMenuItems.closeOtherTabs,
-          click: () => closeTabs(otherTabs)
+          click: () => closeTabs(otherTabIds)
         },
         hidden: () => tabs.size === 1
       },
@@ -99,8 +99,8 @@ class Tab extends PureComponent<Props> {
         item: {
           ...tabMenuItems.closeTabsToEnd,
           click: () => {
-            const tabIndex = tabs.findIndex(t => t.id == tab);
-            closeTabs(tabs.filter((t, i) => i > tabIndex));
+            const tabIndex = tabIds.findIndex(id => id == tab.id);
+            closeTabs(tabIds.filter((id, index) => index > tabIndex));
           }
         },
         hidden: () =>
@@ -147,16 +147,16 @@ class Tab extends PureComponent<Props> {
     const {
       selectedSource,
       selectedTab,
+      selectTab,
       selectSource,
       closeTab,
       tab,
       getMetaData,
-      getTabSource
+      getTabSource,
+      tabIndex
     } = this.props;
 
     const source = getTabSource(tab.id);
-    const active = tab.id === selectedTab.id;
-    const isPrettyCode = isPretty(source);
     const sourceAnnotation = getSourceAnnotation(source, getMetaData);
     /*&& (!this.isProjectSearchEnabled() && !this.isSourceSearchEnabled());*/
 
@@ -173,8 +173,8 @@ class Tab extends PureComponent<Props> {
     }
 
     const className = classnames("source-tab", {
-      active,
-      pretty: isPrettyCode
+      active: tab.id === selectedTab.id,
+      pretty: isPretty(source)
     });
 
     return (
@@ -184,6 +184,7 @@ class Tab extends PureComponent<Props> {
         onMouseUp={handleTabClick}
         onClick={() => {
           selectSource(tab.id);
+          selectTab(tabIndex);
         }}
         onContextMenu={e => this.onTabContextMenu(e, tab.id)}
         title={tab.tooltip}

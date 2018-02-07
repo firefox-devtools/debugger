@@ -143,7 +143,9 @@ class Tabs extends PureComponent<Props, State> {
 
     return (
       <div className="source-tabs" ref="sourceTabs">
-        {tabs.map((tab, index) => <Tab key={index} tab={tab} />)}
+        {tabs.map((tab, index) => (
+          <Tab key={index} tab={tab} tabIndex={index} />
+        ))}
       </div>
     );
   }
