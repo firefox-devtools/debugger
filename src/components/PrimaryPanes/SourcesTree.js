@@ -248,6 +248,8 @@ class SourcesTree extends Component<Props, State> {
   onContextMenu = (event, item) => {
     const copySourceUri2Label = L10N.getStr("copySourceUri2");
     const copySourceUri2Key = L10N.getStr("copySourceUri2.accesskey");
+    const copySourceTextLabel = L10N.getStr("copySourceText");
+    const copySourceTextKey = L10N.getStr("copySourceText.accesskey");
     const setDirectoryRootLabel = L10N.getStr("setDirectoryRoot.label");
     const setDirectoryRootKey = L10N.getStr("setDirectoryRoot.accesskey");
     const removeDirectoryRootLabel = L10N.getStr("removeDirectoryRoot.label");
@@ -267,7 +269,15 @@ class SourcesTree extends Component<Props, State> {
         click: () => copyToTheClipboard(source)
       };
 
-      menuOptions.push(copySourceUri2);
+      const copyText = {
+        id: "node-menu-copy-text",
+        label: copySourceTextLabel,
+        accesskey: copySourceTextKey,
+        disabled: false,
+        click: () => copyToTheClipboard(item.contents.get("text"))
+      };
+
+      menuOptions.push(copySourceUri2, copyText);
     }
 
     if (isDirectory(item) && features.root) {
