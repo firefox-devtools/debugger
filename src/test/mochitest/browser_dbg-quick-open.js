@@ -86,7 +86,8 @@ add_task(async function() {
   quickOpen(dbg, "", "quickOpenFunc");
   is(resultCount(dbg), 2, "two function results");
 
-  type(dbg, "x");
+  type(dbg, "@x");
+  await waitForTime(1000)
   is(resultCount(dbg), 0, "no functions with 'x' in name");
 
   pressKey(dbg, "Escape");
@@ -99,12 +100,12 @@ add_task(async function() {
   quickOpen(dbg, "#");
   is(resultCount(dbg), 1, "one variable result");
   const results = findAllElements(dbg, "resultItems");
-  results.forEach(result => is(result.textContent, "x13"));
+  results.forEach(result => is(result.textContent, "13"));
   await waitToClose(dbg);
 
   info("Testing goto line:column");
-  assertLine(dbg, undefined);
-  assertColumn(dbg, undefined);
+  assertLine(dbg, 0);
+  assertColumn(dbg, null);
   quickOpen(dbg, ":7:12");
   pressKey(dbg, "Enter");
   assertLine(dbg, 7);
