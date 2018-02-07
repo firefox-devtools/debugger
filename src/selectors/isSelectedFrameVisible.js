@@ -4,6 +4,7 @@
 
 import { getSelectedFrame } from "../reducers/pause";
 import { getSelectedLocation } from "../reducers/sources";
+
 /*
  * Checks to if the selected frame's source is currently
  * selected.
