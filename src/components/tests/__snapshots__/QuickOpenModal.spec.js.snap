@@ -333,7 +333,7 @@ exports[`QuickOpenModal Basic render with mount 1`] = `
               placeholder="Search sources…"
               query=""
               selectedItemId=""
-              showErrorEmoji={true}
+              showErrorEmoji={false}
               size=""
               summaryMsg="0 results"
             >
@@ -430,7 +430,7 @@ exports[`QuickOpenModal Renders when enabled 1`] = `
     placeholder="Search sources…"
     query=""
     selectedItemId=""
-    showErrorEmoji={true}
+    showErrorEmoji={false}
     size=""
     summaryMsg="0 results"
   />
@@ -622,7 +622,7 @@ exports[`QuickOpenModal closeModal 1`] = `
               placeholder="Search sources…"
               query=""
               selectedItemId=""
-              showErrorEmoji={true}
+              showErrorEmoji={false}
               size=""
               summaryMsg="0 results"
             >
@@ -771,7 +771,7 @@ exports[`QuickOpenModal updateResults on enable 2`] = `
               placeholder="Search sources…"
               query=""
               selectedItemId=""
-              showErrorEmoji={true}
+              showErrorEmoji={false}
               size=""
               summaryMsg="0 results"
             >

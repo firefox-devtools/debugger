@@ -356,6 +356,24 @@ export class QuickOpenModal extends Component<Props, State> {
     });
   };
 
+  shouldShowErrorEmoji() {
+    const { query } = this.props;
+
+    if (this.isGotoQuery()) {
+      return !/^:\d*$/.test(query);
+    }
+
+    if (
+      this.isVariableQuery() ||
+      this.isFunctionQuery() ||
+      this.isShortcutQuery()
+    ) {
+      return !this.getResultCount();
+    }
+
+    return false;
+  }
+
   render() {
     const { enabled, query } = this.props;
     const { selectedIndex, results } = this.state;
@@ -379,6 +397,7 @@ export class QuickOpenModal extends Component<Props, State> {
           count={this.getResultCount()}
           placeholder={L10N.getStr("sourceSearch.search")}
           {...(showSummary === true ? { summaryMsg } : {})}
+          showErrorEmoji={this.shouldShowErrorEmoji()}
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}
           handleClose={this.closeModal}

@@ -280,13 +280,16 @@ class SearchBar extends Component<Props, State> {
     );
   };
 
+  shouldShowErrorEmoji() {
+    return true;
+  }
+
   render() {
     const { searchResults: { count }, searchOn } = this.props;
 
     if (!searchOn) {
       return <div />;
     }
-
     return (
       <div className="search-bar">
         <SearchInput
@@ -295,6 +298,7 @@ class SearchBar extends Component<Props, State> {
           placeholder={L10N.getStr("sourceSearch.search.placeholder")}
           summaryMsg={this.buildSummaryMsg()}
           onChange={this.onChange}
+          showErrorEmoji={this.shouldShowErrorEmoji()}
           onKeyDown={this.onKeyDown}
           handleNext={e => this.traverseResults(e, false)}
           handlePrev={e => this.traverseResults(e, true)}
