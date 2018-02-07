@@ -30,6 +30,17 @@ function getLabel(dbg, index) {
     .replace(/^[\s\u200b]*/g, "");
 }
 
+async function clickEl(dbg, elementName, ...args) {
+  const selector = getSelector(elementName, ...args);
+  const el = await waitForElementWithSelector(dbg, selector);
+
+  el.scrollIntoView();
+  dump(`> EL ${el.innerText}\n`)
+
+  takeScreenshot(dbg)
+  el.click();
+}
+
 add_task(async function() {
   const dbg = await initDebugger("doc-sources.html");
   const { selectors: { getSelectedSource }, getState } = dbg;
@@ -38,7 +49,7 @@ add_task(async function() {
 
   // Expand nodes and make sure more sources appear.
   await assertSourceCount(dbg, 2);
-  await clickElement(dbg, "sourceArrow", 2);
+  await clickEl(dbg, "sourceArrow", 2);
 
   await assertSourceCount(dbg, 7);
 
@@ -47,7 +58,7 @@ add_task(async function() {
   //dbg.win.document.querySelector(".sources-list .tree-node:nth-child(3)").style.border='1px solid yellow';
   //debugger;
 
-  await clickElement(dbg, "sourceDirectory", 3);
+  await clickEl(dbg, "sourceDirectory", 3);
 
   //dbg.win.document.querySelector(".sources-list .focused").style.color = 'red';
   //console.log(dbg.win.document.querySelector(".sources-list .tree-node:nth-child(3)"));
@@ -72,7 +83,7 @@ add_task(async function() {
 
   const selected = waitForDispatch(dbg, "SELECT_SOURCE");
 
-  await clickElement(dbg, "sourceNode", 4);
+  await clickEl(dbg, "sourceNode", 4);
   await selected;
 
   ok(
