@@ -12,7 +12,7 @@
 import { getHistoryFrame } from "../selectors";
 import { selectLocation } from "./sources";
 
-export function timeTravelTo(position: number) {
+export function timeTravelTo(position: Number) {
   return ({ dispatch, getState }: any) => {
     const data = getHistoryFrame(getState(), position);
     dispatch({
