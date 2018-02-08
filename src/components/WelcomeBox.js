@@ -57,32 +57,18 @@ class WelcomeBox extends Component<Props> {
 
     return (
       <div className="welcomebox">
-        <div className="alignlabel small-size-layout">
+        <div className="alignlabel">
           <div className="shortcutFunction">
             <p onClick={() => openQuickOpen()}>
               <span className="shortcutKey">{searchSourcesShortcut}</span>
-              {searchSourcesLabel}
+              <span className="shortcutLabel">{searchSourcesLabel}</span>
             </p>
             <p onClick={setActiveSearch.bind(null, "project")}>
               <span className="shortcutKey">{searchProjectShortcut}</span>
-              {searchProjectLabel}
+              <span className="shortcutLabel">{searchProjectLabel}</span>
             </p>
           </div>
           {this.renderToggleButton()}
-        </div>
-        <div className="alignlabel normal-layout">
-          <div className="shortcutKeys">
-            <p onClick={() => openQuickOpen()}>{searchSourcesShortcut}</p>
-            <p onClick={setActiveSearch.bind(null, "project")}>
-              {searchProjectShortcut}
-            </p>
-          </div>
-          <div className="shortcutFunction">
-            <p onClick={() => openQuickOpen()}>{searchSourcesLabel}</p>
-            <p onClick={setActiveSearch.bind(null, "project")}>
-              {searchProjectLabel}
-            </p>
-          </div>
         </div>
       </div>
     );

@@ -42,7 +42,7 @@ type Props = {
   showSource: string => void,
   source: SourceRecord,
   activeSearch: string,
-  getMetaData: string => any
+  sourceMetaData: string => any
 };
 
 class Tab extends PureComponent<Props> {
@@ -94,6 +94,7 @@ class Tab extends PureComponent<Props> {
           }
         },
         hidden: () =>
+          tabSources.size === 1 ||
           tabSources.some((t, i) => t === tab && tabSources.size - 1 === i)
       },
       {
@@ -138,7 +139,7 @@ class Tab extends PureComponent<Props> {
       selectSource,
       closeTab,
       source,
-      getMetaData
+      sourceMetaData
     } = this.props;
     const src = source.toJS();
     const filename = getFilename(src);
@@ -148,7 +149,7 @@ class Tab extends PureComponent<Props> {
       sourceId == selectedSource.get("id") &&
       (!this.isProjectSearchEnabled() && !this.isSourceSearchEnabled());
     const isPrettyCode = isPretty(source);
-    const sourceAnnotation = getSourceAnnotation(source, getMetaData);
+    const sourceAnnotation = getSourceAnnotation(source, sourceMetaData);
 
     function onClickClose(ev) {
       ev.stopPropagation();
@@ -178,13 +179,16 @@ class Tab extends PureComponent<Props> {
     );
   }
 }
-
 export default connect(
   state => {
+    const selectedSource = getSelectedSource(state);
     return {
       tabSources: getSourcesForTabs(state),
-      selectedSource: getSelectedSource(state),
-      getMetaData: sourceId => getSourceMetaData(state, sourceId),
+      selectedSource: selectedSource,
+      sourceMetaData: getSourceMetaData(
+        state,
+        selectedSource && selectedSource.get("id")
+      ),
       activeSearch: getActiveSearch(state)
     };
   },

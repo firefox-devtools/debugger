@@ -16,6 +16,12 @@ import type { NodePath, Node, Location as BabelLocation } from "babel-traverse";
 
 let symbolDeclarations = new Map();
 
+export type ClassDeclaration = {|
+  name: string,
+  location: BabelLocation,
+  parent?: ClassDeclaration
+|};
+
 export type SymbolDeclaration = {|
   name: string,
   expression?: string,
@@ -33,6 +39,7 @@ export type FunctionDeclaration = SymbolDeclaration & {|
 |};
 
 export type SymbolDeclarations = {
+  classes: Array<ClassDeclaration>,
   functions: Array<SymbolDeclaration>,
   variables: Array<SymbolDeclaration>,
   memberExpressions: Array<SymbolDeclaration>,
