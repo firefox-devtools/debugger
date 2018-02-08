@@ -1,10 +1,4 @@
-import {
-  handleError,
-  promisify,
-  endTruncateStr,
-  throttle,
-  waitForMs
-} from "../utils";
+import { handleError, promisify, endTruncateStr, waitForMs } from "../utils";
 
 describe("handleError()", () => {
   const testErrorText = "ERROR: ";
@@ -61,32 +55,6 @@ describe("endTruncateStr()", () => {
 
       expect(endTruncateStr(testString, testSize)).toBe(testString);
     });
-  });
-});
-
-describe("throttle()", () => {
-  let throttledFunction, throttledCallback;
-  const testMilliseconds = 10000;
-
-  jest.useFakeTimers();
-
-  afterAll(() => {
-    jest.clearAllTimers();
-  });
-
-  it("prevents subsequent function calls until specified time", () => {
-    throttledCallback = jest.fn();
-    throttledFunction = throttle(throttledCallback, testMilliseconds);
-
-    throttledFunction();
-    throttledFunction();
-    throttledFunction();
-
-    expect(throttledCallback.mock.calls.length).toBe(0);
-
-    jest.runAllTimers();
-
-    expect(throttledCallback.mock.calls.length).toBe(1);
   });
 });
 
