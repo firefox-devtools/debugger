@@ -88,7 +88,7 @@ export class ShortcutsModal extends Component<Props> {
         )}
         {this.renderShorcutItem(
           L10N.getStr("shortcuts.gotoLine"),
-          formatKeyShortcut(L10N.getStr("gotoLineModal.key"))
+          formatKeyShortcut(L10N.getStr("gotoLineModal.key2"))
         )}
       </ul>
     );
