@@ -11,6 +11,14 @@ async function waitForSourceCount(dbg, i) {
   });
 }
 
+async function clickEl(dbg, elementName, ...args) {
+  const selector = getSelector(elementName, ...args);
+  const el = await waitForElementWithSelector(dbg, selector);
+
+  el.scrollIntoView();
+  el.click();
+}
+
 async function assertSourceCount(dbg, count) {
   await waitForSourceCount(dbg, count);
   is(findAllElements(dbg, "sourceNodes").length, count, `${count} sources`);
@@ -22,6 +30,17 @@ function getLabel(dbg, index) {
     .replace(/^[\s\u200b]*/g, "");
 }
 
+async function clickEl(dbg, elementName, ...args) {
+  const selector = getSelector(elementName, ...args);
+  const el = await waitForElementWithSelector(dbg, selector);
+
+  el.scrollIntoView();
+  dump(`> EL ${el.innerText}\n`)
+
+  takeScreenshot(dbg)
+  el.click();
+}
+
 add_task(async function() {
   const dbg = await initDebugger("doc-sources.html");
   const { selectors: { getSelectedSource }, getState } = dbg;
@@ -30,25 +49,43 @@ add_task(async function() {
 
   // Expand nodes and make sure more sources appear.
   await assertSourceCount(dbg, 2);
-  await clickElement(dbg, "sourceArrow", 2);
+  await clickEl(dbg, "sourceArrow", 2);
 
   await assertSourceCount(dbg, 7);
-  await clickElement(dbg, "sourceDirectory", 3);
+
+  //console.log('about to click element: ', dbg.win.document.querySelector(".sources-list .tree-node:nth-child(3)"));
+  //dbg.win.document.querySelector(".sources-list .tree-node:nth-child(3)").style.color='green';
+  //dbg.win.document.querySelector(".sources-list .tree-node:nth-child(3)").style.border='1px solid yellow';
+  //debugger;
+
+  await clickEl(dbg, "sourceDirectory", 3);
+
+  //dbg.win.document.querySelector(".sources-list .focused").style.color = 'red';
+  //console.log(dbg.win.document.querySelector(".sources-list .tree-node:nth-child(3)"));
+
+  //console.log('clicked on `sourceDirectory!`');
+  //debugger;
+
   await assertSourceCount(dbg, 8);
 
   // Cleanup from opening source directory
-  dbg.win.document
-    .querySelector(".sources-list .focused")
-    .classList.remove("focused");
+  const focusedNode = dbg.win.document.querySelector(".sources-list .focused");
+
+  if(focusedNode) {
+    focusedNode.classList.remove("focused");
+  }
 
   // Select a source
   ok(
     !findElementWithSelector(dbg, ".sources-list .focused"),
     "Source is not focused"
   );
+
   const selected = waitForDispatch(dbg, "SELECT_SOURCE");
-  await clickElement(dbg, "sourceNode", 4);
+
+  await clickEl(dbg, "sourceNode", 4);
   await selected;
+
   ok(
     findElementWithSelector(dbg, ".sources-list .focused"),
     "Source is focused"
