@@ -6,7 +6,8 @@
 
 import parseScriptTags from "parse-script-tags";
 import * as babylon from "babylon";
-import traverse from "babel-traverse";
+import traverse from "@babel/traverse";
+import * as t from "@babel/types";
 import isEmpty from "lodash/isEmpty";
 import { getSource } from "../sources";
 
@@ -17,9 +18,12 @@ function _parse(code, opts) {
 }
 
 const sourceOptions = {
-  generated: {},
+  generated: {
+    tokens: true
+  },
   original: {
-    sourceType: "module",
+    sourceType: "unambiguous",
+    tokens: true,
     plugins: [
       "jsx",
       "flow",
@@ -94,5 +98,16 @@ export function traverseAst(sourceId: string, visitor: Visitor) {
   }
 
   traverse(ast, visitor);
+  return ast;
+}
+
+export function fastTraverseAst(sourceId: string, visitor: Visitor) {
+  const ast = getAst(sourceId);
+  if (isEmpty(ast)) {
+    return null;
+  }
+
+  t.traverse(ast, visitor);
+  // t.fastTraverse(ast, visitor);
   return ast;
 }

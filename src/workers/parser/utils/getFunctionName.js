@@ -3,8 +3,8 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-import * as t from "babel-types";
-import type { NodePath } from "babel-traverse";
+import * as t from "@babel/types";
+import type { NodePath } from "@babel/traverse";
 
 // Perform ES6's anonymous function name inference for all
 // locations where static analysis is possible.
