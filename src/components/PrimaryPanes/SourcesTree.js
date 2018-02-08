@@ -301,6 +301,10 @@ class SourcesTree extends Component<Props, State> {
         className={classnames("arrow", {
           expanded: expanded
         })}
+        onClick={e => {
+          e.stopPropagation();
+          setExpanded(item, !expanded, e.altKey);
+        }}
       />
     ) : (
       <i className="no-arrow" />
@@ -314,8 +318,13 @@ class SourcesTree extends Component<Props, State> {
         key={item.path}
         onClick={e => {
           e.stopPropagation();
-          this.selectItem(item);
-          setExpanded(item, !expanded, e.altKey);
+          this.focusItem(item);
+
+          if (isDirectory(item)) {
+            setExpanded(item, !expanded, e.altKey);
+          } else {
+            this.selectItem(item);
+          }
         }}
         onContextMenu={e => this.onContextMenu(e, item)}
       >
