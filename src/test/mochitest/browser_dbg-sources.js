@@ -41,9 +41,12 @@ add_task(async function() {
     !findElementWithSelector(dbg, ".sources-list .focused"),
     "Source is not focused"
   );
+
   const selected = waitForDispatch(dbg, "SELECT_SOURCE");
   await clickElement(dbg, "sourceNode", 4);
   await selected;
+  await waitForSelectedSource(dbg);
+
   ok(
     findElementWithSelector(dbg, ".sources-list .focused"),
     "Source is focused"
