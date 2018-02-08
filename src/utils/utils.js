@@ -45,29 +45,8 @@ function endTruncateStr(str: any, size: number) {
   return str;
 }
 
-/**
- * @memberof utils/utils
- * @static
- */
-/**
- * @memberof utils/utils
- * @static
- */
-function throttle(func: any, ms: number) {
-  let timeout, _this;
-  return function(...args: any) {
-    _this = this;
-    if (!timeout) {
-      timeout = setTimeout(() => {
-        func.apply(_this, ...args);
-        timeout = null;
-      }, ms);
-    }
-  };
-}
-
 function waitForMs(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-export { handleError, promisify, endTruncateStr, throttle, waitForMs };
+export { handleError, promisify, endTruncateStr, waitForMs };
