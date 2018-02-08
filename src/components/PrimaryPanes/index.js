@@ -114,6 +114,7 @@ class PrimaryPanes extends Component<Props> {
 
     return (
       <div className="sources-panel">
+        {this.renderTabs()}
         {selectedTab === "sources" ? <SourcesTree /> : <Outline />}
       </div>
     );
