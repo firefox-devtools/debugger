@@ -186,11 +186,6 @@ class SourcesTree extends Component<Props, State> {
     }
   };
 
-  selectFolder(e, item, expanded, setExpanded) {
-    e.stopPropagation();
-    setExpanded(item, !expanded, e.altKey);
-  }
-
   getPath = item => {
     const { sources } = this.props;
     const obj = item.contents.get && item.contents.get("id");
@@ -306,10 +301,6 @@ class SourcesTree extends Component<Props, State> {
         className={classnames("arrow", {
           expanded: expanded
         })}
-        onClick={e => {
-          e.stopPropagation();
-          setExpanded(item, !expanded, e.altKey);
-        }}
       />
     ) : (
       <i className="no-arrow" />
@@ -322,9 +313,8 @@ class SourcesTree extends Component<Props, State> {
         className={classnames("node", { focused })}
         key={item.path}
         onClick={e => {
-          if (nodeHasChildren(item)) {
-            // this element is a folder
-            e.stopPropagation();
+          e.stopPropagation();
+          if (isDirectory(item)) {
             setExpanded(item, !expanded, e.altKey);
           } else {
             this.selectItem(item);
