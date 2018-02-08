@@ -67,11 +67,14 @@ export class Outline extends Component<Props> {
 
     const classFunc = functions.find(func => func.name === klass);
     const classFunctions = functions.filter(func => func.klass === klass);
+    const classInfo = this.props.symbols.classes.find(c => c.name === klass);
 
     const heading = classFunc ? (
       <h2>{this.renderFunction(classFunc)}</h2>
     ) : (
-      <h2>
+      <h2
+        onClick={classInfo ? () => this.selectItem(classInfo.location) : null}
+      >
         <span className="keyword">class</span> {klass}
       </h2>
     );
