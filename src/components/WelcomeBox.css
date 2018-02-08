@@ -23,14 +23,6 @@
   background-color: var(--theme-body-background);
 }
 
-.alignlabel {
-  display: inline-block;
-}
-
-.welcomebox .normal-layout {
-  display: none;
-}
-
 .welcomebox .command-bar-button {
   position: absolute;
   top: auto;
@@ -39,43 +31,42 @@
   bottom: 0;
 }
 
+.alignlabel {
+  display: flex;
+  white-space: nowrap;
+}
+
 .shortcutKeys {
-  text-align: right;
-  float: left;
   font-family: Courier;
+}
+
+.shortcutKey,
+.shortcutLabel {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .shortcutKey {
-  display: inline-block;
-  margin-right: 10px;
+  text-align: right;
+  padding-right: 10px;
   font-family: Courier;
 }
 
-.shortcutFunction {
+.shortcutLabel {
   text-align: left;
-  float: left;
-  margin-left: 25px;
+  padding-left: 10px;
+}
+
+.shortcutFunction {
+  flex: 1;
   color: var(--theme-comment);
+}
+
+.shortcutFunction p {
+  display: flex;
 }
 
 html .welcomebox .toggle-button-end.collapsed {
   bottom: 1px;
-}
-
-@media (max-width: 430px) {
-  .welcomebox .small-size-layout {
-    display: inline-block;
-  }
-
-  .welcomebox .normal-layout {
-    display: none;
-  }
-
-  .shortcutFunction {
-    margin-left: 0;
-  }
-
-  .shortcutKey {
-    display: block;
-  }
 }
