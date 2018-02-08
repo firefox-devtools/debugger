@@ -72,7 +72,9 @@ export class Outline extends Component<Props> {
     const heading = classFunc ? (
       <h2>{this.renderFunction(classFunc)}</h2>
     ) : (
-      <h2 onClick={() => this.selectItem(classInfo.location)}>
+      <h2
+        onClick={classInfo ? () => this.selectItem(classInfo.location) : null}
+      >
         <span className="keyword">class</span> {klass}
       </h2>
     );
