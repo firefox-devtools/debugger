@@ -65,18 +65,13 @@ add_task(async function() {
   quickOpen(dbg, "sw");
   pressKey(dbg, "Enter");
 
-  let source = dbg.selectors.getSelectedSource(dbg.getState());
-  ok(source.get("url").match(/switching-01/), "first source is selected");
   await waitForSelectedSource(dbg, "switching-01");
-
   info("Arrow keys and check to see if source is selected");
   quickOpen(dbg, "sw");
   is(resultCount(dbg), 2, "two file results");
   pressKey(dbg, "Down");
   pressKey(dbg, "Enter");
 
-  source = dbg.selectors.getSelectedSource(dbg.getState());
-  ok(source.get("url").match(/switching-02/), "second source is selected");
   await waitForSelectedSource(dbg, "switching-02");
   quickOpen(dbg, "sw");
   pressKey(dbg, "Tab");
@@ -87,7 +82,7 @@ add_task(async function() {
   is(resultCount(dbg), 2, "two function results");
 
   type(dbg, "@x");
-  await waitForTime(1000)
+  await waitForTime(1000);
   is(resultCount(dbg), 0, "no functions with 'x' in name");
 
   pressKey(dbg, "Escape");
@@ -114,7 +109,6 @@ add_task(async function() {
   info("Testing gotoSource");
   quickOpen(dbg, "sw1:5");
   pressKey(dbg, "Enter");
-  source = dbg.selectors.getSelectedSource(dbg.getState());
-  ok(source.get("url").match(/switching-01/), "first source is selected");
+  await waitForSelectedSource(dbg, "switching-01");
   assertLine(dbg, 5);
 });
