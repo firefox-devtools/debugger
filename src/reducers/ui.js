@@ -45,7 +45,7 @@ export const createUIState = makeRecord(
     activeSearch: null,
     contextMenu: {},
     shownSource: "",
-    projectDirectoryRoot: "",
+    projectDirectoryRoot: prefs.projectDirectoryRoot,
     startPanelCollapsed: prefs.startPanelCollapsed,
     endPanelCollapsed: prefs.endPanelCollapsed,
     frameworkGroupingOn: prefs.frameworkGroupingOn,
