@@ -4,7 +4,6 @@
 
 .outline {
   overflow-y: auto;
-  font-family: var(--monospace-font-family);
 }
 
 .outline .outline-pane-info {
@@ -21,6 +20,7 @@
   flex: 1 0 100%;
   padding: 10px 0px;
   margin: 0;
+  font-family: var(--monospace-font-family);
 }
 
 .outline-list__class-list {
