@@ -44,6 +44,10 @@
   color: var(--blue-55);
 }
 
+.outline-list h2:hover {
+  background: var(--theme-toolbar-background-hover);
+}
+
 .theme-dark .outline-list h2 {
   color: var(--theme-highlight-blue);
 }
