@@ -94,6 +94,7 @@ class Tab extends PureComponent<Props> {
           }
         },
         hidden: () =>
+          tabSources.size === 1 ||
           tabSources.some((t, i) => t === tab && tabSources.size - 1 === i)
       },
       {
