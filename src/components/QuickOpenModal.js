@@ -608,6 +608,7 @@ export class QuickOpenModal extends Component<Props, State> {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> re isLoading, and use symbols instead
 =======
@@ -618,6 +619,8 @@ export class QuickOpenModal extends Component<Props, State> {
 >>>>>>> add newline at eof
 =======
 >>>>>>> move loading logic into updateResults
+=======
+>>>>>>> remove comment
         {!symbols ||
           (symbols.functions.length == 0 && (
             <div className="loading-indicator">
