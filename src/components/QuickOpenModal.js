@@ -57,7 +57,8 @@ type Props = {
 
 type State = {
   results: ?Array<QuickOpenResult>,
-  selectedIndex: number
+  selectedIndex: number,
+  isLoading: boolean
 };
 
 type GotoLocationType = {
@@ -76,7 +77,7 @@ function filter(values, query) {
 export class QuickOpenModal extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = { results: null, selectedIndex: 0 };
+    this.state = { results: null, selectedIndex: 0, isLoading: true };
   }
 
   componentDidMount() {
@@ -271,6 +272,8 @@ export class QuickOpenModal extends Component<Props, State> {
   };
 
   onChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
+    setTimeout(() => this.setState({ isLoading: true }));
+
     const { selectedSource, setQuickOpenQuery } = this.props;
     setQuickOpenQuery(e.target.value);
     const noSource = !selectedSource || !selectedSource.get("text");
@@ -278,6 +281,8 @@ export class QuickOpenModal extends Component<Props, State> {
       return;
     }
     this.updateResults(e.target.value);
+
+    setTimeout(() => this.setState({ isLoading: false }));
   };
 
   onKeyDown = (e: SyntheticKeyboardEvent<HTMLInputElement>) => {
@@ -369,8 +374,21 @@ export class QuickOpenModal extends Component<Props, State> {
   hasPrefix = () => /^[:#@]/.test(this.props.query);
 
   render() {
+<<<<<<< HEAD
     const { enabled, query, symbols } = this.props;
     const { selectedIndex, results } = this.state;
+=======
+    const { enabled, query } = this.props;
+    let { selectedIndex, results } = this.state;
+    const { isLoading } = this.state;
+
+    if (isLoading) {
+      console.log(results);
+      results = null;
+    }
+
+    setTimeout(() => this.setState({ isLoading: false }), 4000); // exists to simulate a situation that requires loading ( can remove set timeouts later )
+>>>>>>> wrapper for loading indicator
 
     if (!enabled) {
       return null;
@@ -400,6 +418,7 @@ export class QuickOpenModal extends Component<Props, State> {
           expanded={expanded}
           selectedItemId={expanded ? items[selectedIndex].id : ""}
         />
+<<<<<<< HEAD
         {!symbols ||
           (symbols.functions.length == 0 && (
             <div className="loading-indicator">
@@ -417,6 +436,21 @@ export class QuickOpenModal extends Component<Props, State> {
             {...(this.isSourceSearch() ? { size: "big" } : {})}
           />
         )}
+=======
+        <div className="loading-wrapper">
+          {newResults && (
+            <ResultList
+              key="results"
+              items={items}
+              selected={selectedIndex}
+              selectItem={this.selectResultItem}
+              ref="resultList"
+              expanded={expanded}
+              {...(this.isSourceSearch() ? { size: "big" } : {})}
+            />
+          )}
+        </div>
+>>>>>>> wrapper for loading indicator
       </Modal>
     );
   }

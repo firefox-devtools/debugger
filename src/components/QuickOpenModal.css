@@ -12,7 +12,34 @@
   color: white;
 }
 
+<<<<<<< HEAD
 .loading-indicator {
   padding: 5px 0 5px 0;
   text-align: center;
 }
+=======
+.loading-wrapper:empty {
+  position: relative;
+  left: calc(50% - 4em);
+  width: 2em;
+  height: 2em;
+  border: 1.1em solid rgba(0, 0, 0, 0.2);
+  border-left: 1.1em solid #000000;
+  border-radius: 50%;
+  animation: spin 1.1s infinite linear;
+}
+
+.loading-wrapper:full {
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+>>>>>>> wrapper for loading indicator
