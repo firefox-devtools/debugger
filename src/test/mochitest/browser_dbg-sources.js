@@ -49,6 +49,11 @@ add_task(async function() {
     "Clicked source is focused"
   );
 
+  console.log(
+      findElementWithSelector(dbg, ".sources-list .focused").textContent.trim(),
+      findElement(dbg, "sourceNode", 4).textContent.trim()
+  );
+
   ok(
     getSelectedSource(getState())
       .get("url")
