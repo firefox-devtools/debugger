@@ -20,13 +20,21 @@ export function initialState(): ReplayState {
   };
 }
 
+const defaultFrameScopes = {
+  original: {},
+  generated: {}
+};
+
 function update(state: ReplayState = initialState(), action: any): ReplayState {
   switch (action.type) {
     case "TRAVEL_TO": {
       return { ...state, position: action.position };
     }
 
-    case "ADD_SCOPES":
+    case "ADD_SCOPES": {
+      return addScopes(state, action);
+    }
+
     case "MAP_SCOPES": {
       return mapScopes(state, action);
     }
@@ -47,17 +55,57 @@ function update(state: ReplayState = initialState(), action: any): ReplayState {
   return state;
 }
 
-function mapScopes(state: ReplayState, action: any) {
-  const { frame, scopes } = action;
+function addScopes(state: ReplayState, action: any) {
+  const { frame, status, value } = action;
+  const selectedFrameId = frame.id;
   const instance = state.history[state.position];
+  const pausedInst = instance.paused;
 
-  const frameScopes = {
-    ...instance.frameScopes,
-    [frame.id]: scopes
+  const generated = {
+    ...pausedInst.frameScopes.generated,
+    [selectedFrameId]: {
+      pending: status !== "done",
+      scope: value
+    }
+  };
+
+  const newPaused = {
+    ...pausedInst,
+    frameScopes: {
+      ...pausedInst.frameScopes,
+      generated
+    }
   };
 
   const history = [...state.history];
-  history[state.position] = { ...instance, frameScopes };
+  history[state.position] = { ...instance, paused: newPaused };
+  return { ...state, history };
+}
+
+function mapScopes(state: ReplayState, action: any) {
+  const { frame, status, value } = action;
+  const selectedFrameId = frame.id;
+  const instance = state.history[state.position];
+  const pausedInst = instance.paused;
+
+  const original = {
+    ...pausedInst.frameScopes.original,
+    [selectedFrameId]: {
+      pending: status !== "done",
+      scope: value
+    }
+  };
+
+  const newPaused = {
+    ...pausedInst,
+    frameScopes: {
+      ...pausedInst.frameScopes,
+      original
+    }
+  };
+
+  const history = [...state.history];
+  history[state.position] = { ...instance, paused: newPaused };
   return { ...state, history };
 }
 
@@ -89,7 +137,7 @@ function paused(state, action) {
     isWaitingOnBreak: false,
     selectedFrameId,
     frames,
-    frameScopes: {},
+    frameScopes: defaultFrameScopes,
     loadedObjects: objectMap,
     why
   };
