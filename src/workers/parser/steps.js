@@ -6,7 +6,7 @@ import type { Source } from "../../types";
 import { AstPosition } from "./types";
 import { getClosestPath } from "./utils/closest";
 import { isAwaitExpression, isYieldExpression } from "./utils/helpers";
-import type { NodePath } from "babel-traverse";
+import type { NodePath } from "@babel/traverse";
 
 export function getNextStep(sourceId: Source, pausedPosition: AstPosition) {
   const currentExpression = getSteppableExpression(sourceId, pausedPosition);

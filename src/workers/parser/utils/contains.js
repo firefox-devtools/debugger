@@ -5,7 +5,7 @@
 // @flow
 
 import type { AstLocation, AstPosition } from "../types";
-import type { Node } from "babel-traverse";
+import type { Node } from "@babel/traverse";
 
 function startsBefore(a: AstLocation, b: AstPosition) {
   let before = a.start.line < b.line;

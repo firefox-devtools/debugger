@@ -78,7 +78,6 @@ FunctionDeclaration (1:0,3:1)
             right: Identifier (2:13,2:14)
               name: 'n'
     directives: []
-  expression: false
   generator: false
   id: Identifier (1:9,1:15)
     name: 'square'
@@ -99,7 +98,6 @@ FunctionDeclaration (9:0,11:1)
               rawValue: 'meh'
             value: 'meh'
     directives: []
-  expression: false
   generator: false
   id: Identifier (9:15,9:22)
     name: 'slowFoo'
@@ -118,7 +116,6 @@ FunctionDeclaration (5:7,7:1)
               rawValue: 'yay'
             value: 'yay'
     directives: []
-  expression: false
   generator: false
   id: Identifier (5:16,5:21)
     name: 'exFoo'
