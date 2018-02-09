@@ -13,6 +13,8 @@ import { features } from "../../utils/prefs";
 import {
   isPaused as getIsPaused,
   getIsWaitingOnBreak,
+  getHistory,
+  getHistoryPosition,
   getShouldPauseOnExceptions,
   getShouldIgnoreCaughtExceptions,
   getCanRewind
@@ -113,6 +115,10 @@ type Props = {
   isPaused: boolean,
   pauseOnExceptions: (boolean, boolean) => void,
   shouldPauseOnExceptions: boolean,
+  historyPosition: number,
+  history: any,
+  timeTravelTo: number => void,
+  clearHistory: () => void,
   shouldIgnoreCaughtExceptions: boolean,
   isWaitingOnBreak: boolean,
   horizontal: boolean,
@@ -153,6 +159,10 @@ class CommandBar extends Component<Props> {
     this.props[action]();
   }
 
+  setHistory(offset) {
+    this.props.timeTravelTo(this.props.historyPosition + offset);
+  }
+
   renderStepButtons() {
     const { isPaused } = this.props;
     const className = isPaused ? "active" : "disabled";
@@ -187,12 +197,17 @@ class CommandBar extends Component<Props> {
     ];
   }
 
+  resume() {
+    this.props.resume();
+    this.props.clearHistory();
+  }
+
   renderPauseButton() {
     const { isPaused, breakOnNext, isWaitingOnBreak } = this.props;
 
     if (isPaused) {
       return debugBtn(
-        this.props.resume,
+        () => this.resume(),
         "resume",
         "active",
         L10N.getFormatStr("resumeButtonTooltip", formatKey("resume"))
@@ -305,6 +320,55 @@ class CommandBar extends Component<Props> {
     ];
   }
 
+  replayPreviousButton() {
+    const historyLength = this.props.history.length;
+    if (!historyLength || !features.replay) {
+      return null;
+    }
+    const enabled = this.props.historyPosition === 0;
+    const activeClass = enabled ? "replay-inactive" : "";
+    return debugBtn(
+      () => this.setHistory(-1),
+      `replay-previous ${activeClass}`,
+      "active",
+      L10N.getStr("replayPrevious"),
+      enabled
+    );
+  }
+
+  replayNextButton() {
+    const historyLength = this.props.history.length;
+    if (!historyLength || !features.replay) {
+      return null;
+    }
+    const enabled = this.props.historyPosition + 1 === historyLength;
+    const activeClass = enabled ? "replay-inactive" : "";
+    return debugBtn(
+      () => this.setHistory(1),
+      `replay-next ${activeClass}`,
+      "active",
+      L10N.getStr("replayNext"),
+      enabled
+    );
+  }
+
+  renderStepPosition() {
+    if (!this.props.history.length || !features.replay) {
+      return null;
+    }
+    const position = this.props.historyPosition + 1;
+    const total = this.props.history.length;
+    const activePrev = position > 1 ? "replay-active" : "replay-inactive";
+    const activeNext = position < total ? "replay-active" : "replay-inactive";
+    return (
+      <div className="step-position">
+        <span className={activePrev}>{position}</span>
+        <span> | </span>
+        <span className={activeNext}>{total}</span>
+      </div>
+    );
+  }
+
   render() {
     return (
       <div
@@ -317,6 +381,10 @@ class CommandBar extends Component<Props> {
         {this.renderStepButtons()}
         {this.renderPauseOnExceptions()}
         {this.renderReverseStepButtons()}
+        <div className="filler" />
+        {this.replayPreviousButton()}
+        {this.renderStepPosition()}
+        {this.replayNextButton()}
       </div>
     );
   }
@@ -330,6 +398,8 @@ export default connect(
   state => {
     return {
       isPaused: getIsPaused(state),
+      history: getHistory(state),
+      historyPosition: getHistoryPosition(state),
       isWaitingOnBreak: getIsWaitingOnBreak(state),
       shouldPauseOnExceptions: getShouldPauseOnExceptions(state),
       shouldIgnoreCaughtExceptions: getShouldIgnoreCaughtExceptions(state),
