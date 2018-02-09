@@ -5,7 +5,7 @@
 // @flow
 
 import type { SourceId, Location } from "../../types";
-import type { NodePath, Node, Location as BabelLocation } from "babel-traverse";
+import type { NodePath, Node, Location as BabelLocation } from "@babel/traverse";
 import { isGeneratedId } from "devtools-source-map";
 import getFunctionName from "./utils/getFunctionName";
 
@@ -216,7 +216,7 @@ function toParsedScopes(
 }
 
 /**
- * Creates at visitor for babel-traverse that will parse/extract all bindings
+ * Creates at visitor for @babel/traverse that will parse/extract all bindings
  * information from the source. See also findScopes to perform lookup of the
  * scope information for specific location.
  */

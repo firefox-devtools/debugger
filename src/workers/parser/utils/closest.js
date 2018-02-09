@@ -4,7 +4,7 @@
 
 // @flow
 
-import * as t from "babel-types";
+import * as t from "@babel/types";
 
 import { traverseAst } from "./ast";
 import { isLexicalScope, getMemberExpression } from "./helpers";
@@ -12,7 +12,7 @@ import { isLexicalScope, getMemberExpression } from "./helpers";
 import { nodeContainsPosition } from "./contains";
 
 import type { Location } from "../../../types";
-import type { NodePath, Node } from "babel-traverse";
+import type { NodePath, Node } from "@babel/traverse";
 
 function getNodeValue(node: Node) {
   if (t.isThisExpression(node)) {
