@@ -114,15 +114,15 @@ export class QuickOpenModal extends Component<Props, State> {
   searchSources = (query: string) => {
     if (query == "") {
       const results = this.props.sources;
-      return this.setstate({ results, isLoading: false });
+      return this.setState({ results });
     }
     if (this.isGotoSourceQuery()) {
       const [baseQuery] = query.split(":");
       const results = filter(this.props.sources, baseQuery);
-      this.setstate({ results, isLoading: false });
+      this.setState({ results });
     } else {
       const results = filter(this.props.sources, query);
-      this.setstate({ results, isLoading: false });
+      this.setState({ results });
     }
   };
 
@@ -134,10 +134,11 @@ export class QuickOpenModal extends Component<Props, State> {
       results = variables;
     }
     if (query === "@" || query === "#") {
-      return this.setstate({ results, isLoading: false });
+      return this.setState({ results });
     }
 
     this.setState({
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -161,15 +162,19 @@ export class QuickOpenModal extends Component<Props, State> {
       results: filter(results, query.slice(1)),
       isLoading: false
 >>>>>>> clean up
+=======
+      results: filter(results, query.slice(1))
+>>>>>>> move loading logic into updateResults
     });
   };
 
   searchShortcuts = (query: string) => {
     const results = formatShortcutResults();
     if (query == "?") {
-      this.setstate({ results, isLoading: false });
+      this.setState({ results });
     } else {
       this.setState({
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -193,6 +198,9 @@ export class QuickOpenModal extends Component<Props, State> {
         results: filter(results, query.slice(1)),
         isLoading: false
 >>>>>>> add newline at eof
+=======
+        results: filter(results, query.slice(1))
+>>>>>>> move loading logic into updateResults
       });
     }
   };
@@ -201,33 +209,35 @@ export class QuickOpenModal extends Component<Props, State> {
     const { tabs, sources } = this.props;
     if (tabs.length > 0) {
       this.setState({
-        results: sources.filter(source => tabs.includes(source.url)),
-        isLoading: false
+        results: sources.filter(source => tabs.includes(source.url))
       });
     } else {
-      this.setState({ results: sources.slice(0, 100), isLoading: false });
+      this.setState({ results: sources.slice(0, 100) });
     }
   };
 
   updateResults = (query: string) => {
     if (this.isGotoQuery()) {
       this.setState({ isLoading: false });
-      return;
     }
 
     if (query == "") {
-      return this.showTopSources();
+      this.showTopSources();
+      return this.setState({ isLoading: false });
     }
 
     if (this.isSymbolSearch()) {
-      return this.searchSymbols(query);
+      this.searchSymbols(query);
+      return this.setState({ isLoading: false });
     }
 
     if (this.isShortcutQuery()) {
-      return this.searchShortcuts(query);
+      this.searchShortcuts(query);
+      return this.setState({ isLoading: false });
     }
 
     this.searchSources(query);
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
@@ -235,6 +245,9 @@ export class QuickOpenModal extends Component<Props, State> {
 >>>>>>> move loading logic into updateResults
 =======
 >>>>>>> consolidate isLoading into setState when reuslts set
+=======
+    return this.setState({ isLoading: false });
+>>>>>>> move loading logic into updateResults
   };
 
   setModifier = (item: QuickOpenResult) => {
@@ -331,10 +344,11 @@ export class QuickOpenModal extends Component<Props, State> {
     setQuickOpenQuery(e.target.value);
     const noSource = !selectedSource || !selectedSource.get("text");
     if ((this.isSymbolSearch() && noSource) || this.isGotoQuery()) {
-      this.setState({ isLoading: false });
       return;
     }
-    this.updateResults(e.target.value);
+    setTimeout(() => {
+      this.updateResults(e.target.value);
+    }, 5000);
   };
 
   onKeyDown = (e: SyntheticKeyboardEvent<HTMLInputElement>) => {
@@ -502,6 +516,7 @@ export class QuickOpenModal extends Component<Props, State> {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> re isLoading, and use symbols instead
         {!symbols ||
@@ -534,6 +549,10 @@ export class QuickOpenModal extends Component<Props, State> {
           <div className="load">{L10N.getStr("loadingText")}</div>
         )}
 >>>>>>> add newline at eof
+=======
+        {/* {!this.state.isLoading && ( */}
+        {isLoading && <div className="load">{L10N.getStr("loadingText")}</div>}
+>>>>>>> move loading logic into updateResults
         {newResults && (
           <ResultList
             key="results"
