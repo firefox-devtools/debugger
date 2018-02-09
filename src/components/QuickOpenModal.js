@@ -57,7 +57,8 @@ type Props = {
 
 type State = {
   results: ?Array<QuickOpenResult>,
-  selectedIndex: number
+  selectedIndex: number,
+  isLoading: boolean
 };
 
 type GotoLocationType = {
@@ -76,7 +77,7 @@ function filter(values, query) {
 export class QuickOpenModal extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = { results: null, selectedIndex: 0 };
+    this.state = { results: null, selectedIndex: 0, isLoading: true };
   }
 
   componentDidMount() {
@@ -353,6 +354,8 @@ export class QuickOpenModal extends Component<Props, State> {
   };
 
   onChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
+    setTimeout(() => this.setState({ isLoading: true }));
+
     const { selectedSource, setQuickOpenQuery } = this.props;
     setQuickOpenQuery(e.target.value);
     const noSource = !selectedSource || !selectedSource.get("text");
@@ -360,6 +363,8 @@ export class QuickOpenModal extends Component<Props, State> {
       return;
     }
     this.updateResults(e.target.value);
+
+    setTimeout(() => this.setState({ isLoading: false }));
   };
 
   onKeyDown = (e: SyntheticKeyboardEvent<HTMLInputElement>) => {
@@ -454,6 +459,7 @@ export class QuickOpenModal extends Component<Props, State> {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     const { enabled, query, symbols } = this.props;
     const { selectedIndex, results } = this.state;
 =======
@@ -477,11 +483,23 @@ export class QuickOpenModal extends Component<Props, State> {
 >>>>>>> consolidate isLoading into setState when reuslts set
 
     if (isLoading) {
+=======
+    const { enabled, query, symbols } = this.props;
+    const { selectedIndex, results } = this.state;
+=======
+    const { enabled, query } = this.props;
+    let { selectedIndex, results } = this.state;
+    const { isLoading } = this.state;
+
+    if (isLoading) {
+      console.log(results);
+>>>>>>> wrapper for loading indicator
       results = null;
     }
 
     setTimeout(() => this.setState({ isLoading: false }), 4000); // exists to simulate a situation that requires loading ( can remove set timeouts later )
 >>>>>>> wrapper for loading indicator
+<<<<<<< HEAD
 =======
     const { enabled, query, symbols } = this.props;
     const { selectedIndex, results } = this.state;
@@ -492,6 +510,8 @@ export class QuickOpenModal extends Component<Props, State> {
     if (isLoading) {
       results = null;
     }
+=======
+>>>>>>> wrapper for loading indicator
 
     setTimeout(() => this.setState({ isLoading: false }), 4000); // exists to simulate a situation that requires loading ( can remove set timeouts later )
 >>>>>>> wrapper for loading indicator
@@ -540,10 +560,13 @@ export class QuickOpenModal extends Component<Props, State> {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> re isLoading, and use symbols instead
 =======
 >>>>>>> re isLoading, and use symbols instead
+=======
+>>>>>>> wrapper for loading indicator
         {!symbols ||
           (symbols.functions.length == 0 && (
             <div className="loading-indicator">
@@ -601,6 +624,10 @@ export class QuickOpenModal extends Component<Props, State> {
         )}
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> wrapper for loading indicator
 =======
 =======
 >>>>>>> wrapper for loading indicator
@@ -618,6 +645,7 @@ export class QuickOpenModal extends Component<Props, State> {
           )}
         </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> wrapper for loading indicator
 =======
 >>>>>>> add newline at eof
@@ -625,6 +653,9 @@ export class QuickOpenModal extends Component<Props, State> {
 >>>>>>> wrapper for loading indicator
 =======
 >>>>>>> add newline at eof
+=======
+>>>>>>> wrapper for loading indicator
+>>>>>>> wrapper for loading indicator
       </Modal>
     );
   }

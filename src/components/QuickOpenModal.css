@@ -20,11 +20,17 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> wrapper for loading indicator
 .loading-indicator {
   padding: 5px 0 5px 0;
   text-align: center;
 }
 =======
+<<<<<<< HEAD
+=======
+>>>>>>> wrapper for loading indicator
 =======
 >>>>>>> wrapper for loading indicator
 .loading-wrapper:empty {
@@ -52,6 +58,7 @@
   }
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 .load {
   padding: 3px;
@@ -87,3 +94,7 @@
 >>>>>>> pad top/bot, and center
 }
 >>>>>>> eof line
+=======
+}
+>>>>>>> wrapper for loading indicator
+>>>>>>> wrapper for loading indicator
