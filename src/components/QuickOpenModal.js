@@ -447,6 +447,7 @@ export class QuickOpenModal extends Component<Props, State> {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         {!symbols ||
           (symbols.functions.length == 0 && (
             <div className="loading-indicator">
@@ -460,6 +461,8 @@ export class QuickOpenModal extends Component<Props, State> {
 >>>>>>> add newline at eof
 =======
         {/* {!this.state.isLoading && ( */}
+=======
+>>>>>>> remove comment
         {isLoading && <div className="load">{L10N.getStr("loadingText")}</div>}
 >>>>>>> move loading logic into updateResults
         {newResults && (
