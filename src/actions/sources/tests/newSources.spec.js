@@ -10,6 +10,17 @@ const { getSource, getSources, getSelectedSource } = selectors;
 import { sourceThreadClient as threadClient } from "../../tests/helpers/threadClient.js";
 
 describe("sources - new sources", () => {
+  it(`should clear sourceMapURL on fail
+        to load original source URLs`, async () => {
+    const { dispatch, getState } = createStore(threadClient);
+    // loadSourceMap is called upon creation of the source
+    await dispatch(
+      actions.newSource(makeSource("base.js", { sourceMapURL: "base.map.js" }))
+    );
+    const base = getSource(getState(), "base.js");
+    expect(base.get("sourceMapURL")).toEqual("");
+  });
+
   it("should add sources to state", async () => {
     const { dispatch, getState } = createStore(threadClient);
     await dispatch(actions.newSource(makeSource("base.js")));
