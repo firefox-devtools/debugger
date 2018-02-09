@@ -166,8 +166,10 @@ class Frames extends Component<Props, State> {
     }
 
     return (
-      <div className="show-more" onClick={this.toggleFramesDisplay}>
-        {buttonMessage}
+      <div className="show-more-container">
+        <button className="show-more" onClick={this.toggleFramesDisplay}>
+          {buttonMessage}
+        </button>
       </div>
     );
   }
