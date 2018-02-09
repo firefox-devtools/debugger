@@ -83,7 +83,6 @@ add_task(async function() {
   is(resultCount(dbg), 2, "two function results");
 
   type(dbg, "@x");
-  await waitForTime(1000);
   is(resultCount(dbg), 0, "no functions with 'x' in name");
 
   pressKey(dbg, "Escape");
