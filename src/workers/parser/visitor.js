@@ -5,7 +5,11 @@
 // @flow
 
 import type { SourceId, Location } from "../../types";
-import type { NodePath, Node, Location as BabelLocation } from "@babel/traverse";
+import type {
+  NodePath,
+  Node,
+  Location as BabelLocation
+} from "@babel/traverse";
 import { isGeneratedId } from "devtools-source-map";
 import getFunctionName from "./utils/getFunctionName";
 
