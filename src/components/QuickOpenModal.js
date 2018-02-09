@@ -137,7 +137,10 @@ export class QuickOpenModal extends Component<Props, State> {
       return this.setstate({ results, isLoading: false });
     }
 
-    this.setState({ results: filter(results, query.slice(1)) });
+    this.setState({
+      results: filter(results, query.slice(1)),
+      isLoading: false
+    });
   };
 
   searchShortcuts = (query: string) => {
@@ -278,6 +281,7 @@ export class QuickOpenModal extends Component<Props, State> {
     setQuickOpenQuery(e.target.value);
     const noSource = !selectedSource || !selectedSource.get("text");
     if ((this.isSymbolSearch() && noSource) || this.isGotoQuery()) {
+      this.setState({ isLoading: false });
       return;
     }
     this.updateResults(e.target.value);
@@ -374,12 +378,6 @@ export class QuickOpenModal extends Component<Props, State> {
   render() {
     const { enabled, query } = this.props;
     let { selectedIndex, results, isLoading } = this.state;
-
-    if (isLoading) {
-      results = null;
-    }
-
-    setTimeout(() => this.setState({ isLoading: false }), 4000); // exists to simulate a situation that requires loading ( can remove set timeouts later )
 
     if (!enabled) {
       return null;
