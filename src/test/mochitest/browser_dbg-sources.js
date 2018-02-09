@@ -30,27 +30,25 @@ add_task(async function() {
 
   // Expand nodes and make sure more sources appear.
   await assertSourceCount(dbg, 2);
-  await clickElement(dbg, "sourceArrow", 2);
+  await clickElement(dbg, "sourceDirectoryLabel", 2);
 
   await assertSourceCount(dbg, 7);
-  await clickElement(dbg, "sourceArrow", 3);
+  await clickElement(dbg, "sourceDirectoryLabel", 3);
   await assertSourceCount(dbg, 8);
-
-  // Select a source
-  ok(
-    !findElementWithSelector(dbg, ".sources-list .focused"),
-    "Source is not focused"
-  );
 
   const selected = waitForDispatch(dbg, "SELECT_SOURCE");
   await clickElement(dbg, "sourceNode", 4);
   await selected;
   await waitForSelectedSource(dbg);
 
-  ok(
-    findElementWithSelector(dbg, ".sources-list .focused"),
-    "Source is focused"
+  // Ensure the source file clicked is now focused
+  await waitForElementWithSelector(dbg, ".sources-list .focused")
+  is(
+    findElementWithSelector(dbg, ".sources-list .focused").textContent.trim(),
+    findElement(dbg, "sourceNode", 4).textContent.trim(),
+    "Clicked source is focused"
   );
+
   ok(
     getSelectedSource(getState())
       .get("url")
