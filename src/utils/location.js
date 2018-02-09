@@ -1,4 +1,4 @@
-import type { Location, SourceId } from "debugger-html";
+import type { Location, SourceId } from "../types";
 
 type IncompleteLocation = {
   sourceId: SourceId,

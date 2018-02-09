@@ -20,6 +20,8 @@ type ModalProps = {
   handleClose: () => any
 };
 
+export const transitionTimeout = 175;
+
 export class Modal extends React.Component<ModalProps> {
   onClick = (e: SyntheticEvent<HTMLElement>) => {
     e.stopPropagation();
@@ -59,7 +61,7 @@ export default function Slide({
   handleClose
 }: SlideProps) {
   return (
-    <Transition in={inProp} timeout={175} appear>
+    <Transition in={inProp} timeout={transitionTimeout} appear>
       {(status: TransitionStatus) => (
         <Modal
           status={status}

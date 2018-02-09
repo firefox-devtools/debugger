@@ -39,8 +39,7 @@
 .input-expression::placeholder {
   text-align: center;
   font-style: italic;
-  color: var(--theme-comment-alt);
-  opacity: 1;
+  color: var(--theme-comment);
 }
 
 .input-expression:focus {

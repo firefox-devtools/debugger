@@ -6,11 +6,12 @@
 
 import { getMode } from "../source";
 
-import type { Source } from "debugger-html";
+import type { Source } from "../../types";
 import { isWasm, getWasmLineNumberFormatter, renderWasmText } from "../wasm";
 import { resizeBreakpointGutter, resizeToggleButton } from "../ui";
-import type { SymbolDeclarations, SourceRecord } from "../../reducers/types";
-import type { SourceEditor } from "./source-editor";
+import type { SymbolDeclarations } from "../../workers/parser/getSymbols";
+import type { SourceRecord } from "../../reducers/types";
+import SourceEditor from "./source-editor";
 
 let sourceDocs = {};
 
@@ -126,7 +127,12 @@ function showSourceText(
   if (hasDocument(source.id)) {
     const doc = getDocument(source.id);
     if (editor.codeMirror.doc === doc) {
-      editor.setMode(getMode(source, symbols));
+      const mode = getMode(source, symbols);
+
+      if (doc.mode.name !== mode.name) {
+        editor.setMode(mode);
+      }
+
       return;
     }
 

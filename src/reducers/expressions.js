@@ -24,7 +24,7 @@ type ExpressionState = {
   expressionError: boolean
 };
 
-export const State = makeRecord(
+export const createExpressionState = makeRecord(
   ({
     expressions: List(restoreExpressions()),
     expressionError: false
@@ -32,7 +32,7 @@ export const State = makeRecord(
 );
 
 function update(
-  state: Record<ExpressionState> = State(),
+  state: Record<ExpressionState> = createExpressionState(),
   action: Action
 ): Record<ExpressionState> {
   switch (action.type) {
@@ -84,7 +84,11 @@ function storeExpressions(state) {
   prefs.expressions = expressions;
 }
 
-function appendToList(state: State, path: string[], value: any) {
+function appendToList(
+  state: Record<ExpressionState>,
+  path: string[],
+  value: any
+) {
   const newState = state.updateIn(path, () => {
     return state.getIn(path).push(value);
   });
@@ -93,7 +97,7 @@ function appendToList(state: State, path: string[], value: any) {
 }
 
 function updateItemInList(
-  state: State,
+  state: Record<ExpressionState>,
   path: string[],
   key: string,
   value: any
@@ -107,7 +111,7 @@ function updateItemInList(
   return newState;
 }
 
-function deleteExpression(state: State, input: string) {
+function deleteExpression(state: Record<ExpressionState>, input: string) {
   const index = getExpressions({ expressions: state }).findKey(
     e => e.input == input
   );

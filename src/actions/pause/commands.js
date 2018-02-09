@@ -1,3 +1,4 @@
+/* -*- indent-tabs-mode: nil; js-indent-level: 2; js-indent-level: 2 -*- */
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
@@ -11,7 +12,15 @@ import { addHiddenBreakpoint } from "../breakpoints";
 import { features } from "../../utils/prefs";
 
 import type { ThunkArgs } from "../types";
-type CommandType = "stepOver" | "stepIn" | "stepOut" | "resume";
+type CommandType =
+  | "stepOver"
+  | "stepIn"
+  | "stepOut"
+  | "resume"
+  | "rewind"
+  | "reverseStepOver"
+  | "reverseStepIn"
+  | "reverseStepOut";
 
 /**
  * Debugger commands like stepOver, stepIn, stepUp
@@ -87,6 +96,79 @@ export function resume() {
 }
 
 /**
+ * rewind
+ * @memberof actions/pause
+ * @static
+ * @returns {Function} {@link command}
+ */
+export function rewind() {
+  return ({ dispatch, getState }: ThunkArgs) => {
+    if (isPaused(getState())) {
+      return dispatch(command("rewind"));
+    }
+  };
+}
+
+/**
+ * reverseStepIn
+ * @memberof actions/pause
+ * @static
+ * @returns {Function} {@link command}
+ */
+export function reverseStepIn() {
+  return ({ dispatch, getState }: ThunkArgs) => {
+    if (isPaused(getState())) {
+      return dispatch(command("reverseStepIn"));
+    }
+  };
+}
+
+/**
+ * reverseStepOver
+ * @memberof actions/pause
+ * @static
+ * @returns {Function} {@link command}
+ */
+export function reverseStepOver() {
+  return ({ dispatch, getState }: ThunkArgs) => {
+    if (isPaused(getState())) {
+      return dispatch(astCommand("reverseStepOver"));
+    }
+  };
+}
+
+/**
+ * reverseStepOut
+ * @memberof actions/pause
+ * @static
+ * @returns {Function} {@link command}
+ */
+export function reverseStepOut() {
+  return ({ dispatch, getState }: ThunkArgs) => {
+    if (isPaused(getState())) {
+      return dispatch(command("reverseStepOut"));
+    }
+  };
+}
+
+/*
+ * Checks for await or yield calls on the paused line
+ * This avoids potentially expensive parser calls when we are likely
+ * not at an async expression.
+ */
+function hasAwait(source, pauseLocation) {
+  const { line, column } = pauseLocation;
+  if (!source.text) {
+    return false;
+  }
+
+  return source.text
+    .split("\n")
+    [line - 1].slice(column, column + 200)
+    .match(/(yield|await)/);
+}
+
+/**
  * @memberOf actions/pause
  * @static
  * @param stepType
@@ -99,9 +181,10 @@ export function astCommand(stepType: CommandType) {
     }
 
     if (stepType == "stepOver") {
-      const frame = getTopFrame(getState());
+      // This type definition is ambiguous:
+      const frame: any = getTopFrame(getState());
       const source = getSelectedSource(getState()).toJS();
-      if (source) {
+      if (source && hasAwait(source, frame.location)) {
         const nextLocation = await getNextStep(source.id, frame.location);
         if (nextLocation) {
           await dispatch(addHiddenBreakpoint(nextLocation));

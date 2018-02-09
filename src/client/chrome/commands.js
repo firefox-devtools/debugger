@@ -10,7 +10,7 @@ import {
   createLoadedObject
 } from "./create";
 
-import type { Location } from "debugger-html";
+import type { Location } from "../../types";
 import type { ServerLocation, Agents } from "./types";
 
 type setBreakpointResponseType = {

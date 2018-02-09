@@ -1,5 +1,3 @@
-import foobar from "./foobar.json";
+import foobarJson from "./foobar.json";
 
-module.exports = {
-  foobar
-};
+export const foobar = foobarJson;

@@ -7,7 +7,7 @@
 import { setupCommands, clientCommands } from "./firefox/commands";
 import { setupEvents, clientEvents } from "./firefox/events";
 import { features } from "../utils/prefs";
-import type { Grip } from "debugger-html";
+import type { Grip } from "../types";
 let DebuggerClient;
 
 function createObjectClient(grip: Grip) {
@@ -54,7 +54,8 @@ export async function onConnect(connection: any, actions: Object): Object {
   // bfcache) so explicity fire `newSource` events for all returned
   // sources.
   const sources = await clientCommands.fetchSources();
-  await actions.connect(tabTarget.url);
+  const traits = tabTarget.activeTab ? tabTarget.activeTab.traits : null;
+  await actions.connect(tabTarget.url, traits && traits.canRewind);
   await actions.newSources(sources);
 
   // If the threadClient is already paused, make sure to show a

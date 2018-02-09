@@ -11,8 +11,9 @@ import { getFrames } from "../reducers/pause";
 import { annotateFrame } from "../utils/frame";
 import { isOriginalId } from "devtools-source-map";
 import { get } from "lodash";
-import type { Frame, Source } from "debugger-html";
+import type { Frame, Source } from "../types";
 import type { SourcesMap } from "../reducers/sources";
+import { createSelector } from "reselect";
 
 function getLocation(frame, isGeneratedSource) {
   return isGeneratedSource
@@ -51,10 +52,10 @@ export function formatCallStackFrames(
     .map(annotateFrame);
 }
 
-export default function getCallStackFrames(state) {
-  const selectedSource = getSelectedSource(state);
-  const sources = getSources(state);
-  const frames = getFrames(state);
-
-  return formatCallStackFrames(frames, sources, selectedSource);
-}
+export const getCallStackFrames = createSelector(
+  getSelectedSource,
+  getSources,
+  getFrames,
+  (selectedSource, sources, frames) =>
+    formatCallStackFrames(frames, sources, selectedSource)
+);

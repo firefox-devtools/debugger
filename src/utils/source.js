@@ -176,14 +176,14 @@ export function getFileURL(source: Source) {
 const contentTypeModeMap = {
   "text/javascript": { name: "javascript" },
   "text/typescript": { name: "javascript", typescript: true },
-  "text/coffeescript": "coffeescript",
+  "text/coffeescript": { name: "coffeescript" },
   "text/typescript-jsx": {
     name: "jsx",
     base: { name: "javascript", typescript: true }
   },
-  "text/jsx": "jsx",
-  "text/x-elm": "elm",
-  "text/x-clojure": "clojure",
+  "text/jsx": { name: "jsx" },
+  "text/x-elm": { name: "elm" },
+  "text/x-clojure": { name: "clojure" },
   "text/wasm": { name: "text" },
   "text/html": { name: "htmlmixed" }
 };
@@ -229,7 +229,10 @@ export function getSourceLineCount(source: Source) {
  * @static
  */
 
-export function getMode(source: Source, symbols?: SymbolDeclarations) {
+export function getMode(
+  source: Source,
+  symbols?: SymbolDeclarations
+): { name: string } {
   const { contentType, text, isWasm, url } = source;
 
   if (!text || isWasm) {
@@ -237,7 +240,7 @@ export function getMode(source: Source, symbols?: SymbolDeclarations) {
   }
 
   if ((url && url.match(/\.jsx$/i)) || (symbols && symbols.hasJsx)) {
-    return "jsx";
+    return { name: "jsx" };
   }
 
   const languageMimeMap = [
@@ -253,7 +256,7 @@ export function getMode(source: Source, symbols?: SymbolDeclarations) {
     const result = languageMimeMap.find(({ ext }) => url.endsWith(ext));
 
     if (result !== undefined) {
-      return result.mode;
+      return { name: result.mode };
     }
   }
 

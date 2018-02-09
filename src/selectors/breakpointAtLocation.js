@@ -64,7 +64,7 @@ function findBreakpointAtLocation(
  * This is useful for finding a breakpoint when the
  * user clicks in the gutter or on a token.
  */
-export default function getBreakpointAtLocation(state, location) {
+export function getBreakpointAtLocation(state, location) {
   const selectedSource = getSelectedSource(state);
   const breakpoints = getBreakpointsForSource(state, selectedSource);
 

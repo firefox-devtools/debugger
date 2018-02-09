@@ -7,7 +7,7 @@
 const { isDevelopment } = require("devtools-config");
 
 import type { ThunkArgs } from "./types";
-import type { Worker } from "debugger-html";
+import type { Worker } from "../types";
 
 /**
  * @memberof actions/toolbox

@@ -2,7 +2,7 @@ global.Worker = require("workerjs");
 
 import path from "path";
 import getConfig from "../../bin/getConfig";
-import { setConfig } from "devtools-config";
+import { setConfig, getValue } from "devtools-config";
 import { readFileSync } from "fs";
 import Enzyme from "enzyme";
 import Adapter from "enzyme-adapter-react-15";
@@ -22,7 +22,6 @@ import {
 } from "../workers/parser";
 import { startSearchWorker, stopSearchWorker } from "../workers/search";
 import { clearDocuments } from "../utils/editor";
-import { getValue } from "devtools-config";
 import { clearHistory } from "./utils/history";
 
 const rootPath = path.join(__dirname, "../../");
@@ -43,7 +42,9 @@ const config = {
 
 global.DebuggerConfig = config;
 global.L10N = require("devtools-launchpad").L10N;
-global.L10N.setBundle(readFileSync("./assets/panel/debugger.properties"));
+global.L10N.setBundle(
+  readFileSync(path.join(__dirname, "../../assets/panel/debugger.properties"))
+);
 global.jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 global.performance = { now: () => 0 };
 

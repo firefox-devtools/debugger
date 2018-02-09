@@ -5,7 +5,7 @@
 // @flow
 // This module converts Firefox specific types to the generic types
 
-import type { Frame, Source, Location } from "debugger-html";
+import type { Frame, Source, Location } from "../../types";
 import type {
   PausedPacket,
   FramesResponse,
@@ -13,7 +13,10 @@ import type {
   SourcePayload
 } from "./types";
 
-export function createFrame(frame: FramePacket): Frame {
+export function createFrame(frame: FramePacket): ?Frame {
+  if (!frame) {
+    return null;
+  }
   let title;
   if (frame.type == "call") {
     const c = frame.callee;

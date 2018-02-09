@@ -51,7 +51,7 @@ export type ASTState = {
   sourceMetaData: SourceMetaDataMap
 };
 
-export function initialState() {
+export function initialASTState() {
   return makeRecord(
     ({
       symbols: I.Map(),
@@ -65,7 +65,7 @@ export function initialState() {
 }
 
 function update(
-  state: Record<ASTState> = initialState(),
+  state: Record<ASTState> = initialASTState(),
   action: Action
 ): Record<ASTState> {
   switch (action.type) {
@@ -111,7 +111,7 @@ function update(
     }
 
     case "NAVIGATE": {
-      return initialState();
+      return initialASTState();
     }
 
     case "SET_SOURCE_METADATA": {
@@ -182,7 +182,7 @@ export function getSourceMetaData(state: OuterState, sourceId: string) {
   return state.ast.getIn(["sourceMetaData", sourceId]) || emptySourceMetaData;
 }
 
-export function getInScopeLines(state: OuterState, sourceId: string) {
+export function getInScopeLines(state: OuterState) {
   return state.ast.get("inScopeLines");
 }
 

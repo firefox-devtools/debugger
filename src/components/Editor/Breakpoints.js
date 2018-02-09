@@ -8,8 +8,7 @@ import React, { Component } from "react";
 
 import Breakpoint from "./Breakpoint";
 
-import { getSelectedSource } from "../../selectors";
-import getVisibleBreakpoints from "../../selectors/visibleBreakpoints";
+import { getSelectedSource, getVisibleBreakpoints } from "../../selectors";
 import { makeLocationId } from "../../utils/breakpoint";
 import { isLoaded } from "../../utils/source";
 

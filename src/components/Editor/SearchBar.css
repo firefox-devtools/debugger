@@ -60,7 +60,7 @@
 }
 
 .search-bottom-bar .search-modifiers button svg {
-  fill: var(--theme-body-color);
+  fill: var(--theme-comment);
   height: 16px;
   width: 16px;
 }
@@ -92,7 +92,7 @@
   margin: 0 0 0 6px;
   border: none;
   background: transparent;
-  color: var(--theme-body-color);
+  color: var(--theme-comment);
 }
 
 .search-bottom-bar .search-type-toggles .search-type-btn:active {

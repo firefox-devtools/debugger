@@ -1,6 +1,6 @@
 import { hasSource, getSource, setSource, clearSources } from "../sources";
 
-import type { Source } from "debugger-html";
+import type { Source } from "../../../types";
 
 describe("sources", () => {
   it("hasSource", () => {

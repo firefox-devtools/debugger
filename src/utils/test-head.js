@@ -13,7 +13,7 @@ import { combineReducers } from "redux";
 import sourceMaps from "devtools-source-map";
 import reducers from "../reducers";
 import actions from "../actions";
-import selectors from "../selectors";
+import * as selectors from "../selectors";
 import { getHistory } from "../test/utils/history";
 import configureStore from "../actions/utils/create-store";
 import * as I from "immutable";

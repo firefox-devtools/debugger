@@ -20,7 +20,7 @@ import type {
   PendingBreakpoint,
   SourceId,
   Breakpoint
-} from "debugger-html";
+} from "../../types";
 
 type BreakpointSyncData = {
   previousLocation: Location,

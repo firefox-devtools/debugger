@@ -869,6 +869,13 @@ exports[`Parser.getSymbols function names 1`] = `
 [(35, 2), (35, 9)]   42() Cls
 [(38, 1), (38, 13)]   anonymous()
 [(40, 15), (40, 28)]   default()
+[(44, 0), (44, 27)]   a(first, second)
+[(45, 0), (45, 35)]   b(first = bla, second)
+[(46, 0), (46, 32)]   c(first = {}, second)
+[(47, 0), (47, 32)]   d(first = [], second)
+[(48, 0), (48, 40)]   e(first = defaultObj, second)
+[(49, 0), (49, 40)]   f(first = defaultArr, second)
+[(50, 0), (50, 34)]   g(first = null, second)
 
 variables:
 [(16, 4), (16, 22)]   foo
@@ -881,6 +888,23 @@ variables:
 [(25, 13), (25, 31)]   foo
 [(26, 12), (26, 42)]
 [(26, 13), (26, 36)]   foo
+[(42, 6), (42, 25)]   defaultObj
+[(42, 20), (42, 24)]   a
+[(43, 6), (43, 29)]   defaultArr
+[(44, 11), (44, 16)]   first
+[(44, 18), (44, 24)]   second
+[(45, 11), (45, 24)]
+[(45, 26), (45, 32)]   second
+[(46, 11), (46, 21)]
+[(46, 23), (46, 29)]   second
+[(47, 11), (47, 21)]
+[(47, 23), (47, 29)]   second
+[(48, 11), (48, 29)]
+[(48, 31), (48, 37)]   second
+[(49, 11), (49, 29)]
+[(49, 31), (49, 37)]   second
+[(50, 11), (50, 23)]
+[(50, 25), (50, 31)]   second
 
 callExpressions:
 
@@ -897,6 +921,7 @@ objectProperties:
 [(22, 2), (22, 5)]  undefined.bar bar
 [(25, 13), (25, 16)]   foo
 [(26, 13), (26, 16)]   bar
+[(42, 20), (42, 21)]  defaultObj.a a
 
 comments:
 [(1, 0), (1, 20)]
@@ -929,6 +954,34 @@ identifiers:
 [(28, 6), (28, 9)]  Cls Cls
 [(29, 2), (29, 5)]  foo foo
 [(33, 2), (33, 5)]  foo foo
+[(42, 6), (42, 25)]  defaultObj defaultObj
+[(42, 6), (42, 16)]  defaultObj defaultObj
+[(42, 20), (42, 21)]  a a
+[(43, 6), (43, 29)]  defaultArr defaultArr
+[(43, 6), (43, 16)]  defaultArr defaultArr
+[(44, 9), (44, 10)]  a a
+[(44, 11), (44, 16)]  first first
+[(44, 18), (44, 24)]  second second
+[(45, 9), (45, 10)]  b b
+[(45, 11), (45, 16)]  first first
+[(45, 26), (45, 32)]  second second
+[(46, 9), (46, 10)]  c c
+[(46, 11), (46, 16)]  first first
+[(46, 23), (46, 29)]  second second
+[(47, 9), (47, 10)]  d d
+[(47, 11), (47, 16)]  first first
+[(47, 23), (47, 29)]  second second
+[(48, 9), (48, 10)]  e e
+[(48, 11), (48, 16)]  first first
+[(48, 19), (48, 29)]  defaultObj defaultObj
+[(48, 31), (48, 37)]  second second
+[(49, 9), (49, 10)]  f f
+[(49, 11), (49, 16)]  first first
+[(49, 19), (49, 29)]  defaultArr defaultArr
+[(49, 31), (49, 37)]  second second
+[(50, 9), (50, 10)]  g g
+[(50, 11), (50, 16)]  first first
+[(50, 25), (50, 31)]  second second
 
 classes:
 [(28, 0), (36, 1)]   Cls

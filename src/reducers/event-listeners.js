@@ -7,13 +7,13 @@
  * @module reducers/event-listeners
  */
 
-const initialState = {
+const initialEventListenersState = {
   activeEventNames: [],
   listeners: [],
   fetchingListeners: false
 };
 
-function update(state = initialState, action, emit) {
+function update(state = initialEventListenersState, action, emit) {
   switch (action.type) {
     case "UPDATE_EVENT_BREAKPOINTS":
       state.activeEventNames = action.eventNames;
@@ -28,7 +28,7 @@ function update(state = initialState, action, emit) {
       }
       break;
     case "NAVIGATE":
-      return initialState;
+      return initialEventListenersState;
   }
 
   return state;

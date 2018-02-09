@@ -14,7 +14,7 @@ import type {
   Source,
   SourceId,
   Worker
-} from "debugger-html";
+} from "../../types";
 
 import type {
   TabTarget,
@@ -73,6 +73,30 @@ function stepOver(): Promise<*> {
 function stepOut(): Promise<*> {
   return new Promise(resolve => {
     threadClient.stepOut(resolve);
+  });
+}
+
+function rewind(): Promise<*> {
+  return new Promise(resolve => {
+    threadClient.rewind(resolve);
+  });
+}
+
+function reverseStepIn(): Promise<*> {
+  return new Promise(resolve => {
+    threadClient.reverseStepIn(resolve);
+  });
+}
+
+function reverseStepOver(): Promise<*> {
+  return new Promise(resolve => {
+    threadClient.reverseStepOver(resolve);
+  });
+}
+
+function reverseStepOut(): Promise<*> {
+  return new Promise(resolve => {
+    threadClient.reverseStepOut(resolve);
   });
 }
 
@@ -173,7 +197,10 @@ function evaluateInFrame(frameId: string, script: Script) {
   return evaluate(script, { frameId });
 }
 
-function evaluate(script: Script, { frameId }: EvaluateParam): Promise<mixed> {
+function evaluate(
+  script: Script,
+  { frameId }: EvaluateParam = {}
+): Promise<mixed> {
   const params = frameId ? { frameActor: frameId } : {};
   if (!tabTarget || !tabTarget.activeConsole) {
     return Promise.resolve();
@@ -304,6 +331,10 @@ const clientCommands = {
   stepIn,
   stepOut,
   stepOver,
+  rewind,
+  reverseStepIn,
+  reverseStepOut,
+  reverseStepOver,
   breakOnNext,
   sourceContents,
   getBreakpointByLocation,

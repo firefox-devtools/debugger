@@ -18,7 +18,7 @@ import {
 } from "../../selectors";
 
 type Props = {
-  breakpoint: Object,
+  breakpoint: ?Object,
   selectedLocation: Object,
   setBreakpointCondition: Function,
   line: number,

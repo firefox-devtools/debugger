@@ -11,7 +11,7 @@ import { isLexicalScope, getMemberExpression } from "./helpers";
 
 import { nodeContainsPosition } from "./contains";
 
-import type { Location } from "debugger-html";
+import type { Location } from "../../../types";
 import type { NodePath, Node } from "babel-traverse";
 
 function getNodeValue(node: Node) {

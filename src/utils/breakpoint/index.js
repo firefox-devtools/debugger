@@ -15,7 +15,7 @@ import type {
   PendingLocation,
   Breakpoint,
   PendingBreakpoint
-} from "debugger-html";
+} from "../../types";
 
 import type { State } from "../../reducers/types";
 

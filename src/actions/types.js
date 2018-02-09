@@ -14,7 +14,7 @@ import type {
   Scope,
   Why,
   Worker
-} from "debugger-html";
+} from "../types";
 
 import type { State } from "../reducers/types";
 import type {
@@ -287,7 +287,7 @@ type PauseAction =
     };
 
 type NavigateAction =
-  | { type: "CONNECT", url: string }
+  | { type: "CONNECT", url: string, canRewind: boolean }
   | { type: "NAVIGATE", url: string };
 
 type ASTAction =

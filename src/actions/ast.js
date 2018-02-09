@@ -19,7 +19,7 @@ import {
   getFramework
 } from "../workers/parser";
 
-import type { SourceId } from "debugger-html";
+import type { SourceId } from "../types";
 import type { ThunkArgs } from "./types";
 
 export function setSourceMetaData(sourceId: SourceId) {

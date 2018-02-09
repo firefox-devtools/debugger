@@ -317,8 +317,14 @@ class SourcesTree extends Component<Props, State> {
         className={classnames("node", { focused })}
         key={item.path}
         onClick={e => {
-          this.selectItem(item);
-          setExpanded(item, !expanded, e.altKey);
+          e.stopPropagation();
+          this.focusItem(item);
+
+          if (isDirectory(item)) {
+            setExpanded(item, !expanded, e.altKey);
+          } else {
+            this.selectItem(item);
+          }
         }}
         onContextMenu={e => this.onContextMenu(e, item)}
       >

@@ -65,7 +65,7 @@ import { resizeToggleButton, resizeBreakpointGutter } from "../../utils/ui";
 import "./Editor.css";
 import "./Highlight.css";
 
-import type { SourceEditor } from "../../utils/editor/source-editor";
+import type SourceEditor from "../../utils/editor/source-editor";
 
 const cssVars = {
   searchbarHeight: "var(--editor-searchbar-height)",
@@ -196,7 +196,7 @@ class Editor extends PureComponent<Props, State> {
     shortcuts.on(L10N.getStr("toggleBreakpoint.key"), this.onToggleBreakpoint);
     shortcuts.on(
       L10N.getStr("toggleCondPanel.key"),
-      this.toggleConditionalPanel
+      this.onToggleConditionalPanel
     );
     shortcuts.on("Esc", this.onEscape);
     shortcuts.on(searchAgainPrevKey, this.onSearchAgain);
@@ -242,6 +242,7 @@ class Editor extends PureComponent<Props, State> {
 
   onToggleBreakpoint = (key, e) => {
     e.preventDefault();
+    e.stopPropagation();
     const { selectedSource, conditionalPanelLine } = this.props;
 
     if (!selectedSource) {
@@ -258,6 +259,13 @@ class Editor extends PureComponent<Props, State> {
       this.toggleConditionalPanel(line);
       this.props.toggleBreakpoint(line);
     }
+  };
+
+  onToggleConditionalPanel = (key, e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    const line = this.getCurrentLine();
+    this.toggleConditionalPanel(line);
   };
 
   onKeyDown(e) {
@@ -377,10 +385,6 @@ class Editor extends PureComponent<Props, State> {
       closeConditionalPanel,
       openConditionalPanel
     } = this.props;
-
-    if (!line || isNaN(line)) {
-      line = this.getCurrentLine();
-    }
 
     if (conditionalPanelLine) {
       return closeConditionalPanel();

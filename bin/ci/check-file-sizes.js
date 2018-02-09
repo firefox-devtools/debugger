@@ -2,9 +2,8 @@ const path = require("path");
 const fs = require("fs");
 const chalk = require("chalk");
 
-
 const fileSizes = {
-  "debugger.js": 50000,
+  "debugger.js": 52000,
   "parser-worker.js": 57000,
   "pretty-print-worker.js": 10000,
   "search-worker.js": 5000
@@ -43,4 +42,5 @@ function checkFileSizes() {
   return success;
 }
 
-checkFileSizes();
+const success = checkFileSizes();
+process.exit(success ? 0 : 1);
