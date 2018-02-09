@@ -305,7 +305,7 @@ export class QuickOpenModal extends Component<Props, State> {
     if ((this.isSymbolSearch() && noSource) || this.isGotoQuery()) {
       return;
     }
-      this.updateResults(e.target.value);
+    this.updateResults(e.target.value);
   };
 
   onKeyDown = (e: SyntheticKeyboardEvent<HTMLInputElement>) => {
