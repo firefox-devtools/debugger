@@ -264,7 +264,7 @@ export class QuickOpenModal extends Component<Props, State> {
 
   updateResults = (query: string) => {
     if (this.isGotoQuery()) {
-      this.setState({ isLoading: false });
+      return this.setState({ isLoading: false });
     }
 
     if (query == "") {
