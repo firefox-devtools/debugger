@@ -17,6 +17,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 .loading-indicator {
   padding: 5px 0 5px 0;
   text-align: center;
@@ -70,5 +71,9 @@
 }
 >>>>>>> wrapper for loading indicator
 =======
+=======
+.load {
+  padding: 3px;
+>>>>>>> add newline at eof
 }
 >>>>>>> eof line
