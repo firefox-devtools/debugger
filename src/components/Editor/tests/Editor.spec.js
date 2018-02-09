@@ -30,9 +30,6 @@ function createMockEditor() {
       defaultTextHeight: () => 0,
       display: { gutters: { querySelector: jest.fn() } }
     },
-    editor: {
-      getLine: line => ""
-    },
     setText: jest.fn(),
     on: jest.fn(),
     off: jest.fn(),
