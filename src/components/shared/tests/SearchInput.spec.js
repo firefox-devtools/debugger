@@ -4,27 +4,32 @@ import { shallow } from "enzyme";
 import SearchInput from "../SearchInput";
 
 describe("SearchInput", () => {
+  // !! wrapper is defined outside test scope
+  // so it will keep values between tests
   const wrapper = shallow(
     <SearchInput
       query=""
-      count={0}
+      count={5}
       placeholder="A placeholder"
       summaryMsg="So many results"
-      showErrorEmoji
+      showErrorEmoji={false}
     />
   );
-  it("render", () => expect(wrapper).toMatchSnapshot());
-  it("show svg (emoji)", () => {
-    wrapper.setProps({ query: "test" });
+
+  it("renders", () => expect(wrapper).toMatchSnapshot());
+
+  it("shows svg error emoji", () => {
+    wrapper.setProps({ showErrorEmoji: true });
     expect(wrapper).toMatchSnapshot();
   });
-  it("show svg magnifying glass", () => {
-    wrapper.setProps({ count: 3 });
+
+  it("shows svg magnifying glass", () => {
+    wrapper.setProps({ showErrorEmoji: false });
     expect(wrapper).toMatchSnapshot();
   });
-  it("show nav buttons", () => {
+
+  it("shows nav buttons", () => {
     wrapper.setProps({
-      count: 5,
       handleNext: jest.fn(),
       handlePrev: jest.fn()
     });

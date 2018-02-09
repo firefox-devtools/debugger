@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SearchInput render 1`] = `
+exports[`SearchInput renders 1`] = `
 <div
   aria-expanded={false}
   aria-haspopup="listbox"
@@ -26,7 +26,7 @@ exports[`SearchInput render 1`] = `
 </div>
 `;
 
-exports[`SearchInput show nav buttons 1`] = `
+exports[`SearchInput shows nav buttons 1`] = `
 <div
   aria-expanded={false}
   aria-haspopup="listbox"
@@ -44,7 +44,7 @@ exports[`SearchInput show nav buttons 1`] = `
     className=""
     placeholder="A placeholder"
     spellCheck={false}
-    value="test"
+    value=""
   />
   <div
     className="search-nav-buttons"
@@ -78,7 +78,7 @@ exports[`SearchInput show nav buttons 1`] = `
 </div>
 `;
 
-exports[`SearchInput show svg (emoji) 1`] = `
+exports[`SearchInput shows svg error emoji 1`] = `
 <div
   aria-expanded={false}
   aria-haspopup="listbox"
@@ -96,7 +96,7 @@ exports[`SearchInput show svg (emoji) 1`] = `
     className="empty"
     placeholder="A placeholder"
     spellCheck={false}
-    value="test"
+    value=""
   />
   <CloseButton
     buttonClass=""
@@ -104,7 +104,7 @@ exports[`SearchInput show svg (emoji) 1`] = `
 </div>
 `;
 
-exports[`SearchInput show svg magnifying glass 1`] = `
+exports[`SearchInput shows svg magnifying glass 1`] = `
 <div
   aria-expanded={false}
   aria-haspopup="listbox"
@@ -122,7 +122,7 @@ exports[`SearchInput show svg magnifying glass 1`] = `
     className=""
     placeholder="A placeholder"
     spellCheck={false}
-    value="test"
+    value=""
   />
   <CloseButton
     buttonClass=""

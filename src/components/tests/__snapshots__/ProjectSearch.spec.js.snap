@@ -106,7 +106,7 @@ exports[`ProjectSearch found search results 1`] = `
           placeholder="Find in files…"
           query="match"
           selectedItemId=""
-          showErrorEmoji={true}
+          showErrorEmoji={false}
           size="big"
           summaryMsg="5 results"
         >

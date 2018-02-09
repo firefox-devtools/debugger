@@ -14,7 +14,7 @@ exports[`SearchBar should render 1`] = `
     placeholder="Search in file…"
     query=""
     selectedItemId=""
-    showErrorEmoji={true}
+    showErrorEmoji={false}
     size=""
     summaryMsg=""
   />
