@@ -25,7 +25,9 @@ function createMockEditor() {
     setText: jest.fn(),
     on: jest.fn(),
     off: jest.fn(),
-    createDocument: () => ({}),
+    createDocument: () => ({
+      getLine: line => ""
+    }),
     replaceDocument: jest.fn(),
     setMode: jest.fn()
   };

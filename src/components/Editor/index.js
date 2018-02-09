@@ -12,6 +12,7 @@ import { debugGlobal } from "devtools-launchpad";
 import { isLoaded } from "../../utils/source";
 import { isFirefox } from "devtools-config";
 import { features } from "../../utils/prefs";
+import { getIndentation } from "../../utils/indentation";
 
 import {
   getActiveSearch,
@@ -50,10 +51,12 @@ import {
   createEditor,
   getCursorLine,
   toSourceLine,
+  getDocument,
   scrollToColumn,
   toEditorPosition,
   resetLineNumberFormat,
-  getSourceLocationFromMouseEvent
+  getSourceLocationFromMouseEvent,
+  hasDocument
 } from "../../utils/editor";
 
 import { resizeToggleButton, resizeBreakpointGutter } from "../../utils/ui";
@@ -416,7 +419,13 @@ class Editor extends PureComponent<Props, State> {
     const { editor } = this.state;
 
     if (this.shouldScrollToLocation(nextProps)) {
-      const { line, column } = toEditorPosition(nextProps.selectedLocation);
+      let { line, column } = toEditorPosition(nextProps.selectedLocation);
+
+      if (hasDocument(nextProps.selectedSource.get("id"))) {
+        const doc = getDocument(nextProps.selectedSource.get("id"));
+        const lineText = doc.getLine(line);
+        column = Math.max(column, getIndentation(lineText));
+      }
       scrollToColumn(editor.codeMirror, line, column);
     }
   }
