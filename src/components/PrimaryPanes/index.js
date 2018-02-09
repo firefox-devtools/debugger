@@ -109,10 +109,6 @@ class PrimaryPanes extends Component<Props> {
     }
   }
 
-  setHistory() {
-    this.props.travelTo(this.input.value);
-  }
-
   renderOutline() {
     const { selectLocation } = this.props;
 
