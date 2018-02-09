@@ -14,28 +14,28 @@ import { getSource } from "../sources";
 let ASTs = new Map();
 
 function _parse(code, opts) {
-  return babylon.parse(code, opts);
+  return babylon.parse(code, {
+    ...opts,
+    tokens: true
+  });
 }
 
 const sourceOptions = {
-  generated: {
-    tokens: true
-  },
+  generated: {},
   original: {
     sourceType: "unambiguous",
-    tokens: true,
     plugins: [
       "jsx",
       "flow",
       "doExpressions",
       "objectRestSpread",
       "classProperties",
-      "exportExtensions",
+      "exportDefaultFrom",
+      "exportNamespaceFrom",
       "asyncGenerators",
       "functionBind",
       "functionSent",
-      "dynamicImport",
-      "templateInvalidEscapes"
+      "dynamicImport"
     ]
   }
 };
