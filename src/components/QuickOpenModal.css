@@ -13,6 +13,7 @@
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 .loading-indicator {
   padding: 5px 0 5px 0;
   text-align: center;
@@ -41,6 +42,10 @@
   100% {
     transform: rotate(360deg);
   }
+=======
+.load {
+  padding: 3px;
+>>>>>>> add newline at eof
 }
 <<<<<<< HEAD
 >>>>>>> wrapper for loading indicator

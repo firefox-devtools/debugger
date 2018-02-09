@@ -114,15 +114,15 @@ export class QuickOpenModal extends Component<Props, State> {
   searchSources = (query: string) => {
     if (query == "") {
       const results = this.props.sources;
-      return this.setState({ results });
+      return this.setstate({ results, isLoading: false });
     }
     if (this.isGotoSourceQuery()) {
       const [baseQuery] = query.split(":");
       const results = filter(this.props.sources, baseQuery);
-      this.setState({ results });
+      this.setstate({ results, isLoading: false });
     } else {
       const results = filter(this.props.sources, query);
-      this.setState({ results });
+      this.setstate({ results, isLoading: false });
     }
   };
 
@@ -134,7 +134,7 @@ export class QuickOpenModal extends Component<Props, State> {
       results = variables;
     }
     if (query === "@" || query === "#") {
-      return this.setState({ results });
+      return this.setstate({ results, isLoading: false });
     }
 
     this.setState({
@@ -145,10 +145,15 @@ export class QuickOpenModal extends Component<Props, State> {
   searchShortcuts = (query: string) => {
     const results = formatShortcutResults();
     if (query == "?") {
-      this.setState({ results });
+      this.setstate({ results, isLoading: false });
     } else {
       this.setState({
+<<<<<<< HEAD
         results: filter(results, query.slice(1))
+=======
+        results: filter(results, query.slice(1)),
+        isLoading: false
+>>>>>>> add newline at eof
       });
     }
   };
@@ -157,15 +162,17 @@ export class QuickOpenModal extends Component<Props, State> {
     const { tabs, sources } = this.props;
     if (tabs.length > 0) {
       this.setState({
-        results: sources.filter(source => tabs.includes(source.url))
+        results: sources.filter(source => tabs.includes(source.url)),
+        isLoading: false
       });
     } else {
-      this.setState({ results: sources.slice(0, 100) });
+      this.setState({ results: sources.slice(0, 100), isLoading: false });
     }
   };
 
   updateResults = (query: string) => {
     if (this.isGotoQuery()) {
+      this.setState({ isLoading: false });
       return;
     }
 
@@ -272,7 +279,7 @@ export class QuickOpenModal extends Component<Props, State> {
   };
 
   onChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
-    setTimeout(() => this.setState({ isLoading: true }));
+    this.setState({ isLoading: true });
 
     const { selectedSource, setQuickOpenQuery } = this.props;
     setQuickOpenQuery(e.target.value);
@@ -281,8 +288,6 @@ export class QuickOpenModal extends Component<Props, State> {
       return;
     }
     this.updateResults(e.target.value);
-
-    setTimeout(() => this.setState({ isLoading: false }));
   };
 
   onKeyDown = (e: SyntheticKeyboardEvent<HTMLInputElement>) => {
@@ -379,11 +384,9 @@ export class QuickOpenModal extends Component<Props, State> {
     const { selectedIndex, results } = this.state;
 =======
     const { enabled, query } = this.props;
-    let { selectedIndex, results } = this.state;
-    const { isLoading } = this.state;
+    let { selectedIndex, results, isLoading } = this.state;
 
     if (isLoading) {
-      console.log(results);
       results = null;
     }
 
@@ -419,12 +422,18 @@ export class QuickOpenModal extends Component<Props, State> {
           selectedItemId={expanded ? items[selectedIndex].id : ""}
         />
 <<<<<<< HEAD
+<<<<<<< HEAD
         {!symbols ||
           (symbols.functions.length == 0 && (
             <div className="loading-indicator">
               {L10N.getStr("loadingText")}
             </div>
           ))}
+=======
+        {this.state.isLoading && (
+          <div className="load">{L10N.getStr("loadingText")}</div>
+        )}
+>>>>>>> add newline at eof
         {newResults && (
           <ResultList
             key="results"
@@ -436,6 +445,7 @@ export class QuickOpenModal extends Component<Props, State> {
             {...(this.isSourceSearch() ? { size: "big" } : {})}
           />
         )}
+<<<<<<< HEAD
 =======
         <div className="loading-wrapper">
           {newResults && (
@@ -451,6 +461,8 @@ export class QuickOpenModal extends Component<Props, State> {
           )}
         </div>
 >>>>>>> wrapper for loading indicator
+=======
+>>>>>>> add newline at eof
       </Modal>
     );
   }
