@@ -1,4 +1,4 @@
-import { correctIndentation } from "../indentation";
+import { correctIndentation, getIndentation } from "../indentation";
 
 describe("indentation", () => {
   it("simple", () => {
@@ -45,5 +45,13 @@ describe("indentation", () => {
     `;
 
     expect(correctIndentation(text)).toMatchSnapshot();
+  });
+});
+
+describe("indentation length", () => {
+  it("leading spaces", () => {
+    const line = "                console.log('Hello World');";
+
+    expect(getIndentation(line)).toEqual(16);
   });
 });
