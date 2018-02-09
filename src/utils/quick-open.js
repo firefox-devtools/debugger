@@ -6,7 +6,7 @@
 import { endTruncateStr } from "./utils";
 import { isPretty, getSourcePath } from "./source";
 
-import type { Location as BabelLocation } from "babel-traverse";
+import type { Location as BabelLocation } from "@babel/traverse";
 import type { SourcesMap } from "../reducers/sources";
 import type { QuickOpenType } from "../reducers/quick-open";
 import type {

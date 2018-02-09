@@ -6,32 +6,36 @@
 
 import parseScriptTags from "parse-script-tags";
 import * as babylon from "babylon";
-import traverse from "babel-traverse";
+import traverse from "@babel/traverse";
+import * as t from "@babel/types";
 import isEmpty from "lodash/isEmpty";
 import { getSource } from "../sources";
 
 let ASTs = new Map();
 
 function _parse(code, opts) {
-  return babylon.parse(code, opts);
+  return babylon.parse(code, {
+    ...opts,
+    tokens: true
+  });
 }
 
 const sourceOptions = {
   generated: {},
   original: {
-    sourceType: "module",
+    sourceType: "unambiguous",
     plugins: [
       "jsx",
       "flow",
       "doExpressions",
       "objectRestSpread",
       "classProperties",
-      "exportExtensions",
+      "exportDefaultFrom",
+      "exportNamespaceFrom",
       "asyncGenerators",
       "functionBind",
       "functionSent",
-      "dynamicImport",
-      "templateInvalidEscapes"
+      "dynamicImport"
     ]
   }
 };
@@ -94,5 +98,16 @@ export function traverseAst(sourceId: string, visitor: Visitor) {
   }
 
   traverse(ast, visitor);
+  return ast;
+}
+
+export function fastTraverseAst(sourceId: string, visitor: Visitor) {
+  const ast = getAst(sourceId);
+  if (isEmpty(ast)) {
+    return null;
+  }
+
+  t.traverse(ast, visitor);
+  // t.fastTraverse(ast, visitor);
   return ast;
 }

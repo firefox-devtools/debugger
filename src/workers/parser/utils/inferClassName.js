@@ -3,8 +3,8 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-import * as t from "babel-types";
-import type { NodePath } from "babel-traverse";
+import * as t from "@babel/types";
+import type { NodePath } from "@babel/traverse";
 
 // the function class is inferred from a call like
 // createClass or extend
