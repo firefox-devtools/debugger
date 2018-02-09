@@ -54,6 +54,14 @@
     lodash "^4.2.0"
     to-fast-properties "^2.0.0"
 
+"@babel/types@^7.0.0-beta.39":
+  version "7.0.0-beta.39"
+  resolved "https://registry.yarnpkg.com/@babel/types/-/types-7.0.0-beta.39.tgz#2ea0d97efe4781688751edc68cde640d6559938c"
+  dependencies:
+    esutils "^2.0.2"
+    lodash "^4.2.0"
+    to-fast-properties "^2.0.0"
+
 "@percy-io/react-percy-api-client@^0.2.0":
   version "0.2.5"
   resolved "https://registry.yarnpkg.com/@percy-io/react-percy-api-client/-/react-percy-api-client-0.2.5.tgz#c98974d8c1bc53e2ae38c1549b0ec967fdde628f"
@@ -1732,6 +1740,10 @@ babylon@7.0.0-beta.36:
 babylon@^6.17.0, babylon@^6.17.2, babylon@^6.18.0:
   version "6.18.0"
   resolved "https://registry.yarnpkg.com/babylon/-/babylon-6.18.0.tgz#af2f3b88fa6f5c1e4c634d1a0f8eac4f55b395e3"
+
+babylon@^7.0.0-beta.39:
+  version "7.0.0-beta.39"
+  resolved "https://registry.yarnpkg.com/babylon/-/babylon-7.0.0-beta.39.tgz#512833ea788f6570c6db026d743a7565e58d3aeb"
 
 babylon@~5.8.3:
   version "5.8.38"
@@ -7852,12 +7864,12 @@ parse-latin@^4.0.0:
     unist-util-modify-children "^1.0.0"
     unist-util-visit-children "^1.0.0"
 
-parse-script-tags@=0.1.3:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/parse-script-tags/-/parse-script-tags-0.1.3.tgz#abcc38665d4ff92bd5a2661b8f24c3e172db19d5"
+parse-script-tags@0.1.6:
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/parse-script-tags/-/parse-script-tags-0.1.6.tgz#d84c3b0e5ae4f48090fbcb9a6a08fcbc1f917dd1"
   dependencies:
-    babel-types "^6.24.1"
-    babylon "^6.17.0"
+    "@babel/types" "^7.0.0-beta.39"
+    babylon "^7.0.0-beta.39"
 
 parse-url@^1.3.0:
   version "1.3.11"
