@@ -38,12 +38,6 @@ function promisify(context: any, method: any, ...args: any): Promise<mixed> {
  * @memberof utils/utils
  * @static
  */
-/* function endTruncateStr(str: any, size: number) {
-  if (str.length > size) {
-    return `...${str.slice(str.length - size)}`;
-  }
-  return str;
-}*/
 
 function throttle(func: any, ms: number) {
   let timeout, _this;
