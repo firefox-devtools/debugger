@@ -114,15 +114,15 @@ export class QuickOpenModal extends Component<Props, State> {
   searchSources = (query: string) => {
     if (query == "") {
       const results = this.props.sources;
-      return this.setState({ results });
+      return this.setstate({ results, isLoading: false });
     }
     if (this.isGotoSourceQuery()) {
       const [baseQuery] = query.split(":");
       const results = filter(this.props.sources, baseQuery);
-      this.setState({ results });
+      this.setstate({ results, isLoading: false });
     } else {
       const results = filter(this.props.sources, query);
-      this.setState({ results });
+      this.setstate({ results, isLoading: false });
     }
   };
 
@@ -134,7 +134,7 @@ export class QuickOpenModal extends Component<Props, State> {
       results = variables;
     }
     if (query === "@" || query === "#") {
-      return this.setState({ results });
+      return this.setstate({ results, isLoading: false });
     }
 
     this.setState({ results: filter(results, query.slice(1)) });
@@ -143,9 +143,12 @@ export class QuickOpenModal extends Component<Props, State> {
   searchShortcuts = (query: string) => {
     const results = formatShortcutResults();
     if (query == "?") {
-      this.setState({ results });
+      this.setstate({ results, isLoading: false });
     } else {
-      this.setState({ results: filter(results, query.slice(1)) });
+      this.setState({
+        results: filter(results, query.slice(1)),
+        isLoading: false
+      });
     }
   };
 
@@ -153,15 +156,17 @@ export class QuickOpenModal extends Component<Props, State> {
     const { tabs, sources } = this.props;
     if (tabs.length > 0) {
       this.setState({
-        results: sources.filter(source => tabs.includes(source.url))
+        results: sources.filter(source => tabs.includes(source.url)),
+        isLoading: false
       });
     } else {
-      this.setState({ results: sources.slice(0, 100) });
+      this.setState({ results: sources.slice(0, 100), isLoading: false });
     }
   };
 
   updateResults = (query: string) => {
     if (this.isGotoQuery()) {
+      this.setState({ isLoading: false });
       return;
     }
 
@@ -267,7 +272,7 @@ export class QuickOpenModal extends Component<Props, State> {
   };
 
   onChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
-    setTimeout(() => this.setState({ isLoading: true }));
+    this.setState({ isLoading: true });
 
     const { selectedSource, setQuickOpenQuery } = this.props;
     setQuickOpenQuery(e.target.value);
@@ -276,8 +281,6 @@ export class QuickOpenModal extends Component<Props, State> {
       return;
     }
     this.updateResults(e.target.value);
-
-    setTimeout(() => this.setState({ isLoading: false }));
   };
 
   onKeyDown = (e: SyntheticKeyboardEvent<HTMLInputElement>) => {
@@ -370,11 +373,9 @@ export class QuickOpenModal extends Component<Props, State> {
 
   render() {
     const { enabled, query } = this.props;
-    let { selectedIndex, results } = this.state;
-    const { isLoading } = this.state;
+    let { selectedIndex, results, isLoading } = this.state;
 
     if (isLoading) {
-      console.log(results);
       results = null;
     }
 
@@ -408,19 +409,20 @@ export class QuickOpenModal extends Component<Props, State> {
           expanded={expanded}
           selectedItemId={expanded ? items[selectedIndex].id : ""}
         />
-        <div className="loading-wrapper">
-          {newResults && (
-            <ResultList
-              key="results"
-              items={items}
-              selected={selectedIndex}
-              selectItem={this.selectResultItem}
-              ref="resultList"
-              expanded={expanded}
-              {...(this.isSourceSearch() ? { size: "big" } : {})}
-            />
-          )}
-        </div>
+        {this.state.isLoading && (
+          <div className="load">{L10N.getStr("loadingText")}</div>
+        )}
+        {newResults && (
+          <ResultList
+            key="results"
+            items={items}
+            selected={selectedIndex}
+            selectItem={this.selectResultItem}
+            ref="resultList"
+            expanded={expanded}
+            {...(this.isSourceSearch() ? { size: "big" } : {})}
+          />
+        )}
       </Modal>
     );
   }
