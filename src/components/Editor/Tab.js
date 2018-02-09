@@ -61,23 +61,24 @@ class Tab extends PureComponent<Props> {
     this.showContextMenu(event, tab);
   };
 
-  showContextMenu(e, tab: string) {
+  showContextMenu(e, tabId: string) {
     const {
       closeTab,
       closeTabs,
       tabs,
+      tab,
       showSource,
       togglePrettyPrint,
       getTabSource
     } = this.props;
 
-    if (!tab) {
+    if (!tabId) {
       return;
     }
 
-    const source = getTabSource(tab);
+    const source = getTabSource(tabId);
     const tabIds = tabs.map(t => t.id);
-    const otherTabIds = tabIds.filter(id => id !== tab.id);
+    const otherTabIds = tabIds.filter(id => id !== tabId);
 
     const isPrettySource = isPretty(source);
     const tabMenuItems = getTabMenuItems();
@@ -85,7 +86,7 @@ class Tab extends PureComponent<Props> {
       {
         item: {
           ...tabMenuItems.closeTab,
-          click: () => closeTab(tab.id)
+          click: () => closeTab(tabId)
         }
       },
       {
@@ -99,7 +100,8 @@ class Tab extends PureComponent<Props> {
         item: {
           ...tabMenuItems.closeTabsToEnd,
           click: () => {
-            const tabIndex = tabIds.findIndex(id => id == tab.id);
+            const tabIndex = tabIds.findIndex(id => id == tabId);
+            console.log(tabIndex);
             closeTabs(tabIds.filter((id, index) => index > tabIndex));
           }
         },
@@ -114,20 +116,21 @@ class Tab extends PureComponent<Props> {
       {
         item: {
           ...tabMenuItems.copySourceUri2,
-          click: () => copyToTheClipboard(tab)
+          click: () => copyToTheClipboard(source.get("url"))
         }
       }
     ];
 
-    items.push({
-      item: { ...tabMenuItems.showSource, click: () => showSource(tab) }
-    });
+    if (!isPrettySource) {
+      items.push({
+        item: { ...tabMenuItems.showSource, click: () => showSource(tabId) }
+      });
 
     if (!isPrettySource) {
       items.push({
         item: {
           ...tabMenuItems.prettyPrint,
-          click: () => togglePrettyPrint(tab)
+          click: () => togglePrettyPrint(tabId)
         }
       });
     }

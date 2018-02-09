@@ -35,15 +35,12 @@ export default function update(
   state: Record<TabsState> = initialState(),
   action: Action
 ): Record<TabsState> {
+  let tabs, tabIndex;
   switch (action.type) {
     case "ADD_TAB":
-      const updatedTabs = updateTabList(
-        { tabsState: state },
-        action.tab,
-        action.tabIndex
-      );
+      tabs = updateTabList({ tabsState: state }, action.tab, action.tabIndex);
       return state.merge({
-        tabs: updatedTabs,
+        tabs,
         currentTabIndex: action.tabIndex || 0
       });
 
@@ -51,16 +48,16 @@ export default function update(
       return state.set("currentTabIndex", action.tabIndex);
 
     case "CLOSE_TAB":
-      const tabs = removeFromTabList({ tabsState: state }, [action.id]);
-      const tabIndex = selectNewTab({ tabsState: state }, tabs);
+      tabs = removeFromTabList({ tabsState: state }, [action.id]);
+      tabIndex = selectNewTab({ tabsState: state }, tabs);
       prefs.tabs = tabs;
       return state.merge({ tabs, currentTabIndex: tabIndex });
 
     case "CLOSE_TABS":
-      const newTabs = removeFromTabList({ tabsState: state }, action.ids);
-      const newTabIndex = selectNewTab({ tabsState: state }, newTabs);
-      prefs.tabs = newTabs;
-      return state.merge({ newTabs, currentTabIndex: newTabIndex });
+      tabs = removeFromTabList({ tabsState: state }, action.ids);
+      tabIndex = selectNewTab({ tabsState: state }, tabs);
+      prefs.tabs = tabs;
+      return state.merge({ tabs, currentTabIndex: tabIndex });
   }
 
   return state;
