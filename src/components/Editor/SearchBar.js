@@ -281,7 +281,8 @@ class SearchBar extends Component<Props, State> {
   };
 
   shouldShowErrorEmoji() {
-    return true;
+    const { query, searchResults: { count } } = this.props;
+    return !!query && !count;
   }
 
   render() {

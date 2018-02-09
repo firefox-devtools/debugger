@@ -358,20 +358,10 @@ export class QuickOpenModal extends Component<Props, State> {
 
   shouldShowErrorEmoji() {
     const { query } = this.props;
-
     if (this.isGotoQuery()) {
       return !/^:\d*$/.test(query);
     }
-
-    if (
-      this.isVariableQuery() ||
-      this.isFunctionQuery() ||
-      this.isShortcutQuery()
-    ) {
-      return !this.getResultCount();
-    }
-
-    return false;
+    return !this.getResultCount() && !!query;
   }
 
   render() {
