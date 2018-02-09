@@ -43,15 +43,16 @@ add_task(async function() {
 
   // Ensure the source file clicked is now focused
   await waitForElementWithSelector(dbg, ".sources-list .focused")
-  is(
-    findElementWithSelector(dbg, ".sources-list .focused").textContent.trim(),
-    findElement(dbg, "sourceNode", 4).textContent.trim(),
-    "Clicked source is focused"
-  );
 
   console.log(
       findElementWithSelector(dbg, ".sources-list .focused").textContent.trim(),
       findElement(dbg, "sourceNode", 4).textContent.trim()
+  );
+
+  is(
+    findElementWithSelector(dbg, ".sources-list .focused").textContent.trim(),
+    "nested-source.js",
+    "Clicked source is focused"
   );
 
   ok(
