@@ -16,11 +16,14 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 .loading-indicator {
   padding: 5px 0 5px 0;
   text-align: center;
 }
 =======
+=======
+>>>>>>> wrapper for loading indicator
 .loading-wrapper:empty {
   position: relative;
   left: calc(50% - 4em);
@@ -44,6 +47,7 @@
   100% {
     transform: rotate(360deg);
   }
+<<<<<<< HEAD
 =======
 .load {
   padding: 3px;
@@ -61,3 +65,6 @@
 >>>>>>> wrapper for loading indicator
 =======
 >>>>>>> eof line
+=======
+}
+>>>>>>> wrapper for loading indicator
