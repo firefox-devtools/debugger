@@ -14,6 +14,7 @@ export * from "./reducers/file-search";
 export * from "./reducers/ast";
 export * from "./reducers/coverage";
 export * from "./reducers/project-text-search";
+export * from "./reducers/replay";
 export * from "./reducers/source-tree";
 
 // For some reason Flow was having trouble with these re-exports, so

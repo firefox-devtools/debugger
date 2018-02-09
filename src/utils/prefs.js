@@ -48,6 +48,7 @@ if (isDevelopment()) {
   pref("devtools.debugger.features.code-folding", false);
   pref("devtools.debugger.features.outline", true);
   pref("devtools.debugger.features.column-breakpoints", true);
+  pref("devtools.debugger.features.replay", true);
 }
 
 export const prefs = new PrefsHelper("devtools", {
@@ -88,7 +89,8 @@ export const features = new PrefsHelper("devtools.debugger.features", {
   codeCoverage: ["Bool", "code-coverage"],
   eventListeners: ["Bool", "event-listeners"],
   outline: ["Bool", "outline"],
-  codeFolding: ["Bool", "code-folding"]
+  codeFolding: ["Bool", "code-folding"],
+  replay: ["Bool", "replay"]
 });
 
 if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {
