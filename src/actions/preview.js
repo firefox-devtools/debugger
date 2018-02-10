@@ -9,10 +9,11 @@ import { getTokenLocation } from "../utils/editor";
 import { isReactComponent, isImmutable } from "../utils/preview";
 import { isGeneratedId } from "devtools-source-map";
 import { PROMISE } from "./utils/middleware/promise";
+import { getExpressionFromCoords } from "../utils/editor/get-expression";
 
 import {
   getPreview,
-  getInScopeLines,
+  isLineInScope,
   getSelectedSource,
   getSelectedFrame,
   getSymbols
@@ -61,16 +62,43 @@ async function getExtraProps(expression, result, evaluate) {
   return props;
 }
 
+function isInvalidTarget(target: HTMLElement) {
+  if (!target || !target.innerText) {
+    return true;
+  }
+
+  const tokenText = target.innerText.trim();
+  const cursorPos = target.getBoundingClientRect();
+
+  // exclude literal tokens where it does not make sense to show a preview
+  const invaildType = ["cm-string", "cm-number", "cm-atom"].includes(
+    target.className
+  );
+
+  // exclude syntax where the expression would be a syntax error
+  const invalidToken =
+    tokenText === "" || tokenText.match(/[(){}\|&%,.;=<>\+-/\*\s]/);
+
+  // exclude codemirror elements that are not tokens
+  const invalidTarget =
+    (target.parentElement &&
+      !target.parentElement.closest(".CodeMirror-line")) ||
+    cursorPos.top == 0;
+
+  return invalidTarget || invalidToken || invaildType;
+}
+
 export function updatePreview(target: HTMLElement, editor: any) {
   return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
-    const location = getTokenLocation(editor.codeMirror, target);
     const tokenText = target.innerText ? target.innerText.trim() : "";
+    const tokenPos = getTokenLocation(editor.codeMirror, target);
     const cursorPos = target.getBoundingClientRect();
     const preview = getPreview(getState());
 
     if (preview) {
-      // We are mousing over the same token as before
-      if (isEqual(preview.tokenPos, location)) {
+      // Return early if we are currently showing another preview or
+      // if we are mousing over the same token as before
+      if (preview.updating || isEqual(preview.tokenPos, tokenPos)) {
         return;
       }
 
@@ -80,72 +108,44 @@ export function updatePreview(target: HTMLElement, editor: any) {
       }
     }
 
+    if (isInvalidTarget(target)) {
+      return;
+    }
+
+    if (!isLineInScope(getState(), tokenPos.line)) {
+      return;
+    }
+
     const source = getSelectedSource(getState());
-
     const symbols = getSymbols(getState(), source.toJS());
-    if (!symbols || symbols.identifiers.length == 0) {
+
+    let match;
+    if (!symbols || symbols.identifiers) {
+      match = findBestMatchExpression(symbols, tokenPos, tokenText);
+    } else {
+      match = getExpressionFromCoords(editor.codeMirror, tokenPos);
+    }
+
+    if (!match) {
       return;
     }
 
-    const invalidToken =
-      tokenText === "" || tokenText.match(/[(){}\|&%,.;=<>\+-/\*\s]/);
-
-    const invalidTarget =
-      (target.parentElement &&
-        !target.parentElement.closest(".CodeMirror-line")) ||
-      cursorPos.top == 0;
-
-    const isUpdating = preview && preview.updating;
-
-    const linesInScope = getInScopeLines(getState());
-    const inScope = linesInScope && linesInScope.includes(location.line);
-
-    const invaildType =
-      target.className === "cm-string" ||
-      target.className === "cm-number" ||
-      target.className === "cm-atom";
-
-    if (
-      invalidTarget ||
-      !inScope ||
-      isUpdating ||
-      invalidToken ||
-      invaildType
-    ) {
-      return;
-    }
-
-    dispatch(setPreview(tokenText, location, cursorPos));
+    const { expression, location } = match;
+    dispatch(setPreview(expression, location, tokenPos, cursorPos));
   };
 }
 
 export function setPreview(
-  token: string,
+  expression: string,
+  location: AstLocation,
   tokenPos: AstLocation,
   cursorPos: any
 ) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
-    const currentSelection = getPreview(getState());
-    if (currentSelection && currentSelection.updating) {
-      return;
-    }
-
     await dispatch({
       type: "SET_PREVIEW",
       [PROMISE]: (async function() {
         const source = getSelectedSource(getState());
-        const symbols = getSymbols(getState(), source.toJS());
-        const found = findBestMatchExpression(symbols, tokenPos, token);
-
-        if (!found) {
-          return;
-        }
-
-        let { expression, location } = found;
-
-        if (!expression) {
-          return;
-        }
 
         const sourceId = source.get("id");
         if (location && !isGeneratedId(sourceId)) {

@@ -186,4 +186,9 @@ export function getInScopeLines(state: OuterState) {
   return state.ast.get("inScopeLines");
 }
 
+export function isLineInScope(state: OuterState, line: number) {
+  const linesInScope = state.ast.get("inScopeLines");
+  return linesInScope && linesInScope.includes(line);
+}
+
 export default update;
