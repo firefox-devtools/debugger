@@ -14,7 +14,7 @@ import { selectSource } from "./sources";
 
 import { getSelectedTab, getTabIndex } from "../selectors";
 
-import type { Source, Tab } from "../types";
+import type { Tab } from "../types";
 import type { ThunkArgs } from "./types";
 
 /**

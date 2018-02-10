@@ -16,7 +16,7 @@ import { getPrettySourceURL } from "../utils/source";
 import { originalToGeneratedId, isOriginalId } from "devtools-source-map";
 import { prefs } from "../utils/prefs";
 
-import type { Map, List } from "immutable";
+import type { Map } from "immutable";
 import type { Source, Location } from "../types";
 import type { SelectedLocation, PendingSelectedLocation } from "./types";
 import type { Action } from "../actions/types";

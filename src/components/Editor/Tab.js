@@ -13,21 +13,14 @@ import { showMenu, buildMenu } from "devtools-contextmenu";
 import CloseButton from "../shared/Button/Close";
 
 import type { List } from "immutable";
-import type { SourceRecord } from "../../reducers/sources";
 
 import actions from "../../actions";
 
-import {
-  getFilename,
-  getFileURL,
-  getRawSourceURL,
-  isPretty
-} from "../../utils/source";
+import { isPretty } from "../../utils/source";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { getSourceAnnotation, getTabMenuItems } from "../../utils/tabs";
 
 import {
-  getSelectedSource,
   getSourceMetaData,
   getActiveSearch,
   getTabs,
@@ -42,8 +35,8 @@ type TabList = List<any>;
 type Props = {
   tabs: TabList,
   selectSource: Object => void,
+  selectTab: string => void,
   selectedTab: any,
-  selectedSource: SourceRecord,
   closeTab: string => void,
   closeTabs: (List<string>) => void,
   togglePrettyPrint: string => void,
@@ -66,7 +59,6 @@ class Tab extends PureComponent<Props> {
       closeTab,
       closeTabs,
       tabs,
-      tab,
       showSource,
       togglePrettyPrint,
       getTabSource
@@ -101,7 +93,6 @@ class Tab extends PureComponent<Props> {
           ...tabMenuItems.closeTabsToEnd,
           click: () => {
             const tabIndex = tabIds.findIndex(id => id == tabId);
-            console.log(tabIndex);
             closeTabs(tabIds.filter((id, index) => index > tabIndex));
           }
         },
@@ -138,7 +129,7 @@ class Tab extends PureComponent<Props> {
     showMenu(e, buildMenu(items));
   }
 
-  /*isProjectSearchEnabled() {
+  /* isProjectSearchEnabled() {
     return this.props.activeSearch === "project";
   }
 
@@ -148,7 +139,6 @@ class Tab extends PureComponent<Props> {
 
   render() {
     const {
-      selectedSource,
       selectedTab,
       selectTab,
       selectSource,
@@ -161,7 +151,7 @@ class Tab extends PureComponent<Props> {
 
     const source = getTabSource(tab.id);
     const sourceAnnotation = getSourceAnnotation(source, getMetaData);
-    /*&& (!this.isProjectSearchEnabled() && !this.isSourceSearchEnabled());*/
+    /* && (!this.isProjectSearchEnabled() && !this.isSourceSearchEnabled());*/
 
     function handleTabClick(e) {
       e.preventDefault();
@@ -207,10 +197,8 @@ class Tab extends PureComponent<Props> {
 }
 export default connect(
   state => {
-    const selectedSource = getSelectedSource(state);
     return {
       tabs: getTabs(state),
-      selectedSource: getSelectedSource(state),
       selectedTab: getSelectedTab(state),
       getMetaData: sourceId => getSourceMetaData(state, sourceId),
       getTabSource: sourceId => getSource(state, sourceId),

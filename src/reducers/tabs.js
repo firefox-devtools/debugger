@@ -15,7 +15,7 @@ import { prefs } from "../utils/prefs";
 
 import type { List } from "immutable";
 import type { Action } from "../actions/types";
-import type { Tab } from "../../types";
+import type { Tab } from "../types";
 import type { Record } from "../utils/makeRecord";
 
 type TabList = List<Tab>;
@@ -27,7 +27,7 @@ export type TabsState = {
 export function initialState(): Record<TabsState> {
   return makeRecord({
     currentTabIndex: -1,
-    tabs: I.List()
+    tabs: I.List(restoreTabs())
   })();
 }
 
@@ -64,7 +64,8 @@ export default function update(
 }
 
 /**
- * Adds the new tab to the list or moves the tab in the list if it is not already there
+ * Adds the new tab to the list or moves the tab in the list
+ * if it is not already there
  * @memberof reducers/sources
  * @static
  */
@@ -76,9 +77,7 @@ function updateTabList(state: OuterState, currentTab: Tab, moveIndex?: number) {
     tabs = tabs.delete(currentIndex).insert(moveIndex, currentTab);
   } else {
     // insert a new tab
-    if (currentIndex === -1) {
-      tabs = tabs.insert(0, currentTab);
-    }
+    tabs = tabs.insert(0, currentTab);
   }
 
   prefs.tabs = tabs.toJS();
@@ -96,15 +95,14 @@ function updateTabList(state: OuterState, currentTab: Tab, moveIndex?: number) {
  */
 export function selectNewTab(state: OuterState, availableTabs: any): number {
   const currentTabIndex = state.tabsState.get("currentTabIndex");
-  const prevTabs = state.tabsState.get("tabs");
   const leftNeighborIndex = Math.max(currentTabIndex - 1, 0);
   const lastAvailbleTabIndex = availableTabs.size - 1;
   return Math.min(leftNeighborIndex, lastAvailbleTabIndex);
 }
 
 function removeFromTabList(state: OuterState, tabIds: Array<string>) {
-  let tabs = state.tabsState.get("tabs");
-  return tabIds.reduce((tabs, id) => tabs.filter(tab => tab.id != id), tabs);
+  const tabList = state.tabsState.get("tabs");
+  return tabIds.reduce((tabs, id) => tabs.filter(tab => tab.id != id), tabList);
 }
 
 function restoreTabs() {

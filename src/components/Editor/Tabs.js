@@ -23,6 +23,7 @@ import Tab from "./Tab";
 import PaneToggleButton from "../shared/Button/PaneToggle";
 import Dropdown from "../shared/Dropdown";
 
+import type { Tab } from "../../types";
 import type { List } from "immutable";
 import type { SourceRecord } from "../../reducers/sources";
 
@@ -30,6 +31,7 @@ type TabList = List<any>;
 
 type Props = {
   tabs: TabList,
+  selectedTab: Tab,
   getTabSource: number => void,
   selectedSource: SourceRecord,
   selectSource: Object => void,
