@@ -12,7 +12,7 @@
 import { removeDocument } from "../utils/editor";
 import { selectSource } from "./sources";
 
-import { getSelectedTab, getTabIndex } from "../selectors";
+import { getSelectedTab } from "../selectors";
 
 import type { Tab } from "../types";
 import type { ThunkArgs } from "./types";
@@ -47,9 +47,10 @@ export function closeTab(id: string) {
 
     await dispatch({ type: "CLOSE_TAB", id });
 
-    const tab = getSelectedTab(getState());
-    const index = getTabIndex(getState());
-    dispatch(selectSource(tab ? tab.id : "", index));
+    const selectedTab = getSelectedTab(getState());
+    dispatch(
+      selectSource(selectedTab.tab ? selectedTab.tab.id : "", selectedTab.index)
+    );
   };
 }
 
@@ -63,8 +64,9 @@ export function closeTabs(ids: string[]) {
 
     await dispatch({ type: "CLOSE_TABS", ids });
 
-    const tab = getSelectedTab(getState());
-    const index = getTabIndex(getState());
-    dispatch(selectSource(tab ? tab.id : "", index));
+    const selectedTab = getSelectedTab(getState());
+    dispatch(
+      selectSource(selectedTab.tab ? selectedTab.tab.id : "", selectedTab.index)
+    );
   };
 }

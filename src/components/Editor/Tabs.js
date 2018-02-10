@@ -19,11 +19,11 @@ import actions from "../../actions";
 import { debounce } from "lodash";
 import "./Tabs.css";
 
-import EditorTab from "./Tab";
+import Tab from "./Tab";
 import PaneToggleButton from "../shared/Button/PaneToggle";
 import Dropdown from "../shared/Dropdown";
 
-import type { Tab } from "../../types";
+//import type { Tab } from "../../types";
 import type { List } from "immutable";
 import type { SourceRecord } from "../../reducers/sources";
 
@@ -31,7 +31,7 @@ type TabList = List<any>;
 
 type Props = {
   tabs: TabList,
-  selectedTab: Tab,
+  selectedTab: any,
   getTabSource: number => void,
   selectedSource: SourceRecord,
   selectSource: Object => void,
@@ -100,8 +100,8 @@ class Tabs extends PureComponent<Props, State> {
     const sourceTabEls = this.refs.sourceTabs.children;
     const hiddenTabs = getHiddenTabs(tabs, sourceTabEls);
 
-    if (isVisible() && hiddenTabs.indexOf(selectedTab) !== -1) {
-      return addTab(selectedTab.id, 0);
+    if (isVisible() && hiddenTabs.indexOf(selectedTab.tab) !== -1) {
+      return addTab(selectedTab.tab.id, 0);
     }
 
     this.setState({ hiddenTabs });
@@ -146,7 +146,7 @@ class Tabs extends PureComponent<Props, State> {
     return (
       <div className="source-tabs" ref="sourceTabs">
         {tabs.map((tab, index) => (
-          <EditorTab key={index} tab={tab} tabIndex={index} />
+          <Tab key={index} tab={tab} tabIndex={index} />
         ))}
       </div>
     );

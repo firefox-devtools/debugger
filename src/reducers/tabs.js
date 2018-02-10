@@ -24,18 +24,20 @@ export type TabsState = {
   tabs: TabList
 };
 
-export function initialState(): Record<TabsState> {
-  return makeRecord({
-    currentTabIndex: -1,
-    tabs: I.List(restoreTabs())
-  })();
+export function initialTabsState(): Record<TabsState> {
+  return makeRecord(
+    ({
+      currentTabIndex: -1,
+      tabs: I.List(restoreTabs())
+    }: TabsState)
+  )();
 }
 
 export default function update(
-  state: Record<TabsState> = initialState(),
+  state: Record<TabsState> = initialTabsState(),
   action: Action
 ): Record<TabsState> {
-  let tabs, tabIndex;
+  let tabs, currentTabIndex;
   switch (action.type) {
     case "ADD_TAB":
       tabs = updateTabList({ tabsState: state }, action.tab, action.tabIndex);
@@ -49,15 +51,15 @@ export default function update(
 
     case "CLOSE_TAB":
       tabs = removeFromTabList({ tabsState: state }, [action.id]);
-      tabIndex = selectNewTab({ tabsState: state }, tabs);
+      currentTabIndex = selectNewTab({ tabsState: state }, tabs);
       prefs.tabs = tabs;
-      return state.merge({ tabs, currentTabIndex: tabIndex });
+      return state.merge({ tabs, currentTabIndex });
 
     case "CLOSE_TABS":
       tabs = removeFromTabList({ tabsState: state }, action.ids);
-      tabIndex = selectNewTab({ tabsState: state }, tabs);
+      currentTabIndex = selectNewTab({ tabsState: state }, tabs);
       prefs.tabs = tabs;
-      return state.merge({ tabs, currentTabIndex: tabIndex });
+      return state.merge({ tabs, currentTabIndex });
   }
 
   return state;
@@ -93,7 +95,7 @@ function updateTabList(state: OuterState, currentTab: Tab, moveIndex?: number) {
  * @memberof reducers/sources
  * @static
  */
-export function selectNewTab(state: OuterState, availableTabs: any): number {
+function selectNewTab(state: OuterState, availableTabs: any): number {
   const currentTabIndex = state.tabsState.get("currentTabIndex");
   const leftNeighborIndex = Math.max(currentTabIndex - 1, 0);
   const lastAvailbleTabIndex = availableTabs.size - 1;
@@ -101,7 +103,7 @@ export function selectNewTab(state: OuterState, availableTabs: any): number {
 }
 
 function removeFromTabList(state: OuterState, tabIds: Array<string>) {
-  const tabList = state.tabsState.get("tabs");
+  let tabList = state.tabsState.get("tabs");
   return tabIds.reduce((tabs, id) => tabs.filter(tab => tab.id != id), tabList);
 }
 
@@ -119,11 +121,10 @@ const getTabsState = state => state.tabs;
 
 export const getTabs = createSelector(getTabsState, tabs => tabs.tabs);
 
-export function getTabIndex(state: OuterState) {
-  return state.tabs.get("currentTabIndex");
-}
-
 export function getSelectedTab(state: OuterState) {
-  const currentIndex = getTabIndex(state);
-  return state.tabs.get("tabs").get(currentIndex);
+  const currentIndex = state.tabs.get("currentTabIndex");
+  return {
+    tabIndex: currentIndex,
+    tab: state.tabs.get("tabs").get(currentIndex)
+  };
 }

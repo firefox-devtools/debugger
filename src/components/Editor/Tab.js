@@ -166,7 +166,7 @@ class Tab extends PureComponent<Props> {
     }
 
     const className = classnames("source-tab", {
-      active: tab.id === selectedTab.id,
+      active: tab.id === selectedTab.tab.id,
       pretty: isPretty(source)
     });
 
