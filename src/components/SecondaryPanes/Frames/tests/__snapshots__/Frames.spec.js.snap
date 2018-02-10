@@ -480,10 +480,14 @@ exports[`Frames Supports different number of frames toggling the show more butto
     />
   </ul>
   <div
-    className="show-more"
-    onClick={[Function]}
+    className="show-more-container"
   >
-    Collapse rows
+    <button
+      className="show-more"
+      onClick={[Function]}
+    >
+      Collapse rows
+    </button>
   </div>
 </div>
 `;
