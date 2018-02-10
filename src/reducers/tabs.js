@@ -79,7 +79,9 @@ function updateTabList(state: OuterState, currentTab: Tab, moveIndex?: number) {
     tabs = tabs.delete(currentIndex).insert(moveIndex, currentTab);
   } else {
     // insert a new tab
-    tabs = tabs.insert(0, currentTab);
+    if (currentIndex == -1) {
+      tabs = tabs.insert(0, currentTab);
+    }
   }
 
   prefs.tabs = tabs.toJS();

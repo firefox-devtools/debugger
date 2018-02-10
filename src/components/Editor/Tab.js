@@ -98,7 +98,7 @@ class Tab extends PureComponent<Props> {
         },
         hidden: () =>
           tabs.size === 1 ||
-          tabs.some((t, i) => t === tab && tabs.size - 1 === i)
+          tabs.some((t, i) => t.id === tabId && tabs.size - 1 === i)
       },
       {
         item: { ...tabMenuItems.closeAllTabs, click: () => closeTabs(tabIds) }
@@ -150,6 +150,9 @@ class Tab extends PureComponent<Props> {
     } = this.props;
 
     const source = getTabSource(tab.id);
+    if (!source) {
+      return null;
+    }
     const sourceAnnotation = getSourceAnnotation(source, getMetaData);
     /* && (!this.isProjectSearchEnabled() && !this.isSourceSearchEnabled());*/
 
