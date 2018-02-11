@@ -407,7 +407,9 @@ export class QuickOpenModal extends Component<Props, State> {
           expanded={expanded}
           selectedItemId={expanded ? items[selectedIndex].id : ""}
         />
-        {isLoading && <div className="load">{L10N.getStr("loadingText")}</div>}
+        {isLoading && (
+          <div className="loadIndicator">{L10N.getStr("loadingText")}</div>
+        )}
         {newResults && (
           <ResultList
             key="results"

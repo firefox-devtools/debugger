@@ -12,6 +12,7 @@
   color: white;
 }
 
-.load {
-  padding: 3px;
+.loadIndicator {
+  padding: 5px 0 5px 0;
+  text-align: center;
 }
