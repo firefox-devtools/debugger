@@ -30,7 +30,6 @@ type Props = {
   query: string,
   count: number,
   placeholder: string,
-  summaryMsg: string,
   size: string,
   showErrorEmoji: boolean,
   expanded: boolean,
@@ -113,7 +112,6 @@ class SearchInput extends Component<Props> {
     const {
       query,
       placeholder,
-      summaryMsg,
       onChange,
       onKeyDown,
       onKeyUp,
