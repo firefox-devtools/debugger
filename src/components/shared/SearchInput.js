@@ -154,7 +154,6 @@ class SearchInput extends Component<Props> {
       >
         {this.renderSvg()}
         <input {...inputProps} />
-        <div className="summary">{summaryMsg || ""}</div>
         {this.renderNav()}
         <CloseButton handleClick={handleClose} buttonClass={size} />
       </div>
