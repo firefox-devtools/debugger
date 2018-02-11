@@ -446,6 +446,7 @@ export class QuickOpenModal extends Component<Props, State> {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         {!symbols ||
           (symbols.functions.length == 0 && (
             <div className="loading-indicator">
@@ -463,6 +464,11 @@ export class QuickOpenModal extends Component<Props, State> {
 >>>>>>> remove comment
         {isLoading && <div className="load">{L10N.getStr("loadingText")}</div>}
 >>>>>>> move loading logic into updateResults
+=======
+        {isLoading && (
+          <div className="loadIndicator">{L10N.getStr("loadingText")}</div>
+        )}
+>>>>>>> pad top/bot, and center
         {newResults && (
           <ResultList
             key="results"
