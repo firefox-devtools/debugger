@@ -134,5 +134,5 @@ Say hello in [slack] or in the [#devtools-html][irc-devtools-html] channel on ir
 [Logging]: ./docs/local-development.md#logging
 [Testing]: ./docs/local-development.md#testing
 [Linting]: ./docs/local-development.md#linting
-[google-docs]:https://docs.google.com/document/d/1pUx9xq6L7bonSrDpyUNTQkQxTxAsULLu4kkHZLMEq6w/edit
+[google-docs]:https://docs.google.com/document/d/146p7Y8Ues_AKjj4ReWCk6InOPWe3C3Koy6EQ1qnYKNM/edit
 [cl]: ./docs/issues.md#claiming-issues
