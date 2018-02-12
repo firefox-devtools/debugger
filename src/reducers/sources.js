@@ -47,6 +47,19 @@ export function initialSourcesState(): Record<SourcesState> {
   )();
 }
 
+export const SourceRecordClass = new I.Record({
+  id: undefined,
+  url: undefined,
+  sourceMapURL: undefined,
+  isBlackBoxed: false,
+  isPrettyPrinted: false,
+  isWasm: false,
+  text: undefined,
+  contentType: "",
+  error: undefined,
+  loadedState: "unloaded"
+});
+
 function update(
   state: Record<SourcesState> = initialSourcesState(),
   action: Action
@@ -60,7 +73,8 @@ function update(
     }
 
     case "ADD_SOURCE": {
-      return updateSource(state, action.source);
+      const source = action.source;
+      return updateSource(state, source);
     }
 
     case "ADD_SOURCES": {
@@ -133,7 +147,7 @@ function update(
 
     case "NAVIGATE":
       const source = getSelectedSource({ sources: state });
-      const url = source && source.get("url");
+      const url = source && source.url;
 
       if (!url) {
         return initialSourcesState();
@@ -174,8 +188,13 @@ function updateSource(state: Record<SourcesState>, source: Source | Object) {
   if (!source.id) {
     return state;
   }
+  const existingSource = state.getIn(["sources", source.id]);
 
-  return state.mergeIn(["sources", source.id], source);
+  if (existingSource) {
+    const updatedSource = existingSource.merge(source);
+    return state.setIn(["sources", source.id], updatedSource);
+  }
+  return state.setIn(["sources", source.id], new SourceRecordClass(source));
 }
 
 export function removeSourceFromTabList(tabs: any, url: string) {
@@ -201,7 +220,7 @@ function restoreTabs() {
  * @static
  */
 function updateTabList(state: OuterState, url: ?string, tabIndex?: number) {
-  let tabs = state.sources.get("tabs");
+  let tabs = state.sources.tabs;
 
   const urlIndex = tabs.indexOf(url);
   const includesUrl = !!tabs.find(tab => tab == url);
@@ -238,7 +257,7 @@ export function getNewSelectedSourceId(
 
   const selectedTab = state.sources.sources.get(selectedLocation.sourceId);
 
-  const selectedTabUrl = selectedTab ? selectedTab.get("url") : "";
+  const selectedTabUrl = selectedTab ? selectedTab.url : "";
 
   if (availableTabs.includes(selectedTabUrl)) {
     const sources = state.sources.sources;
@@ -246,12 +265,10 @@ export function getNewSelectedSourceId(
       return "";
     }
 
-    const selectedSource = sources.find(
-      source => source.get("url") == selectedTabUrl
-    );
+    const selectedSource = sources.find(source => source.url == selectedTabUrl);
 
     if (selectedSource) {
-      return selectedSource.get("id");
+      return selectedSource.id;
     }
 
     return "";
@@ -268,7 +285,7 @@ export function getNewSelectedSourceId(
   );
 
   if (tabSource) {
-    return tabSource.get("id");
+    return tabSource.id;
   }
 
   return "";
@@ -312,7 +329,7 @@ export function getPrettySource(state: OuterState, id: string) {
     return;
   }
 
-  return getSourceByURL(state, getPrettySourceURL(source.get("url")));
+  return getSourceByURL(state, getPrettySourceURL(source.url));
 }
 
 export function hasPrettySource(state: OuterState, id: string) {
@@ -324,7 +341,7 @@ function getSourceByUrlInSources(sources: SourcesMap, url: string) {
     return null;
   }
 
-  return sources.find(source => source.get("url") === url);
+  return sources.find(source => source.url === url);
 }
 
 export function getSourceInSources(
@@ -378,7 +395,7 @@ export const getSelectedSourceText = createSelector(
   getSelectedSource,
   getSourcesState,
   (selectedSource, sources) => {
-    const id = selectedSource.get("id");
+    const id = selectedSource.id;
     return id ? sources.sourcesText.get(id) : null;
   }
 );
