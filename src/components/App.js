@@ -80,7 +80,7 @@ class App extends Component<Props, State> {
   onLayoutChange: Function;
   getChildContext: Function;
   renderEditorPane: Function;
-  renderVerticalLayout: Function;
+  renderLayout: Function;
   toggleQuickOpenModal: Function;
   onEscape: Function;
   onCommandSlash: Function;
@@ -97,7 +97,7 @@ class App extends Component<Props, State> {
     this.onLayoutChange = this.onLayoutChange.bind(this);
     this.toggleQuickOpenModal = this.toggleQuickOpenModal.bind(this);
     this.renderEditorPane = this.renderEditorPane.bind(this);
-    this.renderVerticalLayout = this.renderVerticalLayout.bind(this);
+    this.renderLayout = this.renderLayout.bind(this);
     this.onEscape = this.onEscape.bind(this);
     this.onCommandSlash = this.onCommandSlash.bind(this);
   }
@@ -243,70 +243,35 @@ class App extends Component<Props, State> {
     });
   }
 
-  renderHorizontalLayout() {
+  renderLayout() {
     const { startPanelCollapsed, endPanelCollapsed } = this.props;
     const horizontal = this.isHorizontal();
 
-    const overflowX = endPanelCollapsed ? "hidden" : "auto";
+    const maxSize = horizontal ? "70%" : "95%";
+    const primaryInitialSize = horizontal ? "250px" : "150px";
 
     return (
       <SplitBox
         style={{ width: "100vw" }}
-        initialSize="250px"
-        minSize={10}
-        maxSize="50%"
-        splitterSize={1}
-        onResizeEnd={size => this.setState({ startPanelSize: size })}
-        startPanel={<PrimaryPanes horizontal={horizontal} />}
-        startPanelCollapsed={startPanelCollapsed}
-        endPanel={
-          <SplitBox
-            style={{ overflowX }}
-            initialSize="300px"
-            minSize={10}
-            maxSize="80%"
-            splitterSize={1}
-            onResizeEnd={size => this.setState({ endPanelSize: size })}
-            endPanelControl={true}
-            startPanel={this.renderEditorPane()}
-            endPanel={
-              <SecondaryPanes
-                horizontal={horizontal}
-                toggleShortcutsModal={() => this.toggleShortcutsModal()}
-              />
-            }
-            endPanelCollapsed={endPanelCollapsed}
-            vert={horizontal}
-          />
-        }
-      />
-    );
-  }
-
-  renderVerticalLayout() {
-    const { startPanelCollapsed, endPanelCollapsed } = this.props;
-    const horizontal = this.isHorizontal();
-
-    return (
-      <SplitBox
-        style={{ width: "100vw" }}
-        initialSize="300px"
+        initialHeight={400}
+        initialWidth={300}
         minSize={30}
-        maxSize="99%"
+        maxSize={maxSize}
         splitterSize={1}
         vert={horizontal}
         startPanel={
           <SplitBox
             style={{ width: "100vw" }}
-            initialSize="250px"
-            minSize={10}
-            maxSize="40%"
+            initialSize={primaryInitialSize}
+            minSize={30}
+            maxSize="85%"
             splitterSize={1}
             startPanelCollapsed={startPanelCollapsed}
             startPanel={<PrimaryPanes horizontal={horizontal} />}
             endPanel={this.renderEditorPane()}
           />
         }
+        endPanelControl={true}
         endPanel={
           <SecondaryPanes
             horizontal={horizontal}
@@ -338,9 +303,7 @@ class App extends Component<Props, State> {
     const { quickOpenEnabled } = this.props;
     return (
       <div className="debugger">
-        {this.isHorizontal()
-          ? this.renderHorizontalLayout()
-          : this.renderVerticalLayout()}
+        {this.renderLayout()}
         {quickOpenEnabled === true && (
           <QuickOpenModal
             shortcutsModalEnabled={this.state.shortcutsModalEnabled}
