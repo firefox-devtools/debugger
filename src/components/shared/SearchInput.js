@@ -50,7 +50,6 @@ class SearchInput extends Component<Props> {
 
   static defaultProps = {
     size: "",
-    showErrorEmoji: true,
     expanded: false,
     selectedItemId: ""
   };
@@ -65,13 +64,9 @@ class SearchInput extends Component<Props> {
     }
   }
 
-  shouldShowErrorEmoji = () => {
-    const { count, query, showErrorEmoji } = this.props;
-    return showErrorEmoji && count === 0 && query.trim() !== "";
-  };
-
   renderSvg() {
-    if (this.shouldShowErrorEmoji()) {
+    const { showErrorEmoji } = this.props;
+    if (showErrorEmoji) {
       return <Svg name="sad-face" />;
     }
 
@@ -120,12 +115,13 @@ class SearchInput extends Component<Props> {
       handleClose,
       size,
       expanded,
-      selectedItemId
+      selectedItemId,
+      showErrorEmoji
     } = this.props;
 
     const inputProps = {
       className: classnames({
-        empty: this.shouldShowErrorEmoji()
+        empty: showErrorEmoji
       }),
       onChange,
       onKeyDown,

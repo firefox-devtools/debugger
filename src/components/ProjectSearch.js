@@ -273,10 +273,15 @@ export class ProjectSearch extends Component<Props, State> {
     }
   };
 
-  renderSummary = () =>
-    this.props.query !== ""
+  renderSummary = () => {
+    return this.props.query !== ""
       ? L10N.getFormatStr("sourceSearch.resultsSummary1", this.getResultCount())
       : "";
+  };
+
+  shouldShowErrorEmoji() {
+    return !this.getResultCount() && this.props.status === statusType.done;
+  }
 
   renderInput() {
     return (
@@ -285,7 +290,7 @@ export class ProjectSearch extends Component<Props, State> {
         count={this.getResultCount()}
         placeholder={L10N.getStr("projectTextSearch.placeholder")}
         size="big"
-        showErrorEmoji={this.props.status === statusType.done}
+        showErrorEmoji={this.shouldShowErrorEmoji()}
         summaryMsg={this.renderSummary()}
         onChange={this.inputOnChange}
         onFocus={() => this.setState({ inputFocused: true })}
