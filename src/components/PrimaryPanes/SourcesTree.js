@@ -280,10 +280,6 @@ class SourcesTree extends Component<Props, State> {
         className={classnames("arrow", {
           expanded: expanded
         })}
-        onClick={e => {
-          e.stopPropagation();
-          setExpanded(item, !expanded, e.altKey);
-        }}
       />
     ) : (
       <i className="no-arrow" />
@@ -296,11 +292,10 @@ class SourcesTree extends Component<Props, State> {
         className={classnames("node", { focused })}
         key={item.path}
         onClick={e => {
-          e.stopPropagation();
           this.focusItem(item);
 
           if (isDirectory(item)) {
-            setExpanded(item, !expanded, e.altKey);
+            setExpanded(item, !!expanded, e.altKey);
           } else {
             this.selectItem(item);
           }
