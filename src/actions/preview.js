@@ -83,7 +83,6 @@ export function updatePreview(target: HTMLElement, editor: any) {
     const source = getSelectedSource(getState());
 
     const symbols = getSymbols(getState(), source.toJS());
-
     if (symbols.identifiers.length == 0) {
       return;
     }
