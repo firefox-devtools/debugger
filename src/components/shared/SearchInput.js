@@ -57,6 +57,10 @@ class SearchInput extends Component<Props> {
   };
 
   componentDidMount() {
+    this.setFocus();
+  }
+
+  setFocus() {
     if (this.$input) {
       const input = this.$input;
       input.focus();
