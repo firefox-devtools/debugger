@@ -18,11 +18,11 @@ add_task(async function() {
   const tooltipPreviewed = waitForDispatch(dbg, "SET_PREVIEW");
   hoverAtPos(dbg, { line: 5, ch: 12 });
   await tooltipPreviewed;
-  await assertTooltip(dbg, { result: "3", expression: "result" });
+  await assertPreviewTooltip(dbg, { result: "3", expression: "result" });
 
   const popupPreviewed = waitForDispatch(dbg, "SET_PREVIEW");
   hoverAtPos(dbg, { line: 2, ch: 10 });
   await popupPreviewed;
-  await assertPopup(dbg, { field: "foo", value: "1", expression: "obj" });
-  await assertPopup(dbg, { field: "bar", value: "2", expression: "obj" });
+  await assertPreviewPopup(dbg, { field: "foo", value: "1", expression: "obj" });
+  await assertPreviewPopup(dbg, { field: "bar", value: "2", expression: "obj" });
 });

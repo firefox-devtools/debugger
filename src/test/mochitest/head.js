@@ -1102,7 +1102,7 @@ function hoverAtPos(dbg, { line, ch }) {
   );
 }
 
-async function assertTooltip(dbg, { result, expression }) {
+async function assertPreviewTooltip(dbg, { result, expression }) {
   const previewEl = await waitForElement(dbg, "tooltip");
   is(previewEl.innerText, result, "Preview text shown to user");
 
@@ -1112,7 +1112,7 @@ async function assertTooltip(dbg, { result, expression }) {
   is(preview.expression, expression, "Preview.expression");
 }
 
-async function assertPopup(dbg, { field, value, expression }) {
+async function assertPreviewPopup(dbg, { field, value, expression }) {
   const previewEl = await waitForElement(dbg, "popup");
   const preview = dbg.selectors.getPreview(dbg.getState());
 

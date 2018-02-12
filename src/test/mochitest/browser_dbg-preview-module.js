@@ -9,19 +9,20 @@ add_task(async function() {
 
   navigate(dbg, "doc-on-load.html")
 
+  // wait for `top-level.js` to load and to pause at a debugger statement
   await waitForPaused(dbg);
 
   const popupPreviewed = waitForDispatch(dbg, "SET_PREVIEW");
   hoverAtPos(dbg, { line: 1, ch: 6 });
   await popupPreviewed;
-  await assertPopup(dbg, { field: "foo", value: "1", expression: "obj" });
-  await assertPopup(dbg, { field: "bar", value: "2", expression: "obj" });
+  await assertPreviewPopup(dbg, { field: "foo", value: "1", expression: "obj" });
+  await assertPreviewPopup(dbg, { field: "bar", value: "2", expression: "obj" });
 
-  // hover over an empty position
+  // hover over an empty position so that the popup closes
   hoverAtPos(dbg, { line: 1, ch: 47 });
 
   const tooltipPreviewed = waitForDispatch(dbg, "SET_PREVIEW");
   hoverAtPos(dbg, { line: 2, ch: 7 });
   await tooltipPreviewed;
-  await assertTooltip(dbg, { result: "3", expression: "func" });
+  await assertPreviewTooltip(dbg, { result: "3", expression: "func" });
 });
