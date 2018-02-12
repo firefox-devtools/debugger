@@ -62,10 +62,11 @@ add_task(async function() {
   pressKey(dbg, "Escape");
   assertDisabled(dbg);
 
+  await waitForSource(dbg, "switching-01");
   quickOpen(dbg, "sw");
   pressKey(dbg, "Enter");
-
   await waitForSelectedSource(dbg, "switching-01");
+
   info("Arrow keys and check to see if source is selected");
   quickOpen(dbg, "sw");
   is(resultCount(dbg), 2, "two file results");
