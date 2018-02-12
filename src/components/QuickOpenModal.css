@@ -23,12 +23,15 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> wrapper for loading indicator
 =======
 >>>>>>> add newline at eof
 =======
 >>>>>>> pad top/bot, and center
+=======
+>>>>>>> consolidate isLoading into setState when reuslts set
 .loading-indicator {
   padding: 5px 0 5px 0;
   text-align: center;
@@ -99,11 +102,17 @@
 =======
 .loadIndicator {
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 .loading-indicator {
 >>>>>>> consolidate isLoading into setState when reuslts set
 =======
 >>>>>>> pad top/bot, and center
+=======
+=======
+.loading-indicator {
+>>>>>>> consolidate isLoading into setState when reuslts set
+>>>>>>> consolidate isLoading into setState when reuslts set
   padding: 5px 0 5px 0;
   text-align: center;
 >>>>>>> pad top/bot, and center
