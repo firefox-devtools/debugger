@@ -703,6 +703,217 @@ exports[`QuickOpenModal closeModal 1`] = `
 </QuickOpenModal>
 `;
 
+exports[`QuickOpenModal showErrorEmoji false when count + query 1`] = `
+<QuickOpenModal
+  clearHighlightLineRange={[Function]}
+  closeQuickOpen={[Function]}
+  enabled={true}
+  highlightLineRange={[Function]}
+  query="dasdasdas"
+  searchType="sources"
+  selectLocation={[Function]}
+  setQuickOpenQuery={[Function]}
+  sources={Array []}
+  tabs={Array []}
+>
+  <Slide
+    handleClose={[Function]}
+    in={true}
+  >
+    <Transition
+      appear={true}
+      enter={true}
+      exit={true}
+      in={true}
+      mountOnEnter={false}
+      onEnter={[Function]}
+      onEntered={[Function]}
+      onEntering={[Function]}
+      onExit={[Function]}
+      onExited={[Function]}
+      onExiting={[Function]}
+      timeout={175}
+      unmountOnExit={false}
+    >
+      <Modal
+        handleClose={[Function]}
+        status="entering"
+      >
+        <div
+          className="modal-wrapper"
+          onClick={[Function]}
+        >
+          <div
+            className="modal entering"
+            onClick={[Function]}
+          >
+            <SearchInput
+              count={2}
+              expanded={true}
+              handleClose={[Function]}
+              onChange={[Function]}
+              onKeyDown={[Function]}
+              placeholder="Search sources…"
+              query="dasdasdas"
+              selectedItemId=""
+              showErrorEmoji={false}
+              size=""
+              summaryMsg="2 results"
+            >
+              <div
+                aria-expanded={true}
+                aria-haspopup="listbox"
+                aria-owns="result-list"
+                className="search-field"
+                role="combobox"
+              >
+                <Svg
+                  name="magnifying-glass"
+                >
+                  <InlineSVG
+                    className="magnifying-glass "
+                    element="i"
+                    raw={false}
+                    src="<svg></svg>"
+                  >
+                    <i
+                      className="magnifying-glass "
+                      dangerouslySetInnerHTML={
+                        Object {
+                          "__html": "<svg></svg>",
+                        }
+                      }
+                      src={null}
+                    />
+                  </InlineSVG>
+                </Svg>
+                <input
+                  aria-activedescendant=""
+                  aria-autocomplete="list"
+                  aria-controls="result-list"
+                  className=""
+                  onChange={[Function]}
+                  onKeyDown={[Function]}
+                  placeholder="Search sources…"
+                  spellCheck={false}
+                  value="dasdasdas"
+                />
+                <div
+                  className="summary"
+                >
+                  2 results
+                </div>
+                <CloseButton
+                  buttonClass=""
+                  handleClick={[Function]}
+                >
+                  <div
+                    className="close-btn"
+                    onClick={[Function]}
+                  >
+                    <img
+                      className="close"
+                    />
+                  </div>
+                </CloseButton>
+              </div>
+            </SearchInput>
+            <ResultList
+              expanded={true}
+              items={
+                Array [
+                  Object {
+                    "title": <div
+                      dangerouslySetInnerHTML={
+                            Object {
+                                  "__html": undefined,
+                                }
+                      }
+                />,
+                  },
+                  Object {
+                    "title": <div
+                      dangerouslySetInnerHTML={
+                            Object {
+                                  "__html": undefined,
+                                }
+                      }
+                />,
+                  },
+                ]
+              }
+              key="results"
+              role="listbox"
+              selectItem={[Function]}
+              selected={0}
+              size="big"
+            >
+              <ul
+                aria-live="polite"
+                className="result-list big"
+                id="result-list"
+                role="listbox"
+              >
+                <li
+                  aria-describedby="undefined-subtitle"
+                  aria-labelledby="undefined-title"
+                  className="result-item selected"
+                  key="undefinedundefined0"
+                  onClick={[Function]}
+                  role="option"
+                >
+                  <div
+                    className="title"
+                    id="undefined-title"
+                  >
+                    <div
+                      dangerouslySetInnerHTML={
+                        Object {
+                          "__html": undefined,
+                        }
+                      }
+                    />
+                  </div>
+                  <div
+                    className="subtitle"
+                    id="undefined-subtitle"
+                  />
+                </li>
+                <li
+                  aria-describedby="undefined-subtitle"
+                  aria-labelledby="undefined-title"
+                  className="result-item"
+                  key="undefinedundefined1"
+                  onClick={[Function]}
+                  role="option"
+                >
+                  <div
+                    className="title"
+                    id="undefined-title"
+                  >
+                    <div
+                      dangerouslySetInnerHTML={
+                        Object {
+                          "__html": undefined,
+                        }
+                      }
+                    />
+                  </div>
+                  <div
+                    className="subtitle"
+                    id="undefined-subtitle"
+                  />
+                </li>
+              </ul>
+            </ResultList>
+          </div>
+        </div>
+      </Modal>
+    </Transition>
+  </Slide>
+</QuickOpenModal>
+`;
+
 exports[`QuickOpenModal showErrorEmoji false when goto numeric ':2222' 1`] = `
 <QuickOpenModal
   clearHighlightLineRange={[Function]}

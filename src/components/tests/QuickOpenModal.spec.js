@@ -1,3 +1,5 @@
+/* eslint max-nested-callbacks: ["error", 4] */
+
 import React from "react";
 import { shallow, mount } from "enzyme";
 import { QuickOpenModal } from "../QuickOpenModal";
@@ -204,11 +206,18 @@ describe("QuickOpenModal", () => {
       expect(wrapper).toMatchSnapshot();
     });
 
-    xit("false when count + query", () => {
-      // set result count
-      // set query
-      // generate wrapper
-      // test if wrapper has showErrorEmoji set to false
+    it("false when count + query", () => {
+      const { wrapper } = generateModal(
+        {
+          enabled: true,
+          query: "dasdasdas"
+        },
+        "mount"
+      );
+      wrapper.setState(() => ({
+        results: [1, 2]
+      }));
+      expect(wrapper).toMatchSnapshot();
     });
 
     it("false when no query", () => {
