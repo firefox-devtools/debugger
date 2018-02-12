@@ -98,6 +98,37 @@ exports[`SearchInput shows svg error emoji 1`] = `
     spellCheck={false}
     value=""
   />
+  <div
+    className="summary"
+  >
+    So many results
+  </div>
+  <div
+    className="search-nav-buttons"
+  >
+    <button
+      className="nav-btn next"
+      key="arrow-down"
+      onClick={[Function]}
+      title="Next result"
+      type="arrow-down"
+    >
+      <Svg
+        name="arrow-down"
+      />
+    </button>
+    <button
+      className="nav-btn prev"
+      key="arrow-up"
+      onClick={[Function]}
+      title="Previous result"
+      type="arrow-up"
+    >
+      <Svg
+        name="arrow-up"
+      />
+    </button>
+  </div>
   <CloseButton
     buttonClass=""
   />
@@ -124,6 +155,37 @@ exports[`SearchInput shows svg magnifying glass 1`] = `
     spellCheck={false}
     value=""
   />
+  <div
+    className="summary"
+  >
+    So many results
+  </div>
+  <div
+    className="search-nav-buttons"
+  >
+    <button
+      className="nav-btn next"
+      key="arrow-down"
+      onClick={[Function]}
+      title="Next result"
+      type="arrow-down"
+    >
+      <Svg
+        name="arrow-down"
+      />
+    </button>
+    <button
+      className="nav-btn prev"
+      key="arrow-up"
+      onClick={[Function]}
+      title="Previous result"
+      type="arrow-up"
+    >
+      <Svg
+        name="arrow-up"
+      />
+    </button>
+  </div>
   <CloseButton
     buttonClass=""
   />

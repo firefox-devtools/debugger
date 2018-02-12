@@ -18,6 +18,14 @@ describe("SearchInput", () => {
 
   it("renders", () => expect(wrapper).toMatchSnapshot());
 
+  it("shows nav buttons", () => {
+    wrapper.setProps({
+      handleNext: jest.fn(),
+      handlePrev: jest.fn()
+    });
+    expect(wrapper).toMatchSnapshot();
+  });
+
   it("shows svg error emoji", () => {
     wrapper.setProps({ showErrorEmoji: true });
     expect(wrapper).toMatchSnapshot();
@@ -25,14 +33,6 @@ describe("SearchInput", () => {
 
   it("shows svg magnifying glass", () => {
     wrapper.setProps({ showErrorEmoji: false });
-    expect(wrapper).toMatchSnapshot();
-  });
-
-  it("shows nav buttons", () => {
-    wrapper.setProps({
-      handleNext: jest.fn(),
-      handlePrev: jest.fn()
-    });
     expect(wrapper).toMatchSnapshot();
   });
 });

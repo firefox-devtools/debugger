@@ -53,3 +53,162 @@ exports[`SearchBar should render 1`] = `
 `;
 
 exports[`doSearch should complete a search 1`] = `"query"`;
+
+exports[`showErrorEmoji false if no query + no results 1`] = `
+<div
+  className="search-bar"
+>
+  <SearchInput
+    count={0}
+    expanded={false}
+    handleClose={[Function]}
+    handleNext={[Function]}
+    handlePrev={[Function]}
+    onChange={[Function]}
+    onKeyDown={[Function]}
+    placeholder="Search in file…"
+    query=""
+    selectedItemId=""
+    showErrorEmoji={false}
+    size=""
+    summaryMsg=""
+  />
+  <div
+    className="search-bottom-bar"
+  >
+    <div
+      className="search-modifiers"
+    >
+      <span
+        className="search-type-name"
+      >
+        Modifiers:
+      </span>
+      <SearchModBtn
+        className="regex-match-btn"
+        modVal="regexMatch"
+        svgName="regex-match"
+        tooltip="Regex"
+      />
+      <SearchModBtn
+        className="case-sensitive-btn"
+        modVal="caseSensitive"
+        svgName="case-match"
+        tooltip="Case sensitive"
+      />
+      <SearchModBtn
+        className="whole-word-btn"
+        modVal="wholeWord"
+        svgName="whole-word-match"
+        tooltip="Whole word"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`showErrorEmoji false if query + results 1`] = `
+<div
+  className="search-bar"
+>
+  <SearchInput
+    count={10}
+    expanded={false}
+    handleClose={[Function]}
+    handleNext={[Function]}
+    handlePrev={[Function]}
+    onChange={[Function]}
+    onKeyDown={[Function]}
+    placeholder="Search in file…"
+    query="test"
+    selectedItemId=""
+    showErrorEmoji={false}
+    size=""
+    summaryMsg="-NaN of 10 results"
+  />
+  <div
+    className="search-bottom-bar"
+  >
+    <div
+      className="search-modifiers"
+    >
+      <span
+        className="search-type-name"
+      >
+        Modifiers:
+      </span>
+      <SearchModBtn
+        className="regex-match-btn"
+        modVal="regexMatch"
+        svgName="regex-match"
+        tooltip="Regex"
+      />
+      <SearchModBtn
+        className="case-sensitive-btn"
+        modVal="caseSensitive"
+        svgName="case-match"
+        tooltip="Case sensitive"
+      />
+      <SearchModBtn
+        className="whole-word-btn"
+        modVal="wholeWord"
+        svgName="whole-word-match"
+        tooltip="Whole word"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`showErrorEmoji true if query + no results 1`] = `
+<div
+  className="search-bar"
+>
+  <SearchInput
+    count={0}
+    expanded={false}
+    handleClose={[Function]}
+    handleNext={[Function]}
+    handlePrev={[Function]}
+    onChange={[Function]}
+    onKeyDown={[Function]}
+    placeholder="Search in file…"
+    query="test"
+    selectedItemId=""
+    showErrorEmoji={true}
+    size=""
+    summaryMsg="No results"
+  />
+  <div
+    className="search-bottom-bar"
+  >
+    <div
+      className="search-modifiers"
+    >
+      <span
+        className="search-type-name"
+      >
+        Modifiers:
+      </span>
+      <SearchModBtn
+        className="regex-match-btn"
+        modVal="regexMatch"
+        svgName="regex-match"
+        tooltip="Regex"
+      />
+      <SearchModBtn
+        className="case-sensitive-btn"
+        modVal="caseSensitive"
+        svgName="case-match"
+        tooltip="Case sensitive"
+      />
+      <SearchModBtn
+        className="whole-word-btn"
+        modVal="wholeWord"
+        svgName="whole-word-match"
+        tooltip="Whole word"
+      />
+    </div>
+  </div>
+</div>
+`;

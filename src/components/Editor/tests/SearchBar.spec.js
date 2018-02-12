@@ -64,3 +64,35 @@ describe("doSearch", () => {
     expect(doSearchArgs).toMatchSnapshot();
   });
 });
+
+describe("showErrorEmoji", () => {
+  it("true if query + no results", () => {
+    const { component } = render({
+      query: "test",
+      searchResults: {
+        count: 0
+      }
+    });
+    expect(component).toMatchSnapshot();
+  });
+
+  it("false if no query + no results", () => {
+    const { component } = render({
+      query: "",
+      searchResults: {
+        count: 0
+      }
+    });
+    expect(component).toMatchSnapshot();
+  });
+
+  it("false if query + results", () => {
+    const { component } = render({
+      query: "test",
+      searchResults: {
+        count: 10
+      }
+    });
+    expect(component).toMatchSnapshot();
+  });
+});
