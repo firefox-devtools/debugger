@@ -200,4 +200,27 @@ describe("ProjectSearch", () => {
     shortcuts.dispatch("Enter");
     expect(setExpanded).toHaveBeenCalledWith(testFile, false);
   });
+
+  describe("showErrorEmoji", () => {
+    it("false if not done & results", () => {
+      const component = render({
+        status: "searching",
+        results: testResults
+      });
+      expect(component).toMatchSnapshot();
+    });
+
+    it("false if not done & no results", () => {
+      const component = render({
+        status: "searching"
+      });
+      expect(component).toMatchSnapshot();
+    });
+
+    // "false if done & has results"
+    // is the same test as "found search results"
+
+    // "true if done & has no results"
+    // is the same test as "found no search results"
+  });
 });
