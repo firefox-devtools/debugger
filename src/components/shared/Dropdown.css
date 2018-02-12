@@ -28,7 +28,7 @@ html[dir="rtl"] .dropdown {
 }
 
 .dropdown-button {
-  color: var(--theme-content-color3);
+  color: var(--theme-comment);
   background: none;
   border: none;
   padding: 0;

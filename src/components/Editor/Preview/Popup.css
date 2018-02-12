@@ -73,7 +73,7 @@
 }
 
 .theme-dark .popover .preview-popup .arrow svg {
-  fill: var(--theme-content-color3);
+  fill: var(--theme-comment);
 }
 
 .tooltip {
@@ -129,5 +129,5 @@
 
 .add-to-expression-bar .expression-to-save-button {
   font-size: 14px;
-  color: var(--theme-content-color3);
+  color: var(--theme-comment);
 }

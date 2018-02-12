@@ -156,7 +156,7 @@ html[dir="rtl"] .editor-mount {
 }
 
 .theme-dark .editor-wrapper .CodeMirror-line .cm-comment {
-  color: var(--theme-content-color3);
+  color: var(--theme-comment);
 }
 
 .debug-expression {
@@ -208,7 +208,7 @@ debug-expression-error {
 
 @keyframes fade-highlight-out-dark {
   0% {
-    background-color: var(--theme-content-color3);
+    background-color: var(--theme-comment);
   }
   100% {
     background-color: transparent;
