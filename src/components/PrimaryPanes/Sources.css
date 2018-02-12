@@ -152,7 +152,7 @@
 }
 
 .theme-dark .sources-list .managed-tree .tree .node:not(.focused) img.blackBox {
-  background-color: var(--theme-content-color3);
+  background-color: var(--theme-comment);
 }
 
 .theme-dark .sources-list .managed-tree .tree .node img.blackBox {

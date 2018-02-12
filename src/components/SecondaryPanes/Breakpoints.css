@@ -45,7 +45,7 @@ html .breakpoints-list .breakpoint.paused {
 }
 
 .breakpoints-list .breakpoint.disabled .breakpoint-label {
-  color: var(--theme-content-color3);
+  color: var(--theme-comment);
   transition: color 0.5s linear;
 }
 
