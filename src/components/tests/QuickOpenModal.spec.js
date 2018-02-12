@@ -190,4 +190,61 @@ describe("QuickOpenModal", () => {
     expect(wrapper).toMatchSnapshot();
     expect(wrapper.state().results).toEqual(null);
   });
+
+  describe("showErrorEmoji", () => {
+    it("true when no count + query", () => {
+      const { wrapper } = generateModal(
+        {
+          enabled: true,
+          query: "test",
+          searchType: ""
+        },
+        "mount"
+      );
+      expect(wrapper).toMatchSnapshot();
+    });
+
+    xit("false when count + query", () => {
+      // set result count
+      // set query
+      // generate wrapper
+      // test if wrapper has showErrorEmoji set to false
+    });
+
+    it("false when no query", () => {
+      const { wrapper } = generateModal(
+        {
+          enabled: true,
+          query: "",
+          searchType: ""
+        },
+        "mount"
+      );
+      expect(wrapper).toMatchSnapshot();
+    });
+
+    it("false when goto numeric ':2222'", () => {
+      const { wrapper } = generateModal(
+        {
+          enabled: true,
+          query: ":2222",
+          searchType: "goto"
+        },
+        "mount"
+      );
+      expect(wrapper).toMatchSnapshot();
+    });
+
+    it("true when goto not numeric ':22k22'", () => {
+      const { wrapper } = generateModal(
+        {
+          enabled: true,
+          query: ":22k22",
+          searchType: "goto"
+        },
+        "mount"
+      );
+      expect(wrapper).toMatchSnapshot();
+    });
+  });
 });
