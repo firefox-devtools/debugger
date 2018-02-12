@@ -114,15 +114,15 @@ export class QuickOpenModal extends Component<Props, State> {
   searchSources = (query: string) => {
     if (query == "") {
       const results = this.props.sources;
-      return this.setState({ results });
+      return this.setState({ results, isLoading: false })
     }
     if (this.isGotoSourceQuery()) {
       const [baseQuery] = query.split(":");
       const results = filter(this.props.sources, baseQuery);
-      this.setState({ results });
+      this.setState({ results, isLoading: false })
     } else {
       const results = filter(this.props.sources, query);
-      this.setState({ results });
+      this.setState({ results, isLoading: false })
     }
   };
 
@@ -134,10 +134,11 @@ export class QuickOpenModal extends Component<Props, State> {
       results = variables;
     }
     if (query === "@" || query === "#") {
-      return this.setState({ results });
+      return this.setState({ results, isLoading: false });
     }
 
     this.setState({
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
       results: filter(results, query.slice(1))
@@ -148,15 +149,19 @@ export class QuickOpenModal extends Component<Props, State> {
 =======
       results: filter(results, query.slice(1))
 >>>>>>> move loading logic into updateResults
+=======
+      results: filter(results, query.slice(1)), isLoading: false
+>>>>>>> consolidate isLoading into setState when reuslts set
     });
   };
 
   searchShortcuts = (query: string) => {
     const results = formatShortcutResults();
     if (query == "?") {
-      this.setState({ results });
+      this.setState({ results, isLoading: false  });
     } else {
       this.setState({
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
         results: filter(results, query.slice(1))
@@ -167,6 +172,9 @@ export class QuickOpenModal extends Component<Props, State> {
 =======
         results: filter(results, query.slice(1))
 >>>>>>> move loading logic into updateResults
+=======
+        results: filter(results, query.slice(1)), isLoading: false
+>>>>>>> consolidate isLoading into setState when reuslts set
       });
     }
   };
@@ -175,10 +183,10 @@ export class QuickOpenModal extends Component<Props, State> {
     const { tabs, sources } = this.props;
     if (tabs.length > 0) {
       this.setState({
-        results: sources.filter(source => tabs.includes(source.url))
+        results: sources.filter(source => tabs.includes(source.url)), isLoading: false
       });
     } else {
-      this.setState({ results: sources.slice(0, 100) });
+      this.setState({ results: sources.slice(0, 100), isLoading: false });
     }
   };
 
@@ -188,25 +196,25 @@ export class QuickOpenModal extends Component<Props, State> {
     }
 
     if (query == "") {
-      this.showTopSources();
-      return this.setState({ isLoading: false });
+      return this.showTopSources();
     }
 
     if (this.isSymbolSearch()) {
-      this.searchSymbols(query);
-      return this.setState({ isLoading: false });
+      return this.searchSymbols(query);
     }
 
     if (this.isShortcutQuery()) {
-      this.searchShortcuts(query);
-      return this.setState({ isLoading: false });
+      return this.searchShortcuts(query);
     }
 
     this.searchSources(query);
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     return this.setState({ isLoading: false });
 >>>>>>> move loading logic into updateResults
+=======
+>>>>>>> consolidate isLoading into setState when reuslts set
   };
 
   setModifier = (item: QuickOpenResult) => {
@@ -402,7 +410,7 @@ export class QuickOpenModal extends Component<Props, State> {
     const { selectedIndex, results } = this.state;
 =======
     const { enabled, query } = this.props;
-    let { selectedIndex, results, isLoading } = this.state;
+    const { selectedIndex, results, isLoading } = this.state;
 
 <<<<<<< HEAD
     if (isLoading) {
@@ -466,7 +474,7 @@ export class QuickOpenModal extends Component<Props, State> {
 >>>>>>> move loading logic into updateResults
 =======
         {isLoading && (
-          <div className="loadIndicator">{L10N.getStr("loadingText")}</div>
+          <div className="loading-indicator">{L10N.getStr("loadingText")}</div>
         )}
 >>>>>>> pad top/bot, and center
         {newResults && (
