@@ -702,6 +702,71 @@ exports[`ProjectSearch found search results 1`] = `
 
 exports[`ProjectSearch renders nothing when disabled 1`] = `""`;
 
+exports[`ProjectSearch showErrorEmoji false if not done & no results 1`] = `
+<div
+  className="search-container"
+>
+  <div
+    className="project-text-search"
+  >
+    <div
+      className="header"
+    >
+      <SearchInput
+        count={0}
+        expanded={false}
+        handleClose={[Function]}
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        placeholder="Find in files…"
+        query="foo"
+        selectedItemId=""
+        showErrorEmoji={false}
+        size="big"
+        summaryMsg="0 results"
+      />
+    </div>
+    <div
+      className="no-result-msg absolute-center"
+    >
+      No results found
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ProjectSearch showErrorEmoji false if not done & results 1`] = `
+<div
+  className="search-container"
+>
+  <div
+    className="project-text-search"
+  >
+    <div
+      className="header"
+    >
+      <SearchInput
+        count={5}
+        expanded={false}
+        handleClose={[Function]}
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        placeholder="Find in files…"
+        query="foo"
+        selectedItemId=""
+        showErrorEmoji={false}
+        size="big"
+        summaryMsg="5 results"
+      />
+    </div>
+  </div>
+</div>
+`;
+
 exports[`ProjectSearch turns off shortcuts on unmount 1`] = `
 <div
   className="search-container"
