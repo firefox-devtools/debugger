@@ -20,11 +20,6 @@ exports[`SearchInput render 1`] = `
     spellCheck={false}
     value=""
   />
-  <div
-    className="summary"
-  >
-    So many results
-  </div>
   <CloseButton
     buttonClass=""
   />
@@ -51,11 +46,6 @@ exports[`SearchInput show nav buttons 1`] = `
     spellCheck={false}
     value="test"
   />
-  <div
-    className="summary"
-  >
-    So many results
-  </div>
   <div
     className="search-nav-buttons"
   >
@@ -108,11 +98,6 @@ exports[`SearchInput show svg (emoji) 1`] = `
     spellCheck={false}
     value="test"
   />
-  <div
-    className="summary"
-  >
-    So many results
-  </div>
   <CloseButton
     buttonClass=""
   />
@@ -139,11 +124,6 @@ exports[`SearchInput show svg magnifying glass 1`] = `
     spellCheck={false}
     value="test"
   />
-  <div
-    className="summary"
-  >
-    So many results
-  </div>
   <CloseButton
     buttonClass=""
   />
