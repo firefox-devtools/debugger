@@ -798,11 +798,6 @@ exports[`QuickOpenModal showErrorEmoji false when count + query 1`] = `
                   spellCheck={false}
                   value="dasdasdas"
                 />
-                <div
-                  className="summary"
-                >
-                  2 results
-                </div>
                 <CloseButton
                   buttonClass=""
                   handleClick={[Function]}
@@ -1008,9 +1003,6 @@ exports[`QuickOpenModal showErrorEmoji false when goto numeric ':2222' 1`] = `
                   spellCheck={false}
                   value=":2222"
                 />
-                <div
-                  className="summary"
-                />
                 <CloseButton
                   buttonClass=""
                   handleClick={[Function]}
@@ -1127,9 +1119,6 @@ exports[`QuickOpenModal showErrorEmoji false when no query 1`] = `
                   placeholder="Search sources…"
                   spellCheck={false}
                   value=""
-                />
-                <div
-                  className="summary"
                 />
                 <CloseButton
                   buttonClass=""
@@ -1264,9 +1253,6 @@ exports[`QuickOpenModal showErrorEmoji true when goto not numeric ':22k22' 1`] =
                   spellCheck={false}
                   value=":22k22"
                 />
-                <div
-                  className="summary"
-                />
                 <CloseButton
                   buttonClass=""
                   handleClick={[Function]}
@@ -1383,9 +1369,6 @@ exports[`QuickOpenModal showErrorEmoji true when no count + query 1`] = `
                   placeholder="Search sources…"
                   spellCheck={false}
                   value="test"
-                />
-                <div
-                  className="summary"
                 />
                 <CloseButton
                   buttonClass=""

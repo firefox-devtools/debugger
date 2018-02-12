@@ -99,11 +99,6 @@ exports[`SearchInput shows svg error emoji 1`] = `
     value=""
   />
   <div
-    className="summary"
-  >
-    So many results
-  </div>
-  <div
     className="search-nav-buttons"
   >
     <button
@@ -155,11 +150,6 @@ exports[`SearchInput shows svg magnifying glass 1`] = `
     spellCheck={false}
     value=""
   />
-  <div
-    className="summary"
-  >
-    So many results
-  </div>
   <div
     className="search-nav-buttons"
   >
