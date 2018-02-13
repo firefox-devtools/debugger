@@ -38,3 +38,8 @@ export default function root() {
     console.log(new aNamespace3());
   } catch (e) {}
 }
+
+// The build harness sets the wrong global, so just override it.
+Promise.resolve().then(() => {
+  window.webpackModulesEs6 = root;
+});

@@ -10,7 +10,9 @@ import {
   getScopes,
   type SourceScope,
   type BindingData,
-  type BindingLocation
+  type BindingLocation,
+  type BindingMetaValue,
+  type BindingType
 } from "../../workers/parser";
 import type { RenderableScope } from "../../utils/pause/scopes/getScope";
 import { PROMISE } from "../utils/middleware/promise";
@@ -22,9 +24,12 @@ import type {
   Frame,
   Scope,
   Source,
+  Location,
   BindingContents,
   ScopeBindings
 } from "../../types";
+
+import { createObjectClient } from "../../client/firefox";
 
 import type { ThunkArgs } from "../types";
 
@@ -60,7 +65,8 @@ export function mapScopes(scopes: Promise<Scope>, frame: Frame) {
             sourceRecord.toJS(),
             frame,
             await scopes,
-            sourceMaps
+            sourceMaps,
+            client
           );
         } catch (e) {
           log(e);
@@ -75,7 +81,8 @@ async function buildMappedScopes(
   source: Source,
   frame: Frame,
   scopes: Scope,
-  sourceMaps: any
+  sourceMaps: any,
+  client: any
 ): Promise<?OriginalScope> {
   const originalAstScopes = await getScopes(frame.location);
   const generatedAstScopes = await getScopes(frame.generatedLocation);
@@ -100,6 +107,7 @@ async function buildMappedScopes(
 
           const result = await findGeneratedBinding(
             sourceMaps,
+            client,
             source,
             name,
             binding,
@@ -193,6 +201,7 @@ function generateClientScope(
 
 async function findGeneratedBinding(
   sourceMaps: any,
+  client: any,
   source: Source,
   name: string,
   originalBinding: BindingData,
@@ -220,8 +229,11 @@ async function findGeneratedBinding(
 
       return await findGeneratedBindingFromPosition(
         sourceMaps,
+        client,
         source,
         pos,
+        name,
+        originalBinding.type,
         generatedAstBindings
       );
     }, null);
@@ -274,8 +286,11 @@ async function findGeneratedBinding(
 
 async function findGeneratedBindingFromPosition(
   sourceMaps: any,
+  client: any,
   source: Source,
   pos: BindingLocation,
+  name: string,
+  type: BindingType,
   generatedAstBindings: Array<GeneratedBindingLocation>
 ) {
   const gen = await sourceMaps.getGeneratedLocation(pos.start, source);
@@ -289,19 +304,146 @@ async function findGeneratedBindingFromPosition(
     return null;
   }
 
-  return generatedAstBindings.find(val => {
-    if (val.loc.start.line !== gen.line) {
-      return false;
+  return generatedAstBindings.reduce(async (acc, val) => {
+    const accVal = await acc;
+    if (accVal) {
+      return accVal;
     }
-    // Allow the mapping to point anywhere within the generated binding
-    // location to allow for less than perfect sourcemaps. Since you also
-    // need at least one character between identifiers, we also give one
-    // characters of space at the front the generated binding in order
-    // to increase the probability of finding the right mapping.
-    const start = val.loc.start.column - 1;
-    const end = val.loc.end.column;
-    return gen.column >= start && gen.column <= end;
-  });
+
+    const operations = mapBindingToGeneratedRange(
+      val,
+      {
+        start: gen,
+        end: genEnd
+      },
+      type === "import"
+    );
+
+    if (operations) {
+      const hasCall = operations.some(op => op.type === "call");
+      if (hasCall) {
+        // In theory this could fall back to trying to use client.evaluate.
+        return null;
+      }
+
+      let desc = val.desc;
+      if (desc) {
+        for (const op of operations) {
+          if (op.type === "call" || op.type === "inherit") {
+            continue;
+          }
+
+          const objectClient = createObjectClient(desc.value);
+          desc = (await objectClient.getProperty(op.property)).descriptor;
+          if (!desc) {
+            return null;
+          }
+        }
+      }
+
+      return {
+        name: val.name,
+        desc: desc
+      };
+    }
+
+    return null;
+  }, null);
+}
+
+function mapBindingToGeneratedRange(
+  binding: GeneratedBindingLocation,
+  mapped: {
+    start: Location,
+    end: Location
+  },
+  allowExpressionMatch: boolean
+): Array<BindingMetaValue> | null {
+  // Allow the mapping to point anywhere within the generated binding
+  // location to allow for less than perfect sourcemaps. Since you also
+  // need at least one character between identifiers, we also give one
+  // characters of space at the front the generated binding in order
+  // to increase the probability of finding the right mapping.
+  if (
+    !allowExpressionMatch &&
+    mapped.start.line === binding.loc.start.line &&
+    locColumn(mapped.start) >= locColumn(binding.loc.start) - 1 &&
+    locColumn(mapped.start) <= locColumn(binding.loc.end)
+  ) {
+    return [];
+  }
+
+  if (allowExpressionMatch) {
+    // Expression matches require broader searching because sourcemaps usage
+    // varies in how they map certain things. For instance given
+    //
+    //   import { bar } from "mod";
+    //   bar();
+    //
+    // The "bar()" expression is generally expanded into one of two possibly
+    // forms, both of which map the "bar" identifier in different ways. See
+    // the "^^" markers below for the ranges.
+    //
+    //   (0, foo.bar)()    // Babel
+    //       ^^^^^^^       // mapping
+    //       ^^^           // binding
+    // vs
+    //
+    //   Object(foo.bar)() // Webpack
+    //   ^^^^^^^^^^^^^^^   // mapping
+    //          ^^^        // binding
+    //
+    // Unfortunately, Webpack also has a tendancy to over-map past the call
+    // expression to the start of the next line, at least when there isn't
+    // anything else on that line that is mapped, e.g.
+    //
+    //   Object(foo.bar)()
+    //   ^^^^^^^^^^^^^^^^^
+    //   ^                 // wrapped to column 0 of next line
+
+    if (mappingContains(mapped, binding.loc)) {
+      const { meta } = binding.loc;
+
+      // Limit to 2 simple property or inherits operartions, since it would
+      // just be more work to search mroe and it is very unlikely that
+      // bindings would be mapped to more than a single member + inherits
+      // wrapper.
+      const operations = [];
+      for (let op = meta, i = 0; op && i < 2; i++, op = op.parent) {
+        // Allow calls as the first access, "foo().bar", not but "foo.bar()"
+        // because that is too likely to accidentally pick up a call that
+        // was in the user's own code, and it would be too risky. The chance
+        // of an expression mapping "one" to "_one()" isn't a common transform
+        // and is also one that is less likely to be screwed up during
+        // sourcemap generation, so it is allowed.
+        if (op.type === "call" && i !== 0) {
+          break;
+        }
+
+        if (mappingContains(mapped, op)) {
+          if (op.type !== "inherit") {
+            operations.push(op);
+          }
+        } else {
+          break;
+        }
+      }
+
+      return operations;
+    }
+  }
+  return null;
+}
+
+function mappingContains(mapped, item) {
+  return (
+    (item.start.line > mapped.start.line ||
+      (item.start.line === mapped.start.line &&
+        locColumn(item.start) >= locColumn(mapped.start))) &&
+    (item.end.line < mapped.end.line ||
+      (item.end.line === mapped.end.line &&
+        locColumn(item.end) <= locColumn(mapped.end)))
+  );
 }
 
 type GeneratedBindingLocation = {
@@ -374,19 +516,20 @@ function buildGeneratedBindingList(
       const bStart = a.loc.start;
 
       if (aStart.line === bStart.line) {
-        if (
-          typeof aStart.column !== "number" ||
-          typeof bStart.column !== "number"
-        ) {
-          // This shouldn't really happen with locations from the AST, but
-          // the datatype we are using allows null/undefined column.
-          return 0;
-        }
-
-        return aStart.column - bStart.column;
+        return locColumn(aStart) - locColumn(bStart);
       }
       return aStart.line - bStart.line;
     });
 
   return generatedBindings;
+}
+
+function locColumn(loc: Location): number {
+  if (typeof loc.column !== "number") {
+    // This shouldn't really happen with locations from the AST, but
+    // the datatype we are using allows null/undefined column.
+    return 0;
+  }
+
+  return loc.column;
 }
