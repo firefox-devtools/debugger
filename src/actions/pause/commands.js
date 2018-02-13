@@ -86,6 +86,23 @@ export function resume() {
   };
 }
 
+/*
+ * Checks for await or yield calls on the paused line
+ * This avoids potentially expensive parser calls when we are likely
+ * not at an async expression.
+ */
+function hasAwait(source, pauseLocation) {
+  const { line, column } = pauseLocation;
+  if (!source.text) {
+    return false;
+  }
+
+  return source.text
+    .split("\n")
+    [line - 1].slice(column, column + 200)
+    .match(/(yield|await)/);
+}
+
 /**
  * @memberOf actions/pause
  * @static
@@ -101,10 +118,12 @@ export function astCommand(stepType: CommandType) {
     if (stepType == "stepOver") {
       const frame = getTopFrame(getState());
       const source = getSelectedSource(getState()).toJS();
-      const nextLocation = await getNextStep(source, frame.location);
-      if (nextLocation) {
-        await dispatch(addHiddenBreakpoint(nextLocation));
-        return dispatch(command("resume"));
+      if (source && hasAwait(source, frame.location)) {
+        const nextLocation = await getNextStep(source, frame.location);
+        if (nextLocation) {
+          await dispatch(addHiddenBreakpoint(nextLocation));
+          return dispatch(command("resume"));
+        }
       }
     }
 
