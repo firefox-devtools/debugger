@@ -2,6 +2,7 @@ import React from "react";
 import { mount, shallow } from "enzyme";
 import { List } from "immutable";
 import { ProjectSearch } from "../ProjectSearch";
+import { statusType } from "../../reducers/project-text-search";
 
 const hooks = { on: [], off: [] };
 const shortcuts = {
@@ -81,6 +82,14 @@ describe("ProjectSearch", () => {
 
   it("found no search results", () => {
     const component = render();
+    expect(component).toMatchSnapshot();
+  });
+
+  it("should display loading message while search is in progress", () => {
+    const component = render({
+      query: "match",
+      status: statusType.fetching
+    });
     expect(component).toMatchSnapshot();
   });
 
@@ -204,7 +213,7 @@ describe("ProjectSearch", () => {
   describe("showErrorEmoji", () => {
     it("false if not done & results", () => {
       const component = render({
-        status: "searching",
+        status: statusType.fetching,
         results: testResults
       });
       expect(component).toMatchSnapshot();
@@ -212,7 +221,7 @@ describe("ProjectSearch", () => {
 
     it("false if not done & no results", () => {
       const component = render({
-        status: "searching"
+        status: statusType.fetching
       });
       expect(component).toMatchSnapshot();
     });
