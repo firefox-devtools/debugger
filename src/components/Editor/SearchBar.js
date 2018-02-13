@@ -71,6 +71,8 @@ type Props = {
 };
 
 class SearchBar extends Component<Props, State> {
+  $input: ?SearchInput;
+
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -155,11 +157,17 @@ class SearchBar extends Component<Props, State> {
     }
 
     if (this.props.searchOn && editor) {
-      const selection = editor.codeMirror.getSelection();
-      let query = selection || this.$input.$input.value || "";
-      this.$input.setFocus();
-      if (selection !== "") {
-        this.doSearch(selection);
+      const query = editor.codeMirror.getSelection() || this.state.query;
+
+      if (this.$input) {
+        this.$input.setFocus();
+      }
+
+      if (query !== "") {
+        this.setState({ query });
+        this.doSearch(query);
+      } else {
+        this.setState({ query: "" });
       }
     }
   };
