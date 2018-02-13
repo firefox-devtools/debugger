@@ -89,6 +89,11 @@ cases(
       name: "finds scope bindings for switch statements",
       file: "scopes/switch-statement",
       locations: [[2, 0], [5, 0], [7, 0], [9, 0], [11, 0]]
+    },
+    {
+      name: "finds scope bindings with proper types",
+      file: "scopes/binding-types",
+      locations: [[5, 0], [9, 0], [18, 0], [23, 0]]
     }
   ]
 );

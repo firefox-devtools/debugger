@@ -6670,7 +6670,7 @@ Array [
             },
           },
         ],
-        "type": "const",
+        "type": "import",
       },
       "one": Object {
         "declarations": Array [
@@ -6811,6 +6811,1162 @@ Array [
       "column": 0,
       "line": 1,
       "sourceId": "scopes/simple-module/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings with proper types at line 5 column 0 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "aConst": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 12,
+              "line": 15,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 15,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "const",
+      },
+      "aLet": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 8,
+              "line": 14,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 14,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+      "aVar": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 8,
+              "line": 13,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 13,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "cls": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 9,
+              "line": 7,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 7,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+      "def": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 10,
+              "line": 1,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 7,
+              "line": 1,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "import",
+      },
+      "fn": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 6,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 6,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "named": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 14,
+              "line": 2,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 2,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "import",
+      },
+      "namespace": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 21,
+              "line": 4,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 12,
+              "line": 4,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "const",
+      },
+      "otherNamed": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 28,
+              "line": 3,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 18,
+              "line": 3,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "import",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 25,
+      "sourceId": "scopes/binding-types/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/binding-types/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 25,
+      "sourceId": "scopes/binding-types/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/binding-types/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 25,
+      "sourceId": "scopes/binding-types/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/binding-types/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings with proper types at line 9 column 0 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "arguments": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "method",
+    "end": Object {
+      "column": 3,
+      "line": 10,
+      "sourceId": "scopes/binding-types/originalSource-1",
+    },
+    "start": Object {
+      "column": 2,
+      "line": 8,
+      "sourceId": "scopes/binding-types/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "cls": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 9,
+              "line": 7,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 7,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "const",
+      },
+    },
+    "displayName": "Class",
+    "end": Object {
+      "column": 1,
+      "line": 11,
+      "sourceId": "scopes/binding-types/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 7,
+      "sourceId": "scopes/binding-types/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "aConst": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 12,
+              "line": 15,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 15,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "const",
+      },
+      "aLet": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 8,
+              "line": 14,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 14,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+      "aVar": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 8,
+              "line": 13,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 13,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "cls": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 9,
+              "line": 7,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 7,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+      "def": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 10,
+              "line": 1,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 7,
+              "line": 1,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "import",
+      },
+      "fn": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 6,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 6,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "named": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 14,
+              "line": 2,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 2,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "import",
+      },
+      "namespace": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 21,
+              "line": 4,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 12,
+              "line": 4,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "const",
+      },
+      "otherNamed": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 28,
+              "line": 3,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 18,
+              "line": 3,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "import",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 25,
+      "sourceId": "scopes/binding-types/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/binding-types/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 25,
+      "sourceId": "scopes/binding-types/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/binding-types/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 25,
+      "sourceId": "scopes/binding-types/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/binding-types/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings with proper types at line 18 column 0 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "arguments": Object {
+        "declarations": Array [],
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 19,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 19,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "type": "implicit",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 6,
+              "line": 18,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 18,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "type": "implicit",
+      },
+    },
+    "displayName": "inner",
+    "end": Object {
+      "column": 1,
+      "line": 20,
+      "sourceId": "scopes/binding-types/originalSource-1",
+    },
+    "start": Object {
+      "column": 1,
+      "line": 17,
+      "sourceId": "scopes/binding-types/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "inner": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 15,
+              "line": 17,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 10,
+              "line": 17,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "const",
+      },
+    },
+    "displayName": "Function Expression",
+    "end": Object {
+      "column": 1,
+      "line": 20,
+      "sourceId": "scopes/binding-types/originalSource-1",
+    },
+    "start": Object {
+      "column": 1,
+      "line": 17,
+      "sourceId": "scopes/binding-types/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "aConst": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 12,
+              "line": 15,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 15,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "const",
+      },
+      "aLet": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 8,
+              "line": 14,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 14,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+      "aVar": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 8,
+              "line": 13,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 13,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "cls": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 9,
+              "line": 7,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 7,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+      "def": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 10,
+              "line": 1,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 7,
+              "line": 1,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "import",
+      },
+      "fn": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 6,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 6,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "named": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 14,
+              "line": 2,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 2,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "import",
+      },
+      "namespace": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 21,
+              "line": 4,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 12,
+              "line": 4,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "const",
+      },
+      "otherNamed": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 28,
+              "line": 3,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 18,
+              "line": 3,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "import",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 25,
+      "sourceId": "scopes/binding-types/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/binding-types/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 25,
+      "sourceId": "scopes/binding-types/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/binding-types/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 25,
+      "sourceId": "scopes/binding-types/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/binding-types/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings with proper types at line 23 column 0 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "blockFn": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 18,
+              "line": 23,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 11,
+              "line": 23,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+    },
+    "displayName": "Block",
+    "end": Object {
+      "column": 1,
+      "line": 24,
+      "sourceId": "scopes/binding-types/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 22,
+      "sourceId": "scopes/binding-types/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "aConst": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 12,
+              "line": 15,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 15,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "const",
+      },
+      "aLet": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 8,
+              "line": 14,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 14,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+      "aVar": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 8,
+              "line": 13,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 13,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "cls": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 9,
+              "line": 7,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 7,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "let",
+      },
+      "def": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 10,
+              "line": 1,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 7,
+              "line": 1,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "import",
+      },
+      "fn": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 6,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 6,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "var",
+      },
+      "named": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 14,
+              "line": 2,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 2,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "import",
+      },
+      "namespace": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 21,
+              "line": 4,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 12,
+              "line": 4,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "const",
+      },
+      "otherNamed": Object {
+        "declarations": Array [
+          Object {
+            "end": Object {
+              "column": 28,
+              "line": 3,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+            "start": Object {
+              "column": 18,
+              "line": 3,
+              "sourceId": "scopes/binding-types/originalSource-1",
+            },
+          },
+        ],
+        "refs": Array [],
+        "type": "import",
+      },
+      "this": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 25,
+      "sourceId": "scopes/binding-types/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/binding-types/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 25,
+      "sourceId": "scopes/binding-types/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/binding-types/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "declarations": Array [],
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 25,
+      "sourceId": "scopes/binding-types/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/binding-types/originalSource-1",
     },
     "type": "object",
   },

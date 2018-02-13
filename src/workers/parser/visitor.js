@@ -24,10 +24,13 @@ import getFunctionName from "./utils/getFunctionName";
  * Variables declared with "let".
  *
  * "const"
- * Variables declared with "const", imported bindings, or added as const
+ * Variables declared with "const", or added as const
  * bindings like inner function expressions and inner class names.
+ *
+ * "import"
+ * Imported binding names exposed from other modules.
  */
-export type BindingType = "implicit" | "var" | "const" | "let";
+export type BindingType = "implicit" | "var" | "const" | "let" | "import";
 
 export type BindingLocation = {
   start: Location,
@@ -405,7 +408,9 @@ export function createParseJSScopeVisitor(
 
         path.get("specifiers").forEach(spec => {
           parent.names[spec.node.local.name] = {
-            type: "const",
+            // Imported namespaces aren't live import bindings, they are
+            // just normal const bindings.
+            type: spec.isImportNamespaceSpecifier() ? "const" : "import",
             declarations: [spec.node.local.loc],
             refs: []
           };
