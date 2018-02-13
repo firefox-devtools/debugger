@@ -85,6 +85,14 @@ describe("ProjectSearch", () => {
     expect(component).toMatchSnapshot();
   });
 
+  it("should display loading message while search is in progress", () => {
+    const component = render({
+      query: "match",
+      status: statusType.fetching
+    });
+    expect(component).toMatchSnapshot();
+  });
+
   it("found search results", () => {
     const component = render(
       {
@@ -205,7 +213,7 @@ describe("ProjectSearch", () => {
   describe("showErrorEmoji", () => {
     it("false if not done & results", () => {
       const component = render({
-        status: "searching",
+        status: statusType.fetching,
         results: testResults
       });
       expect(component).toMatchSnapshot();
@@ -213,7 +221,7 @@ describe("ProjectSearch", () => {
 
     it("false if not done & no results", () => {
       const component = render({
-        status: "searching"
+        status: statusType.fetching
       });
       expect(component).toMatchSnapshot();
     });

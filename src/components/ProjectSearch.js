@@ -247,6 +247,9 @@ export class ProjectSearch extends Component<Props, State> {
   renderResults = () => {
     const results = this.getResults();
     const { status } = this.props;
+    if (!this.props.query) {
+      return;
+    }
     if (results.length && status === statusType.done) {
       return (
         <ManagedTree
@@ -261,20 +264,11 @@ export class ProjectSearch extends Component<Props, State> {
         />
       );
     }
-    if (status === statusType.fetching) {
-      return (
-        <div className="no-result-msg absolute-center">
-          {L10N.getStr("loadingText")}
-        </div>
-      );
-    }
-    if (this.props.query && !results.length) {
-      return (
-        <div className="no-result-msg absolute-center">
-          {L10N.getStr("projectTextSearch.noResults")}
-        </div>
-      );
-    }
+    const msg =
+      status === statusType.fetching
+        ? L10N.getStr("loadingText")
+        : L10N.getStr("projectTextSearch.noResults");
+    return <div className="no-result-msg absolute-center">{msg}</div>;
   };
 
   renderSummary = () => {
