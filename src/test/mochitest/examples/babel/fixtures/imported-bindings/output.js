@@ -93,11 +93,13 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function root() {
+  console.log("pause here", root);
+
+  console.log(_mod2.default);
   console.log(_mod4.original);
   console.log(_mod3.aNamed);
   console.log(_mod4.original);
   console.log(aNamespace);
-  console.log("pause here", root);
 }
 module.exports = exports["default"];
 

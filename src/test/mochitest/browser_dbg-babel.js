@@ -153,7 +153,7 @@ add_task(async function() {
     ]
   );
 
-  await breakpointScopes(dbg, "imported-bindings", { line: 11, column: 2 }, [
+  await breakpointScopes(dbg, "imported-bindings", { line: 7, column: 2 }, [
     "Module",
     ["aDefault", "(unavailable)"],
     ["anAliased", "(unavailable)"],

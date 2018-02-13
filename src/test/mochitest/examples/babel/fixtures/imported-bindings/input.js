@@ -4,9 +4,11 @@ import { original as anAliased } from "./src/mod3";
 import * as aNamespace from "./src/mod4";
 
 export default function root() {
+  console.log("pause here", root);
+
+  console.log(aDefault);
   console.log(anAliased);
   console.log(aNamed);
   console.log(anAliased);
   console.log(aNamespace);
-  console.log("pause here", root);
 }
