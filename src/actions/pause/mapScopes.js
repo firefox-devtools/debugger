@@ -218,31 +218,12 @@ async function findGeneratedBinding(
         return result;
       }
 
-      const gen = await sourceMaps.getGeneratedLocation(pos.start, source);
-      const genEnd = await sourceMaps.getGeneratedLocation(pos.end, source);
-
-      // Since the map takes the closest location, sometimes mapping a
-      // binding's location can point at the start of a binding listed after
-      // it, so we need to make sure it maps to a location that actually has
-      // a size in order to avoid picking up the wrong descriptor.
-      if (gen.line === genEnd.line && gen.column === genEnd.column) {
-        return null;
-      }
-
-      return generatedAstBindings.find(val => {
-        if (val.loc.start.line !== gen.line) {
-          return false;
-        }
-
-        // Allow the mapping to point anywhere within the generated binding
-        // location to allow for less than perfect sourcemaps. Since you also
-        // need at least one character between identifiers, we also give one
-        // characters of space at the front the generated binding in order
-        // to increase the probability of finding the right mapping.
-        const start = val.loc.start.column - 1;
-        const end = val.loc.end.column;
-        return gen.column >= start && gen.column <= end;
-      });
+      return await findGeneratedBindingFromPosition(
+        sourceMaps,
+        source,
+        pos,
+        generatedAstBindings
+      );
     }, null);
 
   if (genContent && genContent.desc) {
@@ -289,6 +270,38 @@ async function findGeneratedBinding(
       missingArguments: true
     }
   };
+}
+
+async function findGeneratedBindingFromPosition(
+  sourceMaps: any,
+  source: Source,
+  pos: BindingLocation,
+  generatedAstBindings: Array<GeneratedBindingLocation>
+) {
+  const gen = await sourceMaps.getGeneratedLocation(pos.start, source);
+  const genEnd = await sourceMaps.getGeneratedLocation(pos.end, source);
+
+  // Since the map takes the closest location, sometimes mapping a
+  // binding's location can point at the start of a binding listed after
+  // it, so we need to make sure it maps to a location that actually has
+  // a size in order to avoid picking up the wrong descriptor.
+  if (gen.line === genEnd.line && gen.column === genEnd.column) {
+    return null;
+  }
+
+  return generatedAstBindings.find(val => {
+    if (val.loc.start.line !== gen.line) {
+      return false;
+    }
+    // Allow the mapping to point anywhere within the generated binding
+    // location to allow for less than perfect sourcemaps. Since you also
+    // need at least one character between identifiers, we also give one
+    // characters of space at the front the generated binding in order
+    // to increase the probability of finding the right mapping.
+    const start = val.loc.start.column - 1;
+    const end = val.loc.end.column;
+    return gen.column >= start && gen.column <= end;
+  });
 }
 
 type GeneratedBindingLocation = {
