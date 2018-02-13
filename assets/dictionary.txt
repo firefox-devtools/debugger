@@ -136,3 +136,9 @@ don't
 url
 sendPacket
 ws
+Unclickable
+takeScreenshot
+debug-brk
+ChromeUtils
+cmdOrControl
+cmdOrCtrl
