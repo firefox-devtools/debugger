@@ -7,7 +7,7 @@ add_task(async function() {
   const dbg = await initDebugger("doc-scripts.html");
   const { selectors: { getSelectedSource }, getState } = dbg;
 
-  navigate(dbg, "doc-on-load.html")
+  navigate(dbg, "doc-on-load.html");
 
   // wait for `top-level.js` to load and to pause at a debugger statement
   await waitForPaused(dbg);
@@ -15,8 +15,16 @@ add_task(async function() {
   const popupPreviewed = waitForDispatch(dbg, "SET_PREVIEW");
   hoverAtPos(dbg, { line: 1, ch: 6 });
   await popupPreviewed;
-  await assertPreviewPopup(dbg, { field: "foo", value: "1", expression: "obj" });
-  await assertPreviewPopup(dbg, { field: "bar", value: "2", expression: "obj" });
+  await assertPreviewPopup(dbg, {
+    field: "foo",
+    value: "1",
+    expression: "obj"
+  });
+  await assertPreviewPopup(dbg, {
+    field: "bar",
+    value: "2",
+    expression: "obj"
+  });
 
   // hover over an empty position so that the popup closes
   hoverAtPos(dbg, { line: 1, ch: 47 });
