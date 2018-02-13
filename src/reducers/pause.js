@@ -276,7 +276,11 @@ export function getGeneratedFrameScope(state: OuterState, frameId: ?string) {
     return null;
   }
 
-  return state.pause.frameScopes.generated[frameId];
+  return getFrameScopes(state).generated[frameId];
+}
+
+export function getFrameScopes(state: OuterState) {
+  return state.pause.frameScopes;
 }
 
 export function getFrameScope(
@@ -292,13 +296,13 @@ export function getFrameScope(
   }
 
   const isGenerated = isGeneratedId(sourceId);
-  const original = state.pause.frameScopes.original[frameId];
+  const original = getFrameScopes(state).original[frameId];
 
   if (!isGenerated && original && (original.pending || original.scope)) {
     return original;
   }
 
-  return state.pause.frameScopes.generated[frameId];
+  return getFrameScopes(state).generated[frameId];
 }
 
 export function getSelectedScope(state: OuterState) {
