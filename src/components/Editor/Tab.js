@@ -156,9 +156,29 @@ class Tab extends PureComponent<Props> {
     const isPrettyCode = isPretty(source);
     const sourceAnnotation = getSourceAnnotation(source, sourceMetaData);
 
-    function onClickClose(ev) {
-      ev.stopPropagation();
+    function onClickClose(e) {
+      e.stopPropagation();
       closeTab(source.get("url"));
+    }
+
+    function handleTabClick(e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const clickedButton = e.button;
+
+      // main button, usually left
+      if (clickedButton === 0) {
+        return selectSource(sourceId);
+      }
+
+      // aux button, middle
+      if (clickedButton === 1) {
+        return closeTab(source.get("url"));
+      }
+
+      // onMouseUp doesn't overwrite default onContextMenu behavior,
+      // to prevent compatibility issues rightclick triggers separately
     }
 
     const className = classnames("source-tab", {
@@ -170,7 +190,7 @@ class Tab extends PureComponent<Props> {
       <div
         className={className}
         key={sourceId}
-        onClick={() => selectSource(sourceId)}
+        onMouseUp={handleTabClick}
         onContextMenu={e => this.onTabContextMenu(e, sourceId)}
         title={getFileURL(src)}
       >
