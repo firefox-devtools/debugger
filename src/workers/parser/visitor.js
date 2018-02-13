@@ -34,19 +34,38 @@ export type BindingType = "implicit" | "var" | "const" | "let" | "import";
 
 export type BindingLocation = {
   start: Location,
-  end: Location
+  end: Location,
+  +meta?: BindingMetaValue | null
 };
 export type BindingData = {
   type: BindingType,
-  declarations: Array<{
-    start: Location,
-    end: Location
-  }>,
-  refs: Array<{
-    start: Location,
-    end: Location
-  }>
+  declarations: Array<BindingLocation>,
+  refs: Array<BindingLocation>
 };
+
+// Location information about the expression immediartely surrounding a
+// given binding reference.
+export type BindingMetaValue =
+  | {
+      type: "inherit",
+      start: Location,
+      end: Location,
+      parent: BindingMetaValue | null
+    }
+  | {
+      type: "call",
+      start: Location,
+      end: Location,
+      parent: BindingMetaValue | null
+    }
+  | {
+      type: "member",
+      start: Location,
+      end: Location,
+      property: string,
+      parent: BindingMetaValue | null
+    };
+
 export type ScopeBindingList = {
   [name: string]: BindingData
 };
@@ -204,9 +223,18 @@ function toParsedScopes(
           start: fromBabelLocation(start, sourceId),
           end: fromBabelLocation(end, sourceId)
         })),
-        refs: nameRefs.refs.map(({ start, end }) => ({
+        refs: nameRefs.refs.map(({ start, end, meta }) => ({
           start: fromBabelLocation(start, sourceId),
-          end: fromBabelLocation(end, sourceId)
+          end: fromBabelLocation(end, sourceId),
+          // eslint-disable-next-line max-nested-callbacks
+          meta: mapMeta(meta || null, item => {
+            // $FlowIgnore - Flow doesn't like merging here.
+            return {
+              ...item,
+              start: fromBabelLocation(item.start, sourceId),
+              end: fromBabelLocation(item.end, sourceId)
+            };
+          })
         }))
       };
       return _bindings;
@@ -220,6 +248,23 @@ function toParsedScopes(
       children: toParsedScopes(scope.children, sourceId)
     };
   });
+}
+
+function mapMeta(
+  item: BindingMetaValue | null,
+  callback: BindingMetaValue => BindingMetaValue
+): BindingMetaValue | null {
+  if (!item) {
+    return null;
+  }
+
+  const result = callback(item);
+
+  // $FlowIgnore - Flow doesn't like merging here.
+  return {
+    ...result,
+    parent: mapMeta(item.parent, callback)
+  };
 }
 
 /**
@@ -425,14 +470,22 @@ export function createParseJSScopeVisitor(
       if (path.isReferencedIdentifier()) {
         const scope = findIdentifierInScopes(parent, tree.name);
         if (scope) {
-          scope.names[tree.name].refs.push(tree.loc);
+          scope.names[tree.name].refs.push({
+            start: tree.loc.start,
+            end: tree.loc.end,
+            meta: buildMetaBindings(path)
+          });
         }
         return;
       }
       if (path.isThisExpression()) {
         const scope = findIdentifierInScopes(parent, "this");
         if (scope) {
-          scope.names.this.refs.push(tree.loc);
+          scope.names.this.refs.push({
+            start: tree.loc.start,
+            end: tree.loc.end,
+            meta: buildMetaBindings(path)
+          });
         }
       }
 
@@ -487,6 +540,85 @@ export function createParseJSScopeVisitor(
       return toParsedScopes([parent], sourceId) || [];
     }
   };
+}
+
+function buildMetaBindings(path: NodePath): BindingMetaValue | null {
+  const { parentPath } = path;
+
+  // Consider "0, foo" to be equivalent to "foo".
+  if (
+    parentPath.isSequenceExpression() &&
+    parentPath.get("expressions").length === 2 &&
+    parentPath.get("expressions")[0].isNumericLiteral() &&
+    parentPath.get("expressions")[1] === path
+  ) {
+    let start = parentPath.node.loc.start;
+    let end = parentPath.node.loc.end;
+    if (parentPath.parentPath.isCallExpression({ callee: parentPath.node })) {
+      // Attempt to expand the range around parentheses, e.g.
+      // (0, foo.bar)()
+      start = parentPath.parentPath.node.loc.start;
+      end = Object.assign({}, end);
+      end.column += 1;
+    }
+
+    return {
+      type: "inherit",
+      start,
+      end,
+      parent: buildMetaBindings(parentPath)
+    };
+  }
+
+  // Consider "Object(foo)" to be equivalent to "foo"
+  if (
+    parentPath.isCallExpression() &&
+    parentPath.get("callee").isIdentifier({ name: "Object" }) &&
+    parentPath.get("arguments").length === 1 &&
+    parentPath.get("arguments")[0] === path
+  ) {
+    return {
+      type: "inherit",
+      start: parentPath.node.loc.start,
+      end: parentPath.node.loc.end,
+      parent: buildMetaBindings(parentPath)
+    };
+  }
+
+  if (parentPath.isMemberExpression({ object: path.node })) {
+    if (parentPath.node.computed) {
+      if (parentPath.get("property").isStringLiteral()) {
+        return {
+          type: "member",
+          start: parentPath.node.loc.start,
+          end: parentPath.node.loc.end,
+          property: parentPath.node.property.value,
+          parent: buildMetaBindings(parentPath)
+        };
+      }
+    } else {
+      return {
+        type: "member",
+        start: parentPath.node.loc.start,
+        end: parentPath.node.loc.end,
+        property: parentPath.node.property.name,
+        parent: buildMetaBindings(parentPath)
+      };
+    }
+  }
+  if (
+    parentPath.isCallExpression({ callee: path.node }) &&
+    parentPath.get("arguments").length == 0
+  ) {
+    return {
+      type: "call",
+      start: parentPath.node.loc.start,
+      end: parentPath.node.loc.end,
+      parent: buildMetaBindings(parentPath)
+    };
+  }
+
+  return null;
 }
 
 function looksLikeCommonJS(rootScope: TempScope): boolean {

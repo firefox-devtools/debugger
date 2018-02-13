@@ -94,6 +94,11 @@ cases(
       name: "finds scope bindings with proper types",
       file: "scopes/binding-types",
       locations: [[5, 0], [9, 0], [18, 0], [23, 0]]
+    },
+    {
+      name: "finds scope bindings with expression metadata",
+      file: "scopes/expressions",
+      locations: [[2, 0]]
     }
   ]
 );
