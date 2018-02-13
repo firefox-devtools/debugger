@@ -14,7 +14,7 @@ import {
   getSourceLocationFromMouseEvent,
   toSourceLine
 } from "../../utils/editor";
-import { isPretty } from "../../utils/source";
+import { isPretty, getRawSourceURL } from "../../utils/source";
 import {
   getContextMenu,
   getPrettySource,
@@ -103,7 +103,7 @@ function getMenuItems(
     label: copySourceUri2Label,
     accesskey: copySourceUri2Key,
     disabled: false,
-    click: () => copyToTheClipboard(selectedSource.get("url"))
+    click: () => copyToTheClipboard(getRawSourceURL(selectedSource.get("url")))
   };
 
   const sourceId = selectedSource.get("id");
