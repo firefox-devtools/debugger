@@ -142,3 +142,7 @@ debug-brk
 ChromeUtils
 cmdOrControl
 cmdOrCtrl
+flexbox
+theme-content-color3
+getFrameScopes
+localizations
