@@ -16,6 +16,7 @@ import type { RenderableScope } from "../../utils/pause/scopes/getScope";
 import { PROMISE } from "../utils/middleware/promise";
 
 import { features } from "../../utils/prefs";
+import { log } from "../../utils/log";
 import { isGeneratedId } from "devtools-source-map";
 import type {
   Frame,
@@ -62,6 +63,7 @@ export function mapScopes(scopes: Promise<Scope>, frame: Frame) {
             sourceMaps
           );
         } catch (e) {
+          log(e);
           return null;
         }
       })()
