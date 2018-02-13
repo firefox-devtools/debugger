@@ -17,7 +17,12 @@ import type { SourceRecord } from "../../reducers/sources";
 
 import actions from "../../actions";
 
-import { getFilename, getFileURL, isPretty } from "../../utils/source";
+import {
+  getFilename,
+  getFileURL,
+  getRawSourceURL,
+  isPretty
+} from "../../utils/source";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { getSourceAnnotation, getTabMenuItems } from "../../utils/tabs";
 
@@ -104,7 +109,7 @@ class Tab extends PureComponent<Props> {
       {
         item: {
           ...tabMenuItems.copySourceUri2,
-          click: () => copyToTheClipboard(sourceTab.get("url"))
+          click: () => copyToTheClipboard(getRawSourceURL(sourceTab.get("url")))
         }
       }
     ];
