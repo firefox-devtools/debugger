@@ -20627,7 +20627,15 @@
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/preview.js": 1807,
       "../../svg-inline-loader/index.js!../../../assets/images/rxjs.svg": 1808,
       "../../babel-traverse/node_modules/globals/index.js": 1809,
-      "../../json-loader/index.js!../../babel-traverse/node_modules/globals/globals.json": 1810
+      "../../json-loader/index.js!../../babel-traverse/node_modules/globals/globals.json": 1810,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../devtools-reps/src/shared/grip-length-bubble.js": 1811,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../devtools-reps/src/object-inspector/utils/index.js": 1812,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../devtools-reps/src/object-inspector/utils/client.js": 1813,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../devtools-reps/src/object-inspector/utils/node.js": 1814,
+      "../../svg-inline-loader/index.js!../../devtools-components/src/images/arrow.svg": 1815,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../devtools-components/src/tree.css": 1816,
+      "../../svg-inline-loader/index.js!../../devtools-reps/src/shared/images/jump-definition.svg": 1817,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../devtools-reps/src/object-inspector/utils/load-properties.js": 1818
     },
     "usedIds": {
       "0": 0,
@@ -22440,7 +22448,15 @@
       "1807": 1807,
       "1808": 1808,
       "1809": 1809,
-      "1810": 1810
+      "1810": 1810,
+      "1811": 1811,
+      "1812": 1812,
+      "1813": 1813,
+      "1814": 1814,
+      "1815": 1815,
+      "1816": 1816,
+      "1817": 1817,
+      "1818": 1818
     }
   },
   "chunks": {
@@ -26761,6 +26777,27 @@
         "byBlocks": {},
         "usedIds": {
           "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../devtools-components/src/tree.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../devtools-components/src/tree.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
         }
       }
     }
