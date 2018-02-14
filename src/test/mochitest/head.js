@@ -1084,7 +1084,6 @@ function getCM(dbg) {
   return el.CodeMirror;
 }
 
-
 function getCoordsFromPosition(cm, { line, ch }) {
   return cm.charCoords({ line: ~~line, ch: ~~ch });
 }
