@@ -12,6 +12,7 @@ import type {
 } from "@babel/traverse";
 import { isGeneratedId } from "devtools-source-map";
 import getFunctionName from "../utils/getFunctionName";
+import { traverseAst } from "../utils/ast";
 
 /**
  * "implicit"
@@ -95,6 +96,12 @@ type TempScope = {
   loc: BabelLocation,
   names: ScopeBindingList
 };
+
+export function parseSourceScopes(sourceId: SourceId) {
+  const visitor = createParseJSScopeVisitor(sourceId);
+  traverseAst(sourceId, visitor.traverseVisitor);
+  return visitor.toParsedScopes();
+}
 
 function createTempScope(
   type: "object" | "function" | "block" | "module",
@@ -272,9 +279,7 @@ function mapMeta(
  * information from the source. See also findScopes to perform lookup of the
  * scope information for specific location.
  */
-export function createParseJSScopeVisitor(
-  sourceId: SourceId
-): ParseJSScopeVisitor {
+function createParseJSScopeVisitor(sourceId: SourceId): ParseJSScopeVisitor {
   let parent: TempScope;
   const savedParents: WeakMap<NodePath, TempScope> = new WeakMap();
 
@@ -649,50 +654,5 @@ function stripModuleScope(rootScope: TempScope): void {
   rootLexicalScope.children = moduleScope.children;
   rootLexicalScope.children.forEach(child => {
     child.parent = rootLexicalScope;
-  });
-}
-
-function compareLocations(a: Location, b: Location): number {
-  // According to type of Location.column can be undefined, if will not be the
-  // case here, ignoring flow error.
-  // $FlowIgnore
-  return a.line == b.line ? a.column - b.column : a.line - b.line;
-}
-
-/**
- * Searches all scopes and their bindings at the specific location.
- */
-export function findScopes(
-  scopes: ParsedScope[],
-  location: Location
-): SourceScope[] {
-  // Find inner most in the tree structure.
-  let searchInScopes: ?(ParsedScope[]) = scopes;
-  const found = [];
-  while (searchInScopes) {
-    const foundOne = searchInScopes.some(s => {
-      if (
-        compareLocations(s.start, location) <= 0 &&
-        compareLocations(location, s.end) < 0
-      ) {
-        // Found the next scope, trying to search recusevly in its children.
-        found.unshift(s);
-        searchInScopes = s.children;
-        return true;
-      }
-      return false;
-    });
-    if (!foundOne) {
-      break;
-    }
-  }
-  return found.map(i => {
-    return {
-      type: i.type,
-      displayName: i.displayName,
-      start: i.start,
-      end: i.end,
-      bindings: i.bindings
-    };
   });
 }
