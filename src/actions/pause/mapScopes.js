@@ -4,23 +4,23 @@
 
 // @flow
 
-import { getSource } from "../../../selectors";
-import { loadSourceText } from "../../sources/loadSourceText";
+import { getSource } from "../../selectors";
+import { loadSourceText } from "../sources/loadSourceText";
 import {
   getScopes,
   type SourceScope,
   type BindingData,
   type BindingLocation
-} from "../../../workers/parser";
-import type { RenderableScope } from "../../../utils/pause/scopes/getScope";
-import { PROMISE } from "../../utils/middleware/promise";
-import { locColumn } from "./utils";
+} from "../../workers/parser";
+import type { RenderableScope } from "../../utils/pause/scopes/getScope";
+import { PROMISE } from "../utils/middleware/promise";
+import { locColumn } from "../../utils/pause/mapScopes/locColumn";
 
 // eslint-disable-next-line max-len
-import { findGeneratedBindingFromPosition } from "./findGeneratedBindingFromPosition.js";
+import { findGeneratedBindingFromPosition } from "../../utils/pause/mapScopes/findGeneratedBindingFromPosition";
 
-import { features } from "../../../utils/prefs";
-import { log } from "../../../utils/log";
+import { features } from "../../utils/prefs";
+import { log } from "../../utils/log";
 import { isGeneratedId } from "devtools-source-map";
 import type {
   Frame,
@@ -28,9 +28,9 @@ import type {
   Source,
   BindingContents,
   ScopeBindings
-} from "../../../types";
+} from "../../types";
 
-import type { ThunkArgs } from "../../types";
+import type { ThunkArgs } from "../types";
 
 export type OriginalScope = RenderableScope;
 

@@ -4,10 +4,11 @@ import {
   type BindingLocation,
   type BindingType
 } from "../../../workers/parser";
-import { locColumn } from "./utils";
+import { locColumn } from "./locColumn";
 
 import type { Source, Location, BindingContents } from "../../../types";
-import type { GeneratedBindingLocation } from "./index";
+// eslint-disable-next-line max-len
+import type { GeneratedBindingLocation } from "../../../actions/pause/mapScopes";
 
 import { createObjectClient } from "../../../client/firefox";
 
