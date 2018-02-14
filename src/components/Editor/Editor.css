@@ -19,10 +19,10 @@
 
 .editor-wrapper .CodeMirror-linewidget {
   margin-right: -7px;
-  overflow: visible;
+  overflow: hidden;
 }
 
-.editor-wrapper .CodeMirror-sizer {
+.editor-wrapper {
   min-width: 0 !important;
 }
 

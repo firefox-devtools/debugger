@@ -157,11 +157,6 @@ export class ConditionalPanel extends PureComponent<Props> {
           onKeyDown={this.onKey}
           ref={input => (this.input = input)}
         />
-        <CloseButton
-          handleClick={this.props.closeConditionalPanel}
-          buttonClass="big"
-          tooltip={L10N.getStr("editor.conditionalPanel.close")}
-        />
       </div>,
       panel
     );
