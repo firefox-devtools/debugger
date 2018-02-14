@@ -1,4 +1,5 @@
 src/workers/parser/tests/fixtures/functionNames.js
+src/workers/parser/tests/fixtures/scopes/*.js
+src/test/mochitest/examples/babel/fixtures/*/input.js
 src/test/mochitest/examples/babel/fixtures/*/output.js
 src/test/mochitest/examples/babel/fixtures/*/output.js.map
-src/workers/parser/tests/fixtures/scopes/*.js

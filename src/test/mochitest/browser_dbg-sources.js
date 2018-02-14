@@ -42,14 +42,17 @@ add_task(async function() {
   await waitForSelectedSource(dbg);
 
   // Ensure the source file clicked is now focused
-  await waitForElementWithSelector(dbg, ".sources-list .focused")
+  await waitForElementWithSelector(dbg, ".sources-list .focused");
 
-  const focusedNode = findElementWithSelector(dbg, ".sources-list .focused")
+  const focusedNode = findElementWithSelector(dbg, ".sources-list .focused");
   const fourthNode = findElement(dbg, "sourceNode", 4);
   const selectedSource = getSelectedSource(getState()).get("url");
 
   ok(fourthNode.classList.contains("focused"), "4th node is focused");
-  ok(selectedSource.includes("nested-source.js"), "The right source is selected");
+  ok(
+    selectedSource.includes("nested-source.js"),
+    "The right source is selected"
+  );
 
   // Make sure new sources appear in the list.
   ContentTask.spawn(gBrowser.selectedBrowser, null, function() {

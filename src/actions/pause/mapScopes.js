@@ -14,6 +14,10 @@ import {
 } from "../../workers/parser";
 import type { RenderableScope } from "../../utils/pause/scopes/getScope";
 import { PROMISE } from "../utils/middleware/promise";
+import { locColumn } from "../../utils/pause/mapScopes/locColumn";
+
+// eslint-disable-next-line max-len
+import { findGeneratedBindingFromPosition } from "../../utils/pause/mapScopes/findGeneratedBindingFromPosition";
 
 import { features } from "../../utils/prefs";
 import { log } from "../../utils/log";
@@ -29,6 +33,12 @@ import type {
 import type { ThunkArgs } from "../types";
 
 export type OriginalScope = RenderableScope;
+
+export type GeneratedBindingLocation = {
+  name: string,
+  loc: BindingLocation,
+  desc: BindingContents | null
+};
 
 export function mapScopes(scopes: Promise<Scope>, frame: Frame) {
   return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
@@ -60,7 +70,8 @@ export function mapScopes(scopes: Promise<Scope>, frame: Frame) {
             sourceRecord.toJS(),
             frame,
             await scopes,
-            sourceMaps
+            sourceMaps,
+            client
           );
         } catch (e) {
           log(e);
@@ -75,7 +86,8 @@ async function buildMappedScopes(
   source: Source,
   frame: Frame,
   scopes: Scope,
-  sourceMaps: any
+  sourceMaps: any,
+  client: any
 ): Promise<?OriginalScope> {
   const originalAstScopes = await getScopes(frame.location);
   const generatedAstScopes = await getScopes(frame.generatedLocation);
@@ -100,6 +112,7 @@ async function buildMappedScopes(
 
           const result = await findGeneratedBinding(
             sourceMaps,
+            client,
             source,
             name,
             binding,
@@ -193,6 +206,7 @@ function generateClientScope(
 
 async function findGeneratedBinding(
   sourceMaps: any,
+  client: any,
   source: Source,
   name: string,
   originalBinding: BindingData,
@@ -218,31 +232,15 @@ async function findGeneratedBinding(
         return result;
       }
 
-      const gen = await sourceMaps.getGeneratedLocation(pos.start, source);
-      const genEnd = await sourceMaps.getGeneratedLocation(pos.end, source);
-
-      // Since the map takes the closest location, sometimes mapping a
-      // binding's location can point at the start of a binding listed after
-      // it, so we need to make sure it maps to a location that actually has
-      // a size in order to avoid picking up the wrong descriptor.
-      if (gen.line === genEnd.line && gen.column === genEnd.column) {
-        return null;
-      }
-
-      return generatedAstBindings.find(val => {
-        if (val.loc.start.line !== gen.line) {
-          return false;
-        }
-
-        // Allow the mapping to point anywhere within the generated binding
-        // location to allow for less than perfect sourcemaps. Since you also
-        // need at least one character between identifiers, we also give one
-        // characters of space at the front the generated binding in order
-        // to increase the probability of finding the right mapping.
-        const start = val.loc.start.column - 1;
-        const end = val.loc.end.column;
-        return gen.column >= start && gen.column <= end;
-      });
+      return await findGeneratedBindingFromPosition(
+        sourceMaps,
+        client,
+        source,
+        pos,
+        name,
+        originalBinding.type,
+        generatedAstBindings
+      );
     }, null);
 
   if (genContent && genContent.desc) {
@@ -290,12 +288,6 @@ async function findGeneratedBinding(
     }
   };
 }
-
-type GeneratedBindingLocation = {
-  name: string,
-  loc: BindingLocation,
-  desc: BindingContents | null
-};
 
 function buildGeneratedBindingList(
   scopes: Scope,
@@ -361,16 +353,7 @@ function buildGeneratedBindingList(
       const bStart = a.loc.start;
 
       if (aStart.line === bStart.line) {
-        if (
-          typeof aStart.column !== "number" ||
-          typeof bStart.column !== "number"
-        ) {
-          // This shouldn't really happen with locations from the AST, but
-          // the datatype we are using allows null/undefined column.
-          return 0;
-        }
-
-        return aStart.column - bStart.column;
+        return locColumn(aStart) - locColumn(bStart);
       }
       return aStart.line - bStart.line;
     });

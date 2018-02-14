@@ -23,6 +23,14 @@ add_task(async function() {
   const popupPreviewed = waitForDispatch(dbg, "SET_PREVIEW");
   hoverAtPos(dbg, { line: 2, ch: 10 });
   await popupPreviewed;
-  await assertPreviewPopup(dbg, { field: "foo", value: "1", expression: "obj" });
-  await assertPreviewPopup(dbg, { field: "bar", value: "2", expression: "obj" });
+  await assertPreviewPopup(dbg, {
+    field: "foo",
+    value: "1",
+    expression: "obj"
+  });
+  await assertPreviewPopup(dbg, {
+    field: "bar",
+    value: "2",
+    expression: "obj"
+  });
 });
