@@ -358,7 +358,7 @@ export function createParseJSScopeVisitor(
 
         const scope = createTempScope(
           "function",
-          getFunctionName(path),
+          getFunctionName(path.node, path.parentPath.node),
           parent,
           {
             // Being at the start of a function doesn't count as

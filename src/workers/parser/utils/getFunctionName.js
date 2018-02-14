@@ -4,14 +4,12 @@
 
 // @flow
 import * as t from "@babel/types";
-import type { NodePath } from "@babel/traverse";
+import type { Node } from "@babel/traverse";
 
 // Perform ES6's anonymous function name inference for all
 // locations where static analysis is possible.
 // eslint-disable-next-line complexity
-export default function getFunctionName(path: NodePath): string {
-  const { node, parentPath: { node: parent } } = path;
-
+export default function getFunctionName(node: Node, parent: Node): string {
   if (t.isIdentifier(node.id)) {
     return node.id.name;
   }
