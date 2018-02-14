@@ -111,10 +111,6 @@ html .arrow.expanded svg {
   vertical-align: sub;
 }
 
-.theme-dark .webpack {
-  opacity: 0.5;
-}
-
 .function svg {
   height: 10px;
   width: 15px;
@@ -132,10 +128,16 @@ html .arrow.expanded svg {
   vertical-align: sub;
 }
 
-.source-icon svg {
-  fill: var(--theme-body-color);
+.angular,
+.webpack {
+  opacity: 0.8;
 }
 
-.theme-dark .angular {
+.theme-dark .angular,
+.theme-dark .webpack {
   opacity: 0.5;
+}
+
+.source-icon svg {
+  fill: var(--theme-comment);
 }
