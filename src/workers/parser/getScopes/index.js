@@ -4,14 +4,14 @@
 
 // @flow
 
-import { traverseAst } from "./utils/ast";
+import { traverseAst } from "../utils/ast";
 import {
   createParseJSScopeVisitor,
   findScopes,
   type SourceScope
 } from "./visitor";
 
-import type { Location } from "../../types";
+import type { Location } from "../../../types";
 
 let parsedScopesCache = new Map();
 
