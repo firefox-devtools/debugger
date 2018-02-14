@@ -42,7 +42,10 @@ function FrameLocation({ frame }: FrameLocationProps) {
 
   const filename = getFilename(frame.source);
   return (
-    <div className="location">{`${filename}: ${frame.location.line}`}</div>
+    <div className="location" title={`${filename}:${frame.location.line}`}>
+      <span className="fileName">{filename}: </span>
+      <span className="lineNumber">{frame.location.line}</span>
+    </div>
   );
 }
 
@@ -103,7 +106,6 @@ export default class FrameComponent extends Component<FrameComponentProps> {
     }
     this.props.selectFrame(frame);
   }
-
   render() {
     const {
       frame,
