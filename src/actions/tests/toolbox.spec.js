@@ -1,29 +1,16 @@
 import { actions, createStore } from "../../utils/test-head";
+const threadClient = {
+  evaluate: jest.fn()
+};
 
 describe("toolbox", () => {
   describe("evaluate in console", () => {
     it("variable", () => {
-      const test = "meBeTest";
-      const threadClient = {
-        evaluate: jest.fn()
-      };
       const { dispatch } = createStore(threadClient);
-      dispatch(actions.evaluateInConsole(test));
-      expect(threadClient.evaluate).toHaveBeenCalledWith(
-        "meBeTest.toString()",
-        { frameId: undefined }
-      );
-    });
+      dispatch(actions.evaluateInConsole("foo"));
 
-    it("function", () => {
-      function testFunction() {}
-      const threadClient = {
-        evaluate: jest.fn()
-      };
-      const { dispatch } = createStore(threadClient);
-      dispatch(actions.evaluateInConsole(testFunction));
-      expect(threadClient.evaluate).toHaveBeenCalledWith(
-        "function testFunction() {}.toString()",
+      expect(threadClient.evaluate).toBeCalledWith(
+        'console.log("foo"); console.log(foo)',
         { frameId: undefined }
       );
     });
