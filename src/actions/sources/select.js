@@ -111,28 +111,38 @@ export function selectLocation(location: Location, tabIndex: string = "") {
 
     dispatch(addTab(source.toJS(), 0));
 
-    dispatch({
-      type: "SELECT_SOURCE",
-      source: source.toJS(),
-      tabIndex,
-      location
-    });
-
     await dispatch(loadSourceText(source));
-    const selectedSource = getSelectedSource(getState());
+
+    console.log('source text should be loaded!', source.get("text"));
+
+    const selectedSource = getSelectedSource(getState()) || source;
     if (!selectedSource) {
       return;
     }
 
     const sourceId = selectedSource.get("id");
+
+    console.log('--------- ', source, selectedSource);
+    console.log('prefs.autoPrettyPrint: ', prefs.autoPrettyPrint);
+    console.log('!getPrettySource(getState(), sourceId): ', !getPrettySource(getState(), sourceId))
+    console.log('shouldPrettyPrint(selectedSource)', shouldPrettyPrint(selectedSource));
+    console.log('isMinified(selectedSource)', isMinified(selectedSource))
+
     if (
       prefs.autoPrettyPrint &&
       !getPrettySource(getState(), sourceId) &&
-      shouldPrettyPrint(selectedSource) &&
-      isMinified(selectedSource)
+      shouldPrettyPrint(selectedSource) /*&&
+      isMinified(selectedSource)*/
     ) {
       await dispatch(togglePrettyPrint(sourceId));
       dispatch(closeTab(source.get("url")));
+    } else {
+      dispatch({
+        type: "SELECT_SOURCE",
+        source: source.toJS(),
+        tabIndex,
+        location
+      });
     }
 
     dispatch(setSymbols(sourceId));

@@ -44,12 +44,20 @@ function trimUrlQuery(url: string): string {
 
 export function shouldPrettyPrint(source: SourceRecord) {
   if (!source) {
+    console.log("shouldPrettyPrint: return false, no source", source);
     return false;
   }
+
   const _isPretty = isPretty(source);
   const _isJavaScript = isJavaScript(source);
   const isOriginal = isOriginalId(source.get("id"));
   const hasSourceMap = source.get("sourceMapURL");
+
+  console.log("        shouldPrettyPrint: _isPretty: ", _isPretty);
+  console.log("        shouldPrettyPrint: _isJavaScript: ", _isJavaScript);
+  console.log("        shouldPrettyPrint: isOriginal: ", isOriginal);
+  console.log("        shouldPrettyPrint: hasSourceMap: ", hasSourceMap);
+  console.log("        shouldPrettyPrint: _isPretty || isOriginal || hasSourceMap || !_isJavaScript: ", _isPretty || isOriginal || hasSourceMap || !_isJavaScript);
 
   if (_isPretty || isOriginal || hasSourceMap || !_isJavaScript) {
     return false;
