@@ -6,7 +6,6 @@
 import React, { PureComponent } from "react";
 import ReactDOM from "react-dom";
 import { connect } from "react-redux";
-import CloseButton from "../shared/Button/Close";
 import "./ConditionalPanel.css";
 import { toEditorLine } from "../../utils/editor";
 import actions from "../../actions";
@@ -156,11 +155,6 @@ export class ConditionalPanel extends PureComponent<Props> {
           placeholder={L10N.getStr("editor.conditionalPanel.placeholder")}
           onKeyDown={this.onKey}
           ref={input => (this.input = input)}
-        />
-        <CloseButton
-          handleClick={this.props.closeConditionalPanel}
-          buttonClass="big"
-          tooltip={L10N.getStr("editor.conditionalPanel.close")}
         />
       </div>,
       panel
