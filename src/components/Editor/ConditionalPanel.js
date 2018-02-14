@@ -6,7 +6,6 @@
 import React, { PureComponent } from "react";
 import ReactDOM from "react-dom";
 import { connect } from "react-redux";
-import CloseButton from "../shared/Button/Close";
 import "./ConditionalPanel.css";
 import { toEditorLine } from "../../utils/editor";
 import actions from "../../actions";
