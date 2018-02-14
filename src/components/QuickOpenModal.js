@@ -364,6 +364,8 @@ export class QuickOpenModal extends Component<Props, State> {
     return !this.getResultCount() && !!query;
   }
 
+  hasPrefix = () => /^[:#@]/.test(this.props.query);
+
   render() {
     const { enabled, query } = this.props;
     const { selectedIndex, results } = this.state;
@@ -391,6 +393,7 @@ export class QuickOpenModal extends Component<Props, State> {
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}
           handleClose={this.closeModal}
+          hasPrefix={this.hasPrefix()}
           expanded={expanded}
           selectedItemId={expanded ? items[selectedIndex].id : ""}
         />

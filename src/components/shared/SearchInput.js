@@ -12,11 +12,11 @@ import "./SearchInput.css";
 
 const arrowBtn = (onClick, type, className, tooltip) => {
   const props = {
-    onClick,
-    type,
     className,
+    key: type,
+    onClick,
     title: tooltip,
-    key: type
+    type
   };
 
   return (
@@ -27,21 +27,22 @@ const arrowBtn = (onClick, type, className, tooltip) => {
 };
 
 type Props = {
-  query: string,
   count: number,
-  placeholder: string,
-  size: string,
-  showErrorEmoji: boolean,
   expanded: boolean,
-  selectedItemId?: string,
-  onChange: (e: SyntheticInputEvent<HTMLInputElement>) => void,
   handleClose: (e: SyntheticMouseEvent<HTMLDivElement>) => void,
-  onKeyUp?: (e: SyntheticKeyboardEvent<HTMLInputElement>) => void,
-  onKeyDown: (e: SyntheticKeyboardEvent<HTMLInputElement>) => void,
-  onFocus?: (e: SyntheticFocusEvent<HTMLInputElement>) => void,
-  onBlur?: (e: SyntheticFocusEvent<HTMLInputElement>) => void,
   handleNext?: (e: SyntheticMouseEvent<HTMLButtonElement>) => void,
-  handlePrev?: (e: SyntheticMouseEvent<HTMLButtonElement>) => void
+  handlePrev?: (e: SyntheticMouseEvent<HTMLButtonElement>) => void,
+  hasPrefix?: boolean,
+  onBlur?: (e: SyntheticFocusEvent<HTMLInputElement>) => void,
+  onChange: (e: SyntheticInputEvent<HTMLInputElement>) => void,
+  onFocus?: (e: SyntheticFocusEvent<HTMLInputElement>) => void,
+  onKeyDown: (e: SyntheticKeyboardEvent<HTMLInputElement>) => void,
+  onKeyUp?: (e: SyntheticKeyboardEvent<HTMLInputElement>) => void,
+  placeholder: string,
+  query: string,
+  selectedItemId?: string,
+  showErrorEmoji: boolean,
+  size: string
 };
 
 class SearchInput extends Component<Props> {
@@ -49,28 +50,30 @@ class SearchInput extends Component<Props> {
   $input: ?HTMLInputElement;
 
   static defaultProps = {
-    size: "",
     expanded: false,
-    selectedItemId: ""
+    hasPrefix: false,
+    selectedItemId: "",
+    size: ""
   };
 
   componentDidMount() {
     if (this.$input) {
       const input = this.$input;
       input.focus();
-      if (input.value != "") {
-        input.select();
+
+      if (!input.value) {
+        return;
       }
+
+      // omit prefix @:# from being selected
+      const selectStartPos = this.props.hasPrefix ? 1 : 0;
+      input.setSelectionRange(selectStartPos, input.value.length + 1);
     }
   }
 
   renderSvg() {
-    const { showErrorEmoji } = this.props;
-    if (showErrorEmoji) {
-      return <Svg name="sad-face" />;
-    }
-
-    return <Svg name="magnifying-glass" />;
+    const svgName = this.props.showErrorEmoji ? "sad-face" : "magnifying-glass";
+    return <Svg name={svgName} />;
   }
 
   renderArrowButtons() {
@@ -105,18 +108,18 @@ class SearchInput extends Component<Props> {
 
   render() {
     const {
-      query,
-      placeholder,
+      expanded,
+      handleClose,
+      onBlur,
       onChange,
+      onFocus,
       onKeyDown,
       onKeyUp,
-      onFocus,
-      onBlur,
-      handleClose,
-      size,
-      expanded,
+      placeholder,
+      query,
       selectedItemId,
-      showErrorEmoji
+      showErrorEmoji,
+      size
     } = this.props;
 
     const inputProps = {
