@@ -59,6 +59,7 @@ type State = {
 };
 
 type Props = {
+  closeQuickOpen: () => void,
   sources: Object,
   query: string,
   results: List<Result>,
@@ -117,7 +118,7 @@ export class ProjectSearch extends Component<Props, State> {
   }
 
   toggleProjectTextSearch = (key: string, e: KeyboardEvent) => {
-    const { closeProjectSearch, setActiveSearch } = this.props;
+    const { closeProjectSearch, setActiveSearch, closeQuickOpen } = this.props;
     if (e) {
       e.preventDefault();
     }
@@ -125,6 +126,8 @@ export class ProjectSearch extends Component<Props, State> {
     if (this.isProjectSearchEnabled()) {
       return closeProjectSearch();
     }
+
+    closeQuickOpen();
     return setActiveSearch("project");
   };
 
