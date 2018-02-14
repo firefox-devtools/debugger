@@ -3,7 +3,6 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-import { endTruncateStr } from "./utils";
 import { isPretty, getSourcePath } from "./source";
 
 import type { Location as BabelLocation } from "@babel/traverse";
@@ -119,7 +118,7 @@ export function formatSources(sources: SourcesMap): Array<QuickOpenResult> {
       return {
         value: sourcePath,
         title: sourcePath.split("/").pop(),
-        subtitle: endTruncateStr(sourcePath, 100),
+        subtitle: sourcePath,
         id: source.get("id"),
         url: source.get("url")
       };
