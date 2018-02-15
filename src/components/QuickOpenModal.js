@@ -335,7 +335,6 @@ export class QuickOpenModal extends Component<Props, State> {
     if (newQuery === "") {
       return results;
     }
-    
     newQuery = query.replace(/[@:#?]/gi, " ");
 
     return results.map(result => {
