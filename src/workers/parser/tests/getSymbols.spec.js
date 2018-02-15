@@ -11,17 +11,21 @@ cases(
     const source = original
       ? getOriginalSource(file, type)
       : getSource(file, type);
-    expect(formatSymbols(source)).toMatchSnapshot();
+    expect(console.log(formatSymbols(source))).toMatchSnapshot();
   },
   [
     { name: "es6", file: "es6", original: true },
     { name: "func", file: "func", original: true },
-    { name: "function names", file: "functionNames", original: true },
+    {
+      name: "function names",
+      file: "functionNames",
+      original: true
+    },
     { name: "math", file: "math" },
     { name: "proto", file: "proto" },
     { name: "class", file: "class", original: true },
     { name: "var", file: "var" },
-    { name: "expression", file: "expression" },
+    { name: "expression", file: "expression", only: true },
     { name: "allSymbols", file: "allSymbols" },
     { name: "call sites", file: "call-sites" },
     {

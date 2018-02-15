@@ -291,10 +291,15 @@ function extendSnippet(
   const prevComputed = prevPath && prevPath.node.computed;
   const prevArray = t.isArrayExpression(prevPath);
   const array = t.isArrayExpression(path);
+  const value = path && path.node.property.value;
+
+  function buildValue(value) {
+    return typeof value == "number" ? `[${value}]` : `[\"${value}\"]`;
+  }
 
   if (expression === "") {
     if (computed) {
-      return `[${name}]`;
+      return f;
     }
     return name;
   }
@@ -317,7 +322,10 @@ function getMemberSnippet(node: Node, expression: string = "") {
   if (t.isMemberExpression(node)) {
     const name = node.property.name;
 
-    return getMemberSnippet(node.object, extendSnippet(name, expression));
+    return getMemberSnippet(
+      node.object,
+      extendSnippet(name, expression, { node })
+    );
   }
 
   if (t.isCallExpression(node)) {
