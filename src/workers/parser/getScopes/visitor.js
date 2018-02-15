@@ -98,7 +98,7 @@ type TempScope = {
 
 type ScopeCollectionVisitorState = {
   sourceId: SourceId,
-  parent: TempScope,
+  scope: TempScope,
   scopeStack: Array<TempScope>,
   isUnambiguousModule: boolean
 };
@@ -113,7 +113,7 @@ export function parseSourceScopes(sourceId: SourceId): ?Array<ParsedScope> {
 
   const state = {
     sourceId,
-    parent: lexical,
+    scope: lexical,
     scopeStack: [],
     isUnambiguousModule: false
   };
@@ -157,9 +157,9 @@ function pushTempScope(
   displayName: string,
   loc: BabelLocation
 ): TempScope {
-  const scope = createTempScope(type, displayName, state.parent, loc);
+  const scope = createTempScope(type, displayName, state.scope, loc);
 
-  state.parent = scope;
+  state.scope = scope;
   return scope;
 }
 
@@ -363,25 +363,23 @@ const scopeCollectionVisitor = {
     ancestors: TraversalAncestors,
     state: ScopeCollectionVisitorState
   ) {
-    state.scopeStack.push(state.parent);
+    state.scopeStack.push(state.scope);
 
     const parentNode =
       ancestors.length === 0 ? null : ancestors[ancestors.length - 1].node;
 
-    let parent = state.parent;
     if (t.isProgram(node)) {
-      parent = pushTempScope(state, "module", "Module", node.loc);
-      parent.names.this = {
+      const scope = pushTempScope(state, "module", "Module", node.loc);
+      scope.names.this = {
         type: "implicit",
         declarations: [],
         refs: []
       };
-      return;
-    }
-    if (t.isFunction(node)) {
+    } else if (t.isFunction(node)) {
+      let scope = state.scope;
       if (t.isFunctionExpression(node) && isNode(node.id, "Identifier")) {
-        parent = pushTempScope(state, "block", "Function Expression", node.loc);
-        parent.names[node.id.name] = {
+        scope = pushTempScope(state, "block", "Function Expression", node.loc);
+        scope.names[node.id.name] = {
           type: "const",
           declarations: [node.id.loc],
           refs: []
@@ -391,15 +389,15 @@ const scopeCollectionVisitor = {
       if (t.isFunctionDeclaration(node) && isNode(node.id, "Identifier")) {
         // This ignores Annex B function declaration hoisting, which
         // is probably a fine assumption.
-        const fnScope = getVarScope(parent);
-        parent.names[node.id.name] = {
-          type: fnScope === parent ? "var" : "let",
+        const fnScope = getVarScope(scope);
+        scope.names[node.id.name] = {
+          type: fnScope === scope ? "var" : "let",
           declarations: [node.id.loc],
           refs: []
         };
       }
 
-      const scope = pushTempScope(
+      scope = pushTempScope(
         state,
         "function",
         getFunctionName(node, parentNode),
@@ -425,13 +423,9 @@ const scopeCollectionVisitor = {
           refs: []
         };
       }
-
-      parent = scope;
-      return;
-    }
-    if (t.isClass(node)) {
+    } else if (t.isClass(node)) {
       if (t.isClassDeclaration(node) && t.isIdentifier(node.id)) {
-        parent.names[node.id.name] = {
+        state.scope.names[node.id.name] = {
           type: "let",
           declarations: [node.id.loc],
           refs: []
@@ -439,41 +433,35 @@ const scopeCollectionVisitor = {
       }
 
       if (t.isIdentifier(node.id)) {
-        parent = pushTempScope(state, "block", "Class", node.loc);
+        const scope = pushTempScope(state, "block", "Class", node.loc);
 
-        parent.names[node.id.name] = {
+        scope.names[node.id.name] = {
           type: "const",
           declarations: [node.id.loc],
           refs: []
         };
       }
-    }
-    if (t.isForXStatement(node) || t.isForStatement(node)) {
+    } else if (t.isForXStatement(node) || t.isForStatement(node)) {
       const init = node.init || node.left;
       if (isNode(init, "VariableDeclaration") && isLetOrConst(init)) {
         // Debugger will create new lexical environment for the for.
-        parent = pushTempScope(state, "block", "For", {
+        pushTempScope(state, "block", "For", {
           // Being at the start of a for loop doesn't count as
           // being inside it.
           start: init.loc.start,
           end: node.loc.end
         });
       }
-      return;
-    }
-    if (t.isCatchClause(node)) {
-      parent = pushTempScope(state, "block", "Catch", node.loc);
-      parseDeclarator(node.param, parent, "var");
-      return;
-    }
-    if (t.isBlockStatement(node)) {
-      if (hasLexicalDeclaration(node, parentNode)) {
-        // Debugger will create new lexical environment for the block.
-        parent = pushTempScope(state, "block", "Block", node.loc);
-      }
-      return;
-    }
-    if (
+    } else if (t.isCatchClause(node)) {
+      const scope = pushTempScope(state, "block", "Catch", node.loc);
+      parseDeclarator(node.param, scope, "var");
+    } else if (
+      t.isBlockStatement(node) &&
+      hasLexicalDeclaration(node, parentNode)
+    ) {
+      // Debugger will create new lexical environment for the block.
+      pushTempScope(state, "block", "Block", node.loc);
+    } else if (
       t.isVariableDeclaration(node) &&
       (node.kind === "var" ||
         // Lexical declarations in for statements are handled above.
@@ -481,17 +469,17 @@ const scopeCollectionVisitor = {
         !t.isForXStatement(parentNode, { left: node }))
     ) {
       // Finds right lexical environment
-      const hoistAt = !isLetOrConst(node) ? getVarScope(parent) : parent;
+      const hoistAt = !isLetOrConst(node)
+        ? getVarScope(state.scope)
+        : state.scope;
       node.declarations.forEach(declarator => {
         parseDeclarator(declarator.id, hoistAt, node.kind);
       });
-      return;
-    }
-    if (t.isImportDeclaration(node)) {
+    } else if (t.isImportDeclaration(node)) {
       state.isUnambiguousModule = true;
 
       node.specifiers.forEach(spec => {
-        parent.names[spec.local.name] = {
+        state.scope.names[spec.local.name] = {
           // Imported namespaces aren't live import bindings, they are
           // just normal const bindings.
           type: t.isImportNamespaceSpecifier(spec) ? "const" : "import",
@@ -499,58 +487,45 @@ const scopeCollectionVisitor = {
           refs: []
         };
       });
-      return;
-    }
-    if (t.isExportDeclaration(node)) {
+    } else if (t.isExportDeclaration(node)) {
       state.isUnambiguousModule = true;
-      return;
-    }
-
-    if (t.isIdentifier(node) && t.isReferenced(node, parentNode)) {
-      const scope = findIdentifierInScopes(parent, node.name);
-      if (scope) {
-        scope.names[node.name].refs.push({
+    } else if (t.isIdentifier(node) && t.isReferenced(node, parentNode)) {
+      const identScope = findIdentifierInScopes(state.scope, node.name);
+      if (identScope) {
+        identScope.names[node.name].refs.push({
           start: node.loc.start,
           end: node.loc.end,
           meta: buildMetaBindings(node, ancestors)
         });
       }
-      return;
-    }
-    if (t.isThisExpression(node)) {
-      const scope = findIdentifierInScopes(parent, "this");
-      if (scope) {
-        scope.names.this.refs.push({
+    } else if (t.isThisExpression(node)) {
+      const identScope = findIdentifierInScopes(state.scope, "this");
+      if (identScope) {
+        identScope.names.this.refs.push({
           start: node.loc.start,
           end: node.loc.end,
           meta: buildMetaBindings(node, ancestors)
         });
       }
-    }
-
-    if (t.isClassProperty(parentNode, { value: node })) {
-      parent = pushTempScope(state, "function", "Class Field", node.loc);
-      parent.names.this = {
+    } else if (t.isClassProperty(parentNode, { value: node })) {
+      const scope = pushTempScope(state, "function", "Class Field", node.loc);
+      scope.names.this = {
         type: "implicit",
         declarations: [],
         refs: []
       };
-      parent.names.arguments = {
+      scope.names.arguments = {
         type: "implicit",
         declarations: [],
         refs: []
       };
-      return;
-    }
-
-    if (
+    } else if (
       t.isSwitchStatement(node) &&
       node.cases.some(caseNode =>
         caseNode.consequent.some(child => isLexicalVariable(child))
       )
     ) {
-      parent = pushTempScope(state, "block", "Switch", node.loc);
-      return;
+      pushTempScope(state, "block", "Switch", node.loc);
     }
   },
   exit(
@@ -563,7 +538,7 @@ const scopeCollectionVisitor = {
       throw new Error("Assertion failure - unsynchronized pop");
     }
 
-    state.parent = scope;
+    state.scope = scope;
   }
 };
 
