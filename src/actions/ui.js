@@ -38,6 +38,8 @@ export function setActiveSearch(activeSearch?: ActiveSearchType) {
       return;
     }
 
+    dispatch({ type: "CLOSE_QUICK_OPEN" });
+
     dispatch({
       type: "TOGGLE_ACTIVE_SEARCH",
       value: activeSearch

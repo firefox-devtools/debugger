@@ -55,7 +55,6 @@ type State = {
 };
 
 type Props = {
-  closeQuickOpen: () => void,
   editor?: SourceEditor,
   selectedSource?: SourceRecord,
   searchOn?: boolean,
@@ -149,10 +148,9 @@ class SearchBar extends Component<Props, State> {
   toggleSearch = (e: SyntheticKeyboardEvent<HTMLElement>) => {
     e.stopPropagation();
     e.preventDefault();
-    const { editor, closeQuickOpen, searchOn, setActiveSearch } = this.props;
+    const { editor, searchOn, setActiveSearch } = this.props;
 
     if (!searchOn) {
-      closeQuickOpen();
       setActiveSearch("file");
     }
 
