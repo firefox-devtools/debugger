@@ -101,13 +101,17 @@ export function traverseAst(sourceId: string, visitor: Visitor) {
   return ast;
 }
 
-export function fastTraverseAst(sourceId: string, visitor: Visitor) {
+export function fastTraverseAst<T>(
+  sourceId: string,
+  visitor: Visitor,
+  state?: T
+) {
   const ast = getAst(sourceId);
   if (isEmpty(ast)) {
     return null;
   }
 
-  t.traverse(ast, visitor);
+  t.traverse(ast, visitor, state);
   // t.fastTraverse(ast, visitor);
   return ast;
 }

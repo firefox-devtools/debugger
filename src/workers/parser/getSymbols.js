@@ -150,7 +150,7 @@ function extractSymbol(path, symbols) {
 
   if (isFunction(path)) {
     symbols.functions.push({
-      name: getFunctionName(path),
+      name: getFunctionName(path.node, path.parentPath.node),
       klass: inferClassName(path),
       location: path.node.loc,
       parameterNames: getFunctionParameterNames(path),
