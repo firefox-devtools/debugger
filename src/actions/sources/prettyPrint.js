@@ -50,7 +50,6 @@ export function createPrettySource(sourceId: string) {
     setSource(loadedPrettySource);
 
     dispatch({ type: "UPDATE_SOURCE", source: loadedPrettySource });
-    //dispatch({ type: "SELECT_SOURCE", source: loadedPrettySource /*, location: */ });
 
     return prettySource;
   };

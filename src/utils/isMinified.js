@@ -14,14 +14,11 @@ const _minifiedCache = new Map();
 
 export function isMinified(source: SourceRecord) {
   if (_minifiedCache.has(source.get("id"))) {
-    console.log('isMinified: returning _minifiedCache: ', _minifiedCache.get(source.get("id")));
-
     return _minifiedCache.get(source.get("id"));
   }
 
   let text = source.get("text");
   if (!text) {
-    console.log('isMinified: no text, returning false: ', source.get("text"), source, source.get("url"));
     return false;
   }
 
