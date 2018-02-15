@@ -21160,7 +21160,78 @@
       "../../lodash/isError.js": 2340,
       "../../lodash/isWeakMap.js": 2341,
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/reducers/replay.js": 2342,
-      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/replay.js": 2343
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/replay.js": 2343,
+      "../../@babel/traverse/lib/path/index.js": 2344,
+      "../../@babel/traverse/lib/index.js": 2345,
+      "../../@babel/traverse/lib/cache.js": 2346,
+      "../../@babel/generator/lib/generators/types.js": 2347,
+      "../../@babel/template/lib/options.js": 2348,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/mapScopes/locColumn.js": 2349,
+      "../../@babel/traverse/lib/path/lib/virtual-types.js": 2350,
+      "../../@babel/traverse/lib/scope/index.js": 2351,
+      "../../@babel/traverse/lib/scope/binding.js": 2352,
+      "../../@babel/generator/lib/node/index.js": 2353,
+      "../../@babel/generator/lib/generators/modules.js": 2354,
+      "../../color-convert/conversions.js": 2355,
+      "../../@babel/template/lib/parse.js": 2356,
+      "../../@babel/template/lib/populate.js": 2357,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/mapScopes/findGeneratedBindingFromPosition.js": 2358,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/log.js": 2359,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/editor/get-expression.js": 2360,
+      "../../@babel/traverse/lib/context.js": 2361,
+      "../../@babel/traverse/node_modules/debug/src/browser.js": 2362,
+      "../../@babel/traverse/node_modules/debug/src/debug.js": 2363,
+      "../../@babel/traverse/lib/scope/lib/renamer.js": 2364,
+      "../../@babel/generator/lib/index.js": 2365,
+      "../../@babel/generator/lib/source-map.js": 2366,
+      "../../@babel/generator/lib/printer.js": 2367,
+      "../../@babel/generator/lib/buffer.js": 2368,
+      "../../@babel/generator/lib/node/whitespace.js": 2369,
+      "../../@babel/generator/lib/node/parentheses.js": 2370,
+      "../../@babel/generator/lib/generators/index.js": 2371,
+      "../../@babel/generator/lib/generators/template-literals.js": 2372,
+      "../../@babel/generator/lib/generators/expressions.js": 2373,
+      "../../@babel/generator/lib/generators/statements.js": 2374,
+      "../../@babel/generator/lib/generators/classes.js": 2375,
+      "../../@babel/generator/lib/generators/methods.js": 2376,
+      "../../jsesc/jsesc.js": 2377,
+      "../../@babel/generator/lib/generators/flow.js": 2378,
+      "../../@babel/generator/lib/generators/base.js": 2379,
+      "../../@babel/generator/lib/generators/jsx.js": 2380,
+      "../../@babel/generator/lib/generators/typescript.js": 2381,
+      "../../@babel/traverse/lib/path/ancestry.js": 2382,
+      "../../@babel/traverse/lib/path/inference/index.js": 2383,
+      "../../@babel/traverse/lib/path/inference/inferers.js": 2384,
+      "../../@babel/traverse/lib/path/inference/inferer-reference.js": 2385,
+      "../../@babel/traverse/lib/path/replacement.js": 2386,
+      "../../@babel/traverse/node_modules/@babel/code-frame/lib/index.js": 2387,
+      "../../color-convert/index.js": 2388,
+      "../../color-name/index.js": 2389,
+      "../../color-convert/route.js": 2390,
+      "../../chalk/node_modules/supports-color/browser.js": 2391,
+      "../../chalk/templates.js": 2392,
+      "../../@babel/traverse/lib/path/evaluation.js": 2393,
+      "../../@babel/traverse/lib/path/conversion.js": 2394,
+      "../../@babel/helper-function-name/lib/index.js": 2395,
+      "../../@babel/helper-get-function-arity/lib/index.js": 2396,
+      "../../@babel/template/lib/index.js": 2397,
+      "../../@babel/template/lib/formatters.js": 2398,
+      "../../@babel/template/lib/builder.js": 2399,
+      "../../@babel/template/lib/string.js": 2400,
+      "../../@babel/template/node_modules/@babel/code-frame/lib/index.js": 2401,
+      "../../@babel/template/lib/literal.js": 2402,
+      "../../@babel/traverse/lib/path/introspection.js": 2403,
+      "../../@babel/traverse/lib/path/context.js": 2404,
+      "../../@babel/traverse/lib/path/removal.js": 2405,
+      "../../@babel/traverse/lib/path/lib/removal-hooks.js": 2406,
+      "../../@babel/traverse/lib/path/modification.js": 2407,
+      "../../@babel/traverse/lib/path/lib/hoister.js": 2408,
+      "../../@babel/traverse/lib/path/family.js": 2409,
+      "../../@babel/traverse/lib/path/comments.js": 2410,
+      "../../@babel/traverse/lib/visitors.js": 2411,
+      "../../@babel/traverse/lib/hub.js": 2412,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/workers/parser/getScopes/index.js": 2413,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/workers/parser/getScopes/visitor.js": 2414
     },
     "usedIds": {
       "0": 0,
@@ -23506,7 +23577,78 @@
       "2340": 2340,
       "2341": 2341,
       "2342": 2342,
-      "2343": 2343
+      "2343": 2343,
+      "2344": 2344,
+      "2345": 2345,
+      "2346": 2346,
+      "2347": 2347,
+      "2348": 2348,
+      "2349": 2349,
+      "2350": 2350,
+      "2351": 2351,
+      "2352": 2352,
+      "2353": 2353,
+      "2354": 2354,
+      "2355": 2355,
+      "2356": 2356,
+      "2357": 2357,
+      "2358": 2358,
+      "2359": 2359,
+      "2360": 2360,
+      "2361": 2361,
+      "2362": 2362,
+      "2363": 2363,
+      "2364": 2364,
+      "2365": 2365,
+      "2366": 2366,
+      "2367": 2367,
+      "2368": 2368,
+      "2369": 2369,
+      "2370": 2370,
+      "2371": 2371,
+      "2372": 2372,
+      "2373": 2373,
+      "2374": 2374,
+      "2375": 2375,
+      "2376": 2376,
+      "2377": 2377,
+      "2378": 2378,
+      "2379": 2379,
+      "2380": 2380,
+      "2381": 2381,
+      "2382": 2382,
+      "2383": 2383,
+      "2384": 2384,
+      "2385": 2385,
+      "2386": 2386,
+      "2387": 2387,
+      "2388": 2388,
+      "2389": 2389,
+      "2390": 2390,
+      "2391": 2391,
+      "2392": 2392,
+      "2393": 2393,
+      "2394": 2394,
+      "2395": 2395,
+      "2396": 2396,
+      "2397": 2397,
+      "2398": 2398,
+      "2399": 2399,
+      "2400": 2400,
+      "2401": 2401,
+      "2402": 2402,
+      "2403": 2403,
+      "2404": 2404,
+      "2405": 2405,
+      "2406": 2406,
+      "2407": 2407,
+      "2408": 2408,
+      "2409": 2409,
+      "2410": 2410,
+      "2411": 2411,
+      "2412": 2412,
+      "2413": 2413,
+      "2414": 2414
     }
   },
   "chunks": {
@@ -26713,7 +26855,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -26734,7 +26876,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -26755,7 +26897,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -26776,7 +26918,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -26818,7 +26960,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -26839,7 +26981,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -26860,7 +27002,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -26881,7 +27023,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -26902,7 +27044,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -26923,7 +27065,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -26944,7 +27086,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -26965,7 +27107,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -26986,7 +27128,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -27007,7 +27149,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -27028,7 +27170,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -27049,7 +27191,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -27070,7 +27212,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -27091,7 +27233,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -27112,7 +27254,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -27133,7 +27275,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -27154,7 +27296,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -27175,7 +27317,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -27196,7 +27338,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -27217,7 +27359,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -27238,7 +27380,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -27259,7 +27401,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -27280,7 +27422,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -27301,7 +27443,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -27322,7 +27464,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -27343,7 +27485,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -27364,7 +27506,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -27385,7 +27527,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -27406,7 +27548,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -27427,7 +27569,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -27448,7 +27590,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -27469,7 +27611,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -27490,7 +27632,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -27511,7 +27653,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -27532,7 +27674,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -27553,7 +27695,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -27637,7 +27779,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -27658,7 +27800,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -27679,7 +27821,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -27700,7 +27842,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -27721,7 +27863,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -27742,7 +27884,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -27763,7 +27905,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -27784,7 +27926,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -27805,7 +27947,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -27826,7 +27968,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -27868,7 +28010,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -27889,7 +28031,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -27910,7 +28052,133 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Button/CommandBarButton.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/shared/Button/CommandBarButton.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/BreakpointsDropdown.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/BreakpointsDropdown.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../devtools-reps/node_modules/devtools-components/src/tree.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../devtools-reps/node_modules/devtools-components/src/tree.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/ProjectSearch.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/ProjectSearch.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../devtools-components/src/tree.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../devtools-components/src/tree.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
           "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/QuickOpenModal.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/QuickOpenModal.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
         }
       }
     }
