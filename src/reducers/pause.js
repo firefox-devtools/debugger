@@ -19,7 +19,6 @@ import type { OriginalScope } from "../actions/pause/mapScopes";
 import type { Action } from "../actions/types";
 import type { Why, Scope, SourceId, FrameId } from "../types";
 
-type Command = "StepIn" | "StepOver";
 export type PauseState = {
   why: ?Why,
   isWaitingOnBreak: boolean,
@@ -61,10 +60,7 @@ export const createPauseState = (): PauseState => ({
   shouldIgnoreCaughtExceptions: prefs.ignoreCaughtExceptions,
   canRewind: false,
   debuggeeUrl: "",
-  command: "",
-  pauseLocation: {
-    pauseLocation: {}
-  }
+  command: ""
 });
 
 const emptyPauseState = {
