@@ -296,7 +296,7 @@ function extendSnippet(
   if (expression === "") {
     if (computed) {
       if (name === undefined) {
-        return typeof value == "number" ? `[${value}]` : `[\"${value}\"]`;
+        return typeof value == "number" ? `[${value}]` : `["${value}"]`;
       }
       return `[${name}]`;
     }
@@ -310,7 +310,7 @@ function extendSnippet(
     if (name === undefined) {
       return typeof value == "number"
         ? `[${value}].${expression}`
-        : `[\"${value}\"].${expression}`;
+        : `["${value}"].${expression}`;
     }
     return `[${name}].${expression}`;
   }
