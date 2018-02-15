@@ -34,15 +34,6 @@ export function paused(pauseInfo: Pause) {
   return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
     const { frames, why, loadedObjects } = pauseInfo;
 
-    const location = isGeneratedId(visibleFrame.location.sourceId);
-    if (
-      isEqual(previousPauseLocation, pauseLocation) ||
-      (isOriginalFile() && parser.atBadLocation(pauseLcation))
-    ) {
-      dispatch(stepOver());
-      return;
-    }
-
     dispatch({
       type: "PAUSED",
       why,
@@ -65,10 +56,10 @@ export function paused(pauseInfo: Pause) {
 
     if (selectedFrame) {
       const visibleFrame = getVisibleSelectedFrame(getState());
-      // const location = isGeneratedId(visibleFrame.location.sourceId)
-      //   ? selectedFrame.generatedLocation
-      //   : selectedFrame.location;
-      await dispatch(selectLocation(selectedFrame.location));
+      const location = isGeneratedId(visibleFrame.location.sourceId)
+        ? selectedFrame.generatedLocation
+        : selectedFrame.location;
+      await dispatch(selectLocation(location));
     }
 
     dispatch(togglePaneCollapse("end", false));
