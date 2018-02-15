@@ -195,7 +195,7 @@ export function jumpToMappedLocation(location: Location) {
       );
     }
 
-    return dispatch(selectLocation({ ...pairedLocation }, null, true));
+    return dispatch(selectLocation({ ...pairedLocation }, "", true));
   };
 }
 
