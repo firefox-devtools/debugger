@@ -99,8 +99,8 @@ type TempScope = {
 type ScopeCollectionVisitorState = {
   sourceId: SourceId,
   parent: TempScope,
-  isUnambiguousModule: boolean,
-  savedParents: WeakMap<Node, TempScope>
+  scopeStack: Array<TempScope>,
+  isUnambiguousModule: boolean
 };
 
 export function parseSourceScopes(sourceId: SourceId): ?Array<ParsedScope> {
@@ -114,8 +114,8 @@ export function parseSourceScopes(sourceId: SourceId): ?Array<ParsedScope> {
   const state = {
     sourceId,
     parent: lexical,
-    isUnambiguousModule: false,
-    savedParents: new WeakMap()
+    scopeStack: [],
+    isUnambiguousModule: false
   };
   t.traverse(ast, scopeCollectionVisitor, state);
 
@@ -150,6 +150,17 @@ function createTempScope(
     parent.children.push(result);
   }
   return result;
+}
+function pushTempScope(
+  state: ScopeCollectionVisitorState,
+  type: "object" | "function" | "block" | "module",
+  displayName: string,
+  loc: BabelLocation
+): TempScope {
+  const scope = createTempScope(type, displayName, state.parent, loc);
+
+  state.parent = scope;
+  return scope;
 }
 
 function isNode(node?: Node, type: string): boolean {
@@ -352,18 +363,14 @@ const scopeCollectionVisitor = {
     ancestors: TraversalAncestors,
     state: ScopeCollectionVisitorState
   ) {
+    state.scopeStack.push(state.parent);
+
     const parentNode =
       ancestors.length === 0 ? null : ancestors[ancestors.length - 1].node;
 
     let parent = state.parent;
     if (t.isProgram(node)) {
-      state.savedParents.set(node, parent);
-      parent = state.parent = createTempScope(
-        "module",
-        "Module",
-        parent,
-        node.loc
-      );
+      parent = pushTempScope(state, "module", "Module", node.loc);
       parent.names.this = {
         type: "implicit",
         declarations: [],
@@ -372,15 +379,8 @@ const scopeCollectionVisitor = {
       return;
     }
     if (t.isFunction(node)) {
-      state.savedParents.set(node, parent);
-
       if (t.isFunctionExpression(node) && isNode(node.id, "Identifier")) {
-        parent = state.parent = createTempScope(
-          "block",
-          "Function Expression",
-          parent,
-          node.loc
-        );
+        parent = pushTempScope(state, "block", "Function Expression", node.loc);
         parent.names[node.id.name] = {
           type: "const",
           declarations: [node.id.loc],
@@ -399,17 +399,17 @@ const scopeCollectionVisitor = {
         };
       }
 
-      const scope = (state.parent = createTempScope(
+      const scope = pushTempScope(
+        state,
         "function",
         getFunctionName(node, parentNode),
-        parent,
         {
           // Being at the start of a function doesn't count as
           // being inside of it.
           start: node.params[0] ? node.params[0].loc.start : node.loc.start,
           end: node.loc.end
         }
-      ));
+      );
 
       node.params.forEach(param => parseDeclarator(param, scope, "var"));
 
@@ -439,13 +439,7 @@ const scopeCollectionVisitor = {
       }
 
       if (t.isIdentifier(node.id)) {
-        state.savedParents.set(node, parent);
-        parent = state.parent = createTempScope(
-          "block",
-          "Class",
-          parent,
-          node.loc
-        );
+        parent = pushTempScope(state, "block", "Class", node.loc);
 
         parent.names[node.id.name] = {
           type: "const",
@@ -458,8 +452,7 @@ const scopeCollectionVisitor = {
       const init = node.init || node.left;
       if (isNode(init, "VariableDeclaration") && isLetOrConst(init)) {
         // Debugger will create new lexical environment for the for.
-        state.savedParents.set(node, parent);
-        parent = state.parent = createTempScope("block", "For", parent, {
+        parent = pushTempScope(state, "block", "For", {
           // Being at the start of a for loop doesn't count as
           // being inside it.
           start: init.loc.start,
@@ -469,26 +462,14 @@ const scopeCollectionVisitor = {
       return;
     }
     if (t.isCatchClause(node)) {
-      state.savedParents.set(node, parent);
-      parent = state.parent = createTempScope(
-        "block",
-        "Catch",
-        parent,
-        node.loc
-      );
+      parent = pushTempScope(state, "block", "Catch", node.loc);
       parseDeclarator(node.param, parent, "var");
       return;
     }
     if (t.isBlockStatement(node)) {
       if (hasLexicalDeclaration(node, parentNode)) {
         // Debugger will create new lexical environment for the block.
-        state.savedParents.set(node, parent);
-        parent = state.parent = createTempScope(
-          "block",
-          "Block",
-          parent,
-          node.loc
-        );
+        parent = pushTempScope(state, "block", "Block", node.loc);
       }
       return;
     }
@@ -548,13 +529,7 @@ const scopeCollectionVisitor = {
     }
 
     if (t.isClassProperty(parentNode, { value: node })) {
-      state.savedParents.set(node, parent);
-      parent = state.parent = createTempScope(
-        "function",
-        "Class Field",
-        parent,
-        node.loc
-      );
+      parent = pushTempScope(state, "function", "Class Field", node.loc);
       parent.names.this = {
         type: "implicit",
         declarations: [],
@@ -574,13 +549,7 @@ const scopeCollectionVisitor = {
         caseNode.consequent.some(child => isLexicalVariable(child))
       )
     ) {
-      state.savedParents.set(node, parent);
-      parent = state.parent = createTempScope(
-        "block",
-        "Switch",
-        parent,
-        node.loc
-      );
+      parent = pushTempScope(state, "block", "Switch", node.loc);
       return;
     }
   },
@@ -589,11 +558,12 @@ const scopeCollectionVisitor = {
     ancestors: TraversalAncestors,
     state: ScopeCollectionVisitorState
   ) {
-    const savedParent = state.savedParents.get(node);
-    if (savedParent) {
-      state.parent = savedParent;
-      state.savedParents.delete(node);
+    const scope = state.scopeStack.pop();
+    if (!scope) {
+      throw new Error("Assertion failure - unsynchronized pop");
     }
+
+    state.parent = scope;
   }
 };
 
