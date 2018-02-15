@@ -380,7 +380,7 @@ callExpressions:
 memberExpressions:
 [(7, 35), (7, 42)] [(7, 31), (7, 42)] arr.entries entries
 [(8, 10), (8, 13)] [(8, 2), (8, 13)] console.log log
-[(16, 34), (16, 46)] [(16, 19), (16, 47)] prefsBlueprint.accessorName accessorName
+[(16, 34), (16, 46)] [(16, 19), (16, 47)] prefsBlueprint.[accessorName] accessorName
 
 objectProperties:
 [(1, 8), (1, 9)]  b b
@@ -487,7 +487,223 @@ imports:
 hasJsx: false"
 `;
 
-exports[`Parser.getSymbols expression 1`] = `undefined`;
+exports[`Parser.getSymbols expression 1`] = `
+"functions:
+[(12, 10), (12, 23)]   render() TodoView
+[(25, 0), (25, 28)]   params()
+[(26, 11), (26, 32)]   pars()
+
+variables:
+[(1, 6), (1, 27)]   obj
+[(1, 14), (1, 25)]   a
+[(1, 19), (1, 23)]   b
+[(2, 6), (2, 33)]   foo
+[(5, 6), (5, 49)]   com
+[(5, 14), (5, 39)]   a
+[(5, 21), (5, 27)]   b
+[(5, 29), (5, 37)]   d
+[(5, 41), (5, 47)]   b
+[(7, 6), (7, 46)]   firstAuthor
+[(8, 6), (8, 48)]   secondAuthor
+[(9, 6), (9, 74)]   firstActionDirector
+[(16, 12), (16, 25)]   a
+[(16, 17), (16, 23)]   b
+[(16, 27), (16, 31)]   b
+[(17, 8), (17, 21)]   a
+[(17, 13), (17, 19)]   b
+[(17, 23), (17, 27)]   b
+[(20, 6), (20, 32)]   res
+[(20, 15), (20, 19)]   a
+[(20, 25), (20, 29)]   b
+[(21, 6), (21, 30)]   res2
+[(21, 15), (21, 28)]   a
+[(21, 21), (21, 25)]   b
+[(22, 6), (22, 45)]   res3
+[(22, 15), (22, 28)]   a
+[(22, 21), (22, 25)]   b
+[(22, 30), (22, 43)]   b
+[(22, 36), (22, 40)]   c
+[(23, 6), (23, 45)]   res4
+[(23, 17), (23, 21)]   a
+[(23, 29), (23, 41)]   b
+[(25, 16), (25, 24)]
+[(25, 18), (25, 19)]   a
+[(25, 21), (25, 22)]   b
+[(26, 4), (26, 32)]   pars
+[(26, 20), (26, 28)]
+[(26, 22), (26, 23)]   a
+[(26, 25), (26, 26)]   b
+[(27, 6), (27, 43)]   evil
+
+callExpressions:
+
+
+memberExpressions:
+[(2, 19), (2, 33)] [(2, 12), (2, 33)] obj2.c.secondProperty secondProperty
+[(2, 17), (2, 18)] [(2, 12), (2, 18)] obj2.c c
+[(7, 40), (7, 46)] [(7, 20), (7, 46)] collection.books.[1].author author
+[(7, 37), (7, 38)] [(7, 20), (7, 39)] collection.books.[1]
+[(7, 31), (7, 36)] [(7, 20), (7, 36)] collection.books books
+[(8, 42), (8, 48)] [(8, 21), (8, 48)] collection.books.[ab].editor editor
+[(8, 38), (8, 40)] [(8, 21), (8, 41)] collection.books.[ab] ab
+[(8, 32), (8, 37)] [(8, 21), (8, 37)] collection.books books
+[(9, 66), (9, 74)] [(9, 28), (9, 74)] collection.genres.[\\"sci-fi\\"].movies.[0].director director
+[(9, 63), (9, 64)] [(9, 28), (9, 65)] collection.genres.[\\"sci-fi\\"].movies.[0]
+[(9, 56), (9, 62)] [(9, 28), (9, 62)] collection.genres.[\\"sci-fi\\"].movies movies
+[(9, 46), (9, 54)] [(9, 28), (9, 55)] collection.genres.[\\"sci-fi\\"]
+[(9, 39), (9, 45)] [(9, 28), (9, 45)] collection.genres genres
+[(11, 4), (11, 12)] [(11, 0), (11, 12)] app.TodoView TodoView
+[(11, 24), (11, 30)] [(11, 15), (11, 30)] Backbone.extend extend
+[(16, 4), (16, 7)] [(16, 0), (16, 7)] obj.foo foo
+[(23, 40), (23, 41)] [(23, 32), (23, 41)] a.b.c.v.d d
+[(23, 38), (23, 39)] [(23, 32), (23, 39)] a.b.c.v v
+[(23, 36), (23, 37)] [(23, 32), (23, 37)] a.b.c c
+[(23, 34), (23, 35)] [(23, 32), (23, 35)] a.b b
+[(27, 29), (27, 43)] [(27, 13), (27, 43)]  secondProperty
+[(27, 27), (27, 28)] [(27, 13), (27, 28)]  c
+[(27, 18), (27, 24)] [(27, 13), (27, 24)] obj2.doEvil doEvil
+
+objectProperties:
+[(1, 14), (1, 15)]  obj.a a
+[(1, 19), (1, 20)]  obj.a.b b
+[(5, 15), (5, 16)]  com[a] a
+[(5, 21), (5, 22)]  com[a].b b
+[(5, 30), (5, 31)]  com[a][d] d
+[(5, 42), (5, 43)]  com[b] b
+[(12, 2), (12, 8)]   render
+[(16, 12), (16, 13)]  obj.foo.a a
+[(16, 17), (16, 18)]  obj.foo.a.b b
+[(16, 27), (16, 28)]  obj.foo.b b
+[(17, 8), (17, 9)]  com.a a
+[(17, 13), (17, 14)]  com.a.b b
+[(17, 23), (17, 24)]  com.b b
+[(20, 15), (20, 16)]  res[0].a a
+[(20, 25), (20, 26)]  res[1].b b
+[(21, 15), (21, 16)]  res2.a a
+[(21, 21), (21, 22)]  res2.a[0].b b
+[(22, 15), (22, 16)]  res3.a a
+[(22, 21), (22, 22)]  res3.a[0].b b
+[(22, 30), (22, 31)]  res3.b b
+[(22, 36), (22, 37)]  res3.b[0].c c
+[(23, 17), (23, 18)]  res4[0].a a
+[(23, 29), (23, 30)]  res4[0].b b
+[(25, 18), (25, 19)]  a a
+[(25, 21), (25, 22)]  b b
+[(26, 22), (26, 23)]  a a
+[(26, 25), (26, 26)]  b b
+
+comments:
+[(1, 29), (1, 44)]
+[(2, 35), (2, 68)]
+[(4, 0), (4, 22)]
+[(5, 51), (5, 67)]
+[(15, 0), (15, 14)]
+[(16, 35), (16, 54)]
+[(17, 31), (17, 46)]
+[(19, 0), (19, 9)]
+[(20, 34), (20, 50)]
+[(21, 32), (21, 50)]
+[(22, 47), (22, 65)]
+[(23, 47), (23, 66)]
+[(25, 29), (25, 38)]
+[(27, 45), (27, 70)]
+
+identifiers:
+[(1, 6), (1, 27)]  obj obj
+[(1, 6), (1, 9)]  obj obj
+[(1, 14), (1, 15)]  a a
+[(1, 19), (1, 20)]  b b
+[(2, 6), (2, 33)]  foo foo
+[(2, 6), (2, 9)]  foo foo
+[(2, 12), (2, 16)]  obj2 obj2
+[(2, 17), (2, 18)]  c c
+[(2, 19), (2, 33)]  secondProperty secondProperty
+[(5, 6), (5, 49)]  com com
+[(5, 6), (5, 9)]  com com
+[(5, 15), (5, 16)]  a a
+[(5, 21), (5, 22)]  b b
+[(5, 30), (5, 31)]  d d
+[(5, 42), (5, 43)]  b b
+[(7, 6), (7, 46)]  firstAuthor firstAuthor
+[(7, 6), (7, 17)]  firstAuthor firstAuthor
+[(7, 20), (7, 30)]  collection collection
+[(7, 31), (7, 36)]  books books
+[(7, 40), (7, 46)]  author author
+[(8, 6), (8, 48)]  secondAuthor secondAuthor
+[(8, 6), (8, 18)]  secondAuthor secondAuthor
+[(8, 21), (8, 31)]  collection collection
+[(8, 32), (8, 37)]  books books
+[(8, 38), (8, 40)]  ab ab
+[(8, 42), (8, 48)]  editor editor
+[(9, 6), (9, 74)]  firstActionDirector firstActionDirector
+[(9, 6), (9, 25)]  firstActionDirector firstActionDirector
+[(9, 28), (9, 38)]  collection collection
+[(9, 39), (9, 45)]  genres genres
+[(9, 56), (9, 62)]  movies movies
+[(9, 66), (9, 74)]  director director
+[(11, 0), (11, 3)]  app app
+[(11, 4), (11, 12)]  TodoView TodoView
+[(11, 15), (11, 23)]  Backbone Backbone
+[(11, 24), (11, 30)]  extend extend
+[(12, 2), (12, 8)]  render render
+[(16, 0), (16, 3)]  obj obj
+[(16, 4), (16, 7)]  foo foo
+[(16, 12), (16, 13)]  a a
+[(16, 17), (16, 18)]  b b
+[(16, 27), (16, 28)]  b b
+[(17, 0), (17, 3)]  com com
+[(17, 8), (17, 9)]  a a
+[(17, 13), (17, 14)]  b b
+[(17, 23), (17, 24)]  b b
+[(20, 6), (20, 32)]  res res
+[(20, 6), (20, 9)]  res res
+[(20, 15), (20, 16)]  a a
+[(20, 25), (20, 26)]  b b
+[(21, 6), (21, 30)]  res2 res2
+[(21, 6), (21, 10)]  res2 res2
+[(21, 15), (21, 16)]  a a
+[(21, 21), (21, 22)]  b b
+[(22, 6), (22, 45)]  res3 res3
+[(22, 6), (22, 10)]  res3 res3
+[(22, 15), (22, 16)]  a a
+[(22, 21), (22, 22)]  b b
+[(22, 30), (22, 31)]  b b
+[(22, 36), (22, 37)]  c c
+[(23, 6), (23, 45)]  res4 res4
+[(23, 6), (23, 10)]  res4 res4
+[(23, 17), (23, 18)]  a a
+[(23, 29), (23, 30)]  b b
+[(23, 32), (23, 33)]  a a
+[(23, 34), (23, 35)]  b b
+[(23, 36), (23, 37)]  c c
+[(23, 38), (23, 39)]  v v
+[(23, 40), (23, 41)]  d d
+[(25, 9), (25, 15)]  params params
+[(25, 18), (25, 19)]  a a
+[(25, 18), (25, 19)]  a a
+[(25, 21), (25, 22)]  b b
+[(25, 21), (25, 22)]  b b
+[(26, 4), (26, 32)]  pars pars
+[(26, 4), (26, 8)]  pars pars
+[(26, 22), (26, 23)]  a a
+[(26, 22), (26, 23)]  a a
+[(26, 25), (26, 26)]  b b
+[(26, 25), (26, 26)]  b b
+[(27, 6), (27, 43)]  evil evil
+[(27, 6), (27, 10)]  evil evil
+[(27, 13), (27, 17)]  obj2 obj2
+[(27, 18), (27, 24)]  doEvil doEvil
+[(27, 27), (27, 28)]  c c
+[(27, 29), (27, 43)]  secondProperty secondProperty
+
+classes:
+
+
+imports:
+
+
+hasJsx: false"
+`;
 
 exports[`Parser.getSymbols finds symbols in an html file 1`] = `
 "functions:
@@ -510,8 +726,8 @@ callExpressions:
 [(37, 20), (37, 28)]   sayHello   Ryan
 
 memberExpressions:
-[(23, 18), (23, 29)] [(23, 10), (23, 29)] name.undefined.toUpperCase toUpperCase
-[(23, 15), (23, 16)] [(23, 10), (23, 17)] name.
+[(23, 18), (23, 29)] [(23, 10), (23, 29)] name.[0].toUpperCase toUpperCase
+[(23, 15), (23, 16)] [(23, 10), (23, 17)] name.[0]
 [(23, 39), (23, 48)] [(23, 34), (23, 48)] name.substring substring
 [(28, 4), (28, 8)] [(25, 19), (28, 8)]  join
 [(27, 4), (27, 7)] [(25, 19), (27, 7)]  map
@@ -654,7 +870,158 @@ imports:
 hasJsx: false"
 `;
 
-exports[`Parser.getSymbols function names 1`] = `undefined`;
+exports[`Parser.getSymbols function names 1`] = `
+"functions:
+[(4, 7), (4, 20)]   foo()
+[(5, 9), (5, 22)]   foo()
+[(6, 6), (6, 19)]   42()
+[(8, 2), (8, 10)]   foo()
+[(9, 2), (9, 12)]   foo()
+[(10, 2), (10, 9)]   42()
+[(13, 6), (13, 19)]   foo()
+[(14, 10), (14, 23)]   foo()
+[(16, 10), (16, 22)]   foo()
+[(17, 11), (17, 23)]   foo()
+[(18, 11), (18, 23)]   foo()
+[(20, 7), (20, 19)]   foo()
+[(21, 8), (21, 20)]   foo()
+[(22, 13), (22, 25)]   foo()
+[(24, 0), (24, 35)]   fn()
+[(24, 19), (24, 31)]   foo()
+[(25, 0), (25, 40)]   fn()
+[(25, 19), (25, 31)]   foo()
+[(26, 0), (26, 45)]   fn()
+[(26, 24), (26, 36)]   foo()
+[(29, 8), (29, 21)]   foo() Cls
+[(30, 10), (30, 23)]   foo() Cls
+[(31, 7), (31, 20)]   42() Cls
+[(33, 2), (33, 10)]   foo() Cls
+[(34, 2), (34, 12)]   foo() Cls
+[(35, 2), (35, 9)]   42() Cls
+[(38, 1), (38, 13)]   anonymous()
+[(40, 15), (40, 28)]   default()
+[(44, 0), (44, 27)]   a(first, second)
+[(45, 0), (45, 35)]   b(first = bla, second)
+[(46, 0), (46, 32)]   c(first = {}, second)
+[(47, 0), (47, 32)]   d(first = [], second)
+[(48, 0), (48, 40)]   e(first = defaultObj, second)
+[(49, 0), (49, 40)]   f(first = defaultArr, second)
+[(50, 0), (50, 34)]   g(first = null, second)
+
+variables:
+[(16, 4), (16, 22)]   foo
+[(17, 5), (17, 23)]   foo
+[(18, 5), (18, 23)]   foo
+[(21, 2), (21, 20)]   foo
+[(22, 2), (22, 25)]   foo
+[(24, 12), (24, 32)]
+[(25, 12), (25, 37)]
+[(25, 13), (25, 31)]   foo
+[(26, 12), (26, 42)]
+[(26, 13), (26, 36)]   foo
+[(42, 6), (42, 25)]   defaultObj
+[(42, 20), (42, 24)]   a
+[(43, 6), (43, 29)]   defaultArr
+[(44, 11), (44, 16)]   first
+[(44, 18), (44, 24)]   second
+[(45, 11), (45, 24)]
+[(45, 26), (45, 32)]   second
+[(46, 11), (46, 21)]
+[(46, 23), (46, 29)]   second
+[(47, 11), (47, 21)]
+[(47, 23), (47, 29)]   second
+[(48, 11), (48, 29)]
+[(48, 31), (48, 37)]   second
+[(49, 11), (49, 29)]
+[(49, 31), (49, 37)]   second
+[(50, 11), (50, 23)]
+[(50, 25), (50, 31)]   second
+
+callExpressions:
+
+
+memberExpressions:
+[(14, 4), (14, 7)] [(14, 0), (14, 7)] obj.foo foo
+
+objectProperties:
+[(4, 2), (4, 5)]   foo
+[(5, 2), (5, 7)]
+[(6, 2), (6, 4)]
+[(18, 5), (18, 8)]  foo foo
+[(21, 2), (21, 5)]  undefined.foo foo
+[(22, 2), (22, 5)]  undefined.bar bar
+[(25, 13), (25, 16)]   foo
+[(26, 13), (26, 16)]   bar
+[(42, 20), (42, 21)]  defaultObj.a a
+
+comments:
+[(1, 0), (1, 20)]
+
+identifiers:
+[(4, 2), (4, 5)]  foo foo
+[(8, 2), (8, 5)]  foo foo
+[(13, 0), (13, 3)]  foo foo
+[(14, 0), (14, 3)]  obj obj
+[(14, 4), (14, 7)]  foo foo
+[(16, 4), (16, 22)]  foo foo
+[(16, 4), (16, 7)]  foo foo
+[(17, 5), (17, 8)]  foo foo
+[(18, 4), (18, 29)]
+[(18, 5), (18, 8)]  foo foo
+[(18, 5), (18, 8)]  foo foo
+[(20, 1), (20, 4)]  foo foo
+[(21, 2), (21, 5)]  foo foo
+[(21, 2), (21, 5)]  foo foo
+[(22, 2), (22, 5)]  bar bar
+[(22, 7), (22, 10)]  foo foo
+[(24, 9), (24, 11)]  fn fn
+[(24, 13), (24, 16)]  foo foo
+[(25, 9), (25, 11)]  fn fn
+[(25, 13), (25, 16)]  foo foo
+[(25, 13), (25, 16)]  foo foo
+[(26, 9), (26, 11)]  fn fn
+[(26, 13), (26, 16)]  bar bar
+[(26, 18), (26, 21)]  foo foo
+[(28, 6), (28, 9)]  Cls Cls
+[(29, 2), (29, 5)]  foo foo
+[(33, 2), (33, 5)]  foo foo
+[(42, 6), (42, 25)]  defaultObj defaultObj
+[(42, 6), (42, 16)]  defaultObj defaultObj
+[(42, 20), (42, 21)]  a a
+[(43, 6), (43, 29)]  defaultArr defaultArr
+[(43, 6), (43, 16)]  defaultArr defaultArr
+[(44, 9), (44, 10)]  a a
+[(44, 11), (44, 16)]  first first
+[(44, 18), (44, 24)]  second second
+[(45, 9), (45, 10)]  b b
+[(45, 11), (45, 16)]  first first
+[(45, 26), (45, 32)]  second second
+[(46, 9), (46, 10)]  c c
+[(46, 11), (46, 16)]  first first
+[(46, 23), (46, 29)]  second second
+[(47, 9), (47, 10)]  d d
+[(47, 11), (47, 16)]  first first
+[(47, 23), (47, 29)]  second second
+[(48, 9), (48, 10)]  e e
+[(48, 11), (48, 16)]  first first
+[(48, 19), (48, 29)]  defaultObj defaultObj
+[(48, 31), (48, 37)]  second second
+[(49, 9), (49, 10)]  f f
+[(49, 11), (49, 16)]  first first
+[(49, 19), (49, 29)]  defaultArr defaultArr
+[(49, 31), (49, 37)]  second second
+[(50, 9), (50, 10)]  g g
+[(50, 11), (50, 16)]  first first
+[(50, 25), (50, 31)]  second second
+
+classes:
+[(28, 0), (36, 1)]   Cls
+
+imports:
+
+
+hasJsx: false"
+`;
 
 exports[`Parser.getSymbols jsx 1`] = `
 "functions:

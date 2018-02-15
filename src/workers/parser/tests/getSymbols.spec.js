@@ -7,11 +7,10 @@ import cases from "jest-in-case";
 cases(
   "Parser.getSymbols",
   ({ name, file, original, type }) => {
-    // console.log(formatSymbols(getSource(file, type)));
     const source = original
       ? getOriginalSource(file, type)
       : getSource(file, type);
-    expect(console.log(formatSymbols(source))).toMatchSnapshot();
+    expect(formatSymbols(source)).toMatchSnapshot();
   },
   [
     { name: "es6", file: "es6", original: true },
@@ -25,7 +24,7 @@ cases(
     { name: "proto", file: "proto" },
     { name: "class", file: "class", original: true },
     { name: "var", file: "var" },
-    { name: "expression", file: "expression", only: true },
+    { name: "expression", file: "expression" },
     { name: "allSymbols", file: "allSymbols" },
     { name: "call sites", file: "call-sites" },
     {
