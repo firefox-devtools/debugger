@@ -22,8 +22,7 @@ import {
   formatSymbols,
   formatSources,
   parseLineColumn,
-  formatShortcutResults,
-  MODIFIERS
+  formatShortcutResults
 } from "../utils/quick-open";
 import Modal from "./shared/Modal";
 import SearchInput from "./shared/SearchInput";
