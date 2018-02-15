@@ -52,7 +52,9 @@ async function writeReadme(target) {
   ];
   const sha = await getGitSha();
 
-  buffer.push(`Taken from upstream commit: ${sha}`, "");
+  buffer.push(`Version 17.0`, "");
+  buffer.push(`Comparison: https://github.com/devtools-html/debugger.html/compare/release-16...release-17`, "");
+
   const packagesVersions = await getInterestingPackagesVersions();
 
   buffer.push("Packages:");
