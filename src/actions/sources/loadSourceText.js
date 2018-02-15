@@ -46,20 +46,13 @@ export function loadSourceText(source: SourceRecord) {
 
     // Fetch the source text only once.
     if (isLoaded(source)) {
-        console.log('loadSourceText:  source is already loaded!');
       return Promise.resolve(source);
-    }
-    else {
-      console.log('loadSourceText:  source not loadeded, continuing!');
     }
 
     const id = source.get("id");
     if (isLoading(source) || requests.has(id)) {
-      console.log('loadSourceText: isLoading(source) || requests.has(id) is true! Returning: ', requests.get(id))
       return requests.get(id);
     }
-
-    debugger;
 
     requests.set(id, deferred.promise);
     try {
