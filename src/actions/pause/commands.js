@@ -164,7 +164,7 @@ function hasAwait(source, pauseLocation) {
 
   return source.text
     .split("\n")
-    [line - 1].slice(column, column + 200)
+    [line - 1].slice(column - 200, column + 200)
     .match(/(yield|await)/);
 }
 

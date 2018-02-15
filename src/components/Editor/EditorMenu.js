@@ -34,6 +34,7 @@ function getMenuItems(
   {
     addExpression,
     editor,
+    evaluateInConsole,
     flashLineRange,
     getFunctionLocation,
     getFunctionText,
@@ -62,7 +63,7 @@ function getMenuItems(
     selectedLocation,
     event
   );
-  const textSelected = editor.codeMirror.somethingSelected();
+  const isTextSelected = editor.codeMirror.somethingSelected();
 
   // localizations
   const blackboxKey = L10N.getStr("sourceFooter.blackbox.accesskey");
@@ -77,6 +78,7 @@ function getMenuItems(
   const copySourceLabel = L10N.getStr("copySource");
   const copySourceUri2Key = L10N.getStr("copySourceUri2.accesskey");
   const copySourceUri2Label = L10N.getStr("copySourceUri2");
+  const evaluateInConsoleLabel = L10N.getStr("evaluateInConsole.label");
   const jumpToMappedLocKey = L10N.getStr(
     "editor.jumpToMappedLocation1.accesskey"
   );
@@ -157,6 +159,12 @@ function getMenuItems(
     click: () => addExpression(editor.codeMirror.getSelection())
   };
 
+  const evaluateInConsoleItem = {
+    id: "node-menu-evaluate-in-console",
+    label: evaluateInConsoleLabel,
+    click: () => evaluateInConsole(selectionText)
+  };
+
   // construct menu
   const menuItems = [
     copySourceItem,
@@ -170,8 +178,8 @@ function getMenuItems(
 
   // conditionally added items
   // TODO: Find a new way to only add this for mapped sources?
-  if (textSelected) {
-    menuItems.push(watchExpressionItem);
+  if (isTextSelected) {
+    menuItems.push(watchExpressionItem, evaluateInConsoleItem);
   }
 
   return menuItems;
@@ -207,6 +215,7 @@ class EditorMenu extends PureComponent {
 
 const {
   addExpression,
+  evaluateInConsole,
   flashLineRange,
   jumpToMappedLocation,
   setContextMenu,
@@ -237,6 +246,7 @@ export default connect(
   },
   {
     addExpression,
+    evaluateInConsole,
     flashLineRange,
     jumpToMappedLocation,
     setContextMenu,
