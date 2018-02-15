@@ -356,14 +356,13 @@ const scopeCollectionVisitor = {
       ancestors.length === 0 ? null : ancestors[ancestors.length - 1].node;
 
     let parent = state.parent;
-    const location = node.loc;
     if (t.isProgram(node)) {
       state.savedParents.set(node, parent);
       parent = state.parent = createTempScope(
         "module",
         "Module",
         parent,
-        location
+        node.loc
       );
       parent.names.this = {
         type: "implicit",
@@ -380,7 +379,7 @@ const scopeCollectionVisitor = {
           "block",
           "Function Expression",
           parent,
-          location
+          node.loc
         );
         parent.names[node.id.name] = {
           type: "const",
@@ -407,8 +406,8 @@ const scopeCollectionVisitor = {
         {
           // Being at the start of a function doesn't count as
           // being inside of it.
-          start: node.params[0] ? node.params[0].loc.start : location.start,
-          end: location.end
+          start: node.params[0] ? node.params[0].loc.start : node.loc.start,
+          end: node.loc.end
         }
       ));
 
@@ -445,7 +444,7 @@ const scopeCollectionVisitor = {
           "block",
           "Class",
           parent,
-          location
+          node.loc
         );
 
         parent.names[node.id.name] = {
@@ -464,7 +463,7 @@ const scopeCollectionVisitor = {
           // Being at the start of a for loop doesn't count as
           // being inside it.
           start: init.loc.start,
-          end: location.end
+          end: node.loc.end
         });
       }
       return;
@@ -475,7 +474,7 @@ const scopeCollectionVisitor = {
         "block",
         "Catch",
         parent,
-        location
+        node.loc
       );
       parseDeclarator(node.param, parent, "var");
       return;
@@ -488,7 +487,7 @@ const scopeCollectionVisitor = {
           "block",
           "Block",
           parent,
-          location
+          node.loc
         );
       }
       return;
@@ -554,7 +553,7 @@ const scopeCollectionVisitor = {
         "function",
         "Class Field",
         parent,
-        location
+        node.loc
       );
       parent.names.this = {
         type: "implicit",
@@ -580,7 +579,7 @@ const scopeCollectionVisitor = {
         "block",
         "Switch",
         parent,
-        location
+        node.loc
       );
       return;
     }
