@@ -99,8 +99,7 @@ type TempScope = {
 type ScopeCollectionVisitorState = {
   sourceId: SourceId,
   scope: TempScope,
-  scopeStack: Array<TempScope>,
-  isUnambiguousModule: boolean
+  scopeStack: Array<TempScope>
 };
 
 export function parseSourceScopes(sourceId: SourceId): ?Array<ParsedScope> {
@@ -114,8 +113,7 @@ export function parseSourceScopes(sourceId: SourceId): ?Array<ParsedScope> {
   const state = {
     sourceId,
     scope: lexical,
-    scopeStack: [],
-    isUnambiguousModule: false
+    scopeStack: []
   };
   t.traverse(ast, scopeCollectionVisitor, state);
 
@@ -124,7 +122,7 @@ export function parseSourceScopes(sourceId: SourceId): ?Array<ParsedScope> {
   // code is an ES6 module rather than a script.
   if (
     isGeneratedId(sourceId) ||
-    (!state.isUnambiguousModule && !looksLikeCommonJS(global))
+    ((ast: any).program.sourceType === "script" && !looksLikeCommonJS(global))
   ) {
     stripModuleScope(global);
   }
@@ -476,8 +474,6 @@ const scopeCollectionVisitor = {
         parseDeclarator(declarator.id, hoistAt, node.kind);
       });
     } else if (t.isImportDeclaration(node)) {
-      state.isUnambiguousModule = true;
-
       node.specifiers.forEach(spec => {
         state.scope.names[spec.local.name] = {
           // Imported namespaces aren't live import bindings, they are
@@ -487,8 +483,6 @@ const scopeCollectionVisitor = {
           refs: []
         };
       });
-    } else if (t.isExportDeclaration(node)) {
-      state.isUnambiguousModule = true;
     } else if (t.isIdentifier(node) && t.isReferenced(node, parentNode)) {
       const identScope = findIdentifierInScopes(state.scope, node.name);
       if (identScope) {
