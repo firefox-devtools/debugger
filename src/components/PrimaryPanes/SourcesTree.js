@@ -43,6 +43,7 @@ import {
 } from "../../utils/sources-tree";
 
 import { copyToTheClipboard } from "../../utils/clipboard";
+import { throttle } from "../../utils/utils";
 import { features } from "../../utils/prefs";
 
 import type { SourcesMap, SourceRecord } from "../../reducers/types";
@@ -89,6 +90,19 @@ class SourcesTree extends Component<Props, State> {
       debuggeeUrl,
       sources
     });
+  }
+
+  componentDidMount() {
+    this.mounted = true;
+  }
+
+  componentWillUnMount() {
+    this.mounted = false;
+  }
+
+  shouldComponentUpdate() {
+    this.queueUpdate();
+    return false;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -154,6 +168,14 @@ class SourcesTree extends Component<Props, State> {
       );
     }
   }
+
+  queueUpdate = throttle(function() {
+    if (!this.mounted) {
+      return;
+    }
+
+    this.forceUpdate();
+  }, 50);
 
   focusItem = item => {
     this.setState({ focusedItem: item });
