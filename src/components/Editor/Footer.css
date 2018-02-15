@@ -16,6 +16,9 @@
   user-select: none;
   height: var(--editor-footer-height);
   box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .source-footer .commands {

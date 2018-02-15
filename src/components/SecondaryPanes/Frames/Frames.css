@@ -34,8 +34,10 @@
   justify-content: space-between;
   flex-direction: row;
   align-items: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   margin: 0;
-  flex-shrink: 0;
 }
 
 .theme-light .frames .location,
@@ -52,6 +54,7 @@
   text-overflow: ellipsis;
   overflow: hidden;
   margin: 7px 0.5em 7px 0;
+  flex-shrink: 0;
 }
 
 .frames ul li:hover,

@@ -1,4 +1,4 @@
-import { handleError, promisify, endTruncateStr, waitForMs } from "../utils";
+import { handleError, promisify, waitForMs } from "../utils";
 
 describe("handleError()", () => {
   const testErrorText = "ERROR: ";
@@ -34,27 +34,6 @@ describe("promisify()", () => {
     testPromise = promisify(testContext, testMethod, testArgs);
 
     expect(testMethod).toBeCalledWith(testArgs, expect.anything());
-  });
-});
-
-describe("endTruncateStr()", () => {
-  let testString;
-  const testSize = 11;
-
-  describe("when the string is larger than the specified size", () => {
-    it("returns an elipsis and characters at the end of the string", () => {
-      testString = "Mozilla Firefox is my favorite web browser";
-
-      expect(endTruncateStr(testString, testSize)).toBe("...web browser");
-    });
-  });
-
-  describe("when the string is not larger than the specified size", () => {
-    it("returns the string unchanged", () => {
-      testString = "Firefox";
-
-      expect(endTruncateStr(testString, testSize)).toBe(testString);
-    });
   });
 });
 

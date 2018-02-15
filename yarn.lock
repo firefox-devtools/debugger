@@ -3850,7 +3850,7 @@ eslint-plugin-jest@^21.5.0:
   version "21.7.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-jest/-/eslint-plugin-jest-21.7.0.tgz#651f1c6ce999af3ac59ab8bf8a376d742fd0fc23"
 
-eslint-plugin-mozilla@0.8.1:
+eslint-plugin-mozilla@^0.8.1:
   version "0.8.1"
   resolved "https://registry.yarnpkg.com/eslint-plugin-mozilla/-/eslint-plugin-mozilla-0.8.1.tgz#623b031b14e901999110c60ce17d0aad67cbba83"
   dependencies:

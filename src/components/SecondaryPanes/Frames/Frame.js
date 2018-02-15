@@ -112,6 +112,8 @@ export default class FrameComponent extends Component<FrameComponentProps> {
       shouldMapDisplayName
     } = this.props;
 
+    const filename = getFilename(frame.source);
+
     const className = classNames("frame", {
       selected: selectedFrame && selectedFrame.id === frame.id
     });
@@ -119,6 +121,7 @@ export default class FrameComponent extends Component<FrameComponentProps> {
       <li
         key={frame.id}
         className={className}
+        title={filename}
         onMouseDown={e => this.onMouseDown(e, frame, selectedFrame)}
         onKeyUp={e => this.onKeyUp(e, frame, selectedFrame)}
         onContextMenu={e => this.onContextMenu(e)}
