@@ -165,14 +165,12 @@ class Tab extends PureComponent<Props> {
       e.preventDefault();
       e.stopPropagation();
 
+      // Accommodate middle click to close tab
       if (e.button === 1) {
         return closeTab(source.get("url"));
       }
 
       return selectSource(sourceId);
-
-      // onMouseUp doesn't overwrite default onContextMenu behavior,
-      // to prevent compatibility issues rightclick triggers separately
     }
 
     const className = classnames("source-tab", {
