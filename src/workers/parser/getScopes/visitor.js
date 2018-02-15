@@ -4,15 +4,14 @@
 
 // @flow
 
+import isEmpty from "lodash/isEmpty";
 import type { SourceId, Location } from "../../../types";
-import type {
-  NodePath,
-  Node,
-  Location as BabelLocation
-} from "@babel/traverse";
+import type { Node, Location as BabelLocation } from "@babel/traverse";
+import * as t from "@babel/types";
+import type { BabelNode, TraversalAncestors } from "@babel/types";
 import { isGeneratedId } from "devtools-source-map";
 import getFunctionName from "../utils/getFunctionName";
-import { traverseAst } from "../utils/ast";
+import { getAst } from "../utils/ast";
 
 /**
  * "implicit"
@@ -97,10 +96,40 @@ type TempScope = {
   names: ScopeBindingList
 };
 
-export function parseSourceScopes(sourceId: SourceId) {
-  const visitor = createParseJSScopeVisitor(sourceId);
-  traverseAst(sourceId, visitor.traverseVisitor);
-  return visitor.toParsedScopes();
+type ScopeCollectionVisitorState = {
+  sourceId: SourceId,
+  parent: TempScope,
+  isUnambiguousModule: boolean,
+  savedParents: WeakMap<Node, TempScope>
+};
+
+export function parseSourceScopes(sourceId: SourceId): ?Array<ParsedScope> {
+  const ast = getAst(sourceId);
+  if (isEmpty(ast)) {
+    return null;
+  }
+
+  const { global, lexical } = createGlobalScope(ast);
+
+  const state = {
+    sourceId,
+    parent: lexical,
+    isUnambiguousModule: false,
+    savedParents: new WeakMap()
+  };
+  t.traverse(ast, scopeCollectionVisitor, state);
+
+  // TODO: This should probably check for ".mjs" extension on the
+  // original file, and should also be skipped if the the generated
+  // code is an ES6 module rather than a script.
+  if (
+    isGeneratedId(sourceId) ||
+    (!state.isUnambiguousModule && !looksLikeCommonJS(global))
+  ) {
+    stripModuleScope(global);
+  }
+
+  return toParsedScopes([global], sourceId) || [];
 }
 
 function createTempScope(
@@ -184,14 +213,14 @@ function isLetOrConst(node) {
   return node.kind === "let" || node.kind === "const";
 }
 
-function hasLexicalDeclaration(path) {
-  const isFunctionBody = path.parentPath.isFunction({ body: path.node });
+function hasLexicalDeclaration(node, parent) {
+  const isFunctionBody = t.isFunction(parent, { body: node });
 
-  return path.node.body.some(
-    node =>
-      isLexicalVariable(node) ||
-      (!isFunctionBody && node.type === "FunctionDeclaration") ||
-      node.type === "ClassDeclaration"
+  return node.body.some(
+    child =>
+      isLexicalVariable(child) ||
+      (!isFunctionBody && child.type === "FunctionDeclaration") ||
+      child.type === "ClassDeclaration"
   );
 }
 function isLexicalVariable(node) {
@@ -274,295 +303,326 @@ function mapMeta(
   };
 }
 
-/**
- * Creates at visitor for @babel/traverse that will parse/extract all bindings
- * information from the source. See also findScopes to perform lookup of the
- * scope information for specific location.
- */
-function createParseJSScopeVisitor(sourceId: SourceId): ParseJSScopeVisitor {
-  let parent: TempScope;
-  const savedParents: WeakMap<NodePath, TempScope> = new WeakMap();
+function createGlobalScope(
+  ast: BabelNode
+): { global: TempScope, lexical: TempScope } {
+  const global = createTempScope("object", "Global", null, ast.loc);
 
-  let isUnambiguousModule = false;
-
-  const traverseVisitor = {
-    // eslint-disable-next-line complexity
-    enter(path: NodePath) {
-      const tree = path.node;
-      const location = path.node.loc;
-      if (path.isProgram()) {
-        parent = createTempScope("object", "Global", null, location);
-        savedParents.set(path, parent);
-
-        // Include fake bindings to collect references to CommonJS
-        Object.assign(parent.names, {
-          module: {
-            type: "var",
-            declarations: [],
-            refs: []
-          },
-          exports: {
-            type: "var",
-            declarations: [],
-            refs: []
-          },
-          __dirname: {
-            type: "var",
-            declarations: [],
-            refs: []
-          },
-          __filename: {
-            type: "var",
-            declarations: [],
-            refs: []
-          },
-          require: {
-            type: "var",
-            declarations: [],
-            refs: []
-          }
-        });
-
-        parent = createTempScope("block", "Lexical Global", parent, location);
-
-        parent = createTempScope("module", "Module", parent, location);
-        parent.names.this = {
-          type: "implicit",
-          declarations: [],
-          refs: []
-        };
-        return;
-      }
-      if (path.isFunction()) {
-        savedParents.set(path, parent);
-
-        if (path.isFunctionExpression() && isNode(tree.id, "Identifier")) {
-          parent = createTempScope(
-            "block",
-            "Function Expression",
-            parent,
-            location
-          );
-          parent.names[tree.id.name] = {
-            type: "const",
-            declarations: [tree.id.loc],
-            refs: []
-          };
-        }
-
-        if (path.isFunctionDeclaration() && isNode(tree.id, "Identifier")) {
-          // This ignores Annex B function declaration hoisting, which
-          // is probably a fine assumption.
-          const fnScope = getVarScope(parent);
-          parent.names[tree.id.name] = {
-            type: fnScope === parent ? "var" : "let",
-            declarations: [tree.id.loc],
-            refs: []
-          };
-        }
-
-        const scope = createTempScope(
-          "function",
-          getFunctionName(path.node, path.parentPath.node),
-          parent,
-          {
-            // Being at the start of a function doesn't count as
-            // being inside of it.
-            start: tree.params[0] ? tree.params[0].loc.start : location.start,
-            end: location.end
-          }
-        );
-
-        tree.params.forEach(param => parseDeclarator(param, scope, "var"));
-
-        if (!path.isArrowFunctionExpression()) {
-          scope.names.this = {
-            type: "implicit",
-            declarations: [],
-            refs: []
-          };
-          scope.names.arguments = {
-            type: "implicit",
-            declarations: [],
-            refs: []
-          };
-        }
-
-        parent = scope;
-        return;
-      }
-      if (path.isClass()) {
-        if (path.isClassDeclaration() && path.get("id").isIdentifier()) {
-          parent.names[tree.id.name] = {
-            type: "let",
-            declarations: [tree.id.loc],
-            refs: []
-          };
-        }
-
-        if (path.get("id").isIdentifier()) {
-          savedParents.set(path, parent);
-          parent = createTempScope("block", "Class", parent, location);
-
-          parent.names[tree.id.name] = {
-            type: "const",
-            declarations: [tree.id.loc],
-            refs: []
-          };
-        }
-      }
-      if (path.isForXStatement() || path.isForStatement()) {
-        const init = tree.init || tree.left;
-        if (isNode(init, "VariableDeclaration") && isLetOrConst(init)) {
-          // Debugger will create new lexical environment for the for.
-          savedParents.set(path, parent);
-          parent = createTempScope("block", "For", parent, {
-            // Being at the start of a for loop doesn't count as
-            // being inside it.
-            start: init.loc.start,
-            end: location.end
-          });
-        }
-        return;
-      }
-      if (path.isCatchClause()) {
-        savedParents.set(path, parent);
-        parent = createTempScope("block", "Catch", parent, location);
-        parseDeclarator(tree.param, parent, "var");
-        return;
-      }
-      if (path.isBlockStatement()) {
-        if (hasLexicalDeclaration(path)) {
-          // Debugger will create new lexical environment for the block.
-          savedParents.set(path, parent);
-          parent = createTempScope("block", "Block", parent, location);
-        }
-        return;
-      }
-      if (
-        path.isVariableDeclaration() &&
-        (path.node.kind === "var" ||
-          // Lexical declarations in for statements are handled above.
-          !path.parentPath.isForStatement({ init: tree }) ||
-          !path.parentPath.isForXStatement({ left: tree }))
-      ) {
-        // Finds right lexical environment
-        const hoistAt = !isLetOrConst(tree) ? getVarScope(parent) : parent;
-        tree.declarations.forEach(declarator => {
-          parseDeclarator(declarator.id, hoistAt, tree.kind);
-        });
-        return;
-      }
-      if (path.isImportDeclaration()) {
-        isUnambiguousModule = true;
-
-        path.get("specifiers").forEach(spec => {
-          parent.names[spec.node.local.name] = {
-            // Imported namespaces aren't live import bindings, they are
-            // just normal const bindings.
-            type: spec.isImportNamespaceSpecifier() ? "const" : "import",
-            declarations: [spec.node.local.loc],
-            refs: []
-          };
-        });
-        return;
-      }
-      if (path.isExportDeclaration()) {
-        isUnambiguousModule = true;
-        return;
-      }
-
-      if (path.isReferencedIdentifier()) {
-        const scope = findIdentifierInScopes(parent, tree.name);
-        if (scope) {
-          scope.names[tree.name].refs.push({
-            start: tree.loc.start,
-            end: tree.loc.end,
-            meta: buildMetaBindings(path)
-          });
-        }
-        return;
-      }
-      if (path.isThisExpression()) {
-        const scope = findIdentifierInScopes(parent, "this");
-        if (scope) {
-          scope.names.this.refs.push({
-            start: tree.loc.start,
-            end: tree.loc.end,
-            meta: buildMetaBindings(path)
-          });
-        }
-      }
-
-      if (path.parentPath.isClassProperty({ value: tree })) {
-        savedParents.set(path, parent);
-        parent = createTempScope("function", "Class Field", parent, location);
-        parent.names.this = {
-          type: "implicit",
-          declarations: [],
-          refs: []
-        };
-        parent.names.arguments = {
-          type: "implicit",
-          declarations: [],
-          refs: []
-        };
-        return;
-      }
-
-      if (
-        path.isSwitchStatement() &&
-        path.node.cases.some(node =>
-          node.consequent.some(child => isLexicalVariable(child))
-        )
-      ) {
-        savedParents.set(path, parent);
-        parent = createTempScope("block", "Switch", parent, location);
-        return;
-      }
+  // Include fake bindings to collect references to CommonJS
+  Object.assign(global.names, {
+    module: {
+      type: "var",
+      declarations: [],
+      refs: []
     },
-    exit(path: NodePath) {
-      const savedParent = savedParents.get(path);
-      if (savedParent) {
-        parent = savedParent;
-        savedParents.delete(path);
-      }
+    exports: {
+      type: "var",
+      declarations: [],
+      refs: []
+    },
+    __dirname: {
+      type: "var",
+      declarations: [],
+      refs: []
+    },
+    __filename: {
+      type: "var",
+      declarations: [],
+      refs: []
+    },
+    require: {
+      type: "var",
+      declarations: [],
+      refs: []
     }
-  };
-  return {
-    traverseVisitor,
-    toParsedScopes() {
-      // TODO: This should probably check for ".mjs" extension on the
-      // original file, and should also be skipped if the the generated
-      // code is an ES6 module rather than a script.
-      if (
-        isGeneratedId(sourceId) ||
-        (!isUnambiguousModule && !looksLikeCommonJS(parent))
-      ) {
-        stripModuleScope(parent);
-      }
+  });
 
-      return toParsedScopes([parent], sourceId) || [];
-    }
+  const lexical = createTempScope("block", "Lexical Global", global, ast.loc);
+
+  return {
+    global,
+    lexical
   };
 }
 
-function buildMetaBindings(path: NodePath): BindingMetaValue | null {
-  const { parentPath } = path;
+const scopeCollectionVisitor = {
+  // eslint-disable-next-line complexity
+  enter(
+    node: BabelNode,
+    ancestors: TraversalAncestors,
+    state: ScopeCollectionVisitorState
+  ) {
+    const parentNode =
+      ancestors.length === 0 ? null : ancestors[ancestors.length - 1].node;
+
+    let parent = state.parent;
+    const location = node.loc;
+    if (t.isProgram(node)) {
+      state.savedParents.set(node, parent);
+      parent = state.parent = createTempScope(
+        "module",
+        "Module",
+        parent,
+        location
+      );
+      parent.names.this = {
+        type: "implicit",
+        declarations: [],
+        refs: []
+      };
+      return;
+    }
+    if (t.isFunction(node)) {
+      state.savedParents.set(node, parent);
+
+      if (t.isFunctionExpression(node) && isNode(node.id, "Identifier")) {
+        parent = state.parent = createTempScope(
+          "block",
+          "Function Expression",
+          parent,
+          location
+        );
+        parent.names[node.id.name] = {
+          type: "const",
+          declarations: [node.id.loc],
+          refs: []
+        };
+      }
+
+      if (t.isFunctionDeclaration(node) && isNode(node.id, "Identifier")) {
+        // This ignores Annex B function declaration hoisting, which
+        // is probably a fine assumption.
+        const fnScope = getVarScope(parent);
+        parent.names[node.id.name] = {
+          type: fnScope === parent ? "var" : "let",
+          declarations: [node.id.loc],
+          refs: []
+        };
+      }
+
+      const scope = (state.parent = createTempScope(
+        "function",
+        getFunctionName(node, parentNode),
+        parent,
+        {
+          // Being at the start of a function doesn't count as
+          // being inside of it.
+          start: node.params[0] ? node.params[0].loc.start : location.start,
+          end: location.end
+        }
+      ));
+
+      node.params.forEach(param => parseDeclarator(param, scope, "var"));
+
+      if (!t.isArrowFunctionExpression(node)) {
+        scope.names.this = {
+          type: "implicit",
+          declarations: [],
+          refs: []
+        };
+        scope.names.arguments = {
+          type: "implicit",
+          declarations: [],
+          refs: []
+        };
+      }
+
+      parent = scope;
+      return;
+    }
+    if (t.isClass(node)) {
+      if (t.isClassDeclaration(node) && t.isIdentifier(node.id)) {
+        parent.names[node.id.name] = {
+          type: "let",
+          declarations: [node.id.loc],
+          refs: []
+        };
+      }
+
+      if (t.isIdentifier(node.id)) {
+        state.savedParents.set(node, parent);
+        parent = state.parent = createTempScope(
+          "block",
+          "Class",
+          parent,
+          location
+        );
+
+        parent.names[node.id.name] = {
+          type: "const",
+          declarations: [node.id.loc],
+          refs: []
+        };
+      }
+    }
+    if (t.isForXStatement(node) || t.isForStatement(node)) {
+      const init = node.init || node.left;
+      if (isNode(init, "VariableDeclaration") && isLetOrConst(init)) {
+        // Debugger will create new lexical environment for the for.
+        state.savedParents.set(node, parent);
+        parent = state.parent = createTempScope("block", "For", parent, {
+          // Being at the start of a for loop doesn't count as
+          // being inside it.
+          start: init.loc.start,
+          end: location.end
+        });
+      }
+      return;
+    }
+    if (t.isCatchClause(node)) {
+      state.savedParents.set(node, parent);
+      parent = state.parent = createTempScope(
+        "block",
+        "Catch",
+        parent,
+        location
+      );
+      parseDeclarator(node.param, parent, "var");
+      return;
+    }
+    if (t.isBlockStatement(node)) {
+      if (hasLexicalDeclaration(node, parentNode)) {
+        // Debugger will create new lexical environment for the block.
+        state.savedParents.set(node, parent);
+        parent = state.parent = createTempScope(
+          "block",
+          "Block",
+          parent,
+          location
+        );
+      }
+      return;
+    }
+    if (
+      t.isVariableDeclaration(node) &&
+      (node.kind === "var" ||
+        // Lexical declarations in for statements are handled above.
+        !t.isForStatement(parentNode, { init: node }) ||
+        !t.isForXStatement(parentNode, { left: node }))
+    ) {
+      // Finds right lexical environment
+      const hoistAt = !isLetOrConst(node) ? getVarScope(parent) : parent;
+      node.declarations.forEach(declarator => {
+        parseDeclarator(declarator.id, hoistAt, node.kind);
+      });
+      return;
+    }
+    if (t.isImportDeclaration(node)) {
+      state.isUnambiguousModule = true;
+
+      node.specifiers.forEach(spec => {
+        parent.names[spec.local.name] = {
+          // Imported namespaces aren't live import bindings, they are
+          // just normal const bindings.
+          type: t.isImportNamespaceSpecifier(spec) ? "const" : "import",
+          declarations: [spec.local.loc],
+          refs: []
+        };
+      });
+      return;
+    }
+    if (t.isExportDeclaration(node)) {
+      state.isUnambiguousModule = true;
+      return;
+    }
+
+    if (t.isIdentifier(node) && t.isReferenced(node, parentNode)) {
+      const scope = findIdentifierInScopes(parent, node.name);
+      if (scope) {
+        scope.names[node.name].refs.push({
+          start: node.loc.start,
+          end: node.loc.end,
+          meta: buildMetaBindings(node, ancestors)
+        });
+      }
+      return;
+    }
+    if (t.isThisExpression(node)) {
+      const scope = findIdentifierInScopes(parent, "this");
+      if (scope) {
+        scope.names.this.refs.push({
+          start: node.loc.start,
+          end: node.loc.end,
+          meta: buildMetaBindings(node, ancestors)
+        });
+      }
+    }
+
+    if (t.isClassProperty(parentNode, { value: node })) {
+      state.savedParents.set(node, parent);
+      parent = state.parent = createTempScope(
+        "function",
+        "Class Field",
+        parent,
+        location
+      );
+      parent.names.this = {
+        type: "implicit",
+        declarations: [],
+        refs: []
+      };
+      parent.names.arguments = {
+        type: "implicit",
+        declarations: [],
+        refs: []
+      };
+      return;
+    }
+
+    if (
+      t.isSwitchStatement(node) &&
+      node.cases.some(caseNode =>
+        caseNode.consequent.some(child => isLexicalVariable(child))
+      )
+    ) {
+      state.savedParents.set(node, parent);
+      parent = state.parent = createTempScope(
+        "block",
+        "Switch",
+        parent,
+        location
+      );
+      return;
+    }
+  },
+  exit(
+    node: BabelNode,
+    ancestors: TraversalAncestors,
+    state: ScopeCollectionVisitorState
+  ) {
+    const savedParent = state.savedParents.get(node);
+    if (savedParent) {
+      state.parent = savedParent;
+      state.savedParents.delete(node);
+    }
+  }
+};
+
+function buildMetaBindings(
+  node: BabelNode,
+  ancestors: TraversalAncestors,
+  parentIndex: number = ancestors.length - 1
+): BindingMetaValue | null {
+  if (parentIndex <= 1) {
+    return null;
+  }
+  const parent = ancestors[parentIndex].node;
+  const grandparent = ancestors[parentIndex - 1].node;
 
   // Consider "0, foo" to be equivalent to "foo".
   if (
-    parentPath.isSequenceExpression() &&
-    parentPath.get("expressions").length === 2 &&
-    parentPath.get("expressions")[0].isNumericLiteral() &&
-    parentPath.get("expressions")[1] === path
+    t.isSequenceExpression(parent) &&
+    parent.expressions.length === 2 &&
+    t.isNumericLiteral(parent.expressions[0]) &&
+    parent.expressions[1] === node
   ) {
-    let start = parentPath.node.loc.start;
-    let end = parentPath.node.loc.end;
-    if (parentPath.parentPath.isCallExpression({ callee: parentPath.node })) {
+    let start = parent.loc.start;
+    let end = parent.loc.end;
+
+    if (t.isCallExpression(grandparent, { callee: parent })) {
       // Attempt to expand the range around parentheses, e.g.
       // (0, foo.bar)()
-      start = parentPath.parentPath.node.loc.start;
+      start = grandparent.loc.start;
       end = Object.assign({}, end);
       end.column += 1;
     }
@@ -571,55 +631,55 @@ function buildMetaBindings(path: NodePath): BindingMetaValue | null {
       type: "inherit",
       start,
       end,
-      parent: buildMetaBindings(parentPath)
+      parent: buildMetaBindings(parent, ancestors, parentIndex - 1)
     };
   }
 
   // Consider "Object(foo)" to be equivalent to "foo"
   if (
-    parentPath.isCallExpression() &&
-    parentPath.get("callee").isIdentifier({ name: "Object" }) &&
-    parentPath.get("arguments").length === 1 &&
-    parentPath.get("arguments")[0] === path
+    t.isCallExpression(parent) &&
+    t.isIdentifier(parent.callee, { name: "Object" }) &&
+    parent.arguments.length === 1 &&
+    parent.arguments[0] === node
   ) {
     return {
       type: "inherit",
-      start: parentPath.node.loc.start,
-      end: parentPath.node.loc.end,
-      parent: buildMetaBindings(parentPath)
+      start: parent.loc.start,
+      end: parent.loc.end,
+      parent: buildMetaBindings(parent, ancestors, parentIndex - 1)
     };
   }
 
-  if (parentPath.isMemberExpression({ object: path.node })) {
-    if (parentPath.node.computed) {
-      if (parentPath.get("property").isStringLiteral()) {
+  if (t.isMemberExpression(parent, { object: node })) {
+    if (parent.computed) {
+      if (t.isStringLiteral(parent.property)) {
         return {
           type: "member",
-          start: parentPath.node.loc.start,
-          end: parentPath.node.loc.end,
-          property: parentPath.node.property.value,
-          parent: buildMetaBindings(parentPath)
+          start: parent.loc.start,
+          end: parent.loc.end,
+          property: parent.property.value,
+          parent: buildMetaBindings(parent, ancestors, parentIndex - 1)
         };
       }
     } else {
       return {
         type: "member",
-        start: parentPath.node.loc.start,
-        end: parentPath.node.loc.end,
-        property: parentPath.node.property.name,
-        parent: buildMetaBindings(parentPath)
+        start: parent.loc.start,
+        end: parent.loc.end,
+        property: parent.property.name,
+        parent: buildMetaBindings(parent, ancestors, parentIndex - 1)
       };
     }
   }
   if (
-    parentPath.isCallExpression({ callee: path.node }) &&
-    parentPath.get("arguments").length == 0
+    t.isCallExpression(parent, { callee: node }) &&
+    parent.arguments.length == 0
   ) {
     return {
       type: "call",
-      start: parentPath.node.loc.start,
-      end: parentPath.node.loc.end,
-      parent: buildMetaBindings(parentPath)
+      start: parent.loc.start,
+      end: parent.loc.end,
+      parent: buildMetaBindings(parent, ancestors, parentIndex - 1)
     };
   }
 

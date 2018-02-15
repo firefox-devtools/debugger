@@ -38,6 +38,6 @@ export type {
   BindingLocation,
   BindingMetaValue,
   BindingType
-} from "./visitor";
+} from "./getScopes";
 export type { SymbolDeclaration, SymbolDeclarations } from "./getSymbols";
 export type { AstLocation } from "./types";

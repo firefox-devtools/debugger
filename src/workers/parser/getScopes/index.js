@@ -7,8 +7,20 @@
 import {
   parseSourceScopes,
   type SourceScope,
-  type ParsedScope
+  type ParsedScope,
+  type BindingData,
+  type BindingLocation,
+  type BindingMetaValue,
+  type BindingType
 } from "./visitor";
+
+export type {
+  SourceScope,
+  BindingData,
+  BindingLocation,
+  BindingMetaValue,
+  BindingType
+};
 
 import type { Location } from "../../../types";
 
@@ -21,7 +33,7 @@ export default function getScopes(location: Location): SourceScope[] {
     parsedScopes = parseSourceScopes(sourceId);
     parsedScopesCache.set(sourceId, parsedScopes);
   }
-  return findScopes(parsedScopes, location);
+  return parsedScopes ? findScopes(parsedScopes, location) : [];
 }
 
 export function clearScopes() {
