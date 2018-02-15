@@ -165,17 +165,11 @@ class Tab extends PureComponent<Props> {
       e.preventDefault();
       e.stopPropagation();
 
-      const clickedButton = e.button;
-
-      // main button, usually left
-      if (clickedButton === 0) {
-        return selectSource(sourceId);
-      }
-
-      // aux button, middle
-      if (clickedButton === 1) {
+      if (e.button === 1) {
         return closeTab(source.get("url"));
       }
+
+      return selectSource(sourceId);
 
       // onMouseUp doesn't overwrite default onContextMenu behavior,
       // to prevent compatibility issues rightclick triggers separately
