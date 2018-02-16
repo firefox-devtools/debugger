@@ -24,24 +24,11 @@ function assertEditorBreakpoint(dbg, line, shouldExist) {
   );
 }
 
-function assertConditionalBreakpointIsFocused(dbg) {
-  const conditionalBreakpointInput = findElementWithSelector(
-    dbg,
-    ".conditional-breakpoint-panel input"
-  );
-
-  ok(
-    dbg.win.document.activeElement == conditionalBreakpointInput &&
-      dbg.win.document.hasFocus(),
-    "Conditional Breakpoint Input is focused."
-  );
-}
-
 async function setConditionalBreakpoint(dbg, index, condition) {
   rightClickElement(dbg, "gutter", index);
   selectMenuItem(dbg, 2);
   await waitForElementWithSelector(dbg, ".conditional-breakpoint-panel input");
-  assertConditionalBreakpointIsFocused(dbg);
+  findElementWithSelector(dbg, ".conditional-breakpoint-panel input").focus();
   // Position cursor reliably at the end of the text.
   pressKey(dbg, "End");
   type(dbg, condition);
