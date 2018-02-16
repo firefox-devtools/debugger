@@ -42,6 +42,8 @@ import {
   getExtension
 } from "../../utils/sources-tree";
 
+import { getRawSourceURL } from "../../utils/source";
+
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { features } from "../../utils/prefs";
 
@@ -92,13 +94,7 @@ class SourcesTree extends Component<Props, State> {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {
-      projectRoot,
-      debuggeeUrl,
-      sources,
-      shownSource,
-      selectedSource
-    } = this.props;
+    const { projectRoot, debuggeeUrl, sources, shownSource } = this.props;
 
     const { uncollapsedTree, sourceTree } = this.state;
 
@@ -127,15 +123,11 @@ class SourcesTree extends Component<Props, State> {
       return this.setState({ listItems });
     }
 
-    if (
-      nextProps.selectedSource &&
-      nextProps.selectedSource != selectedSource
-    ) {
+    if (nextProps.selectedSource) {
       const highlightItems = getDirectories(
-        nextProps.selectedSource.get("url"),
+        getRawSourceURL(nextProps.selectedSource.get("url")),
         sourceTree
       );
-
       return this.setState({ highlightItems });
     }
 
