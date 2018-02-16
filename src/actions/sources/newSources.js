@@ -40,11 +40,14 @@ function createOriginalSource(
 }
 
 // TODO: It would be nice to make getOriginalURLs a safer api
-async function loadOriginalSourceUrls(sourceMaps, generatedSource) {
+async function loadOriginalSourceUrls(dispatch, sourceMaps, generatedSource) {
   try {
     return await sourceMaps.getOriginalURLs(generatedSource);
   } catch (e) {
-    console.error(e);
+    dispatch({
+      type: "UPDATE_SOURCE",
+      source: { generatedSource, sourceMapURL: "" }
+    });
     return null;
   }
 }
@@ -53,11 +56,19 @@ async function loadOriginalSourceUrls(sourceMaps, generatedSource) {
  * @memberof actions/sources
  * @static
  */
-function loadSourceMap(generatedSource) {
+export function loadSourceMap(generatedSource: Source) {
   return async function({ dispatch, getState, sourceMaps }: ThunkArgs) {
-    const urls = await loadOriginalSourceUrls(sourceMaps, generatedSource);
+    const urls = await loadOriginalSourceUrls(
+      dispatch,
+      sourceMaps,
+      generatedSource
+    );
     if (!urls) {
-      // If this source doesn't have a sourcemap, do nothing.
+      // If this source doesn't have a sourcemap, enable it for pretty printing
+      dispatch({
+        type: "UPDATE_SOURCE",
+        source: { ...generatedSource, sourceMapURL: "" }
+      });
       return;
     }
 
