@@ -28,15 +28,15 @@
     "lint-js": "eslint *.js \"src/**/*.js\" --fix",
     "lint-md":
       "remark -u devtools-linters/markdown/preset -qf *.md src configs docs",
-    "lint-fix": "yarn lint-js --fix",
+    "lint-fix": "yarn lint-js -- --fix",
     "mochi":
       "mochii --mc ./firefox --interactive --default-test-path devtools/client/debugger/new",
-    "mochid": "yarn mochi --jsdebugger",
-    "mochir": "yarn mochi --repeat 10",
-    "mochih": "yarn mochi --headless",
+    "mochid": "yarn mochi -- --jsdebugger --",
+    "mochir": "yarn mochi -- --repeat 10 --",
+    "mochih": "yarn mochi -- --headless --",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test-coverage": "yarn test --coverage",
+    "test-coverage": "yarn test -- --coverage",
     "test-all": "yarn test; yarn lint; yarn flow",
     "firefox":
       "start-firefox --start --location https://devtools-html.github.io/debugger-examples/",
