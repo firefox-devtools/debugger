@@ -57,8 +57,7 @@ type Props = {
 
 type State = {
   results: ?Array<QuickOpenResult>,
-  selectedIndex: number,
-  isLoading: boolean
+  selectedIndex: number
 };
 
 type GotoLocationType = {
@@ -77,7 +76,7 @@ function filter(values, query) {
 export class QuickOpenModal extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = { results: null, selectedIndex: 0, isLoading: true };
+    this.state = { results: null, selectedIndex: 0 };
   }
 
   componentDidMount() {
@@ -114,15 +113,15 @@ export class QuickOpenModal extends Component<Props, State> {
   searchSources = (query: string) => {
     if (query == "") {
       const results = this.props.sources;
-      return this.setState({ results, isLoading: false })
+      return this.setState({ results });
     }
     if (this.isGotoSourceQuery()) {
       const [baseQuery] = query.split(":");
       const results = filter(this.props.sources, baseQuery);
-      this.setState({ results, isLoading: false })
+      this.setState({ results });
     } else {
       const results = filter(this.props.sources, query);
-      this.setState({ results, isLoading: false })
+      this.setState({ results });
     }
   };
 
@@ -134,21 +133,21 @@ export class QuickOpenModal extends Component<Props, State> {
       results = variables;
     }
     if (query === "@" || query === "#") {
-      return this.setState({ results, isLoading: false });
+      return this.setState({ results });
     }
 
     this.setState({
-      results: filter(results, query.slice(1)), isLoading: false
+      results: filter(results, query.slice(1))
     });
   };
 
   searchShortcuts = (query: string) => {
     const results = formatShortcutResults();
     if (query == "?") {
-      this.setState({ results, isLoading: false  });
+      this.setState({ results });
     } else {
       this.setState({
-        results: filter(results, query.slice(1)), isLoading: false
+        results: filter(results, query.slice(1))
       });
     }
   };
@@ -157,16 +156,16 @@ export class QuickOpenModal extends Component<Props, State> {
     const { tabs, sources } = this.props;
     if (tabs.length > 0) {
       this.setState({
-        results: sources.filter(source => tabs.includes(source.url)), isLoading: false
+        results: sources.filter(source => tabs.includes(source.url))
       });
     } else {
-      this.setState({ results: sources.slice(0, 100), isLoading: false });
+      this.setState({ results: sources.slice(0, 100) });
     }
   };
 
   updateResults = (query: string) => {
     if (this.isGotoQuery()) {
-      return this.setState({ isLoading: false });
+      return;
     }
 
     if (query == "") {
@@ -272,8 +271,6 @@ export class QuickOpenModal extends Component<Props, State> {
   };
 
   onChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
-    this.setState({ isLoading: true });
-
     const { selectedSource, setQuickOpenQuery } = this.props;
     setQuickOpenQuery(e.target.value);
     const noSource = !selectedSource || !selectedSource.get("text");
@@ -372,8 +369,8 @@ export class QuickOpenModal extends Component<Props, State> {
   hasPrefix = () => /^[:#@]/.test(this.props.query);
 
   render() {
-    const { enabled, query } = this.props;
-    const { selectedIndex, results, isLoading } = this.state;
+    const { enabled, query, symbols } = this.props;
+    const { selectedIndex, results } = this.state;
 
     if (!enabled) {
       return null;
@@ -403,9 +400,12 @@ export class QuickOpenModal extends Component<Props, State> {
           expanded={expanded}
           selectedItemId={expanded ? items[selectedIndex].id : ""}
         />
-        {isLoading && (
-          <div className="loading-indicator">{L10N.getStr("loadingText")}</div>
-        )}
+        {!symbols ||
+          (symbols.functions.length == 0 && (
+            <div className="loading-indicator">
+              {L10N.getStr("loadingText")}
+            </div>
+          ))}
         {newResults && (
           <ResultList
             key="results"
