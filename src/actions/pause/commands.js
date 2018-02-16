@@ -162,10 +162,11 @@ function hasAwait(source, pauseLocation) {
     return false;
   }
 
-  return source.text
+  const snippet = source.text
     .split("\n")
-    [line - 1].slice(column, column + 200)
-    .match(/(yield|await)/);
+    [line - 1].slice(column - 50, column + 50);
+
+  return !!snippet.match(/(yield|await)/);
 }
 
 /**
@@ -184,6 +185,7 @@ export function astCommand(stepType: CommandType) {
       // This type definition is ambiguous:
       const frame: any = getTopFrame(getState());
       const source = getSelectedSource(getState()).toJS();
+
       if (source && hasAwait(source, frame.location)) {
         const nextLocation = await getNextStep(source.id, frame.location);
         if (nextLocation) {
