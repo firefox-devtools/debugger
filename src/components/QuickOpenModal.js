@@ -136,75 +136,7 @@ export class QuickOpenModal extends Component<Props, State> {
       return this.setState({ results });
     }
 
-    this.setState({
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-      results: filter(results, query.slice(1))
-=======
-      results: filter(results, query.slice(1)),
-      isLoading: false
->>>>>>> clean up
-=======
-      results: filter(results, query.slice(1))
->>>>>>> move loading logic into updateResults
-=======
-      results: filter(results, query.slice(1)), isLoading: false
->>>>>>> consolidate isLoading into setState when reuslts set
-=======
-=======
->>>>>>> move loading logic into updateResults
-=======
->>>>>>> consolidate isLoading into setState when reuslts set
-=======
->>>>>>> re isLoading, and use symbols instead
-      results: filter(results, query.slice(1))
->>>>>>> re isLoading, and use symbols instead
-=======
-      results: filter(results, query.slice(1)),
-      isLoading: false
->>>>>>> clean up
-=======
-      results: filter(results, query.slice(1))
->>>>>>> move loading logic into updateResults
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-      results: filter(results, query.slice(1)), isLoading: false
->>>>>>> consolidate isLoading into setState when reuslts set
-=======
-      results: filter(results, query.slice(1))
->>>>>>> re isLoading, and use symbols instead
-=======
-      results: filter(results, query.slice(1))
-=======
-      results: filter(results, query.slice(1)),
-      isLoading: false
->>>>>>> clean up
->>>>>>> clean up
-=======
->>>>>>> move loading logic into updateResults
-=======
-=======
-      results: filter(results, query.slice(1)), isLoading: false
->>>>>>> consolidate isLoading into setState when reuslts set
-<<<<<<< HEAD
->>>>>>> consolidate isLoading into setState when reuslts set
-=======
-=======
-      results: filter(results, query.slice(1))
->>>>>>> re isLoading, and use symbols instead
->>>>>>> re isLoading, and use symbols instead
-    });
+    this.setState({ results: filter(results, query.slice(1)) });
   };
 
   searchShortcuts = (query: string) => {
@@ -212,74 +144,7 @@ export class QuickOpenModal extends Component<Props, State> {
     if (query == "?") {
       this.setState({ results });
     } else {
-      this.setState({
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> re isLoading, and use symbols instead
-        results: filter(results, query.slice(1))
-=======
-        results: filter(results, query.slice(1)),
-        isLoading: false
->>>>>>> add newline at eof
-=======
-=======
->>>>>>> move loading logic into updateResults
-        results: filter(results, query.slice(1))
->>>>>>> move loading logic into updateResults
-=======
-        results: filter(results, query.slice(1)), isLoading: false
->>>>>>> consolidate isLoading into setState when reuslts set
-=======
-        results: filter(results, query.slice(1))
->>>>>>> re isLoading, and use symbols instead
-<<<<<<< HEAD
-=======
-=======
->>>>>>> consolidate isLoading into setState when reuslts set
-        results: filter(results, query.slice(1))
->>>>>>> add newline at eof
-=======
-        results: filter(results, query.slice(1)),
-        isLoading: false
->>>>>>> add newline at eof
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-        results: filter(results, query.slice(1))
->>>>>>> move loading logic into updateResults
-=======
-        results: filter(results, query.slice(1)), isLoading: false
->>>>>>> consolidate isLoading into setState when reuslts set
-=======
-        results: filter(results, query.slice(1))
->>>>>>> re isLoading, and use symbols instead
-=======
->>>>>>> add newline at eof
-=======
-=======
-        results: filter(results, query.slice(1))
->>>>>>> move loading logic into updateResults
-<<<<<<< HEAD
->>>>>>> move loading logic into updateResults
-=======
-=======
-        results: filter(results, query.slice(1)), isLoading: false
->>>>>>> consolidate isLoading into setState when reuslts set
->>>>>>> consolidate isLoading into setState when reuslts set
-=======
->>>>>>> re isLoading, and use symbols instead
-      });
+      this.setState({ results: filter(results, query.slice(1)) });
     }
   };
 
@@ -310,36 +175,7 @@ export class QuickOpenModal extends Component<Props, State> {
     if (this.isShortcutQuery()) {
       return this.searchShortcuts(query);
     }
-
-    this.searchSources(query);
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-    return this.setState({ isLoading: false });
->>>>>>> move loading logic into updateResults
-=======
->>>>>>> consolidate isLoading into setState when reuslts set
-=======
-    return this.setState({ isLoading: false });
->>>>>>> move loading logic into updateResults
-=======
->>>>>>> consolidate isLoading into setState when reuslts set
-=======
-=======
-    return this.setState({ isLoading: false });
->>>>>>> move loading logic into updateResults
->>>>>>> move loading logic into updateResults
-=======
-=======
-    return this.setState({ isLoading: false });
->>>>>>> move loading logic into updateResults
-=======
->>>>>>> consolidate isLoading into setState when reuslts set
->>>>>>> consolidate isLoading into setState when reuslts set
+    return this.searchSources(query);
   };
 
   setModifier = (item: QuickOpenResult) => {
@@ -525,90 +361,13 @@ export class QuickOpenModal extends Component<Props, State> {
     return !this.getResultCount() && !!query;
   }
 
-  hasPrefix = () => /^[:#@]/.test(this.props.query);
-
   render() {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-    const { enabled, query, symbols } = this.props;
-    const { selectedIndex, results } = this.state;
-=======
     const { enabled, query } = this.props;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-    const { selectedIndex, results, isLoading } = this.state;
-=======
-    const { enabled, query, symbols } = this.props;
     const { selectedIndex, results } = this.state;
->>>>>>> re isLoading, and use symbols instead
-=======
-    let { selectedIndex, results } = this.state;
-    const { isLoading } = this.state;
-=======
-    let { selectedIndex, results, isLoading } = this.state;
->>>>>>> add newline at eof
-=======
-    const { selectedIndex, results, isLoading } = this.state;
->>>>>>> consolidate isLoading into setState when reuslts set
 
-    if (isLoading) {
-=======
-=======
->>>>>>> re isLoading, and use symbols instead
-    const { enabled, query, symbols } = this.props;
-    const { selectedIndex, results } = this.state;
-=======
-    const { enabled, query } = this.props;
-    const { selectedIndex, results, isLoading } = this.state;
-=======
-    const { enabled, query, symbols } = this.props;
-    const { selectedIndex, results } = this.state;
->>>>>>> re isLoading, and use symbols instead
-
-<<<<<<< HEAD
-    if (isLoading) {
-<<<<<<< HEAD
-      console.log(results);
->>>>>>> wrapper for loading indicator
-=======
->>>>>>> add newline at eof
-      results = null;
-    }
-
-    setTimeout(() => this.setState({ isLoading: false }), 4000); // exists to simulate a situation that requires loading ( can remove set timeouts later )
->>>>>>> wrapper for loading indicator
-<<<<<<< HEAD
-=======
-    const { enabled, query, symbols } = this.props;
-    const { selectedIndex, results } = this.state;
->>>>>>> re isLoading, and use symbols instead
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-    if (isLoading) {
-      results = null;
-    }
-=======
->>>>>>> wrapper for loading indicator
-
-    setTimeout(() => this.setState({ isLoading: false }), 4000); // exists to simulate a situation that requires loading ( can remove set timeouts later )
->>>>>>> wrapper for loading indicator
-
-=======
->>>>>>> clean up
-<<<<<<< HEAD
-=======
->>>>>>> clean up
-=======
->>>>>>> clean up
     if (!enabled) {
       return null;
     }
-
     const summaryMsg = L10N.getFormatStr(
       "sourceSearch.resultsSummary1",
       this.getResultCount()
@@ -629,116 +388,9 @@ export class QuickOpenModal extends Component<Props, State> {
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}
           handleClose={this.closeModal}
-          hasPrefix={this.hasPrefix()}
           expanded={expanded}
           selectedItemId={expanded ? items[selectedIndex].id : ""}
         />
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> re isLoading, and use symbols instead
-=======
->>>>>>> re isLoading, and use symbols instead
-=======
->>>>>>> wrapper for loading indicator
-=======
->>>>>>> add newline at eof
-=======
->>>>>>> move loading logic into updateResults
-=======
->>>>>>> remove comment
-=======
->>>>>>> pad top/bot, and center
-=======
-=======
->>>>>>> re isLoading, and use symbols instead
->>>>>>> re isLoading, and use symbols instead
-        {!symbols ||
-          (symbols.functions.length == 0 && (
-            <div className="loading-indicator">
-              {L10N.getStr("loadingText")}
-            </div>
-          ))}
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> add newline at eof
-=======
-        {this.state.isLoading && (
-          <div className="load">{L10N.getStr("loadingText")}</div>
-        )}
->>>>>>> add newline at eof
-<<<<<<< HEAD
-=======
-        {/* {!this.state.isLoading && ( */}
-=======
->>>>>>> remove comment
-        {isLoading && <div className="load">{L10N.getStr("loadingText")}</div>}
->>>>>>> move loading logic into updateResults
-=======
-        {isLoading && (
-<<<<<<< HEAD
-          <div className="loading-indicator">{L10N.getStr("loadingText")}</div>
-        )}
->>>>>>> pad top/bot, and center
-=======
->>>>>>> re isLoading, and use symbols instead
-=======
->>>>>>> re isLoading, and use symbols instead
-=======
-        {this.state.isLoading && (
-          <div className="load">{L10N.getStr("loadingText")}</div>
-        )}
->>>>>>> add newline at eof
-=======
-        {/* {!this.state.isLoading && ( */}
-<<<<<<< HEAD
-=======
->>>>>>> remove comment
-        {isLoading && <div className="load">{L10N.getStr("loadingText")}</div>}
->>>>>>> move loading logic into updateResults
-=======
-        {isLoading && (
-          <div className="loading-indicator">{L10N.getStr("loadingText")}</div>
-<<<<<<< HEAD
-        )}
->>>>>>> pad top/bot, and center
-=======
->>>>>>> re isLoading, and use symbols instead
-<<<<<<< HEAD
-=======
->>>>>>> add newline at eof
-=======
-        {isLoading && <div className="load">{L10N.getStr("loadingText")}</div>}
->>>>>>> move loading logic into updateResults
->>>>>>> move loading logic into updateResults
-=======
-          <div className="loadIndicator">{L10N.getStr("loadingText")}</div>
-=======
->>>>>>> consolidate isLoading into setState when reuslts set
-        )}
->>>>>>> pad top/bot, and center
->>>>>>> pad top/bot, and center
-=======
->>>>>>> re isLoading, and use symbols instead
         {newResults && (
           <ResultList
             key="results"
@@ -750,45 +402,6 @@ export class QuickOpenModal extends Component<Props, State> {
             {...(this.isSourceSearch() ? { size: "big" } : {})}
           />
         )}
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> add newline at eof
-=======
-=======
->>>>>>> wrapper for loading indicator
-=======
-=======
->>>>>>> wrapper for loading indicator
-        <div className="loading-wrapper">
-          {newResults && (
-            <ResultList
-              key="results"
-              items={items}
-              selected={selectedIndex}
-              selectItem={this.selectResultItem}
-              ref="resultList"
-              expanded={expanded}
-              {...(this.isSourceSearch() ? { size: "big" } : {})}
-            />
-          )}
-        </div>
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> wrapper for loading indicator
-=======
->>>>>>> add newline at eof
-=======
->>>>>>> wrapper for loading indicator
-=======
->>>>>>> add newline at eof
-=======
->>>>>>> wrapper for loading indicator
->>>>>>> wrapper for loading indicator
-=======
->>>>>>> add newline at eof
       </Modal>
     );
   }
