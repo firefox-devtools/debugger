@@ -16,7 +16,7 @@ import Group from "./Group";
 import renderWhyPaused from "./WhyPaused";
 
 import actions from "../../../actions";
-import { collapseFrames, formatCopyName } from "../../../utils/frame";
+import { formatCopyName } from "../../../utils/frame";
 import { copyToTheClipboard } from "../../../utils/clipboard";
 
 import {
@@ -84,15 +84,6 @@ class Frames extends Component<Props, State> {
     });
   }
 
-  collapseFrames(frames) {
-    const { frameworkGroupingOn } = this.props;
-    if (!frameworkGroupingOn) {
-      return frames;
-    }
-
-    return collapseFrames(frames);
-  }
-
   truncateFrames(frames) {
     const numFramesToShow = this.state.showAllFrames
       ? frames.length
@@ -120,7 +111,7 @@ class Frames extends Component<Props, State> {
       frameworkGroupingOn
     } = this.props;
 
-    const framesOrGroups = this.truncateFrames(this.collapseFrames(frames));
+    const framesOrGroups = this.truncateFrames(frames);
     type FrameOrGroup = LocalFrame | LocalFrame[];
 
     return (
@@ -160,7 +151,6 @@ class Frames extends Component<Props, State> {
       ? L10N.getStr("callStack.collapse")
       : L10N.getStr("callStack.expand");
 
-    frames = this.collapseFrames(frames);
     if (frames.length <= NUM_FRAMES_SHOWN) {
       return null;
     }

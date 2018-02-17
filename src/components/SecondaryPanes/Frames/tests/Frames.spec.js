@@ -102,24 +102,17 @@ describe("Frames", () => {
   });
 
   describe("Library Frames", () => {
-    it("toggling framework frames", () => {
+    it("renders frames and groups of frames", () => {
       const frames = [
         { id: 1 },
-        { id: 2, library: "back" },
-        { id: 3, library: "back" },
+        [{ id: 2, library: "back" }, { id: 3, library: "back" }],
         { id: 8 }
       ];
 
       const selectedFrame = frames[0];
-      const frameworkGroupingOn = false;
+      const frameworkGroupingOn = true;
       const component = render({ frames, frameworkGroupingOn, selectedFrame });
 
-      expect(component.find("FrameComponent")).toHaveLength(4);
-      expect(component).toMatchSnapshot();
-
-      component.setProps({ frameworkGroupingOn: true });
-
-      expect(component.find("FrameComponent")).toHaveLength(2);
       expect(component).toMatchSnapshot();
     });
   });
