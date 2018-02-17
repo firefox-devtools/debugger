@@ -6,7 +6,7 @@
 
 import { endTruncateStr } from "./utils";
 import { getFilename } from "./source";
-import { get, find, findIndex } from "lodash";
+import { get, find, findIndex, flow } from "lodash";
 
 import type { Frame } from "../types";
 import type { LocalFrame } from "../components/SecondaryPanes/Frames/types";
@@ -213,57 +213,60 @@ export function formatCopyName(frame: LocalFrame) {
   return `${displayName} (${fileName}#${frameLocation})`;
 }
 
-export function collapseFrames(frames: Frame[]) {
-  // We collapse groups of one so that user frames
-  // are not in a group of one
-  function addGroupToList(group, list) {
-    if (!group) {
-      return list;
-    }
+export const collapseFrames: (Frame[]) => Array<Frame | Frame[]> = flow(
+  collapseLastWebpackFrames,
+  collapseBabelAsyncFrames,
+  collapseRemainingFrames
+);
 
-    if (group.length > 1) {
-      list.push(group);
-    } else {
-      list = list.concat(group);
-    }
-
-    return list;
-  }
-  const { newFrames, lastGroup } = collapseLastFrames(frames);
-  frames = newFrames;
-  let items = [];
-  let currentGroup = null;
-  let prevItem = null;
-  for (const frame of frames) {
-    const prevLibrary = get(prevItem, "library");
-
-    if (!currentGroup) {
-      currentGroup = [frame];
-    } else if (prevLibrary && prevLibrary == frame.library) {
-      currentGroup.push(frame);
-    } else {
-      items = addGroupToList(currentGroup, items);
-      currentGroup = [frame];
-    }
-
-    prevItem = frame;
-  }
-
-  items = addGroupToList(currentGroup, items);
-  items = addGroupToList(lastGroup, items);
-  return items;
-}
-
-function collapseLastFrames(frames) {
+function collapseLastWebpackFrames(frames: Frame[]) {
   const index = findIndex(frames, frame =>
     getFrameUrl(frame).match(/webpack\/bootstrap/i)
   );
-
-  if (index == -1) {
-    return { newFrames: frames, lastGroup: [] };
+  if (index === -1) {
+    return frames;
   }
 
-  const newFrames = frames.slice(0, index);
-  const lastGroup = frames.slice(index);
-  return { newFrames, lastGroup };
+  const webpackFrames = frames.slice(index);
+  frames.splice(index, webpackFrames.length, webpackFrames);
+  return frames;
+}
+
+function collapseBabelAsyncFrames(frames: Frame[]) {
+  const lastIndex = findIndex(
+    frames,
+    frame => frame.displayName && frame.displayName.match(/_asyncToGenerator/)
+  );
+  if (lastIndex === -1) {
+    return frames;
+  }
+  const firstIndex = findIndex(frames, frame =>
+    getFrameUrl(frame).match(/regenerator-runtime/i)
+  );
+  if (firstIndex === -1) {
+    return frames;
+  }
+
+  const babelAsyncFrames = frames.slice(firstIndex, lastIndex + 1);
+  frames.splice(firstIndex, babelAsyncFrames.length, babelAsyncFrames);
+  return frames;
+}
+
+function collapseRemainingFrames(frames: Array<Frame | Frame[]>) {
+  return frames.reduce((accumulator, current, currentIndex) => {
+    // If current is already in a group, or it's the first item, keep it as is
+    if (Array.isArray(current) || currentIndex === 0) {
+      return accumulator.concat(current);
+    }
+    const previous = accumulator.pop();
+    // If previous and current are frames in the same library, group them
+    if (previous.library === current.library) {
+      return accumulator.concat([[previous, current]]);
+    }
+    // If previous is a group and current belongs to it, add current to previous
+    if (previous[0] && previous[0].library === current.library) {
+      return accumulator.concat([previous.concat(current)]);
+    }
+    return accumulator.concat(previous, current);
+  }, []);
 }
