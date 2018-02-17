@@ -2,5 +2,8 @@
   "flow.pathToFlow": "${workspaceRoot}/node_modules/.bin/flow",
   "eslint.autoFixOnSave": true,
   "prettier.eslintIntegration": true,
-  "javascript.validate.enable": false
+  "javascript.validate.enable": false,
+  "editor.rulers": [
+    80
+  ]
 }
