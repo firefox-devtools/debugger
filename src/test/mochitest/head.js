@@ -1085,7 +1085,7 @@ function getCM(dbg) {
 }
 
 function getCoordsFromPosition(cm, { line, ch }) {
-  return cm.charCoords({ line: ~~line, ch: ~~ch });
+  return cm.charCoords({ line, ch });
 }
 
 function hoverAtPos(dbg, { line, ch }) {
