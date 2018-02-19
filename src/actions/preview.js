@@ -126,7 +126,7 @@ export function updatePreview(target: HTMLElement, editor: any) {
       match = getExpressionFromCoords(editor.codeMirror, tokenPos);
     }
 
-    if (!match) {
+    if (!match || !match.expression) {
       return;
     }
 
