@@ -3289,9 +3289,9 @@ devtools-modules@^0.0.33:
   dependencies:
     jest "^19.0.2"
 
-devtools-reps@^0.19.2:
-  version "0.19.2"
-  resolved "https://registry.yarnpkg.com/devtools-reps/-/devtools-reps-0.19.2.tgz#c71e8eb7e0af9ffe6d363a8f550d85b1b5bbc20b"
+devtools-reps@0.20.0:
+  version "0.20.0"
+  resolved "https://registry.yarnpkg.com/devtools-reps/-/devtools-reps-0.20.0.tgz#c7884192104da10053ffd4495aa924d2c66defda"
   dependencies:
     classnames "^2.2.5"
     devtools-components "^0.1.5"
@@ -10622,7 +10622,7 @@ style-search@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/style-search/-/style-search-0.1.0.tgz#7958c793e47e32e07d2b5cafe5c0bf8e12e77902"
 
-stylelint@9.0.0:
+stylelint@^9.0.0:
   version "9.0.0"
   resolved "https://registry.yarnpkg.com/stylelint/-/stylelint-9.0.0.tgz#dfad428e948830e522a96e0f331f510d07a4fc0b"
   dependencies:
