@@ -18,7 +18,7 @@ function hoverAtPos(dbg, { line, ch }) {
   );
 }
 
-function assertPreviewTooltip(dbg, { result, expression }) {
+function assertTooltip(dbg, { result, expression }) {
   const previewEl = findElement(dbg, "tooltip");
   is(previewEl.innerText, result, "Preview text shown to user");
 
@@ -28,7 +28,7 @@ function assertPreviewTooltip(dbg, { result, expression }) {
   is(preview.expression, expression, "Preview.expression");
 }
 
-function assertPreviewPopup(dbg, { field, value, expression }) {
+function assertPopup(dbg, { field, value, expression }) {
   const previewEl = findElement(dbg, "popup");
   is(previewEl.innerText, "", "Preview text shown to user");
 
@@ -59,5 +59,5 @@ add_task(async function() {
   hoverAtPos(dbg, { line: 2, ch: 9 });
 
   await tooltipPreviewed;
-  assertPreviewTooltip(dbg, { result: 4, expression: "x" });
+  assertTooltip(dbg, { result: 4, expression: "x" });
 });
