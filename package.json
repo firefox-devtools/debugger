@@ -72,7 +72,7 @@
     "codemirror": "^5.28.0",
     "devtools-launchpad": "^0.0.115",
     "devtools-linters": "^0.0.4",
-    "devtools-reps": "^0.19.2",
+    "devtools-reps": "^0.20.0",
     "devtools-source-map": "^0.14.8",
     "devtools-splitter": "^0.0.6",
     "devtools-utils": "^0.0.11",
