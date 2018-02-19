@@ -1084,46 +1084,6 @@ function getCM(dbg) {
   return el.CodeMirror;
 }
 
-function getCoordsFromPosition(cm, { line, ch }) {
-  return cm.charCoords({ line: ~~line, ch: ~~ch });
-}
-
-function hoverAtPos(dbg, { line, ch }) {
-  const cm = getCM(dbg);
-  const coords = getCoordsFromPosition(cm, { line: line - 1, ch });
-  const tokenEl = dbg.win.document.elementFromPoint(coords.left, coords.top);
-  tokenEl.dispatchEvent(
-    new MouseEvent("mouseover", {
-      bubbles: true,
-      cancelable: true,
-      view: dbg.win
-    })
-  );
-}
-
-async function assertPreviewTooltip(dbg, { result, expression }) {
-  const previewEl = await waitForElement(dbg, "tooltip");
-  is(previewEl.innerText, result, "Preview text shown to user");
-
-  const preview = dbg.selectors.getPreview(dbg.getState());
-  is(`${preview.result}`, result, "Preview.result");
-  is(preview.updating, false, "Preview.updating");
-  is(preview.expression, expression, "Preview.expression");
-}
-
-async function assertPreviewPopup(dbg, { field, value, expression }) {
-  const previewEl = await waitForElement(dbg, "popup");
-  const preview = dbg.selectors.getPreview(dbg.getState());
-
-  is(
-    `${preview.result.preview.ownProperties[field].value}`,
-    value,
-    "Preview.result"
-  );
-  is(preview.updating, false, "Preview.updating");
-  is(preview.expression, expression, "Preview.expression");
-}
-
 // NOTE: still experimental, the screenshots might not be exactly correct
 async function takeScreenshot(dbg) {
   let canvas = dbg.win.document.createElementNS(
