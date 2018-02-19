@@ -14,10 +14,6 @@ import { onConnect } from "./client";
 import { teardownWorkers } from "./utils/bootstrap";
 import sourceQueue from "./utils/source-queue";
 
-if (process.env.NODE_ENV !== "production") {
-  window.Perf = require("react-addons-perf");
-}
-
 if (isFirefoxPanel()) {
   module.exports = {
     bootstrap: ({

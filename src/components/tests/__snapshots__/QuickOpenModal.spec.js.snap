@@ -1458,14 +1458,14 @@ exports[`QuickOpenModal updateResults on enable 2`] = `
     >
       <Modal
         handleClose={[Function]}
-        status="entering"
+        status="exited"
       >
         <div
           className="modal-wrapper"
           onClick={[Function]}
         >
           <div
-            className="modal entering"
+            className="modal exited"
             onClick={[Function]}
           >
             <SearchInput
