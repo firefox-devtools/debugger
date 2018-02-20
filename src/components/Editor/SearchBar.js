@@ -51,7 +51,8 @@ type State = {
   query: string,
   selectedResultIndex: number,
   count: number,
-  index: number
+  index: number,
+  inputFocused: boolean
 };
 
 type Props = {
@@ -79,7 +80,8 @@ class SearchBar extends Component<Props, State> {
       query: props.query,
       selectedResultIndex: 0,
       count: 0,
-      index: -1
+      index: -1,
+      inputFocused: false
     };
   }
 
@@ -144,7 +146,7 @@ class SearchBar extends Component<Props, State> {
       e.stopPropagation();
       e.preventDefault();
     }
-    this.setState({ query: "" });
+    this.setState({ query: "", inputFocused: false });
   };
 
   toggleSearch = (e: SyntheticKeyboardEvent<HTMLElement>) => {
@@ -159,15 +161,11 @@ class SearchBar extends Component<Props, State> {
     if (this.props.searchOn && editor) {
       const query = editor.codeMirror.getSelection() || this.state.query;
 
-      if (this.$input) {
-        this.$input.setFocus();
-      }
-
       if (query !== "") {
-        this.setState({ query });
+        this.setState({ query, inputFocused: true });
         this.doSearch(query);
       } else {
-        this.setState({ query: "" });
+        this.setState({ query: "", inputFocused: true });
       }
     }
   };
@@ -314,6 +312,7 @@ class SearchBar extends Component<Props, State> {
           handlePrev={e => this.traverseResults(e, true)}
           handleClose={this.closeSearch}
           ref={c => (this.$input = c)}
+          shouldFocus={this.state.inputFocused}
         />
         <div className="search-bottom-bar">{this.renderSearchModifiers()}</div>
       </div>
