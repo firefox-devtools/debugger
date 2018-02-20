@@ -7,8 +7,9 @@ import {
   getSelectedSource,
   getSourceInSources
 } from "../reducers/sources";
+import { getFrameworkGroupingState } from "../reducers/ui";
 import { getFrames } from "../reducers/pause";
-import { annotateFrame } from "../utils/frame";
+import { annotateFrame, collapseFrames } from "../utils/frame";
 import { isOriginalId } from "devtools-source-map";
 import { get } from "lodash";
 import type { Frame, Source } from "../types";
@@ -39,23 +40,30 @@ function appendSource(sources, frame, selectedSource) {
 export function formatCallStackFrames(
   frames: Frame[],
   sources: SourcesMap,
-  selectedSource: Source
+  selectedSource: Source,
+  frameworkGroupingOn: boolean
 ) {
   if (!frames) {
     return null;
   }
 
-  return frames
+  let formattedFrames = frames
     .filter(frame => getSourceForFrame(sources, frame))
     .map(frame => appendSource(sources, frame, selectedSource))
     .filter(frame => !get(frame, "source.isBlackBoxed"))
     .map(annotateFrame);
+
+  if (frameworkGroupingOn) {
+    formattedFrames = collapseFrames(formattedFrames);
+  }
+
+  return formattedFrames;
 }
 
 export const getCallStackFrames = createSelector(
-  getSelectedSource,
-  getSources,
   getFrames,
-  (selectedSource, sources, frames) =>
-    formatCallStackFrames(frames, sources, selectedSource)
+  getSources,
+  getSelectedSource,
+  getFrameworkGroupingState,
+  formatCallStackFrames
 );
