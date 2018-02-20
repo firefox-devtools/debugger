@@ -62,8 +62,7 @@ class SearchInput extends Component<Props> {
   }
 
   componentDidUpdate(prevProps: Props) {
-    const { shouldFocus } = this.props;
-    if (shouldFocus) {
+    if (this.props.shouldFocus && !prevProps.shouldFocus) {
       this.setFocus();
     }
   }

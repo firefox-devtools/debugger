@@ -72,8 +72,6 @@ type Props = {
 };
 
 class SearchBar extends Component<Props, State> {
-  $input: ?SearchInput;
-
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -210,6 +208,10 @@ class SearchBar extends Component<Props, State> {
     return this.doSearch(e.target.value);
   };
 
+  onBlur = (e: SyntheticInputEvent<HTMLElement>) => {
+    this.setState({ inputFocused: false });
+  };
+
   onKeyDown = (e: SyntheticKeyboardEvent<HTMLElement>) => {
     if (e.key !== "Enter" && e.key !== "F3") {
       return;
@@ -306,12 +308,12 @@ class SearchBar extends Component<Props, State> {
           placeholder={L10N.getStr("sourceSearch.search.placeholder")}
           summaryMsg={this.buildSummaryMsg()}
           onChange={this.onChange}
+          onBlur={this.onBlur}
           showErrorEmoji={this.shouldShowErrorEmoji()}
           onKeyDown={this.onKeyDown}
           handleNext={e => this.traverseResults(e, false)}
           handlePrev={e => this.traverseResults(e, true)}
           handleClose={this.closeSearch}
-          ref={c => (this.$input = c)}
           shouldFocus={this.state.inputFocused}
         />
         <div className="search-bottom-bar">{this.renderSearchModifiers()}</div>
