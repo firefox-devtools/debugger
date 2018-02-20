@@ -124,11 +124,15 @@ class SourcesTree extends Component<Props, State> {
     }
 
     if (nextProps.selectedSource) {
-      const highlightItems = getDirectories(
-        getRawSourceURL(nextProps.selectedSource.get("url")),
-        sourceTree
-      );
-      return this.setState({ highlightItems });
+      const highlightUrl = nextProps.selectedSource.get("url");
+
+      if (highlightUrl) {
+        const highlightItems = getDirectories(
+          getRawSourceURL(highlightUrl),
+          sourceTree
+        );
+        return this.setState({ highlightItems });
+      }
     }
 
     // NOTE: do not run this every time a source is clicked,
