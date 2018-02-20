@@ -36,7 +36,7 @@ export function tokenAtTextPosition(
 export function getExpressionFromCoords(cm: any, coord: Pos) {
   const token = tokenAtTextPosition(cm, coord);
   if (!token) {
-    return;
+    return null;
   }
 
   let startHighlight = token.startColumn;
@@ -56,6 +56,11 @@ export function getExpressionFromCoords(cm: any, coord: Pos) {
     startHighlight = tokenBefore.startColumn;
   }
   const expression = line.substring(startHighlight, endHighlight);
+
+  if (!expression) {
+    return null;
+  }
+
   const location = {
     start: { line: lineNumber, column: startHighlight },
     end: { line: lineNumber, column: endHighlight }
