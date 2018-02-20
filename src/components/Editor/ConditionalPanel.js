@@ -104,6 +104,13 @@ export class ConditionalPanel extends PureComponent<Props> {
   }
 
   renderToWidget(props: Props) {
+    if (this.cbPanel) {
+      if (this.props.line && this.props.line == props.line) {
+        return props.closeConditionalPanel();
+      }
+      this.clearConditionalPanel();
+    }
+
     const { selectedLocation, line, editor } = props;
     const sourceId = selectedLocation ? selectedLocation.sourceId : "";
 
