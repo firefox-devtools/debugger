@@ -86,7 +86,7 @@ describe("ManagedTree", () => {
         getParent={item => null}
         getChildren={branch => branch.children || []}
         itemHeight={24}
-        autoExpandAll={true}
+        autoExpandAll={false}
         autoExpandDepth={1}
         getPath={getPath}
         renderItem={renderItem}
