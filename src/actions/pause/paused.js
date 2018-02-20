@@ -4,19 +4,24 @@
 
 // @flow
 
-import { isGeneratedId } from "devtools-source-map";
+import { isEqual } from "lodash";
+import { isGeneratedId, isOriginalId } from "devtools-source-map";
+import { isInvalidPauseLocation } from "../../workers/parser";
 
 import {
   getHiddenBreakpointLocation,
   isEvaluatingExpression,
   getSelectedFrame,
-  getVisibleSelectedFrame
+  getSelectedSource,
+  getVisibleSelectedFrame,
+  getPreviousPauseFrameLocation
 } from "../../selectors";
 import { mapFrames } from ".";
 import { removeBreakpoint } from "../breakpoints";
 import { evaluateExpressions } from "../expressions";
 import { selectLocation } from "../sources";
 import { togglePaneCollapse } from "../ui";
+import { command } from "./commands";
 
 import { fetchScopes } from "./fetchScopes";
 
@@ -34,11 +39,42 @@ export function paused(pauseInfo: Pause) {
   return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
     const { frames, why, loadedObjects } = pauseInfo;
 
+    const rootFrame = frames.length > 0 ? frames[0] : null;
+
+    if (rootFrame) {
+      const state = getState();
+      const selectedSource = getSelectedSource(state);
+      const previousFrameInfo = getPreviousPauseFrameLocation(state);
+
+      let previousFrameLoc;
+      let currentFrameLoc;
+
+      if (selectedSource && isOriginalId(selectedSource.get("id"))) {
+        currentFrameLoc = await sourceMaps.getOriginalLocation(
+          rootFrame.location
+        );
+        previousFrameLoc = previousFrameInfo && previousFrameInfo.location;
+      } else {
+        currentFrameLoc = rootFrame.location;
+        previousFrameLoc =
+          previousFrameInfo && previousFrameInfo.generatedLocation;
+      }
+
+      if (
+        isOriginalId(currentFrameLoc.sourceId) &&
+        ((previousFrameLoc && isEqual(previousFrameLoc, currentFrameLoc)) ||
+          (await isInvalidPauseLocation(currentFrameLoc)))
+      ) {
+        dispatch(command("stepOver"));
+        return;
+      }
+    }
+
     dispatch({
       type: "PAUSED",
       why,
       frames,
-      selectedFrameId: frames[0] ? frames[0].id : undefined,
+      selectedFrameId: rootFrame ? rootFrame.id : undefined,
       loadedObjects: loadedObjects || []
     });
 
