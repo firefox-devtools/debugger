@@ -21231,7 +21231,11 @@
       "../../@babel/traverse/lib/visitors.js": 2411,
       "../../@babel/traverse/lib/hub.js": 2412,
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/workers/parser/getScopes/index.js": 2413,
-      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/workers/parser/getScopes/visitor.js": 2414
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/workers/parser/getScopes/visitor.js": 2414,
+      "../../@babel/code-frame/lib/index.js": 2415,
+      "../../@babel/types/node_modules/to-fast-properties/index.js": 2416,
+      "../../@babel/traverse/node_modules/babylon/lib/index.js": 2417,
+      "../../@babel/template/node_modules/babylon/lib/index.js": 2418
     },
     "usedIds": {
       "0": 0,
@@ -23648,7 +23652,11 @@
       "2411": 2411,
       "2412": 2412,
       "2413": 2413,
-      "2414": 2414
+      "2414": 2414,
+      "2415": 2415,
+      "2416": 2416,
+      "2417": 2417,
+      "2418": 2418
     }
   },
   "chunks": {
@@ -28031,133 +28039,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
-        }
-      }
-    }
-  ],
-  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/QuickOpenModal.css": [
-    {
-      "modules": {
-        "byIdentifier": {
-          "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/QuickOpenModal.css": 0,
-          "../../css-loader/lib/css-base.js": 1
-        },
-        "usedIds": {
-          "0": 0,
           "1": 1
-        }
-      },
-      "chunks": {
-        "byName": {},
-        "byBlocks": {},
-        "usedIds": {
-          "1": 1
-        }
-      }
-    }
-  ],
-  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Button/CommandBarButton.css": [
-    {
-      "modules": {
-        "byIdentifier": {
-          "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/shared/Button/CommandBarButton.css": 0,
-          "../../css-loader/lib/css-base.js": 1
-        },
-        "usedIds": {
-          "0": 0,
-          "1": 1
-        }
-      },
-      "chunks": {
-        "byName": {},
-        "byBlocks": {},
-        "usedIds": {
-          "1": 1
-        }
-      }
-    }
-  ],
-  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/BreakpointsDropdown.css": [
-    {
-      "modules": {
-        "byIdentifier": {
-          "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/BreakpointsDropdown.css": 0,
-          "../../css-loader/lib/css-base.js": 1
-        },
-        "usedIds": {
-          "0": 0,
-          "1": 1
-        }
-      },
-      "chunks": {
-        "byName": {},
-        "byBlocks": {},
-        "usedIds": {
-          "1": 1
-        }
-      }
-    }
-  ],
-  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../devtools-reps/node_modules/devtools-components/src/tree.css": [
-    {
-      "modules": {
-        "byIdentifier": {
-          "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../devtools-reps/node_modules/devtools-components/src/tree.css": 0,
-          "../../css-loader/lib/css-base.js": 1
-        },
-        "usedIds": {
-          "0": 0,
-          "1": 1
-        }
-      },
-      "chunks": {
-        "byName": {},
-        "byBlocks": {},
-        "usedIds": {
-          "1": 1
-        }
-      }
-    }
-  ],
-  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/ProjectSearch.css": [
-    {
-      "modules": {
-        "byIdentifier": {
-          "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/ProjectSearch.css": 0,
-          "../../css-loader/lib/css-base.js": 1
-        },
-        "usedIds": {
-          "0": 0,
-          "1": 1
-        }
-      },
-      "chunks": {
-        "byName": {},
-        "byBlocks": {},
-        "usedIds": {
-          "1": 1
-        }
-      }
-    }
-  ],
-  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../devtools-components/src/tree.css": [
-    {
-      "modules": {
-        "byIdentifier": {
-          "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../devtools-components/src/tree.css": 0,
-          "../../css-loader/lib/css-base.js": 1
-        },
-        "usedIds": {
-          "0": 0,
-          "1": 1
-        }
-      },
-      "chunks": {
-        "byName": {},
-        "byBlocks": {},
-        "usedIds": {
-          "0": 0
         }
       }
     }
