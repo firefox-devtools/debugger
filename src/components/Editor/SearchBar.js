@@ -208,7 +208,7 @@ class SearchBar extends Component<Props, State> {
     return this.doSearch(e.target.value);
   };
 
-  onBlur = (e: SyntheticInputEvent<HTMLElement>) => {
+  onBlur = (e: SyntheticFocusEvent<HTMLElement>) => {
     this.setState({ inputFocused: false });
   };
 
