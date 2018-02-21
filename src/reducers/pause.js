@@ -197,16 +197,14 @@ function update(
       };
 
     case "COMMAND": {
-      if (action.status === "start") {
-        return {
-          ...state,
-          ...emptyPauseState,
-          command: action.command,
-          previousLocation: _prev(state, action)
-        };
-      } else {
-        return { ...state, command: "" };
-      }
+      return action.status === "start"
+        ? {
+            ...state,
+            ...emptyPauseState,
+            command: action.command,
+            previousLocation: buildPreviousLocation(state, action)
+          }
+        : { ...state, command: "" };
     }
 
     case "RESUME":
@@ -227,7 +225,7 @@ function update(
   return state;
 }
 
-function _prev(state, action) {
+function buildPreviousLocation(state, action) {
   const { frames, previousLocation } = state;
 
   if (action.command !== "stepOver") {
@@ -244,6 +242,7 @@ function _prev(state, action) {
     generatedLocation: frame.generatedLocation
   };
 }
+
 // Selectors
 
 // Unfortunately, it's really hard to make these functions accept just

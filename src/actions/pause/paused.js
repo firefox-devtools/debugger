@@ -4,17 +4,13 @@
 
 // @flow
 
-import { isEqual } from "lodash";
-import { isGeneratedId, isOriginalId } from "devtools-source-map";
-import { isInvalidPauseLocation } from "../../workers/parser";
+import { isGeneratedId } from "devtools-source-map";
 
 import {
   getHiddenBreakpointLocation,
   isEvaluatingExpression,
   getSelectedFrame,
-  getSelectedSource,
-  getVisibleSelectedFrame,
-  getPreviousPauseFrameLocation
+  getVisibleSelectedFrame
 } from "../../selectors";
 
 import { mapFrames } from ".";
@@ -23,8 +19,7 @@ import { evaluateExpressions } from "../expressions";
 import { selectLocation } from "../sources";
 import { togglePaneCollapse } from "../ui";
 import { command } from "./commands";
-// NOTE: we might want to move utils/pause.js into utils/pause/index... so we can replace the `pause/index` with `pause`
-import { shouldStep } from "../../utils/pause/index";
+import { shouldStep } from "../../utils/pause";
 
 import { fetchScopes } from "./fetchScopes";
 
