@@ -114,11 +114,11 @@ class Tab extends PureComponent<Props> {
       }
     ];
 
-    if (!isPrettySource) {
-      items.push({
-        item: { ...tabMenuItems.showSource, click: () => showSource(tab) }
-      });
+    items.push({
+      item: { ...tabMenuItems.showSource, click: () => showSource(tab) }
+    });
 
+    if (!isPrettySource) {
       items.push({
         item: {
           ...tabMenuItems.prettyPrint,
