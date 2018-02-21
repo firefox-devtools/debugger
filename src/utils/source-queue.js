@@ -4,12 +4,13 @@ let newSources;
 let createSource;
 let supportsWasm = false;
 let queuedSources;
+let currentWork;
 
 async function dispatchNewSources() {
   const sources = queuedSources;
   queuedSources = [];
 
-  await newSources(
+  currentWork = await newSources(
     sources.map(source => createSource(source, { supportsWasm }))
   );
 }
@@ -27,6 +28,6 @@ export default {
     queuedSources.push(source);
     queue();
   },
-  flush: () => queue.flush(),
+  flush: () => Promise.all([queue.flush(), currentWork]),
   clear: () => queue.cancel()
 };
