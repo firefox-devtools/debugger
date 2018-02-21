@@ -16,12 +16,15 @@ import {
   getVisibleSelectedFrame,
   getPreviousPauseFrameLocation
 } from "../../selectors";
+
 import { mapFrames } from ".";
 import { removeBreakpoint } from "../breakpoints";
 import { evaluateExpressions } from "../expressions";
 import { selectLocation } from "../sources";
 import { togglePaneCollapse } from "../ui";
 import { command } from "./commands";
+// NOTE: we might want to move utils/pause.js into utils/pause/index... so we can replace the `pause/index` with `pause`
+import { shouldStep } from "../../utils/pause/index";
 
 import { fetchScopes } from "./fetchScopes";
 
@@ -38,36 +41,11 @@ import type { ThunkArgs } from "../types";
 export function paused(pauseInfo: Pause) {
   return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
     const { frames, why, loadedObjects } = pauseInfo;
-
     const rootFrame = frames.length > 0 ? frames[0] : null;
 
-    if (rootFrame) {
-      const state = getState();
-      const selectedSource = getSelectedSource(state);
-      const previousFrameInfo = getPreviousPauseFrameLocation(state);
-
-      let previousFrameLoc;
-      let currentFrameLoc;
-
-      if (selectedSource && isOriginalId(selectedSource.get("id"))) {
-        currentFrameLoc = await sourceMaps.getOriginalLocation(
-          rootFrame.location
-        );
-        previousFrameLoc = previousFrameInfo && previousFrameInfo.location;
-      } else {
-        currentFrameLoc = rootFrame.location;
-        previousFrameLoc =
-          previousFrameInfo && previousFrameInfo.generatedLocation;
-      }
-
-      if (
-        isOriginalId(currentFrameLoc.sourceId) &&
-        ((previousFrameLoc && isEqual(previousFrameLoc, currentFrameLoc)) ||
-          (await isInvalidPauseLocation(currentFrameLoc)))
-      ) {
-        dispatch(command("stepOver"));
-        return;
-      }
+    if (await shouldStep(rootFrame, getState(), sourceMaps)) {
+      dispatch(command("stepOver"));
+      return;
     }
 
     dispatch({

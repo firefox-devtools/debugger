@@ -197,29 +197,16 @@ function update(
       };
 
     case "COMMAND": {
-      const { frames, previousLocation } = state;
-
-      let newPreviousLocation = null;
-      if (action.command === "stepOver") {
-        const frame = frames && frames.length > 0 ? frames[0] : null;
-        if (frame) {
-          newPreviousLocation = {
-            location: frame.location,
-            generatedLocation: frame.generatedLocation
-          };
-        } else {
-          newPreviousLocation = previousLocation;
-        }
+      if (action.status === "start") {
+        return {
+          ...state,
+          ...emptyPauseState,
+          command: action.command,
+          previousLocation: _prev(state, action)
+        };
+      } else {
+        return { ...state, command: "" };
       }
-
-      return action.status === "start"
-        ? {
-            ...state,
-            ...emptyPauseState,
-            command: action.command,
-            previousLocation: newPreviousLocation
-          }
-        : { ...state, command: "" };
     }
 
     case "RESUME":
@@ -240,6 +227,23 @@ function update(
   return state;
 }
 
+function _prev(state, action) {
+  const { frames, previousLocation } = state;
+
+  if (action.command !== "stepOver") {
+    return null;
+  }
+
+  const frame = frames && frames.length > 0 ? frames[0] : null;
+  if (!frame) {
+    return previousLocation;
+  }
+
+  return {
+    location: frame.location,
+    generatedLocation: frame.generatedLocation
+  };
+}
 // Selectors
 
 // Unfortunately, it's really hard to make these functions accept just
