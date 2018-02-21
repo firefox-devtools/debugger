@@ -18,7 +18,8 @@ import {
   getIsWaitingOnBreak,
   getShouldPauseOnExceptions,
   getShouldIgnoreCaughtExceptions,
-  getWorkers
+  getWorkers,
+  getSelectedFrame
 } from "../../selectors";
 
 import Svg from "../shared/Svg";
@@ -43,6 +44,7 @@ const Scopes = features.chromeScopes ? _chromeScopes : _Scopes;
 import "./SecondaryPanes.css";
 
 import type { WorkersList } from "../../reducers/types";
+import type { Frame } from "../../types";
 
 type AccordionPaneItem = {
   header: string,
@@ -80,7 +82,8 @@ type Props = {
   isWaitingOnBreak: any,
   shouldPauseOnExceptions: boolean,
   shouldIgnoreCaughtExceptions: boolean,
-  workers: WorkersList
+  workers: WorkersList,
+  selectedFrame: ?Frame
 };
 
 class SecondaryPanes extends Component<Props> {
@@ -137,6 +140,12 @@ class SecondaryPanes extends Component<Props> {
         L10N.getStr("watchExpressions.refreshButton")
       )
     ];
+  }
+
+  // NOTE: it is possible with webRR that we will be paused, but
+  // won't have a selected frame.
+  shouldShowScopes() {
+    return this.props.isPaused && this.props.selectedFrame;
   }
 
   getScopeItem(): AccordionPaneItem {
@@ -237,7 +246,7 @@ class SecondaryPanes extends Component<Props> {
 
     items.push(this.getBreakpointsItem());
 
-    if (this.props.isPaused) {
+    if (this.shouldShowScopes()) {
       items.push(this.getCallStackItem());
       if (this.props.horizontal) {
         items.push(this.getScopeItem());
@@ -274,7 +283,7 @@ class SecondaryPanes extends Component<Props> {
 
     items.push(this.getWatchItem());
 
-    if (this.props.isPaused) {
+    if (this.shouldShowScopes()) {
       items = [...items, this.getScopeItem()];
     }
 
@@ -333,6 +342,7 @@ SecondaryPanes.contextTypes = {
 export default connect(
   state => ({
     isPaused: getIsPaused(state),
+    selectedFrame: getSelectedFrame(state),
     breakpoints: getBreakpoints(state),
     breakpointsDisabled: getBreakpointsDisabled(state),
     breakpointsLoading: getBreakpointsLoading(state),
