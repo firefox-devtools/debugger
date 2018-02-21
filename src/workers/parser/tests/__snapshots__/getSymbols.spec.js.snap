@@ -680,10 +680,13 @@ hasJsx: false"
 
 exports[`Parser.getSymbols flow 1`] = `
 "functions:
-[(2, 2), (4, 3)]   renderHello(name) App
+[(2, 2), (4, 3)]   renderHello(name, action, ) App
 
 variables:
 [(2, 14), (2, 26)]   name
+[(2, 28), (2, 47)]   action
+[(2, 49), (2, 65)]
+[(2, 51), (2, 56)]   todos
 
 callExpressions:
 
@@ -692,13 +695,18 @@ memberExpressions:
 
 
 objectProperties:
-
+[(2, 51), (2, 56)]  todos todos
 
 comments:
 
 
 identifiers:
 [(1, 6), (1, 9)]  App App
+[(2, 2), (2, 13)]  renderHello renderHello
+[(2, 14), (2, 18)]  name name
+[(2, 28), (2, 34)]  action action
+[(2, 51), (2, 56)]  todos todos
+[(2, 51), (2, 56)]  todos todos
 [(3, 20), (3, 24)]  name name
 [(1, 18), (1, 27)]  Component Component
 

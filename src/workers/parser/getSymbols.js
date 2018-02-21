@@ -211,7 +211,7 @@ function extractSymbol(path, symbols) {
     }
   }
 
-  if (t.isIdentifier(path)) {
+  if (t.isIdentifier(path) && !t.isGenericTypeAnnotation(path.parent)) {
     let { start, end } = path.node.loc;
 
     if (t.isClassMethod(path.parent)) {
@@ -250,7 +250,6 @@ function extractSymbol(path, symbols) {
     if (t.isArrayPattern(node)) {
       return;
     }
-
     symbols.identifiers.push({
       name: node.name,
       expression: node.name,
