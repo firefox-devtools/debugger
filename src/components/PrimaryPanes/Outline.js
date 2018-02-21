@@ -12,7 +12,7 @@ import { getSelectedSource, getSymbols } from "../../selectors";
 
 import "./Outline.css";
 import PreviewFunction from "../shared/PreviewFunction";
-import { uniq } from "lodash";
+import { uniq, sortBy } from "lodash";
 import type {
   SymbolDeclarations,
   SymbolDeclaration
@@ -91,9 +91,14 @@ export class Outline extends Component<Props> {
 
   renderFunctions(functions: Array<SymbolDeclaration>) {
     const classes = uniq(functions.map(func => func.klass));
-    const namedFunctions = functions.filter(
-      func =>
-        func.name != "anonymous" && !func.klass && !classes.includes(func.name)
+    const namedFunctions = sortBy(
+      functions.filter(
+        func =>
+          func.name != "anonymous" &&
+          !func.klass &&
+          !classes.includes(func.name)
+      ),
+      "name"
     );
 
     const classFunctions = functions.filter(
