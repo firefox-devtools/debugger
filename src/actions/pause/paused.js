@@ -10,16 +10,19 @@ import {
   getHiddenBreakpointLocation,
   isEvaluatingExpression,
   getSelectedFrame,
-  getVisibleSelectedFrame
+  getVisibleSelectedFrame,
+  getSources
 } from "../../selectors";
 
 import { mapFrames } from ".";
 import { removeBreakpoint } from "../breakpoints";
 import { evaluateExpressions } from "../expressions";
-import { selectLocation } from "../sources";
+import { selectLocation, loadSourceText } from "../sources";
 import { togglePaneCollapse } from "../ui";
 import { command } from "./commands";
 import { shouldStep } from "../../utils/pause";
+
+import { updateFrameLocation } from "./mapFrames";
 
 import { fetchScopes } from "./fetchScopes";
 
@@ -38,9 +41,19 @@ export function paused(pauseInfo: Pause) {
     const { frames, why, loadedObjects } = pauseInfo;
     const rootFrame = frames.length > 0 ? frames[0] : null;
 
-    if (await shouldStep(rootFrame, getState(), sourceMaps)) {
-      dispatch(command("stepOver"));
-      return;
+    if (rootFrame) {
+      const mappedRootFrame = await updateFrameLocation(rootFrame, sourceMaps);
+      const source = getSources(getState()).get(
+        mappedRootFrame.location.sourceId
+      );
+
+      // Ensure that the original file has loaded if there is one.
+      await dispatch(loadSourceText(source));
+
+      if (await shouldStep(mappedRootFrame, getState(), sourceMaps)) {
+        dispatch(command("stepOver"));
+        return;
+      }
     }
 
     dispatch({

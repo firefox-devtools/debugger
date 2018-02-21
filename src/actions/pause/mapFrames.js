@@ -5,7 +5,7 @@ import { getFrames } from "../../selectors";
 import type { Frame } from "../../types";
 import type { ThunkArgs } from "../types";
 
-function updateFrameLocation(frame: Frame, sourceMaps: any) {
+export function updateFrameLocation(frame: Frame, sourceMaps: any) {
   return sourceMaps.getOriginalLocation(frame.location).then(loc => ({
     ...frame,
     location: loc,

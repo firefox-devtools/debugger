@@ -31,10 +31,10 @@ export async function shouldStep(
   let currentFrameLoc;
 
   if (selectedSource && isOriginalId(selectedSource.get("id"))) {
-    currentFrameLoc = await sourceMaps.getOriginalLocation(rootFrame.location);
+    currentFrameLoc = rootFrame.location;
     previousFrameLoc = previousFrameInfo && previousFrameInfo.location;
   } else {
-    currentFrameLoc = rootFrame.location;
+    currentFrameLoc = rootFrame.generatedLocation;
     previousFrameLoc = previousFrameInfo && previousFrameInfo.generatedLocation;
   }
 
