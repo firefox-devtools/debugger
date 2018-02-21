@@ -10,6 +10,7 @@
  */
 
 import { isOriginalId } from "devtools-source-map";
+import { endTruncateStr } from "./utils";
 import { basename } from "./path";
 
 import { parse as parseURL } from "url";
@@ -123,7 +124,7 @@ function resolveFileURL(
 ) {
   url = getRawSourceURL(url || "");
   const name = transformUrl(url);
-  return name;
+  return endTruncateStr(name, 50);
 }
 
 export function getFilenameFromURL(url: string) {
