@@ -137,10 +137,10 @@ class SearchBar extends Component<Props, State> {
   };
 
   closeSearch = (e: SyntheticEvent<HTMLElement>) => {
-    const { editor, searchOn } = this.props;
+    const { closeFileSearch, editor, searchOn } = this.props;
     if (editor && searchOn) {
       this.clearSearch();
-      this.props.closeFileSearch(editor);
+      closeFileSearch(editor);
       e.stopPropagation();
       e.preventDefault();
     }
@@ -150,13 +150,13 @@ class SearchBar extends Component<Props, State> {
   toggleSearch = (e: SyntheticKeyboardEvent<HTMLElement>) => {
     e.stopPropagation();
     e.preventDefault();
-    const { editor } = this.props;
+    const { editor, searchOn, setActiveSearch } = this.props;
 
-    if (!this.props.searchOn) {
-      this.props.setActiveSearch("file");
+    if (!searchOn) {
+      setActiveSearch("file");
     }
 
-    if (this.props.searchOn && editor) {
+    if (searchOn && editor) {
       const query = editor.codeMirror.getSelection() || this.state.query;
 
       if (query !== "") {

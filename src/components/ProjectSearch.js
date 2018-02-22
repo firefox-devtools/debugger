@@ -125,6 +125,7 @@ export class ProjectSearch extends Component<Props, State> {
     if (this.isProjectSearchEnabled()) {
       return closeProjectSearch();
     }
+
     return setActiveSearch("project");
   };
 
