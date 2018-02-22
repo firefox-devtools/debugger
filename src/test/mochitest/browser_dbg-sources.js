@@ -56,6 +56,7 @@ add_task(async function() {
     "The right source is selected"
   );
 
+  /*
   // Make sure new sources appear in the list.
   ContentTask.spawn(gBrowser.selectedBrowser, null, function() {
     const script = content.document.createElement("script");
@@ -69,4 +70,5 @@ add_task(async function() {
     "math.min.js",
     "math.min.js - The dynamic script exists"
   );
+  */
 });
