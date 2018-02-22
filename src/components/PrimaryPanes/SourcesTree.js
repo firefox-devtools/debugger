@@ -113,6 +113,22 @@ class SourcesTree extends Component<Props, State> {
         })
       );
     }
+
+    // NOTE: do not run this every time a source is clicked,
+    // only when a new source is added
+    if (nextProps.sources != this.props.sources) {
+      this.setState(
+        updateTree({
+          newSources: nextProps.sources,
+          prevSources: sources,
+          debuggeeUrl,
+          projectRoot,
+          uncollapsedTree,
+          sourceTree
+        })
+      );
+    }
+
     if (nextProps.shownSource && nextProps.shownSource != shownSource) {
       const listItems = getDirectories(nextProps.shownSource, sourceTree);
 
@@ -133,21 +149,6 @@ class SourcesTree extends Component<Props, State> {
         );
         return this.setState({ highlightItems });
       }
-    }
-
-    // NOTE: do not run this every time a source is clicked,
-    // only when a new source is added
-    if (nextProps.sources != this.props.sources) {
-      this.setState(
-        updateTree({
-          newSources: nextProps.sources,
-          prevSources: sources,
-          debuggeeUrl,
-          projectRoot,
-          uncollapsedTree,
-          sourceTree
-        })
-      );
     }
   }
 
