@@ -4,7 +4,12 @@
 
 // @flow
 
-import { getSource, getActiveSearch, getPaneCollapse } from "../selectors";
+import {
+  getActiveSearch,
+  getPaneCollapse,
+  getQuickOpenEnabled,
+  getSource
+} from "../selectors";
 import { getProjectDirectoryRoot } from "../reducers/ui";
 import type { ThunkArgs, panelPositionType } from "./types";
 import { getRawSourceURL } from "../utils/source";
@@ -37,6 +42,10 @@ export function setActiveSearch(activeSearch?: ActiveSearchType) {
     const activeSearchState = getActiveSearch(getState());
     if (activeSearchState === activeSearch) {
       return;
+    }
+
+    if (getQuickOpenEnabled(getState())) {
+      dispatch({ type: "CLOSE_QUICK_OPEN" });
     }
 
     dispatch({
