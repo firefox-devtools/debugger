@@ -22,6 +22,7 @@ export const clearSymbols = dispatcher.task("clearSymbols");
 export const clearScopes = dispatcher.task("clearScopes");
 export const clearASTs = dispatcher.task("clearASTs");
 export const getNextStep = dispatcher.task("getNextStep");
+export const isInvalidPauseLocation = dispatcher.task("isInvalidPauseLocation");
 export const getEmptyLines = dispatcher.task("getEmptyLines");
 export const hasSource = dispatcher.task("hasSource");
 export const setSource = dispatcher.task("setSource");

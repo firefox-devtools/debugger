@@ -13,6 +13,7 @@ import { getNextStep } from "./steps";
 import getEmptyLines from "./getEmptyLines";
 import { hasSyntaxError } from "./validate";
 import { getFramework } from "./frameworks";
+import { isInvalidPauseLocation } from "./pauseLocation";
 
 import { workerUtils } from "devtools-utils";
 const { workerHandler } = workerUtils;
@@ -28,6 +29,7 @@ self.onmessage = workerHandler({
   hasSource,
   setSource,
   clearSources,
+  isInvalidPauseLocation,
   getVariablesInScope,
   getNextStep,
   getEmptyLines,
