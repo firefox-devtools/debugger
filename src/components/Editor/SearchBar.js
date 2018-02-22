@@ -51,7 +51,8 @@ type State = {
   query: string,
   selectedResultIndex: number,
   count: number,
-  index: number
+  index: number,
+  inputFocused: boolean
 };
 
 type Props = {
@@ -77,7 +78,8 @@ class SearchBar extends Component<Props, State> {
       query: props.query,
       selectedResultIndex: 0,
       count: 0,
-      index: -1
+      index: -1,
+      inputFocused: false
     };
   }
 
@@ -136,13 +138,13 @@ class SearchBar extends Component<Props, State> {
 
   closeSearch = (e: SyntheticEvent<HTMLElement>) => {
     const { closeFileSearch, editor, searchOn } = this.props;
-
     if (editor && searchOn) {
       this.clearSearch();
       closeFileSearch(editor);
       e.stopPropagation();
       e.preventDefault();
     }
+    this.setState({ query: "", inputFocused: false });
   };
 
   toggleSearch = (e: SyntheticKeyboardEvent<HTMLElement>) => {
@@ -155,10 +157,13 @@ class SearchBar extends Component<Props, State> {
     }
 
     if (searchOn && editor) {
-      const selection = editor.codeMirror.getSelection();
-      this.setState({ query: selection });
-      if (selection !== "") {
-        this.doSearch(selection);
+      const query = editor.codeMirror.getSelection() || this.state.query;
+
+      if (query !== "") {
+        this.setState({ query, inputFocused: true });
+        this.doSearch(query);
+      } else {
+        this.setState({ query: "", inputFocused: true });
       }
     }
   };
@@ -201,6 +206,10 @@ class SearchBar extends Component<Props, State> {
     this.setState({ query: e.target.value });
 
     return this.doSearch(e.target.value);
+  };
+
+  onBlur = (e: SyntheticFocusEvent<HTMLElement>) => {
+    this.setState({ inputFocused: false });
   };
 
   onKeyDown = (e: SyntheticKeyboardEvent<HTMLElement>) => {
@@ -299,11 +308,13 @@ class SearchBar extends Component<Props, State> {
           placeholder={L10N.getStr("sourceSearch.search.placeholder")}
           summaryMsg={this.buildSummaryMsg()}
           onChange={this.onChange}
+          onBlur={this.onBlur}
           showErrorEmoji={this.shouldShowErrorEmoji()}
           onKeyDown={this.onKeyDown}
           handleNext={e => this.traverseResults(e, false)}
           handlePrev={e => this.traverseResults(e, true)}
           handleClose={this.closeSearch}
+          shouldFocus={this.state.inputFocused}
         />
         <div className="search-bottom-bar">{this.renderSearchModifiers()}</div>
       </div>

@@ -198,11 +198,11 @@ function evaluateInFrame(frameId: string, script: Script) {
 }
 
 function evaluate(
-  script: Script,
+  script: ?Script,
   { frameId }: EvaluateParam = {}
 ): Promise<mixed> {
   const params = frameId ? { frameActor: frameId } : {};
-  if (!tabTarget || !tabTarget.activeConsole) {
+  if (!tabTarget || !tabTarget.activeConsole || !script) {
     return Promise.resolve();
   }
 

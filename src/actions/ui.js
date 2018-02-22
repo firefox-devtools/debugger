@@ -12,6 +12,7 @@ import {
 } from "../selectors";
 import { getProjectDirectoryRoot } from "../reducers/ui";
 import type { ThunkArgs, panelPositionType } from "./types";
+import { getRawSourceURL } from "../utils/source";
 
 import type {
   ActiveSearchType,
@@ -75,7 +76,7 @@ export function showSource(sourceId: string) {
 
     dispatch({
       type: "SHOW_SOURCE",
-      sourceUrl: source.get("url")
+      sourceUrl: getRawSourceURL(source.get("url"))
     });
   };
 }

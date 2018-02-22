@@ -8,6 +8,8 @@ import {
 } from "../../utils/test-head";
 
 import * as parser from "../../workers/parser/index";
+import * as I from "immutable";
+
 const { isStepping } = selectors;
 
 let stepInResolve = null;
@@ -19,6 +21,7 @@ const mockThreadClient = {
   stepOver: () => new Promise(_resolve => _resolve),
   evaluate: () => new Promise(_resolve => {}),
   getFrameScopes: async frame => frame.scope,
+  setBreakpoint: () => new Promise(_resolve => {}),
   sourceContents: sourceId => {
     return new Promise((resolve, reject) => {
       switch (sourceId) {
@@ -27,6 +30,12 @@ const mockThreadClient = {
             source: "function foo1() {\n  return 5;\n}",
             contentType: "text/javascript"
           });
+        case "await":
+          return resolve({
+            source: "async function aWait() {\n await foo();  return 5;\n}",
+            contentType: "text/javascript"
+          });
+
         case "foo":
           return resolve({
             source: "function foo() {\n  return -5;\n}",
@@ -37,17 +46,18 @@ const mockThreadClient = {
   }
 };
 
-function createPauseInfo(overrides = {}) {
+function createPauseInfo(frameLocation = { sourceId: "foo1", line: 2 }) {
   return {
     frames: [
       makeFrame(
-        { id: 1, sourceId: "foo1" },
-        { location: { sourceId: "foo1", line: 2 } }
+        { id: 1, sourceId: frameLocation.sourceId },
+        {
+          location: frameLocation
+        }
       )
     ],
     loadedObjects: [],
-    why: {},
-    ...overrides
+    why: {}
   };
 }
 
@@ -95,6 +105,43 @@ describe("pause", () => {
       dispatch(actions.stepOver());
       expect(getNextStepSpy).not.toBeCalled();
       expect(isStepping(getState())).toBeTruthy();
+    });
+
+    it("should step over when paused before an await", async () => {
+      const store = createStore(mockThreadClient);
+      const { dispatch } = store;
+      const mockPauseInfo = createPauseInfo({
+        sourceId: "await",
+        line: 2,
+        column: 0
+      });
+
+      await dispatch(actions.newSource(makeSource("await")));
+      await dispatch(actions.loadSourceText(I.Map({ id: "await" })));
+
+      await dispatch(actions.paused(mockPauseInfo));
+      const getNextStepSpy = jest.spyOn(parser, "getNextStep");
+      dispatch(actions.stepOver());
+      expect(getNextStepSpy).toBeCalled();
+      getNextStepSpy.mockRestore();
+    });
+
+    it("should step over when paused after an await", async () => {
+      const store = createStore(mockThreadClient);
+      const { dispatch } = store;
+      const mockPauseInfo = createPauseInfo({
+        sourceId: "await",
+        line: 2,
+        column: 6
+      });
+
+      await dispatch(actions.newSource(makeSource("await")));
+      await dispatch(actions.loadSourceText(I.Map({ id: "await" })));
+
+      await dispatch(actions.paused(mockPauseInfo));
+      const getNextStepSpy = jest.spyOn(parser, "getNextStep");
+      dispatch(actions.stepOver());
+      expect(getNextStepSpy).toBeCalled();
       getNextStepSpy.mockRestore();
     });
   });

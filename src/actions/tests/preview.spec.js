@@ -49,8 +49,6 @@ const react = {
   }
 };
 
-const emptyObject = { actor: "this", preview: {} };
-
 const immutableList = {
   actor: "server1.conn34.child2/obj341",
   preview: {
@@ -90,24 +88,6 @@ describe("setPreview", () => {
     );
   }
 
-  it("member expression", async () => {
-    await setup("foo.js");
-
-    evaluationResult = { "this.bazz": { actor: "bazz", preview: {} } };
-    await dispatch(actions.setPreview("bazz", { line: 1, column: 34 }));
-    const preview = selectors.getPreview(getState());
-    expect(preview).toMatchSnapshot();
-  });
-
-  it("this", async () => {
-    await setup("foo.js");
-
-    evaluationResult = { this: emptyObject };
-    await dispatch(actions.setPreview("this", { line: 1, column: 30 }));
-    const preview = selectors.getPreview(getState());
-    expect(preview).toMatchSnapshot();
-  });
-
   it("react instance", async () => {
     await setup("foo.js");
     evaluationResult = {
@@ -115,7 +95,13 @@ describe("setPreview", () => {
       "this._reactInternalInstance.getName()": "Foo"
     };
 
-    await dispatch(actions.setPreview("this", { line: 1, column: 30 }));
+    await dispatch(
+      actions.setPreview(
+        "this",
+        { start: { line: 1, column: 28 }, end: { line: 1, column: 32 } },
+        { line: 1, column: 30 }
+      )
+    );
     const preview = selectors.getPreview(getState());
     expect(preview).toMatchSnapshot();
   });
@@ -129,7 +115,14 @@ describe("setPreview", () => {
       "list.toJS()": { actor: "bazz", preview: {} }
     };
 
-    await dispatch(actions.setPreview("list", { line: 1, column: 4 }));
+    await dispatch(
+      actions.setPreview(
+        "list",
+        { start: { line: 1, column: 0 }, end: { line: 1, column: 4 } },
+        { line: 1, column: 4 }
+      )
+    );
+
     const preview = selectors.getPreview(getState());
     expect(preview).toMatchSnapshot();
   });

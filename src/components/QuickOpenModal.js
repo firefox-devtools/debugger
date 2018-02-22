@@ -22,8 +22,7 @@ import {
   formatSymbols,
   formatSources,
   parseLineColumn,
-  formatShortcutResults,
-  MODIFIERS
+  formatShortcutResults
 } from "../utils/quick-open";
 import Modal from "./shared/Modal";
 import SearchInput from "./shared/SearchInput";
@@ -335,9 +334,7 @@ export class QuickOpenModal extends Component<Props, State> {
     if (newQuery === "") {
       return results;
     }
-    if (Object.keys(MODIFIERS).includes(query[0])) {
-      newQuery = query.slice(1, query.length);
-    }
+    newQuery = query.replace(/[@:#?]/gi, " ");
 
     return results.map(result => {
       return {

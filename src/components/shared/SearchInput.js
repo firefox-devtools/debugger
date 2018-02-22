@@ -29,6 +29,7 @@ const arrowBtn = (onClick, type, className, tooltip) => {
 type Props = {
   count: number,
   expanded: boolean,
+  shouldFocus?: boolean,
   handleClose: (e: SyntheticMouseEvent<HTMLDivElement>) => void,
   handleNext?: (e: SyntheticMouseEvent<HTMLButtonElement>) => void,
   handlePrev?: (e: SyntheticMouseEvent<HTMLButtonElement>) => void,
@@ -57,6 +58,16 @@ class SearchInput extends Component<Props> {
   };
 
   componentDidMount() {
+    this.setFocus();
+  }
+
+  componentDidUpdate(prevProps: Props) {
+    if (this.props.shouldFocus && !prevProps.shouldFocus) {
+      this.setFocus();
+    }
+  }
+
+  setFocus() {
     if (this.$input) {
       const input = this.$input;
       input.focus();

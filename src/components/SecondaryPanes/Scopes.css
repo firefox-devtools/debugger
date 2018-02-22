@@ -6,6 +6,14 @@
   opacity: 0.6;
 }
 
+.object-node {
+  padding-left: 4px;
+}
+
+html[dir="rtl"] .object-node {
+  padding-right: 4px;
+}
+
 .object-label {
   color: var(--theme-highlight-blue);
 }
@@ -27,10 +35,6 @@
 
 .scopes-pane {
   overflow: auto;
-}
-
-.scopes-list {
-  padding-inline-start: 4px;
 }
 
 .scopes-list .tree:focus {

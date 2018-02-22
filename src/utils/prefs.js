@@ -72,7 +72,7 @@ export const prefs = new PrefsHelper("devtools", {
   fileSearchWholeWord: ["Bool", "debugger.file-search-whole-word"],
   fileSearchRegexMatch: ["Bool", "debugger.file-search-regex-match"],
   debuggerPrefsSchemaVersion: ["Char", "debugger.prefs-schema-version"],
-  projectDirectoryRoot: ["Char", "project-directory-root", ""]
+  projectDirectoryRoot: ["Char", "debugger.project-directory-root", ""]
 });
 
 export const features = new PrefsHelper("devtools.debugger.features", {

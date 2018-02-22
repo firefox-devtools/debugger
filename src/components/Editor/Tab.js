@@ -114,11 +114,11 @@ class Tab extends PureComponent<Props> {
       }
     ];
 
-    if (!isPrettySource) {
-      items.push({
-        item: { ...tabMenuItems.showSource, click: () => showSource(tab) }
-      });
+    items.push({
+      item: { ...tabMenuItems.showSource, click: () => showSource(tab) }
+    });
 
+    if (!isPrettySource) {
       items.push({
         item: {
           ...tabMenuItems.prettyPrint,
@@ -156,9 +156,21 @@ class Tab extends PureComponent<Props> {
     const isPrettyCode = isPretty(source);
     const sourceAnnotation = getSourceAnnotation(source, sourceMetaData);
 
-    function onClickClose(ev) {
-      ev.stopPropagation();
+    function onClickClose(e) {
+      e.stopPropagation();
       closeTab(source.get("url"));
+    }
+
+    function handleTabClick(e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      // Accommodate middle click to close tab
+      if (e.button === 1) {
+        return closeTab(source.get("url"));
+      }
+
+      return selectSource(sourceId);
     }
 
     const className = classnames("source-tab", {
@@ -170,7 +182,7 @@ class Tab extends PureComponent<Props> {
       <div
         className={className}
         key={sourceId}
-        onClick={() => selectSource(sourceId)}
+        onMouseUp={handleTabClick}
         onContextMenu={e => this.onTabContextMenu(e, sourceId)}
         title={getFileURL(src)}
       >
