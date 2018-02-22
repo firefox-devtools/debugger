@@ -38,11 +38,11 @@ export class Outline extends Component<Props> {
   }
 
   renderPlaceholder() {
-    return (
-      <div className="outline-pane-info">
-        {L10N.getStr("outline.noFunctions")}
-      </div>
-    );
+    const placeholderMessage = !this.props.selectedSource
+      ? L10N.getStr("outline.noFileSelected")
+      : L10N.getStr("outline.noFunctions");
+
+    return <div className="outline-pane-info">{placeholderMessage}</div>;
   }
 
   renderFunction(func: SymbolDeclaration) {
