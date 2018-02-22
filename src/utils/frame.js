@@ -7,6 +7,7 @@
 import { endTruncateStr } from "./utils";
 import { getFilename } from "./source";
 import { get, find, findIndex } from "lodash";
+import { flow, map } from "lodash/fp";
 
 import type { Frame } from "../types";
 import type { LocalFrame } from "../components/SecondaryPanes/Frames/types";
@@ -123,6 +124,9 @@ export function getLibraryFromUrl(frame: Frame) {
 }
 
 const displayNameMap = {
+  Babel: {
+    tryCatch: "Async"
+  },
   Backbone: {
     "extend/child": "Create Class",
     ".create": "Create Model"
@@ -146,18 +150,54 @@ const displayNameMap = {
 };
 
 function mapDisplayNames(frame, library) {
-  const map = displayNameMap[library];
   const { displayName } = frame;
-  return (map && map[displayName]) || displayName;
+  return (
+    (displayNameMap[library] && displayNameMap[library][displayName]) ||
+    displayName
+  );
 }
 
-export function annotateFrame(frame: Frame) {
+export const annotateFrames: (Frames[]) => Frames[] = flow(
+  map(annotateFrame),
+  annotateBabelAsyncFrames
+);
+
+function annotateFrame(frame: Frame) {
   const library = getLibraryFromUrl(frame);
   if (library) {
     return { ...frame, library };
   }
 
   return frame;
+}
+
+function annotateBabelAsyncFrames(frames: Frame[]) {
+  const firstIndex = findIndex(
+    frames,
+    frame =>
+      getFrameUrl(frame).match(/regenerator-runtime/i) &&
+      frame.displayName === "tryCatch"
+  );
+
+  const lastIndex = findIndex(
+    frames,
+    frame =>
+      frame.displayName === "_asyncToGenerator/<" ||
+      (getFrameUrl(frame).match(/_microtask/i) && frame.displayName === "flush")
+  );
+
+  if (firstIndex === -1 || lastIndex === -1) {
+    return frames;
+  }
+
+  for (let i = firstIndex; i < lastIndex + 1; i++) {
+    frames[i] = {
+      ...frames[i],
+      library: "Babel"
+    };
+  }
+
+  return frames;
 }
 
 // Decodes an anonymous naming scheme that

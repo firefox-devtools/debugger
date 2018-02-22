@@ -19,7 +19,7 @@ import Badge from "../../shared/Badge";
 
 type FrameLocationProps = { frame: Frame };
 function FrameLocation({ frame }: FrameLocationProps) {
-  const library = getLibraryFromUrl(frame);
+  const library = frame.library || getLibraryFromUrl(frame);
   if (!library) {
     return null;
   }
