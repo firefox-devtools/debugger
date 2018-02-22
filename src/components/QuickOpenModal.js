@@ -110,10 +110,14 @@ export class QuickOpenModal extends Component<Props, State> {
     this.props.closeQuickOpen();
   };
 
+  dropGoto = (query: string) => {
+    return query.split(":")[0];
+  };
+
   searchSources = (query: string) => {
     const { sources } = this.props;
     const results =
-      query == "" ? sources : filter(sources, query.split(":")[0]);
+      query == "" ? sources : filter(sources, this.dropGoto(query));
     return this.setState({ results });
   };
 
