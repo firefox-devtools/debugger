@@ -4,7 +4,7 @@ import {
   createStore,
   makeSource
 } from "../../utils/test-head";
-const { getSelectedSource, getTabs } = selectors;
+const { getSelectedSource, getTabs, getSelectedTab } = selectors;
 
 import { sourceThreadClient as threadClient } from "./helpers/threadClient.js";
 
@@ -18,7 +18,7 @@ describe("closing tabs", () => {
     await dispatch(actions.newSource(makeSource("foo.js")));
     await dispatch(actions.selectLocation({ sourceId: "foo.js" }));
 
-    dispatch(actions.closeTab("http://localhost:8000/examples/foo.js"));
+    await dispatch(actions.closeTab("foo.js"));
 
     expect(getSelectedSource(getState())).toBe(undefined);
     expect(getTabs(getState()).size).toBe(0);
@@ -30,7 +30,8 @@ describe("closing tabs", () => {
     await dispatch(actions.newSource(makeSource("bar.js")));
     await dispatch(actions.selectLocation({ sourceId: "foo.js" }));
     await dispatch(actions.selectLocation({ sourceId: "bar.js" }));
-    dispatch(actions.closeTab("http://localhost:8000/examples/foo.js"));
+
+    await dispatch(actions.closeTab("foo.js"));
 
     expect(getSelectedSource(getState()).get("id")).toBe("bar.js");
     expect(getTabs(getState()).size).toBe(1);
@@ -40,10 +41,11 @@ describe("closing tabs", () => {
     const { dispatch, getState } = createStore(threadClient);
     await dispatch(actions.newSource(makeSource("foo.js")));
     await dispatch(actions.selectLocation({ sourceId: "foo.js" }));
-    dispatch(actions.closeTab("http://localhost:8000/examples/foo.js"));
+
+    await dispatch(actions.closeTab("foo.js"));
 
     expect(getSelectedSource(getState())).toBe(undefined);
-    expect(getTabs(getState()).size).toBe(0);
+    expect(getTabs(getState()).size).toBe(1);
   });
 
   it("closing the active tab", async () => {
@@ -52,7 +54,8 @@ describe("closing tabs", () => {
     await dispatch(actions.newSource(makeSource("bar.js")));
     await dispatch(actions.selectLocation({ sourceId: "foo.js" }));
     await dispatch(actions.selectLocation({ sourceId: "bar.js" }));
-    dispatch(actions.closeTab("http://localhost:8000/examples/bar.js"));
+
+    await dispatch(actions.closeTab("bar.js"));
 
     expect(getSelectedSource(getState()).get("id")).toBe("foo.js");
     expect(getTabs(getState()).size).toBe(1);
@@ -66,12 +69,8 @@ describe("closing tabs", () => {
     await dispatch(actions.selectLocation({ sourceId: "foo.js" }));
     await dispatch(actions.selectLocation({ sourceId: "bar.js" }));
     await dispatch(actions.selectLocation({ sourceId: "bazz.js" }));
-    dispatch(
-      actions.closeTabs([
-        "http://localhost:8000/examples/foo.js",
-        "http://localhost:8000/examples/bar.js"
-      ])
-    );
+
+    await dispatch(actions.closeTabs(["foo.js", "bar.js"]));
 
     expect(getSelectedSource(getState()).get("id")).toBe("bazz.js");
     expect(getTabs(getState()).size).toBe(1);
@@ -85,12 +84,8 @@ describe("closing tabs", () => {
     await dispatch(actions.selectLocation({ sourceId: "foo.js" }));
     await dispatch(actions.selectLocation({ sourceId: "bar.js" }));
     await dispatch(actions.selectLocation({ sourceId: "bazz.js" }));
-    dispatch(
-      actions.closeTabs([
-        "http://localhost:8000/examples/bar.js",
-        "http://localhost:8000/examples/bazz.js"
-      ])
-    );
+
+    await dispatch(actions.closeTabs(["bar.js", "bazz.js"]));
 
     expect(getSelectedSource(getState()).get("id")).toBe("foo.js");
     expect(getTabs(getState()).size).toBe(1);
@@ -102,12 +97,8 @@ describe("closing tabs", () => {
     await dispatch(actions.newSource(makeSource("bar.js")));
     await dispatch(actions.selectLocation({ sourceId: "foo.js" }));
     await dispatch(actions.selectLocation({ sourceId: "bar.js" }));
-    dispatch(
-      actions.closeTabs([
-        "http://localhost:8000/examples/foo.js",
-        "http://localhost:8000/examples/bar.js"
-      ])
-    );
+
+    await dispatch(actions.closeTabs(["foo.js", "bar.js"]));
 
     expect(getSelectedSource(getState())).toBe(undefined);
     expect(getTabs(getState()).size).toBe(0);

@@ -117,16 +117,17 @@ class Tab extends PureComponent<Props> {
         item: { ...tabMenuItems.showSource, click: () => showSource(tabId) }
       });
 
-    if (!isPrettySource) {
-      items.push({
-        item: {
-          ...tabMenuItems.prettyPrint,
-          click: () => togglePrettyPrint(tabId)
-        }
-      });
-    }
+      if (!isPrettySource) {
+        items.push({
+          item: {
+            ...tabMenuItems.prettyPrint,
+            click: () => togglePrettyPrint(tabId)
+          }
+        });
+      }
 
-    showMenu(e, buildMenu(items));
+      showMenu(e, buildMenu(items));
+    }
   }
 
   /* isProjectSearchEnabled() {
@@ -153,7 +154,7 @@ class Tab extends PureComponent<Props> {
     if (!source) {
       return null;
     }
-    const sourceAnnotation = getSourceAnnotation(source, getMetaData);
+    //const sourceAnnotation = getSourceAnnotation(source, getMetaData);
     /* && (!this.isProjectSearchEnabled() && !this.isSourceSearchEnabled());*/
 
     function handleTabClick(e) {
@@ -162,10 +163,10 @@ class Tab extends PureComponent<Props> {
 
       // Accommodate middle click to close tab
       if (e.button === 1) {
-        return closeTab(source.get("url"));
+        return closeTab(tab.id);
       }
 
-      return selectSource(sourceId);
+      return selectSource(tab.id);
     }
 
     const className = classnames("source-tab", {
@@ -185,7 +186,6 @@ class Tab extends PureComponent<Props> {
         onContextMenu={e => this.onTabContextMenu(e, tab.id)}
         title={tab.tooltip}
       >
-        {sourceAnnotation}
         <div className="filename">{tab.title}</div>
         <CloseButton
           handleClick={event => {

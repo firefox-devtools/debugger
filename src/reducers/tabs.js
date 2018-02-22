@@ -74,7 +74,7 @@ export default function update(
 function updateTabList(state: OuterState, currentTab: Tab, moveIndex?: number) {
   let tabs = state.tabsState.get("tabs");
   const currentIndex = tabs.findIndex(tab => tab.id === currentTab.id);
-  if (moveIndex !== undefined) {
+  if (currentIndex && moveIndex !== undefined) {
     // moving the tab
     tabs = tabs.delete(currentIndex).insert(moveIndex, currentTab);
   } else {

@@ -49,7 +49,10 @@ export function closeTab(id: string) {
 
     const selectedTab = getSelectedTab(getState());
     dispatch(
-      selectSource(selectedTab.tab ? selectedTab.tab.id : "", selectedTab.index)
+      selectSource(
+        selectedTab.tab ? selectedTab.tab.id : "",
+        selectedTab.tabIndex
+      )
     );
   };
 }
@@ -66,7 +69,10 @@ export function closeTabs(ids: string[]) {
 
     const selectedTab = getSelectedTab(getState());
     dispatch(
-      selectSource(selectedTab.tab ? selectedTab.tab.id : "", selectedTab.index)
+      selectSource(
+        selectedTab.tab ? selectedTab.tab.id : "",
+        selectedTab.tabIndex
+      )
     );
   };
 }
