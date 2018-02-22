@@ -23,6 +23,8 @@ function getLabel(dbg, index) {
 }
 
 add_task(async function() {
+  requestLongerTimeout(5);
+
   const dbg = await initDebugger("doc-sources.html");
   const { selectors: { getSelectedSource }, getState } = dbg;
 
