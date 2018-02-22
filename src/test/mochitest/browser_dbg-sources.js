@@ -7,6 +7,7 @@ async function waitForSourceCount(dbg, i) {
   // We are forced to wait until the DOM nodes appear because the
   // source tree batches its rendering.
   await waitUntil(() => {
+    console.log('source count is: ', findAllElements(dbg, "sourceNodes").length);
     return findAllElements(dbg, "sourceNodes").length === i;
   });
 }
@@ -56,7 +57,6 @@ add_task(async function() {
     "The right source is selected"
   );
 
-  /*
   // Make sure new sources appear in the list.
   ContentTask.spawn(gBrowser.selectedBrowser, null, function() {
     const script = content.document.createElement("script");
@@ -64,11 +64,12 @@ add_task(async function() {
     content.document.body.appendChild(script);
   });
 
+  console.log('------------------');
+  console.log('waiting for source count of 9!');
   await waitForSourceCount(dbg, 9);
   is(
     getLabel(dbg, 7),
     "math.min.js",
     "math.min.js - The dynamic script exists"
   );
-  */
 });
