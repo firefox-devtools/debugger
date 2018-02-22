@@ -40,12 +40,9 @@ export function updateTree({
     addToTree(uncollapsedTree, source, debuggeeUrl, projectRoot);
   }
 
-  const newSourceTree = collapseTree(uncollapsedTree);
-
   return {
     uncollapsedTree,
-    sourceTree: newSourceTree,
-    parentMap: createParentMap(sourceTree),
-    focusedItem: null
+    sourceTree,
+    parentMap: createParentMap(sourceTree)
   };
 }
