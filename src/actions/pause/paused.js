@@ -26,9 +26,12 @@ import { updateFrameLocation } from "./mapFrames";
 
 import { fetchScopes } from "./fetchScopes";
 
-import type { Pause } from "../../types";
+import type { Pause, Frame } from "../../types";
 import type { ThunkArgs } from "../types";
 
+async function getOriginalSourceForFrame(state, frame: Frame) {
+  return getSources(state).get(frame.location.sourceId);
+}
 /**
  * Debugger has just paused
  *
@@ -42,15 +45,13 @@ export function paused(pauseInfo: Pause) {
     const rootFrame = frames.length > 0 ? frames[0] : null;
 
     if (rootFrame) {
-      const mappedRootFrame = await updateFrameLocation(rootFrame, sourceMaps);
-      const source = getSources(getState()).get(
-        mappedRootFrame.location.sourceId
-      );
+      const mappedFrame = await updateFrameLocation(rootFrame, sourceMaps);
+      const source = await getOriginalSourceForFrame(getState(), mappedFrame);
 
       // Ensure that the original file has loaded if there is one.
       await dispatch(loadSourceText(source));
 
-      if (await shouldStep(mappedRootFrame, getState(), sourceMaps)) {
+      if (await shouldStep(mappedFrame, getState(), sourceMaps)) {
         dispatch(command("stepOver"));
         return;
       }
