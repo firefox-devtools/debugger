@@ -23,7 +23,7 @@ import Tab from "./Tab";
 import PaneToggleButton from "../shared/Button/PaneToggle";
 import Dropdown from "../shared/Dropdown";
 
-//import type { Tab } from "../../types";
+// import type { Tab } from "../../types";
 import type { List } from "immutable";
 import type { SourceRecord } from "../../reducers/sources";
 
@@ -145,9 +145,7 @@ class Tabs extends PureComponent<Props, State> {
 
     return (
       <div className="source-tabs" ref="sourceTabs">
-        {tabs.map((tab, index) => (
-          <Tab key={index} tab={tab} tabIndex={index} />
-        ))}
+        {tabs.map((tab, index) => <Tab key={index} tab={tab} />)}
       </div>
     );
   }

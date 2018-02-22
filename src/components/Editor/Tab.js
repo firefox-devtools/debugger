@@ -42,7 +42,6 @@ type Props = {
   togglePrettyPrint: string => void,
   showSource: string => void,
   tab: any,
-  tabIndex: number,
   activeSearch: string,
   getMetaData: string => any,
   getTabSource: string => SourceRecord
@@ -141,20 +140,18 @@ class Tab extends PureComponent<Props> {
   render() {
     const {
       selectedTab,
-      selectTab,
       selectSource,
       closeTab,
       tab,
       getMetaData,
-      getTabSource,
-      tabIndex
+      getTabSource
     } = this.props;
 
     const source = getTabSource(tab.id);
     if (!source) {
       return null;
     }
-    //const sourceAnnotation = getSourceAnnotation(source, getMetaData);
+    const sourceAnnotation = getSourceAnnotation(source, getMetaData);
     /* && (!this.isProjectSearchEnabled() && !this.isSourceSearchEnabled());*/
 
     function handleTabClick(e) {
@@ -179,13 +176,11 @@ class Tab extends PureComponent<Props> {
         className={className}
         key={tab.id}
         onMouseUp={handleTabClick}
-        onClick={() => {
-          selectSource(tab.id);
-          selectTab(tabIndex);
-        }}
+        onClick={() => selectSource(tab.id)}
         onContextMenu={e => this.onTabContextMenu(e, tab.id)}
         title={tab.tooltip}
       >
+        {sourceAnnotation}
         <div className="filename">{tab.title}</div>
         <CloseButton
           handleClick={event => {

@@ -40,10 +40,14 @@ export default function update(
   let tabs, currentTabIndex;
   switch (action.type) {
     case "ADD_TAB":
-      tabs = updateTabList({ tabsState: state }, action.tab, action.tabIndex);
+      const updated = updateTabList(
+        { tabsState: state },
+        action.tab,
+        action.tabIndex
+      );
       return state.merge({
-        tabs,
-        currentTabIndex: action.tabIndex || 0
+        tabs: updated.tabs,
+        currentTabIndex: updated.tabIndex
       });
 
     case "SELECT_TAB":
@@ -73,19 +77,26 @@ export default function update(
  */
 function updateTabList(state: OuterState, currentTab: Tab, moveIndex?: number) {
   let tabs = state.tabsState.get("tabs");
+
   const currentIndex = tabs.findIndex(tab => tab.id === currentTab.id);
+  let newTabIndex = currentIndex;
   if (currentIndex && moveIndex !== undefined) {
     // moving the tab
     tabs = tabs.delete(currentIndex).insert(moveIndex, currentTab);
+    newTabIndex = moveIndex;
   } else {
     // insert a new tab
     if (currentIndex == -1) {
       tabs = tabs.insert(0, currentTab);
+      newTabIndex = 0;
     }
   }
 
   prefs.tabs = tabs.toJS();
-  return tabs;
+  return {
+    tabs,
+    tabIndex: newTabIndex
+  };
 }
 
 /**
@@ -101,11 +112,14 @@ function selectNewTab(state: OuterState, availableTabs: any): number {
   const currentTabIndex = state.tabsState.get("currentTabIndex");
   const leftNeighborIndex = Math.max(currentTabIndex - 1, 0);
   const lastAvailbleTabIndex = availableTabs.size - 1;
+  if (lastAvailbleTabIndex === currentTabIndex) {
+    return lastAvailbleTabIndex;
+  }
   return Math.min(leftNeighborIndex, lastAvailbleTabIndex);
 }
 
 function removeFromTabList(state: OuterState, tabIds: Array<string>) {
-  let tabList = state.tabsState.get("tabs");
+  const tabList = state.tabsState.get("tabs");
   return tabIds.reduce((tabs, id) => tabs.filter(tab => tab.id != id), tabList);
 }
 

@@ -21,6 +21,7 @@ describe("closing tabs", () => {
     await dispatch(actions.closeTab("foo.js"));
 
     expect(getSelectedSource(getState())).toBe(undefined);
+    expect(getSelectedTab(getState())).toMatchSnapshot();
     expect(getTabs(getState()).size).toBe(0);
   });
 
@@ -34,7 +35,9 @@ describe("closing tabs", () => {
     await dispatch(actions.closeTab("foo.js"));
 
     expect(getSelectedSource(getState()).get("id")).toBe("bar.js");
+    expect(getSelectedTab(getState())).toMatchSnapshot();
     expect(getTabs(getState()).size).toBe(1);
+    dispatch(actions.closeTab("bar.js"));
   });
 
   it("closing the only tab", async () => {
@@ -45,7 +48,8 @@ describe("closing tabs", () => {
     await dispatch(actions.closeTab("foo.js"));
 
     expect(getSelectedSource(getState())).toBe(undefined);
-    expect(getTabs(getState()).size).toBe(1);
+    expect(getSelectedTab(getState())).toMatchSnapshot();
+    expect(getTabs(getState()).size).toBe(0);
   });
 
   it("closing the active tab", async () => {
@@ -58,6 +62,7 @@ describe("closing tabs", () => {
     await dispatch(actions.closeTab("bar.js"));
 
     expect(getSelectedSource(getState()).get("id")).toBe("foo.js");
+    expect(getSelectedTab(getState())).toMatchSnapshot();
     expect(getTabs(getState()).size).toBe(1);
   });
 
@@ -73,6 +78,7 @@ describe("closing tabs", () => {
     await dispatch(actions.closeTabs(["foo.js", "bar.js"]));
 
     expect(getSelectedSource(getState()).get("id")).toBe("bazz.js");
+    expect(getSelectedTab(getState())).toMatchSnapshot();
     expect(getTabs(getState()).size).toBe(1);
   });
 
@@ -88,6 +94,7 @@ describe("closing tabs", () => {
     await dispatch(actions.closeTabs(["bar.js", "bazz.js"]));
 
     expect(getSelectedSource(getState()).get("id")).toBe("foo.js");
+    expect(getSelectedTab(getState())).toMatchSnapshot();
     expect(getTabs(getState()).size).toBe(1);
   });
 
@@ -101,6 +108,7 @@ describe("closing tabs", () => {
     await dispatch(actions.closeTabs(["foo.js", "bar.js"]));
 
     expect(getSelectedSource(getState())).toBe(undefined);
+    expect(getSelectedTab(getState())).toMatchSnapshot();
     expect(getTabs(getState()).size).toBe(0);
   });
 });
