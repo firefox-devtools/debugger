@@ -164,7 +164,7 @@ export class QuickOpenModal extends Component<Props, State> {
       return;
     }
 
-    if (query == "") {
+    if (query == "" && !this.isShortcutQuery()) {
       return this.showTopSources();
     }
 
