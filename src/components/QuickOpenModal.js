@@ -392,7 +392,9 @@ export class QuickOpenModal extends Component<Props, State> {
           handleClose={this.closeModal}
           hasPrefix={this.hasPrefix()}
           expanded={expanded}
-          selectedItemId={expanded ? items[selectedIndex].id : ""}
+          selectedItemId={
+            expanded && items[selectedIndex] ? items[selectedIndex].id : ""
+          }
         />
         {newResults && (
           <ResultList
