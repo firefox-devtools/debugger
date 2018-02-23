@@ -157,7 +157,7 @@ function mapDisplayNames(frame, library) {
   );
 }
 
-export const annotateFrames: (Frames[]) => Frames[] = flow(
+export const annotateFrames = flow(
   map(annotateFrame),
   annotateBabelAsyncFrames
 );
