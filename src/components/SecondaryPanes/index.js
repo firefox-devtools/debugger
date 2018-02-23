@@ -11,7 +11,7 @@ import { bindActionCreators } from "redux";
 
 import actions from "../../actions";
 import {
-  isPaused as getIsPaused,
+  getTopFrame,
   getBreakpoints,
   getBreakpointsDisabled,
   getBreakpointsLoading,
@@ -68,7 +68,7 @@ function debugBtn(onClick, type, className, tooltip) {
 
 type Props = {
   evaluateExpressions: Function,
-  isPaused: boolean,
+  hasFrames: boolean,
   horizontal: boolean,
   breakpoints: Object,
   breakpointsDisabled: boolean,
@@ -237,7 +237,7 @@ class SecondaryPanes extends Component<Props> {
 
     items.push(this.getBreakpointsItem());
 
-    if (this.props.isPaused) {
+    if (this.props.hasFrames) {
       items.push(this.getCallStackItem());
       if (this.props.horizontal) {
         items.push(this.getScopeItem());
@@ -274,7 +274,7 @@ class SecondaryPanes extends Component<Props> {
 
     items.push(this.getWatchItem());
 
-    if (this.props.isPaused) {
+    if (this.props.hasFrames) {
       items = [...items, this.getScopeItem()];
     }
 
@@ -332,7 +332,7 @@ SecondaryPanes.contextTypes = {
 
 export default connect(
   state => ({
-    isPaused: getIsPaused(state),
+    hasFrames: !!getTopFrame(state),
     breakpoints: getBreakpoints(state),
     breakpointsDisabled: getBreakpointsDisabled(state),
     breakpointsLoading: getBreakpointsLoading(state),
