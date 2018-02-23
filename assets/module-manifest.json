@@ -21235,7 +21235,11 @@
       "../../@babel/code-frame/lib/index.js": 2415,
       "../../@babel/types/node_modules/to-fast-properties/index.js": 2416,
       "../../@babel/traverse/node_modules/babylon/lib/index.js": 2417,
-      "../../@babel/template/node_modules/babylon/lib/index.js": 2418
+      "../../@babel/template/node_modules/babylon/lib/index.js": 2418,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/index.js": 2419,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/why.js": 2420,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/stepping.js": 2421,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/workers/parser/pauseLocation.js": 2422
     },
     "usedIds": {
       "0": 0,
@@ -23656,7 +23660,11 @@
       "2415": 2415,
       "2416": 2416,
       "2417": 2417,
-      "2418": 2418
+      "2418": 2418,
+      "2419": 2419,
+      "2420": 2420,
+      "2421": 2421,
+      "2422": 2422
     }
   },
   "chunks": {
