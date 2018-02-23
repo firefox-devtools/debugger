@@ -14,7 +14,7 @@ import * as I from "immutable";
 
 import "../App.css";
 import "../SecondaryPanes/Frames/Frames.css";
-require("devtools-modules/src/themes/dark-theme.css");
+require("devtools-mc-assets/assets/devtools/client/themes/dark-theme.css");
 
 function createArrayPreview(name) {
   return {

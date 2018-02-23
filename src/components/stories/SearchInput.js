@@ -15,7 +15,7 @@ import { prefs } from "../../utils/prefs";
 import "../App.css";
 import "../Editor/SearchBar.css";
 
-require("devtools-modules/src/themes/dark-theme.css");
+require("devtools-mc-assets/assets/devtools/client/themes/dark-theme.css");
 
 // NOTE: we need this for supporting L10N in storybook
 // we can move this to a shared helper as we add additional stories
