@@ -67,6 +67,76 @@ exports[`Frames Blackboxed Frames filters blackboxed frames 1`] = `
 </div>
 `;
 
+exports[`Frames Library Frames groups all the Webpack-related frames 1`] = `
+<div
+  className="pane frames"
+>
+  <ul>
+    <Frame
+      copyStackTrace={[Function]}
+      frame={
+        Object {
+          "id": "1-appFrame",
+        }
+      }
+      frameworkGroupingOn={true}
+      hideLocation={false}
+      key="1-appFrame"
+      selectFrame={[Function]}
+      selectedFrame={
+        Object {
+          "id": "1-appFrame",
+        }
+      }
+      shouldMapDisplayName={true}
+      toggleBlackBox={[Function]}
+      toggleFrameworkGrouping={[Function]}
+    />
+    <Group
+      copyStackTrace={[Function]}
+      frameworkGroupingOn={true}
+      group={
+        Array [
+          Object {
+            "id": "2-webpackBootstrapFrame",
+            "source": Object {
+              "url": "webpack:///webpack/bootstrap 01d88449ca6e9335a66f",
+            },
+          },
+          Object {
+            "id": "3-webpackBundleFrame",
+            "source": Object {
+              "url": "https://foo.com/bundle.js",
+            },
+          },
+          Object {
+            "id": "4-webpackBootstrapFrame",
+            "source": Object {
+              "url": "webpack:///webpack/bootstrap 01d88449ca6e9335a66f",
+            },
+          },
+          Object {
+            "id": "5-webpackBundleFrame",
+            "source": Object {
+              "url": "https://foo.com/bundle.js",
+            },
+          },
+        ]
+      }
+      key="2-webpackBootstrapFrame"
+      selectFrame={[Function]}
+      selectedFrame={
+        Object {
+          "id": "1-appFrame",
+        }
+      }
+      toggleBlackBox={[Function]}
+      toggleFrameworkGrouping={[Function]}
+    />
+  </ul>
+</div>
+`;
+
 exports[`Frames Library Frames toggling framework frames 1`] = `
 <div
   className="pane frames"
