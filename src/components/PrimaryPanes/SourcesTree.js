@@ -42,6 +42,7 @@ import {
   getExtension
 } from "../../utils/sources-tree";
 
+import { getRawSourceURL } from "../../utils/source";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { features } from "../../utils/prefs";
 
@@ -132,7 +133,7 @@ class SourcesTree extends Component<Props, State> {
       nextProps.selectedSource != selectedSource
     ) {
       const highlightItems = getDirectories(
-        nextProps.selectedSource.get("url"),
+        getRawSourceURL(nextProps.selectedSource.get("url")),
         sourceTree
       );
 
