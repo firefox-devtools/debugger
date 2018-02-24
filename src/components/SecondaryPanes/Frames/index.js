@@ -79,9 +79,9 @@ class Frames extends Component<Props, State> {
   }
 
   toggleFramesDisplay(): void {
-    this.setState({
-      showAllFrames: !this.state.showAllFrames
-    });
+    this.setState(prevState => ({
+      showAllFrames: !prevState.showAllFrames
+    }));
   }
 
   collapseFrames(frames) {
