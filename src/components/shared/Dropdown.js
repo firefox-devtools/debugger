@@ -29,7 +29,7 @@ export class Dropdown extends Component<Props, State> {
 
   toggleDropdown = (e: SyntheticKeyboardEvent<HTMLElement>) => {
     this.setState(prevState => ({
-      dropdownShown: !prevState.dropdownShown;
+      dropdownShown: !prevState.dropdownShown
     }));
   };
 
