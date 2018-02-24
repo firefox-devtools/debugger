@@ -87,8 +87,9 @@ export function paused(pauseInfo: Pause) {
 
     // Run after fetching scoping data so that it may make use of the sourcemap
     // expression mappings for local variables.
-    if (!isEvaluatingExpression(getState())) {
-      dispatch(evaluateExpressions());
+    const atException = why.type == "exception";
+    if (!atException || !isEvaluatingExpression(getState())) {
+      await dispatch(evaluateExpressions());
     }
   };
 }

@@ -25,7 +25,7 @@ import { getMappedExpression } from "./expressions";
 import { isEqual } from "lodash";
 
 import type { Action, ThunkArgs } from "./types";
-import type { Frame, ColumnPosition } from "../types";
+import type { ColumnPosition } from "../types";
 import type { AstLocation } from "../workers/parser";
 
 async function getReactProps(evaluate) {
@@ -104,14 +104,15 @@ function isInvalidTarget(target: HTMLElement) {
   return invalidTarget || invalidToken || invalidType;
 }
 
-export function getExtra(
-  expression: string,
-  result: Object,
-  selectedFrame: Frame
-) {
+export function getExtra(expression: string, result: Object) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
+    const selectedFrame = getSelectedFrame(getState());
+    if (!selectedFrame) {
+      return;
+    }
+
     const extra = await getExtraProps(getState, expression, result, expr =>
-      client.evaluateInFrame(selectedFrame.id, expr)
+      client.evaluateInFrame(expr, selectedFrame.id)
     );
 
     return extra;
@@ -185,29 +186,27 @@ export function setPreview(
         type: "SET_PREVIEW",
         [PROMISE]: (async function() {
           const source = getSelectedSource(getState());
+          const sourceId = source.id;
+          const selectedFrame = getSelectedFrame(getState());
 
-          const sourceId = source.get("id");
           if (location && !isGeneratedId(sourceId)) {
             expression = await dispatch(getMappedExpression(expression));
           }
 
-          const selectedFrame = getSelectedFrame(getState());
           if (!selectedFrame) {
             return;
           }
 
           const { result } = await client.evaluateInFrame(
-            selectedFrame.id,
-            expression
+            expression,
+            selectedFrame.id
           );
 
           if (result === undefined) {
             return;
           }
 
-          const extra = await dispatch(
-            getExtra(expression, result, selectedFrame)
-          );
+          const extra = await dispatch(getExtra(expression, result));
 
           return {
             expression,

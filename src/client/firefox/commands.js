@@ -198,13 +198,15 @@ function setBreakpointCondition(
     });
 }
 
-type EvaluateParam = {
-  frameId?: FrameId
-};
-
-function evaluateInFrame(frameId: string, script: Script) {
+async function evaluateInFrame(script: Script, frameId: string) {
   return evaluate(script, { frameId });
 }
+
+async function evaluateExpressions(scripts: Script[], frameId?: string) {
+  return Promise.all(scripts.map(script => evaluate(script, { frameId })));
+}
+
+type EvaluateParam = { frameId?: FrameId };
 
 function evaluate(
   script: ?Script,
@@ -212,11 +214,11 @@ function evaluate(
 ): Promise<mixed> {
   const params = frameId ? { frameActor: frameId } : {};
   if (!tabTarget || !tabTarget.activeConsole || !script) {
-    return Promise.resolve();
+    return Promise.resolve({});
   }
 
   return new Promise(resolve => {
-    tabTarget.activeConsole.evaluateJS(
+    tabTarget.activeConsole.evaluateJSAsync(
       script,
       result => resolve(result),
       params
@@ -388,6 +390,7 @@ const clientCommands = {
   setBreakpointCondition,
   evaluate,
   evaluateInFrame,
+  evaluateExpressions,
   debuggeeCommand,
   navigate,
   reload,

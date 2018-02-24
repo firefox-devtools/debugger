@@ -11,11 +11,7 @@ import type { ThunkArgs } from "../types";
 export function fetchExtra() {
   return async function({ dispatch, getState }: ThunkArgs) {
     const frame = getSelectedFrame(getState());
-    if (!frame) {
-      return;
-    }
-
-    const extra = await dispatch(getExtra("this;", frame.this, frame));
+    const extra = await dispatch(getExtra("this;", frame.this));
     dispatch({
       type: "ADD_EXTRA",
       extra: extra
