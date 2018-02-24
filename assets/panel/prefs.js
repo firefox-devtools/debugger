@@ -40,14 +40,15 @@ pref("devtools.debugger.expressions", "[]");
 pref("devtools.debugger.file-search-case-sensitive", false);
 pref("devtools.debugger.file-search-whole-word", false);
 pref("devtools.debugger.file-search-regex-match", false);
+pref("devtools.debugger.features.async-stepping", true);
 pref("devtools.debugger.project-directory-root", "");
 
-pref("devtools.debugger.features.async-stepping", true);
 pref("devtools.debugger.features.wasm", true);
 pref("devtools.debugger.features.shortcuts", true);
 pref("devtools.debugger.features.root", true);
 pref("devtools.debugger.features.column-breakpoints", false);
 pref("devtools.debugger.features.chrome-scopes", false);
+pref("devtools.debugger.features.map-scopes", false);
 pref("devtools.debugger.features.breakpoints-dropdown", true);
 pref("devtools.debugger.features.remove-command-bar-options", false);
 pref("devtools.debugger.features.workers", true);
@@ -56,9 +57,3 @@ pref("devtools.debugger.features.event-listeners", false);
 pref("devtools.debugger.features.code-folding", false);
 pref("devtools.debugger.features.outline", true);
 pref("devtools.debugger.features.replay", false);
-
-#if defined(NIGHTLY_BUILD)
-pref("devtools.debugger.features.map-scopes", true);
-#else
-pref("devtools.debugger.features.map-scopes", false);
-#endif
