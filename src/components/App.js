@@ -238,9 +238,9 @@ class App extends Component<Props, State> {
   }
 
   toggleShortcutsModal() {
-    this.setState({
-      shortcutsModalEnabled: !this.state.shortcutsModalEnabled
-    });
+    this.setState(prevState => ({
+      shortcutsModalEnabled: !prevState.shortcutsModalEnabled
+    }));
   }
 
   renderLayout() {

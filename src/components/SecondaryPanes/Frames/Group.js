@@ -74,7 +74,7 @@ export default class Group extends Component<Props, State> {
   }
 
   toggleFrames = () => {
-    this.setState({ expanded: !this.state.expanded });
+    this.setState(prevState => ({ expanded: !prevState.expanded }));
   };
 
   renderFrames() {
