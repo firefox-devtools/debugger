@@ -6,6 +6,7 @@
 
 import type {
   Source,
+  Tab,
   Breakpoint,
   Expression,
   LoadedObject,
@@ -151,11 +152,13 @@ type SourceAction =
       source: Source,
       error: string,
       value: { isBlackBoxed: boolean }
-    }
-  | { type: "ADD_TAB", source: Source, tabIndex: number }
-  | { type: "MOVE_TAB", url: string, tabIndex: number }
-  | { type: "CLOSE_TAB", url: string, tabs: any }
-  | { type: "CLOSE_TABS", urls: string[], tabs: any };
+    };
+
+type TabAction =
+  | { type: "ADD_TAB", tab: Tab, tabIndex: number }
+  | { type: "SELECT_TAB", tabIndex: number }
+  | { type: "CLOSE_TAB", id: string, tabs: any }
+  | { type: "CLOSE_TABS", ids: string[], tabs: any };
 
 export type panelPositionType = "start" | "end";
 
@@ -407,6 +410,7 @@ export type DebugeeAction = {
  */
 export type Action =
   | SourceAction
+  | TabAction
   | BreakpointAction
   | PauseAction
   | NavigateAction
