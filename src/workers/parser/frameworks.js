@@ -5,21 +5,23 @@
 import getSymbols from "./getSymbols";
 
 export function getFramework(sourceId) {
-  if (isReactComponent(sourceId)) {
+  const sourceSymbols = getSymbols(sourceId);
+
+  if (isReactComponent(sourceSymbols)) {
     return "React";
   }
-  if (isAngularComponent(sourceId)) {
+  if (isAngularComponent(sourceSymbols)) {
     return "Angular";
   }
-  if (isVueComponent(sourceId)) {
+  if (isVueComponent(sourceSymbols)) {
     return "Vue";
   }
 }
 
 // React
 
-function isReactComponent(sourceId) {
-  const { imports, classes, callExpressions } = getSymbols(sourceId);
+function isReactComponent(sourceSymbols) {
+  const { imports, classes, callExpressions } = sourceSymbols;
   return (
     (importsReact(imports) || requiresReact(callExpressions)) &&
     extendsReactComponent(classes)
