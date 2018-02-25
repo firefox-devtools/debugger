@@ -8,9 +8,11 @@ export function getFramework(sourceId) {
   if (isReactComponent(sourceId)) {
     return "React";
   }
-
   if (isAngularComponent(sourceId)) {
     return "Angular";
+  }
+  if (isVueComponent(sourceId)) {
+    return "Vue";
   }
 }
 
@@ -72,4 +74,11 @@ const hasAngularExpressions = memberExpressions => {
   return memberExpressions.some(
     item => item.name == "controller" || item.name == "module"
   );
+};
+
+// Vue
+
+const isVueComponent = sourceId => {
+  const { identifiers } = getSymbols(sourceId);
+  return identifiers.some(identifier => identifier.name == "Vue");
 };

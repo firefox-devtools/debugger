@@ -29,5 +29,15 @@ describe("Parser.frameworks", () => {
     const source = getOriginalSource("frameworks/angularModule");
     setSource(source);
     expect(getFramework(source.id)).toBe("Angular");
+  it("recognizes declarative Vue file", () => {
+    const source = getOriginalSource("frameworks/vueFileDeclarative");
+    setSource(source);
+    expect(getFramework(source.id)).toBe("Vue");
+  });
+
+  it("recognizes component Vue file", () => {
+    const source = getOriginalSource("frameworks/vueFileComponent");
+    setSource(source);
+    expect(getFramework(source.id)).toBe("Vue");
   });
 });
