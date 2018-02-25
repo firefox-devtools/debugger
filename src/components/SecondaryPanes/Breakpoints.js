@@ -13,7 +13,6 @@ import { sortBy } from "lodash";
 
 import actions from "../../actions";
 import CloseButton from "../shared/Button/Close";
-import { endTruncateStr } from "../../utils/utils";
 import { features } from "../../utils/prefs";
 import { getFilename } from "../../utils/source";
 import {
@@ -80,11 +79,7 @@ function renderSourceLocation(source, line, column) {
     return null;
   }
 
-  return (
-    <div className="location">
-      {`${endTruncateStr(filename, 30)}: ${bpLocation}`}
-    </div>
-  );
+  return <div className="location">{`$filename}: ${bpLocation}`}</div>;
 }
 
 class Breakpoints extends PureComponent<Props> {

@@ -139,11 +139,9 @@ class Tabs extends PureComponent<Props, State> {
       return;
     }
 
-    return (
-      <div className="source-tabs" ref="sourceTabs">
-        {tabSources.map((source, index) => <Tab key={index} source={source} />)}
-      </div>
-    );
+    return tabSources.map((source, index) => (
+      <Tab key={index} source={source} />
+    ));
   }
 
   renderDropdown() {
@@ -187,7 +185,7 @@ class Tabs extends PureComponent<Props, State> {
     return (
       <div className="source-header">
         {this.renderStartPanelToggleButton()}
-        {this.renderTabs()}
+        <div className="source-tabs">{this.renderTabs()}</div>
         {this.renderDropdown()}
         {this.renderEndPanelToggleButton()}
       </div>

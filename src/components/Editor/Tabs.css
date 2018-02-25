@@ -33,7 +33,7 @@
 }
 
 .source-tabs {
-  max-width: calc(100% - 80px);
+  width: calc(100% - 80px);
   align-self: flex-start;
 }
 
@@ -76,11 +76,12 @@
 
 .source-tab img.prettyPrint {
   mask: url(/images/prettyPrint.svg) no-repeat;
-  mask-size: 100%;
   padding-top: 12px;
   height: 12px;
   width: 12px;
   background: var(--theme-highlight-blue);
+  flex-shrink: 0;
+  mask-size: 100%;
 }
 
 .source-tab .prettyPrint path {

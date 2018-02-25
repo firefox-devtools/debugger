@@ -156,6 +156,12 @@ class Tab extends PureComponent<Props> {
     const isPrettyCode = isPretty(source);
     const sourceAnnotation = getSourceAnnotation(source, sourceMetaData);
 
+    const sourceTabsWidth = document.getElementsByClassName("source-tabs");
+    const tabWidth =
+      filename.length < 40
+        ? "auto"
+        : sourceTabsWidth[0].clientWidth * 0.4 + "px";
+
     function onClickClose(ev) {
       ev.stopPropagation();
       closeTab(source.get("url"));
@@ -173,6 +179,7 @@ class Tab extends PureComponent<Props> {
         onClick={() => selectSource(sourceId)}
         onContextMenu={e => this.onTabContextMenu(e, sourceId)}
         title={getFileURL(src)}
+        style={{ width: tabWidth }}
       >
         {sourceAnnotation}
         <div className="filename">{filename}</div>
