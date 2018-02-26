@@ -685,7 +685,7 @@ function reload(dbg, ...sources) {
  */
 function navigate(dbg, url, ...sources) {
   dbg.client.navigate(url);
-  return waitForSources(dbg, ...sources);
+  return waitForSources(dbg, url, ...sources);
 }
 
 /**
@@ -912,6 +912,7 @@ const selectors = {
     `.expressions-list .expression-container:nth-child(${i}) .object-delimiter + *`,
   expressionClose: i =>
     `.expressions-list .expression-container:nth-child(${i}) .close`,
+  expressionInput: '.expressions-list  input.input-expression',
   expressionNodes: ".expressions-list .tree-node",
   scopesHeader: ".scopes-pane ._header",
   breakpointItem: i => `.breakpoints-list .breakpoint:nth-child(${i})`,
