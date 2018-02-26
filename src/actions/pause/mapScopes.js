@@ -217,31 +217,29 @@ async function findGeneratedBinding(
   // data to use. Bail out instead of just showing it as unmapped.
   if (
     originalBinding.type === "implicit" &&
-    originalBinding.refs.length === 0
+    !originalBinding.refs.some(item => item.type === "ref")
   ) {
     return null;
   }
 
-  const { declarations, refs } = originalBinding;
+  const { refs } = originalBinding;
 
-  const genContent = await declarations
-    .concat(refs)
-    .reduce(async (acc, pos) => {
-      const result = await acc;
-      if (result) {
-        return result;
-      }
+  const genContent = await refs.reduce(async (acc, pos) => {
+    const result = await acc;
+    if (result) {
+      return result;
+    }
 
-      return await findGeneratedBindingFromPosition(
-        sourceMaps,
-        client,
-        source,
-        pos,
-        name,
-        originalBinding.type,
-        generatedAstBindings
-      );
-    }, null);
+    return await findGeneratedBindingFromPosition(
+      sourceMaps,
+      client,
+      source,
+      pos,
+      name,
+      originalBinding.type,
+      generatedAstBindings
+    );
+  }, null);
 
   if (genContent && genContent.desc) {
     return genContent.desc;
@@ -335,8 +333,8 @@ function buildGeneratedBindingList(
       // there might not be a generated scope that matches.
       if (generated) {
         for (const name of Object.keys(generated.bindings)) {
-          const { declarations, refs } = generated.bindings[name];
-          for (const loc of declarations.concat(refs)) {
+          const { refs } = generated.bindings[name];
+          for (const loc of refs) {
             acc.push({
               name,
               loc,
