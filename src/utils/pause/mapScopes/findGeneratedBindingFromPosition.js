@@ -38,9 +38,6 @@ export async function findGeneratedBindingFromPosition(
       }
 
       if (type === "import") {
-        name;
-        type;
-
         const desc = await mapImportReferenceToDescriptor(val, {
           type: pos.type,
           start: gen,
