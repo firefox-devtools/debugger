@@ -10,29 +10,23 @@ describe("find the best expression for the token", () => {
   const symbols = getSymbols("computed-props");
 
   it("should find the identifier", () => {
-    const expression = findBestMatchExpression(
-      symbols,
-      { line: 1, column: 13 },
-      "key"
-    );
+    const expression = findBestMatchExpression(symbols, {
+      line: 1,
+      column: 13
+    });
     expect(expression).toMatchSnapshot();
   });
 
   it("should find the expression for the property", () => {
-    const expression = findBestMatchExpression(
-      symbols,
-      { line: 6, column: 16 },
-      "b"
-    );
+    const expression = findBestMatchExpression(symbols, {
+      line: 6,
+      column: 16
+    });
     expect(expression).toMatchSnapshot();
   });
 
   it("should find the identifier for computed member expressions", () => {
-    const expression = findBestMatchExpression(
-      symbols,
-      { line: 5, column: 6 },
-      "key"
-    );
+    const expression = findBestMatchExpression(symbols, { line: 5, column: 6 });
     expect(expression).toMatchSnapshot();
   });
 });

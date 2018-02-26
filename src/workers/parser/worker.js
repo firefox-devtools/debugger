@@ -11,10 +11,10 @@ import getScopes, { clearScopes } from "./getScopes";
 import { hasSource, setSource, clearSources } from "./sources";
 import findOutOfScopeLocations from "./findOutOfScopeLocations";
 import { getNextStep } from "./steps";
-import getEmptyLines from "./getEmptyLines";
 import { hasSyntaxError } from "./validate";
 import { getFramework } from "./frameworks";
 import { isInvalidPauseLocation } from "./pauseLocation";
+import { getPausePoints } from "./pausePoints";
 
 import { workerUtils } from "devtools-utils";
 const { workerHandler } = workerUtils;
@@ -32,7 +32,7 @@ self.onmessage = workerHandler({
   clearSources,
   isInvalidPauseLocation,
   getNextStep,
-  getEmptyLines,
   hasSyntaxError,
-  getFramework
+  getFramework,
+  getPausePoints
 });

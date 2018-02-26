@@ -100,6 +100,5 @@ export function traverseAst<T>(sourceId: string, visitor: Visitor, state?: T) {
   }
 
   t.traverse(ast, visitor, state);
-  // t.fastTraverse(ast, visitor);
   return ast;
 }

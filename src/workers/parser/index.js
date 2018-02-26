@@ -22,12 +22,12 @@ export const clearScopes = dispatcher.task("clearScopes");
 export const clearASTs = dispatcher.task("clearASTs");
 export const getNextStep = dispatcher.task("getNextStep");
 export const isInvalidPauseLocation = dispatcher.task("isInvalidPauseLocation");
-export const getEmptyLines = dispatcher.task("getEmptyLines");
 export const hasSource = dispatcher.task("hasSource");
 export const setSource = dispatcher.task("setSource");
 export const clearSources = dispatcher.task("clearSources");
 export const hasSyntaxError = dispatcher.task("hasSyntaxError");
 export const getFramework = dispatcher.task("getFramework");
+export const getPausePoints = dispatcher.task("getPausePoints");
 export const replaceOriginalVariableName = dispatcher.task(
   "replaceOriginalVariableName"
 );
@@ -48,3 +48,4 @@ export type {
   AstPosition,
   Scope
 } from "./types";
+export type { PausePoint, PausePoints } from "./pausePoints";

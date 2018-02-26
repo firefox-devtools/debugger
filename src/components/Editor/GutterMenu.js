@@ -143,7 +143,7 @@ class GutterContextMenuComponent extends Component {
       bp => bp.location.line === line
     );
 
-    if (props.emptyLines.includes(line)) {
+    if (props.emptyLines && props.emptyLines.includes(line)) {
       return;
     }
 
@@ -164,9 +164,7 @@ export default connect(
       breakpoints: getVisibleBreakpoints(state),
       isPaused: getIsPaused(state),
       contextMenu: getContextMenu(state),
-      emptyLines: selectedSource
-        ? getEmptyLines(state, selectedSource.toJS())
-        : []
+      emptyLines: getEmptyLines(state, selectedSource.toJS())
     };
   },
   dispatch => bindActionCreators(actions, dispatch)
