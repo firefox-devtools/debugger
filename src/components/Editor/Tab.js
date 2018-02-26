@@ -47,7 +47,7 @@ type Props = {
   showSource: string => void,
   source: SourceRecord,
   activeSearch: string,
-  sourceMetaData: string => any
+  getMetaData: string => any
 };
 
 class Tab extends PureComponent<Props> {
@@ -144,7 +144,7 @@ class Tab extends PureComponent<Props> {
       selectSource,
       closeTab,
       source,
-      sourceMetaData
+      getMetaData
     } = this.props;
     const src = source.toJS();
     const filename = getFilename(src);
@@ -154,7 +154,7 @@ class Tab extends PureComponent<Props> {
       sourceId == selectedSource.get("id") &&
       (!this.isProjectSearchEnabled() && !this.isSourceSearchEnabled());
     const isPrettyCode = isPretty(source);
-    const sourceAnnotation = getSourceAnnotation(source, sourceMetaData);
+    const sourceAnnotation = getSourceAnnotation(source, getMetaData(sourceId));
 
     function onClickClose(e) {
       e.stopPropagation();
@@ -202,10 +202,7 @@ export default connect(
     return {
       tabSources: getSourcesForTabs(state),
       selectedSource: selectedSource,
-      sourceMetaData: getSourceMetaData(
-        state,
-        selectedSource && selectedSource.get("id")
-      ),
+      getMetaData: sourceId => getSourceMetaData(state, sourceId),
       activeSearch: getActiveSearch(state)
     };
   },
