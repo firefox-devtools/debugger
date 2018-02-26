@@ -37,6 +37,7 @@ export type {
   SourceScope,
   BindingData,
   BindingLocation,
+  BindingLocationType,
   BindingMetaValue,
   BindingType
 } from "./getScopes";
