@@ -160,7 +160,7 @@
     "rimraf": "^2.6.1",
     "single-line-log": "^1.1.2",
     "stylelint": "^9.0.0",
-    "webpack": "^3.5.5",
+    "webpack": "^4.0.1",
     "webpack-visualizer-plugin": "^0.1.11",
     "workerjs": "github:jasonLaster/workerjs"
   },
