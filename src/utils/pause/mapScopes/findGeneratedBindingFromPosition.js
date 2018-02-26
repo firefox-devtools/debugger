@@ -116,31 +116,33 @@ async function mapImportBindingToDescriptor(
     return null;
   }
 
-  const { meta } = binding.loc;
-
   let desc = binding.desc;
 
-  // Limit to 2 simple property or inherits operartions, since it would
-  // just be more work to search more and it is very unlikely that
-  // bindings would be mapped to more than a single member + inherits
-  // wrapper.
-  for (
-    let op = meta, index = 0;
-    op && mappingContains(mapped, op) && desc && index < 2;
-    index++, op = op && op.parent
-  ) {
-    // Calling could potentially trigger side-effects, which would not
-    // be ideal for this case.
-    if (op.type === "call") {
-      return null;
-    }
+  if (binding.loc.type === "ref") {
+    const { meta } = binding.loc;
 
-    if (op.type === "inherit") {
-      continue;
-    }
+    // Limit to 2 simple property or inherits operartions, since it would
+    // just be more work to search more and it is very unlikely that
+    // bindings would be mapped to more than a single member + inherits
+    // wrapper.
+    for (
+      let op = meta, index = 0;
+      op && mappingContains(mapped, op) && desc && index < 2;
+      index++, op = op && op.parent
+    ) {
+      // Calling could potentially trigger side-effects, which would not
+      // be ideal for this case.
+      if (op.type === "call") {
+        return null;
+      }
 
-    const objectClient = createObjectClient(desc.value);
-    desc = (await objectClient.getProperty(op.property)).descriptor;
+      if (op.type === "inherit") {
+        continue;
+      }
+
+      const objectClient = createObjectClient(desc.value);
+      desc = (await objectClient.getProperty(op.property)).descriptor;
+    }
   }
 
   return desc;

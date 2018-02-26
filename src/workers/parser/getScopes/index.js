@@ -10,6 +10,7 @@ import {
   type ParsedScope,
   type BindingData,
   type BindingLocation,
+  type BindingLocationType,
   type BindingMetaValue,
   type BindingType
 } from "./visitor";
@@ -18,6 +19,7 @@ export type {
   SourceScope,
   BindingData,
   BindingLocation,
+  BindingLocationType,
   BindingMetaValue,
   BindingType
 };

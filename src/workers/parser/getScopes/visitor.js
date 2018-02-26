@@ -32,14 +32,22 @@ import { getAst } from "../utils/ast";
  */
 export type BindingType = "implicit" | "var" | "const" | "let" | "import";
 
-export type BindingLocation = {
+export type BindingLocationType = "ref" | "decl";
+export type BindingLocation = BindingDeclarationLocation | BindingRefLocation;
+
+export type BindingRefLocation = {
+  type: "ref",
   start: Location,
   end: Location,
-  +meta?: BindingMetaValue | null
+  meta?: BindingMetaValue | null
+};
+export type BindingDeclarationLocation = {
+  type: "decl",
+  start: Location,
+  end: Location
 };
 export type BindingData = {
   type: BindingType,
-  declarations: Array<BindingLocation>,
   refs: Array<BindingLocation>
 };
 
@@ -225,12 +233,12 @@ function parseDeclarator(
     if (!existing) {
       existing = {
         type,
-        declarations: [],
         refs: []
       };
       targetScope.bindings[declaratorId.name] = existing;
     }
-    existing.declarations.push({
+    existing.refs.push({
+      type: "decl",
       start: fromBabelLocation(declaratorId.loc.start, sourceId),
       end: fromBabelLocation(declaratorId.loc.end, sourceId)
     });
@@ -293,27 +301,22 @@ function createGlobalScope(
   Object.assign(global.bindings, {
     module: {
       type: "var",
-      declarations: [],
       refs: []
     },
     exports: {
       type: "var",
-      declarations: [],
       refs: []
     },
     __dirname: {
       type: "var",
-      declarations: [],
       refs: []
     },
     __filename: {
       type: "var",
-      declarations: [],
       refs: []
     },
     require: {
       type: "var",
-      declarations: [],
       refs: []
     }
   });
@@ -348,7 +351,6 @@ const scopeCollectionVisitor = {
       });
       scope.bindings.this = {
         type: "implicit",
-        declarations: [],
         refs: []
       };
     } else if (t.isFunction(node)) {
@@ -360,13 +362,13 @@ const scopeCollectionVisitor = {
         });
         scope.bindings[node.id.name] = {
           type: "const",
-          declarations: [
+          refs: [
             {
+              type: "decl",
               start: fromBabelLocation(node.id.loc.start, state.sourceId),
               end: fromBabelLocation(node.id.loc.end, state.sourceId)
             }
-          ],
-          refs: []
+          ]
         };
       }
 
@@ -376,13 +378,13 @@ const scopeCollectionVisitor = {
         const fnScope = getVarScope(scope);
         scope.bindings[node.id.name] = {
           type: fnScope === scope ? "var" : "let",
-          declarations: [
+          refs: [
             {
+              type: "decl",
               start: fromBabelLocation(node.id.loc.start, state.sourceId),
               end: fromBabelLocation(node.id.loc.end, state.sourceId)
             }
-          ],
-          refs: []
+          ]
         };
       }
 
@@ -408,12 +410,10 @@ const scopeCollectionVisitor = {
       if (!t.isArrowFunctionExpression(node)) {
         scope.bindings.this = {
           type: "implicit",
-          declarations: [],
           refs: []
         };
         scope.bindings.arguments = {
           type: "implicit",
-          declarations: [],
           refs: []
         };
       }
@@ -421,13 +421,13 @@ const scopeCollectionVisitor = {
       if (t.isClassDeclaration(node) && t.isIdentifier(node.id)) {
         state.scope.bindings[node.id.name] = {
           type: "let",
-          declarations: [
+          refs: [
             {
+              type: "decl",
               start: fromBabelLocation(node.id.loc.start, state.sourceId),
               end: fromBabelLocation(node.id.loc.end, state.sourceId)
             }
-          ],
-          refs: []
+          ]
         };
       }
 
@@ -439,13 +439,13 @@ const scopeCollectionVisitor = {
 
         scope.bindings[node.id.name] = {
           type: "const",
-          declarations: [
+          refs: [
             {
+              type: "decl",
               start: fromBabelLocation(node.id.loc.start, state.sourceId),
               end: fromBabelLocation(node.id.loc.end, state.sourceId)
             }
-          ],
-          refs: []
+          ]
         };
       }
     } else if (t.isForXStatement(node) || t.isForStatement(node)) {
@@ -495,24 +495,24 @@ const scopeCollectionVisitor = {
             // Imported namespaces aren't live import bindings, they are
             // just normal const bindings.
             type: "const",
-            declarations: [
+            refs: [
               {
+                type: "decl",
                 start: fromBabelLocation(spec.local.loc.start, state.sourceId),
                 end: fromBabelLocation(spec.local.loc.end, state.sourceId)
               }
-            ],
-            refs: []
+            ]
           };
         } else {
           state.scope.bindings[spec.local.name] = {
             type: "import",
-            declarations: [
+            refs: [
               {
+                type: "decl",
                 start: fromBabelLocation(spec.local.loc.start, state.sourceId),
                 end: fromBabelLocation(spec.local.loc.end, state.sourceId)
               }
-            ],
-            refs: []
+            ]
           };
         }
       });
@@ -543,12 +543,10 @@ const scopeCollectionVisitor = {
       });
       scope.bindings.this = {
         type: "implicit",
-        declarations: [],
         refs: []
       };
       scope.bindings.arguments = {
         type: "implicit",
-        declarations: [],
         refs: []
       };
     } else if (

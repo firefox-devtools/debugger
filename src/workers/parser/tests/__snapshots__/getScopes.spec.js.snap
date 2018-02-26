@@ -5,7 +5,7 @@ Array [
   Object {
     "bindings": Object {
       "outer": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 9,
@@ -17,13 +17,12 @@ Array [
               "line": 3,
               "sourceId": "scopes/arrow-function/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [
           Object {
             "end": Object {
@@ -37,6 +36,7 @@ Array [
               "line": 4,
               "sourceId": "scopes/arrow-function/originalSource-1",
             },
+            "type": "ref",
           },
         ],
         "type": "implicit",
@@ -73,27 +73,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -119,7 +114,7 @@ Array [
   Object {
     "bindings": Object {
       "p1": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 15,
@@ -131,9 +126,9 @@ Array [
               "line": 3,
               "sourceId": "scopes/arrow-function/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
     },
@@ -153,7 +148,7 @@ Array [
   Object {
     "bindings": Object {
       "outer": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 9,
@@ -165,13 +160,12 @@ Array [
               "line": 3,
               "sourceId": "scopes/arrow-function/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [
           Object {
             "end": Object {
@@ -185,6 +179,7 @@ Array [
               "line": 4,
               "sourceId": "scopes/arrow-function/originalSource-1",
             },
+            "type": "ref",
           },
         ],
         "type": "implicit",
@@ -221,27 +216,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -267,12 +257,11 @@ Array [
   Object {
     "bindings": Object {
       "arguments": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
       "inner": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 13,
@@ -284,13 +273,12 @@ Array [
               "line": 7,
               "sourceId": "scopes/arrow-function/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [
           Object {
             "end": Object {
@@ -304,6 +292,7 @@ Array [
               "line": 8,
               "sourceId": "scopes/arrow-function/originalSource-1",
             },
+            "type": "ref",
           },
         ],
         "type": "implicit",
@@ -325,7 +314,7 @@ Array [
   Object {
     "bindings": Object {
       "p1": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 15,
@@ -337,9 +326,9 @@ Array [
               "line": 3,
               "sourceId": "scopes/arrow-function/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
     },
@@ -359,7 +348,7 @@ Array [
   Object {
     "bindings": Object {
       "outer": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 9,
@@ -371,13 +360,12 @@ Array [
               "line": 3,
               "sourceId": "scopes/arrow-function/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [
           Object {
             "end": Object {
@@ -391,6 +379,7 @@ Array [
               "line": 4,
               "sourceId": "scopes/arrow-function/originalSource-1",
             },
+            "type": "ref",
           },
         ],
         "type": "implicit",
@@ -427,27 +416,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -473,7 +457,7 @@ Array [
   Object {
     "bindings": Object {
       "p2": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 19,
@@ -485,9 +469,9 @@ Array [
               "line": 7,
               "sourceId": "scopes/arrow-function/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
     },
@@ -507,12 +491,11 @@ Array [
   Object {
     "bindings": Object {
       "arguments": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
       "inner": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 13,
@@ -524,13 +507,12 @@ Array [
               "line": 7,
               "sourceId": "scopes/arrow-function/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [
           Object {
             "end": Object {
@@ -544,6 +526,7 @@ Array [
               "line": 8,
               "sourceId": "scopes/arrow-function/originalSource-1",
             },
+            "type": "ref",
           },
         ],
         "type": "implicit",
@@ -565,7 +548,7 @@ Array [
   Object {
     "bindings": Object {
       "p1": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 15,
@@ -577,9 +560,9 @@ Array [
               "line": 3,
               "sourceId": "scopes/arrow-function/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
     },
@@ -599,7 +582,7 @@ Array [
   Object {
     "bindings": Object {
       "outer": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 9,
@@ -611,13 +594,12 @@ Array [
               "line": 3,
               "sourceId": "scopes/arrow-function/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [
           Object {
             "end": Object {
@@ -631,6 +613,7 @@ Array [
               "line": 4,
               "sourceId": "scopes/arrow-function/originalSource-1",
             },
+            "type": "ref",
           },
         ],
         "type": "implicit",
@@ -667,27 +650,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -713,7 +691,7 @@ Array [
   Object {
     "bindings": Object {
       "first": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 9,
@@ -725,13 +703,13 @@ Array [
               "line": 3,
               "sourceId": "scopes/block-statement/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
       "second": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 12,
@@ -743,13 +721,13 @@ Array [
               "line": 6,
               "sourceId": "scopes/block-statement/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "seventh": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 11,
@@ -761,13 +739,12 @@ Array [
               "line": 13,
               "sourceId": "scopes/block-statement/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -803,27 +780,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -849,7 +821,7 @@ Array [
   Object {
     "bindings": Object {
       "Fourth": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 14,
@@ -861,13 +833,13 @@ Array [
               "line": 8,
               "sourceId": "scopes/block-statement/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
       "fifth": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 11,
@@ -879,13 +851,13 @@ Array [
               "line": 9,
               "sourceId": "scopes/block-statement/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
       "sixth": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 13,
@@ -897,13 +869,13 @@ Array [
               "line": 10,
               "sourceId": "scopes/block-statement/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "const",
       },
       "third": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 16,
@@ -915,9 +887,9 @@ Array [
               "line": 7,
               "sourceId": "scopes/block-statement/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
     },
@@ -937,7 +909,7 @@ Array [
   Object {
     "bindings": Object {
       "first": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 9,
@@ -949,13 +921,13 @@ Array [
               "line": 3,
               "sourceId": "scopes/block-statement/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
       "second": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 12,
@@ -967,13 +939,13 @@ Array [
               "line": 6,
               "sourceId": "scopes/block-statement/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "seventh": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 11,
@@ -985,13 +957,12 @@ Array [
               "line": 13,
               "sourceId": "scopes/block-statement/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -1027,27 +998,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -1073,7 +1039,7 @@ Array [
   Object {
     "bindings": Object {
       "Outer": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 11,
@@ -1085,13 +1051,12 @@ Array [
               "line": 3,
               "sourceId": "scopes/class-declaration/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -1127,27 +1092,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -1173,7 +1133,7 @@ Array [
   Object {
     "bindings": Object {
       "Inner": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 15,
@@ -1185,9 +1145,9 @@ Array [
               "line": 5,
               "sourceId": "scopes/class-declaration/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
     },
@@ -1207,12 +1167,10 @@ Array [
   Object {
     "bindings": Object {
       "arguments": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -1233,7 +1191,7 @@ Array [
   Object {
     "bindings": Object {
       "Outer": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 11,
@@ -1245,9 +1203,9 @@ Array [
               "line": 3,
               "sourceId": "scopes/class-declaration/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "const",
       },
     },
@@ -1267,7 +1225,7 @@ Array [
   Object {
     "bindings": Object {
       "Outer": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 11,
@@ -1279,13 +1237,12 @@ Array [
               "line": 3,
               "sourceId": "scopes/class-declaration/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -1321,27 +1278,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -1367,12 +1319,10 @@ Array [
   Object {
     "bindings": Object {
       "arguments": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [
           Object {
             "end": Object {
@@ -1386,6 +1336,7 @@ Array [
               "line": 7,
               "sourceId": "scopes/class-declaration/originalSource-1",
             },
+            "type": "ref",
           },
         ],
         "type": "implicit",
@@ -1407,7 +1358,7 @@ Array [
   Object {
     "bindings": Object {
       "Inner": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 15,
@@ -1419,9 +1370,9 @@ Array [
               "line": 5,
               "sourceId": "scopes/class-declaration/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "const",
       },
     },
@@ -1441,7 +1392,7 @@ Array [
   Object {
     "bindings": Object {
       "Inner": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 15,
@@ -1453,9 +1404,9 @@ Array [
               "line": 5,
               "sourceId": "scopes/class-declaration/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
     },
@@ -1475,12 +1426,10 @@ Array [
   Object {
     "bindings": Object {
       "arguments": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -1501,7 +1450,7 @@ Array [
   Object {
     "bindings": Object {
       "Outer": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 11,
@@ -1513,9 +1462,9 @@ Array [
               "line": 3,
               "sourceId": "scopes/class-declaration/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "const",
       },
     },
@@ -1535,7 +1484,7 @@ Array [
   Object {
     "bindings": Object {
       "Outer": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 11,
@@ -1547,13 +1496,12 @@ Array [
               "line": 3,
               "sourceId": "scopes/class-declaration/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -1589,27 +1537,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -1635,7 +1578,7 @@ Array [
   Object {
     "bindings": Object {
       "Outer": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 9,
@@ -1647,13 +1590,12 @@ Array [
               "line": 3,
               "sourceId": "scopes/class-expression/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -1689,27 +1631,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -1735,7 +1672,7 @@ Array [
   Object {
     "bindings": Object {
       "Inner": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 13,
@@ -1747,18 +1684,16 @@ Array [
               "line": 5,
               "sourceId": "scopes/class-expression/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "arguments": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -1779,7 +1714,7 @@ Array [
   Object {
     "bindings": Object {
       "Outer": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 23,
@@ -1791,9 +1726,9 @@ Array [
               "line": 3,
               "sourceId": "scopes/class-expression/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "const",
       },
     },
@@ -1813,7 +1748,7 @@ Array [
   Object {
     "bindings": Object {
       "Outer": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 9,
@@ -1825,13 +1760,12 @@ Array [
               "line": 3,
               "sourceId": "scopes/class-expression/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -1867,27 +1801,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -1913,12 +1842,10 @@ Array [
   Object {
     "bindings": Object {
       "arguments": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [
           Object {
             "end": Object {
@@ -1932,6 +1859,7 @@ Array [
               "line": 7,
               "sourceId": "scopes/class-expression/originalSource-1",
             },
+            "type": "ref",
           },
         ],
         "type": "implicit",
@@ -1953,7 +1881,7 @@ Array [
   Object {
     "bindings": Object {
       "Inner": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 13,
@@ -1965,18 +1893,16 @@ Array [
               "line": 5,
               "sourceId": "scopes/class-expression/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "arguments": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -1997,7 +1923,7 @@ Array [
   Object {
     "bindings": Object {
       "Outer": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 23,
@@ -2009,9 +1935,9 @@ Array [
               "line": 3,
               "sourceId": "scopes/class-expression/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "const",
       },
     },
@@ -2031,7 +1957,7 @@ Array [
   Object {
     "bindings": Object {
       "Outer": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 9,
@@ -2043,13 +1969,12 @@ Array [
               "line": 3,
               "sourceId": "scopes/class-expression/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -2085,27 +2010,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -2131,7 +2051,7 @@ Array [
   Object {
     "bindings": Object {
       "Foo": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 9,
@@ -2143,13 +2063,12 @@ Array [
               "line": 3,
               "sourceId": "scopes/class-property/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -2185,27 +2104,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -2231,12 +2145,10 @@ Array [
   Object {
     "bindings": Object {
       "arguments": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [
           Object {
             "end": Object {
@@ -2277,6 +2189,7 @@ Array [
               "line": 4,
               "sourceId": "scopes/class-property/originalSource-1",
             },
+            "type": "ref",
           },
         ],
         "type": "implicit",
@@ -2298,7 +2211,7 @@ Array [
   Object {
     "bindings": Object {
       "Foo": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 9,
@@ -2310,9 +2223,9 @@ Array [
               "line": 3,
               "sourceId": "scopes/class-property/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "const",
       },
     },
@@ -2332,7 +2245,7 @@ Array [
   Object {
     "bindings": Object {
       "Foo": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 9,
@@ -2344,13 +2257,12 @@ Array [
               "line": 3,
               "sourceId": "scopes/class-property/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -2386,27 +2298,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -2432,12 +2339,11 @@ Array [
   Object {
     "bindings": Object {
       "arguments": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
       "one": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 11,
@@ -2449,13 +2355,12 @@ Array [
               "line": 7,
               "sourceId": "scopes/class-property/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -2476,7 +2381,7 @@ Array [
   Object {
     "bindings": Object {
       "Foo": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 9,
@@ -2488,9 +2393,9 @@ Array [
               "line": 3,
               "sourceId": "scopes/class-property/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "const",
       },
     },
@@ -2510,7 +2415,7 @@ Array [
   Object {
     "bindings": Object {
       "Foo": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 9,
@@ -2522,13 +2427,12 @@ Array [
               "line": 3,
               "sourceId": "scopes/class-property/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -2564,27 +2468,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -2610,7 +2509,7 @@ Array [
   Object {
     "bindings": Object {
       "two": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 11,
@@ -2622,9 +2521,9 @@ Array [
               "line": 8,
               "sourceId": "scopes/class-property/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
     },
@@ -2644,12 +2543,11 @@ Array [
   Object {
     "bindings": Object {
       "arguments": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
       "one": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 11,
@@ -2661,13 +2559,12 @@ Array [
               "line": 7,
               "sourceId": "scopes/class-property/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -2688,7 +2585,7 @@ Array [
   Object {
     "bindings": Object {
       "Foo": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 9,
@@ -2700,9 +2597,9 @@ Array [
               "line": 3,
               "sourceId": "scopes/class-property/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "const",
       },
     },
@@ -2722,7 +2619,7 @@ Array [
   Object {
     "bindings": Object {
       "Foo": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 9,
@@ -2734,13 +2631,12 @@ Array [
               "line": 3,
               "sourceId": "scopes/class-property/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -2776,27 +2672,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -2822,7 +2713,7 @@ Array [
   Object {
     "bindings": Object {
       "four": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 13,
@@ -2834,13 +2725,13 @@ Array [
               "line": 7,
               "sourceId": "scopes/for-loops/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "one": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 12,
@@ -2852,13 +2743,13 @@ Array [
               "line": 3,
               "sourceId": "scopes/for-loops/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "seven": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 14,
@@ -2870,13 +2761,12 @@ Array [
               "line": 11,
               "sourceId": "scopes/for-loops/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -2912,27 +2802,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -2958,7 +2843,7 @@ Array [
   Object {
     "bindings": Object {
       "four": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 13,
@@ -2970,13 +2855,13 @@ Array [
               "line": 7,
               "sourceId": "scopes/for-loops/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "one": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 12,
@@ -2988,13 +2873,13 @@ Array [
               "line": 3,
               "sourceId": "scopes/for-loops/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "seven": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 14,
@@ -3006,13 +2891,12 @@ Array [
               "line": 11,
               "sourceId": "scopes/for-loops/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -3048,27 +2932,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -3094,7 +2973,7 @@ Array [
   Object {
     "bindings": Object {
       "two": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 12,
@@ -3106,9 +2985,9 @@ Array [
               "line": 4,
               "sourceId": "scopes/for-loops/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
     },
@@ -3128,7 +3007,7 @@ Array [
   Object {
     "bindings": Object {
       "four": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 13,
@@ -3140,13 +3019,13 @@ Array [
               "line": 7,
               "sourceId": "scopes/for-loops/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "one": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 12,
@@ -3158,13 +3037,13 @@ Array [
               "line": 3,
               "sourceId": "scopes/for-loops/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "seven": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 14,
@@ -3176,13 +3055,12 @@ Array [
               "line": 11,
               "sourceId": "scopes/for-loops/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -3218,27 +3096,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -3264,7 +3137,7 @@ Array [
   Object {
     "bindings": Object {
       "three": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 16,
@@ -3276,9 +3149,9 @@ Array [
               "line": 5,
               "sourceId": "scopes/for-loops/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "const",
       },
     },
@@ -3298,7 +3171,7 @@ Array [
   Object {
     "bindings": Object {
       "four": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 13,
@@ -3310,13 +3183,13 @@ Array [
               "line": 7,
               "sourceId": "scopes/for-loops/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "one": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 12,
@@ -3328,13 +3201,13 @@ Array [
               "line": 3,
               "sourceId": "scopes/for-loops/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "seven": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 14,
@@ -3346,13 +3219,12 @@ Array [
               "line": 11,
               "sourceId": "scopes/for-loops/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -3388,27 +3260,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -3434,7 +3301,7 @@ Array [
   Object {
     "bindings": Object {
       "four": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 13,
@@ -3446,13 +3313,13 @@ Array [
               "line": 7,
               "sourceId": "scopes/for-loops/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "one": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 12,
@@ -3464,13 +3331,13 @@ Array [
               "line": 3,
               "sourceId": "scopes/for-loops/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "seven": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 14,
@@ -3482,13 +3349,12 @@ Array [
               "line": 11,
               "sourceId": "scopes/for-loops/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -3524,27 +3390,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -3570,7 +3431,7 @@ Array [
   Object {
     "bindings": Object {
       "five": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 13,
@@ -3582,9 +3443,9 @@ Array [
               "line": 8,
               "sourceId": "scopes/for-loops/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
     },
@@ -3604,7 +3465,7 @@ Array [
   Object {
     "bindings": Object {
       "four": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 13,
@@ -3616,13 +3477,13 @@ Array [
               "line": 7,
               "sourceId": "scopes/for-loops/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "one": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 12,
@@ -3634,13 +3495,13 @@ Array [
               "line": 3,
               "sourceId": "scopes/for-loops/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "seven": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 14,
@@ -3652,13 +3513,12 @@ Array [
               "line": 11,
               "sourceId": "scopes/for-loops/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -3694,27 +3554,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -3740,7 +3595,7 @@ Array [
   Object {
     "bindings": Object {
       "six": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 14,
@@ -3752,9 +3607,9 @@ Array [
               "line": 9,
               "sourceId": "scopes/for-loops/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "const",
       },
     },
@@ -3774,7 +3629,7 @@ Array [
   Object {
     "bindings": Object {
       "four": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 13,
@@ -3786,13 +3641,13 @@ Array [
               "line": 7,
               "sourceId": "scopes/for-loops/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "one": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 12,
@@ -3804,13 +3659,13 @@ Array [
               "line": 3,
               "sourceId": "scopes/for-loops/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "seven": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 14,
@@ -3822,13 +3677,12 @@ Array [
               "line": 11,
               "sourceId": "scopes/for-loops/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -3864,27 +3718,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -3910,7 +3759,7 @@ Array [
   Object {
     "bindings": Object {
       "four": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 13,
@@ -3922,13 +3771,13 @@ Array [
               "line": 7,
               "sourceId": "scopes/for-loops/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "one": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 12,
@@ -3940,13 +3789,13 @@ Array [
               "line": 3,
               "sourceId": "scopes/for-loops/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "seven": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 14,
@@ -3958,13 +3807,12 @@ Array [
               "line": 11,
               "sourceId": "scopes/for-loops/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -4000,27 +3848,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -4046,7 +3889,7 @@ Array [
   Object {
     "bindings": Object {
       "eight": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 14,
@@ -4058,9 +3901,9 @@ Array [
               "line": 12,
               "sourceId": "scopes/for-loops/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
     },
@@ -4080,7 +3923,7 @@ Array [
   Object {
     "bindings": Object {
       "four": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 13,
@@ -4092,13 +3935,13 @@ Array [
               "line": 7,
               "sourceId": "scopes/for-loops/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "one": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 12,
@@ -4110,13 +3953,13 @@ Array [
               "line": 3,
               "sourceId": "scopes/for-loops/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "seven": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 14,
@@ -4128,13 +3971,12 @@ Array [
               "line": 11,
               "sourceId": "scopes/for-loops/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -4170,27 +4012,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -4216,7 +4053,7 @@ Array [
   Object {
     "bindings": Object {
       "nine": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 15,
@@ -4228,9 +4065,9 @@ Array [
               "line": 13,
               "sourceId": "scopes/for-loops/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "const",
       },
     },
@@ -4250,7 +4087,7 @@ Array [
   Object {
     "bindings": Object {
       "four": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 13,
@@ -4262,13 +4099,13 @@ Array [
               "line": 7,
               "sourceId": "scopes/for-loops/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "one": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 12,
@@ -4280,13 +4117,13 @@ Array [
               "line": 3,
               "sourceId": "scopes/for-loops/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "seven": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 14,
@@ -4298,13 +4135,12 @@ Array [
               "line": 11,
               "sourceId": "scopes/for-loops/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -4340,27 +4176,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -4386,7 +4217,7 @@ Array [
   Object {
     "bindings": Object {
       "outer": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 14,
@@ -4398,13 +4229,12 @@ Array [
               "line": 3,
               "sourceId": "scopes/function-declaration/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -4440,27 +4270,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -4486,12 +4311,11 @@ Array [
   Object {
     "bindings": Object {
       "arguments": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
       "p1": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 17,
@@ -4503,13 +4327,12 @@ Array [
               "line": 3,
               "sourceId": "scopes/function-declaration/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -4530,7 +4353,7 @@ Array [
   Object {
     "bindings": Object {
       "outer": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 14,
@@ -4542,13 +4365,12 @@ Array [
               "line": 3,
               "sourceId": "scopes/function-declaration/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -4584,27 +4406,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -4630,7 +4447,7 @@ Array [
   Object {
     "bindings": Object {
       "middle": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 17,
@@ -4642,9 +4459,9 @@ Array [
               "line": 6,
               "sourceId": "scopes/function-declaration/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
     },
@@ -4664,7 +4481,7 @@ Array [
   Object {
     "bindings": Object {
       "outer": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 14,
@@ -4676,13 +4493,12 @@ Array [
               "line": 3,
               "sourceId": "scopes/function-declaration/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -4718,27 +4534,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -4764,12 +4575,11 @@ Array [
   Object {
     "bindings": Object {
       "arguments": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
       "inner": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 18,
@@ -4781,13 +4591,13 @@ Array [
               "line": 7,
               "sourceId": "scopes/function-declaration/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "p2": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 20,
@@ -4799,13 +4609,12 @@ Array [
               "line": 6,
               "sourceId": "scopes/function-declaration/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [
           Object {
             "end": Object {
@@ -4819,6 +4628,7 @@ Array [
               "line": 9,
               "sourceId": "scopes/function-declaration/originalSource-1",
             },
+            "type": "ref",
           },
         ],
         "type": "implicit",
@@ -4840,7 +4650,7 @@ Array [
   Object {
     "bindings": Object {
       "middle": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 17,
@@ -4852,9 +4662,9 @@ Array [
               "line": 6,
               "sourceId": "scopes/function-declaration/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
     },
@@ -4874,7 +4684,7 @@ Array [
   Object {
     "bindings": Object {
       "outer": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 14,
@@ -4886,13 +4696,12 @@ Array [
               "line": 3,
               "sourceId": "scopes/function-declaration/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -4928,27 +4737,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -4974,7 +4778,7 @@ Array [
   Object {
     "bindings": Object {
       "fn": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 6,
@@ -4986,13 +4790,13 @@ Array [
               "line": 3,
               "sourceId": "scopes/function-expression/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
       "fn2": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 7,
@@ -5004,13 +4808,12 @@ Array [
               "line": 5,
               "sourceId": "scopes/function-expression/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -5046,27 +4849,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -5092,12 +4890,11 @@ Array [
   Object {
     "bindings": Object {
       "arguments": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
       "p1": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 20,
@@ -5109,13 +4906,12 @@ Array [
               "line": 3,
               "sourceId": "scopes/function-expression/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -5136,7 +4932,7 @@ Array [
   Object {
     "bindings": Object {
       "fn": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 6,
@@ -5148,13 +4944,13 @@ Array [
               "line": 3,
               "sourceId": "scopes/function-expression/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
       "fn2": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 7,
@@ -5166,13 +4962,12 @@ Array [
               "line": 5,
               "sourceId": "scopes/function-expression/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -5208,27 +5003,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -5254,12 +5044,11 @@ Array [
   Object {
     "bindings": Object {
       "arguments": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
       "p2": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 30,
@@ -5271,13 +5060,12 @@ Array [
               "line": 5,
               "sourceId": "scopes/function-expression/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [
           Object {
             "end": Object {
@@ -5291,6 +5079,7 @@ Array [
               "line": 6,
               "sourceId": "scopes/function-expression/originalSource-1",
             },
+            "type": "ref",
           },
         ],
         "type": "implicit",
@@ -5312,7 +5101,7 @@ Array [
   Object {
     "bindings": Object {
       "withName": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 27,
@@ -5324,9 +5113,9 @@ Array [
               "line": 5,
               "sourceId": "scopes/function-expression/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "const",
       },
     },
@@ -5346,7 +5135,7 @@ Array [
   Object {
     "bindings": Object {
       "fn": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 6,
@@ -5358,13 +5147,13 @@ Array [
               "line": 3,
               "sourceId": "scopes/function-expression/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
       "fn2": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 7,
@@ -5376,13 +5165,12 @@ Array [
               "line": 5,
               "sourceId": "scopes/function-expression/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -5418,27 +5206,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -5464,12 +5247,11 @@ Array [
   Object {
     "bindings": Object {
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
       "zero": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 12,
@@ -5481,9 +5263,9 @@ Array [
               "line": 5,
               "sourceId": "scopes/switch-statement/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
     },
@@ -5518,27 +5300,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -5564,7 +5341,7 @@ Array [
   Object {
     "bindings": Object {
       "one": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 11,
@@ -5576,13 +5353,13 @@ Array [
               "line": 7,
               "sourceId": "scopes/switch-statement/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
       "two": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 11,
@@ -5594,9 +5371,9 @@ Array [
               "line": 9,
               "sourceId": "scopes/switch-statement/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
     },
@@ -5616,12 +5393,11 @@ Array [
   Object {
     "bindings": Object {
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
       "zero": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 12,
@@ -5633,9 +5409,9 @@ Array [
               "line": 5,
               "sourceId": "scopes/switch-statement/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
     },
@@ -5670,27 +5446,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -5716,7 +5487,7 @@ Array [
   Object {
     "bindings": Object {
       "one": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 11,
@@ -5728,13 +5499,13 @@ Array [
               "line": 7,
               "sourceId": "scopes/switch-statement/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
       "two": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 11,
@@ -5746,9 +5517,9 @@ Array [
               "line": 9,
               "sourceId": "scopes/switch-statement/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
     },
@@ -5768,12 +5539,11 @@ Array [
   Object {
     "bindings": Object {
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
       "zero": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 12,
@@ -5785,9 +5555,9 @@ Array [
               "line": 5,
               "sourceId": "scopes/switch-statement/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
     },
@@ -5822,27 +5592,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -5868,7 +5633,7 @@ Array [
   Object {
     "bindings": Object {
       "one": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 11,
@@ -5880,13 +5645,13 @@ Array [
               "line": 7,
               "sourceId": "scopes/switch-statement/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
       "two": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 11,
@@ -5898,9 +5663,9 @@ Array [
               "line": 9,
               "sourceId": "scopes/switch-statement/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
     },
@@ -5920,12 +5685,11 @@ Array [
   Object {
     "bindings": Object {
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
       "zero": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 12,
@@ -5937,9 +5701,9 @@ Array [
               "line": 5,
               "sourceId": "scopes/switch-statement/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
     },
@@ -5974,27 +5738,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -6020,7 +5779,7 @@ Array [
   Object {
     "bindings": Object {
       "three": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 13,
@@ -6032,9 +5791,9 @@ Array [
               "line": 11,
               "sourceId": "scopes/switch-statement/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
     },
@@ -6054,7 +5813,7 @@ Array [
   Object {
     "bindings": Object {
       "one": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 11,
@@ -6066,13 +5825,13 @@ Array [
               "line": 7,
               "sourceId": "scopes/switch-statement/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
       "two": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 11,
@@ -6084,9 +5843,9 @@ Array [
               "line": 9,
               "sourceId": "scopes/switch-statement/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
     },
@@ -6106,12 +5865,11 @@ Array [
   Object {
     "bindings": Object {
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
       "zero": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 12,
@@ -6123,9 +5881,9 @@ Array [
               "line": 5,
               "sourceId": "scopes/switch-statement/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
     },
@@ -6160,27 +5918,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -6206,7 +5959,7 @@ Array [
   Object {
     "bindings": Object {
       "first": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 11,
@@ -6218,13 +5971,13 @@ Array [
               "line": 4,
               "sourceId": "scopes/try-catch/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "third": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 11,
@@ -6236,13 +5989,12 @@ Array [
               "line": 7,
               "sourceId": "scopes/try-catch/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -6278,27 +6030,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -6324,7 +6071,7 @@ Array [
   Object {
     "bindings": Object {
       "second": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 12,
@@ -6336,9 +6083,9 @@ Array [
               "line": 5,
               "sourceId": "scopes/try-catch/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
     },
@@ -6358,7 +6105,7 @@ Array [
   Object {
     "bindings": Object {
       "first": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 11,
@@ -6370,13 +6117,13 @@ Array [
               "line": 4,
               "sourceId": "scopes/try-catch/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "third": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 11,
@@ -6388,13 +6135,12 @@ Array [
               "line": 7,
               "sourceId": "scopes/try-catch/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -6430,27 +6176,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -6476,7 +6217,7 @@ Array [
   Object {
     "bindings": Object {
       "fourth": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 12,
@@ -6488,9 +6229,9 @@ Array [
               "line": 8,
               "sourceId": "scopes/try-catch/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
     },
@@ -6510,7 +6251,7 @@ Array [
   Object {
     "bindings": Object {
       "err": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 12,
@@ -6522,9 +6263,9 @@ Array [
               "line": 6,
               "sourceId": "scopes/try-catch/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
     },
@@ -6544,7 +6285,7 @@ Array [
   Object {
     "bindings": Object {
       "first": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 11,
@@ -6556,13 +6297,13 @@ Array [
               "line": 4,
               "sourceId": "scopes/try-catch/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "third": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 11,
@@ -6574,13 +6315,12 @@ Array [
               "line": 7,
               "sourceId": "scopes/try-catch/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -6616,27 +6356,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -6662,7 +6397,7 @@ Array [
   Object {
     "bindings": Object {
       "fn": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 11,
@@ -6674,13 +6409,13 @@ Array [
               "line": 9,
               "sourceId": "scopes/simple-module/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "foo": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 10,
@@ -6692,9 +6427,8 @@ Array [
               "line": 1,
               "sourceId": "scopes/simple-module/originalSource-1",
             },
+            "type": "decl",
           },
-        ],
-        "refs": Array [
           Object {
             "end": Object {
               "column": 15,
@@ -6707,12 +6441,13 @@ Array [
               "line": 3,
               "sourceId": "scopes/simple-module/originalSource-1",
             },
+            "type": "ref",
           },
         ],
         "type": "import",
       },
       "one": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 7,
@@ -6724,13 +6459,12 @@ Array [
               "line": 5,
               "sourceId": "scopes/simple-module/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [
           Object {
             "end": Object {
@@ -6744,12 +6478,13 @@ Array [
               "line": 11,
               "sourceId": "scopes/simple-module/originalSource-1",
             },
+            "type": "ref",
           },
         ],
         "type": "implicit",
       },
       "three": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 11,
@@ -6761,13 +6496,13 @@ Array [
               "line": 7,
               "sourceId": "scopes/simple-module/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "const",
       },
       "two": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 7,
@@ -6779,9 +6514,9 @@ Array [
               "line": 6,
               "sourceId": "scopes/simple-module/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
     },
@@ -6816,27 +6551,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -6862,7 +6592,7 @@ Array [
   Object {
     "bindings": Object {
       "foo": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 9,
@@ -6874,9 +6604,8 @@ Array [
               "line": 1,
               "sourceId": "scopes/expressions/originalSource-1",
             },
+            "type": "decl",
           },
-        ],
-        "refs": Array [
           Object {
             "end": Object {
               "column": 3,
@@ -6930,6 +6659,7 @@ Array [
               "line": 3,
               "sourceId": "scopes/expressions/originalSource-1",
             },
+            "type": "ref",
           },
           Object {
             "end": Object {
@@ -6997,6 +6727,7 @@ Array [
               "line": 4,
               "sourceId": "scopes/expressions/originalSource-1",
             },
+            "type": "ref",
           },
           Object {
             "end": Object {
@@ -7064,6 +6795,7 @@ Array [
               "line": 5,
               "sourceId": "scopes/expressions/originalSource-1",
             },
+            "type": "ref",
           },
         ],
         "type": "const",
@@ -7085,32 +6817,26 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -7136,7 +6862,7 @@ Array [
   Object {
     "bindings": Object {
       "aConst": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 12,
@@ -7148,13 +6874,13 @@ Array [
               "line": 15,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "const",
       },
       "aLet": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 8,
@@ -7166,13 +6892,13 @@ Array [
               "line": 14,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
       "aVar": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 8,
@@ -7184,13 +6910,13 @@ Array [
               "line": 13,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "cls": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 9,
@@ -7202,13 +6928,13 @@ Array [
               "line": 7,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
       "def": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 10,
@@ -7220,13 +6946,13 @@ Array [
               "line": 1,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "import",
       },
       "fn": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 11,
@@ -7238,13 +6964,13 @@ Array [
               "line": 6,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "named": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 14,
@@ -7256,13 +6982,13 @@ Array [
               "line": 2,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "import",
       },
       "namespace": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 21,
@@ -7274,13 +7000,13 @@ Array [
               "line": 4,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "const",
       },
       "otherNamed": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 28,
@@ -7292,13 +7018,12 @@ Array [
               "line": 3,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "import",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -7334,27 +7059,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -7380,12 +7100,10 @@ Array [
   Object {
     "bindings": Object {
       "arguments": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -7406,7 +7124,7 @@ Array [
   Object {
     "bindings": Object {
       "cls": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 9,
@@ -7418,9 +7136,9 @@ Array [
               "line": 7,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "const",
       },
     },
@@ -7440,7 +7158,7 @@ Array [
   Object {
     "bindings": Object {
       "aConst": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 12,
@@ -7452,13 +7170,13 @@ Array [
               "line": 15,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "const",
       },
       "aLet": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 8,
@@ -7470,13 +7188,13 @@ Array [
               "line": 14,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
       "aVar": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 8,
@@ -7488,13 +7206,13 @@ Array [
               "line": 13,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "cls": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 9,
@@ -7506,13 +7224,13 @@ Array [
               "line": 7,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
       "def": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 10,
@@ -7524,13 +7242,13 @@ Array [
               "line": 1,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "import",
       },
       "fn": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 11,
@@ -7542,13 +7260,13 @@ Array [
               "line": 6,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "named": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 14,
@@ -7560,13 +7278,13 @@ Array [
               "line": 2,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "import",
       },
       "namespace": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 21,
@@ -7578,13 +7296,13 @@ Array [
               "line": 4,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "const",
       },
       "otherNamed": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 28,
@@ -7596,13 +7314,12 @@ Array [
               "line": 3,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "import",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -7638,27 +7355,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -7684,7 +7396,6 @@ Array [
   Object {
     "bindings": Object {
       "arguments": Object {
-        "declarations": Array [],
         "refs": Array [
           Object {
             "end": Object {
@@ -7698,12 +7409,12 @@ Array [
               "line": 19,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "ref",
           },
         ],
         "type": "implicit",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [
           Object {
             "end": Object {
@@ -7717,6 +7428,7 @@ Array [
               "line": 18,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "ref",
           },
         ],
         "type": "implicit",
@@ -7738,7 +7450,7 @@ Array [
   Object {
     "bindings": Object {
       "inner": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 15,
@@ -7750,9 +7462,9 @@ Array [
               "line": 17,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "const",
       },
     },
@@ -7772,7 +7484,7 @@ Array [
   Object {
     "bindings": Object {
       "aConst": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 12,
@@ -7784,13 +7496,13 @@ Array [
               "line": 15,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "const",
       },
       "aLet": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 8,
@@ -7802,13 +7514,13 @@ Array [
               "line": 14,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
       "aVar": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 8,
@@ -7820,13 +7532,13 @@ Array [
               "line": 13,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "cls": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 9,
@@ -7838,13 +7550,13 @@ Array [
               "line": 7,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
       "def": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 10,
@@ -7856,13 +7568,13 @@ Array [
               "line": 1,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "import",
       },
       "fn": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 11,
@@ -7874,13 +7586,13 @@ Array [
               "line": 6,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "named": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 14,
@@ -7892,13 +7604,13 @@ Array [
               "line": 2,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "import",
       },
       "namespace": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 21,
@@ -7910,13 +7622,13 @@ Array [
               "line": 4,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "const",
       },
       "otherNamed": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 28,
@@ -7928,13 +7640,12 @@ Array [
               "line": 3,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "import",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -7970,27 +7681,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
@@ -8016,7 +7722,7 @@ Array [
   Object {
     "bindings": Object {
       "blockFn": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 18,
@@ -8028,9 +7734,9 @@ Array [
               "line": 23,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
     },
@@ -8050,7 +7756,7 @@ Array [
   Object {
     "bindings": Object {
       "aConst": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 12,
@@ -8062,13 +7768,13 @@ Array [
               "line": 15,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "const",
       },
       "aLet": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 8,
@@ -8080,13 +7786,13 @@ Array [
               "line": 14,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
       "aVar": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 8,
@@ -8098,13 +7804,13 @@ Array [
               "line": 13,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "cls": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 9,
@@ -8116,13 +7822,13 @@ Array [
               "line": 7,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "let",
       },
       "def": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 10,
@@ -8134,13 +7840,13 @@ Array [
               "line": 1,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "import",
       },
       "fn": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 11,
@@ -8152,13 +7858,13 @@ Array [
               "line": 6,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "var",
       },
       "named": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 14,
@@ -8170,13 +7876,13 @@ Array [
               "line": 2,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "import",
       },
       "namespace": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 21,
@@ -8188,13 +7894,13 @@ Array [
               "line": 4,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "const",
       },
       "otherNamed": Object {
-        "declarations": Array [
+        "refs": Array [
           Object {
             "end": Object {
               "column": 28,
@@ -8206,13 +7912,12 @@ Array [
               "line": 3,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "type": "decl",
           },
         ],
-        "refs": Array [],
         "type": "import",
       },
       "this": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "implicit",
       },
@@ -8248,27 +7953,22 @@ Array [
   Object {
     "bindings": Object {
       "__dirname": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "__filename": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "exports": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "module": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
       "require": Object {
-        "declarations": Array [],
         "refs": Array [],
         "type": "var",
       },
