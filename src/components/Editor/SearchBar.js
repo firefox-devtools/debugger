@@ -222,24 +222,6 @@ class SearchBar extends Component<Props, State> {
   };
 
   // Renderers
-  buildSummaryMsg() {
-    const { searchResults: { matchIndex, count, index }, query } = this.props;
-
-    if (query.trim() == "") {
-      return "";
-    }
-
-    if (count == 0) {
-      return L10N.getStr("editor.noResults");
-    }
-
-    if (index == -1) {
-      return L10N.getFormatStr("sourceSearch.resultsSummary1", count);
-    }
-
-    return L10N.getFormatStr("editor.searchResults", matchIndex + 1, count);
-  }
-
   renderSearchModifiers = () => {
     const { modifiers, toggleFileSearchModifier, query } = this.props;
     const { doSearch } = this;
@@ -306,7 +288,7 @@ class SearchBar extends Component<Props, State> {
           query={this.state.query}
           count={count}
           placeholder={L10N.getStr("sourceSearch.search.placeholder")}
-          summaryMsg={this.buildSummaryMsg()}
+          summaryMsg=""
           onChange={this.onChange}
           onBlur={this.onBlur}
           showErrorEmoji={this.shouldShowErrorEmoji()}

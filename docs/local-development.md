@@ -58,7 +58,7 @@ The Debugger supports two types of internationalization RTL (right to left) layo
 
 ```js
 L10N.getStr("scopes.header");
-L10N.getFormatStr("editor.searchResults", index + 1, count);
+L10N.getFormatStr("sourceFooter.mappedSource", filename);
 ```
 
 Translated strings are added to the [debugger properties][debugger-properties] file.

@@ -29,7 +29,6 @@ const arrowBtn = (onClick, type, className, tooltip) => {
 type Props = {
   count: number,
   expanded: boolean,
-  shouldFocus?: boolean,
   handleClose: (e: SyntheticMouseEvent<HTMLDivElement>) => void,
   handleNext?: (e: SyntheticMouseEvent<HTMLButtonElement>) => void,
   handlePrev?: (e: SyntheticMouseEvent<HTMLButtonElement>) => void,
@@ -42,8 +41,10 @@ type Props = {
   placeholder: string,
   query: string,
   selectedItemId?: string,
+  shouldFocus?: boolean,
   showErrorEmoji: boolean,
-  size: string
+  size: string,
+  summaryMsg?: string
 };
 
 class SearchInput extends Component<Props> {
@@ -130,7 +131,8 @@ class SearchInput extends Component<Props> {
       query,
       selectedItemId,
       showErrorEmoji,
-      size
+      size,
+      summaryMsg
     } = this.props;
 
     const inputProps = {
@@ -162,6 +164,7 @@ class SearchInput extends Component<Props> {
       >
         {this.renderSvg()}
         <input {...inputProps} />
+        {summaryMsg && <div className="summary">{summaryMsg}</div>}
         {this.renderNav()}
         <CloseButton handleClick={handleClose} buttonClass={size} />
       </div>
