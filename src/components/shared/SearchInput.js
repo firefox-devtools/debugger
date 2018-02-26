@@ -44,7 +44,7 @@ type Props = {
   shouldFocus?: boolean,
   showErrorEmoji: boolean,
   size: string,
-  summaryMsg?: string
+  summaryMsg: string
 };
 
 class SearchInput extends Component<Props> {
