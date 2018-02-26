@@ -7,6 +7,18 @@ Array [
       "outer": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 2,
+                "line": 11,
+                "sourceId": "scopes/arrow-function/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 3,
+                "sourceId": "scopes/arrow-function/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 9,
               "line": 3,
@@ -116,6 +128,18 @@ Array [
       "p1": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 11,
+                "sourceId": "scopes/arrow-function/originalSource-1",
+              },
+              "start": Object {
+                "column": 12,
+                "line": 3,
+                "sourceId": "scopes/arrow-function/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 15,
               "line": 3,
@@ -150,6 +174,18 @@ Array [
       "outer": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 2,
+                "line": 11,
+                "sourceId": "scopes/arrow-function/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 3,
+                "sourceId": "scopes/arrow-function/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 9,
               "line": 3,
@@ -263,6 +299,18 @@ Array [
       "inner": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 6,
+                "line": 9,
+                "sourceId": "scopes/arrow-function/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 7,
+                "sourceId": "scopes/arrow-function/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 13,
               "line": 7,
@@ -316,6 +364,18 @@ Array [
       "p1": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 11,
+                "sourceId": "scopes/arrow-function/originalSource-1",
+              },
+              "start": Object {
+                "column": 12,
+                "line": 3,
+                "sourceId": "scopes/arrow-function/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 15,
               "line": 3,
@@ -350,6 +410,18 @@ Array [
       "outer": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 2,
+                "line": 11,
+                "sourceId": "scopes/arrow-function/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 3,
+                "sourceId": "scopes/arrow-function/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 9,
               "line": 3,
@@ -459,6 +531,18 @@ Array [
       "p2": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 5,
+                "line": 9,
+                "sourceId": "scopes/arrow-function/originalSource-1",
+              },
+              "start": Object {
+                "column": 16,
+                "line": 7,
+                "sourceId": "scopes/arrow-function/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 19,
               "line": 7,
@@ -497,6 +581,18 @@ Array [
       "inner": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 6,
+                "line": 9,
+                "sourceId": "scopes/arrow-function/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 7,
+                "sourceId": "scopes/arrow-function/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 13,
               "line": 7,
@@ -550,6 +646,18 @@ Array [
       "p1": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 11,
+                "sourceId": "scopes/arrow-function/originalSource-1",
+              },
+              "start": Object {
+                "column": 12,
+                "line": 3,
+                "sourceId": "scopes/arrow-function/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 15,
               "line": 3,
@@ -584,6 +692,18 @@ Array [
       "outer": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 2,
+                "line": 11,
+                "sourceId": "scopes/arrow-function/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 3,
+                "sourceId": "scopes/arrow-function/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 9,
               "line": 3,
@@ -693,6 +813,18 @@ Array [
       "first": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 10,
+                "line": 3,
+                "sourceId": "scopes/block-statement/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 3,
+                "sourceId": "scopes/block-statement/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 9,
               "line": 3,
@@ -711,6 +843,18 @@ Array [
       "second": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 13,
+                "line": 6,
+                "sourceId": "scopes/block-statement/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 6,
+                "sourceId": "scopes/block-statement/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 12,
               "line": 6,
@@ -729,6 +873,18 @@ Array [
       "seventh": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 12,
+                "line": 13,
+                "sourceId": "scopes/block-statement/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 13,
+                "sourceId": "scopes/block-statement/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 11,
               "line": 13,
@@ -823,6 +979,18 @@ Array [
       "Fourth": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 17,
+                "line": 8,
+                "sourceId": "scopes/block-statement/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 8,
+                "sourceId": "scopes/block-statement/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 14,
               "line": 8,
@@ -841,6 +1009,18 @@ Array [
       "fifth": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 12,
+                "line": 9,
+                "sourceId": "scopes/block-statement/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 9,
+                "sourceId": "scopes/block-statement/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 11,
               "line": 9,
@@ -859,6 +1039,18 @@ Array [
       "sixth": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 18,
+                "line": 10,
+                "sourceId": "scopes/block-statement/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 10,
+                "sourceId": "scopes/block-statement/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 13,
               "line": 10,
@@ -877,6 +1069,18 @@ Array [
       "third": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 21,
+                "line": 7,
+                "sourceId": "scopes/block-statement/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 7,
+                "sourceId": "scopes/block-statement/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 16,
               "line": 7,
@@ -911,6 +1115,18 @@ Array [
       "first": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 10,
+                "line": 3,
+                "sourceId": "scopes/block-statement/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 3,
+                "sourceId": "scopes/block-statement/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 9,
               "line": 3,
@@ -929,6 +1145,18 @@ Array [
       "second": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 13,
+                "line": 6,
+                "sourceId": "scopes/block-statement/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 6,
+                "sourceId": "scopes/block-statement/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 12,
               "line": 6,
@@ -947,6 +1175,18 @@ Array [
       "seventh": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 12,
+                "line": 13,
+                "sourceId": "scopes/block-statement/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 13,
+                "sourceId": "scopes/block-statement/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 11,
               "line": 13,
@@ -1041,6 +1281,18 @@ Array [
       "Outer": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 11,
+                "sourceId": "scopes/class-declaration/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 3,
+                "sourceId": "scopes/class-declaration/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 11,
               "line": 3,
@@ -1135,6 +1387,18 @@ Array [
       "Inner": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 5,
+                "line": 9,
+                "sourceId": "scopes/class-declaration/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 5,
+                "sourceId": "scopes/class-declaration/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 15,
               "line": 5,
@@ -1193,6 +1457,18 @@ Array [
       "Outer": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 11,
+                "sourceId": "scopes/class-declaration/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 3,
+                "sourceId": "scopes/class-declaration/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 11,
               "line": 3,
@@ -1227,6 +1503,18 @@ Array [
       "Outer": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 11,
+                "sourceId": "scopes/class-declaration/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 3,
+                "sourceId": "scopes/class-declaration/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 11,
               "line": 3,
@@ -1360,6 +1648,18 @@ Array [
       "Inner": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 5,
+                "line": 9,
+                "sourceId": "scopes/class-declaration/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 5,
+                "sourceId": "scopes/class-declaration/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 15,
               "line": 5,
@@ -1394,6 +1694,18 @@ Array [
       "Inner": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 5,
+                "line": 9,
+                "sourceId": "scopes/class-declaration/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 5,
+                "sourceId": "scopes/class-declaration/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 15,
               "line": 5,
@@ -1452,6 +1764,18 @@ Array [
       "Outer": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 11,
+                "sourceId": "scopes/class-declaration/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 3,
+                "sourceId": "scopes/class-declaration/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 11,
               "line": 3,
@@ -1486,6 +1810,18 @@ Array [
       "Outer": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 11,
+                "sourceId": "scopes/class-declaration/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 3,
+                "sourceId": "scopes/class-declaration/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 11,
               "line": 3,
@@ -1580,6 +1916,18 @@ Array [
       "Outer": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 2,
+                "line": 11,
+                "sourceId": "scopes/class-expression/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 3,
+                "sourceId": "scopes/class-expression/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 9,
               "line": 3,
@@ -1674,6 +2022,18 @@ Array [
       "Inner": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 6,
+                "line": 9,
+                "sourceId": "scopes/class-expression/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 5,
+                "sourceId": "scopes/class-expression/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 13,
               "line": 5,
@@ -1716,6 +2076,18 @@ Array [
       "Outer": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 11,
+                "sourceId": "scopes/class-expression/originalSource-1",
+              },
+              "start": Object {
+                "column": 12,
+                "line": 3,
+                "sourceId": "scopes/class-expression/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 23,
               "line": 3,
@@ -1750,6 +2122,18 @@ Array [
       "Outer": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 2,
+                "line": 11,
+                "sourceId": "scopes/class-expression/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 3,
+                "sourceId": "scopes/class-expression/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 9,
               "line": 3,
@@ -1883,6 +2267,18 @@ Array [
       "Inner": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 6,
+                "line": 9,
+                "sourceId": "scopes/class-expression/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 5,
+                "sourceId": "scopes/class-expression/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 13,
               "line": 5,
@@ -1925,6 +2321,18 @@ Array [
       "Outer": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 11,
+                "sourceId": "scopes/class-expression/originalSource-1",
+              },
+              "start": Object {
+                "column": 12,
+                "line": 3,
+                "sourceId": "scopes/class-expression/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 23,
               "line": 3,
@@ -1959,6 +2367,18 @@ Array [
       "Outer": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 2,
+                "line": 11,
+                "sourceId": "scopes/class-expression/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 3,
+                "sourceId": "scopes/class-expression/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 9,
               "line": 3,
@@ -2053,6 +2473,18 @@ Array [
       "Foo": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 10,
+                "sourceId": "scopes/class-property/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 3,
+                "sourceId": "scopes/class-property/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 9,
               "line": 3,
@@ -2213,6 +2645,18 @@ Array [
       "Foo": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 10,
+                "sourceId": "scopes/class-property/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 3,
+                "sourceId": "scopes/class-property/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 9,
               "line": 3,
@@ -2247,6 +2691,18 @@ Array [
       "Foo": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 10,
+                "sourceId": "scopes/class-property/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 3,
+                "sourceId": "scopes/class-property/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 9,
               "line": 3,
@@ -2345,6 +2801,18 @@ Array [
       "one": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 12,
+                "line": 7,
+                "sourceId": "scopes/class-property/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 7,
+                "sourceId": "scopes/class-property/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 11,
               "line": 7,
@@ -2383,6 +2851,18 @@ Array [
       "Foo": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 10,
+                "sourceId": "scopes/class-property/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 3,
+                "sourceId": "scopes/class-property/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 9,
               "line": 3,
@@ -2417,6 +2897,18 @@ Array [
       "Foo": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 10,
+                "sourceId": "scopes/class-property/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 3,
+                "sourceId": "scopes/class-property/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 9,
               "line": 3,
@@ -2511,6 +3003,18 @@ Array [
       "two": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 12,
+                "line": 8,
+                "sourceId": "scopes/class-property/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 8,
+                "sourceId": "scopes/class-property/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 11,
               "line": 8,
@@ -2549,6 +3053,18 @@ Array [
       "one": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 12,
+                "line": 7,
+                "sourceId": "scopes/class-property/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 7,
+                "sourceId": "scopes/class-property/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 11,
               "line": 7,
@@ -2587,6 +3103,18 @@ Array [
       "Foo": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 10,
+                "sourceId": "scopes/class-property/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 3,
+                "sourceId": "scopes/class-property/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 9,
               "line": 3,
@@ -2621,6 +3149,18 @@ Array [
       "Foo": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 10,
+                "sourceId": "scopes/class-property/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 3,
+                "sourceId": "scopes/class-property/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 9,
               "line": 3,
@@ -2715,6 +3255,18 @@ Array [
       "four": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 13,
+                "line": 7,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+              "start": Object {
+                "column": 5,
+                "line": 7,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 13,
               "line": 7,
@@ -2733,6 +3285,18 @@ Array [
       "one": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 12,
+                "line": 3,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+              "start": Object {
+                "column": 5,
+                "line": 3,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 12,
               "line": 3,
@@ -2751,6 +3315,18 @@ Array [
       "seven": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 14,
+                "line": 11,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+              "start": Object {
+                "column": 5,
+                "line": 11,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 14,
               "line": 11,
@@ -2845,6 +3421,18 @@ Array [
       "four": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 13,
+                "line": 7,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+              "start": Object {
+                "column": 5,
+                "line": 7,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 13,
               "line": 7,
@@ -2863,6 +3451,18 @@ Array [
       "one": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 12,
+                "line": 3,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+              "start": Object {
+                "column": 5,
+                "line": 3,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 12,
               "line": 3,
@@ -2881,6 +3481,18 @@ Array [
       "seven": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 14,
+                "line": 11,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+              "start": Object {
+                "column": 5,
+                "line": 11,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 14,
               "line": 11,
@@ -2975,6 +3587,18 @@ Array [
       "two": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 12,
+                "line": 4,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+              "start": Object {
+                "column": 5,
+                "line": 4,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 12,
               "line": 4,
@@ -3009,6 +3633,18 @@ Array [
       "four": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 13,
+                "line": 7,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+              "start": Object {
+                "column": 5,
+                "line": 7,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 13,
               "line": 7,
@@ -3027,6 +3663,18 @@ Array [
       "one": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 12,
+                "line": 3,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+              "start": Object {
+                "column": 5,
+                "line": 3,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 12,
               "line": 3,
@@ -3045,6 +3693,18 @@ Array [
       "seven": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 14,
+                "line": 11,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+              "start": Object {
+                "column": 5,
+                "line": 11,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 14,
               "line": 11,
@@ -3139,6 +3799,18 @@ Array [
       "three": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 20,
+                "line": 5,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+              "start": Object {
+                "column": 5,
+                "line": 5,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 16,
               "line": 5,
@@ -3173,6 +3845,18 @@ Array [
       "four": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 13,
+                "line": 7,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+              "start": Object {
+                "column": 5,
+                "line": 7,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 13,
               "line": 7,
@@ -3191,6 +3875,18 @@ Array [
       "one": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 12,
+                "line": 3,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+              "start": Object {
+                "column": 5,
+                "line": 3,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 12,
               "line": 3,
@@ -3209,6 +3905,18 @@ Array [
       "seven": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 14,
+                "line": 11,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+              "start": Object {
+                "column": 5,
+                "line": 11,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 14,
               "line": 11,
@@ -3303,6 +4011,18 @@ Array [
       "four": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 13,
+                "line": 7,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+              "start": Object {
+                "column": 5,
+                "line": 7,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 13,
               "line": 7,
@@ -3321,6 +4041,18 @@ Array [
       "one": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 12,
+                "line": 3,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+              "start": Object {
+                "column": 5,
+                "line": 3,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 12,
               "line": 3,
@@ -3339,6 +4071,18 @@ Array [
       "seven": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 14,
+                "line": 11,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+              "start": Object {
+                "column": 5,
+                "line": 11,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 14,
               "line": 11,
@@ -3433,6 +4177,18 @@ Array [
       "five": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 13,
+                "line": 8,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+              "start": Object {
+                "column": 5,
+                "line": 8,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 13,
               "line": 8,
@@ -3467,6 +4223,18 @@ Array [
       "four": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 13,
+                "line": 7,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+              "start": Object {
+                "column": 5,
+                "line": 7,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 13,
               "line": 7,
@@ -3485,6 +4253,18 @@ Array [
       "one": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 12,
+                "line": 3,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+              "start": Object {
+                "column": 5,
+                "line": 3,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 12,
               "line": 3,
@@ -3503,6 +4283,18 @@ Array [
       "seven": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 14,
+                "line": 11,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+              "start": Object {
+                "column": 5,
+                "line": 11,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 14,
               "line": 11,
@@ -3597,6 +4389,18 @@ Array [
       "six": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 14,
+                "line": 9,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+              "start": Object {
+                "column": 5,
+                "line": 9,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 14,
               "line": 9,
@@ -3631,6 +4435,18 @@ Array [
       "four": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 13,
+                "line": 7,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+              "start": Object {
+                "column": 5,
+                "line": 7,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 13,
               "line": 7,
@@ -3649,6 +4465,18 @@ Array [
       "one": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 12,
+                "line": 3,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+              "start": Object {
+                "column": 5,
+                "line": 3,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 12,
               "line": 3,
@@ -3667,6 +4495,18 @@ Array [
       "seven": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 14,
+                "line": 11,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+              "start": Object {
+                "column": 5,
+                "line": 11,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 14,
               "line": 11,
@@ -3761,6 +4601,18 @@ Array [
       "four": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 13,
+                "line": 7,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+              "start": Object {
+                "column": 5,
+                "line": 7,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 13,
               "line": 7,
@@ -3779,6 +4631,18 @@ Array [
       "one": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 12,
+                "line": 3,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+              "start": Object {
+                "column": 5,
+                "line": 3,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 12,
               "line": 3,
@@ -3797,6 +4661,18 @@ Array [
       "seven": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 14,
+                "line": 11,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+              "start": Object {
+                "column": 5,
+                "line": 11,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 14,
               "line": 11,
@@ -3891,6 +4767,18 @@ Array [
       "eight": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 14,
+                "line": 12,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+              "start": Object {
+                "column": 5,
+                "line": 12,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 14,
               "line": 12,
@@ -3925,6 +4813,18 @@ Array [
       "four": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 13,
+                "line": 7,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+              "start": Object {
+                "column": 5,
+                "line": 7,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 13,
               "line": 7,
@@ -3943,6 +4843,18 @@ Array [
       "one": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 12,
+                "line": 3,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+              "start": Object {
+                "column": 5,
+                "line": 3,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 12,
               "line": 3,
@@ -3961,6 +4873,18 @@ Array [
       "seven": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 14,
+                "line": 11,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+              "start": Object {
+                "column": 5,
+                "line": 11,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 14,
               "line": 11,
@@ -4055,6 +4979,18 @@ Array [
       "nine": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 15,
+                "line": 13,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+              "start": Object {
+                "column": 5,
+                "line": 13,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 15,
               "line": 13,
@@ -4089,6 +5025,18 @@ Array [
       "four": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 13,
+                "line": 7,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+              "start": Object {
+                "column": 5,
+                "line": 7,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 13,
               "line": 7,
@@ -4107,6 +5055,18 @@ Array [
       "one": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 12,
+                "line": 3,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+              "start": Object {
+                "column": 5,
+                "line": 3,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 12,
               "line": 3,
@@ -4125,6 +5085,18 @@ Array [
       "seven": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 14,
+                "line": 11,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+              "start": Object {
+                "column": 5,
+                "line": 11,
+                "sourceId": "scopes/for-loops/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 14,
               "line": 11,
@@ -4219,6 +5191,18 @@ Array [
       "outer": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 21,
+                "line": 3,
+                "sourceId": "scopes/function-declaration/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 3,
+                "sourceId": "scopes/function-declaration/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 14,
               "line": 3,
@@ -4317,6 +5301,18 @@ Array [
       "p1": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 21,
+                "line": 3,
+                "sourceId": "scopes/function-declaration/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 3,
+                "sourceId": "scopes/function-declaration/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 17,
               "line": 3,
@@ -4355,6 +5351,18 @@ Array [
       "outer": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 21,
+                "line": 3,
+                "sourceId": "scopes/function-declaration/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 3,
+                "sourceId": "scopes/function-declaration/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 14,
               "line": 3,
@@ -4449,6 +5457,18 @@ Array [
       "middle": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 3,
+                "line": 10,
+                "sourceId": "scopes/function-declaration/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 6,
+                "sourceId": "scopes/function-declaration/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 17,
               "line": 6,
@@ -4483,6 +5503,18 @@ Array [
       "outer": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 21,
+                "line": 3,
+                "sourceId": "scopes/function-declaration/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 3,
+                "sourceId": "scopes/function-declaration/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 14,
               "line": 3,
@@ -4581,6 +5613,18 @@ Array [
       "inner": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 25,
+                "line": 7,
+                "sourceId": "scopes/function-declaration/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 7,
+                "sourceId": "scopes/function-declaration/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 18,
               "line": 7,
@@ -4599,6 +5643,18 @@ Array [
       "p2": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 3,
+                "line": 10,
+                "sourceId": "scopes/function-declaration/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 6,
+                "sourceId": "scopes/function-declaration/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 20,
               "line": 6,
@@ -4652,6 +5708,18 @@ Array [
       "middle": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 3,
+                "line": 10,
+                "sourceId": "scopes/function-declaration/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 6,
+                "sourceId": "scopes/function-declaration/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 17,
               "line": 6,
@@ -4686,6 +5754,18 @@ Array [
       "outer": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 21,
+                "line": 3,
+                "sourceId": "scopes/function-declaration/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 3,
+                "sourceId": "scopes/function-declaration/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 14,
               "line": 3,
@@ -4780,6 +5860,18 @@ Array [
       "fn": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 25,
+                "line": 3,
+                "sourceId": "scopes/function-expression/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 3,
+                "sourceId": "scopes/function-expression/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 6,
               "line": 3,
@@ -4798,6 +5890,18 @@ Array [
       "fn2": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 2,
+                "line": 7,
+                "sourceId": "scopes/function-expression/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 5,
+                "sourceId": "scopes/function-expression/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 7,
               "line": 5,
@@ -4896,6 +6000,18 @@ Array [
       "p1": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 24,
+                "line": 3,
+                "sourceId": "scopes/function-expression/originalSource-1",
+              },
+              "start": Object {
+                "column": 9,
+                "line": 3,
+                "sourceId": "scopes/function-expression/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 20,
               "line": 3,
@@ -4934,6 +6050,18 @@ Array [
       "fn": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 25,
+                "line": 3,
+                "sourceId": "scopes/function-expression/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 3,
+                "sourceId": "scopes/function-expression/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 6,
               "line": 3,
@@ -4952,6 +6080,18 @@ Array [
       "fn2": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 2,
+                "line": 7,
+                "sourceId": "scopes/function-expression/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 5,
+                "sourceId": "scopes/function-expression/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 7,
               "line": 5,
@@ -5050,6 +6190,18 @@ Array [
       "p2": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 7,
+                "sourceId": "scopes/function-expression/originalSource-1",
+              },
+              "start": Object {
+                "column": 10,
+                "line": 5,
+                "sourceId": "scopes/function-expression/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 30,
               "line": 5,
@@ -5103,6 +6255,18 @@ Array [
       "withName": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 7,
+                "sourceId": "scopes/function-expression/originalSource-1",
+              },
+              "start": Object {
+                "column": 10,
+                "line": 5,
+                "sourceId": "scopes/function-expression/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 27,
               "line": 5,
@@ -5137,6 +6301,18 @@ Array [
       "fn": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 25,
+                "line": 3,
+                "sourceId": "scopes/function-expression/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 3,
+                "sourceId": "scopes/function-expression/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 6,
               "line": 3,
@@ -5155,6 +6331,18 @@ Array [
       "fn2": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 2,
+                "line": 7,
+                "sourceId": "scopes/function-expression/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 5,
+                "sourceId": "scopes/function-expression/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 7,
               "line": 5,
@@ -5253,6 +6441,18 @@ Array [
       "zero": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 13,
+                "line": 5,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 5,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 12,
               "line": 5,
@@ -5343,6 +6543,18 @@ Array [
       "one": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 12,
+                "line": 7,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 7,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 11,
               "line": 7,
@@ -5361,6 +6573,18 @@ Array [
       "two": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 12,
+                "line": 9,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 9,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 11,
               "line": 9,
@@ -5399,6 +6623,18 @@ Array [
       "zero": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 13,
+                "line": 5,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 5,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 12,
               "line": 5,
@@ -5489,6 +6725,18 @@ Array [
       "one": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 12,
+                "line": 7,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 7,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 11,
               "line": 7,
@@ -5507,6 +6755,18 @@ Array [
       "two": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 12,
+                "line": 9,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 9,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 11,
               "line": 9,
@@ -5545,6 +6805,18 @@ Array [
       "zero": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 13,
+                "line": 5,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 5,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 12,
               "line": 5,
@@ -5635,6 +6907,18 @@ Array [
       "one": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 12,
+                "line": 7,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 7,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 11,
               "line": 7,
@@ -5653,6 +6937,18 @@ Array [
       "two": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 12,
+                "line": 9,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 9,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 11,
               "line": 9,
@@ -5691,6 +6987,18 @@ Array [
       "zero": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 13,
+                "line": 5,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 5,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 12,
               "line": 5,
@@ -5781,6 +7089,18 @@ Array [
       "three": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 14,
+                "line": 11,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 11,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 13,
               "line": 11,
@@ -5815,6 +7135,18 @@ Array [
       "one": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 12,
+                "line": 7,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 7,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 11,
               "line": 7,
@@ -5833,6 +7165,18 @@ Array [
       "two": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 12,
+                "line": 9,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 9,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 11,
               "line": 9,
@@ -5871,6 +7215,18 @@ Array [
       "zero": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 13,
+                "line": 5,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 5,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 12,
               "line": 5,
@@ -5961,6 +7317,18 @@ Array [
       "first": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 12,
+                "line": 4,
+                "sourceId": "scopes/try-catch/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 4,
+                "sourceId": "scopes/try-catch/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 11,
               "line": 4,
@@ -5979,6 +7347,18 @@ Array [
       "third": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 12,
+                "line": 7,
+                "sourceId": "scopes/try-catch/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 7,
+                "sourceId": "scopes/try-catch/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 11,
               "line": 7,
@@ -6073,6 +7453,18 @@ Array [
       "second": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 13,
+                "line": 5,
+                "sourceId": "scopes/try-catch/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 5,
+                "sourceId": "scopes/try-catch/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 12,
               "line": 5,
@@ -6107,6 +7499,18 @@ Array [
       "first": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 12,
+                "line": 4,
+                "sourceId": "scopes/try-catch/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 4,
+                "sourceId": "scopes/try-catch/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 11,
               "line": 4,
@@ -6125,6 +7529,18 @@ Array [
       "third": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 12,
+                "line": 7,
+                "sourceId": "scopes/try-catch/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 7,
+                "sourceId": "scopes/try-catch/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 11,
               "line": 7,
@@ -6219,6 +7635,18 @@ Array [
       "fourth": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 13,
+                "line": 8,
+                "sourceId": "scopes/try-catch/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 8,
+                "sourceId": "scopes/try-catch/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 12,
               "line": 8,
@@ -6253,6 +7681,18 @@ Array [
       "err": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 9,
+                "sourceId": "scopes/try-catch/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 6,
+                "sourceId": "scopes/try-catch/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 12,
               "line": 6,
@@ -6287,6 +7727,18 @@ Array [
       "first": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 12,
+                "line": 4,
+                "sourceId": "scopes/try-catch/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 4,
+                "sourceId": "scopes/try-catch/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 11,
               "line": 4,
@@ -6305,6 +7757,18 @@ Array [
       "third": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 12,
+                "line": 7,
+                "sourceId": "scopes/try-catch/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 7,
+                "sourceId": "scopes/try-catch/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 11,
               "line": 7,
@@ -6399,6 +7863,18 @@ Array [
       "fn": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 16,
+                "line": 9,
+                "sourceId": "scopes/simple-module/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 9,
+                "sourceId": "scopes/simple-module/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 11,
               "line": 9,
@@ -6417,11 +7893,24 @@ Array [
       "foo": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 22,
+                "line": 1,
+                "sourceId": "scopes/simple-module/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 1,
+                "sourceId": "scopes/simple-module/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 10,
               "line": 1,
               "sourceId": "scopes/simple-module/originalSource-1",
             },
+            "importName": "default",
             "start": Object {
               "column": 7,
               "line": 1,
@@ -6449,6 +7938,18 @@ Array [
       "one": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 12,
+                "line": 5,
+                "sourceId": "scopes/simple-module/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 5,
+                "sourceId": "scopes/simple-module/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 7,
               "line": 5,
@@ -6486,6 +7987,18 @@ Array [
       "three": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 16,
+                "line": 7,
+                "sourceId": "scopes/simple-module/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 7,
+                "sourceId": "scopes/simple-module/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 11,
               "line": 7,
@@ -6504,6 +8017,18 @@ Array [
       "two": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 12,
+                "line": 6,
+                "sourceId": "scopes/simple-module/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 6,
+                "sourceId": "scopes/simple-module/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 7,
               "line": 6,
@@ -6594,6 +8119,18 @@ Array [
       "foo": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 15,
+                "line": 1,
+                "sourceId": "scopes/expressions/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 1,
+                "sourceId": "scopes/expressions/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 9,
               "line": 1,
@@ -6864,6 +8401,18 @@ Array [
       "aConst": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 18,
+                "line": 15,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 15,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 12,
               "line": 15,
@@ -6882,6 +8431,18 @@ Array [
       "aLet": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 9,
+                "line": 14,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 14,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 8,
               "line": 14,
@@ -6900,6 +8461,18 @@ Array [
       "aVar": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 9,
+                "line": 13,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 13,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 8,
               "line": 13,
@@ -6918,6 +8491,18 @@ Array [
       "cls": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 11,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 7,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 9,
               "line": 7,
@@ -6936,11 +8521,24 @@ Array [
       "def": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 19,
+                "line": 1,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 1,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 10,
               "line": 1,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "importName": "default",
             "start": Object {
               "column": 7,
               "line": 1,
@@ -6954,6 +8552,18 @@ Array [
       "fn": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 16,
+                "line": 6,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 6,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 11,
               "line": 6,
@@ -6972,11 +8582,24 @@ Array [
       "named": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 25,
+                "line": 2,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 2,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 14,
               "line": 2,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "importName": "named",
             "start": Object {
               "column": 9,
               "line": 2,
@@ -7008,11 +8631,24 @@ Array [
       "otherNamed": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 39,
+                "line": 3,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 3,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 28,
               "line": 3,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "importName": "thing",
             "start": Object {
               "column": 18,
               "line": 3,
@@ -7126,6 +8762,18 @@ Array [
       "cls": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 11,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 7,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 9,
               "line": 7,
@@ -7160,6 +8808,18 @@ Array [
       "aConst": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 18,
+                "line": 15,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 15,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 12,
               "line": 15,
@@ -7178,6 +8838,18 @@ Array [
       "aLet": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 9,
+                "line": 14,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 14,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 8,
               "line": 14,
@@ -7196,6 +8868,18 @@ Array [
       "aVar": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 9,
+                "line": 13,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 13,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 8,
               "line": 13,
@@ -7214,6 +8898,18 @@ Array [
       "cls": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 11,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 7,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 9,
               "line": 7,
@@ -7232,11 +8928,24 @@ Array [
       "def": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 19,
+                "line": 1,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 1,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 10,
               "line": 1,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "importName": "default",
             "start": Object {
               "column": 7,
               "line": 1,
@@ -7250,6 +8959,18 @@ Array [
       "fn": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 16,
+                "line": 6,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 6,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 11,
               "line": 6,
@@ -7268,11 +8989,24 @@ Array [
       "named": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 25,
+                "line": 2,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 2,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 14,
               "line": 2,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "importName": "named",
             "start": Object {
               "column": 9,
               "line": 2,
@@ -7304,11 +9038,24 @@ Array [
       "otherNamed": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 39,
+                "line": 3,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 3,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 28,
               "line": 3,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "importName": "thing",
             "start": Object {
               "column": 18,
               "line": 3,
@@ -7452,6 +9199,18 @@ Array [
       "inner": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 20,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+              "start": Object {
+                "column": 1,
+                "line": 17,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 15,
               "line": 17,
@@ -7486,6 +9245,18 @@ Array [
       "aConst": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 18,
+                "line": 15,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 15,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 12,
               "line": 15,
@@ -7504,6 +9275,18 @@ Array [
       "aLet": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 9,
+                "line": 14,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 14,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 8,
               "line": 14,
@@ -7522,6 +9305,18 @@ Array [
       "aVar": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 9,
+                "line": 13,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 13,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 8,
               "line": 13,
@@ -7540,6 +9335,18 @@ Array [
       "cls": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 11,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 7,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 9,
               "line": 7,
@@ -7558,11 +9365,24 @@ Array [
       "def": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 19,
+                "line": 1,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 1,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 10,
               "line": 1,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "importName": "default",
             "start": Object {
               "column": 7,
               "line": 1,
@@ -7576,6 +9396,18 @@ Array [
       "fn": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 16,
+                "line": 6,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 6,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 11,
               "line": 6,
@@ -7594,11 +9426,24 @@ Array [
       "named": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 25,
+                "line": 2,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 2,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 14,
               "line": 2,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "importName": "named",
             "start": Object {
               "column": 9,
               "line": 2,
@@ -7630,11 +9475,24 @@ Array [
       "otherNamed": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 39,
+                "line": 3,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 3,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 28,
               "line": 3,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "importName": "thing",
             "start": Object {
               "column": 18,
               "line": 3,
@@ -7724,6 +9582,18 @@ Array [
       "blockFn": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 22,
+                "line": 23,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 23,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 18,
               "line": 23,
@@ -7758,6 +9628,18 @@ Array [
       "aConst": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 18,
+                "line": 15,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 15,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 12,
               "line": 15,
@@ -7776,6 +9658,18 @@ Array [
       "aLet": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 9,
+                "line": 14,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 14,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 8,
               "line": 14,
@@ -7794,6 +9688,18 @@ Array [
       "aVar": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 9,
+                "line": 13,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 13,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 8,
               "line": 13,
@@ -7812,6 +9718,18 @@ Array [
       "cls": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 11,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 7,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 9,
               "line": 7,
@@ -7830,11 +9748,24 @@ Array [
       "def": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 19,
+                "line": 1,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 1,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 10,
               "line": 1,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "importName": "default",
             "start": Object {
               "column": 7,
               "line": 1,
@@ -7848,6 +9779,18 @@ Array [
       "fn": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 16,
+                "line": 6,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 6,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 11,
               "line": 6,
@@ -7866,11 +9809,24 @@ Array [
       "named": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 25,
+                "line": 2,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 2,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 14,
               "line": 2,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "importName": "named",
             "start": Object {
               "column": 9,
               "line": 2,
@@ -7902,11 +9858,24 @@ Array [
       "otherNamed": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 39,
+                "line": 3,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 3,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 28,
               "line": 3,
               "sourceId": "scopes/binding-types/originalSource-1",
             },
+            "importName": "thing",
             "start": Object {
               "column": 18,
               "line": 3,

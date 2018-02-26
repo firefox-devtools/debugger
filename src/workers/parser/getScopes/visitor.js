@@ -44,7 +44,17 @@ export type BindingRefLocation = {
 export type BindingDeclarationLocation = {
   type: "decl",
   start: Location,
-  end: Location
+  end: Location,
+
+  // The overall location of the declaration that this binding is part of.
+  declaration: {
+    start: Location,
+    end: Location
+  },
+
+  // If this declaration was an import, include the name of the imported
+  // binding that this binding references.
+  importName?: string
 };
 export type BindingData = {
   type: BindingType,
@@ -226,6 +236,7 @@ function parseDeclarator(
   declaratorId: Node,
   targetScope: TempScope,
   type: BindingType,
+  declaration: Node,
   sourceId: SourceId
 ) {
   if (isNode(declaratorId, "Identifier")) {
@@ -240,20 +251,36 @@ function parseDeclarator(
     existing.refs.push({
       type: "decl",
       start: fromBabelLocation(declaratorId.loc.start, sourceId),
-      end: fromBabelLocation(declaratorId.loc.end, sourceId)
+      end: fromBabelLocation(declaratorId.loc.end, sourceId),
+      declaration: {
+        start: fromBabelLocation(declaration.loc.start, sourceId),
+        end: fromBabelLocation(declaration.loc.end, sourceId)
+      }
     });
   } else if (isNode(declaratorId, "ObjectPattern")) {
     declaratorId.properties.forEach(prop => {
-      parseDeclarator(prop.value, targetScope, type, sourceId);
+      parseDeclarator(prop.value, targetScope, type, declaration, sourceId);
     });
   } else if (isNode(declaratorId, "ArrayPattern")) {
     declaratorId.elements.forEach(item => {
-      parseDeclarator(item, targetScope, type, sourceId);
+      parseDeclarator(item, targetScope, type, declaration, sourceId);
     });
   } else if (isNode(declaratorId, "AssignmentPattern")) {
-    parseDeclarator(declaratorId.left, targetScope, type, sourceId);
+    parseDeclarator(
+      declaratorId.left,
+      targetScope,
+      type,
+      declaration,
+      sourceId
+    );
   } else if (isNode(declaratorId, "RestElement")) {
-    parseDeclarator(declaratorId.argument, targetScope, type, sourceId);
+    parseDeclarator(
+      declaratorId.argument,
+      targetScope,
+      type,
+      declaration,
+      sourceId
+    );
   }
 }
 
@@ -366,7 +393,11 @@ const scopeCollectionVisitor = {
             {
               type: "decl",
               start: fromBabelLocation(node.id.loc.start, state.sourceId),
-              end: fromBabelLocation(node.id.loc.end, state.sourceId)
+              end: fromBabelLocation(node.id.loc.end, state.sourceId),
+              declaration: {
+                start: fromBabelLocation(node.loc.start, state.sourceId),
+                end: fromBabelLocation(node.loc.end, state.sourceId)
+              }
             }
           ]
         };
@@ -382,7 +413,11 @@ const scopeCollectionVisitor = {
             {
               type: "decl",
               start: fromBabelLocation(node.id.loc.start, state.sourceId),
-              end: fromBabelLocation(node.id.loc.end, state.sourceId)
+              end: fromBabelLocation(node.id.loc.end, state.sourceId),
+              declaration: {
+                start: fromBabelLocation(node.loc.start, state.sourceId),
+                end: fromBabelLocation(node.loc.end, state.sourceId)
+              }
             }
           ]
         };
@@ -404,7 +439,7 @@ const scopeCollectionVisitor = {
       );
 
       node.params.forEach(param =>
-        parseDeclarator(param, scope, "var", state.sourceId)
+        parseDeclarator(param, scope, "var", node, state.sourceId)
       );
 
       if (!t.isArrowFunctionExpression(node)) {
@@ -425,7 +460,11 @@ const scopeCollectionVisitor = {
             {
               type: "decl",
               start: fromBabelLocation(node.id.loc.start, state.sourceId),
-              end: fromBabelLocation(node.id.loc.end, state.sourceId)
+              end: fromBabelLocation(node.id.loc.end, state.sourceId),
+              declaration: {
+                start: fromBabelLocation(node.loc.start, state.sourceId),
+                end: fromBabelLocation(node.loc.end, state.sourceId)
+              }
             }
           ]
         };
@@ -443,7 +482,11 @@ const scopeCollectionVisitor = {
             {
               type: "decl",
               start: fromBabelLocation(node.id.loc.start, state.sourceId),
-              end: fromBabelLocation(node.id.loc.end, state.sourceId)
+              end: fromBabelLocation(node.id.loc.end, state.sourceId),
+              declaration: {
+                start: fromBabelLocation(node.loc.start, state.sourceId),
+                end: fromBabelLocation(node.loc.end, state.sourceId)
+              }
             }
           ]
         };
@@ -464,7 +507,7 @@ const scopeCollectionVisitor = {
         start: fromBabelLocation(node.loc.start, state.sourceId),
         end: fromBabelLocation(node.loc.end, state.sourceId)
       });
-      parseDeclarator(node.param, scope, "var", state.sourceId);
+      parseDeclarator(node.param, scope, "var", node, state.sourceId);
     } else if (
       t.isBlockStatement(node) &&
       hasLexicalDeclaration(node, parentNode)
@@ -486,7 +529,13 @@ const scopeCollectionVisitor = {
         ? getVarScope(state.scope)
         : state.scope;
       node.declarations.forEach(declarator => {
-        parseDeclarator(declarator.id, hoistAt, node.kind, state.sourceId);
+        parseDeclarator(
+          declarator.id,
+          hoistAt,
+          node.kind,
+          node,
+          state.sourceId
+        );
       });
     } else if (t.isImportDeclaration(node)) {
       node.specifiers.forEach(spec => {
@@ -510,7 +559,14 @@ const scopeCollectionVisitor = {
               {
                 type: "decl",
                 start: fromBabelLocation(spec.local.loc.start, state.sourceId),
-                end: fromBabelLocation(spec.local.loc.end, state.sourceId)
+                end: fromBabelLocation(spec.local.loc.end, state.sourceId),
+                importName: t.isImportDefaultSpecifier(spec)
+                  ? "default"
+                  : spec.imported.name,
+                declaration: {
+                  start: fromBabelLocation(node.loc.start, state.sourceId),
+                  end: fromBabelLocation(node.loc.end, state.sourceId)
+                }
               }
             ]
           };
