@@ -92,6 +92,19 @@ class SourcesTree extends Component<Props, State> {
     });
   }
 
+  componentDidMount() {
+    const { selectedSource } = this.props;
+    if (selectedSource) {
+      const highlightItems = getDirectories(
+        selectedSource.get("url"),
+        this.state.sourceTree
+      );
+
+      // eslint-disable-next-line react/no-did-mount-set-state
+      this.setState({ highlightItems });
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     const {
       projectRoot,
