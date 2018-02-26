@@ -291,9 +291,13 @@ function extendSnippet(
   const prevComputed = prevPath && prevPath.node.computed;
   const prevArray = t.isArrayExpression(prevPath);
   const array = t.isArrayExpression(path);
+  const value = path && path.node.property && path.node.property.value;
 
   if (expression === "") {
     if (computed) {
+      if (name === undefined) {
+        return typeof value == "number" ? `[${value}]` : `["${value}"]`;
+      }
       return `[${name}]`;
     }
     return name;
@@ -302,6 +306,11 @@ function extendSnippet(
   if (computed || array) {
     if (prevComputed || prevArray) {
       return `[${name}]${expression}`;
+    }
+    if (name === undefined) {
+      return typeof value == "number"
+        ? `[${value}].${expression}`
+        : `["${value}"].${expression}`;
     }
     return `[${name}].${expression}`;
   }
@@ -317,7 +326,10 @@ function getMemberSnippet(node: Node, expression: string = "") {
   if (t.isMemberExpression(node)) {
     const name = node.property.name;
 
-    return getMemberSnippet(node.object, extendSnippet(name, expression));
+    return getMemberSnippet(
+      node.object,
+      extendSnippet(name, expression, { node })
+    );
   }
 
   if (t.isCallExpression(node)) {

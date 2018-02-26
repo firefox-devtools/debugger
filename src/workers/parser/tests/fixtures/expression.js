@@ -4,6 +4,10 @@ const foo = obj2.c.secondProperty; // e.g. foo.obj2.c.secondProperty
 // computed properties
 const com = { [a]: { b: "c", [d]: "e" }, [b]: 3 }; // e.g. com[a].b
 
+const firstAuthor = collection.books[1].author;
+const secondAuthor = collection.books[ab].editor;
+const firstActionDirector = collection.genres["sci-fi"].movies[0].director;
+
 app.TodoView = Backbone.extend({
   render: function() {}
 });

@@ -7,7 +7,6 @@ import cases from "jest-in-case";
 cases(
   "Parser.getSymbols",
   ({ name, file, original, type }) => {
-    // console.log(formatSymbols(getSource(file, type)));
     const source = original
       ? getOriginalSource(file, type)
       : getSource(file, type);
@@ -16,7 +15,11 @@ cases(
   [
     { name: "es6", file: "es6", original: true },
     { name: "func", file: "func", original: true },
-    { name: "function names", file: "functionNames", original: true },
+    {
+      name: "function names",
+      file: "functionNames",
+      original: true
+    },
     { name: "math", file: "math" },
     { name: "proto", file: "proto" },
     { name: "class", file: "class", original: true },
