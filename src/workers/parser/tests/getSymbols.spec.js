@@ -30,7 +30,11 @@ cases(
       type: "html"
     },
     { name: "component", file: "component", original: true },
-    { name: "react component", file: "frameworks/component", original: true },
+    {
+      name: "react component",
+      file: "frameworks/reactComponent",
+      original: true
+    },
     { name: "flow", file: "flow", original: true },
     { name: "jsx", file: "jsx", original: true },
     { name: "destruct", file: "destructuring" }
