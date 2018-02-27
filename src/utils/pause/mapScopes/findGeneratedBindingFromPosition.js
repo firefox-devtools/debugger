@@ -14,6 +14,14 @@ import type { GeneratedBindingLocation } from "../../../actions/pause/mapScopes"
 
 import { createObjectClient } from "../../../client/firefox";
 
+type GeneratedDescriptor = {
+  name: string,
+  // Falsy if the binding itself matched a location, but the location didn't
+  // have a value descriptor attached. Happens if the binding was 'this'
+  // or if there was a mismatch between client and generated scopes.
+  desc: ?BindingContents
+};
+
 export async function findGeneratedBindingFromPosition(
   sourceMaps: any,
   client: any,
@@ -22,100 +30,129 @@ export async function findGeneratedBindingFromPosition(
   name: string,
   type: BindingType,
   generatedAstBindings: Array<GeneratedBindingLocation>
-) {
-  let gen = await sourceMaps.getGeneratedLocation(pos.start, source);
-  let genEnd = await sourceMaps.getGeneratedLocation(pos.end, source);
+): Promise<GeneratedDescriptor | null> {
+  const range = await getGeneratedLocationRange(pos, source, sourceMaps);
 
-  // Since the map takes the closest location, sometimes mapping a
-  // binding's location can point at the start of a binding listed after
-  // it, so we need to make sure it maps to a location that actually has
-  // a size in order to avoid picking up the wrong descriptor.
-  if (!isEqual(gen, genEnd)) {
-    const result = generatedAstBindings.reduce(async (acc, val) => {
-      const accVal = await acc;
-      if (accVal) {
-        return accVal;
-      }
-
-      if (type === "import") {
-        name;
-        type;
-
-        const desc = await mapImportReferenceToDescriptor(val, {
-          type: pos.type,
-          start: gen,
-          end: genEnd
-        });
-        return desc
-          ? {
-              name: val.name,
-              desc: desc
-            }
-          : null;
-      }
-
-      // Allow the mapping to point anywhere within the generated binding
-      // location to allow for less than perfect sourcemaps. Since you also
-      // need at least one character between identifiers, we also give one
-      // characters of space at the front the generated binding in order
-      // to increase the probability of finding the right mapping.
-      if (
-        gen.line === val.loc.start.line &&
-        locColumn(gen) >= locColumn(val.loc.start) - 1 &&
-        locColumn(gen) <= locColumn(val.loc.end)
-      ) {
-        return {
-          name: val.name,
-          desc: val.desc
-        };
-      }
-
-      return null;
-    }, null);
+  if (range) {
+    const result = await findGeneratedReference(type, generatedAstBindings, {
+      type: pos.type,
+      ...range
+    });
 
     if (result) {
       return result;
     }
   }
 
-  if (type !== "import" || pos.type !== "decl") {
-    return null;
-  }
+  if (type === "import" && pos.type === "decl") {
+    let importRange = range;
+    if (!importRange) {
+      // If the imported name itself does not map to a useful range, fall back
+      // to resolving the bindinding using the location of the overall
+      // import declaration.
+      importRange = await getGeneratedLocationRange(
+        pos.declaration,
+        source,
+        sourceMaps
+      );
 
-  if (isEqual(gen, genEnd)) {
-    gen = await sourceMaps.getGeneratedLocation(pos.declaration.start, source);
-    genEnd = await sourceMaps.getGeneratedLocation(pos.declaration.end, source);
+      if (!importRange) {
+        return null;
+      }
+    }
 
-    if (isEqual(gen, genEnd)) {
+    const importName = pos.importName;
+    if (typeof importName !== "string") {
+      // Should never happen, just keeping Flow happy.
       return null;
     }
+
+    return await findGeneratedImportDeclaration(generatedAstBindings, {
+      importName,
+      ...importRange
+    });
   }
 
-  const importName = pos.importName;
-  if (typeof importName !== "string") {
-    // Should never happen, just keeping Flow happy.
-    return null;
-  }
+  return null;
+}
 
+/**
+ * Given a mapped range over the generated source, attempt to resolve a real
+ * binding descriptor that can be used to access the value.
+ */
+async function findGeneratedReference(
+  type: BindingType,
+  generatedAstBindings: Array<GeneratedBindingLocation>,
+  mapped: {
+    type: BindingLocationType,
+    start: Location,
+    end: Location
+  }
+): Promise<GeneratedDescriptor | null> {
   return generatedAstBindings.reduce(async (acc, val) => {
     const accVal = await acc;
     if (accVal) {
       return accVal;
     }
 
-    const desc = await mapImportDeclarationToDescriptor(val, {
-      importName,
-      start: gen,
-      end: genEnd
-    });
-
-    return desc
-      ? {
-          name: val.name,
-          desc
-        }
-      : null;
+    return type === "import"
+      ? await mapImportReferenceToDescriptor(val, mapped)
+      : await mapBindingReferenceToDescriptor(val, mapped);
   }, null);
+}
+
+/**
+ * Given a mapped range over the generated source and the name of the imported
+ * value that is referenced, attempt to resolve a binding descriptor for
+ * the import's value.
+ */
+async function findGeneratedImportDeclaration(
+  generatedAstBindings: Array<GeneratedBindingLocation>,
+  mapped: {
+    start: Location,
+    end: Location,
+    importName: string
+  }
+): Promise<GeneratedDescriptor | null> {
+  return generatedAstBindings.reduce(async (acc, val) => {
+    const accVal = await acc;
+    if (accVal) {
+      return accVal;
+    }
+
+    return await mapImportDeclarationToDescriptor(val, mapped);
+  }, null);
+}
+
+/**
+ * Given a generated binding, and a range over the generated code, statically
+ * check if the given binding matches the range.
+ */
+async function mapBindingReferenceToDescriptor(
+  binding: GeneratedBindingLocation,
+  mapped: {
+    type: BindingLocationType,
+    start: Location,
+    end: Location
+  }
+): Promise<GeneratedDescriptor | null> {
+  // Allow the mapping to point anywhere within the generated binding
+  // location to allow for less than perfect sourcemaps. Since you also
+  // need at least one character between identifiers, we also give one
+  // characters of space at the front the generated binding in order
+  // to increase the probability of finding the right mapping.
+  if (
+    mapped.start.line === binding.loc.start.line &&
+    locColumn(mapped.start) >= locColumn(binding.loc.start) - 1 &&
+    locColumn(mapped.start) <= locColumn(binding.loc.end)
+  ) {
+    return {
+      name: binding.name,
+      desc: binding.desc
+    };
+  }
+
+  return null;
 }
 
 /**
@@ -132,7 +169,7 @@ async function mapImportDeclarationToDescriptor(
     end: Location,
     importName: string
   }
-): Promise<BindingContents | null> {
+): Promise<GeneratedDescriptor | null> {
   // When trying to map an actual import declaration binding, we can try
   // to map it back to the namespace object in the original code.
   if (!mappingContains(mapped, binding.loc)) {
@@ -164,7 +201,12 @@ async function mapImportDeclarationToDescriptor(
     desc = (await objectClient.getProperty(mapped.importName)).descriptor;
   }
 
-  return desc;
+  return desc
+    ? {
+        name: binding.name,
+        desc
+      }
+    : null;
 }
 
 /**
@@ -179,7 +221,7 @@ async function mapImportReferenceToDescriptor(
     start: Location,
     end: Location
   }
-): Promise<BindingContents | null> {
+): Promise<GeneratedDescriptor | null> {
   if (mapped.type !== "ref") {
     return null;
   }
@@ -244,7 +286,12 @@ async function mapImportReferenceToDescriptor(
     }
   }
 
-  return desc;
+  return desc
+    ? {
+        name: binding.name,
+        desc
+      }
+    : null;
 }
 
 function mappingContains(mapped, item) {
@@ -256,4 +303,26 @@ function mappingContains(mapped, item) {
       (item.end.line === mapped.end.line &&
         locColumn(item.end) <= locColumn(mapped.end)))
   );
+}
+
+async function getGeneratedLocationRange(
+  pos: { start: Location, end: Location },
+  source: Source,
+  sourceMaps: any
+): Promise<{
+  start: Location,
+  end: Location
+} | null> {
+  const start = await sourceMaps.getGeneratedLocation(pos.start, source);
+  const end = await sourceMaps.getGeneratedLocation(pos.end, source);
+
+  // Since the map takes the closest location, sometimes mapping a
+  // binding's location can point at the start of a binding listed after
+  // it, so we need to make sure it maps to a location that actually has
+  // a size in order to avoid picking up the wrong descriptor.
+  if (isEqual(start, end)) {
+    return null;
+  }
+
+  return { start, end };
 }
