@@ -38,9 +38,9 @@ export class Outline extends Component<Props> {
   }
 
   renderPlaceholder() {
-    const placeholderMessage = !this.props.selectedSource
-      ? L10N.getStr("outline.noFileSelected")
-      : L10N.getStr("outline.noFunctions");
+    const placeholderMessage = this.props.selectedSource
+      ? L10N.getStr("outline.noFunctions")
+      : L10N.getStr("outline.noFileSelected");
 
     return <div className="outline-pane-info">{placeholderMessage}</div>;
   }
