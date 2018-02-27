@@ -14,6 +14,7 @@ add_task(async function test() {
   const dbg = await initDebugger("big-sourcemap.html", "big-sourcemap");
   invokeInTab("hitDebugStatement");
   await waitForPaused(dbg);
+  assertSelectedFile(dbg, "step-in-test.js");
   await stepIn(dbg);
   await stepIn(dbg);
   await stepIn(dbg);
