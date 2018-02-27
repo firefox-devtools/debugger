@@ -14,6 +14,7 @@ import CloseButton from "../shared/Button/Close";
 
 import type { List } from "immutable";
 import type { SourceRecord } from "../../reducers/sources";
+import type { SourceMetaDataType } from "../../reducers/ast";
 
 import actions from "../../actions";
 
@@ -47,7 +48,7 @@ type Props = {
   showSource: string => void,
   source: SourceRecord,
   activeSearch: string,
-  getMetaData: string => any
+  sourceMetaData: SourceMetaDataType
 };
 
 class Tab extends PureComponent<Props> {
@@ -144,7 +145,7 @@ class Tab extends PureComponent<Props> {
       selectSource,
       closeTab,
       source,
-      getMetaData
+      sourceMetaData
     } = this.props;
     const src = source.toJS();
     const filename = getFilename(src);
@@ -154,7 +155,7 @@ class Tab extends PureComponent<Props> {
       sourceId == selectedSource.get("id") &&
       (!this.isProjectSearchEnabled() && !this.isSourceSearchEnabled());
     const isPrettyCode = isPretty(source);
-    const sourceAnnotation = getSourceAnnotation(source, getMetaData(sourceId));
+    const sourceAnnotation = getSourceAnnotation(source, sourceMetaData);
 
     function onClickClose(e) {
       e.stopPropagation();
@@ -197,12 +198,13 @@ class Tab extends PureComponent<Props> {
   }
 }
 export default connect(
-  state => {
+  (state, ownProps) => {
     const selectedSource = getSelectedSource(state);
+    const { source } = ownProps;
     return {
       tabSources: getSourcesForTabs(state),
       selectedSource: selectedSource,
-      getMetaData: sourceId => getSourceMetaData(state, sourceId),
+      sourceMetaData: getSourceMetaData(state, source.get("id")),
       activeSearch: getActiveSearch(state)
     };
   },

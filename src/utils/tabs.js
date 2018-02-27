@@ -8,6 +8,7 @@ import React from "react";
 
 import type { List } from "immutable";
 import type { SourceRecord } from "../reducers/sources";
+import type { SourceMetaDataType } from "../reducers/ast";
 import { isPretty } from "./source";
 
 type SourcesList = List<SourceRecord>;
@@ -46,7 +47,7 @@ export function getHiddenTabs(
 
 export function getSourceAnnotation(
   source: SourceRecord,
-  sourceMetaData: Object
+  sourceMetaData: SourceMetaDataType
 ) {
   const framework =
     sourceMetaData && sourceMetaData.framework
