@@ -214,7 +214,8 @@ function extractSymbol(path, symbols) {
   if (t.isIdentifier(path) && !t.isGenericTypeAnnotation(path.parent)) {
     let { start, end } = path.node.loc;
 
-    if (t.isClassMethod(path.parent)) {
+    // We want to include function params, but exclude the function name
+    if (t.isClassMethod(path.parent) && !path.inList) {
       return;
     }
 
