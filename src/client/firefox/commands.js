@@ -207,7 +207,7 @@ function evaluate(
   }
 
   return new Promise(resolve => {
-    tabTarget.activeConsole.evaluateJS(
+    tabTarget.activeConsole.evaluateJSAsync(
       script,
       result => resolve(result),
       params

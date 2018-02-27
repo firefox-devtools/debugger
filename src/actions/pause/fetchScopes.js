@@ -17,7 +17,7 @@ export function fetchScopes() {
       return;
     }
 
-    const scopes = dispatch({
+    const scopes = await dispatch({
       type: "ADD_SCOPES",
       frame,
       [PROMISE]: client.getFrameScopes(frame)

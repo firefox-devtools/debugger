@@ -4,7 +4,11 @@
 
 // @flow
 
-import { isStepping, getPauseReason } from "../../selectors";
+import {
+  isStepping,
+  getPauseReason,
+  areExpressionsUpdating
+} from "../../selectors";
 import { evaluateExpressions } from "../expressions";
 import { inDebuggerEval } from "../../utils/pause";
 
@@ -21,10 +25,11 @@ export function resumed() {
     const why = getPauseReason(getState());
     const wasPausedInEval = inDebuggerEval(why);
     const wasStepping = isStepping(getState());
+    const areUpdating = areExpressionsUpdating(getState());
 
     dispatch({ type: "RESUME" });
 
-    if (!wasStepping && !wasPausedInEval) {
+    if ((!wasStepping && !wasPausedInEval) || areUpdating) {
       await dispatch(evaluateExpressions());
     }
   };
