@@ -24,16 +24,19 @@ function assertEditorBreakpoint(dbg, line, shouldExist) {
   );
 }
 
+function waitForFocus(dbg, el) {
+  const doc = dbg.win.document;
+  return waitFor(() => doc.activeElement == el && doc.hasFocus());
+}
+
 async function assertConditionalBreakpointIsFocused(dbg) {
-  const conditionalBreakpointInput = findElementWithSelector(
+  const input = findElementWithSelector(
     dbg,
     ".conditional-breakpoint-panel input"
   );
 
-  const breakpointFocused = await waitFor(() => dbg.win.document.activeElement == conditionalBreakpointInput &&
-    dbg.win.document.hasFocus());
-
-  ok(breakpointFocused, "Conditional Breakpoint Input is focused.");
+  await waitForFocus(dbg, input);
+  ok(isFocused, "Conditional Breakpoint Input is focused.");
 }
 
 async function setConditionalBreakpoint(dbg, index, condition) {

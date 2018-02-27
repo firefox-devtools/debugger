@@ -163,7 +163,10 @@ export class ConditionalPanel extends PureComponent<Props> {
           defaultValue={condition}
           placeholder={L10N.getStr("editor.conditionalPanel.placeholder")}
           onKeyDown={this.onKey}
-          ref={input => (this.input = input)}
+          ref={input => {
+            this.input = input;
+            this.keepFocusOnInput();
+          }}
         />
       </div>,
       panel
