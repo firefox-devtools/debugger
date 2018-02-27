@@ -9,7 +9,6 @@
   overflow: hidden;
   z-index: 1;
   background-color: var(--theme-toolbar-background);
-  align-items: center;
 }
 
 html[dir="rtl"] .command-bar {
