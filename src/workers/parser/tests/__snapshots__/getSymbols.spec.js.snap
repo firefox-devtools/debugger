@@ -70,6 +70,7 @@ identifiers:
 [(23, 6), (23, 11)]  Ultra Ultra
 [(25, 4), (25, 8)] [(25, 4), (25, 8)] this this
 [(25, 9), (25, 16)]  awesome awesome
+[(28, 12), (28, 18)]  person person
 [(29, 4), (29, 11)]  console console
 [(29, 12), (29, 15)]  log log
 [(29, 19), (29, 25)]  person person
@@ -159,6 +160,7 @@ identifiers:
 [(1, 6), (1, 10)]  Test Test
 [(3, 4), (3, 8)] [(3, 4), (3, 8)] this this
 [(3, 9), (3, 12)]  foo foo
+[(6, 6), (6, 7)]  a a
 [(7, 4), (7, 11)]  console console
 [(7, 12), (7, 15)]  log log
 [(7, 23), (7, 24)]  a a
@@ -254,6 +256,7 @@ comments:
 
 identifiers:
 [(5, 6), (5, 11)]  Punny Punny
+[(6, 14), (6, 19)]  props props
 [(8, 4), (8, 8)] [(8, 4), (8, 8)] this this
 [(8, 9), (8, 16)]  onClick onClick
 [(8, 19), (8, 23)] [(8, 19), (8, 23)] this this
@@ -680,10 +683,13 @@ hasJsx: false"
 
 exports[`Parser.getSymbols flow 1`] = `
 "functions:
-[(2, 2), (4, 3)]   renderHello(name) App
+[(2, 2), (4, 3)]   renderHello(name, action, ) App
 
 variables:
 [(2, 14), (2, 26)]   name
+[(2, 28), (2, 47)]   action
+[(2, 49), (2, 65)]
+[(2, 51), (2, 56)]   todos
 
 callExpressions:
 
@@ -692,13 +698,15 @@ memberExpressions:
 
 
 objectProperties:
-
+[(2, 51), (2, 56)]  todos todos
 
 comments:
 
 
 identifiers:
 [(1, 6), (1, 9)]  App App
+[(2, 14), (2, 18)]  name name
+[(2, 28), (2, 34)]  action action
 [(3, 20), (3, 24)]  name name
 [(1, 18), (1, 27)]  Component Component
 
