@@ -60,21 +60,16 @@ identifiers:
 [(8, 26), (8, 27)]  b b
 [(10, 6), (18, 1)]  Obj Obj
 [(10, 6), (10, 9)]  Obj Obj
-[(11, 2), (11, 5)]  foo foo
 [(12, 2), (12, 9)]  doThing doThing
 [(13, 4), (13, 11)]  console console
 [(13, 12), (13, 15)]  log log
-[(15, 2), (15, 14)]  doOtherThing doOtherThing
 [(20, 0), (20, 3)]  Obj Obj
 [(20, 4), (20, 12)]  property property
 [(21, 0), (21, 3)]  Obj Obj
 [(21, 4), (21, 17)]  otherProperty otherProperty
 [(23, 6), (23, 11)]  Ultra Ultra
-[(24, 2), (24, 13)]  constructor constructor
 [(25, 4), (25, 8)] [(25, 4), (25, 8)] this this
 [(25, 9), (25, 16)]  awesome awesome
-[(28, 2), (28, 11)]  beAwesome beAwesome
-[(28, 12), (28, 18)]  person person
 [(29, 4), (29, 11)]  console console
 [(29, 12), (29, 15)]  log log
 [(29, 19), (29, 25)]  person person
@@ -162,15 +157,11 @@ comments:
 
 identifiers:
 [(1, 6), (1, 10)]  Test Test
-[(2, 2), (2, 13)]  constructor constructor
 [(3, 4), (3, 8)] [(3, 4), (3, 8)] this this
 [(3, 9), (3, 12)]  foo foo
-[(6, 2), (6, 5)]  bar bar
-[(6, 6), (6, 7)]  a a
 [(7, 4), (7, 11)]  console console
 [(7, 12), (7, 15)]  log log
 [(7, 23), (7, 24)]  a a
-[(10, 2), (10, 5)]  baz baz
 [(10, 8), (10, 9)]  b b
 [(11, 11), (11, 12)]  b b
 [(15, 6), (15, 11)]  Test2 Test2
@@ -263,48 +254,34 @@ comments:
 
 identifiers:
 [(5, 6), (5, 11)]  Punny Punny
-[(6, 2), (6, 13)]  constructor constructor
-[(6, 14), (6, 19)]  props props
 [(8, 4), (8, 8)] [(8, 4), (8, 8)] this this
 [(8, 9), (8, 16)]  onClick onClick
 [(8, 19), (8, 23)] [(8, 19), (8, 23)] this this
 [(8, 24), (8, 31)]  onClick onClick
 [(8, 32), (8, 36)]  bind bind
 [(8, 37), (8, 41)] [(8, 37), (8, 41)] this this
-[(11, 2), (11, 19)]  componentDidMount componentDidMount
-[(13, 2), (13, 9)]  onClick onClick
-[(15, 2), (15, 10)]  renderMe renderMe
 [(16, 25), (16, 29)] [(16, 25), (16, 29)] this this
 [(16, 30), (16, 37)]  onClick onClick
-[(19, 2), (19, 8)]  render render
 [(5, 20), (5, 29)]  Component Component
 [(26, 6), (32, 2)]  TodoView TodoView
 [(26, 6), (26, 14)]  TodoView TodoView
 [(26, 17), (26, 25)]  Backbone Backbone
 [(26, 26), (26, 30)]  View View
 [(26, 31), (26, 37)]  extend extend
-[(27, 2), (27, 9)]  tagName tagName
-[(29, 2), (29, 8)]  render render
 [(30, 4), (30, 11)]  console console
 [(30, 12), (30, 15)]  log log
 [(34, 6), (40, 2)]  TodoClass TodoClass
 [(34, 6), (34, 15)]  TodoClass TodoClass
 [(34, 18), (34, 29)]  createClass createClass
-[(35, 2), (35, 9)]  tagName tagName
-[(37, 2), (37, 8)]  render render
 [(38, 4), (38, 11)]  console console
 [(38, 12), (38, 15)]  log log
 [(42, 0), (42, 9)]  TodoClass TodoClass
 [(42, 12), (42, 23)]  createClass createClass
-[(43, 2), (43, 9)]  tagName tagName
-[(45, 2), (45, 8)]  render render
 [(46, 4), (46, 11)]  console console
 [(46, 12), (46, 15)]  log log
 [(50, 0), (50, 3)]  app app
 [(50, 4), (50, 13)]  TodoClass TodoClass
 [(50, 16), (50, 27)]  createClass createClass
-[(51, 2), (51, 9)]  tagName tagName
-[(53, 2), (53, 8)]  render render
 [(54, 4), (54, 11)]  console console
 [(54, 12), (54, 15)]  log log
 [(62, 9), (62, 15)]  Button Button
@@ -400,17 +377,9 @@ comments:
 
 identifiers:
 [(1, 6), (1, 35)]
-[(1, 8), (1, 9)]  b b
-[(1, 8), (1, 9)]  b b
-[(1, 11), (1, 16)]  resty resty
-[(1, 11), (1, 16)]  resty resty
 [(1, 21), (1, 28)]  compute compute
 [(1, 29), (1, 34)]  stuff stuff
 [(2, 6), (2, 33)]
-[(2, 8), (2, 13)]  first first
-[(2, 15), (2, 16)]  f f
-[(2, 18), (2, 22)]  last last
-[(2, 24), (2, 25)]  l l
 [(2, 30), (2, 33)]  obj obj
 [(4, 7), (4, 8)]  a a
 [(4, 13), (4, 17)]  rest rest
@@ -426,20 +395,11 @@ identifiers:
 [(8, 14), (8, 19)]  index index
 [(8, 21), (8, 28)]  element element
 [(11, 6), (11, 42)]
-[(11, 8), (11, 9)]  a a
 [(11, 11), (11, 13)]  aa aa
-[(11, 20), (11, 21)]  b b
 [(11, 23), (11, 25)]  bb bb
-[(11, 36), (11, 37)]  a a
 [(12, 6), (12, 38)]
-[(12, 8), (12, 12)]  temp temp
-[(12, 17), (12, 20)]  foo foo
-[(12, 22), (12, 27)]  foooo foooo
 [(12, 35), (12, 38)]  obj obj
 [(14, 4), (14, 33)]
-[(14, 7), (14, 10)]  key key
-[(14, 13), (14, 16)]  foo foo
-[(14, 23), (14, 24)]  z z
 [(16, 7), (16, 15)]  prefName prefName
 [(16, 19), (16, 33)]  prefsBlueprint prefsBlueprint
 [(16, 34), (16, 46)]  accessorName accessorName
@@ -475,8 +435,6 @@ comments:
 identifiers:
 [(1, 0), (1, 8)]  dispatch dispatch
 [(1, 14), (1, 20)]  action action
-[(1, 23), (1, 30)]  PROMISE PROMISE
-[(1, 33), (1, 40)]  promise promise
 
 classes:
 
@@ -597,8 +555,6 @@ comments:
 identifiers:
 [(1, 6), (1, 27)]  obj obj
 [(1, 6), (1, 9)]  obj obj
-[(1, 14), (1, 15)]  a a
-[(1, 19), (1, 20)]  b b
 [(2, 6), (2, 33)]  foo foo
 [(2, 6), (2, 9)]  foo foo
 [(2, 12), (2, 16)]  obj2 obj2
@@ -606,58 +562,29 @@ identifiers:
 [(2, 19), (2, 33)]  secondProperty secondProperty
 [(5, 6), (5, 49)]  com com
 [(5, 6), (5, 9)]  com com
-[(5, 15), (5, 16)]  a a
-[(5, 21), (5, 22)]  b b
-[(5, 30), (5, 31)]  d d
-[(5, 42), (5, 43)]  b b
 [(7, 0), (7, 3)]  app app
 [(7, 4), (7, 12)]  TodoView TodoView
 [(7, 15), (7, 23)]  Backbone Backbone
 [(7, 24), (7, 30)]  extend extend
-[(8, 2), (8, 8)]  render render
 [(12, 0), (12, 3)]  obj obj
 [(12, 4), (12, 7)]  foo foo
-[(12, 12), (12, 13)]  a a
-[(12, 17), (12, 18)]  b b
-[(12, 27), (12, 28)]  b b
 [(13, 0), (13, 3)]  com com
-[(13, 8), (13, 9)]  a a
-[(13, 13), (13, 14)]  b b
-[(13, 23), (13, 24)]  b b
 [(16, 6), (16, 32)]  res res
 [(16, 6), (16, 9)]  res res
-[(16, 15), (16, 16)]  a a
-[(16, 25), (16, 26)]  b b
 [(17, 6), (17, 30)]  res2 res2
 [(17, 6), (17, 10)]  res2 res2
-[(17, 15), (17, 16)]  a a
-[(17, 21), (17, 22)]  b b
 [(18, 6), (18, 45)]  res3 res3
 [(18, 6), (18, 10)]  res3 res3
-[(18, 15), (18, 16)]  a a
-[(18, 21), (18, 22)]  b b
-[(18, 30), (18, 31)]  b b
-[(18, 36), (18, 37)]  c c
 [(19, 6), (19, 45)]  res4 res4
 [(19, 6), (19, 10)]  res4 res4
-[(19, 17), (19, 18)]  a a
-[(19, 29), (19, 30)]  b b
 [(19, 32), (19, 33)]  a a
 [(19, 34), (19, 35)]  b b
 [(19, 36), (19, 37)]  c c
 [(19, 38), (19, 39)]  v v
 [(19, 40), (19, 41)]  d d
 [(21, 9), (21, 15)]  params params
-[(21, 18), (21, 19)]  a a
-[(21, 18), (21, 19)]  a a
-[(21, 21), (21, 22)]  b b
-[(21, 21), (21, 22)]  b b
 [(22, 4), (22, 32)]  pars pars
 [(22, 4), (22, 8)]  pars pars
-[(22, 22), (22, 23)]  a a
-[(22, 22), (22, 23)]  a a
-[(22, 25), (22, 26)]  b b
-[(22, 25), (22, 26)]  b b
 [(23, 6), (23, 43)]  evil evil
 [(23, 6), (23, 10)]  evil evil
 [(23, 13), (23, 17)]  obj2 obj2
@@ -714,8 +641,6 @@ comments:
 identifiers:
 [(4, 6), (7, 3)]  globalObject globalObject
 [(4, 6), (4, 18)]  globalObject globalObject
-[(5, 3), (5, 8)]  first first
-[(6, 3), (6, 7)]  last last
 [(8, 11), (8, 19)]  sayHello sayHello
 [(8, 21), (8, 25)]  name name
 [(9, 20), (9, 24)]  name name
@@ -774,8 +699,6 @@ comments:
 
 identifiers:
 [(1, 6), (1, 9)]  App App
-[(2, 2), (2, 13)]  renderHello renderHello
-[(2, 14), (2, 18)]  name name
 [(3, 20), (3, 24)]  name name
 [(1, 18), (1, 27)]  Component Component
 
@@ -826,7 +749,6 @@ identifiers:
 [(17, 0), (17, 5)]  child child
 [(23, 6), (31, 1)]  obj obj
 [(23, 6), (23, 9)]  obj obj
-[(24, 2), (24, 5)]  foo foo
 [(24, 16), (24, 20)]  name name
 [(28, 2), (28, 5)]  bar bar
 
@@ -927,7 +849,6 @@ comments:
 [(1, 0), (1, 20)]
 
 identifiers:
-[(4, 2), (4, 5)]  foo foo
 [(8, 2), (8, 5)]  foo foo
 [(13, 0), (13, 3)]  foo foo
 [(14, 0), (14, 3)]  obj obj
@@ -937,26 +858,18 @@ identifiers:
 [(17, 5), (17, 8)]  foo foo
 [(18, 4), (18, 29)]
 [(18, 5), (18, 8)]  foo foo
-[(18, 5), (18, 8)]  foo foo
 [(20, 1), (20, 4)]  foo foo
 [(21, 2), (21, 5)]  foo foo
-[(21, 2), (21, 5)]  foo foo
-[(22, 2), (22, 5)]  bar bar
 [(22, 7), (22, 10)]  foo foo
 [(24, 9), (24, 11)]  fn fn
 [(24, 13), (24, 16)]  foo foo
 [(25, 9), (25, 11)]  fn fn
 [(25, 13), (25, 16)]  foo foo
-[(25, 13), (25, 16)]  foo foo
 [(26, 9), (26, 11)]  fn fn
-[(26, 13), (26, 16)]  bar bar
 [(26, 18), (26, 21)]  foo foo
 [(28, 6), (28, 9)]  Cls Cls
-[(29, 2), (29, 5)]  foo foo
-[(33, 2), (33, 5)]  foo foo
 [(42, 6), (42, 25)]  defaultObj defaultObj
 [(42, 6), (42, 16)]  defaultObj defaultObj
-[(42, 20), (42, 21)]  a a
 [(43, 6), (43, 29)]  defaultArr defaultArr
 [(43, 6), (43, 16)]  defaultArr defaultArr
 [(44, 9), (44, 10)]  a a
@@ -1121,14 +1034,11 @@ identifiers:
 [(5, 17), (5, 25)]  Backbone Backbone
 [(5, 26), (5, 30)]  View View
 [(5, 31), (5, 37)]  extend extend
-[(6, 2), (6, 9)]  tagName tagName
-[(7, 2), (7, 12)]  initialize initialize
 [(8, 2), (8, 9)]  doThing doThing
 [(8, 10), (8, 11)]  b b
 [(9, 4), (9, 11)]  console console
 [(9, 12), (9, 15)]  log log
 [(9, 22), (9, 23)]  b b
-[(11, 2), (11, 8)]  render render
 [(12, 11), (12, 15)] [(12, 11), (12, 15)] this this
 
 classes:
