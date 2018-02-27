@@ -214,6 +214,14 @@ function extractSymbol(path, symbols) {
   if (t.isIdentifier(path)) {
     let { start, end } = path.node.loc;
 
+    if (t.isClassMethod(path.parent)) {
+      return;
+    }
+
+    if (t.isProperty(path.parent)) {
+      return;
+    }
+
     if (path.node.typeAnnotation) {
       const column = path.node.typeAnnotation.loc.start.column;
       end = { ...end, column };
