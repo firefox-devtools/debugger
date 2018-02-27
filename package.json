@@ -70,7 +70,7 @@
     "@babel/types": "^7.0.0-beta.39",
     "babylon": "^7.0.0-beta.39",
     "codemirror": "^5.28.0",
-    "devtools-launchpad": "^0.0.115",
+    "devtools-launchpad": "^0.0.116",
     "devtools-linters": "^0.0.4",
     "devtools-reps": "^0.20.0",
     "devtools-source-map": "^0.14.8",
