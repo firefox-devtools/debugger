@@ -113,7 +113,8 @@ img.resume {
 
 .command-bar .step-position {
   color: var(--theme-comment-alt);
-  margin-inline-end: 1em;
+  padding-top: 8px;
+  margin-inline-end: 4px;
 }
 
 .command-bar .replay-active {
