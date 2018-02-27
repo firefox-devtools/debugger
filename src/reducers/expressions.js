@@ -56,7 +56,7 @@ function update(
       return updateItemInList(state, ["expressions"], action.input, {
         input: action.input,
         value: action.value,
-        updating: false
+        updating: action.status == "start"
       });
     case "DELETE_EXPRESSION":
       return deleteExpression(state, action.input);
@@ -152,6 +152,10 @@ export const getExpressions = createSelector(
 
 export function getExpression(state: OuterState, input: string) {
   return getExpressions(state).find(exp => exp.input == input);
+}
+
+export function areExpressionsUpdating(state: OuterState): boolean {
+  return getExpressions(state).some(a => a.updating);
 }
 
 export const getExpressionError = createSelector(

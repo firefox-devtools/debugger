@@ -26,18 +26,24 @@ async function addExpression(dbg, input) {
   findElementWithSelector(dbg, expressionSelectors.input).focus();
   type(dbg, input);
   pressKey(dbg, "Enter");
-  await waitForDispatch(dbg, "EVALUATE_EXPRESSION");
+  return waitForExpressionsToUpdate(dbg)
+}
+function waitForExpressionsToUpdate(dbg) {
+  return waitForState(dbg, state => (
+    dbg.selectors.getExpressions(state).size > 0
+    && !dbg.selectors.areExpressionsUpdating(state)
+  ),
+   "wait for expressions to evaluate");
 }
 
 async function editExpression(dbg, input) {
   info("updating the expression");
   dblClickElement(dbg, "expressionNode", 1);
   // Position cursor reliably at the end of the text.
-  const evaluation = waitForDispatch(dbg, "EVALUATE_EXPRESSION");
   pressKey(dbg, "End");
   type(dbg, input);
   pressKey(dbg, "Enter");
-  await evaluation;
+  return waitForExpressionsToUpdate(dbg)
 }
 
 /*
@@ -45,23 +51,20 @@ async function editExpression(dbg, input) {
  * resume, and wait for the expression to finish being evaluated.
  */
 async function addBadExpression(dbg, input) {
-  const evaluation = waitForDispatch(dbg, "EVALUATE_EXPRESSION");
-
+  log(`Adding Expression ${input}`)
   findElementWithSelector(dbg, expressionSelectors.input).focus();
   type(dbg, input);
   pressKey(dbg, "Enter");
 
   await waitForPaused(dbg);
-
-  ok(dbg.selectors.isEvaluatingExpression(dbg.getState()));
   await resume(dbg);
-  await evaluation;
+  return waitForExpressionsToUpdate(dbg);
 }
 
 add_task(async function() {
   const dbg = await initDebugger("doc-script-switching.html");
 
-  const onPausedOnException = togglePauseOnExceptions(dbg, true, false);
+  await togglePauseOnExceptions(dbg, true, false);
 
   // add a good expression, 2 bad expressions, and another good one
   await addExpression(dbg, "location");
@@ -69,12 +72,11 @@ add_task(async function() {
   await addBadExpression(dbg, "foo.batt");
   await addExpression(dbg, "2");
 
-  await onPausedOnException;
-
+  await waitForExpressionsToUpdate(dbg);
   // check the value of
-  is(getValue(dbg, 2), "(unavailable)");
-  is(getValue(dbg, 3), "(unavailable)");
-  is(getValue(dbg, 4), 2);
+  is(getValue(dbg, 2), "(unavailable)", "The second expression should be unavailble");
+  is(getValue(dbg, 3), "(unavailable)",  "The third expression should be unavailble");
+  is(getValue(dbg, 4), 2,  "The fourth expression should be 2");
 
   await toggleExpressionNode(dbg, 1);
   is(findAllElements(dbg, "expressionNodes").length, 20);
