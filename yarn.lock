@@ -3196,9 +3196,9 @@ devtools-config@^0.0.15:
   version "0.0.15"
   resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.15.tgz#1fbe75be3f4dc1159603927fc1dfa64d1d9f1202"
 
-devtools-connection@^0.0.8:
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/devtools-connection/-/devtools-connection-0.0.8.tgz#f0f77fd7116334138f55a8ccc2b9f93bf1bbb9ed"
+devtools-connection@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/devtools-connection/-/devtools-connection-0.0.9.tgz#31121090c8594da7bcc5ee763a34002de932f317"
 
 devtools-contextmenu@^0.0.7:
   version "0.0.7"
@@ -3206,9 +3206,9 @@ devtools-contextmenu@^0.0.7:
   dependencies:
     devtools-modules "^0.0.32"
 
-devtools-launchpad@^0.0.115:
-  version "0.0.115"
-  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.115.tgz#44f42fe416aa18fa1ab79c8db0b15e8c6c3f707a"
+devtools-launchpad@^0.0.116:
+  version "0.0.116"
+  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.116.tgz#86918751b2cabf5399e0ef03f0ba98a28f6f3fcc"
   dependencies:
     amd-loader "0.0.8"
     autoprefixer "^7.1.2"
@@ -3232,7 +3232,7 @@ devtools-launchpad@^0.0.115:
     css-loader "^0.26.1"
     debug "^3.1.0"
     devtools-config "^0.0.15"
-    devtools-connection "^0.0.8"
+    devtools-connection "^0.0.9"
     devtools-contextmenu "^0.0.7"
     devtools-mc-assets "^0.0.5"
     devtools-modules "^0.0.33"
@@ -6795,7 +6795,27 @@ license-checker@^9.0.3:
     semver "^5.3.0"
     treeify "^1.0.1"
 
-lint-staged@7.0.0:
+lint-staged@^4.1.3:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-4.3.0.tgz#ed0779ad9a42c0dc62bb3244e522870b41125879"
+  dependencies:
+    app-root-path "^2.0.0"
+    chalk "^2.1.0"
+    commander "^2.11.0"
+    cosmiconfig "^1.1.0"
+    execa "^0.8.0"
+    is-glob "^4.0.0"
+    jest-validate "^21.1.0"
+    listr "^0.12.0"
+    lodash "^4.17.4"
+    log-symbols "^2.0.0"
+    minimatch "^3.0.0"
+    npm-which "^3.0.1"
+    p-map "^1.1.1"
+    staged-git-files "0.0.4"
+    stringify-object "^3.2.0"
+
+lint-staged@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-7.0.0.tgz#57926c63201e7bd38ca0576d74391efa699b4a9d"
   dependencies:
@@ -6820,26 +6840,6 @@ lint-staged@7.0.0:
     please-upgrade-node "^3.0.1"
     staged-git-files "1.1.0"
     stringify-object "^3.2.2"
-
-lint-staged@^4.1.3:
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-4.3.0.tgz#ed0779ad9a42c0dc62bb3244e522870b41125879"
-  dependencies:
-    app-root-path "^2.0.0"
-    chalk "^2.1.0"
-    commander "^2.11.0"
-    cosmiconfig "^1.1.0"
-    execa "^0.8.0"
-    is-glob "^4.0.0"
-    jest-validate "^21.1.0"
-    listr "^0.12.0"
-    lodash "^4.17.4"
-    log-symbols "^2.0.0"
-    minimatch "^3.0.0"
-    npm-which "^3.0.1"
-    p-map "^1.1.1"
-    staged-git-files "0.0.4"
-    stringify-object "^3.2.0"
 
 listr-silent-renderer@^1.1.1:
   version "1.1.1"
