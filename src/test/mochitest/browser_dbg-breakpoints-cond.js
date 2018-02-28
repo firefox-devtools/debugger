@@ -24,6 +24,21 @@ function assertEditorBreakpoint(dbg, line, shouldExist) {
   );
 }
 
+function waitForFocus(dbg, el) {
+  const doc = dbg.win.document;
+  return waitFor(() => doc.activeElement == el && doc.hasFocus());
+}
+
+async function assertConditionalBreakpointIsFocused(dbg) {
+  const input = findElementWithSelector(
+    dbg,
+    ".conditional-breakpoint-panel input"
+  );
+
+  await waitForFocus(dbg, input);
+  ok(isFocused, "Conditional Breakpoint Input is focused.");
+}
+
 async function setConditionalBreakpoint(dbg, index, condition) {
   rightClickElement(dbg, "gutter", index);
   selectMenuItem(dbg, 2);
