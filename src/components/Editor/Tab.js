@@ -198,9 +198,9 @@ class Tab extends PureComponent<Props> {
   }
 }
 export default connect(
-  (state, ownProps) => {
+  (state, props) => {
     const selectedSource = getSelectedSource(state);
-    const { source } = ownProps;
+    const { source } = props;
     return {
       tabSources: getSourcesForTabs(state),
       selectedSource: selectedSource,
