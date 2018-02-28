@@ -16,8 +16,7 @@ function getLabel(dbg, index) {
 
 function getValue(dbg, index) {
   return findElement(dbg, "expressionValue", index)
-    .innerText
-    .replace(/\r?\n|\r/g, '')
+    .innerText.replace(/\r?\n|\r/g, "")
     .replace(/^[\s\u200b]*/g, "");
 }
 
@@ -27,13 +26,13 @@ add_task(async function() {
   await addExpression(dbg, "location.hostname");
 
   navigate(dbg, "doc-scripts-debugger.html");
-  const expressionEvaluated = waitForDispatch(dbg, "EVALUATE_EXPRESSION")
+  const expressionEvaluated = waitForDispatch(dbg, "EVALUATE_EXPRESSION");
   await waitForPaused(dbg);
   await expressionEvaluated;
 
   assertDebugLine(dbg, 13);
   is(getLabel(dbg, 1), "location.hostname", "Expression label is 'location'");
-  is("example.com", "example.com",  "Expression value is set");
+  is("example.com", "example.com", "Expression value is set");
 
   navigate(dbg, "doc-scripts.html");
 });

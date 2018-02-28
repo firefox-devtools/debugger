@@ -36,7 +36,7 @@ async function assertConditionalBreakpointIsFocused(dbg) {
   );
 
   await waitForFocus(dbg, input);
-  ok(isFocused, "Conditional Breakpoint Input is focused.");
+  ok(breakpointFocused, "Conditional Breakpoint Input is focused.");
 }
 
 async function setConditionalBreakpoint(dbg, index, condition) {
