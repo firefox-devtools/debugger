@@ -4,7 +4,7 @@
 
 // @flow
 import * as t from "@babel/types";
-import type { NodePath } from "@babel/traverse";
+// import type { NodePath } from "@babel/traverse";
 
 // the function class is inferred from a call like
 // createClass or extend
