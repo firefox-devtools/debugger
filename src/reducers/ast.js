@@ -24,7 +24,7 @@ export type SymbolsMap = Map<string, SymbolDeclarations>;
 export type EmptyLinesMap = Map<string, EmptyLinesType>;
 
 export type SourceMetaDataType = {
-  getFramework: ?string
+  framework: ?string
 };
 
 export type SourceMetaDataMap = Map<string, SourceMetaDataType>;
