@@ -8,7 +8,10 @@ import { isTesting } from "devtools-config";
 const blacklist = [
   "SET_POPUP_OBJECT_PROPERTIES",
   "SET_SYMBOLS",
-  "OUT_OF_SCOPE_LOCATIONS"
+  "OUT_OF_SCOPE_LOCATIONS",
+  "MAP_FRAMES",
+  "ADD_SCOPES",
+  "UPDATE_SOURCE"
 ];
 
 function cloneAction(action) {
