@@ -49,9 +49,9 @@ export type SymbolDeclarations = {
   comments: Array<SymbolDeclaration>
 };
 
-function getFunctionParameterNames(path: NodePath): string[] {
-  if (path.node.params != null) {
-    return path.node.params.map(param => {
+function getFunctionParameterNames(node: NodePath): string[] {
+  if (node.params != null) {
+    return node.params.map(param => {
       if (param.type !== "AssignmentPattern") {
         return param.name;
       }
@@ -88,37 +88,37 @@ function getFunctionParameterNames(path: NodePath): string[] {
   return [];
 }
 
-function getVariableNames(path: NodePath): SymbolDeclaration[] {
-  if (t.isObjectProperty(path) && !isFunction(path.node.value)) {
-    if (path.node.key.type === "StringLiteral") {
+function getVariableNames(node: NodePath): SymbolDeclaration[] {
+  if (t.isObjectProperty(node) && !isFunction(node.value)) {
+    if (node.key.type === "StringLiteral") {
       return [
         {
-          name: path.node.key.value,
-          location: path.node.loc
+          name: node.key.value,
+          location: node.loc
         }
       ];
-    } else if (path.node.value.type === "Identifier") {
-      return [{ name: path.node.value.name, location: path.node.loc }];
-    } else if (path.node.value.type === "AssignmentPattern") {
-      return [{ name: path.node.value.left.name, location: path.node.loc }];
+    } else if (node.value.type === "Identifier") {
+      return [{ name: node.value.name, location: node.loc }];
+    } else if (node.value.type === "AssignmentPattern") {
+      return [{ name: node.value.left.name, location: node.loc }];
     }
 
     return [
       {
-        name: path.node.key.name,
-        location: path.node.loc
+        name: node.key.name,
+        location: node.loc
       }
     ];
   }
 
-  if (!path.node.declarations) {
-    return path.node.params.map(dec => ({
+  if (!node.declarations) {
+    return node.params.map(dec => ({
       name: dec.name,
       location: dec.loc
     }));
   }
 
-  const declarations = path.node.declarations
+  const declarations = node.declarations
     .filter(dec => dec.id.type !== "ObjectPattern")
     .map(getVariables);
 
@@ -143,64 +143,70 @@ function getSpecifiers(specifiers) {
   return specifiers.map(specifier => specifier.local && specifier.local.name);
 }
 
-function extractSymbol(path, symbols) {
-  if (isVariable(path)) {
-    symbols.variables.push(...getVariableNames(path));
+function extractSymbol(node, ancestors, symbols) {
+  const ancestor = ancestors[ancestors.length - 1];
+  const parent = ancestor ? ancestor.node : null;
+  if (!parent) {
+    return;
   }
 
-  if (isFunction(path)) {
+  if (isVariable(node)) {
+    symbols.variables.push(...getVariableNames(node));
+  }
+
+  if (isFunction(node)) {
     symbols.functions.push({
-      name: getFunctionName(path.node, path.parentPath.node),
-      klass: inferClassName(path),
-      location: path.node.loc,
-      parameterNames: getFunctionParameterNames(path),
-      identifier: path.node.id
+      name: getFunctionName(node, parent),
+      klass: inferClassName(node, ancestors),
+      location: node.loc,
+      parameterNames: getFunctionParameterNames(node),
+      identifier: node.id
     });
   }
 
-  if (t.isJSXElement(path)) {
+  if (t.isJSXElement(node)) {
     symbols.hasJsx = true;
   }
 
-  if (t.isClassDeclaration(path)) {
+  if (t.isClassDeclaration(node)) {
     symbols.classes.push({
-      name: path.node.id.name,
-      parent: path.node.superClass,
-      location: path.node.loc
+      name: node.id.name,
+      parent: node.superClass,
+      location: node.loc
     });
   }
 
-  if (t.isImportDeclaration(path)) {
+  if (t.isImportDeclaration(node)) {
     symbols.imports.push({
-      source: path.node.source.value,
-      location: path.node.loc,
-      specifiers: getSpecifiers(path.node.specifiers)
+      source: node.source.value,
+      location: node.loc,
+      specifiers: getSpecifiers(node.specifiers)
     });
   }
 
-  if (t.isObjectProperty(path)) {
-    const { start, end, identifierName } = path.node.key.loc;
+  if (t.isObjectProperty(node)) {
+    const { start, end, identifierName } = node.key.loc;
     symbols.objectProperties.push({
       name: identifierName,
       location: { start, end },
-      expression: getSnippet(path)
+      expression: getSnippet(node, null, ancestors)
     });
   }
 
-  if (t.isMemberExpression(path)) {
-    const { start, end } = path.node.property.loc;
+  if (t.isMemberExpression(node)) {
+    const { start, end } = node.property.loc;
     symbols.memberExpressions.push({
-      name: path.node.property.name,
+      name: node.property.name,
       location: { start, end },
-      expressionLocation: path.node.loc,
-      expression: getSnippet(path),
-      computed: path.node.computed
+      expressionLocation: node.loc,
+      expression: getSnippet(node, null, ancestors),
+      computed: node.computed
     });
   }
 
-  if (t.isCallExpression(path)) {
-    const callee = path.node.callee;
-    const args = path.node.arguments;
+  if (t.isCallExpression(node)) {
+    const callee = node.callee;
+    const args = node.arguments;
     if (!t.isMemberExpression(callee)) {
       const { start, end, identifierName } = callee.loc;
       symbols.callExpressions.push({
@@ -211,49 +217,49 @@ function extractSymbol(path, symbols) {
     }
   }
 
-  if (t.isIdentifier(path) && !t.isGenericTypeAnnotation(path.parent)) {
-    let { start, end } = path.node.loc;
+  if (t.isIdentifier(node) && !t.isGenericTypeAnnotation(parent)) {
+    let { start, end } = node.loc;
 
     // We want to include function params, but exclude the function name
-    if (t.isClassMethod(path.parent) && !path.inList) {
+    if (t.isClassMethod(parent) && !node.inList) {
       return;
     }
 
-    if (t.isProperty(path.parent)) {
+    if (t.isProperty(parent)) {
       return;
     }
 
-    if (path.node.typeAnnotation) {
-      const column = path.node.typeAnnotation.loc.start.column;
+    if (node.typeAnnotation) {
+      const column = node.typeAnnotation.loc.start.column;
       end = { ...end, column };
     }
 
     symbols.identifiers.push({
-      name: path.node.name,
-      expression: path.node.name,
+      name: node.name,
+      expression: node.name,
       location: { start, end }
     });
   }
 
-  if (t.isThisExpression(path.node)) {
-    const { start, end } = path.node.loc;
+  if (t.isThisExpression(node)) {
+    const { start, end } = node.loc;
     symbols.identifiers.push({
       name: "this",
       location: { start, end },
-      expressionLocation: path.node.loc,
+      expressionLocation: node.loc,
       expression: "this"
     });
   }
 
-  if (t.isVariableDeclarator(path)) {
-    const node = path.node.id;
-    const { start, end } = path.node.loc;
-    if (t.isArrayPattern(node)) {
+  if (t.isVariableDeclarator(node)) {
+    const idNode = node.id;
+    const { start, end } = idNode.loc;
+    if (t.isArrayPattern(idNode)) {
       return;
     }
     symbols.identifiers.push({
-      name: node.name,
-      expression: node.name,
+      name: idNode.name,
+      expression: idNode.name,
       location: { start, end }
     });
   }
@@ -274,12 +280,12 @@ function extractSymbols(sourceId) {
   };
 
   const ast = traverseAst(sourceId, {
-    enter(path: NodePath) {
-      try {
-        extractSymbol(path, symbols);
-      } catch (e) {
-        console.error(e);
-      }
+    enter(node: NodePath, ancestors) {
+      // try {
+      extractSymbol(node, ancestors, symbols);
+      // } catch (e) {
+      //   console.error(e);
+      // }
     }
   });
 
@@ -292,13 +298,13 @@ function extractSymbols(sourceId) {
 function extendSnippet(
   name: string,
   expression: string,
-  path: NodePath,
-  prevPath: NodePath
+  node: NodePath,
+  prevNode: NodePath
 ) {
-  const computed = path && path.node.computed;
-  const prevComputed = prevPath && prevPath.node.computed;
-  const prevArray = t.isArrayExpression(prevPath);
-  const array = t.isArrayExpression(path);
+  const computed = node && node.computed;
+  const prevComputed = prevNode && prevNode.computed;
+  const prevArray = t.isArrayExpression(prevNode);
+  const array = t.isArrayExpression(node);
 
   if (expression === "") {
     if (computed) {
@@ -344,91 +350,100 @@ function getMemberSnippet(node: Node, expression: string = "") {
 }
 
 function getObjectSnippet(
-  path: NodePath,
-  prevPath: NodePath,
+  node: NodePath,
+  prevNode: NodePath,
+  ancestors,
   expression: string = ""
 ) {
-  if (!path) {
+  if (!node) {
     return expression;
   }
 
-  const name = path.node.key.name;
+  const name = node.key.name;
+  const extendedExpression = extendSnippet(name, expression, node, prevNode);
 
-  const extendedExpression = extendSnippet(name, expression, path, prevPath);
+  const nextPath = node.parentPath && node.parentPath.parentPath;
+  // ancestors.slice(2)?.node
 
-  const nextPrevPath = path;
-  const nextPath = path.parentPath && path.parentPath.parentPath;
-
-  return getSnippet(nextPath, nextPrevPath, extendedExpression);
+  return getSnippet(nextPath, node, ancestors, extendedExpression);
 }
 
 function getArraySnippet(
-  path: NodePath,
-  prevPath: NodePath,
+  node: NodePath,
+  prevNode: NodePath,
+  ancestors,
   expression: string
 ) {
-  const index = prevPath.parentPath.key;
-  const extendedExpression = extendSnippet(index, expression, path, prevPath);
+  const index = prevNode.parentPath.key;
+  const extendedExpression = extendSnippet(index, expression, node, prevNode);
 
-  const nextPrevPath = path;
-  const nextPath = path.parentPath && path.parentPath.parentPath;
+  const nextNode = node.parentPath && node.parentPath.parentPath;
+  // ancestors.slice(2)?.node
+  // grandparent
 
-  return getSnippet(nextPath, nextPrevPath, extendedExpression);
+  return getSnippet(nextNode, node, ancestors, extendedExpression);
 }
 
-function getSnippet(path, prevPath, expression = "") {
-  if (t.isVariableDeclaration(path)) {
-    const node = path.node.declarations[0];
+function getSnippet(node, prevNode, ancestors, expression = "") {
+  if (t.isVariableDeclaration(node)) {
+    const node = node.declarations[0];
     const name = node.id.name;
-    return extendSnippet(name, expression, path, prevPath);
+    return extendSnippet(name, expression, node, prevNode);
   }
 
-  if (t.isVariableDeclarator(path)) {
-    const node = path.node.id;
-    if (t.isObjectPattern(node)) {
+  if (t.isVariableDeclarator(node)) {
+    const idNode = node.id;
+    if (t.isObjectPattern(idNode)) {
       return expression;
     }
 
-    const name = node.name;
-    const prop = extendSnippet(name, expression, path, prevPath);
+    const name = idNode.name;
+    const prop = extendSnippet(name, expression, node, prevNode);
     return prop;
   }
 
-  if (t.isAssignmentExpression(path)) {
-    const node = path.node.left;
-    const name = t.isMemberExpression(node)
-      ? getMemberSnippet(node)
-      : node.name;
+  if (t.isAssignmentExpression(node)) {
+    const leftNode = node.left;
+    const name = t.isMemberExpression(leftNode)
+      ? getMemberSnippet(leftNode)
+      : leftNode.name;
 
-    const prop = extendSnippet(name, expression, path, prevPath);
+    const prop = extendSnippet(name, expression, node, prevNode);
     return prop;
   }
 
-  if (isFunction(path)) {
+  if (isFunction(node)) {
     return expression;
   }
 
-  if (t.isIdentifier(path)) {
-    const node = path.node;
-    return `${node.name}.${expression}`;
+  if (t.isIdentifier(node)) {
+    const idNode = node;
+    return `${idNode.name}.${expression}`;
   }
 
-  if (t.isObjectProperty(path)) {
-    return getObjectSnippet(path, prevPath, expression);
+  if (t.isObjectProperty(node)) {
+    return getObjectSnippet(node, prevNode, ancestors, expression);
   }
 
-  if (t.isObjectExpression(path)) {
-    const parentPath = prevPath && prevPath.parentPath;
-    return getObjectSnippet(parentPath, prevPath, expression);
+  if (t.isObjectExpression(node)) {
+    // const parentPath = prevNode && prevNode.parentPath;
+
+    const parentNode = getRelativeAncestor(prevNode, [], 1);
+    return getObjectSnippet(parentNode, prevNode, ancestors, expression);
   }
 
-  if (t.isMemberExpression(path)) {
-    return getMemberSnippet(path.node, expression);
+  if (t.isMemberExpression(node)) {
+    return getMemberSnippet(node, expression);
   }
 
-  if (t.isArrayExpression(path)) {
-    return getArraySnippet(path, prevPath, expression);
+  if (t.isArrayExpression(node)) {
+    return getArraySnippet(node, prevNode, ancestors, expression);
   }
+}
+
+function getRelativeAncestor(node, ancestors, index) {
+  const ancestorIndex = ancestors.findIndex(ancestor => ancestor.node === node);
+  return ancestors[ancestorIndex - index];
 }
 
 export function clearSymbols() {

@@ -8,7 +8,7 @@ import * as t from "@babel/types";
 
 // the function class is inferred from a call like
 // createClass or extend
-function fromCallExpression(callExpression) {
+function fromCallExpression(callExpression, ...ancestors) {
   const whitelist = ["extend", "createClass"];
   const callee = callExpression.node.callee;
   if (!callee) {
@@ -23,14 +23,12 @@ function fromCallExpression(callExpression) {
     return null;
   }
 
-  const variable = callExpression.findParent(_p => _p.isVariableDeclarator());
+  const variable = findParent(ancestors, t.isVariableDeclarator);
   if (variable) {
     return variable.node.id.name;
   }
 
-  const assignment = callExpression.findParent(_p =>
-    _p.isAssignmentExpression()
-  );
+  const assignment = findParent(ancestors, t.isAssignmentExpression);
 
   if (!assignment) {
     return null;
@@ -51,7 +49,7 @@ function fromCallExpression(callExpression) {
 
 // the function class is inferred from a prototype assignment
 // e.g. TodoClass.prototype.render = function() {}
-function fromPrototype(assignment) {
+function fromPrototype(assignment, ...ancestors) {
   const left = assignment.node.left;
   if (!left) {
     return null;
@@ -69,24 +67,48 @@ function fromPrototype(assignment) {
   return null;
 }
 
+function findParent(ancestors, predicate) {
+  for (let i = ancestors.length - 1; i >= 0; i--) {
+    const ancestor = ancestors[i];
+    if (predicate(ancestor)) {
+      return ancestor;
+    }
+  }
+
+  return null;
+}
+
+function hasParent(ancestors, predicate) {
+  return !!findParent(ancestors, predicate);
+}
+
+function findAncestors(ancestors, predicate) {
+  for (let i = ancestors.length - 1; i >= 0; i--) {
+    const ancestor = ancestors[i].node;
+    if (predicate(ancestor)) {
+      return ancestors.slice(i);
+    }
+  }
+
+  return null;
+}
+
 // infer class finds an appropriate class for functions
 // that are defined inside of a class like thing.
 // e.g. `class Foo`, `TodoClass.prototype.foo`,
 //      `Todo = createClass({ foo: () => {}})`
-export function inferClassName(path: NodePath): ?string {
-  const classDeclaration = path.findParent(_p => _p.isClassDeclaration());
-  if (classDeclaration) {
+export function inferClassName(node: NodePath, ancestors): ?string {
+  if (hasParent(ancestors, t.isClassDeclaration)) {
+    const [classDeclaration] = findAncestors(ancestors, t.isClassDeclaration);
     return classDeclaration.node.id.name;
   }
 
-  const callExpression = path.findParent(_p => _p.isCallExpression());
-  if (callExpression) {
-    return fromCallExpression(callExpression);
+  if (hasParent(ancestors, t.isCallExpression)) {
+    return fromCallExpression(findAncestors(ancestors, t.isCallExpression));
   }
 
-  const assignment = path.findParent(_p => _p.isAssignmentExpression());
-  if (assignment) {
-    return fromPrototype(assignment);
+  if (hasParent(ancestors, t.isAssignmentExpression)) {
+    return fromPrototype(findAncestors(ancestors, t.isAssignmentExpression));
   }
 
   return null;
