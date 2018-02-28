@@ -25,7 +25,7 @@ import type {
 import type { MatchedLocations } from "../reducers/file-search";
 
 import type { SymbolDeclaration, AstLocation } from "../workers/parser";
-
+import type { SourceMetaDataType } from "../reducers/ast.js";
 /**
  * Flow types
  * @module actions/types
@@ -342,9 +342,7 @@ type ASTAction =
   | {
       type: "SET_SOURCE_METADATA",
       sourceId: string,
-      sourceMetaData: {
-        framework: ?string
-      }
+      sourceMetaData: SourceMetaDataType
     }
   | {
       type: "CLEAR_SELECTION"
