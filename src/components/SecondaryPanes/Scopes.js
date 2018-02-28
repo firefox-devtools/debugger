@@ -13,6 +13,7 @@ import {
   getSelectedSource,
   getSelectedFrame,
   getFrameScope,
+  getGeneratedFrameScope,
   isPaused as getIsPaused,
   getPauseReason
 } from "../../selectors";
@@ -27,23 +28,29 @@ import "./Scopes.css";
 type Props = {
   isPaused: Pause,
   selectedFrame: Object,
+  generatedFrameScopes: Object,
   frameScopes: Object | null,
   isLoading: boolean,
+  hasOriginalScopes: boolean,
   why: Why
 };
 
 type State = {
-  scopes: ?(NamedValue[])
+  scopes: ?(NamedValue[]),
+  generatedScopes: ?(NamedValue[]),
+  showOriginal: boolean
 };
 
 class Scopes extends PureComponent<Props, State> {
   constructor(props: Props, ...args) {
-    const { why, selectedFrame, frameScopes } = props;
+    const { why, selectedFrame, frameScopes, generatedFrameScopes } = props;
 
     super(props, ...args);
 
     this.state = {
-      scopes: getScopes(why, selectedFrame, frameScopes)
+      scopes: getScopes(why, selectedFrame, frameScopes),
+      generatedScopes: getScopes(why, selectedFrame, generatedFrameScopes),
+      showOriginal: true
     };
   }
 
@@ -59,20 +66,25 @@ class Scopes extends PureComponent<Props, State> {
           nextProps.why,
           nextProps.selectedFrame,
           nextProps.frameScopes
+        ),
+        generatedScopes: getScopes(
+          nextProps.why,
+          nextProps.selectedFrame,
+          nextProps.generatedFrameScopes
         )
       });
     }
   }
 
   render() {
-    const { isPaused, isLoading } = this.props;
-    const { scopes } = this.state;
+    const { hasOriginalScopes, isPaused, isLoading } = this.props;
+    const { scopes, generatedScopes, showOriginal } = this.state;
 
     if (scopes) {
       return (
         <div className="pane scopes-list">
           <ObjectInspector
-            roots={scopes}
+            roots={showOriginal ? scopes : generatedScopes}
             autoExpandAll={false}
             autoExpandDepth={1}
             disableWrap={true}
@@ -80,6 +92,19 @@ class Scopes extends PureComponent<Props, State> {
             dimTopLevelWindow={true}
             createObjectClient={grip => createObjectClient(grip)}
           />
+          {hasOriginalScopes ? (
+            <div className="scope-type-toggle">
+              <a
+                href=""
+                onClick={e => {
+                  e.preventDefault();
+                  this.setState({ showOriginal: !showOriginal });
+                }}
+              >
+                Show {showOriginal ? "generated" : "original"} scope
+              </a>
+            </div>
+          ) : null}
         </div>
       );
     }
@@ -112,12 +137,27 @@ export default connect(
       selectedFrame && selectedFrame.id
     ) || { scope: null, pending: false };
 
+    const {
+      scope: generatedFrameScopes,
+      pending: generatedPending
+    } = getGeneratedFrameScope(state, selectedFrame && selectedFrame.id) || {
+      scope: null,
+      pending: false
+    };
+
+    const isLoading = generatedPending || pending;
+
     return {
       selectedFrame,
       isPaused: getIsPaused(state),
-      isLoading: pending,
+      isLoading,
       why: getPauseReason(state),
-      frameScopes: frameScopes
+      frameScopes,
+      generatedFrameScopes,
+      hasOriginalScopes:
+        isLoading || !generatedFrameScopes || !frameScopes
+          ? false
+          : generatedFrameScopes.actor !== frameScopes.actor
     };
   },
   dispatch => bindActionCreators(actions, dispatch)
