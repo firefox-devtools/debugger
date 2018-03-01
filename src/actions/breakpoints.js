@@ -197,7 +197,6 @@ export function toggleAllBreakpoints(shouldDisableBreakpoints: boolean) {
         modifiedBreakpoints.push(newBreakpoint);
       } else {
         const newBreakpoint = { ...breakpoint, disabled: false };
-        // await enableBreakpoint(breakpoint.location)
         modifiedBreakpoints.push(newBreakpoint);
       }
     }
