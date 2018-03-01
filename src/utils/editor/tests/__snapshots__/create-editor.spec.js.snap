@@ -6,6 +6,8 @@ Object {
   "extraKeys": Object {
     "Cmd-F": false,
     "Cmd-G": false,
+    "Ctrl-F": false,
+    "Ctrl-G": false,
     "Esc": false,
   },
   "foldGutter": true,
@@ -33,6 +35,8 @@ Object {
   "extraKeys": Object {
     "Cmd-F": false,
     "Cmd-G": false,
+    "Ctrl-F": false,
+    "Ctrl-G": false,
     "Esc": false,
   },
   "foldGutter": false,
