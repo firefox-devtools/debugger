@@ -241,17 +241,17 @@ export function getMode(
 
   if ((url && url.match(/\.jsx$/i)) || (symbols && symbols.hasJsx)) {
     if (symbols && symbols.hasTypes) {
-      return { mode: "text/typescript-jsx" };
+      return { name: "text/typescript-jsx" };
     }
     return { name: "jsx" };
   }
 
   if (symbols && symbols.hasTypes) {
     if (symbols.hasJsx) {
-      return { mode: "text/typescript-jsx" };
+      return { name: "text/typescript-jsx" };
     }
 
-    return { mode: "text/typescript" };
+    return { name: "text/typescript" };
   }
 
   const languageMimeMap = [
