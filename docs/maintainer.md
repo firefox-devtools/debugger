@@ -2,18 +2,18 @@
 
 Helping maintain a project is the best way to contribute to its overall health.
 
-+ [Triaging Issues](#triaging-issues)
-+ [Making Bugs Actionable](#making-bugs-actionable)
-+ [Reviewing Stale Issues](#reviewing-stale-issues)
-+ [Making Issues available](#making-issues-available)
-+ [Following up on In Progress work](#following-up-on-in-progress-work)
-+ [Adding a Patch](#adding-a-patch)
-+ [Pushing to a branch](#pushing-to-a-branch)
+* [Triaging Issues](#triaging-issues)
+* [Making Bugs Actionable](#making-bugs-actionable)
+* [Reviewing Stale Issues](#reviewing-stale-issues)
+* [Making Issues available](#making-issues-available)
+* [Following up on In Progress work](#following-up-on-in-progress-work)
+* [Adding a Patch](#adding-a-patch)
+* [Pushing to a branch](#pushing-to-a-branch)
 
 ### Triaging Issues
 
 We encourage the community to help make bugs actionable, make features available,
- and close stale issues. Triaging is one of the most important contributions a
+and close stale issues. Triaging is one of the most important contributions a
 community member can make for a projects health. Stave Klabnik's
 [article][gardening] on how to be an open source gardener expresses our values.
 
@@ -30,12 +30,29 @@ for making bugs actionable:
 
 #### Reviewing Stale Issues
 
-We define *stale* as issues that are 30 days or older. Stale is often an indicator of another issue: it is unnecessary, too vague, too broad, or a low priority.
+We define _stale_ as issues that are 30 days or older. Stale is often an indicator of another issue: it is unnecessary, too vague, too broad, or a low priority.
 
-* *unnecessary* - close it
-* *vague* - clarify the issue and make it more available
-* *broad* - create more focused issues, such as "add flow types to `WhyPaused` component"
-* *low priority* - close it and add it to the [enhancements board]
+* _unnecessary_ - close it
+* _vague_ - clarify the issue and make it more available
+* _broad_ - create more focused issues, such as "add flow types to `WhyPaused` component"
+* _low priority_ - close it and add the _icebox_ label to it.
+
+### Prioritizing Issues
+
+At any given point, there are too many issues in the project to realistically be able to complete them all in the near future.
+
+We try to prioritize the issues into 3 buckets: current milestone, backog, and icebox.
+
+* We add issues to a milestone every two weeks that we hope to accomplish in that timeframe.
+* We add the _backlog_ label to issues that we would like to accomplish in the next 4 to 6 weeks.
+* We add the _icebox_ label to issues that we would like to get to in the future. We also close these issues so that we can keep the issue list under control. We commit to reviewing the _icebox_ issues every six weeks and re-opening issues we hope to get to.
+
+There will always be some issues that don't fall into these buckets.
+
+* We have not yet investigated the issue
+* We think a community member could realistically do it e.g. ui polish, code health
+
+#### Icebox Issues
 
 #### Making Issues available
 
@@ -104,7 +121,7 @@ git checkout --track <username>/<pr-branch>
 git pull --rebase # if you want to get new changes
 git push <username> <pr-branch>
 git push -f <username> <pr-branch>  # sadly you often need to push force
-````
+```
 
 Notes:
 
@@ -114,11 +131,9 @@ Notes:
 [enhancements board]: https://github.com/devtools-html/debugger.html/projects/5
 [ship]: https://www.realartists.com
 [ship-screenshot]: https://cloud.githubusercontent.com/assets/254562/23369201/8fe98b82-fcde-11e6-9dac-3e40547f29ad.png
-
-[github-2fa]:https://help.github.com/articles/securing-your-account-with-two-factor-authentication-2fa/
-[github-pat]:https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/
-[github-remote]:https://help.github.com/articles/adding-a-remote/
-
+[github-2fa]: https://help.github.com/articles/securing-your-account-with-two-factor-authentication-2fa/
+[github-pat]: https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/
+[github-remote]: https://help.github.com/articles/adding-a-remote/
 [gardening]: http://words.steveklabnik.com/how-to-be-an-open-source-gardener
-[glitch]:https://fabulous-umbrella.glitch.me/
+[glitch]: https://fabulous-umbrella.glitch.me/
 [na]: https://github.com/devtools-html/debugger.html/labels/not-actionable
