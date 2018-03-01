@@ -31,7 +31,9 @@ export function createEditor() {
       // Override code mirror keymap to avoid conflicts with split console.
       Esc: false,
       "Cmd-F": false,
-      "Cmd-G": false
+      "Ctrl-F": false,
+      "Cmd-G": false,
+      "Ctrl-G": false
     }
   });
 }
