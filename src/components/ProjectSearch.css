@@ -89,7 +89,7 @@
 
 .project-text-search .line-match {
   display: "flex";
-  grow: 1;
+  flex-grow: 1;
 }
 
 .project-text-search .search-field {
