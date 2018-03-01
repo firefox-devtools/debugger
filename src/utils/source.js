@@ -240,7 +240,7 @@ export function getMode(
   }
 
   if ((url && url.match(/\.jsx$/i)) || (symbols && symbols.hasJsx)) {
-    if (symbols.hasTypes) {
+    if (symbols && symbols.hasTypes) {
       return { mode: "text/typescript-jsx" };
     }
     return { name: "jsx" };
