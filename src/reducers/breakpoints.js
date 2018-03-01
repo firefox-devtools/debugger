@@ -55,6 +55,14 @@ function update(
       return updateBreakpoint(state, action);
     }
 
+    case "DISABLE_ALL_BREAKPOINTS": {
+      return updateAllBreakpoints(state, action);
+    }
+
+    case "ENABLE_ALL_BREAKPOINTS": {
+      return updateAllBreakpoints(state, action);
+    }
+
     case "SET_BREAKPOINT_CONDITION": {
       return updateBreakpoint(state, action);
     }
@@ -115,6 +123,15 @@ function updateBreakpoint(state, action) {
   const { breakpoint } = action;
   const locationId = makeLocationId(breakpoint.location);
   return state.setIn(["breakpoints", locationId], breakpoint);
+}
+
+function updateAllBreakpoints(state, action) {
+  const { breakpoints } = action;
+  breakpoints.forEach(breakpoint => {
+    const locationId = makeLocationId(breakpoint.location);
+    state = state.setIn(["breakpoints", locationId], breakpoint);
+  });
+  return state;
 }
 
 function remapBreakpoints(state, action) {
