@@ -4,7 +4,6 @@
 
 // @flow
 
-import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -327,7 +326,7 @@ class SecondaryPanes extends Component<Props> {
 }
 
 SecondaryPanes.contextTypes = {
-  shortcuts: PropTypes.object
+  shortcuts: Object
 };
 
 export default connect(
