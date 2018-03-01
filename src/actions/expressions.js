@@ -147,6 +147,6 @@ export async function getMappedExpression(
   return async function({ dispatch, getState, client }: ThunkArgs) {
     const mappings = getSelectedScopeMappings(getState())
     return expression;
-  });
+  };
 
 }

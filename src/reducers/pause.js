@@ -143,13 +143,13 @@ function update(
         ...state.frameScopes.original,
         [selectedFrameId]: {
           pending: status !== "done",
-          scope: value.scopes
+          scope: value && value.scopes
         }
       };
 
       const mappings = {
         ...state.frameScopes.mappings,
-        [selectedFrameId]: action.value.mappings
+        [selectedFrameId]: action.value && action.value.mappings
       };
       return {
         ...state,
