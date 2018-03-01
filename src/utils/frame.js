@@ -7,7 +7,7 @@
 import { endTruncateStr } from "./utils";
 import { getFilename } from "./source";
 import { get, find, findIndex } from "lodash";
-import { flow, map } from "lodash/fp";
+import { flatMap, flow, map, range, zip } from "lodash/fp";
 
 import type { Frame } from "../types";
 import type { LocalFrame } from "../components/SecondaryPanes/Frames/types";
@@ -172,32 +172,45 @@ function annotateFrame(frame: Frame) {
 }
 
 function annotateBabelAsyncFrames(frames: Frame[]) {
-  const firstIndex = findIndex(
-    frames,
-    frame =>
-      getFrameUrl(frame).match(/regenerator-runtime/i) &&
-      frame.displayName === "tryCatch"
+  const startIndexes = frames.reduce(
+    (accumulator, frame, index) =>
+      isStartOfBabelGroup(frame) ? [...accumulator, index] : accumulator,
+    []
   );
-
-  const lastIndex = findIndex(
-    frames,
-    frame =>
-      frame.displayName === "_asyncToGenerator/<" ||
-      (getFrameUrl(frame).match(/_microtask/i) && frame.displayName === "flush")
+  const endIndexes = frames.reduce(
+    (accumulator, frame, index) =>
+      isEndOfBabelGroup(frame) ? [...accumulator, index] : accumulator,
+    []
   );
-
-  if (firstIndex === -1 || lastIndex === -1) {
+  if (startIndexes.length != endIndexes.length || startIndexes.length === 0) {
     return frames;
   }
+  const babelGroupRanges = zip(startIndexes, endIndexes);
 
-  for (let i = firstIndex; i < lastIndex + 1; i++) {
-    frames[i] = {
-      ...frames[i],
-      library: "Babel"
-    };
-  }
+  const babelFrameIndexes = flatMap(babelGroupRange =>
+    range(babelGroupRange[0], babelGroupRange[1] + 1)
+  )(babelGroupRanges);
 
-  return frames;
+  const isBabelFrame = frameIndex => babelFrameIndexes.includes(frameIndex);
+
+  return frames.map(
+    (frame, frameIndex) =>
+      isBabelFrame(frameIndex) ? { ...frame, library: "Babel" } : frame
+  );
+}
+
+function isStartOfBabelGroup(frame: Frame) {
+  return (
+    getFrameUrl(frame).match(/regenerator-runtime/i) &&
+    frame.displayName === "tryCatch"
+  );
+}
+
+function isEndOfBabelGroup(frame: Frame) {
+  return (
+    frame.displayName === "_asyncToGenerator/<" ||
+    (getFrameUrl(frame).match(/_microtask/i) && frame.displayName === "flush")
+  );
 }
 
 // Decodes an anonymous naming scheme that

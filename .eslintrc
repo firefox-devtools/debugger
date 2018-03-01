@@ -135,7 +135,7 @@
       }
     ],
     // Maximum depth callbacks can be nested.
-    "max-nested-callbacks": [2, 3],
+    "max-nested-callbacks": [2, 4],
     // Don't limit the number of parameters that can be used in a function.
     "max-params": 0,
     // Don't limit the maximum number of statement allowed in a function. We
