@@ -50,12 +50,10 @@ function parse(text: ?string, opts?: Object) {
   }
 
   try {
-    ast = _parse(text, opts);
+    return _parse(text, opts);
   } catch (error) {
-    ast = {};
+    return null;
   }
-
-  return ast;
 }
 
 // Custom parser for parse-script-tags that adapts its input structure to

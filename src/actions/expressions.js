@@ -9,7 +9,8 @@ import {
   getExpressions,
   getSelectedFrame,
   getSelectedFrameId,
-  getSource
+  getSource,
+  getSelectedScopeMappings
 } from "../selectors";
 import { PROMISE } from "./utils/middleware/promise";
 import { isGeneratedId } from "devtools-source-map";
@@ -117,7 +118,7 @@ function evaluateExpression(expression: Expression) {
 
       if (!isGeneratedId(sourceId)) {
         input = await getMappedExpression(
-          { sourceMaps },
+          { state: getState(), sourceMaps },
           generatedLocation,
           input
         );
@@ -134,19 +135,21 @@ function evaluateExpression(expression: Expression) {
   };
 }
 
+function toObject(map) {
+  return Array.from(map).reduce((obj, [key, value]) => {
+    obj[key] = value;
+    return obj;
+  }, {});
+}
 /**
  * Gets information about original variable names from the source map
  * and replaces all posible generated names.
  */
 export async function getMappedExpression(
-  { sourceMaps }: Object,
+  { state, sourceMaps }: Object,
   generatedLocation: Location,
   expression: string
 ): Promise<string> {
-
-  return async function({ dispatch, getState, client }: ThunkArgs) {
-    const mappings = getSelectedScopeMappings(getState())
-    return expression;
-  };
-
+  const mappings = getSelectedScopeMappings(state);
+  return await parser.mapOriginalExpression(expression, toObject(mappings));
 }
