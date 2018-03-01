@@ -109,7 +109,7 @@ export default connect(
     const { scope: frameScopes, pending } = getFrameScope(
       state,
       selectedSource && selectedSource.get("id"),
-      selectedFrame && selectedFrame.id
+      selectedFrame.id
     ) || { scope: null, pending: false };
 
     return {
