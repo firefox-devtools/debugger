@@ -79,7 +79,7 @@ async function runSteps(dbg, source, steps) {
 }
 
 add_task(async function() {
-  requestLongerTimeout(2);
+  requestLongerTimeout(4);
 
   const dbg = await initDebugger("doc-babel.html");
 

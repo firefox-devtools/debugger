@@ -12,7 +12,11 @@ import { isVariable, isFunction, getVariables } from "./utils/helpers";
 import { inferClassName } from "./utils/inferClassName";
 import getFunctionName from "./utils/getFunctionName";
 
-import type { NodePath, Node, Location as BabelLocation } from "babel-traverse";
+import type {
+  NodePath,
+  Node,
+  Location as BabelLocation
+} from "@babel/traverse";
 
 let symbolDeclarations = new Map();
 
