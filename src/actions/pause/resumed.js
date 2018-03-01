@@ -20,12 +20,13 @@ export function resumed() {
   return async ({ dispatch, client, getState }: ThunkArgs) => {
     const why = getPauseReason(getState());
     const wasPausedInEval = inDebuggerEval(why);
-    const wasStepping = isStepping(getState());
 
-    dispatch({ type: "RESUME" });
-
-    if (!wasStepping && !wasPausedInEval) {
+    if (!isStepping(getState()) && !wasPausedInEval) {
       await dispatch(evaluateExpressions());
     }
+
+    dispatch({
+      type: "RESUME"
+    });
   };
 }
