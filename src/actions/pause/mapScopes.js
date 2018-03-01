@@ -66,13 +66,15 @@ export function mapScopes(scopes: Promise<Scope>, frame: Frame) {
         await dispatch(loadSourceText(sourceRecord));
 
         try {
-          return await buildMappedScopes(
+          const { scopes, mappings } = await buildMappedScopes(
             sourceRecord.toJS(),
             frame,
             await scopes,
             sourceMaps,
             client
           );
+
+          return { scopes, mappings };
         } catch (e) {
           log(e);
           return null;

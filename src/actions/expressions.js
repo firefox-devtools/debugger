@@ -143,5 +143,10 @@ export async function getMappedExpression(
   generatedLocation: Location,
   expression: string
 ): Promise<string> {
-  return expression;
+
+  return async function({ dispatch, getState, client }: ThunkArgs) {
+    const mappings = getSelectedScopeMappings(getState())
+    return expression;
+  });
+
 }
