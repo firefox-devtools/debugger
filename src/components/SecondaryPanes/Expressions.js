@@ -47,7 +47,6 @@ class Expressions extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = { editing: false, editIndex: -1, inputValue: "" };
-    this.renderExpression = this.renderExpression.bind(this);
   }
 
   componentDidMount() {
@@ -139,7 +138,7 @@ class Expressions extends PureComponent<Props, State> {
     this.setState({ editing: false, editIndex: -1, inputValue: "" });
   };
 
-  renderExpression(expression: Expression, index: number) {
+  renderExpression = (expression: Expression, index: number) => {
     const { expressionError, openLink } = this.props;
     const { editing, editIndex } = this.state;
     const { input, updating } = expression;
@@ -182,7 +181,7 @@ class Expressions extends PureComponent<Props, State> {
         </div>
       </li>
     );
-  }
+  };
 
   renderNewExpressionInput() {
     const { expressionError } = this.props;

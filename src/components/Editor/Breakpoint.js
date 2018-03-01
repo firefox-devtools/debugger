@@ -35,10 +35,9 @@ class Breakpoint extends Component<Props> {
 
   constructor() {
     super();
-    this.addBreakpoint = this.addBreakpoint.bind(this);
   }
 
-  addBreakpoint() {
+  addBreakpoint = () => {
     const { breakpoint, editor, selectedSource } = this.props;
 
     // Hidden Breakpoints are never rendered on the client
@@ -67,7 +66,7 @@ class Breakpoint extends Component<Props> {
     } else {
       editor.codeMirror.removeLineClass(line, "line", "has-condition");
     }
-  }
+  };
 
   shouldComponentUpdate(nextProps: any) {
     const { editor, breakpoint, selectedSource } = this.props;

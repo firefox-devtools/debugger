@@ -46,8 +46,6 @@ class CallSites extends Component {
 
   constructor(props) {
     super(props);
-    this.onKeyDown = this.onKeyDown.bind(this);
-    this.onKeyUp = this.onKeyUp.bind(this);
 
     this.state = {
       showCallSites: false
@@ -72,19 +70,19 @@ class CallSites extends Component {
     document.body.removeEventListener("keyup", this.onKeyUp);
   }
 
-  onKeyUp(e) {
+  onKeyUp = e => {
     if (e.key === "Alt") {
       e.preventDefault();
       this.setState({ showCallSites: false });
     }
-  }
+  };
 
-  onKeyDown(e) {
+  onKeyDown = e => {
     if (e.key === "Alt") {
       e.preventDefault();
       this.setState({ showCallSites: true });
     }
-  }
+  };
 
   onTokenClick(e) {
     const { target } = e;

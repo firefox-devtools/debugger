@@ -30,10 +30,9 @@ export default class ResultList extends Component<Props> {
 
   constructor(props: Props) {
     super(props);
-    (this: any).renderListItem = this.renderListItem.bind(this);
   }
 
-  renderListItem(item: any, index: number) {
+  renderListItem = (item: any, index: number) => {
     const { selectItem, selected } = this.props;
     const props = {
       onClick: event => selectItem(event, item, index),
@@ -58,7 +57,7 @@ export default class ResultList extends Component<Props> {
         </div>
       </li>
     );
-  }
+  };
 
   render() {
     const { size, items, role } = this.props;

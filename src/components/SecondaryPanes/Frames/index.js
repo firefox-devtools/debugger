@@ -61,10 +61,6 @@ class Frames extends Component<Props, State> {
     this.state = {
       showAllFrames: false
     };
-
-    this.toggleFramesDisplay = this.toggleFramesDisplay.bind(this);
-    this.copyStackTrace = this.copyStackTrace.bind(this);
-    this.toggleFrameworkGrouping = this.toggleFrameworkGrouping.bind(this);
   }
 
   shouldComponentUpdate(nextProps, nextState): boolean {
@@ -78,11 +74,11 @@ class Frames extends Component<Props, State> {
     );
   }
 
-  toggleFramesDisplay(): void {
+  toggleFramesDisplay = (): void => {
     this.setState(prevState => ({
       showAllFrames: !prevState.showAllFrames
     }));
-  }
+  };
 
   collapseFrames(frames) {
     const { frameworkGroupingOn } = this.props;
@@ -101,16 +97,16 @@ class Frames extends Component<Props, State> {
     return frames.slice(0, numFramesToShow);
   }
 
-  copyStackTrace() {
+  copyStackTrace = () => {
     const { frames } = this.props;
     const framesToCopy = frames.map(f => formatCopyName(f)).join("\n");
     copyToTheClipboard(framesToCopy);
-  }
+  };
 
-  toggleFrameworkGrouping() {
+  toggleFrameworkGrouping = () => {
     const { toggleFrameworkGrouping, frameworkGroupingOn } = this.props;
     toggleFrameworkGrouping(!frameworkGroupingOn);
-  }
+  };
 
   renderFrames(frames: LocalFrame[]) {
     const {
