@@ -5,7 +5,7 @@
 // @flow
 
 import flatten from "lodash/flatten";
-import * as t from "babel-types";
+import * as t from "@babel/types";
 
 import { traverseAst } from "./utils/ast";
 import { isVariable, isFunction, getVariables } from "./utils/helpers";
