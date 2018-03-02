@@ -25,7 +25,7 @@ type Props = {
   selectLocation: ({ sourceId: string, line: number }) => void,
   selectedSource: ?SourceRecord,
   onAlphabetizeClick: Function,
-  alphabetizeOutline: Boolean
+  alphabetizeOutline: boolean
 };
 
 export class Outline extends Component<Props> {
