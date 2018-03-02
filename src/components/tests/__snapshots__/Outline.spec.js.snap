@@ -4,48 +4,60 @@ exports[`Outline should render a list of functions when properties change 1`] = 
 <div
   className="outline"
 >
-  <ul
-    className="outline-list"
-  >
-    <li
-      className="outline-list__element"
-      key="my_example_function1:21:undefined"
-      onClick={[Function]}
+  <div>
+    <ul
+      className="outline-list"
     >
-      <span
-        className="outline-list__element-icon"
+      <li
+        className="outline-list__element"
+        key="my_example_function1:21:undefined"
+        onClick={[Function]}
       >
-        λ
-      </span>
-      <PreviewFunction
-        func={
-          Object {
-            "name": "my_example_function1",
-            "parameterNames": undefined,
+        <span
+          className="outline-list__element-icon"
+        >
+          λ
+        </span>
+        <PreviewFunction
+          func={
+            Object {
+              "name": "my_example_function1",
+              "parameterNames": undefined,
+            }
           }
-        }
-      />
-    </li>
-    <li
-      className="outline-list__element"
-      key="my_example_function2:22:undefined"
-      onClick={[Function]}
+        />
+      </li>
+      <li
+        className="outline-list__element"
+        key="my_example_function2:22:undefined"
+        onClick={[Function]}
+      >
+        <span
+          className="outline-list__element-icon"
+        >
+          λ
+        </span>
+        <PreviewFunction
+          func={
+            Object {
+              "name": "my_example_function2",
+              "parameterNames": undefined,
+            }
+          }
+        />
+      </li>
+    </ul>
+    <div
+      className="outline-footer bottom"
     >
-      <span
-        className="outline-list__element-icon"
+      <button
+        className=""
+        onClick={[Function]}
       >
-        λ
-      </span>
-      <PreviewFunction
-        func={
-          Object {
-            "name": "my_example_function2",
-            "parameterNames": undefined,
-          }
-        }
-      />
-    </li>
-  </ul>
+        Sort by name
+      </button>
+    </div>
+  </div>
 </div>
 `;
 
@@ -53,28 +65,40 @@ exports[`Outline should render ignore anonimous functions 1`] = `
 <div
   className="outline"
 >
-  <ul
-    className="outline-list"
-  >
-    <li
-      className="outline-list__element"
-      key="my_example_function1:21:undefined"
-      onClick={[Function]}
+  <div>
+    <ul
+      className="outline-list"
     >
-      <span
-        className="outline-list__element-icon"
+      <li
+        className="outline-list__element"
+        key="my_example_function1:21:undefined"
+        onClick={[Function]}
       >
-        λ
-      </span>
-      <PreviewFunction
-        func={
-          Object {
-            "name": "my_example_function1",
-            "parameterNames": undefined,
+        <span
+          className="outline-list__element-icon"
+        >
+          λ
+        </span>
+        <PreviewFunction
+          func={
+            Object {
+              "name": "my_example_function1",
+              "parameterNames": undefined,
+            }
           }
-        }
-      />
-    </li>
-  </ul>
+        />
+      </li>
+    </ul>
+    <div
+      className="outline-footer bottom"
+    >
+      <button
+        className=""
+        onClick={[Function]}
+      >
+        Sort by name
+      </button>
+    </div>
+  </div>
 </div>
 `;

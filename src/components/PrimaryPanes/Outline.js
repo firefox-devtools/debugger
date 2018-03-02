@@ -12,7 +12,7 @@ import { getSelectedSource, getSymbols } from "../../selectors";
 
 import "./Outline.css";
 import PreviewFunction from "../shared/PreviewFunction";
-import { uniq } from "lodash";
+import { uniq, sortBy } from "lodash";
 import type {
   SymbolDeclarations,
   SymbolDeclaration
@@ -23,7 +23,9 @@ import type { SourceRecord } from "../../reducers/sources";
 type Props = {
   symbols: SymbolDeclarations,
   selectLocation: ({ sourceId: string, line: number }) => void,
-  selectedSource: ?SourceRecord
+  selectedSource: ?SourceRecord,
+  onAlphabetizeClick: Function,
+  alphabetizeOutline: Boolean
 };
 
 export class Outline extends Component<Props> {
@@ -90,21 +92,41 @@ export class Outline extends Component<Props> {
   }
 
   renderFunctions(functions: Array<SymbolDeclaration>) {
-    const classes = uniq(functions.map(func => func.klass));
-    const namedFunctions = functions.filter(
+    let classes = uniq(functions.map(func => func.klass));
+    let namedFunctions = functions.filter(
       func =>
         func.name != "anonymous" && !func.klass && !classes.includes(func.name)
     );
 
-    const classFunctions = functions.filter(
+    let classFunctions = functions.filter(
       func => func.name != "anonymous" && !!func.klass
     );
 
+    if (this.props.alphabetizeOutline) {
+      namedFunctions = sortBy(namedFunctions, "name");
+      classes = sortBy(classes, "klass");
+      classFunctions = sortBy(classFunctions, "name");
+    }
+
     return (
-      <ul className="outline-list">
-        {namedFunctions.map(func => this.renderFunction(func))}
-        {classes.map(klass => this.renderClassFunctions(klass, classFunctions))}
-      </ul>
+      <div>
+        <ul className="outline-list">
+          {namedFunctions.map(func => this.renderFunction(func))}
+          {classes.map(klass =>
+            this.renderClassFunctions(klass, classFunctions)
+          )}
+        </ul>
+        <div className="outline-footer bottom">
+          <button
+            onClick={() => {
+              this.props.onAlphabetizeClick();
+            }}
+            className={this.props.alphabetizeOutline ? "active" : ""}
+          >
+            {L10N.getStr("outline.sortLabel")}
+          </button>
+        </div>
+      </div>
     );
   }
 

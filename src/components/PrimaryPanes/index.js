@@ -14,7 +14,7 @@ import {
   getActiveSearch,
   getSelectedPrimaryPaneTab
 } from "../../selectors";
-import { features } from "../../utils/prefs";
+import { features, prefs } from "../../utils/prefs";
 import "./Sources.css";
 import classnames from "classnames";
 
@@ -22,6 +22,10 @@ import Outline from "./Outline";
 import SourcesTree from "./SourcesTree";
 
 import type { SourcesMap } from "../../reducers/types";
+
+type State = {
+  alphabetizeOutline: boolean
+};
 
 type Props = {
   selectedTab: string,
@@ -31,22 +35,34 @@ type Props = {
   horizontal: boolean,
   setActiveSearch: string => void,
   closeActiveSearch: () => void,
-  sourceSearchOn: boolean
+  sourceSearchOn: boolean,
+  alphabetizeOutline: boolean
 };
 
-class PrimaryPanes extends Component<Props> {
+class PrimaryPanes extends Component<Props, State> {
   renderShortcut: Function;
   selectedPane: String;
   showPane: Function;
   renderTabs: Function;
   renderChildren: Function;
+  onAlphabetizeClick: Function;
 
   constructor(props: Props) {
     super(props);
+
+    this.state = {
+      alphabetizeOutline: prefs.alphabetizeOutline
+    };
   }
 
   showPane = (selectedPane: string) => {
     this.props.setPrimaryPaneTab(selectedPane);
+  };
+
+  onAlphabetizeClick = () => {
+    const alphabetizeOutline = !prefs.alphabetizeOutline;
+    prefs.alphabetizeOutline = alphabetizeOutline;
+    this.setState({ alphabetizeOutline });
   };
 
   renderOutlineTabs() {
@@ -111,7 +127,14 @@ class PrimaryPanes extends Component<Props> {
     return (
       <div className="sources-panel">
         {this.renderTabs()}
-        {selectedTab === "sources" ? <SourcesTree /> : <Outline />}
+        {selectedTab === "sources" ? (
+          <SourcesTree />
+        ) : (
+          <Outline
+            alphabetizeOutline={this.state.alphabetizeOutline}
+            onAlphabetizeClick={this.onAlphabetizeClick}
+          />
+        )}
       </div>
     );
   }
