@@ -5,19 +5,23 @@
 import getSymbols from "./getSymbols";
 
 export function getFramework(sourceId) {
-  if (isReactComponent(sourceId)) {
+  const sourceSymbols = getSymbols(sourceId);
+
+  if (isReactComponent(sourceSymbols)) {
     return "React";
   }
-
-  if (isAngularComponent(sourceId)) {
+  if (isAngularComponent(sourceSymbols)) {
     return "Angular";
+  }
+  if (isVueComponent(sourceSymbols)) {
+    return "Vue";
   }
 }
 
 // React
 
-function isReactComponent(sourceId) {
-  const { imports, classes, callExpressions } = getSymbols(sourceId);
+function isReactComponent(sourceSymbols) {
+  const { imports, classes, callExpressions } = sourceSymbols;
   return (
     (importsReact(imports) || requiresReact(callExpressions)) &&
     extendsReactComponent(classes)
@@ -57,8 +61,8 @@ function extendsReactComponent(classes) {
 
 // Angular
 
-const isAngularComponent = sourceId => {
-  const { memberExpressions, identifiers } = getSymbols(sourceId);
+const isAngularComponent = sourceSymbols => {
+  const { memberExpressions, identifiers } = sourceSymbols;
   return (
     identifiesAngular(identifiers) && hasAngularExpressions(memberExpressions)
   );
@@ -72,4 +76,11 @@ const hasAngularExpressions = memberExpressions => {
   return memberExpressions.some(
     item => item.name == "controller" || item.name == "module"
   );
+};
+
+// Vue
+
+const isVueComponent = sourceSymbols => {
+  const { identifiers } = sourceSymbols;
+  return identifiers.some(identifier => identifier.name == "Vue");
 };
