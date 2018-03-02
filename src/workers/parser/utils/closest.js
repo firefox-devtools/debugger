@@ -7,7 +7,7 @@
 import * as t from "@babel/types";
 
 import { traverseAst } from "./ast";
-import { isLexicalScope, getMemberExpression } from "./helpers";
+import { getMemberExpression } from "./helpers";
 
 import { nodeContainsPosition } from "./contains";
 
@@ -65,28 +65,6 @@ export function getClosestExpression(
 
   const { node } = path;
   return { expression: getNodeValue(node), location: node.loc };
-}
-
-export function getClosestScope(sourceId: string, location: Location) {
-  let closestPath = null;
-
-  traverseAst(sourceId, {
-    enter(path) {
-      if (!nodeContainsPosition(path.node, location)) {
-        return path.skip();
-      }
-
-      if (isLexicalScope(path)) {
-        closestPath = path;
-      }
-    }
-  });
-
-  if (!closestPath) {
-    return;
-  }
-
-  return closestPath.scope;
 }
 
 export function getClosestPath(sourceId: string, location: Location) {

@@ -7,10 +7,6 @@
 import * as t from "@babel/types";
 import type { NodePath, Node } from "@babel/traverse";
 
-export function isLexicalScope(path: NodePath) {
-  return t.isBlockStatement(path) || isFunction(path) || t.isProgram(path);
-}
-
 export function isFunction(path: NodePath) {
   return (
     t.isFunction(path) ||
