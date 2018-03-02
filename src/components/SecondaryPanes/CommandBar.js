@@ -4,7 +4,6 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -391,7 +390,7 @@ class CommandBar extends Component<Props> {
 }
 
 CommandBar.contextTypes = {
-  shortcuts: PropTypes.object
+  shortcuts: Object
 };
 
 export default connect(
