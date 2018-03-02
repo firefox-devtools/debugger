@@ -8,13 +8,19 @@ export function getFramework(sourceId) {
   if (isReactComponent(sourceId)) {
     return "React";
   }
+
+  if (isAngularComponent(sourceId)) {
+    return "Angular";
+  }
 }
+
+// React
 
 function isReactComponent(sourceId) {
   const { imports, classes, callExpressions } = getSymbols(sourceId);
   return (
     (importsReact(imports) || requiresReact(callExpressions)) &&
-    extendsComponent(classes)
+    extendsReactComponent(classes)
   );
 }
 
@@ -34,7 +40,7 @@ function requiresReact(callExpressions) {
   );
 }
 
-function extendsComponent(classes) {
+function extendsReactComponent(classes) {
   let result = false;
   classes.some(classObj => {
     if (
@@ -48,3 +54,22 @@ function extendsComponent(classes) {
 
   return result;
 }
+
+// Angular
+
+const isAngularComponent = sourceId => {
+  const { memberExpressions, identifiers } = getSymbols(sourceId);
+  return (
+    identifiesAngular(identifiers) && hasAngularExpressions(memberExpressions)
+  );
+};
+
+const identifiesAngular = identifiers => {
+  return identifiers.some(item => item.name == "angular");
+};
+
+const hasAngularExpressions = memberExpressions => {
+  return memberExpressions.some(
+    item => item.name == "controller" || item.name == "module"
+  );
+};

@@ -41,8 +41,10 @@ type Props = {
   placeholder: string,
   query: string,
   selectedItemId?: string,
+  shouldFocus?: boolean,
   showErrorEmoji: boolean,
-  size: string
+  size: string,
+  summaryMsg: string
 };
 
 class SearchInput extends Component<Props> {
@@ -57,6 +59,16 @@ class SearchInput extends Component<Props> {
   };
 
   componentDidMount() {
+    this.setFocus();
+  }
+
+  componentDidUpdate(prevProps: Props) {
+    if (this.props.shouldFocus && !prevProps.shouldFocus) {
+      this.setFocus();
+    }
+  }
+
+  setFocus() {
     if (this.$input) {
       const input = this.$input;
       input.focus();
@@ -119,7 +131,8 @@ class SearchInput extends Component<Props> {
       query,
       selectedItemId,
       showErrorEmoji,
-      size
+      size,
+      summaryMsg
     } = this.props;
 
     const inputProps = {
@@ -151,6 +164,7 @@ class SearchInput extends Component<Props> {
       >
         {this.renderSvg()}
         <input {...inputProps} />
+        {summaryMsg && <div className="summary">{summaryMsg}</div>}
         {this.renderNav()}
         <CloseButton handleClick={handleClose} buttonClass={size} />
       </div>

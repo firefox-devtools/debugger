@@ -115,7 +115,7 @@ export function getPrettySourceURL(url: ?string): string {
  * @static
  */
 export function getRawSourceURL(url: string): string {
-  return url.replace(/:formatted$/, "");
+  return url ? url.replace(/:formatted$/, "") : url;
 }
 
 function resolveFileURL(

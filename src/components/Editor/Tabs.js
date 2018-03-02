@@ -105,9 +105,9 @@ class Tabs extends PureComponent<Props, State> {
   }
 
   toggleSourcesDropdown(e) {
-    this.setState({
-      dropdownShown: !this.state.dropdownShown
-    });
+    this.setState(prevState => ({
+      dropdownShown: !prevState.dropdownShown
+    }));
   }
 
   getIconClass(source: SourceRecord) {

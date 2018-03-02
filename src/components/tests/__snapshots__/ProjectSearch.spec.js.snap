@@ -152,6 +152,11 @@ exports[`ProjectSearch found search results 1`] = `
               spellCheck={false}
               value="match"
             />
+            <div
+              className="summary"
+            >
+              5 results
+            </div>
             <CloseButton
               buttonClass="big"
               handleClick={[Function]}

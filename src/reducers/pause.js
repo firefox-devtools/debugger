@@ -17,7 +17,7 @@ import { getSelectedSource } from "./sources";
 
 import type { OriginalScope } from "../actions/pause/mapScopes";
 import type { Action } from "../actions/types";
-import type { Why, Scope, SourceId, FrameId } from "../types";
+import type { Why, Scope, SourceId, FrameId, Location } from "../types";
 
 export type PauseState = {
   why: ?Why,
@@ -43,7 +43,11 @@ export type PauseState = {
   shouldIgnoreCaughtExceptions: boolean,
   canRewind: boolean,
   debuggeeUrl: string,
-  command: string
+  command: string,
+  previousLocation: ?{
+    location: Location,
+    generatedLocation: Location
+  }
 };
 
 export const createPauseState = (): PauseState => ({
@@ -60,7 +64,8 @@ export const createPauseState = (): PauseState => ({
   shouldIgnoreCaughtExceptions: prefs.ignoreCaughtExceptions,
   canRewind: false,
   debuggeeUrl: "",
-  command: ""
+  command: "",
+  previousLocation: null
 });
 
 const emptyPauseState = {
@@ -71,7 +76,8 @@ const emptyPauseState = {
     original: {}
   },
   selectedFrameId: null,
-  loadedObjects: {}
+  loadedObjects: {},
+  previousLocation: null
 };
 
 function update(
@@ -190,10 +196,16 @@ function update(
         shouldIgnoreCaughtExceptions
       };
 
-    case "COMMAND":
+    case "COMMAND": {
       return action.status === "start"
-        ? { ...state, ...emptyPauseState, command: action.command }
+        ? {
+            ...state,
+            ...emptyPauseState,
+            command: action.command,
+            previousLocation: buildPreviousLocation(state, action)
+          }
         : { ...state, command: "" };
+    }
 
     case "RESUME":
       // We clear why on resume because we need it to decide if
@@ -211,6 +223,24 @@ function update(
   }
 
   return state;
+}
+
+function buildPreviousLocation(state, action) {
+  const { frames, previousLocation } = state;
+
+  if (action.command !== "stepOver") {
+    return null;
+  }
+
+  const frame = frames && frames.length > 0 ? frames[0] : null;
+  if (!frame) {
+    return previousLocation;
+  }
+
+  return {
+    location: frame.location,
+    generatedLocation: frame.generatedLocation
+  };
 }
 
 // Selectors
@@ -241,6 +271,10 @@ export function isStepping(state: OuterState) {
 
 export function isPaused(state: OuterState) {
   return !!getFrames(state);
+}
+
+export function getPreviousPauseFrameLocation(state: OuterState) {
+  return state.pause.previousLocation;
 }
 
 export function isEvaluatingExpression(state: OuterState) {

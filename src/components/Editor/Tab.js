@@ -14,6 +14,7 @@ import CloseButton from "../shared/Button/Close";
 
 import type { List } from "immutable";
 import type { SourceRecord } from "../../reducers/sources";
+import type { SourceMetaDataType } from "../../reducers/ast";
 
 import actions from "../../actions";
 
@@ -47,7 +48,7 @@ type Props = {
   showSource: string => void,
   source: SourceRecord,
   activeSearch: string,
-  sourceMetaData: string => any
+  sourceMetaData: SourceMetaDataType
 };
 
 class Tab extends PureComponent<Props> {
@@ -114,11 +115,11 @@ class Tab extends PureComponent<Props> {
       }
     ];
 
-    if (!isPrettySource) {
-      items.push({
-        item: { ...tabMenuItems.showSource, click: () => showSource(tab) }
-      });
+    items.push({
+      item: { ...tabMenuItems.showSource, click: () => showSource(tab) }
+    });
 
+    if (!isPrettySource) {
       items.push({
         item: {
           ...tabMenuItems.prettyPrint,
@@ -197,15 +198,13 @@ class Tab extends PureComponent<Props> {
   }
 }
 export default connect(
-  state => {
+  (state, props) => {
     const selectedSource = getSelectedSource(state);
+    const { source } = props;
     return {
       tabSources: getSourcesForTabs(state),
       selectedSource: selectedSource,
-      sourceMetaData: getSourceMetaData(
-        state,
-        selectedSource && selectedSource.get("id")
-      ),
+      sourceMetaData: getSourceMetaData(state, source.get("id")),
       activeSearch: getActiveSearch(state)
     };
   },

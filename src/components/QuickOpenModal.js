@@ -164,7 +164,7 @@ export class QuickOpenModal extends Component<Props, State> {
       return;
     }
 
-    if (query == "") {
+    if (query == "" && !this.isShortcutQuery()) {
       return this.showTopSources();
     }
 
@@ -368,12 +368,6 @@ export class QuickOpenModal extends Component<Props, State> {
     if (!enabled) {
       return null;
     }
-    const summaryMsg = L10N.getFormatStr(
-      "sourceSearch.resultsSummary1",
-      this.getResultCount()
-    );
-    const showSummary =
-      this.isSourcesQuery() || this.isSymbolSearch() || this.isShortcutQuery();
     const newResults = results && results.slice(0, 100);
     const items = this.highlightMatching(query, newResults || []);
     const expanded = !!items && items.length > 0;
@@ -383,13 +377,15 @@ export class QuickOpenModal extends Component<Props, State> {
           query={query}
           count={this.getResultCount()}
           placeholder={L10N.getStr("sourceSearch.search")}
-          {...(showSummary === true ? { summaryMsg } : {})}
+          summaryMsg=""
           showErrorEmoji={this.shouldShowErrorEmoji()}
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}
           handleClose={this.closeModal}
           expanded={expanded}
-          selectedItemId={expanded ? items[selectedIndex].id : ""}
+          selectedItemId={
+            expanded && items[selectedIndex] ? items[selectedIndex].id : ""
+          }
         />
         {!symbols ||
           (symbols.functions.length == 0 && (

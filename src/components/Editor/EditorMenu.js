@@ -140,7 +140,7 @@ function getMenuItems(
     id: "node-menu-show-source",
     label: revealInTreeLabel,
     accesskey: revealInTreeKey,
-    disabled: isPrettyPrinted,
+    disabled: false,
     click: () => showSource(sourceId)
   };
 

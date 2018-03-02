@@ -108,6 +108,13 @@ export class ConditionalPanel extends PureComponent<Props> {
   }
 
   renderToWidget(props: Props) {
+    if (this.cbPanel) {
+      if (this.props.line && this.props.line == props.line) {
+        return props.closeConditionalPanel();
+      }
+      this.clearConditionalPanel();
+    }
+
     const { selectedLocation, line, editor } = props;
     const sourceId = selectedLocation ? selectedLocation.sourceId : "";
 
@@ -156,7 +163,10 @@ export class ConditionalPanel extends PureComponent<Props> {
           defaultValue={condition}
           placeholder={L10N.getStr("editor.conditionalPanel.placeholder")}
           onKeyDown={this.onKey}
-          ref={input => (this.input = input)}
+          ref={input => {
+            this.input = input;
+            this.keepFocusOnInput();
+          }}
         />
       </div>,
       panel

@@ -7,10 +7,11 @@ import cases from "jest-in-case";
 cases(
   "Parser.getSymbols",
   ({ name, file, original, type }) => {
-    // console.log(formatSymbols(getSource(file, type)));
     const source = original
       ? getOriginalSource(file, type)
       : getSource(file, type);
+
+    // console.log(formatSymbols(source));
     expect(formatSymbols(source)).toMatchSnapshot();
   },
   [
@@ -30,7 +31,11 @@ cases(
       type: "html"
     },
     { name: "component", file: "component", original: true },
-    { name: "react component", file: "frameworks/component", original: true },
+    {
+      name: "react component",
+      file: "frameworks/reactComponent",
+      original: true
+    },
     { name: "flow", file: "flow", original: true },
     { name: "jsx", file: "jsx", original: true },
     { name: "destruct", file: "destructuring" }

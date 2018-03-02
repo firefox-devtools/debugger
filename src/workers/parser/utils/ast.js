@@ -21,9 +21,12 @@ function _parse(code, opts) {
 }
 
 const sourceOptions = {
-  generated: {},
+  generated: {
+    tokens: true
+  },
   original: {
     sourceType: "unambiguous",
+    tokens: true,
     plugins: [
       "jsx",
       "flow",

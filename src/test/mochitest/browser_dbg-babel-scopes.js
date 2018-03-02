@@ -72,7 +72,11 @@ async function assertScopes(dbg, items) {
   for (const [i, val] of items.entries()) {
     if (Array.isArray(val)) {
       is(getScopeLabel(dbg, i + 1), val[0]);
-      is(getScopeValue(dbg, i + 1), val[1]);
+      is(
+        getScopeValue(dbg, i + 1),
+        val[1],
+        `"${val[0]}" has the expected "${val[1]}" value`
+      );
     } else {
       is(getScopeLabel(dbg, i + 1), val);
     }
@@ -140,7 +144,7 @@ add_task(async function() {
     { line: 8, column: 6 },
     [
       "arrow",
-      ["argArrow", "(unavailable)"],
+      ["argArrow", "(unmapped)"],
       "Block",
       "arrow()",
       "fn",
@@ -157,15 +161,15 @@ add_task(async function() {
   // The call-based ones work, but the single-identifier ones do not.
   await breakpointScopes(dbg, "imported-bindings", { line: 17, column: 2 }, [
     "Module",
-    ["aDefault", "(unavailable)"],
+    ["aDefault", '"a-default"'],
     ["aDefault2", '"a-default2"'],
-    ["aDefault3", "(unavailable)"],
-    ["anAliased", "(unavailable)"],
+    ["aDefault3", '"a-default3"'],
+    ["anAliased", '"an-original"'],
     ["anAliased2", '"an-original2"'],
-    ["anAliased3", "(unavailable)"],
-    ["aNamed", "(unavailable)"],
+    ["anAliased3", '"an-original3"'],
+    ["aNamed", '"a-named"'],
     ["aNamed2", '"a-named2"'],
-    ["aNamed3", "(unavailable)"],
+    ["aNamed3", '"a-named3"'],
     ["aNamespace", "{\u2026}"],
     ["aNamespace2", "{\u2026}"],
     ["aNamespace3", "{\u2026}"],
@@ -310,6 +314,30 @@ add_task(async function() {
     ["aNamespace", "{\u2026}"],
     ["aNamespace2", "{\u2026}"],
     ["aNamespace3", "{\u2026}"],
+    "root()"
+  ]);
+
+  await breakpointScopes(dbg, "webpack-standalone", { line: 11, column: 0 }, [
+    "Block",
+    ["<this>", '"this-value"'],
+    ["arg", '"arg-value"'],
+    ["arguments", "Arguments"],
+    ["inner", "undefined"],
+    "Block",
+    ["someName", "(optimized away)"],
+    "Block",
+    ["two", "2"],
+    "Block",
+    ["one", "1"],
+    "root",
+    ["arguments", "Arguments"],
+    "fn:someName()",
+    "webpackStandalone",
+    ["__webpack_exports__", "(optimized away)"],
+    ["__WEBPACK_IMPORTED_MODULE_0__src_mod1__", "{\u2026}"],
+    ["__webpack_require__", "(optimized away)"],
+    ["arguments", "(unavailable)"],
+    ["module", "(optimized away)"],
     "root()"
   ]);
 });

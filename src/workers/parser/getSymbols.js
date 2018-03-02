@@ -5,7 +5,7 @@
 // @flow
 
 import flatten from "lodash/flatten";
-import * as t from "babel-types";
+import * as t from "@babel/types";
 
 import { traverseAst } from "./utils/ast";
 import { isVariable, isFunction, getVariables } from "./utils/helpers";
@@ -211,8 +211,17 @@ function extractSymbol(path, symbols) {
     }
   }
 
-  if (t.isIdentifier(path)) {
+  if (t.isIdentifier(path) && !t.isGenericTypeAnnotation(path.parent)) {
     let { start, end } = path.node.loc;
+
+    // We want to include function params, but exclude the function name
+    if (t.isClassMethod(path.parent) && !path.inList) {
+      return;
+    }
+
+    if (t.isProperty(path.parent)) {
+      return;
+    }
 
     if (path.node.typeAnnotation) {
       const column = path.node.typeAnnotation.loc.start.column;
@@ -242,7 +251,6 @@ function extractSymbol(path, symbols) {
     if (t.isArrayPattern(node)) {
       return;
     }
-
     symbols.identifiers.push({
       name: node.name,
       expression: node.name,

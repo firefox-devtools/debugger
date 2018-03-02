@@ -10,19 +10,28 @@ import {
   getHiddenBreakpointLocation,
   isEvaluatingExpression,
   getSelectedFrame,
-  getVisibleSelectedFrame
+  getVisibleSelectedFrame,
+  getSources
 } from "../../selectors";
+
 import { mapFrames } from ".";
 import { removeBreakpoint } from "../breakpoints";
 import { evaluateExpressions } from "../expressions";
-import { selectLocation } from "../sources";
+import { selectLocation, loadSourceText } from "../sources";
 import { togglePaneCollapse } from "../ui";
+import { command } from "./commands";
+import { shouldStep } from "../../utils/pause";
+
+import { updateFrameLocation } from "./mapFrames";
 
 import { fetchScopes } from "./fetchScopes";
 
-import type { Pause } from "../../types";
+import type { Pause, Frame } from "../../types";
 import type { ThunkArgs } from "../types";
 
+async function getOriginalSourceForFrame(state, frame: Frame) {
+  return getSources(state).get(frame.location.sourceId);
+}
 /**
  * Debugger has just paused
  *
@@ -33,12 +42,26 @@ import type { ThunkArgs } from "../types";
 export function paused(pauseInfo: Pause) {
   return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
     const { frames, why, loadedObjects } = pauseInfo;
+    const rootFrame = frames.length > 0 ? frames[0] : null;
+
+    if (rootFrame) {
+      const mappedFrame = await updateFrameLocation(rootFrame, sourceMaps);
+      const source = await getOriginalSourceForFrame(getState(), mappedFrame);
+
+      // Ensure that the original file has loaded if there is one.
+      await dispatch(loadSourceText(source));
+
+      if (await shouldStep(mappedFrame, getState(), sourceMaps)) {
+        dispatch(command("stepOver"));
+        return;
+      }
+    }
 
     dispatch({
       type: "PAUSED",
       why,
       frames,
-      selectedFrameId: frames[0] ? frames[0].id : undefined,
+      selectedFrameId: rootFrame ? rootFrame.id : undefined,
       loadedObjects: loadedObjects || []
     });
 

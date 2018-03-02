@@ -132,7 +132,40 @@ async function buildMappedScopes(
     })
   );
 
-  return generateClientScope(scopes, mappedOriginalScopes);
+  const mappedGeneratedScopes = generateClientScope(
+    scopes,
+    mappedOriginalScopes
+  );
+
+  return isReliableScope(mappedGeneratedScopes) ? mappedGeneratedScopes : null;
+}
+
+/**
+ * Consider a scope and its parents reliable if the vast majority of its
+ * bindings were successfully mapped to generated scope bindings.
+ */
+function isReliableScope(scope: OriginalScope): boolean {
+  let totalBindings = 0;
+  let unknownBindings = 0;
+
+  for (let s = scope; s; s = s.parent) {
+    const vars = (s.bindings && s.bindings.variables) || {};
+    for (const key of Object.keys(vars)) {
+      const binding = vars[key];
+
+      totalBindings += 1;
+      if (
+        binding.value &&
+        typeof binding.value === "object" &&
+        (binding.value.type === "unscoped" || binding.value.type === "unmapped")
+      ) {
+        unknownBindings += 1;
+      }
+    }
+  }
+
+  // As determined by fair dice roll.
+  return totalBindings === 0 || unknownBindings / totalBindings < 0.9;
 }
 
 function generateClientScope(
@@ -217,31 +250,29 @@ async function findGeneratedBinding(
   // data to use. Bail out instead of just showing it as unmapped.
   if (
     originalBinding.type === "implicit" &&
-    originalBinding.refs.length === 0
+    !originalBinding.refs.some(item => item.type === "ref")
   ) {
     return null;
   }
 
-  const { declarations, refs } = originalBinding;
+  const { refs } = originalBinding;
 
-  const genContent = await declarations
-    .concat(refs)
-    .reduce(async (acc, pos) => {
-      const result = await acc;
-      if (result) {
-        return result;
-      }
+  const genContent = await refs.reduce(async (acc, pos) => {
+    const result = await acc;
+    if (result) {
+      return result;
+    }
 
-      return await findGeneratedBindingFromPosition(
-        sourceMaps,
-        client,
-        source,
-        pos,
-        name,
-        originalBinding.type,
-        generatedAstBindings
-      );
-    }, null);
+    return await findGeneratedBindingFromPosition(
+      sourceMaps,
+      client,
+      source,
+      pos,
+      name,
+      originalBinding.type,
+      generatedAstBindings
+    );
+  }, null);
 
   if (genContent && genContent.desc) {
     return genContent.desc;
@@ -335,8 +366,8 @@ function buildGeneratedBindingList(
       // there might not be a generated scope that matches.
       if (generated) {
         for (const name of Object.keys(generated.bindings)) {
-          const { declarations, refs } = generated.bindings[name];
-          for (const loc of declarations.concat(refs)) {
+          const { refs } = generated.bindings[name];
+          for (const loc of refs) {
             acc.push({
               name,
               loc,

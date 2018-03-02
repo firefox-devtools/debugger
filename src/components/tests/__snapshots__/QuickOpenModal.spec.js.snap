@@ -62,7 +62,7 @@ exports[`QuickOpenModal Basic render with mount & searchType = functions 1`] = `
               selectedItemId=""
               showErrorEmoji={true}
               size=""
-              summaryMsg="0 results"
+              summaryMsg=""
             >
               <div
                 aria-expanded={false}
@@ -208,7 +208,7 @@ exports[`QuickOpenModal Basic render with mount & searchType = variables 1`] = `
               selectedItemId=""
               showErrorEmoji={true}
               size=""
-              summaryMsg="0 results"
+              summaryMsg=""
             >
               <div
                 aria-expanded={false}
@@ -348,7 +348,7 @@ exports[`QuickOpenModal Basic render with mount 1`] = `
               selectedItemId=""
               showErrorEmoji={false}
               size=""
-              summaryMsg="0 results"
+              summaryMsg=""
             >
               <div
                 aria-expanded={false}
@@ -446,7 +446,7 @@ exports[`QuickOpenModal Renders when enabled 1`] = `
     selectedItemId=""
     showErrorEmoji={false}
     size=""
-    summaryMsg="0 results"
+    summaryMsg=""
   />
   <ResultList
     expanded={false}
@@ -522,6 +522,7 @@ exports[`QuickOpenModal Simple goto search query = :abc & searchType = goto 1`] 
               selectedItemId=""
               showErrorEmoji={true}
               size=""
+              summaryMsg=""
             >
               <div
                 aria-expanded={false}
@@ -645,7 +646,7 @@ exports[`QuickOpenModal closeModal 1`] = `
               selectedItemId=""
               showErrorEmoji={false}
               size=""
-              summaryMsg="0 results"
+              summaryMsg=""
             >
               <div
                 aria-expanded={false}
@@ -780,7 +781,7 @@ exports[`QuickOpenModal showErrorEmoji false when count + query 1`] = `
               selectedItemId=""
               showErrorEmoji={false}
               size=""
-              summaryMsg="2 results"
+              summaryMsg=""
             >
               <div
                 aria-expanded={true}
@@ -987,6 +988,7 @@ exports[`QuickOpenModal showErrorEmoji false when goto numeric ':2222' 1`] = `
               selectedItemId=""
               showErrorEmoji={false}
               size=""
+              summaryMsg=""
             >
               <div
                 aria-expanded={false}
@@ -1105,6 +1107,7 @@ exports[`QuickOpenModal showErrorEmoji false when no query 1`] = `
               selectedItemId=""
               showErrorEmoji={false}
               size=""
+              summaryMsg=""
             >
               <div
                 aria-expanded={false}
@@ -1239,6 +1242,7 @@ exports[`QuickOpenModal showErrorEmoji true when goto not numeric ':22k22' 1`] =
               selectedItemId=""
               showErrorEmoji={true}
               size=""
+              summaryMsg=""
             >
               <div
                 aria-expanded={false}
@@ -1357,6 +1361,7 @@ exports[`QuickOpenModal showErrorEmoji true when no count + query 1`] = `
               selectedItemId=""
               showErrorEmoji={true}
               size=""
+              summaryMsg=""
             >
               <div
                 aria-expanded={false}
@@ -1490,7 +1495,7 @@ exports[`QuickOpenModal updateResults on enable 2`] = `
               selectedItemId=""
               showErrorEmoji={false}
               size=""
-              summaryMsg="0 results"
+              summaryMsg=""
             >
               <div
                 aria-expanded={false}

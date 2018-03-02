@@ -11,7 +11,6 @@ function loadStories() {
   require("../src/components/stories/SearchInput.js");
   require("../src/components/stories/ResultList.js");
   require("../src/components/stories/ManagedTree.js");
-  require("../src/components/stories/TextSearch.js");
   require("../src/components/stories/Workers.js");
 }
 

@@ -4,9 +4,15 @@
 
 // @flow
 
-import { getSource, getActiveSearch, getPaneCollapse } from "../selectors";
+import {
+  getActiveSearch,
+  getPaneCollapse,
+  getQuickOpenEnabled,
+  getSource
+} from "../selectors";
 import { getProjectDirectoryRoot } from "../reducers/ui";
 import type { ThunkArgs, panelPositionType } from "./types";
+import { getRawSourceURL } from "../utils/source";
 
 import type {
   ActiveSearchType,
@@ -38,6 +44,10 @@ export function setActiveSearch(activeSearch?: ActiveSearchType) {
       return;
     }
 
+    if (getQuickOpenEnabled(getState())) {
+      dispatch({ type: "CLOSE_QUICK_OPEN" });
+    }
+
     dispatch({
       type: "TOGGLE_ACTIVE_SEARCH",
       value: activeSearch
@@ -66,7 +76,7 @@ export function showSource(sourceId: string) {
 
     dispatch({
       type: "SHOW_SOURCE",
-      sourceUrl: source.get("url")
+      sourceUrl: getRawSourceURL(source.get("url"))
     });
   };
 }

@@ -122,5 +122,32 @@ describe("Frames", () => {
       expect(component.find("FrameComponent")).toHaveLength(2);
       expect(component).toMatchSnapshot();
     });
+
+    it("groups all the Webpack-related frames", () => {
+      const frames = [
+        { id: "1-appFrame" },
+        {
+          id: "2-webpackBootstrapFrame",
+          source: { url: "webpack:///webpack/bootstrap 01d88449ca6e9335a66f" }
+        },
+        {
+          id: "3-webpackBundleFrame",
+          source: { url: "https://foo.com/bundle.js" }
+        },
+        {
+          id: "4-webpackBootstrapFrame",
+          source: { url: "webpack:///webpack/bootstrap 01d88449ca6e9335a66f" }
+        },
+        {
+          id: "5-webpackBundleFrame",
+          source: { url: "https://foo.com/bundle.js" }
+        }
+      ];
+      const selectedFrame = frames[0];
+      const frameworkGroupingOn = true;
+      const component = render({ frames, frameworkGroupingOn, selectedFrame });
+
+      expect(component).toMatchSnapshot();
+    });
   });
 });
