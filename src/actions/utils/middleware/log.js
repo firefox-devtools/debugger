@@ -8,7 +8,11 @@ import { isTesting } from "devtools-config";
 const blacklist = [
   "SET_POPUP_OBJECT_PROPERTIES",
   "SET_SYMBOLS",
-  "OUT_OF_SCOPE_LOCATIONS"
+  "OUT_OF_SCOPE_LOCATIONS",
+  "MAP_SCOPES",
+  "ADD_SCOPES",
+  "IN_SCOPE_LINES",
+  "SET_EMPTY_LINES"
 ];
 
 function cloneAction(action) {
@@ -22,7 +26,7 @@ function cloneAction(action) {
   }
 
   if (action.sources) {
-    const sources = action.sources.slice(0, 30).map(source => {
+    const sources = action.sources.slice(0, 20).map(source => {
       const url = !source.url || source.url.includes("data:") ? "" : source.url;
       return { ...source, url };
     });

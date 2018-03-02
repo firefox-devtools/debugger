@@ -3,18 +3,17 @@
 
 function assertSelectedFile(dbg, url) {
   const selectedLocation = dbg.selectors.getSelectedSource(dbg.getState());
-  const selectedUrl = selectedLocation ? selectedLocation.get("url") : null;
-  return ok(
-    selectedUrl.includes(url),
-    `Unexpected Selected source: expected "${url}", received "${selectedUrl}"`
-  );
+  ok(selectedLocation, "The debugger should be at the paused location")
+  const selectedUrl = selectedLocation.get("url");
+  return ok( selectedUrl.includes(url), `The debugger should be paused at ${url}"`);
 }
 
 add_task(async function test() {
   const dbg = await initDebugger("big-sourcemap.html", "big-sourcemap");
   invokeInTab("hitDebugStatement");
   await waitForPaused(dbg);
-  assertSelectedFile(dbg, "step-in-test.js");
+  assertSelectedFile(dbg, "bundle.js");
+
   await stepIn(dbg);
   await stepIn(dbg);
   await stepIn(dbg);
@@ -24,12 +23,14 @@ add_task(async function test() {
   await stepIn(dbg);
   await stepIn(dbg);
   await stepIn(dbg);
+
   await stepIn(dbg);
   await stepIn(dbg);
   await stepIn(dbg);
   await stepIn(dbg);
   await stepIn(dbg);
-  assertSelectedFile(dbg, "step-in-test.js");
-  assertDebugLine(dbg, 55);
+
+  assertSelectedFile(dbg, "bundle.js");
+  assertDebugLine(dbg, 42309);
   assertPausedLocation(dbg);
 });
