@@ -2,7 +2,7 @@ const toolbox = require("./node_modules/devtools-launchpad/index");
 
 const getConfig = require("./bin/getConfig");
 const { isDevelopment, isFirefoxPanel } = require("devtools-config");
-const { NormalModuleReplacementPlugin } = require("webpack");
+const { BannerPlugin, NormalModuleReplacementPlugin } = require("webpack");
 const path = require("path");
 const projectPath = path.join(__dirname, "src");
 var Visualizer = require("webpack-visualizer-plugin");
@@ -68,9 +68,46 @@ function buildConfig(envConfig) {
       "chrome-remote-interface": "devtools/shared/flags"
     };
 
+    // Safely get or create webpackConfig.resolveLoader.modules
+    webpackConfig.resolveLoader = webpackConfig.resolveLoader || {};
+    webpackConfig.resolveLoader.modules =
+      webpackConfig.resolveLoader.modules || [];
+    // "node_modules" needs to be explicitely added in order to find
+    // babel-loader.
+    webpackConfig.resolveLoader.modules.push("node_modules");
+    // Add the "webpack-loaders" directory where our custom loaders are located
+    webpackConfig.resolveLoader.modules.push(
+      path.join(__dirname, "webpack-loaders")
+    );
+
+    // Safely get or create webpackConfig.module.rules
+    webpackConfig.module = webpackConfig.module || {};
+    webpackConfig.module.rules = webpackConfig.module.rules || [];
+    // Add a loader to rewrite lodash imports.
+    webpackConfig.module.rules.push({
+      test: /\.js$/,
+      loaders: ["rewrite-lodash-imports"]
+    });
+
     mappings.forEach(([regex, res]) => {
       webpackConfig.plugins.push(new NormalModuleReplacementPlugin(regex, res));
     });
+
+    // On worker bundles lodash cannot be required as in modules.
+    // In this context, `exports` is not defined, consequently, the webpack
+    // module definition will call:
+    //   `factory(root["devtools/client/shared/vendor/lodash"]);`
+    // We manually map self["devtools/client/shared/vendor/lodash"] to the
+    // vendored lodash.js so that this external import can work.
+    webpackConfig.plugins.push(
+      new BannerPlugin({
+        banner:
+          'importScripts("resource://gre/modules/workers/require.js");\n' +
+          'self["devtools/client/shared/vendor/lodash"] = require("resource://devtools/client/shared/vendor/lodash.js");',
+        raw: true,
+        test: ["parser-worker", "search-worker", "pretty-print-worker"]
+      })
+    );
   }
 
   // TODO: It would be nice to stop bundling `devtools-source-map` entirely for
