@@ -7,16 +7,17 @@
 import flatten from "lodash/flatten";
 import * as t from "@babel/types";
 
+import createSimplePath, { type SimplePath } from "./utils/simple-path";
 import { traverseAst } from "./utils/ast";
 import { isVariable, isFunction, getVariables } from "./utils/helpers";
 import { inferClassName } from "./utils/inferClassName";
 import getFunctionName from "./utils/getFunctionName";
 
 import type {
-  NodePath,
   Node,
+  TraversalAncestors,
   Location as BabelLocation
-} from "@babel/traverse";
+} from "@babel/types";
 
 let symbolDeclarations = new Map();
 
@@ -53,7 +54,7 @@ export type SymbolDeclarations = {
   comments: Array<SymbolDeclaration>
 };
 
-function getFunctionParameterNames(path: NodePath): string[] {
+function getFunctionParameterNames(path: SimplePath): string[] {
   if (path.node.params != null) {
     return path.node.params.map(param => {
       if (param.type !== "AssignmentPattern") {
@@ -92,8 +93,8 @@ function getFunctionParameterNames(path: NodePath): string[] {
   return [];
 }
 
-function getVariableNames(path: NodePath): SymbolDeclaration[] {
-  if (t.isObjectProperty(path) && !isFunction(path.node.value)) {
+function getVariableNames(path: SimplePath): SymbolDeclaration[] {
+  if (t.isObjectProperty(path.node) && !isFunction(path.node.value)) {
     if (path.node.key.type === "StringLiteral") {
       return [
         {
@@ -147,14 +148,14 @@ function getSpecifiers(specifiers) {
   return specifiers.map(specifier => specifier.local && specifier.local.name);
 }
 
-function extractSymbol(path, symbols) {
+function extractSymbol(path: SimplePath, symbols) {
   if (isVariable(path)) {
     symbols.variables.push(...getVariableNames(path));
   }
 
   if (isFunction(path)) {
     symbols.functions.push({
-      name: getFunctionName(path.node, path.parentPath.node),
+      name: getFunctionName(path.node, path.parent),
       klass: inferClassName(path),
       location: path.node.loc,
       parameterNames: getFunctionParameterNames(path),
@@ -270,9 +271,12 @@ function extractSymbols(sourceId) {
   };
 
   const ast = traverseAst(sourceId, {
-    enter(path: NodePath) {
+    enter(node: Node, ancestors: TraversalAncestors) {
       try {
-        extractSymbol(path, symbols);
+        const path = createSimplePath(ancestors);
+        if (path) {
+          extractSymbol(path, symbols);
+        }
       } catch (e) {
         console.error(e);
       }
@@ -288,9 +292,9 @@ function extractSymbols(sourceId) {
 function extendSnippet(
   name: string,
   expression: string,
-  path: NodePath,
-  prevPath: NodePath
-) {
+  path: SimplePath | null = null,
+  prevPath: SimplePath | null = null
+): string | void {
   const computed = path && path.node.computed;
   const prevComputed = prevPath && prevPath.node.computed;
   const prevArray = t.isArrayExpression(prevPath);
@@ -340,8 +344,8 @@ function getMemberSnippet(node: Node, expression: string = "") {
 }
 
 function getObjectSnippet(
-  path: NodePath,
-  prevPath: NodePath,
+  path: SimplePath | null,
+  prevPath: SimplePath | null,
   expression: string = ""
 ) {
   if (!path) {
@@ -359,11 +363,15 @@ function getObjectSnippet(
 }
 
 function getArraySnippet(
-  path: NodePath,
-  prevPath: NodePath,
+  path: SimplePath,
+  prevPath: SimplePath,
   expression: string
 ) {
-  const index = prevPath.parentPath.key;
+  if (!prevPath.parentPath) {
+    throw new Error("Assertion failure - path should exist");
+  }
+
+  const index = `${prevPath.parentPath.containerIndex}`;
   const extendedExpression = extendSnippet(index, expression, path, prevPath);
 
   const nextPrevPath = path;
@@ -372,7 +380,15 @@ function getArraySnippet(
   return getSnippet(nextPath, nextPrevPath, extendedExpression);
 }
 
-function getSnippet(path, prevPath, expression = "") {
+function getSnippet(
+  path: SimplePath | null,
+  prevPath: SimplePath | null = null,
+  expression = ""
+) {
+  if (!path) {
+    return expression;
+  }
+
   if (t.isVariableDeclaration(path)) {
     const node = path.node.declarations[0];
     const name = node.id.name;
@@ -423,6 +439,10 @@ function getSnippet(path, prevPath, expression = "") {
   }
 
   if (t.isArrayExpression(path)) {
+    if (!prevPath) {
+      throw new Error("Assertion failure - path should exist");
+    }
+
     return getArraySnippet(path, prevPath, expression);
   }
 }

@@ -14,7 +14,6 @@ export const stopParserWorker = dispatcher.stop.bind(dispatcher);
 export const getClosestExpression = dispatcher.task("getClosestExpression");
 export const getSymbols = dispatcher.task("getSymbols");
 export const getScopes = dispatcher.task("getScopes");
-export const getVariablesInScope = dispatcher.task("getVariablesInScope");
 export const findOutOfScopeLocations = dispatcher.task(
   "findOutOfScopeLocations"
 );

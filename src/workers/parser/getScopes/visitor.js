@@ -6,9 +6,12 @@
 
 import isEmpty from "lodash/isEmpty";
 import type { SourceId, Location } from "../../../types";
-import type { Node, Location as BabelLocation } from "@babel/traverse";
 import * as t from "@babel/types";
-import type { BabelNode, TraversalAncestors } from "@babel/types";
+import type {
+  Node,
+  TraversalAncestors,
+  Location as BabelLocation
+} from "@babel/types";
 import { isGeneratedId } from "devtools-source-map";
 import getFunctionName from "../utils/getFunctionName";
 import { getAst } from "../utils/ast";
@@ -357,7 +360,7 @@ function createGlobalScope(
 const scopeCollectionVisitor = {
   // eslint-disable-next-line complexity
   enter(
-    node: BabelNode,
+    node: Node,
     ancestors: TraversalAncestors,
     state: ScopeCollectionVisitorState
   ) {
@@ -523,7 +526,7 @@ const scopeCollectionVisitor = {
     }
   },
   exit(
-    node: BabelNode,
+    node: Node,
     ancestors: TraversalAncestors,
     state: ScopeCollectionVisitorState
   ) {

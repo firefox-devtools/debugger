@@ -1,7 +1,7 @@
 /* eslint max-nested-callbacks: ["error", 4]*/
 
-import { getClosestScope, getClosestExpression } from "../utils/closest";
-import { getSource, getOriginalSource } from "./helpers";
+import { getClosestExpression } from "../utils/closest";
+import { getSource } from "./helpers";
 import { setSource } from "../sources";
 
 describe("parser", () => {
@@ -54,44 +54,6 @@ describe("parser", () => {
       });
 
       expect(expression).toMatchSnapshot();
-    });
-  });
-
-  describe("getClosestScope", () => {
-    it("finds the scope at the beginning", () => {
-      const source = getOriginalSource("func");
-      setSource(source);
-      const scope = getClosestScope(source.id, {
-        line: 5,
-        column: 8
-      });
-
-      const node = scope.block;
-      expect(node).toMatchSnapshot();
-    });
-
-    it("finds a scope given at the end", () => {
-      const source = getOriginalSource("func");
-      setSource(source);
-      const scope = getClosestScope(source.id, {
-        line: 9,
-        column: 1
-      });
-
-      const node = scope.block;
-      expect(node).toMatchSnapshot();
-    });
-
-    it("Can find the function declaration for square", () => {
-      const source = getOriginalSource("func");
-      setSource(source);
-      const scope = getClosestScope(source.id, {
-        line: 1,
-        column: 1
-      });
-
-      const node = scope.block;
-      expect(node).toMatchSnapshot();
     });
   });
 });

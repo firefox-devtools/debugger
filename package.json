@@ -66,7 +66,6 @@
     "install": "prettier --write package.json"
   },
   "dependencies": {
-    "@babel/traverse": "^7.0.0-beta.39",
     "@babel/types": "^7.0.0-beta.39",
     "babylon": "^7.0.0-beta.39",
     "codemirror": "^5.28.0",
