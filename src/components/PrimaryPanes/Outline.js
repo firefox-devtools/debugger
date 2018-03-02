@@ -47,6 +47,12 @@ export class Outline extends Component<Props> {
     return <div className="outline-pane-info">{placeholderMessage}</div>;
   }
 
+  renderLoading() {
+    return (
+      <div className="outline-pane-info">{L10N.getStr("loadingText")}</div>
+    );
+  }
+
   renderFunction(func: SymbolDeclaration) {
     const { name, location, parameterNames } = func;
 
@@ -132,11 +138,12 @@ export class Outline extends Component<Props> {
 
   render() {
     const { symbols } = this.props;
-
+    if (!symbols || symbols.loading) {
+      return this.renderLoading();
+    }
     const symbolsToDisplay = symbols.functions.filter(
       func => func.name != "anonymous"
     );
-
     return (
       <div className="outline">
         {symbolsToDisplay.length > 0
