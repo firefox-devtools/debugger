@@ -5,14 +5,15 @@
 // @flow
 
 import * as t from "@babel/types";
+import type { Node } from "@babel/types";
 
+import createSimplePath, { type SimplePath } from "./simple-path";
 import { traverseAst } from "./ast";
 import { getMemberExpression } from "./helpers";
 
 import { nodeContainsPosition } from "./contains";
 
 import type { Location } from "../../../types";
-import type { NodePath, Node } from "@babel/traverse";
 
 function getNodeValue(node: Node) {
   if (t.isThisExpression(node)) {
@@ -23,25 +24,18 @@ function getNodeValue(node: Node) {
 }
 
 function getClosestMemberExpression(sourceId, token, location: Location) {
-  let expression = null;
-  traverseAst(sourceId, {
-    enter(path: NodePath) {
-      const { node } = path;
-      if (!nodeContainsPosition(node, location)) {
-        return path.skip();
-      }
+  const closest = getClosestPath(sourceId, location).find(
+    path => t.isMemberExpression(path.node) && path.node.property.name === token
+  );
 
-      if (t.isMemberExpression(node) && node.property.name === token) {
-        const memberExpression = getMemberExpression(node);
-        expression = {
-          expression: memberExpression,
-          location: node.loc
-        };
-      }
-    }
-  });
-
-  return expression;
+  if (closest) {
+    const memberExpression = getMemberExpression(closest.node);
+    return {
+      expression: memberExpression,
+      location: closest.node.loc
+    };
+  }
+  return null;
 }
 
 export function getClosestExpression(
@@ -67,17 +61,27 @@ export function getClosestExpression(
   return { expression: getNodeValue(node), location: node.loc };
 }
 
-export function getClosestPath(sourceId: string, location: Location) {
+export function getClosestPath(
+  sourceId: string,
+  location: Location
+): SimplePath {
   let closestPath = null;
 
   traverseAst(sourceId, {
-    enter(path) {
-      if (!nodeContainsPosition(path.node, location)) {
-        return path.skip();
+    enter(node, ancestors) {
+      if (nodeContainsPosition(node, location)) {
+        const path = createSimplePath(ancestors);
+
+        if (path && (!closestPath || path.depth > closestPath.depth)) {
+          closestPath = path;
+        }
       }
-      closestPath = path;
     }
   });
+
+  if (!closestPath) {
+    throw new Error("Assertion failure - This should always fine a path");
+  }
 
   return closestPath;
 }

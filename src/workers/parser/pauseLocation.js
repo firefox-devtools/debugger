@@ -8,7 +8,7 @@ import * as t from "@babel/types";
 
 import type { Location } from "../../types";
 
-import { fastTraverseAst } from "./utils/ast";
+import { traverseAst } from "./utils/ast";
 
 const STOP = {};
 
@@ -19,11 +19,7 @@ export function isInvalidPauseLocation(location: Location) {
   };
 
   try {
-    fastTraverseAst(
-      location.sourceId,
-      { enter: invalidLocationVisitor },
-      state
-    );
+    traverseAst(location.sourceId, { enter: invalidLocationVisitor }, state);
   } catch (e) {
     if (e !== STOP) {
       throw e;
