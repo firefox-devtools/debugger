@@ -24,15 +24,6 @@ describe("sources", () => {
         })
       ).toBe("hello.html");
     });
-    it("should truncate the file name when it is more than 50 chars", () => {
-      expect(
-        getFileURL({
-          url:
-            "http://localhost/really-really-really-really-really-really-long-name.html",
-          id: ""
-        })
-      ).toBe("...-really-really-really-really-really-long-name.html");
-    });
     it("should give us the filename excluding the query strings", () => {
       expect(
         getFilename({
@@ -51,14 +42,6 @@ describe("sources", () => {
           id: ""
         })
       ).toBe("http://localhost.com:7999/increment/hello.html");
-    });
-    it("should truncate the file url when it is more than 50 chars", () => {
-      expect(
-        getFileURL({
-          url: "http://localhost-long.com:7999/increment/hello.html",
-          id: ""
-        })
-      ).toBe("...ttp://localhost-long.com:7999/increment/hello.html");
     });
   });
 

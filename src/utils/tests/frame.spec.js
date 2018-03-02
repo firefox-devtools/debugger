@@ -72,17 +72,6 @@ describe("function names", () => {
 
       expect(formatDisplayName(frame)).toEqual("baz");
     });
-
-    it("truncates long function names", () => {
-      const frame = {
-        displayName: "bazbazbazbazbazbazbazbazbazbazbazbazbaz",
-        source: {
-          url: "assets/bar.js"
-        }
-      };
-
-      expect(formatDisplayName(frame)).toEqual("...zbazbazbazbazbazbazbazbaz");
-    });
   });
 
   describe("formatCopyName", () => {

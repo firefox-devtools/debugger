@@ -8,6 +8,7 @@ exports[`Frame library frame 1`] = `
   onKeyUp={[Function]}
   onMouseDown={[Function]}
   tabIndex={0}
+  title="backbone.js"
 >
   <FrameTitle
     frame={
@@ -59,6 +60,7 @@ exports[`Frame user frame (not selected) 1`] = `
   onKeyUp={[Function]}
   onMouseDown={[Function]}
   tabIndex={0}
+  title="foo-view.js"
 >
   <FrameTitle
     frame={
@@ -112,6 +114,7 @@ exports[`Frame user frame 1`] = `
   onKeyUp={[Function]}
   onMouseDown={[Function]}
   tabIndex={0}
+  title="foo-view.js"
 >
   <FrameTitle
     frame={
