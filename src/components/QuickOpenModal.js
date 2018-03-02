@@ -110,19 +110,15 @@ export class QuickOpenModal extends Component<Props, State> {
     this.props.closeQuickOpen();
   };
 
+  dropGoto = (query: string) => {
+    return query.split(":")[0];
+  };
+
   searchSources = (query: string) => {
-    if (query == "") {
-      const results = this.props.sources;
-      return this.setState({ results });
-    }
-    if (this.isGotoSourceQuery()) {
-      const [baseQuery] = query.split(":");
-      const results = filter(this.props.sources, baseQuery);
-      this.setState({ results });
-    } else {
-      const results = filter(this.props.sources, query);
-      this.setState({ results });
-    }
+    const { sources } = this.props;
+    const results =
+      query == "" ? sources : filter(sources, this.dropGoto(query));
+    return this.setState({ results });
   };
 
   searchSymbols = (query: string) => {
