@@ -357,10 +357,8 @@ export class QuickOpenModal extends Component<Props, State> {
     return !this.getResultCount() && !!query;
   }
 
-  hasPrefix = () => /^[:#@]/.test(this.props.query);
-
   render() {
-    const { enabled, query } = this.props;
+    const { enabled, query, symbols } = this.props;
     const { selectedIndex, results } = this.state;
 
     if (!enabled) {
@@ -380,12 +378,17 @@ export class QuickOpenModal extends Component<Props, State> {
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}
           handleClose={this.closeModal}
-          hasPrefix={this.hasPrefix()}
           expanded={expanded}
           selectedItemId={
             expanded && items[selectedIndex] ? items[selectedIndex].id : ""
           }
         />
+        {!symbols ||
+          (symbols.functions.length == 0 && (
+            <div className="loading-indicator">
+              {L10N.getStr("loadingText")}
+            </div>
+          ))}
         {newResults && (
           <ResultList
             key="results"

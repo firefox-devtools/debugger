@@ -54,7 +54,7 @@ exports[`QuickOpenModal Basic render with mount & searchType = functions 1`] = `
               count={0}
               expanded={false}
               handleClose={[Function]}
-              hasPrefix={true}
+              hasPrefix={false}
               onChange={[Function]}
               onKeyDown={[Function]}
               placeholder="Search sources…"
@@ -117,6 +117,11 @@ exports[`QuickOpenModal Basic render with mount & searchType = functions 1`] = `
                 </CloseButton>
               </div>
             </SearchInput>
+            <div
+              className="loading-indicator"
+            >
+              Loading…
+            </div>
             <ResultList
               expanded={false}
               items={Array []}
@@ -195,7 +200,7 @@ exports[`QuickOpenModal Basic render with mount & searchType = variables 1`] = `
               count={0}
               expanded={false}
               handleClose={[Function]}
-              hasPrefix={true}
+              hasPrefix={false}
               onChange={[Function]}
               onKeyDown={[Function]}
               placeholder="Search sources…"
@@ -258,6 +263,11 @@ exports[`QuickOpenModal Basic render with mount & searchType = variables 1`] = `
                 </CloseButton>
               </div>
             </SearchInput>
+            <div
+              className="loading-indicator"
+            >
+              Loading…
+            </div>
             <ResultList
               expanded={false}
               items={Array []}
@@ -504,7 +514,7 @@ exports[`QuickOpenModal Simple goto search query = :abc & searchType = goto 1`] 
               count={0}
               expanded={false}
               handleClose={[Function]}
-              hasPrefix={true}
+              hasPrefix={false}
               onChange={[Function]}
               onKeyDown={[Function]}
               placeholder="Search sources…"
@@ -567,6 +577,11 @@ exports[`QuickOpenModal Simple goto search query = :abc & searchType = goto 1`] 
                 </CloseButton>
               </div>
             </SearchInput>
+            <div
+              className="loading-indicator"
+            >
+              Loading…
+            </div>
           </div>
         </div>
       </Modal>
@@ -965,7 +980,7 @@ exports[`QuickOpenModal showErrorEmoji false when goto numeric ':2222' 1`] = `
               count={0}
               expanded={false}
               handleClose={[Function]}
-              hasPrefix={true}
+              hasPrefix={false}
               onChange={[Function]}
               onKeyDown={[Function]}
               placeholder="Search sources…"
@@ -1219,7 +1234,7 @@ exports[`QuickOpenModal showErrorEmoji true when goto not numeric ':22k22' 1`] =
               count={0}
               expanded={false}
               handleClose={[Function]}
-              hasPrefix={true}
+              hasPrefix={false}
               onChange={[Function]}
               onKeyDown={[Function]}
               placeholder="Search sources…"
