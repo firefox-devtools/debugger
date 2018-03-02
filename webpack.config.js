@@ -68,6 +68,27 @@ function buildConfig(envConfig) {
       "chrome-remote-interface": "devtools/shared/flags"
     };
 
+    // Safely get or create webpackConfig.resolveLoader.modules
+    webpackConfig.resolveLoader = webpackConfig.resolveLoader || {};
+    webpackConfig.resolveLoader.modules =
+      webpackConfig.resolveLoader.modules || [];
+    // "node_modules" needs to be explicitely added in order to find
+    // babel-loader.
+    webpackConfig.resolveLoader.modules.push("node_modules");
+    // Add the "webpack-loaders" directory where our custom loaders are located
+    webpackConfig.resolveLoader.modules.push(
+      path.join(__dirname, "webpack-loaders")
+    );
+
+    // Safely get or create webpackConfig.module.rules
+    webpackConfig.module = webpackConfig.module || {};
+    webpackConfig.module.rules = webpackConfig.module.rules || [];
+    // Add a loader to rewrite lodash imports.
+    webpackConfig.module.rules.push({
+      test: /\.js$/,
+      loaders: ["rewrite-lodash-imports"]
+    });
+
     mappings.forEach(([regex, res]) => {
       webpackConfig.plugins.push(new NormalModuleReplacementPlugin(regex, res));
     });
