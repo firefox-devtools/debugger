@@ -29,13 +29,13 @@ add_task(async function() {
   assertHighlightLocation(dbg, "simple1", 15);
 
   // Ensure "main()" is the first function listed
-  const functions = getElementsWithSelector('.outline-list__class-list li');
-  is(functions[0].innerText, "main()", "Natural first function is first listed");
+  const firstFunction = findElementWithSelector(dbg, '.outline-list__element .function-signature');
+  is(firstFunction.innerText, "main()", "Natural first function is first listed");
   // Sort the list
   findElementWithSelector(dbg, ".outline-footer button").click();
   // Button becomes active to show alphabetization
-  is(findElementWithSelector(dbg, ".outline-footer .active").length, 1);
+  is(findElementWithSelector(dbg, ".outline-footer button").className, "active", "Alphabetize button is highlighted when active");
   // Ensure "doEval()" is the first function listed after alphabetization
-  const alphaFunctions = getElementsWithSelector('.outline-list__class-list li');
-  is(alphaFunctions[0].innerText, "doEval()", "Alphabetized first function is correct");
+  const firstAlphaFunction = findElementWithSelector(dbg, '.outline-list__element .function-signature');
+  is(firstAlphaFunction.innerText.replace("λ", ""), "doEval()", "Alphabetized first function is correct");
 });
