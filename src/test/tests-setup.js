@@ -5,7 +5,7 @@ import getConfig from "../../bin/getConfig";
 import { setConfig, getValue } from "devtools-config";
 import { readFileSync } from "fs";
 import Enzyme from "enzyme";
-import Adapter from "enzyme-adapter-react-15";
+import Adapter from "enzyme-adapter-react-16";
 
 import { startSourceMapWorker, stopSourceMapWorker } from "devtools-source-map";
 
