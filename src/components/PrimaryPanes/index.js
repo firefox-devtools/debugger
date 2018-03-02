@@ -119,7 +119,7 @@ class PrimaryPanes extends Component<Props, State> {
         </span>
       );
     }
-  }
+  };
 
   render() {
     const { selectedTab } = this.props;
