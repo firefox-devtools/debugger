@@ -5,44 +5,40 @@
 // @flow
 
 import * as t from "@babel/types";
-import type { NodePath, Node } from "@babel/traverse";
+import type { Node } from "@babel/types";
+import type { SimplePath } from "./simple-path";
 
-export function isLexicalScope(path: NodePath) {
-  return t.isBlockStatement(path) || isFunction(path) || t.isProgram(path);
-}
-
-export function isFunction(path: NodePath) {
+export function isFunction(node: Node) {
   return (
-    t.isFunction(path) ||
-    t.isArrowFunctionExpression(path) ||
-    t.isObjectMethod(path) ||
-    t.isClassMethod(path) ||
-    path.type === "MethodDefinition" ||
-    (t.isClassProperty(path.parent) && t.isArrowFunctionExpression(path))
+    t.isFunction(node) ||
+    t.isArrowFunctionExpression(node) ||
+    t.isObjectMethod(node) ||
+    t.isClassMethod(node)
   );
 }
 
-export function isAwaitExpression(path: NodePath) {
+export function isAwaitExpression(path: SimplePath) {
+  const { node, parent } = path;
   return (
-    t.isAwaitExpression(path) ||
-    t.isAwaitExpression(path.container.init) ||
-    t.isAwaitExpression(path.parentPath)
+    t.isAwaitExpression(node) ||
+    (t.isAwaitExpression(parent.init) || t.isAwaitExpression(parent))
   );
 }
 
-export function isYieldExpression(path: NodePath) {
+export function isYieldExpression(path: SimplePath) {
+  const { node, parent } = path;
   return (
-    t.isYieldExpression(path) ||
-    t.isYieldExpression(path.container.init) ||
-    t.isYieldExpression(path.parentPath)
+    t.isYieldExpression(node) ||
+    (t.isYieldExpression(parent.init) || t.isYieldExpression(parent))
   );
 }
 
-export function isVariable(path: NodePath) {
+export function isVariable(path: SimplePath) {
+  const node = path.node;
   return (
-    t.isVariableDeclaration(path) ||
+    t.isVariableDeclaration(node) ||
     (isFunction(path) && path.node.params != null && path.node.params.length) ||
-    (t.isObjectProperty(path) && !isFunction(path.node.value))
+    (t.isObjectProperty(node) && !isFunction(path.node.value))
   );
 }
 

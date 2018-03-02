@@ -6,7 +6,6 @@
 
 import parseScriptTags from "parse-script-tags";
 import * as babylon from "babylon";
-import traverse from "@babel/traverse";
 import * as t from "@babel/types";
 import isEmpty from "lodash/isEmpty";
 import { getSource } from "../sources";
@@ -94,21 +93,7 @@ export function clearASTs() {
 }
 
 type Visitor = { enter: Function };
-export function traverseAst(sourceId: string, visitor: Visitor) {
-  const ast = getAst(sourceId);
-  if (isEmpty(ast)) {
-    return null;
-  }
-
-  traverse(ast, visitor);
-  return ast;
-}
-
-export function fastTraverseAst<T>(
-  sourceId: string,
-  visitor: Visitor,
-  state?: T
-) {
+export function traverseAst<T>(sourceId: string, visitor: Visitor, state?: T) {
   const ast = getAst(sourceId);
   if (isEmpty(ast)) {
     return null;

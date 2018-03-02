@@ -3,7 +3,6 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 import { getClosestExpression } from "./utils/closest";
-import { getVariablesInScope } from "./scopes";
 import getSymbols, { clearSymbols } from "./getSymbols";
 import { clearASTs } from "./utils/ast";
 import getScopes, { clearScopes } from "./getScopes";
@@ -30,7 +29,6 @@ self.onmessage = workerHandler({
   setSource,
   clearSources,
   isInvalidPauseLocation,
-  getVariablesInScope,
   getNextStep,
   getEmptyLines,
   hasSyntaxError,
