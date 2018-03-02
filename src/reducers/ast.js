@@ -20,7 +20,8 @@ import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 type EmptyLinesType = number[];
-export type SymbolsMap = Map<string, SymbolDeclarations>;
+export type Symbols = SymbolDeclarations | { loading: true };
+export type SymbolsMap = Map<string, Symbols>;
 export type EmptyLinesMap = Map<string, EmptyLinesType>;
 
 export type SourceMetaDataType = {
@@ -70,10 +71,12 @@ function update(
 ): Record<ASTState> {
   switch (action.type) {
     case "SET_SYMBOLS": {
-      const { source, symbols } = action;
-      return state.setIn(["symbols", source.id], symbols);
+      const { source } = action;
+      if (action.status === "start") {
+        return state.setIn(["symbols", source.id], { loading: true });
+      }
+      return state.setIn(["symbols", source.id], action.value);
     }
-
     case "SET_EMPTY_LINES": {
       const { source, emptyLines } = action;
       return state.setIn(["emptyLines", source.id], emptyLines);
@@ -135,13 +138,12 @@ const emptySymbols = { variables: [], functions: [] };
 export function getSymbols(
   state: OuterState,
   source: Source
-): SymbolDeclarations {
+): ?SymbolDeclarations {
   if (!source) {
     return emptySymbols;
   }
 
-  const symbols = state.ast.getIn(["symbols", source.id]);
-  return symbols || emptySymbols;
+  return state.ast.getIn(["symbols", source.id]);
 }
 
 export function hasSymbols(state: OuterState, source: Source): boolean {
