@@ -43,15 +43,11 @@ class PrimaryPanes extends Component<Props> {
 
   constructor(props: Props) {
     super(props);
-
-    this.renderShortcut = this.renderShortcut.bind(this);
-    this.showPane = this.showPane.bind(this);
-    this.renderTabs = this.renderTabs.bind(this);
   }
 
-  showPane(selectedPane: string) {
+  showPane = (selectedPane: string) => {
     this.props.setPrimaryPaneTab(selectedPane);
-  }
+  };
 
   renderOutlineTabs() {
     if (!features.outline) {
@@ -84,13 +80,13 @@ class PrimaryPanes extends Component<Props> {
     ];
   }
 
-  renderTabs() {
+  renderTabs = () => {
     return (
       <div className="source-outline-tabs">{this.renderOutlineTabs()}</div>
     );
-  }
+  };
 
-  renderShortcut() {
+  renderShortcut = () => {
     if (this.props.horizontal) {
       const onClick = () => {
         if (this.props.sourceSearchOn) {

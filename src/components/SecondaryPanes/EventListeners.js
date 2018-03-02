@@ -35,11 +35,9 @@ class EventListeners extends Component<Props> {
 
   constructor(...args) {
     super(...args);
-
-    this.renderListener = this.renderListener.bind(this);
   }
 
-  renderListener({ type, selector, line, sourceId, breakpoint }) {
+  renderListener = ({ type, selector, line, sourceId, breakpoint }) => {
     const checked = breakpoint && !breakpoint.disabled;
     const location = { sourceId, line };
 
@@ -66,7 +64,7 @@ class EventListeners extends Component<Props> {
         )}
       </div>
     );
-  }
+  };
 
   handleCheckbox(breakpoint, location) {
     if (!breakpoint) {
