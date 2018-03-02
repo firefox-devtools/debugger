@@ -55,10 +55,6 @@ class Scopes extends Component<Props> {
     // this out ever, since we don't ever "switch out" the object
     // being inspected.
     this.objectCache = {};
-
-    this.getChildren = this.getChildren.bind(this);
-    this.onExpand = this.onExpand.bind(this);
-    this.renderItem = this.renderItem.bind(this);
   }
 
   makeNodesForProperties(objProps, parentPath) {
@@ -85,7 +81,7 @@ class Scopes extends Component<Props> {
     return nodes;
   }
 
-  renderItem(item, depth, focused, _, expanded, { setExpanded }) {
+  renderItem = (item, depth, focused, _, expanded, { setExpanded }) => {
     const notEnumberable = false;
     const objectValue = "";
 
@@ -114,13 +110,13 @@ class Scopes extends Component<Props> {
         <span className="object-value">{objectValue || ""}</span>
       </div>
     );
-  }
+  };
 
   getObjectProperties(item) {
     this.props.loadedObjects[item.contents.value.objectId];
   }
 
-  getChildren(item) {
+  getChildren = item => {
     const obj = item.contents;
 
     // Nodes can either have children already, or be an object with
@@ -150,15 +146,15 @@ class Scopes extends Component<Props> {
       return [];
     }
     return [];
-  }
+  };
 
-  onExpand(item) {
+  onExpand = item => {
     const { loadObjectProperties } = this.props;
 
     if (nodeHasProperties(item)) {
       loadObjectProperties(item.contents.value);
     }
-  }
+  };
 
   getRoots() {
     return this.props.scopes.map(scope => {

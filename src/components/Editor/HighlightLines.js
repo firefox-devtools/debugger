@@ -18,7 +18,6 @@ class HighlightLines extends Component<Props> {
 
   constructor() {
     super();
-    this.highlightLineRange = this.highlightLineRange.bind(this);
   }
 
   componentDidMount() {
@@ -54,7 +53,7 @@ class HighlightLines extends Component<Props> {
     });
   }
 
-  highlightLineRange() {
+  highlightLineRange = () => {
     const { highlightedLineRange, editor } = this.props;
 
     const { codeMirror } = editor;
@@ -72,7 +71,7 @@ class HighlightLines extends Component<Props> {
         codeMirror.addLineClass(line, "line", "highlight-lines");
       });
     });
-  }
+  };
 
   render() {
     return null;

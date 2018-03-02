@@ -92,19 +92,11 @@ class App extends Component<Props, State> {
       startPanelSize: 0,
       endPanelSize: 0
     };
-
-    this.getChildContext = this.getChildContext.bind(this);
-    this.onLayoutChange = this.onLayoutChange.bind(this);
-    this.toggleQuickOpenModal = this.toggleQuickOpenModal.bind(this);
-    this.renderEditorPane = this.renderEditorPane.bind(this);
-    this.renderLayout = this.renderLayout.bind(this);
-    this.onEscape = this.onEscape.bind(this);
-    this.onCommandSlash = this.onCommandSlash.bind(this);
   }
 
-  getChildContext() {
+  getChildContext = () => {
     return { shortcuts };
-  }
+  };
 
   componentDidMount() {
     horizontalLayoutBreakpoint.addListener(this.onLayoutChange);
@@ -148,7 +140,7 @@ class App extends Component<Props, State> {
     shortcuts.off("Escape", this.onEscape);
   }
 
-  onEscape(_, e) {
+  onEscape = (_, e) => {
     const {
       activeSearch,
       quickOpenEnabled,
@@ -164,17 +156,21 @@ class App extends Component<Props, State> {
     if (quickOpenEnabled === true) {
       closeQuickOpen();
     }
-  }
+  };
 
-  onCommandSlash() {
+  onCommandSlash = () => {
     this.toggleShortcutsModal();
-  }
+  };
 
   isHorizontal() {
     return this.props.orientation === "horizontal";
   }
 
-  toggleQuickOpenModal(_, e: SyntheticEvent<HTMLElement>, query?: string) {
+  toggleQuickOpenModal = (
+    _,
+    e: SyntheticEvent<HTMLElement>,
+    query?: string
+  ) => {
     const { quickOpenEnabled, openQuickOpen, closeQuickOpen } = this.props;
 
     e.preventDefault();
@@ -191,11 +187,11 @@ class App extends Component<Props, State> {
     }
     openQuickOpen();
     return;
-  }
+  };
 
-  onLayoutChange() {
+  onLayoutChange = () => {
     this.setOrientation();
-  }
+  };
 
   setOrientation() {
     // If the orientation does not match (if it is not visible) it will
@@ -208,7 +204,7 @@ class App extends Component<Props, State> {
     }
   }
 
-  renderEditorPane() {
+  renderEditorPane = () => {
     const { startPanelCollapsed, endPanelCollapsed } = this.props;
     const { endPanelSize, startPanelSize } = this.state;
     const horizontal = this.isHorizontal();
@@ -235,7 +231,7 @@ class App extends Component<Props, State> {
         </div>
       </div>
     );
-  }
+  };
 
   toggleShortcutsModal() {
     this.setState(prevState => ({
@@ -243,7 +239,7 @@ class App extends Component<Props, State> {
     }));
   }
 
-  renderLayout() {
+  renderLayout = () => {
     const { startPanelCollapsed, endPanelCollapsed } = this.props;
     const horizontal = this.isHorizontal();
 
@@ -281,7 +277,7 @@ class App extends Component<Props, State> {
         endPanelCollapsed={endPanelCollapsed}
       />
     );
-  }
+  };
 
   renderShortcutsModal() {
     const additionalClass = isMacOS ? "mac" : "";
