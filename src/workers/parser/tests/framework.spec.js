@@ -25,10 +25,14 @@ describe("Parser.frameworks", () => {
 
   // Angular
 
-  it("recognizes Angular module", () => {
-    const source = getOriginalSource("frameworks/angularModule");
+  it("recognizes Angular 1 module", () => {
+    const source = getOriginalSource("frameworks/angular1Module");
     setSource(source);
     expect(getFramework(source.id)).toBe("Angular");
+  });
+
+  // Vue
+
   it("recognizes declarative Vue file", () => {
     const source = getOriginalSource("frameworks/vueFileDeclarative");
     setSource(source);

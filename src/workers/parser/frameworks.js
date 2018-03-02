@@ -61,8 +61,8 @@ function extendsReactComponent(classes) {
 
 // Angular
 
-const isAngularComponent = sourceId => {
-  const { memberExpressions, identifiers } = getSymbols(sourceId);
+const isAngularComponent = sourceSymbols => {
+  const { memberExpressions, identifiers } = sourceSymbols;
   return (
     identifiesAngular(identifiers) && hasAngularExpressions(memberExpressions)
   );
@@ -80,7 +80,7 @@ const hasAngularExpressions = memberExpressions => {
 
 // Vue
 
-const isVueComponent = sourceId => {
-  const { identifiers } = getSymbols(sourceId);
+const isVueComponent = sourceSymbols => {
+  const { identifiers } = sourceSymbols;
   return identifiers.some(identifier => identifier.name == "Vue");
 };
