@@ -6,7 +6,7 @@
 
 import parseScriptTags from "parse-script-tags";
 import * as babylon from "babylon";
-import traverse from "@babel/traverse";
+// import traverse from "@babel/traverse";
 import * as t from "@babel/types";
 import isEmpty from "lodash/isEmpty";
 import { getSource } from "../sources";
@@ -100,7 +100,7 @@ export function traverseAst(sourceId: string, visitor: Visitor) {
     return null;
   }
 
-  traverse(ast, visitor);
+  t.traverse(ast, visitor);
   return ast;
 }
 

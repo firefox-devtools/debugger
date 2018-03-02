@@ -4,7 +4,7 @@
 
 // @flow
 import * as t from "@babel/types";
-import type { Node } from "@babel/traverse";
+// import type { Node } from "@babel/traverse";
 
 // Perform ES6's anonymous function name inference for all
 // locations where static analysis is possible.
