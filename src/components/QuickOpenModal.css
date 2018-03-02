@@ -11,3 +11,8 @@
 .theme-dark .result-item .subtitle .highlight {
   color: white;
 }
+
+.loading-indicator {
+  padding: 5px 0 5px 0;
+  text-align: center;
+}
