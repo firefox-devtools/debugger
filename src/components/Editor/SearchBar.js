@@ -4,7 +4,6 @@
 
 // @flow
 
-import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -323,7 +322,7 @@ class SearchBar extends Component<Props, State> {
 }
 
 SearchBar.contextTypes = {
-  shortcuts: PropTypes.object
+  shortcuts: Object
 };
 
 export default connect(

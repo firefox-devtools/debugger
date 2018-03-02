@@ -3,7 +3,6 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-import PropTypes from "prop-types";
 import React, { PureComponent } from "react";
 import ReactDOM from "react-dom";
 import { connect } from "react-redux";
@@ -593,7 +592,7 @@ class Editor extends PureComponent<Props, State> {
 }
 
 Editor.contextTypes = {
-  shortcuts: PropTypes.object
+  shortcuts: Object
 };
 
 const mapStateToProps = state => {
