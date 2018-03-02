@@ -39,159 +39,13 @@ describe("getCallStackFrames selector", () => {
       expect(frames[2]).toHaveProperty("library", "React");
     });
 
-    it("annotates Babel async transform frames before an await call", () => {
-      const state = {
-        frames: [
-          {
-            displayName: "_callee2$",
-            location: { sourceId: "bundle" }
-          },
-          {
-            displayName: "tryCatch",
-            location: { sourceId: "regenerator" }
-          },
-          {
-            displayName: "invoke",
-            location: { sourceId: "regenerator" }
-          },
-          {
-            displayName: "defineIteratorMethods/</prototype[method]",
-            location: { sourceId: "regenerator" }
-          },
-          {
-            displayName: "step",
-            location: { sourceId: "promise" }
-          },
-          {
-            displayName: "_asyncToGenerator/</<",
-            location: { sourceId: "bundle" }
-          },
-          {
-            displayName: "Promise",
-            location: { sourceId: "bundle" }
-          },
-          {
-            displayName: "_asyncToGenerator/<",
-            location: { sourceId: "bundle" }
-          },
-          {
-            displayName: "asyncAppFunction",
-            location: { sourceId: "app" }
-          }
-        ],
-        sources: fromJS({
-          app: { id: "app", url: "webpack///app.js" },
-          bundle: { id: "bundle", url: "https://foo.com/bundle.js" },
-          regenerator: {
-            id: "regenerator",
-            url: "webpack:///foo/node_modules/regenerator-runtime/runtime.js"
-          },
-          promise: {
-            id: "promise",
-            url: "webpack///foo/node_modules/core-js/modules/es6.promise.js"
-          }
-        }),
-        selectedSource: fromJS({
-          id: "sourceId-originalSource"
-        })
-      };
-
-      const frames = getCallStackFrames.resultFunc(
-        state.frames,
-        state.sources,
-        state.selectedSource,
-        true
-      );
-
-      expect(frames[0]).not.toHaveProperty("library");
-      expect(frames[1]).toHaveProperty("library", "Babel");
-      expect(frames[2]).toHaveProperty("library", "Babel");
-      expect(frames[3]).toHaveProperty("library", "Babel");
-      expect(frames[4]).toHaveProperty("library", "Babel");
-      expect(frames[5]).toHaveProperty("library", "Babel");
-      expect(frames[6]).toHaveProperty("library", "Babel");
-    });
-
-    it("annotates Babel async transform frames after an await call", () => {
-      const state = {
-        frames: [
-          {
-            displayName: "_callee2$",
-            location: { sourceId: "bundle" }
-          },
-          {
-            displayName: "tryCatch",
-            location: { sourceId: "regenerator" }
-          },
-          {
-            displayName: "invoke",
-            location: { sourceId: "regenerator" }
-          },
-          {
-            displayName: "defineIteratorMethods/</prototype[method]",
-            location: { sourceId: "regenerator" }
-          },
-          {
-            displayName: "step",
-            location: { sourceId: "bundle" }
-          },
-          {
-            displayName: "step/<",
-            location: { sourceId: "bundle" }
-          },
-          {
-            displayName: "run",
-            location: { sourceId: "bundle" }
-          },
-          {
-            displayName: "notify/<",
-            location: { sourceId: "bundle" }
-          },
-          {
-            displayName: "flush",
-            location: { sourceId: "microtask" }
-          }
-        ],
-        sources: fromJS({
-          bundle: { id: "bundle", url: "https://foo.com/bundle.js" },
-          regenerator: {
-            id: "regenerator",
-            url: "webpack:///foo/node_modules/regenerator-runtime/runtime.js"
-          },
-          microtask: {
-            id: "microtask",
-            url: "webpack:///foo/node_modules/core-js/modules/_microtask.js"
-          }
-        }),
-        selectedSource: fromJS({
-          id: "sourceId-originalSource"
-        })
-      };
-
-      const frames = getCallStackFrames.resultFunc(
-        state.frames,
-        state.sources,
-        state.selectedSource,
-        true
-      );
-
-      expect(frames[0]).not.toHaveProperty("library");
-      expect(frames[1]).toHaveProperty("library", "Babel");
-      expect(frames[2]).toHaveProperty("library", "Babel");
-      expect(frames[3]).toHaveProperty("library", "Babel");
-      expect(frames[4]).toHaveProperty("library", "Babel");
-      expect(frames[5]).toHaveProperty("library", "Babel");
-      expect(frames[6]).toHaveProperty("library", "Babel");
-      expect(frames[7]).toHaveProperty("library", "Babel");
-    });
-
-    // Multiple Babel async frame groups occur when breaking in an async function
-    // that is being awaited on by a caller that is itself being awaited on.
+    // Multiple Babel async frame groups occur when you have an async function
+    // calling another async function (a common case).
     //
     // There are two possible frame groups that can occur depending on whether
     // one sets a breakpoint before or after an await
     it("annotates frames related to Babel async transforms", () => {
-      const preAwaitSubstack = [
+      const preAwaitGroup = [
         {
           displayName: "_callee$",
           location: { sourceId: "bundle" }
@@ -230,7 +84,7 @@ describe("getCallStackFrames selector", () => {
         }
       ];
 
-      const postAwaitSubstack = [
+      const postAwaitGroup = [
         {
           displayName: "_callee$",
           location: { sourceId: "bundle" }
@@ -270,7 +124,7 @@ describe("getCallStackFrames selector", () => {
       ];
 
       const state = {
-        frames: [...preAwaitSubstack, ...postAwaitSubstack],
+        frames: [...preAwaitGroup, ...postAwaitGroup],
         sources: fromJS({
           app: { id: "app", url: "webpack///app.js" },
           bundle: { id: "bundle", url: "https://foo.com/bundle.js" },
@@ -317,8 +171,16 @@ describe("getCallStackFrames selector", () => {
       ]);
       const otherFrames = frames;
 
-      expect(babelFrames).toHaveProperty("library", "Babel");
-      expect(otherFrames).not.toHaveProperty("library");
+      expect(babelFrames).toEqual(
+        Array(babelFrames.length).fill(
+          expect.objectContaining({ library: "Babel" })
+        )
+      );
+      expect(otherFrames).not.toEqual(
+        Array(babelFrames.length).fill(
+          expect.objectContaining({ library: "Babel" })
+        )
+      );
     });
   });
 });
