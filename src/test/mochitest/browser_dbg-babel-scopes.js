@@ -86,7 +86,7 @@ async function assertScopes(dbg, items) {
 }
 
 add_task(async function() {
-  requestLongerTimeout(3);
+  requestLongerTimeout(4);
 
   await pushPref("devtools.debugger.features.map-scopes", true);
 
