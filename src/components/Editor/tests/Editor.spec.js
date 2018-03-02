@@ -80,7 +80,7 @@ describe("Editor", () => {
         selectedSource: I.fromJS({ loadedState: "loading" })
       });
 
-      expect(mockEditor.setText.mock.calls).toEqual([[""], ["Loading…"]]);
+      expect(mockEditor.setText.mock.calls).toEqual([["Loading…"]]);
       expect(mockEditor.codeMirror.scrollTo.mock.calls).toEqual([]);
     });
   });
@@ -96,7 +96,7 @@ describe("Editor", () => {
         selectedLocation: { sourceId: "foo", line: 3, column: 1 }
       });
 
-      expect(mockEditor.setText.mock.calls).toEqual([[""], ["the text"]]);
+      expect(mockEditor.setText.mock.calls).toEqual([["the text"]]);
       expect(mockEditor.codeMirror.scrollTo.mock.calls).toEqual([[1, 2]]);
     });
   });
@@ -117,7 +117,6 @@ describe("Editor", () => {
       });
 
       expect(mockEditor.setText.mock.calls).toEqual([
-        [""],
         ["Error loading this URI: error text"]
       ]);
     });
@@ -138,7 +137,6 @@ describe("Editor", () => {
       });
 
       expect(mockEditor.setText.mock.calls).toEqual([
-        [""],
         ["Please refresh to debug this module"]
       ]);
     });
@@ -166,7 +164,6 @@ describe("Editor", () => {
       });
 
       expect(mockEditor.setText.mock.calls).toEqual([
-        [""],
         ["the text"],
         ["Loading…"]
       ]);
@@ -196,7 +193,6 @@ describe("Editor", () => {
       });
 
       expect(mockEditor.setText.mock.calls).toEqual([
-        [""],
         ["Loading…"],
         ["the text"]
       ]);
