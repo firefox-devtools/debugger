@@ -4,6 +4,7 @@
 
 // @flow
 
+import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import classnames from "classnames";
@@ -316,7 +317,7 @@ export class ProjectSearch extends Component<Props, State> {
   }
 }
 ProjectSearch.contextTypes = {
-  shortcuts: Object
+  shortcuts: PropTypes.object
 };
 
 export default connect(

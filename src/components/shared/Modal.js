@@ -4,6 +4,7 @@
 
 // @flow
 
+import PropTypes from "prop-types";
 import React from "react";
 import type { Node as ReactNode } from "react";
 import classnames from "classnames";
@@ -43,7 +44,7 @@ export class Modal extends React.Component<ModalProps> {
 }
 
 Modal.contextTypes = {
-  shortcuts: Object
+  shortcuts: PropTypes.object
 };
 
 type SlideProps = {
