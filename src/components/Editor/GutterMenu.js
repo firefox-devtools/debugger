@@ -19,7 +19,8 @@ import {
 import actions from "../../actions";
 
 type Props = {
-  setContextMenu: Function
+  setContextMenu: Function,
+  contextMenu: Object
 };
 
 export function gutterMenu({

@@ -16,7 +16,8 @@ import {
   isLineInScope,
   getSelectedSource,
   getSelectedFrame,
-  getSymbols
+  getSymbols,
+  getCanRewind
 } from "../selectors";
 
 import { getMappedExpression } from "./expressions";
@@ -94,6 +95,10 @@ export function updatePreview(target: HTMLElement, editor: any) {
     const tokenPos = getTokenLocation(editor.codeMirror, target);
     const cursorPos = target.getBoundingClientRect();
     const preview = getPreview(getState());
+
+    if (getCanRewind(getState())) {
+      return;
+    }
 
     if (preview) {
       // Return early if we are currently showing another preview or
