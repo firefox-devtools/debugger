@@ -41,6 +41,10 @@ function formatKey(name, symbols) {
     return `hasJsx: ${symbols.hasJsx ? "true" : "false"}`;
   }
 
+  if (name == "hasTypes") {
+    return `hasTypes: ${symbols.hasTypes ? "true" : "false"}`;
+  }
+
   return `${name}:\n${symbols[name].map(summarize).join("\n")}`;
 }
 
