@@ -59,7 +59,7 @@
     "postmerge": "node bin/post-merge.js",
     "postrewrite": "node bin/post-rewrite.js",
     "precommit": "lint-staged",
-    "prepush": "run-p lint test flow",
+    "prepush": "lint",
     "nom": "node bin/nom",
     "build-storybook": "build-storybook",
     "diff": "node bin/diff",
