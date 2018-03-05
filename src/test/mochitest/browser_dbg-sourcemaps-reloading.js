@@ -21,7 +21,7 @@ add_task(async function() {
 
   await selectSource(dbg, entrySrc);
   ok(
-    dbg.win.cm.getValue().includes("window.keepMeAlive"),
+    getCM(dbg).getValue().includes("window.keepMeAlive"),
     "Original source text loaded correctly"
   );
 

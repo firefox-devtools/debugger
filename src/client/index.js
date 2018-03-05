@@ -58,8 +58,7 @@ async function onConnect(
     });
   }
 
-  bootstrapApp(connection, { store, actions });
-
+  bootstrapApp(store);
   return { store, actions, selectors, client: commands };
 }
 

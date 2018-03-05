@@ -142,7 +142,7 @@ html[dir="rtl"] .editor-mount {
 }
 
 /* set the linenumber white when there is a breakpoint */
-.new-breakpoint .CodeMirror-gutter-wrapper .CodeMirror-linenumber {
+.cm-s-mozilla .new-breakpoint .CodeMirror-gutter-wrapper .CodeMirror-linenumber {
   color: white;
 }
 
