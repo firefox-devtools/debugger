@@ -59,14 +59,10 @@ add_task(async function() {
   await addBreakpoint(dbg, "simple2", 3);
   await addBreakpoint(dbg, "simple2", 5);
 
-  console.log('gets here 1');
-
   // Disable all of the breakpoints
   await disableBreakpoints(dbg, 1);
   let bp1 = findBreakpoint(dbg, "simple2", 3);
   let bp2 = findBreakpoint(dbg, "simple2", 5);
-
-  console.log('gets here 2');
 
   if (!bp2) {
     debugger;
@@ -75,29 +71,19 @@ add_task(async function() {
   is(bp1.disabled, true, "first breakpoint is disabled");
   is(bp2.disabled, true, "second breakpoint is disabled");
 
-  console.log('gets here 3');
-
   // Enable all of the breakpoints
   await enableBreakpoints(dbg, 1);
   bp1 = findBreakpoint(dbg, "simple2", 3);
   bp2 = findBreakpoint(dbg, "simple2", 5);
 
-  console.log('gets here 4');
-
   is(bp1.disabled, false, "first breakpoint is enabled");
   is(bp2.disabled, false, "second breakpoint is enabled");
-
-  console.log('gets here 5');
 
   // Remove the breakpoints
   await removeBreakpoint(dbg, 1);
   await removeBreakpoint(dbg, 1);
 
-  console.log('gets here 6');
-
   const bps = findBreakpoints(dbg);
-
-  console.log('gets here 7');
 
   is(bps.size, 0, "breakpoints are removed");
 });
