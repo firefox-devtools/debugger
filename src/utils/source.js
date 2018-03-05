@@ -240,7 +240,18 @@ export function getMode(
   }
 
   if ((url && url.match(/\.jsx$/i)) || (symbols && symbols.hasJsx)) {
+    if (symbols && symbols.hasTypes) {
+      return { name: "text/typescript-jsx" };
+    }
     return { name: "jsx" };
+  }
+
+  if (symbols && symbols.hasTypes) {
+    if (symbols.hasJsx) {
+      return { name: "text/typescript-jsx" };
+    }
+
+    return { name: "text/typescript" };
   }
 
   const languageMimeMap = [
