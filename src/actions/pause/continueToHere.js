@@ -4,15 +4,33 @@
 
 // @flow
 
-import { getSelectedSource } from "../../selectors";
+import {
+  getSelectedSource,
+  isPaused,
+  getSelectedFrame,
+  getCanRewind
+} from "../../selectors";
 import { addHiddenBreakpoint } from "../breakpoints";
-import { resume } from "./commands";
+import { resume, rewind } from "./commands";
 
 import type { ThunkArgs } from "../types";
 
 export function continueToHere(line: number) {
   return async function({ dispatch, getState }: ThunkArgs) {
     const source = getSelectedSource(getState()).toJS();
+
+    if (!isPaused(getState())) {
+      return;
+    }
+
+    const selectedFrame = getSelectedFrame(getState());
+    const debugLine = selectedFrame.location.line;
+    if (debugLine == line) {
+      return;
+    }
+
+    const action =
+      getCanRewind(getState()) && line < debugLine ? rewind : resume;
 
     await dispatch(
       addHiddenBreakpoint({
@@ -22,6 +40,6 @@ export function continueToHere(line: number) {
       })
     );
 
-    dispatch(resume());
+    dispatch(action());
   };
 }
