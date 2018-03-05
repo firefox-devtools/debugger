@@ -6,8 +6,7 @@
 
 import { endTruncateStr } from "./utils";
 import { getFilename } from "./source";
-import { get, find, findIndex } from "lodash";
-import { flatMap, flow, map, range, zip } from "lodash/fp";
+import { get, find, findIndex, flatMap, zip, range } from "lodash";
 
 import type { Frame } from "../types";
 import type { LocalFrame } from "../components/SecondaryPanes/Frames/types";
@@ -157,10 +156,10 @@ function mapDisplayNames(frame, library) {
   );
 }
 
-export const annotateFrames = flow(
-  map(annotateFrame),
-  annotateBabelAsyncFrames
-);
+export function annotateFrames(frames: Frame[]) {
+  const annotatedFrames = frames.map(annotateFrame);
+  return annotateBabelAsyncFrames(annotatedFrames);
+}
 
 function annotateFrame(frame: Frame) {
   const library = getLibraryFromUrl(frame);
@@ -187,9 +186,9 @@ function annotateBabelAsyncFrames(frames: Frame[]) {
   }
   const babelGroupRanges = zip(startIndexes, endIndexes);
 
-  const babelFrameIndexes = flatMap(babelGroupRange =>
+  const babelFrameIndexes = flatMap(babelGroupRanges, babelGroupRange =>
     range(babelGroupRange[0], babelGroupRange[1] + 1)
-  )(babelGroupRanges);
+  );
 
   const isBabelFrame = frameIndex => babelFrameIndexes.includes(frameIndex);
 
