@@ -3,7 +3,7 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import classnames from "classnames";
 import { ObjectInspector } from "devtools-reps";
@@ -37,7 +37,7 @@ type Props = {
   openLink: (url: string) => void
 };
 
-class Expressions extends PureComponent<Props, State> {
+class Expressions extends Component<Props, State> {
   _input: ?HTMLInputElement;
   renderExpression: (
     expression: Expression,

@@ -3,7 +3,7 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as I from "immutable";
@@ -87,7 +87,7 @@ function renderSourceLocation(source, line, column) {
   );
 }
 
-class Breakpoints extends PureComponent<Props> {
+class Breakpoints extends Component<Props> {
   shouldComponentUpdate(nextProps, nextState) {
     const { breakpoints } = this.props;
     return breakpoints !== nextProps.breakpoints;
