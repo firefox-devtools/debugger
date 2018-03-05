@@ -7,6 +7,7 @@ exports[`Expressions should always have unique keys 1`] = `
   <li
     className="expression-container"
     key="expression1"
+    onDoubleClick={[Function]}
   >
     <div
       className="expression-content"
@@ -16,7 +17,6 @@ exports[`Expressions should always have unique keys 1`] = `
         createObjectClient={[Function]}
         disableWrap={true}
         disabledFocus={true}
-        onDoubleClick={[Function]}
         roots={
           Array [
             Object {
@@ -44,6 +44,7 @@ exports[`Expressions should always have unique keys 1`] = `
   <li
     className="expression-container"
     key="expression2"
+    onDoubleClick={[Function]}
   >
     <div
       className="expression-content"
@@ -53,7 +54,6 @@ exports[`Expressions should always have unique keys 1`] = `
         createObjectClient={[Function]}
         disableWrap={true}
         disabledFocus={true}
-        onDoubleClick={[Function]}
         roots={
           Array [
             Object {
@@ -114,6 +114,7 @@ exports[`Expressions should render 1`] = `
   <li
     className="expression-container"
     key="expression1"
+    onDoubleClick={[Function]}
   >
     <div
       className="expression-content"
@@ -123,7 +124,6 @@ exports[`Expressions should render 1`] = `
         createObjectClient={[Function]}
         disableWrap={true}
         disabledFocus={true}
-        onDoubleClick={[Function]}
         roots={
           Array [
             Object {
@@ -151,6 +151,7 @@ exports[`Expressions should render 1`] = `
   <li
     className="expression-container"
     key="expression2"
+    onDoubleClick={[Function]}
   >
     <div
       className="expression-content"
@@ -160,7 +161,6 @@ exports[`Expressions should render 1`] = `
         createObjectClient={[Function]}
         disableWrap={true}
         disabledFocus={true}
-        onDoubleClick={[Function]}
         roots={
           Array [
             Object {

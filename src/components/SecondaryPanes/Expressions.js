@@ -88,14 +88,7 @@ class Expressions extends Component<Props, State> {
     }
   }
 
-  editExpression(
-    expression: Expression,
-    index: number,
-    { depth }: { depth: number }
-  ) {
-    if (depth > 0) {
-      return;
-    }
+  editExpression(expression: Expression, index: number) {
     this.setState({
       inputValue: expression.input,
       editing: true,
@@ -160,16 +153,19 @@ class Expressions extends Component<Props, State> {
     };
 
     return (
-      <li className="expression-container" key={input}>
+      <li
+        className="expression-container"
+        key={input}
+        onDoubleClick={(items, options) =>
+          this.editExpression(expression, index)
+        }
+      >
         <div className="expression-content">
           <ObjectInspector
             roots={[root]}
             autoExpandDepth={0}
             disableWrap={true}
             disabledFocus={true}
-            onDoubleClick={(items, options) =>
-              this.editExpression(expression, index, options)
-            }
             openLink={openLink}
             createObjectClient={grip => createObjectClient(grip)}
           />
