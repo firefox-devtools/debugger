@@ -185,15 +185,28 @@ export function disableBreakpoint(location: Location) {
  * @static
  */
 export function toggleAllBreakpoints(shouldDisableBreakpoints: boolean) {
-  return async ({ dispatch, getState }: ThunkArgs) => {
+  return async ({ dispatch, getState, client }: ThunkArgs) => {
     const breakpoints = getBreakpoints(getState());
+
+    const modifiedBreakpoints = [];
+
     for (const [, breakpoint] of breakpoints) {
       if (shouldDisableBreakpoints) {
-        await dispatch(disableBreakpoint(breakpoint.location));
+        await client.removeBreakpoint(breakpoint.generatedLocation);
+        const newBreakpoint = { ...breakpoint, disabled: true };
+        modifiedBreakpoints.push(newBreakpoint);
       } else {
-        await dispatch(enableBreakpoint(breakpoint.location));
+        const newBreakpoint = { ...breakpoint, disabled: false };
+        modifiedBreakpoints.push(newBreakpoint);
       }
     }
+
+    return dispatch({
+      type: shouldDisableBreakpoints
+        ? "DISABLE_ALL_BREAKPOINTS"
+        : "ENABLE_ALL_BREAKPOINTS",
+      breakpoints: modifiedBreakpoints
+    });
   };
 }
 

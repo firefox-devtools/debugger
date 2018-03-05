@@ -125,6 +125,8 @@ type BreakpointAction =
       value: AddBreakpointResult
     }
   | { type: "DISABLE_BREAKPOINT", breakpoint: Breakpoint }
+  | { type: "DISABLE_ALL_BREAKPOINTS", breakpoints: Breakpoint[] }
+  | { type: "ENABLE_ALL_BREAKPOINTS", breakpoints: Breakpoint[] }
   | { type: "REMAP_BREAKPOINTS", breakpoints: Breakpoint[] };
 
 type SourceAction =
