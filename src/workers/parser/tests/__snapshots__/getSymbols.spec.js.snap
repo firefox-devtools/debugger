@@ -93,7 +93,9 @@ classes:
 imports:
 
 
-hasJsx: false"
+hasJsx: false
+
+hasTypes: false"
 `;
 
 exports[`Parser.getSymbols call sites 1`] = `
@@ -133,7 +135,9 @@ classes:
 imports:
 
 
-hasJsx: false"
+hasJsx: false
+
+hasTypes: false"
 `;
 
 exports[`Parser.getSymbols class 1`] = `
@@ -184,7 +188,9 @@ classes:
 imports:
 
 
-hasJsx: false"
+hasJsx: false
+
+hasTypes: false"
 `;
 
 exports[`Parser.getSymbols component 1`] = `
@@ -347,7 +353,9 @@ classes:
 imports:
 
 
-hasJsx: true"
+hasJsx: true
+
+hasTypes: false"
 `;
 
 exports[`Parser.getSymbols destruct 1`] = `
@@ -450,7 +458,9 @@ classes:
 imports:
 
 
-hasJsx: false"
+hasJsx: false
+
+hasTypes: false"
 `;
 
 exports[`Parser.getSymbols es6 1`] = `
@@ -484,7 +494,9 @@ classes:
 imports:
 
 
-hasJsx: false"
+hasJsx: false
+
+hasTypes: false"
 `;
 
 exports[`Parser.getSymbols expression 1`] = `
@@ -671,7 +683,9 @@ classes:
 imports:
 
 
-hasJsx: false"
+hasJsx: false
+
+hasTypes: false"
 `;
 
 exports[`Parser.getSymbols finds symbols in an html file 1`] = `
@@ -750,7 +764,9 @@ classes:
 imports:
 
 
-hasJsx: false"
+hasJsx: false
+
+hasTypes: false"
 `;
 
 exports[`Parser.getSymbols flow 1`] = `
@@ -785,7 +801,9 @@ classes:
 imports:
 
 
-hasJsx: false"
+hasJsx: false
+
+hasTypes: true"
 `;
 
 exports[`Parser.getSymbols func 1`] = `
@@ -836,7 +854,9 @@ classes:
 imports:
 
 
-hasJsx: false"
+hasJsx: false
+
+hasTypes: false"
 `;
 
 exports[`Parser.getSymbols function names 1`] = `
@@ -989,7 +1009,9 @@ classes:
 imports:
 
 
-hasJsx: false"
+hasJsx: false
+
+hasTypes: false"
 `;
 
 exports[`Parser.getSymbols jsx 1`] = `
@@ -1021,7 +1043,9 @@ classes:
 imports:
 
 
-hasJsx: true"
+hasJsx: true
+
+hasTypes: false"
 `;
 
 exports[`Parser.getSymbols math 1`] = `
@@ -1077,7 +1101,9 @@ classes:
 imports:
 
 
-hasJsx: false"
+hasJsx: false
+
+hasTypes: false"
 `;
 
 exports[`Parser.getSymbols proto 1`] = `
@@ -1137,7 +1163,9 @@ classes:
 imports:
 
 
-hasJsx: false"
+hasJsx: false
+
+hasTypes: false"
 `;
 
 exports[`Parser.getSymbols react component 1`] = `
@@ -1172,7 +1200,9 @@ classes:
 imports:
 [(1, 0), (1, 41)]     React, Component
 
-hasJsx: false"
+hasJsx: false
+
+hasTypes: false"
 `;
 
 exports[`Parser.getSymbols var 1`] = `
@@ -1216,5 +1246,7 @@ classes:
 imports:
 
 
-hasJsx: false"
+hasJsx: false
+
+hasTypes: false"
 `;
