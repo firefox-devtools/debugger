@@ -41,9 +41,9 @@ We define _stale_ as issues that are 30 days or older. Stale is often an indicat
 
 At any given point, there are too many issues in the project to realistically be able to complete them all in the near future.
 
-We try to prioritize the issues into 3 buckets: current milestone, backog, and icebox.
+We try to prioritize the issues into 3 buckets: current milestone, backlog, and icebox.
 
-* We add issues to a milestone every two weeks that we hope to accomplish in that timeframe.
+* We add issues to a milestone every two weeks that we hope to accomplish in that time frame.
 * We add the _backlog_ label to issues that we would like to accomplish in the next 4 to 6 weeks.
 * We add the _icebox_ label to issues that we would like to get to in the future. We also close these issues so that we can keep the issue list under control. We commit to reviewing the _icebox_ issues every six weeks and re-opening issues we hope to get to.
 
