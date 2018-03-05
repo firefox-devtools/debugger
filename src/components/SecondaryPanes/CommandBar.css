@@ -143,3 +143,10 @@ img.resume {
 .command-bar.bottom > button:hover {
   color: var(--theme-body-color);
 }
+
+.command-bar .divider {
+  width: 1px;
+  background: var(--theme-splitter-color);
+  height: 10px;
+  margin: 11px 6px 0 6px;
+}

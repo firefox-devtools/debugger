@@ -26,7 +26,8 @@ import {
 import actions from "../../actions";
 
 type Props = {
-  setContextMenu: Function
+  setContextMenu: Function,
+  contextMenu: Object
 };
 
 function getMenuItems(
