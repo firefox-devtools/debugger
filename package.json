@@ -12,7 +12,7 @@
   "homepage": "https://github.com/devtools-html/debugger.html#readme",
   "engineStrict": true,
   "engines": {
-    "node": ">=6.9.0"
+    "node": ">=7.7.0"
   },
   "scripts": {
     "start": "node bin/dev-server",
