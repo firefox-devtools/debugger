@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-import { PureComponent } from "react";
+import { Component } from "react";
 import { connect } from "react-redux";
 import { showMenu } from "devtools-launchpad";
 import { isOriginalId } from "devtools-source-map";
@@ -185,7 +185,7 @@ function getMenuItems(
   return menuItems;
 }
 
-class EditorMenu extends PureComponent {
+class EditorMenu extends Component {
   props: Props;
 
   constructor() {

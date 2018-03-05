@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-import { PureComponent } from "react";
+import { Component } from "react";
 import { showMenu } from "devtools-contextmenu";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -116,7 +116,7 @@ export function gutterMenu({
   showMenu(event, items);
 }
 
-class GutterContextMenuComponent extends PureComponent {
+class GutterContextMenuComponent extends Component {
   props: Props;
 
   constructor() {
