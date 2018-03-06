@@ -150,3 +150,9 @@ Vue
 sourceMapURL
 onmessage
 un-mapped
+2x
+vue
+shouldComponentUpdate
+goto
+HTM
+WinCCOV
