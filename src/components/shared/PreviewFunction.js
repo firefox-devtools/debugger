@@ -8,7 +8,7 @@ import React, { Component } from "react";
 
 import { times, zip, flatten } from "lodash";
 
-import { simplifyDisplayName } from "../../utils/frame";
+import { simplifyDisplayName } from "../../utils/pause/frames";
 
 import "./PreviewFunction.css";
 

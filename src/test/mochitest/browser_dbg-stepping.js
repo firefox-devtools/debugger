@@ -1,6 +1,8 @@
 /* Any copyright is dedicated to the Public Domain.
  * http://creativecommons.org/publicdomain/zero/1.0/ */
 
+ requestLongerTimeout(2);
+
 function assertSelectedFile(dbg, url) {
   const selectedLocation = dbg.selectors.getSelectedSource(dbg.getState());
   ok(selectedLocation, "The debugger should be at the paused location")
@@ -23,7 +25,6 @@ add_task(async function test() {
   await stepIn(dbg);
   await stepIn(dbg);
   await stepIn(dbg);
-
   await stepIn(dbg);
   await stepIn(dbg);
   await stepIn(dbg);

@@ -8,7 +8,7 @@ import {
   getSourceInSources
 } from "../reducers/sources";
 import { getFrames } from "../reducers/pause";
-import { annotateFrames } from "../utils/frame";
+import { annotateFrames } from "../utils/pause/frames";
 import { isOriginalId } from "devtools-source-map";
 import { get } from "lodash";
 import type { Frame, Source } from "../types";
