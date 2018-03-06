@@ -8,7 +8,7 @@ import {
   getSourceInSources
 } from "../reducers/sources";
 import { getFrames } from "../reducers/pause";
-import { annotateFrame } from "../utils/frame";
+import { annotateFrames } from "../utils/frame";
 import { isOriginalId } from "devtools-source-map";
 import { get } from "lodash";
 import type { Frame, Source } from "../types";
@@ -45,17 +45,17 @@ export function formatCallStackFrames(
     return null;
   }
 
-  return frames
+  const formattedFrames = frames
     .filter(frame => getSourceForFrame(sources, frame))
     .map(frame => appendSource(sources, frame, selectedSource))
-    .filter(frame => !get(frame, "source.isBlackBoxed"))
-    .map(annotateFrame);
+    .filter(frame => !get(frame, "source.isBlackBoxed"));
+
+  return annotateFrames(formattedFrames);
 }
 
 export const getCallStackFrames = createSelector(
-  getSelectedSource,
-  getSources,
   getFrames,
-  (selectedSource, sources, frames) =>
-    formatCallStackFrames(frames, sources, selectedSource)
+  getSources,
+  getSelectedSource,
+  formatCallStackFrames
 );
