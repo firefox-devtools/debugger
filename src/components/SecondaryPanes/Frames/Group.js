@@ -14,12 +14,11 @@ import "./Group.css";
 import FrameComponent from "./Frame";
 
 import type { LocalFrame } from "./types";
-import type { Frame } from "../../../types";
 import Badge from "../../shared/Badge";
 
-type FrameLocationProps = { frame: Frame };
+type FrameLocationProps = { frame: LocalFrame };
 function FrameLocation({ frame }: FrameLocationProps) {
-  const library = getLibraryFromUrl(frame);
+  const library = frame.library || getLibraryFromUrl(frame);
   if (!library) {
     return null;
   }

@@ -6,6 +6,7 @@ const svg = {
   "angle-brackets": require("./angle-brackets.svg"),
   angular: require("./angular.svg"),
   arrow: require("./arrow.svg"),
+  babel: require("./babel.svg"),
   backbone: require("./backbone.svg"),
   blackBox: require("./blackBox.svg"),
   breakpoint: require("./breakpoint.svg"),
