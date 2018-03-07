@@ -9,7 +9,6 @@ import React, { PureComponent } from "react";
 import ReactDOM from "react-dom";
 import { connect } from "react-redux";
 import classnames from "classnames";
-import { debugGlobal } from "devtools-launchpad";
 import { isLoaded } from "../../utils/source";
 import { isFirefox } from "devtools-config";
 import { features } from "../../utils/prefs";
@@ -144,8 +143,6 @@ class Editor extends PureComponent<Props, State> {
 
     resizeBreakpointGutter(codeMirror);
     resizeToggleButton(codeMirror);
-
-    debugGlobal("cm", codeMirror);
 
     codeMirror.on("gutterClick", this.onGutterClick);
 

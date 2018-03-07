@@ -4,7 +4,7 @@
 
 import { Component } from "react";
 import { connect } from "react-redux";
-import { showMenu } from "devtools-launchpad";
+import { showMenu } from "devtools-contextmenu";
 import { isOriginalId } from "devtools-source-map";
 
 import { copyToTheClipboard } from "../../utils/clipboard";

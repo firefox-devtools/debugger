@@ -89,7 +89,7 @@
     "react-dom": "16.2.0",
     "react-immutable-proptypes": "^2.1.0",
     "react-inlinesvg": "^0.7.4",
-    "react-redux": "^5.0.6",
+    "react-redux": "^5.0.7",
     "react-transition-group": "^2.2.1",
     "redux-saga": "^0.16.0",
     "reselect": "^3.0.1",

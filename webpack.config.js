@@ -60,12 +60,18 @@ function buildConfig(envConfig) {
       "./source-editor": "devtools/client/sourceeditor/editor",
       "./test-flag": "devtools/shared/flags",
       react: "devtools/client/shared/vendor/react",
+      redux: "devtools/client/shared/vendor/redux",
       "react-dom": "devtools/client/shared/vendor/react-dom",
       lodash: "devtools/client/shared/vendor/lodash",
+      immutable: "devtools/client/shared/vendor/immutable",
+      "react-redux": "devtools/client/shared/vendor/react-redux",
+
       "wasmparser/dist/WasmParser": "devtools/client/shared/vendor/WasmParser",
       "wasmparser/dist/WasmDis": "devtools/client/shared/vendor/WasmDis",
+      "../assets/panel/debugger.properties": "devtools/shared/flags",
       "devtools-connection": "devtools/shared/flags",
-      "chrome-remote-interface": "devtools/shared/flags"
+      "chrome-remote-interface": "devtools/shared/flags",
+      "devtools-launchpad": "devtools/shared/flags"
     };
 
     mappings.forEach(([regex, res]) => {
