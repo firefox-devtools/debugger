@@ -16,6 +16,20 @@
   user-select: none;
 }
 
+.sources-clear-root-container {
+  display: flex;
+}
+
+.sources-clear-root {
+  text-align: center;
+  padding: 8px 0px;
+  margin: 7px 10px 7px 7px;
+  border: 1px solid var(--theme-splitter-color);
+  background-color: var(--theme-tab-toolbar-background);
+  width: 100%;
+  font-size: inherit;
+}
+
 .sources-list {
   flex: 1;
   display: flex;

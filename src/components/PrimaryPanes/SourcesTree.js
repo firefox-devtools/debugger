@@ -363,9 +363,28 @@ class SourcesTree extends Component<Props, State> {
       }
     };
 
+    const { projectRoot } = this.props;
+
+    let clearProjectRootButton = null;
+    if (projectRoot !== "") {
+      clearProjectRootButton = (
+        <button
+          className="sources-clear-root"
+          onClick={() => this.props.clearProjectDirectoryRoot()}
+        >
+          {L10N.getStr("removeDirectoryRoot.label")}
+        </button>
+      );
+    }
+
     return (
-      <div className="sources-list" onKeyDown={onKeyDown}>
-        {tree}
+      <div className="sources-pane">
+        <div className="sources-clear-root-container">
+          {clearProjectRootButton}
+        </div>
+        <div className="sources-list" onKeyDown={onKeyDown}>
+          {tree}
+        </div>
       </div>
     );
   }
