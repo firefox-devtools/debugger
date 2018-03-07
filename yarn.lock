@@ -49,7 +49,7 @@
     babylon "7.0.0-beta.40"
     lodash "^4.2.0"
 
-"@babel/traverse@^7.0.0-beta.39", "@babel/traverse@^7.0.0-beta.40":
+"@babel/traverse@^7.0.0-beta.40":
   version "7.0.0-beta.40"
   resolved "https://registry.yarnpkg.com/@babel/traverse/-/traverse-7.0.0-beta.40.tgz#d140e449b2e093ef9fe1a2eecc28421ffb4e521e"
   dependencies:
@@ -9208,9 +9208,9 @@ react-immutable-proptypes@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/react-immutable-proptypes/-/react-immutable-proptypes-2.1.0.tgz#023d6f39bb15c97c071e9e60d00d136eac5fa0b4"
 
-react-inlinesvg@^0.7.4:
-  version "0.7.5"
-  resolved "https://registry.yarnpkg.com/react-inlinesvg/-/react-inlinesvg-0.7.5.tgz#091513ee909987e2dfcac56a5854de45ae6e1ba7"
+react-inlinesvg@0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/react-inlinesvg/-/react-inlinesvg-0.8.0.tgz#c8569d7ea3e648b850ad33189517ec94ffbab875"
   dependencies:
     httpplease "^0.16.4"
     once "^1.4.0"
