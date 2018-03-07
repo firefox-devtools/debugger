@@ -53,15 +53,12 @@
     "flow-redux":
       "flow-coverage-report  -i 'src/reducers/*.js' -i 'src/actions/*.js'  -t text",
     "flow-react": "flow-coverage-report -i 'src/components/**/*.js' -t text",
-    "storybook": "start-storybook -p 6006",
-    "snapshot": "NODE_ENV='development' build-storybook && percy-storybook",
     "postcheckout": "node bin/post-checkout.js",
     "postmerge": "node bin/post-merge.js",
     "postrewrite": "node bin/post-rewrite.js",
     "precommit": "yarn lint-staged",
     "prepush": "yarn lint",
     "nom": "node bin/nom",
-    "build-storybook": "build-storybook",
     "diff": "node bin/diff",
     "install": "prettier --write package.json"
   },
@@ -103,8 +100,6 @@
   "main": "src/main.js",
   "author": "Jason Laster <jlaster@mozilla.com>",
   "devDependencies": {
-    "@percy-io/react-percy-storybook": "^1.0.2",
-    "@storybook/react": "^3.2.5",
     "babel-eslint": "^8.2.1",
     "babel-plugin-syntax-trailing-function-commas": "^6.22.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
