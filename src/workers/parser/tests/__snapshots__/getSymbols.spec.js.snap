@@ -1,7 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Parser.getSymbols allSymbols 1`] = `
-"functions:
+"awaits:
+
+
+functions:
 [(4, 0), (6, 1)]   incrementCounter(counter)
 [(8, 12), (8, 27)]   sum(a, b)
 [(12, 2), (14, 3)]   doThing()
@@ -94,8 +97,59 @@ hasJsx: false
 hasTypes: false"
 `;
 
+exports[`Parser.getSymbols async 1`] = `
+"awaits:
+[(8, 2), (8, 14)]
+[(9, 2), (9, 14)]
+
+functions:
+[(1, 0), (5, 1)]   foo()
+[(2, 21), (4, 3)]   anonymous(resolve)
+[(7, 0), (10, 1)]   stuff()
+
+variables:
+[(2, 21), (2, 28)]   resolve
+
+callExpressions:
+[(3, 4), (3, 14)]   setTimeout   10
+[(8, 8), (8, 11)]   foo   1
+[(9, 8), (9, 11)]   foo   2
+
+memberExpressions:
+
+
+objectProperties:
+
+
+comments:
+
+
+identifiers:
+[(1, 15), (1, 18)]  foo foo
+[(2, 13), (2, 20)]  Promise Promise
+[(2, 21), (2, 28)]  resolve resolve
+[(3, 4), (3, 14)]  setTimeout setTimeout
+[(3, 15), (3, 22)]  resolve resolve
+[(7, 15), (7, 20)]  stuff stuff
+[(8, 8), (8, 11)]  foo foo
+[(9, 8), (9, 11)]  foo foo
+
+classes:
+
+
+imports:
+
+
+hasJsx: false
+
+hasTypes: false"
+`;
+
 exports[`Parser.getSymbols call sites 1`] = `
-"functions:
+"awaits:
+
+
+functions:
 
 
 variables:
@@ -137,7 +191,10 @@ hasTypes: false"
 `;
 
 exports[`Parser.getSymbols class 1`] = `
-"functions:
+"awaits:
+
+
+functions:
 [(2, 2), (4, 3)]   constructor() Test
 [(6, 2), (8, 3)]   bar(a) Test
 [(10, 8), (12, 3)]   baz(b) Test
@@ -187,7 +244,10 @@ hasTypes: false"
 `;
 
 exports[`Parser.getSymbols component 1`] = `
-"functions:
+"awaits:
+
+
+functions:
 [(6, 2), (9, 3)]   constructor(props) Punny
 [(11, 2), (11, 24)]   componentDidMount() Punny
 [(13, 2), (13, 14)]   onClick() Punny
@@ -339,7 +399,10 @@ hasTypes: false"
 `;
 
 exports[`Parser.getSymbols destruct 1`] = `
-"functions:
+"awaits:
+
+
+functions:
 
 
 variables:
@@ -427,7 +490,10 @@ hasTypes: false"
 `;
 
 exports[`Parser.getSymbols es6 1`] = `
-"functions:
+"awaits:
+
+
+functions:
 
 
 variables:
@@ -461,7 +527,10 @@ hasTypes: false"
 `;
 
 exports[`Parser.getSymbols expression 1`] = `
-"functions:
+"awaits:
+
+
+functions:
 [(8, 10), (8, 23)]   render() TodoView
 [(21, 0), (21, 28)]   params()
 [(22, 11), (22, 32)]   pars()
@@ -619,7 +688,10 @@ hasTypes: false"
 `;
 
 exports[`Parser.getSymbols finds symbols in an html file 1`] = `
-"functions:
+"awaits:
+
+
+functions:
 [(8, 2), (10, 3)]   sayHello(name)
 [(22, 21), (24, 3)]   capitalize(name)
 [(36, 3), (39, 3)]   iife()
@@ -698,7 +770,10 @@ hasTypes: false"
 `;
 
 exports[`Parser.getSymbols flow 1`] = `
-"functions:
+"awaits:
+
+
+functions:
 [(2, 2), (4, 3)]   renderHello(name, action, ) App
 
 variables:
@@ -738,7 +813,10 @@ hasTypes: true"
 `;
 
 exports[`Parser.getSymbols func 1`] = `
-"functions:
+"awaits:
+
+
+functions:
 [(1, 0), (3, 1)]   square(n)
 [(5, 7), (7, 1)]   exFoo()
 [(9, 0), (11, 1)]   slowFoo()
@@ -790,7 +868,10 @@ hasTypes: false"
 `;
 
 exports[`Parser.getSymbols function names 1`] = `
-"functions:
+"awaits:
+
+
+functions:
 [(4, 7), (4, 20)]   foo()
 [(5, 9), (5, 22)]   foo()
 [(6, 6), (6, 19)]   42()
@@ -936,7 +1017,10 @@ hasTypes: false"
 `;
 
 exports[`Parser.getSymbols jsx 1`] = `
-"functions:
+"awaits:
+
+
+functions:
 
 
 variables:
@@ -970,7 +1054,10 @@ hasTypes: false"
 `;
 
 exports[`Parser.getSymbols math 1`] = `
-"functions:
+"awaits:
+
+
+functions:
 [(1, 0), (12, 1)]   math(n)
 [(2, 2), (5, 3)]   square(n)
 [(14, 12), (14, 25)]   child()
@@ -1028,7 +1115,10 @@ hasTypes: false"
 `;
 
 exports[`Parser.getSymbols proto 1`] = `
-"functions:
+"awaits:
+
+
+functions:
 [(1, 12), (1, 25)]   foo()
 [(3, 12), (3, 20)]   bar()
 [(7, 14), (7, 27)]   initialize() TodoView
@@ -1087,7 +1177,10 @@ hasTypes: false"
 `;
 
 exports[`Parser.getSymbols react component 1`] = `
-"functions:
+"awaits:
+
+
+functions:
 
 
 variables:
@@ -1124,7 +1217,10 @@ hasTypes: false"
 `;
 
 exports[`Parser.getSymbols var 1`] = `
-"functions:
+"awaits:
+
+
+functions:
 
 
 variables:

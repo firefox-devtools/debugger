@@ -20,6 +20,12 @@ import getFunctionName from "./utils/getFunctionName";
 
 let symbolDeclarations = new Map();
 
+export type AwaitDeclaration = {|
+  locaton: BabelLocation,
+  previousLocation: BabelLocation,
+  nextLocation: BabelLocation
+|};
+
 export type ClassDeclaration = {|
   name: string,
   location: BabelLocation,
@@ -50,7 +56,8 @@ export type SymbolDeclarations = {
   callExpressions: Array<SymbolDeclaration>,
   objectProperties: Array<SymbolDeclaration>,
   identifiers: Array<SymbolDeclaration>,
-  comments: Array<SymbolDeclaration>
+  comments: Array<SymbolDeclaration>,
+  awaits: Array<AwaitDeclaration>
 };
 
 function getFunctionParameterNames(path: SimplePath): string[] {
@@ -265,10 +272,20 @@ function extractSymbol(path: SimplePath, symbols) {
       location: { start, end }
     });
   }
+
+  if (t.isAwaitExpression(path) || t.isYieldExpression(path)) {
+    const { start, end } = path.node.loc;
+    symbols.awaits.push({
+      location: { start, end },
+      previousLocation: {},
+      nextLocation: {}
+    });
+  }
 }
 
 function extractSymbols(sourceId) {
   const symbols = {
+    awaits: [],
     functions: [],
     variables: [],
     callExpressions: [],
@@ -298,6 +315,22 @@ function extractSymbols(sourceId) {
   // comments are extracted separately from the AST
   symbols.comments = getComments(ast);
 
+  symbols.awaits.forEach(a => {
+    let next = null;
+    symbols.memberExpressions.forEach(me => {
+      if (! next) {
+        next = me;
+      } else {
+        if (me.location.start.line >= a.location.start.line) {
+          if (me.location.start.colum < next.location.start.colum) {
+            next = me;
+          }
+        }
+      }
+    })
+    a.nextLocation = next.location;
+  });
+  debugger
   return symbols;
 }
 

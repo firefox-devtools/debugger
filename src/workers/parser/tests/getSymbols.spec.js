@@ -15,6 +15,7 @@ cases(
     expect(formatSymbols(source)).toMatchSnapshot();
   },
   [
+    { name: "async", file: "async", original: true },
     { name: "es6", file: "es6", original: true },
     { name: "func", file: "func", original: true },
     { name: "function names", file: "functionNames", original: true },
