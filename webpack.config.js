@@ -68,6 +68,9 @@ function buildConfig(envConfig) {
 
       "wasmparser/dist/WasmParser": "devtools/client/shared/vendor/WasmParser",
       "wasmparser/dist/WasmDis": "devtools/client/shared/vendor/WasmDis",
+
+      // The excluded files below should not be required while the Debugger runs
+      // in Firefox. Here, "devtools/shared/flags" is used as a dummy module.
       "../assets/panel/debugger.properties": "devtools/shared/flags",
       "devtools-connection": "devtools/shared/flags",
       "chrome-remote-interface": "devtools/shared/flags",
