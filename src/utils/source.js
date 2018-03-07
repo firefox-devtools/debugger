@@ -46,6 +46,7 @@ export function shouldPrettyPrint(source: SourceRecord) {
   if (!source) {
     return false;
   }
+
   const _isPretty = isPretty(source);
   const _isJavaScript = isJavaScript(source);
   const isOriginal = isOriginalId(source.get("id"));

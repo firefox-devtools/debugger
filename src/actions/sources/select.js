@@ -15,7 +15,7 @@ import { setOutOfScopeLocations, setSymbols } from "../ast";
 import { closeActiveSearch } from "../ui";
 
 import { togglePrettyPrint } from "./prettyPrint";
-import { addTab, closeTab } from "./tabs";
+import { addTab } from "./tabs";
 import { loadSourceText } from "./loadSourceText";
 
 import { prefs } from "../../utils/prefs";
@@ -37,7 +37,8 @@ import type { ThunkArgs } from "../types";
 
 declare type SelectSourceOptions = {
   tabIndex?: number,
-  location?: { line: number, column?: ?number }
+  location?: { line: number, column?: ?number },
+  preserveOriginalSource?: boolean
 };
 
 /**
@@ -90,15 +91,21 @@ export function selectSource(sourceId: string, tabIndex: string = "") {
  * @memberof actions/sources
  * @static
  */
-export function selectLocation(location: Location, tabIndex: string = "") {
+export function selectLocation(
+  location: Location,
+  tabIndex: string = "",
+  preserveOriginalSource: boolean = false
+) {
   return async ({ dispatch, getState, client }: ThunkArgs) => {
+    console.log("------- selectLocation -------");
+
     if (!client) {
       // No connection, do nothing. This happens when the debugger is
       // shut down too fast and it tries to display a default source.
       return;
     }
 
-    const source = getSource(getState(), location.sourceId);
+    let source = getSource(getState(), location.sourceId);
     if (!source) {
       // If there is no source we deselect the current selected source
       return dispatch({ type: "CLEAR_SELECTED_SOURCE" });
@@ -109,30 +116,52 @@ export function selectLocation(location: Location, tabIndex: string = "") {
       dispatch(closeActiveSearch());
     }
 
-    dispatch(addTab(source.toJS(), 0));
-
-    dispatch({
-      type: "SELECT_SOURCE",
-      source: source.toJS(),
-      tabIndex,
-      location
-    });
-
     await dispatch(loadSourceText(source));
-    const selectedSource = getSelectedSource(getState());
+
+    // Since Source objects are immutable, we must re-fetch the source object
+    // because `loadSourceText(source)` is changing the source object
+    source = getSource(getState(), location.sourceId);
+
+    const selectedSource = getSelectedSource(getState()) || source;
     if (!selectedSource) {
       return;
     }
 
-    const sourceId = selectedSource.get("id");
+    const sourceId = source.get("id");
+
     if (
+      !preserveOriginalSource &&
       prefs.autoPrettyPrint &&
-      !getPrettySource(getState(), sourceId) &&
-      shouldPrettyPrint(selectedSource) &&
-      isMinified(selectedSource)
+      // PROBLEM: Works the first time but not if we close the tab and re-open
+      // !getPrettySource(getState(), sourceId) &&
+      // /PROBLEM
+      shouldPrettyPrint(source) &&
+      isMinified(source)
     ) {
+      console.log(
+        "selectLocation: Opening prettyprint for: ",
+        source.get("url")
+      );
+
       await dispatch(togglePrettyPrint(sourceId));
-      dispatch(closeTab(source.get("url")));
+
+      const newSource = getSelectedSource(getState());
+      dispatch(addTab(newSource.toJS(), 0));
+      console.log("selectLocation: Adding tab for ", newSource.get("url"));
+    } else {
+      console.log(
+        "selectLocation: Opening original source for: ",
+        source.get("url")
+      );
+
+      dispatch(addTab(source.toJS(), 0));
+      console.log("selectLocation: Adding tab for ", source.get("url"));
+      await dispatch({
+        type: "SELECT_SOURCE",
+        source: source.toJS(),
+        tabIndex,
+        location
+      });
     }
 
     dispatch(setSymbols(sourceId));
@@ -166,7 +195,7 @@ export function jumpToMappedLocation(location: Location) {
       );
     }
 
-    return dispatch(selectLocation({ ...pairedLocation }));
+    return dispatch(selectLocation({ ...pairedLocation }, "", true));
   };
 }
 
