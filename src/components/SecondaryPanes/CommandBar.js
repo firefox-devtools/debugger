@@ -347,7 +347,7 @@ class CommandBar extends Component<Props> {
     const { history, historyPosition, canRewind } = this.props;
     const historyLength = history.length;
 
-    if (canRewind || !historyLength || !features.replay) {
+    if (canRewind || !historyLength || historyLength <= 1 || !features.replay) {
       return null;
     }
 
@@ -366,7 +366,7 @@ class CommandBar extends Component<Props> {
     const { history, historyPosition, canRewind } = this.props;
     const historyLength = history.length;
 
-    if (canRewind || !historyLength || !features.replay) {
+    if (canRewind || !historyLength || historyLength <= 1 || !features.replay) {
       return null;
     }
 
