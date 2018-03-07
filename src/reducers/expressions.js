@@ -133,7 +133,7 @@ function updateItemInList(
 }
 
 function deleteExpression(state: Record<ExpressionState>, input: string) {
-  const index = getExpressions({ expressions: state }).findKey(
+  const index = getExpressions({ expressions: state }).findIndex(
     e => e.input == input
   );
   const newState = state.deleteIn(["expressions", index]);

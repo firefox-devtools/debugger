@@ -35,6 +35,8 @@ const verticalLayoutBreakpoint = window.matchMedia(
 
 import "./variables.css";
 import "./App.css";
+import "devtools-launchpad/src/components/Root.css";
+
 import "./shared/menu.css";
 import "./shared/reps.css";
 
