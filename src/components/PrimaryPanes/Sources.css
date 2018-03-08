@@ -17,9 +17,7 @@
 }
 
 .sources-clear-root-container {
-  /* display: flex; */
   border-bottom: 1px solid var(--theme-splitter-color);
-  color: var(--theme-body-color);
 }
 
 .sources-clear-root {
