@@ -125,7 +125,7 @@ export function updatePreview(target: HTMLElement, editor: any) {
     const symbols = getSymbols(getState(), source.toJS());
 
     let match;
-    if (!symbols || symbols.identifiers) {
+    if (!symbols || symbols.identifiers.length > 0) {
       match = findBestMatchExpression(symbols, tokenPos, tokenText);
     } else {
       match = getExpressionFromCoords(editor.codeMirror, tokenPos);
