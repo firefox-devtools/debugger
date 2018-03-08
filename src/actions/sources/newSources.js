@@ -8,7 +8,7 @@
  * Redux actions for the sources state
  * @module actions/sources
  */
-
+import { toggleBlackBox } from "./blackbox";
 import { syncBreakpoint } from "../breakpoints";
 import { loadSourceText } from "./loadSourceText";
 import { togglePrettyPrint } from "./prettyPrint";
@@ -16,6 +16,7 @@ import { selectLocation } from "../sources";
 import { getRawSourceURL, isPrettyURL } from "../../utils/source";
 
 import {
+  getBlackBoxList,
   getSource,
   getPendingSelectedLocation,
   getPendingBreakpointsForSource
@@ -124,6 +125,20 @@ function checkPendingBreakpoints(sourceId: string) {
   };
 }
 
+function restoreBlackBoxedSources(sources: Source[]) {
+  return async ({ dispatch }: ThunkArgs) => {
+    const tabs = getBlackBoxList();
+    if (tabs.length == 0) {
+      return;
+    }
+    for (const source of sources) {
+      if (tabs.includes(source.url) && !source.isBlackBoxed) {
+        dispatch(toggleBlackBox(source));
+      }
+    }
+  };
+}
+
 /**
  * Handler for the debugger client's unsolicited newSource notification.
  * @memberof actions/sources
@@ -155,8 +170,11 @@ export function newSources(sources: Source[]) {
       dispatch(checkPendingBreakpoints(source.id));
     }
 
-    return Promise.all(
+    await Promise.all(
       filteredSources.map(source => dispatch(loadSourceMap(source)))
     );
+    // We would like to restore the blackboxed state
+    // after loading all states to make sure the correctness.
+    dispatch(restoreBlackBoxedSources(filteredSources));
   };
 }
