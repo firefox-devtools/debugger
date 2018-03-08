@@ -126,6 +126,34 @@ class Editor extends PureComponent<Props, State> {
     this.scrollToLocation(nextProps);
   }
 
+  initPageVisibility = () => {
+    function changeHandler() {
+      if (document.visibilityState == "visible") {
+        const boxEl = window.parent.document.getElementById("toolbox-deck");
+        const config = { attributes: true };
+        const callback = function(mutationsList) {
+          for (const mutation of mutationsList) {
+            if (
+              mutation.type == "attributes" &&
+              mutation.attributeName == "collapsed" &&
+              mutation.target.collapsed == false
+            ) {
+              this.state.editor.codeMirror.refresh();
+              observer.disconnect();
+            }
+          }
+        };
+
+        const observer = new MutationObserver(callback.bind(this));
+        observer.observe(boxEl, config);
+      }
+    }
+
+    const visibilityChange = "visibilitychange";
+    window.addEventListener(visibilityChange, changeHandler.bind(this), false);
+  };
+    
+
   setupEditor() {
     const editor = createEditor();
 
@@ -140,6 +168,9 @@ class Editor extends PureComponent<Props, State> {
 
     const { codeMirror } = editor;
     const codeMirrorWrapper = codeMirror.getWrapperElement();
+
+    this.initPageVisibility.bind(this);
+    this.initPageVisibility();
 
     resizeBreakpointGutter(codeMirror);
     resizeToggleButton(codeMirror);
