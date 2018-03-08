@@ -180,3 +180,16 @@ export function getTextForLine(codeMirror, line) {
 export function getCursorLine(codeMirror) {
   return codeMirror.getCursor().line;
 }
+
+export function isEditorVisible(mutationsList) {
+  for (const mutation of mutationsList) {
+    if (
+      mutation.type == "attributes" &&
+      mutation.attributeName == "collapsed" &&
+      mutation.target.collapsed == false
+    ) {
+      return true;
+    }
+  }
+  return false;
+}

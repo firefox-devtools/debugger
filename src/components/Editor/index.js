@@ -57,7 +57,8 @@ import {
   scrollToColumn,
   toEditorPosition,
   getSourceLocationFromMouseEvent,
-  hasDocument
+  hasDocument,
+  isEditorVisible
 } from "../../utils/editor";
 
 import { resizeToggleButton, resizeBreakpointGutter } from "../../utils/ui";
@@ -127,32 +128,22 @@ class Editor extends PureComponent<Props, State> {
   }
 
   initPageVisibility = () => {
-    function changeHandler() {
+    window.addEventListener("visibilitychange", () => {
       if (document.visibilityState == "visible") {
         const boxEl = window.parent.document.getElementById("toolbox-deck");
-        const config = { attributes: true };
-        const callback = function(mutationsList) {
-          for (const mutation of mutationsList) {
-            if (
-              mutation.type == "attributes" &&
-              mutation.attributeName == "collapsed" &&
-              mutation.target.collapsed == false
-            ) {
+
+        if (boxEl) {
+          const observer = new MutationObserver((mutationsList) => {
+            if (isEditorVisible(mutationsList)) {
               this.state.editor.codeMirror.refresh();
               observer.disconnect();
             }
-          }
-        };
-
-        const observer = new MutationObserver(callback.bind(this));
-        observer.observe(boxEl, config);
+          });
+          observer.observe(boxEl, { attributes: true });
+        }
       }
-    }
-
-    const visibilityChange = "visibilitychange";
-    window.addEventListener(visibilityChange, changeHandler.bind(this), false);
+    }, false);
   };
-    
 
   setupEditor() {
     const editor = createEditor();
