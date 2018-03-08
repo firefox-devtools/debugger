@@ -222,7 +222,7 @@ function updateTabList(state: OuterState, url: ?string, tabIndex?: number) {
 }
 
 function updateBlackBoxList(url, isBlackBoxed) {
-  let tabs = getBlackBoxList();
+  const tabs = getBlackBoxList();
   const i = tabs.indexOf(url);
   if (i >= 0) {
     if (!isBlackBoxed) {
