@@ -133,7 +133,7 @@ function restoreBlackBoxedSources(sources: Source[]) {
     }
     for (const source of sources) {
       if (tabs.includes(source.url) && !source.isBlackBoxed) {
-        dispatch(toggleBlackBox(source))
+        dispatch(toggleBlackBox(source));
       }
     }
   };
