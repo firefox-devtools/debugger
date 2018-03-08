@@ -311,7 +311,7 @@ class SourcesTree extends Component<Props, State> {
   };
 
   render() {
-    const expanded = this.props.expanded;
+    const { expanded, projectRoot } = this.props;
     const {
       focusedItem,
       highlightItems,
@@ -328,6 +328,27 @@ class SourcesTree extends Component<Props, State> {
       this.props.setExpandedState(expandedState);
     };
 
+    const isCustomRoot = projectRoot !== "";
+    let roots = () => sourceTree.contents;
+
+    let clearProjectRootButton = null;
+    if (isCustomRoot) {
+      clearProjectRootButton = (
+        <button
+          className="sources-clear-root"
+          onClick={() => this.props.clearProjectDirectoryRoot()}
+          title={L10N.getStr("removeDirectoryRoot.label")}
+        >
+          <Svg name="home" />
+          <Svg name="breadcrumb" class />
+          <span className="sources-clear-root-label">
+            {sourceTree.contents[0].name}
+          </span>
+        </button>
+      );
+      roots = () => sourceTree.contents[0].contents;
+    }
+
     const isEmpty = sourceTree.contents.length === 0;
     const treeProps = {
       autoExpandAll: false,
@@ -336,7 +357,7 @@ class SourcesTree extends Component<Props, State> {
       getChildren: item => (nodeHasChildren(item) ? item.contents : []),
       getParent: item => parentMap.get(item),
       getPath: this.getPath,
-      getRoots: () => sourceTree.contents,
+      getRoots: roots,
       highlightItems,
       itemHeight: 21,
       key: isEmpty ? "empty" : "full",
@@ -363,26 +384,19 @@ class SourcesTree extends Component<Props, State> {
       }
     };
 
-    const { projectRoot } = this.props;
-
-    let clearProjectRootButton = null;
-    if (projectRoot !== "") {
-      clearProjectRootButton = (
-        <button
-          className="sources-clear-root"
-          onClick={() => this.props.clearProjectDirectoryRoot()}
-        >
-          {L10N.getStr("removeDirectoryRoot.label")}
-        </button>
-      );
-    }
-
     return (
       <div className="sources-pane">
-        <div className="sources-clear-root-container">
-          {clearProjectRootButton}
-        </div>
-        <div className="sources-list" onKeyDown={onKeyDown}>
+        {isCustomRoot ? (
+          <div className="sources-clear-root-container">
+            {clearProjectRootButton}
+          </div>
+        ) : null}
+        <div
+          className={classnames("sources-list", {
+            "sources-list-custom-root": isCustomRoot
+          })}
+          onKeyDown={onKeyDown}
+        >
           {tree}
         </div>
       </div>

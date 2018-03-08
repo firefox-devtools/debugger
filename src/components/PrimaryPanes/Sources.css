@@ -17,17 +17,39 @@
 }
 
 .sources-clear-root-container {
-  display: flex;
+  /* display: flex; */
+  border-bottom: 1px solid var(--theme-splitter-color);
+  color: var(--theme-body-color);
 }
 
 .sources-clear-root {
-  text-align: center;
-  padding: 8px 0px;
-  margin: 7px 10px 7px 7px;
-  border: 1px solid var(--theme-splitter-color);
-  background-color: var(--theme-tab-toolbar-background);
+  padding: 4px 3px 4px 3px;
   width: 100%;
-  font-size: inherit;
+  text-align: start;
+  white-space: nowrap;
+  color: inherit;
+  display: block;
+}
+
+.sources-clear-root i {
+  margin-right: 5px;
+  position: relative;
+}
+
+.sources-clear-root svg {
+  width: 13px;
+  height: 13px;
+}
+
+.sources-clear-root .breadcrumb svg {
+  width: 5px;
+  top: 2px;
+  position: absolute;
+  margin-right: 5px;
+}
+
+.sources-clear-root-label {
+  margin-left: 5px;
 }
 
 .sources-list {
@@ -35,6 +57,10 @@
   display: flex;
   overflow-x: hidden;
   overflow-y: auto;
+}
+
+.sources-list-custom-root {
+  margin-inline-start: 10px;
 }
 
 .sources-list .tree:focus {
