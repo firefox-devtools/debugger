@@ -2858,9 +2858,9 @@ doctrine@^2.0.2, doctrine@^2.1.0:
   dependencies:
     esutils "^2.0.2"
 
-documentation@^5.2.1:
-  version "5.4.0"
-  resolved "https://registry.yarnpkg.com/documentation/-/documentation-5.4.0.tgz#49006a8ca444e835f03a990fe8c393e15cb4f853"
+documentation@6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/documentation/-/documentation-6.1.0.tgz#fb884b18d7f4a718de67ad1da9e22a7d199f806d"
   dependencies:
     ansi-html "^0.0.7"
     babel-core "^6.26.0"
@@ -2896,6 +2896,7 @@ documentation@^5.2.1:
     read-pkg-up "^3.0.0"
     remark "^9.0.0"
     remark-html "7.0.0"
+    remark-reference-links "^4.0.1"
     remark-toc "^5.0.0"
     remote-origin-url "0.4.0"
     shelljs "^0.8.1"
@@ -8250,7 +8251,7 @@ react-reconciler@^0.7.0:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
-react-redux@^5.0.6:
+react-redux@^5.0.6, react-redux@^5.0.7:
   version "5.0.7"
   resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-5.0.7.tgz#0dc1076d9afb4670f993ffaef44b8f8c1155a4c8"
   dependencies:
@@ -8830,6 +8831,12 @@ remark-preset-lint-recommended@^3.0.0:
     remark-lint-no-undefined-references "^1.0.0"
     remark-lint-no-unused-definitions "^1.0.0"
     remark-lint-ordered-list-marker-style "^1.0.0"
+
+remark-reference-links@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/remark-reference-links/-/remark-reference-links-4.0.1.tgz#021aed1c55c187d712b3c76d0057bf510d300ba7"
+  dependencies:
+    unist-util-visit "^1.0.0"
 
 remark-retext@^3.1.0:
   version "3.1.0"
