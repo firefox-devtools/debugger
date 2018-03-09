@@ -57,7 +57,8 @@ import {
   scrollToColumn,
   toEditorPosition,
   getSourceLocationFromMouseEvent,
-  hasDocument
+  hasDocument,
+  isEditorVisible
 } from "../../utils/editor";
 
 import { resizeToggleButton, resizeBreakpointGutter } from "../../utils/ui";
@@ -126,6 +127,28 @@ class Editor extends PureComponent<Props, State> {
     this.scrollToLocation(nextProps);
   }
 
+  initPageVisibility = () => {
+    window.addEventListener(
+      "visibilitychange",
+      () => {
+        if (document.visibilityState == "hidden") {
+          const vBoxEl = window.parent.document.getElementById("toolbox-panel-jsdebugger");
+
+          if (vBoxEl) {
+            const observer = new MutationObserver(mutationsList => {
+              if (isEditorVisible(mutationsList)) {
+                this.state.editor.codeMirror.refresh();
+                observer.disconnect();
+              }
+            });
+            observer.observe(vBoxEl, { attributes: true });
+          }
+        }
+      },
+      false
+    );
+  };
+
   setupEditor() {
     const editor = createEditor();
 
@@ -140,6 +163,8 @@ class Editor extends PureComponent<Props, State> {
 
     const { codeMirror } = editor;
     const codeMirrorWrapper = codeMirror.getWrapperElement();
+
+    this.initPageVisibility();
 
     resizeBreakpointGutter(codeMirror);
     resizeToggleButton(codeMirror);
