@@ -143,7 +143,7 @@ export function getSymbols(
     return emptySymbols;
   }
 
-  return state.ast.getIn(["symbols", source.id]);
+  return state.ast.getIn(["symbols", source.id]) || emptySymbols;
 }
 
 export function hasSymbols(state: OuterState, source: Source): boolean {

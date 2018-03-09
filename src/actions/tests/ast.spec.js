@@ -114,10 +114,12 @@ describe("ast", () => {
         await dispatch(actions.newSource(base));
         await dispatch(actions.loadSourceText(I.Map({ id: "base.js" })));
         await dispatch(actions.setSymbols("base.js"));
-        await waitForState(
-          store,
-          state => getSymbols(state, base).functions.length > 0
-        );
+        await waitForState(store, state => {
+          const symbols = getSymbols(state, base);
+          if (!symbols.loading) {
+            return getSymbols(state, base).functions.length > 0;
+          }
+        });
 
         const baseSymbols = getSymbols(getState(), base);
         expect(baseSymbols).toMatchSnapshot();
