@@ -185,8 +185,10 @@ export function isEditorVisible(mutationsList) {
   for (const mutation of mutationsList) {
     if (
       mutation.type == "attributes" &&
-      mutation.attributeName == "collapsed" &&
-      mutation.target.collapsed == false
+      mutation.attributeName == "selected" &&
+      mutation.target.attributes.getNamedItem("id").value ==
+        "toolbox-panel-jsdebugger" &&
+      mutation.target.attributes.getNamedItem("selected").value == "true"
     ) {
       return true;
     }

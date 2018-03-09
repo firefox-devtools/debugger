@@ -128,21 +128,25 @@ class Editor extends PureComponent<Props, State> {
   }
 
   initPageVisibility = () => {
-    window.addEventListener("visibilitychange", () => {
-      if (document.visibilityState == "visible") {
-        const boxEl = window.parent.document.getElementById("toolbox-deck");
+    window.addEventListener(
+      "visibilitychange",
+      () => {
+        if (document.visibilityState == "hidden") {
+          const vBoxEl = window.parent.document.getElementById("toolbox-panel-jsdebugger");
 
-        if (boxEl) {
-          const observer = new MutationObserver((mutationsList) => {
-            if (isEditorVisible(mutationsList)) {
-              this.state.editor.codeMirror.refresh();
-              observer.disconnect();
-            }
-          });
-          observer.observe(boxEl, { attributes: true });
+          if (vBoxEl) {
+            const observer = new MutationObserver(mutationsList => {
+              if (isEditorVisible(mutationsList)) {
+                this.state.editor.codeMirror.refresh();
+                observer.disconnect();
+              }
+            });
+            observer.observe(vBoxEl, { attributes: true });
+          }
         }
-      }
-    }, false);
+      },
+      false
+    );
   };
 
   setupEditor() {
@@ -160,7 +164,6 @@ class Editor extends PureComponent<Props, State> {
     const { codeMirror } = editor;
     const codeMirrorWrapper = codeMirror.getWrapperElement();
 
-    this.initPageVisibility.bind(this);
     this.initPageVisibility();
 
     resizeBreakpointGutter(codeMirror);
