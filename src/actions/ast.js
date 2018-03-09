@@ -18,6 +18,7 @@ import {
   findOutOfScopeLocations,
   getFramework
 } from "../workers/parser";
+import { PROMISE } from "./utils/middleware/promise";
 
 import type { SourceId } from "../types";
 import type { ThunkArgs } from "./types";
@@ -57,8 +58,11 @@ export function setSymbols(sourceId: SourceId) {
       return;
     }
 
-    const symbols = await getSymbols(source.id);
-    dispatch({ type: "SET_SYMBOLS", source, symbols });
+    dispatch({
+      type: "SET_SYMBOLS",
+      source,
+      [PROMISE]: getSymbols(source.id)
+    });
     dispatch(setEmptyLines(sourceId));
     dispatch(setSourceMetaData(sourceId));
   };
