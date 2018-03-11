@@ -21,19 +21,16 @@ function getOutOfScopeLines(outOfScopeLocations: AstLocation[]) {
 
 export function setInScopeLines() {
   return ({ dispatch, getState }: ThunkArgs) => {
-    const source = getSelectedSource(getState());
+    const sourceRecord = getSelectedSource(getState());
     const outOfScopeLocations = getOutOfScopeLocations(getState());
 
-    if (!source || !source.get("text")) {
+    if (!sourceRecord || !sourceRecord.get("text")) {
       return;
     }
 
-    const linesOutOfScope = getOutOfScopeLines(
-      outOfScopeLocations,
-      source.toJS()
-    );
+    const linesOutOfScope = getOutOfScopeLines(outOfScopeLocations);
 
-    const sourceNumLines = getSourceLineCount(source.toJS());
+    const sourceNumLines = getSourceLineCount(sourceRecord);
     const sourceLines = range(1, sourceNumLines + 1);
 
     const inScopeLines = !linesOutOfScope
