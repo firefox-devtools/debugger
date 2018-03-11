@@ -363,7 +363,7 @@ export class QuickOpenModal extends Component<Props, State> {
   }
 
   render() {
-    const { enabled, query, symbols } = this.props;
+    const { enabled, query, symbols, selectedSource } = this.props;
     const { selectedIndex, results } = this.state;
 
     if (!enabled) {
@@ -388,12 +388,14 @@ export class QuickOpenModal extends Component<Props, State> {
             expanded && items[selectedIndex] ? items[selectedIndex].id : ""
           }
         />
-        {!symbols ||
+        {this.isSymbolSearch() &&
+          selectedSource &&
+          (!symbols ||
           (symbols.functions.length == 0 && (
             <div className="loading-indicator">
               {L10N.getStr("loadingText")}
             </div>
-          ))}
+          )))}
         {newResults && (
           <ResultList
             key="results"
