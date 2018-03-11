@@ -121,8 +121,8 @@ export function updatePreview(target: HTMLElement, editor: any) {
       return;
     }
 
-    const source = getSelectedSource(getState());
-    const symbols = getSymbols(getState(), source.toJS());
+    const sourceRecord = getSelectedSource(getState());
+    const symbols = getSymbols(getState(), sourceRecord);
 
     let match;
     if (!symbols || symbols.identifiers.length > 0) {

@@ -1,3 +1,4 @@
+import I from "immutable";
 import { findFunctionText } from "../function";
 
 import getSymbols from "../../workers/parser/getSymbols";
@@ -10,7 +11,7 @@ describe("function", () => {
       const source = getOriginalSource("func");
       setSource(source);
       const symbols = getSymbols(source.id);
-      const text = findFunctionText(14, source, symbols);
+      const text = findFunctionText(14, I.Map(source), symbols);
       expect(text).toMatchSnapshot();
     });
 
@@ -19,7 +20,7 @@ describe("function", () => {
       setSource(source);
       const symbols = getSymbols(source.id);
 
-      const text = findFunctionText(13, source, symbols);
+      const text = findFunctionText(13, I.Map(source), symbols);
       expect(text).toMatchSnapshot();
     });
 
@@ -28,7 +29,7 @@ describe("function", () => {
       setSource(source);
       const symbols = getSymbols(source.id);
 
-      const text = findFunctionText(15, source, symbols);
+      const text = findFunctionText(15, I.Map(source), symbols);
 
       // TODO: we should try and match the closing bracket.
       expect(text).toEqual(null);
@@ -39,7 +40,7 @@ describe("function", () => {
       setSource(source);
       const symbols = getSymbols(source.id);
 
-      const text = findFunctionText(25, source, symbols);
+      const text = findFunctionText(25, I.Map(source), symbols);
       expect(text).toMatchSnapshot();
     });
 
@@ -48,7 +49,7 @@ describe("function", () => {
       setSource(source);
       const symbols = getSymbols(source.id);
 
-      const text = findFunctionText(29, source, symbols);
+      const text = findFunctionText(29, I.Map(source), symbols);
       expect(text).toMatchSnapshot();
     });
 
@@ -57,7 +58,7 @@ describe("function", () => {
       setSource(source);
       const symbols = getSymbols(source.id);
 
-      const text = findFunctionText(17, source, symbols);
+      const text = findFunctionText(17, I.Map(source), symbols);
       expect(text).toEqual(null);
     });
   });

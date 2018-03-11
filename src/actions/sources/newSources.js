@@ -92,12 +92,10 @@ function checkSelectedSource(sourceId: string) {
 
     if (rawPendingUrl === source.url) {
       if (isPrettyURL(pendingUrl)) {
-        return await dispatch(togglePrettyPrint(source.id));
+        return await dispatch(togglePrettyPrint(sourceId));
       }
 
-      await dispatch(
-        selectLocation({ ...pendingLocation, sourceId: source.id })
-      );
+      await dispatch(selectLocation({ ...pendingLocation, sourceId }));
     }
   };
 }

@@ -135,13 +135,13 @@ type OuterState = { ast: Record<ASTState> };
 const emptySymbols = { variables: [], functions: [] };
 export function getSymbols(
   state: OuterState,
-  source: Source
+  sourceRecord: SourceRecord
 ): SymbolDeclarations {
-  if (!source) {
+  if (!sourceRecord) {
     return emptySymbols;
   }
 
-  const symbols = state.ast.getIn(["symbols", source.id]);
+  const symbols = state.ast.getIn(["symbols", sourceRecord.get("id")]);
   return symbols || emptySymbols;
 }
 
@@ -165,12 +165,12 @@ export function isEmptyLineInSource(
   return emptyLines.includes(line);
 }
 
-export function getEmptyLines(state: OuterState, source: Source) {
+export function getEmptyLines(state: OuterState, source: SourceRecord) {
   if (!source) {
     return [];
   }
 
-  return state.ast.getIn(["emptyLines", source.id]) || [];
+  return state.ast.getIn(["emptyLines", source.get("id")]) || [];
 }
 
 export function getOutOfScopeLocations(state: OuterState) {

@@ -212,9 +212,7 @@ export default connect(
     const selectedLocation = getSelectedLocation(state);
     const selectedSource = getSelectedSource(state);
     const sourceId = selectedLocation && selectedLocation.sourceId;
-    const source = selectedSource && selectedSource.toJS();
-
-    const symbols = getSymbols(state, source);
+    const symbols = getSymbols(state, selectedSource);
     const breakpoints = getBreakpointsForSource(state, sourceId);
 
     return {

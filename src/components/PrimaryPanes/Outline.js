@@ -151,7 +151,7 @@ export default connect(
   state => {
     const selectedSource = getSelectedSource(state);
     return {
-      symbols: getSymbols(state, selectedSource && selectedSource.toJS()),
+      symbols: getSymbols(state, selectedSource),
       selectedSource
     };
   },
