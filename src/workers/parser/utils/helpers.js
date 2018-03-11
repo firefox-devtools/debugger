@@ -42,6 +42,10 @@ export function isVariable(path: SimplePath) {
   );
 }
 
+export function isComputedExpression(expression: string): Boolean {
+  return /^\[/m.test(expression);
+}
+
 export function getMemberExpression(root: Node) {
   function _getMemberExpression(node, expr) {
     if (t.isMemberExpression(node)) {
