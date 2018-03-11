@@ -16,6 +16,7 @@ import type { SymbolDeclarations, AstLocation } from "../workers/parser/types";
 
 import type { Map } from "immutable";
 import type { Source } from "../types";
+import type { SourceRecord } from "./types";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
@@ -70,13 +71,13 @@ function update(
 ): Record<ASTState> {
   switch (action.type) {
     case "SET_SYMBOLS": {
-      const { source, symbols } = action;
-      return state.setIn(["symbols", source.id], symbols);
+      const { sourceRecord, symbols } = action;
+      return state.setIn(["symbols", sourceRecord.get("id")], symbols);
     }
 
     case "SET_EMPTY_LINES": {
-      const { source, emptyLines } = action;
-      return state.setIn(["emptyLines", source.id], emptyLines);
+      const { sourceRecord, emptyLines } = action;
+      return state.setIn(["emptyLines", sourceRecord.get("id")], emptyLines);
     }
 
     case "OUT_OF_SCOPE_LOCATIONS": {
@@ -144,12 +145,15 @@ export function getSymbols(
   return symbols || emptySymbols;
 }
 
-export function hasSymbols(state: OuterState, source: Source): boolean {
-  if (!source) {
+export function hasSymbols(
+  state: OuterState,
+  sourceRecord: SourceRecord
+): boolean {
+  if (!sourceRecord) {
     return false;
   }
 
-  return !!state.ast.getIn(["symbols", source.id]);
+  return !!state.ast.getIn(["symbols", sourceRecord.get("id")]);
 }
 
 export function isEmptyLineInSource(

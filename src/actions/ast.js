@@ -25,19 +25,17 @@ import type { ThunkArgs } from "./types";
 export function setSourceMetaData(sourceId: SourceId) {
   return async ({ dispatch, getState }: ThunkArgs) => {
     const sourceRecord = getSource(getState(), sourceId);
-    if (!sourceRecord) {
+    if (
+      !sourceRecord ||
+      !sourceRecord.get("text") ||
+      sourceRecord.get("isWasm")
+    ) {
       return;
     }
-
-    const source = sourceRecord.toJS();
-    if (!source.text || source.isWasm) {
-      return;
-    }
-
-    const framework = await getFramework(source.id);
+    const framework = await getFramework(sourceRecord.get("id"));
     dispatch({
       type: "SET_SOURCE_METADATA",
-      sourceId: source.id,
+      sourceId: sourceRecord.get("id"),
       sourceMetaData: {
         framework
       }
@@ -48,17 +46,16 @@ export function setSourceMetaData(sourceId: SourceId) {
 export function setSymbols(sourceId: SourceId) {
   return async ({ dispatch, getState }: ThunkArgs) => {
     const sourceRecord = getSource(getState(), sourceId);
-    if (!sourceRecord) {
+    if (
+      !sourceRecord ||
+      !sourceRecord.get("text") ||
+      sourceRecord.get("isWasm") ||
+      hasSymbols(getState(), sourceRecord)
+    ) {
       return;
     }
-
-    const source = sourceRecord.toJS();
-    if (!source.text || source.isWasm || hasSymbols(getState(), source)) {
-      return;
-    }
-
-    const symbols = await getSymbols(source.id);
-    dispatch({ type: "SET_SYMBOLS", source, symbols });
+    const symbols = await getSymbols(sourceRecord.get("id"));
+    dispatch({ type: "SET_SYMBOLS", sourceRecord, symbols });
     dispatch(setEmptyLines(sourceId));
     dispatch(setSourceMetaData(sourceId));
   };
@@ -67,20 +64,19 @@ export function setSymbols(sourceId: SourceId) {
 export function setEmptyLines(sourceId: SourceId) {
   return async ({ dispatch, getState }: ThunkArgs) => {
     const sourceRecord = getSource(getState(), sourceId);
-    if (!sourceRecord) {
+    if (
+      !sourceRecord ||
+      !sourceRecord.get("text") ||
+      sourceRecord.get("isWasm")
+    ) {
       return;
     }
 
-    const source = sourceRecord.toJS();
-    if (!source.text || source.isWasm) {
-      return;
-    }
-
-    const emptyLines = await getEmptyLines(source.id);
+    const emptyLines = await getEmptyLines(sourceRecord.get("id"));
 
     dispatch({
       type: "SET_EMPTY_LINES",
-      source,
+      sourceRecord,
       emptyLines
     });
   };
