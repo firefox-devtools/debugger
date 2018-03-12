@@ -6,7 +6,10 @@
 import React, { Component } from "react";
 import classNames from "classnames";
 import Svg from "../../shared/Svg";
-import { formatDisplayName, getLibraryFromUrl } from "../../../utils/frame";
+import {
+  getLibraryFromUrl,
+  formatDisplayName
+} from "../../../utils/pause/frames";
 import FrameMenu from "./FrameMenu";
 
 import "./Group.css";

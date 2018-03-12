@@ -16,7 +16,7 @@ import Group from "./Group";
 import renderWhyPaused from "./WhyPaused";
 
 import actions from "../../../actions";
-import { collapseFrames, formatCopyName } from "../../../utils/frame";
+import { collapseFrames, formatCopyName } from "../../../utils/pause/frames";
 import { copyToTheClipboard } from "../../../utils/clipboard";
 
 import {

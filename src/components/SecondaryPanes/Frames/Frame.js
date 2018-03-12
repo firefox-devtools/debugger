@@ -7,7 +7,7 @@ import React, { Component } from "react";
 import classNames from "classnames";
 import Svg from "../../shared/Svg";
 
-import { formatDisplayName } from "../../../utils/frame";
+import { formatDisplayName } from "../../../utils/pause/frames";
 import { getFilename } from "../../../utils/source";
 import FrameMenu from "./FrameMenu";
 
