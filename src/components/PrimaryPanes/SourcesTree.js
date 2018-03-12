@@ -184,7 +184,7 @@ class SourcesTree extends Component<Props, State> {
   };
 
   getIcon = (sources, item, depth) => {
-    const { debuggeeUrl } = this.props;
+    const { debuggeeUrl, projectRoot } = this.props;
 
     if (item.path === "/Webpack") {
       return <Svg name="webpack" />;
@@ -193,7 +193,7 @@ class SourcesTree extends Component<Props, State> {
       return <Svg name="angular" />;
     }
 
-    if (depth === 0) {
+    if (depth === 0 && projectRoot === "") {
       return (
         <img
           className={classnames("domain", {
@@ -285,6 +285,7 @@ class SourcesTree extends Component<Props, State> {
     ) : (
       <i className="no-arrow" />
     );
+
     const { sources } = this.props;
     const icon = this.getIcon(sources, item, depth);
 
@@ -311,7 +312,7 @@ class SourcesTree extends Component<Props, State> {
   };
 
   render() {
-    const expanded = this.props.expanded;
+    const { expanded, projectRoot } = this.props;
     const {
       focusedItem,
       highlightItems,
@@ -328,6 +329,30 @@ class SourcesTree extends Component<Props, State> {
       this.props.setExpandedState(expandedState);
     };
 
+    const isCustomRoot = projectRoot !== "";
+    let roots = () => sourceTree.contents;
+
+    let clearProjectRootButton = null;
+
+    // The "sourceTree.contents[0]" check ensures that there are contents
+    // A custom root with no existing sources will be ignored
+    if (isCustomRoot && sourceTree.contents[0]) {
+      clearProjectRootButton = (
+        <button
+          className="sources-clear-root"
+          onClick={() => this.props.clearProjectDirectoryRoot()}
+          title={L10N.getStr("removeDirectoryRoot.label")}
+        >
+          <Svg name="home" />
+          <Svg name="breadcrumb" class />
+          <span className="sources-clear-root-label">
+            {sourceTree.contents[0].name}
+          </span>
+        </button>
+      );
+      roots = () => sourceTree.contents[0].contents;
+    }
+
     const isEmpty = sourceTree.contents.length === 0;
     const treeProps = {
       autoExpandAll: false,
@@ -336,7 +361,7 @@ class SourcesTree extends Component<Props, State> {
       getChildren: item => (nodeHasChildren(item) ? item.contents : []),
       getParent: item => parentMap.get(item),
       getPath: this.getPath,
-      getRoots: () => sourceTree.contents,
+      getRoots: roots,
       highlightItems,
       itemHeight: 21,
       key: isEmpty ? "empty" : "full",
@@ -364,8 +389,19 @@ class SourcesTree extends Component<Props, State> {
     };
 
     return (
-      <div className="sources-list" onKeyDown={onKeyDown}>
-        {tree}
+      <div
+        className={classnames("sources-pane", {
+          "sources-list-custom-root": isCustomRoot
+        })}
+      >
+        {isCustomRoot ? (
+          <div className="sources-clear-root-container">
+            {clearProjectRootButton}
+          </div>
+        ) : null}
+        <div className="sources-list" onKeyDown={onKeyDown}>
+          {tree}
+        </div>
       </div>
     );
   }
