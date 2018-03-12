@@ -184,7 +184,7 @@ class SourcesTree extends Component<Props, State> {
   };
 
   getIcon = (sources, item, depth) => {
-    const { debuggeeUrl } = this.props;
+    const { debuggeeUrl, projectRoot } = this.props;
 
     if (item.path === "/Webpack") {
       return <Svg name="webpack" />;
@@ -193,8 +193,7 @@ class SourcesTree extends Component<Props, State> {
       return <Svg name="angular" />;
     }
 
-    if (depth === 0) {
-      console.log('depth: 0 ', item.name, item);
+    if (depth === 0 && projectRoot === "") {
       return (
         <img
           className={classnames("domain", {
@@ -287,7 +286,7 @@ class SourcesTree extends Component<Props, State> {
       <i className="no-arrow" />
     );
 
-    console.log('depth for ', item, depth)
+    console.log("depth for ", item, depth);
 
     const { sources } = this.props;
     const icon = this.getIcon(sources, item, depth);
