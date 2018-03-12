@@ -210,3 +210,8 @@
   .tree-indent:last-of-type {
   margin-inline-end: 4px;
 }
+
+/* Removes start margin when a custom root is used */
+.sources-list-custom-root .tree > .tree-node[data-expandable="false"][aria-level="0"] {
+  padding-inline-start: 4px;
+}
