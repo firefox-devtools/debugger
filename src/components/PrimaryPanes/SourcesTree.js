@@ -216,7 +216,7 @@ class SourcesTree extends Component<Props, State> {
         ts: "typescript"
       }[getExtension(source)];
       return sourceType ? (
-        <Svg className="source-icon" name={sourceType} />
+        <img className={sourceType} />
       ) : (
         <img className="file" />
       );
