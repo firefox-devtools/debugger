@@ -21,7 +21,7 @@
 }
 
 .sources-clear-root {
-  padding: 4px 3px 4px 3px;
+  padding: 4px 3px 4px 6px;
   width: 100%;
   text-align: start;
   white-space: nowrap;
@@ -37,6 +37,10 @@
 .sources-clear-root svg {
   width: 13px;
   height: 13px;
+}
+
+.sources-clear-root .home {
+  opacity: 0.5;
 }
 
 .sources-clear-root .breadcrumb svg {

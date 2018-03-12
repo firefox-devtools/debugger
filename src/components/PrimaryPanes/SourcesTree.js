@@ -194,6 +194,7 @@ class SourcesTree extends Component<Props, State> {
     }
 
     if (depth === 0) {
+      console.log('depth: 0 ', item.name, item);
       return (
         <img
           className={classnames("domain", {
@@ -285,6 +286,9 @@ class SourcesTree extends Component<Props, State> {
     ) : (
       <i className="no-arrow" />
     );
+
+    console.log('depth for ', item, depth)
+
     const { sources } = this.props;
     const icon = this.getIcon(sources, item, depth);
 
