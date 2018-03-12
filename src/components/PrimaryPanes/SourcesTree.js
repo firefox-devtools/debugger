@@ -376,7 +376,6 @@ class SourcesTree extends Component<Props, State> {
       roots = () => sourceTree.contents[0].contents;
     }
 
-    const isEmpty = sourceTree.contents.length === 0;
     const treeProps = {
       autoExpandAll: false,
       autoExpandDepth: expanded ? 0 : 1,
