@@ -286,8 +286,6 @@ class SourcesTree extends Component<Props, State> {
       <i className="no-arrow" />
     );
 
-    console.log("depth for ", item, depth);
-
     const { sources } = this.props;
     const icon = this.getIcon(sources, item, depth);
 
