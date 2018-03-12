@@ -40,4 +40,31 @@ describe("sources - new sources", () => {
     await dispatch(actions.newSource(baseSource));
     expect(getSelectedSource(getState()).get("url")).toBe(baseSource.url);
   });
+
+  it("should add original sources", async () => {
+    const { dispatch, getState } = createStore(
+      threadClient,
+      {},
+      {
+        getOriginalURLs: () => Promise.resolve(["magic.js"]),
+        generatedToOriginalId: (a, b) => `${a}/${b}`
+      }
+    );
+
+    await dispatch(
+      actions.newSource(makeSource("base.js", { sourceMapURL: "base.js.map" }))
+    );
+
+    const magic = getSource(getState(), "base.js/magic.js");
+    expect(magic.get("url")).toEqual("magic.js");
+  });
+
+  // eslint-disable-next-line
+  it("should no attempt to fetch original sources if it's missing a source map url", async () => {
+    const getOriginalURLs = jest.fn();
+    const { dispatch } = createStore(threadClient, {}, { getOriginalURLs });
+
+    await dispatch(actions.newSource(makeSource("base.js")));
+    expect(getOriginalURLs).not.toHaveBeenCalled();
+  });
 });
