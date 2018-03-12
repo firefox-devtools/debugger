@@ -334,6 +334,16 @@ class SourcesTree extends Component<Props, State> {
       sourceTree
     } = this.state;
 
+    const isEmpty = sourceTree.contents.length === 0;
+
+    if (isEmpty) {
+      return (
+        <div className="no-sources-message">
+          {L10N.getStr("sources.noSourcesAvailable")}
+        </div>
+      );
+    }
+
     const onExpand = (item, expandedState) => {
       this.props.setExpandedState(expandedState);
     };
@@ -386,14 +396,6 @@ class SourcesTree extends Component<Props, State> {
     };
 
     const tree = <ManagedTree {...treeProps} />;
-
-    if (isEmpty) {
-      return (
-        <div className="no-sources-message">
-          {L10N.getStr("sources.noSourcesAvailable")}
-        </div>
-      );
-    }
 
     const onKeyDown = e => {
       if (e.keyCode === 13 && focusedItem) {
