@@ -1,10 +1,12 @@
 .result-item .title .highlight {
   font-weight: bold;
+  background-color: transparent;
 }
 
 .result-item .subtitle .highlight {
   color: var(--grey-90);
   font-weight: 500;
+  background-color: transparent;
 }
 
 .theme-dark .result-item .title .highlight,

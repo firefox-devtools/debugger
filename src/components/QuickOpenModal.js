@@ -320,8 +320,13 @@ export class QuickOpenModal extends Component<Props, State> {
 
   /* eslint-disable react/no-danger */
   renderHighlight = (candidateString: string, query: string, name: string) => {
-    const html = fuzzyAldrin.wrap(candidateString, query);
-
+    const options = {
+      wrap: {
+        tagOpen: '<mark class="highlight">',
+        tagClose: "</mark>"
+      }
+    };
+    const html = fuzzyAldrin.wrap(candidateString, query, options);
     return <div dangerouslySetInnerHTML={{ __html: html }} />;
   };
 
