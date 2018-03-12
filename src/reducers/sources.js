@@ -170,6 +170,7 @@ function getTextPropsFromAction(action: any) {
   } else if (action.status === "error") {
     return { id: sourceId, error: action.error, loadedState: "loaded" };
   }
+
   return {
     text: value.text,
     id: sourceId,
@@ -191,12 +192,14 @@ function updateSource(state: Record<SourcesState>, source: Source | Object) {
   if (!source.id) {
     return state;
   }
+
   const existingSource = state.getIn(["sources", source.id]);
 
   if (existingSource) {
     const updatedSource = existingSource.merge(source);
     return state.setIn(["sources", source.id], updatedSource);
   }
+
   return state.setIn(["sources", source.id], new SourceRecordClass(source));
 }
 

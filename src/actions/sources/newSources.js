@@ -22,7 +22,7 @@ import {
   getPendingBreakpointsForSource
 } from "../../selectors";
 
-import type { Source } from "../../types";
+import type { Source, SourceId } from "../../types";
 import type { ThunkArgs } from "../types";
 
 function createOriginalSource(
@@ -44,15 +44,20 @@ function createOriginalSource(
  * @memberof actions/sources
  * @static
  */
-export function loadSourceMap(generatedSource: Source) {
+function loadSourceMap(generatedSourceId: SourceId) {
   return async function({ dispatch, getState, sourceMaps }: ThunkArgs) {
-    let urls;
+    const generatedSource = getSource(getState(), generatedSourceId).toJS();
+    if (!generatedSource.sourceMapURL) {
+      return;
+    }
+
+    let urls = null;
     try {
       urls = await sourceMaps.getOriginalURLs(generatedSource);
     } catch (e) {
       console.error(e);
-      urls = null;
     }
+
     if (!urls) {
       // If this source doesn't have a sourcemap, enable it for pretty printing
       dispatch({
@@ -66,10 +71,6 @@ export function loadSourceMap(generatedSource: Source) {
       createOriginalSource(url, generatedSource, sourceMaps)
     );
 
-    // TODO: check if this line is really needed, it introduces
-    // a lot of lag to the application.
-    const generatedSourceRecord = getSource(getState(), generatedSource.id);
-    await dispatch(loadSourceText(generatedSourceRecord));
     dispatch(newSources(originalSources));
   };
 }
@@ -171,7 +172,7 @@ export function newSources(sources: Source[]) {
     }
 
     await Promise.all(
-      filteredSources.map(source => dispatch(loadSourceMap(source)))
+      filteredSources.map(source => dispatch(loadSourceMap(source.id)))
     );
     // We would like to restore the blackboxed state
     // after loading all states to make sure the correctness.
