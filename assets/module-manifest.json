@@ -22406,7 +22406,9 @@
       "../node_modules/babel-loader/lib/index.js?ignore=src/lib!../../../src/workers/pretty-print/worker.js": 3586,
       "../node_modules/babel-loader/lib/index.js?ignore=src/lib!../../../src/workers/search/worker.js": 3587,
       "../node_modules/babel-loader/lib/index.js?ignore=src/lib!../../../src/workers/search/get-matches.js": 3588,
-      "../node_modules/babel-loader/lib/index.js?ignore=src/lib!../../../src/workers/search/project-search.js": 3589
+      "../node_modules/babel-loader/lib/index.js?ignore=src/lib!../../../src/workers/search/project-search.js": 3589,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/selectors/index.js": 3590,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/workers/parser/utils/simple-path.js": 3591
     },
     "usedIds": {
       "0": 0,
@@ -25998,7 +26000,9 @@
       "3586": 3586,
       "3587": 3587,
       "3588": 3588,
-      "3589": 3589
+      "3589": 3589,
+      "3590": 3590,
+      "3591": 3591
     }
   },
   "chunks": {
@@ -29194,11 +29198,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/variables.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/variables.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -29215,11 +29221,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/App.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/App.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -29236,11 +29244,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/shared/menu.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/menu.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -29257,11 +29267,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/shared/reps.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/reps.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -29299,11 +29311,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/shared/SearchInput.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/SearchInput.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -29320,11 +29334,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/shared/Button/Close.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Button/Close.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -29341,11 +29357,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/shared/Svg.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Svg.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -29362,11 +29380,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/shared/Modal.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Modal.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -29383,11 +29403,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/shared/ResultList.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/ResultList.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -29404,11 +29426,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/Editor/Tabs.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/Editor/Tabs.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -29425,11 +29449,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/shared/Dropdown.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Dropdown.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -29446,11 +29472,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/shared/Button/PaneToggle.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Button/PaneToggle.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -29467,11 +29495,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/WelcomeBox.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/WelcomeBox.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -29488,11 +29518,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/SecondaryPanes.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/SecondaryPanes.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -29509,11 +29541,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/Scopes.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/Scopes.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -29530,11 +29564,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../devtools-reps/src/object-inspector/index.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../devtools-reps/src/object-inspector/index.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -29551,11 +29587,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../devtools-reps/src/reps/reps.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../devtools-reps/src/reps/reps.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -29572,11 +29610,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/shared/ManagedTree.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/ManagedTree.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -29593,11 +29633,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/CommandBar.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/CommandBar.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -29614,11 +29656,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/shared/Accordion.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Accordion.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -29635,11 +29679,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/Workers.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/Workers.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -29656,11 +29702,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/EventListeners.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/EventListeners.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -29677,11 +29725,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/Frames/Frames.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/Frames/Frames.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -29698,11 +29748,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/Frames/WhyPaused.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/Frames/WhyPaused.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -29719,11 +29771,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/Frames/Group.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/Frames/Group.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -29740,11 +29794,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/Expressions.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/Expressions.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -29761,11 +29817,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/Breakpoints.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/Breakpoints.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -29782,11 +29840,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/Editor/Editor.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/Editor/Editor.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -29803,11 +29863,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/Editor/Highlight.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/Editor/Highlight.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -29824,11 +29886,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/Editor/ConditionalPanel.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/Editor/ConditionalPanel.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -29845,11 +29909,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/Editor/EmptyLines.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/Editor/EmptyLines.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -29866,11 +29932,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/Editor/CallSite.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/Editor/CallSite.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -29887,11 +29955,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/Editor/Preview/Popup.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/Editor/Preview/Popup.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -29908,11 +29978,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/shared/PreviewFunction.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/PreviewFunction.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -29929,11 +30001,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/shared/Popover.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Popover.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -29950,11 +30024,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/shared/BracketArrow.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/BracketArrow.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -29971,11 +30047,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/Editor/SearchBar.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/Editor/SearchBar.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -29992,11 +30070,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/Editor/Footer.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/Editor/Footer.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -30013,11 +30093,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/PrimaryPanes/Sources.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/PrimaryPanes/Sources.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -30034,11 +30116,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/PrimaryPanes/Outline.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/PrimaryPanes/Outline.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -30118,11 +30202,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../devtools-splitter/src/SplitBox.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../devtools-splitter/src/SplitBox.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -30139,11 +30225,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/ShortcutsModal.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/ShortcutsModal.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -30160,11 +30248,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!components/Root.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!components/Root.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -30181,11 +30271,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../devtools-contextmenu/menu.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../devtools-contextmenu/menu.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -30202,11 +30294,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!components/LandingPage.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!components/LandingPage.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -30223,11 +30317,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!components/Sidebar.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!components/Sidebar.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -30244,11 +30340,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!components/Tabs.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!components/Tabs.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -30265,11 +30363,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/shared/Badge.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Badge.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -30286,11 +30386,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/shared/Button/CommandBarButton.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Button/CommandBarButton.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -30307,11 +30409,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/BreakpointsDropdown.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/BreakpointsDropdown.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -30349,11 +30453,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/ProjectSearch.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/ProjectSearch.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -30370,11 +30476,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../devtools-components/src/tree.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../devtools-components/src/tree.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
@@ -30391,11 +30499,13 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js?{\"importLoaders\":1,\"url\":false}!../../postcss-loader/lib/index.js!../../../src/components/QuickOpenModal.css": 0,
-          "../../css-loader/lib/css-base.js": 1
+          "../../css-loader/lib/css-base.js": 1,
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/QuickOpenModal.css": 2
         },
         "usedIds": {
           "0": 0,
-          "1": 1
+          "1": 1,
+          "2": 2
         }
       },
       "chunks": {
