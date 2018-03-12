@@ -63,8 +63,18 @@
   color: white;
 }
 
-.result-list.big li.selected .title {
-  color: var(--theme-body-color);
+.result-list.big li.selected {
+  background-color: var(--theme-selection-background);
+  color: white;
+}
+
+.result-list.big li.selected .subtitle {
+  color: white;
+}
+
+.result-list.big li.selected .subtitle .highlight {
+  color: white;
+  font-weight: bold;
 }
 
 .result-list.big li .subtitle {
@@ -74,6 +84,10 @@
 
 .result-list.big li .subtitle {
   line-height: 1.5em;
+}
+
+.theme-dark .result-list.big li.selected .subtitle {
+  color: white;
 }
 
 .theme-dark .result-list.big li .subtitle {
