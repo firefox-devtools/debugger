@@ -2,12 +2,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-/*
-  TODO:
-    - Use position: absolute to dock the "clear root" button
-      - Also use position absolute to position the tree to take up 100% height
-*/
-
 .sources-panel {
   background-color: var(--theme-sidebar-background);
   display: flex;
@@ -22,17 +16,17 @@
   user-select: none;
 }
 
-.sources-clear-root-container {
-  border-bottom: 1px solid var(--theme-splitter-color);
-}
-
 .sources-clear-root {
-  padding: 4px 3px 4px 6px;
+  padding: 4px 3px 4px 3px;
   width: 100%;
   text-align: start;
   white-space: nowrap;
   color: inherit;
   display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-bottom: 1px solid var(--theme-splitter-color);
 }
 
 .sources-clear-root i {
@@ -67,25 +61,9 @@
   overflow-y: auto;
 }
 
-.sources-pane.sources-list-custom-root {
-  display: block;
-}
-
 .sources-list {
   flex: 1;
   display: flex;
-  /*
-  overflow-x: hidden;
-  overflow-y: auto;
-  */
-}
-
-.sources-list-custom-root .sources-list {
-  margin-inline-start: 10px;
-}
-
-.sources-list-custom-root .sources-pane {
-  display: block;
 }
 
 .sources-list .tree:focus {
@@ -232,6 +210,26 @@
   .tree-node[data-expandable="false"]
   .tree-indent:last-of-type {
   margin-inline-end: 4px;
+}
+
+/*
+  Custom root styles
+*/
+.sources-pane.sources-list-custom-root {
+  display: block;
+  position: relative;
+}
+
+.sources-list-custom-root .sources-pane {
+  display: block;
+}
+
+.sources-list-custom-root .sources-list {
+  position: absolute;
+  top: 26px;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 
 /* Removes start margin when a custom root is used */

@@ -389,7 +389,11 @@ class SourcesTree extends Component<Props, State> {
     };
 
     return (
-      <div className={classnames("sources-pane", {"sources-list-custom-root": isCustomRoot})}>
+      <div
+        className={classnames("sources-pane", {
+          "sources-list-custom-root": isCustomRoot
+        })}
+      >
         {isCustomRoot ? (
           <div className="sources-clear-root-container">
             {clearProjectRootButton}
