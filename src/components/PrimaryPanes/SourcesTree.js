@@ -333,7 +333,10 @@ class SourcesTree extends Component<Props, State> {
     let roots = () => sourceTree.contents;
 
     let clearProjectRootButton = null;
-    if (isCustomRoot) {
+
+    // The "sourceTree.contents[0]" check ensures that there are contents
+    // A custom root with no existing sources will be ignored
+    if (isCustomRoot && sourceTree.contents[0]) {
       clearProjectRootButton = (
         <button
           className="sources-clear-root"
@@ -386,18 +389,13 @@ class SourcesTree extends Component<Props, State> {
     };
 
     return (
-      <div className="sources-pane">
+      <div className={classnames("sources-pane", {"sources-list-custom-root": isCustomRoot})}>
         {isCustomRoot ? (
           <div className="sources-clear-root-container">
             {clearProjectRootButton}
           </div>
         ) : null}
-        <div
-          className={classnames("sources-list", {
-            "sources-list-custom-root": isCustomRoot
-          })}
-          onKeyDown={onKeyDown}
-        >
+        <div className="sources-list" onKeyDown={onKeyDown}>
           {tree}
         </div>
       </div>
