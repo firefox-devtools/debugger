@@ -362,23 +362,20 @@ export class QuickOpenModal extends Component<Props, State> {
     return !this.getResultCount() && !!query;
   }
 
-  
-  renderSymLoading = (symbols: FormattedSymbolDeclarations, selectedSource: any, 
-    isSymbolSearch: boolean ) => {
+  renderLoading = (isSymbolSearch: boolean) => {
+    const { symbols, selectedSource } = this.props;
 
-    if(isSymbolSearch && selectedSource) {
-      if(!symbols || symbols.functions.length == 0) {      
-        return(
-          <div className="loading-indicator">
-            {L10N.getStr("loadingText")}
-          </div>
-        )
+    if (isSymbolSearch && selectedSource) {
+      if (!symbols || symbols.functions.length == 0) {
+        return (
+          <div className="loading-indicator">{L10N.getStr("loadingText")}</div>
+        );
       }
     }
-  }
+  };
 
   render() {
-    const { enabled, query, symbols, selectedSource } = this.props;
+    const { enabled, query } = this.props;
     const { selectedIndex, results } = this.state;
 
     if (!enabled) {
@@ -404,7 +401,7 @@ export class QuickOpenModal extends Component<Props, State> {
           }
         />
 
-        {this.renderSymLoading(symbols, selectedSource, this.isSymbolSearch())}
+        {this.renderLoading(this.isSymbolSearch())}
         {newResults && (
           <ResultList
             key="results"
