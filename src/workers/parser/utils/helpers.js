@@ -42,7 +42,7 @@ export function isVariable(path: SimplePath) {
   );
 }
 
-export function isComputedExpression(expression: string): Boolean {
+export function isComputedExpression(expression: string): boolean {
   return /^\[/m.test(expression);
 }
 

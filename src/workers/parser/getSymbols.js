@@ -309,7 +309,7 @@ function extractSymbols(sourceId) {
 function extendSnippet(
   name: string,
   expression: string,
-  path: SimplePath | null = null,
+  path: SimplePath | Object | null = null,
   prevPath: SimplePath | null = null
 ): string | void {
   const computed = path && path.node.computed;
@@ -317,10 +317,11 @@ function extendSnippet(
   const prevArray = t.isArrayExpression(prevPath);
   const array = t.isArrayExpression(path);
   const value =
-    path &&
-    path.node.property &&
-    path.node.property.extra &&
-    path.node.property.extra.raw;
+    (path &&
+      path.node.property &&
+      path.node.property.extra &&
+      path.node.property.extra.raw) ||
+    "";
 
   if (expression === "") {
     if (computed) {
