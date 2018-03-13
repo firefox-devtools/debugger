@@ -35,6 +35,11 @@ export type PauseState = {
         pending: boolean,
         scope: OriginalScope
       }
+    },
+    mappings: {
+      [FrameId]: {
+        [string]: string | null
+      }
     }
   },
   selectedFrameId: ?string,
@@ -57,7 +62,8 @@ export const createPauseState = (): PauseState => ({
   selectedFrameId: undefined,
   frameScopes: {
     generated: {},
-    original: {}
+    original: {},
+    mappings: {}
   },
   loadedObjects: {},
   shouldPauseOnExceptions: prefs.pauseOnExceptions,
@@ -73,7 +79,8 @@ const emptyPauseState = {
   frames: null,
   frameScopes: {
     generated: {},
-    original: {}
+    original: {},
+    mappings: {}
   },
   selectedFrameId: null,
   loadedObjects: {},
@@ -143,14 +150,20 @@ function update(
         ...state.frameScopes.original,
         [selectedFrameId]: {
           pending: status !== "done",
-          scope: value
+          scope: value && value.scope
         }
+      };
+
+      const mappings = {
+        ...state.frameScopes.mappings,
+        [selectedFrameId]: value && value.mappings
       };
       return {
         ...state,
         frameScopes: {
           ...state.frameScopes,
-          original
+          original,
+          mappings
         }
       };
     }
@@ -345,6 +358,19 @@ export function getSelectedScope(state: OuterState) {
   const { scope } =
     getFrameScope(state, sourceRecord && sourceRecord.get("id"), frameId) || {};
   return scope || null;
+}
+
+export function getSelectedScopeMappings(
+  state: OuterState
+): {
+  [string]: string | null
+} | null {
+  const frameId = getSelectedFrameId(state);
+  if (!frameId) {
+    return null;
+  }
+
+  return getFrameScopes(state).mappings[frameId];
 }
 
 export function getSelectedFrameId(state: OuterState) {

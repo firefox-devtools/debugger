@@ -19,7 +19,9 @@ type GeneratedDescriptor = {
   // Falsy if the binding itself matched a location, but the location didn't
   // have a value descriptor attached. Happens if the binding was 'this'
   // or if there was a mismatch between client and generated scopes.
-  desc: ?BindingContents
+  desc: ?BindingContents,
+
+  expression: string
 };
 
 export async function findGeneratedBindingFromPosition(
@@ -148,7 +150,8 @@ async function mapBindingReferenceToDescriptor(
   ) {
     return {
       name: binding.name,
-      desc: binding.desc
+      desc: binding.desc,
+      expression: binding.name
     };
   }
 
@@ -176,6 +179,8 @@ async function mapImportDeclarationToDescriptor(
     return null;
   }
 
+  let expression = binding.name;
+
   let desc = binding.desc;
   if (desc && typeof desc.value === "object") {
     if (desc.value.optimizedOut) {
@@ -199,12 +204,15 @@ async function mapImportDeclarationToDescriptor(
 
     const objectClient = createObjectClient(desc.value);
     desc = (await objectClient.getProperty(mapped.importName)).descriptor;
+
+    expression += `.${mapped.importName}`;
   }
 
   return desc
     ? {
         name: binding.name,
-        desc
+        desc,
+        expression
       }
     : null;
 }
@@ -257,6 +265,7 @@ async function mapImportReferenceToDescriptor(
     return null;
   }
 
+  let expression = binding.name;
   let desc = binding.desc;
 
   if (binding.loc.type === "ref") {
@@ -283,13 +292,16 @@ async function mapImportReferenceToDescriptor(
 
       const objectClient = createObjectClient(desc.value);
       desc = (await objectClient.getProperty(op.property)).descriptor;
+
+      expression += `.${op.property}`;
     }
   }
 
   return desc
     ? {
         name: binding.name,
-        desc
+        desc,
+        expression
       }
     : null;
 }
