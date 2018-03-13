@@ -58,11 +58,12 @@ export function setSymbols(sourceId: SourceId) {
       return;
     }
 
-    dispatch({
+    await dispatch({
       type: "SET_SYMBOLS",
       source,
       [PROMISE]: getSymbols(source.id)
     });
+
     dispatch(setEmptyLines(sourceId));
     dispatch(setSourceMetaData(sourceId));
   };

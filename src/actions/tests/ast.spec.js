@@ -16,7 +16,8 @@ const {
   getEmptyLines,
   getOutOfScopeLocations,
   getSourceMetaData,
-  getInScopeLines
+  getInScopeLines,
+  isSymbolsLoading
 } = selectors;
 
 import I from "immutable";
@@ -114,12 +115,7 @@ describe("ast", () => {
         await dispatch(actions.newSource(base));
         await dispatch(actions.loadSourceText(I.Map({ id: "base.js" })));
         await dispatch(actions.setSymbols("base.js"));
-        await waitForState(store, state => {
-          const symbols = getSymbols(state, base);
-          if (!symbols.loading) {
-            return getSymbols(state, base).functions.length > 0;
-          }
-        });
+        await waitForState(store, state => !isSymbolsLoading(state, base));
 
         const baseSymbols = getSymbols(getState(), base);
         expect(baseSymbols).toMatchSnapshot();
@@ -127,21 +123,21 @@ describe("ast", () => {
     });
 
     describe("when the source is not loaded", () => {
-      it("should return an empty set", async () => {
+      it("should return null", async () => {
         const { getState, dispatch } = createStore(threadClient);
         const base = makeSource("base.js");
         await dispatch(actions.newSource(base));
 
         const baseSymbols = getSymbols(getState(), base);
-        expect(baseSymbols).toEqual({ variables: [], functions: [] });
+        expect(baseSymbols).toEqual(null);
       });
     });
 
     describe("when there is no source", () => {
-      it("should return an empty set", async () => {
+      it("should return null", async () => {
         const { getState } = createStore(threadClient);
         const baseSymbols = getSymbols(getState());
-        expect(baseSymbols).toEqual({ variables: [], functions: [] });
+        expect(baseSymbols).toEqual(null);
       });
     });
   });
