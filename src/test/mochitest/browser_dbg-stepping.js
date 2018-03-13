@@ -1,6 +1,9 @@
 /* Any copyright is dedicated to the Public Domain.
  * http://creativecommons.org/publicdomain/zero/1.0/ */
 
+ // This test can be really slow on debug platforms
+ requestLongerTimeout(3);
+
 function assertSelectedFile(dbg, url) {
   const selectedLocation = dbg.selectors.getSelectedSource(dbg.getState());
   ok(selectedLocation, "The debugger should be at the paused location")
