@@ -71,13 +71,13 @@ function update(
 ): Record<ASTState> {
   switch (action.type) {
     case "SET_SYMBOLS": {
-      const { sourceRecord, symbols } = action;
-      return state.setIn(["symbols", sourceRecord.get("id")], symbols);
+      const { source, symbols } = action;
+      return state.setIn(["symbols", source.id], symbols);
     }
 
     case "SET_EMPTY_LINES": {
-      const { sourceRecord, emptyLines } = action;
-      return state.setIn(["emptyLines", sourceRecord.get("id")], emptyLines);
+      const { source, emptyLines } = action;
+      return state.setIn(["emptyLines", source.id], emptyLines);
     }
 
     case "OUT_OF_SCOPE_LOCATIONS": {
@@ -165,12 +165,12 @@ export function isEmptyLineInSource(
   return emptyLines.includes(line);
 }
 
-export function getEmptyLines(state: OuterState, source: SourceRecord) {
-  if (!source) {
+export function getEmptyLines(state: OuterState, sourceRecord: SourceRecord) {
+  if (!sourceRecord) {
     return [];
   }
 
-  return state.ast.getIn(["emptyLines", source.get("id")]) || [];
+  return state.ast.getIn(["emptyLines", sourceRecord.get("id")]) || [];
 }
 
 export function getOutOfScopeLocations(state: OuterState) {

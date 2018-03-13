@@ -226,20 +226,23 @@ const {
 
 export default connect(
   state => {
-    const selectedSourceRecord = getSelectedSource(state);
+    const selectedLocation = getSelectedLocation(state);
+    const selectedSource = getSelectedSource(state);
+    const hasPrettyPrint = !!getPrettySource(state, selectedSource.id);
+    const contextMenu = getContextMenu(state);
     return {
-      selectedLocation: getSelectedLocation(state),
-      selectedSourceRecord,
-      hasPrettyPrint: !!getPrettySource(state, selectedSourceRecord.get("id")),
-      contextMenu: getContextMenu(state),
+      selectedLocation,
+      selectedSource,
+      hasPrettyPrint,
+      contextMenu,
       getFunctionText: line =>
         findFunctionText(
           line,
-          selectedSourceRecord,
-          getSymbols(state, selectedSourceRecord)
+          selectedSource,
+          getSymbols(state, selectedSource)
         ),
       getFunctionLocation: line =>
-        findClosestScope(getSymbols(state, selectedSourceRecord).functions, {
+        findClosestScope(getSymbols(state, selectedSource).functions, {
           line,
           column: Infinity
         })

@@ -314,12 +314,12 @@ type NavigateAction =
 type ASTAction =
   | {
       type: "SET_SYMBOLS",
-      sourceRecord: SourceRecord,
+      source: SourceRecord,
       symbols: SymbolDeclaration[]
     }
   | {
       type: "SET_EMPTY_LINES",
-      sourceRecord: SourceRecord,
+      source: SourceRecord,
       emptyLines: AstLocation[]
     }
   | {

@@ -20,14 +20,14 @@ export default async function addBreakpoint(
 ) {
   const state = getState();
 
-  const sourceRecord = getSource(state, breakpoint.location.sourceId);
+  const source = getSource(state, breakpoint.location.sourceId);
   const location = {
     ...breakpoint.location,
-    sourceUrl: sourceRecord.get("url")
+    sourceUrl: source.url
   };
   const generatedLocation = await getGeneratedLocation(
     state,
-    sourceRecord,
+    source,
     location,
     sourceMaps
   );
@@ -52,12 +52,8 @@ export default async function addBreakpoint(
     newGeneratedLocation
   );
 
-  const symbols = getSymbols(getState(), sourceRecord);
-  const astLocation = await getASTLocation(
-    sourceRecord.toJS(),
-    symbols,
-    newLocation
-  );
+  const symbols = getSymbols(getState(), source);
+  const astLocation = await getASTLocation(source.toJS(), symbols, newLocation);
 
   const newBreakpoint = {
     id,
