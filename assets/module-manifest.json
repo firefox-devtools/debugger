@@ -22408,7 +22408,11 @@
       "../node_modules/babel-loader/lib/index.js?ignore=src/lib!../../../src/workers/search/get-matches.js": 3588,
       "../node_modules/babel-loader/lib/index.js?ignore=src/lib!../../../src/workers/search/project-search.js": 3589,
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/selectors/index.js": 3590,
-      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/workers/parser/utils/simple-path.js": 3591
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/workers/parser/utils/simple-path.js": 3591,
+      "external \"devtools/client/shared/vendor/react-redux\"": 3592,
+      "external \"devtools/client/shared/vendor/redux\"": 3593,
+      "external \"devtools/client/shared/vendor/immutable\"": 3594,
+      "../../svg-inline-loader/index.js!../../../assets/images/babel.svg": 3595
     },
     "usedIds": {
       "0": 0,
@@ -26002,7 +26006,11 @@
       "3588": 3588,
       "3589": 3589,
       "3590": 3590,
-      "3591": 3591
+      "3591": 3591,
+      "3592": 3592,
+      "3593": 3593,
+      "3594": 3594,
+      "3595": 3595
     }
   },
   "chunks": {
