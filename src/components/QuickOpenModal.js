@@ -415,7 +415,7 @@ function mapStateToProps(state) {
   const selectedSource = getSelectedSource(state);
   let symbols = null;
   if (selectedSource != null) {
-    symbols = getSymbols(state, selectedSource.toJS());
+    symbols = getSymbols(state, selectedSource);
   }
 
   return {

@@ -202,12 +202,14 @@ export function getSourcePath(url: string) {
  * Returns amount of lines in the source. If source is a WebAssembly binary,
  * the function returns amount of bytes.
  */
-export function getSourceLineCount(source: Source) {
-  if (source.isWasm && !source.error) {
-    const { binary } = (source.text: any);
+export function getSourceLineCount(sourceRecord: SourceRecord) {
+  if (sourceRecord.get("isWasm") && !sourceRecord.get("error")) {
+    const { binary } = (sourceRecord.get("text"): any);
     return binary.length;
   }
-  return source.text != undefined ? source.text.split("\n").length : 0;
+  return sourceRecord.get("text") != undefined
+    ? sourceRecord.get("text").split("\n").length
+    : 0;
 }
 
 /**

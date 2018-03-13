@@ -7,7 +7,8 @@ import {
   makeSource,
   makeOriginalSource,
   makeFrame,
-  waitForState
+  waitForState,
+  makeSourceRecord
 } from "../../utils/test-head";
 
 import readFixture from "./helpers/readFixture";
@@ -59,15 +60,16 @@ describe("ast", () => {
       const store = createStore(threadClient);
       const { dispatch, getState } = store;
       const source = makeSource("scopes.js");
+      const sourceRecord = makeSourceRecord("scopes.js");
       await dispatch(actions.newSource(source));
       await dispatch(actions.loadSourceText(I.Map({ id: "scopes.js" })));
       await dispatch(actions.setEmptyLines("scopes.js"));
       await waitForState(store, state => {
-        const lines = getEmptyLines(state, source);
+        const lines = getEmptyLines(state, sourceRecord);
         return lines && lines.length > 0;
       });
 
-      const emptyLines = getEmptyLines(getState(), source);
+      const emptyLines = getEmptyLines(getState(), sourceRecord);
       expect(emptyLines).toMatchSnapshot();
     });
   });
@@ -111,15 +113,16 @@ describe("ast", () => {
         const store = createStore(threadClient);
         const { dispatch, getState } = store;
         const base = makeSource("base.js");
+        const baseRecord = makeSourceRecord("base.js");
         await dispatch(actions.newSource(base));
         await dispatch(actions.loadSourceText(I.Map({ id: "base.js" })));
         await dispatch(actions.setSymbols("base.js"));
         await waitForState(
           store,
-          state => getSymbols(state, base).functions.length > 0
+          state => getSymbols(state, baseRecord).functions.length > 0
         );
 
-        const baseSymbols = getSymbols(getState(), base);
+        const baseSymbols = getSymbols(getState(), baseRecord);
         expect(baseSymbols).toMatchSnapshot();
       });
     });
@@ -128,9 +131,10 @@ describe("ast", () => {
       it("should return an empty set", async () => {
         const { getState, dispatch } = createStore(threadClient);
         const base = makeSource("base.js");
+        const baseRecord = makeSourceRecord("base.js");
         await dispatch(actions.newSource(base));
 
-        const baseSymbols = getSymbols(getState(), base);
+        const baseSymbols = getSymbols(getState(), baseRecord);
         expect(baseSymbols).toEqual({ variables: [], functions: [] });
       });
     });

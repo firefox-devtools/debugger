@@ -16,6 +16,7 @@ import type { SymbolDeclarations, AstLocation } from "../workers/parser/types";
 
 import type { Map } from "immutable";
 import type { Source } from "../types";
+import type { SourceRecord } from "./types";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
@@ -134,22 +135,25 @@ type OuterState = { ast: Record<ASTState> };
 const emptySymbols = { variables: [], functions: [] };
 export function getSymbols(
   state: OuterState,
-  source: Source
+  sourceRecord: SourceRecord
 ): SymbolDeclarations {
-  if (!source) {
+  if (!sourceRecord) {
     return emptySymbols;
   }
 
-  const symbols = state.ast.getIn(["symbols", source.id]);
+  const symbols = state.ast.getIn(["symbols", sourceRecord.get("id")]);
   return symbols || emptySymbols;
 }
 
-export function hasSymbols(state: OuterState, source: Source): boolean {
-  if (!source) {
+export function hasSymbols(
+  state: OuterState,
+  sourceRecord: SourceRecord
+): boolean {
+  if (!sourceRecord) {
     return false;
   }
 
-  return !!state.ast.getIn(["symbols", source.id]);
+  return !!state.ast.getIn(["symbols", sourceRecord.get("id")]);
 }
 
 export function isEmptyLineInSource(
@@ -161,12 +165,12 @@ export function isEmptyLineInSource(
   return emptyLines.includes(line);
 }
 
-export function getEmptyLines(state: OuterState, source: Source) {
-  if (!source) {
+export function getEmptyLines(state: OuterState, sourceRecord: SourceRecord) {
+  if (!sourceRecord) {
     return [];
   }
 
-  return state.ast.getIn(["emptyLines", source.id]) || [];
+  return state.ast.getIn(["emptyLines", sourceRecord.get("id")]) || [];
 }
 
 export function getOutOfScopeLocations(state: OuterState) {

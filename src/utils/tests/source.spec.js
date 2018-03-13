@@ -219,22 +219,22 @@ describe("sources", () => {
 
   describe("getSourceLineCount", () => {
     it("should give us the amount bytes for wasm source", () => {
-      const source = {
+      const sourceRecord = I.Map({
         contentType: "",
         isWasm: true,
         text: {
           binary: "\x00asm\x01\x00\x00\x00"
         }
-      };
-      expect(getSourceLineCount(source)).toEqual(8);
+      });
+      expect(getSourceLineCount(sourceRecord)).toEqual(8);
     });
 
     it("should give us the amout of lines for js source", () => {
-      const source = {
+      const sourceRecord = I.Map({
         contentType: "text/javascript",
         text: "function foo(){\n}"
-      };
-      expect(getSourceLineCount(source)).toEqual(2);
+      });
+      expect(getSourceLineCount(sourceRecord)).toEqual(2);
     });
   });
 });

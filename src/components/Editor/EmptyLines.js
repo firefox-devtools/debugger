@@ -66,8 +66,6 @@ export default connect(state => {
   const selectedSource = getSelectedSource(state);
   return {
     selectedSource,
-    emptyLines: selectedSource
-      ? getEmptyLines(state, selectedSource.toJS())
-      : []
+    emptyLines: selectedSource ? getEmptyLines(state, selectedSource) : []
   };
 })(EmptyLines);

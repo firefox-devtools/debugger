@@ -16,7 +16,7 @@ import type {
   Worker
 } from "../types";
 
-import type { State } from "../reducers/types";
+import type { State, SourceRecord } from "../reducers/types";
 import type {
   ActiveSearchType,
   OrientationType,
@@ -314,12 +314,12 @@ type NavigateAction =
 type ASTAction =
   | {
       type: "SET_SYMBOLS",
-      source: Source,
+      source: SourceRecord,
       symbols: SymbolDeclaration[]
     }
   | {
       type: "SET_EMPTY_LINES",
-      source: Source,
+      source: SourceRecord,
       emptyLines: AstLocation[]
     }
   | {

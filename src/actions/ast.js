@@ -24,16 +24,10 @@ import type { ThunkArgs } from "./types";
 
 export function setSourceMetaData(sourceId: SourceId) {
   return async ({ dispatch, getState }: ThunkArgs) => {
-    const sourceRecord = getSource(getState(), sourceId);
-    if (!sourceRecord) {
+    const source = getSource(getState(), sourceId);
+    if (!source || !source.text || source.isWasm) {
       return;
     }
-
-    const source = sourceRecord.toJS();
-    if (!source.text || source.isWasm) {
-      return;
-    }
-
     const framework = await getFramework(source.id);
     dispatch({
       type: "SET_SOURCE_METADATA",
@@ -47,16 +41,15 @@ export function setSourceMetaData(sourceId: SourceId) {
 
 export function setSymbols(sourceId: SourceId) {
   return async ({ dispatch, getState }: ThunkArgs) => {
-    const sourceRecord = getSource(getState(), sourceId);
-    if (!sourceRecord) {
+    const source = getSource(getState(), sourceId);
+    if (
+      !source ||
+      !source.text ||
+      source.isWasm ||
+      hasSymbols(getState(), source)
+    ) {
       return;
     }
-
-    const source = sourceRecord.toJS();
-    if (!source.text || source.isWasm || hasSymbols(getState(), source)) {
-      return;
-    }
-
     const symbols = await getSymbols(source.id);
     dispatch({ type: "SET_SYMBOLS", source, symbols });
     dispatch(setEmptyLines(sourceId));
@@ -66,13 +59,8 @@ export function setSymbols(sourceId: SourceId) {
 
 export function setEmptyLines(sourceId: SourceId) {
   return async ({ dispatch, getState }: ThunkArgs) => {
-    const sourceRecord = getSource(getState(), sourceId);
-    if (!sourceRecord) {
-      return;
-    }
-
-    const source = sourceRecord.toJS();
-    if (!source.text || source.isWasm) {
+    const source = getSource(getState(), sourceId);
+    if (!source || !source.text || source.isWasm) {
       return;
     }
 
