@@ -37,7 +37,7 @@ describe("parser", () => {
         const source = getSource("expression");
         setSource(source);
         const expression = getClosestExpression(source.id, "secondProperty", {
-          line: 6,
+          line: 8,
           column: 32
         });
 
