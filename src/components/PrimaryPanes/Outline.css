@@ -98,6 +98,10 @@
   display: flex;
 }
 
+.theme-dark .outline-footer button {
+    color: var(--theme-body-color);
+}
+
 .outline-footer button.active {
   background: var(--theme-highlight-blue);
   color: #ffffff;
