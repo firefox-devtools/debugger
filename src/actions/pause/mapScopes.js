@@ -88,7 +88,10 @@ async function buildMappedScopes(
   scopes: Scope,
   sourceMaps: any,
   client: any
-): Promise<?OriginalScope> {
+): Promise<?{
+  mappings: Map<string, string>,
+  scope: OriginalScope
+}> {
   const originalAstScopes = await getScopes(frame.location);
   const generatedAstScopes = await getScopes(frame.generatedLocation);
 
@@ -101,6 +104,8 @@ async function buildMappedScopes(
     generatedAstScopes,
     frame.this
   );
+
+  const expressionMap = new Map();
 
   const mappedOriginalScopes = await Promise.all(
     Array.from(originalAstScopes, async item => {
@@ -120,7 +125,12 @@ async function buildMappedScopes(
           );
 
           if (result) {
-            generatedBindings[name] = result;
+            generatedBindings[name] = result.grip;
+
+            if (binding.refs.length !== 0) {
+              // beware race condition (oo scary)
+              expressionMap.set(name, result.expression);
+            }
           }
         })
       );
@@ -137,7 +147,7 @@ async function buildMappedScopes(
     mappedOriginalScopes
   );
 
-  return isReliableScope(mappedGeneratedScopes) ? mappedGeneratedScopes : null;
+  return isReliableScope(mappedGeneratedScopes) ? { mappings: expressionMap, scope: mappedGeneratedScopes} : null;
 }
 
 /**
@@ -244,7 +254,10 @@ async function findGeneratedBinding(
   name: string,
   originalBinding: BindingData,
   generatedAstBindings: Array<GeneratedBindingLocation>
-): Promise<?BindingContents> {
+): Promise<{
+  grip: ?BindingContents,
+  expression: string,
+}> {
   // If there are no references to the implicits, then we have no way to
   // even attempt to map it back to the original since there is no location
   // data to use. Bail out instead of just showing it as unmapped.
@@ -275,7 +288,10 @@ async function findGeneratedBinding(
   }, null);
 
   if (genContent && genContent.desc) {
-    return genContent.desc;
+    return {
+      grip: genContent.desc,
+      expression: genContent.expression,
+    };
   } else if (genContent) {
     // If there is no descriptor for 'this', then this is not the top-level
     // 'this' that the server gave us a binding for, and we can just ignore it.
@@ -287,17 +303,20 @@ async function findGeneratedBinding(
     // means that the server scope information didn't match the scope
     // information from the DevTools parsed scopes.
     return {
-      configurable: false,
-      enumerable: true,
-      writable: false,
-      value: {
-        type: "unscoped",
-        unscoped: true,
+      grip: {
+        configurable: false,
+        enumerable: true,
+        writable: false,
+        value: {
+          type: "unscoped",
+          unscoped: true,
 
-        // HACK: Until support for "unscoped" lands in devtools-reps,
-        // this will make these show as (unavailable).
-        missingArguments: true
-      }
+          // HACK: Until support for "unscoped" lands in devtools-reps,
+          // this will make these show as (unavailable).
+          missingArguments: true
+        }
+      },
+      expression: null
     };
   }
 
@@ -306,17 +325,20 @@ async function findGeneratedBinding(
   // of some scope, but the generated location is outside, leading
   // us to search for bindings that don't technically exist.
   return {
-    configurable: false,
-    enumerable: true,
-    writable: false,
-    value: {
-      type: "unmapped",
-      unmapped: true,
+    grip: {
+      configurable: false,
+      enumerable: true,
+      writable: false,
+      value: {
+        type: "unmapped",
+        unmapped: true,
 
-      // HACK: Until support for "unmapped" lands in devtools-reps,
-      // this will make these show as (unavailable).
-      missingArguments: true
-    }
+        // HACK: Until support for "unmapped" lands in devtools-reps,
+        // this will make these show as (unavailable).
+        missingArguments: true
+      }
+    },
+    expression: null,
   };
 }
 

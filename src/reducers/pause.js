@@ -73,7 +73,8 @@ const emptyPauseState = {
   frames: null,
   frameScopes: {
     generated: {},
-    original: {}
+    original: {},
+    mappings: {}
   },
   selectedFrameId: null,
   loadedObjects: {},
@@ -143,14 +144,20 @@ function update(
         ...state.frameScopes.original,
         [selectedFrameId]: {
           pending: status !== "done",
-          scope: value
+          scope: value && value.scope
         }
+      };
+
+      const mappings = {
+        ...state.frameScopes.mappings,
+        [selectedFrameId]: action.value && action.value.mappings
       };
       return {
         ...state,
         frameScopes: {
           ...state.frameScopes,
-          original
+          original,
+          mappings
         }
       };
     }
@@ -345,6 +352,11 @@ export function getSelectedScope(state: OuterState) {
   const { scope } =
     getFrameScope(state, sourceRecord && sourceRecord.get("id"), frameId) || {};
   return scope || null;
+}
+
+export function getSelectedScopeMappings(state) {
+  const frameId = getSelectedFrameId(state);
+  return getFrameScopes(state).mappings[frameId];
 }
 
 export function getSelectedFrameId(state: OuterState) {

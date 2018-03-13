@@ -13,6 +13,7 @@ import getEmptyLines from "./getEmptyLines";
 import { hasSyntaxError } from "./validate";
 import { getFramework } from "./frameworks";
 import { isInvalidPauseLocation } from "./pauseLocation";
+import mapOriginalExpression from "./mapOriginalExpression";
 
 import { workerUtils } from "devtools-utils";
 const { workerHandler } = workerUtils;
@@ -32,5 +33,6 @@ self.onmessage = workerHandler({
   getNextStep,
   getEmptyLines,
   hasSyntaxError,
-  getFramework
+  getFramework,
+  mapOriginalExpression
 });
