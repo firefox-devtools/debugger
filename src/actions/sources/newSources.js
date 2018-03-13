@@ -8,13 +8,16 @@
  * Redux actions for the sources state
  * @module actions/sources
  */
+
+import { isGeneratedId } from "devtools-source-map";
+import { flatten } from "lodash";
+
 import { toggleBlackBox } from "./blackbox";
 import { syncBreakpoint } from "../breakpoints";
 import { loadSourceText } from "./loadSourceText";
 import { togglePrettyPrint } from "./prettyPrint";
 import { selectLocation } from "../sources";
 import { getRawSourceURL, isPrettyURL } from "../../utils/source";
-
 import {
   getBlackBoxList,
   getSource,
@@ -40,20 +43,31 @@ function createOriginalSource(
   };
 }
 
+function loadSourceMaps(sources) {
+  return async function({ dispatch, getState, sourceMaps }: ThunkArgs) {
+    const originalSources = await Promise.all(
+      sources.map(source => dispatch(loadSourceMap(source.id)))
+    );
+
+    await dispatch(newSources(flatten(originalSources)));
+  };
+}
+
 /**
  * @memberof actions/sources
  * @static
  */
-function loadSourceMap(generatedSourceId: SourceId) {
+function loadSourceMap(sourceId: SourceId) {
   return async function({ dispatch, getState, sourceMaps }: ThunkArgs) {
-    const generatedSource = getSource(getState(), generatedSourceId).toJS();
-    if (!generatedSource.sourceMapURL) {
+    const source = getSource(getState(), sourceId).toJS();
+
+    if (!isGeneratedId(sourceId) || !source.sourceMapURL) {
       return;
     }
 
     let urls = null;
     try {
-      urls = await sourceMaps.getOriginalURLs(generatedSource);
+      urls = await sourceMaps.getOriginalURLs(source);
     } catch (e) {
       console.error(e);
     }
@@ -62,16 +76,12 @@ function loadSourceMap(generatedSourceId: SourceId) {
       // If this source doesn't have a sourcemap, enable it for pretty printing
       dispatch({
         type: "UPDATE_SOURCE",
-        source: { ...generatedSource, sourceMapURL: "" }
+        source: { ...source, sourceMapURL: "" }
       });
       return;
     }
 
-    const originalSources = urls.map(url =>
-      createOriginalSource(url, generatedSource, sourceMaps)
-    );
-
-    dispatch(newSources(originalSources));
+    return urls.map(url => createOriginalSource(url, source, sourceMaps));
   };
 }
 
@@ -154,7 +164,7 @@ export function newSource(source: Source) {
 export function newSources(sources: Source[]) {
   return async ({ dispatch, getState }: ThunkArgs) => {
     const filteredSources = sources.filter(
-      source => !getSource(getState(), source.id)
+      source => source && !getSource(getState(), source.id)
     );
 
     if (filteredSources.length == 0) {
@@ -171,11 +181,10 @@ export function newSources(sources: Source[]) {
       dispatch(checkPendingBreakpoints(source.id));
     }
 
-    await Promise.all(
-      filteredSources.map(source => dispatch(loadSourceMap(source.id)))
-    );
+    await dispatch(loadSourceMaps(filteredSources));
+
     // We would like to restore the blackboxed state
     // after loading all states to make sure the correctness.
-    dispatch(restoreBlackBoxedSources(filteredSources));
+    await dispatch(restoreBlackBoxedSources(filteredSources));
   };
 }
