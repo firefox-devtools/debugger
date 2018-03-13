@@ -9,7 +9,12 @@ import * as t from "@babel/types";
 
 import createSimplePath, { type SimplePath } from "./utils/simple-path";
 import { traverseAst } from "./utils/ast";
-import { isVariable, isFunction, getVariables } from "./utils/helpers";
+import {
+  isVariable,
+  isFunction,
+  getVariables,
+  isComputedExpression
+} from "./utils/helpers";
 import { inferClassName } from "./utils/inferClassName";
 import getFunctionName from "./utils/getFunctionName";
 
@@ -297,17 +302,23 @@ function extractSymbols(sourceId) {
 function extendSnippet(
   name: string,
   expression: string,
-  path: SimplePath | null = null,
+  path: SimplePath | Object | null = null,
   prevPath: SimplePath | null = null
 ): string | void {
   const computed = path && path.node.computed;
   const prevComputed = prevPath && prevPath.node.computed;
   const prevArray = t.isArrayExpression(prevPath);
   const array = t.isArrayExpression(path);
+  const value =
+    (path &&
+      path.node.property &&
+      path.node.property.extra &&
+      path.node.property.extra.raw) ||
+    "";
 
   if (expression === "") {
     if (computed) {
-      return `[${name}]`;
+      return name === undefined ? `[${value}]` : `[${name}]`;
     }
     return name;
   }
@@ -316,10 +327,14 @@ function extendSnippet(
     if (prevComputed || prevArray) {
       return `[${name}]${expression}`;
     }
-    return `[${name}].${expression}`;
+    return `[${name === undefined ? value : name}].${expression}`;
   }
 
   if (prevComputed || prevArray) {
+    return `${name}${expression}`;
+  }
+
+  if (isComputedExpression(expression) && name !== undefined) {
     return `${name}${expression}`;
   }
 
@@ -329,8 +344,11 @@ function extendSnippet(
 function getMemberSnippet(node: Node, expression: string = "") {
   if (t.isMemberExpression(node)) {
     const name = node.property.name;
-
-    return getMemberSnippet(node.object, extendSnippet(name, expression));
+    const snippet = getMemberSnippet(
+      node.object,
+      extendSnippet(name, expression, { node })
+    );
+    return snippet;
   }
 
   if (t.isCallExpression(node)) {
@@ -342,6 +360,9 @@ function getMemberSnippet(node: Node, expression: string = "") {
   }
 
   if (t.isIdentifier(node)) {
+    if (isComputedExpression(expression)) {
+      return `${node.name}${expression}`;
+    }
     return `${node.name}.${expression}`;
   }
 

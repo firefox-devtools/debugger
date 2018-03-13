@@ -11,6 +11,7 @@ cases(
     const source = original
       ? getOriginalSource(file, type)
       : getSource(file, type);
+
     expect(formatSymbols(source)).toMatchSnapshot();
   },
   [
