@@ -7,6 +7,7 @@
 .*mozilla-central/.*
 .*flow-coverage-report/.*
 .*custom_format_broken.json
+<PROJECT_ROOT>/webpack-stats/.*
 
 [libs]
 ./src/global-types.js
