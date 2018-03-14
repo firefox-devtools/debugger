@@ -1,6 +1,6 @@
 import { findBestMatchExpression } from "../ast";
 
-import getSymbols from "../../workers/parser/getSymbols";
+import { getSymbols } from "../../workers/parser/getSymbols";
 import { getSource } from "../../workers/parser/tests/helpers";
 import { setSource } from "../../workers/parser/sources";
 

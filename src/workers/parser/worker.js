@@ -2,8 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
+// @flow
+
 import { getClosestExpression } from "./utils/closest";
-import getSymbols, { clearSymbols } from "./getSymbols";
+import { getSymbols, clearSymbols } from "./getSymbols";
 import { clearASTs } from "./utils/ast";
 import getScopes, { clearScopes } from "./getScopes";
 import { hasSource, setSource, clearSources } from "./sources";

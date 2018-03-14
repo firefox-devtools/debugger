@@ -1,7 +1,7 @@
 import { getASTLocation } from "../astBreakpointLocation.js";
 import { getSource } from "../../../workers/parser/tests/helpers";
 import { setSource } from "../../../workers/parser/sources";
-import getSymbols from "../../../workers/parser/getSymbols";
+import { getSymbols } from "../../../workers/parser/getSymbols";
 import cases from "jest-in-case";
 
 async function setup({ fileName, location, functionName }) {

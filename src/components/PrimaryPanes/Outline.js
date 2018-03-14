@@ -15,9 +15,9 @@ import PreviewFunction from "../shared/PreviewFunction";
 import { uniq, sortBy } from "lodash";
 import type {
   SymbolDeclarations,
-  SymbolDeclaration
-} from "../../workers/parser/getSymbols";
-import type { AstLocation } from "../../workers/parser/types";
+  SymbolDeclaration,
+  AstLocation
+} from "../../workers/parser";
 import type { SourceRecord } from "../../reducers/sources";
 
 type Props = {

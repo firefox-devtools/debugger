@@ -7,12 +7,8 @@
 import flatten from "lodash/flatten";
 import * as t from "@babel/types";
 
-import type {
-  Node,
-  TraversalAncestors,
-  Location as BabelLocation
-} from "@babel/types";
-import createSimplePath, { type SimplePath } from "./utils/simple-path";
+import type { Node, TraversalAncestors } from "@babel/types";
+import createSimplePath from "./utils/simple-path";
 import { traverseAst } from "./utils/ast";
 import {
   isVariable,
@@ -20,43 +16,14 @@ import {
   getVariables,
   isComputedExpression
 } from "./utils/helpers";
+
 import { inferClassName } from "./utils/inferClassName";
 import getFunctionName from "./utils/getFunctionName";
 
+import type { SimplePath } from "./utils/simple-path";
+import type { SymbolDeclarations, SymbolDeclaration } from "./types";
+
 let symbolDeclarations = new Map();
-
-export type ClassDeclaration = {|
-  name: string,
-  location: BabelLocation,
-  parent?: ClassDeclaration
-|};
-
-export type SymbolDeclaration = {|
-  name: string,
-  expression?: string,
-  klass?: ?string,
-  location: BabelLocation,
-  expressionLocation?: BabelLocation,
-  parameterNames?: string[],
-  identifier?: Object,
-  computed?: Boolean,
-  values?: string[]
-|};
-
-export type FunctionDeclaration = SymbolDeclaration & {|
-  parameterNames: string[]
-|};
-
-export type SymbolDeclarations = {
-  classes: Array<ClassDeclaration>,
-  functions: Array<SymbolDeclaration>,
-  variables: Array<SymbolDeclaration>,
-  memberExpressions: Array<SymbolDeclaration>,
-  callExpressions: Array<SymbolDeclaration>,
-  objectProperties: Array<SymbolDeclaration>,
-  identifiers: Array<SymbolDeclaration>,
-  comments: Array<SymbolDeclaration>
-};
 
 function getFunctionParameterNames(path: SimplePath): string[] {
   if (path.node.params != null) {
@@ -484,7 +451,7 @@ export function clearSymbols() {
   symbolDeclarations = new Map();
 }
 
-export default function getSymbols(sourceId: string): SymbolDeclarations {
+export function getSymbols(sourceId: string): SymbolDeclarations {
   if (symbolDeclarations.has(sourceId)) {
     const symbols = symbolDeclarations.get(sourceId);
     if (symbols) {

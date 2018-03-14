@@ -21,7 +21,6 @@ import {
 } from "../selectors";
 
 import { getMappedExpression } from "./expressions";
-
 import { isEqual } from "lodash";
 
 import type { ThunkArgs } from "./types";
@@ -91,7 +90,6 @@ function isInvalidTarget(target: HTMLElement) {
 
 export function updatePreview(target: HTMLElement, editor: any) {
   return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
-    const tokenText = target.innerText ? target.innerText.trim() : "";
     const tokenPos = getTokenLocation(editor.codeMirror, target);
     const cursorPos = target.getBoundingClientRect();
     const preview = getPreview(getState());
@@ -126,9 +124,9 @@ export function updatePreview(target: HTMLElement, editor: any) {
 
     let match;
     if (!symbols || symbols.loading) {
-      match = findBestMatchExpression(symbols, tokenPos, tokenText);
-    } else {
       match = getExpressionFromCoords(editor.codeMirror, tokenPos);
+    } else {
+      match = findBestMatchExpression(symbols, tokenPos);
     }
 
     if (!match) {

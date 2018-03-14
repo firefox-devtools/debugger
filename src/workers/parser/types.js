@@ -12,4 +12,35 @@ export type Scope = {
   bindings: Object[]
 };
 
-export type { SymbolDeclaration, SymbolDeclarations } from "./getSymbols";
+export type ClassDeclaration = {|
+  name: string,
+  location: BabelLocation,
+  parent?: ClassDeclaration
+|};
+
+export type SymbolDeclaration = {|
+  name: string,
+  expression?: string,
+  klass?: ?string,
+  location: BabelLocation,
+  expressionLocation?: BabelLocation,
+  parameterNames?: string[],
+  identifier?: Object,
+  computed?: Boolean,
+  values?: string[]
+|};
+
+export type FunctionDeclaration = SymbolDeclaration & {|
+  parameterNames: string[]
+|};
+
+export type SymbolDeclarations = {
+  classes: Array<ClassDeclaration>,
+  functions: Array<SymbolDeclaration>,
+  variables: Array<SymbolDeclaration>,
+  memberExpressions: Array<SymbolDeclaration>,
+  callExpressions: Array<SymbolDeclaration>,
+  objectProperties: Array<SymbolDeclaration>,
+  identifiers: Array<SymbolDeclaration>,
+  comments: Array<SymbolDeclaration>
+};

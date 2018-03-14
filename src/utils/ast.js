@@ -2,7 +2,15 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-export function findBestMatchExpression(symbols, tokenPos, token) {
+// @flow
+
+import type { Position } from "../types";
+import type { SymbolDeclarations } from "../workers/parser";
+
+export function findBestMatchExpression(
+  symbols: SymbolDeclarations,
+  tokenPos: Position
+) {
   const { memberExpressions, identifiers } = symbols;
   const { line, column } = tokenPos;
   return identifiers.concat(memberExpressions).reduce((found, expression) => {
