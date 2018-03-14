@@ -39,6 +39,10 @@
   height: 13px;
 }
 
+.theme-dark .sources-clear-root svg {
+  fill: var(--theme-body-color);
+}
+
 .sources-clear-root .home {
   opacity: 0.5;
 }
