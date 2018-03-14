@@ -315,7 +315,7 @@ type ASTAction =
   | {
       type: "SET_SYMBOLS",
       source: Source,
-      symbols: SymbolDeclaration[]
+      value: SymbolDeclaration[]
     }
   | {
       type: "SET_EMPTY_LINES",

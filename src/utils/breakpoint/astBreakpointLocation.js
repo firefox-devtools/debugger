@@ -52,7 +52,7 @@ export function getASTLocation(
   symbols: SymbolDeclarations,
   location: Location
 ): ASTLocation {
-  if (source.isWasm) {
+  if (source.isWasm || !symbols || symbols.loading) {
     return { name: undefined, offset: location };
   }
 
