@@ -206,15 +206,14 @@ class Tab extends PureComponent<Props> {
 }
 export default connect(
   (state, props) => {
-    const selectedSource = getSelectedSource(state);
     const { source } = props;
     return {
       tabs: getTabs(state),
       selectedTab: getSelectedTab(state),
-      tabSources: getSourcesForTabs(state),
-      selectedSource: selectedSource,
-      sourceMetaData: getSourceMetaData(state, source.get("id")),
-      activeSearch: getActiveSearch(state)
+      sourceMetaData: getSourceMetaData(state, source ? source.get("id") : ""),
+      activeSearch: getActiveSearch(state),
+      getMetaData: sourceId => getSourceMetaData(state, sourceId),
+      getTabSource: sourceId => getSource(state, sourceId)
     };
   },
   dispatch => bindActionCreators(actions, dispatch)
