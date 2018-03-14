@@ -6,8 +6,12 @@
 
 import { getSymbols } from "../../workers/parser";
 
-import type { Scope, AstPosition } from "../../workers/parser/types";
-import type { SymbolDeclarations } from "../../workers/parser/getSymbols";
+import type {
+  Scope,
+  AstPosition,
+  SymbolDeclarations
+} from "../../workers/parser";
+
 import type { Location, Source, ASTLocation } from "../../types";
 
 export function containsPosition(a: AstPosition, b: AstPosition) {

@@ -24,8 +24,9 @@ import type {
 } from "../reducers/ui";
 import type { MatchedLocations } from "../reducers/file-search";
 
-import type { SymbolDeclaration, AstLocation } from "../workers/parser";
+import type { AstLocation, SymbolDeclaration } from "../workers/parser";
 import type { SourceMetaDataType } from "../reducers/ast.js";
+
 /**
  * Flow types
  * @module actions/types
