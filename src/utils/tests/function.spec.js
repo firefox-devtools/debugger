@@ -1,6 +1,6 @@
 import { findFunctionText } from "../function";
 
-import getSymbols from "../../workers/parser/getSymbols";
+import { getSymbols } from "../../workers/parser/getSymbols";
 import { getOriginalSource } from "../../workers/parser/tests/helpers";
 import { setSource } from "../../workers/parser/sources";
 

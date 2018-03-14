@@ -327,3 +327,7 @@ export type Worker = {
   type: number,
   url: string
 };
+
+export type Position = { line: number, column: number };
+
+export type Range = { end: Position, start: Position };

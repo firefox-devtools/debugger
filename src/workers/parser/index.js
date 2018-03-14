@@ -40,5 +40,11 @@ export type {
   BindingMetaValue,
   BindingType
 } from "./getScopes";
-export type { SymbolDeclaration, SymbolDeclarations } from "./getSymbols";
-export type { AstLocation } from "./types";
+
+export type {
+  SymbolDeclaration,
+  SymbolDeclarations,
+  AstLocation,
+  AstPosition,
+  Scope
+} from "./types";
