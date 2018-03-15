@@ -92,6 +92,19 @@ class SourcesTree extends Component<Props, State> {
     });
   }
 
+  componentDidMount() {
+    const { selectedSource } = this.props;
+    if (selectedSource) {
+      const highlightItems = getDirectories(
+        selectedSource.get("url"),
+        this.state.sourceTree
+      );
+
+      // eslint-disable-next-line react/no-did-mount-set-state
+      this.setState({ highlightItems });
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     const {
       projectRoot,
@@ -321,6 +334,16 @@ class SourcesTree extends Component<Props, State> {
       sourceTree
     } = this.state;
 
+    const isEmpty = sourceTree.contents.length === 0;
+
+    if (isEmpty) {
+      return (
+        <div className="no-sources-message">
+          {L10N.getStr("sources.noSourcesAvailable")}
+        </div>
+      );
+    }
+
     const onExpand = (item, expandedState) => {
       this.props.setExpandedState(expandedState);
     };
@@ -353,7 +376,6 @@ class SourcesTree extends Component<Props, State> {
       roots = () => sourceTree.contents[0].contents;
     }
 
-    const isEmpty = sourceTree.contents.length === 0;
     const treeProps = {
       autoExpandAll: false,
       autoExpandDepth: expanded ? 0 : 1,
@@ -373,14 +395,6 @@ class SourcesTree extends Component<Props, State> {
     };
 
     const tree = <ManagedTree {...treeProps} />;
-
-    if (isEmpty) {
-      return (
-        <div className="no-sources-message">
-          {L10N.getStr("sources.noSourcesAvailable")}
-        </div>
-      );
-    }
 
     const onKeyDown = e => {
       if (e.keyCode === 13 && focusedItem) {
