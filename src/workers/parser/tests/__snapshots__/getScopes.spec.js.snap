@@ -3248,6 +3248,1562 @@ Array [
 ]
 `;
 
+exports[`getScopes finds scope bindings for complex binding nesting at line 16 column 4 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "_arguments": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 31,
+                "line": 13,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 12,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 18,
+              "line": 13,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 13,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "decl",
+          },
+          Object {
+            "end": Object {
+              "column": 35,
+              "line": 19,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 25,
+              "line": 19,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "var",
+      },
+      "_this": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 31,
+                "line": 13,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 12,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 13,
+              "line": 12,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 12,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "decl",
+          },
+          Object {
+            "end": Object {
+              "column": 23,
+              "line": 19,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 18,
+              "line": 19,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "var",
+      },
+      "arg": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 3,
+                "line": 23,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 11,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 17,
+              "line": 11,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "start": Object {
+              "column": 14,
+              "line": 11,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "var",
+      },
+      "arguments": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 30,
+              "line": 13,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 21,
+              "line": 13,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 31,
+              "line": 15,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 22,
+              "line": 15,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "implicit",
+      },
+      "arrow": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 6,
+                "line": 21,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 18,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 13,
+              "line": 18,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 18,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "decl",
+          },
+          Object {
+            "end": Object {
+              "column": 9,
+              "line": 22,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 4,
+              "line": 22,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 20,
+              "line": 12,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 16,
+              "line": 12,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 20,
+              "line": 15,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 16,
+              "line": 15,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "implicit",
+      },
+    },
+    "displayName": "fn",
+    "end": Object {
+      "column": 3,
+      "line": 23,
+      "sourceId": "scopes/complex-nesting/originalSource-1",
+    },
+    "start": Object {
+      "column": 14,
+      "line": 11,
+      "sourceId": "scopes/complex-nesting/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "arguments": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "fn": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 3,
+                "line": 23,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 11,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 13,
+              "line": 11,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "start": Object {
+              "column": 11,
+              "line": 11,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "decl",
+          },
+          Object {
+            "end": Object {
+              "column": 32,
+              "line": 16,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 30,
+              "line": 16,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 34,
+              "line": 20,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 32,
+              "line": 20,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 4,
+              "line": 25,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 9,
+                "line": 25,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "parent": null,
+              "property": "call",
+              "start": Object {
+                "column": 2,
+                "line": 25,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 25,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "root",
+    "end": Object {
+      "column": 1,
+      "line": 26,
+      "sourceId": "scopes/complex-nesting/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 10,
+      "sourceId": "scopes/complex-nesting/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "__webpack_require__": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 29,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 1,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 51,
+              "line": 1,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "start": Object {
+              "column": 32,
+              "line": 1,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "var",
+      },
+      "arguments": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "exports": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 29,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 1,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 30,
+              "line": 1,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "start": Object {
+              "column": 23,
+              "line": 1,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "decl",
+          },
+          Object {
+            "end": Object {
+              "column": 29,
+              "line": 6,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 22,
+              "line": 6,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 7,
+              "line": 9,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 15,
+                "line": 9,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "parent": null,
+              "property": "default",
+              "start": Object {
+                "column": 0,
+                "line": 9,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 0,
+              "line": 9,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 24,
+              "line": 27,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 35,
+                "line": 27,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "parent": null,
+              "property": "default",
+              "start": Object {
+                "column": 17,
+                "line": 27,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 17,
+              "line": 27,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "var",
+      },
+      "module": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 29,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 1,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 21,
+              "line": 1,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "start": Object {
+              "column": 15,
+              "line": 1,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "decl",
+          },
+          Object {
+            "end": Object {
+              "column": 6,
+              "line": 27,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 14,
+                "line": 27,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "parent": null,
+              "property": "exports",
+              "start": Object {
+                "column": 0,
+                "line": 27,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 0,
+              "line": 27,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "var",
+      },
+      "root": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 26,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 10,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 13,
+              "line": 10,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 10,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "decl",
+          },
+          Object {
+            "end": Object {
+              "column": 22,
+              "line": 9,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 18,
+              "line": 9,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 38,
+              "line": 16,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 34,
+              "line": 16,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 40,
+              "line": 20,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 36,
+              "line": 20,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "named",
+    "end": Object {
+      "column": 1,
+      "line": 29,
+      "sourceId": "scopes/complex-nesting/originalSource-1",
+    },
+    "start": Object {
+      "column": 15,
+      "line": 1,
+      "sourceId": "scopes/complex-nesting/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 30,
+      "sourceId": "scopes/complex-nesting/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/complex-nesting/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+      "named": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 29,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 1,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 14,
+              "line": 1,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 1,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "var",
+      },
+      "require": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 30,
+      "sourceId": "scopes/complex-nesting/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/complex-nesting/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for complex binding nesting at line 20 column 6 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "argArrow": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 5,
+                "line": 21,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "start": Object {
+                "column": 16,
+                "line": 18,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 39,
+              "line": 18,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "start": Object {
+              "column": 31,
+              "line": 18,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "var",
+      },
+      "arguments": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "arrow",
+    "end": Object {
+      "column": 5,
+      "line": 21,
+      "sourceId": "scopes/complex-nesting/originalSource-1",
+    },
+    "start": Object {
+      "column": 31,
+      "line": 18,
+      "sourceId": "scopes/complex-nesting/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "arrow": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 5,
+                "line": 21,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "start": Object {
+                "column": 16,
+                "line": 18,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 30,
+              "line": 18,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "start": Object {
+              "column": 25,
+              "line": 18,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "const",
+      },
+    },
+    "displayName": "Function Expression",
+    "end": Object {
+      "column": 5,
+      "line": 21,
+      "sourceId": "scopes/complex-nesting/originalSource-1",
+    },
+    "start": Object {
+      "column": 16,
+      "line": 18,
+      "sourceId": "scopes/complex-nesting/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "_arguments": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 31,
+                "line": 13,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 12,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 18,
+              "line": 13,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 13,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "decl",
+          },
+          Object {
+            "end": Object {
+              "column": 35,
+              "line": 19,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 25,
+              "line": 19,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "var",
+      },
+      "_this": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 31,
+                "line": 13,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 12,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 13,
+              "line": 12,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 12,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "decl",
+          },
+          Object {
+            "end": Object {
+              "column": 23,
+              "line": 19,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 18,
+              "line": 19,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "var",
+      },
+      "arg": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 3,
+                "line": 23,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 11,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 17,
+              "line": 11,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "start": Object {
+              "column": 14,
+              "line": 11,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "var",
+      },
+      "arguments": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 30,
+              "line": 13,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 21,
+              "line": 13,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 31,
+              "line": 15,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 22,
+              "line": 15,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "implicit",
+      },
+      "arrow": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 6,
+                "line": 21,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 18,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 13,
+              "line": 18,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 18,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "decl",
+          },
+          Object {
+            "end": Object {
+              "column": 9,
+              "line": 22,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 4,
+              "line": 22,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 20,
+              "line": 12,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 16,
+              "line": 12,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 20,
+              "line": 15,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 16,
+              "line": 15,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "implicit",
+      },
+    },
+    "displayName": "fn",
+    "end": Object {
+      "column": 3,
+      "line": 23,
+      "sourceId": "scopes/complex-nesting/originalSource-1",
+    },
+    "start": Object {
+      "column": 14,
+      "line": 11,
+      "sourceId": "scopes/complex-nesting/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "arguments": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "fn": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 3,
+                "line": 23,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 11,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 13,
+              "line": 11,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "start": Object {
+              "column": 11,
+              "line": 11,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "decl",
+          },
+          Object {
+            "end": Object {
+              "column": 32,
+              "line": 16,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 30,
+              "line": 16,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 34,
+              "line": 20,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 32,
+              "line": 20,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 4,
+              "line": 25,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 9,
+                "line": 25,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "parent": null,
+              "property": "call",
+              "start": Object {
+                "column": 2,
+                "line": 25,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 25,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "root",
+    "end": Object {
+      "column": 1,
+      "line": 26,
+      "sourceId": "scopes/complex-nesting/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 10,
+      "sourceId": "scopes/complex-nesting/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "__webpack_require__": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 29,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 1,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 51,
+              "line": 1,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "start": Object {
+              "column": 32,
+              "line": 1,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "var",
+      },
+      "arguments": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "exports": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 29,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 1,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 30,
+              "line": 1,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "start": Object {
+              "column": 23,
+              "line": 1,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "decl",
+          },
+          Object {
+            "end": Object {
+              "column": 29,
+              "line": 6,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 22,
+              "line": 6,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 7,
+              "line": 9,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 15,
+                "line": 9,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "parent": null,
+              "property": "default",
+              "start": Object {
+                "column": 0,
+                "line": 9,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 0,
+              "line": 9,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 24,
+              "line": 27,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 35,
+                "line": 27,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "parent": null,
+              "property": "default",
+              "start": Object {
+                "column": 17,
+                "line": 27,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 17,
+              "line": 27,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "var",
+      },
+      "module": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 29,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 1,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 21,
+              "line": 1,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "start": Object {
+              "column": 15,
+              "line": 1,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "decl",
+          },
+          Object {
+            "end": Object {
+              "column": 6,
+              "line": 27,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 14,
+                "line": 27,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "parent": null,
+              "property": "exports",
+              "start": Object {
+                "column": 0,
+                "line": 27,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 0,
+              "line": 27,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "var",
+      },
+      "root": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 26,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 10,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 13,
+              "line": 10,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 10,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "decl",
+          },
+          Object {
+            "end": Object {
+              "column": 22,
+              "line": 9,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 18,
+              "line": 9,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 38,
+              "line": 16,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 34,
+              "line": 16,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 40,
+              "line": 20,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 36,
+              "line": 20,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "named",
+    "end": Object {
+      "column": 1,
+      "line": 29,
+      "sourceId": "scopes/complex-nesting/originalSource-1",
+    },
+    "start": Object {
+      "column": 15,
+      "line": 1,
+      "sourceId": "scopes/complex-nesting/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 30,
+      "sourceId": "scopes/complex-nesting/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/complex-nesting/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+      "named": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 29,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 1,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 14,
+              "line": 1,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 1,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "var",
+      },
+      "require": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 30,
+      "sourceId": "scopes/complex-nesting/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/complex-nesting/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
 exports[`getScopes finds scope bindings for for loops at line 2 column 0 1`] = `
 Array [
   Object {
@@ -6424,6 +7980,1845 @@ Array [
       "column": 0,
       "line": 1,
       "sourceId": "scopes/function-expression/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for out of order declarations at line 2 column 0 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "aDefault": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 33,
+                "line": 21,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 21,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 15,
+              "line": 21,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "importName": "default",
+            "start": Object {
+              "column": 7,
+              "line": 21,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "import",
+      },
+      "root": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 19,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "start": Object {
+                "column": 15,
+                "line": 3,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 28,
+              "line": 3,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "start": Object {
+              "column": 24,
+              "line": 3,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "decl",
+          },
+          Object {
+            "end": Object {
+              "column": 39,
+              "line": 11,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 35,
+              "line": 11,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "val": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 8,
+                "line": 1,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 1,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 7,
+              "line": 1,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 1,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "var",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 22,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 22,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 22,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for out of order declarations at line 5 column 0 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "arguments": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "callback": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 3,
+                "line": 16,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 10,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 19,
+              "line": 10,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "start": Object {
+              "column": 11,
+              "line": 10,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "decl",
+          },
+          Object {
+            "end": Object {
+              "column": 33,
+              "line": 11,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 25,
+              "line": 11,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 10,
+              "line": 18,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 12,
+                "line": 18,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "parent": null,
+              "start": Object {
+                "column": 2,
+                "line": 18,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "type": "call",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 18,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "var",
+      },
+      "fn": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 9,
+                "line": 6,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 6,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 8,
+              "line": 6,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 6,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 6,
+              "line": 8,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 2,
+              "line": 8,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "implicit",
+      },
+      "val": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 10,
+                "line": 4,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 4,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 9,
+              "line": 4,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 4,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "var",
+      },
+    },
+    "displayName": "root",
+    "end": Object {
+      "column": 1,
+      "line": 19,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "start": Object {
+      "column": 15,
+      "line": 3,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "aDefault": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 33,
+                "line": 21,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 21,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 15,
+              "line": 21,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "importName": "default",
+            "start": Object {
+              "column": 7,
+              "line": 21,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "import",
+      },
+      "root": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 19,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "start": Object {
+                "column": 15,
+                "line": 3,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 28,
+              "line": 3,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "start": Object {
+              "column": 24,
+              "line": 3,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "decl",
+          },
+          Object {
+            "end": Object {
+              "column": 39,
+              "line": 11,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 35,
+              "line": 11,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "val": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 8,
+                "line": 1,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 1,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 7,
+              "line": 1,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 1,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "var",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 22,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 22,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 22,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for out of order declarations at line 11 column 0 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "arguments": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "fn": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 19,
+                "line": 15,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 15,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 15,
+              "line": 15,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "start": Object {
+              "column": 13,
+              "line": 15,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "decl",
+          },
+          Object {
+            "end": Object {
+              "column": 23,
+              "line": 11,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 21,
+              "line": 11,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 45,
+              "line": 11,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 41,
+              "line": 11,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "implicit",
+      },
+      "val": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 12,
+                "line": 13,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 13,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 11,
+              "line": 13,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 13,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "decl",
+          },
+          Object {
+            "end": Object {
+              "column": 19,
+              "line": 11,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 16,
+              "line": 11,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "var",
+      },
+    },
+    "displayName": "callback",
+    "end": Object {
+      "column": 3,
+      "line": 16,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "start": Object {
+      "column": 2,
+      "line": 10,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "arguments": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "callback": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 3,
+                "line": 16,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 10,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 19,
+              "line": 10,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "start": Object {
+              "column": 11,
+              "line": 10,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "decl",
+          },
+          Object {
+            "end": Object {
+              "column": 33,
+              "line": 11,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 25,
+              "line": 11,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 10,
+              "line": 18,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 12,
+                "line": 18,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "parent": null,
+              "start": Object {
+                "column": 2,
+                "line": 18,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "type": "call",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 18,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "var",
+      },
+      "fn": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 9,
+                "line": 6,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 6,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 8,
+              "line": 6,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 6,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 6,
+              "line": 8,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 2,
+              "line": 8,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "implicit",
+      },
+      "val": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 10,
+                "line": 4,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 4,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 9,
+              "line": 4,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 4,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "var",
+      },
+    },
+    "displayName": "root",
+    "end": Object {
+      "column": 1,
+      "line": 19,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "start": Object {
+      "column": 15,
+      "line": 3,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "aDefault": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 33,
+                "line": 21,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 21,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 15,
+              "line": 21,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "importName": "default",
+            "start": Object {
+              "column": 7,
+              "line": 21,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "import",
+      },
+      "root": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 19,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "start": Object {
+                "column": 15,
+                "line": 3,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 28,
+              "line": 3,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "start": Object {
+              "column": 24,
+              "line": 3,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "decl",
+          },
+          Object {
+            "end": Object {
+              "column": 39,
+              "line": 11,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 35,
+              "line": 11,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "val": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 8,
+                "line": 1,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 1,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 7,
+              "line": 1,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 1,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "var",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 22,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 22,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 22,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for out of order declarations at line 14 column 0 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "arguments": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "fn": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 19,
+                "line": 15,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 15,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 15,
+              "line": 15,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "start": Object {
+              "column": 13,
+              "line": 15,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "decl",
+          },
+          Object {
+            "end": Object {
+              "column": 23,
+              "line": 11,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 21,
+              "line": 11,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 45,
+              "line": 11,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 41,
+              "line": 11,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "implicit",
+      },
+      "val": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 12,
+                "line": 13,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 13,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 11,
+              "line": 13,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 13,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "decl",
+          },
+          Object {
+            "end": Object {
+              "column": 19,
+              "line": 11,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 16,
+              "line": 11,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "var",
+      },
+    },
+    "displayName": "callback",
+    "end": Object {
+      "column": 3,
+      "line": 16,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "start": Object {
+      "column": 2,
+      "line": 10,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "arguments": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "callback": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 3,
+                "line": 16,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 10,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 19,
+              "line": 10,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "start": Object {
+              "column": 11,
+              "line": 10,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "decl",
+          },
+          Object {
+            "end": Object {
+              "column": 33,
+              "line": 11,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 25,
+              "line": 11,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 10,
+              "line": 18,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 12,
+                "line": 18,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "parent": null,
+              "start": Object {
+                "column": 2,
+                "line": 18,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "type": "call",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 18,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "var",
+      },
+      "fn": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 9,
+                "line": 6,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 6,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 8,
+              "line": 6,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 6,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 6,
+              "line": 8,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 2,
+              "line": 8,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "implicit",
+      },
+      "val": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 10,
+                "line": 4,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 4,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 9,
+              "line": 4,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 4,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "var",
+      },
+    },
+    "displayName": "root",
+    "end": Object {
+      "column": 1,
+      "line": 19,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "start": Object {
+      "column": 15,
+      "line": 3,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "aDefault": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 33,
+                "line": 21,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 21,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 15,
+              "line": 21,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "importName": "default",
+            "start": Object {
+              "column": 7,
+              "line": 21,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "import",
+      },
+      "root": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 19,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "start": Object {
+                "column": 15,
+                "line": 3,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 28,
+              "line": 3,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "start": Object {
+              "column": 24,
+              "line": 3,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "decl",
+          },
+          Object {
+            "end": Object {
+              "column": 39,
+              "line": 11,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 35,
+              "line": 11,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "val": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 8,
+                "line": 1,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 1,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 7,
+              "line": 1,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 1,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "var",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 22,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 22,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 22,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings for out of order declarations at line 17 column 0 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "arguments": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "callback": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 3,
+                "line": 16,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 10,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 19,
+              "line": 10,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "start": Object {
+              "column": 11,
+              "line": 10,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "decl",
+          },
+          Object {
+            "end": Object {
+              "column": 33,
+              "line": 11,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 25,
+              "line": 11,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 10,
+              "line": 18,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 12,
+                "line": 18,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "parent": null,
+              "start": Object {
+                "column": 2,
+                "line": 18,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "type": "call",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 18,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "var",
+      },
+      "fn": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 9,
+                "line": 6,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 6,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 8,
+              "line": 6,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 6,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 6,
+              "line": 8,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 2,
+              "line": 8,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "implicit",
+      },
+      "val": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 10,
+                "line": 4,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 4,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 9,
+              "line": 4,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 4,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "var",
+      },
+    },
+    "displayName": "root",
+    "end": Object {
+      "column": 1,
+      "line": 19,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "start": Object {
+      "column": 15,
+      "line": 3,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "aDefault": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 33,
+                "line": 21,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 21,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 15,
+              "line": 21,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "importName": "default",
+            "start": Object {
+              "column": 7,
+              "line": 21,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "import",
+      },
+      "root": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 19,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "start": Object {
+                "column": 15,
+                "line": 3,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 28,
+              "line": 3,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "start": Object {
+              "column": 24,
+              "line": 3,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "decl",
+          },
+          Object {
+            "end": Object {
+              "column": 39,
+              "line": 11,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 35,
+              "line": 11,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "val": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 8,
+                "line": 1,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 1,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 7,
+              "line": 1,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 1,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "var",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 22,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 22,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 22,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/out-of-order-declarations/originalSource-1",
     },
     "type": "object",
   },

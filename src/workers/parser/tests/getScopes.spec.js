@@ -30,6 +30,11 @@ cases(
       locations: [[7, 0]]
     },
     {
+      name: "finds scope bindings for complex binding nesting",
+      file: "scopes/complex-nesting",
+      locations: [[16, 4], [20, 6]]
+    },
+    {
       name: "finds scope bindings for function declarations",
       file: "scopes/function-declaration",
       locations: [[2, 0], [3, 20], [5, 1], [9, 0]]
@@ -74,6 +79,11 @@ cases(
       name: "finds scope bindings for try..catch",
       file: "scopes/try-catch",
       locations: [[2, 0], [4, 0], [7, 0]]
+    },
+    {
+      name: "finds scope bindings for out of order declarations",
+      file: "scopes/out-of-order-declarations",
+      locations: [[2, 0], [5, 0], [11, 0], [14, 0], [17, 0]]
     },
     {
       name: "finds scope bindings for block statements",

@@ -119,6 +119,8 @@ type TempScope = {
 
 type ScopeCollectionVisitorState = {
   sourceId: SourceId,
+  freeVariables: Map<string, Array<BindingLocation>>,
+  freeVariableStack: Array<Map<string, Array<BindingLocation>>>,
   scope: TempScope,
   scopeStack: Array<TempScope>
 };
@@ -133,10 +135,19 @@ export function parseSourceScopes(sourceId: SourceId): ?Array<ParsedScope> {
 
   const state = {
     sourceId,
+    freeVariables: new Map(),
+    freeVariableStack: [],
     scope: lexical,
     scopeStack: []
   };
   t.traverse(ast, scopeCollectionVisitor, state);
+
+  for (const [key, freeVariables] of state.freeVariables) {
+    const binding = global.bindings[key];
+    if (binding) {
+      binding.refs = freeVariables.concat(binding.refs);
+    }
+  }
 
   // TODO: This should probably check for ".mjs" extension on the
   // original file, and should also be skipped if the the generated
@@ -206,6 +217,9 @@ function pushTempScope(
   const scope = createTempScope(type, displayName, state.scope, loc);
 
   state.scope = scope;
+
+  state.freeVariableStack.push(state.freeVariables);
+  state.freeVariables = new Map();
   return scope;
 }
 
@@ -303,19 +317,6 @@ function hasLexicalDeclaration(node, parent) {
 }
 function isLexicalVariable(node) {
   return isNode(node, "VariableDeclaration") && isLetOrConst(node);
-}
-
-function findIdentifierInScopes(
-  scope: TempScope,
-  name: string
-): TempScope | null {
-  // Find nearest outer scope with the specifed name and add reference.
-  for (let s = scope; s; s = s.parent) {
-    if (name in s.bindings) {
-      return s;
-    }
-  }
-  return null;
 }
 
 function createGlobalScope(
@@ -576,25 +577,31 @@ const scopeCollectionVisitor = {
         }
       });
     } else if (t.isIdentifier(node) && t.isReferenced(node, parentNode)) {
-      const identScope = findIdentifierInScopes(state.scope, node.name);
-      if (identScope) {
-        identScope.bindings[node.name].refs.push({
-          type: "ref",
-          start: fromBabelLocation(node.loc.start, state.sourceId),
-          end: fromBabelLocation(node.loc.end, state.sourceId),
-          meta: buildMetaBindings(state.sourceId, node, ancestors)
-        });
+      let freeVariables = state.freeVariables.get(node.name);
+      if (!freeVariables) {
+        freeVariables = [];
+        state.freeVariables.set(node.name, freeVariables);
       }
+
+      freeVariables.push({
+        type: "ref",
+        start: fromBabelLocation(node.loc.start, state.sourceId),
+        end: fromBabelLocation(node.loc.end, state.sourceId),
+        meta: buildMetaBindings(state.sourceId, node, ancestors)
+      });
     } else if (t.isThisExpression(node)) {
-      const identScope = findIdentifierInScopes(state.scope, "this");
-      if (identScope) {
-        identScope.bindings.this.refs.push({
-          type: "ref",
-          start: fromBabelLocation(node.loc.start, state.sourceId),
-          end: fromBabelLocation(node.loc.end, state.sourceId),
-          meta: buildMetaBindings(state.sourceId, node, ancestors)
-        });
+      let freeVariables = state.freeVariables.get("this");
+      if (!freeVariables) {
+        freeVariables = [];
+        state.freeVariables.set("this", freeVariables);
       }
+
+      freeVariables.push({
+        type: "ref",
+        start: fromBabelLocation(node.loc.start, state.sourceId),
+        end: fromBabelLocation(node.loc.end, state.sourceId),
+        meta: buildMetaBindings(state.sourceId, node, ancestors)
+      });
     } else if (t.isClassProperty(parentNode, { value: node })) {
       const scope = pushTempScope(state, "function", "Class Field", {
         start: fromBabelLocation(node.loc.start, state.sourceId),
@@ -625,12 +632,49 @@ const scopeCollectionVisitor = {
     ancestors: TraversalAncestors,
     state: ScopeCollectionVisitorState
   ) {
-    const scope = state.scopeStack.pop();
-    if (!scope) {
+    const currentScope = state.scope;
+    const parentScope = state.scopeStack.pop();
+    if (!parentScope) {
       throw new Error("Assertion failure - unsynchronized pop");
     }
+    state.scope = parentScope;
 
-    state.scope = scope;
+    // It is possible, as in the case of function expressions, that a single
+    // node has added multiple scopes, so we need to traverse upward here
+    // rather than jumping stright to 'parentScope'.
+    for (
+      let scope = currentScope;
+      scope && scope !== parentScope;
+      scope = scope.parent
+    ) {
+      const freeVariables = state.freeVariables;
+      state.freeVariables = state.freeVariableStack.pop();
+      const parentFreeVariables = state.freeVariables;
+
+      // Match up any free variables that match this scope's bindings and
+      // merge then into the refs.
+      for (const key of Object.keys(scope.bindings)) {
+        const binding = scope.bindings[key];
+
+        const freeVars = freeVariables.get(key);
+        if (freeVars) {
+          binding.refs.push(...freeVars);
+          freeVariables.delete(key);
+        }
+      }
+
+      // Move any undeclared references in this scope into the parent for
+      // processing in higher scopes.
+      for (const [key, value] of freeVariables) {
+        let refs = parentFreeVariables.get(key);
+        if (!refs) {
+          refs = [];
+          parentFreeVariables.set(key, refs);
+        }
+
+        refs.push(...value);
+      }
+    }
   }
 };
 
