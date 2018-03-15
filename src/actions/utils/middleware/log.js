@@ -7,6 +7,7 @@ import { isTesting } from "devtools-config";
 
 const blacklist = [
   "SET_POPUP_OBJECT_PROPERTIES",
+  "SET_PAUSE_POINTS",
   "SET_SYMBOLS",
   "OUT_OF_SCOPE_LOCATIONS",
   "MAP_SCOPES",

@@ -17,14 +17,19 @@ import type {
 } from "../types";
 
 import type { State } from "../reducers/types";
+
 import type {
   ActiveSearchType,
   OrientationType,
   SelectedPrimaryPaneTabType
 } from "../reducers/ui";
-import type { MatchedLocations } from "../reducers/file-search";
 
-import type { AstLocation, SymbolDeclaration } from "../workers/parser";
+import type { MatchedLocations } from "../reducers/file-search";
+import type {
+  SymbolDeclaration,
+  AstLocation,
+  PausePoint
+} from "../workers/parser";
 import type { SourceMetaDataType } from "../reducers/ast.js";
 
 /**
@@ -317,6 +322,11 @@ type ASTAction =
       type: "SET_SYMBOLS",
       source: Source,
       value: SymbolDeclaration[]
+    }
+  | {
+      type: "SET_PAUSE_POINTS",
+      source: Source,
+      pausePoints: PausePoint[]
     }
   | {
       type: "SET_EMPTY_LINES",

@@ -55,14 +55,14 @@ const evaluationResult = {
 };
 
 describe("ast", () => {
-  describe("setEmptyLines", () => {
+  describe("setPausePoints", () => {
     it("scopes", async () => {
       const store = createStore(threadClient);
       const { dispatch, getState } = store;
       const source = makeSource("scopes.js");
       await dispatch(actions.newSource(source));
       await dispatch(actions.loadSourceText(I.Map({ id: "scopes.js" })));
-      await dispatch(actions.setEmptyLines("scopes.js"));
+      await dispatch(actions.setPausePoints("scopes.js"));
       await waitForState(store, state => {
         const lines = getEmptyLines(state, source);
         return lines && lines.length > 0;

@@ -39,7 +39,7 @@ cases(
       invalid: [[2, 6], [2, 25], [2, 31], [7, 14], [7, 41]]
     },
     {
-      name: "finds valid and invalid locations in functions",
+      name: "finds valid and invalid locations in blocks",
       file: "pause/blocks",
       valid: [[1, 0], [2, 0], [3, 0]],
       invalid: [[2, 22]]

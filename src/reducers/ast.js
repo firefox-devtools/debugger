@@ -12,6 +12,8 @@
 import * as I from "immutable";
 
 import makeRecord from "../utils/makeRecord";
+import { findEmptyLines } from "../utils/ast";
+
 import type { SymbolDeclarations, AstLocation } from "../workers/parser/types";
 
 import type { Map } from "immutable";
@@ -29,6 +31,7 @@ export type SourceMetaDataType = {
 };
 
 export type SourceMetaDataMap = Map<string, SourceMetaDataType>;
+export type PausePointsMap = Map<string, any>;
 
 export type Preview =
   | {| updating: true |}
@@ -49,6 +52,7 @@ export type ASTState = {
   outOfScopeLocations: ?Array<AstLocation>,
   inScopeLines: ?Array<Number>,
   preview: Preview,
+  pausePoints: PausePointsMap,
   sourceMetaData: SourceMetaDataMap
 };
 
@@ -60,6 +64,7 @@ export function initialASTState() {
       outOfScopeLocations: null,
       inScopeLines: null,
       preview: null,
+      pausePoints: I.Map(),
       sourceMetaData: I.Map()
     }: ASTState)
   )();
@@ -77,9 +82,14 @@ function update(
       }
       return state.setIn(["symbols", source.id], action.value);
     }
-    case "SET_EMPTY_LINES": {
-      const { source, emptyLines } = action;
-      return state.setIn(["emptyLines", source.id], emptyLines);
+
+    case "SET_PAUSE_POINTS": {
+      const { source, pausePoints } = action;
+      const emptyLines = findEmptyLines(source, pausePoints);
+
+      return state
+        .setIn(["pausePoints", source.id], pausePoints)
+        .setIn(["emptyLines", source.id], emptyLines);
     }
 
     case "OUT_OF_SCOPE_LOCATIONS": {
@@ -170,15 +180,23 @@ export function isEmptyLineInSource(
   selectedSource: Source
 ) {
   const emptyLines = getEmptyLines(state, selectedSource);
-  return emptyLines.includes(line);
+  return emptyLines && emptyLines.includes(line);
 }
 
 export function getEmptyLines(state: OuterState, source: Source) {
   if (!source) {
-    return [];
+    return null;
   }
 
-  return state.ast.getIn(["emptyLines", source.id]) || [];
+  return state.ast.getIn(["emptyLines", source.id]);
+}
+
+export function getPausePoints(state: OuterState, source: Source) {
+  if (!source) {
+    return null;
+  }
+
+  return state.ast.getIn(["pausePoints", source.id]);
 }
 
 export function getOutOfScopeLocations(state: OuterState) {

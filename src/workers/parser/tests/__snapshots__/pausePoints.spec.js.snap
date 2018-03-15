@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Parser.pausePoints pause-points 1`] = `
+"/*bs 1*/import {x} from \\"y\\"
+
+/*bs 2*/const arr = [
+  '1',
+  2,
+  /*b 3*/foo()
+]
+
+/*bs 4*/const obj = {
+  a: '1',
+  b: 2,
+  c: /*b 5*/foo(),
+}
+
+/*bs 6*/debugger; /*bs 7*/debugger;
+/*bs 8*/console.log(\\"a\\"); /*bs 9*/console.log(\\"a\\");
+
+/*bs 10*/foo(1, '2', /*b 11*/bar())
+
+/*b 12*/function func() {
+  /*bs 14*/console.log(\\"...\\")
+  /*bs 15*/return \\"ret\\"
+/*bs 13*/}
+
+/*bs 16*/this.x = 3;
+
+/*bs 17*/if (x) {
+
+}
+else /*bs 18*/if (y) {
+
+}
+else {
+
+}
+/*bs 19*/for (/*bs 20*/var i=0; i< 5; i++ ) {
+
+}
+
+/*bs 21*/while (x) {
+
+}
+"
+`;

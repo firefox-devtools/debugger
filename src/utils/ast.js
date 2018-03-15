@@ -4,8 +4,10 @@
 
 // @flow
 
-import type { Position } from "../types";
-import type { SymbolDeclarations } from "../workers/parser";
+import { without, range } from "lodash";
+
+import type { Source, Position } from "../types";
+import type { PausePoint, SymbolDeclarations } from "../workers/parser";
 
 export function findBestMatchExpression(
   symbols: SymbolDeclarations,
@@ -25,5 +27,24 @@ export function findBestMatchExpression(
     }
 
     return found;
-  }, {});
+  }, null);
+}
+
+export function findEmptyLines(
+  selectedSource: Source,
+  pausePoints: PausePoint[]
+) {
+  if (!pausePoints || !selectedSource) {
+    return [];
+  }
+
+  const breakpoints = pausePoints.filter(point => point.types.breakpoint);
+  const breakpointLines = breakpoints.map(point => point.location.line);
+
+  if (!selectedSource.text) {
+    return [];
+  }
+  const lineCount = selectedSource.text.split("\n").length;
+  const sourceLines = range(1, lineCount);
+  return without(sourceLines, ...breakpointLines);
 }
