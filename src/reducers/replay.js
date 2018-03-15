@@ -3,6 +3,7 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
+import { features } from "../utils/prefs";
 
 /**
  * Breakpoints reducer
@@ -26,6 +27,10 @@ const defaultFrameScopes = {
 };
 
 function update(state: ReplayState = initialState(), action: any): ReplayState {
+  if (!features.replay) {
+    return state;
+  }
+
   switch (action.type) {
     case "TRAVEL_TO": {
       return { ...state, position: action.position };
@@ -59,6 +64,11 @@ function addScopes(state: ReplayState, action: any) {
   const { frame, status, value } = action;
   const selectedFrameId = frame.id;
   const instance = state.history[state.position];
+
+  if (!instance) {
+    return state;
+  }
+
   const pausedInst = instance.paused;
 
   const generated = {
@@ -86,6 +96,11 @@ function mapScopes(state: ReplayState, action: any) {
   const { frame, status, value } = action;
   const selectedFrameId = frame.id;
   const instance = state.history[state.position];
+
+  if (!instance) {
+    return state;
+  }
+
   const pausedInst = instance.paused;
 
   const original = {
@@ -115,6 +130,7 @@ function evaluateExpression(state, action) {
   if (!instance) {
     return state;
   }
+
   const prevExpressions = instance.expressions || [];
   const expression = { input, value };
   const expressions = [...prevExpressions, expression];

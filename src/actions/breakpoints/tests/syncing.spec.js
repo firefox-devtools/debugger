@@ -8,6 +8,9 @@ jest.mock("../../../utils/prefs", () => ({
     expressions: [],
     pendingBreakpoints: {}
   },
+  features: {
+    replay: false
+  },
   clear: jest.fn()
 }));
 

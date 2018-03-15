@@ -5,7 +5,7 @@
 
 // @flow
 
-import { isPaused, getSelectedSource, getTopFrame } from "../../selectors";
+import { isPaused, getSource, getTopFrame } from "../../selectors";
 import { PROMISE } from "../utils/middleware/promise";
 import { getNextStep } from "../../workers/parser";
 import { addHiddenBreakpoint } from "../breakpoints";
@@ -162,9 +162,13 @@ function hasAwait(source, pauseLocation) {
     return false;
   }
 
-  const snippet = source.text
-    .split("\n")
-    [line - 1].slice(column - 50, column + 50);
+  const lineText = source.text.split("\n")[line - 1];
+
+  if (!lineText) {
+    return false;
+  }
+
+  const snippet = lineText.slice(column - 50, column + 50);
 
   return !!snippet.match(/(yield|await)/);
 }
@@ -184,7 +188,7 @@ export function astCommand(stepType: CommandType) {
     if (stepType == "stepOver") {
       // This type definition is ambiguous:
       const frame: any = getTopFrame(getState());
-      const source = getSelectedSource(getState()).toJS();
+      const source = getSource(getState(), frame.location.sourceId);
 
       if (source && hasAwait(source, frame.location)) {
         const nextLocation = await getNextStep(source.id, frame.location);
