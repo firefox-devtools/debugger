@@ -137,7 +137,10 @@ export class Outline extends Component<Props> {
   }
 
   render() {
-    const { symbols } = this.props;
+    const { symbols, selectedSource } = this.props;
+    if (!selectedSource) {
+      return this.renderPlaceholder();
+    }
     if (!symbols || symbols.loading) {
       return this.renderLoading();
     }
