@@ -14,9 +14,9 @@ import {
 import { setInScopeLines } from "./ast/setInScopeLines";
 import {
   getSymbols,
-  getEmptyLines,
   findOutOfScopeLocations,
-  getFramework
+  getFramework,
+  getPausePoints
 } from "../workers/parser";
 import { PROMISE } from "./utils/middleware/promise";
 
@@ -64,30 +64,8 @@ export function setSymbols(sourceId: SourceId) {
       [PROMISE]: getSymbols(source.id)
     });
 
-    dispatch(setEmptyLines(sourceId));
-    dispatch(setSourceMetaData(sourceId));
-  };
-}
-
-export function setEmptyLines(sourceId: SourceId) {
-  return async ({ dispatch, getState }: ThunkArgs) => {
-    const sourceRecord = getSource(getState(), sourceId);
-    if (!sourceRecord) {
-      return;
-    }
-
-    const source = sourceRecord.toJS();
-    if (!source.text || source.isWasm) {
-      return;
-    }
-
-    const emptyLines = await getEmptyLines(source.id);
-
-    dispatch({
-      type: "SET_EMPTY_LINES",
-      source,
-      emptyLines
-    });
+    await dispatch(setPausePoints(sourceId));
+    await dispatch(setSourceMetaData(sourceId));
   };
 }
 
@@ -111,5 +89,26 @@ export function setOutOfScopeLocations() {
     });
 
     dispatch(setInScopeLines());
+  };
+}
+
+export function setPausePoints(sourceId: SourceId) {
+  return async ({ dispatch, getState }: ThunkArgs) => {
+    const sourceRecord = getSource(getState(), sourceId);
+    if (!sourceRecord) {
+      return;
+    }
+
+    const source = sourceRecord.toJS();
+    if (!source.text || source.isWasm) {
+      return;
+    }
+
+    const pausePoints = await getPausePoints(source.id);
+    dispatch({
+      type: "SET_PAUSE_POINTS",
+      source,
+      pausePoints
+    });
   };
 }

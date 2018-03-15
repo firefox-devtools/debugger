@@ -7,7 +7,7 @@
 import assert from "../../utils/assert";
 import { remapBreakpoints } from "../breakpoints";
 
-import { setEmptyLines, setSymbols } from "../ast";
+import { setPausePoints, setSymbols } from "../ast";
 import { prettyPrint } from "../../workers/pretty-print";
 import { setSource } from "../../workers/parser";
 import { getPrettySourceURL, isLoaded } from "../../utils/source";
@@ -103,7 +103,7 @@ export function togglePrettyPrint(sourceId: string) {
 
     await dispatch(remapBreakpoints(sourceId));
     await dispatch(mapFrames());
-    await dispatch(setEmptyLines(newPrettySource.id));
+    await dispatch(setPausePoints(newPrettySource.id));
     await dispatch(setSymbols(newPrettySource.id));
 
     return dispatch(
