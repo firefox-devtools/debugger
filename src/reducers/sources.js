@@ -376,7 +376,7 @@ export function getSourceInSources(
 
 export const getSources = createSelector(
   getSourcesState,
-  sources => sources.sources
+  sources => { console.log(sources, sources.sources); return sources.sources; }
 );
 
 export const getTabs = createSelector(getSourcesState, sources => sources.tabs);

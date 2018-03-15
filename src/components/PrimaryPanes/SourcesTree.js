@@ -66,6 +66,7 @@ type State = {
   parentMap: any,
   sourceTree: Object,
   projectRoot: string,
+  projectRootUsed: boolean,
   uncollapsedTree: any,
   listItems?: any,
   highlightItems?: any
@@ -85,6 +86,7 @@ class SourcesTree extends Component<Props, State> {
     super(props);
     const { debuggeeUrl, sources, projectRoot } = this.props;
 
+    console.log('constructor() createTree!');
     this.state = createTree({
       projectRoot,
       debuggeeUrl,
@@ -110,6 +112,7 @@ class SourcesTree extends Component<Props, State> {
     ) {
       // early recreate tree because of changes
       // to project root, debugee url or lack of sources
+      console.log('componentWillReceiveProps() createTree!');
       return this.setState(
         createTree({
           sources: nextProps.sources,
@@ -143,6 +146,7 @@ class SourcesTree extends Component<Props, State> {
     // NOTE: do not run this every time a source is clicked,
     // only when a new source is added
     if (nextProps.sources != this.props.sources) {
+      console.log('componentWillReceiveProps() updateTree!');
       this.setState(
         updateTree({
           newSources: nextProps.sources,
@@ -318,8 +322,12 @@ class SourcesTree extends Component<Props, State> {
       highlightItems,
       listItems,
       parentMap,
+      projectRootUsed,
       sourceTree
     } = this.state;
+
+    //console.log(sourceTree, sourceTree.contents);
+    console.log(this.state.sources, this.props.sources)
 
     const onExpand = (item, expandedState) => {
       this.props.setExpandedState(expandedState);
@@ -329,14 +337,16 @@ class SourcesTree extends Component<Props, State> {
       this.props.setExpandedState(expandedState);
     };
 
-    const isCustomRoot = projectRoot !== "";
+    const isCustomRoot = projectRoot !== "" && projectRootUsed;
     let roots = () => sourceTree.contents;
 
     let clearProjectRootButton = null;
 
     // The "sourceTree.contents[0]" check ensures that there are contents
     // A custom root with no existing sources will be ignored
-    if (isCustomRoot && sourceTree.contents[0]) {
+
+    //if (isCustomRoot && sourceTree.contents.length) {
+    if (isCustomRoot) {
       clearProjectRootButton = (
         <button
           className="sources-clear-root"
