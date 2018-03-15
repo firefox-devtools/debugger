@@ -29,6 +29,7 @@ type State = {
 type Props = {
   expressions: List<Expression>,
   expressionError: boolean,
+  sintaxCheck(): boolean,
   addExpression: (input: string) => void,
   clearExpressionError: () => void,
   evaluateExpressions: () => void,
@@ -125,10 +126,16 @@ class Expressions extends Component<Props, State> {
   };
 
   handleNewSubmit = async (e: SyntheticEvent<HTMLFormElement>) => {
+    const { inputValue } = this.state;
+    this.props.clearExpressionError();
     e.preventDefault();
     e.stopPropagation();
-    this.props.addExpression(this.state.inputValue);
-    this.setState({ editing: false, editIndex: -1, inputValue: "" });
+    await this.props.addExpression(this.state.inputValue);
+    if (!this.props.expressionError) {
+      this.setState({ editing: false, editIndex: -1, inputValue: "" });
+    } else {
+      this.setState({ editing: false, editIndex: -1, inputValue: inputValue });
+    }
   };
 
   renderExpression = (expression: Expression, index: number) => {
