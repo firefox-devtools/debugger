@@ -10,6 +10,7 @@ import { bindActionCreators } from "redux";
 import { features } from "../utils/prefs";
 import actions from "../actions";
 import { ShortcutsModal } from "./ShortcutsModal";
+import VisibilityHandler from "./shared/VisibilityHandler";
 
 import {
   getSelectedSource,
@@ -98,6 +99,10 @@ class App extends Component<Props, State> {
   getChildContext = () => {
     return { shortcuts };
   };
+
+  componentDidUnmount() {
+    console.log("Unmounting App.");
+  }
 
   componentDidMount() {
     horizontalLayoutBreakpoint.addListener(this.onLayoutChange);
@@ -299,16 +304,18 @@ class App extends Component<Props, State> {
   render() {
     const { quickOpenEnabled } = this.props;
     return (
-      <div className="debugger">
-        {this.renderLayout()}
-        {quickOpenEnabled === true && (
-          <QuickOpenModal
-            shortcutsModalEnabled={this.state.shortcutsModalEnabled}
-            toggleShortcutsModal={() => this.toggleShortcutsModal()}
-          />
-        )}
-        {this.renderShortcutsModal()}
-      </div>
+      <VisibilityHandler>
+        <div className="debugger">
+          {this.renderLayout()}
+          {quickOpenEnabled === true && (
+            <QuickOpenModal
+              shortcutsModalEnabled={this.state.shortcutsModalEnabled}
+              toggleShortcutsModal={() => this.toggleShortcutsModal()}
+            />
+          )}
+          {this.renderShortcutsModal()}
+        </div>
+      </VisibilityHandler>
     );
   }
 }
