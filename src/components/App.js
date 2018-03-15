@@ -100,10 +100,6 @@ class App extends Component<Props, State> {
     return { shortcuts };
   };
 
-  componentDidUnmount() {
-    console.log("Unmounting App.");
-  }
-
   componentDidMount() {
     horizontalLayoutBreakpoint.addListener(this.onLayoutChange);
     verticalLayoutBreakpoint.addListener(this.onLayoutChange);
