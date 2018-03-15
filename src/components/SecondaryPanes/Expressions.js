@@ -29,7 +29,6 @@ type State = {
 type Props = {
   expressions: List<Expression>,
   expressionError: boolean,
-  sintaxCheck(): boolean,
   addExpression: (input: string) => void,
   clearExpressionError: () => void,
   evaluateExpressions: () => void,
