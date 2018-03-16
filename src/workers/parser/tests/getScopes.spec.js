@@ -96,6 +96,11 @@ cases(
       locations: [[2, 0], [4, 16], [6, 12], [7, 0]]
     },
     {
+      name: "finds scope bindings and exclude Flowtype",
+      file: "scopes/flowtype-bindings",
+      locations: [[6, 0], [8, 0]]
+    },
+    {
       name: "finds scope bindings for switch statements",
       file: "scopes/switch-statement",
       locations: [[2, 0], [5, 0], [7, 0], [9, 0], [11, 0]]

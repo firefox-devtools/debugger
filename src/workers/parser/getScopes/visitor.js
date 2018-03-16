@@ -541,7 +541,10 @@ const scopeCollectionVisitor = {
           state.sourceId
         );
       });
-    } else if (t.isImportDeclaration(node)) {
+    } else if (
+      t.isImportDeclaration(node) &&
+      (!node.importKind || node.importKind === "value")
+    ) {
       node.specifiers.forEach(spec => {
         if (t.isImportNamespaceSpecifier(spec)) {
           state.scope.bindings[spec.local.name] = {

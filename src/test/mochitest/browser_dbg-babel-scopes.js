@@ -270,6 +270,12 @@ add_task(async function() {
 
   await breakpointScopes(dbg, "non-modules", { line: 7, column: 2 }, []);
 
+  await breakpointScopes(dbg, "flowtype-bindings", { line: 8, column: 2 }, [
+    "Module",
+    ["aConst", '"a-const"'],
+    "root()"
+  ]);
+
   await breakpointScopes(dbg, "switches", { line: 7, column: 6 }, [
     "Switch",
     ["val", "2"],
