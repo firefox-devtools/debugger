@@ -70,10 +70,6 @@ export function paused(pauseInfo: Pause) {
       dispatch(removeBreakpoint(hiddenBreakpointLocation));
     }
 
-    if (!isEvaluatingExpression(getState())) {
-      dispatch(evaluateExpressions());
-    }
-
     await dispatch(mapFrames());
     const selectedFrame = getSelectedFrame(getState());
 
@@ -86,6 +82,12 @@ export function paused(pauseInfo: Pause) {
     }
 
     dispatch(togglePaneCollapse("end", false));
-    dispatch(fetchScopes());
+    await dispatch(fetchScopes());
+
+    // Run after fetching scoping data so that it may make use of the sourcemap
+    // expression mappings for local variables.
+    if (!isEvaluatingExpression(getState())) {
+      dispatch(evaluateExpressions());
+    }
   };
 }

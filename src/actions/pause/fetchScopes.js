@@ -23,6 +23,6 @@ export function fetchScopes() {
       [PROMISE]: client.getFrameScopes(frame)
     });
 
-    dispatch(mapScopes(scopes, frame));
+    await dispatch(mapScopes(scopes, frame));
   };
 }
