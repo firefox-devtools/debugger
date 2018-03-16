@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { Component } from "react";
 import { getSelectedSource, getEmptyLines } from "../../selectors";
 import type { SourceRecord } from "../../reducers/types";
-import { toEditorLine } from "../../utils/editor";
+import { toEditorLine } from "../../utils/monaco";
 
 import "./EmptyLines.css";
 
@@ -20,6 +20,12 @@ class EmptyLines extends Component {
   props: props;
 
   disableEmptyLines: Function;
+  emptyLineDecorations: string[];
+
+  constructor() {
+    super();
+    this.emptyLineDecorations = [];
+  }
 
   componentDidMount() {
     this.disableEmptyLines();
@@ -30,17 +36,17 @@ class EmptyLines extends Component {
   }
 
   componentWillUnmount() {
-    const { emptyLines, selectedSource, editor } = this.props;
+    const { emptyLines, editor } = this.props;
 
     if (!emptyLines) {
       return;
     }
-    editor.codeMirror.operation(() => {
-      emptyLines.forEach(emptyLine => {
-        const line = toEditorLine(selectedSource.get("id"), emptyLine);
-        editor.codeMirror.removeLineClass(line, "line", "empty-line");
-      });
-    });
+
+    if (this.emptyLineDecorations.length === 0) {
+      return;
+    }
+
+    editor.monaco.deltaDecorations(this.emptyLineDecorations, []);
   }
 
   disableEmptyLines() {
@@ -49,12 +55,27 @@ class EmptyLines extends Component {
     if (!emptyLines) {
       return;
     }
-    editor.codeMirror.operation(() => {
-      emptyLines.forEach(emptyLine => {
-        const line = toEditorLine(selectedSource.get("id"), emptyLine);
-        editor.codeMirror.addLineClass(line, "line", "empty-line");
-      });
+
+    const newDecorations = emptyLines.map(emptyLine => {
+      const line = toEditorLine(selectedSource.get("id"), emptyLine);
+      return {
+        options: {
+          marginClassName: "empty-line",
+          stickiness: 1
+        },
+        range: {
+          startLineNumber: line,
+          startColumn: 1,
+          endLineNumber: line,
+          endColumn: 1
+        }
+      };
     });
+
+    this.emptyLineDecorations = editor.monaco.deltaDecorations(
+      this.emptyLineDecorations,
+      newDecorations
+    );
   }
 
   render() {
