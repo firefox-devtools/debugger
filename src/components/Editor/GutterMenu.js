@@ -6,7 +6,6 @@ import { Component } from "react";
 import { showMenu } from "devtools-contextmenu";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { lineAtHeight } from "../../utils/editor";
 import {
   getContextMenu,
   getEmptyLines,
@@ -138,7 +137,8 @@ class GutterContextMenuComponent extends Component {
     const { contextMenu, ...props } = nextProps;
     const { event } = contextMenu;
     const sourceId = props.selectedSource ? props.selectedSource.get("id") : "";
-    const line = lineAtHeight(props.editor, sourceId, event);
+    // const line = lineAtHeight(props.editor, sourceId, event);
+    const line = event.line;
     const breakpoint = nextProps.breakpoints.find(
       bp => bp.location.line === line
     );

@@ -4,10 +4,9 @@
 
 // @flow
 import { Component } from "react";
-import { toEditorPosition, getDocument, hasDocument } from "../../utils/editor";
+import { getDocument, hasDocument } from "../../utils/monaco/source-documents";
 import { isLoaded } from "../../utils/source";
 import { isException } from "../../utils/pause";
-import { getIndentation } from "../../utils/indentation";
 import { connect } from "react-redux";
 import {
   getVisibleSelectedFrame,
@@ -21,7 +20,8 @@ import type { SourceRecord } from "../../reducers/types";
 type Props = {
   selectedFrame: Frame,
   why: Why,
-  selectedSource: SourceRecord
+  selectedSource: SourceRecord,
+  editor: Object
 };
 
 type TextClasses = {
@@ -39,44 +39,80 @@ function isDocumentReady(selectedSource, selectedFrame) {
 
 export class DebugLine extends Component<Props> {
   debugExpression: null;
-
+  lineHighlightDecoration: string;
+  constructor() {
+    super();
+    this.lineHighlightDecoration = "";
+  }
   componentDidUpdate(prevProps: Props) {
-    const { why, selectedFrame, selectedSource } = this.props;
-    this.setDebugLine(why, selectedFrame, selectedSource);
+    const { why, selectedFrame, selectedSource, editor } = this.props;
+    this.setDebugLine(why, selectedFrame, selectedSource, editor);
   }
 
   componentWillUpdate() {
-    const { why, selectedFrame, selectedSource } = this.props;
-    this.clearDebugLine(selectedFrame, selectedSource, why);
+    const { why, selectedFrame, selectedSource, editor } = this.props;
+    this.clearDebugLine(selectedFrame, selectedSource, why, editor);
   }
 
   componentDidMount() {
-    const { why, selectedFrame, selectedSource } = this.props;
-    this.setDebugLine(why, selectedFrame, selectedSource);
+    const { why, selectedFrame, selectedSource, editor } = this.props;
+    this.setDebugLine(why, selectedFrame, selectedSource, editor);
   }
 
-  setDebugLine(why: Why, selectedFrame: Frame, selectedSource: SourceRecord) {
+  setDebugLine(
+    why: Why,
+    selectedFrame: Frame,
+    selectedSource: SourceRecord,
+    editor: Object
+  ) {
     if (!isDocumentReady(selectedSource, selectedFrame)) {
       return;
     }
-    const sourceId = selectedFrame.location.sourceId;
+    const { sourceId, line } = selectedFrame.location;
     const doc = getDocument(sourceId);
 
-    let { line, column } = toEditorPosition(selectedFrame.location);
-    const { markTextClass, lineClass } = this.getTextClasses(why);
-    doc.addLineClass(line, "line", lineClass);
+    const maxColumn = doc.getLineMaxColumn(line);
+    const newDecoration = {
+      options: {
+        isWholeLine: true,
+        inlineClassName: "debug-remove-token-colors",
+        className: "debug-top-stack-frame-line",
+        marginClassName: "debug-top-stack-frame-line",
+        stickiness: 1
+      },
+      range: {
+        startLineNumber: line,
+        startColumn: 1,
+        endLineNumber: line,
+        endColumn: maxColumn
+      }
+    };
 
-    const lineText = doc.getLine(line);
-    column = Math.max(column, getIndentation(lineText));
-
-    this.debugExpression = doc.markText(
-      { ch: column, line },
-      { ch: null, line },
-      { className: markTextClass }
+    this.lineHighlightDecoration = editor.monaco.deltaDecorations(
+      [this.lineHighlightDecoration],
+      [newDecoration]
     );
+
+    // let { line, column } = toEditorPosition(selectedFrame.location);
+    // const { markTextClass, lineClass } = this.getTextClasses(why);
+    // doc.addLineClass(line, "line", lineClass);
+
+    // const lineText = doc.getLine(line);
+    // column = Math.max(column, getIndentation(lineText));
+
+    // this.debugExpression = doc.markText(
+    //   { ch: column, line },
+    //   { ch: null, line },
+    //   { className: markTextClass }
+    // );
   }
 
-  clearDebugLine(selectedFrame: Frame, selectedSource: SourceRecord, why: Why) {
+  clearDebugLine(
+    selectedFrame: Frame,
+    selectedSource: SourceRecord,
+    why: Why,
+    editor: Object
+  ) {
     if (!isDocumentReady(selectedSource, selectedFrame)) {
       return;
     }
@@ -85,11 +121,16 @@ export class DebugLine extends Component<Props> {
       this.debugExpression.clear();
     }
 
-    const sourceId = selectedFrame.location.sourceId;
-    const { line } = toEditorPosition(selectedFrame.location);
-    const doc = getDocument(sourceId);
-    const { lineClass } = this.getTextClasses(why);
-    doc.removeLineClass(line, "line", lineClass);
+    this.lineHighlightDecoration = editor.monaco.deltaDecorations(
+      [this.lineHighlightDecoration],
+      []
+    );
+
+    // const sourceId = selectedFrame.location.sourceId;
+    // const { line } = toEditorPosition(selectedFrame.location);
+    // const doc = getDocument(sourceId);
+    // const { lineClass } = this.getTextClasses(why);
+    // doc.removeLineClass(line, "line", lineClass);
   }
 
   getTextClasses(why: Why): TextClasses {

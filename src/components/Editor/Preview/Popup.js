@@ -83,7 +83,7 @@ export class Popup extends Component<Props> {
       return;
     }
 
-    this.marker = markText(editor, "preview-selection", range);
+    // this.marker = markText(editor, "preview-selection", range);
   }
 
   componentWillUnmount() {

@@ -10,7 +10,7 @@ import ReactDOM from "react-dom";
 import { connect } from "react-redux";
 import classnames from "classnames";
 import { isLoaded } from "../../utils/source";
-import { isFirefox } from "devtools-config";
+// import { isFirefox } from "devtools-config";
 import { features } from "../../utils/prefs";
 import { getIndentation } from "../../utils/indentation";
 
@@ -43,29 +43,33 @@ import EditorMenu from "./EditorMenu";
 import ConditionalPanel from "./ConditionalPanel";
 import type { SymbolDeclarations } from "../../workers/parser/types";
 
-import {
-  showSourceText,
-  updateDocument,
-  showLoading,
-  showErrorMessage,
-  shouldShowFooter,
-  createEditor,
-  clearEditor,
-  getCursorLine,
-  toSourceLine,
-  getDocument,
-  scrollToColumn,
-  toEditorPosition,
-  getSourceLocationFromMouseEvent,
-  hasDocument
-} from "../../utils/editor";
+// import {
+//   shouldShowFooter,
+//   createEditor,
+//   getCursorLine,
+//   scrollToColumn,
+//   toEditorPosition,
+//   getSourceLocationFromMouseEvent,
+// } from "../../utils/editor";
 
-import { resizeToggleButton, resizeBreakpointGutter } from "../../utils/ui";
+import SourceEditor from "../../utils/monaco/source-editor";
+import { toSourceLine } from "../../utils/monaco";
+import {
+  updateDocument,
+  hasDocument,
+  getDocument,
+  showLoading,
+  showSourceText,
+  clearEditor,
+  showErrorMessage
+} from "../../utils/monaco/source-documents";
+
+// import { resizeToggleButton, resizeBreakpointGutter } from "../../utils/ui";
 
 import "./Editor.css";
 import "./Highlight.css";
 
-import type SourceEditor from "../../utils/editor/source-editor";
+// import type SourceEditor from "../../utils/editor/source-editor";
 
 const cssVars = {
   searchbarHeight: "var(--editor-searchbar-height)",
@@ -116,8 +120,8 @@ class Editor extends PureComponent<Props, State> {
       return;
     }
 
-    resizeBreakpointGutter(this.state.editor.codeMirror);
-    resizeToggleButton(this.state.editor.codeMirror);
+    // resizeBreakpointGutter(this.state.editor.codeMirror);
+    // resizeToggleButton(this.state.editor.codeMirror);
   }
 
   componentWillUpdate(nextProps) {
@@ -127,54 +131,85 @@ class Editor extends PureComponent<Props, State> {
   }
 
   setupEditor() {
-    const editor = createEditor();
-
-    // disables the default search shortcuts
-    // $FlowIgnore
-    editor._initShortcuts = () => {};
+    const editor = new SourceEditor({
+      theme: "vs-dark",
+      glyphMargin: true,
+      contextmenu: false,
+      readOnly: true
+    });
 
     const node = ReactDOM.findDOMNode(this);
     if (node instanceof HTMLElement) {
       editor.appendToLocalElement(node.querySelector(".editor-mount"));
     }
 
-    const { codeMirror } = editor;
-    const codeMirrorWrapper = codeMirror.getWrapperElement();
-
-    resizeBreakpointGutter(codeMirror);
-    resizeToggleButton(codeMirror);
-
-    codeMirror.on("gutterClick", this.onGutterClick);
-
-    // Set code editor wrapper to be focusable
-    codeMirrorWrapper.tabIndex = 0;
-    codeMirrorWrapper.addEventListener("keydown", e => this.onKeyDown(e));
-    codeMirrorWrapper.addEventListener("click", e => this.onClick(e));
-
-    const toggleFoldMarkerVisibility = e => {
-      if (node instanceof HTMLElement) {
-        node
-          .querySelectorAll(".CodeMirror-guttermarker-subtle")
-          .forEach(elem => {
-            elem.classList.toggle("visible");
-          });
+    document.addEventListener("contextmenu", (e: MouseEvent) => {
+      if (e.target.id === "contextmenu-mask") {
+        e.preventDefault();
+        e.stopPropagation();
       }
-    };
+      return false;
+    });
 
-    const codeMirrorGutter = codeMirror.getGutterElement();
-    codeMirrorGutter.addEventListener("mouseleave", toggleFoldMarkerVisibility);
-    codeMirrorGutter.addEventListener("mouseenter", toggleFoldMarkerVisibility);
+    // disables the default search shortcuts
+    // $FlowIgnore
+    editor.monaco._standaloneKeybindingService.addDynamicKeybinding(
+      "-actions.find"
+    );
 
-    if (!isFirefox()) {
-      codeMirror.on("gutterContextMenu", (cm, line, eventName, event) =>
-        this.onGutterContextMenu(event)
-      );
-      codeMirror.on("contextmenu", (cm, event) => this.openMenu(event));
-    } else {
-      codeMirrorWrapper.addEventListener("contextmenu", event =>
-        this.openMenu(event)
-      );
-    }
+    editor.monaco.onMouseDown(e => {
+      const data = e.target.detail;
+      if (e.target.type !== 2 || data.isAfterLines) {
+        return;
+      }
+
+      if (e.event.leftButton) {
+        this.onGutterClick(e.target.position.lineNumber, e.event);
+      } else if (e.event.rightButton) {
+        this.onGutterContextMenu(e.target.position.lineNumber, e.event);
+      }
+      return false;
+    });
+
+    // const { codeMirror } = editor;
+    // const codeMirrorWrapper = codeMirror.getWrapperElement();
+
+    // resizeBreakpointGutter(codeMirror);
+    // resizeToggleButton(codeMirror);
+
+    // codeMirror.on("gutterClick", this.onGutterClick);
+
+    // // Set code editor wrapper to be focusable
+    // codeMirrorWrapper.tabIndex = 0;
+    // codeMirrorWrapper.addEventListener("keydown", e => this.onKeyDown(e));
+    // codeMirrorWrapper.addEventListener("click", e => this.onClick(e));
+
+    // const toggleFoldMarkerVisibility = e => {
+    //   if (node instanceof HTMLElement) {
+    //     node
+    //       .querySelectorAll(".CodeMirror-guttermarker-subtle")
+    //       .forEach(elem => {
+    //         elem.classList.toggle("visible");
+    //       });
+    //   }
+    // };
+
+    // const codeMirrorGutter = codeMirror.getGutterElement();
+    // codeMirrorGutter.addEventListener("mouseleave",
+    // toggleFoldMarkerVisibility);
+    // codeMirrorGutter.addEventListener("mouseenter",
+    // toggleFoldMarkerVisibility);
+
+    // if (!isFirefox()) {
+    //   codeMirror.on("gutterContextMenu", (cm, line, eventName, event) =>
+    //     this.onGutterContextMenu(event)
+    //   );
+    //   codeMirror.on("contextmenu", (cm, event) => this.openMenu(event));
+    // } else {
+    //   codeMirrorWrapper.addEventListener("contextmenu", event =>
+    //     this.openMenu(event)
+    //   );
+    // }
 
     this.setState({ editor });
     return editor;
@@ -231,11 +266,7 @@ class Editor extends PureComponent<Props, State> {
   }
 
   getCurrentLine() {
-    const { codeMirror } = this.state.editor;
-    const { selectedSource } = this.props;
-    const line = getCursorLine(codeMirror);
-
-    return toSourceLine(selectedSource.get("id"), line);
+    return this.state.editor.getSelection().startLineNumber;
   }
 
   onToggleBreakpoint = (key, e) => {
@@ -266,22 +297,22 @@ class Editor extends PureComponent<Props, State> {
     this.toggleConditionalPanel(line);
   };
 
-  onKeyDown(e) {
-    const { codeMirror } = this.state.editor;
-    const { key, target } = e;
-    const codeWrapper = codeMirror.getWrapperElement();
-    const textArea = codeWrapper.querySelector("textArea");
+  //   onKeyDown(e) {
+  //     const { codeMirror } = this.state.editor;
+  //     const { key, target } = e;
+  //     const codeWrapper = codeMirror.getWrapperElement();
+  //     const textArea = codeWrapper.querySelector("textArea");
 
-    if (key === "Escape" && target == textArea) {
-      e.stopPropagation();
-      e.preventDefault();
-      codeWrapper.focus();
-    } else if (key === "Enter" && target == codeWrapper) {
-      e.preventDefault();
-      // Focus into editor's text area
-      textArea.focus();
-    }
-  }
+  //     if (key === "Escape" && target == textArea) {
+  //       e.stopPropagation();
+  //       e.preventDefault();
+  //       codeWrapper.focus();
+  //     } else if (key === "Enter" && target == codeWrapper) {
+  //       e.preventDefault();
+  //       // Focus into editor's text area
+  //       textArea.focus();
+  //     }
+  //   }
 
   /*
    * The default Esc command is overridden in the CodeMirror keymap to allow
@@ -294,11 +325,11 @@ class Editor extends PureComponent<Props, State> {
       return;
     }
 
-    const { codeMirror } = this.state.editor;
-    if (codeMirror.listSelections().length > 1) {
-      codeMirror.execCommand("singleSelection");
-      e.preventDefault();
-    }
+    // const { codeMirror } = this.state.editor;
+    // if (codeMirror.listSelections().length > 1) {
+    //   codeMirror.execCommand("singleSelection");
+    //   e.preventDefault();
+    // }
   };
 
   onSearchAgain = (_, e) => {
@@ -317,7 +348,7 @@ class Editor extends PureComponent<Props, State> {
     return setContextMenu("Editor", event);
   }
 
-  onGutterClick = (cm, line, gutter, ev) => {
+  onGutterClick = (line, ev) => {
     const {
       selectedSource,
       conditionalPanelLine,
@@ -327,22 +358,8 @@ class Editor extends PureComponent<Props, State> {
       continueToHere
     } = this.props;
 
-    // ignore right clicks in the gutter
-    if (
-      (ev.ctrlKey && ev.button === 0) ||
-      ev.which === 3 ||
-      (selectedSource && selectedSource.get("isBlackBoxed")) ||
-      !selectedSource
-    ) {
-      return;
-    }
-
     if (conditionalPanelLine) {
       return closeConditionalPanel();
-    }
-
-    if (gutter === "CodeMirror-foldgutter") {
-      return;
     }
 
     const sourceLine = toSourceLine(selectedSource.get("id"), line);
@@ -358,24 +375,25 @@ class Editor extends PureComponent<Props, State> {
     return toggleBreakpoint(sourceLine);
   };
 
-  onGutterContextMenu = event => {
+  onGutterContextMenu = (line, event) => {
     event.stopPropagation();
     event.preventDefault();
+    event.line = line;
     return this.props.setContextMenu("Gutter", event);
   };
 
-  onClick(e: MouseEvent) {
-    const { selectedLocation, jumpToMappedLocation } = this.props;
+  //   onClick(e: MouseEvent) {
+  //     const { selectedLocation, jumpToMappedLocation } = this.props;
 
-    if (e.metaKey && e.altKey) {
-      const sourceLocation = getSourceLocationFromMouseEvent(
-        this.state.editor,
-        selectedLocation,
-        e
-      );
-      jumpToMappedLocation(sourceLocation);
-    }
-  }
+  //     if (e.metaKey && e.altKey) {
+  //       const sourceLocation = getSourceLocationFromMouseEvent(
+  //         this.state.editor,
+  //         selectedLocation,
+  //         e
+  //       );
+  //       jumpToMappedLocation(sourceLocation);
+  //     }
+  //   }
 
   toggleConditionalPanel = line => {
     const {
@@ -423,14 +441,17 @@ class Editor extends PureComponent<Props, State> {
     const { editor } = this.state;
 
     if (this.shouldScrollToLocation(nextProps)) {
-      let { line, column } = toEditorPosition(nextProps.selectedLocation);
+      const line = nextProps.selectedLocation.line;
+      let column = nextProps.selectedLocation.column;
+      // let { line, column } = toEditorPosition(nextProps.selectedLocation);
 
       if (hasDocument(nextProps.selectedSource.get("id"))) {
         const doc = getDocument(nextProps.selectedSource.get("id"));
-        const lineText = doc.getLine(line);
+        const lineText = doc.getLineContent(line);
         column = Math.max(column, getIndentation(lineText));
       }
-      scrollToColumn(editor.codeMirror, line, column);
+
+      editor.monaco.revealPosition({ lineNumber: line, column: column });
     }
   }
 
@@ -443,7 +464,7 @@ class Editor extends PureComponent<Props, State> {
       nextProps.startPanelSize !== this.props.startPanelSize ||
       nextProps.endPanelSize !== this.props.endPanelSize
     ) {
-      this.state.editor.codeMirror.setSize();
+      this.state.editor.monaco.layout();
     }
   }
 
@@ -489,13 +510,13 @@ class Editor extends PureComponent<Props, State> {
   }
 
   getInlineEditorStyles() {
-    const { selectedSource, horizontal, searchOn } = this.props;
+    const { searchOn } = this.props;
 
     const subtractions = [];
 
-    if (shouldShowFooter(selectedSource, horizontal)) {
-      subtractions.push(cssVars.footerHeight);
-    }
+    // if (shouldShowFooter(selectedSource, horizontal)) {
+    //   subtractions.push(cssVars.footerHeight);
+    // }
 
     if (searchOn) {
       subtractions.push(cssVars.searchbarHeight);
@@ -543,11 +564,11 @@ class Editor extends PureComponent<Props, State> {
 
     return (
       <div>
-        <DebugLine />
-        <HighlightLine />
+        <DebugLine editor={editor} />
+        <HighlightLine editor={editor} />
         <EmptyLines editor={editor} />
         <Breakpoints editor={editor} />
-        <Preview editor={editor} editorRef={this.$editorWrapper} />;
+        <Preview editor={editor} />;
         <Footer editor={editor} horizontal={horizontal} />
         <HighlightLines editor={editor} />
         <EditorMenu editor={editor} />

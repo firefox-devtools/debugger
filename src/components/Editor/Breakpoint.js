@@ -3,26 +3,13 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-import React, { Component } from "react";
-import ReactDOM from "react-dom";
-import classnames from "classnames";
-import Svg from "../shared/Svg";
+import { Component } from "react";
+// import ReactDOM from "react-dom";
+// import classnames from "classnames";
+// import Svg from "../shared/Svg";
 
-import { getDocument, toEditorLine } from "../../utils/editor";
-import { features } from "../../utils/prefs";
-
-const breakpointSvg = document.createElement("div");
-ReactDOM.render(<Svg name="breakpoint" />, breakpointSvg);
-
-function makeMarker(isDisabled: boolean) {
-  const bp = breakpointSvg.cloneNode(true);
-  bp.className = classnames("editor new-breakpoint", {
-    "breakpoint-disabled": isDisabled,
-    "folding-enabled": features.codeFolding
-  });
-
-  return bp;
-}
+import { toEditorLine } from "../../utils/monaco";
+// import { features } from "../../utils/prefs";
 
 type Props = {
   breakpoint: Object,
@@ -32,9 +19,11 @@ type Props = {
 
 class Breakpoint extends Component<Props> {
   addBreakpoint: Function;
+  breakpointGutterDecoration: string;
 
   constructor() {
     super();
+    this.breakpointGutterDecoration = "";
   }
 
   addBreakpoint = () => {
@@ -54,18 +43,25 @@ class Breakpoint extends Component<Props> {
     const sourceId = selectedSource.get("id");
     const line = toEditorLine(sourceId, breakpoint.location.line);
 
-    editor.codeMirror.setGutterMarker(
-      line,
-      "breakpoints",
-      makeMarker(breakpoint.disabled)
-    );
+    const newDecoration = {
+      options: {
+        glyphMarginClassName: breakpoint.disabled
+          ? "debug-breakpoint-hint-disabled"
+          : "debug-breakpoint-hint",
+        stickiness: 1
+      },
+      range: {
+        startLineNumber: line,
+        startColumn: 1,
+        endLineNumber: line,
+        endColumn: 1
+      }
+    };
 
-    editor.codeMirror.addLineClass(line, "line", "new-breakpoint");
-    if (breakpoint.condition) {
-      editor.codeMirror.addLineClass(line, "line", "has-condition");
-    } else {
-      editor.codeMirror.removeLineClass(line, "line", "has-condition");
-    }
+    this.breakpointGutterDecoration = editor.monaco.deltaDecorations(
+      [this.breakpointGutterDecoration],
+      [newDecoration]
+    );
   };
 
   shouldComponentUpdate(nextProps: any) {
@@ -99,23 +95,7 @@ class Breakpoint extends Component<Props> {
       return;
     }
 
-    const sourceId = selectedSource.get("id");
-    const doc = getDocument(sourceId);
-    if (!doc) {
-      return;
-    }
-
-    const line = toEditorLine(sourceId, breakpoint.location.line);
-
-    // NOTE: when we upgrade codemirror we can use `doc.setGutterMarker`
-    if (doc.setGutterMarker) {
-      doc.setGutterMarker(line, "breakpoints", null);
-    } else {
-      editor.codeMirror.setGutterMarker(line, "breakpoints", null);
-    }
-
-    doc.removeLineClass(line, "line", "new-breakpoint");
-    doc.removeLineClass(line, "line", "has-condition");
+    editor.monaco.deltaDecorations([this.breakpointGutterDecoration], []);
   }
 
   render() {

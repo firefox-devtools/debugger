@@ -7,7 +7,7 @@ import React, { PureComponent } from "react";
 import ReactDOM from "react-dom";
 import { connect } from "react-redux";
 import "./ConditionalPanel.css";
-import { toEditorLine } from "../../utils/editor";
+import { toEditorLine } from "../../utils/monaco";
 import actions from "../../actions";
 
 import {
@@ -26,15 +26,20 @@ type Props = {
   closeConditionalPanel: () => void
 };
 
+const WIDGET_ID = "editor.contrib.zoneWidget";
+
 export class ConditionalPanel extends PureComponent<Props> {
-  cbPanel: null | Object;
   input: ?HTMLInputElement;
   panelNode: ?HTMLDivElement;
-  scrollParent: ?HTMLElement;
+  panel: ?HTMLDivElement;
+  expressionViewZone: number;
+  expressionOverlay: any;
 
   constructor() {
     super();
-    this.cbPanel = null;
+    this.panel = null;
+    this.expressionViewZone = -1;
+    this.expressionOverlay = null;
   }
 
   keepFocusOnInput() {
@@ -67,21 +72,18 @@ export class ConditionalPanel extends PureComponent<Props> {
   }
 
   clearConditionalPanel() {
-    if (this.cbPanel) {
-      this.cbPanel.clear();
-      this.cbPanel = null;
+    const { editor } = this.props;
+    if (this.expressionOverlay !== null) {
+      editor.monaco.removeOverlayWidget(this.expressionOverlay);
+      this.expressionOverlay = null;
     }
-    if (this.scrollParent) {
-      this.scrollParent.removeEventListener("scroll", this.repositionOnScroll);
+    if (this.expressionViewZone >= 0) {
+      editor.monaco.changeViewZones(accessor => {
+        accessor.removeZone(this.expressionViewZone);
+        this.expressionViewZone = -1;
+      });
     }
   }
-
-  repositionOnScroll = () => {
-    if (this.panelNode && this.scrollParent) {
-      const { scrollLeft } = this.scrollParent;
-      this.panelNode.style.transform = `translateX(${scrollLeft}px)`;
-    }
-  };
 
   componentWillMount() {
     if (this.props.line) {
@@ -119,32 +121,37 @@ export class ConditionalPanel extends PureComponent<Props> {
     const sourceId = selectedLocation ? selectedLocation.sourceId : "";
 
     const editorLine = toEditorLine(sourceId, line);
-    this.cbPanel = editor.codeMirror.addLineWidget(
-      editorLine,
-      this.renderConditionalPanel(props),
-      {
-        coverGutter: true,
-        noHScroll: false
-      }
-    );
-    if (this.input) {
-      let parent: ?Node = this.input.parentNode;
-      while (parent) {
-        if (
-          parent instanceof HTMLElement &&
-          parent.classList.contains("CodeMirror-scroll")
-        ) {
-          this.scrollParent = parent;
-          break;
-        }
-        parent = (parent.parentNode: ?Node);
-      }
-
-      if (this.scrollParent) {
-        this.scrollParent.addEventListener("scroll", this.repositionOnScroll);
-        this.repositionOnScroll();
-      }
+    const viewZone = document.createElement("div");
+    if (this.panel === null) {
+      this.panel = this.renderConditionalPanel(props);
     }
+    editor.monaco.changeViewZones(accessor => {
+      this.expressionViewZone = accessor.addZone({
+        afterLineNumber: editorLine,
+        heightInPx: 45,
+        domNode: viewZone,
+        onDomNodeTop: top => {
+          if (this.panel) {
+            this.panel.style.top = `${top}px`;
+            this.panel.style.width = "100%";
+          }
+        }
+      });
+
+      this.expressionOverlay = {
+        getId: () => {
+          return WIDGET_ID + this.expressionViewZone;
+        },
+        getDomNode: () => {
+          return this.panel;
+        },
+        getPosition: () => {
+          return null;
+        }
+      };
+
+      editor.monaco.addOverlayWidget(this.expressionOverlay);
+    });
   }
 
   renderConditionalPanel(props: Props) {
