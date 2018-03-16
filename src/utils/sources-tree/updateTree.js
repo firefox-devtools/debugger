@@ -17,6 +17,10 @@ function newSourcesSet(newSources, prevSources) {
   return next.subtract(prev);
 }
 
+function allSourcesSet(newSources, prevSources) {
+  return prevSources.toSet().union(newSources.toSet());
+}
+
 type Params = {
   newSources: SourcesMap,
   prevSources: SourcesMap,
@@ -31,6 +35,7 @@ export function updateTree({
   prevSources,
   debuggeeUrl,
   projectRoot,
+  projectRootUsed,
   uncollapsedTree,
   sourceTree
 }: Params) {
@@ -42,16 +47,14 @@ export function updateTree({
 
   // If a project root is set but the page does not have an sources for that root,
   // continue to store the root but show the entire tree for the time being
-  /*
-  let projectRootUsed = true;
+  projectRootUsed = true;
   if (uncollapsedTree.contents.length === 0) {
     projectRootUsed = false;
-    for (const source of sources.valueSeq()) {
+    const allSources = allSourcesSet(newSources, prevSources);
+    for (const source of allSources) {
       addToTree(uncollapsedTree, source, debuggeeUrl, "");
     }
   }
-  */
-  let projectRootUsed = true;
 
   const newSourceTree = collapseTree(uncollapsedTree);
 

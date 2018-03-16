@@ -86,7 +86,6 @@ class SourcesTree extends Component<Props, State> {
     super(props);
     const { debuggeeUrl, sources, projectRoot } = this.props;
 
-    console.log('constructor() createTree!');
     this.state = createTree({
       projectRoot,
       debuggeeUrl,
@@ -112,7 +111,6 @@ class SourcesTree extends Component<Props, State> {
     ) {
       // early recreate tree because of changes
       // to project root, debugee url or lack of sources
-      console.log('componentWillReceiveProps() createTree!');
       return this.setState(
         createTree({
           sources: nextProps.sources,
@@ -146,8 +144,8 @@ class SourcesTree extends Component<Props, State> {
     // NOTE: do not run this every time a source is clicked,
     // only when a new source is added
     if (nextProps.sources != this.props.sources) {
-      console.log('componentWillReceiveProps() updateTree!');
       this.setState(
+        /*
         updateTree({
           newSources: nextProps.sources,
           prevSources: sources,
@@ -155,6 +153,12 @@ class SourcesTree extends Component<Props, State> {
           projectRoot,
           uncollapsedTree,
           sourceTree
+        })
+        */
+        createTree({
+          sources: nextProps.sources,
+          debuggeeUrl: nextProps.debuggeeUrl,
+          projectRoot: nextProps.projectRoot
         })
       );
     }
@@ -296,6 +300,7 @@ class SourcesTree extends Component<Props, State> {
     return (
       <div
         className={classnames("node", { focused })}
+        title={item.path}
         key={item.path}
         onClick={e => {
           this.focusItem(item);
@@ -326,9 +331,6 @@ class SourcesTree extends Component<Props, State> {
       sourceTree
     } = this.state;
 
-    //console.log(sourceTree, sourceTree.contents);
-    console.log(this.state.sources, this.props.sources)
-
     const onExpand = (item, expandedState) => {
       this.props.setExpandedState(expandedState);
     };
@@ -345,8 +347,7 @@ class SourcesTree extends Component<Props, State> {
     // The "sourceTree.contents[0]" check ensures that there are contents
     // A custom root with no existing sources will be ignored
 
-    //if (isCustomRoot && sourceTree.contents.length) {
-    if (isCustomRoot) {
+    if (isCustomRoot && sourceTree.contents.length) {
       clearProjectRootButton = (
         <button
           className="sources-clear-root"
