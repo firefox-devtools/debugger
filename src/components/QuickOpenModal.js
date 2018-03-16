@@ -365,7 +365,7 @@ export class QuickOpenModal extends Component<Props, State> {
   renderLoading = () => {
     const { symbols, selectedSource } = this.props;
 
-    if (selectedSource) {
+    if ((this.isFunctionQuery() || this.isVariableQuery()) && selectedSource) {
       if (!symbols || symbols.functions.length == 0) {
         return (
           <div className="loading-indicator">{L10N.getStr("loadingText")}</div>
@@ -400,7 +400,7 @@ export class QuickOpenModal extends Component<Props, State> {
             expanded && items[selectedIndex] ? items[selectedIndex].id : ""
           }
         />
-        {this.isSymbolSearch() && this.renderLoading()}
+        {this.renderLoading()}
         {newResults && (
           <ResultList
             key="results"
