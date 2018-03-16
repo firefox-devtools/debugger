@@ -10,7 +10,6 @@ import * as chrome from "./chrome";
 import { prefs } from "../utils/prefs";
 import { setupHelper } from "../utils/dbg";
 
-import { isFirefoxPanel } from "devtools-config";
 import {
   bootstrapApp,
   bootstrapStore,
@@ -49,14 +48,12 @@ async function onConnect(
   await client.onConnect(connection, actions);
   await loadFromPrefs(actions);
 
-  if (!isFirefoxPanel()) {
-    setupHelper({
-      store,
-      actions,
-      selectors,
-      client: client.clientCommands
-    });
-  }
+  setupHelper({
+    store,
+    actions,
+    selectors,
+    client: client.clientCommands
+  });
 
   bootstrapApp(connection, { store, actions });
 
