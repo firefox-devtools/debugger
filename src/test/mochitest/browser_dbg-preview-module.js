@@ -10,7 +10,7 @@ add_task(async function() {
   navigate(dbg, "doc-on-load.html");
 
   // wait for `top-level.js` to load and to pause at a debugger statement
-  await waitForSelectedSource(dbg);
+  await waitForSelectedSource(dbg, "top-level.js");
   await waitForPaused(dbg);
 
   const popupPreviewed = waitForDispatch(dbg, "SET_PREVIEW");

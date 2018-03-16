@@ -45,7 +45,6 @@ add_task(async function() {
   // Tests the existence of the sourcemap link in the original source.
   ok(findElement(dbg, "sourceMapLink"), "Sourcemap link in original source");
   await selectSource(dbg, "main.min.js");
-  await waitForSelectedSource(dbg, "main.min.js");
 
   ok(
     !findElement(dbg, "sourceMapLink"),
