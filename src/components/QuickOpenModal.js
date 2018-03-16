@@ -15,7 +15,8 @@ import {
   getQuickOpenType,
   getSelectedSource,
   getSymbols,
-  getTabs
+  getTabs,
+  isSymbolsLoading
 } from "../selectors";
 import { scrollList } from "../utils/result-list";
 import {
@@ -46,6 +47,7 @@ type Props = {
   query: string,
   searchType: QuickOpenType,
   symbols: FormattedSymbolDeclarations,
+  symbolsLoading: boolean,
   tabs: string[],
   selectLocation: Location => void,
   setQuickOpenQuery: (query: string) => void,
@@ -363,14 +365,12 @@ export class QuickOpenModal extends Component<Props, State> {
   }
 
   renderLoading = () => {
-    const { symbols, selectedSource } = this.props;
+    const { symbolsLoading } = this.props;
 
-    if ((this.isFunctionQuery() || this.isVariableQuery()) && selectedSource) {
-      if (!symbols || symbols.functions.length == 0) {
-        return (
-          <div className="loading-indicator">{L10N.getStr("loadingText")}</div>
-        );
-      }
+    if ((this.isFunctionQuery() || this.isVariableQuery()) && symbolsLoading) {
+      return (
+        <div className="loading-indicator">{L10N.getStr("loadingText")}</div>
+      );
     }
   };
 
@@ -420,16 +420,13 @@ export class QuickOpenModal extends Component<Props, State> {
 /* istanbul ignore next: ignoring testing of redux connection stuff */
 function mapStateToProps(state) {
   const selectedSource = getSelectedSource(state);
-  let symbols = null;
-  if (selectedSource != null) {
-    symbols = getSymbols(state, selectedSource.toJS());
-  }
 
   return {
     enabled: getQuickOpenEnabled(state),
     sources: formatSources(getSources(state)),
     selectedSource,
-    symbols: formatSymbols(symbols),
+    symbols: formatSymbols(getSymbols(state, selectedSource)),
+    symbolsLoading: isSymbolsLoading(state, selectedSource),
     query: getQuickOpenQuery(state),
     searchType: getQuickOpenType(state),
     tabs: getTabs(state).toArray()
