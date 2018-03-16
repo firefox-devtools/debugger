@@ -1,5 +1,301 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`getScopes finds scope bindings and exclude Flowtype at line 6 column 0 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "aConst": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 25,
+                "line": 5,
+                "sourceId": "scopes/flowtype-bindings/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 5,
+                "sourceId": "scopes/flowtype-bindings/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 12,
+              "line": 5,
+              "sourceId": "scopes/flowtype-bindings/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 5,
+              "sourceId": "scopes/flowtype-bindings/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "const",
+      },
+      "root": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 9,
+                "sourceId": "scopes/flowtype-bindings/originalSource-1",
+              },
+              "start": Object {
+                "column": 15,
+                "line": 7,
+                "sourceId": "scopes/flowtype-bindings/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 28,
+              "line": 7,
+              "sourceId": "scopes/flowtype-bindings/originalSource-1",
+            },
+            "start": Object {
+              "column": 24,
+              "line": 7,
+              "sourceId": "scopes/flowtype-bindings/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 10,
+      "sourceId": "scopes/flowtype-bindings/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/flowtype-bindings/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 10,
+      "sourceId": "scopes/flowtype-bindings/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/flowtype-bindings/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 10,
+      "sourceId": "scopes/flowtype-bindings/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/flowtype-bindings/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings and exclude Flowtype at line 8 column 0 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "arguments": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "root",
+    "end": Object {
+      "column": 1,
+      "line": 9,
+      "sourceId": "scopes/flowtype-bindings/originalSource-1",
+    },
+    "start": Object {
+      "column": 15,
+      "line": 7,
+      "sourceId": "scopes/flowtype-bindings/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "aConst": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 25,
+                "line": 5,
+                "sourceId": "scopes/flowtype-bindings/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 5,
+                "sourceId": "scopes/flowtype-bindings/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 12,
+              "line": 5,
+              "sourceId": "scopes/flowtype-bindings/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 5,
+              "sourceId": "scopes/flowtype-bindings/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "const",
+      },
+      "root": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 9,
+                "sourceId": "scopes/flowtype-bindings/originalSource-1",
+              },
+              "start": Object {
+                "column": 15,
+                "line": 7,
+                "sourceId": "scopes/flowtype-bindings/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 28,
+              "line": 7,
+              "sourceId": "scopes/flowtype-bindings/originalSource-1",
+            },
+            "start": Object {
+              "column": 24,
+              "line": 7,
+              "sourceId": "scopes/flowtype-bindings/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 10,
+      "sourceId": "scopes/flowtype-bindings/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/flowtype-bindings/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 10,
+      "sourceId": "scopes/flowtype-bindings/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/flowtype-bindings/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "__dirname": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+      "__filename": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+      "exports": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+      "module": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+      "require": Object {
+        "refs": Array [],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 10,
+      "sourceId": "scopes/flowtype-bindings/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/flowtype-bindings/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
 exports[`getScopes finds scope bindings for arrow functions at line 2 column 0 1`] = `
 Array [
   Object {
