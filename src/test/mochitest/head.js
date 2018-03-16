@@ -228,16 +228,7 @@ function waitForSources(dbg, ...sources) {
 function waitForSource(dbg, url) {
   return waitForState(dbg, state => {
     const sources = dbg.selectors.getSources(state);
-    const source = sources.find(s => (s.get("url") || "").includes(url));
-    if (!source) {
-      return false;
-    }
-
-    if (!dbg.selectors.hasSymbols(state, source)) {
-      return false;
-    }
-
-    return source;
+    return sources.find(s => (s.get("url") || "").includes(url));
   }, `source exists`);
 }
 
@@ -600,9 +591,10 @@ function waitForLoadedSources(dbg) {
  * @return {Promise}
  * @static
  */
-function selectSource(dbg, url, line) {
+async function selectSource(dbg, url, line) {
   const source = findSource(dbg, url);
-  return dbg.actions.selectLocation({ sourceId: source.id, line });
+  await dbg.actions.selectLocation({ sourceId: source.id, line });
+  return waitForSelectedSource(dbg, url);
 }
 
 function closeTab(dbg, url) {

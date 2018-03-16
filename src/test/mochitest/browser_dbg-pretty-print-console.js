@@ -34,12 +34,10 @@ add_task(async function() {
 
   info("Switch back to debugger and pretty-print");
   await dbg.toolbox.selectTool("jsdebugger");
-
   await selectSource(dbg, "math.min.js", 2);
-  await waitForSelectedSource(dbg, "math.min.js");
 
   clickElement(dbg, "prettyPrintButton");
-  await waitForSource(dbg, "math.min.js:formatted");
+  await waitForSelectedSource(dbg, "math.min.js:formatted");
 
   info("Switch back to console and check message");
   await waitForConsoleLink(dbg, "math.min.js:formatted:22");
