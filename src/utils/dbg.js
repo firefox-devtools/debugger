@@ -1,6 +1,7 @@
 import { bindActionCreators } from "redux";
 import * as timings from "./timings";
 import { prefs, features } from "./prefs";
+import { isDevelopment } from "devtools-config";
 
 function findSource(dbg, url) {
   const sources = dbg.selectors.getSources();
@@ -56,10 +57,12 @@ export function setupHelper(obj) {
 
   window.dbg = dbg;
 
-  console.group("Development Notes");
-  const baseUrl = "https://devtools-html.github.io/debugger.html";
-  const localDevelopmentUrl = `${baseUrl}/docs/dbg.html`;
-  console.log("Debugging Tips", localDevelopmentUrl);
-  console.log("dbg", window.dbg);
-  console.groupEnd();
+  if (isDevelopment()) {
+    console.group("Development Notes");
+    const baseUrl = "https://devtools-html.github.io/debugger.html";
+    const localDevelopmentUrl = `${baseUrl}/docs/dbg.html`;
+    console.log("Debugging Tips", localDevelopmentUrl);
+    console.log("dbg", window.dbg);
+    console.groupEnd();
+  }
 }
