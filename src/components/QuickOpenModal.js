@@ -15,7 +15,8 @@ import {
   getQuickOpenType,
   getSelectedSource,
   getSymbols,
-  getTabs
+  getTabs,
+  isSymbolsLoading
 } from "../selectors";
 import { scrollList } from "../utils/result-list";
 import {
@@ -46,6 +47,7 @@ type Props = {
   query: string,
   searchType: QuickOpenType,
   symbols: FormattedSymbolDeclarations,
+  symbolsLoading: boolean,
   tabs: string[],
   selectLocation: Location => void,
   setQuickOpenQuery: (query: string) => void,
@@ -362,8 +364,18 @@ export class QuickOpenModal extends Component<Props, State> {
     return !this.getResultCount() && !!query;
   }
 
+  renderLoading = () => {
+    const { symbolsLoading } = this.props;
+
+    if ((this.isFunctionQuery() || this.isVariableQuery()) && symbolsLoading) {
+      return (
+        <div className="loading-indicator">{L10N.getStr("loadingText")}</div>
+      );
+    }
+  };
+
   render() {
-    const { enabled, query, symbols } = this.props;
+    const { enabled, query } = this.props;
     const { selectedIndex, results } = this.state;
 
     if (!enabled) {
@@ -388,12 +400,7 @@ export class QuickOpenModal extends Component<Props, State> {
             expanded && items[selectedIndex] ? items[selectedIndex].id : ""
           }
         />
-        {!symbols ||
-          (symbols.functions.length == 0 && (
-            <div className="loading-indicator">
-              {L10N.getStr("loadingText")}
-            </div>
-          ))}
+        {this.renderLoading()}
         {newResults && (
           <ResultList
             key="results"
@@ -413,16 +420,13 @@ export class QuickOpenModal extends Component<Props, State> {
 /* istanbul ignore next: ignoring testing of redux connection stuff */
 function mapStateToProps(state) {
   const selectedSource = getSelectedSource(state);
-  let symbols = null;
-  if (selectedSource != null) {
-    symbols = getSymbols(state, selectedSource.toJS());
-  }
 
   return {
     enabled: getQuickOpenEnabled(state),
     sources: formatSources(getSources(state)),
     selectedSource,
-    symbols: formatSymbols(symbols),
+    symbols: formatSymbols(getSymbols(state, selectedSource)),
+    symbolsLoading: isSymbolsLoading(state, selectedSource),
     query: getQuickOpenQuery(state),
     searchType: getQuickOpenType(state),
     tabs: getTabs(state).toArray()
