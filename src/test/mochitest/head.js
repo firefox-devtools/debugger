@@ -175,10 +175,11 @@ function waitForState(dbg, predicate, msg) {
     }
 
     const unsubscribe = dbg.store.subscribe(() => {
-      if (predicate(dbg.store.getState())) {
+      const result = predicate(dbg.store.getState())
+      if (result) {
         info(`Finished waiting for state change: ${msg || ""}`);
         unsubscribe();
-        resolve();
+        resolve(result);
       }
     });
   });
@@ -227,8 +228,17 @@ function waitForSources(dbg, ...sources) {
 function waitForSource(dbg, url) {
   return waitForState(dbg, state => {
     const sources = dbg.selectors.getSources(state);
-    return sources.find(s => (s.get("url") || "").includes(url));
-  });
+    const source = sources.find(s => (s.get("url") || "").includes(url));
+    if (!source) {
+      return false;
+    }
+
+    if (!dbg.selectors.hasSymbols(state, source)) {
+      return false;
+    }
+
+    return source;
+  }, `source exists`);
 }
 
 async function waitForElement(dbg, name) {
