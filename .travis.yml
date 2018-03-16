@@ -58,3 +58,4 @@ script:
     browser_webconsole_eval_in_debugger_stackframe2.js
     browser_webconsole_location_debugger_link.js
     browser_webconsole_stacktrace_location_debugger_link.js
+    browser_browser_toolbox_debugger.js
