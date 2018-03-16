@@ -33,7 +33,7 @@ type Props = {
   clearPreview: () => void,
   preview: PreviewType,
   selectedFrameVisible: boolean,
-  updatePreview: (any, any) => void
+  updatePreview: (any, any, any, any) => void
 };
 
 type State = {
@@ -41,6 +41,8 @@ type State = {
 };
 
 class Preview extends PureComponent<Props, State> {
+  disposalble: Object;
+
   constructor(props) {
     super(props);
     this.state = { selecting: false };
@@ -48,27 +50,49 @@ class Preview extends PureComponent<Props, State> {
   }
 
   componentDidMount() {
-    const { codeMirror } = this.props.editor;
-    const codeMirrorWrapper = codeMirror.getWrapperElement();
+    const { editor } = this.props;
+    this.disposalble = editor.monaco.onMouseMove(e => {
+      if (!e.target.position) {
+        return;
+      }
+      const text = editor.monaco
+        .getModel()
+        .getWordAtPosition(e.target.position);
 
-    codeMirror.on("scroll", this.onScroll);
-    codeMirrorWrapper.addEventListener("mouseover", this.onMouseOver);
-    codeMirrorWrapper.addEventListener("mouseup", this.onMouseUp);
-    codeMirrorWrapper.addEventListener("mousedown", this.onMouseDown);
+      if (text && text.word && text.startColumn) {
+        this.props.updatePreview(
+          e.target.element,
+          text.word,
+          {
+            line: e.target.position.lineNumber,
+            column: text.startColumn
+          },
+          editor
+        );
+      }
+    });
+    // const { codeMirror } = this.props.editor;
+    // const codeMirrorWrapper = codeMirror.getWrapperElement();
+    // codeMirror.on("scroll", this.onScroll);
+    // codeMirrorWrapper.addEventListener("mouseover", this.onMouseOver);
+    // codeMirrorWrapper.addEventListener("mouseup", this.onMouseUp);
+    // codeMirrorWrapper.addEventListener("mousedown", this.onMouseDown);
   }
 
   componentWillUnmount() {
-    const codeMirror = this.props.editor.codeMirror;
-    const codeMirrorWrapper = codeMirror.getWrapperElement();
-    codeMirrorWrapper.removeEventListener("mouseover", this.onMouseOver);
-    codeMirrorWrapper.removeEventListener("mouseup", this.onMouseUp);
-    codeMirrorWrapper.removeEventListener("mousedown", this.onMouseDown);
-    codeMirror.off("scroll", this.onScroll);
+    this.disposalble.dispose();
+    // const codeMirror = this.props.editor.codeMirror;
+    // const codeMirrorWrapper = codeMirror.getWrapperElement();
+    // codeMirrorWrapper.removeEventListener("mouseover", this.onMouseOver);
+    // codeMirrorWrapper.removeEventListener("mouseup", this.onMouseUp);
+    // codeMirrorWrapper.removeEventListener("mousedown", this.onMouseDown);
+    // codeMirror.off("scroll", this.onScroll);
   }
 
   onMouseOver = e => {
     const { target } = e;
     if (this.props.selectedFrameVisible) {
+      console.log("target");
       this.props.updatePreview(target, this.props.editor);
     }
   };

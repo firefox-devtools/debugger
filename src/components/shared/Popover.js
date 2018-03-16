@@ -74,46 +74,49 @@ class Popover extends Component<Props, State> {
   }
 
   getPopoverCoords() {
-    if (this.$popover && this.props.editorRef) {
-      const popover = this.$popover;
-      const editor = this.props.editorRef;
-      const popoverRect = popover.getBoundingClientRect();
-      const editorRect = editor.getBoundingClientRect();
+    if (this.$popover) {
+      // const popover = this.$popover;
+      // const editor = this.props.editorRef;
+      // const popoverRect = popover.getBoundingClientRect();
+      // const editorRect = editor.getBoundingClientRect();
       const targetRect = this.props.targetPosition;
-      const popoverLeft = this.calculateLeft(
-        targetRect,
-        editorRect,
-        popoverRect
-      );
-      const orientation = this.calculateVerticalOrientation(
-        targetRect,
-        editorRect,
-        popoverRect
-      );
-      const top =
-        orientation == "down"
-          ? targetRect.bottom
-          : targetRect.top - popoverRect.height;
+      // const popoverLeft = this.calculateLeft(
+      //   targetRect,
+      //   editorRect,
+      //   popoverRect
+      // );
+      // const orientation = this.calculateVerticalOrientation(
+      //   targetRect,
+      //   editorRect,
+      //   popoverRect
+      // );
+      // const top =
+      //   orientation == "down"
+      //     ? targetRect.bottom
+      //     : targetRect.top - popoverRect.height;
 
-      const targetMid =
-        targetRect.left - popoverLeft + targetRect.width / 2 - 8;
+      const top = targetRect.top + targetRect.height;
+      const targetMid = targetRect.width / 2 - 8;
 
-      return { left: popoverLeft, top, orientation, targetMid };
+      return { left: targetRect.left, top, orientation: "down", targetMid };
     }
     return { left: 0, top: 0, orientation: "down", targetMid: 0 };
   }
 
   getTooltipCoords() {
-    if (this.$tooltip && this.props.editorRef) {
+    if (this.$tooltip) {
       const tooltip = this.$tooltip;
-      const editor = this.props.editorRef;
+      //   const editor = this.props.editorRef;
       const tooltipRect = tooltip.getBoundingClientRect();
-      const editorRect = editor.getBoundingClientRect();
+      //   const editorRect = editor.getBoundingClientRect();
+      //   const targetRect = this.props.targetPosition;
+      //   const left = this.calculateLeft(targetRect, editorRect, tooltipRect);
+      //   const top = targetRect.top - tooltipRect.height;
+      //   return { left, top, orientation: "up", targetMid: 0 };
+      // }
       const targetRect = this.props.targetPosition;
-      const left = this.calculateLeft(targetRect, editorRect, tooltipRect);
       const top = targetRect.top - tooltipRect.height;
-
-      return { left, top, orientation: "up", targetMid: 0 };
+      return { left: targetRect.left, top, orientation: "up", targetMid: 0 };
     }
     return { left: 0, top: 0, orientation: "up", targetMid: 0 };
   }

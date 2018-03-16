@@ -88,9 +88,15 @@ function isInvalidTarget(target: HTMLElement) {
   return invalidTarget || invalidToken || invaildType;
 }
 
-export function updatePreview(target: HTMLElement, editor: any) {
+export function updatePreview(
+  target: HTMLElement,
+  tokenText: string,
+  tokenPos: any,
+  editor: any
+) {
   return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
-    const tokenPos = getTokenLocation(editor.codeMirror, target);
+    // const tokenText = target.innerText ? target.innerText.trim() : "";
+    // const tokenPos = getTokenLocation(editor.codeMirror, target);
     const cursorPos = target.getBoundingClientRect();
     const preview = getPreview(getState());
 
@@ -106,14 +112,15 @@ export function updatePreview(target: HTMLElement, editor: any) {
       }
 
       // We are mousing over a new token that is not in the preview
-      if (!target.classList.contains("debug-expression")) {
-        dispatch(clearPreview());
-      }
+      // todo
+      // if (!target.classList.contains("debug-expression")) {
+      //   dispatch(clearPreview());
+      // }
     }
 
-    if (isInvalidTarget(target)) {
-      return;
-    }
+    // if (isInvalidTarget(target)) {
+    //   return;
+    // }
 
     if (!isLineInScope(getState(), tokenPos.line)) {
       return;
