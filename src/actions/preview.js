@@ -158,7 +158,7 @@ export function setPreview(
           );
 
           expression = await getMappedExpression(
-            { sourceMaps },
+            { sourceMaps, getState },
             generatedLocation,
             expression
           );

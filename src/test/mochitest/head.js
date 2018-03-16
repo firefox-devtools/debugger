@@ -1096,6 +1096,12 @@ function getCoordsFromPosition(cm, { line, ch }) {
 
 function hoverAtPos(dbg, { line, ch }) {
   const cm = getCM(dbg);
+
+  // Ensure the line is visible with margin because the bar at the bottom of
+  // the editor overlaps into what the editor things is its own space, blocking
+  // the click event below.
+  cm.scrollIntoView({ line: line - 1, ch  }, 100);
+
   const coords = getCoordsFromPosition(cm, { line: line - 1, ch });
   const tokenEl = dbg.win.document.elementFromPoint(coords.left, coords.top);
   tokenEl.dispatchEvent(
@@ -1105,6 +1111,21 @@ function hoverAtPos(dbg, { line, ch }) {
       view: dbg.win
     })
   );
+}
+
+async function assertPreviewTextValue(dbg, { text, expression }) {
+  const previewElPromise = await Promise.race([
+    waitForElement(dbg, "tooltip"),
+    waitForElement(dbg, "popup"),
+  ]);
+
+  const previewEl = await previewElPromise;
+
+  is(previewEl.innerText, text, "Preview text shown to user");
+
+  const preview = dbg.selectors.getPreview(dbg.getState());
+  is(preview.updating, false, "Preview.updating");
+  is(preview.expression, expression, "Preview.expression");
 }
 
 async function assertPreviewTooltip(dbg, { result, expression }) {

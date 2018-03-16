@@ -26,6 +26,7 @@ export const hasSource = dispatcher.task("hasSource");
 export const setSource = dispatcher.task("setSource");
 export const clearSources = dispatcher.task("clearSources");
 export const hasSyntaxError = dispatcher.task("hasSyntaxError");
+export const mapOriginalExpression = dispatcher.task("mapOriginalExpression");
 export const getFramework = dispatcher.task("getFramework");
 export const getPausePoints = dispatcher.task("getPausePoints");
 export const replaceOriginalVariableName = dispatcher.task(

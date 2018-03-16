@@ -300,7 +300,12 @@ type PauseAction =
       type: "MAP_SCOPES",
       frame: Frame,
       status: AsyncStatus,
-      value: Scope
+      value: {
+        scope: Scope,
+        mappings: {
+          [string]: string | null
+        }
+      }
     }
   | {
       type: "MAP_FRAMES",

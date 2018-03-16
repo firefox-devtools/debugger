@@ -9,7 +9,9 @@ import {
   getExpressions,
   getSelectedFrame,
   getSelectedFrameId,
-  getSource
+  getSource,
+  getSelectedSource,
+  getSelectedScopeMappings
 } from "../selectors";
 import { PROMISE } from "./utils/middleware/promise";
 import { isGeneratedId } from "devtools-source-map";
@@ -115,9 +117,15 @@ function evaluateExpression(expression: Expression) {
       const source = getSource(getState(), location.sourceId);
       const sourceId = source.get("id");
 
-      if (!isGeneratedId(sourceId)) {
+      const selectedSource = getSelectedSource(getState());
+
+      if (
+        selectedSource &&
+        !isGeneratedId(sourceId) &&
+        !isGeneratedId(selectedSource.get("id"))
+      ) {
         input = await getMappedExpression(
-          { sourceMaps },
+          { getState, sourceMaps },
           generatedLocation,
           input
         );
@@ -139,9 +147,14 @@ function evaluateExpression(expression: Expression) {
  * and replaces all posible generated names.
  */
 export async function getMappedExpression(
-  { sourceMaps }: Object,
+  { getState, sourceMaps }: Object,
   generatedLocation: Location,
   expression: string
 ): Promise<string> {
-  return expression;
+  const mappings = getSelectedScopeMappings(getState());
+  if (!mappings) {
+    return expression;
+  }
+
+  return await parser.mapOriginalExpression(expression, mappings);
 }

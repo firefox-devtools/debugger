@@ -15,6 +15,7 @@ import { hasSyntaxError } from "./validate";
 import { getFramework } from "./frameworks";
 import { isInvalidPauseLocation } from "./pauseLocation";
 import { getPausePoints } from "./pausePoints";
+import mapOriginalExpression from "./mapOriginalExpression";
 
 import { workerUtils } from "devtools-utils";
 const { workerHandler } = workerUtils;
@@ -34,5 +35,6 @@ self.onmessage = workerHandler({
   getNextStep,
   hasSyntaxError,
   getFramework,
-  getPausePoints
+  getPausePoints,
+  mapOriginalExpression
 });
