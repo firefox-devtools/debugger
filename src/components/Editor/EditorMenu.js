@@ -78,7 +78,7 @@ function getMenuItems(
   const copySourceKey = L10N.getStr("copySource.accesskey");
   const copySourceLabel = L10N.getStr("copySource");
   const copyToClipboardKey = L10N.getStr("copyToClipboard.accesskey");
-  const copyToClipboardLabel = L10N.getStr("copyToClipboard");
+  const copyToClipboardLabel = L10N.getStr("copyToClipboard.label");
   const copySourceUri2Key = L10N.getStr("copySourceUri2.accesskey");
   const copySourceUri2Label = L10N.getStr("copySourceUri2");
   const evaluateInConsoleLabel = L10N.getStr("evaluateInConsole.label");

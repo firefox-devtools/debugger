@@ -100,7 +100,7 @@ export function getTabMenuItems() {
     },
     copyToClipboard: {
       id: "node-menu-copy-to-clipboard",
-      label: L10N.getStr("copyToClipboard"),
+      label: L10N.getStr("copyToClipboard.label"),
       accesskey: L10N.getStr("copyToClipboard.accesskey"),
       disabled: false
     },
