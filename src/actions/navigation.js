@@ -32,7 +32,7 @@ import type { ThunkArgs } from "./types";
  * @memberof actions/navigation
  * @static
  */
-export function willNavigate(_: any, event: Object) {
+export function willNavigate(event: Object) {
   return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
     await sourceMaps.clearSourceMaps();
     clearWasmStates();
