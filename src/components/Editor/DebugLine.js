@@ -39,10 +39,10 @@ function isDocumentReady(selectedSource, selectedFrame) {
 
 export class DebugLine extends Component<Props> {
   debugExpression: null;
-  lineHighlightDecoration: string;
+  lineHighlightDecoration: string[];
   constructor() {
     super();
-    this.lineHighlightDecoration = "";
+    this.lineHighlightDecoration = [];
   }
   componentDidUpdate(prevProps: Props) {
     const { why, selectedFrame, selectedSource, editor } = this.props;
@@ -72,39 +72,40 @@ export class DebugLine extends Component<Props> {
     const doc = getDocument(sourceId);
 
     const maxColumn = doc.getLineMaxColumn(line);
-    const newDecoration = {
-      options: {
-        isWholeLine: true,
-        inlineClassName: "debug-remove-token-colors",
-        className: "debug-top-stack-frame-line",
-        marginClassName: "debug-top-stack-frame-line",
-        stickiness: 1
-      },
-      range: {
-        startLineNumber: line,
-        startColumn: 1,
-        endLineNumber: line,
-        endColumn: maxColumn
-      }
-    };
+    const firstNonWhitespaceChar = doc.getLineFirstNonWhitespaceColumn(line);
+    const { markTextClass } = this.getTextClasses(why);
 
     this.lineHighlightDecoration = editor.monaco.deltaDecorations(
-      [this.lineHighlightDecoration],
-      [newDecoration]
+      this.lineHighlightDecoration,
+      [
+        {
+          options: {
+            isWholeLine: true,
+            className: "debug-top-stack-frame-line",
+            marginClassName: "debug-top-stack-frame-line",
+            stickiness: 1
+          },
+          range: {
+            startLineNumber: line,
+            startColumn: 1,
+            endLineNumber: line,
+            endColumn: maxColumn
+          }
+        },
+        {
+          options: {
+            className: markTextClass,
+            stickiness: 1
+          },
+          range: {
+            startLineNumber: line,
+            startColumn: firstNonWhitespaceChar,
+            endLineNumber: line,
+            endColumn: maxColumn
+          }
+        }
+      ]
     );
-
-    // let { line, column } = toEditorPosition(selectedFrame.location);
-    // const { markTextClass, lineClass } = this.getTextClasses(why);
-    // doc.addLineClass(line, "line", lineClass);
-
-    // const lineText = doc.getLine(line);
-    // column = Math.max(column, getIndentation(lineText));
-
-    // this.debugExpression = doc.markText(
-    //   { ch: column, line },
-    //   { ch: null, line },
-    //   { className: markTextClass }
-    // );
   }
 
   clearDebugLine(
@@ -122,15 +123,9 @@ export class DebugLine extends Component<Props> {
     }
 
     this.lineHighlightDecoration = editor.monaco.deltaDecorations(
-      [this.lineHighlightDecoration],
+      this.lineHighlightDecoration,
       []
     );
-
-    // const sourceId = selectedFrame.location.sourceId;
-    // const { line } = toEditorPosition(selectedFrame.location);
-    // const doc = getDocument(sourceId);
-    // const { lineClass } = this.getTextClasses(why);
-    // doc.removeLineClass(line, "line", lineClass);
   }
 
   getTextClasses(why: Why): TextClasses {
