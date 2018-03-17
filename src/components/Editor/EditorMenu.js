@@ -77,6 +77,8 @@ function getMenuItems(
   const copyFunctionLabel = L10N.getStr("copyFunction.label");
   const copySourceKey = L10N.getStr("copySource.accesskey");
   const copySourceLabel = L10N.getStr("copySource");
+  const copyToClipboardKey = L10N.getStr("copyToClipboard.accesskey");
+  const copyToClipboardLabel = L10N.getStr("copyToClipboard");
   const copySourceUri2Key = L10N.getStr("copySourceUri2.accesskey");
   const copySourceUri2Label = L10N.getStr("copySourceUri2");
   const evaluateInConsoleLabel = L10N.getStr("evaluateInConsole.label");
@@ -93,6 +95,15 @@ function getMenuItems(
   const watchExpressionLabel = L10N.getStr("expressions.label");
 
   // menu items
+
+  const copyToClipboardItem = {
+    id: "node-menu-copy-to-clipboard",
+    label: copyToClipboardLabel,
+    accesskey: copyToClipboardKey,
+    disabled: false,
+    click: () => copyToTheClipboard(getRawSourceURL(selectedSource.get("text")))
+  };
+
   const copySourceItem = {
     id: "node-menu-copy-source",
     label: copySourceLabel,
@@ -168,6 +179,7 @@ function getMenuItems(
 
   // construct menu
   const menuItems = [
+    copyToClipboardItem,
     copySourceItem,
     copySourceUri2Item,
     copyFunctionItem,

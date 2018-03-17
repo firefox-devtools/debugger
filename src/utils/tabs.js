@@ -98,6 +98,12 @@ export function getTabMenuItems() {
       accesskey: L10N.getStr("sourceTabs.revealInTree.accesskey"),
       disabled: false
     },
+    copyToClipboard: {
+      id: "node-menu-copy-to-clipboard",
+      label: L10N.getStr("copyToClipboard"),
+      accesskey: L10N.getStr("copyToClipboard.accesskey"),
+      disabled: false
+    },
     copySourceUri2: {
       id: "node-menu-copy-source-url",
       label: L10N.getStr("copySourceUri2"),

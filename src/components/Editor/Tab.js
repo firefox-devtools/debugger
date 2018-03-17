@@ -63,7 +63,8 @@ class Tab extends PureComponent<Props> {
       closeTabs,
       tabSources,
       showSource,
-      togglePrettyPrint
+      togglePrettyPrint,
+      selectedSource
     } = this.props;
 
     const otherTabs = tabSources.filter(t => t.get("id") !== tab);
@@ -107,6 +108,13 @@ class Tab extends PureComponent<Props> {
         item: { ...tabMenuItems.closeAllTabs, click: () => closeTabs(tabURLs) }
       },
       { item: { type: "separator" } },
+      {
+        item: {
+          ...tabMenuItems.copyToClipboard,
+          disabled: selectedSource.get("id") !== tab,
+          click: () => copyToTheClipboard(getRawSourceURL(sourceTab.get("text")))
+        }
+      },
       {
         item: {
           ...tabMenuItems.copySourceUri2,
