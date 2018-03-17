@@ -12,7 +12,7 @@ import { isLoaded } from "../../utils/source";
 
 import defer from "../../utils/defer";
 import type { ThunkArgs } from "../types";
-import type { SourceRecord } from "../../reducers/types";
+import type { SourceRecord } from "../../types";
 
 const requests = new Map();
 import { Services } from "devtools-modules";

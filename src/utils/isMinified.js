@@ -4,7 +4,7 @@
 
 // @flow
 
-import type { SourceRecord } from "../reducers/types";
+import type { SourceRecord } from "../types";
 
 // Used to detect minification for automatic pretty printing
 const SAMPLE_SIZE = 50;

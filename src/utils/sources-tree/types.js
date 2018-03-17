@@ -4,7 +4,7 @@
 
 // @flow
 
-import type { SourceRecord } from "../../reducers/types";
+import type { SourceRecord } from "../../types";
 
 /**
  * TODO: createNode is exported so this type could be useful to other modules

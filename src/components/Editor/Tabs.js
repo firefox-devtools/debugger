@@ -24,7 +24,7 @@ import PaneToggleButton from "../shared/Button/PaneToggle";
 import Dropdown from "../shared/Dropdown";
 
 import type { List } from "immutable";
-import type { SourceRecord } from "../../reducers/sources";
+import type { SourceRecord } from "../../types";
 
 type SourcesList = List<SourceRecord>;
 

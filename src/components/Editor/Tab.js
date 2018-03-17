@@ -13,7 +13,7 @@ import { showMenu, buildMenu } from "devtools-contextmenu";
 import CloseButton from "../shared/Button/Close";
 
 import type { List } from "immutable";
-import type { SourceRecord } from "../../reducers/sources";
+import type { SourceRecord } from "../../types";
 import type { SourceMetaDataType } from "../../reducers/ast";
 
 import actions from "../../actions";
