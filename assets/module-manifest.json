@@ -22427,7 +22427,10 @@
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/frames/getLibraryFromUrl.js": 3607,
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/frames/annotateFrames.js": 3608,
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/frames/collapseFrames.js": 3609,
-      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/frames/displayName.js": 3610
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/frames/displayName.js": 3610,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/shared/VisibilityHandler.js": 3611,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/workers/parser/pausePoints.js": 3612,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/workers/parser/mapOriginalExpression.js": 3613
     },
     "usedIds": {
       "0": 0,
@@ -26040,7 +26043,10 @@
       "3607": 3607,
       "3608": 3608,
       "3609": 3609,
-      "3610": 3610
+      "3610": 3610,
+      "3611": 3611,
+      "3612": 3612,
+      "3613": 3613
     }
   },
   "chunks": {
