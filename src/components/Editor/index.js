@@ -43,17 +43,8 @@ import EditorMenu from "./EditorMenu";
 import ConditionalPanel from "./ConditionalPanel";
 import type { SymbolDeclarations } from "../../workers/parser/types";
 
-// import {
-//   shouldShowFooter,
-//   createEditor,
-//   getCursorLine,
-//   scrollToColumn,
-//   toEditorPosition,
-//   getSourceLocationFromMouseEvent,
-// } from "../../utils/editor";
-
 import SourceEditor from "../../utils/monaco/source-editor";
-import { toSourceLine } from "../../utils/monaco";
+import { shouldShowFooter, toSourceLine } from "../../utils/monaco";
 import {
   updateDocument,
   hasDocument,
@@ -64,12 +55,11 @@ import {
   showErrorMessage
 } from "../../utils/monaco/source-documents";
 
-// import { resizeToggleButton, resizeBreakpointGutter } from "../../utils/ui";
+import { resizeToggleButton } from "../../utils/ui";
 
+import "./monaco.css";
 import "./Editor.css";
 import "./Highlight.css";
-
-// import type SourceEditor from "../../utils/editor/source-editor";
 
 const cssVars = {
   searchbarHeight: "var(--editor-searchbar-height)",
@@ -120,8 +110,7 @@ class Editor extends PureComponent<Props, State> {
       return;
     }
 
-    // resizeBreakpointGutter(this.state.editor.codeMirror);
-    // resizeToggleButton(this.state.editor.codeMirror);
+    resizeToggleButton(this.state.editor.monaco);
   }
 
   componentWillUpdate(nextProps) {
@@ -133,9 +122,13 @@ class Editor extends PureComponent<Props, State> {
   setupEditor() {
     const editor = new SourceEditor({
       theme: "vs-dark",
-      glyphMargin: true,
+      // glyphMargin: true,
       contextmenu: false,
-      readOnly: true
+      readOnly: true,
+      selectOnLineNumbers: false,
+      lineNumbersMinChars: 3,
+      folding: true,
+      showFoldingControls: "mouseover"
     });
 
     const node = ReactDOM.findDOMNode(this);
@@ -159,11 +152,20 @@ class Editor extends PureComponent<Props, State> {
 
     editor.monaco.onMouseDown(e => {
       const data = e.target.detail;
-      if (e.target.type !== 2 || data.isAfterLines) {
+      if (e.target.type < 2 || e.target.type > 4 || data.isAfterLines) {
         return;
       }
 
+      // gutterClick
+
       if (e.event.leftButton) {
+        if (
+          e.target.type === 4 &&
+          e.target.element.className.indexOf("folding") > 0
+        ) {
+          // folding
+          return;
+        }
         this.onGutterClick(e.target.position.lineNumber, e.event);
       } else if (e.event.rightButton) {
         this.onGutterContextMenu(e.target.position.lineNumber, e.event);
@@ -171,35 +173,15 @@ class Editor extends PureComponent<Props, State> {
       return false;
     });
 
-    // const { codeMirror } = editor;
-    // const codeMirrorWrapper = codeMirror.getWrapperElement();
+    /**
+     * we don't need following actions anymore
+     * `toggleFoldMarkerVisibility` as we set showFoldingControls to "mouseover"
+     * `resizeBreakpointGutter` our breakpoint element width can be 100%
+     * `codeMirrorWrapper.tabIndex/onKeyDown/onClick`, Monaco is focusable.
+     */
+    resizeToggleButton(editor.monaco);
 
-    // resizeBreakpointGutter(codeMirror);
-    // resizeToggleButton(codeMirror);
-
-    // codeMirror.on("gutterClick", this.onGutterClick);
-
-    // // Set code editor wrapper to be focusable
-    // codeMirrorWrapper.tabIndex = 0;
-    // codeMirrorWrapper.addEventListener("keydown", e => this.onKeyDown(e));
-    // codeMirrorWrapper.addEventListener("click", e => this.onClick(e));
-
-    // const toggleFoldMarkerVisibility = e => {
-    //   if (node instanceof HTMLElement) {
-    //     node
-    //       .querySelectorAll(".CodeMirror-guttermarker-subtle")
-    //       .forEach(elem => {
-    //         elem.classList.toggle("visible");
-    //       });
-    //   }
-    // };
-
-    // const codeMirrorGutter = codeMirror.getGutterElement();
-    // codeMirrorGutter.addEventListener("mouseleave",
-    // toggleFoldMarkerVisibility);
-    // codeMirrorGutter.addEventListener("mouseenter",
-    // toggleFoldMarkerVisibility);
-
+    // @Peng: I don't understand.
     // if (!isFirefox()) {
     //   codeMirror.on("gutterContextMenu", (cm, line, eventName, event) =>
     //     this.onGutterContextMenu(event)
@@ -297,23 +279,6 @@ class Editor extends PureComponent<Props, State> {
     this.toggleConditionalPanel(line);
   };
 
-  //   onKeyDown(e) {
-  //     const { codeMirror } = this.state.editor;
-  //     const { key, target } = e;
-  //     const codeWrapper = codeMirror.getWrapperElement();
-  //     const textArea = codeWrapper.querySelector("textArea");
-
-  //     if (key === "Escape" && target == textArea) {
-  //       e.stopPropagation();
-  //       e.preventDefault();
-  //       codeWrapper.focus();
-  //     } else if (key === "Enter" && target == codeWrapper) {
-  //       e.preventDefault();
-  //       // Focus into editor's text area
-  //       textArea.focus();
-  //     }
-  //   }
-
   /*
    * The default Esc command is overridden in the CodeMirror keymap to allow
    * the Esc keypress event to be catched by the toolbox and trigger the
@@ -349,6 +314,9 @@ class Editor extends PureComponent<Props, State> {
   }
 
   onGutterClick = (line, ev) => {
+    ev.stopPropagation();
+    ev.preventDefault();
+
     const {
       selectedSource,
       conditionalPanelLine,
@@ -381,19 +349,6 @@ class Editor extends PureComponent<Props, State> {
     event.line = line;
     return this.props.setContextMenu("Gutter", event);
   };
-
-  //   onClick(e: MouseEvent) {
-  //     const { selectedLocation, jumpToMappedLocation } = this.props;
-
-  //     if (e.metaKey && e.altKey) {
-  //       const sourceLocation = getSourceLocationFromMouseEvent(
-  //         this.state.editor,
-  //         selectedLocation,
-  //         e
-  //       );
-  //       jumpToMappedLocation(sourceLocation);
-  //     }
-  //   }
 
   toggleConditionalPanel = line => {
     const {
@@ -510,13 +465,13 @@ class Editor extends PureComponent<Props, State> {
   }
 
   getInlineEditorStyles() {
-    const { searchOn } = this.props;
+    const { selectedSource, horizontal, searchOn } = this.props;
 
     const subtractions = [];
 
-    // if (shouldShowFooter(selectedSource, horizontal)) {
-    //   subtractions.push(cssVars.footerHeight);
-    // }
+    if (shouldShowFooter(selectedSource, horizontal)) {
+      subtractions.push(cssVars.footerHeight);
+    }
 
     if (searchOn) {
       subtractions.push(cssVars.searchbarHeight);

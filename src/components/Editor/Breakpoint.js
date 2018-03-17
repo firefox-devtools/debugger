@@ -45,7 +45,7 @@ class Breakpoint extends Component<Props> {
 
     const newDecoration = {
       options: {
-        glyphMarginClassName: breakpoint.disabled
+        marginClassName: breakpoint.disabled
           ? "debug-breakpoint-hint-disabled"
           : "debug-breakpoint-hint",
         stickiness: 1

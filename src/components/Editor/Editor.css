@@ -79,22 +79,32 @@ html[dir="rtl"] .editor-mount {
   opacity: 0.5;
 }
 
-.monaco-editor .debug-top-stack-frame-line,
-.monaco-editor .debug-top-stack-frame-exception-line {
-  background: rgba(145, 188, 219, 0.5);
-}
-
-.debug-breakpoint-hint-disabled {
-	background: rgb(145, 188, 219);
-	opacity: 0.5;
-	border-radius: 50%;
-	width: 10px;
+.monaco-editor .debug-top-stack-frame-line {
+  background-color: transparent !important;
+  outline: var(--debug-line-border) solid 1px;
 }
 
 .debug-breakpoint-hint {
-  background: #00b6ff;
-  border-radius: 50%;
-  width: 10px;
+  background-color: var(--theme-selection-background);
+  width: 60px;
+  height: 14px;
+  position: absolute;
+  top: 0px;
+  right: -4px;
+}
+
+.debug-breakpoint-hint-disabled {
+  background-color: var(--theme-selection-background);
+  width: 60px;
+  height: 14px;
+  position: absolute;
+  top: 0px;
+  right: -4px;
+  opacity: 0.3;
+}
+
+.debug-breakpoint-hint ~ .line-numbers {
+  color: white !important;
 }
 
 .editor.new-breakpoint svg {
