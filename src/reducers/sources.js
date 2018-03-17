@@ -17,13 +17,12 @@ import { originalToGeneratedId, isOriginalId } from "devtools-source-map";
 import { prefs } from "../utils/prefs";
 
 import type { Map, List } from "immutable";
-import type { Source, Location } from "../types";
+import type { Source, Location, SourceRecord } from "../types";
 import type { SelectedLocation, PendingSelectedLocation } from "./types";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 type Tab = string;
-export type SourceRecord = Record<Source>;
 export type SourcesMap = Map<string, SourceRecord>;
 type TabList = List<Tab>;
 

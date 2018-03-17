@@ -4,6 +4,8 @@
 
 // @flow
 
+import { RecordOf } from "immutable";
+
 export type SearchModifiers = {
   caseSensitive: boolean,
   wholeWord: boolean,
@@ -262,17 +264,20 @@ export type Grip = {
  * @memberof types
  * @static
  */
+
+export type SourceRecord = RecordOf<Source>;
+
 export type Source = {
-  id: SourceId,
-  url: string,
-  sourceMapURL?: string,
-  isBlackBoxed: boolean,
-  isPrettyPrinted: boolean,
-  isWasm: boolean,
-  text?: string,
-  contentType?: string,
-  error?: string,
-  loadedState: "unloaded" | "loading" | "loaded"
+  +id: SourceId,
+  +url: string,
+  +sourceMapURL?: string,
+  +isBlackBoxed: boolean,
+  +isPrettyPrinted: boolean,
+  +isWasm: boolean,
+  +text?: string,
+  +contentType?: string,
+  +error?: string,
+  +loadedState: "unloaded" | "loading" | "loaded"
 };
 
 /**

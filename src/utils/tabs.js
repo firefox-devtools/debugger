@@ -7,7 +7,7 @@
 import React from "react";
 
 import type { List } from "immutable";
-import type { SourceRecord } from "../reducers/sources";
+import type { SourceRecord } from "../types";
 import type { SourceMetaDataType } from "../reducers/ast";
 import { isPretty } from "./source";
 
