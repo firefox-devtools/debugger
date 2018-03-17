@@ -101,7 +101,7 @@ function getMenuItems(
     label: copyToClipboardLabel,
     accesskey: copyToClipboardKey,
     disabled: false,
-    click: () => copyToTheClipboard(getRawSourceURL(selectedSource.get("text")))
+    click: () => copyToTheClipboard(selectedSource.get("text"))
   };
 
   const copySourceItem = {

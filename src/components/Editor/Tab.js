@@ -112,7 +112,7 @@ class Tab extends PureComponent<Props> {
         item: {
           ...tabMenuItems.copyToClipboard,
           disabled: selectedSource.get("id") !== tab,
-          click: () => copyToTheClipboard(getRawSourceURL(sourceTab.get("text")))
+          click: () => copyToTheClipboard(sourceTab.get("text"))
         }
       },
       {
