@@ -20,7 +20,8 @@ import {
   getOrientation
 } from "../selectors";
 
-import type { SourceRecord, OrientationType } from "../reducers/types";
+import type { OrientationType } from "../reducers/types";
+import type { SourceRecord } from "../types";
 
 import { KeyShortcuts, Services } from "devtools-modules";
 const shortcuts = new KeyShortcuts({ window });

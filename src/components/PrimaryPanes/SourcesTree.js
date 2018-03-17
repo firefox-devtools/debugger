@@ -46,7 +46,8 @@ import { getRawSourceURL } from "../../utils/source";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { features } from "../../utils/prefs";
 
-import type { SourcesMap, SourceRecord } from "../../reducers/types";
+import type { SourcesMap } from "../../reducers/types";
+import type { SourceRecord } from "../../types";
 
 type Props = {
   selectLocation: Object => void,

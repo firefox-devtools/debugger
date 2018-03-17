@@ -7,7 +7,7 @@
 import { parse } from "url";
 
 import type { Node } from "./types";
-import type { SourceRecord } from "../../reducers/types";
+import type { SourceRecord } from "../../types";
 import { isPretty } from "../source";
 const IGNORED_URLS = ["debugger eval code", "XStringBundle"];
 
