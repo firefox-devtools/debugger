@@ -12,7 +12,8 @@ import { getSelectedSource, getVisibleBreakpoints } from "../../selectors";
 import { makeLocationId } from "../../utils/breakpoint";
 import { isLoaded } from "../../utils/source";
 
-import type { SourceRecord, BreakpointsMap } from "../../reducers/types";
+import type { BreakpointsMap } from "../../reducers/types";
+import type { SourceRecord } from "../../types";
 
 type Props = {
   selectedSource: SourceRecord,

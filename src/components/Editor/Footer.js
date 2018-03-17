@@ -21,7 +21,7 @@ import { shouldShowFooter, shouldShowPrettyPrint } from "../../utils/editor";
 
 import PaneToggleButton from "../shared/Button/PaneToggle";
 
-import type { SourceRecord } from "../../reducers/sources";
+import type { SourceRecord } from "../../types";
 
 import "./Footer.css";
 

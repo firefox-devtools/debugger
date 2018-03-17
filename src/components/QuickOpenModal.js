@@ -34,8 +34,7 @@ import type {
   QuickOpenResult
 } from "../utils/quick-open";
 
-import type { Location } from "../types";
-import type { SourceRecord } from "../reducers/sources";
+import type { Location, SourceRecord } from "../types";
 import type { QuickOpenType } from "../reducers/quick-open";
 
 import "./QuickOpenModal.css";

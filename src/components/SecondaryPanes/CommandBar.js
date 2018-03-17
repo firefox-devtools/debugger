@@ -29,7 +29,8 @@ import "./CommandBar.css";
 import { Services } from "devtools-modules";
 const { appinfo } = Services;
 
-import type { SourceRecord, SourcesMap } from "../../reducers/sources";
+import type { SourcesMap } from "../../reducers/sources";
+import type { SourceRecord } from "../../types";
 
 const isMacOS = appinfo.OS === "Darwin";
 

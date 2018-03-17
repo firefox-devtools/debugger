@@ -20,7 +20,7 @@ import { getURL } from "./getURL";
 
 import type { ParsedURL } from "./getURL";
 import type { Node } from "./types";
-import type { SourceRecord } from "../../reducers/types";
+import type { SourceRecord } from "../../types";
 
 function isUnderRoot(url, projectRoot) {
   if (!projectRoot) {

@@ -18,7 +18,7 @@ import type {
   SymbolDeclaration,
   AstLocation
 } from "../../workers/parser";
-import type { SourceRecord } from "../../reducers/sources";
+import type { SourceRecord } from "../../types";
 
 type Props = {
   symbols: SymbolDeclarations,
