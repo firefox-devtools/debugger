@@ -93,13 +93,11 @@ html[dir="rtl"] .editor-mount {
   right: -4px;
 }
 
-.debug-breakpoint-hint-disabled {
-  background-color: var(--theme-selection-background);
-  width: 60px;
-  height: 14px;
-  position: absolute;
-  top: 0px;
-  right: -4px;
+.debug-breakpoint-hint.condition {
+  background-color: var(--theme-graphs-yellow);
+}
+
+.debug-breakpoint-hint.disabled {
   opacity: 0.3;
 }
 

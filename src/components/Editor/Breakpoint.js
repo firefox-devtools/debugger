@@ -4,12 +4,7 @@
 
 // @flow
 import { Component } from "react";
-// import ReactDOM from "react-dom";
-// import classnames from "classnames";
-// import Svg from "../shared/Svg";
-
 import { toEditorLine } from "../../utils/monaco";
-// import { features } from "../../utils/prefs";
 
 type Props = {
   breakpoint: Object,
@@ -45,9 +40,9 @@ class Breakpoint extends Component<Props> {
 
     const newDecoration = {
       options: {
-        marginClassName: breakpoint.disabled
-          ? "debug-breakpoint-hint-disabled"
-          : "debug-breakpoint-hint",
+        marginClassName: `debug-breakpoint-hint${
+          breakpoint.disabled ? " disabled" : ""
+        }${breakpoint.condition ? " condition" : ""}`,
         stickiness: 1
       },
       range: {
