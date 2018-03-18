@@ -16,6 +16,11 @@ type props = {
   emptyLines: Object
 };
 
+const emptyLineDecorationOpt = {
+  marginClassName: "empty-line",
+  stickiness: 1
+};
+
 class EmptyLines extends Component {
   props: props;
 
@@ -59,10 +64,7 @@ class EmptyLines extends Component {
     const newDecorations = emptyLines.map(emptyLine => {
       const line = toEditorLine(selectedSource.get("id"), emptyLine);
       return {
-        options: {
-          marginClassName: "empty-line",
-          stickiness: 1
-        },
+        options: emptyLineDecorationOpt,
         range: {
           startLineNumber: line,
           startColumn: 1,

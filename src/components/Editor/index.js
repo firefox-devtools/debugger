@@ -133,7 +133,9 @@ class Editor extends PureComponent<Props, State> {
         enabled: false
       },
       renderIndentGuides: false,
-      dragAndDrop: false
+      dragAndDrop: false,
+      links: false,
+      colorDecorators: false
     });
 
     const node = ReactDOM.findDOMNode(this);
