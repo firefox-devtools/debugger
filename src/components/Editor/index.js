@@ -128,7 +128,12 @@ class Editor extends PureComponent<Props, State> {
       selectOnLineNumbers: false,
       lineNumbersMinChars: 3,
       folding: true,
-      showFoldingControls: "mouseover"
+      showFoldingControls: "mouseover",
+      minimap: {
+        enabled: false
+      },
+      renderIndentGuides: false,
+      dragAndDrop: false
     });
 
     const node = ReactDOM.findDOMNode(this);
