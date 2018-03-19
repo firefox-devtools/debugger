@@ -48,6 +48,7 @@ html[dir="rtl"] .object-node {
 .scopes-list .scope-type-toggle {
   text-align: center;
   padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .scopes-list .scope-type-toggle a {
