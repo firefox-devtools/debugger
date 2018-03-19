@@ -268,7 +268,8 @@ export type DebuggerClient = {
     traits: any
   },
   connect: () => Promise<*>,
-  listTabs: () => Promise<*>
+  listTabs: () => Promise<*>,
+  request: (packet: Object) => Promise<*>
 };
 
 export type TabClient = {

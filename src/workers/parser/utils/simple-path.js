@@ -122,6 +122,7 @@ class SimplePath {
     }
     return null;
   }
+
   findParent(predicate: SimplePath => boolean): SimplePath | null {
     if (!this.parentPath) {
       throw new Error("Cannot use findParent on root path");

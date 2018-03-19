@@ -14,7 +14,11 @@ import * as I from "immutable";
 import makeRecord from "../utils/makeRecord";
 import { findEmptyLines } from "../utils/ast";
 
-import type { SymbolDeclarations, AstLocation } from "../workers/parser/types";
+import type {
+  SymbolDeclarations,
+  AstLocation,
+  PausePoint
+} from "../workers/parser";
 
 import type { Map } from "immutable";
 import type { Source } from "../types";
@@ -31,7 +35,7 @@ export type SourceMetaDataType = {
 };
 
 export type SourceMetaDataMap = Map<string, SourceMetaDataType>;
-export type PausePointsMap = Map<string, any>;
+export type PausePointsMap = Map<string, PausePoint>;
 
 export type Preview =
   | {| updating: true |}

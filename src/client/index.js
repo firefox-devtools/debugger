@@ -52,6 +52,7 @@ async function onConnect(
     store,
     actions,
     selectors,
+    connection,
     client: client.clientCommands
   });
 

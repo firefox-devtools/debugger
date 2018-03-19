@@ -34,7 +34,7 @@ export const simpleMockThreadClient = {
 
   setBreakpointCondition: (_id, _location, _condition, _noSliding) =>
     Promise.resolve({ sourceId: "a", line: 5 }),
-
+  setPausePoints: () => Promise.resolve({}),
   sourceContents: sourceId =>
     new Promise((resolve, reject) => {
       if (sources.includes(sourceId)) {
@@ -85,5 +85,6 @@ export const sourceThreadClient = {
       reject(`unknown source: ${sourceId}`);
     });
   },
+  threadClient: async () => {},
   getFrameScopes: async () => {}
 };

@@ -3,13 +3,13 @@
 exports[`Parser.pausePoints pause-points 1`] = `
 "/*bs 1*/import {x} from \\"y\\"
 
-/*bs 2*/const arr = [
+const /*bs 2*/arr = [
   '1',
   2,
   /*b 3*/foo()
 ]
 
-/*bs 4*/const obj = {
+const /*bs 4*/obj = {
   a: '1',
   b: 2,
   c: /*b 5*/foo(),
@@ -21,9 +21,9 @@ exports[`Parser.pausePoints pause-points 1`] = `
 /*bs 10*/foo(1, '2', /*b 11*/bar())
 
 /*b 12*/function func() {
-  /*bs 14*/console.log(\\"...\\")
-  /*bs 15*/return \\"ret\\"
-/*bs 13*/}
+  /*bs 13*/console.log(\\"...\\")
+  /*bs 14*/return \\"ret\\"
+/*bs 15*/}
 
 /*bs 16*/this.x = 3;
 
@@ -36,12 +36,13 @@ else /*bs 18*/if (y) {
 else {
 
 }
-/*bs 19*/for (/*bs 20*/var i=0; i< 5; i++ ) {
+/*bs 19*/for (var /*bs 20*/i=0; i< 5; i++ ) {
 
 }
 
 /*bs 21*/while (x) {
 
 }
+var /*bs 22*/a = 3;/*bs 23*/
 "
 `;

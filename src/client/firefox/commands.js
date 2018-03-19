@@ -25,6 +25,8 @@ import type {
   BPClients
 } from "./types";
 
+import type { PausePoint } from "../../workers/parser";
+
 import { makePendingLocationId } from "../../utils/breakpoint";
 
 import { createSource, createBreakpointLocation } from "./create";
@@ -50,6 +52,10 @@ function setupCommands(dependencies: Dependencies): { bpClients: BPClients } {
   bpClients = {};
 
   return { bpClients };
+}
+
+function sendPacket(packet: Object, callback?: Function) {
+  debuggerClient.request(packet).then(callback);
 }
 
 function resume(): Promise<*> {
@@ -290,6 +296,10 @@ function disablePrettyPrint(sourceId: SourceId): Promise<*> {
   return sourceClient.disablePrettyPrint();
 }
 
+async function setPausePoints(sourceId: SourceId, pausePoints: PausePoint[]) {
+  return sendPacket({ to: sourceId, type: "setPausePoints", pausePoints });
+}
+
 function interrupt(): Promise<*> {
   return threadClient.interrupt();
 }
@@ -352,7 +362,9 @@ const clientCommands = {
   prettyPrint,
   disablePrettyPrint,
   fetchSources,
-  fetchWorkers
+  fetchWorkers,
+  sendPacket,
+  setPausePoints
 };
 
 export { setupCommands, clientCommands };
