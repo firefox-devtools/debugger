@@ -12,8 +12,8 @@ import { createObjectClient } from "../../client/firefox";
 import {
   getSelectedSource,
   getSelectedFrame,
-  getFrameScope,
   getGeneratedFrameScope,
+  getOriginalFrameScope,
   isPaused as getIsPaused,
   getPauseReason
 } from "../../selectors";
@@ -29,43 +29,60 @@ type Props = {
   isPaused: Pause,
   selectedFrame: Object,
   generatedFrameScopes: Object,
-  frameScopes: Object | null,
+  originalFrameScopes: Object | null,
   isLoading: boolean,
-  hasOriginalScopes: boolean,
   why: Why
 };
 
 type State = {
-  scopes: ?(NamedValue[]),
+  originalScopes: ?(NamedValue[]),
   generatedScopes: ?(NamedValue[]),
   showOriginal: boolean
 };
 
 class Scopes extends PureComponent<Props, State> {
   constructor(props: Props, ...args) {
-    const { why, selectedFrame, frameScopes, generatedFrameScopes } = props;
+    const {
+      why,
+      selectedFrame,
+      originalFrameScopes,
+      generatedFrameScopes
+    } = props;
 
     super(props, ...args);
 
     this.state = {
-      scopes: getScopes(why, selectedFrame, frameScopes),
+      originalScopes: getScopes(why, selectedFrame, originalFrameScopes),
       generatedScopes: getScopes(why, selectedFrame, generatedFrameScopes),
       showOriginal: true
     };
   }
 
   componentWillReceiveProps(nextProps) {
-    const { isPaused, selectedFrame, frameScopes } = this.props;
+    const {
+      isPaused,
+      selectedFrame,
+      originalFrameScopes,
+      generatedFrameScopes
+    } = this.props;
     const isPausedChanged = isPaused !== nextProps.isPaused;
     const selectedFrameChanged = selectedFrame !== nextProps.selectedFrame;
-    const frameScopesChanged = frameScopes !== nextProps.frameScopes;
+    const originalFrameScopesChanged =
+      originalFrameScopes !== nextProps.originalFrameScopes;
+    const generatedFrameScopesChanged =
+      generatedFrameScopes !== nextProps.generatedFrameScopes;
 
-    if (isPausedChanged || selectedFrameChanged || frameScopesChanged) {
+    if (
+      isPausedChanged ||
+      selectedFrameChanged ||
+      originalFrameScopesChanged ||
+      generatedFrameScopesChanged
+    ) {
       this.setState({
-        scopes: getScopes(
+        originalScopes: getScopes(
           nextProps.why,
           nextProps.selectedFrame,
-          nextProps.frameScopes
+          nextProps.originalFrameScopes
         ),
         generatedScopes: getScopes(
           nextProps.why,
@@ -77,14 +94,16 @@ class Scopes extends PureComponent<Props, State> {
   }
 
   render() {
-    const { hasOriginalScopes, isPaused, isLoading } = this.props;
-    const { scopes, generatedScopes, showOriginal } = this.state;
+    const { isPaused, isLoading } = this.props;
+    const { originalScopes, generatedScopes, showOriginal } = this.state;
 
-    if (scopes) {
+    const scopes = (showOriginal && originalScopes) || generatedScopes;
+
+    if (scopes && !isLoading) {
       return (
         <div className="pane scopes-list">
           <ObjectInspector
-            roots={showOriginal ? scopes : generatedScopes}
+            roots={scopes}
             autoExpandAll={false}
             autoExpandDepth={1}
             disableWrap={true}
@@ -92,7 +111,7 @@ class Scopes extends PureComponent<Props, State> {
             dimTopLevelWindow={true}
             createObjectClient={grip => createObjectClient(grip)}
           />
-          {hasOriginalScopes ? (
+          {originalScopes ? (
             <div className="scope-type-toggle">
               <a
                 href=""
@@ -133,7 +152,10 @@ export default connect(
     const selectedFrame = getSelectedFrame(state);
     const selectedSource = getSelectedSource(state);
 
-    const { scope: frameScopes, pending } = getFrameScope(
+    const {
+      scope: originalFrameScopes,
+      pending: originalPending
+    } = getOriginalFrameScope(
       state,
       selectedSource && selectedSource.get("id"),
       selectedFrame && selectedFrame.id
@@ -147,19 +169,13 @@ export default connect(
       pending: false
     };
 
-    const isLoading = generatedPending || pending;
-
     return {
       selectedFrame,
       isPaused: getIsPaused(state),
-      isLoading,
+      isLoading: generatedPending || originalPending,
       why: getPauseReason(state),
-      frameScopes,
-      generatedFrameScopes,
-      hasOriginalScopes:
-        isLoading || !generatedFrameScopes || !frameScopes
-          ? false
-          : generatedFrameScopes.actor !== frameScopes.actor
+      originalFrameScopes,
+      generatedFrameScopes
     };
   },
   dispatch => bindActionCreators(actions, dispatch)
