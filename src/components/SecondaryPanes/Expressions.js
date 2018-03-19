@@ -130,11 +130,7 @@ class Expressions extends Component<Props, State> {
     e.preventDefault();
     e.stopPropagation();
     await this.props.addExpression(this.state.inputValue);
-    if (!this.props.expressionError) {
-      this.setState({ editing: false, editIndex: -1, inputValue: "" });
-    } else {
-      this.setState({ editing: false, editIndex: -1, inputValue: inputValue });
-    }
+    this.setState({ editing: false, editIndex: -1, inputValue: this.props.expressionError ? inputValue : "" });
   };
 
   renderExpression = (expression: Expression, index: number) => {
