@@ -165,33 +165,33 @@ add_task(async function() {
     },
   ]);
 
-  await breakpointPreviews(dbg, "imported-bindings", { line: 17, column: 2 }, [
+  await breakpointPreviews(dbg, "imported-bindings", { line: 20, column: 2 }, [
     {
-      line: 19,
+      line: 22,
       column: 16,
       expression: "_mod2.default;",
       result: '"a-default"',
     },
     {
-      line: 20,
+      line: 23,
       column: 16,
       expression: "_mod4.original;",
       result: '"an-original"',
     },
     {
-      line: 21,
+      line: 24,
       column: 16,
       expression: "_mod3.aNamed;",
       result: '"a-named"',
     },
     {
-      line: 22,
+      line: 25,
       column: 16,
       expression: "_mod4.original;",
       result: '"an-original"',
     },
     {
-      line: 23,
+      line: 26,
       column: 16,
       expression: "aNamespace;",
       fields: [
@@ -200,31 +200,31 @@ add_task(async function() {
       ],
     },
     {
-      line: 28,
+      line: 31,
       column: 20,
       expression: "_mod7.default;",
       result: '"a-default2"',
     },
     {
-      line: 29,
+      line: 32,
       column: 20,
       expression: "_mod9.original;",
       result: '"an-original2"',
     },
     {
-      line: 30,
+      line: 33,
       column: 20,
       expression: "_mod8.aNamed2;",
       result: '"a-named2"',
     },
     {
-      line: 31,
+      line: 34,
       column: 20,
       expression: "_mod9.original;",
       result: '"an-original2"',
     },
     {
-      line: 32,
+      line: 35,
       column: 20,
       expression: "aNamespace2;",
       fields: [
