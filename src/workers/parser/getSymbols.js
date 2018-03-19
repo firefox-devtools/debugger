@@ -277,8 +277,8 @@ function extractSymbol(path: SimplePath, symbols) {
     const { start, end } = path.node.loc;
     symbols.awaits.push({
       location: { start, end },
-      previousLocation: {},
-      nextLocation: {}
+      previousLocation: null,
+      nextLocation: null
     });
   }
 }
@@ -315,22 +315,6 @@ function extractSymbols(sourceId) {
   // comments are extracted separately from the AST
   symbols.comments = getComments(ast);
 
-  symbols.awaits.forEach(a => {
-    let next = null;
-    symbols.memberExpressions.forEach(me => {
-      if (! next) {
-        next = me;
-      } else {
-        if (me.location.start.line >= a.location.start.line) {
-          if (me.location.start.colum < next.location.start.colum) {
-            next = me;
-          }
-        }
-      }
-    })
-    a.nextLocation = next.location;
-  });
-  debugger
   return symbols;
 }
 
