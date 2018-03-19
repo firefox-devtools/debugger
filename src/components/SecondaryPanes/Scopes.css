@@ -40,3 +40,14 @@
 .scopes-list .function-signature {
   display: inline-block;
 }
+
+.scopes-list .scope-type-toggle {
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.scopes-list .scope-type-toggle a {
+  /* Override color so that the link doesn't turn purple */
+  color: var(--theme-body-color);
+}
