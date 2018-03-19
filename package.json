@@ -136,6 +136,7 @@
     "node-emoji": "^1.8.1",
     "npm-run-all": "^4.0.2",
     "prettier": "^1.10.2",
+    "pretty-quick": "^1.4.1",
     "react-test-renderer": "15.6.2",
     "remark-cli": "^5.0.0",
     "remark-lint": "^6.0.1",
