@@ -18,37 +18,36 @@ import type { SourceMetaDataType } from "../../reducers/ast";
 
 import actions from "../../actions";
 
-import {
-  getFilename,
-  getFileURL,
-  getRawSourceURL,
-  isPretty
-} from "../../utils/source";
+import { isPretty } from "../../utils/source";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { getSourceAnnotation, getTabMenuItems } from "../../utils/tabs";
 
 import {
-  getSelectedSource,
   getSourceMetaData,
   getActiveSearch,
-  getSourcesForTabs
+  getTabs,
+  getSource,
+  getSelectedTab
 } from "../../selectors";
 
 import classnames from "classnames";
 
-type SourcesList = List<SourceRecord>;
+type TabList = List<any>;
 
 type Props = {
-  tabSources: SourcesList,
+  tabs: TabList,
   selectSource: Object => void,
-  selectedSource: SourceRecord,
+  selectTab: string => void,
+  selectedTab: any,
   closeTab: string => void,
   closeTabs: (List<string>) => void,
   togglePrettyPrint: string => void,
   showSource: string => void,
-  source: SourceRecord,
+  tab: any,
   activeSearch: string,
-  sourceMetaData: SourceMetaDataType
+  sourceMetaData: SourceMetaDataType,
+  getMetaData: string => any,
+  getTabSource: string => SourceRecord
 };
 
 class Tab extends PureComponent<Props> {
@@ -57,55 +56,55 @@ class Tab extends PureComponent<Props> {
     this.showContextMenu(event, tab);
   };
 
-  showContextMenu(e, tab: string) {
+  showContextMenu(e, tabId: string) {
     const {
       closeTab,
       closeTabs,
-      tabSources,
+      tabs,
       showSource,
       togglePrettyPrint,
-      selectedSource
+      selectedSource,
+      getTabSource
     } = this.props;
 
-    const otherTabs = tabSources.filter(t => t.get("id") !== tab);
-    const sourceTab = tabSources.find(t => t.get("id") == tab);
-    const tabURLs = tabSources.map(t => t.get("url"));
-    const otherTabURLs = otherTabs.map(t => t.get("url"));
-
-    if (!sourceTab) {
+    if (!tabId) {
       return;
     }
 
-    const isPrettySource = isPretty(sourceTab);
+    const source = getTabSource(tabId);
+    const tabIds = tabs.map(t => t.id);
+    const otherTabIds = tabIds.filter(id => id !== tabId);
+
+    const isPrettySource = isPretty(source);
     const tabMenuItems = getTabMenuItems();
     const items = [
       {
         item: {
           ...tabMenuItems.closeTab,
-          click: () => closeTab(sourceTab.get("url"))
+          click: () => closeTab(tabId)
         }
       },
       {
         item: {
           ...tabMenuItems.closeOtherTabs,
-          click: () => closeTabs(otherTabURLs)
+          click: () => closeTabs(otherTabIds)
         },
-        hidden: () => tabSources.size === 1
+        hidden: () => tabs.size === 1
       },
       {
         item: {
           ...tabMenuItems.closeTabsToEnd,
           click: () => {
-            const tabIndex = tabSources.findIndex(t => t.get("id") == tab);
-            closeTabs(tabURLs.filter((t, i) => i > tabIndex));
+            const tabIndex = tabIds.findIndex(id => id == tabId);
+            closeTabs(tabIds.filter((id, index) => index > tabIndex));
           }
         },
         hidden: () =>
-          tabSources.size === 1 ||
-          tabSources.some((t, i) => t === tab && tabSources.size - 1 === i)
+          tabs.size === 1 ||
+          tabs.some((t, i) => t.id === tabId && tabs.size - 1 === i)
       },
       {
-        item: { ...tabMenuItems.closeAllTabs, click: () => closeTabs(tabURLs) }
+        item: { ...tabMenuItems.closeAllTabs, click: () => closeTabs(tabIds) }
       },
       { item: { type: "separator" } },
       {
@@ -118,57 +117,53 @@ class Tab extends PureComponent<Props> {
       {
         item: {
           ...tabMenuItems.copySourceUri2,
-          click: () => copyToTheClipboard(getRawSourceURL(sourceTab.get("url")))
+          click: () => copyToTheClipboard(source.get("url"))
         }
       }
     ];
 
-    items.push({
-      item: { ...tabMenuItems.showSource, click: () => showSource(tab) }
-    });
-
     if (!isPrettySource) {
       items.push({
-        item: {
-          ...tabMenuItems.prettyPrint,
-          click: () => togglePrettyPrint(tab)
-        }
+        item: { ...tabMenuItems.showSource, click: () => showSource(tabId) }
       });
-    }
 
-    showMenu(e, buildMenu(items));
+      if (!isPrettySource) {
+        items.push({
+          item: {
+            ...tabMenuItems.prettyPrint,
+            click: () => togglePrettyPrint(tabId)
+          }
+        });
+      }
+
+      showMenu(e, buildMenu(items));
+    }
   }
 
-  isProjectSearchEnabled() {
+  /* isProjectSearchEnabled() {
     return this.props.activeSearch === "project";
   }
 
   isSourceSearchEnabled() {
     return this.props.activeSearch === "source";
-  }
+  }*/
 
   render() {
     const {
-      selectedSource,
+      selectedTab,
       selectSource,
       closeTab,
-      source,
-      sourceMetaData
+      tab,
+      getMetaData,
+      getTabSource
     } = this.props;
-    const src = source.toJS();
-    const filename = getFilename(src);
-    const sourceId = source.get("id");
-    const active =
-      selectedSource &&
-      sourceId == selectedSource.get("id") &&
-      (!this.isProjectSearchEnabled() && !this.isSourceSearchEnabled());
-    const isPrettyCode = isPretty(source);
-    const sourceAnnotation = getSourceAnnotation(source, sourceMetaData);
 
-    function onClickClose(e) {
-      e.stopPropagation();
-      closeTab(source.get("url"));
+    const source = getTabSource(tab.id);
+    if (!source) {
+      return null;
     }
+    const sourceAnnotation = getSourceAnnotation(source, getMetaData);
+    /* && (!this.isProjectSearchEnabled() && !this.isSourceSearchEnabled());*/
 
     function handleTabClick(e) {
       e.preventDefault();
@@ -176,29 +171,33 @@ class Tab extends PureComponent<Props> {
 
       // Accommodate middle click to close tab
       if (e.button === 1) {
-        return closeTab(source.get("url"));
+        return closeTab(tab.id);
       }
 
-      return selectSource(sourceId);
+      return selectSource(tab.id);
     }
 
     const className = classnames("source-tab", {
-      active,
-      pretty: isPrettyCode
+      active: tab.id === selectedTab.tab.id,
+      pretty: isPretty(source)
     });
 
     return (
       <div
         className={className}
-        key={sourceId}
+        key={tab.id}
         onMouseUp={handleTabClick}
-        onContextMenu={e => this.onTabContextMenu(e, sourceId)}
-        title={getFileURL(src)}
+        onClick={() => selectSource(tab.id)}
+        onContextMenu={e => this.onTabContextMenu(e, tab.id)}
+        title={tab.tooltip}
       >
         {sourceAnnotation}
-        <div className="filename">{filename}</div>
+        <div className="filename">{tab.title}</div>
         <CloseButton
-          handleClick={onClickClose}
+          handleClick={event => {
+            event.stopPropagation();
+            closeTab(tab.id);
+          }}
           tooltip={L10N.getStr("sourceTabs.closeTabButtonTooltip")}
         />
       </div>
@@ -210,6 +209,8 @@ export default connect(
     const selectedSource = getSelectedSource(state);
     const { source } = props;
     return {
+      tabs: getTabs(state),
+      selectedTab: getSelectedTab(state),
       tabSources: getSourcesForTabs(state),
       selectedSource: selectedSource,
       sourceMetaData: getSourceMetaData(state, source.get("id")),

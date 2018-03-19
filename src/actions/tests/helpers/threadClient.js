@@ -74,7 +74,7 @@ export function simulateCorrectThreadClient(offset, location) {
   return { correctedThreadClient, correctedLocation };
 }
 
-// sources and tabs
+// sources
 export const sourceThreadClient = {
   sourceContents: function(sourceId) {
     return new Promise((resolve, reject) => {

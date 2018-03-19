@@ -281,6 +281,18 @@ export type Source = {
 };
 
 /**
+ * Tab
+ *
+ * @memberof types
+ * @static
+ */
+export type Tab = {
+  id: string,
+  title: string,
+  tooltip: string
+};
+
+/**
  * Script
  * This describes scripts which are sent to the debug server to be eval'd
  * @memberof types

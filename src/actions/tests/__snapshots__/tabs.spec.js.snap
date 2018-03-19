@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`closing tabs closing a tab 1`] = `
+Object {
+  "tab": undefined,
+  "tabIndex": -1,
+}
+`;
+
+exports[`closing tabs closing all the tabs 1`] = `
+Object {
+  "tab": undefined,
+  "tabIndex": -1,
+}
+`;
+
+exports[`closing tabs closing many inactive tabs 1`] = `
+Object {
+  "tab": Object {
+    "id": "bazz.js",
+    "title": "bazz.js",
+    "tooltip": "http://localhost:8000/examples/bazz.js",
+  },
+  "tabIndex": 0,
+}
+`;
+
+exports[`closing tabs closing many tabs including the active tab 1`] = `
+Object {
+  "tab": Object {
+    "id": "foo.js",
+    "title": "foo.js",
+    "tooltip": "http://localhost:8000/examples/foo.js",
+  },
+  "tabIndex": 0,
+}
+`;
+
+exports[`closing tabs closing the active tab 1`] = `
+Object {
+  "tab": Object {
+    "id": "foo.js",
+    "title": "foo.js",
+    "tooltip": "http://localhost:8000/examples/foo.js",
+  },
+  "tabIndex": 0,
+}
+`;
+
+exports[`closing tabs closing the inactive tab 1`] = `
+Object {
+  "tab": Object {
+    "id": "bar.js",
+    "title": "bar.js",
+    "tooltip": "http://localhost:8000/examples/bar.js",
+  },
+  "tabIndex": 0,
+}
+`;
+
+exports[`closing tabs closing the only tab 1`] = `
+Object {
+  "tab": undefined,
+  "tabIndex": -1,
+}
+`;
