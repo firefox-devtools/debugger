@@ -145,20 +145,14 @@ class SourcesTree extends Component<Props, State> {
     // only when a new source is added
     if (nextProps.sources != this.props.sources) {
       this.setState(
-        /*
         updateTree({
           newSources: nextProps.sources,
           prevSources: sources,
           debuggeeUrl,
           projectRoot,
+          projectRootUsed: this.state.projectRootUsed,
           uncollapsedTree,
           sourceTree
-        })
-        */
-        createTree({
-          sources: nextProps.sources,
-          debuggeeUrl: nextProps.debuggeeUrl,
-          projectRoot: nextProps.projectRoot
         })
       );
     }
@@ -346,7 +340,6 @@ class SourcesTree extends Component<Props, State> {
 
     // The "sourceTree.contents[0]" check ensures that there are contents
     // A custom root with no existing sources will be ignored
-
     if (isCustomRoot && sourceTree.contents.length) {
       clearProjectRootButton = (
         <button

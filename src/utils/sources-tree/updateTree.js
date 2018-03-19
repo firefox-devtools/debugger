@@ -47,11 +47,10 @@ export function updateTree({
 
   // If a project root is set but the page does not have an sources for that root,
   // continue to store the root but show the entire tree for the time being
-  projectRootUsed = true;
-  if (uncollapsedTree.contents.length === 0) {
+  if (projectRoot && uncollapsedTree.contents.length === 0) {
     projectRootUsed = false;
-    const allSources = allSourcesSet(newSources, prevSources);
-    for (const source of allSources) {
+    //const allSources = allSourcesSet(newSources, prevSources);
+    for (const source of newSet) {
       addToTree(uncollapsedTree, source, debuggeeUrl, "");
     }
   }
