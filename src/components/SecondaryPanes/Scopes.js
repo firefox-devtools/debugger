@@ -101,7 +101,9 @@ class Scopes extends PureComponent<Props, State> {
                   this.setState({ showOriginal: !showOriginal });
                 }}
               >
-                Show {showOriginal ? "generated" : "original"} scope
+                {showOriginal
+                  ? L10N.getStr("scopes.toggleToGenerated")
+                  : L10N.getStr("scopes.toggleToOriginal")}
               </a>
             </div>
           ) : null}
