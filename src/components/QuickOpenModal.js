@@ -387,6 +387,7 @@ export class QuickOpenModal extends Component<Props, State> {
       <Modal in={enabled} handleClose={this.closeModal}>
         <SearchInput
           query={query}
+          hasPrefix={true}
           count={this.getResultCount()}
           placeholder={L10N.getStr("sourceSearch.search")}
           summaryMsg=""
