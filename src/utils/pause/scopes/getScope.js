@@ -3,6 +3,7 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
+import { ObjectInspectorUtils } from "devtools-reps";
 import { getBindingVariables } from "./getVariables";
 import { getFramePopVariables, getThisVariable } from "./utils";
 import { simplifyDisplayName } from "../../pause/frames";
@@ -81,7 +82,8 @@ export function getScope(
       return {
         name: title,
         path: key,
-        contents: vars
+        contents: vars,
+        type: ObjectInspectorUtils.node.NODE_TYPES.BLOCK
       };
     }
   } else if (type === "object" && scope.object) {
