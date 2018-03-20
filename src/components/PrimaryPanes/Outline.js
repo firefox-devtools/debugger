@@ -11,7 +11,6 @@ import { connect } from "react-redux";
 
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { findFunctionText } from "../../utils/function";
-import { findClosestScope } from "../../utils/breakpoint/astBreakpointLocation";
 
 import actions from "../../actions";
 import {
@@ -37,7 +36,6 @@ type Props = {
   onAlphabetizeClick: Function,
   alphabetizeOutline: boolean,
   getFunctionText: Function,
-  getFunctionLocation: Function,
   flashLineRange: Function,
   selectedLocation: any
 };
@@ -60,7 +58,6 @@ export class Outline extends Component<Props> {
     const {
       selectedSource,
       getFunctionText,
-      getFunctionLocation,
       flashLineRange,
       selectedLocation
     } = this.props;
@@ -74,16 +71,16 @@ export class Outline extends Component<Props> {
 
     const sourceLine = func.location.start.line;
     const functionText = getFunctionText(sourceLine);
+
     const copyFunctionItem = {
       id: "node-menu-copy-function",
       label: copyFunctionLabel,
       accesskey: copyFunctionKey,
       disabled: !functionText,
       click: () => {
-        const { location: { start, end } } = getFunctionLocation(sourceLine);
         flashLineRange({
-          start: start.line,
-          end: end.line,
+          start: func.location.start.line,
+          end: func.location.end.line,
           sourceId: selectedLocation.sourceId
         });
         return copyToTheClipboard(functionText);
@@ -224,13 +221,7 @@ export default connect(
           line,
           selectedSource.toJS(),
           getSymbols(state, selectedSource.toJS())
-        ),
-      getFunctionLocation: line =>
-        findClosestScope(getSymbols(state, selectedSource.toJS()).functions, {
-          line,
-          column: Infinity,
-          sourceId: selectedSource.get("id")
-        })
+        )
     };
   },
   dispatch => bindActionCreators(actions, dispatch)
