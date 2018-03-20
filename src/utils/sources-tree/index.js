@@ -6,7 +6,7 @@
  * Utils for Sources Tree Component
  * @module utils/sources-tree
  */
-
+// @flow
 export { addToTree } from "./addToTree";
 export { collapseTree } from "./collapseTree";
 export { createTree } from "./createTree";

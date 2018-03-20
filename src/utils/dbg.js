@@ -1,3 +1,4 @@
+// @flow
 import { bindActionCreators } from "redux";
 import * as timings from "./timings";
 import { prefs, features } from "./prefs";

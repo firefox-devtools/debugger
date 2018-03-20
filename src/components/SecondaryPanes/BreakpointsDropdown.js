@@ -1,3 +1,4 @@
+// @flow
 import React from "react";
 import Svg from "../shared/Svg";
 import Dropdown from "../shared/Dropdown";

@@ -3,6 +3,7 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // Maybe reuse file search's functions?
+// @flow
 import React from "react";
 
 export function highlightMatches(lineMatch) {

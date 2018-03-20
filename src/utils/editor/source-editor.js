@@ -6,7 +6,7 @@
  * CodeMirror source editor utils
  * @module utils/source-editor
  */
-
+// @flow
 const CodeMirror = require("codemirror");
 
 require("codemirror/lib/codemirror.css");

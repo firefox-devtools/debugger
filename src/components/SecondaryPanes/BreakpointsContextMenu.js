@@ -1,3 +1,4 @@
+// @flow
 import { buildMenu, showMenu } from "devtools-contextmenu";
 
 export default function showContextMenu(props) {

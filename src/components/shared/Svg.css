@@ -95,8 +95,20 @@ html[dir="rtl"] img.arrow {
   transform: rotate(90deg);
 }
 
-/* TODO (Amit): html is just for specificity. keep it like this? */
-html .arrow.expanded svg {
+.arrow svg {
+  transition: transform 0.125s ease;
+  width: 10px;
+  margin-inline-end: 5px;
+  transform: rotate(-90deg);
+}
+
+html[dir="rtl"] .arrow svg,
+.arrow svg:dir(rtl),
+.arrow svg:-moz-locale-dir(rtl) {
+  transform: rotate(90deg);
+}
+
+.arrow.expanded.expanded svg {
   transform: rotate(0deg);
 }
 
