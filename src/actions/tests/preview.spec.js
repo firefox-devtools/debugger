@@ -91,10 +91,14 @@ describe("setPreview", () => {
   it("react instance", async () => {
     await setup("foo.js");
     evaluationResult = {
-      this: react,
-      "this.hasOwnProperty('_reactInternalFiber') ? this._reactInternalFiber.type.name : this._reactInternalInstance.getName()":
-        "Foo"
+      this: react
     };
+    evaluationResult[
+      "this.hasOwnProperty('_reactInternalFiber') ? " +
+        "this._reactInternalFiber.type.name : " +
+        "this._reactInternalInstance.getName()"
+    ] =
+      "Foo";
 
     await dispatch(
       actions.setPreview(

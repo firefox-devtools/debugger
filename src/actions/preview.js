@@ -28,7 +28,9 @@ import type { AstLocation } from "../workers/parser";
 
 async function getReactProps(evaluate) {
   const reactDisplayName = await evaluate(
-    "this.hasOwnProperty('_reactInternalFiber') ? this._reactInternalFiber.type.name : this._reactInternalInstance.getName()"
+    "this.hasOwnProperty('_reactInternalFiber') ? " +
+      "this._reactInternalFiber.type.name : " +
+      "this._reactInternalInstance.getName()"
   );
 
   return {
