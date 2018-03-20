@@ -72,6 +72,13 @@ type State = {
   highlightItems?: any
 };
 
+const sourceTypes = {
+  coffee: "coffeescript",
+  js: "javascript",
+  jsx: "react",
+  ts: "typescript"
+};
+
 class SourcesTree extends Component<Props, State> {
   focusItem: Function;
   selectItem: Function;
@@ -210,17 +217,9 @@ class SourcesTree extends Component<Props, State> {
       if (source && source.get("isBlackBoxed")) {
         return <img className="blackBox" />;
       }
-      const sourceType = {
-        coffee: "coffeescript",
-        js: "javascript",
-        jsx: "react",
-        ts: "typescript"
-      }[getExtension(source)];
-      return sourceType ? (
-        <img className={sourceType} />
-      ) : (
-        <img className="file" />
-      );
+
+      const sourceType = sourceTypes[getExtension(source)];
+      return <img className={sourceType || "file"} />;
     }
 
     return <img className="folder" />;
