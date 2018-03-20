@@ -324,7 +324,8 @@ export type Scope = {
     location: Location,
     parameterNames: string[]
   },
-  type: string
+  type: string,
+  name: string
 };
 
 export type Worker = {

@@ -156,6 +156,7 @@ type SourceAction =
   | { type: "CLEAR_SELECTED_SOURCE" }
   | {
       type: "BLACKBOX",
+      status: AsyncStatus,
       source: Source,
       error: string,
       value: { isBlackBoxed: boolean }
@@ -265,7 +266,10 @@ type PauseAction =
       shouldPauseOnExceptions: boolean,
       shouldIgnoreCaughtExceptions: boolean
     }
-  | { type: "COMMAND", value: { type: string }, command: string }
+  | {
+    type: "COMMAND",
+    status: AsyncStatus,
+    value: { type: string }, command: string }
   | { type: "SELECT_FRAME", frame: Frame }
   | {
       type: "SET_POPUP_OBJECT_PROPERTIES",
@@ -281,6 +285,7 @@ type PauseAction =
     }
   | {
       type: "EVALUATE_EXPRESSION",
+      status: AsyncStatus,
       input: string,
       value: Object,
       "@@dispatch/promise": any
@@ -325,6 +330,7 @@ type NavigateAction =
 type ASTAction =
   | {
       type: "SET_SYMBOLS",
+      status: AsyncStatus,
       source: Source,
       value: SymbolDeclaration[]
     }
@@ -348,6 +354,7 @@ type ASTAction =
     }
   | {
       type: "SET_PREVIEW",
+      status: AsyncStatus,
       value: {
         expression: string,
         result: any,
