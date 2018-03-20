@@ -3298,9 +3298,9 @@ eslint-plugin-jest@^21.5.0:
   version "21.12.2"
   resolved "https://registry.yarnpkg.com/eslint-plugin-jest/-/eslint-plugin-jest-21.12.2.tgz#325f7c6a5078aed51ea087c33c26792337b5ba37"
 
-eslint-plugin-mozilla@^0.9.0:
-  version "0.9.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-mozilla/-/eslint-plugin-mozilla-0.9.1.tgz#af77cb5f9d2bc3a403c201c858902caacf8c1f7c"
+eslint-plugin-mozilla@0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-mozilla/-/eslint-plugin-mozilla-0.10.0.tgz#a3918efcc19405459cb605ebafc535eef4d600de"
   dependencies:
     ini-parser "0.0.2"
     sax "1.2.4"
