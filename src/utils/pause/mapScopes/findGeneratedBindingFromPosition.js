@@ -179,34 +179,21 @@ async function mapImportDeclarationToDescriptor(
     return null;
   }
 
-  let expression = binding.name;
-
-  let desc = binding.desc;
-  if (desc && typeof desc.value === "object") {
-    if (desc.value.optimizedOut) {
-      // If the value was optimized out, we skip it entirely because there is
-      // a good chance that this means that this isn't the right binding. This
-      // allows us to catch cases like
-      //
-      //   var _mod = require(...);
-      //   var _mod2 = _interopRequire(_mod);
-      //
-      // where "_mod" is optimized out because it is only referenced once, and
-      // we want to continue searching to try to find "_mod2".
-      return null;
-    }
-
-    if (desc.value.type !== "object") {
-      // If we got a non-primitive descriptor but it isn't an object, then
-      // it's definitely not the namespace.
-      return null;
-    }
-
-    const objectClient = createObjectClient(desc.value);
-    desc = (await objectClient.getProperty(mapped.importName)).descriptor;
-
-    expression += `.${mapped.importName}`;
-  }
+  const desc = await readDescriptorProperty(
+    binding.desc,
+    mapped.importName,
+    // If the value was optimized out or otherwise unavailable, we skip it
+    // entirely because there is a good chance that this means that this
+    // isn't the right binding. This allows us to catch cases like
+    //
+    //   var _mod = require(...);
+    //   var _mod2 = _interopRequire(_mod);
+    //
+    // where "_mod" is optimized out because it is only referenced once, and
+    // we want to continue searching to try to find "_mod2".
+    true
+  );
+  const expression = `${binding.name}.${mapped.importName}`;
 
   return desc
     ? {
@@ -290,9 +277,7 @@ async function mapImportReferenceToDescriptor(
         continue;
       }
 
-      const objectClient = createObjectClient(desc.value);
-      desc = (await objectClient.getProperty(op.property)).descriptor;
-
+      desc = await readDescriptorProperty(desc, op.property);
       expression += `.${op.property}`;
     }
   }
@@ -304,6 +289,45 @@ async function mapImportReferenceToDescriptor(
         expression
       }
     : null;
+}
+
+async function readDescriptorProperty(
+  desc: ?BindingContents,
+  property: string,
+  requireValidObject = false
+): Promise<?BindingContents> {
+  if (!desc) {
+    return null;
+  }
+
+  if (typeof desc.value !== "object" || !desc.value) {
+    if (requireValidObject) {
+      return null;
+    }
+
+    // If accessing a property on a primitive type, just return 'undefined'
+    // as the value.
+    return {
+      value: {
+        type: "undefined"
+      }
+    };
+  }
+
+  // Note: The check for `.type` might already cover the optimizedOut case
+  // but not 100% sure, so just being cautious.
+  if (desc.value.type !== "object" || desc.value.optimizedOut) {
+    if (requireValidObject) {
+      return null;
+    }
+
+    // If we got a non-primitive descriptor but it isn't an object, then
+    // it's definitely not the namespace and it is probably an error.
+    return desc;
+  }
+
+  const objectClient = createObjectClient(desc.value);
+  return (await objectClient.getProperty(property)).descriptor;
 }
 
 function mappingContains(mapped, item) {
