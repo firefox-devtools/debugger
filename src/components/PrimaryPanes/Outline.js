@@ -68,19 +68,18 @@ export class Outline extends Component<Props> {
     if (!selectedSource) {
       return;
     }
-
-    const sourceLine = func.location.start.line;
-    const functionText = getFunctionText(sourceLine);
-
     const copyFunctionItem = {
       id: "node-menu-copy-function",
       label: copyFunctionLabel,
       accesskey: copyFunctionKey,
-      disabled: !functionText,
+      disabled: false,
       click: () => {
+        const startLine = func.location.start.line;
+        const endLine = func.location.end.line;
+        const functionText = getFunctionText(startLine);
         flashLineRange({
-          start: func.location.start.line,
-          end: func.location.end.line,
+          start: startLine,
+          end: endLine,
           sourceId: selectedLocation.sourceId
         });
         return copyToTheClipboard(functionText);
