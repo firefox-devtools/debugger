@@ -92,7 +92,8 @@ describe("setPreview", () => {
     await setup("foo.js");
     evaluationResult = {
       this: react,
-      "this._reactInternalInstance.getName()": "Foo"
+      "this.hasOwnProperty('_reactInternalFiber') ? this._reactInternalFiber.type.name : this._reactInternalInstance.getName()":
+        "Foo"
     };
 
     await dispatch(
