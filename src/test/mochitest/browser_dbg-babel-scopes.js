@@ -58,7 +58,7 @@ async function breakpointScopes(dbg, fixture, { line, column }, scopes) {
 async function expandAllScopes(dbg) {
   const scopes = await waitForElement(dbg, "scopes");
   const scopeElements = scopes.querySelectorAll(
-    `.tree-node[aria-level="0"][data-expandable="true"]:not([aria-expanded="true"])`
+    `.tree-node[aria-level="1"][data-expandable="true"]:not([aria-expanded="true"])`
   );
   const indices = Array.from(scopeElements, el => {
     return Array.prototype.indexOf.call(el.parentNode.childNodes, el);
