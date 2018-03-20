@@ -121,16 +121,22 @@ class Expressions extends Component<Props, State> {
   ) => {
     e.preventDefault();
     e.stopPropagation();
+
     this.props.updateExpression(this.state.inputValue, expression);
   };
 
   handleNewSubmit = async (e: SyntheticEvent<HTMLFormElement>) => {
     const { inputValue } = this.state;
-    this.props.clearExpressionError();
     e.preventDefault();
     e.stopPropagation();
+
+    this.props.clearExpressionError();
     await this.props.addExpression(this.state.inputValue);
-    this.setState({ editing: false, editIndex: -1, inputValue: this.props.expressionError ? inputValue : "" });
+    this.setState({
+      editing: false,
+      editIndex: -1,
+      inputValue: this.props.expressionError ? inputValue : ""
+    });
   };
 
   renderExpression = (expression: Expression, index: number) => {
