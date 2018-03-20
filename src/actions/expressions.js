@@ -34,12 +34,13 @@ export function addExpression(input: string) {
       return;
     }
 
+    const expressionError = await parser.hasSyntaxError(input);
+
     const expression = getExpression(getState(), input);
     if (expression) {
       return dispatch(evaluateExpression(expression));
     }
 
-    const expressionError = await parser.hasSyntaxError(input);
     dispatch({ type: "ADD_EXPRESSION", input, expressionError });
 
     const newExpression = getExpression(getState(), input);
