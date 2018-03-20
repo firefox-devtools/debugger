@@ -6,6 +6,7 @@ const { NormalModuleReplacementPlugin } = require("webpack");
 const path = require("path");
 const projectPath = path.join(__dirname, "src");
 var Visualizer = require("webpack-visualizer-plugin");
+const ObjectRestSpreadPlugin = require("@sucrase/webpack-object-rest-spread-plugin");
 
 /*
  * builds a path that's relative to the project path
@@ -33,20 +34,18 @@ const webpackConfig = {
 
 function buildConfig(envConfig) {
   const extra = {};
+  webpackConfig.plugins = [new ObjectRestSpreadPlugin()];
   if (isDevelopment()) {
-    webpackConfig.plugins = [];
-
     webpackConfig.module = webpackConfig.module || {};
     webpackConfig.module.rules = webpackConfig.module.rules || [];
   } else {
-    webpackConfig.plugins = [];
     webpackConfig.output.libraryTarget = "umd";
 
     if (process.env.vis) {
       const viz = new Visualizer({
         filename: "webpack-stats.html"
       });
-      webpackConfig.plugins = [viz];
+      webpackConfig.plugins.push(viz);
     }
 
     const mappings = [
