@@ -336,7 +336,13 @@ class SourcesTree extends Component<Props, State> {
 
     // The "sourceTree.contents[0]" check ensures that there are contents
     // A custom root with no existing sources will be ignored
-    if (isCustomRoot && sourceTree.contents[0]) {
+    if (isCustomRoot) {
+      let rootLabel = projectRoot.split("/").pop();
+      if (sourceTree.contents[0]) {
+        rootLabel = sourceTree.contents[0].name;
+        roots = () => sourceTree.contents[0].contents;
+      }
+
       clearProjectRootButton = (
         <button
           className="sources-clear-root"
@@ -345,15 +351,18 @@ class SourcesTree extends Component<Props, State> {
         >
           <Svg name="home" />
           <Svg name="breadcrumb" class />
-          <span className="sources-clear-root-label">
-            {sourceTree.contents[0].name}
-          </span>
+          <span className="sources-clear-root-label">{rootLabel}</span>
         </button>
       );
-      roots = () => sourceTree.contents[0].contents;
     }
 
     const isEmpty = sourceTree.contents.length === 0;
+    const emptyElement = (
+      <div className="no-sources-message">
+        {L10N.getStr("sources.noSourcesAvailable")}
+      </div>
+    );
+
     const treeProps = {
       autoExpandAll: false,
       autoExpandDepth: expanded ? 0 : 1,
@@ -374,12 +383,8 @@ class SourcesTree extends Component<Props, State> {
 
     const tree = <ManagedTree {...treeProps} />;
 
-    if (isEmpty) {
-      return (
-        <div className="no-sources-message">
-          {L10N.getStr("sources.noSourcesAvailable")}
-        </div>
-      );
+    if (isEmpty && !isCustomRoot) {
+      return emptyElement;
     }
 
     const onKeyDown = e => {
@@ -400,8 +405,8 @@ class SourcesTree extends Component<Props, State> {
           </div>
         ) : null}
         <div className="sources-list" onKeyDown={onKeyDown}>
-          {tree}
-        </div>
+          {isEmpty ? emptyElement : tree}
+        </div>)
       </div>
     );
   }
