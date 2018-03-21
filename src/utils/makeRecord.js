@@ -22,6 +22,7 @@ export type Record<T: Object> = {
   equals<A>(other: A): boolean,
   get<A>(key: $Keys<T>, notSetValue?: any): A,
   getIn<A>(keyPath: Array<any>, notSetValue?: any): A,
+  hasIn<A>(keyPath: Array<any>): boolean,
   set<A>(key: $Keys<T>, value: A): Record<T>,
   setIn(keyPath: Array<any>, ...iterables: Array<any>): Record<T>,
   merge(values: $Shape<T>): Record<T>,
