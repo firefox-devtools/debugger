@@ -6,9 +6,18 @@
 
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
+import { showMenu } from "devtools-contextmenu";
 import { connect } from "react-redux";
+
+import { copyToTheClipboard } from "../../utils/clipboard";
+import { findFunctionText } from "../../utils/function";
+
 import actions from "../../actions";
-import { getSelectedSource, getSymbols } from "../../selectors";
+import {
+  getSelectedSource,
+  getSymbols,
+  getSelectedLocation
+} from "../../selectors";
 
 import "./Outline.css";
 import PreviewFunction from "../shared/PreviewFunction";
@@ -25,7 +34,10 @@ type Props = {
   selectLocation: ({ sourceId: string, line: number }) => void,
   selectedSource: ?SourceRecord,
   onAlphabetizeClick: Function,
-  alphabetizeOutline: boolean
+  alphabetizeOutline: boolean,
+  getFunctionText: Function,
+  flashLineRange: Function,
+  selectedLocation: any
 };
 
 export class Outline extends Component<Props> {
@@ -37,6 +49,45 @@ export class Outline extends Component<Props> {
     const selectedSourceId = selectedSource.get("id");
     const startLine = location.start.line;
     selectLocation({ sourceId: selectedSourceId, line: startLine });
+  }
+
+  onContextMenu(event: SyntheticEvent<HTMLElement>, func: SymbolDeclaration) {
+    event.stopPropagation();
+    event.preventDefault();
+
+    const {
+      selectedSource,
+      getFunctionText,
+      flashLineRange,
+      selectedLocation
+    } = this.props;
+
+    const copyFunctionKey = L10N.getStr("copyFunction.accesskey");
+    const copyFunctionLabel = L10N.getStr("copyFunction.label");
+
+    if (!selectedSource) {
+      return;
+    }
+
+    const sourceLine = func.location.start.line;
+    const functionText = getFunctionText(sourceLine);
+
+    const copyFunctionItem = {
+      id: "node-menu-copy-function",
+      label: copyFunctionLabel,
+      accesskey: copyFunctionKey,
+      disabled: !functionText,
+      click: () => {
+        flashLineRange({
+          start: func.location.start.line,
+          end: func.location.end.line,
+          sourceId: selectedLocation.sourceId
+        });
+        return copyToTheClipboard(functionText);
+      }
+    };
+    const menuOptions = [copyFunctionItem];
+    showMenu(event, menuOptions);
   }
 
   renderPlaceholder() {
@@ -61,6 +112,7 @@ export class Outline extends Component<Props> {
         key={`${name}:${location.start.line}:${location.start.column}`}
         className="outline-list__element"
         onClick={() => this.selectItem(location)}
+        onContextMenu={e => this.onContextMenu(e, func)}
       >
         <span className="outline-list__element-icon">λ</span>
         <PreviewFunction func={{ name, parameterNames }} />
@@ -162,7 +214,14 @@ export default connect(
     const selectedSource = getSelectedSource(state);
     return {
       symbols: getSymbols(state, selectedSource && selectedSource.toJS()),
-      selectedSource
+      selectedSource,
+      selectedLocation: getSelectedLocation(state),
+      getFunctionText: line =>
+        findFunctionText(
+          line,
+          selectedSource.toJS(),
+          getSymbols(state, selectedSource.toJS())
+        )
     };
   },
   dispatch => bindActionCreators(actions, dispatch)
