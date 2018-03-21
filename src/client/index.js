@@ -5,9 +5,9 @@
 // @flow
 
 import * as firefox from "./firefox";
-import * as chrome from "./chrome";
 
 import { prefs } from "../utils/prefs";
+import assert from "../utils/assert";
 import { setupHelper } from "../utils/dbg";
 
 import {
@@ -23,11 +23,6 @@ function loadFromPrefs(actions: Object) {
   }
 }
 
-function getClient(connection: any) {
-  const { tab: { clientType } } = connection;
-  return clientType == "firefox" ? firefox : chrome;
-}
-
 async function onConnect(
   connection: Object,
   { services, toolboxActions }: Object
@@ -37,15 +32,14 @@ async function onConnect(
     return;
   }
 
-  const client = getClient(connection);
-  const commands = client.clientCommands;
+  const commands = firefox.clientCommands;
   const { store, actions, selectors } = bootstrapStore(commands, {
     services,
     toolboxActions
   });
 
   bootstrapWorkers();
-  await client.onConnect(connection, actions);
+  await firefox.onConnect(connection, actions);
   await loadFromPrefs(actions);
 
   setupHelper({
@@ -53,7 +47,7 @@ async function onConnect(
     actions,
     selectors,
     connection,
-    client: client.clientCommands
+    client: firefox.clientCommands
   });
 
   bootstrapApp(store);
