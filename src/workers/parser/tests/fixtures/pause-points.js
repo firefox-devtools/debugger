@@ -40,3 +40,4 @@ for (var i=0; i< 5; i++ ) {
 while (x) {
 
 }
+var a = 3;

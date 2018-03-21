@@ -2,6 +2,7 @@ import { bindActionCreators } from "redux";
 import * as timings from "./timings";
 import { prefs, features } from "./prefs";
 import { isDevelopment } from "devtools-config";
+import { formatPausePoints } from "./pause/pausePoints";
 
 function findSource(dbg, url) {
   const sources = dbg.selectors.getSources();
@@ -15,9 +16,15 @@ function findSource(dbg, url) {
 }
 
 function sendPacket(dbg, packet, callback) {
-  dbg.connection.tabConnection.debuggerClient
-    .request(packet)
-    .then(callback || console.log);
+  dbg.client.sendPacket(packet, callback || console.log);
+}
+
+function sendPacketToThread(dbg, packet, callback) {
+  sendPacket(
+    dbg,
+    { to: dbg.connection.tabConnection.threadClient.actor, ...packet },
+    callback
+  );
 }
 
 function evaluate(dbg, expression, callback) {
@@ -37,6 +44,12 @@ function getCM() {
   return cm && cm.CodeMirror;
 }
 
+function _formatPausePoints(dbg, url) {
+  const source = dbg.helpers.findSource(url);
+  const pausePoints = dbg.selectors.getPausePoints(source);
+  console.log(formatPausePoints(source.text, pausePoints));
+}
+
 export function setupHelper(obj) {
   const selectors = bindSelectors(obj);
   const actions = bindActionCreators(obj.actions, obj.store.dispatch);
@@ -51,7 +64,11 @@ export function setupHelper(obj) {
     helpers: {
       findSource: url => findSource(dbg, url),
       evaluate: (expression, cbk) => evaluate(dbg, expression, cbk),
+      sendPacketToThread: (packet, cbk) => sendPacketToThread(dbg, packet, cbk),
       sendPacket: (packet, cbk) => sendPacket(dbg, packet, cbk)
+    },
+    formatters: {
+      pausePoints: url => _formatPausePoints(dbg, url)
     }
   };
 
