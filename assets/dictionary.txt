@@ -157,3 +157,12 @@ goto
 HTM
 WinCCOV
 requestLongerTimeout
+frontend
+VisibilityHandler
+unmounting
+img
+contenxt
+typeErrors
+SourceRecord
+typeErrors
+getIcon
