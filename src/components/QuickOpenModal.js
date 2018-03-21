@@ -300,6 +300,7 @@ export class QuickOpenModal extends Component<Props, State> {
     }
 
     if (["ArrowUp", "ArrowDown"].includes(e.key)) {
+      e.preventDefault();
       return this.traverseResults(e);
     }
   };
