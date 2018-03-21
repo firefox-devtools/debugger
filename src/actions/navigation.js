@@ -11,6 +11,7 @@ import { waitForMs } from "../utils/utils";
 
 import { newSources } from "./sources";
 import { updateWorkers } from "./debuggee";
+import { clearProjectDirectoryRoot } from "./ui";
 
 import {
   clearASTs,
@@ -41,6 +42,7 @@ export function willNavigate(event: Object) {
     clearASTs();
     clearScopes();
     clearSources();
+    dispatch(clearProjectDirectoryRoot());
     dispatch(navigate(event.url));
   };
 }
