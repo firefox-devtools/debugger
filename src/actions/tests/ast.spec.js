@@ -32,9 +32,8 @@ const threadClient = {
       })
     );
   },
-  getFrameScopes: function() {
-    return Promise.resolve({});
-  },
+  setPausePoints: async () => {},
+  getFrameScopes: async () => {},
   evaluate: function(expression) {
     return new Promise((resolve, reject) =>
       resolve({ result: evaluationResult[expression] })

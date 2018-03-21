@@ -13,14 +13,15 @@ const isControlFlow = node =>
   t.isForStatement(node) || t.isWhileStatement(node) || t.isIfStatement(node);
 
 const isAssignment = node =>
-  t.isVariableDeclaration(node) || t.isAssignmentExpression(node);
+  t.isVariableDeclarator(node) || t.isAssignmentExpression(node);
 
 const isImport = node => t.isImport(node) || t.isImportDeclaration(node);
 const isReturn = node => t.isReturnStatement(node);
 const inExpression = parent =>
   t.isArrayExpression(parent.node) ||
   t.isObjectProperty(parent.node) ||
-  t.isCallExpression(parent.node);
+  t.isCallExpression(parent.node) ||
+  t.isTemplateLiteral(parent.node);
 
 export function getPausePoints(sourceId) {
   const state = [];
@@ -71,6 +72,13 @@ function onEnter(node, ancestors, state) {
         { line, column: column - 1 },
         { breakpoint: true, stepOver: true }
       )
+    );
+  }
+
+  if (t.isProgram(node)) {
+    const lastStatement = node.body[node.body.length - 1];
+    state.push(
+      formatNode(lastStatement.loc.end, { breakpoint: true, stepOver: true })
     );
   }
 }

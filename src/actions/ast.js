@@ -93,7 +93,7 @@ export function setOutOfScopeLocations() {
 }
 
 export function setPausePoints(sourceId: SourceId) {
-  return async ({ dispatch, getState }: ThunkArgs) => {
+  return async ({ dispatch, getState, client }: ThunkArgs) => {
     const sourceRecord = getSource(getState(), sourceId);
     if (!sourceRecord) {
       return;
@@ -105,6 +105,8 @@ export function setPausePoints(sourceId: SourceId) {
     }
 
     const pausePoints = await getPausePoints(source.id);
+    await client.setPausePoints(sourceId, pausePoints);
+
     dispatch({
       type: "SET_PAUSE_POINTS",
       source,
