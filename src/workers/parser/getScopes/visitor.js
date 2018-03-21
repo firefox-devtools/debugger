@@ -32,8 +32,17 @@ import { getAst } from "../utils/ast";
  *
  * "import"
  * Imported binding names exposed from other modules.
+ *
+ * "global"
+ * Variables that reference undeclared global values.
  */
-export type BindingType = "implicit" | "var" | "const" | "let" | "import";
+export type BindingType =
+  | "implicit"
+  | "var"
+  | "const"
+  | "let"
+  | "import"
+  | "global";
 
 export type BindingLocationType = "ref" | "decl";
 export type BindingLocation = BindingDeclarationLocation | BindingRefLocation;
@@ -143,10 +152,16 @@ export function parseSourceScopes(sourceId: SourceId): ?Array<ParsedScope> {
   t.traverse(ast, scopeCollectionVisitor, state);
 
   for (const [key, freeVariables] of state.freeVariables) {
-    const binding = global.bindings[key];
-    if (binding) {
-      binding.refs = freeVariables.concat(binding.refs);
+    let binding = global.bindings[key];
+    if (!binding) {
+      binding = {
+        type: "global",
+        refs: []
+      };
+      global.bindings[key] = binding;
     }
+
+    binding.refs = freeVariables.concat(binding.refs);
   }
 
   // TODO: This should probably check for ".mjs" extension on the
@@ -326,30 +341,6 @@ function createGlobalScope(
   const global = createTempScope("object", "Global", null, {
     start: fromBabelLocation(ast.loc.start, sourceId),
     end: fromBabelLocation(ast.loc.end, sourceId)
-  });
-
-  // Include fake bindings to collect references to CommonJS
-  Object.assign(global.bindings, {
-    module: {
-      type: "var",
-      refs: []
-    },
-    exports: {
-      type: "var",
-      refs: []
-    },
-    __dirname: {
-      type: "var",
-      refs: []
-    },
-    __filename: {
-      type: "var",
-      refs: []
-    },
-    require: {
-      type: "var",
-      refs: []
-    }
   });
 
   const lexical = createTempScope("block", "Lexical Global", global, {
@@ -776,12 +767,15 @@ function buildMetaBindings(
 }
 
 function looksLikeCommonJS(rootScope: TempScope): boolean {
+  const hasRefs = name =>
+    rootScope.bindings[name] && rootScope.bindings[name].refs.length > 0;
+
   return (
-    rootScope.bindings.__dirname.refs.length > 0 ||
-    rootScope.bindings.__filename.refs.length > 0 ||
-    rootScope.bindings.require.refs.length > 0 ||
-    rootScope.bindings.exports.refs.length > 0 ||
-    rootScope.bindings.module.refs.length > 0
+    hasRefs("__dirname") ||
+    hasRefs("__filename") ||
+    hasRefs("require") ||
+    hasRefs("exports") ||
+    hasRefs("module")
   );
 }
 

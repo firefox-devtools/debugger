@@ -99,25 +99,24 @@ Array [
   },
   Object {
     "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
+      "Other": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 10,
+              "line": 3,
+              "sourceId": "scopes/flowtype-bindings/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 5,
+              "line": 3,
+              "sourceId": "scopes/flowtype-bindings/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
       },
     },
     "displayName": "Global",
@@ -259,25 +258,24 @@ Array [
   },
   Object {
     "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
+      "Other": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 10,
+              "line": 3,
+              "sourceId": "scopes/flowtype-bindings/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 5,
+              "line": 3,
+              "sourceId": "scopes/flowtype-bindings/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
       },
     },
     "displayName": "Global",
@@ -380,25 +378,66 @@ Array [
   },
   Object {
     "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
+      "console": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 9,
+              "line": 4,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 13,
+                "line": 4,
+                "sourceId": "scopes/arrow-function/originalSource-1",
+              },
+              "parent": null,
+              "property": "log",
+              "start": Object {
+                "column": 2,
+                "line": 4,
+                "sourceId": "scopes/arrow-function/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 4,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 13,
+              "line": 8,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 17,
+                "line": 8,
+                "sourceId": "scopes/arrow-function/originalSource-1",
+              },
+              "parent": null,
+              "property": "log",
+              "start": Object {
+                "column": 6,
+                "line": 8,
+                "sourceId": "scopes/arrow-function/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 8,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
       },
     },
     "displayName": "Global",
@@ -547,25 +586,66 @@ Array [
   },
   Object {
     "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
+      "console": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 9,
+              "line": 4,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 13,
+                "line": 4,
+                "sourceId": "scopes/arrow-function/originalSource-1",
+              },
+              "parent": null,
+              "property": "log",
+              "start": Object {
+                "column": 2,
+                "line": 4,
+                "sourceId": "scopes/arrow-function/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 4,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 13,
+              "line": 8,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 17,
+                "line": 8,
+                "sourceId": "scopes/arrow-function/originalSource-1",
+              },
+              "parent": null,
+              "property": "log",
+              "start": Object {
+                "column": 6,
+                "line": 8,
+                "sourceId": "scopes/arrow-function/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 8,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
       },
     },
     "displayName": "Global",
@@ -783,25 +863,66 @@ Array [
   },
   Object {
     "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
+      "console": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 9,
+              "line": 4,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 13,
+                "line": 4,
+                "sourceId": "scopes/arrow-function/originalSource-1",
+              },
+              "parent": null,
+              "property": "log",
+              "start": Object {
+                "column": 2,
+                "line": 4,
+                "sourceId": "scopes/arrow-function/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 4,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 13,
+              "line": 8,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 17,
+                "line": 8,
+                "sourceId": "scopes/arrow-function/originalSource-1",
+              },
+              "parent": null,
+              "property": "log",
+              "start": Object {
+                "column": 6,
+                "line": 8,
+                "sourceId": "scopes/arrow-function/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 8,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
       },
     },
     "displayName": "Global",
@@ -1065,25 +1186,66 @@ Array [
   },
   Object {
     "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
+      "console": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 9,
+              "line": 4,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 13,
+                "line": 4,
+                "sourceId": "scopes/arrow-function/originalSource-1",
+              },
+              "parent": null,
+              "property": "log",
+              "start": Object {
+                "column": 2,
+                "line": 4,
+                "sourceId": "scopes/arrow-function/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 4,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 13,
+              "line": 8,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 17,
+                "line": 8,
+                "sourceId": "scopes/arrow-function/originalSource-1",
+              },
+              "parent": null,
+              "property": "log",
+              "start": Object {
+                "column": 6,
+                "line": 8,
+                "sourceId": "scopes/arrow-function/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 8,
+              "sourceId": "scopes/arrow-function/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
       },
     },
     "displayName": "Global",
@@ -1230,28 +1392,7 @@ Array [
     "type": "block",
   },
   Object {
-    "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-    },
+    "bindings": Object {},
     "displayName": "Global",
     "end": Object {
       "column": 0,
@@ -1532,28 +1673,7 @@ Array [
     "type": "block",
   },
   Object {
-    "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-    },
+    "bindings": Object {},
     "displayName": "Global",
     "end": Object {
       "column": 0,
@@ -1639,25 +1759,38 @@ Array [
   },
   Object {
     "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
+      "console": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 15,
+              "line": 7,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 19,
+                "line": 7,
+                "sourceId": "scopes/class-declaration/originalSource-1",
+              },
+              "parent": null,
+              "property": "log",
+              "start": Object {
+                "column": 8,
+                "line": 7,
+                "sourceId": "scopes/class-declaration/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 7,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
       },
     },
     "displayName": "Global",
@@ -1861,25 +1994,38 @@ Array [
   },
   Object {
     "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
+      "console": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 15,
+              "line": 7,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 19,
+                "line": 7,
+                "sourceId": "scopes/class-declaration/originalSource-1",
+              },
+              "parent": null,
+              "property": "log",
+              "start": Object {
+                "column": 8,
+                "line": 7,
+                "sourceId": "scopes/class-declaration/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 7,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
       },
     },
     "displayName": "Global",
@@ -2168,25 +2314,38 @@ Array [
   },
   Object {
     "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
+      "console": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 15,
+              "line": 7,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 19,
+                "line": 7,
+                "sourceId": "scopes/class-declaration/originalSource-1",
+              },
+              "parent": null,
+              "property": "log",
+              "start": Object {
+                "column": 8,
+                "line": 7,
+                "sourceId": "scopes/class-declaration/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 7,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
       },
     },
     "displayName": "Global",
@@ -2274,25 +2433,38 @@ Array [
   },
   Object {
     "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
+      "console": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 15,
+              "line": 7,
+              "sourceId": "scopes/class-expression/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 19,
+                "line": 7,
+                "sourceId": "scopes/class-expression/originalSource-1",
+              },
+              "parent": null,
+              "property": "log",
+              "start": Object {
+                "column": 8,
+                "line": 7,
+                "sourceId": "scopes/class-expression/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 7,
+              "sourceId": "scopes/class-expression/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
       },
     },
     "displayName": "Global",
@@ -2480,25 +2652,38 @@ Array [
   },
   Object {
     "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
+      "console": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 15,
+              "line": 7,
+              "sourceId": "scopes/class-expression/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 19,
+                "line": 7,
+                "sourceId": "scopes/class-expression/originalSource-1",
+              },
+              "parent": null,
+              "property": "log",
+              "start": Object {
+                "column": 8,
+                "line": 7,
+                "sourceId": "scopes/class-expression/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 7,
+              "sourceId": "scopes/class-expression/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
       },
     },
     "displayName": "Global",
@@ -2725,25 +2910,38 @@ Array [
   },
   Object {
     "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
+      "console": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 15,
+              "line": 7,
+              "sourceId": "scopes/class-expression/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 19,
+                "line": 7,
+                "sourceId": "scopes/class-expression/originalSource-1",
+              },
+              "parent": null,
+              "property": "log",
+              "start": Object {
+                "column": 8,
+                "line": 7,
+                "sourceId": "scopes/class-expression/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 7,
+              "sourceId": "scopes/class-expression/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
       },
     },
     "displayName": "Global",
@@ -2830,28 +3028,7 @@ Array [
     "type": "block",
   },
   Object {
-    "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-    },
+    "bindings": Object {},
     "displayName": "Global",
     "end": Object {
       "column": 0,
@@ -3048,28 +3225,7 @@ Array [
     "type": "block",
   },
   Object {
-    "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-    },
+    "bindings": Object {},
     "displayName": "Global",
     "end": Object {
       "column": 0,
@@ -3254,28 +3410,7 @@ Array [
     "type": "block",
   },
   Object {
-    "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-    },
+    "bindings": Object {},
     "displayName": "Global",
     "end": Object {
       "column": 0,
@@ -3506,28 +3641,7 @@ Array [
     "type": "block",
   },
   Object {
-    "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-    },
+    "bindings": Object {},
     "displayName": "Global",
     "end": Object {
       "column": 0,
@@ -4201,21 +4315,155 @@ Array [
   },
   Object {
     "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
+      "Object": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 6,
+              "line": 6,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 21,
+                "line": 6,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "parent": null,
+              "property": "defineProperty",
+              "start": Object {
+                "column": 0,
+                "line": 6,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 0,
+              "line": 6,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
       },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
+      "console": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 15,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 15,
+                "line": 15,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "parent": null,
+              "property": "log",
+              "start": Object {
+                "column": 4,
+                "line": 15,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 15,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 16,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 15,
+                "line": 16,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "parent": null,
+              "property": "log",
+              "start": Object {
+                "column": 4,
+                "line": 16,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 16,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 13,
+              "line": 19,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 17,
+                "line": 19,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "parent": null,
+              "property": "log",
+              "start": Object {
+                "column": 6,
+                "line": 19,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 19,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 13,
+              "line": 20,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 17,
+                "line": 20,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "parent": null,
+              "property": "log",
+              "start": Object {
+                "column": 6,
+                "line": 20,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 20,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
       },
       "named": Object {
         "refs": Array [
@@ -4245,10 +4493,6 @@ Array [
             "type": "decl",
           },
         ],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
         "type": "var",
       },
       "this": Object {
@@ -5029,21 +5273,155 @@ Array [
   },
   Object {
     "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
+      "Object": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 6,
+              "line": 6,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 21,
+                "line": 6,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "parent": null,
+              "property": "defineProperty",
+              "start": Object {
+                "column": 0,
+                "line": 6,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 0,
+              "line": 6,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
       },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
+      "console": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 15,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 15,
+                "line": 15,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "parent": null,
+              "property": "log",
+              "start": Object {
+                "column": 4,
+                "line": 15,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 15,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 16,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 15,
+                "line": 16,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "parent": null,
+              "property": "log",
+              "start": Object {
+                "column": 4,
+                "line": 16,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 16,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 13,
+              "line": 19,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 17,
+                "line": 19,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "parent": null,
+              "property": "log",
+              "start": Object {
+                "column": 6,
+                "line": 19,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 19,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 13,
+              "line": 20,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 17,
+                "line": 20,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "parent": null,
+              "property": "log",
+              "start": Object {
+                "column": 6,
+                "line": 20,
+                "sourceId": "scopes/complex-nesting/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 20,
+              "sourceId": "scopes/complex-nesting/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
       },
       "named": Object {
         "refs": Array [
@@ -5073,10 +5451,6 @@ Array [
             "type": "decl",
           },
         ],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
         "type": "var",
       },
       "this": Object {
@@ -5228,28 +5602,7 @@ Array [
     "type": "block",
   },
   Object {
-    "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-    },
+    "bindings": Object {},
     "displayName": "Global",
     "end": Object {
       "column": 0,
@@ -5394,28 +5747,7 @@ Array [
     "type": "block",
   },
   Object {
-    "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-    },
+    "bindings": Object {},
     "displayName": "Global",
     "end": Object {
       "column": 0,
@@ -5606,28 +5938,7 @@ Array [
     "type": "block",
   },
   Object {
-    "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-    },
+    "bindings": Object {},
     "displayName": "Global",
     "end": Object {
       "column": 0,
@@ -5818,28 +6129,7 @@ Array [
     "type": "block",
   },
   Object {
-    "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-    },
+    "bindings": Object {},
     "displayName": "Global",
     "end": Object {
       "column": 0,
@@ -5984,28 +6274,7 @@ Array [
     "type": "block",
   },
   Object {
-    "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-    },
+    "bindings": Object {},
     "displayName": "Global",
     "end": Object {
       "column": 0,
@@ -6196,28 +6465,7 @@ Array [
     "type": "block",
   },
   Object {
-    "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-    },
+    "bindings": Object {},
     "displayName": "Global",
     "end": Object {
       "column": 0,
@@ -6408,28 +6656,7 @@ Array [
     "type": "block",
   },
   Object {
-    "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-    },
+    "bindings": Object {},
     "displayName": "Global",
     "end": Object {
       "column": 0,
@@ -6574,28 +6801,7 @@ Array [
     "type": "block",
   },
   Object {
-    "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-    },
+    "bindings": Object {},
     "displayName": "Global",
     "end": Object {
       "column": 0,
@@ -6786,28 +6992,7 @@ Array [
     "type": "block",
   },
   Object {
-    "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-    },
+    "bindings": Object {},
     "displayName": "Global",
     "end": Object {
       "column": 0,
@@ -6998,28 +7183,7 @@ Array [
     "type": "block",
   },
   Object {
-    "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-    },
+    "bindings": Object {},
     "displayName": "Global",
     "end": Object {
       "column": 0,
@@ -7105,25 +7269,38 @@ Array [
   },
   Object {
     "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
+      "console": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 9,
+              "sourceId": "scopes/function-declaration/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 15,
+                "line": 9,
+                "sourceId": "scopes/function-declaration/originalSource-1",
+              },
+              "parent": null,
+              "property": "log",
+              "start": Object {
+                "column": 4,
+                "line": 9,
+                "sourceId": "scopes/function-declaration/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 9,
+              "sourceId": "scopes/function-declaration/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
       },
     },
     "displayName": "Global",
@@ -7265,25 +7442,38 @@ Array [
   },
   Object {
     "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
+      "console": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 9,
+              "sourceId": "scopes/function-declaration/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 15,
+                "line": 9,
+                "sourceId": "scopes/function-declaration/originalSource-1",
+              },
+              "parent": null,
+              "property": "log",
+              "start": Object {
+                "column": 4,
+                "line": 9,
+                "sourceId": "scopes/function-declaration/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 9,
+              "sourceId": "scopes/function-declaration/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
       },
     },
     "displayName": "Global",
@@ -7417,25 +7607,38 @@ Array [
   },
   Object {
     "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
+      "console": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 9,
+              "sourceId": "scopes/function-declaration/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 15,
+                "line": 9,
+                "sourceId": "scopes/function-declaration/originalSource-1",
+              },
+              "parent": null,
+              "property": "log",
+              "start": Object {
+                "column": 4,
+                "line": 9,
+                "sourceId": "scopes/function-declaration/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 9,
+              "sourceId": "scopes/function-declaration/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
       },
     },
     "displayName": "Global",
@@ -7668,25 +7871,38 @@ Array [
   },
   Object {
     "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
+      "console": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 9,
+              "sourceId": "scopes/function-declaration/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 15,
+                "line": 9,
+                "sourceId": "scopes/function-declaration/originalSource-1",
+              },
+              "parent": null,
+              "property": "log",
+              "start": Object {
+                "column": 4,
+                "line": 9,
+                "sourceId": "scopes/function-declaration/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 9,
+              "sourceId": "scopes/function-declaration/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
       },
     },
     "displayName": "Global",
@@ -7804,25 +8020,38 @@ Array [
   },
   Object {
     "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
+      "console": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 9,
+              "line": 6,
+              "sourceId": "scopes/function-expression/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 13,
+                "line": 6,
+                "sourceId": "scopes/function-expression/originalSource-1",
+              },
+              "parent": null,
+              "property": "log",
+              "start": Object {
+                "column": 2,
+                "line": 6,
+                "sourceId": "scopes/function-expression/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 6,
+              "sourceId": "scopes/function-expression/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
       },
     },
     "displayName": "Global",
@@ -7994,25 +8223,38 @@ Array [
   },
   Object {
     "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
+      "console": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 9,
+              "line": 6,
+              "sourceId": "scopes/function-expression/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 13,
+                "line": 6,
+                "sourceId": "scopes/function-expression/originalSource-1",
+              },
+              "parent": null,
+              "property": "log",
+              "start": Object {
+                "column": 2,
+                "line": 6,
+                "sourceId": "scopes/function-expression/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 6,
+              "sourceId": "scopes/function-expression/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
       },
     },
     "displayName": "Global",
@@ -8245,25 +8487,38 @@ Array [
   },
   Object {
     "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
+      "console": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 9,
+              "line": 6,
+              "sourceId": "scopes/function-expression/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 13,
+                "line": 6,
+                "sourceId": "scopes/function-expression/originalSource-1",
+              },
+              "parent": null,
+              "property": "log",
+              "start": Object {
+                "column": 2,
+                "line": 6,
+                "sourceId": "scopes/function-expression/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 6,
+              "sourceId": "scopes/function-expression/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
       },
     },
     "displayName": "Global",
@@ -8426,25 +8681,38 @@ Array [
   },
   Object {
     "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
+      "console": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 11,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 15,
+                "line": 11,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "parent": null,
+              "property": "log",
+              "start": Object {
+                "column": 4,
+                "line": 11,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 11,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
       },
     },
     "displayName": "Global",
@@ -8777,25 +9045,38 @@ Array [
   },
   Object {
     "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
+      "console": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 11,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 15,
+                "line": 11,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "parent": null,
+              "property": "log",
+              "start": Object {
+                "column": 4,
+                "line": 11,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 11,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
       },
     },
     "displayName": "Global",
@@ -9255,25 +9536,38 @@ Array [
   },
   Object {
     "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
+      "console": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 11,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 15,
+                "line": 11,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "parent": null,
+              "property": "log",
+              "start": Object {
+                "column": 4,
+                "line": 11,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 11,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
       },
     },
     "displayName": "Global",
@@ -9733,25 +10027,38 @@ Array [
   },
   Object {
     "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
+      "console": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 11,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 15,
+                "line": 11,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "parent": null,
+              "property": "log",
+              "start": Object {
+                "column": 4,
+                "line": 11,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 11,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
       },
     },
     "displayName": "Global",
@@ -10084,25 +10391,38 @@ Array [
   },
   Object {
     "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
+      "console": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 11,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 15,
+                "line": 11,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "parent": null,
+              "property": "log",
+              "start": Object {
+                "column": 4,
+                "line": 11,
+                "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 11,
+              "sourceId": "scopes/out-of-order-declarations/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
       },
     },
     "displayName": "Global",
@@ -10190,25 +10510,24 @@ Array [
   },
   Object {
     "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
+      "foo": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 3,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 8,
+              "line": 3,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
       },
     },
     "displayName": "Global",
@@ -10372,25 +10691,24 @@ Array [
   },
   Object {
     "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
+      "foo": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 3,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 8,
+              "line": 3,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
       },
     },
     "displayName": "Global",
@@ -10554,25 +10872,24 @@ Array [
   },
   Object {
     "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
+      "foo": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 3,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 8,
+              "line": 3,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
       },
     },
     "displayName": "Global",
@@ -10736,25 +11053,24 @@ Array [
   },
   Object {
     "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
+      "foo": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 3,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 8,
+              "line": 3,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
       },
     },
     "displayName": "Global",
@@ -10964,25 +11280,24 @@ Array [
   },
   Object {
     "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
+      "foo": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 3,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 8,
+              "line": 3,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
       },
     },
     "displayName": "Global",
@@ -11099,28 +11414,7 @@ Array [
     "type": "block",
   },
   Object {
-    "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-    },
+    "bindings": Object {},
     "displayName": "Global",
     "end": Object {
       "column": 0,
@@ -11281,28 +11575,7 @@ Array [
     "type": "block",
   },
   Object {
-    "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-    },
+    "bindings": Object {},
     "displayName": "Global",
     "end": Object {
       "column": 0,
@@ -11509,28 +11782,7 @@ Array [
     "type": "block",
   },
   Object {
-    "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-    },
+    "bindings": Object {},
     "displayName": "Global",
     "end": Object {
       "column": 0,
@@ -11766,25 +12018,38 @@ Array [
   },
   Object {
     "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
+      "console": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 7,
+              "line": 3,
+              "sourceId": "scopes/simple-module/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 11,
+                "line": 3,
+                "sourceId": "scopes/simple-module/originalSource-1",
+              },
+              "parent": null,
+              "property": "log",
+              "start": Object {
+                "column": 0,
+                "line": 3,
+                "sourceId": "scopes/simple-module/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 0,
+              "line": 3,
+              "sourceId": "scopes/simple-module/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
       },
     },
     "displayName": "Global",
@@ -12044,25 +12309,24 @@ Array [
   },
   Object {
     "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
+      "Object": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 6,
+              "line": 5,
+              "sourceId": "scopes/expressions/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 0,
+              "line": 5,
+              "sourceId": "scopes/expressions/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
       },
       "this": Object {
         "refs": Array [],
@@ -12384,28 +12648,7 @@ Array [
     "type": "block",
   },
   Object {
-    "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-    },
+    "bindings": Object {},
     "displayName": "Global",
     "end": Object {
       "column": 0,
@@ -12791,28 +13034,7 @@ Array [
     "type": "block",
   },
   Object {
-    "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-    },
+    "bindings": Object {},
     "displayName": "Global",
     "end": Object {
       "column": 0,
@@ -13228,28 +13450,7 @@ Array [
     "type": "block",
   },
   Object {
-    "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-    },
+    "bindings": Object {},
     "displayName": "Global",
     "end": Object {
       "column": 0,
@@ -13611,28 +13812,7 @@ Array [
     "type": "block",
   },
   Object {
-    "bindings": Object {
-      "__dirname": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "__filename": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "exports": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "module": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-      "require": Object {
-        "refs": Array [],
-        "type": "var",
-      },
-    },
+    "bindings": Object {},
     "displayName": "Global",
     "end": Object {
       "column": 0,
