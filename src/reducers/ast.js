@@ -212,6 +212,10 @@ export function getSourceMetaData(state: OuterState, sourceId: string) {
   return state.ast.getIn(["sourceMetaData", sourceId]) || emptySourceMetaData;
 }
 
+export function hasSourceMetaData(state: OuterState, sourceId: string) {
+  return state.ast.hasIn(["sourceMetaData", sourceId]);
+}
+
 export function getInScopeLines(state: OuterState) {
   return state.ast.get("inScopeLines");
 }
