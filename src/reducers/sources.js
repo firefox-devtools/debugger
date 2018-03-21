@@ -23,7 +23,6 @@ import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 type Tab = string;
-export type SourceRecord = Record<Source>;
 export type SourcesMap = Map<string, SourceRecord>;
 
 export type SourcesState = {

@@ -11,8 +11,9 @@
 
 import { removeDocument } from "../utils/editor";
 import { selectSource } from "./sources";
+import { getFilename, getFileURL } from "../utils/source";
 
-import { getSelectedTab } from "../selectors";
+import { getSelectedTab, getCurrentTabIndex, getTabs } from "../selectors";
 
 import type { Tab } from "../types";
 import type { ThunkArgs } from "./types";
@@ -21,7 +22,13 @@ import type { ThunkArgs } from "./types";
  * @memberof actions/tabs
  * @static
  */
-export function addTab(tab: Tab, tabIndex: number) {
+export function addTab(source: Source, tabIndex: number) {
+  const tab = {
+    id: source.id,
+    url: getFileURL(source),
+    title: getFilename(source)
+  };
+
   return {
     type: "ADD_TAB",
     tab,
@@ -44,8 +51,10 @@ export function selectTab(tabIndex: number) {
 export function closeTab(id: string) {
   return async ({ dispatch, getState, client }: ThunkArgs) => {
     removeDocument(id);
-
+    console.log("hi", id);
     await dispatch({ type: "CLOSE_TAB", id });
+    // const newTab = selectNewTab(getState());
+    // console.log(newTab);
 
     const selectedTab = getSelectedTab(getState());
     dispatch(

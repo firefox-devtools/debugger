@@ -54,14 +54,19 @@ export default function update(
       return state.set("currentTabIndex", action.tabIndex);
 
     case "CLOSE_TAB":
+      console.log("YOOOO");
+      // const index = getTabIndex(state, action.id);
       tabs = removeFromTabList({ tabsState: state }, [action.id]);
       currentTabIndex = selectNewTab({ tabsState: state }, tabs);
       prefs.tabs = tabs;
+      console.log(tabs.toJS());
+
       return state.merge({ tabs, currentTabIndex });
 
     case "CLOSE_TABS":
       tabs = removeFromTabList({ tabsState: state }, action.ids);
       currentTabIndex = selectNewTab({ tabsState: state }, tabs);
+
       prefs.tabs = tabs;
       return state.merge({ tabs, currentTabIndex });
   }
@@ -99,15 +104,6 @@ function updateTabList(state: OuterState, currentTab: Tab, moveIndex?: number) {
   };
 }
 
-/**
- * Gets the next tab to select when a tab closes. Heuristics:
- * 1. if the selected tab is available, it remains selected
- * 2. if it is gone, the next available tab to the left should be active
- * 3. if the first tab is active and closed, select the second tab
- *
- * @memberof reducers/sources
- * @static
- */
 function selectNewTab(state: OuterState, availableTabs: any): number {
   const currentTabIndex = state.tabsState.get("currentTabIndex");
   const leftNeighborIndex = Math.max(currentTabIndex - 1, 0);
@@ -120,7 +116,15 @@ function selectNewTab(state: OuterState, availableTabs: any): number {
 
 function removeFromTabList(state: OuterState, tabIds: Array<string>) {
   const tabList = state.tabsState.get("tabs");
-  return tabIds.reduce((tabs, id) => tabs.filter(tab => tab.id != id), tabList);
+  return tabIds.reduce(
+    (tabs, url) => tabs.filter(tab => tab.url != url),
+    tabList
+  );
+}
+
+function getTabIndex(state, url) {
+  const tabList = state.tabsState.get("tabs");
+  return tabList.findIndex(tab => tab.url == url);
 }
 
 function restoreTabs() {
@@ -131,11 +135,17 @@ function restoreTabs() {
   return prefsTabs;
 }
 
+// selectors
+
 type OuterState = { tabs: Record<TabsState> };
 
 const getTabsState = state => state.tabs;
 
 export const getTabs = createSelector(getTabsState, tabs => tabs.tabs);
+
+export function getCurrentTabIndex(state: OuterState) {
+  return state.tabs.get("currentTabIndex");
+}
 
 export function getSelectedTab(state: OuterState) {
   const currentIndex = state.tabs.get("currentTabIndex");

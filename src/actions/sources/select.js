@@ -115,16 +115,7 @@ export function selectLocation(location: Location, tabIndex?: number) {
     }
 
     const src = source.toJS();
-    dispatch(
-      addTab(
-        {
-          id: src.id,
-          tooltip: getFileURL(src),
-          title: getFilename(src)
-        },
-        tabIndex
-      )
-    );
+    dispatch(addTab(source, tabIndex));
 
     dispatch({
       type: "SELECT_SOURCE",

@@ -5,6 +5,7 @@
 // @flow
 
 import { RecordOf } from "immutable";
+import type { Record } from "./utils/makeRecord";
 
 export type SearchModifiers = {
   caseSensitive: boolean,
@@ -265,7 +266,7 @@ export type Grip = {
  * @static
  */
 
-export type SourceRecord = RecordOf<Source>;
+export type SourceRecord = Record<Source>;
 
 export type Source = {
   +id: SourceId,
