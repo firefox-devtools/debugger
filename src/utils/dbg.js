@@ -17,9 +17,6 @@ function findSource(dbg, url) {
 
 function sendPacket(dbg, packet, callback) {
   dbg.client.sendPacket(packet, callback || console.log);
-  // dbg.connection.tabConnection.debuggerClient
-  //   .request(packet)
-  //   .then(callback || console.log);
 }
 
 function sendPacketToThread(dbg, packet, callback) {
