@@ -15,11 +15,16 @@ import { setOutOfScopeLocations, setSymbols } from "../ast";
 import { closeActiveSearch } from "../ui";
 
 import { togglePrettyPrint } from "./prettyPrint";
-import { addTab, closeTab } from "./tabs";
+import { addTab, closeTab } from "../tabs";
 import { loadSourceText } from "./loadSourceText";
 
 import { prefs } from "../../utils/prefs";
-import { shouldPrettyPrint, isMinified } from "../../utils/source";
+import {
+  shouldPrettyPrint,
+  isMinified,
+  getFilename,
+  getFileURL
+} from "../../utils/source";
 import { createLocation } from "../../utils/location";
 import { getGeneratedLocation } from "../../utils/source-maps";
 
@@ -79,7 +84,7 @@ export function selectSourceURL(
  * @memberof actions/sources
  * @static
  */
-export function selectSource(sourceId: string, tabIndex: string = "") {
+export function selectSource(sourceId: string, tabIndex?: number) {
   return async ({ dispatch }: ThunkArgs) => {
     const location = createLocation({ sourceId });
     return await dispatch(selectLocation(location, tabIndex));
@@ -90,7 +95,7 @@ export function selectSource(sourceId: string, tabIndex: string = "") {
  * @memberof actions/sources
  * @static
  */
-export function selectLocation(location: Location, tabIndex: string = "") {
+export function selectLocation(location: Location, tabIndex?: number) {
   return async ({ dispatch, getState, client }: ThunkArgs) => {
     if (!client) {
       // No connection, do nothing. This happens when the debugger is
@@ -109,7 +114,8 @@ export function selectLocation(location: Location, tabIndex: string = "") {
       dispatch(closeActiveSearch());
     }
 
-    dispatch(addTab(source.toJS(), 0));
+    const src = source.toJS();
+    dispatch(addTab(source, tabIndex));
 
     dispatch({
       type: "SELECT_SOURCE",
