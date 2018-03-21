@@ -91,6 +91,7 @@
   background-color: var(--theme-tab-toolbar-background);
   width: 100%;
   font-size: inherit;
+  color: inherit;
 }
 
 .show-more:hover {
