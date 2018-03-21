@@ -953,6 +953,7 @@ const selectors = {
   fileMatch: ".managed-tree .result",
   popup: ".popover",
   tooltip: ".tooltip",
+  previewPopup: ".preview-popup",
   outlineItem: i =>
     `.outline-list__element:nth-child(${i}) .function-signature`,
   outlineItems: ".outline-list__element",
@@ -1114,12 +1115,7 @@ function hoverAtPos(dbg, { line, ch }) {
 }
 
 async function assertPreviewTextValue(dbg, { text, expression }) {
-  const previewElPromise = await Promise.race([
-    waitForElement(dbg, "tooltip"),
-    waitForElement(dbg, "popup"),
-  ]);
-
-  const previewEl = await previewElPromise;
+  const previewEl = await waitForElement(dbg, "previewPopup");;
 
   is(previewEl.innerText, text, "Preview text shown to user");
 
