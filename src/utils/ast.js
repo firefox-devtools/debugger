@@ -45,6 +45,6 @@ export function findEmptyLines(
     return [];
   }
   const lineCount = selectedSource.text.split("\n").length;
-  const sourceLines = range(1, lineCount);
+  const sourceLines = range(1, lineCount + 1);
   return without(sourceLines, ...breakpointLines);
 }

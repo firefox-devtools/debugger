@@ -4,6 +4,7 @@
 
 // @flow
 
+import { has } from "lodash";
 import { getSource } from "../../selectors";
 import { loadSourceText } from "../sources/loadSourceText";
 import {
@@ -352,11 +353,6 @@ function buildGeneratedBindingList(
   generatedAstScopes: SourceScope[],
   thisBinding: ?BindingContents
 ): Array<GeneratedBindingLocation> {
-  const clientScopes = [];
-  for (let s = scopes; s; s = s.parent) {
-    clientScopes.push(s);
-  }
-
   // The server's binding data doesn't include general 'this' binding
   // information, so we manually inject the one 'this' binding we have into
   // the normal binding data we are working with.
@@ -364,57 +360,74 @@ function buildGeneratedBindingList(
     generated => "this" in generated.bindings
   );
 
-  const generatedBindings = clientScopes
-    .reverse()
-    .map((s, i) => {
-      const generated = generatedAstScopes[generatedAstScopes.length - 1 - i];
+  const clientScopes = [];
+  for (let s = scopes; s; s = s.parent) {
+    const bindings = s.bindings
+      ? Object.assign({}, ...s.bindings.arguments, s.bindings.variables)
+      : {};
 
-      const bindings = s.bindings
-        ? Object.assign({}, ...s.bindings.arguments, s.bindings.variables)
-        : {};
+    clientScopes.push(bindings);
+  }
 
-      if (generated === frameThisOwner && thisBinding) {
-        bindings.this = {
-          value: thisBinding
-        };
-      }
+  const generatedMainScopes = generatedAstScopes.slice(0, -2);
+  const generatedGlobalScopes = generatedAstScopes.slice(-2);
 
-      return {
-        generated,
-        client: {
-          ...s,
-          bindings
-        }
+  const clientMainScopes = clientScopes.slice(0, generatedMainScopes.length);
+  const clientGlobalScopes = clientScopes.slice(generatedMainScopes.length);
+
+  // Map the main parsed script body using the nesting hierarchy of the
+  // generated and client scopes.
+  const generatedBindings = generatedMainScopes.reduce((acc, generated, i) => {
+    const bindings = clientMainScopes[i];
+
+    if (generated === frameThisOwner && thisBinding) {
+      bindings.this = {
+        value: thisBinding
       };
-    })
-    .slice(2)
-    .reduce((acc, { client: { bindings }, generated }) => {
-      // If the parser worker's result didn't match the client scopes,
-      // there might not be a generated scope that matches.
-      if (generated) {
-        for (const name of Object.keys(generated.bindings)) {
-          const { refs } = generated.bindings[name];
-          for (const loc of refs) {
-            acc.push({
-              name,
-              loc,
-              desc: bindings[name] || null
-            });
-          }
+    }
+
+    for (const name of Object.keys(generated.bindings)) {
+      const { refs } = generated.bindings[name];
+      for (const loc of refs) {
+        acc.push({
+          name,
+          loc,
+          desc: bindings[name] || null
+        });
+      }
+    }
+    return acc;
+  }, []);
+
+  // Bindings in the global/lexical global of the generated code may or
+  // may not be the real global if the generated code is running inside
+  // of an evaled context. To handle this, we just look up the client scope
+  // hierarchy to find the closest binding with that name.
+  for (const generated of generatedGlobalScopes) {
+    for (const name of Object.keys(generated.bindings)) {
+      const { refs } = generated.bindings[name];
+      for (const loc of refs) {
+        const bindings = clientGlobalScopes.find(b => has(b, name));
+
+        if (bindings) {
+          generatedBindings.push({
+            name,
+            loc,
+            desc: bindings[name]
+          });
         }
       }
-      return acc;
-    }, [])
-    // Sort so we can binary-search.
-    .sort((a, b) => {
-      const aStart = a.loc.start;
-      const bStart = a.loc.start;
+    }
+  }
 
-      if (aStart.line === bStart.line) {
-        return locColumn(aStart) - locColumn(bStart);
-      }
-      return aStart.line - bStart.line;
-    });
+  // Sort so we can binary-search.
+  return generatedBindings.sort((a, b) => {
+    const aStart = a.loc.start;
+    const bStart = a.loc.start;
 
-  return generatedBindings;
+    if (aStart.line === bStart.line) {
+      return locColumn(aStart) - locColumn(bStart);
+    }
+    return aStart.line - bStart.line;
+  });
 }
