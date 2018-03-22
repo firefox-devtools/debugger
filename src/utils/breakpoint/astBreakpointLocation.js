@@ -9,12 +9,13 @@ import { getSymbols } from "../../workers/parser";
 import type {
   Scope,
   AstPosition,
+  AstLocation,
   SymbolDeclarations
 } from "../../workers/parser";
 
 import type { Location, Source, ASTLocation } from "../../types";
 
-export function containsPosition(a: AstPosition, b: AstPosition) {
+export function containsPosition(a: AstLocation, b: AstPosition) {
   const startsBefore =
     a.start.line < b.line ||
     (a.start.line === b.line && a.start.column <= b.column);
