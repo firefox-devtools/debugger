@@ -5,6 +5,7 @@ cache:
   - pip
   - yarn
 
+sudo: required
 
 env:
   global:
