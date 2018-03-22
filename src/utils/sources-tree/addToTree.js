@@ -175,6 +175,7 @@ export function addToTree(
   if (isInvalidUrl(url, source) || !isUnderRoot(url, projectRoot)) {
     return;
   }
+  //console.log('is under root! ', url, projectRoot)
 
   const finalNode = traverseTree(url, tree, debuggeeHost, projectRoot);
   finalNode.contents = addSourceToNode(finalNode, url, source);

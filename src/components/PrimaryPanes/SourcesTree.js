@@ -67,6 +67,7 @@ type State = {
   parentMap: any,
   sourceTree: Object,
   projectRoot: string,
+  projectRootUsed: boolean,
   uncollapsedTree: any,
   listItems?: any,
   highlightItems?: any
@@ -157,6 +158,7 @@ class SourcesTree extends Component<Props, State> {
           prevSources: sources,
           debuggeeUrl,
           projectRoot,
+          projectRootUsed: this.state.projectRootUsed,
           uncollapsedTree,
           sourceTree
         })
@@ -292,6 +294,7 @@ class SourcesTree extends Component<Props, State> {
     return (
       <div
         className={classnames("node", { focused })}
+        title={item.path}
         key={item.path}
         onClick={e => {
           this.focusItem(item);
@@ -318,6 +321,7 @@ class SourcesTree extends Component<Props, State> {
       highlightItems,
       listItems,
       parentMap,
+      projectRootUsed,
       sourceTree
     } = this.state;
 
@@ -329,14 +333,14 @@ class SourcesTree extends Component<Props, State> {
       this.props.setExpandedState(expandedState);
     };
 
-    const isCustomRoot = projectRoot !== "";
+    const isCustomRoot = projectRoot !== "" && projectRootUsed;
     let roots = () => sourceTree.contents;
 
     let clearProjectRootButton = null;
 
     // The "sourceTree.contents[0]" check ensures that there are contents
     // A custom root with no existing sources will be ignored
-    if (isCustomRoot && sourceTree.contents[0]) {
+    if (isCustomRoot && sourceTree.contents.length) {
       clearProjectRootButton = (
         <button
           className="sources-clear-root"

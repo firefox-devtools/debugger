@@ -22,11 +22,22 @@ export function createTree({ sources, debuggeeUrl, projectRoot }: Params) {
     addToTree(uncollapsedTree, source, debuggeeUrl, projectRoot);
   }
 
+  // If a project root is set but the page does not have an sources for that root,
+  // continue to store the root but show the entire tree for the time being
+  let projectRootUsed = true;
+  if (uncollapsedTree.contents.length === 0) {
+    projectRootUsed = false;
+    for (const source of sources.valueSeq()) {
+      addToTree(uncollapsedTree, source, debuggeeUrl, "");
+    }
+  }
+
   const sourceTree = collapseTree(uncollapsedTree);
 
   return {
     uncollapsedTree,
     sourceTree,
+    projectRootUsed,
     parentMap: createParentMap(sourceTree),
     focusedItem: null
   };
