@@ -3,6 +3,10 @@
   background-color: transparent;
 }
 
+.selected .highlight {
+  color:white;
+}
+
 .result-item .subtitle .highlight {
   color: var(--grey-90);
   font-weight: 500;
