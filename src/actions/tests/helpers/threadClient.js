@@ -86,5 +86,6 @@ export const sourceThreadClient = {
     });
   },
   threadClient: async () => {},
-  getFrameScopes: async () => {}
+  getFrameScopes: async () => {},
+  setPausePoints: async () => {}
 };
