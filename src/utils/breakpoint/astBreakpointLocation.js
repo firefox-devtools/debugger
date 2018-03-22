@@ -7,7 +7,6 @@
 import { getSymbols } from "../../workers/parser";
 
 import type {
-  Scope,
   AstPosition,
   AstLocation,
   SymbolDeclarations,
@@ -26,7 +25,10 @@ export function containsPosition(a: AstLocation, b: AstPosition) {
   return startsBefore && endsAfter;
 }
 
-export function findClosestScope(functions: SymbolDeclaration[], location: Location) {
+export function findClosestScope(
+  functions: SymbolDeclaration[],
+  location: Location
+) {
   return functions.reduce((found, currNode) => {
     if (
       currNode.name === "anonymous" ||

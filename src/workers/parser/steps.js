@@ -29,10 +29,7 @@ export function getNextStep(sourceId: SourceId, pausedPosition: Location) {
   return _getNextStep(currentStatement, pausedPosition);
 }
 
-function getSteppableExpression(
-  sourceId: SourceId,
-  pausedPosition: Location
-) {
+function getSteppableExpression(sourceId: SourceId, pausedPosition: Location) {
   const closestPath = getClosestPath(sourceId, pausedPosition);
 
   if (!closestPath) {

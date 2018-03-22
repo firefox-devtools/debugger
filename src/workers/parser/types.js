@@ -8,6 +8,8 @@ import type { BabelLocation } from "@babel/types";
 
 export type AstPosition = { line: number, column: number };
 
+export type AstPositionNull = { line: ?number, column: ?number };
+
 export type AstLocation = { end: AstPosition, start: AstPosition };
 
 export type Scope = {
