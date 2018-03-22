@@ -226,7 +226,8 @@
   display: block;
 }
 
-.sources-list-custom-root .sources-list {
+.sources-list-custom-root .sources-list,
+.sources-list-custom-root .no-sources-message {
   position: absolute;
   top: 26px;
   right: 0;
