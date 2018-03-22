@@ -19,8 +19,9 @@ const mockThreadClient = {
       stepInResolve = _resolve;
     }),
   stepOver: () => new Promise(_resolve => _resolve),
-  evaluate: () => new Promise(_resolve => {}),
+  evaluate: async () => {},
   getFrameScopes: async frame => frame.scope,
+  setPausePoints: async () => {},
   setBreakpoint: () => new Promise(_resolve => {}),
   sourceContents: sourceId => {
     return new Promise((resolve, reject) => {
