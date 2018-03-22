@@ -6,8 +6,14 @@
 
 import { without, range } from "lodash";
 
-import type { Source, Position } from "../types";
-import type { PausePoint, SymbolDeclarations } from "../workers/parser";
+import type { Location, Source, Position } from "../types";
+import type {
+  AstPosition,
+  AstLocation,
+  PausePoint,
+  SymbolDeclarations,
+  SymbolDeclaration
+} from "../workers/parser";
 
 export function findBestMatchExpression(
   symbols: SymbolDeclarations,
@@ -47,4 +53,47 @@ export function findEmptyLines(
   const lineCount = selectedSource.text.split("\n").length;
   const sourceLines = range(1, lineCount + 1);
   return without(sourceLines, ...breakpointLines);
+}
+
+export function containsPosition(a: AstLocation, b: AstPosition) {
+  const startsBefore =
+    a.start.line < b.line ||
+    (a.start.line === b.line && a.start.column <= b.column);
+  const endsAfter =
+    a.end.line > b.line || (a.end.line === b.line && a.end.column >= b.column);
+
+  return startsBefore && endsAfter;
+}
+
+export function findClosestFunction(
+  functions: SymbolDeclaration[],
+  location: Location
+) {
+  return functions.reduce((found, currNode) => {
+    if (
+      currNode.name === "anonymous" ||
+      !containsPosition(currNode.location, {
+        line: location.line,
+        column: location.column || 0
+      })
+    ) {
+      return found;
+    }
+
+    if (!found) {
+      return currNode;
+    }
+
+    if (found.location.start.line > currNode.location.start.line) {
+      return found;
+    }
+    if (
+      found.location.start.line === currNode.location.start.line &&
+      found.location.start.column > currNode.location.start.column
+    ) {
+      return found;
+    }
+
+    return currNode;
+  }, null);
 }

@@ -5,58 +5,11 @@
 // @flow
 
 import { getSymbols } from "../../workers/parser";
+import { findClosestFunction } from "../ast";
 
-import type {
-  AstPosition,
-  AstLocation,
-  SymbolDeclarations,
-  SymbolDeclaration
-} from "../../workers/parser";
+import type { SymbolDeclarations } from "../../workers/parser";
 
 import type { Location, Source, ASTLocation } from "../../types";
-
-export function containsPosition(a: AstLocation, b: AstPosition) {
-  const startsBefore =
-    a.start.line < b.line ||
-    (a.start.line === b.line && a.start.column <= b.column);
-  const endsAfter =
-    a.end.line > b.line || (a.end.line === b.line && a.end.column >= b.column);
-
-  return startsBefore && endsAfter;
-}
-
-export function findClosestScope(
-  functions: SymbolDeclaration[],
-  location: Location
-) {
-  return functions.reduce((found, currNode) => {
-    if (
-      currNode.name === "anonymous" ||
-      !containsPosition(currNode.location, {
-        line: location.line,
-        column: location.column || 0
-      })
-    ) {
-      return found;
-    }
-
-    if (!found) {
-      return currNode;
-    }
-
-    if (found.location.start.line > currNode.location.start.line) {
-      return found;
-    }
-    if (
-      found.location.start.line === currNode.location.start.line &&
-      found.location.start.column > currNode.location.start.column
-    ) {
-      return found;
-    }
-
-    return currNode;
-  }, null);
-}
 
 export function getASTLocation(
   source: Source,
@@ -69,7 +22,7 @@ export function getASTLocation(
 
   const functions = [...symbols.functions];
 
-  const scope = findClosestScope(functions, location);
+  const scope = findClosestFunction(functions, location);
   if (scope) {
     // we only record the line, but at some point we may
     // also do column offsets
