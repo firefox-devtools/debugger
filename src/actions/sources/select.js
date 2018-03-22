@@ -79,10 +79,10 @@ export function selectSourceURL(
  * @memberof actions/sources
  * @static
  */
-export function selectSource(sourceId: string, tabIndex: string = "") {
+export function selectSource(sourceId: string) {
   return async ({ dispatch }: ThunkArgs) => {
     const location = createLocation({ sourceId });
-    return await dispatch(selectLocation(location, tabIndex));
+    return await dispatch(selectLocation(location));
   };
 }
 
@@ -90,7 +90,7 @@ export function selectSource(sourceId: string, tabIndex: string = "") {
  * @memberof actions/sources
  * @static
  */
-export function selectLocation(location: Location, tabIndex: string = "") {
+export function selectLocation(location: Location) {
   return async ({ dispatch, getState, client }: ThunkArgs) => {
     if (!client) {
       // No connection, do nothing. This happens when the debugger is
@@ -114,7 +114,6 @@ export function selectLocation(location: Location, tabIndex: string = "") {
     dispatch({
       type: "SELECT_SOURCE",
       source: source.toJS(),
-      tabIndex,
       location
     });
 
