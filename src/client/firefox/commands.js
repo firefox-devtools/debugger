@@ -329,7 +329,15 @@ async function fetchWorkers(): Promise<{ workers: Worker[] }> {
     return Promise.resolve({ workers: [] });
   }
 
-  return threadClient._parent.listWorkers();
+  // listWorkers can silently fail on Fennec 59 (see bug 1443550),
+  // timeout after 2 seconds.
+  const LIST_WORKERS_TIMEOUT = 2000;
+  return Promise.race([
+    threadClient._parent.listWorkers(),
+    new Promise(r => {
+      setTimeout(() => r({ workers: [] }), LIST_WORKERS_TIMEOUT);
+    })
+  ]);
 }
 
 const clientCommands = {
