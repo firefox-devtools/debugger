@@ -25,13 +25,8 @@ import type { ThunkArgs } from "./types";
 
 export function setSourceMetaData(sourceId: SourceId) {
   return async ({ dispatch, getState }: ThunkArgs) => {
-    const sourceRecord = getSource(getState(), sourceId);
-    if (!sourceRecord) {
-      return;
-    }
-
-    const source = sourceRecord.toJS();
-    if (!source.text || source.isWasm) {
+    const source = getSource(getState(), sourceId);
+    if (!source || !source.text || source.isWasm) {
       return;
     }
 
@@ -48,19 +43,19 @@ export function setSourceMetaData(sourceId: SourceId) {
 
 export function setSymbols(sourceId: SourceId) {
   return async ({ dispatch, getState }: ThunkArgs) => {
-    const sourceRecord = getSource(getState(), sourceId);
-    if (!sourceRecord) {
-      return;
-    }
-
-    const source = sourceRecord.toJS();
-    if (!source.text || source.isWasm || hasSymbols(getState(), source)) {
+    const source = getSource(getState(), sourceId);
+    if (
+      !source ||
+      !source.text ||
+      source.isWasm ||
+      hasSymbols(getState(), source)
+    ) {
       return;
     }
 
     await dispatch({
       type: "SET_SYMBOLS",
-      source,
+      source: source.toJS(),
       [PROMISE]: getSymbols(source.id)
     });
 
@@ -94,22 +89,17 @@ export function setOutOfScopeLocations() {
 
 export function setPausePoints(sourceId: SourceId) {
   return async ({ dispatch, getState, client }: ThunkArgs) => {
-    const sourceRecord = getSource(getState(), sourceId);
-    if (!sourceRecord) {
-      return;
-    }
-
-    const source = sourceRecord.toJS();
-    if (!source.text || source.isWasm) {
+    const source = getSource(getState(), sourceId);
+    if (!source || !source.text || source.isWasm) {
       return;
     }
 
     const pausePoints = await getPausePoints(source.id);
-    await client.setPausePoints(sourceId, pausePoints);
+    await client.setPausePoints(source.id, pausePoints);
 
     dispatch({
       type: "SET_PAUSE_POINTS",
-      source,
+      source: source.toJS(),
       pausePoints
     });
   };
