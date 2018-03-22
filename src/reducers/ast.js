@@ -26,7 +26,7 @@ import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 type EmptyLinesType = number[];
-export type Symbols = SymbolDeclarations | { loading: true };
+export type Symbols = SymbolDeclarations;
 export type SymbolsMap = Map<string, Symbols>;
 export type EmptyLinesMap = Map<string, EmptyLinesType>;
 

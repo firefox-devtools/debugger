@@ -46,5 +46,6 @@ export type SymbolDeclarations = {
   callExpressions: Array<SymbolDeclaration>,
   objectProperties: Array<SymbolDeclaration>,
   identifiers: Array<SymbolDeclaration>,
-  comments: Array<SymbolDeclaration>
+  comments: Array<SymbolDeclaration>,
+  loading?: Boolean
 };
