@@ -7,7 +7,6 @@
 import * as firefox from "./firefox";
 
 import { prefs } from "../utils/prefs";
-import assert from "../utils/assert";
 import { setupHelper } from "../utils/dbg";
 
 import {
