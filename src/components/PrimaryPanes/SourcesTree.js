@@ -311,6 +311,10 @@ class SourcesTree extends Component<Props, State> {
     );
   };
 
+  renderEmptyElement(message) {
+    return <div className="no-sources-message">{message}</div>;
+  }
+
   render() {
     const { expanded, projectRoot } = this.props;
     const {
@@ -328,6 +332,8 @@ class SourcesTree extends Component<Props, State> {
     const onCollapse = (item, expandedState) => {
       this.props.setExpandedState(expandedState);
     };
+
+    const isEmpty = sourceTree.contents.length === 0;
 
     const isCustomRoot = projectRoot !== "";
     let roots = () => sourceTree.contents;
@@ -356,12 +362,9 @@ class SourcesTree extends Component<Props, State> {
       );
     }
 
-    const isEmpty = sourceTree.contents.length === 0;
-    const emptyElement = (
-      <div className="no-sources-message">
-        {L10N.getStr("sources.noSourcesAvailable")}
-      </div>
-    );
+    if (isEmpty && !isCustomRoot) {
+      return this.renderEmptyElement(L10N.getStr("sources.noSourcesAvailable"));
+    }
 
     const treeProps = {
       autoExpandAll: false,
@@ -383,10 +386,6 @@ class SourcesTree extends Component<Props, State> {
 
     const tree = <ManagedTree {...treeProps} />;
 
-    if (isEmpty && !isCustomRoot) {
-      return emptyElement;
-    }
-
     const onKeyDown = e => {
       if (e.keyCode === 13 && focusedItem) {
         this.selectItem(focusedItem);
@@ -404,9 +403,13 @@ class SourcesTree extends Component<Props, State> {
             {clearProjectRootButton}
           </div>
         ) : null}
-        <div className="sources-list" onKeyDown={onKeyDown}>
-          {isEmpty ? emptyElement : tree}
-        </div>)
+        {isEmpty ? (
+          this.renderEmptyElement(L10N.getStr("sources.noSourcesAvailableRoot"))
+        ) : (
+          <div className="sources-list" onKeyDown={onKeyDown}>
+            {tree}
+          </div>
+        )}
       </div>
     );
   }
