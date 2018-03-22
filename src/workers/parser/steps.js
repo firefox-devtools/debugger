@@ -6,12 +6,11 @@
 
 import * as t from "@babel/types";
 import type { SimplePath } from "./utils/simple-path";
-import type { SourceId } from "../../types";
-import type { AstPosition } from "./types";
+import type { SourceId, Location } from "../../types";
 import { getClosestPath } from "./utils/closest";
 import { isAwaitExpression, isYieldExpression } from "./utils/helpers";
 
-export function getNextStep(sourceId: SourceId, pausedPosition: AstPosition) {
+export function getNextStep(sourceId: SourceId, pausedPosition: Location) {
   const currentExpression = getSteppableExpression(sourceId, pausedPosition);
   if (!currentExpression) {
     return null;
@@ -32,7 +31,7 @@ export function getNextStep(sourceId: SourceId, pausedPosition: AstPosition) {
 
 function getSteppableExpression(
   sourceId: SourceId,
-  pausedPosition: AstPosition
+  pausedPosition: Location
 ) {
   const closestPath = getClosestPath(sourceId, pausedPosition);
 
@@ -49,7 +48,7 @@ function getSteppableExpression(
   );
 }
 
-function _getNextStep(statement: SimplePath, position: AstPosition) {
+function _getNextStep(statement: SimplePath, position: Location) {
   const nextStatement = statement.getSibling(1);
   if (nextStatement) {
     return {
