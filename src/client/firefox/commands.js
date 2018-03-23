@@ -31,6 +31,9 @@ import { makePendingLocationId } from "../../utils/breakpoint";
 
 import { createSource, createBreakpointLocation } from "./create";
 
+import { getDeviceFront } from "./fronts-device";
+import { Services } from "devtools-modules";
+
 let bpClients: BPClients;
 let threadClient: ThreadClient;
 let tabTarget: TabTarget;
@@ -317,14 +320,46 @@ async function fetchSources() {
   return sources.map(source => createSource(source, { supportsWasm }));
 }
 
+/**
+ * Temporary helper to check if the current server will support a call to
+ * listWorkers. On Fennec 60 or older, the call will silently crash and prevent
+ * the client from resuming.
+ * XXX: Remove when FF60 for Android is no longer used or available.
+ *
+ * See https://bugzilla.mozilla.org/show_bug.cgi?id=1443550 for more details.
+ */
+async function checkServerSupportsListWorkers() {
+  const root = await tabTarget.root;
+  const deviceFront = await getDeviceFront(debuggerClient, root);
+  const description = await deviceFront.getDescription();
+
+  const isFennec = description.apptype === "mobile/android";
+  if (!isFennec) {
+    // Explicitly return true early to avoid calling Services.vs.compare.
+    // This would force us to extent the Services shim provided by
+    // devtools-modules, used when this code runs in a tab.
+    return true;
+  }
+
+  // We are only interested in Fennec release versions here.
+  // We assume that the server fix for Bug 1443550 will land in FF61.
+  const version = description.platformversion;
+  return Services.vc.compare(version, "61.0") >= 0;
+}
+
 async function fetchWorkers(): Promise<{ workers: Worker[] }> {
+  // Temporary workaround for Bug 1443550
+  // XXX: Remove when FF60 for Android is no longer used or available.
+  const supportsListWorkers = await checkServerSupportsListWorkers();
+
   // NOTE: The Worker and Browser Content toolboxes do not have a parent
   // with a listWorkers function
   // TODO: there is a listWorkers property, but it is not a function on the
   // parent. Investigate what it is
   if (
     !threadClient._parent ||
-    typeof threadClient._parent.listWorkers != "function"
+    typeof threadClient._parent.listWorkers != "function" ||
+    !supportsListWorkers
   ) {
     return Promise.resolve({ workers: [] });
   }
