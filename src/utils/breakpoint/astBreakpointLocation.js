@@ -13,14 +13,21 @@ import type {
   SymbolDeclaration
 } from "../../workers/parser";
 
-import type { Location, Source, ASTLocation } from "../../types";
+import type {
+  Range,
+  Location,
+  Position,
+  Source,
+  ASTLocation
+} from "../../types";
 
 export function containsPosition(a: AstLocation, b: AstPosition) {
   const startsBefore =
     a.start.line < b.line ||
     (a.start.line === b.line && a.start.column <= b.column);
   const endsAfter =
-    a.end.line > b.line || (a.end.line === b.line && a.end.column >= b.column);
+    a.end.line > b.line ||
+    (a.end.line === b.line && a.start.column >= b.column);
 
   return startsBefore && endsAfter;
 }
@@ -32,7 +39,10 @@ export function findClosestScope(
   return functions.reduce((found, currNode) => {
     if (
       currNode.name === "anonymous" ||
-      !containsPosition(currNode.location, location)
+      !containsPosition(currNode.location, {
+        line: location.line,
+        column: location.column || 0
+      })
     ) {
       return found;
     }

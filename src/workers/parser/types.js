@@ -5,12 +5,9 @@
 // @flow
 
 import type { BabelLocation } from "@babel/types";
+import type { AstLocation } from "./location-types";
 
-export type AstPosition = { line: number, column: number };
-
-export type AstPositionNull = { line: ?number, column: ?number };
-
-export type AstLocation = { end: AstPosition, start: AstPosition };
+export type { AstPosition, AstLocation } from "./location-types";
 
 export type Scope = {
   location: AstLocation,

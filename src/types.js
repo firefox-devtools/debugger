@@ -60,6 +60,13 @@ export type Location = {
   sourceUrl?: string
 };
 
+export type Position = {
+  line: number,
+  column: number | void
+};
+
+export type Range = { end: Position, start: Position };
+
 export type PendingLocation = {
   line: number,
   column: ?number,
@@ -332,7 +339,3 @@ export type Worker = {
   type: number,
   url: string
 };
-
-export type Position = { line: number, column: number };
-
-export type Range = { end: Position, start: Position };

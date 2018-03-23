@@ -24,7 +24,7 @@ import { getMappedExpression } from "./expressions";
 import { isEqual } from "lodash";
 
 import type { ThunkArgs } from "./types";
-import type { AstLocation, AstPosition } from "../workers/parser";
+import type { Range, Position } from "../types";
 
 async function getReactProps(evaluate) {
   const reactDisplayName = await evaluate(
@@ -142,8 +142,8 @@ export function updatePreview(target: HTMLElement, editor: any) {
 
 export function setPreview(
   expression: string,
-  location: AstLocation,
-  tokenPos: AstPosition,
+  location: Range,
+  tokenPos: Position,
   cursorPos: any
 ) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {

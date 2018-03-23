@@ -49,4 +49,5 @@ export type {
   AstPosition,
   Scope
 } from "./types";
-export type { PausePoint, PausePoints } from "./pausePoints";
+
+export type { PausePoint } from "./pausePoints";

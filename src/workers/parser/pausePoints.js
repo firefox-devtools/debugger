@@ -1,6 +1,6 @@
 import { traverseAst } from "./utils/ast";
 import * as t from "@babel/types";
-import type { AstLocation } from "./types";
+import type { AstLocation } from "./location-types";
 
 export type PausePoint = {|
   location: AstLocation,
