@@ -143,6 +143,60 @@ export function selectLocation(location: Location) {
  * @memberof actions/sources
  * @static
  */
+export function selectSpecificLocation(location: Location) {
+  return async ({ dispatch, getState, client }: ThunkArgs) => {
+    if (!client) {
+      // No connection, do nothing. This happens when the debugger is
+      // shut down too fast and it tries to display a default source.
+      return;
+    }
+
+    const source = getSource(getState(), location.sourceId);
+    if (!source) {
+      // If there is no source we deselect the current selected source
+      return dispatch({ type: "CLEAR_SELECTED_SOURCE" });
+    }
+
+    const activeSearch = getActiveSearch(getState());
+    if (activeSearch !== "file") {
+      dispatch(closeActiveSearch());
+    }
+
+    dispatch(addTab(source.toJS(), 0));
+
+    dispatch({
+      type: "SELECT_SOURCE",
+      source: source.toJS(),
+      location
+    });
+
+    await dispatch(loadSourceText(source));
+    const selectedSource = getSelectedSource(getState());
+    if (!selectedSource) {
+      return;
+    }
+
+    const sourceId = selectedSource.get("id");
+    dispatch(setSymbols(sourceId));
+    dispatch(setOutOfScopeLocations());
+  };
+}
+
+/**
+ * @memberof actions/sources
+ * @static
+ */
+export function selectSpecificSource(sourceId: string) {
+  return async ({ dispatch }: ThunkArgs) => {
+    const location = createLocation({ sourceId });
+    return await dispatch(selectSpecificLocation(location));
+  };
+}
+
+/**
+ * @memberof actions/sources
+ * @static
+ */
 export function jumpToMappedLocation(location: Location) {
   return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
     if (!client) {
