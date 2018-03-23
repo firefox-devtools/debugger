@@ -40,4 +40,11 @@ for (var i=0; i< 5; i++ ) {
 while (x) {
 
 }
+
+function ret() {
+  console.log("...")
+  return func()
+}
+
+
 var a = 3;

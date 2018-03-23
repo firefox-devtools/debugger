@@ -61,12 +61,6 @@ add_task(async function() {
     "Original source text loaded correctly"
   );
 
-  // Test that breakpoint sliding is not attempted. The breakpoint
-  // should not move anywhere.
-  await addBreakpoint(dbg, entrySrc, 13);
-  is(getBreakpoints(getState()).size, 1, "One breakpoint exists");
-  assertBreakpointExists(dbg, entrySrc, 13);
-
   // Test breaking on a breakpoint
   await addBreakpoint(dbg, "entry.js", 15);
   is(getBreakpoints(getState()).size, 2, "Two breakpoints exist");
@@ -76,6 +70,7 @@ add_task(async function() {
   await waitForPaused(dbg);
   assertPausedLocation(dbg);
 
+  await stepIn(dbg);
   await stepIn(dbg);
   assertPausedLocation(dbg);
 

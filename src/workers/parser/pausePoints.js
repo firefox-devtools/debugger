@@ -36,15 +36,22 @@ function formatNode(location, types) {
 function onEnter(node, ancestors, state) {
   const parent = ancestors[ancestors.length - 1];
 
-  if (
-    isAssignment(node) ||
-    isImport(node) ||
-    isControlFlow(node) ||
-    isReturn(node)
-  ) {
+  if (isAssignment(node) || isImport(node) || isControlFlow(node)) {
     state.push(
       formatNode(node.loc.start, { breakpoint: true, stepOver: true })
     );
+  }
+
+  if (isReturn(node)) {
+    if (t.isCallExpression(node.argument)) {
+      state.push(
+        formatNode(node.loc.start, { breakpoint: false, stepOver: false })
+      );
+    } else {
+      state.push(
+        formatNode(node.loc.start, { breakpoint: true, stepOver: true })
+      );
+    }
   }
 
   if (t.isCallExpression(node)) {
