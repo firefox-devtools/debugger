@@ -73,6 +73,9 @@
   word-break: break-all;
   color: var(--theme-body-color-inactive);
   margin-left: 15px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .result-list.big li .subtitle {
