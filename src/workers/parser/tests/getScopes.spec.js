@@ -7,8 +7,8 @@ import cases from "jest-in-case";
 
 cases(
   "Parser.getScopes",
-  ({ name, file, locations }) => {
-    const source = getOriginalSource(file);
+  ({ name, file, type, locations }) => {
+    const source = getOriginalSource(file, type);
     setSource(source);
 
     locations.forEach(([line, column]) => {
@@ -24,6 +24,12 @@ cases(
     });
   },
   [
+    {
+      name: "finds scope bindings in a typescript file",
+      file: "scopes/ts-sample",
+      type: "ts",
+      locations: [[3, 0], [6, 4]]
+    },
     {
       name: "finds scope bindings in a module",
       file: "scopes/simple-module",
