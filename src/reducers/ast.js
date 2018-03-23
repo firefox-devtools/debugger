@@ -26,7 +26,7 @@ import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 type EmptyLinesType = number[];
-export type Symbols = SymbolDeclarations;
+export type Symbols = SymbolDeclarations | {| loading: true |};
 export type SymbolsMap = Map<string, Symbols>;
 export type EmptyLinesMap = Map<string, EmptyLinesType>;
 
@@ -148,10 +148,7 @@ function update(
 // https://github.com/devtools-html/debugger.html/blob/master/src/reducers/sources.js#L179-L185
 type OuterState = { ast: Record<ASTState> };
 
-export function getSymbols(
-  state: OuterState,
-  source: Source
-): ?SymbolDeclarations {
+export function getSymbols(state: OuterState, source: Source): ?Symbols {
   if (!source) {
     return null;
   }
@@ -166,7 +163,7 @@ export function hasSymbols(state: OuterState, source: Source): boolean {
     return false;
   }
 
-  return !symbols.loading;
+  return !symbols.hasOwnProperty("loading");
 }
 
 export function isSymbolsLoading(state: OuterState, source: Source): boolean {
@@ -175,7 +172,7 @@ export function isSymbolsLoading(state: OuterState, source: Source): boolean {
     return false;
   }
 
-  return !!symbols.loading;
+  return symbols.hasOwnProperty("loading");
 }
 
 export function isEmptyLineInSource(

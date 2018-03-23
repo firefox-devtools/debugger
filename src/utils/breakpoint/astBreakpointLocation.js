@@ -20,8 +20,7 @@ export function containsPosition(a: AstLocation, b: AstPosition) {
     a.start.line < b.line ||
     (a.start.line === b.line && a.start.column <= b.column);
   const endsAfter =
-    a.end.line > b.line ||
-    (a.end.line === b.line && a.start.column >= b.column);
+    a.end.line > b.line || (a.end.line === b.line && a.end.column >= b.column);
 
   return startsBefore && endsAfter;
 }

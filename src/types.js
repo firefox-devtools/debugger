@@ -62,7 +62,7 @@ export type Location = {
 
 export type Position = {
   line: number,
-  column: number | void
+  column: ?number
 };
 
 export type Range = { end: Position, start: Position };

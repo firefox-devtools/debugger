@@ -4,6 +4,7 @@
 
 // @flow
 import type { Position } from "../../types";
+
 export function getTokenLocation(
   codeMirror: any,
   tokenEl: HTMLElement
