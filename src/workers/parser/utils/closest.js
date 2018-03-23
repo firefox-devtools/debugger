@@ -4,17 +4,11 @@
 
 // @flow
 
-import * as t from "@babel/types";
-import type { Node } from "@babel/types";
-
 import createSimplePath, { type SimplePath } from "./simple-path";
 import { traverseAst } from "./ast";
-import { getMemberExpression } from "./helpers";
-
 import { nodeContainsPosition } from "./contains";
 
 import type { AstPosition } from "../types";
-import type { Location } from "../../../types";
 
 export function getClosestPath(
   sourceId: string,

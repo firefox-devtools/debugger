@@ -13,13 +13,7 @@ import type {
   SymbolDeclaration
 } from "../../workers/parser";
 
-import type {
-  Range,
-  Location,
-  Position,
-  Source,
-  ASTLocation
-} from "../../types";
+import type { Location, Source, ASTLocation } from "../../types";
 
 export function containsPosition(a: AstLocation, b: AstPosition) {
   const startsBefore =
