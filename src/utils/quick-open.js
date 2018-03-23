@@ -118,7 +118,10 @@ export function formatSources(sources: SourcesMap): Array<QuickOpenResult> {
       const sourcePath = getSourcePath(source.get("url"));
       return {
         value: sourcePath,
-        title: sourcePath.split("/").pop(),
+        title: sourcePath
+          .split("/")
+          .pop()
+          .split("?")[0],
         subtitle: endTruncateStr(sourcePath, 100)
           .replace(sourcePath.split("/").pop(), "")
           .slice(1, -1),
