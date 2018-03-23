@@ -63,7 +63,7 @@ add_task(async function() {
 
   // Test breaking on a breakpoint
   await addBreakpoint(dbg, "entry.js", 15);
-  is(getBreakpoints(getState()).size, 2, "Two breakpoints exist");
+  is(getBreakpoints(getState()).size, 1, "One breakpoint exists");
   assertBreakpointExists(dbg, entrySrc, 15);
 
   invokeInTab("keepMeAlive");
