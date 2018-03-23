@@ -322,9 +322,9 @@ async function fetchSources() {
 
 /**
  * Temporary helper to check if the current server will support a call to
- * listWorkers. On Fennec 59 or older, the call will silently crash and prevent
+ * listWorkers. On Fennec 60 or older, the call will silently crash and prevent
  * the client from resuming.
- * XXX: Remove when FF59 for Android is no longer used or available.
+ * XXX: Remove when FF60 for Android is no longer used or available.
  *
  * See https://bugzilla.mozilla.org/show_bug.cgi?id=1443550 for more details.
  */
@@ -342,16 +342,14 @@ async function checkServerSupportsListWorkers() {
   }
 
   // We are only interested in Fennec release versions here.
-  // We assume that the server fix for Bug 1443550 will be uplifted to FF60.
-  // This means that we will not attempt to fetch workers for any early 60
-  // version such as 60.0b6.
+  // We assume that the server fix for Bug 1443550 will land in FF61.
   const version = description.platformversion;
-  return Services.vc.compare(version, "60.0") >= 0;
+  return Services.vc.compare(version, "61.0") >= 0;
 }
 
 async function fetchWorkers(): Promise<{ workers: Worker[] }> {
   // Temporary workaround for Bug 1443550
-  // XXX: Remove when FF59 for Android is no longer used or available.
+  // XXX: Remove when FF60 for Android is no longer used or available.
   const supportsListWorkers = await checkServerSupportsListWorkers();
 
   // NOTE: The Worker and Browser Content toolboxes do not have a parent
