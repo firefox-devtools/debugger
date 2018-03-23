@@ -8,6 +8,7 @@
   flex-direction: column;
   flex: 1;
   white-space: nowrap;
+  user-select: none;
   --breakpoint-expression-right-clear-space: 36px;
   -moz-user-select: none;
   user-select: none;
