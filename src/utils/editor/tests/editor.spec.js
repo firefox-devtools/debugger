@@ -7,7 +7,6 @@ import {
   toEditorPosition,
   toEditorRange,
   toSourceLine,
-  toSourceLocation,
   scrollToColumn,
   markText,
   lineAtHeight,
@@ -120,17 +119,6 @@ describe("toSourceLine", () => {
     const testId = "test-123";
     const line = 30;
     expect(toSourceLine(testId, line)).toEqual(31);
-  });
-});
-
-describe("toSourceLocation", () => {
-  const testId = "test-123";
-  const loc = { line: 100, column: 30 };
-  it("returns a source location", () => {
-    expect(toSourceLocation(testId, loc)).toEqual({
-      line: 101,
-      column: 30
-    });
   });
 });
 

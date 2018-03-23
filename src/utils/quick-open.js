@@ -8,11 +8,9 @@ import { isPretty, getSourcePath } from "./source";
 
 import type { Location as BabelLocation } from "@babel/types";
 import type { SourcesMap } from "../reducers/sources";
+import type { Symbols } from "../reducers/ast";
 import type { QuickOpenType } from "../reducers/quick-open";
-import type {
-  SymbolDeclaration,
-  SymbolDeclarations
-} from "../workers/parser/types";
+import type { SymbolDeclaration } from "../workers/parser";
 
 export const MODIFIERS = {
   "@": "functions",
@@ -75,10 +73,8 @@ export function formatSymbol(symbol: SymbolDeclaration): QuickOpenResult {
   };
 }
 
-export function formatSymbols(
-  symbols: ?SymbolDeclarations
-): FormattedSymbolDeclarations {
-  if (!symbols) {
+export function formatSymbols(symbols: ?Symbols): FormattedSymbolDeclarations {
+  if (!symbols || symbols.loading) {
     return { variables: [], functions: [] };
   }
 

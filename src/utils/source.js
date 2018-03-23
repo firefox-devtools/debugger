@@ -17,7 +17,7 @@ import { parse as parseURL } from "url";
 export { isMinified } from "./isMinified";
 
 import type { Source, SourceRecord } from "../types";
-import type { SymbolDeclarations } from "../workers/parser/types";
+import type { SymbolDeclarations } from "../workers/parser";
 
 type transformUrlCallback = string => string;
 

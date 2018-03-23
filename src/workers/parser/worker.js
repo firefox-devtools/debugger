@@ -4,7 +4,6 @@
 
 // @flow
 
-import { getClosestExpression } from "./utils/closest";
 import { getSymbols, clearSymbols } from "./getSymbols";
 import { clearASTs } from "./utils/ast";
 import getScopes, { clearScopes } from "./getScopes";
@@ -21,7 +20,6 @@ import { workerUtils } from "devtools-utils";
 const { workerHandler } = workerUtils;
 
 self.onmessage = workerHandler({
-  getClosestExpression,
   findOutOfScopeLocations,
   getSymbols,
   getScopes,

@@ -7,14 +7,15 @@
 import { getSymbols } from "../../workers/parser";
 
 import type {
-  Scope,
   AstPosition,
-  SymbolDeclarations
+  AstLocation,
+  SymbolDeclarations,
+  SymbolDeclaration
 } from "../../workers/parser";
 
 import type { Location, Source, ASTLocation } from "../../types";
 
-export function containsPosition(a: AstPosition, b: AstPosition) {
+export function containsPosition(a: AstLocation, b: AstPosition) {
   const startsBefore =
     a.start.line < b.line ||
     (a.start.line === b.line && a.start.column <= b.column);
@@ -24,11 +25,17 @@ export function containsPosition(a: AstPosition, b: AstPosition) {
   return startsBefore && endsAfter;
 }
 
-export function findClosestScope(functions: Scope[], location: Location) {
+export function findClosestScope(
+  functions: SymbolDeclaration[],
+  location: Location
+) {
   return functions.reduce((found, currNode) => {
     if (
       currNode.name === "anonymous" ||
-      !containsPosition(currNode.location, location)
+      !containsPosition(currNode.location, {
+        line: location.line,
+        column: location.column || 0
+      })
     ) {
       return found;
     }
