@@ -6,7 +6,7 @@ export function getDeviceFront() {
   return {
     getDescription: function() {
       return {
-        // Return anything that will not match Fennec v59
+        // Return anything that will not match Fennec v60
         apptype: "apptype",
         version: "version"
       };
