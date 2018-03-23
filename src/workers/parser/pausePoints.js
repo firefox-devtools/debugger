@@ -1,8 +1,6 @@
 import { traverseAst } from "./utils/ast";
 import * as t from "@babel/types";
 
-import type { PausePoint, AstLocation } from "./types";
-
 const isControlFlow = node =>
   t.isForStatement(node) || t.isWhileStatement(node) || t.isIfStatement(node);
 

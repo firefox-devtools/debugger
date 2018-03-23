@@ -10,7 +10,7 @@ import type { Location as BabelLocation } from "@babel/types";
 import type { SourcesMap } from "../reducers/sources";
 import type { Symbols } from "../reducers/ast";
 import type { QuickOpenType } from "../reducers/quick-open";
-import type { SymbolDeclaration, SymbolDeclarations } from "../workers/parser";
+import type { SymbolDeclaration } from "../workers/parser";
 
 export const MODIFIERS = {
   "@": "functions",
