@@ -119,10 +119,9 @@ export function formatSources(sources: SourcesMap): Array<QuickOpenResult> {
       return {
         value: sourcePath,
         title: sourcePath.split("/").pop(),
-        subtitle: endTruncateStr(sourcePath, 100).replace(
-          sourcePath.split("/").pop(),
-          ""
-        ),
+        subtitle: endTruncateStr(sourcePath, 100)
+          .replace(sourcePath.split("/").pop(), "")
+          .slice(1, -1),
         id: source.get("id"),
         url: source.get("url")
       };
