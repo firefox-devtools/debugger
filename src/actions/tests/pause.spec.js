@@ -4,6 +4,7 @@ import {
   createStore,
   waitForState,
   makeSource,
+  makeOriginalSource,
   makeFrame
 } from "../../utils/test-head";
 
@@ -40,6 +41,11 @@ const mockThreadClient = {
         case "foo":
           return resolve({
             source: "function foo() {\n  return -5;\n}",
+            contentType: "text/javascript"
+          });
+        case "foo-original":
+          return resolve({
+            source: "\n\nfunction fooOriginal() {\n  return -5;\n}",
             contentType: "text/javascript"
           });
       }
@@ -144,6 +150,43 @@ describe("pause", () => {
       dispatch(actions.stepOver());
       expect(getNextStepSpy).toBeCalled();
       getNextStepSpy.mockRestore();
+    });
+
+    describe("pausing in a generated location", () => {
+      it("maps frame locations and names to original source", async () => {
+        const generatedLocation = {
+          sourceId: "foo",
+          line: 1,
+          column: 0
+        };
+        const originalLocation = {
+          sourceId: "foo-original",
+          line: 3,
+          column: 0
+        };
+        const sourceMapsMock = {
+          getOriginalLocation: () => Promise.resolve(originalLocation)
+        };
+        const store = createStore(mockThreadClient, {}, sourceMapsMock);
+        const { dispatch, getState } = store;
+        const mockPauseInfo = createPauseInfo(generatedLocation);
+
+        await dispatch(actions.newSource(makeSource("foo")));
+        await dispatch(actions.newSource(makeOriginalSource("foo")));
+        await dispatch(actions.loadSourceText(I.Map({ id: "foo" })));
+        await dispatch(actions.loadSourceText(I.Map({ id: "foo-original" })));
+
+        await dispatch(actions.paused(mockPauseInfo));
+        expect(selectors.getFrames(getState())).toEqual([
+          {
+            id: 1,
+            scope: [],
+            location: originalLocation,
+            generatedLocation,
+            originalDisplayName: "fooOriginal"
+          }
+        ]);
+      });
     });
   });
 
