@@ -2,8 +2,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-export type AstPosition = { line: number, column: number };
+import type { BabelLocation } from "@babel/types";
 
+export type AstPosition = { line: number, column: number };
 export type AstLocation = { end: AstPosition, start: AstPosition };
 
 export type Scope = {
@@ -43,4 +44,9 @@ export type SymbolDeclarations = {
   objectProperties: Array<SymbolDeclaration>,
   identifiers: Array<SymbolDeclaration>,
   comments: Array<SymbolDeclaration>
+};
+
+export type PausePoint = {
+  location: { line: number, column: number },
+  types: { breakpoint: boolean, stepOver: boolean }
 };

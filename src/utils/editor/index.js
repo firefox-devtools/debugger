@@ -16,8 +16,9 @@ import { findNext, findPrev } from "./source-search";
 import { isWasm, lineToWasmOffset, wasmOffsetToLine } from "../wasm";
 import { isOriginalId } from "devtools-source-map";
 
-import type { AstPosition, AstLocation } from "../../workers/parser/types";
+import type { AstLocation } from "../../workers/parser";
 import type { EditorPosition, EditorRange } from "../editor/types";
+import type { Location } from "../../types";
 
 export function shouldShowPrettyPrint(selectedSource) {
   if (!selectedSource) {
@@ -60,7 +61,7 @@ export function toEditorLine(sourceId: string, lineOrOffset: number): number {
   return lineOrOffset ? lineOrOffset - 1 : 1;
 }
 
-export function toEditorPosition(location: AstPosition): EditorPosition {
+export function toEditorPosition(location: Location): EditorPosition {
   return {
     line: toEditorLine(location.sourceId, location.line),
     column: isWasm(location.sourceId) || !location.column ? 0 : location.column
@@ -119,16 +120,6 @@ function isVisible(codeMirror: any, top: number, left: number) {
   );
 
   return inXView && inYView;
-}
-
-export function toSourceLocation(
-  sourceId: string,
-  location: EditorPosition
-): AstPosition {
-  return {
-    line: toSourceLine(sourceId, location.line),
-    column: isWasm(sourceId) ? undefined : location.column
-  };
 }
 
 export function markText(editor: any, className, { start, end }: EditorRange) {

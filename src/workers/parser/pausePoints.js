@@ -1,13 +1,5 @@
 import { traverseAst } from "./utils/ast";
 import * as t from "@babel/types";
-import type { AstLocation } from "./types";
-
-export type PausePoint = {|
-  location: AstLocation,
-  types: {| breakpoint: boolean, stepOver: boolean |}
-|};
-
-export type PausePoints = PausePoint[];
 
 const isControlFlow = node =>
   t.isForStatement(node) || t.isWhileStatement(node) || t.isIfStatement(node);

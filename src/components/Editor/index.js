@@ -41,7 +41,7 @@ import EmptyLines from "./EmptyLines";
 import GutterMenu from "./GutterMenu";
 import EditorMenu from "./EditorMenu";
 import ConditionalPanel from "./ConditionalPanel";
-import type { SymbolDeclarations } from "../../workers/parser/types";
+import type { SymbolDeclarations } from "../../workers/parser";
 
 import {
   showSourceText,
