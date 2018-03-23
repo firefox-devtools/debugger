@@ -241,6 +241,7 @@ export type TabTarget = {
     ) => void
   },
   form: { consoleActor: any },
+  root: any,
   activeTab: {
     navigateTo: string => Promise<*>,
     reload: () => Promise<*>
