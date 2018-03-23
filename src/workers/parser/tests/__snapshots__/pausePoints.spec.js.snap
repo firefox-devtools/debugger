@@ -43,6 +43,13 @@ else {
 /*bs 21*/while (x) {
 
 }
-var /*bs 22*/a = 3;/*bs 23*/
+
+/*b 22*/function ret() {
+  /*bs 23*/console.log(\\"...\\")
+  /* 24*/return /*bs 25*/func()
+/*bs 26*/}
+
+
+var /*bs 27*/a = 3;/*bs 28*/
 "
 `;
