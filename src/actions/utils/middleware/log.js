@@ -11,6 +11,7 @@ const blacklist = [
   "SET_SYMBOLS",
   "OUT_OF_SCOPE_LOCATIONS",
   "MAP_SCOPES",
+  "MAP_FRAMES",
   "ADD_SCOPES",
   "IN_SCOPE_LINES",
   "SET_EMPTY_LINES"

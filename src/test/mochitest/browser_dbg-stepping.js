@@ -32,6 +32,6 @@ add_task(async function test() {
   await stepIn(dbg);
 
   assertSelectedFile(dbg, "bundle.js");
-  assertDebugLine(dbg, 42264);
+  assertDebugLine(dbg, 42309);
   assertPausedLocation(dbg);
 });
