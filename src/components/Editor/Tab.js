@@ -40,7 +40,7 @@ type SourcesList = List<SourceRecord>;
 
 type Props = {
   tabSources: SourcesList,
-  selectSource: Object => void,
+  selectSpecificSource: Object => void,
   selectedSource: SourceRecord,
   closeTab: string => void,
   closeTabs: (List<string>) => void,
@@ -150,7 +150,7 @@ class Tab extends PureComponent<Props> {
   render() {
     const {
       selectedSource,
-      selectSource,
+      selectSpecificSource,
       closeTab,
       source,
       sourceMetaData
@@ -179,7 +179,7 @@ class Tab extends PureComponent<Props> {
         return closeTab(source.url);
       }
 
-      return selectSource(sourceId);
+      return selectSpecificSource(sourceId);
     }
 
     const className = classnames("source-tab", {

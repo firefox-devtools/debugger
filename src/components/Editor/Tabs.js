@@ -31,7 +31,7 @@ type SourcesList = List<SourceRecord>;
 type Props = {
   tabSources: SourcesList,
   selectedSource: SourceRecord,
-  selectSource: Object => void,
+  selectSpecificSource: Object => void,
   moveTab: (string, number) => void,
   closeTab: string => void,
   togglePaneCollapse: () => void,
@@ -121,7 +121,7 @@ class Tabs extends PureComponent<Props, State> {
   }
 
   renderDropdownSource = (source: SourceRecord) => {
-    const { selectSource } = this.props;
+    const { selectSpecificSource } = this.props;
     const filename = getFilename(source.toJS());
 
     const onClick = () => selectSpecificSource(source.id);
