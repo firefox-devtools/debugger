@@ -82,6 +82,18 @@ export function getAst(sourceId: string) {
     const type = source.id.includes("original") ? "original" : "generated";
     const options = sourceOptions[type];
     ast = parse(source.text, options);
+  } else if (contentType && contentType.match(/typescript/)) {
+    const options = {
+      ...sourceOptions.original,
+      plugins: [
+        ...sourceOptions.original.plugins.filter(
+          p => p !== "flow" && p !== "decorators" && p !== "decorators2"
+        ),
+        "decorators",
+        "typescript"
+      ]
+    };
+    ast = parse(source.text, options);
   }
 
   ASTs.set(source.id, ast);
