@@ -570,7 +570,28 @@ const scopeCollectionVisitor = {
           };
         }
       });
-    } else if (t.isIdentifier(node) && t.isReferenced(node, parentNode)) {
+    } else if (t.isTSEnumDeclaration(node)) {
+      state.scope.bindings[node.id.name] = {
+        type: "const",
+        refs: [
+          {
+            type: "decl",
+            start: fromBabelLocation(node.id.loc.start, state.sourceId),
+            end: fromBabelLocation(node.id.loc.end, state.sourceId),
+            declaration: {
+              start: fromBabelLocation(node.loc.start, state.sourceId),
+              end: fromBabelLocation(node.loc.end, state.sourceId)
+            }
+          }
+        ]
+      };
+    } else if (
+      t.isIdentifier(node) &&
+      t.isReferenced(node, parentNode) &&
+      // Babel doesn't cover this in 'isReferenced' yet, but it should
+      // eventually.
+      !t.isTSEnumMember(parentNode, { id: node })
+    ) {
       let freeVariables = state.freeVariables.get(node.name);
       if (!freeVariables) {
         freeVariables = [];

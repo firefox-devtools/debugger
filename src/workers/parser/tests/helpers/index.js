@@ -6,7 +6,13 @@ export function getSource(name, type = "js") {
     path.join(__dirname, `../fixtures/${name}.${type}`),
     "utf8"
   );
-  const contentType = type === "html" ? "text/html" : "text/javascript";
+  let contentType = "text/javascript";
+  if (type === "html") {
+    contentType = "text/html";
+  } else if (type === "ts") {
+    contentType = "text/typescript";
+  }
+
   return {
     id: name,
     text,
