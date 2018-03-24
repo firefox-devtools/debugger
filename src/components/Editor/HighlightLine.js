@@ -18,6 +18,7 @@ import {
 import type { Frame, Location, SourceRecord } from "../../types";
 
 type Props = {
+  pauseCommand: string,
   selectedFrame: Frame,
   selectedLocation: Location,
   selectedSource: SourceRecord
@@ -43,14 +44,50 @@ function isDocumentReady(selectedSource, selectedLocation) {
 }
 
 export class HighlightLine extends PureComponent<Props> {
+  isStepping: boolean;
+  previousEditorLine: ?number;
+
+  constructor(props: Props) {
+    super(props);
+    this.isStepping = false;
+    this.previousEditorLine = null;
+  }
+
+  shouldComponentUpdate(nextProps: Props) {
+    const { selectedLocation, selectedSource } = nextProps;
+    return this.shouldSetHighlightLine(selectedLocation, selectedSource);
+  }
+
+  shouldSetHighlightLine(
+    selectedLocation: Location,
+    selectedSource: SourceRecord
+  ) {
+    const { sourceId, line } = selectedLocation;
+    const editorLine = toEditorLine(sourceId, line);
+    if (this.isStepping && editorLine === this.previousEditorLine) {
+      return false;
+    }
+    if (!isDocumentReady(selectedSource, selectedLocation)) {
+      return false;
+    }
+    return true;
+  }
+
   componentDidUpdate(prevProps: Props) {
-    const { selectedLocation, selectedFrame, selectedSource } = this.props;
+    const {
+      pauseCommand,
+      selectedLocation,
+      selectedFrame,
+      selectedSource
+    } = this.props;
+    if (pauseCommand) {
+      this.isStepping = true;
+    }
 
     this.clearHighlightLine(
       prevProps.selectedLocation,
       prevProps.selectedSource
     );
-
     this.setHighlightLine(selectedLocation, selectedFrame, selectedSource);
   }
 
@@ -59,17 +96,18 @@ export class HighlightLine extends PureComponent<Props> {
     selectedFrame: Frame,
     selectedSource: SourceRecord
   ) {
-    if (!isDocumentReady(selectedSource, selectedLocation)) {
+    const { sourceId, line } = selectedLocation;
+    if (!this.shouldSetHighlightLine(selectedLocation, selectedSource)) {
       return;
     }
-
-    const { sourceId, line } = selectedLocation;
+    this.isStepping = false;
+    const editorLine = toEditorLine(sourceId, line);
+    this.previousEditorLine = editorLine;
 
     if (!line || isDebugLine(selectedFrame, selectedLocation)) {
       return;
     }
 
-    const editorLine = toEditorLine(sourceId, line);
     const doc = getDocument(sourceId);
     doc.addLineClass(editorLine, "line", "highlight-line");
   }
@@ -91,6 +129,7 @@ export class HighlightLine extends PureComponent<Props> {
 }
 
 export default connect(state => ({
+  pauseCommand: state.pause.command,
   selectedFrame: getVisibleSelectedFrame(state),
   selectedLocation: getSelectedLocation(state),
   selectedSource: getSelectedSource(state)
