@@ -122,7 +122,7 @@ export function updatePreview(target: HTMLElement, editor: any) {
     }
 
     const source = getSelectedSource(getState());
-    const symbols = getSymbols(getState(), source.toJS());
+    const symbols = getSymbols(getState(), source);
 
     let match;
     if (!symbols || symbols.loading) {
