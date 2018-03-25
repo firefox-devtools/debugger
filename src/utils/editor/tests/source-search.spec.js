@@ -127,7 +127,7 @@ describe("source-search", () => {
           }
         }
       };
-      removeOverlay(ctx, "test", modifiers);
+      removeOverlay(ctx, "test");
       expect(ctx.cm.removeOverlay).toHaveBeenCalled();
       expect(ctx.cm.getCursor).toHaveBeenCalled();
       expect(ctx.cm.doc.setSelection).toHaveBeenCalledWith(

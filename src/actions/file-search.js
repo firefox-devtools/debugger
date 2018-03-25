@@ -133,12 +133,11 @@ export function traverseResults(rev: boolean, editor: Editor) {
 
 export function closeFileSearch(editor: Editor) {
   return ({ getState, dispatch }: ThunkArgs) => {
-    const modifiers = getFileSearchModifiers(getState());
     const query = getFileSearchQuery(getState());
 
-    if (editor && modifiers) {
+    if (editor) {
       const ctx = { ed: editor, cm: editor.codeMirror };
-      removeOverlay(ctx, query, modifiers.toJS());
+      removeOverlay(ctx, query);
     }
 
     dispatch(setFileSearchQuery(""));
