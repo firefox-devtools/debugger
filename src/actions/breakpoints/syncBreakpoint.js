@@ -70,7 +70,7 @@ export async function syncClientBreakpoint(
 ): Promise<BreakpointSyncData> {
   assertPendingBreakpoint(pendingBreakpoint);
 
-  const source = getSource(getState(), sourceId).toJS();
+  const source = getSource(getState(), sourceId);
   const generatedSourceId = sourceMaps.isOriginalId(sourceId)
     ? originalToGeneratedId(sourceId)
     : sourceId;
@@ -86,7 +86,7 @@ export async function syncClientBreakpoint(
 
   const scopedGeneratedLocation = await getGeneratedLocation(
     getState(),
-    source,
+    source.toJS(),
     scopedLocation,
     sourceMaps
   );
