@@ -6,7 +6,7 @@
 
 import { findBestMatchExpression } from "../utils/ast";
 import { getTokenLocation } from "../utils/editor";
-import { isReactComponent, isImmutable } from "../utils/preview";
+import { isReactComponent, isImmutable, isConsole } from "../utils/preview";
 import { isGeneratedId } from "devtools-source-map";
 import { PROMISE } from "./utils/middleware/promise";
 import { getExpressionFromCoords } from "../utils/editor/get-expression";
@@ -136,6 +136,11 @@ export function updatePreview(target: HTMLElement, editor: any) {
     }
 
     const { expression, location } = match;
+
+    if (isConsole(expression)) {
+      return;
+    }
+
     dispatch(setPreview(expression, location, tokenPos, cursorPos));
   };
 }

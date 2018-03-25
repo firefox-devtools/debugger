@@ -38,3 +38,7 @@ export function isReactComponent(result: Grip) {
     Object.keys(ownProperties).includes("_reactInternalFiber")
   );
 }
+
+export function isConsole(expression: String) {
+  return /^console/.test(expression);
+}
