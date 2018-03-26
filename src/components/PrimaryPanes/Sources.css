@@ -65,11 +65,6 @@
   overflow-y: auto;
 }
 
-.sources-list {
-  flex: 1;
-  display: flex;
-}
-
 .sources-list .tree:focus {
   outline: none;
 }
@@ -224,6 +219,11 @@
 
 .sources-list-custom-root .sources-pane {
   display: block;
+}
+
+.sources-list-custom-root .sources-list {
+  flex: 1;
+  display: flex;
 }
 
 .sources-list-custom-root .sources-list,
