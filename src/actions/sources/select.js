@@ -56,7 +56,7 @@ export function selectSourceURL(
   return async ({ dispatch, getState }: ThunkArgs) => {
     const source = getSourceByURL(getState(), url);
     if (source) {
-      const sourceId = source.get("id");
+      const sourceId = source.id;
       const location = createLocation({ ...options.location, sourceId });
       // flow is unable to comprehend that if an options.location object
       // exists, that we have a valid Location object, and if it doesnt,
@@ -131,7 +131,7 @@ export function selectLocation(location: Location) {
       isMinified(selectedSource)
     ) {
       await dispatch(togglePrettyPrint(sourceId));
-      dispatch(closeTab(source.get("url")));
+      dispatch(closeTab(source.url));
     }
 
     dispatch(setSymbols(sourceId));

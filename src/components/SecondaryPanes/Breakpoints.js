@@ -70,7 +70,7 @@ function getBreakpointFilename(source) {
 
 function renderSourceLocation(source, line, column) {
   const filename = getBreakpointFilename(source);
-  const isWasm = source && source.get("isWasm");
+  const isWasm = source && source.isWasm;
   const columnVal = features.columnBreakpoints && column ? `:${column}` : "";
   const bpLocation = isWasm
     ? `0x${line.toString(16).toUpperCase()}`
@@ -199,9 +199,7 @@ const _getBreakpoints = createSelector(
   (breakpoints, sources, frame, why) =>
     breakpoints
       .map(bp => updateLocation(sources, frame, why, bp))
-      .filter(
-        bp => bp.location.source && !bp.location.source.get("isBlackBoxed")
-      )
+      .filter(bp => bp.location.source && !bp.location.source.isBlackBoxed)
 );
 
 export default connect(

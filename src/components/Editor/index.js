@@ -331,7 +331,7 @@ class Editor extends PureComponent<Props, State> {
     if (
       (ev.ctrlKey && ev.button === 0) ||
       ev.which === 3 ||
-      (selectedSource && selectedSource.get("isBlackBoxed")) ||
+      (selectedSource && selectedSource.isBlackBoxed) ||
       !selectedSource
     ) {
       return;

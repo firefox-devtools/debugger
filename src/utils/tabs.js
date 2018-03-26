@@ -61,7 +61,7 @@ export function getSourceAnnotation(
   if (isPretty(source)) {
     return <img className="prettyPrint" />;
   }
-  if (source.get("isBlackBoxed")) {
+  if (source.isBlackBoxed) {
     return <img className="blackBox" />;
   }
 }

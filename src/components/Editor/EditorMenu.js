@@ -70,7 +70,7 @@ function getMenuItems(
   const blackboxKey = L10N.getStr("sourceFooter.blackbox.accesskey");
   const blackboxLabel = L10N.getStr("sourceFooter.blackbox");
   const unblackboxLabel = L10N.getStr("sourceFooter.unblackbox");
-  const toggleBlackBoxLabel = selectedSource.get("isBlackBoxed")
+  const toggleBlackBoxLabel = selectedSource.isBlackBoxed
     ? unblackboxLabel
     : blackboxLabel;
   const copyFunctionKey = L10N.getStr("copyFunction.accesskey");
@@ -101,7 +101,7 @@ function getMenuItems(
     label: copyToClipboardLabel,
     accesskey: copyToClipboardKey,
     disabled: false,
-    click: () => copyToTheClipboard(selectedSource.get("text"))
+    click: () => copyToTheClipboard(selectedSource.text)
   };
 
   const copySourceItem = {
@@ -117,7 +117,7 @@ function getMenuItems(
     label: copySourceUri2Label,
     accesskey: copySourceUri2Key,
     disabled: false,
-    click: () => copyToTheClipboard(getRawSourceURL(selectedSource.get("url")))
+    click: () => copyToTheClipboard(getRawSourceURL(selectedSource.url))
   };
 
   const sourceId = selectedSource.get("id");

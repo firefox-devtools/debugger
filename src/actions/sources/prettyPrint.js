@@ -26,7 +26,7 @@ import type { ThunkArgs } from "../types";
 export function createPrettySource(sourceId: string) {
   return async ({ dispatch, getState, sourceMaps }: ThunkArgs) => {
     const source = getSource(getState(), sourceId);
-    const url = getPrettySourceURL(source.get("url"));
+    const url = getPrettySourceURL(source.url);
     const id = await sourceMaps.generatedToOriginalId(sourceId, url);
 
     const prettySource = {
@@ -39,7 +39,7 @@ export function createPrettySource(sourceId: string) {
     dispatch({ type: "ADD_SOURCE", source: prettySource });
 
     const { code, mappings } = await prettyPrint({ source, url });
-    await sourceMaps.applySourceMap(source.get("id"), url, code, mappings);
+    await sourceMaps.applySourceMap(source.id, url, code, mappings);
 
     const loadedPrettySource = {
       ...prettySource,
@@ -84,7 +84,7 @@ export function togglePrettyPrint(sourceId: string) {
     );
 
     const selectedLocation = getSelectedLocation(getState());
-    const url = getPrettySourceURL(source.get("url"));
+    const url = getPrettySourceURL(source.url);
     const prettySource = getSourceByURL(getState(), url);
 
     const options = {};
