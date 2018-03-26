@@ -117,7 +117,6 @@ export function selectLocation(location: Location) {
       await dispatch(togglePrettyPrint(source.get("id")));
       dispatch(setSymbols(source.get("id")));
       dispatch(setOutOfScopeLocations());
-      console.log("bailing because pretty tab is already open");
       return;
     }
 
