@@ -110,7 +110,10 @@ export function selectLocation(location: Location) {
     }
 
     // If this source has a pretty-printed tab open, focus on that
-    if (getPrettySource(getState(), source.get("id"))) {
+    if (
+      prefs.autoPrettyPrint &&
+      getPrettySource(getState(), source.get("id"))
+    ) {
       await dispatch(togglePrettyPrint(source.get("id")));
       dispatch(setSymbols(source.get("id")));
       dispatch(setOutOfScopeLocations());
