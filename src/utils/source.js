@@ -47,7 +47,7 @@ export function shouldPrettyPrint(source: SourceRecord) {
   }
   const _isPretty = isPretty(source);
   const _isJavaScript = isJavaScript(source);
-  const isOriginal = isOriginalId(source.get("id"));
+  const isOriginal = isOriginalId(source.id);
   const hasSourceMap = source.get("sourceMapURL");
 
   if (_isPretty || isOriginal || hasSourceMap || !_isJavaScript) {
@@ -68,8 +68,8 @@ export function shouldPrettyPrint(source: SourceRecord) {
  * @static
  */
 export function isJavaScript(source: SourceRecord): boolean {
-  const url = source.get("url");
-  const contentType = source.get("contentType");
+  const url = source.url;
+  const contentType = source.contentType;
   return (
     (url && /\.(jsm|js)?$/.test(trimUrlQuery(url))) ||
     !!(contentType && contentType.includes("javascript"))
@@ -81,7 +81,7 @@ export function isJavaScript(source: SourceRecord): boolean {
  * @static
  */
 export function isPretty(source: SourceRecord): boolean {
-  const url = source.get("url");
+  const url = source.url;
   return isPrettyURL(url);
 }
 
@@ -90,7 +90,7 @@ export function isPrettyURL(url: string): boolean {
 }
 
 export function isThirdParty(source: SourceRecord) {
-  const url = source.get("url");
+  const url = source.url;
   if (!source || !url) {
     return false;
   }

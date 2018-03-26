@@ -26,7 +26,7 @@ type Match = Object;
 export function doSearch(query: string, editor: Editor) {
   return ({ getState, dispatch }: ThunkArgs) => {
     const selectedSource = getSelectedSource(getState());
-    if (!selectedSource || !selectedSource.get("text")) {
+    if (!selectedSource || !selectedSource.text) {
       return;
     }
 
@@ -75,7 +75,7 @@ export function searchContents(query: string, editor: Object) {
       !query ||
       !editor ||
       !selectedSource ||
-      !selectedSource.get("text") ||
+      !selectedSource.text ||
       !modifiers
     ) {
       return;
@@ -83,11 +83,7 @@ export function searchContents(query: string, editor: Object) {
 
     const ctx = { ed: editor, cm: editor.codeMirror };
     const _modifiers = modifiers.toJS();
-    const matches = await getMatches(
-      query,
-      selectedSource.get("text"),
-      _modifiers
-    );
+    const matches = await getMatches(query, selectedSource.text, _modifiers);
 
     const res = find(ctx, query, true, _modifiers);
     if (!res) {

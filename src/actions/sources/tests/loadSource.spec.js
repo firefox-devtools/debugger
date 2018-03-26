@@ -15,12 +15,12 @@ describe("loadSourceText", async () => {
     await dispatch(actions.loadSourceText(I.Map({ id: "foo1" })));
     const fooSource = selectors.getSource(getState(), "foo1");
 
-    expect(fooSource.get("text").indexOf("return foo1")).not.toBe(-1);
+    expect(fooSource.text.indexOf("return foo1")).not.toBe(-1);
 
     await dispatch(actions.loadSourceText(I.Map({ id: "foo2" })));
     const foo2Source = selectors.getSource(getState(), "foo2");
 
-    expect(foo2Source.get("text").indexOf("return foo2")).not.toBe(-1);
+    expect(foo2Source.text.indexOf("return foo2")).not.toBe(-1);
   });
 
   it("loads two sources w/ one request", async () => {
@@ -47,7 +47,7 @@ describe("loadSourceText", async () => {
     resolve({ source: "yay", contentType: "text/javascript" });
     await loading;
     expect(count).toEqual(1);
-    expect(selectors.getSource(getState(), id).get("text")).toEqual("yay");
+    expect(selectors.getSource(getState(), id).text).toEqual("yay");
   });
 
   it("doesn't re-load loaded sources", async () => {
@@ -72,7 +72,7 @@ describe("loadSourceText", async () => {
     source = selectors.getSource(getState(), id);
     await dispatch(actions.loadSourceText(source));
     expect(count).toEqual(1);
-    expect(selectors.getSource(getState(), id).get("text")).toEqual("yay");
+    expect(selectors.getSource(getState(), id).text).toEqual("yay");
   });
 
   it("should cache subsequent source text loads", async () => {

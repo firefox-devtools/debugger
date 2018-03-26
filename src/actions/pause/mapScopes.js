@@ -52,8 +52,8 @@ export function mapScopes(scopes: Promise<Scope>, frame: Frame) {
 
     const shouldMapScopes =
       features.mapScopes &&
-      !generatedSourceRecord.get("isWasm") &&
-      !sourceRecord.get("isPrettyPrinted") &&
+      !generatedSourceRecord.isWasm &&
+      !sourceRecord.isPrettyPrinted &&
       !isGeneratedId(frame.location.sourceId);
 
     await dispatch({
