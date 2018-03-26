@@ -219,7 +219,7 @@ class SourcesTree extends Component<Props, State> {
       }
 
       const sourceType = sourceTypes[getExtension(source)];
-      return <img className={sourceType || "file"} />;
+      return <Svg className="source-icon" name={sourceType || "file"} />;
     }
 
     return <img className="folder" />;

@@ -10,7 +10,6 @@
   fill: var(--theme-splitter-color);
 }
 
-.file,
 .folder,
 .domain {
   background-color: var(--theme-comment);
