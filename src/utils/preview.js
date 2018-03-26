@@ -39,6 +39,6 @@ export function isReactComponent(result: Grip) {
   );
 }
 
-export function isConsole(expression: String) {
+export function isConsole(expression: string) {
   return /^console/.test(expression);
 }
