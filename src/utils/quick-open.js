@@ -111,7 +111,7 @@ export function formatSources(sources: SourcesMap): Array<QuickOpenResult> {
     .valueSeq()
     .filter(source => !isPretty(source))
     .map(source => {
-      const sourcePath = getSourcePath(source.get("url"));
+      const sourcePath = getSourcePath(source.url);
       return {
         value: sourcePath,
         title: sourcePath
@@ -121,8 +121,8 @@ export function formatSources(sources: SourcesMap): Array<QuickOpenResult> {
         subtitle: endTruncateStr(sourcePath, 100)
           .replace(sourcePath.split("/").pop(), "")
           .slice(1, -1),
-        id: source.get("id"),
-        url: source.get("url")
+        id: source.id,
+        url: source.url
       };
     })
     .filter(({ value }) => value != "")

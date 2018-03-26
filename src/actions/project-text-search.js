@@ -51,12 +51,11 @@ export function searchSources(query: string) {
       .valueSeq()
       .filter(
         source =>
-          !hasPrettySource(getState(), source.get("id")) &&
-          !isThirdParty(source)
+          !hasPrettySource(getState(), source.id) && !isThirdParty(source)
       );
     for (const source of validSources) {
       await dispatch(loadSourceText(source));
-      await dispatch(searchSource(source.get("id"), query));
+      await dispatch(searchSource(source.id, query));
     }
     dispatch(updateSearchStatus(statusType.done));
   };
