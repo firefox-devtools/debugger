@@ -11,6 +11,7 @@ import type { SourcesMap } from "../reducers/sources";
 import type { Symbols } from "../reducers/ast";
 import type { QuickOpenType } from "../reducers/quick-open";
 import type { SymbolDeclaration } from "../workers/parser";
+import type { Source } from "../types";
 
 export const MODIFIERS = {
   "@": "functions",
@@ -47,6 +48,56 @@ export function parseLineColumn(query: string) {
       ...(!isNaN(columnNumber) ? { column: columnNumber } : null)
     };
   }
+}
+
+export function formatSourcesForProjectDirectoryRoot(
+  source: Source,
+  projectDirectoryRoot: string
+) {
+  const sourcePath = getSourcePath(source.get("url"));
+  let title = "";
+  let subtitle = "";
+
+  if (sourcePath) {
+    const sourcePathSplit = sourcePath.split("/");
+
+    // Remove leading "/"
+    if (sourcePathSplit[0] === "") {
+      sourcePathSplit.shift();
+    }
+
+    // Make the title the file name
+    title = sourcePathSplit.pop().split("?")[0];
+
+    // Rebuild the sourcePath
+    let newSourcePath = sourcePathSplit.join("/");
+
+    if (projectDirectoryRoot != "") {
+      // Remove the domain from the source path
+      const projectDirectoryRootSplit = projectDirectoryRoot.split("/");
+      // Remove the first item, which is "/"
+      projectDirectoryRootSplit.shift();
+      // Remove the domain
+      projectDirectoryRootSplit.shift();
+
+      // Remove the directory root, if it matches, from the source path
+      const projectDirectoryJoined = projectDirectoryRootSplit.join("/");
+      if (newSourcePath.includes(projectDirectoryJoined)) {
+        newSourcePath = newSourcePath.replace(projectDirectoryJoined, "");
+      }
+    }
+
+    // Make the subtitle the remaining info
+    subtitle = endTruncateStr(newSourcePath, 100);
+  }
+
+  return {
+    value: sourcePath,
+    title,
+    subtitle,
+    id: source.get("id"),
+    url: source.get("url")
+  };
 }
 
 export type QuickOpenResult = {|
@@ -106,25 +157,14 @@ export function formatShortcutResults(): Array<QuickOpenResult> {
   ];
 }
 
-export function formatSources(sources: SourcesMap): Array<QuickOpenResult> {
+export function formatSources(
+  sources: SourcesMap,
+  root: string
+): Array<QuickOpenResult> {
   return sources
     .valueSeq()
     .filter(source => !isPretty(source))
-    .map(source => {
-      const sourcePath = getSourcePath(source.url);
-      return {
-        value: sourcePath,
-        title: sourcePath
-          .split("/")
-          .pop()
-          .split("?")[0],
-        subtitle: endTruncateStr(sourcePath, 100)
-          .replace(sourcePath.split("/").pop(), "")
-          .slice(1, -1),
-        id: source.id,
-        url: source.url
-      };
-    })
+    .map(source => formatSourcesForProjectDirectoryRoot(source, root))
     .filter(({ value }) => value != "")
     .toJS();
 }

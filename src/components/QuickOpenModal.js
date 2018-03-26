@@ -7,6 +7,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import fuzzyAldrin from "fuzzaldrin-plus";
 import { basename } from "../utils/path";
+import { prefs } from "../utils/prefs";
+
 import actions from "../actions";
 import {
   getSources,
@@ -68,10 +70,18 @@ type GotoLocationType = {
 };
 
 function filter(values, query) {
-  return fuzzyAldrin.filter(values, query, {
+  let results = fuzzyAldrin.filter(values, query, {
     key: "value",
     maxResults: 1000
   });
+
+  if (prefs.projectDirectoryRoot) {
+    results = results.filter(result =>
+      result.url.includes(prefs.projectDirectoryRoot)
+    );
+  }
+
+  return results;
 }
 
 export class QuickOpenModal extends Component<Props, State> {
@@ -418,7 +428,7 @@ function mapStateToProps(state) {
 
   return {
     enabled: getQuickOpenEnabled(state),
-    sources: formatSources(getSources(state)),
+    sources: formatSources(getSources(state), prefs.projectDirectoryRoot),
     selectedSource,
     symbols: formatSymbols(getSymbols(state, selectedSource)),
     symbolsLoading: isSymbolsLoading(state, selectedSource),
