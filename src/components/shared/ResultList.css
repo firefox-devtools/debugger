@@ -28,6 +28,10 @@
   border-bottom: 1px solid var(--theme-splitter-color);
 }
 
+.result-list.small li {
+  justify-content: space-between;
+}
+
 .result-list li:hover {
   background: var(--theme-tab-toolbar-background);
 }
