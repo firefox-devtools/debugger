@@ -9,7 +9,7 @@ import { isOriginalId } from "devtools-source-map";
 
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { findFunctionText } from "../../utils/function";
-import { findClosestScope } from "../../utils/breakpoint/astBreakpointLocation";
+import { findClosestFunction } from "../../utils/ast";
 import {
   getSourceLocationFromMouseEvent,
   toSourceLine
@@ -248,10 +248,10 @@ export default connect(
         findFunctionText(
           line,
           selectedSource.toJS(),
-          getSymbols(state, selectedSource.toJS())
+          getSymbols(state, selectedSource)
         ),
       getFunctionLocation: line =>
-        findClosestScope(getSymbols(state, selectedSource.toJS()).functions, {
+        findClosestFunction(getSymbols(state, selectedSource).functions, {
           line,
           column: Infinity
         })
