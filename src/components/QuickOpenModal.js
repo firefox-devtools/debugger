@@ -401,7 +401,6 @@ export class QuickOpenModal extends Component<Props, State> {
             selectItem={this.selectResultItem}
             ref="resultList"
             expanded={expanded}
-            {...(this.isSourceSearch() ? { size: "big" } : {})}
           />
         )}
       </Modal>
