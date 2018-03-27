@@ -12,13 +12,15 @@ import { connect } from "react-redux";
 import {
   getVisibleSelectedFrame,
   getSelectedLocation,
-  getSelectedSource
+  getSelectedSource,
+  getPauseCommand
 } from "../../selectors";
 
 import type { Frame, Location, SourceRecord } from "../../types";
+import type { Command } from "../../reducers/types";
 
 type Props = {
-  pauseCommand: string,
+  pauseCommand: Command,
   selectedFrame: Frame,
   selectedLocation: Location,
   selectedSource: SourceRecord
@@ -44,14 +46,8 @@ function isDocumentReady(selectedSource, selectedLocation) {
 }
 
 export class HighlightLine extends PureComponent<Props> {
-  isStepping: boolean;
-  previousEditorLine: ?number;
-
-  constructor(props: Props) {
-    super(props);
-    this.isStepping = false;
-    this.previousEditorLine = null;
-  }
+  isStepping: boolean = false;
+  previousEditorLine: ?number = null;
 
   shouldComponentUpdate(nextProps: Props) {
     const { selectedLocation, selectedSource } = nextProps;
@@ -64,12 +60,15 @@ export class HighlightLine extends PureComponent<Props> {
   ) {
     const { sourceId, line } = selectedLocation;
     const editorLine = toEditorLine(sourceId, line);
-    if (this.isStepping && editorLine === this.previousEditorLine) {
-      return false;
-    }
+
     if (!isDocumentReady(selectedSource, selectedLocation)) {
       return false;
     }
+
+    if (this.isStepping && editorLine === this.previousEditorLine) {
+      return false;
+    }
+
     return true;
   }
 
@@ -129,7 +128,7 @@ export class HighlightLine extends PureComponent<Props> {
 }
 
 export default connect(state => ({
-  pauseCommand: state.pause.command,
+  pauseCommand: getPauseCommand(state),
   selectedFrame: getVisibleSelectedFrame(state),
   selectedLocation: getSelectedLocation(state),
   selectedSource: getSelectedSource(state)
