@@ -36,13 +36,16 @@ export function mapDisplayNames(frames: Frame[], getState: () => State) {
     if (!symbols || !symbols.functions) {
       return frame;
     }
+
     const originalFunction = findClosestFunction(
       symbols.functions,
       frame.location
     );
+
     if (!originalFunction) {
       return frame;
     }
+
     const originalDisplayName = originalFunction.name;
     return { ...frame, originalDisplayName };
   });
