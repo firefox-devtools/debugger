@@ -90,6 +90,20 @@ function isInvalidTarget(target: HTMLElement) {
   return invalidTarget || invalidToken || invaildType;
 }
 
+export function getExtra(
+  expression: string,
+  result: Object,
+  selectedFrame: any
+) {
+  return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
+    const extra = await getExtraProps(expression, result, expr =>
+      client.evaluateInFrame(selectedFrame.id, expr)
+    );
+
+    return extra;
+  };
+}
+
 export function updatePreview(target: HTMLElement, editor: any) {
   return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     const tokenPos = getTokenLocation(editor.codeMirror, target);
@@ -185,8 +199,8 @@ export function setPreview(
           return;
         }
 
-        const extra = await getExtraProps(expression, result, expr =>
-          client.evaluateInFrame(selectedFrame.id, expr)
+        const extra = await dispatch(
+          getExtra(expression, result, selectedFrame)
         );
 
         return {
