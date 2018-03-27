@@ -128,7 +128,10 @@ export class QuickOpenModal extends Component<Props, State> {
     let results = functions;
     if (this.isVariableQuery()) {
       results = variables;
+    } else {
+      results = results.filter(result => result.title !== "anonymous");
     }
+
     if (query === "@" || query === "#") {
       return this.setState({ results });
     }
