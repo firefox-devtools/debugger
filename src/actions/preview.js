@@ -24,7 +24,7 @@ import { getMappedExpression } from "./expressions";
 import { isEqual } from "lodash";
 
 import type { ThunkArgs } from "./types";
-import type { Range, Position } from "../types";
+import type { Frame, Range, Position } from "../types";
 
 async function getReactProps(evaluate) {
   const reactDisplayName = await evaluate(
@@ -88,6 +88,20 @@ function isInvalidTarget(target: HTMLElement) {
     cursorPos.top == 0;
 
   return invalidTarget || invalidToken || invaildType;
+}
+
+export function getExtra(
+  expression: string,
+  result: Object,
+  selectedFrame: Frame
+) {
+  return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
+    const extra = await getExtraProps(expression, result, expr =>
+      client.evaluateInFrame(selectedFrame.id, expr)
+    );
+
+    return extra;
+  };
 }
 
 export function updatePreview(target: HTMLElement, editor: any) {
@@ -185,8 +199,8 @@ export function setPreview(
           return;
         }
 
-        const extra = await getExtraProps(expression, result, expr =>
-          client.evaluateInFrame(selectedFrame.id, expr)
+        const extra = await dispatch(
+          getExtra(expression, result, selectedFrame)
         );
 
         return {
