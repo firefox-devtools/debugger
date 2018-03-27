@@ -21,7 +21,8 @@ function _parse(code, opts) {
 
 const sourceOptions = {
   generated: {
-    tokens: true
+    tokens: true,
+    plugins: ["objectRestSpread"]
   },
   original: {
     sourceType: "unambiguous",
@@ -30,6 +31,7 @@ const sourceOptions = {
       "jsx",
       "flow",
       "doExpressions",
+      "decorators",
       "objectRestSpread",
       "classProperties",
       "exportDefaultFrom",
@@ -37,7 +39,8 @@ const sourceOptions = {
       "asyncGenerators",
       "functionBind",
       "functionSent",
-      "dynamicImport"
+      "dynamicImport",
+      "react-jsx"
     ]
   }
 };
@@ -51,6 +54,7 @@ function parse(text: ?string, opts?: Object) {
   try {
     ast = _parse(text, opts);
   } catch (error) {
+    console.error(error);
     ast = {};
   }
 

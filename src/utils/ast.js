@@ -40,7 +40,7 @@ export function findEmptyLines(
   selectedSource: Source,
   pausePoints: PausePoint[]
 ) {
-  if (!pausePoints || !selectedSource) {
+  if (!pausePoints || pausePoints.length == 0 || !selectedSource) {
     return [];
   }
 

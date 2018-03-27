@@ -19,7 +19,9 @@ import {
   getFramework,
   getPausePoints
 } from "../workers/parser";
+
 import { PROMISE } from "./utils/middleware/promise";
+import { isGeneratedId } from "devtools-source-map";
 
 import type { SourceId } from "../types";
 import type { ThunkArgs } from "./types";
@@ -100,7 +102,10 @@ export function setPausePoints(sourceId: SourceId) {
     }
 
     const pausePoints = await getPausePoints(source.id);
-    await client.setPausePoints(source.id, pausePoints);
+
+    if (isGeneratedId(source.id)) {
+      await client.setPausePoints(source.id, pausePoints);
+    }
 
     dispatch({
       type: "SET_PAUSE_POINTS",
