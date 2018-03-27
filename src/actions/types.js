@@ -16,7 +16,7 @@ import type {
   Worker
 } from "../types";
 
-import type { State } from "../reducers/types";
+import type { State, Command } from "../reducers/types";
 
 import type {
   ActiveSearchType,
@@ -264,7 +264,7 @@ type PauseAction =
       shouldPauseOnExceptions: boolean,
       shouldIgnoreCaughtExceptions: boolean
     }
-  | { type: "COMMAND", value: { type: string }, command: string }
+  | { type: "COMMAND", status: AsyncStatus, command: Command }
   | { type: "SELECT_FRAME", frame: Frame }
   | {
       type: "SET_POPUP_OBJECT_PROPERTIES",

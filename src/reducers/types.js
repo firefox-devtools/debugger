@@ -35,3 +35,4 @@ export type { SourcesMap } from "./sources";
 export type { ActiveSearchType, OrientationType } from "./ui";
 export type { BreakpointsMap } from "./breakpoints";
 export type { WorkersList } from "./debuggee";
+export type { Command } from "./pause";

@@ -19,6 +19,18 @@ import type { OriginalScope } from "../actions/pause/mapScopes";
 import type { Action } from "../actions/types";
 import type { Why, Scope, SourceId, FrameId, Location } from "../types";
 
+export type Command =
+  | null
+  | "stepOver"
+  | "stepIn"
+  | "stepOut"
+  | "resume"
+  | "rewind"
+  | "reverseStepOver"
+  | "reverseStepIn"
+  | "reverseStepOut"
+  | "expression";
+
 export type PauseState = {
   why: ?Why,
   isWaitingOnBreak: boolean,
@@ -48,7 +60,7 @@ export type PauseState = {
   shouldIgnoreCaughtExceptions: boolean,
   canRewind: boolean,
   debuggeeUrl: string,
-  command: string,
+  command: Command,
   previousLocation: ?{
     location: Location,
     generatedLocation: Location
@@ -70,7 +82,7 @@ export const createPauseState = (): PauseState => ({
   shouldIgnoreCaughtExceptions: prefs.ignoreCaughtExceptions,
   canRewind: false,
   debuggeeUrl: "",
-  command: "",
+  command: null,
   previousLocation: null
 });
 
@@ -217,7 +229,7 @@ function update(
             command: action.command,
             previousLocation: buildPreviousLocation(state, action)
           }
-        : { ...state, command: "" };
+        : { ...state, command: null };
     }
 
     case "RESUME":
@@ -228,7 +240,7 @@ function update(
     case "EVALUATE_EXPRESSION":
       return {
         ...state,
-        command: action.status === "start" ? "expression" : ""
+        command: action.status === "start" ? "expression" : null
       };
 
     case "NAVIGATE":
@@ -278,8 +290,12 @@ export function getPauseReason(state: OuterState): ?Why {
   return state.pause.why;
 }
 
+export function getPauseCommand(state: OuterState): Command {
+  return state.pause && state.pause.command;
+}
+
 export function isStepping(state: OuterState) {
-  return ["stepIn", "stepOver", "stepOut"].includes(state.pause.command);
+  return ["stepIn", "stepOver", "stepOut"].includes(getPauseCommand(state));
 }
 
 export function isPaused(state: OuterState) {
