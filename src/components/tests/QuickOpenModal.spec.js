@@ -66,6 +66,27 @@ describe("QuickOpenModal", () => {
     expect(wrapper).toMatchSnapshot();
   });
 
+  test("Ensure anonymous functions do not render in QuickOpenModal", () => {
+    const { wrapper } = generateModal(
+      {
+        enabled: true,
+        query: "@",
+        searchType: "functions",
+        symbols: {
+          functions: [
+            { title: "anonymous" },
+            { title: "c" },
+            { title: "anonymous" }
+          ],
+          variables: []
+        }
+      },
+      "mount"
+    );
+    expect(wrapper.find("ResultList")).toHaveLength(1);
+    expect(wrapper.find("li")).toHaveLength(1);
+  });
+
   test("Basic render with mount & searchType = variables", () => {
     const { wrapper } = generateModal(
       {
