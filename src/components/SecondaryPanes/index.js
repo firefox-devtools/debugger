@@ -256,12 +256,13 @@ class SecondaryPanes extends Component<Props> {
 
     if (this.props.hasFrames) {
       items.push(this.getCallStackItem());
-      if (this.props.horizontal) {
-        items.push(this.getScopeItem());
 
-        if (extra.react) {
+      if (this.props.horizontal) {
+        if (extra && extra.react) {
           items.push(this.getComponentItem());
         }
+
+        items.push(this.getScopeItem());
       }
     }
 
@@ -281,7 +282,7 @@ class SecondaryPanes extends Component<Props> {
   }
 
   getEndItems() {
-    const { workers } = this.props;
+    const { extra, workers } = this.props;
 
     let items: Array<AccordionPaneItem> = [];
 
@@ -294,6 +295,10 @@ class SecondaryPanes extends Component<Props> {
     }
 
     items.push(this.getWatchItem());
+
+    if (extra && extra.react) {
+      items.push(this.getComponentItem());
+    }
 
     if (this.props.hasFrames) {
       items = [...items, this.getScopeItem()];
