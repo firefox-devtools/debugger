@@ -57,8 +57,8 @@ function setupCommands(dependencies: Dependencies): { bpClients: BPClients } {
   return { bpClients };
 }
 
-function sendPacket(packet: Object, callback?: Function) {
-  debuggerClient.request(packet).then(callback);
+function sendPacket(packet: Object, callback?: Function = r => r) {
+  return debuggerClient.request(packet).then(callback);
 }
 
 function resume(): Promise<*> {

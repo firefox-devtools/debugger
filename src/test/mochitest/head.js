@@ -196,26 +196,26 @@ function waitForState(dbg, predicate, msg) {
  * @return {Promise}
  * @static
  */
-function waitForSources(dbg, ...sources) {
+async function waitForSources(dbg, ...sources) {
+  const { selectors: { getSources }, store } = dbg;
   if (sources.length === 0) {
     return Promise.resolve();
   }
 
   info(`Waiting on sources: ${sources.join(", ")}`);
-  const { selectors: { getSources }, store } = dbg;
-  return Promise.all(
+  await Promise.all(
     sources.map(url => {
-      function sourceExists(state) {
-        return getSources(state).some(s => {
-          return (s.get("url") || "").includes(url);
-        });
-      }
-
-      if (!sourceExists(store.getState())) {
-        return waitForState(dbg, sourceExists, `source ${url}`);
+      if (!sourceExists(dbg, url)) {
+        return waitForState(
+          dbg,
+          () => sourceExists(dbg, url),
+          `source ${url} exists`
+        );
       }
     })
   );
+
+  info(`Finished waiting on sources: ${sources.join(", ")}`);
 }
 
 /**
@@ -266,7 +266,8 @@ function waitForSelectedSource(dbg, url) {
       // wait for async work to be done
       const hasSymbols = dbg.selectors.hasSymbols(state, source);
       const hasSourceMetaData = dbg.selectors.hasSourceMetaData(state, source.id);
-      return hasSymbols && hasSourceMetaData;
+      const hasPausePoints = dbg.selectors.hasPausePoints(state, source.id);
+      return hasSymbols && hasSourceMetaData && hasPausePoints;
     },
     "selected source"
   );
@@ -281,6 +282,12 @@ function assertNotPaused(dbg) {
   ok(!isPaused(dbg), "client is not paused");
 }
 
+function getVisibleSelectedFrameLine(dbg) {
+  const { selectors: { getVisibleSelectedFrame }, getState } = dbg;
+  const frame = getVisibleSelectedFrame(getState());
+  return frame && frame.location.line;
+}
+
 /**
  * Assert that the debugger is paused at the correct location.
  *
@@ -291,10 +298,7 @@ function assertNotPaused(dbg) {
  * @static
  */
 function assertPausedLocation(dbg) {
-  const {
-    selectors: { getSelectedSource, getVisibleSelectedFrame },
-    getState
-  } = dbg;
+  const { selectors: { getSelectedSource }, getState } = dbg;
 
   ok(
     isSelectedFrameSelected(dbg, getState()),
@@ -302,8 +306,7 @@ function assertPausedLocation(dbg) {
   );
 
   // Check the pause location
-  const frame = getVisibleSelectedFrame(getState());
-  const pauseLine = frame && frame.location.line;
+  const pauseLine = getVisibleSelectedFrameLine(dbg);
   assertDebugLine(dbg, pauseLine);
 
   ok(isVisibleInEditor(dbg, getCM(dbg).display.gutters), "gutter is visible");
@@ -313,12 +316,18 @@ function assertDebugLine(dbg, line) {
   // Check the debug line
   const lineInfo = getCM(dbg).lineInfo(line - 1);
   const source = dbg.selectors.getSelectedSource(dbg.getState());
-  if (source && source.get("loadedState") == "loading") {
+  if (source && source.loadedState == "loading") {
     const url = source.url;
     ok(
       false,
       `Looks like the source ${url} is still loading. Try adding waitForLoadedSource in the test.`
     );
+    return;
+  }
+
+  if (!lineInfo.wrapClass) {
+    const pauseLine = getVisibleSelectedFrameLine(dbg);
+    ok(false, `Expected pause line on line ${line}, it is on ${pauseLine}`);
     return;
   }
 
@@ -564,6 +573,10 @@ function findSource(dbg, url, { silent } = { silent: false }) {
   return source.toJS();
 }
 
+function sourceExists(dbg, url) {
+  return !!findSource(dbg, url, { silent: true });
+}
+
 function waitForLoadedSource(dbg, url) {
   return waitForState(
     dbg,
@@ -674,10 +687,11 @@ function deleteExpression(dbg, input) {
  * @return {Promise}
  * @static
  */
-function reload(dbg, ...sources) {
-  return dbg.client
-    .reload()
-    .then(() => waitForSources(dbg, ...sources), "reloaded");
+async function reload(dbg, ...sources) {
+  const navigated = waitForDispatch(dbg, "NAVIGATE")
+  await dbg.client.reload()
+  await navigated;
+  return waitForSources(dbg, ...sources);
 }
 
 /**
@@ -690,8 +704,8 @@ function reload(dbg, ...sources) {
  * @return {Promise}
  * @static
  */
-function navigate(dbg, url, ...sources) {
-  dbg.client.navigate(url);
+async function navigate(dbg, url, ...sources) {
+  await dbg.client.navigate(url);
   return waitForSources(dbg, ...sources);
 }
 

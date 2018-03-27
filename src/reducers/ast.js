@@ -192,12 +192,13 @@ export function getEmptyLines(state: OuterState, source: Source) {
   return state.ast.getIn(["emptyLines", source.id]);
 }
 
-export function getPausePoints(state: OuterState, source: Source) {
-  if (!source) {
-    return null;
-  }
+export function getPausePoints(state: OuterState, sourceId: string) {
+  return state.ast.getIn(["pausePoints", sourceId]);
+}
 
-  return state.ast.getIn(["pausePoints", source.id]);
+export function hasPausePoints(state: OuterState, sourceId: string): boolean {
+  const pausePoints = getPausePoints(state, sourceId);
+  return !!pausePoints;
 }
 
 export function getOutOfScopeLocations(state: OuterState) {
