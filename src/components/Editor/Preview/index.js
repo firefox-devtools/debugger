@@ -31,7 +31,6 @@ type Props = {
   editorRef: ?HTMLDivElement,
   selectedSource: SourceRecord,
   selectedLocation: SelectedLocation,
-  selectedFrame: any,
   clearPreview: () => void,
   preview: PreviewType,
   selectedFrameVisible: boolean,
