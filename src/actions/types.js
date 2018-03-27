@@ -313,6 +313,7 @@ type PauseAction =
   | {
       type: "ADD_SCOPES",
       frame: Frame,
+      extra: any,
       status: AsyncStatus,
       value: Scope
     };

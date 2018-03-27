@@ -32,6 +32,7 @@ export type Command =
   | "expression";
 
 export type PauseState = {
+  extra: ?Object,
   why: ?Why,
   isWaitingOnBreak: boolean,
   frames: ?(any[]),
@@ -68,6 +69,7 @@ export type PauseState = {
 };
 
 export const createPauseState = (): PauseState => ({
+  extra: {},
   why: null,
   isWaitingOnBreak: false,
   frames: undefined,
@@ -129,7 +131,7 @@ function update(
     }
 
     case "ADD_SCOPES": {
-      const { frame, status, value } = action;
+      const { frame, extra, status, value } = action;
       const selectedFrameId = frame.id;
 
       const generated = {
@@ -141,6 +143,7 @@ function update(
       };
       return {
         ...state,
+        extra: extra,
         frameScopes: {
           ...state.frameScopes,
           generated
@@ -328,6 +331,10 @@ export function getShouldIgnoreCaughtExceptions(state: OuterState) {
 
 export function getCanRewind(state: OuterState) {
   return state.pause.canRewind;
+}
+
+export function getExtra(state: OuterState) {
+  return state.pause.extra;
 }
 
 export function getFrames(state: OuterState) {
