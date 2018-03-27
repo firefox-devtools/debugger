@@ -54,6 +54,18 @@ describe("formatting display names", () => {
 
     expect(formatDisplayName(frame)).toEqual("...zbazbazbazbazbazbazbazbaz");
   });
+
+  it("returns the original function name when present", () => {
+    const frame = {
+      originalDisplayName: "originalFn",
+      displayName: "fn",
+      source: {
+        url: "entry.js"
+      }
+    };
+
+    expect(formatDisplayName(frame)).toEqual("originalFn");
+  });
 });
 
 describe("simplifying display names", () => {

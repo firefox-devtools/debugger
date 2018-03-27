@@ -11,6 +11,7 @@ import {
   isPaused
 } from "../selectors";
 
+import { mapFrames } from "./pause";
 import { setInScopeLines } from "./ast/setInScopeLines";
 import {
   getSymbols,
@@ -58,6 +59,10 @@ export function setSymbols(sourceId: SourceId) {
       source: source.toJS(),
       [PROMISE]: getSymbols(source.id)
     });
+
+    if (isPaused(getState())) {
+      await dispatch(mapFrames());
+    }
 
     await dispatch(setPausePoints(sourceId));
     await dispatch(setSourceMetaData(sourceId));
