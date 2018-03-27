@@ -150,7 +150,7 @@ async function mapBindingReferenceToDescriptor(
   ) {
     return {
       name: binding.name,
-      desc: binding.desc,
+      desc: await binding.desc(),
       expression: binding.name
     };
   }
@@ -180,7 +180,7 @@ async function mapImportDeclarationToDescriptor(
   }
 
   const desc = await readDescriptorProperty(
-    binding.desc,
+    await binding.desc(),
     mapped.importName,
     // If the value was optimized out or otherwise unavailable, we skip it
     // entirely because there is a good chance that this means that this
@@ -253,7 +253,7 @@ async function mapImportReferenceToDescriptor(
   }
 
   let expression = binding.name;
-  let desc = binding.desc;
+  let desc = await binding.desc();
 
   if (binding.loc.type === "ref") {
     const { meta } = binding.loc;
