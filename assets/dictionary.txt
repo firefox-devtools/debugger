@@ -166,3 +166,12 @@ typeErrors
 SourceRecord
 typeErrors
 getIcon
+cheap-eval-mode
+enums
+ImmutableJS
+Fennec
+v59
+tabIndex
+react-inlinesvg
+findClosestScope
+findClosestFunction

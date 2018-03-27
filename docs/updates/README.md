@@ -4,6 +4,8 @@ permalink: docs/updates
 
 ## Weekly Updates
 
+### [March 27th](./updates-3-27-2018.md)
+
 ### [March 20th](./updates-3-20-2018.md)
 
 ### [March 13th](./updates-3-13-2018.md)
