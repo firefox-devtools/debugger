@@ -22439,7 +22439,8 @@
       "../../babel-loader/lib/index.js?ignore=src/lib!../../devtools-reps/src/shared/redux/middleware/thunk.js": 3619,
       "../../babel-loader/lib/index.js?ignore=src/lib!../../devtools-reps/src/shared/redux/middleware/waitUntilService.js": 3620,
       "../../babel-loader/lib/index.js?ignore=src/lib!../../devtools-reps/src/object-inspector/reducer.js": 3621,
-      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/pausePoints.js": 3622
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/pausePoints.js": 3622,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/SecondaryPanes/FrameworkComponent.js": 3623
     },
     "usedIds": {
       "0": 0,
@@ -26064,7 +26065,8 @@
       "3619": 3619,
       "3620": 3620,
       "3621": 3621,
-      "3622": 3622
+      "3622": 3622,
+      "3623": 3623
     }
   },
   "chunks": {
