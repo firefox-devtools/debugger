@@ -3,7 +3,7 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-import { PureComponent } from "react";
+import { Component } from "react";
 import { toEditorLine } from "../../utils/editor";
 import { getDocument, hasDocument } from "../../utils/editor/source-documents";
 import { isLoaded } from "../../utils/source";
@@ -45,7 +45,7 @@ function isDocumentReady(selectedSource, selectedLocation) {
   );
 }
 
-export class HighlightLine extends PureComponent<Props> {
+export class HighlightLine extends Component<Props> {
   isStepping: boolean = false;
   previousEditorLine: ?number = null;
 
