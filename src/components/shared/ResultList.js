@@ -33,6 +33,10 @@ export default class ResultList extends Component<Props> {
   }
 
   renderListItem = (item: any, index: number) => {
+    if (item.value === "/" && item.title === "") {
+      item.title = "(index)";
+    }
+
     const { selectItem, selected } = this.props;
     const props = {
       onClick: event => selectItem(event, item, index),
