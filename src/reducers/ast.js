@@ -153,7 +153,7 @@ export function getSymbols(state: OuterState, source: Source): ?Symbols {
     return null;
   }
 
-  return state.ast.getIn(["symbols", source.id]) || null;
+  return state.ast.symbols.get(source.id) || null;
 }
 
 export function hasSymbols(state: OuterState, source: Source): boolean {
@@ -189,11 +189,11 @@ export function getEmptyLines(state: OuterState, source: Source) {
     return null;
   }
 
-  return state.ast.getIn(["emptyLines", source.id]);
+  return state.ast.emptyLines.get(source.id);
 }
 
 export function getPausePoints(state: OuterState, sourceId: string) {
-  return state.ast.getIn(["pausePoints", sourceId]);
+  return state.ast.pausePoints.get(sourceId);
 }
 
 export function hasPausePoints(state: OuterState, sourceId: string): boolean {
@@ -211,7 +211,7 @@ export function getPreview(state: OuterState) {
 
 const emptySourceMetaData = {};
 export function getSourceMetaData(state: OuterState, sourceId: string) {
-  return state.ast.getIn(["sourceMetaData", sourceId]) || emptySourceMetaData;
+  return state.ast.sourceMetaData.get(sourceId) || emptySourceMetaData;
 }
 
 export function hasSourceMetaData(state: OuterState, sourceId: string) {
