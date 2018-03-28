@@ -30,6 +30,8 @@ export default function mapOriginalExpression(
     [string]: string | null
   }
 ): string {
+  let didReplace = false;
+
   const ast = parseScript(expression);
   t.traverse(ast, (node, ancestors) => {
     const parent = ancestors[ancestors.length - 1];
@@ -41,14 +43,21 @@ export default function mapOriginalExpression(
     if (t.isIdentifier(node) && t.isReferenced(node, parentNode)) {
       if (mappings.hasOwnProperty(node.name)) {
         const mapping = mappings[node.name];
-        if (mapping) {
+        if (mapping && mapping !== node.name) {
           const mappingNode = getFirstExpression(parseScript(mapping));
-
           replaceNode(ancestors, mappingNode);
+
+          didReplace = true;
         }
       }
     }
   });
 
-  return generate(ast, { concise: true }).code;
+  if (!didReplace) {
+    // Avoid the extra code generation work and also avoid potentially
+    // reformatting the user's code unnecessarily.
+    return expression;
+  }
+
+  return generate(ast).code;
 }
