@@ -59,10 +59,6 @@ import EditorTabs from "./Editor/Tabs";
 
 import QuickOpenModal from "./QuickOpenModal";
 
-function tabToNextOrPreviousTab(e, offset) {
-
-}
-
 type Props = {
   selectedSource: SourceRecord,
   selectSpecificSource: Object => void,
@@ -130,31 +126,43 @@ class App extends Component<Props, State> {
     shortcuts.on("Escape", this.onEscape);
     shortcuts.on("Cmd+/", this.onCommandSlash);
 
-    shortcuts.on("Command+Left", (_, e) => {
-      e.preventDefault();
+    shortcuts.on("Command+Left", (_, e) =>
+      this.goToNextOrPreviousTab(e, false)
+    );
+    shortcuts.on("Command+Right", (_, e) =>
+      this.goToNextOrPreviousTab(e, true)
+    );
+  }
 
-      const { selectedSource, tabSources, selectSpecificSource } = this.props;
+  goToNextOrPreviousTab(e, offset) {
+    e.preventDefault();
 
-      window.tabSources = tabSources;
+    const { selectedSource, tabSources, selectSpecificSource } = this.props;
 
-      // There needs to be multiple sources for any action to be taken
-      if (!selectedSource || this.props.tabSources.size < 2) {
-        return;
-      }
+    // There needs to be multiple sources for any action to be taken
+    if (!selectedSource || this.props.tabSources.size < 2) {
+      return;
+    }
 
-      // Get the index of the source to be selected
-      const currentIndex = tabSources.indexOf(this.props.selectedSource);
-      if (currentIndex < 0) {
-        return;
-      }
+    // Get the index of the source to be selected
+    const currentIndex = tabSources.indexOf(this.props.selectedSource);
+    if (currentIndex < 0) {
+      return;
+    }
 
-      // Calculate the next index
-      const nextIndex =
-        currentIndex === 0 ? tabSources.size - 1 : currentIndex - 1;
+    // Calculate the next index
+    let nextIndex = 0;
 
-      // Focus on the next source tab
-      selectSpecificSource(tabSources.get(nextIndex).id);
-    });
+    // Next
+    if (offset) {
+      nextIndex = currentIndex === tabSources.size - 1 ? 0 : currentIndex + 1;
+    } else {
+      // Previous
+      nextIndex = currentIndex === 0 ? tabSources.size - 1 : currentIndex - 1;
+    }
+
+    // Focus on the next source tab
+    selectSpecificSource(tabSources.get(nextIndex).id);
   }
 
   componentWillUnmount() {
