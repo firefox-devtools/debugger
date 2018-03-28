@@ -1,4 +1,3 @@
-import { bindActionCreators } from "redux";
 import * as timings from "./timings";
 import { prefs, features } from "./prefs";
 import { isDevelopment } from "devtools-config";
@@ -52,11 +51,9 @@ function _formatPausePoints(dbg, url) {
 
 export function setupHelper(obj) {
   const selectors = bindSelectors(obj);
-  const actions = bindActionCreators(obj.actions, obj.store.dispatch);
   const dbg = {
     ...obj,
     selectors,
-    actions,
     prefs,
     features,
     timings,

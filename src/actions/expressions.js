@@ -114,7 +114,7 @@ function evaluateExpression(expression: Expression) {
     const frame = getSelectedFrame(getState());
 
     if (frame) {
-      const { location, generatedLocation } = frame;
+      const { location } = frame;
       const source = getSource(getState(), location.sourceId);
       const sourceId = source.get("id");
 
@@ -125,11 +125,7 @@ function evaluateExpression(expression: Expression) {
         !isGeneratedId(sourceId) &&
         !isGeneratedId(selectedSource.get("id"))
       ) {
-        input = await getMappedExpression(
-          { getState, sourceMaps },
-          generatedLocation,
-          input
-        );
+        input = await dispatch(getMappedExpression(input));
       }
     }
 
@@ -147,15 +143,16 @@ function evaluateExpression(expression: Expression) {
  * Gets information about original variable names from the source map
  * and replaces all posible generated names.
  */
-export async function getMappedExpression(
-  { getState, sourceMaps }: Object,
-  generatedLocation: Location,
-  expression: string
-): Promise<string> {
-  const mappings = getSelectedScopeMappings(getState());
-  if (!mappings) {
-    return expression;
-  }
+export function getMappedExpression(expression: string) {
+  return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
+    const mappings = getSelectedScopeMappings(getState());
+    if (!mappings) {
+      return expression;
+    }
 
-  return await parser.mapOriginalExpression(expression, mappings);
+    return await dispatch({
+      type: "MAP_EXPRESSION_RESULT",
+      [PROMISE]: parser.mapOriginalExpression(expression, mappings)
+    });
+  };
 }
