@@ -17,7 +17,8 @@ import {
   getPaneCollapse,
   getActiveSearch,
   getQuickOpenEnabled,
-  getOrientation
+  getOrientation,
+  getSourcesForTabs
 } from "../selectors";
 
 import type { OrientationType } from "../reducers/types";
@@ -58,8 +59,13 @@ import EditorTabs from "./Editor/Tabs";
 
 import QuickOpenModal from "./QuickOpenModal";
 
+function tabToNextOrPreviousTab(e, offset) {
+
+}
+
 type Props = {
   selectedSource: SourceRecord,
+  selectSpecificSource: Object => void,
   orientation: OrientationType,
   startPanelCollapsed: boolean,
   endPanelCollapsed: boolean,
@@ -70,7 +76,8 @@ type Props = {
   closeProjectSearch: () => void,
   openQuickOpen: (query?: string) => void,
   closeQuickOpen: () => void,
-  setOrientation: OrientationType => void
+  setOrientation: OrientationType => void,
+  tabSources: SourcesList
 };
 
 type State = {
@@ -122,6 +129,32 @@ class App extends Component<Props, State> {
 
     shortcuts.on("Escape", this.onEscape);
     shortcuts.on("Cmd+/", this.onCommandSlash);
+
+    shortcuts.on("Command+Left", (_, e) => {
+      e.preventDefault();
+
+      const { selectedSource, tabSources, selectSpecificSource } = this.props;
+
+      window.tabSources = tabSources;
+
+      // There needs to be multiple sources for any action to be taken
+      if (!selectedSource || this.props.tabSources.size < 2) {
+        return;
+      }
+
+      // Get the index of the source to be selected
+      const currentIndex = tabSources.indexOf(this.props.selectedSource);
+      if (currentIndex < 0) {
+        return;
+      }
+
+      // Calculate the next index
+      const nextIndex =
+        currentIndex === 0 ? tabSources.size - 1 : currentIndex - 1;
+
+      // Focus on the next source tab
+      selectSpecificSource(tabSources.get(nextIndex).id);
+    });
   }
 
   componentWillUnmount() {
@@ -326,7 +359,8 @@ function mapStateToProps(state) {
     endPanelCollapsed: getPaneCollapse(state, "end"),
     activeSearch: getActiveSearch(state),
     quickOpenEnabled: getQuickOpenEnabled(state),
-    orientation: getOrientation(state)
+    orientation: getOrientation(state),
+    tabSources: getSourcesForTabs(state)
   };
 }
 
