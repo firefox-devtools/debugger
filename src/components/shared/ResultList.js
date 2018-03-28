@@ -33,7 +33,7 @@ export default class ResultList extends Component<Props> {
   }
 
   renderListItem = (item: any, index: number) => {
-    if (item.value == "/" && item.title == "") {
+    if (item.value === "/" && item.title === "") {
       item.title = "(index)";
     }
 
