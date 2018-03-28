@@ -98,6 +98,9 @@ class App extends Component<Props, State> {
       startPanelSize: 0,
       endPanelSize: 0
     };
+
+    this.goToPreviousTab = (_, e) => this.goToNextOrPreviousTab(e, false);
+    this.goToNextTab = (_, e) => this.goToNextOrPreviousTab(e, true);
   }
 
   getChildContext = () => {
@@ -126,12 +129,30 @@ class App extends Component<Props, State> {
     shortcuts.on("Escape", this.onEscape);
     shortcuts.on("Cmd+/", this.onCommandSlash);
 
-    shortcuts.on("Command+Left", (_, e) =>
-      this.goToNextOrPreviousTab(e, false)
+    shortcuts.on("Command+Left", this.goToPreviousTab);
+    shortcuts.on("Command+Right", this.goToNextTab);
+  }
+
+  componentWillUnmount() {
+    horizontalLayoutBreakpoint.removeListener(this.onLayoutChange);
+    verticalLayoutBreakpoint.removeListener(this.onLayoutChange);
+    shortcuts.off(
+      L10N.getStr("symbolSearch.search.key2"),
+      this.toggleQuickOpenModal
     );
-    shortcuts.on("Command+Right", (_, e) =>
-      this.goToNextOrPreviousTab(e, true)
-    );
+
+    const searchKeys = [
+      L10N.getStr("sources.search.key2"),
+      L10N.getStr("sources.search.alt.key")
+    ];
+    searchKeys.forEach(key => shortcuts.off(key, this.toggleQuickOpenModal));
+
+    shortcuts.off(L10N.getStr("gotoLineModal.key2"), this.toggleQuickOpenModal);
+
+    shortcuts.off("Escape", this.onEscape);
+
+    shortcuts.off("Command+Left", this.goToPreviousTab);
+    shortcuts.off("Command+Right", this.goToNextTab);
   }
 
   goToNextOrPreviousTab(e, offset) {
@@ -163,25 +184,6 @@ class App extends Component<Props, State> {
 
     // Focus on the next source tab
     selectSpecificSource(tabSources.get(nextIndex).id);
-  }
-
-  componentWillUnmount() {
-    horizontalLayoutBreakpoint.removeListener(this.onLayoutChange);
-    verticalLayoutBreakpoint.removeListener(this.onLayoutChange);
-    shortcuts.off(
-      L10N.getStr("symbolSearch.search.key2"),
-      this.toggleQuickOpenModal
-    );
-
-    const searchKeys = [
-      L10N.getStr("sources.search.key2"),
-      L10N.getStr("sources.search.alt.key")
-    ];
-    searchKeys.forEach(key => shortcuts.off(key, this.toggleQuickOpenModal));
-
-    shortcuts.off(L10N.getStr("gotoLineModal.key2"), this.toggleQuickOpenModal);
-
-    shortcuts.off("Escape", this.onEscape);
   }
 
   onEscape = (_, e) => {
