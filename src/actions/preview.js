@@ -159,16 +159,7 @@ export function setPreview(
 
         const sourceId = source.get("id");
         if (location && !isGeneratedId(sourceId)) {
-          const generatedLocation = await sourceMaps.getGeneratedLocation(
-            { ...location.start, sourceId },
-            source.toJS()
-          );
-
-          expression = await getMappedExpression(
-            { sourceMaps, getState },
-            generatedLocation,
-            expression
-          );
+          expression = await dispatch(getMappedExpression(expression));
         }
 
         const selectedFrame = getSelectedFrame(getState());
