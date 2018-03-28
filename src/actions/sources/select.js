@@ -109,6 +109,17 @@ export function selectLocation(location: Location) {
       dispatch(closeActiveSearch());
     }
 
+    // If this source has a pretty-printed tab open, focus on that
+    if (
+      prefs.autoPrettyPrint &&
+      getPrettySource(getState(), source.get("id"))
+    ) {
+      await dispatch(togglePrettyPrint(source.get("id")));
+      dispatch(setSymbols(source.get("id")));
+      dispatch(setOutOfScopeLocations());
+      return;
+    }
+
     dispatch(addTab(source.toJS(), 0));
 
     dispatch({
@@ -219,7 +230,7 @@ export function jumpToMappedLocation(location: Location) {
       );
     }
 
-    return dispatch(selectLocation({ ...pairedLocation }));
+    return dispatch(selectSpecificLocation({ ...pairedLocation }));
   };
 }
 
