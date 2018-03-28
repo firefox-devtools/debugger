@@ -423,21 +423,17 @@ async function waitForLoadedScopes(dbg) {
  * @param {Object} dbg
  * @static
  */
-async function waitForPaused(dbg) {
+async function waitForPaused(dbg, url) {
   const { getSelectedScope } = dbg.selectors;
 
-  const onScopesLoaded = waitForLoadedScopes(dbg);
-  const onStateChanged = waitForState(
+  await waitForState(
     dbg,
-    state => {
-      const paused = isPaused(dbg);
-      const scope = !!getSelectedScope(state);
-      return paused && scope;
-    },
+    state => isPaused(dbg) && !!getSelectedScope(state),
     "paused"
   );
 
-  await Promise.all([onStateChanged, onScopesLoaded]);
+  await waitForLoadedScopes(dbg);
+  await waitForSelectedSource(dbg, url);
 }
 
 /*
@@ -628,6 +624,8 @@ function closeTab(dbg, url) {
  * @static
  */
 async function stepOver(dbg) {
+  const pauseLine = getVisibleSelectedFrameLine(dbg);
+  info(`Stepping over from ${pauseLine}`);
   await dbg.actions.stepOver();
   return waitForPaused(dbg);
 }
@@ -641,7 +639,8 @@ async function stepOver(dbg) {
  * @static
  */
 async function stepIn(dbg) {
-  info("Stepping in");
+  const pauseLine = getVisibleSelectedFrameLine(dbg);
+  info(`Stepping in from ${pauseLine}`);
   await dbg.actions.stepIn();
   return waitForPaused(dbg);
 }
@@ -655,7 +654,8 @@ async function stepIn(dbg) {
  * @static
  */
 async function stepOut(dbg) {
-  info("Stepping out");
+  const pauseLine = getVisibleSelectedFrameLine(dbg);
+  info(`Stepping out from ${pauseLine}`);
   await dbg.actions.stepOut();
   return waitForPaused(dbg);
 }
@@ -669,7 +669,8 @@ async function stepOut(dbg) {
  * @static
  */
 function resume(dbg) {
-  info("Resuming");
+  const pauseLine = getVisibleSelectedFrameLine(dbg);
+  info(`Resuming from ${pauseLine}`);
   return dbg.actions.resume();
 }
 
