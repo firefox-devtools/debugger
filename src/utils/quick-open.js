@@ -4,7 +4,7 @@
 
 // @flow
 import { endTruncateStr } from "./utils";
-import { isPretty, getSourcePath } from "./source";
+import { isPretty, getFilename } from "./source";
 
 import type { Location as BabelLocation } from "@babel/types";
 import type { SourcesMap } from "../reducers/sources";
@@ -12,6 +12,7 @@ import type { Symbols } from "../reducers/ast";
 import type { QuickOpenType } from "../reducers/quick-open";
 import type { SymbolDeclaration } from "../workers/parser";
 import type { Source } from "../types";
+import type { RelativeSource } from "../selectors/getSourcesBelowRoot";
 
 export const MODIFIERS = {
   "@": "functions",
@@ -50,53 +51,16 @@ export function parseLineColumn(query: string) {
   }
 }
 
-export function formatSourcesForProjectDirectoryRoot(
-  source: Source,
-  projectDirectoryRoot: string
-) {
-  const sourcePath = getSourcePath(source.get("url"));
-  let title = "";
-  let subtitle = "";
-
-  if (sourcePath) {
-    const sourcePathSplit = sourcePath.split("/");
-
-    // Remove leading "/"
-    if (sourcePathSplit[0] === "") {
-      sourcePathSplit.shift();
-    }
-
-    // Make the title the file name
-    title = sourcePathSplit.pop().split("?")[0];
-
-    // Rebuild the sourcePath
-    let newSourcePath = sourcePathSplit.join("/");
-
-    if (projectDirectoryRoot != "") {
-      // Remove the domain from the source path
-      const projectDirectoryRootSplit = projectDirectoryRoot.split("/");
-      // Remove the first item, which is "/"
-      projectDirectoryRootSplit.shift();
-      // Remove the domain
-      projectDirectoryRootSplit.shift();
-
-      // Remove the directory root, if it matches, from the source path
-      const projectDirectoryJoined = projectDirectoryRootSplit.join("/");
-      if (newSourcePath.includes(projectDirectoryJoined)) {
-        newSourcePath = newSourcePath.replace(projectDirectoryJoined, "");
-      }
-    }
-
-    // Make the subtitle the remaining info
-    subtitle = endTruncateStr(newSourcePath, 100);
-  }
+export function formatSourcesForList(source: RelativeSource) {
+  const title = getFilename(source);
+  const subtitle = endTruncateStr(source.relativeUrl, 100);
 
   return {
-    value: sourcePath,
+    value: source.relativeUrl,
     title,
     subtitle,
-    id: source.get("id"),
-    url: source.get("url")
+    id: source.id,
+    url: source.url
   };
 }
 
@@ -158,13 +122,10 @@ export function formatShortcutResults(): Array<QuickOpenResult> {
 }
 
 export function formatSources(
-  sources: SourcesMap,
-  root: string
+  sources: RelativeSource[]
 ): Array<QuickOpenResult> {
   return sources
-    .valueSeq()
     .filter(source => !isPretty(source))
-    .map(source => formatSourcesForProjectDirectoryRoot(source, root))
-    .filter(({ value }) => value != "")
-    .toJS();
+    .map(source => formatSourcesForList(source))
+    .filter(({ value }) => value != "");
 }

@@ -11,7 +11,7 @@ import { prefs } from "../utils/prefs";
 
 import actions from "../actions";
 import {
-  getSources,
+  getRelativeSources,
   getQuickOpenEnabled,
   getQuickOpenQuery,
   getQuickOpenType,
@@ -74,12 +74,6 @@ function filter(values, query) {
     key: "value",
     maxResults: 1000
   });
-
-  if (prefs.projectDirectoryRoot) {
-    results = results.filter(result =>
-      result.url.includes(prefs.projectDirectoryRoot)
-    );
-  }
 
   return results;
 }
@@ -428,7 +422,7 @@ function mapStateToProps(state) {
 
   return {
     enabled: getQuickOpenEnabled(state),
-    sources: formatSources(getSources(state), prefs.projectDirectoryRoot),
+    sources: formatSources(getRelativeSources(state)),
     selectedSource,
     symbols: formatSymbols(getSymbols(state, selectedSource)),
     symbolsLoading: isSymbolsLoading(state, selectedSource),

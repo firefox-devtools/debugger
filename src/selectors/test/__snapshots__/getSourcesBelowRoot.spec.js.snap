@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getSourcesBelowRoot selector simple 1`] = `
+Array [
+  Object {
+    "contentType": "",
+    "error": undefined,
+    "id": "js/scopes.js",
+    "isBlackBoxed": false,
+    "isPrettyPrinted": false,
+    "isWasm": false,
+    "loadedState": "unloaded",
+    "relativeUrl": "/scopes.js",
+    "sourceMapURL": undefined,
+    "text": undefined,
+    "url": "http://localhost:8000/examples/js/scopes.js",
+  },
+]
+`;

@@ -2,9 +2,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
+// @flow
+
 import { getBreakpoints } from "../reducers/breakpoints";
 import { getSelectedSource } from "../reducers/sources";
 import { isGeneratedId } from "devtools-source-map";
+
+import type { OuterState } from "../reducers/types";
 
 function getLocation(breakpoint, isGeneratedSource) {
   return isGeneratedSource
@@ -33,6 +37,7 @@ function isVisible(breakpoint, selectedSource) {
   const location = getLocation(breakpoint, isGeneratedSource);
   return location.sourceId === sourceId;
 }
+
 /*
  * Finds the breakpoints, which appear in the selected source.
  *
