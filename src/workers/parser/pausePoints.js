@@ -7,6 +7,7 @@
 import { traverseAst } from "./utils/ast";
 import * as t from "@babel/types";
 import isEqual from "lodash/isEqual";
+import uniqBy from "lodash/uniqBy";
 
 import type { AstLocation } from "./types";
 import type { BabelNode } from "@babel/types";
@@ -44,10 +45,18 @@ const inExpression = (parent, grandParent) =>
 const isExport = node =>
   t.isExportNamedDeclaration(node) || t.isExportDefaultDeclaration(node);
 
+function removeDuplicatePoints(state) {
+  return uniqBy(
+    state,
+    ({ location }) => `${location.line}-$${location.column}`
+  );
+}
+
 export function getPausePoints(sourceId: string) {
   const state = [];
   traverseAst(sourceId, { enter: onEnter }, state);
-  return state;
+  const uniqPoints = removeDuplicatePoints(state);
+  return uniqPoints;
 }
 
 function onEnter(node: BabelNode, ancestors: SimplePath[], state) {
@@ -139,10 +148,6 @@ function addPoint(
   location,
   types = { breakpoint: true, stepOver: true }
 ) {
-  if (state.find(point => isEqual(point.location, location))) {
-    return;
-  }
-
   state.push(formatNode(location, types));
 }
 
