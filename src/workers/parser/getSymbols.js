@@ -178,6 +178,19 @@ function extractSymbol(path: SimplePath, symbols) {
     });
   }
 
+  if (
+    (t.isStringLiteral(path) || t.isNumericLiteral(path)) &&
+    t.isMemberExpression(path.parentPath)
+  ) {
+    // We only need literals that are part of computed memeber expressions
+    const { start, end } = path.node.loc;
+    symbols.literals.push({
+      name: path.node.value,
+      location: { start, end },
+      expression: getSnippet(path.parentPath)
+    });
+  }
+
   if (t.isCallExpression(path)) {
     const callee = path.node.callee;
     const args = path.node.arguments;
@@ -250,6 +263,7 @@ function extractSymbols(sourceId) {
     identifiers: [],
     classes: [],
     imports: [],
+    literals: [],
     hasJsx: false,
     hasTypes: false
   };
