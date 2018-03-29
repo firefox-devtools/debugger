@@ -77,7 +77,7 @@ function isInvalidTarget(target: HTMLElement) {
 
   // exclude syntax where the expression would be a syntax error
   const invalidToken =
-    tokenText === "" || tokenText.match(/^[(){}\|&%,.;=<>\+\-/\*\s](?=)/);
+    tokenText === "" || tokenText.match(/^[(){}\|&%,.;=<>\+-/\*\s](?=)/);
 
   // exclude codemirror elements that are not tokens
   const invalidTarget =
