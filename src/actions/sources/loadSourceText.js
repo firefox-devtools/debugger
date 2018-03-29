@@ -41,20 +41,21 @@ async function loadSource(source: SourceRecord, { sourceMaps, client }) {
  */
 export function loadSourceText(source: SourceRecord) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
-    const telemetryStart = performance.now();
-    const deferred = defer();
+    const id = source.get("id");
 
     // Fetch the source text only once.
-    if (isLoaded(source)) {
-      return Promise.resolve(source);
-    }
-
-    const id = source.get("id");
-    if (isLoading(source) || requests.has(id)) {
+    if (requests.has(id)) {
       return requests.get(id);
     }
 
+    if (isLoaded(source)) {
+      return Promise.resolve();
+    }
+
+    const telemetryStart = performance.now();
+    const deferred = defer();
     requests.set(id, deferred.promise);
+
     try {
       await dispatch({
         type: "LOAD_SOURCE_TEXT",

@@ -9,6 +9,9 @@
  * @module actions/sources
  */
 
+import { isGeneratedId } from "devtools-source-map";
+import { flatten } from "lodash";
+
 import { syncBreakpoint } from "../breakpoints";
 import { loadSourceText } from "./loadSourceText";
 import { togglePrettyPrint } from "./prettyPrint";
@@ -39,36 +42,49 @@ function createOriginalSource(
   };
 }
 
+function loadSourceMaps(sources) {
+  return async function({ dispatch, getState, sourceMaps }: ThunkArgs) {
+    const originalSources = await Promise.all(
+      sources.map(source => dispatch(loadSourceMap(source.id)))
+    );
+
+    await dispatch(newSources(flatten(originalSources)));
+  };
+}
+
 /**
  * @memberof actions/sources
  * @static
  */
-export function loadSourceMap(generatedSource: Source) {
+export function loadSourceMap(sourceId: string) {
   return async function({ dispatch, getState, sourceMaps }: ThunkArgs) {
+    const source = getSource(getState(), sourceId).toJS();
+    if (!isGeneratedId(source.id) || !source.sourceMapURL) {
+      return;
+    }
+
     let urls;
+
     try {
-      urls = await sourceMaps.getOriginalURLs(generatedSource);
+      urls = await sourceMaps.getOriginalURLs(source);
     } catch (e) {
       console.error(e);
       urls = null;
     }
+
     if (!urls) {
       // If this source doesn't have a sourcemap, enable it for pretty printing
       dispatch({
         type: "UPDATE_SOURCE",
-        source: { ...generatedSource, sourceMapURL: "" }
+        source: { ...source, sourceMapURL: "" }
       });
       return;
     }
 
     const originalSources = urls.map(url =>
-      createOriginalSource(url, generatedSource, sourceMaps)
+      createOriginalSource(url, source, sourceMaps)
     );
 
-    // TODO: check if this line is really needed, it introduces
-    // a lot of lag to the application.
-    const generatedSourceRecord = getSource(getState(), generatedSource.id);
-    await dispatch(loadSourceText(generatedSourceRecord));
     dispatch(newSources(originalSources));
   };
 }
@@ -138,7 +154,7 @@ export function newSource(source: Source) {
 export function newSources(sources: Source[]) {
   return async ({ dispatch, getState }: ThunkArgs) => {
     const filteredSources = sources.filter(
-      source => !getSource(getState(), source.id)
+      source => source && !getSource(getState(), source.id)
     );
 
     if (filteredSources.length == 0) {
@@ -155,8 +171,6 @@ export function newSources(sources: Source[]) {
       dispatch(checkPendingBreakpoints(source.id));
     }
 
-    return Promise.all(
-      filteredSources.map(source => dispatch(loadSourceMap(source)))
-    );
+    await dispatch(loadSourceMaps(filteredSources));
   };
 }
