@@ -12,6 +12,7 @@ import {
 } from "../../utils/breakpoint";
 
 import { getGeneratedLocation } from "../../utils/source-maps";
+import { getTextAtPosition } from "../../utils/source";
 import { originalToGeneratedId } from "devtools-source-map";
 import { getSource } from "../../selectors";
 import type {
@@ -50,9 +51,17 @@ function createSyncData(
   pendingBreakpoint: PendingBreakpoint,
   location: Location,
   generatedLocation: Location,
-  previousLocation: Location
+  previousLocation: Location,
+  text: string,
+  originalText: string
 ): BreakpointSyncData {
-  const overrides = { ...pendingBreakpoint, generatedLocation, id };
+  const overrides = {
+    ...pendingBreakpoint,
+    generatedLocation,
+    id,
+    text,
+    originalText
+  };
   const breakpoint = createBreakpoint(location, overrides);
 
   assertBreakpoint(breakpoint);
@@ -105,6 +114,17 @@ export async function syncClientBreakpoint(
 
   const existingClient = client.getBreakpointByLocation(generatedLocation);
 
+  // generatedSource.text, in the case of pretty print or original tab
+  // returns the minified contents, which is why it's used
+  // when creating the "originalText"
+  const generatedSource = getSource(getState(), generatedSourceId);
+  const text = getTextAtPosition(source.text, location.line, location.column);
+  const originalText = getTextAtPosition(
+    generatedSource && generatedSource.text,
+    generatedLocation.line,
+    generatedLocation.column
+  );
+
   /** ******* CASE 1: No server change ***********/
   // early return if breakpoint is disabled or we are in the sameLocation
   // send update only to redux
@@ -115,7 +135,9 @@ export async function syncClientBreakpoint(
       pendingBreakpoint,
       scopedLocation,
       scopedGeneratedLocation,
-      previousLocation
+      previousLocation,
+      text,
+      originalText
     );
   }
 
@@ -150,6 +172,8 @@ export async function syncClientBreakpoint(
     pendingBreakpoint,
     newLocation,
     newGeneratedLocation,
-    previousLocation
+    previousLocation,
+    text,
+    originalText
   );
 }

@@ -313,3 +313,19 @@ export function isLoaded(source: SourceRecord) {
 export function isLoading(source: SourceRecord) {
   return source.get("loadedState") === "loading";
 }
+
+export function getTextAtPosition(
+  text: string,
+  line: ?number,
+  column: ?number
+) {
+  if (!text) {
+    return "";
+  }
+  line = line || 0;
+  column = column || 0;
+
+  const lineText = text.split("\n")[line - 1];
+
+  return lineText ? lineText.slice(column, column + 100).trim() : "";
+}
