@@ -23,6 +23,14 @@ describe("mapOriginalExpression", () => {
       a: "_mod.foo",
       b: "_mod.bar"
     });
-    expect(generatedExpression).toEqual("{ _mod.foo; }");
+    expect(generatedExpression).toEqual("{\n  _mod.foo;\n}");
+  });
+
+  it("skips codegen with no mappings", () => {
+    const generatedExpression = mapOriginalExpression("a + b", {
+      a: "a",
+      c: "_c"
+    });
+    expect(generatedExpression).toEqual("a + b");
   });
 });
