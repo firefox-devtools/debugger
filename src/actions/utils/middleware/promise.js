@@ -27,38 +27,34 @@ function promiseMiddleware({
     if (!(PROMISE in action)) {
       return next(action);
     }
-
     const promiseInst = action[PROMISE];
+
     const seqId = seqIdGen().toString();
 
     // Create a new action that doesn't have the promise field and has
     // the `seqId` field that represents the sequence id
     action = { ...filterAction(action), seqId };
-
     dispatch({ ...action, status: "start" });
 
     // Return the promise so action creators can still compose if they
     // want to.
-    return new Promise((resolve, reject) => {
-      promiseInst.then(
-        value => {
-          executeSoon(() => {
-            dispatch({ ...action, status: "done", value: value });
-            resolve(value);
+    return promiseInst
+      .then(value => {
+        executeSoon(() => {
+          dispatch({ ...action, status: "done", value: value });
+        });
+        Promise.resolve(value);
+      })
+      .catch(error => {
+        executeSoon(() => {
+          dispatch({
+            ...action,
+            status: "error",
+            error: error.message || error
           });
-        },
-        error => {
-          executeSoon(() => {
-            dispatch({
-              ...action,
-              status: "error",
-              error: error.message || error
-            });
-            reject(error);
-          });
-        }
-      );
-    });
+          Promise.reject(error);
+        });
+      });
   };
 }
 
