@@ -98,8 +98,8 @@ export function selectLocation(location: Location) {
       return;
     }
 
-    const source = getSource(getState(), location.sourceId);
-    if (!source) {
+    const sourceRecord = getSource(getState(), location.sourceId);
+    if (!sourceRecord) {
       // If there is no source we deselect the current selected source
       return dispatch({ type: "CLEAR_SELECTED_SOURCE" });
     }
@@ -109,21 +109,23 @@ export function selectLocation(location: Location) {
       dispatch(closeActiveSearch());
     }
 
-    dispatch(addTab(source.toJS(), 0));
+    const source = sourceRecord.toJS();
 
+    dispatch(addTab(source, 0));
     dispatch({
       type: "SELECT_SOURCE",
-      source: source.toJS(),
+      source,
       location
     });
 
-    await dispatch(loadSourceText(source));
+    await dispatch(loadSourceText(sourceRecord));
     const selectedSource = getSelectedSource(getState());
     if (!selectedSource) {
       return;
     }
 
-    const sourceId = selectedSource.get("id");
+    const sourceId = selectedSource.id;
+
     if (
       prefs.autoPrettyPrint &&
       !getPrettySource(getState(), sourceId) &&
@@ -151,8 +153,8 @@ export function selectSpecificLocation(location: Location) {
       return;
     }
 
-    const source = getSource(getState(), location.sourceId);
-    if (!source) {
+    const sourceRecord = getSource(getState(), location.sourceId);
+    if (!sourceRecord) {
       // If there is no source we deselect the current selected source
       return dispatch({ type: "CLEAR_SELECTED_SOURCE" });
     }
@@ -162,21 +164,22 @@ export function selectSpecificLocation(location: Location) {
       dispatch(closeActiveSearch());
     }
 
-    dispatch(addTab(source.toJS(), 0));
+    const source = sourceRecord.toJS();
 
+    dispatch(addTab(source, 0));
     dispatch({
       type: "SELECT_SOURCE",
-      source: source.toJS(),
+      source,
       location
     });
 
-    await dispatch(loadSourceText(source));
+    await dispatch(loadSourceText(sourceRecord));
     const selectedSource = getSelectedSource(getState());
     if (!selectedSource) {
       return;
     }
 
-    const sourceId = selectedSource.get("id");
+    const sourceId = selectedSource.id;
     dispatch(setSymbols(sourceId));
     dispatch(setOutOfScopeLocations());
   };
