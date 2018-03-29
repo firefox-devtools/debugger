@@ -192,7 +192,7 @@ function updateSource(state: Record<SourcesState>, source: Source | Object) {
     return state;
   }
 
-  const existingSource = state.getIn(["sources", source.id]);
+  const existingSource = state.sources.get(source.id);
 
   if (existingSource) {
     const updatedSource = existingSource.merge(source);
