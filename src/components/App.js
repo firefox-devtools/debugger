@@ -90,6 +90,9 @@ class App extends Component<Props, State> {
   toggleQuickOpenModal: Function;
   onEscape: Function;
   onCommandSlash: Function;
+  goToPreviousTab: Function;
+  goToNextTab: Function;
+  goToNextOrPreviousTab: Function;
 
   constructor(props) {
     super(props);
