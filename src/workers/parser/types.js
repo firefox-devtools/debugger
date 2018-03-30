@@ -7,7 +7,8 @@
 export type AstPosition = { line: number, column: number };
 export type AstLocation = { end: AstPosition, start: AstPosition };
 
-export type PausePoint = {
-  location: AstPosition,
-  types: { breakpoint: boolean, stepOver: boolean }
+export type PausePoints = {
+  line: {
+    column: { break: boolean, step: boolean }
+  }
 };

@@ -4,14 +4,15 @@
 
 // @flow
 
-import { without, range } from "lodash";
+import { xor, range } from "lodash";
+import { convertToList } from "./pause/pausePoints";
 
 import type { Location, Source, ColumnPosition } from "../types";
 
 import type {
   AstPosition,
   AstLocation,
-  PausePoint,
+  PausePoints,
   SymbolDeclarations
 } from "../workers/parser";
 
@@ -42,21 +43,24 @@ export function findBestMatchExpression(
 
 export function findEmptyLines(
   selectedSource: Source,
-  pausePoints: PausePoint[]
+  pausePoints: PausePoints
 ) {
-  if (!pausePoints || pausePoints.length == 0 || !selectedSource) {
+  if (!pausePoints || !selectedSource) {
     return [];
   }
 
-  const breakpoints = pausePoints.filter(point => point.types.breakpoint);
+  const pausePointsList = convertToList(pausePoints);
+
+  const breakpoints = pausePointsList.filter(point => point.types.break);
   const breakpointLines = breakpoints.map(point => point.location.line);
 
   if (!selectedSource.text) {
     return [];
   }
+
   const lineCount = selectedSource.text.split("\n").length;
   const sourceLines = range(1, lineCount + 1);
-  return without(sourceLines, ...breakpointLines);
+  return xor(sourceLines, breakpointLines);
 }
 
 export function containsPosition(a: AstLocation, b: AstPosition) {
