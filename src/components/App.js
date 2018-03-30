@@ -155,7 +155,7 @@ class App extends Component<Props, State> {
     shortcuts.off("Command+Right", this.goToNextTab);
   }
 
-  goToNextOrPreviousTab(e, offset) {
+  goToNextOrPreviousTab(e, goNext) {
     e.preventDefault();
 
     const { selectedSource, tabSources, selectSpecificSource } = this.props;
@@ -175,7 +175,7 @@ class App extends Component<Props, State> {
     let nextIndex = 0;
 
     // Next
-    if (offset) {
+    if (goNext) {
       nextIndex = currentIndex === tabSources.size - 1 ? 0 : currentIndex + 1;
     } else {
       // Previous
