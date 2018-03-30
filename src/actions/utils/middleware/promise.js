@@ -5,7 +5,6 @@
 // @flow
 
 import { fromPairs, toPairs } from "lodash";
-import { executeSoon } from "../../../utils/DevToolsUtils";
 
 import type { ThunkArgs } from "../../types";
 
@@ -40,20 +39,16 @@ function promiseMiddleware({
     // want to.
     return promiseInst
       .then(value => {
-        executeSoon(() => {
-          dispatch({ ...action, status: "done", value: value });
-        });
-        Promise.resolve(value);
+        dispatch({ ...action, status: "done", value: value });
+        return value;
       })
       .catch(error => {
-        executeSoon(() => {
-          dispatch({
-            ...action,
-            status: "error",
-            error: error.message || error
-          });
-          Promise.reject(error);
+        dispatch({
+          ...action,
+          status: "error",
+          error: error.message || error
         });
+        throw error;
       });
   };
 }

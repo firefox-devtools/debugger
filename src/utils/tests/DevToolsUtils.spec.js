@@ -1,4 +1,4 @@
-import { reportException, executeSoon } from "../DevToolsUtils.js";
+import { reportException } from "../DevToolsUtils.js";
 
 describe("DevToolsUtils", () => {
   describe("reportException", () => {
@@ -19,17 +19,6 @@ describe("DevToolsUtils", () => {
       reportException(who, exception);
 
       expect(console.error).toBeCalledWith(`${who}${msgTxt}`, exception);
-    });
-  });
-
-  describe("executeSoon", () => {
-    it("calls setTimeout with 0 ms", () => {
-      global.setTimeout = jest.fn();
-      const fnc = () => {};
-
-      executeSoon(fnc);
-
-      expect(setTimeout).toBeCalledWith(fnc, 0);
     });
   });
 });

@@ -7,7 +7,6 @@
     "ContentTask": false,
     "ContentTaskUtils": false,
     "EventUtils": false,
-    "executeSoon": false,
     "expectUncaughtException": false,
     "export_assertions": false,
     "extractJarToTmp": false,
