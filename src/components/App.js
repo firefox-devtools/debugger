@@ -23,6 +23,7 @@ import {
 
 import type { OrientationType } from "../reducers/types";
 import type { SourceRecord } from "../types";
+import type { SourcesList } from "../utils/tabs";
 
 import { KeyShortcuts, Services } from "devtools-modules";
 const shortcuts = new KeyShortcuts({ window });
