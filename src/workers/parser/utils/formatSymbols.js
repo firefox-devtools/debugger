@@ -29,7 +29,7 @@ function summarize(symbol) {
     : "";
   const expression = symbol.expression || "";
   const klass = symbol.klass || "";
-  const name = symbol.name || "";
+  const name = symbol.name == undefined ? "" : symbol.name;
   const names = symbol.specifiers ? symbol.specifiers.join(", ") : "";
   const values = symbol.values ? symbol.values.join(", ") : "";
 

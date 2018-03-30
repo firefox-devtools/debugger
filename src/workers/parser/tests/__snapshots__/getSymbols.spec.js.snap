@@ -655,7 +655,7 @@ imports:
 literals:
 [(6, 37), (6, 38)]  collection.books[1] 1
 [(7, 46), (7, 54)]  collection.genres[\\"sci-fi\\"] sci-fi
-[(7, 63), (7, 64)]  collection.genres[\\"sci-fi\\"].movies[0]
+[(7, 63), (7, 64)]  collection.genres[\\"sci-fi\\"].movies[0] 0
 
 hasJsx: false
 
@@ -737,7 +737,7 @@ imports:
 
 
 literals:
-[(23, 15), (23, 16)]  name[0]
+[(23, 15), (23, 16)]  name[0] 0
 
 hasJsx: false
 
