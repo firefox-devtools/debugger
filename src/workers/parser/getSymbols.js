@@ -118,7 +118,7 @@ function getSpecifiers(specifiers) {
 
   return specifiers.map(specifier => specifier.local && specifier.local.name);
 }
-
+/* eslint-disable complexity */
 function extractSymbol(path: SimplePath, symbols) {
   if (isVariable(path)) {
     symbols.variables.push(...getVariableNames(path));
@@ -251,6 +251,7 @@ function extractSymbol(path: SimplePath, symbols) {
     });
   }
 }
+/* eslint-enable complexity */
 
 function extractSymbols(sourceId) {
   const symbols = {
