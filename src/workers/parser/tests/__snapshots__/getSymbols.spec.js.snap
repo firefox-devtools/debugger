@@ -89,6 +89,9 @@ classes:
 imports:
 
 
+literals:
+
+
 hasJsx: false
 
 hasTypes: false"
@@ -129,6 +132,9 @@ classes:
 
 
 imports:
+
+
+literals:
 
 
 hasJsx: false
@@ -179,6 +185,9 @@ classes:
 [(15, 0), (15, 14)]   Test2
 
 imports:
+
+
+literals:
 
 
 hasJsx: false
@@ -333,6 +342,9 @@ classes:
 imports:
 
 
+literals:
+
+
 hasJsx: true
 
 hasTypes: false"
@@ -421,6 +433,9 @@ classes:
 imports:
 
 
+literals:
+
+
 hasJsx: false
 
 hasTypes: false"
@@ -453,6 +468,9 @@ classes:
 
 
 imports:
+
+
+literals:
 
 
 hasJsx: false
@@ -634,6 +652,11 @@ classes:
 imports:
 
 
+literals:
+[(6, 37), (6, 38)]  collection.books[1] 1
+[(7, 46), (7, 54)]  collection.genres[\\"sci-fi\\"] sci-fi
+[(7, 63), (7, 64)]  collection.genres[\\"sci-fi\\"].movies[0]
+
 hasJsx: false
 
 hasTypes: false"
@@ -713,6 +736,9 @@ classes:
 imports:
 
 
+literals:
+[(23, 15), (23, 16)]  name[0]
+
 hasJsx: false
 
 hasTypes: false"
@@ -751,6 +777,9 @@ classes:
 [(1, 0), (5, 1)]   App
 
 imports:
+
+
+literals:
 
 
 hasJsx: false
@@ -803,6 +832,9 @@ classes:
 
 
 imports:
+
+
+literals:
 
 
 hasJsx: false
@@ -951,6 +983,9 @@ classes:
 imports:
 
 
+literals:
+
+
 hasJsx: false
 
 hasTypes: false"
@@ -983,6 +1018,9 @@ classes:
 
 
 imports:
+
+
+literals:
 
 
 hasJsx: true
@@ -1041,6 +1079,9 @@ classes:
 
 
 imports:
+
+
+literals:
 
 
 hasJsx: false
@@ -1102,6 +1143,9 @@ classes:
 imports:
 
 
+literals:
+
+
 hasJsx: false
 
 hasTypes: false"
@@ -1138,6 +1182,9 @@ classes:
 
 imports:
 [(1, 0), (1, 41)]     React, Component
+
+literals:
+
 
 hasJsx: false
 
@@ -1183,6 +1230,9 @@ classes:
 
 
 imports:
+
+
+literals:
 
 
 hasJsx: false
