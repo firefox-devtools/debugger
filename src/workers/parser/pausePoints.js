@@ -135,7 +135,9 @@ function onEnter(node: BabelNode, ancestors: SimplePath[], state) {
 
   if (t.isProgram(node)) {
     const lastStatement = node.body[node.body.length - 1];
-    addPoint(state, lastStatement.loc.end);
+    if (lastStatement) {
+      addPoint(state, lastStatement.loc.end);
+    }
   }
 }
 
