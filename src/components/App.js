@@ -132,8 +132,8 @@ class App extends Component<Props, State> {
     shortcuts.on("Escape", this.onEscape);
     shortcuts.on("Cmd+/", this.onCommandSlash);
 
-    shortcuts.on("Command+Left", this.goToPreviousTab);
-    shortcuts.on("Command+Right", this.goToNextTab);
+    shortcuts.on("CmdOrCtrl+Left", this.goToPreviousTab);
+    shortcuts.on("CmdOrCtrl+Right", this.goToNextTab);
   }
 
   componentWillUnmount() {
@@ -154,8 +154,8 @@ class App extends Component<Props, State> {
 
     shortcuts.off("Escape", this.onEscape);
 
-    shortcuts.off("Command+Left", this.goToPreviousTab);
-    shortcuts.off("Command+Right", this.goToNextTab);
+    shortcuts.off("CmdOrCtrl+Left", this.goToPreviousTab);
+    shortcuts.off("CmdOrCtrl+Right", this.goToNextTab);
   }
 
   goToNextOrPreviousTab(e, goNext) {
