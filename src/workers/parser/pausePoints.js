@@ -7,18 +7,9 @@
 import { traverseAst } from "./utils/ast";
 import * as t from "@babel/types";
 import isEqual from "lodash/isEqual";
-import uniqBy from "lodash/uniqBy";
 
-import type { AstLocation } from "./types";
 import type { BabelNode } from "@babel/types";
 import type { SimplePath } from "./utils/simple-path";
-
-export type PausePoint = {|
-  location: AstLocation,
-  types: {| breakpoint: boolean, stepOver: boolean |}
-|};
-
-export type PausePoints = PausePoint[];
 
 const isControlFlow = node =>
   t.isForStatement(node) ||
@@ -34,33 +25,30 @@ const isImport = node => t.isImport(node) || t.isImportDeclaration(node);
 const isReturn = node => t.isReturnStatement(node);
 const isCall = node => t.isCallExpression(node) || t.isJSXElement(node);
 
-const inExpression = (parent, grandParent) =>
+const inStepExpression = parent =>
   t.isArrayExpression(parent) ||
   t.isObjectProperty(parent) ||
   t.isCallExpression(parent) ||
-  t.isJSXElement(parent) ||
+  t.isJSXElement(parent);
+
+const inExpression = (parent, grandParent) =>
+  inStepExpression(parent) ||
   t.isJSXAttribute(grandParent) ||
   t.isTemplateLiteral(parent);
 
 const isExport = node =>
   t.isExportNamedDeclaration(node) || t.isExportDefaultDeclaration(node);
 
-function removeDuplicatePoints(state) {
-  return uniqBy(
-    state,
-    ({ location }) => `${location.line}-$${location.column}`
-  );
-}
-
 export function getPausePoints(sourceId: string) {
-  const state = [];
+  const state = {};
   traverseAst(sourceId, { enter: onEnter }, state);
-  const uniqPoints = removeDuplicatePoints(state);
-  return uniqPoints;
+  return state;
 }
 
+/* eslint-disable complexity */
 function onEnter(node: BabelNode, ancestors: SimplePath[], state) {
   const parent = ancestors[ancestors.length - 1];
+  const parentNode = parent && parent.node;
   const grandParent = ancestors[ancestors.length - 2];
   const startLocation = node.loc.start;
 
@@ -70,7 +58,7 @@ function onEnter(node: BabelNode, ancestors: SimplePath[], state) {
     isExport(node) ||
     t.isDebuggerStatement(node)
   ) {
-    addPoint(state, startLocation);
+    return addStopPoint(state, startLocation);
   }
 
   if (isControlFlow(node)) {
@@ -78,24 +66,24 @@ function onEnter(node: BabelNode, ancestors: SimplePath[], state) {
 
     const test = node.test || node.discriminant;
     if (test) {
-      addPoint(state, test.loc.start);
+      addStopPoint(state, test.loc.start);
     }
+    return;
   }
 
   if (isReturn(node)) {
     // We do not want to pause at the return and the call e.g. return foo()
     if (isCall(node.argument)) {
-      addEmptyPoint(state, startLocation);
-    } else {
-      addPoint(state, startLocation);
+      return addEmptyPoint(state, startLocation);
     }
+    return addStopPoint(state, startLocation);
   }
 
   if (isAssignment(node)) {
     // We only want to pause at literal assignments `var a = foo()`
     const value = node.right || node.init;
     if (!isCall(value)) {
-      addPoint(state, startLocation);
+      return addStopPoint(state, startLocation);
     }
   }
 
@@ -109,54 +97,61 @@ function onEnter(node: BabelNode, ancestors: SimplePath[], state) {
     }
 
     // NOTE: we do not want to land inside an expression e.g. [], {}, call
-    const stepOver = !inExpression(
-      parent.node,
-      grandParent && grandParent.node
-    );
+    const step = !inExpression(parent.node, grandParent && grandParent.node);
 
     // NOTE: we add a point at the beginning of the expression
     // and each of the calls because the engine does not support
     // column-based member expression calls.
-    addPoint(state, startLocation, { breakpoint: true, stepOver });
+    addPoint(state, startLocation, { break: true, step });
     if (location && !isEqual(location, startLocation)) {
-      addPoint(state, location, { breakpoint: true, stepOver });
+      addPoint(state, location, { break: true, step });
     }
+
+    return;
   }
 
   if (t.isClassProperty(node)) {
-    addBreakPoint(state, startLocation);
+    return addBreakPoint(state, startLocation);
   }
 
   if (t.isFunction(node)) {
     const { line, column } = node.loc.end;
     addBreakPoint(state, startLocation);
-    addPoint(state, { line, column: column - 1 });
+    return addStopPoint(state, { line, column: column - 1 });
   }
 
   if (t.isProgram(node)) {
     const lastStatement = node.body[node.body.length - 1];
     if (lastStatement) {
-      addPoint(state, lastStatement.loc.end);
+      return addStopPoint(state, lastStatement.loc.end);
     }
+  }
+
+  if (!hasPoint(state, startLocation) && inStepExpression(parentNode)) {
+    return addEmptyPoint(state, startLocation);
   }
 }
 
-function formatNode(location, types) {
-  return { location, types };
+function hasPoint(state, { line, column }) {
+  return state[line] && state[line][column];
 }
 
-function addPoint(
-  state,
-  location,
-  types = { breakpoint: true, stepOver: true }
-) {
-  state.push(formatNode(location, types));
+function addPoint(state, { line, column }, types) {
+  if (!state[line]) {
+    state[line] = {};
+  }
+  state[line][column] = types;
+  return state;
+}
+
+function addStopPoint(state, location) {
+  return addPoint(state, location, { break: true, step: true });
 }
 
 function addEmptyPoint(state, location) {
-  addPoint(state, location, { breakpoint: false, stepOver: false });
+  return addPoint(state, location, {});
 }
 
 function addBreakPoint(state, location) {
-  addPoint(state, location, { breakpoint: true, stepOver: false });
+  return addPoint(state, location, { break: true });
 }

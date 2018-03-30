@@ -16,8 +16,8 @@ import { findEmptyLines } from "../utils/ast";
 
 import type {
   AstLocation,
-  PausePoint,
-  SymbolDeclarations
+  SymbolDeclarations,
+  PausePoints
 } from "../workers/parser";
 
 import type { Map } from "immutable";
@@ -36,7 +36,7 @@ export type SourceMetaDataType = {
 };
 
 export type SourceMetaDataMap = Map<string, SourceMetaDataType>;
-export type PausePointsMap = Map<string, PausePoint>;
+export type PausePointsMap = Map<string, PausePoints>;
 
 export type Preview =
   | {| updating: true |}
