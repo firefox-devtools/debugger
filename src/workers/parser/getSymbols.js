@@ -118,7 +118,7 @@ function getSpecifiers(specifiers) {
 
   return specifiers.map(specifier => specifier.local && specifier.local.name);
 }
-
+/* eslint-disable complexity */
 function extractSymbol(path: SimplePath, symbols) {
   if (isVariable(path)) {
     symbols.variables.push(...getVariableNames(path));
@@ -175,6 +175,19 @@ function extractSymbol(path: SimplePath, symbols) {
       expressionLocation: path.node.loc,
       expression: getSnippet(path),
       computed: path.node.computed
+    });
+  }
+
+  if (
+    (t.isStringLiteral(path) || t.isNumericLiteral(path)) &&
+    t.isMemberExpression(path.parentPath)
+  ) {
+    // We only need literals that are part of computed memeber expressions
+    const { start, end } = path.node.loc;
+    symbols.literals.push({
+      name: path.node.value,
+      location: { start, end },
+      expression: getSnippet(path.parentPath)
     });
   }
 
@@ -238,6 +251,7 @@ function extractSymbol(path: SimplePath, symbols) {
     });
   }
 }
+/* eslint-enable complexity */
 
 function extractSymbols(sourceId) {
   const symbols = {
@@ -250,6 +264,7 @@ function extractSymbols(sourceId) {
     identifiers: [],
     classes: [],
     imports: [],
+    literals: [],
     hasJsx: false,
     hasTypes: false
   };

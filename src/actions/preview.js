@@ -73,13 +73,11 @@ function isInvalidTarget(target: HTMLElement) {
   const cursorPos = target.getBoundingClientRect();
 
   // exclude literal tokens where it does not make sense to show a preview
-  const invaildType = ["cm-string", "cm-number", "cm-atom"].includes(
-    target.className
-  );
+  const invalidType = ["cm-atom", ""].includes(target.className);
 
   // exclude syntax where the expression would be a syntax error
   const invalidToken =
-    tokenText === "" || tokenText.match(/[(){}\|&%,.;=<>\+-/\*\s]/);
+    tokenText === "" || tokenText.match(/^[(){}\|&%,.;=<>\+-/\*\s](?=)/);
 
   // exclude codemirror elements that are not tokens
   const invalidTarget =
@@ -87,7 +85,7 @@ function isInvalidTarget(target: HTMLElement) {
       !target.parentElement.closest(".CodeMirror-line")) ||
     cursorPos.top == 0;
 
-  return invalidTarget || invalidToken || invaildType;
+  return invalidTarget || invalidToken || invalidType;
 }
 
 export function getExtra(
