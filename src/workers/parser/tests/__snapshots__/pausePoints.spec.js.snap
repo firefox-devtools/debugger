@@ -96,6 +96,52 @@ const /*bs 25*/obj = {
 "
 `;
 
+exports[`Parser.pausePoints html 1`] = `
+"<html>
+<head>
+	<script type=\\"text/javascript\\">
+		var /*bs 1*/globalObject = {
+			first: \\"name\\",
+			last: \\"words\\"
+		};
+		/*b 2*/function sayHello (name) {
+			/*bs 3*/return \`Hello, \${name}!\`;
+		/*bs 4*/}
+	</script>
+	<style>
+		BODY {
+			font-size: 48px;
+			color: rebeccapurple;
+		}
+	</style>
+</head>
+<body>
+	<h1>Testing Script Tags in HTML</h1>
+	<script>
+		const /*bs 5*/capitalize = /*b 6*/name => {
+			/*bs 7*/return /*bs 8*/name[0]./*bs 9*/toUpperCase() + /*bs 10*/name./*bs 11*/substring(1)
+		/*bs 12*/};
+		const greetAll = /*bs 13*/[\\"my friend\\", \\"buddy\\", \\"world\\"]
+			./*bs 14*/map(capitalize)
+			./*bs 15*/map(sayHello)
+			./*bs 16*/join(\\"\\\\n\\");
+
+		/*bs 17*/globalObject.greetings = greetAll;
+	</script>
+	<p>
+		Some arbitrary intermediate content to affect the offsets of the scripts
+	</p>
+	<script>
+		/*bs 18*/(/*b 19*/function iife() {
+			const greeting = /*bs 20*/sayHello(\\"Ryan\\");
+			/*bs 21*/console./*bs 22*/log(greeting);
+		/*bs 23*/})();/*bs 24*/
+	</script>
+</body>
+</html>
+"
+`;
+
 exports[`Parser.pausePoints jsx 1`] = `
 "const jsxElement = /*bs 1*/<h1> Hi ! I'm here ! </h1>;
 
