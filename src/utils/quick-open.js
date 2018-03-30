@@ -7,12 +7,10 @@ import { endTruncateStr } from "./utils";
 import { isPretty, getFilename } from "./source";
 
 import type { Location as BabelLocation } from "@babel/types";
-import type { SourcesMap } from "../reducers/sources";
 import type { Symbols } from "../reducers/ast";
 import type { QuickOpenType } from "../reducers/quick-open";
 import type { SymbolDeclaration } from "../workers/parser";
-import type { Source } from "../types";
-import type { RelativeSource } from "../selectors/getSourcesBelowRoot";
+import type { RelativeSource } from "../selectors/getRelativeSources";
 
 export const MODIFIERS = {
   "@": "functions",

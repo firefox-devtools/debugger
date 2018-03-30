@@ -4,12 +4,7 @@
 
 import { getRelativeSources } from "../getRelativeSources";
 
-import {
-  createStore,
-  selectors,
-  actions,
-  makeSource
-} from "../../utils/test-head";
+import { createStore, actions, makeSource } from "../../utils/test-head";
 
 describe("getRelativeSources", () => {
   it("filter one source", async () => {
@@ -24,6 +19,6 @@ describe("getRelativeSources", () => {
     expect(firstSource.url).toEqual(
       "http://localhost:8000/examples/js/scopes.js"
     );
-    expect(firstSource.relativeUrl).toEqual("/scopes.js");
+    expect(firstSource.relativeUrl).toEqual("scopes.js");
   });
 });

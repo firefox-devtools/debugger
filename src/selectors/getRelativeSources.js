@@ -10,13 +10,15 @@ export type RelativeSource = Source & {
 };
 
 function getRelativeUrl(url, root) {
-  const sourcePathSplit = url.split("/");
-
   if (!root) {
-    return dropScheme(url);
+    return dropScheme(url)
+      .split("/")
+      .slice(2)
+      .join("/");
   }
 
-  return url.slice(url.indexOf(root) + root.length);
+  // + 1 removes the leading "/"
+  return url.slice(url.indexOf(root) + root.length + 1);
 }
 
 function formatSource(source: Source, root): RelativeSource {

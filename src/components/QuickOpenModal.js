@@ -7,7 +7,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import fuzzyAldrin from "fuzzaldrin-plus";
 import { basename } from "../utils/path";
-import { prefs } from "../utils/prefs";
 
 import actions from "../actions";
 import {
@@ -70,7 +69,7 @@ type GotoLocationType = {
 };
 
 function filter(values, query) {
-  let results = fuzzyAldrin.filter(values, query, {
+  const results = fuzzyAldrin.filter(values, query, {
     key: "value",
     maxResults: 1000
   });
