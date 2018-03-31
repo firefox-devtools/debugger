@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-import type { BabelLocation } from "@babel/types";
+// @flow
 
 export type AstPosition = { line: number, column: number };
 export type AstLocation = { end: AstPosition, start: AstPosition };
@@ -15,7 +15,7 @@ export type Scope = {
 
 export type ClassDeclaration = {|
   name: string,
-  location: BabelLocation,
+  location: AstLocation,
   parent?: ClassDeclaration
 |};
 
@@ -23,8 +23,8 @@ export type SymbolDeclaration = {|
   name: string,
   expression?: string,
   klass?: ?string,
-  location: BabelLocation,
-  expressionLocation?: BabelLocation,
+  location: AstLocation,
+  expressionLocation?: AstLocation,
   parameterNames?: string[],
   identifier?: Object,
   computed?: Boolean,
@@ -47,6 +47,6 @@ export type SymbolDeclarations = {
 };
 
 export type PausePoint = {
-  location: { line: number, column: number },
+  location: AstPosition,
   types: { breakpoint: boolean, stepOver: boolean }
 };

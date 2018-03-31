@@ -6,18 +6,18 @@
 
 import { without, range } from "lodash";
 
-import type { Location, Source, Position } from "../types";
+import type { Location, Source, ColumnPosition } from "../types";
 import type {
   AstPosition,
   AstLocation,
-  PausePoint,
   SymbolDeclarations,
-  SymbolDeclaration
+  SymbolDeclaration,
+  PausePoint
 } from "../workers/parser";
 
 export function findBestMatchExpression(
   symbols: SymbolDeclarations,
-  tokenPos: Position
+  tokenPos: ColumnPosition
 ) {
   const { memberExpressions, identifiers, literals } = symbols;
   const { line, column } = tokenPos;
