@@ -16,7 +16,7 @@ export default async function addBreakpoint(
   getState,
   client,
   sourceMaps,
-  { breakpoint }
+  breakpoint
 ) {
   const state = getState();
 

@@ -91,7 +91,7 @@ function addBreakpoint(state, action) {
   }
 
   // when the action completes, we can commit the breakpoint
-  if (action.status === "done") {
+  if (action.value && action.status === "done") {
     return syncBreakpoint(state, action.value);
   }
 
