@@ -69,12 +69,10 @@ type GotoLocationType = {
 };
 
 function filter(values, query) {
-  const results = fuzzyAldrin.filter(values, query, {
+  return fuzzyAldrin.filter(values, query, {
     key: "value",
     maxResults: 1000
   });
-
-  return results;
 }
 
 export class QuickOpenModal extends Component<Props, State> {

@@ -8,7 +8,7 @@ import { getBreakpoints } from "../reducers/breakpoints";
 import { getSelectedSource } from "../reducers/sources";
 import { isGeneratedId } from "devtools-source-map";
 
-import type { OuterState } from "../reducers/types";
+import type { State } from "../reducers/types";
 
 function getLocation(breakpoint, isGeneratedSource) {
   return isGeneratedSource
@@ -43,7 +43,7 @@ function isVisible(breakpoint, selectedSource) {
  *
  * This
  */
-export function getVisibleBreakpoints(state: OuterState) {
+export function getVisibleBreakpoints(state: State) {
   const selectedSource = getSelectedSource(state);
   if (!selectedSource) {
     return null;

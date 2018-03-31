@@ -187,13 +187,6 @@ const contentTypeModeMap = {
   "text/html": { name: "htmlmixed" }
 };
 
-// Drops the url scheme
-// e.g http://example.com/foo => /example.com/foo
-export function dropScheme(url: string) {
-  const { host } = parseURL(url);
-  return url.slice(url.indexOf(host || "") - 1);
-}
-
 export function getSourcePath(url: string) {
   if (!url) {
     return "";

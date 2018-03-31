@@ -31,7 +31,7 @@ export type PendingSelectedLocation = {
   column?: number
 };
 
-export type { SourcesMap, OuterState } from "./sources";
+export type { SourcesMap } from "./sources";
 export type { ActiveSearchType, OrientationType } from "./ui";
 export type { BreakpointsMap } from "./breakpoints";
 export type { WorkersList } from "./debuggee";

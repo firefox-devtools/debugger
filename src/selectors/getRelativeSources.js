@@ -1,9 +1,9 @@
 // @flow
 
 import { getProjectDirectoryRoot, getSources } from "../selectors";
-import type { OuterState } from "../reducers/types";
+import type { State } from "../reducers/types";
 import type { Source } from "../types";
-import { dropScheme } from "../utils/source";
+import { getSourcePath } from "../utils/source";
 
 export type RelativeSource = Source & {
   +relativeUrl: string
@@ -11,10 +11,7 @@ export type RelativeSource = Source & {
 
 function getRelativeUrl(url, root) {
   if (!root) {
-    return dropScheme(url)
-      .split("/")
-      .slice(2)
-      .join("/");
+    return getSourcePath(url);
   }
 
   // + 1 removes the leading "/"
@@ -31,7 +28,7 @@ function formatSource(source: Source, root): RelativeSource {
 /*
  * Gets the sources that are below a project root
  */
-export function getRelativeSources(state: OuterState): RelativeSource[] {
+export function getRelativeSources(state: State): RelativeSource[] {
   const sources = getSources(state);
   const root = getProjectDirectoryRoot(state);
 
