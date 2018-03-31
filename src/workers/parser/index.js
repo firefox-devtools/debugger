@@ -47,6 +47,5 @@ export type {
   SymbolDeclarations,
   AstLocation,
   AstPosition,
-  Scope,
   PausePoint
 } from "./types";
