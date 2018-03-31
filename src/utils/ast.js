@@ -2,22 +2,20 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-// @flow
-
 import { without, range } from "lodash";
 
-import type { Location, Source, Position } from "../types";
+import type { Location, Source, ColumnPosition } from "../types";
 import type {
   AstPosition,
   AstLocation,
-  PausePoint,
   SymbolDeclarations,
-  SymbolDeclaration
+  SymbolDeclaration,
+  PausePoint
 } from "../workers/parser";
 
 export function findBestMatchExpression(
   symbols: SymbolDeclarations,
-  tokenPos: Position
+  tokenPos: ColumnPosition
 ) {
   const { memberExpressions, identifiers, literals } = symbols;
   const { line, column } = tokenPos;
