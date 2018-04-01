@@ -116,7 +116,7 @@
     "enzyme-to-json": "3.3.1",
     "eslint": "^4.2.0",
     "eslint-config-prettier": "^2.3.0",
-    "eslint-plugin-babel": "^4.1.2",
+    "eslint-plugin-babel": "^5.0.0",
     "eslint-plugin-flowtype": "^2.36.0",
     "eslint-plugin-jest": "^21.5.0",
     "eslint-plugin-mozilla": "^0.10.0",
