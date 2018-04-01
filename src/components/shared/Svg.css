@@ -63,6 +63,10 @@ img.javascript {
   mask: url(/images/javascript.svg) no-repeat;
 }
 
+img.tab {
+  mask: url(/images/tab.svg) no-repeat;
+}
+
 img.react {
   mask: url(/images/react.svg) no-repeat;
 }

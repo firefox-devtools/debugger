@@ -21,7 +21,8 @@ export { getEventListeners } from "../reducers/event-listeners";
 export {
   getQuickOpenEnabled,
   getQuickOpenQuery,
-  getQuickOpenType
+  getQuickOpenType,
+  getFormattedSourcesWithTabExistence
 } from "../reducers/quick-open";
 
 export { getBreakpointAtLocation } from "./breakpointAtLocation";

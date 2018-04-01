@@ -57,6 +57,18 @@
   background: var(--grey-70);
 }
 
+.result-list li.selected .svg {
+  color: white;
+}
+/* Fix svg styles/color */
+.result-list li .svg {
+  color: var(--theme-body-color-inactive);
+  width: 20px;
+  margin-left: 4px;
+  margin-right: 4px;
+  line-height: 8px;
+}
+
 .result-list li .title {
   line-height: 1.5em;
   word-break: break-all;

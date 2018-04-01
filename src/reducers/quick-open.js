@@ -8,7 +8,8 @@
  */
 
 import makeRecord from "../utils/makeRecord";
-import { parseQuickOpenQuery } from "../utils/quick-open";
+import { createSelector } from "reselect";
+import { parseQuickOpenQuery, formatSources } from "../utils/quick-open";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 

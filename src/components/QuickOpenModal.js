@@ -17,14 +17,15 @@ import {
   getSelectedSource,
   getSymbols,
   getTabs,
-  isSymbolsLoading
+  isSymbolsLoading,
+  getFormattedSourcesWithTabExistence
 } from "../selectors";
 import { scrollList } from "../utils/result-list";
 import {
   formatSymbols,
-  formatSources,
   parseLineColumn,
-  formatShortcutResults
+  formatShortcutResults,
+  formatSources
 } from "../utils/quick-open";
 import Modal from "./shared/Modal";
 import SearchInput from "./shared/SearchInput";

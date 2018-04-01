@@ -6,6 +6,7 @@
 import React, { Component } from "react";
 import classnames from "classnames";
 
+import { getSourceClassnames } from "../../utils/source";
 import "./ResultList.css";
 
 type Props = {
@@ -50,9 +51,11 @@ export default class ResultList extends Component<Props> {
         selected: index === selected
       })
     };
-
     return (
       <li {...props}>
+        <div className="svg">
+          <img className={classnames("badge", item.badge)} />
+        </div>
         <div id={`${item.id}-title`} className="title">
           {item.title}
         </div>
