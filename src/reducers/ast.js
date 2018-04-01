@@ -22,8 +22,7 @@ import type {
 
 import type { Map } from "immutable";
 import type { Source } from "../types";
-import type { Action } from "../actions/types";
-import type { DonePromiseAction } from "../actions/utils/middleware/promise";
+import type { Action, DonePromiseAction } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 type EmptyLinesType = number[];
@@ -78,18 +77,16 @@ export function initialASTState() {
 function update(
   state: Record<ASTState> = initialASTState(),
   action: Action
-): ?Record<ASTState> {
+): Record<ASTState> {
   switch (action.type) {
     case "SET_SYMBOLS": {
       const { source } = action;
       if (action.status === "start") {
         return state.setIn(["symbols", source.id], { loading: true });
-      } else if (action.status === "done") {
-        const value = ((action: any): DonePromiseAction).value;
-        return state.setIn(["symbols", source.id], value);
       }
 
-      return null;
+      const value = ((action: any): DonePromiseAction).value;
+      return state.setIn(["symbols", source.id], value);
     }
 
     case "SET_PAUSE_POINTS": {

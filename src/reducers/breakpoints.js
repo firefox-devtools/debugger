@@ -16,7 +16,7 @@ import { isGeneratedId } from "devtools-source-map";
 import { makeLocationId } from "../utils/breakpoint";
 
 import type { Breakpoint, Location } from "../types";
-import type { Action } from "../actions/types";
+import type { Action, DonePromiseAction } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 export type BreakpointsMap = I.Map<string, Breakpoint>;
@@ -91,8 +91,9 @@ function addBreakpoint(state, action) {
   }
 
   // when the action completes, we can commit the breakpoint
-  if (action.value && action.status === "done") {
-    return syncBreakpoint(state, action.value);
+  if (action.status === "done") {
+    const { value } = ((action: any): DonePromiseAction);
+    return syncBreakpoint(state, value);
   }
 
   // Remove the optimistic update
