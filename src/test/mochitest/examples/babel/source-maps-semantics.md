@@ -1,10 +1,10 @@
 # Source Map Semantics
 
 Source Maps are a specification for helping users how their original maps onto a single file.
-While the mapping specifies to point-to-point relationships, 
+While the mapping specifies to point-to-point relationships,
 it is up to source map generators to decides the appropriate relationships in the code.
 
-This document attempts to outline some of the existing mappings we have observed 
+This document attempts to outline some of the existing mappings we have observed
 as well as articulate some opinions on the appropriate mappings.
 
 ### Calls
@@ -37,7 +37,7 @@ example: ![imported-bindings]
 ![](https://shipusercontent.com/fadbe965f836d304e84989f89529276e/Screen%20Shot%202018-03-28%20at%2010.07.57%20PM.png)
 ![](https://shipusercontent.com/cc5ff07e169e2583e9e4e8859b912810/Screen%20Shot%202018-03-28%20at%2010.07.52%20PM.png)
 
-When Webpack is left to its own devices then dependencies are not mapped at all. In these cases, the original dependencies all map to the generated location `0,0`, which is equivelant to null.
+When Webpack is left to its own devices then dependencies are not mapped at all. In these cases, the original dependencies all map to the generated location `0,0`, which is equivalent to null.
 
 - example 1: ![webpack-es-modules]  
 - example 2: ![webpack-modules]
