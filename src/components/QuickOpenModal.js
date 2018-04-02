@@ -7,9 +7,10 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import fuzzyAldrin from "fuzzaldrin-plus";
 import { basename } from "../utils/path";
+
 import actions from "../actions";
 import {
-  getSources,
+  getRelativeSources,
   getQuickOpenEnabled,
   getQuickOpenQuery,
   getQuickOpenType,
@@ -418,7 +419,7 @@ function mapStateToProps(state) {
 
   return {
     enabled: getQuickOpenEnabled(state),
-    sources: formatSources(getSources(state)),
+    sources: formatSources(getRelativeSources(state)),
     selectedSource,
     symbols: formatSymbols(getSymbols(state, selectedSource)),
     symbolsLoading: isSymbolsLoading(state, selectedSource),
