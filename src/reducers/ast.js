@@ -22,7 +22,7 @@ import type {
 
 import type { Map } from "immutable";
 import type { Source } from "../types";
-import type { Action } from "../actions/types";
+import type { Action, DonePromiseAction } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 type EmptyLinesType = number[];
@@ -85,7 +85,9 @@ function update(
       if (action.status === "start") {
         return state.setIn(["symbols", source.id], { loading: true });
       }
-      return state.setIn(["symbols", source.id], action.value);
+
+      const value = ((action: any): DonePromiseAction).value;
+      return state.setIn(["symbols", source.id], value);
     }
 
     case "SET_PAUSE_POINTS": {
