@@ -21,7 +21,8 @@ import {
   getHitCountForSource,
   getCoverageEnabled,
   getConditionalPanelLine,
-  getSymbols
+  getSymbols,
+  getEmptyLines
 } from "../../selectors";
 
 // Redux actions
@@ -37,14 +38,18 @@ import HitMarker from "./HitMarker";
 import CallSites from "./CallSites";
 import DebugLine from "./DebugLine";
 import HighlightLine from "./HighlightLine";
-import EmptyLines from "./EmptyLines";
+// import EmptyLines from "./EmptyLines";
 import GutterMenu from "./GutterMenu";
 import EditorMenu from "./EditorMenu";
 import ConditionalPanel from "./ConditionalPanel";
 import type { SymbolDeclarations } from "../../workers/parser/types";
 
 import SourceEditor from "../../utils/monaco/source-editor";
-import { shouldShowFooter, toSourceLine } from "../../utils/monaco";
+import {
+  shouldShowFooter,
+  toSourceLine,
+  toEditorLine
+} from "../../utils/monaco";
 import {
   updateDocument,
   hasDocument,
@@ -59,6 +64,7 @@ import { resizeToggleButton } from "../../utils/ui";
 
 import "./Editor.css";
 import "./Highlight.css";
+import "./EmptyLines.css";
 
 const cssVars = {
   searchbarHeight: "var(--editor-searchbar-height)",
@@ -77,6 +83,7 @@ export type Props = {
   endPanelSize: number,
   conditionalPanelLine: number,
   symbols: SymbolDeclarations,
+  emptyLines: Object,
 
   // Actions
   openConditionalPanel: (?number) => void,
@@ -89,12 +96,19 @@ export type Props = {
   traverseResults: (boolean, Object) => void
 };
 
+const emptyLineDecorationOpt = {
+  marginClassName: "empty-line",
+  stickiness: 1
+};
+
 type State = {
   editor: SourceEditor
 };
 
 class Editor extends PureComponent<Props, State> {
   $editorWrapper: ?HTMLDivElement;
+  emptyLineDecorations: any[];
+
   constructor(props: Props) {
     super(props);
 
@@ -102,6 +116,8 @@ class Editor extends PureComponent<Props, State> {
       highlightedLineRange: null,
       editor: null
     };
+
+    this.emptyLineDecorations = [];
   }
 
   componentWillReceiveProps(nextProps) {
@@ -115,6 +131,7 @@ class Editor extends PureComponent<Props, State> {
   componentWillUpdate(nextProps) {
     this.setText(nextProps);
     this.setSize(nextProps);
+    this.setEmptyLines(nextProps);
     this.scrollToLocation(nextProps);
   }
 
@@ -246,6 +263,7 @@ class Editor extends PureComponent<Props, State> {
     // set to update the text and size.
     if (!prevState.editor && this.state.editor) {
       this.setText(this.props);
+      this.setEmptyLines(this.props);
       this.setSize(this.props);
     }
   }
@@ -437,6 +455,9 @@ class Editor extends PureComponent<Props, State> {
       return this.clearEditor();
     }
 
+    // we are going to change editor's content, the decorations`` will be deleted.
+    this.emptyLineDecorations = [];
+
     if (!isLoaded(selectedSource)) {
       return showLoading(this.state.editor);
     }
@@ -447,6 +468,37 @@ class Editor extends PureComponent<Props, State> {
     if (selectedSource) {
       return showSourceText(this.state.editor, selectedSource.toJS(), symbols);
     }
+  }
+
+  setEmptyLines(nextProps) {
+    const { selectedSource, emptyLines } = nextProps;
+    const { editor } = this.state;
+
+    if (!editor) {
+      return;
+    }
+
+    if (!emptyLines) {
+      return;
+    }
+
+    const newDecorations = emptyLines.map(emptyLine => {
+      const line = toEditorLine(selectedSource.get("id"), emptyLine);
+      return {
+        options: emptyLineDecorationOpt,
+        range: {
+          startLineNumber: line,
+          startColumn: 1,
+          endLineNumber: line,
+          endColumn: 1
+        }
+      };
+    });
+
+    this.emptyLineDecorations = editor.monaco.deltaDecorations(
+      this.emptyLineDecorations,
+      newDecorations
+    );
   }
 
   clearEditor() {
@@ -524,7 +576,6 @@ class Editor extends PureComponent<Props, State> {
       <div>
         <DebugLine editor={editor} />
         <HighlightLine editor={editor} />
-        <EmptyLines editor={editor} />
         <Breakpoints editor={editor} />
         <Preview editor={editor} />;
         <Footer editor={editor} horizontal={horizontal} />
@@ -583,7 +634,10 @@ const mapStateToProps = state => {
     hitCount: getHitCountForSource(state, sourceId),
     coverageOn: getCoverageEnabled(state),
     conditionalPanelLine: getConditionalPanelLine(state),
-    symbols: getSymbols(state, selectedSource && selectedSource.toJS())
+    symbols: getSymbols(state, selectedSource && selectedSource.toJS()),
+    emptyLines: selectedSource
+      ? getEmptyLines(state, selectedSource.toJS())
+      : []
   };
 };
 
