@@ -23,7 +23,7 @@ import {
 import { getMappedExpression } from "./expressions";
 import { isEqual } from "lodash";
 
-import type { ThunkArgs } from "./types";
+import type { Action, ThunkArgs } from "./types";
 import type { Frame, Range, Position } from "../types";
 
 async function getReactProps(evaluate) {
@@ -166,7 +166,7 @@ export function setPreview(
   cursorPos: any
 ) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
-    await dispatch({
+    const action: Action = {
       type: "SET_PREVIEW",
       [PROMISE]: (async function() {
         const source = getSelectedSource(getState());
@@ -203,7 +203,9 @@ export function setPreview(
           extra
         };
       })()
-    });
+    };
+
+    await dispatch(action);
   };
 }
 
@@ -214,8 +216,10 @@ export function clearPreview() {
       return;
     }
 
-    return dispatch({
+    const action: Action = {
       type: "CLEAR_SELECTION"
-    });
+    };
+
+    return dispatch(action);
   };
 }

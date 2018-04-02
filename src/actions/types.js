@@ -71,13 +71,6 @@ export type ActionType = Object | Function;
  */
 export type AsyncStatus = "start" | "done" | "error";
 
-type BreakpointResult = {
-  actualLocation: Location,
-  id: string,
-  text: string,
-  generatedLocation: Location
-};
-
 type AddBreakpointResult = {
   previousLocation: Location,
   breakpoint: Breakpoint
@@ -92,47 +85,59 @@ type ProjectTextSearchResult = {
 type BreakpointAction =
   | PromiseAction<
       {|
-        type: "ADD_BREAKPOINT",
-        breakpoint: Breakpoint,
-        condition?: string
+        +type: "ADD_BREAKPOINT",
+        +breakpoint: Breakpoint,
+        +condition?: string
       |},
       AddBreakpointResult
     >
   | PromiseAction<{|
-      type: "REMOVE_BREAKPOINT",
-      breakpoint: Breakpoint,
-      disabled: boolean
+      +type: "REMOVE_BREAKPOINT",
+      +breakpoint: Breakpoint,
+      +disabled: boolean
     |}>
   // for simulating a successful server request
   | {|
-      type: "REMOVE_BREAKPOINT",
-      breakpoint: Breakpoint,
-      status: "done"
+      +type: "REMOVE_BREAKPOINT",
+      +breakpoint: Breakpoint,
+      +status: "done"
     |}
   | {|
-      type: "SET_BREAKPOINT_CONDITION",
-      breakpoint: Breakpoint
+      +type: "SET_BREAKPOINT_CONDITION",
+      +breakpoint: Breakpoint
     |}
   | PromiseAction<{|
-      type: "TOGGLE_BREAKPOINTS",
-      shouldDisableBreakpoints: boolean
+      +type: "TOGGLE_BREAKPOINTS",
+      +shouldDisableBreakpoints: boolean
     |}>
   | {|
-      type: "SYNC_BREAKPOINT",
-      breakpoint: ?Breakpoint,
-      previousLocation: Location
+      +type: "SYNC_BREAKPOINT",
+      +breakpoint: ?Breakpoint,
+      +previousLocation: Location
     |}
   | PromiseAction<
       {|
-        type: "ENABLE_BREAKPOINT",
-        breakpoint: Breakpoint
+        +type: "ENABLE_BREAKPOINT",
+        +breakpoint: Breakpoint
       |},
       AddBreakpointResult
     >
-  | {| type: "DISABLE_BREAKPOINT", breakpoint: Breakpoint |}
-  | {| type: "DISABLE_ALL_BREAKPOINTS", breakpoints: Breakpoint[] |}
-  | {| type: "ENABLE_ALL_BREAKPOINTS", breakpoints: Breakpoint[] |}
-  | {| type: "REMAP_BREAKPOINTS", breakpoints: Breakpoint[] |};
+  | {|
+      +type: "DISABLE_BREAKPOINT",
+      +breakpoint: Breakpoint
+    |}
+  | {|
+      +type: "DISABLE_ALL_BREAKPOINTS",
+      +breakpoints: Breakpoint[]
+    |}
+  | {|
+      +type: "ENABLE_ALL_BREAKPOINTS",
+      +breakpoints: Breakpoint[]
+    |}
+  | {|
+      +type: "REMAP_BREAKPOINTS",
+      +breakpoints: Breakpoint[]
+    |};
 
 type SourceAction =
   | {| type: "ADD_SOURCE", source: Source |}
@@ -324,32 +329,29 @@ type NavigateAction =
 export type ASTAction =
   | PromiseAction<
       {|
-        type: "SET_SYMBOLS",
-        source: Source
+        +type: "SET_SYMBOLS",
+        +source: Source
       |},
       SymbolDeclaration[]
     >
   | {|
-      type: "SET_PAUSE_POINTS",
-      source: Source,
-      pausePoints: PausePoint[]
+      +type: "SET_PAUSE_POINTS",
+      +source: Source,
+      +pausePoints: PausePoint[]
     |}
   | {|
-      type: "SET_EMPTY_LINES",
-      source: Source,
-      emptyLines: AstLocation[]
+      +type: "OUT_OF_SCOPE_LOCATIONS",
+      +locations: AstLocation[] | null
     |}
   | {|
-      type: "OUT_OF_SCOPE_LOCATIONS",
-      locations: AstLocation[] | null
+      +type: "IN_SCOPE_LINES",
+      +lines: AstLocation[]
     |}
-  | {|
-      type: "IN_SCOPE_LINES",
-      lines: AstLocation[]
-    |}
-  | {|
-      type: "SET_PREVIEW",
-      value: {
+  | PromiseAction<
+      {|
+        +type: "SET_PREVIEW"
+      |},
+      {
         expression: string,
         result: any,
         location: AstLocation,
@@ -357,14 +359,14 @@ export type ASTAction =
         cursorPos: any,
         extra: any
       }
+    >
+  | {|
+      +type: "SET_SOURCE_METADATA",
+      +sourceId: string,
+      +sourceMetaData: SourceMetaDataType
     |}
   | {|
-      type: "SET_SOURCE_METADATA",
-      sourceId: string,
-      sourceMetaData: SourceMetaDataType
-    |}
-  | {|
-      type: "CLEAR_SELECTION"
+      +type: "CLEAR_SELECTION"
     |};
 
 export type SourceTreeAction = {| type: "SET_EXPANDED_STATE", expanded: any |};
