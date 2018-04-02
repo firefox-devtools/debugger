@@ -117,7 +117,9 @@ export function createBreakpoint(
     hidden,
     generatedLocation,
     astLocation,
-    id
+    id,
+    text,
+    originalText
   } = overrides;
 
   const defaultASTLocation = { name: undefined, offset: location };
@@ -127,10 +129,11 @@ export function createBreakpoint(
     disabled: disabled || false,
     hidden: hidden || false,
     loading: false,
-    text: "",
     astLocation: astLocation || defaultASTLocation,
     generatedLocation: generatedLocation || location,
-    location
+    location,
+    text,
+    originalText
   };
 
   return properties;

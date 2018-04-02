@@ -26,6 +26,7 @@ Object {
       "sourceId": "magic.js",
       "sourceUrl": "http://localhost:8000/examples/magic.js",
     },
+    "originalText": "",
     "text": "",
   },
   "previousLocation": Object {
@@ -63,6 +64,7 @@ Object {
       "sourceId": "magic.js",
       "sourceUrl": "http://localhost:8000/examples/magic.js",
     },
+    "originalText": "",
     "text": "",
   },
   "previousLocation": Object {
@@ -125,6 +127,7 @@ Object {
       "sourceId": "magic.js",
       "sourceUrl": "http://localhost:8000/examples/magic.js",
     },
+    "originalText": "",
     "text": "",
   },
   "previousLocation": Object {
@@ -162,6 +165,7 @@ Object {
       "sourceId": "magic.js",
       "sourceUrl": "http://localhost:8000/magic.js",
     },
+    "originalText": "",
     "text": "",
   },
   "previousLocation": Object {

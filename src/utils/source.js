@@ -16,7 +16,7 @@ import { basename } from "./path";
 import { parse as parseURL } from "url";
 export { isMinified } from "./isMinified";
 
-import type { Source, SourceRecord } from "../types";
+import type { Source, SourceRecord, Location } from "../types";
 import type { SymbolDeclarations } from "../workers/parser";
 
 type transformUrlCallback = string => string;
@@ -312,4 +312,20 @@ export function isLoaded(source: SourceRecord) {
 
 export function isLoading(source: SourceRecord) {
   return source.get("loadedState") === "loading";
+}
+
+export function getTextAtPosition(source: Source, location: Location) {
+  if (!source || !source.text) {
+    return "";
+  }
+
+  const line = location.line;
+  const column = location.column || 0;
+
+  const lineText = source.text.split("\n")[line - 1];
+  if (!lineText) {
+    return "";
+  }
+
+  return lineText.slice(column, column + 100).trim();
 }

@@ -115,7 +115,6 @@ class Breakpoints extends Component<Props> {
   }
 
   renderBreakpoint(breakpoint) {
-    const snippet = breakpoint.text || "";
     const locationId = breakpoint.locationId;
     const line = breakpoint.location.line;
     const column = breakpoint.location.column;
@@ -152,7 +151,6 @@ class Breakpoints extends Component<Props> {
         <label className="breakpoint-label" title={breakpoint.text}>
           {renderSourceLocation(breakpoint.location.source, line, column)}
         </label>
-        <div className="breakpoint-snippet">{snippet}</div>
         <CloseButton
           handleClick={ev => this.removeBreakpoint(ev, breakpoint)}
           tooltip={L10N.getStr("breakpoints.removeBreakpointTooltip")}
