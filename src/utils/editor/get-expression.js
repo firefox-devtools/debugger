@@ -52,7 +52,8 @@ export function getExpressionFromCoords(cm: any, coord: ColumnPosition) {
 
     startHighlight = tokenBefore.startColumn;
   }
-  const expression = line.substring(startHighlight, endHighlight);
+
+  const expression = line.substring(startHighlight, endHighlight) || "";
 
   if (!expression) {
     return null;
