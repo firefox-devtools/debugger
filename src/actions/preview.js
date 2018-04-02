@@ -165,46 +165,46 @@ export function setPreview(
   cursorPos: any
 ) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
-    const action: Action = {
-      type: "SET_PREVIEW",
-      [PROMISE]: (async function() {
-        const source = getSelectedSource(getState());
+    await dispatch(
+      ({
+        type: "SET_PREVIEW",
+        [PROMISE]: (async function() {
+          const source = getSelectedSource(getState());
 
-        const sourceId = source.get("id");
-        if (location && !isGeneratedId(sourceId)) {
-          expression = await dispatch(getMappedExpression(expression));
-        }
+          const sourceId = source.get("id");
+          if (location && !isGeneratedId(sourceId)) {
+            expression = await dispatch(getMappedExpression(expression));
+          }
 
-        const selectedFrame = getSelectedFrame(getState());
-        if (!selectedFrame) {
-          return;
-        }
+          const selectedFrame = getSelectedFrame(getState());
+          if (!selectedFrame) {
+            return;
+          }
 
-        const { result } = await client.evaluateInFrame(
-          selectedFrame.id,
-          expression
-        );
+          const { result } = await client.evaluateInFrame(
+            selectedFrame.id,
+            expression
+          );
 
-        if (result === undefined) {
-          return;
-        }
+          if (result === undefined) {
+            return;
+          }
 
-        const extra = await dispatch(
-          getExtra(expression, result, selectedFrame)
-        );
+          const extra = await dispatch(
+            getExtra(expression, result, selectedFrame)
+          );
 
-        return {
-          expression,
-          result,
-          location,
-          tokenPos,
-          cursorPos,
-          extra
-        };
-      })()
-    };
-
-    await dispatch(action);
+          return {
+            expression,
+            result,
+            location,
+            tokenPos,
+            cursorPos,
+            extra
+          };
+        })()
+      }: Action)
+    );
   };
 }
 
@@ -215,10 +215,10 @@ export function clearPreview() {
       return;
     }
 
-    const action: Action = {
-      type: "CLEAR_SELECTION"
-    };
-
-    return dispatch(action);
+    return dispatch(
+      ({
+        type: "CLEAR_SELECTION"
+      }: Action)
+    );
   };
 }

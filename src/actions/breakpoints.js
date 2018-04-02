@@ -55,13 +55,13 @@ export function syncBreakpoint(
       pendingBreakpoint
     );
 
-    const action: Action = {
-      type: "SYNC_BREAKPOINT",
-      breakpoint,
-      previousLocation
-    };
-
-    return dispatch(action);
+    return dispatch(
+      ({
+        type: "SYNC_BREAKPOINT",
+        breakpoint,
+        previousLocation
+      }: Action)
+    );
   };
 }
 
@@ -80,12 +80,18 @@ export function addBreakpoint(
 ) {
   const breakpoint = createBreakpoint(location, { condition, hidden });
   return ({ dispatch, getState, sourceMaps, client }: ThunkArgs) => {
-    const action: Action = {
-      type: "ADD_BREAKPOINT",
-      breakpoint,
-      [PROMISE]: addBreakpointPromise(getState, client, sourceMaps, breakpoint)
-    };
-    return dispatch(action);
+    return dispatch(
+      ({
+        type: "ADD_BREAKPOINT",
+        breakpoint,
+        [PROMISE]: addBreakpointPromise(
+          getState,
+          client,
+          sourceMaps,
+          breakpoint
+        )
+      }: Action)
+    );
   };
 }
 
@@ -115,29 +121,27 @@ export function removeBreakpoint(location: Location) {
       return;
     }
 
-    let action: Action;
-
     // If the breakpoint is already disabled, we don't need to communicate
     // with the server. We just need to dispatch an action
     // simulating a successful server request
     if (bp.disabled) {
-      action = {
-        type: "REMOVE_BREAKPOINT",
-        breakpoint: bp,
-        status: "done"
-      };
-
-      return dispatch(action);
+      return dispatch(
+        ({
+          type: "REMOVE_BREAKPOINT",
+          breakpoint: bp,
+          status: "done"
+        }: Action)
+      );
     }
 
-    action = {
-      type: "REMOVE_BREAKPOINT",
-      breakpoint: bp,
-      disabled: false,
-      [PROMISE]: client.removeBreakpoint(bp.generatedLocation)
-    };
-
-    return dispatch(action);
+    return dispatch(
+      ({
+        type: "REMOVE_BREAKPOINT",
+        breakpoint: bp,
+        disabled: false,
+        [PROMISE]: client.removeBreakpoint(bp.generatedLocation)
+      }: Action)
+    );
   };
 }
 
@@ -215,17 +219,21 @@ export function toggleAllBreakpoints(shouldDisableBreakpoints: boolean) {
       }
     }
 
-    const action: Action = shouldDisableBreakpoints
-      ? {
+    if (shouldDisableBreakpoints) {
+      return dispatch(
+        ({
           type: "DISABLE_ALL_BREAKPOINTS",
           breakpoints: modifiedBreakpoints
-        }
-      : {
-          type: "ENABLE_ALL_BREAKPOINTS",
-          breakpoints: modifiedBreakpoints
-        };
+        }: Action)
+      );
+    }
 
-    return dispatch(action);
+    return dispatch(
+      ({
+        type: "ENABLE_ALL_BREAKPOINTS",
+        breakpoints: modifiedBreakpoints
+      }: Action)
+    );
   };
 }
 
@@ -288,12 +296,12 @@ export function remapBreakpoints(sourceId: string) {
       sourceMaps
     );
 
-    const action: Action = {
-      type: "REMAP_BREAKPOINTS",
-      breakpoints: newBreakpoints
-    };
-
-    return dispatch(action);
+    return dispatch(
+      ({
+        type: "REMAP_BREAKPOINTS",
+        breakpoints: newBreakpoints
+      }: Action)
+    );
   };
 }
 
@@ -339,12 +347,12 @@ export function setBreakpointCondition(
 
     assertBreakpoint(newBreakpoint);
 
-    const action: Action = {
-      type: "SET_BREAKPOINT_CONDITION",
-      breakpoint: newBreakpoint
-    };
-
-    return dispatch(action);
+    return dispatch(
+      ({
+        type: "SET_BREAKPOINT_CONDITION",
+        breakpoint: newBreakpoint
+      }: Action)
+    );
   };
 }
 

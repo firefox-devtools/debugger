@@ -34,15 +34,16 @@ export function setSourceMetaData(sourceId: SourceId) {
     }
 
     const framework = await getFramework(source.id);
-    const action: Action = {
-      type: "SET_SOURCE_METADATA",
-      sourceId: source.id,
-      sourceMetaData: {
-        framework
-      }
-    };
 
-    dispatch(action);
+    dispatch(
+      ({
+        type: "SET_SOURCE_METADATA",
+        sourceId: source.id,
+        sourceMetaData: {
+          framework
+        }
+      }: Action)
+    );
   };
 }
 
@@ -58,13 +59,13 @@ export function setSymbols(sourceId: SourceId) {
       return;
     }
 
-    const action: Action = {
-      type: "SET_SYMBOLS",
-      source: source.toJS(),
-      [PROMISE]: getSymbols(source.id)
-    };
-
-    await dispatch(action);
+    await dispatch(
+      ({
+        type: "SET_SYMBOLS",
+        source: source.toJS(),
+        [PROMISE]: getSymbols(source.id)
+      }: Action)
+    );
 
     if (isPaused(getState())) {
       await dispatch(mapFrames());
@@ -89,12 +90,12 @@ export function setOutOfScopeLocations() {
       locations = await findOutOfScopeLocations(source.get("id"), location);
     }
 
-    const action: Action = {
-      type: "OUT_OF_SCOPE_LOCATIONS",
-      locations
-    };
-
-    dispatch(action);
+    dispatch(
+      ({
+        type: "OUT_OF_SCOPE_LOCATIONS",
+        locations
+      }: Action)
+    );
     dispatch(setInScopeLines());
   };
 }
@@ -112,12 +113,12 @@ export function setPausePoints(sourceId: SourceId) {
       await client.setPausePoints(source.id, pausePoints);
     }
 
-    const action: Action = {
-      type: "SET_PAUSE_POINTS",
-      source: source.toJS(),
-      pausePoints
-    };
-
-    dispatch(action);
+    dispatch(
+      ({
+        type: "SET_PAUSE_POINTS",
+        source: source.toJS(),
+        pausePoints
+      }: Action)
+    );
   };
 }
