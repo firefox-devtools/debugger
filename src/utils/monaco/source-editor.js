@@ -3,6 +3,7 @@ import "monaco-editor/esm/vs/editor/browser/controller/coreCommands.js";
 import "monaco-editor/esm/vs/editor/contrib/hover/hover.js";
 import "monaco-editor/esm/vs/editor/contrib/folding/folding.js";
 import "monaco-editor/esm/vs/editor/standalone/browser/quickOpen/gotoLine.js";
+import { ModelDecorationOptions } from "monaco-editor/esm/vs/editor/common/model/textModel";
 import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
 
 // (2) Desired languages:
@@ -26,7 +27,7 @@ self.MonacoEnvironment = {
   }
 };
 
-export default class SourceEditor {
+export class SourceEditor {
   opts: any;
   editor: any;
 
@@ -46,3 +47,8 @@ export default class SourceEditor {
     this.editor.setModel(doc);
   }
 }
+
+export const EMPTY_LINES_DECORATION = ModelDecorationOptions.register({
+  stickiness: 1,
+  marginClassName: "empty-line"
+});

@@ -44,7 +44,10 @@ import EditorMenu from "./EditorMenu";
 import ConditionalPanel from "./ConditionalPanel";
 import type { SymbolDeclarations } from "../../workers/parser/types";
 
-import SourceEditor from "../../utils/monaco/source-editor";
+import {
+  SourceEditor,
+  EMPTY_LINES_DECORATION
+} from "../../utils/monaco/source-editor";
 import {
   shouldShowFooter,
   toSourceLine,
@@ -94,11 +97,6 @@ export type Props = {
   addOrToggleDisabledBreakpoint: (?number) => void,
   jumpToMappedLocation: any => void,
   traverseResults: (boolean, Object) => void
-};
-
-const emptyLineDecorationOpt = {
-  marginClassName: "empty-line",
-  stickiness: 1
 };
 
 type State = {
@@ -455,7 +453,7 @@ class Editor extends PureComponent<Props, State> {
       return this.clearEditor();
     }
 
-    // we are going to change editor's content, the decorations`` will be deleted.
+    // we are going to change text model, the decorations will be deleted.
     this.emptyLineDecorations = [];
 
     if (!isLoaded(selectedSource)) {
@@ -485,7 +483,7 @@ class Editor extends PureComponent<Props, State> {
     const newDecorations = emptyLines.map(emptyLine => {
       const line = toEditorLine(selectedSource.get("id"), emptyLine);
       return {
-        options: emptyLineDecorationOpt,
+        options: EMPTY_LINES_DECORATION,
         range: {
           startLineNumber: line,
           startColumn: 1,
