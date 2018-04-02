@@ -1,5 +1,7 @@
 import SourceEditor from "./source-editor";
-import * as monaco from "monaco-editor";
+import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
+import { StaticServices } from "monaco-editor/esm/vs/editor/standalone/browser/standaloneServices";
+
 const models = {};
 
 function getDocument(key: string) {
@@ -24,20 +26,31 @@ function clearDocuments() {
 
 function updateLineNumberFormat() {}
 
+function createModel(value, language, uri, isForSimpleWidget) {
+  return StaticServices.modelService
+    .get()
+    .createModel(
+      value,
+      StaticServices.modeService.get().getOrCreateMode(language),
+      uri,
+      true
+    );
+}
+
 function updateDocument(editor: SourceEditor, source: SourceRecord) {
   if (!source) {
     return;
   }
 
   const sourceId = source.get("id");
-  const doc = getDocument(sourceId) || monaco.editor.createModel("");
+  const doc = getDocument(sourceId) || createModel("", "plaintext", null, true);
   editor.replaceDocument(doc);
 
   //   updateLineNumberFormat(editor, sourceId);
 }
 
 function clearEditor(editor: SourceEditor) {
-  const doc = monaco.editor.createModel("", "plaintext");
+  const doc = createModel("", "plaintext", null, true);
   editor.replaceDocument(doc);
   //   resetLineNumberFormat(editor);
 }
@@ -65,7 +78,9 @@ function showSourceText(
     return doc;
   }
 
-  const doc = monaco.editor.createModel(text, "javascript");
+  // workaround: avoid guessIndentation for large content.
+  const doc = createModel("", "javascript", null, true);
+  doc.setValue(text);
   setDocument(sourceId, doc);
   editor.replaceDocument(doc);
   updateLineNumberFormat(editor, sourceId);
@@ -78,7 +93,7 @@ function showErrorMessage(editor: Object, msg: string) {
   } else {
     error = L10N.getFormatStr("errorLoadingText3", msg);
   }
-  const doc = monaco.editor.createModel(error, "plaintext");
+  const doc = createModel(error, "plaintext", null, true);
   editor.replaceDocument(doc);
   //   resetLineNumberFormat(editor);
 }

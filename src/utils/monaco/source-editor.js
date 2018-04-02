@@ -1,5 +1,12 @@
-// import * as monaco from "@timkendrick/monaco-editor/dist/external";
-import * as monaco from "monaco-editor";
+// (1) Desired editor features:
+import "monaco-editor/esm/vs/editor/browser/controller/coreCommands.js";
+import "monaco-editor/esm/vs/editor/contrib/hover/hover.js";
+import "monaco-editor/esm/vs/editor/contrib/folding/folding.js";
+import "monaco-editor/esm/vs/editor/standalone/browser/quickOpen/gotoLine.js";
+import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
+
+// (2) Desired languages:
+import "monaco-editor/esm/vs/language/typescript/monaco.contribution";
 
 self.MonacoEnvironment = {
   getWorkerUrl: function(moduleId, label) {
