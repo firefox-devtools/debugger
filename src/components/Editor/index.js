@@ -57,7 +57,6 @@ import {
 
 import { resizeToggleButton } from "../../utils/ui";
 
-import "./monaco.css";
 import "./Editor.css";
 import "./Highlight.css";
 
@@ -122,10 +121,15 @@ class Editor extends PureComponent<Props, State> {
   setupEditor() {
     const editor = new SourceEditor({
       theme: "vs-dark",
-      // glyphMargin: true,
-      contextmenu: false,
       readOnly: true,
+      overviewRulerLanes: 0,
       selectOnLineNumbers: false,
+      hideCursorInOverviewRuler: true,
+      selectionHighlight: false,
+      overviewRulerBorder: false,
+      scrollBeyondLastLine: false,
+      renderLineHighlight: "none",
+      fixedOverflowWidgets: true,
       lineNumbersMinChars: 3,
       folding: true,
       showFoldingControls: "mouseover",
@@ -133,9 +137,7 @@ class Editor extends PureComponent<Props, State> {
         enabled: false
       },
       renderIndentGuides: false,
-      dragAndDrop: false,
-      links: false,
-      colorDecorators: false
+      cursorBlinking: "blink"
     });
 
     const node = ReactDOM.findDOMNode(this);
@@ -150,12 +152,6 @@ class Editor extends PureComponent<Props, State> {
       }
       return false;
     });
-
-    // disables the default search shortcuts
-    // $FlowIgnore
-    editor.monaco._standaloneKeybindingService.addDynamicKeybinding(
-      "-actions.find"
-    );
 
     editor.monaco.onMouseDown(e => {
       const data = e.target.detail;
