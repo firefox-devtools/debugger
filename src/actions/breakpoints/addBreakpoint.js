@@ -20,8 +20,8 @@ export default async function addBreakpoint(
   breakpoint
 ) {
   const state = getState();
-
   const source = getSource(state, breakpoint.location.sourceId);
+
   const location = { ...breakpoint.location, sourceUrl: source.url };
   const generatedLocation = await getGeneratedLocation(
     state,
@@ -29,6 +29,8 @@ export default async function addBreakpoint(
     location,
     sourceMaps
   );
+
+  const generatedSource = getSource(state, generatedLocation.sourceId);
 
   assertLocation(location);
   assertLocation(generatedLocation);
@@ -53,17 +55,8 @@ export default async function addBreakpoint(
   const symbols = getSymbols(getState(), source);
   const astLocation = await getASTLocation(source, symbols, newLocation);
 
-  // generatedSource.text, in the case of pretty print or original tab
-  // returns the minified contents, which is why it's used
-  // when creating the "originalText"
-  const generatedSource = getSource(state, generatedLocation.sourceId);
-
-  const text = getTextAtPosition(source.text, location.line, location.column);
-  const originalText = getTextAtPosition(
-    generatedSource && generatedSource.text,
-    actualLocation.line,
-    actualLocation.column
-  );
+  const originalText = getTextAtPosition(source, location);
+  const text = getTextAtPosition(generatedSource, actualLocation);
 
   const newBreakpoint = {
     id,

@@ -80,9 +80,12 @@ export async function syncClientBreakpoint(
   assertPendingBreakpoint(pendingBreakpoint);
 
   const source = getSource(getState(), sourceId);
+
   const generatedSourceId = sourceMaps.isOriginalId(sourceId)
     ? originalToGeneratedId(sourceId)
     : sourceId;
+
+  const generatedSource = getSource(getState(), generatedSourceId);
 
   const { location, astLocation } = pendingBreakpoint;
   const previousLocation = { ...location, sourceId };
@@ -114,22 +117,14 @@ export async function syncClientBreakpoint(
 
   const existingClient = client.getBreakpointByLocation(generatedLocation);
 
-  // generatedSource.text, in the case of pretty print or original tab
-  // returns the minified contents, which is why it's used
-  // when creating the "originalText"
-  const generatedSource = getSource(getState(), generatedSourceId);
-  const text = getTextAtPosition(source.text, location.line, location.column);
-  const originalText = getTextAtPosition(
-    generatedSource && generatedSource.text,
-    generatedLocation.line,
-    generatedLocation.column
-  );
-
   /** ******* CASE 1: No server change ***********/
   // early return if breakpoint is disabled or we are in the sameLocation
   // send update only to redux
   if (pendingBreakpoint.disabled || (existingClient && isSameLocation)) {
     const id = pendingBreakpoint.disabled ? "" : existingClient.id;
+    const originalText = getTextAtPosition(source, previousLocation);
+    const text = getTextAtPosition(generatedSource, generatedLocation);
+
     return createSyncData(
       id,
       pendingBreakpoint,
@@ -166,6 +161,9 @@ export async function syncClientBreakpoint(
   const newLocation = await sourceMaps.getOriginalLocation(
     newGeneratedLocation
   );
+
+  const originalText = getTextAtPosition(source, newLocation);
+  const text = getTextAtPosition(generatedSource, newGeneratedLocation);
 
   return createSyncData(
     id,
