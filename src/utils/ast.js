@@ -2,16 +2,17 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
+// @flow
+
 import { without, range } from "lodash";
 
 import type { Location, Source, ColumnPosition } from "../types";
+
+import type { AstPosition, AstLocation, PausePoint } from "../workers/parser";
 import type {
-  AstPosition,
-  AstLocation,
   SymbolDeclarations,
-  SymbolDeclaration,
-  PausePoint
-} from "../workers/parser";
+  FunctionDeclaration
+} from "../workers/parser/getSymbols";
 
 export function findBestMatchExpression(
   symbols: SymbolDeclarations,
@@ -19,14 +20,16 @@ export function findBestMatchExpression(
 ) {
   const { memberExpressions, identifiers, literals } = symbols;
   const { line, column } = tokenPos;
-  return identifiers
-    .concat(memberExpressions, literals)
+
+  const members = memberExpressions.filter(({ computed }) => !computed);
+
+  return []
+    .concat(identifiers, members, literals)
     .reduce((found, expression) => {
       const overlaps =
         expression.location.start.line == line &&
         expression.location.start.column <= column &&
-        expression.location.end.column >= column &&
-        !expression.computed;
+        expression.location.end.column >= column;
 
       if (overlaps) {
         return expression;
@@ -66,7 +69,7 @@ export function containsPosition(a: AstLocation, b: AstPosition) {
 }
 
 export function findClosestFunction(
-  functions: SymbolDeclaration[],
+  functions: FunctionDeclaration[],
   location: Location
 ) {
   return functions.reduce((found, currNode) => {
