@@ -26,6 +26,8 @@ Object {
     "sourceId": "a",
     "sourceUrl": "http://localhost:8000/examples/a",
   },
+  "originalText": "",
+  "text": "",
 }
 `;
 
@@ -56,5 +58,7 @@ Object {
     "sourceId": "a.js/originalSource-d6d70368d5c252598541e693a7ad6c27",
     "sourceUrl": "http://localhost:8000/examples/a.js:formatted",
   },
+  "originalText": "function a() {",
+  "text": "function a() {",
 }
 `;
