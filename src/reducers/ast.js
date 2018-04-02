@@ -15,9 +15,9 @@ import makeRecord from "../utils/makeRecord";
 import { findEmptyLines } from "../utils/ast";
 
 import type {
-  SymbolDeclarations,
   AstLocation,
-  PausePoint
+  PausePoint,
+  SymbolDeclarations
 } from "../workers/parser";
 
 import type { Map } from "immutable";
@@ -26,12 +26,13 @@ import type { Action, DonePromiseAction } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 type EmptyLinesType = number[];
+
 export type Symbols = SymbolDeclarations | {| loading: true |};
 export type SymbolsMap = Map<string, Symbols>;
 export type EmptyLinesMap = Map<string, EmptyLinesType>;
 
 export type SourceMetaDataType = {
-  framework: ?string
+  framework: string | void
 };
 
 export type SourceMetaDataMap = Map<string, SourceMetaDataType>;

@@ -1,11 +1,17 @@
-import { createStore, selectors, actions } from "../../utils/test-head";
+import {
+  createStore,
+  selectors,
+  actions,
+  makeSource
+} from "../../utils/test-head";
 
 const {
   getActiveSearch,
   getFrameworkGroupingState,
   getPaneCollapse,
   getHighlightedLineRange,
-  getProjectDirectoryRoot
+  getProjectDirectoryRoot,
+  getRelativeSources
 } = selectors;
 
 describe("ui", () => {
@@ -89,5 +95,21 @@ describe("setProjectDirectoryRoot", () => {
     dispatch(actions.clearProjectDirectoryRoot());
     dispatch(actions.setProjectDirectoryRoot("/example.com/bar"));
     expect(getProjectDirectoryRoot(getState())).toBe("/example.com/bar");
+  });
+
+  it("should filter sources", async () => {
+    const store = createStore({});
+    const { dispatch, getState } = store;
+    await dispatch(actions.newSource(makeSource("js/scopes.js")));
+    await dispatch(actions.newSource(makeSource("lib/vendor.js")));
+    dispatch(actions.setProjectDirectoryRoot("/js"));
+    const filteredSources = getRelativeSources(getState());
+    const firstSource = filteredSources[0];
+
+    expect(firstSource.url).toEqual(
+      "http://localhost:8000/examples/js/scopes.js"
+    );
+
+    expect(firstSource.relativeUrl).toEqual("scopes.js");
   });
 });

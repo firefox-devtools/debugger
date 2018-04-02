@@ -1,6 +1,7 @@
 import { makeLocationId } from "../../../utils/breakpoint";
 
 function createSource(name) {
+  name = name.replace(/\..*$/, "");
   return {
     source: `function ${name}() {\n  return ${name} \n}`,
     contentType: "text/javascript"

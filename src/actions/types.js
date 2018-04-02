@@ -27,11 +27,13 @@ import type {
 } from "../reducers/ui";
 
 import type { MatchedLocations } from "../reducers/file-search";
+
 import type {
-  SymbolDeclaration,
+  SymbolDeclarations,
   AstLocation,
   PausePoint
 } from "../workers/parser";
+
 import type { SourceMetaDataType } from "../reducers/ast.js";
 
 /**
@@ -332,7 +334,7 @@ export type ASTAction =
         +type: "SET_SYMBOLS",
         +source: Source
       |},
-      SymbolDeclaration[]
+      SymbolDeclarations
     >
   | {|
       +type: "SET_PAUSE_POINTS",
@@ -341,7 +343,7 @@ export type ASTAction =
     |}
   | {|
       +type: "OUT_OF_SCOPE_LOCATIONS",
-      +locations: AstLocation[] | null
+      +locations: ?(AstLocation[])
     |}
   | {|
       +type: "IN_SCOPE_LINES",

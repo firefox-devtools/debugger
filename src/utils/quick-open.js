@@ -3,13 +3,14 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
+
 import { endTruncateStr } from "./utils";
-import { isPretty, getSourcePath } from "./source";
+import { isPretty, getFilename } from "./source";
 
 import type { Location as BabelLocation } from "@babel/types";
-import type { SourcesMap } from "../reducers/sources";
 import type { Symbols } from "../reducers/ast";
 import type { QuickOpenType } from "../reducers/quick-open";
+import type { RelativeSource } from "../selectors/getRelativeSources";
 import type { SymbolDeclaration } from "../workers/parser";
 
 export const MODIFIERS = {
@@ -47,6 +48,19 @@ export function parseLineColumn(query: string) {
       ...(!isNaN(columnNumber) ? { column: columnNumber } : null)
     };
   }
+}
+
+export function formatSourcesForList(source: RelativeSource) {
+  const title = getFilename(source);
+  const subtitle = endTruncateStr(source.relativeUrl, 100);
+
+  return {
+    value: source.relativeUrl,
+    title,
+    subtitle,
+    id: source.id,
+    url: source.url
+  };
 }
 
 export type QuickOpenResult = {|
@@ -106,25 +120,11 @@ export function formatShortcutResults(): Array<QuickOpenResult> {
   ];
 }
 
-export function formatSources(sources: SourcesMap): Array<QuickOpenResult> {
+export function formatSources(
+  sources: RelativeSource[]
+): Array<QuickOpenResult> {
   return sources
-    .valueSeq()
     .filter(source => !isPretty(source))
-    .map(source => {
-      const sourcePath = getSourcePath(source.url);
-      return {
-        value: sourcePath,
-        title: sourcePath
-          .split("/")
-          .pop()
-          .split("?")[0],
-        subtitle: endTruncateStr(sourcePath, 100)
-          .replace(sourcePath.split("/").pop(), "")
-          .slice(1, -1),
-        id: source.id,
-        url: source.url
-      };
-    })
-    .filter(({ value }) => value != "")
-    .toJS();
+    .map(source => formatSourcesForList(source))
+    .filter(({ value }) => value != "");
 }

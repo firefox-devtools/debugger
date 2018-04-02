@@ -23,17 +23,16 @@ function summarize(symbol) {
   }
 
   const loc = formatLocation(symbol.location);
-  const exprLoc = formatLocation(symbol.expressionLocation);
   const params = symbol.parameterNames
     ? `(${symbol.parameterNames.join(", ")})`
     : "";
   const expression = symbol.expression || "";
   const klass = symbol.klass || "";
-  const name = symbol.name || "";
+  const name = symbol.name == undefined ? "" : symbol.name;
   const names = symbol.specifiers ? symbol.specifiers.join(", ") : "";
   const values = symbol.values ? symbol.values.join(", ") : "";
 
-  return `${loc} ${exprLoc} ${expression} ${name}${params} ${klass} ${names} ${values}`.trim(); // eslint-disable-line max-len
+  return `${loc} ${expression} ${name}${params} ${klass} ${names} ${values}`.trim(); // eslint-disable-line max-len
 }
 
 function formatKey(name, symbols) {

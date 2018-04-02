@@ -6,34 +6,37 @@
 
 import { without, range } from "lodash";
 
-import type { Location, Source, Position } from "../types";
+import type { Location, Source, ColumnPosition } from "../types";
+
+import type { AstPosition, AstLocation, PausePoint } from "../workers/parser";
 import type {
-  AstPosition,
-  AstLocation,
-  PausePoint,
   SymbolDeclarations,
-  SymbolDeclaration
-} from "../workers/parser";
+  FunctionDeclaration
+} from "../workers/parser/getSymbols";
 
 export function findBestMatchExpression(
   symbols: SymbolDeclarations,
-  tokenPos: Position
+  tokenPos: ColumnPosition
 ) {
-  const { memberExpressions, identifiers } = symbols;
+  const { memberExpressions, identifiers, literals } = symbols;
   const { line, column } = tokenPos;
-  return identifiers.concat(memberExpressions).reduce((found, expression) => {
-    const overlaps =
-      expression.location.start.line == line &&
-      expression.location.start.column <= column &&
-      expression.location.end.column >= column &&
-      !expression.computed;
 
-    if (overlaps) {
-      return expression;
-    }
+  const members = memberExpressions.filter(({ computed }) => !computed);
 
-    return found;
-  }, null);
+  return []
+    .concat(identifiers, members, literals)
+    .reduce((found, expression) => {
+      const overlaps =
+        expression.location.start.line == line &&
+        expression.location.start.column <= column &&
+        expression.location.end.column >= column;
+
+      if (overlaps) {
+        return expression;
+      }
+
+      return found;
+    }, null);
 }
 
 export function findEmptyLines(
@@ -66,7 +69,7 @@ export function containsPosition(a: AstLocation, b: AstPosition) {
 }
 
 export function findClosestFunction(
-  functions: SymbolDeclaration[],
+  functions: FunctionDeclaration[],
   location: Location
 ) {
   return functions.reduce((found, currNode) => {
