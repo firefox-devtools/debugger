@@ -24,7 +24,7 @@ import { isEmptyLineInSource } from "../reducers/ast";
 // this will need to be changed so that addCLientBreakpoint is removed
 import { syncClientBreakpoint } from "./breakpoints/syncBreakpoint";
 
-import type { ThunkArgs } from "./types";
+import type { ThunkArgs, Action } from "./types";
 import type { SourceId, PendingBreakpoint, Location } from "../types";
 import type { BreakpointsMap } from "../reducers/types";
 
@@ -55,11 +55,13 @@ export function syncBreakpoint(
       pendingBreakpoint
     );
 
-    return dispatch({
-      type: "SYNC_BREAKPOINT",
-      breakpoint,
-      previousLocation
-    });
+    return dispatch(
+      ({
+        type: "SYNC_BREAKPOINT",
+        breakpoint,
+        previousLocation
+      }: Action)
+    );
   };
 }
 
@@ -78,9 +80,18 @@ export function addBreakpoint(
 ) {
   const breakpoint = createBreakpoint(location, { condition, hidden });
   return ({ dispatch, getState, sourceMaps, client }: ThunkArgs) => {
-    const action = { type: "ADD_BREAKPOINT", breakpoint };
-    const promise = addBreakpointPromise(getState, client, sourceMaps, action);
-    return dispatch({ ...action, [PROMISE]: promise });
+    return dispatch(
+      ({
+        type: "ADD_BREAKPOINT",
+        breakpoint,
+        [PROMISE]: addBreakpointPromise(
+          getState,
+          client,
+          sourceMaps,
+          breakpoint
+        )
+      }: Action)
+    );
   };
 }
 
@@ -114,18 +125,23 @@ export function removeBreakpoint(location: Location) {
     // with the server. We just need to dispatch an action
     // simulating a successful server request
     if (bp.disabled) {
-      return dispatch({
-        type: "REMOVE_BREAKPOINT",
-        breakpoint: bp,
-        status: "done"
-      });
+      return dispatch(
+        ({
+          type: "REMOVE_BREAKPOINT",
+          breakpoint: bp,
+          status: "done"
+        }: Action)
+      );
     }
 
-    return dispatch({
-      type: "REMOVE_BREAKPOINT",
-      breakpoint: bp,
-      [PROMISE]: client.removeBreakpoint(bp.generatedLocation)
-    });
+    return dispatch(
+      ({
+        type: "REMOVE_BREAKPOINT",
+        breakpoint: bp,
+        disabled: false,
+        [PROMISE]: client.removeBreakpoint(bp.generatedLocation)
+      }: Action)
+    );
   };
 }
 
@@ -144,13 +160,13 @@ export function enableBreakpoint(location: Location) {
       return;
     }
 
-    const action = { type: "ENABLE_BREAKPOINT", breakpoint };
-    const promise = addBreakpointPromise(getState, client, sourceMaps, action);
-    return dispatch({
+    const action: Action = {
       type: "ENABLE_BREAKPOINT",
       breakpoint,
-      [PROMISE]: promise
-    });
+      [PROMISE]: addBreakpointPromise(getState, client, sourceMaps, breakpoint)
+    };
+
+    return dispatch(action);
   };
 }
 
@@ -171,10 +187,12 @@ export function disableBreakpoint(location: Location) {
     await client.removeBreakpoint(bp.generatedLocation);
     const newBreakpoint = { ...bp, disabled: true };
 
-    return dispatch({
+    const action: Action = {
       type: "DISABLE_BREAKPOINT",
       breakpoint: newBreakpoint
-    });
+    };
+
+    return dispatch(action);
   };
 }
 
@@ -201,12 +219,21 @@ export function toggleAllBreakpoints(shouldDisableBreakpoints: boolean) {
       }
     }
 
-    return dispatch({
-      type: shouldDisableBreakpoints
-        ? "DISABLE_ALL_BREAKPOINTS"
-        : "ENABLE_ALL_BREAKPOINTS",
-      breakpoints: modifiedBreakpoints
-    });
+    if (shouldDisableBreakpoints) {
+      return dispatch(
+        ({
+          type: "DISABLE_ALL_BREAKPOINTS",
+          breakpoints: modifiedBreakpoints
+        }: Action)
+      );
+    }
+
+    return dispatch(
+      ({
+        type: "ENABLE_ALL_BREAKPOINTS",
+        breakpoints: modifiedBreakpoints
+      }: Action)
+    );
   };
 }
 
@@ -269,10 +296,12 @@ export function remapBreakpoints(sourceId: string) {
       sourceMaps
     );
 
-    return dispatch({
-      type: "REMAP_BREAKPOINTS",
-      breakpoints: newBreakpoints
-    });
+    return dispatch(
+      ({
+        type: "REMAP_BREAKPOINTS",
+        breakpoints: newBreakpoints
+      }: Action)
+    );
   };
 }
 
@@ -318,10 +347,12 @@ export function setBreakpointCondition(
 
     assertBreakpoint(newBreakpoint);
 
-    return dispatch({
-      type: "SET_BREAKPOINT_CONDITION",
-      breakpoint: newBreakpoint
-    });
+    return dispatch(
+      ({
+        type: "SET_BREAKPOINT_CONDITION",
+        breakpoint: newBreakpoint
+      }: Action)
+    );
   };
 }
 

@@ -23,7 +23,7 @@ import {
 import { getMappedExpression } from "./expressions";
 import { isEqual } from "lodash";
 
-import type { ThunkArgs } from "./types";
+import type { Action, ThunkArgs } from "./types";
 import type { Frame, ColumnPosition } from "../types";
 import type { AstLocation } from "../workers/parser";
 
@@ -165,44 +165,46 @@ export function setPreview(
   cursorPos: any
 ) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
-    await dispatch({
-      type: "SET_PREVIEW",
-      [PROMISE]: (async function() {
-        const source = getSelectedSource(getState());
+    await dispatch(
+      ({
+        type: "SET_PREVIEW",
+        [PROMISE]: (async function() {
+          const source = getSelectedSource(getState());
 
-        const sourceId = source.get("id");
-        if (location && !isGeneratedId(sourceId)) {
-          expression = await dispatch(getMappedExpression(expression));
-        }
+          const sourceId = source.get("id");
+          if (location && !isGeneratedId(sourceId)) {
+            expression = await dispatch(getMappedExpression(expression));
+          }
 
-        const selectedFrame = getSelectedFrame(getState());
-        if (!selectedFrame) {
-          return;
-        }
+          const selectedFrame = getSelectedFrame(getState());
+          if (!selectedFrame) {
+            return;
+          }
 
-        const { result } = await client.evaluateInFrame(
-          selectedFrame.id,
-          expression
-        );
+          const { result } = await client.evaluateInFrame(
+            selectedFrame.id,
+            expression
+          );
 
-        if (result === undefined) {
-          return;
-        }
+          if (result === undefined) {
+            return;
+          }
 
-        const extra = await dispatch(
-          getExtra(expression, result, selectedFrame)
-        );
+          const extra = await dispatch(
+            getExtra(expression, result, selectedFrame)
+          );
 
-        return {
-          expression,
-          result,
-          location,
-          tokenPos,
-          cursorPos,
-          extra
-        };
-      })()
-    });
+          return {
+            expression,
+            result,
+            location,
+            tokenPos,
+            cursorPos,
+            extra
+          };
+        })()
+      }: Action)
+    );
   };
 }
 
@@ -213,8 +215,10 @@ export function clearPreview() {
       return;
     }
 
-    return dispatch({
-      type: "CLEAR_SELECTION"
-    });
+    return dispatch(
+      ({
+        type: "CLEAR_SELECTION"
+      }: Action)
+    );
   };
 }
