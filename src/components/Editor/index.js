@@ -41,7 +41,6 @@ import EmptyLines from "./EmptyLines";
 import GutterMenu from "./GutterMenu";
 import EditorMenu from "./EditorMenu";
 import ConditionalPanel from "./ConditionalPanel";
-import type { SymbolDeclarations } from "../../workers/parser";
 
 import {
   showSourceText,
@@ -66,6 +65,7 @@ import "./Editor.css";
 import "./Highlight.css";
 
 import type SourceEditor from "../../utils/editor/source-editor";
+import type { SymbolDeclarations } from "../../workers/parser";
 
 const cssVars = {
   searchbarHeight: "var(--editor-searchbar-height)",

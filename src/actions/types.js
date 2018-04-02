@@ -25,11 +25,13 @@ import type {
 } from "../reducers/ui";
 
 import type { MatchedLocations } from "../reducers/file-search";
+
 import type {
-  SymbolDeclaration,
+  SymbolDeclarations,
   AstLocation,
   PausePoint
 } from "../workers/parser";
+
 import type { SourceMetaDataType } from "../reducers/ast.js";
 
 /**
@@ -326,7 +328,7 @@ type ASTAction =
   | {
       type: "SET_SYMBOLS",
       source: Source,
-      value: SymbolDeclaration[]
+      value: SymbolDeclarations
     }
   | {
       type: "SET_PAUSE_POINTS",

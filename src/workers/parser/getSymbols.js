@@ -7,7 +7,6 @@
 import flatten from "lodash/flatten";
 import * as t from "@babel/types";
 
-import type { Node, TraversalAncestors } from "@babel/types";
 import createSimplePath from "./utils/simple-path";
 import { traverseAst } from "./utils/ast";
 import {
@@ -20,10 +19,62 @@ import {
 import { inferClassName } from "./utils/inferClassName";
 import getFunctionName from "./utils/getFunctionName";
 
-import type { SimplePath } from "./utils/simple-path";
-import type { SymbolDeclarations, SymbolDeclaration } from "./types";
+import type { SimplePath, Node, TraversalAncestors } from "./utils/simple-path";
 
-let symbolDeclarations = new Map();
+type AstPosition = { line: number, column: number };
+type AstLocation = { end: AstPosition, start: AstPosition };
+
+export type SymbolDeclaration = {
+  name: string,
+  location: AstLocation
+};
+
+export type ClassDeclaration = SymbolDeclaration & {
+  parent: string
+};
+
+export type FunctionDeclaration = SymbolDeclaration & {
+  parameterNames: string[],
+  klass: string | null,
+  identifier: Object
+};
+
+export type CallDeclaration = SymbolDeclaration & {
+  values: string[]
+};
+
+export type MemberDeclaration = SymbolDeclaration & {
+  computed: Boolean,
+  expression: string
+};
+
+export type IdentifierDeclaration = {
+  name: string,
+  location: AstLocation,
+  expression: string
+};
+export type ImportDeclaration = {
+  source: string,
+  location: AstLocation,
+  specifiers: string[]
+};
+
+export type SymbolDeclarations = {|
+  classes: Array<ClassDeclaration>,
+  functions: Array<FunctionDeclaration>,
+  variables: Array<SymbolDeclaration>,
+  memberExpressions: Array<MemberDeclaration>,
+  callExpressions: Array<CallDeclaration>,
+  objectProperties: Array<IdentifierDeclaration>,
+  identifiers: Array<IdentifierDeclaration>,
+  imports: Array<ImportDeclaration>,
+  comments: Array<SymbolDeclaration>,
+  literals: Array<IdentifierDeclaration>,
+  hasJsx: boolean,
+  hasTypes: boolean
+|};
+
+let symbolDeclarations: Map<string, SymbolDeclarations> = new Map();
 
 function getFunctionParameterNames(path: SimplePath): string[] {
   if (path.node.params != null) {
@@ -113,11 +164,12 @@ function getComments(ast) {
 
 function getSpecifiers(specifiers) {
   if (!specifiers) {
-    return null;
+    return [];
   }
 
   return specifiers.map(specifier => specifier.local && specifier.local.name);
 }
+
 /* eslint-disable complexity */
 function extractSymbol(path: SimplePath, symbols) {
   if (isVariable(path)) {
@@ -172,7 +224,6 @@ function extractSymbol(path: SimplePath, symbols) {
     symbols.memberExpressions.push({
       name: path.node.property.name,
       location: { start, end },
-      expressionLocation: path.node.loc,
       expression: getSnippet(path),
       computed: path.node.computed
     });
@@ -233,7 +284,6 @@ function extractSymbol(path: SimplePath, symbols) {
     symbols.identifiers.push({
       name: "this",
       location: { start, end },
-      expressionLocation: path.node.loc,
       expression: "this"
     });
   }
@@ -244,6 +294,7 @@ function extractSymbol(path: SimplePath, symbols) {
     if (t.isArrayPattern(node)) {
       return;
     }
+
     symbols.identifiers.push({
       name: node.name,
       expression: node.name,
@@ -253,7 +304,7 @@ function extractSymbol(path: SimplePath, symbols) {
 }
 /* eslint-enable complexity */
 
-function extractSymbols(sourceId) {
+function extractSymbols(sourceId): SymbolDeclarations {
   const symbols = {
     functions: [],
     variables: [],
@@ -291,9 +342,9 @@ function extractSymbols(sourceId) {
 function extendSnippet(
   name: string,
   expression: string,
-  path: SimplePath | Object | null = null,
-  prevPath: SimplePath | null = null
-): string | void {
+  path?: { node: Node },
+  prevPath?: SimplePath
+) {
   const computed = path && path.node.computed;
   const prevComputed = prevPath && prevPath.node.computed;
   const prevArray = t.isArrayExpression(prevPath);
@@ -359,9 +410,9 @@ function getMemberSnippet(node: Node, expression: string = "") {
 }
 
 function getObjectSnippet(
-  path: SimplePath | null,
-  prevPath: SimplePath | null,
-  expression: string = ""
+  path: ?SimplePath,
+  prevPath?: SimplePath,
+  expression?: string = ""
 ) {
   if (!path) {
     return expression;
@@ -397,9 +448,9 @@ function getArraySnippet(
 
 function getSnippet(
   path: SimplePath | null,
-  prevPath: SimplePath | null = null,
-  expression = ""
-) {
+  prevPath?: SimplePath,
+  expression?: string = ""
+): string {
   if (!path) {
     return expression;
   }
@@ -460,6 +511,8 @@ function getSnippet(
 
     return getArraySnippet(path, prevPath, expression);
   }
+
+  return "";
 }
 
 export function clearSymbols() {

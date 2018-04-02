@@ -3,14 +3,15 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
+
 import { endTruncateStr } from "./utils";
 import { isPretty, getFilename } from "./source";
 
 import type { Location as BabelLocation } from "@babel/types";
 import type { Symbols } from "../reducers/ast";
 import type { QuickOpenType } from "../reducers/quick-open";
-import type { SymbolDeclaration } from "../workers/parser";
 import type { RelativeSource } from "../selectors/getRelativeSources";
+import type { SymbolDeclaration } from "../workers/parser";
 
 export const MODIFIERS = {
   "@": "functions",
