@@ -52,3 +52,22 @@ export const EMPTY_LINES_DECORATION = ModelDecorationOptions.register({
   stickiness: 1,
   marginClassName: "empty-line"
 });
+
+export const BREAKPOINT_DECORATION = {
+  DEFAULT: ModelDecorationOptions.register({
+    stickiness: 1,
+    marginClassName: "debug-breakpoint-hint"
+  }),
+  DISABLED: ModelDecorationOptions.register({
+    stickiness: 1,
+    marginClassName: "debug-breakpoint-hint disabled"
+  }),
+  CONDITION: ModelDecorationOptions.register({
+    stickiness: 1,
+    marginClassName: "debug-breakpoint-hint condition"
+  }),
+  DISABLED_CONDITION: ModelDecorationOptions.register({
+    stickiness: 1,
+    marginClassName: "debug-breakpoint-hint disabled condition"
+  })
+};

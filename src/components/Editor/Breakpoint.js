@@ -5,12 +5,29 @@
 // @flow
 import { Component } from "react";
 import { toEditorLine } from "../../utils/monaco";
+import { BREAKPOINT_DECORATION } from "../../utils/monaco/source-editor";
 
 type Props = {
   breakpoint: Object,
   selectedSource: Object,
   editor: Object
 };
+
+function getBreakpoinkDecorationOption(disabled, condition) {
+  if (disabled) {
+    if (condition) {
+      return BREAKPOINT_DECORATION.DISABLED_CONDITION;
+    }
+
+    return BREAKPOINT_DECORATION.DISABLED;
+  }
+
+  if (condition) {
+    return BREAKPOINT_DECORATION.CONDITION;
+  }
+
+  return BREAKPOINT_DECORATION.DEFAULT;
+}
 
 class Breakpoint extends Component<Props> {
   addBreakpoint: Function;
@@ -39,12 +56,10 @@ class Breakpoint extends Component<Props> {
     const line = toEditorLine(sourceId, breakpoint.location.line);
 
     const newDecoration = {
-      options: {
-        marginClassName: `debug-breakpoint-hint${
-          breakpoint.disabled ? " disabled" : ""
-        }${breakpoint.condition ? " condition" : ""}`,
-        stickiness: 1
-      },
+      options: getBreakpoinkDecorationOption(
+        breakpoint.disabled,
+        breakpoint.condition
+      ),
       range: {
         startLineNumber: line,
         startColumn: 1,
