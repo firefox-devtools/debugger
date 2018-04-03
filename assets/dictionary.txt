@@ -178,3 +178,7 @@ findClosestFunction
 paren
 parens
 namespaces
+getMappedExpression
+getIn
+TypeError
+lastStatement
