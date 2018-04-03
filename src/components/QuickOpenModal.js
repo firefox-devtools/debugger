@@ -17,8 +17,7 @@ import {
   getSelectedSource,
   getSymbols,
   getTabs,
-  isSymbolsLoading,
-  getFormattedSourcesWithTabExistence
+  isSymbolsLoading
 } from "../selectors";
 import { scrollList } from "../utils/result-list";
 import {
@@ -420,7 +419,7 @@ function mapStateToProps(state) {
 
   return {
     enabled: getQuickOpenEnabled(state),
-    sources: formatSources(getRelativeSources(state)),
+    sources: formatSources(getRelativeSources(state), getTabs(state).toArray()),
     selectedSource,
     symbols: formatSymbols(getSymbols(state, selectedSource)),
     symbolsLoading: isSymbolsLoading(state, selectedSource),

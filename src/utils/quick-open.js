@@ -54,12 +54,13 @@ export function parseLineColumn(query: string) {
 export function formatSourcesForList(source: RelativeSource, tabs: TabList) {
   const title = getFilename(source);
   const subtitle = endTruncateStr(source.relativeUrl, 100);
-
   return {
     value: source.relativeUrl,
     title,
     subtitle,
-    badge: tabs.includes(source.url) ? "tab" : getSourceClassnames(source.url),
+    icon: tabs.includes(source.url)
+      ? "tab result-item-icon"
+      : getSourceClassnames(source, "result-item-icon"),
     id: source.id,
     url: source.url
   };
@@ -72,7 +73,8 @@ export type QuickOpenResult = {|
   badge?: boolean,
   subtitle?: string,
   location?: BabelLocation,
-  url?: string
+  url?: string,
+  icon?: string
 |};
 
 export type FormattedSymbolDeclarations = {|

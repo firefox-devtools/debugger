@@ -57,16 +57,11 @@
   background: var(--grey-70);
 }
 
-.result-list li.selected .svg {
-  color: white;
+.result-list li .result-item-icon {
+  background-color: var(--theme-comment);
 }
-/* Fix svg styles/color */
-.result-list li .svg {
-  color: var(--theme-body-color-inactive);
-  width: 20px;
-  margin-left: 4px;
-  margin-right: 4px;
-  line-height: 8px;
+.result-list li.selected .result-item-icon {
+  background-color: var(--theme-selection-color);
 }
 
 .result-list li .title {

@@ -47,6 +47,11 @@ img.source-icon {
   height: 15px;
 }
 
+img.result-item-icon {
+  height: 18px;
+  width: 18px;
+}
+
 img.domain {
   mask: url(/images/domain.svg) no-repeat;
 }
@@ -87,6 +92,13 @@ img.file,
 img.source-icon {
   mask-size: 100%;
   margin-inline-end: 5px;
+  display: inline-block;
+}
+
+img.result-item-icon {
+  mask-size: 100%;
+  margin-inline-end: 15px;
+  margin-inline-start: 5px;
   display: inline-block;
 }
 

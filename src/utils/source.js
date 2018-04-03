@@ -341,12 +341,15 @@ export function getTextAtPosition(source: Source, location: Location) {
   return lineText.slice(column, column + 100).trim();
 }
 
-export function getSourceClassnames(source: Object) {
+export function getSourceClassnames(
+  source: Object,
+  ...additionalClasses: Array<string>
+) {
   const sourceRecord = new SourceRecordClass(source);
   if (source && sourceRecord.get("isBlackBoxed")) {
     return "blackBox";
   }
   const sourceType = sourceTypes[getExtension(sourceRecord)];
-  const classNames = classnames("source-icon", sourceType || "file");
+  const classNames = classnames(sourceType || "file", ...additionalClasses);
   return classNames;
 }

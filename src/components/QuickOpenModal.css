@@ -14,7 +14,8 @@
 }
 
 .theme-dark .result-item .title .highlight,
-.theme-dark .result-item .subtitle .highlight {
+.theme-dark .result-item .subtitle .highlight,
+.theme-dark .result-item .svg .highlight {
   color: white;
 }
 
