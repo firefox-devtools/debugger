@@ -1,6 +1,7 @@
 import SourceEditor from "./source-editor";
 import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
 import { StaticServices } from "monaco-editor/esm/vs/editor/standalone/browser/standaloneServices";
+import { isWasm, getWasmLineNumberFormatter } from "../wasm";
 
 const models = {};
 
@@ -24,7 +25,21 @@ function clearDocuments() {
   models = {};
 }
 
-function updateLineNumberFormat() {}
+function resetLineNumberFormat(editor: SourceEditor) {
+  editor.monaco.updateOptions({
+    lineNumbers: num => num
+  });
+}
+
+function updateLineNumberFormat(editor: SourceEditor, sourceId: string) {
+  if (!isWasm(sourceId)) {
+    return resetLineNumberFormat(editor);
+  }
+  const lineNumberFormatter = getWasmLineNumberFormatter(sourceId);
+  editor.monaco.updateOptions({
+    lineNumbers: lineNumberFormatter
+  });
+}
 
 function createModel(value, language, uri, isForSimpleWidget) {
   return StaticServices.modelService
@@ -46,13 +61,13 @@ function updateDocument(editor: SourceEditor, source: SourceRecord) {
   const doc = getDocument(sourceId) || createModel("", "plaintext", null, true);
   editor.replaceDocument(doc);
 
-  //   updateLineNumberFormat(editor, sourceId);
+  updateLineNumberFormat(editor, sourceId);
 }
 
 function clearEditor(editor: SourceEditor) {
   const doc = createModel("", "plaintext", null, true);
   editor.replaceDocument(doc);
-  //   resetLineNumberFormat(editor);
+  resetLineNumberFormat(editor);
 }
 
 function showSourceText(
@@ -74,7 +89,6 @@ function showSourceText(
 
     editor.replaceDocument(doc);
     updateLineNumberFormat(editor, sourceId);
-    // editor.setMode(getMode(source, symbols));
     return doc;
   }
 
