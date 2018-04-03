@@ -20,9 +20,7 @@ export function getASTLocation(
     return { name: undefined, offset: location };
   }
 
-  const functions = [...symbols.functions];
-
-  const scope = findClosestFunction(functions, location);
+  const scope = findClosestFunction(symbols, location);
   if (scope) {
     // we only record the line, but at some point we may
     // also do column offsets

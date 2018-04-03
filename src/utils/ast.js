@@ -8,11 +8,14 @@ import { without, range } from "lodash";
 
 import type { Location, Source, ColumnPosition } from "../types";
 
-import type { AstPosition, AstLocation, PausePoint } from "../workers/parser";
 import type {
+  AstPosition,
+  AstLocation,
+  PausePoint,
+  SymbolDeclaration,
   SymbolDeclarations,
-  FunctionDeclaration
-} from "../workers/parser/getSymbols";
+  ClassDeclaration
+} from "../workers/parser";
 
 export function findBestMatchExpression(
   symbols: SymbolDeclarations,
@@ -68,11 +71,11 @@ export function containsPosition(a: AstLocation, b: AstPosition) {
   return startsBefore && endsAfter;
 }
 
-export function findClosestFunction(
-  functions: FunctionDeclaration[],
+function findClosestofSymbolDeclaration(
+  declarations: SymbolDeclaration[] | ClassDeclaration[],
   location: Location
 ) {
-  return functions.reduce((found, currNode) => {
+  return declarations.reduce((found, currNode) => {
     if (
       currNode.name === "anonymous" ||
       !containsPosition(currNode.location, {
@@ -99,4 +102,26 @@ export function findClosestFunction(
 
     return currNode;
   }, null);
+}
+
+export function findClosestFunction(
+  symbols: SymbolDeclarations,
+  location: Location
+) {
+  const { functions } = symbols;
+  if (!functions) {
+    return null;
+  }
+  return findClosestofSymbolDeclaration(functions, location);
+}
+
+export function findClosestClass(
+  symbols: SymbolDeclarations,
+  location: Location
+) {
+  const { classes } = symbols;
+  if (!classes) {
+    return null;
+  }
+  return findClosestofSymbolDeclaration(classes, location);
 }
