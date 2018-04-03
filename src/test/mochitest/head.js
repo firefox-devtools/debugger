@@ -936,7 +936,8 @@ const selectors = {
     `.expressions-list .expression-container:nth-child(${i}) .close`,
   expressionNodes: ".expressions-list .tree-node",
   scopesHeader: ".scopes-pane ._header",
-  breakpointItem: i => `.breakpoints-list .breakpoint:nth-child(${i})`,
+  breakpointItem: i => `.breakpoints-list .breakpoint:nth-of-type(${i})`,
+  breakpointItems: `.breakpoints-list .breakpoint`,
   scopes: ".scopes-list",
   scopeNode: i => `.scopes-list .tree-node:nth-child(${i}) .object-label`,
   scopeValue: i =>
