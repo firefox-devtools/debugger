@@ -7,7 +7,7 @@
  * because it is more reliable than either checking a focus state or
  * the visibleState or hidden property.
  */
- // @flow
+// @flow
 export function isVisible() {
   const el = document.querySelector("#mount");
   return el && el.getBoundingClientRect().width;

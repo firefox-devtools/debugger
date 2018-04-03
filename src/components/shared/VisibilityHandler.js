@@ -10,7 +10,7 @@
  *
  * See devtools/client/framework/toolbox.js:setIframeVisible().
  */
- // @flow
+// @flow
 
 import PropTypes from "prop-types";
 import { Component } from "react";

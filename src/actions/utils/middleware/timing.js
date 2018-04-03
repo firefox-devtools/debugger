@@ -8,7 +8,7 @@
  * Redux middleware that sets performance markers for all actions such that they
  * will appear in performance tooling under the User Timing API
  */
- // @flow
+// @flow
 
 const mark =
   window.performance && window.performance.mark
