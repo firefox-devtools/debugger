@@ -9,11 +9,10 @@ import { connect } from "react-redux";
 import * as I from "immutable";
 import classnames from "classnames";
 import { createSelector } from "reselect";
-import { sortBy } from "lodash";
+import { groupBy, sortBy } from "lodash";
 
 import actions from "../../actions";
 import CloseButton from "../shared/Button/Close";
-import { endTruncateStr } from "../../utils/utils";
 import { features } from "../../utils/prefs";
 import { getFilename } from "../../utils/source";
 import {
@@ -68,23 +67,14 @@ function getBreakpointFilename(source) {
   return source && source.toJS ? getFilename(source.toJS()) : "";
 }
 
-function renderSourceLocation(source, line, column) {
-  const filename = getBreakpointFilename(source);
+function getBreakpointLocation(source, line, column) {
   const isWasm = source && source.isWasm;
   const columnVal = features.columnBreakpoints && column ? `:${column}` : "";
   const bpLocation = isWasm
     ? `0x${line.toString(16).toUpperCase()}`
     : `${line}${columnVal}`;
 
-  if (!filename) {
-    return null;
-  }
-
-  return (
-    <div className="location">
-      {`${endTruncateStr(filename, 30)}: ${bpLocation}`}
-    </div>
-  );
+  return bpLocation;
 }
 
 class Breakpoints extends Component<Props> {
@@ -149,32 +139,53 @@ class Breakpoints extends Component<Props> {
           onClick={ev => ev.stopPropagation()}
         />
         <label className="breakpoint-label" title={breakpoint.text}>
-          {renderSourceLocation(breakpoint.location.source, line, column)}
+          {breakpoint.text}
         </label>
-        <CloseButton
-          handleClick={ev => this.removeBreakpoint(ev, breakpoint)}
-          tooltip={L10N.getStr("breakpoints.removeBreakpointTooltip")}
-        />
+        <div className="breakpoint-line-close">
+          <div className="breakpoint-line">
+            {getBreakpointLocation(breakpoint.location.source, line, column)}
+          </div>
+          <CloseButton
+            handleClick={ev => this.removeBreakpoint(ev, breakpoint)}
+            tooltip={L10N.getStr("breakpoints.removeBreakpointTooltip")}
+          />
+        </div>
       </div>
     );
   }
 
+  renderEmpty() {
+    return <div className="pane-info">{L10N.getStr("breakpoints.none")}</div>;
+  }
+
+  renderBreakpoints() {
+    const { breakpoints } = this.props;
+
+    const groupedBreakpoints = groupBy(
+      sortBy([...breakpoints.valueSeq()], bp => bp.location.line),
+      bp => getBreakpointFilename(bp.location.source)
+    );
+
+    return [
+      ...Object.keys(groupedBreakpoints).map(filename => {
+        return [
+          <div className="breakpoint-heading" title={filename} key={filename}>
+            {filename}
+          </div>,
+          ...groupedBreakpoints[filename].map(bp => this.renderBreakpoint(bp))
+        ];
+      })
+    ];
+  }
+
   render() {
     const { breakpoints } = this.props;
-    const children =
-      breakpoints.size === 0 ? (
-        <div className="pane-info">{L10N.getStr("breakpoints.none")}</div>
-      ) : (
-        sortBy(
-          [...breakpoints.valueSeq()],
-          [
-            bp => getBreakpointFilename(bp.location.source),
-            bp => bp.location.line
-          ]
-        ).map(bp => this.renderBreakpoint(bp))
-      );
 
-    return <div className="pane breakpoints-list">{children}</div>;
+    return (
+      <div className="pane breakpoints-list">
+        {breakpoints.size ? this.renderBreakpoints() : this.renderEmpty()}
+      </div>
+    );
   }
 }
 
