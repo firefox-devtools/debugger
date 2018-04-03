@@ -1,3 +1,4 @@
+// @flow
 import { throttle } from "lodash";
 
 let newSources;

@@ -7,6 +7,7 @@
 /**
  * This object provides the public module functions.
  */
+ // @flow
 const Task = {
   // XXX: Not sure if this works in all cases...
   async: function(task) {

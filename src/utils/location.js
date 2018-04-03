@@ -1,3 +1,4 @@
+// @flow
 import type { Location, SourceId } from "../types";
 
 type IncompleteLocation = {

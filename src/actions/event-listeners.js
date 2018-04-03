@@ -4,7 +4,7 @@
 
 /* global window gThreadClient setNamedTimeout EVENTS */
 /* eslint no-shadow: 0  */
-
+// @flow
 /**
  * Redux actions for the event listeners state
  * @module actions/event-listeners
