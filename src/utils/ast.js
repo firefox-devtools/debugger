@@ -12,7 +12,7 @@ import type {
   AstPosition,
   AstLocation,
   PausePoint,
-  SymbolDeclaration,
+  FunctionDeclaration,
   SymbolDeclarations,
   ClassDeclaration
 } from "../workers/parser";
@@ -72,7 +72,7 @@ export function containsPosition(a: AstLocation, b: AstPosition) {
 }
 
 function findClosestofSymbolDeclaration(
-  declarations: SymbolDeclaration[] | ClassDeclaration[],
+  declarations: FunctionDeclaration[] | ClassDeclaration[],
   location: Location
 ) {
   return declarations.reduce((found, currNode) => {
