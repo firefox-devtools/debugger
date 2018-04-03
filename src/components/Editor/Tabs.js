@@ -46,6 +46,20 @@ type State = {
   hiddenTabs: SourcesList
 };
 
+function hasSameSequence(prev: SourcesList, after: SourcesList) {
+  if (prev.size !== after.size) {
+    return false;
+  }
+
+  for (let i = 0; i < prev.size; i++) {
+    if (prev.get(i).get("id") !== after.get(i).get("id")) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
 class Tabs extends PureComponent<Props, State> {
   onTabContextMenu: Function;
   showContextMenu: Function;
@@ -71,9 +85,24 @@ class Tabs extends PureComponent<Props, State> {
   }
 
   componentDidUpdate(prevProps) {
-    if (!(prevProps === this.props)) {
-      this.updateHiddenTabs();
+    if (prevProps === this.props) {
+      return;
     }
+
+    // @todo verify its correctness.
+    if (
+      hasSameSequence(prevProps.tabSources, this.props.tabSources) &&
+      this.state.hiddenTabs
+        .map(tab => tab.get("url"))
+        .indexOf(prevProps.selectedSource.get("url")) &&
+      this.state.hiddenTabs
+        .map(tab => tab.get("url"))
+        .indexOf(this.props.selectedSource.get("url")) === -1
+    ) {
+      // hidden tabs will not change
+      return;
+    }
+    this.updateHiddenTabs();
   }
 
   componentDidMount() {
