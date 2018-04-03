@@ -12,9 +12,7 @@ import type {
   AstPosition,
   AstLocation,
   PausePoint,
-  FunctionDeclaration,
-  SymbolDeclarations,
-  ClassDeclaration
+  SymbolDeclarations
 } from "../workers/parser";
 
 export function findBestMatchExpression(
@@ -71,10 +69,11 @@ export function containsPosition(a: AstLocation, b: AstPosition) {
   return startsBefore && endsAfter;
 }
 
-function findClosestofSymbolDeclaration(
-  declarations: FunctionDeclaration[] | ClassDeclaration[],
-  location: Location
-) {
+function findClosestofSymbol(declarations: any[], location: Location) {
+  if (!declarations) {
+    return null;
+  }
+
   return declarations.reduce((found, currNode) => {
     if (
       currNode.name === "anonymous" ||
@@ -109,10 +108,7 @@ export function findClosestFunction(
   location: Location
 ) {
   const { functions } = symbols;
-  if (!functions) {
-    return null;
-  }
-  return findClosestofSymbolDeclaration(functions, location);
+  return findClosestofSymbol(functions, location);
 }
 
 export function findClosestClass(
@@ -120,8 +116,5 @@ export function findClosestClass(
   location: Location
 ) {
   const { classes } = symbols;
-  if (!classes) {
-    return null;
-  }
-  return findClosestofSymbolDeclaration(classes, location);
+  return findClosestofSymbol(classes, location);
 }
