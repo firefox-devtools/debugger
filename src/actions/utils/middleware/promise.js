@@ -5,7 +5,6 @@
 // @flow
 
 import { fromPairs, toPairs } from "lodash";
-import { executeSoon } from "../../../utils/DevToolsUtils";
 
 import type { ThunkArgs } from "../../types";
 
@@ -58,38 +57,30 @@ function promiseMiddleware({
     if (!(PROMISE in action)) {
       return next(action);
     }
-
     const promiseInst = action[PROMISE];
+
     const seqId = seqIdGen().toString();
 
     // Create a new action that doesn't have the promise field and has
     // the `seqId` field that represents the sequence id
     action = { ...filterAction(action), seqId };
-
     dispatch({ ...action, status: "start" });
 
     // Return the promise so action creators can still compose if they
     // want to.
-    return new Promise((resolve, reject) => {
-      promiseInst.then(
-        value => {
-          executeSoon(() => {
-            dispatch({ ...action, status: "done", value: value });
-            resolve(value);
-          });
-        },
-        error => {
-          executeSoon(() => {
-            dispatch({
-              ...action,
-              status: "error",
-              error: error.message || error
-            });
-            reject(error);
-          });
-        }
-      );
-    });
+    return promiseInst
+      .then(value => {
+        dispatch({ ...action, status: "done", value: value });
+        return value;
+      })
+      .catch(error => {
+        dispatch({
+          ...action,
+          status: "error",
+          error: error.message || error
+        });
+        throw error;
+      });
   };
 }
 
