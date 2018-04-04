@@ -4,7 +4,7 @@
 
 // @flow
 
-import { findBestMatchExpression } from "../utils/ast";
+import { findBestMatchExpression, findClosestClass } from "../utils/ast";
 import { getTokenLocation } from "../utils/editor";
 import { isReactComponent, isImmutable, isConsole } from "../utils/preview";
 import { isGeneratedId } from "devtools-source-map";
@@ -17,7 +17,8 @@ import {
   getSelectedSource,
   getSelectedFrame,
   getSymbols,
-  getCanRewind
+  getCanRewind,
+  getSource
 } from "../selectors";
 
 import { getMappedExpression } from "./expressions";
@@ -52,10 +53,24 @@ async function getImmutableProps(expression: string, evaluate) {
   };
 }
 
-async function getExtraProps(expression, result, evaluate) {
+async function getExtraProps(getState, expression, result, evaluate) {
   const props = {};
   if (isReactComponent(result)) {
-    props.react = await getReactProps(evaluate);
+    const selectedFrame = getSelectedFrame(getState());
+    const source = getSource(getState(), selectedFrame.location.sourceId);
+    const symbols = getSymbols(getState(), source);
+
+    if (symbols && symbols.classes) {
+      const originalClass = findClosestClass(symbols, selectedFrame.location);
+
+      if (originalClass) {
+        props.react = { displayName: originalClass.name };
+      }
+    }
+
+    if (!props.react) {
+      props.react = await getReactProps(evaluate);
+    }
   }
 
   if (isImmutable(result)) {
@@ -95,7 +110,7 @@ export function getExtra(
   selectedFrame: Frame
 ) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
-    const extra = await getExtraProps(expression, result, expr =>
+    const extra = await getExtraProps(getState, expression, result, expr =>
       client.evaluateInFrame(selectedFrame.id, expr)
     );
 

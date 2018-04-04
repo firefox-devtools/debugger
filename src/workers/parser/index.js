@@ -44,6 +44,7 @@ export type {
 
 export type { AstLocation, AstPosition, PausePoint } from "./types";
 export type {
+  ClassDeclaration,
   SymbolDeclaration,
   SymbolDeclarations,
   FunctionDeclaration

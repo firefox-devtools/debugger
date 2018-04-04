@@ -130,8 +130,12 @@ function update(
       return { ...state, frames: action.frames };
     }
 
+    case "ADD_EXTRA": {
+      return { ...state, extra: action.extra };
+    }
+
     case "ADD_SCOPES": {
-      const { frame, extra, status, value } = action;
+      const { frame, status, value } = action;
       const selectedFrameId = frame.id;
 
       const generated = {
@@ -143,7 +147,6 @@ function update(
       };
       return {
         ...state,
-        extra: extra,
         frameScopes: {
           ...state.frameScopes,
           generated
