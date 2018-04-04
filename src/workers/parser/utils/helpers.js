@@ -55,7 +55,10 @@ export function getObjectExpressionValue(node: Node) {
   if (t.isCallExpression(value)) {
     return "";
   }
-  return generate(value).code;
+  const code = generate(value).code;
+
+  const shouldWrap = t.isObjectExpression(value);
+  return shouldWrap ? `(${code})` : code;
 }
 
 export function getVariableNames(path: SimplePath): SymbolDeclaration[] {

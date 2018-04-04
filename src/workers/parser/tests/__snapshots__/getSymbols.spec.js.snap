@@ -351,6 +351,7 @@ identifiers:
 [(26, 26), (26, 30)] View View
 [(26, 31), (26, 37)] extend extend
 [(27, 2), (27, 9)] \\"li\\" tagName
+[(27, 11), (27, 15)] \\"li\\" li
 [(29, 2), (29, 8)] function () {
   console.log(\\"yo\\");
 } render
@@ -360,6 +361,7 @@ identifiers:
 [(34, 6), (34, 15)] TodoClass TodoClass
 [(34, 18), (34, 29)] createClass createClass
 [(35, 2), (35, 9)] \\"li\\" tagName
+[(35, 11), (35, 15)] \\"li\\" li
 [(37, 2), (37, 8)] function () {
   console.log(\\"yo\\");
 } render
@@ -368,6 +370,7 @@ identifiers:
 [(42, 0), (42, 9)] TodoClass TodoClass
 [(42, 12), (42, 23)] createClass createClass
 [(43, 2), (43, 9)] \\"li\\" tagName
+[(43, 11), (43, 15)] \\"li\\" li
 [(45, 2), (45, 8)] function () {
   console.log(\\"yo\\");
 } render
@@ -377,6 +380,7 @@ identifiers:
 [(50, 4), (50, 13)] TodoClass TodoClass
 [(50, 16), (50, 27)] createClass createClass
 [(51, 2), (51, 9)] \\"li\\" tagName
+[(51, 11), (51, 15)] \\"li\\" li
 [(53, 2), (53, 8)] function () {
   console.log(\\"yo\\");
 } render
@@ -522,6 +526,7 @@ identifiers:
 [(14, 7), (14, 10)] foo key
 [(14, 13), (14, 16)] foo foo
 [(14, 23), (14, 24)] \\"bar\\" z
+[(14, 26), (14, 31)] \\"bar\\" bar
 [(16, 7), (16, 15)] prefName prefName
 [(16, 19), (16, 33)] prefsBlueprint prefsBlueprint
 [(16, 34), (16, 46)] accessorName accessorName
@@ -699,9 +704,9 @@ comments:
 identifiers:
 [(1, 6), (1, 27)] obj obj
 [(1, 6), (1, 9)] obj obj
-[(1, 14), (1, 15)] {
+[(1, 14), (1, 15)] ({
   b: 2
-} a
+}) a
 [(1, 19), (1, 20)] 2 b
 [(2, 6), (2, 33)] foo foo
 [(2, 6), (2, 9)] foo foo
@@ -710,12 +715,14 @@ identifiers:
 [(2, 19), (2, 33)] secondProperty secondProperty
 [(5, 6), (5, 49)] com com
 [(5, 6), (5, 9)] com com
-[(5, 15), (5, 16)] {
+[(5, 15), (5, 16)] ({
   b: \\"c\\",
   [d]: \\"e\\"
-} a
+}) a
 [(5, 21), (5, 22)] \\"c\\" b
+[(5, 24), (5, 27)] \\"c\\" c
 [(5, 30), (5, 31)] \\"e\\" d
+[(5, 34), (5, 37)] \\"e\\" e
 [(5, 42), (5, 43)] 3 b
 [(6, 6), (6, 46)] firstAuthor firstAuthor
 [(6, 6), (6, 17)] firstAuthor firstAuthor
@@ -735,16 +742,18 @@ identifiers:
 [(10, 2), (10, 8)] function () {} render
 [(14, 0), (14, 3)] obj obj
 [(14, 4), (14, 7)] foo foo
-[(14, 12), (14, 13)] {
+[(14, 12), (14, 13)] ({
   b: \\"c\\"
-} a
+}) a
 [(14, 17), (14, 18)] \\"c\\" b
+[(14, 20), (14, 23)] \\"c\\" c
 [(14, 27), (14, 28)] 3 b
 [(15, 0), (15, 3)] com com
-[(15, 8), (15, 9)] {
+[(15, 8), (15, 9)] ({
   b: \\"c\\"
-} a
+}) a
 [(15, 13), (15, 14)] \\"c\\" b
+[(15, 16), (15, 19)] \\"c\\" c
 [(15, 23), (15, 24)] 3 b
 [(18, 6), (18, 32)] res res
 [(18, 6), (18, 9)] res res
@@ -850,7 +859,9 @@ identifiers:
 [(4, 6), (7, 3)] globalObject globalObject
 [(4, 6), (4, 18)] globalObject globalObject
 [(5, 3), (5, 8)] \\"name\\" first
+[(5, 10), (5, 16)] \\"name\\" name
 [(6, 3), (6, 7)] \\"words\\" last
+[(6, 9), (6, 16)] \\"words\\" words
 [(8, 11), (8, 19)] sayHello sayHello
 [(8, 21), (8, 25)] name name
 [(9, 20), (9, 24)] name name
@@ -1089,6 +1100,7 @@ comments:
 
 identifiers:
 [(4, 2), (4, 5)] function () {} foo
+[(5, 2), (5, 7)] function () {} foo
 [(8, 2), (8, 5)] foo foo
 [(13, 0), (13, 3)] foo foo
 [(14, 0), (14, 3)] obj obj
@@ -1114,6 +1126,7 @@ identifiers:
 [(26, 18), (26, 21)] foo foo
 [(28, 6), (28, 9)] Cls Cls
 [(29, 2), (29, 5)] function () {} foo
+[(30, 2), (30, 7)] function () {} foo
 [(42, 6), (42, 25)] defaultObj defaultObj
 [(42, 6), (42, 16)] defaultObj defaultObj
 [(42, 20), (42, 21)] 1 a
@@ -1276,6 +1289,11 @@ variables:
 [(3, 58), (3, 73)]  d
 [(4, 6), (4, 53)]  params
 [(4, 27), (4, 46)]  frameId
+[(6, 6), (6, 69)]  collection
+[(6, 20), (6, 68)]  genres
+[(6, 29), (6, 67)]  sci-fi
+[(6, 40), (6, 66)]  movies
+[(6, 50), (6, 64)]  director
 
 callExpressions:
 [(3, 62), (3, 70)]  getValue   2
@@ -1293,6 +1311,10 @@ objectProperties:
 [(3, 48), (3, 49)] bar.s s
 [(3, 58), (3, 59)] bar.d d
 [(4, 27), (4, 37)]  frameActor
+[(6, 20), (6, 26)] collection.genres genres
+[(6, 29), (6, 37)] collection.genres
+[(6, 40), (6, 46)] collection.genres.undefined.movies movies
+[(6, 50), (6, 58)] collection.genres.undefined.movies[0].director director
 
 comments:
 
@@ -1310,6 +1332,7 @@ identifiers:
 [(3, 6), (3, 9)] bar bar
 [(3, 14), (3, 15)] 3 x
 [(3, 20), (3, 21)] \\"434\\" y
+[(3, 23), (3, 28)] \\"434\\" 434
 [(3, 30), (3, 31)] true z
 [(3, 39), (3, 40)] null a
 [(3, 48), (3, 49)] c * 2 s
@@ -1321,6 +1344,25 @@ identifiers:
 [(4, 15), (4, 22)] frameId frameId
 [(4, 27), (4, 37)] frameId frameActor
 [(4, 39), (4, 46)] frameId frameId
+[(6, 6), (6, 69)] collection collection
+[(6, 6), (6, 16)] collection collection
+[(6, 20), (6, 26)] ({
+  \\"sci-fi\\": {
+    movies: [{
+      director: \\"yo\\"
+    }]
+  }
+}) genres
+[(6, 29), (6, 37)] ({
+  movies: [{
+    director: \\"yo\\"
+  }]
+}) sci-fi
+[(6, 40), (6, 46)] [{
+  director: \\"yo\\"
+}] movies
+[(6, 50), (6, 58)] \\"yo\\" director
+[(6, 60), (6, 64)] \\"yo\\" yo
 
 classes:
 
@@ -1378,6 +1420,7 @@ identifiers:
 [(5, 26), (5, 30)] View View
 [(5, 31), (5, 37)] extend extend
 [(6, 2), (6, 9)] \\"li\\" tagName
+[(6, 11), (6, 15)] \\"li\\" li
 [(7, 2), (7, 12)] function () {} initialize
 [(8, 2), (8, 9)] doThing doThing
 [(8, 10), (8, 11)] b b
