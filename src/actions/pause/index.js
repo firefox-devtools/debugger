@@ -25,6 +25,7 @@ export { resumed } from "./resumed";
 export { continueToHere } from "./continueToHere";
 export { breakOnNext } from "./breakOnNext";
 export { mapFrames } from "./mapFrames";
+export { setExtra } from "./setExtra";
 export { setPopupObjectProperties } from "./setPopupObjectProperties";
 export { pauseOnExceptions } from "./pauseOnExceptions";
 export { selectFrame } from "./selectFrame";

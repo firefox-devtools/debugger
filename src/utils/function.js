@@ -6,7 +6,7 @@ import { findClosestFunction } from "./ast";
 import { correctIndentation } from "./indentation";
 
 export function findFunctionText(line, source, symbols) {
-  const func = findClosestFunction(symbols.functions, {
+  const func = findClosestFunction(symbols, {
     line,
     column: Infinity
   });
