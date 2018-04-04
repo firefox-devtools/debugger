@@ -25,12 +25,12 @@ import { isInterrupted } from "../../utils/pause";
 import { makeLocationId } from "../../utils/breakpoint";
 import showContextMenu from "./BreakpointsContextMenu";
 
-import type { Breakpoint, Location } from "../../types";
+import type { Breakpoint, Location, Source } from "../../types";
 
 import "./Breakpoints.css";
 
 export type LocalBreakpoint = Breakpoint & {
-  location: any,
+  location: Location & { source: Source },
   isCurrentlyPaused: boolean,
   locationId: string
 };
