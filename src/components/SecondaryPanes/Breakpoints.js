@@ -7,13 +7,12 @@ import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as I from "immutable";
-import classnames from "classnames";
 import { createSelector } from "reselect";
 import { groupBy, sortBy } from "lodash";
 
+import BreakpointItem from "./BreakpointItem";
+
 import actions from "../../actions";
-import CloseButton from "../shared/Button/Close";
-import { features } from "../../utils/prefs";
 import { getFilename } from "../../utils/source";
 import {
   getSources,
@@ -30,7 +29,7 @@ import type { Breakpoint, Location } from "../../types";
 
 import "./Breakpoints.css";
 
-type LocalBreakpoint = Breakpoint & {
+export type LocalBreakpoint = Breakpoint & {
   location: any,
   isCurrentlyPaused: boolean,
   locationId: string
@@ -67,16 +66,6 @@ function getBreakpointFilename(source) {
   return source && source.toJS ? getFilename(source.toJS()) : "";
 }
 
-function getBreakpointLocation(source, line, column) {
-  const isWasm = source && source.isWasm;
-  const columnVal = features.columnBreakpoints && column ? `:${column}` : "";
-  const bpLocation = isWasm
-    ? `0x${line.toString(16).toUpperCase()}`
-    : `${line}${columnVal}`;
-
-  return bpLocation;
-}
-
 class Breakpoints extends Component<Props> {
   shouldComponentUpdate(nextProps, nextState) {
     const { breakpoints } = this.props;
@@ -105,52 +94,21 @@ class Breakpoints extends Component<Props> {
   }
 
   renderBreakpoint(breakpoint) {
-    const locationId = breakpoint.locationId;
-    const line = breakpoint.location.line;
-    const column = breakpoint.location.column;
-    const isCurrentlyPaused = breakpoint.isCurrentlyPaused;
-    const isDisabled = breakpoint.disabled;
-    const isConditional = !!breakpoint.condition;
-    const isHidden = breakpoint.hidden;
-
-    if (isHidden) {
+    if (!breakpoint.id) {
       return;
     }
 
     return (
-      <div
-        className={classnames({
-          breakpoint,
-          paused: isCurrentlyPaused,
-          disabled: isDisabled,
-          "is-conditional": isConditional
-        })}
-        key={locationId}
+      <BreakpointItem
+        key={breakpoint.id}
+        breakpoint={breakpoint}
         onClick={() => this.selectBreakpoint(breakpoint)}
         onContextMenu={e =>
           showContextMenu({ ...this.props, breakpoint, contextMenuEvent: e })
         }
-      >
-        <input
-          type="checkbox"
-          className="breakpoint-checkbox"
-          checked={!isDisabled}
-          onChange={() => this.handleCheckbox(breakpoint)}
-          onClick={ev => ev.stopPropagation()}
-        />
-        <label className="breakpoint-label" title={breakpoint.text}>
-          {breakpoint.text}
-        </label>
-        <div className="breakpoint-line-close">
-          <div className="breakpoint-line">
-            {getBreakpointLocation(breakpoint.location.source, line, column)}
-          </div>
-          <CloseButton
-            handleClick={ev => this.removeBreakpoint(ev, breakpoint)}
-            tooltip={L10N.getStr("breakpoints.removeBreakpointTooltip")}
-          />
-        </div>
-      </div>
+        onChange={() => this.handleCheckbox(breakpoint)}
+        onCloseClick={ev => this.removeBreakpoint(ev, breakpoint)}
+      />
     );
   }
 
