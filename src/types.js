@@ -57,7 +57,8 @@ export type Location = {
   sourceId: SourceId,
   line: number,
   column: ?number,
-  sourceUrl?: string
+  sourceUrl?: string,
+  source?: any
 };
 
 export type Position = {
