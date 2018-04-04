@@ -60,9 +60,13 @@ identifiers:
 [(8, 26), (8, 27)] b b
 [(10, 6), (18, 1)] Obj Obj
 [(10, 6), (10, 9)] Obj Obj
+[(11, 2), (11, 5)] 1 foo
 [(12, 2), (12, 9)] doThing doThing
 [(13, 4), (13, 11)] console console
 [(13, 12), (13, 15)] log log
+[(15, 2), (15, 14)] function () {
+  return 42;
+} doOtherThing
 [(20, 0), (20, 3)] Obj Obj
 [(20, 4), (20, 12)] property property
 [(21, 0), (21, 3)] Obj Obj
@@ -85,6 +89,63 @@ identifiers:
 
 classes:
 [(23, 0), (31, 1)]  Ultra
+
+imports:
+
+
+literals:
+
+
+hasJsx: false
+
+hasTypes: false"
+`;
+
+exports[`Parser.getSymbols call expression 1`] = `
+"functions:
+[(2, 0), (2, 70)]  evaluate(script, , )
+
+variables:
+[(1, 11), (1, 12)]  d
+[(2, 18), (2, 24)]  script
+[(2, 26), (2, 52)]
+[(2, 54), (2, 66)]
+[(2, 28), (2, 35)]  frameId
+[(2, 41), (2, 51)]  frameId
+[(2, 55), (2, 56)]  c
+[(2, 61), (2, 65)]  c
+
+callExpressions:
+[(1, 0), (1, 8)]  dispatch
+
+memberExpressions:
+
+
+objectProperties:
+[(1, 11), (1, 12)]  d
+[(2, 28), (2, 35)]  frameId
+[(2, 41), (2, 48)]  frameId
+[(2, 55), (2, 56)]  c
+[(2, 61), (2, 62)]  c
+
+comments:
+
+
+identifiers:
+[(1, 0), (1, 8)] dispatch dispatch
+[(1, 11), (1, 12)] d d
+[(1, 11), (1, 12)] d d
+[(2, 9), (2, 17)] evaluate evaluate
+[(2, 18), (2, 24)] script script
+[(2, 28), (2, 35)] frameId frameId
+[(2, 28), (2, 35)] frameId frameId
+[(2, 41), (2, 48)] 3 frameId
+[(2, 55), (2, 56)] c c
+[(2, 55), (2, 56)] c c
+[(2, 61), (2, 62)] 2 c
+
+classes:
+
 
 imports:
 
@@ -174,6 +235,9 @@ identifiers:
 [(7, 4), (7, 11)] console console
 [(7, 12), (7, 15)] log log
 [(7, 23), (7, 24)] a a
+[(10, 2), (10, 5)] b => {
+  return b * 2;
+} baz
 [(10, 8), (10, 9)] b b
 [(11, 11), (11, 12)] b b
 [(15, 6), (15, 11)] Test2 Test2
@@ -286,20 +350,40 @@ identifiers:
 [(26, 17), (26, 25)] Backbone Backbone
 [(26, 26), (26, 30)] View View
 [(26, 31), (26, 37)] extend extend
+[(27, 2), (27, 9)] \\"li\\" tagName
+[(27, 11), (27, 15)] \\"li\\" li
+[(29, 2), (29, 8)] function () {
+  console.log(\\"yo\\");
+} render
 [(30, 4), (30, 11)] console console
 [(30, 12), (30, 15)] log log
 [(34, 6), (40, 2)] TodoClass TodoClass
 [(34, 6), (34, 15)] TodoClass TodoClass
 [(34, 18), (34, 29)] createClass createClass
+[(35, 2), (35, 9)] \\"li\\" tagName
+[(35, 11), (35, 15)] \\"li\\" li
+[(37, 2), (37, 8)] function () {
+  console.log(\\"yo\\");
+} render
 [(38, 4), (38, 11)] console console
 [(38, 12), (38, 15)] log log
 [(42, 0), (42, 9)] TodoClass TodoClass
 [(42, 12), (42, 23)] createClass createClass
+[(43, 2), (43, 9)] \\"li\\" tagName
+[(43, 11), (43, 15)] \\"li\\" li
+[(45, 2), (45, 8)] function () {
+  console.log(\\"yo\\");
+} render
 [(46, 4), (46, 11)] console console
 [(46, 12), (46, 15)] log log
 [(50, 0), (50, 3)] app app
 [(50, 4), (50, 13)] TodoClass TodoClass
 [(50, 16), (50, 27)] createClass createClass
+[(51, 2), (51, 9)] \\"li\\" tagName
+[(51, 11), (51, 15)] \\"li\\" li
+[(53, 2), (53, 8)] function () {
+  console.log(\\"yo\\");
+} render
 [(54, 4), (54, 11)] console console
 [(54, 12), (54, 15)] log log
 [(62, 9), (62, 15)] Button Button
@@ -400,9 +484,17 @@ comments:
 
 identifiers:
 [(1, 6), (1, 35)]
+[(1, 8), (1, 9)] b b
+[(1, 8), (1, 9)] b b
+[(1, 11), (1, 16)] resty resty
+[(1, 11), (1, 16)] resty resty
 [(1, 21), (1, 28)] compute compute
 [(1, 29), (1, 34)] stuff stuff
 [(2, 6), (2, 33)]
+[(2, 8), (2, 13)] f first
+[(2, 15), (2, 16)] f f
+[(2, 18), (2, 22)] l last
+[(2, 24), (2, 25)] l l
 [(2, 30), (2, 33)] obj obj
 [(4, 7), (4, 8)] a a
 [(4, 13), (4, 17)] rest rest
@@ -418,11 +510,23 @@ identifiers:
 [(8, 14), (8, 19)] index index
 [(8, 21), (8, 28)] element element
 [(11, 6), (11, 42)]
+[(11, 8), (11, 9)] aa = 10 a
 [(11, 11), (11, 13)] aa aa
+[(11, 20), (11, 21)] bb = 5 b
 [(11, 23), (11, 25)] bb bb
+[(11, 36), (11, 37)] 3 a
 [(12, 6), (12, 38)]
+[(12, 8), (12, 12)] [{
+  foo: foooo
+}] temp
+[(12, 17), (12, 20)] foooo foo
+[(12, 22), (12, 27)] foooo foooo
 [(12, 35), (12, 38)] obj obj
 [(14, 4), (14, 33)]
+[(14, 7), (14, 10)] foo key
+[(14, 13), (14, 16)] foo foo
+[(14, 23), (14, 24)] \\"bar\\" z
+[(14, 26), (14, 31)] \\"bar\\" bar
 [(16, 7), (16, 15)] prefName prefName
 [(16, 19), (16, 33)] prefsBlueprint prefsBlueprint
 [(16, 34), (16, 46)] accessorName accessorName
@@ -463,6 +567,8 @@ comments:
 identifiers:
 [(1, 0), (1, 8)] dispatch dispatch
 [(1, 14), (1, 20)] action action
+[(1, 23), (1, 30)] promise PROMISE
+[(1, 33), (1, 40)] promise promise
 
 classes:
 
@@ -598,6 +704,10 @@ comments:
 identifiers:
 [(1, 6), (1, 27)] obj obj
 [(1, 6), (1, 9)] obj obj
+[(1, 14), (1, 15)] ({
+  b: 2
+}) a
+[(1, 19), (1, 20)] 2 b
 [(2, 6), (2, 33)] foo foo
 [(2, 6), (2, 9)] foo foo
 [(2, 12), (2, 16)] obj2 obj2
@@ -605,6 +715,15 @@ identifiers:
 [(2, 19), (2, 33)] secondProperty secondProperty
 [(5, 6), (5, 49)] com com
 [(5, 6), (5, 9)] com com
+[(5, 15), (5, 16)] ({
+  b: \\"c\\",
+  [d]: \\"e\\"
+}) a
+[(5, 21), (5, 22)] \\"c\\" b
+[(5, 24), (5, 27)] \\"c\\" c
+[(5, 30), (5, 31)] \\"e\\" d
+[(5, 34), (5, 37)] \\"e\\" e
+[(5, 42), (5, 43)] 3 b
 [(6, 6), (6, 46)] firstAuthor firstAuthor
 [(6, 6), (6, 17)] firstAuthor firstAuthor
 [(6, 20), (6, 30)] collection collection
@@ -620,25 +739,62 @@ identifiers:
 [(9, 4), (9, 12)] TodoView TodoView
 [(9, 15), (9, 23)] Backbone Backbone
 [(9, 24), (9, 30)] extend extend
+[(10, 2), (10, 8)] function () {} render
 [(14, 0), (14, 3)] obj obj
 [(14, 4), (14, 7)] foo foo
+[(14, 12), (14, 13)] ({
+  b: \\"c\\"
+}) a
+[(14, 17), (14, 18)] \\"c\\" b
+[(14, 20), (14, 23)] \\"c\\" c
+[(14, 27), (14, 28)] 3 b
 [(15, 0), (15, 3)] com com
+[(15, 8), (15, 9)] ({
+  b: \\"c\\"
+}) a
+[(15, 13), (15, 14)] \\"c\\" b
+[(15, 16), (15, 19)] \\"c\\" c
+[(15, 23), (15, 24)] 3 b
 [(18, 6), (18, 32)] res res
 [(18, 6), (18, 9)] res res
+[(18, 15), (18, 16)] 2 a
+[(18, 25), (18, 26)] 3 b
 [(19, 6), (19, 30)] res2 res2
 [(19, 6), (19, 10)] res2 res2
+[(19, 15), (19, 16)] [{
+  b: 2
+}] a
+[(19, 21), (19, 22)] 2 b
 [(20, 6), (20, 45)] res3 res3
 [(20, 6), (20, 10)] res3 res3
+[(20, 15), (20, 16)] [{
+  b: 2
+}] a
+[(20, 21), (20, 22)] 2 b
+[(20, 30), (20, 31)] [{
+  c: 3
+}] b
+[(20, 36), (20, 37)] 3 c
 [(21, 6), (21, 45)] res4 res4
 [(21, 6), (21, 10)] res4 res4
+[(21, 17), (21, 18)] 3 a
+[(21, 29), (21, 30)] a.b.c.v.d b
 [(21, 32), (21, 33)] a a
 [(21, 34), (21, 35)] b b
 [(21, 36), (21, 37)] c c
 [(21, 38), (21, 39)] v v
 [(21, 40), (21, 41)] d d
 [(23, 9), (23, 15)] params params
+[(23, 18), (23, 19)] a a
+[(23, 18), (23, 19)] a a
+[(23, 21), (23, 22)] b b
+[(23, 21), (23, 22)] b b
 [(24, 4), (24, 32)] pars pars
 [(24, 4), (24, 8)] pars pars
+[(24, 22), (24, 23)] a a
+[(24, 22), (24, 23)] a a
+[(24, 25), (24, 26)] b b
+[(24, 25), (24, 26)] b b
 [(25, 6), (25, 43)] evil evil
 [(25, 6), (25, 10)] evil evil
 [(25, 13), (25, 17)] obj2 obj2
@@ -702,6 +858,10 @@ comments:
 identifiers:
 [(4, 6), (7, 3)] globalObject globalObject
 [(4, 6), (4, 18)] globalObject globalObject
+[(5, 3), (5, 8)] \\"name\\" first
+[(5, 10), (5, 16)] \\"name\\" name
+[(6, 3), (6, 7)] \\"words\\" last
+[(6, 9), (6, 16)] \\"words\\" words
 [(8, 11), (8, 19)] sayHello sayHello
 [(8, 21), (8, 25)] name name
 [(9, 20), (9, 24)] name name
@@ -770,6 +930,8 @@ identifiers:
 [(1, 6), (1, 9)] App App
 [(2, 14), (2, 18)] name name
 [(2, 28), (2, 34)] action action
+[(2, 51), (2, 56)] todos todos
+[(2, 51), (2, 56)] todos todos
 [(3, 20), (3, 24)] name name
 [(1, 18), (1, 27)] Component Component
 
@@ -829,6 +991,9 @@ identifiers:
 [(21, 0), (21, 5)] child child
 [(27, 6), (35, 1)] obj obj
 [(27, 6), (27, 9)] obj obj
+[(28, 2), (28, 5)] function name() {
+  2 + 2;
+} foo
 [(28, 16), (28, 20)] name name
 [(32, 2), (32, 5)] bar bar
 
@@ -934,6 +1099,8 @@ comments:
 [(1, 0), (1, 20)]
 
 identifiers:
+[(4, 2), (4, 5)] function () {} foo
+[(5, 2), (5, 7)] function () {} foo
 [(8, 2), (8, 5)] foo foo
 [(13, 0), (13, 3)] foo foo
 [(14, 0), (14, 3)] obj obj
@@ -942,19 +1109,27 @@ identifiers:
 [(16, 4), (16, 7)] foo foo
 [(17, 5), (17, 8)] foo foo
 [(18, 4), (18, 29)]
+[(18, 5), (18, 8)] foo = function () {} foo
 [(18, 5), (18, 8)] foo foo
 [(20, 1), (20, 4)] foo foo
+[(21, 2), (21, 5)] foo = function () {} foo
 [(21, 2), (21, 5)] foo foo
+[(22, 2), (22, 5)] foo = function () {} bar
 [(22, 7), (22, 10)] foo foo
 [(24, 9), (24, 11)] fn fn
 [(24, 13), (24, 16)] foo foo
 [(25, 9), (25, 11)] fn fn
+[(25, 13), (25, 16)] foo = function () {} foo
 [(25, 13), (25, 16)] foo foo
 [(26, 9), (26, 11)] fn fn
+[(26, 13), (26, 16)] foo = function () {} bar
 [(26, 18), (26, 21)] foo foo
 [(28, 6), (28, 9)] Cls Cls
+[(29, 2), (29, 5)] function () {} foo
+[(30, 2), (30, 7)] function () {} foo
 [(42, 6), (42, 25)] defaultObj defaultObj
 [(42, 6), (42, 16)] defaultObj defaultObj
+[(42, 20), (42, 21)] 1 a
 [(43, 6), (43, 29)] defaultArr defaultArr
 [(43, 6), (43, 16)] defaultArr defaultArr
 [(44, 9), (44, 10)] a a
@@ -1096,6 +1271,113 @@ hasJsx: false
 hasTypes: false"
 `;
 
+exports[`Parser.getSymbols object expressions 1`] = `
+"functions:
+
+
+variables:
+[(1, 6), (1, 22)]  y
+[(1, 13), (1, 19)]  params
+[(2, 6), (2, 19)]  foo
+[(2, 15), (2, 16)]  b
+[(3, 6), (3, 75)]  bar
+[(3, 14), (3, 18)]  x
+[(3, 20), (3, 28)]  y
+[(3, 30), (3, 37)]  z
+[(3, 39), (3, 46)]  a
+[(3, 48), (3, 56)]  s
+[(3, 58), (3, 73)]  d
+[(4, 6), (4, 53)]  params
+[(4, 27), (4, 46)]  frameId
+[(6, 6), (6, 69)]  collection
+[(6, 20), (6, 68)]  genres
+[(6, 29), (6, 67)]  sci-fi
+[(6, 40), (6, 66)]  movies
+[(6, 50), (6, 64)]  director
+
+callExpressions:
+[(3, 62), (3, 70)]  getValue   2
+
+memberExpressions:
+
+
+objectProperties:
+[(1, 13), (1, 19)] y.params params
+[(2, 15), (2, 16)] foo.b b
+[(3, 14), (3, 15)] bar.x x
+[(3, 20), (3, 21)] bar.y y
+[(3, 30), (3, 31)] bar.z z
+[(3, 39), (3, 40)] bar.a a
+[(3, 48), (3, 49)] bar.s s
+[(3, 58), (3, 59)] bar.d d
+[(4, 27), (4, 37)]  frameActor
+[(6, 20), (6, 26)] collection.genres genres
+[(6, 29), (6, 37)] collection.genres
+[(6, 40), (6, 46)] collection.genres.undefined.movies movies
+[(6, 50), (6, 58)] collection.genres.undefined.movies[0].director director
+
+comments:
+
+
+identifiers:
+[(1, 6), (1, 22)] y y
+[(1, 6), (1, 7)] y y
+[(1, 13), (1, 19)] params params
+[(1, 13), (1, 19)] params params
+[(2, 6), (2, 19)] foo foo
+[(2, 6), (2, 9)] foo foo
+[(2, 15), (2, 16)] b b
+[(2, 15), (2, 16)] b b
+[(3, 6), (3, 75)] bar bar
+[(3, 6), (3, 9)] bar bar
+[(3, 14), (3, 15)] 3 x
+[(3, 20), (3, 21)] \\"434\\" y
+[(3, 23), (3, 28)] \\"434\\" 434
+[(3, 30), (3, 31)] true z
+[(3, 39), (3, 40)] null a
+[(3, 48), (3, 49)] c * 2 s
+[(3, 51), (3, 52)] c c
+[(3, 58), (3, 59)]  d
+[(3, 62), (3, 70)] getValue getValue
+[(4, 6), (4, 53)] params params
+[(4, 6), (4, 12)] params params
+[(4, 15), (4, 22)] frameId frameId
+[(4, 27), (4, 37)] frameId frameActor
+[(4, 39), (4, 46)] frameId frameId
+[(6, 6), (6, 69)] collection collection
+[(6, 6), (6, 16)] collection collection
+[(6, 20), (6, 26)] ({
+  \\"sci-fi\\": {
+    movies: [{
+      director: \\"yo\\"
+    }]
+  }
+}) genres
+[(6, 29), (6, 37)] ({
+  movies: [{
+    director: \\"yo\\"
+  }]
+}) sci-fi
+[(6, 40), (6, 46)] [{
+  director: \\"yo\\"
+}] movies
+[(6, 50), (6, 58)] \\"yo\\" director
+[(6, 60), (6, 64)] \\"yo\\" yo
+
+classes:
+
+
+imports:
+
+
+literals:
+
+
+hasJsx: false
+
+hasTypes: false"
+`;
+
 exports[`Parser.getSymbols proto 1`] = `
 "functions:
 [(1, 12), (1, 25)]  foo()
@@ -1137,11 +1419,17 @@ identifiers:
 [(5, 17), (5, 25)] Backbone Backbone
 [(5, 26), (5, 30)] View View
 [(5, 31), (5, 37)] extend extend
+[(6, 2), (6, 9)] \\"li\\" tagName
+[(6, 11), (6, 15)] \\"li\\" li
+[(7, 2), (7, 12)] function () {} initialize
 [(8, 2), (8, 9)] doThing doThing
 [(8, 10), (8, 11)] b b
 [(9, 4), (9, 11)] console console
 [(9, 12), (9, 15)] log log
 [(9, 22), (9, 23)] b b
+[(11, 2), (11, 8)] function () {
+  return this;
+} render
 [(12, 11), (12, 15)] this this
 
 classes:
