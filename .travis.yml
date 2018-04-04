@@ -1,6 +1,8 @@
 language: python
 node_js: "8"
 
+sudo: required
+
 cache:
   - pip
   - yarn
