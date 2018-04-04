@@ -4,7 +4,6 @@
 
 // @flow
 
-import flatten from "lodash/flatten";
 import * as t from "@babel/types";
 
 import createSimplePath from "./utils/simple-path";
@@ -12,8 +11,12 @@ import { traverseAst } from "./utils/ast";
 import {
   isVariable,
   isFunction,
-  getVariables,
-  isComputedExpression
+  isObjectShorthand,
+  isComputedExpression,
+  getObjectExpressionValue,
+  getVariableNames,
+  getComments,
+  getSpecifiers
 } from "./utils/helpers";
 
 import { inferClassName } from "./utils/inferClassName";
@@ -115,61 +118,6 @@ function getFunctionParameterNames(path: SimplePath): string[] {
   return [];
 }
 
-function getVariableNames(path: SimplePath): SymbolDeclaration[] {
-  if (t.isObjectProperty(path.node) && !isFunction(path.node.value)) {
-    if (path.node.key.type === "StringLiteral") {
-      return [
-        {
-          name: path.node.key.value,
-          location: path.node.loc
-        }
-      ];
-    } else if (path.node.value.type === "Identifier") {
-      return [{ name: path.node.value.name, location: path.node.loc }];
-    } else if (path.node.value.type === "AssignmentPattern") {
-      return [{ name: path.node.value.left.name, location: path.node.loc }];
-    }
-
-    return [
-      {
-        name: path.node.key.name,
-        location: path.node.loc
-      }
-    ];
-  }
-
-  if (!path.node.declarations) {
-    return path.node.params.map(dec => ({
-      name: dec.name,
-      location: dec.loc
-    }));
-  }
-
-  const declarations = path.node.declarations
-    .filter(dec => dec.id.type !== "ObjectPattern")
-    .map(getVariables);
-
-  return flatten(declarations);
-}
-
-function getComments(ast) {
-  if (!ast || !ast.comments) {
-    return [];
-  }
-  return ast.comments.map(comment => ({
-    name: comment.location,
-    location: comment.loc
-  }));
-}
-
-function getSpecifiers(specifiers) {
-  if (!specifiers) {
-    return [];
-  }
-
-  return specifiers.map(specifier => specifier.local && specifier.local.name);
-}
-
 /* eslint-disable complexity */
 function extractSymbol(path: SimplePath, symbols) {
   if (isVariable(path)) {
@@ -255,6 +203,15 @@ function extractSymbol(path: SimplePath, symbols) {
     }
   }
 
+  if (t.isStringLiteral(path) && t.isProperty(path.parentPath)) {
+    let { start, end } = path.node.loc;
+    return symbols.identifiers.push({
+      name: path.node.value,
+      expression: getObjectExpressionValue(path.parent),
+      location: { start, end }
+    });
+  }
+
   if (t.isIdentifier(path) && !t.isGenericTypeAnnotation(path.parent)) {
     let { start, end } = path.node.loc;
 
@@ -263,8 +220,12 @@ function extractSymbol(path: SimplePath, symbols) {
       return;
     }
 
-    if (t.isProperty(path.parent)) {
-      return;
+    if (t.isProperty(path.parentPath) && !isObjectShorthand(path.parent)) {
+      return symbols.identifiers.push({
+        name: path.node.name,
+        expression: getObjectExpressionValue(path.parent),
+        location: { start, end }
+      });
     }
 
     if (path.node.typeAnnotation) {
