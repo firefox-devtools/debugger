@@ -93,14 +93,10 @@ class Breakpoints extends Component<Props> {
     this.props.removeBreakpoint(breakpoint.location);
   }
 
-  renderBreakpoint(breakpoint) {
-    if (!breakpoint.id) {
-      return;
-    }
-
+  renderBreakpoint(breakpoint, key) {
     return (
       <BreakpointItem
-        key={breakpoint.id}
+        key={key}
         breakpoint={breakpoint}
         onClick={() => this.selectBreakpoint(breakpoint)}
         onContextMenu={e =>
@@ -125,16 +121,16 @@ class Breakpoints extends Component<Props> {
     );
 
     return [
-      ...Object.keys(groupedBreakpoints)
-        .sort()
-        .map(filename => {
-          return [
-            <div className="breakpoint-heading" title={filename} key={filename}>
-              {filename}
-            </div>,
-            ...groupedBreakpoints[filename].map(bp => this.renderBreakpoint(bp))
-          ];
-        })
+      ...Object.keys(groupedBreakpoints).map(filename => {
+        return [
+          <div className="breakpoint-heading" title={filename} key={filename}>
+            {filename}
+          </div>,
+          ...groupedBreakpoints[filename].map((bp, i) =>
+            this.renderBreakpoint(bp, `${filename}-${i}`)
+          )
+        ];
+      })
     ];
   }
 
