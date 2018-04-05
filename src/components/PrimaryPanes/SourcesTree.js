@@ -307,10 +307,19 @@ class SourcesTree extends Component<Props, State> {
       >
         {arrow}
         {icon}
-        <span className="label"> {item.name} </span>
+        <span className="label"> {this.renderItemName(item.name)} </span>
       </div>
     );
   };
+
+  renderItemName(name) {
+    const hosts = {
+      "ng://": "Angular",
+      "webpack://": "Webpack"
+    };
+
+    return hosts[name] || name;
+  }
 
   renderEmptyElement(message) {
     return <div className="no-sources-message">{message}</div>;
