@@ -6,7 +6,7 @@
 
 import SourceEditor from "../editor/source-editor";
 
-export function createEditor(value) {
+export function createEditor(value: string) {
   return new SourceEditor({
     mode: "javascript",
     foldGutter: false,

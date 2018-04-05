@@ -149,3 +149,8 @@ html[dir="rtl"] .breakpoints-list .breakpoint .breakpoint-line {
 .CodeMirror.cm-s-mozilla-breakpoint .CodeMirror-sizer {
   min-width: none !important;
 }
+
+.breakpoints-list .breakpoint.disabled .CodeMirror.cm-s-mozilla-breakpoint {
+  transition: opacity 0.5s linear;
+  opacity: 0.5;
+}

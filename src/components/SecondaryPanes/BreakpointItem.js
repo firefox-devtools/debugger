@@ -11,7 +11,9 @@ import CloseButton from "../shared/Button/Close";
 
 import { createEditor } from "../../utils/breakpoint";
 import { features } from "../../utils/prefs";
+
 import type { LocalBreakpoint } from "./Breakpoints";
+import type SourceEditor from "../../utils/editor/source-editor";
 
 type Props = {
   breakpoint: LocalBreakpoint,
@@ -32,14 +34,17 @@ function getBreakpointLocation(source, line, column) {
 }
 
 class BreakpointItem extends Component<Props> {
+  editor: SourceEditor;
+
   componentDidMount() {
     this.setupEditor();
   }
+
   componentWillUnmount() {
     this.editor.destroy();
   }
 
-  shouldComponentUpdate(nextProps) {
+  shouldComponentUpdate(nextProps: Props) {
     // This is needed, IMO, so we don't need to create
     // loads of CM instances for no reason
     return this.props.breakpoint != nextProps.breakpoint;
@@ -56,8 +61,11 @@ class BreakpointItem extends Component<Props> {
     const node = ReactDOM.findDOMNode(this);
     if (node instanceof HTMLElement) {
       const mountNode = node.querySelector(".breakpoint-label");
-      mountNode.innerHTML = "";
-      this.editor.appendToLocalElement(mountNode);
+      if (node instanceof HTMLElement) {
+        // $FlowIgnore
+        mountNode.innerHTML = "";
+        this.editor.appendToLocalElement(mountNode);
+      }
     }
   }
 
