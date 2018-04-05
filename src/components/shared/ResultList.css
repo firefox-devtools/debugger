@@ -61,7 +61,6 @@
   line-height: 1.5em;
   word-break: break-all;
   text-overflow: ellipsis;
-  overflow: hidden;
   white-space: nowrap;
 }
 
