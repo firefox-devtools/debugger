@@ -39,9 +39,14 @@ class BreakpointItem extends Component<Props> {
   componentDidMount() {
     this.setupEditor();
   }
+  componentDidUpdate() {
+    this.setupEditor();
+  }
 
   componentWillUnmount() {
-    this.editor.destroy();
+    if (this.editor) {
+      this.editor.destroy();
+    }
   }
 
   shouldComponentUpdate(nextProps: Props) {
