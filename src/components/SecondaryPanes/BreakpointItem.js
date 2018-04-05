@@ -4,10 +4,12 @@
 
 // @flow
 import React, { Component } from "react";
+import ReactDOM from "react-dom";
 import classnames from "classnames";
 
 import CloseButton from "../shared/Button/Close";
 
+import { createEditor } from "../../utils/breakpoint";
 import { features } from "../../utils/prefs";
 import type { LocalBreakpoint } from "./Breakpoints";
 
@@ -30,6 +32,35 @@ function getBreakpointLocation(source, line, column) {
 }
 
 class BreakpointItem extends Component<Props> {
+  componentDidMount() {
+    this.setupEditor();
+  }
+  componentWillUnmount() {
+    this.editor.destroy();
+  }
+
+  shouldComponentUpdate(nextProps) {
+    // This is needed, IMO, so we don't need to create
+    // loads of CM instances for no reason
+    return this.props.breakpoint != nextProps.breakpoint;
+  }
+
+  setupEditor() {
+    const { breakpoint } = this.props;
+    this.editor = createEditor(breakpoint.text);
+
+    // disables the default search shortcuts
+    // $FlowIgnore
+    this.editor._initShortcuts = () => {};
+
+    const node = ReactDOM.findDOMNode(this);
+    if (node instanceof HTMLElement) {
+      const mountNode = node.querySelector(".breakpoint-label");
+      mountNode.innerHTML = "";
+      this.editor.appendToLocalElement(mountNode);
+    }
+  }
+
   render() {
     const {
       breakpoint,

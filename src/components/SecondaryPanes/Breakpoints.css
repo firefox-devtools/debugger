@@ -74,6 +74,7 @@ html .breakpoints-list .breakpoint.paused {
   font-size: 11px;
   color: var(--theme-comment);
   padding-top: 3px;
+  padding-inline-end: 2px;
   min-width: 14px;
   text-align: right;
 }
@@ -94,6 +95,7 @@ html[dir="rtl"] .breakpoints-list .breakpoint .breakpoint-line {
   max-width: calc(100% - var(--breakpoint-expression-right-clear-space));
   display: inline-block;
   padding-inline-start: 2px;
+  padding-inline-end: 8px;
   cursor: default;
   flex-grow: 1;
   text-overflow: ellipsis;
@@ -138,4 +140,12 @@ html[dir="rtl"] .breakpoints-list .breakpoint .breakpoint-line {
 
 .breakpoint:hover .close {
   visibility: visible;
+}
+
+.CodeMirror.cm-s-mozilla-breakpoint .CodeMirror-lines {
+  padding: 0;
+}
+
+.CodeMirror.cm-s-mozilla-breakpoint .CodeMirror-sizer {
+  min-width: none !important;
 }

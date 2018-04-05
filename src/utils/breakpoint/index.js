@@ -8,6 +8,8 @@ import { getBreakpoint } from "../../selectors";
 import assert from "../assert";
 import { features } from "../prefs";
 
+export { createEditor } from "./create-editor";
+
 export { getASTLocation, findScopeByName } from "./astBreakpointLocation";
 
 import type {
