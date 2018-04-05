@@ -17,7 +17,6 @@ import { basename } from "./path";
 import { parse as parseURL } from "url";
 export { isMinified } from "./isMinified";
 import { getExtension } from "./sources-tree";
-import { SourceRecordClass } from "../reducers/sources";
 
 import type { Source, SourceRecord, Location } from "../types";
 import type { SymbolDeclarations } from "../workers/parser";
@@ -341,15 +340,11 @@ export function getTextAtPosition(source: Source, location: Location) {
   return lineText.slice(column, column + 100).trim();
 }
 
-export function getSourceClassnames(
-  source: Object,
-  ...additionalClasses: Array<string>
-) {
-  const sourceRecord = new SourceRecordClass(source);
-  if (source && sourceRecord.get("isBlackBoxed")) {
+export function getSourceClassnames(source: Object) {
+  if (source && source.isBlackBoxed) {
     return "blackBox";
   }
-  const sourceType = sourceTypes[getExtension(sourceRecord)];
-  const classNames = classnames(sourceType || "file", ...additionalClasses);
+  const sourceType = sourceTypes[getExtension(source)];
+  const classNames = classnames(sourceType || "file");
   return classNames;
 }

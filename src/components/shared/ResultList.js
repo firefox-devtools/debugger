@@ -50,10 +50,11 @@ export default class ResultList extends Component<Props> {
         selected: index === selected
       })
     };
+
     return (
       <li {...props}>
         <div>
-          <img className={classnames(item.icon)} />
+          <img className={item.icon} />
         </div>
         <div id={`${item.id}-title`} className="title">
           {item.title}

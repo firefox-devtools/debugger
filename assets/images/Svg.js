@@ -24,7 +24,6 @@ const svg = {
   home: require("./home.svg"),
   javascript: require("./javascript.svg"),
   jquery: require("./jquery.svg"),
-  js: require("./javascript.svg"),
   underscore: require("./underscore.svg"),
   lodash: require("./lodash.svg"),
   ember: require("./ember.svg"),

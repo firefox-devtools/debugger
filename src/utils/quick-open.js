@@ -3,7 +3,7 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-
+import classnames from "classnames";
 import { endTruncateStr } from "./utils";
 import { isPretty, getFilename, getSourceClassnames } from "./source";
 
@@ -60,7 +60,7 @@ export function formatSourcesForList(source: RelativeSource, tabs: TabList) {
     subtitle,
     icon: tabs.includes(source.url)
       ? "tab result-item-icon"
-      : getSourceClassnames(source, "result-item-icon"),
+      : classnames(getSourceClassnames(source), "result-item-icon"),
     id: source.id,
     url: source.url
   };
@@ -70,7 +70,6 @@ export type QuickOpenResult = {|
   id: string,
   value: string,
   title: string,
-  badge?: boolean,
   subtitle?: string,
   location?: BabelLocation,
   url?: string,
