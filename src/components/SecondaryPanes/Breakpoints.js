@@ -3,6 +3,7 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
+
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -25,14 +26,15 @@ import { isInterrupted } from "../../utils/pause";
 import { makeLocationId } from "../../utils/breakpoint";
 import showContextMenu from "./BreakpointsContextMenu";
 
-import type { Breakpoint, Location, Source } from "../../types";
+import type { Breakpoint, Location, Source, Frame, Why } from "../../types";
 
 import "./Breakpoints.css";
 
 export type LocalBreakpoint = Breakpoint & {
-  location: Location & { source: Source },
+  location: Location,
   isCurrentlyPaused: boolean,
-  locationId: string
+  locationId: string,
+  source: Source
 };
 
 type BreakpointsMap = I.Map<string, LocalBreakpoint>;
@@ -52,7 +54,11 @@ type Props = {
   openConditionalPanel: number => void
 };
 
-function isCurrentlyPausedAtBreakpoint(frame, why, breakpoint) {
+function isCurrentlyPausedAtBreakpoint(
+  frame: Frame,
+  why: Why,
+  breakpoint: LocalBreakpoint
+) {
   if (!frame || !isInterrupted(why)) {
     return false;
   }
@@ -62,8 +68,8 @@ function isCurrentlyPausedAtBreakpoint(frame, why, breakpoint) {
   return bpId === pausedId;
 }
 
-function getBreakpointFilename(source) {
-  return source && source.toJS ? getFilename(source.toJS()) : "";
+function getBreakpointFilename(source: Source) {
+  return source ? getFilename(source) : "";
 }
 
 class Breakpoints extends Component<Props> {
@@ -117,7 +123,7 @@ class Breakpoints extends Component<Props> {
 
     const groupedBreakpoints = groupBy(
       sortBy([...breakpoints.valueSeq()], bp => bp.location.line),
-      bp => getBreakpointFilename(bp.location.source)
+      bp => getBreakpointFilename(bp.source)
     );
 
     return [
@@ -149,9 +155,7 @@ function updateLocation(sources, frame, why, bp): LocalBreakpoint {
   const source = getSourceInSources(sources, bp.location.sourceId);
   const isCurrentlyPaused = isCurrentlyPausedAtBreakpoint(frame, why, bp);
   const locationId = makeLocationId(bp.location);
-
-  const location = { ...bp.location, source };
-  const localBP = { ...bp, location, locationId, isCurrentlyPaused };
+  const localBP = { ...bp, locationId, isCurrentlyPaused, source };
 
   return localBP;
 }
@@ -164,7 +168,7 @@ const _getBreakpoints = createSelector(
   (breakpoints, sources, frame, why) =>
     breakpoints
       .map(bp => updateLocation(sources, frame, why, bp))
-      .filter(bp => bp.location.source && !bp.location.source.isBlackBoxed)
+      .filter(bp => bp.source && !bp.source.isBlackBoxed)
 );
 
 export default connect(

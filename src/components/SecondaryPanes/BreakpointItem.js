@@ -70,7 +70,7 @@ class BreakpointItem extends Component<Props> {
         </label>
         <div className="breakpoint-line-close">
           <div className="breakpoint-line">
-            {getBreakpointLocation(breakpoint.location.source, line, column)}
+            {getBreakpointLocation(breakpoint.source, line, column)}
           </div>
           <CloseButton
             handleClick={onCloseClick}
