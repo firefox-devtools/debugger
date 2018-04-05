@@ -147,7 +147,7 @@ html[dir="rtl"] .breakpoints-list .breakpoint .breakpoint-line {
 }
 
 .CodeMirror.cm-s-mozilla-breakpoint .CodeMirror-sizer {
-  min-width: none !important;
+  min-width: initial !important;
 }
 
 .breakpoints-list .breakpoint.disabled .CodeMirror.cm-s-mozilla-breakpoint {
@@ -155,7 +155,7 @@ html[dir="rtl"] .breakpoints-list .breakpoint .breakpoint-line {
   opacity: 0.5;
 }
 
-.CodeMirror.cm-s-mozilla-breakpoint .CodeMirror-line span[role=presentation]  {
+.CodeMirror.cm-s-mozilla-breakpoint .CodeMirror-line span[role=presentation] {
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
