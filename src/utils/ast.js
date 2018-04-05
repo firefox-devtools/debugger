@@ -6,34 +6,38 @@
 
 import { without, range } from "lodash";
 
-import type { Location, Source, Position } from "../types";
+import type { Location, Source, ColumnPosition } from "../types";
+
 import type {
   AstPosition,
   AstLocation,
   PausePoint,
-  SymbolDeclarations,
-  SymbolDeclaration
+  SymbolDeclarations
 } from "../workers/parser";
 
 export function findBestMatchExpression(
   symbols: SymbolDeclarations,
-  tokenPos: Position
+  tokenPos: ColumnPosition
 ) {
-  const { memberExpressions, identifiers } = symbols;
+  const { memberExpressions, identifiers, literals } = symbols;
   const { line, column } = tokenPos;
-  return identifiers.concat(memberExpressions).reduce((found, expression) => {
-    const overlaps =
-      expression.location.start.line == line &&
-      expression.location.start.column <= column &&
-      expression.location.end.column >= column &&
-      !expression.computed;
 
-    if (overlaps) {
-      return expression;
-    }
+  const members = memberExpressions.filter(({ computed }) => !computed);
 
-    return found;
-  }, null);
+  return []
+    .concat(identifiers, members, literals)
+    .reduce((found, expression) => {
+      const overlaps =
+        expression.location.start.line == line &&
+        expression.location.start.column <= column &&
+        expression.location.end.column >= column;
+
+      if (overlaps) {
+        return expression;
+      }
+
+      return found;
+    }, null);
 }
 
 export function findEmptyLines(
@@ -65,11 +69,12 @@ export function containsPosition(a: AstLocation, b: AstPosition) {
   return startsBefore && endsAfter;
 }
 
-export function findClosestFunction(
-  functions: SymbolDeclaration[],
-  location: Location
-) {
-  return functions.reduce((found, currNode) => {
+function findClosestofSymbol(declarations: any[], location: Location) {
+  if (!declarations) {
+    return null;
+  }
+
+  return declarations.reduce((found, currNode) => {
     if (
       currNode.name === "anonymous" ||
       !containsPosition(currNode.location, {
@@ -96,4 +101,20 @@ export function findClosestFunction(
 
     return currNode;
   }, null);
+}
+
+export function findClosestFunction(
+  symbols: SymbolDeclarations,
+  location: Location
+) {
+  const { functions } = symbols;
+  return findClosestofSymbol(functions, location);
+}
+
+export function findClosestClass(
+  symbols: SymbolDeclarations,
+  location: Location
+) {
+  const { classes } = symbols;
+  return findClosestofSymbol(classes, location);
 }

@@ -11,7 +11,8 @@ import {
   isPaused
 } from "../selectors";
 
-import { mapFrames } from "./pause";
+import { mapFrames, setExtra } from "./pause";
+
 import { setInScopeLines } from "./ast/setInScopeLines";
 import {
   getSymbols,
@@ -24,7 +25,7 @@ import { PROMISE } from "./utils/middleware/promise";
 import { isGeneratedId } from "devtools-source-map";
 
 import type { SourceId } from "../types";
-import type { ThunkArgs } from "./types";
+import type { ThunkArgs, Action } from "./types";
 
 export function setSourceMetaData(sourceId: SourceId) {
   return async ({ dispatch, getState }: ThunkArgs) => {
@@ -34,13 +35,16 @@ export function setSourceMetaData(sourceId: SourceId) {
     }
 
     const framework = await getFramework(source.id);
-    dispatch({
-      type: "SET_SOURCE_METADATA",
-      sourceId: source.id,
-      sourceMetaData: {
-        framework
-      }
-    });
+
+    dispatch(
+      ({
+        type: "SET_SOURCE_METADATA",
+        sourceId: source.id,
+        sourceMetaData: {
+          framework
+        }
+      }: Action)
+    );
   };
 }
 
@@ -56,13 +60,16 @@ export function setSymbols(sourceId: SourceId) {
       return;
     }
 
-    await dispatch({
-      type: "SET_SYMBOLS",
-      source: source.toJS(),
-      [PROMISE]: getSymbols(source.id)
-    });
+    await dispatch(
+      ({
+        type: "SET_SYMBOLS",
+        source: source.toJS(),
+        [PROMISE]: getSymbols(source.id)
+      }: Action)
+    );
 
     if (isPaused(getState())) {
+      await dispatch(setExtra());
       await dispatch(mapFrames());
     }
 
@@ -85,11 +92,12 @@ export function setOutOfScopeLocations() {
       locations = await findOutOfScopeLocations(source.get("id"), location);
     }
 
-    dispatch({
-      type: "OUT_OF_SCOPE_LOCATIONS",
-      locations
-    });
-
+    dispatch(
+      ({
+        type: "OUT_OF_SCOPE_LOCATIONS",
+        locations
+      }: Action)
+    );
     dispatch(setInScopeLines());
   };
 }
@@ -107,10 +115,12 @@ export function setPausePoints(sourceId: SourceId) {
       await client.setPausePoints(source.id, pausePoints);
     }
 
-    dispatch({
-      type: "SET_PAUSE_POINTS",
-      source: source.toJS(),
-      pausePoints
-    });
+    dispatch(
+      ({
+        type: "SET_PAUSE_POINTS",
+        source: source.toJS(),
+        pausePoints
+      }: Action)
+    );
   };
 }

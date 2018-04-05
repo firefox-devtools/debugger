@@ -22,10 +22,12 @@ import {
 import "./Outline.css";
 import PreviewFunction from "../shared/PreviewFunction";
 import { uniq, sortBy } from "lodash";
+
 import type {
+  AstLocation,
   SymbolDeclarations,
   SymbolDeclaration,
-  AstLocation
+  FunctionDeclaration
 } from "../../workers/parser";
 import type { SourceRecord } from "../../types";
 
@@ -104,7 +106,7 @@ export class Outline extends Component<Props> {
     );
   }
 
-  renderFunction(func: SymbolDeclaration) {
+  renderFunction(func: FunctionDeclaration) {
     const { name, location, parameterNames } = func;
 
     return (
@@ -120,7 +122,7 @@ export class Outline extends Component<Props> {
     );
   }
 
-  renderClassFunctions(klass: string, functions: SymbolDeclaration[]) {
+  renderClassFunctions(klass: string, functions: FunctionDeclaration[]) {
     if (klass == null || functions.length == 0) {
       return null;
     }
@@ -149,7 +151,7 @@ export class Outline extends Component<Props> {
     );
   }
 
-  renderFunctions(functions: Array<SymbolDeclaration>) {
+  renderFunctions(functions: Array<FunctionDeclaration>) {
     let classes = uniq(functions.map(func => func.klass));
     let namedFunctions = functions.filter(
       func =>

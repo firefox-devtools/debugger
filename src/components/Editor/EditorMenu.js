@@ -251,7 +251,7 @@ export default connect(
           getSymbols(state, selectedSource)
         ),
       getFunctionLocation: line =>
-        findClosestFunction(getSymbols(state, selectedSource).functions, {
+        findClosestFunction(getSymbols(state, selectedSource), {
           line,
           column: Infinity
         })

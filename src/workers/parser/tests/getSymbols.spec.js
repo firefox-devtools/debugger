@@ -24,6 +24,8 @@ cases(
     { name: "expression", file: "expression" },
     { name: "allSymbols", file: "allSymbols" },
     { name: "call sites", file: "call-sites" },
+    { name: "call expression", file: "callExpressions" },
+    { name: "object expressions", file: "object-expressions" },
     {
       name: "finds symbols in an html file",
       file: "parseScriptTags",

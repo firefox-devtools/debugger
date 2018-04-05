@@ -25,6 +25,7 @@ cases(
     { name: "modules", file: "modules", original: true },
     { name: "jsx", file: "jsx", original: true },
     { name: "func", file: "func", original: true },
-    { name: "decorators", file: "decorators", original: true }
+    { name: "decorators", file: "decorators", original: true },
+    { name: "html", file: "parseScriptTags", type: "html" }
   ]
 );

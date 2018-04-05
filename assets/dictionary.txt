@@ -175,3 +175,10 @@ tabIndex
 react-inlinesvg
 findClosestScope
 findClosestFunction
+paren
+parens
+namespaces
+getMappedExpression
+getIn
+TypeError
+lastStatement

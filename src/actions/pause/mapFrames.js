@@ -37,10 +37,7 @@ export function mapDisplayNames(frames: Frame[], getState: () => State) {
       return frame;
     }
 
-    const originalFunction = findClosestFunction(
-      symbols.functions,
-      frame.location
-    );
+    const originalFunction = findClosestFunction(symbols, frame.location);
 
     if (!originalFunction) {
       return frame;

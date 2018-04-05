@@ -4,7 +4,7 @@
 
 // @flow
 
-import { findBestMatchExpression } from "../utils/ast";
+import { findBestMatchExpression, findClosestClass } from "../utils/ast";
 import { getTokenLocation } from "../utils/editor";
 import { isReactComponent, isImmutable, isConsole } from "../utils/preview";
 import { isGeneratedId } from "devtools-source-map";
@@ -17,14 +17,16 @@ import {
   getSelectedSource,
   getSelectedFrame,
   getSymbols,
-  getCanRewind
+  getCanRewind,
+  getSource
 } from "../selectors";
 
 import { getMappedExpression } from "./expressions";
 import { isEqual } from "lodash";
 
-import type { ThunkArgs } from "./types";
-import type { Frame, Range, Position } from "../types";
+import type { Action, ThunkArgs } from "./types";
+import type { Frame, ColumnPosition } from "../types";
+import type { AstLocation } from "../workers/parser";
 
 async function getReactProps(evaluate) {
   const reactDisplayName = await evaluate(
@@ -51,10 +53,24 @@ async function getImmutableProps(expression: string, evaluate) {
   };
 }
 
-async function getExtraProps(expression, result, evaluate) {
+async function getExtraProps(getState, expression, result, evaluate) {
   const props = {};
   if (isReactComponent(result)) {
-    props.react = await getReactProps(evaluate);
+    const selectedFrame = getSelectedFrame(getState());
+    const source = getSource(getState(), selectedFrame.location.sourceId);
+    const symbols = getSymbols(getState(), source);
+
+    if (symbols && symbols.classes) {
+      const originalClass = findClosestClass(symbols, selectedFrame.location);
+
+      if (originalClass) {
+        props.react = { displayName: originalClass.name };
+      }
+    }
+
+    if (!props.react) {
+      props.react = await getReactProps(evaluate);
+    }
   }
 
   if (isImmutable(result)) {
@@ -73,13 +89,11 @@ function isInvalidTarget(target: HTMLElement) {
   const cursorPos = target.getBoundingClientRect();
 
   // exclude literal tokens where it does not make sense to show a preview
-  const invaildType = ["cm-string", "cm-number", "cm-atom"].includes(
-    target.className
-  );
+  const invalidType = ["cm-atom", ""].includes(target.className);
 
   // exclude syntax where the expression would be a syntax error
   const invalidToken =
-    tokenText === "" || tokenText.match(/[(){}\|&%,.;=<>\+-/\*\s]/);
+    tokenText === "" || tokenText.match(/^[(){}\|&%,.;=<>\+-/\*\s](?=)/);
 
   // exclude codemirror elements that are not tokens
   const invalidTarget =
@@ -87,7 +101,7 @@ function isInvalidTarget(target: HTMLElement) {
       !target.parentElement.closest(".CodeMirror-line")) ||
     cursorPos.top == 0;
 
-  return invalidTarget || invalidToken || invaildType;
+  return invalidTarget || invalidToken || invalidType;
 }
 
 export function getExtra(
@@ -96,7 +110,7 @@ export function getExtra(
   selectedFrame: Frame
 ) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
-    const extra = await getExtraProps(expression, result, expr =>
+    const extra = await getExtraProps(getState, expression, result, expr =>
       client.evaluateInFrame(selectedFrame.id, expr)
     );
 
@@ -161,49 +175,51 @@ export function updatePreview(target: HTMLElement, editor: any) {
 
 export function setPreview(
   expression: string,
-  location: Range,
-  tokenPos: Position,
+  location: AstLocation,
+  tokenPos: ColumnPosition,
   cursorPos: any
 ) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
-    await dispatch({
-      type: "SET_PREVIEW",
-      [PROMISE]: (async function() {
-        const source = getSelectedSource(getState());
+    await dispatch(
+      ({
+        type: "SET_PREVIEW",
+        [PROMISE]: (async function() {
+          const source = getSelectedSource(getState());
 
-        const sourceId = source.get("id");
-        if (location && !isGeneratedId(sourceId)) {
-          expression = await dispatch(getMappedExpression(expression));
-        }
+          const sourceId = source.get("id");
+          if (location && !isGeneratedId(sourceId)) {
+            expression = await dispatch(getMappedExpression(expression));
+          }
 
-        const selectedFrame = getSelectedFrame(getState());
-        if (!selectedFrame) {
-          return;
-        }
+          const selectedFrame = getSelectedFrame(getState());
+          if (!selectedFrame) {
+            return;
+          }
 
-        const { result } = await client.evaluateInFrame(
-          selectedFrame.id,
-          expression
-        );
+          const { result } = await client.evaluateInFrame(
+            selectedFrame.id,
+            expression
+          );
 
-        if (result === undefined) {
-          return;
-        }
+          if (result === undefined) {
+            return;
+          }
 
-        const extra = await dispatch(
-          getExtra(expression, result, selectedFrame)
-        );
+          const extra = await dispatch(
+            getExtra(expression, result, selectedFrame)
+          );
 
-        return {
-          expression,
-          result,
-          location,
-          tokenPos,
-          cursorPos,
-          extra
-        };
-      })()
-    });
+          return {
+            expression,
+            result,
+            location,
+            tokenPos,
+            cursorPos,
+            extra
+          };
+        })()
+      }: Action)
+    );
   };
 }
 
@@ -214,8 +230,10 @@ export function clearPreview() {
       return;
     }
 
-    return dispatch({
-      type: "CLEAR_SELECTION"
-    });
+    return dispatch(
+      ({
+        type: "CLEAR_SELECTION"
+      }: Action)
+    );
   };
 }

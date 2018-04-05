@@ -6,9 +6,8 @@
 
 import { getSelectedFrame, getGeneratedFrameScope } from "../../selectors";
 import { mapScopes } from "./mapScopes";
-import { getExtra } from "../preview";
 import { PROMISE } from "../utils/middleware/promise";
-
+import { setExtra } from "./setExtra";
 import type { ThunkArgs } from "../types";
 
 export function fetchScopes() {
@@ -18,15 +17,13 @@ export function fetchScopes() {
       return;
     }
 
-    const extra = await dispatch(getExtra("this;", frame.this, frame));
-
     const scopes = dispatch({
       type: "ADD_SCOPES",
       frame,
-      extra,
       [PROMISE]: client.getFrameScopes(frame)
     });
 
+    await dispatch(setExtra());
     await dispatch(mapScopes(scopes, frame));
   };
 }

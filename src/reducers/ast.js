@@ -15,23 +15,24 @@ import makeRecord from "../utils/makeRecord";
 import { findEmptyLines } from "../utils/ast";
 
 import type {
-  SymbolDeclarations,
   AstLocation,
-  PausePoint
+  PausePoint,
+  SymbolDeclarations
 } from "../workers/parser";
 
 import type { Map } from "immutable";
 import type { Source } from "../types";
-import type { Action } from "../actions/types";
+import type { Action, DonePromiseAction } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 type EmptyLinesType = number[];
+
 export type Symbols = SymbolDeclarations | {| loading: true |};
 export type SymbolsMap = Map<string, Symbols>;
 export type EmptyLinesMap = Map<string, EmptyLinesType>;
 
 export type SourceMetaDataType = {
-  framework: ?string
+  framework: string | void
 };
 
 export type SourceMetaDataMap = Map<string, SourceMetaDataType>;
@@ -84,7 +85,9 @@ function update(
       if (action.status === "start") {
         return state.setIn(["symbols", source.id], { loading: true });
       }
-      return state.setIn(["symbols", source.id], action.value);
+
+      const value = ((action: any): DonePromiseAction).value;
+      return state.setIn(["symbols", source.id], value);
     }
 
     case "SET_PAUSE_POINTS": {
