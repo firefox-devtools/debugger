@@ -45,11 +45,6 @@ class BreakpointItem extends Component<Props> {
     const isCurrentlyPaused = breakpoint.isCurrentlyPaused;
     const isDisabled = breakpoint.disabled;
     const isConditional = !!breakpoint.condition;
-    const isHidden = breakpoint.hidden;
-
-    if (isHidden) {
-      return;
-    }
 
     return (
       <div
