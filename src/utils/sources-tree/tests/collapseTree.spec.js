@@ -39,7 +39,7 @@ describe("sources tree", () => {
 
       const abcNode = abFolder.contents[0];
       expect(abcNode.name).toBe("c.js");
-      expect(abcNode.path).toBe("/example.com/a/b/c.js");
+      expect(abcNode.path).toBe("example.com/a/b/c.js");
       expect(formatTree(tree)).toMatchSnapshot();
     });
 
@@ -62,12 +62,12 @@ describe("sources tree", () => {
 
       const [cdFolder, abcNode] = abFolder.contents;
       expect(abcNode.name).toBe("c.js");
-      expect(abcNode.path).toBe("/example.com/a/b/c.js");
+      expect(abcNode.path).toBe("example.com/a/b/c.js");
       expect(cdFolder.name).toBe("c/d");
 
       const [abcdeNode] = cdFolder.contents;
       expect(abcdeNode.name).toBe("e.js");
-      expect(abcdeNode.path).toBe("/example.com/a/b/c/d/e.js");
+      expect(abcdeNode.path).toBe("example.com/a/b/c/d/e.js");
       expect(formatTree(tree)).toMatchSnapshot();
     });
 
@@ -89,9 +89,9 @@ describe("sources tree", () => {
 
       const [abcNode, abxNode] = abFolder.contents;
       expect(abcNode.name).toBe("c.js");
-      expect(abcNode.path).toBe("/example.com/a/b/c.js");
+      expect(abcNode.path).toBe("example.com/a/b/c.js");
       expect(abxNode.name).toBe("x.js");
-      expect(abxNode.path).toBe("/example.com/a/b/x.js");
+      expect(abxNode.path).toBe("example.com/a/b/x.js");
       expect(formatTree(tree)).toMatchSnapshot();
     });
 
@@ -113,12 +113,12 @@ describe("sources tree", () => {
 
       const [cdFolder, abcNode] = abFolder.contents;
       expect(abcNode.name).toBe("c.js");
-      expect(abcNode.path).toBe("/example.com/a/b/c.js");
+      expect(abcNode.path).toBe("example.com/a/b/c.js");
       expect(cdFolder.name).toBe("c/d");
 
       const [abcdeNode] = cdFolder.contents;
       expect(abcdeNode.name).toBe("e.js");
-      expect(abcdeNode.path).toBe("/example.com/a/b/c/d/e.js");
+      expect(abcdeNode.path).toBe("example.com/a/b/c/d/e.js");
       expect(formatTree(tree)).toMatchSnapshot();
     });
   });

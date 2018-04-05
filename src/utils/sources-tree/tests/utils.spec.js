@@ -106,8 +106,8 @@ describe("sources tree", () => {
       addToTree(tree, source3, "http://a/");
       const paths = getDirectories("http://a/b.js", tree);
 
-      expect(paths[1].path).toBe("/a");
-      expect(paths[0].path).toBe("/a/b.js");
+      expect(paths[1].path).toBe("a");
+      expect(paths[0].path).toBe("a/b.js");
     });
 
     it("handles '?' in target url", function() {
@@ -126,8 +126,8 @@ describe("sources tree", () => {
       addToTree(tree, source2, "http://a/");
       const paths = getDirectories("http://a/b.js?key=hi", tree);
 
-      expect(paths[1].path).toBe("/a");
-      expect(paths[0].path).toBe("/a/b.js");
+      expect(paths[1].path).toBe("a");
+      expect(paths[0].path).toBe("a/b.js");
     });
 
     it("handles 'https' in target url", function() {
@@ -146,8 +146,8 @@ describe("sources tree", () => {
       addToTree(tree, source2, "http://a/");
       const paths = getDirectories("https://a/b.js", tree);
 
-      expect(paths[1].path).toBe("/a");
-      expect(paths[0].path).toBe("/a/b.js");
+      expect(paths[1].path).toBe("a");
+      expect(paths[0].path).toBe("a/b.js");
     });
   });
 

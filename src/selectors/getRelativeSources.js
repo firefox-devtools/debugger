@@ -31,7 +31,6 @@ function formatSource(source: Source, root): RelativeSource {
 export function getRelativeSources(state: State): RelativeSource[] {
   const sources = getSources(state);
   const root = getProjectDirectoryRoot(state);
-
   return sources
     .valueSeq()
     .toJS()
