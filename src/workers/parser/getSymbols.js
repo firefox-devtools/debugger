@@ -204,7 +204,7 @@ function extractSymbol(path: SimplePath, symbols) {
   }
 
   if (t.isStringLiteral(path) && t.isProperty(path.parentPath)) {
-    let { start, end } = path.node.loc;
+    const { start, end } = path.node.loc;
     return symbols.identifiers.push({
       name: path.node.value,
       expression: getObjectExpressionValue(path.parent),

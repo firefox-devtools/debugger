@@ -3,17 +3,17 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
+
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as I from "immutable";
-import classnames from "classnames";
 import { createSelector } from "reselect";
 import { groupBy, sortBy } from "lodash";
 
+import BreakpointItem from "./BreakpointItem";
+
 import actions from "../../actions";
-import CloseButton from "../shared/Button/Close";
-import { features } from "../../utils/prefs";
 import { getFilename } from "../../utils/source";
 import {
   getSources,
@@ -26,14 +26,15 @@ import { isInterrupted } from "../../utils/pause";
 import { makeLocationId } from "../../utils/breakpoint";
 import showContextMenu from "./BreakpointsContextMenu";
 
-import type { Breakpoint, Location } from "../../types";
+import type { Breakpoint, Location, Source, Frame, Why } from "../../types";
 
 import "./Breakpoints.css";
 
-type LocalBreakpoint = Breakpoint & {
-  location: any,
+export type LocalBreakpoint = Breakpoint & {
+  location: Location,
   isCurrentlyPaused: boolean,
-  locationId: string
+  locationId: string,
+  source: Source
 };
 
 type BreakpointsMap = I.Map<string, LocalBreakpoint>;
@@ -53,7 +54,11 @@ type Props = {
   openConditionalPanel: number => void
 };
 
-function isCurrentlyPausedAtBreakpoint(frame, why, breakpoint) {
+function isCurrentlyPausedAtBreakpoint(
+  frame: Frame,
+  why: Why,
+  breakpoint: LocalBreakpoint
+) {
   if (!frame || !isInterrupted(why)) {
     return false;
   }
@@ -63,18 +68,8 @@ function isCurrentlyPausedAtBreakpoint(frame, why, breakpoint) {
   return bpId === pausedId;
 }
 
-function getBreakpointFilename(source) {
-  return source && source.toJS ? getFilename(source.toJS()) : "";
-}
-
-function getBreakpointLocation(source, line, column) {
-  const isWasm = source && source.isWasm;
-  const columnVal = features.columnBreakpoints && column ? `:${column}` : "";
-  const bpLocation = isWasm
-    ? `0x${line.toString(16).toUpperCase()}`
-    : `${line}${columnVal}`;
-
-  return bpLocation;
+function getBreakpointFilename(source: Source) {
+  return source ? getFilename(source) : "";
 }
 
 class Breakpoints extends Component<Props> {
@@ -104,53 +99,18 @@ class Breakpoints extends Component<Props> {
     this.props.removeBreakpoint(breakpoint.location);
   }
 
-  renderBreakpoint(breakpoint) {
-    const locationId = breakpoint.locationId;
-    const line = breakpoint.location.line;
-    const column = breakpoint.location.column;
-    const isCurrentlyPaused = breakpoint.isCurrentlyPaused;
-    const isDisabled = breakpoint.disabled;
-    const isConditional = !!breakpoint.condition;
-    const isHidden = breakpoint.hidden;
-
-    if (isHidden) {
-      return;
-    }
-
+  renderBreakpoint(breakpoint, key) {
     return (
-      <div
-        className={classnames({
-          breakpoint,
-          paused: isCurrentlyPaused,
-          disabled: isDisabled,
-          "is-conditional": isConditional
-        })}
-        key={locationId}
+      <BreakpointItem
+        key={key}
+        breakpoint={breakpoint}
         onClick={() => this.selectBreakpoint(breakpoint)}
         onContextMenu={e =>
           showContextMenu({ ...this.props, breakpoint, contextMenuEvent: e })
         }
-      >
-        <input
-          type="checkbox"
-          className="breakpoint-checkbox"
-          checked={!isDisabled}
-          onChange={() => this.handleCheckbox(breakpoint)}
-          onClick={ev => ev.stopPropagation()}
-        />
-        <label className="breakpoint-label" title={breakpoint.text}>
-          {breakpoint.text}
-        </label>
-        <div className="breakpoint-line-close">
-          <div className="breakpoint-line">
-            {getBreakpointLocation(breakpoint.location.source, line, column)}
-          </div>
-          <CloseButton
-            handleClick={ev => this.removeBreakpoint(ev, breakpoint)}
-            tooltip={L10N.getStr("breakpoints.removeBreakpointTooltip")}
-          />
-        </div>
-      </div>
+        onChange={() => this.handleCheckbox(breakpoint)}
+        onCloseClick={ev => this.removeBreakpoint(ev, breakpoint)}
+      />
     );
   }
 
@@ -163,20 +123,20 @@ class Breakpoints extends Component<Props> {
 
     const groupedBreakpoints = groupBy(
       sortBy([...breakpoints.valueSeq()], bp => bp.location.line),
-      bp => getBreakpointFilename(bp.location.source)
+      bp => getBreakpointFilename(bp.source)
     );
 
     return [
-      ...Object.keys(groupedBreakpoints)
-        .sort()
-        .map(filename => {
-          return [
-            <div className="breakpoint-heading" title={filename} key={filename}>
-              {filename}
-            </div>,
-            ...groupedBreakpoints[filename].map(bp => this.renderBreakpoint(bp))
-          ];
-        })
+      ...Object.keys(groupedBreakpoints).map(filename => {
+        return [
+          <div className="breakpoint-heading" title={filename} key={filename}>
+            {filename}
+          </div>,
+          ...groupedBreakpoints[filename]
+            .filter(bp => !bp.hidden)
+            .map((bp, i) => this.renderBreakpoint(bp, `${filename}-${i}`))
+        ];
+      })
     ];
   }
 
@@ -195,9 +155,7 @@ function updateLocation(sources, frame, why, bp): LocalBreakpoint {
   const source = getSourceInSources(sources, bp.location.sourceId);
   const isCurrentlyPaused = isCurrentlyPausedAtBreakpoint(frame, why, bp);
   const locationId = makeLocationId(bp.location);
-
-  const location = { ...bp.location, source };
-  const localBP = { ...bp, location, locationId, isCurrentlyPaused };
+  const localBP = { ...bp, locationId, isCurrentlyPaused, source };
 
   return localBP;
 }
@@ -210,7 +168,7 @@ const _getBreakpoints = createSelector(
   (breakpoints, sources, frame, why) =>
     breakpoints
       .map(bp => updateLocation(sources, frame, why, bp))
-      .filter(bp => bp.location.source && !bp.location.source.isBlackBoxed)
+      .filter(bp => bp.source && !bp.source.isBlackBoxed)
 );
 
 export default connect(
