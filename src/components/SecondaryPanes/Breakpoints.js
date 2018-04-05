@@ -167,14 +167,16 @@ class Breakpoints extends Component<Props> {
     );
 
     return [
-      ...Object.keys(groupedBreakpoints).map(filename => {
-        return [
-          <div className="breakpoint-heading" title={filename} key={filename}>
-            {filename}
-          </div>,
-          ...groupedBreakpoints[filename].map(bp => this.renderBreakpoint(bp))
-        ];
-      })
+      ...Object.keys(groupedBreakpoints)
+        .sort()
+        .map(filename => {
+          return [
+            <div className="breakpoint-heading" title={filename} key={filename}>
+              {filename}
+            </div>,
+            ...groupedBreakpoints[filename].map(bp => this.renderBreakpoint(bp))
+          ];
+        })
     ];
   }
 
