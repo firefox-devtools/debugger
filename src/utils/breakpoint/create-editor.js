@@ -18,7 +18,7 @@ export function createEditor(value: string) {
     lineWrapping: false,
     matchBrackets: false,
     showAnnotationRuler: false,
-    gutters: [],
+    gutters: false,
     value: value || "",
     scrollbarStyle: null
   });

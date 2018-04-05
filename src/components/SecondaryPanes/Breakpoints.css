@@ -161,3 +161,7 @@ html[dir="rtl"] .breakpoints-list .breakpoint .breakpoint-line {
   text-overflow: ellipsis;
   display: inline-block;
 }
+
+.CodeMirror.cm-s-mozilla-breakpoint .CodeMirror-code {
+  cursor: default;
+}
