@@ -154,3 +154,10 @@ html[dir="rtl"] .breakpoints-list .breakpoint .breakpoint-line {
   transition: opacity 0.5s linear;
   opacity: 0.5;
 }
+
+.CodeMirror.cm-s-mozilla-breakpoint .CodeMirror-line span[role=presentation]  {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+}
