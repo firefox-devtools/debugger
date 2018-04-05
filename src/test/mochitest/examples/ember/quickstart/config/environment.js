@@ -23,7 +23,11 @@ module.exports = function(environment) {
 
     // NOTE(logan): Hard-code the URL for the debugger example to allow it to
     // function properly. The default "/" root makes assets fail to load.
-    rootURL: "/integration/examples/ember/quickstart/dist/"
+    rootURL: "/browser/devtools/client/debugger/new/test/mochitest/examples/ember/quickstart/dist/",
+
+    // If using "http://localhost:8000/integration/examples/ember/quickstart/dist/" to
+    // access this test example, uncomment this line and re-run "yarn build".
+    // rootURL: "/integration/examples/ember/quickstart/dist/",
   };
 
   if (environment === 'development') {

@@ -220,7 +220,9 @@ define('quickstart/router', ['exports', 'quickstart/config/environment'], functi
 
   Router.map(function () {});
 
-  "pause here";
+  window.mapTestFunction = () => {
+    window.console.log("pause here", _environment.default, Router);
+  };
 
   exports.default = Router;
 });
@@ -270,6 +272,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("quickstart/app")["default"].create({"name":"quickstart","version":"0.0.0+c5a7de85"});
+  require("quickstart/app")["default"].create({"name":"quickstart","version":"0.0.0+1dde1d7f"});
 }
 //# sourceMappingURL=quickstart.map

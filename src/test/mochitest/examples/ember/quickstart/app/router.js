@@ -9,6 +9,8 @@ const Router = EmberRouter.extend({
 Router.map(function() {
 });
 
-"pause here";
+window.mapTestFunction = () => {
+  window.console.log("pause here", config, Router);
+};
 
 export default Router;
