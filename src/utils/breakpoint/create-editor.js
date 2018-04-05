@@ -11,7 +11,7 @@ export function createEditor(value: string) {
     mode: "javascript",
     foldGutter: false,
     enableCodeFolding: false,
-    readOnly: true,
+    readOnly: "nocursor",
     lineNumbers: false,
     theme: "mozilla mozilla-breakpoint",
     styleActiveLine: false,
