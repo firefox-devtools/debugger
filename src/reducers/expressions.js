@@ -19,7 +19,7 @@ import type { Expression } from "../types";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
-type ExpressionState = {
+export type ExpressionState = {
   expressions: List<Expression>,
   expressionError: boolean
 };

@@ -17,7 +17,8 @@ import {
 import { mapFrames } from ".";
 import { removeBreakpoint } from "../breakpoints";
 import { evaluateExpressions } from "../expressions";
-import { selectLocation, loadSourceText } from "../sources";
+import { selectLocation } from "../sources";
+import { loadSourceText } from "../sources/loadSourceText";
 import { togglePaneCollapse } from "../ui";
 import { command } from "./commands";
 import { shouldStep } from "../../utils/pause";
