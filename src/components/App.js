@@ -144,16 +144,14 @@ class App extends Component<Props, State> {
       quickOpenEnabled
     } = this.props;
 
+    e.preventDefault();
+
     if (activeSearch) {
       closeActiveSearch();
     }
 
     if (quickOpenEnabled) {
       closeQuickOpen();
-    }
-
-    if (activeSearch || quickOpenEnabled) {
-      e.preventDefault();
     }
   };
 
