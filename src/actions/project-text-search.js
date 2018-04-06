@@ -12,7 +12,7 @@
 import { findSourceMatches } from "../workers/search";
 import { getSources, getSource, hasPrettySource } from "../selectors";
 import { isThirdParty } from "../utils/source";
-import { loadSourceText } from "./sources";
+import { loadSourceText } from "./sources/loadSourceText";
 import { statusType } from "../reducers/project-text-search";
 
 import type { ThunkArgs } from "./types";
