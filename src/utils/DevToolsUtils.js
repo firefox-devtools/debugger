@@ -11,7 +11,7 @@ export function reportException(who: string, exception: any[]) {
   console.error(msg, exception);
 }
 
-export function executeSoon(fn: () => void) {
+export function executeSoon(fn: Function) {
   setTimeout(fn, 0);
 }
 
