@@ -17,6 +17,7 @@ export type Item = {
 type Props = {
   autoExpandAll: boolean,
   autoExpandDepth: number,
+  autoExpandOnHighlight?: boolean,
   getChildren: Object => Object[],
   getPath: (Object, index?: number) => string,
   getParent: Item => any,
@@ -123,11 +124,20 @@ class ManagedTree extends Component<Props, State> {
     if (expanded.has(this.props.getPath(highlightItems[0]))) {
       this.focusItem(highlightItems[0]);
     } else {
-      // Look at folders starting from the top-level until finds a
-      // closed folder and highlights this folder
-      const index = highlightItems
-        .reverse()
-        .findIndex(item => !expanded.has(this.props.getPath(item)));
+      // Look at folders starting from the top-level and expand all the items
+      // which lie in the path of the item to be highlighted
+      highlightItems.reverse();
+      let index = highlightItems.findIndex(
+        item => !expanded.has(this.props.getPath(item))
+      );
+
+      if (this.props.autoExpandOnHighlight) {
+        while (index < highlightItems.length - 1) {
+          this.setExpanded(highlightItems[index], true, false);
+          index++;
+        }
+      }
+
       this.focusItem(highlightItems[index]);
     }
   }

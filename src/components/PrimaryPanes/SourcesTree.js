@@ -370,6 +370,7 @@ class SourcesTree extends Component<Props, State> {
     const treeProps = {
       autoExpandAll: false,
       autoExpandDepth: expanded ? 0 : 1,
+      autoExpandOnHighlight: true,
       expanded,
       getChildren: item => (nodeHasChildren(item) ? item.contents : []),
       getParent: item => parentMap.get(item),
