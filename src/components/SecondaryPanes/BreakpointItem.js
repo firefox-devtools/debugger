@@ -4,12 +4,16 @@
 
 // @flow
 import React, { Component } from "react";
+import ReactDOM from "react-dom";
 import classnames from "classnames";
 
 import CloseButton from "../shared/Button/Close";
 
+import { createEditor } from "../../utils/breakpoint";
 import { features } from "../../utils/prefs";
+
 import type { LocalBreakpoint } from "./Breakpoints";
+import type SourceEditor from "../../utils/editor/source-editor";
 
 type Props = {
   breakpoint: LocalBreakpoint,
@@ -30,6 +34,54 @@ function getBreakpointLocation(source, line, column) {
 }
 
 class BreakpointItem extends Component<Props> {
+  editor: SourceEditor;
+
+  componentDidMount() {
+    this.setupEditor();
+  }
+  componentDidUpdate() {
+    this.setupEditor();
+  }
+
+  componentWillUnmount() {
+    if (this.editor) {
+      this.editor.destroy();
+    }
+  }
+
+  shouldComponentUpdate(nextProps: Props) {
+    const prevBreakpoint = this.props.breakpoint;
+    const nextBreakpoint = nextProps.breakpoint;
+
+    return (
+      !prevBreakpoint ||
+      (prevBreakpoint.text != nextBreakpoint.text ||
+        prevBreakpoint.disabled != nextBreakpoint.disabled ||
+        prevBreakpoint.condition != nextBreakpoint.condition ||
+        prevBreakpoint.hidden != nextBreakpoint.hidden ||
+        prevBreakpoint.isCurrentlyPaused != nextBreakpoint.isCurrentlyPaused)
+    );
+  }
+
+  setupEditor() {
+    const { breakpoint } = this.props;
+    this.editor = createEditor(breakpoint.text);
+
+    // disables the default search shortcuts
+    // $FlowIgnore
+    this.editor._initShortcuts = () => {};
+
+    const node = ReactDOM.findDOMNode(this);
+    if (node instanceof HTMLElement) {
+      const mountNode = node.querySelector(".breakpoint-label");
+      if (node instanceof HTMLElement) {
+        // $FlowIgnore
+        mountNode.innerHTML = "";
+        this.editor.appendToLocalElement(mountNode);
+      }
+    }
+  }
+
   render() {
     const {
       breakpoint,
