@@ -10,11 +10,7 @@ import { debounce } from "lodash";
 
 import Popup from "./Popup";
 
-import {
-  getPreview,
-  getSelectedSource,
-  isSelectedFrameVisible
-} from "../../../selectors";
+import { getPreview, getSelectedSource } from "../../../selectors";
 import actions from "../../../actions";
 import { toEditorRange } from "../../../utils/editor";
 
@@ -69,9 +65,7 @@ class Preview extends PureComponent<Props, State> {
 
   onMouseOver = e => {
     const { target } = e;
-    if (this.props.selectedFrameVisible) {
-      this.props.updatePreview(target, this.props.editor);
-    }
+    this.props.updatePreview(target, this.props.editor);
   };
 
   onMouseUp = () => {
@@ -136,8 +130,7 @@ const {
 export default connect(
   state => ({
     preview: getPreview(state),
-    selectedSource: getSelectedSource(state),
-    selectedFrameVisible: isSelectedFrameVisible(state)
+    selectedSource: getSelectedSource(state)
   }),
   {
     addExpression,

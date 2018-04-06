@@ -6,10 +6,12 @@ import { originalToGeneratedId, isOriginalId } from "devtools-source-map";
 import { getSelectedFrame } from "../reducers/pause";
 import { getSelectedLocation } from "../reducers/sources";
 
-function visibleSourceId(location) {
-  return isOriginalId(location.sourceId)
-    ? originalToGeneratedId(location.sourceId)
-    : location.sourceId;
+function getGeneratedId(sourceId) {
+  if (isOriginalId(sourceId)) {
+    return originalToGeneratedId(sourceId);
+  }
+
+  return sourceId;
 }
 
 /*
@@ -24,8 +26,12 @@ export function isSelectedFrameVisible(state) {
     return false;
   }
 
+  if (isOriginalId(selectedLocation.sourceId)) {
+    return selectedLocation.sourceId === selectedFrame.location.sourceId;
+  }
+
   return (
-    visibleSourceId(selectedLocation) ===
-    visibleSourceId(selectedFrame.location)
+    selectedLocation.sourceId ===
+    getGeneratedId(selectedFrame.location.sourceId)
   );
 }

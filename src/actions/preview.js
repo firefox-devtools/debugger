@@ -14,6 +14,7 @@ import { getExpressionFromCoords } from "../utils/editor/get-expression";
 import {
   getPreview,
   isLineInScope,
+  isSelectedFrameVisible,
   getSelectedSource,
   getSelectedFrame,
   getSymbols,
@@ -145,7 +146,10 @@ export function updatePreview(target: HTMLElement, editor: any) {
       return;
     }
 
-    if (!isLineInScope(getState(), tokenPos.line)) {
+    if (
+      !isSelectedFrameVisible(getState()) ||
+      !isLineInScope(getState(), tokenPos.line)
+    ) {
       return;
     }
 
