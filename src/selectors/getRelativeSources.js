@@ -34,6 +34,6 @@ export function getRelativeSources(state: State): RelativeSource[] {
   return sources
     .valueSeq()
     .toJS()
-    .filter(({ url }) => url && url.startsWith(root))
+    .filter(({ url }) => url && url.includes(root))
     .map(source => formatSource(source, root));
 }
