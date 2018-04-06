@@ -12,6 +12,15 @@ import actions from "../actions";
 import { ShortcutsModal } from "./ShortcutsModal";
 import VisibilityHandler from "./shared/VisibilityHandler";
 
+import SplitBox from "devtools-splitter";
+import ProjectSearch from "./ProjectSearch";
+import PrimaryPanes from "./PrimaryPanes";
+import Editor from "./Editor";
+import SecondaryPanes from "./SecondaryPanes";
+import WelcomeBox from "./WelcomeBox";
+import EditorTabs from "./Editor/Tabs";
+import QuickOpenModal from "./QuickOpenModal";
+
 import {
   getSelectedSource,
   getPaneCollapse,
@@ -41,22 +50,6 @@ import "devtools-launchpad/src/components/Root.css";
 
 import "./shared/menu.css";
 import "./shared/reps.css";
-
-import SplitBox from "devtools-splitter";
-
-import ProjectSearch from "./ProjectSearch";
-
-import PrimaryPanes from "./PrimaryPanes";
-
-import Editor from "./Editor";
-
-import SecondaryPanes from "./SecondaryPanes";
-
-import WelcomeBox from "./WelcomeBox";
-
-import EditorTabs from "./Editor/Tabs";
-
-import QuickOpenModal from "./QuickOpenModal";
 
 type Props = {
   selectedSource: SourceRecord,
@@ -144,14 +137,24 @@ class App extends Component<Props, State> {
   }
 
   onEscape = (_, e) => {
-    const { activeSearch, closeActiveSearch, closeQuickOpen } = this.props;
+    const {
+      activeSearch,
+      closeActiveSearch,
+      closeQuickOpen,
+      quickOpenEnabled
+    } = this.props;
 
     if (activeSearch) {
-      e.preventDefault();
       closeActiveSearch();
     }
 
-    closeQuickOpen();
+    if (quickOpenEnabled) {
+      closeQuickOpen();
+    }
+
+    if (activeSearch || quickOpenEnabled) {
+      e.preventDefault();
+    }
   };
 
   onCommandSlash = () => {
