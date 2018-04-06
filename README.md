@@ -56,7 +56,7 @@ We strive to make the Debugger as development friendly as possible. If you have 
 
 | | |
 |:----:|:---:|
-|[Themes]|theming changes for light, dark, firebug|
+|[Themes]|theming changes for light, dark|
 |[Internationalization]|using or adding a localized string *(l10n)*|
 |[Prefs]|using or adding a preferences|
 |[Flow]|flow best practices and common gotchas|
