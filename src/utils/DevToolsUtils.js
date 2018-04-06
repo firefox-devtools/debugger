@@ -9,13 +9,6 @@ import assert from "./assert";
 export function reportException(who: string, exception: any[]) {
   const msg = `${who} threw an exception: `;
   console.error(msg, exception);
-  try {
-    if (who === "test") {
-      return null;
-    }
-  } catch (e) {
-    console.error("s", e);
-  }
 }
 
 export function executeSoon(fn: () => void) {
