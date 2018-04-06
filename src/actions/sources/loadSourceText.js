@@ -57,11 +57,13 @@ export function loadSourceText(source: SourceRecord) {
     requests.set(id, deferred.promise);
 
     try {
-      await dispatch({
-        type: "LOAD_SOURCE_TEXT",
-        sourceId: id,
-        [PROMISE]: loadSource(source, { sourceMaps, client })
-      });
+      await dispatch(
+        ({
+          type: "LOAD_SOURCE_TEXT",
+          sourceId: id,
+          [PROMISE]: loadSource(source, { sourceMaps, client })
+        }: Action)
+      );
     } catch (e) {
       deferred.resolve();
       requests.delete(id);

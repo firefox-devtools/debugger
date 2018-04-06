@@ -33,7 +33,7 @@ import {
 } from "../../selectors";
 
 import type { Location } from "../../types";
-import type { ThunkArgs } from "../types";
+import type { Action, ThunkArgs } from "../types";
 
 declare type SelectSourceOptions = {
   tabIndex?: number,
@@ -65,12 +65,14 @@ export function selectSourceURL(
       // $FlowIgnore
       await dispatch(selectLocation(location, options.tabIndex));
     } else {
-      dispatch({
-        type: "SELECT_SOURCE_URL",
-        url: url,
-        tabIndex: options.tabIndex,
-        location: options.location
-      });
+      dispatch(
+        ({
+          type: "SELECT_SOURCE_URL",
+          url: url,
+          tabIndex: options.tabIndex,
+          location: options.location
+        }: Action)
+      );
     }
   };
 }
@@ -101,7 +103,7 @@ export function selectLocation(location: Location) {
     const sourceRecord = getSource(getState(), location.sourceId);
     if (!sourceRecord) {
       // If there is no source we deselect the current selected source
-      return dispatch({ type: "CLEAR_SELECTED_SOURCE" });
+      return dispatch(({ type: "CLEAR_SELECTED_SOURCE" }: Action));
     }
 
     const activeSearch = getActiveSearch(getState());
@@ -112,11 +114,13 @@ export function selectLocation(location: Location) {
     const source = sourceRecord.toJS();
 
     dispatch(addTab(source, 0));
-    dispatch({
-      type: "SELECT_SOURCE",
-      source,
-      location
-    });
+    dispatch(
+      ({
+        type: "SELECT_SOURCE",
+        source,
+        location
+      }: Action)
+    );
 
     await dispatch(loadSourceText(sourceRecord));
     const selectedSource = getSelectedSource(getState());
@@ -156,7 +160,7 @@ export function selectSpecificLocation(location: Location) {
     const sourceRecord = getSource(getState(), location.sourceId);
     if (!sourceRecord) {
       // If there is no source we deselect the current selected source
-      return dispatch({ type: "CLEAR_SELECTED_SOURCE" });
+      return dispatch(({ type: "CLEAR_SELECTED_SOURCE" }: Action));
     }
 
     const activeSearch = getActiveSearch(getState());
@@ -167,11 +171,13 @@ export function selectSpecificLocation(location: Location) {
     const source = sourceRecord.toJS();
 
     dispatch(addTab(source, 0));
-    dispatch({
-      type: "SELECT_SOURCE",
-      source,
-      location
-    });
+    dispatch(
+      ({
+        type: "SELECT_SOURCE",
+        source,
+        location
+      }: Action)
+    );
 
     await dispatch(loadSourceText(sourceRecord));
     const selectedSource = getSelectedSource(getState());
