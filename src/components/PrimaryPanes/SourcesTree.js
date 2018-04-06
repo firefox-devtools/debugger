@@ -194,7 +194,7 @@ class SourcesTree extends Component<Props, State> {
   getIcon = (sources, item, depth) => {
     const { debuggeeUrl, projectRoot } = this.props;
 
-    if (item.path === "/Webpack") {
+    if (item.path === "webpack://") {
       return <Svg name="webpack" />;
     }
     if (item.path === "/Angular") {
