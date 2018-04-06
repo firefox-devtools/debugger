@@ -162,6 +162,7 @@ html[dir="rtl"] .breakpoints-list .breakpoint .breakpoint-line {
   display: inline-block;
 }
 
-.CodeMirror.cm-s-mozilla-breakpoint .CodeMirror-code {
+.CodeMirror.cm-s-mozilla-breakpoint .CodeMirror-code,
+.CodeMirror.cm-s-mozilla-breakpoint .CodeMirror-scroll {
   cursor: default;
 }
