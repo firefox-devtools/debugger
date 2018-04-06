@@ -99,10 +99,10 @@ class Breakpoints extends Component<Props> {
     this.props.removeBreakpoint(breakpoint.location);
   }
 
-  renderBreakpoint(breakpoint, key) {
+  renderBreakpoint(breakpoint) {
     return (
       <BreakpointItem
-        key={key}
+        key={breakpoint.locationId}
         breakpoint={breakpoint}
         onClick={() => this.selectBreakpoint(breakpoint)}
         onContextMenu={e =>
@@ -134,7 +134,7 @@ class Breakpoints extends Component<Props> {
           </div>,
           ...groupedBreakpoints[filename]
             .filter(bp => !bp.hidden && bp.text)
-            .map((bp, i) => this.renderBreakpoint(bp, `${filename}-${i}`))
+            .map((bp, i) => this.renderBreakpoint(bp))
         ];
       })
     ];

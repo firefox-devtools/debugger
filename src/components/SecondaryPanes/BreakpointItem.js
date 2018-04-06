@@ -50,9 +50,17 @@ class BreakpointItem extends Component<Props> {
   }
 
   shouldComponentUpdate(nextProps: Props) {
-    // This is needed, IMO, so we don't need to create
-    // loads of CM instances for no reason
-    return this.props.breakpoint != nextProps.breakpoint;
+    const prevBreakpoint = this.props.breakpoint;
+    const nextBreakpoint = nextProps.breakpoint;
+
+    return (
+      !prevBreakpoint ||
+      (prevBreakpoint.text != nextBreakpoint.text ||
+        prevBreakpoint.disabled != nextBreakpoint.disabled ||
+        prevBreakpoint.condition != nextBreakpoint.condition ||
+        prevBreakpoint.hidden != nextBreakpoint.hidden ||
+        prevBreakpoint.isCurrentlyPaused != nextBreakpoint.isCurrentlyPaused)
+    );
   }
 
   setupEditor() {
