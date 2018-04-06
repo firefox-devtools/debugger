@@ -82,6 +82,7 @@ class BreakpointItem extends Component<Props> {
         // $FlowIgnore
         mountNode.innerHTML = "";
         this.editor.appendToLocalElement(mountNode);
+        this.editor.codeMirror.on("mousedown", (_, e) => e.preventDefault());
       }
     }
   }
