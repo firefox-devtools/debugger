@@ -137,20 +137,14 @@ class App extends Component<Props, State> {
   }
 
   onEscape = (_, e) => {
-    const {
-      activeSearch,
-      closeActiveSearch,
-      closeQuickOpen,
-      quickOpenEnabled
-    } = this.props;
+    const { closeActiveSearch, closeQuickOpen } = this.props;
 
     e.preventDefault();
-
-    if (activeSearch) {
+    if (this.props.activeSearch) {
       closeActiveSearch();
     }
 
-    if (quickOpenEnabled) {
+    if (this.props.quickOpenEnabled) {
       closeQuickOpen();
     }
   };
