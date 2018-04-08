@@ -7,6 +7,7 @@ import "monaco-editor/esm/vs/editor/browser/controller/coreCommands.js";
 import "monaco-editor/esm/vs/editor/contrib/hover/hover.js";
 import "monaco-editor/esm/vs/editor/contrib/folding/folding.js";
 import "monaco-editor/esm/vs/editor/standalone/browser/quickOpen/gotoLine.js";
+// eslint-disable-next-line max-len
 import { ModelDecorationOptions } from "monaco-editor/esm/vs/editor/common/model/textModel";
 import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
 

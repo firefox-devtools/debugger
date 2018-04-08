@@ -292,3 +292,16 @@ debug-expression-error {
 .visible {
   visibility: visible;
 }
+
+.monaco-editor .findMatch {
+	-webkit-animation-duration: 0;
+	-webkit-animation-name: inherit !important;
+	-moz-animation-duration: 0;
+	-moz-animation-name: inherit !important;
+	-ms-animation-duration: 0;
+	-ms-animation-name: inherit !important;
+	animation-duration: 0;
+	animation-name: inherit !important;
+}
+.monaco-editor .findMatch { background-color: rgba(234, 92, 0, 0.33); }
+.monaco-editor .currentFindMatch { background-color: #a8ac94; }

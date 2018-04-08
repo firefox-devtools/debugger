@@ -5,22 +5,23 @@
 // @flow
 
 import {
-  clearSearch,
   find,
   findNext,
   findPrev,
-  removeOverlay,
+  findMatches,
+  closeSearch,
   searchSourceForHighlight
-} from "../utils/editor";
-import { isWasm, renderWasmText } from "../utils/wasm";
-import { getMatches } from "../workers/search";
+} from "../utils/monaco";
+
+// import { isWasm, renderWasmText } from "../utils/wasm";
+// import { getMatches } from "../workers/search";
+
 import type { Action, FileTextSearchModifier, ThunkArgs } from "./types";
 
 import {
   getSelectedSource,
   getFileSearchModifiers,
-  getFileSearchQuery,
-  getFileSearchResults
+  getFileSearchQuery
 } from "../selectors";
 
 import {
@@ -100,25 +101,25 @@ export function searchContents(query: string, editor: Object) {
       return;
     }
 
-    const ctx = { ed: editor, cm: editor.codeMirror };
-
-    if (!query) {
-      clearSearch(ctx.cm, query);
-      return;
-    }
-
     const _modifiers = modifiers.toJS();
-    const sourceId = selectedSource.id;
-    const text = isWasm(sourceId)
-      ? renderWasmText(sourceId, selectedSource.text).join("\n")
-      : selectedSource.text;
-
-    const matches = await getMatches(query, text, _modifiers);
+    const { editor: monaco } = editor;
+    const ctx = {
+      ed: editor,
+      monaco
+    };
 
     const res = find(ctx, query, true, _modifiers);
     if (!res) {
       return;
     }
+
+    const matches = findMatches(ctx);
+
+    // const matches = await getMatches(
+    //   query,
+    //   selectedSource.get("text"),
+    //   _modifiers
+    // );
 
     const { ch, line } = res;
 
@@ -159,11 +160,17 @@ export function traverseResults(rev: boolean, editor: Editor) {
       return;
     }
 
-    const ctx = { ed: editor, cm: editor.codeMirror };
+    const { editor: monaco } = editor;
+    const ctx = {
+      ed: editor,
+      monaco
+    };
 
     const query = getFileSearchQuery(getState());
     const modifiers = getFileSearchModifiers(getState());
-    const { matches } = getFileSearchResults(getState());
+
+    // const { matches } = getFileSearchResults(getState());
+    const matches = findMatches(ctx);
 
     if (query === "") {
       dispatch(setActiveSearch("file"));
@@ -186,10 +193,12 @@ export function traverseResults(rev: boolean, editor: Editor) {
 
 export function closeFileSearch(editor: Editor) {
   return ({ getState, dispatch }: ThunkArgs) => {
-    if (editor) {
-      const query = getFileSearchQuery(getState());
-      const ctx = { ed: editor, cm: editor.codeMirror };
-      removeOverlay(ctx, query);
+    const modifiers = getFileSearchModifiers(getState());
+    const query = getFileSearchQuery(getState());
+
+    if (editor && modifiers) {
+      const ctx = { ed: editor, monaco: editor.editor };
+      closeSearch(ctx, query, modifiers.toJS());
     }
 
     dispatch(setFileSearchQuery(""));

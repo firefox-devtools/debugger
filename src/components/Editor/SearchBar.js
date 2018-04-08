@@ -19,7 +19,7 @@ import {
   getHighlightedLineRange
 } from "../../selectors";
 
-import { removeOverlay } from "../../utils/editor";
+import { closeSearch } from "../../utils/monaco";
 
 import { scrollList } from "../../utils/result-list";
 import classnames from "classnames";
@@ -128,10 +128,10 @@ class SearchBar extends Component<Props, State> {
   };
 
   clearSearch = () => {
-    const { editor: ed, query } = this.props;
-    if (ed) {
-      const ctx = { ed, cm: ed.codeMirror };
-      removeOverlay(ctx, query);
+    const { editor: ed, query, modifiers } = this.props;
+    if (ed && modifiers) {
+      const ctx = { ed, monaco: ed.editor };
+      closeSearch(ctx, query, modifiers.toJS());
     }
   };
 
