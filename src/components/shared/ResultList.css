@@ -67,7 +67,7 @@
 
 .result-list li .result-item-icon.tab {
   mask-size: 150%;
-  mask-position: 0 2px;
+  mask-position: 2px 4px;
 }
 
 .result-list li img.result-item-icon {
