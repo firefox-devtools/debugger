@@ -38,7 +38,8 @@ export function isDirectory(url: Object) {
 }
 
 export function getExtension(source: Object): string {
-  const parsedUrl = parse(source.get("url")).pathname;
+  const url = source.get ? source.get("url") : source.url;
+  const parsedUrl = parse(url).pathname;
   if (!parsedUrl) {
     return "";
   }

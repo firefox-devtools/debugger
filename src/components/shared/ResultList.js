@@ -53,6 +53,9 @@ export default class ResultList extends Component<Props> {
 
     return (
       <li {...props}>
+        <div>
+          <img className={item.icon} />
+        </div>
         <div id={`${item.id}-title`} className="title">
           {item.title}
         </div>

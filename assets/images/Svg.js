@@ -47,6 +47,7 @@ const svg = {
   stepOut: require("./stepOut.svg"),
   stepOver: require("./stepOver.svg"),
   subSettings: require("./subSettings.svg"),
+  tab: require("./tab.svg"),
   toggleBreakpoints: require("./toggle-breakpoints.svg"),
   togglePanes: require("./toggle-panes.svg"),
   typescript: require("./typescript.svg"),
