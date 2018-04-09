@@ -29,7 +29,10 @@ describe("sources", () => {
 
     await dispatch(actions.newSource(makeSource("foo1")));
     await dispatch(
-      actions.paused({ frames: [makeFrame({ id: 1, sourceId: "foo1" })] })
+      actions.paused({
+        why: { type: "debuggerStatement" },
+        frames: [makeFrame({ id: 1, sourceId: "foo1" })]
+      })
     );
 
     await dispatch(

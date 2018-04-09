@@ -291,6 +291,12 @@ type PauseAction =
       "@@dispatch/promise": any
     |}
   | {|
+      type: "EVALUATE_EXPRESSIONS",
+      results: Expression[],
+      inputs: string[],
+      "@@dispatch/promise": any
+    |}
+  | {|
       type: "UPDATE_EXPRESSION",
       expression: Expression,
       input: string,

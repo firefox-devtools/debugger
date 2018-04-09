@@ -28,6 +28,14 @@ export function wrapExpression(input: string) {
   `);
 }
 
+function isUnavailable(value) {
+  if (!value.preview || !value.preview.name) {
+    return false;
+  }
+
+  return ["ReferenceError", "TypeError"].includes(value.preview.name);
+}
+
 export function getValue(expression: Expression) {
   const value = expression.value;
   if (!value) {
@@ -38,6 +46,9 @@ export function getValue(expression: Expression) {
   }
 
   if (value.exception) {
+    if (isUnavailable(value.exception)) {
+      return { value: { unavailable: true } };
+    }
     return {
       path: value.from,
       value: value.exception
@@ -53,9 +64,11 @@ export function getValue(expression: Expression) {
 
   if (value.result && value.result.class == "Error") {
     const { name, message } = value.result.preview;
-    const newValue =
-      name === "ReferenceError" ? { unavailable: true } : `${name}: ${message}`;
+    if (isUnavailable(value.result)) {
+      return { value: { unavailable: true } };
+    }
 
+    const newValue = `${name}: ${message}`;
     return { path: value.input, value: newValue };
   }
 
