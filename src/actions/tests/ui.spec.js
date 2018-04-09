@@ -102,7 +102,9 @@ describe("setProjectDirectoryRoot", () => {
     const { dispatch, getState } = store;
     await dispatch(actions.newSource(makeSource("js/scopes.js")));
     await dispatch(actions.newSource(makeSource("lib/vendor.js")));
-    dispatch(actions.setProjectDirectoryRoot("/js"));
+    dispatch(
+      actions.setProjectDirectoryRoot("http://localhost:8000/examples/js")
+    );
     const filteredSources = getRelativeSources(getState());
     const firstSource = filteredSources[0];
 

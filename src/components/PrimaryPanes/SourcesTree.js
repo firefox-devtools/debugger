@@ -194,7 +194,7 @@ class SourcesTree extends Component<Props, State> {
   getIcon = (sources, item, depth) => {
     const { debuggeeUrl, projectRoot } = this.props;
 
-    if (item.path === "/Webpack") {
+    if (item.path === "webpack://") {
       return <Svg name="webpack" />;
     }
     if (item.path === "/Angular") {
@@ -307,10 +307,19 @@ class SourcesTree extends Component<Props, State> {
       >
         {arrow}
         {icon}
-        <span className="label"> {item.name} </span>
+        <span className="label"> {this.renderItemName(item.name)} </span>
       </div>
     );
   };
+
+  renderItemName(name) {
+    const hosts = {
+      "ng://": "Angular",
+      "webpack://": "Webpack"
+    };
+
+    return hosts[name] || name;
+  }
 
   renderEmptyElement(message) {
     return <div className="no-sources-message">{message}</div>;
