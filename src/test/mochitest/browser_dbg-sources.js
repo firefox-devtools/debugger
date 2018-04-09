@@ -33,7 +33,7 @@ add_task(async function() {
 
   ok(
     expanded.has(
-      `/example.com/browser/devtools/client/debugger/new/test/mochitest/examples/nested/nested/`
+      `example.com/browser/devtools/client/debugger/new/test/mochitest/examples/nested/nested/`
     ),
     "Nodes in path are automatically expanded"
   );
