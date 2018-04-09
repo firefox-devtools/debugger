@@ -16,6 +16,8 @@
   display: grid;
   grid-template-columns: 1fr;
   align-content: start;
+
+  line-height: 1.4em;
 }
 
 .managed-tree .tree button {
