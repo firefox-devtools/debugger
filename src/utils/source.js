@@ -10,7 +10,6 @@
  */
 
 import { isOriginalId } from "devtools-source-map";
-import classnames from "classnames";
 import { endTruncateStr } from "./utils";
 import { basename } from "./path";
 
@@ -344,7 +343,6 @@ export function getSourceClassnames(source: Object) {
   if (source && source.isBlackBoxed) {
     return "blackBox";
   }
-  const sourceType = sourceTypes[getExtension(source)];
-  const classNames = classnames(sourceType || "file");
-  return classNames;
+
+  return sourceTypes[getExtension(source)] || "file";
 }
