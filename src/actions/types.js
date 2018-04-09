@@ -161,6 +161,7 @@ type SourceAction =
   | {| type: "CLEAR_SELECTED_SOURCE" |}
   | {|
       type: "BLACKBOX",
+      status: AsyncStatus,
       source: Source,
       error: string,
       value: { isBlackBoxed: boolean }
@@ -270,7 +271,12 @@ type PauseAction =
       shouldPauseOnExceptions: boolean,
       shouldIgnoreCaughtExceptions: boolean
     |}
-  | {| type: "COMMAND", status: AsyncStatus, command: Command |}
+  | {|
+      type: "COMMAND",
+      value: { type: string },
+      status: AsyncStatus,
+      command: Command
+    |}
   | {| type: "SELECT_FRAME", frame: Frame |}
   | {|
       type: "SET_POPUP_OBJECT_PROPERTIES",
@@ -286,6 +292,7 @@ type PauseAction =
     |}
   | {|
       type: "EVALUATE_EXPRESSION",
+      status: AsyncStatus,
       input: string,
       value: Object,
       "@@dispatch/promise": any
@@ -341,6 +348,7 @@ export type ASTAction =
   | PromiseAction<
       {|
         +type: "SET_SYMBOLS",
+        status: AsyncStatus,
         +source: Source
       |},
       SymbolDeclarations
@@ -360,7 +368,8 @@ export type ASTAction =
     |}
   | PromiseAction<
       {|
-        +type: "SET_PREVIEW"
+        +type: "SET_PREVIEW",
+        status: AsyncStatus
       |},
       {
         expression: string,
