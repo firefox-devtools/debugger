@@ -8,3 +8,4 @@ hg clone -v https://hg.mozilla.org/mozilla-unified/ firefox
 cd firefox
 hg co $MC_COMMIT
 cd ..
+set +x
