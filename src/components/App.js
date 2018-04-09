@@ -17,11 +17,13 @@ import {
   getPaneCollapse,
   getActiveSearch,
   getQuickOpenEnabled,
-  getOrientation
+  getOrientation,
+  getSourcesForTabs
 } from "../selectors";
 
 import type { OrientationType } from "../reducers/types";
 import type { SourceRecord } from "../types";
+import type { SourcesList } from "../utils/tabs";
 
 import { KeyShortcuts, Services } from "devtools-modules";
 const shortcuts = new KeyShortcuts({ window });
@@ -60,6 +62,7 @@ import QuickOpenModal from "./QuickOpenModal";
 
 type Props = {
   selectedSource: SourceRecord,
+  selectSpecificSource: Object => void,
   orientation: OrientationType,
   startPanelCollapsed: boolean,
   endPanelCollapsed: boolean,
@@ -70,7 +73,8 @@ type Props = {
   closeProjectSearch: () => void,
   openQuickOpen: (query?: string) => void,
   closeQuickOpen: () => void,
-  setOrientation: OrientationType => void
+  setOrientation: OrientationType => void,
+  tabSources: SourcesList
 };
 
 type State = {
@@ -87,6 +91,9 @@ class App extends Component<Props, State> {
   toggleQuickOpenModal: Function;
   onEscape: Function;
   onCommandSlash: Function;
+  goToPreviousTab: Function;
+  goToNextTab: Function;
+  goToNextOrPreviousTab: Function;
 
   constructor(props) {
     super(props);
@@ -95,6 +102,9 @@ class App extends Component<Props, State> {
       startPanelSize: 0,
       endPanelSize: 0
     };
+
+    this.goToPreviousTab = (_, e) => this.goToNextOrPreviousTab(e, false);
+    this.goToNextTab = (_, e) => this.goToNextOrPreviousTab(e, true);
   }
 
   getChildContext = () => {
@@ -122,6 +132,9 @@ class App extends Component<Props, State> {
 
     shortcuts.on("Escape", this.onEscape);
     shortcuts.on("Cmd+/", this.onCommandSlash);
+
+    shortcuts.on("CmdOrCtrl+Left", this.goToPreviousTab);
+    shortcuts.on("CmdOrCtrl+Right", this.goToNextTab);
   }
 
   componentWillUnmount() {
@@ -141,6 +154,40 @@ class App extends Component<Props, State> {
     shortcuts.off(L10N.getStr("gotoLineModal.key2"), this.toggleQuickOpenModal);
 
     shortcuts.off("Escape", this.onEscape);
+
+    shortcuts.off("CmdOrCtrl+Left", this.goToPreviousTab);
+    shortcuts.off("CmdOrCtrl+Right", this.goToNextTab);
+  }
+
+  goToNextOrPreviousTab(e, goNext) {
+    e.preventDefault();
+
+    const { selectedSource, tabSources, selectSpecificSource } = this.props;
+
+    // There needs to be multiple sources for any action to be taken
+    if (!selectedSource || this.props.tabSources.size < 2) {
+      return;
+    }
+
+    // Get the index of the source to be selected
+    const currentIndex = tabSources.indexOf(this.props.selectedSource);
+    if (currentIndex < 0) {
+      return;
+    }
+
+    // Calculate the next index
+    let nextIndex = 0;
+
+    // Next
+    if (goNext) {
+      nextIndex = currentIndex === tabSources.size - 1 ? 0 : currentIndex + 1;
+    } else {
+      // Previous
+      nextIndex = currentIndex === 0 ? tabSources.size - 1 : currentIndex - 1;
+    }
+
+    // Focus on the next source tab
+    selectSpecificSource(tabSources.get(nextIndex).id);
   }
 
   onEscape = (_, e) => {
@@ -326,7 +373,8 @@ function mapStateToProps(state) {
     endPanelCollapsed: getPaneCollapse(state, "end"),
     activeSearch: getActiveSearch(state),
     quickOpenEnabled: getQuickOpenEnabled(state),
-    orientation: getOrientation(state)
+    orientation: getOrientation(state),
+    tabSources: getSourcesForTabs(state)
   };
 }
 

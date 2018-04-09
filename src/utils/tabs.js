@@ -11,7 +11,7 @@ import type { SourceRecord } from "../types";
 import type { SourceMetaDataType } from "../reducers/ast";
 import { isPretty } from "./source";
 
-type SourcesList = List<SourceRecord>;
+export type SourcesList = List<SourceRecord>;
 /*
  * Finds the hidden tabs by comparing the tabs' top offset.
  * hidden tabs will have a great top offset.
