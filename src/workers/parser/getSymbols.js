@@ -274,26 +274,6 @@ function extractSymbol(path: SimplePath, symbols) {
         location: { start, end }
       });
     });
-
-    /*
-    if (properties && t.objectPattern(properties)) {
-      properties.forEach(function(property) {
-        const { start, end } = property.loc;
-        symbols.identifiers.push({
-          name: property.value.name,
-          expression: property.value.name,
-          location: { start, end }
-        });
-      });
-    } else {
-      const { start, end } = path.node.loc;
-      symbols.identifiers.push({
-        name: nodeId.name,
-        expression: nodeId.name,
-        location: { start, end }
-      });
-    }
-    */
   }
 }
 /* eslint-enable complexity */
