@@ -150,9 +150,6 @@ export function getMappedExpression(expression: string) {
       return expression;
     }
 
-    return await dispatch({
-      type: "MAP_EXPRESSION_RESULT",
-      [PROMISE]: parser.mapOriginalExpression(expression, mappings)
-    });
+    return parser.mapOriginalExpression(expression, mappings);
   };
 }
