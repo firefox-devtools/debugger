@@ -89,7 +89,6 @@ export const createPauseState = (): PauseState => ({
 });
 
 const emptyPauseState = {
-  pause: null,
   frames: null,
   frameScopes: {
     generated: {},
@@ -98,7 +97,7 @@ const emptyPauseState = {
   },
   selectedFrameId: null,
   loadedObjects: {},
-  previousLocation: null
+  why: null
 };
 
 function update(
@@ -239,9 +238,7 @@ function update(
     }
 
     case "RESUME":
-      // We clear why on resume because we need it to decide if
-      // we shoul re-evaluate watch expressions.
-      return { ...state, why: null };
+      return { ...state, ...emptyPauseState };
 
     case "EVALUATE_EXPRESSION":
       return {

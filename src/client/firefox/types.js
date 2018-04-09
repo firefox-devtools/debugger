@@ -221,6 +221,11 @@ export type TabTarget = {
       script: Script,
       func: Function,
       params?: { frameActor?: FrameId }
+    ) => void,
+    evaluateJSAsync: (
+      script: Script,
+      func: Function,
+      params?: { frameActor?: FrameId }
     ) => void
   },
   form: { consoleActor: any },
