@@ -30,7 +30,8 @@ type Props = {
   renderItem: any,
   disabledFocus?: boolean,
   focused?: any,
-  expanded?: any
+  expanded?: any,
+  className?: string
 };
 
 type State = {
@@ -133,6 +134,25 @@ class ManagedTree extends Component<Props, State> {
   }
 
   focusItem = (item: Item) => {
+    const isPopupShown = document.querySelector("#contextmenu-mask.show");
+    if (isPopupShown != null && typeof item == "undefined") {
+      // keep focus on tree to maintain keyboard navigation
+      const selector = this.props.className
+        ? `.tree.${this.props.className}`
+        : ".tree";
+      const tree = document.querySelector(selector);
+      setTimeout(
+        el => {
+          if (el) {
+            el.focus();
+          }
+        },
+        0,
+        tree
+      );
+      return;
+    }
+
     if (!this.props.disabledFocus && this.state.focusedItem !== item) {
       this.setState({ focusedItem: item });
 

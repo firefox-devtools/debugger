@@ -386,7 +386,8 @@ class SourcesTree extends Component<Props, State> {
       onCollapse,
       onExpand,
       onFocus: this.focusItem,
-      renderItem: this.renderItem
+      renderItem: this.renderItem,
+      className: "sources-tree"
     };
 
     const tree = <ManagedTree {...treeProps} />;
