@@ -15,11 +15,20 @@ import { basename } from "./path";
 
 import { parse as parseURL } from "url";
 export { isMinified } from "./isMinified";
+import { getExtension } from "./sources-tree";
 
 import type { Source, SourceRecord, Location } from "../types";
 import type { SymbolDeclarations } from "../workers/parser";
 
 type transformUrlCallback = string => string;
+
+export const sourceTypes = {
+  coffee: "coffeescript",
+  js: "javascript",
+  jsx: "react",
+  ts: "typescript",
+  css: "css"
+};
 
 /**
  * Trims the query part or reference identifier of a url string, if necessary.
@@ -328,4 +337,12 @@ export function getTextAtPosition(source: Source, location: Location) {
   }
 
   return lineText.slice(column, column + 100).trim();
+}
+
+export function getSourceClassnames(source: Object) {
+  if (source && source.isBlackBoxed) {
+    return "blackBox";
+  }
+
+  return sourceTypes[getExtension(source)] || "file";
 }
