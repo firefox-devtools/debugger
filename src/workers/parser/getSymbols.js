@@ -251,19 +251,22 @@ function extractSymbol(path: SimplePath, symbols) {
 
   if (t.isVariableDeclarator(path)) {
     const node = path.node.id;
-    const { start, end } = path.node.loc;
     const { properties } = node;
     if (t.isArrayPattern(node)) {
       return;
     }
 
     if (properties != undefined && t.objectPattern(properties)) {
-      symbols.identifiers.push({
-        name: node.properties[0].value.name,
-        expression: node.properties[0].value.name,
-        location: { start, end }
+      properties.forEach(function(property) {
+        const { start, end } = property.loc;
+        symbols.identifiers.push({
+          name: property.value.name,
+          expression: property.value.name,
+          location: { start, end }
+        });
       });
     } else {
+      const { start, end } = path.node.loc;
       symbols.identifiers.push({
         name: node.name,
         expression: node.name,
