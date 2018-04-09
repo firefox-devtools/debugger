@@ -255,8 +255,7 @@ function extractSymbol(path: SimplePath, symbols) {
     if (t.isArrayPattern(node)) {
       return;
     }
-
-    if (properties != undefined && t.objectPattern(properties)) {
+    if (properties && t.objectPattern(properties)) {
       properties.forEach(function(property) {
         const { start, end } = property.loc;
         symbols.identifiers.push({
