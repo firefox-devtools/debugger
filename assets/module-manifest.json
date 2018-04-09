@@ -22443,7 +22443,11 @@
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/SecondaryPanes/FrameworkComponent.js": 3623,
       "../../lodash/uniqBy.js": 3624,
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/selectors/getRelativeSources.js": 3625,
-      "external \"devtools/shared/fronts/device\"": 3626
+      "external \"devtools/shared/fronts/device\"": 3626,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/pause/setExtra.js": 3627,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/breakpoint/create-editor.js": 3628,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/pause/fetchExtra.js": 3629,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/SecondaryPanes/BreakpointItem.js": 3630
     },
     "usedIds": {
       "0": 0,
@@ -26072,7 +26076,11 @@
       "3623": 3623,
       "3624": 3624,
       "3625": 3625,
-      "3626": 3626
+      "3626": 3626,
+      "3627": 3627,
+      "3628": 3628,
+      "3629": 3629,
+      "3630": 3630
     }
   },
   "chunks": {
