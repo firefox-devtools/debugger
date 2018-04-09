@@ -143,6 +143,10 @@ class ManagedTree extends Component<Props, State> {
   }
 
   focusItem = (item: Item) => {
+    const isPopupShown = document.querySelector("#contextmenu-mask.show");
+    if (isPopupShown !== null && typeof item === "undefined") {
+      return;
+    }
     if (!this.props.disabledFocus && this.state.focusedItem !== item) {
       this.setState({ focusedItem: item });
 
