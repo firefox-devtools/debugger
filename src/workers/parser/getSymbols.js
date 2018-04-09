@@ -250,11 +250,32 @@ function extractSymbol(path: SimplePath, symbols) {
   }
 
   if (t.isVariableDeclarator(path)) {
-    const node = path.node.id;
-    const { properties } = node;
-    if (t.isArrayPattern(node)) {
+    const nodeId = path.node.id;
+
+    if (t.isArrayPattern(nodeId)) {
       return;
     }
+
+    const properties =
+      nodeId.properties && t.objectPattern(nodeId.properties)
+        ? nodeId.properties
+        : [
+            {
+              value: { name: nodeId.name },
+              loc: path.node.loc
+            }
+          ];
+
+    properties.forEach(function(property) {
+      const { start, end } = property.loc;
+      symbols.identifiers.push({
+        name: property.value.name,
+        expression: property.value.name,
+        location: { start, end }
+      });
+    });
+
+    /*
     if (properties && t.objectPattern(properties)) {
       properties.forEach(function(property) {
         const { start, end } = property.loc;
@@ -267,11 +288,12 @@ function extractSymbol(path: SimplePath, symbols) {
     } else {
       const { start, end } = path.node.loc;
       symbols.identifiers.push({
-        name: node.name,
-        expression: node.name,
+        name: nodeId.name,
+        expression: nodeId.name,
         location: { start, end }
       });
     }
+    */
   }
 }
 /* eslint-enable complexity */
