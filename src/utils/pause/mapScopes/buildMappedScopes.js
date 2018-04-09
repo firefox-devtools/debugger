@@ -4,7 +4,7 @@ import { isReliableScope } from "./isReliableScope";
 import { buildGeneratedBindingList } from "./buildGeneratedBindingList";
 import { findGeneratedBinding } from "./findGeneratedBinding";
 import { generateClientScope } from "./generateClientScope";
-
+import { flatMap, uniqBy } from "lodash";
 import type {
   Frame,
   Scope,
@@ -36,6 +36,12 @@ export async function buildMappedScopes(
   const expressionLookup = {};
   const mappedOriginalScopes = [];
 
+  const generatedLocations = await getGeneratedPositions(
+    originalAstScopes,
+    source,
+    sourceMaps
+  );
+
   for (const item of originalAstScopes) {
     const generatedBindings = {};
 
@@ -43,9 +49,8 @@ export async function buildMappedScopes(
       const binding = item.bindings[name];
 
       const result = await findGeneratedBinding(
-        sourceMaps,
+        generatedLocations,
         client,
-        source,
         name,
         binding,
         generatedAstBindings
@@ -79,4 +84,27 @@ export async function buildMappedScopes(
   return isReliableScope(mappedGeneratedScopes)
     ? { mappings: expressionLookup, scope: mappedGeneratedScopes }
     : null;
+}
+
+async function getGeneratedPositions(originalAstScopes, source, sourceMaps) {
+  const scopes = Object.values(originalAstScopes);
+  const bindings = flatMap(scopes, ({ bindings }) => Object.values(bindings));
+  const refs = flatMap(bindings, ({ refs }) => refs);
+
+  const locations = refs.reduce((positions, ref) => {
+    positions.push(ref.start);
+    positions.push(ref.end);
+    if (ref.declaration) {
+      positions.push(ref.declaration.start);
+      positions.push(ref.declaration.end);
+    }
+    return positions;
+  }, []);
+
+  const originalLocations = uniqBy(locations, loc =>
+    Object.values(loc).join("-")
+  );
+
+  let sourcesMap = { [source.id]: source.url };
+  return sourceMaps.batchGeneratedLocations(originalLocations, sourcesMap);
 }

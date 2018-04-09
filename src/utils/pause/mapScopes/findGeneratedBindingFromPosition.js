@@ -25,15 +25,14 @@ type GeneratedDescriptor = {
 };
 
 export async function findGeneratedBindingFromPosition(
-  sourceMaps: any,
+  generatedLocations: any,
   client: any,
-  source: Source,
   pos: BindingLocation,
   name: string,
   type: BindingType,
   generatedAstBindings: Array<GeneratedBindingLocation>
 ): Promise<GeneratedDescriptor | null> {
-  const range = await getGeneratedLocationRange(pos, source, sourceMaps);
+  const range = getGeneratedLocationRange(pos, generatedLocations);
 
   if (range) {
     const result = await findGeneratedReference(type, generatedAstBindings, {
@@ -52,10 +51,9 @@ export async function findGeneratedBindingFromPosition(
       // If the imported name itself does not map to a useful range, fall back
       // to resolving the bindinding using the location of the overall
       // import declaration.
-      importRange = await getGeneratedLocationRange(
+      importRange = getGeneratedLocationRange(
         pos.declaration,
-        source,
-        sourceMaps
+        generatedLocations
       );
 
       if (!importRange) {
@@ -99,7 +97,7 @@ async function findGeneratedReference(
 
     return type === "import"
       ? await mapImportReferenceToDescriptor(val, mapped)
-      : await mapBindingReferenceToDescriptor(val, mapped);
+      : mapBindingReferenceToDescriptor(val, mapped);
   }, null);
 }
 
@@ -130,7 +128,7 @@ async function findGeneratedImportDeclaration(
  * Given a generated binding, and a range over the generated code, statically
  * check if the given binding matches the range.
  */
-async function mapBindingReferenceToDescriptor(
+function mapBindingReferenceToDescriptor(
   binding: GeneratedBindingLocation,
   mapped: {
     type: BindingLocationType,
@@ -341,22 +339,31 @@ function mappingContains(mapped, item) {
   );
 }
 
-async function getGeneratedLocationRange(
+function getGeneratedLocation(pos, generatedLocations) {
+  const { sourceId, line, column } = pos;
+  return generatedLocations[sourceId][line][column];
+}
+
+function getGeneratedLocationRange(
   pos: { start: Location, end: Location },
-  source: Source,
-  sourceMaps: any
+  generatedLocations: any
 ): Promise<{
   start: Location,
   end: Location
 } | null> {
-  const start = await sourceMaps.getGeneratedLocation(pos.start, source);
-  const end = await sourceMaps.getGeneratedLocation(pos.end, source);
+  // console.log(`> getting locations ${pos.start.line} ${pos.end.line}`);
+  const start = getGeneratedLocation(pos.start, generatedLocations);
+  const end = getGeneratedLocation(pos.end, generatedLocations);
 
   // Since the map takes the closest location, sometimes mapping a
   // binding's location can point at the start of a binding listed after
   // it, so we need to make sure it maps to a location that actually has
   // a size in order to avoid picking up the wrong descriptor.
-  if (isEqual(start, end)) {
+  if (
+    start.column == end.column &&
+    start.line == end.line &&
+    start.sourceId == end.sourceId
+  ) {
     return null;
   }
 

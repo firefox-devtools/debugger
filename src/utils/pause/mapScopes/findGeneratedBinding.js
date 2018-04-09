@@ -10,10 +10,9 @@ import { findGeneratedBindingFromPosition } from "./findGeneratedBindingFromPosi
 import type { GeneratedBindingLocation } from "./types";
 import type { BindingData } from "../../workers/parser";
 
-export async function findGeneratedBinding(
-  sourceMaps: any,
+export async function i(
+  generatedLocations: any,
   client: any,
-  source: Source,
   name: string,
   originalBinding: BindingData,
   generatedAstBindings: Array<GeneratedBindingLocation>
@@ -40,9 +39,8 @@ export async function findGeneratedBinding(
     }
 
     return await findGeneratedBindingFromPosition(
-      sourceMaps,
+      generatedLocations,
       client,
-      source,
       pos,
       name,
       originalBinding.type,
