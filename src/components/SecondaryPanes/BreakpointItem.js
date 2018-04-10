@@ -39,6 +39,7 @@ class BreakpointItem extends Component<Props> {
   componentDidMount() {
     this.setupEditor();
   }
+
   componentDidUpdate() {
     this.setupEditor();
   }
@@ -89,18 +90,52 @@ class BreakpointItem extends Component<Props> {
     }
   }
 
+  renderCheckbox() {
+    const { onChange, breakpoint } = this.props;
+    const { disabled } = breakpoint;
+
+    return (
+      <input
+        type="checkbox"
+        className="breakpoint-checkbox"
+        checked={!disabled}
+        onChange={onChange}
+        onClick={ev => ev.stopPropagation()}
+      />
+    );
+  }
+
+  renderText() {
+    const { breakpoint } = this.props;
+
+    return (
+      <label className="breakpoint-label" title={breakpoint.text}>
+        {breakpoint.text}
+      </label>
+    );
+  }
+
+  renderLineClose() {
+    const { breakpoint, onCloseClick } = this.props;
+    const { line, column } = breakpoint.location;
+
+    return (
+      <div className="breakpoint-line-close">
+        <div className="breakpoint-line">
+          {getBreakpointLocation(breakpoint.source, line, column)}
+        </div>
+        <CloseButton
+          handleClick={onCloseClick}
+          tooltip={L10N.getStr("breakpoints.removeBreakpointTooltip")}
+        />
+      </div>
+    );
+  }
+
   render() {
-    const {
-      breakpoint,
-      onClick,
-      onChange,
-      onContextMenu,
-      onCloseClick
-    } = this.props;
+    const { breakpoint, onClick, onContextMenu } = this.props;
 
     const locationId = breakpoint.locationId;
-    const line = breakpoint.location.line;
-    const column = breakpoint.location.column;
     const isCurrentlyPaused = breakpoint.isCurrentlyPaused;
     const isDisabled = breakpoint.disabled;
     const isConditional = !!breakpoint.condition;
@@ -117,25 +152,9 @@ class BreakpointItem extends Component<Props> {
         onClick={onClick}
         onContextMenu={onContextMenu}
       >
-        <input
-          type="checkbox"
-          className="breakpoint-checkbox"
-          checked={!isDisabled}
-          onChange={onChange}
-          onClick={ev => ev.stopPropagation()}
-        />
-        <label className="breakpoint-label" title={breakpoint.text}>
-          {breakpoint.text}
-        </label>
-        <div className="breakpoint-line-close">
-          <div className="breakpoint-line">
-            {getBreakpointLocation(breakpoint.source, line, column)}
-          </div>
-          <CloseButton
-            handleClick={onCloseClick}
-            tooltip={L10N.getStr("breakpoints.removeBreakpointTooltip")}
-          />
-        </div>
+        {this.renderCheckbox()}
+        {this.renderText()}
+        {this.renderLineClose()}
       </div>
     );
   }
