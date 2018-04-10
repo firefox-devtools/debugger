@@ -3,13 +3,14 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-
+import classnames from "classnames";
 import { endTruncateStr } from "./utils";
-import { isPretty, getFilename } from "./source";
+import { isPretty, getFilename, getSourceClassnames } from "./source";
 
 import type { Location as BabelLocation } from "@babel/types";
 import type { Symbols } from "../reducers/ast";
 import type { QuickOpenType } from "../reducers/quick-open";
+import type { TabList } from "../reducers/sources";
 import type { RelativeSource } from "../selectors/getRelativeSources";
 import type { SymbolDeclaration } from "../workers/parser";
 
@@ -50,14 +51,16 @@ export function parseLineColumn(query: string) {
   }
 }
 
-export function formatSourcesForList(source: RelativeSource) {
+export function formatSourcesForList(source: RelativeSource, tabs: TabList) {
   const title = getFilename(source);
   const subtitle = endTruncateStr(source.relativeUrl, 100);
-
   return {
     value: source.relativeUrl,
     title,
     subtitle,
+    icon: tabs.includes(source.url)
+      ? "tab result-item-icon"
+      : classnames(getSourceClassnames(source), "result-item-icon"),
     id: source.id,
     url: source.url
   };
@@ -69,7 +72,8 @@ export type QuickOpenResult = {|
   title: string,
   subtitle?: string,
   location?: BabelLocation,
-  url?: string
+  url?: string,
+  icon?: string
 |};
 
 export type FormattedSymbolDeclarations = {|
@@ -121,10 +125,11 @@ export function formatShortcutResults(): Array<QuickOpenResult> {
 }
 
 export function formatSources(
-  sources: RelativeSource[]
+  sources: RelativeSource[],
+  tabs: TabList
 ): Array<QuickOpenResult> {
   return sources
     .filter(source => !isPretty(source))
-    .map(source => formatSourcesForList(source))
+    .map(source => formatSourcesForList(source, tabs))
     .filter(({ value }) => value != "");
 }

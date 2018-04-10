@@ -56,6 +56,7 @@ function render(overrides = {}, mounted = false) {
     clearSearch: jest.fn(),
     updateSearchStatus: jest.fn(),
     selectLocation: jest.fn(),
+    doSearchForHighlight: jest.fn(),
     ...overrides
   };
 

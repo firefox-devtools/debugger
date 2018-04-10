@@ -38,6 +38,15 @@ const threadClient = {
     return new Promise((resolve, reject) =>
       resolve({ result: evaluationResult[expression] })
     );
+  },
+  evaluateExpressions: function(expressions) {
+    return new Promise((resolve, reject) =>
+      resolve(
+        expressions.map(expression => ({
+          result: evaluationResult[expression]
+        }))
+      )
+    );
   }
 };
 
@@ -158,6 +167,7 @@ describe("ast", () => {
 
       await dispatch(
         actions.paused({
+          why: { type: "debuggerStatement" },
           frames: [makeFrame({ id: 1, sourceId: "scopes.js" })]
         })
       );

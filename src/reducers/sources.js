@@ -24,7 +24,7 @@ import type { Record } from "../utils/makeRecord";
 
 type Tab = string;
 export type SourcesMap = Map<string, SourceRecord>;
-type TabList = List<Tab>;
+export type TabList = List<Tab>;
 
 export type SourcesState = {
   sources: SourcesMap,

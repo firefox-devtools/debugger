@@ -41,6 +41,7 @@ exports[`ProjectSearch found search results 1`] = `
   activeSearch="project"
   clearSearch={[Function]}
   closeProjectSearch={[Function]}
+  doSearchForHighlight={[Function]}
   query="match"
   results={
     Immutable.List [

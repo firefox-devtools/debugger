@@ -38,11 +38,10 @@ import {
   getDirectories,
   isDirectory,
   nodeHasChildren,
-  updateTree,
-  getExtension
+  updateTree
 } from "../../utils/sources-tree";
 
-import { getRawSourceURL } from "../../utils/source";
+import { getRawSourceURL, getSourceClassnames } from "../../utils/source";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { features } from "../../utils/prefs";
 
@@ -70,13 +69,6 @@ type State = {
   uncollapsedTree: any,
   listItems?: any,
   highlightItems?: any
-};
-
-const sourceTypes = {
-  coffee: "coffeescript",
-  js: "javascript",
-  jsx: "react",
-  ts: "typescript"
 };
 
 class SourcesTree extends Component<Props, State> {
@@ -194,7 +186,7 @@ class SourcesTree extends Component<Props, State> {
   getIcon = (sources, item, depth) => {
     const { debuggeeUrl, projectRoot } = this.props;
 
-    if (item.path === "/Webpack") {
+    if (item.path === "webpack://") {
       return <Svg name="webpack" />;
     }
     if (item.path === "/Angular") {
@@ -214,13 +206,14 @@ class SourcesTree extends Component<Props, State> {
     if (!nodeHasChildren(item)) {
       const obj = item.contents.get("id");
       const source = sources.get(obj);
-      if (source && source.get("isBlackBoxed")) {
-        return <img className="blackBox" />;
-      }
-
-      const sourceType = sourceTypes[getExtension(source)];
-      const classNames = classnames("source-icon", sourceType || "file");
-      return <img className={classNames} />;
+      return (
+        <img
+          className={classnames(
+            getSourceClassnames(source.toJS()),
+            "source-icon"
+          )}
+        />
+      );
     }
 
     return <img className="folder" />;
@@ -307,10 +300,19 @@ class SourcesTree extends Component<Props, State> {
       >
         {arrow}
         {icon}
-        <span className="label"> {item.name} </span>
+        <span className="label"> {this.renderItemName(item.name)} </span>
       </div>
     );
   };
+
+  renderItemName(name) {
+    const hosts = {
+      "ng://": "Angular",
+      "webpack://": "Webpack"
+    };
+
+    return hosts[name] || name;
+  }
 
   renderEmptyElement(message) {
     return <div className="no-sources-message">{message}</div>;

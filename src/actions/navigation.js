@@ -4,7 +4,7 @@
 
 // @flow
 
-import { clearDocuments } from "../utils/editor";
+import { clearDocuments, removeEditor } from "../utils/editor";
 import sourceQueue from "../utils/source-queue";
 import { getSources } from "../reducers/sources";
 import { waitForMs } from "../utils/utils";
@@ -37,6 +37,7 @@ export function willNavigate(event: Object) {
     await sourceMaps.clearSourceMaps();
     clearWasmStates();
     clearDocuments();
+    removeEditor();
     clearSymbols();
     clearASTs();
     clearScopes();

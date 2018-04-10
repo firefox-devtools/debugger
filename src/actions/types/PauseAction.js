@@ -46,6 +46,12 @@ export type PauseAction =
       Object
     >
   | {|
+      type: "EVALUATE_EXPRESSIONS",
+      results: Expression[],
+      inputs: string[],
+      "@@dispatch/promise": any
+    |}
+  | {|
       type: "UPDATE_EXPRESSION",
       expression: Expression,
       input: string,

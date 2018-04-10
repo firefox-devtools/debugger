@@ -19,14 +19,18 @@ const threadClient = {
   },
   setPausePoints: async () => {},
   getFrameScopes: async () => {},
-  evaluate: function(expression) {
+  evaluateInFrame: function(expression, frameId) {
     return new Promise((resolve, reject) =>
       resolve({ result: evaluationResult[expression] })
     );
   },
-  evaluateInFrame: function(frameId, expression) {
+  evaluateExpressions: function(expressions, frameId) {
     return new Promise((resolve, reject) =>
-      resolve({ result: evaluationResult[expression] })
+      resolve(
+        expressions.map(expression => ({
+          result: evaluationResult[expression]
+        }))
+      )
     );
   }
 };

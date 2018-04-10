@@ -22,9 +22,9 @@ import {
 import { scrollList } from "../utils/result-list";
 import {
   formatSymbols,
-  formatSources,
   parseLineColumn,
-  formatShortcutResults
+  formatShortcutResults,
+  formatSources
 } from "../utils/quick-open";
 import Modal from "./shared/Modal";
 import SearchInput from "./shared/SearchInput";
@@ -419,7 +419,7 @@ function mapStateToProps(state) {
 
   return {
     enabled: getQuickOpenEnabled(state),
-    sources: formatSources(getRelativeSources(state)),
+    sources: formatSources(getRelativeSources(state), getTabs(state).toArray()),
     selectedSource,
     symbols: formatSymbols(getSymbols(state, selectedSource)),
     symbolsLoading: isSymbolsLoading(state, selectedSource),
