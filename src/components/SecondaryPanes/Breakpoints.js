@@ -11,7 +11,7 @@ import * as I from "immutable";
 import { createSelector } from "reselect";
 import { groupBy, sortBy } from "lodash";
 
-import BreakpointItem from "./BreakpointItem";
+import Breakpoint from "./Breakpoint";
 
 import actions from "../../actions";
 import { getFilename } from "../../utils/source";
@@ -26,11 +26,17 @@ import { isInterrupted } from "../../utils/pause";
 import { makeLocationId } from "../../utils/breakpoint";
 import showContextMenu from "./BreakpointsContextMenu";
 
-import type { Breakpoint, Location, Source, Frame, Why } from "../../types";
+import type {
+  Breakpoint as BreakpointType,
+  Location,
+  Source,
+  Frame,
+  Why
+} from "../../types";
 
 import "./Breakpoints.css";
 
-export type LocalBreakpoint = Breakpoint & {
+export type LocalBreakpoint = BreakpointType & {
   location: Location,
   isCurrentlyPaused: boolean,
   locationId: string,
@@ -101,7 +107,7 @@ class Breakpoints extends Component<Props> {
 
   renderBreakpoint(breakpoint) {
     return (
-      <BreakpointItem
+      <Breakpoint
         key={breakpoint.locationId}
         breakpoint={breakpoint}
         onClick={() => this.selectBreakpoint(breakpoint)}
