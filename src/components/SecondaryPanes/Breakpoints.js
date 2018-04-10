@@ -26,7 +26,13 @@ import { isInterrupted } from "../../utils/pause";
 import { makeLocationId } from "../../utils/breakpoint";
 import showContextMenu from "./BreakpointsContextMenu";
 
-import type { Breakpoint as BreakpointType, Location, Source, Frame, Why } from "../../types";
+import type {
+  Breakpoint as BreakpointType,
+  Location,
+  Source,
+  Frame,
+  Why
+} from "../../types";
 
 import "./Breakpoints.css";
 
