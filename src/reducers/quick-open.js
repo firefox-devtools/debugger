@@ -7,6 +7,8 @@
  * @module reducers/quick-open
  */
 
+// @flow
+
 import makeRecord from "../utils/makeRecord";
 import { parseQuickOpenQuery } from "../utils/quick-open";
 import type { Action } from "../actions/types";
