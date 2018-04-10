@@ -5,6 +5,8 @@
 // @flow
 import { features } from "../utils/prefs";
 
+import type { Action } from "../actions/types";
+
 /**
  * Breakpoints reducer
  * @module reducers/replay
@@ -26,7 +28,10 @@ const defaultFrameScopes = {
   generated: {}
 };
 
-function update(state: ReplayState = initialState(), action: any): ReplayState {
+function update(
+  state: ReplayState = initialState(),
+  action: Action
+): ReplayState {
   if (!features.replay) {
     return state;
   }
@@ -167,7 +172,7 @@ export function getHistory(state: any): any {
   return state.replay.history;
 }
 
-export function getHistoryFrame(state: any, position: Number): any {
+export function getHistoryFrame(state: any, position: number): any {
   return state.replay.history[position];
 }
 

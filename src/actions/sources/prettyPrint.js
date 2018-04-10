@@ -21,7 +21,8 @@ import {
   getSelectedLocation
 } from "../../selectors";
 
-import type { ThunkArgs } from "../types";
+import type { Action, ThunkArgs } from "../types";
+import type { Source } from "../../types";
 
 export function createPrettySource(sourceId: string) {
   return async ({ dispatch, getState, sourceMaps }: ThunkArgs) => {
@@ -29,14 +30,16 @@ export function createPrettySource(sourceId: string) {
     const url = getPrettySourceURL(source.url);
     const id = await sourceMaps.generatedToOriginalId(sourceId, url);
 
-    const prettySource = {
+    const prettySource: Source = {
       url,
       id,
+      isBlackBoxed: false,
       isPrettyPrinted: true,
+      isWasm: false,
       contentType: "text/javascript",
       loadedState: "loading"
     };
-    dispatch({ type: "ADD_SOURCE", source: prettySource });
+    dispatch(({ type: "ADD_SOURCE", source: prettySource }: Action));
 
     const { code, mappings } = await prettyPrint({ source, url });
     await sourceMaps.applySourceMap(source.id, url, code, mappings);
@@ -49,7 +52,7 @@ export function createPrettySource(sourceId: string) {
 
     setSource(loadedPrettySource);
 
-    dispatch({ type: "UPDATE_SOURCE", source: loadedPrettySource });
+    dispatch(({ type: "UPDATE_SOURCE", source: loadedPrettySource }: Action));
 
     return prettySource;
   };

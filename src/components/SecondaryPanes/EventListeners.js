@@ -84,7 +84,9 @@ class EventListeners extends Component<Props> {
 
   removeBreakpoint(event, breakpoint) {
     event.stopPropagation();
-    this.props.removeBreakpoint(breakpoint.location);
+    if (breakpoint) {
+      this.props.removeBreakpoint(breakpoint.location);
+    }
   }
 
   render() {

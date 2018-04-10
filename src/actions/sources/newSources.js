@@ -26,7 +26,7 @@ import {
 } from "../../selectors";
 
 import type { Source, SourceId } from "../../types";
-import type { ThunkArgs } from "../types";
+import type { Action, ThunkArgs } from "../types";
 
 function createOriginalSource(
   originalUrl,
@@ -74,10 +74,12 @@ function loadSourceMap(sourceId: SourceId) {
 
     if (!urls) {
       // If this source doesn't have a sourcemap, enable it for pretty printing
-      dispatch({
-        type: "UPDATE_SOURCE",
-        source: { ...source, sourceMapURL: "" }
-      });
+      dispatch(
+        ({
+          type: "UPDATE_SOURCE",
+          source: { ...source, sourceMapURL: "" }
+        }: Action)
+      );
       return;
     }
 
@@ -171,10 +173,12 @@ export function newSources(sources: Source[]) {
       return;
     }
 
-    dispatch({
-      type: "ADD_SOURCES",
-      sources: filteredSources
-    });
+    dispatch(
+      ({
+        type: "ADD_SOURCES",
+        sources: filteredSources
+      }: Action)
+    );
 
     for (const source of filteredSources) {
       dispatch(checkSelectedSource(source.id));
