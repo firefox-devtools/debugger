@@ -53,6 +53,7 @@ import {
   getCursorLine,
   toSourceLine,
   getDocument,
+  setEditor,
   scrollToColumn,
   toEditorPosition,
   getSourceLocationFromMouseEvent,
@@ -177,6 +178,7 @@ class Editor extends PureComponent<Props, State> {
     }
 
     this.setState({ editor });
+    setEditor(editor);
     return editor;
   }
 

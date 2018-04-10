@@ -4,7 +4,13 @@
 
 // @flow
 
-import { find, findNext, findPrev, removeOverlay } from "../utils/editor";
+import {
+  find,
+  findNext,
+  findPrev,
+  removeOverlay,
+  searchSourceForHighlight
+} from "../utils/editor";
 import { getMatches } from "../workers/search";
 import type { ThunkArgs } from "./types";
 
@@ -32,6 +38,21 @@ export function doSearch(query: string, editor: Editor) {
 
     dispatch(setFileSearchQuery(query));
     dispatch(searchContents(query, editor));
+  };
+}
+
+export function doSearchForHighlight(
+  query: string,
+  editor: Editor,
+  line: number,
+  ch: number
+) {
+  return async ({ getState, dispatch }: ThunkArgs) => {
+    const selectedSource = getSelectedSource(getState());
+    if (!selectedSource || !selectedSource.text) {
+      return;
+    }
+    dispatch(searchContentsForHighlight(query, editor, line, ch));
   };
 }
 
@@ -93,6 +114,33 @@ export function searchContents(query: string, editor: Object) {
     const { ch, line } = res;
 
     dispatch(updateSearchResults(ch, line, matches));
+  };
+}
+
+export function searchContentsForHighlight(
+  query: string,
+  editor: Object,
+  line: number,
+  ch: number
+) {
+  return async ({ getState, dispatch }: ThunkArgs) => {
+    const modifiers = getFileSearchModifiers(getState());
+    const selectedSource = getSelectedSource(getState());
+
+    if (
+      !query ||
+      !editor ||
+      !selectedSource ||
+      !selectedSource.text ||
+      !modifiers
+    ) {
+      return;
+    }
+
+    const ctx = { ed: editor, cm: editor.codeMirror };
+    const _modifiers = modifiers.toJS();
+
+    searchSourceForHighlight(ctx, false, query, true, _modifiers, line, ch);
   };
 }
 
