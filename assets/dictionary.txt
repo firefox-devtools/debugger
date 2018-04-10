@@ -182,3 +182,7 @@ getMappedExpression
 getIn
 TypeError
 lastStatement
+defs
+BreakpointItem
+destructured
+getExtraProps
