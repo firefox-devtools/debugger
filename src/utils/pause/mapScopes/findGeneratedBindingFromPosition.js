@@ -40,10 +40,18 @@ export async function findGeneratedBindingFromPosition(
   const range = await getGeneratedLocationRange(pos, source, sourceMaps);
 
   if (range) {
-    const result = await findGeneratedReference(type, generatedAstBindings, {
-      type: pos.type,
-      ...range
-    });
+    let result;
+    if (type === "import") {
+      result = await findGeneratedImportReference(type, generatedAstBindings, {
+        type: pos.type,
+        ...range
+      });
+    } else {
+      result = await findGeneratedReference(type, generatedAstBindings, {
+        type: pos.type,
+        ...range
+      });
+    }
 
     if (result) {
       return result;
@@ -86,7 +94,7 @@ export async function findGeneratedBindingFromPosition(
  * Given a mapped range over the generated source, attempt to resolve a real
  * binding descriptor that can be used to access the value.
  */
-async function findGeneratedReference(
+async function findGeneratedNormalReference(
   type: BindingType,
   generatedAstBindings: Array<GeneratedBindingLocation>,
   mapped: {
@@ -101,9 +109,26 @@ async function findGeneratedReference(
       return accVal;
     }
 
-    return type === "import"
-      ? await mapImportReferenceToDescriptor(val, mapped)
-      : await mapBindingReferenceToDescriptor(val, mapped);
+    return mapBindingReferenceToDescriptor(val, mapped);
+  }, null);
+}
+
+async function findGeneratedImportReference(
+  type: BindingType,
+  generatedAstBindings: Array<GeneratedBindingLocation>,
+  mapped: {
+    type: BindingLocationType,
+    start: Location,
+    end: Location
+  }
+): Promise<GeneratedDescriptor | null> {
+  return generatedAstBindings.reduce(async (acc, val) => {
+    const accVal = await acc;
+    if (accVal) {
+      return accVal;
+    }
+
+    return mapImportReferenceToDescriptor(val, mapped);
   }, null);
 }
 
