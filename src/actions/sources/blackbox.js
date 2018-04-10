@@ -11,16 +11,18 @@
 
 import { PROMISE } from "../utils/middleware/promise";
 import type { Source } from "../../types";
-import type { ThunkArgs } from "../types";
+import type { Action, ThunkArgs } from "../types";
 
 export function toggleBlackBox(source: Source) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     const { isBlackBoxed, id } = source;
 
-    return dispatch({
-      type: "BLACKBOX",
-      source,
-      [PROMISE]: client.blackBox(id, isBlackBoxed)
-    });
+    return dispatch(
+      ({
+        type: "BLACKBOX",
+        source,
+        [PROMISE]: client.blackBox(id, isBlackBoxed)
+      }: Action)
+    );
   };
 }

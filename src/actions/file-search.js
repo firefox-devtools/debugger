@@ -12,7 +12,7 @@ import {
   searchSourceForHighlight
 } from "../utils/editor";
 import { getMatches } from "../workers/search";
-import type { ThunkArgs } from "./types";
+import type { Action, FileTextSearchModifier, ThunkArgs } from "./types";
 
 import {
   getSelectedSource,
@@ -56,14 +56,16 @@ export function doSearchForHighlight(
   };
 }
 
-export function setFileSearchQuery(query: string) {
+export function setFileSearchQuery(query: string): Action {
   return {
     type: "UPDATE_FILE_SEARCH_QUERY",
     query
   };
 }
 
-export function toggleFileSearchModifier(modifier: string) {
+export function toggleFileSearchModifier(
+  modifier: FileTextSearchModifier
+): Action {
   return { type: "TOGGLE_FILE_SEARCH_MODIFIER", modifier };
 }
 
@@ -71,7 +73,7 @@ export function updateSearchResults(
   characterIndex: number,
   line: number,
   matches: Match[]
-) {
+): Action {
   const matchIndex = matches.findIndex(
     elm => elm.line === line && elm.ch === characterIndex
   );

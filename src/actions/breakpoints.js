@@ -25,7 +25,12 @@ import { isEmptyLineInSource } from "../reducers/ast";
 import { syncClientBreakpoint } from "./breakpoints/syncBreakpoint";
 
 import type { ThunkArgs, Action } from "./types";
-import type { SourceId, PendingBreakpoint, Location } from "../types";
+import type {
+  Breakpoint,
+  SourceId,
+  PendingBreakpoint,
+  Location
+} from "../types";
 import type { BreakpointsMap } from "../reducers/types";
 
 type addBreakpointOptions = {
@@ -160,13 +165,18 @@ export function enableBreakpoint(location: Location) {
       return;
     }
 
-    const action: Action = {
-      type: "ENABLE_BREAKPOINT",
-      breakpoint,
-      [PROMISE]: addBreakpointPromise(getState, client, sourceMaps, breakpoint)
-    };
-
-    return dispatch(action);
+    return dispatch(
+      ({
+        type: "ENABLE_BREAKPOINT",
+        breakpoint,
+        [PROMISE]: addBreakpointPromise(
+          getState,
+          client,
+          sourceMaps,
+          breakpoint
+        )
+      }: Action)
+    );
   };
 }
 
@@ -185,14 +195,14 @@ export function disableBreakpoint(location: Location) {
     }
 
     await client.removeBreakpoint(bp.generatedLocation);
-    const newBreakpoint = { ...bp, disabled: true };
+    const newBreakpoint: Breakpoint = { ...bp, disabled: true };
 
-    const action: Action = {
-      type: "DISABLE_BREAKPOINT",
-      breakpoint: newBreakpoint
-    };
-
-    return dispatch(action);
+    return dispatch(
+      ({
+        type: "DISABLE_BREAKPOINT",
+        breakpoint: newBreakpoint
+      }: Action)
+    );
   };
 }
 
@@ -211,10 +221,10 @@ export function toggleAllBreakpoints(shouldDisableBreakpoints: boolean) {
     for (const [, breakpoint] of breakpoints) {
       if (shouldDisableBreakpoints) {
         await client.removeBreakpoint(breakpoint.generatedLocation);
-        const newBreakpoint = { ...breakpoint, disabled: true };
+        const newBreakpoint: Breakpoint = { ...breakpoint, disabled: true };
         modifiedBreakpoints.push(newBreakpoint);
       } else {
-        const newBreakpoint = { ...breakpoint, disabled: false };
+        const newBreakpoint: Breakpoint = { ...breakpoint, disabled: false };
         modifiedBreakpoints.push(newBreakpoint);
       }
     }
