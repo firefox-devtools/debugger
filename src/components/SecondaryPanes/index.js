@@ -68,6 +68,10 @@ function debugBtn(onClick, type, className, tooltip) {
   );
 }
 
+type State = {
+  showExpressionsInput: boolean
+};
+
 type Props = {
   extra: Object,
   evaluateExpressions: Function,
@@ -86,7 +90,7 @@ type Props = {
   workers: WorkersList
 };
 
-class SecondaryPanes extends Component<Props> {
+class SecondaryPanes extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
