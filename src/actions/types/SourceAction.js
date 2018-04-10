@@ -1,6 +1,6 @@
 // @flow
 
-import type { Source } from "../../types";
+import type { Location, Source } from "../../types";
 import type { PromiseAction } from "../utils/middleware/promise";
 
 export type SourceAction =
@@ -19,7 +19,7 @@ export type SourceAction =
   | {|
       +type: "SELECT_SOURCE",
       +source: Source,
-      +location?: { line: ?number, column: ?number }
+      +location?: Location
     |}
   | {|
       +type: "SELECT_SOURCE_URL",

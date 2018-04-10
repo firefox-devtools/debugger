@@ -33,25 +33,21 @@ export type SymbolDeclaration = {
   loading?: boolean
 };
 
-export type ClassDeclaration = {
-  ...SymbolDeclaration,
+export type ClassDeclaration = SymbolDeclaration & {
   parent: string
 };
 
-export type FunctionDeclaration = {
-  ...SymbolDeclaration,
+export type FunctionDeclaration = SymbolDeclaration & {
   parameterNames: string[],
   klass: string | null,
   identifier: Object
 };
 
-export type CallDeclaration = {
-  ...SymbolDeclaration,
+export type CallDeclaration = SymbolDeclaration & {
   values: string[]
 };
 
-export type MemberDeclaration = {
-  ...SymbolDeclaration,
+export type MemberDeclaration = SymbolDeclaration & {
   computed: Boolean,
   expression: string
 };
