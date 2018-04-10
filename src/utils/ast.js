@@ -8,21 +8,20 @@ import { xor, range } from "lodash";
 import { convertToList } from "./pause/pausePoints";
 
 import type { Location, Source, ColumnPosition } from "../types";
+import type { Symbols } from "../reducers/ast";
 
-import type {
-  AstPosition,
-  AstLocation,
-  PausePoints,
-  SymbolDeclarations
-} from "../workers/parser";
+import type { AstPosition, AstLocation, PausePoints } from "../workers/parser";
 
 export function findBestMatchExpression(
-  symbols: SymbolDeclarations,
+  symbols: Symbols,
   tokenPos: ColumnPosition
 ) {
-  const { memberExpressions, identifiers, literals } = symbols;
-  const { line, column } = tokenPos;
+  if (symbols.loading) {
+    return null;
+  }
 
+  const { line, column } = tokenPos;
+  const { memberExpressions, identifiers, literals } = symbols;
   const members = memberExpressions.filter(({ computed }) => !computed);
 
   return []
@@ -107,18 +106,18 @@ function findClosestofSymbol(declarations: any[], location: Location) {
   }, null);
 }
 
-export function findClosestFunction(
-  symbols: SymbolDeclarations,
-  location: Location
-) {
-  const { functions } = symbols;
-  return findClosestofSymbol(functions, location);
+export function findClosestFunction(symbols: ?Symbols, location: Location) {
+  if (!symbols || symbols.loading) {
+    return null;
+  }
+
+  return findClosestofSymbol(symbols.functions, location);
 }
 
-export function findClosestClass(
-  symbols: SymbolDeclarations,
-  location: Location
-) {
-  const { classes } = symbols;
-  return findClosestofSymbol(classes, location);
+export function findClosestClass(symbols: Symbols, location: Location) {
+  if (!symbols || symbols.loading) {
+    return null;
+  }
+
+  return findClosestofSymbol(symbols.functions, location);
 }
