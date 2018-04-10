@@ -46,6 +46,7 @@ class BreakpointItem extends Component<Props> {
   componentWillUnmount() {
     if (this.editor) {
       this.editor.destroy();
+      this.editor = null;
     }
   }
 
