@@ -20,6 +20,8 @@ import { locColumn } from "../../utils/pause/mapScopes/locColumn";
 // eslint-disable-next-line max-len
 import { findGeneratedBindingFromPosition } from "../../utils/pause/mapScopes/findGeneratedBindingFromPosition";
 
+import { createObjectClient } from "../../client/firefox";
+
 import { features } from "../../utils/prefs";
 import { log } from "../../utils/log";
 import { isGeneratedId } from "devtools-source-map";
@@ -38,7 +40,7 @@ export type OriginalScope = RenderableScope;
 export type GeneratedBindingLocation = {
   name: string,
   loc: BindingLocation,
-  desc: BindingContents | null
+  desc: () => Promise<BindingContents | null>
 };
 
 export function mapScopes(scopes: Promise<Scope>, frame: Frame) {
@@ -360,6 +362,7 @@ function buildGeneratedBindingList(
     generated => "this" in generated.bindings
   );
 
+  let globalScope = null;
   const clientScopes = [];
   for (let s = scopes; s; s = s.parent) {
     const bindings = s.bindings
@@ -367,6 +370,7 @@ function buildGeneratedBindingList(
       : {};
 
     clientScopes.push(bindings);
+    globalScope = s;
   }
 
   const generatedMainScopes = generatedAstScopes.slice(0, -2);
@@ -392,7 +396,7 @@ function buildGeneratedBindingList(
         acc.push({
           name,
           loc,
-          desc: bindings[name] || null
+          desc: () => Promise.resolve(bindings[name] || null)
         });
       }
     }
@@ -406,15 +410,29 @@ function buildGeneratedBindingList(
   for (const generated of generatedGlobalScopes) {
     for (const name of Object.keys(generated.bindings)) {
       const { refs } = generated.bindings[name];
-      for (const loc of refs) {
-        const bindings = clientGlobalScopes.find(b => has(b, name));
+      const bindings = clientGlobalScopes.find(b => has(b, name));
 
+      for (const loc of refs) {
         if (bindings) {
           generatedBindings.push({
             name,
             loc,
-            desc: bindings[name]
+            desc: () => Promise.resolve(bindings[name])
           });
+        } else {
+          const globalGrip = globalScope && globalScope.object;
+          if (globalGrip) {
+            // Should always exist, just checking to keep Flow happy.
+
+            generatedBindings.push({
+              name,
+              loc,
+              desc: async () => {
+                const objectClient = createObjectClient(globalGrip);
+                return (await objectClient.getProperty(name)).descriptor;
+              }
+            });
+          }
         }
       }
     }
