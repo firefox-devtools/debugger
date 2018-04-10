@@ -160,7 +160,10 @@ class Expressions extends Component<Props, State> {
       inputValue: this.props.expressionError ? inputValue : "",
       showInput: false
     });
-    this.hideInput();
+
+    if (!this.props.expressionError) {
+      this.hideInput();
+    }
   };
 
   renderExpression = (expression: Expression, index: number) => {
