@@ -6,8 +6,11 @@
  * Clipboard function taken from
  * https://dxr.mozilla.org/mozilla-central/source/devtools/shared/platform/content/clipboard.js
  */
-export function copyToTheClipboard(string) {
-  const doCopy = function(e) {
+
+// @flow
+
+export function copyToTheClipboard(string: string) {
+  const doCopy = function(e: any) {
     e.clipboardData.setData("text/plain", string);
     e.preventDefault();
   };
