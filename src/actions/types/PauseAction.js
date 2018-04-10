@@ -5,9 +5,6 @@ import type { Expression, LoadedObject, Frame, Scope, Why } from "../../types";
 
 import type { PromiseAction } from "../utils/middleware/promise";
 
-// temp
-export type AsyncStatus = "start" | "done" | "error";
-
 export type PauseAction =
   | {|
       +type: "BREAK_ON_NEXT",
@@ -30,11 +27,10 @@ export type PauseAction =
       +shouldPauseOnExceptions: boolean,
       +shouldIgnoreCaughtExceptions: boolean
     |}
-  | {|
+  | PromiseAction<{|
       +type: "COMMAND",
-      +status: AsyncStatus,
       +command: Command
-    |}
+    |}>
   | {|
       +type: "SELECT_FRAME",
       +frame: Frame
