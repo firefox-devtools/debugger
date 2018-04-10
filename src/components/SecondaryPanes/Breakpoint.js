@@ -33,7 +33,7 @@ function getBreakpointLocation(source, line, column) {
   return bpLocation;
 }
 
-class BreakpointItem extends Component<Props> {
+class Breakpoint extends Component<Props> {
   editor: SourceEditor;
 
   componentDidMount() {
@@ -160,4 +160,4 @@ class BreakpointItem extends Component<Props> {
   }
 }
 
-export default BreakpointItem;
+export default Breakpoint;
