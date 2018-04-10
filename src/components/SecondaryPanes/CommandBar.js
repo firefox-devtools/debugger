@@ -81,13 +81,13 @@ function formatKey(action) {
   return formatKeyShortcut(key);
 }
 
-function debugBtn(
-  onClick,
-  type,
-  className,
-  tooltip,
-  disabled = false,
-  ariaPressed = false
+export function debugBtn(
+  onClick: ?Function,
+  type: string,
+  className: string,
+  tooltip: string,
+  disabled: boolean = false,
+  ariaPressed: boolean = false
 ) {
   return (
     <CommandBarButton
