@@ -65,14 +65,18 @@ class Breakpoint extends Component<Props> {
     );
   }
 
-  setupEditor() {
+  getBreakpointText() {
     const { breakpoint } = this.props;
 
+    return breakpoint.condition || breakpoint.text;
+  }
+
+  setupEditor() {
     if (this.editor) {
       return;
     }
 
-    this.editor = createEditor(breakpoint.text);
+    this.editor = createEditor(this.getBreakpointText());
 
     // disables the default search shortcuts
     // $FlowIgnore
@@ -106,11 +110,11 @@ class Breakpoint extends Component<Props> {
   }
 
   renderText() {
-    const { breakpoint } = this.props;
+    const text = this.getBreakpointText();
 
     return (
-      <label className="breakpoint-label" title={breakpoint.text}>
-        {breakpoint.text}
+      <label className="breakpoint-label" title={text}>
+        {text}
       </label>
     );
   }
