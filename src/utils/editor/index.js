@@ -19,6 +19,21 @@ import { isOriginalId } from "devtools-source-map";
 import type { AstLocation } from "../../workers/parser";
 import type { EditorPosition, EditorRange } from "../editor/types";
 import type { Location } from "../../types";
+type Editor = Object;
+
+let editor: ?Editor;
+
+export function setEditor(_editor: Editor) {
+  editor = _editor;
+}
+
+export function getEditor() {
+  return editor;
+}
+
+export function removeEditor() {
+  editor = null;
+}
 
 export function shouldShowPrettyPrint(selectedSource) {
   if (!selectedSource) {
@@ -122,21 +137,21 @@ function isVisible(codeMirror: any, top: number, left: number) {
   return inXView && inYView;
 }
 
-export function markText(editor: any, className, { start, end }: EditorRange) {
-  return editor.codeMirror.markText(
+export function markText(_editor: any, className, { start, end }: EditorRange) {
+  return _editor.codeMirror.markText(
     { ch: start.column, line: start.line },
     { ch: end.column, line: end.line },
     { className }
   );
 }
 
-export function lineAtHeight(editor, sourceId, event) {
-  const editorLine = editor.codeMirror.lineAtHeight(event.clientY);
-  return toSourceLine(sourceId, editorLine);
+export function lineAtHeight(_editor, sourceId, event) {
+  const _editorLine = _editor.codeMirror.lineAtHeight(event.clientY);
+  return toSourceLine(sourceId, _editorLine);
 }
 
-export function getSourceLocationFromMouseEvent(editor, selectedLocation, e) {
-  const { line, ch } = editor.codeMirror.coordsChar({
+export function getSourceLocationFromMouseEvent(_editor, selectedLocation, e) {
+  const { line, ch } = _editor.codeMirror.coordsChar({
     left: e.clientX,
     top: e.clientY
   });
