@@ -154,7 +154,7 @@ async function mapBindingReferenceToDescriptor(
   ) {
     return {
       name: binding.name,
-      desc: binding.desc,
+      desc: await binding.desc(),
       expression: binding.name
     };
   }
@@ -184,7 +184,7 @@ async function mapImportDeclarationToDescriptor(
   }
 
   const desc = await readDescriptorProperty(
-    binding.desc,
+    await binding.desc(),
     mapped.importName,
     // If the value was optimized out or otherwise unavailable, we skip it
     // entirely because there is a good chance that this means that this
@@ -257,7 +257,7 @@ async function mapImportReferenceToDescriptor(
   }
 
   let expression = binding.name;
-  let desc = binding.desc;
+  let desc = await binding.desc();
 
   if (binding.loc.type === "ref") {
     const { meta } = binding.loc;
@@ -336,13 +336,28 @@ async function readDescriptorProperty(
 
 function mappingContains(mapped, item) {
   return (
-    (item.start.line > mapped.start.line ||
-      (item.start.line === mapped.start.line &&
-        locColumn(item.start) >= locColumn(mapped.start))) &&
-    (item.end.line < mapped.end.line ||
-      (item.end.line === mapped.end.line &&
-        locColumn(item.end) <= locColumn(mapped.end)))
+    positionCmp(item.start, mapped.start) >= 0 &&
+    positionCmp(item.end, mapped.end) <= 0
   );
+}
+
+/**
+ * * === 0 - Positions are equal.
+ * * < 0 - first position before second position
+ * * > 0 - first position after second position
+ */
+function positionCmp(p1: Location, p2: Location) {
+  if (p1.line === p2.line) {
+    const l1 = locColumn(p1);
+    const l2 = locColumn(p2);
+
+    if (l1 === l2) {
+      return 0;
+    }
+    return l1 < l2 ? -1 : 1;
+  }
+
+  return p1.line < p2.line ? -1 : 1;
 }
 
 async function getGeneratedLocationRange(
@@ -353,8 +368,8 @@ async function getGeneratedLocationRange(
   start: Location,
   end: Location
 } | null> {
-  const start = await sourceMaps.getGeneratedLocation(pos.start, source);
-  const end = await sourceMaps.getGeneratedLocation(pos.end, source);
+  const start = await getGeneratedLocation(sourceMaps, pos.start, source);
+  const end = await getGeneratedLocation(sourceMaps, pos.end, source);
 
   // Since the map takes the closest location, sometimes mapping a
   // binding's location can point at the start of a binding listed after
@@ -365,4 +380,23 @@ async function getGeneratedLocationRange(
   }
 
   return { start, end };
+}
+
+async function getGeneratedLocation(
+  sourceMaps: any,
+  pos: Location,
+  source: Source
+): Promise<Location> {
+  const all = await sourceMaps.getAllGeneratedLocations(pos, source);
+  if (all.length > 0) {
+    // Grab the earliest mapping since generally if there are multiple
+    // mappings, the later mappings are for random punctuation marks.
+    return all.reduce((acc, p) => {
+      return !acc || positionCmp(p, acc) < 0 ? p : acc;
+    });
+  }
+
+  // Fall back to the standard logic to take the mapping closest to the
+  // target location.
+  return await sourceMaps.getGeneratedLocation(pos, source);
 }
