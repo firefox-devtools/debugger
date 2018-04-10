@@ -47,8 +47,8 @@ type ProjectTextSearchResult = {
 
 type ReplayAction =
   | {|
-      type: "TRAVEL_TO",
-      data: {
+      +type: "TRAVEL_TO",
+      +data: {
         paused: {
           why: Why,
           scopes: Scope[],
@@ -58,10 +58,10 @@ type ReplayAction =
         },
         expressions?: Object[]
       },
-      position: number
+      +position: number
     |}
   | {|
-      type: "CLEAR_HISTORY"
+      +type: "CLEAR_HISTORY"
     |};
 
 type NavigateAction =
@@ -109,18 +109,18 @@ export type FileTextSearchAction =
     |};
 
 export type QuickOpenAction =
-  | {| type: "SET_QUICK_OPEN_QUERY", query: string |}
-  | {| type: "OPEN_QUICK_OPEN", query?: string |}
-  | {| type: "CLOSE_QUICK_OPEN" |};
+  | {| +type: "SET_QUICK_OPEN_QUERY", +query: string |}
+  | {| +type: "OPEN_QUICK_OPEN", +query?: string |}
+  | {| +type: "CLOSE_QUICK_OPEN" |};
 
 export type CoverageAction = {|
-  type: "RECORD_COVERAGE",
-  value: { coverage: Object }
+  +type: "RECORD_COVERAGE",
+  +value: { coverage: Object }
 |};
 
 export type DebugeeAction = {|
-  type: "SET_WORKERS",
-  workers: {
+  +type: "SET_WORKERS",
+  +workers: {
     workers: Object[]
   }
 |};

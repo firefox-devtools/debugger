@@ -12,14 +12,18 @@
 import { getHistoryFrame } from "../selectors";
 import { selectLocation } from "./sources";
 
-export function timeTravelTo(position: Number) {
+import type { Action } from "./types";
+
+export function timeTravelTo(position: number) {
   return ({ dispatch, getState }: any) => {
     const data = getHistoryFrame(getState(), position);
-    dispatch({
-      type: "TRAVEL_TO",
-      data,
-      position
-    });
+    dispatch(
+      ({
+        type: "TRAVEL_TO",
+        data,
+        position
+      }: Action)
+    );
     dispatch(selectLocation(data.paused.frames[0].location));
   };
 }
