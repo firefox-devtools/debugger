@@ -256,16 +256,29 @@ function extractSymbol(path: SimplePath, symbols) {
   }
 
   if (t.isVariableDeclarator(path)) {
-    const node = path.node.id;
-    const { start, end } = path.node.loc;
-    if (t.isArrayPattern(node)) {
+    const nodeId = path.node.id;
+
+    if (t.isArrayPattern(nodeId)) {
       return;
     }
 
-    symbols.identifiers.push({
-      name: node.name,
-      expression: node.name,
-      location: { start, end }
+    const properties =
+      nodeId.properties && t.objectPattern(nodeId.properties)
+        ? nodeId.properties
+        : [
+            {
+              value: { name: nodeId.name },
+              loc: path.node.loc
+            }
+          ];
+
+    properties.forEach(function(property) {
+      const { start, end } = property.loc;
+      symbols.identifiers.push({
+        name: property.value.name,
+        expression: property.value.name,
+        location: { start, end }
+      });
     });
   }
 }
