@@ -39,18 +39,6 @@ export type Thunk = ThunkArgs => any;
 
 export type ActionType = Object | Function;
 
-/**
- * Tri-state status for async operations
- *
- * Available options are:
- * `"start"` or `"done"` or `"error"`
- *
- * @memberof actions/types
- * @static
- * @enum
- */
-export type AsyncStatus = "start" | "done" | "error";
-
 type ProjectTextSearchResult = {
   sourceId: string,
   filepath: string,
@@ -83,15 +71,15 @@ type NavigateAction =
 export type SourceTreeAction = {| type: "SET_EXPANDED_STATE", expanded: any |};
 
 export type ProjectTextSearchAction =
-  | {| type: "ADD_QUERY", query: string |}
+  | {| +type: "ADD_QUERY", +query: string |}
   | {|
-      type: "ADD_SEARCH_RESULT",
-      result: ProjectTextSearchResult
+      +type: "ADD_SEARCH_RESULT",
+      +result: ProjectTextSearchResult
     |}
-  | {| type: "CLEAR_QUERY" |}
-  | {| type: "UPDATE_STATUS", status: string |}
-  | {| type: "CLEAR_SEARCH_RESULTS" |}
-  | {| type: "CLEAR_SEARCH" |};
+  | {| +type: "CLEAR_QUERY" |}
+  | {| +type: "UPDATE_STATUS", +status: string |}
+  | {| +type: "CLEAR_SEARCH_RESULTS" |}
+  | {| +type: "CLEAR_SEARCH" |};
 
 export type FileTextSearchAction =
   | {|
