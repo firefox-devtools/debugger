@@ -29,8 +29,7 @@ type AstLocation = { end: AstPosition, start: AstPosition };
 
 export type SymbolDeclaration = {
   name: string,
-  location: AstLocation,
-  loading?: boolean
+  location: AstLocation
 };
 
 export type ClassDeclaration = SymbolDeclaration & {
