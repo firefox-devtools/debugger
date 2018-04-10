@@ -87,6 +87,18 @@ type Props = {
 };
 
 class SecondaryPanes extends Component<Props> {
+  constructor(props: Props) {
+    super(props);
+
+    this.state = {
+      showExpressionsInput: false
+    };
+  }
+
+  onExpressionAdded = () => {
+    this.setState({ showExpressionsInput: false });
+  };
+
   renderBreakpointsToggle() {
     const {
       toggleAllBreakpoints,
@@ -138,6 +150,15 @@ class SecondaryPanes extends Component<Props> {
         "refresh",
         "refresh",
         L10N.getStr("watchExpressions.refreshButton")
+      ),
+      debugBtn(
+        evt => {
+          evt.stopPropagation();
+          this.setState({ showExpressionsInput: true });
+        },
+        "plus",
+        "plus",
+        L10N.getStr("expressions.placeholder")
       )
     ];
   }
@@ -173,7 +194,12 @@ class SecondaryPanes extends Component<Props> {
       header: L10N.getStr("watchExpressions.header"),
       className: "watch-expressions-pane",
       buttons: this.watchExpressionHeaderButtons(),
-      component: <Expressions />,
+      component: (
+        <Expressions
+          showInput={this.state.showExpressionsInput}
+          onExpressionAdded={this.onExpressionAdded}
+        />
+      ),
       opened: prefs.expressionsVisible,
       onToggle: opened => {
         prefs.expressionsVisible = opened;
