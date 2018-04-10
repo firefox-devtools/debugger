@@ -65,6 +65,10 @@ class BreakpointItem extends Component<Props> {
 
   setupEditor() {
     const { breakpoint } = this.props;
+    if (this.editor) {
+      return;
+    }
+
     this.editor = createEditor(breakpoint.text);
 
     // disables the default search shortcuts
