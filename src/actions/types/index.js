@@ -81,18 +81,23 @@ export type ProjectTextSearchAction =
   | {| +type: "CLEAR_SEARCH_RESULTS" |}
   | {| +type: "CLEAR_SEARCH" |};
 
+export type FileTextSearchModifier =
+  | "caseSensitive"
+  | "wholeWord"
+  | "regexMatch";
+
 export type FileTextSearchAction =
   | {|
-      type: "TOGGLE_FILE_SEARCH_MODIFIER",
-      modifier: "caseSensitive" | "wholeWord" | "regexMatch"
+      +type: "TOGGLE_FILE_SEARCH_MODIFIER",
+      +modifier: FileTextSearchModifier
     |}
   | {|
-      type: "UPDATE_FILE_SEARCH_QUERY",
-      query: string
+      +type: "UPDATE_FILE_SEARCH_QUERY",
+      +query: string
     |}
   | {|
-      type: "UPDATE_SEARCH_RESULTS",
-      results: {
+      +type: "UPDATE_SEARCH_RESULTS",
+      +results: {
         matches: MatchedLocations[],
         matchIndex: number,
         count: number,
