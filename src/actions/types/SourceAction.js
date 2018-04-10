@@ -24,7 +24,7 @@ export type SourceAction =
   | {|
       +type: "SELECT_SOURCE_URL",
       +url: string,
-      +line?: number
+      +line: ?number
     |}
   | PromiseAction<
       {|
