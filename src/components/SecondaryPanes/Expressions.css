@@ -37,7 +37,6 @@
 }
 
 .input-expression::placeholder {
-  text-align: center;
   font-style: italic;
   color: var(--theme-comment);
 }
@@ -54,6 +53,7 @@
 }
 .expression-input-container {
   display: flex;
+  border: 1px solid var(--theme-highlight-blue);
 }
 
 .expression-container {
