@@ -8,11 +8,11 @@ import type { Frame, Scope, Why, Worker } from "../../types";
 import type { State } from "../../reducers/types";
 import type { MatchedLocations } from "../../reducers/file-search";
 
-import type { BreakpointAction } from "./breakpoint";
-import type { SourceAction } from "./source";
-import type { UIAction } from "./ui";
-import type { PauseAction } from "./pause";
-import type { ASTAction } from "./ast";
+import type { BreakpointAction } from "./BreakpointAction";
+import type { SourceAction } from "./SourceAction";
+import type { UIAction } from "./UIAction";
+import type { PauseAction } from "./PauseAction";
+import type { ASTAction } from "./ASTAction";
 
 /**
  * Flow types
@@ -135,9 +135,9 @@ export type {
   ErrorPromiseAction
 } from "../utils/middleware/promise";
 
-export type { panelPositionType } from "./ui";
+export type { panelPositionType } from "./UIAction";
 
-export type { ASTAction } from "./ast";
+export type { ASTAction } from "./ASTAction";
 
 /**
  * Actions: Source, Breakpoint, and Navigation

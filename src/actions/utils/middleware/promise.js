@@ -10,35 +10,33 @@ import { executeSoon } from "../../../utils/DevToolsUtils";
 import type { ThunkArgs } from "../../types";
 
 type BasePromiseAction = {|
-  "@@dispatch/promise": Promise<mixed>
+  +"@@dispatch/promise": Promise<mixed>
 |};
 
 export type StartPromiseAction = {|
   ...BasePromiseAction,
-  status: "start"
+  +status: "start"
 |};
 
 export type DonePromiseAction = {|
   ...BasePromiseAction,
-  status: "done",
-  value: any
+  +status: "done",
+  +value: any
 |};
 
 export type ErrorPromiseAction = {|
   ...BasePromiseAction,
-  status: "error",
-  error: any
+  +status: "error",
+  +error: any
 |};
 
-export type PromiseAction<Action, Value = any> =
-  | {| ...BasePromiseAction, ...Action |}
-  | {| ...StartPromiseAction, ...Action |}
-  | {| ...ErrorPromiseAction, ...Action |}
-  | {|
-      ...DonePromiseAction,
-      ...Action,
-      value: Value
-    |};
+export type PromiseAction<Action, Value = any> = {|
+  ...BasePromiseAction,
+  ...Action,
+  +status?: "start" | "done" | "error",
+  +value?: Value,
+  +error?: any
+|};
 
 let seqIdVal = 1;
 

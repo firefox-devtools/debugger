@@ -64,13 +64,12 @@ export function selectSourceURL(
       // the error
       // $FlowIgnore
       await dispatch(selectLocation(location, options.tabIndex));
-    } else {
+    } else if (options.location) {
       dispatch(
         ({
           type: "SELECT_SOURCE_URL",
           url: url,
-          tabIndex: options.tabIndex,
-          location: options.location
+          line: options.location.line
         }: Action)
       );
     }

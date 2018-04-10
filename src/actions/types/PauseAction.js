@@ -3,6 +3,8 @@
 import type { Command } from "../../reducers/types";
 import type { Expression, LoadedObject, Frame, Scope, Why } from "../../types";
 
+import type { PromiseAction } from "../utils/middleware/promise";
+
 // temp
 export type AsyncStatus = "start" | "done" | "error";
 
@@ -36,12 +38,13 @@ export type PauseAction =
       value: string,
       expressionError: ?string
     |}
-  | {|
-      type: "EVALUATE_EXPRESSION",
-      input: string,
-      value: Object,
-      "@@dispatch/promise": any
-    |}
+  | PromiseAction<
+      {|
+        +type: "EVALUATE_EXPRESSION",
+        +input: string
+      |},
+      Object
+    >
   | {|
       type: "UPDATE_EXPRESSION",
       expression: Expression,

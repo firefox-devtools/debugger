@@ -22,6 +22,7 @@ import {
 } from "../../selectors";
 
 import type { Action, ThunkArgs } from "../types";
+import type { Source } from "../../types";
 
 export function createPrettySource(sourceId: string) {
   return async ({ dispatch, getState, sourceMaps }: ThunkArgs) => {
@@ -29,10 +30,12 @@ export function createPrettySource(sourceId: string) {
     const url = getPrettySourceURL(source.url);
     const id = await sourceMaps.generatedToOriginalId(sourceId, url);
 
-    const prettySource = {
+    const prettySource: Source = {
       url,
       id,
+      isBlackBoxed: false,
       isPrettyPrinted: true,
+      isWasm: false,
       contentType: "text/javascript",
       loadedState: "loading"
     };
