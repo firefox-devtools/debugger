@@ -65,10 +65,13 @@ type ReplayAction =
     |};
 
 type NavigateAction =
-  | {| type: "CONNECT", url: string, canRewind: boolean |}
-  | {| type: "NAVIGATE", url: string |};
+  | {| +type: "CONNECT", +url: string, +canRewind: boolean |}
+  | {| +type: "NAVIGATE", +url: string |};
 
-export type SourceTreeAction = {| type: "SET_EXPANDED_STATE", expanded: any |};
+export type SourceTreeAction = {|
+  +type: "SET_EXPANDED_STATE",
+  +expanded: any
+|};
 
 export type ProjectTextSearchAction =
   | {| +type: "ADD_QUERY", +query: string |}
