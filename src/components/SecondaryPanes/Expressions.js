@@ -52,8 +52,7 @@ class Expressions extends Component<Props, State> {
     this.state = {
       editing: false,
       editIndex: -1,
-      inputValue: "",
-      showInput: false
+      inputValue: ""
     };
   }
 
@@ -75,12 +74,11 @@ class Expressions extends Component<Props, State> {
     if (this.state.editing && !nextProps.expressionError) {
       this.clear();
     }
-    this.setState({ showInput: nextProps.showInput });
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    const { editing, inputValue, showInput } = this.state;
-    const { expressions, expressionError } = this.props;
+    const { editing, inputValue } = this.state;
+    const { expressions, expressionError, showInput } = this.props;
 
     return (
       expressions !== nextProps.expressions ||
@@ -127,7 +125,6 @@ class Expressions extends Component<Props, State> {
   };
 
   hideInput = () => {
-    this.setState({ showInput: false });
     this.props.onExpressionAdded();
   };
 
@@ -157,8 +154,7 @@ class Expressions extends Component<Props, State> {
     this.setState({
       editing: false,
       editIndex: -1,
-      inputValue: this.props.expressionError ? inputValue : "",
-      showInput: false
+      inputValue: this.props.expressionError ? inputValue : ""
     });
 
     if (!this.props.expressionError) {
@@ -268,12 +264,12 @@ class Expressions extends Component<Props, State> {
   }
 
   render() {
-    const { expressions } = this.props;
+    const { expressions, showInput } = this.props;
 
     return (
       <ul className="pane expressions-list">
         {expressions.map(this.renderExpression)}
-        {this.state.showInput && this.renderNewExpressionInput()}
+        {showInput && this.renderNewExpressionInput()}
       </ul>
     );
   }
