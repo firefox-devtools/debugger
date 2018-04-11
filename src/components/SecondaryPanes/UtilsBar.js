@@ -5,7 +5,7 @@
 // @flow
 import React, { Component } from "react";
 import classnames from "classnames";
-import { debugBtn } from "./CommandBar";
+import { debugBtn } from "../shared/Button/CommandBarButton";
 import "./CommandBar.css";
 
 type Props = {
