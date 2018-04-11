@@ -4,13 +4,13 @@
 
 // @flow
 
-import { isEqual } from "lodash";
 import type {
   BindingLocation,
   BindingLocationType,
   BindingType
 } from "../../../workers/parser";
 import { locColumn } from "./locColumn";
+import { filterSortedArray } from "./filtering";
 
 import type { Source, Location, BindingContents } from "../../../types";
 // eslint-disable-next-line max-len
@@ -40,10 +40,18 @@ export async function findGeneratedBindingFromPosition(
   const range = await getGeneratedLocationRange(pos, source, sourceMaps);
 
   if (range) {
-    const result = await findGeneratedReference(type, generatedAstBindings, {
-      type: pos.type,
-      ...range
-    });
+    let result;
+    if (type === "import") {
+      result = await findGeneratedImportReference(type, generatedAstBindings, {
+        type: pos.type,
+        ...range
+      });
+    } else {
+      result = await findGeneratedReference(type, generatedAstBindings, {
+        type: pos.type,
+        ...range
+      });
+    }
 
     if (result) {
       return result;
@@ -82,6 +90,38 @@ export async function findGeneratedBindingFromPosition(
   return null;
 }
 
+function filterApplicableBindings(
+  bindings: Array<GeneratedBindingLocation>,
+  mapped: {
+    start: Location,
+    end: Location
+  }
+): Array<GeneratedBindingLocation> {
+  // Any binding overlapping a part of the mapping range.
+  return filterSortedArray(bindings, binding => {
+    if (positionCmp(binding.loc.end, mapped.start) < 0) {
+      return -1;
+    }
+
+    // Currently we allow ranges to count if they start 1 character before,
+    // so we allow that when filtering here.
+    // See mapBindingReferenceToDescriptor for more info.
+    if (
+      positionCmp(
+        {
+          ...binding.loc.start,
+          column: locColumn(binding.loc.start) - 1
+        },
+        mapped.end
+      ) > 0
+    ) {
+      return 1;
+    }
+
+    return 0;
+  });
+}
+
 /**
  * Given a mapped range over the generated source, attempt to resolve a real
  * binding descriptor that can be used to access the value.
@@ -95,15 +135,43 @@ async function findGeneratedReference(
     end: Location
   }
 ): Promise<GeneratedDescriptor | null> {
-  return generatedAstBindings.reduce(async (acc, val) => {
+  const bindings = filterApplicableBindings(generatedAstBindings, mapped);
+
+  return bindings.reduce(async (acc, val) => {
     const accVal = await acc;
     if (accVal) {
       return accVal;
     }
 
-    return type === "import"
-      ? await mapImportReferenceToDescriptor(val, mapped)
-      : await mapBindingReferenceToDescriptor(val, mapped);
+    return mapBindingReferenceToDescriptor(val, mapped);
+  }, null);
+}
+
+async function findGeneratedImportReference(
+  type: BindingType,
+  generatedAstBindings: Array<GeneratedBindingLocation>,
+  mapped: {
+    type: BindingLocationType,
+    start: Location,
+    end: Location
+  }
+): Promise<GeneratedDescriptor | null> {
+  let bindings = filterApplicableBindings(generatedAstBindings, mapped);
+
+  // When wrapped, for instance as `Object(ns.default)`, the `Object` binding
+  // will be the first in the list. To avoid resolving `Object` as the
+  // value of the import itself, we potentially skip the first binding.
+  if (bindings.length > 1 && !bindings[0].loc.meta && bindings[1].loc.meta) {
+    bindings = bindings.slice(1);
+  }
+
+  return bindings.reduce(async (acc, val) => {
+    const accVal = await acc;
+    if (accVal) {
+      return accVal;
+    }
+
+    return mapImportReferenceToDescriptor(val, mapped);
   }, null);
 }
 
@@ -120,7 +188,9 @@ async function findGeneratedImportDeclaration(
     importName: string
   }
 ): Promise<GeneratedDescriptor | null> {
-  return generatedAstBindings.reduce(async (acc, val) => {
+  const bindings = filterApplicableBindings(generatedAstBindings, mapped);
+
+  return bindings.reduce(async (acc, val) => {
     const accVal = await acc;
     if (accVal) {
       return accVal;
@@ -375,8 +445,20 @@ async function getGeneratedLocationRange(
   // binding's location can point at the start of a binding listed after
   // it, so we need to make sure it maps to a location that actually has
   // a size in order to avoid picking up the wrong descriptor.
-  if (isEqual(start, end)) {
+  if (positionCmp(start, end) === 0) {
     return null;
+  }
+  if (positionCmp(start, end) > 0) {
+    // This will be fixed in future range work, but right now it is
+    // possible for the start to be after the end because of the way we
+    // map ranges. For now we create a placeholder single-character range.
+    return {
+      start,
+      end: {
+        ...start,
+        column: start.column + 1
+      }
+    };
   }
 
   return { start, end };
