@@ -865,9 +865,6 @@ exports[`QuickOpenModal showErrorEmoji false when count + query 1`] = `
                   onClick={[Function]}
                   role="option"
                 >
-                  <div>
-                    <img />
-                  </div>
                   <div
                     className="title"
                     id="undefined-title"
@@ -893,9 +890,6 @@ exports[`QuickOpenModal showErrorEmoji false when count + query 1`] = `
                   onClick={[Function]}
                   role="option"
                 >
-                  <div>
-                    <img />
-                  </div>
                   <div
                     className="title"
                     id="undefined-title"
