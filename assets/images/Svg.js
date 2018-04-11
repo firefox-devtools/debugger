@@ -22,6 +22,7 @@ const svg = {
   coffeescript: require(`./coffeescript.svg`),
   dojo: require("./dojo.svg"),
   domain: require("./domain.svg"),
+  extension: require("./extension.svg"),
   file: require("./file.svg"),
   folder: require("./folder.svg"),
   globe: require("./globe.svg"),
