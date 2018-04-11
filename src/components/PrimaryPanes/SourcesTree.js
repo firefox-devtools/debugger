@@ -189,7 +189,7 @@ class SourcesTree extends Component<Props, State> {
     if (item.path === "webpack://") {
       return <Svg name="webpack" />;
     }
-    if (item.path === "/Angular") {
+    if (item.path === "ng://") {
       return <Svg name="angular" />;
     }
 
