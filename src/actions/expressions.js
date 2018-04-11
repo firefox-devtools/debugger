@@ -56,7 +56,7 @@ export function clearExpressionError() {
 
 export function updateExpression(input: string, expression: Expression) {
   return async ({ dispatch, getState }: ThunkArgs) => {
-    if (!input || input == expression.input) {
+    if (!input) {
       return;
     }
 
