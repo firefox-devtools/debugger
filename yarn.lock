@@ -2736,9 +2736,9 @@ devtools-modules@^0.0.33:
   dependencies:
     jest "^19.0.2"
 
-devtools-reps@^0.21.1:
-  version "0.21.1"
-  resolved "https://registry.yarnpkg.com/devtools-reps/-/devtools-reps-0.21.1.tgz#3ea3ac92a5f7bf506eb6ce68b86c764041726c8c"
+devtools-reps@^0.22.0:
+  version "0.22.0"
+  resolved "https://registry.yarnpkg.com/devtools-reps/-/devtools-reps-0.22.0.tgz#5deecfa00831779dfb387c304582856dc89f690e"
   dependencies:
     classnames "^2.2.5"
     devtools-components "^0.4.1"
