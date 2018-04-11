@@ -30,7 +30,8 @@ img.reverseStepIn,
 img.reverseStepOut,
 img.replay-previous,
 img.replay-next,
-img.resume {
+img.resume,
+img.shortcuts {
   background-color: var(--theme-body-color);
 }
 
@@ -105,6 +106,10 @@ img.resume {
   mask: url(/images/forward.svg) no-repeat;
   mask-size: 75%;
   margin-top: 5px;
+}
+
+.command-bar img.shortcuts {
+  mask: url(/images/help.svg) no-repeat;
 }
 
 .command-bar .replay-inactive {
