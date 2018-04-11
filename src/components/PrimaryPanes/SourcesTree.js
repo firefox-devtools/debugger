@@ -188,9 +188,10 @@ class SourcesTree extends Component<Props, State> {
 
     if (item.path === "webpack://") {
       return <Svg name="webpack" />;
-    }
-    if (item.path === "ng://") {
+    } else if (item.path === "ng://") {
       return <Svg name="angular" />;
+    } else if (item.path === "moz-extension://") {
+      return <img className="extension" />;
     }
 
     if (depth === 0 && projectRoot === "") {
@@ -308,7 +309,8 @@ class SourcesTree extends Component<Props, State> {
   renderItemName(name) {
     const hosts = {
       "ng://": "Angular",
-      "webpack://": "Webpack"
+      "webpack://": "Webpack",
+      "moz-extension://": L10N.getStr("extensionsText")
     };
 
     return hosts[name] || name;
