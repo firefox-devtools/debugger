@@ -332,6 +332,11 @@ async function fetchSources() {
  */
 async function checkServerSupportsListWorkers() {
   const root = await tabTarget.root;
+  // root is not available on all debug targets.
+  if (!root) {
+    return false;
+  }
+
   const deviceFront = await getDeviceFront(debuggerClient, root);
   const description = await deviceFront.getDescription();
 
