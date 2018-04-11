@@ -93,11 +93,6 @@ class Breakpoints extends Component<Props, State> {
     };
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    const { breakpoints } = this.props;
-    return breakpoints !== nextProps.breakpoints || this.state != nextState;
-  }
-
   handleBreakpointCheckbox(breakpoint) {
     if (breakpoint.loading) {
       return;
@@ -163,7 +158,7 @@ class Breakpoints extends Component<Props, State> {
             type="checkbox"
             checked={this.state.pauseOnException ? "checked" : ""}
           />
-          <div className="breakpoint-exceptions-label">Exceptions...</div>
+          <div className="breakpoint-exceptions-label">Pause on Exceptions</div>
         </div>
         {this.state.pauseOnException ? (
           <div
@@ -174,7 +169,9 @@ class Breakpoints extends Component<Props, State> {
               type="checkbox"
               checked={this.state.pauseOnCaughtException ? "checked" : ""}
             />
-            <div className="breakpoint-exceptions-label">Caught Exceptions</div>
+            <div className="breakpoint-exceptions-label">
+              Ignore Caught Exceptions
+            </div>
           </div>
         ) : null}
       </div>
