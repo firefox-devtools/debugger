@@ -60,7 +60,10 @@ export class Popup extends Component<Props> {
       setPopupObjectProperties,
       popupObjectProperties
     } = this.props;
-    const root = createNode(null, expression, expression, { value });
+    const root = createNode({
+      name: expression,
+      contents: { value }
+    });
 
     if (
       !nodeIsPrimitive(root) &&
@@ -172,7 +175,7 @@ export class Popup extends Component<Props> {
     );
 
     const roots = [
-      createNode(null, "entries", "entries", { value: immutable.entries })
+      createNode({ name: "entries", contents: { value: immutable.entries } })
     ];
 
     return (
