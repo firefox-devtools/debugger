@@ -441,7 +441,7 @@ function buildGeneratedBindingList(
   // Sort so we can binary-search.
   return generatedBindings.sort((a, b) => {
     const aStart = a.loc.start;
-    const bStart = a.loc.start;
+    const bStart = b.loc.start;
 
     if (aStart.line === bStart.line) {
       return locColumn(aStart) - locColumn(bStart);
