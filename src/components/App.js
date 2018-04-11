@@ -43,19 +43,12 @@ import "./shared/menu.css";
 import "./shared/reps.css";
 
 import SplitBox from "devtools-splitter";
-
 import ProjectSearch from "./ProjectSearch";
-
 import PrimaryPanes from "./PrimaryPanes";
-
 import Editor from "./Editor";
-
 import SecondaryPanes from "./SecondaryPanes";
-
 import WelcomeBox from "./WelcomeBox";
-
 import EditorTabs from "./Editor/Tabs";
-
 import QuickOpenModal from "./QuickOpenModal";
 
 type Props = {
