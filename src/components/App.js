@@ -12,15 +12,6 @@ import actions from "../actions";
 import { ShortcutsModal } from "./ShortcutsModal";
 import VisibilityHandler from "./shared/VisibilityHandler";
 
-import SplitBox from "devtools-splitter";
-import ProjectSearch from "./ProjectSearch";
-import PrimaryPanes from "./PrimaryPanes";
-import Editor from "./Editor";
-import SecondaryPanes from "./SecondaryPanes";
-import WelcomeBox from "./WelcomeBox";
-import EditorTabs from "./Editor/Tabs";
-import QuickOpenModal from "./QuickOpenModal";
-
 import {
   getSelectedSource,
   getPaneCollapse,
