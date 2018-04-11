@@ -309,7 +309,8 @@ class SourcesTree extends Component<Props, State> {
   renderItemName(name) {
     const hosts = {
       "ng://": "Angular",
-      "webpack://": "Webpack"
+      "webpack://": "Webpack",
+      "moz-extension://": L10N.getStr("extensionsText")
     };
 
     return hosts[name] || name;
