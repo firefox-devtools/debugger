@@ -16,9 +16,6 @@ exports[`Result list should render the component 1`] = `
     role="option"
     title="value"
   >
-    <div>
-      <img />
-    </div>
     <div
       className="title"
       id="0-title"
@@ -41,9 +38,6 @@ exports[`Result list should render the component 1`] = `
     role="option"
     title="value 1"
   >
-    <div>
-      <img />
-    </div>
     <div
       className="title"
       id="1-title"
