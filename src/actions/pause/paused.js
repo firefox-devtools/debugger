@@ -21,7 +21,8 @@ import { selectLocation } from "../sources";
 import { loadSourceText } from "../sources/loadSourceText";
 import { togglePaneCollapse } from "../ui";
 import { command } from "./commands";
-import { shouldStep } from "../../utils/pause";
+import { getReactComponentStack, shouldStep } from "../../utils/pause";
+import { isReactComponent } from "../../utils/preview";
 
 import { updateFrameLocation } from "./mapFrames";
 
@@ -33,6 +34,7 @@ import type { ThunkArgs } from "../types";
 async function getOriginalSourceForFrame(state, frame: Frame) {
   return getSources(state).get(frame.location.sourceId);
 }
+
 /**
  * Debugger has just paused
  *
@@ -44,8 +46,13 @@ export function paused(pauseInfo: Pause) {
   return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
     const { frames, why, loadedObjects } = pauseInfo;
     const rootFrame = frames.length > 0 ? frames[0] : null;
+    let reactComponentStack;
 
     if (rootFrame) {
+      if (isReactComponent(rootFrame.this)) {
+        reactComponentStack = await getReactComponentStack(rootFrame, client);
+      }
+
       const mappedFrame = await updateFrameLocation(rootFrame, sourceMaps);
       const source = await getOriginalSourceForFrame(getState(), mappedFrame);
 
@@ -62,6 +69,7 @@ export function paused(pauseInfo: Pause) {
       type: "PAUSED",
       why,
       frames,
+      reactComponentStack,
       selectedFrameId: rootFrame ? rootFrame.id : undefined,
       loadedObjects: loadedObjects || []
     });

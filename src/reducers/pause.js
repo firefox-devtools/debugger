@@ -107,7 +107,13 @@ function update(
 ): PauseState {
   switch (action.type) {
     case "PAUSED": {
-      const { selectedFrameId, frames, loadedObjects, why } = action;
+      const {
+        selectedFrameId,
+        frames,
+        loadedObjects,
+        why,
+        reactComponentStack
+      } = action;
 
       // turn this into an object keyed by object id
       const objectMap = {};
@@ -120,6 +126,7 @@ function update(
         isWaitingOnBreak: false,
         selectedFrameId,
         frames,
+        reactComponentStack,
         frameScopes: { ...emptyPauseState.frameScopes },
         loadedObjects: objectMap,
         why
