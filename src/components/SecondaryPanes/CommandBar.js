@@ -23,7 +23,7 @@ import {
 } from "../../selectors";
 import { formatKeyShortcut } from "../../utils/text";
 import actions from "../../actions";
-import CommandBarButton from "../shared/Button/CommandBarButton";
+import { debugBtn } from "../shared/Button/CommandBarButton";
 import "./CommandBar.css";
 
 import { Services } from "devtools-modules";
@@ -79,28 +79,6 @@ function formatKey(action) {
     return formatKeyShortcut([key, winKey].join(" "));
   }
   return formatKeyShortcut(key);
-}
-
-export function debugBtn(
-  onClick: ?Function,
-  type: string,
-  className: string,
-  tooltip: string,
-  disabled: boolean = false,
-  ariaPressed: boolean = false
-) {
-  return (
-    <CommandBarButton
-      className={classnames(type, className)}
-      disabled={disabled}
-      key={type}
-      onClick={onClick}
-      pressed={ariaPressed}
-      title={tooltip}
-    >
-      <img className={type} />
-    </CommandBarButton>
-  );
 }
 
 type Props = {
