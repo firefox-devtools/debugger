@@ -235,7 +235,7 @@ class CommandBar extends Component<Props> {
       canRewind
     } = this.props;
 
-    if (canRewind || features.breakpointsDropdown) {
+    if (canRewind) {
       return;
     }
 
