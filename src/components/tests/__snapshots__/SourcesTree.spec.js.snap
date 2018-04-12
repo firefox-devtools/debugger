@@ -11,7 +11,6 @@ exports[`SourcesTree After changing expanded nodes Shows the tree with four.js, 
     <ManagedTree
       autoExpandAll={false}
       autoExpandDepth={0}
-      autoExpandOnHighlight={true}
       expanded={
         Array [
           "four.js",
@@ -45,7 +44,6 @@ exports[`SourcesTree Should show the tree with nothing expanded 1`] = `
     <ManagedTree
       autoExpandAll={false}
       autoExpandDepth={1}
-      autoExpandOnHighlight={true}
       getChildren={[Function]}
       getParent={[Function]}
       getPath={[Function]}
@@ -72,7 +70,6 @@ exports[`SourcesTree When loading initial source Shows the tree with one.js, two
     <ManagedTree
       autoExpandAll={false}
       autoExpandDepth={0}
-      autoExpandOnHighlight={true}
       expanded={
         Array [
           "one.js",
