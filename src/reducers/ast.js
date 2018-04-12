@@ -10,18 +10,18 @@
  */
 
 import * as I from "immutable";
-
 import makeRecord from "../utils/makeRecord";
 import { findEmptyLines } from "../utils/ast";
 
 import type {
   AstLocation,
   SymbolDeclarations,
-  PausePoints
+  PausePoints,
+  PausePoint
 } from "../workers/parser";
 
 import type { Map } from "immutable";
-import type { Source } from "../types";
+import type { Source, Location } from "../types";
 import type { Action, DonePromiseAction } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
@@ -195,8 +195,29 @@ export function getEmptyLines(state: OuterState, source: Source) {
   return state.ast.emptyLines.get(source.id);
 }
 
-export function getPausePoints(state: OuterState, sourceId: string) {
+export function getPausePoints(
+  state: OuterState,
+  sourceId: string
+): ?PausePoints {
   return state.ast.pausePoints.get(sourceId);
+}
+
+export function getPausePoint(
+  state: OuterState,
+  location: ?Location
+): ?PausePoint {
+  if (!location) {
+    return;
+  }
+
+  const { column, line, sourceId } = location;
+  const pausePoints = getPausePoints(state, sourceId);
+  if (!pausePoints) {
+    return;
+  }
+
+  const linePoints = pausePoints[line];
+  return linePoints && linePoints[column];
 }
 
 export function hasPausePoints(state: OuterState, sourceId: string): boolean {

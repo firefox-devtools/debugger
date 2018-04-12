@@ -17,7 +17,7 @@ import { getSelectedSource } from "./sources";
 
 import type { OriginalScope } from "../actions/pause/mapScopes";
 import type { Action } from "../actions/types";
-import type { Why, Scope, SourceId, FrameId, Location } from "../types";
+import type { Why, Scope, SourceId, FrameId, MappedLocation } from "../types";
 
 export type Command =
   | null
@@ -62,10 +62,7 @@ export type PauseState = {
   canRewind: boolean,
   debuggeeUrl: string,
   command: Command,
-  previousLocation: ?{
-    location: Location,
-    generatedLocation: Location
-  }
+  previousLocation: ?MappedLocation
 };
 
 export const createPauseState = (): PauseState => ({

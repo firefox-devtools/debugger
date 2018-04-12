@@ -90,7 +90,9 @@ describe("setPreview", () => {
     await dispatch(
       actions.paused({
         why: { type: "resumeLimit" },
-        frames: [{ id: "frame1", location: { sourceId: fileName } }]
+        frames: [
+          { id: "frame1", location: { sourceId: fileName, line: 1, column: 1 } }
+        ]
       })
     );
   }
