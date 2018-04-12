@@ -1,3 +1,4 @@
+// @flow
 import React from "react";
 import Svg from "../shared/Svg";
 import Dropdown from "../shared/Dropdown";
@@ -5,7 +6,7 @@ import classnames from "classnames";
 
 import "./BreakpointsDropdown.css";
 
-function renderPause(isWaitingOnBreak) {
+function renderPause(isWaitingOnBreak: Object) {
   const active = isWaitingOnBreak;
   return (
     <div
@@ -21,8 +22,8 @@ function renderPause(isWaitingOnBreak) {
 }
 
 function renderPauseOnExceptions(
-  shouldPauseOnExceptions,
-  shouldIgnoreCaughtExceptions
+  shouldPauseOnExceptions: Boolean,
+  shouldIgnoreCaughtExceptions: Boolean
 ) {
   const active =
     (shouldPauseOnExceptions || shouldIgnoreCaughtExceptions) &&
@@ -43,8 +44,8 @@ function renderPauseOnExceptions(
 }
 
 function renderPauseOnUncaughtExceptions(
-  shouldPauseOnExceptions,
-  shouldIgnoreCaughtExceptions
+  shouldPauseOnExceptions: Boolean,
+  shouldIgnoreCaughtExceptions: Boolean
 ) {
   const active = shouldPauseOnExceptions && shouldIgnoreCaughtExceptions;
   return (
@@ -63,8 +64,8 @@ function renderPauseOnUncaughtExceptions(
 }
 
 function renderIgnoreExceptions(
-  shouldPauseOnExceptions,
-  shouldIgnoreCaughtExceptions
+  shouldPauseOnExceptions: Boolean,
+  shouldIgnoreCaughtExceptions: Boolean
 ) {
   const active = !shouldPauseOnExceptions && !shouldIgnoreCaughtExceptions;
   return (
@@ -80,16 +81,16 @@ function renderIgnoreExceptions(
   );
 }
 
-function handleClick(e) {
+function handleClick(e: Object) {
   e.stopPropagation();
 }
 
 export default function renderBreakpointsDropdown(
-  breakOnNext,
-  pauseOnExceptions,
-  shouldPauseOnExceptions,
-  shouldIgnoreCaughtExceptions,
-  isWaitingOnBreak
+  breakOnNext: Boolean,
+  pauseOnExceptions: Boolean,
+  shouldPauseOnExceptions: Boolean,
+  shouldIgnoreCaughtExceptions: Boolean,
+  isWaitingOnBreak: Boolean
 ) {
   const Panel = (
     <ul>
