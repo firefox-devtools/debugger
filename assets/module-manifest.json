@@ -22448,7 +22448,10 @@
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/breakpoint/create-editor.js": 3628,
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/pause/fetchExtra.js": 3629,
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/SecondaryPanes/BreakpointItem.js": 3630,
-      "../../svg-inline-loader/index.js!../../../assets/images/tab.svg": 3631
+      "../../svg-inline-loader/index.js!../../../assets/images/tab.svg": 3631,
+      "../../svg-inline-loader/index.js!../../../assets/images/extension.svg": 3632,
+      "../../svg-inline-loader/index.js!../../../assets/images/help.svg": 3633,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/SecondaryPanes/Breakpoint.js": 3634
     },
     "usedIds": {
       "0": 0,
@@ -26082,7 +26085,10 @@
       "3628": 3628,
       "3629": 3629,
       "3630": 3630,
-      "3631": 3631
+      "3631": 3631,
+      "3632": 3632,
+      "3633": 3633,
+      "3634": 3634
     }
   },
   "chunks": {
