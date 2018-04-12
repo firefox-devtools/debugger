@@ -150,14 +150,14 @@ class Breakpoints extends Component<Props> {
     }
 
     const exceptionsBox = createExceptionOption(
-      L10N.getStr("pauseOnExceptionsItem"),
+      L10N.getStr("pauseOnExceptions"),
       shouldPauseOnExceptions,
       () => pauseOnExceptions(!shouldPauseOnExceptions, false),
       "breakpoints-exceptions"
     );
 
     const ignoreCaughtBox = createExceptionOption(
-      L10N.getStr("ignoreCaughExceptionsItem"),
+      L10N.getStr("ignoreCaughtExceptionsItem"),
       shouldIgnoreCaughtExceptions,
       () => pauseOnExceptions(true, !shouldIgnoreCaughtExceptions),
       "breakpoints-exceptions-caught"
