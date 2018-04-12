@@ -37,10 +37,7 @@ import UtilsBar from "./UtilsBar";
 import renderBreakpointsDropdown from "./BreakpointsDropdown";
 import FrameworkComponent from "./FrameworkComponent";
 
-import _chromeScopes from "./ChromeScopes";
-import _Scopes from "./Scopes";
-
-const Scopes = features.chromeScopes ? _chromeScopes : _Scopes;
+import Scopes from "./Scopes";
 
 import "./SecondaryPanes.css";
 
