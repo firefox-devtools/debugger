@@ -26,8 +26,7 @@ export const sourceTypes = {
   coffee: "coffeescript",
   js: "javascript",
   jsx: "react",
-  ts: "typescript",
-  css: "css"
+  ts: "typescript"
 };
 
 /**
