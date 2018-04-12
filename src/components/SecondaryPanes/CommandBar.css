@@ -109,7 +109,7 @@ img.shortcuts {
 }
 
 .command-bar img.shortcuts {
-  mask: url(/images/help.svg) no-repeat;
+  mask: url(/mc/help.svg) no-repeat;
 }
 
 .command-bar .replay-inactive {
