@@ -65,7 +65,7 @@ type Props = {
   openConditionalPanel: number => void,
   shouldPauseOnExceptions: boolean,
   shouldIgnoreCaughtExceptions: boolean,
-  pauseOnExceptions: () => void
+  pauseOnExceptions: Function
 };
 
 function isCurrentlyPausedAtBreakpoint(
