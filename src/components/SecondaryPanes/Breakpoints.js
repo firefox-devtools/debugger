@@ -61,7 +61,7 @@ type Props = {
 
   shouldPauseOnExceptions: boolean,
   shouldIgnoreCaughtExceptions: boolean,
-  pauseOnExceptions: () => void
+  pauseOnExceptions: Function
 };
 
 function isCurrentlyPausedAtBreakpoint(
