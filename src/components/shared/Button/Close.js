@@ -12,16 +12,17 @@ type Props = {
   tooltip?: string
 };
 
-function CloseButton({ handleClick, buttonClass, tooltip }: Props) {
+function CloseButton({ handleClick, buttonClass, tooltip }: Props){
   return (
-    <div
+    <button
       className={buttonClass ? `close-btn ${buttonClass}` : "close-btn"}
       onClick={handleClick}
       title={tooltip}
     >
       <img className="close" />
-    </div>
+    </button>
   );
 }
+
 
 export default CloseButton;
