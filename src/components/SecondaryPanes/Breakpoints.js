@@ -45,11 +45,6 @@ export type LocalBreakpoint = BreakpointType & {
 
 type BreakpointsMap = I.Map<string, LocalBreakpoint>;
 
-type State = {
-  pauseOnException: boolean,
-  pauseOnCaughtException: boolean
-};
-
 type Props = {
   breakpoints: BreakpointsMap,
   enableBreakpoint: Location => void,
@@ -62,7 +57,11 @@ type Props = {
   toggleAllBreakpoints: boolean => void,
   toggleDisabledBreakpoint: number => void,
   setBreakpointCondition: Location => void,
-  openConditionalPanel: number => void
+  openConditionalPanel: number => void,
+
+  shouldPauseOnExceptions: boolean,
+  shouldIgnoreCaughtExceptions: boolean,
+  pauseOnExceptions: () => void
 };
 
 function isCurrentlyPausedAtBreakpoint(
@@ -83,16 +82,25 @@ function getBreakpointFilename(source: Source) {
   return source ? getFilename(source) : "";
 }
 
-class Breakpoints extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
+function createExceptionOption(
+  label: string,
+  value: boolean,
+  onChange: Function,
+  className: string
+) {
+  return (
+    <div className={className} onClick={onChange}>
+      <input
+        type="checkbox"
+        checked={value ? "checked" : ""}
+        onChange={e => e.stopPropagation() && onChange()}
+      />
+      <div className="breakpoint-exceptions-label">{label}</div>
+    </div>
+  );
+}
 
-    this.state = {
-      pauseOnException: false,
-      pauseOnCaughtException: false
-    };
-  }
-
+class Breakpoints extends Component<Props> {
   handleBreakpointCheckbox(breakpoint) {
     if (breakpoint.loading) {
       return;
@@ -104,19 +112,6 @@ class Breakpoints extends Component<Props, State> {
       this.props.disableBreakpoint(breakpoint.location);
     }
   }
-
-  onExceptionsClick = () => {
-    this.setState({
-      pauseOnException: !this.state.pauseOnException,
-      pauseOnCaughtException: false
-    });
-  };
-
-  onExceptionsCaughtClick = () => {
-    this.setState({
-      pauseOnCaughtException: !this.state.pauseOnCaughtException
-    });
-  };
 
   selectBreakpoint(breakpoint) {
     this.props.selectLocation(breakpoint.location);
@@ -143,37 +138,35 @@ class Breakpoints extends Component<Props, State> {
   }
 
   renderExceptionsOptions() {
-    const { breakpoints } = this.props;
+    const {
+      breakpoints,
+      shouldPauseOnExceptions,
+      shouldIgnoreCaughtExceptions,
+      pauseOnExceptions
+    } = this.props;
+
     if (!breakpoints.size) {
       return;
     }
 
+    const exceptionsBox = createExceptionOption(
+      L10N.getStr("pauseOnExceptionsItem"),
+      shouldPauseOnExceptions,
+      () => pauseOnExceptions(!shouldPauseOnExceptions, false),
+      "breakpoints-exceptions"
+    );
+
+    const ignoreCaughtBox = createExceptionOption(
+      L10N.getStr("ignoreCaughExceptionsItem"),
+      shouldIgnoreCaughtExceptions,
+      () => pauseOnExceptions(true, !shouldIgnoreCaughtExceptions),
+      "breakpoints-exceptions-caught"
+    );
+
     return (
       <div className="breakpoints-exceptions-options">
-        <div
-          className="breakpoints-exceptions"
-          onClick={this.onExceptionsClick}
-        >
-          <input
-            type="checkbox"
-            checked={this.state.pauseOnException ? "checked" : ""}
-          />
-          <div className="breakpoint-exceptions-label">Pause on Exceptions</div>
-        </div>
-        {this.state.pauseOnException ? (
-          <div
-            className="breakpoints-exceptions-caught"
-            onClick={this.onExceptionsCaughtClick}
-          >
-            <input
-              type="checkbox"
-              checked={this.state.pauseOnCaughtException ? "checked" : ""}
-            />
-            <div className="breakpoint-exceptions-label">
-              Ignore Caught Exceptions
-            </div>
-          </div>
-        ) : null}
+        {exceptionsBox}
+        {shouldPauseOnExceptions ? ignoreCaughtBox : null}
       </div>
     );
   }

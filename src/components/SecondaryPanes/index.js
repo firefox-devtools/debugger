@@ -236,11 +236,23 @@ class SecondaryPanes extends Component<Props, State> {
   }
 
   getBreakpointsItem(): AccordionPaneItem {
+    const {
+      shouldPauseOnExceptions,
+      shouldIgnoreCaughtExceptions,
+      pauseOnExceptions
+    } = this.props;
+
     return {
       header: L10N.getStr("breakpoints.header"),
       className: "breakpoints-pane",
       buttons: [this.breakpointDropdown(), this.renderBreakpointsToggle()],
-      component: <Breakpoints />,
+      component: (
+        <Breakpoints
+          shouldPauseOnExceptions={shouldPauseOnExceptions}
+          shouldIgnoreCaughtExceptions={shouldIgnoreCaughtExceptions}
+          pauseOnExceptions={pauseOnExceptions}
+        />
+      ),
       opened: prefs.breakpointsVisible,
       onToggle: opened => {
         prefs.breakpointsVisible = opened;
