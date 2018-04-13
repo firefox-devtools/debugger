@@ -50,6 +50,9 @@ class FrameworkComponent extends PureComponent<Props> {
     };
 
     const loadedRootProperties = popupObjectProperties[value.actor];
+    if (!loadedRootProperties) {
+      return null;
+    }
 
     let roots = getChildren({
       item: root,
