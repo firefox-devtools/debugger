@@ -24,6 +24,10 @@
   padding: 0.5em 1em 0.5em 0.5em;
 }
 
+.breakpoint-list .breakpoint-heading {
+  color: var(--grey-50);
+}
+
 .breakpoints-list .breakpoint-heading,
 .breakpoints-list .breakpoint,
 .breakpoints-exceptions {

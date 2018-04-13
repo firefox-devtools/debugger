@@ -212,9 +212,13 @@ export function getPreview(state: OuterState) {
   return state.ast.get("preview");
 }
 
+export function getSourcesMetaData(state) {
+  return state.ast.sourceMetaData;
+}
+
 const emptySourceMetaData = {};
 export function getSourceMetaData(state: OuterState, sourceId: string) {
-  return state.ast.sourceMetaData.get(sourceId) || emptySourceMetaData;
+  return getSourcesMetaData(state).get(sourceId) || emptySourceMetaData;
 }
 
 export function hasSourceMetaData(state: OuterState, sourceId: string) {

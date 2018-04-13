@@ -25,7 +25,8 @@ import {
   isPretty
 } from "../../utils/source";
 import { copyToTheClipboard } from "../../utils/clipboard";
-import { getSourceAnnotation, getTabMenuItems } from "../../utils/tabs";
+import { getTabMenuItems } from "../../utils/tabs";
+import { getSourceClassnames } from "../../utils/source";
 
 import {
   getSelectedSource,
@@ -163,7 +164,7 @@ class Tab extends PureComponent<Props> {
       sourceId == selectedSource.get("id") &&
       (!this.isProjectSearchEnabled() && !this.isSourceSearchEnabled());
     const isPrettyCode = isPretty(source);
-    const sourceAnnotation = getSourceAnnotation(source, sourceMetaData);
+    const sourceAnnotation = getSourceClassnames(source);
 
     function onClickClose(e) {
       e.stopPropagation();
@@ -195,7 +196,9 @@ class Tab extends PureComponent<Props> {
         onContextMenu={e => this.onTabContextMenu(e, sourceId)}
         title={getFileURL(src)}
       >
-        {sourceAnnotation}
+        <img
+          className={classnames(getSourceClassnames(source), "source-icon")}
+        />
         <div className="filename">{filename}</div>
         <CloseButton
           handleClick={onClickClose}
