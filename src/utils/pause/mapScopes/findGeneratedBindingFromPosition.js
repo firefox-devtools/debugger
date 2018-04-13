@@ -198,14 +198,48 @@ async function findGeneratedImportDeclaration(
 ): Promise<GeneratedDescriptor | null> {
   const bindings = filterApplicableBindings(generatedAstBindings, mapped);
 
-  return bindings.reduce(async (acc, val) => {
-    const accVal = await acc;
-    if (accVal) {
-      return accVal;
+  let result = null;
+
+  for (const binding of bindings) {
+    if (binding.loc.type !== "decl") {
+      continue;
     }
 
-    return await mapImportDeclarationToDescriptor(val, mapped);
-  }, null);
+    const namespaceDesc = await binding.desc();
+    if (isPrimitiveValue(namespaceDesc)) {
+      continue;
+    }
+    if (!isObjectValue(namespaceDesc)) {
+      // We want to handle cases like
+      //
+      //   var _mod = require(...);
+      //   var _mod2 = _interopRequire(_mod);
+      //
+      // where "_mod" is optimized out because it is only referenced once. To
+      // allow that, we track the optimized-out value as a possible result,
+      // but allow later binding values to overwrite the result.
+      result = {
+        name: binding.name,
+        desc: namespaceDesc,
+        expression: binding.name
+      };
+      continue;
+    }
+
+    const desc = await readDescriptorProperty(namespaceDesc, mapped.importName);
+    const expression = `${binding.name}.${mapped.importName}`;
+
+    if (desc) {
+      result = {
+        name: binding.name,
+        desc,
+        expression
+      };
+      break;
+    }
+  }
+
+  return result;
 }
 
 /**
@@ -242,52 +276,6 @@ async function mapBindingReferenceToDescriptor(
   }
 
   return null;
-}
-
-/**
- * Given an generated binding, and a range over the generated code, statically
- * resolve the module namespace object and attempt to access the imported
- * property on the namespace.
- *
- * This is mostly hard-coded to work for Babel 6's imports.
- */
-async function mapImportDeclarationToDescriptor(
-  binding: GeneratedBindingLocation,
-  mapped: {
-    start: Position,
-    end: Position,
-    importName: string
-  }
-): Promise<GeneratedDescriptor | null> {
-  // When trying to map an actual import declaration binding, we can try
-  // to map it back to the namespace object in the original code.
-  if (!mappingContains(mapped, binding.loc)) {
-    return null;
-  }
-
-  const desc = await readDescriptorProperty(
-    await binding.desc(),
-    mapped.importName,
-    // If the value was optimized out or otherwise unavailable, we skip it
-    // entirely because there is a good chance that this means that this
-    // isn't the right binding. This allows us to catch cases like
-    //
-    //   var _mod = require(...);
-    //   var _mod2 = _interopRequire(_mod);
-    //
-    // where "_mod" is optimized out because it is only referenced once, and
-    // we want to continue searching to try to find "_mod2".
-    true
-  );
-  const expression = `${binding.name}.${mapped.importName}`;
-
-  return desc
-    ? {
-        name: binding.name,
-        desc,
-        expression
-      }
-    : null;
 }
 
 /**
@@ -377,20 +365,29 @@ async function mapImportReferenceToDescriptor(
     : null;
 }
 
+function isPrimitiveValue(desc: ?BindingContents) {
+  return desc && (!desc.value || typeof desc.value !== "object");
+}
+function isObjectValue(desc: ?BindingContents) {
+  return (
+    desc &&
+    !isPrimitiveValue(desc) &&
+    desc.value.type === "object" &&
+    // Note: The check for `.type` might already cover the optimizedOut case
+    // but not 100% sure, so just being cautious.
+    !desc.value.optimizedOut
+  );
+}
+
 async function readDescriptorProperty(
   desc: ?BindingContents,
-  property: string,
-  requireValidObject = false
+  property: string
 ): Promise<?BindingContents> {
   if (!desc) {
     return null;
   }
 
   if (typeof desc.value !== "object" || !desc.value) {
-    if (requireValidObject) {
-      return null;
-    }
-
     // If accessing a property on a primitive type, just return 'undefined'
     // as the value.
     return {
@@ -400,13 +397,7 @@ async function readDescriptorProperty(
     };
   }
 
-  // Note: The check for `.type` might already cover the optimizedOut case
-  // but not 100% sure, so just being cautious.
-  if (desc.value.type !== "object" || desc.value.optimizedOut) {
-    if (requireValidObject) {
-      return null;
-    }
-
+  if (!isObjectValue(desc)) {
     // If we got a non-primitive descriptor but it isn't an object, then
     // it's definitely not the namespace and it is probably an error.
     return desc;
@@ -465,7 +456,7 @@ async function getGeneratedLocationRange(
     return null;
   }
 
-  // If the stand and end positions collapse into eachother, it means that
+  // If the start and end positions collapse into eachother, it means that
   // the range in the original content didn't _start_ at the start position.
   // Since this likely means that the range doesn't logically apply to this
   // binding location, we skip it.
