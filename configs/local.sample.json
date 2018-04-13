@@ -8,10 +8,6 @@
     "actions": false
   },
   "features": {
-    "chromeScopes": {
-      "label": "Chrome Scopes",
-      "enabled": false
-    },
     "eventListeners": {
       "label": "Event Listeners",
       "enabled": false
