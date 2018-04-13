@@ -7,7 +7,7 @@
 import { getSelectedFrame, getGeneratedFrameScope } from "../../selectors";
 import { mapScopes } from "./mapScopes";
 import { PROMISE } from "../utils/middleware/promise";
-import { setExtra } from "./setExtra";
+import { fetchExtra } from "./extra";
 import type { ThunkArgs } from "../types";
 
 export function fetchScopes() {
@@ -23,7 +23,7 @@ export function fetchScopes() {
       [PROMISE]: client.getFrameScopes(frame)
     });
 
-    await dispatch(setExtra());
+    await dispatch(fetchExtra());
     await dispatch(mapScopes(scopes, frame));
   };
 }
