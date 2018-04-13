@@ -12,7 +12,12 @@ import type {
 import { locColumn } from "./locColumn";
 import { filterSortedArray } from "./filtering";
 
-import type { Source, Location, BindingContents } from "../../../types";
+import type {
+  Source,
+  Location,
+  Position,
+  BindingContents
+} from "../../../types";
 // eslint-disable-next-line max-len
 import type { GeneratedBindingLocation } from "../../../actions/pause/mapScopes";
 
@@ -37,7 +42,7 @@ export async function findGeneratedBindingFromPosition(
   type: BindingType,
   generatedAstBindings: Array<GeneratedBindingLocation>
 ): Promise<GeneratedDescriptor | null> {
-  const range = await getGeneratedLocationRange(pos, source, sourceMaps);
+  const range = await getGeneratedLocationRange(pos, source, type, sourceMaps);
 
   if (range) {
     let result;
@@ -65,8 +70,13 @@ export async function findGeneratedBindingFromPosition(
       // to resolving the bindinding using the location of the overall
       // import declaration.
       importRange = await getGeneratedLocationRange(
-        pos.declaration,
+        {
+          type: pos.type,
+          start: pos.declaration.start,
+          end: pos.declaration.end
+        },
         source,
+        type,
         sourceMaps
       );
 
@@ -93,8 +103,8 @@ export async function findGeneratedBindingFromPosition(
 function filterApplicableBindings(
   bindings: Array<GeneratedBindingLocation>,
   mapped: {
-    start: Location,
-    end: Location
+    start: Position,
+    end: Position
   }
 ): Array<GeneratedBindingLocation> {
   // Any binding overlapping a part of the mapping range.
@@ -102,19 +112,7 @@ function filterApplicableBindings(
     if (positionCmp(binding.loc.end, mapped.start) < 0) {
       return -1;
     }
-
-    // Currently we allow ranges to count if they start 1 character before,
-    // so we allow that when filtering here.
-    // See mapBindingReferenceToDescriptor for more info.
-    if (
-      positionCmp(
-        {
-          ...binding.loc.start,
-          column: locColumn(binding.loc.start) - 1
-        },
-        mapped.end
-      ) > 0
-    ) {
+    if (positionCmp(binding.loc.start, mapped.end) > 0) {
       return 1;
     }
 
@@ -131,19 +129,29 @@ async function findGeneratedReference(
   generatedAstBindings: Array<GeneratedBindingLocation>,
   mapped: {
     type: BindingLocationType,
-    start: Location,
-    end: Location
+    start: Position,
+    end: Position
   }
 ): Promise<GeneratedDescriptor | null> {
   const bindings = filterApplicableBindings(generatedAstBindings, mapped);
 
-  return bindings.reduce(async (acc, val) => {
+  let lineStart = true;
+  let line = -1;
+
+  return bindings.reduce(async (acc, val, i) => {
     const accVal = await acc;
     if (accVal) {
       return accVal;
     }
 
-    return mapBindingReferenceToDescriptor(val, mapped);
+    if (val.loc.start.line === line) {
+      lineStart = false;
+    } else {
+      line = val.loc.start.line;
+      lineStart = true;
+    }
+
+    return mapBindingReferenceToDescriptor(val, mapped, lineStart);
   }, null);
 }
 
@@ -152,8 +160,8 @@ async function findGeneratedImportReference(
   generatedAstBindings: Array<GeneratedBindingLocation>,
   mapped: {
     type: BindingLocationType,
-    start: Location,
-    end: Location
+    start: Position,
+    end: Position
   }
 ): Promise<GeneratedDescriptor | null> {
   let bindings = filterApplicableBindings(generatedAstBindings, mapped);
@@ -183,8 +191,8 @@ async function findGeneratedImportReference(
 async function findGeneratedImportDeclaration(
   generatedAstBindings: Array<GeneratedBindingLocation>,
   mapped: {
-    start: Location,
-    end: Location,
+    start: Position,
+    end: Position,
     importName: string
   }
 ): Promise<GeneratedDescriptor | null> {
@@ -208,9 +216,10 @@ async function mapBindingReferenceToDescriptor(
   binding: GeneratedBindingLocation,
   mapped: {
     type: BindingLocationType,
-    start: Location,
-    end: Location
-  }
+    start: Position,
+    end: Position
+  },
+  isFirst: boolean
 ): Promise<GeneratedDescriptor | null> {
   // Allow the mapping to point anywhere within the generated binding
   // location to allow for less than perfect sourcemaps. Since you also
@@ -219,7 +228,10 @@ async function mapBindingReferenceToDescriptor(
   // to increase the probability of finding the right mapping.
   if (
     mapped.start.line === binding.loc.start.line &&
-    locColumn(mapped.start) >= locColumn(binding.loc.start) - 1 &&
+    // If a binding is the first on a line, Babel will extend the mapping to
+    // include the whitespace between the newline and the binding. To handle
+    // that, we skip the range requirement for starting location.
+    (isFirst || locColumn(mapped.start) >= locColumn(binding.loc.start)) &&
     locColumn(mapped.start) <= locColumn(binding.loc.end)
   ) {
     return {
@@ -242,8 +254,8 @@ async function mapBindingReferenceToDescriptor(
 async function mapImportDeclarationToDescriptor(
   binding: GeneratedBindingLocation,
   mapped: {
-    start: Location,
-    end: Location,
+    start: Position,
+    end: Position,
     importName: string
   }
 ): Promise<GeneratedDescriptor | null> {
@@ -287,8 +299,8 @@ async function mapImportReferenceToDescriptor(
   binding: GeneratedBindingLocation,
   mapped: {
     type: BindingLocationType,
-    start: Location,
-    end: Location
+    start: Position,
+    end: Position
   }
 ): Promise<GeneratedDescriptor | null> {
   if (mapped.type !== "ref") {
@@ -416,7 +428,7 @@ function mappingContains(mapped, item) {
  * * < 0 - first position before second position
  * * > 0 - first position after second position
  */
-function positionCmp(p1: Location, p2: Location) {
+function positionCmp(p1: Position, p2: Position) {
   if (p1.line === p2.line) {
     const l1 = locColumn(p1);
     const l2 = locColumn(p2);
@@ -431,54 +443,72 @@ function positionCmp(p1: Location, p2: Location) {
 }
 
 async function getGeneratedLocationRange(
-  pos: { start: Location, end: Location },
+  pos: {
+    +type: BindingLocationType,
+    start: Location,
+    end: Location
+  },
   source: Source,
+  type: BindingType,
   sourceMaps: any
 ): Promise<{
-  start: Location,
-  end: Location
+  start: Position,
+  end: Position
 } | null> {
-  const start = await getGeneratedLocation(sourceMaps, pos.start, source);
-  const end = await getGeneratedLocation(sourceMaps, pos.end, source);
-
-  // Since the map takes the closest location, sometimes mapping a
-  // binding's location can point at the start of a binding listed after
-  // it, so we need to make sure it maps to a location that actually has
-  // a size in order to avoid picking up the wrong descriptor.
-  if (positionCmp(start, end) === 0) {
+  const endPosition = await sourceMaps.getGeneratedLocation(pos.end, source);
+  const startPosition = await sourceMaps.getGeneratedLocation(
+    pos.start,
+    source
+  );
+  const ranges = await sourceMaps.getGeneratedRanges(pos.start, source);
+  if (ranges.length === 0) {
     return null;
   }
-  if (positionCmp(start, end) > 0) {
-    // This will be fixed in future range work, but right now it is
-    // possible for the start to be after the end because of the way we
-    // map ranges. For now we create a placeholder single-character range.
-    return {
-      start,
-      end: {
-        ...start,
-        column: start.column + 1
-      }
-    };
+
+  // If the stand and end positions collapse into eachother, it means that
+  // the range in the original content didn't _start_ at the start position.
+  // Since this likely means that the range doesn't logically apply to this
+  // binding location, we skip it.
+  if (positionCmp(startPosition, endPosition) === 0) {
+    return null;
+  }
+
+  const start = {
+    line: ranges[0].line,
+    column: ranges[0].columnStart
+  };
+  const end = {
+    line: ranges[0].line,
+    // SourceMapConsumer's 'lastColumn' is inclusive, so we add 1 to make
+    // it exclusive like all other locations.
+    column: ranges[0].columnEnd + 1
+  };
+
+  // Expand the range over any following ranges if they are contiguous.
+  for (let i = 1; i < ranges.length; i++) {
+    const range = ranges[i];
+    if (
+      end.column !== Infinity ||
+      range.line !== end.line + 1 ||
+      range.columnStart !== 0
+    ) {
+      break;
+    }
+    end.line = range.line;
+    end.column = range.columnEnd + 1;
+  }
+
+  // When searching for imports, we expand the range to up to the next available
+  // mapping to allow for import declarations that are composed of multiple
+  // variable statements, where the later ones are entirely unmapped.
+  // Babel 6 produces imports in this style, e.g.
+  //
+  // var _mod = require("mod"); // mapped from import statement
+  // var _mod2 = interop(_mod); // entirely unmapped
+  if (type === "import" && pos.type === "decl" && endPosition.line > end.line) {
+    end.line = endPosition.line;
+    end.column = endPosition.column;
   }
 
   return { start, end };
-}
-
-async function getGeneratedLocation(
-  sourceMaps: any,
-  pos: Location,
-  source: Source
-): Promise<Location> {
-  const all = await sourceMaps.getAllGeneratedLocations(pos, source);
-  if (all.length > 0) {
-    // Grab the earliest mapping since generally if there are multiple
-    // mappings, the later mappings are for random punctuation marks.
-    return all.reduce((acc, p) => {
-      return !acc || positionCmp(p, acc) < 0 ? p : acc;
-    });
-  }
-
-  // Fall back to the standard logic to take the mapping closest to the
-  // target location.
-  return await sourceMaps.getGeneratedLocation(pos, source);
 }
