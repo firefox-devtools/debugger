@@ -109,10 +109,10 @@ function filterApplicableBindings(
 ): Array<GeneratedBindingLocation> {
   // Any binding overlapping a part of the mapping range.
   return filterSortedArray(bindings, binding => {
-    if (positionCmp(binding.loc.end, mapped.start) < 0) {
+    if (positionCmp(binding.loc.end, mapped.start) <= 0) {
       return -1;
     }
-    if (positionCmp(binding.loc.start, mapped.end) > 0) {
+    if (positionCmp(binding.loc.start, mapped.end) >= 0) {
       return 1;
     }
 

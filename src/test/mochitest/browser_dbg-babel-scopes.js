@@ -103,7 +103,7 @@ add_task(async function() {
     { line: 8, column: 6 },
     [
       "arrow",
-      ["argArrow", "(optimized away)"],
+      ["argArrow", "(unmapped)"],
       "Block",
       "arrow()",
       "fn",
