@@ -17,8 +17,6 @@ import {
   getIsWaitingOnBreak,
   getHistory,
   getHistoryPosition,
-  getShouldPauseOnExceptions,
-  getShouldIgnoreCaughtExceptions,
   getCanRewind
 } from "../../selectors";
 import { formatKeyShortcut } from "../../utils/text";
@@ -149,7 +147,7 @@ class CommandBar extends Component<Props> {
     const className = isPaused ? "active" : "disabled";
     const isDisabled = !isPaused;
 
-    if (canRewind || (!isPaused && features.removeCommandBarOptions)) {
+    if (canRewind || !isPaused) {
       return;
     }
 
@@ -218,56 +216,6 @@ class CommandBar extends Component<Props> {
       "pause",
       "active",
       L10N.getFormatStr("pauseButtonTooltip", formatKey("pause"))
-    );
-  }
-
-  /*
-   * The pause on exception button has three states in this order:
-   *  1. don't pause on exceptions      [false, false]
-   *  2. pause on uncaught exceptions   [true, true]
-   *  3. pause on all exceptions        [true, false]
-  */
-  renderPauseOnExceptions() {
-    const {
-      shouldPauseOnExceptions,
-      shouldIgnoreCaughtExceptions,
-      pauseOnExceptions,
-      canRewind
-    } = this.props;
-
-    if (canRewind || features.breakpointsDropdown) {
-      return;
-    }
-
-    if (!shouldPauseOnExceptions && !shouldIgnoreCaughtExceptions) {
-      return debugBtn(
-        () => pauseOnExceptions(true, true),
-        "pause-exceptions",
-        "enabled",
-        L10N.getStr("ignoreExceptions"),
-        false,
-        false
-      );
-    }
-
-    if (shouldPauseOnExceptions && shouldIgnoreCaughtExceptions) {
-      return debugBtn(
-        () => pauseOnExceptions(true, false),
-        "pause-exceptions",
-        "uncaught enabled",
-        L10N.getStr("pauseOnUncaughtExceptions"),
-        false,
-        true
-      );
-    }
-
-    return debugBtn(
-      () => pauseOnExceptions(false, false),
-      "pause-exceptions",
-      "all enabled",
-      L10N.getStr("pauseOnExceptions"),
-      false,
-      true
     );
   }
 
@@ -390,7 +338,7 @@ class CommandBar extends Component<Props> {
       >
         {this.renderPauseButton()}
         {this.renderStepButtons()}
-        {this.renderPauseOnExceptions()}
+
         {this.renderTimeTravelButtons()}
         <div className="filler" />
         {this.replayPreviousButton()}
@@ -412,8 +360,6 @@ export default connect(
       history: getHistory(state),
       historyPosition: getHistoryPosition(state),
       isWaitingOnBreak: getIsWaitingOnBreak(state),
-      shouldPauseOnExceptions: getShouldPauseOnExceptions(state),
-      shouldIgnoreCaughtExceptions: getShouldIgnoreCaughtExceptions(state),
       canRewind: getCanRewind(state)
     };
   },

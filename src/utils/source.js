@@ -338,9 +338,18 @@ export function getTextAtPosition(source: Source, location: Location) {
   return lineText.slice(column, column + 100).trim();
 }
 
-export function getSourceClassnames(source: Object) {
+export function getSourceClassnames(source: Object, metadata: Object) {
   if (source && source.isBlackBoxed) {
     return "blackBox";
+  }
+
+  const framework = metadata && metadata.framework;
+  if (framework) {
+    return framework.toLowerCase();
+  }
+
+  if (isPretty(source)) {
+    return "prettyPrint";
   }
 
   return sourceTypes[getExtension(source)] || "file";

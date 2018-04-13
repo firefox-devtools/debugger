@@ -22,10 +22,11 @@ export function getFramework(sourceId) {
 
 function isReactComponent(sourceSymbols) {
   const { imports, classes, callExpressions } = sourceSymbols;
-  return (
-    (importsReact(imports) || requiresReact(callExpressions)) &&
-    extendsReactComponent(classes)
-  );
+  const react = importsReact(imports) || requiresReact(callExpressions);
+  const component = extendsReactComponent(classes);
+  console.log(react, component);
+
+  return react && component;
 }
 
 function importsReact(imports) {

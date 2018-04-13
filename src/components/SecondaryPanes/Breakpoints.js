@@ -5,6 +5,7 @@
 // @flow
 
 import React, { Component } from "react";
+import classnames from "classnames";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as I from "immutable";
@@ -12,12 +13,14 @@ import { createSelector } from "reselect";
 import { groupBy, sortBy } from "lodash";
 
 import Breakpoint from "./Breakpoint";
+import SourceIcon from "../shared/SourceIcon";
 
 import actions from "../../actions";
-import { getFilename } from "../../utils/source";
+import { getFilename, getSourceClassnames } from "../../utils/source";
 import {
   getSources,
   getSourceInSources,
+  getSourcesMetaData,
   getBreakpoints,
   getPauseReason,
   getTopFrame
@@ -57,7 +60,11 @@ type Props = {
   toggleAllBreakpoints: boolean => void,
   toggleDisabledBreakpoint: number => void,
   setBreakpointCondition: Location => void,
-  openConditionalPanel: number => void
+  openConditionalPanel: number => void,
+
+  shouldPauseOnExceptions: boolean,
+  shouldIgnoreCaughtExceptions: boolean,
+  pauseOnExceptions: Function
 };
 
 function isCurrentlyPausedAtBreakpoint(
@@ -74,17 +81,26 @@ function isCurrentlyPausedAtBreakpoint(
   return bpId === pausedId;
 }
 
-function getBreakpointFilename(source: Source) {
-  return source ? getFilename(source) : "";
+function createExceptionOption(
+  label: string,
+  value: boolean,
+  onChange: Function,
+  className: string
+) {
+  return (
+    <div className={className} onClick={onChange}>
+      <input
+        type="checkbox"
+        checked={value ? "checked" : ""}
+        onChange={e => e.stopPropagation() && onChange()}
+      />
+      <div className="breakpoint-exceptions-label">{label}</div>
+    </div>
+  );
 }
 
 class Breakpoints extends Component<Props> {
-  shouldComponentUpdate(nextProps, nextState) {
-    const { breakpoints } = this.props;
-    return breakpoints !== nextProps.breakpoints;
-  }
-
-  handleCheckbox(breakpoint) {
+  handleBreakpointCheckbox(breakpoint) {
     if (breakpoint.loading) {
       return;
     }
@@ -114,31 +130,70 @@ class Breakpoints extends Component<Props> {
         onContextMenu={e =>
           showContextMenu({ ...this.props, breakpoint, contextMenuEvent: e })
         }
-        onChange={() => this.handleCheckbox(breakpoint)}
+        onChange={() => this.handleBreakpointCheckbox(breakpoint)}
         onCloseClick={ev => this.removeBreakpoint(ev, breakpoint)}
       />
     );
   }
 
-  renderEmpty() {
-    return <div className="pane-info">{L10N.getStr("breakpoints.none")}</div>;
+  renderExceptionsOptions() {
+    const {
+      breakpoints,
+      shouldPauseOnExceptions,
+      shouldIgnoreCaughtExceptions,
+      pauseOnExceptions
+    } = this.props;
+
+    const isEmpty = breakpoints.size == 0;
+
+    const exceptionsBox = createExceptionOption(
+      L10N.getStr("pauseOnExceptionsCheckboxItem"),
+      shouldPauseOnExceptions,
+      () => pauseOnExceptions(!shouldPauseOnExceptions, false),
+      "breakpoints-exceptions"
+    );
+
+    const ignoreCaughtBox = createExceptionOption(
+      L10N.getStr("ignoreCaughtExceptionsItem"),
+      shouldIgnoreCaughtExceptions,
+      () => pauseOnExceptions(true, !shouldIgnoreCaughtExceptions),
+      "breakpoints-exceptions-caught"
+    );
+
+    return (
+      <div
+        className={classnames("breakpoints-exceptions-options", {
+          empty: isEmpty
+        })}
+      >
+        {exceptionsBox}
+        {shouldPauseOnExceptions ? ignoreCaughtBox : null}
+      </div>
+    );
   }
 
   renderBreakpoints() {
-    const { breakpoints } = this.props;
+    const { breakpoints, sources, sourcesMetaData } = this.props;
+    if (breakpoints.size == 0) {
+      return;
+    }
 
     const groupedBreakpoints = groupBy(
       sortBy([...breakpoints.valueSeq()], bp => bp.location.line),
-      bp => getBreakpointFilename(bp.source)
+      bp => bp.source.id
     );
 
     return [
-      ...Object.keys(groupedBreakpoints).map(filename => {
+      ...Object.keys(groupedBreakpoints).map(sourceId => {
+        const source = sources.get(sourceId);
+        const metadata = sourcesMetaData.get(sourceId);
+        const filename = getFilename(source);
         return [
           <div className="breakpoint-heading" title={filename} key={filename}>
+            <SourceIcon source={source} />
             {filename}
           </div>,
-          ...groupedBreakpoints[filename]
+          ...groupedBreakpoints[sourceId]
             .filter(bp => !bp.hidden && bp.text)
             .map((bp, i) => this.renderBreakpoint(bp))
         ];
@@ -151,7 +206,8 @@ class Breakpoints extends Component<Props> {
 
     return (
       <div className="pane breakpoints-list">
-        {breakpoints.size ? this.renderBreakpoints() : this.renderEmpty()}
+        {this.renderExceptionsOptions()}
+        {this.renderBreakpoints()}
       </div>
     );
   }
@@ -178,6 +234,10 @@ const _getBreakpoints = createSelector(
 );
 
 export default connect(
-  (state, props) => ({ breakpoints: _getBreakpoints(state) }),
+  (state, props) => ({
+    breakpoints: _getBreakpoints(state),
+    sources: getSources(state),
+    sourcesMetaData: getSourcesMetaData(state)
+  }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Breakpoints);
