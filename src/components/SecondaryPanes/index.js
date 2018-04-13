@@ -19,6 +19,7 @@ import {
   getShouldPauseOnExceptions,
   getShouldIgnoreCaughtExceptions,
   getWorkers,
+  getExpressions,
   getExtra
 } from "../../selectors";
 
@@ -141,26 +142,32 @@ class SecondaryPanes extends Component<Props, State> {
   }
 
   watchExpressionHeaderButtons() {
-    return [
-      debugBtn(
-        evt => {
-          evt.stopPropagation();
-          this.props.evaluateExpressions();
-        },
-        "refresh",
-        "refresh",
-        L10N.getStr("watchExpressions.refreshButton")
-      ),
-      debugBtn(
-        evt => {
-          evt.stopPropagation();
-          this.setState({ showExpressionsInput: true });
-        },
-        "plus",
-        "plus",
-        L10N.getStr("expressions.placeholder")
-      )
-    ];
+    const { expressions } = this.props;
+    const refresh = debugBtn(
+      evt => {
+        evt.stopPropagation();
+        this.props.evaluateExpressions();
+      },
+      "refresh",
+      "refresh",
+      L10N.getStr("watchExpressions.refreshButton")
+    );
+    const add = debugBtn(
+      evt => {
+        evt.stopPropagation();
+        this.setState({ showExpressionsInput: true });
+      },
+      "plus",
+      "plus",
+      L10N.getStr("expressions.placeholder")
+    );
+    let buttons = [];
+    if (expressions.size > 0) {
+      buttons.push(refresh);
+    }
+
+    buttons.push(add);
+    return buttons;
   }
 
   getScopeItem(): AccordionPaneItem {
@@ -241,7 +248,7 @@ class SecondaryPanes extends Component<Props, State> {
     return {
       header: L10N.getStr("breakpoints.header"),
       className: "breakpoints-pane",
-      buttons: [this.renderBreakpointsToggle()],
+      buttons: [],
       component: (
         <Breakpoints
           shouldPauseOnExceptions={shouldPauseOnExceptions}
@@ -376,6 +383,7 @@ export default connect(
   state => ({
     extra: getExtra(state),
     hasFrames: !!getTopFrame(state),
+    expressions: getExpressions(state),
     breakpoints: getBreakpoints(state),
     breakpointsDisabled: getBreakpointsDisabled(state),
     breakpointsLoading: getBreakpointsLoading(state),
