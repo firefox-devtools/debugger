@@ -206,6 +206,15 @@ function start() {
   copyWasmParser(config);
   writeReadme(path.join(mcPath, "devtools/client/debugger/new/README.mozilla"));
 
+  const debuggerPath = "devtools/client/debugger/new"
+
+  rimraf.sync(path.join(
+    mcPath,
+    debuggerPath,
+    "test/mochitest/examples/babel/source-maps-semantics.md"
+  ));
+
+
   makeBundle({
     outputPath: path.join(mcPath, mcModulePath),
     projectPath,

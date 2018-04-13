@@ -45,25 +45,16 @@ function getInterestingPackagesVersions() {
 }
 
 async function writeReadme(target) {
-  const buffer = [
-    "This is the debugger.html project output.",
-    "See https://github.com/devtools-html/debugger.html",
-    ""
-  ];
-  const sha = await getGitSha();
-
-  buffer.push(`Version 17.0`, "");
-  buffer.push(`Comparison: https://github.com/devtools-html/debugger.html/compare/release-16...release-17`, "");
-
+  const readmeText = fs.readFileSync(target, "utf8");
   const packagesVersions = await getInterestingPackagesVersions();
 
-  buffer.push("Packages:");
-  packagesVersions.forEach(({ name, version }) => {
-    buffer.push(`- ${name} @${version}`);
-  });
+  const packageText = packagesVersions
+    .map(({ name, version }) => `- ${name} @${version}`)
+    .join("\n")
 
-  buffer.push("");
-  fs.writeFileSync(target, buffer.join("\n"));
+  const newText = readmeText.replace(/(Packages:\n)(.|\n)*/m, `$1${packageText}\n`)
+
+  fs.writeFileSync(target, newText);
 }
 
 module.exports = writeReadme;
