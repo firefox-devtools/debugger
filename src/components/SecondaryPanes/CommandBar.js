@@ -147,7 +147,7 @@ class CommandBar extends Component<Props> {
     const className = isPaused ? "active" : "disabled";
     const isDisabled = !isPaused;
 
-    if (canRewind || (!isPaused && features.removeCommandBarOptions)) {
+    if (canRewind || !isPaused) {
       return;
     }
 
