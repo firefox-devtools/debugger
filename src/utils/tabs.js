@@ -45,27 +45,6 @@ export function getHiddenTabs(
   });
 }
 
-export function getSourceAnnotation(
-  source: SourceRecord,
-  sourceMetaData: SourceMetaDataType
-) {
-  const framework =
-    sourceMetaData && sourceMetaData.framework
-      ? sourceMetaData.framework
-      : false;
-
-  if (framework) {
-    return <img className={framework.toLowerCase()} />;
-  }
-
-  if (isPretty(source)) {
-    return <img className="prettyPrint" />;
-  }
-  if (source.isBlackBoxed) {
-    return <img className="blackBox" />;
-  }
-}
-
 export function getTabMenuItems() {
   return {
     closeTab: {
