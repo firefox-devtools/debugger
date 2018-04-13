@@ -13,6 +13,7 @@ import { createSelector } from "reselect";
 import { groupBy, sortBy } from "lodash";
 
 import Breakpoint from "./Breakpoint";
+import SourceIcon from "../shared/SourceIcon";
 
 import actions from "../../actions";
 import { getFilename, getSourceClassnames } from "../../utils/source";
@@ -189,12 +190,7 @@ class Breakpoints extends Component<Props> {
         const filename = getFilename(source);
         return [
           <div className="breakpoint-heading" title={filename} key={filename}>
-            <img
-              className={classnames(
-                "source-icon",
-                getSourceClassnames(source, metadata)
-              )}
-            />
+            <SourceIcon source={source} />
             {filename}
           </div>,
           ...groupedBreakpoints[sourceId]
