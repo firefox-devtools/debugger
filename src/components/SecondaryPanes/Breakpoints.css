@@ -34,7 +34,7 @@
   padding: 0 1em 0.5em 2em;
 }
 
-.breakpoints-exceptions-options {
+.breakpoints-exceptions-options:not(.empty) {
   border-bottom: 1px solid var(--theme-splitter-color);
 }
 
@@ -187,7 +187,7 @@ html[dir="rtl"] .breakpoints-list .breakpoint .breakpoint-line {
   opacity: 0.5;
 }
 
-.CodeMirror.cm-s-mozilla-breakpoint .CodeMirror-line span[role=presentation] {
+.CodeMirror.cm-s-mozilla-breakpoint .CodeMirror-line span[role="presentation"] {
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;

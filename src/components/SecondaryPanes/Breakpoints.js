@@ -5,6 +5,7 @@
 // @flow
 
 import React, { Component } from "react";
+import classnames from "classnames";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as I from "immutable";
@@ -34,6 +35,8 @@ import type {
   Why
 } from "../../types";
 
+import type { SourcesMap, SourceMetaDataMap } from "../../reducers/types";
+
 import "./Breakpoints.css";
 
 export type LocalBreakpoint = BreakpointType & {
@@ -47,6 +50,8 @@ type BreakpointsMap = I.Map<string, LocalBreakpoint>;
 
 type Props = {
   breakpoints: BreakpointsMap,
+  sources: SourcesMap,
+  sourcesMetaData: SourceMetaDataMap,
   enableBreakpoint: Location => void,
   disableBreakpoint: Location => void,
   selectLocation: Object => void,
@@ -58,7 +63,6 @@ type Props = {
   toggleDisabledBreakpoint: number => void,
   setBreakpointCondition: Location => void,
   openConditionalPanel: number => void,
-
   shouldPauseOnExceptions: boolean,
   shouldIgnoreCaughtExceptions: boolean,
   pauseOnExceptions: Function
@@ -145,9 +149,7 @@ class Breakpoints extends Component<Props> {
       pauseOnExceptions
     } = this.props;
 
-    if (!breakpoints.size) {
-      return;
-    }
+    const isEmpty = breakpoints.size == 0;
 
     const exceptionsBox = createExceptionOption(
       L10N.getStr("pauseOnExceptionsCheckboxItem"),
@@ -164,19 +166,22 @@ class Breakpoints extends Component<Props> {
     );
 
     return (
-      <div className="breakpoints-exceptions-options">
+      <div
+        className={classnames("breakpoints-exceptions-options", {
+          empty: isEmpty
+        })}
+      >
         {exceptionsBox}
         {shouldPauseOnExceptions ? ignoreCaughtBox : null}
       </div>
     );
   }
 
-  renderEmpty() {
-    return <div className="pane-info">{L10N.getStr("breakpoints.none")}</div>;
-  }
-
   renderBreakpoints() {
     const { breakpoints } = this.props;
+    if (breakpoints.size == 0) {
+      return;
+    }
 
     const groupedBreakpoints = groupBy(
       sortBy([...breakpoints.valueSeq()], bp => bp.location.line),
@@ -198,12 +203,10 @@ class Breakpoints extends Component<Props> {
   }
 
   render() {
-    const { breakpoints } = this.props;
-
     return (
       <div className="pane breakpoints-list">
         {this.renderExceptionsOptions()}
-        {breakpoints.size ? this.renderBreakpoints() : this.renderEmpty()}
+        {this.renderBreakpoints()}
       </div>
     );
   }
