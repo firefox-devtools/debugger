@@ -3,7 +3,7 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-import { reverse, sortBy } from "lodash";
+import { reverse } from "lodash";
 
 import type { PausePoints } from "../../workers/parser";
 import type { ColumnPosition } from "../../types";
