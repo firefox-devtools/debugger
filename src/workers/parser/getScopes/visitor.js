@@ -12,6 +12,7 @@ import type {
   TraversalAncestors,
   Location as BabelLocation
 } from "@babel/types";
+
 import { isGeneratedId } from "devtools-source-map";
 import getFunctionName from "../utils/getFunctionName";
 import { getAst } from "../utils/ast";

@@ -6,4 +6,9 @@ foo()
 
 console.log('yo')
 
+foo(
+  1,
+  bar()
+)
+
 var a = 3;

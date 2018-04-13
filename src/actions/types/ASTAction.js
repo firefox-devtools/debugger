@@ -5,7 +5,7 @@ import type { Source } from "../../types";
 import type {
   SymbolDeclarations,
   AstLocation,
-  PausePoint
+  PausePoints
 } from "../../workers/parser";
 
 import type { PromiseAction } from "../utils/middleware/promise";
@@ -21,7 +21,7 @@ export type ASTAction =
   | {|
       +type: "SET_PAUSE_POINTS",
       +source: Source,
-      +pausePoints: PausePoint[]
+      +pausePoints: PausePoints
     |}
   | {|
       +type: "OUT_OF_SCOPE_LOCATIONS",
