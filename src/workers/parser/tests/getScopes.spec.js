@@ -107,6 +107,11 @@ cases(
       locations: [[6, 0], [8, 0]]
     },
     {
+      name: "finds scope bindings for declarations with patterns",
+      file: "scopes/pattern-declarations",
+      locations: [[1, 0]]
+    },
+    {
       name: "finds scope bindings for switch statements",
       file: "scopes/switch-statement",
       locations: [[2, 0], [5, 0], [7, 0], [9, 0], [11, 0]]
