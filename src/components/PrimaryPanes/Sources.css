@@ -191,8 +191,9 @@
   width: 13px;
   height: 13px;
   display: inline-block;
-  margin-inline-end: 5px;
-  margin-bottom: -2px;
+  margin-inline-end: 6px;
+  margin-inline-start: 1px;
+  margin-top: 2px;
 }
 
 .sources-list .managed-tree .tree .node.focused img {
