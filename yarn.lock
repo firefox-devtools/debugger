@@ -3261,6 +3261,10 @@ eslint-plugin-babel@^5.0.0:
   dependencies:
     eslint-rule-composer "^0.1.1"
 
+eslint-plugin-file-header@0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-file-header/-/eslint-plugin-file-header-0.0.1.tgz#8de79de79c9ab35ac212db8e977e5003803b8bfb"
+
 eslint-plugin-flowtype@^2.36.0:
   version "2.46.1"
   resolved "https://registry.yarnpkg.com/eslint-plugin-flowtype/-/eslint-plugin-flowtype-2.46.1.tgz#c4f81d580cd89c82bc3a85a1ccf4ae3a915143a4"
