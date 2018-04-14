@@ -34,7 +34,6 @@ import Workers from "./Workers";
 import Accordion from "../shared/Accordion";
 import CommandBar from "./CommandBar";
 import UtilsBar from "./UtilsBar";
-import renderBreakpointsDropdown from "./BreakpointsDropdown";
 import FrameworkComponent from "./FrameworkComponent";
 
 import Scopes from "./Scopes";
@@ -233,38 +232,28 @@ class SecondaryPanes extends Component<Props, State> {
   }
 
   getBreakpointsItem(): AccordionPaneItem {
+    const {
+      shouldPauseOnExceptions,
+      shouldIgnoreCaughtExceptions,
+      pauseOnExceptions
+    } = this.props;
+
     return {
       header: L10N.getStr("breakpoints.header"),
       className: "breakpoints-pane",
-      buttons: [this.breakpointDropdown(), this.renderBreakpointsToggle()],
-      component: <Breakpoints />,
+      buttons: [this.renderBreakpointsToggle()],
+      component: (
+        <Breakpoints
+          shouldPauseOnExceptions={shouldPauseOnExceptions}
+          shouldIgnoreCaughtExceptions={shouldIgnoreCaughtExceptions}
+          pauseOnExceptions={pauseOnExceptions}
+        />
+      ),
       opened: prefs.breakpointsVisible,
       onToggle: opened => {
         prefs.breakpointsVisible = opened;
       }
     };
-  }
-
-  breakpointDropdown() {
-    if (!features.breakpointsDropdown) {
-      return;
-    }
-
-    const {
-      breakOnNext,
-      pauseOnExceptions,
-      shouldPauseOnExceptions,
-      shouldIgnoreCaughtExceptions,
-      isWaitingOnBreak
-    } = this.props;
-
-    return renderBreakpointsDropdown(
-      breakOnNext,
-      pauseOnExceptions,
-      shouldPauseOnExceptions,
-      shouldIgnoreCaughtExceptions,
-      isWaitingOnBreak
-    );
   }
 
   getStartItems() {
