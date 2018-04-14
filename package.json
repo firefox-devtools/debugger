@@ -75,6 +75,7 @@
     "devtools-splitter": "^0.0.6",
     "devtools-utils": "^0.0.12",
     "enzyme-adapter-react-16": "^1.1.1",
+    "eslint-plugin-file-header": "0.0.1",
     "eslint-plugin-import": "^2.8.0",
     "fuzzaldrin-plus": "^0.6.0",
     "immutable": "^3.8.2",
