@@ -49,3 +49,4 @@ export type { ActiveSearchType, OrientationType } from "./ui";
 export type { BreakpointsMap } from "./breakpoints";
 export type { WorkersList } from "./debuggee";
 export type { Command } from "./pause";
+export type { SourceMetaDataMap } from "./ast";

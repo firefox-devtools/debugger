@@ -5,6 +5,7 @@
 // @flow
 
 import React, { Component } from "react";
+import classnames from "classnames";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as I from "immutable";
@@ -34,6 +35,8 @@ import type {
   Why
 } from "../../types";
 
+import type { SourcesMap, SourceMetaDataMap } from "../../reducers/types";
+
 import "./Breakpoints.css";
 
 export type LocalBreakpoint = BreakpointType & {
@@ -47,6 +50,8 @@ type BreakpointsMap = I.Map<string, LocalBreakpoint>;
 
 type Props = {
   breakpoints: BreakpointsMap,
+  sources: SourcesMap,
+  sourcesMetaData: SourceMetaDataMap,
   enableBreakpoint: Location => void,
   disableBreakpoint: Location => void,
   selectLocation: Object => void,
@@ -57,7 +62,10 @@ type Props = {
   toggleAllBreakpoints: boolean => void,
   toggleDisabledBreakpoint: number => void,
   setBreakpointCondition: Location => void,
-  openConditionalPanel: number => void
+  openConditionalPanel: number => void,
+  shouldPauseOnExceptions: boolean,
+  shouldIgnoreCaughtExceptions: boolean,
+  pauseOnExceptions: Function
 };
 
 function isCurrentlyPausedAtBreakpoint(
@@ -78,13 +86,26 @@ function getBreakpointFilename(source: Source) {
   return source ? getFilename(source) : "";
 }
 
-class Breakpoints extends Component<Props> {
-  shouldComponentUpdate(nextProps, nextState) {
-    const { breakpoints } = this.props;
-    return breakpoints !== nextProps.breakpoints;
-  }
+function createExceptionOption(
+  label: string,
+  value: boolean,
+  onChange: Function,
+  className: string
+) {
+  return (
+    <div className={className} onClick={onChange}>
+      <input
+        type="checkbox"
+        checked={value ? "checked" : ""}
+        onChange={e => e.stopPropagation() && onChange()}
+      />
+      <div className="breakpoint-exceptions-label">{label}</div>
+    </div>
+  );
+}
 
-  handleCheckbox(breakpoint) {
+class Breakpoints extends Component<Props> {
+  handleBreakpointCheckbox(breakpoint) {
     if (breakpoint.loading) {
       return;
     }
@@ -114,18 +135,53 @@ class Breakpoints extends Component<Props> {
         onContextMenu={e =>
           showContextMenu({ ...this.props, breakpoint, contextMenuEvent: e })
         }
-        onChange={() => this.handleCheckbox(breakpoint)}
+        onChange={() => this.handleBreakpointCheckbox(breakpoint)}
         onCloseClick={ev => this.removeBreakpoint(ev, breakpoint)}
       />
     );
   }
 
-  renderEmpty() {
-    return <div className="pane-info">{L10N.getStr("breakpoints.none")}</div>;
+  renderExceptionsOptions() {
+    const {
+      breakpoints,
+      shouldPauseOnExceptions,
+      shouldIgnoreCaughtExceptions,
+      pauseOnExceptions
+    } = this.props;
+
+    const isEmpty = breakpoints.size == 0;
+
+    const exceptionsBox = createExceptionOption(
+      L10N.getStr("pauseOnExceptionsCheckboxItem"),
+      shouldPauseOnExceptions,
+      () => pauseOnExceptions(!shouldPauseOnExceptions, false),
+      "breakpoints-exceptions"
+    );
+
+    const ignoreCaughtBox = createExceptionOption(
+      L10N.getStr("ignoreCaughtExceptionsItem"),
+      shouldIgnoreCaughtExceptions,
+      () => pauseOnExceptions(true, !shouldIgnoreCaughtExceptions),
+      "breakpoints-exceptions-caught"
+    );
+
+    return (
+      <div
+        className={classnames("breakpoints-exceptions-options", {
+          empty: isEmpty
+        })}
+      >
+        {exceptionsBox}
+        {shouldPauseOnExceptions ? ignoreCaughtBox : null}
+      </div>
+    );
   }
 
   renderBreakpoints() {
     const { breakpoints } = this.props;
+    if (breakpoints.size == 0) {
+      return;
+    }
 
     const groupedBreakpoints = groupBy(
       sortBy([...breakpoints.valueSeq()], bp => bp.location.line),
@@ -147,11 +203,10 @@ class Breakpoints extends Component<Props> {
   }
 
   render() {
-    const { breakpoints } = this.props;
-
     return (
       <div className="pane breakpoints-list">
-        {breakpoints.size ? this.renderBreakpoints() : this.renderEmpty()}
+        {this.renderExceptionsOptions()}
+        {this.renderBreakpoints()}
       </div>
     );
   }
