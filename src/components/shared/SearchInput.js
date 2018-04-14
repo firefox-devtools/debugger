@@ -7,7 +7,6 @@
 import React, { Component } from "react";
 import Svg from "./Svg";
 import classnames from "classnames";
-import CloseButton from "./Button/Close";
 import "./SearchInput.css";
 
 const arrowBtn = (onClick, type, className, tooltip) => {
@@ -29,7 +28,6 @@ const arrowBtn = (onClick, type, className, tooltip) => {
 type Props = {
   count: number,
   expanded: boolean,
-  handleClose: (e: SyntheticMouseEvent<HTMLDivElement>) => void,
   handleNext?: (e: SyntheticMouseEvent<HTMLButtonElement>) => void,
   handlePrev?: (e: SyntheticMouseEvent<HTMLButtonElement>) => void,
   hasPrefix?: boolean,
@@ -121,7 +119,6 @@ class SearchInput extends Component<Props> {
   render() {
     const {
       expanded,
-      handleClose,
       onBlur,
       onChange,
       onFocus,
@@ -166,7 +163,6 @@ class SearchInput extends Component<Props> {
         <input {...inputProps} />
         {summaryMsg && <div className="summary">{summaryMsg}</div>}
         {this.renderNav()}
-        <CloseButton handleClick={handleClose} buttonClass={size} />
       </div>
     );
   }
