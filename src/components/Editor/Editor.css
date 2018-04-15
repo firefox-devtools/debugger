@@ -51,6 +51,22 @@ html[dir="rtl"] .editor-mount {
   direction: ltr;
 }
 
+:not(.empty-line):not(.new-breakpoint) > .CodeMirror-gutter-wrapper:hover {
+  width: 60px !important;
+  height: 13px;
+  left: -57px !important;
+  background-color: var(--theme-highlight-blue) !important;
+  mask: url(/images/breakpoint.svg) no-repeat;
+  mask-size: 100%;
+  mask-position: 0 1px;
+  opacity: 0.3;
+}
+
+:not(.empty-line):not(.new-breakpoint) > .CodeMirror-gutter-wrapper:hover > .CodeMirror-linenumber {
+  color: white;
+  left: 27px !important;
+}
+
 .editor-wrapper .breakpoints {
   position: absolute;
   top: 0;
