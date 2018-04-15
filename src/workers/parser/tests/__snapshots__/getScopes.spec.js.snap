@@ -5474,6 +5474,106 @@ Array [
 ]
 `;
 
+exports[`getScopes finds scope bindings for declarations with patterns at line 1 column 0 1`] = `
+Array [
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 3,
+      "sourceId": "scopes/pattern-declarations/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/pattern-declarations/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "one": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 23,
+                "line": 1,
+                "sourceId": "scopes/pattern-declarations/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 1,
+                "sourceId": "scopes/pattern-declarations/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 15,
+              "line": 1,
+              "sourceId": "scopes/pattern-declarations/originalSource-1",
+            },
+            "start": Object {
+              "column": 12,
+              "line": 1,
+              "sourceId": "scopes/pattern-declarations/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "two": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 17,
+                "line": 2,
+                "sourceId": "scopes/pattern-declarations/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 2,
+                "sourceId": "scopes/pattern-declarations/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 9,
+              "line": 2,
+              "sourceId": "scopes/pattern-declarations/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 2,
+              "sourceId": "scopes/pattern-declarations/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "var",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 3,
+      "sourceId": "scopes/pattern-declarations/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/pattern-declarations/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
 exports[`getScopes finds scope bindings for for loops at line 2 column 0 1`] = `
 Array [
   Object {
@@ -12099,20 +12199,6 @@ Array [
             },
             "type": "decl",
           },
-          Object {
-            "end": Object {
-              "column": 10,
-              "line": 2,
-              "sourceId": "scopes/ts-sample/originalSource-1",
-            },
-            "meta": null,
-            "start": Object {
-              "column": 5,
-              "line": 2,
-              "sourceId": "scopes/ts-sample/originalSource-1",
-            },
-            "type": "ref",
-          },
         ],
         "type": "const",
       },
@@ -12302,20 +12388,6 @@ Array [
               "sourceId": "scopes/ts-sample/originalSource-1",
             },
             "type": "decl",
-          },
-          Object {
-            "end": Object {
-              "column": 10,
-              "line": 2,
-              "sourceId": "scopes/ts-sample/originalSource-1",
-            },
-            "meta": null,
-            "start": Object {
-              "column": 5,
-              "line": 2,
-              "sourceId": "scopes/ts-sample/originalSource-1",
-            },
-            "type": "ref",
           },
         ],
         "type": "const",
@@ -12906,6 +12978,18 @@ Array [
       "namespace": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 30,
+                "line": 4,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 4,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 21,
               "line": 4,
@@ -13292,6 +13376,18 @@ Array [
       "namespace": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 30,
+                "line": 4,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 4,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 21,
               "line": 4,
@@ -13708,6 +13804,18 @@ Array [
       "namespace": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 30,
+                "line": 4,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 4,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 21,
               "line": 4,
@@ -14070,6 +14178,18 @@ Array [
       "namespace": Object {
         "refs": Array [
           Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 30,
+                "line": 4,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 4,
+                "sourceId": "scopes/binding-types/originalSource-1",
+              },
+            },
             "end": Object {
               "column": 21,
               "line": 4,

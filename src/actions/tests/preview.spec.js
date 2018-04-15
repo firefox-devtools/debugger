@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 import {
   createStore,
   selectors,
@@ -19,14 +23,18 @@ const threadClient = {
   },
   setPausePoints: async () => {},
   getFrameScopes: async () => {},
-  evaluate: function(expression) {
+  evaluateInFrame: function(expression, frameId) {
     return new Promise((resolve, reject) =>
       resolve({ result: evaluationResult[expression] })
     );
   },
-  evaluateInFrame: function(frameId, expression) {
+  evaluateExpressions: function(expressions, frameId) {
     return new Promise((resolve, reject) =>
-      resolve({ result: evaluationResult[expression] })
+      resolve(
+        expressions.map(expression => ({
+          result: evaluationResult[expression]
+        }))
+      )
     );
   }
 };

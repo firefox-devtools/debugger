@@ -11,7 +11,7 @@ import {
   isPaused
 } from "../selectors";
 
-import { mapFrames, setExtra } from "./pause";
+import { mapFrames, fetchExtra } from "./pause";
 
 import { setInScopeLines } from "./ast/setInScopeLines";
 import {
@@ -69,7 +69,7 @@ export function setSymbols(sourceId: SourceId) {
     );
 
     if (isPaused(getState())) {
-      await dispatch(setExtra());
+      await dispatch(fetchExtra());
       await dispatch(mapFrames());
     }
 

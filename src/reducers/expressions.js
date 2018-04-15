@@ -11,7 +11,8 @@
 
 import makeRecord from "../utils/makeRecord";
 import { List } from "immutable";
-import { omit } from "lodash";
+import { omit, zip } from "lodash";
+
 import { createSelector } from "reselect";
 import { prefs } from "../utils/prefs";
 
@@ -45,6 +46,7 @@ function update(
         value: null,
         updating: true
       });
+
     case "UPDATE_EXPRESSION":
       const key = action.expression.input;
       return updateExpressionInList(state, key, {
@@ -52,14 +54,30 @@ function update(
         value: null,
         updating: true
       }).set("expressionError", !!action.expressionError);
+
     case "EVALUATE_EXPRESSION":
       return updateExpressionInList(state, action.input, {
         input: action.input,
         value: action.value,
         updating: false
       });
+
+    case "EVALUATE_EXPRESSIONS":
+      const { inputs, results } = action;
+
+      return zip(inputs, results).reduce(
+        (newState, [input, result]) =>
+          updateExpressionInList(newState, input, {
+            input: input,
+            value: result,
+            updating: false
+          }),
+        state
+      );
+
     case "DELETE_EXPRESSION":
       return deleteExpression(state, action.input);
+
     case "CLEAR_EXPRESSION_ERROR":
       return state.set("expressionError", false);
 

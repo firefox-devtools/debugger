@@ -4,11 +4,11 @@
 
 // @flow
 
-import type { ThunkArgs } from "./types";
+import type { Action, ThunkArgs } from "./types";
 
 export function updateWorkers() {
   return async function({ dispatch, client }: ThunkArgs) {
     const { workers } = await client.fetchWorkers();
-    dispatch({ type: "SET_WORKERS", workers });
+    dispatch(({ type: "SET_WORKERS", workers }: Action));
   };
 }

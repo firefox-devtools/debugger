@@ -32,7 +32,7 @@ class FrameworkComponent extends PureComponent<Props> {
     const { selectedFrame, setPopupObjectProperties } = this.props;
     const value = selectedFrame.this;
 
-    const root = createNode(null, expression, expression, { value });
+    const root = createNode({ name: expression, contents: { value } });
     const properties = await loadItemProperties(root, createObjectClient);
     if (properties) {
       setPopupObjectProperties(value, properties);
@@ -50,6 +50,9 @@ class FrameworkComponent extends PureComponent<Props> {
     };
 
     const loadedRootProperties = popupObjectProperties[value.actor];
+    if (!loadedRootProperties) {
+      return null;
+    }
 
     let roots = getChildren({
       item: root,

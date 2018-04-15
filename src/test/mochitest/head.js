@@ -252,6 +252,7 @@ function waitForSelectedSource(dbg, url) {
   return waitForState(
     dbg,
     state => {
+
       const source = dbg.selectors.getSelectedSource(state);
       const isLoaded = source && sourceUtils.isLoaded(source);
       if (!isLoaded) {
@@ -713,7 +714,10 @@ async function reload(dbg, ...sources) {
  * @static
  */
 async function navigate(dbg, url, ...sources) {
+  info(`Navigating to ${url}`)
+  const navigated =  waitForDispatch(dbg, "NAVIGATE");
   await dbg.client.navigate(url);
+  await navigated;
   return waitForSources(dbg, ...sources);
 }
 
@@ -740,6 +744,91 @@ function disableBreakpoint(dbg, source, line, column) {
   const sourceId = source.id;
   dbg.actions.disableBreakpoint({ sourceId, line, column });
   return waitForDispatch(dbg, "DISABLE_BREAKPOINT");
+}
+
+async function loadAndAddBreakpoint(dbg, filename, line, column) {
+  const { selectors: { getBreakpoint, getBreakpoints }, getState } = dbg;
+
+  await waitForSources(dbg, filename);
+
+  ok(true, "Original sources exist");
+  const source = findSource(dbg, filename);
+
+  await selectSource(dbg, source);
+
+  // Test that breakpoint is not off by a line.
+  await addBreakpoint(dbg, source, line);
+
+  is(getBreakpoints(getState()).size, 1, "One breakpoint exists");
+  ok(
+    getBreakpoint(getState(), { sourceId: source.id, line, column }),
+    "Breakpoint has correct line"
+  );
+
+  return source;
+}
+
+async function invokeWithBreakpoint(dbg, fnName, filename, { line, column }, handler) {
+  const { selectors: { getBreakpoints }, getState } = dbg;
+
+  const source = await loadAndAddBreakpoint(dbg, filename, line, column);
+
+  const invokeResult = invokeInTab(fnName);
+
+  let invokeFailed = await Promise.race([
+    waitForPaused(dbg),
+    invokeResult.then(() => new Promise(() => {}), () => true)
+  ]);
+
+  if (invokeFailed) {
+    return invokeResult;
+  }
+
+  assertPausedLocation(dbg);
+
+  await removeBreakpoint(dbg, source.id, line, column);
+
+  is(getBreakpoints(getState()).size, 0, "Breakpoint reverted");
+
+  await handler(source);
+
+  await resume(dbg);
+
+  // If the invoke errored later somehow, capture here so the error is reported nicely.
+  await invokeResult;
+}
+
+async function expandAllScopes(dbg) {
+  const scopes = await waitForElement(dbg, "scopes");
+  const scopeElements = scopes.querySelectorAll(
+    `.tree-node[aria-level="1"][data-expandable="true"]:not([aria-expanded="true"])`
+  );
+  const indices = Array.from(scopeElements, el => {
+    return Array.prototype.indexOf.call(el.parentNode.childNodes, el);
+  }).reverse();
+
+  for (const index of indices) {
+    await toggleScopeNode(dbg, index + 1);
+  }
+}
+
+async function assertScopes(dbg, items) {
+  await expandAllScopes(dbg);
+
+  for (const [i, val] of items.entries()) {
+    if (Array.isArray(val)) {
+      is(getScopeLabel(dbg, i + 1), val[0]);
+      is(
+        getScopeValue(dbg, i + 1),
+        val[1],
+        `"${val[0]}" has the expected "${val[1]}" value`
+      );
+    } else {
+      is(getScopeLabel(dbg, i + 1), val);
+    }
+  }
+
+  is(getScopeLabel(dbg, items.length + 1), "Window");
 }
 
 /**
@@ -941,6 +1030,7 @@ const selectors = {
     `.expressions-list .expression-container:nth-child(${i}) .object-delimiter + *`,
   expressionClose: i =>
     `.expressions-list .expression-container:nth-child(${i}) .close`,
+  expressionInput: '.expressions-list  input.input-expression',
   expressionNodes: ".expressions-list .tree-node",
   scopesHeader: ".scopes-pane ._header",
   breakpointItem: i => `.breakpoints-list .breakpoint:nth-of-type(${i})`,
@@ -1103,8 +1193,11 @@ function getScopeValue(dbg, index) {
 }
 
 function toggleObjectInspectorNode(node) {
+
   const objectInspector = node.closest(".object-inspector");
   const properties = objectInspector.querySelectorAll(".node").length;
+
+  log(`Toggling node ${node.innerText}`)
   node.click();
   return waitUntil(
     () => objectInspector.querySelectorAll(".node").length !== properties

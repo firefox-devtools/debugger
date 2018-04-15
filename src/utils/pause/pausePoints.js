@@ -1,22 +1,51 @@
-import { reverse, sortBy } from "lodash";
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
+// @flow
+import { reverse } from "lodash";
+
+import type { PausePoints } from "../../workers/parser";
+import type { ColumnPosition } from "../../types";
+
+type PausePoint = {
+  location: ColumnPosition,
+  types: { break: boolean, step: boolean }
+};
+
 function insertStrtAt(string, index, newString) {
   const start = string.slice(0, index);
   const end = string.slice(index);
   return `${start}${newString}${end}`;
 }
 
-export function formatPausePoints(text, nodes) {
-  nodes = reverse(sortBy(nodes, ["location.line", "location.column"]));
+export function convertToList(pausePoints: PausePoints): PausePoint[] {
+  const list = [];
+  for (let line in pausePoints) {
+    for (let column in pausePoints[line]) {
+      const point = pausePoints[line][column];
+      list.push({
+        location: { line: parseInt(line, 10), column: parseInt(column, 10) },
+        types: point
+      });
+    }
+  }
+  return list;
+}
+
+export function formatPausePoints(text: string, pausePoints: PausePoints) {
+  const nodes = reverse(convertToList(pausePoints));
   const lines = text.split("\n");
   nodes.forEach((node, index) => {
     const { line, column } = node.location;
-    const { breakpoint, stepOver } = node.types;
+    const { break: breakPoint, step } = node.types;
     const num = nodes.length - index;
-    const types = `${breakpoint ? "b" : ""}${stepOver ? "s" : ""}`;
+    const types = `${breakPoint ? "b" : ""}${step ? "s" : ""}`;
+    const spacer = breakPoint || step ? " " : "";
     lines[line - 1] = insertStrtAt(
       lines[line - 1],
       column,
-      `/*${types} ${num}*/`
+      `/*${types}${spacer}${num}*/`
     );
   });
 

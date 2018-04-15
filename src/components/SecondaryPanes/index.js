@@ -34,13 +34,9 @@ import Workers from "./Workers";
 import Accordion from "../shared/Accordion";
 import CommandBar from "./CommandBar";
 import UtilsBar from "./UtilsBar";
-import renderBreakpointsDropdown from "./BreakpointsDropdown";
 import FrameworkComponent from "./FrameworkComponent";
 
-import _chromeScopes from "./ChromeScopes";
-import _Scopes from "./Scopes";
-
-const Scopes = features.chromeScopes ? _chromeScopes : _Scopes;
+import Scopes from "./Scopes";
 
 import "./SecondaryPanes.css";
 
@@ -68,6 +64,10 @@ function debugBtn(onClick, type, className, tooltip) {
   );
 }
 
+type State = {
+  showExpressionsInput: boolean
+};
+
 type Props = {
   extra: Object,
   evaluateExpressions: Function,
@@ -86,7 +86,19 @@ type Props = {
   workers: WorkersList
 };
 
-class SecondaryPanes extends Component<Props> {
+class SecondaryPanes extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+
+    this.state = {
+      showExpressionsInput: false
+    };
+  }
+
+  onExpressionAdded = () => {
+    this.setState({ showExpressionsInput: false });
+  };
+
   renderBreakpointsToggle() {
     const {
       toggleAllBreakpoints,
@@ -138,6 +150,15 @@ class SecondaryPanes extends Component<Props> {
         "refresh",
         "refresh",
         L10N.getStr("watchExpressions.refreshButton")
+      ),
+      debugBtn(
+        evt => {
+          evt.stopPropagation();
+          this.setState({ showExpressionsInput: true });
+        },
+        "plus",
+        "plus",
+        L10N.getStr("expressions.placeholder")
       )
     ];
   }
@@ -173,7 +194,12 @@ class SecondaryPanes extends Component<Props> {
       header: L10N.getStr("watchExpressions.header"),
       className: "watch-expressions-pane",
       buttons: this.watchExpressionHeaderButtons(),
-      component: <Expressions />,
+      component: (
+        <Expressions
+          showInput={this.state.showExpressionsInput}
+          onExpressionAdded={this.onExpressionAdded}
+        />
+      ),
       opened: prefs.expressionsVisible,
       onToggle: opened => {
         prefs.expressionsVisible = opened;
@@ -206,38 +232,28 @@ class SecondaryPanes extends Component<Props> {
   }
 
   getBreakpointsItem(): AccordionPaneItem {
+    const {
+      shouldPauseOnExceptions,
+      shouldIgnoreCaughtExceptions,
+      pauseOnExceptions
+    } = this.props;
+
     return {
       header: L10N.getStr("breakpoints.header"),
       className: "breakpoints-pane",
-      buttons: [this.breakpointDropdown(), this.renderBreakpointsToggle()],
-      component: <Breakpoints />,
+      buttons: [this.renderBreakpointsToggle()],
+      component: (
+        <Breakpoints
+          shouldPauseOnExceptions={shouldPauseOnExceptions}
+          shouldIgnoreCaughtExceptions={shouldIgnoreCaughtExceptions}
+          pauseOnExceptions={pauseOnExceptions}
+        />
+      ),
       opened: prefs.breakpointsVisible,
       onToggle: opened => {
         prefs.breakpointsVisible = opened;
       }
     };
-  }
-
-  breakpointDropdown() {
-    if (!features.breakpointsDropdown) {
-      return;
-    }
-
-    const {
-      breakOnNext,
-      pauseOnExceptions,
-      shouldPauseOnExceptions,
-      shouldIgnoreCaughtExceptions,
-      isWaitingOnBreak
-    } = this.props;
-
-    return renderBreakpointsDropdown(
-      breakOnNext,
-      pauseOnExceptions,
-      shouldPauseOnExceptions,
-      shouldIgnoreCaughtExceptions,
-      isWaitingOnBreak
-    );
   }
 
   getStartItems() {

@@ -38,11 +38,10 @@ import {
   getDirectories,
   isDirectory,
   nodeHasChildren,
-  updateTree,
-  getExtension
+  updateTree
 } from "../../utils/sources-tree";
 
-import { getRawSourceURL } from "../../utils/source";
+import { getRawSourceURL, getSourceClassnames } from "../../utils/source";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { features } from "../../utils/prefs";
 
@@ -70,13 +69,6 @@ type State = {
   uncollapsedTree: any,
   listItems?: any,
   highlightItems?: any
-};
-
-const sourceTypes = {
-  coffee: "coffeescript",
-  js: "javascript",
-  jsx: "react",
-  ts: "typescript"
 };
 
 class SourcesTree extends Component<Props, State> {
@@ -196,9 +188,10 @@ class SourcesTree extends Component<Props, State> {
 
     if (item.path === "webpack://") {
       return <Svg name="webpack" />;
-    }
-    if (item.path === "/Angular") {
+    } else if (item.path === "ng://") {
       return <Svg name="angular" />;
+    } else if (item.path === "moz-extension://") {
+      return <img className="extension" />;
     }
 
     if (depth === 0 && projectRoot === "") {
@@ -214,13 +207,14 @@ class SourcesTree extends Component<Props, State> {
     if (!nodeHasChildren(item)) {
       const obj = item.contents.get("id");
       const source = sources.get(obj);
-      if (source && source.get("isBlackBoxed")) {
-        return <img className="blackBox" />;
-      }
-
-      const sourceType = sourceTypes[getExtension(source)];
-      const classNames = classnames("source-icon", sourceType || "file");
-      return <img className={classNames} />;
+      return (
+        <img
+          className={classnames(
+            getSourceClassnames(source.toJS()),
+            "source-icon"
+          )}
+        />
+      );
     }
 
     return <img className="folder" />;
@@ -315,7 +309,8 @@ class SourcesTree extends Component<Props, State> {
   renderItemName(name) {
     const hosts = {
       "ng://": "Angular",
-      "webpack://": "Webpack"
+      "webpack://": "Webpack",
+      "moz-extension://": L10N.getStr("extensionsText")
     };
 
     return hosts[name] || name;
@@ -379,7 +374,6 @@ class SourcesTree extends Component<Props, State> {
     const treeProps = {
       autoExpandAll: false,
       autoExpandDepth: expanded ? 0 : 1,
-      autoExpandOnHighlight: true,
       expanded,
       getChildren: item => (nodeHasChildren(item) ? item.contents : []),
       getParent: item => parentMap.get(item),

@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 import {
   actions,
   selectors,
@@ -29,7 +33,10 @@ describe("sources", () => {
 
     await dispatch(actions.newSource(makeSource("foo1")));
     await dispatch(
-      actions.paused({ frames: [makeFrame({ id: 1, sourceId: "foo1" })] })
+      actions.paused({
+        why: { type: "debuggerStatement" },
+        frames: [makeFrame({ id: 1, sourceId: "foo1" })]
+      })
     );
 
     await dispatch(

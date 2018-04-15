@@ -157,6 +157,31 @@ function doSearch(ctx, rev, query, keepSelection, modifiers: SearchModifiers) {
   });
 }
 
+export function searchSourceForHighlight(
+  ctx: Object,
+  rev: boolean,
+  query: string,
+  keepSelection: boolean,
+  modifiers: SearchModifiers,
+  line: number,
+  ch: number
+) {
+  const { cm } = ctx;
+  if (!cm) {
+    return;
+  }
+
+  return cm.operation(function() {
+    const state = getSearchState(cm, query);
+    const isNewQuery = state.query !== query;
+    state.query = query;
+
+    updateOverlay(cm, state, query, modifiers);
+    updateCursor(cm, state, keepSelection);
+    findNextOnLine(ctx, rev, query, isNewQuery, modifiers, line, ch);
+  });
+}
+
 function getCursorPos(newQuery, rev, state) {
   if (newQuery) {
     return rev ? state.posFrom : state.posTo;
@@ -206,6 +231,28 @@ function searchNext(ctx, rev, query, newQuery, modifiers) {
   });
 
   return nextMatch;
+}
+
+function findNextOnLine(ctx, rev, query, newQuery, modifiers, line, ch) {
+  const { cm, ed } = ctx;
+  cm.operation(function() {
+    const pos = { line: line - 1, ch };
+    let cursor = getSearchCursor(cm, query, pos, modifiers);
+
+    if (!cursor.find(rev) && query) {
+      cursor = getSearchCursor(cm, query, pos, modifiers);
+      if (!cursor.find(rev)) {
+        return;
+      }
+    }
+
+    // We don't want to jump the editor
+    // when we're selecting text
+    if (!cm.state.selectingText) {
+      ed.alignLine(cursor.from().line, "center");
+      cm.setSelection(cursor.from(), cursor.to());
+    }
+  });
 }
 
 /**

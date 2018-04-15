@@ -162,7 +162,10 @@ export function getBreakpoints(state: OuterState) {
   return state.breakpoints.breakpoints;
 }
 
-export function getBreakpoint(state: OuterState, location: Location) {
+export function getBreakpoint(
+  state: OuterState,
+  location: Location
+): Breakpoint {
   const breakpoints = getBreakpoints(state);
   return breakpoints.get(makeLocationId(location));
 }

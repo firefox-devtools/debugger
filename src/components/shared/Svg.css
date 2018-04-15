@@ -13,14 +13,16 @@
 .folder,
 .domain,
 .source-icon,
-.file {
+.file,
+.extension {
   background-color: var(--theme-comment);
 }
 
 .worker,
 .file,
 .folder,
-.source-icon {
+.source-icon,
+.extension {
   position: relative;
   top: 2px;
 }
@@ -47,6 +49,17 @@ img.source-icon {
   height: 15px;
 }
 
+img.extension {
+  width: 13px;
+  height: 13px;
+  margin-inline-start: 2px;
+}
+
+img.result-item-icon {
+  height: 18px;
+  width: 18px;
+}
+
 img.domain {
   mask: url(/images/domain.svg) no-repeat;
 }
@@ -63,12 +76,20 @@ img.javascript {
   mask: url(/images/javascript.svg) no-repeat;
 }
 
+img.tab {
+  mask: url(/images/tab.svg) no-repeat;
+}
+
 img.react {
   mask: url(/images/react.svg) no-repeat;
 }
 
 img.typescript {
   mask: url(/images/typescript.svg) no-repeat;
+}
+
+img.extension {
+  mask: url(/images/extension.svg) no-repeat;
 }
 
 img.file {
@@ -80,9 +101,17 @@ img.file {
 img.domain,
 img.folder,
 img.file,
-img.source-icon {
+img.source-icon,
+img.extension {
   mask-size: 100%;
   margin-inline-end: 5px;
+  display: inline-block;
+}
+
+img.result-item-icon {
+  mask-size: 100%;
+  margin-inline-end: 15px;
+  margin-inline-start: 5px;
   display: inline-block;
 }
 

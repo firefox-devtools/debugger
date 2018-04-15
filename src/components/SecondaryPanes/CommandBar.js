@@ -17,13 +17,11 @@ import {
   getIsWaitingOnBreak,
   getHistory,
   getHistoryPosition,
-  getShouldPauseOnExceptions,
-  getShouldIgnoreCaughtExceptions,
   getCanRewind
 } from "../../selectors";
 import { formatKeyShortcut } from "../../utils/text";
 import actions from "../../actions";
-import CommandBarButton from "../shared/Button/CommandBarButton";
+import { debugBtn } from "../shared/Button/CommandBarButton";
 import "./CommandBar.css";
 
 import { Services } from "devtools-modules";
@@ -79,28 +77,6 @@ function formatKey(action) {
     return formatKeyShortcut([key, winKey].join(" "));
   }
   return formatKeyShortcut(key);
-}
-
-function debugBtn(
-  onClick,
-  type,
-  className,
-  tooltip,
-  disabled = false,
-  ariaPressed = false
-) {
-  return (
-    <CommandBarButton
-      className={classnames(type, className)}
-      disabled={disabled}
-      key={type}
-      onClick={onClick}
-      pressed={ariaPressed}
-      title={tooltip}
-    >
-      <img className={type} />
-    </CommandBarButton>
-  );
 }
 
 type Props = {
@@ -243,56 +219,6 @@ class CommandBar extends Component<Props> {
     );
   }
 
-  /*
-   * The pause on exception button has three states in this order:
-   *  1. don't pause on exceptions      [false, false]
-   *  2. pause on uncaught exceptions   [true, true]
-   *  3. pause on all exceptions        [true, false]
-  */
-  renderPauseOnExceptions() {
-    const {
-      shouldPauseOnExceptions,
-      shouldIgnoreCaughtExceptions,
-      pauseOnExceptions,
-      canRewind
-    } = this.props;
-
-    if (canRewind || features.breakpointsDropdown) {
-      return;
-    }
-
-    if (!shouldPauseOnExceptions && !shouldIgnoreCaughtExceptions) {
-      return debugBtn(
-        () => pauseOnExceptions(true, true),
-        "pause-exceptions",
-        "enabled",
-        L10N.getStr("ignoreExceptions"),
-        false,
-        false
-      );
-    }
-
-    if (shouldPauseOnExceptions && shouldIgnoreCaughtExceptions) {
-      return debugBtn(
-        () => pauseOnExceptions(true, false),
-        "pause-exceptions",
-        "uncaught enabled",
-        L10N.getStr("pauseOnUncaughtExceptions"),
-        false,
-        true
-      );
-    }
-
-    return debugBtn(
-      () => pauseOnExceptions(false, false),
-      "pause-exceptions",
-      "all enabled",
-      L10N.getStr("pauseOnExceptions"),
-      false,
-      true
-    );
-  }
-
   renderTimeTravelButtons() {
     const { isPaused, canRewind } = this.props;
 
@@ -412,7 +338,7 @@ class CommandBar extends Component<Props> {
       >
         {this.renderPauseButton()}
         {this.renderStepButtons()}
-        {this.renderPauseOnExceptions()}
+
         {this.renderTimeTravelButtons()}
         <div className="filler" />
         {this.replayPreviousButton()}
@@ -434,8 +360,6 @@ export default connect(
       history: getHistory(state),
       historyPosition: getHistoryPosition(state),
       isWaitingOnBreak: getIsWaitingOnBreak(state),
-      shouldPauseOnExceptions: getShouldPauseOnExceptions(state),
-      shouldIgnoreCaughtExceptions: getShouldIgnoreCaughtExceptions(state),
       canRewind: getCanRewind(state)
     };
   },

@@ -30,7 +30,8 @@ img.reverseStepIn,
 img.reverseStepOut,
 img.replay-previous,
 img.replay-next,
-img.resume {
+img.resume,
+img.shortcuts {
   background-color: var(--theme-body-color);
 }
 
@@ -74,23 +75,6 @@ img.resume {
   transform: scaleX(-1);
 }
 
-.command-bar > .pause-exceptions.uncaught.enabled > img.pause-exceptions {
-  background-color: var(--theme-highlight-purple);
-}
-
-.command-bar > .pause-exceptions.all.enabled > img.pause-exceptions {
-  background-color: var(--theme-highlight-blue);
-}
-
-.command-bar > .pause-exceptions.enabled > img.pause-exceptions {
-  background-color: var(--theme-body-color);
-}
-
-.command-bar img.pause-exceptions {
-  mask: url(/images/pause-exceptions.svg) no-repeat;
-  margin-inline-start: 0.2em;
-}
-
 .command-bar .filler {
   flex-grow: 1;
 }
@@ -105,6 +89,10 @@ img.resume {
   mask: url(/images/forward.svg) no-repeat;
   mask-size: 75%;
   margin-top: 5px;
+}
+
+.command-bar img.shortcuts {
+  mask: url(/images/help.svg) no-repeat;
 }
 
 .command-bar .replay-inactive {

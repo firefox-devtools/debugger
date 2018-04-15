@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 import {
   actions,
   selectors,
@@ -21,6 +25,9 @@ const mockThreadClient = {
     }),
   stepOver: () => new Promise(_resolve => _resolve),
   evaluate: async () => {},
+  evaluateInFrame: async () => {},
+  evaluateExpressions: async () => {},
+
   getFrameScopes: async frame => frame.scope,
   setPausePoints: async () => {},
   setBreakpoint: () => new Promise(_resolve => {}),
@@ -193,12 +200,12 @@ describe("pause", () => {
 
   describe("resumed", () => {
     it("should not evaluate expression while stepping", async () => {
-      const client = { evaluate: jest.fn() };
+      const client = { evaluateExpressions: jest.fn() };
       const { dispatch } = createStore(client);
 
       dispatch(actions.stepIn());
       await dispatch(actions.resumed());
-      expect(client.evaluate.mock.calls).toHaveLength(0);
+      expect(client.evaluateExpressions.mock.calls).toHaveLength(1);
     });
 
     it("resuming - will re-evaluate watch expressions", async () => {
@@ -211,7 +218,7 @@ describe("pause", () => {
       dispatch(actions.addExpression("foo"));
       await waitForState(store, state => selectors.getExpression(state, "foo"));
 
-      mockThreadClient.evaluate = () => new Promise(r => r("YAY"));
+      mockThreadClient.evaluateExpressions = () => new Promise(r => r(["YAY"]));
       await dispatch(actions.paused(mockPauseInfo));
 
       await dispatch(actions.resumed());

@@ -56,7 +56,7 @@ export function clearExpressionError() {
 
 export function updateExpression(input: string, expression: Expression) {
   return async ({ dispatch, getState }: ThunkArgs) => {
-    if (!input || input == expression.input) {
+    if (!input) {
       return;
     }
 
@@ -96,10 +96,11 @@ export function deleteExpression(expression: Expression) {
  */
 export function evaluateExpressions() {
   return async function({ dispatch, getState, client }: ThunkArgs) {
-    const expressions = getExpressions(getState());
-    for (const expression of expressions) {
-      await dispatch(evaluateExpression(expression));
-    }
+    const expressions = getExpressions(getState()).toJS();
+    const inputs = expressions.map(({ input }) => input);
+    const frameId = getSelectedFrameId(getState());
+    const results = await client.evaluateExpressions(inputs, frameId);
+    dispatch({ type: "EVALUATE_EXPRESSIONS", inputs, results });
   };
 }
 
@@ -134,7 +135,7 @@ function evaluateExpression(expression: Expression) {
     return dispatch({
       type: "EVALUATE_EXPRESSION",
       input: expression.input,
-      [PROMISE]: client.evaluate(wrapExpression(input), { frameId })
+      [PROMISE]: client.evaluateInFrame(wrapExpression(input), frameId)
     });
   };
 }

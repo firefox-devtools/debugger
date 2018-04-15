@@ -19,12 +19,12 @@ import { prefs } from "../utils/prefs";
 import type { Map, List } from "immutable";
 import type { Source, Location, SourceRecord } from "../types";
 import type { SelectedLocation, PendingSelectedLocation } from "./types";
-import type { Action } from "../actions/types";
+import type { Action, DonePromiseAction } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 type Tab = string;
 export type SourcesMap = Map<string, SourceRecord>;
-type TabList = List<Tab>;
+export type TabList = List<Tab>;
 
 export type SourcesState = {
   sources: SourcesMap,
@@ -138,7 +138,7 @@ function update(
     case "BLACKBOX":
       if (action.status === "done") {
         const url = action.source.url;
-        const isBlackBoxed = action.value.isBlackBoxed;
+        const { isBlackBoxed } = ((action: any): DonePromiseAction).value;
         updateBlackBoxList(url, isBlackBoxed);
         return state.setIn(
           ["sources", action.source.id, "isBlackBoxed"],
