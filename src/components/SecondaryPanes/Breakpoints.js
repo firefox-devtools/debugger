@@ -150,7 +150,7 @@ class Breakpoints extends Component<Props> {
     const isEmpty = breakpoints.size == 0;
 
     const exceptionsBox = createExceptionOption(
-      L10N.getStr("pauseOnExceptionsCheckboxItem"),
+      L10N.getStr("pauseOnExceptionsItem"),
       shouldPauseOnExceptions,
       () => pauseOnExceptions(!shouldPauseOnExceptions, false),
       "breakpoints-exceptions"
