@@ -119,11 +119,6 @@ class Breakpoints extends Component<Props, State> {
     };
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    const { breakpoints } = this.props;
-    return breakpoints !== nextProps.breakpoints || this.state != nextState;
-  }
-
   handleBreakpointCheckbox(breakpoint) {
     if (breakpoint.loading) {
       return;
