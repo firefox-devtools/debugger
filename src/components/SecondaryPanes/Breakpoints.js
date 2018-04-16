@@ -48,6 +48,11 @@ export type LocalBreakpoint = BreakpointType & {
 
 type BreakpointsMap = I.Map<string, LocalBreakpoint>;
 
+type State = {
+  pauseOnException: boolean,
+  pauseOnCaughtException: boolean
+};
+
 type Props = {
   breakpoints: BreakpointsMap,
   sources: SourcesMap,
@@ -104,7 +109,21 @@ function createExceptionOption(
   );
 }
 
-class Breakpoints extends Component<Props> {
+class Breakpoints extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+
+    this.state = {
+      pauseOnException: false,
+      pauseOnCaughtException: false
+    };
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    const { breakpoints } = this.props;
+    return breakpoints !== nextProps.breakpoints || this.state != nextState;
+  }
+
   handleBreakpointCheckbox(breakpoint) {
     if (breakpoint.loading) {
       return;
@@ -116,6 +135,19 @@ class Breakpoints extends Component<Props> {
       this.props.disableBreakpoint(breakpoint.location);
     }
   }
+
+  onExceptionsClick = () => {
+    this.setState({
+      pauseOnException: !this.state.pauseOnException,
+      pauseOnCaughtException: false
+    });
+  };
+
+  onExceptionsCaughtClick = () => {
+    this.setState({
+      pauseOnCaughtException: !this.state.pauseOnCaughtException
+    });
+  };
 
   selectBreakpoint(breakpoint) {
     this.props.selectLocation(breakpoint.location);
