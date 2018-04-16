@@ -52,7 +52,7 @@ html[dir="rtl"] .editor-mount {
 }
 
 :not(.empty-line):not(.new-breakpoint) > .CodeMirror-gutter-wrapper:hover {
-  width: 60px !important;
+  width: 60px;
   height: 13px;
   left: -55px !important;
   background-color: var(--theme-highlight-gray) !important;
@@ -61,11 +61,10 @@ html[dir="rtl"] .editor-mount {
   mask-position: 0 1px;
 }
 
-:not(.empty-line):not(.new-breakpoint)
-  > .CodeMirror-gutter-wrapper:hover
-  > .CodeMirror-linenumber {
+:not(.empty-line):not(.new-breakpoint) > .CodeMirror-gutter-wrapper:hover > .CodeMirror-linenumber {
   left: auto !important;
   right: 6px;
+  color: var(--theme-body-color);
 }
 
 .editor-wrapper .breakpoints {
