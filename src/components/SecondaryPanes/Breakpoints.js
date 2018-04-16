@@ -48,11 +48,6 @@ export type LocalBreakpoint = BreakpointType & {
 
 type BreakpointsMap = I.Map<string, LocalBreakpoint>;
 
-type State = {
-  pauseOnException: boolean,
-  pauseOnCaughtException: boolean
-};
-
 type Props = {
   breakpoints: BreakpointsMap,
   sources: SourcesMap,
@@ -70,7 +65,7 @@ type Props = {
   openConditionalPanel: number => void,
   shouldPauseOnExceptions: boolean,
   shouldIgnoreCaughtExceptions: boolean,
-  pauseOnExceptions: Function
+  pauseOnExceptions: () => void
 };
 
 function isCurrentlyPausedAtBreakpoint(
@@ -109,16 +104,7 @@ function createExceptionOption(
   );
 }
 
-class Breakpoints extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-
-    this.state = {
-      pauseOnException: false,
-      pauseOnCaughtException: false
-    };
-  }
-
+class Breakpoints extends Component<Props> {
   handleBreakpointCheckbox(breakpoint) {
     if (breakpoint.loading) {
       return;
@@ -130,19 +116,6 @@ class Breakpoints extends Component<Props, State> {
       this.props.disableBreakpoint(breakpoint.location);
     }
   }
-
-  onExceptionsClick = () => {
-    this.setState({
-      pauseOnException: !this.state.pauseOnException,
-      pauseOnCaughtException: false
-    });
-  };
-
-  onExceptionsCaughtClick = () => {
-    this.setState({
-      pauseOnCaughtException: !this.state.pauseOnCaughtException
-    });
-  };
 
   selectBreakpoint(breakpoint) {
     this.props.selectLocation(breakpoint.location);
@@ -187,6 +160,20 @@ class Breakpoints extends Component<Props, State> {
 
     const ignoreCaughtBox = createExceptionOption(
       L10N.getStr("ignoreCaughtExceptionsItem"),
+      shouldIgnoreCaughtExceptions,
+      () => pauseOnExceptions(true, !shouldIgnoreCaughtExceptions),
+      "breakpoints-exceptions-caught"
+    );
+
+    const exceptionsBox = createExceptionOption(
+      L10N.getStr("pauseOnExceptionsItem"),
+      shouldPauseOnExceptions,
+      () => pauseOnExceptions(!shouldPauseOnExceptions, false),
+      "breakpoints-exceptions"
+    );
+
+    const ignoreCaughtBox = createExceptionOption(
+      L10N.getStr("ignoreCaughExceptionsItem"),
       shouldIgnoreCaughtExceptions,
       () => pauseOnExceptions(true, !shouldIgnoreCaughtExceptions),
       "breakpoints-exceptions-caught"
