@@ -186,3 +186,6 @@ defs
 BreakpointItem
 destructured
 getExtraProps
+SpiderMonkey
+mozconfig
+JIT
