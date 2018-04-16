@@ -59,10 +59,12 @@ html[dir="rtl"] .editor-mount {
   mask: url(/images/breakpoint.svg) no-repeat;
   mask-size: 100%;
   mask-position: 0 1px;
-  opacity: 0.3;
+  opacity: 0.8;
 }
 
-:not(.empty-line):not(.new-breakpoint) > .CodeMirror-gutter-wrapper:hover > .CodeMirror-linenumber {
+:not(.empty-line):not(.new-breakpoint)
+  > .CodeMirror-gutter-wrapper:hover
+  > .CodeMirror-linenumber {
   color: white;
   left: auto !important;
   right: 4px;
@@ -159,7 +161,10 @@ html[dir="rtl"] .editor-mount {
 }
 
 /* set the linenumber white when there is a breakpoint */
-.cm-s-mozilla .new-breakpoint .CodeMirror-gutter-wrapper .CodeMirror-linenumber {
+.cm-s-mozilla
+  .new-breakpoint
+  .CodeMirror-gutter-wrapper
+  .CodeMirror-linenumber {
   color: white;
 }
 
