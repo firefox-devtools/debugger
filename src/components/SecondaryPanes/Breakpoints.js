@@ -16,7 +16,7 @@ import Breakpoint from "./Breakpoint";
 import SourceIcon from "../shared/SourceIcon";
 
 import actions from "../../actions";
-import { getFilename, getSourceClassnames } from "../../utils/source";
+import { getFilename } from "../../utils/source";
 import {
   getSources,
   getSourceInSources,
@@ -191,6 +191,9 @@ class Breakpoints extends Component<Props> {
         const source = sources.get(sourceId);
         const metadata = sourcesMetaData.get(sourceId);
         const filename = getFilename(source);
+
+        console.log("metadata is: ", metadata);
+
         return [
           <div className="breakpoint-heading" title={filename} key={filename}>
             <SourceIcon source={source} />

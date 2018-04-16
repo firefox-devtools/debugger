@@ -12,9 +12,14 @@ import { connect } from "react-redux";
 import { getSourceMetaData } from "../../selectors";
 import { getSourceClassnames } from "../../utils/source";
 
+import type Source from "../../types";
+
 type State = {};
 
-type Props = {};
+type Props = {
+  source: Source,
+  metaData: Object
+};
 
 class SecondaryPanes extends Component<Props, State> {
   render() {

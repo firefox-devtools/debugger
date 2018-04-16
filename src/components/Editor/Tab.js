@@ -22,11 +22,11 @@ import {
   getFilename,
   getFileURL,
   getRawSourceURL,
-  isPretty
+  isPretty,
+  getSourceClassnames
 } from "../../utils/source";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { getTabMenuItems } from "../../utils/tabs";
-import { getSourceClassnames } from "../../utils/source";
 
 import {
   getSelectedSource,
@@ -165,6 +165,8 @@ class Tab extends PureComponent<Props> {
       (!this.isProjectSearchEnabled() && !this.isSourceSearchEnabled());
     const isPrettyCode = isPretty(source);
     const sourceAnnotation = getSourceClassnames(source);
+
+    console.log('sourceMetaData: ', sourceMetaData, '; sourceAnnotation: ', sourceAnnotation);
 
     function onClickClose(e) {
       e.stopPropagation();

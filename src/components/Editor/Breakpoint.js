@@ -8,7 +8,6 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import classnames from "classnames";
 import Svg from "../shared/Svg";
-import { getSourceClassnames } from "../../utils/source";
 
 import { getDocument, toEditorLine } from "../../utils/editor";
 import { features } from "../../utils/prefs";

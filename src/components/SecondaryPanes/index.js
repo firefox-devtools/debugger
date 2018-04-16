@@ -70,6 +70,7 @@ type State = {
 };
 
 type Props = {
+  expressions: Object,
   extra: Object,
   evaluateExpressions: Function,
   hasFrames: boolean,
@@ -161,7 +162,7 @@ class SecondaryPanes extends Component<Props, State> {
       "plus",
       L10N.getStr("expressions.placeholder")
     );
-    let buttons = [];
+    const buttons = [];
     if (expressions.size > 0) {
       buttons.push(refresh);
     }
