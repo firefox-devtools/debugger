@@ -16,6 +16,7 @@ function mapUrlProduction(url) {
 
 function mapUrlDevelopment(url) {
   const newUrl = url
+    .replace(/mc/, "mc/devtools/client/themes/images")
     .replace(/(chrome:\/\/|resource:\/\/)/, "/mc/")
     .replace(/devtools\/skin/, "devtools/client/themes")
     .replace(/devtools\/content/, "devtools/client");
