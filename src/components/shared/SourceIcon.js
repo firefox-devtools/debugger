@@ -14,14 +14,12 @@ import { getSourceClassnames } from "../../utils/source";
 
 import type Source from "../../types";
 
-type State = {};
-
 type Props = {
   source: Source,
   metaData: Object
 };
 
-class SecondaryPanes extends Component<Props, State> {
+class SecondaryPanes extends Component<Props> {
   render() {
     const { source, metaData } = this.props;
     return (
