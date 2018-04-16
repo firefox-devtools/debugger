@@ -16,7 +16,7 @@ type AccordionItem = {
   className: string,
   opened: boolean,
   onToggle?: () => void,
-  shouldOpen?: () => void
+  shouldOpen?: () => void,
 };
 
 type Props = { items: Array<Object> };
@@ -54,11 +54,11 @@ class Accordion extends Component<Props, State> {
 
     return (
       <div className={item.className} key={i}>
-        <div className="_header" onClick={() => this.handleHeaderClick(i)}>
+        <div className="_header" tabIndex="0" onClick={() => this.handleHeaderClick(i)}>
           <Svg name="arrow" className={opened ? "expanded" : ""} />
           {item.header}
           {item.buttons ? (
-            <div className="header-buttons">{item.buttons}</div>
+            <div className="header-buttons" tabIndex="-1">{item.buttons}</div>
           ) : null}
         </div>
         {opened && (
