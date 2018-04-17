@@ -33,6 +33,7 @@ class EmptyLines extends Component {
     if (!emptyLines) {
       return;
     }
+
     editor.codeMirror.operation(() => {
       emptyLines.forEach(emptyLine => {
         const line = toEditorLine(selectedSource.get("id"), emptyLine);
