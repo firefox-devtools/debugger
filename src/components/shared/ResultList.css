@@ -86,7 +86,7 @@
 
 .theme-dark .result-list li .title {
   /** https://searchfox.org/mozilla-central/source/devtools/client/themes/variables.css **/
-  color: rgb(177, 177, 179);
+  color: var(--grey-30);
 }
 
 .result-list li.selected .title {
