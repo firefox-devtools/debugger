@@ -25,12 +25,13 @@
   border-bottom: 1px solid var(--theme-splitter-color);
   display: flex;
   font-size: 12px;
-  padding: 0px;
+  padding: 4px;
   transition: all 0.25s ease;
   width: 100%;
   height: 24px;
   align-items: center;
   margin: 0px;
+  font-weight:normal;
 
   -webkit-user-select: none;
   -moz-user-select: none;
