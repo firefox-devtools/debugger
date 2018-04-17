@@ -26,7 +26,6 @@ const svg = {
   file: require("./file.svg"),
   folder: require("./folder.svg"),
   globe: require("./globe.svg"),
-  help: require("./help.svg"),
   home: require("./home.svg"),
   javascript: require("./javascript.svg"),
   jquery: require("./jquery.svg"),
