@@ -13,12 +13,14 @@ import { createSelector } from "reselect";
 import { groupBy, sortBy } from "lodash";
 
 import Breakpoint from "./Breakpoint";
+import SourceIcon from "../shared/SourceIcon";
 
 import actions from "../../actions";
 import { getFilename } from "../../utils/source";
 import {
   getSources,
   getSourceInSources,
+  getSourcesMetaData,
   getBreakpoints,
   getPauseReason,
   getTopFrame
@@ -80,10 +82,6 @@ function isCurrentlyPausedAtBreakpoint(
   const bpId = makeLocationId(breakpoint.location);
   const pausedId = makeLocationId(frame.location);
   return bpId === pausedId;
-}
-
-function getBreakpointFilename(source: Source) {
-  return source ? getFilename(source) : "";
 }
 
 function createExceptionOption(
@@ -178,23 +176,30 @@ class Breakpoints extends Component<Props> {
   }
 
   renderBreakpoints() {
-    const { breakpoints } = this.props;
+    const { breakpoints, sources, sourcesMetaData } = this.props;
     if (breakpoints.size == 0) {
       return;
     }
 
     const groupedBreakpoints = groupBy(
       sortBy([...breakpoints.valueSeq()], bp => bp.location.line),
-      bp => getBreakpointFilename(bp.source)
+      bp => bp.source.id
     );
 
     return [
-      ...Object.keys(groupedBreakpoints).map(filename => {
+      ...Object.keys(groupedBreakpoints).map(sourceId => {
+        const source = sources.get(sourceId);
+        const metadata = sourcesMetaData.get(sourceId);
+        const filename = getFilename(source);
+
+        console.log("metadata is: ", metadata);
+
         return [
           <div className="breakpoint-heading" title={filename} key={filename}>
+            <SourceIcon source={source} />
             {filename}
           </div>,
-          ...groupedBreakpoints[filename]
+          ...groupedBreakpoints[sourceId]
             .filter(bp => !bp.hidden && bp.text)
             .map((bp, i) => this.renderBreakpoint(bp))
         ];
@@ -233,6 +238,10 @@ const _getBreakpoints = createSelector(
 );
 
 export default connect(
-  (state, props) => ({ breakpoints: _getBreakpoints(state) }),
+  (state, props) => ({
+    breakpoints: _getBreakpoints(state),
+    sources: getSources(state),
+    sourcesMetaData: getSourcesMetaData(state)
+  }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Breakpoints);
