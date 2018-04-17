@@ -132,7 +132,7 @@ class SearchInput extends Component<Props> {
       selectedItemId,
       showErrorEmoji,
       size,
-      summaryMsg,
+      summaryMsg
     } = this.props;
 
     const inputProps = {
