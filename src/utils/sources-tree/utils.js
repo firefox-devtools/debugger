@@ -7,7 +7,7 @@
 import { parse } from "url";
 
 import type { Node } from "./types";
-import type { SourceRecord } from "../../reducers/types";
+import type { SourceRecord } from "../../types";
 import { isPretty } from "../source";
 const IGNORED_URLS = ["debugger eval code", "XStringBundle"];
 
@@ -38,7 +38,8 @@ export function isDirectory(url: Object) {
 }
 
 export function getExtension(source: Object): string {
-  const parsedUrl = parse(source.get("url")).pathname;
+  const url = source.get ? source.get("url") : source.url;
+  const parsedUrl = parse(url).pathname;
   if (!parsedUrl) {
     return "";
   }

@@ -7,7 +7,7 @@ exports[`calls updateTree.js adds one source 1`] = `
   \\"contents\\": [
     {
       \\"name\\": \\"davidwalsh.name\\",
-      \\"path\\": \\"/davidwalsh.name\\",
+      \\"path\\": \\"davidwalsh.name\\",
       \\"contents\\": [
         {
           \\"name\\": \\"(index)\\",
@@ -19,7 +19,7 @@ exports[`calls updateTree.js adds one source 1`] = `
         },
         {
           \\"name\\": \\"source1.js\\",
-          \\"path\\": \\"/davidwalsh.name/source1.js\\",
+          \\"path\\": \\"davidwalsh.name/source1.js\\",
           \\"contents\\": {
             \\"id\\": \\"server1.conn13.child1/37\\",
             \\"url\\": \\"https://davidwalsh.name/source1.js\\"
@@ -38,7 +38,7 @@ exports[`calls updateTree.js adds two sources 1`] = `
   \\"contents\\": [
     {
       \\"name\\": \\"davidwalsh.name\\",
-      \\"path\\": \\"/davidwalsh.name\\",
+      \\"path\\": \\"davidwalsh.name\\",
       \\"contents\\": [
         {
           \\"name\\": \\"(index)\\",
@@ -50,7 +50,7 @@ exports[`calls updateTree.js adds two sources 1`] = `
         },
         {
           \\"name\\": \\"source1.js\\",
-          \\"path\\": \\"/davidwalsh.name/source1.js\\",
+          \\"path\\": \\"davidwalsh.name/source1.js\\",
           \\"contents\\": {
             \\"id\\": \\"server1.conn13.child1/37\\",
             \\"url\\": \\"https://davidwalsh.name/source1.js\\"
@@ -58,7 +58,7 @@ exports[`calls updateTree.js adds two sources 1`] = `
         },
         {
           \\"name\\": \\"source2.js\\",
-          \\"path\\": \\"/davidwalsh.name/source2.js\\",
+          \\"path\\": \\"davidwalsh.name/source2.js\\",
           \\"contents\\": {
             \\"id\\": \\"server1.conn13.child1/40\\",
             \\"url\\": \\"https://davidwalsh.name/source2.js\\"
@@ -77,7 +77,7 @@ exports[`calls updateTree.js shows all the sources 1`] = `
   \\"contents\\": [
     {
       \\"name\\": \\"davidwalsh.name\\",
-      \\"path\\": \\"/davidwalsh.name\\",
+      \\"path\\": \\"davidwalsh.name\\",
       \\"contents\\": [
         {
           \\"name\\": \\"(index)\\",
@@ -89,7 +89,7 @@ exports[`calls updateTree.js shows all the sources 1`] = `
         },
         {
           \\"name\\": \\"source1.js\\",
-          \\"path\\": \\"/davidwalsh.name/source1.js\\",
+          \\"path\\": \\"davidwalsh.name/source1.js\\",
           \\"contents\\": {
             \\"id\\": \\"server1.conn13.child1/37\\",
             \\"url\\": \\"https://davidwalsh.name/source1.js\\"

@@ -22,12 +22,13 @@ export const clearScopes = dispatcher.task("clearScopes");
 export const clearASTs = dispatcher.task("clearASTs");
 export const getNextStep = dispatcher.task("getNextStep");
 export const isInvalidPauseLocation = dispatcher.task("isInvalidPauseLocation");
-export const getEmptyLines = dispatcher.task("getEmptyLines");
 export const hasSource = dispatcher.task("hasSource");
 export const setSource = dispatcher.task("setSource");
 export const clearSources = dispatcher.task("clearSources");
 export const hasSyntaxError = dispatcher.task("hasSyntaxError");
+export const mapOriginalExpression = dispatcher.task("mapOriginalExpression");
 export const getFramework = dispatcher.task("getFramework");
+export const getPausePoints = dispatcher.task("getPausePoints");
 export const replaceOriginalVariableName = dispatcher.task(
   "replaceOriginalVariableName"
 );
@@ -40,5 +41,12 @@ export type {
   BindingMetaValue,
   BindingType
 } from "./getScopes";
-export type { SymbolDeclaration, SymbolDeclarations } from "./getSymbols";
-export type { AstLocation } from "./types";
+
+export type { AstLocation, AstPosition, PausePoints } from "./types";
+
+export type {
+  ClassDeclaration,
+  SymbolDeclaration,
+  SymbolDeclarations,
+  FunctionDeclaration
+} from "./getSymbols";

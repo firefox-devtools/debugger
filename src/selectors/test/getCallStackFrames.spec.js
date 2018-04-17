@@ -47,7 +47,7 @@ describe("getCallStackFrames selector", () => {
     it("annotates frames related to Babel async transforms", () => {
       const preAwaitGroup = [
         {
-          displayName: "_callee$",
+          displayName: "asyncAppFunction",
           location: { sourceId: "bundle" }
         },
         {
@@ -86,7 +86,7 @@ describe("getCallStackFrames selector", () => {
 
       const postAwaitGroup = [
         {
-          displayName: "_callee$",
+          displayName: "asyncAppFunction",
           location: { sourceId: "bundle" }
         },
         {
@@ -160,6 +160,7 @@ describe("getCallStackFrames selector", () => {
         5,
         6,
         7,
+        8,
         10,
         11,
         12,

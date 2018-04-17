@@ -1,9 +1,5 @@
 {
   "features": {
-    "chromeScopes": {
-      "label": "Chrome Scopes",
-      "enabled": true
-    },
     "eventListeners": {
       "label": "Event Listeners",
       "enabled": true

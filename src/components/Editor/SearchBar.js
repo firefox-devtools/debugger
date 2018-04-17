@@ -25,7 +25,7 @@ import { removeOverlay } from "../../utils/editor";
 import { scrollList } from "../../utils/result-list";
 import classnames from "classnames";
 
-import type { SourceRecord } from "../../reducers/sources";
+import type { SourceRecord } from "../../types";
 import type { ActiveSearchType } from "../../reducers/ui";
 import type { Modifiers, SearchResults } from "../../reducers/file-search";
 
@@ -129,10 +129,10 @@ class SearchBar extends Component<Props, State> {
   };
 
   clearSearch = () => {
-    const { editor: ed, query, modifiers } = this.props;
-    if (ed && modifiers) {
+    const { editor: ed, query } = this.props;
+    if (ed) {
       const ctx = { ed, cm: ed.codeMirror };
-      removeOverlay(ctx, query, modifiers.toJS());
+      removeOverlay(ctx, query);
     }
   };
 

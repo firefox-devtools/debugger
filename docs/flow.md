@@ -47,7 +47,7 @@ Here's a [gif](http://g.recordit.co/QYAyms9n3C.gif) of flow being added to the S
 ### Where are types defined?
 
 * Debugger [types](https://github.com/devtools-html/debugger.html/blob/master/src/types.js)
-* Debugger action [types](https://github.com/devtools-html/debugger.html/blob/master/src/actions/types.js)
+* Debugger action [types](https://github.com/devtools-html/debugger.html/blob/master/src/actions/types/index.js)
 * Useful React and Global [types](http://www.saltycrane.com/blog/2016/06/flow-type-cheat-sheet/)
 * Builtin [types](https://flowtype.org/docs/quick-reference.html)
 

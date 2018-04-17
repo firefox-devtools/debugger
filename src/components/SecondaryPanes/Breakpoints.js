@@ -3,18 +3,18 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
+
 import React, { Component } from "react";
+import classnames from "classnames";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as I from "immutable";
-import classnames from "classnames";
 import { createSelector } from "reselect";
-import { sortBy } from "lodash";
+import { groupBy, sortBy } from "lodash";
+
+import Breakpoint from "./Breakpoint";
 
 import actions from "../../actions";
-import CloseButton from "../shared/Button/Close";
-import { endTruncateStr } from "../../utils/utils";
-import { features } from "../../utils/prefs";
 import { getFilename } from "../../utils/source";
 import {
   getSources,
@@ -27,20 +27,31 @@ import { isInterrupted } from "../../utils/pause";
 import { makeLocationId } from "../../utils/breakpoint";
 import showContextMenu from "./BreakpointsContextMenu";
 
-import type { Breakpoint, Location } from "../../types";
+import type {
+  Breakpoint as BreakpointType,
+  Location,
+  Source,
+  Frame,
+  Why
+} from "../../types";
+
+import type { SourcesMap, SourceMetaDataMap } from "../../reducers/types";
 
 import "./Breakpoints.css";
 
-type LocalBreakpoint = Breakpoint & {
-  location: any,
+export type LocalBreakpoint = BreakpointType & {
+  location: Location,
   isCurrentlyPaused: boolean,
-  locationId: string
+  locationId: string,
+  source: Source
 };
 
 type BreakpointsMap = I.Map<string, LocalBreakpoint>;
 
 type Props = {
   breakpoints: BreakpointsMap,
+  sources: SourcesMap,
+  sourcesMetaData: SourceMetaDataMap,
   enableBreakpoint: Location => void,
   disableBreakpoint: Location => void,
   selectLocation: Object => void,
@@ -51,10 +62,17 @@ type Props = {
   toggleAllBreakpoints: boolean => void,
   toggleDisabledBreakpoint: number => void,
   setBreakpointCondition: Location => void,
-  openConditionalPanel: number => void
+  openConditionalPanel: number => void,
+  shouldPauseOnExceptions: boolean,
+  shouldIgnoreCaughtExceptions: boolean,
+  pauseOnExceptions: Function
 };
 
-function isCurrentlyPausedAtBreakpoint(frame, why, breakpoint) {
+function isCurrentlyPausedAtBreakpoint(
+  frame: Frame,
+  why: Why,
+  breakpoint: LocalBreakpoint
+) {
   if (!frame || !isInterrupted(why)) {
     return false;
   }
@@ -64,36 +82,30 @@ function isCurrentlyPausedAtBreakpoint(frame, why, breakpoint) {
   return bpId === pausedId;
 }
 
-function getBreakpointFilename(source) {
-  return source && source.toJS ? getFilename(source.toJS()) : "";
+function getBreakpointFilename(source: Source) {
+  return source ? getFilename(source) : "";
 }
 
-function renderSourceLocation(source, line, column) {
-  const filename = getBreakpointFilename(source);
-  const isWasm = source && source.get("isWasm");
-  const columnVal = features.columnBreakpoints && column ? `:${column}` : "";
-  const bpLocation = isWasm
-    ? `0x${line.toString(16).toUpperCase()}`
-    : `${line}${columnVal}`;
-
-  if (!filename) {
-    return null;
-  }
-
+function createExceptionOption(
+  label: string,
+  value: boolean,
+  onChange: Function,
+  className: string
+) {
   return (
-    <div className="location">
-      {`${endTruncateStr(filename, 30)}: ${bpLocation}`}
+    <div className={className} onClick={onChange}>
+      <input
+        type="checkbox"
+        checked={value ? "checked" : ""}
+        onChange={e => e.stopPropagation() && onChange()}
+      />
+      <div className="breakpoint-exceptions-label">{label}</div>
     </div>
   );
 }
 
 class Breakpoints extends Component<Props> {
-  shouldComponentUpdate(nextProps, nextState) {
-    const { breakpoints } = this.props;
-    return breakpoints !== nextProps.breakpoints;
-  }
-
-  handleCheckbox(breakpoint) {
+  handleBreakpointCheckbox(breakpoint) {
     if (breakpoint.loading) {
       return;
     }
@@ -115,68 +127,88 @@ class Breakpoints extends Component<Props> {
   }
 
   renderBreakpoint(breakpoint) {
-    const snippet = breakpoint.text || "";
-    const locationId = breakpoint.locationId;
-    const line = breakpoint.location.line;
-    const column = breakpoint.location.column;
-    const isCurrentlyPaused = breakpoint.isCurrentlyPaused;
-    const isDisabled = breakpoint.disabled;
-    const isConditional = !!breakpoint.condition;
-    const isHidden = breakpoint.hidden;
-
-    if (isHidden) {
-      return;
-    }
-
     return (
-      <div
-        className={classnames({
-          breakpoint,
-          paused: isCurrentlyPaused,
-          disabled: isDisabled,
-          "is-conditional": isConditional
-        })}
-        key={locationId}
+      <Breakpoint
+        key={breakpoint.locationId}
+        breakpoint={breakpoint}
         onClick={() => this.selectBreakpoint(breakpoint)}
         onContextMenu={e =>
           showContextMenu({ ...this.props, breakpoint, contextMenuEvent: e })
         }
+        onChange={() => this.handleBreakpointCheckbox(breakpoint)}
+        onCloseClick={ev => this.removeBreakpoint(ev, breakpoint)}
+      />
+    );
+  }
+
+  renderExceptionsOptions() {
+    const {
+      breakpoints,
+      shouldPauseOnExceptions,
+      shouldIgnoreCaughtExceptions,
+      pauseOnExceptions
+    } = this.props;
+
+    const isEmpty = breakpoints.size == 0;
+
+    const exceptionsBox = createExceptionOption(
+      L10N.getStr("pauseOnExceptionsItem"),
+      shouldPauseOnExceptions,
+      () => pauseOnExceptions(!shouldPauseOnExceptions, false),
+      "breakpoints-exceptions"
+    );
+
+    const ignoreCaughtBox = createExceptionOption(
+      L10N.getStr("ignoreCaughtExceptionsItem"),
+      shouldIgnoreCaughtExceptions,
+      () => pauseOnExceptions(true, !shouldIgnoreCaughtExceptions),
+      "breakpoints-exceptions-caught"
+    );
+
+    return (
+      <div
+        className={classnames("breakpoints-exceptions-options", {
+          empty: isEmpty
+        })}
       >
-        <input
-          type="checkbox"
-          className="breakpoint-checkbox"
-          checked={!isDisabled}
-          onChange={() => this.handleCheckbox(breakpoint)}
-          onClick={ev => ev.stopPropagation()}
-        />
-        <label className="breakpoint-label" title={breakpoint.text}>
-          {renderSourceLocation(breakpoint.location.source, line, column)}
-        </label>
-        <div className="breakpoint-snippet">{snippet}</div>
-        <CloseButton
-          handleClick={ev => this.removeBreakpoint(ev, breakpoint)}
-          tooltip={L10N.getStr("breakpoints.removeBreakpointTooltip")}
-        />
+        {exceptionsBox}
+        {shouldPauseOnExceptions ? ignoreCaughtBox : null}
       </div>
     );
   }
 
-  render() {
+  renderBreakpoints() {
     const { breakpoints } = this.props;
-    const children =
-      breakpoints.size === 0 ? (
-        <div className="pane-info">{L10N.getStr("breakpoints.none")}</div>
-      ) : (
-        sortBy(
-          [...breakpoints.valueSeq()],
-          [
-            bp => getBreakpointFilename(bp.location.source),
-            bp => bp.location.line
-          ]
-        ).map(bp => this.renderBreakpoint(bp))
-      );
+    if (breakpoints.size == 0) {
+      return;
+    }
 
-    return <div className="pane breakpoints-list">{children}</div>;
+    const groupedBreakpoints = groupBy(
+      sortBy([...breakpoints.valueSeq()], bp => bp.location.line),
+      bp => getBreakpointFilename(bp.source)
+    );
+
+    return [
+      ...Object.keys(groupedBreakpoints).map(filename => {
+        return [
+          <div className="breakpoint-heading" title={filename} key={filename}>
+            {filename}
+          </div>,
+          ...groupedBreakpoints[filename]
+            .filter(bp => !bp.hidden && bp.text)
+            .map((bp, i) => this.renderBreakpoint(bp))
+        ];
+      })
+    ];
+  }
+
+  render() {
+    return (
+      <div className="pane breakpoints-list">
+        {this.renderExceptionsOptions()}
+        {this.renderBreakpoints()}
+      </div>
+    );
   }
 }
 
@@ -184,9 +216,7 @@ function updateLocation(sources, frame, why, bp): LocalBreakpoint {
   const source = getSourceInSources(sources, bp.location.sourceId);
   const isCurrentlyPaused = isCurrentlyPausedAtBreakpoint(frame, why, bp);
   const locationId = makeLocationId(bp.location);
-
-  const location = { ...bp.location, source };
-  const localBP = { ...bp, location, locationId, isCurrentlyPaused };
+  const localBP = { ...bp, locationId, isCurrentlyPaused, source };
 
   return localBP;
 }
@@ -199,9 +229,7 @@ const _getBreakpoints = createSelector(
   (breakpoints, sources, frame, why) =>
     breakpoints
       .map(bp => updateLocation(sources, frame, why, bp))
-      .filter(
-        bp => bp.location.source && !bp.location.source.get("isBlackBoxed")
-      )
+      .filter(bp => bp.source && !bp.source.isBlackBoxed)
 );
 
 export default connect(

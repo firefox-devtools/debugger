@@ -3,6 +3,7 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
+
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import classnames from "classnames";

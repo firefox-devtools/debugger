@@ -18,7 +18,8 @@ import {
   getIsWaitingOnBreak,
   getShouldPauseOnExceptions,
   getShouldIgnoreCaughtExceptions,
-  getWorkers
+  getWorkers,
+  getExtra
 } from "../../selectors";
 
 import Svg from "../shared/Svg";
@@ -33,12 +34,9 @@ import Workers from "./Workers";
 import Accordion from "../shared/Accordion";
 import CommandBar from "./CommandBar";
 import UtilsBar from "./UtilsBar";
-import renderBreakpointsDropdown from "./BreakpointsDropdown";
+import FrameworkComponent from "./FrameworkComponent";
 
-import _chromeScopes from "./ChromeScopes";
-import _Scopes from "./Scopes";
-
-const Scopes = features.chromeScopes ? _chromeScopes : _Scopes;
+import Scopes from "./Scopes";
 
 import "./SecondaryPanes.css";
 
@@ -66,7 +64,12 @@ function debugBtn(onClick, type, className, tooltip) {
   );
 }
 
+type State = {
+  showExpressionsInput: boolean
+};
+
 type Props = {
+  extra: Object,
   evaluateExpressions: Function,
   hasFrames: boolean,
   horizontal: boolean,
@@ -83,7 +86,19 @@ type Props = {
   workers: WorkersList
 };
 
-class SecondaryPanes extends Component<Props> {
+class SecondaryPanes extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+
+    this.state = {
+      showExpressionsInput: false
+    };
+  }
+
+  onExpressionAdded = () => {
+    this.setState({ showExpressionsInput: false });
+  };
+
   renderBreakpointsToggle() {
     const {
       toggleAllBreakpoints,
@@ -135,6 +150,15 @@ class SecondaryPanes extends Component<Props> {
         "refresh",
         "refresh",
         L10N.getStr("watchExpressions.refreshButton")
+      ),
+      debugBtn(
+        evt => {
+          evt.stopPropagation();
+          this.setState({ showExpressionsInput: true });
+        },
+        "plus",
+        "plus",
+        L10N.getStr("expressions.placeholder")
       )
     ];
   }
@@ -151,12 +175,31 @@ class SecondaryPanes extends Component<Props> {
     };
   }
 
+  getComponentItem() {
+    const { extra: { react } } = this.props;
+
+    return {
+      header: react.displayName,
+      className: "component-pane",
+      component: <FrameworkComponent />,
+      opened: prefs.componentVisible,
+      onToggle: opened => {
+        prefs.componentVisible = opened;
+      }
+    };
+  }
+
   getWatchItem(): AccordionPaneItem {
     return {
       header: L10N.getStr("watchExpressions.header"),
       className: "watch-expressions-pane",
       buttons: this.watchExpressionHeaderButtons(),
-      component: <Expressions />,
+      component: (
+        <Expressions
+          showInput={this.state.showExpressionsInput}
+          onExpressionAdded={this.onExpressionAdded}
+        />
+      ),
       opened: prefs.expressionsVisible,
       onToggle: opened => {
         prefs.expressionsVisible = opened;
@@ -189,11 +232,23 @@ class SecondaryPanes extends Component<Props> {
   }
 
   getBreakpointsItem(): AccordionPaneItem {
+    const {
+      shouldPauseOnExceptions,
+      shouldIgnoreCaughtExceptions,
+      pauseOnExceptions
+    } = this.props;
+
     return {
       header: L10N.getStr("breakpoints.header"),
       className: "breakpoints-pane",
-      buttons: [this.breakpointDropdown(), this.renderBreakpointsToggle()],
-      component: <Breakpoints />,
+      buttons: [this.renderBreakpointsToggle()],
+      component: (
+        <Breakpoints
+          shouldPauseOnExceptions={shouldPauseOnExceptions}
+          shouldIgnoreCaughtExceptions={shouldIgnoreCaughtExceptions}
+          pauseOnExceptions={pauseOnExceptions}
+        />
+      ),
       opened: prefs.breakpointsVisible,
       onToggle: opened => {
         prefs.breakpointsVisible = opened;
@@ -201,30 +256,8 @@ class SecondaryPanes extends Component<Props> {
     };
   }
 
-  breakpointDropdown() {
-    if (!features.breakpointsDropdown) {
-      return;
-    }
-
-    const {
-      breakOnNext,
-      pauseOnExceptions,
-      shouldPauseOnExceptions,
-      shouldIgnoreCaughtExceptions,
-      isWaitingOnBreak
-    } = this.props;
-
-    return renderBreakpointsDropdown(
-      breakOnNext,
-      pauseOnExceptions,
-      shouldPauseOnExceptions,
-      shouldIgnoreCaughtExceptions,
-      isWaitingOnBreak
-    );
-  }
-
   getStartItems() {
-    const { workers } = this.props;
+    const { extra, workers } = this.props;
 
     const items: Array<AccordionPaneItem> = [];
     if (this.props.horizontal) {
@@ -239,7 +272,12 @@ class SecondaryPanes extends Component<Props> {
 
     if (this.props.hasFrames) {
       items.push(this.getCallStackItem());
+
       if (this.props.horizontal) {
+        if (extra && extra.react) {
+          items.push(this.getComponentItem());
+        }
+
         items.push(this.getScopeItem());
       }
     }
@@ -260,7 +298,7 @@ class SecondaryPanes extends Component<Props> {
   }
 
   getEndItems() {
-    const { workers } = this.props;
+    const { extra, workers } = this.props;
 
     let items: Array<AccordionPaneItem> = [];
 
@@ -273,6 +311,10 @@ class SecondaryPanes extends Component<Props> {
     }
 
     items.push(this.getWatchItem());
+
+    if (extra && extra.react) {
+      items.push(this.getComponentItem());
+    }
 
     if (this.props.hasFrames) {
       items = [...items, this.getScopeItem()];
@@ -332,6 +374,7 @@ SecondaryPanes.contextTypes = {
 
 export default connect(
   state => ({
+    extra: getExtra(state),
     hasFrames: !!getTopFrame(state),
     breakpoints: getBreakpoints(state),
     breakpointsDisabled: getBreakpointsDisabled(state),

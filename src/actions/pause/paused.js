@@ -17,7 +17,8 @@ import {
 import { mapFrames } from ".";
 import { removeBreakpoint } from "../breakpoints";
 import { evaluateExpressions } from "../expressions";
-import { selectLocation, loadSourceText } from "../sources";
+import { selectLocation } from "../sources";
+import { loadSourceText } from "../sources/loadSourceText";
 import { togglePaneCollapse } from "../ui";
 import { command } from "./commands";
 import { shouldStep } from "../../utils/pause";
@@ -70,10 +71,6 @@ export function paused(pauseInfo: Pause) {
       dispatch(removeBreakpoint(hiddenBreakpointLocation));
     }
 
-    if (!isEvaluatingExpression(getState())) {
-      dispatch(evaluateExpressions());
-    }
-
     await dispatch(mapFrames());
     const selectedFrame = getSelectedFrame(getState());
 
@@ -86,6 +83,13 @@ export function paused(pauseInfo: Pause) {
     }
 
     dispatch(togglePaneCollapse("end", false));
-    dispatch(fetchScopes());
+    await dispatch(fetchScopes());
+
+    // Run after fetching scoping data so that it may make use of the sourcemap
+    // expression mappings for local variables.
+    const atException = why.type == "exception";
+    if (!atException || !isEvaluatingExpression(getState())) {
+      await dispatch(evaluateExpressions());
+    }
   };
 }

@@ -14,6 +14,10 @@ export async function exSlowFoo() {
   return "yay in a bit";
 }
 
+function ret() {
+  return foo();
+}
+
 child = function() {};
 
 (function() {

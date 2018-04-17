@@ -41,6 +41,7 @@ exports[`ProjectSearch found search results 1`] = `
   activeSearch="project"
   clearSearch={[Function]}
   closeProjectSearch={[Function]}
+  doSearchForHighlight={[Function]}
   query="match"
   results={
     Immutable.List [
@@ -261,7 +262,7 @@ exports[`ProjectSearch found search results 1`] = `
               >
                 <div
                   aria-expanded={true}
-                  aria-level={0}
+                  aria-level={1}
                   className="tree-node"
                   data-expandable={true}
                   id="undefined-$"
@@ -329,7 +330,7 @@ exports[`ProjectSearch found search results 1`] = `
                 renderItem={[Function]}
               >
                 <div
-                  aria-level={1}
+                  aria-level={2}
                   className="tree-node"
                   data-expandable={false}
                   id="undefined-undefined-30-1"
@@ -391,7 +392,7 @@ exports[`ProjectSearch found search results 1`] = `
                 renderItem={[Function]}
               >
                 <div
-                  aria-level={1}
+                  aria-level={2}
                   className="tree-node"
                   data-expandable={false}
                   id="undefined-undefined-60-2"
@@ -453,7 +454,7 @@ exports[`ProjectSearch found search results 1`] = `
                 renderItem={[Function]}
               >
                 <div
-                  aria-level={1}
+                  aria-level={2}
                   className="tree-node"
                   data-expandable={false}
                   id="undefined-undefined-90-3"
@@ -528,7 +529,7 @@ exports[`ProjectSearch found search results 1`] = `
               >
                 <div
                   aria-expanded={true}
-                  aria-level={0}
+                  aria-level={1}
                   className="tree-node"
                   data-expandable={true}
                   id="undefined-4"
@@ -596,7 +597,7 @@ exports[`ProjectSearch found search results 1`] = `
                 renderItem={[Function]}
               >
                 <div
-                  aria-level={1}
+                  aria-level={2}
                   className="tree-node"
                   data-expandable={false}
                   id="undefined-undefined-80-5"
@@ -658,7 +659,7 @@ exports[`ProjectSearch found search results 1`] = `
                 renderItem={[Function]}
               >
                 <div
-                  aria-level={1}
+                  aria-level={2}
                   className="tree-node"
                   data-expandable={false}
                   id="undefined-undefined-40-6"

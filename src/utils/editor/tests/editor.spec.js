@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 import { Record } from "immutable";
 import {
   shouldShowPrettyPrint,
@@ -7,7 +11,6 @@ import {
   toEditorPosition,
   toEditorRange,
   toSourceLine,
-  toSourceLocation,
   scrollToColumn,
   markText,
   lineAtHeight,
@@ -120,17 +123,6 @@ describe("toSourceLine", () => {
     const testId = "test-123";
     const line = 30;
     expect(toSourceLine(testId, line)).toEqual(31);
-  });
-});
-
-describe("toSourceLocation", () => {
-  const testId = "test-123";
-  const loc = { line: 100, column: 30 };
-  it("returns a source location", () => {
-    expect(toSourceLocation(testId, loc)).toEqual({
-      line: 101,
-      column: 30
-    });
   });
 });
 

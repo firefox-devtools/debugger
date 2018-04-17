@@ -4,10 +4,7 @@
 
 // @flow
 
-type Pos = {
-  line: number,
-  column: number
-};
+import type { ColumnPosition } from "../../types";
 
 type Token = {
   startColumn: number,
@@ -17,7 +14,7 @@ type Token = {
 
 export function tokenAtTextPosition(
   cm: any,
-  { line, column }: Pos
+  { line, column }: ColumnPosition
 ): Token | null {
   if (line < 0 || line >= cm.lineCount()) {
     return null;
@@ -33,7 +30,7 @@ export function tokenAtTextPosition(
 
 // The strategy of querying codeMirror tokens was borrowed
 // from Chrome's inital implementation in JavaScriptSourceFrame.js#L414
-export function getExpressionFromCoords(cm: any, coord: Pos) {
+export function getExpressionFromCoords(cm: any, coord: ColumnPosition) {
   const token = tokenAtTextPosition(cm, coord);
   if (!token) {
     return null;
@@ -55,7 +52,8 @@ export function getExpressionFromCoords(cm: any, coord: Pos) {
 
     startHighlight = tokenBefore.startColumn;
   }
-  const expression = line.substring(startHighlight, endHighlight);
+
+  const expression = line.substring(startHighlight, endHighlight) || "";
 
   if (!expression) {
     return null;

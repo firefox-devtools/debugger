@@ -2,6 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
+// @flow
+
 import React from "react";
 import { bindActionCreators, combineReducers } from "redux";
 import ReactDOM from "react-dom";
@@ -30,8 +32,11 @@ import { prefs } from "./prefs";
 function renderPanel(component, store) {
   const root = document.createElement("div");
   root.className = "launchpad-root theme-body";
-  root.style.setProperty("flex", 1);
+  root.style.setProperty("flex", "1");
   const mount = document.querySelector("#mount");
+  if (!mount) {
+    return;
+  }
   mount.appendChild(root);
 
   ReactDOM.render(
@@ -40,7 +45,7 @@ function renderPanel(component, store) {
   );
 }
 
-export function bootstrapStore(client, { services, toolboxActions }) {
+export function bootstrapStore(client: any, { services, toolboxActions }: any) {
   const createStore = configureStore({
     log: isTesting() || getValue("logging.actions"),
     timing: isDevelopment(),
@@ -80,7 +85,7 @@ export function teardownWorkers() {
   stopSearchWorker();
 }
 
-export function bootstrapApp(store) {
+export function bootstrapApp(store: any) {
   if (isFirefoxPanel()) {
     renderPanel(App, store);
   } else {
@@ -89,7 +94,7 @@ export function bootstrapApp(store) {
   }
 }
 
-function updatePrefs(state) {
+function updatePrefs(state: any) {
   const pendingBreakpoints = selectors.getPendingBreakpoints(state);
 
   if (prefs.pendingBreakpoints !== pendingBreakpoints) {

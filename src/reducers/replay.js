@@ -3,6 +3,9 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
+import { features } from "../utils/prefs";
+
+import type { Action } from "../actions/types";
 
 /**
  * Breakpoints reducer
@@ -25,7 +28,14 @@ const defaultFrameScopes = {
   generated: {}
 };
 
-function update(state: ReplayState = initialState(), action: any): ReplayState {
+function update(
+  state: ReplayState = initialState(),
+  action: Action
+): ReplayState {
+  if (!features.replay) {
+    return state;
+  }
+
   switch (action.type) {
     case "TRAVEL_TO": {
       return { ...state, position: action.position };
@@ -59,6 +69,11 @@ function addScopes(state: ReplayState, action: any) {
   const { frame, status, value } = action;
   const selectedFrameId = frame.id;
   const instance = state.history[state.position];
+
+  if (!instance) {
+    return state;
+  }
+
   const pausedInst = instance.paused;
 
   const generated = {
@@ -86,6 +101,11 @@ function mapScopes(state: ReplayState, action: any) {
   const { frame, status, value } = action;
   const selectedFrameId = frame.id;
   const instance = state.history[state.position];
+
+  if (!instance) {
+    return state;
+  }
+
   const pausedInst = instance.paused;
 
   const original = {
@@ -115,6 +135,7 @@ function evaluateExpression(state, action) {
   if (!instance) {
     return state;
   }
+
   const prevExpressions = instance.expressions || [];
   const expression = { input, value };
   const expressions = [...prevExpressions, expression];
@@ -151,7 +172,7 @@ export function getHistory(state: any): any {
   return state.replay.history;
 }
 
-export function getHistoryFrame(state: any, position: Number): any {
+export function getHistoryFrame(state: any, position: number): any {
   return state.replay.history[position];
 }
 

@@ -1,4 +1,7 @@
 /* eslint max-nested-callbacks: ["error", 6] */
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 import {
   createStore,
@@ -16,7 +19,8 @@ const {
   getEmptyLines,
   getOutOfScopeLocations,
   getSourceMetaData,
-  getInScopeLines
+  getInScopeLines,
+  isSymbolsLoading
 } = selectors;
 
 import I from "immutable";
@@ -31,12 +35,20 @@ const threadClient = {
       })
     );
   },
-  getFrameScopes: function() {
-    return Promise.resolve({});
-  },
+  setPausePoints: async () => {},
+  getFrameScopes: async () => {},
   evaluate: function(expression) {
     return new Promise((resolve, reject) =>
       resolve({ result: evaluationResult[expression] })
+    );
+  },
+  evaluateExpressions: function(expressions) {
+    return new Promise((resolve, reject) =>
+      resolve(
+        expressions.map(expression => ({
+          result: evaluationResult[expression]
+        }))
+      )
     );
   }
 };
@@ -54,14 +66,14 @@ const evaluationResult = {
 };
 
 describe("ast", () => {
-  describe("setEmptyLines", () => {
+  describe("setPausePoints", () => {
     it("scopes", async () => {
       const store = createStore(threadClient);
       const { dispatch, getState } = store;
       const source = makeSource("scopes.js");
       await dispatch(actions.newSource(source));
       await dispatch(actions.loadSourceText(I.Map({ id: "scopes.js" })));
-      await dispatch(actions.setEmptyLines("scopes.js"));
+      await dispatch(actions.setPausePoints("scopes.js"));
       await waitForState(store, state => {
         const lines = getEmptyLines(state, source);
         return lines && lines.length > 0;
@@ -114,10 +126,7 @@ describe("ast", () => {
         await dispatch(actions.newSource(base));
         await dispatch(actions.loadSourceText(I.Map({ id: "base.js" })));
         await dispatch(actions.setSymbols("base.js"));
-        await waitForState(
-          store,
-          state => getSymbols(state, base).functions.length > 0
-        );
+        await waitForState(store, state => !isSymbolsLoading(state, base));
 
         const baseSymbols = getSymbols(getState(), base);
         expect(baseSymbols).toMatchSnapshot();
@@ -125,21 +134,21 @@ describe("ast", () => {
     });
 
     describe("when the source is not loaded", () => {
-      it("should return an empty set", async () => {
+      it("should return null", async () => {
         const { getState, dispatch } = createStore(threadClient);
         const base = makeSource("base.js");
         await dispatch(actions.newSource(base));
 
         const baseSymbols = getSymbols(getState(), base);
-        expect(baseSymbols).toEqual({ variables: [], functions: [] });
+        expect(baseSymbols).toEqual(null);
       });
     });
 
     describe("when there is no source", () => {
-      it("should return an empty set", async () => {
+      it("should return null", async () => {
         const { getState } = createStore(threadClient);
         const baseSymbols = getSymbols(getState());
-        expect(baseSymbols).toEqual({ variables: [], functions: [] });
+        expect(baseSymbols).toEqual(null);
       });
     });
   });
@@ -161,6 +170,7 @@ describe("ast", () => {
 
       await dispatch(
         actions.paused({
+          why: { type: "debuggerStatement" },
           frames: [makeFrame({ id: 1, sourceId: "scopes.js" })]
         })
       );

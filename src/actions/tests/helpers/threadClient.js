@@ -1,6 +1,11 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 import { makeLocationId } from "../../../utils/breakpoint";
 
 function createSource(name) {
+  name = name.replace(/\..*$/, "");
   return {
     source: `function ${name}() {\n  return ${name} \n}`,
     contentType: "text/javascript"
@@ -34,7 +39,7 @@ export const simpleMockThreadClient = {
 
   setBreakpointCondition: (_id, _location, _condition, _noSliding) =>
     Promise.resolve({ sourceId: "a", line: 5 }),
-
+  setPausePoints: () => Promise.resolve({}),
   sourceContents: sourceId =>
     new Promise((resolve, reject) => {
       if (sources.includes(sourceId)) {
@@ -85,5 +90,8 @@ export const sourceThreadClient = {
       reject(`unknown source: ${sourceId}`);
     });
   },
-  getFrameScopes: async () => {}
+  threadClient: async () => {},
+  getFrameScopes: async () => {},
+  setPausePoints: async () => {},
+  evaluateExpressions: async () => {}
 };

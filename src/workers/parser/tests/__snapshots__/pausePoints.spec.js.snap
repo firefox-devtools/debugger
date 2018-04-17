@@ -1,0 +1,208 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Parser.pausePoints calls 1`] = `
+"/*bs 1*/foo(/*2*/1, /*3*/'2', /*b 4*/bar())
+
+/*bs 5*/foo()
+  ./*bs 6*/bar()
+  ./*bs 7*/bazz()
+
+/*bs 8*/console./*bs 9*/log(/*10*/'yo')
+
+/*bs 11*/foo(
+  /*12*/1,
+  /*b 13*/bar()
+)
+
+var /*bs 14*/a = 3;/*bs 15*/
+"
+`;
+
+exports[`Parser.pausePoints control-flow 1`] = `
+"
+/*1*/if (/*bs 2*/x) {
+  /*bs 3*/foo();
+}
+else /*4*/if (/*bs 5*/y) {
+  /*bs 6*/foo();
+}
+else {
+  /*bs 7*/foo();
+}
+
+/*8*/for (var /*bs 9*/i=0; /*bs 10*/i< 5; i++ ) {
+  /*bs 11*/foo();
+}
+
+/*12*/while (/*bs 13*/x) {
+  /*bs 14*/foo();
+}
+
+/*15*/switch (/*bs 16*/c) {
+  /*17*/case /*bs 18*/a:
+    /*bs 19*/console./*bs 20*/log(/*21*/'hi')
+}
+
+var /*bs 22*/a = 3;/*bs 23*/
+"
+`;
+
+exports[`Parser.pausePoints decorators 1`] = `
+"/*bs 1*/@annotation
+class MyClass { }/*bs 2*/
+"
+`;
+
+exports[`Parser.pausePoints flow 1`] = `
+"/*bs 1*/class App extends Component {
+  /*b 2*/renderHello(name: string, action: ReduxAction, { /*3*/todos }: Props) {
+    /*bs 4*/return \`howdy \${name}\`;
+  /*bs 5*/}
+}/*bs 6*/
+"
+`;
+
+exports[`Parser.pausePoints func 1`] = `
+"/*b 1*/function square(n) {
+  /*bs 2*/return n * n;
+/*bs 3*/}
+
+/*bs 4*/export /*b 5*/function exFoo() {
+  /*bs 6*/return \\"yay\\";
+/*bs 7*/}
+
+/*b 8*/async function slowFoo() {
+  /*bs 9*/return \\"meh\\";
+/*bs 10*/}
+
+/*bs 11*/export /*b 12*/async function exSlowFoo() {
+  /*bs 13*/return \\"yay in a bit\\";
+/*bs 14*/}
+
+/*b 15*/function ret() {
+  /*16*/return /*bs 17*/foo();
+/*bs 18*/}
+
+/*bs 19*/child = /*b 20*/function() {/*bs 21*/};
+
+/*bs 22*/(/*b 23*/function() {
+  2;
+/*bs 24*/})();
+
+const /*bs 25*/obj = {
+  /*26*/foo: /*b 27*/function name() {
+    2 + 2;
+  /*bs 28*/},
+
+  /*b 29*/bar() {
+    2 + 2;
+  /*bs 30*/}
+};/*bs 31*/
+"
+`;
+
+exports[`Parser.pausePoints html 1`] = `
+"<html>
+<head>
+	<script type=\\"text/javascript\\">
+		var /*bs 1*/globalObject = {
+			/*2*/first: /*3*/\\"name\\",
+			/*4*/last: /*5*/\\"words\\"
+		};
+		/*b 6*/function sayHello (name) {
+			/*bs 7*/return \`Hello, \${name}!\`;
+		/*bs 8*/}
+	</script>
+	<style>
+		BODY {
+			font-size: 48px;
+			color: rebeccapurple;
+		}
+	</style>
+</head>
+<body>
+	<h1>Testing Script Tags in HTML</h1>
+	<script>
+		const /*bs 9*/capitalize = /*b 10*/name => {
+			/*bs 11*/return /*bs 12*/name[0]./*bs 13*/toUpperCase() + /*bs 14*/name./*bs 15*/substring(/*16*/1)
+		/*bs 17*/};
+		const greetAll = /*bs 18*/[/*19*/\\"my friend\\", /*20*/\\"buddy\\", /*21*/\\"world\\"]
+			./*bs 22*/map(/*23*/capitalize)
+			./*bs 24*/map(/*25*/sayHello)
+			./*bs 26*/join(/*27*/\\"\\\\n\\");
+
+		/*bs 28*/globalObject.greetings = greetAll;
+	</script>
+	<p>
+		Some arbitrary intermediate content to affect the offsets of the scripts
+	</p>
+	<script>
+		/*bs 29*/(/*b 30*/function iife() {
+			const greeting = /*bs 31*/sayHello(/*32*/\\"Ryan\\");
+			/*bs 33*/console./*bs 34*/log(/*35*/greeting);
+		/*bs 36*/})();/*bs 37*/
+	</script>
+</body>
+</html>
+"
+`;
+
+exports[`Parser.pausePoints jsx 1`] = `
+"const jsxElement = /*bs 1*/<h1>/*2*/ Hi ! I'm here ! /*3*/</h1>;
+
+/*bs 4*/<div id=\\"3\\" res={/*b 5*/foo()}>/*6*/
+  /*b 7*/<Item>/*8*/{/*bs 9*/foo()}/*10*/</Item>/*11*/
+/*12*/</div>/*bs 13*/
+"
+`;
+
+exports[`Parser.pausePoints modules 1`] = `
+"/*bs 1*/import {x} from \\"y\\"
+/*bs 2*/import z from \\"y\\";
+
+/*bs 3*/export /*bs 4*/class AppComponent {
+  /*b 5*/title = 'app'
+}
+
+/*bs 6*/export default /*bs 7*/class AppComponent {
+  /*b 8*/title = 'app'
+}/*bs 9*/
+"
+`;
+
+exports[`Parser.pausePoints statements 1`] = `
+"/*bs 1*/debugger; /*bs 2*/debugger;
+/*bs 3*/console./*bs 4*/log(/*5*/\\"a\\"); /*bs 6*/console./*bs 7*/log(/*8*/\\"a\\");
+
+// assignments with valid pause locations
+/*bs 9*/this.x = 3;
+var /*bs 10*/a = 4;
+var /*bs 11*/d = [/*b 12*/foo()]
+var /*bs 13*/f = 3, /*bs 14*/e = 4;
+
+// assignments with invalid pause locations
+var b = /*bs 15*/foo();
+c = /*bs 16*/foo();
+
+
+const /*bs 17*/arr = [
+  /*18*/'1',
+  /*19*/2,
+  /*b 20*/foo()
+]
+
+const /*bs 21*/obj = {
+  /*22*/a: /*23*/'1',
+  /*24*/b: /*25*/2,
+  /*26*/c: /*b 27*/foo(),
+}
+
+/*bs 28*/foo(
+  /*29*/1,
+  /*b 30*/foo(
+    /*31*/1
+  ),
+  /*32*/3
+)/*bs 33*/
+"
+`;

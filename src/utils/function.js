@@ -2,11 +2,14 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-import { findClosestScope } from "./breakpoint/astBreakpointLocation";
+import { findClosestFunction } from "./ast";
 import { correctIndentation } from "./indentation";
 
 export function findFunctionText(line, source, symbols) {
-  const func = findClosestScope(symbols.functions, { line, column: Infinity });
+  const func = findClosestFunction(symbols, {
+    line,
+    column: Infinity
+  });
   if (!func) {
     return null;
   }

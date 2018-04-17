@@ -12,6 +12,7 @@ import {
 } from "../../utils/breakpoint";
 
 import { getGeneratedLocation } from "../../utils/source-maps";
+import { getTextAtPosition } from "../../utils/source";
 import { originalToGeneratedId } from "devtools-source-map";
 import { getSource } from "../../selectors";
 import type {
@@ -50,9 +51,17 @@ function createSyncData(
   pendingBreakpoint: PendingBreakpoint,
   location: Location,
   generatedLocation: Location,
-  previousLocation: Location
+  previousLocation: Location,
+  text: string,
+  originalText: string
 ): BreakpointSyncData {
-  const overrides = { ...pendingBreakpoint, generatedLocation, id };
+  const overrides = {
+    ...pendingBreakpoint,
+    generatedLocation,
+    id,
+    text,
+    originalText
+  };
   const breakpoint = createBreakpoint(location, overrides);
 
   assertBreakpoint(breakpoint);
@@ -70,10 +79,13 @@ export async function syncClientBreakpoint(
 ): Promise<BreakpointSyncData> {
   assertPendingBreakpoint(pendingBreakpoint);
 
-  const source = getSource(getState(), sourceId).toJS();
+  const source = getSource(getState(), sourceId);
+
   const generatedSourceId = sourceMaps.isOriginalId(sourceId)
     ? originalToGeneratedId(sourceId)
     : sourceId;
+
+  const generatedSource = getSource(getState(), generatedSourceId);
 
   const { location, astLocation } = pendingBreakpoint;
   const previousLocation = { ...location, sourceId };
@@ -86,7 +98,7 @@ export async function syncClientBreakpoint(
 
   const scopedGeneratedLocation = await getGeneratedLocation(
     getState(),
-    source,
+    source.toJS(),
     scopedLocation,
     sourceMaps
   );
@@ -110,12 +122,17 @@ export async function syncClientBreakpoint(
   // send update only to redux
   if (pendingBreakpoint.disabled || (existingClient && isSameLocation)) {
     const id = pendingBreakpoint.disabled ? "" : existingClient.id;
+    const originalText = getTextAtPosition(source, previousLocation);
+    const text = getTextAtPosition(generatedSource, generatedLocation);
+
     return createSyncData(
       id,
       pendingBreakpoint,
       scopedLocation,
       scopedGeneratedLocation,
-      previousLocation
+      previousLocation,
+      text,
+      originalText
     );
   }
 
@@ -145,11 +162,16 @@ export async function syncClientBreakpoint(
     newGeneratedLocation
   );
 
+  const originalText = getTextAtPosition(source, newLocation);
+  const text = getTextAtPosition(generatedSource, newGeneratedLocation);
+
   return createSyncData(
     id,
     pendingBreakpoint,
     newLocation,
     newGeneratedLocation,
-    previousLocation
+    previousLocation,
+    text,
+    originalText
   );
 }

@@ -5,10 +5,8 @@
 import { connect } from "react-redux";
 import { Component } from "react";
 import { getSelectedSource, getEmptyLines } from "../../selectors";
-import type { SourceRecord } from "../../reducers/types";
+import type { SourceRecord } from "../../types";
 import { toEditorLine } from "../../utils/editor";
-
-import "./EmptyLines.css";
 
 type props = {
   selectedSource: SourceRecord,
@@ -35,6 +33,7 @@ class EmptyLines extends Component {
     if (!emptyLines) {
       return;
     }
+
     editor.codeMirror.operation(() => {
       emptyLines.forEach(emptyLine => {
         const line = toEditorLine(selectedSource.get("id"), emptyLine);

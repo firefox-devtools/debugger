@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 const React = require("react");
 import InlineSVG from "svg-inline-react";
 const { isDevelopment } = require("devtools-config");
@@ -18,9 +22,11 @@ const svg = {
   coffeescript: require(`./coffeescript.svg`),
   dojo: require("./dojo.svg"),
   domain: require("./domain.svg"),
+  extension: require("./extension.svg"),
   file: require("./file.svg"),
   folder: require("./folder.svg"),
   globe: require("./globe.svg"),
+  help: require("./help.svg"),
   home: require("./home.svg"),
   javascript: require("./javascript.svg"),
   jquery: require("./jquery.svg"),
@@ -47,6 +53,7 @@ const svg = {
   stepOut: require("./stepOut.svg"),
   stepOver: require("./stepOver.svg"),
   subSettings: require("./subSettings.svg"),
+  tab: require("./tab.svg"),
   toggleBreakpoints: require("./toggle-breakpoints.svg"),
   togglePanes: require("./toggle-panes.svg"),
   typescript: require("./typescript.svg"),

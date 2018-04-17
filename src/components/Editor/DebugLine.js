@@ -15,8 +15,7 @@ import {
   getSelectedSource
 } from "../../selectors";
 
-import type { Frame, Why } from "../../types";
-import type { SourceRecord } from "../../reducers/types";
+import type { Frame, Why, SourceRecord } from "../../types";
 
 type Props = {
   selectedFrame: Frame,

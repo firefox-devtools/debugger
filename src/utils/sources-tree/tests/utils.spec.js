@@ -1,4 +1,7 @@
 /* eslint max-nested-callbacks: ["error", 4]*/
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 import I, { Map } from "immutable";
 
@@ -106,8 +109,8 @@ describe("sources tree", () => {
       addToTree(tree, source3, "http://a/");
       const paths = getDirectories("http://a/b.js", tree);
 
-      expect(paths[1].path).toBe("/a");
-      expect(paths[0].path).toBe("/a/b.js");
+      expect(paths[1].path).toBe("a");
+      expect(paths[0].path).toBe("a/b.js");
     });
 
     it("handles '?' in target url", function() {
@@ -126,8 +129,8 @@ describe("sources tree", () => {
       addToTree(tree, source2, "http://a/");
       const paths = getDirectories("http://a/b.js?key=hi", tree);
 
-      expect(paths[1].path).toBe("/a");
-      expect(paths[0].path).toBe("/a/b.js");
+      expect(paths[1].path).toBe("a");
+      expect(paths[0].path).toBe("a/b.js");
     });
 
     it("handles 'https' in target url", function() {
@@ -146,8 +149,8 @@ describe("sources tree", () => {
       addToTree(tree, source2, "http://a/");
       const paths = getDirectories("https://a/b.js", tree);
 
-      expect(paths[1].path).toBe("/a");
-      expect(paths[0].path).toBe("/a/b.js");
+      expect(paths[1].path).toBe("a");
+      expect(paths[0].path).toBe("a/b.js");
     });
   });
 

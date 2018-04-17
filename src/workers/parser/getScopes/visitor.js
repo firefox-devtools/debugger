@@ -1,6 +1,6 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
 
@@ -12,6 +12,7 @@ import type {
   TraversalAncestors,
   Location as BabelLocation
 } from "@babel/types";
+
 import { isGeneratedId } from "devtools-source-map";
 import getFunctionName from "../utils/getFunctionName";
 import { getAst } from "../utils/ast";
@@ -32,8 +33,17 @@ import { getAst } from "../utils/ast";
  *
  * "import"
  * Imported binding names exposed from other modules.
+ *
+ * "global"
+ * Variables that reference undeclared global values.
  */
-export type BindingType = "implicit" | "var" | "const" | "let" | "import";
+export type BindingType =
+  | "implicit"
+  | "var"
+  | "const"
+  | "let"
+  | "import"
+  | "global";
 
 export type BindingLocationType = "ref" | "decl";
 export type BindingLocation = BindingDeclarationLocation | BindingRefLocation;
@@ -119,8 +129,11 @@ type TempScope = {
 
 type ScopeCollectionVisitorState = {
   sourceId: SourceId,
+  freeVariables: Map<string, Array<BindingLocation>>,
+  freeVariableStack: Array<Map<string, Array<BindingLocation>>>,
   scope: TempScope,
-  scopeStack: Array<TempScope>
+  scopeStack: Array<TempScope>,
+  declarationBindingIds: Set<Node>
 };
 
 export function parseSourceScopes(sourceId: SourceId): ?Array<ParsedScope> {
@@ -133,10 +146,26 @@ export function parseSourceScopes(sourceId: SourceId): ?Array<ParsedScope> {
 
   const state = {
     sourceId,
+    freeVariables: new Map(),
+    freeVariableStack: [],
     scope: lexical,
-    scopeStack: []
+    scopeStack: [],
+    declarationBindingIds: new Set()
   };
   t.traverse(ast, scopeCollectionVisitor, state);
+
+  for (const [key, freeVariables] of state.freeVariables) {
+    let binding = global.bindings[key];
+    if (!binding) {
+      binding = {
+        type: "global",
+        refs: []
+      };
+      global.bindings[key] = binding;
+    }
+
+    binding.refs = freeVariables.concat(binding.refs);
+  }
 
   // TODO: This should probably check for ".mjs" extension on the
   // original file, and should also be skipped if the the generated
@@ -206,6 +235,9 @@ function pushTempScope(
   const scope = createTempScope(type, displayName, state.scope, loc);
 
   state.scope = scope;
+
+  state.freeVariableStack.push(state.freeVariables);
+  state.freeVariables = new Map();
   return scope;
 }
 
@@ -240,7 +272,7 @@ function parseDeclarator(
   targetScope: TempScope,
   type: BindingType,
   declaration: Node,
-  sourceId: SourceId
+  state: ScopeCollectionVisitorState
 ) {
   if (isNode(declaratorId, "Identifier")) {
     let existing = targetScope.bindings[declaratorId.name];
@@ -251,38 +283,33 @@ function parseDeclarator(
       };
       targetScope.bindings[declaratorId.name] = existing;
     }
+    state.declarationBindingIds.add(declaratorId);
     existing.refs.push({
       type: "decl",
-      start: fromBabelLocation(declaratorId.loc.start, sourceId),
-      end: fromBabelLocation(declaratorId.loc.end, sourceId),
+      start: fromBabelLocation(declaratorId.loc.start, state.sourceId),
+      end: fromBabelLocation(declaratorId.loc.end, state.sourceId),
       declaration: {
-        start: fromBabelLocation(declaration.loc.start, sourceId),
-        end: fromBabelLocation(declaration.loc.end, sourceId)
+        start: fromBabelLocation(declaration.loc.start, state.sourceId),
+        end: fromBabelLocation(declaration.loc.end, state.sourceId)
       }
     });
   } else if (isNode(declaratorId, "ObjectPattern")) {
     declaratorId.properties.forEach(prop => {
-      parseDeclarator(prop.value, targetScope, type, declaration, sourceId);
+      parseDeclarator(prop.value, targetScope, type, declaration, state);
     });
   } else if (isNode(declaratorId, "ArrayPattern")) {
     declaratorId.elements.forEach(item => {
-      parseDeclarator(item, targetScope, type, declaration, sourceId);
+      parseDeclarator(item, targetScope, type, declaration, state);
     });
   } else if (isNode(declaratorId, "AssignmentPattern")) {
-    parseDeclarator(
-      declaratorId.left,
-      targetScope,
-      type,
-      declaration,
-      sourceId
-    );
+    parseDeclarator(declaratorId.left, targetScope, type, declaration, state);
   } else if (isNode(declaratorId, "RestElement")) {
     parseDeclarator(
       declaratorId.argument,
       targetScope,
       type,
       declaration,
-      sourceId
+      state
     );
   }
 }
@@ -305,19 +332,6 @@ function isLexicalVariable(node) {
   return isNode(node, "VariableDeclaration") && isLetOrConst(node);
 }
 
-function findIdentifierInScopes(
-  scope: TempScope,
-  name: string
-): TempScope | null {
-  // Find nearest outer scope with the specifed name and add reference.
-  for (let s = scope; s; s = s.parent) {
-    if (name in s.bindings) {
-      return s;
-    }
-  }
-  return null;
-}
-
 function createGlobalScope(
   ast: Node,
   sourceId: SourceId
@@ -325,30 +339,6 @@ function createGlobalScope(
   const global = createTempScope("object", "Global", null, {
     start: fromBabelLocation(ast.loc.start, sourceId),
     end: fromBabelLocation(ast.loc.end, sourceId)
-  });
-
-  // Include fake bindings to collect references to CommonJS
-  Object.assign(global.bindings, {
-    module: {
-      type: "var",
-      refs: []
-    },
-    exports: {
-      type: "var",
-      refs: []
-    },
-    __dirname: {
-      type: "var",
-      refs: []
-    },
-    __filename: {
-      type: "var",
-      refs: []
-    },
-    require: {
-      type: "var",
-      refs: []
-    }
   });
 
   const lexical = createTempScope("block", "Lexical Global", global, {
@@ -390,6 +380,7 @@ const scopeCollectionVisitor = {
           start: fromBabelLocation(node.loc.start, state.sourceId),
           end: fromBabelLocation(node.loc.end, state.sourceId)
         });
+        state.declarationBindingIds.add(node.id);
         scope.bindings[node.id.name] = {
           type: "const",
           refs: [
@@ -409,6 +400,7 @@ const scopeCollectionVisitor = {
       if (t.isFunctionDeclaration(node) && isNode(node.id, "Identifier")) {
         // This ignores Annex B function declaration hoisting, which
         // is probably a fine assumption.
+        state.declarationBindingIds.add(node.id);
         const fnScope = getVarScope(scope);
         scope.bindings[node.id.name] = {
           type: fnScope === scope ? "var" : "let",
@@ -442,7 +434,7 @@ const scopeCollectionVisitor = {
       );
 
       node.params.forEach(param =>
-        parseDeclarator(param, scope, "var", node, state.sourceId)
+        parseDeclarator(param, scope, "var", node, state)
       );
 
       if (!t.isArrowFunctionExpression(node)) {
@@ -457,6 +449,7 @@ const scopeCollectionVisitor = {
       }
     } else if (t.isClass(node)) {
       if (t.isClassDeclaration(node) && t.isIdentifier(node.id)) {
+        state.declarationBindingIds.add(node.id);
         state.scope.bindings[node.id.name] = {
           type: "let",
           refs: [
@@ -479,6 +472,7 @@ const scopeCollectionVisitor = {
           end: fromBabelLocation(node.loc.end, state.sourceId)
         });
 
+        state.declarationBindingIds.add(node.id);
         scope.bindings[node.id.name] = {
           type: "const",
           refs: [
@@ -510,7 +504,7 @@ const scopeCollectionVisitor = {
         start: fromBabelLocation(node.loc.start, state.sourceId),
         end: fromBabelLocation(node.loc.end, state.sourceId)
       });
-      parseDeclarator(node.param, scope, "var", node, state.sourceId);
+      parseDeclarator(node.param, scope, "var", node, state);
     } else if (
       t.isBlockStatement(node) &&
       hasLexicalDeclaration(node, parentNode)
@@ -532,17 +526,16 @@ const scopeCollectionVisitor = {
         ? getVarScope(state.scope)
         : state.scope;
       node.declarations.forEach(declarator => {
-        parseDeclarator(
-          declarator.id,
-          hoistAt,
-          node.kind,
-          node,
-          state.sourceId
-        );
+        parseDeclarator(declarator.id, hoistAt, node.kind, node, state);
       });
-    } else if (t.isImportDeclaration(node)) {
+    } else if (
+      t.isImportDeclaration(node) &&
+      (!node.importKind || node.importKind === "value")
+    ) {
       node.specifiers.forEach(spec => {
         if (t.isImportNamespaceSpecifier(spec)) {
+          state.declarationBindingIds.add(spec.local);
+
           state.scope.bindings[spec.local.name] = {
             // Imported namespaces aren't live import bindings, they are
             // just normal const bindings.
@@ -551,11 +544,17 @@ const scopeCollectionVisitor = {
               {
                 type: "decl",
                 start: fromBabelLocation(spec.local.loc.start, state.sourceId),
-                end: fromBabelLocation(spec.local.loc.end, state.sourceId)
+                end: fromBabelLocation(spec.local.loc.end, state.sourceId),
+                declaration: {
+                  start: fromBabelLocation(node.loc.start, state.sourceId),
+                  end: fromBabelLocation(node.loc.end, state.sourceId)
+                }
               }
             ]
           };
         } else {
+          state.declarationBindingIds.add(spec.local);
+
           state.scope.bindings[spec.local.name] = {
             type: "import",
             refs: [
@@ -575,26 +574,58 @@ const scopeCollectionVisitor = {
           };
         }
       });
-    } else if (t.isIdentifier(node) && t.isReferenced(node, parentNode)) {
-      const identScope = findIdentifierInScopes(state.scope, node.name);
-      if (identScope) {
-        identScope.bindings[node.name].refs.push({
-          type: "ref",
-          start: fromBabelLocation(node.loc.start, state.sourceId),
-          end: fromBabelLocation(node.loc.end, state.sourceId),
-          meta: buildMetaBindings(state.sourceId, node, ancestors)
-        });
+    } else if (t.isTSEnumDeclaration(node)) {
+      state.declarationBindingIds.add(node.id);
+      state.scope.bindings[node.id.name] = {
+        type: "const",
+        refs: [
+          {
+            type: "decl",
+            start: fromBabelLocation(node.id.loc.start, state.sourceId),
+            end: fromBabelLocation(node.id.loc.end, state.sourceId),
+            declaration: {
+              start: fromBabelLocation(node.loc.start, state.sourceId),
+              end: fromBabelLocation(node.loc.end, state.sourceId)
+            }
+          }
+        ]
+      };
+    } else if (
+      t.isIdentifier(node) &&
+      t.isReferenced(node, parentNode) &&
+      // Babel doesn't cover this in 'isReferenced' yet, but it should
+      // eventually.
+      !t.isTSEnumMember(parentNode, { id: node }) &&
+      // isReferenced above fails to see `var { foo } = ...` as a non-reference
+      // because the direct parent is not enough to know that the pattern is
+      // used within a variable declaration.
+      !state.declarationBindingIds.has(node)
+    ) {
+      let freeVariables = state.freeVariables.get(node.name);
+      if (!freeVariables) {
+        freeVariables = [];
+        state.freeVariables.set(node.name, freeVariables);
       }
+
+      freeVariables.push({
+        type: "ref",
+        start: fromBabelLocation(node.loc.start, state.sourceId),
+        end: fromBabelLocation(node.loc.end, state.sourceId),
+        meta: buildMetaBindings(state.sourceId, node, ancestors)
+      });
     } else if (t.isThisExpression(node)) {
-      const identScope = findIdentifierInScopes(state.scope, "this");
-      if (identScope) {
-        identScope.bindings.this.refs.push({
-          type: "ref",
-          start: fromBabelLocation(node.loc.start, state.sourceId),
-          end: fromBabelLocation(node.loc.end, state.sourceId),
-          meta: buildMetaBindings(state.sourceId, node, ancestors)
-        });
+      let freeVariables = state.freeVariables.get("this");
+      if (!freeVariables) {
+        freeVariables = [];
+        state.freeVariables.set("this", freeVariables);
       }
+
+      freeVariables.push({
+        type: "ref",
+        start: fromBabelLocation(node.loc.start, state.sourceId),
+        end: fromBabelLocation(node.loc.end, state.sourceId),
+        meta: buildMetaBindings(state.sourceId, node, ancestors)
+      });
     } else if (t.isClassProperty(parentNode, { value: node })) {
       const scope = pushTempScope(state, "function", "Class Field", {
         start: fromBabelLocation(node.loc.start, state.sourceId),
@@ -625,12 +656,49 @@ const scopeCollectionVisitor = {
     ancestors: TraversalAncestors,
     state: ScopeCollectionVisitorState
   ) {
-    const scope = state.scopeStack.pop();
-    if (!scope) {
+    const currentScope = state.scope;
+    const parentScope = state.scopeStack.pop();
+    if (!parentScope) {
       throw new Error("Assertion failure - unsynchronized pop");
     }
+    state.scope = parentScope;
 
-    state.scope = scope;
+    // It is possible, as in the case of function expressions, that a single
+    // node has added multiple scopes, so we need to traverse upward here
+    // rather than jumping stright to 'parentScope'.
+    for (
+      let scope = currentScope;
+      scope && scope !== parentScope;
+      scope = scope.parent
+    ) {
+      const freeVariables = state.freeVariables;
+      state.freeVariables = state.freeVariableStack.pop();
+      const parentFreeVariables = state.freeVariables;
+
+      // Match up any free variables that match this scope's bindings and
+      // merge then into the refs.
+      for (const key of Object.keys(scope.bindings)) {
+        const binding = scope.bindings[key];
+
+        const freeVars = freeVariables.get(key);
+        if (freeVars) {
+          binding.refs.push(...freeVars);
+          freeVariables.delete(key);
+        }
+      }
+
+      // Move any undeclared references in this scope into the parent for
+      // processing in higher scopes.
+      for (const [key, value] of freeVariables) {
+        let refs = parentFreeVariables.get(key);
+        if (!refs) {
+          refs = [];
+          parentFreeVariables.set(key, refs);
+        }
+
+        refs.push(...value);
+      }
+    }
   }
 };
 
@@ -729,12 +797,15 @@ function buildMetaBindings(
 }
 
 function looksLikeCommonJS(rootScope: TempScope): boolean {
+  const hasRefs = name =>
+    rootScope.bindings[name] && rootScope.bindings[name].refs.length > 0;
+
   return (
-    rootScope.bindings.__dirname.refs.length > 0 ||
-    rootScope.bindings.__filename.refs.length > 0 ||
-    rootScope.bindings.require.refs.length > 0 ||
-    rootScope.bindings.exports.refs.length > 0 ||
-    rootScope.bindings.module.refs.length > 0
+    hasRefs("__dirname") ||
+    hasRefs("__filename") ||
+    hasRefs("require") ||
+    hasRefs("exports") ||
+    hasRefs("module")
   );
 }
 

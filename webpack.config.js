@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 const toolbox = require("./node_modules/devtools-launchpad/index");
 
 const getConfig = require("./bin/getConfig");
@@ -6,6 +10,7 @@ const { NormalModuleReplacementPlugin } = require("webpack");
 const path = require("path");
 const projectPath = path.join(__dirname, "src");
 var Visualizer = require("webpack-visualizer-plugin");
+const ObjectRestSpreadPlugin = require("@sucrase/webpack-object-rest-spread-plugin");
 
 /*
  * builds a path that's relative to the project path
@@ -33,20 +38,18 @@ const webpackConfig = {
 
 function buildConfig(envConfig) {
   const extra = {};
+  webpackConfig.plugins = [new ObjectRestSpreadPlugin()];
   if (isDevelopment()) {
-    webpackConfig.plugins = [];
-
     webpackConfig.module = webpackConfig.module || {};
     webpackConfig.module.rules = webpackConfig.module.rules || [];
   } else {
-    webpackConfig.plugins = [];
     webpackConfig.output.libraryTarget = "umd";
 
     if (process.env.vis) {
       const viz = new Visualizer({
         filename: "webpack-stats.html"
       });
-      webpackConfig.plugins = [viz];
+      webpackConfig.plugins.push(viz);
     }
 
     const mappings = [
@@ -58,7 +61,9 @@ function buildConfig(envConfig) {
 
     extra.excludeMap = {
       "./source-editor": "devtools/client/sourceeditor/editor",
+      "../editor/source-editor": "devtools/client/sourceeditor/editor",
       "./test-flag": "devtools/shared/flags",
+      "./fronts-device": "devtools/shared/fronts/device",
       react: "devtools/client/shared/vendor/react",
       redux: "devtools/client/shared/vendor/redux",
       "react-dom": "devtools/client/shared/vendor/react-dom",

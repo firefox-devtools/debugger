@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 import { find, getMatchIndex, removeOverlay } from "../source-search";
 
 const getCursor = jest.fn(() => ({ line: 90, ch: 54 }));
@@ -127,7 +131,7 @@ describe("source-search", () => {
           }
         }
       };
-      removeOverlay(ctx, "test", modifiers);
+      removeOverlay(ctx, "test");
       expect(ctx.cm.removeOverlay).toHaveBeenCalled();
       expect(ctx.cm.getCursor).toHaveBeenCalled();
       expect(ctx.cm.doc.setSelection).toHaveBeenCalledWith(

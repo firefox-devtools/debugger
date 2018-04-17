@@ -1,15 +1,31 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 import { actions, selectors, createStore } from "../../utils/test-head";
 
 const mockThreadClient = {
-  evaluate: (script, { frameId }) => {
-    return new Promise((resolve, reject) => {
+  evaluateInFrame: (script, frameId) =>
+    new Promise((resolve, reject) => {
       if (!frameId) {
         resolve("bla");
       } else {
         resolve("boo");
       }
-    });
-  },
+    }),
+  evaluateExpressions: (inputs, frameId) =>
+    Promise.all(
+      inputs.map(
+        input =>
+          new Promise((resolve, reject) => {
+            if (!frameId) {
+              resolve("bla");
+            } else {
+              resolve("boo");
+            }
+          })
+      )
+    ),
   getFrameScopes: async () => {},
   sourceContents: () => ({})
 };
@@ -19,7 +35,6 @@ describe("expressions", () => {
     const { dispatch, getState } = createStore(mockThreadClient);
 
     await dispatch(actions.addExpression("foo"));
-
     expect(selectors.getExpressions(getState()).size).toBe(1);
   });
 

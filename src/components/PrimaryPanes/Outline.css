@@ -11,7 +11,7 @@
   position: relative;
 }
 
-.outline .outline-pane-info {
+.outline-pane-info {
   width: 100%;
   font-style: italic;
   text-align: center;
@@ -96,6 +96,10 @@
   height: 25px;
   box-sizing: border-box;
   display: flex;
+}
+
+.theme-dark .outline-footer button {
+    color: var(--theme-body-color);
 }
 
 .outline-footer button.active {
