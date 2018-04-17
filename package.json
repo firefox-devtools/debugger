@@ -71,7 +71,7 @@
     "devtools-launchpad": "^0.0.117",
     "devtools-linters": "^0.0.4",
     "devtools-reps": "^0.22.0",
-    "devtools-source-map": "^0.15.0",
+    "devtools-source-map": "^0.16.0",
     "devtools-splitter": "^0.0.6",
     "devtools-utils": "^0.0.12",
     "enzyme-adapter-react-16": "^1.1.1",

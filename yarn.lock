@@ -2750,13 +2750,13 @@ devtools-reps@^0.22.0:
     react-redux "^5.0.7"
     redux "^3.7.2"
 
-devtools-source-map@^0.15.0:
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/devtools-source-map/-/devtools-source-map-0.15.0.tgz#e61a6377d6b447f61c9206e17e0ce8c570a12096"
+devtools-source-map@^0.16.0:
+  version "0.16.0"
+  resolved "https://registry.yarnpkg.com/devtools-source-map/-/devtools-source-map-0.16.0.tgz#b20874757006411dd16147541e0aca3288f908d6"
   dependencies:
     babel-plugin-transform-async-to-generator "^6.22.0"
     babel-plugin-transform-flow-strip-types "^6.22.0"
-    devtools-utils "^0.0.11"
+    devtools-utils "^0.0.12"
     jest "^19.0.2"
     md5 "^2.2.1"
     regenerator-runtime "^0.10.3"
@@ -2774,14 +2774,6 @@ devtools-sprintf-js@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/devtools-sprintf-js/-/devtools-sprintf-js-1.0.3.tgz#c2aa3c39d4047525e60410325c86770620281b87"
 
-devtools-utils@0.0.12:
-  version "0.0.12"
-  resolved "https://registry.yarnpkg.com/devtools-utils/-/devtools-utils-0.0.12.tgz#8cb4f461f5fb36532883e5c9bafbd94fdb0ce5f1"
-  dependencies:
-    babel-plugin-transform-flow-strip-types "^6.22.0"
-    babel-preset-stage-3 "^6.22.0"
-    jest "^19.0.2"
-
 devtools-utils@^0.0.10:
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/devtools-utils/-/devtools-utils-0.0.10.tgz#3bfbf6e0b76cccae51754d8f40253e6d56568374"
@@ -2790,9 +2782,9 @@ devtools-utils@^0.0.10:
     babel-preset-stage-3 "^6.22.0"
     jest "^19.0.2"
 
-devtools-utils@^0.0.11:
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/devtools-utils/-/devtools-utils-0.0.11.tgz#46b7d4c7cf48cabce4151f33094b3a5ab4e98884"
+devtools-utils@^0.0.12:
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/devtools-utils/-/devtools-utils-0.0.12.tgz#8cb4f461f5fb36532883e5c9bafbd94fdb0ce5f1"
   dependencies:
     babel-plugin-transform-flow-strip-types "^6.22.0"
     babel-preset-stage-3 "^6.22.0"
