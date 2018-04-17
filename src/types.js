@@ -60,6 +60,11 @@ export type Location = {
   sourceUrl?: string
 };
 
+export type MappedLocation = {
+  location: Location,
+  generatedLocation: Location
+};
+
 export type Position = {
   line: number,
   column: ?number

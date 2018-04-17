@@ -12,7 +12,6 @@ import findOutOfScopeLocations from "./findOutOfScopeLocations";
 import { getNextStep } from "./steps";
 import { hasSyntaxError } from "./validate";
 import { getFramework } from "./frameworks";
-import { isInvalidPauseLocation } from "./pauseLocation";
 import { getPausePoints } from "./pausePoints";
 import mapOriginalExpression from "./mapOriginalExpression";
 
@@ -29,7 +28,6 @@ self.onmessage = workerHandler({
   hasSource,
   setSource,
   clearSources,
-  isInvalidPauseLocation,
   getNextStep,
   hasSyntaxError,
   getFramework,

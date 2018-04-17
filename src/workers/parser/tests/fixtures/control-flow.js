@@ -23,3 +23,11 @@ switch (c) {
 }
 
 var a = 3;
+
+for (const val of [1, 2]) {
+  console.log("pause again", val);
+}
+
+for (const val of vals) {
+  console.log("pause again", val);
+}
