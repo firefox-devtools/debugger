@@ -189,3 +189,7 @@ getExtraProps
 SpiderMonkey
 mozconfig
 JIT
+checkboxes
+objectProperties
+addons
+debugBtn
