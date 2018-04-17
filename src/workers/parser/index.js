@@ -21,7 +21,6 @@ export const clearSymbols = dispatcher.task("clearSymbols");
 export const clearScopes = dispatcher.task("clearScopes");
 export const clearASTs = dispatcher.task("clearASTs");
 export const getNextStep = dispatcher.task("getNextStep");
-export const isInvalidPauseLocation = dispatcher.task("isInvalidPauseLocation");
 export const hasSource = dispatcher.task("hasSource");
 export const setSource = dispatcher.task("setSource");
 export const clearSources = dispatcher.task("clearSources");
@@ -42,7 +41,12 @@ export type {
   BindingType
 } from "./getScopes";
 
-export type { AstLocation, AstPosition, PausePoints } from "./types";
+export type {
+  AstLocation,
+  AstPosition,
+  PausePoint,
+  PausePoints
+} from "./types";
 
 export type {
   ClassDeclaration,
