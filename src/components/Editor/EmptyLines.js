@@ -8,8 +8,6 @@ import { getSelectedSource, getEmptyLines } from "../../selectors";
 import type { SourceRecord } from "../../types";
 import { toEditorLine } from "../../utils/editor";
 
-import "./EmptyLines.css";
-
 type props = {
   selectedSource: SourceRecord,
   editor: Object,
@@ -35,6 +33,7 @@ class EmptyLines extends Component {
     if (!emptyLines) {
       return;
     }
+
     editor.codeMirror.operation(() => {
       emptyLines.forEach(emptyLine => {
         const line = toEditorLine(selectedSource.get("id"), emptyLine);
