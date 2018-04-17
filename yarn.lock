@@ -8131,6 +8131,10 @@ rc@^1.1.0, rc@^1.1.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
+react-collapsible@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/react-collapsible/-/react-collapsible-2.0.4.tgz#fb1761eda57599a045d602534e31cb23a6c3f52a"
+
 react-dom-factories@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/react-dom-factories/-/react-dom-factories-1.0.2.tgz#eb7705c4db36fb501b3aa38ff759616aa0ff96e0"
