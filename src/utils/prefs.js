@@ -52,6 +52,7 @@ if (isDevelopment()) {
   pref("devtools.debugger.features.column-breakpoints", true);
   pref("devtools.debugger.features.replay", true);
   pref("devtools.debugger.features.pause-points", true);
+  pref("devtools.debugger.features.component-stack", true);
 }
 
 export const prefs = new PrefsHelper("devtools", {
@@ -96,7 +97,8 @@ export const features = new PrefsHelper("devtools.debugger.features", {
   outline: ["Bool", "outline"],
   codeFolding: ["Bool", "code-folding"],
   replay: ["Bool", "replay"],
-  pausePoints: ["Bool", "pause-points"]
+  pausePoints: ["Bool", "pause-points"],
+  componentStack: ["Bool", "component-stack"]
 });
 
 if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {

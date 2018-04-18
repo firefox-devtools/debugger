@@ -287,7 +287,10 @@ class SecondaryPanes extends Component<Props, State> {
 
       if (this.props.horizontal) {
         if (extra && extra.react) {
-          if (extra.react.componentStack.length > 1) {
+          if (
+            features.componentStack &&
+            extra.react.componentStack.length > 1
+          ) {
             items.push(this.getComponentStackItem());
           }
           items.push(this.getComponentItem());
