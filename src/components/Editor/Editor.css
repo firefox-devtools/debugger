@@ -51,32 +51,6 @@ html[dir="rtl"] .editor-mount {
   direction: ltr;
 }
 
-.theme-light {
-  --gutter-hover-background-color: #dde1e4;
-}
-
-.theme-dark {
-  --gutter-hover-background-color: #414141;
-}
-
-:not(.empty-line):not(.new-breakpoint) > .CodeMirror-gutter-wrapper:hover {
-  width: 60px;
-  height: 13px;
-  left: -55px !important;
-  background-color: var(--gutter-hover-background-color) !important;
-  mask: url(/images/breakpoint.svg) no-repeat;
-  mask-size: 100%;
-  mask-position: 0 1px;
-}
-
-:not(.empty-line):not(.new-breakpoint)
-  > .CodeMirror-gutter-wrapper:hover
-  > .CodeMirror-linenumber {
-  left: auto !important;
-  right: 6px;
-  color: var(--theme-body-color);
-}
-
 .editor-wrapper .breakpoints {
   position: absolute;
   top: 0;
@@ -124,11 +98,6 @@ html[dir="rtl"] .editor-mount {
   border: 1px solid #00b6ff;
 }
 
-.editor .breakpoint {
-  position: absolute;
-  right: -2px;
-}
-
 .editor.new-breakpoint.folding-enabled svg {
   right: -16px;
 }
@@ -173,10 +142,7 @@ html[dir="rtl"] .editor-mount {
 }
 
 /* set the linenumber white when there is a breakpoint */
-.cm-s-mozilla
-  .new-breakpoint
-  .CodeMirror-gutter-wrapper
-  .CodeMirror-linenumber {
+.cm-s-mozilla .new-breakpoint .CodeMirror-gutter-wrapper .CodeMirror-linenumber {
   color: white;
 }
 
