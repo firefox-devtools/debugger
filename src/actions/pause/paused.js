@@ -52,7 +52,7 @@ export function paused(pauseInfo: Pause) {
       // Ensure that the original file has loaded if there is one.
       await dispatch(loadSourceText(source));
 
-      if (await shouldStep(mappedFrame, getState(), sourceMaps)) {
+      if (shouldStep(mappedFrame, getState(), sourceMaps)) {
         dispatch(command("stepOver"));
         return;
       }

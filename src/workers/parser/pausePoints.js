@@ -11,15 +11,20 @@ import isEqual from "lodash/isEqual";
 import type { BabelNode } from "@babel/types";
 import type { SimplePath } from "./utils/simple-path";
 
+const isForStatement = node =>
+  t.isForStatement(node) || t.isForOfStatement(node);
+
 const isControlFlow = node =>
-  t.isForStatement(node) ||
+  isForStatement(node) ||
   t.isWhileStatement(node) ||
   t.isIfStatement(node) ||
   t.isSwitchCase(node) ||
   t.isSwitchStatement(node);
 
 const isAssignment = node =>
-  t.isVariableDeclarator(node) || t.isAssignmentExpression(node);
+  t.isVariableDeclarator(node) ||
+  t.isAssignmentExpression(node) ||
+  t.isAssignmentPattern(node);
 
 const isImport = node => t.isImport(node) || t.isImportDeclaration(node);
 const isReturn = node => t.isReturnStatement(node);
@@ -62,13 +67,21 @@ function onEnter(node: BabelNode, ancestors: SimplePath[], state) {
   }
 
   if (isControlFlow(node)) {
-    addEmptyPoint(state, startLocation);
+    if (isForStatement(node)) {
+      addStopPoint(state, startLocation);
+    } else {
+      addEmptyPoint(state, startLocation);
+    }
 
     const test = node.test || node.discriminant;
     if (test) {
       addStopPoint(state, test.loc.start);
     }
     return;
+  }
+
+  if (t.isBlockStatement(node)) {
+    return addEmptyPoint(state, startLocation);
   }
 
   if (isReturn(node)) {
@@ -82,7 +95,10 @@ function onEnter(node: BabelNode, ancestors: SimplePath[], state) {
   if (isAssignment(node)) {
     // We only want to pause at literal assignments `var a = foo()`
     const value = node.right || node.init;
-    if (!isCall(value)) {
+
+    if (isCall(value) || t.isFunction(parentNode)) {
+      return addEmptyPoint(state, startLocation);
+    } else {
       return addStopPoint(state, startLocation);
     }
   }
