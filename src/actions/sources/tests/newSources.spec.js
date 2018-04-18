@@ -71,4 +71,10 @@ describe("sources - new sources", () => {
     await dispatch(actions.newSource(makeSource("base.js")));
     expect(getOriginalURLs).not.toHaveBeenCalled();
   });
+
+  it("should not fail if there isn't a source map service", async () => {
+    const store = createStore(threadClient, {}, null);
+    await store.dispatch(actions.newSource(makeSource("base.js")));
+    expect(getSources(store.getState()).size).toEqual(1);
+  });
 });
