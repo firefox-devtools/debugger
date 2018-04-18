@@ -23,7 +23,7 @@
 }
 
 .result-list.big li {
-  padding: 10px;
+  padding: 5px;
   flex-direction: row;
   line-height: 18px;
   font-size: 12px;
