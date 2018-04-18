@@ -198,7 +198,7 @@ class Breakpoints extends Component<Props> {
             </div>,
             ...groupedBreakpoints[filename]
               .filter(bp => !bp.hidden && bp.text)
-              .map((bp, i) => this.renderBreakpoint(bp))
+              .map(bp => this.renderBreakpoint(bp))
           ];
         })
     ];
