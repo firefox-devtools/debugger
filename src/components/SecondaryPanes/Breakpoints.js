@@ -181,7 +181,6 @@ class Breakpoints extends Component<Props> {
 
     const groupedBreakpoints = groupBy(
       sortBy([...breakpoints.valueSeq()], bp => bp.location.line),
-      // bp => getBreakpointFilename(bp.source)
       bp => bp.source.url
     );
 
