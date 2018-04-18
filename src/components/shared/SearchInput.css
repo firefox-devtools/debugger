@@ -33,7 +33,7 @@
 
 .search-field input {
   position: relative;
-  margin: 0 30px;
+  margin-left: 30px;
   border: none;
   line-height: 30px;
   background-color: var(--theme-toolbar-background);
@@ -41,6 +41,7 @@
   width: calc(100% - 38px);
   flex: 1;
   font-size: 13px;
+  text-indent: 12px;
 }
 
 /*
