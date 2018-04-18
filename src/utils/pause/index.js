@@ -6,3 +6,4 @@
 
 export * from "./why";
 export * from "./stepping";
+export * from "./getReactComponentStack";
