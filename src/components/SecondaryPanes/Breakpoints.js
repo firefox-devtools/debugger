@@ -15,7 +15,7 @@ import { groupBy, sortBy } from "lodash";
 import Breakpoint from "./Breakpoint";
 
 import actions from "../../actions";
-import { getFilename } from "../../utils/source";
+import { getRawSourceURL } from "../../utils/source";
 import {
   getSources,
   getSourceInSources,
@@ -82,10 +82,6 @@ function isCurrentlyPausedAtBreakpoint(
   const bpId = makeLocationId(breakpoint.location);
   const pausedId = makeLocationId(frame.location);
   return bpId === pausedId;
-}
-
-function getBreakpointFilename(source: Source) {
-  return source ? getFilename(source) : "";
 }
 
 function createExceptionOption(
@@ -190,18 +186,28 @@ class Breakpoints extends Component<Props> {
 
     const groupedBreakpoints = groupBy(
       sortBy([...breakpoints.valueSeq()], bp => bp.location.line),
-      bp => getBreakpointFilename(bp.source)
+      bp => bp.source.url
     );
 
     return [
       ...Object.keys(groupedBreakpoints)
-        .sort()
-        .map(filename => {
+        .sort((urlA, urlB) => {
+          const urlASplit = urlA.split("/");
+          const urlBSplit = urlB.split("/");
+
+          return (
+            urlASplit[urlASplit.length - 1] > urlBSplit[urlBSplit.length - 1]
+          );
+        })
+        .map(url => {
+          const split = getRawSourceURL(url).split("/");
+          const file = split[split.length - 1];
+
           return [
-            <div className="breakpoint-heading" title={filename} key={filename}>
-              {filename}
+            <div className="breakpoint-heading" title={url} key={url}>
+              {file}
             </div>,
-            ...groupedBreakpoints[filename]
+            ...groupedBreakpoints[url]
               .filter(bp => !bp.hidden && bp.text)
               .map(bp => this.renderBreakpoint(bp))
           ];
