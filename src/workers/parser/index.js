@@ -8,8 +8,8 @@ import { workerUtils } from "devtools-utils";
 const { WorkerDispatcher } = workerUtils;
 
 const dispatcher = new WorkerDispatcher();
-export const startParserWorker = dispatcher.start.bind(dispatcher);
-export const stopParserWorker = dispatcher.stop.bind(dispatcher);
+export const start = dispatcher.start.bind(dispatcher);
+export const stop = dispatcher.stop.bind(dispatcher);
 
 export const getClosestExpression = dispatcher.task("getClosestExpression");
 export const getSymbols = dispatcher.task("getSymbols");

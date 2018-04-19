@@ -37,7 +37,7 @@ async function onConnect(
     toolboxActions
   });
 
-  bootstrapWorkers();
+  const workers = bootstrapWorkers();
   await firefox.onConnect(connection, actions);
   await loadFromPrefs(actions);
 
@@ -45,6 +45,7 @@ async function onConnect(
     store,
     actions,
     selectors,
+    workers: { ...workers, ...services },
     connection,
     client: firefox.clientCommands
   });
