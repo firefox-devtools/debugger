@@ -12,7 +12,7 @@ type Props = {
   tooltip?: string
 };
 
-function CloseButton({ handleClick, buttonClass, tooltip }: Props){
+function CloseButton({ handleClick, buttonClass, tooltip }: Props) {
   return (
     <button
       className={buttonClass ? `close-btn ${buttonClass}` : "close-btn"}
@@ -23,6 +23,5 @@ function CloseButton({ handleClick, buttonClass, tooltip }: Props){
     </button>
   );
 }
-
 
 export default CloseButton;
