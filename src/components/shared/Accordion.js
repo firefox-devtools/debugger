@@ -54,7 +54,11 @@ class Accordion extends Component<Props, State> {
 
     return (
       <li role="listitem" className={item.className} key={i}>
-        <h2 className="_header" tabIndex="0" onClick={() => this.handleHeaderClick(i)}>
+        <h2
+          className="_header"
+          tabIndex="0"
+          onClick={() => this.handleHeaderClick(i)}
+        >
           <Svg name="arrow" className={opened ? "expanded" : ""} />
           {item.header}
           {item.buttons ? (
