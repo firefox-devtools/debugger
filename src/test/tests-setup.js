@@ -14,17 +14,20 @@ import Adapter from "enzyme-adapter-react-16";
 import { startSourceMapWorker, stopSourceMapWorker } from "devtools-source-map";
 
 import {
-  startPrettyPrintWorker,
-  stopPrettyPrintWorker
+  start as startPrettyPrintWorker,
+  stop as stopPrettyPrintWorker
 } from "../workers/pretty-print";
 
 import {
-  startParserWorker,
-  stopParserWorker,
+  start as startParserWorker,
+  stop as stopParserWorker,
   clearSymbols,
   clearASTs
 } from "../workers/parser";
-import { startSearchWorker, stopSearchWorker } from "../workers/search";
+import {
+  start as startSearchWorker,
+  stop as stopSearchWorker
+} from "../workers/search";
 import { clearDocuments } from "../utils/editor";
 import { clearHistory } from "./utils/history";
 

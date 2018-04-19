@@ -16,13 +16,10 @@ import {
   isTesting
 } from "devtools-config";
 import { startSourceMapWorker, stopSourceMapWorker } from "devtools-source-map";
-import { startSearchWorker, stopSearchWorker } from "../workers/search";
+import * as search from "../workers/search";
+import * as prettyPrint from "../workers/pretty-print";
+import * as parser from "../workers/parser";
 
-import {
-  startPrettyPrintWorker,
-  stopPrettyPrintWorker
-} from "../workers/pretty-print";
-import { startParserWorker, stopParserWorker } from "../workers/parser";
 import configureStore from "../actions/utils/create-store";
 import reducers from "../reducers";
 import * as selectors from "../selectors";
@@ -70,9 +67,10 @@ export function bootstrapWorkers() {
     // When used in Firefox, the toolbox manages the source map worker.
     startSourceMapWorker(getValue("workers.sourceMapURL"));
   }
-  startPrettyPrintWorker(getValue("workers.prettyPrintURL"));
-  startParserWorker(getValue("workers.parserURL"));
-  startSearchWorker(getValue("workers.searchURL"));
+  prettyPrint.start(getValue("workers.prettyPrintURL"));
+  parser.start(getValue("workers.parserURL"));
+  search.start(getValue("workers.searchURL"));
+  return { prettyPrint, parser, search };
 }
 
 export function teardownWorkers() {
@@ -80,9 +78,9 @@ export function teardownWorkers() {
     // When used in Firefox, the toolbox manages the source map worker.
     stopSourceMapWorker();
   }
-  stopPrettyPrintWorker();
-  stopParserWorker();
-  stopSearchWorker();
+  prettyPrint.stop();
+  parser.stop();
+  search.stop();
 }
 
 export function bootstrapApp(store: any) {
