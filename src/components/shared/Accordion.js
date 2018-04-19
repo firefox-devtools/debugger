@@ -53,8 +53,8 @@ class Accordion extends Component<Props, State> {
     const { opened } = item;
 
     return (
-      <div className={item.className} key={i}>
-        <div
+      <li role="listitem" className={item.className} key={i}>
+        <h2
           className="_header"
           tabIndex="0"
           onClick={() => this.handleHeaderClick(i)}
@@ -66,21 +66,20 @@ class Accordion extends Component<Props, State> {
               {item.buttons}
             </div>
           ) : null}
-        </div>
+        </h2>
         {opened && (
           <div className="_content">
             {cloneElement(item.component, item.componentProps || {})}
           </div>
         )}
-      </div>
+      </li>
     );
   };
-
   render() {
     return (
-      <div className="accordion">
+      <ul role="list" className="accordion">
         {this.props.items.map(this.renderContainer)}
-      </div>
+      </ul>
     );
   }
 }
