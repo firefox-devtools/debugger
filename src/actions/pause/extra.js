@@ -31,6 +31,7 @@ async function getReactProps(evaluate) {
     componentNames.result.preview && componentNames.result.preview.items;
   if (items) {
     return {
+      displayName: items[0],
       componentStack: items
     };
   }
