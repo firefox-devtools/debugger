@@ -17,9 +17,9 @@ import type { ThunkArgs } from "../types";
 
 export function continueToHere(line: number) {
   return async function({ dispatch, getState }: ThunkArgs) {
-    const source = getSelectedSource(getState()).toJS();
+    const selectedSource = getSelectedSource(getState());
 
-    if (!isPaused(getState())) {
+    if (!isPaused(getState()) || !selectedSource) {
       return;
     }
 
@@ -36,7 +36,7 @@ export function continueToHere(line: number) {
       addHiddenBreakpoint({
         line,
         column: undefined,
-        sourceId: source.id
+        sourceId: selectedSource.id
       })
     );
 

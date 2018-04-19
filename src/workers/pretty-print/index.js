@@ -29,6 +29,6 @@ export async function prettyPrint({ source, url }: PrettyPrintOpts) {
   return await _prettyPrint({
     url,
     indent,
-    sourceText: source.get("text")
+    sourceText: source.text
   });
 }

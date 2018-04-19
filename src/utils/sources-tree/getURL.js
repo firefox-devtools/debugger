@@ -46,7 +46,7 @@ export function getURL(sourceUrl: string, debuggeeUrl: string = ""): ParsedURL {
       // A Webpack source is a special case
       return merge(def, {
         path: path,
-        group: "Webpack",
+        group: "webpack://",
         filename: filename
       });
 
@@ -54,7 +54,7 @@ export function getURL(sourceUrl: string, debuggeeUrl: string = ""): ParsedURL {
       // An Angular source is a special case
       return merge(def, {
         path: path,
-        group: "Angular",
+        group: "ng://",
         filename: filename
       });
 

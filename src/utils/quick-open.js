@@ -3,16 +3,16 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
+import classnames from "classnames";
 import { endTruncateStr } from "./utils";
-import { isPretty, getSourcePath } from "./source";
+import { isPretty, getFilename, getSourceClassnames } from "./source";
 
 import type { Location as BabelLocation } from "@babel/types";
-import type { SourcesMap } from "../reducers/sources";
+import type { Symbols } from "../reducers/ast";
 import type { QuickOpenType } from "../reducers/quick-open";
-import type {
-  SymbolDeclaration,
-  SymbolDeclarations
-} from "../workers/parser/types";
+import type { TabList } from "../reducers/sources";
+import type { RelativeSource } from "../selectors/getRelativeSources";
+import type { SymbolDeclaration } from "../workers/parser";
 
 export const MODIFIERS = {
   "@": "functions",
@@ -51,13 +51,29 @@ export function parseLineColumn(query: string) {
   }
 }
 
+export function formatSourcesForList(source: RelativeSource, tabs: TabList) {
+  const title = getFilename(source);
+  const subtitle = endTruncateStr(source.relativeUrl, 100);
+  return {
+    value: source.relativeUrl,
+    title,
+    subtitle,
+    icon: tabs.includes(source.url)
+      ? "tab result-item-icon"
+      : classnames(getSourceClassnames(source), "result-item-icon"),
+    id: source.id,
+    url: source.url
+  };
+}
+
 export type QuickOpenResult = {|
   id: string,
   value: string,
   title: string,
   subtitle?: string,
   location?: BabelLocation,
-  url?: string
+  url?: string,
+  icon?: string
 |};
 
 export type FormattedSymbolDeclarations = {|
@@ -75,10 +91,8 @@ export function formatSymbol(symbol: SymbolDeclaration): QuickOpenResult {
   };
 }
 
-export function formatSymbols(
-  symbols: ?SymbolDeclarations
-): FormattedSymbolDeclarations {
-  if (!symbols) {
+export function formatSymbols(symbols: ?Symbols): FormattedSymbolDeclarations {
+  if (!symbols || symbols.loading) {
     return { variables: [], functions: [] };
   }
 
@@ -110,20 +124,12 @@ export function formatShortcutResults(): Array<QuickOpenResult> {
   ];
 }
 
-export function formatSources(sources: SourcesMap): Array<QuickOpenResult> {
+export function formatSources(
+  sources: RelativeSource[],
+  tabs: TabList
+): Array<QuickOpenResult> {
   return sources
-    .valueSeq()
     .filter(source => !isPretty(source))
-    .map(source => {
-      const sourcePath = getSourcePath(source.get("url"));
-      return {
-        value: sourcePath,
-        title: sourcePath.split("/").pop(),
-        subtitle: endTruncateStr(sourcePath, 100),
-        id: source.get("id"),
-        url: source.get("url")
-      };
-    })
-    .filter(({ value }) => value != "")
-    .toJS();
+    .map(source => formatSourcesForList(source, tabs))
+    .filter(({ value }) => value != "");
 }

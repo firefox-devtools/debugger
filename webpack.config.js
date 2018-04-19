@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 const toolbox = require("./node_modules/devtools-launchpad/index");
 
 const getConfig = require("./bin/getConfig");
@@ -57,7 +61,9 @@ function buildConfig(envConfig) {
 
     extra.excludeMap = {
       "./source-editor": "devtools/client/sourceeditor/editor",
+      "../editor/source-editor": "devtools/client/sourceeditor/editor",
       "./test-flag": "devtools/shared/flags",
+      "./fronts-device": "devtools/shared/fronts/device",
       react: "devtools/client/shared/vendor/react",
       redux: "devtools/client/shared/vendor/redux",
       "react-dom": "devtools/client/shared/vendor/react-dom",

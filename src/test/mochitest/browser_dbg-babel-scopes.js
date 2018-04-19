@@ -2,96 +2,38 @@
  * http://creativecommons.org/publicdomain/zero/1.0/ */
 
 // This test can be really slow on debug platforms and should be split.
-requestLongerTimeout(4);
+requestLongerTimeout(6);
 
 // Tests loading sourcemapped sources for Babel's compile output.
 
 async function breakpointScopes(dbg, fixture, { line, column }, scopes) {
-  const { selectors: { getBreakpoint, getBreakpoints }, getState } = dbg;
-
   const filename = `fixtures/${fixture}/input.js`;
-  await waitForSources(dbg, filename);
-
-  ok(true, "Original sources exist");
-  const source = findSource(dbg, filename);
-
-  await selectSource(dbg, source);
-
-  // Test that breakpoint is not off by a line.
-  await addBreakpoint(dbg, source, line);
-
-  is(getBreakpoints(getState()).size, 1, "One breakpoint exists");
-  ok(
-    getBreakpoint(getState(), { sourceId: source.id, line, column }),
-    "Breakpoint has correct line"
-  );
-
   const fnName = fixture.replace(/-([a-z])/g, (s, c) => c.toUpperCase());
 
-  const invokeResult = invokeInTab(fnName);
-
-  let invokeFailed = await Promise.race([
-    waitForPaused(dbg),
-    invokeResult.then(() => new Promise(() => {}), () => true)
-  ]);
-
-  if (invokeFailed) {
-    return invokeResult;
-  }
-
-  assertPausedLocation(dbg);
-
-  await assertScopes(dbg, scopes);
-
-  await removeBreakpoint(dbg, source.id, line, column);
-
-  is(getBreakpoints(getState()).size, 0, "Breakpoint reverted");
-
-  await resume(dbg);
-
-  // If the invoke errored later somehow, capture here so the error is reported nicely.
-  await invokeResult;
+  await invokeWithBreakpoint(dbg, fnName, filename, { line, column }, async () => {
+    await assertScopes(dbg, scopes);
+  });
 
   ok(true, `Ran tests for ${fixture} at line ${line} column ${column}`);
-}
-
-async function expandAllScopes(dbg) {
-  const scopes = await waitForElement(dbg, "scopes");
-  const scopeElements = scopes.querySelectorAll(
-    `.tree-node[aria-level="1"][data-expandable="true"]:not([aria-expanded="true"])`
-  );
-  const indices = Array.from(scopeElements, el => {
-    return Array.prototype.indexOf.call(el.parentNode.childNodes, el);
-  }).reverse();
-
-  for (const index of indices) {
-    await toggleScopeNode(dbg, index + 1);
-  }
-}
-
-async function assertScopes(dbg, items) {
-  await expandAllScopes(dbg);
-
-  for (const [i, val] of items.entries()) {
-    if (Array.isArray(val)) {
-      is(getScopeLabel(dbg, i + 1), val[0]);
-      is(
-        getScopeValue(dbg, i + 1),
-        val[1],
-        `"${val[0]}" has the expected "${val[1]}" value`
-      );
-    } else {
-      is(getScopeLabel(dbg, i + 1), val);
-    }
-  }
-
-  is(getScopeLabel(dbg, items.length + 1), "Window");
 }
 
 add_task(async function() {
   await pushPref("devtools.debugger.features.map-scopes", true);
 
   const dbg = await initDebugger("doc-babel.html");
+
+  await breakpointScopes(dbg, "eval-source-maps", { line: 14, column: 4 }, [
+    "Block",
+    ["three", "5"],
+    ["two", "4"],
+    "Block",
+    ["three", "3"],
+    ["two", "2"],
+    "root",
+    ["one", "1"],
+    "Module",
+    "root()"
+  ]);
 
   await breakpointScopes(dbg, "for-of", { line: 5, column: 4 }, [
     "For",
@@ -118,6 +60,22 @@ add_task(async function() {
     "default",
     ["aVar", '"var3"']
   ]);
+
+  await breakpointScopes(
+    dbg,
+    "line-start-bindings-es6",
+    { line: 19, column: 4 },
+    [
+      "Block",
+      ["<this>", '{\u2026}'],
+      ["one", "1"],
+      ["two", "2"],
+      "root",
+      ["aFunc", "(optimized away)"],
+      "Module",
+      "root()"
+    ]
+  );
 
   await breakpointScopes(
     dbg,
@@ -262,9 +220,13 @@ add_task(async function() {
     ["val", "(optimized away)"],
     "Module",
 
-    // This value is currently unmapped because import declarations don't map
-    // very well and ones at the end of the file map especially badly.
-    ["aDefault", "(unmapped)"],
+    // This value is currently optimized away, which isn't 100% accurate.
+    // Because import declarations is the last thing in the file, our current
+    // logic doesn't cover _both_ 'var' statements that it generates,
+    // making us use the first, optimized-out binding. Given that imports
+    // are almost never the last thing in a file though, this is probably not
+    // a huge deal for now.
+    ["aDefault", "(optimized away)"],
     ["root", "(optimized away)"],
     ["val", "(optimized away)"],
   ]);

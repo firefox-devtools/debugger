@@ -31,7 +31,7 @@ function SearchState() {
  * @memberof utils/source-search
  * @static
  */
-function getSearchState(cm: any, query, modifiers) {
+function getSearchState(cm: any, query) {
   const state = cm.state.search || (cm.state.search = new SearchState());
   return state;
 }
@@ -141,11 +141,11 @@ function doSearch(ctx, rev, query, keepSelection, modifiers: SearchModifiers) {
 
   return cm.operation(function() {
     if (!query || isWhitespace(query)) {
-      clearSearch(cm, query, modifiers);
+      clearSearch(cm, query);
       return;
     }
 
-    const state = getSearchState(cm, query, modifiers);
+    const state = getSearchState(cm, query);
     const isNewQuery = state.query !== query;
     state.query = query;
 
@@ -154,6 +154,31 @@ function doSearch(ctx, rev, query, keepSelection, modifiers: SearchModifiers) {
     const searchLocation = searchNext(ctx, rev, query, isNewQuery, modifiers);
 
     return searchLocation ? searchLocation.from : defaultIndex;
+  });
+}
+
+export function searchSourceForHighlight(
+  ctx: Object,
+  rev: boolean,
+  query: string,
+  keepSelection: boolean,
+  modifiers: SearchModifiers,
+  line: number,
+  ch: number
+) {
+  const { cm } = ctx;
+  if (!cm) {
+    return;
+  }
+
+  return cm.operation(function() {
+    const state = getSearchState(cm, query);
+    const isNewQuery = state.query !== query;
+    state.query = query;
+
+    updateOverlay(cm, state, query, modifiers);
+    updateCursor(cm, state, keepSelection);
+    findNextOnLine(ctx, rev, query, isNewQuery, modifiers, line, ch);
   });
 }
 
@@ -175,7 +200,7 @@ function searchNext(ctx, rev, query, newQuery, modifiers) {
   const { cm, ed } = ctx;
   let nextMatch;
   cm.operation(function() {
-    const state = getSearchState(cm, query, modifiers);
+    const state = getSearchState(cm, query);
     const pos = getCursorPos(newQuery, rev, state);
 
     if (!state.query) {
@@ -208,18 +233,36 @@ function searchNext(ctx, rev, query, newQuery, modifiers) {
   return nextMatch;
 }
 
+function findNextOnLine(ctx, rev, query, newQuery, modifiers, line, ch) {
+  const { cm, ed } = ctx;
+  cm.operation(function() {
+    const pos = { line: line - 1, ch };
+    let cursor = getSearchCursor(cm, query, pos, modifiers);
+
+    if (!cursor.find(rev) && query) {
+      cursor = getSearchCursor(cm, query, pos, modifiers);
+      if (!cursor.find(rev)) {
+        return;
+      }
+    }
+
+    // We don't want to jump the editor
+    // when we're selecting text
+    if (!cm.state.selectingText) {
+      ed.alignLine(cursor.from().line, "center");
+      cm.setSelection(cursor.from(), cursor.to());
+    }
+  });
+}
+
 /**
  * Remove overlay.
  *
  * @memberof utils/source-search
  * @static
  */
-export function removeOverlay(
-  ctx: any,
-  query: string,
-  modifiers: SearchModifiers
-) {
-  const state = getSearchState(ctx.cm, query, modifiers);
+export function removeOverlay(ctx: any, query: string) {
+  const state = getSearchState(ctx.cm, query);
   ctx.cm.removeOverlay(state.overlay);
   const { line, ch } = ctx.cm.getCursor();
   ctx.cm.doc.setSelection({ line, ch }, { line, ch }, { scroll: false });
@@ -231,8 +274,8 @@ export function removeOverlay(
  * @memberof utils/source-search
  * @static
  */
-function clearSearch(cm, query: string, modifiers: SearchModifiers) {
-  const state = getSearchState(cm, query, modifiers);
+function clearSearch(cm, query: string) {
+  const state = getSearchState(cm, query);
 
   state.results = [];
 
@@ -255,7 +298,7 @@ export function find(
   keepSelection: boolean,
   modifiers: SearchModifiers
 ) {
-  clearSearch(ctx.cm, query, modifiers);
+  clearSearch(ctx.cm, query);
   return doSearch(ctx, false, query, keepSelection, modifiers);
 }
 

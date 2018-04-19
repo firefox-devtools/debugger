@@ -33,5 +33,12 @@ export function isReactComponent(result: Grip) {
     return;
   }
 
-  return Object.keys(ownProperties).includes("_reactInternalInstance");
+  return (
+    Object.keys(ownProperties).includes("_reactInternalInstance") ||
+    Object.keys(ownProperties).includes("_reactInternalFiber")
+  );
+}
+
+export function isConsole(expression: string) {
+  return /^console/.test(expression);
 }

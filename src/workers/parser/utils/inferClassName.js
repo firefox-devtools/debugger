@@ -75,7 +75,7 @@ function fromPrototype(assignment) {
 // that are defined inside of a class like thing.
 // e.g. `class Foo`, `TodoClass.prototype.foo`,
 //      `Todo = createClass({ foo: () => {}})`
-export function inferClassName(path: SimplePath): ?string {
+export function inferClassName(path: SimplePath): string | null {
   const classDeclaration = path.findParent(p => t.isClassDeclaration(p.node));
   if (classDeclaration) {
     return classDeclaration.node.id.name;

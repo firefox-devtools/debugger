@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 import React from "react";
 import { shallow } from "enzyme";
 
@@ -12,10 +16,10 @@ describe("CloseButton", () => {
     <CloseButton buttonClass="error" handleClick={spy} tooltip={tooltip} />
   );
   it("renders", () => expect(wrapper).toMatchSnapshot());
-  wrapper.find("div").simulate("click");
+  wrapper.find("button").simulate("click");
   it("handleClick is called", () => expect(spy).toHaveBeenCalled());
   it("tooltip is passed through", () =>
-    expect(wrapper.find("div").prop("title")).toEqual(tooltip));
+    expect(wrapper.find("button").prop("title")).toEqual(tooltip));
 });
 
 describe("CommandBarButton", () => {

@@ -13,8 +13,8 @@ const CHARACTER_LIMIT = 250;
 const _minifiedCache = new Map();
 
 export function isMinified(source: SourceRecord) {
-  if (_minifiedCache.has(source.get("id"))) {
-    return _minifiedCache.get(source.get("id"));
+  if (_minifiedCache.has(source.id)) {
+    return _minifiedCache.get(source.id);
   }
 
   let text = source.get("text");

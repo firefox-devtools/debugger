@@ -34,7 +34,7 @@ function findSource(sourceTree: Node, sourceUrl: string): Node {
 
 export function getDirectories(sourceUrl: string, sourceTree: Node) {
   const url = getURL(sourceUrl);
-  const fullUrl = `/${url.group}${url.path}`;
+  const fullUrl = `${url.group}${url.path}`;
   const parentMap = createParentMap(sourceTree);
   const source = findSource(sourceTree, fullUrl);
   if (!source) {

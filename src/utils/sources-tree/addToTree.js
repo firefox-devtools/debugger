@@ -27,7 +27,7 @@ function isUnderRoot(url, projectRoot) {
     return true;
   }
 
-  return `/${url.group}${url.path}`.startsWith(projectRoot);
+  return `${url.group}${url.path}`.startsWith(projectRoot);
 }
 
 function removeProjectRoot(parts, projectRoot) {
@@ -112,7 +112,7 @@ function traverseTree(
 
   let path = "";
   return parts.reduce((subTree, part, index) => {
-    path = `${path}/${part}`;
+    path = path ? `${path}/${part}` : part;
     const debuggeeHostIfRoot = index === 0 ? debuggeeHost : null;
     return findOrCreateNode(
       parts,

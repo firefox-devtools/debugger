@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 import { Map } from "immutable";
 
 import {
@@ -39,7 +43,7 @@ describe("sources tree", () => {
 
       const abcNode = abFolder.contents[0];
       expect(abcNode.name).toBe("c.js");
-      expect(abcNode.path).toBe("/example.com/a/b/c.js");
+      expect(abcNode.path).toBe("example.com/a/b/c.js");
       expect(formatTree(tree)).toMatchSnapshot();
     });
 
@@ -62,12 +66,12 @@ describe("sources tree", () => {
 
       const [cdFolder, abcNode] = abFolder.contents;
       expect(abcNode.name).toBe("c.js");
-      expect(abcNode.path).toBe("/example.com/a/b/c.js");
+      expect(abcNode.path).toBe("example.com/a/b/c.js");
       expect(cdFolder.name).toBe("c/d");
 
       const [abcdeNode] = cdFolder.contents;
       expect(abcdeNode.name).toBe("e.js");
-      expect(abcdeNode.path).toBe("/example.com/a/b/c/d/e.js");
+      expect(abcdeNode.path).toBe("example.com/a/b/c/d/e.js");
       expect(formatTree(tree)).toMatchSnapshot();
     });
 
@@ -89,9 +93,9 @@ describe("sources tree", () => {
 
       const [abcNode, abxNode] = abFolder.contents;
       expect(abcNode.name).toBe("c.js");
-      expect(abcNode.path).toBe("/example.com/a/b/c.js");
+      expect(abcNode.path).toBe("example.com/a/b/c.js");
       expect(abxNode.name).toBe("x.js");
-      expect(abxNode.path).toBe("/example.com/a/b/x.js");
+      expect(abxNode.path).toBe("example.com/a/b/x.js");
       expect(formatTree(tree)).toMatchSnapshot();
     });
 
@@ -113,12 +117,12 @@ describe("sources tree", () => {
 
       const [cdFolder, abcNode] = abFolder.contents;
       expect(abcNode.name).toBe("c.js");
-      expect(abcNode.path).toBe("/example.com/a/b/c.js");
+      expect(abcNode.path).toBe("example.com/a/b/c.js");
       expect(cdFolder.name).toBe("c/d");
 
       const [abcdeNode] = cdFolder.contents;
       expect(abcdeNode.name).toBe("e.js");
-      expect(abcdeNode.path).toBe("/example.com/a/b/c/d/e.js");
+      expect(abcdeNode.path).toBe("example.com/a/b/c/d/e.js");
       expect(formatTree(tree)).toMatchSnapshot();
     });
   });

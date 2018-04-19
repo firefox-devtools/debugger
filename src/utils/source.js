@@ -15,11 +15,19 @@ import { basename } from "./path";
 
 import { parse as parseURL } from "url";
 export { isMinified } from "./isMinified";
+import { getExtension } from "./sources-tree";
 
-import type { Source, SourceRecord } from "../types";
-import type { SymbolDeclarations } from "../workers/parser/types";
+import type { Source, SourceRecord, Location } from "../types";
+import type { SymbolDeclarations } from "../workers/parser";
 
 type transformUrlCallback = string => string;
+
+export const sourceTypes = {
+  coffee: "coffeescript",
+  js: "javascript",
+  jsx: "react",
+  ts: "typescript"
+};
 
 /**
  * Trims the query part or reference identifier of a url string, if necessary.
@@ -47,7 +55,7 @@ export function shouldPrettyPrint(source: SourceRecord) {
   }
   const _isPretty = isPretty(source);
   const _isJavaScript = isJavaScript(source);
-  const isOriginal = isOriginalId(source.get("id"));
+  const isOriginal = isOriginalId(source.id);
   const hasSourceMap = source.get("sourceMapURL");
 
   if (_isPretty || isOriginal || hasSourceMap || !_isJavaScript) {
@@ -68,8 +76,8 @@ export function shouldPrettyPrint(source: SourceRecord) {
  * @static
  */
 export function isJavaScript(source: SourceRecord): boolean {
-  const url = source.get("url");
-  const contentType = source.get("contentType");
+  const url = source.url;
+  const contentType = source.contentType;
   return (
     (url && /\.(jsm|js)?$/.test(trimUrlQuery(url))) ||
     !!(contentType && contentType.includes("javascript"))
@@ -81,7 +89,7 @@ export function isJavaScript(source: SourceRecord): boolean {
  * @static
  */
 export function isPretty(source: SourceRecord): boolean {
-  const url = source.get("url");
+  const url = source.url;
   return isPrettyURL(url);
 }
 
@@ -90,7 +98,7 @@ export function isPrettyURL(url: string): boolean {
 }
 
 export function isThirdParty(source: SourceRecord) {
-  const url = source.get("url");
+  const url = source.url;
   if (!source || !url) {
     return false;
   }
@@ -312,4 +320,28 @@ export function isLoaded(source: SourceRecord) {
 
 export function isLoading(source: SourceRecord) {
   return source.get("loadedState") === "loading";
+}
+
+export function getTextAtPosition(source: Source, location: Location) {
+  if (!source || !source.text) {
+    return "";
+  }
+
+  const line = location.line;
+  const column = location.column || 0;
+
+  const lineText = source.text.split("\n")[line - 1];
+  if (!lineText) {
+    return "";
+  }
+
+  return lineText.slice(column, column + 100).trim();
+}
+
+export function getSourceClassnames(source: Object) {
+  if (source && source.isBlackBoxed) {
+    return "blackBox";
+  }
+
+  return sourceTypes[getExtension(source)] || "file";
 }

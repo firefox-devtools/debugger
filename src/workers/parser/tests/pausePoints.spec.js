@@ -1,39 +1,35 @@
 /* eslint max-nested-callbacks: ["error", 4]*/
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
+import cases from "jest-in-case";
+import { formatPausePoints } from "../../../utils/pause/pausePoints";
 
 import { getPausePoints } from "../pausePoints";
+import { getSource, getOriginalSource } from "./helpers";
 import { setSource } from "../sources";
-import { getOriginalSource } from "./helpers";
-import { reverse } from "lodash";
 
-function insertStrtAt(string, index, newString) {
-  const start = string.slice(0, index);
-  const end = string.slice(index);
-  return `${start}${newString}${end}`;
-}
+cases(
+  "Parser.pausePoints",
+  ({ name, file, original, type }) => {
+    const source = original
+      ? getOriginalSource(file, type)
+      : getSource(file, type);
 
-function formatText(text, nodes) {
-  nodes = reverse(nodes);
-  const lines = text.split("\n");
-  nodes.forEach((node, index) => {
-    const { line, column } = node.location;
-    const { breakpoint, stepOver } = node.types;
-    const num = nodes.length - index;
-    const types = `${breakpoint ? "b" : ""}${stepOver ? "s" : ""}`;
-    lines[line - 1] = insertStrtAt(
-      lines[line - 1],
-      column,
-      `/*${types} ${num}*/`
-    );
-  });
-
-  return lines.join("\n");
-}
-
-describe("Parser.pausePoints", () => {
-  it("pause-points", () => {
-    const source = getOriginalSource("pause-points");
     setSource(source);
     const nodes = getPausePoints(source.id);
-    expect(formatText(source.text, nodes)).toMatchSnapshot();
-  });
-});
+    expect(formatPausePoints(source.text, nodes)).toMatchSnapshot();
+  },
+  [
+    { name: "control-flow", file: "control-flow" },
+    { name: "flow", file: "flow", original: true },
+    { name: "calls", file: "calls" },
+    { name: "statements", file: "statements" },
+    { name: "modules", file: "modules", original: true },
+    { name: "jsx", file: "jsx", original: true },
+    { name: "func", file: "func", original: true },
+    { name: "decorators", file: "decorators", original: true },
+    { name: "html", file: "parseScriptTags", type: "html" }
+  ]
+);

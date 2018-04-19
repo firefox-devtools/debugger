@@ -38,11 +38,10 @@ import {
   getDirectories,
   isDirectory,
   nodeHasChildren,
-  updateTree,
-  getExtension
+  updateTree
 } from "../../utils/sources-tree";
 
-import { getRawSourceURL } from "../../utils/source";
+import { getRawSourceURL, getSourceClassnames } from "../../utils/source";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { features } from "../../utils/prefs";
 
@@ -70,13 +69,6 @@ type State = {
   uncollapsedTree: any,
   listItems?: any,
   highlightItems?: any
-};
-
-const sourceTypes = {
-  coffee: "coffeescript",
-  js: "javascript",
-  jsx: "react",
-  ts: "typescript"
 };
 
 class SourcesTree extends Component<Props, State> {
@@ -194,11 +186,12 @@ class SourcesTree extends Component<Props, State> {
   getIcon = (sources, item, depth) => {
     const { debuggeeUrl, projectRoot } = this.props;
 
-    if (item.path === "/Webpack") {
+    if (item.path === "webpack://") {
       return <Svg name="webpack" />;
-    }
-    if (item.path === "/Angular") {
+    } else if (item.path === "ng://") {
       return <Svg name="angular" />;
+    } else if (item.path === "moz-extension://") {
+      return <img className="extension" />;
     }
 
     if (depth === 0 && projectRoot === "") {
@@ -214,12 +207,14 @@ class SourcesTree extends Component<Props, State> {
     if (!nodeHasChildren(item)) {
       const obj = item.contents.get("id");
       const source = sources.get(obj);
-      if (source && source.get("isBlackBoxed")) {
-        return <img className="blackBox" />;
-      }
-
-      const sourceType = sourceTypes[getExtension(source)];
-      return <img className={sourceType || "file"} />;
+      return (
+        <img
+          className={classnames(
+            getSourceClassnames(source.toJS()),
+            "source-icon"
+          )}
+        />
+      );
     }
 
     return <img className="folder" />;
@@ -306,10 +301,24 @@ class SourcesTree extends Component<Props, State> {
       >
         {arrow}
         {icon}
-        <span className="label"> {item.name} </span>
+        <span className="label"> {this.renderItemName(item.name)} </span>
       </div>
     );
   };
+
+  renderItemName(name) {
+    const hosts = {
+      "ng://": "Angular",
+      "webpack://": "Webpack",
+      "moz-extension://": L10N.getStr("extensionsText")
+    };
+
+    return hosts[name] || name;
+  }
+
+  renderEmptyElement(message) {
+    return <div className="no-sources-message">{message}</div>;
+  }
 
   render() {
     const { expanded, projectRoot } = this.props;
@@ -329,6 +338,8 @@ class SourcesTree extends Component<Props, State> {
       this.props.setExpandedState(expandedState);
     };
 
+    const isEmpty = sourceTree.contents.length === 0;
+
     const isCustomRoot = projectRoot !== "";
     let roots = () => sourceTree.contents;
 
@@ -336,7 +347,13 @@ class SourcesTree extends Component<Props, State> {
 
     // The "sourceTree.contents[0]" check ensures that there are contents
     // A custom root with no existing sources will be ignored
-    if (isCustomRoot && sourceTree.contents[0]) {
+    if (isCustomRoot) {
+      let rootLabel = projectRoot.split("/").pop();
+      if (sourceTree.contents[0]) {
+        rootLabel = sourceTree.contents[0].name;
+        roots = () => sourceTree.contents[0].contents;
+      }
+
       clearProjectRootButton = (
         <button
           className="sources-clear-root"
@@ -345,15 +362,15 @@ class SourcesTree extends Component<Props, State> {
         >
           <Svg name="home" />
           <Svg name="breadcrumb" class />
-          <span className="sources-clear-root-label">
-            {sourceTree.contents[0].name}
-          </span>
+          <span className="sources-clear-root-label">{rootLabel}</span>
         </button>
       );
-      roots = () => sourceTree.contents[0].contents;
     }
 
-    const isEmpty = sourceTree.contents.length === 0;
+    if (isEmpty && !isCustomRoot) {
+      return this.renderEmptyElement(L10N.getStr("sources.noSourcesAvailable"));
+    }
+
     const treeProps = {
       autoExpandAll: false,
       autoExpandDepth: expanded ? 0 : 1,
@@ -374,14 +391,6 @@ class SourcesTree extends Component<Props, State> {
 
     const tree = <ManagedTree {...treeProps} />;
 
-    if (isEmpty) {
-      return (
-        <div className="no-sources-message">
-          {L10N.getStr("sources.noSourcesAvailable")}
-        </div>
-      );
-    }
-
     const onKeyDown = e => {
       if (e.keyCode === 13 && focusedItem) {
         this.selectItem(focusedItem);
@@ -399,9 +408,13 @@ class SourcesTree extends Component<Props, State> {
             {clearProjectRootButton}
           </div>
         ) : null}
-        <div className="sources-list" onKeyDown={onKeyDown}>
-          {tree}
-        </div>
+        {isEmpty ? (
+          this.renderEmptyElement(L10N.getStr("sources.noSourcesAvailableRoot"))
+        ) : (
+          <div className="sources-list" onKeyDown={onKeyDown}>
+            {tree}
+          </div>
+        )}
       </div>
     );
   }

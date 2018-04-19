@@ -1,11 +1,19 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 import { getASTLocation } from "../astBreakpointLocation.js";
-import { getSource } from "../../../workers/parser/tests/helpers";
+import {
+  getSource,
+  getOriginalSource
+} from "../../../workers/parser/tests/helpers";
 import { setSource } from "../../../workers/parser/sources";
 import { getSymbols } from "../../../workers/parser/getSymbols";
 import cases from "jest-in-case";
 
-async function setup({ fileName, location, functionName }) {
-  const source = getSource(fileName);
+async function setup({ file, location, functionName, original }) {
+  const source = original ? getOriginalSource(file) : getSource(file);
+
   setSource(source);
   const symbols = getSymbols(source.id);
 
@@ -18,25 +26,25 @@ describe("ast", () => {
   cases("valid location", setup, [
     {
       name: "returns the scope and offset",
-      fileName: "math",
+      file: "math",
       location: { line: 6, column: 0 },
       functionName: "math"
     },
     {
       name: "returns name for a nested anon fn as the parent func",
-      fileName: "outOfScope",
+      file: "outOfScope",
       location: { line: 25, column: 0 },
       functionName: "outer"
     },
     {
       name: "returns name for a nested named fn",
-      fileName: "outOfScope",
+      file: "outOfScope",
       location: { line: 5, column: 0 },
       functionName: "inner"
     },
     {
       name: "returns name for an anon fn with a named variable",
-      fileName: "outOfScope",
+      file: "outOfScope",
       location: { line: 40, column: 0 },
       functionName: "globalDeclaration"
     }
@@ -45,13 +53,14 @@ describe("ast", () => {
   cases("invalid location", setup, [
     {
       name: "returns the scope name for global scope as undefined",
-      fileName: "class",
+      file: "class",
+      original: true,
       location: { line: 10, column: 0 },
       functionName: undefined
     },
     {
       name: "returns name for an anon fn in global scope as undefined",
-      fileName: "outOfScope",
+      file: "outOfScope",
       location: { line: 44, column: 0 },
       functionName: undefined
     }

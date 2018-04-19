@@ -10,6 +10,7 @@
  */
 
 const expressionSelectors = {
+  plusIcon: ".watch-expressions-pane button.plus",
   input: "input.input-expression"
 };
 
@@ -22,55 +23,25 @@ function getValue(dbg, index) {
 }
 
 async function addExpression(dbg, input) {
-  info("Adding an expression");
+  findElementWithSelector(dbg, expressionSelectors.plusIcon).click();
+  const evaluation = waitForDispatch(dbg, "EVALUATE_EXPRESSION");
   findElementWithSelector(dbg, expressionSelectors.input).focus();
   type(dbg, input);
   pressKey(dbg, "Enter");
-  await waitForDispatch(dbg, "EVALUATE_EXPRESSION");
-}
-
-async function editExpression(dbg, input) {
-  info("updating the expression");
-  dblClickElement(dbg, "expressionNode", 1);
-  // Position cursor reliably at the end of the text.
-  const evaluation = waitForDispatch(dbg, "EVALUATE_EXPRESSION");
-  pressKey(dbg, "End");
-  type(dbg, input);
-  pressKey(dbg, "Enter");
-  await evaluation;
-}
-
-/*
- * When we add a bad expression, we'll pause,
- * resume, and wait for the expression to finish being evaluated.
- */
-async function addBadExpression(dbg, input) {
-  const evaluation = waitForDispatch(dbg, "EVALUATE_EXPRESSION");
-
-  findElementWithSelector(dbg, expressionSelectors.input).focus();
-  type(dbg, input);
-  pressKey(dbg, "Enter");
-
-  await waitForPaused(dbg);
-
-  ok(dbg.selectors.isEvaluatingExpression(dbg.getState()));
-  await resume(dbg);
   await evaluation;
 }
 
 add_task(async function() {
   const dbg = await initDebugger("doc-script-switching.html");
 
-  const onPausedOnException = togglePauseOnExceptions(dbg, true, false);
+  await togglePauseOnExceptions(dbg, true, false);
 
   // add a good expression, 2 bad expressions, and another good one
+  log(`Adding location`);
   await addExpression(dbg, "location");
-  await addBadExpression(dbg, "foo.bar");
-  await addBadExpression(dbg, "foo.batt");
+  await addExpression(dbg, "foo.bar");
+  await addExpression(dbg, "foo.batt");
   await addExpression(dbg, "2");
-
-  await onPausedOnException;
-
   // check the value of
   is(getValue(dbg, 2), "(unavailable)");
   is(getValue(dbg, 3), "(unavailable)");

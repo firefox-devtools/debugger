@@ -7,9 +7,10 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import fuzzyAldrin from "fuzzaldrin-plus";
 import { basename } from "../utils/path";
+
 import actions from "../actions";
 import {
-  getSources,
+  getRelativeSources,
   getQuickOpenEnabled,
   getQuickOpenQuery,
   getQuickOpenType,
@@ -21,9 +22,9 @@ import {
 import { scrollList } from "../utils/result-list";
 import {
   formatSymbols,
-  formatSources,
   parseLineColumn,
-  formatShortcutResults
+  formatShortcutResults,
+  formatSources
 } from "../utils/quick-open";
 import Modal from "./shared/Modal";
 import SearchInput from "./shared/SearchInput";
@@ -128,7 +129,10 @@ export class QuickOpenModal extends Component<Props, State> {
     let results = functions;
     if (this.isVariableQuery()) {
       results = variables;
+    } else {
+      results = results.filter(result => result.title !== "anonymous");
     }
+
     if (query === "@" || query === "#") {
       return this.setState({ results });
     }
@@ -300,6 +304,7 @@ export class QuickOpenModal extends Component<Props, State> {
     }
 
     if (["ArrowUp", "ArrowDown"].includes(e.key)) {
+      e.preventDefault();
       return this.traverseResults(e);
     }
   };
@@ -341,16 +346,7 @@ export class QuickOpenModal extends Component<Props, State> {
     return results.map(result => {
       return {
         ...result,
-        title: this.renderHighlight(result.title, basename(newQuery), "title"),
-        ...(result.subtitle != null && !this.isSymbolSearch()
-          ? {
-              subtitle: this.renderHighlight(
-                result.subtitle,
-                newQuery,
-                "subtitle"
-              )
-            }
-          : null)
+        title: this.renderHighlight(result.title, basename(newQuery), "title")
       };
     });
   };
@@ -423,7 +419,7 @@ function mapStateToProps(state) {
 
   return {
     enabled: getQuickOpenEnabled(state),
-    sources: formatSources(getSources(state)),
+    sources: formatSources(getRelativeSources(state), getTabs(state).toArray()),
     selectedSource,
     symbols: formatSymbols(getSymbols(state, selectedSource)),
     symbolsLoading: isSymbolsLoading(state, selectedSource),

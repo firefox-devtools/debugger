@@ -21,13 +21,14 @@ add_task(async function() {
   // Call the function that we set a breakpoint in.
   invokeInTab("main");
   await waitForPaused(dbg);
-  await waitForLoadedSource(dbg, "simple1");
+  await waitForSelectedSource(dbg, "simple1");
   assertPausedLocation(dbg);
 
   // Step through to another file and make sure it's paused in the
   // right place.
+  await stepOver(dbg);
   await stepIn(dbg);
-  await waitForLoadedSource(dbg, "simple2");
+  await waitForSelectedSource(dbg, "simple2");
   assertPausedLocation(dbg);
 
   // Step back out to the initial file.
@@ -43,7 +44,7 @@ add_task(async function() {
 
   invokeInTab("testModel");
   await waitForPaused(dbg);
-  await waitForLoadedSource(dbg, "long.js");
+  await waitForSelectedSource(dbg, "long.js");
 
   assertPausedLocation(dbg);
   ok(

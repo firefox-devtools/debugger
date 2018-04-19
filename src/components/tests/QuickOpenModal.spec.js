@@ -1,4 +1,7 @@
 /* eslint max-nested-callbacks: ["error", 4] */
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 import React from "react";
 import { shallow, mount } from "enzyme";
@@ -64,6 +67,27 @@ describe("QuickOpenModal", () => {
       "mount"
     );
     expect(wrapper).toMatchSnapshot();
+  });
+
+  test("Ensure anonymous functions do not render in QuickOpenModal", () => {
+    const { wrapper } = generateModal(
+      {
+        enabled: true,
+        query: "@",
+        searchType: "functions",
+        symbols: {
+          functions: [
+            { title: "anonymous" },
+            { title: "c" },
+            { title: "anonymous" }
+          ],
+          variables: []
+        }
+      },
+      "mount"
+    );
+    expect(wrapper.find("ResultList")).toHaveLength(1);
+    expect(wrapper.find("li")).toHaveLength(1);
   });
 
   test("Basic render with mount & searchType = variables", () => {

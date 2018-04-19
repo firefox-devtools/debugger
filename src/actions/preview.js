@@ -3,10 +3,9 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-
+import { isConsole } from "../utils/preview";
 import { findBestMatchExpression } from "../utils/ast";
 import { getTokenLocation } from "../utils/editor";
-import { isReactComponent, isImmutable } from "../utils/preview";
 import { isGeneratedId } from "devtools-source-map";
 import { PROMISE } from "./utils/middleware/promise";
 import { getExpressionFromCoords } from "../utils/editor/get-expression";
@@ -14,6 +13,7 @@ import { getExpressionFromCoords } from "../utils/editor/get-expression";
 import {
   getPreview,
   isLineInScope,
+  isSelectedFrameVisible,
   getSelectedSource,
   getSelectedFrame,
   getSymbols,
@@ -21,46 +21,12 @@ import {
 } from "../selectors";
 
 import { getMappedExpression } from "./expressions";
+import { getExtra } from "./pause";
 import { isEqual } from "lodash";
 
-import type { ThunkArgs } from "./types";
+import type { Action, ThunkArgs } from "./types";
+import type { ColumnPosition } from "../types";
 import type { AstLocation } from "../workers/parser";
-
-async function getReactProps(evaluate) {
-  const reactDisplayName = await evaluate(
-    "this._reactInternalInstance.getName()"
-  );
-
-  return {
-    displayName: reactDisplayName.result
-  };
-}
-
-async function getImmutableProps(expression: string, evaluate) {
-  const immutableEntries = await evaluate((exp => `${exp}.toJS()`)(expression));
-
-  const immutableType = await evaluate(
-    (exp => `${exp}.constructor.name`)(expression)
-  );
-
-  return {
-    type: immutableType.result,
-    entries: immutableEntries.result
-  };
-}
-
-async function getExtraProps(expression, result, evaluate) {
-  const props = {};
-  if (isReactComponent(result)) {
-    props.react = await getReactProps(evaluate);
-  }
-
-  if (isImmutable(result)) {
-    props.immutable = await getImmutableProps(expression, evaluate);
-  }
-
-  return props;
-}
 
 function isInvalidTarget(target: HTMLElement) {
   if (!target || !target.innerText) {
@@ -71,13 +37,11 @@ function isInvalidTarget(target: HTMLElement) {
   const cursorPos = target.getBoundingClientRect();
 
   // exclude literal tokens where it does not make sense to show a preview
-  const invaildType = ["cm-string", "cm-number", "cm-atom"].includes(
-    target.className
-  );
+  const invalidType = ["cm-atom", ""].includes(target.className);
 
   // exclude syntax where the expression would be a syntax error
   const invalidToken =
-    tokenText === "" || tokenText.match(/[(){}\|&%,.;=<>\+-/\*\s]/);
+    tokenText === "" || tokenText.match(/^[(){}\|&%,.;=<>\+-/\*\s](?=)/);
 
   // exclude codemirror elements that are not tokens
   const invalidTarget =
@@ -85,7 +49,7 @@ function isInvalidTarget(target: HTMLElement) {
       !target.parentElement.closest(".CodeMirror-line")) ||
     cursorPos.top == 0;
 
-  return invalidTarget || invalidToken || invaildType;
+  return invalidTarget || invalidToken || invalidType;
 }
 
 export function updatePreview(target: HTMLElement, editor: any) {
@@ -115,12 +79,15 @@ export function updatePreview(target: HTMLElement, editor: any) {
       return;
     }
 
-    if (!isLineInScope(getState(), tokenPos.line)) {
+    if (
+      !isSelectedFrameVisible(getState()) ||
+      !isLineInScope(getState(), tokenPos.line)
+    ) {
       return;
     }
 
     const source = getSelectedSource(getState());
-    const symbols = getSymbols(getState(), source.toJS());
+    const symbols = getSymbols(getState(), source);
 
     let match;
     if (!symbols || symbols.loading) {
@@ -134,6 +101,11 @@ export function updatePreview(target: HTMLElement, editor: any) {
     }
 
     const { expression, location } = match;
+
+    if (isConsole(expression)) {
+      return;
+    }
+
     dispatch(setPreview(expression, location, tokenPos, cursorPos));
   };
 }
@@ -141,57 +113,48 @@ export function updatePreview(target: HTMLElement, editor: any) {
 export function setPreview(
   expression: string,
   location: AstLocation,
-  tokenPos: AstLocation,
+  tokenPos: ColumnPosition,
   cursorPos: any
 ) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
-    await dispatch({
-      type: "SET_PREVIEW",
-      [PROMISE]: (async function() {
-        const source = getSelectedSource(getState());
+    await dispatch(
+      ({
+        type: "SET_PREVIEW",
+        [PROMISE]: (async function() {
+          const source = getSelectedSource(getState());
+          const sourceId = source.id;
+          const selectedFrame = getSelectedFrame(getState());
 
-        const sourceId = source.get("id");
-        if (location && !isGeneratedId(sourceId)) {
-          const generatedLocation = await sourceMaps.getGeneratedLocation(
-            { ...location.start, sourceId },
-            source.toJS()
+          if (location && !isGeneratedId(sourceId)) {
+            expression = await dispatch(getMappedExpression(expression));
+          }
+
+          if (!selectedFrame) {
+            return;
+          }
+
+          const { result } = await client.evaluateInFrame(
+            expression,
+            selectedFrame.id
           );
 
-          expression = await getMappedExpression(
-            { sourceMaps, getState },
-            generatedLocation,
-            expression
-          );
-        }
+          if (result === undefined) {
+            return;
+          }
 
-        const selectedFrame = getSelectedFrame(getState());
-        if (!selectedFrame) {
-          return;
-        }
+          const extra = await dispatch(getExtra(expression, result));
 
-        const { result } = await client.evaluateInFrame(
-          selectedFrame.id,
-          expression
-        );
-
-        if (result === undefined) {
-          return;
-        }
-
-        const extra = await getExtraProps(expression, result, expr =>
-          client.evaluateInFrame(selectedFrame.id, expr)
-        );
-
-        return {
-          expression,
-          result,
-          location,
-          tokenPos,
-          cursorPos,
-          extra
-        };
-      })()
-    });
+          return {
+            expression,
+            result,
+            location,
+            tokenPos,
+            cursorPos,
+            extra
+          };
+        })()
+      }: Action)
+    );
   };
 }
 
@@ -202,8 +165,10 @@ export function clearPreview() {
       return;
     }
 
-    return dispatch({
-      type: "CLEAR_SELECTION"
-    });
+    return dispatch(
+      ({
+        type: "CLEAR_SELECTION"
+      }: Action)
+    );
   };
 }

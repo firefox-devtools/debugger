@@ -1,4 +1,7 @@
 /* eslint max-nested-callbacks: ["error", 4]*/
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 import { formatSymbols } from "../utils/formatSymbols";
 import { getSource, getOriginalSource } from "./helpers";
@@ -24,6 +27,8 @@ cases(
     { name: "expression", file: "expression" },
     { name: "allSymbols", file: "allSymbols" },
     { name: "call sites", file: "call-sites" },
+    { name: "call expression", file: "callExpressions" },
+    { name: "object expressions", file: "object-expressions" },
     {
       name: "finds symbols in an html file",
       file: "parseScriptTags",

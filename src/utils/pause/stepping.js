@@ -5,42 +5,43 @@
 // @flow
 
 import { isEqual } from "lodash";
-import { isOriginalId } from "devtools-source-map";
-import type { Frame } from "../../types";
+import { isGeneratedId, isOriginalId } from "devtools-source-map";
+import type { Frame, MappedLocation } from "../../types";
 import type { State } from "../../reducers/types";
 
 import {
   getSelectedSource,
-  getPreviousPauseFrameLocation
+  getPreviousPauseFrameLocation,
+  getPausePoint
 } from "../../selectors";
-import { isInvalidPauseLocation } from "../../workers/parser";
 
-export async function shouldStep(
-  rootFrame: ?Frame,
-  state: State,
-  sourceMaps: any
-) {
-  if (!rootFrame) {
-    return false;
+function getFrameLocation(source, frame: ?MappedLocation) {
+  if (!frame) {
+    return null;
   }
 
+  return isOriginalId(source.id) ? frame.location : frame.generatedLocation;
+}
+
+export function shouldStep(rootFrame: ?Frame, state: State, sourceMaps: any) {
   const selectedSource = getSelectedSource(state);
   const previousFrameInfo = getPreviousPauseFrameLocation(state);
 
-  let previousFrameLoc;
-  let currentFrameLoc;
-
-  if (selectedSource && isOriginalId(selectedSource.get("id"))) {
-    currentFrameLoc = rootFrame.location;
-    previousFrameLoc = previousFrameInfo && previousFrameInfo.location;
-  } else {
-    currentFrameLoc = rootFrame.generatedLocation;
-    previousFrameLoc = previousFrameInfo && previousFrameInfo.generatedLocation;
+  if (!rootFrame || !selectedSource) {
+    return false;
   }
 
-  return (
-    isOriginalId(currentFrameLoc.sourceId) &&
-    ((previousFrameLoc && isEqual(previousFrameLoc, currentFrameLoc)) ||
-      (await isInvalidPauseLocation(currentFrameLoc)))
-  );
+  const previousFrameLoc = getFrameLocation(selectedSource, previousFrameInfo);
+  const frameLoc = getFrameLocation(selectedSource, rootFrame);
+
+  const sameLocation = previousFrameLoc && isEqual(previousFrameLoc, frameLoc);
+  const pausePoint = getPausePoint(state, frameLoc);
+  const invalidPauseLocation = pausePoint && !pausePoint.step;
+
+  // We always want to pause in generated locations
+  if (!frameLoc || isGeneratedId(frameLoc.sourceId)) {
+    return false;
+  }
+
+  return sameLocation || invalidPauseLocation;
 }

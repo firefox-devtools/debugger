@@ -31,7 +31,7 @@ type SourcesList = List<SourceRecord>;
 type Props = {
   tabSources: SourcesList,
   selectedSource: SourceRecord,
-  selectSource: Object => void,
+  selectSpecificSource: Object => void,
   moveTab: (string, number) => void,
   closeTab: string => void,
   togglePaneCollapse: () => void,
@@ -98,7 +98,7 @@ class Tabs extends PureComponent<Props, State> {
     const hiddenTabs = getHiddenTabs(tabSources, sourceTabEls);
 
     if (isVisible() && hiddenTabs.indexOf(selectedSource) !== -1) {
-      return moveTab(selectedSource.get("url"), 0);
+      return moveTab(selectedSource.url, 0);
     }
 
     this.setState({ hiddenTabs });
@@ -114,19 +114,19 @@ class Tabs extends PureComponent<Props, State> {
     if (isPretty(source)) {
       return "prettyPrint";
     }
-    if (source.get("isBlackBoxed")) {
+    if (source.isBlackBoxed) {
       return "blackBox";
     }
     return "file";
   }
 
   renderDropdownSource = (source: SourceRecord) => {
-    const { selectSource } = this.props;
+    const { selectSpecificSource } = this.props;
     const filename = getFilename(source.toJS());
 
-    const onClick = () => selectSource(source.get("id"));
+    const onClick = () => selectSpecificSource(source.id);
     return (
-      <li key={source.get("id")} onClick={onClick}>
+      <li key={source.id} onClick={onClick}>
         <img className={`dropdown-icon ${this.getIconClass(source)}`} />
         {filename}
       </li>

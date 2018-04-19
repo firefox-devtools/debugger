@@ -45,6 +45,7 @@ Array [
   1,
   2,
   7,
+  12,
 ]
 `;
 
@@ -122,6 +123,7 @@ Object {
     },
   ],
   "imports": Array [],
+  "literals": Array [],
   "memberExpressions": Array [],
   "objectProperties": Array [],
   "variables": Array [

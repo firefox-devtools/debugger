@@ -68,6 +68,7 @@
 .sources-list {
   flex: 1;
   display: flex;
+  overflow: hidden;
 }
 
 .sources-list .tree:focus {
@@ -190,8 +191,9 @@
   width: 13px;
   height: 13px;
   display: inline-block;
-  margin-inline-end: 5px;
-  margin-bottom: -2px;
+  margin-inline-end: 6px;
+  margin-inline-start: 1px;
+  margin-top: 2px;
 }
 
 .sources-list .managed-tree .tree .node.focused img {
@@ -210,9 +212,7 @@
   background-color: white;
 }
 
-.tree:not(.object-inspector)
-  .tree-node[data-expandable="false"]
-  .tree-indent:last-of-type {
+.tree:not(.object-inspector) .tree-node[data-expandable="false"] .tree-indent:last-of-type {
   margin-inline-end: 4px;
 }
 
@@ -228,7 +228,8 @@
   display: block;
 }
 
-.sources-list-custom-root .sources-list {
+.sources-list-custom-root .sources-list,
+.sources-list-custom-root .no-sources-message {
   position: absolute;
   top: 26px;
   right: 0;

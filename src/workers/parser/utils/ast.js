@@ -21,7 +21,8 @@ function _parse(code, opts) {
 
 const sourceOptions = {
   generated: {
-    tokens: true
+    tokens: true,
+    plugins: ["objectRestSpread"]
   },
   original: {
     sourceType: "unambiguous",
@@ -30,6 +31,7 @@ const sourceOptions = {
       "jsx",
       "flow",
       "doExpressions",
+      "decorators",
       "objectRestSpread",
       "classProperties",
       "exportDefaultFrom",
@@ -37,7 +39,8 @@ const sourceOptions = {
       "asyncGenerators",
       "functionBind",
       "functionSent",
-      "dynamicImport"
+      "dynamicImport",
+      "react-jsx"
     ]
   }
 };
@@ -51,6 +54,7 @@ function parse(text: ?string, opts?: Object) {
   try {
     ast = _parse(text, opts);
   } catch (error) {
+    console.error(error);
     ast = {};
   }
 
@@ -81,6 +85,18 @@ export function getAst(sourceId: string) {
   } else if (contentType && contentType.match(/(javascript|jsx)/)) {
     const type = source.id.includes("original") ? "original" : "generated";
     const options = sourceOptions[type];
+    ast = parse(source.text, options);
+  } else if (contentType && contentType.match(/typescript/)) {
+    const options = {
+      ...sourceOptions.original,
+      plugins: [
+        ...sourceOptions.original.plugins.filter(
+          p => p !== "flow" && p !== "decorators" && p !== "decorators2"
+        ),
+        "decorators",
+        "typescript"
+      ]
+    };
     ast = parse(source.text, options);
   }
 

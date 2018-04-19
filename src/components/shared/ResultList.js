@@ -33,6 +33,10 @@ export default class ResultList extends Component<Props> {
   }
 
   renderListItem = (item: any, index: number) => {
+    if (item.value === "/" && item.title === "") {
+      item.title = "(index)";
+    }
+
     const { selectItem, selected } = this.props;
     const props = {
       onClick: event => selectItem(event, item, index),
@@ -49,6 +53,11 @@ export default class ResultList extends Component<Props> {
 
     return (
       <li {...props}>
+        {item.icon && (
+          <div>
+            <img className={item.icon} />
+          </div>
+        )}
         <div id={`${item.id}-title`} className="title">
           {item.title}
         </div>

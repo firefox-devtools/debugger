@@ -5,6 +5,7 @@
 // @flow
 
 import type { Node, TraversalAncestors } from "@babel/types";
+export type { Node, TraversalAncestors };
 
 export default function createSimplePath(ancestors: TraversalAncestors) {
   if (ancestors.length === 0) {
@@ -122,6 +123,7 @@ class SimplePath {
     }
     return null;
   }
+
   findParent(predicate: SimplePath => boolean): SimplePath | null {
     if (!this.parentPath) {
       throw new Error("Cannot use findParent on root path");

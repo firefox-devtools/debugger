@@ -4,7 +4,6 @@
 
 // @flow
 
-import { getClosestExpression } from "./utils/closest";
 import { getSymbols, clearSymbols } from "./getSymbols";
 import { clearASTs } from "./utils/ast";
 import getScopes, { clearScopes } from "./getScopes";
@@ -13,7 +12,6 @@ import findOutOfScopeLocations from "./findOutOfScopeLocations";
 import { getNextStep } from "./steps";
 import { hasSyntaxError } from "./validate";
 import { getFramework } from "./frameworks";
-import { isInvalidPauseLocation } from "./pauseLocation";
 import { getPausePoints } from "./pausePoints";
 import mapOriginalExpression from "./mapOriginalExpression";
 
@@ -21,7 +19,6 @@ import { workerUtils } from "devtools-utils";
 const { workerHandler } = workerUtils;
 
 self.onmessage = workerHandler({
-  getClosestExpression,
   findOutOfScopeLocations,
   getSymbols,
   getScopes,
@@ -31,7 +28,6 @@ self.onmessage = workerHandler({
   hasSource,
   setSource,
   clearSources,
-  isInvalidPauseLocation,
   getNextStep,
   hasSyntaxError,
   getFramework,

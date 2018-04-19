@@ -1,4 +1,7 @@
 /* eslint max-nested-callbacks: ["error", 4]*/
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 import getScopes from "../getScopes";
 import { setSource } from "../sources";
@@ -7,8 +10,8 @@ import cases from "jest-in-case";
 
 cases(
   "Parser.getScopes",
-  ({ name, file, locations }) => {
-    const source = getOriginalSource(file);
+  ({ name, file, type, locations }) => {
+    const source = getOriginalSource(file, type);
     setSource(source);
 
     locations.forEach(([line, column]) => {
@@ -24,6 +27,12 @@ cases(
     });
   },
   [
+    {
+      name: "finds scope bindings in a typescript file",
+      file: "scopes/ts-sample",
+      type: "ts",
+      locations: [[3, 0], [6, 4]]
+    },
     {
       name: "finds scope bindings in a module",
       file: "scopes/simple-module",
@@ -99,6 +108,11 @@ cases(
       name: "finds scope bindings and exclude Flowtype",
       file: "scopes/flowtype-bindings",
       locations: [[6, 0], [8, 0]]
+    },
+    {
+      name: "finds scope bindings for declarations with patterns",
+      file: "scopes/pattern-declarations",
+      locations: [[1, 0]]
     },
     {
       name: "finds scope bindings for switch statements",

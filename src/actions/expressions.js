@@ -34,12 +34,13 @@ export function addExpression(input: string) {
       return;
     }
 
+    const expressionError = await parser.hasSyntaxError(input);
+
     const expression = getExpression(getState(), input);
     if (expression) {
       return dispatch(evaluateExpression(expression));
     }
 
-    const expressionError = await parser.hasSyntaxError(input);
     dispatch({ type: "ADD_EXPRESSION", input, expressionError });
 
     const newExpression = getExpression(getState(), input);
@@ -55,7 +56,7 @@ export function clearExpressionError() {
 
 export function updateExpression(input: string, expression: Expression) {
   return async ({ dispatch, getState }: ThunkArgs) => {
-    if (!input || input == expression.input) {
+    if (!input) {
       return;
     }
 
@@ -96,9 +97,10 @@ export function deleteExpression(expression: Expression) {
 export function evaluateExpressions() {
   return async function({ dispatch, getState, client }: ThunkArgs) {
     const expressions = getExpressions(getState()).toJS();
-    for (const expression of expressions) {
-      await dispatch(evaluateExpression(expression));
-    }
+    const inputs = expressions.map(({ input }) => input);
+    const frameId = getSelectedFrameId(getState());
+    const results = await client.evaluateExpressions(inputs, frameId);
+    dispatch({ type: "EVALUATE_EXPRESSIONS", inputs, results });
   };
 }
 
@@ -113,7 +115,7 @@ function evaluateExpression(expression: Expression) {
     const frame = getSelectedFrame(getState());
 
     if (frame) {
-      const { location, generatedLocation } = frame;
+      const { location } = frame;
       const source = getSource(getState(), location.sourceId);
       const sourceId = source.get("id");
 
@@ -124,11 +126,7 @@ function evaluateExpression(expression: Expression) {
         !isGeneratedId(sourceId) &&
         !isGeneratedId(selectedSource.get("id"))
       ) {
-        input = await getMappedExpression(
-          { getState, sourceMaps },
-          generatedLocation,
-          input
-        );
+        input = await dispatch(getMappedExpression(input));
       }
     }
 
@@ -137,7 +135,7 @@ function evaluateExpression(expression: Expression) {
     return dispatch({
       type: "EVALUATE_EXPRESSION",
       input: expression.input,
-      [PROMISE]: client.evaluate(wrapExpression(input), { frameId })
+      [PROMISE]: client.evaluateInFrame(wrapExpression(input), frameId)
     });
   };
 }
@@ -146,15 +144,13 @@ function evaluateExpression(expression: Expression) {
  * Gets information about original variable names from the source map
  * and replaces all posible generated names.
  */
-export async function getMappedExpression(
-  { getState, sourceMaps }: Object,
-  generatedLocation: Location,
-  expression: string
-): Promise<string> {
-  const mappings = getSelectedScopeMappings(getState());
-  if (!mappings) {
-    return expression;
-  }
+export function getMappedExpression(expression: string) {
+  return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
+    const mappings = getSelectedScopeMappings(getState());
+    if (!mappings) {
+      return expression;
+    }
 
-  return await parser.mapOriginalExpression(expression, mappings);
+    return parser.mapOriginalExpression(expression, mappings);
+  };
 }

@@ -40,7 +40,7 @@ type SourcesList = List<SourceRecord>;
 
 type Props = {
   tabSources: SourcesList,
-  selectSource: Object => void,
+  selectSpecificSource: Object => void,
   selectedSource: SourceRecord,
   closeTab: string => void,
   closeTabs: (List<string>) => void,
@@ -112,7 +112,7 @@ class Tab extends PureComponent<Props> {
         item: {
           ...tabMenuItems.copyToClipboard,
           disabled: selectedSource.get("id") !== tab,
-          click: () => copyToTheClipboard(sourceTab.get("text"))
+          click: () => copyToTheClipboard(sourceTab.text)
         }
       },
       {
@@ -150,14 +150,14 @@ class Tab extends PureComponent<Props> {
   render() {
     const {
       selectedSource,
-      selectSource,
+      selectSpecificSource,
       closeTab,
       source,
       sourceMetaData
     } = this.props;
     const src = source.toJS();
     const filename = getFilename(src);
-    const sourceId = source.get("id");
+    const sourceId = source.id;
     const active =
       selectedSource &&
       sourceId == selectedSource.get("id") &&
@@ -167,7 +167,7 @@ class Tab extends PureComponent<Props> {
 
     function onClickClose(e) {
       e.stopPropagation();
-      closeTab(source.get("url"));
+      closeTab(source.url);
     }
 
     function handleTabClick(e) {
@@ -176,10 +176,10 @@ class Tab extends PureComponent<Props> {
 
       // Accommodate middle click to close tab
       if (e.button === 1) {
-        return closeTab(source.get("url"));
+        return closeTab(source.url);
       }
 
-      return selectSource(sourceId);
+      return selectSpecificSource(sourceId);
     }
 
     const className = classnames("source-tab", {
@@ -212,7 +212,7 @@ export default connect(
     return {
       tabSources: getSourcesForTabs(state),
       selectedSource: selectedSource,
-      sourceMetaData: getSourceMetaData(state, source.get("id")),
+      sourceMetaData: getSourceMetaData(state, source.id),
       activeSearch: getActiveSearch(state)
     };
   },

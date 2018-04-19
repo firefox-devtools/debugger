@@ -68,6 +68,14 @@ export function showSource(sourceId: string) {
   return ({ dispatch, getState }: ThunkArgs) => {
     const source = getSource(getState(), sourceId);
 
+    if (getPaneCollapse(getState(), "start")) {
+      dispatch({
+        type: "TOGGLE_PANE",
+        position: "start",
+        paneCollapsed: false
+      });
+    }
+
     dispatch(setPrimaryPaneTab("sources"));
     dispatch({
       type: "SHOW_SOURCE",
