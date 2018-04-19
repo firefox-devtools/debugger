@@ -48,7 +48,9 @@ Object {
   "expression": "this",
   "extra": Object {
     "react": Object {
-      "displayName": "Foo",
+      "componentStack": Array [
+        "Foo",
+      ],
     },
   },
   "location": Object {

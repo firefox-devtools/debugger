@@ -9,43 +9,7 @@ import {
   makeSource
 } from "../../utils/test-head";
 import I from "immutable";
-import readFixture from "./helpers/readFixture";
 import { prefs } from "../../utils/prefs";
-
-const threadClient = {
-  sourceContents: function(sourceId) {
-    return new Promise((resolve, reject) =>
-      resolve({
-        source: sourceTexts[sourceId],
-        contentType: "text/javascript"
-      })
-    );
-  },
-  setPausePoints: async () => {},
-  getFrameScopes: async () => {},
-  evaluateInFrame: function(expression, frameId) {
-    return new Promise((resolve, reject) =>
-      resolve({ result: evaluationResult[expression] })
-    );
-  },
-  evaluateExpressions: function(expressions, frameId) {
-    return new Promise((resolve, reject) =>
-      resolve(
-        expressions.map(expression => ({
-          result: evaluationResult[expression]
-        }))
-      )
-    );
-  }
-};
-
-const sourceTexts = {
-  "base.js": "function base(boo) {}",
-  "foo.js": "function base(boo) { return this.bazz; } outOfScope",
-  "immutable.js": "list",
-  "scopes.js": readFixture("scopes.js"),
-  "reactComponent.js": readFixture("reactComponent.js")
-};
 
 const react = {
   actor: "server1.conn34.child2/obj341",
@@ -68,13 +32,18 @@ const immutableList = {
   }
 };
 
-let evaluationResult;
-
 describe("setPreview", () => {
   let dispatch = undefined;
   let getState = undefined;
 
-  async function setup(fileName) {
+  async function setup(fileName, evaluateInFrame) {
+    const threadClient = {
+      sourceContents: () => Promise.resolve("list"),
+      setPausePoints: async () => {},
+      getFrameScopes: async () => {},
+      evaluateExpressions: async () => {},
+      evaluateInFrame
+    };
     const store = createStore(threadClient);
     prefs.autoPrettyPrint = false;
 
@@ -98,16 +67,23 @@ describe("setPreview", () => {
   }
 
   it("react instance", async () => {
-    await setup("foo.js");
-    evaluationResult = {
-      this: react
-    };
-    evaluationResult[
-      "this.hasOwnProperty('_reactInternalFiber') ? " +
-        "this._reactInternalFiber.type.name : " +
-        "this._reactInternalInstance.getName()"
-    ] =
-      "Foo";
+    await setup(
+      "foo.js",
+      jest
+        .fn()
+        .mockImplementationOnce(() =>
+          // result of evaluation setPreview
+          Promise.resolve({
+            result: react
+          })
+        )
+        .mockImplementationOnce(() =>
+          // result of evaluation in getPreview
+          Promise.resolve({
+            result: { preview: { items: ["Foo"] } }
+          })
+        )
+    );
 
     await dispatch(
       actions.setPreview(
@@ -121,13 +97,15 @@ describe("setPreview", () => {
   });
 
   it("Immutable list", async () => {
-    await setup("immutable.js");
-
-    evaluationResult = {
-      list: immutableList,
-      "list.constructor.name": "Listless",
-      "list.toJS()": { actor: "bazz", preview: {} }
-    };
+    await setup("immutable.js", expression =>
+      Promise.resolve({
+        result: {
+          list: immutableList,
+          "list.constructor.name": "Listless",
+          "list.toJS()": { actor: "bazz", preview: {} }
+        }[expression]
+      })
+    );
 
     await dispatch(
       actions.setPreview(
