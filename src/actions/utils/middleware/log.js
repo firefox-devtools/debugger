@@ -1,18 +1,19 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 /* global window */
 
 import { isTesting } from "devtools-config";
 
 const blacklist = [
   "SET_POPUP_OBJECT_PROPERTIES",
+  "SET_PAUSE_POINTS",
   "SET_SYMBOLS",
   "OUT_OF_SCOPE_LOCATIONS",
   "MAP_SCOPES",
+  "MAP_FRAMES",
   "ADD_SCOPES",
-  "IN_SCOPE_LINES",
-  "SET_EMPTY_LINES"
+  "IN_SCOPE_LINES"
 ];
 
 function cloneAction(action) {

@@ -197,23 +197,6 @@ export type TabPayload = {
 };
 
 /**
- * Response from the `listTabs` function call
- * @memberof firefox
- * @static
- */
-export type ListTabsResponse = {
-  actorRegistryActor: ActorId,
-  addonsActor: ActorId,
-  deviceActor: ActorId,
-  directorRegistryActor: ActorId,
-  from: string,
-  heapSnapshotFileActor: ActorId,
-  preferenceActor: ActorId,
-  selected: number,
-  tabs: TabPayload[]
-};
-
-/**
  * Actions
  * @memberof firefox
  * @static
@@ -238,9 +221,15 @@ export type TabTarget = {
       script: Script,
       func: Function,
       params?: { frameActor?: FrameId }
+    ) => void,
+    evaluateJSAsync: (
+      script: Script,
+      func: Function,
+      params?: { frameActor?: FrameId }
     ) => void
   },
   form: { consoleActor: any },
+  root: any,
   activeTab: {
     navigateTo: string => Promise<*>,
     reload: () => Promise<*>
@@ -268,7 +257,7 @@ export type DebuggerClient = {
     traits: any
   },
   connect: () => Promise<*>,
-  listTabs: () => Promise<*>
+  request: (packet: Object) => Promise<*>
 };
 
 export type TabClient = {

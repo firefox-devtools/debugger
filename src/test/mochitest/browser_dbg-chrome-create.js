@@ -6,6 +6,13 @@
 /**
  * Tests that a chrome debugger can be created in a new process.
  */
+
+// There are shutdown issues for which multiple rejections are left uncaught.
+// See bug 1018184 for resolving these issues.
+const { PromiseTestUtils } = scopedCuImport("resource://testing-common/PromiseTestUtils.jsm");
+PromiseTestUtils.whitelistRejectionsGlobally(/File closed/);
+PromiseTestUtils.whitelistRejectionsGlobally(/NS_ERROR_FAILURE/);
+
 requestLongerTimeout(5);
 
 const { BrowserToolboxProcess } = ChromeUtils.import(
@@ -17,7 +24,7 @@ let gProcess = undefined;
 function initChromeDebugger() {
   info("Initializing a chrome debugger process.");
   return new Promise(resolve => {
-    BrowserToolboxProcess.init(onClose, (event, _process) => {
+    BrowserToolboxProcess.init(onClose, _process => {
       info("Browser toolbox process started successfully.");
       resolve(_process);
     });

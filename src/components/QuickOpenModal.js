@@ -7,22 +7,24 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import fuzzyAldrin from "fuzzaldrin-plus";
 import { basename } from "../utils/path";
+
 import actions from "../actions";
 import {
-  getSources,
+  getRelativeSources,
   getQuickOpenEnabled,
   getQuickOpenQuery,
   getQuickOpenType,
   getSelectedSource,
   getSymbols,
-  getTabs
+  getTabs,
+  isSymbolsLoading
 } from "../selectors";
 import { scrollList } from "../utils/result-list";
 import {
   formatSymbols,
-  formatSources,
   parseLineColumn,
-  formatShortcutResults
+  formatShortcutResults,
+  formatSources
 } from "../utils/quick-open";
 import Modal from "./shared/Modal";
 import SearchInput from "./shared/SearchInput";
@@ -33,8 +35,7 @@ import type {
   QuickOpenResult
 } from "../utils/quick-open";
 
-import type { Location } from "../types";
-import type { SourceRecord } from "../reducers/sources";
+import type { Location, SourceRecord } from "../types";
 import type { QuickOpenType } from "../reducers/quick-open";
 
 import "./QuickOpenModal.css";
@@ -46,6 +47,7 @@ type Props = {
   query: string,
   searchType: QuickOpenType,
   symbols: FormattedSymbolDeclarations,
+  symbolsLoading: boolean,
   tabs: string[],
   selectLocation: Location => void,
   setQuickOpenQuery: (query: string) => void,
@@ -127,7 +129,10 @@ export class QuickOpenModal extends Component<Props, State> {
     let results = functions;
     if (this.isVariableQuery()) {
       results = variables;
+    } else {
+      results = results.filter(result => result.title !== "anonymous");
     }
+
     if (query === "@" || query === "#") {
       return this.setState({ results });
     }
@@ -299,6 +304,7 @@ export class QuickOpenModal extends Component<Props, State> {
     }
 
     if (["ArrowUp", "ArrowDown"].includes(e.key)) {
+      e.preventDefault();
       return this.traverseResults(e);
     }
   };
@@ -340,16 +346,7 @@ export class QuickOpenModal extends Component<Props, State> {
     return results.map(result => {
       return {
         ...result,
-        title: this.renderHighlight(result.title, basename(newQuery), "title"),
-        ...(result.subtitle != null && !this.isSymbolSearch()
-          ? {
-              subtitle: this.renderHighlight(
-                result.subtitle,
-                newQuery,
-                "subtitle"
-              )
-            }
-          : null)
+        title: this.renderHighlight(result.title, basename(newQuery), "title")
       };
     });
   };
@@ -362,8 +359,18 @@ export class QuickOpenModal extends Component<Props, State> {
     return !this.getResultCount() && !!query;
   }
 
+  renderLoading = () => {
+    const { symbolsLoading } = this.props;
+
+    if ((this.isFunctionQuery() || this.isVariableQuery()) && symbolsLoading) {
+      return (
+        <div className="loading-indicator">{L10N.getStr("loadingText")}</div>
+      );
+    }
+  };
+
   render() {
-    const { enabled, query, symbols } = this.props;
+    const { enabled, query } = this.props;
     const { selectedIndex, results } = this.state;
 
     if (!enabled) {
@@ -376,6 +383,7 @@ export class QuickOpenModal extends Component<Props, State> {
       <Modal in={enabled} handleClose={this.closeModal}>
         <SearchInput
           query={query}
+          hasPrefix={true}
           count={this.getResultCount()}
           placeholder={L10N.getStr("sourceSearch.search")}
           summaryMsg=""
@@ -388,12 +396,7 @@ export class QuickOpenModal extends Component<Props, State> {
             expanded && items[selectedIndex] ? items[selectedIndex].id : ""
           }
         />
-        {!symbols ||
-          (symbols.functions.length == 0 && (
-            <div className="loading-indicator">
-              {L10N.getStr("loadingText")}
-            </div>
-          ))}
+        {this.renderLoading()}
         {newResults && (
           <ResultList
             key="results"
@@ -413,16 +416,13 @@ export class QuickOpenModal extends Component<Props, State> {
 /* istanbul ignore next: ignoring testing of redux connection stuff */
 function mapStateToProps(state) {
   const selectedSource = getSelectedSource(state);
-  let symbols = null;
-  if (selectedSource != null) {
-    symbols = getSymbols(state, selectedSource.toJS());
-  }
 
   return {
     enabled: getQuickOpenEnabled(state),
-    sources: formatSources(getSources(state)),
+    sources: formatSources(getRelativeSources(state), getTabs(state).toArray()),
     selectedSource,
-    symbols: formatSymbols(symbols),
+    symbols: formatSymbols(getSymbols(state, selectedSource)),
+    symbolsLoading: isSymbolsLoading(state, selectedSource),
     query: getQuickOpenQuery(state),
     searchType: getQuickOpenType(state),
     tabs: getTabs(state).toArray()

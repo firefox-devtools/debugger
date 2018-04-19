@@ -4,66 +4,15 @@
 
 // @flow
 
-import * as t from "@babel/types";
-import type { Node } from "@babel/types";
-
 import createSimplePath, { type SimplePath } from "./simple-path";
 import { traverseAst } from "./ast";
-import { getMemberExpression } from "./helpers";
-
 import { nodeContainsPosition } from "./contains";
 
-import type { Location } from "../../../types";
-
-function getNodeValue(node: Node) {
-  if (t.isThisExpression(node)) {
-    return "this";
-  }
-
-  return node.name;
-}
-
-function getClosestMemberExpression(sourceId, token, location: Location) {
-  const closest = getClosestPath(sourceId, location).find(
-    path => t.isMemberExpression(path.node) && path.node.property.name === token
-  );
-
-  if (closest) {
-    const memberExpression = getMemberExpression(closest.node);
-    return {
-      expression: memberExpression,
-      location: closest.node.loc
-    };
-  }
-  return null;
-}
-
-export function getClosestExpression(
-  sourceId: string,
-  token: string,
-  location: Location
-) {
-  const memberExpression = getClosestMemberExpression(
-    sourceId,
-    token,
-    location
-  );
-  if (memberExpression) {
-    return memberExpression;
-  }
-
-  const path = getClosestPath(sourceId, location);
-  if (!path || !path.node) {
-    return;
-  }
-
-  const { node } = path;
-  return { expression: getNodeValue(node), location: node.loc };
-}
+import type { AstPosition } from "../types";
 
 export function getClosestPath(
   sourceId: string,
-  location: Location
+  location: AstPosition
 ): SimplePath {
   let closestPath = null;
 

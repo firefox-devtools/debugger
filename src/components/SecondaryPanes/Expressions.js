@@ -34,7 +34,9 @@ type Props = {
   evaluateExpressions: () => void,
   updateExpression: (input: string, expression: Expression) => void,
   deleteExpression: (expression: Expression) => void,
-  openLink: (url: string) => void
+  openLink: (url: string) => void,
+  showInput: boolean,
+  onExpressionAdded: () => void
 };
 
 class Expressions extends Component<Props, State> {
@@ -46,7 +48,12 @@ class Expressions extends Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    this.state = { editing: false, editIndex: -1, inputValue: "" };
+
+    this.state = {
+      editing: false,
+      editIndex: -1,
+      inputValue: ""
+    };
   }
 
   componentDidMount() {
@@ -71,12 +78,14 @@ class Expressions extends Component<Props, State> {
 
   shouldComponentUpdate(nextProps, nextState) {
     const { editing, inputValue } = this.state;
-    const { expressions, expressionError } = this.props;
+    const { expressions, expressionError, showInput } = this.props;
+
     return (
       expressions !== nextProps.expressions ||
       expressionError !== nextProps.expressionError ||
       editing !== nextState.editing ||
-      inputValue !== nextState.inputValue
+      inputValue !== nextState.inputValue ||
+      nextProps.showInput !== showInput
     );
   }
 
@@ -115,20 +124,42 @@ class Expressions extends Component<Props, State> {
     }
   };
 
+  hideInput = () => {
+    this.props.onExpressionAdded();
+  };
+
+  onBlur() {
+    this.clear();
+    this.hideInput();
+  }
+
   handleExistingSubmit = async (
     e: SyntheticEvent<HTMLFormElement>,
     expression: Expression
   ) => {
     e.preventDefault();
     e.stopPropagation();
+
     this.props.updateExpression(this.state.inputValue, expression);
+    this.hideInput();
   };
 
   handleNewSubmit = async (e: SyntheticEvent<HTMLFormElement>) => {
+    const { inputValue } = this.state;
     e.preventDefault();
     e.stopPropagation();
-    this.props.addExpression(this.state.inputValue);
-    this.setState({ editing: false, editIndex: -1, inputValue: "" });
+
+    this.props.clearExpressionError();
+    await this.props.addExpression(this.state.inputValue);
+    this.setState({
+      editing: false,
+      editIndex: -1,
+      inputValue: this.props.expressionError ? inputValue : ""
+    });
+
+    if (!this.props.expressionError) {
+      this.hideInput();
+    }
   };
 
   renderExpression = (expression: Expression, index: number) => {
@@ -194,8 +225,9 @@ class Expressions extends Component<Props, State> {
             type="text"
             placeholder={placeholder}
             onChange={this.handleChange}
-            onBlur={this.clear}
+            onBlur={this.hideInput}
             onKeyDown={this.handleKeyDown}
+            autoFocus="true"
             value={!editing ? inputValue : ""}
           />
           <input type="submit" style={{ display: "none" }} />
@@ -232,11 +264,12 @@ class Expressions extends Component<Props, State> {
   }
 
   render() {
-    const { expressions } = this.props;
+    const { expressions, showInput } = this.props;
+
     return (
       <ul className="pane expressions-list">
         {expressions.map(this.renderExpression)}
-        {this.renderNewExpressionInput()}
+        {showInput && this.renderNewExpressionInput()}
       </ul>
     );
   }

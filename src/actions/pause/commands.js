@@ -5,22 +5,14 @@
 
 // @flow
 
-import { isPaused, getSelectedSource, getTopFrame } from "../../selectors";
+import { isPaused, getSource, getTopFrame } from "../../selectors";
 import { PROMISE } from "../utils/middleware/promise";
 import { getNextStep } from "../../workers/parser";
 import { addHiddenBreakpoint } from "../breakpoints";
 import { features } from "../../utils/prefs";
 
 import type { ThunkArgs } from "../types";
-type CommandType =
-  | "stepOver"
-  | "stepIn"
-  | "stepOut"
-  | "resume"
-  | "rewind"
-  | "reverseStepOver"
-  | "reverseStepIn"
-  | "reverseStepOut";
+import type { Command } from "../../reducers/types";
 
 /**
  * Debugger commands like stepOver, stepIn, stepUp
@@ -29,7 +21,7 @@ type CommandType =
  * @memberof actions/pause
  * @static
  */
-export function command(type: CommandType) {
+export function command(type: Command) {
   return async ({ dispatch, client }: ThunkArgs) => {
     return dispatch({
       type: "COMMAND",
@@ -162,9 +154,13 @@ function hasAwait(source, pauseLocation) {
     return false;
   }
 
-  const snippet = source.text
-    .split("\n")
-    [line - 1].slice(column - 50, column + 50);
+  const lineText = source.text.split("\n")[line - 1];
+
+  if (!lineText) {
+    return false;
+  }
+
+  const snippet = lineText.slice(column - 50, column + 50);
 
   return !!snippet.match(/(yield|await)/);
 }
@@ -175,7 +171,7 @@ function hasAwait(source, pauseLocation) {
  * @param stepType
  * @returns {function(ThunkArgs)}
  */
-export function astCommand(stepType: CommandType) {
+export function astCommand(stepType: Command) {
   return async ({ dispatch, getState, sourceMaps }: ThunkArgs) => {
     if (!features.asyncStepping) {
       return dispatch(command(stepType));
@@ -184,7 +180,7 @@ export function astCommand(stepType: CommandType) {
     if (stepType == "stepOver") {
       // This type definition is ambiguous:
       const frame: any = getTopFrame(getState());
-      const source = getSelectedSource(getState()).toJS();
+      const source = getSource(getState(), frame.location.sourceId);
 
       if (source && hasAwait(source, frame.location)) {
         const nextLocation = await getNextStep(source.id, frame.location);

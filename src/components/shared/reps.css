@@ -16,18 +16,6 @@
   --reference-color: var(--theme-highlight-purple);
 }
 
-.theme-firebug {
-  --number-color: #000088;
-  --string-color: #ff0000;
-  --null-color: #787878;
-  --object-color: DarkGreen;
-  --caption-color: #444444;
-  --location-color: #555555;
-  --source-link-color: blue;
-  --node-color: rgb(0, 0, 136);
-  --reference-color: rgb(102, 102, 255);
-}
-
 /******************************************************************************/
 
 .objectLink:hover {

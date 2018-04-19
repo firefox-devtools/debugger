@@ -10,24 +10,33 @@
  */
 
 import * as I from "immutable";
-
 import makeRecord from "../utils/makeRecord";
-import type { SymbolDeclarations, AstLocation } from "../workers/parser/types";
+import { findEmptyLines } from "../utils/ast";
+
+import type {
+  AstLocation,
+  SymbolDeclarations,
+  PausePoints,
+  PausePoint
+} from "../workers/parser";
 
 import type { Map } from "immutable";
-import type { Source } from "../types";
-import type { Action } from "../actions/types";
+import type { Source, Location } from "../types";
+import type { Action, DonePromiseAction } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 type EmptyLinesType = number[];
-export type SymbolsMap = Map<string, SymbolDeclarations>;
+
+export type Symbols = SymbolDeclarations | {| loading: true |};
+export type SymbolsMap = Map<string, Symbols>;
 export type EmptyLinesMap = Map<string, EmptyLinesType>;
 
 export type SourceMetaDataType = {
-  framework: ?string
+  framework: string | void
 };
 
 export type SourceMetaDataMap = Map<string, SourceMetaDataType>;
+export type PausePointsMap = Map<string, PausePoints>;
 
 export type Preview =
   | {| updating: true |}
@@ -48,6 +57,7 @@ export type ASTState = {
   outOfScopeLocations: ?Array<AstLocation>,
   inScopeLines: ?Array<Number>,
   preview: Preview,
+  pausePoints: PausePointsMap,
   sourceMetaData: SourceMetaDataMap
 };
 
@@ -59,6 +69,7 @@ export function initialASTState() {
       outOfScopeLocations: null,
       inScopeLines: null,
       preview: null,
+      pausePoints: I.Map(),
       sourceMetaData: I.Map()
     }: ASTState)
   )();
@@ -70,13 +81,22 @@ function update(
 ): Record<ASTState> {
   switch (action.type) {
     case "SET_SYMBOLS": {
-      const { source, symbols } = action;
-      return state.setIn(["symbols", source.id], symbols);
+      const { source } = action;
+      if (action.status === "start") {
+        return state.setIn(["symbols", source.id], { loading: true });
+      }
+
+      const value = ((action: any): DonePromiseAction).value;
+      return state.setIn(["symbols", source.id], value);
     }
 
-    case "SET_EMPTY_LINES": {
-      const { source, emptyLines } = action;
-      return state.setIn(["emptyLines", source.id], emptyLines);
+    case "SET_PAUSE_POINTS": {
+      const { source, pausePoints } = action;
+      const emptyLines = findEmptyLines(source, pausePoints);
+
+      return state
+        .setIn(["pausePoints", source.id], pausePoints)
+        .setIn(["emptyLines", source.id], emptyLines);
     }
 
     case "OUT_OF_SCOPE_LOCATIONS": {
@@ -131,25 +151,31 @@ function update(
 // https://github.com/devtools-html/debugger.html/blob/master/src/reducers/sources.js#L179-L185
 type OuterState = { ast: Record<ASTState> };
 
-const emptySymbols = { variables: [], functions: [] };
-export function getSymbols(
-  state: OuterState,
-  source: Source
-): SymbolDeclarations {
+export function getSymbols(state: OuterState, source: Source): ?Symbols {
   if (!source) {
-    return emptySymbols;
+    return null;
   }
 
-  const symbols = state.ast.getIn(["symbols", source.id]);
-  return symbols || emptySymbols;
+  return state.ast.symbols.get(source.id) || null;
 }
 
 export function hasSymbols(state: OuterState, source: Source): boolean {
-  if (!source) {
+  const symbols = getSymbols(state, source);
+
+  if (!symbols) {
     return false;
   }
 
-  return !!state.ast.getIn(["symbols", source.id]);
+  return !symbols.hasOwnProperty("loading");
+}
+
+export function isSymbolsLoading(state: OuterState, source: Source): boolean {
+  const symbols = getSymbols(state, source);
+  if (!symbols) {
+    return false;
+  }
+
+  return symbols.hasOwnProperty("loading");
 }
 
 export function isEmptyLineInSource(
@@ -158,15 +184,45 @@ export function isEmptyLineInSource(
   selectedSource: Source
 ) {
   const emptyLines = getEmptyLines(state, selectedSource);
-  return emptyLines.includes(line);
+  return emptyLines && emptyLines.includes(line);
 }
 
 export function getEmptyLines(state: OuterState, source: Source) {
   if (!source) {
-    return [];
+    return null;
   }
 
-  return state.ast.getIn(["emptyLines", source.id]) || [];
+  return state.ast.emptyLines.get(source.id);
+}
+
+export function getPausePoints(
+  state: OuterState,
+  sourceId: string
+): ?PausePoints {
+  return state.ast.pausePoints.get(sourceId);
+}
+
+export function getPausePoint(
+  state: OuterState,
+  location: ?Location
+): ?PausePoint {
+  if (!location) {
+    return;
+  }
+
+  const { column, line, sourceId } = location;
+  const pausePoints = getPausePoints(state, sourceId);
+  if (!pausePoints) {
+    return;
+  }
+
+  const linePoints = pausePoints[line];
+  return linePoints && linePoints[column];
+}
+
+export function hasPausePoints(state: OuterState, sourceId: string): boolean {
+  const pausePoints = getPausePoints(state, sourceId);
+  return !!pausePoints;
 }
 
 export function getOutOfScopeLocations(state: OuterState) {
@@ -179,7 +235,11 @@ export function getPreview(state: OuterState) {
 
 const emptySourceMetaData = {};
 export function getSourceMetaData(state: OuterState, sourceId: string) {
-  return state.ast.getIn(["sourceMetaData", sourceId]) || emptySourceMetaData;
+  return state.ast.sourceMetaData.get(sourceId) || emptySourceMetaData;
+}
+
+export function hasSourceMetaData(state: OuterState, sourceId: string) {
+  return state.ast.hasIn(["sourceMetaData", sourceId]);
 }
 
 export function getInScopeLines(state: OuterState) {

@@ -12,7 +12,7 @@ import findLastIndex from "lodash/findLastIndex";
 
 import { containsLocation, containsPosition } from "./utils/contains";
 
-import getSymbols from "./getSymbols";
+import { getSymbols } from "./getSymbols";
 
 function findSymbols(source) {
   const { functions, comments } = getSymbols(source);

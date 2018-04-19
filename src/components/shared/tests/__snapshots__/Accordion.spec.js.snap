@@ -13,6 +13,7 @@ exports[`Accordion basic render 1`] = `
     <h2
       className="_header"
       onClick={[Function]}
+      tabIndex="0"
     >
       <Svg
         className="expanded"
@@ -34,6 +35,7 @@ exports[`Accordion basic render 1`] = `
     <h2
       className="_header"
       onClick={[Function]}
+      tabIndex="0"
     >
       <Svg
         className=""
@@ -42,6 +44,7 @@ exports[`Accordion basic render 1`] = `
       Test Accordion Item 2
       <div
         className="header-buttons"
+        tabIndex="-1"
       >
         <button />
       </div>
@@ -55,6 +58,7 @@ exports[`Accordion basic render 1`] = `
     <h2
       className="_header"
       onClick={[Function]}
+      tabIndex="0"
     >
       <Svg
         className="expanded"

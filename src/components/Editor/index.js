@@ -41,7 +41,6 @@ import EmptyLines from "./EmptyLines";
 import GutterMenu from "./GutterMenu";
 import EditorMenu from "./EditorMenu";
 import ConditionalPanel from "./ConditionalPanel";
-import type { SymbolDeclarations } from "../../workers/parser/types";
 
 import {
   showSourceText,
@@ -54,6 +53,7 @@ import {
   getCursorLine,
   toSourceLine,
   getDocument,
+  setEditor,
   scrollToColumn,
   toEditorPosition,
   getSourceLocationFromMouseEvent,
@@ -66,6 +66,7 @@ import "./Editor.css";
 import "./Highlight.css";
 
 import type SourceEditor from "../../utils/editor/source-editor";
+import type { SymbolDeclarations } from "../../workers/parser";
 
 const cssVars = {
   searchbarHeight: "var(--editor-searchbar-height)",
@@ -177,6 +178,7 @@ class Editor extends PureComponent<Props, State> {
     }
 
     this.setState({ editor });
+    setEditor(editor);
     return editor;
   }
 
@@ -331,7 +333,7 @@ class Editor extends PureComponent<Props, State> {
     if (
       (ev.ctrlKey && ev.button === 0) ||
       ev.which === 3 ||
-      (selectedSource && selectedSource.get("isBlackBoxed")) ||
+      (selectedSource && selectedSource.isBlackBoxed) ||
       !selectedSource
     ) {
       return;

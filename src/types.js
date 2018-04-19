@@ -4,6 +4,8 @@
 
 // @flow
 
+import { RecordOf } from "immutable";
+
 export type SearchModifiers = {
   caseSensitive: boolean,
   wholeWord: boolean,
@@ -57,6 +59,24 @@ export type Location = {
   column: ?number,
   sourceUrl?: string
 };
+
+export type MappedLocation = {
+  location: Location,
+  generatedLocation: Location
+};
+
+export type Position = {
+  line: number,
+  column: ?number
+};
+
+export type ColumnPosition = {
+  line: number,
+  column: number
+};
+
+export type Range = { end: Position, start: Position };
+export type ColumnRange = { end: ColumnPosition, start: ColumnPosition };
 
 export type PendingLocation = {
   line: number,
@@ -262,17 +282,20 @@ export type Grip = {
  * @memberof types
  * @static
  */
+
+export type SourceRecord = RecordOf<Source>;
+
 export type Source = {
-  id: SourceId,
-  url: string,
-  sourceMapURL?: string,
-  isBlackBoxed: boolean,
-  isPrettyPrinted: boolean,
-  isWasm: boolean,
-  text?: string,
-  contentType?: string,
-  error?: string,
-  loadedState: "unloaded" | "loading" | "loaded"
+  +id: SourceId,
+  +url: string,
+  +sourceMapURL?: string,
+  +isBlackBoxed: boolean,
+  +isPrettyPrinted: boolean,
+  +isWasm: boolean,
+  +text?: string,
+  +contentType?: string,
+  +error?: string,
+  +loadedState: "unloaded" | "loading" | "loaded"
 };
 
 /**

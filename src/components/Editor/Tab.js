@@ -13,7 +13,7 @@ import { showMenu, buildMenu } from "devtools-contextmenu";
 import CloseButton from "../shared/Button/Close";
 
 import type { List } from "immutable";
-import type { SourceRecord } from "../../reducers/sources";
+import type { SourceRecord } from "../../types";
 import type { SourceMetaDataType } from "../../reducers/ast";
 
 import actions from "../../actions";
@@ -40,7 +40,7 @@ type SourcesList = List<SourceRecord>;
 
 type Props = {
   tabSources: SourcesList,
-  selectSource: Object => void,
+  selectSpecificSource: Object => void,
   selectedSource: SourceRecord,
   closeTab: string => void,
   closeTabs: (List<string>) => void,
@@ -63,7 +63,8 @@ class Tab extends PureComponent<Props> {
       closeTabs,
       tabSources,
       showSource,
-      togglePrettyPrint
+      togglePrettyPrint,
+      selectedSource
     } = this.props;
 
     const otherTabs = tabSources.filter(t => t.get("id") !== tab);
@@ -109,6 +110,13 @@ class Tab extends PureComponent<Props> {
       { item: { type: "separator" } },
       {
         item: {
+          ...tabMenuItems.copyToClipboard,
+          disabled: selectedSource.get("id") !== tab,
+          click: () => copyToTheClipboard(sourceTab.text)
+        }
+      },
+      {
+        item: {
           ...tabMenuItems.copySourceUri2,
           click: () => copyToTheClipboard(getRawSourceURL(sourceTab.get("url")))
         }
@@ -142,14 +150,14 @@ class Tab extends PureComponent<Props> {
   render() {
     const {
       selectedSource,
-      selectSource,
+      selectSpecificSource,
       closeTab,
       source,
       sourceMetaData
     } = this.props;
     const src = source.toJS();
     const filename = getFilename(src);
-    const sourceId = source.get("id");
+    const sourceId = source.id;
     const active =
       selectedSource &&
       sourceId == selectedSource.get("id") &&
@@ -159,7 +167,7 @@ class Tab extends PureComponent<Props> {
 
     function onClickClose(e) {
       e.stopPropagation();
-      closeTab(source.get("url"));
+      closeTab(source.url);
     }
 
     function handleTabClick(e) {
@@ -168,10 +176,10 @@ class Tab extends PureComponent<Props> {
 
       // Accommodate middle click to close tab
       if (e.button === 1) {
-        return closeTab(source.get("url"));
+        return closeTab(source.url);
       }
 
-      return selectSource(sourceId);
+      return selectSpecificSource(sourceId);
     }
 
     const className = classnames("source-tab", {
@@ -204,7 +212,7 @@ export default connect(
     return {
       tabSources: getSourcesForTabs(state),
       selectedSource: selectedSource,
-      sourceMetaData: getSourceMetaData(state, source.get("id")),
+      sourceMetaData: getSourceMetaData(state, source.id),
       activeSearch: getActiveSearch(state)
     };
   },

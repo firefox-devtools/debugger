@@ -11,6 +11,7 @@ import classnames from "classnames";
 import { bindActionCreators } from "redux";
 import actions from "../actions";
 
+import { getEditor } from "../utils/editor";
 import { highlightMatches } from "../utils/project-search";
 
 import { statusType } from "../reducers/project-text-search";
@@ -31,6 +32,7 @@ import type { List } from "immutable";
 import type { Location } from "../types";
 import type { ActiveSearchType } from "../reducers/types";
 import type { StatusType } from "../reducers/project-text-search";
+type Editor = ?Object;
 
 import "./ProjectSearch.css";
 
@@ -68,7 +70,13 @@ type Props = {
   closeProjectSearch: () => void,
   searchSources: (query: string) => void,
   clearSearch: () => void,
-  selectLocation: (location: Location, tabIndex?: string) => void
+  selectLocation: (location: Location, tabIndex?: string) => void,
+  doSearchForHighlight: (
+    query: string,
+    editor: Editor,
+    line: number,
+    column: number
+  ) => void
 };
 
 function getFilePath(item: Item, index?: number) {
@@ -133,6 +141,12 @@ export class ProjectSearch extends Component<Props, State> {
 
   selectMatchItem = (matchItem: Match) => {
     this.props.selectLocation({ ...matchItem });
+    this.props.doSearchForHighlight(
+      this.state.inputValue,
+      getEditor(),
+      matchItem.line,
+      matchItem.column
+    );
   };
 
   getResults = (): Result[] => {

@@ -38,6 +38,7 @@
   display: flex;
   justify-content: space-between;
   border: 1px solid transparent;
+  white-space: pre;
 }
 
 @media (max-width: 640px) {

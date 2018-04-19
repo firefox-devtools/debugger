@@ -20,7 +20,7 @@ import {
 import { prefs } from "../utils/prefs";
 
 import type { PendingBreakpoint } from "../types";
-import type { Action } from "../actions/types";
+import type { Action, DonePromiseAction } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 export type PendingBreakpointsMap = I.Map<string, PendingBreakpoint>;
@@ -91,7 +91,7 @@ function addBreakpoint(state, action) {
     return state;
   }
   // when the action completes, we can commit the breakpoint
-  const { value: { breakpoint } } = action;
+  const { breakpoint } = ((action: any): DonePromiseAction).value;
   const locationId = makePendingLocationId(breakpoint.location);
   const pendingBreakpoint = createPendingBreakpoint(breakpoint);
 
@@ -139,7 +139,7 @@ function removeBreakpoint(state, action) {
   const { breakpoint } = action;
 
   const locationId = makePendingLocationId(breakpoint.location);
-  const pendingBp = state.getIn(["pendingBreakpoints", locationId]);
+  const pendingBp = state.pendingBreakpoints.get(locationId);
 
   if (!pendingBp && action.status == "start") {
     return state.set("pendingBreakpoints", I.Map());

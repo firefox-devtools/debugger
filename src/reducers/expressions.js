@@ -11,7 +11,8 @@
 
 import makeRecord from "../utils/makeRecord";
 import { List } from "immutable";
-import { omit } from "lodash";
+import { omit, zip } from "lodash";
+
 import { createSelector } from "reselect";
 import { prefs } from "../utils/prefs";
 
@@ -19,7 +20,7 @@ import type { Expression } from "../types";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
-type ExpressionState = {
+export type ExpressionState = {
   expressions: List<Expression>,
   expressionError: boolean
 };
@@ -40,26 +41,43 @@ function update(
       if (action.expressionError) {
         return state.set("expressionError", !!action.expressionError);
       }
-      return appendToList(state, ["expressions"], {
+      return appendExpressionToList(state, {
         input: action.input,
         value: null,
         updating: true
       });
+
     case "UPDATE_EXPRESSION":
       const key = action.expression.input;
-      return updateItemInList(state, ["expressions"], key, {
+      return updateExpressionInList(state, key, {
         input: action.input,
         value: null,
         updating: true
       }).set("expressionError", !!action.expressionError);
+
     case "EVALUATE_EXPRESSION":
-      return updateItemInList(state, ["expressions"], action.input, {
+      return updateExpressionInList(state, action.input, {
         input: action.input,
         value: action.value,
         updating: false
       });
+
+    case "EVALUATE_EXPRESSIONS":
+      const { inputs, results } = action;
+
+      return zip(inputs, results).reduce(
+        (newState, [input, result]) =>
+          updateExpressionInList(newState, input, {
+            input: input,
+            value: result,
+            updating: false
+          }),
+        state
+      );
+
     case "DELETE_EXPRESSION":
       return deleteExpression(state, action.input);
+
     case "CLEAR_EXPRESSION_ERROR":
       return state.set("expressionError", false);
 
@@ -79,7 +97,7 @@ function travelTo(state, action) {
   }
   return expressions.reduce(
     (finalState, previousState) =>
-      updateItemInList(finalState, ["expressions"], previousState.input, {
+      updateExpressionInList(finalState, previousState.input, {
         input: previousState.input,
         value: previousState.value,
         updating: false
@@ -96,38 +114,32 @@ function restoreExpressions() {
   return exprs;
 }
 
-function storeExpressions(state) {
-  const expressions = state
-    .getIn(["expressions"])
+function storeExpressions({ expressions }) {
+  prefs.expressions = expressions
     .map(expression => omit(expression, "value"))
     .toJS();
-
-  prefs.expressions = expressions;
 }
 
-function appendToList(
-  state: Record<ExpressionState>,
-  path: string[],
-  value: any
-) {
-  const newState = state.updateIn(path, () => {
-    return state.getIn(path).push(value);
+function appendExpressionToList(state: Record<ExpressionState>, value: any) {
+  const newState = state.update("expressions", () => {
+    return state.expressions.push(value);
   });
+
   storeExpressions(newState);
   return newState;
 }
 
-function updateItemInList(
+function updateExpressionInList(
   state: Record<ExpressionState>,
-  path: string[],
   key: string,
   value: any
 ) {
-  const newState = state.updateIn(path, () => {
-    const list = state.getIn(path);
+  const newState = state.update("expressions", () => {
+    const list = state.expressions;
     const index = list.findIndex(e => e.input == key);
     return list.update(index, () => value);
   });
+
   storeExpressions(newState);
   return newState;
 }
@@ -147,7 +159,7 @@ const getExpressionsWrapper = state => state.expressions;
 
 export const getExpressions = createSelector(
   getExpressionsWrapper,
-  expressions => expressions.get("expressions")
+  expressions => expressions.expressions
 );
 
 export function getExpression(state: OuterState, input: string) {
@@ -156,7 +168,7 @@ export function getExpression(state: OuterState, input: string) {
 
 export const getExpressionError = createSelector(
   getExpressionsWrapper,
-  expressions => expressions.get("expressionError")
+  expressions => expressions.expressionError
 );
 
 export default update;

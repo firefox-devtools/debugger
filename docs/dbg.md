@@ -19,7 +19,7 @@ The actions are bound so you can call them directly!
 
 ```js
 const source = dbg.store.getState().sources.sources.first();
-dbg.actions.selectSource(source.get("id")))
+dbg.actions.selectSource(source.id))
 ```
 
 ### selectors
@@ -39,7 +39,7 @@ The commands are the interface for talking to the debugger server.
 ```js
 const source = dbg.selectors.getSelectedSource();
 dbg.client
-  .setBreakpoint({line: 24, sourceId: source.get("id")})
+  .setBreakpoint({line: 24, sourceId: source.id})
   .then(console.log)
 ```
 

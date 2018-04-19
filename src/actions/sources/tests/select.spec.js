@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 import {
   actions,
   selectors,
@@ -29,7 +33,10 @@ describe("sources", () => {
 
     await dispatch(actions.newSource(makeSource("foo1")));
     await dispatch(
-      actions.paused({ frames: [makeFrame({ id: 1, sourceId: "foo1" })] })
+      actions.paused({
+        why: { type: "debuggerStatement" },
+        frames: [makeFrame({ id: 1, sourceId: "foo1" })]
+      })
     );
 
     await dispatch(
@@ -40,7 +47,7 @@ describe("sources", () => {
     expect(selectedSource.get("id")).toEqual("foo1");
 
     const source = getSource(getState(), selectedSource.get("id"));
-    expect(source.get("id")).toEqual("foo1");
+    expect(source.id).toEqual("foo1");
 
     await waitForState(
       store,
@@ -58,7 +65,7 @@ describe("sources", () => {
 
     expect(getSelectedSource(getState())).toBe(undefined);
     await dispatch(actions.newSource(baseSource));
-    expect(getSelectedSource(getState()).get("url")).toBe(baseSource.url);
+    expect(getSelectedSource(getState()).url).toBe(baseSource.url);
   });
 
   it("should open a tab for the source", async () => {

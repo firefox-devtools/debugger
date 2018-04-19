@@ -21,7 +21,7 @@ import { shouldShowFooter, shouldShowPrettyPrint } from "../../utils/editor";
 
 import PaneToggleButton from "../shared/Button/PaneToggle";
 
-import type { SourceRecord } from "../../reducers/sources";
+import type { SourceRecord } from "../../types";
 
 import "./Footer.css";
 
@@ -74,7 +74,7 @@ class SourceFooter extends PureComponent<Props> {
       return;
     }
 
-    const blackboxed = selectedSource.get("isBlackBoxed");
+    const blackboxed = selectedSource.isBlackBoxed;
 
     const tooltip = L10N.getStr("sourceFooter.blackbox");
     const type = "black-box";
@@ -98,7 +98,7 @@ class SourceFooter extends PureComponent<Props> {
   blackBoxSummary() {
     const { selectedSource } = this.props;
 
-    if (!selectedSource || !selectedSource.get("isBlackBoxed")) {
+    if (!selectedSource || !selectedSource.isBlackBoxed) {
       return;
     }
 

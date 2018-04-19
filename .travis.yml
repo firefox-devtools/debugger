@@ -10,7 +10,7 @@ env:
   global:
     - DISPLAY=':99.0'
     - YARN_VERSION='0.24.5'
-    - MC_COMMIT='0ef34a9ec4fb' # https://hg.mozilla.org/mozilla-central/shortlog
+    - MC_COMMIT='2243b83d2c5c' # https://hg.mozilla.org/mozilla-central/shortlog
 
 notifications:
   slack:
@@ -58,3 +58,4 @@ script:
     browser_webconsole_eval_in_debugger_stackframe2.js
     browser_webconsole_location_debugger_link.js
     browser_webconsole_stacktrace_location_debugger_link.js
+    browser_browser_toolbox_debugger.js

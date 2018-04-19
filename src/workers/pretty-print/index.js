@@ -9,7 +9,7 @@ const { WorkerDispatcher } = workerUtils;
 import { isJavaScript } from "../../utils/source";
 import assert from "../../utils/assert";
 
-import type { SourceRecord } from "../../reducers/types";
+import type { SourceRecord } from "../../types";
 
 const dispatcher = new WorkerDispatcher();
 export const startPrettyPrintWorker = dispatcher.start.bind(dispatcher);
@@ -29,6 +29,6 @@ export async function prettyPrint({ source, url }: PrettyPrintOpts) {
   return await _prettyPrint({
     url,
     indent,
-    sourceText: source.get("text")
+    sourceText: source.text
   });
 }

@@ -13,12 +13,14 @@ const pref = Services.pref;
 
 if (isDevelopment()) {
   pref("devtools.debugger.alphabetize-outline", false);
-  pref("devtools.debugger.auto-pretty-print", true);
+  pref("devtools.debugger.auto-pretty-print", false);
   pref("devtools.source-map.client-service.enabled", true);
   pref("devtools.debugger.pause-on-exceptions", false);
   pref("devtools.debugger.ignore-caught-exceptions", false);
   pref("devtools.debugger.call-stack-visible", true);
   pref("devtools.debugger.scopes-visible", true);
+  pref("devtools.debugger.component-visible", true);
+  pref("devtools.debugger.component-stack-visible", false);
   pref("devtools.debugger.workers-visible", true);
   pref("devtools.debugger.expressions-visible", true);
   pref("devtools.debugger.breakpoints-visible", true);
@@ -41,9 +43,7 @@ if (isDevelopment()) {
   pref("devtools.debugger.features.shortcuts", true);
   pref("devtools.debugger.features.root", true);
   pref("devtools.debugger.features.column-breakpoints", false);
-  pref("devtools.debugger.features.chrome-scopes", false);
   pref("devtools.debugger.features.map-scopes", true);
-  pref("devtools.debugger.features.breakpoints-dropdown", true);
   pref("devtools.debugger.features.remove-command-bar-options", true);
   pref("devtools.debugger.features.code-coverage", false);
   pref("devtools.debugger.features.event-listeners", false);
@@ -51,6 +51,8 @@ if (isDevelopment()) {
   pref("devtools.debugger.features.outline", true);
   pref("devtools.debugger.features.column-breakpoints", true);
   pref("devtools.debugger.features.replay", true);
+  pref("devtools.debugger.features.pause-points", true);
+  pref("devtools.debugger.features.component-stack", true);
 }
 
 export const prefs = new PrefsHelper("devtools", {
@@ -61,6 +63,8 @@ export const prefs = new PrefsHelper("devtools", {
   ignoreCaughtExceptions: ["Bool", "debugger.ignore-caught-exceptions"],
   callStackVisible: ["Bool", "debugger.call-stack-visible"],
   scopesVisible: ["Bool", "debugger.scopes-visible"],
+  componentVisible: ["Bool", "debugger.component-visible"],
+  componentStackVisible: ["Bool", "debugger.component-stack-visible"],
   workersVisible: ["Bool", "debugger.workers-visible"],
   breakpointsVisible: ["Bool", "debugger.breakpoints-visible"],
   expressionsVisible: ["Bool", "debugger.expressions-visible"],
@@ -85,16 +89,16 @@ export const features = new PrefsHelper("devtools.debugger.features", {
   shortcuts: ["Bool", "shortcuts"],
   root: ["Bool", "root"],
   columnBreakpoints: ["Bool", "column-breakpoints"],
-  chromeScopes: ["Bool", "chrome-scopes"],
   mapScopes: ["Bool", "map-scopes"],
-  breakpointsDropdown: ["Bool", "breakpoints-dropdown"],
   removeCommandBarOptions: ["Bool", "remove-command-bar-options"],
   workers: ["Bool", "workers"],
   codeCoverage: ["Bool", "code-coverage"],
   eventListeners: ["Bool", "event-listeners"],
   outline: ["Bool", "outline"],
   codeFolding: ["Bool", "code-folding"],
-  replay: ["Bool", "replay"]
+  replay: ["Bool", "replay"],
+  pausePoints: ["Bool", "pause-points"],
+  componentStack: ["Bool", "component-stack"]
 });
 
 if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {

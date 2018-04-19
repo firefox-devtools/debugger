@@ -38,8 +38,7 @@
   flex-shrink: 0;
 }
 
-.theme-light .frames .location,
-.theme-firebug .frames .location {
+.theme-light .frames .location {
   color: var(--theme-comment);
 }
 
@@ -74,7 +73,6 @@
 }
 
 :root.theme-light .frames ul li.selected .location,
-:root.theme-firebug .frames ul li.selected .location,
 :root.theme-dark .frames ul li.selected .location {
   color: white;
 }
@@ -91,6 +89,7 @@
   background-color: var(--theme-tab-toolbar-background);
   width: 100%;
   font-size: inherit;
+  color: inherit;
 }
 
 .show-more:hover {

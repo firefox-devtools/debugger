@@ -17,9 +17,22 @@ import { getSelectedSource } from "./sources";
 
 import type { OriginalScope } from "../actions/pause/mapScopes";
 import type { Action } from "../actions/types";
-import type { Why, Scope, SourceId, FrameId, Location } from "../types";
+import type { Why, Scope, SourceId, FrameId, MappedLocation } from "../types";
+
+export type Command =
+  | null
+  | "stepOver"
+  | "stepIn"
+  | "stepOut"
+  | "resume"
+  | "rewind"
+  | "reverseStepOver"
+  | "reverseStepIn"
+  | "reverseStepOut"
+  | "expression";
 
 export type PauseState = {
+  extra: ?Object,
   why: ?Why,
   isWaitingOnBreak: boolean,
   frames: ?(any[]),
@@ -35,6 +48,11 @@ export type PauseState = {
         pending: boolean,
         scope: OriginalScope
       }
+    },
+    mappings: {
+      [FrameId]: {
+        [string]: string | null
+      }
     }
   },
   selectedFrameId: ?string,
@@ -43,41 +61,40 @@ export type PauseState = {
   shouldIgnoreCaughtExceptions: boolean,
   canRewind: boolean,
   debuggeeUrl: string,
-  command: string,
-  previousLocation: ?{
-    location: Location,
-    generatedLocation: Location
-  }
+  command: Command,
+  previousLocation: ?MappedLocation
 };
 
 export const createPauseState = (): PauseState => ({
+  extra: {},
   why: null,
   isWaitingOnBreak: false,
   frames: undefined,
   selectedFrameId: undefined,
   frameScopes: {
     generated: {},
-    original: {}
+    original: {},
+    mappings: {}
   },
   loadedObjects: {},
   shouldPauseOnExceptions: prefs.pauseOnExceptions,
   shouldIgnoreCaughtExceptions: prefs.ignoreCaughtExceptions,
   canRewind: false,
   debuggeeUrl: "",
-  command: "",
+  command: null,
   previousLocation: null
 });
 
 const emptyPauseState = {
-  pause: null,
   frames: null,
   frameScopes: {
     generated: {},
-    original: {}
+    original: {},
+    mappings: {}
   },
   selectedFrameId: null,
   loadedObjects: {},
-  previousLocation: null
+  why: null
 };
 
 function update(
@@ -107,6 +124,10 @@ function update(
 
     case "MAP_FRAMES": {
       return { ...state, frames: action.frames };
+    }
+
+    case "ADD_EXTRA": {
+      return { ...state, extra: action.extra };
     }
 
     case "ADD_SCOPES": {
@@ -143,14 +164,20 @@ function update(
         ...state.frameScopes.original,
         [selectedFrameId]: {
           pending: status !== "done",
-          scope: value
+          scope: value && value.scope
         }
+      };
+
+      const mappings = {
+        ...state.frameScopes.mappings,
+        [selectedFrameId]: value && value.mappings
       };
       return {
         ...state,
         frameScopes: {
           ...state.frameScopes,
-          original
+          original,
+          mappings
         }
       };
     }
@@ -204,18 +231,16 @@ function update(
             command: action.command,
             previousLocation: buildPreviousLocation(state, action)
           }
-        : { ...state, command: "" };
+        : { ...state, command: null };
     }
 
     case "RESUME":
-      // We clear why on resume because we need it to decide if
-      // we shoul re-evaluate watch expressions.
-      return { ...state, why: null };
+      return { ...state, ...emptyPauseState };
 
     case "EVALUATE_EXPRESSION":
       return {
         ...state,
-        command: action.status === "start" ? "expression" : ""
+        command: action.status === "start" ? "expression" : null
       };
 
     case "NAVIGATE":
@@ -265,8 +290,12 @@ export function getPauseReason(state: OuterState): ?Why {
   return state.pause.why;
 }
 
+export function getPauseCommand(state: OuterState): Command {
+  return state.pause && state.pause.command;
+}
+
 export function isStepping(state: OuterState) {
-  return ["stepIn", "stepOver", "stepOut"].includes(state.pause.command);
+  return ["stepIn", "stepOver", "stepOut"].includes(getPauseCommand(state));
 }
 
 export function isPaused(state: OuterState) {
@@ -301,6 +330,10 @@ export function getCanRewind(state: OuterState) {
   return state.pause.canRewind;
 }
 
+export function getExtra(state: OuterState) {
+  return state.pause.extra;
+}
+
 export function getFrames(state: OuterState) {
   return state.pause.frames;
 }
@@ -313,11 +346,7 @@ export function getGeneratedFrameScope(state: OuterState, frameId: ?string) {
   return getFrameScopes(state).generated[frameId];
 }
 
-export function getFrameScopes(state: OuterState) {
-  return state.pause.frameScopes;
-}
-
-export function getFrameScope(
+export function getOriginalFrameScope(
   state: OuterState,
   sourceId: ?SourceId,
   frameId: ?string
@@ -336,7 +365,25 @@ export function getFrameScope(
     return original;
   }
 
-  return getFrameScopes(state).generated[frameId];
+  return null;
+}
+
+export function getFrameScopes(state: OuterState) {
+  return state.pause.frameScopes;
+}
+
+export function getFrameScope(
+  state: OuterState,
+  sourceId: ?SourceId,
+  frameId: ?string
+): ?{
+  pending: boolean,
+  +scope: OriginalScope | Scope
+} {
+  return (
+    getOriginalFrameScope(state, sourceId, frameId) ||
+    getGeneratedFrameScope(state, frameId)
+  );
 }
 
 export function getSelectedScope(state: OuterState) {
@@ -345,6 +392,19 @@ export function getSelectedScope(state: OuterState) {
   const { scope } =
     getFrameScope(state, sourceRecord && sourceRecord.get("id"), frameId) || {};
   return scope || null;
+}
+
+export function getSelectedScopeMappings(
+  state: OuterState
+): {
+  [string]: string | null
+} | null {
+  const frameId = getSelectedFrameId(state);
+  if (!frameId) {
+    return null;
+  }
+
+  return getFrameScopes(state).mappings[frameId];
 }
 
 export function getSelectedFrameId(state: OuterState) {

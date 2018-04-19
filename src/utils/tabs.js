@@ -7,7 +7,7 @@
 import React from "react";
 
 import type { List } from "immutable";
-import type { SourceRecord } from "../reducers/sources";
+import type { SourceRecord } from "../types";
 import type { SourceMetaDataType } from "../reducers/ast";
 import { isPretty } from "./source";
 
@@ -61,7 +61,7 @@ export function getSourceAnnotation(
   if (isPretty(source)) {
     return <img className="prettyPrint" />;
   }
-  if (source.get("isBlackBoxed")) {
+  if (source.isBlackBoxed) {
     return <img className="blackBox" />;
   }
 }
@@ -96,6 +96,12 @@ export function getTabMenuItems() {
       id: "node-menu-show-source",
       label: L10N.getStr("sourceTabs.revealInTree"),
       accesskey: L10N.getStr("sourceTabs.revealInTree.accesskey"),
+      disabled: false
+    },
+    copyToClipboard: {
+      id: "node-menu-copy-to-clipboard",
+      label: L10N.getStr("copyToClipboard.label"),
+      accesskey: L10N.getStr("copyToClipboard.accesskey"),
       disabled: false
     },
     copySourceUri2: {

@@ -1,36 +1,53 @@
 /* Any copyright is dedicated to the Public Domain.
  * http://creativecommons.org/publicdomain/zero/1.0/ */
 
+
+
+async function previews(dbg, fnName, previews) {
+  const invokeResult = invokeInTab(fnName);
+  await waitForPaused(dbg);
+
+  await assertPreviews(dbg, previews);
+  await resume(dbg);
+
+  info(`Ran tests for ${fnName}`);
+}
+
 // Test hovering on an object, which will show a popup and on a
 // simple value, which will show a tooltip.
 add_task(async function() {
-  const dbg = await initDebugger("doc-scripts.html");
-  const { selectors: { getSelectedSource }, getState } = dbg;
-  const simple3 = findSource(dbg, "simple3.js");
+  const dbg = await initDebugger("doc-preview.html");
+  await selectSource(dbg, "preview.js");
 
-  await selectSource(dbg, "simple3");
+  await previews(dbg, "empties", [
+    { line: 2, column: 9, expression: "a", result: '""' },
+    { line: 3, column: 9, expression: "b", result: "false" },
+    { line: 4, column: 9, expression: "c", result: "undefined" },
+    { line: 5, column: 9, expression: "d", result: "null" }
+  ]);
 
-  await addBreakpoint(dbg, simple3, 5);
+  await previews(dbg, "smalls", [
+    { line: 10, column: 9, expression: "a", result: '"..."' },
+    { line: 11, column: 9, expression: "b", result: "true" },
+    { line: 12, column: 9, expression: "c", result: "1" },
+    {
+      line: 13,
+      column: 9,
+      expression: "d",
+      fields: [["length", "0"]]
+    }
+    // { line: 14, column: 9, expression: "e", result: 'null'},
+  ]);
 
-  invokeInTab("simple");
-  await waitForPaused(dbg);
-
-  const tooltipPreviewed = waitForDispatch(dbg, "SET_PREVIEW");
-  hoverAtPos(dbg, { line: 5, ch: 12 });
-  await tooltipPreviewed;
-  await assertPreviewTooltip(dbg, { result: "3", expression: "result" });
-
-  const popupPreviewed = waitForDispatch(dbg, "SET_PREVIEW");
-  hoverAtPos(dbg, { line: 2, ch: 10 });
-  await popupPreviewed;
-  await assertPreviewPopup(dbg, {
-    field: "foo",
-    value: "1",
-    expression: "obj"
-  });
-  await assertPreviewPopup(dbg, {
-    field: "bar",
-    value: "2",
-    expression: "obj"
-  });
+  //
+  //
+  // x = {
+  //   line: 35,
+  //   column: 20,
+  //   expression: "b",
+  //   fields: [
+  //     ['aNamed', 'a-named2'],
+  //     ['default', 'a-default2'],
+  //   ],
+  // }
 });

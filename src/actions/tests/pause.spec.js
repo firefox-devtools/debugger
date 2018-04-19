@@ -1,9 +1,14 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 import {
   actions,
   selectors,
   createStore,
   waitForState,
   makeSource,
+  makeOriginalSource,
   makeFrame
 } from "../../utils/test-head";
 
@@ -19,8 +24,12 @@ const mockThreadClient = {
       stepInResolve = _resolve;
     }),
   stepOver: () => new Promise(_resolve => _resolve),
-  evaluate: () => new Promise(_resolve => {}),
+  evaluate: async () => {},
+  evaluateInFrame: async () => {},
+  evaluateExpressions: async () => {},
+
   getFrameScopes: async frame => frame.scope,
+  setPausePoints: async () => {},
   setBreakpoint: () => new Promise(_resolve => {}),
   sourceContents: sourceId => {
     return new Promise((resolve, reject) => {
@@ -39,6 +48,11 @@ const mockThreadClient = {
         case "foo":
           return resolve({
             source: "function foo() {\n  return -5;\n}",
+            contentType: "text/javascript"
+          });
+        case "foo-original":
+          return resolve({
+            source: "\n\nfunction fooOriginal() {\n  return -5;\n}",
             contentType: "text/javascript"
           });
       }
@@ -144,16 +158,54 @@ describe("pause", () => {
       expect(getNextStepSpy).toBeCalled();
       getNextStepSpy.mockRestore();
     });
+
+    describe("pausing in a generated location", () => {
+      it("maps frame locations and names to original source", async () => {
+        const generatedLocation = {
+          sourceId: "foo",
+          line: 1,
+          column: 0
+        };
+        const originalLocation = {
+          sourceId: "foo-original",
+          line: 3,
+          column: 0
+        };
+        const sourceMapsMock = {
+          getOriginalLocation: () => Promise.resolve(originalLocation)
+        };
+        const store = createStore(mockThreadClient, {}, sourceMapsMock);
+        const { dispatch, getState } = store;
+        const mockPauseInfo = createPauseInfo(generatedLocation);
+
+        await dispatch(actions.newSource(makeSource("foo")));
+        await dispatch(actions.newSource(makeOriginalSource("foo")));
+        await dispatch(actions.loadSourceText(I.Map({ id: "foo" })));
+        await dispatch(actions.loadSourceText(I.Map({ id: "foo-original" })));
+        await dispatch(actions.setSymbols("foo-original"));
+
+        await dispatch(actions.paused(mockPauseInfo));
+        expect(selectors.getFrames(getState())).toEqual([
+          {
+            id: 1,
+            scope: [],
+            location: originalLocation,
+            generatedLocation,
+            originalDisplayName: "fooOriginal"
+          }
+        ]);
+      });
+    });
   });
 
   describe("resumed", () => {
     it("should not evaluate expression while stepping", async () => {
-      const client = { evaluate: jest.fn() };
+      const client = { evaluateExpressions: jest.fn() };
       const { dispatch } = createStore(client);
 
       dispatch(actions.stepIn());
       await dispatch(actions.resumed());
-      expect(client.evaluate.mock.calls).toHaveLength(0);
+      expect(client.evaluateExpressions.mock.calls).toHaveLength(1);
     });
 
     it("resuming - will re-evaluate watch expressions", async () => {
@@ -166,7 +218,7 @@ describe("pause", () => {
       dispatch(actions.addExpression("foo"));
       await waitForState(store, state => selectors.getExpression(state, "foo"));
 
-      mockThreadClient.evaluate = () => new Promise(r => r("YAY"));
+      mockThreadClient.evaluateExpressions = () => new Promise(r => r(["YAY"]));
       await dispatch(actions.paused(mockPauseInfo));
 
       await dispatch(actions.resumed());

@@ -283,7 +283,7 @@ exports[`ManagedTree sets expanded items 1`] = `
         >
           <div
             aria-expanded={true}
-            aria-level={0}
+            aria-level={1}
             className="tree-node"
             data-expandable={false}
             id="a-$"
@@ -311,7 +311,7 @@ exports[`ManagedTree sets expanded items 1`] = `
         >
           <div
             aria-expanded={true}
-            aria-level={0}
+            aria-level={1}
             className="tree-node"
             data-expandable={false}
             id={1}
@@ -339,7 +339,7 @@ exports[`ManagedTree sets expanded items 1`] = `
         >
           <div
             aria-expanded={true}
-            aria-level={0}
+            aria-level={1}
             className="tree-node"
             data-expandable={false}
             id={2}
@@ -423,7 +423,7 @@ exports[`ManagedTree sets expanded items 2`] = `
           renderItem={[Function]}
         >
           <div
-            aria-level={0}
+            aria-level={1}
             className="tree-node focused"
             data-expandable={false}
             id="a-$"
@@ -451,7 +451,7 @@ exports[`ManagedTree sets expanded items 2`] = `
         >
           <div
             aria-expanded={true}
-            aria-level={0}
+            aria-level={1}
             className="tree-node"
             data-expandable={false}
             id={1}
@@ -479,7 +479,7 @@ exports[`ManagedTree sets expanded items 2`] = `
         >
           <div
             aria-expanded={true}
-            aria-level={0}
+            aria-level={1}
             className="tree-node"
             data-expandable={false}
             id={2}

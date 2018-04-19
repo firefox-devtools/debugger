@@ -12,32 +12,32 @@
 import { findSourceMatches } from "../workers/search";
 import { getSources, getSource, hasPrettySource } from "../selectors";
 import { isThirdParty } from "../utils/source";
-import { loadSourceText } from "./sources";
+import { loadSourceText } from "./sources/loadSourceText";
 import { statusType } from "../reducers/project-text-search";
 
-import type { ThunkArgs } from "./types";
+import type { Action, ThunkArgs } from "./types";
 
-export function addSearchQuery(query: string) {
+export function addSearchQuery(query: string): Action {
   return { type: "ADD_QUERY", query };
 }
 
-export function clearSearchQuery() {
+export function clearSearchQuery(): Action {
   return { type: "CLEAR_QUERY" };
 }
 
-export function clearSearchResults() {
+export function clearSearchResults(): Action {
   return { type: "CLEAR_SEARCH_RESULTS" };
 }
 
-export function clearSearch() {
+export function clearSearch(): Action {
   return { type: "CLEAR_SEARCH" };
 }
 
-export function updateSearchStatus(status: string) {
+export function updateSearchStatus(status: string): Action {
   return { type: "UPDATE_STATUS", status };
 }
 
-export function closeProjectSearch() {
+export function closeProjectSearch(): Action {
   return { type: "CLOSE_PROJECT_SEARCH" };
 }
 
@@ -51,12 +51,11 @@ export function searchSources(query: string) {
       .valueSeq()
       .filter(
         source =>
-          !hasPrettySource(getState(), source.get("id")) &&
-          !isThirdParty(source)
+          !hasPrettySource(getState(), source.id) && !isThirdParty(source)
       );
     for (const source of validSources) {
       await dispatch(loadSourceText(source));
-      await dispatch(searchSource(source.get("id"), query));
+      await dispatch(searchSource(source.id, query));
     }
     dispatch(updateSearchStatus(statusType.done));
   };
@@ -73,13 +72,15 @@ export function searchSource(sourceId: string, query: string) {
     if (!matches.length) {
       return;
     }
-    dispatch({
-      type: "ADD_SEARCH_RESULT",
-      result: {
-        sourceId: sourceRecord.get("id"),
-        filepath: sourceRecord.get("url"),
-        matches
-      }
-    });
+    dispatch(
+      ({
+        type: "ADD_SEARCH_RESULT",
+        result: {
+          sourceId: sourceRecord.get("id"),
+          filepath: sourceRecord.get("url"),
+          matches
+        }
+      }: Action)
+    );
   };
 }

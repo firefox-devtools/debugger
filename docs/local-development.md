@@ -28,15 +28,15 @@
 
 ### Themes
 
-The local debugger supports three themes:
+The local debugger supports two themes:
 
-| Light                                                                                                                                                                                                                                                           | Dark                                                                                                                                                                                                                                                           | Firebug                                                                                                                                                                                                                                                           |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <a href="https://cloud.githubusercontent.com/assets/254562/20676302/4cb04a7c-b55d-11e6-855f-654395e2c26f.png"><img width="480" alt="light-theme" src="https://cloud.githubusercontent.com/assets/254562/20676302/4cb04a7c-b55d-11e6-855f-654395e2c26f.png"></a> | <a href="https://cloud.githubusercontent.com/assets/254562/20676304/4cbfbf16-b55d-11e6-9b84-3ee5595e36be.png"><img width="480" alt="dark-theme" src="https://cloud.githubusercontent.com/assets/254562/20676304/4cbfbf16-b55d-11e6-9b84-3ee5595e36be.png"></a> | <a href="https://cloud.githubusercontent.com/assets/254562/20676303/4cbb0570-b55d-11e6-98b5-d1dd124345cd.png"><img width="480" alt="firebug-theme" src="https://cloud.githubusercontent.com/assets/254562/20676303/4cbb0570-b55d-11e6-98b5-d1dd124345cd.png"></a> |
+| Light                                                                                                                                                                                                                                                           | Dark                                                                                                                                                                                                                                                           |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <a href="https://cloud.githubusercontent.com/assets/254562/20676302/4cb04a7c-b55d-11e6-855f-654395e2c26f.png"><img width="480" alt="light-theme" src="https://cloud.githubusercontent.com/assets/254562/20676302/4cb04a7c-b55d-11e6-855f-654395e2c26f.png"></a> | <a href="https://cloud.githubusercontent.com/assets/254562/20676304/4cbfbf16-b55d-11e6-9b84-3ee5595e36be.png"><img width="480" alt="dark-theme" src="https://cloud.githubusercontent.com/assets/254562/20676304/4cbfbf16-b55d-11e6-9b84-3ee5595e36be.png"></a> |
 
 #### Set a theme
 
-You can change the theme by going to the Settings panel in the launchpad and changing the theme to either `firebug` or `dark`.
+You can change the theme by going to the Settings panel in the launchpad and changing the theme to either `light` or `dark`.
 
 #### Update a theme style
 
@@ -616,7 +616,7 @@ We use [remark](https://github.com/wooorm/remark-lint) to help lint our markdown
 The Debugger has a [styleguide][mdn-colors] that we use to keep the colors consistent across tools and themes.
 
 The common colors are represented as [css variables] in a [devtools variables][devtools-css-variables] file. This lets define the colors
-for each theme: [light][light-theme], [dark][dark-theme], [firebug][firebug-theme].
+for each theme: [light][light-theme], [dark][dark-theme].
 
 ### Performance
 
@@ -843,10 +843,8 @@ your questions on [slack][slack].
 [mdn-colors]: https://developer.mozilla.org/en-US/docs/Tools/DevToolsColors
 [light-theme]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-launchpad/src/lib/themes/light-theme.css#L1
 [dark-theme]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-launchpad/src/lib/themes/dark-theme.css#L1
-[firebug-theme]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-launchpad/src/lib/themes/firebug-theme.css#L1
 [devtools-css-variables]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-launchpad/src/lib/themes/variables.css#L1
 [css variables]: https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_variables
-[firebug-ui-screen]: https://cloud.githubusercontent.com/assets/1755089/22209733/94970458-e1ad-11e6-83d4-8b082217b989.png
 [light-ui-screen]: https://cloud.githubusercontent.com/assets/1755089/22209736/9b194f2a-e1ad-11e6-9de0-561dd529d5f0.png
 [pr-table]: ./pull-requests.md#screenshots
 [mochitest]: ./mochitests.md

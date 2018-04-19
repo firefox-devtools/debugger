@@ -10,15 +10,13 @@ import { debounce } from "lodash";
 
 import Popup from "./Popup";
 
-import {
-  getPreview,
-  getSelectedSource,
-  isSelectedFrameVisible
-} from "../../../selectors";
+import { getPreview, getSelectedSource } from "../../../selectors";
 import actions from "../../../actions";
 import { toEditorRange } from "../../../utils/editor";
 
-import type { SelectedLocation, SourceRecord } from "../../../reducers/types";
+import type { SelectedLocation } from "../../../reducers/types";
+import type { SourceRecord } from "../../../types";
+
 import type { Preview as PreviewType } from "../../../reducers/ast";
 
 type Props = {
@@ -29,7 +27,6 @@ type Props = {
   editorRef: ?HTMLDivElement,
   selectedSource: SourceRecord,
   selectedLocation: SelectedLocation,
-  selectedFrame: any,
   clearPreview: () => void,
   preview: PreviewType,
   selectedFrameVisible: boolean,
@@ -68,9 +65,7 @@ class Preview extends PureComponent<Props, State> {
 
   onMouseOver = e => {
     const { target } = e;
-    if (this.props.selectedFrameVisible) {
-      this.props.updatePreview(target, this.props.editor);
-    }
+    this.props.updatePreview(target, this.props.editor);
   };
 
   onMouseUp = () => {
@@ -135,8 +130,7 @@ const {
 export default connect(
   state => ({
     preview: getPreview(state),
-    selectedSource: getSelectedSource(state),
-    selectedFrameVisible: isSelectedFrameVisible(state)
+    selectedSource: getSelectedSource(state)
   }),
   {
     addExpression,

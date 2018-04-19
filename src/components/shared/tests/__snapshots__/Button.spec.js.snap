@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`CloseButton renders 1`] = `
-<div
+<button
   className="close-btn error"
   onClick={[Function]}
   title="Close something"
@@ -9,7 +9,7 @@ exports[`CloseButton renders 1`] = `
   <img
     className="close"
   />
-</div>
+</button>
 `;
 
 exports[`CommandBarButton renders 1`] = `

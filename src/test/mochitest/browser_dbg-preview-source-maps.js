@@ -1,21 +1,11 @@
 /* Any copyright is dedicated to the Public Domain.
  * http://creativecommons.org/publicdomain/zero/1.0/ */
 
-function getCoordsFromPosition(cm, { line, ch }) {
-  return cm.charCoords({ line: ~~line, ch: ~~ch });
-}
 
-function hoverAtPos(dbg, { line, ch }) {
-  const cm = getCM(dbg);
-  const coords = getCoordsFromPosition(cm, { line: line - 1, ch });
-  const tokenEl = dbg.win.document.elementFromPoint(coords.left, coords.top);
-  tokenEl.dispatchEvent(
-    new MouseEvent("mouseover", {
-      bubbles: true,
-      cancelable: true,
-      view: dbg.win
-    })
-  );
+async function assertNoTooltip(dbg) {
+  await waitForTime(200);
+  const el = findElement(dbg, "tooltip");
+  is(el, null, "Tooltip should not exist")
 }
 
 function assertPreviewTooltip(dbg, { result, expression }) {
@@ -55,9 +45,21 @@ add_task(async function() {
   await waitForPaused(dbg);
   await waitForSelectedSource(dbg, "times2");
 
-  const tooltipPreviewed = waitForDispatch(dbg, "SET_PREVIEW");
-  hoverAtPos(dbg, { line: 2, ch: 9 });
+  info(`Test previewing in the original location`)
+  await assertPreviews(dbg, [
+    { line: 2, column: 10, result: 4, expression: "x" }
+  ]);
 
-  await tooltipPreviewed;
-  assertPreviewTooltip(dbg, { result: 4, expression: "x" });
+  info(`Test previewing in the generated location`)
+  await dbg.actions.jumpToMappedSelectedLocation();
+  await waitForSelectedSource(dbg, "bundle.js");
+  await assertPreviews(dbg, [
+    { line: 70, column: 11, result: 4, expression: "x" }
+  ]);
+
+
+  info(`Test that you can not preview in another original file`);
+  await selectSource(dbg, "output");
+  await hoverAtPos(dbg, { line: 2, ch: 16 });
+  await assertNoTooltip(dbg)
 });
