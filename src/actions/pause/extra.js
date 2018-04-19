@@ -11,15 +11,30 @@ import { findClosestClass } from "../../utils/ast";
 import type { ThunkArgs } from "../types";
 
 async function getReactProps(evaluate) {
-  const reactDisplayName = await evaluate(
-    "this.hasOwnProperty('_reactInternalFiber') ? " +
-      "this._reactInternalFiber.type.name : " +
-      "this._reactInternalInstance.getName()"
+  const componentNames = await evaluate(
+    `
+    if(this.hasOwnProperty('_reactInternalFiber')) {
+      let componentNames = []; 
+      let componentNode = this._reactInternalFiber; 
+      while(componentNode) { 
+        componentNames.push(componentNode.type.name); 
+        componentNode = componentNode._debugOwner
+      }
+      componentNames;
+    }
+    else {
+      [this._reactInternalInstance.getName()];
+    }
+    `
   );
-
-  return {
-    displayName: reactDisplayName.result
-  };
+  const items =
+    componentNames.result.preview && componentNames.result.preview.items;
+  if (items) {
+    return {
+      displayName: items[0],
+      componentStack: items
+    };
+  }
 }
 
 async function getImmutableProps(expression: string, evaluate) {
@@ -50,9 +65,7 @@ async function getExtraProps(getState, expression, result, evaluate) {
       }
     }
 
-    if (!props.react) {
-      props.react = await getReactProps(evaluate);
-    }
+    props.react = { ...(await getReactProps(evaluate)), ...props.react };
   }
 
   if (isImmutable(result)) {
