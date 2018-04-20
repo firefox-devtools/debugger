@@ -21,7 +21,6 @@
   color: var(--theme-content-color1);
   position: relative;
   transition: all 0.25s ease;
-  padding: 0.5em 1em 0.5em 0.5em;
 }
 
 .breakpoints-list .breakpoint-heading,
@@ -32,6 +31,10 @@
 
 .breakpoints-exceptions-caught {
   padding: 0 1em 0.5em 2em;
+}
+
+html[dir="rtl"] .breakpoints-exceptions-caught {
+  padding: 0 2em 0.5em 1em;
 }
 
 .breakpoints-exceptions-options:not(.empty) {
