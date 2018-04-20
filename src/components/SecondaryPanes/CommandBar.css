@@ -116,7 +116,7 @@ img.skipPausing {
 
 .command-bar .skipPausing {
   mask: url(/images/disable-pausing.svg) no-repeat;
-  mask-size: 75%;
+  mask-size: 100%;
 }
 
 .command-bar .active .skipPausing {
