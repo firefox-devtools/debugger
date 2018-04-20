@@ -39,85 +39,121 @@ export async function findGeneratedBindingFromPosition(
   source: Source,
   pos: BindingLocation,
   name: string,
-  type: BindingType,
+  bindingType: BindingType,
   generatedAstBindings: Array<GeneratedBindingLocation>
 ): Promise<GeneratedDescriptor | null> {
-  const range = await getGeneratedLocationRange(pos, source, type, sourceMaps);
+  const locationType = pos.type;
 
-  if (range) {
-    let result;
-    if (type === "import") {
-      result = await findGeneratedImportReference(type, generatedAstBindings, {
-        type: pos.type,
-        ...range
-      });
-    } else {
-      result = await findGeneratedReference(type, generatedAstBindings, {
-        type: pos.type,
-        ...range
-      });
-    }
+  const generatedRanges = await getGeneratedLocationRanges(
+    source,
+    pos,
+    bindingType,
+    locationType,
+    sourceMaps
+  );
+  const applicableBindings = filterApplicableBindings(
+    generatedAstBindings,
+    generatedRanges
+  );
 
-    if (result) {
-      return result;
-    }
+  let result;
+  if (bindingType === "import") {
+    result = await findGeneratedImportReference(applicableBindings);
+  } else {
+    result = await findGeneratedReference(applicableBindings);
   }
 
-  if (type === "import" && pos.type === "decl") {
-    let importRange = range;
-    if (!importRange) {
-      // If the imported name itself does not map to a useful range, fall back
-      // to resolving the bindinding using the location of the overall
-      // import declaration.
-      importRange = await getGeneratedLocationRange(
-        {
-          type: pos.type,
-          start: pos.declaration.start,
-          end: pos.declaration.end
-        },
-        source,
-        type,
-        sourceMaps
-      );
+  if (result) {
+    return result;
+  }
 
-      if (!importRange) {
-        return null;
-      }
-    }
-
+  if (bindingType === "import" && pos.type === "decl") {
     const importName = pos.importName;
     if (typeof importName !== "string") {
       // Should never happen, just keeping Flow happy.
       return null;
     }
 
-    return await findGeneratedImportDeclaration(generatedAstBindings, {
-      importName,
-      ...importRange
-    });
+    let applicableImportBindings = applicableBindings;
+    if (generatedRanges.length === 0) {
+      // If the imported name itself does not map to a useful range, fall back
+      // to resolving the bindinding using the location of the overall
+      // import declaration.
+      const importRanges = await getGeneratedLocationRanges(
+        source,
+        pos.declaration,
+        bindingType,
+        locationType,
+        sourceMaps
+      );
+      applicableImportBindings = filterApplicableBindings(
+        generatedAstBindings,
+        importRanges
+      );
+
+      if (applicableImportBindings.length === 0) {
+        return null;
+      }
+    }
+
+    return await findGeneratedImportDeclaration(
+      applicableImportBindings,
+      importName
+    );
   }
 
   return null;
 }
 
+type ApplicableBinding = {
+  binding: GeneratedBindingLocation,
+  range: GeneratedRange,
+  firstInRange: boolean,
+  firstOnLine: boolean
+};
+
 function filterApplicableBindings(
   bindings: Array<GeneratedBindingLocation>,
-  mapped: {
-    start: Position,
-    end: Position
-  }
-): Array<GeneratedBindingLocation> {
-  // Any binding overlapping a part of the mapping range.
-  return filterSortedArray(bindings, binding => {
-    if (positionCmp(binding.loc.end, mapped.start) <= 0) {
-      return -1;
-    }
-    if (positionCmp(binding.loc.start, mapped.end) >= 0) {
-      return 1;
-    }
+  ranges: Array<GeneratedRange>
+): Array<ApplicableBinding> {
+  const result = [];
+  for (const range of ranges) {
+    // Any binding overlapping a part of the mapping range.
+    const filteredBindings = filterSortedArray(bindings, binding => {
+      if (positionCmp(binding.loc.end, range.start) <= 0) {
+        return -1;
+      }
+      if (positionCmp(binding.loc.start, range.end) >= 0) {
+        return 1;
+      }
 
-    return 0;
-  });
+      return 0;
+    });
+
+    let firstInRange = true;
+    let firstOnLine = true;
+    let line = -1;
+
+    for (const binding of filteredBindings) {
+      if (binding.loc.start.line === line) {
+        firstOnLine = false;
+      } else {
+        line = binding.loc.start.line;
+        firstOnLine = true;
+      }
+
+      result.push({
+        binding,
+        range,
+        firstOnLine,
+        firstInRange
+      });
+
+      firstInRange = false;
+    }
+  }
+
+  return result;
 }
 
 /**
@@ -125,62 +161,46 @@ function filterApplicableBindings(
  * binding descriptor that can be used to access the value.
  */
 async function findGeneratedReference(
-  type: BindingType,
-  generatedAstBindings: Array<GeneratedBindingLocation>,
-  mapped: {
-    type: BindingLocationType,
-    start: Position,
-    end: Position
-  }
+  applicableBindings: Array<ApplicableBinding>
 ): Promise<GeneratedDescriptor | null> {
-  const bindings = filterApplicableBindings(generatedAstBindings, mapped);
-
-  let lineStart = true;
-  let line = -1;
-
-  return bindings.reduce(async (acc, val, i) => {
-    const accVal = await acc;
-    if (accVal) {
-      return accVal;
+  for (const applicable of applicableBindings) {
+    const result = await mapBindingReferenceToDescriptor(applicable);
+    if (result) {
+      return result;
     }
-
-    if (val.loc.start.line === line) {
-      lineStart = false;
-    } else {
-      line = val.loc.start.line;
-      lineStart = true;
-    }
-
-    return mapBindingReferenceToDescriptor(val, mapped, lineStart);
-  }, null);
+  }
+  return null;
 }
 
 async function findGeneratedImportReference(
-  type: BindingType,
-  generatedAstBindings: Array<GeneratedBindingLocation>,
-  mapped: {
-    type: BindingLocationType,
-    start: Position,
-    end: Position
-  }
+  applicableBindings: Array<ApplicableBinding>
 ): Promise<GeneratedDescriptor | null> {
-  let bindings = filterApplicableBindings(generatedAstBindings, mapped);
-
   // When wrapped, for instance as `Object(ns.default)`, the `Object` binding
   // will be the first in the list. To avoid resolving `Object` as the
   // value of the import itself, we potentially skip the first binding.
-  if (bindings.length > 1 && !bindings[0].loc.meta && bindings[1].loc.meta) {
-    bindings = bindings.slice(1);
-  }
-
-  return bindings.reduce(async (acc, val) => {
-    const accVal = await acc;
-    if (accVal) {
-      return accVal;
+  applicableBindings = applicableBindings.filter((applicable, i) => {
+    if (
+      !applicable.firstInRange ||
+      applicable.binding.loc.type !== "ref" ||
+      applicable.binding.loc.meta
+    ) {
+      return true;
     }
 
-    return mapImportReferenceToDescriptor(val, mapped);
-  }, null);
+    const next =
+      i + 1 < applicableBindings.length ? applicableBindings[i + 1] : null;
+
+    return !next || next.binding.loc.type !== "ref" || !next.binding.loc.meta;
+  });
+
+  for (const applicable of applicableBindings) {
+    const result = await mapImportReferenceToDescriptor(applicable);
+    if (result) {
+      return result;
+    }
+  }
+
+  return null;
 }
 
 /**
@@ -189,18 +209,12 @@ async function findGeneratedImportReference(
  * the import's value.
  */
 async function findGeneratedImportDeclaration(
-  generatedAstBindings: Array<GeneratedBindingLocation>,
-  mapped: {
-    start: Position,
-    end: Position,
-    importName: string
-  }
+  applicableBindings: Array<ApplicableBinding>,
+  importName: string
 ): Promise<GeneratedDescriptor | null> {
-  const bindings = filterApplicableBindings(generatedAstBindings, mapped);
-
   let result = null;
 
-  for (const binding of bindings) {
+  for (const { binding } of applicableBindings) {
     if (binding.loc.type !== "decl") {
       continue;
     }
@@ -226,8 +240,8 @@ async function findGeneratedImportDeclaration(
       continue;
     }
 
-    const desc = await readDescriptorProperty(namespaceDesc, mapped.importName);
-    const expression = `${binding.name}.${mapped.importName}`;
+    const desc = await readDescriptorProperty(namespaceDesc, importName);
+    const expression = `${binding.name}.${importName}`;
 
     if (desc) {
       result = {
@@ -246,27 +260,26 @@ async function findGeneratedImportDeclaration(
  * Given a generated binding, and a range over the generated code, statically
  * check if the given binding matches the range.
  */
-async function mapBindingReferenceToDescriptor(
-  binding: GeneratedBindingLocation,
-  mapped: {
-    type: BindingLocationType,
-    start: Position,
-    end: Position
-  },
-  isFirst: boolean
-): Promise<GeneratedDescriptor | null> {
+async function mapBindingReferenceToDescriptor({
+  binding,
+  range,
+  firstInRange,
+  firstOnLine
+}: ApplicableBinding): Promise<GeneratedDescriptor | null> {
   // Allow the mapping to point anywhere within the generated binding
   // location to allow for less than perfect sourcemaps. Since you also
   // need at least one character between identifiers, we also give one
   // characters of space at the front the generated binding in order
   // to increase the probability of finding the right mapping.
   if (
-    mapped.start.line === binding.loc.start.line &&
+    range.start.line === binding.loc.start.line &&
     // If a binding is the first on a line, Babel will extend the mapping to
     // include the whitespace between the newline and the binding. To handle
     // that, we skip the range requirement for starting location.
-    (isFirst || locColumn(mapped.start) >= locColumn(binding.loc.start)) &&
-    locColumn(mapped.start) <= locColumn(binding.loc.end)
+    (firstInRange ||
+      firstOnLine ||
+      locColumn(range.start) >= locColumn(binding.loc.start)) &&
+    locColumn(range.start) <= locColumn(binding.loc.end)
   ) {
     return {
       name: binding.name,
@@ -283,15 +296,11 @@ async function mapBindingReferenceToDescriptor(
  * evaluate accessed properties within the mapped range to resolve the actual
  * imported value.
  */
-async function mapImportReferenceToDescriptor(
-  binding: GeneratedBindingLocation,
-  mapped: {
-    type: BindingLocationType,
-    start: Position,
-    end: Position
-  }
-): Promise<GeneratedDescriptor | null> {
-  if (mapped.type !== "ref") {
+async function mapImportReferenceToDescriptor({
+  binding,
+  range
+}: ApplicableBinding): Promise<GeneratedDescriptor | null> {
+  if (binding.loc.type !== "ref") {
     return null;
   }
 
@@ -322,7 +331,7 @@ async function mapImportReferenceToDescriptor(
   //   ^^^^^^^^^^^^^^^^^
   //   ^                 // wrapped to column 0 of next line
 
-  if (!mappingContains(mapped, binding.loc)) {
+  if (!mappingContains(range, binding.loc)) {
     return null;
   }
 
@@ -338,7 +347,7 @@ async function mapImportReferenceToDescriptor(
     // wrapper.
     for (
       let op = meta, index = 0;
-      op && mappingContains(mapped, op) && desc && index < 2;
+      op && mappingContains(range, op) && desc && index < 2;
       index++, op = op && op.parent
     ) {
       // Calling could potentially trigger side-effects, which would not
@@ -433,61 +442,69 @@ function positionCmp(p1: Position, p2: Position) {
   return p1.line < p2.line ? -1 : 1;
 }
 
-async function getGeneratedLocationRange(
-  pos: {
-    +type: BindingLocationType,
+type GeneratedRange = {
+  start: Position,
+  end: Position
+};
+
+async function getGeneratedLocationRanges(
+  source: Source,
+  {
+    start,
+    end
+  }: {
     start: Location,
     end: Location
   },
-  source: Source,
-  type: BindingType,
+  bindingType: BindingType,
+  locationType: BindingLocationType,
   sourceMaps: any
-): Promise<{
-  start: Position,
-  end: Position
-} | null> {
-  const endPosition = await sourceMaps.getGeneratedLocation(pos.end, source);
-  const startPosition = await sourceMaps.getGeneratedLocation(
-    pos.start,
-    source
-  );
-  const ranges = await sourceMaps.getGeneratedRanges(pos.start, source);
-  if (ranges.length === 0) {
-    return null;
-  }
+): Promise<Array<GeneratedRange>> {
+  const endPosition = await sourceMaps.getGeneratedLocation(end, source);
+  const startPosition = await sourceMaps.getGeneratedLocation(start, source);
 
   // If the start and end positions collapse into eachother, it means that
   // the range in the original content didn't _start_ at the start position.
   // Since this likely means that the range doesn't logically apply to this
   // binding location, we skip it.
   if (positionCmp(startPosition, endPosition) === 0) {
-    return null;
+    return [];
   }
 
-  const start = {
-    line: ranges[0].line,
-    column: ranges[0].columnStart
-  };
-  const end = {
-    line: ranges[0].line,
-    // SourceMapConsumer's 'lastColumn' is inclusive, so we add 1 to make
-    // it exclusive like all other locations.
-    column: ranges[0].columnEnd + 1
-  };
+  const ranges = await sourceMaps.getGeneratedRanges(start, source);
 
-  // Expand the range over any following ranges if they are contiguous.
-  for (let i = 1; i < ranges.length; i++) {
-    const range = ranges[i];
+  const resultRanges = ranges.reduce((acc, mapRange) => {
+    const range = {
+      start: {
+        line: mapRange.line,
+        column: mapRange.columnStart
+      },
+      end: {
+        line: mapRange.line,
+        // SourceMapConsumer's 'lastColumn' is inclusive, so we add 1 to make
+        // it exclusive like all other locations.
+        column: mapRange.columnEnd + 1
+      }
+    };
+
+    const previous = acc[acc.length - 1];
+
     if (
-      end.column !== Infinity ||
-      range.line !== end.line + 1 ||
-      range.columnStart !== 0
+      previous &&
+      ((previous.end.line === range.start.line &&
+        previous.end.column === range.start.column) ||
+        (previous.end.line + 1 === range.start.line &&
+          previous.end.column === Infinity &&
+          range.start.column === 0))
     ) {
-      break;
+      previous.end.line = range.end.line;
+      previous.end.column = range.end.column;
+    } else {
+      acc.push(range);
     }
-    end.line = range.line;
-    end.column = range.columnEnd + 1;
-  }
+
+    return acc;
+  }, []);
 
   // When searching for imports, we expand the range to up to the next available
   // mapping to allow for import declarations that are composed of multiple
@@ -496,10 +513,18 @@ async function getGeneratedLocationRange(
   //
   // var _mod = require("mod"); // mapped from import statement
   // var _mod2 = interop(_mod); // entirely unmapped
-  if (type === "import" && pos.type === "decl" && endPosition.line > end.line) {
-    end.line = endPosition.line;
-    end.column = endPosition.column;
+  if (bindingType === "import" && locationType === "decl") {
+    for (const range of resultRanges) {
+      if (
+        mappingContains(range, { start: startPosition, end: startPosition }) &&
+        positionCmp(range.end, endPosition) < 0
+      ) {
+        range.end.line = endPosition.line;
+        range.end.column = endPosition.column;
+        break;
+      }
+    }
   }
 
-  return { start, end };
+  return resultRanges;
 }
