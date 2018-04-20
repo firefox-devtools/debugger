@@ -11,16 +11,17 @@ import {
 } from "../../utils/breakpoint";
 import { getSource, getSymbols } from "../../selectors";
 import { getGeneratedLocation } from "../../utils/source-maps";
+import { getTextAtPosition } from "../../utils/source";
 
 export default async function addBreakpoint(
   getState,
   client,
   sourceMaps,
-  { breakpoint }
+  breakpoint
 ) {
   const state = getState();
-
   const source = getSource(state, breakpoint.location.sourceId);
+
   const location = { ...breakpoint.location, sourceUrl: source.url };
   const generatedLocation = await getGeneratedLocation(
     state,
@@ -28,6 +29,8 @@ export default async function addBreakpoint(
     location,
     sourceMaps
   );
+
+  const generatedSource = getSource(state, generatedLocation.sourceId);
 
   assertLocation(location);
   assertLocation(generatedLocation);
@@ -52,6 +55,9 @@ export default async function addBreakpoint(
   const symbols = getSymbols(getState(), source);
   const astLocation = await getASTLocation(source, symbols, newLocation);
 
+  const originalText = getTextAtPosition(source, location);
+  const text = getTextAtPosition(generatedSource, actualLocation);
+
   const newBreakpoint = {
     id,
     disabled: false,
@@ -61,7 +67,9 @@ export default async function addBreakpoint(
     location: newLocation,
     astLocation,
     hitCount,
-    generatedLocation: newGeneratedLocation
+    generatedLocation: newGeneratedLocation,
+    text,
+    originalText
   };
 
   assertBreakpoint(newBreakpoint);

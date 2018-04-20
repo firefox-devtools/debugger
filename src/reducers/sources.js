@@ -19,12 +19,12 @@ import { prefs } from "../utils/prefs";
 import type { Map, List } from "immutable";
 import type { Source, Location, SourceRecord } from "../types";
 import type { SelectedLocation, PendingSelectedLocation } from "./types";
-import type { Action } from "../actions/types";
+import type { Action, DonePromiseAction } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 type Tab = string;
 export type SourcesMap = Map<string, SourceRecord>;
-type TabList = List<Tab>;
+export type TabList = List<Tab>;
 
 export type SourcesState = {
   sources: SourcesMap,
@@ -138,7 +138,7 @@ function update(
     case "BLACKBOX":
       if (action.status === "done") {
         const url = action.source.url;
-        const isBlackBoxed = action.value.isBlackBoxed;
+        const { isBlackBoxed } = ((action: any): DonePromiseAction).value;
         updateBlackBoxList(url, isBlackBoxed);
         return state.setIn(
           ["sources", action.source.id, "isBlackBoxed"],
@@ -192,7 +192,7 @@ function updateSource(state: Record<SourcesState>, source: Source | Object) {
     return state;
   }
 
-  const existingSource = state.getIn(["sources", source.id]);
+  const existingSource = state.sources.get(source.id);
 
   if (existingSource) {
     const updatedSource = existingSource.merge(source);
@@ -296,11 +296,11 @@ export function getNewSelectedSourceId(
     return "";
   }
 
-  const tabUrls = state.sources.tabs.toJS();
+  const tabUrls = state.sources.tabs;
   const leftNeighborIndex = Math.max(tabUrls.indexOf(selectedTabUrl) - 1, 0);
   const lastAvailbleTabIndex = availableTabs.size - 1;
   const newSelectedTabIndex = Math.min(leftNeighborIndex, lastAvailbleTabIndex);
-  const availableTab = availableTabs.toJS()[newSelectedTabIndex];
+  const availableTab = availableTabs.get(newSelectedTabIndex);
   const tabSource = getSourceByUrlInSources(
     state.sources.sources,
     availableTab

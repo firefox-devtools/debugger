@@ -4,16 +4,6 @@ exports[`find the best expression for the token should find the expression for t
 Object {
   "computed": false,
   "expression": "obj.b",
-  "expressionLocation": SourceLocation {
-    "end": Position {
-      "column": 17,
-      "line": 6,
-    },
-    "start": Position {
-      "column": 12,
-      "line": 6,
-    },
-  },
   "location": Object {
     "end": Position {
       "column": 17,

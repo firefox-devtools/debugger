@@ -129,10 +129,10 @@ class SearchBar extends Component<Props, State> {
   };
 
   clearSearch = () => {
-    const { editor: ed, query, modifiers } = this.props;
-    if (ed && modifiers) {
+    const { editor: ed, query } = this.props;
+    if (ed) {
       const ctx = { ed, cm: ed.codeMirror };
-      removeOverlay(ctx, query, modifiers.toJS());
+      removeOverlay(ctx, query);
     }
   };
 

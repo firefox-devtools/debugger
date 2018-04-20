@@ -17,9 +17,22 @@ import { getSelectedSource } from "./sources";
 
 import type { OriginalScope } from "../actions/pause/mapScopes";
 import type { Action } from "../actions/types";
-import type { Why, Scope, SourceId, FrameId, Location } from "../types";
+import type { Why, Scope, SourceId, FrameId, MappedLocation } from "../types";
+
+export type Command =
+  | null
+  | "stepOver"
+  | "stepIn"
+  | "stepOut"
+  | "resume"
+  | "rewind"
+  | "reverseStepOver"
+  | "reverseStepIn"
+  | "reverseStepOut"
+  | "expression";
 
 export type PauseState = {
+  extra: ?Object,
   why: ?Why,
   isWaitingOnBreak: boolean,
   frames: ?(any[]),
@@ -48,14 +61,12 @@ export type PauseState = {
   shouldIgnoreCaughtExceptions: boolean,
   canRewind: boolean,
   debuggeeUrl: string,
-  command: string,
-  previousLocation: ?{
-    location: Location,
-    generatedLocation: Location
-  }
+  command: Command,
+  previousLocation: ?MappedLocation
 };
 
 export const createPauseState = (): PauseState => ({
+  extra: {},
   why: null,
   isWaitingOnBreak: false,
   frames: undefined,
@@ -70,12 +81,11 @@ export const createPauseState = (): PauseState => ({
   shouldIgnoreCaughtExceptions: prefs.ignoreCaughtExceptions,
   canRewind: false,
   debuggeeUrl: "",
-  command: "",
+  command: null,
   previousLocation: null
 });
 
 const emptyPauseState = {
-  pause: null,
   frames: null,
   frameScopes: {
     generated: {},
@@ -84,7 +94,7 @@ const emptyPauseState = {
   },
   selectedFrameId: null,
   loadedObjects: {},
-  previousLocation: null
+  why: null
 };
 
 function update(
@@ -114,6 +124,10 @@ function update(
 
     case "MAP_FRAMES": {
       return { ...state, frames: action.frames };
+    }
+
+    case "ADD_EXTRA": {
+      return { ...state, extra: action.extra };
     }
 
     case "ADD_SCOPES": {
@@ -217,18 +231,16 @@ function update(
             command: action.command,
             previousLocation: buildPreviousLocation(state, action)
           }
-        : { ...state, command: "" };
+        : { ...state, command: null };
     }
 
     case "RESUME":
-      // We clear why on resume because we need it to decide if
-      // we shoul re-evaluate watch expressions.
-      return { ...state, why: null };
+      return { ...state, ...emptyPauseState };
 
     case "EVALUATE_EXPRESSION":
       return {
         ...state,
-        command: action.status === "start" ? "expression" : ""
+        command: action.status === "start" ? "expression" : null
       };
 
     case "NAVIGATE":
@@ -278,8 +290,12 @@ export function getPauseReason(state: OuterState): ?Why {
   return state.pause.why;
 }
 
+export function getPauseCommand(state: OuterState): Command {
+  return state.pause && state.pause.command;
+}
+
 export function isStepping(state: OuterState) {
-  return ["stepIn", "stepOver", "stepOut"].includes(state.pause.command);
+  return ["stepIn", "stepOver", "stepOut"].includes(getPauseCommand(state));
 }
 
 export function isPaused(state: OuterState) {
@@ -312,6 +328,10 @@ export function getShouldIgnoreCaughtExceptions(state: OuterState) {
 
 export function getCanRewind(state: OuterState) {
   return state.pause.canRewind;
+}
+
+export function getExtra(state: OuterState) {
+  return state.pause.extra;
 }
 
 export function getFrames(state: OuterState) {

@@ -41,6 +41,7 @@ exports[`ProjectSearch found search results 1`] = `
   activeSearch="project"
   clearSearch={[Function]}
   closeProjectSearch={[Function]}
+  doSearchForHighlight={[Function]}
   query="match"
   results={
     Immutable.List [
@@ -161,14 +162,14 @@ exports[`ProjectSearch found search results 1`] = `
               buttonClass="big"
               handleClick={[Function]}
             >
-              <div
+              <button
                 className="close-btn big"
                 onClick={[Function]}
               >
                 <img
                   className="close"
                 />
-              </div>
+              </button>
             </CloseButton>
           </div>
         </SearchInput>

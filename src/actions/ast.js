@@ -11,6 +11,8 @@ import {
   isPaused
 } from "../selectors";
 
+import { mapFrames, fetchExtra } from "./pause";
+
 import { setInScopeLines } from "./ast/setInScopeLines";
 import {
   getSymbols,
@@ -18,10 +20,13 @@ import {
   getFramework,
   getPausePoints
 } from "../workers/parser";
+
 import { PROMISE } from "./utils/middleware/promise";
+import { isGeneratedId } from "devtools-source-map";
+import { features } from "../utils/prefs";
 
 import type { SourceId } from "../types";
-import type { ThunkArgs } from "./types";
+import type { ThunkArgs, Action } from "./types";
 
 export function setSourceMetaData(sourceId: SourceId) {
   return async ({ dispatch, getState }: ThunkArgs) => {
@@ -31,13 +36,16 @@ export function setSourceMetaData(sourceId: SourceId) {
     }
 
     const framework = await getFramework(source.id);
-    dispatch({
-      type: "SET_SOURCE_METADATA",
-      sourceId: source.id,
-      sourceMetaData: {
-        framework
-      }
-    });
+
+    dispatch(
+      ({
+        type: "SET_SOURCE_METADATA",
+        sourceId: source.id,
+        sourceMetaData: {
+          framework
+        }
+      }: Action)
+    );
   };
 }
 
@@ -53,11 +61,18 @@ export function setSymbols(sourceId: SourceId) {
       return;
     }
 
-    await dispatch({
-      type: "SET_SYMBOLS",
-      source: source.toJS(),
-      [PROMISE]: getSymbols(source.id)
-    });
+    await dispatch(
+      ({
+        type: "SET_SYMBOLS",
+        source: source.toJS(),
+        [PROMISE]: getSymbols(source.id)
+      }: Action)
+    );
+
+    if (isPaused(getState())) {
+      await dispatch(fetchExtra());
+      await dispatch(mapFrames());
+    }
 
     await dispatch(setPausePoints(sourceId));
     await dispatch(setSourceMetaData(sourceId));
@@ -78,11 +93,12 @@ export function setOutOfScopeLocations() {
       locations = await findOutOfScopeLocations(source.get("id"), location);
     }
 
-    dispatch({
-      type: "OUT_OF_SCOPE_LOCATIONS",
-      locations
-    });
-
+    dispatch(
+      ({
+        type: "OUT_OF_SCOPE_LOCATIONS",
+        locations
+      }: Action)
+    );
     dispatch(setInScopeLines());
   };
 }
@@ -90,17 +106,22 @@ export function setOutOfScopeLocations() {
 export function setPausePoints(sourceId: SourceId) {
   return async ({ dispatch, getState, client }: ThunkArgs) => {
     const source = getSource(getState(), sourceId);
-    if (!source || !source.text || source.isWasm) {
+    if (!features.pausePoints || !source || !source.text || source.isWasm) {
       return;
     }
 
     const pausePoints = await getPausePoints(source.id);
-    await client.setPausePoints(source.id, pausePoints);
 
-    dispatch({
-      type: "SET_PAUSE_POINTS",
-      source: source.toJS(),
-      pausePoints
-    });
+    if (isGeneratedId(source.id)) {
+      await client.setPausePoints(source.id, pausePoints);
+    }
+
+    dispatch(
+      ({
+        type: "SET_PAUSE_POINTS",
+        source: source.toJS(),
+        pausePoints
+      }: Action)
+    );
   };
 }

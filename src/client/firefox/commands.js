@@ -25,7 +25,7 @@ import type {
   BPClients
 } from "./types";
 
-import type { PausePoint } from "../../workers/parser";
+import type { PausePoints } from "../../workers/parser";
 
 import { makePendingLocationId } from "../../utils/breakpoint";
 
@@ -57,8 +57,8 @@ function setupCommands(dependencies: Dependencies): { bpClients: BPClients } {
   return { bpClients };
 }
 
-function sendPacket(packet: Object, callback?: Function) {
-  debuggerClient.request(packet).then(callback);
+function sendPacket(packet: Object, callback?: Function = r => r) {
+  return debuggerClient.request(packet).then(callback);
 }
 
 function resume(): Promise<*> {
@@ -198,13 +198,15 @@ function setBreakpointCondition(
     });
 }
 
-type EvaluateParam = {
-  frameId?: FrameId
-};
-
-function evaluateInFrame(frameId: string, script: Script) {
+async function evaluateInFrame(script: Script, frameId: string) {
   return evaluate(script, { frameId });
 }
+
+async function evaluateExpressions(scripts: Script[], frameId?: string) {
+  return Promise.all(scripts.map(script => evaluate(script, { frameId })));
+}
+
+type EvaluateParam = { frameId?: FrameId };
 
 function evaluate(
   script: ?Script,
@@ -212,11 +214,11 @@ function evaluate(
 ): Promise<mixed> {
   const params = frameId ? { frameActor: frameId } : {};
   if (!tabTarget || !tabTarget.activeConsole || !script) {
-    return Promise.resolve();
+    return Promise.resolve({});
   }
 
   return new Promise(resolve => {
-    tabTarget.activeConsole.evaluateJS(
+    tabTarget.activeConsole.evaluateJSAsync(
       script,
       result => resolve(result),
       params
@@ -299,7 +301,7 @@ function disablePrettyPrint(sourceId: SourceId): Promise<*> {
   return sourceClient.disablePrettyPrint();
 }
 
-async function setPausePoints(sourceId: SourceId, pausePoints: PausePoint[]) {
+async function setPausePoints(sourceId: SourceId, pausePoints: PausePoints) {
   return sendPacket({ to: sourceId, type: "setPausePoints", pausePoints });
 }
 
@@ -330,6 +332,11 @@ async function fetchSources() {
  */
 async function checkServerSupportsListWorkers() {
   const root = await tabTarget.root;
+  // root is not available on all debug targets.
+  if (!root) {
+    return false;
+  }
+
   const deviceFront = await getDeviceFront(debuggerClient, root);
   const description = await deviceFront.getDescription();
 
@@ -388,6 +395,7 @@ const clientCommands = {
   setBreakpointCondition,
   evaluate,
   evaluateInFrame,
+  evaluateExpressions,
   debuggeeCommand,
   navigate,
   reload,

@@ -1,10 +1,15 @@
-import { bindActionCreators } from "redux";
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
+// @flow
+
 import * as timings from "./timings";
 import { prefs, features } from "./prefs";
 import { isDevelopment } from "devtools-config";
 import { formatPausePoints } from "./pause/pausePoints";
 
-function findSource(dbg, url) {
+function findSource(dbg: any, url: string) {
   const sources = dbg.selectors.getSources();
   const source = sources.find(s => (s.get("url") || "").includes(url));
 
@@ -15,11 +20,11 @@ function findSource(dbg, url) {
   return source.toJS();
 }
 
-function sendPacket(dbg, packet, callback) {
+function sendPacket(dbg: any, packet: any, callback: () => void) {
   dbg.client.sendPacket(packet, callback || console.log);
 }
 
-function sendPacketToThread(dbg, packet, callback) {
+function sendPacketToThread(dbg: Object, packet: any, callback: () => void) {
   sendPacket(
     dbg,
     { to: dbg.connection.tabConnection.threadClient.actor, ...packet },
@@ -27,11 +32,11 @@ function sendPacketToThread(dbg, packet, callback) {
   );
 }
 
-function evaluate(dbg, expression, callback) {
+function evaluate(dbg: Object, expression: any, callback: () => void) {
   dbg.client.evaluate(expression).then(callback || console.log);
 }
 
-function bindSelectors(obj) {
+function bindSelectors(obj: Object): Object {
   return Object.keys(obj.selectors).reduce((bound, selector) => {
     bound[selector] = (a, b, c) =>
       obj.selectors[selector](obj.store.getState(), a, b, c);
@@ -40,23 +45,21 @@ function bindSelectors(obj) {
 }
 
 function getCM() {
-  const cm = document.querySelector(".CodeMirror");
+  const cm: any = document.querySelector(".CodeMirror");
   return cm && cm.CodeMirror;
 }
 
-function _formatPausePoints(dbg, url) {
+function _formatPausePoints(dbg: Object, url: string) {
   const source = dbg.helpers.findSource(url);
   const pausePoints = dbg.selectors.getPausePoints(source);
   console.log(formatPausePoints(source.text, pausePoints));
 }
 
-export function setupHelper(obj) {
+export function setupHelper(obj: Object) {
   const selectors = bindSelectors(obj);
-  const actions = bindActionCreators(obj.actions, obj.store.dispatch);
-  const dbg = {
+  const dbg: Object = {
     ...obj,
     selectors,
-    actions,
     prefs,
     features,
     timings,

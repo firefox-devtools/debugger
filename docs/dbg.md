@@ -1,12 +1,11 @@
 # DBG helper
 
-
 ### store
 
 `dbg.store` redux store.
 
 ```js
-const store = dbg.store.getState()
+const store = dbg.store.getState();
 
 // select a source
 const source = dbg.store.getState().sources.sources.first();
@@ -19,7 +18,7 @@ The actions are bound so you can call them directly!
 
 ```js
 const source = dbg.store.getState().sources.sources.first();
-dbg.actions.selectSource(source.get("id")))
+dbg.actions.selectSource(source.id))
 ```
 
 ### selectors
@@ -31,6 +30,17 @@ The selectors are bound so you can call them without `store.getState()`!
 const source = dbg.selectors.getSelectedSource();
 ```
 
+### workers
+
+`dbg.workers` debugger workers (parser, search, sourceMap, prettyPrint).
+The selectors are bound so you can call them without `store.getState()`!
+
+```js
+dbg.workers.parser
+  .getSymbols(dbg.selectors.getSelectedSource().id)
+  .then(console.log);
+```
+
 ### client
 
 `dbg.client` firefox commands.
@@ -38,9 +48,7 @@ The commands are the interface for talking to the debugger server.
 
 ```js
 const source = dbg.selectors.getSelectedSource();
-dbg.client
-  .setBreakpoint({line: 24, sourceId: source.get("id")})
-  .then(console.log)
+dbg.client.setBreakpoint({ line: 24, sourceId: source.id }).then(console.log);
 ```
 
 ### prefs
@@ -48,9 +56,9 @@ dbg.client
 `dbg.prefs` references the PreferencesHelper. You can use `dbg.prefs` to see or change the state of any pref.
 
 ```js
-dbg.prefs.pauseOnExceptions // false
-dbg.prefs.pauseOnExceptions = true
-dbg.prefs.pauseOnExceptions // true
+dbg.prefs.pauseOnExceptions; // false
+dbg.prefs.pauseOnExceptions = true;
+dbg.prefs.pauseOnExceptions; // true
 ```
 
 ### features
@@ -58,11 +66,10 @@ dbg.prefs.pauseOnExceptions // true
 `dbg.features` references the debugger's feature flags. You can use `dbg.features` to see or change the state of any flag.
 
 ```js
-dbg.features.codeCoverage // false
-dbg.features.codeCoverage = true
-dbg.features.codeCoverage // true
+dbg.features.codeCoverage; // false
+dbg.features.codeCoverage = true;
+dbg.features.codeCoverage; // true
 ```
-
 
 ### helpers
 
@@ -71,7 +78,7 @@ dbg.features.codeCoverage // true
 Sometimes you want to quickly grab a source object from the store, but you don't know the full url or source id. The `findSource` function is your friend here :)
 
 ```js
-dbg.helpers.findSource("todo-view")
+dbg.helpers.findSource("todo-view");
 /*
 {
   "isPrettyPrinted": false,
@@ -97,7 +104,7 @@ dbg
     to: dbg.selectors.getSelectedFrame().id,
     type: "evaluateExpressions"
   })
-  .then(console.log)
+  .then(console.log);
 ```
 
 #### evaluate
@@ -105,7 +112,7 @@ dbg
 `dbg.helpers.evaluate` evaluate expressions in the context of the debuggee
 
 ```js
-dbg.helpers.evaluate("2+2")
+dbg.helpers.evaluate("2+2");
 /*
 {
   from: "server1.conn12.child1/consoleActor2",
@@ -116,5 +123,5 @@ dbg.helpers.evaluate("2+2")
 }
 */
 
-dbg.helpers.evaluate("2+2",  r => console.log(`yay ${r.result}`)) // yay 4
+dbg.helpers.evaluate("2+2", r => console.log(`yay ${r.result}`)); // yay 4
 ```

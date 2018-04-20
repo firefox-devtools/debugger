@@ -9,7 +9,7 @@ import { isOriginalId } from "devtools-source-map";
 
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { findFunctionText } from "../../utils/function";
-import { findClosestScope } from "../../utils/breakpoint/astBreakpointLocation";
+import { findClosestFunction } from "../../utils/ast";
 import {
   getSourceLocationFromMouseEvent,
   toSourceLine
@@ -70,7 +70,7 @@ function getMenuItems(
   const blackboxKey = L10N.getStr("sourceFooter.blackbox.accesskey");
   const blackboxLabel = L10N.getStr("sourceFooter.blackbox");
   const unblackboxLabel = L10N.getStr("sourceFooter.unblackbox");
-  const toggleBlackBoxLabel = selectedSource.get("isBlackBoxed")
+  const toggleBlackBoxLabel = selectedSource.isBlackBoxed
     ? unblackboxLabel
     : blackboxLabel;
   const copyFunctionKey = L10N.getStr("copyFunction.accesskey");
@@ -101,7 +101,7 @@ function getMenuItems(
     label: copyToClipboardLabel,
     accesskey: copyToClipboardKey,
     disabled: false,
-    click: () => copyToTheClipboard(selectedSource.get("text"))
+    click: () => copyToTheClipboard(selectedSource.text)
   };
 
   const copySourceItem = {
@@ -117,7 +117,7 @@ function getMenuItems(
     label: copySourceUri2Label,
     accesskey: copySourceUri2Key,
     disabled: false,
-    click: () => copyToTheClipboard(getRawSourceURL(selectedSource.get("url")))
+    click: () => copyToTheClipboard(getRawSourceURL(selectedSource.url))
   };
 
   const sourceId = selectedSource.get("id");
@@ -248,10 +248,10 @@ export default connect(
         findFunctionText(
           line,
           selectedSource.toJS(),
-          getSymbols(state, selectedSource.toJS())
+          getSymbols(state, selectedSource)
         ),
       getFunctionLocation: line =>
-        findClosestScope(getSymbols(state, selectedSource.toJS()).functions, {
+        findClosestFunction(getSymbols(state, selectedSource), {
           line,
           column: Infinity
         })

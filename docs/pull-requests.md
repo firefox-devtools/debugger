@@ -13,7 +13,7 @@
 
 Include screenshots and animated GIFs in your pull request whenever possible.
 
-**Recording GIFs** There are many great tools for recording a GIF. On a mac, we recommend [recordit](http://recordit.co/), which is a free lightweight app.
+**Recording GIFs** There are many great tools for recording a GIF. On a mac, we recommend [recordit](http://recordit.co/), which is a free lightweight app. If you are using Ubuntu, you can also try using [Peek](https://github.com/phw/peek).
 
 <details>
 <summary>

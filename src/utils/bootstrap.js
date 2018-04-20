@@ -2,6 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
+// @flow
+
 import React from "react";
 import { bindActionCreators, combineReducers } from "redux";
 import ReactDOM from "react-dom";
@@ -14,13 +16,10 @@ import {
   isTesting
 } from "devtools-config";
 import { startSourceMapWorker, stopSourceMapWorker } from "devtools-source-map";
-import { startSearchWorker, stopSearchWorker } from "../workers/search";
+import * as search from "../workers/search";
+import * as prettyPrint from "../workers/pretty-print";
+import * as parser from "../workers/parser";
 
-import {
-  startPrettyPrintWorker,
-  stopPrettyPrintWorker
-} from "../workers/pretty-print";
-import { startParserWorker, stopParserWorker } from "../workers/parser";
 import configureStore from "../actions/utils/create-store";
 import reducers from "../reducers";
 import * as selectors from "../selectors";
@@ -30,8 +29,11 @@ import { prefs } from "./prefs";
 function renderPanel(component, store) {
   const root = document.createElement("div");
   root.className = "launchpad-root theme-body";
-  root.style.setProperty("flex", 1);
+  root.style.setProperty("flex", "1");
   const mount = document.querySelector("#mount");
+  if (!mount) {
+    return;
+  }
   mount.appendChild(root);
 
   ReactDOM.render(
@@ -40,7 +42,7 @@ function renderPanel(component, store) {
   );
 }
 
-export function bootstrapStore(client, { services, toolboxActions }) {
+export function bootstrapStore(client: any, { services, toolboxActions }: any) {
   const createStore = configureStore({
     log: isTesting() || getValue("logging.actions"),
     timing: isDevelopment(),
@@ -65,9 +67,10 @@ export function bootstrapWorkers() {
     // When used in Firefox, the toolbox manages the source map worker.
     startSourceMapWorker(getValue("workers.sourceMapURL"));
   }
-  startPrettyPrintWorker(getValue("workers.prettyPrintURL"));
-  startParserWorker(getValue("workers.parserURL"));
-  startSearchWorker(getValue("workers.searchURL"));
+  prettyPrint.start(getValue("workers.prettyPrintURL"));
+  parser.start(getValue("workers.parserURL"));
+  search.start(getValue("workers.searchURL"));
+  return { prettyPrint, parser, search };
 }
 
 export function teardownWorkers() {
@@ -75,12 +78,12 @@ export function teardownWorkers() {
     // When used in Firefox, the toolbox manages the source map worker.
     stopSourceMapWorker();
   }
-  stopPrettyPrintWorker();
-  stopParserWorker();
-  stopSearchWorker();
+  prettyPrint.stop();
+  parser.stop();
+  search.stop();
 }
 
-export function bootstrapApp(store) {
+export function bootstrapApp(store: any) {
   if (isFirefoxPanel()) {
     renderPanel(App, store);
   } else {
@@ -89,7 +92,7 @@ export function bootstrapApp(store) {
   }
 }
 
-function updatePrefs(state) {
+function updatePrefs(state: any) {
   const pendingBreakpoints = selectors.getPendingBreakpoints(state);
 
   if (prefs.pendingBreakpoints !== pendingBreakpoints) {

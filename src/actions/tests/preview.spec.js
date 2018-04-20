@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 import {
   createStore,
   selectors,
@@ -5,39 +9,7 @@ import {
   makeSource
 } from "../../utils/test-head";
 import I from "immutable";
-import readFixture from "./helpers/readFixture";
 import { prefs } from "../../utils/prefs";
-
-const threadClient = {
-  sourceContents: function(sourceId) {
-    return new Promise((resolve, reject) =>
-      resolve({
-        source: sourceTexts[sourceId],
-        contentType: "text/javascript"
-      })
-    );
-  },
-  setPausePoints: async () => {},
-  getFrameScopes: async () => {},
-  evaluate: function(expression) {
-    return new Promise((resolve, reject) =>
-      resolve({ result: evaluationResult[expression] })
-    );
-  },
-  evaluateInFrame: function(frameId, expression) {
-    return new Promise((resolve, reject) =>
-      resolve({ result: evaluationResult[expression] })
-    );
-  }
-};
-
-const sourceTexts = {
-  "base.js": "function base(boo) {}",
-  "foo.js": "function base(boo) { return this.bazz; } outOfScope",
-  "immutable.js": "list",
-  "scopes.js": readFixture("scopes.js"),
-  "reactComponent.js": readFixture("reactComponent.js")
-};
 
 const react = {
   actor: "server1.conn34.child2/obj341",
@@ -60,13 +32,18 @@ const immutableList = {
   }
 };
 
-let evaluationResult;
-
 describe("setPreview", () => {
   let dispatch = undefined;
   let getState = undefined;
 
-  async function setup(fileName) {
+  async function setup(fileName, evaluateInFrame) {
+    const threadClient = {
+      sourceContents: () => Promise.resolve("list"),
+      setPausePoints: async () => {},
+      getFrameScopes: async () => {},
+      evaluateExpressions: async () => {},
+      evaluateInFrame
+    };
     const store = createStore(threadClient);
     prefs.autoPrettyPrint = false;
 
@@ -82,22 +59,31 @@ describe("setPreview", () => {
     await dispatch(
       actions.paused({
         why: { type: "resumeLimit" },
-        frames: [{ id: "frame1", location: { sourceId: fileName } }]
+        frames: [
+          { id: "frame1", location: { sourceId: fileName, line: 1, column: 1 } }
+        ]
       })
     );
   }
 
   it("react instance", async () => {
-    await setup("foo.js");
-    evaluationResult = {
-      this: react
-    };
-    evaluationResult[
-      "this.hasOwnProperty('_reactInternalFiber') ? " +
-        "this._reactInternalFiber.type.name : " +
-        "this._reactInternalInstance.getName()"
-    ] =
-      "Foo";
+    await setup(
+      "foo.js",
+      jest
+        .fn()
+        .mockImplementationOnce(() =>
+          // result of evaluation setPreview
+          Promise.resolve({
+            result: react
+          })
+        )
+        .mockImplementationOnce(() =>
+          // result of evaluation in getPreview
+          Promise.resolve({
+            result: { preview: { items: ["Foo"] } }
+          })
+        )
+    );
 
     await dispatch(
       actions.setPreview(
@@ -111,13 +97,15 @@ describe("setPreview", () => {
   });
 
   it("Immutable list", async () => {
-    await setup("immutable.js");
-
-    evaluationResult = {
-      list: immutableList,
-      "list.constructor.name": "Listless",
-      "list.toJS()": { actor: "bazz", preview: {} }
-    };
+    await setup("immutable.js", expression =>
+      Promise.resolve({
+        result: {
+          list: immutableList,
+          "list.constructor.name": "Listless",
+          "list.toJS()": { actor: "bazz", preview: {} }
+        }[expression]
+      })
+    );
 
     await dispatch(
       actions.setPreview(

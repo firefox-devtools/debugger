@@ -1,4 +1,0 @@
-
-for (const foo of []) {
-
-}

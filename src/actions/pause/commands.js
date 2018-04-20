@@ -12,15 +12,7 @@ import { addHiddenBreakpoint } from "../breakpoints";
 import { features } from "../../utils/prefs";
 
 import type { ThunkArgs } from "../types";
-type CommandType =
-  | "stepOver"
-  | "stepIn"
-  | "stepOut"
-  | "resume"
-  | "rewind"
-  | "reverseStepOver"
-  | "reverseStepIn"
-  | "reverseStepOut";
+import type { Command } from "../../reducers/types";
 
 /**
  * Debugger commands like stepOver, stepIn, stepUp
@@ -29,7 +21,7 @@ type CommandType =
  * @memberof actions/pause
  * @static
  */
-export function command(type: CommandType) {
+export function command(type: Command) {
   return async ({ dispatch, client }: ThunkArgs) => {
     return dispatch({
       type: "COMMAND",
@@ -179,7 +171,7 @@ function hasAwait(source, pauseLocation) {
  * @param stepType
  * @returns {function(ThunkArgs)}
  */
-export function astCommand(stepType: CommandType) {
+export function astCommand(stepType: Command) {
   return async ({ dispatch, getState, sourceMaps }: ThunkArgs) => {
     if (!features.asyncStepping) {
       return dispatch(command(stepType));

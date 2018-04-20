@@ -4,7 +4,7 @@
 
 // @flow
 
-import { clearDocuments } from "../utils/editor";
+import { clearDocuments, removeEditor } from "../utils/editor";
 import sourceQueue from "../utils/source-queue";
 import { getSources } from "../reducers/sources";
 import { waitForMs } from "../utils/utils";
@@ -21,7 +21,7 @@ import {
 
 import { clearWasmStates } from "../utils/wasm";
 
-import type { ThunkArgs } from "./types";
+import type { Action, ThunkArgs } from "./types";
 
 /**
  * Redux actions for the navigation state
@@ -37,6 +37,7 @@ export function willNavigate(event: Object) {
     await sourceMaps.clearSourceMaps();
     clearWasmStates();
     clearDocuments();
+    removeEditor();
     clearSymbols();
     clearASTs();
     clearScopes();
@@ -45,7 +46,7 @@ export function willNavigate(event: Object) {
   };
 }
 
-export function navigate(url: string) {
+export function navigate(url: string): Action {
   sourceQueue.clear();
 
   return {
@@ -57,7 +58,7 @@ export function navigate(url: string) {
 export function connect(url: string, canRewind: boolean) {
   return async function({ dispatch }: ThunkArgs) {
     await dispatch(updateWorkers());
-    dispatch({ type: "CONNECT", url, canRewind });
+    dispatch(({ type: "CONNECT", url, canRewind }: Action));
   };
 }
 

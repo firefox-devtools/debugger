@@ -60,12 +60,23 @@ export type Location = {
   sourceUrl?: string
 };
 
+export type MappedLocation = {
+  location: Location,
+  generatedLocation: Location
+};
+
 export type Position = {
   line: number,
   column: ?number
 };
 
+export type ColumnPosition = {
+  line: number,
+  column: number
+};
+
 export type Range = { end: Position, start: Position };
+export type ColumnRange = { end: ColumnPosition, start: ColumnPosition };
 
 export type PendingLocation = {
   line: number,

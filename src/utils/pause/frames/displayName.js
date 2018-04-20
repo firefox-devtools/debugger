@@ -79,7 +79,8 @@ export function formatDisplayName(
   frame: LocalFrame,
   { shouldMapDisplayName = true }: formatDisplayNameParams = {}
 ) {
-  let { displayName, library } = frame;
+  let { displayName, originalDisplayName, library } = frame;
+  displayName = originalDisplayName || displayName;
   if (library && shouldMapDisplayName) {
     displayName = mapDisplayNames(frame, library);
   }

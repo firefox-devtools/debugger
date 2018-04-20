@@ -10,7 +10,6 @@ import { bindActionCreators } from "redux";
 import { features } from "../utils/prefs";
 import actions from "../actions";
 import { ShortcutsModal } from "./ShortcutsModal";
-import VisibilityHandler from "./shared/VisibilityHandler";
 
 import {
   getSelectedSource,
@@ -38,24 +37,16 @@ const verticalLayoutBreakpoint = window.matchMedia(
 import "./variables.css";
 import "./App.css";
 import "devtools-launchpad/src/components/Root.css";
-
 import "./shared/menu.css";
 import "./shared/reps.css";
 
 import SplitBox from "devtools-splitter";
-
 import ProjectSearch from "./ProjectSearch";
-
 import PrimaryPanes from "./PrimaryPanes";
-
 import Editor from "./Editor";
-
 import SecondaryPanes from "./SecondaryPanes";
-
 import WelcomeBox from "./WelcomeBox";
-
 import EditorTabs from "./Editor/Tabs";
-
 import QuickOpenModal from "./QuickOpenModal";
 
 type Props = {
@@ -146,9 +137,9 @@ class App extends Component<Props, State> {
   onEscape = (_, e) => {
     const {
       activeSearch,
-      quickOpenEnabled,
       closeActiveSearch,
-      closeQuickOpen
+      closeQuickOpen,
+      quickOpenEnabled
     } = this.props;
 
     if (activeSearch) {
@@ -156,7 +147,8 @@ class App extends Component<Props, State> {
       closeActiveSearch();
     }
 
-    if (quickOpenEnabled === true) {
+    if (quickOpenEnabled) {
+      e.preventDefault();
       closeQuickOpen();
     }
   };
@@ -301,18 +293,16 @@ class App extends Component<Props, State> {
   render() {
     const { quickOpenEnabled } = this.props;
     return (
-      <VisibilityHandler>
-        <div className="debugger">
-          {this.renderLayout()}
-          {quickOpenEnabled === true && (
-            <QuickOpenModal
-              shortcutsModalEnabled={this.state.shortcutsModalEnabled}
-              toggleShortcutsModal={() => this.toggleShortcutsModal()}
-            />
-          )}
-          {this.renderShortcutsModal()}
-        </div>
-      </VisibilityHandler>
+      <div className="debugger">
+        {this.renderLayout()}
+        {quickOpenEnabled === true && (
+          <QuickOpenModal
+            shortcutsModalEnabled={this.state.shortcutsModalEnabled}
+            toggleShortcutsModal={() => this.toggleShortcutsModal()}
+          />
+        )}
+        {this.renderShortcutsModal()}
+      </div>
     );
   }
 }

@@ -10,20 +10,64 @@
   user-select: none;
 }
 
+.breakpoints-list .breakpoint-heading {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.breakpoints-list .breakpoint-heading,
 .breakpoints-list .breakpoint {
   font-size: 12px;
   color: var(--theme-content-color1);
-  padding: 0.5em 1em 0.5em 0.5em;
-  line-height: 1em;
   position: relative;
   transition: all 0.25s ease;
+  padding: 0.5em 1em 0.5em 0.5em;
 }
 
-html[dir="rtl"] .breakpoints-list .breakpoint {
+.breakpoints-list .breakpoint-heading,
+.breakpoints-list .breakpoint,
+.breakpoints-exceptions {
+  padding: 0.5em 1em 0.5em 0.5em;
+}
+
+.breakpoints-exceptions-caught {
+  padding: 0 1em 0.5em 2em;
+}
+
+.breakpoints-exceptions-options:not(.empty) {
+  border-bottom: 1px solid var(--theme-splitter-color);
+}
+
+.breakpoints-exceptions input,
+.breakpoints-exceptions-caught input {
+  padding-inline-start: 2px;
+  margin-inline-start: 0;
+  vertical-align: text-bottom;
+}
+
+.breakpoint-exceptions-label {
+  padding-top: 2px;
+  display: inline-block;
+  padding-inline-start: 2px;
+  padding-inline-end: 8px;
+  cursor: default;
+}
+
+.breakpoints-list .breakpoint,
+.breakpoints-exceptions,
+.breakpoints-exceptions-caught {
+  display: flex;
+}
+
+html[dir="rtl"] .breakpoints-list .breakpoint,
+html[dir="rtl"] .breakpoints-list .breakpoint-heading,
+html[dir="rtl"] .breakpoints-exceptions {
   border-right: 4px solid transparent;
 }
 
-html:not([dir="rtl"]) .breakpoints-list .breakpoint {
+html:not([dir="rtl"]) .breakpoints-list .breakpoint,
+html:not([dir="rtl"]) .breakpoints-list .breakpoint-heading,
+html:not([dir="rtl"]) .breakpoints-exceptions {
   border-left: 4px solid transparent;
 }
 
@@ -53,6 +97,28 @@ html .breakpoints-list .breakpoint.paused {
   background-color: var(--search-overlays-semitransparent);
 }
 
+.breakpoints-list .breakpoint .breakpoint-line,
+.breakpoints-list .breakpoint-label {
+  font-family: var(--monospace-font-family);
+}
+
+.breakpoints-list .breakpoint .breakpoint-line {
+  font-size: 11px;
+  color: var(--theme-comment);
+  padding-top: 3px;
+  padding-inline-end: 2px;
+  min-width: 14px;
+  text-align: right;
+}
+
+html[dir="rtl"] .breakpoints-list .breakpoint .breakpoint-line {
+  text-align: left;
+}
+
+.breakpoints-list .breakpoint:hover .breakpoint-line {
+  display: none;
+}
+
 .breakpoints-list .breakpoint.paused:hover {
   border-color: var(--breakpoint-active-color-hover);
 }
@@ -61,7 +127,12 @@ html .breakpoints-list .breakpoint.paused {
   max-width: calc(100% - var(--breakpoint-expression-right-clear-space));
   display: inline-block;
   padding-inline-start: 2px;
+  padding-inline-end: 8px;
   cursor: default;
+  flex-grow: 1;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding-top: 3px;
 }
 
 .breakpoint-label .breakpoint-checkbox {
@@ -83,28 +154,16 @@ html .breakpoints-list .breakpoint.paused {
   order: 3;
 }
 
-:root.theme-light .breakpoint-snippet,
-:root.theme-firebug .breakpoint-snippet {
-  color: var(--theme-comment);
-}
-
-:root.theme-dark .breakpoint-snippet {
-  color: var(--theme-body-color);
-  opacity: 0.6;
-}
-
-.breakpoint-snippet {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding-inline-start: 18px;
-  padding-inline-end: 18px;
-}
-
 .breakpoint .close-btn {
   position: absolute;
   offset-inline-end: 13px;
   offset-inline-start: auto;
   top: 9px;
+  display: none;
+}
+
+.breakpoint:hover .close-btn {
+  display: flex;
 }
 
 .breakpoint .close {
@@ -113,4 +172,29 @@ html .breakpoints-list .breakpoint.paused {
 
 .breakpoint:hover .close {
   visibility: visible;
+}
+
+.CodeMirror.cm-s-mozilla-breakpoint .CodeMirror-lines {
+  padding: 0;
+}
+
+.CodeMirror.cm-s-mozilla-breakpoint .CodeMirror-sizer {
+  min-width: initial !important;
+}
+
+.breakpoints-list .breakpoint.disabled .CodeMirror.cm-s-mozilla-breakpoint {
+  transition: opacity 0.5s linear;
+  opacity: 0.5;
+}
+
+.CodeMirror.cm-s-mozilla-breakpoint .CodeMirror-line span[role="presentation"] {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+}
+
+.CodeMirror.cm-s-mozilla-breakpoint .CodeMirror-code,
+.CodeMirror.cm-s-mozilla-breakpoint .CodeMirror-scroll {
+  cursor: default;
 }

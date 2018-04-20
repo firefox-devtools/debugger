@@ -33,7 +33,7 @@ import {
 } from "../../selectors";
 
 import type { Location } from "../../types";
-import type { ThunkArgs } from "../types";
+import type { Action, ThunkArgs } from "../types";
 
 declare type SelectSourceOptions = {
   tabIndex?: number,
@@ -56,7 +56,7 @@ export function selectSourceURL(
   return async ({ dispatch, getState }: ThunkArgs) => {
     const source = getSourceByURL(getState(), url);
     if (source) {
-      const sourceId = source.get("id");
+      const sourceId = source.id;
       const location = createLocation({ ...options.location, sourceId });
       // flow is unable to comprehend that if an options.location object
       // exists, that we have a valid Location object, and if it doesnt,
@@ -65,12 +65,13 @@ export function selectSourceURL(
       // $FlowIgnore
       await dispatch(selectLocation(location, options.tabIndex));
     } else {
-      dispatch({
-        type: "SELECT_SOURCE_URL",
-        url: url,
-        tabIndex: options.tabIndex,
-        location: options.location
-      });
+      dispatch(
+        ({
+          type: "SELECT_SOURCE_URL",
+          url: url,
+          line: options.location ? options.location.line : null
+        }: Action)
+      );
     }
   };
 }
@@ -98,10 +99,10 @@ export function selectLocation(location: Location) {
       return;
     }
 
-    const source = getSource(getState(), location.sourceId);
-    if (!source) {
+    const sourceRecord = getSource(getState(), location.sourceId);
+    if (!sourceRecord) {
       // If there is no source we deselect the current selected source
-      return dispatch({ type: "CLEAR_SELECTED_SOURCE" });
+      return dispatch(({ type: "CLEAR_SELECTED_SOURCE" }: Action));
     }
 
     const activeSearch = getActiveSearch(getState());
@@ -109,21 +110,25 @@ export function selectLocation(location: Location) {
       dispatch(closeActiveSearch());
     }
 
-    dispatch(addTab(source.toJS(), 0));
+    const source = sourceRecord.toJS();
 
-    dispatch({
-      type: "SELECT_SOURCE",
-      source: source.toJS(),
-      location
-    });
+    dispatch(addTab(source, 0));
+    dispatch(
+      ({
+        type: "SELECT_SOURCE",
+        source,
+        location
+      }: Action)
+    );
 
-    await dispatch(loadSourceText(source));
+    await dispatch(loadSourceText(sourceRecord));
     const selectedSource = getSelectedSource(getState());
     if (!selectedSource) {
       return;
     }
 
-    const sourceId = selectedSource.get("id");
+    const sourceId = selectedSource.id;
+
     if (
       prefs.autoPrettyPrint &&
       !getPrettySource(getState(), sourceId) &&
@@ -131,7 +136,7 @@ export function selectLocation(location: Location) {
       isMinified(selectedSource)
     ) {
       await dispatch(togglePrettyPrint(sourceId));
-      dispatch(closeTab(source.get("url")));
+      dispatch(closeTab(source.url));
     }
 
     dispatch(setSymbols(sourceId));
@@ -151,10 +156,10 @@ export function selectSpecificLocation(location: Location) {
       return;
     }
 
-    const source = getSource(getState(), location.sourceId);
-    if (!source) {
+    const sourceRecord = getSource(getState(), location.sourceId);
+    if (!sourceRecord) {
       // If there is no source we deselect the current selected source
-      return dispatch({ type: "CLEAR_SELECTED_SOURCE" });
+      return dispatch(({ type: "CLEAR_SELECTED_SOURCE" }: Action));
     }
 
     const activeSearch = getActiveSearch(getState());
@@ -162,21 +167,24 @@ export function selectSpecificLocation(location: Location) {
       dispatch(closeActiveSearch());
     }
 
-    dispatch(addTab(source.toJS(), 0));
+    const source = sourceRecord.toJS();
 
-    dispatch({
-      type: "SELECT_SOURCE",
-      source: source.toJS(),
-      location
-    });
+    dispatch(addTab(source, 0));
+    dispatch(
+      ({
+        type: "SELECT_SOURCE",
+        source,
+        location
+      }: Action)
+    );
 
-    await dispatch(loadSourceText(source));
+    await dispatch(loadSourceText(sourceRecord));
     const selectedSource = getSelectedSource(getState());
     if (!selectedSource) {
       return;
     }
 
-    const sourceId = selectedSource.get("id");
+    const sourceId = selectedSource.id;
     dispatch(setSymbols(sourceId));
     dispatch(setOutOfScopeLocations());
   };

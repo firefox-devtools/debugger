@@ -13,22 +13,14 @@ add_task(async function() {
   await waitForSelectedSource(dbg, "top-level.js");
   await waitForPaused(dbg);
 
-  const popupPreviewed = waitForDispatch(dbg, "SET_PREVIEW");
-  hoverAtPos(dbg, { line: 1, ch: 6 });
-  await popupPreviewed;
-  await assertPreviewPopup(dbg, {
-    field: "foo",
-    value: "1",
-    expression: "obj"
-  });
-  await assertPreviewPopup(dbg, {
-    field: "bar",
-    value: "2",
-    expression: "obj"
-  });
-
-  // hover over an empty position so that the popup closes
-  hoverAtPos(dbg, { line: 1, ch: 40 });
+  await assertPreviews(dbg, [
+    {
+      line: 1,
+      column: 6,
+      expression: "obj",
+      fields: [["foo", "1"], ["bar", "2"]]
+    }
+  ]);
 
   const tooltipPreviewed = waitForDispatch(dbg, "SET_PREVIEW");
   hoverAtPos(dbg, { line: 2, ch: 7 });

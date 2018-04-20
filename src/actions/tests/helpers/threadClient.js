@@ -1,6 +1,11 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 import { makeLocationId } from "../../../utils/breakpoint";
 
 function createSource(name) {
+  name = name.replace(/\..*$/, "");
   return {
     source: `function ${name}() {\n  return ${name} \n}`,
     contentType: "text/javascript"
@@ -87,5 +92,6 @@ export const sourceThreadClient = {
   },
   threadClient: async () => {},
   getFrameScopes: async () => {},
-  setPausePoints: async () => {}
+  setPausePoints: async () => {},
+  evaluateExpressions: async () => {}
 };

@@ -21,9 +21,9 @@ import {
 } from "../../selectors";
 
 import type { Source } from "../../types";
-import type { ThunkArgs } from "../types";
+import type { Action, ThunkArgs } from "../types";
 
-export function addTab(source: Source, tabIndex: number) {
+export function addTab(source: Source, tabIndex: number): Action {
   return {
     type: "ADD_TAB",
     source,
@@ -31,7 +31,7 @@ export function addTab(source: Source, tabIndex: number) {
   };
 }
 
-export function moveTab(url: string, tabIndex: number) {
+export function moveTab(url: string, tabIndex: number): Action {
   return {
     type: "MOVE_TAB",
     url,
@@ -48,7 +48,7 @@ export function closeTab(url: string) {
     removeDocument(url);
     const tabs = removeSourceFromTabList(getSourceTabs(getState()), url);
     const sourceId = getNewSelectedSourceId(getState(), tabs);
-    dispatch({ type: "CLOSE_TAB", url, tabs });
+    dispatch(({ type: "CLOSE_TAB", url, tabs }: Action));
     dispatch(selectSource(sourceId));
   };
 }
@@ -67,7 +67,7 @@ export function closeTabs(urls: string[]) {
     });
 
     const tabs = removeSourcesFromTabList(getSourceTabs(getState()), urls);
-    dispatch({ type: "CLOSE_TABS", urls, tabs });
+    dispatch(({ type: "CLOSE_TABS", urls, tabs }: Action));
 
     const sourceId = getNewSelectedSourceId(getState(), tabs);
     dispatch(selectSource(sourceId));

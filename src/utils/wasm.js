@@ -5,7 +5,7 @@
 /* @flow */
 
 import { BinaryReader } from "wasmparser/dist/WasmParser";
-import { WasmDisassembler } from "wasmparser/dist/WasmDis";
+import { WasmDisassembler, NameSectionReader } from "wasmparser/dist/WasmDis";
 
 type WasmState = {
   lines: Array<number>,
@@ -14,14 +14,31 @@ type WasmState = {
 
 var wasmStates: { [string]: WasmState } = (Object.create(null): any);
 
+function maybeWasmSectionNameResolver(data: Uint8Array) {
+  try {
+    const parser = new BinaryReader();
+    parser.setData(data.buffer, 0, data.length);
+    const reader = new NameSectionReader();
+    reader.read(parser);
+    return reader.hasValidNames() ? reader.getNameResolver() : null;
+  } catch (ex) {
+    // Ignoring any errors during names section retrival.
+    return null;
+  }
+}
+
 /**
  * @memberof utils/wasm
  * @static
  */
 function getWasmText(sourceId: string, data: Uint8Array) {
+  const nameResolver = maybeWasmSectionNameResolver(data);
   const parser = new BinaryReader();
   parser.setData(data.buffer, 0, data.length);
   const dis = new WasmDisassembler();
+  if (nameResolver) {
+    dis.nameResolver = nameResolver;
+  }
   dis.addOffsets = true;
   const done = dis.disassembleChunk(parser);
   let result = dis.getResult();
