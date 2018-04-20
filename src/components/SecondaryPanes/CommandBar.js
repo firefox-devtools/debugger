@@ -17,7 +17,8 @@ import {
   getIsWaitingOnBreak,
   getHistory,
   getHistoryPosition,
-  getCanRewind
+  getCanRewind,
+  getSkipPausing
 } from "../../selectors";
 import { formatKeyShortcut } from "../../utils/text";
 import actions from "../../actions";
@@ -101,7 +102,9 @@ type Props = {
   shouldIgnoreCaughtExceptions: boolean,
   isWaitingOnBreak: boolean,
   horizontal: boolean,
-  canRewind: boolean
+  canRewind: boolean,
+  skipPausing: boolean,
+  toggleSkipPausing: () => void
 };
 
 class CommandBar extends Component<Props> {
@@ -329,6 +332,26 @@ class CommandBar extends Component<Props> {
     );
   }
 
+  renderSkipPausingButton() {
+    const { skipPausing, toggleSkipPausing } = this.props;
+
+    if (!features.skipPausing) {
+      return null;
+    }
+
+    return (
+      <button
+        className={classnames("command-bar-button", {
+          active: skipPausing
+        })}
+        title={L10N.getStr("skipPausingTooltip")}
+        onClick={toggleSkipPausing}
+      >
+        <img className="skipPausing" />
+      </button>
+    );
+  }
+
   render() {
     return (
       <div
@@ -344,6 +367,7 @@ class CommandBar extends Component<Props> {
         {this.replayPreviousButton()}
         {this.renderStepPosition()}
         {this.replayNextButton()}
+        {this.renderSkipPausingButton()}
       </div>
     );
   }
@@ -360,7 +384,8 @@ export default connect(
       history: getHistory(state),
       historyPosition: getHistoryPosition(state),
       isWaitingOnBreak: getIsWaitingOnBreak(state),
-      canRewind: getCanRewind(state)
+      canRewind: getCanRewind(state),
+      skipPausing: getSkipPausing(state)
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

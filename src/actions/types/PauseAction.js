@@ -102,4 +102,8 @@ export type PauseAction =
         +frame: Frame
       |},
       Scope
-    >;
+    >
+  | {|
+      +type: "TOGGLE_SKIP_PAUSING",
+      skipPausing: boolean
+    |};

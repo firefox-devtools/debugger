@@ -37,6 +37,7 @@ if (isDevelopment()) {
   pref("devtools.debugger.file-search-regex-match", false);
   pref("devtools.debugger.project-directory-root", "");
   pref("devtools.debugger.prefs-schema-version", "1.0.1");
+  pref("devtools.debugger.skip-pausing", false);
   pref("devtools.debugger.features.workers", true);
   pref("devtools.debugger.features.async-stepping", true);
   pref("devtools.debugger.features.wasm", true);
@@ -53,6 +54,7 @@ if (isDevelopment()) {
   pref("devtools.debugger.features.replay", true);
   pref("devtools.debugger.features.pause-points", true);
   pref("devtools.debugger.features.component-stack", true);
+  pref("devtools.debugger.features.skip-pausing", false);
 }
 
 export const prefs = new PrefsHelper("devtools", {
@@ -80,7 +82,8 @@ export const prefs = new PrefsHelper("devtools", {
   fileSearchWholeWord: ["Bool", "debugger.file-search-whole-word"],
   fileSearchRegexMatch: ["Bool", "debugger.file-search-regex-match"],
   debuggerPrefsSchemaVersion: ["Char", "debugger.prefs-schema-version"],
-  projectDirectoryRoot: ["Char", "debugger.project-directory-root", ""]
+  projectDirectoryRoot: ["Char", "debugger.project-directory-root", ""],
+  skipPausing: ["Bool", "debugger.skip-pausing"]
 });
 
 export const features = new PrefsHelper("devtools.debugger.features", {
@@ -98,7 +101,8 @@ export const features = new PrefsHelper("devtools.debugger.features", {
   codeFolding: ["Bool", "code-folding"],
   replay: ["Bool", "replay"],
   pausePoints: ["Bool", "pause-points"],
-  componentStack: ["Bool", "component-stack"]
+  componentStack: ["Bool", "component-stack"],
+  skipPausing: ["Bool", "skip-pausing"]
 });
 
 if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {

@@ -31,7 +31,8 @@ img.reverseStepOut,
 img.replay-previous,
 img.replay-next,
 img.resume,
-img.shortcuts {
+img.shortcuts,
+img.skipPausing {
   background-color: var(--theme-body-color);
 }
 
@@ -111,6 +112,15 @@ img.shortcuts {
 
 .command-bar .subSettings {
   float: right;
+}
+
+.command-bar .skipPausing {
+  mask: url(/images/disable-pausing.svg) no-repeat;
+  mask-size: 75%;
+}
+
+.command-bar .active .skipPausing {
+   background-color: var(--theme-highlight-blue);
 }
 
 .bottom {
