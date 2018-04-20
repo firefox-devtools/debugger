@@ -28,6 +28,7 @@ pref("devtools.debugger.ui.variables-only-enum-visible", false);
 pref("devtools.debugger.ui.variables-searchbox-visible", false);
 pref("devtools.debugger.ui.framework-grouping-on", true);
 pref("devtools.debugger.call-stack-visible", true);
+pref("devtools.debugger.component-stack-visible", true);
 pref("devtools.debugger.scopes-visible", true);
 pref("devtools.debugger.component-visible", true);
 pref("devtools.debugger.workers-visible", true);
