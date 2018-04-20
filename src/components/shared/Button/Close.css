@@ -12,7 +12,10 @@
   justify-content: center;
   align-items: center;
   padding: 0;
-  outline: none !important;
+}
+
+.close-btn:focus {
+  outline: none;
 }
 
 .close-btn .close {
