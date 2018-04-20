@@ -269,7 +269,7 @@ class Expressions extends Component<Props, State> {
     return (
       <ul className="pane expressions-list">
         {expressions.map(this.renderExpression)}
-        {showInput && this.renderNewExpressionInput()}
+        {(showInput || !expressions.size) && this.renderNewExpressionInput()}
       </ul>
     );
   }
