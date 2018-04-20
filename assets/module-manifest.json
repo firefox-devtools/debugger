@@ -22453,7 +22453,10 @@
       "../../svg-inline-loader/index.js!../../../assets/images/help.svg": 3633,
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/SecondaryPanes/Breakpoint.js": 3634,
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/mapScopes/filtering.js": 3635,
-      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/pause/extra.js": 3636
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/pause/extra.js": 3636,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../devtools-modules/src/source-utils.js": 3637,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../devtools-modules/src/unicode-url.js": 3638,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/SecondaryPanes/ReactComponentStack.js": 3639
     },
     "usedIds": {
       "0": 0,
@@ -26092,7 +26095,10 @@
       "3633": 3633,
       "3634": 3634,
       "3635": 3635,
-      "3636": 3636
+      "3636": 3636,
+      "3637": 3637,
+      "3638": 3638,
+      "3639": 3639
     }
   },
   "chunks": {
