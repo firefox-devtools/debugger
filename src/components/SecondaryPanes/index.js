@@ -110,7 +110,7 @@ class SecondaryPanes extends Component<Props, State> {
     const isIndeterminate =
       !breakpointsDisabled && breakpoints.some(x => x.disabled);
 
-    if (breakpoints.size == 0) {
+    if (features.skipPausing || breakpoints.size == 0) {
       return null;
     }
 
