@@ -20,11 +20,14 @@ export async function getGeneratedLocation(
   );
 
   const generatedSource = getSource(state, sourceId);
-  const sourceUrl = generatedSource.get("url");
+  if (!generatedSource) {
+    return location;
+  }
+
   return {
     line,
     sourceId,
     column: column === 0 ? undefined : column,
-    sourceUrl
+    sourceUrl: generatedSource.url
   };
 }
