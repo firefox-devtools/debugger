@@ -11899,6 +11899,148 @@ Array [
 ]
 `;
 
+exports[`getScopes finds scope bindings in a JSX element at line 2 column 0 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "SomeComponent": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 29,
+                "line": 1,
+                "sourceId": "scopes/jsx-component/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 1,
+                "sourceId": "scopes/jsx-component/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 20,
+              "line": 1,
+              "sourceId": "scopes/jsx-component/originalSource-1",
+            },
+            "importName": "default",
+            "start": Object {
+              "column": 7,
+              "line": 1,
+              "sourceId": "scopes/jsx-component/originalSource-1",
+            },
+            "type": "decl",
+          },
+          Object {
+            "end": Object {
+              "column": 14,
+              "line": 3,
+              "sourceId": "scopes/jsx-component/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 1,
+              "line": 3,
+              "sourceId": "scopes/jsx-component/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 14,
+              "line": 4,
+              "sourceId": "scopes/jsx-component/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 1,
+              "line": 4,
+              "sourceId": "scopes/jsx-component/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 14,
+              "line": 5,
+              "sourceId": "scopes/jsx-component/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 1,
+              "line": 5,
+              "sourceId": "scopes/jsx-component/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 14,
+              "line": 6,
+              "sourceId": "scopes/jsx-component/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 1,
+              "line": 6,
+              "sourceId": "scopes/jsx-component/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "import",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 7,
+      "sourceId": "scopes/jsx-component/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/jsx-component/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 7,
+      "sourceId": "scopes/jsx-component/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/jsx-component/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 7,
+      "sourceId": "scopes/jsx-component/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/jsx-component/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
 exports[`getScopes finds scope bindings in a module at line 7 column 0 1`] = `
 Array [
   Object {
