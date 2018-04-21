@@ -171,9 +171,12 @@ export function setProjectDirectoryRoot(newRoot: string) {
   return ({ dispatch, getState }: ThunkArgs) => {
     const curRoot = getProjectDirectoryRoot(getState());
     if (newRoot && curRoot) {
-      const temp = newRoot.split("/");
-      temp.splice(0, 2);
-      newRoot = `${curRoot}/${temp.join("/")}`;
+      const temp1 = newRoot.replace(/\/+/g, "/").split("/");
+      const temp2 = curRoot.replace(/\/+/g, "/").split("/");
+      if (temp1[0] !== temp2[0]) {
+        temp1.splice(0, 2);
+        newRoot = `${curRoot}/${temp1.join("/")}`;
+      }
     }
 
     dispatch({
