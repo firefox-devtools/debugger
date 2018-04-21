@@ -305,6 +305,14 @@ async function setPausePoints(sourceId: SourceId, pausePoints: PausePoints) {
   return sendPacket({ to: sourceId, type: "setPausePoints", pausePoints });
 }
 
+async function setSkipPausing(shouldSkip: boolean) {
+  return threadClient.request({
+    skip: shouldSkip,
+    to: threadClient.actor,
+    type: "skipPausing"
+  });
+}
+
 function interrupt(): Promise<*> {
   return threadClient.interrupt();
 }
@@ -407,7 +415,8 @@ const clientCommands = {
   fetchSources,
   fetchWorkers,
   sendPacket,
-  setPausePoints
+  setPausePoints,
+  setSkipPausing
 };
 
 export { setupCommands, clientCommands };

@@ -98,9 +98,8 @@ function onEnter(node: BabelNode, ancestors: SimplePath[], state) {
 
     if (isCall(value) || t.isFunction(parentNode)) {
       return addEmptyPoint(state, startLocation);
-    } else {
-      return addStopPoint(state, startLocation);
     }
+    return addStopPoint(state, startLocation);
   }
 
   if (isCall(node)) {

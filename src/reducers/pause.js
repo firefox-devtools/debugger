@@ -62,7 +62,8 @@ export type PauseState = {
   canRewind: boolean,
   debuggeeUrl: string,
   command: Command,
-  previousLocation: ?MappedLocation
+  previousLocation: ?MappedLocation,
+  skipPausing: boolean
 };
 
 export const createPauseState = (): PauseState => ({
@@ -82,7 +83,8 @@ export const createPauseState = (): PauseState => ({
   canRewind: false,
   debuggeeUrl: "",
   command: null,
-  previousLocation: null
+  previousLocation: null,
+  skipPausing: prefs.skipPausing
 });
 
 const emptyPauseState = {
@@ -245,6 +247,13 @@ function update(
 
     case "NAVIGATE":
       return { ...state, ...emptyPauseState, debuggeeUrl: action.url };
+
+    case "TOGGLE_SKIP_PAUSING": {
+      const { skipPausing } = action;
+      prefs.skipPausing = skipPausing;
+
+      return { ...state, skipPausing };
+    }
   }
 
   return state;
@@ -429,6 +438,10 @@ export const getSelectedFrame = createSelector(
 
 export function getDebuggeeUrl(state: OuterState) {
   return state.pause.debuggeeUrl;
+}
+
+export function getSkipPausing(state: OuterState) {
+  return state.pause.skipPausing;
 }
 
 // NOTE: currently only used for chrome

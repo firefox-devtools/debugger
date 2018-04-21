@@ -54,7 +54,7 @@ export function findEmptyLines(
   const breakpoints = pausePointsList.filter(point => point.types.break);
   const breakpointLines = breakpoints.map(point => point.location.line);
 
-  if (!selectedSource.text) {
+  if (!selectedSource.text || breakpointLines.length == 0) {
     return [];
   }
 

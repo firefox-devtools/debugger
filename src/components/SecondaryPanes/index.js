@@ -35,6 +35,7 @@ import Accordion from "../shared/Accordion";
 import CommandBar from "./CommandBar";
 import UtilsBar from "./UtilsBar";
 import FrameworkComponent from "./FrameworkComponent";
+import ReactComponentStack from "./ReactComponentStack";
 
 import Scopes from "./Scopes";
 
@@ -109,7 +110,7 @@ class SecondaryPanes extends Component<Props, State> {
     const isIndeterminate =
       !breakpointsDisabled && breakpoints.some(x => x.disabled);
 
-    if (breakpoints.size == 0) {
+    if (features.skipPausing || breakpoints.size == 0) {
       return null;
     }
 
@@ -171,6 +172,17 @@ class SecondaryPanes extends Component<Props, State> {
       opened: prefs.scopesVisible,
       onToggle: opened => {
         prefs.scopesVisible = opened;
+      }
+    };
+  }
+
+  getComponentStackItem() {
+    return {
+      header: L10N.getStr("components.header"),
+      component: <ReactComponentStack />,
+      opened: prefs.componentStackVisible,
+      onToggle: opened => {
+        prefs.componentStackVisible = opened;
       }
     };
   }
@@ -275,6 +287,12 @@ class SecondaryPanes extends Component<Props, State> {
 
       if (this.props.horizontal) {
         if (extra && extra.react) {
+          if (
+            features.componentStack &&
+            extra.react.componentStack.length > 1
+          ) {
+            items.push(this.getComponentStackItem());
+          }
           items.push(this.getComponentItem());
         }
 
