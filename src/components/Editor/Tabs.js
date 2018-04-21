@@ -77,7 +77,7 @@ class Tabs extends PureComponent<Props, State> {
   }
 
   componentDidMount() {
-    this.updateHiddenTabs();
+    window.requestIdleCallback(this.updateHiddenTabs);
     window.addEventListener("resize", this.onResize);
   }
 
@@ -89,7 +89,7 @@ class Tabs extends PureComponent<Props, State> {
    * Updates the hiddenSourceTabs state, by
    * finding the source tabs which are wrapped and are not on the top row.
    */
-  updateHiddenTabs() {
+  updateHiddenTabs = () => {
     if (!this.refs.sourceTabs) {
       return;
     }
@@ -102,7 +102,7 @@ class Tabs extends PureComponent<Props, State> {
     }
 
     this.setState({ hiddenTabs });
-  }
+  };
 
   toggleSourcesDropdown(e) {
     this.setState(prevState => ({
