@@ -78,7 +78,7 @@ class FrameworkComponent extends PureComponent<Props> {
 
   render() {
     const { selectedFrame } = this.props;
-    if (isReactComponent(selectedFrame.this)) {
+    if (selectedFrame && isReactComponent(selectedFrame.this)) {
       return this.renderReactComponent();
     }
 
