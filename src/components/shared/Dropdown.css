@@ -6,7 +6,7 @@
   --width: 150px;
   background: var(--theme-body-background);
   border: 1px solid var(--theme-splitter-color);
-  border-radius: 10px;
+  border-radius: 4px;
   box-shadow: 0 4px 4px 0 var(--search-overlays-semitransparent);
   max-height: 300px;
   position: absolute;
