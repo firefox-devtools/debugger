@@ -170,7 +170,7 @@ export function clearProjectDirectoryRoot() {
 export function setProjectDirectoryRoot(newRoot: string) {
   return ({ dispatch, getState }: ThunkArgs) => {
     const curRoot = getProjectDirectoryRoot(getState());
-    if (newRoot && curRoot) {
+    if (newRoot || curRoot) {
       const temp = newRoot.split("/");
       temp.splice(0, 2);
       newRoot = `${curRoot}/${temp.join("/")}`;
