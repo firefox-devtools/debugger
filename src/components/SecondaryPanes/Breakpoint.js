@@ -3,9 +3,11 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
+
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import classnames from "classnames";
+import { isGeneratedId } from "devtools-source-map";
 
 import CloseButton from "../shared/Button/Close";
 
@@ -14,9 +16,11 @@ import { features } from "../../utils/prefs";
 
 import type { LocalBreakpoint } from "./Breakpoints";
 import type SourceEditor from "../../utils/editor/source-editor";
+import type { Source } from "../../types";
 
 type Props = {
   breakpoint: LocalBreakpoint,
+  selectedSource: ?Source,
   onClick: Function,
   onContextMenu: Function,
   onChange: Function,
@@ -57,6 +61,7 @@ class Breakpoint extends Component<Props> {
 
     return (
       !prevBreakpoint ||
+      this.props.selectedSource != nextProps.selectedSource ||
       (prevBreakpoint.text != nextBreakpoint.text ||
         prevBreakpoint.disabled != nextBreakpoint.disabled ||
         prevBreakpoint.condition != nextBreakpoint.condition ||
@@ -66,9 +71,22 @@ class Breakpoint extends Component<Props> {
   }
 
   getBreakpointText() {
-    const { breakpoint } = this.props;
+    const { breakpoint, selectedSource } = this.props;
+    const { condition, text, originalText } = breakpoint;
 
-    return breakpoint.condition || breakpoint.text;
+    if (condition) {
+      return condition;
+    }
+
+    if (
+      !selectedSource ||
+      isGeneratedId(selectedSource.id) ||
+      originalText.length == 0
+    ) {
+      return text;
+    }
+
+    return originalText;
   }
 
   setupEditor() {
