@@ -39,6 +39,11 @@ cases(
       locations: [[7, 0]]
     },
     {
+      name: "finds scope bindings in a JSX element",
+      file: "scopes/jsx-component",
+      locations: [[2, 0]]
+    },
+    {
       name: "finds scope bindings for complex binding nesting",
       file: "scopes/complex-nesting",
       locations: [[16, 4], [20, 6]]
