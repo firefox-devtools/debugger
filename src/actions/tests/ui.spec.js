@@ -118,4 +118,11 @@ describe("setProjectDirectoryRoot", () => {
 
     expect(firstSource.relativeUrl).toEqual("scopes.js");
   });
+
+  it("should set the selected directory as the root directory ", () => {
+    const { dispatch, getState } = createStore();
+    dispatch(actions.setProjectDirectoryRoot("webpack://"));
+    dispatch(actions.setProjectDirectoryRoot("webpack://app"));
+    expect(getProjectDirectoryRoot(getState())).toBe("webpack://app");
+  });
 });
