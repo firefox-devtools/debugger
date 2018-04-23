@@ -202,14 +202,26 @@ class Breakpoints extends Component<Props> {
         .map(url => {
           const split = getRawSourceURL(url).split("/");
           const file = split[split.length - 1];
+          const groupBreakpoints = groupedBreakpoints[url].filter(
+            bp => !bp.hidden && (bp.text || bp.originalText)
+          );
+
+          if (!groupBreakpoints.length) {
+            return null;
+          }
 
           return [
-            <div className="breakpoint-heading" title={url} key={url}>
+            <div
+              className="breakpoint-heading"
+              title={url}
+              key={url}
+              onClick={() =>
+                this.props.selectLocation(groupBreakpoints[0].location)
+              }
+            >
               {file}
             </div>,
-            ...groupedBreakpoints[url]
-              .filter(bp => !bp.hidden && bp.text)
-              .map(bp => this.renderBreakpoint(bp))
+            ...groupBreakpoints.map(bp => this.renderBreakpoint(bp))
           ];
         })
     ];
