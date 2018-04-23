@@ -54,7 +54,7 @@
 .accordion ._content {
   border-bottom: 1px solid var(--theme-splitter-color);
   font-size: 12px;
-   padding: 3.5px;
+   padding: 4px;
 }
 
 .accordion div:last-child ._content {
