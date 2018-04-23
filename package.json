@@ -70,7 +70,7 @@
     "codemirror": "^5.28.0",
     "devtools-launchpad": "^0.0.119",
     "devtools-linters": "^0.0.4",
-    "devtools-reps": "^0.22.0",
+    "devtools-reps": "^0.23.0",
     "devtools-source-map": "0.16.0",
     "devtools-splitter": "^0.0.6",
     "devtools-utils": "^0.0.12",
