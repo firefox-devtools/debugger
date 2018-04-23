@@ -49,7 +49,7 @@ img.skipPausing {
 }
 
 .command-bar img.stepOut {
-  mask: url(/images/stepOut.svg) no-repeat;
+  mask: url(/mc/command-chevron.svg) no-repeat;
 }
 
 .command-bar img.resume {
