@@ -53,6 +53,7 @@ type Props = {
   breakpoints: BreakpointsMap,
   sources: SourcesMap,
   selectedSource: Source,
+  selectSourceURL: (string, Object) => void,
   sourcesMetaData: SourceMetaDataMap,
   enableBreakpoint: Location => void,
   disableBreakpoint: Location => void,
@@ -191,17 +192,10 @@ class Breakpoints extends Component<Props> {
 
     return [
       ...Object.keys(groupedBreakpoints)
-        .sort((urlA, urlB) => {
-          const urlASplit = urlA.split("/");
-          const urlBSplit = urlB.split("/");
-
-          return (
-            urlASplit[urlASplit.length - 1] > urlBSplit[urlBSplit.length - 1]
-          );
-        })
+        .sort((urlA, urlB) => urlA.split("/").pop() > urlB.split("/").pop())
         .map(url => {
           const split = getRawSourceURL(url).split("/");
-          const file = split[split.length - 1];
+          const file = split[split.length - 1].split("?")[0];
           const groupBreakpoints = groupedBreakpoints[url].filter(
             bp => !bp.hidden && (bp.text || bp.originalText)
           );
@@ -215,9 +209,7 @@ class Breakpoints extends Component<Props> {
               className="breakpoint-heading"
               title={url}
               key={url}
-              onClick={() =>
-                this.props.selectLocation(groupBreakpoints[0].location)
-              }
+              onClick={() => this.props.selectSourceURL(url)}
             >
               {file}
             </div>,
