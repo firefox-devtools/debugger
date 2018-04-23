@@ -7,6 +7,11 @@ import { shallow } from "enzyme";
 import Outline from "../../components/PrimaryPanes/Outline";
 import devtoolsConfig from "devtools-config";
 import { makeSymbolDeclaration } from "../../utils/test-head";
+import { showMenu } from "devtools-contextmenu";
+import { copyToTheClipboard } from "../../utils/clipboard";
+
+jest.mock("devtools-contextmenu", () => ({ showMenu: jest.fn() }));
+jest.mock("../../utils/clipboard", () => ({ copyToTheClipboard: jest.fn() }));
 
 const sourceId = "id";
 
@@ -31,6 +36,11 @@ describe("Outline", () => {
   beforeEach(() => {
     devtoolsConfig.isEnabled = jest.fn();
     devtoolsConfig.isEnabled.mockReturnValue(true);
+  });
+
+  afterEach(() => {
+    copyToTheClipboard.mockClear();
+    showMenu.mockClear();
   });
 
   it("should render a list of functions when properties change", async () => {
@@ -69,5 +79,9 @@ describe("Outline", () => {
     const listItem = component.find("li").first();
     listItem.simulate("click");
     expect(selectLocation).toHaveBeenCalledWith({ line: 12, sourceId });
+  });
+
+  describe("onContextMenu", () => {
+
   });
 });
