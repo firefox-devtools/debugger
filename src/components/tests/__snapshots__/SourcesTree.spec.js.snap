@@ -261,7 +261,7 @@ exports[`SourcesTree on receiving new props updates list items updates list item
 </div>
 `;
 
-exports[`SourcesTree renderItem should not show domain item if projectRoot is not empty even if depth is 0 1`] = `
+exports[`SourcesTree renderItem should not show domain item when the projectRoot exists 1`] = `
 <div
   className="node"
   onClick={[Function]}

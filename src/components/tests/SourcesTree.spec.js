@@ -36,14 +36,14 @@ const defaultSources = I.Map({
   )
 });
 
-const sourceThree = I.Map({
+const singleMockSource = I.Map({
   "server1.conn13.child1/41": createMockSource(
     "server1.conn13.child1/41",
     "http://mdn.com/three.js"
   )
 });
 
-const itemOne = createMockItem(
+const singleMockItem = createMockItem(
   "http://mdn.com/one.js",
   "one.js",
   I.Map({ id: "server1.conn13.child1/39" })
@@ -63,7 +63,7 @@ describe("SourcesTree", () => {
 
   describe("When loading initial source", () => {
     it("Shows the tree with one.js, two.js and three.js expanded", async () => {
-      const { component, props } = render({});
+      const { component, props } = render();
 
       await component.setProps({
         ...props,
@@ -76,7 +76,7 @@ describe("SourcesTree", () => {
 
   describe("After changing expanded nodes", () => {
     it("Shows the tree with four.js, five.js and six.js expanded", async () => {
-      const { component, props } = render({});
+      const { component, props } = render();
 
       await component.setProps({
         ...props,
@@ -90,25 +90,25 @@ describe("SourcesTree", () => {
   describe("on receiving new props", () => {
     let component;
     let props;
-    let currState;
+    let beforeState;
 
     beforeEach(() => {
-      const rendered = render({});
+      const rendered = render();
       component = rendered.component;
       props = rendered.props;
-      currState = component.state();
+      beforeState = component.state();
     });
 
     describe("recreates tree", () => {
       it("does not recreate tree if no new source is added", async () => {
-        props.sources = sourceThree;
+        props.sources = singleMockSource;
 
         await component.setProps({
           ...props
         });
 
         expect(component.state("uncollapsedTree")).toEqual(
-          currState.uncollapsedTree
+          beforeState.uncollapsedTree
         );
       });
 
@@ -132,7 +132,7 @@ describe("SourcesTree", () => {
       it("updates sources if sources are emptied", async () => {
         props.sources = I.Map({});
 
-        expect(currState.uncollapsedTree.contents).toHaveLength(1);
+        expect(beforeState.uncollapsedTree.contents).toHaveLength(1);
 
         await component.setProps({
           ...props
@@ -150,7 +150,7 @@ describe("SourcesTree", () => {
         });
         props.projectRoot = "mozilla";
 
-        expect(currState.uncollapsedTree.contents[0].contents).toHaveLength(3);
+        expect(beforeState.uncollapsedTree.contents[0].contents).toHaveLength(3);
 
         await component.setProps({
           ...props
@@ -162,10 +162,10 @@ describe("SourcesTree", () => {
       });
 
       it("recreates tree if debugeeUrl is changed", async () => {
-        props.sources = sourceThree;
+        props.sources = singleMockSource;
         props.debuggeeUrl = "mozilla";
 
-        expect(currState.uncollapsedTree.contents[0].contents).toHaveLength(3);
+        expect(beforeState.uncollapsedTree.contents[0].contents).toHaveLength(3);
 
         await component.setProps({
           ...props
@@ -178,7 +178,7 @@ describe("SourcesTree", () => {
     });
 
     describe("updates list items", () => {
-      beforeEach(() => {
+      afterEach(() => {
         props.selectLocation.mockClear();
       });
 
@@ -196,7 +196,7 @@ describe("SourcesTree", () => {
 
     describe("updates highlighted items", () => {
       it("updates highlightItems if selectedSource changes", async () => {
-        props.selectedSource = sourceThree;
+        props.selectedSource = singleMockSource;
         await component.setProps({
           ...props
         });
@@ -207,13 +207,13 @@ describe("SourcesTree", () => {
 
   describe("focusItem", () => {
     it("update the focused item", async () => {
-      const { component } = render({});
+      const { component } = render();
 
       expect(component.state("focusedItem")).toEqual(null);
 
-      await component.instance().focusItem(itemOne);
+      await component.instance().focusItem(singleMockItem);
 
-      expect(component.state("focusedItem")).toEqual(itemOne);
+      expect(component.state("focusedItem")).toEqual(singleMockItem);
     });
   });
 
@@ -245,7 +245,7 @@ describe("SourcesTree", () => {
     });
   });
 
-  describe("onContextMenu", () => {
+  describe("onContextMenu of the tree", () => {
     let component;
     let props;
 
@@ -408,14 +408,14 @@ describe("SourcesTree", () => {
     it("should show source item with source icon", async () => {
       const node = component
         .instance()
-        .renderItem(itemOne, 1, false, null, false, { setExpanded: jest.fn() });
+        .renderItem(singleMockItem, 1, false, null, false, { setExpanded: jest.fn() });
       expect(node).toMatchSnapshot();
     });
 
     it("should show source item with source icon with focus", async () => {
       const node = component
         .instance()
-        .renderItem(itemOne, 1, true, null, false, { setExpanded: jest.fn() });
+        .renderItem(singleMockItem, 1, true, null, false, { setExpanded: jest.fn() });
       expect(node).toMatchSnapshot();
     });
 
@@ -444,8 +444,7 @@ describe("SourcesTree", () => {
     });
 
     it(
-      "should not show domain item if projectRoot is not empty " +
-        "even if depth is 0",
+      "should not show domain item when the projectRoot exists",
       async () => {
         const componentWithRoot = render({
           projectRoot: "project-root"
@@ -453,19 +452,19 @@ describe("SourcesTree", () => {
 
         const node = componentWithRoot
           .instance()
-          .renderItem(itemOne, 0, false, null, false, {
+          .renderItem(singleMockItem, 0, false, null, false, {
             setExpanded: jest.fn()
           });
         expect(node).toMatchSnapshot();
       }
     );
 
-    it("should show menu on contextmenu event", async () => {
+    it("should show menu on contextmenu of an item", async () => {
       const event = { event: "contextmenu" };
       const node = shallow(
         component
           .instance()
-          .renderItem(itemOne, 1, true, null, false, { setExpanded: jest.fn() })
+          .renderItem(singleMockItem, 1, true, null, false, { setExpanded: jest.fn() })
       );
 
       component.instance().onContextMenu = jest.fn(() => {});
@@ -473,7 +472,7 @@ describe("SourcesTree", () => {
       node.simulate("contextmenu", event);
       expect(component.instance().onContextMenu).toHaveBeenCalledWith(
         event,
-        itemOne
+       singleMockItem 
       );
     });
 
@@ -481,14 +480,14 @@ describe("SourcesTree", () => {
       const event = { event: "click" };
       const setExpanded = jest.fn();
       const node = shallow(
-        component.instance().renderItem(itemOne, 1, true, null, false, {
+        component.instance().renderItem(singleMockItem, 1, true, null, false, {
           setExpanded: setExpanded
         })
       );
 
       node.simulate("click", event);
 
-      expect(component.state("focusedItem")).toEqual(itemOne);
+      expect(component.state("focusedItem")).toEqual(singleMockItem);
       expect(props.selectLocation).toHaveBeenCalledWith({
         sourceId: "server1.conn13.child1/39"
       });
@@ -530,7 +529,7 @@ describe("SourcesTree", () => {
     });
 
     it("should select item with no children", async () => {
-      component.instance().selectItem(itemOne);
+      component.instance().selectItem(singleMockItem);
       expect(selectLocation).toHaveBeenCalledWith({
         sourceId: "server1.conn13.child1/39"
       });
@@ -543,7 +542,7 @@ describe("SourcesTree", () => {
     });
 
     it("should select item on enter", async () => {
-      await component.instance().focusItem(itemOne);
+      await component.instance().focusItem(singleMockItem);
       await component.update();
       await component
         .find(".sources-list")
@@ -579,7 +578,7 @@ describe("SourcesTree", () => {
       const children = component
         .find("ManagedTree")
         .props()
-        .getChildren(itemOne);
+        .getChildren(singleMockItem);
       expect(children).toEqual([]);
     });
 
@@ -629,7 +628,7 @@ describe("SourcesTree", () => {
     });
 
     it("should return path for item", async () => {
-      const path = component.instance().getPath(itemOne);
+      const path = component.instance().getPath(singleMockItem);
       expect(path).toEqual("http://mdn.com/one.js/one.js/");
     });
 
