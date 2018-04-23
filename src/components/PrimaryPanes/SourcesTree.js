@@ -350,8 +350,8 @@ class SourcesTree extends Component<Props, State> {
     if (isCustomRoot) {
       let rootLabel = projectRoot.split("/").pop();
       if (sourceTree.contents[0]) {
-        rootLabel = sourceTree.contents[0].name;
-        roots = () => sourceTree.contents[0].contents;
+        rootLabel = sourceTree.contents[0].contents[0].name;
+        roots = () => sourceTree.contents[0].contents[0].contents;
       }
 
       clearProjectRootButton = (
