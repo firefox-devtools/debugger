@@ -44,4 +44,17 @@ describe("mapOriginalExpression", () => {
     });
     expect(generatedExpression).toEqual("a + b");
   });
+
+  it("shadowed bindings", () => {
+    const generatedExpression = mapOriginalExpression(
+      "window.thing = function fn(){ var a; a; b; }; a; b; ",
+      {
+        a: "_a",
+        b: "_b"
+      }
+    );
+    expect(generatedExpression).toEqual(
+      "window.thing = function fn() {\n  var a;\n  a;\n  _b;\n};\n\n_a;\n_b;"
+    );
+  });
 });

@@ -142,6 +142,10 @@ export function parseSourceScopes(sourceId: SourceId): ?Array<ParsedScope> {
     return null;
   }
 
+  return buildScopeList(ast, sourceId);
+}
+
+export function buildScopeList(ast: Node, sourceId: SourceId) {
   const { global, lexical } = createGlobalScope(ast, sourceId);
 
   const state = {
