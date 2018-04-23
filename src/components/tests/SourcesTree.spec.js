@@ -321,7 +321,7 @@ describe("SourcesTree", () => {
           label: "Copy source URI"
         }
       ];
-      await component.instance().onContextMenu(event, file);
+      await component.instance().onContextMenu(event, singleMockItem);
       expect(showMenu).toHaveBeenCalledWith(event, menuOptions);
 
       expect(event.preventDefault).toHaveBeenCalled();
