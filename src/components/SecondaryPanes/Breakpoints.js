@@ -197,8 +197,7 @@ class Breakpoints extends Component<Props> {
           const file = getRawSourceURL(url)
             .split("/")
             .pop()
-            .split("?")
-            .pop();
+            .split("?")[0];
           const groupBreakpoints = groupedBreakpoints[url].filter(
             bp => !bp.hidden && (bp.text || bp.originalText)
           );
