@@ -23,6 +23,11 @@ const shouldSymLink = args.symlink;
 const updateAssets = args.assets;
 const watch = args.watch;
 
+function moveFile(src, dest, opts) {
+  copyFile(src, dest, opts);
+  rimraf.sync(src);
+}
+
 function updateFile(filename, cbk) {
   var text = fs.readFileSync(filename, "utf-8");
   fs.writeFileSync(filename, cbk(text), "utf-8");
@@ -208,11 +213,13 @@ function start() {
 
   const debuggerPath = "devtools/client/debugger/new"
 
-  rimraf.sync(path.join(
-    mcPath,
-    debuggerPath,
-    "test/mochitest/examples/babel/source-maps-semantics.md"
-  ));
+  if (!mcPath.startsWith(projectPath)) {
+    rimraf.sync(path.join(
+      mcPath,
+      debuggerPath,
+      "test/mochitest/examples/babel/source-maps-semantics.md"
+    ));
+  }
 
 
   makeBundle({
@@ -221,15 +228,29 @@ function start() {
     watch,
     updateAssets
   })
-    .then(() => {
-      console.log("done: copy assets");
-    })
+    .then(() => onBundleFinish({mcPath, debuggerPath, projectPath}))
     .catch(err => {
       console.log(
         "Uhoh, something went wrong. The error was written to assets-error.log"
       );
       fs.writeFileSync("assets-error.log", JSON.stringify(err, null, 2));
     });
+}
+
+function onBundleFinish({mcPath, debuggerPath, projectPath}) {
+  console.log("done: copy assets");
+
+  moveFile(
+    path.join(mcPath, debuggerPath, "source-map-worker.js"),
+    path.join(mcPath, "devtools/client/shared/source-map/worker.js"),
+    {cwd: projectPath}
+  );
+
+  moveFile(
+    path.join(mcPath, debuggerPath, "source-map-index.js"),
+    path.join(mcPath, "devtools/client/shared/source-map/index.js"),
+    {cwd: projectPath}
+  );
 }
 
 start();
