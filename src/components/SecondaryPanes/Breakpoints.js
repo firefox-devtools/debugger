@@ -21,6 +21,7 @@ import {
   getSourceInSources,
   getBreakpoints,
   getPauseReason,
+  getSelectedSource,
   getTopFrame
 } from "../../selectors";
 import { isInterrupted } from "../../utils/pause";
@@ -51,6 +52,7 @@ type BreakpointsMap = I.Map<string, LocalBreakpoint>;
 type Props = {
   breakpoints: BreakpointsMap,
   sources: SourcesMap,
+  selectedSource: Source,
   sourcesMetaData: SourceMetaDataMap,
   enableBreakpoint: Location => void,
   disableBreakpoint: Location => void,
@@ -127,10 +129,13 @@ class Breakpoints extends Component<Props> {
   }
 
   renderBreakpoint(breakpoint) {
+    const { selectedSource } = this.props;
+
     return (
       <Breakpoint
         key={breakpoint.locationId}
         breakpoint={breakpoint}
+        selectedSource={selectedSource}
         onClick={() => this.selectBreakpoint(breakpoint)}
         onContextMenu={e =>
           showContextMenu({ ...this.props, breakpoint, contextMenuEvent: e })
@@ -235,6 +240,9 @@ const _getBreakpoints = createSelector(
 );
 
 export default connect(
-  (state, props) => ({ breakpoints: _getBreakpoints(state) }),
+  (state, props) => ({
+    breakpoints: _getBreakpoints(state),
+    selectedSource: getSelectedSource(state)
+  }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Breakpoints);
