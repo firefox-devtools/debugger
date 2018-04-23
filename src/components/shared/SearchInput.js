@@ -182,7 +182,7 @@ class SearchInput extends Component<Props, State> {
     return (
       <div
         className={classnames("search-shadow", {
-          "focused": this.state.inputFocused
+          focused: this.state.inputFocused
         })}
       >
         <div
