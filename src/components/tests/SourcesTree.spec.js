@@ -54,11 +54,7 @@ let defaultProps;
 let defaultState;
 let componentWithRoot;
 let propsWithRoot;
-
-const emptyComponent = render({
-  projectRoot: "custom",
-  sources: I.Map()
-}).component;
+let emptyComponent;
 
 const mockRootDirectory = {
   contents: [],
@@ -89,6 +85,11 @@ describe("SourcesTree", () => {
     });
     componentWithRoot = rendered.component;
     propsWithRoot = rendered.props;
+
+    emptyComponent = render({
+      projectRoot: "custom",
+      sources: I.Map()
+    }).component;
   });
 
   afterEach(() => {
