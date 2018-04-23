@@ -44,15 +44,13 @@ class Breakpoint extends Component<Props> {
     this.setupEditor();
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps: Props) {
+    this.destroyEditor();
     this.setupEditor();
   }
 
   componentWillUnmount() {
-    if (this.editor) {
-      this.editor.destroy();
-      this.editor = null;
-    }
+    this.destroyEditor();
   }
 
   shouldComponentUpdate(nextProps: Props) {
@@ -87,6 +85,13 @@ class Breakpoint extends Component<Props> {
     }
 
     return originalText;
+  }
+
+  destroyEditor() {
+    if (this.editor) {
+      this.editor.destroy();
+      this.editor = null;
+    }
   }
 
   setupEditor() {
