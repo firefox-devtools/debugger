@@ -68,12 +68,6 @@ const componentWithRoot = render({
   projectRoot: "project-root"
 }).component;
 
-const file = {
-  contents: new Map(),
-  name: "file",
-  path: "folder/file.js"
-};
-
 const rootDirectory = {
   contents: new Map(),
   name: "root",
