@@ -1,0 +1,128 @@
+.theme-light {
+  --gutter-hover-background-color: #dde1e4;
+  --empty-gutter-hover-background-color: #f2f2f3;
+  --empty-linenumber-color: var(--grey-40);
+  --active-linenumber-color: var(--grey-50);
+}
+
+.theme-dark {
+  --gutter-hover-background-color: #494959;
+  --empty-gutter-hover-background-color: #202022;
+  --empty-linenumber-color: var(--grey-50);
+  --active-linenumber-color: var(--grey-40);
+}
+
+.editor.new-breakpoint svg {
+  fill: var(--theme-selection-background);
+  width: 60px;
+  height: 14px;
+  position: absolute;
+  top: 0px;
+  right: -4px;
+}
+
+.editor .breakpoint {
+  position: absolute;
+  right: -2px;
+}
+
+.editor.new-breakpoint.folding-enabled svg {
+  right: -16px;
+}
+
+.new-breakpoint.has-condition svg {
+  fill: var(--theme-graphs-yellow);
+}
+
+.editor.new-breakpoint.breakpoint-disabled svg {
+  opacity: 0.3;
+}
+
+.editor.column-breakpoint svg {
+  fill: var(--theme-selection-background);
+  vertical-align: middle;
+  width: 17px;
+  height: 14px;
+}
+
+.editor.column-breakpoint.breakpoint-disabled svg {
+  opacity: 0.3;
+}
+
+.editor-wrapper
+  .cm-s-mozilla
+  .CodeMirror-gutter-wrapper
+  .CodeMirror-linenumber {
+  font-size: 11px;
+  line-height: 14px;
+  color: var(--empty-linenumber-color);
+}
+
+.gutter-hover
+  :not(.empty-line):not(.new-breakpoint)
+  > .CodeMirror-gutter-wrapper
+  .CodeMirror-linenumber {
+  animation: highlight-gutter 0.2s normal forwards;
+}
+
+@keyframes highlight-gutter {
+  0% {
+    color: var(--empty-linenumber-color);
+  }
+  100% {
+    color: var(--active-linenumber-color);
+  }
+}
+
+.folding-enabled .CodeMirror-linenumber {
+  text-align: left;
+  padding: 0 0 0 2px;
+}
+
+/* set the linenumber white when there is a breakpoint */
+.cm-s-mozilla
+  .new-breakpoint
+  .CodeMirror-gutter-wrapper
+  .CodeMirror-linenumber {
+  color: white;
+}
+
+/* move the breakpoint below the other gutter elements */
+.new-breakpoint .CodeMirror-gutter-elt:nth-child(2) {
+  z-index: 0;
+}
+
+.editor-wrapper :not(.new-breakpoint) > .CodeMirror-gutter-wrapper:hover {
+  width: 60px;
+  height: 13px;
+  left: -55px !important;
+  mask: url(/images/breakpoint.svg) no-repeat;
+  mask-size: 100%;
+  mask-position: 0 1px;
+  cursor: default;
+}
+
+.editor-wrapper
+  :not(.empty-line):not(.new-breakpoint)
+  > .CodeMirror-gutter-wrapper:hover {
+  background-color: var(--gutter-hover-background-color) !important;
+}
+
+.editor-wrapper
+  .empty-line:not(.new-breakpoint)
+  > .CodeMirror-gutter-wrapper:hover {
+  background-color: var(--empty-gutter-hover-background-color) !important;
+}
+
+:not(.new-breakpoint)
+  > .CodeMirror-gutter-wrapper:hover
+  > .CodeMirror-linenumber {
+  left: auto !important;
+  right: 6px;
+}
+
+.editor-wrapper .breakpoints {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
