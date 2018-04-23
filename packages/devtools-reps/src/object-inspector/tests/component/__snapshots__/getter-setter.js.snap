@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ObjectInspector - getters & setters renders getters and setters as expected 1`] = `
+"
+▼ x: Getter & Setter
+|  ▶︎ <get>: function x()
+|  ▶︎ <set>: function x()
+"
+`;
+
+exports[`ObjectInspector - getters & setters renders getters as expected 1`] = `
+"
+▼ x: Getter
+|  ▶︎ <get>: function x()
+"
+`;
+
+exports[`ObjectInspector - getters & setters renders setters as expected 1`] = `
+"
+▼ x: Setter
+|  ▶︎ <set>: function x()
+"
+`;

@@ -1,0 +1,44 @@
+machine:
+  node:
+    version: 7.0
+  services:
+    - docker
+  environment:
+    DOWNLOADS_PATH: "$HOME/downloads"
+    YARN_PATH: "$HOME/.yarn"
+    YARN_VERSION: 0.19.1
+    PATH: "${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
+  post:
+    - mkdir -p $DOWNLOADS_PATH
+    - mkdir -p $YARN_PATH
+checkout:
+  post:
+    - cp configs/ci.json configs/local.json
+
+test:
+  override:
+    - jest
+  post:
+    - npm run lint-js
+    - npm run license-check
+
+dependencies:
+  pre:
+    - ./bin/install-yarn
+  cache_directories:
+    - ~/downloads
+    - ~/.cache/yarn
+    - ~/.yarn
+  override:
+    - yarn install
+    - ./bin/update-docker
+
+general:
+  artifacts:
+    - "yarn-error.log"
+
+experimental:
+  notify:
+    branches:
+      only:
+        - master
