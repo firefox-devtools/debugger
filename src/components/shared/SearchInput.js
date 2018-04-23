@@ -152,17 +152,19 @@ class SearchInput extends Component<Props> {
     };
 
     return (
-      <div
-        className={classnames("search-field", size)}
-        role="combobox"
-        aria-haspopup="listbox"
-        aria-owns="result-list"
-        aria-expanded={expanded}
-      >
-        {this.renderSvg()}
-        <input {...inputProps} />
-        {summaryMsg && <div className="summary">{summaryMsg}</div>}
-        {this.renderNav()}
+      <div className="search-shadow">
+        <div
+          className={classnames("search-field", size)}
+          role="combobox"
+          aria-haspopup="listbox"
+          aria-owns="result-list"
+          aria-expanded={expanded}
+        >
+          {this.renderSvg()}
+          <input {...inputProps} />
+          {summaryMsg && <div className="summary">{summaryMsg}</div>}
+          {this.renderNav()}
+        </div>
       </div>
     );
   }

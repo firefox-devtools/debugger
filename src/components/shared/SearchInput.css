@@ -2,6 +2,11 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
+.search-shadow {
+  box-shadow: var(--theme-focus-box-shadow-textbox);
+  margin: 1px;
+}
+
 .search-field {
   position: relative;
 
@@ -44,17 +49,8 @@
   text-indent: 12px;
 }
 
-/*
 .search-field input:focus {
-  outline-width: 0;
-} */
-
-.search-field input:focus,
-:-moz-focusring {
   outline: none;
-
-  /* offset-x | offset-y | blur-radius | spread-radius | color */
-  box-shadow: 0 0 2px 1px rgb(91, 157, 217, 0.7);
 }
 
 .theme-dark .search-field input {
