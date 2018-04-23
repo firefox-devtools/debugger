@@ -64,8 +64,23 @@ const emptyComponent = render({
   sources: I.Map()
 }).component;
 
-describe("SourcesTree", () => {
+const componentWithRoot = render({
+  projectRoot: "project-root"
+}).component;
 
+const file = {
+  contents: new Map(),
+  name: "file",
+  path: "folder/file.js"
+};
+
+const rootDirectory = {
+  contents: new Map(),
+  name: "root",
+  path: "root/"
+};
+
+describe("SourcesTree", () => {
   beforeEach(() => {
     const rendered = render();
     defaultComponent = rendered.component;
@@ -144,7 +159,9 @@ describe("SourcesTree", () => {
           ...defaultProps
         });
 
-        expect(defaultComponent.state("uncollapsedTree").contents).toHaveLength(0);
+        expect(defaultComponent.state("uncollapsedTree").contents).toHaveLength(
+          0
+        );
       });
 
       it("recreates tree if projectRoot is changed", async () => {
@@ -156,7 +173,9 @@ describe("SourcesTree", () => {
         });
         defaultProps.projectRoot = "mozilla";
 
-        expect(defaultState.uncollapsedTree.contents[0].contents).toHaveLength(3);
+        expect(defaultState.uncollapsedTree.contents[0].contents).toHaveLength(
+          3
+        );
 
         await defaultComponent.setProps({
           ...defaultProps
@@ -171,7 +190,9 @@ describe("SourcesTree", () => {
         defaultProps.sources = singleMockSource;
         defaultProps.debuggeeUrl = "mozilla";
 
-        expect(defaultState.uncollapsedTree.contents[0].contents).toHaveLength(3);
+        expect(defaultState.uncollapsedTree.contents[0].contents).toHaveLength(
+          3
+        );
 
         await defaultComponent.setProps({
           ...defaultProps
@@ -250,18 +271,6 @@ describe("SourcesTree", () => {
     const event = {
       preventDefault: jest.fn(),
       stopPropagation: jest.fn()
-    };
-
-    const file = {
-      contents: new Map(),
-      name: "file",
-      path: "folder/file.js"
-    };
-
-    const rootDirectory = {
-      contents: new Map(),
-      name: "root",
-      path: "root/"
     };
 
     beforeEach(() => {
@@ -374,14 +383,18 @@ describe("SourcesTree", () => {
     it("should show icon for folder with arrow", async () => {
       const node = defaultComponent
         .instance()
-        .renderItem(directory, 1, false, null, false, { setExpanded: jest.fn() });
+        .renderItem(directory, 1, false, null, false, {
+          setExpanded: jest.fn()
+        });
       expect(node).toMatchSnapshot();
     });
 
     it("should show icon for folder with expanded arrow", async () => {
       const node = defaultComponent
         .instance()
-        .renderItem(directory, 1, false, null, true, { setExpanded: jest.fn() });
+        .renderItem(directory, 1, false, null, true, {
+          setExpanded: jest.fn()
+        });
       expect(node).toMatchSnapshot();
     });
 
@@ -395,14 +408,18 @@ describe("SourcesTree", () => {
     it("should show source item with source icon", async () => {
       const node = defaultComponent
         .instance()
-        .renderItem(singleMockItem, 1, false, null, false, { setExpanded: jest.fn() });
+        .renderItem(singleMockItem, 1, false, null, false, {
+          setExpanded: jest.fn()
+        });
       expect(node).toMatchSnapshot();
     });
 
     it("should show source item with source icon with focus", async () => {
       const node = defaultComponent
         .instance()
-        .renderItem(singleMockItem, 1, true, null, false, { setExpanded: jest.fn() });
+        .renderItem(singleMockItem, 1, true, null, false, {
+          setExpanded: jest.fn()
+        });
       expect(node).toMatchSnapshot();
     });
 
@@ -430,28 +447,23 @@ describe("SourcesTree", () => {
       expect(node).toMatchSnapshot();
     });
 
-    it(
-      "should not show domain item when the projectRoot exists",
-      async () => {
-        const componentWithRoot = render({
-          projectRoot: "project-root"
-        }).component;
-
-        const node = componentWithRoot
-          .instance()
-          .renderItem(singleMockItem, 0, false, null, false, {
-            setExpanded: jest.fn()
-          });
-        expect(node).toMatchSnapshot();
-      }
-    );
+    it("should not show domain item when the projectRoot exists", async () => {
+      const node = componentWithRoot
+        .instance()
+        .renderItem(singleMockItem, 0, false, null, false, {
+          setExpanded: jest.fn()
+        });
+      expect(node).toMatchSnapshot();
+    });
 
     it("should show menu on contextmenu of an item", async () => {
       const event = { event: "contextmenu" };
       const node = shallow(
-       defaultComponent 
+        defaultComponent
           .instance()
-          .renderItem(singleMockItem, 1, true, null, false, { setExpanded: jest.fn() })
+          .renderItem(singleMockItem, 1, true, null, false, {
+            setExpanded: jest.fn()
+          })
       );
 
       defaultComponent.instance().onContextMenu = jest.fn(() => {});
@@ -459,7 +471,7 @@ describe("SourcesTree", () => {
       node.simulate("contextmenu", event);
       expect(defaultComponent.instance().onContextMenu).toHaveBeenCalledWith(
         event,
-       singleMockItem 
+        singleMockItem
       );
     });
 
@@ -467,9 +479,11 @@ describe("SourcesTree", () => {
       const event = { event: "click" };
       const setExpanded = jest.fn();
       const node = shallow(
-        defaultComponent.instance().renderItem(singleMockItem, 1, true, null, false, {
-          setExpanded: setExpanded
-        })
+        defaultComponent
+          .instance()
+          .renderItem(singleMockItem, 1, true, null, false, {
+            setExpanded: setExpanded
+          })
       );
 
       node.simulate("click", event);
@@ -485,9 +499,11 @@ describe("SourcesTree", () => {
       const event = { event: "click" };
       const setExpanded = jest.fn();
       const node = shallow(
-       defaultComponent 
+        defaultComponent
           .instance()
-          .renderItem(directory, 1, true, null, false, { setExpanded: setExpanded })
+          .renderItem(directory, 1, true, null, false, {
+            setExpanded: setExpanded
+          })
       );
 
       node.simulate("click", event);
