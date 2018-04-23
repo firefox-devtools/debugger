@@ -5,3 +5,4 @@ src/test/unit-sources/**
 src/**/fixtures/**
 src/test/mochitest/**
 bin/
+packages/**/fixtures/**
