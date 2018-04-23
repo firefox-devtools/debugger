@@ -53,23 +53,36 @@ html[dir="rtl"] .editor-mount {
 
 .theme-light {
   --gutter-hover-background-color: #dde1e4;
+  --empty-gutter-hover-background-color: #f2f2f3;
 }
 
 .theme-dark {
   --gutter-hover-background-color: #414141;
 }
 
-:not(.empty-line):not(.new-breakpoint) > .CodeMirror-gutter-wrapper:hover {
+.editor-wrapper :not(.new-breakpoint) > .CodeMirror-gutter-wrapper:hover {
   width: 60px;
   height: 13px;
   left: -55px !important;
-  background-color: var(--gutter-hover-background-color) !important;
   mask: url(/images/breakpoint.svg) no-repeat;
   mask-size: 100%;
   mask-position: 0 1px;
+  cursor: default;
 }
 
-:not(.empty-line):not(.new-breakpoint)
+.editor-wrapper
+  :not(.empty-line):not(.new-breakpoint)
+  > .CodeMirror-gutter-wrapper:hover {
+  background-color: var(--gutter-hover-background-color) !important;
+}
+
+.editor-wrapper
+  .empty-line:not(.new-breakpoint)
+  > .CodeMirror-gutter-wrapper:hover {
+  background-color: var(--empty-gutter-hover-background-color) !important;
+}
+
+:not(.new-breakpoint)
   > .CodeMirror-gutter-wrapper:hover
   > .CodeMirror-linenumber {
   left: auto !important;
