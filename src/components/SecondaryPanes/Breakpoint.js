@@ -37,6 +37,24 @@ function getBreakpointLocation(source, line, column) {
   return bpLocation;
 }
 
+function getBreakpointText(selectedSource, breakpoint) {
+  const { condition, text, originalText } = breakpoint;
+
+  if (condition) {
+    return condition;
+  }
+
+  if (
+    !selectedSource ||
+    isGeneratedId(selectedSource.id) ||
+    originalText.length == 0
+  ) {
+    return text;
+  }
+
+  return originalText;
+}
+
 class Breakpoint extends Component<Props> {
   editor: SourceEditor;
 
@@ -45,7 +63,12 @@ class Breakpoint extends Component<Props> {
   }
 
   componentDidUpdate(prevProps: Props) {
-    this.destroyEditor();
+    if (
+      getBreakpointText(this.props.selectedSource, this.props.breakpoint) !=
+      getBreakpointText(prevProps.selectedSource, prevProps.breakpoint)
+    ) {
+      this.destroyEditor();
+    }
     this.setupEditor();
   }
 
@@ -68,25 +91,6 @@ class Breakpoint extends Component<Props> {
     );
   }
 
-  getBreakpointText() {
-    const { breakpoint, selectedSource } = this.props;
-    const { condition, text, originalText } = breakpoint;
-
-    if (condition) {
-      return condition;
-    }
-
-    if (
-      !selectedSource ||
-      isGeneratedId(selectedSource.id) ||
-      originalText.length == 0
-    ) {
-      return text;
-    }
-
-    return originalText;
-  }
-
   destroyEditor() {
     if (this.editor) {
       this.editor.destroy();
@@ -99,7 +103,9 @@ class Breakpoint extends Component<Props> {
       return;
     }
 
-    this.editor = createEditor(this.getBreakpointText());
+    const { selectedSource, breakpoint } = this.props;
+
+    this.editor = createEditor(getBreakpointText(selectedSource, breakpoint));
 
     // disables the default search shortcuts
     // $FlowIgnore
@@ -133,7 +139,8 @@ class Breakpoint extends Component<Props> {
   }
 
   renderText() {
-    const text = this.getBreakpointText();
+    const { selectedSource, breakpoint } = this.props;
+    const text = getBreakpointText(selectedSource, breakpoint);
 
     return (
       <label className="breakpoint-label" title={text}>
