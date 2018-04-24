@@ -1724,6 +1724,36 @@ Array [
         ],
         "type": "let",
       },
+      "Second": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 15,
+                "line": 14,
+                "sourceId": "scopes/class-declaration/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 14,
+                "sourceId": "scopes/class-declaration/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 12,
+              "line": 14,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 14,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "let",
+      },
       "this": Object {
         "refs": Array [],
         "type": "implicit",
@@ -1732,7 +1762,7 @@ Array [
     "displayName": "Module",
     "end": Object {
       "column": 0,
-      "line": 12,
+      "line": 15,
       "sourceId": "scopes/class-declaration/originalSource-1",
     },
     "start": Object {
@@ -1747,7 +1777,7 @@ Array [
     "displayName": "Lexical Global",
     "end": Object {
       "column": 0,
-      "line": 12,
+      "line": 15,
       "sourceId": "scopes/class-declaration/originalSource-1",
     },
     "start": Object {
@@ -1792,11 +1822,30 @@ Array [
         ],
         "type": "global",
       },
+      "decorator": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 10,
+              "line": 13,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 1,
+              "line": 13,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
+      },
     },
     "displayName": "Global",
     "end": Object {
       "column": 0,
-      "line": 12,
+      "line": 15,
       "sourceId": "scopes/class-declaration/originalSource-1",
     },
     "start": Object {
@@ -1959,6 +2008,36 @@ Array [
         ],
         "type": "let",
       },
+      "Second": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 15,
+                "line": 14,
+                "sourceId": "scopes/class-declaration/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 14,
+                "sourceId": "scopes/class-declaration/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 12,
+              "line": 14,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 14,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "let",
+      },
       "this": Object {
         "refs": Array [],
         "type": "implicit",
@@ -1967,7 +2046,7 @@ Array [
     "displayName": "Module",
     "end": Object {
       "column": 0,
-      "line": 12,
+      "line": 15,
       "sourceId": "scopes/class-declaration/originalSource-1",
     },
     "start": Object {
@@ -1982,7 +2061,7 @@ Array [
     "displayName": "Lexical Global",
     "end": Object {
       "column": 0,
-      "line": 12,
+      "line": 15,
       "sourceId": "scopes/class-declaration/originalSource-1",
     },
     "start": Object {
@@ -2027,11 +2106,30 @@ Array [
         ],
         "type": "global",
       },
+      "decorator": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 10,
+              "line": 13,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 1,
+              "line": 13,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
+      },
     },
     "displayName": "Global",
     "end": Object {
       "column": 0,
-      "line": 12,
+      "line": 15,
       "sourceId": "scopes/class-declaration/originalSource-1",
     },
     "start": Object {
@@ -2279,6 +2377,36 @@ Array [
         ],
         "type": "let",
       },
+      "Second": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 15,
+                "line": 14,
+                "sourceId": "scopes/class-declaration/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 14,
+                "sourceId": "scopes/class-declaration/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 12,
+              "line": 14,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 14,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "let",
+      },
       "this": Object {
         "refs": Array [],
         "type": "implicit",
@@ -2287,7 +2415,7 @@ Array [
     "displayName": "Module",
     "end": Object {
       "column": 0,
-      "line": 12,
+      "line": 15,
       "sourceId": "scopes/class-declaration/originalSource-1",
     },
     "start": Object {
@@ -2302,7 +2430,7 @@ Array [
     "displayName": "Lexical Global",
     "end": Object {
       "column": 0,
-      "line": 12,
+      "line": 15,
       "sourceId": "scopes/class-declaration/originalSource-1",
     },
     "start": Object {
@@ -2347,11 +2475,30 @@ Array [
         ],
         "type": "global",
       },
+      "decorator": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 10,
+              "line": 13,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 1,
+              "line": 13,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
+      },
     },
     "displayName": "Global",
     "end": Object {
       "column": 0,
-      "line": 12,
+      "line": 15,
       "sourceId": "scopes/class-declaration/originalSource-1",
     },
     "start": Object {
