@@ -377,8 +377,8 @@ exports[`SourcesTree renderItem should show icon for angular item 1`] = `
   onClick={[Function]}
   onContextMenu={[Function]}
 >
-  <i
-    className="no-arrow"
+  <img
+    className="arrow"
   />
   <Svg
     name="angular"
@@ -443,8 +443,8 @@ exports[`SourcesTree renderItem should show icon for moz-extension item 1`] = `
   onClick={[Function]}
   onContextMenu={[Function]}
 >
-  <i
-    className="no-arrow"
+  <img
+    className="arrow"
   />
   <img
     className="extension"
@@ -465,8 +465,8 @@ exports[`SourcesTree renderItem should show icon for webpack item 1`] = `
   onClick={[Function]}
   onContextMenu={[Function]}
 >
-  <i
-    className="no-arrow"
+  <img
+    className="arrow"
   />
   <Svg
     name="webpack"

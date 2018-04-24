@@ -20,18 +20,6 @@ const mockSource = I.Map({
   )
 });
 
-const mockItem = createMockItem(
-  "http://mdn.com/one.js",
-  "one.js",
-  I.Map({ id: "server1.conn13.child1/39" })
-);
-
-const mockDirectory = {
-  contents: [],
-  name: "folder",
-  path: "folder/"
-};
-
 describe("SourcesTree", () => {
   afterEach(() => {
     copyToTheClipboard.mockClear();
@@ -184,9 +172,10 @@ describe("SourcesTree", () => {
   describe("focusItem", () => {
     it("update the focused item", async () => {
       const { component, instance } = render();
+      const item = createMockItem();
       expect(component.state("focusedItem")).toEqual(null);
-      await instance.focusItem(mockItem);
-      expect(component.state("focusedItem")).toEqual(mockItem);
+      await instance.focusItem(item);
+      expect(component.state("focusedItem")).toEqual(item);
     });
   });
 
@@ -233,7 +222,9 @@ describe("SourcesTree", () => {
       const { component, props } = render({
         projectRoot: "root/"
       });
-      await component.instance().onContextMenu(mockEvent, mockDirectory);
+      await component
+        .instance()
+        .onContextMenu(mockEvent, createMockDirectory());
       expect(showMenu).toHaveBeenCalledWith(mockEvent, menuOptions);
 
       expect(mockEvent.preventDefault).toHaveBeenCalled();
@@ -262,7 +253,7 @@ describe("SourcesTree", () => {
       const { component, props } = render({
         projectRoot: "root/"
       });
-      await component.instance().onContextMenu(mockEvent, mockItem);
+      await component.instance().onContextMenu(mockEvent, createMockItem());
       expect(showMenu).toHaveBeenCalledWith(mockEvent, menuOptions);
 
       expect(mockEvent.preventDefault).toHaveBeenCalled();
@@ -314,52 +305,52 @@ describe("SourcesTree", () => {
   describe("renderItem", () => {
     it("should show icon for webpack item", async () => {
       const { component } = render();
-      const item = createMockItem("webpack://", "webpack://");
+      const item = createMockDirectory("webpack://", "webpack://");
       const node = renderItem(component, item);
       expect(node).toMatchSnapshot();
     });
 
     it("should show icon for angular item", async () => {
       const { component } = render();
-      const item = createMockItem("ng://", "ng://");
+      const item = createMockDirectory("ng://", "ng://");
       const node = renderItem(component, item);
       expect(node).toMatchSnapshot();
     });
 
     it("should show icon for moz-extension item", async () => {
       const { component } = render();
-      const item = createMockItem("moz-extension://", "moz-extension://");
+      const item = createMockDirectory("moz-extension://", "moz-extension://");
       const node = renderItem(component, item);
       expect(node).toMatchSnapshot();
     });
 
     it("should show icon for folder with arrow", async () => {
       const { component } = render();
-      const node = renderItem(component, mockDirectory);
+      const node = renderItem(component, createMockDirectory());
       expect(node).toMatchSnapshot();
     });
 
     it("should show icon for folder with expanded arrow", async () => {
       const { component } = render();
-      const node = renderItem(component, mockDirectory, 1, false, true);
+      const node = renderItem(component, createMockDirectory(), 1, false, true);
       expect(node).toMatchSnapshot();
     });
 
     it("should show focused item for folder with expanded arrow", async () => {
       const { component } = render();
-      const node = renderItem(component, mockDirectory, 1, true, true);
+      const node = renderItem(component, createMockDirectory(), 1, true, true);
       expect(node).toMatchSnapshot();
     });
 
     it("should show source item with source icon", async () => {
       const { component } = render();
-      const node = renderItem(component, mockItem);
+      const node = renderItem(component, createMockItem());
       expect(node).toMatchSnapshot();
     });
 
     it("should show source item with source icon with focus", async () => {
       const { component } = render();
-      const node = renderItem(component, mockItem, 1, true, false);
+      const node = renderItem(component, createMockItem(), 1, true, false);
       expect(node).toMatchSnapshot();
     });
 
@@ -379,7 +370,7 @@ describe("SourcesTree", () => {
 
     it("should show domain item as debuggee with focus and arrow", async () => {
       const { component } = render();
-      const item = createMockItem("root", "http://mdn.com", []);
+      const item = createMockDirectory("root", "http://mdn.com");
       const node = renderItem(component, item, 0, true);
       expect(node).toMatchSnapshot();
     });
@@ -388,31 +379,33 @@ describe("SourcesTree", () => {
       const { component } = render({
         projectRoot: "root/"
       });
-      const node = renderItem(component, mockItem, 0);
+      const node = renderItem(component, createMockItem(), 0);
       expect(node).toMatchSnapshot();
     });
 
     it("should show menu on contextmenu of an item", async () => {
       const { component, instance } = render();
+      const item = createMockItem();
       instance.onContextMenu = jest.fn(() => {});
       const event = { event: "contextmenu" };
-      const node = shallow(renderItem(component, mockItem, 1, true));
+      const node = shallow(renderItem(component, item, 1, true));
 
       node.simulate("contextmenu", event);
-      expect(instance.onContextMenu).toHaveBeenCalledWith(event, mockItem);
+      expect(instance.onContextMenu).toHaveBeenCalledWith(event, item);
     });
 
     it("should focus on and select item on click", async () => {
       const { component, props } = render();
+      const item = createMockItem();
       const event = { event: "click" };
       const setExpanded = jest.fn();
       const node = shallow(
-        renderItem(component, mockItem, 1, true, false, setExpanded)
+        renderItem(component, item, 1, true, false, setExpanded)
       );
 
       node.simulate("click", event);
 
-      expect(component.state("focusedItem")).toEqual(mockItem);
+      expect(component.state("focusedItem")).toEqual(item);
       expect(props.selectLocation).toHaveBeenCalledWith({
         sourceId: "server1.conn13.child1/39"
       });
@@ -423,6 +416,7 @@ describe("SourcesTree", () => {
       const { component, props } = render();
       const event = { event: "click" };
       const setExpanded = jest.fn();
+      const mockDirectory = createMockDirectory();
       const node = shallow(
         renderItem(component, mockDirectory, 1, true, false, setExpanded)
       );
@@ -438,21 +432,21 @@ describe("SourcesTree", () => {
   describe("selectItem", () => {
     it("should select item with no children", async () => {
       const { instance, props } = render();
-      instance.selectItem(mockItem);
+      instance.selectItem(createMockItem());
       expect(props.selectLocation).toHaveBeenCalledWith({
         sourceId: "server1.conn13.child1/39"
       });
     });
 
     it("should not select item with children", async () => {
-      const { component, props, instance } = render();
-      instance.selectItem(mockDirectory);
+      const { props, instance } = render();
+      instance.selectItem(createMockDirectory());
       expect(props.selectLocation).not.toHaveBeenCalled();
     });
 
     it("should select item on enter", async () => {
       const { component, props, instance } = render();
-      await instance.focusItem(mockItem);
+      await instance.focusItem(createMockItem());
       await component.update();
       await component
         .find(".sources-list")
@@ -474,7 +468,10 @@ describe("SourcesTree", () => {
   describe("handles items", () => {
     it("getChildren from directory", async () => {
       const { component } = render();
-      const item = createMockItem("http://mdn.com/views", "views", ["a", "b"]);
+      const item = createMockDirectory("http://mdn.com/views", "views", [
+        "a",
+        "b"
+      ]);
       const children = component
         .find("ManagedTree")
         .props()
@@ -487,7 +484,7 @@ describe("SourcesTree", () => {
       const children = component
         .find("ManagedTree")
         .props()
-        .getChildren(mockItem);
+        .getChildren(createMockItem());
       expect(children).toEqual([]);
     });
 
@@ -527,18 +524,18 @@ describe("SourcesTree", () => {
   describe("getPath", () => {
     it("should return path for item", async () => {
       const { instance } = render();
-      const path = instance.getPath(mockItem);
+      const path = instance.getPath(createMockItem());
       expect(path).toEqual("http://mdn.com/one.js/one.js/");
     });
 
     it("should return path for blackboxedboxed item", async () => {
-      const blackboxedMockItem = createMockItem(
+      const item = createMockItem(
         "http://mdn.com/blackboxed.js",
         "blackboxed.js",
         I.Map({ id: "server1.conn13.child1/59" })
       );
 
-      const blackboxedMockSource = I.Map({
+      const source = I.Map({
         "server1.conn13.child1/59": createMockSource(
           "server1.conn13.child1/59",
           "http://mdn.com/blackboxed.js",
@@ -547,9 +544,9 @@ describe("SourcesTree", () => {
       });
 
       const { instance } = render({
-        sources: blackboxedMockSource
+        sources: source
       });
-      const path = instance.getPath(blackboxedMockItem);
+      const path = instance.getPath(item);
       expect(path).toEqual("http://mdn.com/blackboxed.js/blackboxed.js/update");
     });
   });
@@ -585,7 +582,7 @@ function generateDefaults(overrides) {
 
 function renderItem(
   component,
-  item = mockItem,
+  item = createMockItem(),
   depth = 1,
   focused = false,
   expanded = false,
@@ -619,7 +616,19 @@ function createMockSource(id, url, isBlackBoxed = false) {
   });
 }
 
-function createMockItem(path = "item", name = "item", contents = I.Map()) {
+function createMockDirectory(path = "folder/", name = "folder", contents = []) {
+  return {
+    name,
+    path,
+    contents
+  };
+}
+
+function createMockItem(
+  path = "http://mdn.com/one.js",
+  name = "one.js",
+  contents = I.Map({ id: "server1.conn13.child1/39" })
+) {
   return {
     name,
     path,
