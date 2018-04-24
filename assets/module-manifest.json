@@ -22457,7 +22457,8 @@
       "../../babel-loader/lib/index.js?ignore=src/lib!../../devtools-modules/src/source-utils.js": 3637,
       "../../babel-loader/lib/index.js?ignore=src/lib!../../devtools-modules/src/unicode-url.js": 3638,
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/SecondaryPanes/ReactComponentStack.js": 3639,
-      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/pause/skipPausing.js": 3640
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/pause/skipPausing.js": 3640,
+      "../../node-libs-browser/node_modules/punycode/punycode.js": 3641
     },
     "usedIds": {
       "0": 0,
@@ -26100,7 +26101,8 @@
       "3637": 3637,
       "3638": 3638,
       "3639": 3639,
-      "3640": 3640
+      "3640": 3640,
+      "3641": 3641
     }
   },
   "chunks": {
@@ -30587,7 +30589,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
