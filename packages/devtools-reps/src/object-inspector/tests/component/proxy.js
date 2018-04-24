@@ -1,8 +1,8 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
- /* global jest */
+/* global jest */
 
 const { mount } = require("enzyme");
 const React = require("react");
@@ -15,19 +15,19 @@ const { formatObjectInspector } = require("../test-utils");
 const ObjectClient = require("../__mocks__/object-client");
 function generateDefaults(overrides) {
   return {
-    roots: [{
-      path: "root",
-      contents: {value: stub}
-    }],
+    roots: [
+      {
+        path: "root",
+        contents: { value: stub }
+      }
+    ],
     autoExpandDepth: 1,
     mode: MODE.LONG,
     createObjectClient: grip => ObjectClient(grip),
     // Have the prototype already loaded so the component does not call
     // enumProperties for the root's properties.
-    loadedProperties: new Map([
-      ["root", {prototype: {}}]
-    ]),
-    ...overrides,
+    loadedProperties: new Map([["root", { prototype: {} }]]),
+    ...overrides
   };
 }
 
@@ -44,20 +44,20 @@ describe("ObjectInspector - Proxy", () => {
     const enumProperties = getEnumPropertiesMock();
 
     const props = generateDefaults({
-      createObjectClient: grip => ObjectClient(grip, {enumProperties}),
+      createObjectClient: grip => ObjectClient(grip, { enumProperties })
     });
     const oi = mount(ObjectInspector(props));
     expect(formatObjectInspector(oi)).toMatchSnapshot();
 
     // enumProperties should not have been called.
-    expect(enumProperties.mock.calls.length).toBe(0);
+    expect(enumProperties.mock.calls).toHaveLength(0);
   });
 
-  it("calls enumProperties when <target> and <handler> nodes are clicked", () => {
+  it("calls enumProperties on <target> and <handler> clicks", () => {
     const enumProperties = getEnumPropertiesMock();
 
     const props = generateDefaults({
-      createObjectClient: grip => ObjectClient(grip, {enumProperties}),
+      createObjectClient: grip => ObjectClient(grip, { enumProperties })
     });
     const oi = mount(ObjectInspector(props));
 
@@ -67,15 +67,25 @@ describe("ObjectInspector - Proxy", () => {
     const handlerNode = nodes.at(2);
 
     targetNode.simulate("click");
-    // The function is called twice,  to get  both non-indexed and indexed properties.
-    expect(enumProperties.mock.calls.length).toBe(2);
-    expect(enumProperties.mock.calls[0][0]).toEqual({ignoreNonIndexedProperties: true});
-    expect(enumProperties.mock.calls[1][0]).toEqual({ignoreIndexedProperties: true});
+    // The function is called twice,
+    // to get both non-indexed and indexed properties.
+    expect(enumProperties.mock.calls).toHaveLength(2);
+    expect(enumProperties.mock.calls[0][0]).toEqual({
+      ignoreNonIndexedProperties: true
+    });
+    expect(enumProperties.mock.calls[1][0]).toEqual({
+      ignoreIndexedProperties: true
+    });
 
     handlerNode.simulate("click");
-    // The function is called twice,  to get  both non-indexed and indexed properties.
-    expect(enumProperties.mock.calls.length).toBe(4);
-    expect(enumProperties.mock.calls[2][0]).toEqual({ignoreNonIndexedProperties: true});
-    expect(enumProperties.mock.calls[3][0]).toEqual({ignoreIndexedProperties: true});
+    // The function is called twice,
+    // to get  both non-indexed and indexed properties.
+    expect(enumProperties.mock.calls).toHaveLength(4);
+    expect(enumProperties.mock.calls[2][0]).toEqual({
+      ignoreNonIndexedProperties: true
+    });
+    expect(enumProperties.mock.calls[3][0]).toEqual({
+      ignoreIndexedProperties: true
+    });
   });
 });

@@ -1,15 +1,12 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 const { shallow } = require("enzyme");
 
-const {
-  REPS,
-  getRep,
-} = require("../rep");
+const { REPS, getRep } = require("../rep");
 
-let { Accessor, Rep } = REPS;
+const { Accessor, Rep } = REPS;
 
 const stubs = require("../stubs/accessor");
 
@@ -21,7 +18,7 @@ describe("Accessor - getter", () => {
   });
 
   it("Accessor rep has expected text content", () => {
-    const renderedComponent = shallow(Rep({object}));
+    const renderedComponent = shallow(Rep({ object }));
     expect(renderedComponent.text()).toEqual("Getter");
   });
 });
@@ -34,7 +31,7 @@ describe("Accessor - setter", () => {
   });
 
   it("Accessor rep has expected text content", () => {
-    const renderedComponent = shallow(Rep({object}));
+    const renderedComponent = shallow(Rep({ object }));
     expect(renderedComponent.text()).toEqual("Setter");
   });
 });
@@ -47,7 +44,7 @@ describe("Accessor - getter & setter", () => {
   });
 
   it("Accessor rep has expected text content", () => {
-    const renderedComponent = shallow(Rep({object}));
+    const renderedComponent = shallow(Rep({ object }));
     expect(renderedComponent.text()).toEqual("Getter & Setter");
   });
 });

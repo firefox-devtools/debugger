@@ -6,7 +6,7 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  background: rgba(255,255,255,0.25);
+  background: rgba(255, 255, 255, 0.25);
   padding: 0.5rem 1rem;
 }
 

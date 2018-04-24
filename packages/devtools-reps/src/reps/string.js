@@ -1,6 +1,6 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // Dependencies
 const PropTypes = require("prop-types");
@@ -15,7 +15,7 @@ const {
   wrapRender,
   isGrip,
   tokenSplitRegex,
-  ELLIPSIS,
+  ELLIPSIS
 } = require("./rep-utils");
 
 const dom = require("react-dom-factories");
@@ -32,11 +32,11 @@ StringRep.propTypes = {
   member: PropTypes.object,
   object: PropTypes.object.isRequired,
   openLink: PropTypes.func,
-  className: PropTypes.string,
+  className: PropTypes.string
 };
 
 function StringRep(props) {
-  let {
+  const {
     className,
     style,
     cropLimit,
@@ -54,10 +54,13 @@ function StringRep(props) {
   const shouldCrop = !isOpen && cropLimit && text.length > cropLimit;
 
   if (isLong) {
-    text = maybeCropLongString({
-      shouldCrop,
-      cropLimit
-    }, text);
+    text = maybeCropLongString(
+      {
+        shouldCrop,
+        cropLimit
+      },
+      text
+    );
 
     const { fullText } = object;
     if (isOpen && fullText) {
@@ -65,10 +68,13 @@ function StringRep(props) {
     }
   }
 
-  text = formatText({
-    useQuotes,
-    escapeWhitespace
-  }, text);
+  text = formatText(
+    {
+      useQuotes,
+      escapeWhitespace
+    },
+    text
+  );
 
   const config = getElementConfig({
     className,
@@ -78,35 +84,32 @@ function StringRep(props) {
 
   if (!isLong) {
     if (containsURL(text)) {
-      return span(config,
-        ...getLinkifiedElements(text, shouldCrop && cropLimit, openLink));
+      return span(
+        config,
+        ...getLinkifiedElements(text, shouldCrop && cropLimit, openLink)
+      );
     }
 
     // Cropping of longString has been handled before formatting.
-    text = maybeCropString({
-      isLong,
-      shouldCrop,
-      cropLimit
-    }, text);
+    text = maybeCropString(
+      {
+        isLong,
+        shouldCrop,
+        cropLimit
+      },
+      text
+    );
   }
 
   return span(config, text);
 }
 
 function maybeCropLongString(opts, text) {
-  const {
-    shouldCrop,
-    cropLimit,
-  } = opts;
+  const { shouldCrop, cropLimit } = opts;
 
-  const {
-    initial,
-    length,
-  } = text;
+  const { initial, length } = text;
 
-  text = shouldCrop
-    ? initial.substring(0, cropLimit)
-    : initial;
+  text = shouldCrop ? initial.substring(0, cropLimit) : initial;
 
   if (text.length < length) {
     text += ELLIPSIS;
@@ -116,10 +119,7 @@ function maybeCropLongString(opts, text) {
 }
 
 function formatText(opts, text) {
-  let {
-    useQuotes,
-    escapeWhitespace
-  } = opts;
+  const { useQuotes, escapeWhitespace } = opts;
 
   return useQuotes
     ? escapeString(text, escapeWhitespace)
@@ -127,11 +127,7 @@ function formatText(opts, text) {
 }
 
 function getElementConfig(opts) {
-  const {
-    className,
-    style,
-    actor
-  } = opts;
+  const { className, style, actor } = opts;
 
   const config = {};
 
@@ -153,14 +149,9 @@ function getElementConfig(opts) {
 }
 
 function maybeCropString(opts, text) {
-  const {
-    shouldCrop,
-    cropLimit,
-  } = opts;
+  const { shouldCrop, cropLimit } = opts;
 
-  return shouldCrop
-    ? rawCropString(text, cropLimit)
-    : text;
+  return shouldCrop ? rawCropString(text, cropLimit) : text;
 }
 
 /**
@@ -177,17 +168,21 @@ function getLinkifiedElements(text, cropLimit, openLink) {
   const startCropIndex = cropLimit ? halfLimit : null;
   const endCropIndex = cropLimit ? text.length - halfLimit : null;
 
-  // As we walk through the tokens of the source string, we make sure to preserve
-  // the original whitespace that separated the tokens.
+  // As we walk through the tokens of the source string, we make sure to
+  // preserve the original whitespace that separated the tokens.
   let currentIndex = 0;
   const items = [];
-  for (let token of text.split(tokenSplitRegex)) {
+  for (const token of text.split(tokenSplitRegex)) {
     if (isURL(token)) {
       // Let's grab all the non-url strings before the link.
       const tokenStart = text.indexOf(token, currentIndex);
       let nonUrlText = text.slice(currentIndex, tokenStart);
       nonUrlText = getCroppedString(
-          nonUrlText, currentIndex, startCropIndex, endCropIndex);
+        nonUrlText,
+        currentIndex,
+        startCropIndex,
+        endCropIndex
+      );
       if (nonUrlText) {
         items.push(nonUrlText);
       }
@@ -195,19 +190,29 @@ function getLinkifiedElements(text, cropLimit, openLink) {
       // Update the index to match the beginning of the token.
       currentIndex = tokenStart;
 
-      let linkText = getCroppedString(token, currentIndex, startCropIndex, endCropIndex);
+      const linkText = getCroppedString(
+        token,
+        currentIndex,
+        startCropIndex,
+        endCropIndex
+      );
       if (linkText) {
-        items.push(a({
-          className: "url",
-          title: token,
-          draggable: false,
-          onClick: openLink
-            ? e => {
-              e.preventDefault();
-              openLink(token);
-            }
-            : null
-        }, linkText));
+        items.push(
+          a(
+            {
+              className: "url",
+              title: token,
+              draggable: false,
+              onClick: openLink
+                ? e => {
+                    e.preventDefault();
+                    openLink(token);
+                  }
+                : null
+            },
+            linkText
+          )
+        );
       }
 
       currentIndex = tokenStart + token.length;
@@ -229,17 +234,18 @@ function getLinkifiedElements(text, cropLimit, openLink) {
 }
 
 /**
- * Returns a cropped substring given an offset, start and end crop indices in a parent
- * string.
+ * Returns a cropped substring given an offset, start and end crop indices in a
+ * parent string.
  *
  * @param {String} text: The substring to crop.
- * @param {Integer} offset: The offset corresponding to the index at which the substring
- *                          is in the parent string.
- * @param {Integer|null} startCropIndex: the index where the start of the crop should
- *                                       happen in the parent string.
- * @param {Integer|null} endCropIndex: the index where the end of the crop should happen
- *                                     in the parent string
- * @returns {String|null} The cropped substring, or null if the text is completly cropped.
+ * @param {Integer} offset: The offset corresponding to the index at which
+ *                          the substring is in the parent string.
+ * @param {Integer|null} startCropIndex: the index where the start of the crop
+ *                                       should happen in the parent string.
+ * @param {Integer|null} endCropIndex: the index where the end of the crop
+ *                                     should happen in the parent string
+ * @returns {String|null} The cropped substring, or null if the text is
+ *                        completly cropped.
  */
 function getCroppedString(text, offset = 0, startCropIndex, endCropIndex) {
   if (!startCropIndex) {
@@ -258,9 +264,11 @@ function getCroppedString(text, offset = 0, startCropIndex, endCropIndex) {
   const shouldCropStart = start < endCropIndex && end > endCropIndex;
   if (shouldCropEnd) {
     const cutIndex = startCropIndex - start;
-    return text.substring(0, cutIndex) +
+    return (
+      text.substring(0, cutIndex) +
       ELLIPSIS +
-      (shouldCropStart ? text.substring(endCropIndex - start) : "");
+      (shouldCropStart ? text.substring(endCropIndex - start) : "")
+    );
   }
 
   if (shouldCropStart) {
@@ -289,5 +297,5 @@ function supportsObject(object, noGrip = false) {
 module.exports = {
   rep: wrapRender(StringRep),
   supportsObject,
-  isLongString,
+  isLongString
 };

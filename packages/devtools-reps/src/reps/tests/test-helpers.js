@@ -1,6 +1,6 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 const { shallow } = require("enzyme");
 
@@ -17,14 +17,15 @@ const { getGripPreviewItems } = require("../rep-utils");
 const nodeConstants = require("../../shared/dom-node-constants");
 
 /**
- * Get an array of all the items from the grip in parameter (including the grip itself)
- * which can be selected in the inspector.
+ * Get an array of all the items from the grip in parameter (including the grip
+ * itself) which can be selected in the inspector.
  *
  * @param {Object} Grip
- * @return {Array} Flat array of the grips which can be selected in the inspector
+ * @return {Array} Flat array of the grips which can be selected in the
+ *                 inspector
  */
 function getSelectableInInspectorGrips(grip) {
-  let grips = new Set(getFlattenedGrips([grip]));
+  const grips = new Set(getFlattenedGrips([grip]));
   return [...grips].filter(isGripSelectableInInspector);
 }
 
@@ -36,13 +37,14 @@ function getSelectableInInspectorGrips(grip) {
  * @return {Boolean}
  */
 function isGripSelectableInInspector(grip) {
-  return grip
-    && typeof grip === "object"
-    && grip.preview
-    && [
-      nodeConstants.TEXT_NODE,
-      nodeConstants.ELEMENT_NODE
-    ].includes(grip.preview.nodeType);
+  return (
+    grip &&
+    typeof grip === "object" &&
+    grip.preview &&
+    [nodeConstants.TEXT_NODE, nodeConstants.ELEMENT_NODE].includes(
+      grip.preview.nodeType
+    )
+  );
 }
 
 /**
@@ -53,10 +55,9 @@ function isGripSelectableInInspector(grip) {
  */
 function getFlattenedGrips(grips) {
   return grips.reduce((res, grip) => {
-    let previewItems = getGripPreviewItems(grip);
-    let flatPreviewItems = previewItems.length > 0
-      ? getFlattenedGrips(previewItems)
-      : [];
+    const previewItems = getGripPreviewItems(grip);
+    const flatPreviewItems =
+      previewItems.length > 0 ? getFlattenedGrips(previewItems) : [];
 
     return [...res, grip, ...flatPreviewItems];
   }, []);
@@ -74,12 +75,10 @@ function getGripLengthBubbleText(object, props) {
     object,
     maxLengthMap: arrayLikeMaxLengthMap,
     getLength: getArrayLikeLength,
-    ...props,
+    ...props
   });
 
-  return component
-    ? shallow(component).text()
-    : "";
+  return component ? shallow(component).text() : "";
 }
 
 function getMapLengthBubbleText(object, props) {
@@ -87,7 +86,7 @@ function getMapLengthBubbleText(object, props) {
     maxLengthMap: mapMaxLengths,
     getLength: getMapLength,
     showZeroLength: true,
-    ...props,
+    ...props
   });
 }
 
@@ -95,5 +94,5 @@ module.exports = {
   expectActorAttribute,
   getSelectableInInspectorGrips,
   getGripLengthBubbleText,
-  getMapLengthBubbleText,
+  getMapLengthBubbleText
 };

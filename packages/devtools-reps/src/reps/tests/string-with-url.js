@@ -1,25 +1,26 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
- /* global jest */
+/* global jest */
 const { mount } = require("enzyme");
 const { REPS } = require("../rep");
 const { Rep } = REPS;
 const { getGripLengthBubbleText } = require("./test-helpers");
 
-const renderRep = (string, props) => mount(
-  Rep({
-    object: string,
-    ...props,
-  })
-);
+const renderRep = (string, props) =>
+  mount(
+    Rep({
+      object: string,
+      ...props
+    })
+  );
 
 describe("test String with URL", () => {
   it("renders a URL", () => {
     const url = "http://example.com";
     const openLink = jest.fn();
-    const element = renderRep(url, {openLink, useQuotes: false});
+    const element = renderRep(url, { openLink, useQuotes: false });
     expect(element.text()).toEqual(url);
     const link = element.find("a");
     expect(link.prop("href")).toBe(undefined);
@@ -33,11 +34,11 @@ describe("test String with URL", () => {
     const url = "http://example.com";
     const openLink = jest.fn();
     const preventDefault = jest.fn();
-    const element = renderRep(url, {openLink, useQuotes: false});
+    const element = renderRep(url, { openLink, useQuotes: false });
     expect(element.text()).toEqual(url);
     const link = element.find("a");
 
-    link.simulate("click", {preventDefault});
+    link.simulate("click", { preventDefault });
     expect(openLink).toBeCalledWith(url);
     expect(preventDefault).toBeCalled();
   });
@@ -46,7 +47,7 @@ describe("test String with URL", () => {
     const url = "http://example.com";
     const string = `'${url}'`;
     const openLink = jest.fn();
-    const element = renderRep(string, {openLink, useQuotes: false});
+    const element = renderRep(string, { openLink, useQuotes: false });
     expect(element.text()).toEqual(string);
     const link = element.find("a");
     expect(link.prop("href")).toBe(undefined);
@@ -60,7 +61,7 @@ describe("test String with URL", () => {
     const url = "http://example.com";
     const string = `"${url}"`;
     const openLink = jest.fn();
-    const element = renderRep(string, {openLink, useQuotes: false});
+    const element = renderRep(string, { openLink, useQuotes: false });
     expect(element.text()).toEqual(string);
     const link = element.find("a");
     expect(link.prop("href")).toBe(undefined);
@@ -74,7 +75,7 @@ describe("test String with URL", () => {
     const url = "http://example.com";
     const string = `"${url}"`;
     const openLink = jest.fn();
-    const element = renderRep(string, {openLink, useQuotes: true});
+    const element = renderRep(string, { openLink, useQuotes: true });
     expect(element.text()).toEqual(`"\\"${url}\\""`);
     const link = element.find("a");
     expect(link.prop("href")).toBe(undefined);
@@ -87,7 +88,7 @@ describe("test String with URL", () => {
   it("renders a simple https URL", () => {
     const url = "https://example.com";
     const openLink = jest.fn();
-    const element = renderRep(url, {openLink, useQuotes: false});
+    const element = renderRep(url, { openLink, useQuotes: false });
     expect(element.text()).toEqual(url);
     const link = element.find("a");
     expect(link.prop("href")).toBe(undefined);
@@ -100,7 +101,7 @@ describe("test String with URL", () => {
   it("renders a URL with port", () => {
     const url = "https://example.com:443";
     const openLink = jest.fn();
-    const element = renderRep(url, {openLink, useQuotes: false});
+    const element = renderRep(url, { openLink, useQuotes: false });
     expect(element.text()).toEqual(url);
     const link = element.find("a");
     expect(link.prop("href")).toBe(undefined);
@@ -113,7 +114,7 @@ describe("test String with URL", () => {
   it("renders a URL with non-empty path", () => {
     const url = "http://example.com/foo";
     const openLink = jest.fn();
-    const element = renderRep(url, {openLink, useQuotes: false});
+    const element = renderRep(url, { openLink, useQuotes: false });
     expect(element.text()).toEqual(url);
     const link = element.find("a");
     expect(link.prop("href")).toBe(undefined);
@@ -127,7 +128,7 @@ describe("test String with URL", () => {
     const url = "http://example.com";
     const string = `foo ${url} bar`;
     const openLink = jest.fn();
-    const element = renderRep(string, {openLink, useQuotes: false});
+    const element = renderRep(string, { openLink, useQuotes: false });
     expect(element.text()).toEqual(string);
     const link = element.find("a");
     expect(link.prop("href")).toBe(undefined);
@@ -141,7 +142,7 @@ describe("test String with URL", () => {
     const url = "http://example.com";
     const string = `foo\n${url}\nbar\n`;
     const openLink = jest.fn();
-    const element = renderRep(string, {openLink, useQuotes: false});
+    const element = renderRep(string, { openLink, useQuotes: false });
     expect(element.text()).toEqual(string);
 
     const link = element.find("a");
@@ -157,10 +158,10 @@ describe("test String with URL", () => {
     const url2 = "https://example.com/foo";
     const string = `${url1} ${url2}`;
     const openLink = jest.fn();
-    const element = renderRep(string, {openLink, useQuotes: false});
+    const element = renderRep(string, { openLink, useQuotes: false });
     expect(element.text()).toEqual(string);
     const links = element.find("a");
-    expect(links.length).toBe(2);
+    expect(links).toHaveLength(2);
 
     const firstLink = links.at(0);
     expect(firstLink.prop("href")).toBe(undefined);
@@ -179,10 +180,10 @@ describe("test String with URL", () => {
     const url1 = "http://example.com";
     const url2 = "https://example.com/foo";
     const string = `  ${url1}      ${url2}  ${url2}     ${url1}    `;
-    const element = renderRep(string, {useQuotes: false});
+    const element = renderRep(string, { useQuotes: false });
     expect(element.text()).toEqual(string);
     const links = element.find("a");
-    expect(links.length).toBe(4);
+    expect(links).toHaveLength(4);
   });
 
   it("renders a cropped URL", () => {
@@ -269,7 +270,9 @@ describe("test String with URL", () => {
       cropLimit: 42
     });
 
-    expect(element.text()).toEqual("- http://example.fr -…- http://example.us -");
+    expect(element.text()).toEqual(
+      "- http://example.fr -…- http://example.us -"
+    );
     const linkFr = element.find("a").at(0);
     expect(linkFr.prop("href")).toBe(undefined);
     expect(linkFr.prop("title")).toBe("http://example.fr");
@@ -279,7 +282,7 @@ describe("test String with URL", () => {
     expect(linkUs.prop("title")).toBe("http://example.us");
   });
 
-  it("renders successive cropped URLs, one at the start, one at the end", () => {
+  it("renders successive cropped URLs, 1 at the start, 1 at the end", () => {
     const text = "- http://example-long.fr http://example.us -";
     const openLink = jest.fn();
     const element = renderRep(text, {
@@ -299,7 +302,8 @@ describe("test String with URL", () => {
   });
 
   it("renders successive URLs, one cropped in the middle", () => {
-    const text = "- http://example-long.fr http://example.com http://example.us -";
+    const text =
+      "- http://example-long.fr http://example.com http://example.us -";
     const openLink = jest.fn();
     const element = renderRep(text, {
       openLink,
@@ -307,7 +311,9 @@ describe("test String with URL", () => {
       cropLimit: 60
     });
 
-    expect(element.text()).toEqual("- http://example-long.fr http:…xample.com http://example.us -");
+    expect(element.text()).toEqual(
+      "- http://example-long.fr http:…xample.com http://example.us -"
+    );
     const linkFr = element.find("a").at(0);
     expect(linkFr.prop("href")).toBe(undefined);
     expect(linkFr.prop("title")).toBe("http://example-long.fr");
@@ -322,7 +328,8 @@ describe("test String with URL", () => {
   });
 
   it("renders successive cropped URLs with cropped elements between", () => {
-    const text = "- http://example.fr test http://example.fr test http://example.us -";
+    const text =
+      "- http://example.fr test http://example.fr test http://example.us -";
     const openLink = jest.fn();
     const element = renderRep(text, {
       openLink,
@@ -372,14 +379,14 @@ describe("test String with URL", () => {
 
   it("does not render a link if the URL has no scheme", () => {
     const url = "example.com";
-    const element = renderRep(url, {useQuotes: false});
+    const element = renderRep(url, { useQuotes: false });
     expect(element.text()).toEqual(url);
     expect(element.find("a").exists()).toBeFalsy();
   });
 
   it("does not render a link if the URL has an invalid scheme", () => {
     const url = "foo://example.com";
-    const element = renderRep(url, {useQuotes: false});
+    const element = renderRep(url, { useQuotes: false });
     expect(element.text()).toEqual(url);
     expect(element.find("a").exists()).toBeFalsy();
   });
@@ -389,7 +396,7 @@ describe("test String with URL", () => {
     const string = `${url} some other text`;
     const object = [string];
     const openLink = jest.fn();
-    const element = renderRep(object, {openLink});
+    const element = renderRep(object, { openLink });
     expect(element.text()).toEqual(`[ "${string}" ]`);
 
     const link = element.find("a");
@@ -401,11 +408,12 @@ describe("test String with URL", () => {
   });
 
   it("does render a link in a grip array", () => {
-    let object = require("../stubs/grip-array")
-      .get(`["http://example.com/abcdefghijabcdefghij some other text"]`);
+    const object = require("../stubs/grip-array").get(
+      '["http://example.com/abcdefghijabcdefghij some other text"]'
+    );
     const length = getGripLengthBubbleText(object);
     const openLink = jest.fn();
-    const element = renderRep(object, {openLink});
+    const element = renderRep(object, { openLink });
 
     const url = "http://example.com/abcdefghijabcdefghij";
     const string = `${url} some other text`;
@@ -422,9 +430,9 @@ describe("test String with URL", () => {
   it("does render a link in a plain object", () => {
     const url = "http://example.com/abcdefghijabcdefghij";
     const string = `${url} some other text`;
-    const object = {test: string};
+    const object = { test: string };
     const openLink = jest.fn();
-    const element = renderRep(object, {openLink});
+    const element = renderRep(object, { openLink });
     expect(element.text()).toEqual(`Object { test: "${string}" }`);
 
     const link = element.find("a");
@@ -436,10 +444,11 @@ describe("test String with URL", () => {
   });
 
   it("does render a link in a grip object", () => {
-    let object = require("../stubs/grip")
-      .get(`{test: "http://example.com/ some other text"}`);
+    const object = require("../stubs/grip").get(
+      '{test: "http://example.com/ some other text"}'
+    );
     const openLink = jest.fn();
-    const element = renderRep(object, {openLink});
+    const element = renderRep(object, { openLink });
 
     const url = "http://example.com/";
     const string = `${url} some other text`;
@@ -458,7 +467,7 @@ describe("test String with URL", () => {
     const string = `${url} some other text`;
 
     const openLink = jest.fn();
-    const element = renderRep(string, {openLink, useQuotes: false});
+    const element = renderRep(string, { openLink, useQuotes: false });
     expect(element.text()).toEqual(string);
     const link = element.find("a");
     expect(link.exists()).toBe(false);

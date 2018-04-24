@@ -39,11 +39,13 @@ function start() {
     outputPath: path.join(mcPath, mcModulePath),
     projectPath,
     watch: args.watch
-  }).then(() => {
-    console.log("done: copy assets");
-  }).catch(e => {
-    console.error(e);
-  });
+  })
+    .then(() => {
+      console.log("done: copy assets");
+    })
+    .catch(e => {
+      console.error(e);
+    });
 }
 
 start();

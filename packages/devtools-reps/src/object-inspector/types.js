@@ -1,22 +1,22 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 export type GripProperties = {
   ownProperties?: Object,
   ownSymbols?: Array<Object>,
   safeGetterValues?: Object,
   prototype?: Object,
-  fullText?: string,
+  fullText?: string
 };
 
 export type NodeContents = {
-  value: ObjectInspectorItemContentsValue,
+  value: ObjectInspectorItemContentsValue
 };
 
 export type NodeMeta = {
   startIndex: number,
-  endIndex: number,
+  endIndex: number
 };
 
 export type Path = Symbol;
@@ -25,7 +25,7 @@ export type Node = {
   name: string,
   path: Path,
   type: ?Symbol,
-  meta: ?NodeMeta,
+  meta: ?NodeMeta
 };
 
 export type RdpGrip = {
@@ -37,19 +37,19 @@ export type RdpGrip = {
   ownPropertyLength: number,
   preview: Object,
   sealed: boolean,
-  type: string,
+  type: string
 };
 
 export type PropertiesIterator = {
   count: number,
   slice: (start: number, count: number) => Promise<GripProperties>
-}
+};
 
 export type ObjectClient = {
   enumEntries: () => Promise<PropertiesIterator>,
   enumProperties: (options: Object) => Promise<PropertiesIterator>,
   enumSymbols: () => Promise<PropertiesIterator>,
-  getPrototype: () => Promise<{prototype: Object}>,
+  getPrototype: () => Promise<{ prototype: Object }>
 };
 
 export type LongStringClient = {
@@ -59,13 +59,14 @@ export type LongStringClient = {
     response: {
       substring?: string,
       error?: Error,
-      message?: string,
-    }) => void,
-}
+      message?: string
+    }
+  ) => void
+};
 
-export type CreateObjectClient = (RdpGrip) => ObjectClient;
+export type CreateObjectClient = RdpGrip => ObjectClient;
 
-export type CreateLongStringClient = (RdpGrip) => LongStringClient;
+export type CreateLongStringClient = RdpGrip => LongStringClient;
 
 export type CachedNodes = Map<Path, Array<Node>>;
 
@@ -73,9 +74,7 @@ export type LoadedProperties = Map<Path, GripProperties>;
 
 export type Mode = MODE.TINY | MODE.SHORT | MODE.LONG;
 
-const {
-  MODE,
-} = require("../reps/constants");
+const { MODE } = require("../reps/constants");
 
 export type Props = {
   autoExpandAll: boolean,
@@ -114,14 +113,14 @@ export type Props = {
       depth: number,
       focused: boolean,
       expanded: boolean,
-      setExpanded: (Node, boolean) => any,
+      setExpanded: (Node, boolean) => any
     }
   ) => any,
   actors: Set<string>,
   expandedPaths: Set<Path>,
   focusedItem: ?Node,
   loadedProperties: LoadedProperties,
-  loading: Map<Path, Array<Promise<GripProperties>>>,
+  loading: Map<Path, Array<Promise<GripProperties>>>
 };
 
 export type ReduxAction = {
@@ -133,11 +132,11 @@ export type State = {
   actors: Set<string>,
   expandedPaths: Set<Path>,
   focusedItem: ?Node,
-  loadedProperties: LoadedProperties,
+  loadedProperties: LoadedProperties
 };
 
 export type Store = {
-  dispatch: (any) => any,
+  dispatch: any => any,
   getState: () => State
 };
 

@@ -1,13 +1,13 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 const React = require("react");
 const { Component, createFactory } = React;
 const PropTypes = require("prop-types");
 const dom = require("react-dom-factories");
 const { KeyShortcuts } = require("devtools-modules");
-let shortcuts = new KeyShortcuts({ window });
+const shortcuts = new KeyShortcuts({ window });
 
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
@@ -32,7 +32,7 @@ class Console extends Component {
       showResultPacket: PropTypes.func.isRequired,
       createObjectClient: PropTypes.func.isRequired,
       createLongStringClient: PropTypes.func.isRequired,
-      releaseActor: PropTypes.func.isRequired,
+      releaseActor: PropTypes.func.isRequired
     };
   }
 
@@ -45,7 +45,7 @@ class Console extends Component {
   }
 
   render() {
-    let {
+    const {
       addInput,
       changeCurrentInput,
       clearExpressions,
@@ -57,7 +57,7 @@ class Console extends Component {
       showResultPacket,
       createObjectClient,
       createLongStringClient,
-      releaseActor,
+      releaseActor
     } = this.props;
 
     return dom.main(
@@ -68,7 +68,7 @@ class Console extends Component {
         clearResultsList: clearExpressions,
         currentInputValue,
         evaluate: evaluateInput,
-        navigateInputHistory,
+        navigateInputHistory
       }),
       ResultsList({
         expressions: expressions.reverse(),
@@ -76,7 +76,7 @@ class Console extends Component {
         showResultPacket,
         createObjectClient,
         createLongStringClient,
-        releaseActor,
+        releaseActor
       })
     );
   }
@@ -85,7 +85,7 @@ class Console extends Component {
 function mapStateToProps(state) {
   return {
     expressions: selectors.getExpressions(state),
-    currentInputValue: selectors.getCurrentInputValue(state),
+    currentInputValue: selectors.getCurrentInputValue(state)
   };
 }
 
@@ -93,7 +93,4 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(require("../actions"), dispatch);
 }
 
-module.exports = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Console);
+module.exports = connect(mapStateToProps, mapDispatchToProps)(Console);

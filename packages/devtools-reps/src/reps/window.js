@@ -1,6 +1,6 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // ReactJS
 const PropTypes = require("prop-types");
@@ -22,35 +22,27 @@ const { span } = dom;
  * Renders a grip representing a window.
  */
 WindowRep.propTypes = {
-  // @TODO Change this to Object.values once it's supported in Node's version of V8
+  // @TODO Change this to Object.values when supported in Node's version of V8
   mode: PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
-  object: PropTypes.object.isRequired,
+  object: PropTypes.object.isRequired
 };
 
 function WindowRep(props) {
-  let {
-    mode,
-    object,
-  } = props;
+  const { mode, object } = props;
 
   const config = {
     "data-link-actor-id": object.actor,
-    className: "objectBox objectBox-Window",
+    className: "objectBox objectBox-Window"
   };
 
   if (mode === MODE.TINY) {
-    return (
-      span(config, getTitle(object))
-    );
+    return span(config, getTitle(object));
   }
 
-  return (
-    span(config,
-      getTitle(object, true),
-      span({className: "location"},
-        getLocation(object)
-      )
-    )
+  return span(
+    config,
+    getTitle(object, true),
+    span({ className: "location" }, getLocation(object))
   );
 }
 
@@ -59,7 +51,7 @@ function getTitle(object, trailingSpace) {
   if (trailingSpace === true) {
     title = `${title} `;
   }
-  return span({className: "objectTitle"}, title);
+  return span({ className: "objectTitle" }, title);
 }
 
 function getLocation(object) {
@@ -72,11 +64,11 @@ function supportsObject(object, noGrip = false) {
     return false;
   }
 
-  return (object.preview && getGripType(object, noGrip) == "Window");
+  return object.preview && getGripType(object, noGrip) == "Window";
 }
 
 // Exports from this module
 module.exports = {
   rep: wrapRender(WindowRep),
-  supportsObject,
+  supportsObject
 };

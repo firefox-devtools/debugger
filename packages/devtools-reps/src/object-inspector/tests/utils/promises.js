@@ -1,10 +1,10 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 const {
   makeNodesForPromiseProperties,
-  nodeIsPromise,
+  nodeIsPromise
 } = require("../../utils/node");
 
 describe("promises utils function", () => {
@@ -19,11 +19,11 @@ describe("promises utils function", () => {
             state: "rejected",
             reason: {
               type: "undefined"
-            },
+            }
           },
           class: "Promise",
-          type: "object",
-        },
+          type: "object"
+        }
       }
     };
 
@@ -40,11 +40,11 @@ describe("promises utils function", () => {
             state: "rejected",
             reason: {
               type: "3"
-            },
+            }
           },
           class: "Promise",
-          type: "object",
-        },
+          type: "object"
+        }
       }
     };
 

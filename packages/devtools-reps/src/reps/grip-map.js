@@ -1,6 +1,6 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // Dependencies
 
@@ -10,7 +10,7 @@ const {
   interleave,
   isGrip,
   wrapRender,
-  ellipsisElement,
+  ellipsisElement
 } = require("./rep-utils");
 const PropRep = require("./prop-rep");
 const { MODE } = require("./constants");
@@ -24,24 +24,21 @@ const { span } = require("react-dom-factories");
  */
 GripMap.propTypes = {
   object: PropTypes.object,
-  // @TODO Change this to Object.values once it's supported in Node's version of V8
+  // @TODO Change this to Object.values when supported in Node's version of V8
   mode: ModePropType,
   isInterestingEntry: PropTypes.func,
   onDOMNodeMouseOver: PropTypes.func,
   onDOMNodeMouseOut: PropTypes.func,
   onInspectIconClick: PropTypes.func,
-  title: PropTypes.string,
+  title: PropTypes.string
 };
 
 function GripMap(props) {
-  let {
-    mode,
-    object,
-  } = props;
+  const { mode, object } = props;
 
   const config = {
     "data-link-actor-id": object.actor,
-    className: "objectBox objectBox-object",
+    className: "objectBox objectBox-object"
   };
 
   const title = getTitle(props, object);
@@ -53,24 +50,31 @@ function GripMap(props) {
 
   const propsArray = safeEntriesIterator(props, object, maxLengthMap.get(mode));
 
-  return (
-    span(config,
-      title,
-      span({
-        className: "objectLeftBrace",
-      }, " { "),
-      ...interleave(propsArray, ", "),
-      span({
-        className: "objectRightBrace",
-      }, " }")
+  return span(
+    config,
+    title,
+    span(
+      {
+        className: "objectLeftBrace"
+      },
+      " { "
+    ),
+    ...interleave(propsArray, ", "),
+    span(
+      {
+        className: "objectRightBrace"
+      },
+      " }"
     )
   );
 }
 
 function getTitle(props, object) {
   const title = props.title || (object && object.class ? object.class : "Map");
-  return span({
-      className: "objectTitle"},
+  return span(
+    {
+      className: "objectTitle"
+    },
     title,
     lengthBubble({
       object,
@@ -83,7 +87,7 @@ function getTitle(props, object) {
 }
 
 function safeEntriesIterator(props, object, max) {
-  max = (typeof max === "undefined") ? 3 : max;
+  max = typeof max === "undefined" ? 3 : max;
   try {
     return entriesIterator(props, object, max);
   } catch (err) {
@@ -94,16 +98,18 @@ function safeEntriesIterator(props, object, max) {
 
 function entriesIterator(props, object, max) {
   // Entry filter. Show only interesting entries to the user.
-  let isInterestingEntry = props.isInterestingEntry || ((type, value) => {
-    return (
-      type == "boolean" ||
-      type == "number" ||
-      (type == "string" && value.length != 0)
-    );
-  });
+  const isInterestingEntry =
+    props.isInterestingEntry ||
+    ((type, value) => {
+      return (
+        type == "boolean" ||
+        type == "number" ||
+        (type == "string" && value.length != 0)
+      );
+    });
 
-  let mapEntries = object.preview && object.preview.entries
-    ? object.preview.entries : [];
+  const mapEntries =
+    object.preview && object.preview.entries ? object.preview.entries : [];
 
   let indexes = getEntriesIndexes(mapEntries, max, isInterestingEntry);
   if (indexes.length < max && indexes.length < mapEntries.length) {
@@ -115,7 +121,7 @@ function entriesIterator(props, object, max) {
     );
   }
 
-  let entries = getEntries(props, mapEntries, indexes);
+  const entries = getEntries(props, mapEntries, indexes);
   if (entries.length < getLength(object)) {
     // There are some undisplayed entries. Then display "…".
     entries.push(ellipsisElement);
@@ -133,20 +139,17 @@ function entriesIterator(props, object, max) {
  * @return {Array} Array of PropRep.
  */
 function getEntries(props, entries, indexes) {
-  let {
-    onDOMNodeMouseOver,
-    onDOMNodeMouseOut,
-    onInspectIconClick,
-  } = props;
+  const { onDOMNodeMouseOver, onDOMNodeMouseOut, onInspectIconClick } = props;
 
   // Make indexes ordered by ascending.
-  indexes.sort(function (a, b) {
+  indexes.sort(function(a, b) {
     return a - b;
   });
 
   return indexes.map((index, i) => {
-    let [key, entryValue] = entries[index];
-    let value = entryValue.value !== undefined ? entryValue.value : entryValue;
+    const [key, entryValue] = entries[index];
+    const value =
+      entryValue.value !== undefined ? entryValue.value : entryValue;
 
     return PropRep({
       name: key,
@@ -155,7 +158,7 @@ function getEntries(props, entries, indexes) {
       mode: MODE.TINY,
       onDOMNodeMouseOver,
       onDOMNodeMouseOut,
-      onInspectIconClick,
+      onInspectIconClick
     });
   });
 }
@@ -169,21 +172,23 @@ function getEntries(props, entries, indexes) {
  * @return {Array} Indexes of filtered entries in the map.
  */
 function getEntriesIndexes(entries, max, filter) {
-  return entries
-    .reduce((indexes, [key, entry], i) => {
-      if (indexes.length < max) {
-        let value = (entry && entry.value !== undefined) ? entry.value : entry;
-        // Type is specified in grip's "class" field and for primitive
-        // values use typeof.
-        let type = (value && value.class ? value.class : typeof value).toLowerCase();
+  return entries.reduce((indexes, [key, entry], i) => {
+    if (indexes.length < max) {
+      const value = entry && entry.value !== undefined ? entry.value : entry;
+      // Type is specified in grip's "class" field and for primitive
+      // values use typeof.
+      const type = (value && value.class
+        ? value.class
+        : typeof value
+      ).toLowerCase();
 
-        if (filter(type, value, key)) {
-          indexes.push(i);
-        }
+      if (filter(type, value, key)) {
+        indexes.push(i);
       }
+    }
 
-      return indexes;
-    }, []);
+    return indexes;
+  }, []);
 }
 
 function getLength(grip) {
@@ -194,7 +199,7 @@ function supportsObject(grip, noGrip = false) {
   if (noGrip === true || !isGrip(grip)) {
     return false;
   }
-  return (grip.preview && grip.preview.kind == "MapLike");
+  return grip.preview && grip.preview.kind == "MapLike";
 }
 
 const maxLengthMap = new Map();
@@ -206,5 +211,5 @@ module.exports = {
   rep: wrapRender(GripMap),
   supportsObject,
   maxLengthMap,
-  getLength,
+  getLength
 };

@@ -1,6 +1,6 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 const { mount } = require("enzyme");
 const React = require("react");
@@ -9,10 +9,7 @@ const ObjectInspector = createFactory(require("../../index"));
 const repsPath = "../../../reps";
 const { MODE } = require(`${repsPath}/constants`);
 
-const {
-  formatObjectInspector,
-  waitForDispatch,
-} = require("../test-utils");
+const { formatObjectInspector, waitForDispatch } = require("../test-utils");
 const ObjectClient = require("../__mocks__/object-client");
 const gripRepStubs = require(`${repsPath}/stubs/grip`);
 
@@ -22,7 +19,7 @@ function generateDefaults(overrides) {
     createObjectClient: grip => ObjectClient(grip),
     injectWaitService: true,
     mode: MODE.LONG,
-    ...overrides,
+    ...overrides
   };
 }
 
@@ -30,16 +27,23 @@ describe("ObjectInspector - keyboard navigation", () => {
   it("works as expected", async () => {
     const stub = gripRepStubs.get("testMaxProps");
 
-    const oi = mount(ObjectInspector(generateDefaults({
-      roots: [{ path: "root", contents: { value: stub } }],
-    })));
+    const oi = mount(
+      ObjectInspector(
+        generateDefaults({
+          roots: [{ path: "root", contents: { value: stub } }]
+        })
+      )
+    );
     expect(formatObjectInspector(oi)).toMatchSnapshot();
 
     oi.simulate("focus");
     expect(formatObjectInspector(oi)).toMatchSnapshot();
 
     // Pressing right arrow key should expand the node and lod its properties.
-    let onPropertiesLoaded = waitForDispatch(getStore(oi), "NODE_PROPERTIES_LOADED");
+    const onPropertiesLoaded = waitForDispatch(
+      getStore(oi),
+      "NODE_PROPERTIES_LOADED"
+    );
     simulateKeyDown(oi, "ArrowRight");
     await onPropertiesLoaded;
     oi.update();
@@ -67,7 +71,7 @@ describe("ObjectInspector - keyboard navigation", () => {
 });
 
 async function keyNavigate(oi, key) {
-  let onFocusDispatched = waitForDispatch(getStore(oi), "NODE_FOCUS");
+  const onFocusDispatched = waitForDispatch(getStore(oi), "NODE_FOCUS");
   simulateKeyDown(oi, key);
   await onFocusDispatched;
   oi.update();

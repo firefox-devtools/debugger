@@ -1,26 +1,25 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
 const { applyMiddleware, createStore, compose } = require("redux");
-const {thunk} = require("../shared/redux/middleware/thunk");
-const {waitUntilService} = require("../shared/redux/middleware/waitUntilService");
+const { thunk } = require("../shared/redux/middleware/thunk");
+const {
+  waitUntilService
+} = require("../shared/redux/middleware/waitUntilService");
 const reducer = require("./reducer");
 
-import type {
-  Props,
-  State,
-} from "./types";
+import type { Props, State } from "./types";
 
-function createInitialState(overrides : Object) : State {
+function createInitialState(overrides: Object): State {
   return {
     actors: new Set(),
     expandedPaths: new Set(),
     focusedItem: null,
     loadedProperties: new Map(),
     forceUpdated: false,
-    ...overrides,
+    ...overrides
   };
 }
 
@@ -40,15 +39,16 @@ function enableStateReinitializer(props) {
         actors: new Set(),
         expandedPaths: new Set(),
         loadedProperties: new Map(),
-        // Indicates to the component that we do want to render on the next render cycle.
-        forceUpdate: true,
+        // Indicates to the component that we do want to render on the next
+        // render cycle.
+        forceUpdate: true
       };
     }
     return next(reinitializerEnhancer, initialState, enhancer);
   };
 }
 
-module.exports = (props : Props) => {
+module.exports = (props: Props) => {
   const middlewares = [thunk];
 
   if (props.injectWaitService) {
@@ -58,9 +58,6 @@ module.exports = (props : Props) => {
   return createStore(
     reducer,
     createInitialState(props),
-    compose(
-      applyMiddleware(...middlewares),
-      enableStateReinitializer(props)
-    )
+    compose(applyMiddleware(...middlewares), enableStateReinitializer(props))
   );
 };

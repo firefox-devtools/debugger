@@ -1,15 +1,12 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // ReactJS
 const PropTypes = require("prop-types");
 
 // Reps
-const {
-  isGrip,
-  wrapRender,
-} = require("./rep-utils");
+const { isGrip, wrapRender } = require("./rep-utils");
 
 const String = require("./string").rep;
 
@@ -20,20 +17,18 @@ const { span } = dom;
  * Renders a grip object with textual data.
  */
 ObjectWithText.propTypes = {
-  object: PropTypes.object.isRequired,
+  object: PropTypes.object.isRequired
 };
 
 function ObjectWithText(props) {
-  let grip = props.object;
-  return (
-    span(
-      {
-        "data-link-actor-id": grip.actor,
-        className: "objectTitle objectBox objectBox-" + getType(grip)
-      },
-      `${getType(grip)} `,
-      getDescription(grip)
-    )
+  const grip = props.object;
+  return span(
+    {
+      "data-link-actor-id": grip.actor,
+      className: `objectTitle objectBox objectBox-${getType(grip)}`
+    },
+    `${getType(grip)} `,
+    getDescription(grip)
   );
 }
 
@@ -43,7 +38,7 @@ function getType(grip) {
 
 function getDescription(grip) {
   return String({
-    object: grip.preview.text,
+    object: grip.preview.text
   });
 }
 
@@ -53,11 +48,11 @@ function supportsObject(grip, noGrip = false) {
     return false;
   }
 
-  return (grip.preview && grip.preview.kind == "ObjectWithText");
+  return grip.preview && grip.preview.kind == "ObjectWithText";
 }
 
 // Exports from this module
 module.exports = {
   rep: wrapRender(ObjectWithText),
-  supportsObject,
+  supportsObject
 };

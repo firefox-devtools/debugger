@@ -1,6 +1,6 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 require("./reps.css");
 
@@ -41,7 +41,7 @@ const Grip = require("./grip");
 // List of all registered template.
 // XXX there should be a way for extensions to register a new
 // or modify an existing rep.
-let reps = [
+const reps = [
   RegExp,
   StyleSheet,
   Event,
@@ -70,7 +70,7 @@ let reps = [
   SymbolRep,
   InfinityRep,
   NaNRep,
-  Accessor,
+  Accessor
 ];
 
 /**
@@ -79,12 +79,9 @@ let reps = [
  * to the current value type. The value must be passed is as 'object'
  * property.
  */
-const Rep = function (props) {
-  let {
-    object,
-    defaultRep,
-  } = props;
-  let rep = getRep(object, defaultRep, props.noGrip);
+const Rep = function(props) {
+  const { object, defaultRep } = props;
+  const rep = getRep(object, defaultRep, props.noGrip);
   return rep(props);
 };
 
@@ -101,11 +98,12 @@ const Rep = function (props) {
  * @param defaultRep {React.Component} The default template
  * that should be used to render given object if none is found.
  *
- * @param noGrip {Boolean} If true, will only check reps not made for remote objects.
+ * @param noGrip {Boolean} If true, will only check reps not made for remote
+ *                         objects.
  */
 function getRep(object, defaultRep = Obj, noGrip = false) {
   for (let i = 0; i < reps.length; i++) {
-    let rep = reps[i];
+    const rep = reps[i];
     try {
       // supportsObject could return weight (not only true/false
       // but a number), which would allow to priorities templates and
@@ -154,8 +152,8 @@ module.exports = {
     SymbolRep,
     TextNode,
     Undefined,
-    Window,
+    Window
   },
   // Exporting for tests
-  getRep,
+  getRep
 };

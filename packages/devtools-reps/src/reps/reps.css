@@ -52,7 +52,8 @@
   color: var(--string-color);
 }
 
-.objectBox-string a, .objectBox-string a:visited {
+.objectBox-string a,
+.objectBox-string a:visited {
   color: currentColor;
   text-decoration: none;
   font-style: italic;
@@ -245,7 +246,7 @@ button.open-inspector {
   display: inline-block;
   background-color: var(--comment-node-color);
   height: 16px;
-  margin-left: .25em;
+  margin-left: 0.25em;
   vertical-align: middle;
 }
 
@@ -263,7 +264,7 @@ button.jump-definition {
   display: inline-block;
   background-color: var(--comment-node-color);
   height: 16px;
-  margin-left: .25em;
+  margin-left: 0.25em;
   vertical-align: middle;
 }
 

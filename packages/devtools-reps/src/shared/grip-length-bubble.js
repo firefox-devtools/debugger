@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 const PropTypes = require("prop-types");
 
 const { wrapRender } = require("../reps/rep-utils");
@@ -27,19 +31,23 @@ function GripLengthBubble(props) {
 
   const length = getLength(object);
   const isEmpty = length === 0;
-  const isObvious = [MODE.SHORT, MODE.LONG].includes(mode) &&
+  const isObvious =
+    [MODE.SHORT, MODE.LONG].includes(mode) &&
     length > 0 &&
     length <= maxLengthMap.get(mode) &&
     length <= visibilityThreshold;
-  if (isEmpty && !showZeroLength || isObvious) {
+  if ((isEmpty && !showZeroLength) || isObvious) {
     return "";
   }
 
-  return span({
-    className: "objectLengthBubble"
-  }, `(${length})`);
+  return span(
+    {
+      className: "objectLengthBubble"
+    },
+    `(${length})`
+  );
 }
 
 module.exports = {
-  lengthBubble: wrapRender(GripLengthBubble),
+  lengthBubble: wrapRender(GripLengthBubble)
 };

@@ -1,6 +1,6 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 const accessorStubs = require("../../../reps/stubs/accessor");
 const performanceStubs = require("../../stubs/performance");
@@ -9,11 +9,7 @@ const gripArrayStubs = require("../../../reps/stubs/grip-array");
 const gripMapEntryStubs = require("../../../reps/stubs/grip-map-entry");
 const gripStubs = require("../../../reps/stubs/grip");
 
-const {
-  createNode,
-  getChildren,
-  getValue,
-} = require("../../utils/node");
+const { createNode, getChildren, getValue } = require("../../utils/node");
 
 describe("getChildren", () => {
   it("accessors - getter", () => {
@@ -29,7 +25,7 @@ describe("getChildren", () => {
     const paths = nodes.map(n => n.path.toString());
 
     expect(names).toEqual(["<get>"]);
-    expect(paths).toEqual([`Symbol(rootpath/<get>)`]);
+    expect(paths).toEqual(["Symbol(rootpath/<get>)"]);
   });
 
   it("accessors - setter", () => {
@@ -45,7 +41,7 @@ describe("getChildren", () => {
     const paths = nodes.map(n => n.path.toString());
 
     expect(names).toEqual(["<set>"]);
-    expect(paths).toEqual([`Symbol(rootpath/<set>)`]);
+    expect(paths).toEqual(["Symbol(rootpath/<set>)"]);
   });
 
   it("accessors - getter & setter", () => {
@@ -61,8 +57,7 @@ describe("getChildren", () => {
     const paths = nodes.map(n => n.path.toString());
 
     expect(names).toEqual(["<get>", "<set>"]);
-    expect(paths).toEqual(
-      [`Symbol(rootpath/<get>)`, `Symbol(rootpath/<set>)`]);
+    expect(paths).toEqual(["Symbol(rootpath/<get>)", "Symbol(rootpath/<set>)"]);
   });
 
   it("returns the expected nodes for Proxy", () => {
@@ -70,7 +65,7 @@ describe("getChildren", () => {
       item: createNode({
         name: "root",
         path: "rootpath",
-        contents: { value: gripStubs.get("testProxy")}
+        contents: { value: gripStubs.get("testProxy") }
       })
     });
 
@@ -78,8 +73,10 @@ describe("getChildren", () => {
     const paths = nodes.map(n => n.path.toString());
 
     expect(names).toEqual(["<target>", "<handler>"]);
-    expect(paths).toEqual(
-      [`Symbol(rootpath/<target>)`, `Symbol(rootpath/<handler>)`]);
+    expect(paths).toEqual([
+      "Symbol(rootpath/<target>)",
+      "Symbol(rootpath/<handler>)"
+    ]);
   });
 
   it("safeGetterValues", () => {
@@ -96,7 +93,7 @@ describe("getChildren", () => {
     });
     const nodes = getChildren({
       item: root,
-      loadedProperties: new Map([[root.path, stub]]),
+      loadedProperties: new Map([[root.path, stub]])
     });
 
     const nodeEntries = nodes.map(n => [n.name, getValue(n)]);
@@ -126,39 +123,48 @@ describe("getChildren", () => {
       ["unloadEventStart", 0],
       ["<prototype>", stub.prototype]
     ];
-    const childrenPaths = childrenEntries.map(([name]) => `Symbol(rootpath/${name})`);
+    const childrenPaths = childrenEntries.map(
+      ([name]) => `Symbol(rootpath/${name})`
+    );
 
     expect(nodeEntries).toEqual(childrenEntries);
     expect(nodePaths).toEqual(childrenPaths);
   });
 
   it("gets data from the cache when it exists", () => {
-    const mapNode = createNode({name: "map", contents: {
-      value: gripMapStubs.get("testSymbolKeyedMap")
-    }});
+    const mapNode = createNode({
+      name: "map",
+      contents: {
+        value: gripMapStubs.get("testSymbolKeyedMap")
+      }
+    });
     const cachedData = Symbol();
     const children = getChildren({
       cachedNodes: new Map([[mapNode.path, cachedData]]),
-      item: mapNode,
+      item: mapNode
     });
     expect(children).toBe(cachedData);
   });
 
   it("returns an empty array if the node does not represent an object", () => {
-    const node = createNode({name: "root", contents: {value: 42}});
-    expect(getChildren({
-      item: node
-    })).toEqual([]);
+    const node = createNode({ name: "root", contents: { value: 42 } });
+    expect(
+      getChildren({
+        item: node
+      })
+    ).toEqual([]);
   });
 
   it("returns an empty array if a grip node has no loaded properties", () => {
     const node = createNode({
       name: "root",
-      contents: {value: gripMapStubs.get("testMaxProps")}
+      contents: { value: gripMapStubs.get("testMaxProps") }
     });
-    expect(getChildren({
-      item: node,
-    })).toEqual([]);
+    expect(
+      getChildren({
+        item: node
+      })
+    ).toEqual([]);
   });
 
   it("adds children to cache when a grip node has loaded properties", () => {
@@ -177,7 +183,7 @@ describe("getChildren", () => {
     const children = getChildren({
       cachedNodes,
       item: rootNode,
-      loadedProperties: new Map([[rootNode.path, stub]]),
+      loadedProperties: new Map([[rootNode.path, stub]])
     });
     expect(cachedNodes.get(rootNode.path)).toBe(children);
   });
@@ -185,20 +191,23 @@ describe("getChildren", () => {
   it("adds children to cache when it already has some", () => {
     const cachedNodes = new Map();
     const children = [Symbol()];
-    const rootNode = createNode({name: "root", contents: children});
+    const rootNode = createNode({ name: "root", contents: children });
     getChildren({
       cachedNodes,
-      item: rootNode,
+      item: rootNode
     });
     expect(cachedNodes.get(rootNode.path)).toBe(children);
   });
 
   it("adds children to cache on a node with accessors", () => {
     const cachedNodes = new Map();
-    const node = createNode({name: "root", contents: accessorStubs.get("getter setter")});
+    const node = createNode({
+      name: "root",
+      contents: accessorStubs.get("getter setter")
+    });
     const children = getChildren({
       cachedNodes,
-      item: node,
+      item: node
     });
     expect(cachedNodes.get(node.path)).toBe(children);
   });
@@ -207,11 +216,11 @@ describe("getChildren", () => {
     const cachedNodes = new Map();
     const node = createNode({
       name: "root",
-      contents: {value: gripMapEntryStubs.get("A → 0")}
+      contents: { value: gripMapEntryStubs.get("A → 0") }
     });
     const children = getChildren({
       cachedNodes,
-      item: node,
+      item: node
     });
     expect(cachedNodes.get(node.path)).toBe(children);
   });
@@ -220,39 +229,39 @@ describe("getChildren", () => {
     const cachedNodes = new Map();
     const node = createNode({
       name: "root",
-      contents: {value: gripStubs.get("testProxy")}
+      contents: { value: gripStubs.get("testProxy") }
     });
     const children = getChildren({
       cachedNodes,
       item: node,
-      loadedProperties: new Map([[node.path, {prototype: {}}]])
+      loadedProperties: new Map([[node.path, { prototype: {} }]])
     });
     expect(cachedNodes.get(node.path)).toBe(children);
   });
 
-  it("does not adds children to cache on a node with buckets and no loaded props", () => {
+  it("doesn't cache children on node with buckets and no loaded props", () => {
     const cachedNodes = new Map();
     const node = createNode({
       name: "root",
-      contents: {value: gripArrayStubs.get("Array(234)")}
+      contents: { value: gripArrayStubs.get("Array(234)") }
     });
     getChildren({
       cachedNodes,
-      item: node,
+      item: node
     });
     expect(cachedNodes.has(node.path)).toBeFalsy();
   });
 
-  it("adds children to cache on a node with buckets having loaded props", () => {
+  it("caches children on a node with buckets having loaded props", () => {
     const cachedNodes = new Map();
     const node = createNode({
       name: "root",
-      contents: {value: gripArrayStubs.get("Array(234)")}
+      contents: { value: gripArrayStubs.get("Array(234)") }
     });
     const children = getChildren({
       cachedNodes,
       item: node,
-      loadedProperties: new Map([[node.path, {prototype: {}}]])
+      loadedProperties: new Map([[node.path, { prototype: {} }]])
     });
     expect(cachedNodes.get(node.path)).toBe(children);
   });

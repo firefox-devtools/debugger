@@ -1,6 +1,6 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // Dependencies
 const PropTypes = require("prop-types");
@@ -26,24 +26,20 @@ const DEFAULT_TITLE = "Array";
  */
 GripArray.propTypes = {
   object: PropTypes.object.isRequired,
-  // @TODO Change this to Object.values once it's supported in Node's version of V8
+  // @TODO Change this to Object.values when supported in Node's version of V8
   mode: ModePropType,
   provider: PropTypes.object,
   onDOMNodeMouseOver: PropTypes.func,
   onDOMNodeMouseOut: PropTypes.func,
-  onInspectIconClick: PropTypes.func,
+  onInspectIconClick: PropTypes.func
 };
 
 function GripArray(props) {
-  let {
-    object,
-    mode = MODE.SHORT
-  } = props;
+  const { object, mode = MODE.SHORT } = props;
 
-  let items;
   let brackets;
-  let needSpace = function (space) {
-    return space ? { left: "[ ", right: " ]"} : { left: "[", right: "]"};
+  const needSpace = function(space) {
+    return space ? { left: "[ ", right: " ]" } : { left: "[", right: "]" };
   };
 
   const config = {
@@ -58,47 +54,56 @@ function GripArray(props) {
 
     // Omit bracketed ellipsis for non-empty non-Array arraylikes (f.e: Sets).
     if (!isEmpty && object.class !== "Array") {
-      return (
-        span(config, title)
-      );
+      return span(config, title);
     }
 
     brackets = needSpace(false);
-    return (
-      span(config,
-        title,
-        span({
-          className: "arrayLeftBracket",
-        }, brackets.left),
-        isEmpty ? null : ellipsisElement,
-        span({
-          className: "arrayRightBracket",
-        }, brackets.right)
+    return span(
+      config,
+      title,
+      span(
+        {
+          className: "arrayLeftBracket"
+        },
+        brackets.left
+      ),
+      isEmpty ? null : ellipsisElement,
+      span(
+        {
+          className: "arrayRightBracket"
+        },
+        brackets.right
       )
     );
   }
 
-  let max = maxLengthMap.get(mode);
-  items = arrayIterator(props, object, max);
+  const max = maxLengthMap.get(mode);
+  const items = arrayIterator(props, object, max);
   brackets = needSpace(items.length > 0);
 
-  return (
-    span({
+  return span(
+    {
       "data-link-actor-id": object.actor,
-      className: "objectBox objectBox-array"},
-      title,
-      span({
-        className: "arrayLeftBracket",
-      }, brackets.left),
-      ...interleave(items, ", "),
-      span({
-        className: "arrayRightBracket",
-      }, brackets.right),
-      span({
-        className: "arrayProperties",
-        role: "group"}
-      )
-    )
+      className: "objectBox objectBox-array"
+    },
+    title,
+    span(
+      {
+        className: "arrayLeftBracket"
+      },
+      brackets.left
+    ),
+    ...interleave(items, ", "),
+    span(
+      {
+        className: "arrayRightBracket"
+      },
+      brackets.right
+    ),
+    span({
+      className: "arrayProperties",
+      role: "group"
+    })
   );
 }
 
@@ -107,12 +112,12 @@ function getLength(grip) {
     return 0;
   }
 
-  return grip.preview.length || grip.preview.childNodesLength || 0;
+  return grip.preview.length || grip.preview.childNodesLength || 0;
 }
 
 function getTitle(props, object) {
-  let objectLength = getLength(object);
-  let isEmpty = objectLength === 0;
+  const objectLength = getLength(object);
+  const isEmpty = objectLength === 0;
 
   let title = props.title || object.class || DEFAULT_TITLE;
 
@@ -129,9 +134,7 @@ function getTitle(props, object) {
         return null;
       }
 
-      return (
-        span({className: "objectTitle"}, `${title} `)
-      );
+      return span({ className: "objectTitle" }, `${title} `);
     }
 
     let trailingSpace;
@@ -140,18 +143,10 @@ function getTitle(props, object) {
       trailingSpace = " ";
     }
 
-    return span({className: "objectTitle"},
-      title,
-      length,
-      trailingSpace
-    );
+    return span({ className: "objectTitle" }, title, length, trailingSpace);
   }
 
-  return span({className: "objectTitle"},
-    title,
-    length,
-    " "
-  );
+  return span({ className: "objectTitle" }, title, length, " ");
 }
 
 function getPreviewItems(grip) {
@@ -163,7 +158,7 @@ function getPreviewItems(grip) {
 }
 
 function arrayIterator(props, grip, max) {
-  let { Rep } = require("./rep");
+  const { Rep } = require("./rep");
 
   let items = [];
   const gripLength = getLength(grip);
@@ -173,7 +168,7 @@ function arrayIterator(props, grip, max) {
   }
 
   const previewItems = getPreviewItems(grip);
-  let provider = props.provider;
+  const provider = props.provider;
 
   let emptySlots = 0;
   let foldedEmptySlots = 0;
@@ -189,9 +184,7 @@ function arrayIterator(props, grip, max) {
         return res;
       }
 
-      object = provider
-        ? provider.getValue(itemGrip)
-        : itemGrip;
+      object = provider ? provider.getValue(itemGrip) : itemGrip;
     } catch (exc) {
       object = exc;
     }
@@ -203,13 +196,15 @@ function arrayIterator(props, grip, max) {
     }
 
     if (res.length < max) {
-      res.push(Rep({
-        ...props,
-        object,
-        mode: MODE.TINY,
-        // Do not propagate title to array items reps
-        title: undefined,
-      }));
+      res.push(
+        Rep({
+          ...props,
+          object,
+          mode: MODE.TINY,
+          // Do not propagate title to array items reps
+          title: undefined
+        })
+      );
     }
 
     return res;
@@ -221,7 +216,7 @@ function arrayIterator(props, grip, max) {
     foldedEmptySlots = foldedEmptySlots + emptySlots - 1;
   }
 
-  const itemsShown = (items.length + foldedEmptySlots);
+  const itemsShown = items.length + foldedEmptySlots;
   if (gripLength > itemsShown) {
     items.push(ellipsisElement);
   }
@@ -239,10 +234,10 @@ function supportsObject(grip, noGrip = false) {
     return false;
   }
 
-  return (grip.preview && (
-      grip.preview.kind == "ArrayLike" ||
-      getGripType(grip, noGrip) === "DocumentFragment"
-    )
+  return (
+    grip.preview &&
+    (grip.preview.kind == "ArrayLike" ||
+      getGripType(grip, noGrip) === "DocumentFragment")
   );
 }
 
@@ -255,5 +250,5 @@ module.exports = {
   rep: wrapRender(GripArray),
   supportsObject,
   maxLengthMap,
-  getLength,
+  getLength
 };

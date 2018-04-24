@@ -1,6 +1,6 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // ReactJS
 const PropTypes = require("prop-types");
@@ -20,31 +20,30 @@ const { span } = dom;
  * Renders a grip representing CSSStyleSheet
  */
 StyleSheet.propTypes = {
-  object: PropTypes.object.isRequired,
+  object: PropTypes.object.isRequired
 };
 
 function StyleSheet(props) {
-  let grip = props.object;
+  const grip = props.object;
 
-  return (
-    span({
+  return span(
+    {
       "data-link-actor-id": grip.actor,
-      className: "objectBox objectBox-object",
+      className: "objectBox objectBox-object"
     },
-      getTitle(grip),
-      span({className: "objectPropValue"}, getLocation(grip))
-    )
+    getTitle(grip),
+    span({ className: "objectPropValue" }, getLocation(grip))
   );
 }
 
 function getTitle(grip) {
-  let title = "StyleSheet ";
-  return span({className: "objectBoxTitle"}, title);
+  const title = "StyleSheet ";
+  return span({ className: "objectBoxTitle" }, title);
 }
 
 function getLocation(grip) {
   // Embedded stylesheets don't have URL and so, no preview.
-  let url = grip.preview ? grip.preview.url : "";
+  const url = grip.preview ? grip.preview.url : "";
   return url ? getURLDisplayString(url) : "";
 }
 
@@ -61,5 +60,5 @@ function supportsObject(object, noGrip = false) {
 
 module.exports = {
   rep: wrapRender(StyleSheet),
-  supportsObject,
+  supportsObject
 };

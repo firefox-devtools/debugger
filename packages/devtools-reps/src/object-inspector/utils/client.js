@@ -1,23 +1,25 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
- // @flow
+// @flow
 import type {
   GripProperties,
   ObjectClient,
   PropertiesIterator,
-  NodeContents, LongStringClient,
+  NodeContents,
+  LongStringClient
 } from "../types";
 
 async function enumIndexedProperties(
   objectClient: ObjectClient,
   start: ?number,
   end: ?number
-) : Promise<{ownProperties?: Object}> {
+): Promise<{ ownProperties?: Object }> {
   try {
-    const {iterator} = await objectClient
-      .enumProperties({ignoreNonIndexedProperties: true});
+    const { iterator } = await objectClient.enumProperties({
+      ignoreNonIndexedProperties: true
+    });
     const response = await iteratorSlice(iterator, start, end);
     return response;
   } catch (e) {
@@ -30,9 +32,11 @@ async function enumNonIndexedProperties(
   objectClient: ObjectClient,
   start: ?number,
   end: ?number
-) : Promise<{ownProperties?: Object}> {
+): Promise<{ ownProperties?: Object }> {
   try {
-    const {iterator} = await objectClient.enumProperties({ignoreIndexedProperties: true});
+    const { iterator } = await objectClient.enumProperties({
+      ignoreIndexedProperties: true
+    });
     const response = await iteratorSlice(iterator, start, end);
     return response;
   } catch (e) {
@@ -45,9 +49,9 @@ async function enumEntries(
   objectClient: ObjectClient,
   start: ?number,
   end: ?number
-) : Promise<{ownProperties?: Object}> {
+): Promise<{ ownProperties?: Object }> {
   try {
-    const {iterator} = await objectClient.enumEntries();
+    const { iterator } = await objectClient.enumEntries();
     const response = await iteratorSlice(iterator, start, end);
     return response;
   } catch (e) {
@@ -60,9 +64,9 @@ async function enumSymbols(
   objectClient: ObjectClient,
   start: ?number,
   end: ?number
-) : Promise<{ownSymbols?: Array<Object>}> {
+): Promise<{ ownSymbols?: Array<Object> }> {
   try {
-    const {iterator} = await objectClient.enumSymbols();
+    const { iterator } = await objectClient.enumSymbols();
     const response = await iteratorSlice(iterator, start, end);
     return response;
   } catch (e) {
@@ -73,7 +77,7 @@ async function enumSymbols(
 
 async function getPrototype(
   objectClient: ObjectClient
-) : ?Promise<{prototype?: Object}> {
+): ?Promise<{ prototype?: Object }> {
   if (typeof objectClient.getPrototype !== "function") {
     console.error("objectClient.getPrototype is not a function");
     return Promise.resolve({});
@@ -83,15 +87,17 @@ async function getPrototype(
 
 async function getFullText(
   longStringClient: LongStringClient,
-  object: NodeContents,
-) : Promise<{fullText?: string}> {
+  object: NodeContents
+): Promise<{ fullText?: string }> {
   const { initial, length } = object;
 
   return new Promise((resolve, reject) => {
     longStringClient.substring(initial.length, length, response => {
       if (response.error) {
-        console.error("LongStringClient.substring",
-          response.error + ": " + response.message);
+        console.error(
+          "LongStringClient.substring",
+          `${response.error}: ${response.message}`
+        );
         reject({});
         return;
       }
@@ -107,11 +113,9 @@ function iteratorSlice(
   iterator: PropertiesIterator,
   start: ?number,
   end: ?number
-) : Promise<GripProperties> {
+): Promise<GripProperties> {
   start = start || 0;
-  const count = end
-    ? end - start + 1
-    : iterator.count;
+  const count = end ? end - start + 1 : iterator.count;
 
   if (count === 0) {
     return Promise.resolve({});
@@ -125,5 +129,5 @@ module.exports = {
   enumNonIndexedProperties,
   enumSymbols,
   getPrototype,
-  getFullText,
+  getFullText
 };

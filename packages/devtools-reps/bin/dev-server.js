@@ -16,10 +16,14 @@ let webpackConfig = require("../webpack.config");
 let { app } = toolbox.startDevServer(envConfig, webpackConfig, __dirname);
 
 // Serve devtools-reps images
-app.use("/devtools-reps/images/", serve(path.join(__dirname, "../src/shared/images")));
+app.use(
+  "/devtools-reps/images/",
+  serve(path.join(__dirname, "../src/shared/images"))
+);
 
 // As well as devtools-components ones, with a different path, which we are going to
 // write in the postCSS config in development mode.
-app.use("/devtools-components/images/",
-  serve(path.join(__dirname, "../node_modules/devtools-components/src/images")));
-
+app.use(
+  "/devtools-components/images/",
+  serve(path.join(__dirname, "../node_modules/devtools-components/src/images"))
+);

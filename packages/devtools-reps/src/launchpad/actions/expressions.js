@@ -1,12 +1,12 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 const constants = require("../constants");
 const { generateKey } = require("../utils/utils");
 
 function evaluateInput(input) {
-  return async function ({dispatch, client}) {
+  return async function({ dispatch, client }) {
     try {
       const packet = await client.clientCommands.evaluate(input);
       dispatch(addExpression(input, packet));
@@ -22,8 +22,8 @@ function addExpression(input, packet) {
     type: constants.ADD_EXPRESSION,
     value: {
       input,
-      packet,
-    },
+      packet
+    }
   };
 }
 
@@ -36,31 +36,31 @@ function clearExpressions() {
 function showResultPacket(key) {
   return {
     key,
-    type: constants.SHOW_RESULT_PACKET,
+    type: constants.SHOW_RESULT_PACKET
   };
 }
 
 function hideResultPacket(key) {
   return {
     key,
-    type: constants.HIDE_RESULT_PACKET,
+    type: constants.HIDE_RESULT_PACKET
   };
 }
 
 function createObjectClient(grip) {
-  return function ({dispatch, client}) {
+  return function({ dispatch, client }) {
     return client.getObjectClient(grip);
   };
 }
 
 function createLongStringClient(grip) {
-  return function ({dispatch, client}) {
+  return function({ dispatch, client }) {
     return client.getLongStringClient(grip);
   };
 }
 
 function releaseActor(actor) {
-  return function ({dispatch, client}) {
+  return function({ dispatch, client }) {
     client.releaseActor(actor);
   };
 }
@@ -72,5 +72,5 @@ module.exports = {
   hideResultPacket,
   createObjectClient,
   createLongStringClient,
-  releaseActor,
+  releaseActor
 };

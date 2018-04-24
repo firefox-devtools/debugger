@@ -1,6 +1,6 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 const React = require("react");
 const { Component, createFactory } = React;
@@ -18,7 +18,7 @@ class Result extends Component {
       hideResultPacket: PropTypes.func.isRequired,
       createObjectClient: PropTypes.func.isRequired,
       createLongStringClient: PropTypes.func.isRequired,
-      releaseActor: PropTypes.func.isRequired,
+      releaseActor: PropTypes.func.isRequired
     };
   }
 
@@ -34,7 +34,7 @@ class Result extends Component {
   copyPacketToClipboard(e, packet) {
     e.stopPropagation();
 
-    let textField = document.createElement("textarea");
+    const textField = document.createElement("textarea");
     textField.innerHTML = JSON.stringify(packet, null, "  ");
     document.body.appendChild(textField);
     textField.select();
@@ -43,7 +43,7 @@ class Result extends Component {
   }
 
   onHeaderClick() {
-    const {expression} = this.props;
+    const { expression } = this.props;
     if (expression.showPacket === true) {
       this.props.hideResultPacket();
     } else {
@@ -53,31 +53,33 @@ class Result extends Component {
 
   renderRepInAllModes({ object }) {
     return Object.keys(MODE).map(modeKey =>
-       this.renderRep({ object, modeKey })
-     );
+      this.renderRep({ object, modeKey })
+    );
   }
 
   renderRep({ object, modeKey }) {
     const {
       createObjectClient,
       createLongStringClient,
-      releaseActor,
+      releaseActor
     } = this.props;
     const path = object.actor;
 
     return dom.div(
       {
-        className: `rep-element`,
+        className: "rep-element",
         key: `${path}${modeKey}`,
         "data-mode": modeKey
       },
       ObjectInspector({
-        roots: [{
-          path,
-          contents: {
-            value: object
+        roots: [
+          {
+            path,
+            contents: {
+              value: object
+            }
           }
-        }],
+        ],
         autoExpandDepth: 0,
         createObjectClient,
         createLongStringClient,
@@ -85,47 +87,65 @@ class Result extends Component {
         mode: MODE[modeKey],
         disableFocus: false,
         // The following properties are optional function props called by the
-        // objectInspector on some occasions. Here we pass dull functions that only
-        // logs the parameters with which the callback was called.
+        // objectInspector on some occasions. Here we pass dull functions that
+        // only logs the parameters with which the callback was called.
         onCmdCtrlClick: (node, { depth, event, focused, expanded }) =>
-          console.log("CmdCtrlClick", {node, depth, event, focused, expanded}),
-        onInspectIconClick: nodeFront => console.log("inspectIcon click", {nodeFront}),
+          console.log("CmdCtrlClick", {
+            node,
+            depth,
+            event,
+            focused,
+            expanded
+          }),
+        onInspectIconClick: nodeFront =>
+          console.log("inspectIcon click", { nodeFront }),
         onViewSourceInDebugger: location =>
-          console.log("onViewSourceInDebugger", {location}),
+          console.log("onViewSourceInDebugger", { location })
       })
     );
   }
 
   renderPacket(expression) {
-    let {packet, showPacket} = expression;
-    let headerClassName = showPacket ? "packet-expanded" : "packet-collapsed";
-    let headerLabel = showPacket ? "Hide expression packet" : "Show expression packet";
+    const { packet, showPacket } = expression;
+    const headerClassName = showPacket ? "packet-expanded" : "packet-collapsed";
+    const headerLabel = showPacket
+      ? "Hide expression packet"
+      : "Show expression packet";
 
-    return dom.div({ className: "packet" },
-      dom.header({
-        className: headerClassName,
-        onClick: this.onHeaderClick,
-      },
+    return dom.div(
+      { className: "packet" },
+      dom.header(
+        {
+          className: headerClassName,
+          onClick: this.onHeaderClick
+        },
         headerLabel,
-        showPacket && dom.button({
-          className: "copy-packet-button",
-          onClick: (e) => this.copyPacketToClipboard(e, packet)
-        }, "Copy as JSON")
+        showPacket &&
+          dom.button(
+            {
+              className: "copy-packet-button",
+              onClick: e => this.copyPacketToClipboard(e, packet)
+            },
+            "Copy as JSON"
+          )
       ),
       showPacket &&
-      dom.div({className: "packet-rep"}, Rep({object: packet}))
+        dom.div({ className: "packet-rep" }, Rep({ object: packet }))
     );
   }
 
   render() {
-    let {expression} = this.props;
-    let {input, packet} = expression;
+    const { expression } = this.props;
+    const { input, packet } = expression;
     return dom.div(
       { className: "rep-row" },
       dom.div({ className: "rep-input" }, input),
-      dom.div({ className: "reps" }, this.renderRepInAllModes({
-        object: packet.exception || packet.result
-      })),
+      dom.div(
+        { className: "reps" },
+        this.renderRepInAllModes({
+          object: packet.exception || packet.result
+        })
+      ),
       this.renderPacket(expression)
     );
   }

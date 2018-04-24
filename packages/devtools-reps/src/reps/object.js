@@ -1,13 +1,10 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // Dependencies
 const PropTypes = require("prop-types");
-const {
-  wrapRender,
-  ellipsisElement,
-} = require("./rep-utils");
+const { wrapRender, ellipsisElement } = require("./rep-utils");
 const PropRep = require("./prop-rep");
 const { MODE } = require("./constants");
 
@@ -22,14 +19,14 @@ const DEFAULT_TITLE = "Object";
  */
 ObjectRep.propTypes = {
   object: PropTypes.object.isRequired,
-  // @TODO Change this to Object.values once it's supported in Node's version of V8
+  // @TODO Change this to Object.values when supported in Node's version of V8
   mode: PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
-  title: PropTypes.string,
+  title: PropTypes.string
 };
 
 function ObjectRep(props) {
-  let object = props.object;
-  let propsArray = safePropIterator(props, object);
+  const object = props.object;
+  const propsArray = safePropIterator(props, object);
 
   if (props.mode === MODE.TINY) {
     const tinyModeItems = [];
@@ -37,37 +34,46 @@ function ObjectRep(props) {
       tinyModeItems.push(getTitleElement(props, object));
     } else {
       tinyModeItems.push(
-        span({
-          className: "objectLeftBrace",
-        }, "{"),
-        propsArray.length > 0
-          ? ellipsisElement
-          : null,
-        span({
-          className: "objectRightBrace",
-        }, "}")
+        span(
+          {
+            className: "objectLeftBrace"
+          },
+          "{"
+        ),
+        propsArray.length > 0 ? ellipsisElement : null,
+        span(
+          {
+            className: "objectRightBrace"
+          },
+          "}"
+        )
       );
     }
 
-    return span({className: "objectBox objectBox-object"}, ...tinyModeItems);
+    return span({ className: "objectBox objectBox-object" }, ...tinyModeItems);
   }
 
-  return (
-    span({className: "objectBox objectBox-object"},
-      getTitleElement(props, object),
-      span({
-        className: "objectLeftBrace",
-      }, " { "),
-      ...propsArray,
-      span({
-        className: "objectRightBrace",
-      }, " }")
+  return span(
+    { className: "objectBox objectBox-object" },
+    getTitleElement(props, object),
+    span(
+      {
+        className: "objectLeftBrace"
+      },
+      " { "
+    ),
+    ...propsArray,
+    span(
+      {
+        className: "objectRightBrace"
+      },
+      " }"
     )
   );
 }
 
 function getTitleElement(props, object) {
-  return span({className: "objectTitle"}, getTitle(props, object));
+  return span({ className: "objectTitle" }, getTitle(props, object));
 }
 
 function getTitle(props, object) {
@@ -75,7 +81,7 @@ function getTitle(props, object) {
 }
 
 function safePropIterator(props, object, max) {
-  max = (typeof max === "undefined") ? 3 : max;
+  max = typeof max === "undefined" ? 3 : max;
   try {
     return propIterator(props, object, max);
   } catch (err) {
@@ -96,14 +102,16 @@ function propIterator(props, object, max) {
   const propertiesNames = Object.keys(object);
 
   const pushPropRep = (name, value) => {
-    elements.push(PropRep({
-      ...props,
-      key: name,
-      mode: MODE.TINY,
-      name,
-      object: value,
-      equal: ": ",
-    }));
+    elements.push(
+      PropRep({
+        ...props,
+        key: name,
+        mode: MODE.TINY,
+        name,
+        object: value,
+        equal: ": "
+      })
+    );
     propertiesNumber++;
 
     if (propertiesNumber < propertiesNames.length) {
@@ -112,7 +120,7 @@ function propIterator(props, object, max) {
   };
 
   try {
-    for (let name of propertiesNames) {
+    for (const name of propertiesNames) {
       if (propertiesNumber >= max) {
         break;
       }
@@ -129,7 +137,8 @@ function propIterator(props, object, max) {
       if (isInterestingProp(value)) {
         pushPropRep(name, value);
       } else {
-        // If the property is not important, put its name on an array for later use.
+        // If the property is not important, put its name on an array for later
+        // use.
         unimportantProperties.push(name);
       }
     }
@@ -138,7 +147,7 @@ function propIterator(props, object, max) {
   }
 
   if (propertiesNumber < max) {
-    for (let name of unimportantProperties) {
+    for (const name of unimportantProperties) {
       if (propertiesNumber >= max) {
         break;
       }
@@ -163,7 +172,7 @@ function propIterator(props, object, max) {
 
 function isInterestingProp(value) {
   const type = typeof value;
-  return (type == "boolean" || type == "number" || (type == "string" && value));
+  return type == "boolean" || type == "number" || (type == "string" && value);
 }
 
 function supportsObject(object) {
@@ -173,5 +182,5 @@ function supportsObject(object) {
 // Exports from this module
 module.exports = {
   rep: wrapRender(ObjectRep),
-  supportsObject,
+  supportsObject
 };

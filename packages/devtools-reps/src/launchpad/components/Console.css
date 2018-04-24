@@ -48,7 +48,7 @@ main {
 }
 
 .rep-element[data-mode]::before {
-  content: attr(data-mode) ":";
+  content: attr(data-mode)":";
   background-color: var(--theme-toolbar-background);
   font-family: monospace;
   display: inline-block;

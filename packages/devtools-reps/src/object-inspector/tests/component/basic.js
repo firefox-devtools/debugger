@@ -1,15 +1,12 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 const { mount } = require("enzyme");
 const React = require("react");
 const { createFactory } = React;
 const ObjectInspector = createFactory(require("../../index"));
-const {
-  createNode,
-  NODE_TYPES,
-} = require("../../utils/node");
+const { createNode, NODE_TYPES } = require("../../utils/node");
 const repsPath = "../../../reps";
 const { MODE } = require(`${repsPath}/constants`);
 const { Rep } = require(`${repsPath}/rep`);
@@ -25,7 +22,7 @@ function generateDefaults(overrides) {
   return {
     autoExpandDepth: 0,
     createObjectClient: grip => ObjectClient(grip),
-    ...overrides,
+    ...overrides
   };
 }
 
@@ -34,16 +31,22 @@ describe("ObjectInspector - renders", () => {
     const stub = gripRepStubs.get("testMoreThanMaxProps");
 
     const renderObjectInspector = mode =>
-      mount(ObjectInspector(generateDefaults({
-        roots: [{
-          path: "root",
-          contents: {
-            value: stub
-          }
-        }],
-        mode,
-      })));
-    const renderRep = mode => Rep({object: stub, mode});
+      mount(
+        ObjectInspector(
+          generateDefaults({
+            roots: [
+              {
+                path: "root",
+                contents: {
+                  value: stub
+                }
+              }
+            ],
+            mode
+          })
+        )
+      );
+    const renderRep = mode => Rep({ object: stub, mode });
 
     const tinyOi = renderObjectInspector(MODE.TINY);
     expect(tinyOi.find(".arrow").exists()).toBeTruthy();
@@ -71,16 +74,22 @@ describe("ObjectInspector - renders", () => {
     const object = 42;
 
     const renderObjectInspector = mode =>
-      mount(ObjectInspector(generateDefaults({
-        roots: [{
-          path: "root",
-          contents: {
-            value: object
-          }
-        }],
-        mode,
-      })));
-    const renderRep = mode => mount(Rep({object, mode}));
+      mount(
+        ObjectInspector(
+          generateDefaults({
+            roots: [
+              {
+                path: "root",
+                contents: {
+                  value: object
+                }
+              }
+            ],
+            mode
+          })
+        )
+      );
+    const renderRep = mode => mount(Rep({ object, mode }));
 
     const tinyOi = renderObjectInspector(MODE.TINY);
     expect(tinyOi.find(".arrow").exists()).toBeFalsy();
@@ -104,16 +113,22 @@ describe("ObjectInspector - renders", () => {
     const object = gripRepStubs.get("testMoreThanMaxProps");
     const name = "myproperty";
 
-    const oi = mount(ObjectInspector(generateDefaults({
-      roots: [{
-        path: "root",
-        name,
-        contents: {
-          value: object
-        }
-      }],
-      mode: MODE.SHORT,
-    })));
+    const oi = mount(
+      ObjectInspector(
+        generateDefaults({
+          roots: [
+            {
+              path: "root",
+              name,
+              contents: {
+                value: object
+              }
+            }
+          ],
+          mode: MODE.SHORT
+        })
+      )
+    );
 
     expect(oi.find(".object-label").text()).toEqual(name);
     expect(formatObjectInspector(oi)).toMatchSnapshot();
@@ -123,14 +138,20 @@ describe("ObjectInspector - renders", () => {
     const value = 42;
     const name = "myproperty";
 
-    const oi = mount(ObjectInspector(generateDefaults({
-      roots: [{
-        path: "root",
-        name,
-        contents: {value}
-      }],
-      mode: MODE.SHORT,
-    })));
+    const oi = mount(
+      ObjectInspector(
+        generateDefaults({
+          roots: [
+            {
+              path: "root",
+              name,
+              contents: { value }
+            }
+          ],
+          mode: MODE.SHORT
+        })
+      )
+    );
 
     expect(oi.find(".object-label").text()).toEqual(name);
     expect(formatObjectInspector(oi)).toMatchSnapshot();
@@ -139,15 +160,21 @@ describe("ObjectInspector - renders", () => {
   it("renders as expected when not provided a name", () => {
     const object = gripRepStubs.get("testMoreThanMaxProps");
 
-    const oi = mount(ObjectInspector(generateDefaults({
-      roots: [{
-        path: "root",
-        contents: {
-          value: object
-        }
-      }],
-      mode: MODE.SHORT,
-    })));
+    const oi = mount(
+      ObjectInspector(
+        generateDefaults({
+          roots: [
+            {
+              path: "root",
+              contents: {
+                value: object
+              }
+            }
+          ],
+          mode: MODE.SHORT
+        })
+      )
+    );
 
     expect(oi.find(".object-label").exists()).toBeFalsy();
     expect(formatObjectInspector(oi)).toMatchSnapshot();
@@ -156,43 +183,74 @@ describe("ObjectInspector - renders", () => {
   it("renders leaves with a shorter mode than the root", async () => {
     const stub = gripRepStubs.get("testMaxProps");
 
-    const renderObjectInspector = mode => mount(ObjectInspector(generateDefaults({
-        autoExpandDepth: 1,
-        roots: [{
-          path: "root",
-          contents: {
-            value: stub
-          }
-        }],
-        mode,
-        loadedProperties: new Map([[
-          "root",
-          {
-            ownProperties: Object.keys(stub.preview.ownProperties)
-              .reduce((res, key) => ({
-                [key]: {
+    const renderObjectInspector = mode =>
+      mount(
+        ObjectInspector(
+          generateDefaults({
+            autoExpandDepth: 1,
+            roots: [
+              {
+                path: "root",
+                contents: {
                   value: stub
-                },
-                ...res,
-              }), {})
-          }
-        ]])
-    })));
+                }
+              }
+            ],
+            mode,
+            loadedProperties: new Map([
+              [
+                "root",
+                {
+                  ownProperties: Object.keys(stub.preview.ownProperties).reduce(
+                    (res, key) => ({
+                      [key]: {
+                        value: stub
+                      },
+                      ...res
+                    }),
+                    {}
+                  )
+                }
+              ]
+            ])
+          })
+        )
+      );
 
-    const renderRep = mode => Rep({object: stub, mode});
+    const renderRep = mode => Rep({ object: stub, mode });
 
     const tinyOi = renderObjectInspector(MODE.TINY);
-    expect(tinyOi.find(".node").at(1).contains(renderRep(MODE.TINY))).toBeTruthy();
+    expect(
+      tinyOi
+        .find(".node")
+        .at(1)
+        .contains(renderRep(MODE.TINY))
+    ).toBeTruthy();
 
     const shortOi = renderObjectInspector(MODE.SHORT);
-    expect(shortOi.find(".node").at(1).contains(renderRep(MODE.TINY))).toBeTruthy();
+    expect(
+      shortOi
+        .find(".node")
+        .at(1)
+        .contains(renderRep(MODE.TINY))
+    ).toBeTruthy();
 
     const longOi = renderObjectInspector(MODE.LONG);
-    expect(longOi.find(".node").at(1).contains(renderRep(MODE.SHORT))).toBeTruthy();
+    expect(
+      longOi
+        .find(".node")
+        .at(1)
+        .contains(renderRep(MODE.SHORT))
+    ).toBeTruthy();
 
     const oi = renderObjectInspector();
     // When no mode is provided, it defaults to TINY mode to render the Rep.
-    expect(oi.find(".node").at(1).contains(renderRep(MODE.TINY))).toBeTruthy();
+    expect(
+      oi
+        .find(".node")
+        .at(1)
+        .contains(renderRep(MODE.TINY))
+    ).toBeTruthy();
   });
 
   it("renders less-important nodes as expected", async () => {
@@ -202,11 +260,16 @@ describe("ObjectInspector - renders", () => {
       type: NODE_TYPES.DEFAULT_PROPERTIES
     });
 
-    // The <default properties> node should have the "lessen" class only when collapsed.
-    let oi = mount(ObjectInspector(generateDefaults({
-      roots: [defaultPropertiesNode],
-      injectWaitService: true
-    })));
+    // The <default properties> node should have the "lessen" class only when
+    // collapsed.
+    let oi = mount(
+      ObjectInspector(
+        generateDefaults({
+          roots: [defaultPropertiesNode],
+          injectWaitService: true
+        })
+      )
+    );
     let store = oi.instance().getStore();
 
     let defaultPropertiesElementNode = oi.find(".node");
@@ -217,7 +280,12 @@ describe("ObjectInspector - renders", () => {
     await onPropertiesLoaded;
     oi.update();
     defaultPropertiesElementNode = oi.find(".node").first();
-    expect(oi.find(".node").first().hasClass("lessen")).toBe(false);
+    expect(
+      oi
+        .find(".node")
+        .first()
+        .hasClass("lessen")
+    ).toBe(false);
 
     const prototypeNode = createNode({
       name: "<prototype>",
@@ -226,10 +294,14 @@ describe("ObjectInspector - renders", () => {
     });
 
     // The <prototype> node should have the "lessen" class only when collapsed.
-    oi = mount(ObjectInspector(generateDefaults({
-      roots: [prototypeNode],
-      injectWaitService: true,
-    })));
+    oi = mount(
+      ObjectInspector(
+        generateDefaults({
+          roots: [prototypeNode],
+          injectWaitService: true
+        })
+      )
+    );
     store = oi.instance().getStore();
 
     let protoElementNode = oi.find(".node");
@@ -247,29 +319,36 @@ describe("ObjectInspector - renders", () => {
   it("renders block nodes as expected", async () => {
     const blockNode = createNode({
       name: "Block",
-      contents: [{
-        name: "a",
-        contents: {
-          value: 30,
+      contents: [
+        {
+          name: "a",
+          contents: {
+            value: 30
+          }
+        },
+        {
+          name: "b",
+          contents: {
+            value: 32
+          }
         }
-      }, {
-        name: "b",
-        contents: {
-          value: 32,
-        }
-      }],
+      ],
       type: NODE_TYPES.BLOCK
     });
 
-    let oi = mount(ObjectInspector(generateDefaults({
-      roots: [blockNode],
-      autoExpandDepth: 1,
-    })));
+    const oi = mount(
+      ObjectInspector(
+        generateDefaults({
+          roots: [blockNode],
+          autoExpandDepth: 1
+        })
+      )
+    );
 
     await waitForLoadedProperties(oi.instance().getStore(), ["Symbol(Block)"]);
     oi.update();
 
-    let blockElementNode = oi.find(".node").first();
+    const blockElementNode = oi.find(".node").first();
     expect(blockElementNode.hasClass("block")).toBe(true);
     expect(formatObjectInspector(oi)).toMatchSnapshot();
   });
@@ -281,12 +360,16 @@ describe("ObjectInspector - renders", () => {
         value: gripRepStubs.get("testMoreThanMaxProps")
       }
     };
-    let oi = mount(ObjectInspector(generateDefaults({
-      roots: [root],
-      mode: MODE.LONG,
-      focusedItem: root,
-      injectWaitService: true,
-    })));
+    const oi = mount(
+      ObjectInspector(
+        generateDefaults({
+          roots: [root],
+          mode: MODE.LONG,
+          focusedItem: root,
+          injectWaitService: true
+        })
+      )
+    );
 
     expect(formatObjectInspector(oi)).toMatchSnapshot();
 
@@ -297,10 +380,13 @@ describe("ObjectInspector - renders", () => {
       }
     };
 
-    let onComponentUpdated = waitForDispatch(oi.instance().getStore(), "FORCE_UPDATED");
+    const onComponentUpdated = waitForDispatch(
+      oi.instance().getStore(),
+      "FORCE_UPDATED"
+    );
     oi.setProps({
       roots: [root],
-      focusedItem: root,
+      focusedItem: root
     });
     await onComponentUpdated;
     oi.update();
@@ -308,40 +394,59 @@ describe("ObjectInspector - renders", () => {
   });
 
   it("updates when the root changes but has same path", async () => {
-    let oi = mount(ObjectInspector(generateDefaults({
-      roots: [{
-        path: "root",
-        name: "root",
-        contents: [{
-          name: "a",
-          contents: {
-            value: 30,
-          }
-        }, {
-          name: "b",
-          contents: {
-            value: 32,
-          }
-        }]
-      }],
-      mode: MODE.LONG,
-      injectWaitService: true,
-    })));
-    oi.find(".node").at(0).simulate("click");
+    const oi = mount(
+      ObjectInspector(
+        generateDefaults({
+          roots: [
+            {
+              path: "root",
+              name: "root",
+              contents: [
+                {
+                  name: "a",
+                  contents: {
+                    value: 30
+                  }
+                },
+                {
+                  name: "b",
+                  contents: {
+                    value: 32
+                  }
+                }
+              ]
+            }
+          ],
+          mode: MODE.LONG,
+          injectWaitService: true
+        })
+      )
+    );
+    oi
+      .find(".node")
+      .at(0)
+      .simulate("click");
     const oldTree = formatObjectInspector(oi);
 
-    let onComponentUpdated = waitForDispatch(oi.instance().getStore(), "FORCE_UPDATED");
+    const onComponentUpdated = waitForDispatch(
+      oi.instance().getStore(),
+      "FORCE_UPDATED"
+    );
     oi.setProps({
-      roots: [{
-        path: "root",
-        name: "root",
-        contents: [{
-          name: "c",
-          contents: {
-            value: "i'm the new node",
-          }
-        }]
-      }]
+      roots: [
+        {
+          path: "root",
+          name: "root",
+          contents: [
+            {
+              name: "c",
+              contents: {
+                value: "i'm the new node"
+              }
+            }
+          ]
+        }
+      ]
     });
 
     await onComponentUpdated;

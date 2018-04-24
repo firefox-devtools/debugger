@@ -1,10 +1,8 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-const {
-  getValue,
-} = require("../../utils/node");
+const { getValue } = require("../../utils/node");
 
 describe("getValue", () => {
   it("get the value from contents.value", () => {
@@ -73,14 +71,14 @@ describe("getValue", () => {
         get: "get"
       }
     };
-    expect(getValue(item)).toEqual({get: "get"});
+    expect(getValue(item)).toEqual({ get: "get" });
 
     item = {
       contents: {
         set: "set"
       }
     };
-    expect(getValue(item)).toEqual({set: "set"});
+    expect(getValue(item)).toEqual({ set: "set" });
 
     item = {
       contents: {
@@ -88,6 +86,6 @@ describe("getValue", () => {
         set: "set"
       }
     };
-    expect(getValue(item)).toEqual({get: "get", set: "set"});
+    expect(getValue(item)).toEqual({ get: "get", set: "set" });
   });
 });

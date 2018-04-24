@@ -1,6 +1,6 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 const {
   enumEntries,
@@ -8,7 +8,7 @@ const {
   enumNonIndexedProperties,
   getPrototype,
   enumSymbols,
-  getFullText,
+  getFullText
 } = require("./client");
 
 const {
@@ -33,15 +33,15 @@ import type {
   CreateObjectClient,
   GripProperties,
   LoadedProperties,
-  Node,
+  Node
 } from "../types";
 
 function loadItemProperties(
-  item : Node,
-  createObjectClient : CreateObjectClient,
-  createLongStringClient : CreateLongStringClient,
-  loadedProperties : LoadedProperties,
-) : Promise<GripProperties> {
+  item: Node,
+  createObjectClient: CreateObjectClient,
+  createLongStringClient: CreateLongStringClient,
+  loadedProperties: LoadedProperties
+): Promise<GripProperties> {
   const gripItem = getClosestGripNode(item);
   const value = getValue(gripItem);
 
@@ -49,7 +49,7 @@ function loadItemProperties(
     ? [item.meta.startIndex, item.meta.endIndex]
     : [];
 
-  let promises = [];
+  const promises = [];
   let objectClient;
   const getObjectClient = () => objectClient || createObjectClient(value);
 
@@ -80,12 +80,12 @@ function loadItemProperties(
   return Promise.all(promises).then(mergeResponses);
 }
 
-function mergeResponses(responses: Array<Object>) : Object {
+function mergeResponses(responses: Array<Object>): Object {
   const data = {};
 
   for (const response of responses) {
     if (response.hasOwnProperty("ownProperties")) {
-      data.ownProperties = {...data.ownProperties, ...response.ownProperties};
+      data.ownProperties = { ...data.ownProperties, ...response.ownProperties };
     }
 
     if (response.ownSymbols && response.ownSymbols.length > 0) {
@@ -107,84 +107,94 @@ function mergeResponses(responses: Array<Object>) : Object {
 function shouldLoadItemIndexedProperties(
   item: Node,
   loadedProperties: LoadedProperties = new Map()
-) : boolean {
+): boolean {
   const gripItem = getClosestGripNode(item);
   const value = getValue(gripItem);
 
-  return value
-    && nodeHasProperties(gripItem)
-    && !loadedProperties.has(item.path)
-    && !nodeIsProxy(item)
-    && !nodeNeedsNumericalBuckets(item)
-    && !nodeIsEntries(getClosestNonBucketNode(item))
+  return (
+    value &&
+    nodeHasProperties(gripItem) &&
+    !loadedProperties.has(item.path) &&
+    !nodeIsProxy(item) &&
+    !nodeNeedsNumericalBuckets(item) &&
+    !nodeIsEntries(getClosestNonBucketNode(item)) &&
     // The data is loaded when expanding the window node.
-    && !nodeIsDefaultProperties(item);
+    !nodeIsDefaultProperties(item)
+  );
 }
 
 function shouldLoadItemNonIndexedProperties(
   item: Node,
   loadedProperties: LoadedProperties = new Map()
-) : boolean {
+): boolean {
   const gripItem = getClosestGripNode(item);
   const value = getValue(gripItem);
 
-  return value
-    && nodeHasProperties(gripItem)
-    && !loadedProperties.has(item.path)
-    && !nodeIsProxy(item)
-    && !nodeIsEntries(getClosestNonBucketNode(item))
-    && !nodeIsBucket(item)
+  return (
+    value &&
+    nodeHasProperties(gripItem) &&
+    !loadedProperties.has(item.path) &&
+    !nodeIsProxy(item) &&
+    !nodeIsEntries(getClosestNonBucketNode(item)) &&
+    !nodeIsBucket(item) &&
     // The data is loaded when expanding the window node.
-    && !nodeIsDefaultProperties(item);
+    !nodeIsDefaultProperties(item)
+  );
 }
 
 function shouldLoadItemEntries(
   item: Node,
   loadedProperties: LoadedProperties = new Map()
-) : boolean {
+): boolean {
   const gripItem = getClosestGripNode(item);
   const value = getValue(gripItem);
 
-  return value
-    && nodeIsEntries(getClosestNonBucketNode(item))
-    && !nodeHasAllEntriesInPreview(gripItem)
-    && !loadedProperties.has(item.path)
-    && !nodeNeedsNumericalBuckets(item);
+  return (
+    value &&
+    nodeIsEntries(getClosestNonBucketNode(item)) &&
+    !nodeHasAllEntriesInPreview(gripItem) &&
+    !loadedProperties.has(item.path) &&
+    !nodeNeedsNumericalBuckets(item)
+  );
 }
 
 function shouldLoadItemPrototype(
   item: Node,
   loadedProperties: LoadedProperties = new Map()
-) : boolean {
+): boolean {
   const value = getValue(item);
 
-  return value
-    && !loadedProperties.has(item.path)
-    && !nodeIsBucket(item)
-    && !nodeIsMapEntry(item)
-    && !nodeIsEntries(item)
-    && !nodeIsDefaultProperties(item)
-    && !nodeHasAccessors(item)
-    && !nodeIsPrimitive(item)
-    && !nodeIsLongString(item);
+  return (
+    value &&
+    !loadedProperties.has(item.path) &&
+    !nodeIsBucket(item) &&
+    !nodeIsMapEntry(item) &&
+    !nodeIsEntries(item) &&
+    !nodeIsDefaultProperties(item) &&
+    !nodeHasAccessors(item) &&
+    !nodeIsPrimitive(item) &&
+    !nodeIsLongString(item)
+  );
 }
 
 function shouldLoadItemSymbols(
   item: Node,
   loadedProperties: LoadedProperties = new Map()
-) : boolean {
+): boolean {
   const value = getValue(item);
 
-  return value
-    && !loadedProperties.has(item.path)
-    && !nodeIsBucket(item)
-    && !nodeIsMapEntry(item)
-    && !nodeIsEntries(item)
-    && !nodeIsDefaultProperties(item)
-    && !nodeHasAccessors(item)
-    && !nodeIsPrimitive(item)
-    && !nodeIsLongString(item)
-    && !nodeIsProxy(item);
+  return (
+    value &&
+    !loadedProperties.has(item.path) &&
+    !nodeIsBucket(item) &&
+    !nodeIsMapEntry(item) &&
+    !nodeIsEntries(item) &&
+    !nodeIsDefaultProperties(item) &&
+    !nodeHasAccessors(item) &&
+    !nodeIsPrimitive(item) &&
+    !nodeIsLongString(item) &&
+    !nodeIsProxy(item)
+  );
 }
 
 function shouldLoadItemFullText(

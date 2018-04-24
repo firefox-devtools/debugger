@@ -1,6 +1,6 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 const {
   createNode,
@@ -8,7 +8,7 @@ const {
   nodeIsDefaultProperties,
   nodeIsEntries,
   nodeIsMapEntry,
-  nodeIsPrototype,
+  nodeIsPrototype
 } = require("../../utils/node");
 const gripArrayStubs = require("../../../reps/stubs/grip-array");
 
@@ -47,7 +47,7 @@ describe("makeNodesForProperties", () => {
     expect(paths).toEqual([
       "Symbol(root/0)",
       "Symbol(root/length)",
-      "Symbol(root/<prototype>)",
+      "Symbol(root/<prototype>)"
     ]);
   });
 
@@ -57,19 +57,19 @@ describe("makeNodesForProperties", () => {
         ownProperties: {
           foo: { value: "foo" },
           bar: {
-            "get": {
-              "type": "object",
+            get: {
+              type: "object"
             },
-            "set": {
-              "type": "undefined"
+            set: {
+              type: "undefined"
             }
           },
           baz: {
-            "get": {
-              "type": "undefined"
+            get: {
+              type: "undefined"
             },
-            "set": {
-              "type": "object",
+            set: {
+              type: "object"
             }
           }
         },
@@ -88,7 +88,7 @@ describe("makeNodesForProperties", () => {
       "Symbol(root/bar)",
       "Symbol(root/baz)",
       "Symbol(root/foo)",
-      "Symbol(root/<prototype>)",
+      "Symbol(root/<prototype>)"
     ]);
   });
 
@@ -99,7 +99,7 @@ describe("makeNodesForProperties", () => {
           foo: undefined,
           bar: null,
           baz: {}
-        },
+        }
       },
       root
     );
@@ -138,7 +138,7 @@ describe("makeNodesForProperties", () => {
       "Symbol(root/11)",
       "Symbol(root/_bar)",
       "Symbol(root/bar)",
-      "Symbol(root/<prototype>)",
+      "Symbol(root/<prototype>)"
     ]);
   });
 
@@ -181,7 +181,10 @@ describe("makeNodesForProperties", () => {
     const paths = nodes.map(n => n.path.toString());
 
     expect(names).toEqual(["bar", "<default properties>"]);
-    expect(paths).toEqual(["Symbol(root/bar)", "Symbol(root/<default properties>)"]);
+    expect(paths).toEqual([
+      "Symbol(root/bar)",
+      "Symbol(root/<default properties>)"
+    ]);
 
     expect(nodeIsDefaultProperties(nodes[1])).toBe(true);
   });
@@ -197,12 +200,15 @@ describe("makeNodesForProperties", () => {
       }
     });
 
-    const nodes = makeNodesForProperties({
-      ownProperties: {
-        size: {value: 1},
-        custom: {value: "customValue"}
-      }
-    }, mapNode);
+    const nodes = makeNodesForProperties(
+      {
+        ownProperties: {
+          size: { value: 1 },
+          custom: { value: "customValue" }
+        }
+      },
+      mapNode
+    );
 
     const names = nodes.map(n => n.name);
     const paths = nodes.map(n => n.path.toString());
@@ -211,7 +217,7 @@ describe("makeNodesForProperties", () => {
     expect(paths).toEqual([
       "Symbol(root/custom)",
       "Symbol(root/size)",
-      `Symbol(root/<entries>)`
+      "Symbol(root/<entries>)"
     ]);
 
     const entriesNode = nodes[2];
@@ -220,7 +226,7 @@ describe("makeNodesForProperties", () => {
     const children = entriesNode.contents;
 
     // There are 2 entries in the map.
-    expect(children.length).toBe(2);
+    expect(children).toHaveLength(2);
     // And the 2 nodes created are typed as map entries.
     expect(children.every(child => nodeIsMapEntry(child))).toBe(true);
 
@@ -228,8 +234,8 @@ describe("makeNodesForProperties", () => {
     const childrenPaths = children.map(n => n.path.toString());
     expect(childrenNames).toEqual([0, 1]);
     expect(childrenPaths).toEqual([
-      `Symbol(root/<entries>/0)`,
-      `Symbol(root/<entries>/1)`
+      "Symbol(root/<entries>/0)",
+      "Symbol(root/<entries>/1)"
     ]);
   });
 
@@ -261,11 +267,11 @@ describe("makeNodesForProperties", () => {
       "<prototype>"
     ]);
     expect(paths).toEqual([
-      `Symbol(root/"")`,
-      `Symbol(root/332217)`,
-      `Symbol(root/"needs-quotes")`,
-      `Symbol(root/unquoted)`,
-      `Symbol(root/<prototype>)`,
+      'Symbol(root/"")',
+      "Symbol(root/332217)",
+      'Symbol(root/"needs-quotes")',
+      "Symbol(root/unquoted)",
+      "Symbol(root/<prototype>)"
     ]);
   });
 });

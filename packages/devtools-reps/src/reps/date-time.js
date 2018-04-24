@@ -1,16 +1,12 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // ReactJS
 const PropTypes = require("prop-types");
 
 // Reps
-const {
-  getGripType,
-  isGrip,
-  wrapRender,
-} = require("./rep-utils");
+const { getGripType, isGrip, wrapRender } = require("./rep-utils");
 
 const dom = require("react-dom-factories");
 const { span } = dom;
@@ -19,33 +15,38 @@ const { span } = dom;
  * Used to render JS built-in Date() object.
  */
 DateTime.propTypes = {
-  object: PropTypes.object.isRequired,
+  object: PropTypes.object.isRequired
 };
 
 function DateTime(props) {
-  let grip = props.object;
+  const grip = props.object;
   let date;
   try {
-    date = span({
-      "data-link-actor-id": grip.actor,
-      className: "objectBox",
-    },
+    date = span(
+      {
+        "data-link-actor-id": grip.actor,
+        className: "objectBox"
+      },
       getTitle(grip),
-      span({className: "Date"},
+      span(
+        { className: "Date" },
         new Date(grip.preview.timestamp).toISOString()
       )
     );
   } catch (e) {
-    date = span({className: "objectBox"}, "Invalid Date");
+    date = span({ className: "objectBox" }, "Invalid Date");
   }
 
   return date;
 }
 
 function getTitle(grip) {
-  return span({
-    className: "objectTitle"
-  }, grip.class + " ");
+  return span(
+    {
+      className: "objectTitle"
+    },
+    `${grip.class} `
+  );
 }
 
 // Registration
@@ -54,11 +55,11 @@ function supportsObject(grip, noGrip = false) {
     return false;
   }
 
-  return (getGripType(grip, noGrip) == "Date" && grip.preview);
+  return getGripType(grip, noGrip) == "Date" && grip.preview;
 }
 
 // Exports from this module
 module.exports = {
   rep: wrapRender(DateTime),
-  supportsObject,
+  supportsObject
 };

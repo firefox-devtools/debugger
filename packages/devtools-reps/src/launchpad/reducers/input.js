@@ -1,6 +1,6 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 const constants = require("../constants");
 const Immutable = require("immutable");
@@ -35,25 +35,25 @@ function update(state = initialState, action) {
       const navigationIndex = keys.indexOf(currentNavigationKey);
       const dir = value;
 
-      const newNavigationIndex = dir === constants.DIR_BACKWARD
-        ? navigationIndex + 1
-        : navigationIndex - 1;
+      const newNavigationIndex =
+        dir === constants.DIR_BACKWARD
+          ? navigationIndex + 1
+          : navigationIndex - 1;
 
-      const newNavigationKey = newNavigationIndex >= 0
-        ? keys.get(newNavigationIndex)
-        : null;
+      const newNavigationKey =
+        newNavigationIndex >= 0 ? keys.get(newNavigationIndex) : null;
 
-      const fallbackValue = dir === constants.DIR_BACKWARD
-        ? currentValue
-        : "";
-      const fallbackNavigationKey = dir === constants.DIR_BACKWARD
-          ? currentNavigationKey
-          : -1;
+      const fallbackValue = dir === constants.DIR_BACKWARD ? currentValue : "";
+      const fallbackNavigationKey =
+        dir === constants.DIR_BACKWARD ? currentNavigationKey : -1;
 
       return state.withMutations(map => {
         map
           .set("currentValue", history.get(newNavigationKey) || fallbackValue)
-          .set("currentNavigationKey", newNavigationKey || fallbackNavigationKey);
+          .set(
+            "currentNavigationKey",
+            newNavigationKey || fallbackNavigationKey
+          );
       });
   }
 

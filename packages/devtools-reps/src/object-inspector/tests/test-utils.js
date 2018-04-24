@@ -1,10 +1,12 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
 import type { Store } from "../types";
-const {WAIT_UNTIL_TYPE} = require("../../shared/redux/middleware/waitUntilService");
+const {
+  WAIT_UNTIL_TYPE
+} = require("../../shared/redux/middleware/waitUntilService");
 
 /*
  * Takes an Enzyme wrapper (obtained with mount/shallow/…) and
@@ -24,10 +26,12 @@ const {WAIT_UNTIL_TYPE} = require("../../shared/redux/middleware/waitUntilServic
  */
 function formatObjectInspector(wrapper: Object) {
   const hasFocusedNode = wrapper.find(".tree-node.focused").length > 0;
-  const textTree = wrapper.find(".tree-node")
+  const textTree = wrapper
+    .find(".tree-node")
     .map(node => {
       const indentStr = "|  ".repeat((node.prop("aria-level") || 1) - 1);
-      // Need to target img.arrow or Enzyme will also match the ArrowExpander component.
+      // Need to target img.arrow or Enzyme will also match the ArrowExpander
+      // component.
       const arrow = node.find("img.arrow");
       let arrowStr = "  ";
       if (arrow.exists()) {
@@ -36,16 +40,19 @@ function formatObjectInspector(wrapper: Object) {
         arrowStr = "  ";
       }
 
-      const icon = node.find(".node").first().hasClass("block")
+      const icon = node
+        .find(".node")
+        .first()
+        .hasClass("block")
         ? "☲ "
         : "";
-      let text = `${indentStr}${arrowStr}${icon}${getSanitizedNodeText(node)}`;
+      const text = `${indentStr}${arrowStr}${icon}${getSanitizedNodeText(
+        node
+      )}`;
       if (!hasFocusedNode) {
         return text;
       }
-      return node.hasClass("focused")
-        ? `[ ${text} ]`
-        : `  ${text}`;
+      return node.hasClass("focused") ? `[ ${text} ]` : `  ${text}`;
     })
     .join("\n");
   // Wrap the text representation in new lines so it keeps alignment between
@@ -79,12 +86,13 @@ function waitForDispatch(store: Object, type: string) {
 
 /**
  * Wait until the condition evaluates to something truthy
- * @param {function} condition: function that we need for returning something truthy.
+ * @param {function} condition: function that we need for returning something
+ *                              truthy.
  * @param {int} interval: Time to wait before trying to evaluate condition again
  * @param {int} maxTries: Number of evaluation to try.
  */
 async function waitFor(
-  condition: (any) => any,
+  condition: any => any,
   interval: number = 50,
   maxTries: number = 100
 ) {
@@ -103,8 +111,10 @@ async function waitFor(
 }
 
 /**
- * Wait until the state has all the expected keys for the loadedProperties state prop.
- * @param {Redux Store} store: function that we need for returning something truthy.
+ * Wait until the state has all the expected keys for the loadedProperties
+ * state prop.
+ * @param {Redux Store} store: function that we need for returning something
+ *                             truthy.
  * @param {Array} expectedKeys: Array of stringified keys.
  * @param {int} interval: Time to wait before trying to evaluate condition again
  * @param {int} maxTries: Number of evaluation to try.
@@ -114,35 +124,52 @@ function waitForLoadedProperties(
   expectedKeys: Array<string>,
   interval: number,
   maxTries: number
-) : Promise<any> {
-  return waitFor(() =>
-    storeHasLoadedPropertiesKeys(store, expectedKeys), interval, maxTries);
+): Promise<any> {
+  return waitFor(
+    () => storeHasLoadedPropertiesKeys(store, expectedKeys),
+    interval,
+    maxTries
+  );
 }
 
-function storeHasLoadedPropertiesKeys(store: Store, expectedKeys: Array<string>) {
+function storeHasLoadedPropertiesKeys(
+  store: Store,
+  expectedKeys: Array<string>
+) {
   return expectedKeys.every(key => storeHasLoadedProperty(store, key));
 }
 
-function storeHasLoadedProperty(store: Store, key: string) : boolean {
-  return [...store.getState().loadedProperties.keys()].some(k => k.toString() === key);
+function storeHasLoadedProperty(store: Store, key: string): boolean {
+  return [...store.getState().loadedProperties.keys()].some(
+    k => k.toString() === key
+  );
 }
 
-function storeHasExactLoadedProperties(store: Store, expectedKeys: Array<string>) {
-  return expectedKeys.length === store.getState().loadedProperties.size
-    && expectedKeys.every(key => storeHasLoadedProperty(store, key));
+function storeHasExactLoadedProperties(
+  store: Store,
+  expectedKeys: Array<string>
+) {
+  return (
+    expectedKeys.length === store.getState().loadedProperties.size &&
+    expectedKeys.every(key => storeHasLoadedProperty(store, key))
+  );
 }
 
 function storeHasExpandedPaths(store: Store, expectedKeys: Array<string>) {
   return expectedKeys.every(key => storeHasExpandedPath(store, key));
 }
 
-function storeHasExpandedPath(store: Store, key: string) : boolean {
-  return [...store.getState().expandedPaths.keys()].some(k => k.toString() === key);
+function storeHasExpandedPath(store: Store, key: string): boolean {
+  return [...store.getState().expandedPaths.keys()].some(
+    k => k.toString() === key
+  );
 }
 
 function storeHasExactExpandedPaths(store: Store, expectedKeys: Array<string>) {
-  return expectedKeys.length === store.getState().expandedPaths.size
-    && expectedKeys.every(key => storeHasExpandedPath(store, key));
+  return (
+    expectedKeys.length === store.getState().expandedPaths.size &&
+    expectedKeys.every(key => storeHasExpandedPath(store, key))
+  );
 }
 
 module.exports = {
@@ -155,5 +182,5 @@ module.exports = {
   storeHasExactLoadedProperties,
   waitFor,
   waitForDispatch,
-  waitForLoadedProperties,
+  waitForLoadedProperties
 };

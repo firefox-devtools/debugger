@@ -1,13 +1,11 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // Dependencies
 const dom = require("react-dom-factories");
 const PropTypes = require("prop-types");
-const {
-  wrapRender,
-} = require("./rep-utils");
+const { wrapRender } = require("./rep-utils");
 const { MODE } = require("./constants");
 const { span } = dom;
 
@@ -17,13 +15,11 @@ const { span } = dom;
  */
 Accessor.propTypes = {
   object: PropTypes.object.isRequired,
-  mode: PropTypes.oneOf(Object.values(MODE)),
+  mode: PropTypes.oneOf(Object.values(MODE))
 };
 
 function Accessor(props) {
-  const {
-    object,
-  } = props;
+  const { object } = props;
 
   const accessors = [];
   if (hasGetter(object)) {
@@ -34,9 +30,7 @@ function Accessor(props) {
   }
   const title = accessors.join(" & ");
 
-  return (
-    span({className: "objectBox objectBox-accessor objectTitle"}, title)
-  );
+  return span({ className: "objectBox objectBox-accessor objectTitle" }, title);
 }
 
 function hasGetter(object) {
@@ -58,5 +52,5 @@ function supportsObject(object, noGrip = false) {
 // Exports from this module
 module.exports = {
   rep: wrapRender(Accessor),
-  supportsObject,
+  supportsObject
 };

@@ -1,18 +1,15 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 /* global jest */
 const { shallow } = require("enzyme");
-const {
-  REPS,
-  getRep,
-} = require("../rep");
+const { REPS, getRep } = require("../rep");
 const { MODE } = require("../constants");
 const { ElementNode } = REPS;
 const {
   expectActorAttribute,
-  getSelectableInInspectorGrips,
+  getSelectableInInspectorGrips
 } = require("./test-helpers");
 const { ELLIPSIS } = require("../rep-utils");
 const stubs = require("../stubs/element-node");
@@ -25,23 +22,27 @@ describe("ElementNode - BodyNode", () => {
   });
 
   it("renders with expected text content", () => {
-    const renderedComponent = shallow(ElementNode.rep({
-      object: stub
-    }));
+    const renderedComponent = shallow(
+      ElementNode.rep({
+        object: stub
+      })
+    );
 
-    expect(renderedComponent.text())
-      .toEqual('<body id="body-id" class="body-class">');
+    expect(renderedComponent.text()).toEqual(
+      '<body id="body-id" class="body-class">'
+    );
     expectActorAttribute(renderedComponent, stub.actor);
   });
 
   it("renders with expected text content on tiny mode", () => {
-    const renderedComponent = shallow(ElementNode.rep({
-      object: stub,
-      mode: MODE.TINY
-    }));
+    const renderedComponent = shallow(
+      ElementNode.rep({
+        object: stub,
+        mode: MODE.TINY
+      })
+    );
 
-    expect(renderedComponent.text())
-      .toEqual("body#body-id.body-class");
+    expect(renderedComponent.text()).toEqual("body#body-id.body-class");
     expectActorAttribute(renderedComponent, stub.actor);
   });
 });
@@ -54,18 +55,22 @@ describe("ElementNode - DocumentElement", () => {
   });
 
   it("renders with expected text content", () => {
-    const renderedComponent = shallow(ElementNode.rep({
-      object: stub
-    }));
+    const renderedComponent = shallow(
+      ElementNode.rep({
+        object: stub
+      })
+    );
 
     expect(renderedComponent.text()).toEqual('<html dir="ltr" lang="en-US">');
   });
 
   it("renders with expected text content in tiny mode", () => {
-    const renderedComponent = shallow(ElementNode.rep({
-      object: stub,
-      mode: MODE.TINY
-    }));
+    const renderedComponent = shallow(
+      ElementNode.rep({
+        object: stub,
+        mode: MODE.TINY
+      })
+    );
 
     expect(renderedComponent.text()).toEqual("html");
   });
@@ -76,7 +81,7 @@ describe("ElementNode - Node", () => {
   const grips = getSelectableInInspectorGrips(stub);
 
   it("has one node grip", () => {
-    expect(grips.length).toEqual(1);
+    expect(grips).toHaveLength(1);
   });
 
   it("selects ElementNode Rep", () => {
@@ -84,81 +89,94 @@ describe("ElementNode - Node", () => {
   });
 
   it("renders with expected text content", () => {
-    const renderedComponent = shallow(ElementNode.rep({
-      object: stub
-    }));
+    const renderedComponent = shallow(
+      ElementNode.rep({
+        object: stub
+      })
+    );
 
     expect(renderedComponent.text()).toEqual(
       '<input id="newtab-customize-button" class="bar baz" dir="ltr" ' +
-      'title="Customize your New Tab page" value="foo" type="button">'
+        'title="Customize your New Tab page" value="foo" type="button">'
     );
   });
 
   it("renders with expected text content in tiny mode", () => {
-    const renderedComponent = shallow(ElementNode.rep({
-      object: stub,
-      mode: MODE.TINY
-    }));
+    const renderedComponent = shallow(
+      ElementNode.rep({
+        object: stub,
+        mode: MODE.TINY
+      })
+    );
 
-    expect(renderedComponent.text())
-      .toEqual("input#newtab-customize-button.bar.baz");
+    expect(renderedComponent.text()).toEqual(
+      "input#newtab-customize-button.bar.baz"
+    );
   });
 
   it("renders an inspect icon", () => {
     const onInspectIconClick = jest.fn();
-    const renderedComponent = shallow(ElementNode.rep({
-      object: stubs.get("Node"),
-      onInspectIconClick
-    }));
+    const renderedComponent = shallow(
+      ElementNode.rep({
+        object: stubs.get("Node"),
+        onInspectIconClick
+      })
+    );
 
     const node = renderedComponent.find(".open-inspector");
     node.simulate("click", { type: "click" });
 
     expect(node.exists()).toBeTruthy();
-    expect(onInspectIconClick.mock.calls.length).toEqual(1);
+    expect(onInspectIconClick.mock.calls).toHaveLength(1);
     expect(onInspectIconClick.mock.calls[0][0]).toEqual(stub);
     expect(onInspectIconClick.mock.calls[0][1].type).toEqual("click");
   });
 
   it("calls the expected function when click is fired on Rep", () => {
     const onDOMNodeClick = jest.fn();
-    const renderedComponent = shallow(ElementNode.rep({
-      object: stub,
-      onDOMNodeClick
-    }));
+    const renderedComponent = shallow(
+      ElementNode.rep({
+        object: stub,
+        onDOMNodeClick
+      })
+    );
 
     renderedComponent.simulate("click");
 
-    expect(onDOMNodeClick.mock.calls.length).toEqual(1);
+    expect(onDOMNodeClick.mock.calls).toHaveLength(1);
   });
 
   it("calls the expected function when mouseout is fired on Rep", () => {
     const onDOMNodeMouseOut = jest.fn();
-    const renderedComponent = shallow(ElementNode.rep({
-      object: stub,
-      onDOMNodeMouseOut
-    }));
+    const renderedComponent = shallow(
+      ElementNode.rep({
+        object: stub,
+        onDOMNodeMouseOut
+      })
+    );
 
     renderedComponent.simulate("mouseout");
 
-    expect(onDOMNodeMouseOut.mock.calls.length).toEqual(1);
+    expect(onDOMNodeMouseOut.mock.calls).toHaveLength(1);
   });
 
   it("calls the expected function when mouseover is fired on Rep", () => {
     const onDOMNodeMouseOver = jest.fn();
-    const renderedComponent = shallow(ElementNode.rep({
-      object: stub,
-      onDOMNodeMouseOver
-    }));
+    const renderedComponent = shallow(
+      ElementNode.rep({
+        object: stub,
+        onDOMNodeMouseOver
+      })
+    );
 
     renderedComponent.simulate("mouseover");
 
-    expect(onDOMNodeMouseOver.mock.calls.length).toEqual(1);
+    expect(onDOMNodeMouseOver.mock.calls).toHaveLength(1);
     expect(onDOMNodeMouseOver.mock.calls[0][0]).toEqual(stub);
   });
 });
 
-describe("ElementNode - Node with leading and trailing spaces class name", () => {
+describe("ElementNode - Leading and trailing spaces class name", () => {
   const stub = stubs.get("NodeWithLeadingAndTrailingSpacesClassName");
 
   it("selects ElementNode Rep", () => {
@@ -166,22 +184,26 @@ describe("ElementNode - Node with leading and trailing spaces class name", () =>
   });
 
   it("renders with expected text content", () => {
-    const renderedComponent = shallow(ElementNode.rep({
-      object: stub
-    }));
+    const renderedComponent = shallow(
+      ElementNode.rep({
+        object: stub
+      })
+    );
 
-    expect(renderedComponent.text())
-      .toEqual('<body id=\"nightly-whatsnew\" class=\"  html-ltr    \">');
+    expect(renderedComponent.text()).toEqual(
+      '<body id="nightly-whatsnew" class="  html-ltr    ">'
+    );
   });
 
   it("renders with expected text content in tiny mode", () => {
-    const renderedComponent = shallow(ElementNode.rep({
-      object: stub,
-      mode: MODE.TINY
-    }));
+    const renderedComponent = shallow(
+      ElementNode.rep({
+        object: stub,
+        mode: MODE.TINY
+      })
+    );
 
-    expect(renderedComponent.text())
-      .toEqual("body#nightly-whatsnew.html-ltr");
+    expect(renderedComponent.text()).toEqual("body#nightly-whatsnew.html-ltr");
   });
 });
 
@@ -193,21 +215,24 @@ describe("ElementNode - Node with spaces in the class name", () => {
   });
 
   it("renders with expected text content", () => {
-    const renderedComponent = shallow(ElementNode.rep({
-      object: stub
-    }));
+    const renderedComponent = shallow(
+      ElementNode.rep({
+        object: stub
+      })
+    );
 
     expect(renderedComponent).toMatchSnapshot();
   });
 
   it("renders with expected text content in tiny mode", () => {
-    const renderedComponent = shallow(ElementNode.rep({
-      object: stub,
-      mode: MODE.TINY
-    }));
+    const renderedComponent = shallow(
+      ElementNode.rep({
+        object: stub,
+        mode: MODE.TINY
+      })
+    );
 
-    expect(renderedComponent.text())
-      .toEqual("body.a.b.c");
+    expect(renderedComponent.text()).toEqual("body.a.b.c");
   });
 });
 
@@ -219,18 +244,22 @@ describe("ElementNode - Node without attributes", () => {
   });
 
   it("renders with expected text content", () => {
-    const renderedComponent = shallow(ElementNode.rep({
-      object: stub
-    }));
+    const renderedComponent = shallow(
+      ElementNode.rep({
+        object: stub
+      })
+    );
 
     expect(renderedComponent.text()).toEqual("<p>");
   });
 
   it("renders with expected text content in tiny mode", () => {
-    const renderedComponent = shallow(ElementNode.rep({
-      object: stub,
-      mode: MODE.TINY
-    }));
+    const renderedComponent = shallow(
+      ElementNode.rep({
+        object: stub,
+        mode: MODE.TINY
+      })
+    );
 
     expect(renderedComponent.text()).toEqual("p");
   });
@@ -244,21 +273,25 @@ describe("ElementNode - Node with many attributes", () => {
   });
 
   it("renders with expected text content", () => {
-    const renderedComponent = shallow(ElementNode.rep({
-      object: stub
-    }));
+    const renderedComponent = shallow(
+      ElementNode.rep({
+        object: stub
+      })
+    );
 
     expect(renderedComponent.text()).toEqual(
       '<p id="lots-of-attributes" a="" b="" c="" d="" e="" f="" g="" ' +
-      'h="" i="" j="" k="" l="" m="" n="">'
+        'h="" i="" j="" k="" l="" m="" n="">'
     );
   });
 
   it("renders with expected text content in tiny mode", () => {
-    const renderedComponent = shallow(ElementNode.rep({
-      object: stub,
-      mode: MODE.TINY
-    }));
+    const renderedComponent = shallow(
+      ElementNode.rep({
+        object: stub,
+        mode: MODE.TINY
+      })
+    );
 
     expect(renderedComponent.text()).toEqual("p#lots-of-attributes");
   });
@@ -272,9 +305,11 @@ describe("ElementNode - SVG Node", () => {
   });
 
   it("renders with expected text content", () => {
-    const renderedComponent = shallow(ElementNode.rep({
-      object: stub
-    }));
+    const renderedComponent = shallow(
+      ElementNode.rep({
+        object: stub
+      })
+    );
 
     expect(renderedComponent.text()).toEqual(
       '<clipPath id="clip" class="svg-element">'
@@ -282,10 +317,12 @@ describe("ElementNode - SVG Node", () => {
   });
 
   it("renders with expected text content in tiny mode", () => {
-    const renderedComponent = shallow(ElementNode.rep({
-      object: stub,
-      mode: MODE.TINY
-    }));
+    const renderedComponent = shallow(
+      ElementNode.rep({
+        object: stub,
+        mode: MODE.TINY
+      })
+    );
 
     expect(renderedComponent.text()).toEqual("clipPath#clip.svg-element");
   });
@@ -299,9 +336,11 @@ describe("ElementNode - SVG Node in XHTML", () => {
   });
 
   it("renders with expected text content", () => {
-    const renderedComponent = shallow(ElementNode.rep({
-      object: stub
-    }));
+    const renderedComponent = shallow(
+      ElementNode.rep({
+        object: stub
+      })
+    );
 
     expect(renderedComponent.text()).toEqual(
       '<svg:circle class="svg-element" cx="0" cy="0" r="5">'
@@ -309,10 +348,12 @@ describe("ElementNode - SVG Node in XHTML", () => {
   });
 
   it("renders with expected text content in tiny mode", () => {
-    const renderedComponent = shallow(ElementNode.rep({
-      object: stub,
-      mode: MODE.TINY
-    }));
+    const renderedComponent = shallow(
+      ElementNode.rep({
+        object: stub,
+        mode: MODE.TINY
+      })
+    );
 
     expect(renderedComponent.text()).toEqual("svg:circle.svg-element");
   });
@@ -323,10 +364,12 @@ describe("ElementNode - Disconnected node", () => {
 
   it("renders no inspect icon when the node is not in the DOM tree", () => {
     const onInspectIconClick = jest.fn();
-    const renderedComponent = shallow(ElementNode.rep({
-      object: stub,
-      onInspectIconClick
-    }));
+    const renderedComponent = shallow(
+      ElementNode.rep({
+        object: stub,
+        onInspectIconClick
+      })
+    );
 
     expect(renderedComponent.find(".open-inspector").exists()).toBeFalsy();
   });
@@ -340,19 +383,24 @@ describe("ElementNode - Element with longString attribute", () => {
   });
 
   it("renders with expected text content", () => {
-    const renderedComponent = shallow(ElementNode.rep({
-      object: stub
-    }));
+    const renderedComponent = shallow(
+      ElementNode.rep({
+        object: stub
+      })
+    );
 
-    expect(renderedComponent.text())
-      .toEqual(`<div data-test="${"a".repeat(1000)}${ELLIPSIS}">`);
+    expect(renderedComponent.text()).toEqual(
+      `<div data-test="${"a".repeat(1000)}${ELLIPSIS}">`
+    );
   });
 
   it("renders with expected text content in tiny mode", () => {
-    const renderedComponent = shallow(ElementNode.rep({
-      object: stub,
-      mode: MODE.TINY
-    }));
+    const renderedComponent = shallow(
+      ElementNode.rep({
+        object: stub,
+        mode: MODE.TINY
+      })
+    );
 
     expect(renderedComponent.text()).toEqual("div");
   });
@@ -366,18 +414,22 @@ describe("ElementNode - : Before pseudo element", () => {
   });
 
   it("renders with expected text content", () => {
-    const renderedComponent = shallow(ElementNode.rep({
-      object: stub
-    }));
+    const renderedComponent = shallow(
+      ElementNode.rep({
+        object: stub
+      })
+    );
 
     expect(renderedComponent.text()).toEqual("::before");
   });
 
   it("renders with expected text content in tiny mode", () => {
-    const renderedComponent = shallow(ElementNode.rep({
-      object: stub,
-      mode: MODE.TINY
-    }));
+    const renderedComponent = shallow(
+      ElementNode.rep({
+        object: stub,
+        mode: MODE.TINY
+      })
+    );
 
     expect(renderedComponent.text()).toEqual("::before");
   });
@@ -391,18 +443,22 @@ describe("ElementNode - After pseudo element", () => {
   });
 
   it("renders with expected text content", () => {
-    const renderedComponent = shallow(ElementNode.rep({
-      object: stub
-    }));
+    const renderedComponent = shallow(
+      ElementNode.rep({
+        object: stub
+      })
+    );
 
     expect(renderedComponent.text()).toEqual("::after");
   });
 
   it("renders with expected text content in tiny mode", () => {
-    const renderedComponent = shallow(ElementNode.rep({
-      object: stub,
-      mode: MODE.TINY
-    }));
+    const renderedComponent = shallow(
+      ElementNode.rep({
+        object: stub,
+        mode: MODE.TINY
+      })
+    );
 
     expect(renderedComponent.text()).toEqual("::after");
   });
@@ -414,11 +470,13 @@ describe("ElementNode - Inspect icon title", () => {
   it("renders with expected title", () => {
     const inspectIconTitle = "inspect icon title";
 
-    const renderedComponent = shallow(ElementNode.rep({
-      inspectIconTitle,
-      object: stub,
-      onInspectIconClick: jest.fn(),
-    }));
+    const renderedComponent = shallow(
+      ElementNode.rep({
+        inspectIconTitle,
+        object: stub,
+        onInspectIconClick: jest.fn()
+      })
+    );
 
     const iconNode = renderedComponent.find(".open-inspector");
     expect(iconNode.prop("title")).toEqual(inspectIconTitle);

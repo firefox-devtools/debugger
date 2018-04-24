@@ -1,6 +1,6 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 /**
  * Returns an object with a promise and its resolve and reject function,
@@ -10,7 +10,7 @@
  */
 function defer() {
   let resolve, reject;
-  let promise = new Promise((res, rej) => {
+  const promise = new Promise((res, rej) => {
     resolve = res;
     reject = rej;
   });
@@ -40,13 +40,12 @@ function executeSoon(fn) {
  * @returns object
  */
 function filterByKey(obj, predicate) {
-  return Object.keys(obj)
-    .reduce((res, key) => {
-      if (predicate(key)) {
-        return Object.assign(res, {[key]: obj[key]});
-      }
-      return res;
-    }, {});
+  return Object.keys(obj).reduce((res, key) => {
+    if (predicate(key)) {
+      return Object.assign(res, { [key]: obj[key] });
+    }
+    return res;
+  }, {});
 }
 
 function generateKey() {
@@ -57,5 +56,5 @@ module.exports = {
   defer,
   executeSoon,
   filterByKey,
-  generateKey,
+  generateKey
 };

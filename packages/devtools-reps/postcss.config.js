@@ -17,7 +17,10 @@ function mapUrlProduction(url, type) {
 function mapUrlDevelopment(url) {
   const newUrl = url
     .replace("/images/open-inspector.svg", EXPRESS_PATH + "open-inspector.svg")
-    .replace("/images/jump-definition.svg", EXPRESS_PATH + "jump-definition.svg");
+    .replace(
+      "/images/jump-definition.svg",
+      EXPRESS_PATH + "jump-definition.svg"
+    );
 
   return newUrl;
 }

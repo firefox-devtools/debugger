@@ -1,15 +1,11 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // ReactJS
 const PropTypes = require("prop-types");
 // Utils
-const {
-  getGripType,
-  isGrip,
-  wrapRender,
-} = require("./rep-utils");
+const { getGripType, isGrip, wrapRender } = require("./rep-utils");
 const { cleanFunctionName } = require("./function");
 const { isLongString } = require("./string");
 const { MODE } = require("./constants");
@@ -23,13 +19,13 @@ const IGNORED_SOURCE_URLS = ["debugger eval code"];
  */
 ErrorRep.propTypes = {
   object: PropTypes.object.isRequired,
-  // @TODO Change this to Object.values once it's supported in Node's version of V8
-  mode: PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
+  // @TODO Change this to Object.values when supported in Node's version of V8
+  mode: PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key]))
 };
 
 function ErrorRep(props) {
-  let object = props.object;
-  let preview = object.preview;
+  const object = props.object;
+  const preview = object.preview;
 
   let name;
   if (preview && preview.name && preview.kind) {
@@ -59,15 +55,18 @@ function ErrorRep(props) {
     content.push("\n", getStacktraceElements(props, preview));
   }
 
-  return span({
-    "data-link-actor-id": object.actor,
-    className: "objectBox-stackTrace"
-  }, content);
+  return span(
+    {
+      "data-link-actor-id": object.actor,
+      className: "objectBox-stackTrace"
+    },
+    content
+  );
 }
 
 /**
- * Returns a React element reprensenting the Error stacktrace, i.e. transform error.stack
- * from:
+ * Returns a React element reprensenting the Error stacktrace, i.e.
+ * transform error.stack from:
  *
  * semicolon@debugger eval code:1:109
  * jkl@debugger eval code:1:63
@@ -92,82 +91,95 @@ function getStacktraceElements(props, preview) {
     ? preview.stack.initial
     : preview.stack;
 
-  stackString
-    .split("\n")
-    .forEach((frame, index) => {
-      if (!frame) {
-        // Skip any blank lines
-        return;
-      }
+  stackString.split("\n").forEach((frame, index) => {
+    if (!frame) {
+      // Skip any blank lines
+      return;
+    }
 
-      let functionName;
-      let location;
+    let functionName;
+    let location;
 
-      // Given the input: "functionName@scriptLocation:2:100"
-      // Result:
-      // ["functionName@scriptLocation:2:100", "functionName", "scriptLocation:2:100"]
-      const result = frame.match(/^(.*)@(.*)$/);
-      if (result && result.length === 3) {
-        functionName = result[1];
+    // Given the input: "functionName@scriptLocation:2:100"
+    // Result: [
+    //   "functionName@scriptLocation:2:100",
+    //   "functionName",
+    //   "scriptLocation:2:100"
+    // ]
+    const result = frame.match(/^(.*)@(.*)$/);
+    if (result && result.length === 3) {
+      functionName = result[1];
 
-        // If the resource was loaded by base-loader.js, the location looks like:
-        // resource://devtools/shared/base-loader.js -> resource://path/to/file.js .
-        // What's needed is only the last part after " -> ".
-        location = result[2].split(" -> ").pop();
-      }
+      // If the resource was loaded by base-loader.js, the location looks like:
+      // resource://devtools/shared/base-loader.js -> resource://path/to/file.js .
+      // What's needed is only the last part after " -> ".
+      location = result[2].split(" -> ").pop();
+    }
 
-      if (!functionName) {
-        functionName = "<anonymous>";
-      }
+    if (!functionName) {
+      functionName = "<anonymous>";
+    }
 
-      let onLocationClick;
-      // Given the input: "scriptLocation:2:100"
-      // Result:
-      // ["scriptLocation:2:100", "scriptLocation", "2", "100"]
-      const locationParts = location.match(/^(.*):(\d+):(\d+)$/);
-      if (
-        props.onViewSourceInDebugger &&
-        location &&
-        !IGNORED_SOURCE_URLS.includes(locationParts[1]) &&
-        locationParts
-      ) {
-        let [, url, line, column] = locationParts;
-        onLocationClick = e => {
-          // Don't trigger ObjectInspector expand/collapse.
-          e.stopPropagation();
-          props.onViewSourceInDebugger({
-            url,
-            line: Number(line),
-            column: Number(column),
-          });
-        };
-      }
+    let onLocationClick;
+    // Given the input: "scriptLocation:2:100"
+    // Result:
+    // ["scriptLocation:2:100", "scriptLocation", "2", "100"]
+    const locationParts = location.match(/^(.*):(\d+):(\d+)$/);
+    if (
+      props.onViewSourceInDebugger &&
+      location &&
+      !IGNORED_SOURCE_URLS.includes(locationParts[1]) &&
+      locationParts
+    ) {
+      const [, url, line, column] = locationParts;
+      onLocationClick = e => {
+        // Don't trigger ObjectInspector expand/collapse.
+        e.stopPropagation();
+        props.onViewSourceInDebugger({
+          url,
+          line: Number(line),
+          column: Number(column)
+        });
+      };
+    }
 
-      stack.push(span({
-        key: "fn" + index,
-        className: "objectBox-stackTrace-fn"
-      }, cleanFunctionName(functionName)),
-      span({
-        key: "location" + index,
-        className: "objectBox-stackTrace-location",
-        onClick: onLocationClick,
-        title: onLocationClick
-          ? "View source in debugger → " + location
-          : undefined,
-      }, location));
-    });
+    stack.push(
+      span(
+        {
+          key: `fn${index}`,
+          className: "objectBox-stackTrace-fn"
+        },
+        cleanFunctionName(functionName)
+      ),
+      span(
+        {
+          key: `location${index}`,
+          className: "objectBox-stackTrace-location",
+          onClick: onLocationClick,
+          title: onLocationClick
+            ? `View source in debugger → ${location}`
+            : undefined
+        },
+        location
+      )
+    );
+  });
 
   if (isStacktraceALongString) {
-    // Remove the last frame (i.e. 2 last elements in the array, the function name and the
-    // location) which is certainly incomplete.
-    // Can be removed when https://bugzilla.mozilla.org/show_bug.cgi?id=1448833 is fixed.
+    // Remove the last frame (i.e. 2 last elements in the array, the function
+    // name and the location) which is certainly incomplete.
+    // Can be removed when https://bugzilla.mozilla.org/show_bug.cgi?id=1448833
+    // is fixed.
     stack.splice(-2);
   }
 
-  return span({
-    key: "stack",
-    className: "objectBox-stackTrace-grid"
-  }, stack);
+  return span(
+    {
+      key: "stack",
+      className: "objectBox-stackTrace-grid"
+    },
+    stack
+  );
 }
 
 // Registration
@@ -176,8 +188,7 @@ function supportsObject(object, noGrip = false) {
     return false;
   }
   return (
-    object.preview &&
-    getGripType(object, noGrip) === "Error" ||
+    (object.preview && getGripType(object, noGrip) === "Error") ||
     object.class === "DOMException"
   );
 }
@@ -185,5 +196,5 @@ function supportsObject(object, noGrip = false) {
 // Exports from this module
 module.exports = {
   rep: wrapRender(ErrorRep),
-  supportsObject,
+  supportsObject
 };

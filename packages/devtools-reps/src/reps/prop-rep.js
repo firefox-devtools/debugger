@@ -1,13 +1,10 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // Dependencies
 const PropTypes = require("prop-types");
-const {
-  maybeEscapePropertyName,
-  wrapRender,
-} = require("./rep-utils");
+const { maybeEscapePropertyName, wrapRender } = require("./rep-utils");
 const { MODE } = require("./constants");
 
 const { span } = require("react-dom-factories");
@@ -19,13 +16,10 @@ const { span } = require("react-dom-factories");
  */
 PropRep.propTypes = {
   // Property name.
-  name: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-  ]).isRequired,
+  name: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   // Equal character rendered between property name and value.
   equal: PropTypes.string,
-  // @TODO Change this to Object.values once it's supported in Node's version of V8
+  // @TODO Change this to Object.values when supported in Node's version of V8
   mode: PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
   onDOMNodeMouseOver: PropTypes.func,
   onDOMNodeMouseOut: PropTypes.func,
@@ -33,7 +27,7 @@ PropRep.propTypes = {
   // Normally a PropRep will quote a property name that isn't valid
   // when unquoted; but this flag can be used to suppress the
   // quoting.
-  suppressQuotes: PropTypes.bool,
+  suppressQuotes: PropTypes.bool
 };
 
 /**
@@ -47,12 +41,7 @@ function PropRep(props) {
   const Grip = require("./grip");
   const { Rep } = require("./rep");
 
-  let {
-    name,
-    mode,
-    equal,
-    suppressQuotes,
-  } = props;
+  let { name, mode, equal, suppressQuotes } = props;
 
   let key;
   // The key can be a simple string, for plain objects,
@@ -61,23 +50,26 @@ function PropRep(props) {
     if (!suppressQuotes) {
       name = maybeEscapePropertyName(name);
     }
-    key = span({"className": "nodeName"}, name);
+    key = span({ className: "nodeName" }, name);
   } else {
     key = Rep({
       ...props,
       className: "nodeName",
       object: name,
       mode: mode || MODE.TINY,
-      defaultRep: Grip,
+      defaultRep: Grip
     });
   }
 
   return [
     key,
-    span({
-      "className": "objectEqual"
-    }, equal),
-    Rep({...props}),
+    span(
+      {
+        className: "objectEqual"
+      },
+      equal
+    ),
+    Rep({ ...props })
   ];
 }
 

@@ -1,6 +1,6 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 const React = require("react");
 const { Component, createFactory } = React;
@@ -18,7 +18,7 @@ class Header extends Component {
       clearResultsList: PropTypes.func.isRequired,
       currentInputValue: PropTypes.string,
       evaluate: PropTypes.func.isRequired,
-      navigateInputHistory: PropTypes.func.isRequired,
+      navigateInputHistory: PropTypes.func.isRequired
     };
   }
 
@@ -32,8 +32,8 @@ class Header extends Component {
 
   onSubmitForm(e) {
     e.preventDefault();
-    let data = new FormData(e.target);
-    let expression = data.get("expression");
+    const data = new FormData(e.target);
+    const expression = data.get("expression");
     this.props.addInput(expression);
   }
 
@@ -43,9 +43,8 @@ class Header extends Component {
 
   onInputKeyDown(e) {
     if (["ArrowUp", "ArrowDown"].includes(e.key)) {
-      this.props.navigateInputHistory(e.key === "ArrowUp"
-        ? constants.DIR_BACKWARD
-        : constants.DIR_FORWARD
+      this.props.navigateInputHistory(
+        e.key === "ArrowUp" ? constants.DIR_BACKWARD : constants.DIR_FORWARD
       );
     }
   }
@@ -55,15 +54,12 @@ class Header extends Component {
   }
 
   render() {
-    let {
-      currentInputValue,
-      evaluate,
-    } = this.props;
+    const { currentInputValue, evaluate } = this.props;
 
     return dom.header(
       { className: "console-header" },
       dom.form(
-        { onSubmit: this.onSubmitForm, },
+        { onSubmit: this.onSubmitForm },
         dom.h1({}, "Reps"),
         dom.input({
           type: "text",
@@ -72,13 +68,16 @@ class Header extends Component {
           value: currentInputValue || "",
           autoFocus: true,
           onChange: this.onInputChange,
-          onKeyDown: this.onInputKeyDown,
+          onKeyDown: this.onInputKeyDown
         }),
-        dom.button({
-          className: "clear-button",
-          type: "button",
-          onClick: this.onClearButtonClick
-        }, "Clear"),
+        dom.button(
+          {
+            className: "clear-button",
+            type: "button",
+            onClick: this.onClearButtonClick
+          },
+          "Clear"
+        )
       ),
       QuickLinks({ evaluate })
     );

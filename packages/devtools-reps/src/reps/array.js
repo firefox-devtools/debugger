@@ -1,18 +1,16 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // Dependencies
 const dom = require("react-dom-factories");
 const PropTypes = require("prop-types");
-const {
-  wrapRender,
-} = require("./rep-utils");
+const { wrapRender } = require("./rep-utils");
 const { MODE } = require("./constants");
 const { span } = dom;
 
 const ModePropType = PropTypes.oneOf(
-  // @TODO Change this to Object.values once it's supported in Node's version of V8
+  // @TODO Change this to Object.values when supported in Node's version of V8
   Object.keys(MODE).map(key => MODE[key])
 );
 
@@ -22,30 +20,32 @@ const ModePropType = PropTypes.oneOf(
  */
 ArrayRep.propTypes = {
   mode: ModePropType,
-  object: PropTypes.array.isRequired,
+  object: PropTypes.array.isRequired
 };
 
 function ArrayRep(props) {
-  let {
-    object,
-    mode = MODE.SHORT,
-  } = props;
+  const { object, mode = MODE.SHORT } = props;
 
   let items;
   let brackets;
-  let needSpace = function (space) {
-    return space ? { left: "[ ", right: " ]"} : { left: "[", right: "]"};
+  const needSpace = function(space) {
+    return space ? { left: "[ ", right: " ]" } : { left: "[", right: "]" };
   };
 
   if (mode === MODE.TINY) {
-    let isEmpty = object.length === 0;
+    const isEmpty = object.length === 0;
     if (isEmpty) {
       items = [];
     } else {
-      items = [span({
-        className: "more-ellipsis",
-        title: "more…"
-      }, "…")];
+      items = [
+        span(
+          {
+            className: "more-ellipsis",
+            title: "more…"
+          },
+          "…"
+        )
+      ];
     }
     brackets = needSpace(false);
   } else {
@@ -53,27 +53,33 @@ function ArrayRep(props) {
     brackets = needSpace(items.length > 0);
   }
 
-  return (
-    span({
-      className: "objectBox objectBox-array"},
-      span({
-        className: "arrayLeftBracket",
-      }, brackets.left),
-      ...items,
-      span({
-        className: "arrayRightBracket",
-      }, brackets.right)
+  return span(
+    {
+      className: "objectBox objectBox-array"
+    },
+    span(
+      {
+        className: "arrayLeftBracket"
+      },
+      brackets.left
+    ),
+    ...items,
+    span(
+      {
+        className: "arrayRightBracket"
+      },
+      brackets.right
     )
   );
 }
 
 function arrayIterator(props, array, max) {
-  let items = [];
+  const items = [];
 
   for (let i = 0; i < array.length && i < max; i++) {
-    let config = {
+    const config = {
       mode: MODE.TINY,
-      delim: (i == array.length - 1 ? "" : ", ")
+      delim: i == array.length - 1 ? "" : ", "
     };
     let item;
 
@@ -81,23 +87,28 @@ function arrayIterator(props, array, max) {
       item = ItemRep({
         ...props,
         ...config,
-        object: array[i],
+        object: array[i]
       });
     } catch (exc) {
       item = ItemRep({
         ...props,
         ...config,
-        object: exc,
+        object: exc
       });
     }
     items.push(item);
   }
 
   if (array.length > max) {
-    items.push(span({
-      className: "more-ellipsis",
-      title: "more…"
-    }, "…"));
+    items.push(
+      span(
+        {
+          className: "more-ellipsis",
+          title: "more…"
+        },
+        "…"
+      )
+    );
   }
 
   return items;
@@ -109,26 +120,21 @@ function arrayIterator(props, array, max) {
 ItemRep.propTypes = {
   object: PropTypes.any.isRequired,
   delim: PropTypes.string.isRequired,
-  mode: ModePropType,
+  mode: ModePropType
 };
 
 function ItemRep(props) {
   const { Rep } = require("./rep");
 
-  let {
-    object,
-    delim,
-    mode,
-  } = props;
-  return (
-    span({},
-      Rep({
-        ...props,
-        object: object,
-        mode: mode
-      }),
-      delim
-    )
+  const { object, delim, mode } = props;
+  return span(
+    {},
+    Rep({
+      ...props,
+      object: object,
+      mode: mode
+    }),
+    delim
   );
 }
 
@@ -137,8 +143,10 @@ function getLength(object) {
 }
 
 function supportsObject(object) {
-  return Array.isArray(object) ||
-    Object.prototype.toString.call(object) === "[object Arguments]";
+  return (
+    Array.isArray(object) ||
+    Object.prototype.toString.call(object) === "[object Arguments]"
+  );
 }
 
 const maxLengthMap = new Map();
@@ -151,5 +159,5 @@ module.exports = {
   supportsObject,
   maxLengthMap,
   getLength,
-  ModePropType,
+  ModePropType
 };

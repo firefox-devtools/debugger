@@ -1,28 +1,28 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 /* global jest */
 
 const { shallow } = require("enzyme");
-const {
-  getRep,
-} = require("../rep");
+const { getRep } = require("../rep");
 const GripMap = require("../grip-map");
 const { MODE } = require("../constants");
 const stubs = require("../stubs/grip-map");
 const {
   expectActorAttribute,
   getSelectableInInspectorGrips,
-  getMapLengthBubbleText,
+  getMapLengthBubbleText
 } = require("./test-helpers");
-const {maxLengthMap} = GripMap;
+const { maxLengthMap } = GripMap;
 
 function shallowRenderRep(object, props = {}) {
-  return shallow(GripMap.rep({
-    object,
-    ...props,
-  }));
+  return shallow(
+    GripMap.rep({
+      object,
+      ...props
+    })
+  );
 }
 
 describe("GripMap - empty map", () => {
@@ -33,8 +33,8 @@ describe("GripMap - empty map", () => {
   });
 
   it("renders as expected", () => {
-    const renderRep = (props) => shallowRenderRep(object, props);
-    let length = getMapLengthBubbleText(object);
+    const renderRep = props => shallowRenderRep(object, props);
+    const length = getMapLengthBubbleText(object);
     const defaultOutput = `Map${length}`;
 
     let component = renderRep({ mode: undefined });
@@ -65,17 +65,17 @@ describe("GripMap - Symbol-keyed Map", () => {
   });
 
   it("renders as expected", () => {
-    const renderRep = (props) => shallowRenderRep(object, props);
+    const renderRep = props => shallowRenderRep(object, props);
     let length = getMapLengthBubbleText(object);
-    const defaultOutput = `Map${length} { Symbol(a) → "value-a", Symbol(b) → "value-b" }`;
+    const out = `Map${length} { Symbol(a) → "value-a", Symbol(b) → "value-b" }`;
 
-    expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
+    expect(renderRep({ mode: undefined }).text()).toBe(out);
 
     length = getMapLengthBubbleText(object, { mode: MODE.TINY });
     expect(renderRep({ mode: MODE.TINY }).text()).toBe(`Map${length}`);
 
-    expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.LONG }).text()).toBe(defaultOutput);
+    expect(renderRep({ mode: MODE.SHORT }).text()).toBe(out);
+    expect(renderRep({ mode: MODE.LONG }).text()).toBe(out);
   });
 });
 
@@ -88,7 +88,7 @@ describe("GripMap - WeakMap", () => {
   });
 
   it("renders as expected", () => {
-    const renderRep = (props) => shallowRenderRep(object, props);
+    const renderRep = props => shallowRenderRep(object, props);
     let length = getMapLengthBubbleText(object);
     const defaultOutput = `WeakMap${length} { {…} → "value-a" }`;
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
@@ -100,10 +100,12 @@ describe("GripMap - WeakMap", () => {
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(defaultOutput);
 
     length = getMapLengthBubbleText(object, { mode: MODE.LONG });
-    expect(renderRep({
-      mode: MODE.LONG,
-      title: "CustomTitle"
-    }).text()).toBe(`CustomTitle${length} { {…} → "value-a" }`);
+    expect(
+      renderRep({
+        mode: MODE.LONG,
+        title: "CustomTitle"
+      }).text()
+    ).toBe(`CustomTitle${length} { {…} → "value-a" }`);
   });
 });
 
@@ -118,23 +120,24 @@ describe("GripMap - max entries", () => {
 
   it("renders as expected", () => {
     let length = getMapLengthBubbleText(object);
-    const renderRep = (props) => shallowRenderRep(object, props);
-    const defaultOutput =
-      `Map${length} { "key-a" → "value-a", "key-b" → "value-b", "key-c" → "value-c" }`;
+    const renderRep = props => shallowRenderRep(object, props);
+    const out =
+      `Map${length} { ` +
+      '"key-a" → "value-a", "key-b" → "value-b", "key-c" → "value-c" }';
 
-    expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
+    expect(renderRep({ mode: undefined }).text()).toBe(out);
 
     length = getMapLengthBubbleText(object, { mode: MODE.TINY });
     expect(renderRep({ mode: MODE.TINY }).text()).toBe(`Map${length}`);
 
-    expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.LONG }).text()).toBe(defaultOutput);
+    expect(renderRep({ mode: MODE.SHORT }).text()).toBe(out);
+    expect(renderRep({ mode: MODE.LONG }).text()).toBe(out);
   });
 });
 
 describe("GripMap - more than max entries", () => {
   // Test object = `new Map(
-  //   [["key-0", "value-0"], ["key-1", "value-1"]], …, ["key-100", "value-100"]]}`
+  //   [["key-0", "value-0"], …, ["key-100", "value-100"]]}`
   const object = stubs.get("testMoreThanMaxEntries");
 
   it("correctly selects GripMap Rep", () => {
@@ -142,10 +145,11 @@ describe("GripMap - more than max entries", () => {
   });
 
   it("renders as expected", () => {
-    const renderRep = (props) => shallowRenderRep(object, props);
+    const renderRep = props => shallowRenderRep(object, props);
     let length = getMapLengthBubbleText(object);
-    const defaultOutput = `Map${length} { "key-0" → "value-0", ` +
-      `"key-1" → "value-1", "key-2" → "value-2", … }`;
+    const defaultOutput =
+      `Map${length} { "key-0" → "value-0", ` +
+      '"key-1" → "value-1", "key-2" → "value-2", … }';
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
 
@@ -154,16 +158,19 @@ describe("GripMap - more than max entries", () => {
 
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
 
-    let longString = Array.from({length: maxLengthMap.get(MODE.LONG)})
-      .map((_, i) => `"key-${i}" → "value-${i}"`);
-    expect(renderRep({ mode: MODE.LONG }).text())
-      .toBe(`Map(${maxLengthMap.get(MODE.LONG) + 1}) { ${longString.join(", ")}, … }`);
+    const longString = Array.from({ length: maxLengthMap.get(MODE.LONG) }).map(
+      (_, i) => `"key-${i}" → "value-${i}"`
+    );
+    expect(renderRep({ mode: MODE.LONG }).text()).toBe(
+      `Map(${maxLengthMap.get(MODE.LONG) + 1}) { ${longString.join(", ")}, … }`
+    );
   });
 });
 
 describe("GripMap - uninteresting entries", () => {
   // Test object:
-  // `new Map([["key-a",null], ["key-b",undefined], ["key-c","value-c"], ["key-d",4]])`
+  // `new Map([["key-a",null], ["key-b",undefined], ["key-c","value-c"],
+  //    ["key-d",4]])`
   const object = stubs.get("testUninterestingEntries");
 
   it("correctly selects GripMap Rep", () => {
@@ -171,10 +178,11 @@ describe("GripMap - uninteresting entries", () => {
   });
 
   it("renders as expected", () => {
-    const renderRep = (props) => shallowRenderRep(object, props);
+    const renderRep = props => shallowRenderRep(object, props);
     let length = getMapLengthBubbleText(object);
     const defaultOutput =
-      `Map${length} { "key-a" → null, "key-c" → "value-c", "key-d" → 4, … }`;
+      `Map${length} { "key-a" → null, ` +
+      '"key-c" → "value-c", "key-d" → 4, … }';
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
 
     length = getMapLengthBubbleText(object, { mode: MODE.TINY });
@@ -183,15 +191,16 @@ describe("GripMap - uninteresting entries", () => {
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
 
     length = getMapLengthBubbleText(object, { mode: MODE.LONG });
-    const longOutput = `Map${length} { "key-a" → null, "key-b" → undefined, ` +
-      `"key-c" → "value-c", "key-d" → 4 }`;
+    const longOutput =
+      `Map${length} { "key-a" → null, "key-b" → undefined, ` +
+      '"key-c" → "value-c", "key-d" → 4 }';
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(longOutput);
   });
 });
 
 describe("GripMap - Node-keyed entries", () => {
   const object = stubs.get("testNodeKeyedMap");
-  const renderRep = (props) => shallowRenderRep(object, props);
+  const renderRep = props => shallowRenderRep(object, props);
   const grips = getSelectableInInspectorGrips(object);
 
   it("correctly selects GripMap Rep", () => {
@@ -199,7 +208,7 @@ describe("GripMap - Node-keyed entries", () => {
   });
 
   it("has the expected number of grips", () => {
-    expect(grips.length).toBe(3);
+    expect(grips).toHaveLength(3);
   });
 
   it("calls the expected function on mouseover", () => {
@@ -211,7 +220,7 @@ describe("GripMap - Node-keyed entries", () => {
     node.at(1).simulate("mouseover");
     node.at(2).simulate("mouseover");
 
-    expect(onDOMNodeMouseOver.mock.calls.length).toBe(3);
+    expect(onDOMNodeMouseOver.mock.calls).toHaveLength(3);
     expect(onDOMNodeMouseOver.mock.calls[0][0]).toBe(grips[0]);
     expect(onDOMNodeMouseOver.mock.calls[1][0]).toBe(grips[1]);
     expect(onDOMNodeMouseOver.mock.calls[2][0]).toBe(grips[2]);
@@ -226,7 +235,7 @@ describe("GripMap - Node-keyed entries", () => {
     node.at(1).simulate("mouseout");
     node.at(2).simulate("mouseout");
 
-    expect(onDOMNodeMouseOut.mock.calls.length).toBe(3);
+    expect(onDOMNodeMouseOut.mock.calls).toHaveLength(3);
   });
 
   it("calls the expected function on click", () => {
@@ -238,7 +247,7 @@ describe("GripMap - Node-keyed entries", () => {
     node.at(1).simulate("click");
     node.at(2).simulate("click");
 
-    expect(onInspectIconClick.mock.calls.length).toBe(3);
+    expect(onInspectIconClick.mock.calls).toHaveLength(3);
     expect(onInspectIconClick.mock.calls[0][0]).toBe(grips[0]);
     expect(onInspectIconClick.mock.calls[1][0]).toBe(grips[1]);
     expect(onInspectIconClick.mock.calls[2][0]).toBe(grips[2]);
@@ -247,7 +256,7 @@ describe("GripMap - Node-keyed entries", () => {
 
 describe("GripMap - Node-valued entries", () => {
   const object = stubs.get("testNodeValuedMap");
-  const renderRep = (props) => shallowRenderRep(object, props);
+  const renderRep = props => shallowRenderRep(object, props);
   const grips = getSelectableInInspectorGrips(object);
 
   it("correctly selects GripMap Rep", () => {
@@ -255,7 +264,7 @@ describe("GripMap - Node-valued entries", () => {
   });
 
   it("has the expected number of grips", () => {
-    expect(grips.length).toBe(3);
+    expect(grips).toHaveLength(3);
   });
 
   it("calls the expected function on mouseover", () => {
@@ -267,7 +276,7 @@ describe("GripMap - Node-valued entries", () => {
     node.at(1).simulate("mouseover");
     node.at(2).simulate("mouseover");
 
-    expect(onDOMNodeMouseOver.mock.calls.length).toBe(3);
+    expect(onDOMNodeMouseOver.mock.calls).toHaveLength(3);
     expect(onDOMNodeMouseOver.mock.calls[0][0]).toBe(grips[0]);
     expect(onDOMNodeMouseOver.mock.calls[1][0]).toBe(grips[1]);
     expect(onDOMNodeMouseOver.mock.calls[2][0]).toBe(grips[2]);
@@ -282,7 +291,7 @@ describe("GripMap - Node-valued entries", () => {
     node.at(1).simulate("mouseout");
     node.at(2).simulate("mouseout");
 
-    expect(onDOMNodeMouseOut.mock.calls.length).toBe(3);
+    expect(onDOMNodeMouseOut.mock.calls).toHaveLength(3);
   });
 
   it("calls the expected function on click", () => {
@@ -294,7 +303,7 @@ describe("GripMap - Node-valued entries", () => {
     node.at(1).simulate("click");
     node.at(2).simulate("click");
 
-    expect(onInspectIconClick.mock.calls.length).toBe(3);
+    expect(onInspectIconClick.mock.calls).toHaveLength(3);
     expect(onInspectIconClick.mock.calls[0][0]).toBe(grips[0]);
     expect(onInspectIconClick.mock.calls[1][0]).toBe(grips[1]);
     expect(onInspectIconClick.mock.calls[2][0]).toBe(grips[2]);
@@ -303,7 +312,7 @@ describe("GripMap - Node-valued entries", () => {
 
 describe("GripMap - Disconnected node-valued entries", () => {
   const object = stubs.get("testDisconnectedNodeValuedMap");
-  const renderRep = (props) => shallowRenderRep(object, props);
+  const renderRep = props => shallowRenderRep(object, props);
   const grips = getSelectableInInspectorGrips(object);
 
   it("correctly selects GripMap Rep", () => {
@@ -311,10 +320,10 @@ describe("GripMap - Disconnected node-valued entries", () => {
   });
 
   it("has the expected number of grips", () => {
-    expect(grips.length).toBe(3);
+    expect(grips).toHaveLength(3);
   });
 
-  it("renders no inspect icon when nodes are not connected to the DOM tree", () => {
+  it("no inspect icon when nodes are not connected to the DOM tree", () => {
     const onInspectIconClick = jest.fn();
     const wrapper = renderRep({ onInspectIconClick });
 

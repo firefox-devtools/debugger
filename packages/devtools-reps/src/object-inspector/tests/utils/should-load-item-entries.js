@@ -1,17 +1,11 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 const Utils = require("../../utils");
-const {
-  createNode,
-  getChildren,
-  makeNodesForEntries,
-} = Utils.node;
+const { createNode, getChildren, makeNodesForEntries } = Utils.node;
 
-const {
-  shouldLoadItemEntries,
-} = Utils.loadProperties;
+const { shouldLoadItemEntries } = Utils.loadProperties;
 
 const gripMapStubs = require("../../../reps/stubs/grip-map");
 const gripArrayStubs = require("../../../reps/stubs/grip-array");
@@ -41,7 +35,7 @@ describe("shouldLoadItemEntries", () => {
     expect(shouldLoadItemEntries(entriesNode, loadedProperties)).toBeFalsy();
   });
 
-  it("returns false for an entries node on a map which has everything in preview", () => {
+  it("returns false for entries on a Map with everything in preview", () => {
     const mapStubNode = createNode({
       name: "map",
       contents: {
@@ -52,7 +46,7 @@ describe("shouldLoadItemEntries", () => {
     expect(shouldLoadItemEntries(entriesNode)).toBeFalsy();
   });
 
-  it("returns false for an entries node on a set which has everything in preview", () => {
+  it("returns false for entries on a Set with everything in preview", () => {
     const setStubNode = createNode({
       name: "set",
       contents: {

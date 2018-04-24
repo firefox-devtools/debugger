@@ -1,6 +1,6 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 const Utils = require("../../utils");
 const { shouldRenderRootsInReps } = Utils;
@@ -15,67 +15,108 @@ const errorStubs = require("../../../reps/stubs/error");
 
 describe("shouldRenderRootsInReps", () => {
   it("returns true for a string", () => {
-    expect(shouldRenderRootsInReps([{
-      contents: { value: "Hello" }
-    }])).toBeTruthy();
+    expect(
+      shouldRenderRootsInReps([
+        {
+          contents: { value: "Hello" }
+        }
+      ])
+    ).toBeTruthy();
   });
 
   it("returns true for an integer", () => {
-    expect(shouldRenderRootsInReps([{
-      contents: { value: numberStubs.get("Int") }
-    }])).toBeTruthy();
+    expect(
+      shouldRenderRootsInReps([
+        {
+          contents: { value: numberStubs.get("Int") }
+        }
+      ])
+    ).toBeTruthy();
   });
 
   it("returns true for undefined", () => {
-    expect(shouldRenderRootsInReps([{
-      contents: { value: undefinedStubs.get("Undefined") }
-    }])).toBeTruthy();
+    expect(
+      shouldRenderRootsInReps([
+        {
+          contents: { value: undefinedStubs.get("Undefined") }
+        }
+      ])
+    ).toBeTruthy();
   });
 
   it("returns true for null", () => {
-    expect(shouldRenderRootsInReps([{
-      contents: { value: nullStubs.get("Null") }
-    }])).toBeTruthy();
+    expect(
+      shouldRenderRootsInReps([
+        {
+          contents: { value: nullStubs.get("Null") }
+        }
+      ])
+    ).toBeTruthy();
   });
 
   it("returns true for Symbols", () => {
-    expect(shouldRenderRootsInReps([{
-      contents: { value: symbolStubs.get("Symbol") }
-    }])).toBeTruthy();
+    expect(
+      shouldRenderRootsInReps([
+        {
+          contents: { value: symbolStubs.get("Symbol") }
+        }
+      ])
+    ).toBeTruthy();
   });
 
   it("returns true for Errors", () => {
-    expect(shouldRenderRootsInReps([{
-      contents: { value: errorStubs.get("MultilineStackError") }
-    }])).toBeTruthy();
+    expect(
+      shouldRenderRootsInReps([
+        {
+          contents: { value: errorStubs.get("MultilineStackError") }
+        }
+      ])
+    ).toBeTruthy();
   });
 
   it("returns false when there are multiple primitive roots", () => {
-    expect(shouldRenderRootsInReps([{
-      contents: { value: "Hello" }
-    }, {
-      contents: { value: 42 }
-    }])).toBeFalsy();
+    expect(
+      shouldRenderRootsInReps([
+        {
+          contents: { value: "Hello" }
+        },
+        {
+          contents: { value: 42 }
+        }
+      ])
+    ).toBeFalsy();
   });
 
   it("returns false for primitive when the root specifies a name", () => {
-    expect(shouldRenderRootsInReps([{
-      name: "label",
-      contents: {value: 42}
-    }])).toBeFalsy();
+    expect(
+      shouldRenderRootsInReps([
+        {
+          name: "label",
+          contents: { value: 42 }
+        }
+      ])
+    ).toBeFalsy();
   });
 
   it("returns false for Grips", () => {
-    expect(shouldRenderRootsInReps([{
-      name: "label",
-      contents: {value: gripStubs.get("testMaxProps")}
-    }])).toBeFalsy();
+    expect(
+      shouldRenderRootsInReps([
+        {
+          name: "label",
+          contents: { value: gripStubs.get("testMaxProps") }
+        }
+      ])
+    ).toBeFalsy();
   });
 
   it("returns false for Arrays", () => {
-    expect(shouldRenderRootsInReps([{
-      name: "label",
-      contents: {value: gripArrayStubs.get("testMaxProps")}
-    }])).toBeFalsy();
+    expect(
+      shouldRenderRootsInReps([
+        {
+          name: "label",
+          contents: { value: gripArrayStubs.get("testMaxProps") }
+        }
+      ])
+    ).toBeFalsy();
   });
 });

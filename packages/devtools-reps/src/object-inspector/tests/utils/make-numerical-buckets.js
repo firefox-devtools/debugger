@@ -1,11 +1,8 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-const {
-  createNode,
-  makeNumericalBuckets,
-} = require("../../utils/node");
+const { createNode, makeNumericalBuckets } = require("../../utils/node");
 const gripArrayStubs = require("../../../reps/stubs/grip-array");
 
 describe("makeNumericalBuckets", () => {
@@ -21,16 +18,12 @@ describe("makeNumericalBuckets", () => {
     const names = nodes.map(n => n.name);
     const paths = nodes.map(n => n.path.toString());
 
-    expect(names).toEqual([
-      "[0…99]",
-      "[100…199]",
-      "[200…233]",
-    ]);
+    expect(names).toEqual(["[0…99]", "[100…199]", "[200…233]"]);
 
     expect(paths).toEqual([
       "Symbol(root/[0…99])",
       "Symbol(root/[100…199])",
-      "Symbol(root/[200…233])",
+      "Symbol(root/[200…233])"
     ]);
   });
 
@@ -47,15 +40,9 @@ describe("makeNumericalBuckets", () => {
     const names = nodes.map(n => n.name);
     const paths = nodes.map(n => n.path.toString());
 
-    expect(names).toEqual([
-      "[0…99]",
-      "100",
-    ]);
+    expect(names).toEqual(["[0…99]", "100"]);
 
-    expect(paths).toEqual([
-      `Symbol(root/bucket_0-99)`,
-      `Symbol(root/100)`,
-    ]);
+    expect(paths).toEqual(["Symbol(root/bucket_0-99)", "Symbol(root/100)"]);
   });
 
   // TODO: Re-enable when we have support for lonely node.
@@ -71,14 +58,11 @@ describe("makeNumericalBuckets", () => {
     const names = nodes.map(n => n.name);
     const paths = nodes.map(n => n.path.toString());
 
-    expect(names).toEqual([
-      "[0…99]",
-      "[100…101]",
-    ]);
+    expect(names).toEqual(["[0…99]", "[100…101]"]);
 
     expect(paths).toEqual([
-      `Symbol(root/bucket_0-99)`,
-      `Symbol(root/bucket_100-101)`,
+      "Symbol(root/bucket_0-99)",
+      "Symbol(root/bucket_100-101)"
     ]);
   });
 
@@ -116,7 +100,7 @@ describe("makeNumericalBuckets", () => {
       "[20000…20999]",
       "[21000…21999]",
       "[22000…22999]",
-      "[23000…23455]",
+      "[23000…23455]"
     ]);
 
     const firstBucketNodes = makeNumericalBuckets(nodes[0]);
@@ -133,13 +117,11 @@ describe("makeNumericalBuckets", () => {
       "[600…699]",
       "[700…799]",
       "[800…899]",
-      "[900…999]",
+      "[900…999]"
     ]);
-    expect(firstBucketPaths[0]).toEqual(
-      `Symbol(root/[0…999]/[0…99])`
-    );
+    expect(firstBucketPaths[0]).toEqual("Symbol(root/[0…999]/[0…99])");
     expect(firstBucketPaths[firstBucketPaths.length - 1]).toEqual(
-      `Symbol(root/[0…999]/[900…999])`
+      "Symbol(root/[0…999]/[900…999])"
     );
 
     const lastBucketNodes = makeNumericalBuckets(nodes[nodes.length - 1]);
@@ -150,13 +132,13 @@ describe("makeNumericalBuckets", () => {
       "[23100…23199]",
       "[23200…23299]",
       "[23300…23399]",
-      "[23400…23455]",
+      "[23400…23455]"
     ]);
     expect(lastBucketPaths[0]).toEqual(
-      `Symbol(root/[23000…23455]/[23000…23099])`
+      "Symbol(root/[23000…23455]/[23000…23099])"
     );
     expect(lastBucketPaths[lastBucketPaths.length - 1]).toEqual(
-      `Symbol(root/[23000…23455]/[23400…23455])`
+      "Symbol(root/[23000…23455]/[23400…23455])"
     );
   });
 });

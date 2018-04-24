@@ -1,6 +1,6 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // globals window, document
 
@@ -23,30 +23,31 @@ function onConnect(connection) {
 
   const client = {
     clientCommands: {
-      evaluate: input => new Promise(resolve => {
-        connection.tabConnection.tabTarget.activeConsole.evaluateJS(
-          input,
-          result => resolve(result)
-        );
-      })
+      evaluate: input =>
+        new Promise(resolve => {
+          connection.tabConnection.tabTarget.activeConsole.evaluateJS(
+            input,
+            result => resolve(result)
+          );
+        })
     },
 
-    getObjectClient: function (grip) {
+    getObjectClient: function(grip) {
       return connection.tabConnection.threadClient.pauseGrip(grip);
     },
 
-    getLongStringClient: function (grip) {
+    getLongStringClient: function(grip) {
       return connection.tabConnection.tabTarget.activeConsole.longString(grip);
     },
 
-    releaseActor: function (actor) {
+    releaseActor: function(actor) {
       return connection.tabConnection.debuggerClient.release(actor);
-    },
+    }
   };
 
-  let store = configureStore({
+  const store = configureStore({
     makeThunkArgs: (args, state) => ({ ...args, client }),
-    client,
+    client
   });
   renderRoot(React, ReactDOM, RepsConsole, store);
 }

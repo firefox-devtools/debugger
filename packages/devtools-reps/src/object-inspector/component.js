@@ -1,12 +1,10 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-const {
-  Component,
-  createFactory,
-} = require("react");
+
+const { Component, createFactory } = require("react");
 const dom = require("react-dom-factories");
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
@@ -16,9 +14,7 @@ const Tree = createFactory(Components.Tree);
 require("./index.css");
 
 const classnames = require("classnames");
-const {
-  MODE,
-} = require("../reps/constants");
+const { MODE } = require("../reps/constants");
 
 const Utils = require("./utils");
 
@@ -47,16 +43,11 @@ const {
   nodeHasFullText
 } = Utils.node;
 
-import type {
-  CachedNodes,
-  Node,
-  NodeContents,
-  Props,
-} from "./types";
+import type { CachedNodes, Node, NodeContents, Props } from "./types";
 
 type DefaultProps = {
   autoExpandAll: boolean,
-  autoExpandDepth: number,
+  autoExpandDepth: number
 };
 
 // This implements a component that renders an interactive inspector
@@ -102,26 +93,21 @@ class ObjectInspector extends Component {
   }
 
   shouldComponentUpdate(nextProps: Props) {
-    const {
-      expandedPaths,
-      focusedItem,
-      loadedProperties,
-      roots,
-    } = this.props;
+    const { expandedPaths, focusedItem, loadedProperties, roots } = this.props;
 
     if (roots !== nextProps.roots) {
-      // Since the roots changed, we assume the properties did as well, so we need to
-      // cleanup the component internal state.
+      // Since the roots changed, we assume the properties did as well,
+      // so we need to cleanup the component internal state.
 
       // We can clear the cachedNodes to avoid bugs and memory leaks.
       this.cachedNodes.clear();
-      // The rootsChanged action will be handled in a middleware to release the actors
-      // of the old roots, as well as cleanup the state properties (expandedPaths,
-      // loadedProperties, …).
+      // The rootsChanged action will be handled in a middleware to release the
+      // actors of the old roots, as well as cleanup the state properties
+      // (expandedPaths, loadedProperties, …).
       this.props.rootsChanged(nextProps);
-      // We don't render right away since the state is going to be changed by the
-      // rootsChanged action. The `state.forceUpdate` flag will be set to `true` so we
-      // can execute a new render cycle with the cleaned state.
+      // We don't render right away since the state is going to be changed by
+      // the rootsChanged action. The `state.forceUpdate` flag will be set
+      // to `true` so we can execute a new render cycle with the cleaned state.
       return false;
     }
 
@@ -131,19 +117,21 @@ class ObjectInspector extends Component {
 
     // We should update if:
     // - there are new loaded properties
-    // - OR the expanded paths number changed, and all of them have properties loaded
-    // - OR the expanded paths number did not changed, but old and new sets differ
+    // - OR the expanded paths number changed, and all of them have properties
+    //      loaded
+    // - OR the expanded paths number did not changed, but old and new sets
+    //      differ
     // - OR the focused node changed.
-    return loadedProperties.size !== nextProps.loadedProperties.size
-      || (
-        expandedPaths.size !== nextProps.expandedPaths.size &&
-        [...nextProps.expandedPaths].every(path => nextProps.loadedProperties.has(path))
-      )
-      || (
-        expandedPaths.size === nextProps.expandedPaths.size &&
-        [...nextProps.expandedPaths].some(key => !expandedPaths.has(key))
-      )
-      || focusedItem !== nextProps.focusedItem;
+    return (
+      loadedProperties.size !== nextProps.loadedProperties.size ||
+      (expandedPaths.size !== nextProps.expandedPaths.size &&
+        [...nextProps.expandedPaths].every(path =>
+          nextProps.loadedProperties.has(path)
+        )) ||
+      (expandedPaths.size === nextProps.expandedPaths.size &&
+        [...nextProps.expandedPaths].some(key => !expandedPaths.has(key))) ||
+      focusedItem !== nextProps.focusedItem
+    );
   }
 
   componentDidUpdate(prevProps) {
@@ -160,7 +148,7 @@ class ObjectInspector extends Component {
     }
 
     const { actors } = this.props;
-    for (let actor of actors) {
+    for (const actor of actors) {
       releaseActor(actor);
     }
   }
@@ -168,10 +156,8 @@ class ObjectInspector extends Component {
   props: Props;
   cachedNodes: CachedNodes;
 
-  getItemChildren(item: Node) : Array<Node> | NodeContents | null {
-    const {
-      loadedProperties
-    } = this.props;
+  getItemChildren(item: Node): Array<Node> | NodeContents | null {
+    const { loadedProperties } = this.props;
     const { cachedNodes } = this;
 
     return getChildren({
@@ -185,7 +171,7 @@ class ObjectInspector extends Component {
     return this.props.roots;
   }
 
-  getNodeKey(item: Node) : string {
+  getNodeKey(item: Node): string {
     return item.path && typeof item.path.toString === "function"
       ? item.path.toString()
       : JSON.stringify(item);
@@ -202,31 +188,33 @@ class ObjectInspector extends Component {
       loadedProperties,
       nodeExpand,
       nodeCollapse,
-      roots,
+      roots
     } = this.props;
 
     if (expand === true) {
       const gripItem = getClosestGripNode(item);
       const value = getValue(gripItem);
-      const isRoot = value && roots.some(root => {
-        const rootValue = getValue(root);
-        return rootValue && rootValue.actor === value.actor;
-      });
+      const isRoot =
+        value &&
+        roots.some(root => {
+          const rootValue = getValue(root);
+          return rootValue && rootValue.actor === value.actor;
+        });
       const actor = isRoot || !value ? null : value.actor;
-      nodeExpand(item, actor, loadedProperties, createObjectClient,
-        createLongStringClient);
+      nodeExpand(
+        item,
+        actor,
+        loadedProperties,
+        createObjectClient,
+        createLongStringClient
+      );
     } else {
       nodeCollapse(item);
     }
   }
 
   focusItem(item: Node) {
-    const {
-      focusable = true,
-      focusedItem,
-      nodeFocus,
-      onFocus,
-    } = this.props;
+    const { focusable = true, focusedItem, nodeFocus, onFocus } = this.props;
 
     if (focusable && focusedItem !== item) {
       nodeFocus(item);
@@ -236,10 +224,15 @@ class ObjectInspector extends Component {
     }
   }
 
-  getTreeItemLabelAndValue(item : Node, depth: number, expanded : boolean) : ({
+  // eslint-disable-next-line complexity
+  getTreeItemLabelAndValue(
+    item: Node,
+    depth: number,
+    expanded: boolean
+  ): {
     value?: string | Element,
     label?: string
-  }) {
+  } {
     const label = item.name;
     const isPrimitive = nodeIsPrimitive(item);
 
@@ -271,13 +264,6 @@ class ObjectInspector extends Component {
       };
     }
 
-    if (nodeIsOptimizedOut(item)) {
-      return {
-        label,
-        value: dom.span({ className: "unavailable" }, "(optimized away)")
-      };
-    }
-
     const itemValue = getValue(item);
     const unavailable =
       isPrimitive &&
@@ -293,37 +279,29 @@ class ObjectInspector extends Component {
     }
 
     if (
-      nodeIsFunction(item)
-      && !nodeIsGetter(item)
-      && !nodeIsSetter(item)
-      && (
-        this.props.mode === MODE.TINY
-        || !this.props.mode
-      )
+      nodeIsFunction(item) &&
+      !nodeIsGetter(item) &&
+      !nodeIsSetter(item) &&
+      (this.props.mode === MODE.TINY || !this.props.mode)
     ) {
       return {
-        label: Utils.renderRep(
-          item,
-          {
-            ...this.props,
-            functionName: label
-          }
-        )
+        label: Utils.renderRep(item, {
+          ...this.props,
+          functionName: label
+        })
       };
     }
 
     if (
-      nodeHasProperties(item)
-      || nodeHasAccessors(item)
-      || nodeIsMapEntry(item)
-      || nodeIsLongString(item)
-      || isPrimitive
+      nodeHasProperties(item) ||
+      nodeHasAccessors(item) ||
+      nodeIsMapEntry(item) ||
+      nodeIsLongString(item) ||
+      isPrimitive
     ) {
-      let repProps = {...this.props};
+      const repProps = { ...this.props };
       if (depth > 0) {
-        repProps.mode = this.props.mode === MODE.LONG
-          ? MODE.SHORT
-          : MODE.TINY;
+        repProps.mode = this.props.mode === MODE.LONG ? MODE.SHORT : MODE.TINY;
       }
       if (expanded) {
         repProps.mode = MODE.TINY;
@@ -342,7 +320,7 @@ class ObjectInspector extends Component {
     }
 
     return {
-      label,
+      label
     };
   }
 
@@ -357,30 +335,31 @@ class ObjectInspector extends Component {
       return null;
     }
 
-    const {
-      onLabelClick,
-    } = this.props;
+    const { onLabelClick } = this.props;
 
-    return dom.span({
-      className: "object-label",
-      onClick: onLabelClick
-        ? event => {
-          event.stopPropagation();
+    return dom.span(
+      {
+        className: "object-label",
+        onClick: onLabelClick
+          ? event => {
+              event.stopPropagation();
 
-          // If the user selected text, bail out.
-          if (Utils.selection.documentHasSelection()) {
-            return;
-          }
+              // If the user selected text, bail out.
+              if (Utils.selection.documentHasSelection()) {
+                return;
+              }
 
-          onLabelClick(item, {
-            depth,
-            focused,
-            expanded,
-            setExpanded: this.setExpanded
-          });
-        }
-        : undefined
-    }, label);
+              onLabelClick(item, {
+                depth,
+                focused,
+                expanded,
+                setExpanded: this.setExpanded
+              });
+            }
+          : undefined
+      },
+      label
+    );
   }
 
   getTreeTopElementProps(
@@ -388,25 +367,17 @@ class ObjectInspector extends Component {
     depth: number,
     focused: boolean,
     expanded: boolean
-  ) : Object {
-    const {
-      onCmdCtrlClick,
-      onDoubleClick,
-      dimTopLevelWindow,
-    } = this.props;
+  ): Object {
+    const { onCmdCtrlClick, onDoubleClick, dimTopLevelWindow } = this.props;
 
-    let parentElementProps: Object = {
+    const parentElementProps: Object = {
       className: classnames("node object-node", {
         focused,
-        lessen: !expanded && (
-          nodeIsDefaultProperties(item)
-          || nodeIsPrototype(item)
-          || (
-              dimTopLevelWindow === true
-              && nodeIsWindow(item)
-              && depth === 0
-            )
-        ),
+        lessen:
+          !expanded &&
+          (nodeIsDefaultProperties(item) ||
+            nodeIsPrototype(item) ||
+            (dimTopLevelWindow === true && nodeIsWindow(item) && depth === 0)),
         block: nodeIsBlock(item)
       }),
       onClick: e => {
@@ -415,7 +386,7 @@ class ObjectInspector extends Component {
             depth,
             event: e,
             focused,
-            expanded,
+            expanded
           });
           e.stopPropagation();
           return;
@@ -423,17 +394,17 @@ class ObjectInspector extends Component {
 
         // If this click happened because the user selected some text, bail out.
         // Note that if the user selected some text before and then clicks here,
-        // the previously selected text will be first unselected, unless the user
-        // clicked on the arrow itself. Indeed because the arrow is an image, clicking on
-        // it does not remove any existing text selection. So we need to also check if
-        // teh arrow was clicked.
+        // the previously selected text will be first unselected, unless the
+        // user clicked on the arrow itself. Indeed because the arrow is an
+        // image, clicking on it does not remove any existing text selection.
+        // So we need to also check if the arrow was clicked.
         if (
-          Utils.selection.documentHasSelection()
-          && !(e.target && e.target.matches && e.target.matches(".arrow"))
+          Utils.selection.documentHasSelection() &&
+          !(e.target && e.target.matches && e.target.matches(".arrow"))
         ) {
           e.stopPropagation();
         }
-      },
+      }
     };
 
     if (onDoubleClick) {
@@ -457,11 +428,22 @@ class ObjectInspector extends Component {
     arrow: Object,
     expanded: boolean
   ) {
-    const {label, value} = this.getTreeItemLabelAndValue(item, depth, expanded);
-    const labelElement = this.renderTreeItemLabel(label, item, depth, focused, expanded);
-    const delimiter = value && labelElement
-      ? dom.span({ className: "object-delimiter" }, ": ")
-      : null;
+    const { label, value } = this.getTreeItemLabelAndValue(
+      item,
+      depth,
+      expanded
+    );
+    const labelElement = this.renderTreeItemLabel(
+      label,
+      item,
+      depth,
+      focused,
+      expanded
+    );
+    const delimiter =
+      value && labelElement
+        ? dom.span({ className: "object-delimiter" }, ": ")
+        : null;
 
     return dom.div(
       this.getTreeTopElementProps(item, depth, focused, expanded),
@@ -480,14 +462,14 @@ class ObjectInspector extends Component {
       disableWrap = false,
       expandedPaths,
       focusedItem,
-      inline,
+      inline
     } = this.props;
 
     return Tree({
       className: classnames({
         inline,
         nowrap: disableWrap,
-        "object-inspector": true,
+        "object-inspector": true
       }),
       autoExpandAll,
       autoExpandDepth,
@@ -515,11 +497,10 @@ function mapStateToProps(state, props) {
     actors: state.actors,
     expandedPaths: state.expandedPaths,
     // If the root changes, we want to pass a possibly new focusedItem property
-    focusedItem: state.roots !== props.roots
-      ? props.focusedItem
-      : state.focusedItem,
+    focusedItem:
+      state.roots !== props.roots ? props.focusedItem : state.focusedItem,
     loadedProperties: state.loadedProperties,
-    forceUpdate: state.forceUpdate,
+    forceUpdate: state.forceUpdate
   };
 }
 

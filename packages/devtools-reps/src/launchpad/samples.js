@@ -1,25 +1,15 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-let samples = {
-  array: [
-    "x = [1, \"2\", {three: 3}, []]",
-    "x = []"
-  ],
+const samples = {
+  array: ['x = [1, "2", {three: 3}, []]', "x = []"],
 
-  boolean: [
-    "true",
-    "false"
-  ],
+  boolean: ["true", "false"],
 
-  date: [
-    "new Date()"
-  ],
+  date: ["new Date()"],
 
-  function: [
-    "x = () => { 2 }"
-  ],
+  function: ["x = () => { 2 }"],
 
   node: [
     `x = document.createElement("div");
@@ -90,20 +80,9 @@ let samples = {
     `
   ],
 
-  number: [
-    "1",
-    "-1",
-    "-3.14",
-    "0",
-    "-0",
-    "Infinity",
-    "-Infinity",
-    "NaN"
-  ],
+  number: ["1", "-1", "-3.14", "0", "-0", "Infinity", "-Infinity", "NaN"],
 
-  object: [
-    "x = {a: 2}"
-  ],
+  object: ["x = {a: 2}"],
 
   promise: [
     "Promise.resolve([1, 2, 3])",
@@ -111,7 +90,8 @@ let samples = {
     "new Promise(() => {})"
   ],
 
-  proxy: [`
+  proxy: [
+    `
     var handler = {
         get: function(target, name) {
             return name in target ?
@@ -120,11 +100,10 @@ let samples = {
         }
     };
     new Proxy({a: 1}, handler);
-  `],
-
-  regexp: [
-    "new RegExp('^[-]?[0-9]+[\.]?[0-9]+$')"
+  `
   ],
+
+  regexp: ["new RegExp('^[-]?[0-9]+[.]?[0-9]+$')"],
 
   string: [
     "'foo'",
@@ -134,10 +113,7 @@ let samples = {
     "'http://example.com '.repeat(1000)"
   ],
 
-  symbol: [
-    "Symbol('foo')",
-    "Symbol()"
-  ],
+  symbol: ["Symbol('foo')", "Symbol()"],
 
   errors: [
     "throw new Error('This is a simple error message.');",

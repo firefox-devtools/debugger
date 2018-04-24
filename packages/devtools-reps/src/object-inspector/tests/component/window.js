@@ -1,21 +1,19 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 const { mount } = require("enzyme");
 const React = require("react");
 const { createFactory } = React;
 const ObjectInspector = createFactory(require("../../index"));
-const {
-  createNode,
-} = require("../../utils/node");
+const { createNode } = require("../../utils/node");
 const { waitForDispatch } = require("../test-utils");
 
 const gripWindowStubs = require("../../../reps/stubs/window");
 const ObjectClient = require("../__mocks__/object-client");
 const windowNode = createNode({
   name: "window",
-  contents: {value: gripWindowStubs.get("Window")}
+  contents: { value: gripWindowStubs.get("Window") }
 });
 
 function generateDefaults(overrides) {
@@ -23,15 +21,15 @@ function generateDefaults(overrides) {
     autoExpandDepth: 0,
     roots: [windowNode],
     createObjectClient: grip => ObjectClient(grip),
-    ...overrides,
+    ...overrides
   };
 }
 
 describe("ObjectInspector - dimTopLevelWindow", () => {
-  it("renders top-level window as expected when dimTopLevelWindow is true", async () => {
+  it("renders window as expected when dimTopLevelWindow is true", async () => {
     const props = generateDefaults({
       dimTopLevelWindow: true,
-      injectWaitService: true,
+      injectWaitService: true
     });
     const oi = ObjectInspector(props);
     const wrapper = mount(oi);
@@ -53,8 +51,9 @@ describe("ObjectInspector - dimTopLevelWindow", () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it("renders collapsed top-level window when dimTopLevelWindow is false", () => {
-    // The window node should not have the "lessen" class when dimTopLevelWindow is falsy.
+  it("renders collapsed top-level window when dimTopLevelWindow =false", () => {
+    // The window node should not have the "lessen" class when
+    // dimTopLevelWindow is falsy.
     const props = generateDefaults();
     const oi = ObjectInspector(props);
     const wrapper = mount(oi);
@@ -63,7 +62,8 @@ describe("ObjectInspector - dimTopLevelWindow", () => {
   });
 
   it("renders sub-level window", async () => {
-    // The window node should not have the "lessen" class when it is not at top level.
+    // The window node should not have the "lessen" class when it is not at
+    // top level.
     const root = createNode({
       name: "root",
       contents: [windowNode]
@@ -72,7 +72,7 @@ describe("ObjectInspector - dimTopLevelWindow", () => {
     const props = generateDefaults({
       roots: [root],
       dimTopLevelWindow: true,
-      injectWaitService: true,
+      injectWaitService: true
     });
     const oi = ObjectInspector(props);
     const wrapper = mount(oi);

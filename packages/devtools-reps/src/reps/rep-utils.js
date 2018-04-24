@@ -1,6 +1,6 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // Dependencies
 const validProtocols = /(http|https|ftp|data|resource|chrome):/i;
@@ -33,9 +33,9 @@ const escapeMap = {
   // Carriage return.
   0xd: "\\r",
   // Quote.
-  0x22: "\\\"",
+  0x22: '\\"',
   // Backslash.
-  0x5c: "\\\\",
+  0x5c: "\\\\"
 };
 
 // Regexp that matches any character we might possibly want to escape.
@@ -44,25 +44,27 @@ const escapeMap = {
 // the replacement function; see |escapeString|.
 const escapeRegexp = new RegExp(
   "[" +
-  // Quote and backslash.
-  "\"\\\\" +
-  // Controls.
-  "\x00-\x1f" +
-  // More controls.
-  "\x7f-\x9f" +
-  // BOM
-  "\ufeff" +
-  // Specials, except for the replacement character.
-  "\ufff0-\ufffc\ufffe\uffff" +
-  // Surrogates.
-  "\ud800-\udfff" +
-  // Mathematical invisibles.
-  "\u2061-\u2064" +
-  // Line and paragraph separators.
-  "\u2028-\u2029" +
-  // Private use area.
-  "\ue000-\uf8ff" +
-  "]", "g");
+    // Quote and backslash.
+    '"\\\\' +
+    // Controls.
+    "\x00-\x1f" +
+    // More controls.
+    "\x7f-\x9f" +
+    // BOM
+    "\ufeff" +
+    // Specials, except for the replacement character.
+    "\ufff0-\ufffc\ufffe\uffff" +
+    // Surrogates.
+    "\ud800-\udfff" +
+    // Mathematical invisibles.
+    "\u2061-\u2064" +
+    // Line and paragraph separators.
+    "\u2028-\u2029" +
+    // Private use area.
+    "\ue000-\uf8ff" +
+    "]",
+  "g"
+);
 
 /**
  * Escape a string so that the result is viewable and valid JS.
@@ -77,8 +79,8 @@ const escapeRegexp = new RegExp(
  * @return {String} the escaped string
  */
 function escapeString(str, escapeWhitespace) {
-  return "\"" + str.replace(escapeRegexp, (match, offset) => {
-    let c = match.charCodeAt(0);
+  return `"${str.replace(escapeRegexp, (match, offset) => {
+    const c = match.charCodeAt(0);
     if (c in escapeMap) {
       if (!escapeWhitespace && (c === 9 || c === 0xa || c === 0xd)) {
         return match[0];
@@ -92,24 +94,24 @@ function escapeString(str, escapeWhitespace) {
       if (c >= 0xdc00 && offset > 0) {
         --offset;
       }
-      let codePoint = str.codePointAt(offset);
+      const codePoint = str.codePointAt(offset);
       if (codePoint >= 0xd800 && codePoint <= 0xdfff) {
         // Unpaired surrogate.
-        return "\\u" + codePoint.toString(16);
+        return `\\u${codePoint.toString(16)}`;
       } else if (codePoint >= 0xf0000 && codePoint <= 0x10fffd) {
         // Private use area.  Because we visit each pair of a such a
         // character, return the empty string for one half and the
         // real result for the other, to avoid duplication.
         if (c <= 0xdbff) {
-          return "\\u{" + codePoint.toString(16) + "}";
+          return `\\u{${codePoint.toString(16)}}`;
         }
         return "";
       }
       // Other surrogate characters are passed through.
       return match;
     }
-    return "\\u" + ("0000" + c.toString(16)).substr(-4);
-  }) + "\"";
+    return `\\u${`0000${c.toString(16)}`.substr(-4)}`;
+  })}"`;
 }
 
 /**
@@ -151,18 +153,21 @@ function rawCropString(text, limit, alternativeText = ELLIPSIS) {
     limit = alternativeText.length + 1;
   }
 
-  let halfLimit = (limit - alternativeText.length) / 2;
+  const halfLimit = (limit - alternativeText.length) / 2;
 
   if (text.length > limit) {
-    return text.substr(0, Math.ceil(halfLimit)) + alternativeText +
-      text.substr(text.length - Math.floor(halfLimit));
+    return (
+      text.substr(0, Math.ceil(halfLimit)) +
+      alternativeText +
+      text.substr(text.length - Math.floor(halfLimit))
+    );
   }
 
   return text;
 }
 
 function cropString(text, limit, alternativeText) {
-  return rawCropString(sanitizeString(text + ""), limit, alternativeText);
+  return rawCropString(sanitizeString(`${text}`), limit, alternativeText);
 }
 
 function sanitizeString(text) {
@@ -170,7 +175,7 @@ function sanitizeString(text) {
   // (horizontal) tab (HT: \x09) and newline (LF: \x0A, CR: \x0D),
   // with unicode replacement character (u+fffd).
   // eslint-disable-next-line no-control-regex
-  let re = new RegExp("[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]", "g");
+  const re = new RegExp("[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]", "g");
   return text.replace(re, "\ufffd");
 }
 
@@ -180,15 +185,15 @@ function parseURLParams(url) {
 }
 
 function parseURLEncodedText(text) {
-  let params = [];
+  const params = [];
 
   // In case the text is empty just return the empty parameters
   if (text == "") {
     return params;
   }
 
-  let searchParams = new URLSearchParams(text);
-  let entries = [...searchParams.entries()];
+  const searchParams = new URLSearchParams(text);
+  const entries = [...searchParams.entries()];
   return entries.map(entry => {
     return {
       name: entry[0],
@@ -198,7 +203,7 @@ function parseURLEncodedText(text) {
 }
 
 function getFileName(url) {
-  let split = splitURLBase(url);
+  const split = splitURLBase(url);
   return split.name;
 }
 
@@ -214,12 +219,12 @@ function getURLDisplayString(url) {
 }
 
 function isDataURL(url) {
-  return (url && url.substr(0, 5) == "data:");
+  return url && url.substr(0, 5) == "data:";
 }
 
 function splitURLTrue(url) {
   const reSplitFile = /(.*?):\/{2,3}([^\/]*)(.*?)([^\/]*?)($|\?.*)/;
-  let m = reSplitFile.exec(url);
+  const m = reSplitFile.exec(url);
 
   if (!m) {
     return {
@@ -244,11 +249,11 @@ function splitURLTrue(url) {
 }
 
 /**
- * Wrap the provided render() method of a rep in a try/catch block that will render a
- * fallback rep if the render fails.
+ * Wrap the provided render() method of a rep in a try/catch block that will
+ * render a fallback rep if the render fails.
  */
 function wrapRender(renderMethod) {
-  const wrappedFunction = function (props) {
+  const wrappedFunction = function(props) {
     try {
       return renderMethod.call(this, props);
     } catch (e) {
@@ -256,11 +261,13 @@ function wrapRender(renderMethod) {
       return span(
         {
           className: "objectBox objectBox-failure",
-          title: "This object could not be rendered, " +
-                 "please file a bug on bugzilla.mozilla.org"
+          title:
+            "This object could not be rendered, " +
+            "please file a bug on bugzilla.mozilla.org"
         },
         /* Labels have to be hardcoded for reps, see Bug 1317038. */
-        "Invalid object");
+        "Invalid object"
+      );
     }
   };
   wrappedFunction.propTypes = renderMethod.propTypes;
@@ -301,8 +308,8 @@ function getGripPreviewItems(grip) {
 
   // Event Grip
   if (grip.preview && grip.preview.target) {
-    let keys = Object.keys(grip.preview.properties);
-    let values = Object.values(grip.preview.properties);
+    const keys = Object.keys(grip.preview.properties);
+    const values = Object.values(grip.preview.properties);
     return [grip.preview.target, ...keys, ...values];
   }
 
@@ -313,17 +320,19 @@ function getGripPreviewItems(grip) {
 
   // Generic Grip
   if (grip.preview && grip.preview.ownProperties) {
-    let propertiesValues = Object.values(grip.preview.ownProperties)
-      .map(property => property.value || property);
+    let propertiesValues = Object.values(grip.preview.ownProperties).map(
+      property => property.value || property
+    );
 
-    let propertyKeys = Object.keys(grip.preview.ownProperties);
+    const propertyKeys = Object.keys(grip.preview.ownProperties);
     propertiesValues = propertiesValues.concat(propertyKeys);
 
     // ArrayBuffer Grip
     if (grip.preview.safeGetterValues) {
       propertiesValues = propertiesValues.concat(
-        Object.values(grip.preview.safeGetterValues)
-          .map(property => property.getterValue || property)
+        Object.values(grip.preview.safeGetterValues).map(
+          property => property.getterValue || property
+        )
       );
     }
 
@@ -388,7 +397,7 @@ function isURL(token) {
 }
 
 /**
- * Returns a new array in which `char` are interleaved between the original items.
+ * Returns new array in which `char` are interleaved between the original items.
  *
  * @param {Array} items
  * @param {String} char
@@ -403,11 +412,14 @@ function interleave(items, char) {
   }, []);
 }
 
-const ellipsisElement = span({
+const ellipsisElement = span(
+  {
     key: "more",
     className: "more-ellipsis",
     title: `more${ELLIPSIS}`
-}, ELLIPSIS);
+  },
+  ELLIPSIS
+);
 
 module.exports = {
   interleave,
@@ -429,5 +441,5 @@ module.exports = {
   getGripType,
   tokenSplitRegex,
   ellipsisElement,
-  ELLIPSIS,
+  ELLIPSIS
 };

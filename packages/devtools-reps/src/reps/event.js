@@ -1,15 +1,12 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // ReactJS
 const PropTypes = require("prop-types");
 
 // Reps
-const {
-  isGrip,
-  wrapRender,
-} = require("./rep-utils");
+const { isGrip, wrapRender } = require("./rep-utils");
 
 const { MODE } = require("./constants");
 const { rep } = require("./grip");
@@ -19,23 +16,23 @@ const { rep } = require("./grip");
  */
 Event.propTypes = {
   object: PropTypes.object.isRequired,
-  // @TODO Change this to Object.values once it's supported in Node's version of V8
+  // @TODO Change this to Object.values when supported in Node's version of V8
   mode: PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
   onDOMNodeMouseOver: PropTypes.func,
   onDOMNodeMouseOut: PropTypes.func,
-  onInspectIconClick: PropTypes.func,
+  onInspectIconClick: PropTypes.func
 };
 
 function Event(props) {
-  let gripProps = {
+  const gripProps = {
     ...props,
     title: getTitle(props),
     object: {
       ...props.object,
       preview: {
         ...props.object.preview,
-        ownProperties: {},
-      },
+        ownProperties: {}
+      }
     }
   };
 
@@ -44,17 +41,22 @@ function Event(props) {
       target: gripProps.object.preview.target
     });
   }
-  Object.assign(gripProps.object.preview.ownProperties,
-    gripProps.object.preview.properties);
+  Object.assign(
+    gripProps.object.preview.ownProperties,
+    gripProps.object.preview.properties
+  );
 
   delete gripProps.object.preview.properties;
-  gripProps.object.ownPropertyLength =
-    Object.keys(gripProps.object.preview.ownProperties).length;
+  gripProps.object.ownPropertyLength = Object.keys(
+    gripProps.object.preview.ownProperties
+  ).length;
 
   switch (gripProps.object.class) {
     case "MouseEvent":
       gripProps.isInterestingProp = (type, value, name) => {
-        return ["target", "clientX", "clientY", "layerX", "layerY"].includes(name);
+        return ["target", "clientX", "clientY", "layerX", "layerY"].includes(
+          name
+        );
       };
       break;
     case "KeyboardEvent":
@@ -70,7 +72,9 @@ function Event(props) {
     default:
       gripProps.isInterestingProp = (type, value, name) => {
         // We want to show the properties in the order they are declared.
-        return Object.keys(gripProps.object.preview.ownProperties).includes(name);
+        return Object.keys(gripProps.object.preview.ownProperties).includes(
+          name
+        );
       };
   }
 
@@ -78,10 +82,14 @@ function Event(props) {
 }
 
 function getTitle(props) {
-  let preview = props.object.preview;
+  const preview = props.object.preview;
   let title = preview.type;
 
-  if (preview.eventKind == "key" && preview.modifiers && preview.modifiers.length) {
+  if (
+    preview.eventKind == "key" &&
+    preview.modifiers &&
+    preview.modifiers.length
+  ) {
     title = `${title} ${preview.modifiers.join("-")}`;
   }
   return title;
@@ -93,11 +101,11 @@ function supportsObject(grip, noGrip = false) {
     return false;
   }
 
-  return (grip.preview && grip.preview.kind == "DOMEvent");
+  return grip.preview && grip.preview.kind == "DOMEvent";
 }
 
 // Exports from this module
 module.exports = {
   rep: wrapRender(Event),
-  supportsObject,
+  supportsObject
 };

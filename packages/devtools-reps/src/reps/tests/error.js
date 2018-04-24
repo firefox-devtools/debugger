@@ -1,17 +1,12 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 /* global jest */
 const { shallow } = require("enzyme");
-const {
-  REPS,
-  getRep
-} = require("../rep");
+const { REPS, getRep } = require("../rep");
 
-const {
-  expectActorAttribute
-} = require("./test-helpers");
+const { expectActorAttribute } = require("./test-helpers");
 
 const { ErrorRep } = REPS;
 const { MODE } = require("../constants");
@@ -26,19 +21,23 @@ describe("Error - Simple error", () => {
   });
 
   it("renders with expected text for simple error", () => {
-    const renderedComponent = shallow(ErrorRep.rep({
-      object: stub
-    }));
+    const renderedComponent = shallow(
+      ErrorRep.rep({
+        object: stub
+      })
+    );
 
     expect(renderedComponent).toMatchSnapshot();
     expectActorAttribute(renderedComponent, stub.actor);
   });
 
   it("renders with expected text for simple error in tiny mode", () => {
-    const renderedComponent = shallow(ErrorRep.rep({
-      object: stub,
-      mode: MODE.TINY
-    }));
+    const renderedComponent = shallow(
+      ErrorRep.rep({
+        object: stub,
+        mode: MODE.TINY
+      })
+    );
 
     expect(renderedComponent.text()).toEqual("Error");
   });
@@ -62,18 +61,22 @@ describe("Error - Multi line stack error", () => {
   });
 
   it("renders with expected text for Error object", () => {
-    const renderedComponent = shallow(ErrorRep.rep({
-      object: stub
-    }));
+    const renderedComponent = shallow(
+      ErrorRep.rep({
+        object: stub
+      })
+    );
 
     expect(renderedComponent).toMatchSnapshot();
   });
 
-  it("renders expected text for simple error with a multiple line in tiny mode", () => {
-    const renderedComponent = shallow(ErrorRep.rep({
-      object: stub,
-      mode: MODE.TINY
-    }));
+  it("renders expected text for simple multiline error in tiny mode", () => {
+    const renderedComponent = shallow(
+      ErrorRep.rep({
+        object: stub,
+        mode: MODE.TINY
+      })
+    );
 
     expect(renderedComponent.text()).toEqual("Error");
   });
@@ -87,18 +90,22 @@ describe("Error - Error without stacktrace", () => {
   });
 
   it("renders with expected text for Error object", () => {
-    const renderedComponent = shallow(ErrorRep.rep({
-      object: stub
-    }));
+    const renderedComponent = shallow(
+      ErrorRep.rep({
+        object: stub
+      })
+    );
 
-    expect(renderedComponent.text()).toEqual("Error: \"Error message\"");
+    expect(renderedComponent.text()).toEqual('Error: "Error message"');
   });
 
-  it("renders expected text for simple error without stacktrace in tiny mode", () => {
-    const renderedComponent = shallow(ErrorRep.rep({
-      object: stub,
-      mode: MODE.TINY
-    }));
+  it("renders expected text for error without stacktrace in tiny mode", () => {
+    const renderedComponent = shallow(
+      ErrorRep.rep({
+        object: stub,
+        mode: MODE.TINY
+      })
+    );
 
     expect(renderedComponent.text()).toEqual("Error");
   });
@@ -113,18 +120,22 @@ describe("Error - Eval error", () => {
   });
 
   it("renders with expected text for an EvalError", () => {
-    const renderedComponent = shallow(ErrorRep.rep({
-      object: stub
-    }));
+    const renderedComponent = shallow(
+      ErrorRep.rep({
+        object: stub
+      })
+    );
 
     expect(renderedComponent).toMatchSnapshot();
   });
 
   it("renders with expected text for an EvalError in tiny mode", () => {
-    const renderedComponent = shallow(ErrorRep.rep({
-      object: stub,
-      mode: MODE.TINY
-    }));
+    const renderedComponent = shallow(
+      ErrorRep.rep({
+        object: stub,
+        mode: MODE.TINY
+      })
+    );
 
     expect(renderedComponent.text()).toEqual("EvalError");
   });
@@ -139,18 +150,22 @@ describe("Error - Internal error", () => {
   });
 
   it("renders with expected text for an InternalError", () => {
-    const renderedComponent = shallow(ErrorRep.rep({
-      object: stub
-    }));
+    const renderedComponent = shallow(
+      ErrorRep.rep({
+        object: stub
+      })
+    );
 
     expect(renderedComponent).toMatchSnapshot();
   });
 
   it("renders with expected text for an InternalError in tiny mode", () => {
-    const renderedComponent = shallow(ErrorRep.rep({
-      object: stub,
-      mode: MODE.TINY
-    }));
+    const renderedComponent = shallow(
+      ErrorRep.rep({
+        object: stub,
+        mode: MODE.TINY
+      })
+    );
 
     expect(renderedComponent.text()).toEqual("InternalError");
   });
@@ -165,18 +180,22 @@ describe("Error - Range error", () => {
   });
 
   it("renders with expected text for RangeError", () => {
-    const renderedComponent = shallow(ErrorRep.rep({
-      object: stub
-    }));
+    const renderedComponent = shallow(
+      ErrorRep.rep({
+        object: stub
+      })
+    );
 
     expect(renderedComponent).toMatchSnapshot();
   });
 
   it("renders with expected text for RangeError in tiny mode", () => {
-    const renderedComponent = shallow(ErrorRep.rep({
-      object: stub,
-      mode: MODE.TINY
-    }));
+    const renderedComponent = shallow(
+      ErrorRep.rep({
+        object: stub,
+        mode: MODE.TINY
+      })
+    );
 
     expect(renderedComponent.text()).toEqual("RangeError");
   });
@@ -191,18 +210,22 @@ describe("Error - Reference error", () => {
   });
 
   it("renders with expected text for ReferenceError", () => {
-    const renderedComponent = shallow(ErrorRep.rep({
-      object: stub
-    }));
+    const renderedComponent = shallow(
+      ErrorRep.rep({
+        object: stub
+      })
+    );
 
     expect(renderedComponent).toMatchSnapshot();
   });
 
   it("renders with expected text for ReferenceError in tiny mode", () => {
-    const renderedComponent = shallow(ErrorRep.rep({
-      object: stub,
-      mode: MODE.TINY
-    }));
+    const renderedComponent = shallow(
+      ErrorRep.rep({
+        object: stub,
+        mode: MODE.TINY
+      })
+    );
 
     expect(renderedComponent.text()).toEqual("ReferenceError");
   });
@@ -217,18 +240,22 @@ describe("Error - Syntax error", () => {
   });
 
   it("renders with expected text for SyntaxError", () => {
-    const renderedComponent = shallow(ErrorRep.rep({
-      object: stub
-    }));
+    const renderedComponent = shallow(
+      ErrorRep.rep({
+        object: stub
+      })
+    );
 
     expect(renderedComponent).toMatchSnapshot();
   });
 
   it("renders with expected text for SyntaxError in tiny mode", () => {
-    const renderedComponent = shallow(ErrorRep.rep({
-      object: stub,
-      mode: MODE.TINY
-    }));
+    const renderedComponent = shallow(
+      ErrorRep.rep({
+        object: stub,
+        mode: MODE.TINY
+      })
+    );
 
     expect(renderedComponent.text()).toEqual("SyntaxError");
   });
@@ -243,18 +270,22 @@ describe("Error - Type error", () => {
   });
 
   it("renders with expected text for TypeError", () => {
-    const renderedComponent = shallow(ErrorRep.rep({
-      object: stub
-    }));
+    const renderedComponent = shallow(
+      ErrorRep.rep({
+        object: stub
+      })
+    );
 
     expect(renderedComponent).toMatchSnapshot();
   });
 
   it("renders with expected text for TypeError in tiny mode", () => {
-    const renderedComponent = shallow(ErrorRep.rep({
-      object: stub,
-      mode: MODE.TINY
-    }));
+    const renderedComponent = shallow(
+      ErrorRep.rep({
+        object: stub,
+        mode: MODE.TINY
+      })
+    );
 
     expect(renderedComponent.text()).toEqual("TypeError");
   });
@@ -269,18 +300,22 @@ describe("Error - URI error", () => {
   });
 
   it("renders with expected text for URIError", () => {
-    const renderedComponent = shallow(ErrorRep.rep({
-      object: stub
-    }));
+    const renderedComponent = shallow(
+      ErrorRep.rep({
+        object: stub
+      })
+    );
 
     expect(renderedComponent).toMatchSnapshot();
   });
 
   it("renders with expected text for URIError in tiny mode", () => {
-    const renderedComponent = shallow(ErrorRep.rep({
-      object: stub,
-      mode: MODE.TINY
-    }));
+    const renderedComponent = shallow(
+      ErrorRep.rep({
+        object: stub,
+        mode: MODE.TINY
+      })
+    );
 
     expect(renderedComponent.text()).toEqual("URIError");
   });
@@ -294,9 +329,11 @@ describe("Error - DOMException", () => {
   });
 
   it("renders with expected text for DOMException", () => {
-    const renderedComponent = shallow(ErrorRep.rep({
-      object: stub
-    }));
+    const renderedComponent = shallow(
+      ErrorRep.rep({
+        object: stub
+      })
+    );
 
     expect(renderedComponent.text()).toEqual(
       "DOMException: \"'foo;()bar!' is not a valid selector\""
@@ -304,10 +341,12 @@ describe("Error - DOMException", () => {
   });
 
   it("renders with expected text for DOMException in tiny mode", () => {
-    const renderedComponent = shallow(ErrorRep.rep({
-      object: stub,
-      mode: MODE.TINY
-    }));
+    const renderedComponent = shallow(
+      ErrorRep.rep({
+        object: stub,
+        mode: MODE.TINY
+      })
+    );
 
     expect(renderedComponent.text()).toEqual("DOMException");
   });
@@ -317,18 +356,22 @@ describe("Error - base-loader.js", () => {
   const stub = stubs.get("base-loader Error");
 
   it("renders as expected without mode", () => {
-    const renderedComponent = shallow(ErrorRep.rep({
-      object: stub
-    }));
+    const renderedComponent = shallow(
+      ErrorRep.rep({
+        object: stub
+      })
+    );
 
     expect(renderedComponent).toMatchSnapshot();
   });
 
   it("renders as expected in tiny mode", () => {
-    const renderedComponent = shallow(ErrorRep.rep({
-      object: stub,
-      mode: MODE.TINY
-    }));
+    const renderedComponent = shallow(
+      ErrorRep.rep({
+        object: stub,
+        mode: MODE.TINY
+      })
+    );
 
     expect(renderedComponent).toMatchSnapshot();
   });
@@ -338,9 +381,11 @@ describe("Error - longString stacktrace", () => {
   const stub = stubs.get("longString stack Error");
 
   it("renders as expected", () => {
-    const renderedComponent = shallow(ErrorRep.rep({
-      object: stub
-    }));
+    const renderedComponent = shallow(
+      ErrorRep.rep({
+        object: stub
+      })
+    );
 
     expect(renderedComponent).toMatchSnapshot();
   });
@@ -351,37 +396,47 @@ describe("Error - stacktrace location click", () => {
     const onViewSourceInDebugger = jest.fn();
     const object = stubs.get("base-loader Error");
 
-    const renderedComponent = shallow(ErrorRep.rep({
-      object,
-      onViewSourceInDebugger
-    }));
+    const renderedComponent = shallow(
+      ErrorRep.rep({
+        object,
+        onViewSourceInDebugger
+      })
+    );
 
     const locations = renderedComponent.find(".objectBox-stackTrace-location");
     expect(locations.exists()).toBeTruthy();
 
-    expect(locations.first().prop("title")).toBe("View source in debugger → " +
-      "resource://devtools/shared/client/debugger-client.js:856:9");
+    expect(locations.first().prop("title")).toBe(
+      "View source in debugger → " +
+        "resource://devtools/shared/client/debugger-client.js:856:9"
+    );
     locations.first().simulate("click", {
       type: "click",
-      stopPropagation: () => {},
+      stopPropagation: () => {}
     });
 
-    expect(onViewSourceInDebugger.mock.calls.length).toEqual(1);
+    expect(onViewSourceInDebugger.mock.calls).toHaveLength(1);
     let mockCall = onViewSourceInDebugger.mock.calls[0][0];
-    expect(mockCall.url).toEqual("resource://devtools/shared/client/debugger-client.js");
+    expect(mockCall.url).toEqual(
+      "resource://devtools/shared/client/debugger-client.js"
+    );
     expect(mockCall.line).toEqual(856);
     expect(mockCall.column).toEqual(9);
 
-    expect(locations.last().prop("title")).toBe("View source in debugger → " +
-      "resource://devtools/shared/ThreadSafeDevToolsUtils.js:109:14");
+    expect(locations.last().prop("title")).toBe(
+      "View source in debugger → " +
+        "resource://devtools/shared/ThreadSafeDevToolsUtils.js:109:14"
+    );
     locations.last().simulate("click", {
       type: "click",
-      stopPropagation: () => {},
+      stopPropagation: () => {}
     });
 
-    expect(onViewSourceInDebugger.mock.calls.length).toEqual(2);
+    expect(onViewSourceInDebugger.mock.calls).toHaveLength(2);
     mockCall = onViewSourceInDebugger.mock.calls[1][0];
-    expect(mockCall.url).toEqual("resource://devtools/shared/ThreadSafeDevToolsUtils.js");
+    expect(mockCall.url).toEqual(
+      "resource://devtools/shared/ThreadSafeDevToolsUtils.js"
+    );
     expect(mockCall.line).toEqual(109);
     expect(mockCall.column).toEqual(14);
   });
@@ -390,10 +445,12 @@ describe("Error - stacktrace location click", () => {
     const onViewSourceInDebugger = jest.fn();
     const object = stubs.get("URIError");
 
-    const renderedComponent = shallow(ErrorRep.rep({
-      object,
-      onViewSourceInDebugger
-    }));
+    const renderedComponent = shallow(
+      ErrorRep.rep({
+        object,
+        onViewSourceInDebugger
+      })
+    );
 
     const locations = renderedComponent.find(".objectBox-stackTrace-location");
     expect(locations.exists()).toBeTruthy();
@@ -401,18 +458,20 @@ describe("Error - stacktrace location click", () => {
 
     locations.first().simulate("click", {
       type: "click",
-      stopPropagation: () => {},
+      stopPropagation: () => {}
     });
 
-    expect(onViewSourceInDebugger.mock.calls.length).toEqual(0);
+    expect(onViewSourceInDebugger.mock.calls).toHaveLength(0);
   });
 
   it("Does not throw when onViewSourceInDebugger props is not provided", () => {
     const object = stubs.get("base-loader Error");
 
-    const renderedComponent = shallow(ErrorRep.rep({
-      object,
-    }));
+    const renderedComponent = shallow(
+      ErrorRep.rep({
+        object
+      })
+    );
 
     const locations = renderedComponent.find(".objectBox-stackTrace-location");
     expect(locations.exists()).toBeTruthy();
@@ -420,7 +479,7 @@ describe("Error - stacktrace location click", () => {
 
     locations.first().simulate("click", {
       type: "click",
-      stopPropagation: () => {},
+      stopPropagation: () => {}
     });
   });
 });

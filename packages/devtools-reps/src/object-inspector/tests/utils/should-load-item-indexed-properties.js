@@ -1,18 +1,16 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 const Utils = require("../../utils");
 const {
   createNode,
   getChildren,
   makeNodesForEntries,
-  nodeIsDefaultProperties,
+  nodeIsDefaultProperties
 } = Utils.node;
 
-const {
-  shouldLoadItemIndexedProperties,
-} = Utils.loadProperties;
+const { shouldLoadItemIndexedProperties } = Utils.loadProperties;
 
 const GripMapEntryRep = require("../../../reps/grip-map-entry");
 const accessorStubs = require("../../../reps/stubs/accessor");
@@ -169,16 +167,21 @@ describe("shouldLoadItemIndexedProperties", () => {
         value: windowStubs.get("Window")
       }
     });
-    const loadedProperties = new Map([[
-      windowNode.path,
-      {
-        ownProperties: {
-          foo: {value: "bar"},
-          location: {value: "a"},
+    const loadedProperties = new Map([
+      [
+        windowNode.path,
+        {
+          ownProperties: {
+            foo: { value: "bar" },
+            location: { value: "a" }
+          }
         }
-      }
-    ]]);
-    const [, defaultPropertiesNode] = getChildren({item: windowNode, loadedProperties});
+      ]
+    ]);
+    const [, defaultPropertiesNode] = getChildren({
+      item: windowNode,
+      loadedProperties
+    });
     expect(nodeIsDefaultProperties(defaultPropertiesNode)).toBe(true);
     expect(shouldLoadItemIndexedProperties(defaultPropertiesNode)).toBeFalsy();
   });
@@ -205,7 +208,7 @@ describe("shouldLoadItemIndexedProperties", () => {
         value: gripStubs.get("testProxy")
       }
     });
-    const [targetNode] = getChildren({item: proxyNode});
+    const [targetNode] = getChildren({ item: proxyNode });
     // Make sure we have the target node.
     expect(targetNode.name).toBe("<target>");
     expect(shouldLoadItemIndexedProperties(targetNode)).toBeTruthy();
@@ -226,7 +229,7 @@ describe("shouldLoadItemIndexedProperties", () => {
       name: "root",
       contents: accessorStubs.get("getter")
     });
-    const [getNode] = getChildren({item: accessorNode});
+    const [getNode] = getChildren({ item: accessorNode });
     expect(getNode.name).toBe("<get>");
     expect(shouldLoadItemIndexedProperties(getNode)).toBeTruthy();
   });
@@ -236,7 +239,7 @@ describe("shouldLoadItemIndexedProperties", () => {
       name: "root",
       contents: accessorStubs.get("setter")
     });
-    const [setNode] = getChildren({item: accessorNode});
+    const [setNode] = getChildren({ item: accessorNode });
     expect(setNode.name).toBe("<set>");
     expect(shouldLoadItemIndexedProperties(setNode)).toBeTruthy();
   });
@@ -244,7 +247,7 @@ describe("shouldLoadItemIndexedProperties", () => {
   it("returns false for a primitive node", () => {
     const node = createNode({
       name: "root",
-      contents: {value: 42}
+      contents: { value: 42 }
     });
     expect(shouldLoadItemIndexedProperties(node)).toBeFalsy();
   });

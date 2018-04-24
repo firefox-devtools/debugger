@@ -1,6 +1,6 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 const constants = require("../constants");
 const Immutable = require("immutable");
@@ -12,7 +12,7 @@ function update(state = initialState, action) {
 
   switch (type) {
     case constants.ADD_EXPRESSION:
-      let newState = state.set(key, Immutable.Map(value));
+      const newState = state.set(key, Immutable.Map(value));
       window.localStorage.setItem(
         constants.LS_EXPRESSIONS_KEY,
         JSON.stringify(newState.toJS())
@@ -24,10 +24,10 @@ function update(state = initialState, action) {
       return state.clear();
 
     case constants.SHOW_RESULT_PACKET:
-      return state.mergeIn([key], {showPacket: true});
+      return state.mergeIn([key], { showPacket: true });
 
     case constants.HIDE_RESULT_PACKET:
-      return state.mergeIn([key], {showPacket: false});
+      return state.mergeIn([key], { showPacket: false });
   }
 
   return state;

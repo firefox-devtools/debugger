@@ -1,12 +1,10 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 /* global jest */
 const { shallow } = require("enzyme");
-const {
-  getRep,
-} = require("../rep");
+const { getRep } = require("../rep");
 const GripArray = require("../grip-array");
 const { MODE } = require("../constants");
 const stubs = require("../stubs/grip-array");
@@ -18,10 +16,12 @@ const {
 const { maxLengthMap } = GripArray;
 
 function shallowRenderRep(object, props = {}) {
-  return shallow(GripArray.rep({
-    object,
-    ...props,
-  }));
+  return shallow(
+    GripArray.rep({
+      object,
+      ...props
+    })
+  );
 }
 
 describe("GripArray - basic", () => {
@@ -32,7 +32,7 @@ describe("GripArray - basic", () => {
   });
 
   it("renders as expected", () => {
-    const renderRep = (props) => shallowRenderRep(object, props);
+    const renderRep = props => shallowRenderRep(object, props);
     const length = getGripLengthBubbleText(object);
     const defaultOutput = `Array${length} []`;
 
@@ -58,7 +58,7 @@ describe("GripArray - max props", () => {
   const object = stubs.get("testMaxProps");
 
   it("renders as expected", () => {
-    const renderRep = (props) => shallowRenderRep(object, props);
+    const renderRep = props => shallowRenderRep(object, props);
 
     let length = getGripLengthBubbleText(object);
     const defaultOutput = `Array${length} [ 1, "foo", {} ]`;
@@ -71,12 +71,14 @@ describe("GripArray - max props", () => {
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(defaultOutput);
 
     length = getGripLengthBubbleText(object, { mode: MODE.LONG });
-    // Check the custom title with nested objects to make sure nested objects are not
-    // displayed with their parent's title.
-    expect(renderRep({
-      mode: MODE.LONG,
-      title: "CustomTitle",
-    }).text()).toBe(`CustomTitle${length} [ 1, "foo", {} ]`);
+    // Check the custom title with nested objects to make sure nested objects
+    // are not displayed with their parent's title.
+    expect(
+      renderRep({
+        mode: MODE.LONG,
+        title: "CustomTitle"
+      }).text()
+    ).toBe(`CustomTitle${length} [ 1, "foo", {} ]`);
   });
 });
 
@@ -84,12 +86,16 @@ describe("GripArray - more than short mode max props", () => {
   const object = stubs.get("testMoreThanShortMaxProps");
 
   it("renders as expected", () => {
-    const renderRep = (props) => shallowRenderRep(object, props);
+    const renderRep = props => shallowRenderRep(object, props);
     let length = getGripLengthBubbleText(object);
 
     const shortLength = maxLengthMap.get(MODE.SHORT);
-    const shortContent = Array(shortLength).fill('"test string"').join(", ");
-    const longContent = Array(shortLength + 1).fill('"test string"').join(", ");
+    const shortContent = Array(shortLength)
+      .fill('"test string"')
+      .join(", ");
+    const longContent = Array(shortLength + 1)
+      .fill('"test string"')
+      .join(", ");
     const defaultOutput = `Array${length} [ ${shortContent}, … ]`;
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
@@ -101,7 +107,8 @@ describe("GripArray - more than short mode max props", () => {
 
     length = getGripLengthBubbleText(object, { mode: MODE.LONG });
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(
-      `Array${length} [ ${longContent} ]`);
+      `Array${length} [ ${longContent} ]`
+    );
   });
 });
 
@@ -109,20 +116,25 @@ describe("GripArray - more than long mode max props", () => {
   const object = stubs.get("testMoreThanLongMaxProps");
 
   it("renders as expected", () => {
-    const renderRep = (props) => shallowRenderRep(object, props);
+    const renderRep = props => shallowRenderRep(object, props);
     const length = getGripLengthBubbleText(object);
 
     const shortLength = maxLengthMap.get(MODE.SHORT);
     const longLength = maxLengthMap.get(MODE.LONG);
-    const shortContent = Array(shortLength).fill('"test string"').join(", ");
+    const shortContent = Array(shortLength)
+      .fill('"test string"')
+      .join(", ");
     const defaultOutput = `Array${length} [ ${shortContent}, … ]`;
-    const longContent = Array(longLength).fill('"test string"').join(", ");
+    const longContent = Array(longLength)
+      .fill('"test string"')
+      .join(", ");
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.TINY }).text()).toBe(`${length} […]`);
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.LONG }).text())
-      .toBe(`Array${length} [ ${longContent}, … ]`);
+    expect(renderRep({ mode: MODE.LONG }).text()).toBe(
+      `Array${length} [ ${longContent}, … ]`
+    );
   });
 });
 
@@ -130,10 +142,11 @@ describe("GripArray - recursive array", () => {
   const object = stubs.get("testRecursiveArray");
 
   it("renders as expected", () => {
-    const renderRep = (props) => shallowRenderRep(object, props);
+    const renderRep = props => shallowRenderRep(object, props);
     let length = getGripLengthBubbleText(object);
-    const childArrayLength = getGripLengthBubbleText(object.preview.items[0],
-      { mode: MODE.TINY });
+    const childArrayLength = getGripLengthBubbleText(object.preview.items[0], {
+      mode: MODE.TINY
+    });
 
     const defaultOutput = `Array${length} [ ${childArrayLength} […] ]`;
 
@@ -151,7 +164,7 @@ describe("GripArray - preview limit", () => {
   const object = stubs.get("testPreviewLimit");
 
   it("renders as expected", () => {
-    const renderRep = (props) => shallowRenderRep(object, props);
+    const renderRep = props => shallowRenderRep(object, props);
     const length = getGripLengthBubbleText(object);
 
     const shortOutput = `Array${length} [ 0, 1, 2, … ]`;
@@ -167,7 +180,7 @@ describe("GripArray - preview limit", () => {
 describe("GripArray - empty slots", () => {
   it("renders an array with empty slots only as expected", () => {
     const object = stubs.get("Array(5)");
-    const renderRep = (props) => shallowRenderRep(object, props);
+    const renderRep = props => shallowRenderRep(object, props);
     let length = getGripLengthBubbleText(object);
     const defaultOutput = `Array${length} [ <5 empty slots> ]`;
 
@@ -183,9 +196,9 @@ describe("GripArray - empty slots", () => {
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(longOutput);
   });
 
-  it("renders array with one empty slot at the beginning as expected", () => {
+  it("one empty slot at the beginning as expected", () => {
     const object = stubs.get("[,1,2,3]");
-    const renderRep = (props) => shallowRenderRep(object, props);
+    const renderRep = props => shallowRenderRep(object, props);
     let length = getGripLengthBubbleText(object);
 
     const defaultOutput = `Array${length} [ <1 empty slot>, 1, 2, … ]`;
@@ -202,25 +215,23 @@ describe("GripArray - empty slots", () => {
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(longOutput);
   });
 
-  it("renders array with multiple consecutive empty slots at the beginning as expected",
-    () => {
-      const object = stubs.get("[,,,3,4,5]");
-      const renderRep = (props) => shallowRenderRep(object, props);
-      const length = getGripLengthBubbleText(object);
+  it("multiple consecutive empty slots at the beginning as expected", () => {
+    const object = stubs.get("[,,,3,4,5]");
+    const renderRep = props => shallowRenderRep(object, props);
+    const length = getGripLengthBubbleText(object);
 
-      const defaultOutput = `Array${length} [ <3 empty slots>, 3, 4, … ]`;
-      const longOutput = `Array${length} [ <3 empty slots>, 3, 4, 5 ]`;
+    const defaultOutput = `Array${length} [ <3 empty slots>, 3, 4, … ]`;
+    const longOutput = `Array${length} [ <3 empty slots>, 3, 4, 5 ]`;
 
-      expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
-      expect(renderRep({ mode: MODE.TINY }).text()).toBe(`${length} […]`);
-      expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
-      expect(renderRep({ mode: MODE.LONG }).text()).toBe(longOutput);
-    }
-  );
+    expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe(`${length} […]`);
+    expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
+    expect(renderRep({ mode: MODE.LONG }).text()).toBe(longOutput);
+  });
 
-  it("renders array with one empty slot in the middle as expected", () => {
+  it("one empty slot in the middle as expected", () => {
     const object = stubs.get("[0,1,,3,4,5]");
-    const renderRep = (props) => shallowRenderRep(object, props);
+    const renderRep = props => shallowRenderRep(object, props);
     const length = getGripLengthBubbleText(object);
 
     const defaultOutput = `Array${length} [ 0, 1, <1 empty slot>, … ]`;
@@ -232,9 +243,9 @@ describe("GripArray - empty slots", () => {
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(longOutput);
   });
 
-  it("renders array with successive empty slots in the middle as expected", () => {
+  it("successive empty slots in the middle as expected", () => {
     const object = stubs.get("[0,1,,,,5]");
-    const renderRep = (props) => shallowRenderRep(object, props);
+    const renderRep = props => shallowRenderRep(object, props);
     const length = getGripLengthBubbleText(object);
 
     const defaultOutput = `Array${length} [ 0, 1, <3 empty slots>, … ]`;
@@ -246,37 +257,39 @@ describe("GripArray - empty slots", () => {
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(longOutput);
   });
 
-  it("renders array with non successive single empty slots as expected", () => {
+  it("non successive single empty slots as expected", () => {
     const object = stubs.get("[0,,2,,4,5]");
-    const renderRep = (props) => shallowRenderRep(object, props);
+    const renderRep = props => shallowRenderRep(object, props);
     const length = getGripLengthBubbleText(object);
 
     const defaultOutput = `Array${length} [ 0, <1 empty slot>, 2, … ]`;
-    const longOutput = `Array${length} [ 0, <1 empty slot>, 2, <1 empty slot>, 4, 5 ]`;
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.TINY }).text()).toBe(`${length} […]`);
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.LONG }).text()).toBe(longOutput);
+    expect(renderRep({ mode: MODE.LONG }).text()).toBe(
+      `Array${length} [ 0, <1 empty slot>, 2, <1 empty slot>, 4, 5 ]`
+    );
   });
 
-  it("renders array with multiple multi-slot holes as expected", () => {
+  it("multiple multi-slot holes as expected", () => {
     const object = stubs.get("[0,,,3,,,,7,8]");
-    const renderRep = (props) => shallowRenderRep(object, props);
+    const renderRep = props => shallowRenderRep(object, props);
     const length = getGripLengthBubbleText(object);
 
     const defaultOutput = `Array${length} [ 0, <2 empty slots>, 3, … ]`;
-    const longOutput = `Array${length} [ 0, <2 empty slots>, 3, <3 empty slots>, 7, 8 ]`;
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.TINY }).text()).toBe(`${length} […]`);
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.LONG }).text()).toBe(longOutput);
+    expect(renderRep({ mode: MODE.LONG }).text()).toBe(
+      `Array${length} [ 0, <2 empty slots>, 3, <3 empty slots>, 7, 8 ]`
+    );
   });
 
-  it("renders array with a single slot hole at the end as expected", () => {
+  it("a single slot hole at the end as expected", () => {
     const object = stubs.get("[0,1,2,3,4,,]");
-    const renderRep = (props) => shallowRenderRep(object, props);
+    const renderRep = props => shallowRenderRep(object, props);
     const length = getGripLengthBubbleText(object);
 
     const defaultOutput = `Array${length} [ 0, 1, 2, … ]`;
@@ -288,9 +301,9 @@ describe("GripArray - empty slots", () => {
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(longOutput);
   });
 
-  it("renders array with multiple consecutive empty slots at the end as expected", () => {
+  it("multiple consecutive empty slots at the end as expected", () => {
     const object = stubs.get("[0,1,2,,,,]");
-    const renderRep = (props) => shallowRenderRep(object, props);
+    const renderRep = props => shallowRenderRep(object, props);
     const length = getGripLengthBubbleText(object);
 
     const defaultOutput = `Array${length} [ 0, 1, 2, … ]`;
@@ -307,11 +320,12 @@ describe("GripArray - NamedNodeMap", () => {
   const object = stubs.get("testNamedNodeMap");
 
   it("renders as expected", () => {
-    const renderRep = (props) => shallowRenderRep(object, props);
+    const renderRep = props => shallowRenderRep(object, props);
     let length = getGripLengthBubbleText(object);
 
-    const defaultOutput = `NamedNodeMap${length} ` +
-      `[ class="myclass", cellpadding="7", border="3" ]`;
+    const defaultOutput =
+      `NamedNodeMap${length} ` +
+      '[ class="myclass", cellpadding="7", border="3" ]';
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
 
@@ -326,12 +340,13 @@ describe("GripArray - NamedNodeMap", () => {
 describe("GripArray - NodeList", () => {
   const object = stubs.get("testNodeList");
   const grips = getSelectableInInspectorGrips(object);
-  const renderRep = (props) => shallowRenderRep(object, props);
+  const renderRep = props => shallowRenderRep(object, props);
   let length = getGripLengthBubbleText(object);
 
   it("renders as expected", () => {
-    const defaultOutput = `NodeList${length} [ button#btn-1.btn.btn-log, ` +
-      `button#btn-2.btn.btn-err, button#btn-3.btn.btn-count ]`;
+    const defaultOutput =
+      `NodeList${length} [ button#btn-1.btn.btn-log, ` +
+      "button#btn-2.btn.btn-err, button#btn-3.btn.btn-count ]";
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
 
@@ -343,7 +358,7 @@ describe("GripArray - NodeList", () => {
   });
 
   it("has 3 node grip", () => {
-    expect(grips.length).toBe(3);
+    expect(grips).toHaveLength(3);
   });
 
   it("calls the expected function on mouseover", () => {
@@ -355,7 +370,7 @@ describe("GripArray - NodeList", () => {
     node.at(1).simulate("mouseover");
     node.at(2).simulate("mouseover");
 
-    expect(onDOMNodeMouseOver.mock.calls.length).toBe(3);
+    expect(onDOMNodeMouseOver.mock.calls).toHaveLength(3);
     expect(onDOMNodeMouseOver.mock.calls[0][0]).toBe(grips[0]);
     expect(onDOMNodeMouseOver.mock.calls[1][0]).toBe(grips[1]);
     expect(onDOMNodeMouseOver.mock.calls[2][0]).toBe(grips[2]);
@@ -370,7 +385,7 @@ describe("GripArray - NodeList", () => {
     node.at(1).simulate("mouseout");
     node.at(2).simulate("mouseout");
 
-    expect(onDOMNodeMouseOut.mock.calls.length).toBe(3);
+    expect(onDOMNodeMouseOut.mock.calls).toHaveLength(3);
   });
 
   it("calls the expected function on click", () => {
@@ -382,13 +397,13 @@ describe("GripArray - NodeList", () => {
     node.at(1).simulate("click");
     node.at(2).simulate("click");
 
-    expect(onInspectIconClick.mock.calls.length).toBe(3);
+    expect(onInspectIconClick.mock.calls).toHaveLength(3);
     expect(onInspectIconClick.mock.calls[0][0]).toBe(grips[0]);
     expect(onInspectIconClick.mock.calls[1][0]).toBe(grips[1]);
     expect(onInspectIconClick.mock.calls[2][0]).toBe(grips[2]);
   });
 
-  it("renders no inspect icon when nodes are not connected to the DOM tree", () => {
+  it("no inspect icon when nodes are not connected to the DOM tree", () => {
     const renderedComponentWithoutInspectIcon = shallowRenderRep(
       stubs.get("testDisconnectedNodeList")
     );
@@ -401,22 +416,26 @@ describe("GripArray - DocumentFragment", () => {
   const object = stubs.get("testDocumentFragment");
 
   it("renders as expected", () => {
-    const renderRep = (props) => shallowRenderRep(object, props);
+    const renderRep = props => shallowRenderRep(object, props);
 
     let length = getGripLengthBubbleText(object);
-    const defaultOutput = `DocumentFragment${length} [ li#li-0.list-element, ` +
-      `li#li-1.list-element, li#li-2.list-element, … ]`;
+    const defaultOutput =
+      `DocumentFragment${length} [ li#li-0.list-element, ` +
+      "li#li-1.list-element, li#li-2.list-element, … ]";
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
 
     length = getGripLengthBubbleText(object, { mode: MODE.TINY });
-    expect(renderRep({ mode: MODE.TINY }).text()).toBe(`DocumentFragment${length}`);
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe(
+      `DocumentFragment${length}`
+    );
 
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
 
     length = getGripLengthBubbleText(object, { mode: MODE.LONG });
-    const longOutput = `DocumentFragment${length} [ ` +
-      `li#li-0.list-element, li#li-1.list-element, li#li-2.list-element, ` +
-      `li#li-3.list-element, li#li-4.list-element ]`;
+    const longOutput =
+      `DocumentFragment${length} [ ` +
+      "li#li-0.list-element, li#li-1.list-element, li#li-2.list-element, " +
+      "li#li-3.list-element, li#li-4.list-element ]";
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(longOutput);
   });
 });
@@ -429,7 +448,7 @@ describe("GripArray - Items not in preview", () => {
   });
 
   it("renders as expected", () => {
-    const renderRep = (props) => shallowRenderRep(object, props);
+    const renderRep = props => shallowRenderRep(object, props);
     let length = getGripLengthBubbleText(object);
     const defaultOutput = `Array${length} [ … ]`;
 
@@ -460,7 +479,7 @@ describe("GripArray - Set", () => {
 
   it("renders short sets as expected", () => {
     const object = stubs.get("new Set([1,2,3,4])");
-    const renderRep = (props) => shallowRenderRep(object, props);
+    const renderRep = props => shallowRenderRep(object, props);
     let length = getGripLengthBubbleText(object);
     const defaultOutput = `Set${length} [ 1, 2, 3, … ]`;
 
@@ -484,7 +503,7 @@ describe("GripArray - Set", () => {
 
   it("renders larger sets as expected", () => {
     const object = stubs.get("new Set([0,1,2,…,19])");
-    const renderRep = (props) => shallowRenderRep(object, props);
+    const renderRep = props => shallowRenderRep(object, props);
     let length = getGripLengthBubbleText(object);
     const defaultOutput = `Set${length} [ 0, 1, 2, … ]`;
 
@@ -502,7 +521,9 @@ describe("GripArray - Set", () => {
 
     length = getGripLengthBubbleText(object, { mode: MODE.LONG });
     component = renderRep({ mode: MODE.LONG });
-    expect(component.text()).toBe(`Set${length} [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, … ]`);
+    expect(component.text()).toBe(
+      `Set${length} [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, … ]`
+    );
     expectActorAttribute(component, object.actor);
   });
 });
@@ -517,8 +538,9 @@ describe("GripArray - WeakSet", () => {
 
   it("renders short WeakSets as expected", () => {
     const object = stubs.get(
-      "new WeakSet(document.querySelectorAll('button:nth-child(3n)'))");
-    const renderRep = (props) => shallowRenderRep(object, props);
+      "new WeakSet(document.querySelectorAll('button:nth-child(3n)'))"
+    );
+    const renderRep = props => shallowRenderRep(object, props);
     let length = getGripLengthBubbleText(object);
     const defaultOutput = `WeakSet${length} [ button, button, button, … ]`;
 
@@ -536,13 +558,17 @@ describe("GripArray - WeakSet", () => {
 
     length = getGripLengthBubbleText(object, { mode: MODE.LONG });
     component = renderRep({ mode: MODE.LONG });
-    expect(component.text()).toBe(`WeakSet${length} [ button, button, button, button ]`);
+    expect(component.text()).toBe(
+      `WeakSet${length} [ button, button, button, button ]`
+    );
     expectActorAttribute(component, object.actor);
   });
 
   it("renders larger WeakSets as expected", () => {
-    const object = stubs.get("new WeakSet(document.querySelectorAll('div, button'))");
-    const renderRep = (props) => shallowRenderRep(object, props);
+    const object = stubs.get(
+      "new WeakSet(document.querySelectorAll('div, button'))"
+    );
+    const renderRep = props => shallowRenderRep(object, props);
     const length = getGripLengthBubbleText(object);
     const defaultOutput = `WeakSet${length} [ button, button, button, … ]`;
 
@@ -572,7 +598,7 @@ describe("GripArray - DOMTokenList", () => {
   });
 
   it("renders as expected", () => {
-    const renderRep = (props) => shallowRenderRep(object, props);
+    const renderRep = props => shallowRenderRep(object, props);
     const length = getGripLengthBubbleText(object);
     const defaultOutput = `DOMTokenList${length} []`;
 

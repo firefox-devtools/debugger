@@ -1,16 +1,12 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // ReactJS
 const PropTypes = require("prop-types");
 
 // Reps
-const {
-  isGrip,
-  cropString,
-  wrapRender,
-} = require("./rep-utils");
+const { isGrip, cropString, wrapRender } = require("./rep-utils");
 const { MODE } = require("./constants");
 
 const dom = require("react-dom-factories");
@@ -21,28 +17,28 @@ const { span } = dom;
  */
 TextNode.propTypes = {
   object: PropTypes.object.isRequired,
-  // @TODO Change this to Object.values once it's supported in Node's version of V8
+  // @TODO Change this to Object.values when supported in Node's version of V8
   mode: PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
   onDOMNodeMouseOver: PropTypes.func,
   onDOMNodeMouseOut: PropTypes.func,
-  onInspectIconClick: PropTypes.func,
+  onInspectIconClick: PropTypes.func
 };
 
 function TextNode(props) {
-  let {
+  const {
     object: grip,
     mode = MODE.SHORT,
     onDOMNodeMouseOver,
     onDOMNodeMouseOut,
-    onInspectIconClick,
+    onInspectIconClick
   } = props;
 
-  let baseConfig = {
+  const baseConfig = {
     "data-link-actor-id": grip.actor,
-    className: "objectBox objectBox-textNode",
+    className: "objectBox objectBox-textNode"
   };
   let inspectIcon;
-  let isInTree = grip.preview && grip.preview.isConnected === true;
+  const isInTree = grip.preview && grip.preview.isConnected === true;
 
   if (isInTree) {
     if (onDOMNodeMouseOver) {
@@ -63,7 +59,7 @@ function TextNode(props) {
         draggable: false,
         // TODO: Localize this with "openNodeInInspector" when Bug 1317038 lands
         title: "Click to select the node in the inspector",
-        onClick: (e) => onInspectIconClick(grip, e)
+        onClick: e => onInspectIconClick(grip, e)
       });
     }
   }
@@ -72,15 +68,11 @@ function TextNode(props) {
     return span(baseConfig, getTitle(grip), inspectIcon);
   }
 
-  return (
-    span(baseConfig,
-      getTitle(grip),
-      span({className: "nodeValue"},
-        " ",
-        `"${getTextContent(grip)}"`
-      ),
-      inspectIcon
-    )
+  return span(
+    baseConfig,
+    getTitle(grip),
+    span({ className: "nodeValue" }, " ", `"${getTextContent(grip)}"`),
+    inspectIcon
   );
 }
 
@@ -99,11 +91,11 @@ function supportsObject(grip, noGrip = false) {
     return false;
   }
 
-  return (grip.preview && grip.class == "Text");
+  return grip.preview && grip.class == "Text";
 }
 
 // Exports from this module
 module.exports = {
   rep: wrapRender(TextNode),
-  supportsObject,
+  supportsObject
 };
