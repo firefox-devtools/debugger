@@ -349,9 +349,10 @@ class SourcesTree extends Component<Props, State> {
     // A custom root with no existing sources will be ignored
     if (isCustomRoot) {
       let rootLabel = projectRoot.split("/").pop();
-      if (sourceTree.contents[0]) {
-        rootLabel = sourceTree.contents[0].contents[0].name;
-        roots = () => sourceTree.contents[0].contents[0].contents;
+      const sourceContents = sourceTree.contents[0];
+      if (sourceContents) {
+        rootLabel = sourceContents.contents[0].name;
+        roots = () => sourceContents.contents[0].contents;
       }
 
       clearProjectRootButton = (
