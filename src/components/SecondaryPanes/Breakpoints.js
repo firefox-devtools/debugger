@@ -103,6 +103,20 @@ function createExceptionOption(
   );
 }
 
+function sortFilenames(urlA, urlB) {
+  const filenameA = getFilenameFromURL(urlA);
+  const filenameB = getFilenameFromURL(urlB);
+
+  if (filenameA > filenameB) {
+    return 1;
+  }
+  if (filenameA < filenameB) {
+    return -1;
+  }
+
+  return 0;
+}
+
 class Breakpoints extends Component<Props> {
   handleBreakpointCheckbox(breakpoint) {
     if (breakpoint.loading) {
@@ -192,9 +206,7 @@ class Breakpoints extends Component<Props> {
 
     return [
       ...Object.keys(groupedBreakpoints)
-        .sort(
-          (urlA, urlB) => getFilenameFromURL(urlA) > getFilenameFromURL(urlB)
-        )
+        .sort(sortFilenames)
         .map(url => {
           const file = getFilenameFromURL(url);
           const groupBreakpoints = groupedBreakpoints[url].filter(
