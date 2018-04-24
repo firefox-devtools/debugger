@@ -59,50 +59,42 @@ export async function findGeneratedBindingFromPosition(
   let result;
   if (bindingType === "import") {
     result = await findGeneratedImportReference(applicableBindings);
+
+    if (!result && pos.type === "decl") {
+      const importName = pos.importName;
+      if (typeof importName !== "string") {
+        // Should never happen, just keeping Flow happy.
+        return null;
+      }
+
+      let applicableImportBindings = applicableBindings;
+      if (generatedRanges.length === 0) {
+        // If the imported name itself does not map to a useful range, fall back
+        // to resolving the bindinding using the location of the overall
+        // import declaration.
+        const declarationRanges = await getGeneratedLocationRanges(
+          source,
+          pos.declaration,
+          bindingType,
+          locationType,
+          sourceMaps
+        );
+        applicableImportBindings = filterApplicableBindings(
+          generatedAstBindings,
+          declarationRanges
+        );
+      }
+
+      result = await findGeneratedImportDeclaration(
+        applicableImportBindings,
+        importName
+      );
+    }
   } else {
     result = await findGeneratedReference(applicableBindings);
   }
 
-  if (result) {
-    return result;
-  }
-
-  if (bindingType === "import" && pos.type === "decl") {
-    const importName = pos.importName;
-    if (typeof importName !== "string") {
-      // Should never happen, just keeping Flow happy.
-      return null;
-    }
-
-    let applicableImportBindings = applicableBindings;
-    if (generatedRanges.length === 0) {
-      // If the imported name itself does not map to a useful range, fall back
-      // to resolving the bindinding using the location of the overall
-      // import declaration.
-      const importRanges = await getGeneratedLocationRanges(
-        source,
-        pos.declaration,
-        bindingType,
-        locationType,
-        sourceMaps
-      );
-      applicableImportBindings = filterApplicableBindings(
-        generatedAstBindings,
-        importRanges
-      );
-
-      if (applicableImportBindings.length === 0) {
-        return null;
-      }
-    }
-
-    return await findGeneratedImportDeclaration(
-      applicableImportBindings,
-      importName
-    );
-  }
-
-  return null;
+  return result;
 }
 
 type ApplicableBinding = {
