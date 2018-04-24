@@ -193,3 +193,8 @@ checkboxes
 objectProperties
 addons
 debugBtn
+P1s
+pausePoints
+DocSearch
+220ms
+55ms
