@@ -113,7 +113,7 @@ html .breakpoints-list .breakpoint.paused {
 .breakpoints-list .breakpoint .breakpoint-line {
   font-size: 11px;
   color: var(--theme-comment);
-  padding-top: 3px;
+  padding-top: 4px;
   padding-inline-end: 2px;
   min-width: 14px;
   text-align: right;
@@ -166,7 +166,7 @@ html[dir="rtl"] .breakpoints-list .breakpoint .breakpoint-line {
   position: absolute;
   offset-inline-end: 13px;
   offset-inline-start: auto;
-  top: 9px;
+  top: 6px;
   display: none;
 }
 
