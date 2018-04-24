@@ -6880,7 +6880,7 @@ jest@^20.0.4:
   dependencies:
     jest-cli "^20.0.4"
 
-jest@^22.4.2:
+jest@^22.4.3:
   version "22.4.3"
   resolved "https://registry.yarnpkg.com/jest/-/jest-22.4.3.tgz#2261f4b117dc46d9a4a1a673d2150958dee92f16"
   dependencies:

@@ -52,7 +52,8 @@
     "eslint-plugin-mozilla": "0.2.3",
     "fs-extra": "^2.0.0",
     "immutable": "^3.8.2",
-    "jest": "^22.4.2",
+    "jest": "^22.4.3",
+    "jest-cli": "^22.4.3",
     "jest-flow-transform": "^1.0.1",
     "postcss-url-mapper": "^1.2.0",
     "react-immutable-proptypes": "^2.1.0",
@@ -80,7 +81,7 @@
       "node_modules/(?!devtools-)"
     ],
     "moduleNameMapper": {
-      "\\.css$": "<rootDir>/test/__mocks__/styleMock.js"
+      "\\.css$": "<rootDir>/../../test/__mocks__/styleMock.js"
     }
   }
 }
