@@ -49,12 +49,19 @@ const singleMockItem = createMockItem(
   I.Map({ id: "server1.conn13.child1/39" })
 );
 
-let defaultComponent;
-let defaultProps;
-let defaultState;
-let componentWithRoot;
-let propsWithRoot;
-let emptyComponent;
+const blackboxedMockItem = createMockItem(
+  "http://mdn.com/blackboxed.js",
+  "blackboxed.js",
+  I.Map({ id: "server1.conn13.child1/59" })
+);
+
+const blackboxedMockSource = I.Map({
+  "server1.conn13.child1/59": createMockSource(
+    "server1.conn13.child1/59",
+    "http://mdn.com/blackboxed.js",
+    true
+  )
+});
 
 const mockRootDirectory = {
   contents: [],
@@ -73,6 +80,16 @@ const mockEvent = {
   stopPropagation: jest.fn()
 };
 
+let defaultComponent;
+let defaultProps;
+let defaultState;
+let componentWithRoot;
+let propsWithRoot;
+let emptyComponent;
+let componentWithMdnRoot;
+let propsWithMdnRoot;
+let blackboxedComponent;
+
 describe("SourcesTree", () => {
   beforeEach(() => {
     let rendered = render();
@@ -89,6 +106,16 @@ describe("SourcesTree", () => {
     emptyComponent = render({
       projectRoot: "custom",
       sources: I.Map()
+    }).component;
+
+    rendered = render({
+      projectRoot: "mdn"
+    });
+    componentWithMdnRoot = rendered.component;
+    propsWithMdnRoot = rendered.props;
+
+    blackboxedComponent = render({
+      sources: blackboxedMockSource
     }).component;
   });
 
@@ -243,21 +270,17 @@ describe("SourcesTree", () => {
   });
 
   describe("with custom root", () => {
-    const { component, props } = render({
-      projectRoot: "mdn"
+    it("renders custom root source list", async () => {
+      expect(componentWithMdnRoot).toMatchSnapshot();
     });
 
-    it("renders custom root source list", async () => {
-      expect(component).toMatchSnapshot();
+    it("calls clearProjectDirectoryRoot on click", async () => {
+      componentWithMdnRoot.find(".sources-clear-root").simulate("click");
+      expect(propsWithMdnRoot.clearProjectDirectoryRoot).toHaveBeenCalled();
     });
 
     it("renders empty custom root source list", async () => {
       expect(emptyComponent).toMatchSnapshot();
-    });
-
-    it("calls clearProjectDirectoryRoot on click", async () => {
-      component.find(".sources-clear-root").simulate("click");
-      expect(props.clearProjectDirectoryRoot).toHaveBeenCalled();
     });
   });
 
@@ -535,32 +558,13 @@ describe("SourcesTree", () => {
   });
 
   describe("getPath", () => {
-    const { component } = render({
-      sources: I.Map({
-        "server1.conn13.child1/39": createMockSource(
-          "server1.conn13.child1/39",
-          "http://mdn.com/one.js"
-        ),
-        "server1.conn13.child1/59": createMockSource(
-          "server1.conn13.child1/59",
-          "http://mdn.com/blackboxed.js",
-          true
-        )
-      })
-    });
-
     it("should return path for item", async () => {
-      const path = component.instance().getPath(singleMockItem);
+      const path = defaultComponent.instance().getPath(singleMockItem);
       expect(path).toEqual("http://mdn.com/one.js/one.js/");
     });
 
     it("should return path for blackboxedboxed item", async () => {
-      const item = createMockItem(
-        "http://mdn.com/blackboxed.js",
-        "blackboxed.js",
-        I.Map({ id: "server1.conn13.child1/59" })
-      );
-      const path = component.instance().getPath(item);
+      const path = blackboxedComponent.instance().getPath(blackboxedMockItem);
       expect(path).toEqual("http://mdn.com/blackboxed.js/blackboxed.js/update");
     });
   });
