@@ -15,7 +15,7 @@ import { groupBy, sortBy } from "lodash";
 import Breakpoint from "./Breakpoint";
 
 import actions from "../../actions";
-import { getRawSourceURL } from "../../utils/source";
+import { getFilenameFromURL } from "../../utils/source";
 import {
   getSources,
   getSourceInSources,
@@ -192,12 +192,11 @@ class Breakpoints extends Component<Props> {
 
     return [
       ...Object.keys(groupedBreakpoints)
-        .sort((urlA, urlB) => urlA.split("/").pop() > urlB.split("/").pop())
+        .sort(
+          (urlA, urlB) => getFilenameFromURL(urlA) > getFilenameFromURL(urlB)
+        )
         .map(url => {
-          const file = getRawSourceURL(url)
-            .split("/")
-            .pop()
-            .split("?")[0];
+          const file = getFilenameFromURL(url);
           const groupBreakpoints = groupedBreakpoints[url].filter(
             bp => !bp.hidden && (bp.text || bp.originalText)
           );
