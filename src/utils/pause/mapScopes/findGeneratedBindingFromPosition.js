@@ -474,6 +474,18 @@ async function getGeneratedLocationRanges(
   const ranges = await sourceMaps.getGeneratedRanges(start, source);
 
   const resultRanges = ranges.reduce((acc, mapRange) => {
+    // Some tooling creates ranges that map a line as a whole, which is useful
+    // for step-debugging, but can easily lead to finding the wrong binding.
+    // To avoid these false-positives, we entirely ignore ranges that cover
+    // full lines.
+    if (
+      locationType === "ref" &&
+      mapRange.columnStart === 0 &&
+      mapRange.columnEnd === Infinity
+    ) {
+      return acc;
+    }
+
     const range = {
       start: {
         line: mapRange.line,
