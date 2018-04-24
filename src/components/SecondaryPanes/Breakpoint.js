@@ -154,7 +154,11 @@ class Breakpoint extends Component<Props> {
     const { location } = breakpoint;
 
     let { line, column } = location;
-    if (isGeneratedId(selectedSource.id) && breakpoint.generatedLocation) {
+    if (
+      selectedSource &&
+      isGeneratedId(selectedSource.id) &&
+      breakpoint.generatedLocation
+    ) {
       line = breakpoint.generatedLocation.line;
       column = breakpoint.generatedLocation.column;
     }
