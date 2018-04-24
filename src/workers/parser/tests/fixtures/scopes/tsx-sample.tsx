@@ -7,4 +7,4 @@ class Example<T> {
   }
 }
 
-var foo = <any>window;
+var foo = <any>window</any>;
