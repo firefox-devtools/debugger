@@ -13,13 +13,6 @@ jest.mock("devtools-contextmenu", () => ({ showMenu: jest.fn() }));
 jest.mock("../../utils/clipboard", () => ({ copyToTheClipboard: jest.fn() }));
 jest.mock("../../selectors");
 
-const mockSource = I.Map({
-  "server1.conn13.child1/41": createMockSource(
-    "server1.conn13.child1/41",
-    "http://mdn.com/three.js"
-  )
-});
-
 describe("SourcesTree", () => {
   afterEach(() => {
     copyToTheClipboard.mockClear();
@@ -59,10 +52,16 @@ describe("SourcesTree", () => {
     describe("recreates tree", () => {
       it("does not recreate tree if no new source is added", async () => {
         const { component, props, defaultState } = render();
-        props.sources = mockSource;
+        const mockSource = I.Map({
+          "server1.conn13.child1/41": createMockSource(
+            "server1.conn13.child1/41",
+            "http://mdn.com/three.js"
+          )
+        });
 
         await component.setProps({
-          ...props
+          ...props,
+          sources: mockSource
         });
 
         expect(component.state("uncollapsedTree")).toEqual(
@@ -72,7 +71,7 @@ describe("SourcesTree", () => {
 
       it("updates tree with a new item", async () => {
         const { component, props } = render();
-        props.sources = props.sources.merge({
+        const sources = props.sources.merge({
           "server1.conn13.child1/42": createMockSource(
             "server1.conn13.child1/42",
             "http://mdn.com/four.js"
@@ -80,7 +79,8 @@ describe("SourcesTree", () => {
         });
 
         await component.setProps({
-          ...props
+          ...props,
+          sources: sources
         });
 
         expect(
@@ -103,20 +103,21 @@ describe("SourcesTree", () => {
 
       it("recreates tree if projectRoot is changed", async () => {
         const { component, props, defaultState } = render();
-        props.sources = I.Map({
+        const sources = I.Map({
           "server1.conn13.child1/41": createMockSource(
             "server1.conn13.child1/41",
             "http://mozilla.com/three.js"
           )
         });
-        props.projectRoot = "mozilla";
 
         expect(defaultState.uncollapsedTree.contents[0].contents).toHaveLength(
           3
         );
 
         await component.setProps({
-          ...props
+          ...props,
+          sources: sources,
+          projectRoot: "mozilla"
         });
 
         expect(
@@ -126,6 +127,12 @@ describe("SourcesTree", () => {
 
       it("recreates tree if debugeeUrl is changed", async () => {
         const { component, props, defaultState } = render();
+        const mockSource = I.Map({
+          "server1.conn13.child1/41": createMockSource(
+            "server1.conn13.child1/41",
+            "http://mdn.com/three.js"
+          )
+        });
         props.sources = mockSource;
         props.debuggeeUrl = "mozilla";
 
@@ -160,6 +167,12 @@ describe("SourcesTree", () => {
     describe("updates highlighted items", () => {
       it("updates highlightItems if selectedSource changes", async () => {
         const { component, props } = render();
+        const mockSource = I.Map({
+          "server1.conn13.child1/41": createMockSource(
+            "server1.conn13.child1/41",
+            "http://mdn.com/three.js"
+          )
+        });
         props.selectedSource = mockSource;
         await component.setProps({
           ...props
