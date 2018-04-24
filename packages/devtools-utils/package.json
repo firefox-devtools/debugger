@@ -1,0 +1,27 @@
+{
+  "name": "devtools-utils",
+  "version": "0.0.12",
+  "description": "DevTools Utils",
+  "main": "index.js",
+  "scripts": {
+    "license-check": "devtools-license-check",
+    "test": "jest"
+  },
+  "author": "",
+  "license": "MPL-2.0",
+  "dependencies": {
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "babel-preset-stage-3": "^6.22.0"
+  },
+  "devDependencies": {
+    "jest": "^20.0.4"
+  },
+  "jest": {
+    "rootDir": "src",
+    "testMatch": ["**/tests/**/*.js"],
+    "testPathIgnorePatterns": [],
+    "transformIgnorePatterns": [],
+    "setupFiles": [],
+    "moduleNameMapper": {}
+  }
+}
