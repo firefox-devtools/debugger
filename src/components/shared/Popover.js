@@ -17,11 +17,15 @@ type Props = {
   type?: "popover" | "tooltip"
 };
 
-type Orientation = "up" | "down";
+type Orientation = "up" | "down" | "right";
+type TargetMid = {
+  x: number,
+  y: number
+};
 type State = {
   left: number,
   top: number,
-  targetMid: number,
+  targetMid: TargetMid,
   orientation: Orientation
 };
 
@@ -33,7 +37,7 @@ class Popover extends Component<Props, State> {
     this.state = {
       left: 0,
       top: 0,
-      targetMid: 0,
+      targetMid: { x: 0, y: 0 },
       orientation: "up"
     };
   }
@@ -49,13 +53,26 @@ class Popover extends Component<Props, State> {
       type == "popover" ? this.getPopoverCoords() : this.getTooltipCoords();
 
     // eslint-disable-next-line react/no-did-mount-set-state
-    this.setState({ left, top, orientation, targetMid });
+    this.setState({
+      left,
+      top,
+      orientation,
+      targetMid
+    });
   }
 
-  calculateLeft(target: ClientRect, editor: ClientRect, popover: ClientRect) {
+  calculateLeft(
+    target: ClientRect,
+    editor: ClientRect,
+    popover: ClientRect,
+    orientation: Orientation
+  ) {
     const estimatedLeft = target.left;
     const estimatedRight = estimatedLeft + popover.width;
     const isOverflowingRight = estimatedRight > editor.right;
+    if (orientation === "right") {
+      return target.left + target.width + 10;
+    }
     if (isOverflowingRight) {
       const adjustedLeft = editor.right - popover.width - 8;
       return adjustedLeft;
@@ -63,15 +80,57 @@ class Popover extends Component<Props, State> {
     return estimatedLeft;
   }
 
-  calculateVerticalOrientation(
+  calculateTopForRightOrientation = (
+    target: ClientRect,
+    editor: ClientRect,
+    popover: ClientRect
+  ) => {
+    if (popover.height < editor.height) {
+      const rightOrientationTop = target.top - popover.height / 2;
+      if (rightOrientationTop < editor.top) {
+        return editor.top;
+      }
+      const rightOrientationBottom = rightOrientationTop + popover.height;
+      if (rightOrientationBottom > editor.bottom) {
+        return editor.bottom - popover.height;
+      }
+      return rightOrientationTop;
+    }
+    return 0;
+  };
+
+  calculateOrientation(
     target: ClientRect,
     editor: ClientRect,
     popover: ClientRect
   ) {
     const estimatedBottom = target.bottom + popover.height;
+    if (editor.bottom > estimatedBottom) {
+      return "down";
+    }
+    const upOrientationTop = target.top - popover.height;
+    if (upOrientationTop > editor.top) {
+      return "up";
+    }
 
-    return estimatedBottom > editor.bottom ? "up" : "down";
+    return "right";
   }
+
+  calculteTop = (
+    target: ClientRect,
+    editor: ClientRect,
+    popover: ClientRect,
+    orientation: String
+  ) => {
+    if (orientation === "down") {
+      return target.bottom;
+    }
+    if (orientation === "up") {
+      return target.top - popover.height;
+    }
+
+    return this.calculateTopForRightOrientation(target, editor, popover);
+  };
 
   getPopoverCoords() {
     if (this.$popover && this.props.editorRef) {
@@ -80,27 +139,49 @@ class Popover extends Component<Props, State> {
       const popoverRect = popover.getBoundingClientRect();
       const editorRect = editor.getBoundingClientRect();
       const targetRect = this.props.targetPosition;
+      const orientation = this.calculateOrientation(
+        targetRect,
+        editorRect,
+        popoverRect
+      );
+      const top = this.calculteTop(
+        targetRect,
+        editorRect,
+        popoverRect,
+        orientation
+      );
       const popoverLeft = this.calculateLeft(
         targetRect,
         editorRect,
-        popoverRect
+        popoverRect,
+        orientation
       );
-      const orientation = this.calculateVerticalOrientation(
-        targetRect,
-        editorRect,
-        popoverRect
-      );
-      const top =
-        orientation == "down"
-          ? targetRect.bottom
-          : targetRect.top - popoverRect.height;
+      let targetMid;
+      if (orientation === "right") {
+        targetMid = {
+          x: -14,
+          y: targetRect.top - top - 2
+        };
+      } else {
+        targetMid = {
+          x: targetRect.left - popoverLeft + targetRect.width / 2 - 8,
+          y: 0
+        };
+      }
 
-      const targetMid =
-        targetRect.left - popoverLeft + targetRect.width / 2 - 8;
-
-      return { left: popoverLeft, top, orientation, targetMid };
+      return {
+        left: popoverLeft,
+        top,
+        orientation,
+        targetMid
+      };
     }
-    return { left: 0, top: 0, orientation: "down", targetMid: 0 };
+    return {
+      left: 0,
+      top: 0,
+      orientation: "down",
+      targetMid: { x: 0, y: 0 }
+    };
   }
 
   getTooltipCoords() {
@@ -113,9 +194,19 @@ class Popover extends Component<Props, State> {
       const left = this.calculateLeft(targetRect, editorRect, tooltipRect);
       const top = targetRect.top - tooltipRect.height;
 
-      return { left, top, orientation: "up", targetMid: 0 };
+      return {
+        left,
+        top,
+        orientation: "up",
+        targetMid: { x: 0, y: 0 }
+      };
     }
-    return { left: 0, top: 0, orientation: "up", targetMid: 0 };
+    return {
+      left: 0,
+      top: 0,
+      orientation: "up",
+      targetMid: { x: 0, y: 0 }
+    };
   }
 
   getChildren() {
@@ -125,17 +216,15 @@ class Popover extends Component<Props, State> {
     return orientation === "up" ? [children, gap] : [gap, children];
   }
 
-  getPopoverArrow(orientation: Orientation, left: number) {
-    const arrowOrientation = orientation === "up" ? "down" : "up";
-
-    const arrowProp = arrowOrientation === "up" ? "top" : "bottom";
-    const arrowPropValue = arrowOrientation === "up" ? -7 : 5;
-
-    const arrowProps = {
-      orientation: arrowOrientation,
-      left,
-      [arrowProp]: arrowPropValue
-    };
+  getPopoverArrow(orientation: Orientation, left: number, top: number) {
+    const arrowProps = {};
+    if (orientation === "up") {
+      Object.assign(arrowProps, { orientation: "down", bottom: 5, left });
+    } else if (orientation === "down") {
+      Object.assign(arrowProps, { orientation: "up", top: -7, left });
+    } else {
+      Object.assign(arrowProps, { orientation: "left", top, left: -14 });
+    }
 
     return <BracketArrow {...arrowProps} />;
   }
@@ -151,11 +240,13 @@ class Popover extends Component<Props, State> {
 
   renderPopover() {
     const { top, left, orientation, targetMid } = this.state;
-    const arrow = this.getPopoverArrow(orientation, targetMid);
+    const arrow = this.getPopoverArrow(orientation, targetMid.x, targetMid.y);
 
     return (
       <div
-        className={classNames("popover", { up: orientation === "up" })}
+        className={classNames("popover", `orientation-${orientation}`, {
+          up: orientation === "up"
+        })}
         onMouseLeave={this.onMouseLeave}
         style={{ top, left }}
         ref={c => (this.$popover = c)}

@@ -125,7 +125,7 @@ exports[`Popover render (tooltip) 1`] = `
 
 exports[`Popover render 1`] = `
 <div
-  className="popover"
+  className="popover orientation-down"
   onMouseLeave={[Function]}
   style={
     Object {
