@@ -184,11 +184,16 @@ describe("SourcesTree", () => {
 
   describe("focusItem", () => {
     it("update the focused item", async () => {
-      const { component, instance } = render();
+      const { component, instance, props } = render();
       const item = createMockItem();
-      expect(component.state("focusedItem")).toEqual(null);
       await instance.focusItem(item);
-      expect(component.state("focusedItem")).toEqual(item);
+      await component.update();
+      await component
+        .find(".sources-list")
+        .simulate("keydown", { keyCode: 13 });
+      expect(props.selectLocation).toHaveBeenCalledWith({
+        sourceId: item.contents.get("id")
+      });
     });
   });
 
@@ -413,9 +418,11 @@ describe("SourcesTree", () => {
 
       node.simulate("click", event);
 
-      expect(component.state("focusedItem")).toEqual(item);
+      await component
+        .find(".sources-list")
+        .simulate("keydown", { keyCode: 13 });
       expect(props.selectLocation).toHaveBeenCalledWith({
-        sourceId: "server1.conn13.child1/39"
+        sourceId: item.contents.get("id")
       });
       expect(setExpanded).not.toHaveBeenCalled();
     });
@@ -452,7 +459,7 @@ describe("SourcesTree", () => {
       expect(props.selectLocation).not.toHaveBeenCalled();
     });
 
-    it("should select item on enter", async () => {
+    it("should select item on enter onKeyDown event", async () => {
       const { component, props, instance } = render();
       await instance.focusItem(createMockItem());
       await component.update();
