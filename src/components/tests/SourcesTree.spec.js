@@ -185,9 +185,9 @@ describe("SourcesTree", () => {
 
   describe("focusItem", () => {
     it("update the focused item", async () => {
-      const { component, props } = render();
+      const { component, props, instance } = render();
       expect(component.state("focusedItem")).toEqual(null);
-      await component.instance().focusItem(mockItem);
+      await instance.focusItem(mockItem);
       expect(component.state("focusedItem")).toEqual(mockItem);
     });
   });
@@ -401,16 +401,15 @@ describe("SourcesTree", () => {
     });
 
     it("should show menu on contextmenu of an item", async () => {
-      const { component } = render();
+      const { component, instance } = render();
+      instance.onContextMenu = jest.fn(() => {});
       const event = { event: "contextmenu" };
       const node = shallow(
         renderItem(component, mockItem, 1, true)
       );
 
-      component.instance().onContextMenu = jest.fn(() => {});
-
       node.simulate("contextmenu", event);
-      expect(component.instance().onContextMenu).toHaveBeenCalledWith(
+      expect(instance.onContextMenu).toHaveBeenCalledWith(
         event,
         mockItem
       );
@@ -458,22 +457,22 @@ describe("SourcesTree", () => {
 
   describe("selectItem", () => {
     it("should select item with no children", async () => {
-      const { component, props } = render();
-      component.instance().selectItem(mockItem);
+      const { component, props, instance } = render();
+      instance.selectItem(mockItem);
       expect(props.selectLocation).toHaveBeenCalledWith({
         sourceId: "server1.conn13.child1/39"
       });
     });
 
     it("should not select item with children", async () => {
-      const { component, props } = render();
-      component.instance().selectItem(mockDirectory);
+      const { component, props, instance } = render();
+      instance.selectItem(mockDirectory);
       expect(props.selectLocation).not.toHaveBeenCalled();
     });
 
     it("should select item on enter", async () => {
-      const { component, props } = render();
-      await component.instance().focusItem(mockItem);
+      const { component, props, instance } = render();
+      await instance.focusItem(mockItem);
       await component.update();
       await component 
         .find(".sources-list")
@@ -547,8 +546,8 @@ describe("SourcesTree", () => {
 
   describe("getPath", () => {
     it("should return path for item", async () => {
-      const { component, props } = render();
-      const path = component.instance().getPath(mockItem);
+      const { component, props, instance } = render();
+      const path = instance.getPath(mockItem);
       expect(path).toEqual("http://mdn.com/one.js/one.js/");
     });
 
@@ -567,10 +566,10 @@ describe("SourcesTree", () => {
         )
       });
 
-      const { component } = render({
+      const { component, instance } = render({
         sources: blackboxedMockSource
       });
-      const path = component.instance().getPath(blackboxedMockItem);
+      const path = instance.getPath(blackboxedMockItem);
       expect(path).toEqual("http://mdn.com/blackboxed.js/blackboxed.js/update");
     });
   });
@@ -622,10 +621,11 @@ function render(overrides = {}) {
   const props = generateDefaults(overrides);
   const component = shallow(<SourcesTree.WrappedComponent {...props} />);
   const defaultState = component.state();
+  const instance = component.instance();
 
-  component.instance().shouldComponentUpdate = () => true;
+  instance.shouldComponentUpdate = () => true;
 
-  return { component, props, defaultState};
+  return { component, props, defaultState, instance};
 }
 
 function createMockSource(id, url, isBlackBoxed = false) {
