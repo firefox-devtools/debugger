@@ -119,6 +119,21 @@
   fill: var(--theme-body-color);
 }
 
+img.moreTabs {
+    mask: url(/images/command-chevron.svg) no-repeat;
+    mask-size: 100%;
+    width: 12px;
+    height: 12px;
+    display: block;
+    background: var(--theme-body-color);
+    margin-left: 6px;
+}
+
+html[dir="rtl"] img.moreTabs {
+  transform: rotate(180deg);
+  margin-right: 6px;
+}
+
 .source-tab .filename {
   white-space: nowrap;
   text-overflow: ellipsis;
