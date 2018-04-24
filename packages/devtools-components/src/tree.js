@@ -1,6 +1,6 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 import React from "react";
 const { Component, createFactory } = React;
@@ -9,7 +9,8 @@ import PropTypes from "prop-types";
 
 require("./tree.css");
 
-const AUTO_EXPAND_DEPTH = 0; // depth
+// depth
+const AUTO_EXPAND_DEPTH = 0;
 
 /**
  * An arrow that displays whether its node is expanded (▼) or collapsed
@@ -18,7 +19,7 @@ const AUTO_EXPAND_DEPTH = 0; // depth
 class ArrowExpander extends Component {
   static get propTypes() {
     return {
-      expanded: PropTypes.bool,
+      expanded: PropTypes.bool
     };
   }
 
@@ -27,21 +28,19 @@ class ArrowExpander extends Component {
   }
 
   render() {
-    const {
-      expanded,
-    } = this.props;
+    const { expanded } = this.props;
 
     const classNames = ["arrow"];
     if (expanded) {
       classNames.push("expanded");
     }
     return dom.img({
-      className: classNames.join(" "),
+      className: classNames.join(" ")
     });
   }
 }
 
-const treeIndent = dom.span({className: "tree-indent"}, "\u200B");
+const treeIndent = dom.span({ className: "tree-indent" }, "\u200B");
 
 class TreeNode extends Component {
   static get propTypes() {
@@ -54,14 +53,16 @@ class TreeNode extends Component {
       item: PropTypes.any.isRequired,
       isExpandable: PropTypes.bool.isRequired,
       onClick: PropTypes.func,
-      renderItem: PropTypes.func.isRequired,
+      renderItem: PropTypes.func.isRequired
     };
   }
 
   shouldComponentUpdate(nextProps) {
-    return this.props.item !== nextProps.item ||
+    return (
+      this.props.item !== nextProps.item ||
       this.props.focused !== nextProps.focused ||
-      this.props.expanded !== nextProps.expanded;
+      this.props.expanded !== nextProps.expanded
+    );
   }
 
   render() {
@@ -72,14 +73,14 @@ class TreeNode extends Component {
       focused,
       expanded,
       renderItem,
-      isExpandable,
+      isExpandable
     } = this.props;
 
     const arrow = isExpandable
       ? ArrowExpanderFactory({
-        item,
-        expanded,
-      })
+          item,
+          expanded
+        })
       : null;
 
     let ariaExpanded;
@@ -90,13 +91,15 @@ class TreeNode extends Component {
       ariaExpanded = true;
     }
 
-    const indents = Array.from({length: depth}).fill(treeIndent);
-    let items = indents.concat(renderItem(item, depth, focused, arrow, expanded));
+    const indents = Array.from({ length: depth }).fill(treeIndent);
+    const items = indents.concat(
+      renderItem(item, depth, focused, arrow, expanded)
+    );
 
     return dom.div(
       {
         id,
-        className: "tree-node" + (focused ? " focused" : ""),
+        className: `tree-node${focused ? " focused" : ""}`,
         onClick: this.props.onClick,
         role: "treeitem",
         "aria-level": depth + 1,
@@ -121,7 +124,7 @@ const TreeNodeFactory = createFactory(TreeNode);
 function oncePerAnimationFrame(fn) {
   let animationId = null;
   let argsToPass = null;
-  return function (...args) {
+  return function(...args) {
     argsToPass = args;
     if (animationId !== null) {
       return;
@@ -154,8 +157,8 @@ function oncePerAnimationFrame(fn) {
  * "traditional" tree or as rows in a table or anything else. It doesn't
  * restrict you to only one certain kind of tree.
  *
- * The tree comes with basic styling for the indent, the arrow, as well as hovered
- * and focused styles which can be override in CSS.
+ * The tree comes with basic styling for the indent, the arrow, as well as
+ * hovered and focused styles which can be override in CSS.
  *
  * ### Example Usage
  *
@@ -311,15 +314,15 @@ class Tree extends Component {
 
       // Note: the two properties below are mutually exclusive. Only one of the
       // label properties is necessary.
-      // ID of an element whose textual content serves as an accessible label for
-      // a tree.
+      // ID of an element whose textual content serves as an accessible label
+      // for a tree.
       labelledby: PropTypes.string,
       // Accessibility label for a tree widget.
       label: PropTypes.string,
 
-      // Optional event handlers for when items are expanded or collapsed. Useful
-      // for dispatching redux events and updating application state, maybe lazily
-      // loading subtrees from a worker, etc.
+      // Optional event handlers for when items are expanded or collapsed.
+      // Useful for dispatching redux events and updating application state,
+      // maybe lazily loading subtrees from a worker, etc.
       //
       // Type:
       //     onExpand(item: Item)
@@ -334,7 +337,7 @@ class Tree extends Component {
       // Additional classes to add to the root element.
       className: PropTypes.string,
       // style object to be applied to the root element.
-      style: PropTypes.object,
+      style: PropTypes.object
     };
   }
 
@@ -349,14 +352,16 @@ class Tree extends Component {
     super(props);
 
     this.state = {
-      seen: new Set(),
+      seen: new Set()
     };
 
     this._onExpand = oncePerAnimationFrame(this._onExpand).bind(this);
     this._onCollapse = oncePerAnimationFrame(this._onCollapse).bind(this);
     this._focusPrevNode = oncePerAnimationFrame(this._focusPrevNode).bind(this);
     this._focusNextNode = oncePerAnimationFrame(this._focusNextNode).bind(this);
-    this._focusParentNode = oncePerAnimationFrame(this._focusParentNode).bind(this);
+    this._focusParentNode = oncePerAnimationFrame(this._focusParentNode).bind(
+      this
+    );
 
     this._autoExpand = this._autoExpand.bind(this);
     this._preventArrowKeyScrolling = this._preventArrowKeyScrolling.bind(this);
@@ -395,8 +400,10 @@ class Tree extends Component {
     // not use the usual DFS infrastructure because we don't want to ignore
     // collapsed nodes.
     const autoExpand = (item, currentDepth) => {
-      if (currentDepth >= this.props.autoExpandDepth ||
-          this.state.seen.has(item)) {
+      if (
+        currentDepth >= this.props.autoExpandDepth ||
+        this.state.seen.has(item)
+      ) {
         return;
       }
 
@@ -519,9 +526,9 @@ class Tree extends Component {
    *
    * @param {Object|undefined} options
    *        An options object which can contain:
-   *          - dir: "up" or "down" to indicate if we should scroll the element to the
-   *                 top or the bottom of the scrollable container when the element is
-   *                 off canvas.
+   *          - dir: "up" or "down" to indicate if we should scroll the element
+   *                 to the top or the bottom of the scrollable container when
+   *                 the element is off canvas.
    */
   _focus(item, options) {
     this._scrollNodeIntoView(item, options);
@@ -538,16 +545,16 @@ class Tree extends Component {
    *
    * @param {Object|undefined} options
    *        An options object which can contain:
-   *          - dir: "up" or "down" to indicate if we should scroll the element to the
-   *                 top or the bottom of the scrollable container when the element is
-   *                 off canvas.
+   *          - dir: "up" or "down" to indicate if we should scroll the element
+   *                 to the top or the bottom of the scrollable container when
+   *                 the element is off canvas.
    */
   _scrollNodeIntoView(item, options = {}) {
     if (item !== undefined) {
       const treeElement = this.treeRef;
       const element = document.getElementById(this.props.getKey(item));
       if (element) {
-        const {top, bottom} = element.getBoundingClientRect();
+        const { top, bottom } = element.getBoundingClientRect();
         const closestScrolledParent = node => {
           if (node == null) {
             return null;
@@ -559,16 +566,13 @@ class Tree extends Component {
           return closestScrolledParent(node.parentNode);
         };
         const scrolledParent = closestScrolledParent(treeElement);
-        const isVisible = !scrolledParent
-          || (
-            top >= 0
-            && bottom <= scrolledParent.clientHeight
-          );
+        const isVisible =
+          !scrolledParent ||
+          (top >= 0 && bottom <= scrolledParent.clientHeight);
 
         if (!isVisible) {
-          let scrollToTop =
-            (!options.alignTo && top < 0)
-            || options.alignTo === "top";
+          const scrollToTop =
+            (!options.alignTo && top < 0) || options.alignTo === "top";
           element.scrollIntoView(scrollToTop);
         }
       }
@@ -609,8 +613,10 @@ class Tree extends Component {
         return;
 
       case "ArrowLeft":
-        if (this.props.isExpanded(this.props.focused)
-            && this._nodeIsExpandable(this.props.focused)) {
+        if (
+          this.props.isExpanded(this.props.focused) &&
+          this._nodeIsExpandable(this.props.focused)
+        ) {
           this._onCollapse(this.props.focused);
         } else {
           this._focusParentNode();
@@ -618,8 +624,10 @@ class Tree extends Component {
         return;
 
       case "ArrowRight":
-        if (this._nodeIsExpandable(this.props.focused)
-            && !this.props.isExpanded(this.props.focused)) {
+        if (
+          this._nodeIsExpandable(this.props.focused) &&
+          !this.props.isExpanded(this.props.focused)
+        ) {
           this._onExpand(this.props.focused);
         } else {
           this._focusNextNode();
@@ -650,7 +658,7 @@ class Tree extends Component {
       return;
     }
 
-    this._focus(prev, {alignTo: "top"});
+    this._focus(prev, { alignTo: "top" });
   }
 
   /**
@@ -673,7 +681,7 @@ class Tree extends Component {
     }
 
     if (i + 1 < traversal.length) {
-      this._focus(traversal[i + 1].item, {alignTo: "bottom"});
+      this._focus(traversal[i + 1].item, { alignTo: "bottom" });
     }
   }
 
@@ -697,7 +705,7 @@ class Tree extends Component {
       }
     }
 
-    this._focus(parent, {alignTo: "top"});
+    this._focus(parent, { alignTo: "top" });
   }
 
   _nodeIsExpandable(item) {
@@ -708,9 +716,7 @@ class Tree extends Component {
 
   render() {
     const traversal = this._dfsFromRoots();
-    const {
-      focused,
-    } = this.props;
+    const { focused } = this.props;
 
     const nodes = traversal.map((v, i) => {
       const { item, depth } = traversal[i];
@@ -727,14 +733,14 @@ class Tree extends Component {
         isExpandable: this._nodeIsExpandable(item),
         onExpand: this._onExpand,
         onCollapse: this._onCollapse,
-        onClick: (e) => {
+        onClick: e => {
           this._focus(item);
           if (this.props.isExpanded(item)) {
             this.props.onCollapse(item);
           } else {
             this.props.onExpand(item, e.altKey);
           }
-        },
+        }
       });
     });
 
@@ -754,17 +760,19 @@ class Tree extends Component {
         onKeyDown: this._onKeyDown,
         onKeyPress: this._preventArrowKeyScrolling,
         onKeyUp: this._preventArrowKeyScrolling,
-        onFocus: ({nativeEvent}) => {
+        onFocus: ({ nativeEvent }) => {
           if (focused || !nativeEvent || !this.treeRef) {
             return;
           }
 
-          let { explicitOriginalTarget } = nativeEvent;
+          const { explicitOriginalTarget } = nativeEvent;
           // Only set default focus to the first tree node if the focus came
           // from outside the tree (e.g. by tabbing to the tree from other
           // external elements).
-          if (explicitOriginalTarget !== this.treeRef &&
-              !this.treeRef.contains(explicitOriginalTarget)) {
+          if (
+            explicitOriginalTarget !== this.treeRef &&
+            !this.treeRef.contains(explicitOriginalTarget)
+          ) {
             this._focus(traversal[0].item);
           }
         },
@@ -776,7 +784,7 @@ class Tree extends Component {
         "aria-label": this.props.label,
         "aria-labelledby": this.props.labelledby,
         "aria-activedescendant": focused && this.props.getKey(focused),
-        style,
+        style
       },
       nodes
     );

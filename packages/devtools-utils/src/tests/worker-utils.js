@@ -1,6 +1,6 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 const {
   WorkerDispatcher,
@@ -28,7 +28,7 @@ describe("worker utils", () => {
     dispatcher.stop();
 
     expect(dispatcher.worker).toEqual(null);
-    expect(terminateMock.mock.calls.length).toEqual(1);
+    expect(terminateMock.mock.calls).toHaveLength(1);
   });
 
   it("dispatches a task", () => {
@@ -55,7 +55,7 @@ describe("worker utils", () => {
       method: "foo"
     });
 
-    expect(addEventListenerMock.mock.calls.length).toEqual(1);
+    expect(addEventListenerMock.mock.calls).toHaveLength(1);
   });
 
   it("dispatches a queued task", async () => {
@@ -91,7 +91,7 @@ describe("worker utils", () => {
       method: "foo"
     });
 
-    expect(addEventListenerMock.mock.calls.length).toEqual(1);
+    expect(addEventListenerMock.mock.calls).toHaveLength(1);
   });
 
   it("test workerHandler error case", async () => {
@@ -102,13 +102,13 @@ describe("worker utils", () => {
 
     self.postMessage = postMessageMock;
 
-    let callee = {
+    const callee = {
       doSomething: () => {
         throw new Error("failed");
       }
     };
 
-    let handler = workerHandler(callee);
+    const handler = workerHandler(callee);
 
     handler({ data: { id: 53, method: "doSomething", calls: [[]] } });
 
@@ -118,7 +118,7 @@ describe("worker utils", () => {
       id: 53,
       results: [
         {
-          error: "Error: failed",
+          error: "Error: failed"
         }
       ]
     });
@@ -169,17 +169,19 @@ it("streams a task", async () => {
     ];
   }
 
-  const workerHandler = streamingWorkerHandler(
+  const _workerHandler = streamingWorkerHandler(
     { makeTasks },
     { timeout: 25 },
     worker
   );
 
   const id = 1;
-  const task = workerHandler({ data: { id, method: "makeTasks", calls: [[]] } });
+  const task = _workerHandler({
+    data: { id, method: "makeTasks", calls: [[]] }
+  });
   await task;
 
-  expect(postMessageMock.mock.calls.length).toBe(4);
+  expect(postMessageMock.mock.calls).toHaveLength(4);
   expect(postMessageMock.mock.calls[0][0]).toEqual({
     id,
     status: "start"

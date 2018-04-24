@@ -1,6 +1,6 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
 
@@ -9,7 +9,7 @@ const InlineBase64JSON = "data:application/json;";
 // opts is ignored because this is only used in local development and
 // replaces a more powerful network request from Firefox that can be
 // configured.
-function networkRequest(url: string, opts: any) {
+function networkRequest(url: string, opts: any): Promise<*> {
   if (url.startsWith(InlineBase64JSON)) {
     const content = atob(url.slice(url.indexOf("base64") + 7));
     return Promise.resolve({ content });

@@ -6,3 +6,4 @@ src/**/fixtures/**
 src/test/mochitest/**
 bin/
 packages/**/fixtures/**
+node_modules

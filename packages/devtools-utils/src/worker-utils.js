@@ -1,6 +1,6 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
 
@@ -48,14 +48,18 @@ WorkerDispatcher.prototype = {
           flush();
         }
       });
-    }
+    };
 
     const flush = () => {
       const items = calls.slice();
       calls.length = 0;
 
       const id = this.msgId++;
-      this.worker.postMessage({ id, method, calls: items.map(item => item[0]) });
+      this.worker.postMessage({
+        id,
+        method,
+        calls: items.map(item => item[0])
+      });
 
       const listener = ({ data: result }) => {
         if (result.id !== id) {
@@ -80,35 +84,36 @@ WorkerDispatcher.prototype = {
       };
 
       this.worker.addEventListener("message", listener);
-    }
+    };
 
     return (...args: any) => push(args);
   }
 };
 
 function workerHandler(publicInterface: Object) {
-  return function (msg: Message) {
+  return function(msg: Message) {
     const { id, method, calls } = (msg.data: any);
 
-    Promise.all(calls.map(args => {
-      try {
-        const response = publicInterface[method].apply(undefined, args);
-        if (response instanceof Promise) {
-          return response.then(
-            val => ({ response: val }),
-            // Error can't be sent via postMessage, so be sure to
-            // convert to string.
-            err => ({ error: err.toString() })
-          );
-        } else {
+    Promise.all(
+      calls.map(args => {
+        try {
+          const response = publicInterface[method].apply(undefined, args);
+          if (response instanceof Promise) {
+            return response.then(
+              val => ({ response: val }),
+              // Error can't be sent via postMessage, so be sure to
+              // convert to string.
+              err => ({ error: err.toString() })
+            );
+          }
           return { response };
+        } catch (error) {
+          // Error can't be sent via postMessage, so be sure to convert to
+          // string.
+          return { error: error.toString() };
         }
-      } catch (error) {
-        // Error can't be sent via postMessage, so be sure to convert to
-        // string.
-        return { error: error.toString() };
-      }
-    })).then(results => {
+      })
+    ).then(results => {
       self.postMessage({ id, results });
     });
   };
@@ -122,7 +127,7 @@ function streamingWorkerHandler(
   async function streamingWorker(id, tasks) {
     let isWorking = true;
 
-    const intervalId = setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       isWorking = false;
     }, timeout);
 
@@ -133,14 +138,14 @@ function streamingWorkerHandler(
       results.push(result);
     }
     worker.postMessage({ id, status: "pending", data: results });
-    clearInterval(intervalId);
+    clearTimeout(timeoutId);
 
     if (tasks.length !== 0) {
       await streamingWorker(id, tasks);
     }
   }
 
-  return async function (msg: Message) {
+  return async function(msg: Message) {
     const { id, method, args } = msg.data;
     const workerMethod = publicInterface[method];
     if (!workerMethod) {
