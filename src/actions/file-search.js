@@ -105,10 +105,9 @@ export function searchContents(query: string, editor: Object) {
     }
 
     const ctx = { ed: editor, cm: editor.codeMirror };
-    const _modifiers = modifiers.toJS();
-    const matches = await getMatches(query, selectedSource.text, _modifiers);
+    const matches = await getMatches(query, selectedSource.text, modifiers);
 
-    const res = find(ctx, query, true, _modifiers);
+    const res = find(ctx, query, true, modifiers);
     if (!res) {
       return;
     }
@@ -140,9 +139,8 @@ export function searchContentsForHighlight(
     }
 
     const ctx = { ed: editor, cm: editor.codeMirror };
-    const _modifiers = modifiers.toJS();
 
-    searchSourceForHighlight(ctx, false, query, true, _modifiers, line, ch);
+    searchSourceForHighlight(ctx, false, query, true, modifiers, line, ch);
   };
 }
 
@@ -165,8 +163,8 @@ export function traverseResults(rev: boolean, editor: Editor) {
     if (modifiers) {
       const matchedLocations = matches || [];
       const results = rev
-        ? findPrev(ctx, query, true, modifiers.toJS())
-        : findNext(ctx, query, true, modifiers.toJS());
+        ? findPrev(ctx, query, true, modifiers)
+        : findNext(ctx, query, true, modifiers);
 
       if (!results) {
         return;

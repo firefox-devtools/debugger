@@ -51,7 +51,7 @@ export default function buildQuery(
   modifiers: SearchModifiers,
   { isGlobal = false, ignoreSpaces = false }: QueryOptions
 ): RegExp {
-  const { caseSensitive, regexMatch, wholeWord } = modifiers;
+  const { caseSensitive, regexMatch, wholeWord } = modifiers.toJS();
 
   if (originalQuery === "") {
     return new RegExp(originalQuery);
