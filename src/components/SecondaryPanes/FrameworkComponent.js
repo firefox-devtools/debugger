@@ -17,6 +17,8 @@ import { isReactComponent } from "../../utils/preview";
 
 import type { Frame } from "../../types";
 
+import "./Frames/Frames.css";
+
 const { createNode, getChildren } = ObjectInspectorUtils.node;
 const { loadItemProperties } = ObjectInspectorUtils.loadProperties;
 
