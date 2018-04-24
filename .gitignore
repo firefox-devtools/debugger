@@ -19,3 +19,4 @@ tags
 **/*.orig
 *~
 webpack-stats/
+package-lock.json

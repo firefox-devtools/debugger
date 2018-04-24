@@ -68,12 +68,12 @@
     "@babel/types": "^7.0.0-beta.39",
     "babylon": "^7.0.0-beta.39",
     "codemirror": "^5.28.0",
-    "devtools-launchpad": "^0.0.119",
+    "devtools-launchpad": "^0.0.121",
     "devtools-linters": "^0.0.4",
     "devtools-reps": "^0.22.0",
     "devtools-source-map": "0.16.0",
     "devtools-splitter": "^0.0.6",
-    "devtools-utils": "^0.0.12",
+    "devtools-utils": "0.0.13",
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint-plugin-file-header": "0.0.1",
     "eslint-plugin-import": "^2.8.0",
@@ -97,7 +97,7 @@
     "wasmparser": "^0.6.0"
   },
   "private": true,
-  "workspaces": ["packages/devtools-source-map"],
+  "workspaces": ["packages/*"],
   "files": ["src", "assets"],
   "greenkeeper": {
     "ignore": ["react", "react-dom", "react-redux", "redux", "codemirror"]
@@ -131,7 +131,6 @@
     "glob": "^7.0.3",
     "husky": "^0.14.2",
     "jest": "^20.0.4",
-    "jest-cli": "^20.0.4",
     "jest-in-case": "^1.0.2",
     "jest-junit-reporter": "^1.1.0",
     "jest-localstorage-mock": "^2.2.0",
@@ -169,7 +168,7 @@
     "src/*/*.js": ["prettier", "git add"],
     "src/*/!(mochitest)**/*.js": ["prettier", "git add"],
     "src/*/!(mochitest)*/**/*.js": ["prettier", "git add"],
-    "packages/devtools-source-map/src/*.js": ["prettier", "git add"]
+    "packages/**/src/*.js": ["prettier", "git add"]
   },
   "jest": {
     "testPathIgnorePatterns": [
