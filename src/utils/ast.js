@@ -13,32 +13,114 @@ import type {
   AstPosition,
   AstLocation,
   PausePoints,
-  SymbolDeclarations
+  SymbolDeclarations,
+  SymbolDeclaration
 } from "../workers/parser";
+
+type ExtraProps = { hasJsx: boolean, hasTypes: boolean };
+
+type ArraySymbolDeclarations = $Values<$Diff<SymbolDeclarations, ExtraProps>>;
+
+function isOverlapping(
+  expression: SymbolDeclaration,
+  { line, column }: ColumnPosition
+) {
+  const { start } = expression.location;
+  if (start.line < line) {
+    return -1;
+  }
+  if (start.line > line) {
+    return 1;
+  }
+
+  return 0;
+}
+
+export function lowerBound(
+  array: ArraySymbolDeclarations,
+  query: ColumnPosition,
+  cmp: (any, ColumnPosition) => number
+) {
+  const length = array.length;
+  let left = 0;
+  let right = length - 1;
+
+  while (left < right) {
+    const mid = Math.floor((left + right) / 2);
+    const result = cmp(array[mid], query);
+    if (result == 0) {
+      right = mid;
+    } else if (result > 0) {
+      right = mid - 1;
+    } else {
+      left = mid + 1;
+    }
+  }
+
+  return left;
+}
+
+function upperBound(
+  array: ArraySymbolDeclarations,
+  query: ColumnPosition,
+  cmp: (any, ColumnPosition) => number
+) {
+  const length = array.length;
+  let left = 0;
+  let right = length - 1;
+
+  while (left < right) {
+    const mid = Math.floor((left + right + 1) / 2);
+    const result = cmp(array[mid], query);
+    if (result == 0) {
+      left = mid;
+    } else if (result > 0) {
+      right = mid - 1;
+    } else {
+      left = mid + 1;
+    }
+  }
+
+  return left;
+}
+
+function findOverlapping(
+  array: ArraySymbolDeclarations,
+  location: ColumnPosition
+) {
+  // Returns the declarations which are in same line of `location`
+  const l = lowerBound(array, location, isOverlapping);
+  const u = upperBound(array, location, isOverlapping);
+  return array.slice(l, u + 1);
+}
 
 export function findBestMatchExpression(
   symbols: SymbolDeclarations,
   tokenPos: ColumnPosition
 ) {
-  const { memberExpressions, identifiers, literals } = symbols;
+  let { memberExpressions, identifiers, literals } = symbols;
   const { line, column } = tokenPos;
 
-  const members = memberExpressions.filter(({ computed }) => !computed);
+  let members = findOverlapping(memberExpressions, tokenPos);
+  members = memberExpressions.filter(({ computed }) => !computed);
+  identifiers = findOverlapping(identifiers, tokenPos);
+  literals = findOverlapping(literals, tokenPos);
 
-  return []
-    .concat(identifiers, members, literals)
-    .reduce((found, expression) => {
-      const overlaps =
-        expression.location.start.line == line &&
-        expression.location.start.column <= column &&
-        expression.location.end.column >= column;
+  const reducedSymbols = [].concat(literals, members, identifiers);
 
-      if (overlaps) {
-        return expression;
-      }
+  for (let index = 0; index < reducedSymbols.length; index++) {
+    const expression = reducedSymbols[index];
+    const overlaps =
+      expression.location.start.line == line &&
+      expression.location.start.column <= column &&
+      expression.location.end.column >= column;
 
-      return found;
-    }, null);
+    if (overlaps) {
+      return expression;
+    }
+  }
+
+  return null;
 }
 
 export function findEmptyLines(
