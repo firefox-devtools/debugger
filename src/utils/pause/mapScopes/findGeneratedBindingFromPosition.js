@@ -56,6 +56,21 @@ export async function findGeneratedBindingFromPosition(
     generatedRanges
   );
 
+  let applicableDeclBindings = [];
+  if (pos.type === "decl") {
+    const declarationRanges = await getGeneratedLocationRanges(
+      source,
+      pos.declaration,
+      bindingType,
+      locationType,
+      sourceMaps
+    );
+    applicableDeclBindings = filterApplicableBindings(
+      generatedAstBindings,
+      declarationRanges
+    );
+  }
+
   let result;
   if (bindingType === "import") {
     result = await findGeneratedImportReference(applicableBindings);
@@ -67,34 +82,38 @@ export async function findGeneratedBindingFromPosition(
         return null;
       }
 
-      let applicableImportBindings = applicableBindings;
-      if (generatedRanges.length === 0) {
-        // If the imported name itself does not map to a useful range, fall back
-        // to resolving the bindinding using the location of the overall
-        // import declaration.
-        const declarationRanges = await getGeneratedLocationRanges(
-          source,
-          pos.declaration,
-          bindingType,
-          locationType,
-          sourceMaps
-        );
-        applicableImportBindings = filterApplicableBindings(
-          generatedAstBindings,
-          declarationRanges
-        );
-      }
-
       result = await findGeneratedImportDeclaration(
-        applicableImportBindings,
+        [
+          ...applicableBindings.filter(withLocType("decl")),
+          ...applicableDeclBindings.filter(withLocType("decl")),
+          ...applicableBindings.filter(withLocType("ref")),
+          ...applicableDeclBindings.filter(withLocType("ref"))
+        ],
         importName
       );
     }
+  } else if (pos.type === "decl") {
+    // If mapping from a declaration, prefer applicable bindings for
+    // declarations.
+    result = await findGeneratedReference([
+      ...applicableBindings.filter(withLocType("decl")),
+      ...applicableDeclBindings.filter(withLocType("decl")),
+      ...applicableBindings.filter(withLocType("ref")),
+      ...applicableDeclBindings.filter(withLocType("ref"))
+    ]);
   } else {
-    result = await findGeneratedReference(applicableBindings);
+    // If mapping from a reference, prefer applicable binding references.
+    result = await findGeneratedReference([
+      ...applicableBindings.filter(withLocType("ref")),
+      ...applicableBindings.filter(withLocType("decl"))
+    ]);
   }
 
   return result;
+}
+
+function withLocType(locationType: BindingLocationType) {
+  return ({ binding: b }) => b.loc.type === locationType;
 }
 
 type ApplicableBinding = {
