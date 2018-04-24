@@ -176,7 +176,8 @@
       "/helpers/",
       "/fixtures/",
       "src/test/mochitest/examples/",
-      "<rootDir>/firefox"
+      "<rootDir>/firefox",
+      "<rootDir>/packages"
     ],
     "collectCoverageFrom": [
       "src/**/*.js",

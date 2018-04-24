@@ -1,6 +1,6 @@
 {
   "name": "devtools-reps",
-  "version": "0.22.0",
+  "version": "0.23.0",
   "description": "Devtools Reps",
   "main": "src/index.js",
   "scripts": {
@@ -37,7 +37,6 @@
   },
   "devDependencies": {
     "@sucrase/webpack-object-rest-spread-plugin": "^1.0.0",
-    "babel-jest": "^22.4.1",
     "babel-plugin-syntax-object-rest-spread": "^6.13.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "babel-preset-react": "^6.24.1",
@@ -52,9 +51,6 @@
     "eslint-plugin-mozilla": "0.2.3",
     "fs-extra": "^2.0.0",
     "immutable": "^3.8.2",
-    "jest": "^22.4.3",
-    "jest-cli": "^22.4.3",
-    "jest-flow-transform": "^1.0.1",
     "postcss-url-mapper": "^1.2.0",
     "react-immutable-proptypes": "^2.1.0",
     "redux-logger": "=3.0.6"
@@ -62,6 +58,7 @@
   "jest": {
     "rootDir": "src",
     "setupFiles": [
+      "<rootDir>/test/__mocks__/request-animation-frame.js",
       "<rootDir>/test/__mocks__/selection.js",
       "<rootDir>/test/setup.js"
     ],
@@ -81,7 +78,7 @@
       "node_modules/(?!devtools-)"
     ],
     "moduleNameMapper": {
-      "\\.css$": "<rootDir>/../../test/__mocks__/styleMock.js"
+      "\\.css$": "<rootDir>/../../../src/test/__mocks__/styleMock.js"
     }
   }
 }
