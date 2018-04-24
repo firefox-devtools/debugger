@@ -1,22 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ObjectInspector - state does expand if the user selected some text and clicked the arrow 1`] = `
-"
-▶︎ Object { p0: \\"0\\", p1: \\"1\\", p2: \\"2\\", p3: \\"3\\", p4: \\"4\\", p5: \\"5\\", p6: \\"6\\", p7: \\"7\\", p8: \\"8\\", p9: \\"9\\", … }
-▶︎ Proxy { <target>: {…}, <handler>: (3) […] }
-"
-`;
-
-exports[`ObjectInspector - state does expand if the user selected some text and clicked the arrow 2`] = `
-"
-[ ▼ {…} ]
-  |    a: 1
-  |    Symbol(): \\"hello\\"
-  |  ▶︎ <prototype>: Object { … }
-  ▶︎ Proxy { <target>: {…}, <handler>: (3) […] }
-"
-`;
-
 exports[`ObjectInspector - state does not expand if the user selected some text 1`] = `
 "
 ▶︎ Object { p0: \\"0\\", p1: \\"1\\", p2: \\"2\\", p3: \\"3\\", p4: \\"4\\", p5: \\"5\\", p6: \\"6\\", p7: \\"7\\", p8: \\"8\\", p9: \\"9\\", … }
@@ -44,6 +27,23 @@ exports[`ObjectInspector - state does not throw when expanding a block node 2`] 
   |    a: 30
   |    b: 32
   ▶︎ Proxy: Proxy { <target>: {…}, <handler>: (3) […] }
+"
+`;
+
+exports[`ObjectInspector - state expands if user selected some text and clicked the arrow 1`] = `
+"
+▶︎ Object { p0: \\"0\\", p1: \\"1\\", p2: \\"2\\", p3: \\"3\\", p4: \\"4\\", p5: \\"5\\", p6: \\"6\\", p7: \\"7\\", p8: \\"8\\", p9: \\"9\\", … }
+▶︎ Proxy { <target>: {…}, <handler>: (3) […] }
+"
+`;
+
+exports[`ObjectInspector - state expands if user selected some text and clicked the arrow 2`] = `
+"
+[ ▼ {…} ]
+  |    a: 1
+  |    Symbol(): \\"hello\\"
+  |  ▶︎ <prototype>: Object { … }
+  ▶︎ Proxy { <target>: {…}, <handler>: (3) […] }
 "
 `;
 
