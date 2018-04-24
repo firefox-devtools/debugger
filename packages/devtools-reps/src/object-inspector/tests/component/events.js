@@ -54,7 +54,7 @@ describe("ObjectInspector - properties", () => {
     const oi = mount(
       ObjectInspector(
         generateDefaults({
-          focusable: true,
+          focusable: false,
           roots: [
             {
               path: "root",
