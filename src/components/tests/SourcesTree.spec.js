@@ -11,7 +11,6 @@ import { copyToTheClipboard } from "../../utils/clipboard";
 
 jest.mock("devtools-contextmenu", () => ({ showMenu: jest.fn() }));
 jest.mock("../../utils/clipboard", () => ({ copyToTheClipboard: jest.fn() }));
-jest.mock("../../selectors");
 
 describe("SourcesTree", () => {
   afterEach(() => {
