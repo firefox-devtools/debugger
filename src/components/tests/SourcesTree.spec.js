@@ -110,9 +110,7 @@ describe("SourcesTree", () => {
           ...props
         });
 
-        expect(component.state("uncollapsedTree").contents).toHaveLength(
-          0
-        );
+        expect(component.state("uncollapsedTree").contents).toHaveLength(0);
       });
 
       it("recreates tree if projectRoot is changed", async () => {
@@ -185,7 +183,7 @@ describe("SourcesTree", () => {
 
   describe("focusItem", () => {
     it("update the focused item", async () => {
-      const { component, props, instance } = render();
+      const { component, instance } = render();
       expect(component.state("focusedItem")).toEqual(null);
       await instance.focusItem(mockItem);
       expect(component.state("focusedItem")).toEqual(mockItem);
@@ -194,7 +192,7 @@ describe("SourcesTree", () => {
 
   describe("with custom root", () => {
     it("renders custom root source list", async () => {
-      const { component, props } = render({
+      const { component } = render({
         projectRoot: "mdn"
       });
       expect(component).toMatchSnapshot();
@@ -235,9 +233,7 @@ describe("SourcesTree", () => {
       const { component, props } = render({
         projectRoot: "root/"
       });
-      await component 
-        .instance()
-        .onContextMenu(mockEvent, mockDirectory);
+      await component.instance().onContextMenu(mockEvent, mockDirectory);
       expect(showMenu).toHaveBeenCalledWith(mockEvent, menuOptions);
 
       expect(mockEvent.preventDefault).toHaveBeenCalled();
@@ -266,9 +262,7 @@ describe("SourcesTree", () => {
       const { component, props } = render({
         projectRoot: "root/"
       });
-      await component 
-        .instance()
-        .onContextMenu(mockEvent, mockItem);
+      await component.instance().onContextMenu(mockEvent, mockItem);
       expect(showMenu).toHaveBeenCalledWith(mockEvent, menuOptions);
 
       expect(mockEvent.preventDefault).toHaveBeenCalled();
@@ -304,9 +298,7 @@ describe("SourcesTree", () => {
         stopPropagation: jest.fn()
       };
 
-      await component 
-        .instance()
-        .onContextMenu(mockEvent, mockRootDirectory);
+      await component.instance().onContextMenu(mockEvent, mockRootDirectory);
       expect(showMenu).toHaveBeenCalledWith(mockEvent, menuOptions);
 
       expect(mockEvent.preventDefault).toHaveBeenCalled();
@@ -404,15 +396,10 @@ describe("SourcesTree", () => {
       const { component, instance } = render();
       instance.onContextMenu = jest.fn(() => {});
       const event = { event: "contextmenu" };
-      const node = shallow(
-        renderItem(component, mockItem, 1, true)
-      );
+      const node = shallow(renderItem(component, mockItem, 1, true));
 
       node.simulate("contextmenu", event);
-      expect(instance.onContextMenu).toHaveBeenCalledWith(
-        event,
-        mockItem
-      );
+      expect(instance.onContextMenu).toHaveBeenCalledWith(event, mockItem);
     });
 
     it("should focus on and select item on click", async () => {
@@ -420,14 +407,7 @@ describe("SourcesTree", () => {
       const event = { event: "click" };
       const setExpanded = jest.fn();
       const node = shallow(
-        renderItem(
-          component,
-          mockItem,
-          1,
-          true,
-          false,
-          setExpanded
-        )
+        renderItem(component, mockItem, 1, true, false, setExpanded)
       );
 
       node.simulate("click", event);
@@ -457,7 +437,7 @@ describe("SourcesTree", () => {
 
   describe("selectItem", () => {
     it("should select item with no children", async () => {
-      const { component, props, instance } = render();
+      const { instance, props } = render();
       instance.selectItem(mockItem);
       expect(props.selectLocation).toHaveBeenCalledWith({
         sourceId: "server1.conn13.child1/39"
@@ -474,7 +454,7 @@ describe("SourcesTree", () => {
       const { component, props, instance } = render();
       await instance.focusItem(mockItem);
       await component.update();
-      await component 
+      await component
         .find(".sources-list")
         .simulate("keydown", { keyCode: 13 });
       expect(props.selectLocation).toHaveBeenCalledWith({
@@ -484,7 +464,7 @@ describe("SourcesTree", () => {
 
     it("does not select if no item is focused on", async () => {
       const { component, props } = render();
-      await component 
+      await component
         .find(".sources-list")
         .simulate("keydown", { keyCode: 13 });
       expect(props.selectLocation).not.toHaveBeenCalled();
@@ -493,9 +473,9 @@ describe("SourcesTree", () => {
 
   describe("handles items", () => {
     it("getChildren from directory", async () => {
-      const { component, props } = render();
+      const { component } = render();
       const item = createMockItem("http://mdn.com/views", "views", ["a", "b"]);
-      const children =component 
+      const children = component
         .find("ManagedTree")
         .props()
         .getChildren(item);
@@ -504,7 +484,7 @@ describe("SourcesTree", () => {
 
     it("getChildren from non directory", async () => {
       const { component } = render();
-      const children =component 
+      const children = component
         .find("ManagedTree")
         .props()
         .getChildren(mockItem);
@@ -514,7 +494,7 @@ describe("SourcesTree", () => {
     it("onExpand", async () => {
       const { component, props } = render();
       const expandedState = ["x", "y"];
-      await component 
+      await component
         .find("ManagedTree")
         .props()
         .onExpand({}, expandedState);
@@ -524,7 +504,7 @@ describe("SourcesTree", () => {
     it("onCollapse", async () => {
       const { component, props } = render();
       const expandedState = ["y", "z"];
-      await component 
+      await component
         .find("ManagedTree")
         .props()
         .onCollapse({}, expandedState);
@@ -532,9 +512,9 @@ describe("SourcesTree", () => {
     });
 
     it("getParent", async () => {
-      const { component, props } = render();
+      const { component } = render();
       const item = component.state("sourceTree").contents[0].contents[0];
-      const parent =component 
+      const parent = component
         .find("ManagedTree")
         .props()
         .getParent(item);
@@ -546,7 +526,7 @@ describe("SourcesTree", () => {
 
   describe("getPath", () => {
     it("should return path for item", async () => {
-      const { component, props, instance } = render();
+      const { instance } = render();
       const path = instance.getPath(mockItem);
       expect(path).toEqual("http://mdn.com/one.js/one.js/");
     });
@@ -566,7 +546,7 @@ describe("SourcesTree", () => {
         )
       });
 
-      const { component, instance } = render({
+      const { instance } = render({
         sources: blackboxedMockSource
       });
       const path = instance.getPath(blackboxedMockItem);
@@ -574,7 +554,6 @@ describe("SourcesTree", () => {
     });
   });
 });
-
 
 function generateDefaults(overrides) {
   const defaultSources = I.Map({
@@ -625,7 +604,7 @@ function render(overrides = {}) {
 
   instance.shouldComponentUpdate = () => true;
 
-  return { component, props, defaultState, instance};
+  return { component, props, defaultState, instance };
 }
 
 function createMockSource(id, url, isBlackBoxed = false) {
