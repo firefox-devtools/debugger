@@ -3392,7 +3392,7 @@ devtools-sprintf-js@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/devtools-sprintf-js/-/devtools-sprintf-js-1.0.3.tgz#c2aa3c39d4047525e60410325c86770620281b87"
 
-devtools-utils@0.0.13, devtools-utils@^0.0.13:
+devtools-utils@^0.0.13:
   version "0.0.13"
   resolved "https://registry.yarnpkg.com/devtools-utils/-/devtools-utils-0.0.13.tgz#290a8a0f640e423a708933461df1862d8f253977"
   dependencies:
