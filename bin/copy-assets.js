@@ -251,6 +251,18 @@ function onBundleFinish({mcPath, debuggerPath, projectPath}) {
     path.join(mcPath, "devtools/client/shared/source-map/index.js"),
     {cwd: projectPath}
   );
+
+  moveFile(
+    path.join(mcPath, debuggerPath, "reps.js"),
+    path.join(mcPath, "devtools/client/shared/components/reps/reps.js"),
+    {cwd: projectPath}
+  );
+
+  moveFile(
+    path.join(mcPath, debuggerPath, "reps.css"),
+    path.join(mcPath, "devtools/client/shared/components/reps/reps.css"),
+    {cwd: projectPath}
+  );
 }
 
 start();
