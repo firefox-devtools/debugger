@@ -61,14 +61,15 @@ export class HighlightLine extends Component<Props> {
     const { sourceId, line } = selectedLocation;
     const editorLine = toEditorLine(sourceId, line);
 
+    if (!this.isStepping && !selectedLocation.isLocatingBreakpoint) {
+      return false;
+    }
     if (!isDocumentReady(selectedSource, selectedLocation)) {
       return false;
     }
-
     if (this.isStepping && editorLine === this.previousEditorLine) {
       return false;
     }
-
     return true;
   }
 
@@ -100,15 +101,14 @@ export class HighlightLine extends Component<Props> {
       return;
     }
     this.isStepping = false;
-    const editorLine = toEditorLine(sourceId, line);
-    this.previousEditorLine = editorLine;
+    this.previousEditorLine = toEditorLine(sourceId, line);
 
     if (!line || isDebugLine(selectedFrame, selectedLocation)) {
       return;
     }
 
     const doc = getDocument(sourceId);
-    doc.addLineClass(editorLine, "line", "highlight-line");
+    doc.addLineClass(this.previousEditorLine, "line", "highlight-line");
   }
 
   clearHighlightLine(selectedLocation: Location, selectedSource: SourceRecord) {

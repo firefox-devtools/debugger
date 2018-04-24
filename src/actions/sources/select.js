@@ -91,7 +91,10 @@ export function selectSource(sourceId: string) {
  * @memberof actions/sources
  * @static
  */
-export function selectLocation(location: Location) {
+export function selectLocation(
+  location: Location,
+  isLocatingBreakpoint: boolean = false
+) {
   return async ({ dispatch, getState, client }: ThunkArgs) => {
     if (!client) {
       // No connection, do nothing. This happens when the debugger is
@@ -117,7 +120,7 @@ export function selectLocation(location: Location) {
       ({
         type: "SELECT_SOURCE",
         source,
-        location
+        location: { ...location, isLocatingBreakpoint }
       }: Action)
     );
 

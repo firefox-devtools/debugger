@@ -47,6 +47,7 @@
     "isPaused": false,
     "assertPausedLocation": false,
     "assertHighlightLocation": false,
+    "assertNoHighlightLocation": false,
     "createDebuggerContext": false,
     "initDebugger": false,
     "invokeInTab": false,
