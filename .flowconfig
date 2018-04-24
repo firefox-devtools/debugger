@@ -3,6 +3,7 @@
 .*node_modules/devtools-reps/src/object-inspector/index.js
 .*node_modules/devtools-mc-assets/.*
 .*node_modules/immutable/dist/immutable.js.flow
+.*node_modules/stylelint.*
 <PROJECT_ROOT>/firefox/.*
 .*mozilla-central/.*
 .*flow-coverage-report/.*
