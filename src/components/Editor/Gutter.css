@@ -62,16 +62,9 @@
   :not(.empty-line):not(.new-breakpoint)
   > .CodeMirror-gutter-wrapper
   .CodeMirror-linenumber {
-  animation: highlight-gutter 0.2s normal forwards;
-}
-
-@keyframes highlight-gutter {
-  0% {
-    color: var(--empty-linenumber-color);
-  }
-  100% {
-    color: var(--active-linenumber-color);
-  }
+  color: var(--active-linenumber-color);
+  transition-duration: 0.1s;
+  transition-timing-function: linear;
 }
 
 .folding-enabled .CodeMirror-linenumber {
