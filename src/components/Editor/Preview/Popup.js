@@ -19,7 +19,8 @@ const {
   createNode,
   getChildren,
   getValue,
-  nodeIsPrimitive
+  nodeIsPrimitive,
+  NODE_TYPES
 } = ObjectInspectorUtils.node;
 const { loadItemProperties } = ObjectInspectorUtils.loadProperties;
 
@@ -28,7 +29,6 @@ import { getAllPopupObjectProperties } from "../../../selectors";
 import Popover from "../../shared/Popover";
 import PreviewFunction from "../../shared/PreviewFunction";
 import { markText } from "../../../utils/editor";
-import { isReactComponent, isImmutable } from "../../../utils/preview";
 import Svg from "../../shared/Svg";
 import { createObjectClient } from "../../../client/firefox";
 
@@ -61,14 +61,11 @@ export class Popup extends Component<Props> {
   async componentWillMount() {
     const {
       value,
-      expression,
       setPopupObjectProperties,
       popupObjectProperties
     } = this.props;
-    const root = createNode({
-      name: expression,
-      contents: { value }
-    });
+
+    const root = this.getRoot();
 
     if (
       !nodeIsPrimitive(root) &&
@@ -79,7 +76,7 @@ export class Popup extends Component<Props> {
       const onLoadItemProperties = loadItemProperties(root, createObjectClient);
       if (onLoadItemProperties !== null) {
         const properties = await onLoadItemProperties;
-        setPopupObjectProperties(value, properties);
+        setPopupObjectProperties(root.contents.value, properties);
       }
     }
   }
@@ -101,13 +98,18 @@ export class Popup extends Component<Props> {
   }
 
   getRoot() {
-    const { expression, value } = this.props;
+    const { expression, value, extra } = this.props;
 
-    return {
+    let rootValue = value;
+    if (extra.immutable) {
+      rootValue = extra.immutable.entries;
+    }
+
+    return createNode({
       name: expression,
       path: expression,
-      contents: { value }
-    };
+      contents: { value: rootValue }
+    });
   }
 
   getChildren() {
@@ -172,33 +174,23 @@ export class Popup extends Component<Props> {
   renderImmutable(immutable: Object) {
     const immutableHeader = immutable.type || "Immutable";
 
-    const header = (
+    return (
       <div className="header-container">
         <Svg name="immutable" className="immutable-logo" />
         <h3>{immutableHeader}</h3>
       </div>
     );
-
-    const roots = [
-      createNode({ name: "entries", contents: { value: immutable.entries } })
-    ];
-
-    return (
-      <div className="preview-popup">
-        {header}
-        {this.renderObjectInspector(roots)}
-      </div>
-    );
   }
 
   renderObjectPreview() {
+    const { extra } = this.props;
     const root = this.getRoot();
 
     if (nodeIsPrimitive(root)) {
       return null;
     }
 
-    const roots = this.getChildren();
+    let roots = this.getChildren();
     if (!Array.isArray(roots) || roots.length === 0) {
       return null;
     }
@@ -206,18 +198,18 @@ export class Popup extends Component<Props> {
     const {
       extra: { react, immutable }
     } = this.props;
-    const grip = getValue(root);
 
-    if (isReactComponent(grip)) {
-      return this.renderReact(react, roots);
-    }
-
-    if (isImmutable(grip)) {
-      return this.renderImmutable(immutable);
+    let header = null;
+    if (extra.immutable) {
+      header = this.renderImmutable(extra.immutable);
+      roots = roots.filter(r => r.type != NODE_TYPES.PROTOTYPE);
     }
 
     return (
-      <div className="preview-popup">{this.renderObjectInspector(roots)}</div>
+      <div className="preview-popup">
+        {header}
+        {this.renderObjectInspector(roots)}
+      </div>
     );
   }
 
