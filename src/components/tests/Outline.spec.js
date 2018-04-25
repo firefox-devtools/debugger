@@ -56,7 +56,7 @@ describe("Outline", () => {
       ]
     };
 
-    const { component } = render({symbols});
+    const { component } = render({ symbols });
     expect(component).toMatchSnapshot();
   });
 
@@ -68,7 +68,7 @@ describe("Outline", () => {
       ]
     };
 
-    const { component } = render({symbols});
+    const { component } = render({ symbols });
     expect(component).toMatchSnapshot();
   });
 
@@ -78,7 +78,7 @@ describe("Outline", () => {
       functions: [makeSymbolDeclaration("my_example_function", startLine)]
     };
 
-    const { component, props } = render({symbols});
+    const { component, props } = render({ symbols });
 
     const { selectLocation } = props;
     const listItem = component.find("li").first();
@@ -92,7 +92,7 @@ describe("Outline", () => {
         preventDefault: jest.fn(),
         stopPropagation: jest.fn()
       };
-      const { instance, props } = render({
+      const { instance } = render({
         selectedSource: null
       });
       await instance.onContextMenu(mockEvent, {});
@@ -110,13 +110,21 @@ describe("Outline", () => {
         preventDefault: jest.fn(),
         stopPropagation: jest.fn()
       };
-      const { instance, props } = render({symbols});
+      const { instance, props } = render({ symbols });
       await instance.onContextMenu(mockEvent, func);
 
       expect(mockEvent.preventDefault).toHaveBeenCalled();
       expect(mockEvent.stopPropagation).toHaveBeenCalled();
 
-      const expectedMenuOptions = [{"accesskey": "F", "click": expect.any(Function), "disabled": false, "id": "node-menu-copy-function", "label": "Copy function"}];
+      const expectedMenuOptions = [
+        {
+          accesskey: "F",
+          click: expect.any(Function),
+          disabled: false,
+          id: "node-menu-copy-function",
+          label: "Copy function"
+        }
+      ];
       expect(props.getFunctionText).toHaveBeenCalledWith(12);
       expect(showMenu).toHaveBeenCalledWith(mockEvent, expectedMenuOptions);
 
