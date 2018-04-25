@@ -34,6 +34,12 @@ cases(
       locations: [[3, 0], [6, 4]]
     },
     {
+      name: "finds scope bindings in a typescript-jsx file",
+      file: "scopes/tsx-sample",
+      type: "tsx",
+      locations: [[3, 0], [6, 4]]
+    },
+    {
       name: "finds scope bindings in a module",
       file: "scopes/simple-module",
       locations: [[7, 0]]
