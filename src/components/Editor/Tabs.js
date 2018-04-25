@@ -153,8 +153,9 @@ class Tabs extends PureComponent<Props, State> {
     }
 
     const Panel = <ul>{hiddenTabs.map(this.renderDropdownSource)}</ul>;
+    const icon = <img className="moreTabs" />;
 
-    return <Dropdown panel={Panel} icon={"»"} />;
+    return <Dropdown panel={Panel} icon={icon} />;
   }
 
   renderStartPanelToggleButton() {
