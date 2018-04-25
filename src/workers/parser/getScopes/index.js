@@ -5,6 +5,7 @@
 // @flow
 
 import {
+  buildScopeList,
   parseSourceScopes,
   type SourceScope,
   type ParsedScope,
@@ -41,6 +42,8 @@ export default function getScopes(location: Location): SourceScope[] {
 export function clearScopes() {
   parsedScopesCache = new Map();
 }
+
+export { buildScopeList };
 
 /**
  * Searches all scopes and their bindings at the specific location.
