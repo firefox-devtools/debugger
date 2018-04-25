@@ -8,7 +8,12 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import Reps from "devtools-reps";
-const { REPS: { Rep }, MODE, ObjectInspector, ObjectInspectorUtils } = Reps;
+const {
+  REPS: { Rep },
+  MODE,
+  ObjectInspector,
+  ObjectInspectorUtils
+} = Reps;
 
 const {
   createNode,
@@ -30,7 +35,6 @@ import { createObjectClient } from "../../../client/firefox";
 import "./Popup.css";
 
 import type { EditorRange } from "../../../utils/editor/types";
-import type { Node } from "../../../utils/sources-tree/types";
 
 type PopupValue = Object | null;
 type Props = {
@@ -148,7 +152,7 @@ export class Popup extends Component<Props> {
     );
   }
 
-  renderReact(react: Object, roots: Array<Node>) {
+  renderReact(react: Object) {
     const reactHeader = react.displayName || "React Component";
 
     return (
