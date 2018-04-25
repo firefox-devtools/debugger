@@ -831,10 +831,6 @@ class Tree extends Component {
           }
         },
         onBlur: this._onBlur,
-        onClick: () => {
-          // Focus should always remain on the tree container itself.
-          this.treeRef.focus();
-        },
         "aria-label": this.props.label,
         "aria-labelledby": this.props.labelledby,
         "aria-activedescendant": focused && this.props.getKey(focused),
