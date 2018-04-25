@@ -26,8 +26,9 @@ function getEntry(filename) {
 
 const webpackConfig = {
   entry: {
-    debugger: getEntry("main.js"),
+    // debugger: getEntry("main.js"),
     "parser-worker": getEntry("workers/parser/worker.js"),
+    vendors: getEntry("vendors.js"),
     "pretty-print-worker": getEntry("workers/pretty-print/worker.js"),
     "search-worker": getEntry("workers/search/worker.js"),
     "source-map-worker": path.join(
