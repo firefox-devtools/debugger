@@ -23,7 +23,7 @@ export function pauseOnExceptions(
       shouldPauseOnCaughtExceptions,
       [PROMISE]: client.pauseOnExceptions(
         shouldPauseOnExceptions,
-        !shouldPauseOnCaughtExceptions
+        shouldPauseOnCaughtExceptions
       )
     });
   };

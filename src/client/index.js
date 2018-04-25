@@ -18,7 +18,10 @@ import {
 function loadFromPrefs(actions: Object) {
   const { pauseOnExceptions, pauseOnCaughtExceptions } = prefs;
   if (pauseOnExceptions || pauseOnCaughtExceptions) {
-    return actions.pauseOnExceptions(pauseOnExceptions, pauseOnCaughtExceptions);
+    return actions.pauseOnExceptions(
+      pauseOnExceptions,
+      pauseOnCaughtExceptions
+    );
   }
 }
 
