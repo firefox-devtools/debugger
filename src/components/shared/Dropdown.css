@@ -46,7 +46,7 @@ html[dir="rtl"] .dropdown {
   height: 30px;
   text-overflow: ellipsis;
   white-space: nowrap;
-  display: inline-block;
+  display: block;
 }
 
 .dropdown li:hover {
