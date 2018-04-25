@@ -8,12 +8,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import Reps from "devtools-reps";
-const {
-  REPS: { Rep },
-  MODE,
-  ObjectInspector,
-  ObjectInspectorUtils
-} = Reps;
+const { REPS: { Rep }, MODE, ObjectInspector, ObjectInspectorUtils } = Reps;
 
 const {
   createNode,
@@ -194,10 +189,6 @@ export class Popup extends Component<Props> {
     if (!Array.isArray(roots) || roots.length === 0) {
       return null;
     }
-
-    const {
-      extra: { react, immutable }
-    } = this.props;
 
     let header = null;
     if (extra.immutable) {
