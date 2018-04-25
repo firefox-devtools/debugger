@@ -2,10 +2,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-.watch-expressions-pane .plus {
-  margin-top: -2px;
-}
-
 .expression-input-form {
   width: 100%;
 }
@@ -35,11 +31,6 @@
   }
 }
 
-.input-expression.error {
-  border: 1px solid red;
-  animation: 150ms cubic-bezier(0.07, 0.95, 0, 1) shake;
-}
-
 .input-expression::placeholder {
   font-style: italic;
   color: var(--theme-comment);
@@ -55,9 +46,22 @@
   margin: 0;
   padding: 0;
 }
+
 .expression-input-container {
   display: flex;
+  border: 1px solid transparent;
+}
+
+.expression-input-container.focused {
   border: 1px solid var(--theme-highlight-blue);
+}
+
+:root.theme-dark .expression-input-container.focused {
+  border: 1px solid var(--blue-50);
+}
+
+.expression-input-container.error {
+  border: 1px solid red;
 }
 
 .expression-container {

@@ -15,12 +15,13 @@ import { groupBy, sortBy } from "lodash";
 import Breakpoint from "./Breakpoint";
 
 import actions from "../../actions";
-import { getFilename } from "../../utils/source";
+import { getFilenameFromURL } from "../../utils/source";
 import {
   getSources,
   getSourceInSources,
   getBreakpoints,
   getPauseReason,
+  getSelectedSource,
   getTopFrame
 } from "../../selectors";
 import { isInterrupted } from "../../utils/pause";
@@ -51,6 +52,8 @@ type BreakpointsMap = I.Map<string, LocalBreakpoint>;
 type Props = {
   breakpoints: BreakpointsMap,
   sources: SourcesMap,
+  selectedSource: Source,
+  selectSource: String => void,
   sourcesMetaData: SourceMetaDataMap,
   enableBreakpoint: Location => void,
   disableBreakpoint: Location => void,
@@ -82,10 +85,6 @@ function isCurrentlyPausedAtBreakpoint(
   return bpId === pausedId;
 }
 
-function getBreakpointFilename(source: Source) {
-  return source ? getFilename(source) : "";
-}
-
 function createExceptionOption(
   label: string,
   value: boolean,
@@ -102,6 +101,20 @@ function createExceptionOption(
       <div className="breakpoint-exceptions-label">{label}</div>
     </div>
   );
+}
+
+function sortFilenames(urlA, urlB) {
+  const filenameA = getFilenameFromURL(urlA);
+  const filenameB = getFilenameFromURL(urlB);
+
+  if (filenameA > filenameB) {
+    return 1;
+  }
+  if (filenameA < filenameB) {
+    return -1;
+  }
+
+  return 0;
 }
 
 class Breakpoints extends Component<Props> {
@@ -127,10 +140,13 @@ class Breakpoints extends Component<Props> {
   }
 
   renderBreakpoint(breakpoint) {
+    const { selectedSource } = this.props;
+
     return (
       <Breakpoint
         key={breakpoint.locationId}
         breakpoint={breakpoint}
+        selectedSource={selectedSource}
         onClick={() => this.selectBreakpoint(breakpoint)}
         onContextMenu={e =>
           showContextMenu({ ...this.props, breakpoint, contextMenuEvent: e })
@@ -185,20 +201,34 @@ class Breakpoints extends Component<Props> {
 
     const groupedBreakpoints = groupBy(
       sortBy([...breakpoints.valueSeq()], bp => bp.location.line),
-      bp => getBreakpointFilename(bp.source)
+      bp => bp.source.url
     );
 
     return [
       ...Object.keys(groupedBreakpoints)
-        .sort()
-        .map(filename => {
+        .sort(sortFilenames)
+        .map(url => {
+          const file = getFilenameFromURL(url);
+          const groupBreakpoints = groupedBreakpoints[url].filter(
+            bp => !bp.hidden && (bp.text || bp.originalText)
+          );
+
+          if (!groupBreakpoints.length) {
+            return null;
+          }
+
           return [
-            <div className="breakpoint-heading" title={filename} key={filename}>
-              {filename}
+            <div
+              className="breakpoint-heading"
+              title={url}
+              key={url}
+              onClick={() =>
+                this.props.selectSource(groupBreakpoints[0].source.id)
+              }
+            >
+              {file}
             </div>,
-            ...groupedBreakpoints[filename]
-              .filter(bp => !bp.hidden && bp.text)
-              .map(bp => this.renderBreakpoint(bp))
+            ...groupBreakpoints.map(bp => this.renderBreakpoint(bp))
           ];
         })
     ];
@@ -235,6 +265,9 @@ const _getBreakpoints = createSelector(
 );
 
 export default connect(
-  (state, props) => ({ breakpoints: _getBreakpoints(state) }),
+  (state, props) => ({
+    breakpoints: _getBreakpoints(state),
+    selectedSource: getSelectedSource(state)
+  }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Breakpoints);

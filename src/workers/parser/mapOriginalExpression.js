@@ -44,15 +44,23 @@ export default function mapOriginalExpression(
     }
 
     const parentNode = parent.node;
-    if (t.isIdentifier(node) && t.isReferenced(node, parentNode)) {
-      if (mappings.hasOwnProperty(node.name)) {
-        const mapping = mappings[node.name];
-        if (mapping && mapping !== node.name) {
-          const mappingNode = getFirstExpression(parseScript(mapping));
-          replaceNode(ancestors, mappingNode);
 
-          didReplace = true;
-        }
+    let name = null;
+    if (t.isIdentifier(node) && t.isReferenced(node, parentNode)) {
+      name = node.name;
+    } else if (t.isThisExpression(node)) {
+      name = "this";
+    } else {
+      return;
+    }
+
+    if (mappings.hasOwnProperty(name)) {
+      const mapping = mappings[name];
+      if (mapping && mapping !== name) {
+        const mappingNode = getFirstExpression(parseScript(mapping));
+        replaceNode(ancestors, mappingNode);
+
+        didReplace = true;
       }
     }
   });

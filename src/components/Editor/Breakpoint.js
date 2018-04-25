@@ -12,6 +12,8 @@ import Svg from "../shared/Svg";
 import { getDocument, toEditorLine } from "../../utils/editor";
 import { features } from "../../utils/prefs";
 
+import type { Source, Breakpoint as BreakpointType } from "../../types";
+
 const breakpointSvg = document.createElement("div");
 ReactDOM.render(<Svg name="breakpoint" />, breakpointSvg);
 
@@ -26,8 +28,8 @@ function makeMarker(isDisabled: boolean) {
 }
 
 type Props = {
-  breakpoint: Object,
-  selectedSource: Object,
+  breakpoint: BreakpointType,
+  selectedSource: Source,
   editor: Object
 };
 
@@ -52,7 +54,7 @@ class Breakpoint extends Component<Props> {
       return;
     }
 
-    const sourceId = selectedSource.get("id");
+    const sourceId = selectedSource.id;
     const line = toEditorLine(sourceId, breakpoint.location.line);
 
     editor.codeMirror.setGutterMarker(
@@ -100,7 +102,7 @@ class Breakpoint extends Component<Props> {
       return;
     }
 
-    const sourceId = selectedSource.get("id");
+    const sourceId = selectedSource.id;
     const doc = getDocument(sourceId);
     if (!doc) {
       return;

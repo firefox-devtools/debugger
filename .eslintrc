@@ -80,7 +80,6 @@
 
     // Check for import errors.
     "import/no-duplicates": "error",
-    "import/no-unresolved": "error",
     "import/named": "error",
     "import/export": "error",
 
@@ -89,6 +88,9 @@
 
     "flowtype/define-flow-type": 1,
     "flowtype/use-flow-type": 1,
+
+    // Disallow flow control that escapes from "finally".
+    "no-unsafe-finally": "error",
 
     // Disallow using variables outside the blocks they are defined (especially
     // since only let and const are used, see "no-var").

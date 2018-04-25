@@ -118,4 +118,18 @@ describe("setProjectDirectoryRoot", () => {
 
     expect(firstSource.relativeUrl).toEqual("scopes.js");
   });
+
+  it("should update the child directory ", () => {
+    const { dispatch, getState } = createStore();
+    dispatch(actions.setProjectDirectoryRoot("example.com"));
+    dispatch(actions.setProjectDirectoryRoot("example.com/foo/bar"));
+    expect(getProjectDirectoryRoot(getState())).toBe("example.com/foo/bar");
+  });
+
+  it("should update the child directory when domain name is Webpack://", () => {
+    const { dispatch, getState } = createStore();
+    dispatch(actions.setProjectDirectoryRoot("webpack://"));
+    dispatch(actions.setProjectDirectoryRoot("webpack:///app"));
+    expect(getProjectDirectoryRoot(getState())).toBe("webpack:///app");
+  });
 });

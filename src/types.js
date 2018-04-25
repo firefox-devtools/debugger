@@ -107,6 +107,7 @@ export type Breakpoint = {
   disabled: boolean,
   hidden: boolean,
   text: string,
+  originalText: string,
   condition: ?string
 };
 

@@ -13,6 +13,13 @@ describe("mapOriginalExpression", () => {
     expect(generatedExpression).toEqual("foo + bar;");
   });
 
+  it("this", () => {
+    const generatedExpression = mapOriginalExpression("this.prop;", {
+      this: "_this"
+    });
+    expect(generatedExpression).toEqual("_this.prop;");
+  });
+
   it("member expressions", () => {
     const generatedExpression = mapOriginalExpression("a + b", {
       a: "_mod.foo",
