@@ -397,7 +397,7 @@ class Tree extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.focused !== this.props.focused) {
+    if (this.props.focused && prevProps.focused !== this.props.focused) {
       this._scrollNodeIntoView(this.props.focused);
       // Always keep the focus on the tree itself.
       this.treeRef.focus();
