@@ -2,6 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
+// @flow
+
 /**
  * CodeMirror source editor utils
  * @module utils/source-editor
@@ -70,7 +72,7 @@ export default class SourceEditor {
     }
   }
 
-  get codeMirror(): any {
+  get codeMirror(): CodeMirror {
     return this.editor;
   }
 
@@ -78,7 +80,7 @@ export default class SourceEditor {
     this.editor.setValue(str);
   }
 
-  getText() {
+  getText(): any {
     return this.editor.getValue();
   }
 
@@ -99,7 +101,7 @@ export default class SourceEditor {
    * @returns CodeMirror.Doc
    * @memberof utils/source-editor
    */
-  createDocument() {
+  createDocument(): CodeMirror.Doc {
     return new CodeMirror.Doc("");
   }
 
