@@ -7,7 +7,7 @@
 }
 
 .pane.breakpoints-list {
-  padding-bottom: .35em;
+  padding-bottom: 0.35em;
 }
 
 .breakpoints-list * {
@@ -17,7 +17,7 @@
 .breakpoints-list .breakpoint-heading {
   text-overflow: ellipsis;
   overflow: hidden;
-  padding-top: .75em
+  padding-top: 0.75em;
 }
 
 .breakpoints-list .breakpoint-heading,
@@ -31,12 +31,12 @@
 .breakpoints-list .breakpoint-heading,
 .breakpoints-list .breakpoint,
 .breakpoints-exceptions {
-  padding: 0.25em 1em .25em 0.5em;
+  padding: 0.25em 1em 0.25em 0.5em;
 }
 
 .breakpoints-exceptions {
-  padding-bottom: .5em;
-  padding-top: .5em;
+  padding-bottom: 0.5em;
+  padding-top: 0.5em;
 }
 
 .breakpoints-list .breakpoint {
@@ -46,7 +46,7 @@
 
 .breakpoints-exceptions-caught {
   padding: 0 1em 0.5em 2em;
-  margin-top: -.25em;
+  margin-top: -0.25em;
 }
 
 html[dir="rtl"] .breakpoints-exceptions-caught {
@@ -152,7 +152,7 @@ html[dir="rtl"] .breakpoints-list .breakpoint .breakpoint-line {
   text-overflow: ellipsis;
   overflow: hidden;
   padding-top: 3px;
-  font-size: 11px
+  font-size: 11px;
 }
 
 .breakpoint-label .breakpoint-checkbox {
