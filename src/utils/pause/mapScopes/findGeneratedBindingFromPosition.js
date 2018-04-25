@@ -51,10 +51,19 @@ export async function findGeneratedBindingFromPosition(
     locationType,
     sourceMaps
   );
-  const applicableBindings = filterApplicableBindings(
+  let applicableBindings = filterApplicableBindings(
     generatedAstBindings,
     generatedRanges
   );
+
+  // We can adjust this number as we go, but these are a decent start as a
+  // general heuristic to assume the bindings were bad or just map a chunk of
+  // whole line or something.
+  if (applicableBindings.length > 4) {
+    // Babel's for..of generates at least 3 bindings inside one range for
+    // block-scoped loop variables, so we shouldn't go below that.
+    applicableBindings = [];
+  }
 
   let result;
   if (bindingType === "import") {
@@ -83,6 +92,13 @@ export async function findGeneratedBindingFromPosition(
           generatedAstBindings,
           declarationRanges
         );
+
+        if (applicableImportBindings.length > 10) {
+          // Import declarations tend to have a large number of bindings for
+          // for things like 'require' and 'interop', so this number is larger
+          // than other binding count checks.
+          applicableImportBindings = [];
+        }
       }
 
       result = await findGeneratedImportDeclaration(
