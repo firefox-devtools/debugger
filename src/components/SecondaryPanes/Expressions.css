@@ -56,6 +56,10 @@
   border: 1px solid var(--theme-highlight-blue);
 }
 
+:root.theme-dark .expression-input-container.focused {
+  border: 1px solid var(--blue-50);
+}
+
 .expression-input-container.error {
   border: 1px solid red;
 }
