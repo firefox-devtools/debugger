@@ -151,17 +151,10 @@ export class Popup extends Component<Props> {
   renderReact(react: Object, roots: Array<Node>) {
     const reactHeader = react.displayName || "React Component";
 
-    const header = (
-      <div className="header-container">
-        <h3>{reactHeader}</h3>
-      </div>
-    );
-
-    roots = roots.filter(r => ["state", "props"].includes(r.name));
     return (
-      <div className="preview-popup">
-        {header}
-        {this.renderObjectInspector(roots)}
+      <div className="header-container">
+        <Svg name="react" className="logo" />
+        <h3>{reactHeader}</h3>
       </div>
     );
   }
@@ -171,7 +164,7 @@ export class Popup extends Component<Props> {
 
     return (
       <div className="header-container">
-        <Svg name="immutable" className="immutable-logo" />
+        <Svg name="immutable" className="logo" />
         <h3>{immutableHeader}</h3>
       </div>
     );
@@ -194,6 +187,11 @@ export class Popup extends Component<Props> {
     if (extra.immutable) {
       header = this.renderImmutable(extra.immutable);
       roots = roots.filter(r => r.type != NODE_TYPES.PROTOTYPE);
+    }
+
+    if (extra.react) {
+      header = this.renderReact(extra.react);
+      roots = roots.filter(r => ["state", "props"].includes(r.name));
     }
 
     return (
