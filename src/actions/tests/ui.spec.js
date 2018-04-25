@@ -80,6 +80,12 @@ describe("ui", () => {
 });
 
 describe("setProjectDirectoryRoot", () => {
+  it("should set domain directory as root", () => {
+    const { dispatch, getState } = createStore();
+    dispatch(actions.setProjectDirectoryRoot("example.com"));
+    expect(getProjectDirectoryRoot(getState())).toBe("example.com");
+  });
+
   it("should set a directory as root directory", () => {
     const { dispatch, getState } = createStore();
     dispatch(actions.setProjectDirectoryRoot("/example.com/foo"));
