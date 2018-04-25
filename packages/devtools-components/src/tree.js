@@ -333,6 +333,10 @@ class Tree extends Component {
       //     onExpand: item => dispatchExpandActionToRedux(item)
       onExpand: PropTypes.func,
       onCollapse: PropTypes.func,
+      // Optional event handler called with the current focused node when the
+      // Enter key is pressed. Can be useful to allow further keyboard actions
+      // within the tree node.
+      onActivate: PropTypes.func,
       isExpandable: PropTypes.func,
       // Additional classes to add to the root element.
       className: PropTypes.string,
@@ -362,6 +366,10 @@ class Tree extends Component {
     this._focusParentNode = oncePerAnimationFrame(this._focusParentNode).bind(
       this
     );
+    this._focusFirstNode = oncePerAnimationFrame(this._focusFirstNode).bind(
+      this
+    );
+    this._focusLastNode = oncePerAnimationFrame(this._focusLastNode).bind(this);
 
     this._autoExpand = this._autoExpand.bind(this);
     this._preventArrowKeyScrolling = this._preventArrowKeyScrolling.bind(this);
@@ -372,12 +380,15 @@ class Tree extends Component {
     this._onBlur = this._onBlur.bind(this);
     this._onKeyDown = this._onKeyDown.bind(this);
     this._nodeIsExpandable = this._nodeIsExpandable.bind(this);
+    this._activateNode = oncePerAnimationFrame(this._activateNode).bind(this);
   }
 
   componentDidMount() {
     this._autoExpand();
     if (this.props.focused) {
       this._scrollNodeIntoView(this.props.focused);
+      // Always keep the focus on the tree itself.
+      this.treeRef.focus();
     }
   }
 
@@ -386,8 +397,10 @@ class Tree extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.focused !== this.props.focused) {
+    if (this.props.focused && prevProps.focused !== this.props.focused) {
       this._scrollNodeIntoView(this.props.focused);
+      // Always keep the focus on the tree itself.
+      this.treeRef.focus();
     }
   }
 
@@ -530,8 +543,11 @@ class Tree extends Component {
    *                 to the top or the bottom of the scrollable container when
    *                 the element is off canvas.
    */
-  _focus(item, options) {
-    this._scrollNodeIntoView(item, options);
+  _focus(item, options = {}) {
+    const { preventAutoScroll } = options;
+    if (item && !preventAutoScroll) {
+      this._scrollNodeIntoView(item, options);
+    }
     if (this.props.onFocus) {
       this.props.onFocus(item);
     }
@@ -553,6 +569,7 @@ class Tree extends Component {
     if (item !== undefined) {
       const treeElement = this.treeRef;
       const element = document.getElementById(this.props.getKey(item));
+
       if (element) {
         const { top, bottom } = element.getBoundingClientRect();
         const closestScrolledParent = node => {
@@ -566,13 +583,19 @@ class Tree extends Component {
           return closestScrolledParent(node.parentNode);
         };
         const scrolledParent = closestScrolledParent(treeElement);
+        const scrolledParentRect = scrolledParent
+          ? scrolledParent.getBoundingClientRect()
+          : null;
         const isVisible =
           !scrolledParent ||
-          (top >= 0 && bottom <= scrolledParent.clientHeight);
+          (top >= scrolledParentRect.top &&
+            bottom <= scrolledParentRect.bottom);
 
         if (!isVisible) {
-          const scrollToTop =
-            (!options.alignTo && top < 0) || options.alignTo === "top";
+          const { alignTo } = options;
+          const scrollToTop = alignTo
+            ? alignTo === "top"
+            : !scrolledParentRect || top < scrolledParentRect.top;
           element.scrollIntoView(scrollToTop);
         }
       }
@@ -632,6 +655,18 @@ class Tree extends Component {
         } else {
           this._focusNextNode();
         }
+        return;
+
+      case "Home":
+        this._focusFirstNode();
+        return;
+
+      case "End":
+        this._focusLastNode();
+        return;
+
+      case "Enter":
+        this._activateNode();
     }
   }
 
@@ -708,6 +743,23 @@ class Tree extends Component {
     this._focus(parent, { alignTo: "top" });
   }
 
+  _focusFirstNode() {
+    const traversal = this._dfsFromRoots();
+    this._focus(traversal[0].item, { alignTo: "top" });
+  }
+
+  _focusLastNode() {
+    const traversal = this._dfsFromRoots();
+    const lastIndex = traversal.length - 1;
+    this._focus(traversal[lastIndex].item, { alignTo: "bottom" });
+  }
+
+  _activateNode() {
+    if (this.props.onActivate) {
+      this.props.onActivate(this.props.focused);
+    }
+  }
+
   _nodeIsExpandable(item) {
     return this.props.isExpandable
       ? this.props.isExpandable(item)
@@ -734,7 +786,9 @@ class Tree extends Component {
         onExpand: this._onExpand,
         onCollapse: this._onCollapse,
         onClick: e => {
-          this._focus(item);
+          // Since the user just clicked the node, there's no need to check if
+          // it should be scrolled into view.
+          this._focus(item, { preventAutoScroll: true });
           if (this.props.isExpanded(item)) {
             this.props.onCollapse(item);
           } else {
@@ -777,10 +831,6 @@ class Tree extends Component {
           }
         },
         onBlur: this._onBlur,
-        onClick: () => {
-          // Focus should always remain on the tree container itself.
-          this.treeRef.focus();
-        },
         "aria-label": this.props.label,
         "aria-labelledby": this.props.labelledby,
         "aria-activedescendant": focused && this.props.getKey(focused),

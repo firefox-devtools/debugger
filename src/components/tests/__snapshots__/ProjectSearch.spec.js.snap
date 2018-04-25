@@ -207,7 +207,6 @@ exports[`ProjectSearch found search results 1`] = `
               aria-activedescendant={null}
               className="tree "
               onBlur={[Function]}
-              onClick={[Function]}
               onFocus={[Function]}
               onKeyDown={[Function]}
               onKeyPress={[Function]}
