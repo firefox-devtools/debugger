@@ -1,5 +1,5 @@
 language: python
-node_js: "8"
+node_js: "9"
 
 cache:
   - pip
@@ -30,7 +30,7 @@ addons:
 install:
   - pip install --upgrade pip
   - pip install -U mercurial
-  - . $HOME/.nvm/nvm.sh; nvm install stable; nvm use stable
+  - . $HOME/.nvm/nvm.sh; nvm install 9; nvm use 9;
   - ./bin/ci/install-yarn
   - ./bin/ci/clone-gecko.sh
   - du -sh firefox
