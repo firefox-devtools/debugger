@@ -86,10 +86,11 @@ exports[`Expressions should always have unique keys 1`] = `
       onSubmit={[Function]}
     >
       <input
-        autoFocus="true"
+        autoFocus={false}
         className="input-expression"
         onBlur={[Function]}
         onChange={[Function]}
+        onFocus={[Function]}
         onKeyDown={[Function]}
         placeholder="Add watch expression"
         type="text"
@@ -194,10 +195,11 @@ exports[`Expressions should render 1`] = `
       onSubmit={[Function]}
     >
       <input
-        autoFocus="true"
+        autoFocus={false}
         className="input-expression"
         onBlur={[Function]}
         onChange={[Function]}
+        onFocus={[Function]}
         onKeyDown={[Function]}
         placeholder="Add watch expression"
         type="text"
