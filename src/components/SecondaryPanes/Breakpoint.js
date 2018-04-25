@@ -150,8 +150,18 @@ class Breakpoint extends Component<Props> {
   }
 
   renderLineClose() {
-    const { breakpoint, onCloseClick } = this.props;
-    const { line, column } = breakpoint.location;
+    const { breakpoint, onCloseClick, selectedSource } = this.props;
+    const { location } = breakpoint;
+
+    let { line, column } = location;
+    if (
+      selectedSource &&
+      isGeneratedId(selectedSource.id) &&
+      breakpoint.generatedLocation
+    ) {
+      line = breakpoint.generatedLocation.line;
+      column = breakpoint.generatedLocation.column;
+    }
 
     return (
       <div className="breakpoint-line-close">

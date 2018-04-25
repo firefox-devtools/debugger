@@ -23,6 +23,7 @@ test:
     - mkdir -p $CIRCLE_TEST_REPORTS/jest-coverage
     - jest -i --no-colors --testResultsProcessor jest-junit-reporter --coverage --coverageDirectory=$CIRCLE_TEST_REPORTS/jest-coverage
     - cd ./packages/devtools-source-map; yarn test
+    - cd ./packages/devtools-components; yarn test
     - yarn license-check
     - yarn lint-css
     - yarn lint-js
