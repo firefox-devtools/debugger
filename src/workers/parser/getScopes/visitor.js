@@ -453,25 +453,42 @@ const scopeCollectionVisitor = {
         };
       }
     } else if (t.isClass(node)) {
-      if (t.isClassDeclaration(node) && t.isIdentifier(node.id)) {
-        state.declarationBindingIds.add(node.id);
-        state.scope.bindings[node.id.name] = {
-          type: "let",
-          refs: [
-            {
-              type: "decl",
-              start: fromBabelLocation(node.id.loc.start, state.sourceId),
-              end: fromBabelLocation(node.id.loc.end, state.sourceId),
-              declaration: {
-                start: fromBabelLocation(node.loc.start, state.sourceId),
-                end: fromBabelLocation(node.loc.end, state.sourceId)
-              }
-            }
-          ]
-        };
-      }
-
       if (t.isIdentifier(node.id)) {
+        // For decorated classes, the AST considers the first the decorator
+        // to be the start of the class. For the purposes of mapping class
+        // declarations however, we really want to look for the "class Foo"
+        // piece. To achieve that, we estimate the location of the declaration
+        // instead.
+        let declStart = node.loc.start;
+        if (node.decorators && node.decorators.length > 0) {
+          // Estimate the location of the "class" keyword since it
+          // is unlikely to be a different line than the class name.
+          declStart = {
+            line: node.id.loc.start.line,
+            column: node.id.loc.start.column - "class ".length
+          };
+        }
+
+        const declaration = {
+          start: fromBabelLocation(declStart, state.sourceId),
+          end: fromBabelLocation(node.loc.end, state.sourceId)
+        };
+
+        if (t.isClassDeclaration(node)) {
+          state.declarationBindingIds.add(node.id);
+          state.scope.bindings[node.id.name] = {
+            type: "let",
+            refs: [
+              {
+                type: "decl",
+                start: fromBabelLocation(node.id.loc.start, state.sourceId),
+                end: fromBabelLocation(node.id.loc.end, state.sourceId),
+                declaration
+              }
+            ]
+          };
+        }
+
         const scope = pushTempScope(state, "block", "Class", {
           start: fromBabelLocation(node.loc.start, state.sourceId),
           end: fromBabelLocation(node.loc.end, state.sourceId)
@@ -485,10 +502,7 @@ const scopeCollectionVisitor = {
               type: "decl",
               start: fromBabelLocation(node.id.loc.start, state.sourceId),
               end: fromBabelLocation(node.id.loc.end, state.sourceId),
-              declaration: {
-                start: fromBabelLocation(node.loc.start, state.sourceId),
-                end: fromBabelLocation(node.loc.end, state.sourceId)
-              }
+              declaration
             }
           ]
         };
