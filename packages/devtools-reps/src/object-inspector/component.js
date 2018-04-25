@@ -77,7 +77,7 @@ type DefaultProps = {
 // fetched, and a primitive value that should be displayed with no
 // children.
 
-class ObjectInspector extends Component {
+class ObjectInspector extends Component<Props> {
   static defaultProps: DefaultProps;
   constructor(props: Props) {
     super();

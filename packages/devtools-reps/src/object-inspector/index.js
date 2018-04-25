@@ -12,7 +12,7 @@ const { renderRep, shouldRenderRootsInReps } = Utils;
 
 import type { Props, Store } from "./types";
 
-class OI extends PureComponent {
+class OI extends PureComponent<Props> {
   constructor(props: Props) {
     super(props);
     this.store = createStore(props);

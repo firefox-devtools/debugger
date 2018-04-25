@@ -72,7 +72,10 @@ function getSanitizedNodeText(node) {
  * @param {String} type: type of the actin to wait for
  * @return {Promise}
  */
-function waitForDispatch(store: Object, type: string) {
+function waitForDispatch(
+  store: Object,
+  type: string
+): Promise<{ type: string }> {
   return new Promise(resolve => {
     store.dispatch({
       type: WAIT_UNTIL_TYPE,
