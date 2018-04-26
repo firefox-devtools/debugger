@@ -91,3 +91,518 @@ exports[`SourcesTree When loading initial source Shows the tree with one.js, two
   </div>
 </div>
 `;
+
+exports[`SourcesTree on receiving new props updates highlighted items updates highlightItems if selectedSource changes 1`] = `
+<div
+  className="sources-pane"
+>
+  <div
+    className="sources-list"
+    onKeyDown={[Function]}
+  >
+    <ManagedTree
+      autoExpandAll={false}
+      autoExpandDepth={1}
+      getChildren={[Function]}
+      getParent={[Function]}
+      getPath={[Function]}
+      getRoots={[Function]}
+      highlightItems={
+        Array [
+          Object {
+            "contents": Array [
+              Object {
+                "contents": Array [
+                  Object {
+                    "contents": Immutable.Map {
+                      id: "server1.conn13.child1/39",
+                      url: "http://mdn.com/one.js",
+                      isPrettyPrinted: false,
+                      isWasm: false,
+                      sourceMapURL: null,
+                      isBlackBoxed: false,
+                      loadedState: "unloaded",
+        },
+                    "name": "one.js",
+                    "path": "mdn.com/one.js",
+                  },
+                  Object {
+                    "contents": Immutable.Map {
+                      id: "server1.conn13.child1/41",
+                      url: "http://mdn.com/three.js",
+                      isPrettyPrinted: false,
+                      isWasm: false,
+                      sourceMapURL: null,
+                      isBlackBoxed: false,
+                      loadedState: "unloaded",
+        },
+                    "name": "three.js",
+                    "path": "mdn.com/three.js",
+                  },
+                  Object {
+                    "contents": Immutable.Map {
+                      id: "server1.conn13.child1/40",
+                      url: "http://mdn.com/two.js",
+                      isPrettyPrinted: false,
+                      isWasm: false,
+                      sourceMapURL: null,
+                      isBlackBoxed: false,
+                      loadedState: "unloaded",
+        },
+                    "name": "two.js",
+                    "path": "mdn.com/two.js",
+                  },
+                ],
+                "name": "mdn.com",
+                "path": "mdn.com",
+              },
+            ],
+            "name": "root",
+            "path": "",
+          },
+        ]
+      }
+      itemHeight={21}
+      key="full"
+      onCollapse={[Function]}
+      onExpand={[Function]}
+      onFocus={[Function]}
+      renderItem={[Function]}
+    />
+  </div>
+</div>
+`;
+
+exports[`SourcesTree on receiving new props updates list items updates list items if shownSource changes 1`] = `
+<div
+  className="sources-pane"
+>
+  <div
+    className="sources-list"
+    onKeyDown={[Function]}
+  >
+    <ManagedTree
+      autoExpandAll={false}
+      autoExpandDepth={1}
+      getChildren={[Function]}
+      getParent={[Function]}
+      getPath={[Function]}
+      getRoots={[Function]}
+      itemHeight={21}
+      key="full"
+      listItems={
+        Array [
+          Object {
+            "contents": Immutable.Map {
+              id: "server1.conn13.child1/41",
+              url: "http://mdn.com/three.js",
+              isPrettyPrinted: false,
+              isWasm: false,
+              sourceMapURL: null,
+              isBlackBoxed: false,
+              loadedState: "unloaded",
+        },
+            "name": "three.js",
+            "path": "mdn.com/three.js",
+          },
+          Object {
+            "contents": Array [
+              Object {
+                "contents": Immutable.Map {
+                  id: "server1.conn13.child1/39",
+                  url: "http://mdn.com/one.js",
+                  isPrettyPrinted: false,
+                  isWasm: false,
+                  sourceMapURL: null,
+                  isBlackBoxed: false,
+                  loadedState: "unloaded",
+        },
+                "name": "one.js",
+                "path": "mdn.com/one.js",
+              },
+              Object {
+                "contents": Immutable.Map {
+                  id: "server1.conn13.child1/41",
+                  url: "http://mdn.com/three.js",
+                  isPrettyPrinted: false,
+                  isWasm: false,
+                  sourceMapURL: null,
+                  isBlackBoxed: false,
+                  loadedState: "unloaded",
+        },
+                "name": "three.js",
+                "path": "mdn.com/three.js",
+              },
+              Object {
+                "contents": Immutable.Map {
+                  id: "server1.conn13.child1/40",
+                  url: "http://mdn.com/two.js",
+                  isPrettyPrinted: false,
+                  isWasm: false,
+                  sourceMapURL: null,
+                  isBlackBoxed: false,
+                  loadedState: "unloaded",
+        },
+                "name": "two.js",
+                "path": "mdn.com/two.js",
+              },
+            ],
+            "name": "mdn.com",
+            "path": "mdn.com",
+          },
+        ]
+      }
+      onCollapse={[Function]}
+      onExpand={[Function]}
+      onFocus={[Function]}
+      renderItem={[Function]}
+    />
+  </div>
+</div>
+`;
+
+exports[`SourcesTree renderItem should not show domain item when the projectRoot exists 1`] = `
+<div
+  className="node"
+  onClick={[Function]}
+  onContextMenu={[Function]}
+>
+  <i
+    className="no-arrow"
+  />
+  <img
+    className="javascript source-icon"
+  />
+  <span
+    className="label"
+  >
+     
+    one.js
+     
+  </span>
+</div>
+`;
+
+exports[`SourcesTree renderItem should show domain item 1`] = `
+<div
+  className="node"
+  onClick={[Function]}
+  onContextMenu={[Function]}
+>
+  <i
+    className="no-arrow"
+  />
+  <img
+    className="domain"
+  />
+  <span
+    className="label"
+  >
+     
+    root
+     
+  </span>
+</div>
+`;
+
+exports[`SourcesTree renderItem should show domain item as debuggee 1`] = `
+<div
+  className="node"
+  onClick={[Function]}
+  onContextMenu={[Function]}
+>
+  <i
+    className="no-arrow"
+  />
+  <img
+    className="domain debuggee"
+  />
+  <span
+    className="label"
+  >
+     
+    http://mdn.com
+     
+  </span>
+</div>
+`;
+
+exports[`SourcesTree renderItem should show domain item as debuggee with focus and arrow 1`] = `
+<div
+  className="node focused"
+  onClick={[Function]}
+  onContextMenu={[Function]}
+>
+  <img
+    className="arrow"
+  />
+  <img
+    className="domain debuggee"
+  />
+  <span
+    className="label"
+  >
+     
+    http://mdn.com
+     
+  </span>
+</div>
+`;
+
+exports[`SourcesTree renderItem should show focused item for folder with expanded arrow 1`] = `
+<div
+  className="node focused"
+  onClick={[Function]}
+  onContextMenu={[Function]}
+>
+  <img
+    className="arrow expanded"
+  />
+  <img
+    className="folder"
+  />
+  <span
+    className="label"
+  >
+     
+    folder
+     
+  </span>
+</div>
+`;
+
+exports[`SourcesTree renderItem should show icon for angular item 1`] = `
+<div
+  className="node"
+  onClick={[Function]}
+  onContextMenu={[Function]}
+>
+  <img
+    className="arrow"
+  />
+  <Svg
+    name="angular"
+  />
+  <span
+    className="label"
+  >
+     
+    Angular
+     
+  </span>
+</div>
+`;
+
+exports[`SourcesTree renderItem should show icon for folder with arrow 1`] = `
+<div
+  className="node"
+  onClick={[Function]}
+  onContextMenu={[Function]}
+>
+  <img
+    className="arrow"
+  />
+  <img
+    className="folder"
+  />
+  <span
+    className="label"
+  >
+     
+    folder
+     
+  </span>
+</div>
+`;
+
+exports[`SourcesTree renderItem should show icon for folder with expanded arrow 1`] = `
+<div
+  className="node"
+  onClick={[Function]}
+  onContextMenu={[Function]}
+>
+  <img
+    className="arrow expanded"
+  />
+  <img
+    className="folder"
+  />
+  <span
+    className="label"
+  >
+     
+    folder
+     
+  </span>
+</div>
+`;
+
+exports[`SourcesTree renderItem should show icon for moz-extension item 1`] = `
+<div
+  className="node"
+  onClick={[Function]}
+  onContextMenu={[Function]}
+>
+  <img
+    className="arrow"
+  />
+  <img
+    className="extension"
+  />
+  <span
+    className="label"
+  >
+     
+    Extensions
+     
+  </span>
+</div>
+`;
+
+exports[`SourcesTree renderItem should show icon for webpack item 1`] = `
+<div
+  className="node"
+  onClick={[Function]}
+  onContextMenu={[Function]}
+>
+  <img
+    className="arrow"
+  />
+  <Svg
+    name="webpack"
+  />
+  <span
+    className="label"
+  >
+     
+    Webpack
+     
+  </span>
+</div>
+`;
+
+exports[`SourcesTree renderItem should show source item with source icon 1`] = `
+<div
+  className="node"
+  onClick={[Function]}
+  onContextMenu={[Function]}
+>
+  <i
+    className="no-arrow"
+  />
+  <img
+    className="javascript source-icon"
+  />
+  <span
+    className="label"
+  >
+     
+    one.js
+     
+  </span>
+</div>
+`;
+
+exports[`SourcesTree renderItem should show source item with source icon with focus 1`] = `
+<div
+  className="node focused"
+  onClick={[Function]}
+  onContextMenu={[Function]}
+>
+  <i
+    className="no-arrow"
+  />
+  <img
+    className="javascript source-icon"
+  />
+  <span
+    className="label"
+  >
+     
+    one.js
+     
+  </span>
+</div>
+`;
+
+exports[`SourcesTree with custom root renders custom root source list 1`] = `
+<div
+  className="sources-pane sources-list-custom-root"
+>
+  <div
+    className="sources-clear-root-container"
+  >
+    <button
+      className="sources-clear-root"
+      onClick={[Function]}
+      title="Remove directory root"
+    >
+      <Svg
+        name="home"
+      />
+      <Svg
+        class={true}
+        name="breadcrumb"
+      />
+      <span
+        className="sources-clear-root-label"
+      >
+        mdn.com
+      </span>
+    </button>
+  </div>
+  <div
+    className="sources-list"
+    onKeyDown={[Function]}
+  >
+    <ManagedTree
+      autoExpandAll={false}
+      autoExpandDepth={1}
+      getChildren={[Function]}
+      getParent={[Function]}
+      getPath={[Function]}
+      getRoots={[Function]}
+      itemHeight={21}
+      key="full"
+      onCollapse={[Function]}
+      onExpand={[Function]}
+      onFocus={[Function]}
+      renderItem={[Function]}
+    />
+  </div>
+</div>
+`;
+
+exports[`SourcesTree with custom root renders empty custom root source list 1`] = `
+<div
+  className="sources-pane sources-list-custom-root"
+>
+  <div
+    className="sources-clear-root-container"
+  >
+    <button
+      className="sources-clear-root"
+      onClick={[Function]}
+      title="Remove directory root"
+    >
+      <Svg
+        name="home"
+      />
+      <Svg
+        class={true}
+        name="breadcrumb"
+      />
+      <span
+        className="sources-clear-root-label"
+      >
+        custom
+      </span>
+    </button>
+  </div>
+  <div
+    className="no-sources-message"
+  >
+    This directory root has no sources
+  </div>
+</div>
+`;
