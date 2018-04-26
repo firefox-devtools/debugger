@@ -272,11 +272,13 @@ async function getFrameScopes(frame: Frame): Promise<*> {
 
 function pauseOnExceptions(
   shouldPauseOnExceptions: boolean,
-  shouldIgnoreCaughtExceptions: boolean
+  shouldPauseOnCaughtExceptions: boolean
 ): Promise<*> {
   return threadClient.pauseOnExceptions(
     shouldPauseOnExceptions,
-    shouldIgnoreCaughtExceptions
+    // Providing opposite value because server
+    // uses "shouldIgnoreCaughtExceptions"
+    !shouldPauseOnCaughtExceptions
   );
 }
 
