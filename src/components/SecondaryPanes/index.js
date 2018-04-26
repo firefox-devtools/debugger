@@ -8,6 +8,7 @@ import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { List } from "immutable";
 
 import actions from "../../actions";
 import {
@@ -15,6 +16,7 @@ import {
   getBreakpoints,
   getBreakpointsDisabled,
   getBreakpointsLoading,
+  getExpressions,
   getIsWaitingOnBreak,
   getShouldPauseOnExceptions,
   getShouldIgnoreCaughtExceptions,
@@ -41,6 +43,7 @@ import Scopes from "./Scopes";
 
 import "./SecondaryPanes.css";
 
+import type { Expression } from "../../types";
 import type { WorkersList } from "../../reducers/types";
 
 type AccordionPaneItem = {
@@ -70,6 +73,7 @@ type State = {
 };
 
 type Props = {
+  expressions: List<Expression>,
   extra: Object,
   evaluateExpressions: Function,
   hasFrames: boolean,
@@ -142,6 +146,12 @@ class SecondaryPanes extends Component<Props, State> {
   }
 
   watchExpressionHeaderButtons() {
+    const { expressions } = this.props;
+
+    if (!expressions.size) {
+      return [];
+    }
+
     return [
       debugBtn(
         evt => {
@@ -392,6 +402,7 @@ SecondaryPanes.contextTypes = {
 
 export default connect(
   state => ({
+    expressions: getExpressions(state),
     extra: getExtra(state),
     hasFrames: !!getTopFrame(state),
     breakpoints: getBreakpoints(state),
