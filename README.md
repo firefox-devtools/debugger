@@ -1,3 +1,4 @@
+foo
 # [debugger.html][website]
 
 [website]: http://firefox-dev.tools/debugger.html/
