@@ -228,7 +228,7 @@ export class Popup extends Component<Props> {
         roots={roots}
         autoExpandDepth={0}
         disableWrap={true}
-        disabledFocus={true}
+        focusable={false}
         openLink={openLink}
         createObjectClient={grip => createObjectClient(grip)}
       />

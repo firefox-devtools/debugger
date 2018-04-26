@@ -3110,6 +3110,10 @@ dedent@^0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/dedent/-/dedent-0.7.0.tgz#2495ddbaf6eb874abb0e1be9df22d2e5a544326c"
 
+deep-diff@^0.3.5:
+  version "0.3.8"
+  resolved "https://registry.yarnpkg.com/deep-diff/-/deep-diff-0.3.8.tgz#c01de63efb0eec9798801d40c7e0dae25b582c84"
+
 deep-equal@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/deep-equal/-/deep-equal-1.0.1.tgz#f5d260292b660e084eff4cdbc9f08ad3247448b5"
@@ -3365,20 +3369,6 @@ devtools-modules@^0.0.36:
   dependencies:
     jest "^20.0.4"
     punycode "^2.1.0"
-
-devtools-reps@^0.22.0:
-  version "0.22.0"
-  resolved "https://registry.yarnpkg.com/devtools-reps/-/devtools-reps-0.22.0.tgz#5deecfa00831779dfb387c304582856dc89f690e"
-  dependencies:
-    classnames "^2.2.5"
-    devtools-components "^0.4.1"
-    lodash "^4.17.2"
-    prop-types "^15.6.0"
-    react "^16.2.0"
-    react-dom "^16.2.0"
-    react-dom-factories "^1.0.2"
-    react-redux "^5.0.7"
-    redux "^3.7.2"
 
 devtools-splitter@^0.0.6:
   version "0.0.6"
@@ -3734,6 +3724,12 @@ enzyme-adapter-utils@^1.3.0:
 enzyme-to-json@3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/enzyme-to-json/-/enzyme-to-json-3.3.1.tgz#64239dcd417e2fb552f4baa6632de4744b9b5b93"
+  dependencies:
+    lodash "^4.17.4"
+
+enzyme-to-json@^3.3.1:
+  version "3.3.3"
+  resolved "https://registry.yarnpkg.com/enzyme-to-json/-/enzyme-to-json-3.3.3.tgz#ede45938fb309cd87ebd4386f60c754525515a07"
   dependencies:
     lodash "^4.17.4"
 
@@ -9503,6 +9499,12 @@ reduce-function-call@^1.0.1:
   resolved "https://registry.yarnpkg.com/reduce-function-call/-/reduce-function-call-1.0.2.tgz#5a200bf92e0e37751752fe45b0ab330fd4b6be99"
   dependencies:
     balanced-match "^0.4.2"
+
+redux-logger@=3.0.6:
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/redux-logger/-/redux-logger-3.0.6.tgz#f7555966f3098f3c88604c449cf0baf5778274bf"
+  dependencies:
+    deep-diff "^0.3.5"
 
 redux-saga@^0.16.0:
   version "0.16.0"
