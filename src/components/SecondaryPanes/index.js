@@ -15,6 +15,7 @@ import {
   getBreakpoints,
   getBreakpointsDisabled,
   getBreakpointsLoading,
+  getExpressions,
   getIsWaitingOnBreak,
   getShouldPauseOnExceptions,
   getShouldIgnoreCaughtExceptions,
@@ -70,6 +71,7 @@ type State = {
 };
 
 type Props = {
+  expressions: List<Expression>,
   extra: Object,
   evaluateExpressions: Function,
   hasFrames: boolean,
@@ -142,6 +144,12 @@ class SecondaryPanes extends Component<Props, State> {
   }
 
   watchExpressionHeaderButtons() {
+    const { expressions } = this.props;
+
+    if (!expressions.size) {
+      return [];
+    }
+
     return [
       debugBtn(
         evt => {
@@ -394,6 +402,7 @@ SecondaryPanes.contextTypes = {
 
 export default connect(
   state => ({
+    expressions: getExpressions(state),
     extra: getExtra(state),
     hasFrames: !!getTopFrame(state),
     breakpoints: getBreakpoints(state),
