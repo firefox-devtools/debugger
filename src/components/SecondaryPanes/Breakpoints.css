@@ -55,6 +55,7 @@ html[dir="rtl"] .breakpoints-exceptions-caught {
 
 .breakpoints-exceptions-options:not(.empty) {
   border-bottom: 1px solid var(--theme-splitter-color);
+  margin-bottom: 3px;
 }
 
 .breakpoints-exceptions input,
