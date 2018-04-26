@@ -95,14 +95,13 @@ add_task(async function() {
     ]
   );
 
-  // No '<this>' binding here because Babel does not currently general
-  // the current mappings for 'this' bindings.
   await breakpointScopes(
     dbg,
     "this-arguments-bindings",
     { line: 8, column: 6 },
     [
       "arrow",
+      ["<this>", '"this-value"'],
       ["argArrow", '"arrow-arg"'],
       "Block",
       "arrow()",
