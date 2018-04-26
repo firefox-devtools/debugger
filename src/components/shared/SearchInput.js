@@ -45,7 +45,11 @@ type Props = {
   summaryMsg: string
 };
 
-class SearchInput extends Component<Props> {
+type State = {
+  inputFocused: boolean
+};
+
+class SearchInput extends Component<Props, State> {
   displayName: "SearchInput";
   $input: ?HTMLInputElement;
 
@@ -55,6 +59,14 @@ class SearchInput extends Component<Props> {
     selectedItemId: "",
     size: ""
   };
+
+  constructor(props: Props) {
+    super(props);
+
+    this.state = {
+      inputFocused: false
+    };
+  }
 
   componentDidMount() {
     this.setFocus();
@@ -105,6 +117,24 @@ class SearchInput extends Component<Props> {
     ];
   }
 
+  onFocus = () => {
+    const { onFocus } = this.props;
+
+    this.setState({ inputFocused: true });
+    if (onFocus) {
+      onFocus();
+    }
+  };
+
+  onBlur = () => {
+    const { onBlur } = this.props;
+
+    this.setState({ inputFocused: false });
+    if (onBlur) {
+      onBlur();
+    }
+  };
+
   renderNav() {
     const { count, handleNext, handlePrev } = this.props;
     if ((!handleNext && !handlePrev) || (!count || count == 1)) {
@@ -119,9 +149,7 @@ class SearchInput extends Component<Props> {
   render() {
     const {
       expanded,
-      onBlur,
       onChange,
-      onFocus,
       onKeyDown,
       onKeyUp,
       placeholder,
@@ -139,8 +167,8 @@ class SearchInput extends Component<Props> {
       onChange,
       onKeyDown,
       onKeyUp,
-      onFocus,
-      onBlur,
+      onFocus: this.onFocus,
+      onBlur: this.onBlur,
       "aria-autocomplete": "list",
       "aria-controls": "result-list",
       "aria-activedescendant":
@@ -152,7 +180,11 @@ class SearchInput extends Component<Props> {
     };
 
     return (
-      <div className="search-shadow">
+      <div
+        className={classnames("search-shadow", {
+          "focused": this.state.inputFocused
+        })}
+      >
         <div
           className={classnames("search-field", size)}
           role="combobox"

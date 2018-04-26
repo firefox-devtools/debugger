@@ -3,8 +3,11 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 .search-shadow {
-  box-shadow: var(--theme-focus-box-shadow-textbox);
   margin: 1px;
+}
+
+.search-shadow.focused {
+  box-shadow: var(--theme-focus-box-shadow-textbox);
 }
 
 .search-field {
