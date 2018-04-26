@@ -116,8 +116,6 @@ add_task(async function() {
     ]
   );
 
-  // Babel 6's imports aren't fully mapped, so they show as unavailable.
-  // The call-based ones work, but the single-identifier ones do not.
   await breakpointScopes(dbg, "imported-bindings", { line: 20, column: 2 }, [
     "Module",
     ["aDefault", '"a-default"'],
