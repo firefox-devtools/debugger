@@ -10,7 +10,6 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { List } from "immutable";
 
-import type { Expression } from "../../types";
 import actions from "../../actions";
 import {
   getTopFrame,
@@ -44,6 +43,7 @@ import Scopes from "./Scopes";
 
 import "./SecondaryPanes.css";
 
+import type { Expression } from "../../types";
 import type { WorkersList } from "../../reducers/types";
 
 type AccordionPaneItem = {
