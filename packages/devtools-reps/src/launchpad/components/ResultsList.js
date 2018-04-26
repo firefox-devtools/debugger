@@ -34,20 +34,17 @@ class ResultsList extends Component {
 
     return dom.div(
       { className: "expressions" },
-      expressions
-        .entrySeq()
-        .toJS()
-        .map(([key, expression]) =>
-          Result({
-            key,
-            expression: expression.toJS(),
-            showResultPacket: () => showResultPacket(key),
-            hideResultPacket: () => hideResultPacket(key),
-            createObjectClient,
-            createLongStringClient,
-            releaseActor
-          })
-        )
+      expressions.entrySeq().map(([key, expression]) =>
+        Result({
+          key,
+          expression,
+          showResultPacket: () => showResultPacket(key),
+          hideResultPacket: () => hideResultPacket(key),
+          createObjectClient,
+          createLongStringClient,
+          releaseActor
+        })
+      )
     );
   }
 }
