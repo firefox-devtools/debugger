@@ -123,7 +123,7 @@
     "eslint-plugin-file-header": "0.0.1",
     "eslint-plugin-flowtype": "^2.36.0",
     "eslint-plugin-jest": "^21.5.0",
-    "eslint-plugin-mozilla": "^0.10.0",
+    "eslint-plugin-mozilla": "^0.11.0",
     "eslint-plugin-prettier": "^2.3.1",
     "eslint-plugin-react": "^7.2.1",
     "expect.js": "^0.3.1",
