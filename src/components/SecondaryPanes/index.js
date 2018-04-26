@@ -188,9 +188,7 @@ class SecondaryPanes extends Component<Props, State> {
   }
 
   getComponentItem() {
-    const {
-      extra: { react }
-    } = this.props;
+    const { extra: { react } } = this.props;
 
     return {
       header: react.displayName,

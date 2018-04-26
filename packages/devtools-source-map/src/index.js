@@ -11,9 +11,7 @@ const {
   isOriginalId
 } = require("./utils");
 
-const {
-  workerUtils: { WorkerDispatcher }
-} = require("devtools-utils");
+const { workerUtils: { WorkerDispatcher } } = require("devtools-utils");
 
 const dispatcher = new WorkerDispatcher();
 
