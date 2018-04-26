@@ -6,10 +6,6 @@
   margin: 2px 3px;
 }
 
-.pane.breakpoints-list {
-  padding-bottom: 0.35em;
-}
-
 .breakpoints-list * {
   user-select: none;
 }
@@ -126,7 +122,7 @@ html .breakpoints-list .breakpoint.paused {
   font-size: 11px;
   color: var(--theme-comment);
   padding-top: 4px;
-  padding-inline-end: 2px;
+  /* padding-inline-end: 2px; */
   min-width: 14px;
   text-align: right;
 }
@@ -146,7 +142,7 @@ html[dir="rtl"] .breakpoints-list .breakpoint .breakpoint-line {
 .breakpoints-list .breakpoint-label {
   max-width: calc(100% - var(--breakpoint-expression-right-clear-space));
   display: inline-block;
-  padding-inline-start: 2px;
+  /* padding-inline-start: 2px; */
   padding-inline-end: 8px;
   cursor: default;
   flex-grow: 1;
@@ -156,7 +152,7 @@ html[dir="rtl"] .breakpoints-list .breakpoint .breakpoint-line {
   font-size: 11px;
 }
 
-.breakpoint-label .breakpoint-checkbox {
+.breakpoint-checkbox {
   margin-inline-start: 0;
   vertical-align: text-bottom;
 }
