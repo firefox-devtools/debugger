@@ -15,9 +15,10 @@
   <div id="mount"></div>
   <script type="application/javascript" src="chrome://devtools/content/shared/theme-switching.js"></script>
   <script type="text/javascript">
+    window.DebuggerConfig = {"environment":"firefox-panel","logging":false,"clientLogging":false,"firefox":{"mcPath":"./firefox"},"workers":{"parserURL":"resource://devtools/client/debugger/new/parser-worker.js","prettyPrintURL":"resource://devtools/client/debugger/new/pretty-print-worker.js","searchURL":"resource://devtools/client/debugger/new/search-worker.js"},"features":{}};
     const { BrowserLoader } = ChromeUtils.import("resource://devtools/client/shared/browser-loader.js", {});
     const { require } = BrowserLoader({
-      baseURI: "resource://devtools/client/debugger/new/src",
+      baseURI: "resource://devtools/client/debugger/new",
       window,
     });
     Debugger = require("devtools/client/debugger/new/src/main");

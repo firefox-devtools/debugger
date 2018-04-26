@@ -7,10 +7,53 @@ const glob = require("glob");
 const fs = require("fs");
 const path = require("path");
 var shell = require("shelljs");
+const minimist = require("minimist");
 
-const geckoPath = "../gecko/devtools/client/debugger/new/";
+const feature = require("devtools-config");
+const getConfig = require("./getConfig");
 
-const buildTpl = `# vim: set filetype=python:
+// Path to the mozilla-central clone is either passed via the --mc argument
+// or read from the configuration.
+const envConfig = getConfig();
+feature.setConfig(envConfig);
+
+const args = minimist(process.argv.slice(1), {
+  string: ["mc"]
+});
+
+function getFiles() {
+  return glob.sync("./src/**/*.js", {}).filter(file => {
+    return !file.match(/(\/fixtures|\/tests|vendors\.js|types\.js|types\/)/);
+  });
+}
+
+function transformSingleFile(filePath) {
+  const doc = fs.readFileSync(filePath, "utf8");
+  const out = babel.transformSync(doc, {
+    plugins: [
+      "transform-flow-strip-types",
+      "syntax-trailing-function-commas",
+      "transform-class-properties",
+      "transform-es2015-modules-commonjs",
+      "@babel/plugin-proposal-object-rest-spread",
+      "transform-react-jsx",
+      ["./.babel/transform-mc", { filePath }]
+    ]
+  });
+
+  return out.code;
+}
+
+function transpileFiles() {
+  getFiles().forEach(file => {
+    const filePath = path.join(__dirname, "..", file);
+    const code = transformSingleFile(filePath);
+    shell.mkdir("-p", path.join(__dirname, "../out", path.dirname(file)));
+    fs.writeFileSync(path.join(__dirname, "../out", file), code);
+  });
+}
+
+const MOZ_BUILD_TEMPLATE = `# vim: set filetype=python:
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -24,106 +67,32 @@ __FILES__
 )
 `;
 
-const mappings = {
-  "./source-editor": "devtools/client/sourceeditor/editor",
-  "../editor/source-editor": "devtools/client/sourceeditor/editor",
-  "./test-flag": "devtools/shared/flags",
-  "./fronts-device": "devtools/shared/fronts/device",
-  react: "devtools/client/shared/vendor/react",
-  redux: "devtools/client/shared/vendor/redux",
-  "react-dom": "devtools/client/shared/vendor/react-dom",
-  lodash: "devtools/client/shared/vendor/lodash",
-  immutable: "devtools/client/shared/vendor/immutable",
-  "react-redux": "devtools/client/shared/vendor/react-redux",
-  "prop-types": "devtools/client/shared/vendor/react-prop-types",
-
-  "wasmparser/dist/WasmParser": "devtools/client/shared/vendor/WasmParser",
-  "wasmparser/dist/WasmDis": "devtools/client/shared/vendor/WasmDis",
-
-  // The excluded files below should not be required while the Debugger runs
-  // in Firefox. Here, "devtools/shared/flags" is used as a dummy module.
-  "../assets/panel/debugger.properties": "devtools/shared/flags",
-  "devtools-connection": "devtools/shared/flags",
-  "chrome-remote-interface": "devtools/shared/flags",
-  "devtools-launchpad": "devtools/shared/flags"
-};
-
-const vendors = [
-  "devtools-config",
-  "fuzzaldrin-plus",
-  "devtools-modules",
-  "devtools-utils"
-];
-
-function transform(filePath) {
-  const doc = fs.readFileSync(filePath, "utf8");
-  const out = babel.transformSync(doc, {
-    plugins: [
-      "transform-flow-strip-types",
-      "syntax-trailing-function-commas",
-      "transform-class-properties",
-      "transform-es2015-modules-commonjs",
-      "@babel/plugin-proposal-object-rest-spread",
-      "transform-react-jsx",
-      ["./.babel/transform-mc", { mappings, vendors, filePath }]
-    ]
-  });
-
-  return out.code;
-}
-
-function getFiles() {
-  return glob.sync("./src/**/*.js", {}).filter(file => {
-    return !file.match(/(\/fixtures|\/tests|vendors\.js)/);
-  });
-}
-
-function transformSrc() {
-  getFiles().forEach(file => {
-    const filePath = path.join(__dirname, "..", file);
-    const code = transform(filePath);
-    shell.mkdir("-p", path.join(__dirname, "../out", path.dirname(file)));
-    fs.writeFileSync(path.join(__dirname, "../out", file), code);
-  });
-}
-
-function mozBuilds() {
+/**
+ * Create the mandatory manifest file that should exist in each folder to
+ * list files and subfolders that should be packaged in Firefox.
+ */
+function createMozBuildFiles() {
   const builds = {};
 
   getFiles().forEach(file => {
-    if (file.includes("search")) {
-      console.log(file);
-    }
-
     let dir = path.dirname(file);
     builds[dir] = builds[dir] || { files: [], dirs: [] };
+
+    // Add the current file to its parent dir moz.build
     builds[dir].files.push(path.basename(file));
-    let parentDir = path.dirname(dir);
-    const directory = path.basename(dir);
 
-    if (file.includes("search")) {
-      console.log(parentDir);
-    }
-
-    builds[parentDir] = builds[parentDir] || { files: [], dirs: [] };
-    if (!builds[parentDir].dirs.includes(directory)) {
-      builds[parentDir].dirs.push(directory);
-    }
-
-    while (parentDir != ".") {
-      parentDir = path.dirname(parentDir);
-      dir = path.dirname(dir);
-      const directoryName = path.basename(dir);
+    // There should be a moz.build in every folder between the root and this
+    // file. Climb up the folder hierarchy and make sure a each folder of the
+    // chain is listing in its parent dir moz.build.
+    while (path.dirname(dir) != ".") {
+      const parentDir = path.dirname(dir);
+      const dirName = path.basename(dir);
 
       builds[parentDir] = builds[parentDir] || { files: [], dirs: [] };
-
-      if (parentDir.includes("search")) {
-        console.log(parentDir, directoryName);
+      if (!builds[parentDir].dirs.includes(dirName)) {
+        builds[parentDir].dirs.push(dirName);
       }
-
-      if (!builds[parentDir].dirs.includes(directoryName)) {
-        builds[parentDir].dirs.push(directoryName);
-      }
+      dir = parentDir;
     }
   });
 
@@ -133,6 +102,7 @@ function mozBuilds() {
     const buildPath = path.join(__dirname, "../out", build);
     shell.mkdir("-p", buildPath);
 
+    // Files and folders should be alphabetically sorted in moz.build
     const fileStr = files
       .sort((a, b) => (a.toLowerCase() < b.toLowerCase() ? -1 : 1))
       .map(file => `    '${file}',`)
@@ -143,7 +113,7 @@ function mozBuilds() {
       .map(dir => `    '${dir}',`)
       .join("\n");
 
-    const src = buildTpl
+    const src = MOZ_BUILD_TEMPLATE
       .replace("__DIRS__", dirStr)
       .replace("__FILES__", fileStr);
 
@@ -151,11 +121,30 @@ function mozBuilds() {
   });
 }
 
-shell.rm("-rf", "./out");
-shell.mkdir("./out");
-transformSrc();
-mozBuilds();
-shell.cp("-r", "./out/src", "../gecko/devtools/client/debugger/new/");
+function getDebuggerPath() {
 
-// const code = transform("./src/workers/parser/index.js");
-// console.log(code.slice(0, 1000));
+}
+
+function start() {
+  console.log("[copy-modules] start");
+
+  console.log("[copy-modules] cleanup temporary directory");
+  shell.rm("-rf", "./out");
+  shell.mkdir("./out");
+
+  console.log("[copy-modules] transpiling debugger modules");
+  transpileFiles();
+
+  console.log("[copy-modules] creating moz.build files");
+  createMozBuildFiles();
+
+  const projectPath = path.resolve(__dirname, "..");
+  const mcPath = args.mc ? args.mc : feature.getValue("firefox.mcPath");
+  const mcDebuggerPath = path.join(mcPath, "devtools/client/debugger/new");
+
+  console.log("[copy-modules] copying files to: " + mcDebuggerPath);
+  shell.cp("-r", "./out/src", mcDebuggerPath);
+
+}
+
+start();
