@@ -486,24 +486,32 @@ describe("Tree", () => {
 
   it("focus treeRef when a node is clicked", () => {
     const wrapper = mountTree({
-      expanded: new Set("ABCDEFGHIJKLMNO".split("")),
+      expanded: new Set("ABCDEFGHIJKLMNO".split(""))
     });
-    const treeRef = wrapper.find("Tree").first().instance().treeRef;
+    const treeRef = wrapper
+      .find("Tree")
+      .first()
+      .instance().treeRef;
     treeRef.focus = jest.fn();
 
-    getTreeNodes(wrapper).first().simulate("click");
-    expect(treeRef.focus.mock.calls.length).toBe(1);
+    getTreeNodes(wrapper)
+      .first()
+      .simulate("click");
+    expect(treeRef.focus.mock.calls).toHaveLength(1);
   });
 
   it("doesn't focus treeRef when focused is null", () => {
     const wrapper = mountTree({
       expanded: new Set("ABCDEFGHIJKLMNO".split("")),
-      focused: "A",
+      focused: "A"
     });
-    const treeRef = wrapper.find("Tree").first().instance().treeRef;
+    const treeRef = wrapper
+      .find("Tree")
+      .first()
+      .instance().treeRef;
     treeRef.focus = jest.fn();
     wrapper.simulate("blur");
-    expect(treeRef.focus.mock.calls.length).toBe(0);
+    expect(treeRef.focus.mock.calls).toHaveLength(0);
   });
 
   it("calls onActivate when expected", () => {

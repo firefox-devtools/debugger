@@ -6,6 +6,7 @@
   --width: 150px;
   background: var(--theme-body-background);
   border: 1px solid var(--theme-splitter-color);
+  border-radius: 4px;
   box-shadow: 0 4px 4px 0 var(--search-overlays-semitransparent);
   max-height: 300px;
   position: absolute;
@@ -45,6 +46,7 @@ html[dir="rtl"] .dropdown {
   height: 30px;
   text-overflow: ellipsis;
   white-space: nowrap;
+  display: block;
 }
 
 .dropdown li:hover {
@@ -74,6 +76,8 @@ html[dir="rtl"] .dropdown {
 .dropdown-icon.file {
   mask: url(/images/file.svg) no-repeat;
   mask-size: 100%;
+  margin-bottom: 7px;
+
 }
 
 .dropdown ul {
