@@ -12,6 +12,10 @@ add_task(async function() {
   await waitForPaused(dbg);
   await waitForLoadedSource(dbg, "switching-02");
 
+  // MAP_FRAMES triggers a new Scopes panel render cycle, which introduces
+  // a race condition with the click event on the foo node.
+  await waitForDispatch(dbg, "MAP_FRAMES");
+
   is(getLabel(dbg, 1), "secondCall");
   is(getLabel(dbg, 2), "<this>");
   is(getLabel(dbg, 4), "foo()");
