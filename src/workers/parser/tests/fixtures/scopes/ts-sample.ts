@@ -6,5 +6,3 @@ class Example<T> {
     throw new Error();
   }
 }
-
-var foo = <any>window;
