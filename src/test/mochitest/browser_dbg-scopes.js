@@ -15,7 +15,6 @@ add_task(async function() {
   is(getLabel(dbg, 1), "secondCall");
   is(getLabel(dbg, 2), "<this>");
   is(getLabel(dbg, 4), "foo()");
-
   await toggleScopeNode(dbg, 4);
   is(getLabel(dbg, 5), "arguments");
 
