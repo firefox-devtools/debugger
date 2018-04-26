@@ -82,11 +82,7 @@ export function getAst(sourceId: string) {
   const { contentType } = source;
   if (contentType == "text/html") {
     ast = parseScriptTags(source.text, htmlParser) || {};
-  } else if (
-    contentType &&
-    contentType.match(/(javascript|jsx)/) &&
-    !contentType.match(/typescript-jsx/)
-  ) {
+  } else if (contentType && contentType.match(/(javascript|jsx)/)) {
     const type = source.id.includes("original") ? "original" : "generated";
     const options = sourceOptions[type];
     ast = parse(source.text, options);
@@ -95,11 +91,7 @@ export function getAst(sourceId: string) {
       ...sourceOptions.original,
       plugins: [
         ...sourceOptions.original.plugins.filter(
-          p =>
-            p !== "flow" &&
-            p !== "decorators" &&
-            p !== "decorators2" &&
-            (p !== "jsx" || contentType.match(/typescript-jsx/))
+          p => p !== "flow" && p !== "decorators" && p !== "decorators2"
         ),
         "decorators",
         "typescript"
