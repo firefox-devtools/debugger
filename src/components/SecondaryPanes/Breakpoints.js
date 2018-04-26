@@ -67,7 +67,7 @@ type Props = {
   setBreakpointCondition: Location => void,
   openConditionalPanel: number => void,
   shouldPauseOnExceptions: boolean,
-  shouldPauseOnCaughtExceptions: boolean,
+  shouldIgnoreCaughtExceptions: boolean,
   pauseOnExceptions: Function
 };
 
@@ -161,7 +161,7 @@ class Breakpoints extends Component<Props> {
     const {
       breakpoints,
       shouldPauseOnExceptions,
-      shouldPauseOnCaughtExceptions,
+      shouldIgnoreCaughtExceptions,
       pauseOnExceptions
     } = this.props;
 
@@ -175,9 +175,9 @@ class Breakpoints extends Component<Props> {
     );
 
     const ignoreCaughtBox = createExceptionOption(
-      L10N.getStr("pauseOnCaughtExceptionsItem"),
-      shouldPauseOnCaughtExceptions,
-      () => pauseOnExceptions(true, !shouldPauseOnCaughtExceptions),
+      L10N.getStr("ignoreCaughtExceptionsItem"),
+      shouldIgnoreCaughtExceptions,
+      () => pauseOnExceptions(true, !shouldIgnoreCaughtExceptions),
       "breakpoints-exceptions-caught"
     );
 

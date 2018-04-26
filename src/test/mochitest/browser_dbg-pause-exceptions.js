@@ -43,7 +43,7 @@ add_task(async function() {
   await resume(dbg);
 
   log("4. Test skipping a caught error");
-  await togglePauseOnExceptions(dbg, true, false);
+  await togglePauseOnExceptions(dbg, true, true);
   caughtException();
 
   log("4.b Test pausing in the catch statement");
