@@ -121,21 +121,21 @@ class SearchInput extends Component<Props, State> {
     ];
   }
 
-  onFocus = () => {
+  onFocus = (e: SyntheticFocusEvent<HTMLInputElement>) => {
     const { onFocus } = this.props;
 
     this.setState({ inputFocused: true });
     if (onFocus) {
-      onFocus();
+      onFocus(e);
     }
   };
 
-  onBlur = () => {
+  onBlur = (e: SyntheticFocusEvent<HTMLInputElement>) => {
     const { onBlur } = this.props;
 
     this.setState({ inputFocused: false });
     if (onBlur) {
-      onBlur();
+      onBlur(e);
     }
   };
 
@@ -172,8 +172,8 @@ class SearchInput extends Component<Props, State> {
       onChange,
       onKeyDown,
       onKeyUp,
-      onFocus: this.onFocus,
-      onBlur: this.onBlur,
+      onFocus: e => this.onFocus(e),
+      onBlur: e => this.onBlur(e),
       "aria-autocomplete": "list",
       "aria-controls": "result-list",
       "aria-activedescendant":
