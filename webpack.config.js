@@ -60,6 +60,11 @@ function buildConfig(envConfig) {
       webpackConfig.plugins.push(viz);
     }
 
+    webpackConfig.entry.reps = path.join(
+      __dirname,
+      "packages/devtools-reps/src/index.js"
+    );
+
     const mappings = [
       [/\.\/mocha/, "./mochitest"],
       [/\.\.\/utils\/mocha/, "../utils/mochitest"],
@@ -75,6 +80,9 @@ function buildConfig(envConfig) {
       react: "devtools/client/shared/vendor/react",
       redux: "devtools/client/shared/vendor/redux",
       "react-dom": "devtools/client/shared/vendor/react-dom",
+      "react-dom-factories":
+        "devtools/client/shared/vendor/react-dom-factories",
+      "prop-types": "devtools/client/shared/vendor/react-prop-types",
       lodash: "devtools/client/shared/vendor/lodash",
       immutable: "devtools/client/shared/vendor/immutable",
       "react-redux": "devtools/client/shared/vendor/react-redux",

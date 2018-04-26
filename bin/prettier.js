@@ -13,6 +13,7 @@ const args = [
   "--write",
   "*.js",
   "*.json",
+  "packages/**/src/*.js",
   "src/*.js",
   "src/*/*.js",
   "src/components/**/*.css",

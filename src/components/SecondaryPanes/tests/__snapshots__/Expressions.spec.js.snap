@@ -16,7 +16,7 @@ exports[`Expressions should always have unique keys 1`] = `
         autoExpandDepth={0}
         createObjectClient={[Function]}
         disableWrap={true}
-        disabledFocus={true}
+        focusable={false}
         roots={
           Array [
             Object {
@@ -53,7 +53,7 @@ exports[`Expressions should always have unique keys 1`] = `
         autoExpandDepth={0}
         createObjectClient={[Function]}
         disableWrap={true}
-        disabledFocus={true}
+        focusable={false}
         roots={
           Array [
             Object {
@@ -125,7 +125,7 @@ exports[`Expressions should render 1`] = `
         autoExpandDepth={0}
         createObjectClient={[Function]}
         disableWrap={true}
-        disabledFocus={true}
+        focusable={false}
         roots={
           Array [
             Object {
@@ -162,7 +162,7 @@ exports[`Expressions should render 1`] = `
         autoExpandDepth={0}
         createObjectClient={[Function]}
         disableWrap={true}
-        disabledFocus={true}
+        focusable={false}
         roots={
           Array [
             Object {
