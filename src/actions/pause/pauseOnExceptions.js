@@ -14,16 +14,16 @@ import type { ThunkArgs } from "../types";
  */
 export function pauseOnExceptions(
   shouldPauseOnExceptions: boolean,
-  shouldPauseOnCaughtExceptions: boolean
+  shouldIgnoreCaughtExceptions: boolean
 ) {
   return ({ dispatch, client }: ThunkArgs) => {
     dispatch({
       type: "PAUSE_ON_EXCEPTIONS",
       shouldPauseOnExceptions,
-      shouldPauseOnCaughtExceptions,
+      shouldIgnoreCaughtExceptions,
       [PROMISE]: client.pauseOnExceptions(
         shouldPauseOnExceptions,
-        shouldPauseOnCaughtExceptions
+        shouldIgnoreCaughtExceptions
       )
     });
   };

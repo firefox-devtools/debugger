@@ -16,12 +16,9 @@ import {
 } from "../utils/bootstrap";
 
 function loadFromPrefs(actions: Object) {
-  const { pauseOnExceptions, pauseOnCaughtExceptions } = prefs;
-  if (pauseOnExceptions || pauseOnCaughtExceptions) {
-    return actions.pauseOnExceptions(
-      pauseOnExceptions,
-      pauseOnCaughtExceptions
-    );
+  const { pauseOnExceptions, ignoreCaughtExceptions } = prefs;
+  if (pauseOnExceptions || ignoreCaughtExceptions) {
+    return actions.pauseOnExceptions(pauseOnExceptions, ignoreCaughtExceptions);
   }
 }
 
