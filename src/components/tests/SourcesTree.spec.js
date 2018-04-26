@@ -199,7 +199,7 @@ describe("SourcesTree", () => {
   describe("with custom root", () => {
     it("renders custom root source list", async () => {
       const { component } = render({
-        projectRoot: "mdn"
+        projectRoot: "mdn.com"
       });
       expect(component).toMatchSnapshot();
     });
