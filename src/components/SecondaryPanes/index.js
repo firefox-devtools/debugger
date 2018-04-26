@@ -8,7 +8,9 @@ import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { List } from "immutable";
 
+import type { Expression } from "../../types";
 import actions from "../../actions";
 import {
   getTopFrame,
@@ -196,9 +198,7 @@ class SecondaryPanes extends Component<Props, State> {
   }
 
   getComponentItem() {
-    const {
-      extra: { react }
-    } = this.props;
+    const { extra: { react } } = this.props;
 
     return {
       header: react.displayName,
