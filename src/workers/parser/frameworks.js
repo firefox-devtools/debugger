@@ -24,7 +24,8 @@ function isReactComponent(sourceSymbols) {
   const { imports, classes, callExpressions } = sourceSymbols;
   return (
     importsReact(imports) ||
-    (requiresReact(callExpressions) && extendsReactComponent(classes))
+    requiresReact(callExpressions) ||
+    extendsReactComponent(classes)
   );
 }
 
