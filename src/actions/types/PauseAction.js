@@ -29,7 +29,7 @@ export type PauseAction =
   | {|
       +type: "PAUSE_ON_EXCEPTIONS",
       +shouldPauseOnExceptions: boolean,
-      +shouldIgnoreCaughtExceptions: boolean
+      +shouldPauseOnCaughtExceptions: boolean
     |}
   | PromiseAction<{|
       +type: "COMMAND",

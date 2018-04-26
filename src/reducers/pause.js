@@ -58,7 +58,7 @@ export type PauseState = {
   selectedFrameId: ?string,
   loadedObjects: Object,
   shouldPauseOnExceptions: boolean,
-  shouldIgnoreCaughtExceptions: boolean,
+  shouldPauseOnCaughtExceptions: boolean,
   canRewind: boolean,
   debuggeeUrl: string,
   command: Command,
@@ -79,7 +79,7 @@ export const createPauseState = (): PauseState => ({
   },
   loadedObjects: {},
   shouldPauseOnExceptions: prefs.pauseOnExceptions,
-  shouldIgnoreCaughtExceptions: prefs.ignoreCaughtExceptions,
+  shouldPauseOnCaughtExceptions: prefs.pauseOnCaughtExceptions,
   canRewind: false,
   debuggeeUrl: "",
   command: null,
@@ -214,15 +214,15 @@ function update(
       };
 
     case "PAUSE_ON_EXCEPTIONS":
-      const { shouldPauseOnExceptions, shouldIgnoreCaughtExceptions } = action;
+      const { shouldPauseOnExceptions, shouldPauseOnCaughtExceptions } = action;
 
       prefs.pauseOnExceptions = shouldPauseOnExceptions;
-      prefs.ignoreCaughtExceptions = shouldIgnoreCaughtExceptions;
+      prefs.pauseOnCaughtExceptions = shouldPauseOnCaughtExceptions;
 
       return {
         ...state,
         shouldPauseOnExceptions,
-        shouldIgnoreCaughtExceptions
+        shouldPauseOnCaughtExceptions
       };
 
     case "COMMAND": {
@@ -331,8 +331,8 @@ export function getShouldPauseOnExceptions(state: OuterState) {
   return state.pause.shouldPauseOnExceptions;
 }
 
-export function getShouldIgnoreCaughtExceptions(state: OuterState) {
-  return state.pause.shouldIgnoreCaughtExceptions;
+export function getShouldPauseOnCaughtExceptions(state: OuterState) {
+  return state.pause.shouldPauseOnCaughtExceptions;
 }
 
 export function getCanRewind(state: OuterState) {

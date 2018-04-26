@@ -18,7 +18,7 @@ import {
   getExpressions,
   getIsWaitingOnBreak,
   getShouldPauseOnExceptions,
-  getShouldIgnoreCaughtExceptions,
+  getShouldPauseOnCaughtExceptions,
   getWorkers,
   getExtra
 } from "../../selectors";
@@ -86,7 +86,7 @@ type Props = {
   breakOnNext: () => void,
   isWaitingOnBreak: any,
   shouldPauseOnExceptions: boolean,
-  shouldIgnoreCaughtExceptions: boolean,
+  shouldPauseOnCaughtExceptions: boolean,
   workers: WorkersList
 };
 
@@ -264,7 +264,7 @@ class SecondaryPanes extends Component<Props, State> {
   getBreakpointsItem(): AccordionPaneItem {
     const {
       shouldPauseOnExceptions,
-      shouldIgnoreCaughtExceptions,
+      shouldPauseOnCaughtExceptions,
       pauseOnExceptions
     } = this.props;
 
@@ -275,7 +275,7 @@ class SecondaryPanes extends Component<Props, State> {
       component: (
         <Breakpoints
           shouldPauseOnExceptions={shouldPauseOnExceptions}
-          shouldIgnoreCaughtExceptions={shouldIgnoreCaughtExceptions}
+          shouldPauseOnCaughtExceptions={shouldPauseOnCaughtExceptions}
           pauseOnExceptions={pauseOnExceptions}
         />
       ),
@@ -417,7 +417,7 @@ const mapStateToProps = state => ({
   breakpointsLoading: getBreakpointsLoading(state),
   isWaitingOnBreak: getIsWaitingOnBreak(state),
   shouldPauseOnExceptions: getShouldPauseOnExceptions(state),
-  shouldIgnoreCaughtExceptions: getShouldIgnoreCaughtExceptions(state),
+  shouldPauseOnCaughtExceptions: getShouldPauseOnCaughtExceptions(state),
   workers: getWorkers(state)
 });
 
