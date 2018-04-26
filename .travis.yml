@@ -1,5 +1,7 @@
 language: python
-node_js: "9"
+node_js:
+- "9"
+- "10"
 
 cache:
   - pip
