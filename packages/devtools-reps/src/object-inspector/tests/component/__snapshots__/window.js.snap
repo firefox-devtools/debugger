@@ -5,7 +5,6 @@ exports[`ObjectInspector - dimTopLevelWindow renders collapsed top-level window 
   aria-activedescendant={null}
   className="tree object-inspector"
   onBlur={[Function]}
-  onClick={[Function]}
   onFocus={[Function]}
   onKeyDown={[Function]}
   onKeyPress={[Function]}
@@ -65,7 +64,6 @@ exports[`ObjectInspector - dimTopLevelWindow renders sub-level window 1`] = `
   aria-activedescendant="Symbol(root)"
   className="tree object-inspector"
   onBlur={[Function]}
-  onClick={[Function]}
   onFocus={[Function]}
   onKeyDown={[Function]}
   onKeyPress={[Function]}
@@ -153,7 +151,6 @@ exports[`ObjectInspector - dimTopLevelWindow renders window as expected when dim
   aria-activedescendant={null}
   className="tree object-inspector"
   onBlur={[Function]}
-  onClick={[Function]}
   onFocus={[Function]}
   onKeyDown={[Function]}
   onKeyPress={[Function]}
@@ -213,7 +210,6 @@ exports[`ObjectInspector - dimTopLevelWindow renders window as expected when dim
   aria-activedescendant="Symbol(window)"
   className="tree object-inspector"
   onBlur={[Function]}
-  onClick={[Function]}
   onFocus={[Function]}
   onKeyDown={[Function]}
   onKeyPress={[Function]}

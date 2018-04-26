@@ -5,7 +5,6 @@ exports[`ObjectInspector - classnames has the expected class 1`] = `
   aria-activedescendant={null}
   className="tree object-inspector"
   onBlur={[Function]}
-  onClick={[Function]}
   onFocus={[Function]}
   onKeyDown={[Function]}
   onKeyPress={[Function]}
@@ -56,7 +55,6 @@ exports[`ObjectInspector - classnames has the inline class when inline prop is t
   aria-activedescendant={null}
   className="tree inline object-inspector"
   onBlur={[Function]}
-  onClick={[Function]}
   onFocus={[Function]}
   onKeyDown={[Function]}
   onKeyPress={[Function]}
@@ -107,7 +105,6 @@ exports[`ObjectInspector - classnames has the nowrap class when disableWrap prop
   aria-activedescendant={null}
   className="tree nowrap object-inspector"
   onBlur={[Function]}
-  onClick={[Function]}
   onFocus={[Function]}
   onKeyDown={[Function]}
   onKeyPress={[Function]}
