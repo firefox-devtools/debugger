@@ -65,56 +65,62 @@ exports[`QuickOpenModal Basic render with mount & searchType = functions 1`] = `
               summaryMsg=""
             >
               <div
-                aria-expanded={false}
-                aria-haspopup="listbox"
-                aria-owns="result-list"
-                className="search-field"
-                role="combobox"
+                className="search-shadow"
               >
-                <Svg
-                  name="sad-face"
+                <div
+                  aria-expanded={false}
+                  aria-haspopup="listbox"
+                  aria-owns="result-list"
+                  className="search-field"
+                  role="combobox"
                 >
-                  <InlineSVG
-                    className="sad-face "
-                    element="i"
-                    raw={false}
-                    src="<svg></svg>"
+                  <Svg
+                    name="sad-face"
                   >
-                    <i
+                    <InlineSVG
                       className="sad-face "
-                      dangerouslySetInnerHTML={
-                        Object {
-                          "__html": "<svg></svg>",
+                      element="i"
+                      raw={false}
+                      src="<svg></svg>"
+                    >
+                      <i
+                        className="sad-face "
+                        dangerouslySetInnerHTML={
+                          Object {
+                            "__html": "<svg></svg>",
+                          }
                         }
-                      }
-                      src={null}
-                    />
-                  </InlineSVG>
-                </Svg>
-                <input
-                  aria-activedescendant=""
-                  aria-autocomplete="list"
-                  aria-controls="result-list"
-                  className="empty"
-                  onChange={[Function]}
-                  onKeyDown={[Function]}
-                  placeholder="Search sources…"
-                  spellCheck={false}
-                  value="@"
-                />
-                <CloseButton
-                  buttonClass=""
-                  handleClick={[Function]}
-                >
-                  <button
-                    className="close-btn"
-                    onClick={[Function]}
+                        src={null}
+                      />
+                    </InlineSVG>
+                  </Svg>
+                  <input
+                    aria-activedescendant=""
+                    aria-autocomplete="list"
+                    aria-controls="result-list"
+                    className="empty"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    onKeyDown={[Function]}
+                    placeholder="Search sources…"
+                    spellCheck={false}
+                    value="@"
+                  />
+                  <CloseButton
+                    buttonClass=""
+                    handleClick={[Function]}
                   >
-                    <img
-                      className="close"
-                    />
-                  </button>
-                </CloseButton>
+                    <button
+                      className="close-btn"
+                      onClick={[Function]}
+                    >
+                      <img
+                        className="close"
+                      />
+                    </button>
+                  </CloseButton>
+                </div>
               </div>
             </SearchInput>
             <ResultList
@@ -206,56 +212,62 @@ exports[`QuickOpenModal Basic render with mount & searchType = variables 1`] = `
               summaryMsg=""
             >
               <div
-                aria-expanded={false}
-                aria-haspopup="listbox"
-                aria-owns="result-list"
-                className="search-field"
-                role="combobox"
+                className="search-shadow"
               >
-                <Svg
-                  name="sad-face"
+                <div
+                  aria-expanded={false}
+                  aria-haspopup="listbox"
+                  aria-owns="result-list"
+                  className="search-field"
+                  role="combobox"
                 >
-                  <InlineSVG
-                    className="sad-face "
-                    element="i"
-                    raw={false}
-                    src="<svg></svg>"
+                  <Svg
+                    name="sad-face"
                   >
-                    <i
+                    <InlineSVG
                       className="sad-face "
-                      dangerouslySetInnerHTML={
-                        Object {
-                          "__html": "<svg></svg>",
+                      element="i"
+                      raw={false}
+                      src="<svg></svg>"
+                    >
+                      <i
+                        className="sad-face "
+                        dangerouslySetInnerHTML={
+                          Object {
+                            "__html": "<svg></svg>",
+                          }
                         }
-                      }
-                      src={null}
-                    />
-                  </InlineSVG>
-                </Svg>
-                <input
-                  aria-activedescendant=""
-                  aria-autocomplete="list"
-                  aria-controls="result-list"
-                  className="empty"
-                  onChange={[Function]}
-                  onKeyDown={[Function]}
-                  placeholder="Search sources…"
-                  spellCheck={false}
-                  value="#"
-                />
-                <CloseButton
-                  buttonClass=""
-                  handleClick={[Function]}
-                >
-                  <button
-                    className="close-btn"
-                    onClick={[Function]}
+                        src={null}
+                      />
+                    </InlineSVG>
+                  </Svg>
+                  <input
+                    aria-activedescendant=""
+                    aria-autocomplete="list"
+                    aria-controls="result-list"
+                    className="empty"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    onKeyDown={[Function]}
+                    placeholder="Search sources…"
+                    spellCheck={false}
+                    value="#"
+                  />
+                  <CloseButton
+                    buttonClass=""
+                    handleClick={[Function]}
                   >
-                    <img
-                      className="close"
-                    />
-                  </button>
-                </CloseButton>
+                    <button
+                      className="close-btn"
+                      onClick={[Function]}
+                    >
+                      <img
+                        className="close"
+                      />
+                    </button>
+                  </CloseButton>
+                </div>
               </div>
             </SearchInput>
             <ResultList
@@ -341,56 +353,62 @@ exports[`QuickOpenModal Basic render with mount 1`] = `
               summaryMsg=""
             >
               <div
-                aria-expanded={false}
-                aria-haspopup="listbox"
-                aria-owns="result-list"
-                className="search-field"
-                role="combobox"
+                className="search-shadow"
               >
-                <Svg
-                  name="magnifying-glass"
+                <div
+                  aria-expanded={false}
+                  aria-haspopup="listbox"
+                  aria-owns="result-list"
+                  className="search-field"
+                  role="combobox"
                 >
-                  <InlineSVG
-                    className="magnifying-glass "
-                    element="i"
-                    raw={false}
-                    src="<svg></svg>"
+                  <Svg
+                    name="magnifying-glass"
                   >
-                    <i
+                    <InlineSVG
                       className="magnifying-glass "
-                      dangerouslySetInnerHTML={
-                        Object {
-                          "__html": "<svg></svg>",
+                      element="i"
+                      raw={false}
+                      src="<svg></svg>"
+                    >
+                      <i
+                        className="magnifying-glass "
+                        dangerouslySetInnerHTML={
+                          Object {
+                            "__html": "<svg></svg>",
+                          }
                         }
-                      }
-                      src={null}
-                    />
-                  </InlineSVG>
-                </Svg>
-                <input
-                  aria-activedescendant=""
-                  aria-autocomplete="list"
-                  aria-controls="result-list"
-                  className=""
-                  onChange={[Function]}
-                  onKeyDown={[Function]}
-                  placeholder="Search sources…"
-                  spellCheck={false}
-                  value=""
-                />
-                <CloseButton
-                  buttonClass=""
-                  handleClick={[Function]}
-                >
-                  <button
-                    className="close-btn"
-                    onClick={[Function]}
+                        src={null}
+                      />
+                    </InlineSVG>
+                  </Svg>
+                  <input
+                    aria-activedescendant=""
+                    aria-autocomplete="list"
+                    aria-controls="result-list"
+                    className=""
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    onKeyDown={[Function]}
+                    placeholder="Search sources…"
+                    spellCheck={false}
+                    value=""
+                  />
+                  <CloseButton
+                    buttonClass=""
+                    handleClick={[Function]}
                   >
-                    <img
-                      className="close"
-                    />
-                  </button>
-                </CloseButton>
+                    <button
+                      className="close-btn"
+                      onClick={[Function]}
+                    >
+                      <img
+                        className="close"
+                      />
+                    </button>
+                  </CloseButton>
+                </div>
               </div>
             </SearchInput>
             <ResultList
@@ -515,193 +533,64 @@ exports[`QuickOpenModal Simple goto search query = :abc & searchType = goto 1`] 
               summaryMsg=""
             >
               <div
-                aria-expanded={false}
-                aria-haspopup="listbox"
-                aria-owns="result-list"
-                className="search-field"
-                role="combobox"
+                className="search-shadow"
               >
-                <Svg
-                  name="sad-face"
+                <div
+                  aria-expanded={false}
+                  aria-haspopup="listbox"
+                  aria-owns="result-list"
+                  className="search-field"
+                  role="combobox"
                 >
-                  <InlineSVG
-                    className="sad-face "
-                    element="i"
-                    raw={false}
-                    src="<svg></svg>"
+                  <Svg
+                    name="sad-face"
                   >
-                    <i
+                    <InlineSVG
                       className="sad-face "
-                      dangerouslySetInnerHTML={
-                        Object {
-                          "__html": "<svg></svg>",
+                      element="i"
+                      raw={false}
+                      src="<svg></svg>"
+                    >
+                      <i
+                        className="sad-face "
+                        dangerouslySetInnerHTML={
+                          Object {
+                            "__html": "<svg></svg>",
+                          }
                         }
-                      }
-                      src={null}
-                    />
-                  </InlineSVG>
-                </Svg>
-                <input
-                  aria-activedescendant=""
-                  aria-autocomplete="list"
-                  aria-controls="result-list"
-                  className="empty"
-                  onChange={[Function]}
-                  onKeyDown={[Function]}
-                  placeholder="Search sources…"
-                  spellCheck={false}
-                  value=":abc"
-                />
-                <CloseButton
-                  buttonClass=""
-                  handleClick={[Function]}
-                >
-                  <button
-                    className="close-btn"
-                    onClick={[Function]}
+                        src={null}
+                      />
+                    </InlineSVG>
+                  </Svg>
+                  <input
+                    aria-activedescendant=""
+                    aria-autocomplete="list"
+                    aria-controls="result-list"
+                    className="empty"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    onKeyDown={[Function]}
+                    placeholder="Search sources…"
+                    spellCheck={false}
+                    value=":abc"
+                  />
+                  <CloseButton
+                    buttonClass=""
+                    handleClick={[Function]}
                   >
-                    <img
-                      className="close"
-                    />
-                  </button>
-                </CloseButton>
+                    <button
+                      className="close-btn"
+                      onClick={[Function]}
+                    >
+                      <img
+                        className="close"
+                      />
+                    </button>
+                  </CloseButton>
+                </div>
               </div>
             </SearchInput>
-          </div>
-        </div>
-      </Modal>
-    </Transition>
-  </Slide>
-</QuickOpenModal>
-`;
-
-exports[`QuickOpenModal closeModal 1`] = `
-<QuickOpenModal
-  clearHighlightLineRange={[Function]}
-  closeQuickOpen={[Function]}
-  enabled={true}
-  highlightLineRange={[Function]}
-  query=""
-  searchType="sources"
-  selectLocation={[Function]}
-  setQuickOpenQuery={[Function]}
-  sources={Array []}
-  tabs={Array []}
->
-  <Slide
-    handleClose={[Function]}
-    in={true}
-  >
-    <Transition
-      appear={true}
-      enter={true}
-      exit={true}
-      in={true}
-      mountOnEnter={false}
-      onEnter={[Function]}
-      onEntered={[Function]}
-      onEntering={[Function]}
-      onExit={[Function]}
-      onExited={[Function]}
-      onExiting={[Function]}
-      timeout={175}
-      unmountOnExit={false}
-    >
-      <Modal
-        handleClose={[Function]}
-        status="entering"
-      >
-        <div
-          className="modal-wrapper"
-          onClick={[Function]}
-        >
-          <div
-            className="modal entering"
-            onClick={[Function]}
-          >
-            <SearchInput
-              count={0}
-              expanded={false}
-              handleClose={[Function]}
-              hasPrefix={true}
-              onChange={[Function]}
-              onKeyDown={[Function]}
-              placeholder="Search sources…"
-              query=""
-              selectedItemId=""
-              showErrorEmoji={false}
-              size=""
-              summaryMsg=""
-            >
-              <div
-                aria-expanded={false}
-                aria-haspopup="listbox"
-                aria-owns="result-list"
-                className="search-field"
-                role="combobox"
-              >
-                <Svg
-                  name="magnifying-glass"
-                >
-                  <InlineSVG
-                    className="magnifying-glass "
-                    element="i"
-                    raw={false}
-                    src="<svg></svg>"
-                  >
-                    <i
-                      className="magnifying-glass "
-                      dangerouslySetInnerHTML={
-                        Object {
-                          "__html": "<svg></svg>",
-                        }
-                      }
-                      src={null}
-                    />
-                  </InlineSVG>
-                </Svg>
-                <input
-                  aria-activedescendant=""
-                  aria-autocomplete="list"
-                  aria-controls="result-list"
-                  className=""
-                  onChange={[Function]}
-                  onKeyDown={[Function]}
-                  placeholder="Search sources…"
-                  spellCheck={false}
-                  value=""
-                />
-                <CloseButton
-                  buttonClass=""
-                  handleClick={[Function]}
-                >
-                  <button
-                    className="close-btn"
-                    onClick={[Function]}
-                  >
-                    <img
-                      className="close"
-                    />
-                  </button>
-                </CloseButton>
-              </div>
-            </SearchInput>
-            <ResultList
-              expanded={false}
-              items={Array []}
-              key="results"
-              role="listbox"
-              selectItem={[Function]}
-              selected={0}
-              size="big"
-            >
-              <ul
-                aria-live="polite"
-                className="result-list big"
-                id="result-list"
-                role="listbox"
-              />
-            </ResultList>
           </div>
         </div>
       </Modal>
@@ -769,56 +658,62 @@ exports[`QuickOpenModal showErrorEmoji false when count + query 1`] = `
               summaryMsg=""
             >
               <div
-                aria-expanded={true}
-                aria-haspopup="listbox"
-                aria-owns="result-list"
-                className="search-field"
-                role="combobox"
+                className="search-shadow"
               >
-                <Svg
-                  name="magnifying-glass"
+                <div
+                  aria-expanded={true}
+                  aria-haspopup="listbox"
+                  aria-owns="result-list"
+                  className="search-field"
+                  role="combobox"
                 >
-                  <InlineSVG
-                    className="magnifying-glass "
-                    element="i"
-                    raw={false}
-                    src="<svg></svg>"
+                  <Svg
+                    name="magnifying-glass"
                   >
-                    <i
+                    <InlineSVG
                       className="magnifying-glass "
-                      dangerouslySetInnerHTML={
-                        Object {
-                          "__html": "<svg></svg>",
+                      element="i"
+                      raw={false}
+                      src="<svg></svg>"
+                    >
+                      <i
+                        className="magnifying-glass "
+                        dangerouslySetInnerHTML={
+                          Object {
+                            "__html": "<svg></svg>",
+                          }
                         }
-                      }
-                      src={null}
-                    />
-                  </InlineSVG>
-                </Svg>
-                <input
-                  aria-activedescendant=""
-                  aria-autocomplete="list"
-                  aria-controls="result-list"
-                  className=""
-                  onChange={[Function]}
-                  onKeyDown={[Function]}
-                  placeholder="Search sources…"
-                  spellCheck={false}
-                  value="dasdasdas"
-                />
-                <CloseButton
-                  buttonClass=""
-                  handleClick={[Function]}
-                >
-                  <button
-                    className="close-btn"
-                    onClick={[Function]}
+                        src={null}
+                      />
+                    </InlineSVG>
+                  </Svg>
+                  <input
+                    aria-activedescendant=""
+                    aria-autocomplete="list"
+                    aria-controls="result-list"
+                    className=""
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    onKeyDown={[Function]}
+                    placeholder="Search sources…"
+                    spellCheck={false}
+                    value="dasdasdas"
+                  />
+                  <CloseButton
+                    buttonClass=""
+                    handleClick={[Function]}
                   >
-                    <img
-                      className="close"
-                    />
-                  </button>
-                </CloseButton>
+                    <button
+                      className="close-btn"
+                      onClick={[Function]}
+                    >
+                      <img
+                        className="close"
+                      />
+                    </button>
+                  </CloseButton>
+                </div>
               </div>
             </SearchInput>
             <ResultList
@@ -976,56 +871,62 @@ exports[`QuickOpenModal showErrorEmoji false when goto numeric ':2222' 1`] = `
               summaryMsg=""
             >
               <div
-                aria-expanded={false}
-                aria-haspopup="listbox"
-                aria-owns="result-list"
-                className="search-field"
-                role="combobox"
+                className="search-shadow"
               >
-                <Svg
-                  name="magnifying-glass"
+                <div
+                  aria-expanded={false}
+                  aria-haspopup="listbox"
+                  aria-owns="result-list"
+                  className="search-field"
+                  role="combobox"
                 >
-                  <InlineSVG
-                    className="magnifying-glass "
-                    element="i"
-                    raw={false}
-                    src="<svg></svg>"
+                  <Svg
+                    name="magnifying-glass"
                   >
-                    <i
+                    <InlineSVG
                       className="magnifying-glass "
-                      dangerouslySetInnerHTML={
-                        Object {
-                          "__html": "<svg></svg>",
+                      element="i"
+                      raw={false}
+                      src="<svg></svg>"
+                    >
+                      <i
+                        className="magnifying-glass "
+                        dangerouslySetInnerHTML={
+                          Object {
+                            "__html": "<svg></svg>",
+                          }
                         }
-                      }
-                      src={null}
-                    />
-                  </InlineSVG>
-                </Svg>
-                <input
-                  aria-activedescendant=""
-                  aria-autocomplete="list"
-                  aria-controls="result-list"
-                  className=""
-                  onChange={[Function]}
-                  onKeyDown={[Function]}
-                  placeholder="Search sources…"
-                  spellCheck={false}
-                  value=":2222"
-                />
-                <CloseButton
-                  buttonClass=""
-                  handleClick={[Function]}
-                >
-                  <button
-                    className="close-btn"
-                    onClick={[Function]}
+                        src={null}
+                      />
+                    </InlineSVG>
+                  </Svg>
+                  <input
+                    aria-activedescendant=""
+                    aria-autocomplete="list"
+                    aria-controls="result-list"
+                    className=""
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    onKeyDown={[Function]}
+                    placeholder="Search sources…"
+                    spellCheck={false}
+                    value=":2222"
+                  />
+                  <CloseButton
+                    buttonClass=""
+                    handleClick={[Function]}
                   >
-                    <img
-                      className="close"
-                    />
-                  </button>
-                </CloseButton>
+                    <button
+                      className="close-btn"
+                      onClick={[Function]}
+                    >
+                      <img
+                        className="close"
+                      />
+                    </button>
+                  </CloseButton>
+                </div>
               </div>
             </SearchInput>
           </div>
@@ -1095,56 +996,62 @@ exports[`QuickOpenModal showErrorEmoji false when no query 1`] = `
               summaryMsg=""
             >
               <div
-                aria-expanded={false}
-                aria-haspopup="listbox"
-                aria-owns="result-list"
-                className="search-field"
-                role="combobox"
+                className="search-shadow"
               >
-                <Svg
-                  name="magnifying-glass"
+                <div
+                  aria-expanded={false}
+                  aria-haspopup="listbox"
+                  aria-owns="result-list"
+                  className="search-field"
+                  role="combobox"
                 >
-                  <InlineSVG
-                    className="magnifying-glass "
-                    element="i"
-                    raw={false}
-                    src="<svg></svg>"
+                  <Svg
+                    name="magnifying-glass"
                   >
-                    <i
+                    <InlineSVG
                       className="magnifying-glass "
-                      dangerouslySetInnerHTML={
-                        Object {
-                          "__html": "<svg></svg>",
+                      element="i"
+                      raw={false}
+                      src="<svg></svg>"
+                    >
+                      <i
+                        className="magnifying-glass "
+                        dangerouslySetInnerHTML={
+                          Object {
+                            "__html": "<svg></svg>",
+                          }
                         }
-                      }
-                      src={null}
-                    />
-                  </InlineSVG>
-                </Svg>
-                <input
-                  aria-activedescendant=""
-                  aria-autocomplete="list"
-                  aria-controls="result-list"
-                  className=""
-                  onChange={[Function]}
-                  onKeyDown={[Function]}
-                  placeholder="Search sources…"
-                  spellCheck={false}
-                  value=""
-                />
-                <CloseButton
-                  buttonClass=""
-                  handleClick={[Function]}
-                >
-                  <button
-                    className="close-btn"
-                    onClick={[Function]}
+                        src={null}
+                      />
+                    </InlineSVG>
+                  </Svg>
+                  <input
+                    aria-activedescendant=""
+                    aria-autocomplete="list"
+                    aria-controls="result-list"
+                    className=""
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    onKeyDown={[Function]}
+                    placeholder="Search sources…"
+                    spellCheck={false}
+                    value=""
+                  />
+                  <CloseButton
+                    buttonClass=""
+                    handleClick={[Function]}
                   >
-                    <img
-                      className="close"
-                    />
-                  </button>
-                </CloseButton>
+                    <button
+                      className="close-btn"
+                      onClick={[Function]}
+                    >
+                      <img
+                        className="close"
+                      />
+                    </button>
+                  </CloseButton>
+                </div>
               </div>
             </SearchInput>
             <ResultList
@@ -1230,56 +1137,62 @@ exports[`QuickOpenModal showErrorEmoji true when goto not numeric ':22k22' 1`] =
               summaryMsg=""
             >
               <div
-                aria-expanded={false}
-                aria-haspopup="listbox"
-                aria-owns="result-list"
-                className="search-field"
-                role="combobox"
+                className="search-shadow"
               >
-                <Svg
-                  name="sad-face"
+                <div
+                  aria-expanded={false}
+                  aria-haspopup="listbox"
+                  aria-owns="result-list"
+                  className="search-field"
+                  role="combobox"
                 >
-                  <InlineSVG
-                    className="sad-face "
-                    element="i"
-                    raw={false}
-                    src="<svg></svg>"
+                  <Svg
+                    name="sad-face"
                   >
-                    <i
+                    <InlineSVG
                       className="sad-face "
-                      dangerouslySetInnerHTML={
-                        Object {
-                          "__html": "<svg></svg>",
+                      element="i"
+                      raw={false}
+                      src="<svg></svg>"
+                    >
+                      <i
+                        className="sad-face "
+                        dangerouslySetInnerHTML={
+                          Object {
+                            "__html": "<svg></svg>",
+                          }
                         }
-                      }
-                      src={null}
-                    />
-                  </InlineSVG>
-                </Svg>
-                <input
-                  aria-activedescendant=""
-                  aria-autocomplete="list"
-                  aria-controls="result-list"
-                  className="empty"
-                  onChange={[Function]}
-                  onKeyDown={[Function]}
-                  placeholder="Search sources…"
-                  spellCheck={false}
-                  value=":22k22"
-                />
-                <CloseButton
-                  buttonClass=""
-                  handleClick={[Function]}
-                >
-                  <button
-                    className="close-btn"
-                    onClick={[Function]}
+                        src={null}
+                      />
+                    </InlineSVG>
+                  </Svg>
+                  <input
+                    aria-activedescendant=""
+                    aria-autocomplete="list"
+                    aria-controls="result-list"
+                    className="empty"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    onKeyDown={[Function]}
+                    placeholder="Search sources…"
+                    spellCheck={false}
+                    value=":22k22"
+                  />
+                  <CloseButton
+                    buttonClass=""
+                    handleClick={[Function]}
                   >
-                    <img
-                      className="close"
-                    />
-                  </button>
-                </CloseButton>
+                    <button
+                      className="close-btn"
+                      onClick={[Function]}
+                    >
+                      <img
+                        className="close"
+                      />
+                    </button>
+                  </CloseButton>
+                </div>
               </div>
             </SearchInput>
           </div>
@@ -1349,56 +1262,62 @@ exports[`QuickOpenModal showErrorEmoji true when no count + query 1`] = `
               summaryMsg=""
             >
               <div
-                aria-expanded={false}
-                aria-haspopup="listbox"
-                aria-owns="result-list"
-                className="search-field"
-                role="combobox"
+                className="search-shadow"
               >
-                <Svg
-                  name="sad-face"
+                <div
+                  aria-expanded={false}
+                  aria-haspopup="listbox"
+                  aria-owns="result-list"
+                  className="search-field"
+                  role="combobox"
                 >
-                  <InlineSVG
-                    className="sad-face "
-                    element="i"
-                    raw={false}
-                    src="<svg></svg>"
+                  <Svg
+                    name="sad-face"
                   >
-                    <i
+                    <InlineSVG
                       className="sad-face "
-                      dangerouslySetInnerHTML={
-                        Object {
-                          "__html": "<svg></svg>",
+                      element="i"
+                      raw={false}
+                      src="<svg></svg>"
+                    >
+                      <i
+                        className="sad-face "
+                        dangerouslySetInnerHTML={
+                          Object {
+                            "__html": "<svg></svg>",
+                          }
                         }
-                      }
-                      src={null}
-                    />
-                  </InlineSVG>
-                </Svg>
-                <input
-                  aria-activedescendant=""
-                  aria-autocomplete="list"
-                  aria-controls="result-list"
-                  className="empty"
-                  onChange={[Function]}
-                  onKeyDown={[Function]}
-                  placeholder="Search sources…"
-                  spellCheck={false}
-                  value="test"
-                />
-                <CloseButton
-                  buttonClass=""
-                  handleClick={[Function]}
-                >
-                  <button
-                    className="close-btn"
-                    onClick={[Function]}
+                        src={null}
+                      />
+                    </InlineSVG>
+                  </Svg>
+                  <input
+                    aria-activedescendant=""
+                    aria-autocomplete="list"
+                    aria-controls="result-list"
+                    className="empty"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    onKeyDown={[Function]}
+                    placeholder="Search sources…"
+                    spellCheck={false}
+                    value="test"
+                  />
+                  <CloseButton
+                    buttonClass=""
+                    handleClick={[Function]}
                   >
-                    <img
-                      className="close"
-                    />
-                  </button>
-                </CloseButton>
+                    <button
+                      className="close-btn"
+                      onClick={[Function]}
+                    >
+                      <img
+                        className="close"
+                      />
+                    </button>
+                  </CloseButton>
+                </div>
               </div>
             </SearchInput>
           </div>
@@ -1483,56 +1402,62 @@ exports[`QuickOpenModal updateResults on enable 2`] = `
               summaryMsg=""
             >
               <div
-                aria-expanded={false}
-                aria-haspopup="listbox"
-                aria-owns="result-list"
-                className="search-field"
-                role="combobox"
+                className="search-shadow"
               >
-                <Svg
-                  name="magnifying-glass"
+                <div
+                  aria-expanded={false}
+                  aria-haspopup="listbox"
+                  aria-owns="result-list"
+                  className="search-field"
+                  role="combobox"
                 >
-                  <InlineSVG
-                    className="magnifying-glass "
-                    element="i"
-                    raw={false}
-                    src="<svg></svg>"
+                  <Svg
+                    name="magnifying-glass"
                   >
-                    <i
+                    <InlineSVG
                       className="magnifying-glass "
-                      dangerouslySetInnerHTML={
-                        Object {
-                          "__html": "<svg></svg>",
+                      element="i"
+                      raw={false}
+                      src="<svg></svg>"
+                    >
+                      <i
+                        className="magnifying-glass "
+                        dangerouslySetInnerHTML={
+                          Object {
+                            "__html": "<svg></svg>",
+                          }
                         }
-                      }
-                      src={null}
-                    />
-                  </InlineSVG>
-                </Svg>
-                <input
-                  aria-activedescendant=""
-                  aria-autocomplete="list"
-                  aria-controls="result-list"
-                  className=""
-                  onChange={[Function]}
-                  onKeyDown={[Function]}
-                  placeholder="Search sources…"
-                  spellCheck={false}
-                  value=""
-                />
-                <CloseButton
-                  buttonClass=""
-                  handleClick={[Function]}
-                >
-                  <button
-                    className="close-btn"
-                    onClick={[Function]}
+                        src={null}
+                      />
+                    </InlineSVG>
+                  </Svg>
+                  <input
+                    aria-activedescendant=""
+                    aria-autocomplete="list"
+                    aria-controls="result-list"
+                    className=""
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    onKeyDown={[Function]}
+                    placeholder="Search sources…"
+                    spellCheck={false}
+                    value=""
+                  />
+                  <CloseButton
+                    buttonClass=""
+                    handleClick={[Function]}
                   >
-                    <img
-                      className="close"
-                    />
-                  </button>
-                </CloseButton>
+                    <button
+                      className="close-btn"
+                      onClick={[Function]}
+                    >
+                      <img
+                        className="close"
+                      />
+                    </button>
+                  </CloseButton>
+                </div>
               </div>
             </SearchInput>
             <ResultList

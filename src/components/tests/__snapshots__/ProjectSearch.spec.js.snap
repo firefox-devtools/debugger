@@ -114,63 +114,67 @@ exports[`ProjectSearch found search results 1`] = `
           summaryMsg="5 results"
         >
           <div
-            aria-expanded={false}
-            aria-haspopup="listbox"
-            aria-owns="result-list"
-            className="search-field big"
-            role="combobox"
+            className="search-shadow"
           >
-            <Svg
-              name="magnifying-glass"
-            >
-              <InlineSVG
-                className="magnifying-glass "
-                element="i"
-                raw={false}
-                src="<svg></svg>"
-              >
-                <i
-                  className="magnifying-glass "
-                  dangerouslySetInnerHTML={
-                    Object {
-                      "__html": "<svg></svg>",
-                    }
-                  }
-                  src={null}
-                />
-              </InlineSVG>
-            </Svg>
-            <input
-              aria-activedescendant=""
-              aria-autocomplete="list"
-              aria-controls="result-list"
-              className=""
-              onBlur={[Function]}
-              onChange={[Function]}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
-              placeholder="Find in files…"
-              spellCheck={false}
-              value="match"
-            />
             <div
-              className="summary"
+              aria-expanded={false}
+              aria-haspopup="listbox"
+              aria-owns="result-list"
+              className="search-field big"
+              role="combobox"
             >
-              5 results
-            </div>
-            <CloseButton
-              buttonClass="big"
-              handleClick={[Function]}
-            >
-              <button
-                className="close-btn big"
-                onClick={[Function]}
+              <Svg
+                name="magnifying-glass"
               >
-                <img
-                  className="close"
-                />
-              </button>
-            </CloseButton>
+                <InlineSVG
+                  className="magnifying-glass "
+                  element="i"
+                  raw={false}
+                  src="<svg></svg>"
+                >
+                  <i
+                    className="magnifying-glass "
+                    dangerouslySetInnerHTML={
+                      Object {
+                        "__html": "<svg></svg>",
+                      }
+                    }
+                    src={null}
+                  />
+                </InlineSVG>
+              </Svg>
+              <input
+                aria-activedescendant=""
+                aria-autocomplete="list"
+                aria-controls="result-list"
+                className=""
+                onBlur={[Function]}
+                onChange={[Function]}
+                onFocus={[Function]}
+                onKeyDown={[Function]}
+                placeholder="Find in files…"
+                spellCheck={false}
+                value="match"
+              />
+              <div
+                className="summary"
+              >
+                5 results
+              </div>
+              <CloseButton
+                buttonClass="big"
+                handleClick={[Function]}
+              >
+                <button
+                  className="close-btn big"
+                  onClick={[Function]}
+                >
+                  <img
+                    className="close"
+                  />
+                </button>
+              </CloseButton>
+            </div>
           </div>
         </SearchInput>
       </div>

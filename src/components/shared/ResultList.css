@@ -23,10 +23,10 @@
 }
 
 .result-list.big li {
-  padding: 10px;
+  padding: 5px;
   flex-direction: row;
-  border-bottom: 1px solid var(--theme-splitter-color);
   line-height: 18px;
+  font-size: 12px;
 }
 
 .result-list.small li {
@@ -79,6 +79,14 @@
   word-break: break-all;
   text-overflow: ellipsis;
   white-space: nowrap;
+
+  /** https://searchfox.org/mozilla-central/source/devtools/client/themes/variables.css **/
+  color: var(--grey-90);
+}
+
+.theme-dark .result-list li .title {
+  /** https://searchfox.org/mozilla-central/source/devtools/client/themes/variables.css **/
+  color: var(--grey-30);
 }
 
 .result-list li.selected .title {
@@ -101,7 +109,8 @@
 
 .result-list.big li .subtitle {
   word-break: break-all;
-  color: var(--theme-body-color-inactive);
+  /** https://searchfox.org/mozilla-central/source/devtools/client/themes/variables.css **/
+  color: var(--grey-50);
   margin-left: 15px;
   text-overflow: ellipsis;
   overflow: hidden;
