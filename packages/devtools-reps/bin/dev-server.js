@@ -4,16 +4,12 @@
 
 const path = require("path");
 const toolbox = require("devtools-launchpad/index");
-const feature = require("devtools-config");
-const getConfig = require("./getConfig");
 const serve = require("express-static");
-
-const envConfig = getConfig();
-feature.setConfig(envConfig);
+const config = require("../config");
 
 let webpackConfig = require("../webpack.config");
 
-let { app } = toolbox.startDevServer(envConfig, webpackConfig, __dirname);
+let { app } = toolbox.startDevServer(config, webpackConfig, __dirname);
 
 // Serve devtools-reps images
 app.use(
@@ -25,5 +21,5 @@ app.use(
 // write in the postCSS config in development mode.
 app.use(
   "/devtools-components/images/",
-  serve(path.join(__dirname, "../node_modules/devtools-components/src/images"))
+  serve(path.join(__dirname, "../../../node_modules/devtools-components/src/images"))
 );

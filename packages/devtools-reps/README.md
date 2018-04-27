@@ -8,7 +8,13 @@ Reps is Firefox DevTools' remote object formatter. It stands for _representation
 
 ```js
 const React = require("react");
-let { Rep, Grip } = require("devtools-modules");
+let {
+  Rep,
+  Grip,
+  MODE,
+  ObjectInspector,
+  ObjectInspectorUtils
+} = require("devtools-reps");
 
 function renderRep({ object, mode }) {
   return Rep({ object, defaultRep: Grip, mode });
@@ -36,11 +42,11 @@ Supported types:
 
 ## Getting started
 
-You need to clone the repository, then install dependencies, for which you'll need the [Yarn](https://yarnpkg.com/en/) tool:
+You need to clone the debugger.html repository, then install dependencies, for which you'll need the [Yarn](https://yarnpkg.com/en/) tool:
 
 ```
-git clone https://github.com/devtools-html/devtools-core.git
-cd devtools-core
+git clone https://github.com/devtools-html/debugger.html.git
+cd debugger.html
 yarn install
 ```
 
@@ -73,33 +79,9 @@ Then you can type any expression in the input field. They will be evaluated agai
 
 ## Running the tests
 
-Reps tests are mochitests (see [documentation on MDN](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/Mochitest)).
+Reps tests are written with jest.
 
-They are run on every pull request with Circle CI.
-They need a `mozilla-central` clone to be run locally.
-
-### a) if you don't have a mozilla-central clone available:
-
-* run `bin/prepare-mochitest-dev`, this will create a clone of `mozilla-central` in your repository root folder, under /firefox.
-* run `yarn run copy-assets-watch`, this will continuously bundle and copy reps sources to the clone of mozilla central (as well as the tests) when you modify them
-* with another command line, cd into /firefox
-* run `./mach test devtools/client/shared/components/reps`
-
-### b) if you already have a mozilla-central clone available:
-
-* create a configs/local.json configuration file with the following content:
-
-```
-{
-  "firefox": {
-    "mcPath": "/Path/to/your/mc/clone/"
-  }
-}
-```
-
-* run `yarn run copy-assets-watch`, this will continuously bundle and copy reps sources to the clone of mozilla central (as well as the tests) when you modify them
-* in another terminal window, `cd` into your `mozilla-central` clone
-* run `./mach test devtools/client/shared/components/reps`
+They are run on every pull request with Circle CI, and you can run them locally by executing `yarn test` from /packages/devtools-reps.
 
 ## History
 
@@ -109,11 +91,13 @@ The Reps project was ported to Github January 18th, 2017. You can view the histo
 git log --before "2017-1-17" devtools/client/shared/components/reps
 ```
 
+They were first moved to the [devtools-reps][gh-devtools-reps] repository, then to the [devtools-core][gh-devtools-core] one, before being migrated to this repository.
+
 [history]: https://github.com/mozilla/gecko-dev/commits/master/devtools/client/shared/components/reps
-
-## Publishing to `mozilla-central`
-
-See [the release procedure documentation](./RELEASE.md)
+[gh-devtools-reps]:
+https://github.com/devtools-html/reps/commits/master
+[gh-devtools-core]:
+https://github.com/devtools-html/devtools-core/commits/5ba3d6f6a44def9978a983edd6f2f89747dca2c7/packages/devtools-reps
 
 ## License
 

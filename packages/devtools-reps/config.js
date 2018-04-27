@@ -1,23 +1,16 @@
-{
+module.exports = {
   "title": "Reps",
   "hotReloading": true,
   "defaultURL": "https://nchevobbe.github.io/demo/console-test-app.html",
   "environment": "development",
-  "logging": {
-    "client": false,
-    "firefoxProxy": false,
-    "actions": false
-  },
   "theme": "light",
   "firefox": {
     "webSocketConnection": false,
     "host": "localhost",
     "webSocketPort": 9000,
     "tcpPort": 6080,
-    "mcPath": "./firefox"
   },
   "development": {
     "serverPort": 8000
-  },
-  "features": {}
-}
+  }
+};
