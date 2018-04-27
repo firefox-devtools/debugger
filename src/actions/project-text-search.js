@@ -76,8 +76,8 @@ export function searchSource(sourceId: string, query: string) {
       ({
         type: "ADD_SEARCH_RESULT",
         result: {
-          sourceId: sourceRecord.get("id"),
-          filepath: sourceRecord.get("url"),
+          sourceId: sourceRecord.id,
+          filepath: sourceRecord.url,
           matches
         }
       }: Action)
