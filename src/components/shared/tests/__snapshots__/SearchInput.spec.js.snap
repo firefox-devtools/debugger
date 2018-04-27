@@ -2,202 +2,226 @@
 
 exports[`SearchInput renders 1`] = `
 <div
-  aria-expanded={false}
-  aria-haspopup="listbox"
-  aria-owns="result-list"
-  className="search-field"
-  role="combobox"
+  className="search-shadow"
 >
-  <Svg
-    name="magnifying-glass"
-  />
-  <input
-    aria-activedescendant=""
-    aria-autocomplete="list"
-    aria-controls="result-list"
-    className=""
-    placeholder="A placeholder"
-    spellCheck={false}
-    value=""
-  />
   <div
-    className="summary"
+    aria-expanded={false}
+    aria-haspopup="listbox"
+    aria-owns="result-list"
+    className="search-field"
+    role="combobox"
   >
-    So many results
+    <Svg
+      name="magnifying-glass"
+    />
+    <input
+      aria-activedescendant=""
+      aria-autocomplete="list"
+      aria-controls="result-list"
+      className=""
+      onBlur={[Function]}
+      onFocus={[Function]}
+      placeholder="A placeholder"
+      spellCheck={false}
+      value=""
+    />
+    <div
+      className="summary"
+    >
+      So many results
+    </div>
+    <CloseButton
+      buttonClass=""
+    />
   </div>
-  <CloseButton
-    buttonClass=""
-  />
 </div>
 `;
 
 exports[`SearchInput shows nav buttons 1`] = `
 <div
-  aria-expanded={false}
-  aria-haspopup="listbox"
-  aria-owns="result-list"
-  className="search-field"
-  role="combobox"
+  className="search-shadow"
 >
-  <Svg
-    name="magnifying-glass"
-  />
-  <input
-    aria-activedescendant=""
-    aria-autocomplete="list"
-    aria-controls="result-list"
-    className=""
-    placeholder="A placeholder"
-    spellCheck={false}
-    value=""
-  />
   <div
-    className="summary"
+    aria-expanded={false}
+    aria-haspopup="listbox"
+    aria-owns="result-list"
+    className="search-field"
+    role="combobox"
   >
-    So many results
-  </div>
-  <div
-    className="search-nav-buttons"
-  >
-    <button
-      className="nav-btn next"
-      key="arrow-down"
-      onClick={[Function]}
-      title="Next result"
-      type="arrow-down"
+    <Svg
+      name="magnifying-glass"
+    />
+    <input
+      aria-activedescendant=""
+      aria-autocomplete="list"
+      aria-controls="result-list"
+      className=""
+      onBlur={[Function]}
+      onFocus={[Function]}
+      placeholder="A placeholder"
+      spellCheck={false}
+      value=""
+    />
+    <div
+      className="summary"
     >
-      <Svg
-        name="arrow-down"
-      />
-    </button>
-    <button
-      className="nav-btn prev"
-      key="arrow-up"
-      onClick={[Function]}
-      title="Previous result"
-      type="arrow-up"
+      So many results
+    </div>
+    <div
+      className="search-nav-buttons"
     >
-      <Svg
-        name="arrow-up"
-      />
-    </button>
+      <button
+        className="nav-btn next"
+        key="arrow-down"
+        onClick={[Function]}
+        title="Next result"
+        type="arrow-down"
+      >
+        <Svg
+          name="arrow-down"
+        />
+      </button>
+      <button
+        className="nav-btn prev"
+        key="arrow-up"
+        onClick={[Function]}
+        title="Previous result"
+        type="arrow-up"
+      >
+        <Svg
+          name="arrow-up"
+        />
+      </button>
+    </div>
+    <CloseButton
+      buttonClass=""
+    />
   </div>
-  <CloseButton
-    buttonClass=""
-  />
 </div>
 `;
 
 exports[`SearchInput shows svg error emoji 1`] = `
 <div
-  aria-expanded={false}
-  aria-haspopup="listbox"
-  aria-owns="result-list"
-  className="search-field"
-  role="combobox"
+  className="search-shadow"
 >
-  <Svg
-    name="sad-face"
-  />
-  <input
-    aria-activedescendant=""
-    aria-autocomplete="list"
-    aria-controls="result-list"
-    className="empty"
-    placeholder="A placeholder"
-    spellCheck={false}
-    value=""
-  />
   <div
-    className="summary"
+    aria-expanded={false}
+    aria-haspopup="listbox"
+    aria-owns="result-list"
+    className="search-field"
+    role="combobox"
   >
-    So many results
-  </div>
-  <div
-    className="search-nav-buttons"
-  >
-    <button
-      className="nav-btn next"
-      key="arrow-down"
-      onClick={[Function]}
-      title="Next result"
-      type="arrow-down"
+    <Svg
+      name="sad-face"
+    />
+    <input
+      aria-activedescendant=""
+      aria-autocomplete="list"
+      aria-controls="result-list"
+      className="empty"
+      onBlur={[Function]}
+      onFocus={[Function]}
+      placeholder="A placeholder"
+      spellCheck={false}
+      value=""
+    />
+    <div
+      className="summary"
     >
-      <Svg
-        name="arrow-down"
-      />
-    </button>
-    <button
-      className="nav-btn prev"
-      key="arrow-up"
-      onClick={[Function]}
-      title="Previous result"
-      type="arrow-up"
+      So many results
+    </div>
+    <div
+      className="search-nav-buttons"
     >
-      <Svg
-        name="arrow-up"
-      />
-    </button>
+      <button
+        className="nav-btn next"
+        key="arrow-down"
+        onClick={[Function]}
+        title="Next result"
+        type="arrow-down"
+      >
+        <Svg
+          name="arrow-down"
+        />
+      </button>
+      <button
+        className="nav-btn prev"
+        key="arrow-up"
+        onClick={[Function]}
+        title="Previous result"
+        type="arrow-up"
+      >
+        <Svg
+          name="arrow-up"
+        />
+      </button>
+    </div>
+    <CloseButton
+      buttonClass=""
+    />
   </div>
-  <CloseButton
-    buttonClass=""
-  />
 </div>
 `;
 
 exports[`SearchInput shows svg magnifying glass 1`] = `
 <div
-  aria-expanded={false}
-  aria-haspopup="listbox"
-  aria-owns="result-list"
-  className="search-field"
-  role="combobox"
+  className="search-shadow"
 >
-  <Svg
-    name="magnifying-glass"
-  />
-  <input
-    aria-activedescendant=""
-    aria-autocomplete="list"
-    aria-controls="result-list"
-    className=""
-    placeholder="A placeholder"
-    spellCheck={false}
-    value=""
-  />
   <div
-    className="summary"
+    aria-expanded={false}
+    aria-haspopup="listbox"
+    aria-owns="result-list"
+    className="search-field"
+    role="combobox"
   >
-    So many results
-  </div>
-  <div
-    className="search-nav-buttons"
-  >
-    <button
-      className="nav-btn next"
-      key="arrow-down"
-      onClick={[Function]}
-      title="Next result"
-      type="arrow-down"
+    <Svg
+      name="magnifying-glass"
+    />
+    <input
+      aria-activedescendant=""
+      aria-autocomplete="list"
+      aria-controls="result-list"
+      className=""
+      onBlur={[Function]}
+      onFocus={[Function]}
+      placeholder="A placeholder"
+      spellCheck={false}
+      value=""
+    />
+    <div
+      className="summary"
     >
-      <Svg
-        name="arrow-down"
-      />
-    </button>
-    <button
-      className="nav-btn prev"
-      key="arrow-up"
-      onClick={[Function]}
-      title="Previous result"
-      type="arrow-up"
+      So many results
+    </div>
+    <div
+      className="search-nav-buttons"
     >
-      <Svg
-        name="arrow-up"
-      />
-    </button>
+      <button
+        className="nav-btn next"
+        key="arrow-down"
+        onClick={[Function]}
+        title="Next result"
+        type="arrow-down"
+      >
+        <Svg
+          name="arrow-down"
+        />
+      </button>
+      <button
+        className="nav-btn prev"
+        key="arrow-up"
+        onClick={[Function]}
+        title="Previous result"
+        type="arrow-up"
+      >
+        <Svg
+          name="arrow-up"
+        />
+      </button>
+    </div>
+    <CloseButton
+      buttonClass=""
+    />
   </div>
-  <CloseButton
-    buttonClass=""
-  />
 </div>
 `;

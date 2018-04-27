@@ -68,7 +68,7 @@ class FrameworkComponent extends PureComponent<Props> {
           autoExpandAll={false}
           autoExpandDepth={0}
           disableWrap={true}
-          disabledFocus={true}
+          focusable={false}
           dimTopLevelWindow={true}
           createObjectClient={grip => createObjectClient(grip)}
         />

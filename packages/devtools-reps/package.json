@@ -1,0 +1,84 @@
+{
+  "name": "devtools-reps",
+  "version": "0.23.0",
+  "description": "Devtools Reps",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node bin/dev-server.js",
+    "lint-js": "eslint src",
+    "firefox": "./node_modules/.bin/start-firefox --start --location https://devtools-html.github.io/debugger-examples/",
+    "chrome": "./node_modules/.bin/start-chrome",
+    "copy-assets": "node bin/copy-assets",
+    "copy-assets-watch": "node bin/copy-assets --watch",
+    "license-check": "devtools-license-check",
+    "prepublish": "node bin/publish-assets",
+    "test": "jest"
+  },
+  "author": "",
+  "license": "MPL-2.0",
+  "repository": {
+    "url": "git://github.com/devtools-html/reps.git",
+    "type": "git"
+  },
+  "engineStrict": true,
+  "engines": {
+    "node": ">=8.9.4"
+  },
+  "dependencies": {
+    "classnames": "^2.2.5",
+    "devtools-components": "^0.6.0",
+    "lodash": "^4.17.2",
+    "prop-types": "^15.6.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-dom-factories": "^1.0.2",
+    "react-redux": "^5.0.7",
+    "redux": "^3.7.2"
+  },
+  "devDependencies": {
+    "@sucrase/webpack-object-rest-spread-plugin": "^1.0.0",
+    "babel-plugin-syntax-object-rest-spread": "^6.13.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
+    "babel-preset-react": "^6.24.1",
+    "devtools-config": "^0.0.15",
+    "devtools-launchpad": "^0.0.121",
+    "devtools-license-check": "^0.5.1",
+    "devtools-modules": "^0.0.36",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "enzyme-to-json": "^3.3.1",
+    "eslint": "^3.12.0",
+    "eslint-plugin-mozilla": "0.2.3",
+    "fs-extra": "^2.0.0",
+    "immutable": "^3.8.2",
+    "postcss-url-mapper": "^1.2.0",
+    "react-immutable-proptypes": "^2.1.0",
+    "redux-logger": "=3.0.6"
+  },
+  "jest": {
+    "rootDir": "src",
+    "setupFiles": [
+      "<rootDir>/test/__mocks__/request-animation-frame.js",
+      "<rootDir>/test/__mocks__/selection.js",
+      "<rootDir>/test/setup.js"
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/test/setup-file.js",
+    "testMatch": [
+      "**/tests/**/*.js"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "<rootDir>/test/",
+      "<rootDir>/reps/tests/test-helpers",
+      "<rootDir>/utils/tests/fixtures/",
+      "<rootDir>/object-inspector/tests/__mocks__/",
+      "<rootDir>/object-inspector/tests/test-utils"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!devtools-)"
+    ],
+    "moduleNameMapper": {
+      "\\.css$": "<rootDir>/../../../src/test/__mocks__/styleMock.js"
+    }
+  }
+}
