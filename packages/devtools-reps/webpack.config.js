@@ -3,7 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const { toolboxConfig } = require("devtools-launchpad/index");
-const getConfig = require("./bin/getConfig");
+const config = require("./config");
 const ObjectRestSpreadPlugin = require("@sucrase/webpack-object-rest-spread-plugin");
 
 const path = require("path");
@@ -36,4 +36,4 @@ let webpackConfig = {
   }
 };
 
-module.exports = toolboxConfig(webpackConfig, getConfig());
+module.exports = toolboxConfig(webpackConfig, config);
