@@ -9,3 +9,6 @@ class Outer {
     }
   }
 }
+
+@decorator
+class Second {}
