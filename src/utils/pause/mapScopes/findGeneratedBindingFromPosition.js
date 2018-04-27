@@ -69,7 +69,7 @@ export async function findGeneratedBindingFromPosition(
   if (bindingType === "import") {
     result = await findGeneratedImportReference(applicableBindings);
 
-    if (!result && pos.type === "decl") {
+    if (!result && pos.type !== "ref") {
       const importName = pos.importName;
       if (typeof importName !== "string") {
         // Should never happen, just keeping Flow happy.
@@ -223,7 +223,7 @@ async function findGeneratedImportDeclaration(
   let result = null;
 
   for (const { binding } of applicableBindings) {
-    if (binding.loc.type !== "decl") {
+    if (binding.loc.type === "ref") {
       continue;
     }
 
@@ -533,7 +533,7 @@ async function getGeneratedLocationRanges(
   //
   // var _mod = require("mod"); // mapped from import statement
   // var _mod2 = interop(_mod); // entirely unmapped
-  if (bindingType === "import" && locationType === "decl") {
+  if (bindingType === "import" && locationType !== "ref") {
     for (const range of resultRanges) {
       if (
         mappingContains(range, { start: startPosition, end: startPosition }) &&

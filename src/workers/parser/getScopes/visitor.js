@@ -45,7 +45,21 @@ export type BindingType =
   | "import"
   | "global";
 
-export type BindingLocationType = "ref" | "decl";
+export type BindingLocationType = "ref" | BindingDeclarationType;
+export type BindingDeclarationType =
+  | "fn-expr"
+  | "fn-decl"
+  | "fn-param"
+  | "class-decl"
+  | "class-inner"
+  | "import-decl"
+  | "import-ns-decl"
+  | "ts-enum-decl"
+  | "var"
+  | "let"
+  | "const"
+  | "catch";
+
 export type BindingLocation = BindingDeclarationLocation | BindingRefLocation;
 
 export type BindingRefLocation = {
@@ -55,7 +69,8 @@ export type BindingRefLocation = {
   meta?: BindingMetaValue | null
 };
 export type BindingDeclarationLocation = {
-  type: "decl",
+  type: BindingDeclarationType,
+
   start: Location,
   end: Location,
 
@@ -275,6 +290,7 @@ function parseDeclarator(
   declaratorId: Node,
   targetScope: TempScope,
   type: BindingType,
+  locationType: BindingDeclarationType,
   declaration: Node,
   state: ScopeCollectionVisitorState
 ) {
@@ -289,7 +305,7 @@ function parseDeclarator(
     }
     state.declarationBindingIds.add(declaratorId);
     existing.refs.push({
-      type: "decl",
+      type: locationType,
       start: fromBabelLocation(declaratorId.loc.start, state.sourceId),
       end: fromBabelLocation(declaratorId.loc.end, state.sourceId),
       declaration: {
@@ -299,19 +315,41 @@ function parseDeclarator(
     });
   } else if (isNode(declaratorId, "ObjectPattern")) {
     declaratorId.properties.forEach(prop => {
-      parseDeclarator(prop.value, targetScope, type, declaration, state);
+      parseDeclarator(
+        prop.value,
+        targetScope,
+        type,
+        locationType,
+        declaration,
+        state
+      );
     });
   } else if (isNode(declaratorId, "ArrayPattern")) {
     declaratorId.elements.forEach(item => {
-      parseDeclarator(item, targetScope, type, declaration, state);
+      parseDeclarator(
+        item,
+        targetScope,
+        type,
+        locationType,
+        declaration,
+        state
+      );
     });
   } else if (isNode(declaratorId, "AssignmentPattern")) {
-    parseDeclarator(declaratorId.left, targetScope, type, declaration, state);
+    parseDeclarator(
+      declaratorId.left,
+      targetScope,
+      type,
+      locationType,
+      declaration,
+      state
+    );
   } else if (isNode(declaratorId, "RestElement")) {
     parseDeclarator(
       declaratorId.argument,
       targetScope,
       type,
+      locationType,
       declaration,
       state
     );
@@ -389,7 +427,7 @@ const scopeCollectionVisitor = {
           type: "const",
           refs: [
             {
-              type: "decl",
+              type: "fn-expr",
               start: fromBabelLocation(node.id.loc.start, state.sourceId),
               end: fromBabelLocation(node.id.loc.end, state.sourceId),
               declaration: {
@@ -410,7 +448,7 @@ const scopeCollectionVisitor = {
           type: fnScope === scope ? "var" : "let",
           refs: [
             {
-              type: "decl",
+              type: "fn-decl",
               start: fromBabelLocation(node.id.loc.start, state.sourceId),
               end: fromBabelLocation(node.id.loc.end, state.sourceId),
               declaration: {
@@ -438,7 +476,7 @@ const scopeCollectionVisitor = {
       );
 
       node.params.forEach(param =>
-        parseDeclarator(param, scope, "var", node, state)
+        parseDeclarator(param, scope, "var", "fn-param", node, state)
       );
 
       if (!t.isArrowFunctionExpression(node)) {
@@ -479,7 +517,7 @@ const scopeCollectionVisitor = {
             type: "let",
             refs: [
               {
-                type: "decl",
+                type: "class-decl",
                 start: fromBabelLocation(node.id.loc.start, state.sourceId),
                 end: fromBabelLocation(node.id.loc.end, state.sourceId),
                 declaration
@@ -498,7 +536,7 @@ const scopeCollectionVisitor = {
           type: "const",
           refs: [
             {
-              type: "decl",
+              type: "class-inner",
               start: fromBabelLocation(node.id.loc.start, state.sourceId),
               end: fromBabelLocation(node.id.loc.end, state.sourceId),
               declaration
@@ -522,7 +560,7 @@ const scopeCollectionVisitor = {
         start: fromBabelLocation(node.loc.start, state.sourceId),
         end: fromBabelLocation(node.loc.end, state.sourceId)
       });
-      parseDeclarator(node.param, scope, "var", node, state);
+      parseDeclarator(node.param, scope, "var", "catch", node, state);
     } else if (
       t.isBlockStatement(node) &&
       hasLexicalDeclaration(node, parentNode)
@@ -544,7 +582,14 @@ const scopeCollectionVisitor = {
         ? getVarScope(state.scope)
         : state.scope;
       node.declarations.forEach(declarator => {
-        parseDeclarator(declarator.id, hoistAt, node.kind, node, state);
+        parseDeclarator(
+          declarator.id,
+          hoistAt,
+          node.kind,
+          node.kind,
+          node,
+          state
+        );
       });
     } else if (
       t.isImportDeclaration(node) &&
@@ -560,7 +605,7 @@ const scopeCollectionVisitor = {
             type: "const",
             refs: [
               {
-                type: "decl",
+                type: "import-ns-decl",
                 start: fromBabelLocation(spec.local.loc.start, state.sourceId),
                 end: fromBabelLocation(spec.local.loc.end, state.sourceId),
                 declaration: {
@@ -577,7 +622,7 @@ const scopeCollectionVisitor = {
             type: "import",
             refs: [
               {
-                type: "decl",
+                type: "import-decl",
                 start: fromBabelLocation(spec.local.loc.start, state.sourceId),
                 end: fromBabelLocation(spec.local.loc.end, state.sourceId),
                 importName: t.isImportDefaultSpecifier(spec)
@@ -598,7 +643,7 @@ const scopeCollectionVisitor = {
         type: "const",
         refs: [
           {
-            type: "decl",
+            type: "ts-enum-decl",
             start: fromBabelLocation(node.id.loc.start, state.sourceId),
             end: fromBabelLocation(node.id.loc.end, state.sourceId),
             declaration: {

@@ -100,7 +100,7 @@ function batchScopeMappings(
     for (const name of Object.keys(item.bindings)) {
       for (const ref of item.bindings[name].refs) {
         const locs = [ref];
-        if (ref.type === "decl") {
+        if (ref.type !== "ref") {
           locs.push(ref.declaration);
         }
 
