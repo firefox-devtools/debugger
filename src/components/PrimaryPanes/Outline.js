@@ -214,17 +214,12 @@ export class Outline extends Component<Props> {
 export default connect(
   state => {
     const selectedSource = getSelectedSource(state);
-    const selectedSourceJS = selectedSource.toJS();
+    const symbols = getSymbols(state, selectedSource);
     return {
-      symbols: getSymbols(state, selectedSource && selectedSourceJS),
+      symbols,
       selectedSource,
       selectedLocation: getSelectedLocation(state),
-      getFunctionText: line =>
-        findFunctionText(
-          line,
-          selectedSourceJS,
-          getSymbols(state, selectedSourceJS)
-        )
+      getFunctionText: line => findFunctionText(line, selectedSource, symbols)
     };
   },
   dispatch => bindActionCreators(actions, dispatch)
