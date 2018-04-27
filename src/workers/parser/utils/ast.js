@@ -67,6 +67,36 @@ function htmlParser({ source, line }) {
   return parse(source, { startLine: line });
 }
 
+const VUE_COMPONENT_START = /^\s*</;
+function vueParser({ source, line }) {
+  return parse(source, {
+    startLine: line,
+    ...sourceOptions.original
+  });
+}
+function parseVueScript(code) {
+  if (typeof code !== "string") {
+    return;
+  }
+
+  let ast;
+
+  // .vue files go through several passes, so while there is a
+  // single-file-component Vue template, there are also generally .vue files
+  // that are still just JS as well.
+  if (code.match(VUE_COMPONENT_START)) {
+    ast = parseScriptTags(code, vueParser);
+    if (t.isFile(ast)) {
+      // parseScriptTags is currently hard-coded to return scripts, but Vue
+      // always expects ESM syntax, so we just hard-code it.
+      ast.program.sourceType = "module";
+    }
+  } else {
+    ast = parse(code, sourceOptions.original);
+  }
+  return ast;
+}
+
 export function parseScript(text: string, opts?: Object) {
   return _parse(text, opts);
 }
@@ -82,6 +112,8 @@ export function getAst(sourceId: string) {
   const { contentType } = source;
   if (contentType == "text/html") {
     ast = parseScriptTags(source.text, htmlParser) || {};
+  } else if (contentType && contentType === "text/vue") {
+    ast = parseVueScript(source.text) || {};
   } else if (
     contentType &&
     contentType.match(/(javascript|jsx)/) &&
