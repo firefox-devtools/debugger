@@ -5,7 +5,6 @@
 // @flow
 
 import React, { Component } from "react";
-import { bindActionCreators } from "redux";
 import { showMenu } from "devtools-contextmenu";
 import { connect } from "react-redux";
 
@@ -211,16 +210,15 @@ export class Outline extends Component<Props> {
   }
 }
 
-export default connect(
-  state => {
-    const selectedSource = getSelectedSource(state);
-    const symbols = getSymbols(state, selectedSource);
-    return {
-      symbols,
-      selectedSource,
-      selectedLocation: getSelectedLocation(state),
-      getFunctionText: line => findFunctionText(line, selectedSource, symbols)
-    };
-  },
-  dispatch => bindActionCreators(actions, dispatch)
-)(Outline);
+const mapStateToProps = state => {
+  const selectedSource = getSelectedSource(state);
+  const symbols = getSymbols(state, selectedSource);
+  return {
+    symbols,
+    selectedSource,
+    selectedLocation: getSelectedLocation(state),
+    getFunctionText: line => findFunctionText(line, selectedSource, symbols)
+  };
+};
+
+export default connect(mapStateToProps, actions)(Outline);

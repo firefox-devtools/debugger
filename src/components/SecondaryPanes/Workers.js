@@ -3,7 +3,6 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 import React, { PureComponent } from "react";
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import type { List } from "immutable";
 
@@ -50,9 +49,8 @@ export class Workers extends PureComponent {
   }
 }
 
-export default connect(
-  state => {
-    return { workers: getWorkers(state) };
-  },
-  dispatch => bindActionCreators(actions, dispatch)
-)(Workers);
+const mapStateToProps = state => ({
+  workers: getWorkers(state)
+});
+
+export default connect(mapStateToProps, actions)(Workers);

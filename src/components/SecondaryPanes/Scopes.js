@@ -4,7 +4,6 @@
 
 // @flow
 import React, { PureComponent } from "react";
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import actions from "../../actions";
 import { createObjectClient } from "../../client/firefox";
@@ -147,36 +146,35 @@ class Scopes extends PureComponent<Props, State> {
   }
 }
 
-export default connect(
-  state => {
-    const selectedFrame = getSelectedFrame(state);
-    const selectedSource = getSelectedSource(state);
+const mapStateToProps = state => {
+  const selectedFrame = getSelectedFrame(state);
+  const selectedSource = getSelectedSource(state);
 
-    const {
-      scope: originalFrameScopes,
-      pending: originalPending
-    } = getOriginalFrameScope(
-      state,
-      selectedSource && selectedSource.get("id"),
-      selectedFrame && selectedFrame.id
-    ) || { scope: null, pending: false };
+  const {
+    scope: originalFrameScopes,
+    pending: originalPending
+  } = getOriginalFrameScope(
+    state,
+    selectedSource && selectedSource.get("id"),
+    selectedFrame && selectedFrame.id
+  ) || { scope: null, pending: false };
 
-    const {
-      scope: generatedFrameScopes,
-      pending: generatedPending
-    } = getGeneratedFrameScope(state, selectedFrame && selectedFrame.id) || {
-      scope: null,
-      pending: false
-    };
+  const {
+    scope: generatedFrameScopes,
+    pending: generatedPending
+  } = getGeneratedFrameScope(state, selectedFrame && selectedFrame.id) || {
+    scope: null,
+    pending: false
+  };
 
-    return {
-      selectedFrame,
-      isPaused: getIsPaused(state),
-      isLoading: generatedPending || originalPending,
-      why: getPauseReason(state),
-      originalFrameScopes,
-      generatedFrameScopes
-    };
-  },
-  dispatch => bindActionCreators(actions, dispatch)
-)(Scopes);
+  return {
+    selectedFrame,
+    isPaused: getIsPaused(state),
+    isLoading: generatedPending || originalPending,
+    why: getPauseReason(state),
+    originalFrameScopes,
+    generatedFrameScopes
+  };
+};
+
+export default connect(mapStateToProps, actions)(Scopes);

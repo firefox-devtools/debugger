@@ -4,7 +4,6 @@
 
 // @flow
 import React, { PureComponent } from "react";
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import actions from "../../actions";
 
@@ -32,11 +31,8 @@ class ReactComponentStack extends PureComponent<Props> {
   }
 }
 
-export default connect(
-  state => {
-    return {
-      extra: getExtra(state)
-    };
-  },
-  dispatch => bindActionCreators(actions, dispatch)
-)(ReactComponentStack);
+const mapStateToProps = state => ({
+  extra: getExtra(state)
+});
+
+export default connect(mapStateToProps, actions)(ReactComponentStack);

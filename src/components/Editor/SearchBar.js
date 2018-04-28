@@ -7,7 +7,6 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import Svg from "../shared/Svg";
 import actions from "../../actions";
 import {
@@ -223,7 +222,10 @@ class SearchBar extends Component<Props, State> {
 
   // Renderers
   buildSummaryMsg() {
-    const { searchResults: { matchIndex, count, index }, query } = this.props;
+    const {
+      searchResults: { matchIndex, count, index },
+      query
+    } = this.props;
 
     if (query.trim() == "") {
       return "";
@@ -290,12 +292,18 @@ class SearchBar extends Component<Props, State> {
   };
 
   shouldShowErrorEmoji() {
-    const { query, searchResults: { count } } = this.props;
+    const {
+      query,
+      searchResults: { count }
+    } = this.props;
     return !!query && !count;
   }
 
   render() {
-    const { searchResults: { count }, searchOn } = this.props;
+    const {
+      searchResults: { count },
+      searchOn
+    } = this.props;
 
     if (!searchOn) {
       return <div />;
@@ -326,17 +334,14 @@ SearchBar.contextTypes = {
   shortcuts: PropTypes.object
 };
 
-export default connect(
-  state => {
-    return {
-      searchOn: getActiveSearch(state) === "file",
-      selectedSource: getSelectedSource(state),
-      selectedLocation: getSelectedLocation(state),
-      query: getFileSearchQuery(state),
-      modifiers: getFileSearchModifiers(state),
-      highlightedLineRange: getHighlightedLineRange(state),
-      searchResults: getFileSearchResults(state)
-    };
-  },
-  dispatch => bindActionCreators(actions, dispatch)
-)(SearchBar);
+const mapStateToProps = state => ({
+  searchOn: getActiveSearch(state) === "file",
+  selectedSource: getSelectedSource(state),
+  selectedLocation: getSelectedLocation(state),
+  query: getFileSearchQuery(state),
+  modifiers: getFileSearchModifiers(state),
+  highlightedLineRange: getHighlightedLineRange(state),
+  searchResults: getFileSearchResults(state)
+});
+
+export default connect(mapStateToProps, actions)(SearchBar);

@@ -7,7 +7,6 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import { List } from "immutable";
 
 import actions from "../../actions";
@@ -16,7 +15,6 @@ import {
   getBreakpoints,
   getBreakpointsDisabled,
   getBreakpointsLoading,
-  getExpressions,
   getIsWaitingOnBreak,
   getShouldPauseOnExceptions,
   getShouldIgnoreCaughtExceptions,
@@ -198,7 +196,9 @@ class SecondaryPanes extends Component<Props, State> {
   }
 
   getComponentItem() {
-    const { extra: { react } } = this.props;
+    const {
+      extra: { react }
+    } = this.props;
 
     return {
       header: react.displayName,
@@ -400,18 +400,16 @@ SecondaryPanes.contextTypes = {
   shortcuts: PropTypes.object
 };
 
-export default connect(
-  state => ({
-    expressions: getExpressions(state),
-    extra: getExtra(state),
-    hasFrames: !!getTopFrame(state),
-    breakpoints: getBreakpoints(state),
-    breakpointsDisabled: getBreakpointsDisabled(state),
-    breakpointsLoading: getBreakpointsLoading(state),
-    isWaitingOnBreak: getIsWaitingOnBreak(state),
-    shouldPauseOnExceptions: getShouldPauseOnExceptions(state),
-    shouldIgnoreCaughtExceptions: getShouldIgnoreCaughtExceptions(state),
-    workers: getWorkers(state)
-  }),
-  dispatch => bindActionCreators(actions, dispatch)
-)(SecondaryPanes);
+const mapStateToProps = state => ({
+  extra: getExtra(state),
+  hasFrames: !!getTopFrame(state),
+  breakpoints: getBreakpoints(state),
+  breakpointsDisabled: getBreakpointsDisabled(state),
+  breakpointsLoading: getBreakpointsLoading(state),
+  isWaitingOnBreak: getIsWaitingOnBreak(state),
+  shouldPauseOnExceptions: getShouldPauseOnExceptions(state),
+  shouldIgnoreCaughtExceptions: getShouldIgnoreCaughtExceptions(state),
+  workers: getWorkers(state)
+});
+
+export default connect(mapStateToProps, actions)(SecondaryPanes);

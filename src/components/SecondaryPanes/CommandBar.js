@@ -9,7 +9,6 @@ import PropTypes from "prop-types";
 import React, { Component } from "react";
 
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import classnames from "classnames";
 import { features } from "../../utils/prefs";
 import {
@@ -377,16 +376,13 @@ CommandBar.contextTypes = {
   shortcuts: PropTypes.object
 };
 
-export default connect(
-  state => {
-    return {
-      isPaused: getIsPaused(state),
-      history: getHistory(state),
-      historyPosition: getHistoryPosition(state),
-      isWaitingOnBreak: getIsWaitingOnBreak(state),
-      canRewind: getCanRewind(state),
-      skipPausing: getSkipPausing(state)
-    };
-  },
-  dispatch => bindActionCreators(actions, dispatch)
-)(CommandBar);
+const mapStateToProps = state => ({
+  isPaused: getIsPaused(state),
+  history: getHistory(state),
+  historyPosition: getHistoryPosition(state),
+  isWaitingOnBreak: getIsWaitingOnBreak(state),
+  canRewind: getCanRewind(state),
+  skipPausing: getSkipPausing(state)
+});
+
+export default connect(mapStateToProps, actions)(CommandBar);

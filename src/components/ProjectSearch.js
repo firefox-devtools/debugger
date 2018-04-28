@@ -8,7 +8,6 @@ import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import classnames from "classnames";
-import { bindActionCreators } from "redux";
 import actions from "../actions";
 
 import { getEditor } from "../utils/editor";
@@ -334,13 +333,12 @@ ProjectSearch.contextTypes = {
   shortcuts: PropTypes.object
 };
 
-export default connect(
-  state => ({
-    sources: getSources(state),
-    activeSearch: getActiveSearch(state),
-    results: getTextSearchResults(state),
-    query: getTextSearchQuery(state),
-    status: getTextSearchStatus(state)
-  }),
-  dispatch => bindActionCreators(actions, dispatch)
-)(ProjectSearch);
+const mapStateToProps = state => ({
+  sources: getSources(state),
+  activeSearch: getActiveSearch(state),
+  results: getTextSearchResults(state),
+  query: getTextSearchQuery(state),
+  status: getTextSearchStatus(state)
+});
+
+export default connect(mapStateToProps, actions)(ProjectSearch);
