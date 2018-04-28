@@ -41,7 +41,7 @@ class Preview extends PureComponent<Props, State> {
   constructor(props) {
     super(props);
     this.state = { selecting: false };
-    self.onMouseOver = debounce(this.onMouseOver, 40);
+    // self.onMouseOver = debounce(this.onMouseOver, 40);
   }
 
   componentDidMount() {
@@ -52,6 +52,8 @@ class Preview extends PureComponent<Props, State> {
     codeMirrorWrapper.addEventListener("mouseover", this.onMouseOver);
     codeMirrorWrapper.addEventListener("mouseup", this.onMouseUp);
     codeMirrorWrapper.addEventListener("mousedown", this.onMouseDown);
+    codeMirrorWrapper.addEventListener("mouseleave", this.onMouseLeave);
+    document.body.addEventListener("mouseleave", this.onMouseLeave);
   }
 
   componentWillUnmount() {
@@ -60,6 +62,9 @@ class Preview extends PureComponent<Props, State> {
     codeMirrorWrapper.removeEventListener("mouseover", this.onMouseOver);
     codeMirrorWrapper.removeEventListener("mouseup", this.onMouseUp);
     codeMirrorWrapper.removeEventListener("mousedown", this.onMouseDown);
+    codeMirrorWrapper.removeEventListener("mouseleave", this.onMouseLeave);
+    document.body.removeEventListener("mouseleave", this.onMouseLeave);
+
     codeMirror.off("scroll", this.onScroll);
   }
 
@@ -78,11 +83,24 @@ class Preview extends PureComponent<Props, State> {
     return true;
   };
 
+  onMouseLeave = e => {
+    if (e.target.classList.contains("CodeMirror")) {
+      return;
+    }
+
+    console.log("editor mouse leave", e.target);
+    this.props.clearPreview();
+  };
+
   onScroll = () => {
+    console.log("scrolling");
+
     this.props.clearPreview();
   };
 
   onClose = e => {
+    console.log("closing");
+
     this.props.clearPreview();
   };
 
@@ -94,6 +112,7 @@ class Preview extends PureComponent<Props, State> {
     }
 
     if (!preview || preview.updating) {
+      console.log("preview/index - render (no preview)");
       return null;
     }
 

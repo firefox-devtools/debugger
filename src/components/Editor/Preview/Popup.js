@@ -91,6 +91,7 @@ export class Popup extends Component<Props> {
   }
 
   componentWillUnmount() {
+    console.log(`popup componentWillUnmount`, this.marker);
     if (this.marker) {
       this.marker.clear();
     }

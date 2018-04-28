@@ -49,6 +49,12 @@ function isInvalidTarget(target: HTMLElement) {
       !target.parentElement.closest(".CodeMirror-line")) ||
     cursorPos.top == 0;
 
+  console.log(
+    target,
+    tokenText,
+    { invalidTarget, invalidToken, invalidType },
+    target.outerHTML
+  );
   return invalidTarget || invalidToken || invalidType;
 }
 
@@ -71,11 +77,14 @@ export function updatePreview(target: HTMLElement, editor: any) {
 
       // We are mousing over a new token that is not in the preview
       if (!target.classList.contains("debug-expression")) {
+        console.log(`mousing over a new token`, target.innerHTML);
         dispatch(clearPreview());
       }
     }
 
     if (isInvalidTarget(target)) {
+      console.log(`mousing over an invalid targt`, target.outerHTML);
+      dispatch(clearPreview());
       return;
     }
 
@@ -105,6 +114,17 @@ export function updatePreview(target: HTMLElement, editor: any) {
     if (isConsole(expression)) {
       return;
     }
+
+    target.addEventListener(
+      "mouseleave",
+      () => {
+        console.log("leaving", target.innerText);
+        dispatch(clearPreview());
+      },
+      { capture: true, once: true }
+    );
+
+    console.log(`previewing `, expression, target.innerHTML, target);
 
     dispatch(setPreview(expression, location, tokenPos, cursorPos));
   };
