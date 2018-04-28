@@ -25,7 +25,7 @@ export default async function addBreakpoint(
   const location = { ...breakpoint.location, sourceUrl: source.url };
   const generatedLocation = await getGeneratedLocation(
     state,
-    source.toJS(),
+    source,
     location,
     sourceMaps
   );
