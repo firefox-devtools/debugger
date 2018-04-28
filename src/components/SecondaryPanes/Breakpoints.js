@@ -57,7 +57,7 @@ type Props = {
   sourcesMetaData: SourceMetaDataMap,
   enableBreakpoint: Location => void,
   disableBreakpoint: Location => void,
-  selectLocation: Object => void,
+  selectLocation: (Object, boolean) => void,
   removeBreakpoint: string => void,
   removeAllBreakpoints: () => void,
   removeBreakpoints: BreakpointsMap => void,
@@ -131,7 +131,7 @@ class Breakpoints extends Component<Props> {
   }
 
   selectBreakpoint(breakpoint) {
-    this.props.selectLocation(breakpoint.location);
+    this.props.selectLocation(breakpoint.location, true);
   }
 
   removeBreakpoint(event, breakpoint) {

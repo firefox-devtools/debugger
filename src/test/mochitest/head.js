@@ -405,6 +405,44 @@ function assertHighlightLocation(dbg, source, line) {
     "Line is highlighted"
   );
 }
+/**
+ * Assert that the debugger is not highlighting the location.
+ *
+ * @memberof mochitest/asserts
+ * @param {Object} dbg
+ * @param {String} source
+ * @param {Number} line
+ * @static
+ */
+function assertNoHighlightLocation(dbg, source, line) {
+  const { selectors: { getSelectedSource }, getState } = dbg;
+  source = findSource(dbg, source);
+
+  // Check the selected source
+  is(
+    getSelectedSource(getState()).get("url"),
+    source.url,
+    "source url is correct"
+  );
+
+  // Check the lack of a highlight line
+  const lineEl = findElement(dbg, "highlightLine");
+  ok(!lineEl, "No line is highlighted");
+
+  is(
+    findAllElements(dbg, "highlightLine").length,
+    0,
+    "0 lines are highlighted"
+  );
+
+  ok(isVisibleInEditor(dbg, lineEl), "Not-highlighted line is visible");
+  ok(
+    !getCM(dbg)
+      .lineInfo(line - 1)
+      .wrapClass.includes("highlight-line"),
+    "No line is highlighted"
+  );
+}
 
 /**
  * Returns boolean for whether the debugger is paused.
