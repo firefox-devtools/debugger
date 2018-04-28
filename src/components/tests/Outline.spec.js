@@ -26,6 +26,9 @@ function generateDefaults(overrides) {
     flashLineRange: jest.fn(),
     isHidden: false,
     symbols: {},
+    selectedLocation: {
+      sourceId: sourceId
+    },
     ...overrides
   };
 }
@@ -101,8 +104,10 @@ describe("Outline", () => {
       expect(showMenu).not.toHaveBeenCalled();
     });
 
-    it("shows menu to copy function", async () => {
-      const func = makeSymbolDeclaration("my_example_function", 12);
+    it("shows menu to copy function, and call copy function", async () => {
+      const startLine = 12;
+      const endLine = 21;
+      const func = makeSymbolDeclaration("my_example_function", startLine, endLine);
       const symbols = {
         functions: [func]
       };
@@ -128,9 +133,9 @@ describe("Outline", () => {
       expect(props.getFunctionText).toHaveBeenCalledWith(12);
       expect(showMenu).toHaveBeenCalledWith(mockEvent, expectedMenuOptions);
 
-      // showMenu.mock.calls[0][1][0].click();
-      // expect(copyToTheClipboard).toHaveBeenCalledWith(mockFunctionText);
-      // expect(flashLineRange).toHaveBeenCalledWith(null);
+      showMenu.mock.calls[0][1][0].click();
+      expect(copyToTheClipboard).toHaveBeenCalledWith(mockFunctionText);
+      expect(props.flashLineRange).toHaveBeenCalledWith({"end": endLine, "sourceId": sourceId, "start": startLine});
     });
   });
 });
