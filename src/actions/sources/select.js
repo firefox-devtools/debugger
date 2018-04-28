@@ -216,7 +216,7 @@ export function jumpToMappedLocation(location: Location) {
     if (isOriginalId(location.sourceId)) {
       pairedLocation = await getGeneratedLocation(
         getState(),
-        source.toJS(),
+        source,
         location,
         sourceMaps
       );

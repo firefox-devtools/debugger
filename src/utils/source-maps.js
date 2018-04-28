@@ -16,7 +16,7 @@ export async function getGeneratedLocation(
 
   const { line, sourceId, column } = await sourceMaps.getGeneratedLocation(
     location,
-    source
+    source.toJS()
   );
 
   const generatedSource = getSource(state, sourceId);
