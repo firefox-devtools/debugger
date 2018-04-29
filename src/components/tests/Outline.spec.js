@@ -40,6 +40,7 @@ function generateDefaults(overrides) {
     selectedLocation: {
       sourceId: sourceId
     },
+    onAlphabetizeClick: jest.fn(),
     ...overrides
   };
 }
@@ -152,6 +153,23 @@ describe("Outline", () => {
       const { component } = render({ symbols:symbols,  alphabetizeOutline: true});
       expect(component).toMatchSnapshot();
     });
+    it("should call onAlphabetizeClick when sort button is clicked", async () => {
+      const symbols = {
+        functions: [
+          makeSymbolDeclaration("example_function", 25)
+        ]
+      };
+
+      const { component, props } = render({ symbols });
+
+      await component
+              .find(".outline-footer")
+              .find("button")
+              .simulate("click", {});
+
+      expect(props.onAlphabetizeClick).toHaveBeenCalled();
+    });
+
     it("should render functions by function class", async () => {
       const symbols = {
         functions: [
@@ -183,6 +201,38 @@ describe("Outline", () => {
 
       const { component } = render({ symbols:symbols,  alphabetizeOutline: true });
       expect(component).toMatchSnapshot();
+    });
+
+    it("should select class on click on class headline", async () => {
+      const symbols = {
+        functions: [
+          makeSymbolDeclaration("x_function", 25, 26, "x_klass")
+        ],
+        classes: [
+          makeSymbolDeclaration("x_klass", 24, 27)
+        ]
+      };
+
+      const { component, props } = render({ symbols:symbols });
+
+      await component
+              .find("h2")
+              .simulate("click", {});
+
+      expect(props.selectLocation).toHaveBeenCalledWith({"line": 24, "sourceId": sourceId});
+    });
+
+    it ("selectItem does not select an item if selectedSource is not defined", async () => {
+      const symbols = {
+        functions: [
+          makeSymbolDeclaration("example_function", 25)
+        ]
+      };
+
+      const { instance, props } = render({ selectedSource: null });
+      await instance.selectItem({});
+      expect(props.selectLocation).not.toHaveBeenCalled();
+
     });
   });
 
@@ -251,19 +301,6 @@ describe("Outline", () => {
       showMenu.mock.calls[0][1][0].click();
       expect(copyToTheClipboard).toHaveBeenCalledWith(mockFunctionText);
       expect(props.flashLineRange).toHaveBeenCalledWith({"end": endLine, "sourceId": sourceId, "start": startLine});
-    });
-
-    describe("test redux connect", () => {
-      jest.mock("../../selectors");
-      it("calls mapStateToProps", async () => {
-        const state = { hello: "world" };
-        const store = {
-          getState: () => state,
-          dispatch: () => {},
-          subscribe: () => {}
-        };
-        shallow(<Outline store={store} />);
-      });
     });
   });
 });
