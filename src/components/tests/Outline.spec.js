@@ -10,19 +10,8 @@ import { makeSymbolDeclaration } from "../../utils/test-head";
 import { showMenu } from "devtools-contextmenu";
 import { copyToTheClipboard } from "../../utils/clipboard";
 
-import {
-  getShownSource,
-  getSelectedSource,
-  getDebuggeeUrl,
-  getExpandedState,
-  getProjectDirectoryRoot,
-  getSources
-} from "../../selectors";
-
 jest.mock("devtools-contextmenu", () => ({ showMenu: jest.fn() }));
 jest.mock("../../utils/clipboard", () => ({ copyToTheClipboard: jest.fn() }));
-jest.mock("../../selectors");
-
 
 const sourceId = "id";
 const mockFunctionText = "mock function text";
@@ -63,7 +52,7 @@ describe("Outline", () => {
     showMenu.mockClear();
   });
 
-  it("should render a list of functions when properties change", async () => {
+  it("renders a list of functions when properties change", async () => {
     const symbols = {
       functions: [
         makeSymbolDeclaration("my_example_function1", 21),
@@ -75,8 +64,7 @@ describe("Outline", () => {
     expect(component).toMatchSnapshot();
   });
 
-
-  it("should select a line of code in the current file on click", async () => {
+  it("selects a line of code in the current file on click", async () => {
     const startLine = 12;
     const symbols = {
       functions: [makeSymbolDeclaration("my_example_function", startLine)]
@@ -91,27 +79,25 @@ describe("Outline", () => {
   });
 
   describe("renders outline", () => {
-    it("renders placeholder `No File Selected` if no selectedSource is defined", () => {
-      const { component } = render({
-        selectedSource: null
+    describe("renders loading", () => {
+      it("if symbols is not defined", () => {
+        const { component } = render({
+          symbols: null
+        });
+        expect(component).toMatchSnapshot();
       });
-      expect(component).toMatchSnapshot();
-    });
-    it("renders loading if symbols is not defined", () => {
-      const { component } = render({
-        symbols: null
+
+      it("if symbols are loading", () => {
+        const { component } = render({
+          symbols: {
+            loading: true
+          }
+        });
+        expect(component).toMatchSnapshot();
       });
-      expect(component).toMatchSnapshot();
     });
-    it("renders loading if symbols are loading", () => {
-      const { component } = render({
-        symbols: {
-          loading: true
-        }
-      });
-      expect(component).toMatchSnapshot();
-    });
-    it("should render ignore anonymous functions", async () => {
+
+    it("renders ignore anonymous functions", async () => {
       const symbols = {
         functions: [
           makeSymbolDeclaration("my_example_function1", 21),
@@ -122,26 +108,36 @@ describe("Outline", () => {
       const { component } = render({ symbols });
       expect(component).toMatchSnapshot();
     });
-    it("should render placholder `No functions` if all func are anonymous", async () => {
-      const symbols = {
-        functions: [
-          makeSymbolDeclaration("anonymous", 25),
-          makeSymbolDeclaration("anonymous", 30)
-        ]
-      };
+    describe("renders placeholder", () => {
+      it("`No File Selected` if selectedSource is not defined", async () => {
+        const { component } = render({
+          selectedSource: null
+        });
+        expect(component).toMatchSnapshot();
+      });
 
-      const { component } = render({ symbols });
-      expect(component).toMatchSnapshot();
+      it("`No functions` if all func are anonymous", async () => {
+        const symbols = {
+          functions: [
+            makeSymbolDeclaration("anonymous", 25),
+            makeSymbolDeclaration("anonymous", 30)
+          ]
+        };
+
+        const { component } = render({ symbols });
+        expect(component).toMatchSnapshot();
+      });
+
+      it("`No functions` if symbols has no func", async () => {
+        const symbols = {
+          functions: []
+        };
+        const { component } = render({ symbols });
+        expect(component).toMatchSnapshot();
+      });
     });
-    it("should render placholder `No functions` if symbols has no functions", async () => {
-      const symbols = {
-        functions: [
-        ]
-      };
-      const { component } = render({ symbols });
-      expect(component).toMatchSnapshot();
-    });
-    it("should sort functions alphabetically by function name", async () => {
+
+    it("sorts functions alphabetically by function name", async () => {
       const symbols = {
         functions: [
           makeSymbolDeclaration("c_function", 25),
@@ -150,27 +146,29 @@ describe("Outline", () => {
         ]
       };
 
-      const { component } = render({ symbols:symbols,  alphabetizeOutline: true});
+      const { component } = render({
+        symbols: symbols,
+        alphabetizeOutline: true
+      });
       expect(component).toMatchSnapshot();
     });
-    it("should call onAlphabetizeClick when sort button is clicked", async () => {
+
+    it("calls onAlphabetizeClick when sort button is clicked", async () => {
       const symbols = {
-        functions: [
-          makeSymbolDeclaration("example_function", 25)
-        ]
+        functions: [makeSymbolDeclaration("example_function", 25)]
       };
 
       const { component, props } = render({ symbols });
 
       await component
-              .find(".outline-footer")
-              .find("button")
-              .simulate("click", {});
+        .find(".outline-footer")
+        .find("button")
+        .simulate("click", {});
 
       expect(props.onAlphabetizeClick).toHaveBeenCalled();
     });
 
-    it("should render functions by function class", async () => {
+    it("renders functions by function class", async () => {
       const symbols = {
         functions: [
           makeSymbolDeclaration("x_function", 25, 26, "x_klass"),
@@ -183,10 +181,11 @@ describe("Outline", () => {
         ]
       };
 
-      const { component } = render({ symbols:symbols });
+      const { component } = render({ symbols: symbols });
       expect(component).toMatchSnapshot();
     });
-    it("should render functions by function class, alphabetically", async () => {
+
+    it("renders functions by function class, alphabetically", async () => {
       const symbols = {
         functions: [
           makeSymbolDeclaration("x_function", 25, 26, "x_klass"),
@@ -199,62 +198,53 @@ describe("Outline", () => {
         ]
       };
 
-      const { component } = render({ symbols:symbols,  alphabetizeOutline: true });
+      const { component } = render({
+        symbols: symbols,
+        alphabetizeOutline: true
+      });
       expect(component).toMatchSnapshot();
     });
 
-    it("should select class on click on class headline", async () => {
+    it("selects class on click on class headline", async () => {
       const symbols = {
-        functions: [
-          makeSymbolDeclaration("x_function", 25, 26, "x_klass")
-        ],
-        classes: [
-          makeSymbolDeclaration("x_klass", 24, 27)
-        ]
+        functions: [makeSymbolDeclaration("x_function", 25, 26, "x_klass")],
+        classes: [makeSymbolDeclaration("x_klass", 24, 27)]
       };
 
-      const { component, props } = render({ symbols:symbols });
+      const { component, props } = render({ symbols: symbols });
 
-      await component
-              .find("h2")
-              .simulate("click", {});
+      await component.find("h2").simulate("click", {});
 
-      expect(props.selectLocation).toHaveBeenCalledWith({"line": 24, "sourceId": sourceId});
+      expect(props.selectLocation).toHaveBeenCalledWith({
+        line: 24,
+        sourceId: sourceId
+      });
     });
 
-    it ("selectItem does not select an item if selectedSource is not defined", async () => {
-      const symbols = {
-        functions: [
-          makeSymbolDeclaration("example_function", 25)
-        ]
-      };
-
+    it("does not select an item if selectedSource is not defined", async () => {
       const { instance, props } = render({ selectedSource: null });
       await instance.selectItem({});
       expect(props.selectLocation).not.toHaveBeenCalled();
-
     });
   });
 
   describe("onContextMenu of Outline", () => {
     it("is called onContextMenu for each item", async () => {
-      const event = {event: "oncontextmenu"};
+      const event = { event: "oncontextmenu" };
       const fn = makeSymbolDeclaration("exmple_function", 2);
       const symbols = {
-        functions: [
-          fn,
-        ]
+        functions: [fn]
       };
 
       const { component, instance } = render({ symbols });
       instance.onContextMenu = jest.fn(() => {});
       await component
-            .find(".outline-list__element")
-            .simulate("contextmenu", event);
+        .find(".outline-list__element")
+        .simulate("contextmenu", event);
 
       expect(instance.onContextMenu).toHaveBeenCalledWith(event, fn);
-
     });
+
     it("does not show menu with no selected source", async () => {
       const mockEvent = {
         preventDefault: jest.fn(),
@@ -269,10 +259,14 @@ describe("Outline", () => {
       expect(showMenu).not.toHaveBeenCalled();
     });
 
-    it("shows menu to copy function on context menu, and calls copy function on click", async () => {
+    it("shows menu to copy func, copies to clipboard on click", async () => {
       const startLine = 12;
       const endLine = 21;
-      const func = makeSymbolDeclaration("my_example_function", startLine, endLine);
+      const func = makeSymbolDeclaration(
+        "my_example_function",
+        startLine,
+        endLine
+      );
       const symbols = {
         functions: [func]
       };
@@ -300,7 +294,11 @@ describe("Outline", () => {
 
       showMenu.mock.calls[0][1][0].click();
       expect(copyToTheClipboard).toHaveBeenCalledWith(mockFunctionText);
-      expect(props.flashLineRange).toHaveBeenCalledWith({"end": endLine, "sourceId": sourceId, "start": startLine});
+      expect(props.flashLineRange).toHaveBeenCalledWith({
+        end: endLine,
+        sourceId: sourceId,
+        start: startLine
+      });
     });
   });
 });
