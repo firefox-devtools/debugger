@@ -99,12 +99,12 @@ class EventListeners extends Component<Props> {
 }
 
 const mapStateToProps = state => {
-  const listeners = getEventListeners(state).map(l => {
+  const listeners = getEventListeners(state).map(listener => {
     return {
-      ...l,
+      ...listener,
       breakpoint: getBreakpoint(state, {
-        sourceId: l.sourceId,
-        line: l.line,
+        sourceId: listener.sourceId,
+        line: listener.line,
         column: null
       })
     };
