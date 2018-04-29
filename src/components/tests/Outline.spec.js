@@ -63,17 +63,6 @@ describe("Outline", () => {
     expect(component).toMatchSnapshot();
   });
 
-  it("should render ignore anonimous functions", async () => {
-    const symbols = {
-      functions: [
-        makeSymbolDeclaration("my_example_function1", 21),
-        makeSymbolDeclaration("anonymous", 25)
-      ]
-    };
-
-    const { component } = render({ symbols });
-    expect(component).toMatchSnapshot();
-  });
 
   it("should select a line of code in the current file on click", async () => {
     const startLine = 12;
@@ -87,6 +76,71 @@ describe("Outline", () => {
     const listItem = component.find("li").first();
     listItem.simulate("click");
     expect(selectLocation).toHaveBeenCalledWith({ line: startLine, sourceId });
+  });
+
+  describe("renders outline", () => {
+    it("renders placeholder `No File Selected` if no selectedSource is defined", () => {
+      const { component } = render({
+        selectedSource: null
+      });
+      expect(component).toMatchSnapshot();
+    });
+    it("renders loading if symbols is not defined", () => {
+      const { component } = render({
+        symbols: null
+      });
+      expect(component).toMatchSnapshot();
+    });
+    it("renders loading if symbols are loading", () => {
+      const { component } = render({
+        symbols: {
+          loading: true
+        }
+      });
+      expect(component).toMatchSnapshot();
+    });
+    it("should render ignore anonymous functions", async () => {
+      const symbols = {
+        functions: [
+          makeSymbolDeclaration("my_example_function1", 21),
+          makeSymbolDeclaration("anonymous", 25)
+        ]
+      };
+
+      const { component } = render({ symbols });
+      expect(component).toMatchSnapshot();
+    });
+    it("should render placholder `No functions` if all func are anonymous", async () => {
+      const symbols = {
+        functions: [
+          makeSymbolDeclaration("anonymous", 25),
+          makeSymbolDeclaration("anonymous", 30)
+        ]
+      };
+
+      const { component } = render({ symbols });
+      expect(component).toMatchSnapshot();
+    });
+    it("should render placholder `No functions` if symbols has no functions", async () => {
+      const symbols = {
+        functions: [
+        ]
+      };
+      const { component } = render({ symbols });
+      expect(component).toMatchSnapshot();
+    });
+    it("should sort functions alphabetically", async () => {
+      const symbols = {
+        functions: [
+          makeSymbolDeclaration("c_funciton", 25),
+          makeSymbolDeclaration("x_funciton", 30),
+          makeSymbolDeclaration("a_funciton", 70)
+        ]
+      };
+
+      const { component } = render({ symbols:symbols,  alphabetizeOutline: true});
+      expect(component).toMatchSnapshot();
+    });
   });
 
   describe("onContextMenu of Outline", () => {
@@ -104,7 +158,7 @@ describe("Outline", () => {
       expect(showMenu).not.toHaveBeenCalled();
     });
 
-    it("shows menu to copy function, and call copy function", async () => {
+    it("shows menu to copy function on context menu, and calls copy function on click", async () => {
       const startLine = 12;
       const endLine = 21;
       const func = makeSymbolDeclaration("my_example_function", startLine, endLine);
@@ -137,5 +191,7 @@ describe("Outline", () => {
       expect(copyToTheClipboard).toHaveBeenCalledWith(mockFunctionText);
       expect(props.flashLineRange).toHaveBeenCalledWith({"end": endLine, "sourceId": sourceId, "start": startLine});
     });
+
+
   });
 });
