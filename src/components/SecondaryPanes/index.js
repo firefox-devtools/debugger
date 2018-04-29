@@ -15,6 +15,7 @@ import {
   getBreakpoints,
   getBreakpointsDisabled,
   getBreakpointsLoading,
+  getExpressions,
   getIsWaitingOnBreak,
   getShouldPauseOnExceptions,
   getShouldIgnoreCaughtExceptions,
@@ -401,6 +402,7 @@ SecondaryPanes.contextTypes = {
 };
 
 const mapStateToProps = state => ({
+  expressions: getExpressions(state),
   extra: getExtra(state),
   hasFrames: !!getTopFrame(state),
   breakpoints: getBreakpoints(state),

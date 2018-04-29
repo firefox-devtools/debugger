@@ -263,7 +263,7 @@ const _getBreakpoints = createSelector(
       .filter(bp => bp.source && !bp.source.isBlackBoxed)
 );
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = state => ({
   breakpoints: _getBreakpoints(state),
   selectedSource: getSelectedSource(state)
 });
