@@ -10,8 +10,19 @@ import { makeSymbolDeclaration } from "../../utils/test-head";
 import { showMenu } from "devtools-contextmenu";
 import { copyToTheClipboard } from "../../utils/clipboard";
 
+import {
+  getShownSource,
+  getSelectedSource,
+  getDebuggeeUrl,
+  getExpandedState,
+  getProjectDirectoryRoot,
+  getSources
+} from "../../selectors";
+
 jest.mock("devtools-contextmenu", () => ({ showMenu: jest.fn() }));
 jest.mock("../../utils/clipboard", () => ({ copyToTheClipboard: jest.fn() }));
+jest.mock("../../selectors");
+
 
 const sourceId = "id";
 const mockFunctionText = "mock function text";
@@ -129,21 +140,71 @@ describe("Outline", () => {
       const { component } = render({ symbols });
       expect(component).toMatchSnapshot();
     });
-    it("should sort functions alphabetically", async () => {
+    it("should sort functions alphabetically by function name", async () => {
       const symbols = {
         functions: [
-          makeSymbolDeclaration("c_funciton", 25),
-          makeSymbolDeclaration("x_funciton", 30),
-          makeSymbolDeclaration("a_funciton", 70)
+          makeSymbolDeclaration("c_function", 25),
+          makeSymbolDeclaration("x_function", 30),
+          makeSymbolDeclaration("a_function", 70)
         ]
       };
 
       const { component } = render({ symbols:symbols,  alphabetizeOutline: true});
       expect(component).toMatchSnapshot();
     });
+    it("should render functions by function class", async () => {
+      const symbols = {
+        functions: [
+          makeSymbolDeclaration("x_function", 25, 26, "x_klass"),
+          makeSymbolDeclaration("a2_function", 30, 31, "a_klass"),
+          makeSymbolDeclaration("a1_function", 70, 71, "a_klass")
+        ],
+        classes: [
+          makeSymbolDeclaration("x_klass", 24, 27),
+          makeSymbolDeclaration("a_klass", 29, 72)
+        ]
+      };
+
+      const { component } = render({ symbols:symbols });
+      expect(component).toMatchSnapshot();
+    });
+    it("should render functions by function class, alphabetically", async () => {
+      const symbols = {
+        functions: [
+          makeSymbolDeclaration("x_function", 25, 26, "x_klass"),
+          makeSymbolDeclaration("a2_function", 30, 31, "a_klass"),
+          makeSymbolDeclaration("a1_function", 70, 71, "a_klass")
+        ],
+        classes: [
+          makeSymbolDeclaration("x_klass", 24, 27),
+          makeSymbolDeclaration("a_klass", 29, 72)
+        ]
+      };
+
+      const { component } = render({ symbols:symbols,  alphabetizeOutline: true });
+      expect(component).toMatchSnapshot();
+    });
   });
 
   describe("onContextMenu of Outline", () => {
+    it("is called onContextMenu for each item", async () => {
+      const event = {event: "oncontextmenu"};
+      const fn = makeSymbolDeclaration("exmple_function", 2);
+      const symbols = {
+        functions: [
+          fn,
+        ]
+      };
+
+      const { component, instance } = render({ symbols });
+      instance.onContextMenu = jest.fn(() => {});
+      await component
+            .find(".outline-list__element")
+            .simulate("contextmenu", event);
+
+      expect(instance.onContextMenu).toHaveBeenCalledWith(event, fn);
+
+    });
     it("does not show menu with no selected source", async () => {
       const mockEvent = {
         preventDefault: jest.fn(),
@@ -192,6 +253,17 @@ describe("Outline", () => {
       expect(props.flashLineRange).toHaveBeenCalledWith({"end": endLine, "sourceId": sourceId, "start": startLine});
     });
 
-
+    describe("test redux connect", () => {
+      jest.mock("../../selectors");
+      it("calls mapStateToProps", async () => {
+        const state = { hello: "world" };
+        const store = {
+          getState: () => state,
+          dispatch: () => {},
+          subscribe: () => {}
+        };
+        shallow(<Outline store={store} />);
+      });
+    });
   });
 });

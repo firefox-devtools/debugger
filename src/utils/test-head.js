@@ -84,11 +84,12 @@ function makeFuncLocation(startLine, endLine) {
   };
 }
 
-function makeSymbolDeclaration(name: string, start: number, end: number) {
+function makeSymbolDeclaration(name: string, start: number, end: number, klass: string) {
   return {
     id: `${name}:${start}`,
     name,
-    location: makeFuncLocation(start, end)
+    location: makeFuncLocation(start, end),
+    klass 
   };
 }
 
