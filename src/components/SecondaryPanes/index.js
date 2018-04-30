@@ -213,6 +213,10 @@ class SecondaryPanes extends Component<Props, State> {
   }
 
   getWatchItem(): AccordionPaneItem {
+    if (this.state.showExpressionsInput) {
+      prefs.expressionsVisible = true;
+    }
+
     return {
       header: L10N.getStr("watchExpressions.header"),
       className: "watch-expressions-pane",
