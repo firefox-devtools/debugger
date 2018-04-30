@@ -226,7 +226,11 @@ function evaluate(
   });
 }
 
-function autocomplete(input: string, cursor, frameId: string) {
+function autocomplete(
+  input: string,
+  cursor: number,
+  frameId: string
+): Promise<mixed> {
   if (!tabTarget || !tabTarget.activeConsole || !input) {
     return Promise.resolve({});
   }

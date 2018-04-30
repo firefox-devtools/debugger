@@ -50,7 +50,7 @@ export function addExpression(input: string) {
   };
 }
 
-export function autocomplete(input: string, cursor) {
+export function autocomplete(input: string, cursor: number) {
   return async ({ dispatch, getState, client }: ThunkArgs) => {
     if (!input) {
       return;
