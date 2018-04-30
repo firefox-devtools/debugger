@@ -6,7 +6,6 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import { features } from "../utils/prefs";
 import actions from "../actions";
 import { ShortcutsModal } from "./ShortcutsModal";
@@ -309,17 +308,13 @@ class App extends Component<Props, State> {
 
 App.childContextTypes = { shortcuts: PropTypes.object };
 
-function mapStateToProps(state) {
-  return {
-    selectedSource: getSelectedSource(state),
-    startPanelCollapsed: getPaneCollapse(state, "start"),
-    endPanelCollapsed: getPaneCollapse(state, "end"),
-    activeSearch: getActiveSearch(state),
-    quickOpenEnabled: getQuickOpenEnabled(state),
-    orientation: getOrientation(state)
-  };
-}
+const mapStateToProps = state => ({
+  selectedSource: getSelectedSource(state),
+  startPanelCollapsed: getPaneCollapse(state, "start"),
+  endPanelCollapsed: getPaneCollapse(state, "end"),
+  activeSearch: getActiveSearch(state),
+  quickOpenEnabled: getQuickOpenEnabled(state),
+  orientation: getOrientation(state)
+});
 
-export default connect(mapStateToProps, dispatch =>
-  bindActionCreators(actions, dispatch)
-)(App);
+export default connect(mapStateToProps, actions)(App);

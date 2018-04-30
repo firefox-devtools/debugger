@@ -4,7 +4,6 @@
 
 // @flow
 import React, { PureComponent } from "react";
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import actions from "../../actions";
 
@@ -86,12 +85,9 @@ class FrameworkComponent extends PureComponent<Props> {
   }
 }
 
-export default connect(
-  state => {
-    return {
-      selectedFrame: getSelectedFrame(state),
-      popupObjectProperties: getAllPopupObjectProperties(state)
-    };
-  },
-  dispatch => bindActionCreators(actions, dispatch)
-)(FrameworkComponent);
+const mapStateToProps = state => ({
+  selectedFrame: getSelectedFrame(state),
+  popupObjectProperties: getAllPopupObjectProperties(state)
+});
+
+export default connect(mapStateToProps, actions)(FrameworkComponent);

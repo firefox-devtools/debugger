@@ -6,7 +6,6 @@
 
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import * as I from "immutable";
 
 import { getSelectedSource, getSourcesForTabs } from "../../selectors";
@@ -196,12 +195,9 @@ class Tabs extends PureComponent<Props, State> {
   }
 }
 
-export default connect(
-  state => {
-    return {
-      selectedSource: getSelectedSource(state),
-      tabSources: getSourcesForTabs(state)
-    };
-  },
-  dispatch => bindActionCreators(actions, dispatch)
-)(Tabs);
+const mapStateToProps = state => ({
+  selectedSource: getSelectedSource(state),
+  tabSources: getSourcesForTabs(state)
+});
+
+export default connect(mapStateToProps, actions)(Tabs);

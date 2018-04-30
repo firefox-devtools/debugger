@@ -5,7 +5,6 @@
 // @flow
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import actions from "../../actions";
 import {
   getSelectedSource,
@@ -199,17 +198,17 @@ class SourceFooter extends PureComponent<Props> {
   }
 }
 
-export default connect(
-  state => {
-    const selectedSource = getSelectedSource(state);
-    const selectedId = selectedSource.get("id");
-    const source = selectedSource.toJS();
-    return {
-      selectedSource,
-      mappedSource: getGeneratedSource(state, source),
-      prettySource: getPrettySource(state, selectedId),
-      endPanelCollapsed: getPaneCollapse(state, "end")
-    };
-  },
-  dispatch => bindActionCreators(actions, dispatch)
-)(SourceFooter);
+const mapStateToProps = state => {
+  const selectedSource = getSelectedSource(state);
+  const selectedId = selectedSource.get("id");
+  const source = selectedSource.toJS();
+
+  return {
+    selectedSource,
+    mappedSource: getGeneratedSource(state, source),
+    prettySource: getPrettySource(state, selectedId),
+    endPanelCollapsed: getPaneCollapse(state, "end")
+  };
+};
+
+export default connect(mapStateToProps, actions)(SourceFooter);

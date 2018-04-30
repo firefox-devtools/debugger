@@ -25,7 +25,6 @@ import {
 } from "../../selectors";
 
 // Redux actions
-import { bindActionCreators } from "redux";
 import actions from "../../actions";
 
 import Footer from "./Footer";
@@ -601,6 +600,7 @@ Editor.contextTypes = {
 const mapStateToProps = state => {
   const selectedSource = getSelectedSource(state);
   const sourceId = selectedSource ? selectedSource.get("id") : "";
+
   return {
     selectedLocation: getSelectedLocation(state),
     selectedSource,
@@ -612,6 +612,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, dispatch =>
-  bindActionCreators(actions, dispatch)
-)(Editor);
+export default connect(mapStateToProps, actions)(Editor);

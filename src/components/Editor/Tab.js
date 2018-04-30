@@ -6,7 +6,6 @@
 
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 
 import { showMenu, buildMenu } from "devtools-contextmenu";
 
@@ -205,16 +204,16 @@ class Tab extends PureComponent<Props> {
     );
   }
 }
-export default connect(
-  (state, props) => {
-    const selectedSource = getSelectedSource(state);
-    const { source } = props;
-    return {
-      tabSources: getSourcesForTabs(state),
-      selectedSource: selectedSource,
-      sourceMetaData: getSourceMetaData(state, source.id),
-      activeSearch: getActiveSearch(state)
-    };
-  },
-  dispatch => bindActionCreators(actions, dispatch)
-)(Tab);
+
+const mapStateToProps = (state, { source }) => {
+  const selectedSource = getSelectedSource(state);
+
+  return {
+    tabSources: getSourcesForTabs(state),
+    selectedSource: selectedSource,
+    sourceMetaData: getSourceMetaData(state, source.id),
+    activeSearch: getActiveSearch(state)
+  };
+};
+
+export default connect(mapStateToProps, actions)(Tab);
