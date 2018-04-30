@@ -12,7 +12,7 @@
   border: 1px;
   background-color: var(--theme-sidebar-background);
   font-size: 12px;
-  padding: 0.5em 2.16em;
+  padding: 0.5em 1.6em;
   color: var(--theme-body-color);
 }
 
@@ -108,6 +108,10 @@
 
 .expression-content .tree-node {
   overflow-x: hidden;
+}
+
+.expression-content .tree-node[data-expandable="false"][aria-level="1"] {
+  padding-inline-start: 10px;
 }
 
 .expression-input {
