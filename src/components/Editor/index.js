@@ -62,6 +62,7 @@ import {
 import { resizeToggleButton, resizeBreakpointGutter } from "../../utils/ui";
 
 import "./Editor.css";
+import "./Gutter.css";
 import "./Highlight.css";
 
 import type SourceEditor from "../../utils/editor/source-editor";
@@ -97,7 +98,8 @@ export type Props = {
 };
 
 type State = {
-  editor: SourceEditor
+  editor: SourceEditor,
+  gutterHover: boolean
 };
 
 class Editor extends PureComponent<Props, State> {
@@ -150,20 +152,8 @@ class Editor extends PureComponent<Props, State> {
     codeMirrorWrapper.tabIndex = 0;
     codeMirrorWrapper.addEventListener("keydown", e => this.onKeyDown(e));
     codeMirrorWrapper.addEventListener("click", e => this.onClick(e));
-
-    const toggleFoldMarkerVisibility = e => {
-      if (node instanceof HTMLElement) {
-        node
-          .querySelectorAll(".CodeMirror-guttermarker-subtle")
-          .forEach(elem => {
-            elem.classList.toggle("visible");
-          });
-      }
-    };
-
-    const codeMirrorGutter = codeMirror.getGutterElement();
-    codeMirrorGutter.addEventListener("mouseleave", toggleFoldMarkerVisibility);
-    codeMirrorGutter.addEventListener("mouseenter", toggleFoldMarkerVisibility);
+    codeMirrorWrapper.addEventListener("mouseover", this.onMouseOver);
+    codeMirrorWrapper.addEventListener("mouseleave", this.onMouseLeave);
 
     if (!isFirefox()) {
       codeMirror.on("gutterContextMenu", (cm, line, eventName, event) =>
@@ -379,6 +369,27 @@ class Editor extends PureComponent<Props, State> {
     }
   }
 
+  onMouseOver = e => {
+    if (e.target.classList.contains("CodeMirror-linenumber")) {
+      if (!this.state.gutterHover) {
+        this.setState({ gutterHover: true });
+      }
+    } else {
+      if (
+        this.state.gutterHover &&
+        !e.target.classList.contains("CodeMirror-gutter")
+      ) {
+        this.setState({ gutterHover: false });
+      }
+    }
+  };
+
+  onMouseLeave = e => {
+    if (this.state.gutterHover) {
+      this.setState({ gutterHover: false });
+    }
+  };
+
   toggleConditionalPanel = line => {
     const {
       conditionalPanelLine,
@@ -574,11 +585,13 @@ class Editor extends PureComponent<Props, State> {
 
   render() {
     const { coverageOn } = this.props;
+    const { gutterHover } = this.state;
 
     return (
       <div
         className={classnames("editor-wrapper", {
-          "coverage-on": coverageOn
+          "coverage-on": coverageOn,
+          "gutter-hover": gutterHover
         })}
         ref={c => (this.$editorWrapper = c)}
       >
