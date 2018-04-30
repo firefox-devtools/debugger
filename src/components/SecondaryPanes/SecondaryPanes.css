@@ -32,6 +32,10 @@
   flex: 1 0 auto;
 }
 
+.secondary-panes-wrapper .accordion li:last-child ._content {
+  border-bottom: 0;
+}
+
 .pane {
   color: var(--theme-body-color);
 }
