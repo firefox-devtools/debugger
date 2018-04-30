@@ -13,7 +13,7 @@ type Props = {
   editorRef: ?HTMLDivElement,
   targetPosition: Object,
   children: ?React$Element<any>,
-  onMouseLeave: () => void,
+  onMouseLeave: (e: SyntheticMouseEvent<HTMLDivElement>) => void,
   type?: "popover" | "tooltip"
 };
 
@@ -146,18 +146,7 @@ class Popover extends Component<Props, State> {
       return;
     }
 
-    if (
-      e.relatedTarget.classList.contains("popover") ||
-      e.relatedTarget.classList.contains("debug-expression") ||
-      e.relatedTarget.classList.contains("editor-mount")
-    ) {
-      console.log(`popover - onMouseLeave - saw`, e.relatedTarget.className);
-      return;
-    }
-
-    console.log("popover   -  onMouseleave", e.relatedTarget);
-
-    onMouseLeave();
+    onMouseLeave(e);
   };
 
   renderPopover() {
