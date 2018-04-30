@@ -76,6 +76,7 @@ html[dir="rtl"] .breakpoints-exceptions-caught {
 .breakpoints-exceptions,
 .breakpoints-exceptions-caught {
   display: flex;
+  align-items: center;
 }
 
 html[dir="rtl"] .breakpoints-list .breakpoint,
@@ -120,8 +121,7 @@ html .breakpoints-list .breakpoint.paused {
 .breakpoints-list .breakpoint .breakpoint-line {
   font-size: 11px;
   color: var(--theme-comment);
-  padding-top: 3px;
-  min-width: 14px;
+  min-width: 16px;
   text-align: right;
 }
 
@@ -174,10 +174,10 @@ html[dir="rtl"] .breakpoints-list .breakpoint .breakpoint-line {
 }
 
 .breakpoint .close-btn {
-  position: absolute;
   offset-inline-end: 13px;
   offset-inline-start: auto;
-  top: 6px;
+  position: absolute;
+  top: 7px;
   display: none;
 }
 
@@ -217,4 +217,8 @@ html[dir="rtl"] .breakpoints-list .breakpoint .breakpoint-line {
 .CodeMirror.cm-s-mozilla-breakpoint .CodeMirror-scroll {
   cursor: default;
   pointer-events: none;
+}
+
+.CodeMirror.cm-s-mozilla-breakpoint {
+  padding-top: 1px;
 }
