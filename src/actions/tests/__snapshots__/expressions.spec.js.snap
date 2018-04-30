@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`expressions should get the autocomplete suggestions for the input expression 1`] = `
+exports[`expressions should get the autocomplete matches for the input 1`] = `
 Array [
   "toLocaleString",
   "toSource",
