@@ -189,7 +189,9 @@ function getCallSites(symbols, breakpoints) {
   }
 
   function findBreakpoint(callSite) {
-    const { location: { start, end } } = callSite;
+    const {
+      location: { start, end }
+    } = callSite;
 
     const breakpointId = range(start.column - 1, end.column)
       .map(column => locationKey({ line: start.line, column }))
@@ -212,9 +214,7 @@ export default connect(
     const selectedLocation = getSelectedLocation(state);
     const selectedSource = getSelectedSource(state);
     const sourceId = selectedLocation && selectedLocation.sourceId;
-    const source = selectedSource && selectedSource.toJS();
-
-    const symbols = getSymbols(state, source);
+    const symbols = getSymbols(state, selectedSource);
     const breakpoints = getBreakpointsForSource(state, sourceId);
 
     return {

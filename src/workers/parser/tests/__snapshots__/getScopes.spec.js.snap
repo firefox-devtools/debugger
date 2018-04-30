@@ -13273,6 +13273,145 @@ Array [
 ]
 `;
 
+exports[`getScopes finds scope bindings in a vue file at line 14 column 0 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "arguments": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "fnVar": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 18,
+                "line": 13,
+                "sourceId": "scopes/vue-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 13,
+                "sourceId": "scopes/vue-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 13,
+              "line": 13,
+              "sourceId": "scopes/vue-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 13,
+              "sourceId": "scopes/vue-sample/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "data",
+    "end": Object {
+      "column": 3,
+      "line": 18,
+      "sourceId": "scopes/vue-sample/originalSource-1",
+    },
+    "start": Object {
+      "column": 2,
+      "line": 12,
+      "sourceId": "scopes/vue-sample/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "moduleVar": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 23,
+                "line": 8,
+                "sourceId": "scopes/vue-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 8,
+                "sourceId": "scopes/vue-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 13,
+              "line": 8,
+              "sourceId": "scopes/vue-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 8,
+              "sourceId": "scopes/vue-sample/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 1,
+      "line": 27,
+      "sourceId": "scopes/vue-sample/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/vue-sample/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 1,
+      "line": 27,
+      "sourceId": "scopes/vue-sample/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/vue-sample/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Global",
+    "end": Object {
+      "column": 1,
+      "line": 27,
+      "sourceId": "scopes/vue-sample/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/vue-sample/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
 exports[`getScopes finds scope bindings with expression metadata at line 2 column 0 1`] = `
 Array [
   Object {
