@@ -7,8 +7,9 @@
 // Dependencies
 import React, { Component } from "react";
 import classnames from "classnames";
-import { showMenu } from "devtools-contextmenu";
 import { connect } from "react-redux";
+import { isOriginalId } from "devtools-source-map";
+import { showMenu } from "devtools-contextmenu";
 
 // Selectors
 import {
@@ -171,6 +172,7 @@ class SourcesTree extends Component<Props, State> {
     const obj = item.contents.get && item.contents.get("id");
 
     let blackBoxedPart = "";
+    let original = "";
 
     if (
       typeof obj !== "undefined" &&
@@ -180,7 +182,11 @@ class SourcesTree extends Component<Props, State> {
       blackBoxedPart = "update";
     }
 
-    return `${item.path}/${item.name}/${blackBoxedPart}`;
+    if (obj) {
+      original = isOriginalId(sources.get(obj).id) ? "original" : "";
+    }
+
+    return `${item.path}/${item.name}/${blackBoxedPart}/${original}`;
   };
 
   getIcon = (sources, item, depth) => {
@@ -207,10 +213,12 @@ class SourcesTree extends Component<Props, State> {
     if (!nodeHasChildren(item)) {
       const obj = item.contents.get("id");
       const source = sources.get(obj);
+      const original = isOriginalId(source.id);
       return (
         <img
           className={classnames(
             getSourceClassnames(source.toJS()),
+            { original },
             "source-icon"
           )}
         />
@@ -287,7 +295,7 @@ class SourcesTree extends Component<Props, State> {
     return (
       <div
         className={classnames("node", { focused })}
-        key={item.path}
+        key={this.getPath(item)}
         onClick={e => {
           this.focusItem(item);
 
