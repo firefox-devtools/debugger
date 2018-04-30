@@ -87,10 +87,6 @@ html:not([dir="rtl"]) .breakpoints-exceptions {
   border-left: 4px solid transparent;
 }
 
-.breakpoints-list .breakpoint:last-of-type {
-  padding-bottom: 0.45em;
-}
-
 html:not([dir="rtl"]) .breakpoints-list .breakpoint.is-conditional {
   border-left-color: var(--theme-graphs-yellow);
 }
@@ -121,8 +117,7 @@ html .breakpoints-list .breakpoint.paused {
 .breakpoints-list .breakpoint .breakpoint-line {
   font-size: 11px;
   color: var(--theme-comment);
-  padding-top: 4px;
-  /* padding-inline-end: 2px; */
+  padding-top: 3px;
   min-width: 14px;
   text-align: right;
 }
