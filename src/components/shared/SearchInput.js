@@ -201,7 +201,6 @@ class SearchInput extends Component<Props, State> {
           <input {...inputProps} />
           {summaryMsg && <div className="summary">{summaryMsg}</div>}
           {this.renderNav()}
-          <CloseButton handleClick={handleClose} buttonClass={size} />
         </div>
       </div>
     );
