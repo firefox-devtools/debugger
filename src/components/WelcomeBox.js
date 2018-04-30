@@ -24,7 +24,7 @@ type Props = {
   openQuickOpen: (query?: string) => void
 };
 
-class WelcomeBox extends Component<Props> {
+export class WelcomeBox extends Component<Props> {
   renderToggleButton() {
     const { horizontal, endPanelCollapsed, togglePaneCollapse } = this.props;
     if (horizontal) {
@@ -58,11 +58,17 @@ class WelcomeBox extends Component<Props> {
       <div className="welcomebox">
         <div className="alignlabel">
           <div className="shortcutFunction">
-            <p onClick={() => openQuickOpen()}>
+            <p
+              className="welcomebox__searchSources"
+              onClick={() => openQuickOpen()}
+            >
               <span className="shortcutKey">{searchSourcesShortcut}</span>
               <span className="shortcutLabel">{searchSourcesLabel}</span>
             </p>
-            <p onClick={setActiveSearch.bind(null, "project")}>
+            <p
+              className="welcomebox__searchProject"
+              onClick={setActiveSearch.bind(null, "project")}
+            >
               <span className="shortcutKey">{searchProjectShortcut}</span>
               <span className="shortcutLabel">{searchProjectLabel}</span>
             </p>
