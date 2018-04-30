@@ -28,79 +28,37 @@ import type { Action, ThunkArgs } from "./types";
 import type { ColumnPosition } from "../types";
 import type { AstLocation } from "../workers/parser";
 
-function isInvalidTarget(target: HTMLElement) {
-  if (!target || !target.innerText) {
-    return true;
+function findExpressionMatch(state, codeMirror, tokenPos) {
+  const source = getSelectedSource(state);
+  const symbols = getSymbols(state, source);
+
+  let match;
+  if (!symbols || symbols.loading) {
+    match = getExpressionFromCoords(codeMirror, tokenPos);
+  } else {
+    match = findBestMatchExpression(symbols, tokenPos);
   }
-
-  const tokenText = target.innerText.trim();
-  const cursorPos = target.getBoundingClientRect();
-
-  // exclude literal tokens where it does not make sense to show a preview
-  const invalidType = ["cm-atom", ""].includes(target.className);
-
-  // exclude syntax where the expression would be a syntax error
-  const invalidToken =
-    tokenText === "" || tokenText.match(/^[(){}\|&%,.;=<>\+-/\*\s](?=)/);
-
-  const isPresentation =
-    target.attributes.role &&
-    target.attributes.getNamedItem("role").value == "presentation";
-
-  // exclude codemirror elements that are not tokens
-  const invalidTarget =
-    (target.parentElement &&
-      !target.parentElement.closest(".CodeMirror-line")) ||
-    cursorPos.top == 0;
-
-  return invalidTarget || invalidToken || invalidType || isPresentation;
+  return match;
 }
 
-export function updatePreview(target: HTMLElement, editor: any) {
+export function updatePreview(
+  target: HTMLElement,
+  tokenPos: Object,
+  codeMirror: any
+) {
   return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
-    const tokenPos = getTokenLocation(editor.codeMirror, target);
     const cursorPos = target.getBoundingClientRect();
     const preview = getPreview(getState());
 
-    if (getCanRewind(getState())) {
-      return;
-    }
-
-    if (preview) {
-      // Return early if we are currently showing another preview or
-      // if we are mousing over the same token as before
-      if (preview.updating || isEqual(preview.tokenPos, tokenPos)) {
-        return;
-      }
-
-      // We are mousing over a new token that is not in the preview
-      if (!target.classList.contains("debug-expression")) {
-        dispatch(clearPreview());
-      }
-    }
-
-    if (isInvalidTarget(target)) {
-      dispatch(clearPreview());
-      return;
-    }
-
     if (
+      getCanRewind(getState()) ||
       !isSelectedFrameVisible(getState()) ||
       !isLineInScope(getState(), tokenPos.line)
     ) {
       return;
     }
 
-    const source = getSelectedSource(getState());
-    const symbols = getSymbols(getState(), source);
-
-    let match;
-    if (!symbols || symbols.loading) {
-      match = getExpressionFromCoords(editor.codeMirror, tokenPos);
-    } else {
-      match = findBestMatchExpression(symbols, tokenPos);
-    }
-
+    const match = findExpressionMatch(getState(), codeMirror, tokenPos);
     if (!match) {
       return;
     }
@@ -119,7 +77,7 @@ export function setPreview(
   expression: string,
   location: AstLocation,
   tokenPos: ColumnPosition,
-  cursorPos: any
+  cursorPos: ClientRect
 ) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     await dispatch(

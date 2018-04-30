@@ -9,6 +9,7 @@ export * from "./get-token-location";
 export * from "./source-search";
 export * from "../ui";
 export * from "./create-editor";
+export * from "./token-events";
 
 import { shouldPrettyPrint } from "../source";
 import { findNext, findPrev } from "./source-search";
