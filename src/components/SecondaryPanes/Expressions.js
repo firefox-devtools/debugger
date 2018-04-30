@@ -88,8 +88,7 @@ class Expressions extends Component<Props, State> {
       editing !== nextState.editing ||
       inputValue !== nextState.inputValue ||
       nextProps.showInput !== showInput ||
-      focused !== nextState.focused ||
-      (showInput === true && nextProps === true && !focused)
+      focused !== nextState.focused
     );
   }
 
@@ -233,7 +232,6 @@ class Expressions extends Component<Props, State> {
     const placeholder: string = error
       ? L10N.getStr("expressions.errorMsg")
       : L10N.getStr("expressions.placeholder");
-    const autoFocus = showInput;
 
     return (
       <li
@@ -248,7 +246,7 @@ class Expressions extends Component<Props, State> {
             onBlur={this.hideInput}
             onKeyDown={this.handleKeyDown}
             onFocus={this.onFocus}
-            autoFocus={autoFocus}
+            autoFocus={showInput}
             value={!editing ? inputValue : ""}
             ref={c => (this._input = c)}
           />
