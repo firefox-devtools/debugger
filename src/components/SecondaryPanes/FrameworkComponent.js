@@ -4,7 +4,6 @@
 
 // @flow
 import React, { PureComponent } from "react";
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import actions from "../../actions";
 
@@ -68,7 +67,7 @@ class FrameworkComponent extends PureComponent<Props> {
           autoExpandAll={false}
           autoExpandDepth={0}
           disableWrap={true}
-          disabledFocus={true}
+          focusable={false}
           dimTopLevelWindow={true}
           createObjectClient={grip => createObjectClient(grip)}
         />
@@ -78,7 +77,7 @@ class FrameworkComponent extends PureComponent<Props> {
 
   render() {
     const { selectedFrame } = this.props;
-    if (isReactComponent(selectedFrame.this)) {
+    if (selectedFrame && isReactComponent(selectedFrame.this)) {
       return this.renderReactComponent();
     }
 
@@ -86,12 +85,9 @@ class FrameworkComponent extends PureComponent<Props> {
   }
 }
 
-export default connect(
-  state => {
-    return {
-      selectedFrame: getSelectedFrame(state),
-      popupObjectProperties: getAllPopupObjectProperties(state)
-    };
-  },
-  dispatch => bindActionCreators(actions, dispatch)
-)(FrameworkComponent);
+const mapStateToProps = state => ({
+  selectedFrame: getSelectedFrame(state),
+  popupObjectProperties: getAllPopupObjectProperties(state)
+});
+
+export default connect(mapStateToProps, actions)(FrameworkComponent);

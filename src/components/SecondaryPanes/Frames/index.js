@@ -5,7 +5,6 @@
 // @flow
 
 import React, { Component } from "react";
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
 import type { Frame, Why } from "../../../types";
@@ -193,13 +192,12 @@ class Frames extends Component<Props, State> {
   }
 }
 
-export default connect(
-  state => ({
-    frames: getCallStackFrames(state),
-    why: getPauseReason(state),
-    frameworkGroupingOn: getFrameworkGroupingState(state),
-    selectedFrame: getSelectedFrame(state),
-    pause: getIsPaused(state)
-  }),
-  dispatch => bindActionCreators(actions, dispatch)
-)(Frames);
+const mapStateToProps = state => ({
+  frames: getCallStackFrames(state),
+  why: getPauseReason(state),
+  frameworkGroupingOn: getFrameworkGroupingState(state),
+  selectedFrame: getSelectedFrame(state),
+  pause: getIsPaused(state)
+});
+
+export default connect(mapStateToProps, actions)(Frames);

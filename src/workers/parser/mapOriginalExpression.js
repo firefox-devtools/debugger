@@ -4,7 +4,9 @@
 
 // @flow
 
+import type { ColumnPosition } from "../../types";
 import { parseScript } from "./utils/ast";
+import { buildScopeList } from "./getScopes";
 import generate from "@babel/generator";
 import * as t from "@babel/types";
 
@@ -28,40 +30,73 @@ function getFirstExpression(ast) {
   return statements[0].expression;
 }
 
+function locationKey(start: ColumnPosition): string {
+  return `${start.line}:${start.column}`;
+}
+
 export default function mapOriginalExpression(
   expression: string,
   mappings: {
     [string]: string | null
   }
 ): string {
-  let didReplace = false;
-
   const ast = parseScript(expression);
-  t.traverse(ast, (node, ancestors) => {
-    const parent = ancestors[ancestors.length - 1];
-    if (!parent) {
-      return;
+  const scopes = buildScopeList(ast, "");
+
+  const nodes = new Map();
+
+  const replacements = new Map();
+
+  // The ref-only global bindings are the ones that are accessed, but not
+  // declared anywhere in the parsed code, meaning they are either global,
+  // or declared somewhere in a scope outside the parsed code, so we
+  // rewrite all of those specifically to avoid rewritting declarations that
+  // shadow outer mappings.
+  for (const name of Object.keys(scopes[0].bindings)) {
+    const { refs } = scopes[0].bindings[name];
+    const mapping = mappings[name];
+    if (
+      !refs.every(ref => ref.type === "ref") ||
+      !mapping ||
+      mapping === name
+    ) {
+      continue;
     }
 
-    const parentNode = parent.node;
-    if (t.isIdentifier(node) && t.isReferenced(node, parentNode)) {
-      if (mappings.hasOwnProperty(node.name)) {
-        const mapping = mappings[node.name];
-        if (mapping && mapping !== node.name) {
-          const mappingNode = getFirstExpression(parseScript(mapping));
-          replaceNode(ancestors, mappingNode);
+    let node = nodes.get(name);
+    if (!node) {
+      node = getFirstExpression(parseScript(mapping));
+      nodes.set(name, node);
+    }
 
-          didReplace = true;
-        }
+    for (const ref of refs) {
+      let { line, column } = ref.start;
+
+      // This shouldn't happen, just keeping Flow happy.
+      if (typeof column !== "number") {
+        column = 0;
       }
-    }
-  });
 
-  if (!didReplace) {
+      replacements.set(locationKey({ line, column }), node);
+    }
+  }
+
+  if (replacements.size === 0) {
     // Avoid the extra code generation work and also avoid potentially
     // reformatting the user's code unnecessarily.
     return expression;
   }
+
+  t.traverse(ast, (node, ancestors) => {
+    if (!t.isIdentifier(node) && !t.isThisExpression(node)) {
+      return;
+    }
+
+    const replacement = replacements.get(locationKey(node.loc.start));
+    if (replacement) {
+      replaceNode(ancestors, t.cloneNode(replacement));
+    }
+  });
 
   return generate(ast).code;
 }

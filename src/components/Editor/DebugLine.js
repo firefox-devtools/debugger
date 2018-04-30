@@ -107,10 +107,10 @@ export class DebugLine extends Component<Props> {
   }
 }
 
-export default connect(state => {
-  return {
-    selectedFrame: getVisibleSelectedFrame(state),
-    selectedSource: getSelectedSource(state),
-    why: getPauseReason(state)
-  };
-})(DebugLine);
+const mapStateToProps = state => ({
+  selectedFrame: getVisibleSelectedFrame(state),
+  selectedSource: getSelectedSource(state),
+  why: getPauseReason(state)
+});
+
+export default connect(mapStateToProps)(DebugLine);

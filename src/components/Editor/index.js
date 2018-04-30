@@ -25,7 +25,6 @@ import {
 } from "../../selectors";
 
 // Redux actions
-import { bindActionCreators } from "redux";
 import actions from "../../actions";
 
 import Footer from "./Footer";
@@ -183,9 +182,6 @@ class Editor extends PureComponent<Props, State> {
   }
 
   componentDidMount() {
-    const editor = this.setupEditor();
-
-    const { selectedSource } = this.props;
     const { shortcuts } = this.context;
 
     const searchAgainKey = L10N.getStr("sourceSearch.search.again.key2");
@@ -201,8 +197,6 @@ class Editor extends PureComponent<Props, State> {
     shortcuts.on("Esc", this.onEscape);
     shortcuts.on(searchAgainPrevKey, this.onSearchAgain);
     shortcuts.on(searchAgainKey, this.onSearchAgain);
-
-    updateDocument(editor, selectedSource);
   }
 
   componentWillUnmount() {
@@ -223,12 +217,18 @@ class Editor extends PureComponent<Props, State> {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    const { selectedSource } = this.props;
     // NOTE: when devtools are opened, the editor is not set when
     // the source loads so we need to wait until the editor is
     // set to update the text and size.
-    if (!prevState.editor && this.state.editor) {
-      this.setText(this.props);
-      this.setSize(this.props);
+    if (!prevState.editor && selectedSource) {
+      if (!this.state.editor) {
+        const editor = this.setupEditor();
+        updateDocument(editor, selectedSource);
+      } else {
+        this.setText(this.props);
+        this.setSize(this.props);
+      }
     }
   }
 
@@ -456,6 +456,7 @@ class Editor extends PureComponent<Props, State> {
       return;
     }
 
+    // check if we previously had a selected source
     if (!selectedSource) {
       return this.clearEditor();
     }
@@ -599,6 +600,7 @@ Editor.contextTypes = {
 const mapStateToProps = state => {
   const selectedSource = getSelectedSource(state);
   const sourceId = selectedSource ? selectedSource.get("id") : "";
+
   return {
     selectedLocation: getSelectedLocation(state),
     selectedSource,
@@ -610,6 +612,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, dispatch =>
-  bindActionCreators(actions, dispatch)
-)(Editor);
+export default connect(mapStateToProps, actions)(Editor);

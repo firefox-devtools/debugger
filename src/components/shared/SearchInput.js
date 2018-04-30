@@ -5,9 +5,11 @@
 // @flow
 
 import React, { Component } from "react";
+
+import CloseButton from "./Button/Close";
+
 import Svg from "./Svg";
 import classnames from "classnames";
-import CloseButton from "./Button/Close";
 import "./SearchInput.css";
 
 const arrowBtn = (onClick, type, className, tooltip) => {
@@ -47,7 +49,11 @@ type Props = {
   summaryMsg: string
 };
 
-class SearchInput extends Component<Props> {
+type State = {
+  inputFocused: boolean
+};
+
+class SearchInput extends Component<Props, State> {
   displayName: "SearchInput";
   $input: ?HTMLInputElement;
 
@@ -57,6 +63,14 @@ class SearchInput extends Component<Props> {
     selectedItemId: "",
     size: ""
   };
+
+  constructor(props: Props) {
+    super(props);
+
+    this.state = {
+      inputFocused: false
+    };
+  }
 
   componentDidMount() {
     this.setFocus();
@@ -107,6 +121,24 @@ class SearchInput extends Component<Props> {
     ];
   }
 
+  onFocus = (e: SyntheticFocusEvent<HTMLInputElement>) => {
+    const { onFocus } = this.props;
+
+    this.setState({ inputFocused: true });
+    if (onFocus) {
+      onFocus(e);
+    }
+  };
+
+  onBlur = (e: SyntheticFocusEvent<HTMLInputElement>) => {
+    const { onBlur } = this.props;
+
+    this.setState({ inputFocused: false });
+    if (onBlur) {
+      onBlur(e);
+    }
+  };
+
   renderNav() {
     const { count, handleNext, handlePrev } = this.props;
     if ((!handleNext && !handlePrev) || (!count || count == 1)) {
@@ -122,9 +154,7 @@ class SearchInput extends Component<Props> {
     const {
       expanded,
       handleClose,
-      onBlur,
       onChange,
-      onFocus,
       onKeyDown,
       onKeyUp,
       placeholder,
@@ -142,8 +172,8 @@ class SearchInput extends Component<Props> {
       onChange,
       onKeyDown,
       onKeyUp,
-      onFocus,
-      onBlur,
+      onFocus: e => this.onFocus(e),
+      onBlur: e => this.onBlur(e),
       "aria-autocomplete": "list",
       "aria-controls": "result-list",
       "aria-activedescendant":
@@ -156,17 +186,23 @@ class SearchInput extends Component<Props> {
 
     return (
       <div
-        className={classnames("search-field", size)}
-        role="combobox"
-        aria-haspopup="listbox"
-        aria-owns="result-list"
-        aria-expanded={expanded}
+        className={classnames("search-shadow", {
+          focused: this.state.inputFocused
+        })}
       >
-        {this.renderSvg()}
-        <input {...inputProps} />
-        {summaryMsg && <div className="summary">{summaryMsg}</div>}
-        {this.renderNav()}
-        <CloseButton handleClick={handleClose} buttonClass={size} />
+        <div
+          className={classnames("search-field", size)}
+          role="combobox"
+          aria-haspopup="listbox"
+          aria-owns="result-list"
+          aria-expanded={expanded}
+        >
+          {this.renderSvg()}
+          <input {...inputProps} />
+          {summaryMsg && <div className="summary">{summaryMsg}</div>}
+          {this.renderNav()}
+          <CloseButton handleClick={handleClose} buttonClass={size} />
+        </div>
       </div>
     );
   }

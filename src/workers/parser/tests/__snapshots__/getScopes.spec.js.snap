@@ -1724,6 +1724,36 @@ Array [
         ],
         "type": "let",
       },
+      "Second": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 15,
+                "line": 14,
+                "sourceId": "scopes/class-declaration/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 14,
+                "sourceId": "scopes/class-declaration/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 12,
+              "line": 14,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 14,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "let",
+      },
       "this": Object {
         "refs": Array [],
         "type": "implicit",
@@ -1732,7 +1762,7 @@ Array [
     "displayName": "Module",
     "end": Object {
       "column": 0,
-      "line": 12,
+      "line": 15,
       "sourceId": "scopes/class-declaration/originalSource-1",
     },
     "start": Object {
@@ -1747,7 +1777,7 @@ Array [
     "displayName": "Lexical Global",
     "end": Object {
       "column": 0,
-      "line": 12,
+      "line": 15,
       "sourceId": "scopes/class-declaration/originalSource-1",
     },
     "start": Object {
@@ -1792,11 +1822,30 @@ Array [
         ],
         "type": "global",
       },
+      "decorator": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 10,
+              "line": 13,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 1,
+              "line": 13,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
+      },
     },
     "displayName": "Global",
     "end": Object {
       "column": 0,
-      "line": 12,
+      "line": 15,
       "sourceId": "scopes/class-declaration/originalSource-1",
     },
     "start": Object {
@@ -1959,6 +2008,36 @@ Array [
         ],
         "type": "let",
       },
+      "Second": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 15,
+                "line": 14,
+                "sourceId": "scopes/class-declaration/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 14,
+                "sourceId": "scopes/class-declaration/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 12,
+              "line": 14,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 14,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "let",
+      },
       "this": Object {
         "refs": Array [],
         "type": "implicit",
@@ -1967,7 +2046,7 @@ Array [
     "displayName": "Module",
     "end": Object {
       "column": 0,
-      "line": 12,
+      "line": 15,
       "sourceId": "scopes/class-declaration/originalSource-1",
     },
     "start": Object {
@@ -1982,7 +2061,7 @@ Array [
     "displayName": "Lexical Global",
     "end": Object {
       "column": 0,
-      "line": 12,
+      "line": 15,
       "sourceId": "scopes/class-declaration/originalSource-1",
     },
     "start": Object {
@@ -2027,11 +2106,30 @@ Array [
         ],
         "type": "global",
       },
+      "decorator": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 10,
+              "line": 13,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 1,
+              "line": 13,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
+      },
     },
     "displayName": "Global",
     "end": Object {
       "column": 0,
-      "line": 12,
+      "line": 15,
       "sourceId": "scopes/class-declaration/originalSource-1",
     },
     "start": Object {
@@ -2279,6 +2377,36 @@ Array [
         ],
         "type": "let",
       },
+      "Second": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 15,
+                "line": 14,
+                "sourceId": "scopes/class-declaration/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 14,
+                "sourceId": "scopes/class-declaration/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 12,
+              "line": 14,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 14,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "let",
+      },
       "this": Object {
         "refs": Array [],
         "type": "implicit",
@@ -2287,7 +2415,7 @@ Array [
     "displayName": "Module",
     "end": Object {
       "column": 0,
-      "line": 12,
+      "line": 15,
       "sourceId": "scopes/class-declaration/originalSource-1",
     },
     "start": Object {
@@ -2302,7 +2430,7 @@ Array [
     "displayName": "Lexical Global",
     "end": Object {
       "column": 0,
-      "line": 12,
+      "line": 15,
       "sourceId": "scopes/class-declaration/originalSource-1",
     },
     "start": Object {
@@ -2347,11 +2475,30 @@ Array [
         ],
         "type": "global",
       },
+      "decorator": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 10,
+              "line": 13,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 1,
+              "line": 13,
+              "sourceId": "scopes/class-declaration/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
+      },
     },
     "displayName": "Global",
     "end": Object {
       "column": 0,
-      "line": 12,
+      "line": 15,
       "sourceId": "scopes/class-declaration/originalSource-1",
     },
     "start": Object {
@@ -11899,6 +12046,148 @@ Array [
 ]
 `;
 
+exports[`getScopes finds scope bindings in a JSX element at line 2 column 0 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "SomeComponent": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 29,
+                "line": 1,
+                "sourceId": "scopes/jsx-component/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 1,
+                "sourceId": "scopes/jsx-component/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 20,
+              "line": 1,
+              "sourceId": "scopes/jsx-component/originalSource-1",
+            },
+            "importName": "default",
+            "start": Object {
+              "column": 7,
+              "line": 1,
+              "sourceId": "scopes/jsx-component/originalSource-1",
+            },
+            "type": "decl",
+          },
+          Object {
+            "end": Object {
+              "column": 14,
+              "line": 3,
+              "sourceId": "scopes/jsx-component/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 1,
+              "line": 3,
+              "sourceId": "scopes/jsx-component/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 14,
+              "line": 4,
+              "sourceId": "scopes/jsx-component/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 1,
+              "line": 4,
+              "sourceId": "scopes/jsx-component/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 14,
+              "line": 5,
+              "sourceId": "scopes/jsx-component/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 1,
+              "line": 5,
+              "sourceId": "scopes/jsx-component/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 14,
+              "line": 6,
+              "sourceId": "scopes/jsx-component/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 1,
+              "line": 6,
+              "sourceId": "scopes/jsx-component/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "import",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 7,
+      "sourceId": "scopes/jsx-component/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/jsx-component/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 7,
+      "sourceId": "scopes/jsx-component/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/jsx-component/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 7,
+      "sourceId": "scopes/jsx-component/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/jsx-component/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
 exports[`getScopes finds scope bindings in a module at line 7 column 0 1`] = `
 Array [
   Object {
@@ -12236,7 +12525,7 @@ Array [
     "displayName": "Lexical Global",
     "end": Object {
       "column": 0,
-      "line": 9,
+      "line": 11,
       "sourceId": "scopes/ts-sample/originalSource-1",
     },
     "start": Object {
@@ -12267,15 +12556,64 @@ Array [
         ],
         "type": "global",
       },
+      "foo": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 22,
+                "line": 10,
+                "sourceId": "scopes/ts-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 10,
+                "sourceId": "scopes/ts-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 7,
+              "line": 10,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 10,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "var",
+      },
       "this": Object {
         "refs": Array [],
         "type": "implicit",
+      },
+      "window": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 21,
+              "line": 10,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 15,
+              "line": 10,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
       },
     },
     "displayName": "Global",
     "end": Object {
       "column": 0,
-      "line": 9,
+      "line": 11,
       "sourceId": "scopes/ts-sample/originalSource-1",
     },
     "start": Object {
@@ -12426,7 +12764,7 @@ Array [
     "displayName": "Lexical Global",
     "end": Object {
       "column": 0,
-      "line": 9,
+      "line": 11,
       "sourceId": "scopes/ts-sample/originalSource-1",
     },
     "start": Object {
@@ -12457,6 +12795,224 @@ Array [
         ],
         "type": "global",
       },
+      "foo": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 22,
+                "line": 10,
+                "sourceId": "scopes/ts-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 10,
+                "sourceId": "scopes/ts-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 7,
+              "line": 10,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 10,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "window": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 21,
+              "line": 10,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 15,
+              "line": 10,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 11,
+      "sourceId": "scopes/ts-sample/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/ts-sample/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings in a typescript-jsx file at line 3 column 0 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "Color": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 29,
+                "line": 2,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 2,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 10,
+              "line": 2,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 5,
+              "line": 2,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "const",
+      },
+      "Example": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 8,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 4,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 13,
+              "line": 4,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 4,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "let",
+      },
+    },
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 11,
+      "sourceId": "scopes/tsx-sample/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/tsx-sample/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "Error": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 19,
+              "line": 6,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 14,
+              "line": 6,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
+      },
+      "any": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 14,
+              "line": 10,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 11,
+              "line": 10,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
+      },
+      "foo": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 28,
+                "line": 10,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 10,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 7,
+              "line": 10,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 10,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "var",
+      },
       "this": Object {
         "refs": Array [],
         "type": "implicit",
@@ -12465,13 +13021,391 @@ Array [
     "displayName": "Global",
     "end": Object {
       "column": 0,
-      "line": 9,
-      "sourceId": "scopes/ts-sample/originalSource-1",
+      "line": 11,
+      "sourceId": "scopes/tsx-sample/originalSource-1",
     },
     "start": Object {
       "column": 0,
       "line": 1,
-      "sourceId": "scopes/ts-sample/originalSource-1",
+      "sourceId": "scopes/tsx-sample/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings in a typescript-jsx file at line 6 column 4 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "arguments": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "method",
+    "end": Object {
+      "column": 3,
+      "line": 7,
+      "sourceId": "scopes/tsx-sample/originalSource-1",
+    },
+    "start": Object {
+      "column": 2,
+      "line": 5,
+      "sourceId": "scopes/tsx-sample/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "Example": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 8,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 4,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 13,
+              "line": 4,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 4,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "const",
+      },
+    },
+    "displayName": "Class",
+    "end": Object {
+      "column": 1,
+      "line": 8,
+      "sourceId": "scopes/tsx-sample/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 4,
+      "sourceId": "scopes/tsx-sample/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "Color": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 29,
+                "line": 2,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 2,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 10,
+              "line": 2,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 5,
+              "line": 2,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "const",
+      },
+      "Example": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 8,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 4,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 13,
+              "line": 4,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 4,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "let",
+      },
+    },
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 11,
+      "sourceId": "scopes/tsx-sample/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/tsx-sample/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "Error": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 19,
+              "line": 6,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 14,
+              "line": 6,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
+      },
+      "any": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 14,
+              "line": 10,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 11,
+              "line": 10,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
+      },
+      "foo": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 28,
+                "line": 10,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 10,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 7,
+              "line": 10,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 10,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 11,
+      "sourceId": "scopes/tsx-sample/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/tsx-sample/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`getScopes finds scope bindings in a vue file at line 14 column 0 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "arguments": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "fnVar": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 18,
+                "line": 13,
+                "sourceId": "scopes/vue-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 13,
+                "sourceId": "scopes/vue-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 13,
+              "line": 13,
+              "sourceId": "scopes/vue-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 13,
+              "sourceId": "scopes/vue-sample/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "data",
+    "end": Object {
+      "column": 3,
+      "line": 18,
+      "sourceId": "scopes/vue-sample/originalSource-1",
+    },
+    "start": Object {
+      "column": 2,
+      "line": 12,
+      "sourceId": "scopes/vue-sample/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "moduleVar": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 23,
+                "line": 8,
+                "sourceId": "scopes/vue-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 8,
+                "sourceId": "scopes/vue-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 13,
+              "line": 8,
+              "sourceId": "scopes/vue-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 8,
+              "sourceId": "scopes/vue-sample/originalSource-1",
+            },
+            "type": "decl",
+          },
+        ],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 1,
+      "line": 27,
+      "sourceId": "scopes/vue-sample/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/vue-sample/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 1,
+      "line": 27,
+      "sourceId": "scopes/vue-sample/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/vue-sample/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Global",
+    "end": Object {
+      "column": 1,
+      "line": 27,
+      "sourceId": "scopes/vue-sample/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/vue-sample/originalSource-1",
     },
     "type": "object",
   },

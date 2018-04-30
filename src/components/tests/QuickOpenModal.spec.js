@@ -123,13 +123,6 @@ describe("QuickOpenModal", () => {
     expect(wrapper.find("li")).toHaveLength(3);
   });
 
-  test("closeModal", () => {
-    const { wrapper, props } = generateModal({ enabled: true }, "mount");
-    expect(wrapper).toMatchSnapshot();
-    wrapper.find("CloseButton").simulate("click");
-    expect(props.closeQuickOpen).toHaveBeenCalled();
-  });
-
   test("updateResults on enable", () => {
     const { wrapper } = generateModal({}, "mount");
     expect(wrapper).toMatchSnapshot();

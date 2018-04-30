@@ -130,7 +130,9 @@ function getMenuItems(
     accesskey: copyFunctionKey,
     disabled: !functionText,
     click: () => {
-      const { location: { start, end } } = getFunctionLocation(sourceLine);
+      const {
+        location: { start, end }
+      } = getFunctionLocation(sourceLine);
       flashLineRange({
         start: start.line,
         end: end.line,
@@ -226,6 +228,25 @@ class EditorMenu extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  const selectedSource = getSelectedSource(state);
+  const symbols = getSymbols(state, selectedSource);
+
+  return {
+    selectedLocation: getSelectedLocation(state),
+    selectedSource,
+    hasPrettyPrint: !!getPrettySource(state, selectedSource.get("id")),
+    contextMenu: getContextMenu(state),
+    getFunctionText: line =>
+      findFunctionText(line, selectedSource.toJS(), symbols),
+    getFunctionLocation: line =>
+      findClosestFunction(symbols, {
+        line,
+        column: Infinity
+      })
+  };
+};
+
 const {
   addExpression,
   evaluateInConsole,
@@ -236,34 +257,14 @@ const {
   toggleBlackBox
 } = actions;
 
-export default connect(
-  state => {
-    const selectedSource = getSelectedSource(state);
-    return {
-      selectedLocation: getSelectedLocation(state),
-      selectedSource,
-      hasPrettyPrint: !!getPrettySource(state, selectedSource.get("id")),
-      contextMenu: getContextMenu(state),
-      getFunctionText: line =>
-        findFunctionText(
-          line,
-          selectedSource.toJS(),
-          getSymbols(state, selectedSource)
-        ),
-      getFunctionLocation: line =>
-        findClosestFunction(getSymbols(state, selectedSource), {
-          line,
-          column: Infinity
-        })
-    };
-  },
-  {
-    addExpression,
-    evaluateInConsole,
-    flashLineRange,
-    jumpToMappedLocation,
-    setContextMenu,
-    showSource,
-    toggleBlackBox
-  }
-)(EditorMenu);
+const mapDispatchToProps = {
+  addExpression,
+  evaluateInConsole,
+  flashLineRange,
+  jumpToMappedLocation,
+  setContextMenu,
+  showSource,
+  toggleBlackBox
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditorMenu);

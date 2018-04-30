@@ -5,7 +5,7 @@
 const toolbox = require("./node_modules/devtools-launchpad/index");
 
 const getConfig = require("./bin/getConfig");
-const { isDevelopment, isFirefoxPanel } = require("devtools-config");
+const { isDevelopment } = require("devtools-config");
 const { NormalModuleReplacementPlugin } = require("webpack");
 const path = require("path");
 const projectPath = path.join(__dirname, "src");
@@ -26,7 +26,15 @@ const webpackConfig = {
     debugger: getEntry("main.js"),
     "parser-worker": getEntry("workers/parser/worker.js"),
     "pretty-print-worker": getEntry("workers/pretty-print/worker.js"),
-    "search-worker": getEntry("workers/search/worker.js")
+    "search-worker": getEntry("workers/search/worker.js"),
+    "source-map-worker": path.join(
+      __dirname,
+      "packages/devtools-source-map/src/worker.js"
+    ),
+    "source-map-index": path.join(
+      __dirname,
+      "packages/devtools-source-map/src/index.js"
+    )
   },
 
   output: {
@@ -52,6 +60,11 @@ function buildConfig(envConfig) {
       webpackConfig.plugins.push(viz);
     }
 
+    webpackConfig.entry.reps = path.join(
+      __dirname,
+      "packages/devtools-reps/src/index.js"
+    );
+
     const mappings = [
       [/\.\/mocha/, "./mochitest"],
       [/\.\.\/utils\/mocha/, "../utils/mochitest"],
@@ -67,6 +80,9 @@ function buildConfig(envConfig) {
       react: "devtools/client/shared/vendor/react",
       redux: "devtools/client/shared/vendor/redux",
       "react-dom": "devtools/client/shared/vendor/react-dom",
+      "react-dom-factories":
+        "devtools/client/shared/vendor/react-dom-factories",
+      "prop-types": "devtools/client/shared/vendor/react-prop-types",
       lodash: "devtools/client/shared/vendor/lodash",
       immutable: "devtools/client/shared/vendor/immutable",
       "react-redux": "devtools/client/shared/vendor/react-redux",
@@ -85,17 +101,6 @@ function buildConfig(envConfig) {
     mappings.forEach(([regex, res]) => {
       webpackConfig.plugins.push(new NormalModuleReplacementPlugin(regex, res));
     });
-  }
-
-  // TODO: It would be nice to stop bundling `devtools-source-map` entirely for
-  // the Firefox panel, but at the moment we still use `isOriginalId` from a
-  // required copy of the module, instead of using the one from the toolbox.
-  if (!isFirefoxPanel()) {
-    // When used as a Firefox panel, the toolbox supplies its own source map
-    // service and worker, so we only need to build this when running in a tab.
-    webpackConfig.entry["source-map-worker"] = getEntry(
-      "../node_modules/devtools-source-map/src/worker.js"
-    );
   }
 
   return toolbox.toolboxConfig(webpackConfig, envConfig, extra);

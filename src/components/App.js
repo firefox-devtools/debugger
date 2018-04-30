@@ -6,11 +6,9 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import { features } from "../utils/prefs";
 import actions from "../actions";
 import { ShortcutsModal } from "./ShortcutsModal";
-import VisibilityHandler from "./shared/VisibilityHandler";
 
 import {
   getSelectedSource,
@@ -294,35 +292,29 @@ class App extends Component<Props, State> {
   render() {
     const { quickOpenEnabled } = this.props;
     return (
-      <VisibilityHandler>
-        <div className="debugger">
-          {this.renderLayout()}
-          {quickOpenEnabled === true && (
-            <QuickOpenModal
-              shortcutsModalEnabled={this.state.shortcutsModalEnabled}
-              toggleShortcutsModal={() => this.toggleShortcutsModal()}
-            />
-          )}
-          {this.renderShortcutsModal()}
-        </div>
-      </VisibilityHandler>
+      <div className="debugger">
+        {this.renderLayout()}
+        {quickOpenEnabled === true && (
+          <QuickOpenModal
+            shortcutsModalEnabled={this.state.shortcutsModalEnabled}
+            toggleShortcutsModal={() => this.toggleShortcutsModal()}
+          />
+        )}
+        {this.renderShortcutsModal()}
+      </div>
     );
   }
 }
 
 App.childContextTypes = { shortcuts: PropTypes.object };
 
-function mapStateToProps(state) {
-  return {
-    selectedSource: getSelectedSource(state),
-    startPanelCollapsed: getPaneCollapse(state, "start"),
-    endPanelCollapsed: getPaneCollapse(state, "end"),
-    activeSearch: getActiveSearch(state),
-    quickOpenEnabled: getQuickOpenEnabled(state),
-    orientation: getOrientation(state)
-  };
-}
+const mapStateToProps = state => ({
+  selectedSource: getSelectedSource(state),
+  startPanelCollapsed: getPaneCollapse(state, "start"),
+  endPanelCollapsed: getPaneCollapse(state, "end"),
+  activeSearch: getActiveSearch(state),
+  quickOpenEnabled: getQuickOpenEnabled(state),
+  orientation: getOrientation(state)
+});
 
-export default connect(mapStateToProps, dispatch =>
-  bindActionCreators(actions, dispatch)
-)(App);
+export default connect(mapStateToProps, actions)(App);

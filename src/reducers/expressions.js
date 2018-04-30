@@ -10,7 +10,7 @@
  */
 
 import makeRecord from "../utils/makeRecord";
-import { List } from "immutable";
+import { List, Map } from "immutable";
 import { omit, zip } from "lodash";
 
 import { createSelector } from "reselect";
@@ -22,13 +22,15 @@ import type { Record } from "../utils/makeRecord";
 
 export type ExpressionState = {
   expressions: List<Expression>,
-  expressionError: boolean
+  expressionError: boolean,
+  autocompleteMatches: Map<string, List<string>>
 };
 
 export const createExpressionState = makeRecord(
   ({
     expressions: List(restoreExpressions()),
-    expressionError: false
+    expressionError: false,
+    autocompleteMatches: Map({})
   }: ExpressionState)
 );
 
@@ -82,9 +84,15 @@ function update(
       return state.set("expressionError", false);
 
     // respond to time travel
-    case "TRAVEL_TO": {
+    case "TRAVEL_TO":
       return travelTo(state, action);
-    }
+
+    case "AUTOCOMPLETE":
+      const { matchProp, matches } = action.result;
+      return state.updateIn(
+        ["autocompleteMatches", matchProp],
+        list => matches
+      );
   }
 
   return state;
@@ -162,8 +170,17 @@ export const getExpressions = createSelector(
   expressions => expressions.expressions
 );
 
+export const getAutocompleteMatches = createSelector(
+  getExpressionsWrapper,
+  expressions => expressions.autocompleteMatches
+);
+
 export function getExpression(state: OuterState, input: string) {
   return getExpressions(state).find(exp => exp.input == input);
+}
+
+export function getAutocompleteMatchset(state: OuterState, input: string) {
+  return getAutocompleteMatches(state).get(input);
 }
 
 export const getExpressionError = createSelector(

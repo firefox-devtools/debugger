@@ -7,7 +7,7 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import { List } from "immutable";
 
 import actions from "../../actions";
 import {
@@ -15,6 +15,7 @@ import {
   getBreakpoints,
   getBreakpointsDisabled,
   getBreakpointsLoading,
+  getExpressions,
   getIsWaitingOnBreak,
   getShouldPauseOnExceptions,
   getShouldIgnoreCaughtExceptions,
@@ -35,11 +36,13 @@ import Accordion from "../shared/Accordion";
 import CommandBar from "./CommandBar";
 import UtilsBar from "./UtilsBar";
 import FrameworkComponent from "./FrameworkComponent";
+import ReactComponentStack from "./ReactComponentStack";
 
 import Scopes from "./Scopes";
 
 import "./SecondaryPanes.css";
 
+import type { Expression } from "../../types";
 import type { WorkersList } from "../../reducers/types";
 
 type AccordionPaneItem = {
@@ -69,6 +72,7 @@ type State = {
 };
 
 type Props = {
+  expressions: List<Expression>,
   extra: Object,
   evaluateExpressions: Function,
   hasFrames: boolean,
@@ -109,7 +113,7 @@ class SecondaryPanes extends Component<Props, State> {
     const isIndeterminate =
       !breakpointsDisabled && breakpoints.some(x => x.disabled);
 
-    if (breakpoints.size == 0) {
+    if (features.skipPausing || breakpoints.size == 0) {
       return null;
     }
 
@@ -141,6 +145,12 @@ class SecondaryPanes extends Component<Props, State> {
   }
 
   watchExpressionHeaderButtons() {
+    const { expressions } = this.props;
+
+    if (!expressions.size) {
+      return [];
+    }
+
     return [
       debugBtn(
         evt => {
@@ -175,8 +185,21 @@ class SecondaryPanes extends Component<Props, State> {
     };
   }
 
+  getComponentStackItem() {
+    return {
+      header: L10N.getStr("components.header"),
+      component: <ReactComponentStack />,
+      opened: prefs.componentStackVisible,
+      onToggle: opened => {
+        prefs.componentStackVisible = opened;
+      }
+    };
+  }
+
   getComponentItem() {
-    const { extra: { react } } = this.props;
+    const {
+      extra: { react }
+    } = this.props;
 
     return {
       header: react.displayName,
@@ -275,6 +298,12 @@ class SecondaryPanes extends Component<Props, State> {
 
       if (this.props.horizontal) {
         if (extra && extra.react) {
+          if (
+            features.componentStack &&
+            extra.react.componentStack.length > 1
+          ) {
+            items.push(this.getComponentStackItem());
+          }
           items.push(this.getComponentItem());
         }
 
@@ -372,17 +401,17 @@ SecondaryPanes.contextTypes = {
   shortcuts: PropTypes.object
 };
 
-export default connect(
-  state => ({
-    extra: getExtra(state),
-    hasFrames: !!getTopFrame(state),
-    breakpoints: getBreakpoints(state),
-    breakpointsDisabled: getBreakpointsDisabled(state),
-    breakpointsLoading: getBreakpointsLoading(state),
-    isWaitingOnBreak: getIsWaitingOnBreak(state),
-    shouldPauseOnExceptions: getShouldPauseOnExceptions(state),
-    shouldIgnoreCaughtExceptions: getShouldIgnoreCaughtExceptions(state),
-    workers: getWorkers(state)
-  }),
-  dispatch => bindActionCreators(actions, dispatch)
-)(SecondaryPanes);
+const mapStateToProps = state => ({
+  expressions: getExpressions(state),
+  extra: getExtra(state),
+  hasFrames: !!getTopFrame(state),
+  breakpoints: getBreakpoints(state),
+  breakpointsDisabled: getBreakpointsDisabled(state),
+  breakpointsLoading: getBreakpointsLoading(state),
+  isWaitingOnBreak: getIsWaitingOnBreak(state),
+  shouldPauseOnExceptions: getShouldPauseOnExceptions(state),
+  shouldIgnoreCaughtExceptions: getShouldIgnoreCaughtExceptions(state),
+  workers: getWorkers(state)
+});
+
+export default connect(mapStateToProps, actions)(SecondaryPanes);

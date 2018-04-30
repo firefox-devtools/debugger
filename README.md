@@ -1,14 +1,17 @@
-# debugger.html
+# [debugger.html][website]
+
+[website]: http://firefox-dev.tools/debugger.html/
 
 [![slack-badge]][slack] ![][ci-status] [![npm-version]][npm-package] [![PRs Welcome]][make-a-pull-request]
 
-debugger.html is a hackable debugger for modern times, built from the ground up using [React] and [Redux].  It is designed to be approachable, yet powerful.  And it is engineered to be predictable, understandable, and testable.
+debugger.html is a hackable debugger for modern times, built from the ground up using [React] and [Redux]. It is designed to be approachable, yet powerful. And it is engineered to be predictable, understandable, and testable.
 
-[Mozilla] created this debugger for use in the [Firefox] Developer Tools.  And we've purposely created this project in GitHub, using modern toolchains.  We hope to not only to create a great debugger that works with the [Firefox][firefox-rdp] and [Chrome][chrome-rdp] debugging protocols but develop a broader community that wants to create great tools for the web.
+[Mozilla] created this debugger for use in the [Firefox] Developer Tools. And we've purposely created this project in GitHub, using modern toolchains. We hope to not only to create a great debugger that works with the [Firefox][firefox-rdp] and [Chrome][chrome-rdp] debugging protocols but develop a broader community that wants to create great tools for the web.
 
 ![debugger-screenshot]
 
 ## Table of Contents
+
 * [Quick Setup](#quick-setup)
 * [Next Steps](#next-steps)
 * [Getting Involved](#getting-involved)
@@ -54,18 +57,17 @@ a look at [how we handle security bugs over][vulnerabilities], and open a bug at
 
 We strive to make the Debugger as development friendly as possible. If you have a question that's not answered in the guide, ask us in [slack]. We also :heart: documentation PRs!
 
-| | |
-|:----:|:---:|
-|[Themes]|theming changes for light, dark|
-|[Internationalization]|using or adding a localized string *(l10n)*|
-|[Prefs]|using or adding a preferences|
-|[Flow]|flow best practices and common gotchas|
-|[Logging]|tips for logging redux and client|
-|[Testing]|unit and integration test tips|
-|[Linting]|css, js, markdown linting|
-|[Configs]|how to use debugger settings locally|
-|[Hot Reloading]|steps for enabling hot reloading|
-
+|                        |                                             |
+| :--------------------: | :-----------------------------------------: |
+|        [Themes]        |       theming changes for light, dark       |
+| [Internationalization] | using or adding a localized string _(l10n)_ |
+|        [Prefs]         |        using or adding a preferences        |
+|         [Flow]         |   flow best practices and common gotchas    |
+|       [Logging]        |      tips for logging redux and client      |
+|       [Testing]        |       unit and integration test tips        |
+|       [Linting]        |          css, js, markdown linting          |
+|       [Configs]        |    how to use debugger settings locally     |
+|    [Hot Reloading]     |      steps for enabling hot reloading       |
 
 ### Documentation
 
@@ -73,7 +75,6 @@ Looking for a place to find our documentation? you can find them
 [here][docs]!
 
 Our [Weekly updates][weekly-updates] are also posted!
-
 
 ### Discussion
 
@@ -87,25 +88,20 @@ Say hello in [slack] or in the [#devtools-html][irc-devtools-html] channel on ir
 
 [MPL 2](./LICENSE)
 
-[React]:https://facebook.github.io/react/
-[Redux]:http://redux.js.org/
-[Mozilla]:https://www.mozilla.org/
-[Firefox]:https://www.mozilla.org/firefox/
+[react]: https://facebook.github.io/react/
+[redux]: http://redux.js.org/
+[mozilla]: https://www.mozilla.org/
+[firefox]: https://www.mozilla.org/firefox/
 [firefox-rdp]: https://wiki.mozilla.org/Remote_Debugging_Protocol
 [chrome-rdp]: https://chromedevtools.github.io/debugger-protocol-viewer/1-2/
-
 [slack-badge]: https://devtools-html-slack.herokuapp.com/badge.svg
 [slack]: https://devtools-html-slack.herokuapp.com/
-
 [debugger-screenshot]: https://shipusercontent.com/47aaaa7a6512691f964101bfb0832abe/Screen%20Shot%202017-08-15%20at%202.34.05%20PM.png
-
 [ci-status]: https://circleci.com/gh/devtools-html/debugger.html.svg??&style=shield
 [npm-version]: https://img.shields.io/npm/v/debugger.html.svg
 [npm-package]: https://www.npmjs.com/package/debugger.html
-[PRs Welcome]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square
+[prs welcome]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square
 [make-a-pull-request]: http://makeapullrequest.com
-
-
 [getting-started]: ./docs/getting-setup.md
 [contributing]: ./CONTRIBUTING.md
 [getting-started-screencast]: ./docs/videos.md
@@ -120,19 +116,18 @@ Say hello in [slack] or in the [#devtools-html][irc-devtools-html] channel on ir
 [devtools-call]: https://wiki.mozilla.org/DevTools
 [bugzilla]: https://bugzilla.mozilla.org/query.cgi
 [vulnerabilities]: https://www.mozilla.org/en-US/about/governance/policies/security-group/bugs/
-[vidyo]:https://v.mozilla.com/flex.html?roomdirect.html&key=n9vJUD3L1vRMHKQC5OCNRT3UBjw
+[vidyo]: https://v.mozilla.com/flex.html?roomdirect.html&key=n9vJUD3L1vRMHKQC5OCNRT3UBjw
 [changelog]: https://changelog.com/podcast/247
 [docs]: https://devtools-html.github.io/debugger.html/docs/
 [weekly-updates]: https://devtools-html.github.io/debugger.html/docs/updates
-
-[Configs]: ./docs/local-development.md#configs
-[Hot Reloading]: ./docs/local-development.md#hot-reloading-fire
-[Themes]: ./docs/local-development.md#themes
-[Internationalization]: ./docs/local-development.md#internationalization
-[Prefs]: ./docs/local-development.md#prefs
-[Flow]: ./docs/local-development.md#flow
-[Logging]: ./docs/local-development.md#logging
-[Testing]: ./docs/local-development.md#testing
-[Linting]: ./docs/local-development.md#linting
-[google-docs]:https://docs.google.com/document/d/146p7Y8Ues_AKjj4ReWCk6InOPWe3C3Koy6EQ1qnYKNM/edit
+[configs]: ./docs/local-development.md#configs
+[hot reloading]: ./docs/local-development.md#hot-reloading-fire
+[themes]: ./docs/local-development.md#themes
+[internationalization]: ./docs/local-development.md#internationalization
+[prefs]: ./docs/local-development.md#prefs
+[flow]: ./docs/local-development.md#flow
+[logging]: ./docs/local-development.md#logging
+[testing]: ./docs/local-development.md#testing
+[linting]: ./docs/local-development.md#linting
+[google-docs]: https://docs.google.com/document/d/146p7Y8Ues_AKjj4ReWCk6InOPWe3C3Koy6EQ1qnYKNM/edit
 [cl]: ./docs/issues.md#claiming-issues

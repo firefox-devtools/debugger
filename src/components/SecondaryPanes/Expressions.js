@@ -23,7 +23,8 @@ import "./Expressions.css";
 type State = {
   editing: boolean,
   editIndex: number,
-  inputValue: string
+  inputValue: string,
+  focused: boolean
 };
 
 type Props = {
@@ -52,7 +53,8 @@ class Expressions extends Component<Props, State> {
     this.state = {
       editing: false,
       editIndex: -1,
-      inputValue: ""
+      inputValue: "",
+      focused: false
     };
   }
 
@@ -77,7 +79,7 @@ class Expressions extends Component<Props, State> {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    const { editing, inputValue } = this.state;
+    const { editing, inputValue, focused } = this.state;
     const { expressions, expressionError, showInput } = this.props;
 
     return (
@@ -85,7 +87,8 @@ class Expressions extends Component<Props, State> {
       expressionError !== nextProps.expressionError ||
       editing !== nextState.editing ||
       inputValue !== nextState.inputValue ||
-      nextProps.showInput !== showInput
+      nextProps.showInput !== showInput ||
+      focused !== nextState.focused
     );
   }
 
@@ -125,7 +128,12 @@ class Expressions extends Component<Props, State> {
   };
 
   hideInput = () => {
+    this.setState({ focused: false });
     this.props.onExpressionAdded();
+  };
+
+  onFocus = () => {
+    this.setState({ focused: true });
   };
 
   onBlur() {
@@ -196,7 +204,7 @@ class Expressions extends Component<Props, State> {
             roots={[root]}
             autoExpandDepth={0}
             disableWrap={true}
-            disabledFocus={true}
+            focusable={false}
             openLink={openLink}
             createObjectClient={grip => createObjectClient(grip)}
           />
@@ -211,23 +219,28 @@ class Expressions extends Component<Props, State> {
   };
 
   renderNewExpressionInput() {
-    const { expressionError } = this.props;
-    const { editing, inputValue } = this.state;
+    const { expressionError, expressions } = this.props;
+    const { editing, inputValue, focused } = this.state;
     const error = editing === false && expressionError === true;
     const placeholder: string = error
       ? L10N.getStr("expressions.errorMsg")
       : L10N.getStr("expressions.placeholder");
+    const autoFocus = expressions.size > 0;
+
     return (
-      <li className="expression-input-container">
+      <li
+        className={classnames("expression-input-container", { focused, error })}
+      >
         <form className="expression-input-form" onSubmit={this.handleNewSubmit}>
           <input
-            className={classnames("input-expression", { error })}
+            className="input-expression"
             type="text"
             placeholder={placeholder}
             onChange={this.handleChange}
             onBlur={this.hideInput}
             onKeyDown={this.handleKeyDown}
-            autoFocus="true"
+            onFocus={this.onFocus}
+            autoFocus={autoFocus}
             value={!editing ? inputValue : ""}
           />
           <input type="submit" style={{ display: "none" }} />
@@ -238,10 +251,14 @@ class Expressions extends Component<Props, State> {
 
   renderExpressionEditInput(expression: Expression) {
     const { expressionError } = this.props;
-    const { inputValue, editing } = this.state;
+    const { inputValue, editing, focused } = this.state;
     const error = editing === true && expressionError === true;
+
     return (
-      <span className="expression-input-container" key={expression.input}>
+      <span
+        className={classnames("expression-input-container", { focused, error })}
+        key={expression.input}
+      >
         <form
           className="expression-input-form"
           onSubmit={(e: SyntheticEvent<HTMLFormElement>) =>
@@ -254,6 +271,7 @@ class Expressions extends Component<Props, State> {
             onChange={this.handleChange}
             onBlur={this.clear}
             onKeyDown={this.handleKeyDown}
+            onFocus={this.onFocus}
             value={editing ? inputValue : expression.input}
             ref={c => (this._input = c)}
           />
@@ -269,16 +287,15 @@ class Expressions extends Component<Props, State> {
     return (
       <ul className="pane expressions-list">
         {expressions.map(this.renderExpression)}
-        {showInput && this.renderNewExpressionInput()}
+        {(showInput || !expressions.size) && this.renderNewExpressionInput()}
       </ul>
     );
   }
 }
 
-export default connect(
-  state => ({
-    expressions: getExpressions(state),
-    expressionError: getExpressionError(state)
-  }),
-  actions
-)(Expressions);
+const mapStateToProps = state => ({
+  expressions: getExpressions(state),
+  expressionError: getExpressionError(state)
+});
+
+export default connect(mapStateToProps, actions)(Expressions);

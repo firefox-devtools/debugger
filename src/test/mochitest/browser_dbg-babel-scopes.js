@@ -95,15 +95,14 @@ add_task(async function() {
     ]
   );
 
-  // No '<this>' binding here because Babel does not currently general
-  // the current mappings for 'this' bindings.
   await breakpointScopes(
     dbg,
     "this-arguments-bindings",
     { line: 8, column: 6 },
     [
       "arrow",
-      ["argArrow", "(unmapped)"],
+      ["<this>", '"this-value"'],
+      ["argArrow", '"arrow-arg"'],
       "Block",
       "arrow()",
       "fn",
@@ -116,8 +115,6 @@ add_task(async function() {
     ]
   );
 
-  // Babel 6's imports aren't fully mapped, so they show as unavailable.
-  // The call-based ones work, but the single-identifier ones do not.
   await breakpointScopes(dbg, "imported-bindings", { line: 20, column: 2 }, [
     "Module",
     ["aDefault", '"a-default"'],
@@ -132,6 +129,7 @@ add_task(async function() {
     ["aNamespace", "{\u2026}"],
     ["aNamespace2", "{\u2026}"],
     ["aNamespace3", "{\u2026}"],
+    ["example", "(optimized away)"],
     ["optimizedOut", "(optimized away)"],
     "root()"
   ]);
@@ -284,6 +282,7 @@ add_task(async function() {
     ["aNamespace", "{\u2026}"],
     ["aNamespace2", "{\u2026}"],
     ["aNamespace3", "{\u2026}"],
+    ["example", "(optimized away)"],
     ["optimizedOut", "(optimized away)"],
     "root()"
   ]);
@@ -302,6 +301,7 @@ add_task(async function() {
     ["aNamespace", "{\u2026}"],
     ["aNamespace2", "{\u2026}"],
     ["aNamespace3", "{\u2026}"],
+    ["example", "(optimized away)"],
     ["optimizedOut", "(optimized away)"],
     "root()"
   ]);

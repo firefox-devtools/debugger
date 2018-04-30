@@ -28,15 +28,32 @@ cases(
   },
   [
     {
+      name: "finds scope bindings in a vue file",
+      file: "scopes/vue-sample",
+      type: "vue",
+      locations: [[14, 0]]
+    },
+    {
       name: "finds scope bindings in a typescript file",
       file: "scopes/ts-sample",
       type: "ts",
       locations: [[3, 0], [6, 4]]
     },
     {
+      name: "finds scope bindings in a typescript-jsx file",
+      file: "scopes/tsx-sample",
+      type: "tsx",
+      locations: [[3, 0], [6, 4]]
+    },
+    {
       name: "finds scope bindings in a module",
       file: "scopes/simple-module",
       locations: [[7, 0]]
+    },
+    {
+      name: "finds scope bindings in a JSX element",
+      file: "scopes/jsx-component",
+      locations: [[2, 0]]
     },
     {
       name: "finds scope bindings for complex binding nesting",

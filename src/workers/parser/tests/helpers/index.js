@@ -13,8 +13,12 @@ export function getSource(name, type = "js") {
   let contentType = "text/javascript";
   if (type === "html") {
     contentType = "text/html";
+  } else if (type === "vue") {
+    contentType = "text/vue";
   } else if (type === "ts") {
     contentType = "text/typescript";
+  } else if (type === "tsx") {
+    contentType = "text/typescript-jsx";
   }
 
   return {

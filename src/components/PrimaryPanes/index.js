@@ -5,7 +5,6 @@
 // @flow
 
 import React, { Component } from "react";
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { formatKeyShortcut } from "../../utils/text";
 import actions from "../../actions";
@@ -140,11 +139,10 @@ class PrimaryPanes extends Component<Props, State> {
   }
 }
 
-export default connect(
-  state => ({
-    selectedTab: getSelectedPrimaryPaneTab(state),
-    sources: getSources(state),
-    sourceSearchOn: getActiveSearch(state) === "source"
-  }),
-  dispatch => bindActionCreators(actions, dispatch)
-)(PrimaryPanes);
+const mapStateToProps = state => ({
+  selectedTab: getSelectedPrimaryPaneTab(state),
+  sources: getSources(state),
+  sourceSearchOn: getActiveSearch(state) === "source"
+});
+
+export default connect(mapStateToProps, actions)(PrimaryPanes);

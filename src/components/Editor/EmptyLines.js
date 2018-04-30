@@ -61,12 +61,14 @@ class EmptyLines extends Component {
   }
 }
 
-export default connect(state => {
+const mapStateToProps = state => {
   const selectedSource = getSelectedSource(state);
+  const foundEmptyLines = getEmptyLines(state, selectedSource.toJS());
+
   return {
     selectedSource,
-    emptyLines: selectedSource
-      ? getEmptyLines(state, selectedSource.toJS())
-      : []
+    emptyLines: selectedSource ? foundEmptyLines : []
   };
-})(EmptyLines);
+};
+
+export default connect(mapStateToProps)(EmptyLines);

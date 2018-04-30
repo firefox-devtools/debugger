@@ -27,7 +27,16 @@ const mockThreadClient = {
       )
     ),
   getFrameScopes: async () => {},
-  sourceContents: () => ({})
+  sourceContents: () => ({}),
+  autocomplete: () => {
+    return new Promise(resolve => {
+      resolve({
+        from: "foo",
+        matches: ["toLocaleString", "toSource", "toString", "toolbar", "top"],
+        matchProp: "to"
+      });
+    });
+  }
 };
 
 describe("expressions", () => {
@@ -118,6 +127,16 @@ describe("expressions", () => {
 
     expect(selectors.getExpression(getState(), "foo").value).toBe("boo");
     expect(selectors.getExpression(getState(), "bar").value).toBe("boo");
+  });
+
+  it("should get the autocomplete matches for the input", async () => {
+    const { dispatch, getState } = createStore(mockThreadClient);
+
+    await dispatch(actions.autocomplete("to", 2));
+
+    expect(
+      selectors.getAutocompleteMatchset(getState(), "to")
+    ).toMatchSnapshot();
   });
 });
 

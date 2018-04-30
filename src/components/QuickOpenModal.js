@@ -124,7 +124,9 @@ export class QuickOpenModal extends Component<Props, State> {
   };
 
   searchSymbols = (query: string) => {
-    const { symbols: { functions, variables } } = this.props;
+    const {
+      symbols: { functions, variables }
+    } = this.props;
 
     let results = functions;
     if (this.isVariableQuery()) {

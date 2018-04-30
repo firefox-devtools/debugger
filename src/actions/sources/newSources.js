@@ -44,7 +44,11 @@ function createOriginalSource(
 }
 
 function loadSourceMaps(sources) {
-  return async function({ dispatch, getState, sourceMaps }: ThunkArgs) {
+  return async function({ dispatch, sourceMaps }: ThunkArgs) {
+    if (!sourceMaps) {
+      return;
+    }
+
     const originalSources = await Promise.all(
       sources.map(source => dispatch(loadSourceMap(source.id)))
     );
@@ -61,7 +65,7 @@ function loadSourceMap(sourceId: SourceId) {
   return async function({ dispatch, getState, sourceMaps }: ThunkArgs) {
     const source = getSource(getState(), sourceId).toJS();
 
-    if (!isGeneratedId(sourceId) || !source.sourceMapURL) {
+    if (!sourceMaps || !isGeneratedId(sourceId) || !source.sourceMapURL) {
       return;
     }
 
@@ -91,7 +95,7 @@ function loadSourceMap(sourceId: SourceId) {
 // select it.
 function checkSelectedSource(sourceId: string) {
   return async ({ dispatch, getState }: ThunkArgs) => {
-    const source = getSource(getState(), sourceId).toJS();
+    const source = getSource(getState(), sourceId);
 
     const pendingLocation = getPendingSelectedLocation(getState());
 

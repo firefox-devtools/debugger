@@ -226,6 +226,12 @@ export type TabTarget = {
       script: Script,
       func: Function,
       params?: { frameActor?: FrameId }
+    ) => void,
+    autocomplete: (
+      input: string,
+      cursor: number,
+      func: Function,
+      frameId: string
     ) => void
   },
   form: { consoleActor: any },
@@ -351,7 +357,9 @@ export type ThreadClient = {
   getSources: () => Promise<SourcesPacket>,
   reconfigure: ({ observeAsmJS: boolean }) => Promise<*>,
   getLastPausePacket: () => ?PausedPacket,
-  _parent: TabClient
+  _parent: TabClient,
+  actor: ActorId,
+  request: (payload: Object) => Promise<*>
 };
 
 /**

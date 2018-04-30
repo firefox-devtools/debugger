@@ -76,6 +76,11 @@ export type PauseAction =
   | {|
       +type: "CLEAR_EXPRESSION_ERROR"
     |}
+  | {|
+      +type: "AUTOCOMPLETE",
+      +input: string,
+      +result: Object
+    |}
   | PromiseAction<
       {|
         +type: "MAP_SCOPES",
@@ -102,4 +107,8 @@ export type PauseAction =
         +frame: Frame
       |},
       Scope
-    >;
+    >
+  | {|
+      +type: "TOGGLE_SKIP_PAUSING",
+      skipPausing: boolean
+    |};

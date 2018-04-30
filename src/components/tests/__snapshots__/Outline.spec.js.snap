@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Outline should render a list of functions when properties change 1`] = `
+exports[`Outline renders a list of functions when properties change 1`] = `
 <div
   className="outline"
 >
@@ -63,7 +63,253 @@ exports[`Outline should render a list of functions when properties change 1`] = 
 </div>
 `;
 
-exports[`Outline should render ignore anonimous functions 1`] = `
+exports[`Outline renders outline renders functions by function class 1`] = `
+<div
+  className="outline"
+>
+  <div>
+    <ul
+      className="outline-list"
+    >
+      <div
+        className="outline-list__class"
+        key="x_klass"
+      >
+        <h2
+          onClick={[Function]}
+        >
+          <span
+            className="keyword"
+          >
+            class
+          </span>
+           
+          x_klass
+        </h2>
+        <ul
+          className="outline-list__class-list"
+        >
+          <li
+            className="outline-list__element"
+            key="x_function:25:undefined"
+            onClick={[Function]}
+            onContextMenu={[Function]}
+          >
+            <span
+              className="outline-list__element-icon"
+            >
+              λ
+            </span>
+            <PreviewFunction
+              func={
+                Object {
+                  "name": "x_function",
+                  "parameterNames": undefined,
+                }
+              }
+            />
+          </li>
+        </ul>
+      </div>
+      <div
+        className="outline-list__class"
+        key="a_klass"
+      >
+        <h2
+          onClick={[Function]}
+        >
+          <span
+            className="keyword"
+          >
+            class
+          </span>
+           
+          a_klass
+        </h2>
+        <ul
+          className="outline-list__class-list"
+        >
+          <li
+            className="outline-list__element"
+            key="a2_function:30:undefined"
+            onClick={[Function]}
+            onContextMenu={[Function]}
+          >
+            <span
+              className="outline-list__element-icon"
+            >
+              λ
+            </span>
+            <PreviewFunction
+              func={
+                Object {
+                  "name": "a2_function",
+                  "parameterNames": undefined,
+                }
+              }
+            />
+          </li>
+          <li
+            className="outline-list__element"
+            key="a1_function:70:undefined"
+            onClick={[Function]}
+            onContextMenu={[Function]}
+          >
+            <span
+              className="outline-list__element-icon"
+            >
+              λ
+            </span>
+            <PreviewFunction
+              func={
+                Object {
+                  "name": "a1_function",
+                  "parameterNames": undefined,
+                }
+              }
+            />
+          </li>
+        </ul>
+      </div>
+    </ul>
+    <div
+      className="outline-footer bottom"
+    >
+      <button
+        className=""
+        onClick={[Function]}
+      >
+        Sort by name
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Outline renders outline renders functions by function class, alphabetically 1`] = `
+<div
+  className="outline"
+>
+  <div>
+    <ul
+      className="outline-list"
+    >
+      <div
+        className="outline-list__class"
+        key="x_klass"
+      >
+        <h2
+          onClick={[Function]}
+        >
+          <span
+            className="keyword"
+          >
+            class
+          </span>
+           
+          x_klass
+        </h2>
+        <ul
+          className="outline-list__class-list"
+        >
+          <li
+            className="outline-list__element"
+            key="x_function:25:undefined"
+            onClick={[Function]}
+            onContextMenu={[Function]}
+          >
+            <span
+              className="outline-list__element-icon"
+            >
+              λ
+            </span>
+            <PreviewFunction
+              func={
+                Object {
+                  "name": "x_function",
+                  "parameterNames": undefined,
+                }
+              }
+            />
+          </li>
+        </ul>
+      </div>
+      <div
+        className="outline-list__class"
+        key="a_klass"
+      >
+        <h2
+          onClick={[Function]}
+        >
+          <span
+            className="keyword"
+          >
+            class
+          </span>
+           
+          a_klass
+        </h2>
+        <ul
+          className="outline-list__class-list"
+        >
+          <li
+            className="outline-list__element"
+            key="a1_function:70:undefined"
+            onClick={[Function]}
+            onContextMenu={[Function]}
+          >
+            <span
+              className="outline-list__element-icon"
+            >
+              λ
+            </span>
+            <PreviewFunction
+              func={
+                Object {
+                  "name": "a1_function",
+                  "parameterNames": undefined,
+                }
+              }
+            />
+          </li>
+          <li
+            className="outline-list__element"
+            key="a2_function:30:undefined"
+            onClick={[Function]}
+            onContextMenu={[Function]}
+          >
+            <span
+              className="outline-list__element-icon"
+            >
+              λ
+            </span>
+            <PreviewFunction
+              func={
+                Object {
+                  "name": "a2_function",
+                  "parameterNames": undefined,
+                }
+              }
+            />
+          </li>
+        </ul>
+      </div>
+    </ul>
+    <div
+      className="outline-footer bottom"
+    >
+      <button
+        className="active"
+        onClick={[Function]}
+      >
+        Sort by name
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Outline renders outline renders ignore anonymous functions 1`] = `
 <div
   className="outline"
 >
@@ -97,6 +343,137 @@ exports[`Outline should render ignore anonimous functions 1`] = `
     >
       <button
         className=""
+        onClick={[Function]}
+      >
+        Sort by name
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Outline renders outline renders loading if symbols are loading 1`] = `
+<div
+  className="outline-pane-info"
+>
+  Loading…
+</div>
+`;
+
+exports[`Outline renders outline renders loading if symbols is not defined 1`] = `
+<div
+  className="outline-pane-info"
+>
+  Loading…
+</div>
+`;
+
+exports[`Outline renders outline renders placeholder \`No File Selected\` if selectedSource is not defined 1`] = `
+<div
+  className="outline-pane-info"
+>
+  No file selected
+</div>
+`;
+
+exports[`Outline renders outline renders placeholder \`No functions\` if all func are anonymous 1`] = `
+<div
+  className="outline"
+>
+  <div
+    className="outline-pane-info"
+  >
+    No functions
+  </div>
+</div>
+`;
+
+exports[`Outline renders outline renders placeholder \`No functions\` if symbols has no func 1`] = `
+<div
+  className="outline"
+>
+  <div
+    className="outline-pane-info"
+  >
+    No functions
+  </div>
+</div>
+`;
+
+exports[`Outline renders outline sorts functions alphabetically by function name 1`] = `
+<div
+  className="outline"
+>
+  <div>
+    <ul
+      className="outline-list"
+    >
+      <li
+        className="outline-list__element"
+        key="a_function:70:undefined"
+        onClick={[Function]}
+        onContextMenu={[Function]}
+      >
+        <span
+          className="outline-list__element-icon"
+        >
+          λ
+        </span>
+        <PreviewFunction
+          func={
+            Object {
+              "name": "a_function",
+              "parameterNames": undefined,
+            }
+          }
+        />
+      </li>
+      <li
+        className="outline-list__element"
+        key="c_function:25:undefined"
+        onClick={[Function]}
+        onContextMenu={[Function]}
+      >
+        <span
+          className="outline-list__element-icon"
+        >
+          λ
+        </span>
+        <PreviewFunction
+          func={
+            Object {
+              "name": "c_function",
+              "parameterNames": undefined,
+            }
+          }
+        />
+      </li>
+      <li
+        className="outline-list__element"
+        key="x_function:30:undefined"
+        onClick={[Function]}
+        onContextMenu={[Function]}
+      >
+        <span
+          className="outline-list__element-icon"
+        >
+          λ
+        </span>
+        <PreviewFunction
+          func={
+            Object {
+              "name": "x_function",
+              "parameterNames": undefined,
+            }
+          }
+        />
+      </li>
+    </ul>
+    <div
+      className="outline-footer bottom"
+    >
+      <button
+        className="active"
         onClick={[Function]}
       >
         Sort by name

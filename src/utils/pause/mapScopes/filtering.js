@@ -28,10 +28,14 @@ function findInsertionLocation<T>(
 
   // Ensure the value is the start of any set of matches.
   let i = left;
-  while (i > 0 && callback(array[i]) >= 0) {
-    i--;
+  if (i < array.length) {
+    while (i > 0 && callback(array[i]) >= 0) {
+      i--;
+    }
+    return i + 1;
   }
-  return i + 1;
+
+  return i;
 }
 
 export function filterSortedArray<T>(

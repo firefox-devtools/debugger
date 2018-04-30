@@ -49,10 +49,14 @@
   display: flex;
 }
 
+.secondary-panes .accordion .plus {
+  margin-top: -2px;
+}
+
 .secondary-panes .accordion .plus svg {
   width: 12px;
   margin-top: 3px;
-  fill: var(--theme-comment-alt);
+  fill: var(--theme-body-color);
 }
 
 .secondary-panes .accordion .plus.active svg {

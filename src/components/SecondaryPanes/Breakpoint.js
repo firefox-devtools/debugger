@@ -3,9 +3,11 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
+
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import classnames from "classnames";
+import { isGeneratedId } from "devtools-source-map";
 
 import CloseButton from "../shared/Button/Close";
 
@@ -14,9 +16,11 @@ import { features } from "../../utils/prefs";
 
 import type { LocalBreakpoint } from "./Breakpoints";
 import type SourceEditor from "../../utils/editor/source-editor";
+import type { Source } from "../../types";
 
 type Props = {
   breakpoint: LocalBreakpoint,
+  selectedSource: ?Source,
   onClick: Function,
   onContextMenu: Function,
   onChange: Function,
@@ -33,6 +37,24 @@ function getBreakpointLocation(source, line, column) {
   return bpLocation;
 }
 
+function getBreakpointText(selectedSource, breakpoint) {
+  const { condition, text, originalText } = breakpoint;
+
+  if (condition) {
+    return condition;
+  }
+
+  if (
+    !selectedSource ||
+    isGeneratedId(selectedSource.id) ||
+    originalText.length == 0
+  ) {
+    return text;
+  }
+
+  return originalText;
+}
+
 class Breakpoint extends Component<Props> {
   editor: SourceEditor;
 
@@ -40,15 +62,18 @@ class Breakpoint extends Component<Props> {
     this.setupEditor();
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps: Props) {
+    if (
+      getBreakpointText(this.props.selectedSource, this.props.breakpoint) !=
+      getBreakpointText(prevProps.selectedSource, prevProps.breakpoint)
+    ) {
+      this.destroyEditor();
+    }
     this.setupEditor();
   }
 
   componentWillUnmount() {
-    if (this.editor) {
-      this.editor.destroy();
-      this.editor = null;
-    }
+    this.destroyEditor();
   }
 
   shouldComponentUpdate(nextProps: Props) {
@@ -57,6 +82,7 @@ class Breakpoint extends Component<Props> {
 
     return (
       !prevBreakpoint ||
+      this.props.selectedSource != nextProps.selectedSource ||
       (prevBreakpoint.text != nextBreakpoint.text ||
         prevBreakpoint.disabled != nextBreakpoint.disabled ||
         prevBreakpoint.condition != nextBreakpoint.condition ||
@@ -65,10 +91,11 @@ class Breakpoint extends Component<Props> {
     );
   }
 
-  getBreakpointText() {
-    const { breakpoint } = this.props;
-
-    return breakpoint.condition || breakpoint.text;
+  destroyEditor() {
+    if (this.editor) {
+      this.editor.destroy();
+      this.editor = null;
+    }
   }
 
   setupEditor() {
@@ -76,7 +103,9 @@ class Breakpoint extends Component<Props> {
       return;
     }
 
-    this.editor = createEditor(this.getBreakpointText());
+    const { selectedSource, breakpoint } = this.props;
+
+    this.editor = createEditor(getBreakpointText(selectedSource, breakpoint));
 
     // disables the default search shortcuts
     // $FlowIgnore
@@ -110,7 +139,8 @@ class Breakpoint extends Component<Props> {
   }
 
   renderText() {
-    const text = this.getBreakpointText();
+    const { selectedSource, breakpoint } = this.props;
+    const text = getBreakpointText(selectedSource, breakpoint);
 
     return (
       <label className="breakpoint-label" title={text}>
@@ -120,8 +150,18 @@ class Breakpoint extends Component<Props> {
   }
 
   renderLineClose() {
-    const { breakpoint, onCloseClick } = this.props;
-    const { line, column } = breakpoint.location;
+    const { breakpoint, onCloseClick, selectedSource } = this.props;
+    const { location } = breakpoint;
+
+    let { line, column } = location;
+    if (
+      selectedSource &&
+      isGeneratedId(selectedSource.id) &&
+      breakpoint.generatedLocation
+    ) {
+      line = breakpoint.generatedLocation.line;
+      column = breakpoint.generatedLocation.column;
+    }
 
     return (
       <div className="breakpoint-line-close">

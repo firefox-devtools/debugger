@@ -13,6 +13,13 @@ describe("mapOriginalExpression", () => {
     expect(generatedExpression).toEqual("foo + bar;");
   });
 
+  it("this", () => {
+    const generatedExpression = mapOriginalExpression("this.prop;", {
+      this: "_this"
+    });
+    expect(generatedExpression).toEqual("_this.prop;");
+  });
+
   it("member expressions", () => {
     const generatedExpression = mapOriginalExpression("a + b", {
       a: "_mod.foo",
@@ -36,5 +43,18 @@ describe("mapOriginalExpression", () => {
       c: "_c"
     });
     expect(generatedExpression).toEqual("a + b");
+  });
+
+  it("shadowed bindings", () => {
+    const generatedExpression = mapOriginalExpression(
+      "window.thing = function fn(){ var a; a; b; }; a; b; ",
+      {
+        a: "_a",
+        b: "_b"
+      }
+    );
+    expect(generatedExpression).toEqual(
+      "window.thing = function fn() {\n  var a;\n  a;\n  _b;\n};\n\n_a;\n_b;"
+    );
   });
 });

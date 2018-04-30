@@ -9,7 +9,6 @@ import PropTypes from "prop-types";
 import React, { Component } from "react";
 
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import classnames from "classnames";
 import { features } from "../../utils/prefs";
 import {
@@ -17,7 +16,8 @@ import {
   getIsWaitingOnBreak,
   getHistory,
   getHistoryPosition,
-  getCanRewind
+  getCanRewind,
+  getSkipPausing
 } from "../../selectors";
 import { formatKeyShortcut } from "../../utils/text";
 import actions from "../../actions";
@@ -101,7 +101,9 @@ type Props = {
   shouldIgnoreCaughtExceptions: boolean,
   isWaitingOnBreak: boolean,
   horizontal: boolean,
-  canRewind: boolean
+  canRewind: boolean,
+  skipPausing: boolean,
+  toggleSkipPausing: () => void
 };
 
 class CommandBar extends Component<Props> {
@@ -329,6 +331,26 @@ class CommandBar extends Component<Props> {
     );
   }
 
+  renderSkipPausingButton() {
+    const { skipPausing, toggleSkipPausing } = this.props;
+
+    if (!features.skipPausing) {
+      return null;
+    }
+
+    return (
+      <button
+        className={classnames("command-bar-button", {
+          active: skipPausing
+        })}
+        title={L10N.getStr("skipPausingTooltip")}
+        onClick={toggleSkipPausing}
+      >
+        <img className="skipPausing" />
+      </button>
+    );
+  }
+
   render() {
     return (
       <div
@@ -344,6 +366,7 @@ class CommandBar extends Component<Props> {
         {this.replayPreviousButton()}
         {this.renderStepPosition()}
         {this.replayNextButton()}
+        {this.renderSkipPausingButton()}
       </div>
     );
   }
@@ -353,15 +376,13 @@ CommandBar.contextTypes = {
   shortcuts: PropTypes.object
 };
 
-export default connect(
-  state => {
-    return {
-      isPaused: getIsPaused(state),
-      history: getHistory(state),
-      historyPosition: getHistoryPosition(state),
-      isWaitingOnBreak: getIsWaitingOnBreak(state),
-      canRewind: getCanRewind(state)
-    };
-  },
-  dispatch => bindActionCreators(actions, dispatch)
-)(CommandBar);
+const mapStateToProps = state => ({
+  isPaused: getIsPaused(state),
+  history: getHistory(state),
+  historyPosition: getHistoryPosition(state),
+  isWaitingOnBreak: getIsWaitingOnBreak(state),
+  canRewind: getCanRewind(state),
+  skipPausing: getSkipPausing(state)
+});
+
+export default connect(mapStateToProps, actions)(CommandBar);

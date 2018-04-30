@@ -6,7 +6,6 @@
 
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import * as I from "immutable";
 
 import { getSelectedSource, getSourcesForTabs } from "../../selectors";
@@ -77,7 +76,7 @@ class Tabs extends PureComponent<Props, State> {
   }
 
   componentDidMount() {
-    this.updateHiddenTabs();
+    window.requestIdleCallback(this.updateHiddenTabs);
     window.addEventListener("resize", this.onResize);
   }
 
@@ -89,7 +88,7 @@ class Tabs extends PureComponent<Props, State> {
    * Updates the hiddenSourceTabs state, by
    * finding the source tabs which are wrapped and are not on the top row.
    */
-  updateHiddenTabs() {
+  updateHiddenTabs = () => {
     if (!this.refs.sourceTabs) {
       return;
     }
@@ -102,7 +101,7 @@ class Tabs extends PureComponent<Props, State> {
     }
 
     this.setState({ hiddenTabs });
-  }
+  };
 
   toggleSourcesDropdown(e) {
     this.setState(prevState => ({
@@ -153,8 +152,9 @@ class Tabs extends PureComponent<Props, State> {
     }
 
     const Panel = <ul>{hiddenTabs.map(this.renderDropdownSource)}</ul>;
+    const icon = <img className="moreTabs" />;
 
-    return <Dropdown panel={Panel} icon={"»"} />;
+    return <Dropdown panel={Panel} icon={icon} />;
   }
 
   renderStartPanelToggleButton() {
@@ -195,12 +195,9 @@ class Tabs extends PureComponent<Props, State> {
   }
 }
 
-export default connect(
-  state => {
-    return {
-      selectedSource: getSelectedSource(state),
-      tabSources: getSourcesForTabs(state)
-    };
-  },
-  dispatch => bindActionCreators(actions, dispatch)
-)(Tabs);
+const mapStateToProps = state => ({
+  selectedSource: getSelectedSource(state),
+  tabSources: getSourcesForTabs(state)
+});
+
+export default connect(mapStateToProps, actions)(Tabs);

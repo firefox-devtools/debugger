@@ -251,7 +251,7 @@ function isReliableScope(scope: OriginalScope): boolean {
   }
 
   // As determined by fair dice roll.
-  return totalBindings === 0 || unknownBindings / totalBindings < 0.9;
+  return totalBindings === 0 || unknownBindings / totalBindings < 0.1;
 }
 
 function generateClientScope(
@@ -459,6 +459,13 @@ function buildGeneratedBindingList(
     }
 
     for (const name of Object.keys(generated.bindings)) {
+      // If there is no 'this' value, we exclude the binding entirely.
+      // Otherwise it would pass through as found, but "(unscoped)", causing
+      // the search logic to stop with a match.
+      if (name === "this" && !bindings[name]) {
+        continue;
+      }
+
       const { refs } = generated.bindings[name];
       for (const loc of refs) {
         acc.push({

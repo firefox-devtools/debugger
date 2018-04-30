@@ -23,6 +23,7 @@ import {
 
 import { PROMISE } from "./utils/middleware/promise";
 import { isGeneratedId } from "devtools-source-map";
+import { features } from "../utils/prefs";
 
 import type { SourceId } from "../types";
 import type { ThunkArgs, Action } from "./types";
@@ -105,7 +106,7 @@ export function setOutOfScopeLocations() {
 export function setPausePoints(sourceId: SourceId) {
   return async ({ dispatch, getState, client }: ThunkArgs) => {
     const source = getSource(getState(), sourceId);
-    if (!source || !source.text || source.isWasm) {
+    if (!features.pausePoints || !source || !source.text || source.isWasm) {
       return;
     }
 
