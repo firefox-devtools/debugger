@@ -88,14 +88,23 @@ class Expressions extends Component<Props, State> {
       editing !== nextState.editing ||
       inputValue !== nextState.inputValue ||
       nextProps.showInput !== showInput ||
-      focused !== nextState.focused
+      focused !== nextState.focused ||
+      (showInput === true && nextProps === true && !focused)
     );
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this._input && !prevState.editing) {
-      const input = this._input;
+    const input = this._input;
+
+    if (!input) {
+      return;
+    }
+
+    if (!prevState.editing && this.state.editing) {
       input.setSelectionRange(0, input.value.length);
+      input.focus();
+    }
+    else if (this.props.showInput && !this.state.focused) {
       input.focus();
     }
   }
@@ -219,13 +228,13 @@ class Expressions extends Component<Props, State> {
   };
 
   renderNewExpressionInput() {
-    const { expressionError, expressions } = this.props;
+    const { expressionError, showInput } = this.props;
     const { editing, inputValue, focused } = this.state;
     const error = editing === false && expressionError === true;
     const placeholder: string = error
       ? L10N.getStr("expressions.errorMsg")
       : L10N.getStr("expressions.placeholder");
-    const autoFocus = expressions.size > 0;
+    const autoFocus = showInput;
 
     return (
       <li
@@ -242,6 +251,7 @@ class Expressions extends Component<Props, State> {
             onFocus={this.onFocus}
             autoFocus={autoFocus}
             value={!editing ? inputValue : ""}
+            ref={c => (this._input = c)}
           />
           <input type="submit" style={{ display: "none" }} />
         </form>

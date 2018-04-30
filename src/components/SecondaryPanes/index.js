@@ -147,30 +147,37 @@ class SecondaryPanes extends Component<Props, State> {
   watchExpressionHeaderButtons() {
     const { expressions } = this.props;
 
-    if (!expressions.size) {
-      return [];
+    const buttons = [];
+
+    if (expressions.size) {
+      buttons.push(
+        debugBtn(
+          evt => {
+            evt.stopPropagation();
+            this.props.evaluateExpressions();
+          },
+          "refresh",
+          "refresh",
+          L10N.getStr("watchExpressions.refreshButton")
+        )
+      );
     }
 
-    return [
+    buttons.push(
       debugBtn(
         evt => {
-          evt.stopPropagation();
-          this.props.evaluateExpressions();
-        },
-        "refresh",
-        "refresh",
-        L10N.getStr("watchExpressions.refreshButton")
-      ),
-      debugBtn(
-        evt => {
-          evt.stopPropagation();
+          if (prefs.expressionsVisible) {
+            evt.stopPropagation();
+          }
           this.setState({ showExpressionsInput: true });
         },
         "plus",
         "plus",
         L10N.getStr("expressions.placeholder")
       )
-    ];
+    );
+
+    return buttons;
   }
 
   getScopeItem(): AccordionPaneItem {
@@ -213,10 +220,6 @@ class SecondaryPanes extends Component<Props, State> {
   }
 
   getWatchItem(): AccordionPaneItem {
-    if (this.state.showExpressionsInput) {
-      prefs.expressionsVisible = true;
-    }
-
     return {
       header: L10N.getStr("watchExpressions.header"),
       className: "watch-expressions-pane",
