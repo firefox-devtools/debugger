@@ -67,7 +67,6 @@ html[dir="rtl"] .breakpoints-exceptions-caught {
 
 .breakpoint-exceptions-label {
   padding-top: 2px;
-  display: inline-block;
   padding-inline-start: 2px;
   padding-inline-end: 8px;
   cursor: default;
@@ -141,7 +140,6 @@ html[dir="rtl"] .breakpoints-list .breakpoint .breakpoint-line {
 .breakpoints-list .breakpoint-label {
   max-width: calc(100% - var(--breakpoint-expression-right-clear-space));
   display: inline-block;
-  /* padding-inline-start: 2px; */
   padding-inline-end: 8px;
   cursor: default;
   flex-grow: 1;
@@ -149,6 +147,11 @@ html[dir="rtl"] .breakpoints-list .breakpoint .breakpoint-line {
   overflow: hidden;
   padding-top: 3px;
   font-size: 11px;
+}
+
+.breakpoints-list .breakpoint-label,
+.breakpoint-line-close {
+  line-height: 1.4em;
 }
 
 .breakpoint-checkbox {
