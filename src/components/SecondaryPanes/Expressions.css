@@ -110,6 +110,10 @@
   overflow-x: hidden;
 }
 
+.expression-content .tree-node[data-expandable="false"][aria-level="1"] {
+  padding-inline-start: 10px;
+}
+
 .expression-input {
   max-width: 50%;
 }
