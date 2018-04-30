@@ -28,6 +28,12 @@ cases(
   },
   [
     {
+      name: "finds scope bindings in a vue file",
+      file: "scopes/vue-sample",
+      type: "vue",
+      locations: [[14, 0]]
+    },
+    {
       name: "finds scope bindings in a typescript file",
       file: "scopes/ts-sample",
       type: "ts",
