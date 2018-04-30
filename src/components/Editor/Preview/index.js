@@ -120,6 +120,11 @@ class Preview extends PureComponent<Props, State> {
   }
 }
 
+const mapStateToProps = state => ({
+  preview: getPreview(state),
+  selectedSource: getSelectedSource(state)
+});
+
 const {
   addExpression,
   setPopupObjectProperties,
@@ -127,15 +132,11 @@ const {
   clearPreview
 } = actions;
 
-export default connect(
-  state => ({
-    preview: getPreview(state),
-    selectedSource: getSelectedSource(state)
-  }),
-  {
-    addExpression,
-    setPopupObjectProperties,
-    updatePreview,
-    clearPreview
-  }
-)(Preview);
+const mapDispatchToProps = {
+  addExpression,
+  setPopupObjectProperties,
+  updatePreview,
+  clearPreview
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Preview);

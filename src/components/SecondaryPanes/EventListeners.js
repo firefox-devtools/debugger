@@ -4,7 +4,6 @@
 
 // @flow
 import React, { Component } from "react";
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import actions from "../../actions";
 import { getEventListeners, getBreakpoint } from "../../selectors";
@@ -99,20 +98,19 @@ class EventListeners extends Component<Props> {
   }
 }
 
-export default connect(
-  state => {
-    const listeners = getEventListeners(state).map(l => {
-      return {
-        ...l,
-        breakpoint: getBreakpoint(state, {
-          sourceId: l.sourceId,
-          line: l.line,
-          column: null
-        })
-      };
-    });
+const mapStateToProps = state => {
+  const listeners = getEventListeners(state).map(listener => {
+    return {
+      ...listener,
+      breakpoint: getBreakpoint(state, {
+        sourceId: listener.sourceId,
+        line: listener.line,
+        column: null
+      })
+    };
+  });
 
-    return { listeners };
-  },
-  dispatch => bindActionCreators(actions, dispatch)
-)(EventListeners);
+  return { listeners };
+};
+
+export default connect(mapStateToProps, actions)(EventListeners);

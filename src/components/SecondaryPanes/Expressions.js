@@ -293,10 +293,9 @@ class Expressions extends Component<Props, State> {
   }
 }
 
-export default connect(
-  state => ({
-    expressions: getExpressions(state),
-    expressionError: getExpressionError(state)
-  }),
-  actions
-)(Expressions);
+const mapStateToProps = state => ({
+  expressions: getExpressions(state),
+  expressionError: getExpressionError(state)
+});
+
+export default connect(mapStateToProps, actions)(Expressions);

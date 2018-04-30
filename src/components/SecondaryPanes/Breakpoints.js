@@ -6,7 +6,6 @@
 
 import React, { Component } from "react";
 import classnames from "classnames";
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as I from "immutable";
 import { createSelector } from "reselect";
@@ -264,10 +263,9 @@ const _getBreakpoints = createSelector(
       .filter(bp => bp.source && !bp.source.isBlackBoxed)
 );
 
-export default connect(
-  (state, props) => ({
-    breakpoints: _getBreakpoints(state),
-    selectedSource: getSelectedSource(state)
-  }),
-  dispatch => bindActionCreators(actions, dispatch)
-)(Breakpoints);
+const mapStateToProps = state => ({
+  breakpoints: _getBreakpoints(state),
+  selectedSource: getSelectedSource(state)
+});
+
+export default connect(mapStateToProps, actions)(Breakpoints);

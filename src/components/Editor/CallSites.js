@@ -207,25 +207,22 @@ function getCallSites(symbols, breakpoints) {
     .map(callSite => ({ ...callSite, breakpoint: findBreakpoint(callSite) }));
 }
 
+const mapStateToProps = state => {
+  const selectedLocation = getSelectedLocation(state);
+  const selectedSource = getSelectedSource(state);
+  const sourceId = selectedLocation && selectedLocation.sourceId;
+  const symbols = getSymbols(state, selectedSource);
+  const breakpoints = getBreakpointsForSource(state, sourceId);
+
+  return {
+    selectedLocation,
+    selectedSource,
+    callSites: getCallSites(symbols, breakpoints),
+    breakpoints: breakpoints
+  };
+};
+
 const { addBreakpoint, removeBreakpoint } = actions;
+const mapDispatchToProps = { addBreakpoint, removeBreakpoint };
 
-export default connect(
-  state => {
-    const selectedLocation = getSelectedLocation(state);
-    const selectedSource = getSelectedSource(state);
-    const sourceId = selectedLocation && selectedLocation.sourceId;
-    const symbols = getSymbols(state, selectedSource);
-    const breakpoints = getBreakpointsForSource(state, sourceId);
-
-    return {
-      selectedLocation,
-      selectedSource,
-      callSites: getCallSites(symbols, breakpoints),
-      breakpoints: breakpoints
-    };
-  },
-  {
-    addBreakpoint,
-    removeBreakpoint
-  }
-)(CallSites);
+export default connect(mapStateToProps, mapDispatchToProps)(CallSites);
