@@ -64,6 +64,7 @@
   display: flex;
   margin-left: auto;
   padding-right: 5px;
+  outline: 0;
 }
 
 .accordion .header-buttons .add-button {
