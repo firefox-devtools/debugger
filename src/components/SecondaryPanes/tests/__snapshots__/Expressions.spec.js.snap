@@ -86,7 +86,6 @@ exports[`Expressions should always have unique keys 1`] = `
       onSubmit={[Function]}
     >
       <input
-        autoFocus={false}
         className="input-expression"
         onBlur={[Function]}
         onChange={[Function]}
@@ -195,7 +194,6 @@ exports[`Expressions should render 1`] = `
       onSubmit={[Function]}
     >
       <input
-        autoFocus={false}
         className="input-expression"
         onBlur={[Function]}
         onChange={[Function]}

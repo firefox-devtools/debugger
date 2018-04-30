@@ -103,8 +103,7 @@ class Expressions extends Component<Props, State> {
     if (!prevState.editing && this.state.editing) {
       input.setSelectionRange(0, input.value.length);
       input.focus();
-    }
-    else if (this.props.showInput && !this.state.focused) {
+    } else if (this.props.showInput && !this.state.focused) {
       input.focus();
     }
   }
