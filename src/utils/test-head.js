@@ -70,19 +70,31 @@ function makeSourceRecord(name: string, props: any = {}) {
   return I.Map(makeSource(name, props));
 }
 
-function makeFuncLocation(startLine) {
+function makeFuncLocation(startLine, endLine) {
+  if (!endLine) {
+    endLine = startLine + 1;
+  }
   return {
     start: {
       line: startLine
+    },
+    end: {
+      line: endLine
     }
   };
 }
 
-function makeSymbolDeclaration(name: string, line: number) {
+function makeSymbolDeclaration(
+  name: string,
+  start: number,
+  end: number,
+  klass: string
+) {
   return {
-    id: `${name}:${line}`,
+    id: `${name}:${start}`,
     name,
-    location: makeFuncLocation(line)
+    location: makeFuncLocation(start, end),
+    klass
   };
 }
 
