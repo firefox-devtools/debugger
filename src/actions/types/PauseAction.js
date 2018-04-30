@@ -76,6 +76,11 @@ export type PauseAction =
   | {|
       +type: "CLEAR_EXPRESSION_ERROR"
     |}
+  | {|
+      +type: "AUTOCOMPLETE",
+      +input: string,
+      +result: Object
+    |}
   | PromiseAction<
       {|
         +type: "MAP_SCOPES",

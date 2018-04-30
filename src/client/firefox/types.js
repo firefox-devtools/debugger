@@ -243,6 +243,12 @@ export type TabTarget = {
       script: Script,
       func: Function,
       params?: { frameActor?: FrameId }
+    ) => void,
+    autocomplete: (
+      input: string,
+      cursor: number,
+      func: Function,
+      frameId: string
     ) => void
   },
   form: { consoleActor: any },

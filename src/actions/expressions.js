@@ -50,6 +50,17 @@ export function addExpression(input: string) {
   };
 }
 
+export function autocomplete(input: string, cursor: number) {
+  return async ({ dispatch, getState, client }: ThunkArgs) => {
+    if (!input) {
+      return;
+    }
+    const frameId = getSelectedFrameId(getState());
+    const result = await client.autocomplete(input, cursor, frameId);
+    await dispatch({ type: "AUTOCOMPLETE", input, result });
+  };
+}
+
 export function clearExpressionError() {
   return { type: "CLEAR_EXPRESSION_ERROR" };
 }

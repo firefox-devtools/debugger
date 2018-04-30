@@ -226,6 +226,24 @@ function evaluate(
   });
 }
 
+function autocomplete(
+  input: string,
+  cursor: number,
+  frameId: string
+): Promise<mixed> {
+  if (!tabTarget || !tabTarget.activeConsole || !input) {
+    return Promise.resolve({});
+  }
+  return new Promise(resolve => {
+    tabTarget.activeConsole.autocomplete(
+      input,
+      cursor,
+      result => resolve(result),
+      frameId
+    );
+  });
+}
+
 function debuggeeCommand(script: Script): ?Promise<void> {
   tabTarget.activeConsole.evaluateJS(script, () => {}, {});
 
@@ -383,6 +401,7 @@ async function fetchWorkers(): Promise<{ workers: Worker[] }> {
 }
 
 const clientCommands = {
+  autocomplete,
   blackBox,
   interrupt,
   eventListeners,
