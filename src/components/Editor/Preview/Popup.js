@@ -96,6 +96,20 @@ export class Popup extends Component<Props> {
     }
   }
 
+  onMouseLeave = (e: SyntheticMouseEvent<HTMLDivElement>) => {
+    const relatedTarget: Element = (e.relatedTarget: any);
+
+    if (
+      relatedTarget.classList.contains("popover") ||
+      relatedTarget.classList.contains("debug-expression") ||
+      relatedTarget.classList.contains("editor-mount")
+    ) {
+      return;
+    }
+
+    this.props.onClose();
+  };
+
   getRoot() {
     const { expression, value, extra } = this.props;
 
@@ -269,7 +283,7 @@ export class Popup extends Component<Props> {
   }
 
   render() {
-    const { popoverPos, onClose, value, editorRef } = this.props;
+    const { popoverPos, value, editorRef } = this.props;
     const type = this.getPreviewType(value);
 
     if (value && value.type === "object" && !this.getChildren()) {
@@ -279,7 +293,7 @@ export class Popup extends Component<Props> {
     return (
       <Popover
         targetPosition={popoverPos}
-        onMouseLeave={onClose}
+        onMouseLeave={this.onMouseLeave}
         type={type}
         editorRef={editorRef}
       >
