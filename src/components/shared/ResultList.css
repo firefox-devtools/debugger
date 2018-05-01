@@ -110,7 +110,7 @@
 .result-list.big li .subtitle {
   word-break: break-all;
   /** https://searchfox.org/mozilla-central/source/devtools/client/themes/variables.css **/
-  color: var(--grey-50);
+  color: var(--grey-40);
   margin-left: 15px;
   text-overflow: ellipsis;
   overflow: hidden;
