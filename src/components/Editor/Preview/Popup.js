@@ -100,9 +100,10 @@ export class Popup extends Component<Props> {
     const relatedTarget: Element = (e.relatedTarget: any);
 
     if (
-      relatedTarget.classList.contains("popover") ||
-      relatedTarget.classList.contains("debug-expression") ||
-      relatedTarget.classList.contains("editor-mount")
+      relatedTarget &&
+      (relatedTarget.classList.contains("popover") ||
+        relatedTarget.classList.contains("debug-expression") ||
+        relatedTarget.classList.contains("editor-mount"))
     ) {
       return;
     }
