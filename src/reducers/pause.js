@@ -219,6 +219,9 @@ function update(
       prefs.pauseOnExceptions = shouldPauseOnExceptions;
       prefs.pauseOnCaughtExceptions = shouldPauseOnCaughtExceptions;
 
+      // Preserving for the old debugger
+      prefs.ignoreCaughtExceptions = !shouldPauseOnCaughtExceptions;
+
       return {
         ...state,
         shouldPauseOnExceptions,
