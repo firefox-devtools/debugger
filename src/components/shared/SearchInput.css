@@ -45,7 +45,7 @@
   border: none;
   line-height: 30px;
   background-color: var(--theme-toolbar-background);
-  color: var(--theme-body-color-inactive);
+  color: var(--theme-body-color-active);
   width: calc(100% - 38px);
   flex: 1;
   font-size: 14px;
@@ -56,7 +56,7 @@
 }
 
 .theme-dark .search-field input {
-  color: var(--theme-body-color-active);
+  color: var(--theme-body-color-inactive);
 }
 
 .search-field i.magnifying-glass,
