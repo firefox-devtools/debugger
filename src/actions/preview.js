@@ -43,13 +43,17 @@ function isInvalidTarget(target: HTMLElement) {
   const invalidToken =
     tokenText === "" || tokenText.match(/^[(){}\|&%,.;=<>\+-/\*\s](?=)/);
 
+  const isPresentation =
+    target.attributes.role &&
+    target.attributes.getNamedItem("role").value == "presentation";
+
   // exclude codemirror elements that are not tokens
   const invalidTarget =
     (target.parentElement &&
       !target.parentElement.closest(".CodeMirror-line")) ||
     cursorPos.top == 0;
 
-  return invalidTarget || invalidToken || invalidType;
+  return invalidTarget || invalidToken || invalidType || isPresentation;
 }
 
 export function updatePreview(target: HTMLElement, editor: any) {
@@ -76,6 +80,7 @@ export function updatePreview(target: HTMLElement, editor: any) {
     }
 
     if (isInvalidTarget(target)) {
+      dispatch(clearPreview());
       return;
     }
 
