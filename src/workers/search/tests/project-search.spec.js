@@ -13,6 +13,13 @@ const text = `
 describe("project search", () => {
   const emptyResults = [];
 
+  it("throws on lack of source", () => {
+    const needle = "test";
+    const source = null;
+    const matches = () => findSourceMatches(source, needle);
+    expect(matches).toThrow(TypeError);
+  });
+
   it("handles empty source object", () => {
     const needle = "test";
     const source = {};
