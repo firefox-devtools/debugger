@@ -22458,7 +22458,85 @@
       "../../babel-loader/lib/index.js?ignore=src/lib!../../devtools-modules/src/unicode-url.js": 3638,
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/SecondaryPanes/ReactComponentStack.js": 3639,
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/pause/skipPausing.js": 3640,
-      "../../node-libs-browser/node_modules/punycode/punycode.js": 3641
+      "../../node-libs-browser/node_modules/punycode/punycode.js": 3641,
+      "external \"devtools/client/shared/vendor/react-prop-types\"": 3642,
+      "external \"devtools/client/shared/vendor/react-dom-factories\"": 3643,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/reps/rep-utils.js": 3644,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/reps/constants.js": 3645,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-source-map/src/index.js": 3646,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/reps/rep.js": 3647,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/reps/string.js": 3648,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/reps/array.js": 3649,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/reps/prop-rep.js": 3650,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-utils/index.js": 3651,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-source-map/src/utils/index.js": 3652,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-utils/src/privileged-network-request.js": 3653,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-utils/src/worker-utils.js": 3654,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/index.js": 3655,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/reps/grip.js": 3656,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/object-inspector/utils/index.js": 3657,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/reps/function.js": 3658,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/shared/dom-node-constants.js": 3659,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/reps/error.js": 3660,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/reps/grip-array.js": 3661,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/shared/grip-length-bubble.js": 3662,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/reps/grip-map.js": 3663,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/reps/grip-map-entry.js": 3664,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/object-inspector/utils/client.js": 3665,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/object-inspector/utils/load-properties.js": 3666,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/object-inspector/utils/node.js": 3667,
+      "../../../packages/devtools-source-map/node_modules/source-map/lib/util.js": 3668,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-components/index.js": 3669,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-components/src/tree.js": 3670,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../packages/devtools-components/src/tree.css": 3671,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../packages/devtools-reps/src/reps/reps.css": 3672,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/reps/undefined.js": 3673,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/reps/null.js": 3674,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/reps/number.js": 3675,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/reps/object.js": 3676,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/reps/symbol.js": 3677,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/reps/infinity.js": 3678,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/reps/nan.js": 3679,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/reps/accessor.js": 3680,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/reps/attribute.js": 3681,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/reps/date-time.js": 3682,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/reps/document.js": 3683,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/reps/document-type.js": 3684,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/reps/event.js": 3685,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/reps/promise.js": 3686,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/reps/regexp.js": 3687,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/reps/stylesheet.js": 3688,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/reps/comment-node.js": 3689,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/reps/element-node.js": 3690,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/reps/text-node.js": 3691,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/reps/window.js": 3692,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/reps/object-with-text.js": 3693,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/reps/object-with-url.js": 3694,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/object-inspector/index.js": 3695,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/object-inspector/component.js": 3696,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../packages/devtools-reps/src/object-inspector/index.css": 3697,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/object-inspector/utils/selection.js": 3698,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/object-inspector/actions.js": 3699,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/object-inspector/store.js": 3700,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/shared/redux/middleware/thunk.js": 3701,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/shared/redux/middleware/waitUntilService.js": 3702,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/object-inspector/reducer.js": 3703,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-source-map/src/utils/sourceMapRequests.js": 3704,
+      "../../../packages/devtools-source-map/node_modules/source-map/source-map.js": 3705,
+      "../../../packages/devtools-source-map/node_modules/source-map/lib/source-map-generator.js": 3706,
+      "../../../packages/devtools-source-map/node_modules/source-map/lib/base64-vlq.js": 3707,
+      "../../../packages/devtools-source-map/node_modules/source-map/lib/array-set.js": 3708,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-source-map/src/worker.js": 3709,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-source-map/src/source-map.js": 3710,
+      "../../../packages/devtools-source-map/node_modules/source-map/lib/base64.js": 3711,
+      "../../../packages/devtools-source-map/node_modules/source-map/lib/mapping-list.js": 3712,
+      "../../../packages/devtools-source-map/node_modules/source-map/lib/source-map-consumer.js": 3713,
+      "../../../packages/devtools-source-map/node_modules/source-map/lib/binary-search.js": 3714,
+      "../../../packages/devtools-source-map/node_modules/source-map/lib/quick-sort.js": 3715,
+      "../../../packages/devtools-source-map/node_modules/source-map/lib/source-node.js": 3716,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-source-map/src/utils/assert.js": 3717,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-source-map/src/utils/fetchSourceMap.js": 3718,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-source-map/src/utils/wasmRemap.js": 3719
     },
     "usedIds": {
       "0": 0,
@@ -26102,7 +26180,85 @@
       "3638": 3638,
       "3639": 3639,
       "3640": 3640,
-      "3641": 3641
+      "3641": 3641,
+      "3642": 3642,
+      "3643": 3643,
+      "3644": 3644,
+      "3645": 3645,
+      "3646": 3646,
+      "3647": 3647,
+      "3648": 3648,
+      "3649": 3649,
+      "3650": 3650,
+      "3651": 3651,
+      "3652": 3652,
+      "3653": 3653,
+      "3654": 3654,
+      "3655": 3655,
+      "3656": 3656,
+      "3657": 3657,
+      "3658": 3658,
+      "3659": 3659,
+      "3660": 3660,
+      "3661": 3661,
+      "3662": 3662,
+      "3663": 3663,
+      "3664": 3664,
+      "3665": 3665,
+      "3666": 3666,
+      "3667": 3667,
+      "3668": 3668,
+      "3669": 3669,
+      "3670": 3670,
+      "3671": 3671,
+      "3672": 3672,
+      "3673": 3673,
+      "3674": 3674,
+      "3675": 3675,
+      "3676": 3676,
+      "3677": 3677,
+      "3678": 3678,
+      "3679": 3679,
+      "3680": 3680,
+      "3681": 3681,
+      "3682": 3682,
+      "3683": 3683,
+      "3684": 3684,
+      "3685": 3685,
+      "3686": 3686,
+      "3687": 3687,
+      "3688": 3688,
+      "3689": 3689,
+      "3690": 3690,
+      "3691": 3691,
+      "3692": 3692,
+      "3693": 3693,
+      "3694": 3694,
+      "3695": 3695,
+      "3696": 3696,
+      "3697": 3697,
+      "3698": 3698,
+      "3699": 3699,
+      "3700": 3700,
+      "3701": 3701,
+      "3702": 3702,
+      "3703": 3703,
+      "3704": 3704,
+      "3705": 3705,
+      "3706": 3706,
+      "3707": 3707,
+      "3708": 3708,
+      "3709": 3709,
+      "3710": 3710,
+      "3711": 3711,
+      "3712": 3712,
+      "3713": 3713,
+      "3714": 3714,
+      "3715": 3715,
+      "3716": 3716,
+      "3717": 3717,
+      "3718": 3718,
+      "3719": 3719
     }
   },
   "chunks": {
@@ -26112,14 +26268,19 @@
       "pretty-print-worker": 2,
       "source-map-worker": 3,
       "parser-worker": 4,
-      "search-worker": 5
+      "search-worker": 5,
+      "reps": 1,
+      "source-map-index": 6
     },
     "byBlocks": {},
     "usedIds": {
       "0": 0,
+      "1": 1,
       "2": 2,
+      "3": 3,
       "4": 4,
-      "5": 5
+      "5": 5,
+      "6": 6
     }
   },
   "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--4-2!../../postcss-loader/lib/index.js??ref--4-3!../../../src/components/variables.css": [
@@ -32839,6 +33000,69 @@
         "byBlocks": {},
         "usedIds": {
           "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../packages/devtools-reps/src/object-inspector/index.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../packages/devtools-reps/src/object-inspector/index.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../packages/devtools-components/src/tree.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../packages/devtools-components/src/tree.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../packages/devtools-reps/src/reps/reps.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../packages/devtools-reps/src/reps/reps.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
         }
       }
     }
