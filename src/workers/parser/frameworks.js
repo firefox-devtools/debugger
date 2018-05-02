@@ -23,7 +23,8 @@ export function getFramework(sourceId) {
 function isReactComponent(sourceSymbols) {
   const { imports, classes, callExpressions } = sourceSymbols;
   return (
-    (importsReact(imports) || requiresReact(callExpressions)) &&
+    importsReact(imports) ||
+    requiresReact(callExpressions) ||
     extendsReactComponent(classes)
   );
 }
@@ -48,9 +49,10 @@ function extendsReactComponent(classes) {
   let result = false;
   classes.some(classObj => {
     if (
-      classObj.parent.name === "Component" ||
-      classObj.parent.name === "PureComponent" ||
-      classObj.parent.property.name === "Component"
+      classObj.parent &&
+      (classObj.parent.name === "Component" ||
+        classObj.parent.name === "PureComponent" ||
+        classObj.parent.property.name === "Component")
     ) {
       result = true;
     }
