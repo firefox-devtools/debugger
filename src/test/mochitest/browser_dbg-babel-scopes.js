@@ -129,6 +129,9 @@ add_task(async function() {
     ["aNamespace", "{\u2026}"],
     ["aNamespace2", "{\u2026}"],
     ["aNamespace3", "{\u2026}"],
+    ["anotherNamed", '"a-named"'],
+    ["anotherNamed2", '"a-named2"'],
+    ["anotherNamed3", '"a-named3"'],
     ["example", "(optimized away)"],
     ["optimizedOut", "(optimized away)"],
     "root()"
@@ -282,6 +285,9 @@ add_task(async function() {
     ["aNamespace", "{\u2026}"],
     ["aNamespace2", "{\u2026}"],
     ["aNamespace3", "{\u2026}"],
+    ["anotherNamed", "Getter"],
+    ["anotherNamed2", "Getter"],
+    ["anotherNamed3", "Getter"],
     ["example", "(optimized away)"],
     ["optimizedOut", "(optimized away)"],
     "root()"
@@ -301,6 +307,9 @@ add_task(async function() {
     ["aNamespace", "{\u2026}"],
     ["aNamespace2", "{\u2026}"],
     ["aNamespace3", "{\u2026}"],
+    ["anotherNamed", '"a-named"'],
+    ["anotherNamed2", '"a-named2"'],
+    ["anotherNamed3", '"a-named3"'],
     ["example", "(optimized away)"],
     ["optimizedOut", "(optimized away)"],
     "root()"
