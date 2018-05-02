@@ -31,3 +31,9 @@ foo(
   ),
   3
 )
+
+throw new Error("3");
+3;
+
+while (i < 6) { break }
+while (i < 6) { continue;}
