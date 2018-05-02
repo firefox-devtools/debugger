@@ -377,6 +377,30 @@ async function findGeneratedBinding(
     }
 
     if (
+      (pos.type === "class-decl" || pos.type === "class-inner") &&
+      source.contentType &&
+      source.contentType.match(/\/typescript/)
+    ) {
+      // Resolve to first binding in the range
+      const declContent = await findGeneratedBindingForNormalDeclaration(
+        sourceMaps,
+        client,
+        source,
+        pos,
+        name,
+        originalBinding.type,
+        generatedAstBindings
+      );
+
+      if (declContent) {
+        // Prefer the declaration mapping in this case because TS sometimes
+        // maps class declaration names to "export.Foo = Foo;" or to
+        // the decorator logic itself
+        genContent = declContent;
+      }
+    }
+
+    if (
       !genContent &&
       (pos.type === "import-decl" || pos.type === "import-ns-decl")
     ) {
