@@ -91,7 +91,7 @@ class Preview extends PureComponent<Props, State> {
     this.props.clearPreview();
   };
 
-  onClose = e => {
+  onClose = () => {
     this.props.clearPreview();
   };
 
@@ -123,7 +123,7 @@ class Preview extends PureComponent<Props, State> {
         expression={expression}
         popoverPos={cursorPos}
         extra={extra}
-        onClose={e => this.onClose(e)}
+        onClose={this.onClose}
       />
     );
   }
