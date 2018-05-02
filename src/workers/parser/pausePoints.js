@@ -19,7 +19,9 @@ const isControlFlow = node =>
   t.isWhileStatement(node) ||
   t.isIfStatement(node) ||
   t.isSwitchCase(node) ||
-  t.isSwitchStatement(node);
+  t.isSwitchStatement(node) ||
+  t.isTryStatement(node) ||
+  t.isWithStatement(node);
 
 const isAssignment = node =>
   t.isVariableDeclarator(node) ||
@@ -61,7 +63,11 @@ function onEnter(node: BabelNode, ancestors: SimplePath[], state) {
     isImport(node) ||
     t.isClassDeclaration(node) ||
     isExport(node) ||
-    t.isDebuggerStatement(node)
+    t.isDebuggerStatement(node) ||
+    t.isThrowStatement(node) ||
+    t.isExpressionStatement(node) ||
+    t.isBreakStatement(node) ||
+    t.isContinueStatement(node)
   ) {
     return addStopPoint(state, startLocation);
   }
