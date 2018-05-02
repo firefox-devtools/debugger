@@ -81,6 +81,20 @@ class SourcesTree extends Component<Props, State> {
   renderItem: Function;
   mounted: boolean;
 
+  constructor(props) {
+    super(props);
+
+    const { debuggeeUrl, sources, projectRoot } = this.props;
+
+    if (sources.size) {
+      this.state = createTree({
+        projectRoot,
+        debuggeeUrl,
+        sources
+      });
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     const {
       projectRoot,
