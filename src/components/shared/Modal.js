@@ -28,15 +28,15 @@ export class Modal extends React.Component<ModalProps> {
   };
 
   render() {
-    const { status } = this.props;
+    const { additionalClass, children, handleClose, status } = this.props;
 
     return (
-      <div className="modal-wrapper" onClick={this.props.handleClose}>
+      <div className="modal-wrapper" onClick={handleClose}>
         <div
-          className={classnames("modal", this.props.additionalClass, status)}
+          className={classnames("modal", additionalClass, status)}
           onClick={this.onClick}
         >
-          {this.props.children}
+          {children}
         </div>
       </div>
     );
