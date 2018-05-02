@@ -83,13 +83,16 @@ class SourcesTree extends Component<Props, State> {
 
   constructor(props) {
     super(props);
+
     const { debuggeeUrl, sources, projectRoot } = this.props;
 
-    this.state = createTree({
-      projectRoot,
-      debuggeeUrl,
-      sources
-    });
+    if (sources.size) {
+      this.state = createTree({
+        projectRoot,
+        debuggeeUrl,
+        sources
+      });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -100,6 +103,16 @@ class SourcesTree extends Component<Props, State> {
       shownSource,
       selectedSource
     } = this.props;
+
+    if (!this.state) {
+      return this.setState(
+        createTree({
+          sources: nextProps.sources,
+          debuggeeUrl: nextProps.debuggeeUrl,
+          projectRoot: nextProps.projectRoot
+        })
+      );
+    }
 
     const { uncollapsedTree, sourceTree } = this.state;
 
@@ -315,6 +328,10 @@ class SourcesTree extends Component<Props, State> {
 
   render() {
     const { expanded, projectRoot } = this.props;
+    if (!this.state) {
+      return null;
+    }
+
     const {
       focusedItem,
       highlightItems,
