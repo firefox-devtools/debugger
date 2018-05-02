@@ -65,7 +65,7 @@ class Popover extends Component<Props, State> {
     target: ClientRect,
     editor: ClientRect,
     popover: ClientRect,
-    orientation: Orientation
+    orientation?: Orientation
   ) {
     const estimatedLeft = target.left;
     const estimatedRight = estimatedLeft + popover.width;
@@ -116,11 +116,11 @@ class Popover extends Component<Props, State> {
     return "right";
   }
 
-  calculteTop = (
+  calculateTop = (
     target: ClientRect,
     editor: ClientRect,
     popover: ClientRect,
-    orientation: String
+    orientation?: string
   ) => {
     if (orientation === "down") {
       return target.bottom;
@@ -144,7 +144,7 @@ class Popover extends Component<Props, State> {
         editorRect,
         popoverRect
       );
-      const top = this.calculteTop(
+      const top = this.calculateTop(
         targetRect,
         editorRect,
         popoverRect,
