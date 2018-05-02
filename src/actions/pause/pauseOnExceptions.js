@@ -17,7 +17,7 @@ export function pauseOnExceptions(
   shouldIgnoreCaughtExceptions: boolean
 ) {
   return ({ dispatch, client }: ThunkArgs) => {
-    dispatch({
+    return dispatch({
       type: "PAUSE_ON_EXCEPTIONS",
       shouldPauseOnExceptions,
       shouldIgnoreCaughtExceptions,
