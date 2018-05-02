@@ -15,7 +15,7 @@ import { groupBy, sortBy } from "lodash";
 import Breakpoint from "./Breakpoint";
 
 import actions from "../../actions";
-import { getFilenameFromURL } from "../../utils/source";
+import { getFilenameFromURL, getRawSourceURL } from "../../utils/source";
 import {
   getSources,
   getSourceInSources,
@@ -201,7 +201,7 @@ class Breakpoints extends Component<Props> {
 
     const groupedBreakpoints = groupBy(
       sortBy([...breakpoints.valueSeq()], bp => bp.location.line),
-      bp => bp.source.url
+      bp => getRawSourceURL(bp.source.url)
     );
 
     return [
