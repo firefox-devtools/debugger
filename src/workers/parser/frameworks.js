@@ -49,9 +49,10 @@ function extendsReactComponent(classes) {
   let result = false;
   classes.some(classObj => {
     if (
-      classObj.parent.name === "Component" ||
-      classObj.parent.name === "PureComponent" ||
-      classObj.parent.property.name === "Component"
+      classObj.parent &&
+      (classObj.parent.name === "Component" ||
+        classObj.parent.name === "PureComponent" ||
+        classObj.parent.property.name === "Component")
     ) {
       result = true;
     }
