@@ -57,7 +57,8 @@ const sourceTexts = {
   "base.js": "function base(boo) {}",
   "foo.js": "function base(boo) { return this.bazz; } outOfScope",
   "scopes.js": readFixture("scopes.js"),
-  "reactComponent.js-original": readFixture("reactComponent.js")
+  "reactComponent.js-original": readFixture("reactComponent.js"),
+  "reactFuncComponent.js-original": readFixture("reactFuncComponent.js")
 };
 
 const evaluationResult = {
@@ -114,6 +115,25 @@ describe("ast", () => {
 
       const sourceMetaData = getSourceMetaData(getState(), base.id);
       expect(sourceMetaData.framework).toBe(undefined);
+    });
+
+    it("should detect react func components", async () => {
+      const store = createStore(threadClient);
+      const { dispatch, getState } = store;
+      const source = makeOriginalSource("reactFuncComponent.js");
+
+      await dispatch(actions.newSource(source));
+
+      await dispatch(actions.loadSourceText(I.Map({ id: source.id })));
+      await dispatch(actions.setSourceMetaData(source.id));
+
+      await waitForState(store, state => {
+        const metaData = getSourceMetaData(state, source.id);
+        return metaData && metaData.framework;
+      });
+
+      const sourceMetaData = getSourceMetaData(getState(), source.id);
+      expect(sourceMetaData.framework).toBe("React");
     });
   });
 
