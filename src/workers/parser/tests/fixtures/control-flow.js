@@ -31,3 +31,9 @@ for (const val of [1, 2]) {
 for (const val of vals) {
   console.log("pause again", val);
 }
+
+try {
+} catch (e) {
+}
+
+with (e) {}
