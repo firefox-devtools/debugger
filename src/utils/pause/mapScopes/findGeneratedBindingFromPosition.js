@@ -10,6 +10,7 @@ import type {
   BindingType
 } from "../../../workers/parser";
 import { locColumn } from "./locColumn";
+import { positionCmp } from "./positionCmp";
 import { filterSortedArray } from "./filtering";
 
 import type {
@@ -429,25 +430,6 @@ function mappingContains(mapped, item) {
     positionCmp(item.start, mapped.start) >= 0 &&
     positionCmp(item.end, mapped.end) <= 0
   );
-}
-
-/**
- * * === 0 - Positions are equal.
- * * < 0 - first position before second position
- * * > 0 - first position after second position
- */
-function positionCmp(p1: Position, p2: Position) {
-  if (p1.line === p2.line) {
-    const l1 = locColumn(p1);
-    const l2 = locColumn(p2);
-
-    if (l1 === l2) {
-      return 0;
-    }
-    return l1 < l2 ? -1 : 1;
-  }
-
-  return p1.line < p2.line ? -1 : 1;
 }
 
 type GeneratedRange = {
