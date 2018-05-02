@@ -18,7 +18,13 @@ import { PROMISE } from "../utils/middleware/promise";
 import { locColumn } from "../../utils/pause/mapScopes/locColumn";
 
 // eslint-disable-next-line max-len
-import { findGeneratedBindingFromPosition } from "../../utils/pause/mapScopes/findGeneratedBindingFromPosition";
+import {
+  findGeneratedBindingForImportBinding,
+  findGeneratedBindingForStandardBinding,
+  findGeneratedBindingForNormalDeclaration,
+  findGeneratedBindingForImportDeclaration,
+  type GeneratedDescriptor
+} from "../../utils/pause/mapScopes/findGeneratedBindingFromPosition";
 
 import { createObjectClient } from "../../client/firefox";
 
@@ -346,22 +352,50 @@ async function findGeneratedBinding(
 
   const { refs } = originalBinding;
 
-  const genContent = await refs.reduce(async (acc, pos) => {
-    const result = await acc;
-    if (result) {
-      return result;
+  let genContent: GeneratedDescriptor | null = null;
+  for (const pos of refs) {
+    if (originalBinding.type === "import") {
+      genContent = await findGeneratedBindingForImportBinding(
+        sourceMaps,
+        client,
+        source,
+        pos,
+        name,
+        originalBinding.type,
+        generatedAstBindings
+      );
+    } else {
+      genContent = await findGeneratedBindingForStandardBinding(
+        sourceMaps,
+        client,
+        source,
+        pos,
+        name,
+        originalBinding.type,
+        generatedAstBindings
+      );
     }
 
-    return await findGeneratedBindingFromPosition(
-      sourceMaps,
-      client,
-      source,
-      pos,
-      name,
-      originalBinding.type,
-      generatedAstBindings
-    );
-  }, null);
+    if (
+      !genContent &&
+      (pos.type === "import-decl" || pos.type === "import-ns-decl")
+    ) {
+      // match the import declaration location
+      genContent = await findGeneratedBindingForImportDeclaration(
+        sourceMaps,
+        client,
+        source,
+        pos,
+        name,
+        originalBinding.type,
+        generatedAstBindings
+      );
+    }
+
+    if (genContent) {
+      break;
+    }
+  }
 
   if (genContent && genContent.desc) {
     return {
