@@ -194,6 +194,10 @@ html[dir="rtl"] .breakpoints-list .breakpoint .breakpoint-line {
   visibility: visible;
 }
 
+.CodeMirror.cm-s-mozilla-breakpoint {
+  cursor: default;
+}
+
 .CodeMirror.cm-s-mozilla-breakpoint .CodeMirror-lines {
   padding: 0;
 }
@@ -216,7 +220,6 @@ html[dir="rtl"] .breakpoints-list .breakpoint .breakpoint-line {
 
 .CodeMirror.cm-s-mozilla-breakpoint .CodeMirror-code,
 .CodeMirror.cm-s-mozilla-breakpoint .CodeMirror-scroll {
-  cursor: default;
   pointer-events: none;
 }
 
