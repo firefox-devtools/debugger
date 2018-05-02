@@ -133,7 +133,7 @@ class SourcesTree extends Component<Props, State> {
       nextProps.selectedSource != selectedSource
     ) {
       const highlightItems = getDirectories(
-        getRawSourceURL(nextProps.selectedSource.get("url")),
+        getRawSourceURL(nextProps.selectedSource.url),
         sourceTree
       );
 
@@ -167,15 +167,23 @@ class SourcesTree extends Component<Props, State> {
   };
 
   getPath = item => {
-    if (nodeHasChildren(item)) {
-        return item.path;
+    const { sources } = this.props;
+    const obj = item.contents.get && item.contents.id;
+
+    let blackBoxedPart = "";
+
+    if (
+      typeof obj !== "undefined" &&
+      sources.has(obj) &&
+      sources.get(obj).isBlackBoxed
+    ) {
+      blackBoxedPart = "update";
     }
 
-    const blackBoxedPart = item.contents.isBlackBoxed ? "update" : "";
     return `${item.path}/${item.name}/${blackBoxedPart}`;
   };
 
-  getIcon = (item, depth) => {
+  getIcon = (sources, item, depth) => {
     const { debuggeeUrl, projectRoot } = this.props;
 
     if (item.path === "webpack://") {
@@ -195,19 +203,13 @@ class SourcesTree extends Component<Props, State> {
         />
       );
     }
-    
-    if (!nodeHasChildren(item)) {
-      const source = item.contents;
-      return (
-        <img
-          className={classnames(
-            getSourceClassnames(source.toJS()),
-            "source-icon"
-          )}
-        />
-      );
-    }
 
+    if (!nodeHasChildren(item)) {
+      const obj = item.contents.id;
+      const source = sources.get(obj);
+      const className = classnames(getSourceClassnames(source), "source-icon");
+      return <img className={className} />;
+    }
     return <img className="folder" />;
   };
 
@@ -272,7 +274,8 @@ class SourcesTree extends Component<Props, State> {
       <i className="no-arrow" />
     );
 
-    const icon = this.getIcon(item, depth);
+    const { sources } = this.props;
+    const icon = this.getIcon(sources, item, depth);
 
     return (
       <div
@@ -338,10 +341,12 @@ class SourcesTree extends Component<Props, State> {
     // The "sourceTree.contents[0]" check ensures that there are contents
     // A custom root with no existing sources will be ignored
     if (isCustomRoot) {
+      const sourceContents = sourceTree.contents[0];
       let rootLabel = projectRoot.split("/").pop();
-      if (sourceTree.contents[0]) {
-        rootLabel = sourceTree.contents[0].name;
-        roots = () => sourceTree.contents[0].contents;
+      roots = () => sourceContents.contents;
+      if (sourceContents && sourceContents.name !== rootLabel) {
+        rootLabel = sourceContents.contents[0].name;
+        roots = () => sourceContents.contents[0].contents;
       }
 
       clearProjectRootButton = (
