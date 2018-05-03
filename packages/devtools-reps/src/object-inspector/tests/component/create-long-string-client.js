@@ -59,8 +59,9 @@ describe("createLongStringClient", () => {
         })
       );
 
+      // Third argument is the callback which holds the string response.
       expect(substring.mock.calls[0]).toHaveLength(3);
-      const [start, length, callback] = substring.mock.calls[0];
+      const [start, length] = substring.mock.calls[0];
       expect(start).toBe(stub.initial.length);
       expect(length).toBe(stub.length);
     });
