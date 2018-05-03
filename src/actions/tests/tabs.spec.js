@@ -12,6 +12,22 @@ const { getSelectedSource, getSourceTabs } = selectors;
 
 import { sourceThreadClient as threadClient } from "./helpers/threadClient.js";
 
+import { addTab, moveTab } from "../sources/tabs";
+
+test("addTab returns expected action", () => {
+  const source = "testSource";
+  const tabIndex = "testTabIndex";
+  const output = addTab(source, tabIndex);
+  expect(output).toEqual({ type: "ADD_TAB", source, tabIndex });
+});
+
+test("moveTab returns expected action", () => {
+  const url = "testUrl";
+  const tabIndex = "testTabindex";
+  const output = moveTab(url, tabIndex);
+  expect(output).toEqual({ type: "MOVE_TAB", tabIndex, url });
+});
+
 describe("closing tabs", () => {
   it("closing a tab", async () => {
     const { dispatch, getState } = createStore(threadClient);
