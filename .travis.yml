@@ -47,7 +47,6 @@ script:
   - node ./bin/ci/check-file-sizes.js
   - ./node_modules/.bin/mochii --ci --mc ./firefox --headless devtools/client/debugger/new
   - ./node_modules/.bin/mochii --ci --mc ./firefox --headless
-    browser_toolbox_debugger.js
     browser_keybindings_01.js
     browser_toolbox_getpanelwhenready.js
     browser_markup_links_06.js
