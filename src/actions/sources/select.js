@@ -23,6 +23,8 @@ import { shouldPrettyPrint, isMinified } from "../../utils/source";
 import { createLocation } from "../../utils/location";
 import { getGeneratedLocation } from "../../utils/source-maps";
 
+import { setSourceLocation } from "./";
+
 import {
   getSource,
   getSourceByURL,
@@ -65,13 +67,7 @@ export function selectSourceURL(
       // $FlowIgnore
       await dispatch(selectLocation(location, options.tabIndex));
     } else {
-      dispatch(
-        ({
-          type: "SELECT_SOURCE_URL",
-          url: url,
-          line: options.location ? options.location.line : null
-        }: Action)
-      );
+      dispatch(setSourceLocation(url, options));
     }
   };
 }

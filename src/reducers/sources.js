@@ -105,7 +105,7 @@ function update(
         .set("selectedLocation", { sourceId: "" })
         .set("pendingSelectedLocation", location);
 
-    case "SELECT_SOURCE_URL":
+    case "SET_SOURCE_LOCATION":
       location = {
         url: action.url,
         line: action.line

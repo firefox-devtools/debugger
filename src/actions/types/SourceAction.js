@@ -26,7 +26,7 @@ export type SourceAction =
       +location?: Location
     |}
   | {|
-      +type: "SELECT_SOURCE_URL",
+      +type: "SET_SOURCE_LOCATION",
       +url: string,
       +line: ?number
     |}
