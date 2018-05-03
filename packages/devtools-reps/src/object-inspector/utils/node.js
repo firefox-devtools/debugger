@@ -37,7 +37,7 @@ import type {
   GripProperties,
   LoadedProperties,
   Node,
-  NodeContents,
+  ObjectInspectorItemContentsValue,
   RdpGrip
 } from "../types";
 
@@ -51,7 +51,7 @@ function getType(item: Node): Symbol {
   return item.type;
 }
 
-function getValue(item: Node): RdpGrip | NodeContents {
+function getValue(item: Node): RdpGrip | ObjectInspectorItemContentsValue {
   if (item && item.contents && item.contents.hasOwnProperty("value")) {
     return item.contents.value;
   }
