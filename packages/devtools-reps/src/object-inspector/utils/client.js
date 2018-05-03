@@ -93,14 +93,13 @@ async function getFullText(
 ): Promise<{ fullText?: string }> {
   const { initial, fullText, length } = getValue(item);
 
-  return new Promise((resolve, reject) => {
-    // Return fullText property if it exists so that it can be added to the
-    // loadedProperties map.
-    if (nodeHasFullText(item)) {
-      resolve({ fullText });
-      return;
-    }
+  // Return fullText property if it exists so that it can be added to the
+  // loadedProperties map.
+  if (nodeHasFullText(item)) {
+    return Promise.resolve({ fullText });
+  }
 
+  return new Promise((resolve, reject) => {
     longStringClient.substring(initial.length, length, response => {
       if (response.error) {
         console.error(
