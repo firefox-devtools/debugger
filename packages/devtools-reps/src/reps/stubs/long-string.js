@@ -9,14 +9,16 @@ const fullTextLength = multilineFullText.length;
 const initialText = multilineFullText.substring(0, 10000);
 
 const stubs = new Map();
-stubs.set("testMultiline", {
+
+stubs.set("testUnloadedFullText", {
   type: "longString",
   initial: initialText,
   length: fullTextLength,
   actor: "server1.conn1.child1/longString58"
 });
 
-stubs.set("testFullText", {
+
+stubs.set("testLoadedFullText", {
   type: "longString",
   fullText: multilineFullText,
   initial: initialText,
