@@ -133,7 +133,7 @@ class SourcesTree extends Component<Props, State> {
       nextProps.selectedSource != selectedSource
     ) {
       const highlightItems = getDirectories(
-        getRawSourceURL(nextProps.selectedSource.get("url")),
+        getRawSourceURL(nextProps.selectedSource.url),
         sourceTree
       );
 
@@ -162,20 +162,20 @@ class SourcesTree extends Component<Props, State> {
 
   selectItem = item => {
     if (!nodeHasChildren(item)) {
-      this.props.selectLocation({ sourceId: item.contents.get("id") });
+      this.props.selectLocation({ sourceId: item.contents.id });
     }
   };
 
   getPath = item => {
     const { sources } = this.props;
-    const obj = item.contents.get && item.contents.get("id");
+    const obj = item.contents.get && item.contents.id;
 
     let blackBoxedPart = "";
 
     if (
       typeof obj !== "undefined" &&
       sources.has(obj) &&
-      sources.get(obj).get("isBlackBoxed")
+      sources.get(obj).isBlackBoxed
     ) {
       blackBoxedPart = "update";
     }
@@ -205,7 +205,7 @@ class SourcesTree extends Component<Props, State> {
     }
 
     if (!nodeHasChildren(item)) {
-      const obj = item.contents.get("id");
+      const obj = item.contents.id;
       const source = sources.get(obj);
       const className = classnames(getSourceClassnames(source), "source-icon");
       return <img className={className} />;
@@ -226,7 +226,7 @@ class SourcesTree extends Component<Props, State> {
     const menuOptions = [];
 
     if (!isDirectory(item)) {
-      const source = item.contents.get("url");
+      const source = item.contents.url;
       const copySourceUri2 = {
         id: "node-menu-copy-source",
         label: copySourceUri2Label,
