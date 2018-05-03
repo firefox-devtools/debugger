@@ -10,16 +10,19 @@ const initialText = multilineFullText.substring(0, 10000);
 
 const stubs = new Map();
 
-const multilineLongString = {
+stubs.set("testMultiline", {
   type: "longString",
   initial: initialText,
   length: fullTextLength,
   actor: "server1.conn1.child1/longString58"
-};
+});
 
-stubs.set("testMultiline", multilineLongString);
-
-stubs.set("testUnloadedFullText", multilineLongString);
+stubs.set("testUnloadedFullText", {
+  type: "longString",
+  initial: Array(10000).fill("a").join(""),
+  length: 20000,
+  actor:  "server1.conn1.child1/longString58"
+});
 
 stubs.set("testLoadedFullText", {
   type: "longString",
@@ -28,5 +31,6 @@ stubs.set("testLoadedFullText", {
   length: fullTextLength,
   actor: "server1.conn1.child1/longString58"
 });
+
 
 module.exports = stubs;
