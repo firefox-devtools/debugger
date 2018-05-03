@@ -147,10 +147,6 @@ function evaluateExpression(expression: Expression) {
 export function getMappedExpression(expression: string) {
   return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
     const mappings = getSelectedScopeMappings(getState());
-    if (!mappings) {
-      return expression;
-    }
-
     return parser.mapOriginalExpression(expression, mappings);
   };
 }

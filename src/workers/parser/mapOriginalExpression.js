@@ -34,17 +34,13 @@ function locationKey(start: ColumnPosition): string {
   return `${start.line}:${start.column}`;
 }
 
-export default function mapOriginalExpression(
-  expression: string,
-  mappings: {
-    [string]: string | null
+function getReplacements(ast, mappings) {
+  if (!mappings) {
+    return {}
   }
-): string {
-  const ast = parseScript(expression);
+
   const scopes = buildScopeList(ast, "");
-
   const nodes = new Map();
-
   const replacements = new Map();
 
   // The ref-only global bindings are the ones that are accessed, but not
@@ -81,22 +77,67 @@ export default function mapOriginalExpression(
     }
   }
 
-  if (replacements.size === 0) {
-    // Avoid the extra code generation work and also avoid potentially
-    // reformatting the user's code unnecessarily.
-    return expression;
-  }
+  return replacements;
+}
 
+export default function mapOriginalExpression(
+  expression: string,
+  mappings: {
+    [string]: string | null
+  }
+): string {
+  const ast = parseScript(expression);
+  const replacements = getReplacements(ast, mappings)
+
+  let didUpdate = false;
   t.traverse(ast, (node, ancestors) => {
-    if (!t.isIdentifier(node) && !t.isThisExpression(node)) {
+    const parent = ancestors[ancestors.length - 1];
+    if (!parent) {
       return;
     }
+    const parentNode = parent.node;
 
-    const replacement = replacements.get(locationKey(node.loc.start));
-    if (replacement) {
-      replaceNode(ancestors, t.cloneNode(replacement));
+    if (replacements.size > 0 && (t.isIdentifier(node) || t.isThisExpression(node))) {
+      const replacement = replacements.get(locationKey(node.loc.start));
+      if (replacement) {
+        didUpdate = true;
+        replaceNode(ancestors, t.cloneNode(replacement));
+      }
+    }
+
+
+    if (t.isVariableDeclaration(node) && !t.isBlockStatement(parentNode)) {
+      const parts = node.declarations.map(({ id, init }) => {
+        if (init) {
+          return t.ifStatement(
+            t.unaryExpression(
+              "!",
+              t.callExpression(
+                t.memberExpression(
+                  t.identifier("window"),
+                  t.identifier("hasOwnProperty")
+                ),
+                [t.stringLiteral(id.name)]
+              )
+            ),
+            t.expressionStatement(
+              t.assignmentExpression(
+                "=",
+                t.memberExpression(t.identifier("window"), id),
+                init
+              )
+            )
+          );
+        }
+      });
+
+      didUpdate = true
+      const lastAncestor = ancestors[ancestors.length - 1];
+      const { index } = lastAncestor;
+      parent.node[parent.key].splice(index, 1, ...parts);
     }
   });
 
-  return generate(ast).code;
+  const mappedExpression = didUpdate ? generate(ast).code : expression;
+  return mappedExpression;
 }

@@ -57,4 +57,29 @@ describe("mapOriginalExpression", () => {
       "window.thing = function fn() {\n  var a;\n  a;\n  _b;\n};\n\n_a;\n_b;"
     );
   });
+
+  it("variable declarator", () => {
+    const generatedExpression = mapOriginalExpression("var a = 3",{})
+    expect(generatedExpression.replace("\n", ""))
+      .toEqual('if (!window.hasOwnProperty("a")) window.a = 3;');
+  });
+
+  it("const variable declarator", () => {
+    const generatedExpression = mapOriginalExpression("const a = 3",{})
+    expect(generatedExpression.replace("\n", ""))
+      .toEqual('if (!window.hasOwnProperty("a")) window.a = 3;');
+  });
+
+  it("variable declaration", () => {
+    const generatedExpression = mapOriginalExpression("var a = 3, b = 4",{})
+    expect(generatedExpression.replace("\n", ""))
+      .toEqual('if (!window.hasOwnProperty("a")) window.a = 3;if ' +
+          '(!window.hasOwnProperty("b")) window.b = 4;');
+  });
+
+  it("block scope variable declarators", () => {
+    const generatedExpression = mapOriginalExpression("() => { var a = 3 }",{})
+    expect(generatedExpression.replace(/\n/mg, ""))
+      .toEqual('() => { var a = 3 }');
+  });
 });

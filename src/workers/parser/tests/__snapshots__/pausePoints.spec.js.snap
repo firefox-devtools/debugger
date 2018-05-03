@@ -88,7 +88,7 @@ exports[`Parser.pausePoints func 1`] = `
 /*bs 18*/}
 
 /*b 19*/function ret() /*20*/{
-  /*21*/return /*bs 22*/foo();
+  /*bs 21*/return /*bs 22*/foo();
 /*bs 23*/}
 
 /*bs 24*/child = /*b 25*/function() /*26*/{/*bs 27*/};

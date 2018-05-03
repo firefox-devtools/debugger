@@ -87,7 +87,7 @@ function onEnter(node: BabelNode, ancestors: SimplePath[], state) {
   if (isReturn(node)) {
     // We do not want to pause at the return and the call e.g. return foo()
     if (isCall(node.argument)) {
-      return addEmptyPoint(state, startLocation);
+      return addStopPoint(state, startLocation);
     }
     return addStopPoint(state, startLocation);
   }
