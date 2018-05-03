@@ -39,6 +39,7 @@ type Props = {
   selectedFrame: Object,
   selectFrame: Function,
   toggleBlackBox: Function,
+  disableFrameTruncate: boolean,
   why: Why
 };
 
@@ -58,7 +59,7 @@ class Frames extends Component<Props, State> {
     super(props);
 
     this.state = {
-      showAllFrames: false
+      showAllFrames: !!props.disableFrameTruncate
     };
   }
 
@@ -170,7 +171,7 @@ class Frames extends Component<Props, State> {
   }
 
   render() {
-    const { frames, why } = this.props;
+    const { frames, disableFrameTruncate, why } = this.props;
 
     if (!frames) {
       return (
@@ -186,7 +187,7 @@ class Frames extends Component<Props, State> {
       <div className="pane frames">
         {this.renderFrames(frames)}
         {renderWhyPaused(why)}
-        {this.renderToggleButton(frames)}
+        {disableFrameTruncate ? null : this.renderToggleButton(frames)}
       </div>
     );
   }
