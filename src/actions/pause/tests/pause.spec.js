@@ -59,13 +59,17 @@ const mockThreadClient = {
   }
 };
 
-function createPauseInfo(frameLocation = { sourceId: "foo1", line: 2 }) {
+function createPauseInfo(
+  frameLocation = { sourceId: "foo1", line: 2 },
+  frameOpts = {}
+) {
   return {
     frames: [
       makeFrame(
         { id: 1, sourceId: frameLocation.sourceId },
         {
-          location: frameLocation
+          location: frameLocation,
+          ...frameOpts
         }
       )
     ],
@@ -158,45 +162,97 @@ describe("pause", () => {
       getNextStepSpy.mockRestore();
     });
 
-    describe("pausing in a generated location", () => {
-      it("maps frame locations and names to original source", async () => {
-        const generatedLocation = {
-          sourceId: "foo",
-          line: 1,
-          column: 0
-        };
+    it("getting frame scopes with bindings", async () => {
+      const generatedLocation = {
+        sourceId: "foo",
+        line: 1,
+        column: 0
+      };
 
-        const originalLocation = {
-          sourceId: "foo-original",
-          line: 3,
-          column: 0
-        };
-
-        const sourceMapsMock = {
-          getOriginalLocation: () => Promise.resolve(originalLocation)
-        };
-
-        const store = createStore(mockThreadClient, {}, sourceMapsMock);
-        const { dispatch, getState } = store;
-        const mockPauseInfo = createPauseInfo(generatedLocation);
-
-        await dispatch(actions.newSource(makeSource("foo")));
-        await dispatch(actions.newSource(makeOriginalSource("foo")));
-        await dispatch(actions.loadSourceText({ id: "foo" }));
-        await dispatch(actions.loadSourceText({ id: "foo-original" }));
-        await dispatch(actions.setSymbols("foo-original"));
-
-        await dispatch(actions.paused(mockPauseInfo));
-        expect(selectors.getFrames(getState())).toEqual([
-          {
-            id: 1,
-            scope: [],
-            location: originalLocation,
-            generatedLocation,
-            originalDisplayName: "fooOriginal"
-          }
-        ]);
+      const store = createStore(mockThreadClient, {});
+      const { dispatch, getState } = store;
+      const mockPauseInfo = createPauseInfo(generatedLocation, {
+        scope: {
+          bindings: { variables: { b: {} }, arguments: [{ a: {} }] }
+        }
       });
+
+      await dispatch(actions.newSource(makeSource("foo")));
+      await dispatch(actions.newSource(makeOriginalSource("foo")));
+      await dispatch(actions.loadSourceText({ id: "foo" }));
+
+      await dispatch(actions.paused(mockPauseInfo));
+      expect(selectors.getFrames(getState())).toEqual([
+        {
+          generatedLocation: { column: 0, line: 1, sourceId: "foo" },
+          id: 1,
+          location: { column: 0, line: 1, sourceId: "foo" },
+          scope: {
+            bindings: { arguments: [{ a: {} }], variables: { b: {} } }
+          }
+        }
+      ]);
+
+      expect(selectors.getFrameScopes(getState())).toEqual({
+        generated: {
+          "1": {
+            pending: false,
+            scope: {
+              bindings: { arguments: [{ a: {} }], variables: { b: {} } }
+            }
+          }
+        },
+        mappings: { "1": null },
+        original: { "1": { pending: false, scope: null } }
+      });
+
+      expect(selectors.getSelectedFrameBindings(getState())).toEqual([
+        "b",
+        "a"
+      ]);
+    });
+
+    it("maps frame locations and names to original source", async () => {
+      const generatedLocation = {
+        sourceId: "foo",
+        line: 1,
+        column: 0
+      };
+
+      const originalLocation = {
+        sourceId: "foo-original",
+        line: 3,
+        column: 0
+      };
+
+      const sourceMapsMock = {
+        getOriginalLocation: () => Promise.resolve(originalLocation),
+        getOriginalSourceText: async () => ({
+          source: "\n\nfunction fooOriginal() {\n  return -5;\n}",
+          contentType: "text/javascript"
+        })
+      };
+
+      const store = createStore(mockThreadClient, {}, sourceMapsMock);
+      const { dispatch, getState } = store;
+      const mockPauseInfo = createPauseInfo(generatedLocation);
+
+      await dispatch(actions.newSource(makeSource("foo")));
+      await dispatch(actions.newSource(makeOriginalSource("foo")));
+      await dispatch(actions.loadSourceText({ id: "foo" }));
+      await dispatch(actions.loadSourceText({ id: "foo-original" }));
+      await dispatch(actions.setSymbols("foo-original"));
+
+      await dispatch(actions.paused(mockPauseInfo));
+      expect(selectors.getFrames(getState())).toEqual([
+        {
+          generatedLocation: { column: 0, line: 1, sourceId: "foo" },
+          id: 1,
+          location: { column: 0, line: 3, sourceId: "foo-original" },
+          originalDisplayName: "fooOriginal",
+          scope: { bindings: { arguments: [], variables: {} } }
+        }
+      ]);
     });
   });
 

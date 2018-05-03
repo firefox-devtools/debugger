@@ -11,11 +11,14 @@ import {
   getSelectedFrameId,
   getSourceFromId,
   getSelectedSource,
-  getSelectedScopeMappings
+  getSelectedScopeMappings,
+  getSelectedFrameBindings
 } from "../selectors";
 import { PROMISE } from "./utils/middleware/promise";
 import { isGeneratedId } from "devtools-source-map";
 import { wrapExpression } from "../utils/expressions";
+import { features } from "../utils/prefs";
+
 import * as parser from "../workers/parser";
 import type { Expression } from "../types";
 import type { ThunkArgs } from "./types";
@@ -162,10 +165,17 @@ function evaluateExpression(expression: Expression) {
 export function getMappedExpression(expression: string) {
   return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
     const mappings = getSelectedScopeMappings(getState());
-    if (!mappings) {
+    const bindings = getSelectedFrameBindings(getState());
+
+    if (!mappings && !bindings) {
       return expression;
     }
 
-    return parser.mapOriginalExpression(expression, mappings);
+    return parser.mapExpression(
+      expression,
+      mappings,
+      bindings,
+      features.mapExpressionBindings
+    );
   };
 }
