@@ -2,6 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
+import * as t from "@babel/types";
 import { getSymbols } from "./getSymbols";
 
 export function getFramework(sourceId) {
@@ -46,19 +47,13 @@ function requiresReact(callExpressions) {
 }
 
 function extendsReactComponent(classes) {
-  let result = false;
-  classes.some(classObj => {
-    if (
-      classObj.parent &&
-      (classObj.parent.name === "Component" ||
-        classObj.parent.name === "PureComponent" ||
-        classObj.parent.property.name === "Component")
-    ) {
-      result = true;
-    }
-  });
-
-  return result;
+  return classes.some(
+    classObj =>
+      t.isIdentifier(classObj.parent, { name: "Component" }) ||
+      t.isIdentifier(classObj.parent, { name: "PureComponent" }) ||
+      (t.isMemberExpression(classObj.parent, { computed: false }) &&
+        t.isIdentifier(classObj.parent, { name: "Component" }))
+  );
 }
 
 // Angular

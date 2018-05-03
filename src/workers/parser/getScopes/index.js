@@ -10,6 +10,7 @@ import {
   type SourceScope,
   type ParsedScope,
   type BindingData,
+  type BindingDeclarationLocation,
   type BindingLocation,
   type BindingLocationType,
   type BindingMetaValue,
@@ -19,6 +20,7 @@ import {
 export type {
   SourceScope,
   BindingData,
+  BindingDeclarationLocation,
   BindingLocation,
   BindingLocationType,
   BindingMetaValue,
