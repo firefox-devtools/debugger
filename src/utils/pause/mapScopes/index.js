@@ -37,67 +37,6 @@ import type {
 
 export type OriginalScope = RenderableScope;
 
-function batchScopeMappings(
-  originalAstScopes: Array<SourceScope>,
-  source: Source,
-  sourceMaps: any
-) {
-  const precalculatedRanges = new Map();
-  const precalculatedLocations = new Map();
-
-  // Explicitly dispatch all of the sourcemap requests synchronously up front so
-  // that they will be batched into a single request for the worker to process.
-  for (const item of originalAstScopes) {
-    for (const name of Object.keys(item.bindings)) {
-      for (const ref of item.bindings[name].refs) {
-        const locs = [ref];
-        if (ref.type !== "ref") {
-          locs.push(ref.declaration);
-        }
-
-        for (const loc of locs) {
-          precalculatedRanges.set(
-            buildLocationKey(loc.start),
-            sourceMaps.getGeneratedRanges(loc.start, source)
-          );
-          precalculatedLocations.set(
-            buildLocationKey(loc.start),
-            sourceMaps.getGeneratedLocation(loc.start, source)
-          );
-          precalculatedLocations.set(
-            buildLocationKey(loc.end),
-            sourceMaps.getGeneratedLocation(loc.end, source)
-          );
-        }
-      }
-    }
-  }
-
-  return {
-    async getGeneratedRanges(pos, s) {
-      const key = buildLocationKey(pos);
-
-      if (s !== source || !precalculatedRanges.has(key)) {
-        log("Bad precalculated mapping");
-        return sourceMaps.getGeneratedRanges(pos, s);
-      }
-      return precalculatedRanges.get(key);
-    },
-    async getGeneratedLocation(pos, s) {
-      const key = buildLocationKey(pos);
-
-      if (s !== source || !precalculatedLocations.has(key)) {
-        log("Bad precalculated mapping");
-        return sourceMaps.getGeneratedLocation(pos, s);
-      }
-      return precalculatedLocations.get(key);
-    }
-  };
-}
-function buildLocationKey(loc: Position): string {
-  return `${loc.line}:${locColumn(loc)}`;
-}
-
 export async function buildMappedScopes(
   source: Source,
   frame: Frame,
@@ -203,6 +142,67 @@ function isReliableScope(scope: OriginalScope): boolean {
 
   // As determined by fair dice roll.
   return totalBindings === 0 || unknownBindings / totalBindings < 0.1;
+}
+
+function batchScopeMappings(
+  originalAstScopes: Array<SourceScope>,
+  source: Source,
+  sourceMaps: any
+) {
+  const precalculatedRanges = new Map();
+  const precalculatedLocations = new Map();
+
+  // Explicitly dispatch all of the sourcemap requests synchronously up front so
+  // that they will be batched into a single request for the worker to process.
+  for (const item of originalAstScopes) {
+    for (const name of Object.keys(item.bindings)) {
+      for (const ref of item.bindings[name].refs) {
+        const locs = [ref];
+        if (ref.type !== "ref") {
+          locs.push(ref.declaration);
+        }
+
+        for (const loc of locs) {
+          precalculatedRanges.set(
+            buildLocationKey(loc.start),
+            sourceMaps.getGeneratedRanges(loc.start, source)
+          );
+          precalculatedLocations.set(
+            buildLocationKey(loc.start),
+            sourceMaps.getGeneratedLocation(loc.start, source)
+          );
+          precalculatedLocations.set(
+            buildLocationKey(loc.end),
+            sourceMaps.getGeneratedLocation(loc.end, source)
+          );
+        }
+      }
+    }
+  }
+
+  return {
+    async getGeneratedRanges(pos, s) {
+      const key = buildLocationKey(pos);
+
+      if (s !== source || !precalculatedRanges.has(key)) {
+        log("Bad precalculated mapping");
+        return sourceMaps.getGeneratedRanges(pos, s);
+      }
+      return precalculatedRanges.get(key);
+    },
+    async getGeneratedLocation(pos, s) {
+      const key = buildLocationKey(pos);
+
+      if (s !== source || !precalculatedLocations.has(key)) {
+        log("Bad precalculated mapping");
+        return sourceMaps.getGeneratedLocation(pos, s);
+      }
+      return precalculatedLocations.get(key);
+    }
+  };
+}
+function buildLocationKey(loc: Position): string {
+  return `${loc.line}:${locColumn(loc)}`;
 }
 
 function generateClientScope(
