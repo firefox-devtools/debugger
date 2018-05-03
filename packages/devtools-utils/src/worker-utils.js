@@ -54,6 +54,10 @@ WorkerDispatcher.prototype = {
       const items = calls.slice();
       calls.length = 0;
 
+      if (!this.worker) {
+        return;
+      }
+
       const id = this.msgId++;
       this.worker.postMessage({
         id,

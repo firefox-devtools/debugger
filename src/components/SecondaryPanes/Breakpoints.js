@@ -14,7 +14,7 @@ import { groupBy, sortBy } from "lodash";
 import Breakpoint from "./Breakpoint";
 
 import actions from "../../actions";
-import { getFilenameFromURL } from "../../utils/source";
+import { getFilenameFromURL, getRawSourceURL } from "../../utils/source";
 import {
   getSources,
   getSourceInSources,
@@ -66,7 +66,7 @@ type Props = {
   setBreakpointCondition: Location => void,
   openConditionalPanel: number => void,
   shouldPauseOnExceptions: boolean,
-  shouldIgnoreCaughtExceptions: boolean,
+  shouldPauseOnCaughtExceptions: boolean,
   pauseOnExceptions: Function
 };
 
@@ -160,7 +160,7 @@ class Breakpoints extends Component<Props> {
     const {
       breakpoints,
       shouldPauseOnExceptions,
-      shouldIgnoreCaughtExceptions,
+      shouldPauseOnCaughtExceptions,
       pauseOnExceptions
     } = this.props;
 
@@ -174,9 +174,9 @@ class Breakpoints extends Component<Props> {
     );
 
     const ignoreCaughtBox = createExceptionOption(
-      L10N.getStr("ignoreCaughtExceptionsItem"),
-      shouldIgnoreCaughtExceptions,
-      () => pauseOnExceptions(true, !shouldIgnoreCaughtExceptions),
+      L10N.getStr("pauseOnCaughtExceptionsItem"),
+      shouldPauseOnCaughtExceptions,
+      () => pauseOnExceptions(true, !shouldPauseOnCaughtExceptions),
       "breakpoints-exceptions-caught"
     );
 
@@ -200,7 +200,7 @@ class Breakpoints extends Component<Props> {
 
     const groupedBreakpoints = groupBy(
       sortBy([...breakpoints.valueSeq()], bp => bp.location.line),
-      bp => bp.source.url
+      bp => getRawSourceURL(bp.source.url)
     );
 
     return [

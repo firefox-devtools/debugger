@@ -207,16 +207,9 @@ class SourcesTree extends Component<Props, State> {
     if (!nodeHasChildren(item)) {
       const obj = item.contents.get("id");
       const source = sources.get(obj);
-      return (
-        <img
-          className={classnames(
-            getSourceClassnames(source.toJS()),
-            "source-icon"
-          )}
-        />
-      );
+      const className = classnames(getSourceClassnames(source), "source-icon");
+      return <img className={className} />;
     }
-
     return <img className="folder" />;
   };
 

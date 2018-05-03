@@ -51,7 +51,13 @@ var /*bs 27*/a = 3;
 
 /*bs 37*/for (const /*bs 38*/val of vals) /*39*/{
   /*bs 40*/console./*bs 41*/log(/*42*/\\"pause again\\", /*43*/val);
-}/*bs 44*/
+}
+
+/*44*/try /*45*/{
+} catch (e) /*46*/{
+}
+
+/*47*/with (e) /*48*/{}/*bs 49*/
 "
 `;
 
@@ -94,25 +100,25 @@ exports[`Parser.pausePoints func 1`] = `
 /*bs 24*/child = /*b 25*/function() /*26*/{/*bs 27*/};
 
 /*bs 28*/(/*b 29*/function() /*30*/{
-  2;
-/*bs 31*/})();
+  /*bs 31*/2;
+/*bs 32*/})();
 
-const /*bs 32*/obj = {
-  /*33*/foo: /*b 34*/function name() /*35*/{
-    2 + 2;
-  /*bs 36*/},
+const /*bs 33*/obj = {
+  /*34*/foo: /*b 35*/function name() /*36*/{
+    /*bs 37*/2 + 2;
+  /*bs 38*/},
 
-  /*b 37*/bar() /*38*/{
-    2 + 2;
-  /*bs 39*/}
+  /*b 39*/bar() /*40*/{
+    /*bs 41*/2 + 2;
+  /*bs 42*/}
 };
 
-/*bs 40*/export default /*b 41*/function root() /*42*/{
-/*bs 43*/}
+/*bs 43*/export default /*b 44*/function root() /*45*/{
+/*bs 46*/}
 
-/*b 44*/function test(a1, /*45*/a2 = 45, /*46*/{ /*47*/a3, /*48*/a4, /*49*/a5: /*bs 50*/{ /*51*/a6: /*52*/a7 } = {} } = {}) /*53*/{
-  /*bs 54*/console./*bs 55*/log(/*56*/\\"pause next here\\");
-/*bs 57*/}/*bs 58*/
+/*b 47*/function test(a1, /*48*/a2 = 45, /*49*/{ /*50*/a3, /*51*/a4, /*52*/a5: /*bs 53*/{ /*54*/a6: /*55*/a7 } = {} } = {}) /*56*/{
+  /*bs 57*/console./*bs 58*/log(/*59*/\\"pause next here\\");
+/*bs 60*/}/*bs 61*/
 "
 `;
 
@@ -218,6 +224,12 @@ const /*bs 23*/obj = {
     /*33*/1
   ),
   /*34*/3
-)/*bs 35*/
+)
+
+/*bs 35*/throw new Error(\\"3\\");
+/*bs 36*/3;
+
+/*37*/while (/*bs 38*/i < 6) /*39*/{ /*bs 40*/break }
+/*41*/while (/*bs 42*/i < 6) /*43*/{ /*bs 44*/continue;}/*bs 45*/
 "
 `;

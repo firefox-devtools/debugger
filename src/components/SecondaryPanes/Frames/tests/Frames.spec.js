@@ -71,6 +71,26 @@ describe("Frames", () => {
       expect(getFrames()).toHaveLength(10);
       expect(component).toMatchSnapshot();
     });
+
+    it("disable frame truncation", () => {
+      const framesNumber = 20;
+      const frames = Array.from({ length: framesNumber }, (_, i) => ({
+        id: i + 1
+      }));
+
+      const component = render({
+        frames,
+        disableFrameTruncate: true
+      });
+
+      const getToggleBtn = () => component.find(".show-more");
+      const getFrames = () => component.find("FrameComponent");
+
+      expect(getToggleBtn().exists()).toBeFalsy();
+      expect(getFrames()).toHaveLength(framesNumber);
+
+      expect(component).toMatchSnapshot();
+    });
   });
 
   describe("Blackboxed Frames", () => {

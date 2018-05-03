@@ -5,11 +5,13 @@
 // @flow
 
 import type {
+  BindingDeclarationLocation,
   BindingLocation,
   BindingLocationType,
   BindingType
 } from "../../../workers/parser";
 import { locColumn } from "./locColumn";
+import { positionCmp } from "./positionCmp";
 import { filterSortedArray } from "./filtering";
 
 import type {
@@ -23,7 +25,7 @@ import type { GeneratedBindingLocation } from "../../../actions/pause/mapScopes"
 
 import { createObjectClient } from "../../../client/firefox";
 
-type GeneratedDescriptor = {
+export type GeneratedDescriptor = {
   name: string,
   // Falsy if the binding itself matched a location, but the location didn't
   // have a value descriptor attached. Happens if the binding was 'this'
@@ -33,7 +35,11 @@ type GeneratedDescriptor = {
   expression: string
 };
 
-export async function findGeneratedBindingFromPosition(
+/**
+ * Find a simple 1-1 match of a binding in the original code to a binding
+ * in the generated code.
+ */
+export async function findGeneratedBindingForStandardBinding(
   sourceMaps: any,
   client: any,
   source: Source,
@@ -42,75 +48,98 @@ export async function findGeneratedBindingFromPosition(
   bindingType: BindingType,
   generatedAstBindings: Array<GeneratedBindingLocation>
 ): Promise<GeneratedDescriptor | null> {
-  const locationType = pos.type;
-
-  const generatedRanges = await getGeneratedLocationRanges(
-    source,
-    pos,
-    bindingType,
-    locationType,
-    sourceMaps
+  return await findGeneratedReference(
+    await getGeneratedLocationRanges(
+      generatedAstBindings,
+      source,
+      pos,
+      bindingType,
+      pos.type,
+      sourceMaps
+    )
   );
-  let applicableBindings = filterApplicableBindings(
-    generatedAstBindings,
-    generatedRanges
-  );
+}
 
-  // We can adjust this number as we go, but these are a decent start as a
-  // general heuristic to assume the bindings were bad or just map a chunk of
-  // whole line or something.
-  if (applicableBindings.length > 4) {
-    // Babel's for..of generates at least 3 bindings inside one range for
-    // block-scoped loop variables, so we shouldn't go below that.
-    applicableBindings = [];
+/**
+ * Find a simple 1-1 match of a binding in the original code to an
+ * expression in the generated code.
+ */
+export async function findGeneratedBindingForImportBinding(
+  sourceMaps: any,
+  client: any,
+  source: Source,
+  pos: BindingLocation,
+  name: string,
+  bindingType: BindingType,
+  generatedAstBindings: Array<GeneratedBindingLocation>
+): Promise<GeneratedDescriptor | null> {
+  return await findGeneratedImportReference(
+    await getGeneratedLocationRanges(
+      generatedAstBindings,
+      source,
+      pos,
+      bindingType,
+      pos.type,
+      sourceMaps
+    )
+  );
+}
+
+/**
+ * Find a simple 1-1 match of a binding's declaration in the original code to a
+ * binding in the generated code.
+ */
+export async function findGeneratedBindingForNormalDeclaration(
+  sourceMaps: any,
+  client: any,
+  source: Source,
+  pos: BindingDeclarationLocation,
+  name: string,
+  bindingType: BindingType,
+  generatedAstBindings: Array<GeneratedBindingLocation>
+): Promise<GeneratedDescriptor | null> {
+  return await findGeneratedReference(
+    await getGeneratedLocationRanges(
+      generatedAstBindings,
+      source,
+      pos.declaration,
+      bindingType,
+      pos.type,
+      sourceMaps
+    )
+  );
+}
+
+/**
+ * Find a simple 1-1 match of an import binding's declaration in the original
+ * code to an expression in the generated code.
+ */
+export async function findGeneratedBindingForImportDeclaration(
+  sourceMaps: any,
+  client: any,
+  source: Source,
+  pos: BindingDeclarationLocation,
+  name: string,
+  bindingType: BindingType,
+  generatedAstBindings: Array<GeneratedBindingLocation>
+): Promise<GeneratedDescriptor | null> {
+  const importName = pos.importName;
+  if (typeof importName !== "string") {
+    // Should never happen, just keeping Flow happy.
+    return null;
   }
 
-  let result;
-  if (bindingType === "import") {
-    result = await findGeneratedImportReference(applicableBindings);
-
-    if (!result && pos.type === "decl") {
-      const importName = pos.importName;
-      if (typeof importName !== "string") {
-        // Should never happen, just keeping Flow happy.
-        return null;
-      }
-
-      let applicableImportBindings = applicableBindings;
-      if (generatedRanges.length === 0) {
-        // If the imported name itself does not map to a useful range, fall back
-        // to resolving the bindinding using the location of the overall
-        // import declaration.
-        const declarationRanges = await getGeneratedLocationRanges(
-          source,
-          pos.declaration,
-          bindingType,
-          locationType,
-          sourceMaps
-        );
-        applicableImportBindings = filterApplicableBindings(
-          generatedAstBindings,
-          declarationRanges
-        );
-
-        if (applicableImportBindings.length > 10) {
-          // Import declarations tend to have a large number of bindings for
-          // for things like 'require' and 'interop', so this number is larger
-          // than other binding count checks.
-          applicableImportBindings = [];
-        }
-      }
-
-      result = await findGeneratedImportDeclaration(
-        applicableImportBindings,
-        importName
-      );
-    }
-  } else {
-    result = await findGeneratedReference(applicableBindings);
-  }
-
-  return result;
+  return await findGeneratedImportDeclaration(
+    await getGeneratedLocationRanges(
+      generatedAstBindings,
+      source,
+      pos.declaration,
+      bindingType,
+      pos.type,
+      sourceMaps
+    ),
+    importName
+  );
 }
 
 type ApplicableBinding = {
@@ -171,6 +200,15 @@ function filterApplicableBindings(
 async function findGeneratedReference(
   applicableBindings: Array<ApplicableBinding>
 ): Promise<GeneratedDescriptor | null> {
+  // We can adjust this number as we go, but these are a decent start as a
+  // general heuristic to assume the bindings were bad or just map a chunk of
+  // whole line or something.
+  if (applicableBindings.length > 4) {
+    // Babel's for..of generates at least 3 bindings inside one range for
+    // block-scoped loop variables, so we shouldn't go below that.
+    applicableBindings = [];
+  }
+
   for (const applicable of applicableBindings) {
     const result = await mapBindingReferenceToDescriptor(applicable);
     if (result) {
@@ -201,6 +239,15 @@ async function findGeneratedImportReference(
     return !next || next.binding.loc.type !== "ref" || !next.binding.loc.meta;
   });
 
+  // We can adjust this number as we go, but these are a decent start as a
+  // general heuristic to assume the bindings were bad or just map a chunk of
+  // whole line or something.
+  if (applicableBindings.length > 2) {
+    // Babel's for..of generates at least 3 bindings inside one range for
+    // block-scoped loop variables, so we shouldn't go below that.
+    applicableBindings = [];
+  }
+
   for (const applicable of applicableBindings) {
     const result = await mapImportReferenceToDescriptor(applicable);
     if (result) {
@@ -220,10 +267,20 @@ async function findGeneratedImportDeclaration(
   applicableBindings: Array<ApplicableBinding>,
   importName: string
 ): Promise<GeneratedDescriptor | null> {
+  // We can adjust this number as we go, but these are a decent start as a
+  // general heuristic to assume the bindings were bad or just map a chunk of
+  // whole line or something.
+  if (applicableBindings.length > 10) {
+    // Import declarations tend to have a large number of bindings for
+    // for things like 'require' and 'interop', so this number is larger
+    // than other binding count checks.
+    applicableBindings = [];
+  }
+
   let result = null;
 
   for (const { binding } of applicableBindings) {
-    if (binding.loc.type !== "decl") {
+    if (binding.loc.type === "ref") {
       continue;
     }
 
@@ -431,31 +488,13 @@ function mappingContains(mapped, item) {
   );
 }
 
-/**
- * * === 0 - Positions are equal.
- * * < 0 - first position before second position
- * * > 0 - first position after second position
- */
-function positionCmp(p1: Position, p2: Position) {
-  if (p1.line === p2.line) {
-    const l1 = locColumn(p1);
-    const l2 = locColumn(p2);
-
-    if (l1 === l2) {
-      return 0;
-    }
-    return l1 < l2 ? -1 : 1;
-  }
-
-  return p1.line < p2.line ? -1 : 1;
-}
-
 type GeneratedRange = {
   start: Position,
   end: Position
 };
 
 async function getGeneratedLocationRanges(
+  generatedAstBindings: Array<GeneratedBindingLocation>,
   source: Source,
   {
     start,
@@ -467,7 +506,7 @@ async function getGeneratedLocationRanges(
   bindingType: BindingType,
   locationType: BindingLocationType,
   sourceMaps: any
-): Promise<Array<GeneratedRange>> {
+): Promise<Array<ApplicableBinding>> {
   const endPosition = await sourceMaps.getGeneratedLocation(end, source);
   const startPosition = await sourceMaps.getGeneratedLocation(start, source);
 
@@ -533,7 +572,7 @@ async function getGeneratedLocationRanges(
   //
   // var _mod = require("mod"); // mapped from import statement
   // var _mod2 = interop(_mod); // entirely unmapped
-  if (bindingType === "import" && locationType === "decl") {
+  if (bindingType === "import" && locationType !== "ref") {
     for (const range of resultRanges) {
       if (
         mappingContains(range, { start: startPosition, end: startPosition }) &&
@@ -546,5 +585,5 @@ async function getGeneratedLocationRanges(
     }
   }
 
-  return resultRanges;
+  return filterApplicableBindings(generatedAstBindings, resultRanges);
 }
