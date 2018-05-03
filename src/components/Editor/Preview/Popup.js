@@ -8,12 +8,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import Reps from "devtools-reps";
-const {
-  REPS: { Rep },
-  MODE,
-  ObjectInspector,
-  ObjectInspectorUtils
-} = Reps;
+const { REPS: { Rep }, MODE, ObjectInspector, ObjectInspectorUtils } = Reps;
 
 const {
   createNode,
