@@ -42,9 +42,6 @@ describe("createLongStringClient", () => {
     it("is called for longStrings with unloaded full text", () => {
       const stub = longStringStubs.get("testUnloadedFullText");
       const substring = jest.fn(() => Promise.resolve({ fullText: "" }));
-      const createLongStringClient = jest.fn(grip =>
-        LongStringClient(grip, { substring })
-      );
 
       mount(
         ObjectInspector({
@@ -58,22 +55,19 @@ describe("createLongStringClient", () => {
             }
           ],
           createObjectClient: ObjectClient(stub),
-          createLongStringClient
+          createLongStringClient: grip => LongStringClient(grip, { substring })
         })
       );
 
       expect(substring.mock.calls[0]).toHaveLength(3);
-      const [initialLength, fullTextLength] = substring.mock.calls[0];
-      expect(initialLength).toBe(stub.initial.length);
-      expect(fullTextLength).toBe(stub.length);
+      const [start, length, callback] = substring.mock.calls[0];
+      expect(start).toBe(stub.initial.length);
+      expect(length).toBe(stub.length);
     });
 
     it("is not called for longString node w/ loaded full text", () => {
       const stub = longStringStubs.get("testLoadedFullText");
       const substring = jest.fn(() => Promise.resolve({ fullText: "" }));
-      const createLongStringClient = jest.fn(grip =>
-        LongStringClient(grip, { substring })
-      );
 
       mount(
         ObjectInspector({
@@ -87,11 +81,10 @@ describe("createLongStringClient", () => {
             }
           ],
           createObjectClient: ObjectClient(stub),
-          createLongStringClient
+          createLongStringClient: grip => LongStringClient(grip, { substring })
         })
       );
 
-      expect(createLongStringClient.mock.calls[0][0]).toBe(stub);
       expect(substring.mock.calls).toHaveLength(0);
     });
   });
