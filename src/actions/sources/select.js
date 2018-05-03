@@ -58,12 +58,7 @@ export function selectSourceURL(
     if (source) {
       const sourceId = source.id;
       const location = createLocation({ ...options.location, sourceId });
-      // flow is unable to comprehend that if an options.location object
-      // exists, that we have a valid Location object, and if it doesnt,
-      // we have a valid { sourceId: string } object. So we are overriding
-      // the error
-      // $FlowIgnore
-      await dispatch(selectLocation(location, options.tabIndex));
+      await dispatch(selectLocation(location));
     } else {
       dispatch(
         ({
