@@ -20,7 +20,7 @@ import type {
   Position,
   BindingContents
 } from "../../../types";
-import type { GeneratedBindingLocation } from "./index";
+import type { GeneratedBindingLocation } from "./buildGeneratedBindingList";
 
 import { createObjectClient } from "../../../client/firefox";
 
