@@ -98,6 +98,7 @@ async function getFullText(
     // loadedProperties map.
     if (nodeHasFullText(item)) {
       resolve({ fullText });
+      return;
     }
 
     longStringClient.substring(initial.length, length, response => {

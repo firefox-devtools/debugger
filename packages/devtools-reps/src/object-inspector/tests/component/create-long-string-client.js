@@ -72,7 +72,7 @@ describe("createLongStringClient", () => {
       const stub = longStringStubs.get("testLoadedFullText");
       const substring = jest.fn(() => Promise.resolve({ fullText: "" }));
       const createLongStringClient = jest.fn(grip =>
-        LongStringClient(grip, { a: x => x })
+        LongStringClient(grip, { substring })
       );
 
       mount(
@@ -95,5 +95,4 @@ describe("createLongStringClient", () => {
       expect(substring.mock.calls).toHaveLength(0);
     });
   });
-
 });

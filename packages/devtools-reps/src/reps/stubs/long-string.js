@@ -17,7 +17,6 @@ stubs.set("testUnloadedFullText", {
   actor: "server1.conn1.child1/longString58"
 });
 
-
 stubs.set("testLoadedFullText", {
   type: "longString",
   fullText: multilineFullText,
