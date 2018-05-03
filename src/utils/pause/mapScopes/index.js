@@ -62,6 +62,34 @@ export async function buildMappedScopes(
     frame.this
   );
 
+  const {
+    mappedOriginalScopes,
+    expressionLookup
+  } = await mapOriginalBindingsToGenerated(
+    source,
+    originalAstScopes,
+    generatedAstBindings,
+    client,
+    sourceMaps
+  );
+
+  const mappedGeneratedScopes = generateClientScope(
+    scopes,
+    mappedOriginalScopes
+  );
+
+  return isReliableScope(mappedGeneratedScopes)
+    ? { mappings: expressionLookup, scope: mappedGeneratedScopes }
+    : null;
+}
+
+async function mapOriginalBindingsToGenerated(
+  source,
+  originalAstScopes,
+  generatedAstBindings,
+  client,
+  sourceMaps
+) {
   const expressionLookup = {};
   const mappedOriginalScopes = [];
 
@@ -106,14 +134,10 @@ export async function buildMappedScopes(
     });
   }
 
-  const mappedGeneratedScopes = generateClientScope(
-    scopes,
-    mappedOriginalScopes
-  );
-
-  return isReliableScope(mappedGeneratedScopes)
-    ? { mappings: expressionLookup, scope: mappedGeneratedScopes }
-    : null;
+  return {
+    mappedOriginalScopes,
+    expressionLookup
+  };
 }
 
 /**
