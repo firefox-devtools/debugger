@@ -3,6 +3,8 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
+import { clearSelectedSource } from "./clearSelectedSource";
+export { clearSelectedSource };
 
 export * from "./loadSourceText";
 export * from "./prettyPrint";

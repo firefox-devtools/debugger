@@ -32,6 +32,8 @@ import {
   getSelectedLocation
 } from "../../selectors";
 
+import { clearSelectedSource } from "./";
+
 import type { Location } from "../../types";
 import type { Action, ThunkArgs } from "../types";
 
@@ -97,7 +99,7 @@ export function selectLocation(location: Location) {
     const sourceRecord = getSource(getState(), location.sourceId);
     if (!sourceRecord) {
       // If there is no source we deselect the current selected source
-      return dispatch(({ type: "CLEAR_SELECTED_SOURCE" }: Action));
+      return dispatch(clearSelectedSource());
     }
 
     const activeSearch = getActiveSearch(getState());
@@ -154,7 +156,7 @@ export function selectSpecificLocation(location: Location) {
     const sourceRecord = getSource(getState(), location.sourceId);
     if (!sourceRecord) {
       // If there is no source we deselect the current selected source
-      return dispatch(({ type: "CLEAR_SELECTED_SOURCE" }: Action));
+      return dispatch(clearSelectedSource());
     }
 
     const activeSearch = getActiveSearch(getState());
