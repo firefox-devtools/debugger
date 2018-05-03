@@ -74,7 +74,7 @@ function loadItemProperties(
   }
 
   if (shouldLoadItemFullText(item, loadedProperties)) {
-    promises.push(getFullText(createLongStringClient(value), value));
+    promises.push(getFullText(createLongStringClient(value), item));
   }
 
   return Promise.all(promises).then(mergeResponses);

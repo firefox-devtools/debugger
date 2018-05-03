@@ -10,7 +10,13 @@ export type GripProperties = {
   fullText?: string
 };
 
-export type ObjectInspectorItemContentsValue = {} | number | string | boolean | null | undefined;
+export type ObjectInspectorItemContentsValue =
+  | object
+  | number
+  | string
+  | boolean
+  | null
+  | undefined;
 
 export type NodeContents = {
   value: ObjectInspectorItemContentsValue
