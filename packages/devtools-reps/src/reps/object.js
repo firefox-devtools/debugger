@@ -175,8 +175,8 @@ function isInterestingProp(value) {
   return type == "boolean" || type == "number" || (type == "string" && value);
 }
 
-function supportsObject(object) {
-  return true;
+function supportsObject(object, noGrip = false) {
+  return noGrip;
 }
 
 // Exports from this module

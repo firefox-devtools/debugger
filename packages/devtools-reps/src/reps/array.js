@@ -142,10 +142,11 @@ function getLength(object) {
   return object.length;
 }
 
-function supportsObject(object) {
+function supportsObject(object, noGrip = false) {
   return (
-    Array.isArray(object) ||
-    Object.prototype.toString.call(object) === "[object Arguments]"
+    noGrip &&
+    (Array.isArray(object) ||
+      Object.prototype.toString.call(object) === "[object Arguments]")
   );
 }
 

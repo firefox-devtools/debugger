@@ -34,10 +34,25 @@ describe("test Failure", () => {
   it("Fallback array rendering has expected text content", () => {
     const renderedComponent = shallow(
       Rep({
-        object: [1, stub, 2]
+        object: {
+          type: "object",
+          class: "Array",
+          actor: "server1.conn0.obj337",
+          extensible: true,
+          frozen: false,
+          sealed: false,
+          ownPropertyLength: 4,
+          preview: {
+            kind: "ArrayLike",
+            length: 3,
+            items: [1, stub, 2]
+          }
+        }
       })
     );
-    expect(renderedComponent.text()).toEqual("[ 1, Invalid object, 2 ]");
+    expect(renderedComponent.text()).toEqual(
+      "Array(3) [ 1, Invalid object, 2 ]"
+    );
   });
 });
 
