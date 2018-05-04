@@ -81,13 +81,13 @@ function update(
 ): Record<ASTState> {
   switch (action.type) {
     case "SET_SYMBOLS": {
-      const { source } = action;
+      const { sourceId } = action;
       if (action.status === "start") {
-        return state.setIn(["symbols", source.id], { loading: true });
+        return state.setIn(["symbols", sourceId], { loading: true });
       }
 
       const value = ((action: any): DonePromiseAction).value;
-      return state.setIn(["symbols", source.id], value);
+      return state.setIn(["symbols", sourceId], value);
     }
 
     case "SET_PAUSE_POINTS": {
