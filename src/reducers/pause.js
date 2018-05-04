@@ -15,7 +15,7 @@ import { isGeneratedId } from "devtools-source-map";
 import { prefs } from "../utils/prefs";
 import { getSelectedSource } from "./sources";
 
-import type { OriginalScope } from "../actions/pause/mapScopes";
+import type { OriginalScope } from "../utils/pause/mapScopes";
 import type { Action } from "../actions/types";
 import type { Why, Scope, SourceId, FrameId, MappedLocation } from "../types";
 
