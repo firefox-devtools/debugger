@@ -23,7 +23,7 @@ The enhancements implemented here break down into as two primary improvements:
 
 The core goal of scope mapping is to parse the original and generated files,
 and then infer a correlation between the bindings in the original file,
-and the bindings in the output file. This is correlation is done via the
+and the bindings in the generated file. This is correlation is done via the
 source mappings provided alongside the original code in the sourcemap.
 
 The overall steps break down into:
@@ -76,7 +76,7 @@ individual references to the binding in the file and:
 3. Perform heuristics to decide if any of the bindings in the range appear
    to be a valid and safe mapping.
 
-These steps allow us to build of a datastructure that describes the scope
+These steps allow us to build a datastructure that describes the scope
 as it is declared in the original file, while rendering the value using the
 `grip` objects, as returned from the engine itself.
 
