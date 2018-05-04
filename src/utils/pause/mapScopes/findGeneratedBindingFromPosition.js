@@ -20,7 +20,6 @@ import type {
   Position,
   BindingContents
 } from "../../../types";
-// eslint-disable-next-line max-len
 import type { GeneratedBindingLocation } from "./index";
 
 import { createObjectClient } from "../../../client/firefox";
