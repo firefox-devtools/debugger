@@ -86,7 +86,7 @@ export function selectSource(sourceId: string) {
  * @memberof actions/sources
  * @static
  */
-export function selectLocation(location: Location) {
+export function selectLocation(location: Location, checkPrettyPrint = true) {
   return async ({ dispatch, getState, client }: ThunkArgs) => {
     if (!client) {
       // No connection, do nothing. This happens when the debugger is
@@ -125,6 +125,7 @@ export function selectLocation(location: Location) {
     const sourceId = selectedSource.id;
 
     if (
+      checkPrettyPrint &&
       prefs.autoPrettyPrint &&
       !getPrettySource(getState(), sourceId) &&
       shouldPrettyPrint(selectedSource) &&
@@ -143,56 +144,10 @@ export function selectLocation(location: Location) {
  * @memberof actions/sources
  * @static
  */
-export function selectSpecificLocation(location: Location) {
-  return async ({ dispatch, getState, client }: ThunkArgs) => {
-    if (!client) {
-      // No connection, do nothing. This happens when the debugger is
-      // shut down too fast and it tries to display a default source.
-      return;
-    }
-
-    const sourceRecord = getSource(getState(), location.sourceId);
-    if (!sourceRecord) {
-      // If there is no source we deselect the current selected source
-      return dispatch(({ type: "CLEAR_SELECTED_SOURCE" }: Action));
-    }
-
-    const activeSearch = getActiveSearch(getState());
-    if (activeSearch !== "file") {
-      dispatch(closeActiveSearch());
-    }
-
-    const source = sourceRecord.toJS();
-
-    dispatch(addTab(source, 0));
-    dispatch(
-      ({
-        type: "SELECT_SOURCE",
-        source,
-        location
-      }: Action)
-    );
-
-    await dispatch(loadSourceText(sourceRecord));
-    const selectedSource = getSelectedSource(getState());
-    if (!selectedSource) {
-      return;
-    }
-
-    const sourceId = selectedSource.id;
-    dispatch(setSymbols(sourceId));
-    dispatch(setOutOfScopeLocations());
-  };
-}
-
-/**
- * @memberof actions/sources
- * @static
- */
 export function selectSpecificSource(sourceId: string) {
   return async ({ dispatch }: ThunkArgs) => {
     const location = createLocation({ sourceId });
-    return await dispatch(selectSpecificLocation(location));
+    return await dispatch(selectLocation(location, false));
   };
 }
 
