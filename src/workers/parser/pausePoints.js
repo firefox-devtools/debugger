@@ -46,6 +46,10 @@ const inExpression = (parent, grandParent) =>
 const isExport = node =>
   t.isExportNamedDeclaration(node) || t.isExportDefaultDeclaration(node);
 
+function getStartLine(node) {
+  return node.loc.start.line;
+}
+
 export function getPausePoints(sourceId: string) {
   const state = {};
   traverseAst(sourceId, { enter: onEnter }, state);
@@ -91,10 +95,16 @@ function onEnter(node: BabelNode, ancestors: SimplePath[], state) {
   }
 
   if (isReturn(node)) {
-    // We do not want to pause at the return and the call e.g. return foo()
+    // We do not want to pause at the return if the
+    // argument is a call on the same line e.g. return foo()
+    const sameLine = getStartLine(node) == getStartLine(node.argument);
     if (isCall(node.argument)) {
-      return addEmptyPoint(state, startLocation);
+      if (sameLine) {
+        return addEmptyPoint(state, startLocation);
+      }
+      return addStopPoint(state, startLocation);
     }
+
     return addStopPoint(state, startLocation);
   }
 
