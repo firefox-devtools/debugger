@@ -32,15 +32,29 @@ import {
   getSelectedLocation
 } from "../../selectors";
 
-import { clearSelectedSource, setSelectedLocation } from "./";
-
-import type { Location } from "../../types";
-import type { Action, ThunkArgs } from "../types";
+import type { Location, Source } from "../../types";
+import type { ThunkArgs } from "../types";
 
 declare type SelectSourceOptions = {
   tabIndex?: number,
   location?: { line: number, column?: ?number }
 };
+
+export const setSelectedLocation = (source: Source, location: Location) => ({
+  type: "SET_SELECTED_LOCATION",
+  source,
+  location
+});
+
+export const setPendingSelectedLocation = (url: string, options: Object) => ({
+  type: "SET_PENDING_SELECTED_LOCATION",
+  url: url,
+  line: options.location ? options.location.line : null
+});
+
+export const clearSelectedLocation = () => ({
+  type: "CLEAR_SELECTED_LOCATION"
+});
 
 /**
  * Deterministically select a source that has a given URL. This will
@@ -62,13 +76,7 @@ export function selectSourceURL(
       const location = createLocation({ ...options.location, sourceId });
       await dispatch(selectLocation(location));
     } else {
-      dispatch(
-        ({
-          type: "SELECT_SOURCE_URL",
-          url: url,
-          line: options.location ? options.location.line : null
-        }: Action)
-      );
+      dispatch(setPendingSelectedLocation(url, options));
     }
   };
 }
@@ -99,7 +107,7 @@ export function selectLocation(location: Location) {
     const sourceRecord = getSource(getState(), location.sourceId);
     if (!sourceRecord) {
       // If there is no source we deselect the current selected source
-      return dispatch(clearSelectedSource());
+      return dispatch(clearSelectedLocation());
     }
 
     const activeSearch = getActiveSearch(getState());
@@ -150,7 +158,7 @@ export function selectSpecificLocation(location: Location) {
     const sourceRecord = getSource(getState(), location.sourceId);
     if (!sourceRecord) {
       // If there is no source we deselect the current selected source
-      return dispatch(clearSelectedSource());
+      return dispatch(clearSelectedLocation());
     }
 
     const activeSearch = getActiveSearch(getState());

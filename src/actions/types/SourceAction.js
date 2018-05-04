@@ -26,7 +26,7 @@ export type SourceAction =
       +location?: Location
     |}
   | {|
-      +type: "SELECT_SOURCE_URL",
+      +type: "SET_PENDING_SELECTED_LOCATION",
       +url: string,
       +line: ?number
     |}
@@ -37,7 +37,7 @@ export type SourceAction =
       |},
       Source
     >
-  | {| type: "CLEAR_SELECTED_SOURCE" |}
+  | {| type: "CLEAR_SELECTED_LOCATION" |}
   | PromiseAction<
       {|
         +type: "BLACKBOX",

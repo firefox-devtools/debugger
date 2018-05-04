@@ -103,7 +103,7 @@ function update(
         })
         .set("pendingSelectedLocation", location);
 
-    case "CLEAR_SELECTED_SOURCE":
+    case "CLEAR_SELECTED_LOCATION":
       location = { url: "" };
       prefs.pendingSelectedLocation = location;
 
@@ -111,7 +111,7 @@ function update(
         .set("selectedLocation", { sourceId: "" })
         .set("pendingSelectedLocation", location);
 
-    case "SELECT_SOURCE_URL":
+    case "SET_PENDING_SELECTED_LOCATION":
       location = {
         url: action.url,
         line: action.line

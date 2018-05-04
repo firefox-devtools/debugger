@@ -4,7 +4,6 @@
 
 // @flow
 export * from "./blackbox";
-export * from "./sources";
 export * from "./loadSourceText";
 export * from "./newSources";
 export * from "./prettyPrint";
