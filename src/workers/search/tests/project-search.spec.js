@@ -11,7 +11,24 @@ const text = `
 `;
 
 describe("project search", () => {
-  it("simple", () => {
+  const emptyResults = [];
+
+  it("throws on lack of source", () => {
+    const needle = "test";
+    const source = null;
+    const matches = () => findSourceMatches(source, needle);
+    expect(matches).toThrow(TypeError);
+  });
+
+  it("handles empty source object", () => {
+    const needle = "test";
+    const source = {};
+    const matches = findSourceMatches(source, needle);
+    expect(matches).toEqual(emptyResults);
+  });
+
+  it("finds matches", () => {
+    const needle = "foo";
     const source = {
       text,
       loadedState: "loaded",
@@ -19,7 +36,19 @@ describe("project search", () => {
       url: "http://example.com/foo/bar.js"
     };
 
-    const matches = findSourceMatches(source, "foo");
+    const matches = findSourceMatches(source, needle);
     expect(matches).toMatchSnapshot();
+  });
+
+  it("finds no matches in source", () => {
+    const needle = "test";
+    const source = {
+      text,
+      loadedState: "loaded",
+      id: "bar.js",
+      url: "http://example.com/foo/bar.js"
+    };
+    const matches = findSourceMatches(source, needle);
+    expect(matches).toEqual(emptyResults);
   });
 });
