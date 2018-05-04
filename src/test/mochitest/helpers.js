@@ -743,7 +743,7 @@ async function loadAndAddBreakpoint(dbg, filename, line, column) {
   is(getBreakpoints(getState()).size, 1, "One breakpoint exists");
   ok(
     getBreakpoint(getState(), { sourceId: source.id, line, column }),
-    "Breakpoint has correct line"
+    `Breakpoint has correct line ${line}, column ${column}`
   );
 
   return source;
