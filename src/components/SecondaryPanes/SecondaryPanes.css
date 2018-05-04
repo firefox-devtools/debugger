@@ -30,6 +30,7 @@
 
 .secondary-panes .accordion {
   flex: 1 0 auto;
+  margin-bottom: 0;
 }
 
 .secondary-panes-wrapper .accordion li:last-child ._content {
