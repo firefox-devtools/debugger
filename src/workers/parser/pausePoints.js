@@ -97,12 +97,11 @@ function onEnter(node: BabelNode, ancestors: SimplePath[], state) {
   if (isReturn(node)) {
     // We do not want to pause at the return if the
     // argument is a call on the same line e.g. return foo()
-    const sameLine = getStartLine(node) == getStartLine(node.argument);
-    if (isCall(node.argument)) {
-      if (sameLine) {
-        return addEmptyPoint(state, startLocation);
-      }
-      return addStopPoint(state, startLocation);
+    if (
+      isCall(node.argument) &&
+      getStartLine(node) == getStartLine(node.argument)
+    ) {
+      return addEmptyPoint(state, startLocation);
     }
 
     return addStopPoint(state, startLocation);
