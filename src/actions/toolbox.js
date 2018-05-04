@@ -4,7 +4,7 @@
 
 // @flow
 
-const { isDevelopment } = require("devtools-config");
+const { isDevelopment } = require("devtools-environment");
 const { getSelectedFrameId } = require("../selectors");
 
 import type { ThunkArgs } from "./types";

@@ -5,12 +5,15 @@
 const toolbox = require("./node_modules/devtools-launchpad/index");
 
 const getConfig = require("./bin/getConfig");
-const { isDevelopment } = require("devtools-config");
 const { NormalModuleReplacementPlugin } = require("webpack");
 const path = require("path");
 const projectPath = path.join(__dirname, "src");
 var Visualizer = require("webpack-visualizer-plugin");
 const ObjectRestSpreadPlugin = require("@sucrase/webpack-object-rest-spread-plugin");
+
+function isDevelopment() {
+  return process.env.NODE_ENV !== "production";
+}
 
 /*
  * builds a path that's relative to the project path

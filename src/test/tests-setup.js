@@ -6,7 +6,6 @@ global.Worker = require("workerjs");
 
 import path from "path";
 import getConfig from "../../bin/getConfig";
-import { setConfig, getValue } from "devtools-config";
 import { readFileSync } from "fs";
 import Enzyme from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
@@ -33,21 +32,7 @@ import { clearHistory } from "./utils/history";
 
 const rootPath = path.join(__dirname, "../../");
 
-const envConfig = getConfig();
-const config = {
-  ...envConfig,
-  workers: {
-    sourceMapURL: path.join(
-      rootPath,
-      "node_modules/devtools-source-map/src/worker.js"
-    ),
-    parserURL: path.join(rootPath, "src/workers/parser/worker.js"),
-    prettyPrintURL: path.join(rootPath, "src/workers/pretty-print/worker.js"),
-    searchURL: path.join(rootPath, "src/workers/search/worker.js")
-  }
-};
-
-global.DebuggerConfig = config;
+global.DebuggerConfig = getConfig();
 global.L10N = require("devtools-launchpad").L10N;
 global.L10N.setBundle(
   readFileSync(path.join(__dirname, "../../assets/panel/debugger.properties"))
@@ -57,17 +42,19 @@ global.performance = { now: () => 0 };
 
 Enzyme.configure({ adapter: new Adapter() });
 
-setConfig(config);
-
 function formatException(reason, p) {
   console && console.log("Unhandled Rejection at:", p, "reason:", reason);
 }
 
 beforeAll(() => {
-  startSourceMapWorker(getValue("workers.sourceMapURL"));
-  startPrettyPrintWorker(getValue("workers.prettyPrintURL"));
-  startParserWorker(getValue("workers.parserURL"));
-  startSearchWorker(getValue("workers.searchURL"));
+  startSourceMapWorker(
+    path.join(rootPath, "node_modules/devtools-source-map/src/worker.js")
+  );
+  startPrettyPrintWorker(
+    path.join(rootPath, "src/workers/pretty-print/worker.js")
+  );
+  startParserWorker(path.join(rootPath, "src/workers/parser/worker.js"));
+  startSearchWorker(path.join(rootPath, "src/workers/search/worker.js"));
   process.on("unhandledRejection", formatException);
 });
 
