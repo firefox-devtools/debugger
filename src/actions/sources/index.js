@@ -3,6 +3,8 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
+import { setSourceLocation } from "./setSourceLocation";
+export { setSourceLocation };
 
 export * from "./loadSourceText";
 export * from "./prettyPrint";
