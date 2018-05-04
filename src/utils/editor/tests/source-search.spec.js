@@ -2,7 +2,12 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-import { find, getMatchIndex, removeOverlay } from "../source-search";
+import {
+  find,
+  searchSourceForHighlight,
+  getMatchIndex,
+  removeOverlay
+} from "../source-search";
 
 const getCursor = jest.fn(() => ({ line: 90, ch: 54 }));
 const cursor = {
@@ -84,6 +89,39 @@ describe("source-search", () => {
       ctx.cm.state.search.query = "bar";
       find(ctx, "", true, modifiers);
       expect(ctx.cm.removeOverlay).toHaveBeenCalledWith(null);
+    });
+  });
+
+  describe("searchSourceForHighlight", () => {
+    it("calls into CodeMirror APIs and sets the correct selection", () => {
+      const line = 15;
+      const from = { line, ch: 1 };
+      const to = { line, ch: 5 };
+      const cm = {
+        ...getCM(),
+        setSelection: jest.fn(),
+        getSearchCursor: () => ({
+          find: () => true,
+          from: () => from,
+          to: () => to
+        })
+      };
+      const ed = { alignLine: jest.fn() };
+      const ctx = { cm, ed };
+
+      expect(ctx.cm.state).toEqual({});
+      searchSourceForHighlight(ctx, false, "test", false, modifiers, line, 1);
+
+      expect(ctx.cm.operation).toHaveBeenCalled();
+      expect(ctx.cm.removeOverlay).toHaveBeenCalledWith(null);
+      expect(ctx.cm.addOverlay).toHaveBeenCalledWith(
+        { token: expect.any(Function) },
+        { opaque: false }
+      );
+      expect(ctx.cm.getCursor).toHaveBeenCalledWith("anchor");
+      expect(ctx.cm.getCursor).toHaveBeenCalledWith("head");
+      expect(ed.alignLine).toHaveBeenCalledWith(line, "center");
+      expect(cm.setSelection).toHaveBeenCalledWith(from, to);
     });
   });
 
