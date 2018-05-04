@@ -21,6 +21,7 @@ function _parse(code, opts) {
 
 const sourceOptions = {
   generated: {
+    sourceType: "unambiguous",
     tokens: true,
     plugins: ["objectRestSpread"]
   },
