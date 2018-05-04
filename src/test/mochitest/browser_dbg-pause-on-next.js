@@ -8,14 +8,6 @@ const expressionSelectors = {
   input: "input.input-expression"
 };
 
-async function addExpression(dbg, input) {
-  info("Adding an expression to evaluate");
-  findElementWithSelector(dbg, expressionSelectors.plusIcon).click();
-  findElementWithSelector(dbg, expressionSelectors.input).focus();
-  type(dbg, input);
-  pressKey(dbg, "Enter");
-}
-
 add_task(async function() {
   const dbg = await initDebugger("doc-scripts.html");
   const { selectors: { isPaused }, getState } = dbg;
@@ -27,7 +19,9 @@ add_task(async function() {
   clickElement(dbg, "pause");
   await waitForDispatch(dbg, "BREAK_ON_NEXT");
 
-  await addExpression(dbg, "simple()");
+  let src = findSource(dbg, "simple3.js");
+  await addBreakpoint(dbg, src, 2);
+  invokeInTab("simple");
 
   // Give the debugger enough time to come to a pause
   await waitForPaused(dbg);
