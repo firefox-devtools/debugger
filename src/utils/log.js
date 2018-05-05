@@ -12,7 +12,7 @@
  * @module utils/log
  */
 
-import { isDevelopment } from "devtools-config";
+import { isDevelopment } from "devtools-environment";
 
 /**
  * Produces a formatted console log line by imploding args, prefixed by [log]

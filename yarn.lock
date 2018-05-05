@@ -3245,6 +3245,10 @@ devtools-contextmenu@^0.0.8:
   dependencies:
     devtools-modules "^0.0.36"
 
+devtools-environment@0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/devtools-environment/-/devtools-environment-0.0.3.tgz#df046505491075a23d35c95d2a94c9754937599a"
+
 devtools-launchpad@^0.0.121:
   version "0.0.121"
   resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.121.tgz#3df2ead6430059f577b0866f3f47d68e97763a97"

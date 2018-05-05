@@ -5,7 +5,6 @@
 import React from "react";
 import { shallow } from "enzyme";
 import Outline from "../../components/PrimaryPanes/Outline";
-import devtoolsConfig from "devtools-config";
 import { makeSymbolDeclaration } from "../../utils/test-head";
 import { showMenu } from "devtools-contextmenu";
 import { copyToTheClipboard } from "../../utils/clipboard";
@@ -42,11 +41,6 @@ function render(overrides = {}) {
 }
 
 describe("Outline", () => {
-  beforeEach(() => {
-    devtoolsConfig.isEnabled = jest.fn();
-    devtoolsConfig.isEnabled.mockReturnValue(true);
-  });
-
   afterEach(() => {
     copyToTheClipboard.mockClear();
     showMenu.mockClear();

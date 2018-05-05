@@ -29,18 +29,10 @@ describe("assert", () => {
   });
 
   describe("when not isDevelopment", () => {
-    beforeEach(() => {
-      process.env.NODE_ENV = "production";
-    });
-
-    afterEach(() => {
-      delete process.env.NODE_ENV;
-    });
-
     it("does not throw an Error", () => {
-      expect(() => {
-        assert(false, testAssertMessage);
-      }).not.toThrow();
+      process.env.NODE_ENV = "production";
+      expect(() => assert(false, testAssertMessage)).not.toThrow();
+      delete process.env.NODE_ENV;
     });
   });
 });

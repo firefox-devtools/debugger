@@ -9,12 +9,7 @@ import { bindActionCreators, combineReducers } from "redux";
 import ReactDOM from "react-dom";
 const { Provider } = require("react-redux");
 
-import {
-  getValue,
-  isFirefoxPanel,
-  isDevelopment,
-  isTesting
-} from "devtools-config";
+import { isFirefoxPanel, isDevelopment, isTesting } from "devtools-environment";
 import { startSourceMapWorker, stopSourceMapWorker } from "devtools-source-map";
 import * as search from "../workers/search";
 import * as prettyPrint from "../workers/pretty-print";
@@ -44,7 +39,7 @@ function renderPanel(component, store) {
 
 export function bootstrapStore(client: any, { services, toolboxActions }: any) {
   const createStore = configureStore({
-    log: isTesting() || getValue("logging.actions"),
+    log: isTesting(),
     timing: isDevelopment(),
     makeThunkArgs: (args, state) => {
       return { ...args, client, ...services, ...toolboxActions };
@@ -63,13 +58,18 @@ export function bootstrapStore(client: any, { services, toolboxActions }: any) {
 }
 
 export function bootstrapWorkers() {
-  if (!isFirefoxPanel()) {
+  const workerPath = isDevelopment()
+    ? "assets/build"
+    : "resource://devtools/client/debugger/new";
+
+  if (isDevelopment()) {
     // When used in Firefox, the toolbox manages the source map worker.
-    startSourceMapWorker(getValue("workers.sourceMapURL"));
+    startSourceMapWorker(`${workerPath}/source-map-worker.js`);
   }
-  prettyPrint.start(getValue("workers.prettyPrintURL"));
-  parser.start(getValue("workers.parserURL"));
-  search.start(getValue("workers.searchURL"));
+
+  prettyPrint.start(`${workerPath}/pretty-print-worker.js`);
+  parser.start(`${workerPath}/parser-worker.js`);
+  search.start(`${workerPath}/search-worker.js`);
   return { prettyPrint, parser, search };
 }
 

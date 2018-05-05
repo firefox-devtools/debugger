@@ -3,7 +3,7 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-import { isDevelopment } from "devtools-config";
+import { isDevelopment } from "devtools-environment";
 
 export default function assert(condition: boolean, message: string) {
   if (isDevelopment() && !condition) {
