@@ -18,7 +18,7 @@ export type ASTAction =
   | PromiseAction<
       {|
         +type: "SET_SYMBOLS",
-        +source: Source
+        +sourceId: string
       |},
       SymbolDeclarations
     >

@@ -64,8 +64,8 @@ export function setSymbols(sourceId: SourceId) {
     await dispatch(
       ({
         type: "SET_SYMBOLS",
-        source: source.toJS(),
-        [PROMISE]: getSymbols(source.id)
+        sourceId,
+        [PROMISE]: getSymbols(sourceId)
       }: Action)
     );
 
