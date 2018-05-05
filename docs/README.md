@@ -32,6 +32,7 @@ permalink: docs/
 
 * [React / Redux Architecture overview](./debugger-html-react-redux-overview.md)
 * [Debugger Server Architecture](./client.md)
+* [Spider Monkey](./spider-monkey.md)
 * [Debugger Client](../src/client/README.md)
 
 ### Firefox panel
