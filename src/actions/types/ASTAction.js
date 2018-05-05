@@ -24,7 +24,8 @@ export type ASTAction =
     >
   | {|
       +type: "SET_PAUSE_POINTS",
-      +source: Source,
+      +sourceText: string,
+      +sourceId: string,
       +pausePoints: PausePoints
     |}
   | {|
