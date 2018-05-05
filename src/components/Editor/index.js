@@ -10,7 +10,7 @@ import ReactDOM from "react-dom";
 import { connect } from "react-redux";
 import classnames from "classnames";
 import { isLoaded } from "../../utils/source";
-import { isFirefox } from "devtools-config";
+import { isFirefox } from "devtools-environment";
 import { features } from "../../utils/prefs";
 import { getIndentation } from "../../utils/indentation";
 

@@ -4,7 +4,6 @@
 
 const React = require("react");
 import InlineSVG from "svg-inline-react";
-const { isDevelopment } = require("devtools-config");
 
 const svg = {
   "angle-brackets": require("./angle-brackets.svg"),
@@ -84,10 +83,6 @@ type SvgType = {
 function Svg({ name, className, onClick, "aria-label": ariaLabel }) {
   if (!svg[name]) {
     const error = `Unknown SVG: ${name}`;
-    if (isDevelopment()) {
-      throw new Error(error);
-    }
-
     console.warn(error);
     return null;
   }

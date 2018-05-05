@@ -6,7 +6,7 @@
 
 import * as timings from "./timings";
 import { prefs, features } from "./prefs";
-import { isDevelopment } from "devtools-config";
+import { isDevelopment } from "devtools-environment";
 import { formatPausePoints } from "./pause/pausePoints";
 
 function findSource(dbg: any, url: string) {

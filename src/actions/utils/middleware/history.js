@@ -5,7 +5,7 @@
 // @flow
 /* global window */
 
-import { isDevelopment } from "devtools-config";
+import { isDevelopment } from "devtools-environment";
 
 import type { ThunkArgs } from "../../types";
 
