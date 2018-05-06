@@ -72,6 +72,7 @@
   background-color: var(--theme-body-background);
   display: block;
   position: relative;
+  min-height: 2.8em;
 }
 
 .expression-container > .tree {
