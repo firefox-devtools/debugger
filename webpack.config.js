@@ -26,6 +26,9 @@ function getEntry(filename) {
 
 const webpackConfig = {
   entry: {
+    // We always generate the debugger bundle, but we will only copy the CSS
+    // artifact over to mozilla-central.
+    debugger: getEntry("src/main.js"),
     "parser-worker": getEntry("src/workers/parser/worker.js"),
     "pretty-print-worker": getEntry("src/workers/pretty-print/worker.js"),
     "search-worker": getEntry("src/workers/search/worker.js"),
@@ -40,10 +43,7 @@ const webpackConfig = {
   }
 };
 
-if (isDevelopment()) {
-  // In local development, use the debugger as a single bundle
-  webpackConfig.entry.debugger = getEntry("src/main.js");
-} else {
+if (!isDevelopment()) {
   // In the firefox panel, build the vendored dependencies as a bundle instead,
   // the other debugger modules will be transpiled to a format that is
   // compatible with the DevTools Loader.
