@@ -5,7 +5,6 @@
 // @flow
 
 import type { SourceMetaDataType } from "../../reducers/ast.js";
-import type { Source } from "../../types";
 import type {
   SymbolDeclarations,
   AstLocation,
