@@ -107,19 +107,11 @@ exports[`QuickOpenModal Basic render with mount & searchType = functions 1`] = `
                     spellCheck={false}
                     value="@"
                   />
-                  <CloseButton
-                    buttonClass=""
-                    handleClick={[Function]}
+                  <span
+                    className="search-loading"
                   >
-                    <button
-                      className="close-btn"
-                      onClick={[Function]}
-                    >
-                      <img
-                        className="close"
-                      />
-                    </button>
-                  </CloseButton>
+                    Loading...
+                  </span>
                 </div>
               </div>
             </SearchInput>
@@ -254,19 +246,11 @@ exports[`QuickOpenModal Basic render with mount & searchType = variables 1`] = `
                     spellCheck={false}
                     value="#"
                   />
-                  <CloseButton
-                    buttonClass=""
-                    handleClick={[Function]}
+                  <span
+                    className="search-loading"
                   >
-                    <button
-                      className="close-btn"
-                      onClick={[Function]}
-                    >
-                      <img
-                        className="close"
-                      />
-                    </button>
-                  </CloseButton>
+                    Loading...
+                  </span>
                 </div>
               </div>
             </SearchInput>
@@ -395,19 +379,11 @@ exports[`QuickOpenModal Basic render with mount 1`] = `
                     spellCheck={false}
                     value=""
                   />
-                  <CloseButton
-                    buttonClass=""
-                    handleClick={[Function]}
+                  <span
+                    className="search-loading"
                   >
-                    <button
-                      className="close-btn"
-                      onClick={[Function]}
-                    >
-                      <img
-                        className="close"
-                      />
-                    </button>
-                  </CloseButton>
+                    Loading...
+                  </span>
                 </div>
               </div>
             </SearchInput>
@@ -575,19 +551,11 @@ exports[`QuickOpenModal Simple goto search query = :abc & searchType = goto 1`] 
                     spellCheck={false}
                     value=":abc"
                   />
-                  <CloseButton
-                    buttonClass=""
-                    handleClick={[Function]}
+                  <span
+                    className="search-loading"
                   >
-                    <button
-                      className="close-btn"
-                      onClick={[Function]}
-                    >
-                      <img
-                        className="close"
-                      />
-                    </button>
-                  </CloseButton>
+                    Loading...
+                  </span>
                 </div>
               </div>
             </SearchInput>
@@ -700,19 +668,11 @@ exports[`QuickOpenModal showErrorEmoji false when count + query 1`] = `
                     spellCheck={false}
                     value="dasdasdas"
                   />
-                  <CloseButton
-                    buttonClass=""
-                    handleClick={[Function]}
+                  <span
+                    className="search-loading"
                   >
-                    <button
-                      className="close-btn"
-                      onClick={[Function]}
-                    >
-                      <img
-                        className="close"
-                      />
-                    </button>
-                  </CloseButton>
+                    Loading...
+                  </span>
                 </div>
               </div>
             </SearchInput>
@@ -913,19 +873,11 @@ exports[`QuickOpenModal showErrorEmoji false when goto numeric ':2222' 1`] = `
                     spellCheck={false}
                     value=":2222"
                   />
-                  <CloseButton
-                    buttonClass=""
-                    handleClick={[Function]}
+                  <span
+                    className="search-loading"
                   >
-                    <button
-                      className="close-btn"
-                      onClick={[Function]}
-                    >
-                      <img
-                        className="close"
-                      />
-                    </button>
-                  </CloseButton>
+                    Loading...
+                  </span>
                 </div>
               </div>
             </SearchInput>
@@ -1038,19 +990,11 @@ exports[`QuickOpenModal showErrorEmoji false when no query 1`] = `
                     spellCheck={false}
                     value=""
                   />
-                  <CloseButton
-                    buttonClass=""
-                    handleClick={[Function]}
+                  <span
+                    className="search-loading"
                   >
-                    <button
-                      className="close-btn"
-                      onClick={[Function]}
-                    >
-                      <img
-                        className="close"
-                      />
-                    </button>
-                  </CloseButton>
+                    Loading...
+                  </span>
                 </div>
               </div>
             </SearchInput>
@@ -1179,19 +1123,11 @@ exports[`QuickOpenModal showErrorEmoji true when goto not numeric ':22k22' 1`] =
                     spellCheck={false}
                     value=":22k22"
                   />
-                  <CloseButton
-                    buttonClass=""
-                    handleClick={[Function]}
+                  <span
+                    className="search-loading"
                   >
-                    <button
-                      className="close-btn"
-                      onClick={[Function]}
-                    >
-                      <img
-                        className="close"
-                      />
-                    </button>
-                  </CloseButton>
+                    Loading...
+                  </span>
                 </div>
               </div>
             </SearchInput>
@@ -1304,19 +1240,11 @@ exports[`QuickOpenModal showErrorEmoji true when no count + query 1`] = `
                     spellCheck={false}
                     value="test"
                   />
-                  <CloseButton
-                    buttonClass=""
-                    handleClick={[Function]}
+                  <span
+                    className="search-loading"
                   >
-                    <button
-                      className="close-btn"
-                      onClick={[Function]}
-                    >
-                      <img
-                        className="close"
-                      />
-                    </button>
-                  </CloseButton>
+                    Loading...
+                  </span>
                 </div>
               </div>
             </SearchInput>
@@ -1444,19 +1372,11 @@ exports[`QuickOpenModal updateResults on enable 2`] = `
                     spellCheck={false}
                     value=""
                   />
-                  <CloseButton
-                    buttonClass=""
-                    handleClick={[Function]}
+                  <span
+                    className="search-loading"
                   >
-                    <button
-                      className="close-btn"
-                      onClick={[Function]}
-                    >
-                      <img
-                        className="close"
-                      />
-                    </button>
-                  </CloseButton>
+                    Loading...
+                  </span>
                 </div>
               </div>
             </SearchInput>

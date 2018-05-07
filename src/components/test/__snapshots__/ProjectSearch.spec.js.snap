@@ -161,19 +161,11 @@ exports[`ProjectSearch found search results 1`] = `
               >
                 5 results
               </div>
-              <CloseButton
-                buttonClass="big"
-                handleClick={[Function]}
+              <span
+                className="search-loading"
               >
-                <button
-                  className="close-btn big"
-                  onClick={[Function]}
-                >
-                  <img
-                    className="close"
-                  />
-                </button>
-              </CloseButton>
+                Loading...
+              </span>
             </div>
           </div>
         </SearchInput>
