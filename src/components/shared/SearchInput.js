@@ -6,8 +6,6 @@
 
 import React, { Component } from "react";
 
-import CloseButton from "./Button/Close";
-
 import Svg from "./Svg";
 import classnames from "classnames";
 import "./SearchInput.css";
@@ -153,7 +151,6 @@ class SearchInput extends Component<Props, State> {
   render() {
     const {
       expanded,
-      handleClose,
       onChange,
       onKeyDown,
       onKeyUp,
@@ -201,7 +198,7 @@ class SearchInput extends Component<Props, State> {
           <input {...inputProps} />
           {summaryMsg && <div className="summary">{summaryMsg}</div>}
           {this.renderNav()}
-          <CloseButton handleClick={handleClose} buttonClass={size} />
+          <span className="search-loading">Loading...</span>
         </div>
       </div>
     );

@@ -83,6 +83,11 @@
   color: var(--theme-body-color-inactive);
 }
 
+.search-field .search-loading {
+  margin-top: 6px;
+  color: #424242bf;
+}
+
 .search-field .search-nav-buttons {
   display: flex;
   user-select: none;
