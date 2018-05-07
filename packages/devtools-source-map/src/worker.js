@@ -16,7 +16,9 @@ const {
 
 const { clearSourceMaps } = require("./utils/sourceMapRequests");
 
-const { workerUtils: { workerHandler } } = require("devtools-utils");
+const {
+  workerUtils: { workerHandler }
+} = require("devtools-utils");
 
 // The interface is implemented in source-map to be
 // easier to unit test.

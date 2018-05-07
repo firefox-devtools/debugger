@@ -261,7 +261,9 @@ function nodeNeedsNumericalBuckets(item: Node): boolean {
 }
 
 function makeNodesForPromiseProperties(item: Node): Array<Node> {
-  const { promiseState: { reason, value, state } } = getValue(item);
+  const {
+    promiseState: { reason, value, state }
+  } = getValue(item);
 
   const properties = [];
 

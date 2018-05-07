@@ -87,7 +87,7 @@
   background-color: var(--theme-selection-background-hover);
 }
 
-.tree  .tree-node:not(.focused):hover {
+.tree .tree-node:not(.focused):hover {
   background-color: transparent;
 }
 
