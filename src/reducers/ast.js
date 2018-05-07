@@ -91,12 +91,12 @@ function update(
     }
 
     case "SET_PAUSE_POINTS": {
-      const { source, pausePoints } = action;
-      const emptyLines = findEmptyLines(source, pausePoints);
+      const { sourceText, sourceId, pausePoints } = action;
+      const emptyLines = findEmptyLines(sourceText, pausePoints);
 
       return state
-        .setIn(["pausePoints", source.id], pausePoints)
-        .setIn(["emptyLines", source.id], emptyLines);
+        .setIn(["pausePoints", sourceId], pausePoints)
+        .setIn(["emptyLines", sourceId], emptyLines);
     }
 
     case "OUT_OF_SCOPE_LOCATIONS": {
