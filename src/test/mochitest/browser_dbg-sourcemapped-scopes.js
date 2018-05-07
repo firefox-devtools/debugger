@@ -328,40 +328,50 @@ add_task(async function() {
     "root()"
   ]);
 
-  await breakpointScopes(dbg, "webpack-line-mappings", { line: 11, column: 0 }, [
-    "Block",
-    ["<this>", '"this-value"'],
-    ["arg", '"arg-value"'],
-    ["arguments", "Arguments"],
-    ["inner", "undefined"],
-    "Block",
-    ["someName", "(optimized away)"],
-    "Block",
-    ["two", "2"],
-    "Block",
-    ["one", "1"],
-    "root",
-    ["arguments", "Arguments"],
-    "fn:someName()",
-    "webpackLineMappings",
-    ["__webpack_exports__", "(optimized away)"],
-    ["__WEBPACK_IMPORTED_MODULE_0__src_mod1__", "{\u2026}"],
-    ["__webpack_require__", "(optimized away)"],
-    ["arguments", "(unavailable)"],
-    ["module", "(optimized away)"],
-    "root()"
-  ]);
+  await breakpointScopes(
+    dbg,
+    "webpack-line-mappings",
+    { line: 11, column: 0 },
+    [
+      "Block",
+      ["<this>", '"this-value"'],
+      ["arg", '"arg-value"'],
+      ["arguments", "Arguments"],
+      ["inner", "undefined"],
+      "Block",
+      ["someName", "(optimized away)"],
+      "Block",
+      ["two", "2"],
+      "Block",
+      ["one", "1"],
+      "root",
+      ["arguments", "Arguments"],
+      "fn:someName()",
+      "webpackLineMappings",
+      ["__webpack_exports__", "(optimized away)"],
+      ["__WEBPACK_IMPORTED_MODULE_0__src_mod1__", "{\u2026}"],
+      ["__webpack_require__", "(optimized away)"],
+      ["arguments", "(unavailable)"],
+      ["module", "(optimized away)"],
+      "root()"
+    ]
+  );
 
-  await breakpointScopes(dbg, "webpack-functions", { line: 4, column: 0 }, [
-    "Block",
-    ["<this>", "{\u2026}"],
-    ["arguments", "Arguments"],
-    ["x", "4"],
-    "webpackFunctions",
-    ["__webpack_exports__", "(optimized away)"],
-    ["__webpack_require__", "(optimized away)"],
-    ["arguments", "(unavailable)"],
-    ["module", "{\u2026}"],
-    ["root", "(optimized away)"]
-  ]);
+  await breakpointScopes(
+    dbg,
+    "webpack-functions",
+    { line: 4, column: 0 },
+    [
+      "Block",
+      ["<this>", "{\u2026}"],
+      ["arguments", "Arguments"],
+      ["x", "4"],
+      "webpackFunctions",
+      ["__webpack_exports__", "(optimized away)"],
+      ["__webpack_require__", "(optimized away)"],
+      ["arguments", "(unavailable)"],
+      ["module", "{\u2026}"],
+      ["root", "(optimized away)"]
+    ]
+  );
 });
