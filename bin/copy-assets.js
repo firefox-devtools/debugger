@@ -6,6 +6,7 @@ const minimist = require("minimist");
 var fs = require("fs");
 var fsExtra = require("fs-extra");
 const rimraf = require("rimraf");
+const shell = require("shelljs");
 
 const feature = require("devtools-config");
 const getConfig = require("./getConfig");
@@ -57,6 +58,7 @@ const walkSync = (dir, filelist = []) => {
 };
 
 function copySVGs({ projectPath, mcPath }) {
+  console.log("[copy-assets] copy SVGs");
   /*
    * Copying SVGs
    * We want to copy the SVGs that we include in our CSS into the
@@ -111,6 +113,8 @@ function copySVGs({ projectPath, mcPath }) {
 }
 
 function copyTests({ mcPath, projectPath, mcModulePath, shouldSymLink }) {
+  console.log("[copy-assets] copy tests");
+
   const projectTestPath = path.join(projectPath, "src/test/mochitest");
   const mcTestPath = path.join(mcPath, mcModulePath, "test/mochitest");
   if (shouldSymLink) {
@@ -133,6 +137,7 @@ function copyWithReplace(source, target, { cwd }, what, replacement) {
 }
 
 function copyWasmParser({ mcPath, projectPath }) {
+  console.log("[copy-assets] copy wasm parser");
   copyWithReplace(
     require.resolve("wasmparser/dist/WasmParser.js"),
     path.join(mcPath, "devtools/client/shared/vendor/WasmParser.js"),
@@ -163,9 +168,11 @@ function copyWasmParser({ mcPath, projectPath }) {
 }
 
 function start() {
-  console.log("start: copy assets");
+  console.log("[copy-assets] start");
+
   const projectPath = path.resolve(__dirname, "..");
   const mcModulePath = "devtools/client/debugger/new";
+
   let mcPath = args.mc ? args.mc : feature.getValue("firefox.mcPath");
 
   process.env.NODE_ENV = "production";
@@ -176,33 +183,48 @@ function start() {
 
   const config = { shouldSymLink, mcPath, projectPath, mcModulePath };
 
+  console.log("[copy-assets] copy static assets:");
+  console.log("[copy-assets] - properties");
   copyFile(
     path.join(projectPath, "./assets/panel/debugger.properties"),
     path.join(mcPath, "devtools/client/locales/en-US/debugger.properties"),
     { cwd: projectPath }
   );
 
+  console.log("[copy-assets] - preferences");
   copyFile(
     path.join(projectPath, "./assets/panel/prefs.js"),
     path.join(mcPath, "devtools/client/preferences/debugger.js"),
     { cwd: projectPath }
   );
 
+  console.log("[copy-assets] - index.html, index.js");
   copyFile(
     path.join(projectPath, "./assets/panel/index.html"),
     path.join(mcPath, "devtools/client/debugger/new/index.html"),
     { cwd: projectPath }
   );
-
   copyFile(
     path.join(projectPath, "./assets/panel/panel.js"),
     path.join(mcPath, "devtools/client/debugger/new/panel.js"),
     { cwd: projectPath }
   );
 
+  console.log("[copy-assets] - moz.build");
   copyFile(
     path.join(projectPath, "./assets/panel/moz.build"),
     path.join(mcPath, "devtools/client/debugger/new/moz.build"),
+    { cwd: projectPath }
+  );
+
+  // Ensure /dist path exists.
+  const bundlePath = "devtools/client/debugger/new/dist";
+  shell.mkdir("-p", path.join(mcPath, bundlePath));
+
+  console.log("[copy-assets] - dist/moz.build");
+  copyFile(
+    path.join(projectPath, "./assets/panel/dist.moz.build"),
+    path.join(mcPath, bundlePath, "moz.build"),
     { cwd: projectPath }
   );
 
@@ -221,48 +243,50 @@ function start() {
     ));
   }
 
-
+  console.log("[copy-assets] make webpack bundles");
   makeBundle({
-    outputPath: path.join(mcPath, mcModulePath),
+    outputPath: path.join(mcPath, bundlePath),
     projectPath,
     watch,
     updateAssets
   })
-    .then(() => onBundleFinish({mcPath, debuggerPath, projectPath}))
+    .then(() => onBundleFinish({mcPath, bundlePath, projectPath}))
     .catch(err => {
-      console.log(
-        "Uhoh, something went wrong. The error was written to assets-error.log"
-      );
+      console.log("[copy-assets] Uhoh, something went wrong. " +
+                  "The error was written to assets-error.log");
+
       fs.writeFileSync("assets-error.log", JSON.stringify(err, null, 2));
     });
 }
 
-function onBundleFinish({mcPath, debuggerPath, projectPath}) {
-  console.log("done: copy assets");
+function onBundleFinish({mcPath, bundlePath, projectPath}) {
+  console.log("[copy-assets] copy shared bundles to client/shared");
 
   moveFile(
-    path.join(mcPath, debuggerPath, "source-map-worker.js"),
+    path.join(mcPath, bundlePath, "source-map-worker.js"),
     path.join(mcPath, "devtools/client/shared/source-map/worker.js"),
     {cwd: projectPath}
   );
 
   moveFile(
-    path.join(mcPath, debuggerPath, "source-map-index.js"),
+    path.join(mcPath, bundlePath, "source-map-index.js"),
     path.join(mcPath, "devtools/client/shared/source-map/index.js"),
     {cwd: projectPath}
   );
 
   moveFile(
-    path.join(mcPath, debuggerPath, "reps.js"),
+    path.join(mcPath, bundlePath, "reps.js"),
     path.join(mcPath, "devtools/client/shared/components/reps/reps.js"),
     {cwd: projectPath}
   );
 
   moveFile(
-    path.join(mcPath, debuggerPath, "reps.css"),
+    path.join(mcPath, bundlePath, "reps.css"),
     path.join(mcPath, "devtools/client/shared/components/reps/reps.css"),
     {cwd: projectPath}
   );
+
+  console.log("[copy-assets] done");
 }
 
 start();
