@@ -13,7 +13,7 @@
 }
 
 .search-field .close-btn {
-  margin-top: 12px;
+  align-self: center;
 }
 
 .search-bottom-bar * {
