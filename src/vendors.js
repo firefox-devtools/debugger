@@ -18,6 +18,7 @@
 import * as devtoolsComponents from "devtools-components";
 import * as devtoolsConfig from "devtools-config";
 import * as devtoolsContextmenu from "devtools-contextmenu";
+import * as devtoolsEnvironment from "devtools-environment";
 import * as devtoolsModules from "devtools-modules";
 import * as devtoolsUtils from "devtools-utils";
 import * as fuzzaldrinPlus from "fuzzaldrin-plus";
@@ -39,6 +40,7 @@ const vendored = {
   "devtools-components": devtoolsComponents,
   "devtools-config": devtoolsConfig,
   "devtools-contextmenu": devtoolsContextmenu,
+  "devtools-environment": devtoolsEnvironment,
   "devtools-modules": devtoolsModules,
   "devtools-splitter": devtoolsSplitter,
   "devtools-utils": devtoolsUtils,

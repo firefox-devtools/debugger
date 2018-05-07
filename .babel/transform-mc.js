@@ -19,6 +19,7 @@ const VENDORS = [
   "devtools-components",
   "devtools-config",
   "devtools-contextmenu",
+  "devtools-environment",
   "devtools-modules",
   "devtools-splitter",
   "devtools-utils",
