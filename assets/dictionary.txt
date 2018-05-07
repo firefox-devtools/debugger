@@ -198,3 +198,6 @@ pausePoints
 DocSearch
 220ms
 55ms
+mdn
+bytecode
+eval
