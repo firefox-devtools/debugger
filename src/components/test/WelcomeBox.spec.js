@@ -7,40 +7,44 @@ import { shallow } from "enzyme";
 
 import { WelcomeBox } from "../WelcomeBox";
 
-describe("WelomeBox", () => {
-  const setActiveSearch = () => null;
+function render(overrides = {}) {
+  const props = {
+    horizontal: false,
+    togglePaneCollapse: jest.fn(),
+    endPanelCollapsed: false,
+    setActiveSearch: jest.fn(),
+    openQuickOpen: jest.fn(),
+    ...overrides
+  };
+  const component = shallow(<WelcomeBox.WrappedComponent {...props} />);
 
+  return { component, props };
+}
+
+describe("WelomeBox", () => {
   it("renders with default values", () => {
-    const wrapper = shallow(<WelcomeBox setActiveSearch={setActiveSearch} />);
-    expect(wrapper).toMatchSnapshot();
+    const { component } = render();
+    expect(component).toMatchSnapshot();
   });
 
   it("doesn't render toggle button in horizontal mode", () => {
-    const horizontal = true;
-    const wrapper = shallow(
-      <WelcomeBox horizontal={horizontal} setActiveSearch={setActiveSearch} />
-    );
-    expect(wrapper.find("PaneToggleButton")).toHaveLength(0);
+    const { component } = render({
+      horizontal: true
+    });
+    expect(component.find("PaneToggleButton")).toHaveLength(0);
   });
 
   it("calls correct function on searchSources click", () => {
-    const openQuickOpen = jest.fn();
-    const wrapper = shallow(
-      <WelcomeBox
-        setActiveSearch={setActiveSearch}
-        openQuickOpen={openQuickOpen}
-      />
-    );
-    wrapper.find(".welcomebox__searchSources").simulate("click");
-    expect(openQuickOpen).toBeCalled();
+    const { component, props } = render();
+
+    component.find(".welcomebox__searchSources").simulate("click");
+    expect(props.openQuickOpen).toBeCalled();
   });
 
   it("calls correct function on searchProject click", () => {
-    const setActiveSearchSpy = jest.fn();
-    const wrapper = shallow(
-      <WelcomeBox setActiveSearch={setActiveSearchSpy} />
-    );
-    wrapper.find(".welcomebox__searchProject").simulate("click");
-    expect(setActiveSearchSpy).toBeCalled();
+    const { component, props } = render();
+
+    component.find(".welcomebox__searchProject").simulate("click");
+    expect(props.setActiveSearch).toBeCalled();
   });
 });
