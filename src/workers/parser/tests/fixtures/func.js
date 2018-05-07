@@ -18,6 +18,12 @@ function ret() {
   return foo();
 }
 
+function ret2() {
+  return (
+    foo()
+  );
+}
+
 child = function() {};
 
 (function() {
