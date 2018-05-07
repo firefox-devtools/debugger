@@ -6,7 +6,7 @@
 import { Component } from "react";
 
 import { markText, toEditorRange } from "../../utils/editor";
-require("./CallSite.css");
+import "./CallSite.css";
 
 type MarkerType = {
   clear: Function
