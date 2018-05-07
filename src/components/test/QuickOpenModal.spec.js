@@ -248,7 +248,7 @@ describe("QuickOpenModal", () => {
       const event = {
         key: "Enter"
       };
-      expect(wrapper.instance().onKeyDown()).toBeUndefined();
+      expect(wrapper.instance().onKeyDown(event)).toBeUndefined();
     });
   });
 
