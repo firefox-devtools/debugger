@@ -121,10 +121,6 @@ function createMozBuildFiles() {
   });
 }
 
-function getDebuggerPath() {
-
-}
-
 function start() {
   console.log("[copy-modules] start");
 
@@ -145,6 +141,7 @@ function start() {
   console.log("[copy-modules] copying files to: " + mcDebuggerPath);
   shell.cp("-r", "./out/src", mcDebuggerPath);
 
+  console.log("[copy-modules] done");
 }
 
 start();
