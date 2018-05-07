@@ -66,12 +66,13 @@
 
 .expression-container {
   border: 1px;
-  padding: 0.6em 1em 1em 0.5em;
+  padding: 0.6em 1em 0.6em 0.5em;
   width: 100%;
   color: var(--theme-body-color);
   background-color: var(--theme-body-background);
   display: block;
   position: relative;
+  height: var(--breakpoint-expression-height);
 }
 
 .expression-container > .tree {
