@@ -8,6 +8,8 @@ const fs = require("fs");
 const path = require("path");
 var shell = require("shelljs");
 const minimist = require("minimist");
+var chokidar = require('chokidar');
+
 
 const feature = require("devtools-config");
 const getConfig = require("./getConfig");
@@ -18,13 +20,20 @@ const envConfig = getConfig();
 feature.setConfig(envConfig);
 
 const args = minimist(process.argv.slice(1), {
-  string: ["mc"]
+  string: ["mc"],
+  boolean: ["watch"]
 });
 
+const projectPath = path.resolve(__dirname, "..");
+const mcPath = args.mc ? args.mc : feature.getValue("firefox.mcPath");
+const mcDebuggerPath = path.join(mcPath, "devtools/client/debugger/new");
+
+function ignoreFile(file) {
+  return file.match(/(\/fixtures|\/tests|vendors\.js|types\.js|types\/)/);
+}
+
 function getFiles() {
-  return glob.sync("./src/**/*.js", {}).filter(file => {
-    return !file.match(/(\/fixtures|\/tests|vendors\.js|types\.js|types\/)/);
-  });
+  return glob.sync("./src/**/*.js", {}).filter((file) => !ignoreFile(file));
 }
 
 function transformSingleFile(filePath) {
@@ -44,13 +53,19 @@ function transformSingleFile(filePath) {
   return out.code;
 }
 
+function transpileFile(file) {
+  if (ignoreFile(file)) {
+    return;
+  }
+
+  const filePath = path.join(__dirname, "..", file);
+  const code = transformSingleFile(filePath);
+  shell.mkdir("-p", path.join(mcDebuggerPath, path.dirname(file)));
+  fs.writeFileSync(path.join(mcDebuggerPath, file), code);
+}
+
 function transpileFiles() {
-  getFiles().forEach(file => {
-    const filePath = path.join(__dirname, "..", file);
-    const code = transformSingleFile(filePath);
-    shell.mkdir("-p", path.join(__dirname, "../out", path.dirname(file)));
-    fs.writeFileSync(path.join(__dirname, "../out", file), code);
-  });
+  getFiles().forEach(transpileFile);
 }
 
 const MOZ_BUILD_TEMPLATE = `# vim: set filetype=python:
@@ -121,12 +136,20 @@ function createMozBuildFiles() {
   });
 }
 
+function watch() {
+  console.log("[copy-modules] start watching");
+  var watcher = chokidar.watch('./src').on('all', (event, path) => {});
+
+  watcher
+  .on('change', path => {
+    console.log(`Updating ${path}`)
+    transpileFile(path)
+  })
+
+}
+
 function start() {
   console.log("[copy-modules] start");
-
-  console.log("[copy-modules] cleanup temporary directory");
-  shell.rm("-rf", "./out");
-  shell.mkdir("./out");
 
   console.log("[copy-modules] transpiling debugger modules");
   transpileFiles();
@@ -134,15 +157,10 @@ function start() {
   console.log("[copy-modules] creating moz.build files");
   createMozBuildFiles();
 
-  const projectPath = path.resolve(__dirname, "..");
-  const mcPath = args.mc ? args.mc : feature.getValue("firefox.mcPath");
-  const mcDebuggerPath = path.join(mcPath, "devtools/client/debugger/new");
-
-  console.log("[copy-modules] copying files to: " + mcDebuggerPath);
-  shell.cp("-r", "./out/src", mcDebuggerPath);
-  shell.rm("-r", "./out")
-
   console.log("[copy-modules] done");
+  if (args.watch) {
+    watch();
+  }
 }
 
 start();
