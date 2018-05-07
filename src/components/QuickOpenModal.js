@@ -392,6 +392,7 @@ export class QuickOpenModal extends Component<Props, State> {
           onKeyDown={this.onKeyDown}
           handleClose={this.closeModal}
           expanded={expanded}
+          showClose={false}
           selectedItemId={
             expanded && items[selectedIndex] ? items[selectedIndex].id : ""
           }
