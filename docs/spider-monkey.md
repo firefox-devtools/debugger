@@ -174,7 +174,7 @@ And now we know that the breakpoint is hit!
 ### Debugger API
 
 If you're interested in seeing how the [Debugger API][api] is implemented,
-the best place to start is is [debugger.cpp][debugger.cpp]. From there, you will find other files like [environment.cpp][environment.cpp] which implements `Debugger.Environment`.
+the best place to start is is [debugger.cpp][debugger.cpp]. From there, you will find other files like [EnvironmentObject.cpp][environment.cpp] which implements `Debugger.Environment`.
 
 Pro Tips:
 
