@@ -3959,9 +3959,9 @@ eslint-plugin-mozilla@0.2.3:
     estraverse "^4.2.0"
     sax "^1.1.4"
 
-eslint-plugin-mozilla@^0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-mozilla/-/eslint-plugin-mozilla-0.10.0.tgz#a3918efcc19405459cb605ebafc535eef4d600de"
+eslint-plugin-mozilla@^0.11.0:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-mozilla/-/eslint-plugin-mozilla-0.11.0.tgz#be3782c8071e98a8507662df51e8bb370cdedd00"
   dependencies:
     ini-parser "0.0.2"
     sax "1.2.4"
