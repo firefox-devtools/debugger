@@ -20,13 +20,12 @@ import {
   removeSourceFromTabList
 } from "../../selectors";
 
-import type { Source } from "../../types";
 import type { Action, ThunkArgs } from "../types";
 
-export function addTab(source: Source, tabIndex: number): Action {
+export function addTab(url: string, tabIndex: number): Action {
   return {
     type: "ADD_TAB",
-    source,
+    url,
     tabIndex
   };
 }
