@@ -210,6 +210,48 @@ describe("QuickOpenModal", () => {
     expect(wrapper.state().results).toEqual(null);
   });
 
+  describe("onKeyDown", () => {
+    it("does nothing if search type is not goto", () => {
+      const { wrapper } = generateModal(
+        {
+          enabled: true,
+          query: "test",
+          searchType: "other"
+        },
+        "shallow"
+      );
+      expect(wrapper.instance().onKeyDown()).toBeUndefined();
+    });
+
+    // it("does nothing if component is not enabled", () => {
+    //   const { wrapper } = generateModal(
+    //     {
+    //       enabled: false,
+    //       query: "test",
+    //       searchType: "goto"
+    //     },
+    //     "shallow"
+    //   );
+    //   expect(wrapper.state().results).toEqual(null);
+    //   expect(wrapper.instance().onKeyDown()).toBeUndefined();
+    // });
+
+    it("if Enter", () => {
+      const { wrapper } = generateModal(
+        {
+          enabled: true,
+          query: "test",
+          searchType: "goto"
+        },
+        "shallow"
+      );
+      const event = {
+        key: "Enter"
+      };
+      expect(wrapper.instance().onKeyDown()).toBeUndefined();
+    });
+  });
+
   describe("showErrorEmoji", () => {
     it("true when no count + query", () => {
       const { wrapper } = generateModal(

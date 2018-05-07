@@ -12,7 +12,7 @@ function render(overrides = {}) {
     handleClose: jest.fn(),
     ...overrides
   };
-  const component = shallow(<ShortcutsModal.WrappedComponent {...props} />);
+  const component = shallow(<ShortcutsModal {...props} />);
 
   return { component, props };
 }

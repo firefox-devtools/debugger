@@ -16,7 +16,7 @@ function render(overrides = {}) {
     openQuickOpen: jest.fn(),
     ...overrides
   };
-  const component = shallow(<WelcomeBox.WrappedComponent {...props} />);
+  const component = shallow(<WelcomeBox {...props} />);
 
   return { component, props };
 }
