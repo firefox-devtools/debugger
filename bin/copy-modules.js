@@ -140,6 +140,7 @@ function start() {
 
   console.log("[copy-modules] copying files to: " + mcDebuggerPath);
   shell.cp("-r", "./out/src", mcDebuggerPath);
+  shell.rm("-r", "./out")
 
   console.log("[copy-modules] done");
 }
