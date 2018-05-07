@@ -260,8 +260,10 @@ function start() {
 }
 
 function onBundleFinish({mcPath, bundlePath, projectPath}) {
-  console.log("[copy-assets] copy shared bundles to client/shared");
+  console.log("[copy-assets] delete debugger.js bundle");
+  fs.unlinkSync(path.join(mcPath, bundlePath, "debugger.js"))
 
+  console.log("[copy-assets] copy shared bundles to client/shared");
   moveFile(
     path.join(mcPath, bundlePath, "source-map-worker.js"),
     path.join(mcPath, "devtools/client/shared/source-map/worker.js"),
