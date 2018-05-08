@@ -22536,7 +22536,13 @@
       "../../../packages/devtools-source-map/node_modules/source-map/lib/source-node.js": 3716,
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-source-map/src/utils/assert.js": 3717,
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-source-map/src/utils/fetchSourceMap.js": 3718,
-      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-source-map/src/utils/wasmRemap.js": 3719
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-source-map/src/utils/wasmRemap.js": 3719,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/mapScopes/positionCmp.js": 3720,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../devtools-environment/index.js": 3721,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/mapScopes/mappingContains.js": 3722,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/mapScopes/index.js": 3723,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/mapScopes/getGeneratedLocationRanges.js": 3724,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/mapScopes/buildGeneratedBindingList.js": 3725
     },
     "usedIds": {
       "0": 0,
@@ -26258,7 +26264,13 @@
       "3716": 3716,
       "3717": 3717,
       "3718": 3718,
-      "3719": 3719
+      "3719": 3719,
+      "3720": 3720,
+      "3721": 3721,
+      "3722": 3722,
+      "3723": 3723,
+      "3724": 3724,
+      "3725": 3725
     }
   },
   "chunks": {
