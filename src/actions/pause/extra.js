@@ -26,14 +26,16 @@ async function getReactProps(evaluate, displayName) {
     }
     `
   );
+
   const items =
     componentNames.result.preview && componentNames.result.preview.items;
+
+  let extra = { displayName };
   if (items) {
-    return {
-      displayName,
-      componentStack: items
-    };
+    extra = { displayName, componentStack: items };
   }
+
+  return extra;
 }
 
 async function getImmutableProps(expression: string, evaluate) {
@@ -53,6 +55,7 @@ async function getExtraProps(getState, expression, result, evaluate) {
   const props = {};
 
   const component = inComponent(getState());
+
   if (component) {
     props.react = await getReactProps(evaluate, component);
   }

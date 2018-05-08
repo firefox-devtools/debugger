@@ -8,7 +8,9 @@ import { getSymbols, getSource, getSelectedFrame } from ".";
 import { findClosestClass } from "../utils/ast";
 import { getSourceMetaData } from "../reducers/ast";
 
-export function inComponent(state) {
+import type { State } from "../reducers/types";
+
+export function inComponent(state: State) {
   const selectedFrame = getSelectedFrame(state);
   const source = getSource(state, selectedFrame.location.sourceId);
   const symbols = getSymbols(state, source);
@@ -23,7 +25,8 @@ export function inComponent(state) {
   }
 
   const sourceMetaData = getSourceMetaData(state, source.id);
-  if (!sourceMetaData) {
+
+  if (!sourceMetaData || !sourceMetaData.framework) {
     return;
   }
 
