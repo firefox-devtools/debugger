@@ -52,6 +52,16 @@ Here are a few tips for writing mochitests:
 * Try to write async user actions that involve a user action like clicking a button or typing a key press followed by a redux action to listen for. For example, the user step in action involves the user clicking the step in button followed by the "stepIn" action firing.
 * The `dbg` object has several helpful properties (actions, selectors, getState, store, toolbox, win)
 
+### Videos
+
+If you're looking for some tutorials on how to write and debug mochitests
+
+* [How We Test the Debugger][testing]
+* [Mochitest (Pause on Next)][testing2]
+
+[testing]: https://www.youtube.com/watch?v=5K9Sx5529JE&t=547s
+[testing2]: https://www.youtube.com/watch?v=E3QIwrcKnwg
+
 ### Logging
 
 The mochitests run in a special environment, which make `console.log` a little different than usual.
