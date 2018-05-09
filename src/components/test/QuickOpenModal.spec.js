@@ -212,7 +212,7 @@ describe("QuickOpenModal", () => {
 
   describe("onKeyDown", () => {
     it("does nothing if search type is not goto", () => {
-      const { wrapper } = generateModal(
+      const { wrapper, props } = generateModal(
         {
           enabled: true,
           query: "test",
@@ -220,7 +220,9 @@ describe("QuickOpenModal", () => {
         },
         "shallow"
       );
-      expect(wrapper.instance().onKeyDown()).toBeUndefined();
+      wrapper.find("SearchInput").simulate("keydown", {});
+      expect(props.selectLocation).not.toHaveBeenCalled();
+      expect(props.setQuickOpenQuery).not.toHaveBeenCalled();
     });
 
     // it("does nothing if component is not enabled", () => {
@@ -236,11 +238,11 @@ describe("QuickOpenModal", () => {
     //   expect(wrapper.instance().onKeyDown()).toBeUndefined();
     // });
 
-    it("if Enter", () => {
-      const { wrapper } = generateModal(
+    it("on Enter go to location", () => {
+      const { wrapper, props } = generateModal(
         {
           enabled: true,
-          query: "test",
+          query: ":34:12",
           searchType: "goto"
         },
         "shallow"
@@ -248,7 +250,115 @@ describe("QuickOpenModal", () => {
       const event = {
         key: "Enter"
       };
-      expect(wrapper.instance().onKeyDown(event)).toBeUndefined();
+      wrapper.find("SearchInput").simulate("keydown", event);
+      expect(props.selectLocation).toHaveBeenCalledWith({
+        column: 12,
+        line: 34,
+        sourceId: ""
+      });
+    });
+
+    it("on Enter with results, handle @ shortcut", () => {
+      const { wrapper, props } = generateModal(
+        {
+          enabled: true,
+          query: "@test",
+          searchType: "shortcuts"
+        },
+        "shallow"
+      );
+      wrapper.setState(() => ({
+        results: [{ id: "@" }],
+        selectedIndex: 0
+      }));
+      const event = {
+        key: "Enter"
+      };
+      wrapper.find("SearchInput").simulate("keydown", event);
+      expect(props.setQuickOpenQuery).toHaveBeenCalledWith("@");
+    });
+
+    it("on Enter with results, handle : shortcut", () => {
+      const { wrapper, props } = generateModal(
+        {
+          enabled: true,
+          query: "@test",
+          searchType: "shortcuts"
+        },
+        "shallow"
+      );
+      wrapper.setState(() => ({
+        results: [{}, { id: ":" }],
+        selectedIndex: 1
+      }));
+      const event = {
+        key: "Enter"
+      };
+      wrapper.find("SearchInput").simulate("keydown", event);
+      expect(props.setQuickOpenQuery).toHaveBeenCalledWith(":");
+    });
+
+    it("on Enter with results, handle # shortcut", () => {
+      const { wrapper, props } = generateModal(
+        {
+          enabled: true,
+          query: "@test",
+          searchType: "shortcuts"
+        },
+        "shallow"
+      );
+      wrapper.setState(() => ({
+        results: [{}, { id: ":" }],
+        selectedIndex: 1
+      }));
+      const event = {
+        key: "Enter"
+      };
+      wrapper.find("SearchInput").simulate("keydown", event);
+      expect(props.selectLocation).not.toHaveBeenCalled();
+      expect(props.setQuickOpenQuery).toHaveBeenCalledWith(":");
+    });
+
+    it("on Enter with results, handle result item", () => {
+      const { wrapper, props } = generateModal(
+        {
+          enabled: true,
+          query: "@test",
+          searchType: "other"
+        },
+        "shallow"
+      );
+      const id = "id";
+      wrapper.setState(() => ({
+        results: [{}, { id }],
+        selectedIndex: 1
+      }));
+      const event = {
+        key: "Enter"
+      };
+      wrapper.find("SearchInput").simulate("keydown", event);
+      expect(props.selectLocation).toHaveBeenCalledWith({
+        column: null,
+        sourceId: id,
+        line: 0
+      });
+      expect(props.setQuickOpenQuery).not.toHaveBeenCalled();
+    });
+
+    it("on Tab, close modal", () => {
+      const { wrapper, props } = generateModal(
+        {
+          enabled: true,
+          query: ":34:12",
+          searchType: "goto"
+        },
+        "shallow"
+      );
+      const event = {
+        key: "Tab"
+      };
+      wrapper.find("SearchInput").simulate("keydown", event);
+      expect(props.closeQuickOpen).toHaveBeenCalled();
     });
   });
 
