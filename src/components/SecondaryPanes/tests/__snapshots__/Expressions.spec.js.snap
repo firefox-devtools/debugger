@@ -8,6 +8,7 @@ exports[`Expressions should always have unique keys 1`] = `
     className="expression-container"
     key="expression1"
     onDoubleClick={[Function]}
+    title="expression1"
   >
     <div
       className="expression-content"
@@ -45,6 +46,7 @@ exports[`Expressions should always have unique keys 1`] = `
     className="expression-container"
     key="expression2"
     onDoubleClick={[Function]}
+    title="expression2"
   >
     <div
       className="expression-content"
@@ -116,6 +118,7 @@ exports[`Expressions should render 1`] = `
     className="expression-container"
     key="expression1"
     onDoubleClick={[Function]}
+    title="expression1"
   >
     <div
       className="expression-content"
@@ -153,6 +156,7 @@ exports[`Expressions should render 1`] = `
     className="expression-container"
     key="expression2"
     onDoubleClick={[Function]}
+    title="expression2"
   >
     <div
       className="expression-content"

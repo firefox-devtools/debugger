@@ -21,10 +21,6 @@
   flex-shrink: 0;
 }
 
-.search-field.big {
-  height: 40px;
-}
-
 .search-field i {
   display: block;
   padding: 0;
@@ -33,10 +29,6 @@
 
 .search-field i svg {
   width: 22px;
-}
-
-.search-field.big input {
-  line-height: 40px;
 }
 
 .search-field input {
@@ -72,13 +64,6 @@
   padding-top: 1px;
 }
 
-.search-field.big i.magnifying-glass,
-.search-field.big i.sad-face {
-  padding: 14px;
-  width: 40px;
-  margin-top: -20px;
-}
-
 .search-field .magnifying-glass path,
 .search-field .magnifying-glass ellipse {
   stroke: var(--theme-comment);
@@ -90,10 +75,6 @@
 
 .search-field input.empty {
   color: var(--theme-highlight-orange);
-}
-
-.search-field.big .summary {
-  line-height: 40px;
 }
 
 .search-field .summary {
