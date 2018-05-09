@@ -289,6 +289,7 @@ export type SourceRecord = RecordOf<Source>;
 export type Source = {
   +id: SourceId,
   +url: string,
+  +relativeUrl?: string,
   +sourceMapURL?: string,
   +isBlackBoxed: boolean,
   +isPrettyPrinted: boolean,

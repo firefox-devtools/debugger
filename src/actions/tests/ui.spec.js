@@ -116,7 +116,7 @@ describe("setProjectDirectoryRoot", () => {
       actions.setProjectDirectoryRoot("http://localhost:8000/examples/js")
     );
     const filteredSources = getRelativeSources(getState());
-    const firstSource = filteredSources[0];
+    const firstSource = filteredSources.first();
 
     expect(firstSource.url).toEqual(
       "http://localhost:8000/examples/js/scopes.js"

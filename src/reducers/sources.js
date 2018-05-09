@@ -49,6 +49,7 @@ export function initialSourcesState(): Record<SourcesState> {
 export const SourceRecordClass = new I.Record({
   id: undefined,
   url: undefined,
+  relativeUrl: undefined,
   sourceMapURL: undefined,
   isBlackBoxed: false,
   isPrettyPrinted: false,

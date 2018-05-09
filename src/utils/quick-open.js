@@ -68,7 +68,7 @@ export function formatSourcesForList(source: RelativeSource, tabs: TabList) {
 
 export type QuickOpenResult = {|
   id: string,
-  value: string,
+  value?: string,
   title: string,
   subtitle?: string,
   location?: BabelLocation,
@@ -128,8 +128,10 @@ export function formatSources(
   sources: RelativeSource[],
   tabs: TabList
 ): Array<QuickOpenResult> {
-  return sources
-    .filter(source => !isPretty(source))
-    .map(source => formatSourcesForList(source, tabs))
-    .filter(({ value }) => value != "");
+  return [
+    ...sources
+      .filter(source => !isPretty(source))
+      .map(source => formatSourcesForList(source, tabs))
+      .filter(({ value }) => value != "")
+  ];
 }
