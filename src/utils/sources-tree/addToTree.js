@@ -83,7 +83,7 @@ function findOrCreateNode(
   const childIsFile = !nodeHasChildren(child);
 
   // if we have a naming conflict, we'll create a new node
-  if ((childIsFile && !addedPartIsFile) || (!childIsFile && addedPartIsFile)) {
+  if ((childIsFile && !addedPartIsFile) || addedPartIsFile) {
     return createNodeInTree(part, path, subTree, childIndex);
   }
 
