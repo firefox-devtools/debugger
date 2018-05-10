@@ -8,7 +8,6 @@ import React, { Component } from "react";
 import classnames from "classnames";
 import { connect } from "react-redux";
 import * as I from "immutable";
-import { createSelector } from "reselect";
 import { groupBy, sortBy } from "lodash";
 
 import Breakpoint from "./Breakpoint";
@@ -26,10 +25,9 @@ import {
   getBreakpoints,
   getPauseReason,
   getSelectedSource,
-  getTopFrame
+  getTopFrame,
+  getMappedBreakpoints
 } from "../../selectors";
-import { isInterrupted } from "../../utils/pause";
-import { makeLocationId } from "../../utils/breakpoint";
 import showContextMenu from "./BreakpointsContextMenu";
 
 import type {
@@ -61,7 +59,7 @@ type Props = {
   sourcesMetaData: SourceMetaDataMap,
   enableBreakpoint: Location => void,
   disableBreakpoint: Location => void,
-  selectLocation: Object => void,
+  selectSpecificLocation: Object => void,
   removeBreakpoint: string => void,
   removeAllBreakpoints: () => void,
   removeBreakpoints: BreakpointsMap => void,
@@ -72,22 +70,10 @@ type Props = {
   openConditionalPanel: number => void,
   shouldPauseOnExceptions: boolean,
   shouldPauseOnCaughtExceptions: boolean,
-  pauseOnExceptions: Function
+  pauseOnExceptions: Function,
+  why?: Why,
+  frame?: Frame
 };
-
-function isCurrentlyPausedAtBreakpoint(
-  frame: Frame,
-  why: Why,
-  breakpoint: LocalBreakpoint
-) {
-  if (!frame || !isInterrupted(why)) {
-    return false;
-  }
-
-  const bpId = makeLocationId(breakpoint.location);
-  const pausedId = makeLocationId(frame.location);
-  return bpId === pausedId;
-}
 
 function createExceptionOption(
   label: string,
@@ -135,7 +121,7 @@ class Breakpoints extends Component<Props> {
   }
 
   selectBreakpoint(breakpoint) {
-    this.props.selectLocation(breakpoint.location);
+    this.props.selectSpecificLocation(breakpoint.location);
   }
 
   removeBreakpoint(event, breakpoint) {
@@ -144,13 +130,15 @@ class Breakpoints extends Component<Props> {
   }
 
   renderBreakpoint(breakpoint) {
-    const { selectedSource } = this.props;
+    const { selectedSource, why, frame } = this.props;
 
     return (
       <Breakpoint
         key={breakpoint.locationId}
         breakpoint={breakpoint}
         selectedSource={selectedSource}
+        why={why}
+        frame={frame}
         onClick={() => this.selectBreakpoint(breakpoint)}
         onContextMenu={e =>
           showContextMenu({ ...this.props, breakpoint, contextMenuEvent: e })
@@ -248,28 +236,10 @@ class Breakpoints extends Component<Props> {
   }
 }
 
-function updateLocation(sources, frame, why, bp): LocalBreakpoint {
-  const source = getSourceInSources(sources, bp.location.sourceId);
-  const isCurrentlyPaused = isCurrentlyPausedAtBreakpoint(frame, why, bp);
-  const locationId = makeLocationId(bp.location);
-  const localBP = { ...bp, locationId, isCurrentlyPaused, source };
-
-  return localBP;
-}
-
-const _getBreakpoints = createSelector(
-  getBreakpoints,
-  getSources,
-  getTopFrame,
-  getPauseReason,
-  (breakpoints, sources, frame, why) =>
-    breakpoints
-      .map(bp => updateLocation(sources, frame, why, bp))
-      .filter(bp => bp.source && !bp.source.isBlackBoxed)
-);
-
 const mapStateToProps = state => ({
-  breakpoints: _getBreakpoints(state),
+  breakpoints: getMappedBreakpoints(state),
+  frame: getTopFrame(state),
+  why: getPauseReason(state),
   selectedSource: getSelectedSource(state)
 });
 

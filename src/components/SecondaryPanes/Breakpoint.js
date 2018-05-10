@@ -7,12 +7,13 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import classnames from "classnames";
-import { isGeneratedId } from "devtools-source-map";
 
 import { CloseButton } from "../shared/Button";
 
 import { createEditor } from "../../utils/breakpoint";
 import { features } from "../../utils/prefs";
+import { isInterrupted } from "../../utils/pause";
+import { makeLocationId } from "../../utils/breakpoint";
 
 import type { LocalBreakpoint } from "./Breakpoints";
 import type SourceEditor from "../../utils/editor/source-editor";
@@ -24,7 +25,9 @@ type Props = {
   onClick: Function,
   onContextMenu: Function,
   onChange: Function,
-  onCloseClick: Function
+  onCloseClick: Function,
+  why: Why,
+  frame: Frame
 };
 
 function getBreakpointLocation(source, line, column) {
@@ -38,21 +41,27 @@ function getBreakpointLocation(source, line, column) {
 }
 
 function getBreakpointText(selectedSource, breakpoint) {
-  const { condition, text, originalText } = breakpoint;
+  const { condition, text } = breakpoint;
 
   if (condition) {
     return condition;
   }
 
-  if (
-    !selectedSource ||
-    isGeneratedId(selectedSource.id) ||
-    originalText.length == 0
-  ) {
-    return text;
+  return text;
+}
+
+function isCurrentlyPausedAtBreakpoint(
+  breakpoint: LocalBreakpoint,
+  frame: Frame,
+  why: Why
+) {
+  if (!frame || isInterrupted(why)) {
+    return false;
   }
 
-  return originalText;
+  const bpId = makeLocationId(breakpoint.location);
+  const pausedId = makeLocationId(frame.location);
+  return bpId === pausedId;
 }
 
 class Breakpoint extends Component<Props> {
@@ -87,7 +96,7 @@ class Breakpoint extends Component<Props> {
         prevBreakpoint.disabled != nextBreakpoint.disabled ||
         prevBreakpoint.condition != nextBreakpoint.condition ||
         prevBreakpoint.hidden != nextBreakpoint.hidden ||
-        prevBreakpoint.isCurrentlyPaused != nextBreakpoint.isCurrentlyPaused)
+        prevBreakpoint.frame != nextBreakpoint.frame)
     );
   }
 
@@ -154,14 +163,6 @@ class Breakpoint extends Component<Props> {
     const { location } = breakpoint;
 
     let { line, column } = location;
-    if (
-      selectedSource &&
-      isGeneratedId(selectedSource.id) &&
-      breakpoint.generatedLocation
-    ) {
-      line = breakpoint.generatedLocation.line;
-      column = breakpoint.generatedLocation.column;
-    }
 
     return (
       <div className="breakpoint-line-close">
@@ -177,10 +178,14 @@ class Breakpoint extends Component<Props> {
   }
 
   render() {
-    const { breakpoint, onClick, onContextMenu } = this.props;
+    const { breakpoint, onClick, onContextMenu, frame, why } = this.props;
 
     const locationId = breakpoint.locationId;
-    const isCurrentlyPaused = breakpoint.isCurrentlyPaused;
+    const isCurrentlyPaused = isCurrentlyPausedAtBreakpoint(
+      breakpoint,
+      frame,
+      why
+    );
     const isDisabled = breakpoint.disabled;
     const isConditional = !!breakpoint.condition;
 
