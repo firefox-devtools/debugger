@@ -5,7 +5,8 @@
 // @flow
 
 import { getProjectDirectoryRoot, getSources } from "../selectors";
-import type { Source, SourceRecord } from "../types";
+import { RelativeSourceRecordClass } from "../reducers/sources";
+import type { SourceRecord, RelativeSource } from "../types";
 import { getSourcePath } from "../utils/source";
 import { createSelector } from "reselect";
 
@@ -18,8 +19,12 @@ function getRelativeUrl(url, root) {
   return url.slice(url.indexOf(root) + root.length + 1);
 }
 
-function formatSource(source: SourceRecord, root): Source {
-  return source.set("relativeUrl", getRelativeUrl(source.url, root));
+function formatSource(source: SourceRecord, root): RelativeSource {
+  // return source.set("relativeUrl", getRelativeUrl(source.url, root));
+  return new RelativeSourceRecordClass({
+    ...source.toJS(),
+    relativeUrl: getRelativeUrl(source.url, root)
+  });
 }
 
 /*

@@ -289,7 +289,6 @@ export type SourceRecord = RecordOf<Source>;
 export type Source = {
   +id: SourceId,
   +url: string,
-  +relativeUrl?: string,
   +sourceMapURL?: string,
   +isBlackBoxed: boolean,
   +isPrettyPrinted: boolean,
@@ -298,6 +297,11 @@ export type Source = {
   +contentType?: string,
   +error?: string,
   +loadedState: "unloaded" | "loading" | "loaded"
+};
+
+export type RelativeSourceRecord = RecordOf<RelativeSource>;
+export type RelativeSource = Source & {
+  relativeUrl: string
 };
 
 /**

@@ -9,7 +9,6 @@ Object {
   "isPrettyPrinted": true,
   "isWasm": false,
   "loadedState": "loaded",
-  "relativeUrl": undefined,
   "sourceMapURL": undefined,
   "text": "undefined
 ",

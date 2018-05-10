@@ -46,10 +46,9 @@ export function initialSourcesState(): Record<SourcesState> {
   )();
 }
 
-export const SourceRecordClass = new I.Record({
+const sourceRecordProperties = {
   id: undefined,
   url: undefined,
-  relativeUrl: undefined,
   sourceMapURL: undefined,
   isBlackBoxed: false,
   isPrettyPrinted: false,
@@ -58,6 +57,12 @@ export const SourceRecordClass = new I.Record({
   contentType: "",
   error: undefined,
   loadedState: "unloaded"
+};
+
+export const SourceRecordClass = new I.Record(sourceRecordProperties);
+export const RelativeSourceRecordClass = new I.Record({
+  ...sourceRecordProperties,
+  relativeUrl: undefined
 });
 
 function update(
