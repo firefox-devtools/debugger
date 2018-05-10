@@ -539,7 +539,7 @@ describe("SourcesTree", () => {
     it("should return path for item", async () => {
       const { instance } = render();
       const path = instance.getPath(createMockItem());
-      expect(path).toEqual("http://mdn.com/one.js/");
+      expect(path).toEqual("http://mdn.com/one.js/one.js/");
     });
 
     it("should return path for blackboxedboxed item", async () => {
@@ -561,7 +561,7 @@ describe("SourcesTree", () => {
         sources: source
       });
       const path = instance.getPath(item);
-      expect(path).toEqual("http://mdn.com/blackboxed.js/update");
+      expect(path).toEqual("http://mdn.com/blackboxed.js/blackboxed.js/update");
     });
   });
 });

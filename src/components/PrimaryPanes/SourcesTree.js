@@ -84,6 +84,7 @@ class SourcesTree extends Component<Props, State> {
   constructor(props) {
     super(props);
     const { debuggeeUrl, sources, projectRoot } = this.props;
+
     this.state = createTree({
       projectRoot,
       debuggeeUrl,
@@ -179,11 +180,7 @@ class SourcesTree extends Component<Props, State> {
       blackBoxedPart = "update";
     }
 
-    const returnValue = item.path.endsWith(item.name)
-      ? `${item.path}/${blackBoxedPart}`
-      : `${item.path}/${item.name}/${blackBoxedPart}`;
-
-    return returnValue;
+    return `${item.path}/${item.name}/${blackBoxedPart}`;
   };
 
   getIcon = (sources, item, depth) => {
@@ -347,7 +344,6 @@ class SourcesTree extends Component<Props, State> {
       const sourceContents = sourceTree.contents[0];
       let rootLabel = projectRoot.split("/").pop();
       roots = () => sourceContents.contents;
-
       if (sourceContents && sourceContents.name !== rootLabel) {
         rootLabel = sourceContents.contents[0].name;
         roots = () => sourceContents.contents[0].contents;

@@ -9,10 +9,6 @@ import type { Source, SourceRecord } from "../types";
 import { getSourcePath } from "../utils/source";
 import { createSelector } from "reselect";
 
-export type RelativeSource = Source & {
-  +relativeUrl: string
-};
-
 function getRelativeUrl(url, root) {
   if (!root) {
     return getSourcePath(url);
@@ -22,7 +18,7 @@ function getRelativeUrl(url, root) {
   return url.slice(url.indexOf(root) + root.length + 1);
 }
 
-function formatSource(source: SourceRecord, root): RelativeSource {
+function formatSource(source: SourceRecord, root): Source {
   return source.set("relativeUrl", getRelativeUrl(source.url, root));
 }
 
