@@ -29,7 +29,7 @@ const mcPath = args.mc ? args.mc : feature.getValue("firefox.mcPath");
 const mcDebuggerPath = path.join(mcPath, "devtools/client/debugger/new");
 
 function ignoreFile(file) {
-  return file.match(/(\/fixtures|\/tests|vendors\.js|types\.js|types\/)/);
+  return file.match(/(\/fixtures|\/test|vendors\.js|types\.js|types\/)/);
 }
 
 function getFiles() {
