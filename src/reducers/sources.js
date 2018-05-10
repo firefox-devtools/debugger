@@ -89,7 +89,7 @@ function update(
       );
     }
 
-    case "SELECT_SOURCE":
+    case "SET_SELECTED_LOCATION":
       location = {
         ...action.location,
         url: action.source.url

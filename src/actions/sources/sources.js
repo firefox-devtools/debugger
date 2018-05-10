@@ -4,6 +4,12 @@
 
 import type { Action } from "../types";
 
+export const setSelectedLocation: Action = (source, location) => ({
+  type: "SET_SELECTED_LOCATION",
+  source,
+  location
+});
+
 export const clearSelectedSource: Action = () => ({
   type: "CLEAR_SELECTED_SOURCE"
 });

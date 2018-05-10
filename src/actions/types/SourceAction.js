@@ -21,7 +21,7 @@ export type SourceAction =
       +source: Source
     |}
   | {|
-      +type: "SELECT_SOURCE",
+      +type: "SET_SELECTED_LOCATION",
       +source: Source,
       +location?: Location
     |}

@@ -32,7 +32,7 @@ import {
   getSelectedLocation
 } from "../../selectors";
 
-import { clearSelectedSource } from "./";
+import { clearSelectedSource, setSelectedLocation } from "./";
 
 import type { Location } from "../../types";
 import type { Action, ThunkArgs } from "../types";
@@ -110,13 +110,7 @@ export function selectLocation(location: Location) {
     const source = sourceRecord.toJS();
 
     dispatch(addTab(source.url, 0));
-    dispatch(
-      ({
-        type: "SELECT_SOURCE",
-        source,
-        location
-      }: Action)
-    );
+    dispatch(setSelectedLocation(source, location));
 
     await dispatch(loadSourceText(sourceRecord));
     const selectedSource = getSelectedSource(getState());
@@ -167,13 +161,7 @@ export function selectSpecificLocation(location: Location) {
     const source = sourceRecord.toJS();
 
     dispatch(addTab(source, 0));
-    dispatch(
-      ({
-        type: "SELECT_SOURCE",
-        source,
-        location
-      }: Action)
-    );
+    dispatch(setSelectedLocation(source, location));
 
     await dispatch(loadSourceText(sourceRecord));
     const selectedSource = getSelectedSource(getState());
