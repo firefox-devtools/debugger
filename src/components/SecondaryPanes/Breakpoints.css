@@ -35,20 +35,13 @@
   padding: 0.25em 1em;
 }
 
-.breakpoints-list .breakpoint,
-.breakpoints-exceptions,
-.breakpoints-exceptions-caught {
-  height: var(--breakpoint-expression-height);
-}
-
 .breakpoints-exceptions {
   padding-bottom: 0.5em;
   padding-top: 0.5em;
 }
 
 .breakpoints-list .breakpoint {
-    padding-top: 0.25em;
-    padding-bottom: 0.25em;
+    height: var(--breakpoint-expression-height);
 }
 
 .breakpoints-exceptions-caught {
