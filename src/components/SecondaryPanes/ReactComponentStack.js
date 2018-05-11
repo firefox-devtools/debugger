@@ -6,16 +6,26 @@
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import actions from "../../actions";
+import classNames from "classnames";
 
-import { getExtra } from "../../selectors";
+import { getExtra, getSelectedComponentIndex } from "../../selectors";
 
 import "./Frames/Frames.css";
 
 type Props = {
-  extra: Object
+  extra: Object,
+  selectedComponentIndex: number,
+  selectComponent: Function
 };
 
 class ReactComponentStack extends PureComponent<Props> {
+  onMouseDown(e: SyntheticKeyboardEvent<HTMLElement>, componentIndex: number) {
+    if (e.nativeEvent.which == 3) {
+      return;
+    }
+    this.props.selectComponent(componentIndex);
+  }
+
   render() {
     const { componentStack } = this.props.extra.react;
     return (
@@ -24,7 +34,17 @@ class ReactComponentStack extends PureComponent<Props> {
           {componentStack
             .slice()
             .reverse()
-            .map((component, index) => <li key={index}>{component}</li>)}
+            .map((component, index) => (
+              <li
+                className={classNames("frame", {
+                  selected: this.props.selectedComponentIndex === index
+                })}
+                key={index}
+                onMouseDown={e => this.onMouseDown(e, index)}
+              >
+                {component}
+              </li>
+            ))}
         </ul>
       </div>
     );
@@ -32,7 +52,8 @@ class ReactComponentStack extends PureComponent<Props> {
 }
 
 const mapStateToProps = state => ({
-  extra: getExtra(state)
+  extra: getExtra(state),
+  selectedComponentIndex: getSelectedComponentIndex(state)
 });
 
 export default connect(mapStateToProps, actions)(ReactComponentStack);
