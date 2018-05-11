@@ -37,16 +37,9 @@
 }
 
 .welcomebox__searchSources, .welcomebox__searchProject {
-  background-color: var(--theme-toolbar-background-hover);
-  border: 2px solid var(--theme-toolbar-background-hover);
   padding: 10px;
   margin-top: 1em;
-  min-width: 250px;
 }
-
-.welcomebox__searchSources:hover, .welcomebox__searchProject:hover {
-  background-color: var(--theme-toolbar-background);
-} 
 
 .shortcutKey,
 .shortcutLabel {
