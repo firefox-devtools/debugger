@@ -6,10 +6,8 @@ const { resolve } = require("path");
 const rootDir = resolve(__dirname);
 module.exports = {
   rootDir,
-  projects: [
-    "<rootDir>/jest-test.config.js",
-    "<rootDir>/jest-lint.config.js",
-    "<rootDir>/jest-stylelint.config.js",
-    "<rootDir>/packages/*/jest.config.js"
-  ]
+  displayName: "stylelint",
+  runner: "jest-runner-stylelint",
+  moduleFileExtensions: ["css"],
+  testMatch: ["<rootDir>/src/components/**/*.css"]
 };

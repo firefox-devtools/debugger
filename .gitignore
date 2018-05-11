@@ -21,3 +21,4 @@ tags
 webpack-stats/
 package-lock.json
 out
+junit.xml
