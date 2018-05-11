@@ -16,6 +16,8 @@ exports[`project search - highlightMatches simple 1`] = `
   </span>
   <span
     className="line-match"
-  />
+  >
+    
+  </span>
 </span>
 `;

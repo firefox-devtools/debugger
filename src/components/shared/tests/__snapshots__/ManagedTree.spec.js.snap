@@ -225,9 +225,38 @@ exports[`ManagedTree sets expanded items 1`] = `
   getPath={[Function]}
   getRoots={[Function]}
   itemHeight={24}
-  onCollapse={[Function]}
-  onExpand={[Function]}
-  onFocus={[Function]}
+  onCollapse={[MockFunction]}
+  onExpand={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          "a",
+          Set {
+            "a-$",
+            "b-$",
+            "c-$",
+          },
+        ],
+        Array [
+          "b",
+          Set {
+            "a-$",
+            "b-$",
+            "c-$",
+          },
+        ],
+        Array [
+          "c",
+          Set {
+            "a-$",
+            "b-$",
+            "c-$",
+          },
+        ],
+      ],
+    }
+  }
+  onFocus={[MockFunction]}
   renderItem={[Function]}
 >
   <div
@@ -365,9 +394,55 @@ exports[`ManagedTree sets expanded items 2`] = `
   getPath={[Function]}
   getRoots={[Function]}
   itemHeight={24}
-  onCollapse={[Function]}
-  onExpand={[Function]}
-  onFocus={[Function]}
+  onCollapse={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          "a",
+          Set {
+            "b-$",
+            "c-$",
+          },
+        ],
+      ],
+    }
+  }
+  onExpand={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          "a",
+          Set {
+            "b-$",
+            "c-$",
+          },
+        ],
+        Array [
+          "b",
+          Set {
+            "b-$",
+            "c-$",
+          },
+        ],
+        Array [
+          "c",
+          Set {
+            "b-$",
+            "c-$",
+          },
+        ],
+      ],
+    }
+  }
+  onFocus={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          "a",
+        ],
+      ],
+    }
+  }
   renderItem={[Function]}
 >
   <div

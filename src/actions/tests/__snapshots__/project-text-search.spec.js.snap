@@ -35,10 +35,7 @@ Immutable.List [
 ]
 `;
 
-exports[`project text search should clear all the search results 2`] = `
-Immutable.List [
-]
-`;
+exports[`project text search should clear all the search results 2`] = `Immutable.List []`;
 
 exports[`project text search should close project search 1`] = `
 Immutable.List [
@@ -75,10 +72,7 @@ Immutable.List [
 ]
 `;
 
-exports[`project text search should close project search 2`] = `
-Immutable.List [
-]
-`;
+exports[`project text search should close project search 2`] = `Immutable.List []`;
 
 exports[`project text search should ignore sources with minified versions 1`] = `
 Immutable.List [

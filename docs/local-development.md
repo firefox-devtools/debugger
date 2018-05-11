@@ -604,7 +604,7 @@ We use [eslint](http://eslint.org/) to maintain our JavaScript styles. The [.esl
 To automatically fix many errors run the command:
 
 ```bash
-yarn run lint-fix
+yarn run lint-js
 ```
 
 #### Lint Markdown
