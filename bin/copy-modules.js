@@ -114,7 +114,7 @@ function createMozBuildFiles() {
   Object.keys(builds).forEach(build => {
     const { files, dirs } = builds[build];
 
-    const buildPath = path.join(__dirname, "../out", build);
+    const buildPath = path.join(mcDebuggerPath, build);
     shell.mkdir("-p", buildPath);
 
     // Files and folders should be alphabetically sorted in moz.build
