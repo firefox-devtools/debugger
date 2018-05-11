@@ -41,12 +41,7 @@ function getBreakpointLocation(source, line, column) {
 
 function getBreakpointText(selectedSource, breakpoint) {
   const { condition, text } = breakpoint;
-
-  if (condition) {
-    return condition;
-  }
-
-  return text;
+  return condition || text;
 }
 
 function isCurrentlyPausedAtBreakpoint(
