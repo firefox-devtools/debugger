@@ -40,6 +40,10 @@ export type PauseAction =
       +frame: Frame
     |}
   | {|
+      +type: "SELECT_COMPONENT",
+      +componentIndex: number
+    |}
+  | {|
       +type: "SET_POPUP_OBJECT_PROPERTIES",
       +objectId: string,
       +properties: Object
