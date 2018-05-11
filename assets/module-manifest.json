@@ -22547,7 +22547,8 @@
       "multi ../../../packages/devtools-source-map/src/index.js": 3727,
       "multi ../../../src/vendors.js": 3728,
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/vendors.js": 3729,
-      "multi ../../../packages/devtools-reps/src/index.js": 3730
+      "multi ../../../packages/devtools-reps/src/index.js": 3730,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/pause/selectComponent.js": 3731
     },
     "usedIds": {
       "0": 0,
@@ -26280,7 +26281,8 @@
       "3727": 3727,
       "3728": 3728,
       "3729": 3729,
-      "3730": 3730
+      "3730": 3730,
+      "3731": 3731
     }
   },
   "chunks": {
@@ -29496,7 +29498,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -29519,7 +29521,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -29542,7 +29544,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -29565,7 +29567,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -29609,7 +29611,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -29632,7 +29634,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -29655,7 +29657,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -29678,7 +29680,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -29701,7 +29703,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -29724,7 +29726,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -29747,7 +29749,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -29770,7 +29772,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -29793,7 +29795,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -29816,7 +29818,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -29839,7 +29841,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -29908,7 +29910,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -29931,7 +29933,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -29954,7 +29956,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -29977,7 +29979,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -30000,7 +30002,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -30023,7 +30025,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -30046,7 +30048,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -30069,7 +30071,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -30092,7 +30094,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -30115,7 +30117,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -30138,7 +30140,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -30161,7 +30163,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -30184,7 +30186,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -30230,7 +30232,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -30253,7 +30255,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -30276,7 +30278,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -30299,7 +30301,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -30322,7 +30324,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -30345,7 +30347,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -30368,7 +30370,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -30391,7 +30393,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -30414,7 +30416,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -30500,7 +30502,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -30523,7 +30525,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -30546,7 +30548,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -30569,7 +30571,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -30661,7 +30663,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -30684,7 +30686,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -30751,7 +30753,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -30797,7 +30799,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -33044,7 +33046,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -33065,7 +33067,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -33086,7 +33088,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
