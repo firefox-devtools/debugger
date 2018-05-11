@@ -61,11 +61,13 @@ Now we can put these pieces together. After you copy over the assets, you can ru
 debugger inside the panel!
 
 in debugger project (`projects/debugger.html` or wherever you have it!):
+
 ```
 yarn copy-assets
 ```
 
 in firefox project (`projects/firefox` or wherever you have it!):
+
 ```
 ./mach build faster && ./mach run
 ```
@@ -76,6 +78,7 @@ On to the fun stuff. Each time you change something you will need to copy over y
 do this like so!
 
 in yarn:
+
 ```
 yarn copy-assets
 ```
@@ -85,15 +88,14 @@ That will build the debugger and copy over all the relevant files into `firefox`
 It's annoying to have to manually update the bundle every single time though. If you want to automatically update the bundle in Firefox whenever you make a change, run this:
 
 ```
-yarn copy-assets-watch
+yarn watch
 ```
 
 Now you can make code changes the bundle will be automatically built for you inside `firefox`.
-
 
 ### Getting Help
 
 There are lots of helpful folks who'd be happy to answer
 your questions on [slack][slack].
 
-[slack]:https://devtools-html-slack.herokuapp.com/
+[slack]: https://devtools-html-slack.herokuapp.com/

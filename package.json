@@ -44,8 +44,9 @@
       "start-firefox --start --location https://devtools-html.github.io/debugger-examples/",
     "chrome":
       "start-chrome --location https://devtools-html.github.io/debugger-examples/",
-    "copy-assets": "node bin/copy-assets --symlink",
     "copy-assets-watch": "node bin/copy-assets --watch --symlink",
+    "copy-modules-watch": "node bin/copy-modules --watch",
+    "watch": "run-p copy-assets-watch copy-modules-watch",
     "build-docs":
       "documentation build --format html --sort-order alpha --shallow  --document-exported --output docs/reference/ src/types.js src/utils/ src/reducers/ src/actions/ src/test/mochitest/head.js",
     "flow-coverage":
@@ -65,7 +66,9 @@
     "install": "prettier --write package.json"
   },
   "dependencies": {
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.46",
     "@babel/types": "^7.0.0-beta.39",
+    "babel-plugin-transform-imports": "^1.5.0",
     "babylon": "^7.0.0-beta.39",
     "codemirror": "^5.28.0",
     "devtools-environment": "0.0.3",

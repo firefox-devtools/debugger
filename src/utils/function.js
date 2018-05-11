@@ -23,7 +23,9 @@ export function findFunctionText(
     return null;
   }
 
-  const { location: { start, end } } = func;
+  const {
+    location: { start, end }
+  } = func;
   const lines = source.text.split("\n");
   const firstLine = lines[start.line - 1].slice(start.column);
   const lastLine = lines[end.line - 1].slice(0, end.column);

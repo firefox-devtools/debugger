@@ -99,7 +99,7 @@
 }
 
 .theme-dark .outline-footer button {
-    color: var(--theme-body-color);
+  color: var(--theme-body-color);
 }
 
 .outline-footer button.active {

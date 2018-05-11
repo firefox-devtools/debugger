@@ -49,7 +49,7 @@ export type SourceAction =
     >
   | {|
       +type: "ADD_TAB",
-      +source: Source,
+      +url: string,
       +tabIndex: number
     |}
   | {|

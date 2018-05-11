@@ -5,9 +5,9 @@
 const toolbox = require("./node_modules/devtools-launchpad/index");
 
 const getConfig = require("./bin/getConfig");
+const mozillaCentralMappings = require("./configs/mozilla-central-mappings");
 const { NormalModuleReplacementPlugin } = require("webpack");
 const path = require("path");
-const projectPath = path.join(__dirname, "src");
 var Visualizer = require("webpack-visualizer-plugin");
 const ObjectRestSpreadPlugin = require("@sucrase/webpack-object-rest-spread-plugin");
 
@@ -21,23 +21,19 @@ function isDevelopment() {
  * hot-module-reloading in local development
  */
 function getEntry(filename) {
-  return [path.join(projectPath, filename)];
+  return [path.join(__dirname, filename)];
 }
 
 const webpackConfig = {
   entry: {
-    debugger: getEntry("main.js"),
-    "parser-worker": getEntry("workers/parser/worker.js"),
-    "pretty-print-worker": getEntry("workers/pretty-print/worker.js"),
-    "search-worker": getEntry("workers/search/worker.js"),
-    "source-map-worker": path.join(
-      __dirname,
-      "packages/devtools-source-map/src/worker.js"
-    ),
-    "source-map-index": path.join(
-      __dirname,
-      "packages/devtools-source-map/src/index.js"
-    )
+    // We always generate the debugger bundle, but we will only copy the CSS
+    // artifact over to mozilla-central.
+    debugger: getEntry("src/main.js"),
+    "parser-worker": getEntry("src/workers/parser/worker.js"),
+    "pretty-print-worker": getEntry("src/workers/pretty-print/worker.js"),
+    "search-worker": getEntry("src/workers/search/worker.js"),
+    "source-map-worker": getEntry("packages/devtools-source-map/src/worker.js"),
+    "source-map-index": getEntry("packages/devtools-source-map/src/index.js")
   },
 
   output: {
@@ -46,6 +42,14 @@ const webpackConfig = {
     publicPath: "/assets/build"
   }
 };
+
+if (!isDevelopment()) {
+  // In the firefox panel, build the vendored dependencies as a bundle instead,
+  // the other debugger modules will be transpiled to a format that is
+  // compatible with the DevTools Loader.
+  webpackConfig.entry.vendors = getEntry("src/vendors.js");
+  webpackConfig.entry.reps = getEntry("packages/devtools-reps/src/index.js");
+}
 
 function buildConfig(envConfig) {
   const extra = {};
@@ -63,11 +67,6 @@ function buildConfig(envConfig) {
       webpackConfig.plugins.push(viz);
     }
 
-    webpackConfig.entry.reps = path.join(
-      __dirname,
-      "packages/devtools-reps/src/index.js"
-    );
-
     const mappings = [
       [/\.\/mocha/, "./mochitest"],
       [/\.\.\/utils\/mocha/, "../utils/mochitest"],
@@ -75,31 +74,7 @@ function buildConfig(envConfig) {
       [/\.\/percy-stub/, "./percy-webpack"]
     ];
 
-    extra.excludeMap = {
-      "./source-editor": "devtools/client/sourceeditor/editor",
-      "../editor/source-editor": "devtools/client/sourceeditor/editor",
-      "./test-flag": "devtools/shared/flags",
-      "./fronts-device": "devtools/shared/fronts/device",
-      react: "devtools/client/shared/vendor/react",
-      redux: "devtools/client/shared/vendor/redux",
-      "react-dom": "devtools/client/shared/vendor/react-dom",
-      "react-dom-factories":
-        "devtools/client/shared/vendor/react-dom-factories",
-      "prop-types": "devtools/client/shared/vendor/react-prop-types",
-      lodash: "devtools/client/shared/vendor/lodash",
-      immutable: "devtools/client/shared/vendor/immutable",
-      "react-redux": "devtools/client/shared/vendor/react-redux",
-
-      "wasmparser/dist/WasmParser": "devtools/client/shared/vendor/WasmParser",
-      "wasmparser/dist/WasmDis": "devtools/client/shared/vendor/WasmDis",
-
-      // The excluded files below should not be required while the Debugger runs
-      // in Firefox. Here, "devtools/shared/flags" is used as a dummy module.
-      "../assets/panel/debugger.properties": "devtools/shared/flags",
-      "devtools-connection": "devtools/shared/flags",
-      "chrome-remote-interface": "devtools/shared/flags",
-      "devtools-launchpad": "devtools/shared/flags"
-    };
+    extra.excludeMap = mozillaCentralMappings;
 
     mappings.forEach(([regex, res]) => {
       webpackConfig.plugins.push(new NormalModuleReplacementPlugin(regex, res));

@@ -46,7 +46,8 @@ type Props = {
   shouldFocus?: boolean,
   showErrorEmoji: boolean,
   size: string,
-  summaryMsg: string
+  summaryMsg: string,
+  showClose: boolean
 };
 
 type State = {
@@ -61,7 +62,8 @@ class SearchInput extends Component<Props, State> {
     expanded: false,
     hasPrefix: false,
     selectedItemId: "",
-    size: ""
+    size: "",
+    showClose: true
   };
 
   constructor(props: Props) {
@@ -162,7 +164,8 @@ class SearchInput extends Component<Props, State> {
       selectedItemId,
       showErrorEmoji,
       size,
-      summaryMsg
+      summaryMsg,
+      showClose
     } = this.props;
 
     const inputProps = {
@@ -201,7 +204,9 @@ class SearchInput extends Component<Props, State> {
           <input {...inputProps} />
           {summaryMsg && <div className="summary">{summaryMsg}</div>}
           {this.renderNav()}
-          <CloseButton handleClick={handleClose} buttonClass={size} />
+          {showClose && (
+            <CloseButton handleClick={handleClose} buttonClass={size} />
+          )}
         </div>
       </div>
     );

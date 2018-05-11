@@ -1,10 +1,11 @@
 language: python
+  - "3.6"
+
 node_js: "9"
 
 cache:
   - pip
   - yarn
-
 
 env:
   global:
@@ -27,9 +28,13 @@ addons:
     paths:
       - $HOME/firefox/mochitest.log
 
+before_install:
+  # Ensure the correct version of Python is used; borrowed from:
+  # https://github.com/pre-commit/pre-commit/commit/e3ab8902692e896da9ded42bd4d76ea4e1de359d
+  - pyenv global system 3.6
+
 install:
-  - pip install --upgrade pip
-  - pip install -U mercurial
+  - pip install --user mercurial
   - . $HOME/.nvm/nvm.sh; nvm install 9; nvm use 9;
   - ./bin/ci/install-yarn
   - ./bin/ci/clone-gecko.sh
@@ -41,9 +46,12 @@ before_script:
   - sh -e /etc/init.d/xvfb start
 
 script:
+  - python --version
   - node --version
   - du -sh firefox
   - node ./bin/copy-assets.js --mc ./firefox
+  - node ./bin/copy-modules.js --mc ./firefox
+  - ./bin/ci/build-firefox.sh
   - node ./bin/ci/check-file-sizes.js
   - ./node_modules/.bin/mochii --ci --mc ./firefox --headless devtools/client/debugger/new
   - ./node_modules/.bin/mochii --ci --mc ./firefox --headless

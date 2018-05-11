@@ -60,6 +60,7 @@ exports[`QuickOpenModal Basic render with mount & searchType = functions 1`] = `
               placeholder="Search sources…"
               query="@"
               selectedItemId=""
+              showClose={false}
               showErrorEmoji={true}
               size=""
               summaryMsg=""
@@ -107,19 +108,6 @@ exports[`QuickOpenModal Basic render with mount & searchType = functions 1`] = `
                     spellCheck={false}
                     value="@"
                   />
-                  <CloseButton
-                    buttonClass=""
-                    handleClick={[Function]}
-                  >
-                    <button
-                      className="close-btn"
-                      onClick={[Function]}
-                    >
-                      <img
-                        className="close"
-                      />
-                    </button>
-                  </CloseButton>
                 </div>
               </div>
             </SearchInput>
@@ -207,6 +195,7 @@ exports[`QuickOpenModal Basic render with mount & searchType = variables 1`] = `
               placeholder="Search sources…"
               query="#"
               selectedItemId=""
+              showClose={false}
               showErrorEmoji={true}
               size=""
               summaryMsg=""
@@ -254,19 +243,6 @@ exports[`QuickOpenModal Basic render with mount & searchType = variables 1`] = `
                     spellCheck={false}
                     value="#"
                   />
-                  <CloseButton
-                    buttonClass=""
-                    handleClick={[Function]}
-                  >
-                    <button
-                      className="close-btn"
-                      onClick={[Function]}
-                    >
-                      <img
-                        className="close"
-                      />
-                    </button>
-                  </CloseButton>
                 </div>
               </div>
             </SearchInput>
@@ -348,6 +324,7 @@ exports[`QuickOpenModal Basic render with mount 1`] = `
               placeholder="Search sources…"
               query=""
               selectedItemId=""
+              showClose={false}
               showErrorEmoji={false}
               size=""
               summaryMsg=""
@@ -395,19 +372,6 @@ exports[`QuickOpenModal Basic render with mount 1`] = `
                     spellCheck={false}
                     value=""
                   />
-                  <CloseButton
-                    buttonClass=""
-                    handleClick={[Function]}
-                  >
-                    <button
-                      className="close-btn"
-                      onClick={[Function]}
-                    >
-                      <img
-                        className="close"
-                      />
-                    </button>
-                  </CloseButton>
                 </div>
               </div>
             </SearchInput>
@@ -452,6 +416,7 @@ exports[`QuickOpenModal Renders when enabled 1`] = `
     placeholder="Search sources…"
     query=""
     selectedItemId=""
+    showClose={false}
     showErrorEmoji={false}
     size=""
     summaryMsg=""
@@ -528,6 +493,7 @@ exports[`QuickOpenModal Simple goto search query = :abc & searchType = goto 1`] 
               placeholder="Search sources…"
               query=":abc"
               selectedItemId=""
+              showClose={false}
               showErrorEmoji={true}
               size=""
               summaryMsg=""
@@ -575,19 +541,6 @@ exports[`QuickOpenModal Simple goto search query = :abc & searchType = goto 1`] 
                     spellCheck={false}
                     value=":abc"
                   />
-                  <CloseButton
-                    buttonClass=""
-                    handleClick={[Function]}
-                  >
-                    <button
-                      className="close-btn"
-                      onClick={[Function]}
-                    >
-                      <img
-                        className="close"
-                      />
-                    </button>
-                  </CloseButton>
                 </div>
               </div>
             </SearchInput>
@@ -653,6 +606,7 @@ exports[`QuickOpenModal showErrorEmoji false when count + query 1`] = `
               placeholder="Search sources…"
               query="dasdasdas"
               selectedItemId=""
+              showClose={false}
               showErrorEmoji={false}
               size=""
               summaryMsg=""
@@ -700,19 +654,6 @@ exports[`QuickOpenModal showErrorEmoji false when count + query 1`] = `
                     spellCheck={false}
                     value="dasdasdas"
                   />
-                  <CloseButton
-                    buttonClass=""
-                    handleClick={[Function]}
-                  >
-                    <button
-                      className="close-btn"
-                      onClick={[Function]}
-                    >
-                      <img
-                        className="close"
-                      />
-                    </button>
-                  </CloseButton>
                 </div>
               </div>
             </SearchInput>
@@ -866,6 +807,7 @@ exports[`QuickOpenModal showErrorEmoji false when goto numeric ':2222' 1`] = `
               placeholder="Search sources…"
               query=":2222"
               selectedItemId=""
+              showClose={false}
               showErrorEmoji={false}
               size=""
               summaryMsg=""
@@ -913,19 +855,6 @@ exports[`QuickOpenModal showErrorEmoji false when goto numeric ':2222' 1`] = `
                     spellCheck={false}
                     value=":2222"
                   />
-                  <CloseButton
-                    buttonClass=""
-                    handleClick={[Function]}
-                  >
-                    <button
-                      className="close-btn"
-                      onClick={[Function]}
-                    >
-                      <img
-                        className="close"
-                      />
-                    </button>
-                  </CloseButton>
                 </div>
               </div>
             </SearchInput>
@@ -991,6 +920,7 @@ exports[`QuickOpenModal showErrorEmoji false when no query 1`] = `
               placeholder="Search sources…"
               query=""
               selectedItemId=""
+              showClose={false}
               showErrorEmoji={false}
               size=""
               summaryMsg=""
@@ -1038,19 +968,6 @@ exports[`QuickOpenModal showErrorEmoji false when no query 1`] = `
                     spellCheck={false}
                     value=""
                   />
-                  <CloseButton
-                    buttonClass=""
-                    handleClick={[Function]}
-                  >
-                    <button
-                      className="close-btn"
-                      onClick={[Function]}
-                    >
-                      <img
-                        className="close"
-                      />
-                    </button>
-                  </CloseButton>
                 </div>
               </div>
             </SearchInput>
@@ -1132,6 +1049,7 @@ exports[`QuickOpenModal showErrorEmoji true when goto not numeric ':22k22' 1`] =
               placeholder="Search sources…"
               query=":22k22"
               selectedItemId=""
+              showClose={false}
               showErrorEmoji={true}
               size=""
               summaryMsg=""
@@ -1179,19 +1097,6 @@ exports[`QuickOpenModal showErrorEmoji true when goto not numeric ':22k22' 1`] =
                     spellCheck={false}
                     value=":22k22"
                   />
-                  <CloseButton
-                    buttonClass=""
-                    handleClick={[Function]}
-                  >
-                    <button
-                      className="close-btn"
-                      onClick={[Function]}
-                    >
-                      <img
-                        className="close"
-                      />
-                    </button>
-                  </CloseButton>
                 </div>
               </div>
             </SearchInput>
@@ -1257,6 +1162,7 @@ exports[`QuickOpenModal showErrorEmoji true when no count + query 1`] = `
               placeholder="Search sources…"
               query="test"
               selectedItemId=""
+              showClose={false}
               showErrorEmoji={true}
               size=""
               summaryMsg=""
@@ -1304,19 +1210,6 @@ exports[`QuickOpenModal showErrorEmoji true when no count + query 1`] = `
                     spellCheck={false}
                     value="test"
                   />
-                  <CloseButton
-                    buttonClass=""
-                    handleClick={[Function]}
-                  >
-                    <button
-                      className="close-btn"
-                      onClick={[Function]}
-                    >
-                      <img
-                        className="close"
-                      />
-                    </button>
-                  </CloseButton>
                 </div>
               </div>
             </SearchInput>
@@ -1397,6 +1290,7 @@ exports[`QuickOpenModal updateResults on enable 2`] = `
               placeholder="Search sources…"
               query=""
               selectedItemId=""
+              showClose={false}
               showErrorEmoji={false}
               size=""
               summaryMsg=""
@@ -1444,19 +1338,6 @@ exports[`QuickOpenModal updateResults on enable 2`] = `
                     spellCheck={false}
                     value=""
                   />
-                  <CloseButton
-                    buttonClass=""
-                    handleClick={[Function]}
-                  >
-                    <button
-                      className="close-btn"
-                      onClick={[Function]}
-                    >
-                      <img
-                        className="close"
-                      />
-                    </button>
-                  </CloseButton>
                 </div>
               </div>
             </SearchInput>

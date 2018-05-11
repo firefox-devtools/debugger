@@ -116,7 +116,7 @@ function update(
 
     case "ADD_TAB":
       return state.merge({
-        tabs: updateTabList({ sources: state }, action.source.url)
+        tabs: updateTabList({ sources: state }, action.url)
       });
 
     case "MOVE_TAB":

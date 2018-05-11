@@ -56,6 +56,7 @@ export type PauseState = {
     }
   },
   selectedFrameId: ?string,
+  selectedComponentIndex: ?number,
   loadedObjects: Object,
   shouldPauseOnExceptions: boolean,
   shouldPauseOnCaughtExceptions: boolean,
@@ -72,6 +73,7 @@ export const createPauseState = (): PauseState => ({
   isWaitingOnBreak: false,
   frames: undefined,
   selectedFrameId: undefined,
+  selectedComponentIndex: undefined,
   frameScopes: {
     generated: {},
     original: {},
@@ -191,6 +193,12 @@ function update(
       return {
         ...state,
         selectedFrameId: action.frame.id
+      };
+
+    case "SELECT_COMPONENT":
+      return {
+        ...state,
+        selectedComponentIndex: action.componentIndex
       };
 
     case "SET_POPUP_OBJECT_PROPERTIES":
@@ -421,6 +429,10 @@ export function getSelectedScopeMappings(
 
 export function getSelectedFrameId(state: OuterState) {
   return state.pause.selectedFrameId;
+}
+
+export function getSelectedComponentIndex(state: OuterState) {
+  return state.pause.selectedComponentIndex;
 }
 
 export function getTopFrame(state: OuterState) {
