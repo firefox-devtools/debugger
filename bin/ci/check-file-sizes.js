@@ -3,7 +3,6 @@ const fs = require("fs");
 const chalk = require("chalk");
 
 const fileSizes = {
-  "debugger.js": 52000,
   "parser-worker.js": 60000,
   "pretty-print-worker.js": 10000,
   "search-worker.js": 5000
@@ -17,7 +16,7 @@ function checkFileSizes() {
   Object.keys(fileSizes).forEach(key => {
     const fullFirefoxPath = path.join(process.cwd(), firefoxPath);
     const testFile = fs.readFileSync(
-      path.join(fullFirefoxPath, `devtools/client/debugger/new/${key}`),
+      path.join(fullFirefoxPath, `devtools/client/debugger/new/dist/${key}`),
       "utf8"
     );
     const lineCount = testFile.split("\n").length;
