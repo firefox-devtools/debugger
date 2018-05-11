@@ -3,10 +3,13 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 const { resolve } = require("path");
-const rootDir = resolve(__dirname);
+const rootDir = resolve(__dirname, "src");
 module.exports = {
   rootDir,
-  displayName: "lint",
-  runner: "jest-runner-eslint",
-  testMatch: ["<rootDir>/src/**/*.js", "<rootDir>/packages/*/src/**/*.js"]
+  displayName: "devtools-source-map test",
+  testMatch: ["**/tests/**/*.js"],
+  testPathIgnorePatterns: ["/fixtures/", "helpers.js"],
+  transformIgnorePatterns: ["node_modules/(?!devtools-)"],
+  setupFiles: [],
+  moduleNameMapper: {}
 };

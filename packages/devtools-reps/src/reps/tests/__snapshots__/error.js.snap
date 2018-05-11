@@ -7,7 +7,7 @@ exports[`Error - Eval error renders with expected text for an EvalError 1`] = `
 >
   EvalError: "EvalError message"
   
-  
+
   <span
     className="objectBox-stackTrace-grid"
     key="stack"
@@ -35,7 +35,7 @@ exports[`Error - Internal error renders with expected text for an InternalError 
 >
   InternalError: "InternalError message"
   
-  
+
   <span
     className="objectBox-stackTrace-grid"
     key="stack"
@@ -63,7 +63,7 @@ exports[`Error - Multi line stack error renders with expected text for Error obj
 >
   Error: "bar"
   
-  
+
   <span
     className="objectBox-stackTrace-grid"
     key="stack"
@@ -115,7 +115,7 @@ exports[`Error - Range error renders with expected text for RangeError 1`] = `
 >
   RangeError: "RangeError message"
   
-  
+
   <span
     className="objectBox-stackTrace-grid"
     key="stack"
@@ -143,7 +143,7 @@ exports[`Error - Reference error renders with expected text for ReferenceError 1
 >
   ReferenceError: "ReferenceError message"
   
-  
+
   <span
     className="objectBox-stackTrace-grid"
     key="stack"
@@ -171,7 +171,7 @@ exports[`Error - Simple error renders with expected text for simple error 1`] = 
 >
   Error: "Error message"
   
-  
+
   <span
     className="objectBox-stackTrace-grid"
     key="stack"
@@ -199,7 +199,7 @@ exports[`Error - Syntax error renders with expected text for SyntaxError 1`] = `
 >
   SyntaxError: "SyntaxError message"
   
-  
+
   <span
     className="objectBox-stackTrace-grid"
     key="stack"
@@ -227,7 +227,7 @@ exports[`Error - Type error renders with expected text for TypeError 1`] = `
 >
   TypeError: "TypeError message"
   
-  
+
   <span
     className="objectBox-stackTrace-grid"
     key="stack"
@@ -255,7 +255,7 @@ exports[`Error - URI error renders with expected text for URIError 1`] = `
 >
   URIError: "URIError message"
   
-  
+
   <span
     className="objectBox-stackTrace-grid"
     key="stack"
@@ -292,7 +292,7 @@ exports[`Error - base-loader.js renders as expected without mode 1`] = `
 >
   Error: "Error message"
   
-  
+
   <span
     className="objectBox-stackTrace-grid"
     key="stack"
@@ -356,7 +356,7 @@ exports[`Error - longString stacktrace renders as expected 1`] = `
 >
   Error: ""
   
-  
+
   <span
     className="objectBox-stackTrace-grid"
     key="stack"

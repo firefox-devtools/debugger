@@ -3,9 +3,9 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 const { resolve } = require("path");
-const root = resolve(__dirname);
+const rootDir = resolve(__dirname);
 module.exports = {
-  rootDir: root,
+  rootDir,
   displayName: "test",
   testPathIgnorePatterns: [
     "/node_modules/",
