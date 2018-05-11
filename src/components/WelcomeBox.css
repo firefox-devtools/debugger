@@ -41,6 +41,10 @@
   margin-top: 1em;
 }
 
+.welcomebox__searchSources:hover, .welcomebox__searchProject:hover {
+  background-color: transparent;
+}
+
 .shortcutKey,
 .shortcutLabel {
   flex: 1;
