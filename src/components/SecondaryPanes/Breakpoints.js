@@ -20,9 +20,6 @@ import {
   getRawSourceURL
 } from "../../utils/source";
 import {
-  getSources,
-  getSourceInSources,
-  getBreakpoints,
   getPauseReason,
   getSelectedSource,
   getTopFrame,

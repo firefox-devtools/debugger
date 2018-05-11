@@ -10,10 +10,9 @@ import classnames from "classnames";
 
 import { CloseButton } from "../shared/Button";
 
-import { createEditor } from "../../utils/breakpoint";
+import { createEditor, makeLocationId } from "../../utils/breakpoint";
 import { features } from "../../utils/prefs";
 import { isInterrupted } from "../../utils/pause";
-import { makeLocationId } from "../../utils/breakpoint";
 
 import type { LocalBreakpoint } from "./Breakpoints";
 import type SourceEditor from "../../utils/editor/source-editor";
@@ -159,10 +158,10 @@ class Breakpoint extends Component<Props> {
   }
 
   renderLineClose() {
-    const { breakpoint, onCloseClick, selectedSource } = this.props;
+    const { breakpoint, onCloseClick } = this.props;
     const { location } = breakpoint;
 
-    let { line, column } = location;
+    const { line, column } = location;
 
     return (
       <div className="breakpoint-line-close">
