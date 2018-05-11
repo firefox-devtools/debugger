@@ -59,7 +59,7 @@
     "postmerge": "node bin/post-merge.js",
     "postrewrite": "node bin/post-rewrite.js",
     "precommit": "yarn lint-staged",
-    "prepush": "yarn lint",
+    "prepush": "run-s  lint-js lint",
     "nom": "node bin/nom",
     "diff": "node bin/diff",
     "install": "prettier --write package.json"
