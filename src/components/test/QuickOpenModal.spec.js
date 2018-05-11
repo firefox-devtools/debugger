@@ -370,9 +370,9 @@ describe("QuickOpenModal", () => {
           enabled: true,
           query: "test",
           searchType: "functions",
-          selectedSource: I.Map({id:sourceId}),
+          selectedSource: I.Map({ id: sourceId }),
           symbols: {
-            functions: [{title: "functionA"}, {title: "anonymous"}],
+            functions: [{ title: "functionA" }, { title: "anonymous" }],
             variables: {}
           }
         },
@@ -391,13 +391,17 @@ describe("QuickOpenModal", () => {
         }
       };
       wrapper.setState(() => ({
-        results: [{id: "0", location}, { id: "1"}, {id: "2"}],
+        results: [{ id: "0", location }, { id: "1" }, { id: "2" }],
         selectedIndex: 1
       }));
       wrapper.find("SearchInput").simulate("keydown", event);
       expect(event.preventDefault).toHaveBeenCalled();
       expect(wrapper.state().selectedIndex).toEqual(0);
-      expect(props.highlightLineRange).toHaveBeenCalledWith({"end": 3, "sourceId": sourceId, "start": 1});
+      expect(props.highlightLineRange).toHaveBeenCalledWith({
+        end: 3,
+        sourceId: sourceId,
+        start: 1
+      });
     });
 
     it("on ArrowDown, traverse down with variables", () => {
@@ -407,9 +411,9 @@ describe("QuickOpenModal", () => {
           enabled: true,
           query: "test",
           searchType: "variables",
-          selectedSource: I.Map({id:sourceId}),
+          selectedSource: I.Map({ id: sourceId }),
           symbols: {
-            functions: [{title: "functionA"}, {title: "anonymous"}],
+            functions: [{ title: "functionA" }, { title: "anonymous" }],
             variables: {}
           }
         },
@@ -425,7 +429,7 @@ describe("QuickOpenModal", () => {
         }
       };
       wrapper.setState(() => ({
-        results: [{id: "0", location}, { id: "1"}, {id: "2"}],
+        results: [{ id: "0", location }, { id: "1" }, { id: "2" }],
         selectedIndex: 1
       }));
       wrapper.find("SearchInput").simulate("keydown", event);
