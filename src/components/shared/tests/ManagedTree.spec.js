@@ -7,7 +7,7 @@ import { mount, shallow } from "enzyme";
 
 import ManagedTree from "../ManagedTree";
 
-describe("ManagedTree", () => {
+function getTestContent() {
   const testTree = {
     a: {
       value: "FOO",
@@ -44,68 +44,77 @@ describe("ManagedTree", () => {
     }
     return `${item}-$`;
   };
-  const tree = shallow(
-    <ManagedTree
-      getRoots={() => Object.keys(testTree)}
-      getParent={item => null}
-      getChildren={branch => branch.children || []}
-      itemHeight={24}
-      autoExpandAll={true}
-      autoExpandDepth={1}
-      getPath={getPath}
-      renderItem={renderItem}
-      onFocus={onFocus}
-      onExpand={onExpand}
-      onCollapse={onCollapse}
-    />
-  );
-  beforeEach(() => {
-    onFocus.mockClear();
-    onExpand.mockClear();
-    onCollapse.mockClear();
-  });
-  it("render", () => expect(tree).toMatchSnapshot());
+
+  return {
+    testTree,
+    props: {
+      getRoots: () => Object.keys(testTree),
+      getParent: item => null,
+      getChildren: branch => branch.children || [],
+      itemHeight: 24,
+      autoExpandAll: true,
+      autoExpandDepth: 1,
+      getPath,
+      renderItem,
+      onFocus,
+      onExpand,
+      onCollapse
+    }
+  };
+}
+
+describe("ManagedTree", () => {
+  it("render", () =>
+    expect(
+      shallow(<ManagedTree {...getTestContent().props} />)
+    ).toMatchSnapshot());
   it("expands list items", () => {
-    tree.setProps({
+    const { props, testTree } = getTestContent();
+    const wrapper = shallow(<ManagedTree {...props} />);
+    wrapper.setProps({
       listItems: testTree.b.children
     });
-    expect(tree).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
   it("highlights list items", () => {
-    tree.setProps({
+    const { props, testTree } = getTestContent();
+    const wrapper = shallow(<ManagedTree {...props} />);
+    wrapper.setProps({
       highlightItems: testTree.a.children
     });
-    expect(tree).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
   it("focuses list items", () => {
-    tree.setProps({ focused: testTree.a });
-    expect(tree).toMatchSnapshot();
-    expect(tree.state().focusedItem).toEqual(testTree.a);
-    expect(onFocus).toHaveBeenCalledWith(testTree.a);
+    const { props, testTree } = getTestContent();
+    const wrapper = shallow(<ManagedTree {...props} />);
+    wrapper.setProps({ focused: testTree.a });
+    expect(wrapper).toMatchSnapshot();
+    expect(wrapper.state().focusedItem).toEqual(testTree.a);
+    expect(props.onFocus).toHaveBeenCalledWith(testTree.a);
   });
   it("sets expanded items", () => {
-    const mountedTree = mount(
-      <ManagedTree
-        getRoots={() => Object.keys(testTree)}
-        getParent={item => null}
-        getChildren={branch => branch.children || []}
-        itemHeight={24}
-        autoExpandAll={true}
-        autoExpandDepth={1}
-        getPath={getPath}
-        renderItem={renderItem}
-        onFocus={onFocus}
-        onExpand={onExpand}
-        onCollapse={onCollapse}
-      />
-    );
-    expect(mountedTree).toMatchSnapshot();
-    mountedTree
+    const { props, testTree } = getTestContent();
+    const wrapper = mount(<ManagedTree {...props} />);
+    expect(wrapper).toMatchSnapshot();
+    // We auto-expanded the first layer, so unexpand first node.
+    wrapper
       .find("TreeNode")
       .first()
       .simulate("click");
-    expect(mountedTree).toMatchSnapshot();
-    expect(onExpand).toHaveBeenCalledWith(
+    expect(wrapper).toMatchSnapshot();
+    expect(props.onExpand).toHaveBeenCalledWith(
+      "c",
+      new Set(
+        Object.keys(testTree)
+          .filter(i => i !== "a")
+          .map(k => `${k}-$`)
+      )
+    );
+    wrapper
+      .find("TreeNode")
+      .first()
+      .simulate("click");
+    expect(props.onExpand).toHaveBeenCalledWith(
       "c",
       new Set(Object.keys(testTree).map(k => `${k}-$`))
     );

@@ -11,8 +11,7 @@
     "copy-assets": "node bin/copy-assets",
     "copy-assets-watch": "node bin/copy-assets --watch",
     "license-check": "devtools-license-check",
-    "prepublish": "node bin/publish-assets",
-    "test": "jest"
+    "test": "jest --projects jest.config.js"
   },
   "author": "",
   "license": "MPL-2.0",
@@ -54,31 +53,5 @@
     "postcss-url-mapper": "^1.2.0",
     "react-immutable-proptypes": "^2.1.0",
     "redux-logger": "=3.0.6"
-  },
-  "jest": {
-    "rootDir": "src",
-    "setupFiles": [
-      "<rootDir>/test/__mocks__/request-animation-frame.js",
-      "<rootDir>/test/__mocks__/selection.js",
-      "<rootDir>/test/setup.js"
-    ],
-    "setupTestFrameworkScriptFile": "<rootDir>/test/setup-file.js",
-    "testMatch": [
-      "**/tests/**/*.js"
-    ],
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "<rootDir>/test/",
-      "<rootDir>/reps/tests/test-helpers",
-      "<rootDir>/utils/tests/fixtures/",
-      "<rootDir>/object-inspector/tests/__mocks__/",
-      "<rootDir>/object-inspector/tests/test-utils"
-    ],
-    "transformIgnorePatterns": [
-      "node_modules/(?!devtools-)"
-    ],
-    "moduleNameMapper": {
-      "\\.css$": "<rootDir>/../../../src/test/__mocks__/styleMock.js"
-    }
   }
 }
