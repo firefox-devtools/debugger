@@ -16,7 +16,7 @@ import { isInterrupted } from "../../utils/pause";
 
 import type { LocalBreakpoint } from "./Breakpoints";
 import type SourceEditor from "../../utils/editor/source-editor";
-import type { Source } from "../../types";
+import type { Frame, Source, Why } from "../../types";
 
 type Props = {
   breakpoint: LocalBreakpoint,
