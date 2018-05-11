@@ -423,7 +423,10 @@ function mapStateToProps(state) {
 
   return {
     enabled: getQuickOpenEnabled(state),
-    sources: formatSources(getRelativeSources(state), getTabs(state).toArray()),
+    sources: formatSources(
+      getRelativeSources(state).toArray(),
+      getTabs(state).toArray()
+    ),
     selectedSource,
     symbols: formatSymbols(getSymbols(state, selectedSource)),
     symbolsLoading: isSymbolsLoading(state, selectedSource),
