@@ -78,7 +78,7 @@
 }
 
 .search-field .summary {
-  line-height: 27px;
+  padding-top: 1px;
   padding-right: 10px;
   color: var(--theme-body-color-inactive);
 }
@@ -104,6 +104,11 @@
 
 .search-field .search-nav-buttons .nav-btn:active path {
   fill: var(--theme-comment-alt);
+}
+
+.search-field .search-nav-buttons .nav-btn svg {
+  margin-top: -9px;
+  margin-inline-start: -3px;
 }
 
 .search-field .search-nav-buttons .nav-btn path {
