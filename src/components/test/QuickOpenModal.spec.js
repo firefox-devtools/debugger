@@ -6,6 +6,7 @@
 import React from "react";
 import { shallow, mount } from "enzyme";
 import { QuickOpenModal } from "../QuickOpenModal";
+import * as I from "immutable";
 
 jest.mock("fuzzaldrin-plus");
 
@@ -359,6 +360,78 @@ describe("QuickOpenModal", () => {
       };
       wrapper.find("SearchInput").simulate("keydown", event);
       expect(props.closeQuickOpen).toHaveBeenCalled();
+      expect(props.selectLocation).not.toHaveBeenCalled();
+    });
+
+    it("on ArrowUp, traverse results up with functions", () => {
+      const sourceId = "sourceId";
+      const { wrapper, props } = generateModal(
+        {
+          enabled: true,
+          query: "test",
+          searchType: "functions",
+          selectedSource: I.Map({id:sourceId}),
+          symbols: {
+            functions: [{title: "functionA"}, {title: "anonymous"}],
+            variables: {}
+          }
+        },
+        "shallow"
+      );
+      const event = {
+        preventDefault: jest.fn(),
+        key: "ArrowUp"
+      };
+      const location = {
+        start: {
+          line: 1
+        },
+        end: {
+          line: 3
+        }
+      };
+      wrapper.setState(() => ({
+        results: [{id: "0", location}, { id: "1"}, {id: "2"}],
+        selectedIndex: 1
+      }));
+      wrapper.find("SearchInput").simulate("keydown", event);
+      expect(event.preventDefault).toHaveBeenCalled();
+      expect(wrapper.state().selectedIndex).toEqual(0);
+      expect(props.highlightLineRange).toHaveBeenCalledWith({"end": 3, "sourceId": sourceId, "start": 1});
+    });
+
+    it("on ArrowDown, traverse down with variables", () => {
+      const sourceId = "sourceId";
+      const { wrapper, props } = generateModal(
+        {
+          enabled: true,
+          query: "test",
+          searchType: "variables",
+          selectedSource: I.Map({id:sourceId}),
+          symbols: {
+            functions: [{title: "functionA"}, {title: "anonymous"}],
+            variables: {}
+          }
+        },
+        "shallow"
+      );
+      const event = {
+        preventDefault: jest.fn(),
+        key: "ArrowDown"
+      };
+      const location = {
+        start: {
+          line: 7
+        }
+      };
+      wrapper.setState(() => ({
+        results: [{id: "0", location}, { id: "1"}, {id: "2"}],
+        selectedIndex: 1
+      }));
+      wrapper.find("SearchInput").simulate("keydown", event);
+      expect(event.preventDefault).toHaveBeenCalled();
+      expect(wrapper.state().selectedIndex).toEqual(2);
+      expect(props.selectLocation).toHaveBeenCalledWith({});
     });
   });
 
