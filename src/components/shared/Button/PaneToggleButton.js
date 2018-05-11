@@ -6,8 +6,8 @@
 import React, { PureComponent } from "react";
 import classnames from "classnames";
 import Svg from "../Svg";
-import CommandBarButton from "./CommandBarButton";
-import "./PaneToggle.css";
+import { CommandBarButton } from "./";
+import "./styles/PaneToggleButton.css";
 
 type Props = {
   collapsed: boolean,

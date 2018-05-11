@@ -9,7 +9,7 @@ import { connect } from "react-redux";
 
 import { showMenu, buildMenu } from "devtools-contextmenu";
 
-import CloseButton from "../shared/Button/Close";
+import { CloseButton } from "../shared/Button";
 
 import type { List } from "immutable";
 import type { SourceRecord } from "../../types";

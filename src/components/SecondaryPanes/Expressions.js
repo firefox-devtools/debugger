@@ -13,7 +13,7 @@ import { getExpressions, getExpressionError } from "../../selectors";
 import { getValue } from "../../utils/expressions";
 import { createObjectClient } from "../../client/firefox";
 
-import CloseButton from "../shared/Button/Close";
+import { CloseButton } from "../shared/Button";
 
 import type { List } from "immutable";
 import type { Expression } from "../../types";

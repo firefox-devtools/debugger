@@ -9,7 +9,7 @@ import ReactDOM from "react-dom";
 import classnames from "classnames";
 import { isGeneratedId } from "devtools-source-map";
 
-import CloseButton from "../shared/Button/Close";
+import { CloseButton } from "../shared/Button";
 
 import { createEditor } from "../../utils/breakpoint";
 import { features } from "../../utils/prefs";

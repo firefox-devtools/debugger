@@ -11,7 +11,7 @@ import actions from "../actions";
 import { getPaneCollapse } from "../selectors";
 import { formatKeyShortcut } from "../utils/text";
 
-import PaneToggleButton from "./shared/Button/PaneToggle";
+import { PaneToggleButton } from "./shared/Button";
 import type { ActiveSearchType } from "../reducers/ui";
 
 import "./WelcomeBox.css";
