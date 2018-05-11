@@ -12,13 +12,18 @@
 
 .search-field {
   position: relative;
-
+  height: 27px;
   width: calc(100% - 1px);
   background-color: var(--theme-toolbar-background);
   border-bottom: 1px solid var(--theme-splitter-color);
-  padding: 5px 10px;
+  padding-right: 10px;
   display: flex;
   flex-shrink: 0;
+}
+
+.search-field.big {
+  padding: 5px 10px;
+  height: 40px;
 }
 
 .search-field i {
@@ -28,19 +33,27 @@
 }
 
 .search-field i svg {
+  width: 16px;
+}
+
+.search-field.big i svg {
   width: 22px;
 }
 
 .search-field input {
-  position: relative;
-  margin-left: 30px;
   border: none;
   line-height: 30px;
   background-color: var(--theme-toolbar-background);
   color: var(--theme-body-color-active);
   width: calc(100% - 38px);
   flex: 1;
+}
+
+.search-field.big input {
+  position: relative;
+  margin-left: 30px;
   font-size: 14px;
+  line-height: 40px;
 }
 
 .search-field input:focus {
@@ -53,15 +66,18 @@
 
 .search-field i.magnifying-glass,
 .search-field i.sad-face {
-  position: absolute;
-  top: 50%;
-  padding: 2px 0;
+  padding: 6px;
   width: 24px;
-  margin-top: -12px;
 }
 
 .search-field i.sad-face {
   padding-top: 1px;
+}
+
+.search-field.big i.magnifying-glass,
+.search-field.big i.sad-face {
+  position: absolute;
+  width: 40px;
 }
 
 .search-field .magnifying-glass path,
@@ -81,6 +97,10 @@
   line-height: 27px;
   padding-right: 10px;
   color: var(--theme-body-color-inactive);
+}
+
+.search-field.big .summary {
+  line-height: 40px;
 }
 
 .search-field .search-nav-buttons {
