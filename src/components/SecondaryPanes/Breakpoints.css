@@ -26,6 +26,7 @@
   color: var(--theme-content-color1);
   position: relative;
   transition: all 0.25s ease;
+  cursor: pointer;
 }
 
 .breakpoints-list .breakpoint-heading,
@@ -195,7 +196,7 @@ html[dir="rtl"] .breakpoints-list .breakpoint .breakpoint-line {
 }
 
 .CodeMirror.cm-s-mozilla-breakpoint {
-  cursor: default;
+  cursor: pointer;
 }
 
 .CodeMirror.cm-s-mozilla-breakpoint .CodeMirror-lines {
