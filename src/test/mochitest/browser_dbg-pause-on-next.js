@@ -10,6 +10,6 @@ add_task(async function() {
   await waitForState(dbg, state => dbg.selectors.getIsWaitingOnBreak(state))
   invokeInTab("simple");
 
-  await waitForPaused(dbg);
+  await waitForPaused(dbg, "simple3");
   assertPaused(dbg);
 });
