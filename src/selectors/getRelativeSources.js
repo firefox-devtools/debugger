@@ -20,11 +20,10 @@ function getRelativeUrl(url, root) {
 }
 
 function formatSource(source: SourceRecord, root): RelativeSource {
-  // return source.set("relativeUrl", getRelativeUrl(source.url, root));
-  return new RelativeSourceRecordClass({
-    ...source.toJS(),
-    relativeUrl: getRelativeUrl(source.url, root)
-  });
+  return new RelativeSourceRecordClass(source).set(
+    "relativeUrl",
+    getRelativeUrl(source.url, root)
+  );
 }
 
 /*
