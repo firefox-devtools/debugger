@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`getScopes finds scope bindings and exclude Flowtype at line 6 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings and exclude Flowtype: getScopes finds scope bindings and exclude Flowtype at line 6 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -135,7 +135,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings and exclude Flowtype at line 8 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings and exclude Flowtype: getScopes finds scope bindings and exclude Flowtype at line 8 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -294,7 +294,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for arrow functions at line 2 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings for arrow functions: getScopes finds scope bindings for arrow functions at line 2 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -456,7 +456,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for arrow functions at line 4 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings for arrow functions: getScopes finds scope bindings for arrow functions at line 4 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -664,7 +664,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for arrow functions at line 7 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings for arrow functions: getScopes finds scope bindings for arrow functions at line 7 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -941,7 +941,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for arrow functions at line 8 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings for arrow functions: getScopes finds scope bindings for arrow functions at line 8 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -1264,7 +1264,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for block statements at line 2 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings for block statements: getScopes finds scope bindings for block statements at line 2 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -1409,7 +1409,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for block statements at line 6 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings for block statements: getScopes finds scope bindings for block statements at line 6 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -1690,7 +1690,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for class declarations at line 2 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings for class declarations: getScopes finds scope bindings for class declarations at line 2 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -1858,7 +1858,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for class declarations at line 5 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings for class declarations: getScopes finds scope bindings for class declarations at line 5 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -2142,7 +2142,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for class declarations at line 7 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings for class declarations: getScopes finds scope bindings for class declarations at line 7 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -2511,7 +2511,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for class expressions at line 2 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings for class expressions: getScopes finds scope bindings for class expressions at line 2 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -2630,7 +2630,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for class expressions at line 5 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings for class expressions: getScopes finds scope bindings for class expressions at line 5 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -2849,7 +2849,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for class expressions at line 7 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings for class expressions: getScopes finds scope bindings for class expressions at line 7 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -3107,7 +3107,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for class properties at line 2 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings for class properties: getScopes finds scope bindings for class properties at line 2 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -3192,7 +3192,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for class properties at line 4 column 16 1`] = `
+exports[`Parser.getScopes finds scope bindings for class properties: getScopes finds scope bindings for class properties at line 4 column 16 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -3389,7 +3389,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for class properties at line 6 column 12 1`] = `
+exports[`Parser.getScopes finds scope bindings for class properties: getScopes finds scope bindings for class properties at line 6 column 12 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -3574,7 +3574,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for class properties at line 7 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings for class properties: getScopes finds scope bindings for class properties at line 7 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -3805,7 +3805,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for complex binding nesting at line 16 column 4 1`] = `
+exports[`Parser.getScopes finds scope bindings for complex binding nesting: getScopes finds scope bindings for complex binding nesting at line 16 column 4 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -4663,7 +4663,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for complex binding nesting at line 20 column 6 1`] = `
+exports[`Parser.getScopes finds scope bindings for complex binding nesting: getScopes finds scope bindings for complex binding nesting at line 20 column 6 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -5621,7 +5621,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for declarations with patterns at line 1 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings for declarations with patterns: getScopes finds scope bindings for declarations with patterns at line 1 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {},
@@ -5721,7 +5721,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for for loops at line 2 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings for for loops: getScopes finds scope bindings for for loops at line 2 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -5866,7 +5866,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for for loops at line 3 column 17 1`] = `
+exports[`Parser.getScopes finds scope bindings for for loops: getScopes finds scope bindings for for loops at line 3 column 17 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -6011,7 +6011,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for for loops at line 4 column 17 1`] = `
+exports[`Parser.getScopes finds scope bindings for for loops: getScopes finds scope bindings for for loops at line 4 column 17 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -6202,7 +6202,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for for loops at line 5 column 25 1`] = `
+exports[`Parser.getScopes finds scope bindings for for loops: getScopes finds scope bindings for for loops at line 5 column 25 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -6393,7 +6393,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for for loops at line 7 column 22 1`] = `
+exports[`Parser.getScopes finds scope bindings for for loops: getScopes finds scope bindings for for loops at line 7 column 22 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -6538,7 +6538,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for for loops at line 8 column 22 1`] = `
+exports[`Parser.getScopes finds scope bindings for for loops: getScopes finds scope bindings for for loops at line 8 column 22 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -6729,7 +6729,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for for loops at line 9 column 23 1`] = `
+exports[`Parser.getScopes finds scope bindings for for loops: getScopes finds scope bindings for for loops at line 9 column 23 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -6920,7 +6920,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for for loops at line 11 column 23 1`] = `
+exports[`Parser.getScopes finds scope bindings for for loops: getScopes finds scope bindings for for loops at line 11 column 23 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -7065,7 +7065,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for for loops at line 12 column 23 1`] = `
+exports[`Parser.getScopes finds scope bindings for for loops: getScopes finds scope bindings for for loops at line 12 column 23 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -7256,7 +7256,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for for loops at line 13 column 24 1`] = `
+exports[`Parser.getScopes finds scope bindings for for loops: getScopes finds scope bindings for for loops at line 13 column 24 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -7447,7 +7447,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for function declarations at line 2 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings for function declarations: getScopes finds scope bindings for function declarations at line 2 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -7566,7 +7566,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for function declarations at line 3 column 20 1`] = `
+exports[`Parser.getScopes finds scope bindings for function declarations: getScopes finds scope bindings for function declarations at line 3 column 20 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -7739,7 +7739,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for function declarations at line 5 column 1 1`] = `
+exports[`Parser.getScopes finds scope bindings for function declarations: getScopes finds scope bindings for function declarations at line 5 column 1 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -7904,7 +7904,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for function declarations at line 9 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings for function declarations: getScopes finds scope bindings for function declarations at line 9 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -8168,7 +8168,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for function expressions at line 2 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings for function expressions: getScopes finds scope bindings for function expressions at line 2 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -8317,7 +8317,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for function expressions at line 3 column 23 1`] = `
+exports[`Parser.getScopes finds scope bindings for function expressions: getScopes finds scope bindings for function expressions at line 3 column 23 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -8520,7 +8520,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for function expressions at line 6 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings for function expressions: getScopes finds scope bindings for function expressions at line 6 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -8784,7 +8784,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for out of order declarations at line 2 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings for out of order declarations: getScopes finds scope bindings for out of order declarations at line 2 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -8978,7 +8978,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for out of order declarations at line 5 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings for out of order declarations: getScopes finds scope bindings for out of order declarations at line 5 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -9342,7 +9342,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for out of order declarations at line 11 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings for out of order declarations: getScopes finds scope bindings for out of order declarations at line 11 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -9833,7 +9833,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for out of order declarations at line 14 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings for out of order declarations: getScopes finds scope bindings for out of order declarations at line 14 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -10324,7 +10324,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for out of order declarations at line 17 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings for out of order declarations: getScopes finds scope bindings for out of order declarations at line 17 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -10688,7 +10688,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for switch statements at line 2 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings for switch statements: getScopes finds scope bindings for switch statements at line 2 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -10793,188 +10793,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for switch statements at line 5 column 0 1`] = `
-Array [
-  Object {
-    "bindings": Object {
-      "one": Object {
-        "refs": Array [
-          Object {
-            "declaration": Object {
-              "end": Object {
-                "column": 12,
-                "line": 7,
-                "sourceId": "scopes/switch-statement/originalSource-1",
-              },
-              "start": Object {
-                "column": 4,
-                "line": 7,
-                "sourceId": "scopes/switch-statement/originalSource-1",
-              },
-            },
-            "end": Object {
-              "column": 11,
-              "line": 7,
-              "sourceId": "scopes/switch-statement/originalSource-1",
-            },
-            "start": Object {
-              "column": 8,
-              "line": 7,
-              "sourceId": "scopes/switch-statement/originalSource-1",
-            },
-            "type": "let",
-          },
-        ],
-        "type": "let",
-      },
-      "two": Object {
-        "refs": Array [
-          Object {
-            "declaration": Object {
-              "end": Object {
-                "column": 12,
-                "line": 9,
-                "sourceId": "scopes/switch-statement/originalSource-1",
-              },
-              "start": Object {
-                "column": 4,
-                "line": 9,
-                "sourceId": "scopes/switch-statement/originalSource-1",
-              },
-            },
-            "end": Object {
-              "column": 11,
-              "line": 9,
-              "sourceId": "scopes/switch-statement/originalSource-1",
-            },
-            "start": Object {
-              "column": 8,
-              "line": 9,
-              "sourceId": "scopes/switch-statement/originalSource-1",
-            },
-            "type": "let",
-          },
-        ],
-        "type": "let",
-      },
-    },
-    "displayName": "Switch",
-    "end": Object {
-      "column": 1,
-      "line": 13,
-      "sourceId": "scopes/switch-statement/originalSource-1",
-    },
-    "start": Object {
-      "column": 0,
-      "line": 3,
-      "sourceId": "scopes/switch-statement/originalSource-1",
-    },
-    "type": "block",
-  },
-  Object {
-    "bindings": Object {
-      "this": Object {
-        "refs": Array [],
-        "type": "implicit",
-      },
-      "zero": Object {
-        "refs": Array [
-          Object {
-            "declaration": Object {
-              "end": Object {
-                "column": 13,
-                "line": 5,
-                "sourceId": "scopes/switch-statement/originalSource-1",
-              },
-              "start": Object {
-                "column": 4,
-                "line": 5,
-                "sourceId": "scopes/switch-statement/originalSource-1",
-              },
-            },
-            "end": Object {
-              "column": 12,
-              "line": 5,
-              "sourceId": "scopes/switch-statement/originalSource-1",
-            },
-            "start": Object {
-              "column": 8,
-              "line": 5,
-              "sourceId": "scopes/switch-statement/originalSource-1",
-            },
-            "type": "var",
-          },
-        ],
-        "type": "var",
-      },
-    },
-    "displayName": "Module",
-    "end": Object {
-      "column": 0,
-      "line": 14,
-      "sourceId": "scopes/switch-statement/originalSource-1",
-    },
-    "start": Object {
-      "column": 0,
-      "line": 1,
-      "sourceId": "scopes/switch-statement/originalSource-1",
-    },
-    "type": "block",
-  },
-  Object {
-    "bindings": Object {},
-    "displayName": "Lexical Global",
-    "end": Object {
-      "column": 0,
-      "line": 14,
-      "sourceId": "scopes/switch-statement/originalSource-1",
-    },
-    "start": Object {
-      "column": 0,
-      "line": 1,
-      "sourceId": "scopes/switch-statement/originalSource-1",
-    },
-    "type": "block",
-  },
-  Object {
-    "bindings": Object {
-      "foo": Object {
-        "refs": Array [
-          Object {
-            "end": Object {
-              "column": 11,
-              "line": 3,
-              "sourceId": "scopes/switch-statement/originalSource-1",
-            },
-            "meta": null,
-            "start": Object {
-              "column": 8,
-              "line": 3,
-              "sourceId": "scopes/switch-statement/originalSource-1",
-            },
-            "type": "ref",
-          },
-        ],
-        "type": "global",
-      },
-    },
-    "displayName": "Global",
-    "end": Object {
-      "column": 0,
-      "line": 14,
-      "sourceId": "scopes/switch-statement/originalSource-1",
-    },
-    "start": Object {
-      "column": 0,
-      "line": 1,
-      "sourceId": "scopes/switch-statement/originalSource-1",
-    },
-    "type": "object",
-  },
-]
-`;
-
-exports[`getScopes finds scope bindings for switch statements at line 7 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings for switch statements: getScopes finds scope bindings for switch statements at line 5 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -11155,7 +10974,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for switch statements at line 9 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings for switch statements: getScopes finds scope bindings for switch statements at line 7 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -11336,7 +11155,188 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for switch statements at line 11 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings for switch statements: getScopes finds scope bindings for switch statements at line 9 column 0 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "one": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 12,
+                "line": 7,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 7,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 11,
+              "line": 7,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 7,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "type": "let",
+          },
+        ],
+        "type": "let",
+      },
+      "two": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 12,
+                "line": 9,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 9,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 11,
+              "line": 9,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 9,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "type": "let",
+          },
+        ],
+        "type": "let",
+      },
+    },
+    "displayName": "Switch",
+    "end": Object {
+      "column": 1,
+      "line": 13,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 3,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "zero": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 13,
+                "line": 5,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 5,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 12,
+              "line": 5,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 5,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "type": "var",
+          },
+        ],
+        "type": "var",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "foo": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 3,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 8,
+              "line": 3,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 14,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`Parser.getScopes finds scope bindings for switch statements: getScopes finds scope bindings for switch statements at line 11 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -11563,7 +11563,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for try..catch at line 2 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings for try..catch: getScopes finds scope bindings for try..catch at line 2 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -11678,7 +11678,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for try..catch at line 4 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings for try..catch: getScopes finds scope bindings for try..catch at line 4 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -11839,7 +11839,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings for try..catch at line 7 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings for try..catch: getScopes finds scope bindings for try..catch at line 7 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -12046,7 +12046,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings in a JSX element at line 2 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings in a JSX element: getScopes finds scope bindings in a JSX element at line 2 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -12188,7 +12188,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings in a module at line 7 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings in a module: getScopes finds scope bindings in a module at line 7 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -12457,7 +12457,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings in a typescript file at line 3 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings in a typescript file: getScopes finds scope bindings in a typescript file at line 3 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -12626,7 +12626,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings in a typescript file at line 6 column 4 1`] = `
+exports[`Parser.getScopes finds scope bindings in a typescript file: getScopes finds scope bindings in a typescript file at line 6 column 4 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -12865,7 +12865,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings in a typescript-jsx file at line 3 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings in a typescript-jsx file: getScopes finds scope bindings in a typescript-jsx file at line 3 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -13034,7 +13034,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings in a typescript-jsx file at line 6 column 4 1`] = `
+exports[`Parser.getScopes finds scope bindings in a typescript-jsx file: getScopes finds scope bindings in a typescript-jsx file at line 6 column 4 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -13273,7 +13273,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings in a vue file at line 14 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings in a vue file: getScopes finds scope bindings in a vue file at line 14 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -13412,7 +13412,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings with expression metadata at line 2 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings with expression metadata: getScopes finds scope bindings with expression metadata at line 2 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -13693,7 +13693,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings with proper types at line 5 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings with proper types: getScopes finds scope bindings with proper types at line 5 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -14021,7 +14021,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings with proper types at line 9 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings with proper types: getScopes finds scope bindings with proper types at line 9 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -14419,7 +14419,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings with proper types at line 18 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings with proper types: getScopes finds scope bindings with proper types at line 18 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -14847,7 +14847,7 @@ Array [
 ]
 `;
 
-exports[`getScopes finds scope bindings with proper types at line 23 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings with proper types: getScopes finds scope bindings with proper types at line 23 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
