@@ -106,7 +106,7 @@ html .breakpoints-list .breakpoint.paused {
 
 .breakpoints-list .breakpoint.disabled .breakpoint-label {
   color: var(--theme-comment);
-  transition: color 0.5s linear;
+  transition: color 0.15s linear;
 }
 
 .breakpoints-list .breakpoint:hover {
@@ -206,8 +206,11 @@ html[dir="rtl"] .breakpoints-list .breakpoint .breakpoint-line {
   min-width: initial !important;
 }
 
+.breakpoints-list .breakpoint .CodeMirror.cm-s-mozilla-breakpoint {
+  transition: opacity 0.15s linear;
+}
+
 .breakpoints-list .breakpoint.disabled .CodeMirror.cm-s-mozilla-breakpoint {
-  transition: opacity 0.5s linear;
   opacity: 0.5;
 }
 
