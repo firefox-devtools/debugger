@@ -10,7 +10,7 @@ import classnames from "classnames";
 
 import { CloseButton } from "../shared/Button";
 
-import { createEditor, makeLocationId } from "../../utils/breakpoint";
+import { createEditor, getLocationWithoutColumn } from "../../utils/breakpoint";
 import { features } from "../../utils/prefs";
 import { isInterrupted } from "../../utils/pause";
 
@@ -58,8 +58,8 @@ function isCurrentlyPausedAtBreakpoint(
     return false;
   }
 
-  const bpId = makeLocationId(breakpoint.location);
-  const pausedId = makeLocationId(frame.location);
+  const bpId = getLocationWithoutColumn(breakpoint.location);
+  const pausedId = getLocationWithoutColumn(frame.location);
   return bpId === pausedId;
 }
 
