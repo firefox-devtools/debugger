@@ -326,7 +326,7 @@ exports[`QuickOpenModal Basic render with mount 1`] = `
               selectedItemId=""
               showClose={false}
               showErrorEmoji={false}
-              size=""
+              size="big"
               summaryMsg=""
             >
               <div
@@ -336,7 +336,7 @@ exports[`QuickOpenModal Basic render with mount 1`] = `
                   aria-expanded={false}
                   aria-haspopup="listbox"
                   aria-owns="result-list"
-                  className="search-field"
+                  className="search-field big"
                   role="combobox"
                 >
                   <Svg
@@ -418,7 +418,7 @@ exports[`QuickOpenModal Renders when enabled 1`] = `
     selectedItemId=""
     showClose={false}
     showErrorEmoji={false}
-    size=""
+    size="big"
     summaryMsg=""
   />
   <ResultList
@@ -608,7 +608,7 @@ exports[`QuickOpenModal showErrorEmoji false when count + query 1`] = `
               selectedItemId=""
               showClose={false}
               showErrorEmoji={false}
-              size=""
+              size="big"
               summaryMsg=""
             >
               <div
@@ -618,7 +618,7 @@ exports[`QuickOpenModal showErrorEmoji false when count + query 1`] = `
                   aria-expanded={true}
                   aria-haspopup="listbox"
                   aria-owns="result-list"
-                  className="search-field"
+                  className="search-field big"
                   role="combobox"
                 >
                   <Svg
@@ -1292,7 +1292,7 @@ exports[`QuickOpenModal updateResults on enable 2`] = `
               selectedItemId=""
               showClose={false}
               showErrorEmoji={false}
-              size=""
+              size="big"
               summaryMsg=""
             >
               <div
@@ -1302,7 +1302,7 @@ exports[`QuickOpenModal updateResults on enable 2`] = `
                   aria-expanded={false}
                   aria-haspopup="listbox"
                   aria-owns="result-list"
-                  className="search-field"
+                  className="search-field big"
                   role="combobox"
                 >
                   <Svg

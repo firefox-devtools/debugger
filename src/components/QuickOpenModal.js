@@ -396,6 +396,7 @@ export class QuickOpenModal extends Component<Props, State> {
           selectedItemId={
             expanded && items[selectedIndex] ? items[selectedIndex].id : ""
           }
+          {...(this.isSourceSearch() ? { size: "big" } : {})}
         />
         {this.renderLoading()}
         {newResults && (
