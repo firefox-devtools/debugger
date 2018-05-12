@@ -21,7 +21,11 @@ import { selectLocation } from "../sources";
 import { loadSourceText } from "../sources/loadSourceText";
 import { togglePaneCollapse } from "../ui";
 import { command } from "./commands";
+import { fetchExtra } from "./extra";
+import { fetchComponentAncestors } from "./components";
+
 import { shouldStep } from "../../utils/pause";
+import { features } from "../../utils/prefs";
 
 import { updateFrameLocation } from "./mapFrames";
 
@@ -84,6 +88,11 @@ export function paused(pauseInfo: Pause) {
 
     dispatch(togglePaneCollapse("end", false));
     await dispatch(fetchScopes());
+    const extra = await dispatch(fetchExtra());
+
+    if (features.frameComponents && extra && extra.react) {
+      await dispatch(fetchComponentAncestors());
+    }
 
     // Run after fetching scoping data so that it may make use of the sourcemap
     // expression mappings for local variables.

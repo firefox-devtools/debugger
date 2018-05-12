@@ -21,7 +21,6 @@ if (isDevelopment()) {
   pref("devtools.debugger.call-stack-visible", true);
   pref("devtools.debugger.scopes-visible", true);
   pref("devtools.debugger.component-visible", true);
-  pref("devtools.debugger.component-stack-visible", false);
   pref("devtools.debugger.workers-visible", true);
   pref("devtools.debugger.expressions-visible", true);
   pref("devtools.debugger.breakpoints-visible", true);
@@ -54,7 +53,7 @@ if (isDevelopment()) {
   pref("devtools.debugger.features.column-breakpoints", true);
   pref("devtools.debugger.features.replay", true);
   pref("devtools.debugger.features.pause-points", true);
-  pref("devtools.debugger.features.component-stack", true);
+  pref("devtools.debugger.features.frame-components", true);
   pref("devtools.debugger.features.skip-pausing", false);
 }
 
@@ -68,7 +67,6 @@ export const prefs = new PrefsHelper("devtools", {
   callStackVisible: ["Bool", "debugger.call-stack-visible"],
   scopesVisible: ["Bool", "debugger.scopes-visible"],
   componentVisible: ["Bool", "debugger.component-visible"],
-  componentStackVisible: ["Bool", "debugger.component-stack-visible"],
   workersVisible: ["Bool", "debugger.workers-visible"],
   breakpointsVisible: ["Bool", "debugger.breakpoints-visible"],
   expressionsVisible: ["Bool", "debugger.expressions-visible"],
@@ -103,7 +101,7 @@ export const features = new PrefsHelper("devtools.debugger.features", {
   codeFolding: ["Bool", "code-folding"],
   replay: ["Bool", "replay"],
   pausePoints: ["Bool", "pause-points"],
-  componentStack: ["Bool", "component-stack"],
+  frameComponents: ["Bool", "frame-components"],
   skipPausing: ["Bool", "skip-pausing"]
 });
 

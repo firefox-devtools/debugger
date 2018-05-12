@@ -23,6 +23,7 @@ import replay from "./replay";
 import quickOpen from "./quick-open";
 import sourceTree from "./source-tree";
 import debuggee from "./debuggee";
+import components from "./components";
 
 export default {
   expressions,
@@ -40,5 +41,6 @@ export default {
   replay,
   quickOpen,
   sourceTree,
-  debuggee
+  debuggee,
+  components
 };

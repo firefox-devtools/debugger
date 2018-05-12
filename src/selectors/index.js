@@ -8,6 +8,7 @@ export * from "../reducers/expressions";
 export * from "../reducers/sources";
 export * from "../reducers/pause";
 export * from "../reducers/debuggee";
+export * from "../reducers/components";
 export * from "../reducers/breakpoints";
 export * from "../reducers/pending-breakpoints";
 export * from "../reducers/ui";

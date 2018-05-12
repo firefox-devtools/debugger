@@ -8,6 +8,7 @@ import {
   getSourceInSources
 } from "../reducers/sources";
 import { getFrames } from "../reducers/pause";
+import { getComponentAncestors } from "../reducers/components";
 import { annotateFrames } from "../utils/pause/frames";
 import { isOriginalId } from "devtools-source-map";
 import { get } from "lodash";
@@ -29,6 +30,7 @@ function getSourceForFrame(sources, frame, isGeneratedSource) {
 function appendSource(sources, frame, selectedSource) {
   const isGeneratedSource =
     selectedSource && !isOriginalId(selectedSource.get("id"));
+
   return {
     ...frame,
     location: getLocation(frame, isGeneratedSource),
@@ -36,26 +38,56 @@ function appendSource(sources, frame, selectedSource) {
   };
 }
 
+function getAncestorFrames(ancestors) {
+  if (!ancestors) {
+    return [];
+  }
+
+  return ancestors
+    .filter(ancestor => typeof ancestor.class == "object")
+    .reverse()
+    .slice(1)
+    .map(ancestor => {
+      return {
+        id: ancestor.id,
+        component: ancestor.name,
+        displayName: "render",
+        location: ancestor.class.location
+      };
+    });
+}
+
 export function formatCallStackFrames(
   frames: Frame[],
   sources: SourcesMap,
-  selectedSource: Source
+  selectedSource: Source,
+  ancestors: Object[]
 ) {
   if (!frames) {
     return null;
   }
+
+  const ancestorFrames = getAncestorFrames(ancestors);
 
   const formattedFrames = frames
     .filter(frame => getSourceForFrame(sources, frame))
     .map(frame => appendSource(sources, frame, selectedSource))
     .filter(frame => !get(frame, "source.isBlackBoxed"));
 
-  return annotateFrames(formattedFrames);
+  const annotatedFrames = annotateFrames(formattedFrames);
+  if (ancestors) {
+    return annotatedFrames
+      .filter(frame => !frame.library)
+      .concat(ancestorFrames);
+  }
+
+  return annotatedFrames;
 }
 
 export const getCallStackFrames = createSelector(
   getFrames,
   getSources,
   getSelectedSource,
+  getComponentAncestors,
   formatCallStackFrames
 );

@@ -9,7 +9,11 @@ import actions from "../../actions";
 
 import { createObjectClient } from "../../client/firefox";
 
-import { getSelectedFrame, getAllPopupObjectProperties } from "../../selectors";
+import {
+  getSelectedFrame,
+  getAllPopupObjectProperties,
+  getSelectedComponent
+} from "../../selectors";
 
 import { ObjectInspector, ObjectInspectorUtils } from "devtools-reps";
 import { isReactComponent } from "../../utils/preview";
@@ -22,10 +26,11 @@ const { loadItemProperties } = ObjectInspectorUtils.loadProperties;
 type Props = {
   setPopupObjectProperties: (Object, Object) => void,
   selectedFrame: Frame,
+  selectedComponent: Object,
   popupObjectProperties: Object
 };
 
-class FrameworkComponent extends PureComponent<Props> {
+class ComponentPane extends PureComponent<Props> {
   async componentWillMount() {
     const expression = "this;";
     const { selectedFrame, setPopupObjectProperties } = this.props;
@@ -38,10 +43,38 @@ class FrameworkComponent extends PureComponent<Props> {
     }
   }
 
-  renderReactComponent() {
-    const { selectedFrame, popupObjectProperties } = this.props;
-    const expression = "this;";
-    const value = selectedFrame.this;
+  async componentDidUpdate() {
+    const { selectedComponent, setPopupObjectProperties } = this.props;
+
+    if (!selectedComponent) {
+      return;
+    }
+    const value = selectedComponent.node;
+    const expression = "component";
+    const root = createNode({ name: expression, contents: { value } });
+    const properties = await loadItemProperties(root, createObjectClient);
+
+    if (properties) {
+      setPopupObjectProperties(value, properties);
+    }
+  }
+
+  renderFrame() {
+    const {
+      selectedFrame,
+      selectedComponent,
+      popupObjectProperties
+    } = this.props;
+
+    if (!selectedFrame && !selectedComponent) {
+      return null;
+    }
+
+    const expression = selectedComponent ? "component" : "this;";
+    const value = selectedComponent
+      ? selectedComponent.node
+      : selectedFrame.this;
+
     const root = {
       name: expression,
       path: expression,
@@ -76,18 +109,17 @@ class FrameworkComponent extends PureComponent<Props> {
   }
 
   render() {
-    const { selectedFrame } = this.props;
-    if (selectedFrame && isReactComponent(selectedFrame.this)) {
-      return this.renderReactComponent();
+    const { selectedFrame, selectedComponent } = this.props;
+    if (selectedFrame || selectedComponent) {
+      return this.renderFrame();
     }
-
-    return null;
   }
 }
 
 const mapStateToProps = state => ({
   selectedFrame: getSelectedFrame(state),
+  selectedComponent: getSelectedComponent(state),
   popupObjectProperties: getAllPopupObjectProperties(state)
 });
 
-export default connect(mapStateToProps, actions)(FrameworkComponent);
+export default connect(mapStateToProps, actions)(ComponentPane);

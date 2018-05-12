@@ -28,6 +28,6 @@ export { mapFrames } from "./mapFrames";
 export { fetchExtra, getExtra } from "./extra";
 export { setPopupObjectProperties } from "./setPopupObjectProperties";
 export { pauseOnExceptions } from "./pauseOnExceptions";
-export { selectComponent } from "./selectComponent";
 export { selectFrame } from "./selectFrame";
 export { toggleSkipPausing } from "./skipPausing";
+export { fetchComponentAncestors, selectComponent } from "./components";

@@ -54,10 +54,13 @@ type FrameComponentProps = {
   copyStackTrace: Function,
   toggleFrameworkGrouping: Function,
   selectFrame: Function,
+  selectComponent: Function,
   frameworkGroupingOn: boolean,
   hideLocation: boolean,
   shouldMapDisplayName: boolean,
-  toggleBlackBox: Function
+  toggleBlackBox: Function,
+  selectComponent: Function,
+  selectedComponentId: ?string
 };
 
 export default class FrameComponent extends Component<FrameComponentProps> {
@@ -104,16 +107,48 @@ export default class FrameComponent extends Component<FrameComponentProps> {
     this.props.selectFrame(frame);
   }
 
+  renderComponent() {
+    const { frame, selectComponent, selectedComponentId } = this.props;
+
+    const selected = selectedComponentId && selectedComponentId === frame.id;
+    const className = classNames("frame", {
+      selected
+    });
+    return (
+      <li
+        key={frame.id}
+        className={className}
+        onMouseDown={e => {
+          selectComponent(frame.id);
+        }}
+        onKeyUp={e => {}}
+        onContextMenu={e => {}}
+        tabIndex={0}
+      >
+        <div className="title">{frame.displayName}</div>
+        <div className="location">
+          {frame.component} <Svg name={"react"} className="annotation-logo" />
+        </div>
+      </li>
+    );
+  }
+
   render() {
     const {
       frame,
       selectedFrame,
+      selectedComponentId,
       hideLocation,
       shouldMapDisplayName
     } = this.props;
 
+    if (frame.component) {
+      return this.renderComponent();
+    }
+
     const className = classNames("frame", {
-      selected: selectedFrame && selectedFrame.id === frame.id
+      selected:
+        !selectedComponentId && selectedFrame && selectedFrame.id === frame.id
     });
     return (
       <li

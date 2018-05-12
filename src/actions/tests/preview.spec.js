@@ -43,7 +43,8 @@ describe("setPreview", () => {
       setPausePoints: async () => {},
       getFrameScopes: async () => {},
       evaluateExpressions: async () => {},
-      evaluateInFrame
+      evaluateInFrame,
+      getProperties: async () => ({ ownProperties: [] })
     };
     const store = createStore(threadClient);
     prefs.autoPrettyPrint = false;

@@ -20,7 +20,9 @@ import {
   getShouldPauseOnExceptions,
   getShouldPauseOnCaughtExceptions,
   getWorkers,
-  getExtra
+  getExtra,
+  getSelectedComponent,
+  selectComponent
 } from "../../selectors";
 
 import Svg from "../shared/Svg";
@@ -35,8 +37,7 @@ import Workers from "./Workers";
 import Accordion from "../shared/Accordion";
 import CommandBar from "./CommandBar";
 import UtilsBar from "./UtilsBar";
-import FrameworkComponent from "./FrameworkComponent";
-import ReactComponentStack from "./ReactComponentStack";
+import ComponentPane from "./Component";
 
 import Scopes from "./Scopes";
 
@@ -87,7 +88,8 @@ type Props = {
   isWaitingOnBreak: any,
   shouldPauseOnExceptions: boolean,
   shouldPauseOnCaughtExceptions: boolean,
-  workers: WorkersList
+  workers: WorkersList,
+  selectedComponent: ?Object
 };
 
 class SecondaryPanes extends Component<Props, State> {
@@ -192,26 +194,16 @@ class SecondaryPanes extends Component<Props, State> {
     };
   }
 
-  getComponentStackItem() {
-    return {
-      header: L10N.getStr("components.header"),
-      component: <ReactComponentStack />,
-      opened: prefs.componentStackVisible,
-      onToggle: opened => {
-        prefs.componentStackVisible = opened;
-      }
-    };
-  }
-
   getComponentItem() {
     const {
-      extra: { react }
+      extra: { react },
+      selectedComponent
     } = this.props;
 
     return {
-      header: react.displayName,
+      header: selectedComponent ? selectedComponent.name : react.displayName,
       className: "component-pane",
-      component: <FrameworkComponent />,
+      component: <ComponentPane />,
       opened: prefs.componentVisible,
       onToggle: opened => {
         prefs.componentVisible = opened;
@@ -287,7 +279,7 @@ class SecondaryPanes extends Component<Props, State> {
   }
 
   getStartItems() {
-    const { extra, workers } = this.props;
+    const { extra, workers, hasFrames } = this.props;
 
     const items: Array<AccordionPaneItem> = [];
     if (this.props.horizontal) {
@@ -304,13 +296,7 @@ class SecondaryPanes extends Component<Props, State> {
       items.push(this.getCallStackItem());
 
       if (this.props.horizontal) {
-        if (extra && extra.react) {
-          if (
-            features.componentStack &&
-            extra.react.componentStack.length > 1
-          ) {
-            items.push(this.getComponentStackItem());
-          }
+        if (extra && extra.react && hasFrames) {
           items.push(this.getComponentItem());
         }
 
@@ -411,6 +397,7 @@ SecondaryPanes.contextTypes = {
 const mapStateToProps = state => ({
   expressions: getExpressions(state),
   extra: getExtra(state),
+  selectedComponent: getSelectedComponent(state),
   hasFrames: !!getTopFrame(state),
   breakpoints: getBreakpoints(state),
   breakpointsDisabled: getBreakpointsDisabled(state),
