@@ -65,6 +65,7 @@
 
 .shortcutFunction p {
   display: flex;
+  cursor: pointer;
 }
 
 html .welcomebox .toggle-button-end.collapsed {
