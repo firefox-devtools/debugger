@@ -302,19 +302,6 @@ describe("QuickOpenModal", () => {
       expect(props.setQuickOpenQuery).not.toHaveBeenCalled();
     });
 
-    // it("does nothing if component is not enabled", () => {
-    //   const { wrapper } = generateModal(
-    //     {
-    //       enabled: false,
-    //       query: "test",
-    //       searchType: "goto"
-    //     },
-    //     "shallow"
-    //   );
-    //   expect(wrapper.state().results).toEqual(null);
-    //   expect(wrapper.instance().onKeyDown()).toBeUndefined();
-    // });
-
     it("on Enter go to location", () => {
       const { wrapper, props } = generateModal(
         {
@@ -333,6 +320,44 @@ describe("QuickOpenModal", () => {
         line: 34,
         sourceId: ""
       });
+    });
+
+    it("on Enter go to location with sourceId", () => {
+      const sourceId = "source_id";
+      const { wrapper, props } = generateModal(
+        {
+          enabled: true,
+          query: ":34:12",
+          searchType: "goto",
+          selectedSource: I.Map({id:sourceId})
+        },
+        "shallow"
+      );
+      const event = {
+        key: "Enter"
+      };
+      wrapper.find("SearchInput").simulate("keydown", event);
+      expect(props.selectLocation).toHaveBeenCalledWith({
+        column: 12,
+        line: 34,
+        sourceId: sourceId
+      });
+    });
+
+    it("on Enter with no location", () => {
+      const { wrapper, props } = generateModal(
+        {
+          enabled: true,
+          query: ":",
+          searchType: "goto"
+        },
+        "shallow"
+      );
+      const event = {
+        key: "Enter"
+      };
+      wrapper.find("SearchInput").simulate("keydown", event);
+      expect(props.selectLocation).not.toHaveBeenCalled();
     });
 
     it("on Enter with results, handle @ shortcut", () => {
@@ -355,17 +380,17 @@ describe("QuickOpenModal", () => {
       expect(props.setQuickOpenQuery).toHaveBeenCalledWith("@");
     });
 
-    it("on Enter with results, handle no item", () => {
+    it("on Enter with empty results, handle no item", () => {
       const { wrapper, props } = generateModal(
         {
           enabled: true,
           query: "@test",
-          searchType: "shortcuts"
+          searchType: "goto"
         },
         "shallow"
       );
       wrapper.setState(() => ({
-        results: [],
+        results: "",
         selectedIndex: 0
       }));
       const event = {
@@ -663,6 +688,60 @@ describe("QuickOpenModal", () => {
         sourceId: "sourceId"
       });
       expect(props.highlightLineRange).not.toHaveBeenCalled();
+    });
+
+   it("on ArrowDown, traverse down with no results", () => {
+      const sourceId = "sourceId";
+      const { wrapper, props } = generateModal(
+        {
+          enabled: true,
+          query: "test",
+          searchType: "goto"
+        },
+        "shallow"
+      );
+      const event = {
+        preventDefault: jest.fn(),
+        key: "ArrowDown"
+      };
+      wrapper.setState(() => ({
+        results: null,
+        selectedIndex: 1
+      }));
+      wrapper.find("SearchInput").simulate("keydown", event);
+      expect(event.preventDefault).toHaveBeenCalled();
+      expect(wrapper.state().selectedIndex).toEqual(NaN);
+      expect(props.selectLocation).not.toHaveBeenCalledWith();
+      expect(props.highlightLineRange).not.toHaveBeenCalled();
+    });
+
+    it("on ArrowUp, traverse results up with function with no location", () => {
+      const sourceId = "sourceId";
+      const { wrapper, props } = generateModal(
+        {
+          enabled: true,
+          query: "test",
+          searchType: "functions",
+          selectedSource: I.Map({ id: sourceId }),
+          symbols: {
+            functions: [{ title: "functionA" }, { title: "anonymous" }],
+            variables: {}
+          }
+        },
+        "shallow"
+      );
+      const event = {
+        preventDefault: jest.fn(),
+        key: "ArrowUp"
+      };
+      wrapper.setState(() => ({
+        results: [{ id: "0", location: null }, { id: "1" }, { id: "2" }],
+        selectedIndex: 1
+      }));
+      wrapper.find("SearchInput").simulate("keydown", event);
+      expect(event.preventDefault).toHaveBeenCalled();
+      expect(wrapper.state().selectedIndex).toEqual(0);
+      expect(props.highlightLineRange).toHaveBeenCalledWith({"sourceId": "sourceId"});
     });
 
     it(
