@@ -1,17 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`sources - pretty print returns a pretty source for a minified file 1`] = `
-Object {
-  "contentType": "text/javascript",
-  "error": undefined,
+Immutable.Record {
   "id": "base.js/originalSource-36c718d4bde9a75edb388ff7733efe7f",
+  "url": "http://localhost:8000/examples/base.js:formatted",
+  "sourceMapURL": undefined,
   "isBlackBoxed": false,
   "isPrettyPrinted": true,
   "isWasm": false,
-  "loadedState": "loaded",
-  "sourceMapURL": undefined,
   "text": "undefined
 ",
-  "url": "http://localhost:8000/examples/base.js:formatted",
+  "contentType": "text/javascript",
+  "error": undefined,
+  "loadedState": "loaded",
 }
 `;

@@ -45,7 +45,7 @@
   justify-content: center;
 }
 
-.source-footer > button.action:hover {
+.source-footer > .commands > button.action:hover {
   background: var(--theme-toolbar-background-hover);
 }
 

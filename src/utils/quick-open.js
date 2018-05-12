@@ -11,7 +11,7 @@ import type { Location as BabelLocation } from "@babel/types";
 import type { Symbols } from "../reducers/ast";
 import type { QuickOpenType } from "../reducers/quick-open";
 import type { TabList } from "../reducers/sources";
-import type { RelativeSource } from "../selectors/getRelativeSources";
+import type { RelativeSource } from "../types";
 import type { SymbolDeclaration } from "../workers/parser";
 
 export const MODIFIERS = {
@@ -130,6 +130,6 @@ export function formatSources(
 ): Array<QuickOpenResult> {
   return sources
     .filter(source => !isPretty(source))
-    .map(source => formatSourcesForList(source, tabs))
-    .filter(({ value }) => value != "");
+    .filter(({ relativeUrl }) => !!relativeUrl)
+    .map(source => formatSourcesForList(source, tabs));
 }

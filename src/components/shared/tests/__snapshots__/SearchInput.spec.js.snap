@@ -73,7 +73,7 @@ exports[`SearchInput shows nav buttons 1`] = `
       <button
         className="nav-btn next"
         key="arrow-down"
-        onClick={[Function]}
+        onClick={[MockFunction]}
         title="Next result"
         type="arrow-down"
       >
@@ -84,7 +84,7 @@ exports[`SearchInput shows nav buttons 1`] = `
       <button
         className="nav-btn prev"
         key="arrow-up"
-        onClick={[Function]}
+        onClick={[MockFunction]}
         title="Previous result"
         type="arrow-up"
       >
@@ -136,7 +136,7 @@ exports[`SearchInput shows svg error emoji 1`] = `
       <button
         className="nav-btn next"
         key="arrow-down"
-        onClick={[Function]}
+        onClick={[MockFunction]}
         title="Next result"
         type="arrow-down"
       >
@@ -147,7 +147,7 @@ exports[`SearchInput shows svg error emoji 1`] = `
       <button
         className="nav-btn prev"
         key="arrow-up"
-        onClick={[Function]}
+        onClick={[MockFunction]}
         title="Previous result"
         type="arrow-up"
       >
@@ -199,7 +199,7 @@ exports[`SearchInput shows svg magnifying glass 1`] = `
       <button
         className="nav-btn next"
         key="arrow-down"
-        onClick={[Function]}
+        onClick={[MockFunction]}
         title="Next result"
         type="arrow-down"
       >
@@ -210,7 +210,7 @@ exports[`SearchInput shows svg magnifying glass 1`] = `
       <button
         className="nav-btn prev"
         key="arrow-up"
-        onClick={[Function]}
+        onClick={[MockFunction]}
         title="Previous result"
         type="arrow-up"
       >

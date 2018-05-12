@@ -398,6 +398,7 @@ export class QuickOpenModal extends Component<Props, State> {
           selectedItemId={
             expanded && items[selectedIndex] ? items[selectedIndex].id : ""
           }
+          {...(this.isSourceSearch() ? { size: "big" } : {})}
         />
         {this.renderLoading()}
         {newResults && (
@@ -422,7 +423,10 @@ function mapStateToProps(state) {
 
   return {
     enabled: getQuickOpenEnabled(state),
-    sources: formatSources(getRelativeSources(state), getTabs(state).toArray()),
+    sources: formatSources(
+      getRelativeSources(state).toArray(),
+      getTabs(state).toArray()
+    ),
     selectedSource,
     symbols: formatSymbols(getSymbols(state, selectedSource)),
     symbolsLoading: isSymbolsLoading(state, selectedSource),

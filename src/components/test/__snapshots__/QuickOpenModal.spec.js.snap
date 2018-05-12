@@ -2,14 +2,14 @@
 
 exports[`QuickOpenModal Basic render with mount & searchType = functions 1`] = `
 <QuickOpenModal
-  clearHighlightLineRange={[Function]}
-  closeQuickOpen={[Function]}
+  clearHighlightLineRange={[MockFunction]}
+  closeQuickOpen={[MockFunction]}
   enabled={true}
-  highlightLineRange={[Function]}
+  highlightLineRange={[MockFunction]}
   query="@"
   searchType="functions"
-  selectLocation={[Function]}
-  setQuickOpenQuery={[Function]}
+  selectLocation={[MockFunction]}
+  setQuickOpenQuery={[MockFunction]}
   sources={Array []}
   symbols={
     Object {
@@ -137,14 +137,14 @@ exports[`QuickOpenModal Basic render with mount & searchType = functions 1`] = `
 
 exports[`QuickOpenModal Basic render with mount & searchType = variables 1`] = `
 <QuickOpenModal
-  clearHighlightLineRange={[Function]}
-  closeQuickOpen={[Function]}
+  clearHighlightLineRange={[MockFunction]}
+  closeQuickOpen={[MockFunction]}
   enabled={true}
-  highlightLineRange={[Function]}
+  highlightLineRange={[MockFunction]}
   query="#"
   searchType="variables"
-  selectLocation={[Function]}
-  setQuickOpenQuery={[Function]}
+  selectLocation={[MockFunction]}
+  setQuickOpenQuery={[MockFunction]}
   sources={Array []}
   symbols={
     Object {
@@ -272,14 +272,14 @@ exports[`QuickOpenModal Basic render with mount & searchType = variables 1`] = `
 
 exports[`QuickOpenModal Basic render with mount 1`] = `
 <QuickOpenModal
-  clearHighlightLineRange={[Function]}
-  closeQuickOpen={[Function]}
+  clearHighlightLineRange={[MockFunction]}
+  closeQuickOpen={[MockFunction]}
   enabled={true}
-  highlightLineRange={[Function]}
+  highlightLineRange={[MockFunction]}
   query=""
   searchType="sources"
-  selectLocation={[Function]}
-  setQuickOpenQuery={[Function]}
+  selectLocation={[MockFunction]}
+  setQuickOpenQuery={[MockFunction]}
   sources={Array []}
   tabs={Array []}
 >
@@ -326,7 +326,7 @@ exports[`QuickOpenModal Basic render with mount 1`] = `
               selectedItemId=""
               showClose={false}
               showErrorEmoji={false}
-              size=""
+              size="big"
               summaryMsg=""
             >
               <div
@@ -336,7 +336,7 @@ exports[`QuickOpenModal Basic render with mount 1`] = `
                   aria-expanded={false}
                   aria-haspopup="listbox"
                   aria-owns="result-list"
-                  className="search-field"
+                  className="search-field big"
                   role="combobox"
                 >
                   <Svg
@@ -418,7 +418,7 @@ exports[`QuickOpenModal Renders when enabled 1`] = `
     selectedItemId=""
     showClose={false}
     showErrorEmoji={false}
-    size=""
+    size="big"
     summaryMsg=""
   />
   <ResultList
@@ -435,14 +435,14 @@ exports[`QuickOpenModal Renders when enabled 1`] = `
 
 exports[`QuickOpenModal Simple goto search query = :abc & searchType = goto 1`] = `
 <QuickOpenModal
-  clearHighlightLineRange={[Function]}
-  closeQuickOpen={[Function]}
+  clearHighlightLineRange={[MockFunction]}
+  closeQuickOpen={[MockFunction]}
   enabled={true}
-  highlightLineRange={[Function]}
+  highlightLineRange={[MockFunction]}
   query=":abc"
   searchType="goto"
-  selectLocation={[Function]}
-  setQuickOpenQuery={[Function]}
+  selectLocation={[MockFunction]}
+  setQuickOpenQuery={[MockFunction]}
   sources={Array []}
   symbols={
     Object {
@@ -554,14 +554,14 @@ exports[`QuickOpenModal Simple goto search query = :abc & searchType = goto 1`] 
 
 exports[`QuickOpenModal showErrorEmoji false when count + query 1`] = `
 <QuickOpenModal
-  clearHighlightLineRange={[Function]}
-  closeQuickOpen={[Function]}
+  clearHighlightLineRange={[MockFunction]}
+  closeQuickOpen={[MockFunction]}
   enabled={true}
-  highlightLineRange={[Function]}
+  highlightLineRange={[MockFunction]}
   query="dasdasdas"
   searchType="sources"
-  selectLocation={[Function]}
-  setQuickOpenQuery={[Function]}
+  selectLocation={[MockFunction]}
+  setQuickOpenQuery={[MockFunction]}
   sources={Array []}
   tabs={Array []}
 >
@@ -608,7 +608,7 @@ exports[`QuickOpenModal showErrorEmoji false when count + query 1`] = `
               selectedItemId=""
               showClose={false}
               showErrorEmoji={false}
-              size=""
+              size="big"
               summaryMsg=""
             >
               <div
@@ -618,7 +618,7 @@ exports[`QuickOpenModal showErrorEmoji false when count + query 1`] = `
                   aria-expanded={true}
                   aria-haspopup="listbox"
                   aria-owns="result-list"
-                  className="search-field"
+                  className="search-field big"
                   role="combobox"
                 >
                   <Svg
@@ -664,20 +664,20 @@ exports[`QuickOpenModal showErrorEmoji false when count + query 1`] = `
                   Object {
                     "title": <div
                       dangerouslySetInnerHTML={
-                            Object {
-                                  "__html": undefined,
-                                }
+                        Object {
+                          "__html": undefined,
+                        }
                       }
-                />,
+                    />,
                   },
                   Object {
                     "title": <div
                       dangerouslySetInnerHTML={
-                            Object {
-                                  "__html": undefined,
-                                }
+                        Object {
+                          "__html": undefined,
+                        }
                       }
-                />,
+                    />,
                   },
                 ]
               }
@@ -755,14 +755,14 @@ exports[`QuickOpenModal showErrorEmoji false when count + query 1`] = `
 
 exports[`QuickOpenModal showErrorEmoji false when goto numeric ':2222' 1`] = `
 <QuickOpenModal
-  clearHighlightLineRange={[Function]}
-  closeQuickOpen={[Function]}
+  clearHighlightLineRange={[MockFunction]}
+  closeQuickOpen={[MockFunction]}
   enabled={true}
-  highlightLineRange={[Function]}
+  highlightLineRange={[MockFunction]}
   query=":2222"
   searchType="goto"
-  selectLocation={[Function]}
-  setQuickOpenQuery={[Function]}
+  selectLocation={[MockFunction]}
+  setQuickOpenQuery={[MockFunction]}
   sources={Array []}
   tabs={Array []}
 >
@@ -868,14 +868,14 @@ exports[`QuickOpenModal showErrorEmoji false when goto numeric ':2222' 1`] = `
 
 exports[`QuickOpenModal showErrorEmoji false when no query 1`] = `
 <QuickOpenModal
-  clearHighlightLineRange={[Function]}
-  closeQuickOpen={[Function]}
+  clearHighlightLineRange={[MockFunction]}
+  closeQuickOpen={[MockFunction]}
   enabled={true}
-  highlightLineRange={[Function]}
+  highlightLineRange={[MockFunction]}
   query=""
   searchType=""
-  selectLocation={[Function]}
-  setQuickOpenQuery={[Function]}
+  selectLocation={[MockFunction]}
+  setQuickOpenQuery={[MockFunction]}
   sources={Array []}
   tabs={Array []}
 >
@@ -997,14 +997,14 @@ exports[`QuickOpenModal showErrorEmoji false when no query 1`] = `
 
 exports[`QuickOpenModal showErrorEmoji true when goto not numeric ':22k22' 1`] = `
 <QuickOpenModal
-  clearHighlightLineRange={[Function]}
-  closeQuickOpen={[Function]}
+  clearHighlightLineRange={[MockFunction]}
+  closeQuickOpen={[MockFunction]}
   enabled={true}
-  highlightLineRange={[Function]}
+  highlightLineRange={[MockFunction]}
   query=":22k22"
   searchType="goto"
-  selectLocation={[Function]}
-  setQuickOpenQuery={[Function]}
+  selectLocation={[MockFunction]}
+  setQuickOpenQuery={[MockFunction]}
   sources={Array []}
   tabs={Array []}
 >
@@ -1110,14 +1110,14 @@ exports[`QuickOpenModal showErrorEmoji true when goto not numeric ':22k22' 1`] =
 
 exports[`QuickOpenModal showErrorEmoji true when no count + query 1`] = `
 <QuickOpenModal
-  clearHighlightLineRange={[Function]}
-  closeQuickOpen={[Function]}
+  clearHighlightLineRange={[MockFunction]}
+  closeQuickOpen={[MockFunction]}
   enabled={true}
-  highlightLineRange={[Function]}
+  highlightLineRange={[MockFunction]}
   query="test"
   searchType=""
-  selectLocation={[Function]}
-  setQuickOpenQuery={[Function]}
+  selectLocation={[MockFunction]}
+  setQuickOpenQuery={[MockFunction]}
   sources={Array []}
   tabs={Array []}
 >
@@ -1223,14 +1223,14 @@ exports[`QuickOpenModal showErrorEmoji true when no count + query 1`] = `
 
 exports[`QuickOpenModal updateResults on enable 1`] = `
 <QuickOpenModal
-  clearHighlightLineRange={[Function]}
-  closeQuickOpen={[Function]}
+  clearHighlightLineRange={[MockFunction]}
+  closeQuickOpen={[MockFunction]}
   enabled={false}
-  highlightLineRange={[Function]}
+  highlightLineRange={[MockFunction]}
   query=""
   searchType="sources"
-  selectLocation={[Function]}
-  setQuickOpenQuery={[Function]}
+  selectLocation={[MockFunction]}
+  setQuickOpenQuery={[MockFunction]}
   sources={Array []}
   tabs={Array []}
 />
@@ -1238,14 +1238,14 @@ exports[`QuickOpenModal updateResults on enable 1`] = `
 
 exports[`QuickOpenModal updateResults on enable 2`] = `
 <QuickOpenModal
-  clearHighlightLineRange={[Function]}
-  closeQuickOpen={[Function]}
+  clearHighlightLineRange={[MockFunction]}
+  closeQuickOpen={[MockFunction]}
   enabled={true}
-  highlightLineRange={[Function]}
+  highlightLineRange={[MockFunction]}
   query=""
   searchType="sources"
-  selectLocation={[Function]}
-  setQuickOpenQuery={[Function]}
+  selectLocation={[MockFunction]}
+  setQuickOpenQuery={[MockFunction]}
   sources={Array []}
   tabs={Array []}
 >
@@ -1292,7 +1292,7 @@ exports[`QuickOpenModal updateResults on enable 2`] = `
               selectedItemId=""
               showClose={false}
               showErrorEmoji={false}
-              size=""
+              size="big"
               summaryMsg=""
             >
               <div
@@ -1302,7 +1302,7 @@ exports[`QuickOpenModal updateResults on enable 2`] = `
                   aria-expanded={false}
                   aria-haspopup="listbox"
                   aria-owns="result-list"
-                  className="search-field"
+                  className="search-field big"
                   role="combobox"
                 >
                   <Svg

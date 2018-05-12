@@ -28,8 +28,7 @@
     "eslint": "^3.12.0",
     "eslint-plugin-mozilla": "0.2.3",
     "fs-extra": "^2.0.0",
-    "lodash": "^4.17.2",
-    "jest": "^20.0.4"
+    "lodash": "^4.17.2"
   },
   "jest": {
     "rootDir": "src",

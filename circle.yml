@@ -6,8 +6,9 @@ machine:
   environment:
     DOWNLOADS_PATH: "$HOME/downloads"
     YARN_PATH: "$HOME/.yarn"
-    YARN_VERSION: 1.3.2
+    YARN_VERSION: 1.6.0
     PATH: "${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
+    JEST_JUNIT_OUTPUT: "$CIRCLE_TEST_REPORTS/junit.xml"
   post:
     - mkdir -p $DOWNLOADS_PATH
     - mkdir -p $YARN_PATH
@@ -21,14 +22,12 @@ test:
   override:
     - mkdir -p $CIRCLE_TEST_REPORTS/flow-coverage
     - mkdir -p $CIRCLE_TEST_REPORTS/jest-coverage
-    - jest -i --no-colors --testResultsProcessor jest-junit-reporter --coverage --coverageDirectory=$CIRCLE_TEST_REPORTS/jest-coverage
+    - yarn jest -i --no-colors --testResultsProcessor="jest-junit" --coverage --coverageDirectory=$CIRCLE_TEST_REPORTS/jest-coverage
     - cd ./packages/devtools-source-map; yarn test
     - cd ./packages/devtools-components; yarn test
     - cd ./packages/devtools-reps; yarn test
     - yarn license-check
-    - yarn lint-css
-    - yarn lint-js
-    - yarn lint-md
+    - yarn lint
     - yarn flow
   post:
     - yarn flow-coverage -- -t json -o $CIRCLE_TEST_REPORTS/flow-coverage
@@ -43,7 +42,7 @@ dependencies:
     - ~/.cache/yarn
     - ~/.yarn
   override:
-    - yarn install
+    - yarn
     - yarn global add flow-coverage-report
 
 general:

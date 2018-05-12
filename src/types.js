@@ -299,6 +299,11 @@ export type Source = {
   +loadedState: "unloaded" | "loading" | "loaded"
 };
 
+export type RelativeSourceRecord = RecordOf<RelativeSource>;
+export type RelativeSource = Source & {
+  relativeUrl: string
+};
+
 /**
  * Script
  * This describes scripts which are sent to the debug server to be eval'd
