@@ -70,9 +70,8 @@ describe("QuickOpenModal", () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-
   test("toggles shortcut modal if enabled", () => {
-    const { wrapper, props } = generateModal(
+    const { props } = generateModal(
       {
         enabled: true,
         query: "test",
@@ -85,16 +84,16 @@ describe("QuickOpenModal", () => {
   });
 
   test("shows top sources", () => {
-    const { wrapper, props } = generateModal(
+    const { wrapper } = generateModal(
       {
         enabled: true,
         query: "",
-        sources: [{url:"mozilla.com"}],
+        sources: [{ url: "mozilla.com" }],
         tabs: ["mozilla.com"]
       },
       "shallow"
     );
-    expect(wrapper.state("results")).toEqual([{"url":"mozilla.com"}]);
+    expect(wrapper.state("results")).toEqual([{ url: "mozilla.com" }]);
   });
 
   describe("shows loading", () => {
@@ -123,7 +122,6 @@ describe("QuickOpenModal", () => {
       expect(wrapper).toMatchSnapshot();
     });
   });
-
 
   test("Ensure anonymous functions do not render in QuickOpenModal", () => {
     const { wrapper } = generateModal(
@@ -261,7 +259,7 @@ describe("QuickOpenModal", () => {
           },
           // symbol searching relies on a source being selected.
           // So we dummy out the source and the API.
-          selectedSource: null 
+          selectedSource: null
         },
         "mount"
       );
@@ -356,7 +354,6 @@ describe("QuickOpenModal", () => {
       wrapper.find("SearchInput").simulate("keydown", event);
       expect(props.setQuickOpenQuery).toHaveBeenCalledWith("@");
     });
-
 
     it("on Enter with results, handle no item", () => {
       const { wrapper, props } = generateModal(
