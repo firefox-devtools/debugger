@@ -70,6 +70,61 @@ describe("QuickOpenModal", () => {
     expect(wrapper).toMatchSnapshot();
   });
 
+
+  test("toggles shortcut modal if enabled", () => {
+    const { wrapper, props } = generateModal(
+      {
+        enabled: true,
+        query: "test",
+        shortcutsModalEnabled: true,
+        toggleShortcutsModal: jest.fn()
+      },
+      "shallow"
+    );
+    expect(props.toggleShortcutsModal).toHaveBeenCalled();
+  });
+
+  test("shows top sources", () => {
+    const { wrapper, props } = generateModal(
+      {
+        enabled: true,
+        query: "",
+        sources: [{url:"mozilla.com"}],
+        tabs: ["mozilla.com"]
+      },
+      "shallow"
+    );
+    expect(wrapper.state("results")).toEqual([{"url":"mozilla.com"}]);
+  });
+
+  describe("shows loading", () => {
+    it("loads with function type search", () => {
+      const { wrapper } = generateModal(
+        {
+          enabled: true,
+          query: "",
+          searchType: "functions",
+          symbolsLoading: true
+        },
+        "shallow"
+      );
+      expect(wrapper).toMatchSnapshot();
+    });
+    it("loads with variable type search", () => {
+      const { wrapper } = generateModal(
+        {
+          enabled: true,
+          query: "",
+          searchType: "variables",
+          symbolsLoading: true
+        },
+        "shallow"
+      );
+      expect(wrapper).toMatchSnapshot();
+    });
+  });
+
+
   test("Ensure anonymous functions do not render in QuickOpenModal", () => {
     const { wrapper } = generateModal(
       {
@@ -170,27 +225,50 @@ describe("QuickOpenModal", () => {
     });
   });
 
-  test("basic symbol seach", () => {
-    const { wrapper } = generateModal(
-      {
-        enabled: true,
-        searchType: "functions",
-        symbols: {
-          functions: [],
-          variables: []
+  describe("no symbol search", () => {
+    it("basic symbol search", () => {
+      const { wrapper } = generateModal(
+        {
+          enabled: true,
+          searchType: "functions",
+          symbols: {
+            functions: [],
+            variables: []
+          },
+          // symbol searching relies on a source being selected.
+          // So we dummy out the source and the API.
+          selectedSource: { get: jest.fn(() => true) }
         },
-        // symbol searching relies on a source being selected.
-        // So we dummy out the source and the API.
-        selectedSource: { get: jest.fn(() => true) }
-      },
-      "mount"
-    );
-    wrapper
-      .find("input")
-      .simulate("change", { target: { value: "@someFunc" } });
-    expect(filter).toHaveBeenCalledWith([], "someFunc", {
-      key: "value",
-      maxResults: 1000
+        "mount"
+      );
+      wrapper
+        .find("input")
+        .simulate("change", { target: { value: "@someFunc" } });
+      expect(filter).toHaveBeenCalledWith([], "someFunc", {
+        key: "value",
+        maxResults: 1000
+      });
+    });
+
+    it("no symbol search if no selected source", () => {
+      const { wrapper } = generateModal(
+        {
+          enabled: true,
+          searchType: "functions",
+          symbols: {
+            functions: [],
+            variables: []
+          },
+          // symbol searching relies on a source being selected.
+          // So we dummy out the source and the API.
+          selectedSource: null 
+        },
+        "mount"
+      );
+      wrapper
+        .find("input")
+        .simulate("change", { target: { value: "@someFunc" } });
+      expect(filter).not.toHaveBeenCalled();
     });
   });
 
@@ -277,6 +355,29 @@ describe("QuickOpenModal", () => {
       };
       wrapper.find("SearchInput").simulate("keydown", event);
       expect(props.setQuickOpenQuery).toHaveBeenCalledWith("@");
+    });
+
+
+    it("on Enter with results, handle no item", () => {
+      const { wrapper, props } = generateModal(
+        {
+          enabled: true,
+          query: "@test",
+          searchType: "shortcuts"
+        },
+        "shallow"
+      );
+      wrapper.setState(() => ({
+        results: [],
+        selectedIndex: 0
+      }));
+      const event = {
+        key: "Enter"
+      };
+      wrapper.find("SearchInput").simulate("keydown", event);
+      expect(props.setQuickOpenQuery).not.toHaveBeenCalled();
+      expect(props.selectLocation).not.toHaveBeenCalled();
+      expect(props.highlightLineRange).not.toHaveBeenCalled();
     });
 
     it("on Enter with results, handle : shortcut", () => {
