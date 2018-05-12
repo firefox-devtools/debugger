@@ -293,10 +293,6 @@ export class QuickOpenModal extends Component<Props, State> {
       }
 
       if (results) {
-        if (this.isShortcutQuery()) {
-          return this.setModifier(results[selectedIndex]);
-        }
-
         return this.selectResultItem(e, results[selectedIndex]);
       }
     }
