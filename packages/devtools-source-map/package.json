@@ -11,7 +11,7 @@
   "main": "src/index.js",
   "scripts": {
     "license-check": "devtools-license-check",
-    "test": "jest"
+    "test": "jest --projects jest.config.js"
   },
   "dependencies": {
     "babel-plugin-transform-async-to-generator": "^6.22.0",
@@ -20,13 +20,5 @@
     "md5": "^2.2.1",
     "regenerator-runtime": "^0.10.3",
     "source-map": "^0.6.1"
-  },
-  "jest": {
-    "rootDir": "src",
-    "testMatch": ["**/tests/**/*.js"],
-    "testPathIgnorePatterns": ["/fixtures/", "helpers.js"],
-    "transformIgnorePatterns": ["node_modules/(?!devtools-)"],
-    "setupFiles": [],
-    "moduleNameMapper": {}
   }
 }
