@@ -28,7 +28,6 @@
     "lint-js": "eslint *.js \"src/**/*.js\" \"packages/*/src/**/*.js\" --fix",
     "lint-md":
       "remark -u devtools-linters/markdown/preset -qf *.md src configs docs",
-    "lint-fix": "yarn lint-js -- --fix",
     "mochi":
       "mochii --mc ./firefox --interactive --default-test-path devtools/client/debugger/new",
     "mochid": "yarn mochi -- --jsdebugger --",
@@ -109,6 +108,7 @@
   "devDependencies": {
     "@sucrase/webpack-object-rest-spread-plugin": "^1.0.0",
     "babel-eslint": "^8.2.1",
+    "babel-jest": "^22.4.3",
     "babel-plugin-syntax-trailing-function-commas": "^6.22.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
@@ -125,7 +125,7 @@
     "eslint-plugin-babel": "^5.0.0",
     "eslint-plugin-file-header": "0.0.1",
     "eslint-plugin-flowtype": "^2.36.0",
-    "eslint-plugin-jest": "^21.5.0",
+    "eslint-plugin-jest": "^21.15.1",
     "eslint-plugin-mozilla": "^0.11.0",
     "eslint-plugin-prettier": "^2.3.1",
     "eslint-plugin-react": "^7.2.1",
@@ -133,9 +133,10 @@
     "flow-bin": "0.67.1",
     "glob": "^7.0.3",
     "husky": "^0.14.2",
-    "jest": "^20.0.4",
+    "jest": "^22.4.3",
+    "jest-environment-jsdom": "^22.4.3",
     "jest-in-case": "^1.0.2",
-    "jest-junit-reporter": "^1.1.0",
+    "jest-junit": "^3.7.0",
     "jest-localstorage-mock": "^2.2.0",
     "jest-serializer-babel-ast": "^0.0.5",
     "lint-staged": "^7.0.5",
