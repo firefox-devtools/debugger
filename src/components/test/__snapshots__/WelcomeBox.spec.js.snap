@@ -10,7 +10,7 @@ exports[`WelomeBox renders with default values 1`] = `
     <div
       className="shortcutFunction"
     >
-      <p
+      <button
         className="welcomebox__searchSources"
         onClick={[Function]}
       >
@@ -24,8 +24,9 @@ exports[`WelomeBox renders with default values 1`] = `
         >
            to search for sources
         </span>
-      </p>
-      <p
+      </button>
+      <br />
+      <button
         className="welcomebox__searchProject"
         onClick={[Function]}
       >
@@ -39,7 +40,7 @@ exports[`WelomeBox renders with default values 1`] = `
         >
            to find in files
         </span>
-      </p>
+      </button>
     </div>
     <PaneToggleButton
       collapsed={true}
