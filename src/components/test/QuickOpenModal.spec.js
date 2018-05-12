@@ -435,7 +435,7 @@ describe("QuickOpenModal", () => {
       wrapper.find("SearchInput").simulate("keydown", event);
       expect(event.preventDefault).toHaveBeenCalled();
       expect(wrapper.state().selectedIndex).toEqual(2);
-      expect(props.selectLocation).toHaveBeenCalledWith({});
+      expect(props.selectLocation).toHaveBeenCalledWith({"column": null, "line": 0, "sourceId": "sourceId"});
     });
   });
 
