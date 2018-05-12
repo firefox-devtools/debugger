@@ -329,7 +329,7 @@ describe("QuickOpenModal", () => {
           enabled: true,
           query: ":34:12",
           searchType: "goto",
-          selectedSource: I.Map({id:sourceId})
+          selectedSource: I.Map({ id: sourceId })
         },
         "shallow"
       );
@@ -690,8 +690,7 @@ describe("QuickOpenModal", () => {
       expect(props.highlightLineRange).not.toHaveBeenCalled();
     });
 
-   it("on ArrowDown, traverse down with no results", () => {
-      const sourceId = "sourceId";
+    it("on ArrowDown, traverse down with no results", () => {
       const { wrapper, props } = generateModal(
         {
           enabled: true,
@@ -741,7 +740,9 @@ describe("QuickOpenModal", () => {
       wrapper.find("SearchInput").simulate("keydown", event);
       expect(event.preventDefault).toHaveBeenCalled();
       expect(wrapper.state().selectedIndex).toEqual(0);
-      expect(props.highlightLineRange).toHaveBeenCalledWith({"sourceId": "sourceId"});
+      expect(props.highlightLineRange).toHaveBeenCalledWith({
+        sourceId: "sourceId"
+      });
     });
 
     it(
