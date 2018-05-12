@@ -385,12 +385,12 @@ describe("QuickOpenModal", () => {
         {
           enabled: true,
           query: "@test",
-          searchType: "goto"
+          searchType: "shortcuts"
         },
         "shallow"
       );
       wrapper.setState(() => ({
-        results: "",
+        results: [],
         selectedIndex: 0
       }));
       const event = {
