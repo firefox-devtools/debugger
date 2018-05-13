@@ -42,9 +42,9 @@
 }
 
 .welcomebox__searchSources:hover, .welcomebox__searchProject:hover {
-  background-color: transparent;
   text-decoration: underline;
   cursor: pointer;
+  background-color: transparent;
 }
 
 .shortcutKey,
