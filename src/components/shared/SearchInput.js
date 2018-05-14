@@ -164,9 +164,10 @@ class SearchInput extends Component<Props, State> {
       selectedItemId,
       showErrorEmoji,
       size,
-      summaryMsg,
       showClose
     } = this.props;
+
+    let { summaryMsg } = this.props;
 
     const inputProps = {
       className: classnames({
@@ -187,7 +188,9 @@ class SearchInput extends Component<Props, State> {
       ref: c => (this.$input = c)
     };
 
-    const showGotoLine = query.indexOf(":") == 0;
+    if (query.startsWith(":")) {
+      summaryMsg = L10N.getStr("shortcuts.gotoLine");
+    }
 
     return (
       <div
@@ -206,13 +209,8 @@ class SearchInput extends Component<Props, State> {
           <input {...inputProps} />
           {summaryMsg && <div className="summary">{summaryMsg}</div>}
           {this.renderNav()}
-          {showGotoLine && <span className="goto-line">Go to line</span>}
           {showClose && (
-            <CloseButton
-              tooltip={"Close"}
-              handleClick={handleClose}
-              buttonClass={size}
-            />
+            <CloseButton handleClick={handleClose} buttonClass={size} />
           )}
         </div>
       </div>

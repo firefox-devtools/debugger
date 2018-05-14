@@ -165,21 +165,11 @@ exports[`ProjectSearch found search results 1`] = `
               </div>
               <CloseButton
                 buttonClass="big"
-<<<<<<< HEAD
                 handleClick={[MockFunction]}
               >
                 <button
                   className="close-btn big"
                   onClick={[MockFunction]}
-=======
-                handleClick={[Function]}
-                tooltip="Close"
-              >
-                <button
-                  className="close-btn big"
-                  onClick={[Function]}
-                  title="Close"
->>>>>>> 32c9c6db... Add 'Go to line' as hint
                 >
                   <img
                     className="close"

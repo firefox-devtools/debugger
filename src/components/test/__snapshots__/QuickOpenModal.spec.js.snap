@@ -541,11 +541,6 @@ exports[`QuickOpenModal Simple goto search query = :abc & searchType = goto 1`] 
                     spellCheck={false}
                     value=":abc"
                   />
-                  <span
-                    className="goto-line"
-                  >
-                    Go to line
-                  </span>
                 </div>
               </div>
             </SearchInput>
@@ -860,11 +855,6 @@ exports[`QuickOpenModal showErrorEmoji false when goto numeric ':2222' 1`] = `
                     spellCheck={false}
                     value=":2222"
                   />
-                  <span
-                    className="goto-line"
-                  >
-                    Go to line
-                  </span>
                 </div>
               </div>
             </SearchInput>
@@ -1107,11 +1097,6 @@ exports[`QuickOpenModal showErrorEmoji true when goto not numeric ':22k22' 1`] =
                     spellCheck={false}
                     value=":22k22"
                   />
-                  <span
-                    className="goto-line"
-                  >
-                    Go to line
-                  </span>
                 </div>
               </div>
             </SearchInput>

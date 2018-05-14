@@ -32,7 +32,6 @@ exports[`SearchInput renders 1`] = `
     </div>
     <CloseButton
       buttonClass=""
-      tooltip="Close"
     />
   </div>
 </div>
@@ -96,7 +95,6 @@ exports[`SearchInput shows nav buttons 1`] = `
     </div>
     <CloseButton
       buttonClass=""
-      tooltip="Close"
     />
   </div>
 </div>
@@ -160,7 +158,6 @@ exports[`SearchInput shows svg error emoji 1`] = `
     </div>
     <CloseButton
       buttonClass=""
-      tooltip="Close"
     />
   </div>
 </div>
@@ -224,7 +221,6 @@ exports[`SearchInput shows svg magnifying glass 1`] = `
     </div>
     <CloseButton
       buttonClass=""
-      tooltip="Close"
     />
   </div>
 </div>
