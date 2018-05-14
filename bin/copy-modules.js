@@ -54,14 +54,19 @@ function transformSingleFile(filePath) {
 }
 
 function transpileFile(file) {
-  if (ignoreFile(file)) {
-    return;
-  }
+  try {
+    if (ignoreFile(file)) {
+      return;
+    }
 
-  const filePath = path.join(__dirname, "..", file);
-  const code = transformSingleFile(filePath);
-  shell.mkdir("-p", path.join(mcDebuggerPath, path.dirname(file)));
-  fs.writeFileSync(path.join(mcDebuggerPath, file), code);
+    const filePath = path.join(__dirname, "..", file);
+    const code = transformSingleFile(filePath);
+    shell.mkdir("-p", path.join(mcDebuggerPath, path.dirname(file)));
+    fs.writeFileSync(path.join(mcDebuggerPath, file), code);
+  } catch (e) {
+    console.log(`Failed to transpile: ${file}`)
+    console.error(e);
+  }
 }
 
 function transpileFiles() {
