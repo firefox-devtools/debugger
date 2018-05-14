@@ -31,7 +31,8 @@
 
 .breakpoints-list .breakpoint-heading,
 .breakpoints-list .breakpoint,
-.breakpoints-exceptions {
+.breakpoints-exceptions,
+.breakpoints-exceptions-caught {
   padding: 0.25em 1em;
 }
 
@@ -41,8 +42,7 @@
 }
 
 .breakpoints-list .breakpoint {
-    padding-top: 0.25em;
-    padding-bottom: 0.25em;
+ height: var(--breakpoint-expression-height);
 }
 
 .breakpoints-exceptions-caught {
