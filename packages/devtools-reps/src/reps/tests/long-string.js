@@ -74,7 +74,7 @@ describe("long StringRep", () => {
     "renders with expected text content when grip has a fullText" +
       "property and is open",
     () => {
-      const stub = stubs.get("testFullText");
+      const stub = stubs.get("testLoadedFullText");
       const renderedComponent = shallow(
         StringRep.rep({
           object: stub,
@@ -93,7 +93,7 @@ describe("long StringRep", () => {
     "renders with expected text content when grip has a fullText " +
       "property and is not open",
     () => {
-      const stub = stubs.get("testFullText");
+      const stub = stubs.get("testLoadedFullText");
       const renderedComponent = shallow(
         StringRep.rep({
           object: stub,

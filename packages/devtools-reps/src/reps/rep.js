@@ -76,7 +76,7 @@ const reps = [
 /**
  * Generic rep that is used for rendering native JS types or an object.
  * The right template used for rendering is picked automatically according
- * to the current value type. The value must be passed is as 'object'
+ * to the current value type. The value must be passed in as the 'object'
  * property.
  */
 const Rep = function(props) {
