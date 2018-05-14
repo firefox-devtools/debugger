@@ -122,6 +122,12 @@
   fill: var(--theme-comment-alt);
 }
 
+.search-field .goto-line {
+  margin-top: 7px;
+  color: #716e6e;
+  font-size: 15px;
+}
+
 .search-field .search-nav-buttons .nav-btn path {
   fill: var(--theme-comment);
 }

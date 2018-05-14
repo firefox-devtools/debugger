@@ -187,6 +187,8 @@ class SearchInput extends Component<Props, State> {
       ref: c => (this.$input = c)
     };
 
+    const showGotoLine = query.indexOf(":") == 0;
+
     return (
       <div
         className={classnames("search-shadow", {
@@ -204,8 +206,13 @@ class SearchInput extends Component<Props, State> {
           <input {...inputProps} />
           {summaryMsg && <div className="summary">{summaryMsg}</div>}
           {this.renderNav()}
+          {showGotoLine && <span className="goto-line">Go to line</span>}
           {showClose && (
-            <CloseButton handleClick={handleClose} buttonClass={size} />
+            <CloseButton
+              tooltip={"Close"}
+              handleClick={handleClose}
+              buttonClass={size}
+            />
           )}
         </div>
       </div>
