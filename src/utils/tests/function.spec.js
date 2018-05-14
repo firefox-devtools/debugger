@@ -43,7 +43,7 @@ describe("function", () => {
       setSource(source);
       const symbols = getSymbols(source.id);
 
-      const text = findFunctionText(35, source, symbols);
+      const text = findFunctionText(29, source, symbols);
       expect(text).toMatchSnapshot();
     });
 
@@ -52,7 +52,7 @@ describe("function", () => {
       setSource(source);
       const symbols = getSymbols(source.id);
 
-      const text = findFunctionText(39, source, symbols);
+      const text = findFunctionText(33, source, symbols);
       expect(text).toMatchSnapshot();
     });
 
