@@ -27,7 +27,6 @@ async function loadSource(source: SourceRecord, { sourceMaps, client }) {
   }
 
   const response = await client.sourceContents(id);
-
   return {
     id,
     text: response.source,

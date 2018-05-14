@@ -51,17 +51,17 @@ Object {
       "componentStack": Array [
         "Foo",
       ],
-      "displayName": "Foo",
+      "displayName": "FixtureComponent",
     },
   },
   "location": Object {
     "end": Object {
-      "column": 32,
-      "line": 1,
+      "column": 18,
+      "line": 5,
     },
     "start": Object {
-      "column": 28,
-      "line": 1,
+      "column": 12,
+      "line": 5,
     },
   },
   "result": Object {
@@ -73,8 +73,8 @@ Object {
     },
   },
   "tokenPos": Object {
-    "column": 30,
-    "line": 1,
+    "column": 12,
+    "line": 5,
   },
   "updating": false,
 }

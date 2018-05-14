@@ -4,20 +4,19 @@
 
 // @flow
 
-import { getSymbols, getSource, getSelectedFrame } from "../../selectors";
-import { isReactComponent, isImmutable } from "../../utils/preview";
-import { findClosestClass } from "../../utils/ast";
+import { inComponent, getSelectedFrame } from "../../selectors";
+import { isImmutable } from "../../utils/preview";
 
 import type { ThunkArgs } from "../types";
 
-async function getReactProps(evaluate) {
+async function getReactProps(evaluate, displayName) {
   const componentNames = await evaluate(
     `
     if(this.hasOwnProperty('_reactInternalFiber')) {
-      let componentNames = []; 
-      let componentNode = this._reactInternalFiber; 
-      while(componentNode) { 
-        componentNames.push(componentNode.type.name); 
+      let componentNames = [];
+      let componentNode = this._reactInternalFiber;
+      while(componentNode) {
+        componentNames.push(componentNode.type.name);
         componentNode = componentNode._debugOwner
       }
       componentNames;
@@ -27,14 +26,16 @@ async function getReactProps(evaluate) {
     }
     `
   );
+
   const items =
     componentNames.result.preview && componentNames.result.preview.items;
+
+  let extra = { displayName };
   if (items) {
-    return {
-      displayName: items[0],
-      componentStack: items
-    };
+    extra = { displayName, componentStack: items };
   }
+
+  return extra;
 }
 
 async function getImmutableProps(expression: string, evaluate) {
@@ -52,20 +53,11 @@ async function getImmutableProps(expression: string, evaluate) {
 
 async function getExtraProps(getState, expression, result, evaluate) {
   const props = {};
-  if (isReactComponent(result)) {
-    const selectedFrame = getSelectedFrame(getState());
-    const source = getSource(getState(), selectedFrame.location.sourceId);
-    const symbols = getSymbols(getState(), source);
 
-    if (symbols && symbols.classes) {
-      const originalClass = findClosestClass(symbols, selectedFrame.location);
+  const component = inComponent(getState());
 
-      if (originalClass) {
-        props.react = { displayName: originalClass.name };
-      }
-    }
-
-    props.react = { ...(await getReactProps(evaluate)), ...props.react };
+  if (component) {
+    props.react = await getReactProps(evaluate, component);
   }
 
   if (isImmutable(result)) {

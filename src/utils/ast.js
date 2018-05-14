@@ -116,5 +116,5 @@ export function findClosestClass(symbols: Symbols, location: Location) {
     return null;
   }
 
-  return findClosestofSymbol(symbols.functions, location);
+  return findClosestofSymbol(symbols.classes, location);
 }
