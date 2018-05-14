@@ -5,6 +5,8 @@
 * [Mochi](#mochi)
 * [Writing Tests](#writing-tests)
 * [Debugging Intermittents](#debugging-intermittents)
+* [Troubleshooting Test Harness](#troubleshooting-test-harness)
+  * [Missing Rust compiler](#missing-rust-compiler)
 
 We use [mochitests] to do integration testing. Mochitests are part of Firefox and allow us to test the debugger literally as you would use it (as a devtools panel).
 
@@ -231,3 +233,43 @@ The Debugger Mochitest API Documentation can be found [here](https://devtools-ht
 [server-oops]: https://github.com/devtools-html/debugger.html/commit/7e54e6b46181b747a828ab2dc1db96c88313db95#diff-4fb7729ef51f162ae50b7c3bc020a1e3
 [pretty-printing]: https://github.com/devtools-html/debugger.html/commit/6a66ce54faf8239fb358462c53c022a75615aae6#diff-a81153d2e92178917a135261f4245c39R12
 [local-config]: https://github.com/devtools-html/debugger.html/blob/master/docs/local-development.md#logging
+
+## Troubleshooting Test Harness
+If symbolic link is suddenly lost between debugger.html and Firefox source, in your terminal, try the following
+
+1. Navigate to the firefox directory (i.e. `cd ~/debugger.html/firefox`)
+2. Execute `./mach mochitest --headless devtools/client/debugger/new`
+
+  If a symbolic link occurs, error message(s) will be displayed.
+  
+  ![Test harness with symbolic link errors](http://i40.photobucket.com/albums/e250/md2k6/Public/Opensource/debugger-html-6297/mochitest-error_zpsgicbau0z.jpg)
+
+3. Execute `./bin/prepare-mochitests-dev`.
+
+Running this command again allows the preparation script to check the integrity of the firefox directory and all symbolic
+links. It will then automatically execute `yarn copy-assets-watch` on your behalf, which ensures the symbolic linking process
+is complete.
+
+4. On a new terminal tab, execute the command to run your test again. If this failed, proceed to step 5.
+
+5.  Execute `./mach configure`
+
+This will attempt to fix the harness' configurations.
+
+### Missing Rust compiler
+If you are having issues running mochitest due to missing the Rust compiler, try the following:
+
+1. In the root directory of the project (i.e. `debugger.html/`), execute `./mach configure`.
+
+2. Execute `yarn copy-assets-watch`
+
+3. Open a new terminal tab and run your tests again. If this failed, proceed to step 4 and 5.
+
+4. Execute `./mach bootstrap`.
+
+5. Execute `./bin/prepare-mochitests-dev`.
+
+  You may see warnings along the way and the process may
+appear to be frozen. Please be patient, this is expected as it will take a while to recompile. Warning messages does not mean the compilation process has failed.
+
+6. Repeat steps 2 and 3.
