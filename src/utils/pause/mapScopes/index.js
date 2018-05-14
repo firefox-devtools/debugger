@@ -9,7 +9,6 @@ import {
   type SourceScope,
   type BindingData
 } from "../../../workers/parser";
-import type { RenderableScope } from "../scopes/getScope";
 import { locColumn } from "./locColumn";
 
 // eslint-disable-next-line max-len
@@ -25,7 +24,9 @@ import {
   type GeneratedBindingLocation
 } from "./buildGeneratedBindingList";
 
+import assert from "../../assert";
 import { log } from "../../log";
+
 import type {
   Position,
   Frame,
@@ -35,6 +36,7 @@ import type {
   ScopeBindings
 } from "../../../types";
 
+import type { RenderableScope } from "../scopes/getScope";
 export type OriginalScope = RenderableScope;
 
 export async function buildMappedScopes(
@@ -146,7 +148,7 @@ async function mapOriginalBindingsToGenerated(
  */
 function isReliableScope(scope: OriginalScope): boolean {
   let totalBindings = 0;
-  let unknownBindings = 0;
+  let unknownBindings = [];
 
   for (let s = scope; s; s = s.parent) {
     const vars = (s.bindings && s.bindings.variables) || {};
@@ -159,13 +161,21 @@ function isReliableScope(scope: OriginalScope): boolean {
         typeof binding.value === "object" &&
         (binding.value.type === "unscoped" || binding.value.type === "unmapped")
       ) {
-        unknownBindings += 1;
+        unknownBindings.push(key);
       }
     }
   }
 
   // As determined by fair dice roll.
-  return totalBindings === 0 || unknownBindings / totalBindings < 0.1;
+  const isReliable =
+    totalBindings === 0 || unknownBindings.length / totalBindings < 0.1;
+
+  assert(
+    isReliable,
+    `Could not find these bindings: ${unknownBindings.join(", ")}`
+  );
+
+  return isReliable;
 }
 
 function batchScopeMappings(
