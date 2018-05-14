@@ -7,7 +7,7 @@ exports[`Popover mount popover 1`] = `
       "getBoundingClientRect": [Function],
     }
   }
-  onMouseLeave={[MockFunction]}
+  onMouseLeave={[Function]}
   targetPosition={
     Object {
       "bottom": 0,
@@ -66,7 +66,7 @@ exports[`Popover mount tooltip 1`] = `
       "getBoundingClientRect": [Function],
     }
   }
-  onMouseLeave={[MockFunction]}
+  onMouseLeave={[Function]}
   targetPosition={
     Object {
       "bottom": 0,
@@ -83,7 +83,7 @@ exports[`Popover mount tooltip 1`] = `
 >
   <div
     className="tooltip"
-    onMouseLeave={[MockFunction]}
+    onMouseLeave={[Function]}
     style={
       Object {
         "left": -8,
@@ -105,7 +105,7 @@ exports[`Popover mount tooltip 1`] = `
 exports[`Popover render (tooltip) 1`] = `
 <div
   className="tooltip"
-  onMouseLeave={[MockFunction]}
+  onMouseLeave={[Function]}
   style={
     Object {
       "left": 0,
