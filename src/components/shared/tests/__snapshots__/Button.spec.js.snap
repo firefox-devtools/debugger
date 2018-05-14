@@ -3,13 +3,7 @@
 exports[`CloseButton renders 1`] = `
 <button
   className="close-btn error"
-  onClick={
-    [MockFunction] {
-      "calls": Array [
-        Array [],
-      ],
-    }
-  }
+  onClick={[Function]}
   title="Close something"
 >
   <img

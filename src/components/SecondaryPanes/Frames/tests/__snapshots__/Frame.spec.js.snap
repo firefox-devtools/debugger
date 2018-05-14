@@ -22,7 +22,7 @@ exports[`Frame library frame 1`] = `
         "source": Object {
           "url": "backbone.js",
         },
-        "toggleFrameworkGrouping": [MockFunction],
+        "toggleFrameworkGrouping": [Function],
       }
     }
     options={
@@ -44,7 +44,7 @@ exports[`Frame library frame 1`] = `
         "source": Object {
           "url": "backbone.js",
         },
-        "toggleFrameworkGrouping": [MockFunction],
+        "toggleFrameworkGrouping": [Function],
       }
     }
   />
@@ -74,7 +74,7 @@ exports[`Frame user frame (not selected) 1`] = `
           "isBlackBoxed": false,
           "url": "foo-view.js",
         },
-        "toggleFrameworkGrouping": [MockFunction],
+        "toggleFrameworkGrouping": [Function],
       }
     }
     options={
@@ -97,7 +97,7 @@ exports[`Frame user frame (not selected) 1`] = `
           "isBlackBoxed": false,
           "url": "foo-view.js",
         },
-        "toggleFrameworkGrouping": [MockFunction],
+        "toggleFrameworkGrouping": [Function],
       }
     }
   />
@@ -127,7 +127,7 @@ exports[`Frame user frame 1`] = `
           "isBlackBoxed": false,
           "url": "foo-view.js",
         },
-        "toggleFrameworkGrouping": [MockFunction],
+        "toggleFrameworkGrouping": [Function],
       }
     }
     options={
@@ -150,7 +150,7 @@ exports[`Frame user frame 1`] = `
           "isBlackBoxed": false,
           "url": "foo-view.js",
         },
-        "toggleFrameworkGrouping": [MockFunction],
+        "toggleFrameworkGrouping": [Function],
       }
     }
   />

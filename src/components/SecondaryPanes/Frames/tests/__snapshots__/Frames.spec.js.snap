@@ -21,7 +21,7 @@ exports[`Frames Blackboxed Frames filters blackboxed frames 1`] = `
       frameworkGroupingOn={false}
       hideLocation={false}
       key="1"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={
         Object {
           "id": 1,
@@ -31,7 +31,7 @@ exports[`Frames Blackboxed Frames filters blackboxed frames 1`] = `
         }
       }
       shouldMapDisplayName={true}
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
     <Frame
@@ -50,7 +50,7 @@ exports[`Frames Blackboxed Frames filters blackboxed frames 1`] = `
       frameworkGroupingOn={false}
       hideLocation={false}
       key="3"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={
         Object {
           "id": 1,
@@ -60,7 +60,7 @@ exports[`Frames Blackboxed Frames filters blackboxed frames 1`] = `
         }
       }
       shouldMapDisplayName={true}
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
   </ul>
@@ -82,14 +82,14 @@ exports[`Frames Library Frames groups all the Webpack-related frames 1`] = `
       frameworkGroupingOn={true}
       hideLocation={false}
       key="1-appFrame"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={
         Object {
           "id": "1-appFrame",
         }
       }
       shouldMapDisplayName={true}
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
     <Group
@@ -124,13 +124,13 @@ exports[`Frames Library Frames groups all the Webpack-related frames 1`] = `
         ]
       }
       key="2-webpackBootstrapFrame"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={
         Object {
           "id": "1-appFrame",
         }
       }
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
   </ul>
@@ -152,14 +152,14 @@ exports[`Frames Library Frames toggling framework frames 1`] = `
       frameworkGroupingOn={false}
       hideLocation={false}
       key="1"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={
         Object {
           "id": 1,
         }
       }
       shouldMapDisplayName={true}
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
     <Frame
@@ -173,14 +173,14 @@ exports[`Frames Library Frames toggling framework frames 1`] = `
       frameworkGroupingOn={false}
       hideLocation={false}
       key="2"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={
         Object {
           "id": 1,
         }
       }
       shouldMapDisplayName={true}
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
     <Frame
@@ -194,14 +194,14 @@ exports[`Frames Library Frames toggling framework frames 1`] = `
       frameworkGroupingOn={false}
       hideLocation={false}
       key="3"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={
         Object {
           "id": 1,
         }
       }
       shouldMapDisplayName={true}
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
     <Frame
@@ -214,14 +214,14 @@ exports[`Frames Library Frames toggling framework frames 1`] = `
       frameworkGroupingOn={false}
       hideLocation={false}
       key="8"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={
         Object {
           "id": 1,
         }
       }
       shouldMapDisplayName={true}
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
   </ul>
@@ -243,14 +243,14 @@ exports[`Frames Library Frames toggling framework frames 2`] = `
       frameworkGroupingOn={true}
       hideLocation={false}
       key="1"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={
         Object {
           "id": 1,
         }
       }
       shouldMapDisplayName={true}
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
     <Group
@@ -269,13 +269,13 @@ exports[`Frames Library Frames toggling framework frames 2`] = `
         ]
       }
       key="2"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={
         Object {
           "id": 1,
         }
       }
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
     <Frame
@@ -288,14 +288,14 @@ exports[`Frames Library Frames toggling framework frames 2`] = `
       frameworkGroupingOn={true}
       hideLocation={false}
       key="8"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={
         Object {
           "id": 1,
         }
       }
       shouldMapDisplayName={true}
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
   </ul>
@@ -317,10 +317,10 @@ exports[`Frames Supports different number of frames disable frame truncation 1`]
       frameworkGroupingOn={false}
       hideLocation={false}
       key="1"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={null}
       shouldMapDisplayName={true}
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
     <Frame
@@ -333,10 +333,10 @@ exports[`Frames Supports different number of frames disable frame truncation 1`]
       frameworkGroupingOn={false}
       hideLocation={false}
       key="2"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={null}
       shouldMapDisplayName={true}
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
     <Frame
@@ -349,10 +349,10 @@ exports[`Frames Supports different number of frames disable frame truncation 1`]
       frameworkGroupingOn={false}
       hideLocation={false}
       key="3"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={null}
       shouldMapDisplayName={true}
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
     <Frame
@@ -365,10 +365,10 @@ exports[`Frames Supports different number of frames disable frame truncation 1`]
       frameworkGroupingOn={false}
       hideLocation={false}
       key="4"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={null}
       shouldMapDisplayName={true}
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
     <Frame
@@ -381,10 +381,10 @@ exports[`Frames Supports different number of frames disable frame truncation 1`]
       frameworkGroupingOn={false}
       hideLocation={false}
       key="5"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={null}
       shouldMapDisplayName={true}
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
     <Frame
@@ -397,10 +397,10 @@ exports[`Frames Supports different number of frames disable frame truncation 1`]
       frameworkGroupingOn={false}
       hideLocation={false}
       key="6"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={null}
       shouldMapDisplayName={true}
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
     <Frame
@@ -413,10 +413,10 @@ exports[`Frames Supports different number of frames disable frame truncation 1`]
       frameworkGroupingOn={false}
       hideLocation={false}
       key="7"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={null}
       shouldMapDisplayName={true}
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
     <Frame
@@ -429,10 +429,10 @@ exports[`Frames Supports different number of frames disable frame truncation 1`]
       frameworkGroupingOn={false}
       hideLocation={false}
       key="8"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={null}
       shouldMapDisplayName={true}
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
     <Frame
@@ -445,10 +445,10 @@ exports[`Frames Supports different number of frames disable frame truncation 1`]
       frameworkGroupingOn={false}
       hideLocation={false}
       key="9"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={null}
       shouldMapDisplayName={true}
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
     <Frame
@@ -461,10 +461,10 @@ exports[`Frames Supports different number of frames disable frame truncation 1`]
       frameworkGroupingOn={false}
       hideLocation={false}
       key="10"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={null}
       shouldMapDisplayName={true}
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
     <Frame
@@ -477,10 +477,10 @@ exports[`Frames Supports different number of frames disable frame truncation 1`]
       frameworkGroupingOn={false}
       hideLocation={false}
       key="11"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={null}
       shouldMapDisplayName={true}
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
     <Frame
@@ -493,10 +493,10 @@ exports[`Frames Supports different number of frames disable frame truncation 1`]
       frameworkGroupingOn={false}
       hideLocation={false}
       key="12"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={null}
       shouldMapDisplayName={true}
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
     <Frame
@@ -509,10 +509,10 @@ exports[`Frames Supports different number of frames disable frame truncation 1`]
       frameworkGroupingOn={false}
       hideLocation={false}
       key="13"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={null}
       shouldMapDisplayName={true}
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
     <Frame
@@ -525,10 +525,10 @@ exports[`Frames Supports different number of frames disable frame truncation 1`]
       frameworkGroupingOn={false}
       hideLocation={false}
       key="14"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={null}
       shouldMapDisplayName={true}
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
     <Frame
@@ -541,10 +541,10 @@ exports[`Frames Supports different number of frames disable frame truncation 1`]
       frameworkGroupingOn={false}
       hideLocation={false}
       key="15"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={null}
       shouldMapDisplayName={true}
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
     <Frame
@@ -557,10 +557,10 @@ exports[`Frames Supports different number of frames disable frame truncation 1`]
       frameworkGroupingOn={false}
       hideLocation={false}
       key="16"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={null}
       shouldMapDisplayName={true}
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
     <Frame
@@ -573,10 +573,10 @@ exports[`Frames Supports different number of frames disable frame truncation 1`]
       frameworkGroupingOn={false}
       hideLocation={false}
       key="17"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={null}
       shouldMapDisplayName={true}
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
     <Frame
@@ -589,10 +589,10 @@ exports[`Frames Supports different number of frames disable frame truncation 1`]
       frameworkGroupingOn={false}
       hideLocation={false}
       key="18"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={null}
       shouldMapDisplayName={true}
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
     <Frame
@@ -605,10 +605,10 @@ exports[`Frames Supports different number of frames disable frame truncation 1`]
       frameworkGroupingOn={false}
       hideLocation={false}
       key="19"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={null}
       shouldMapDisplayName={true}
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
     <Frame
@@ -621,10 +621,10 @@ exports[`Frames Supports different number of frames disable frame truncation 1`]
       frameworkGroupingOn={false}
       hideLocation={false}
       key="20"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={null}
       shouldMapDisplayName={true}
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
   </ul>
@@ -658,14 +658,14 @@ exports[`Frames Supports different number of frames one frame 1`] = `
       frameworkGroupingOn={false}
       hideLocation={false}
       key="1"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={
         Object {
           "id": 1,
         }
       }
       shouldMapDisplayName={true}
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
   </ul>
@@ -687,14 +687,14 @@ exports[`Frames Supports different number of frames toggling the show more butto
       frameworkGroupingOn={false}
       hideLocation={false}
       key="1"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={
         Object {
           "id": 1,
         }
       }
       shouldMapDisplayName={true}
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
     <Frame
@@ -707,14 +707,14 @@ exports[`Frames Supports different number of frames toggling the show more butto
       frameworkGroupingOn={false}
       hideLocation={false}
       key="2"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={
         Object {
           "id": 1,
         }
       }
       shouldMapDisplayName={true}
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
     <Frame
@@ -727,14 +727,14 @@ exports[`Frames Supports different number of frames toggling the show more butto
       frameworkGroupingOn={false}
       hideLocation={false}
       key="3"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={
         Object {
           "id": 1,
         }
       }
       shouldMapDisplayName={true}
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
     <Frame
@@ -747,14 +747,14 @@ exports[`Frames Supports different number of frames toggling the show more butto
       frameworkGroupingOn={false}
       hideLocation={false}
       key="4"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={
         Object {
           "id": 1,
         }
       }
       shouldMapDisplayName={true}
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
     <Frame
@@ -767,14 +767,14 @@ exports[`Frames Supports different number of frames toggling the show more butto
       frameworkGroupingOn={false}
       hideLocation={false}
       key="5"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={
         Object {
           "id": 1,
         }
       }
       shouldMapDisplayName={true}
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
     <Frame
@@ -787,14 +787,14 @@ exports[`Frames Supports different number of frames toggling the show more butto
       frameworkGroupingOn={false}
       hideLocation={false}
       key="6"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={
         Object {
           "id": 1,
         }
       }
       shouldMapDisplayName={true}
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
     <Frame
@@ -807,14 +807,14 @@ exports[`Frames Supports different number of frames toggling the show more butto
       frameworkGroupingOn={false}
       hideLocation={false}
       key="7"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={
         Object {
           "id": 1,
         }
       }
       shouldMapDisplayName={true}
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
     <Frame
@@ -827,14 +827,14 @@ exports[`Frames Supports different number of frames toggling the show more butto
       frameworkGroupingOn={false}
       hideLocation={false}
       key="8"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={
         Object {
           "id": 1,
         }
       }
       shouldMapDisplayName={true}
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
     <Frame
@@ -847,14 +847,14 @@ exports[`Frames Supports different number of frames toggling the show more butto
       frameworkGroupingOn={false}
       hideLocation={false}
       key="9"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={
         Object {
           "id": 1,
         }
       }
       shouldMapDisplayName={true}
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
     <Frame
@@ -867,14 +867,14 @@ exports[`Frames Supports different number of frames toggling the show more butto
       frameworkGroupingOn={false}
       hideLocation={false}
       key="10"
-      selectFrame={[MockFunction]}
+      selectFrame={[Function]}
       selectedFrame={
         Object {
           "id": 1,
         }
       }
       shouldMapDisplayName={true}
-      toggleBlackBox={[MockFunction]}
+      toggleBlackBox={[Function]}
       toggleFrameworkGrouping={[Function]}
     />
   </ul>
