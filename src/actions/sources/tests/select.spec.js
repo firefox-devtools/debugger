@@ -113,4 +113,42 @@ describe("sources", () => {
     const selectedLocation = getSelectedLocation(getState());
     expect(selectedLocation).toEqual(undefined);
   });
+
+  it("sets and clears selected location correctly", () => {
+    const { dispatch, getState } = createStore(sourceThreadClient);
+    const source = { id: "testSource" };
+    const location = { test: "testLocation" };
+
+    // set value
+    dispatch(actions.setSelectedLocation(source, location));
+    expect(getSelectedLocation(getState())).toEqual({
+      sourceId: source.id,
+      ...location
+    });
+
+    // clear value
+    dispatch(actions.clearSelectedLocation());
+    expect(getSelectedLocation(getState())).toEqual({
+      sourceId: ""
+    });
+  });
+
+  it("sets and clears pending selected location correctly", () => {
+    const { dispatch, getState } = createStore(sourceThreadClient);
+    const url = "testURL";
+    const options = { location: { line: "testLine" } };
+
+    // set value
+    dispatch(actions.setPendingSelectedLocation(url, options));
+    const setResult = getState().sources.pendingSelectedLocation;
+    expect(setResult).toEqual({
+      url,
+      line: options.location.line
+    });
+
+    // clear value
+    dispatch(actions.clearSelectedLocation());
+    const clearResult = getState().sources.pendingSelectedLocation;
+    expect(clearResult).toEqual({ url: "" });
+  });
 });
