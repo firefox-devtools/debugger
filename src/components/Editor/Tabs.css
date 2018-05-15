@@ -81,7 +81,6 @@
 
 .source-tab img.prettyPrint,
 .source-tab .source-icon.blackBox {
-  padding-top: 12px;
   height: 12px;
   width: 12px;
   align-self: center;
@@ -94,7 +93,6 @@
 .source-tab img.react {
   mask: url(/images/react.svg) no-repeat;
   mask-size: 100%;
-  padding-top: 12px;
   height: 14px;
   width: 14px;
   background: var(--theme-highlight-bluegrey);
@@ -129,7 +127,7 @@ html[dir="rtl"] img.moreTabs {
   text-overflow: ellipsis;
   overflow: hidden;
   padding: 0 4px;
-  align-self: flex-start;
+  align-self: center;
 }
 
 .source-tab .close-btn {
