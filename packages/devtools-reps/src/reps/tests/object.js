@@ -16,7 +16,7 @@ describe("Object - Basic", () => {
   const defaultOutput = "Object {  }";
 
   it("selects the correct rep", () => {
-    expect(getRep(object)).toBe(Obj.rep);
+    expect(getRep(object, undefined, true)).toBe(Obj.rep);
   });
 
   it("renders basic object as expected", () => {
@@ -121,16 +121,18 @@ describe("Object - Nested", () => {
     'Object { strProp: "test string", objProp: {…},' + " arrProp: […] }";
 
   it("renders nested object as expected", () => {
-    expect(renderComponent(object, { mode: undefined }).text()).toEqual(
-      defaultOutput
-    );
-    expect(renderComponent(object, { mode: MODE.TINY }).text()).toEqual("{…}");
-    expect(renderComponent(object, { mode: MODE.SHORT }).text()).toEqual(
-      defaultOutput
-    );
-    expect(renderComponent(object, { mode: MODE.LONG }).text()).toEqual(
-      defaultOutput
-    );
+    expect(
+      renderComponent(object, { mode: undefined, noGrip: true }).text()
+    ).toEqual(defaultOutput);
+    expect(
+      renderComponent(object, { mode: MODE.TINY, noGrip: true }).text()
+    ).toEqual("{…}");
+    expect(
+      renderComponent(object, { mode: MODE.SHORT, noGrip: true }).text()
+    ).toEqual(defaultOutput);
+    expect(
+      renderComponent(object, { mode: MODE.LONG, noGrip: true }).text()
+    ).toEqual(defaultOutput);
   });
 });
 
