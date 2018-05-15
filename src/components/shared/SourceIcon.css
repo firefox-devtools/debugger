@@ -24,3 +24,7 @@
   mask-size: 100%;
   background: var(--theme-highlight-blue);
 }
+
+.source-icon.javascript {
+  top: 2px;
+}

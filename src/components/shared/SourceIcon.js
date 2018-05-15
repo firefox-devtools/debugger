@@ -15,7 +15,9 @@ import "./SourceIcon.css";
 
 type Props = {
   source: Source,
+  // sourceMetaData will provide framework information
   sourceMetaData?: SourceMetaDataType,
+  // Array of strings representing cases where we prefer to get no image
   renderNothingIfIncludes?: Array
 };
 
