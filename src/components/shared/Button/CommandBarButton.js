@@ -6,7 +6,7 @@
 import classnames from "classnames";
 import React from "react";
 
-import "./CommandBarButton.css";
+import "./styles/CommandBarButton.css";
 
 type Props = {
   children: React$Element<any>,
