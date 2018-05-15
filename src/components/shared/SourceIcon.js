@@ -21,8 +21,8 @@ type Props = {
 
 class SourceIcon extends PureComponent<Props> {
   render() {
-    const { renderNothingIfIncludes, source } = this.props;
-    const iconClass = getSourceClassnames(source);
+    const { renderNothingIfIncludes, source, sourceMetaData } = this.props;
+    const iconClass = getSourceClassnames(source, sourceMetaData);
 
     if (
       renderNothingIfIncludes &&

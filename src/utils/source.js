@@ -351,7 +351,7 @@ export function getSourceClassnames(
   }
 
   if (sourceMetaData && sourceMetaData.framework) {
-    return <img className={sourceMetaData.framework.toLowerCase()} />;
+    return sourceMetaData.framework.toLowerCase();
   }
 
   if (isPretty(source)) {
