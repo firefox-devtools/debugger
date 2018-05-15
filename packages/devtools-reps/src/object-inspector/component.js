@@ -381,7 +381,10 @@ class ObjectInspector extends Component<Props> {
         block: nodeIsBlock(item)
       }),
       onClick: e => {
-        if (e.metaKey && onCmdCtrlClick) {
+        if (
+          onCmdCtrlClick &&
+          ((isMacOS && e.metaKey) || (!isMacOS && e.ctrlKey))
+        ) {
           onCmdCtrlClick(item, {
             depth,
             event: e,
