@@ -70,7 +70,8 @@ const reps = [
   SymbolRep,
   InfinityRep,
   NaNRep,
-  Accessor
+  Accessor,
+  Obj
 ];
 
 /**
@@ -101,7 +102,7 @@ const Rep = function(props) {
  * @param noGrip {Boolean} If true, will only check reps not made for remote
  *                         objects.
  */
-function getRep(object, defaultRep = Obj, noGrip = false) {
+function getRep(object, defaultRep = Grip, noGrip = false) {
   for (let i = 0; i < reps.length; i++) {
     const rep = reps[i];
     try {
