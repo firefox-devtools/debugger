@@ -1,17 +1,21 @@
 .source-icon {
-    position: relative;
-    background-color: var(--theme-comment);
-    width: 15px;
-    height: 15px;
+  position: relative;
+  background-color: var(--theme-comment);
+  mask-size: 100%;
+  display: inline-block;
+  margin-inline-end: 5px;
+}
+
+.source-icon,
+.source-icon svg {
+  width: 15px;
+  height: 15px;
 }
 
 .source-icon.prettyPrint {
   mask: url(/images/prettyPrint.svg) no-repeat;
   mask-size: 100%;
   background: var(--theme-highlight-blue);
-}
-
-.source-tab .prettyPrint {
   fill: var(--theme-textbox-box-shadow);
 }
 
