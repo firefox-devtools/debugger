@@ -42,7 +42,7 @@
 }
 
 .welcomebox__searchSources:hover, .welcomebox__searchProject:hover {
-  text-decoration: underline;
+  font-weight: bolder;
   cursor: pointer;
   background-color: transparent;
 }
