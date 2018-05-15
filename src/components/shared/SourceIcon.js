@@ -11,7 +11,7 @@ import { connect } from "react-redux";
 import { getSourceClassnames } from "../../utils/source";
 import { getSourceMetaData } from "../../selectors";
 
-import type Source from "../../types";
+import type { Source } from "../../types";
 import type { SourceMetaDataType } from "../../reducers/ast";
 
 import "./SourceIcon.css";
@@ -21,7 +21,7 @@ type Props = {
   // sourceMetaData will provide framework information
   sourceMetaData: SourceMetaDataType,
   // Array of strings representing cases where we prefer to get no image
-  renderNothingIfIncludes?: Array
+  renderNothingIfIncludes?: string[]
 };
 
 class SourceIcon extends PureComponent<Props> {
