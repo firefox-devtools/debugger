@@ -7,7 +7,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import actions from "../../actions";
 import { getEventListeners, getBreakpoint } from "../../selectors";
-import CloseButton from "../shared/Button/Close";
+import { CloseButton } from "../shared/Button";
 import "./EventListeners.css";
 
 import type { Breakpoint, Location, SourceId } from "../../types";

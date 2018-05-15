@@ -19,7 +19,7 @@ import { debounce } from "lodash";
 import "./Tabs.css";
 
 import Tab from "./Tab";
-import PaneToggleButton from "../shared/Button/PaneToggle";
+import { PaneToggleButton } from "../shared/Button";
 import Dropdown from "../shared/Dropdown";
 
 import type { List } from "immutable";

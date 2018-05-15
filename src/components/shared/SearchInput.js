@@ -6,7 +6,7 @@
 
 import React, { Component } from "react";
 
-import CloseButton from "./Button/Close";
+import { CloseButton } from "./Button";
 
 import Svg from "./Svg";
 import classnames from "classnames";
