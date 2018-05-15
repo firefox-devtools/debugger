@@ -356,7 +356,8 @@ class Tree extends Component {
     super(props);
 
     this.state = {
-      seen: new Set()
+      seen: new Set(),
+      traversal: []
     };
 
     this._onExpand = oncePerAnimationFrame(this._onExpand).bind(this);
@@ -383,6 +384,10 @@ class Tree extends Component {
     this._activateNode = oncePerAnimationFrame(this._activateNode).bind(this);
   }
 
+  componentWillMount() {
+    this._updateTraversal();
+  }
+
   componentDidMount() {
     this._autoExpand();
     if (this.props.focused) {
@@ -392,8 +397,14 @@ class Tree extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps, nextState) {
     this._autoExpand();
+
+    const roots = this.props.getRoots();
+    if (roots != nextProps.getRoots()) {
+      const traversal = this._dfsFromRoots(nextProps.getRoots());
+      this.setState({ traversal });
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -439,6 +450,8 @@ class Tree extends Component {
     } else if (length != 0) {
       autoExpand(roots[0], 0);
     }
+
+    this._updateTraversal();
   }
 
   _preventArrowKeyScrolling(e) {
@@ -488,16 +501,21 @@ class Tree extends Component {
   /**
    * Perform a pre-order depth-first search over the whole forest.
    */
-  _dfsFromRoots(maxDepth = Infinity) {
+  _dfsFromRoots(roots, maxDepth = Infinity) {
     const traversal = [];
 
-    const roots = this.props.getRoots();
     const length = roots.length;
     for (let i = 0; i < length; i++) {
       this._dfs(roots[i], maxDepth, traversal);
     }
 
     return traversal;
+  }
+
+  _updateTraversal(newRoots) {
+    const roots = newRoots || this.props.getRoots();
+    const traversal = this._dfsFromRoots(roots);
+    this.setState({ traversal });
   }
 
   /**
@@ -518,6 +536,8 @@ class Tree extends Component {
         }
       }
     }
+
+    this._updateTraversal();
   }
 
   /**
@@ -529,6 +549,8 @@ class Tree extends Component {
     if (this.props.onCollapse) {
       this.props.onCollapse(item);
     }
+
+    this._updateTraversal();
   }
 
   /**
@@ -679,8 +701,7 @@ class Tree extends Component {
     // doesn't exist, we're at the first node already.
 
     let prev;
-
-    const traversal = this._dfsFromRoots();
+    const { traversal } = this.state;
     const length = traversal.length;
     for (let i = 0; i < length; i++) {
       const item = traversal[i].item;
@@ -704,7 +725,7 @@ class Tree extends Component {
     // Start a depth first search and keep going until we reach the currently
     // focused node. Focus the next node in the DFS, if it exists. If it
     // doesn't exist, we're at the last node already.
-    const traversal = this._dfsFromRoots();
+    const { traversal } = this.state;
     const length = traversal.length;
     let i = 0;
 
@@ -731,7 +752,7 @@ class Tree extends Component {
       return;
     }
 
-    const traversal = this._dfsFromRoots();
+    const { traversal } = this.state;
     const length = traversal.length;
     let parentIndex = 0;
     for (; parentIndex < length; parentIndex++) {
@@ -744,12 +765,12 @@ class Tree extends Component {
   }
 
   _focusFirstNode() {
-    const traversal = this._dfsFromRoots();
+    const { traversal } = this.state;
     this._focus(traversal[0].item, { alignTo: "top" });
   }
 
   _focusLastNode() {
-    const traversal = this._dfsFromRoots();
+    const { traversal } = this.state;
     const lastIndex = traversal.length - 1;
     this._focus(traversal[lastIndex].item, { alignTo: "bottom" });
   }
@@ -767,7 +788,7 @@ class Tree extends Component {
   }
 
   render() {
-    const traversal = this._dfsFromRoots();
+    const { traversal } = this.state;
     const { focused } = this.props;
 
     const nodes = traversal.map((v, i) => {
@@ -790,9 +811,9 @@ class Tree extends Component {
           // it should be scrolled into view.
           this._focus(item, { preventAutoScroll: true });
           if (this.props.isExpanded(item)) {
-            this.props.onCollapse(item);
+            this._onCollapse(item);
           } else {
-            this.props.onExpand(item, e.altKey);
+            this._onExpand(item, false);
           }
         }
       });
