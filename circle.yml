@@ -22,12 +22,10 @@ test:
   override:
     - mkdir -p $CIRCLE_TEST_REPORTS/flow-coverage
     - mkdir -p $CIRCLE_TEST_REPORTS/jest-coverage
-    - yarn jest -i --no-colors --testResultsProcessor="jest-junit" --coverage --coverageDirectory=$CIRCLE_TEST_REPORTS/jest-coverage
-    - cd ./packages/devtools-source-map; yarn test
-    - cd ./packages/devtools-components; yarn test
-    - cd ./packages/devtools-reps; yarn test
+    - yarn test:js -i --no-colors --testResultsProcessor="jest-junit" --coverage --coverageDirectory=$CIRCLE_TEST_REPORTS/jest-coverage
     - yarn license-check
-    - yarn lint
+    - yarn lint:jest --no-colors
+    - yarn lint:md
     - yarn flow
   post:
     - yarn flow-coverage -- -t json -o $CIRCLE_TEST_REPORTS/flow-coverage
