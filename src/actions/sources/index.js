@@ -3,10 +3,9 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-
-export * from "./loadSourceText";
-export * from "./prettyPrint";
-export * from "./newSources";
 export * from "./blackbox";
+export * from "./loadSourceText";
+export * from "./newSources";
+export * from "./prettyPrint";
 export * from "./select";
 export * from "./tabs";
