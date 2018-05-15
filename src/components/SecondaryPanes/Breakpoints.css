@@ -17,11 +17,14 @@
 .breakpoints-list .breakpoint-heading {
   text-overflow: ellipsis;
   overflow: hidden;
-  padding-top: 0.75em;
+  display: flex;
+  width: 100%;
+  align-items: center;
 }
 
-.breakpoints-list .breakpoint-heading .source-icon.prettyPrint {
-  top: 3px;
+/* temporary until we refactor the sources tree and tab icon styles */
+.breakpoints-list .breakpoint-heading .source-icon.file {
+  top: 0;
 }
 
 .breakpoints-list .breakpoint-heading,
