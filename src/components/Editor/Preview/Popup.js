@@ -101,6 +101,7 @@ export class Popup extends Component<Props> {
 
     if (
       relatedTarget &&
+      relatedTarget.classList &&
       (relatedTarget.classList.contains("popover") ||
         relatedTarget.classList.contains("debug-expression") ||
         relatedTarget.classList.contains("editor-mount"))
