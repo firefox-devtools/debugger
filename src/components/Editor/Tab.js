@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 
 import { showMenu, buildMenu } from "devtools-contextmenu";
 
+import SourceIcon from "../shared/SourceIcon";
 import { CloseButton } from "../shared/Button";
 
 import type { List } from "immutable";
@@ -24,7 +25,7 @@ import {
   isPretty
 } from "../../utils/source";
 import { copyToTheClipboard } from "../../utils/clipboard";
-import { getSourceAnnotation, getTabMenuItems } from "../../utils/tabs";
+import { getTabMenuItems } from "../../utils/tabs";
 
 import {
   getSelectedSource,
@@ -162,7 +163,6 @@ class Tab extends PureComponent<Props> {
       sourceId == selectedSource.get("id") &&
       (!this.isProjectSearchEnabled() && !this.isSourceSearchEnabled());
     const isPrettyCode = isPretty(source);
-    const sourceAnnotation = getSourceAnnotation(source, sourceMetaData);
 
     function onClickClose(e) {
       e.stopPropagation();
@@ -194,7 +194,11 @@ class Tab extends PureComponent<Props> {
         onContextMenu={e => this.onTabContextMenu(e, sourceId)}
         title={getFileURL(src)}
       >
-        {sourceAnnotation}
+        <SourceIcon
+          source={source}
+          sourceMetaData={sourceMetaData}
+          renderNothingIfIncludes={["file", "javascript"]}
+        />
         <div className="filename">{filename}</div>
         <CloseButton
           handleClick={onClickClose}
