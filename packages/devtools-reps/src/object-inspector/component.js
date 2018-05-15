@@ -9,6 +9,10 @@ const dom = require("react-dom-factories");
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 
+import { Services } from "devtools-modules";
+const { appinfo } = Services;
+const isMacOS = appinfo.OS === "Darwin";
+
 import Components from "devtools-components";
 const Tree = createFactory(Components.Tree);
 require("./index.css");
