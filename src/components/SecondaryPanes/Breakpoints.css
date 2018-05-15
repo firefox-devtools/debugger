@@ -20,6 +20,10 @@
   padding-top: 0.75em;
 }
 
+.breakpoints-list .breakpoint-heading .source-icon.prettyPrint {
+  top: 3px;
+}
+
 .breakpoints-list .breakpoint-heading,
 .breakpoints-list .breakpoint {
   font-size: 12px;
