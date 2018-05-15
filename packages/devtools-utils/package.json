@@ -5,20 +5,12 @@
   "main": "index.js",
   "scripts": {
     "license-check": "devtools-license-check",
-    "test": "jest"
+    "test": "jest --projects jest.config.js"
   },
   "author": "",
   "license": "MPL-2.0",
   "dependencies": {
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-preset-stage-3": "^6.22.0"
-  },
-  "jest": {
-    "rootDir": "src",
-    "testMatch": ["**/tests/**/*.js"],
-    "testPathIgnorePatterns": [],
-    "transformIgnorePatterns": [],
-    "setupFiles": [],
-    "moduleNameMapper": {}
   }
 }

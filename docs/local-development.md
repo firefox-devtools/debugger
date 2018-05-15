@@ -13,8 +13,7 @@
 * [Testing](#testing)
   * [Unit Tests](#unit-tests)
 * [Linting](#linting)
-  * [Lint JS](#lint-js)
-  * [Lint CSS](#lint-css)
+  * [Lint Jest](#lint-jest)
 * [Performance](#performance)
 * [Colors](#colors)
 * [Configs](#configs)
@@ -136,8 +135,8 @@ When you're starting a new feature, it's always good to ask yourself if the feat
 
 It's easy to add a new feature flag to the project.
 
-1. add the flag to `assets/panel/prefs.js` and `utils/prefs.js`
-2. import `features`
+1.  add the flag to `assets/panel/prefs.js` and `utils/prefs.js`
+2.  import `features`
 
 Here's an example of adding a new feature "awesome sauce" to the Debugger:
 
@@ -387,9 +386,9 @@ export function getExpressions(state: OuterState, input: string) {
 
 The `ExpressionState` documents the reducers fields. We use it in three places:
 
-1. `State` - an Immutable expression state record
-2. `update` - the reducer function which receives the expression state record
-3. `OuterState` - a local type representing the application state passed into selectors
+1.  `State` - an Immutable expression state record
+2.  `update` - the reducer function which receives the expression state record
+3.  `OuterState` - a local type representing the application state passed into selectors
 
 #### Immutable
 
@@ -481,7 +480,7 @@ Your code must pass all tests to be merged in. Your tests should pass locally be
 Here's how you can run all the unit tests, lints, and integration tests at once:
 
 ```bash
-yarn run test-all
+yarn run test:all
 ```
 
 #### Unit Tests
@@ -580,31 +579,27 @@ index a3b2ba6..cd5a8e7 100644
 
 ### Linting
 
-| Type     | Command             |
-| -------- | ------------------- |
-| all      | `yarn run lint`     |
-| css      | `yarn run lint-css` |
-| js       | `yarn run lint-js`  |
-| markdown | `yarn run lint-md`  |
+| Type     | Command              |
+| -------- | -------------------- |
+| all      | `yarn run lint`      |
+| css      | `yarn run lint:jest` |
+| js       | `yarn run lint:jest` |
+| markdown | `yarn run lint-md`   |
 
-#### Lint CSS
+#### Lint Jest
 
-We use [Stylelint](http://stylelint.io/) to maintain our CSS styles. The [.stylelintrc](../.stylelintrc) file contains the style definitions, please adhere to those styles when making changes.
+We use Jest Runners to do the linting for our JS and CSS.
 
-To test your CSS changes run the command:
-
-```bash
-yarn run lint-css
-```
-
-#### Lint JS
+Underlying the Jest Runners
 
 We use [eslint](http://eslint.org/) to maintain our JavaScript styles. The [.eslintrc](../.eslintrc) file contains our style definitions, please adhere to those styles when making changes.
+
+We use [Stylelint](http://stylelint.io/) to maintain our CSS styles. The [.stylelintrc](../.stylelintrc) file contains the style definitions, please adhere to those styles when making changes.
 
 To automatically fix many errors run the command:
 
 ```bash
-yarn run lint-js
+yarn run lint:jest
 ```
 
 #### Lint Markdown
@@ -656,8 +651,8 @@ so that the main thread doesn't have to.
 
 There are a couple of steps needed to make a function a worker task.
 
-1. add a task to the worker index e.g. (`dispatcher.task("getMatches")`)
-2. add the function to the worker handler `workerHandler({ getMatches })`
+1.  add a task to the worker index e.g. (`dispatcher.task("getMatches")`)
+2.  add the function to the worker handler `workerHandler({ getMatches })`
 
 Here's the full example.
 
@@ -769,9 +764,9 @@ The debugger depends on several other devtools packages. Sometimes a debugger fe
 
 There are three ways to test a change to a 3rd party package.
 
-1. [yarn link](https://yarnpkg.com/lang/en/docs/cli/link/)
-2. create a local version with **npm pack** and [yarn add](https://yarnpkg.com/lang/en/docs/cli/add/#toc-adding-dependencies)
-3. change the file directly in the debugger's `node_modules` directory.
+1.  [yarn link](https://yarnpkg.com/lang/en/docs/cli/link/)
+2.  create a local version with **npm pack** and [yarn add](https://yarnpkg.com/lang/en/docs/cli/add/#toc-adding-dependencies)
+3.  change the file directly in the debugger's `node_modules` directory.
 
 ### Errors
 
@@ -779,17 +774,17 @@ There are three ways to test a change to a 3rd party package.
 
 If you're running into errors associated with updating your files locally, try:
 
-1. `git checkout .`
-2. `yarn nom`
-3. `git pull --rebase`
+1.  `git checkout .`
+2.  `yarn nom`
+3.  `git pull --rebase`
 
 Another option is to reset your branch to master:
 
-1. `git fetch origin`
-2. `git checkout master`
-3. `git reset --hard origin/master`
-4. `yarn nom` to update node modules
-5. `yarn start` to restart local server
+1.  `git fetch origin`
+2.  `git checkout master`
+3.  `git reset --hard origin/master`
+4.  `yarn nom` to update node modules
+5.  `yarn start` to restart local server
 
 ### Getting Help
 
