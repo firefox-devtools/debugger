@@ -98,6 +98,7 @@
   height: 14px;
   width: 14px;
   background: var(--theme-highlight-bluegrey);
+  top: 0;
 }
 
 .source-tab .blackBox path {

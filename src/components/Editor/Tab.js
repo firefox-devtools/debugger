@@ -14,7 +14,6 @@ import { CloseButton } from "../shared/Button";
 
 import type { List } from "immutable";
 import type { SourceRecord } from "../../types";
-import type { SourceMetaDataType } from "../../reducers/ast";
 
 import actions from "../../actions";
 
@@ -29,7 +28,6 @@ import { getTabMenuItems } from "../../utils/tabs";
 
 import {
   getSelectedSource,
-  getSourceMetaData,
   getActiveSearch,
   getSourcesForTabs
 } from "../../selectors";
@@ -47,8 +45,7 @@ type Props = {
   togglePrettyPrint: string => void,
   showSource: string => void,
   source: SourceRecord,
-  activeSearch: string,
-  sourceMetaData: SourceMetaDataType
+  activeSearch: string
 };
 
 class Tab extends PureComponent<Props> {
@@ -152,8 +149,7 @@ class Tab extends PureComponent<Props> {
       selectedSource,
       selectSpecificSource,
       closeTab,
-      source,
-      sourceMetaData
+      source
     } = this.props;
     const src = source.toJS();
     const filename = getFilename(src);
@@ -196,7 +192,6 @@ class Tab extends PureComponent<Props> {
       >
         <SourceIcon
           source={source}
-          sourceMetaData={sourceMetaData}
           renderNothingIfIncludes={["file", "javascript"]}
         />
         <div className="filename">{filename}</div>
@@ -215,7 +210,6 @@ const mapStateToProps = (state, { source }) => {
   return {
     tabSources: getSourcesForTabs(state),
     selectedSource: selectedSource,
-    sourceMetaData: getSourceMetaData(state, source.id),
     activeSearch: getActiveSearch(state)
   };
 };

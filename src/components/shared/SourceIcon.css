@@ -25,6 +25,12 @@
   background: var(--theme-highlight-blue);
 }
 
-.source-icon.javascript {
+.source-icon.react {
+  mask-size: 100%;
+  background: var(--theme-highlight-bluegrey);
+}
+
+.source-icon.javascript,
+.source-icon.react {
   top: 2px;
 }

@@ -6,7 +6,10 @@
 
 import React, { PureComponent } from "react";
 
+import { connect } from "react-redux";
+
 import { getSourceClassnames } from "../../utils/source";
+import { getSourceMetaData } from "../../selectors";
 
 import type Source from "../../types";
 import type { SourceMetaDataType } from "../../reducers/ast";
@@ -16,7 +19,7 @@ import "./SourceIcon.css";
 type Props = {
   source: Source,
   // sourceMetaData will provide framework information
-  sourceMetaData?: SourceMetaDataType,
+  sourceMetaData: SourceMetaDataType,
   // Array of strings representing cases where we prefer to get no image
   renderNothingIfIncludes?: Array
 };
@@ -37,4 +40,8 @@ class SourceIcon extends PureComponent<Props> {
   }
 }
 
-export default SourceIcon;
+export default connect((state, props) => {
+  return {
+    sourceMetaData: getSourceMetaData(state, props.source.id)
+  };
+})(SourceIcon);
