@@ -18,6 +18,7 @@ export { isMinified } from "./isMinified";
 import { getExtension } from "./sources-tree";
 
 import type { Source, SourceRecord, Location } from "../types";
+import type { SourceMetaDataType } from "../reducers/ast";
 import type { SymbolDeclarations } from "../workers/parser";
 
 type transformUrlCallback = string => string;
@@ -338,10 +339,28 @@ export function getTextAtPosition(source: Source, location: Location) {
   return lineText.slice(column, column + 100).trim();
 }
 
-export function getSourceClassnames(source: Object) {
-  if (source && source.isBlackBoxed) {
+export function getSourceClassnames(
+  source: Object,
+  sourceMetaData?: SourceMetaDataType
+) {
+  // Conditionals should be ordered by priority of icon!
+  const defaultClassName = "file";
+
+  if (!source) {
+    return defaultClassName;
+  }
+
+  if (sourceMetaData && sourceMetaData.framework) {
+    return <img className={sourceMetaData.framework.toLowerCase()} />;
+  }
+
+  if (isPretty(source)) {
+    return "prettyPrint";
+  }
+
+  if (source.isBlackBoxed) {
     return "blackBox";
   }
 
-  return sourceTypes[getExtension(source)] || "file";
+  return sourceTypes[getExtension(source)] || defaultClassName;
 }

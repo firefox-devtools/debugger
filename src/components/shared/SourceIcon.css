@@ -1,0 +1,22 @@
+.source-icon {
+    position: relative;
+    background-color: var(--theme-comment);
+    width: 15px;
+    height: 15px;
+}
+
+.source-icon.prettyPrint {
+  mask: url(/images/prettyPrint.svg) no-repeat;
+  mask-size: 100%;
+  background: var(--theme-highlight-blue);
+}
+
+.source-tab .prettyPrint {
+  fill: var(--theme-textbox-box-shadow);
+}
+
+.source-icon.blackBox {
+  mask: url(/images/blackBox.svg) no-repeat;
+  mask-size: 100%;
+  background: var(--theme-highlight-blue);
+}

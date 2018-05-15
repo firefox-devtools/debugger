@@ -12,6 +12,7 @@ import { createSelector } from "reselect";
 import { groupBy, sortBy } from "lodash";
 
 import Breakpoint from "./Breakpoint";
+import SourceIcon from "../shared/SourceIcon";
 
 import actions from "../../actions";
 import {
@@ -228,6 +229,7 @@ class Breakpoints extends Component<Props> {
               key={url}
               onClick={() => this.props.selectSource(source.id)}
             >
+              <SourceIcon source={source} />
               {getFilename(source)}
             </div>,
             ...groupBreakpoints.map(bp => this.renderBreakpoint(bp))
