@@ -164,10 +164,9 @@ class SearchInput extends Component<Props, State> {
       selectedItemId,
       showErrorEmoji,
       size,
+      summaryMsg,
       showClose
     } = this.props;
-
-    let { summaryMsg } = this.props;
 
     const inputProps = {
       className: classnames({
@@ -187,10 +186,6 @@ class SearchInput extends Component<Props, State> {
       spellCheck: false,
       ref: c => (this.$input = c)
     };
-
-    if (query.startsWith(":")) {
-      summaryMsg = L10N.getStr("shortcuts.gotoLine");
-    }
 
     return (
       <div
