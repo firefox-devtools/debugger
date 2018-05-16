@@ -2,7 +2,6 @@
 
 * [Getting Started with Firefox Nightly](#getting-started-with-firefox-nightly)
   * [For Windows Developers](#for-windows-developers)
-* [Configuring Firefox path in the debugger](#configuring-firefox-path-in-the-debugger)
 * [Running Nightly with the local debugger](#running-nightly-with-the-local-debugger)
 * [Watching for Changes](#watching-for-changes)
 * [Getting Help](#getting-help)
@@ -39,31 +38,14 @@ C:\mozilla-build\start-shell.bat
 
 In the shell, navigate to the debugger.html project folder, and follow the Getting Started instructions as mentioned.
 
-## Configuring Firefox path in the debugger
-
-You will need to copy your new debugger code into firefox each time you change something. By default
-we have the location of firefox to be within the devtools directory.
-
-However if you have firefox installed elsewhere you can update this in `configs/local.json`. There you will find a configuration
-called
-
-```json
-{
-  "firefox.mcPath": "./firefox" // expecting firefox to be under `debugger.html/firefox`
-}
-```
-
-You can change this to what works for you!
-
 ## Running Nightly with the local debugger
 
-Now we can put these pieces together. After you copy over the assets, you can run firefox with the
-debugger inside the panel!
+Now we can put these pieces together.
 
 in debugger project (`projects/debugger.html` or wherever you have it!):
 
 ```
-yarn copy-assets
+node ./bin/copy --mc <path to firefox>
 ```
 
 in firefox project (`projects/firefox` or wherever you have it!):
@@ -74,21 +56,11 @@ in firefox project (`projects/firefox` or wherever you have it!):
 
 ## Watching for Changes
 
-On to the fun stuff. Each time you change something you will need to copy over your assets, you can
-do this like so!
-
-in yarn:
+If you would like to quickly make changes in github and update the files in MC automatically,
+you can run `copy` with the `--watch` option.
 
 ```
-yarn copy-assets
-```
-
-That will build the debugger and copy over all the relevant files into `firefox`.
-
-It's annoying to have to manually update the bundle every single time though. If you want to automatically update the bundle in Firefox whenever you make a change, run this:
-
-```
-yarn watch
+node ./bin/copy --watch --mc <path to firefox>
 ```
 
 Now you can make code changes the bundle will be automatically built for you inside `firefox`.

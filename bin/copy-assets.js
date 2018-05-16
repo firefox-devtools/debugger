@@ -15,15 +15,6 @@ const writeReadme = require("./writeReadme");
 const envConfig = getConfig();
 feature.setConfig(envConfig);
 
-const args = minimist(process.argv.slice(2), {
-  boolean: ["watch", "symlink", "assets"],
-  string: ["mc"]
-});
-
-const shouldSymLink = args.symlink;
-const updateAssets = args.assets;
-const watch = args.watch;
-
 function moveFile(src, dest, opts) {
   copyFile(src, dest, opts);
   rimraf.sync(src);
@@ -173,8 +164,6 @@ function start() {
   const projectPath = path.resolve(__dirname, "..");
   const mcModulePath = "devtools/client/debugger/new";
 
-  let mcPath = args.mc ? args.mc : feature.getValue("firefox.mcPath");
-
   process.env.NODE_ENV = "production";
 
   // resolving against the project path in case it's relative. If it's absolute
@@ -291,4 +280,25 @@ function onBundleFinish({mcPath, bundlePath, projectPath}) {
   console.log("[copy-assets] done");
 }
 
-start();
+const args = minimist(process.argv.slice(2), {
+  boolean: ["watch", "symlink", "assets"],
+  string: ["mc"]
+});
+
+let shouldSymLink = args.symlink;
+let updateAssets = args.assets;
+let watch = args.watch;
+let mcPath = args.mc || feature.getValue("firefox.mcPath");
+
+
+if (process.argv[1] == __filename) {
+  start();
+} else {
+  module.exports = ({symlink, assets, watch: _watch, mc}) => {
+    shouldSymLink = symlink;
+    updateAssets = assets;
+    watch = _watch
+    mcPath = mc
+    start();
+  }
+}
