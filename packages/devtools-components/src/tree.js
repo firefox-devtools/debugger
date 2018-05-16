@@ -12,6 +12,7 @@ require("./tree.css");
 
 // depth
 const AUTO_EXPAND_DEPTH = 0;
+const NUMBER_OF_EXTRA_ITEMS = 50;
 
 /**
  * An arrow that displays whether its node is expanded (▼) or collapsed
@@ -650,10 +651,8 @@ class Tree extends Component {
         let end = index + Math.floor(itemsInViewPort / 2);
 
         if (start < 0) {
-          end += start;
           start = 0;
         } else if (end >= traversal.length) {
-          start -= traversal.length - end - 1;
           end = traversal.length - 1;
         }
 
@@ -864,8 +863,15 @@ class Tree extends Component {
     const { clientHeight, scrollTop } = parent;
     const itemsInViewPort = Math.floor(clientHeight / itemHeight);
 
-    const start = Math.floor(scrollTop / itemHeight);
-    const end = start + itemsInViewPort;
+    let start = Math.floor(scrollTop / itemHeight) - NUMBER_OF_EXTRA_ITEMS;
+    let end = start + itemsInViewPort + 2 * NUMBER_OF_EXTRA_ITEMS;
+
+    if (start < 0) {
+      start = 0;
+    }
+    if (end >= traversal.length) {
+      end = traversal.length - 1;
+    }
 
     const { topSpace, bottomSpace } = this.calculateSpaces(start, end);
 
