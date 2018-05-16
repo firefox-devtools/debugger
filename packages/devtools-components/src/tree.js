@@ -6,6 +6,7 @@ import React from "react";
 const { Component, createFactory } = React;
 import dom from "react-dom-factories";
 import PropTypes from "prop-types";
+import { throttle } from "lodash";
 
 require("./tree.css");
 
@@ -136,6 +137,17 @@ function oncePerAnimationFrame(fn) {
       argsToPass = null;
     });
   };
+}
+
+function closestScrolledParent(node) {
+  if (node == null) {
+    return null;
+  }
+
+  if (node.scrollHeight > node.clientHeight) {
+    return node;
+  }
+  return closestScrolledParent(node.parentNode);
 }
 
 /**
@@ -382,6 +394,7 @@ class Tree extends Component {
     this._onKeyDown = this._onKeyDown.bind(this);
     this._nodeIsExpandable = this._nodeIsExpandable.bind(this);
     this._activateNode = oncePerAnimationFrame(this._activateNode).bind(this);
+    this._onScroll = throttle(this._onScroll.bind(this), 100);
   }
 
   componentWillMount() {
@@ -400,9 +413,9 @@ class Tree extends Component {
   componentWillReceiveProps(nextProps, nextState) {
     this._autoExpand();
 
-    const roots = this.props.getRoots();
-    if (roots != nextProps.getRoots()) {
-      const traversal = this._dfsFromRoots(nextProps.getRoots());
+    const roots = nextProps.getRoots();
+    const traversal = this._dfsFromRoots(roots, nextProps.isExpanded);
+    if (traversal != this.state.traversal) {
       this.setState({ traversal });
     }
   }
@@ -413,6 +426,17 @@ class Tree extends Component {
       // Always keep the focus on the tree itself.
       this.treeRef.focus();
     }
+
+    const parent = closestScrolledParent(this.treeRef);
+    if (parent) {
+      this.parent = parent;
+      parent.addEventListener("scroll", this._onScroll);
+    }
+  }
+
+  _onScroll(e) {
+    const { scrollTop } = this.parent;
+    this.setState({ scrollTop });
   }
 
   _autoExpand() {
@@ -476,10 +500,19 @@ class Tree extends Component {
   /**
    * Perform a pre-order depth-first search from item.
    */
-  _dfs(item, maxDepth = Infinity, traversal = [], _depth = 0) {
+  _dfs(
+    item,
+    maxDepth = Infinity,
+    traversal = [],
+    _depth = 0,
+    isExpandedFromProps = false
+  ) {
     traversal.push({ item, depth: _depth });
+    const isExpanded = isExpandedFromProps
+      ? isExpandedFromProps
+      : this.props.isExpanded;
 
-    if (!this.props.isExpanded(item)) {
+    if (!isExpanded(item)) {
       return traversal;
     }
 
@@ -501,12 +534,12 @@ class Tree extends Component {
   /**
    * Perform a pre-order depth-first search over the whole forest.
    */
-  _dfsFromRoots(roots, maxDepth = Infinity) {
+  _dfsFromRoots(roots, isExpanded = false, maxDepth = Infinity) {
     const traversal = [];
 
     const length = roots.length;
     for (let i = 0; i < length; i++) {
-      this._dfs(roots[i], maxDepth, traversal);
+      this._dfs(roots[i], maxDepth, traversal, 0, isExpanded);
     }
 
     return traversal;
@@ -589,22 +622,11 @@ class Tree extends Component {
    */
   _scrollNodeIntoView(item, options = {}) {
     if (item !== undefined) {
-      const treeElement = this.treeRef;
       const element = document.getElementById(this.props.getKey(item));
 
       if (element) {
         const { top, bottom } = element.getBoundingClientRect();
-        const closestScrolledParent = node => {
-          if (node == null) {
-            return null;
-          }
-
-          if (node.scrollHeight > node.clientHeight) {
-            return node;
-          }
-          return closestScrolledParent(node.parentNode);
-        };
-        const scrolledParent = closestScrolledParent(treeElement);
+        const scrolledParent = this.parent;
         const scrolledParentRect = scrolledParent
           ? scrolledParent.getBoundingClientRect()
           : null;
@@ -620,6 +642,29 @@ class Tree extends Component {
             : !scrolledParentRect || top < scrolledParentRect.top;
           element.scrollIntoView(scrollToTop);
         }
+      } else if (this.parent) {
+        const { traversal } = this.state;
+        const { itemHeight } = this.props;
+        const items = traversal.map(a => a.item);
+        const index = items.indexOf(item);
+
+        const { clientHeight } = this.parent;
+        const itemsInViewPort = Math.floor(clientHeight / itemHeight);
+
+        let start = index - Math.floor(itemsInViewPort / 2);
+        let end = index + Math.floor(itemsInViewPort / 2);
+
+        if (start < 0) {
+          end += start;
+          start = 0;
+        } else if (end >= traversal.length) {
+          start -= traversal.length - end - 1;
+          end = traversal.length - 1;
+        }
+
+        const { topSpace } = this.calculateSpaces(start, end);
+        this.parent.scrollTop = topSpace;
+        this.setState({ scrollTop: topSpace });
       }
     }
   }
@@ -787,9 +832,52 @@ class Tree extends Component {
       : !!this.props.getChildren(item).length;
   }
 
-  render() {
+  calculateSpaces(start, end) {
     const { traversal } = this.state;
+    const { itemHeight } = this.props;
+
+    const totalSpace = traversal.length * itemHeight;
+
+    let topSpace = start * itemHeight;
+    let bottomSpace = totalSpace - topSpace - itemHeight * (end - start + 1);
+
+    if (bottomSpace < 0) {
+      bottomSpace = 0;
+    }
+    if (topSpace < 0) {
+      topSpace = 0;
+    }
+
+    return { topSpace, bottomSpace };
+  }
+
+  calculateSpace() {
+    const { parent } = this;
+    const { itemHeight } = this.props;
+    const { traversal } = this.state;
+
+    if (!parent || !itemHeight) {
+      return { topSpace: 0, bottomSpace: 0, traversal };
+    }
+
+    const { clientHeight, scrollTop } = parent;
+    const itemsInViewPort = Math.floor(clientHeight / itemHeight);
+
+    const start = Math.floor(scrollTop / itemHeight);
+    const end = start + itemsInViewPort;
+
+    const { topSpace, bottomSpace } = this.calculateSpaces(start, end);
+
+    return {
+      topSpace,
+      bottomSpace,
+      traversal: traversal.slice(start, end + 1)
+    };
+  }
+
+  render() {
     const { focused } = this.props;
+    const { topSpace, bottomSpace, traversal } = this.calculateSpace();
 
     const nodes = traversal.map((v, i) => {
       const { item, depth } = traversal[i];
@@ -857,7 +945,11 @@ class Tree extends Component {
         "aria-activedescendant": focused && this.props.getKey(focused),
         style
       },
-      nodes
+      [
+        dom.div({ key: "top-space", style: { height: topSpace } }, ""),
+        nodes,
+        dom.div({ key: "bottom-space", style: { height: bottomSpace } }, "")
+      ]
     );
   }
 }
