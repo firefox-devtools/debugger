@@ -25,6 +25,17 @@ export function clearSearchQuery(): Action {
   return { type: "CLEAR_QUERY" };
 }
 
+export function addSearchResult(
+  sourceId: string,
+  filepath: string,
+  matches: Object[]
+): Action {
+  return {
+    type: "ADD_SEARCH_RESULT",
+    result: { sourceId, filepath, matches }
+  };
+}
+
 export function clearSearchResults(): Action {
   return { type: "CLEAR_SEARCH_RESULTS" };
 }
@@ -72,15 +83,6 @@ export function searchSource(sourceId: string, query: string) {
     if (!matches.length) {
       return;
     }
-    dispatch(
-      ({
-        type: "ADD_SEARCH_RESULT",
-        result: {
-          sourceId: sourceRecord.id,
-          filepath: sourceRecord.url,
-          matches
-        }
-      }: Action)
-    );
+    dispatch(addSearchResult(sourceRecord.id, sourceRecord.url, matches));
   };
 }
