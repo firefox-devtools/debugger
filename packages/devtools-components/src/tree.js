@@ -369,7 +369,10 @@ class Tree extends Component {
 
     this.state = {
       seen: new Set(),
-      traversal: []
+      traversal: [],
+      visibleTraversal: [],
+      topSpace: 0,
+      bottomSpace: 0
     };
 
     this._onExpand = this._onExpand.bind(this);
@@ -394,11 +397,7 @@ class Tree extends Component {
     this._onKeyDown = this._onKeyDown.bind(this);
     this._nodeIsExpandable = this._nodeIsExpandable.bind(this);
     this._activateNode = oncePerAnimationFrame(this._activateNode).bind(this);
-    this._onScroll = throttle(this._onScroll.bind(this), 100);
-  }
-
-  componentWillMount() {
-    this._updateTraversal();
+    this._onScroll = throttle(this._onScroll.bind(this), 50);
   }
 
   componentDidMount() {
@@ -410,14 +409,33 @@ class Tree extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps, nextState) {
+  _onScroll(e) {
+    const { scrollTop } = this.parent;
+
+    this.setState({ scrollTop });
+    this.updateTraversal();
+  }
+
+  updateTraversal(traversal) {
+    if (!traversal) {
+      traversal = this.state.traversal;
+    }
+
+    const { topSpace, bottomSpace, start, end } = this.calculateSpace(
+      traversal
+    );
+    const visibleTraversal = traversal.slice(start, end + 1);
+
+    this.setState({ topSpace, bottomSpace, visibleTraversal });
+  }
+
+  componentWillReceiveProps(nextProps) {
     this._autoExpand();
 
-    const roots = nextProps.getRoots();
-    const traversal = this._dfsFromRoots(roots, nextProps.isExpanded);
-    if (traversal != this.state.traversal) {
-      this.setState({ traversal });
-    }
+    const traversal = this._dfsFromRoots(nextProps);
+
+    this.setState({ traversal });
+    this.updateTraversal(traversal);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -428,15 +446,10 @@ class Tree extends Component {
     }
 
     const parent = closestScrolledParent(this.treeRef);
-    if (parent) {
+    if (parent && parent != this.parent) {
       this.parent = parent;
       parent.addEventListener("scroll", this._onScroll);
     }
-  }
-
-  _onScroll(e) {
-    const { scrollTop } = this.parent;
-    this.setState({ scrollTop });
   }
 
   _autoExpand() {
@@ -474,8 +487,6 @@ class Tree extends Component {
     } else if (length != 0) {
       autoExpand(roots[0], 0);
     }
-
-    this._updateTraversal();
   }
 
   _preventArrowKeyScrolling(e) {
@@ -500,19 +511,12 @@ class Tree extends Component {
   /**
    * Perform a pre-order depth-first search from item.
    */
-  _dfs(
-    item,
-    maxDepth = Infinity,
-    traversal = [],
-    _depth = 0,
-    isExpandedFromProps = false
-  ) {
-    traversal.push({ item, depth: _depth });
-    const isExpanded = isExpandedFromProps
-      ? isExpandedFromProps
-      : this.props.isExpanded;
+  _dfs(item, maxDepth = Infinity, traversal = [], _depth = 0, newProps = null) {
+    const props = newProps ? newProps : this.props;
 
-    if (!isExpanded(item)) {
+    traversal.push({ item, depth: _depth });
+
+    if (!props.isExpanded(item)) {
       return traversal;
     }
 
@@ -522,10 +526,10 @@ class Tree extends Component {
       return traversal;
     }
 
-    const children = this.props.getChildren(item);
+    const children = props.getChildren(item);
     const length = children.length;
     for (let i = 0; i < length; i++) {
-      this._dfs(children[i], maxDepth, traversal, nextDepth);
+      this._dfs(children[i], maxDepth, traversal, nextDepth, props);
     }
 
     return traversal;
@@ -534,21 +538,16 @@ class Tree extends Component {
   /**
    * Perform a pre-order depth-first search over the whole forest.
    */
-  _dfsFromRoots(roots, isExpanded = false, maxDepth = Infinity) {
+  _dfsFromRoots(props, maxDepth = Infinity) {
     const traversal = [];
-
+    const roots = props.getRoots();
     const length = roots.length;
+
     for (let i = 0; i < length; i++) {
-      this._dfs(roots[i], maxDepth, traversal, 0, isExpanded);
+      this._dfs(roots[i], maxDepth, traversal, 0, props);
     }
 
     return traversal;
-  }
-
-  _updateTraversal(newRoots) {
-    const roots = newRoots || this.props.getRoots();
-    const traversal = this._dfsFromRoots(roots);
-    this.setState({ traversal });
   }
 
   /**
@@ -569,8 +568,6 @@ class Tree extends Component {
         }
       }
     }
-
-    this._updateTraversal();
   }
 
   /**
@@ -582,8 +579,6 @@ class Tree extends Component {
     if (this.props.onCollapse) {
       this.props.onCollapse(item);
     }
-
-    this._updateTraversal();
   }
 
   /**
@@ -851,13 +846,19 @@ class Tree extends Component {
     return { topSpace, bottomSpace };
   }
 
-  calculateSpace() {
+  calculateSpace(traversal) {
     const { parent } = this;
     const { itemHeight } = this.props;
-    const { traversal } = this.state;
 
     if (!parent || !itemHeight) {
-      return { topSpace: 0, bottomSpace: 0, traversal };
+      // We don't use virtual scrolling if
+      // no scrollbar or not fixed height of items,
+      return {
+        topSpace: 0,
+        bottomSpace: 0,
+        start: 0,
+        end: traversal.length - 1
+      };
     }
 
     const { clientHeight, scrollTop } = parent;
@@ -871,16 +872,17 @@ class Tree extends Component {
     return {
       topSpace,
       bottomSpace,
-      traversal: traversal.slice(start, end + 1)
+      start,
+      end
     };
   }
 
   render() {
     const { focused } = this.props;
-    const { topSpace, bottomSpace, traversal } = this.calculateSpace();
+    const { visibleTraversal, topSpace, bottomSpace } = this.state;
 
-    const nodes = traversal.map((v, i) => {
-      const { item, depth } = traversal[i];
+    const nodes = visibleTraversal.map((v, i) => {
+      const { item, depth } = visibleTraversal[i];
       const key = this.props.getKey(item, i);
       return TreeNodeFactory({
         key,
@@ -936,7 +938,7 @@ class Tree extends Component {
             explicitOriginalTarget !== this.treeRef &&
             !this.treeRef.contains(explicitOriginalTarget)
           ) {
-            this._focus(traversal[0].item);
+            this._focus(visibleTraversal[0].item);
           }
         },
         onBlur: this._onBlur,
