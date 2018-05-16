@@ -3,9 +3,11 @@
 exports[`SourcesTree After changing expanded nodes Shows the tree with four.js, five.js and six.js expanded 1`] = `
 <div
   className="sources-pane"
+  key="pane"
 >
   <div
     className="sources-list"
+    key="tree"
     onKeyDown={[Function]}
   >
     <ManagedTree
@@ -36,9 +38,11 @@ exports[`SourcesTree After changing expanded nodes Shows the tree with four.js, 
 exports[`SourcesTree Should show the tree with nothing expanded 1`] = `
 <div
   className="sources-pane"
+  key="pane"
 >
   <div
     className="sources-list"
+    key="tree"
     onKeyDown={[Function]}
   >
     <ManagedTree
@@ -62,9 +66,11 @@ exports[`SourcesTree Should show the tree with nothing expanded 1`] = `
 exports[`SourcesTree When loading initial source Shows the tree with one.js, two.js and three.js expanded 1`] = `
 <div
   className="sources-pane"
+  key="pane"
 >
   <div
     className="sources-list"
+    key="tree"
     onKeyDown={[Function]}
   >
     <ManagedTree
@@ -95,9 +101,11 @@ exports[`SourcesTree When loading initial source Shows the tree with one.js, two
 exports[`SourcesTree on receiving new props updates highlighted items updates highlightItems if selectedSource changes 1`] = `
 <div
   className="sources-pane"
+  key="pane"
 >
   <div
     className="sources-list"
+    key="tree"
     onKeyDown={[Function]}
   >
     <ManagedTree
@@ -114,40 +122,40 @@ exports[`SourcesTree on receiving new props updates highlighted items updates hi
               Object {
                 "contents": Array [
                   Object {
-                    "contents": Immutable.Map {
+                    "contents": Object {
                       "id": "server1.conn13.child1/39",
-                      "url": "http://mdn.com/one.js",
+                      "isBlackBoxed": false,
                       "isPrettyPrinted": false,
                       "isWasm": false,
-                      "sourceMapURL": null,
-                      "isBlackBoxed": false,
                       "loadedState": "unloaded",
+                      "sourceMapURL": null,
+                      "url": "http://mdn.com/one.js",
                     },
                     "name": "one.js",
                     "path": "mdn.com/one.js",
                   },
                   Object {
-                    "contents": Immutable.Map {
+                    "contents": Object {
                       "id": "server1.conn13.child1/41",
-                      "url": "http://mdn.com/three.js",
+                      "isBlackBoxed": false,
                       "isPrettyPrinted": false,
                       "isWasm": false,
-                      "sourceMapURL": null,
-                      "isBlackBoxed": false,
                       "loadedState": "unloaded",
+                      "sourceMapURL": null,
+                      "url": "http://mdn.com/three.js",
                     },
                     "name": "three.js",
                     "path": "mdn.com/three.js",
                   },
                   Object {
-                    "contents": Immutable.Map {
+                    "contents": Object {
                       "id": "server1.conn13.child1/40",
-                      "url": "http://mdn.com/two.js",
+                      "isBlackBoxed": false,
                       "isPrettyPrinted": false,
                       "isWasm": false,
-                      "sourceMapURL": null,
-                      "isBlackBoxed": false,
                       "loadedState": "unloaded",
+                      "sourceMapURL": null,
+                      "url": "http://mdn.com/two.js",
                     },
                     "name": "two.js",
                     "path": "mdn.com/two.js",
@@ -176,9 +184,11 @@ exports[`SourcesTree on receiving new props updates highlighted items updates hi
 exports[`SourcesTree on receiving new props updates list items updates list items if shownSource changes 1`] = `
 <div
   className="sources-pane"
+  key="pane"
 >
   <div
     className="sources-list"
+    key="tree"
     onKeyDown={[Function]}
   >
     <ManagedTree
@@ -193,14 +203,14 @@ exports[`SourcesTree on receiving new props updates list items updates list item
       listItems={
         Array [
           Object {
-            "contents": Immutable.Map {
+            "contents": Object {
               "id": "server1.conn13.child1/41",
-              "url": "http://mdn.com/three.js",
+              "isBlackBoxed": false,
               "isPrettyPrinted": false,
               "isWasm": false,
-              "sourceMapURL": null,
-              "isBlackBoxed": false,
               "loadedState": "unloaded",
+              "sourceMapURL": null,
+              "url": "http://mdn.com/three.js",
             },
             "name": "three.js",
             "path": "mdn.com/three.js",
@@ -208,40 +218,40 @@ exports[`SourcesTree on receiving new props updates list items updates list item
           Object {
             "contents": Array [
               Object {
-                "contents": Immutable.Map {
+                "contents": Object {
                   "id": "server1.conn13.child1/39",
-                  "url": "http://mdn.com/one.js",
+                  "isBlackBoxed": false,
                   "isPrettyPrinted": false,
                   "isWasm": false,
-                  "sourceMapURL": null,
-                  "isBlackBoxed": false,
                   "loadedState": "unloaded",
+                  "sourceMapURL": null,
+                  "url": "http://mdn.com/one.js",
                 },
                 "name": "one.js",
                 "path": "mdn.com/one.js",
               },
               Object {
-                "contents": Immutable.Map {
+                "contents": Object {
                   "id": "server1.conn13.child1/41",
-                  "url": "http://mdn.com/three.js",
+                  "isBlackBoxed": false,
                   "isPrettyPrinted": false,
                   "isWasm": false,
-                  "sourceMapURL": null,
-                  "isBlackBoxed": false,
                   "loadedState": "unloaded",
+                  "sourceMapURL": null,
+                  "url": "http://mdn.com/three.js",
                 },
                 "name": "three.js",
                 "path": "mdn.com/three.js",
               },
               Object {
-                "contents": Immutable.Map {
+                "contents": Object {
                   "id": "server1.conn13.child1/40",
-                  "url": "http://mdn.com/two.js",
+                  "isBlackBoxed": false,
                   "isPrettyPrinted": false,
                   "isWasm": false,
-                  "sourceMapURL": null,
-                  "isBlackBoxed": false,
                   "loadedState": "unloaded",
+                  "sourceMapURL": null,
+                  "url": "http://mdn.com/two.js",
                 },
                 "name": "two.js",
                 "path": "mdn.com/two.js",
@@ -528,9 +538,11 @@ exports[`SourcesTree renderItem should show source item with source icon with fo
 exports[`SourcesTree with custom root renders custom root source list 1`] = `
 <div
   className="sources-pane sources-list-custom-root"
+  key="pane"
 >
   <div
     className="sources-clear-root-container"
+    key="root"
   >
     <button
       className="sources-clear-root"
@@ -553,6 +565,7 @@ exports[`SourcesTree with custom root renders custom root source list 1`] = `
   </div>
   <div
     className="sources-list"
+    key="tree"
     onKeyDown={[Function]}
   >
     <ManagedTree
@@ -576,9 +589,11 @@ exports[`SourcesTree with custom root renders custom root source list 1`] = `
 exports[`SourcesTree with custom root renders empty custom root source list 1`] = `
 <div
   className="sources-pane sources-list-custom-root"
+  key="pane"
 >
   <div
     className="sources-clear-root-container"
+    key="root"
   >
     <button
       className="sources-clear-root"
@@ -601,6 +616,7 @@ exports[`SourcesTree with custom root renders empty custom root source list 1`] 
   </div>
   <div
     className="no-sources-message"
+    key="empty"
   >
     This directory root has no sources
   </div>
