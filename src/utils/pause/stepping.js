@@ -43,5 +43,5 @@ export function shouldStep(rootFrame: ?Frame, state: State, sourceMaps: any) {
     return false;
   }
 
-  return sameLocation || !validPauseLocation;
+  return sameLocation || invalidPauseLocation;
 }
