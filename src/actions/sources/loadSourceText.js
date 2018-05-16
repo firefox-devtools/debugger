@@ -72,7 +72,7 @@ export function loadSourceText(source: SourceRecord) {
     const newSource = getSource(getState(), source.get("id")).toJS();
 
     if (isOriginalId(newSource.id) && !newSource.isWasm) {
-      const generatedSource = getGeneratedSource(getState(), source.toJS());
+      const generatedSource = getGeneratedSource(getState(), source);
       await dispatch(loadSourceText(generatedSource));
     }
 
