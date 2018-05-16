@@ -36,12 +36,13 @@ export function shouldStep(rootFrame: ?Frame, state: State, sourceMaps: any) {
 
   const sameLocation = previousFrameLoc && isEqual(previousFrameLoc, frameLoc);
   const pausePoint = getPausePoint(state, frameLoc);
-  const invalidPauseLocation = pausePoint && !pausePoint.step;
+  const validPauseLocation =
+    pausePoint && (pausePoint.step || pausePoint.break);
 
   // We always want to pause in generated locations
   if (!frameLoc || isGeneratedId(frameLoc.sourceId)) {
     return false;
   }
 
-  return sameLocation || invalidPauseLocation;
+  return sameLocation || !validPauseLocation;
 }

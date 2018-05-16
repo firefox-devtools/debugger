@@ -231,7 +231,7 @@ function update(
             ...state,
             ...emptyPauseState,
             command: action.command,
-            previousLocation: buildPreviousLocation(state, action)
+            previousLocation: getPauseLocation(state, action)
           }
         : { ...state, command: null };
     }
@@ -259,14 +259,16 @@ function update(
   return state;
 }
 
-function buildPreviousLocation(state, action) {
+function getPauseLocation(state, action) {
   const { frames, previousLocation } = state;
 
+  // NOTE: We store the previous location so that we ensure that we
+  // do not stop at the same location twice when we step over.
   if (action.command !== "stepOver") {
     return null;
   }
 
-  const frame = frames && frames.length > 0 ? frames[0] : null;
+  const frame = frames && frames[0];
   if (!frame) {
     return previousLocation;
   }
