@@ -25,8 +25,8 @@ type Props = {
   onContextMenu: Function,
   onChange: Function,
   onCloseClick: Function,
-  why: Why,
-  frame: Frame
+  why: ?Why,
+  frame: ?Frame
 };
 
 function getBreakpointLocation(source, line, column) {
@@ -46,8 +46,8 @@ function getBreakpointText(selectedSource, breakpoint) {
 
 function isCurrentlyPausedAtBreakpoint(
   breakpoint: LocalBreakpoint,
-  frame: Frame,
-  why: Why
+  frame: ?Frame,
+  why: ?Why
 ) {
   if (!frame || isInterrupted(why)) {
     return false;
@@ -83,6 +83,18 @@ class Breakpoint extends Component<Props> {
     const prevBreakpoint = this.props.breakpoint;
     const nextBreakpoint = nextProps.breakpoint;
 
+    const wasPaused = isCurrentlyPausedAtBreakpoint(
+      prevBreakpoint,
+      this.props.frame,
+      this.props.why
+    );
+
+    const isPaused = isCurrentlyPausedAtBreakpoint(
+      nextBreakpoint,
+      nextProps.frame,
+      nextProps.why
+    );
+
     return (
       !prevBreakpoint ||
       this.props.selectedSource != nextProps.selectedSource ||
@@ -90,7 +102,8 @@ class Breakpoint extends Component<Props> {
         prevBreakpoint.disabled != nextBreakpoint.disabled ||
         prevBreakpoint.condition != nextBreakpoint.condition ||
         prevBreakpoint.hidden != nextBreakpoint.hidden ||
-        prevBreakpoint.frame != nextBreakpoint.frame)
+        prevBreakpoint.frame != nextBreakpoint.frame) ||
+      wasPaused != isPaused
     );
   }
 

@@ -27,6 +27,7 @@ function formatBreakpoint(
   let location = breakpoint.location;
   let text = breakpoint.originalText;
   const condition = breakpoint.condition;
+  const disabled = breakpoint.disabled;
   const locationId = makeLocationId(location);
   const source = getSourceInSources(sources, location.sourceId);
 
@@ -34,7 +35,7 @@ function formatBreakpoint(
     location = breakpoint.generatedLocation || breakpoint.location;
     text = breakpoint.text;
   }
-  const localBP = { locationId, location, text, source, condition };
+  const localBP = { locationId, location, text, source, condition, disabled };
 
   return localBP;
 }

@@ -45,7 +45,7 @@ export function isException(why: Why) {
   return why && why.type && why.type === "exception";
 }
 
-export function isInterrupted(why: Why) {
+export function isInterrupted(why: ?Why) {
   return why && why.type && why.type === "interrupted";
 }
 
