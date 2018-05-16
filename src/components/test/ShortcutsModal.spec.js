@@ -34,6 +34,8 @@ describe("ShortcutsModal", () => {
     const { component } = render({
       additionalClass: "additional-class"
     });
-    expect(component.find('.shortcuts-content').hasClass('additional-class')).toEqual(true);
+    expect(
+      component.find(".shortcuts-content").hasClass("additional-class")
+    ).toEqual(true);
   });
 });
