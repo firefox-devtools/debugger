@@ -372,8 +372,10 @@ describe("QuickOpenModal", () => {
 
     it("on Enter with results, handle symbol shortcut", () => {
       const symbols = [":", "#", "@"];
-      for (const key in symbols) {
-        const symbol = symbols[key];
+      let key;
+      let symbol;
+      for (key in symbols) {
+        symbol = symbols[key];
         const { wrapper, props } = generateModal(
           {
             enabled: true,
