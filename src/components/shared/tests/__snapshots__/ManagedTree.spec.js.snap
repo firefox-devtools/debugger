@@ -238,6 +238,14 @@ exports[`ManagedTree sets expanded items 1`] = `
         }
         tabIndex="0"
       >
+        <div
+          key="top-space"
+          style={
+            Object {
+              "height": 0,
+            }
+          }
+        />
         <TreeNode
           depth={0}
           expanded={true}
@@ -322,6 +330,14 @@ exports[`ManagedTree sets expanded items 1`] = `
             </div>
           </div>
         </TreeNode>
+        <div
+          key="bottom-space"
+          style={
+            Object {
+              "height": 0,
+            }
+          }
+        />
       </div>
     </Tree>
   </div>
@@ -424,6 +440,14 @@ exports[`ManagedTree sets expanded items 2`] = `
         }
         tabIndex="0"
       >
+        <div
+          key="top-space"
+          style={
+            Object {
+              "height": 0,
+            }
+          }
+        />
         <TreeNode
           depth={0}
           expanded={false}
@@ -507,6 +531,14 @@ exports[`ManagedTree sets expanded items 2`] = `
             </div>
           </div>
         </TreeNode>
+        <div
+          key="bottom-space"
+          style={
+            Object {
+              "height": 0,
+            }
+          }
+        />
       </div>
     </Tree>
   </div>

@@ -226,6 +226,14 @@ exports[`ProjectSearch found search results 1`] = `
               }
               tabIndex="0"
             >
+              <div
+                key="top-space"
+                style={
+                  Object {
+                    "height": 0,
+                  }
+                }
+              />
               <TreeNode
                 depth={0}
                 expanded={true}
@@ -704,6 +712,14 @@ exports[`ProjectSearch found search results 1`] = `
                   </div>
                 </div>
               </TreeNode>
+              <div
+                key="bottom-space"
+                style={
+                  Object {
+                    "height": 0,
+                  }
+                }
+              />
             </div>
           </Tree>
         </div>

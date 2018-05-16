@@ -217,7 +217,7 @@ export class ProjectSearch extends Component<Props, State> {
       <div
         className={classnames("file-result", { focused })}
         key={file.sourceId}
-        onClick={e => setExpanded(file, !expanded)}
+        onClick={e => setExpanded(file, !!expanded)}
       >
         <Svg name="arrow" className={classnames({ expanded })} />
         <img className="file" />
