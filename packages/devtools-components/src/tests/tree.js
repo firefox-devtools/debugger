@@ -43,7 +43,6 @@ function mountTree(overrides = {}) {
                 },
                 getRoots: () => ["A", "M"],
                 getKey: x => `key-${x}`,
-                itemHeight: 1,
                 onFocus: x => {
                   this.setState(previousState => {
                     return { focused: x };

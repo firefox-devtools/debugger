@@ -19,6 +19,14 @@ exports[`ObjectInspector - dimTopLevelWindow renders collapsed top-level window 
   tabIndex="0"
 >
   <div
+    key="top-space"
+    style={
+      Object {
+        "height": 0,
+      }
+    }
+  />
+  <div
     aria-expanded={false}
     aria-level={1}
     className="tree-node"
@@ -56,6 +64,14 @@ exports[`ObjectInspector - dimTopLevelWindow renders collapsed top-level window 
       </span>
     </div>
   </div>
+  <div
+    key="bottom-space"
+    style={
+      Object {
+        "height": 0,
+      }
+    }
+  />
 </div>
 `;
 
@@ -77,6 +93,14 @@ exports[`ObjectInspector - dimTopLevelWindow renders sub-level window 1`] = `
   }
   tabIndex="0"
 >
+  <div
+    key="top-space"
+    style={
+      Object {
+        "height": 0,
+      }
+    }
+  />
   <div
     aria-expanded={true}
     aria-level={1}
@@ -143,6 +167,14 @@ exports[`ObjectInspector - dimTopLevelWindow renders sub-level window 1`] = `
       </span>
     </div>
   </div>
+  <div
+    key="bottom-space"
+    style={
+      Object {
+        "height": 0,
+      }
+    }
+  />
 </div>
 `;
 
@@ -164,6 +196,14 @@ exports[`ObjectInspector - dimTopLevelWindow renders window as expected when dim
   }
   tabIndex="0"
 >
+  <div
+    key="top-space"
+    style={
+      Object {
+        "height": 0,
+      }
+    }
+  />
   <div
     aria-expanded={false}
     aria-level={1}
@@ -202,6 +242,14 @@ exports[`ObjectInspector - dimTopLevelWindow renders window as expected when dim
       </span>
     </div>
   </div>
+  <div
+    key="bottom-space"
+    style={
+      Object {
+        "height": 0,
+      }
+    }
+  />
 </div>
 `;
 
@@ -223,6 +271,14 @@ exports[`ObjectInspector - dimTopLevelWindow renders window as expected when dim
   }
   tabIndex="0"
 >
+  <div
+    key="top-space"
+    style={
+      Object {
+        "height": 0,
+      }
+    }
+  />
   <div
     aria-expanded={true}
     aria-level={1}
@@ -304,5 +360,13 @@ exports[`ObjectInspector - dimTopLevelWindow renders window as expected when dim
       </span>
     </div>
   </div>
+  <div
+    key="bottom-space"
+    style={
+      Object {
+        "height": 0,
+      }
+    }
+  />
 </div>
 `;

@@ -408,6 +408,11 @@ class Tree extends Component {
       // Always keep the focus on the tree itself.
       this.treeRef.focus();
     }
+
+    const traversal = this._dfsFromRoots(this.props);
+
+    this.setState({ traversal });
+    this.updateTraversal(traversal);
   }
 
   _onScroll(e) {

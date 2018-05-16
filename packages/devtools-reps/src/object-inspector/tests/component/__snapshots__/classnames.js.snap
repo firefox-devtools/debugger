@@ -19,6 +19,14 @@ exports[`ObjectInspector - classnames has the expected class 1`] = `
   tabIndex="0"
 >
   <div
+    key="top-space"
+    style={
+      Object {
+        "height": 0,
+      }
+    }
+  />
+  <div
     aria-level={1}
     className="tree-node"
     data-expandable={false}
@@ -47,6 +55,14 @@ exports[`ObjectInspector - classnames has the expected class 1`] = `
       </span>
     </div>
   </div>
+  <div
+    key="bottom-space"
+    style={
+      Object {
+        "height": 0,
+      }
+    }
+  />
 </div>
 `;
 
@@ -69,55 +85,13 @@ exports[`ObjectInspector - classnames has the inline class when inline prop is t
   tabIndex="0"
 >
   <div
-    aria-level={1}
-    className="tree-node"
-    data-expandable={false}
-    id="root"
-    onClick={[Function]}
-    role="treeitem"
-  >
-    <div
-      className="node object-node"
-      onClick={[Function]}
-    >
-      <span
-        className="object-label"
-      >
-        root
-      </span>
-      <span
-        className="object-delimiter"
-      >
-        : 
-      </span>
-      <span
-        className="objectBox objectBox-number"
-      >
-        42
-      </span>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`ObjectInspector - classnames has the nowrap class when disableWrap prop is true 1`] = `
-<div
-  aria-activedescendant={null}
-  className="tree nowrap object-inspector"
-  onBlur={[Function]}
-  onFocus={[Function]}
-  onKeyDown={[Function]}
-  onKeyPress={[Function]}
-  onKeyUp={[Function]}
-  role="tree"
-  style={
-    Object {
-      "margin": 0,
-      "padding": 0,
+    key="top-space"
+    style={
+      Object {
+        "height": 0,
+      }
     }
-  }
-  tabIndex="0"
->
+  />
   <div
     aria-level={1}
     className="tree-node"
@@ -147,5 +121,79 @@ exports[`ObjectInspector - classnames has the nowrap class when disableWrap prop
       </span>
     </div>
   </div>
+  <div
+    key="bottom-space"
+    style={
+      Object {
+        "height": 0,
+      }
+    }
+  />
+</div>
+`;
+
+exports[`ObjectInspector - classnames has the nowrap class when disableWrap prop is true 1`] = `
+<div
+  aria-activedescendant={null}
+  className="tree nowrap object-inspector"
+  onBlur={[Function]}
+  onFocus={[Function]}
+  onKeyDown={[Function]}
+  onKeyPress={[Function]}
+  onKeyUp={[Function]}
+  role="tree"
+  style={
+    Object {
+      "margin": 0,
+      "padding": 0,
+    }
+  }
+  tabIndex="0"
+>
+  <div
+    key="top-space"
+    style={
+      Object {
+        "height": 0,
+      }
+    }
+  />
+  <div
+    aria-level={1}
+    className="tree-node"
+    data-expandable={false}
+    id="root"
+    onClick={[Function]}
+    role="treeitem"
+  >
+    <div
+      className="node object-node"
+      onClick={[Function]}
+    >
+      <span
+        className="object-label"
+      >
+        root
+      </span>
+      <span
+        className="object-delimiter"
+      >
+        : 
+      </span>
+      <span
+        className="objectBox objectBox-number"
+      >
+        42
+      </span>
+    </div>
+  </div>
+  <div
+    key="bottom-space"
+    style={
+      Object {
+        "height": 0,
+      }
+    }
+  />
 </div>
 `;
