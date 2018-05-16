@@ -40,9 +40,9 @@ install:
   - ./bin/ci/clone-gecko.sh
   - du -sh firefox
   - yarn
+  - ./bin/ci/build-firefox.sh
 
 before_script:
-  - ./bin/ci/build-firefox.sh
   - sh -e /etc/init.d/xvfb start
 
 script:
