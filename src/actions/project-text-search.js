@@ -28,7 +28,7 @@ export function clearSearchQuery(): Action {
 export function addSearchResult(
   sourceId: string,
   filepath: string,
-  matches: Array
+  matches: Object[]
 ): Action {
   return {
     type: "ADD_SEARCH_RESULT",
