@@ -36,8 +36,15 @@
   white-space: nowrap;
 }
 
-.shortcutKeys {
-  font-family: Courier;
+.welcomebox__searchSources, .welcomebox__searchProject {
+  padding: 10px;
+  margin-top: 1em;
+}
+
+.welcomebox__searchSources:hover, .welcomebox__searchProject:hover {
+  font-weight: bolder;
+  cursor: pointer;
+  background-color: transparent;
 }
 
 .shortcutKey,

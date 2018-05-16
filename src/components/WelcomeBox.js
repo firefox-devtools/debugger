@@ -59,15 +59,21 @@ export class WelcomeBox extends Component<Props> {
         <div className="alignlabel">
           <div className="shortcutFunction">
             <p
+              role="button"
+              tabIndex="0"
               className="welcomebox__searchSources"
               onClick={() => openQuickOpen()}
+              onKeyPress={() => openQuickOpen()}
             >
               <span className="shortcutKey">{searchSourcesShortcut}</span>
               <span className="shortcutLabel">{searchSourcesLabel}</span>
             </p>
             <p
+              role="button"
+              tabIndex="0"
               className="welcomebox__searchProject"
               onClick={setActiveSearch.bind(null, "project")}
+              onKeyPress={setActiveSearch.bind(null, "project")}
             >
               <span className="shortcutKey">{searchProjectShortcut}</span>
               <span className="shortcutLabel">{searchProjectLabel}</span>
