@@ -43,7 +43,8 @@ export type LocalBreakpoint = BreakpointType & {
   location: Location,
   isCurrentlyPaused: boolean,
   locationId: string,
-  source: Source
+  source: Source,
+  frame: Frame
 };
 
 type BreakpointsMap = I.Map<string, LocalBreakpoint>;
