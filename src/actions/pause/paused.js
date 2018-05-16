@@ -43,10 +43,10 @@ async function getOriginalSourceForFrame(state, frame: Frame) {
 export function paused(pauseInfo: Pause) {
   return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
     const { frames, why, loadedObjects } = pauseInfo;
-    const rootFrame = frames.length > 0 ? frames[0] : null;
+    const topFrame = frames.length > 0 ? frames[0] : null;
 
-    if (rootFrame) {
-      const mappedFrame = await updateFrameLocation(rootFrame, sourceMaps);
+    if (topFrame && why.type == "resumeLimit") {
+      const mappedFrame = await updateFrameLocation(topFrame, sourceMaps);
       const source = await getOriginalSourceForFrame(getState(), mappedFrame);
 
       // Ensure that the original file has loaded if there is one.
@@ -62,7 +62,7 @@ export function paused(pauseInfo: Pause) {
       type: "PAUSED",
       why,
       frames,
-      selectedFrameId: rootFrame ? rootFrame.id : undefined,
+      selectedFrameId: topFrame ? topFrame.id : undefined,
       loadedObjects: loadedObjects || []
     });
 
