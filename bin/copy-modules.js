@@ -166,7 +166,7 @@ const args = minimist(process.argv.slice(1), {
 });
 
 const projectPath = path.resolve(__dirname, "..");
-let mcPath = args.mc ? args.mc : feature.getValue("firefox.mcPath");
+let mcPath = args.mc || feature.getValue("firefox.mcPath");
 let mcDebuggerPath = path.join(mcPath, "devtools/client/debugger/new");
 let shouldWatch = args.watch;
 

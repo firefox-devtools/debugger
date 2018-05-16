@@ -288,7 +288,7 @@ const args = minimist(process.argv.slice(2), {
 let shouldSymLink = args.symlink;
 let updateAssets = args.assets;
 let watch = args.watch;
-let mcPath = args.mc ? args.mc : feature.getValue("firefox.mcPath");
+let mcPath = args.mc || feature.getValue("firefox.mcPath");
 
 
 if (process.argv[1] == __filename) {
