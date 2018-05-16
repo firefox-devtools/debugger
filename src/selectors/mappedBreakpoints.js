@@ -4,6 +4,8 @@
 
 import { makeLocationId } from "../utils/breakpoint";
 
+import I from "immutable";
+
 import {
   getSources,
   getSourceInSources,
@@ -22,10 +24,6 @@ function formatBreakpoint(
   selectedSource,
   breakpoint
 ): LocalBreakpoint {
-  if (!selectedSource) {
-    return;
-  }
-
   let location = breakpoint.location;
   let text = breakpoint.originalText;
   const condition = breakpoint.condition;
@@ -42,9 +40,12 @@ function formatBreakpoint(
 }
 
 function _getMappedBreakpoints(breakpoints, sources, selectedSource) {
+  if (!selectedSource) {
+    return I.Map();
+  }
   return breakpoints
     .map(bp => formatBreakpoint(sources, selectedSource, bp))
-    .filter(bp => bp && bp.source && !bp.source.isBlackBoxed);
+    .filter(bp => bp.source && !bp.source.isBlackBoxed);
 }
 
 export const getMappedBreakpoints = createSelector(
