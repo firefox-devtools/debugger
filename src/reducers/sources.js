@@ -340,11 +340,14 @@ export function getSourceByURL(state: OuterState, url: string): ?SourceRecord {
   return getSourceByUrlInSources(state.sources.sources, url);
 }
 
-export function getGeneratedSource(state: OuterState, source: ?Source) {
-  if (!source || !isOriginalId(source.id)) {
+export function getGeneratedSource(
+  state: OuterState,
+  sourceRecord: ?SourceRecord
+) {
+  if (!sourceRecord || !isOriginalId(sourceRecord.id)) {
     return null;
   }
-  return getSource(state, originalToGeneratedId(source.id));
+  return getSource(state, originalToGeneratedId(sourceRecord.id));
 }
 
 export function getPendingSelectedLocation(state: OuterState) {

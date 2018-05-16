@@ -200,12 +200,11 @@ class SourceFooter extends PureComponent<Props> {
 
 const mapStateToProps = state => {
   const selectedSource = getSelectedSource(state);
-  const selectedId = selectedSource.get("id");
-  const source = selectedSource.toJS();
+  const selectedId = selectedSource.id;
 
   return {
     selectedSource,
-    mappedSource: getGeneratedSource(state, source),
+    mappedSource: getGeneratedSource(state, selectedSource),
     prettySource: getPrettySource(state, selectedId),
     endPanelCollapsed: getPaneCollapse(state, "end")
   };
