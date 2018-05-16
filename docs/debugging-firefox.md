@@ -13,7 +13,11 @@ Firefox is a large project, but for the most part the relevant source code is in
 
 #### Updating the Debugger
 
-You can update the debugger by running `yarn copy-assets` or `yarn watch`. The script will use webpack to bundle the debugger and copy the bundle into `devtools/client/debugger/new/debugger.js`.
+You can update the debugger by running `yarn watch`. The script will:
+
+* copy the debugger files
+* bundle dependencies into vendors
+* bundle workers
 
 > Remember, every time the code changes in firefox you need to re-run `./mach build`!
 

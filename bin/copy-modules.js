@@ -19,14 +19,6 @@ const getConfig = require("./getConfig");
 const envConfig = getConfig();
 feature.setConfig(envConfig);
 
-const args = minimist(process.argv.slice(1), {
-  string: ["mc"],
-  boolean: ["watch"]
-});
-
-const projectPath = path.resolve(__dirname, "..");
-const mcPath = args.mc ? args.mc : feature.getValue("firefox.mcPath");
-const mcDebuggerPath = path.join(mcPath, "devtools/client/debugger/new");
 
 function ignoreFile(file) {
   return file.match(/(\/fixtures|\/test|vendors\.js|types\.js|types\/)/);
@@ -163,9 +155,27 @@ function start() {
   createMozBuildFiles();
 
   console.log("[copy-modules] done");
-  if (args.watch) {
+  if (shouldWatch) {
     watch();
   }
 }
 
-start();
+const args = minimist(process.argv.slice(1), {
+  string: ["mc"],
+  boolean: ["watch"]
+});
+
+const projectPath = path.resolve(__dirname, "..");
+let mcPath = args.mc ? args.mc : feature.getValue("firefox.mcPath");
+let mcDebuggerPath = path.join(mcPath, "devtools/client/debugger/new");
+let shouldWatch = args.watch;
+
+if (process.argv[1] == __filename) {
+  start();
+} else {
+  module.exports = ({watch, mc}) => {
+    shouldWatch = watch
+    mcPath = path.join(mc, "devtools/client/debugger/new");
+    start();
+  }
+}
