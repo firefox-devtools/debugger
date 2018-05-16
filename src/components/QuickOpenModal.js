@@ -381,6 +381,10 @@ export class QuickOpenModal extends Component<Props, State> {
     const newResults = results && results.slice(0, 100);
     const items = this.highlightMatching(query, newResults || []);
     const expanded = !!items && items.length > 0;
+    const summaryMsg = this.isGotoQuery()
+      ? L10N.getStr("shortcuts.gotoLine")
+      : "";
+
     return (
       <Modal in={enabled} handleClose={this.closeModal}>
         <SearchInput
@@ -388,7 +392,7 @@ export class QuickOpenModal extends Component<Props, State> {
           hasPrefix={true}
           count={this.getResultCount()}
           placeholder={L10N.getStr("sourceSearch.search")}
-          summaryMsg=""
+          summaryMsg={summaryMsg}
           showErrorEmoji={this.shouldShowErrorEmoji()}
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}

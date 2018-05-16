@@ -496,7 +496,7 @@ exports[`QuickOpenModal Simple goto search query = :abc & searchType = goto 1`] 
               showClose={false}
               showErrorEmoji={true}
               size=""
-              summaryMsg=""
+              summaryMsg="Go to line"
             >
               <div
                 className="search-shadow"
@@ -541,6 +541,11 @@ exports[`QuickOpenModal Simple goto search query = :abc & searchType = goto 1`] 
                     spellCheck={false}
                     value=":abc"
                   />
+                  <div
+                    className="summary"
+                  >
+                    Go to line
+                  </div>
                 </div>
               </div>
             </SearchInput>
@@ -810,7 +815,7 @@ exports[`QuickOpenModal showErrorEmoji false when goto numeric ':2222' 1`] = `
               showClose={false}
               showErrorEmoji={false}
               size=""
-              summaryMsg=""
+              summaryMsg="Go to line"
             >
               <div
                 className="search-shadow"
@@ -855,6 +860,11 @@ exports[`QuickOpenModal showErrorEmoji false when goto numeric ':2222' 1`] = `
                     spellCheck={false}
                     value=":2222"
                   />
+                  <div
+                    className="summary"
+                  >
+                    Go to line
+                  </div>
                 </div>
               </div>
             </SearchInput>
@@ -1052,7 +1062,7 @@ exports[`QuickOpenModal showErrorEmoji true when goto not numeric ':22k22' 1`] =
               showClose={false}
               showErrorEmoji={true}
               size=""
-              summaryMsg=""
+              summaryMsg="Go to line"
             >
               <div
                 className="search-shadow"
@@ -1097,6 +1107,11 @@ exports[`QuickOpenModal showErrorEmoji true when goto not numeric ':22k22' 1`] =
                     spellCheck={false}
                     value=":22k22"
                   />
+                  <div
+                    className="summary"
+                  >
+                    Go to line
+                  </div>
                 </div>
               </div>
             </SearchInput>
