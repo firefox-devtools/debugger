@@ -3,7 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const { toolboxConfig } = require("devtools-launchpad/index");
-const getConfig = require("./bin/getConfig");
 const {isDevelopment} = require("devtools-config");
 
 const path = require("path");
@@ -46,5 +45,4 @@ if (!isDevelopment()) {
   };
 }
 
-const envConfig = getConfig();
-module.exports = toolboxConfig(webpackConfig, envConfig, extra);
+module.exports = toolboxConfig(webpackConfig, {}, extra);
