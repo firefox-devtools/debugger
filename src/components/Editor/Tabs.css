@@ -108,7 +108,7 @@
 }
 
 img.moreTabs {
-  mask: url(/images/command-chevron.svg) no-repeat;
+  mask: url(/mc/command-chevron.svg) no-repeat;
   mask-size: 100%;
   width: 12px;
   height: 12px;
