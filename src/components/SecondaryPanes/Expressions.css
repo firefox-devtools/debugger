@@ -72,7 +72,7 @@
   background-color: var(--theme-body-background);
   display: block;
   position: relative;
-  height: var(--breakpoint-expression-height);
+  min-height: var(--breakpoint-expression-height);
 }
 
 .expression-container > .tree {
