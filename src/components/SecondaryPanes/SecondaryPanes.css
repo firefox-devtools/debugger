@@ -10,8 +10,8 @@
   white-space: nowrap;
   -moz-user-select: none;
   user-select: none;
- --breakpoint-expression-right-clear-space: 36px;
- --breakpoint-expression-height: 2.4em;
+  --breakpoint-expression-right-clear-space: 36px;
+  --breakpoint-expression-height: 2.4em;
 }
 
 /*
