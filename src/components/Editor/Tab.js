@@ -192,7 +192,7 @@ class Tab extends PureComponent<Props> {
       >
         <SourceIcon
           source={source}
-          renderNothingIfIncludes={["file", "javascript"]}
+          shouldHide={icon => ["file", "javascript"].includes(icon)}
         />
         <div className="filename">{filename}</div>
         <CloseButton

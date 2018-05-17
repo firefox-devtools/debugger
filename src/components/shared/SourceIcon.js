@@ -20,19 +20,16 @@ type Props = {
   source: Source,
   // sourceMetaData will provide framework information
   sourceMetaData: SourceMetaDataType,
-  // Array of strings representing cases where we prefer to get no image
-  renderNothingIfIncludes?: string[]
+  // An additional validator for the icon returned
+  shouldHide?: Function
 };
 
 class SourceIcon extends PureComponent<Props> {
   render() {
-    const { renderNothingIfIncludes, source, sourceMetaData } = this.props;
+    const { shouldHide, source, sourceMetaData } = this.props;
     const iconClass = getSourceClassnames(source, sourceMetaData);
 
-    if (
-      renderNothingIfIncludes &&
-      renderNothingIfIncludes.includes(iconClass)
-    ) {
+    if (shouldHide && shouldHide(iconClass)) {
       return null;
     }
 
