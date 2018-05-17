@@ -3,11 +3,11 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 const { resolve } = require("path");
-const rootDir = resolve(__dirname);
+const rootDir = resolve(__dirname, "..");
 module.exports = {
   rootDir,
-  projects: [
-    "<rootDir>/jest-configs/*.config.js",
-    "<rootDir>/packages/*/jest.config.js"
-  ]
+  displayName: "stylelint",
+  runner: "jest-runner-stylelint",
+  moduleFileExtensions: ["css"],
+  testMatch: ["<rootDir>/src/components/**/*.css"]
 };

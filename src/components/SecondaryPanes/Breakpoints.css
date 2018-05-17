@@ -49,7 +49,7 @@
 }
 
 .breakpoints-list .breakpoint {
-   height: var(--breakpoint-expression-height);
+  height: var(--breakpoint-expression-height);
 }
 
 .breakpoints-exceptions-caught {
