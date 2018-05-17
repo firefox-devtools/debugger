@@ -223,7 +223,10 @@ class SearchBar extends Component<Props, State> {
 
   // Renderers
   buildSummaryMsg() {
-    const { searchResults: { matchIndex, count, index }, query } = this.props;
+    const {
+      searchResults: { matchIndex, count, index },
+      query
+    } = this.props;
 
     if (query.trim() == "") {
       return "";
@@ -290,12 +293,18 @@ class SearchBar extends Component<Props, State> {
   };
 
   shouldShowErrorEmoji() {
-    const { query, searchResults: { count } } = this.props;
+    const {
+      query,
+      searchResults: { count }
+    } = this.props;
     return !!query && !count;
   }
 
   render() {
-    const { searchResults: { count }, searchOn } = this.props;
+    const {
+      searchResults: { count },
+      searchOn
+    } = this.props;
 
     if (!searchOn) {
       return <div />;

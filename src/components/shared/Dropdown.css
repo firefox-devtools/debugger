@@ -77,7 +77,6 @@ html[dir="rtl"] .dropdown {
   mask: url(/images/file.svg) no-repeat;
   mask-size: 100%;
   margin-bottom: 7px;
-
 }
 
 .dropdown ul {
