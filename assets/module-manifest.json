@@ -22551,7 +22551,13 @@
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/pause/selectComponent.js": 3731,
       "external \"devtools/client/shared/source-map/index.js\"": 3732,
       "external \"devtools/client/shared/components/reps/reps.js\"": 3733,
-      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/selectors/inComponent.js": 3734
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/selectors/inComponent.js": 3734,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/shared/Button/index.js": 3735,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/shared/Button/CloseButton.js": 3736,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Button/styles/CloseButton.css": 3737,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Button/styles/CommandBarButton.css": 3738,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/shared/Button/PaneToggleButton.js": 3739,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Button/styles/PaneToggleButton.css": 3740
     },
     "usedIds": {
       "0": 0,
@@ -26288,7 +26294,13 @@
       "3731": 3731,
       "3732": 3732,
       "3733": 3733,
-      "3734": 3734
+      "3734": 3734,
+      "3735": 3735,
+      "3736": 3736,
+      "3737": 3737,
+      "3738": 3738,
+      "3739": 3739,
+      "3740": 3740
     }
   },
   "chunks": {
@@ -33083,6 +33095,69 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../packages/devtools-reps/src/reps/reps.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Button/styles/PaneToggleButton.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Button/styles/PaneToggleButton.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Button/styles/CommandBarButton.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Button/styles/CommandBarButton.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Button/styles/CloseButton.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Button/styles/CloseButton.css": 0,
           "../../css-loader/lib/css-base.js": 1
         },
         "usedIds": {
