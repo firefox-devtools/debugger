@@ -18,8 +18,8 @@ add_task(async function() {
   await selectSource(dbg, "preview.js");
 
   await previews(dbg, "empties", [
-    // { line: 2, column: 9, expression: "a", result: '""' },
-    // { line: 3, column: 9, expression: "b", result: "false" },
+    { line: 2, column: 9, expression: "a", result: '""' },
+    { line: 3, column: 9, expression: "b", result: "false" },
     { line: 4, column: 9, expression: "c", result: "undefined" },
     { line: 5, column: 9, expression: "d", result: "null" }
   ]);
@@ -34,5 +34,18 @@ add_task(async function() {
       expression: "d",
       fields: [["length", "0"]]
     }
+    // { line: 14, column: 9, expression: "e", result: 'null'},
   ]);
+
+  //
+  //
+  // x = {
+  //   line: 35,
+  //   column: 20,
+  //   expression: "b",
+  //   fields: [
+  //     ['aNamed', 'a-named2'],
+  //     ['default', 'a-default2'],
+  //   ],
+  // }
 });

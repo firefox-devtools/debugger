@@ -9,7 +9,6 @@ import type { SourceId, Location } from "../../../types";
 import * as t from "@babel/types";
 import type {
   Node,
-  BabelNode,
   TraversalAncestors,
   Location as BabelLocation
 } from "@babel/types";
@@ -376,7 +375,7 @@ function isLexicalVariable(node) {
 }
 
 function createGlobalScope(
-  ast: BabelNode,
+  ast: Node,
   sourceId: SourceId
 ): { global: TempScope, lexical: TempScope } {
   const global = createTempScope("object", "Global", null, {
@@ -802,7 +801,7 @@ function isOpeningJSXIdentifier(
 
 function buildMetaBindings(
   sourceId: SourceId,
-  node: BabelNode,
+  node: Node,
   ancestors: TraversalAncestors,
   parentIndex: number = ancestors.length - 1
 ): BindingMetaValue | null {

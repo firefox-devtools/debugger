@@ -202,6 +202,7 @@ class Expressions extends Component<Props, State> {
       <li
         className="expression-container"
         key={input}
+        title={expression.input}
         onDoubleClick={(items, options) =>
           this.editExpression(expression, index)
         }

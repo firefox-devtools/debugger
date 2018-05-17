@@ -101,7 +101,7 @@ export function updatePreview(target: HTMLElement, editor: any) {
       match = findBestMatchExpression(symbols, tokenPos);
     }
 
-    if (!match || !match.expression) {
+    if (!match) {
       return;
     }
 

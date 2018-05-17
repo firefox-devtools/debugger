@@ -22,13 +22,7 @@ import {
 import { inferClassName } from "./utils/inferClassName";
 import getFunctionName from "./utils/getFunctionName";
 
-import type {
-  Node,
-  TraversalAncestors,
-  Location as BabelLocation
-} from "@babel/types";
-
-import type { SimplePath } from "./utils/simple-path";
+import type { SimplePath, Node, TraversalAncestors } from "./utils/simple-path";
 
 type AstPosition = { line: number, column: number };
 type AstLocation = { end: AstPosition, start: AstPosition };

@@ -14,8 +14,7 @@ const blacklist = [
   "MAP_FRAMES",
   "ADD_SCOPES",
   "IN_SCOPE_LINES",
-  "REMOVE_BREAKPOINT",
-  "ADD_BREAKPOINT"
+  "REMOVE_BREAKPOINT"
 ];
 
 function cloneAction(action) {
