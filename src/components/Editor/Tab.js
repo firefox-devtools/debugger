@@ -9,11 +9,11 @@ import { connect } from "react-redux";
 
 import { showMenu, buildMenu } from "devtools-contextmenu";
 
+import SourceIcon from "../shared/SourceIcon";
 import { CloseButton } from "../shared/Button";
 
 import type { List } from "immutable";
 import type { SourceRecord } from "../../types";
-import type { SourceMetaDataType } from "../../reducers/ast";
 
 import actions from "../../actions";
 
@@ -24,11 +24,10 @@ import {
   isPretty
 } from "../../utils/source";
 import { copyToTheClipboard } from "../../utils/clipboard";
-import { getSourceAnnotation, getTabMenuItems } from "../../utils/tabs";
+import { getTabMenuItems } from "../../utils/tabs";
 
 import {
   getSelectedSource,
-  getSourceMetaData,
   getActiveSearch,
   getSourcesForTabs
 } from "../../selectors";
@@ -46,8 +45,7 @@ type Props = {
   togglePrettyPrint: string => void,
   showSource: string => void,
   source: SourceRecord,
-  activeSearch: string,
-  sourceMetaData: SourceMetaDataType
+  activeSearch: string
 };
 
 class Tab extends PureComponent<Props> {
@@ -151,8 +149,7 @@ class Tab extends PureComponent<Props> {
       selectedSource,
       selectSpecificSource,
       closeTab,
-      source,
-      sourceMetaData
+      source
     } = this.props;
     const src = source.toJS();
     const filename = getFilename(src);
@@ -162,7 +159,6 @@ class Tab extends PureComponent<Props> {
       sourceId == selectedSource.get("id") &&
       (!this.isProjectSearchEnabled() && !this.isSourceSearchEnabled());
     const isPrettyCode = isPretty(source);
-    const sourceAnnotation = getSourceAnnotation(source, sourceMetaData);
 
     function onClickClose(e) {
       e.stopPropagation();
@@ -194,7 +190,10 @@ class Tab extends PureComponent<Props> {
         onContextMenu={e => this.onTabContextMenu(e, sourceId)}
         title={getFileURL(src)}
       >
-        {sourceAnnotation}
+        <SourceIcon
+          source={source}
+          shouldHide={icon => ["file", "javascript"].includes(icon)}
+        />
         <div className="filename">{filename}</div>
         <CloseButton
           handleClick={onClickClose}
@@ -211,7 +210,6 @@ const mapStateToProps = (state, { source }) => {
   return {
     tabSources: getSourcesForTabs(state),
     selectedSource: selectedSource,
-    sourceMetaData: getSourceMetaData(state, source.id),
     activeSearch: getActiveSearch(state)
   };
 };

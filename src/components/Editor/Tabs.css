@@ -75,40 +75,28 @@
   fill: var(--theme-body-color);
 }
 
-.source-tab img.prettyPrint {
-  mask: url(/images/prettyPrint.svg) no-repeat;
-  mask-size: 100%;
-  padding-top: 12px;
+.source-tab .source-icon {
+  margin-inline-end: 0;
+}
+
+.source-tab img.prettyPrint,
+.source-tab .source-icon.blackBox {
   height: 12px;
   width: 12px;
-  background: var(--theme-highlight-blue);
+  align-self: center;
 }
 
 .source-tab .prettyPrint path {
   fill: var(--theme-textbox-box-shadow);
 }
 
-.source-tab .blackBox,
-.source-tab .prettyPrint {
-  align-self: center;
-}
-
-.source-tab img.blackBox {
-  mask: url(/images/blackBox.svg) no-repeat;
-  mask-size: 100%;
-  padding-top: 12px;
-  height: 12px;
-  width: 12px;
-  background: var(--theme-highlight-blue);
-}
-
 .source-tab img.react {
   mask: url(/images/react.svg) no-repeat;
   mask-size: 100%;
-  padding-top: 12px;
   height: 14px;
   width: 14px;
   background: var(--theme-highlight-bluegrey);
+  top: 0;
 }
 
 .source-tab .blackBox path {
@@ -139,7 +127,7 @@ html[dir="rtl"] img.moreTabs {
   text-overflow: ellipsis;
   overflow: hidden;
   padding: 0 4px;
-  align-self: flex-start;
+  align-self: center;
 }
 
 .source-tab .close-btn {
