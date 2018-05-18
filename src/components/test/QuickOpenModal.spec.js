@@ -687,7 +687,7 @@ describe("QuickOpenModal", () => {
       expect(props.highlightLineRange).not.toHaveBeenCalled();
     });
 
-   it("on ArrowDown, traverse down to variable with no location", () => {
+    it("on ArrowDown, traverse down to variable with no location", () => {
       const sourceId = "sourceId";
       const { wrapper, props } = generateModal(
         {
