@@ -15,5 +15,9 @@ const assets = args.assets
 
 console.log(`Copying Files to ${mc} with params: `, {watch, assets, symlink})
 
-copyAssets({ assets, mc, watch, symlink})
-copyModules({ mc, watch })
+async function start() {
+  await copyAssets({ assets, mc, watch, symlink})
+  await copyModules({ mc, watch })
+}
+
+start();

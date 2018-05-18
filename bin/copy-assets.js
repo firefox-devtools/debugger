@@ -233,7 +233,7 @@ function start() {
   }
 
   console.log("[copy-assets] make webpack bundles");
-  makeBundle({
+  return makeBundle({
     outputPath: path.join(mcPath, bundlePath),
     projectPath,
     watch,
@@ -299,6 +299,6 @@ if (process.argv[1] == __filename) {
     updateAssets = assets;
     watch = _watch
     mcPath = mc
-    start();
+    return start();
   }
 }
