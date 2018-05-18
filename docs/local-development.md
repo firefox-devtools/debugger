@@ -485,7 +485,8 @@ yarn run test:all
 
 #### Unit Tests
 
-`yarn test` - Run tests with [jest].
+`yarn test` - Run all tests and lints with [jest].
+`yarn test:js` - Run the unit tests with [jest].
 
 * [matchers][jest-matchers]
 * [mock functions][jest-mock]
