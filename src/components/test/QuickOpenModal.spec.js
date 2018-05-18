@@ -661,13 +661,64 @@ describe("QuickOpenModal", () => {
         preventDefault: jest.fn(),
         key: "ArrowDown"
       };
-      const location = {
-        start: {
-          line: 7
-        }
-      };
+      function getLocation(start) {
+        return {
+          start: {
+            line: start
+          }
+        };
+      }
       wrapper.setState(() => ({
-        results: [{ id: "0", location }, { id: "1" }, { id: "2" }],
+        results: [
+          { id: "0", location: getLocation(9) },
+          { id: "1", location: getLocation(10) },
+          { id: "2", location: getLocation(11) }
+        ],
+        selectedIndex: 1
+      }));
+      wrapper.find("SearchInput").simulate("keydown", event);
+      expect(event.preventDefault).toHaveBeenCalled();
+      expect(wrapper.state().selectedIndex).toEqual(2);
+      expect(props.selectLocation).toHaveBeenCalledWith({
+        column: null,
+        line: 11,
+        sourceId: "sourceId"
+      });
+      expect(props.highlightLineRange).not.toHaveBeenCalled();
+    });
+
+   it("on ArrowDown, traverse down to variable with no location", () => {
+      const sourceId = "sourceId";
+      const { wrapper, props } = generateModal(
+        {
+          enabled: true,
+          query: "test",
+          searchType: "variables",
+          selectedSource: I.Map({ id: sourceId }),
+          symbols: {
+            functions: [],
+            variables: {}
+          }
+        },
+        "shallow"
+      );
+      const event = {
+        preventDefault: jest.fn(),
+        key: "ArrowDown"
+      };
+      function getLocation(start) {
+        return {
+          start: {
+            line: start
+          }
+        };
+      }
+      wrapper.setState(() => ({
+        results: [
+          { id: "0", location: getLocation(9) },
+          { id: "1", location: getLocation(10) },
+          { id: "2" }
+        ],
         selectedIndex: 1
       }));
       wrapper.find("SearchInput").simulate("keydown", event);
@@ -737,7 +788,7 @@ describe("QuickOpenModal", () => {
     });
 
     it(
-      "on ArrowDown, traverse down results, without" +
+      "on ArrowDown, traverse down results, without " +
         "taking action if no selectedSource",
       () => {
         const { wrapper, props } = generateModal(
@@ -775,7 +826,7 @@ describe("QuickOpenModal", () => {
     );
 
     it(
-      "on ArrowUp, traverse up results, without taking action if" +
+      "on ArrowUp, traverse up results, without taking action if " +
         "the query is not for variables or functions",
       () => {
         const sourceId = "sourceId";
