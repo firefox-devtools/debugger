@@ -12,6 +12,8 @@ import { showMenu, buildMenu } from "devtools-contextmenu";
 import SourceIcon from "../shared/SourceIcon";
 import { CloseButton } from "../shared/Button";
 
+import { truncateMiddleText } from "../../utils/text";
+
 import type { List } from "immutable";
 import type { SourceRecord } from "../../types";
 
@@ -194,7 +196,7 @@ class Tab extends PureComponent<Props> {
           source={source}
           shouldHide={icon => ["file", "javascript"].includes(icon)}
         />
-        <div className="filename">{getUnicodeUrlPath(filename)}</div>
+        <div className="filename">{truncateMiddleText(getUnicodeUrlPath(filename), 30)}</div>
         <CloseButton
           handleClick={onClickClose}
           tooltip={L10N.getStr("sourceTabs.closeTabButtonTooltip")}
