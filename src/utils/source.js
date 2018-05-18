@@ -331,6 +331,10 @@ export function getTextAtPosition(source: Source, location: Location) {
   const line = location.line;
   const column = location.column || 0;
 
+  if (source.isWasm) {
+    return "";
+  }
+
   const lineText = source.text.split("\n")[line - 1];
   if (!lineText) {
     return "";
