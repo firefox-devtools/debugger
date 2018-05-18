@@ -346,7 +346,7 @@ export function getSourceClassnames(
   // Conditionals should be ordered by priority of icon!
   const defaultClassName = "file";
 
-  if (!source) {
+  if (!source || !source.url) {
     return defaultClassName;
   }
 

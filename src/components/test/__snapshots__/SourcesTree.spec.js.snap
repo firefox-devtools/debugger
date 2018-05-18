@@ -271,7 +271,7 @@ exports[`SourcesTree renderItem should not show domain item when the projectRoot
     className="no-arrow"
   />
   <img
-    className="javascript source-icon"
+    className="file source-icon"
   />
   <span
     className="label"
@@ -491,7 +491,7 @@ exports[`SourcesTree renderItem should show source item with source icon 1`] = `
     className="no-arrow"
   />
   <img
-    className="javascript source-icon"
+    className="file source-icon"
   />
   <span
     className="label"
@@ -513,7 +513,7 @@ exports[`SourcesTree renderItem should show source item with source icon with fo
     className="no-arrow"
   />
   <img
-    className="javascript source-icon"
+    className="file source-icon"
   />
   <span
     className="label"
