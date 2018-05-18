@@ -4,6 +4,7 @@
   * [For Windows Developers](#for-windows-developers)
 * [Running Nightly with the local debugger](#running-nightly-with-the-local-debugger)
 * [Watching for Changes](#watching-for-changes)
+* [Browser Toolbox](#browser-toolbox)
 * [Getting Help](#getting-help)
 
 ## Getting Started with Firefox Nightly
@@ -64,6 +65,16 @@ node ./bin/copy --watch --mc <path to firefox>
 ```
 
 Now you can make code changes the bundle will be automatically built for you inside `firefox`.
+
+## Browser Toolbox
+
+The browser toolbox is a new toolbox for debugging the browser! We use it all the time to debug the debugger when it is running in the panel. By the way, the other name for the panel is the content toolbox!
+
+Here are some [docs][bt] on how to setup the browser toolbox.
+
+![](https://mdn.mozillademos.org/files/11121/browser-toolbox.png)
+
+[bt]: https://developer.mozilla.org/en-US/docs/Tools/Browser_Toolbox
 
 ### Getting Help
 
