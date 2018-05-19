@@ -6,6 +6,7 @@
 
 import { parse } from "url";
 import { merge } from "lodash";
+import { getUnicodeHostname } from "devtools-modules";
 
 export type ParsedURL = {
   path: string,
@@ -97,7 +98,7 @@ export function getURL(sourceUrl: string, debuggeeUrl: string = ""): ParsedURL {
     case "https:":
       return merge(def, {
         path: pathname,
-        group: host,
+        group: getUnicodeHostname(host),
         filename: filename
       });
   }
