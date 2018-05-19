@@ -5,6 +5,7 @@
 import {
   getFilename,
   getFileURL,
+  getFilenameFromURL,
   getMode,
   getSourceLineCount,
   isThirdParty,
@@ -28,9 +29,8 @@ describe("sources", () => {
     });
     it("should truncate the file name when it is more than 50 chars", () => {
       expect(
-        getFileURL({
-          url:
-            "http://localhost/really-really-really-really-really-really-long-name.html",
+        getFilename({
+          url: "really-really-really-really-really-really-long-name.html",
           id: ""
         })
       ).toBe("...-really-really-really-really-really-long-name.html");
@@ -61,6 +61,21 @@ describe("sources", () => {
           id: ""
         })
       ).toBe("...ttp://localhost-long.com:7999/increment/hello.html");
+    });
+  });
+
+  describe("getFilenameFromURL", () => {
+    it("should give us the filename", () => {
+      expect(
+        getFilenameFromURL("http://localhost.com:7999/increment/hello.html")
+      ).toBe("hello.html");
+    });
+    it("should truncate the file name when it is more than 50 chars", () => {
+      expect(
+        getFilenameFromURL(
+          "http://localhost/really-really-really-really-really-really-long-name.html"
+        )
+      ).toBe("...-really-really-really-really-really-long-name.html");
     });
   });
 
