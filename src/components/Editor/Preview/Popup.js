@@ -29,6 +29,8 @@ import { getAllPopupObjectProperties } from "../../../selectors";
 import Popover from "../../shared/Popover";
 import PreviewFunction from "../../shared/PreviewFunction";
 import { markText } from "../../../utils/editor";
+import { isReactComponent, isImmutable } from "../../../utils/preview";
+
 import Svg from "../../shared/Svg";
 import { createObjectClient } from "../../../client/firefox";
 
@@ -127,20 +129,28 @@ export class Popup extends Component<Props> {
     });
   }
 
-  getChildren() {
+  getObjectProperties() {
     const { popupObjectProperties } = this.props;
-
     const root = this.getRoot();
     const value = getValue(root);
-    const actor = value ? value.actor : null;
-    const loadedRootProperties = popupObjectProperties[actor];
-    if (!loadedRootProperties) {
+    if (!value) {
+      return null;
+    }
+
+    return popupObjectProperties[value.actor];
+  }
+
+  getChildren() {
+    const properties = this.getObjectProperties();
+    const root = this.getRoot();
+
+    if (!properties) {
       return null;
     }
 
     const children = getChildren({
       item: root,
-      loadedProperties: new Map([[root.path, loadedRootProperties]])
+      loadedProperties: new Map([[root.path, properties]])
     });
 
     if (children.length > 0) {
@@ -204,12 +214,12 @@ export class Popup extends Component<Props> {
     }
 
     let header = null;
-    if (extra.immutable) {
+    if (isImmutable(this.getObjectProperties())) {
       header = this.renderImmutable(extra.immutable);
       roots = roots.filter(r => r.type != NODE_TYPES.PROTOTYPE);
     }
 
-    if (extra.react) {
+    if (isReactComponent(this.getObjectProperties())) {
       header = this.renderReact(extra.react);
       roots = roots.filter(r => ["state", "props"].includes(r.name));
     }

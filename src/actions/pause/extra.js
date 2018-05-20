@@ -5,7 +5,7 @@
 // @flow
 
 import { inComponent, getSelectedFrame } from "../../selectors";
-import { isImmutable } from "../../utils/preview";
+import { isImmutablePreview } from "../../utils/preview";
 
 import type { ThunkArgs } from "../types";
 
@@ -60,7 +60,7 @@ async function getExtraProps(getState, expression, result, evaluate) {
     props.react = await getReactProps(evaluate, component);
   }
 
-  if (isImmutable(result)) {
+  if (isImmutablePreview(result)) {
     props.immutable = await getImmutableProps(expression, evaluate);
   }
 
