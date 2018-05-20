@@ -151,8 +151,7 @@ class Tab extends PureComponent<Props> {
       closeTab,
       source
     } = this.props;
-    const src = source.toJS();
-    const filename = getFilename(src);
+    const filename = getFilename(source);
     const sourceId = source.id;
     const active =
       selectedSource &&
@@ -188,7 +187,7 @@ class Tab extends PureComponent<Props> {
         key={sourceId}
         onMouseUp={handleTabClick}
         onContextMenu={e => this.onTabContextMenu(e, sourceId)}
-        title={getFileURL(src)}
+        title={getFileURL(source)}
       >
         <SourceIcon
           source={source}
