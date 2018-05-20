@@ -21,7 +21,7 @@ import type {
 } from "../workers/parser";
 
 import type { Map } from "immutable";
-import type { Source, Location } from "../types";
+import type { Location, Source } from "../types";
 import type { Action, DonePromiseAction } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
@@ -181,18 +181,18 @@ export function isSymbolsLoading(state: OuterState, source: Source): boolean {
 export function isEmptyLineInSource(
   state: OuterState,
   line: number,
-  selectedSource: Source
+  selectedSourceId: string
 ) {
-  const emptyLines = getEmptyLines(state, selectedSource);
+  const emptyLines = getEmptyLines(state, selectedSourceId);
   return emptyLines && emptyLines.includes(line);
 }
 
-export function getEmptyLines(state: OuterState, source: Source) {
-  if (!source) {
+export function getEmptyLines(state: OuterState, sourceId: string) {
+  if (!sourceId) {
     return null;
   }
 
-  return state.ast.emptyLines.get(source.id);
+  return state.ast.emptyLines.get(sourceId);
 }
 
 export function getPausePoints(

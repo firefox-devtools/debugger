@@ -76,11 +76,11 @@ describe("ast", () => {
       await dispatch(actions.loadSourceText(I.Map({ id: "scopes.js" })));
       await dispatch(actions.setPausePoints("scopes.js"));
       await waitForState(store, state => {
-        const lines = getEmptyLines(state, source);
+        const lines = getEmptyLines(state, source.id);
         return lines && lines.length > 0;
       });
 
-      const emptyLines = getEmptyLines(getState(), source);
+      const emptyLines = getEmptyLines(getState(), source.id);
       expect(emptyLines).toMatchSnapshot();
     });
   });
