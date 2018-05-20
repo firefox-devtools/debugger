@@ -156,8 +156,7 @@ class SourceFooter extends PureComponent<Props> {
   renderSourceSummary() {
     const { mappedSource, jumpToMappedLocation, selectedSource } = this.props;
     if (mappedSource) {
-      const bundleSource = mappedSource.toJS();
-      const filename = getFilename(bundleSource);
+      const filename = getFilename(mappedSource);
       const tooltip = L10N.getFormatStr(
         "sourceFooter.mappedSourceTooltip",
         filename
