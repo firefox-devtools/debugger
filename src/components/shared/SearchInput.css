@@ -90,13 +90,14 @@
 }
 
 .search-field .summary {
-  line-height: 27px;
   padding-right: 10px;
   color: var(--theme-body-color-inactive);
+  align-self: center;
+  padding-top: 1px;
 }
 
 .search-field.big .summary {
-  line-height: 40px;
+  padding-top: 5px;
 }
 
 .search-field .search-nav-buttons {
