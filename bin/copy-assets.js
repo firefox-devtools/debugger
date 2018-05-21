@@ -16,6 +16,10 @@ const envConfig = getConfig();
 feature.setConfig(envConfig);
 
 function moveFile(src, dest, opts) {
+  if (!fs.existsSync(src)) {
+    return;
+  }
+
   copyFile(src, dest, opts);
   rimraf.sync(src);
 }
@@ -237,9 +241,10 @@ function start() {
     outputPath: path.join(mcPath, bundlePath),
     projectPath,
     watch,
-    updateAssets
+    updateAssets,
+    onFinish: () => onBundleFinish({mcPath, bundlePath, projectPath})
   })
-    .then(() => onBundleFinish({mcPath, bundlePath, projectPath}))
+    .then()
     .catch(err => {
       console.log("[copy-assets] Uhoh, something went wrong. " +
                   "The error was written to assets-error.log");
