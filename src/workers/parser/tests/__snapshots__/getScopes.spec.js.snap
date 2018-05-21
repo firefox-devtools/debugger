@@ -1893,7 +1893,7 @@ Array [
         "type": "let",
       },
     },
-    "displayName": "Block",
+    "displayName": "Function Body",
     "end": Object {
       "column": 3,
       "line": 10,
@@ -2262,7 +2262,7 @@ Array [
         "type": "let",
       },
     },
-    "displayName": "Block",
+    "displayName": "Function Body",
     "end": Object {
       "column": 3,
       "line": 10,
@@ -11703,7 +11703,7 @@ Array [
 ]
 `;
 
-exports[`Parser.getScopes finds scope bindings for switch statements: getScopes finds scope bindings for switch statements at line 16 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings for switch statements: getScopes finds scope bindings for switch statements at line 17 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -13904,6 +13904,1046 @@ Array [
       "column": 0,
       "line": 1,
       "sourceId": "scopes/vue-sample/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`Parser.getScopes finds scope bindings in fn body with both lex and non-lex items: getScopes finds scope bindings in fn body with both lex and non-lex items at line 4 column 0 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "lex": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 10,
+                "line": 3,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 3,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 9,
+              "line": 3,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 3,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "type": "let",
+          },
+        ],
+        "type": "let",
+      },
+    },
+    "displayName": "Function Body",
+    "end": Object {
+      "column": 1,
+      "line": 5,
+      "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+    },
+    "start": Object {
+      "column": 14,
+      "line": 1,
+      "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "arguments": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "nonlex": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 13,
+                "line": 2,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 2,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 12,
+              "line": 2,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 2,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "type": "var",
+          },
+        ],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "fn",
+    "end": Object {
+      "column": 1,
+      "line": 5,
+      "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 24,
+      "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "fn": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 5,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 1,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 11,
+              "line": 1,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 1,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "type": "fn-decl",
+          },
+        ],
+        "type": "var",
+      },
+      "fn2": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 11,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 7,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 12,
+              "line": 7,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 7,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "type": "fn-decl",
+          },
+        ],
+        "type": "var",
+      },
+      "fn3": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 17,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 13,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 12,
+              "line": 13,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 13,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "type": "fn-decl",
+          },
+        ],
+        "type": "var",
+      },
+      "fn4": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 23,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 19,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 12,
+              "line": 19,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 19,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "type": "fn-decl",
+          },
+        ],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 24,
+      "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`Parser.getScopes finds scope bindings in fn body with both lex and non-lex items: getScopes finds scope bindings in fn body with both lex and non-lex items at line 10 column 0 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "lex": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 10,
+                "line": 9,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 9,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 9,
+              "line": 9,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 9,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "type": "let",
+          },
+        ],
+        "type": "let",
+      },
+    },
+    "displayName": "Function Body",
+    "end": Object {
+      "column": 1,
+      "line": 11,
+      "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+    },
+    "start": Object {
+      "column": 15,
+      "line": 7,
+      "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "arguments": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "nonlex": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 21,
+                "line": 8,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 8,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 17,
+              "line": 8,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "start": Object {
+              "column": 11,
+              "line": 8,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "type": "fn-decl",
+          },
+        ],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "fn2",
+    "end": Object {
+      "column": 1,
+      "line": 11,
+      "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 7,
+      "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 24,
+      "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "fn": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 5,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 1,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 11,
+              "line": 1,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 1,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "type": "fn-decl",
+          },
+        ],
+        "type": "var",
+      },
+      "fn2": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 11,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 7,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 12,
+              "line": 7,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 7,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "type": "fn-decl",
+          },
+        ],
+        "type": "var",
+      },
+      "fn3": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 17,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 13,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 12,
+              "line": 13,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 13,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "type": "fn-decl",
+          },
+        ],
+        "type": "var",
+      },
+      "fn4": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 23,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 19,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 12,
+              "line": 19,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 19,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "type": "fn-decl",
+          },
+        ],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 24,
+      "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`Parser.getScopes finds scope bindings in fn body with both lex and non-lex items: getScopes finds scope bindings in fn body with both lex and non-lex items at line 16 column 0 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "Thing": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 16,
+                "line": 15,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 15,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 13,
+              "line": 15,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 15,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "type": "class-decl",
+          },
+        ],
+        "type": "let",
+      },
+    },
+    "displayName": "Function Body",
+    "end": Object {
+      "column": 1,
+      "line": 17,
+      "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+    },
+    "start": Object {
+      "column": 15,
+      "line": 13,
+      "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "arguments": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "nonlex": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 13,
+                "line": 14,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 14,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 12,
+              "line": 14,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 14,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "type": "var",
+          },
+        ],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "fn3",
+    "end": Object {
+      "column": 1,
+      "line": 17,
+      "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 13,
+      "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 24,
+      "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "fn": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 5,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 1,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 11,
+              "line": 1,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 1,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "type": "fn-decl",
+          },
+        ],
+        "type": "var",
+      },
+      "fn2": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 11,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 7,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 12,
+              "line": 7,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 7,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "type": "fn-decl",
+          },
+        ],
+        "type": "var",
+      },
+      "fn3": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 17,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 13,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 12,
+              "line": 13,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 13,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "type": "fn-decl",
+          },
+        ],
+        "type": "var",
+      },
+      "fn4": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 23,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 19,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 12,
+              "line": 19,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 19,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "type": "fn-decl",
+          },
+        ],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 24,
+      "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`Parser.getScopes finds scope bindings in fn body with both lex and non-lex items: getScopes finds scope bindings in fn body with both lex and non-lex items at line 22 column 0 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "Thing": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 16,
+                "line": 21,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 21,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 13,
+              "line": 21,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 21,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "type": "class-decl",
+          },
+        ],
+        "type": "let",
+      },
+    },
+    "displayName": "Function Body",
+    "end": Object {
+      "column": 1,
+      "line": 23,
+      "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+    },
+    "start": Object {
+      "column": 15,
+      "line": 19,
+      "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "arguments": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "nonlex": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 21,
+                "line": 20,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 20,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 17,
+              "line": 20,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "start": Object {
+              "column": 11,
+              "line": 20,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "type": "fn-decl",
+          },
+        ],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "fn4",
+    "end": Object {
+      "column": 1,
+      "line": 23,
+      "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 19,
+      "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 24,
+      "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "fn": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 5,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 1,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 11,
+              "line": 1,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 1,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "type": "fn-decl",
+          },
+        ],
+        "type": "var",
+      },
+      "fn2": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 11,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 7,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 12,
+              "line": 7,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 7,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "type": "fn-decl",
+          },
+        ],
+        "type": "var",
+      },
+      "fn3": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 17,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 13,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 12,
+              "line": 13,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 13,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "type": "fn-decl",
+          },
+        ],
+        "type": "var",
+      },
+      "fn4": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 23,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 19,
+                "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 12,
+              "line": 19,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "start": Object {
+              "column": 9,
+              "line": 19,
+              "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+            },
+            "type": "fn-decl",
+          },
+        ],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 24,
+      "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/fn-body-lex-and-nonlex/originalSource-1",
     },
     "type": "object",
   },

@@ -296,6 +296,15 @@ add_task(async function() {
     "root()"
   ]);
 
+  await breakpointScopes(dbg, "babel-lex-and-nonlex", { line: 3, column: 4 }, [
+    "Block",
+    "Thing()",
+    "root",
+    "someHelper()",
+    "Module",
+    "root()"
+  ]);
+
   await breakpointScopes(
     dbg,
     "babel-modules-webpack",

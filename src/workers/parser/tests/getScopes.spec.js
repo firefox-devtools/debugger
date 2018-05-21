@@ -28,6 +28,11 @@ cases(
   },
   [
     {
+      name: "finds scope bindings in fn body with both lex and non-lex items",
+      file: "scopes/fn-body-lex-and-nonlex",
+      locations: [[4, 0], [10, 0], [16, 0], [22, 0]]
+    },
+    {
       name: "finds scope bindings in a vue file",
       file: "scopes/vue-sample",
       type: "vue",

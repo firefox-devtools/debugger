@@ -134,7 +134,7 @@ export type ParseJSScopeVisitor = {
 };
 
 type TempScope = {
-  type: "object" | "function" | "block" | "module",
+  type: "object" | "function" | "function-body" | "block" | "module",
   displayName: string,
   parent: TempScope | null,
   children: Array<TempScope>,
@@ -212,7 +212,10 @@ function toParsedScopes(
     return {
       start: scope.loc.start,
       end: scope.loc.end,
-      type: scope.type === "module" ? "block" : scope.type,
+      type:
+        scope.type === "module" || scope.type === "function-body"
+          ? "block"
+          : scope.type,
       displayName: scope.displayName,
       bindings: scope.bindings,
       children: toParsedScopes(scope.children, sourceId)
@@ -221,7 +224,7 @@ function toParsedScopes(
 }
 
 function createTempScope(
-  type: "object" | "function" | "block" | "module",
+  type: "object" | "function" | "function-body" | "block" | "module",
   displayName: string,
   parent: TempScope | null,
   loc: {
@@ -244,7 +247,7 @@ function createTempScope(
 }
 function pushTempScope(
   state: ScopeCollectionVisitorState,
-  type: "object" | "function" | "block" | "module",
+  type: "object" | "function" | "function-body" | "block" | "module",
   displayName: string,
   loc: {
     start: Location,
@@ -452,21 +455,29 @@ const scopeCollectionVisitor = {
         // This ignores Annex B function declaration hoisting, which
         // is probably a fine assumption.
         state.declarationBindingIds.add(node.id);
-        const fnScope = getVarScope(scope);
-        scope.bindings[node.id.name] = {
-          type: fnScope === scope ? "var" : "let",
-          refs: [
-            {
-              type: "fn-decl",
-              start: fromBabelLocation(node.id.loc.start, state.sourceId),
-              end: fromBabelLocation(node.id.loc.end, state.sourceId),
-              declaration: {
-                start: fromBabelLocation(node.loc.start, state.sourceId),
-                end: fromBabelLocation(node.loc.end, state.sourceId)
-              }
+        const refs = [
+          {
+            type: "fn-decl",
+            start: fromBabelLocation(node.id.loc.start, state.sourceId),
+            end: fromBabelLocation(node.id.loc.end, state.sourceId),
+            declaration: {
+              start: fromBabelLocation(node.loc.start, state.sourceId),
+              end: fromBabelLocation(node.loc.end, state.sourceId)
             }
-          ]
-        };
+          }
+        ];
+
+        if (scope.type === "block") {
+          scope.bindings[node.id.name] = {
+            type: "let",
+            refs
+          };
+        } else {
+          getVarScope(scope).bindings[node.id.name] = {
+            type: "var",
+            refs
+          };
+        }
       }
 
       scope = pushTempScope(
@@ -497,6 +508,16 @@ const scopeCollectionVisitor = {
           type: "implicit",
           refs: []
         };
+      }
+
+      if (
+        t.isBlockStatement(node.body) &&
+        hasLexicalDeclaration(node.body, node)
+      ) {
+        scope = pushTempScope(state, "function-body", "Block", {
+          start: fromBabelLocation(node.body.loc.start, state.sourceId),
+          end: fromBabelLocation(node.body.loc.end, state.sourceId)
+        });
       }
     } else if (t.isClass(node)) {
       if (t.isIdentifier(node.id)) {
@@ -572,6 +593,8 @@ const scopeCollectionVisitor = {
       parseDeclarator(node.param, scope, "var", "catch", node, state);
     } else if (
       t.isBlockStatement(node) &&
+      // Function body's are handled in the function logic above.
+      !t.isFunction(parentNode) &&
       hasLexicalDeclaration(node, parentNode)
     ) {
       // Debugger will create new lexical environment for the block.
