@@ -10730,7 +10730,7 @@ Array [
     "displayName": "Module",
     "end": Object {
       "column": 0,
-      "line": 14,
+      "line": 23,
       "sourceId": "scopes/switch-statement/originalSource-1",
     },
     "start": Object {
@@ -10745,7 +10745,7 @@ Array [
     "displayName": "Lexical Global",
     "end": Object {
       "column": 0,
-      "line": 14,
+      "line": 23,
       "sourceId": "scopes/switch-statement/originalSource-1",
     },
     "start": Object {
@@ -10773,6 +10773,34 @@ Array [
             },
             "type": "ref",
           },
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 15,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 8,
+              "line": 15,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 19,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 8,
+              "line": 19,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "type": "ref",
+          },
         ],
         "type": "global",
       },
@@ -10780,7 +10808,7 @@ Array [
     "displayName": "Global",
     "end": Object {
       "column": 0,
-      "line": 14,
+      "line": 23,
       "sourceId": "scopes/switch-statement/originalSource-1",
     },
     "start": Object {
@@ -10911,7 +10939,7 @@ Array [
     "displayName": "Module",
     "end": Object {
       "column": 0,
-      "line": 14,
+      "line": 23,
       "sourceId": "scopes/switch-statement/originalSource-1",
     },
     "start": Object {
@@ -10926,7 +10954,7 @@ Array [
     "displayName": "Lexical Global",
     "end": Object {
       "column": 0,
-      "line": 14,
+      "line": 23,
       "sourceId": "scopes/switch-statement/originalSource-1",
     },
     "start": Object {
@@ -10954,6 +10982,34 @@ Array [
             },
             "type": "ref",
           },
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 15,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 8,
+              "line": 15,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 19,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 8,
+              "line": 19,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "type": "ref",
+          },
         ],
         "type": "global",
       },
@@ -10961,7 +11017,7 @@ Array [
     "displayName": "Global",
     "end": Object {
       "column": 0,
-      "line": 14,
+      "line": 23,
       "sourceId": "scopes/switch-statement/originalSource-1",
     },
     "start": Object {
@@ -11092,7 +11148,7 @@ Array [
     "displayName": "Module",
     "end": Object {
       "column": 0,
-      "line": 14,
+      "line": 23,
       "sourceId": "scopes/switch-statement/originalSource-1",
     },
     "start": Object {
@@ -11107,7 +11163,7 @@ Array [
     "displayName": "Lexical Global",
     "end": Object {
       "column": 0,
-      "line": 14,
+      "line": 23,
       "sourceId": "scopes/switch-statement/originalSource-1",
     },
     "start": Object {
@@ -11135,6 +11191,34 @@ Array [
             },
             "type": "ref",
           },
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 15,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 8,
+              "line": 15,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 19,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 8,
+              "line": 19,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "type": "ref",
+          },
         ],
         "type": "global",
       },
@@ -11142,7 +11226,7 @@ Array [
     "displayName": "Global",
     "end": Object {
       "column": 0,
-      "line": 14,
+      "line": 23,
       "sourceId": "scopes/switch-statement/originalSource-1",
     },
     "start": Object {
@@ -11273,7 +11357,7 @@ Array [
     "displayName": "Module",
     "end": Object {
       "column": 0,
-      "line": 14,
+      "line": 23,
       "sourceId": "scopes/switch-statement/originalSource-1",
     },
     "start": Object {
@@ -11288,7 +11372,7 @@ Array [
     "displayName": "Lexical Global",
     "end": Object {
       "column": 0,
-      "line": 14,
+      "line": 23,
       "sourceId": "scopes/switch-statement/originalSource-1",
     },
     "start": Object {
@@ -11316,6 +11400,34 @@ Array [
             },
             "type": "ref",
           },
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 15,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 8,
+              "line": 15,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 19,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 8,
+              "line": 19,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "type": "ref",
+          },
         ],
         "type": "global",
       },
@@ -11323,7 +11435,7 @@ Array [
     "displayName": "Global",
     "end": Object {
       "column": 0,
-      "line": 14,
+      "line": 23,
       "sourceId": "scopes/switch-statement/originalSource-1",
     },
     "start": Object {
@@ -11500,7 +11612,7 @@ Array [
     "displayName": "Module",
     "end": Object {
       "column": 0,
-      "line": 14,
+      "line": 23,
       "sourceId": "scopes/switch-statement/originalSource-1",
     },
     "start": Object {
@@ -11515,7 +11627,7 @@ Array [
     "displayName": "Lexical Global",
     "end": Object {
       "column": 0,
-      "line": 14,
+      "line": 23,
       "sourceId": "scopes/switch-statement/originalSource-1",
     },
     "start": Object {
@@ -11543,6 +11655,34 @@ Array [
             },
             "type": "ref",
           },
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 15,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 8,
+              "line": 15,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 19,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 8,
+              "line": 19,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "type": "ref",
+          },
         ],
         "type": "global",
       },
@@ -11550,7 +11690,365 @@ Array [
     "displayName": "Global",
     "end": Object {
       "column": 0,
-      "line": 14,
+      "line": 23,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`Parser.getScopes finds scope bindings for switch statements: getScopes finds scope bindings for switch statements at line 16 column 0 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "two": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 20,
+                "line": 17,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 17,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 16,
+              "line": 17,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "start": Object {
+              "column": 13,
+              "line": 17,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "type": "fn-decl",
+          },
+        ],
+        "type": "let",
+      },
+    },
+    "displayName": "Switch",
+    "end": Object {
+      "column": 1,
+      "line": 18,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 15,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "zero": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 13,
+                "line": 5,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 5,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 12,
+              "line": 5,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 5,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "type": "var",
+          },
+        ],
+        "type": "var",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 23,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 23,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "foo": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 3,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 8,
+              "line": 3,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 15,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 8,
+              "line": 15,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 19,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 8,
+              "line": 19,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 23,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`Parser.getScopes finds scope bindings for switch statements: getScopes finds scope bindings for switch statements at line 21 column 0 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "three": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 18,
+                "line": 21,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 21,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 15,
+              "line": 21,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "start": Object {
+              "column": 10,
+              "line": 21,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "type": "class-decl",
+          },
+        ],
+        "type": "let",
+      },
+    },
+    "displayName": "Switch",
+    "end": Object {
+      "column": 1,
+      "line": 22,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 19,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "zero": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 13,
+                "line": 5,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+              "start": Object {
+                "column": 4,
+                "line": 5,
+                "sourceId": "scopes/switch-statement/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 12,
+              "line": 5,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "start": Object {
+              "column": 8,
+              "line": 5,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "type": "var",
+          },
+        ],
+        "type": "var",
+      },
+    },
+    "displayName": "Module",
+    "end": Object {
+      "column": 0,
+      "line": 23,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {},
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 23,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/switch-statement/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "foo": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 3,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 8,
+              "line": 3,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 15,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 8,
+              "line": 15,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 11,
+              "line": 19,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 8,
+              "line": 19,
+              "sourceId": "scopes/switch-statement/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 23,
       "sourceId": "scopes/switch-statement/originalSource-1",
     },
     "start": Object {

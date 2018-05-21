@@ -361,13 +361,22 @@ function isLetOrConst(node) {
 }
 
 function hasLexicalDeclaration(node, parent) {
+  const nodes = [];
+  if (t.isSwitchStatement(node)) {
+    for (const caseNode of node.cases) {
+      nodes.push(...caseNode.consequent);
+    }
+  } else {
+    nodes.push(...node.body);
+  }
+
   const isFunctionBody = t.isFunction(parent, { body: node });
 
-  return node.body.some(
+  return nodes.some(
     child =>
       isLexicalVariable(child) ||
-      (!isFunctionBody && child.type === "FunctionDeclaration") ||
-      child.type === "ClassDeclaration"
+      t.isClassDeclaration(child) ||
+      (!isFunctionBody && t.isFunctionDeclaration(child))
   );
 }
 function isLexicalVariable(node) {
@@ -717,9 +726,7 @@ const scopeCollectionVisitor = {
       };
     } else if (
       t.isSwitchStatement(node) &&
-      node.cases.some(caseNode =>
-        caseNode.consequent.some(child => isLexicalVariable(child))
-      )
+      hasLexicalDeclaration(node, parentNode)
     ) {
       pushTempScope(state, "block", "Switch", {
         start: fromBabelLocation(node.loc.start, state.sourceId),

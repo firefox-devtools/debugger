@@ -11,3 +11,12 @@ switch (foo) {
     let three;
   }
 }
+
+switch (foo) {
+  case "":
+    function two(){}
+}
+switch (foo) {
+  case "":
+    class three {}
+}

@@ -134,7 +134,7 @@ cases(
     {
       name: "finds scope bindings for switch statements",
       file: "scopes/switch-statement",
-      locations: [[2, 0], [5, 0], [7, 0], [9, 0], [11, 0]]
+      locations: [[2, 0], [5, 0], [7, 0], [9, 0], [11, 0], [17, 0], [21, 0]]
     },
     {
       name: "finds scope bindings with proper types",
