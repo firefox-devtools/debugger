@@ -514,7 +514,7 @@ const scopeCollectionVisitor = {
         t.isBlockStatement(node.body) &&
         hasLexicalDeclaration(node.body, node)
       ) {
-        scope = pushTempScope(state, "function-body", "Block", {
+        scope = pushTempScope(state, "function-body", "Function Body", {
           start: fromBabelLocation(node.body.loc.start, state.sourceId),
           end: fromBabelLocation(node.body.loc.end, state.sourceId)
         });
