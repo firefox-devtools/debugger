@@ -26,7 +26,7 @@
 .project-text-search .result {
   display: flex;
   cursor: default;
-  padding: 4px 0 4px 30px;
+  padding: 4px 0 4px 0;
   line-height: 16px;
   font-size: 10px;
   width: 100%;
