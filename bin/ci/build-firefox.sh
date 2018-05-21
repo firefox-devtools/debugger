@@ -11,4 +11,7 @@ echo $MOZBUILD_STATE_PATH
 echo "ac_add_options --enable-artifact-builds" > mozconfig
 echo "mk_add_options AUTOCLOBBER=1" >> mozconfig
 ./mach build
+ret=$?
+
 cd ..
+exit $ret
