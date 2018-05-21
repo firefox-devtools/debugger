@@ -26,6 +26,7 @@
     "lint:jest": "jest -c jest-lint.config.js",
     "lint:md":
       "remark -u devtools-linters/markdown/preset -qf *.md src configs docs",
+    "lint:s": "run-s \"lint:jest --findRelatedTests\" lint:md",
     "mochi":
       "mochii --mc ./firefox --interactive --default-test-path devtools/client/debugger/new",
     "mochid": "yarn mochi -- --jsdebugger --",
@@ -169,12 +170,12 @@
     "workerjs": "github:jasonLaster/workerjs"
   },
   "lint-staged": {
-    "bin/*.js": ["yarn lint --findRelatedTests", "git add"],
-    "src/*.js": ["yarn lint --findRelatedTests", "git add"],
-    "src/*/*.js": ["yarn lint --findRelatedTests", "git add"],
-    "src/*/!(mochitest)**/*.js": ["yarn lint --findRelatedTests", "git add"],
-    "src/*/!(mochitest)*/**/*.js": ["yarn lint --findRelatedTests", "git add"],
-    "packages/**/src/*.js": ["yarn lint --findRelatedTests", "git add"]
+    "bin/*.js": ["yarn lint:s", "git add"],
+    "src/*.js": ["yarn lint:s", "git add"],
+    "src/*/*.js": ["yarn lint:s", "git add"],
+    "src/*/!(mochitest)**/*.js": ["yarn lint:s", "git add"],
+    "src/*/!(mochitest)*/**/*.js": ["yarn lint:s", "git add"],
+    "packages/**/src/*.js": ["yarn lint:s", "git add"]
   },
   "jest-runner-eslint": {
     "cliOptions": {
