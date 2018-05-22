@@ -1236,6 +1236,80 @@ exports[`QuickOpenModal showErrorEmoji true when no count + query 1`] = `
 </QuickOpenModal>
 `;
 
+exports[`QuickOpenModal shows loading loads with function type search 1`] = `
+<Slide
+  handleClose={[Function]}
+  in={true}
+>
+  <SearchInput
+    count={0}
+    expanded={false}
+    handleClose={[Function]}
+    hasPrefix={true}
+    onChange={[Function]}
+    onKeyDown={[Function]}
+    placeholder="Search sources…"
+    query=""
+    selectedItemId=""
+    showClose={false}
+    showErrorEmoji={false}
+    size=""
+    summaryMsg=""
+  />
+  <div
+    className="loading-indicator"
+  >
+    Loading…
+  </div>
+  <ResultList
+    expanded={false}
+    items={Array []}
+    key="results"
+    role="listbox"
+    selectItem={[Function]}
+    selected={0}
+    size="small"
+  />
+</Slide>
+`;
+
+exports[`QuickOpenModal shows loading loads with variable type search 1`] = `
+<Slide
+  handleClose={[Function]}
+  in={true}
+>
+  <SearchInput
+    count={0}
+    expanded={false}
+    handleClose={[Function]}
+    hasPrefix={true}
+    onChange={[Function]}
+    onKeyDown={[Function]}
+    placeholder="Search sources…"
+    query=""
+    selectedItemId=""
+    showClose={false}
+    showErrorEmoji={false}
+    size=""
+    summaryMsg=""
+  />
+  <div
+    className="loading-indicator"
+  >
+    Loading…
+  </div>
+  <ResultList
+    expanded={false}
+    items={Array []}
+    key="results"
+    role="listbox"
+    selectItem={[Function]}
+    selected={0}
+    size="small"
+  />
+</Slide>
+`;
+
 exports[`QuickOpenModal updateResults on enable 1`] = `
 <QuickOpenModal
   clearHighlightLineRange={[MockFunction]}

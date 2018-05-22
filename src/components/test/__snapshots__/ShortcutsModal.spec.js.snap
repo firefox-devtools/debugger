@@ -3,6 +3,7 @@
 exports[`ShortcutsModal renders when enabled 1`] = `
 <Slide
   additionalClass="shortcuts-modal"
+  handleClose={[Function]}
   in={true}
 >
   <div
