@@ -96,6 +96,7 @@
   color: var(--theme-body-color-inactive);
   align-self: center;
   padding-top: 1px;
+  white-space: nowrap;
 }
 
 .search-field.big .summary {
