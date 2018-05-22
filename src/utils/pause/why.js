@@ -37,6 +37,7 @@ export function getPauseReason(why?: Why): string | null {
   if (!reasons[reasonType]) {
     console.log("Please file an issue: reasonType=", reasonType);
   }
+
   return reasons[reasonType];
 }
 
