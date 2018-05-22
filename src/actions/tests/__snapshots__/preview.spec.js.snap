@@ -48,9 +48,6 @@ Object {
   "expression": "this",
   "extra": Object {
     "react": Object {
-      "componentStack": Array [
-        "Foo",
-      ],
       "displayName": "FixtureComponent",
     },
   },

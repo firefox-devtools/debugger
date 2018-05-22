@@ -19,7 +19,6 @@ function moveFile(src, dest, opts) {
   if (!fs.existsSync(src)) {
     return;
   }
-
   copyFile(src, dest, opts);
   rimraf.sync(src);
 }

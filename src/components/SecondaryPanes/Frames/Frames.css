@@ -63,6 +63,10 @@
   background-color: var(--theme-tab-toolbar-background);
 }
 
+.frames ul li.selected.selected-frame {
+  background-color: var(--theme-textbox-box-shadow);
+}
+
 .frames ul li.selected {
   background-color: var(--theme-selection-background);
   color: white;

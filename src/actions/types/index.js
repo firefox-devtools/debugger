@@ -13,6 +13,8 @@ import type { SourceAction } from "./SourceAction";
 import type { UIAction } from "./UIAction";
 import type { PauseAction } from "./PauseAction";
 import type { ASTAction } from "./ASTAction";
+import type { ASTAction } from "./ASTAction";
+import type { ComponentsAction } from "./ASTAction";
 
 /**
  * Flow types
@@ -151,6 +153,7 @@ export type Action =
   | AddTabAction
   | SourceAction
   | BreakpointAction
+  | ComponentsAction
   | PauseAction
   | NavigateAction
   | UIAction

@@ -30,8 +30,7 @@ describe("getCallStackFrames selector", () => {
       const frames = getCallStackFrames.resultFunc(
         state.frames,
         state.sources,
-        state.selectedSource,
-        true
+        state.selectedSource
       );
 
       expect(frames[0]).not.toHaveProperty("library");
