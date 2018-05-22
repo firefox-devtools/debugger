@@ -9,7 +9,7 @@ const dom = require("react-dom-factories");
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 
-import { Services } from "devtools-modules";
+import Services from "devtools-services";
 const { appinfo } = Services;
 const isMacOS = appinfo.OS === "Darwin";
 
