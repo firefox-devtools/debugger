@@ -1254,13 +1254,8 @@ exports[`QuickOpenModal shows loading loads with function type search 1`] = `
     showClose={false}
     showErrorEmoji={false}
     size=""
-    summaryMsg=""
+    summaryMsg="Loading…"
   />
-  <div
-    className="loading-indicator"
-  >
-    Loading…
-  </div>
   <ResultList
     expanded={false}
     items={Array []}
@@ -1291,13 +1286,8 @@ exports[`QuickOpenModal shows loading loads with variable type search 1`] = `
     showClose={false}
     showErrorEmoji={false}
     size=""
-    summaryMsg=""
+    summaryMsg="Loading…"
   />
-  <div
-    className="loading-indicator"
-  >
-    Loading…
-  </div>
   <ResultList
     expanded={false}
     items={Array []}
