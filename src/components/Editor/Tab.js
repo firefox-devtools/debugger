@@ -23,6 +23,7 @@ import {
   getRawSourceURL,
   isPretty
 } from "../../utils/source";
+import { getUnicodeUrlPath } from "devtools-modules";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { getTabMenuItems } from "../../utils/tabs";
 
@@ -193,7 +194,7 @@ class Tab extends PureComponent<Props> {
           source={source}
           shouldHide={icon => ["file", "javascript"].includes(icon)}
         />
-        <div className="filename">{filename}</div>
+        <div className="filename">{getUnicodeUrlPath(filename)}</div>
         <CloseButton
           handleClick={onClickClose}
           tooltip={L10N.getStr("sourceTabs.closeTabButtonTooltip")}
