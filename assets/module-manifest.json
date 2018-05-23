@@ -22458,7 +22458,8 @@
       "../../babel-loader/lib/index.js?ignore=src/lib!../../devtools-modules/src/unicode-url.js": 3638,
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/SecondaryPanes/ReactComponentStack.js": 3639,
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/pause/skipPausing.js": 3640,
-      "../../node-libs-browser/node_modules/punycode/punycode.js": 3641
+      "../../node-libs-browser/node_modules/punycode/punycode.js": 3641,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/mapScopes/positionCmp.js": 3642
     },
     "usedIds": {
       "0": 0,
@@ -26102,7 +26103,8 @@
       "3638": 3638,
       "3639": 3639,
       "3640": 3640,
-      "3641": 3641
+      "3641": 3641,
+      "3642": 3642
     }
   },
   "chunks": {
