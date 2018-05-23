@@ -28,6 +28,11 @@ cases(
   },
   [
     {
+      name: "finds scope bindings in fn body with both lex and non-lex items",
+      file: "scopes/fn-body-lex-and-nonlex",
+      locations: [[4, 0], [10, 0], [16, 0], [22, 0]]
+    },
+    {
       name: "finds scope bindings in a vue file",
       file: "scopes/vue-sample",
       type: "vue",
@@ -134,7 +139,7 @@ cases(
     {
       name: "finds scope bindings for switch statements",
       file: "scopes/switch-statement",
-      locations: [[2, 0], [5, 0], [7, 0], [9, 0], [11, 0]]
+      locations: [[2, 0], [5, 0], [7, 0], [9, 0], [11, 0], [17, 0], [21, 0]]
     },
     {
       name: "finds scope bindings with proper types",
