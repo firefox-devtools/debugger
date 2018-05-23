@@ -52,6 +52,8 @@
   margin-top: 3px;
   cursor: default;
   height: 27px;
+  width: 100%;
+  max-width: fit-content;
 }
 
 .source-tab:first-child {
