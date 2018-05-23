@@ -3,7 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-import I, { Map } from "immutable";
+import { Map } from "immutable";
 
 import {
   createNode,
@@ -157,54 +157,47 @@ describe("sources tree", () => {
   describe("getUrl", () => {
     it("handles normal url with http and https for filename", function() {
       const urlObject = getURL("https://a/b.js");
-      const urlObject2 = getURL("http://a/b.js");
-
       expect(urlObject.filename).toBe("b.js");
+
+      const urlObject2 = getURL("http://a/b.js");
       expect(urlObject2.filename).toBe("b.js");
     });
 
     it("handles url with querystring for filename", function() {
       const urlObject = getURL("https://a/b.js?key=randomeKey");
-
       expect(urlObject.filename).toBe("b.js");
     });
 
     it("handles url with '#' for filename", function() {
       const urlObject = getURL("https://a/b.js#specialSection");
-
       expect(urlObject.filename).toBe("b.js");
     });
 
     it("handles url with no filename for filename", function() {
       const urlObject = getURL("https://a/c");
-
       expect(urlObject.filename).toBe("(index)");
     });
   });
 
   describe("isNotJavaScript", () => {
     it("js file", () => {
-      expect(isNotJavaScript(I.Map({ url: "http://example.com/foo.js" }))).toBe(
-        false
-      );
+      const source = { url: "http://example.com/foo.js" };
+      expect(isNotJavaScript(source)).toBe(false);
     });
 
     it("css file", () => {
-      expect(
-        isNotJavaScript(I.Map({ url: "http://example.com/foo.css" }))
-      ).toBe(true);
+      const source = { url: "http://example.com/foo.css" };
+      expect(isNotJavaScript(source)).toBe(true);
     });
 
     it("svg file", () => {
-      expect(
-        isNotJavaScript(I.Map({ url: "http://example.com/foo.svg" }))
-      ).toBe(true);
+      const source = { url: "http://example.com/foo.svg" };
+      expect(isNotJavaScript(source)).toBe(true);
     });
 
     it("png file", () => {
-      expect(
-        isNotJavaScript(I.Map({ url: "http://example.com/foo.png" }))
-      ).toBe(true);
+      const source = { url: "http://example.com/foo.png" };
+      expect(isNotJavaScript(source)).toBe(true);
     });
   });
 });
