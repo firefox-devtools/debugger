@@ -31,3 +31,4 @@ export { isSelectedFrameVisible } from "./isSelectedFrameVisible";
 export { getCallStackFrames } from "./getCallStackFrames";
 export { getVisibleSelectedFrame } from "./visibleSelectedFrame";
 export { getRelativeSources } from "./getRelativeSources";
+export { getMappedBreakpoints } from "./mappedBreakpoints";
