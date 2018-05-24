@@ -379,8 +379,11 @@ class SourcesTree extends Component<Props, State> {
 
     // The "sourceTree.contents[0]" check ensures that there are contents
     // A custom root with no existing sources will be ignored
-    if (projectRoot && sourceContents && sourceContents.name !== rootLabel) {
-      return sourceContents.contents[0].contents;
+    if (projectRoot) {
+      if (sourceContents && sourceContents.name !== rootLabel) {
+        return sourceContents.contents[0].contents;
+      }
+      return sourceContents.contents;
     }
 
     return sourceTree.contents;
