@@ -13,7 +13,8 @@
 * [Testing](#testing)
   * [Unit Tests](#unit-tests)
 * [Linting](#linting)
-  * [Lint Jest](#lint-jest)
+  * [Lint JS](#lint-js)
+  * [Lint CSS](#lint-css)
 * [Performance](#performance)
 * [Colors](#colors)
 * [Configs](#configs)
@@ -485,8 +486,7 @@ yarn run test:all
 
 #### Unit Tests
 
-`yarn test` - Run all tests and lints with [jest].
-`yarn test:js` - Run the unit tests with [jest].
+`yarn test` - Run tests with [jest].
 
 * [matchers][jest-matchers]
 * [mock functions][jest-mock]
@@ -515,7 +515,7 @@ We shallow render the component and simulate an UI interaction like `click`.
 
 ```js
 it("should call handleClick function", () => {
-  const onClick = jest.genMockFunction();
+  const onClick = jest.fn();
   const wrapper = shallow(new CloseButton({ handleClick: onClick }));
 
   wrapper.simulate("click");
@@ -529,7 +529,7 @@ We shallow render the component to a JSON and save it to a fixture. Subsequent r
 
 ```js
 it("should render a button", () => {
-  const onClick = jest.genMockFunction();
+  const onClick = jest.fn();
   const buttonClass = "class";
   const wrapper = shallow(
     new CloseButton({
@@ -580,27 +580,31 @@ index a3b2ba6..cd5a8e7 100644
 
 ### Linting
 
-| Type     | Command              |
-| -------- | -------------------- |
-| all      | `yarn run lint`      |
-| css      | `yarn run lint:jest` |
-| js       | `yarn run lint:jest` |
-| markdown | `yarn run lint-md`   |
+| Type     | Command             |
+| -------- | ------------------- |
+| all      | `yarn run lint`     |
+| css      | `yarn run lint:css` |
+| js       | `yarn run lint:js`  |
+| markdown | `yarn run lint:md`  |
 
-#### Lint Jest
-
-We use Jest Runners to do the linting for our JS and CSS.
-
-Underlying the Jest Runners
-
-We use [eslint](http://eslint.org/) to maintain our JavaScript styles. The [.eslintrc](../.eslintrc) file contains our style definitions, please adhere to those styles when making changes.
+#### Lint CSS
 
 We use [Stylelint](http://stylelint.io/) to maintain our CSS styles. The [.stylelintrc](../.stylelintrc) file contains the style definitions, please adhere to those styles when making changes.
+
+To test your CSS changes run the command:
+
+```bash
+yarn run lint:css
+```
+
+#### Lint JS
+
+We use [eslint](http://eslint.org/) to maintain our JavaScript styles. The [.eslintrc](../.eslintrc) file contains our style definitions, please adhere to those styles when making changes.
 
 To automatically fix many errors run the command:
 
 ```bash
-yarn run lint:jest
+yarn run lint:js
 ```
 
 #### Lint Markdown
