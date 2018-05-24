@@ -150,7 +150,7 @@ html[dir="rtl"] .breakpoints-list .breakpoint .breakpoint-line {
   max-width: calc(100% - var(--breakpoint-expression-right-clear-space));
   display: inline-block;
   padding-inline-end: 8px;
-  cursor: default;
+  cursor: pointer;
   flex-grow: 1;
   text-overflow: ellipsis;
   overflow: hidden;
