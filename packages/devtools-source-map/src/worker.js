@@ -4,6 +4,7 @@
 
 const {
   getOriginalURLs,
+  getOriginalRanges,
   getGeneratedRanges,
   getGeneratedLocation,
   getAllGeneratedLocations,
@@ -24,6 +25,7 @@ const {
 // easier to unit test.
 self.onmessage = workerHandler({
   getOriginalURLs,
+  getOriginalRanges,
   getGeneratedRanges,
   getGeneratedLocation,
   getAllGeneratedLocations,
