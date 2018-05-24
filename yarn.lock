@@ -12388,9 +12388,9 @@ warning@^3.0.0:
   dependencies:
     loose-envify "^1.0.0"
 
-wasmparser@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/wasmparser/-/wasmparser-0.6.0.tgz#813159b85db5dfe5c2d84bd3fcd2545df3ab6552"
+wasmparser@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/wasmparser/-/wasmparser-0.6.1.tgz#211d032bb1001bb7c8771e714f985685eea7957b"
   dependencies:
     "@types/node" "^7.0.52"
 
