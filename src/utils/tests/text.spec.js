@@ -8,7 +8,7 @@ describe("text", () => {
   it("should truncate the text in the middle", () => {
     const sourceText = "this is a very long text and ends here";
     expect(truncateMiddleText(sourceText, 30)).toMatch(
-      "this is a ver...and ends here"
+      "this is a ver... and ends here"
     );
   });
   it("should keep the text as it is", () => {

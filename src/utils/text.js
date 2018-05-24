@@ -55,7 +55,7 @@ function truncateMiddleText(sourceText: string, maxLength: number): string {
       0,
       Math.round(maxLength / 2) - 2
     )}...${sourceText.substring(
-      sourceText.length - Math.round(maxLength / 2 - 2)
+      sourceText.length - Math.round(maxLength / 2 - 1)
     )}`;
   }
   return truncatedText;
