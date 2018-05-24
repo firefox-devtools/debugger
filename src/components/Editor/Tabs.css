@@ -46,6 +46,7 @@
   position: relative;
   transition: all 0.15s ease;
   min-width: 40px;
+  max-width: 100%;
   overflow: hidden;
   padding: 5px;
   margin-inline-start: 3px;
