@@ -24,5 +24,6 @@ module.exports = {
   "../assets/panel/debugger.properties": "devtools/shared/flags",
   "devtools-connection": "devtools/shared/flags",
   "chrome-remote-interface": "devtools/shared/flags",
-  "devtools-launchpad": "devtools/shared/flags"
+  "devtools-launchpad": "devtools/shared/flags",
+  "devtools-services": "Services"
 };

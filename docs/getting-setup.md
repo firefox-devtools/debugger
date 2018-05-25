@@ -44,7 +44,7 @@ Congratulations! You're now up and running. :sweat_smile:
 
 *What should I do if I get an error?*
 
-Ask in our [slack] channel or file an issue [issue][yarn-run-firefox-fails] here.
+Ask in our [slack] channel or file an [issue][yarn-run-firefox-fails] here.
 
 Here is a list of some of the [most common issues][common-issues]
 

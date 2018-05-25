@@ -8,7 +8,6 @@ import { connect } from "react-redux";
 import actions from "../../actions";
 
 import { createObjectClient } from "../../client/firefox";
-
 import { getSelectedFrame, getAllPopupObjectProperties } from "../../selectors";
 
 import { ObjectInspector, ObjectInspectorUtils } from "devtools-reps";

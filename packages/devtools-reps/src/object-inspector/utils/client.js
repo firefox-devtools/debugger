@@ -7,9 +7,11 @@ import type {
   GripProperties,
   ObjectClient,
   PropertiesIterator,
-  NodeContents,
+  Node,
   LongStringClient
 } from "../types";
+
+const { getValue, nodeHasFullText } = require("../utils/node");
 
 async function enumIndexedProperties(
   objectClient: ObjectClient,
@@ -87,9 +89,15 @@ async function getPrototype(
 
 async function getFullText(
   longStringClient: LongStringClient,
-  object: NodeContents
+  item: Node
 ): Promise<{ fullText?: string }> {
-  const { initial, length } = object;
+  const { initial, fullText, length } = getValue(item);
+
+  // Return fullText property if it exists so that it can be added to the
+  // loadedProperties map.
+  if (nodeHasFullText(item)) {
+    return Promise.resolve({ fullText });
+  }
 
   return new Promise((resolve, reject) => {
     longStringClient.substring(initial.length, length, response => {

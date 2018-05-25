@@ -6,15 +6,36 @@ import React from "react";
 import { shallow } from "enzyme";
 import { ShortcutsModal } from "../ShortcutsModal";
 
+function render(overrides = {}) {
+  const props = {
+    enabled: true,
+    handleClose: jest.fn(),
+    ...overrides
+  };
+  const component = shallow(<ShortcutsModal {...props} />);
+
+  return { component, props };
+}
+
 describe("ShortcutsModal", () => {
   it("renders when enabled", () => {
-    const enabled = true;
-    const wrapper = shallow(<ShortcutsModal enabled={enabled} />);
-    expect(wrapper).toMatchSnapshot();
+    const { component } = render();
+    expect(component).toMatchSnapshot();
   });
 
   it("renders nothing when not enabled", () => {
-    const wrapper = shallow(<ShortcutsModal />);
-    expect(wrapper.text()).toBe("");
+    const { component } = render({
+      enabled: false
+    });
+    expect(component.text()).toBe("");
+  });
+
+  it("renders with additional classname", () => {
+    const { component } = render({
+      additionalClass: "additional-class"
+    });
+    expect(
+      component.find(".shortcuts-content").hasClass("additional-class")
+    ).toEqual(true);
   });
 });

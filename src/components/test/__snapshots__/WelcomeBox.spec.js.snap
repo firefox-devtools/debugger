@@ -13,6 +13,8 @@ exports[`WelomeBox renders with default values 1`] = `
       <p
         className="welcomebox__searchSources"
         onClick={[Function]}
+        role="button"
+        tabIndex="0"
       >
         <span
           className="shortcutKey"
@@ -28,6 +30,8 @@ exports[`WelomeBox renders with default values 1`] = `
       <p
         className="welcomebox__searchProject"
         onClick={[Function]}
+        role="button"
+        tabIndex="0"
       >
         <span
           className="shortcutKey"
@@ -43,6 +47,7 @@ exports[`WelomeBox renders with default values 1`] = `
     </div>
     <PaneToggleButton
       collapsed={true}
+      handleClick={[MockFunction]}
       horizontal={false}
       position="end"
     />

@@ -165,10 +165,16 @@ export function enableBreakpoint(location: Location) {
       return;
     }
 
+    // To instantly reflect in the UI, we optimistically enable the breakpoint
+    const enabledBreakpoint = {
+      ...breakpoint,
+      disabled: false
+    };
+
     return dispatch(
       ({
         type: "ENABLE_BREAKPOINT",
-        breakpoint,
+        breakpoint: enabledBreakpoint,
         [PROMISE]: addBreakpointPromise(
           getState,
           client,
@@ -375,7 +381,7 @@ export function toggleBreakpoint(line: ?number, column?: number) {
     const state = getState();
     const selectedSource = getSelectedSource(state);
     const bp = getBreakpointAtLocation(state, { line, column });
-    const isEmptyLine = isEmptyLineInSource(state, line, selectedSource);
+    const isEmptyLine = isEmptyLineInSource(state, line, selectedSource.id);
 
     if ((!bp && isEmptyLine) || (bp && bp.loading)) {
       return;
@@ -394,8 +400,8 @@ export function toggleBreakpoint(line: ?number, column?: number) {
     }
     return dispatch(
       addBreakpoint({
-        sourceId: selectedSource.get("id"),
-        sourceUrl: selectedSource.get("url"),
+        sourceId: selectedSource.id,
+        sourceUrl: selectedSource.url,
         line: line,
         column: column
       })

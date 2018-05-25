@@ -19,14 +19,6 @@ const getConfig = require("./getConfig");
 const envConfig = getConfig();
 feature.setConfig(envConfig);
 
-const args = minimist(process.argv.slice(1), {
-  string: ["mc"],
-  boolean: ["watch"]
-});
-
-const projectPath = path.resolve(__dirname, "..");
-const mcPath = args.mc ? args.mc : feature.getValue("firefox.mcPath");
-const mcDebuggerPath = path.join(mcPath, "devtools/client/debugger/new");
 
 function ignoreFile(file) {
   return file.match(/(\/fixtures|\/test|vendors\.js|types\.js|types\/)/);
@@ -54,14 +46,19 @@ function transformSingleFile(filePath) {
 }
 
 function transpileFile(file) {
-  if (ignoreFile(file)) {
-    return;
-  }
+  try {
+    if (ignoreFile(file)) {
+      return;
+    }
 
-  const filePath = path.join(__dirname, "..", file);
-  const code = transformSingleFile(filePath);
-  shell.mkdir("-p", path.join(mcDebuggerPath, path.dirname(file)));
-  fs.writeFileSync(path.join(mcDebuggerPath, file), code);
+    const filePath = path.join(__dirname, "..", file);
+    const code = transformSingleFile(filePath);
+    shell.mkdir("-p", path.join(mcDebuggerPath, path.dirname(file)));
+    fs.writeFileSync(path.join(mcDebuggerPath, file), code);
+  } catch (e) {
+    console.log(`Failed to transpile: ${file}`)
+    console.error(e);
+  }
 }
 
 function transpileFiles() {
@@ -114,7 +111,7 @@ function createMozBuildFiles() {
   Object.keys(builds).forEach(build => {
     const { files, dirs } = builds[build];
 
-    const buildPath = path.join(__dirname, "../out", build);
+    const buildPath = path.join(mcDebuggerPath, build);
     shell.mkdir("-p", buildPath);
 
     // Files and folders should be alphabetically sorted in moz.build
@@ -158,9 +155,27 @@ function start() {
   createMozBuildFiles();
 
   console.log("[copy-modules] done");
-  if (args.watch) {
+  if (shouldWatch) {
     watch();
   }
 }
 
-start();
+const args = minimist(process.argv.slice(1), {
+  string: ["mc"],
+  boolean: ["watch"]
+});
+
+const projectPath = path.resolve(__dirname, "..");
+let mcPath = args.mc || feature.getValue("firefox.mcPath");
+let mcDebuggerPath = path.join(mcPath, "devtools/client/debugger/new");
+let shouldWatch = args.watch;
+
+if (process.argv[1] == __filename) {
+  start();
+} else {
+  module.exports = ({watch, mc}) => {
+    shouldWatch = watch
+    mcPath = path.join(mc, "devtools/client/debugger/new");
+    start();
+  }
+}

@@ -4,12 +4,8 @@
 
 // @flow
 
-import React from "react";
-
 import type { List } from "immutable";
 import type { SourceRecord } from "../types";
-import type { SourceMetaDataType } from "../reducers/ast";
-import { isPretty } from "./source";
 
 type SourcesList = List<SourceRecord>;
 /*
@@ -43,27 +39,6 @@ export function getHiddenTabs(
     const element = sourceTabEls[index];
     return element && hasTopOffset(element);
   });
-}
-
-export function getSourceAnnotation(
-  source: SourceRecord,
-  sourceMetaData: SourceMetaDataType
-) {
-  const framework =
-    sourceMetaData && sourceMetaData.framework
-      ? sourceMetaData.framework
-      : false;
-
-  if (framework) {
-    return <img className={framework.toLowerCase()} />;
-  }
-
-  if (isPretty(source)) {
-    return <img className="prettyPrint" />;
-  }
-  if (source.isBlackBoxed) {
-    return <img className="blackBox" />;
-  }
 }
 
 export function getTabMenuItems() {

@@ -17,7 +17,14 @@
 .breakpoints-list .breakpoint-heading {
   text-overflow: ellipsis;
   overflow: hidden;
-  padding-top: 0.75em;
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+
+/* temporary until we refactor the sources tree and tab icon styles */
+.breakpoints-list .breakpoint-heading .source-icon.file {
+  top: 0;
 }
 
 .breakpoints-list .breakpoint-heading,
@@ -31,7 +38,8 @@
 
 .breakpoints-list .breakpoint-heading,
 .breakpoints-list .breakpoint,
-.breakpoints-exceptions {
+.breakpoints-exceptions,
+.breakpoints-exceptions-caught {
   padding: 0.25em 1em;
 }
 
@@ -41,8 +49,7 @@
 }
 
 .breakpoints-list .breakpoint {
-  padding-top: 0.25em;
-  padding-bottom: 0.25em;
+  min-height: var(--breakpoint-expression-height);
 }
 
 .breakpoints-exceptions-caught {
@@ -107,7 +114,7 @@ html .breakpoints-list .breakpoint.paused {
 
 .breakpoints-list .breakpoint.disabled .breakpoint-label {
   color: var(--theme-comment);
-  transition: color 0.5s linear;
+  transition: color 0.15s linear;
 }
 
 .breakpoints-list .breakpoint:hover {
@@ -143,7 +150,7 @@ html[dir="rtl"] .breakpoints-list .breakpoint .breakpoint-line {
   max-width: calc(100% - var(--breakpoint-expression-right-clear-space));
   display: inline-block;
   padding-inline-end: 8px;
-  cursor: default;
+  cursor: pointer;
   flex-grow: 1;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -207,8 +214,11 @@ html[dir="rtl"] .breakpoints-list .breakpoint .breakpoint-line {
   min-width: initial !important;
 }
 
+.breakpoints-list .breakpoint .CodeMirror.cm-s-mozilla-breakpoint {
+  transition: opacity 0.15s linear;
+}
+
 .breakpoints-list .breakpoint.disabled .CodeMirror.cm-s-mozilla-breakpoint {
-  transition: opacity 0.5s linear;
   opacity: 0.5;
 }
 

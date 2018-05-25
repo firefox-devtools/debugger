@@ -121,7 +121,7 @@ describe("ObjectInspector - properties", () => {
     );
 
     const node = oi.find(".node").first();
-    node.simulate("click", { metaKey: true });
+    node.simulate("click", { ctrlKey: true });
 
     expect(onCmdCtrlClick.mock.calls).toHaveLength(1);
   });

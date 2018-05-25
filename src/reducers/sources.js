@@ -46,7 +46,7 @@ export function initialSourcesState(): Record<SourcesState> {
   )();
 }
 
-export const SourceRecordClass = new I.Record({
+const sourceRecordProperties = {
   id: undefined,
   url: undefined,
   sourceMapURL: undefined,
@@ -57,7 +57,17 @@ export const SourceRecordClass = new I.Record({
   contentType: "",
   error: undefined,
   loadedState: "unloaded"
+};
+
+export const SourceRecordClass = new I.Record(sourceRecordProperties);
+export const RelativeSourceRecordClass = new I.Record({
+  ...sourceRecordProperties,
+  relativeUrl: undefined
 });
+
+export function createSourceRecord(source: Source) {
+  return new SourceRecordClass(source);
+}
 
 function update(
   state: Record<SourcesState> = initialSourcesState(),
@@ -83,7 +93,7 @@ function update(
       );
     }
 
-    case "SELECT_SOURCE":
+    case "SET_SELECTED_LOCATION":
       location = {
         ...action.location,
         url: action.source.url
@@ -97,7 +107,7 @@ function update(
         })
         .set("pendingSelectedLocation", location);
 
-    case "CLEAR_SELECTED_SOURCE":
+    case "CLEAR_SELECTED_LOCATION":
       location = { url: "" };
       prefs.pendingSelectedLocation = location;
 
@@ -105,7 +115,7 @@ function update(
         .set("selectedLocation", { sourceId: "" })
         .set("pendingSelectedLocation", location);
 
-    case "SELECT_SOURCE_URL":
+    case "SET_PENDING_SELECTED_LOCATION":
       location = {
         url: action.url,
         line: action.line
@@ -199,7 +209,7 @@ function updateSource(state: Record<SourcesState>, source: Source | Object) {
     return state.setIn(["sources", source.id], updatedSource);
   }
 
-  return state.setIn(["sources", source.id], new SourceRecordClass(source));
+  return state.setIn(["sources", source.id], createSourceRecord(source));
 }
 
 export function removeSourceFromTabList(tabs: any, url: string) {
@@ -334,11 +344,15 @@ export function getSourceByURL(state: OuterState, url: string): ?SourceRecord {
   return getSourceByUrlInSources(state.sources.sources, url);
 }
 
-export function getGeneratedSource(state: OuterState, source: ?Source) {
-  if (!source || !isOriginalId(source.id)) {
+export function getGeneratedSource(
+  state: OuterState,
+  sourceRecord: ?SourceRecord
+) {
+  if (!sourceRecord || !isOriginalId(sourceRecord.id)) {
     return null;
   }
-  return getSource(state, originalToGeneratedId(source.id));
+
+  return getSource(state, originalToGeneratedId(sourceRecord.id));
 }
 
 export function getPendingSelectedLocation(state: OuterState) {

@@ -235,10 +235,9 @@ const mapStateToProps = state => {
   return {
     selectedLocation: getSelectedLocation(state),
     selectedSource,
-    hasPrettyPrint: !!getPrettySource(state, selectedSource.get("id")),
+    hasPrettyPrint: !!getPrettySource(state, selectedSource.id),
     contextMenu: getContextMenu(state),
-    getFunctionText: line =>
-      findFunctionText(line, selectedSource.toJS(), symbols),
+    getFunctionText: line => findFunctionText(line, selectedSource, symbols),
     getFunctionLocation: line =>
       findClosestFunction(symbols, {
         line,

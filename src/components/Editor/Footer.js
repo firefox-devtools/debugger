@@ -18,7 +18,7 @@ import { isPretty, isLoaded, getFilename } from "../../utils/source";
 import { getGeneratedSource } from "../../reducers/sources";
 import { shouldShowFooter, shouldShowPrettyPrint } from "../../utils/editor";
 
-import PaneToggleButton from "../shared/Button/PaneToggle";
+import { PaneToggleButton } from "../shared/Button";
 
 import type { SourceRecord } from "../../types";
 
@@ -156,8 +156,7 @@ class SourceFooter extends PureComponent<Props> {
   renderSourceSummary() {
     const { mappedSource, jumpToMappedLocation, selectedSource } = this.props;
     if (mappedSource) {
-      const bundleSource = mappedSource.toJS();
-      const filename = getFilename(bundleSource);
+      const filename = getFilename(mappedSource);
       const tooltip = L10N.getFormatStr(
         "sourceFooter.mappedSourceTooltip",
         filename
@@ -200,12 +199,11 @@ class SourceFooter extends PureComponent<Props> {
 
 const mapStateToProps = state => {
   const selectedSource = getSelectedSource(state);
-  const selectedId = selectedSource.get("id");
-  const source = selectedSource.toJS();
+  const selectedId = selectedSource.id;
 
   return {
     selectedSource,
-    mappedSource: getGeneratedSource(state, source),
+    mappedSource: getGeneratedSource(state, selectedSource),
     prettySource: getPrettySource(state, selectedId),
     endPanelCollapsed: getPaneCollapse(state, "end")
   };

@@ -396,7 +396,7 @@ describe("test String with URL", () => {
     const string = `${url} some other text`;
     const object = [string];
     const openLink = jest.fn();
-    const element = renderRep(object, { openLink });
+    const element = renderRep(object, { openLink, noGrip: true });
     expect(element.text()).toEqual(`[ "${string}" ]`);
 
     const link = element.find("a");
@@ -432,7 +432,7 @@ describe("test String with URL", () => {
     const string = `${url} some other text`;
     const object = { test: string };
     const openLink = jest.fn();
-    const element = renderRep(object, { openLink });
+    const element = renderRep(object, { openLink, noGrip: true });
     expect(element.text()).toEqual(`Object { test: "${string}" }`);
 
     const link = element.find("a");

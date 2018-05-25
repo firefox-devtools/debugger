@@ -6,7 +6,7 @@
 
 import React, { Component } from "react";
 
-import CloseButton from "./Button/Close";
+import { CloseButton } from "./Button";
 
 import Svg from "./Svg";
 import classnames from "classnames";
@@ -141,6 +141,16 @@ class SearchInput extends Component<Props, State> {
     }
   };
 
+  renderSummaryMsg() {
+    const { summaryMsg } = this.props;
+
+    if (!summaryMsg) {
+      return null;
+    }
+
+    return <div className="summary">{summaryMsg}</div>;
+  }
+
   renderNav() {
     const { count, handleNext, handlePrev } = this.props;
     if ((!handleNext && !handlePrev) || (!count || count == 1)) {
@@ -164,7 +174,6 @@ class SearchInput extends Component<Props, State> {
       selectedItemId,
       showErrorEmoji,
       size,
-      summaryMsg,
       showClose
     } = this.props;
 
@@ -202,7 +211,7 @@ class SearchInput extends Component<Props, State> {
         >
           {this.renderSvg()}
           <input {...inputProps} />
-          {summaryMsg && <div className="summary">{summaryMsg}</div>}
+          {this.renderSummaryMsg()}
           {this.renderNav()}
           {showClose && (
             <CloseButton handleClick={handleClose} buttonClass={size} />

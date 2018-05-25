@@ -9,6 +9,7 @@ import {
   makeSource
 } from "../../utils/test-head";
 import I from "immutable";
+import readFixture from "./helpers/readFixture";
 import { prefs } from "../../utils/prefs";
 
 const react = {
@@ -38,7 +39,7 @@ describe("setPreview", () => {
 
   async function setup(fileName, evaluateInFrame) {
     const threadClient = {
-      sourceContents: () => Promise.resolve("list"),
+      sourceContents: id => Promise.resolve({ source: readFixture(id) }),
       setPausePoints: async () => {},
       getFrameScopes: async () => {},
       evaluateExpressions: async () => {},
@@ -60,36 +61,26 @@ describe("setPreview", () => {
       actions.paused({
         why: { type: "resumeLimit" },
         frames: [
-          { id: "frame1", location: { sourceId: fileName, line: 1, column: 1 } }
+          { id: "frame1", location: { sourceId: fileName, line: 5, column: 1 } }
         ]
       })
     );
   }
 
   it("react instance", async () => {
-    await setup(
-      "foo.js",
-      jest
-        .fn()
-        .mockImplementationOnce(() =>
-          // result of evaluation setPreview
-          Promise.resolve({
-            result: react
-          })
-        )
-        .mockImplementationOnce(() =>
-          // result of evaluation in getPreview
-          Promise.resolve({
-            result: { preview: { items: ["Foo"] } }
-          })
-        )
+    const componentNames = { preview: { items: ["Foo"] } };
+
+    await setup("reactComponent.js", expression =>
+      Promise.resolve({
+        result: expression.match(/_reactInternalFiber/) ? componentNames : react
+      })
     );
 
     await dispatch(
       actions.setPreview(
         "this",
-        { start: { line: 1, column: 28 }, end: { line: 1, column: 32 } },
-        { line: 1, column: 30 }
+        { start: { line: 5, column: 12 }, end: { line: 5, column: 18 } },
+        { line: 5, column: 12 }
       )
     );
     const preview = selectors.getPreview(getState());

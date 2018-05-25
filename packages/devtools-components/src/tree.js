@@ -786,6 +786,10 @@ class Tree extends Component {
         onExpand: this._onExpand,
         onCollapse: this._onCollapse,
         onClick: e => {
+          // We can stop the propagation since click handler on the node can be
+          // created in `renderItem`.
+          e.stopPropagation();
+
           // Since the user just clicked the node, there's no need to check if
           // it should be scrolled into view.
           this._focus(item, { preventAutoScroll: true });
@@ -819,13 +823,14 @@ class Tree extends Component {
             return;
           }
 
-          const { explicitOriginalTarget } = nativeEvent;
+          const { relatedTarget } = nativeEvent;
+
           // Only set default focus to the first tree node if the focus came
           // from outside the tree (e.g. by tabbing to the tree from other
           // external elements).
           if (
-            explicitOriginalTarget !== this.treeRef &&
-            !this.treeRef.contains(explicitOriginalTarget)
+            relatedTarget !== this.treeRef &&
+            !this.treeRef.contains(relatedTarget)
           ) {
             this._focus(traversal[0].item);
           }

@@ -239,7 +239,7 @@ class CommandBar extends Component<Props> {
         "active",
         L10N.getFormatStr("resumeButtonTooltip", formatKey("resume"))
       ),
-      <div className="divider" />,
+      <div key="divider-1" className="divider" />,
       debugBtn(
         this.props.reverseStepOver,
         "reverseStepOver",
@@ -253,7 +253,7 @@ class CommandBar extends Component<Props> {
         L10N.getFormatStr("stepOverTooltip", formatKey("stepOver")),
         isDisabled
       ),
-      <div className="divider" />,
+      <div key="divider-2" className="divider" />,
       debugBtn(
         this.props.stepOut,
         "stepOut",

@@ -27,7 +27,7 @@ const {
   getContentType
 } = require("./utils");
 
-import type { Location, Source } from "debugger-html";
+import type { Location, Source, SourceId } from "debugger-html";
 
 async function getOriginalURLs(generatedSource: Source) {
   const map = await fetchSourceMap(generatedSource);
@@ -35,6 +35,61 @@ async function getOriginalURLs(generatedSource: Source) {
 }
 
 const COMPUTED_SPANS = new WeakSet();
+
+const SOURCE_MAPPINGS = new WeakMap();
+async function getOriginalRanges(sourceId: SourceId, url: string) {
+  if (!isOriginalId(sourceId)) {
+    return [];
+  }
+
+  const generatedSourceId = originalToGeneratedId(sourceId);
+  const map = await getSourceMap(generatedSourceId);
+  if (!map) {
+    return [];
+  }
+
+  let mappings = SOURCE_MAPPINGS.get(map);
+  if (!mappings) {
+    mappings = new Map();
+    SOURCE_MAPPINGS.set(map, mappings);
+  }
+
+  let fileMappings = mappings.get(url);
+  if (!fileMappings) {
+    fileMappings = [];
+    mappings.set(url, fileMappings);
+
+    const originalMappings = fileMappings;
+    map.eachMapping(
+      mapping => {
+        if (mapping.source !== url) {
+          return;
+        }
+
+        const last = originalMappings[originalMappings.length - 1];
+
+        if (last && last.line === mapping.originalLine) {
+          if (last.columnStart < mapping.originalColumn) {
+            last.columnEnd = mapping.originalColumn;
+          } else {
+            // Skip this duplicate original location,
+            return;
+          }
+        }
+
+        originalMappings.push({
+          line: mapping.originalLine,
+          columnStart: mapping.originalColumn,
+          columnEnd: Infinity
+        });
+      },
+      null,
+      SourceMapConsumer.ORIGINAL_ORDER
+    );
+  }
+
+  return fileMappings;
+}
 
 /**
  * Given an original location, find the ranges on the generated file that
@@ -155,7 +210,13 @@ async function getAllGeneratedLocations(
   }));
 }
 
-async function getOriginalLocation(location: Location): Promise<Location> {
+type locationOptions = {
+  search?: "LEAST_UPPER_BOUND" | "GREATEST_LOWER_BOUND"
+};
+async function getOriginalLocation(
+  location: Location,
+  { search }: locationOptions = {}
+): Promise<Location> {
   if (!isGeneratedId(location.sourceId)) {
     return location;
   }
@@ -165,11 +226,31 @@ async function getOriginalLocation(location: Location): Promise<Location> {
     return location;
   }
 
-  const { source: sourceUrl, line, column } = map.originalPositionFor({
+  // First check for an exact match
+  let match = map.originalPositionFor({
     line: location.line,
     column: location.column == null ? 0 : location.column
   });
 
+  // If there is not an exact match, look for a match with a bias at the
+  // current location and then on subsequent lines
+  if (search) {
+    let line = location.line;
+    let column = location.column == null ? 0 : location.column;
+
+    while (match.source === null) {
+      match = map.originalPositionFor({
+        line,
+        column,
+        bias: SourceMapConsumer[search]
+      });
+
+      line += search == "LEAST_UPPER_BOUND" ? 1 : -1;
+      column = search == "LEAST_UPPER_BOUND" ? 0 : Infinity;
+    }
+  }
+
+  const { source: sourceUrl, line, column } = match;
   if (sourceUrl == null) {
     // No url means the location didn't map.
     return location;
@@ -229,6 +310,7 @@ function applySourceMap(
 
 module.exports = {
   getOriginalURLs,
+  getOriginalRanges,
   getGeneratedRanges,
   getGeneratedLocation,
   getAllGeneratedLocations,

@@ -19,7 +19,7 @@ import { debounce } from "lodash";
 import "./Tabs.css";
 
 import Tab from "./Tab";
-import PaneToggleButton from "../shared/Button/PaneToggle";
+import { PaneToggleButton } from "../shared/Button";
 import Dropdown from "../shared/Dropdown";
 
 import type { List } from "immutable";
@@ -109,24 +109,24 @@ class Tabs extends PureComponent<Props, State> {
     }));
   }
 
-  getIconClass(source: SourceRecord) {
-    if (isPretty(source)) {
+  getIconClass(sourceRecord: SourceRecord) {
+    if (isPretty(sourceRecord)) {
       return "prettyPrint";
     }
-    if (source.isBlackBoxed) {
+    if (sourceRecord.isBlackBoxed) {
       return "blackBox";
     }
     return "file";
   }
 
-  renderDropdownSource = (source: SourceRecord) => {
+  renderDropdownSource = (sourceRecord: SourceRecord) => {
     const { selectSpecificSource } = this.props;
-    const filename = getFilename(source.toJS());
+    const filename = getFilename(sourceRecord);
 
-    const onClick = () => selectSpecificSource(source.id);
+    const onClick = () => selectSpecificSource(sourceRecord.id);
     return (
-      <li key={source.id} onClick={onClick}>
-        <img className={`dropdown-icon ${this.getIconClass(source)}`} />
+      <li key={sourceRecord.id} onClick={onClick}>
+        <img className={`dropdown-icon ${this.getIconClass(sourceRecord)}`} />
         {filename}
       </li>
     );

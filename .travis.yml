@@ -11,7 +11,7 @@ env:
   global:
     - DISPLAY=':99.0'
     - YARN_VERSION='0.24.5'
-    - MC_COMMIT='a1abfeb6a79a' # https://hg.mozilla.org/mozilla-central/shortlog
+    - MC_COMMIT='21f09d7e7214' # https://hg.mozilla.org/mozilla-central/shortlog
 
 notifications:
   slack:
@@ -40,12 +40,7 @@ install:
   - ./bin/ci/clone-gecko.sh
   - du -sh firefox
   - yarn
-
-before_script:
   - ./bin/ci/build-firefox.sh
-  - sh -e /etc/init.d/xvfb start
-
-script:
   - python --version
   - node --version
   - du -sh firefox
@@ -53,6 +48,11 @@ script:
   - node ./bin/copy-modules.js --mc ./firefox
   - ./bin/ci/build-firefox.sh
   - node ./bin/ci/check-file-sizes.js
+
+before_script:
+  - sh -e /etc/init.d/xvfb start
+
+script:
   - ./node_modules/.bin/mochii --ci --mc ./firefox --headless devtools/client/debugger/new
   - ./node_modules/.bin/mochii --ci --mc ./firefox --headless
     browser_keybindings_01.js

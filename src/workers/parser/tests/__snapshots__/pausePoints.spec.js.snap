@@ -97,33 +97,33 @@ exports[`Parser.pausePoints func 1`] = `
   /*21*/return /*bs 22*/foo();
 /*bs 23*/}
 
-/*b 24*/function ret2() /*25*/{
-  /*bs 26*/return (
-    /*bs 27*/foo()
-  );
-/*bs 28*/}
+/*bs 24*/child = /*b 25*/function() /*26*/{/*bs 27*/};
 
-/*bs 29*/child = /*b 30*/function() /*31*/{/*bs 32*/};
+/*bs 28*/(/*b 29*/function() /*30*/{
+  /*bs 31*/2;
+/*bs 32*/})();
 
-/*bs 33*/(/*b 34*/function() /*35*/{
-  /*bs 36*/2;
-/*bs 37*/})();
+const /*bs 33*/obj = {
+  /*34*/foo: /*b 35*/function name() /*36*/{
+    /*bs 37*/2 + 2;
+  /*bs 38*/},
 
-const /*bs 38*/obj = {
-  /*39*/foo: /*b 40*/function name() /*41*/{
-    /*bs 42*/2 + 2;
-  /*bs 43*/},
-
-  /*b 44*/bar() /*45*/{
-    /*bs 46*/2 + 2;
-  /*bs 47*/}
+  /*b 39*/bar() /*40*/{
+    /*bs 41*/2 + 2;
+  /*bs 42*/}
 };
 
-/*bs 48*/export default /*b 49*/function root() /*50*/{
-/*bs 51*/}
+/*bs 43*/export default /*b 44*/function root() /*45*/{
+/*bs 46*/}
 
-/*b 52*/function test(a1, /*53*/a2 = 45, /*54*/{ /*55*/a3, /*56*/a4, /*57*/a5: /*bs 58*/{ /*59*/a6: /*60*/a7 } = {} } = {}) /*61*/{
-  /*bs 62*/console./*bs 63*/log(/*64*/\\"pause next here\\");
+/*b 47*/function test(a1, /*48*/a2 = 45, /*49*/{ /*50*/a3, /*51*/a4, /*52*/a5: /*bs 53*/{ /*54*/a6: /*55*/a7 } = {} } = {}) /*56*/{
+  /*bs 57*/console./*bs 58*/log(/*59*/\\"pause next here\\");
+/*bs 60*/}
+
+/*b 61*/function ret2() /*62*/{
+  /*bs 63*/return (
+    /*bs 64*/foo()
+  );
 /*bs 65*/}/*bs 66*/
 "
 `;

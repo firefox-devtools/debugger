@@ -28,10 +28,6 @@ let webpackConfig = {
       "devtools/client/shared/vendor/react-dom": "react-dom",
       "devtools/client/shared/vendor/react-dom-factories": "react-dom-factories",
       "devtools/client/shared/vendor/react-prop-types": "prop-types",
-      Services: path.join(
-        __dirname,
-        "node_modules/devtools-modules/client/shared/shim/Services"
-      )
     }
   }
 };

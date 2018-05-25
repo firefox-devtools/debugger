@@ -11,7 +11,7 @@ import actions from "../actions";
 import { getPaneCollapse } from "../selectors";
 import { formatKeyShortcut } from "../utils/text";
 
-import PaneToggleButton from "./shared/Button/PaneToggle";
+import { PaneToggleButton } from "./shared/Button";
 import type { ActiveSearchType } from "../reducers/ui";
 
 import "./WelcomeBox.css";
@@ -60,6 +60,8 @@ export class WelcomeBox extends Component<Props> {
           <div className="shortcutFunction">
             <p
               className="welcomebox__searchSources"
+              role="button"
+              tabIndex="0"
               onClick={() => openQuickOpen()}
             >
               <span className="shortcutKey">{searchSourcesShortcut}</span>
@@ -67,6 +69,8 @@ export class WelcomeBox extends Component<Props> {
             </p>
             <p
               className="welcomebox__searchProject"
+              role="button"
+              tabIndex="0"
               onClick={setActiveSearch.bind(null, "project")}
             >
               <span className="shortcutKey">{searchProjectShortcut}</span>
