@@ -4,7 +4,6 @@
 
 .shortcuts-content {
   padding: 15px;
-  -webkit-column-width: 250px;
   column-width: 250px;
   cursor: default;
 }
