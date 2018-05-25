@@ -4,24 +4,24 @@ There are lots of helpful folks in [Slack](https://devtools-html.slack.com/) who
 
 | Component          |                  | :dog: :panda_face: :hamster:                                                                       |
 | ------------------ | ---------------- | -------------------------------------------------------------------------------------------------- |
-| Editor             | ![][editor]      | ![][jasonlaster] [@jasonlaster][@jasonlaster] <br /> ![][jbhoosreddy] [@jbhoosreddy][@jbhoosreddy] |
+| Editor             | ![][editor]      | ![][jasonlaster] [@jasonlaster][@jasonlaster] <br /> ![][darkwing] [@darkwing][@darkwing] |
 | Sources            | ![][sources]     | ![][arthur801031] [@arthur801031][@arthur801031] <br /> ![][bomsy] [@bomsy][@bomsy]                |
 | Call Stack         | ![][call-stack]  | ![][zacqary] [@zacqary][@zacqary] <br /> ![][wldcordeiro] [@wldcordeiro][@wldcordeiro]             |
 | Scopes & Variables | ![][scopes]      | ![][bomsy] [@bomsy][@bomsy] <br /> ![][arthur801031] [@arthur801031][@arthur801031]                |
-| Breakpoints        | ![][breakpoints] | ![][wldcordeiro] [@wldcordeiro][@wldcordeiro] <br /> ![][jbhoosreddy] [@jbhoosreddy][@jbhoosreddy] |
-| Product & UI       |                  | ![][clarkbw] [@clarkbw][@clarkbw] <br /> ![][jasonlaster] [@jasonlaster][@jasonlaster]             |
+| Breakpoints        | ![][breakpoints] | ![][wldcordeiro] [@wldcordeiro][@wldcordeiro] <br /> ![][jbhoosreddy] [@jbhoosreddy][@jbhoosreddy] <br /> ![][darkwing] [@darkwing][@darkwing] |
+| Product & UI       |                  | ![][darkwing] [@darkwing][@darkwing] <br /> ![][jasonlaster] [@jasonlaster][@jasonlaster]             |
 
 [jasonlaster]: https://avatars.githubusercontent.com/jasonlaster?size=56
+[darkwing]: https://avatars.githubusercontent.com/darkwing?size=56
 [bomsy]: https://avatars.githubusercontent.com/bomsy?size=56
 [wldcordeiro]: https://avatars.githubusercontent.com/wldcordeiro?size=56
-[clarkbw]: https://avatars.githubusercontent.com/clarkbw?size=56
 [jbhoosreddy]: https://avatars.githubusercontent.com/jbhoosreddy?size=56
 [arthur801031]: https://avatars.githubusercontent.com/arthur801031?size=56
 [zacqary]: https://avatars.githubusercontent.com/zacqary?size=56
 [@jasonlaster]: https://github.com/jasonlaster
+[@darkwing]: https://github.com/darkwing
 [@bomsy]: https://github.com/bomsy
 [@wldcordeiro]: https://github.com/wldcordeiro
-[@clarkbw]: https://github.com/clarkbw
 [@jbhoosreddy]: https://github.com/jbhoosreddy
 [@arthur801031]: https://github.com/arthur801031
 [@zacqary]: https://github.com/zacqary
