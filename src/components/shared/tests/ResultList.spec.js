@@ -6,7 +6,7 @@ import React from "react";
 import { shallow } from "enzyme";
 import ResultList from "../ResultList";
 
-const selectItem = jest.genMockFunction();
+const selectItem = jest.fn();
 const selectedIndex = 1;
 const payload = {
   items: [

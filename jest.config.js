@@ -7,7 +7,7 @@ const rootDir = resolve(__dirname);
 module.exports = {
   rootDir,
   projects: [
-    "<rootDir>/jest-configs/*.config.js",
+    "<rootDir>/jest-test.config.js",
     "<rootDir>/packages/*/jest.config.js"
   ]
 };
