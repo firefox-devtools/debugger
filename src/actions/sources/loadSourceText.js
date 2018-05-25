@@ -23,7 +23,7 @@ const loadSourceHistogram = Services.telemetry.getHistogramById(
 async function loadSource(source: SourceRecord, { sourceMaps, client }) {
   const id = source.get("id");
   if (isOriginalId(id)) {
-    return await sourceMaps.getOriginalSourceText(source.toJS());
+    return sourceMaps.getOriginalSourceText(source.toJS());
   }
 
   const response = await client.sourceContents(id);
