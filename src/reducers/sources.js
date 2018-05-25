@@ -65,6 +65,10 @@ export const RelativeSourceRecordClass = new I.Record({
   relativeUrl: undefined
 });
 
+export function createSourceRecord(source: Source) {
+  return new SourceRecordClass(source);
+}
+
 function update(
   state: Record<SourcesState> = initialSourcesState(),
   action: Action
@@ -205,7 +209,7 @@ function updateSource(state: Record<SourcesState>, source: Source | Object) {
     return state.setIn(["sources", source.id], updatedSource);
   }
 
-  return state.setIn(["sources", source.id], new SourceRecordClass(source));
+  return state.setIn(["sources", source.id], createSourceRecord(source));
 }
 
 export function removeSourceFromTabList(tabs: any, url: string) {
@@ -347,6 +351,7 @@ export function getGeneratedSource(
   if (!sourceRecord || !isOriginalId(sourceRecord.id)) {
     return null;
   }
+
   return getSource(state, originalToGeneratedId(sourceRecord.id));
 }
 
