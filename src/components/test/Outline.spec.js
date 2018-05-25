@@ -17,7 +17,7 @@ const mockFunctionText = "mock function text";
 
 function generateDefaults(overrides) {
   return {
-    selectLocation: jest.genMockFunction(),
+    selectLocation: jest.fn(),
     selectedSource: {
       get: () => sourceId
     },

@@ -197,6 +197,20 @@ exports[`ManagedTree sets expanded items 1`] = `
           },
         ],
       ],
+      "results": Array [
+        Object {
+          "isThrow": false,
+          "value": undefined,
+        },
+        Object {
+          "isThrow": false,
+          "value": undefined,
+        },
+        Object {
+          "isThrow": false,
+          "value": undefined,
+        },
+      ],
     }
   }
   onFocus={[MockFunction]}
@@ -348,6 +362,12 @@ exports[`ManagedTree sets expanded items 2`] = `
           },
         ],
       ],
+      "results": Array [
+        Object {
+          "isThrow": false,
+          "value": undefined,
+        },
+      ],
     }
   }
   onExpand={
@@ -375,6 +395,20 @@ exports[`ManagedTree sets expanded items 2`] = `
           },
         ],
       ],
+      "results": Array [
+        Object {
+          "isThrow": false,
+          "value": undefined,
+        },
+        Object {
+          "isThrow": false,
+          "value": undefined,
+        },
+        Object {
+          "isThrow": false,
+          "value": undefined,
+        },
+      ],
     }
   }
   onFocus={
@@ -383,6 +417,12 @@ exports[`ManagedTree sets expanded items 2`] = `
         Array [
           "a",
         ],
+      ],
+      "results": Array [
+        Object {
+          "isThrow": false,
+          "value": undefined,
+        },
       ],
     }
   }
