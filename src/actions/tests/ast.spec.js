@@ -15,6 +15,7 @@ import {
 
 import readFixture from "./helpers/readFixture";
 const {
+  getSource,
   getSymbols,
   getEmptyLines,
   getOutOfScopeLocations,
@@ -27,38 +28,31 @@ import I from "immutable";
 import { prefs } from "../../utils/prefs";
 
 const threadClient = {
-  sourceContents: function(sourceId) {
-    return new Promise((resolve, reject) =>
-      resolve({
-        source: sourceTexts[sourceId],
-        contentType: "text/javascript"
-      })
-    );
-  },
+  sourceContents: async sourceId => ({
+    source: sourceTexts[sourceId],
+    contentType: "text/javascript"
+  }),
   setPausePoints: async () => {},
   getFrameScopes: async () => {},
-  evaluate: function(expression) {
-    return new Promise((resolve, reject) =>
-      resolve({ result: evaluationResult[expression] })
-    );
-  },
-  evaluateExpressions: function(expressions) {
-    return new Promise((resolve, reject) =>
-      resolve(
-        expressions.map(expression => ({
-          result: evaluationResult[expression]
-        }))
-      )
-    );
-  }
+  evaluate: async expression => ({ result: evaluationResult[expression] }),
+  evaluateExpressions: async expressions =>
+    expressions.map(expression => ({ result: evaluationResult[expression] }))
+};
+
+const sourceMaps = {
+  getOriginalSourceText: async ({ id }) => ({
+    id,
+    text: sourceTexts[id],
+    contentType: "text/javascript"
+  })
 };
 
 const sourceTexts = {
   "base.js": "function base(boo) {}",
   "foo.js": "function base(boo) { return this.bazz; } outOfScope",
   "scopes.js": readFixture("scopes.js"),
-  "reactComponent.js-original": readFixture("reactComponent.js"),
-  "reactFuncComponent.js-original": readFixture("reactFuncComponent.js")
+  "reactComponent.js/originalSource": readFixture("reactComponent.js"),
+  "reactFuncComponent.js/originalSource": readFixture("reactFuncComponent.js")
 };
 
 const evaluationResult = {
@@ -87,13 +81,15 @@ describe("ast", () => {
 
   describe("setSourceMetaData", () => {
     it("should detect react components", async () => {
-      const store = createStore(threadClient);
+      const store = createStore(threadClient, {}, sourceMaps);
       const { dispatch, getState } = store;
       const source = makeOriginalSource("reactComponent.js");
 
+      await dispatch(actions.newSource(makeSource("reactComponent.js")));
+
       await dispatch(actions.newSource(source));
 
-      await dispatch(actions.loadSourceText(I.Map({ id: source.id })));
+      await dispatch(actions.loadSourceText(getSource(getState(), source.id)));
       await dispatch(actions.setSourceMetaData(source.id));
 
       await waitForState(store, state => {
@@ -115,25 +111,6 @@ describe("ast", () => {
 
       const sourceMetaData = getSourceMetaData(getState(), base.id);
       expect(sourceMetaData.framework).toBe(undefined);
-    });
-
-    it("should detect react func components", async () => {
-      const store = createStore(threadClient);
-      const { dispatch, getState } = store;
-      const source = makeOriginalSource("reactFuncComponent.js");
-
-      await dispatch(actions.newSource(source));
-
-      await dispatch(actions.loadSourceText(I.Map({ id: source.id })));
-      await dispatch(actions.setSourceMetaData(source.id));
-
-      await waitForState(store, state => {
-        const metaData = getSourceMetaData(state, source.id);
-        return metaData && metaData.framework;
-      });
-
-      const sourceMetaData = getSourceMetaData(getState(), source.id);
-      expect(sourceMetaData.framework).toBe("React");
     });
   });
 
