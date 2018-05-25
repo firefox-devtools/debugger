@@ -53,7 +53,7 @@ export function isNotJavaScript(source: Object): boolean {
 export function isInvalidUrl(url: Object, source: SourceRecord) {
   return (
     IGNORED_URLS.indexOf(url) != -1 ||
-    !source.url ||
+    !(source.get ? source.get("url") : source.url) ||
     !url.group ||
     isPretty(source) ||
     isNotJavaScript(source)
