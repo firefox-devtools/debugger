@@ -375,7 +375,7 @@ class SourcesTree extends Component<Props, State> {
       getPath: this.getPath,
       getRoots: roots,
       highlightItems,
-      itemHeight: 21,
+      itemHeight: 21.45,
       key: isEmpty ? "empty" : "full",
       listItems,
       onCollapse,

@@ -22,7 +22,7 @@ exports[`SourcesTree After changing expanded nodes Shows the tree with four.js, 
       getParent={[Function]}
       getPath={[Function]}
       getRoots={[Function]}
-      itemHeight={21}
+      itemHeight={21.45}
       key="full"
       onCollapse={[Function]}
       onExpand={[Function]}
@@ -48,7 +48,7 @@ exports[`SourcesTree Should show the tree with nothing expanded 1`] = `
       getParent={[Function]}
       getPath={[Function]}
       getRoots={[Function]}
-      itemHeight={21}
+      itemHeight={21.45}
       key="full"
       onCollapse={[Function]}
       onExpand={[Function]}
@@ -81,7 +81,7 @@ exports[`SourcesTree When loading initial source Shows the tree with one.js, two
       getParent={[Function]}
       getPath={[Function]}
       getRoots={[Function]}
-      itemHeight={21}
+      itemHeight={21.45}
       key="full"
       onCollapse={[Function]}
       onExpand={[Function]}
@@ -162,7 +162,7 @@ exports[`SourcesTree on receiving new props updates highlighted items updates hi
           },
         ]
       }
-      itemHeight={21}
+      itemHeight={21.45}
       key="full"
       onCollapse={[Function]}
       onExpand={[Function]}
@@ -188,7 +188,7 @@ exports[`SourcesTree on receiving new props updates list items updates list item
       getParent={[Function]}
       getPath={[Function]}
       getRoots={[Function]}
-      itemHeight={21}
+      itemHeight={21.45}
       key="full"
       listItems={
         Array [
@@ -562,7 +562,7 @@ exports[`SourcesTree with custom root renders custom root source list 1`] = `
       getParent={[Function]}
       getPath={[Function]}
       getRoots={[Function]}
-      itemHeight={21}
+      itemHeight={21.45}
       key="full"
       onCollapse={[Function]}
       onExpand={[Function]}

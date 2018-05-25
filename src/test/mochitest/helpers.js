@@ -807,7 +807,7 @@ async function expandAllScopes(dbg) {
   }).reverse();
 
   for (const index of indices) {
-    await toggleScopeNode(dbg, index + 1);
+    await toggleScopeNode(dbg, index);
   }
 }
 
@@ -1035,9 +1035,9 @@ const selectors = {
   breakpointItem: i => `.breakpoints-list .breakpoint:nth-of-type(${i})`,
   breakpointItems: `.breakpoints-list .breakpoint`,
   scopes: ".scopes-list",
-  scopeNode: i => `.scopes-list .tree-node:nth-child(${i}) .object-label`,
+  scopeNode: i => `.scopes-list .tree-node:nth-child(${i + 1}) .object-label`,
   scopeValue: i =>
-    `.scopes-list .tree-node:nth-child(${i}) .object-delimiter + *`,
+    `.scopes-list .tree-node:nth-child(${i + 1}) .object-delimiter + *`,
   frame: i => `.frames ul li:nth-child(${i})`,
   frames: ".frames ul li",
   gutter: i => `.CodeMirror-code *:nth-child(${i}) .CodeMirror-linenumber`,
@@ -1061,9 +1061,9 @@ const selectors = {
   sourceMapLink: ".source-footer .mapped-source",
   sourcesFooter: ".sources-panel .source-footer",
   editorFooter: ".editor-pane .source-footer",
-  sourceNode: i => `.sources-list .tree-node:nth-child(${i}) .node`,
+  sourceNode: i => `.sources-list .tree-node:nth-child(${i + 1}) .node`,
   sourceNodes: ".sources-list .tree-node",
-  sourceDirectoryLabel: i => `.sources-list .tree-node:nth-child(${i}) .label`,
+  sourceDirectoryLabel: i => `.sources-list .tree-node:nth-child(${i + 1}) .label`,
   resultItems: ".result-list .result-item",
   fileMatch: ".managed-tree .result",
   popup: ".popover",
