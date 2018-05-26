@@ -27,8 +27,7 @@ function getResultsCount(dbg) {
   const matches = dbg.selectors
     .getTextSearchResults(dbg.getState())
     .valueSeq()
-    .map(file => file.matches)
-    .toJS();
+    .map(file => file.matches);
 
   return [...matches].length;
 }
