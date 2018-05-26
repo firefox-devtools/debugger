@@ -48,10 +48,6 @@ function inPopup(e) {
     relatedTarget.closest(".popover") ||
     relatedTarget.classList.contains("debug-expression");
 
-  if (!pop) {
-    console.log("pop", relatedTarget);
-  }
-
   return pop;
 }
 
