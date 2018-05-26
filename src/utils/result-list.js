@@ -5,7 +5,7 @@
 import { isFirefox } from "devtools-environment";
 import { transitionTimeout } from "../components/shared/Modal";
 
-function scrollList(resultList, index, delayed = false) {
+export function scrollList(resultList, index, delayed = false) {
   if (!resultList.hasOwnProperty(index)) {
     return;
   }
@@ -44,5 +44,3 @@ function chromeScrollList(elem, index) {
 
   resultsEl.scrollTop = Math.max(0, scroll);
 }
-
-export { scrollList };

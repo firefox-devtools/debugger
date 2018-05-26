@@ -26,7 +26,7 @@ const isMacOS = appinfo.OS === "Darwin";
  * @memberof utils/text
  * @static
  */
-function formatKeyShortcut(shortcut: string): string {
+export function formatKeyShortcut(shortcut: string): string {
   if (isMacOS) {
     return shortcut
       .replace(/Shift\+/g, "\u21E7 ")
@@ -48,7 +48,10 @@ function formatKeyShortcut(shortcut: string): string {
  * @memberof utils/text
  * @static
  */
-function truncateMiddleText(sourceText: string, maxLength: number): string {
+export function truncateMiddleText(
+  sourceText: string,
+  maxLength: number
+): string {
   let truncatedText = sourceText;
   if (sourceText.length > maxLength) {
     truncatedText = `${sourceText.substring(
@@ -60,5 +63,3 @@ function truncateMiddleText(sourceText: string, maxLength: number): string {
   }
   return truncatedText;
 }
-
-export { formatKeyShortcut, truncateMiddleText };
