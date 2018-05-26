@@ -70,9 +70,9 @@ exports[`sources-tree addToTree uses debuggeeUrl as default 1`] = `
     - reducers path=localhost:4242/reducers 
       - index.js path=localhost:4242/reducers/index.js source_id=undefined 
     - index.js path=localhost:4242/index.js source_id=undefined 
-  - resource:// path=resource:// 
-    - modules path=resource:///modules 
-      - ExtensionContent.jsm path=resource:///modules/ExtensionContent.jsm source_id=undefined 
+  - resource://gre path=resource://gre 
+    - modules path=resource://gre/modules 
+      - ExtensionContent.jsm path=resource://gre/modules/ExtensionContent.jsm source_id=undefined 
   - voz37vlg5.codesandbox.io path=voz37vlg5.codesandbox.io 
     - static path=voz37vlg5.codesandbox.io/static 
       - js path=voz37vlg5.codesandbox.io/static/js 
