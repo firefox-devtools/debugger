@@ -8,6 +8,8 @@ import React, { Component } from "react";
 import classnames from "classnames";
 import { connect } from "react-redux";
 
+import ExceptionOption from "./ExceptionOption";
+
 import Breakpoint from "./Breakpoint";
 import SourceIcon from "../../shared/SourceIcon";
 
@@ -35,24 +37,6 @@ type Props = {
   selectSource: string => void
 };
 
-function createExceptionOption(
-  label: string,
-  value: boolean,
-  onChange: Function,
-  className: string
-) {
-  return (
-    <div className={className} onClick={onChange}>
-      <input
-        type="checkbox"
-        checked={value ? "checked" : ""}
-        onChange={e => e.stopPropagation() && onChange()}
-      />
-      <div className="breakpoint-exceptions-label">{label}</div>
-    </div>
-  );
-}
-
 class Breakpoints extends Component<Props> {
   renderExceptionsOptions() {
     const {
@@ -64,28 +48,28 @@ class Breakpoints extends Component<Props> {
 
     const isEmpty = breakpointSources.length == 0;
 
-    const exceptionsBox = createExceptionOption(
-      L10N.getStr("pauseOnExceptionsItem2"),
-      shouldPauseOnExceptions,
-      () => pauseOnExceptions(!shouldPauseOnExceptions, false),
-      "breakpoints-exceptions"
-    );
-
-    const ignoreCaughtBox = createExceptionOption(
-      L10N.getStr("pauseOnCaughtExceptionsItem"),
-      shouldPauseOnCaughtExceptions,
-      () => pauseOnExceptions(true, !shouldPauseOnCaughtExceptions),
-      "breakpoints-exceptions-caught"
-    );
-
     return (
       <div
         className={classnames("breakpoints-exceptions-options", {
           empty: isEmpty
         })}
       >
-        {exceptionsBox}
-        {shouldPauseOnExceptions ? ignoreCaughtBox : null}
+        <ExceptionOption
+          className="breakpoints-exceptions"
+          label={L10N.getStr("pauseOnExceptionsItem2")}
+          isChecked={shouldPauseOnExceptions}
+          onChange={() => pauseOnExceptions(!shouldPauseOnExceptions, false)}
+        />
+
+        <ExceptionOption
+          className="breakpoints-exceptions-caught"
+          label={L10N.getStr("pauseOnCaughtExceptionsItem")}
+          isChecked={shouldPauseOnCaughtExceptions}
+          onChange={() =>
+            pauseOnExceptions(true, !shouldPauseOnCaughtExceptions)
+          }
+          shouldRender={shouldPauseOnExceptions}
+        />
       </div>
     );
   }
