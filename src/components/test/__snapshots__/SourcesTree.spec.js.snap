@@ -270,8 +270,18 @@ exports[`SourcesTree renderItem should not show domain item when the projectRoot
   <i
     className="no-arrow"
   />
-  <img
-    className="file source-icon"
+  <Connect(SourceIcon)
+    source={
+      Immutable.Map {
+        "id": "server1.conn13.child1/39",
+        "url": "http://mdn.com/one.js",
+        "isPrettyPrinted": false,
+        "isWasm": false,
+        "sourceMapURL": null,
+        "isBlackBoxed": false,
+        "loadedState": "unloaded",
+      }
+    }
   />
   <span
     className="label"
@@ -490,8 +500,18 @@ exports[`SourcesTree renderItem should show source item with source icon 1`] = `
   <i
     className="no-arrow"
   />
-  <img
-    className="file source-icon"
+  <Connect(SourceIcon)
+    source={
+      Immutable.Map {
+        "id": "server1.conn13.child1/39",
+        "url": "http://mdn.com/one.js",
+        "isPrettyPrinted": false,
+        "isWasm": false,
+        "sourceMapURL": null,
+        "isBlackBoxed": false,
+        "loadedState": "unloaded",
+      }
+    }
   />
   <span
     className="label"
@@ -512,8 +532,18 @@ exports[`SourcesTree renderItem should show source item with source icon with fo
   <i
     className="no-arrow"
   />
-  <img
-    className="file source-icon"
+  <Connect(SourceIcon)
+    source={
+      Immutable.Map {
+        "id": "server1.conn13.child1/39",
+        "url": "http://mdn.com/one.js",
+        "isPrettyPrinted": false,
+        "isWasm": false,
+        "sourceMapURL": null,
+        "isBlackBoxed": false,
+        "loadedState": "unloaded",
+      }
+    }
   />
   <span
     className="label"

@@ -192,10 +192,7 @@ class Tab extends PureComponent<Props> {
         onContextMenu={e => this.onTabContextMenu(e, sourceId)}
         title={getFileURL(source)}
       >
-        <SourceIcon
-          source={source}
-          shouldHide={icon => ["file", "javascript"].includes(icon)}
-        />
+        <SourceIcon source={source} />
         <div className="filename">
           {truncateMiddleText(getUnicodeUrlPath(filename), 30)}
         </div>
