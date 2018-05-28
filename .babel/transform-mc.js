@@ -5,7 +5,7 @@ const mappings = require("../configs/mozilla-central-mappings");
 
 // Add two additional mappings that cannot be reused when creating the
 // webpack bundles.
-mappings["devtools-reps"] = "devtools/client/shared/components/reps/reps.js";
+mappings["devtools-reps"] = "devtools/client/shared/components/reps/src/index.js";
 mappings["devtools-source-map"] = "devtools/client/shared/source-map/index.js";
 
 function isRequire(t, node) {
