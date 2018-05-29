@@ -51,7 +51,8 @@ function inPopup(e) {
   return pop;
 }
 
-function getElementFromPos(pos: ClientRect) {
+function getElementFromPos(pos: DOMRect) {
+  // $FlowIgnore
   return document.elementFromPoint(
     pos.x + pos.width / 2,
     pos.y + pos.height / 2
@@ -65,18 +66,24 @@ class Preview extends PureComponent<Props, State> {
     this.state = { selecting: false };
   }
 
+  componentDidMount() {
+    this.updateListeners();
+  }
+
   componentDidUpdate(prevProps) {
     this.updateListeners(prevProps);
     this.updateHighlight(prevProps);
   }
 
-  updateListeners(prevProps) {
-    const { isPaused, preview } = this.props;
+  updateListeners(prevProps: ?Props) {
+    const { isPaused } = this.props;
 
     const { codeMirror } = this.props.editor;
     const codeMirrorWrapper = codeMirror.getWrapperElement();
+    const wasNotPaused = !prevProps || !prevProps.isPaused;
+    const wasPaused = prevProps && prevProps.isPaused;
 
-    if (isPaused && !prevProps.isPaused) {
+    if (isPaused && wasNotPaused) {
       codeMirror.on("scroll", this.onScroll);
       codeMirror.on("tokenenter", this.onTokenEnter);
       codeMirror.on("tokenleave", this.onTokenLeave);
@@ -84,7 +91,7 @@ class Preview extends PureComponent<Props, State> {
       codeMirrorWrapper.addEventListener("mousedown", this.onMouseDown);
     }
 
-    if (!isPaused && prevProps.isPaused) {
+    if (!isPaused && wasPaused) {
       codeMirror.off("tokenenter", this.onTokenEnter);
       codeMirror.off("tokenleave", this.onTokenLeave);
       codeMirrorWrapper.removeEventListener("mouseup", this.onMouseUp);

@@ -127,6 +127,8 @@ function update(
           updating: false
         });
       }
+
+      return state;
     }
 
     case "RESUME": {
