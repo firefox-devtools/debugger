@@ -19,10 +19,10 @@ export { updateTree } from "./updateTree";
 export {
   createNode,
   createParentMap,
+  getFileExtension,
   getRelativePath,
   isDirectory,
   isExactUrlMatch,
   isNotJavaScript,
-  nodeHasChildren,
-  getExtension
+  nodeHasChildren
 } from "./utils";
