@@ -70,12 +70,16 @@ describe("SourcesTree", () => {
 
       it("updates tree with a new item", async () => {
         const { component, props } = render();
-        const sources = props.sources.merge({
-          "server1.conn13.child1/42": createMockSource(
-            "server1.conn13.child1/42",
-            "http://mdn.com/four.js"
-          )
-        });
+        const newSource = createMockSource(
+          "server1.conn13.child1/42",
+          "http://mdn.com/four.js",
+          true
+        );
+
+        const sources = props.sources.set(
+          "server1.conn13.child1/42",
+          newSource
+        );
 
         await component.setProps({
           ...props,
@@ -157,9 +161,9 @@ describe("SourcesTree", () => {
           shownSource: "http://mdn.com/three.js"
         });
         expect(component).toMatchSnapshot();
-        expect(props.selectLocation).toHaveBeenCalledWith({
-          sourceId: "server1.conn13.child1/41"
-        });
+        expect(props.selectSource).toHaveBeenCalledWith(
+          "server1.conn13.child1/41"
+        );
       });
     });
 
@@ -190,9 +194,7 @@ describe("SourcesTree", () => {
       await component
         .find(".sources-list")
         .simulate("keydown", { keyCode: 13 });
-      expect(props.selectLocation).toHaveBeenCalledWith({
-        sourceId: item.contents.get("id")
-      });
+      expect(props.selectSource).toHaveBeenCalledWith(item.contents.id);
     });
   });
 
@@ -420,9 +422,7 @@ describe("SourcesTree", () => {
       await component
         .find(".sources-list")
         .simulate("keydown", { keyCode: 13 });
-      expect(props.selectLocation).toHaveBeenCalledWith({
-        sourceId: item.contents.get("id")
-      });
+      expect(props.selectSource).toHaveBeenCalledWith(item.contents.id);
       expect(setExpanded).not.toHaveBeenCalled();
     });
 
@@ -439,7 +439,7 @@ describe("SourcesTree", () => {
 
       expect(component.state("focusedItem")).toEqual(mockDirectory);
       expect(setExpanded).toHaveBeenCalled();
-      expect(props.selectLocation).not.toHaveBeenCalledWith();
+      expect(props.selectSource).not.toHaveBeenCalledWith();
     });
   });
 
@@ -447,15 +447,15 @@ describe("SourcesTree", () => {
     it("should select item with no children", async () => {
       const { instance, props } = render();
       instance.selectItem(createMockItem());
-      expect(props.selectLocation).toHaveBeenCalledWith({
-        sourceId: "server1.conn13.child1/39"
-      });
+      expect(props.selectSource).toHaveBeenCalledWith(
+        "server1.conn13.child1/39"
+      );
     });
 
     it("should not select item with children", async () => {
       const { props, instance } = render();
       instance.selectItem(createMockDirectory());
-      expect(props.selectLocation).not.toHaveBeenCalled();
+      expect(props.selectSource).not.toHaveBeenCalled();
     });
 
     it("should select item on enter onKeyDown event", async () => {
@@ -465,9 +465,9 @@ describe("SourcesTree", () => {
       await component
         .find(".sources-list")
         .simulate("keydown", { keyCode: 13 });
-      expect(props.selectLocation).toHaveBeenCalledWith({
-        sourceId: "server1.conn13.child1/39"
-      });
+      expect(props.selectSource).toHaveBeenCalledWith(
+        "server1.conn13.child1/39"
+      );
     });
 
     it("does not select if no item is focused on", async () => {
@@ -475,7 +475,7 @@ describe("SourcesTree", () => {
       await component
         .find(".sources-list")
         .simulate("keydown", { keyCode: 13 });
-      expect(props.selectLocation).not.toHaveBeenCalled();
+      expect(props.selectSource).not.toHaveBeenCalled();
     });
   });
 
@@ -539,14 +539,14 @@ describe("SourcesTree", () => {
     it("should return path for item", async () => {
       const { instance } = render();
       const path = instance.getPath(createMockItem());
-      expect(path).toEqual("http://mdn.com/one.js/one.js/");
+      expect(path).toEqual("http://mdn.com/one.js/one.js");
     });
 
     it("should return path for blackboxedboxed item", async () => {
       const item = createMockItem(
         "http://mdn.com/blackboxed.js",
         "blackboxed.js",
-        I.Map({ id: "server1.conn13.child1/59" })
+        { id: "server1.conn13.child1/59" }
       );
 
       const source = I.Map({
@@ -561,7 +561,9 @@ describe("SourcesTree", () => {
         sources: source
       });
       const path = instance.getPath(item);
-      expect(path).toEqual("http://mdn.com/blackboxed.js/blackboxed.js/update");
+      expect(path).toEqual(
+        "http://mdn.com/blackboxed.js/blackboxed.js:blackboxed"
+      );
     });
   });
 });
@@ -584,6 +586,7 @@ function generateDefaults(overrides) {
   return {
     autoExpandAll: true,
     selectLocation: jest.fn(),
+    selectSource: jest.fn(),
     setExpandedState: jest.fn(),
     sources: defaultSources,
     debuggeeUrl: "http://mdn.com",
@@ -619,7 +622,7 @@ function render(overrides = {}) {
 }
 
 function createMockSource(id, url, isBlackBoxed = false) {
-  return I.Map({
+  return {
     id: id,
     url: url,
     isPrettyPrinted: false,
@@ -627,7 +630,7 @@ function createMockSource(id, url, isBlackBoxed = false) {
     sourceMapURL: null,
     isBlackBoxed: isBlackBoxed,
     loadedState: "unloaded"
-  });
+  };
 }
 
 function createMockDirectory(path = "folder/", name = "folder", contents = []) {
@@ -641,7 +644,7 @@ function createMockDirectory(path = "folder/", name = "folder", contents = []) {
 function createMockItem(
   path = "http://mdn.com/one.js",
   name = "one.js",
-  contents = I.Map({ id: "server1.conn13.child1/39" })
+  contents = { id: "server1.conn13.child1/39" }
 ) {
   return {
     name,

@@ -219,7 +219,7 @@ export class Popup extends Component<Props> {
       roots = roots.filter(r => r.type != NODE_TYPES.PROTOTYPE);
     }
 
-    if (isReactComponent(this.getObjectProperties())) {
+    if (extra.react && isReactComponent(this.getObjectProperties())) {
       header = this.renderReact(extra.react);
       roots = roots.filter(r => ["state", "props"].includes(r.name));
     }
