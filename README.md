@@ -103,7 +103,7 @@ Say hello in [slack] or in the [#devtools-html][irc-devtools-html] channel on ir
 [prs welcome]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square
 [make-a-pull-request]: http://makeapullrequest.com
 [getting-started]: ./docs/getting-setup.md
-[contributing]: ./CONTRIBUTING.md
+[contributing]: ./.github/CONTRIBUTING.md
 [getting-started-screencast]: ./docs/videos.md
 [available]: https://github.com/devtools-html/debugger.html/labels/available
 [app-overview]: ./docs/debugger-html-react-redux-overview.md
