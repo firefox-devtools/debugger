@@ -3,22 +3,22 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-import { Map } from "immutable";
+import { createSourceRecord } from "../../../reducers/sources";
 
 import { addToTree, sortEntireTree, createNode, formatTree } from "../index";
 
 describe("sources-tree", () => {
   describe("sortEntireTree", () => {
     it("alphabetically sorts children", () => {
-      const source1 = Map({
+      const source1 = createSourceRecord({
         url: "http://example.com/source1.js",
         actor: "actor1"
       });
-      const source2 = Map({
+      const source2 = createSourceRecord({
         url: "http://example.com/foo/b_source2.js",
         actor: "actor2"
       });
-      const source3 = Map({
+      const source3 = createSourceRecord({
         url: "http://example.com/foo/a_source3.js",
         actor: "actor3"
       });
@@ -47,27 +47,27 @@ describe("sources-tree", () => {
 
     it("sorts folders first", () => {
       const sources = [
-        Map({
+        createSourceRecord({
           url: "http://example.com/a.js",
           actor: "actor1"
         }),
-        Map({
+        createSourceRecord({
           url: "http://example.com/b.js/b_source.js",
           actor: "actor2"
         }),
-        Map({
+        createSourceRecord({
           url: "http://example.com/c.js",
           actor: "actor1"
         }),
-        Map({
+        createSourceRecord({
           url: "http://example.com",
           actor: "actor1"
         }),
-        Map({
+        createSourceRecord({
           url: "http://example.com/d/d_source.js",
           actor: "actor3"
         }),
-        Map({
+        createSourceRecord({
           url: "http://example.com/b2",
           actor: "actor2"
         })
@@ -109,15 +109,15 @@ describe("sources-tree", () => {
 
     it("puts folder at the top of the sort", () => {
       const sources = [
-        Map({
+        createSourceRecord({
           url: "http://example.com/folder/a.js",
           actor: "actor1"
         }),
-        Map({
+        createSourceRecord({
           url: "http://example.com/folder/b/b.js",
           actor: "actor2"
         }),
-        Map({
+        createSourceRecord({
           url: "http://example.com/folder/c/",
           actor: "actor1"
         })
@@ -148,15 +148,15 @@ describe("sources-tree", () => {
 
     it("puts root debugee url at the top of the sort", () => {
       const sources = [
-        Map({
+        createSourceRecord({
           url: "http://api.example.com/a.js",
           actor: "actor1"
         }),
-        Map({
+        createSourceRecord({
           url: "http://example.com/b.js",
           actor: "actor2"
         }),
-        Map({
+        createSourceRecord({
           url: "http://demo.com/c.js",
           actor: "actor3"
         })

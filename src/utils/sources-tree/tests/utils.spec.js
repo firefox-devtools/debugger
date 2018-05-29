@@ -3,7 +3,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-import { Map } from "immutable";
+//import { Map } from "immutable";
+import { createSourceRecord } from "../../../reducers/sources";
 
 import {
   createNode,
@@ -42,11 +43,11 @@ describe("sources tree", () => {
   describe("isDirectory", () => {
     it("identifies directories correctly", () => {
       const sources = [
-        Map({
+        createSourceRecord({
           url: "http://example.com/a.js",
           actor: "actor1"
         }),
-        Map({
+        createSourceRecord({
           url: "http://example.com/b/c/d.js",
           actor: "actor2"
         })
@@ -88,17 +89,17 @@ describe("sources tree", () => {
 
   describe("getDirectories", () => {
     it("gets a source's ancestor directories", function() {
-      const source1 = Map({
+      const source1 = createSourceRecord({
         url: "http://a/b.js",
         actor: "actor1"
       });
 
-      const source2 = Map({
+      const source2 = createSourceRecord({
         url: "http://a/c.js",
         actor: "actor1"
       });
 
-      const source3 = Map({
+      const source3 = createSourceRecord({
         url: "http://b/c.js",
         actor: "actor1"
       });
@@ -114,12 +115,12 @@ describe("sources tree", () => {
     });
 
     it("handles '?' in target url", function() {
-      const source1 = Map({
+      const source1 = createSourceRecord({
         url: "http://a/b.js",
         actor: "actor1"
       });
 
-      const source2 = Map({
+      const source2 = createSourceRecord({
         url: "http://b/b.js",
         actor: "actor1"
       });
@@ -134,12 +135,12 @@ describe("sources tree", () => {
     });
 
     it("handles 'https' in target url", function() {
-      const source1 = Map({
+      const source1 = createSourceRecord({
         url: "https://a/b.js",
         actor: "actor1"
       });
 
-      const source2 = Map({
+      const source2 = createSourceRecord({
         url: "https://b/b.js",
         actor: "actor1"
       });

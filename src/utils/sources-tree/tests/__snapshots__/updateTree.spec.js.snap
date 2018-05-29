@@ -13,16 +13,26 @@ exports[`calls updateTree.js adds one source 1`] = `
           \\"name\\": \\"(index)\\",
           \\"path\\": \\"https://davidwalsh.name/\\",
           \\"contents\\": {
-            \\"id\\": \\"server1.conn13.child1/39\\",
-            \\"url\\": \\"https://davidwalsh.name/\\"
+            \\"isPrettyPrinted\\": false,
+            \\"loadedState\\": \\"unloaded\\",
+            \\"isWasm\\": false,
+            \\"url\\": \\"https://davidwalsh.name/\\",
+            \\"contentType\\": \\"\\",
+            \\"isBlackBoxed\\": false,
+            \\"id\\": \\"server1.conn13.child1/39\\"
           }
         },
         {
           \\"name\\": \\"source1.js\\",
           \\"path\\": \\"davidwalsh.name/source1.js\\",
           \\"contents\\": {
-            \\"id\\": \\"server1.conn13.child1/37\\",
-            \\"url\\": \\"https://davidwalsh.name/source1.js\\"
+            \\"isPrettyPrinted\\": false,
+            \\"loadedState\\": \\"unloaded\\",
+            \\"isWasm\\": false,
+            \\"url\\": \\"https://davidwalsh.name/source1.js\\",
+            \\"contentType\\": \\"\\",
+            \\"isBlackBoxed\\": false,
+            \\"id\\": \\"server1.conn13.child1/37\\"
           }
         }
       ]
@@ -44,24 +54,39 @@ exports[`calls updateTree.js adds two sources 1`] = `
           \\"name\\": \\"(index)\\",
           \\"path\\": \\"https://davidwalsh.name/\\",
           \\"contents\\": {
-            \\"id\\": \\"server1.conn13.child1/39\\",
-            \\"url\\": \\"https://davidwalsh.name/\\"
+            \\"isPrettyPrinted\\": false,
+            \\"loadedState\\": \\"unloaded\\",
+            \\"isWasm\\": false,
+            \\"url\\": \\"https://davidwalsh.name/\\",
+            \\"contentType\\": \\"\\",
+            \\"isBlackBoxed\\": false,
+            \\"id\\": \\"server1.conn13.child1/39\\"
           }
         },
         {
           \\"name\\": \\"source1.js\\",
           \\"path\\": \\"davidwalsh.name/source1.js\\",
           \\"contents\\": {
-            \\"id\\": \\"server1.conn13.child1/37\\",
-            \\"url\\": \\"https://davidwalsh.name/source1.js\\"
+            \\"isPrettyPrinted\\": false,
+            \\"loadedState\\": \\"unloaded\\",
+            \\"isWasm\\": false,
+            \\"url\\": \\"https://davidwalsh.name/source1.js\\",
+            \\"contentType\\": \\"\\",
+            \\"isBlackBoxed\\": false,
+            \\"id\\": \\"server1.conn13.child1/37\\"
           }
         },
         {
           \\"name\\": \\"source2.js\\",
           \\"path\\": \\"davidwalsh.name/source2.js\\",
           \\"contents\\": {
-            \\"id\\": \\"server1.conn13.child1/40\\",
-            \\"url\\": \\"https://davidwalsh.name/source2.js\\"
+            \\"isPrettyPrinted\\": false,
+            \\"loadedState\\": \\"unloaded\\",
+            \\"isWasm\\": false,
+            \\"url\\": \\"https://davidwalsh.name/source2.js\\",
+            \\"contentType\\": \\"\\",
+            \\"isBlackBoxed\\": false,
+            \\"id\\": \\"server1.conn13.child1/40\\"
           }
         }
       ]
@@ -83,16 +108,26 @@ exports[`calls updateTree.js shows all the sources 1`] = `
           \\"name\\": \\"(index)\\",
           \\"path\\": \\"https://davidwalsh.name/\\",
           \\"contents\\": {
-            \\"id\\": \\"server1.conn13.child1/39\\",
-            \\"url\\": \\"https://davidwalsh.name/\\"
+            \\"isPrettyPrinted\\": false,
+            \\"loadedState\\": \\"unloaded\\",
+            \\"isWasm\\": false,
+            \\"url\\": \\"https://davidwalsh.name/\\",
+            \\"contentType\\": \\"\\",
+            \\"isBlackBoxed\\": false,
+            \\"id\\": \\"server1.conn13.child1/39\\"
           }
         },
         {
           \\"name\\": \\"source1.js\\",
           \\"path\\": \\"davidwalsh.name/source1.js\\",
           \\"contents\\": {
-            \\"id\\": \\"server1.conn13.child1/37\\",
-            \\"url\\": \\"https://davidwalsh.name/source1.js\\"
+            \\"isPrettyPrinted\\": false,
+            \\"loadedState\\": \\"unloaded\\",
+            \\"isWasm\\": false,
+            \\"url\\": \\"https://davidwalsh.name/source1.js\\",
+            \\"contentType\\": \\"\\",
+            \\"isBlackBoxed\\": false,
+            \\"id\\": \\"server1.conn13.child1/37\\"
           }
         }
       ]
