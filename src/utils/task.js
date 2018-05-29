@@ -7,7 +7,7 @@
 /**
  * This object provides the public module functions.
  */
-const Task = {
+export const Task = {
   // XXX: Not sure if this works in all cases...
   async: function(task) {
     return function() {
@@ -44,5 +44,3 @@ const Task = {
     });
   }
 };
-
-export { Task };
