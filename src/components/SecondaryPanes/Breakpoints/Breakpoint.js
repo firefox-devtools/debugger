@@ -18,9 +18,8 @@ import { CloseButton } from "../../shared/Button";
 import { getLocationWithoutColumn } from "../../../utils/breakpoint";
 
 import { features } from "../../../utils/prefs";
-import { getEditor } from "../../../utils/editor";
+import { getCodeMirror } from "../../../utils/editor";
 
-import type SourceEditor from "../../../utils/editor/source-editor";
 import type {
   Frame,
   Source,
@@ -48,8 +47,6 @@ function getMappedLocation(mappedLocation: MappedLocation, selectedSource) {
 }
 
 class Breakpoint extends PureComponent<Props> {
-  editor: SourceEditor;
-
   onContextMenu = e => {
     showContextMenu({ ...this.props, contextMenuEvent: e });
   };
@@ -125,18 +122,14 @@ class Breakpoint extends PureComponent<Props> {
 
   highlightText() {
     const text = this.getBreakpointText();
-    const sourceEditor = getEditor();
+    const codeMirror = getCodeMirror();
 
-    if (!text || !sourceEditor || !sourceEditor.editor) {
+    if (!text || !codeMirror) {
       return { __html: "" };
     }
 
     const node = document.createElement("div");
-    sourceEditor.editor.constructor.runMode(
-      text,
-      "application/javascript",
-      node
-    );
+    codeMirror.constructor.runMode(text, "application/javascript", node);
     return { __html: node.innerHTML };
   }
 
