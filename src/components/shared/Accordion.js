@@ -48,11 +48,11 @@ class Accordion extends Component<Props, State> {
     // would not re-render
     this.forceUpdate();
   }
-  
+
   onHandleHeaderKeyPress(e, i) {
-  	if (e && (e.key === " " || e.key === "Enter")) {
-  		this.handleHeaderClick(i);
-  	}
+    if (e && (e.key === " " || e.key === "Enter")) {
+      this.handleHeaderClick(i);
+    }
   }
 
   renderContainer = (item: AccordionItem, i: number) => {
