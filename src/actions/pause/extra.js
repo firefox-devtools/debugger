@@ -82,7 +82,7 @@ export function getExtra(expression: string, result: Object) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     const selectedFrame = getSelectedFrame(getState());
     if (!selectedFrame) {
-      return;
+      return {};
     }
 
     const extra = await getExtraProps(getState, expression, result, expr =>
