@@ -28,7 +28,6 @@ import actions from "../../../actions";
 import { getAllPopupObjectProperties } from "../../../selectors";
 import Popover from "../../shared/Popover";
 import PreviewFunction from "../../shared/PreviewFunction";
-import { markText } from "../../../utils/editor";
 import { isReactComponent, isImmutable } from "../../../utils/preview";
 
 import Svg from "../../shared/Svg";
@@ -56,7 +55,7 @@ type Props = {
 };
 
 function inPreview(event) {
-  const { target, relatedTarget } = event;
+  const relatedTarget: Element = (event.relatedTarget: any);
 
   if (
     !relatedTarget ||
@@ -65,6 +64,7 @@ function inPreview(event) {
     return true;
   }
 
+  // $FlowIgnore
   const inPreviewSelection = document
     .elementsFromPoint(event.clientX, event.clientY)
     .some(el => el.classList.contains("preview-selection"));

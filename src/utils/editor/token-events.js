@@ -1,13 +1,9 @@
 import { getTokenLocation } from ".";
 import { isEqual } from "lodash";
 
-/*
- * tokenEvents introduces two new codeMirror events `tokenEnter` and `tokenLeave`, which have helpful properties:
- *
- * - tokenEnter is triggered once per token
- * - tokenEnter is only fired for tokens that we could preview or jump to. Not whitespace, syntax, ...
- * - tokenLeave is triggered immediately after the mouse leaves the element
-*/
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 function isInvalidTarget(target: HTMLElement) {
   if (!target || !target.innerText) {
@@ -30,8 +26,12 @@ function isInvalidTarget(target: HTMLElement) {
       !target.parentElement.closest(".CodeMirror-line")) ||
     cursorPos.top == 0;
 
-  const invalidClasses = ["bracket-arrow", "gap", "editor-mount"];
+  const invalidClasses = ["editor-mount"];
   if (invalidClasses.some(className => target.classList.contains(className))) {
+    return true;
+  }
+
+  if (target.closest(".popover")) {
     return true;
   }
 
@@ -42,9 +42,8 @@ function dispatch(codeMirror, eventName, data) {
   codeMirror.constructor.signal(codeMirror, eventName, data);
 }
 
-function invalidLeaveTarget(target) {
-  const invalidClasses = ["bracket-arrow", "gap"];
-  if (invalidClasses.some(className => target.classList.contains(className))) {
+function invalidLeaveTarget(target: ?HTMLElement) {
+  if (!target || target.closest(".popover")) {
     return true;
   }
 
@@ -77,7 +76,6 @@ export function onMouseOver(codeMirror) {
       return;
     }
 
-    const wrapper = codeMirror.getWrapperElement();
     const tokenPos = getTokenLocation(codeMirror, target);
 
     if (!isEqual(prevTokenPos, tokenPos)) {

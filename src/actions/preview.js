@@ -5,7 +5,6 @@
 // @flow
 import { isConsole } from "../utils/preview";
 import { findBestMatchExpression } from "../utils/ast";
-import { getTokenLocation } from "../utils/editor";
 import { isGeneratedId } from "devtools-source-map";
 import { PROMISE } from "./utils/middleware/promise";
 import { getExpressionFromCoords } from "../utils/editor/get-expression";
@@ -22,7 +21,6 @@ import {
 
 import { getMappedExpression } from "./expressions";
 import { getExtra } from "./pause";
-import { isEqual } from "lodash";
 
 import type { Action, ThunkArgs } from "./types";
 import type { ColumnPosition } from "../types";
@@ -48,7 +46,6 @@ export function updatePreview(
 ) {
   return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     const cursorPos = target.getBoundingClientRect();
-    const preview = getPreview(getState());
 
     if (
       getCanRewind(getState()) ||
