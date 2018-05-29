@@ -334,16 +334,12 @@ export function isLoading(source: SourceRecord) {
 }
 
 export function getTextAtPosition(source: Source, location: Location) {
-  if (!source || !source.text) {
+  if (!source || !source.text || source.isWasm) {
     return "";
   }
 
   const line = location.line;
   const column = location.column || 0;
-
-  if (source.isWasm) {
-    return "";
-  }
 
   const lineText = source.text.split("\n")[line - 1];
   if (!lineText) {
