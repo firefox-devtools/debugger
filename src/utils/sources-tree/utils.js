@@ -37,7 +37,7 @@ export function isDirectory(url: Object) {
   );
 }
 
-export function getExtension(url: string = ""): string {
+export function getFileExtension(url: string = ""): string {
   const parsedUrl = parse(url).pathname;
   if (!parsedUrl) {
     return "";
@@ -46,7 +46,7 @@ export function getExtension(url: string = ""): string {
 }
 
 export function isNotJavaScript(source: Object): boolean {
-  return ["css", "svg", "png"].includes(getExtension(source.url));
+  return ["css", "svg", "png"].includes(getFileExtension(source.url));
 }
 
 export function isInvalidUrl(url: Object, source: SourceRecord) {

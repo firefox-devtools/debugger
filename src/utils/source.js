@@ -16,7 +16,7 @@ import { basename } from "./path";
 import { parse as parseURL } from "url";
 import { getUnicodeUrl, getUnicodeUrlPath } from "devtools-modules";
 export { isMinified } from "./isMinified";
-import { getExtension } from "./sources-tree";
+import { getFileExtension } from "./sources-tree";
 
 import type { Source, SourceRecord, Location } from "../types";
 import type { SourceMetaDataType } from "../reducers/ast";
@@ -371,5 +371,5 @@ export function getSourceClassnames(
   if (source.isBlackBoxed) {
     return "blackBox";
   }
-  return sourceTypes[getExtension(source.url)] || defaultClassName;
+  return sourceTypes[getFileExtension(source.url)] || defaultClassName;
 }
