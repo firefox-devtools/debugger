@@ -16,10 +16,14 @@ Running Firefox is similar to running [Mochitests](./mochitests.md) (our integra
 * mercurial ( `brew install mercurial` )
 * autoconf213 ( `brew install autoconf@2.13 && brew unlink autoconf` )
 
+**Get Firefox**
+
+`./bin/prepare-mochitests-dev`
+
 On the first run, this will download a local copy of Firefox and set up an [artifact build](https://developer.mozilla.org/en-US/docs/Mozilla/Developer_guide/Build_Instructions/Artifact_builds) (just think of a super fast Firefox build). It may take a while (10-15 minutes) to download and build Firefox.
 
-There are two commands that you will need. `./mach build` and `./mach run` these can be run together
-each time things change with `./mach build && ./mach run`
+There are two commands that you will need. `./firefox/mach build` and `./firefox/mach run` these can be run together
+each time things change with `./firefox/mach build && ./firefox/mach run`
 
 If you update your Firefox build infrequently, you may need to [Clobber the
 tree](https://wiki.mozilla.org/Clobbering_the_Tree)
