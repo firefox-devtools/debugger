@@ -255,7 +255,11 @@ function start() {
 
 function onBundleFinish({mcPath, bundlePath, projectPath}) {
   console.log("[copy-assets] delete debugger.js bundle");
-  fs.unlinkSync(path.join(mcPath, bundlePath, "debugger.js"))
+
+  const debuggerPath = path.join(mcPath, bundlePath, "debugger.js")
+  if (fs.existsSync(debuggerPath)) {
+    fs.unlinkSync(debuggerPath)
+  }
 
   console.log("[copy-assets] copy shared bundles to client/shared");
   moveFile(
