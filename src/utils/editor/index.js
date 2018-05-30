@@ -31,6 +31,10 @@ export function getEditor() {
   return editor;
 }
 
+export function getCodeMirror() {
+  return editor && editor.codeMirror;
+}
+
 export function removeEditor() {
   editor = null;
 }
