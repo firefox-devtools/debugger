@@ -97,7 +97,10 @@ class Breakpoints extends Component<Props> {
           key={source.url}
           onClick={() => this.props.selectSource(source.id)}
         >
-          <SourceIcon source={source} />
+          <SourceIcon
+            source={source}
+            shouldHide={icon => ["file", "javascript"].includes(icon)}
+          />
           {getFilename(source)}
         </div>,
         ...breakpoints.map(breakpoint => (

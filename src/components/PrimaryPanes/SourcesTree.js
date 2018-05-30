@@ -211,7 +211,12 @@ class SourcesTree extends Component<Props, State> {
     }
 
     const source = this.getSource(item);
-    return <SourceIcon source={source} />;
+    return (
+      <SourceIcon
+        source={source}
+        shouldHide={icon => ["file", "javascript"].includes(icon)}
+      />
+    );
   };
 
   onContextMenu = (event, item) => {
