@@ -13,6 +13,7 @@ exports[`Accordion basic render 1`] = `
     <h2
       className="_header"
       onClick={[Function]}
+      onKeyPress={[Function]}
       tabIndex="0"
     >
       <Svg
@@ -35,6 +36,7 @@ exports[`Accordion basic render 1`] = `
     <h2
       className="_header"
       onClick={[Function]}
+      onKeyPress={[Function]}
       tabIndex="0"
     >
       <Svg
@@ -58,6 +60,7 @@ exports[`Accordion basic render 1`] = `
     <h2
       className="_header"
       onClick={[Function]}
+      onKeyPress={[Function]}
       tabIndex="0"
     >
       <Svg
