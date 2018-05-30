@@ -115,7 +115,7 @@ Now that you've internalized the debugger philosophy, it's time to start putting
 **Contribute back** take a look at how you can start [contributing][contributing]. We would love the help!
 ---
 
-[contributing]: ../CONTRIBUTING.md
+[contributing]: ../.github/CONTRIBUTING.md
 [getting-setup]: ./getting-setup.md
 [getting-started-issue]:https://github.com/devtools-html/debugger.html/issues/1247
 
