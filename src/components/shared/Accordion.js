@@ -57,6 +57,7 @@ class Accordion extends Component<Props, State> {
         <h2
           className="_header"
           tabIndex="0"
+          onKeyPress={() => this.handleHeaderClick(i)}
           onClick={() => this.handleHeaderClick(i)}
         >
           <Svg name="arrow" className={opened ? "expanded" : ""} />
