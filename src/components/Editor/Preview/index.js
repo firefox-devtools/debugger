@@ -9,7 +9,7 @@ import { connect } from "react-redux";
 
 import Popup from "./Popup";
 
-import { getPreview, getSelectedSource } from "../../../selectors";
+import { getPreview, getSelectedSource, getIsPaused } from "../../../selectors";
 import actions from "../../../actions";
 import { toEditorRange } from "../../../utils/editor";
 
@@ -28,48 +28,99 @@ type Props = {
   selectedLocation: SelectedLocation,
   clearPreview: () => void,
   preview: PreviewType,
+  isPaused: Boolean,
   selectedFrameVisible: boolean,
-  updatePreview: (any, any) => void
+  updatePreview: (any, any, any) => void
 };
 
 type State = {
   selecting: boolean
 };
 
+function inPopup(e) {
+  const { relatedTarget } = e;
+
+  if (!relatedTarget) {
+    return true;
+  }
+
+  const pop =
+    relatedTarget.closest(".popover") ||
+    relatedTarget.classList.contains("debug-expression");
+
+  return pop;
+}
+
+function getElementFromPos(pos: DOMRect) {
+  // $FlowIgnore
+  return document.elementFromPoint(
+    pos.x + pos.width / 2,
+    pos.y + pos.height / 2
+  );
+}
+
 class Preview extends PureComponent<Props, State> {
+  target = null;
   constructor(props) {
     super(props);
     this.state = { selecting: false };
   }
 
   componentDidMount() {
+    this.updateListeners();
+  }
+
+  componentDidUpdate(prevProps) {
+    this.updateListeners(prevProps);
+    this.updateHighlight(prevProps);
+  }
+
+  updateListeners(prevProps: ?Props) {
+    const { isPaused } = this.props;
+
     const { codeMirror } = this.props.editor;
     const codeMirrorWrapper = codeMirror.getWrapperElement();
+    const wasNotPaused = !prevProps || !prevProps.isPaused;
+    const wasPaused = prevProps && prevProps.isPaused;
 
-    codeMirrorWrapper.addEventListener("mouseover", this.onMouseOver);
-    codeMirrorWrapper.addEventListener("mouseup", this.onMouseUp);
-    codeMirrorWrapper.addEventListener("mousedown", this.onMouseDown);
-    codeMirrorWrapper.addEventListener("mouseleave", this.onMouseLeave);
-    if (document.body) {
-      document.body.addEventListener("mouseleave", this.onMouseLeave);
+    if (isPaused && wasNotPaused) {
+      codeMirror.on("scroll", this.onScroll);
+      codeMirror.on("tokenenter", this.onTokenEnter);
+      codeMirror.on("tokenleave", this.onTokenLeave);
+      codeMirrorWrapper.addEventListener("mouseup", this.onMouseUp);
+      codeMirrorWrapper.addEventListener("mousedown", this.onMouseDown);
+    }
+
+    if (!isPaused && wasPaused) {
+      codeMirror.off("tokenenter", this.onTokenEnter);
+      codeMirror.off("tokenleave", this.onTokenLeave);
+      codeMirrorWrapper.removeEventListener("mouseup", this.onMouseUp);
+      codeMirrorWrapper.removeEventListener("mousedown", this.onMouseDown);
     }
   }
 
-  componentWillUnmount() {
-    const codeMirror = this.props.editor.codeMirror;
-    const codeMirrorWrapper = codeMirror.getWrapperElement();
-    codeMirrorWrapper.removeEventListener("mouseover", this.onMouseOver);
-    codeMirrorWrapper.removeEventListener("mouseup", this.onMouseUp);
-    codeMirrorWrapper.removeEventListener("mousedown", this.onMouseDown);
-    codeMirrorWrapper.removeEventListener("mouseleave", this.onMouseLeave);
-    if (document.body) {
-      document.body.removeEventListener("mouseleave", this.onMouseLeave);
+  updateHighlight(prevProps) {
+    const { preview } = this.props;
+
+    if (preview && !preview.updating) {
+      const target = getElementFromPos(preview.cursorPos);
+      target && target.classList.add("preview-selection");
+    }
+
+    if (prevProps.preview && !prevProps.preview.updating) {
+      const target = getElementFromPos(prevProps.preview.cursorPos);
+      target && target.classList.remove("preview-selection");
     }
   }
 
-  onMouseOver = e => {
-    const { target } = e;
-    this.props.updatePreview(target, this.props.editor);
+  onTokenEnter = ({ target, tokenPos }) => {
+    this.props.updatePreview(target, tokenPos, this.props.editor.codeMirror);
+  };
+
+  onTokenLeave = e => {
+    if (!inPopup(e)) {
+      this.props.clearPreview();
+    }
   };
 
   onMouseUp = () => {
@@ -82,22 +133,16 @@ class Preview extends PureComponent<Props, State> {
     return true;
   };
 
-  onMouseLeave = (e: MouseEvent) => {
-    const target: Element = (e.target: any);
-    if (target.classList.contains("CodeMirror")) {
-      return;
-    }
-
+  onScroll = () => {
     this.props.clearPreview();
   };
 
-  onClose = () => {
+  onClose = e => {
     this.props.clearPreview();
   };
 
   render() {
     const { selectedSource, preview } = this.props;
-
     if (!this.props.editor || !selectedSource || this.state.selecting) {
       return null;
     }
@@ -131,6 +176,7 @@ class Preview extends PureComponent<Props, State> {
 
 const mapStateToProps = state => ({
   preview: getPreview(state),
+  isPaused: getIsPaused(state),
   selectedSource: getSelectedSource(state)
 });
 

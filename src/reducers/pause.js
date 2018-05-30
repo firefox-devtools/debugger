@@ -324,6 +324,10 @@ export function isPaused(state: OuterState) {
   return !!getFrames(state);
 }
 
+export function getIsPaused(state: OuterState) {
+  return !!getFrames(state);
+}
+
 export function getPreviousPauseFrameLocation(state: OuterState) {
   return state.pause.previousLocation;
 }

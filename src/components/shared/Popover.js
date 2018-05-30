@@ -229,15 +229,6 @@ class Popover extends Component<Props, State> {
     return <BracketArrow {...arrowProps} />;
   }
 
-  onMouseLeave = (e: SyntheticMouseEvent<HTMLDivElement>) => {
-    const { onMouseLeave } = this.props;
-    if (/^(bracket-arrow|gap)$/.test(e.currentTarget.className)) {
-      return;
-    }
-
-    onMouseLeave(e);
-  };
-
   renderPopover() {
     const { top, left, orientation, targetMid } = this.state;
     const arrow = this.getPopoverArrow(orientation, targetMid.x, targetMid.y);
@@ -247,7 +238,7 @@ class Popover extends Component<Props, State> {
         className={classNames("popover", `orientation-${orientation}`, {
           up: orientation === "up"
         })}
-        onMouseLeave={this.onMouseLeave}
+        onMouseLeave={this.props.onMouseLeave}
         style={{ top, left }}
         ref={c => (this.$popover = c)}
       >
