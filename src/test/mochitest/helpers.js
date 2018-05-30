@@ -1213,14 +1213,23 @@ function getCoordsFromPosition(cm, { line, ch }) {
   return cm.charCoords({ line: ~~line, ch: ~~ch });
 }
 
-function hoverAtPos(dbg, { line, ch }) {
+async function waitForScrolling(codeMirror) {
+  return new Promise(resolve => {
+    codeMirror.on("scroll", resolve);
+    setTimeout(resolve, 500);
+  })
+}
+
+
+async function hoverAtPos(dbg, { line, ch }) {
   info(`Hovering at ${line}, ${ch}`);
   const cm = getCM(dbg);
 
   // Ensure the line is visible with margin because the bar at the bottom of
   // the editor overlaps into what the editor things is its own space, blocking
   // the click event below.
-  cm.scrollIntoView({ line: line - 1, ch }, 100);
+  cm.scrollIntoView({ line: line - 1, ch }, 0);
+  await waitForScrolling(cm);
 
   const coords = getCoordsFromPosition(cm, { line: line - 1, ch });
   const tokenEl = dbg.win.document.elementFromPoint(coords.left, coords.top);
@@ -1250,8 +1259,8 @@ function tryHovering(dbg, line, column, elementName) {
         reject("failed to preview");
       }
 
-      hoverAtPos(dbg, { line, ch: column - 1 });
-    }, 200);
+       hoverAtPos(dbg, { line, ch: column - 1 });
+    }, 1000);
   });
 }
 

@@ -3,7 +3,8 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 /* global jest */
-const { shallow } = require("enzyme");
+const { mount, shallow } = require("enzyme");
+const { JSDOM } = require("jsdom");
 const { REPS, getRep } = require("../rep");
 const { MODE } = require("../constants");
 const { ElementNode } = REPS;
@@ -482,3 +483,71 @@ describe("ElementNode - Inspect icon title", () => {
     expect(iconNode.prop("title")).toEqual(inspectIconTitle);
   });
 });
+
+describe("ElementNode - Cursor style", () => {
+  const stub = stubs.get("Node");
+
+  it("renders with styled cursor", async () => {
+    const window = await createWindowForCursorTest();
+    const attachTo = window.document.querySelector("#attach-to");
+    const renderedComponent = mount(
+      ElementNode.rep({
+        object: stub,
+        onDOMNodeClick: jest.fn(),
+        onInspectIconClick: jest.fn()
+      }),
+      {
+        attachTo
+      }
+    );
+
+    const objectNode = renderedComponent.getDOMNode();
+    const iconNode = objectNode.querySelector(".open-inspector");
+    expect(renderedComponent.hasClass("clickable")).toBeTruthy();
+    expect(window.getComputedStyle(objectNode).cursor).toEqual("pointer");
+    expect(window.getComputedStyle(iconNode).cursor).toEqual("pointer");
+  });
+
+  it("renders with unstyled cursor", async () => {
+    const window = await createWindowForCursorTest();
+    const attachTo = window.document.querySelector("#attach-to");
+    const renderedComponent = mount(
+      ElementNode.rep({
+        object: stub
+      }),
+      {
+        attachTo
+      }
+    );
+
+    const objectNode = renderedComponent.getDOMNode();
+    expect(renderedComponent.hasClass("clickable")).toBeFalsy();
+    expect(window.getComputedStyle(objectNode).cursor).toEqual("");
+  });
+});
+
+async function createWindowForCursorTest() {
+  const path = require("path");
+  const css = await readTextFile(path.resolve(__dirname, "..", "reps.css"));
+  const html = `
+    <body>
+      <style>${css}</style>
+      <div id="attach-to"></div>
+    </body>
+    `;
+
+  return new JSDOM(html).window;
+}
+
+async function readTextFile(fileName) {
+  return new Promise((resolve, reject) => {
+    const fs = require("fs");
+    fs.readFile(fileName, "utf8", (error, text) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(text);
+      }
+    });
+  });
+}

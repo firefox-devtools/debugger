@@ -120,10 +120,15 @@ function update(
         return state.set("preview", null);
       }
 
-      return state.set("preview", {
-        ...action.value,
-        updating: false
-      });
+      // NOTE: if the preview does not exist, it has been cleared
+      if (state.get("preview")) {
+        return state.set("preview", {
+          ...action.value,
+          updating: false
+        });
+      }
+
+      return state;
     }
 
     case "RESUME": {

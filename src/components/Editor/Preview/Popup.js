@@ -28,7 +28,6 @@ import actions from "../../../actions";
 import { getAllPopupObjectProperties } from "../../../selectors";
 import Popover from "../../shared/Popover";
 import PreviewFunction from "../../shared/PreviewFunction";
-import { markText } from "../../../utils/editor";
 import { isReactComponent, isImmutable } from "../../../utils/preview";
 
 import Svg from "../../shared/Svg";
@@ -54,6 +53,24 @@ type Props = {
   openLink: string => void,
   extra: Object
 };
+
+function inPreview(event) {
+  const relatedTarget: Element = (event.relatedTarget: any);
+
+  if (
+    !relatedTarget ||
+    relatedTarget.classList.contains("preview-expression")
+  ) {
+    return true;
+  }
+
+  // $FlowIgnore
+  const inPreviewSelection = document
+    .elementsFromPoint(event.clientX, event.clientY)
+    .some(el => el.classList.contains("preview-selection"));
+
+  return inPreviewSelection;
+}
 
 export class Popup extends Component<Props> {
   marker: any;
@@ -82,36 +99,16 @@ export class Popup extends Component<Props> {
     }
   }
 
-  componentDidMount() {
-    const { value, editor, range } = this.props;
-
-    if (!value || !value.type == "object") {
-      return;
-    }
-
-    this.marker = markText(editor, "preview-selection", range);
-  }
-
-  componentWillUnmount() {
-    if (this.marker) {
-      this.marker.clear();
-    }
-  }
-
   onMouseLeave = (e: SyntheticMouseEvent<HTMLDivElement>) => {
     const relatedTarget: Element = (e.relatedTarget: any);
 
-    if (
-      relatedTarget &&
-      relatedTarget.classList &&
-      (relatedTarget.classList.contains("popover") ||
-        relatedTarget.classList.contains("debug-expression") ||
-        relatedTarget.classList.contains("editor-mount"))
-    ) {
-      return;
+    if (!relatedTarget) {
+      return this.props.onClose();
     }
 
-    this.props.onClose();
+    if (!inPreview(e)) {
+      this.props.onClose();
+    }
   };
 
   getRoot() {

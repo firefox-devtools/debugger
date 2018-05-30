@@ -9,6 +9,7 @@ export * from "./get-token-location";
 export * from "./source-search";
 export * from "../ui";
 export * from "./create-editor";
+export { onMouseOver } from "./token-events";
 
 import { shouldPrettyPrint } from "../source";
 import { findNext, findPrev } from "./source-search";
@@ -29,6 +30,10 @@ export function setEditor(_editor: Editor) {
 
 export function getEditor() {
   return editor;
+}
+
+export function getCodeMirror() {
+  return editor && editor.codeMirror;
 }
 
 export function removeEditor() {
