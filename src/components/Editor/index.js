@@ -47,12 +47,11 @@ import {
   showLoading,
   showErrorMessage,
   shouldShowFooter,
-  createEditor,
+  getEditor,
   clearEditor,
   getCursorLine,
   toSourceLine,
   getDocument,
-  setEditor,
   scrollToColumn,
   toEditorPosition,
   getSourceLocationFromMouseEvent,
@@ -128,7 +127,7 @@ class Editor extends PureComponent<Props, State> {
   }
 
   setupEditor() {
-    const editor = createEditor();
+    const editor = getEditor();
 
     // disables the default search shortcuts
     // $FlowIgnore
@@ -179,7 +178,6 @@ class Editor extends PureComponent<Props, State> {
     }
 
     this.setState({ editor });
-    setEditor(editor);
     return editor;
   }
 
