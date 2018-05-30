@@ -55,7 +55,8 @@ import {
   scrollToColumn,
   toEditorPosition,
   getSourceLocationFromMouseEvent,
-  hasDocument
+  hasDocument,
+  onMouseOver
 } from "../../utils/editor";
 
 import { resizeToggleButton, resizeBreakpointGutter } from "../../utils/ui";
@@ -149,6 +150,7 @@ class Editor extends PureComponent<Props, State> {
     codeMirrorWrapper.tabIndex = 0;
     codeMirrorWrapper.addEventListener("keydown", e => this.onKeyDown(e));
     codeMirrorWrapper.addEventListener("click", e => this.onClick(e));
+    codeMirrorWrapper.addEventListener("mouseover", onMouseOver(codeMirror));
 
     const toggleFoldMarkerVisibility = e => {
       if (node instanceof HTMLElement) {

@@ -133,6 +133,7 @@ class Breakpoint extends PureComponent<Props> {
     return { __html: node.innerHTML };
   }
 
+  /* eslint-disable react/no-danger */
   render() {
     const { breakpoint } = this.props;
 
