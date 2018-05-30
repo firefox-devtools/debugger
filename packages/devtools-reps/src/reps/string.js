@@ -206,7 +206,7 @@ function getLinkifiedElements(text, cropLimit, openLink) {
               onClick: openLink
                 ? e => {
                     e.preventDefault();
-                    openLink(token);
+                    openLink(token, e);
                   }
                 : null
             },
