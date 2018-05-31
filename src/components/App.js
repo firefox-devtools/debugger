@@ -66,7 +66,9 @@ type Props = {
 type State = {
   shortcutsModalEnabled: boolean,
   startPanelSize: number,
-  endPanelSize: number
+  endPanelSize: number,
+  error: string,
+  errorInfo: Object
 };
 
 class App extends Component<Props, State> {
@@ -83,7 +85,9 @@ class App extends Component<Props, State> {
     this.state = {
       shortcutsModalEnabled: false,
       startPanelSize: 0,
-      endPanelSize: 0
+      endPanelSize: 0,
+      error: "",
+      errorInfo: null
     };
   }
 
@@ -131,6 +135,12 @@ class App extends Component<Props, State> {
     shortcuts.off(L10N.getStr("gotoLineModal.key2"), this.toggleQuickOpenModal);
 
     shortcuts.off("Escape", this.onEscape);
+  }
+
+  componentDidCatch(error, errorInfo) {
+    // TODO:  Add telemetry to send this information to us for analysis
+    console.log("App: ", error, errorInfo);
+    this.setState({ error, errorInfo });
   }
 
   onEscape = (_, e) => {
@@ -291,6 +301,21 @@ class App extends Component<Props, State> {
 
   render() {
     const { quickOpenEnabled } = this.props;
+    const { error } = this.state;
+
+    if (error) {
+      return (
+        <div className="debugger debugger-error">
+          <h1>Debugger Error</h1>
+          <p>
+            An error in the debugger has prevented the debugger from working
+            properly:
+          </p>
+          <pre>{error.toString()}</pre>
+        </div>
+      );
+    }
+
     return (
       <div className="debugger">
         {this.renderLayout()}
