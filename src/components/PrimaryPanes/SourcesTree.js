@@ -214,7 +214,6 @@ class SourcesTree extends Component<Props, State> {
     return (
       <SourceIcon
         source={source}
-        shouldHide={icon => ["file", "javascript"].includes(icon)}
       />
     );
   };

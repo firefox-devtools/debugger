@@ -281,7 +281,6 @@ exports[`SourcesTree renderItem should not show domain item when the projectRoot
     className="no-arrow"
   />
   <Connect(SourceIcon)
-    shouldHide={[Function]}
     source={
       Object {
         "id": "server1.conn13.child1/39",
@@ -512,7 +511,6 @@ exports[`SourcesTree renderItem should show source item with source icon 1`] = `
     className="no-arrow"
   />
   <Connect(SourceIcon)
-    shouldHide={[Function]}
     source={
       Object {
         "id": "server1.conn13.child1/39",
@@ -545,7 +543,6 @@ exports[`SourcesTree renderItem should show source item with source icon with fo
     className="no-arrow"
   />
   <Connect(SourceIcon)
-    shouldHide={[Function]}
     source={
       Object {
         "id": "server1.conn13.child1/39",
