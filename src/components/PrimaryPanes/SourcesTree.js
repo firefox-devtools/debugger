@@ -9,6 +9,7 @@ import React, { Component } from "react";
 import classnames from "classnames";
 import { showMenu } from "devtools-contextmenu";
 import { connect } from "react-redux";
+import SourceIcon from "../shared/SourceIcon";
 
 // Selectors
 import {
@@ -41,7 +42,7 @@ import {
   updateTree
 } from "../../utils/sources-tree";
 
-import { getRawSourceURL, getSourceClassnames } from "../../utils/source";
+import { getRawSourceURL } from "../../utils/source";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { features } from "../../utils/prefs";
 
@@ -211,7 +212,9 @@ class SourcesTree extends Component<Props, State> {
 
     const source = this.getSource(item);
     return (
-      <img className={classnames(getSourceClassnames(source), "source-icon")} />
+      <SourceIcon
+        source={source}
+      />
     );
   };
 
