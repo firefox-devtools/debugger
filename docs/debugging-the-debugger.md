@@ -51,9 +51,9 @@ This will show a popup when we create a breakpoint.
 
 When the debugger pauses, the fun begins. Here's a [gif](http://g.recordit.co/qutDioRQvy.gif) of what the debugger does normally when it pauses. Your mission if you choose to accept it, is to make it do something truly weird.
 
-Here's some example code that you can help you to get you started; `debugger.html/src/components/SecondaryPanes/Frames/WhyPaused.js` renders the pause reason into the sidebar, and `/debugger.html/src/utils/pause.js` is used in several places to expose the current paused state.
+Here's some example code that you can help you to get you started; `debugger.html/src/components/SecondaryPanes/Frames/WhyPaused.js` renders the pause reason into the sidebar, and `/debugger.html/src/utils/pause/why.js` is used in several places to expose the current paused state.
 
-WhyPaused.js (Starts at line 48):
+WhyPaused.js (Starts at line 42):
 
 ```javascript
 export default function renderWhyPaused({ pause }: { pause: Pause }) {
@@ -75,14 +75,14 @@ export default function renderWhyPaused({ pause }: { pause: Pause }) {
 renderWhyPaused.displayName = "whyPaused";
 ```
 
-Then in pause.js (Starts at line 51) :
+Then in why.js (Starts at line 31) :
 ```javascript
-export function getPauseReason(pauseInfo: Pause): string | null {
-  if (!pauseInfo) {
+export function getPauseReason(why?: Why): string | null {
+  if (!why) {
     return null;
   }
   //Add the code below:
-  console.log("hello from src/utils/pause.js!");
+  console.log("hello from src/utils/pause/why.js!");
   
   const reasonType = get(pauseInfo, "why.type", null);
   if (!reasons[reasonType]) {
