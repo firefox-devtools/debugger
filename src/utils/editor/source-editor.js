@@ -16,6 +16,7 @@ require("codemirror/mode/coffeescript/coffeescript");
 require("codemirror/mode/jsx/jsx");
 require("codemirror/mode/elm/elm");
 require("codemirror/mode/clojure/clojure");
+require("codemirror/mode/haxe/haxe");
 require("codemirror/addon/search/searchcursor");
 require("codemirror/addon/fold/foldcode");
 require("codemirror/addon/fold/brace-fold");

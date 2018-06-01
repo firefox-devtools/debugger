@@ -219,6 +219,14 @@ describe("sources", () => {
       expect(getMode(source)).toEqual({ name: "jsx" });
     });
 
+    it("returns text/x-haxe if the file extension is .hx", () => {
+      const source = {
+        text: "function foo(){}",
+        url: "myComponent.hx"
+      };
+      expect(getMode(source)).toEqual({ name: "text/x-haxe" });
+    });
+
     it("typescript", () => {
       const source = {
         contentType: "text/typescript",
