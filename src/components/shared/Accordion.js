@@ -49,6 +49,15 @@ class Accordion extends Component<Props, State> {
     this.forceUpdate();
   }
 
+  onHandleHeaderKeyDown(
+    e: SyntheticKeyboardEvent<HTMLHeadingElement>,
+    i: number
+  ) {
+    if (e && (e.key === " " || e.key === "Enter")) {
+      this.handleHeaderClick(i);
+    }
+  }
+
   renderContainer = (item: AccordionItem, i: number) => {
     const { opened } = item;
 
@@ -57,6 +66,7 @@ class Accordion extends Component<Props, State> {
         <h2
           className="_header"
           tabIndex="0"
+          onKeyDown={e => this.onHandleHeaderKeyDown(e, i)}
           onClick={() => this.handleHeaderClick(i)}
         >
           <Svg name="arrow" className={opened ? "expanded" : ""} />
