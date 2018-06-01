@@ -36,7 +36,6 @@ import Accordion from "../shared/Accordion";
 import CommandBar from "./CommandBar";
 import UtilsBar from "./UtilsBar";
 import FrameworkComponent from "./FrameworkComponent";
-import ReactComponentStack from "./ReactComponentStack";
 
 import Scopes from "./Scopes";
 
@@ -192,17 +191,6 @@ class SecondaryPanes extends Component<Props, State> {
     };
   }
 
-  getComponentStackItem() {
-    return {
-      header: L10N.getStr("components.header"),
-      component: <ReactComponentStack />,
-      opened: prefs.componentStackVisible,
-      onToggle: opened => {
-        prefs.componentStackVisible = opened;
-      }
-    };
-  }
-
   getComponentItem() {
     const {
       extra: { react }
@@ -304,13 +292,7 @@ class SecondaryPanes extends Component<Props, State> {
       items.push(this.getCallStackItem());
 
       if (this.props.horizontal) {
-        if (extra && extra.react) {
-          if (
-            features.componentStack &&
-            extra.react.componentStack.length > 1
-          ) {
-            items.push(this.getComponentStackItem());
-          }
+        if (features.componentPane && extra && extra.react) {
           items.push(this.getComponentItem());
         }
 
@@ -348,7 +330,7 @@ class SecondaryPanes extends Component<Props, State> {
 
     items.push(this.getWatchItem());
 
-    if (extra && extra.react) {
+    if (features.componentPane && extra && extra.react) {
       items.push(this.getComponentItem());
     }
 
