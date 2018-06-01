@@ -342,14 +342,11 @@ class SourcesTree extends Component<Props, State> {
   renderProjectRootHeader() {
     const { projectRoot } = this.props;
 
-    const { sourceTree } = this.state;
-
     if (!projectRoot) {
       return null;
     }
 
-    const sourceContents = sourceTree.contents[0];
-    let rootLabel = projectRoot.split("/").pop();
+    const rootLabel = projectRoot.split("/").pop();
 
     return (
       <div key="root" className="sources-clear-root-container">

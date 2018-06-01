@@ -22,19 +22,6 @@ import type { ParsedURL } from "./getURL";
 import type { Node } from "./types";
 import type { SourceRecord } from "../../types";
 
-function isUnderRoot(url, projectRoot) {
-  if (!projectRoot) {
-    return true;
-  }
-
-  return `${url.group}${url.path}`.startsWith(projectRoot);
-}
-
-function removeProjectRoot(parts, projectRoot) {
-  const rootParts = projectRoot.replace("://", "").split("/");
-  return parts.splice(0, rootParts.length - 2);
-}
-
 function createNodeInTree(
   part: string,
   path: string,
