@@ -8,7 +8,7 @@ export * from "./source-documents";
 export * from "./get-token-location";
 export * from "./source-search";
 export * from "../ui";
-export * from "./create-editor";
+import { createEditor } from "./create-editor";
 
 import { shouldPrettyPrint } from "../source";
 import { findNext, findPrev } from "./source-search";
@@ -23,16 +23,13 @@ type Editor = Object;
 
 let editor: ?Editor;
 
-export function setEditor(_editor: Editor) {
-  editor = _editor;
-}
-
 export function getEditor() {
-  return editor;
-}
+  if (editor) {
+    return editor;
+  }
 
-export function getCodeMirror() {
-  return editor && editor.codeMirror;
+  editor = createEditor();
+  return editor;
 }
 
 export function removeEditor() {

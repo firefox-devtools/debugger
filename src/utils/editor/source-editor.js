@@ -75,6 +75,10 @@ export default class SourceEditor {
     return this.editor;
   }
 
+  get CodeMirror() {
+    return CodeMirror;
+  }
+
   setText(str: string) {
     this.editor.setValue(str);
   }

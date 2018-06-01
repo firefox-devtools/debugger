@@ -18,7 +18,7 @@ import { CloseButton } from "../../shared/Button";
 import { getLocationWithoutColumn } from "../../../utils/breakpoint";
 
 import { features } from "../../../utils/prefs";
-import { getCodeMirror } from "../../../utils/editor";
+import { getEditor } from "../../../utils/editor";
 
 import type {
   Frame,
@@ -122,14 +122,14 @@ class Breakpoint extends PureComponent<Props> {
 
   highlightText() {
     const text = this.getBreakpointText();
-    const codeMirror = getCodeMirror();
+    const editor = getEditor();
 
-    if (!text || !codeMirror) {
-      return { __html: "" };
+    if (!editor.CodeMirror) {
+      return { __html: text };
     }
 
     const node = document.createElement("div");
-    codeMirror.constructor.runMode(text, "application/javascript", node);
+    editor.CodeMirror.runMode(text, "application/javascript", node);
     return { __html: node.innerHTML };
   }
 
