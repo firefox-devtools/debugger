@@ -21,7 +21,6 @@ if (isDevelopment()) {
   pref("devtools.debugger.call-stack-visible", true);
   pref("devtools.debugger.scopes-visible", true);
   pref("devtools.debugger.component-visible", true);
-  pref("devtools.debugger.component-stack-visible", false);
   pref("devtools.debugger.workers-visible", true);
   pref("devtools.debugger.expressions-visible", true);
   pref("devtools.debugger.breakpoints-visible", true);
@@ -71,7 +70,6 @@ export const prefs = new PrefsHelper("devtools", {
   callStackVisible: ["Bool", "debugger.call-stack-visible"],
   scopesVisible: ["Bool", "debugger.scopes-visible"],
   componentVisible: ["Bool", "debugger.component-visible"],
-  componentStackVisible: ["Bool", "debugger.component-stack-visible"],
   workersVisible: ["Bool", "debugger.workers-visible"],
   breakpointsVisible: ["Bool", "debugger.breakpoints-visible"],
   expressionsVisible: ["Bool", "debugger.expressions-visible"],
@@ -108,7 +106,8 @@ export const features = new PrefsHelper("devtools.debugger.features", {
   pausePoints: ["Bool", "pause-points"],
   skipPausing: ["Bool", "skip-pausing"],
   autocompleteExpression: ["Bool", "autocomplete-expressions"],
-  mapExpressionBindings: ["Bool", "map-expression-bindings"]
+  mapExpressionBindings: ["Bool", "map-expression-bindings"],
+  componentPane: ["Bool", "component-pane"]
 });
 
 if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {
