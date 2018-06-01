@@ -34,7 +34,6 @@ export const getRelativeSources = createSelector(
   getProjectDirectoryRoot,
   (sources, root) => {
     return sources
-      .valueSeq()
       .filter(source => source.url && source.url.includes(root))
       .map(source => formatSource(source, root));
   }

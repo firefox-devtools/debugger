@@ -18,7 +18,7 @@ import {
   getDebuggeeUrl,
   getExpandedState,
   getProjectDirectoryRoot,
-  getSources
+  getRelativeSources
 } from "../../selectors";
 
 // Actions
@@ -119,6 +119,7 @@ class SourcesTree extends Component<Props, State> {
         })
       );
     }
+
     if (nextProps.shownSource && nextProps.shownSource != shownSource) {
       const listItems = getDirectories(nextProps.shownSource, sourceTree);
 
@@ -211,11 +212,7 @@ class SourcesTree extends Component<Props, State> {
     }
 
     const source = this.getSource(item);
-    return (
-      <SourceIcon
-        source={source}
-      />
-    );
+    return <SourceIcon source={source} />;
   };
 
   onContextMenu = (event, item) => {
@@ -354,10 +351,6 @@ class SourcesTree extends Component<Props, State> {
     const sourceContents = sourceTree.contents[0];
     let rootLabel = projectRoot.split("/").pop();
 
-    if (sourceContents && sourceContents.name !== rootLabel) {
-      rootLabel = sourceContents.contents[0].name;
-    }
-
     return (
       <div key="root" className="sources-clear-root-container">
         <button
@@ -464,7 +457,7 @@ const mapStateToProps = state => {
     debuggeeUrl: getDebuggeeUrl(state),
     expanded: getExpandedState(state),
     projectRoot: getProjectDirectoryRoot(state),
-    sources: getSources(state)
+    sources: getRelativeSources(state)
   };
 };
 

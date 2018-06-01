@@ -106,10 +106,6 @@ function traverseTree(
   const parts = url.path.split("/").filter(p => p !== "");
   parts.unshift(url.group);
 
-  if (projectRoot) {
-    removeProjectRoot(parts, projectRoot);
-  }
-
   let path = "";
   return parts.reduce((subTree, part, index) => {
     path = path ? `${path}/${part}` : part;
@@ -172,10 +168,10 @@ export function addToTree(
   const url = getURL(source.get ? source.get("url") : source.url, debuggeeUrl);
   const debuggeeHost = getDomain(debuggeeUrl);
 
-  if (isInvalidUrl(url, source) || !isUnderRoot(url, projectRoot)) {
+  if (isInvalidUrl(url, source)) {
     return;
   }
 
-  const finalNode = traverseTree(url, tree, debuggeeHost, projectRoot);
+  const finalNode = traverseTree(url, tree, debuggeeHost);
   finalNode.contents = addSourceToNode(finalNode, url, source);
 }
