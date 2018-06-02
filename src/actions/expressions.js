@@ -57,7 +57,6 @@ export function autocomplete(input: string, cursor: number) {
     }
     const frameId = getSelectedFrameId(getState());
     const result = await client.autocomplete(input, cursor, frameId);
-    console.log(input, cursor, result);
     await dispatch({ type: "AUTOCOMPLETE", input, result });
   };
 }
