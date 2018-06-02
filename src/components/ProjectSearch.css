@@ -26,7 +26,7 @@
 .project-text-search .result {
   display: flex;
   cursor: default;
-  padding: 4px 0 4px 0;
+  padding: 4px 0 4px 5px;
   line-height: 16px;
   font-size: 10px;
   width: 100%;
@@ -49,9 +49,13 @@
 }
 
 .project-text-search .result .line-number {
-  margin-right: 1em;
-  width: 2em;
-  margin-left: 0.8em;
+  margin-right: 5px;
+  min-width: 28px;
+  text-align: right;
+}
+
+.project-text-search .tree-indent {
+  display: none;
 }
 
 .project-text-search .no-result-msg {
