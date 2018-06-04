@@ -17,6 +17,7 @@ import {
 import { getValue } from "../../utils/expressions";
 import { createObjectClient } from "../../client/firefox";
 
+import { CloseButton } from "../shared/Button";
 import { debounce } from "lodash";
 
 import type { List } from "immutable";
