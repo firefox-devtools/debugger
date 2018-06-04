@@ -8,6 +8,8 @@ const fs = require("fs");
 const path = require("path");
 var shell = require("shelljs");
 const minimist = require("minimist");
+var chokidar = require('chokidar');
+
 
 const feature = require("devtools-config");
 const getConfig = require("./getConfig");
@@ -17,14 +19,13 @@ const getConfig = require("./getConfig");
 const envConfig = getConfig();
 feature.setConfig(envConfig);
 
-const args = minimist(process.argv.slice(1), {
-  string: ["mc"]
-});
+
+function ignoreFile(file) {
+  return file.match(/(\/fixtures|\/test|vendors\.js|types\.js|types\/)/);
+}
 
 function getFiles() {
-  return glob.sync("./src/**/*.js", {}).filter(file => {
-    return !file.match(/(\/fixtures|\/tests|vendors\.js|types\.js|types\/)/);
-  });
+  return glob.sync("./src/**/*.js", {}).filter((file) => !ignoreFile(file));
 }
 
 function transformSingleFile(filePath) {
@@ -44,13 +45,24 @@ function transformSingleFile(filePath) {
   return out.code;
 }
 
-function transpileFiles() {
-  getFiles().forEach(file => {
+function transpileFile(file) {
+  try {
+    if (ignoreFile(file)) {
+      return;
+    }
+
     const filePath = path.join(__dirname, "..", file);
     const code = transformSingleFile(filePath);
-    shell.mkdir("-p", path.join(__dirname, "../out", path.dirname(file)));
-    fs.writeFileSync(path.join(__dirname, "../out", file), code);
-  });
+    shell.mkdir("-p", path.join(mcDebuggerPath, path.dirname(file)));
+    fs.writeFileSync(path.join(mcDebuggerPath, file), code);
+  } catch (e) {
+    console.log(`Failed to transpile: ${file}`)
+    console.error(e);
+  }
+}
+
+function transpileFiles() {
+  getFiles().forEach(transpileFile);
 }
 
 const MOZ_BUILD_TEMPLATE = `# vim: set filetype=python:
@@ -99,7 +111,7 @@ function createMozBuildFiles() {
   Object.keys(builds).forEach(build => {
     const { files, dirs } = builds[build];
 
-    const buildPath = path.join(__dirname, "../out", build);
+    const buildPath = path.join(mcDebuggerPath, build);
     shell.mkdir("-p", buildPath);
 
     // Files and folders should be alphabetically sorted in moz.build
@@ -121,12 +133,20 @@ function createMozBuildFiles() {
   });
 }
 
+function watch() {
+  console.log("[copy-modules] start watching");
+  var watcher = chokidar.watch('./src').on('all', (event, path) => {});
+
+  watcher
+  .on('change', path => {
+    console.log(`Updating ${path}`)
+    transpileFile(path)
+  })
+
+}
+
 function start() {
   console.log("[copy-modules] start");
-
-  console.log("[copy-modules] cleanup temporary directory");
-  shell.rm("-rf", "./out");
-  shell.mkdir("./out");
 
   console.log("[copy-modules] transpiling debugger modules");
   transpileFiles();
@@ -134,15 +154,28 @@ function start() {
   console.log("[copy-modules] creating moz.build files");
   createMozBuildFiles();
 
-  const projectPath = path.resolve(__dirname, "..");
-  const mcPath = args.mc ? args.mc : feature.getValue("firefox.mcPath");
-  const mcDebuggerPath = path.join(mcPath, "devtools/client/debugger/new");
-
-  console.log("[copy-modules] copying files to: " + mcDebuggerPath);
-  shell.cp("-r", "./out/src", mcDebuggerPath);
-  shell.rm("-r", "./out")
-
   console.log("[copy-modules] done");
+  if (shouldWatch) {
+    watch();
+  }
 }
 
-start();
+const args = minimist(process.argv.slice(1), {
+  string: ["mc"],
+  boolean: ["watch"]
+});
+
+const projectPath = path.resolve(__dirname, "..");
+let mcPath = args.mc || feature.getValue("firefox.mcPath");
+let mcDebuggerPath = path.join(mcPath, "devtools/client/debugger/new");
+let shouldWatch = args.watch;
+
+if (process.argv[1] == __filename) {
+  start();
+} else {
+  module.exports = ({watch, mc}) => {
+    shouldWatch = watch
+    mcPath = path.join(mc, "devtools/client/debugger/new");
+    start();
+  }
+}

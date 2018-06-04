@@ -9,6 +9,7 @@ import React, { Component } from "react";
 import classnames from "classnames";
 import { showMenu } from "devtools-contextmenu";
 import { connect } from "react-redux";
+import SourceIcon from "../shared/SourceIcon";
 
 // Selectors
 import {
@@ -17,12 +18,12 @@ import {
   getDebuggeeUrl,
   getExpandedState,
   getProjectDirectoryRoot,
-  getSources
+  getRelativeSources
 } from "../../selectors";
 
 // Actions
 import { setExpandedState } from "../../actions/source-tree";
-import { selectLocation } from "../../actions/sources";
+import { selectSource } from "../../actions/sources";
 import {
   setProjectDirectoryRoot,
   clearProjectDirectoryRoot
@@ -41,7 +42,7 @@ import {
   updateTree
 } from "../../utils/sources-tree";
 
-import { getRawSourceURL, getSourceClassnames } from "../../utils/source";
+import { getRawSourceURL } from "../../utils/source";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { features } from "../../utils/prefs";
 
@@ -49,7 +50,7 @@ import type { SourcesMap } from "../../reducers/types";
 import type { SourceRecord } from "../../types";
 
 type Props = {
-  selectLocation: Object => void,
+  selectSource: String => void,
   setExpandedState: any => void,
   setProjectDirectoryRoot: string => void,
   clearProjectDirectoryRoot: void => void,
@@ -118,6 +119,7 @@ class SourcesTree extends Component<Props, State> {
         })
       );
     }
+
     if (nextProps.shownSource && nextProps.shownSource != shownSource) {
       const listItems = getDirectories(nextProps.shownSource, sourceTree);
 
@@ -161,26 +163,27 @@ class SourcesTree extends Component<Props, State> {
   };
 
   selectItem = item => {
-    if (!nodeHasChildren(item)) {
-      this.props.selectLocation({ sourceId: item.contents.get("id") });
+    if (!isDirectory(item)) {
+      this.props.selectSource(item.contents.id);
     }
   };
 
+  // NOTE: we get the source from sources because item.contents is cached
+  getSource(item) {
+    return this.props.sources.get(item.contents.id);
+  }
+
   getPath = item => {
-    const { sources } = this.props;
-    const obj = item.contents.get && item.contents.get("id");
+    const path = `${item.path}/${item.name}`;
 
-    let blackBoxedPart = "";
-
-    if (
-      typeof obj !== "undefined" &&
-      sources.has(obj) &&
-      sources.get(obj).get("isBlackBoxed")
-    ) {
-      blackBoxedPart = "update";
+    if (isDirectory(item)) {
+      return path;
     }
 
-    return `${item.path}/${item.name}/${blackBoxedPart}`;
+    const source = this.getSource(item);
+    const blackBoxedPart = source.isBlackBoxed ? ":blackboxed" : "";
+
+    return `${path}${blackBoxedPart}`;
   };
 
   getIcon = (sources, item, depth) => {
@@ -204,13 +207,12 @@ class SourcesTree extends Component<Props, State> {
       );
     }
 
-    if (!nodeHasChildren(item)) {
-      const obj = item.contents.get("id");
-      const source = sources.get(obj);
-      const className = classnames(getSourceClassnames(source), "source-icon");
-      return <img className={className} />;
+    if (isDirectory(item)) {
+      return <img className="folder" />;
     }
-    return <img className="folder" />;
+
+    const source = this.getSource(item);
+    return <SourceIcon source={source} />;
   };
 
   onContextMenu = (event, item) => {
@@ -226,13 +228,12 @@ class SourcesTree extends Component<Props, State> {
     const menuOptions = [];
 
     if (!isDirectory(item)) {
-      const source = item.contents.get("url");
       const copySourceUri2 = {
         id: "node-menu-copy-source",
         label: copySourceUri2Label,
         accesskey: copySourceUri2Key,
         disabled: false,
-        click: () => copyToTheClipboard(source)
+        click: () => copyToTheClipboard(item.contents.url)
       };
 
       menuOptions.push(copySourceUri2);
@@ -262,6 +263,27 @@ class SourcesTree extends Component<Props, State> {
 
     showMenu(event, menuOptions);
   };
+
+  onExpand = (item, expandedState) => {
+    this.props.setExpandedState(expandedState);
+  };
+
+  onCollapse = (item, expandedState) => {
+    this.props.setExpandedState(expandedState);
+  };
+
+  onKeyDown = e => {
+    const { focusedItem } = this.state;
+
+    if (e.keyCode === 13 && focusedItem) {
+      this.selectItem(focusedItem);
+    }
+  };
+
+  isEmpty() {
+    const { sourceTree } = this.state;
+    return sourceTree.contents.length === 0;
+  }
 
   renderItem = (item, depth, focused, _, expanded, { setExpanded }) => {
     const arrow = nodeHasChildren(item) ? (
@@ -310,46 +332,24 @@ class SourcesTree extends Component<Props, State> {
   }
 
   renderEmptyElement(message) {
-    return <div className="no-sources-message">{message}</div>;
+    return (
+      <div key="empty" className="no-sources-message">
+        {message}
+      </div>
+    );
   }
 
-  render() {
-    const { expanded, projectRoot } = this.props;
-    const {
-      focusedItem,
-      highlightItems,
-      listItems,
-      parentMap,
-      sourceTree
-    } = this.state;
+  renderProjectRootHeader() {
+    const { projectRoot } = this.props;
 
-    const onExpand = (item, expandedState) => {
-      this.props.setExpandedState(expandedState);
-    };
+    if (!projectRoot) {
+      return null;
+    }
 
-    const onCollapse = (item, expandedState) => {
-      this.props.setExpandedState(expandedState);
-    };
+    const rootLabel = projectRoot.split("/").pop();
 
-    const isEmpty = sourceTree.contents.length === 0;
-
-    const isCustomRoot = projectRoot !== "";
-    let roots = () => sourceTree.contents;
-
-    let clearProjectRootButton = null;
-
-    // The "sourceTree.contents[0]" check ensures that there are contents
-    // A custom root with no existing sources will be ignored
-    if (isCustomRoot) {
-      const sourceContents = sourceTree.contents[0];
-      let rootLabel = projectRoot.split("/").pop();
-      roots = () => sourceContents.contents;
-      if (sourceContents && sourceContents.name !== rootLabel) {
-        rootLabel = sourceContents.contents[0].name;
-        roots = () => sourceContents.contents[0].contents;
-      }
-
-      clearProjectRootButton = (
+    return (
+      <div key="root" className="sources-clear-root-container">
         <button
           className="sources-clear-root"
           onClick={() => this.props.clearProjectDirectoryRoot()}
@@ -359,12 +359,32 @@ class SourcesTree extends Component<Props, State> {
           <Svg name="breadcrumb" class />
           <span className="sources-clear-root-label">{rootLabel}</span>
         </button>
-      );
+      </div>
+    );
+  }
+
+  getRoots = () => {
+    const { projectRoot } = this.props;
+    const { sourceTree } = this.state;
+
+    const sourceContents = sourceTree.contents[0];
+    const rootLabel = projectRoot.split("/").pop();
+
+    // The "sourceTree.contents[0]" check ensures that there are contents
+    // A custom root with no existing sources will be ignored
+    if (projectRoot) {
+      if (sourceContents && sourceContents.name !== rootLabel) {
+        return sourceContents.contents[0].contents;
+      }
+      return sourceContents.contents;
     }
 
-    if (isEmpty && !isCustomRoot) {
-      return this.renderEmptyElement(L10N.getStr("sources.noSourcesAvailable"));
-    }
+    return sourceTree.contents;
+  };
+
+  renderTree() {
+    const { expanded } = this.props;
+    const { highlightItems, listItems, parentMap } = this.state;
 
     const treeProps = {
       autoExpandAll: false,
@@ -373,43 +393,55 @@ class SourcesTree extends Component<Props, State> {
       getChildren: item => (nodeHasChildren(item) ? item.contents : []),
       getParent: item => parentMap.get(item),
       getPath: this.getPath,
-      getRoots: roots,
+      getRoots: this.getRoots,
       highlightItems,
       itemHeight: 21,
-      key: isEmpty ? "empty" : "full",
+      key: this.isEmpty() ? "empty" : "full",
       listItems,
-      onCollapse,
-      onExpand,
+      onCollapse: this.onCollapse,
+      onExpand: this.onExpand,
       onFocus: this.focusItem,
       renderItem: this.renderItem
     };
 
-    const tree = <ManagedTree {...treeProps} />;
+    return <ManagedTree {...treeProps} />;
+  }
 
-    const onKeyDown = e => {
-      if (e.keyCode === 13 && focusedItem) {
-        this.selectItem(focusedItem);
-      }
-    };
+  renderPane(...children) {
+    const { projectRoot } = this.props;
 
     return (
       <div
+        key="pane"
         className={classnames("sources-pane", {
-          "sources-list-custom-root": isCustomRoot
+          "sources-list-custom-root": projectRoot
         })}
       >
-        {isCustomRoot ? (
-          <div className="sources-clear-root-container">
-            {clearProjectRootButton}
-          </div>
-        ) : null}
-        {isEmpty ? (
+        {children}
+      </div>
+    );
+  }
+
+  render() {
+    const { projectRoot } = this.props;
+
+    if (this.isEmpty()) {
+      if (projectRoot) {
+        return this.renderPane(
+          this.renderProjectRootHeader(),
           this.renderEmptyElement(L10N.getStr("sources.noSourcesAvailableRoot"))
-        ) : (
-          <div className="sources-list" onKeyDown={onKeyDown}>
-            {tree}
-          </div>
-        )}
+        );
+      }
+
+      return this.renderPane(
+        this.renderEmptyElement(L10N.getStr("sources.noSourcesAvailable"))
+      );
+    }
+
+    return this.renderPane(
+      this.renderProjectRootHeader(),
+      <div key="tree" className="sources-list" onKeyDown={this.onKeyDown}>
+        {this.renderTree()}
       </div>
     );
   }
@@ -422,13 +454,13 @@ const mapStateToProps = state => {
     debuggeeUrl: getDebuggeeUrl(state),
     expanded: getExpandedState(state),
     projectRoot: getProjectDirectoryRoot(state),
-    sources: getSources(state)
+    sources: getRelativeSources(state)
   };
 };
 
 const actionCreators = {
   setExpandedState,
-  selectLocation,
+  selectSource,
   setProjectDirectoryRoot,
   clearProjectDirectoryRoot
 };

@@ -33,7 +33,7 @@ describe("Popover", () => {
     bottom: 0,
     left: 200
   };
-  const popover = shallow(
+  const popover = mount(
     <Popover
       onMouseLeave={onMouseLeave}
       editorRef={editorRef}
@@ -42,6 +42,7 @@ describe("Popover", () => {
       <h1>Poppy!</h1>
     </Popover>
   );
+
   const tooltip = shallow(
     <Popover
       type="tooltip"
@@ -52,24 +53,32 @@ describe("Popover", () => {
       <h1>Toolie!</h1>
     </Popover>
   );
+
   const div = document.createElement("div");
+
   const event = { currentTarget: div };
+
   beforeEach(() => onMouseLeave.mockClear());
+
   it("render", () => expect(popover).toMatchSnapshot());
+
   it("render (tooltip)", () => expect(tooltip).toMatchSnapshot());
+
   it("calls mouseLeave", () => {
     popover.find(".popover").simulate("mouseleave", event);
     expect(onMouseLeave).toHaveBeenCalled();
   });
+
   it("calls mouseLeave (tooltip)", () => {
     tooltip.find(".tooltip").simulate("mouseleave", event);
     expect(onMouseLeave).toHaveBeenCalled();
   });
+
   it("no mouse leave on bracket or gap", () => {
-    div.className = "bracket-arrow";
-    popover.find(".popover").simulate("mouseleave", event);
+    popover.find(".bracket-arrow").simulate("mouseleave", event);
     expect(onMouseLeave).not.toHaveBeenCalled();
   });
+
   it("mount popover", () => {
     const mountedPopover = mount(
       <Popover
@@ -82,6 +91,7 @@ describe("Popover", () => {
     );
     expect(mountedPopover).toMatchSnapshot();
   });
+
   it("mount tooltip", () => {
     const mountedTooltip = mount(
       <Popover

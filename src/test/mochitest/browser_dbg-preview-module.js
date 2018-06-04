@@ -5,7 +5,10 @@
 // and doesn't have functions.
 add_task(async function() {
   const dbg = await initDebugger("doc-scripts.html");
-  const { selectors: { getSelectedSource }, getState } = dbg;
+  const {
+    selectors: { getSelectedSource },
+    getState
+  } = dbg;
 
   navigate(dbg, "doc-on-load.html");
 
@@ -22,8 +25,5 @@ add_task(async function() {
     }
   ]);
 
-  const tooltipPreviewed = waitForDispatch(dbg, "SET_PREVIEW");
-  hoverAtPos(dbg, { line: 2, ch: 7 });
-  await tooltipPreviewed;
-  await assertPreviewTooltip(dbg, { result: "3", expression: "func" });
+  await assertPreviewTooltip(dbg, 2, 7, { result: "3", expression: "func" });
 });

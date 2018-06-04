@@ -16,6 +16,21 @@ const renderRep = (string, props) =>
     })
   );
 
+const testLinkClick = (link, openLink, url) => {
+  let syntheticEvent;
+  const preventDefault = jest.fn().mockImplementation(function() {
+    // This refers to the event object for which preventDefault is called (in
+    // this case it is the syntheticEvent that is passed to onClick and
+    // consequently to openLink).
+    syntheticEvent = this;
+  });
+
+  link.simulate("click", { preventDefault });
+  // Prevent defaults behavior on click
+  expect(preventDefault).toBeCalled();
+  expect(openLink).toBeCalledWith(url, syntheticEvent);
+};
+
 describe("test String with URL", () => {
   it("renders a URL", () => {
     const url = "http://example.com";
@@ -26,21 +41,7 @@ describe("test String with URL", () => {
     expect(link.prop("href")).toBe(undefined);
     expect(link.prop("title")).toBe(url);
 
-    link.simulate("click");
-    expect(openLink).toBeCalledWith(url);
-  });
-
-  it("prevent defaults behavior on click", () => {
-    const url = "http://example.com";
-    const openLink = jest.fn();
-    const preventDefault = jest.fn();
-    const element = renderRep(url, { openLink, useQuotes: false });
-    expect(element.text()).toEqual(url);
-    const link = element.find("a");
-
-    link.simulate("click", { preventDefault });
-    expect(openLink).toBeCalledWith(url);
-    expect(preventDefault).toBeCalled();
+    testLinkClick(link, openLink, url);
   });
 
   it("renders a simple quoted URL", () => {
@@ -53,8 +54,7 @@ describe("test String with URL", () => {
     expect(link.prop("href")).toBe(undefined);
     expect(link.prop("title")).toBe(url);
 
-    link.simulate("click");
-    expect(openLink).toBeCalledWith(url);
+    testLinkClick(link, openLink, url);
   });
 
   it("renders a double quoted URL", () => {
@@ -67,8 +67,7 @@ describe("test String with URL", () => {
     expect(link.prop("href")).toBe(undefined);
     expect(link.prop("title")).toBe(url);
 
-    link.simulate("click");
-    expect(openLink).toBeCalledWith(url);
+    testLinkClick(link, openLink, url);
   });
 
   it("renders a quoted URL when useQuotes is true", () => {
@@ -81,8 +80,7 @@ describe("test String with URL", () => {
     expect(link.prop("href")).toBe(undefined);
     expect(link.prop("title")).toBe(url);
 
-    link.simulate("click");
-    expect(openLink).toBeCalledWith(url);
+    testLinkClick(link, openLink, url);
   });
 
   it("renders a simple https URL", () => {
@@ -94,8 +92,7 @@ describe("test String with URL", () => {
     expect(link.prop("href")).toBe(undefined);
     expect(link.prop("title")).toBe(url);
 
-    link.simulate("click");
-    expect(openLink).toBeCalledWith(url);
+    testLinkClick(link, openLink, url);
   });
 
   it("renders a URL with port", () => {
@@ -107,8 +104,7 @@ describe("test String with URL", () => {
     expect(link.prop("href")).toBe(undefined);
     expect(link.prop("title")).toBe(url);
 
-    link.simulate("click");
-    expect(openLink).toBeCalledWith(url);
+    testLinkClick(link, openLink, url);
   });
 
   it("renders a URL with non-empty path", () => {
@@ -120,8 +116,7 @@ describe("test String with URL", () => {
     expect(link.prop("href")).toBe(undefined);
     expect(link.prop("title")).toBe(url);
 
-    link.simulate("click");
-    expect(openLink).toBeCalledWith(url);
+    testLinkClick(link, openLink, url);
   });
 
   it("renders a URL when surrounded by non-URL tokens", () => {
@@ -134,8 +129,7 @@ describe("test String with URL", () => {
     expect(link.prop("href")).toBe(undefined);
     expect(link.prop("title")).toBe(url);
 
-    link.simulate("click");
-    expect(openLink).toBeCalledWith(url);
+    testLinkClick(link, openLink, url);
   });
 
   it("renders a URL and whitespace is be preserved", () => {
@@ -149,8 +143,7 @@ describe("test String with URL", () => {
     expect(link.prop("href")).toBe(undefined);
     expect(link.prop("title")).toBe(url);
 
-    link.simulate("click");
-    expect(openLink).toBeCalledWith(url);
+    testLinkClick(link, openLink, url);
   });
 
   it("renders multiple URLs", () => {
@@ -166,14 +159,12 @@ describe("test String with URL", () => {
     const firstLink = links.at(0);
     expect(firstLink.prop("href")).toBe(undefined);
     expect(firstLink.prop("title")).toBe(url1);
-    firstLink.simulate("click");
-    expect(openLink).toBeCalledWith(url1);
+    testLinkClick(firstLink, openLink, url1);
 
     const secondLink = links.at(1);
     expect(secondLink.prop("href")).toBe(undefined);
     expect(secondLink.prop("title")).toBe(url2);
-    secondLink.simulate("click");
-    expect(openLink).toBeCalledWith(url2);
+    testLinkClick(secondLink, openLink, url2);
   });
 
   it("renders multiple URLs with various spacing", () => {
@@ -200,8 +191,7 @@ describe("test String with URL", () => {
     expect(link.prop("href")).toBe(undefined);
     expect(link.prop("title")).toBe(url);
 
-    link.simulate("click");
-    expect(openLink).toBeCalledWith(url);
+    testLinkClick(link, openLink, url);
   });
 
   it("renders a non-cropped URL", () => {
@@ -218,8 +208,7 @@ describe("test String with URL", () => {
     expect(link.prop("href")).toBe(undefined);
     expect(link.prop("title")).toBe(url);
 
-    link.simulate("click");
-    expect(openLink).toBeCalledWith(url);
+    testLinkClick(link, openLink, url);
   });
 
   it("renders URL on an open string", () => {
@@ -238,8 +227,7 @@ describe("test String with URL", () => {
     expect(link.prop("href")).toBe(undefined);
     expect(link.prop("title")).toBe(url);
 
-    link.simulate("click");
-    expect(openLink).toBeCalledWith(url);
+    testLinkClick(link, openLink, url);
   });
 
   it("renders URLs with a stripped string between", () => {
@@ -396,15 +384,14 @@ describe("test String with URL", () => {
     const string = `${url} some other text`;
     const object = [string];
     const openLink = jest.fn();
-    const element = renderRep(object, { openLink });
+    const element = renderRep(object, { openLink, noGrip: true });
     expect(element.text()).toEqual(`[ "${string}" ]`);
 
     const link = element.find("a");
     expect(link.prop("href")).toBe(undefined);
     expect(link.prop("title")).toBe(url);
 
-    link.simulate("click");
-    expect(openLink).toBeCalledWith(url);
+    testLinkClick(link, openLink, url);
   });
 
   it("does render a link in a grip array", () => {
@@ -423,8 +410,7 @@ describe("test String with URL", () => {
     expect(link.prop("href")).toBe(undefined);
     expect(link.prop("title")).toBe(url);
 
-    link.simulate("click");
-    expect(openLink).toBeCalledWith(url);
+    testLinkClick(link, openLink, url);
   });
 
   it("does render a link in a plain object", () => {
@@ -432,15 +418,14 @@ describe("test String with URL", () => {
     const string = `${url} some other text`;
     const object = { test: string };
     const openLink = jest.fn();
-    const element = renderRep(object, { openLink });
+    const element = renderRep(object, { openLink, noGrip: true });
     expect(element.text()).toEqual(`Object { test: "${string}" }`);
 
     const link = element.find("a");
     expect(link.prop("href")).toBe(undefined);
     expect(link.prop("title")).toBe(url);
 
-    link.simulate("click");
-    expect(openLink).toBeCalledWith(url);
+    testLinkClick(link, openLink, url);
   });
 
   it("does render a link in a grip object", () => {
@@ -458,8 +443,7 @@ describe("test String with URL", () => {
     expect(link.prop("href")).toBe(undefined);
     expect(link.prop("title")).toBe(url);
 
-    link.simulate("click");
-    expect(openLink).toBeCalledWith(url);
+    testLinkClick(link, openLink, url);
   });
 
   it("does not render links for js URL", () => {

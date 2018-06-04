@@ -13,7 +13,7 @@ exports[`ProjectSearch found no search results 1`] = `
       <SearchInput
         count={0}
         expanded={false}
-        handleClose={[Function]}
+        handleClose={[MockFunction]}
         hasPrefix={false}
         onBlur={[Function]}
         onChange={[Function]}
@@ -22,6 +22,7 @@ exports[`ProjectSearch found no search results 1`] = `
         placeholder="Find in files…"
         query="foo"
         selectedItemId=""
+        showClose={true}
         showErrorEmoji={true}
         size="big"
         summaryMsg="0 results"
@@ -39,9 +40,9 @@ exports[`ProjectSearch found no search results 1`] = `
 exports[`ProjectSearch found search results 1`] = `
 <ProjectSearch
   activeSearch="project"
-  clearSearch={[Function]}
-  closeProjectSearch={[Function]}
-  doSearchForHighlight={[Function]}
+  clearSearch={[MockFunction]}
+  closeProjectSearch={[MockFunction]}
+  doSearchForHighlight={[MockFunction]}
   query="match"
   results={
     Immutable.List [
@@ -82,11 +83,11 @@ exports[`ProjectSearch found search results 1`] = `
       },
     ]
   }
-  searchSources={[Function]}
-  selectLocation={[Function]}
+  searchSources={[MockFunction]}
+  selectLocation={[MockFunction]}
   sources={Object {}}
   status="DONE"
-  updateSearchStatus={[Function]}
+  updateSearchStatus={[MockFunction]}
 >
   <div
     className="search-container"
@@ -100,7 +101,7 @@ exports[`ProjectSearch found search results 1`] = `
         <SearchInput
           count={5}
           expanded={false}
-          handleClose={[Function]}
+          handleClose={[MockFunction]}
           hasPrefix={false}
           onBlur={[Function]}
           onChange={[Function]}
@@ -109,6 +110,7 @@ exports[`ProjectSearch found search results 1`] = `
           placeholder="Find in files…"
           query="match"
           selectedItemId=""
+          showClose={true}
           showErrorEmoji={false}
           size="big"
           summaryMsg="5 results"
@@ -163,11 +165,11 @@ exports[`ProjectSearch found search results 1`] = `
               </div>
               <CloseButton
                 buttonClass="big"
-                handleClick={[Function]}
+                handleClick={[MockFunction]}
               >
                 <button
                   className="close-btn big"
-                  onClick={[Function]}
+                  onClick={[MockFunction]}
                 >
                   <img
                     className="close"
@@ -726,7 +728,7 @@ exports[`ProjectSearch should display loading message while search is in progres
       <SearchInput
         count={0}
         expanded={false}
-        handleClose={[Function]}
+        handleClose={[MockFunction]}
         hasPrefix={false}
         onBlur={[Function]}
         onChange={[Function]}
@@ -735,6 +737,7 @@ exports[`ProjectSearch should display loading message while search is in progres
         placeholder="Find in files…"
         query="match"
         selectedItemId=""
+        showClose={true}
         showErrorEmoji={false}
         size="big"
         summaryMsg="0 results"
@@ -762,7 +765,7 @@ exports[`ProjectSearch showErrorEmoji false if not done & no results 1`] = `
       <SearchInput
         count={0}
         expanded={false}
-        handleClose={[Function]}
+        handleClose={[MockFunction]}
         hasPrefix={false}
         onBlur={[Function]}
         onChange={[Function]}
@@ -771,6 +774,7 @@ exports[`ProjectSearch showErrorEmoji false if not done & no results 1`] = `
         placeholder="Find in files…"
         query="foo"
         selectedItemId=""
+        showClose={true}
         showErrorEmoji={false}
         size="big"
         summaryMsg="0 results"
@@ -798,7 +802,7 @@ exports[`ProjectSearch showErrorEmoji false if not done & results 1`] = `
       <SearchInput
         count={5}
         expanded={false}
-        handleClose={[Function]}
+        handleClose={[MockFunction]}
         hasPrefix={false}
         onBlur={[Function]}
         onChange={[Function]}
@@ -807,6 +811,7 @@ exports[`ProjectSearch showErrorEmoji false if not done & results 1`] = `
         placeholder="Find in files…"
         query="foo"
         selectedItemId=""
+        showClose={true}
         showErrorEmoji={false}
         size="big"
         summaryMsg="5 results"
@@ -834,7 +839,7 @@ exports[`ProjectSearch turns off shortcuts on unmount 1`] = `
       <SearchInput
         count={0}
         expanded={false}
-        handleClose={[Function]}
+        handleClose={[MockFunction]}
         hasPrefix={false}
         onBlur={[Function]}
         onChange={[Function]}
@@ -843,6 +848,7 @@ exports[`ProjectSearch turns off shortcuts on unmount 1`] = `
         placeholder="Find in files…"
         query=""
         selectedItemId=""
+        showClose={true}
         showErrorEmoji={true}
         size="big"
         summaryMsg=""
@@ -865,7 +871,7 @@ exports[`ProjectSearch where <Enter> has not been pressed 1`] = `
       <SearchInput
         count={0}
         expanded={false}
-        handleClose={[Function]}
+        handleClose={[MockFunction]}
         hasPrefix={false}
         onBlur={[Function]}
         onChange={[Function]}
@@ -874,6 +880,7 @@ exports[`ProjectSearch where <Enter> has not been pressed 1`] = `
         placeholder="Find in files…"
         query=""
         selectedItemId=""
+        showClose={true}
         showErrorEmoji={true}
         size="big"
         summaryMsg=""

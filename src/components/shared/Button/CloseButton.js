@@ -4,7 +4,7 @@
 
 // @flow
 import React from "react";
-import "./Close.css";
+import "./styles/CloseButton.css";
 
 type Props = {
   handleClick: Function,

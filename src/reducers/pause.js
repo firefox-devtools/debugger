@@ -56,6 +56,7 @@ export type PauseState = {
     }
   },
   selectedFrameId: ?string,
+  selectedComponentIndex: ?number,
   loadedObjects: Object,
   shouldPauseOnExceptions: boolean,
   shouldPauseOnCaughtExceptions: boolean,
@@ -72,6 +73,7 @@ export const createPauseState = (): PauseState => ({
   isWaitingOnBreak: false,
   frames: undefined,
   selectedFrameId: undefined,
+  selectedComponentIndex: undefined,
   frameScopes: {
     generated: {},
     original: {},
@@ -193,6 +195,12 @@ function update(
         selectedFrameId: action.frame.id
       };
 
+    case "SELECT_COMPONENT":
+      return {
+        ...state,
+        selectedComponentIndex: action.componentIndex
+      };
+
     case "SET_POPUP_OBJECT_PROPERTIES":
       if (!action.properties) {
         return { ...state };
@@ -234,7 +242,7 @@ function update(
             ...state,
             ...emptyPauseState,
             command: action.command,
-            previousLocation: buildPreviousLocation(state, action)
+            previousLocation: getPauseLocation(state, action)
           }
         : { ...state, command: null };
     }
@@ -262,14 +270,16 @@ function update(
   return state;
 }
 
-function buildPreviousLocation(state, action) {
+function getPauseLocation(state, action) {
   const { frames, previousLocation } = state;
 
+  // NOTE: We store the previous location so that we ensure that we
+  // do not stop at the same location twice when we step over.
   if (action.command !== "stepOver") {
     return null;
   }
 
-  const frame = frames && frames.length > 0 ? frames[0] : null;
+  const frame = frames && frames[0];
   if (!frame) {
     return previousLocation;
   }
@@ -311,6 +321,10 @@ export function isStepping(state: OuterState) {
 }
 
 export function isPaused(state: OuterState) {
+  return !!getFrames(state);
+}
+
+export function getIsPaused(state: OuterState) {
   return !!getFrames(state);
 }
 
@@ -421,6 +435,10 @@ export function getSelectedScopeMappings(
 
 export function getSelectedFrameId(state: OuterState) {
   return state.pause.selectedFrameId;
+}
+
+export function getSelectedComponentIndex(state: OuterState) {
+  return state.pause.selectedComponentIndex;
 }
 
 export function getTopFrame(state: OuterState) {

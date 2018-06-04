@@ -21,7 +21,7 @@ import type {
 } from "../workers/parser";
 
 import type { Map } from "immutable";
-import type { Source, Location } from "../types";
+import type { Location, Source } from "../types";
 import type { Action, DonePromiseAction } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
@@ -91,12 +91,12 @@ function update(
     }
 
     case "SET_PAUSE_POINTS": {
-      const { source, pausePoints } = action;
-      const emptyLines = findEmptyLines(source, pausePoints);
+      const { sourceText, sourceId, pausePoints } = action;
+      const emptyLines = findEmptyLines(sourceText, pausePoints);
 
       return state
-        .setIn(["pausePoints", source.id], pausePoints)
-        .setIn(["emptyLines", source.id], emptyLines);
+        .setIn(["pausePoints", sourceId], pausePoints)
+        .setIn(["emptyLines", sourceId], emptyLines);
     }
 
     case "OUT_OF_SCOPE_LOCATIONS": {
@@ -120,10 +120,15 @@ function update(
         return state.set("preview", null);
       }
 
-      return state.set("preview", {
-        ...action.value,
-        updating: false
-      });
+      // NOTE: if the preview does not exist, it has been cleared
+      if (state.get("preview")) {
+        return state.set("preview", {
+          ...action.value,
+          updating: false
+        });
+      }
+
+      return state;
     }
 
     case "RESUME": {
@@ -181,18 +186,18 @@ export function isSymbolsLoading(state: OuterState, source: Source): boolean {
 export function isEmptyLineInSource(
   state: OuterState,
   line: number,
-  selectedSource: Source
+  selectedSourceId: string
 ) {
-  const emptyLines = getEmptyLines(state, selectedSource);
+  const emptyLines = getEmptyLines(state, selectedSourceId);
   return emptyLines && emptyLines.includes(line);
 }
 
-export function getEmptyLines(state: OuterState, source: Source) {
-  if (!source) {
+export function getEmptyLines(state: OuterState, sourceId: string) {
+  if (!sourceId) {
     return null;
   }
 
-  return state.ast.emptyLines.get(source.id);
+  return state.ast.emptyLines.get(sourceId);
 }
 
 export function getPausePoints(

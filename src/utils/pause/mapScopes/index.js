@@ -7,10 +7,16 @@
 import {
   getScopes,
   type SourceScope,
-  type BindingData
+  type BindingData,
+  type BindingLocation
 } from "../../../workers/parser";
 import type { RenderableScope } from "../scopes/getScope";
 import { locColumn } from "./locColumn";
+import {
+  loadRangeMetadata,
+  findMatchingRange,
+  type MappedOriginalRange
+} from "./rangeMetadata";
 
 // eslint-disable-next-line max-len
 import {
@@ -62,11 +68,19 @@ export async function buildMappedScopes(
     frame.this
   );
 
+  const originalRanges = await loadRangeMetadata(
+    source,
+    frame,
+    originalAstScopes,
+    sourceMaps
+  );
+
   const {
     mappedOriginalScopes,
     expressionLookup
   } = await mapOriginalBindingsToGenerated(
     source,
+    originalRanges,
     originalAstScopes,
     generatedAstBindings,
     client,
@@ -84,7 +98,8 @@ export async function buildMappedScopes(
 }
 
 async function mapOriginalBindingsToGenerated(
-  source,
+  source: Source,
+  originalRanges: Array<MappedOriginalRange>,
   originalAstScopes,
   generatedAstBindings,
   client,
@@ -111,6 +126,7 @@ async function mapOriginalBindingsToGenerated(
         source,
         name,
         binding,
+        originalRanges,
         generatedAstBindings
       );
 
@@ -298,12 +314,23 @@ function generateClientScope(
   return result;
 }
 
+function hasValidIdent(range: MappedOriginalRange, pos: BindingLocation) {
+  return (
+    range.type === "match" ||
+    // For declarations, we allow the range on the identifier to be a
+    // more general "contains" to increase the chances of a match.
+    (pos.type !== "ref" && range.type === "contains")
+  );
+}
+
+// eslint-disable-next-line complexity
 async function findGeneratedBinding(
   sourceMaps: any,
   client: any,
   source: Source,
   name: string,
   originalBinding: BindingData,
+  originalRanges: Array<MappedOriginalRange>,
   generatedAstBindings: Array<GeneratedBindingLocation>
 ): Promise<?{
   grip: BindingContents,
@@ -323,26 +350,29 @@ async function findGeneratedBinding(
 
   let genContent: GeneratedDescriptor | null = null;
   for (const pos of refs) {
-    if (originalBinding.type === "import") {
-      genContent = await findGeneratedBindingForImportBinding(
-        sourceMaps,
-        client,
-        source,
-        pos,
-        name,
-        originalBinding.type,
-        generatedAstBindings
-      );
-    } else {
-      genContent = await findGeneratedBindingForStandardBinding(
-        sourceMaps,
-        client,
-        source,
-        pos,
-        name,
-        originalBinding.type,
-        generatedAstBindings
-      );
+    const range = findMatchingRange(originalRanges, pos);
+    if (range && hasValidIdent(range, pos)) {
+      if (originalBinding.type === "import") {
+        genContent = await findGeneratedBindingForImportBinding(
+          sourceMaps,
+          client,
+          source,
+          pos,
+          name,
+          originalBinding.type,
+          generatedAstBindings
+        );
+      } else {
+        genContent = await findGeneratedBindingForStandardBinding(
+          sourceMaps,
+          client,
+          source,
+          pos,
+          name,
+          originalBinding.type,
+          generatedAstBindings
+        );
+      }
     }
 
     if (
@@ -350,22 +380,25 @@ async function findGeneratedBinding(
       source.contentType &&
       source.contentType.match(/\/typescript/)
     ) {
-      // Resolve to first binding in the range
-      const declContent = await findGeneratedBindingForNormalDeclaration(
-        sourceMaps,
-        client,
-        source,
-        pos,
-        name,
-        originalBinding.type,
-        generatedAstBindings
-      );
+      const declRange = findMatchingRange(originalRanges, pos.declaration);
+      if (declRange && declRange.type !== "multiple") {
+        // Resolve to first binding in the range
+        const declContent = await findGeneratedBindingForNormalDeclaration(
+          sourceMaps,
+          client,
+          source,
+          pos,
+          name,
+          originalBinding.type,
+          generatedAstBindings
+        );
 
-      if (declContent) {
-        // Prefer the declaration mapping in this case because TS sometimes
-        // maps class declaration names to "export.Foo = Foo;" or to
-        // the decorator logic itself
-        genContent = declContent;
+        if (declContent) {
+          // Prefer the declaration mapping in this case because TS sometimes
+          // maps class declaration names to "export.Foo = Foo;" or to
+          // the decorator logic itself
+          genContent = declContent;
+        }
       }
     }
 
@@ -373,16 +406,25 @@ async function findGeneratedBinding(
       !genContent &&
       (pos.type === "import-decl" || pos.type === "import-ns-decl")
     ) {
-      // match the import declaration location
-      genContent = await findGeneratedBindingForImportDeclaration(
-        sourceMaps,
-        client,
-        source,
-        pos,
-        name,
-        originalBinding.type,
-        generatedAstBindings
-      );
+      const declRange = findMatchingRange(originalRanges, pos.declaration);
+
+      // The import declaration should have an original position mapping,
+      // but otherwise we don't really have preferences on the range type
+      // because it can have multiple bindings, but we do want to make sure
+      // that all of the bindings that match the range are part of the same
+      // import declaration.
+      if (declRange && declRange.singleDeclaration) {
+        // match the import declaration location
+        genContent = await findGeneratedBindingForImportDeclaration(
+          sourceMaps,
+          client,
+          source,
+          pos,
+          name,
+          originalBinding.type,
+          generatedAstBindings
+        );
+      }
     }
 
     if (genContent) {

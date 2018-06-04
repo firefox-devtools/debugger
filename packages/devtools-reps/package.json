@@ -6,13 +6,11 @@
   "scripts": {
     "start": "node bin/dev-server.js",
     "lint-js": "eslint src",
-    "firefox": "./node_modules/.bin/start-firefox --start --location https://devtools-html.github.io/debugger-examples/",
+    "firefox":
+      "./node_modules/.bin/start-firefox --start --location https://devtools-html.github.io/debugger-examples/",
     "chrome": "./node_modules/.bin/start-chrome",
-    "copy-assets": "node bin/copy-assets",
-    "copy-assets-watch": "node bin/copy-assets --watch",
     "license-check": "devtools-license-check",
-    "prepublish": "node bin/publish-assets",
-    "test": "jest"
+    "test": "jest --projects jest.config.js"
   },
   "author": "",
   "license": "MPL-2.0",
@@ -41,9 +39,10 @@
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "babel-preset-react": "^6.24.1",
     "devtools-config": "^0.0.15",
-    "devtools-launchpad": "^0.0.121",
+    "devtools-launchpad": "^0.0.125",
     "devtools-license-check": "^0.5.1",
     "devtools-modules": "^0.0.36",
+    "devtools-services": "^0.0.1",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-to-json": "^3.3.1",
@@ -54,31 +53,5 @@
     "postcss-url-mapper": "^1.2.0",
     "react-immutable-proptypes": "^2.1.0",
     "redux-logger": "=3.0.6"
-  },
-  "jest": {
-    "rootDir": "src",
-    "setupFiles": [
-      "<rootDir>/test/__mocks__/request-animation-frame.js",
-      "<rootDir>/test/__mocks__/selection.js",
-      "<rootDir>/test/setup.js"
-    ],
-    "setupTestFrameworkScriptFile": "<rootDir>/test/setup-file.js",
-    "testMatch": [
-      "**/tests/**/*.js"
-    ],
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "<rootDir>/test/",
-      "<rootDir>/reps/tests/test-helpers",
-      "<rootDir>/utils/tests/fixtures/",
-      "<rootDir>/object-inspector/tests/__mocks__/",
-      "<rootDir>/object-inspector/tests/test-utils"
-    ],
-    "transformIgnorePatterns": [
-      "node_modules/(?!devtools-)"
-    ],
-    "moduleNameMapper": {
-      "\\.css$": "<rootDir>/../../../src/test/__mocks__/styleMock.js"
-    }
   }
 }

@@ -211,13 +211,14 @@ class SearchBar extends Component<Props, State> {
     this.setState({ inputFocused: false });
   };
 
-  onKeyDown = (e: SyntheticKeyboardEvent<HTMLElement>) => {
+  onKeyDown = (e: any) => {
     if (e.key !== "Enter" && e.key !== "F3") {
       return;
     }
 
     this.traverseResults(e, e.shiftKey);
     e.preventDefault();
+    return this.doSearch(e.target.value);
   };
 
   // Renderers

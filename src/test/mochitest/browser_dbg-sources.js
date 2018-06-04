@@ -8,7 +8,7 @@ async function waitForSourceCount(dbg, i) {
   // source tree batches its rendering.
   await waitUntil(() => {
     return findAllElements(dbg, "sourceNodes").length === i;
-  });
+  }, `waiting for ${i} sources`);
 }
 
 async function assertSourceCount(dbg, count) {
@@ -24,7 +24,10 @@ function getLabel(dbg, index) {
 
 add_task(async function() {
   const dbg = await initDebugger("doc-sources.html");
-  const { selectors: { getSelectedSource }, getState } = dbg;
+  const {
+    selectors: { getSelectedSource },
+    getState
+  } = dbg;
 
   await waitForSources(dbg, "simple1", "simple2", "nested-source", "long.js");
 
@@ -36,7 +39,7 @@ add_task(async function() {
   await clickElement(dbg, "sourceDirectoryLabel", 3);
   await assertSourceCount(dbg, 8);
 
-  const selected = waitForDispatch(dbg, "SELECT_SOURCE");
+  const selected = waitForDispatch(dbg, "SET_SELECTED_LOCATION");
   await clickElement(dbg, "sourceNode", 4);
   await selected;
   await waitForSelectedSource(dbg);
@@ -49,10 +52,7 @@ add_task(async function() {
   const selectedSource = getSelectedSource(getState()).get("url");
 
   ok(fourthNode.classList.contains("focused"), "4th node is focused");
-  ok(
-    selectedSource.includes("nested-source.js"),
-    "nested-source is selected"
-  );
+  ok(selectedSource.includes("nested-source.js"), "nested-source is selected");
 
   await waitForSelectedSource(dbg, "nested-source");
 

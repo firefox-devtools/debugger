@@ -22,19 +22,6 @@ import type { ParsedURL } from "./getURL";
 import type { Node } from "./types";
 import type { SourceRecord } from "../../types";
 
-function isUnderRoot(url, projectRoot) {
-  if (!projectRoot) {
-    return true;
-  }
-
-  return `${url.group}${url.path}`.startsWith(projectRoot);
-}
-
-function removeProjectRoot(parts, projectRoot) {
-  const rootParts = projectRoot.replace("://", "").split("/");
-  return parts.splice(0, rootParts.length - 2);
-}
-
 function createNodeInTree(
   part: string,
   path: string,
@@ -95,20 +82,11 @@ function findOrCreateNode(
  * walk the source tree to the final node for a given url,
  * adding new nodes along the way
  */
-function traverseTree(
-  url: Object,
-  tree: Node,
-  debuggeeHost: ?string,
-  projectRoot: string
-) {
+function traverseTree(url: Object, tree: Node, debuggeeHost: ?string) {
   url.path = decodeURIComponent(url.path);
 
   const parts = url.path.split("/").filter(p => p !== "");
   parts.unshift(url.group);
-
-  if (projectRoot) {
-    removeProjectRoot(parts, projectRoot);
-  }
 
   let path = "";
   return parts.reduce((subTree, part, index) => {
@@ -169,13 +147,13 @@ export function addToTree(
   debuggeeUrl: string,
   projectRoot: string
 ) {
-  const url = getURL(source.get("url"), debuggeeUrl);
+  const url = getURL(source.url, debuggeeUrl);
   const debuggeeHost = getDomain(debuggeeUrl);
 
-  if (isInvalidUrl(url, source) || !isUnderRoot(url, projectRoot)) {
+  if (isInvalidUrl(url, source)) {
     return;
   }
 
-  const finalNode = traverseTree(url, tree, debuggeeHost, projectRoot);
+  const finalNode = traverseTree(url, tree, debuggeeHost);
   finalNode.contents = addSourceToNode(finalNode, url, source);
 }

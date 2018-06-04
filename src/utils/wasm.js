@@ -31,7 +31,7 @@ function maybeWasmSectionNameResolver(data: Uint8Array) {
  * @memberof utils/wasm
  * @static
  */
-function getWasmText(sourceId: string, data: Uint8Array) {
+export function getWasmText(sourceId: string, data: Uint8Array) {
   const nameResolver = maybeWasmSectionNameResolver(data);
   const parser = new BinaryReader();
   parser.setData(data.buffer, 0, data.length);
@@ -61,7 +61,7 @@ function getWasmText(sourceId: string, data: Uint8Array) {
  * @memberof utils/wasm
  * @static
  */
-function getWasmLineNumberFormatter(sourceId: string) {
+export function getWasmLineNumberFormatter(sourceId: string) {
   const codeOf0 = 48,
     codeOfA = 65;
   const buffer = [
@@ -97,7 +97,7 @@ function getWasmLineNumberFormatter(sourceId: string) {
  * @memberof utils/wasm
  * @static
  */
-function isWasm(sourceId: string) {
+export function isWasm(sourceId: string) {
   return sourceId in wasmStates;
 }
 
@@ -105,7 +105,7 @@ function isWasm(sourceId: string) {
  * @memberof utils/wasm
  * @static
  */
-function lineToWasmOffset(sourceId: string, number: number): ?number {
+export function lineToWasmOffset(sourceId: string, number: number): ?number {
   const wasmState = wasmStates[sourceId];
   if (!wasmState) {
     return undefined;
@@ -121,7 +121,7 @@ function lineToWasmOffset(sourceId: string, number: number): ?number {
  * @memberof utils/wasm
  * @static
  */
-function wasmOffsetToLine(sourceId: string, offset: number): ?number {
+export function wasmOffsetToLine(sourceId: string, offset: number): ?number {
   const wasmState = wasmStates[sourceId];
   if (!wasmState) {
     return undefined;
@@ -133,11 +133,11 @@ function wasmOffsetToLine(sourceId: string, offset: number): ?number {
  * @memberof utils/wasm
  * @static
  */
-function clearWasmStates() {
+export function clearWasmStates() {
   wasmStates = (Object.create(null): any);
 }
 
-function renderWasmText(sourceId: string, { binary }: Object) {
+export function renderWasmText(sourceId: string, { binary }: Object) {
   // binary does not survive as Uint8Array, converting from string
   const data = new Uint8Array(binary.length);
   for (let i = 0; i < data.length; i++) {
@@ -151,13 +151,3 @@ function renderWasmText(sourceId: string, { binary }: Object) {
   }
   return lines;
 }
-
-export {
-  getWasmText,
-  getWasmLineNumberFormatter,
-  isWasm,
-  lineToWasmOffset,
-  wasmOffsetToLine,
-  clearWasmStates,
-  renderWasmText
-};

@@ -110,16 +110,17 @@ export function setPausePoints(sourceId: SourceId) {
       return;
     }
 
-    const pausePoints = await getPausePoints(source.id);
+    const pausePoints = await getPausePoints(sourceId);
 
-    if (isGeneratedId(source.id)) {
-      await client.setPausePoints(source.id, pausePoints);
+    if (isGeneratedId(sourceId)) {
+      await client.setPausePoints(sourceId, pausePoints);
     }
 
     dispatch(
       ({
         type: "SET_PAUSE_POINTS",
-        source: source.toJS(),
+        sourceText: source.text,
+        sourceId,
         pausePoints
       }: Action)
     );

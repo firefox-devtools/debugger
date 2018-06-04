@@ -45,6 +45,12 @@ type ProjectTextSearchResult = {
   matches: MatchedLocations[]
 };
 
+type AddTabAction = {|
+  +type: "ADD_TAB",
+  +url: string,
+  +tabIndex: ?number
+|};
+
 type ReplayAction =
   | {|
       +type: "TRAVEL_TO",
@@ -142,6 +148,7 @@ export type { ASTAction } from "./ASTAction";
  * @static
  */
 export type Action =
+  | AddTabAction
   | SourceAction
   | BreakpointAction
   | PauseAction

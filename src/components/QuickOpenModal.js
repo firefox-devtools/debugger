@@ -293,10 +293,6 @@ export class QuickOpenModal extends Component<Props, State> {
       }
 
       if (results) {
-        if (this.isShortcutQuery()) {
-          return this.setModifier(results[selectedIndex]);
-        }
-
         return this.selectResultItem(e, results[selectedIndex]);
       }
     }
@@ -361,15 +357,18 @@ export class QuickOpenModal extends Component<Props, State> {
     return !this.getResultCount() && !!query;
   }
 
-  renderLoading = () => {
-    const { symbolsLoading } = this.props;
-
-    if ((this.isFunctionQuery() || this.isVariableQuery()) && symbolsLoading) {
-      return (
-        <div className="loading-indicator">{L10N.getStr("loadingText")}</div>
-      );
+  getSummaryMessage() {
+    let summaryMsg = "";
+    if (this.isGotoQuery()) {
+      summaryMsg = L10N.getStr("shortcuts.gotoLine");
+    } else if (
+      (this.isFunctionQuery() || this.isVariableQuery()) &&
+      this.props.symbolsLoading
+    ) {
+      summaryMsg = L10N.getStr("loadingText");
     }
-  };
+    return summaryMsg;
+  }
 
   render() {
     const { enabled, query } = this.props;
@@ -381,6 +380,7 @@ export class QuickOpenModal extends Component<Props, State> {
     const newResults = results && results.slice(0, 100);
     const items = this.highlightMatching(query, newResults || []);
     const expanded = !!items && items.length > 0;
+
     return (
       <Modal in={enabled} handleClose={this.closeModal}>
         <SearchInput
@@ -388,17 +388,18 @@ export class QuickOpenModal extends Component<Props, State> {
           hasPrefix={true}
           count={this.getResultCount()}
           placeholder={L10N.getStr("sourceSearch.search")}
-          summaryMsg=""
+          summaryMsg={this.getSummaryMessage()}
           showErrorEmoji={this.shouldShowErrorEmoji()}
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}
           handleClose={this.closeModal}
           expanded={expanded}
+          showClose={false}
           selectedItemId={
             expanded && items[selectedIndex] ? items[selectedIndex].id : ""
           }
+          {...(this.isSourceSearch() ? { size: "big" } : {})}
         />
-        {this.renderLoading()}
         {newResults && (
           <ResultList
             key="results"

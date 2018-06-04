@@ -47,16 +47,16 @@ import {
   showLoading,
   showErrorMessage,
   shouldShowFooter,
-  createEditor,
+  getEditor,
   clearEditor,
   getCursorLine,
   toSourceLine,
   getDocument,
-  setEditor,
   scrollToColumn,
   toEditorPosition,
   getSourceLocationFromMouseEvent,
-  hasDocument
+  hasDocument,
+  onMouseOver
 } from "../../utils/editor";
 
 import { resizeToggleButton, resizeBreakpointGutter } from "../../utils/ui";
@@ -127,7 +127,7 @@ class Editor extends PureComponent<Props, State> {
   }
 
   setupEditor() {
-    const editor = createEditor();
+    const editor = getEditor();
 
     // disables the default search shortcuts
     // $FlowIgnore
@@ -150,6 +150,7 @@ class Editor extends PureComponent<Props, State> {
     codeMirrorWrapper.tabIndex = 0;
     codeMirrorWrapper.addEventListener("keydown", e => this.onKeyDown(e));
     codeMirrorWrapper.addEventListener("click", e => this.onClick(e));
+    codeMirrorWrapper.addEventListener("mouseover", onMouseOver(codeMirror));
 
     const toggleFoldMarkerVisibility = e => {
       if (node instanceof HTMLElement) {
@@ -177,7 +178,6 @@ class Editor extends PureComponent<Props, State> {
     }
 
     this.setState({ editor });
-    setEditor(editor);
     return editor;
   }
 
@@ -608,7 +608,7 @@ const mapStateToProps = state => {
     hitCount: getHitCountForSource(state, sourceId),
     coverageOn: getCoverageEnabled(state),
     conditionalPanelLine: getConditionalPanelLine(state),
-    symbols: getSymbols(state, selectedSource && selectedSource.toJS())
+    symbols: getSymbols(state, selectedSource)
   };
 };
 

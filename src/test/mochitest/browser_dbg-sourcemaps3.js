@@ -11,7 +11,10 @@ add_task(async function() {
   await pushPref("devtools.debugger.features.map-scopes", true);
 
   const dbg = await initDebugger("doc-sourcemaps3.html");
-  const { selectors: { getBreakpoint, getBreakpoints }, getState } = dbg;
+  const {
+    selectors: { getBreakpoint, getBreakpoints },
+    getState
+  } = dbg;
 
   await waitForSources(dbg, "bundle.js", "sorted.js", "test.js");
 
@@ -37,7 +40,7 @@ add_task(async function() {
   is(getScopeLabel(dbg, 2), "na");
   is(getScopeLabel(dbg, 3), "nb");
 
-  is(getScopeLabel(dbg, 4), "Block");
+  is(getScopeLabel(dbg, 4), "Function Body");
 
   await toggleScopeNode(dbg, 4);
 

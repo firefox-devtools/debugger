@@ -5,6 +5,7 @@
 /* eslint max-nested-callbacks: ["error", 4]*/
 
 import { Map } from "immutable";
+import { createSourceRecord } from "../../../reducers/sources";
 
 import {
   addToTree,
@@ -15,23 +16,23 @@ import {
 } from "../index";
 
 function createSourcesMap(sources) {
-  const msources = sources.map((s, i) => new Map(s));
+  const msources = sources.map((s, i) => createSourceRecord(s));
   let sourcesMap = Map();
   msources.forEach(s => {
-    sourcesMap = sourcesMap.mergeIn([s.get("id")], s);
+    sourcesMap = sourcesMap.setIn([s.id], s);
   });
 
   return sourcesMap;
 }
 
 function createSourcesList(sources) {
-  return sources.map((s, i) => new Map(s));
+  return sources.map((s, i) => createSourceRecord(s));
 }
 
 describe("sources-tree", () => {
   describe("addToTree", () => {
     it("should provide node API", () => {
-      const source = Map({
+      const source = createSourceRecord({
         url: "http://example.com/a/b/c.js",
         actor: "actor1"
       });
@@ -49,7 +50,7 @@ describe("sources-tree", () => {
     });
 
     it("builds a path-based tree", () => {
-      const source1 = Map({
+      const source1 = createSourceRecord({
         url: "http://example.com/foo/source1.js",
         actor: "actor1"
       });
@@ -133,15 +134,15 @@ describe("sources-tree", () => {
     });
 
     it("excludes javascript: URLs from the tree", () => {
-      const source1 = Map({
+      const source1 = createSourceRecord({
         url: "javascript:alert('Hello World')",
         actor: "actor1"
       });
-      const source2 = Map({
+      const source2 = createSourceRecord({
         url: "http://example.com/source1.js",
         actor: "actor2"
       });
-      const source3 = Map({
+      const source3 = createSourceRecord({
         url: "javascript:let i = 10; while (i > 0) i--; console.log(i);",
         actor: "actor3"
       });
@@ -160,7 +161,7 @@ describe("sources-tree", () => {
     });
 
     it("correctly parses file sources", () => {
-      const source = Map({
+      const source = createSourceRecord({
         url: "file:///a/b.js",
         actor: "actor1"
       });
@@ -249,41 +250,6 @@ describe("sources-tree", () => {
       const sources = createSourcesList(testData);
       const tree = createNode("root", "", []);
       sources.forEach(source => addToTree(tree, source, domain));
-      expect(formatTree(tree)).toMatchSnapshot();
-    });
-
-    it("uses projectRoot to filter the list", () => {
-      const testData = [
-        {
-          url: "http://example.com/components/TodoTextInput.js"
-        },
-        {
-          url: "http://example.com/components/Header.js"
-        },
-        {
-          url: "http://example.com/reducers/index.js"
-        },
-        {
-          url: "http://example.com/components/TodoItem.js"
-        },
-        {
-          url: "resource://gre/modules/ExtensionContent.jsm"
-        },
-        {
-          url:
-            "https://voz37vlg5.codesandbox.io/static/js/components/TodoItem.js"
-        },
-        {
-          url: "http://example.com/index.js"
-        }
-      ];
-
-      const domain = "http://example.com/";
-      const sources = createSourcesList(testData);
-      const root = "/example.com/components";
-
-      const tree = createNode("root", "", []);
-      sources.forEach(source => addToTree(tree, source, domain, root));
       expect(formatTree(tree)).toMatchSnapshot();
     });
   });

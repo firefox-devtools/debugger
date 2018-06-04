@@ -14,10 +14,12 @@ import { endTruncateStr } from "./utils";
 import { basename } from "./path";
 
 import { parse as parseURL } from "url";
+import { getUnicodeUrl, getUnicodeUrlPath } from "devtools-modules";
 export { isMinified } from "./isMinified";
-import { getExtension } from "./sources-tree";
+import { getFileExtension } from "./sources-tree";
 
 import type { Source, SourceRecord, Location } from "../types";
+import type { SourceMetaDataType } from "../reducers/ast";
 import type { SymbolDeclarations } from "../workers/parser";
 
 type transformUrlCallback = string => string;
@@ -134,8 +136,17 @@ function resolveFileURL(
   return endTruncateStr(name, 50);
 }
 
+/**
+ * Gets a readable filename from a URL for display purposes.
+ *
+ * @memberof utils/source
+ * @static
+ */
 export function getFilenameFromURL(url: string) {
-  return resolveFileURL(url, initialUrl => basename(initialUrl) || "(index)");
+  return resolveFileURL(
+    url,
+    initialUrl => getUnicodeUrlPath(basename(initialUrl)) || "(index)"
+  );
 }
 
 export function getFormattedSourceId(id: string) {
@@ -144,8 +155,8 @@ export function getFormattedSourceId(id: string) {
 }
 
 /**
- * Show a source url's filename.
- * If the source does not have a url, use the source id.
+ * Gets a readable filename from a source URL for display purposes.
+ * If the source does not have a URL, the source ID will be returned instead.
  *
  * @memberof utils/source
  * @static
@@ -165,8 +176,8 @@ export function getFilename(source: Source) {
 }
 
 /**
- * Show a source url.
- * If the source does not have a url, use the source id.
+ * Gets a readable source URL for display purposes.
+ * If the source does not have a URL, the source ID will be returned instead.
  *
  * @memberof utils/source
  * @static
@@ -177,7 +188,7 @@ export function getFileURL(source: Source) {
     return getFormattedSourceId(id);
   }
 
-  return resolveFileURL(url);
+  return resolveFileURL(url, getUnicodeUrl);
 }
 
 const contentTypeModeMap = {
@@ -266,7 +277,8 @@ export function getMode(
     { ext: ".kt", mode: "text/x-kotlin" },
     { ext: ".cpp", mode: "text/x-c++src" },
     { ext: ".m", mode: "text/x-objectivec" },
-    { ext: ".rs", mode: "text/x-rustsrc" }
+    { ext: ".rs", mode: "text/x-rustsrc" },
+    { ext: ".hx", mode: "text/x-haxe" }
   ];
 
   // check for C and other non JS languages
@@ -323,7 +335,7 @@ export function isLoading(source: SourceRecord) {
 }
 
 export function getTextAtPosition(source: Source, location: Location) {
-  if (!source || !source.text) {
+  if (!source || !source.text || source.isWasm) {
     return "";
   }
 
@@ -338,10 +350,27 @@ export function getTextAtPosition(source: Source, location: Location) {
   return lineText.slice(column, column + 100).trim();
 }
 
-export function getSourceClassnames(source: Object) {
-  if (source && source.isBlackBoxed) {
-    return "blackBox";
+export function getSourceClassnames(
+  source: Object,
+  sourceMetaData?: SourceMetaDataType
+) {
+  // Conditionals should be ordered by priority of icon!
+  const defaultClassName = "file";
+
+  if (!source || !source.url) {
+    return defaultClassName;
   }
 
-  return sourceTypes[getExtension(source)] || "file";
+  if (sourceMetaData && sourceMetaData.framework) {
+    return sourceMetaData.framework.toLowerCase();
+  }
+
+  if (isPretty(source)) {
+    return "prettyPrint";
+  }
+
+  if (source.isBlackBoxed) {
+    return "blackBox";
+  }
+  return sourceTypes[getFileExtension(source.url)] || defaultClassName;
 }

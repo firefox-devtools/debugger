@@ -8,7 +8,8 @@ export * from "./source-documents";
 export * from "./get-token-location";
 export * from "./source-search";
 export * from "../ui";
-export * from "./create-editor";
+export { onMouseOver } from "./token-events";
+import { createEditor } from "./create-editor";
 
 import { shouldPrettyPrint } from "../source";
 import { findNext, findPrev } from "./source-search";
@@ -23,11 +24,12 @@ type Editor = Object;
 
 let editor: ?Editor;
 
-export function setEditor(_editor: Editor) {
-  editor = _editor;
-}
-
 export function getEditor() {
+  if (editor) {
+    return editor;
+  }
+
+  editor = createEditor();
   return editor;
 }
 

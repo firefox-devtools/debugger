@@ -2,14 +2,14 @@
 
 exports[`QuickOpenModal Basic render with mount & searchType = functions 1`] = `
 <QuickOpenModal
-  clearHighlightLineRange={[Function]}
-  closeQuickOpen={[Function]}
+  clearHighlightLineRange={[MockFunction]}
+  closeQuickOpen={[MockFunction]}
   enabled={true}
-  highlightLineRange={[Function]}
+  highlightLineRange={[MockFunction]}
   query="@"
   searchType="functions"
-  selectLocation={[Function]}
-  setQuickOpenQuery={[Function]}
+  selectLocation={[MockFunction]}
+  setQuickOpenQuery={[MockFunction]}
   sources={Array []}
   symbols={
     Object {
@@ -60,6 +60,7 @@ exports[`QuickOpenModal Basic render with mount & searchType = functions 1`] = `
               placeholder="Search sources…"
               query="@"
               selectedItemId=""
+              showClose={false}
               showErrorEmoji={true}
               size=""
               summaryMsg=""
@@ -107,19 +108,6 @@ exports[`QuickOpenModal Basic render with mount & searchType = functions 1`] = `
                     spellCheck={false}
                     value="@"
                   />
-                  <CloseButton
-                    buttonClass=""
-                    handleClick={[Function]}
-                  >
-                    <button
-                      className="close-btn"
-                      onClick={[Function]}
-                    >
-                      <img
-                        className="close"
-                      />
-                    </button>
-                  </CloseButton>
                 </div>
               </div>
             </SearchInput>
@@ -149,14 +137,14 @@ exports[`QuickOpenModal Basic render with mount & searchType = functions 1`] = `
 
 exports[`QuickOpenModal Basic render with mount & searchType = variables 1`] = `
 <QuickOpenModal
-  clearHighlightLineRange={[Function]}
-  closeQuickOpen={[Function]}
+  clearHighlightLineRange={[MockFunction]}
+  closeQuickOpen={[MockFunction]}
   enabled={true}
-  highlightLineRange={[Function]}
+  highlightLineRange={[MockFunction]}
   query="#"
   searchType="variables"
-  selectLocation={[Function]}
-  setQuickOpenQuery={[Function]}
+  selectLocation={[MockFunction]}
+  setQuickOpenQuery={[MockFunction]}
   sources={Array []}
   symbols={
     Object {
@@ -207,6 +195,7 @@ exports[`QuickOpenModal Basic render with mount & searchType = variables 1`] = `
               placeholder="Search sources…"
               query="#"
               selectedItemId=""
+              showClose={false}
               showErrorEmoji={true}
               size=""
               summaryMsg=""
@@ -254,19 +243,6 @@ exports[`QuickOpenModal Basic render with mount & searchType = variables 1`] = `
                     spellCheck={false}
                     value="#"
                   />
-                  <CloseButton
-                    buttonClass=""
-                    handleClick={[Function]}
-                  >
-                    <button
-                      className="close-btn"
-                      onClick={[Function]}
-                    >
-                      <img
-                        className="close"
-                      />
-                    </button>
-                  </CloseButton>
                 </div>
               </div>
             </SearchInput>
@@ -296,14 +272,14 @@ exports[`QuickOpenModal Basic render with mount & searchType = variables 1`] = `
 
 exports[`QuickOpenModal Basic render with mount 1`] = `
 <QuickOpenModal
-  clearHighlightLineRange={[Function]}
-  closeQuickOpen={[Function]}
+  clearHighlightLineRange={[MockFunction]}
+  closeQuickOpen={[MockFunction]}
   enabled={true}
-  highlightLineRange={[Function]}
+  highlightLineRange={[MockFunction]}
   query=""
   searchType="sources"
-  selectLocation={[Function]}
-  setQuickOpenQuery={[Function]}
+  selectLocation={[MockFunction]}
+  setQuickOpenQuery={[MockFunction]}
   sources={Array []}
   tabs={Array []}
 >
@@ -348,8 +324,9 @@ exports[`QuickOpenModal Basic render with mount 1`] = `
               placeholder="Search sources…"
               query=""
               selectedItemId=""
+              showClose={false}
               showErrorEmoji={false}
-              size=""
+              size="big"
               summaryMsg=""
             >
               <div
@@ -359,7 +336,7 @@ exports[`QuickOpenModal Basic render with mount 1`] = `
                   aria-expanded={false}
                   aria-haspopup="listbox"
                   aria-owns="result-list"
-                  className="search-field"
+                  className="search-field big"
                   role="combobox"
                 >
                   <Svg
@@ -395,19 +372,6 @@ exports[`QuickOpenModal Basic render with mount 1`] = `
                     spellCheck={false}
                     value=""
                   />
-                  <CloseButton
-                    buttonClass=""
-                    handleClick={[Function]}
-                  >
-                    <button
-                      className="close-btn"
-                      onClick={[Function]}
-                    >
-                      <img
-                        className="close"
-                      />
-                    </button>
-                  </CloseButton>
                 </div>
               </div>
             </SearchInput>
@@ -452,8 +416,9 @@ exports[`QuickOpenModal Renders when enabled 1`] = `
     placeholder="Search sources…"
     query=""
     selectedItemId=""
+    showClose={false}
     showErrorEmoji={false}
-    size=""
+    size="big"
     summaryMsg=""
   />
   <ResultList
@@ -470,14 +435,14 @@ exports[`QuickOpenModal Renders when enabled 1`] = `
 
 exports[`QuickOpenModal Simple goto search query = :abc & searchType = goto 1`] = `
 <QuickOpenModal
-  clearHighlightLineRange={[Function]}
-  closeQuickOpen={[Function]}
+  clearHighlightLineRange={[MockFunction]}
+  closeQuickOpen={[MockFunction]}
   enabled={true}
-  highlightLineRange={[Function]}
+  highlightLineRange={[MockFunction]}
   query=":abc"
   searchType="goto"
-  selectLocation={[Function]}
-  setQuickOpenQuery={[Function]}
+  selectLocation={[MockFunction]}
+  setQuickOpenQuery={[MockFunction]}
   sources={Array []}
   symbols={
     Object {
@@ -528,9 +493,10 @@ exports[`QuickOpenModal Simple goto search query = :abc & searchType = goto 1`] 
               placeholder="Search sources…"
               query=":abc"
               selectedItemId=""
+              showClose={false}
               showErrorEmoji={true}
               size=""
-              summaryMsg=""
+              summaryMsg="Go to line"
             >
               <div
                 className="search-shadow"
@@ -575,19 +541,11 @@ exports[`QuickOpenModal Simple goto search query = :abc & searchType = goto 1`] 
                     spellCheck={false}
                     value=":abc"
                   />
-                  <CloseButton
-                    buttonClass=""
-                    handleClick={[Function]}
+                  <div
+                    className="summary"
                   >
-                    <button
-                      className="close-btn"
-                      onClick={[Function]}
-                    >
-                      <img
-                        className="close"
-                      />
-                    </button>
-                  </CloseButton>
+                    Go to line
+                  </div>
                 </div>
               </div>
             </SearchInput>
@@ -601,14 +559,14 @@ exports[`QuickOpenModal Simple goto search query = :abc & searchType = goto 1`] 
 
 exports[`QuickOpenModal showErrorEmoji false when count + query 1`] = `
 <QuickOpenModal
-  clearHighlightLineRange={[Function]}
-  closeQuickOpen={[Function]}
+  clearHighlightLineRange={[MockFunction]}
+  closeQuickOpen={[MockFunction]}
   enabled={true}
-  highlightLineRange={[Function]}
+  highlightLineRange={[MockFunction]}
   query="dasdasdas"
   searchType="sources"
-  selectLocation={[Function]}
-  setQuickOpenQuery={[Function]}
+  selectLocation={[MockFunction]}
+  setQuickOpenQuery={[MockFunction]}
   sources={Array []}
   tabs={Array []}
 >
@@ -653,8 +611,9 @@ exports[`QuickOpenModal showErrorEmoji false when count + query 1`] = `
               placeholder="Search sources…"
               query="dasdasdas"
               selectedItemId=""
+              showClose={false}
               showErrorEmoji={false}
-              size=""
+              size="big"
               summaryMsg=""
             >
               <div
@@ -664,7 +623,7 @@ exports[`QuickOpenModal showErrorEmoji false when count + query 1`] = `
                   aria-expanded={true}
                   aria-haspopup="listbox"
                   aria-owns="result-list"
-                  className="search-field"
+                  className="search-field big"
                   role="combobox"
                 >
                   <Svg
@@ -700,19 +659,6 @@ exports[`QuickOpenModal showErrorEmoji false when count + query 1`] = `
                     spellCheck={false}
                     value="dasdasdas"
                   />
-                  <CloseButton
-                    buttonClass=""
-                    handleClick={[Function]}
-                  >
-                    <button
-                      className="close-btn"
-                      onClick={[Function]}
-                    >
-                      <img
-                        className="close"
-                      />
-                    </button>
-                  </CloseButton>
                 </div>
               </div>
             </SearchInput>
@@ -723,20 +669,20 @@ exports[`QuickOpenModal showErrorEmoji false when count + query 1`] = `
                   Object {
                     "title": <div
                       dangerouslySetInnerHTML={
-                            Object {
-                                  "__html": undefined,
-                                }
+                        Object {
+                          "__html": undefined,
+                        }
                       }
-                />,
+                    />,
                   },
                   Object {
                     "title": <div
                       dangerouslySetInnerHTML={
-                            Object {
-                                  "__html": undefined,
-                                }
+                        Object {
+                          "__html": undefined,
+                        }
                       }
-                />,
+                    />,
                   },
                 ]
               }
@@ -814,14 +760,14 @@ exports[`QuickOpenModal showErrorEmoji false when count + query 1`] = `
 
 exports[`QuickOpenModal showErrorEmoji false when goto numeric ':2222' 1`] = `
 <QuickOpenModal
-  clearHighlightLineRange={[Function]}
-  closeQuickOpen={[Function]}
+  clearHighlightLineRange={[MockFunction]}
+  closeQuickOpen={[MockFunction]}
   enabled={true}
-  highlightLineRange={[Function]}
+  highlightLineRange={[MockFunction]}
   query=":2222"
   searchType="goto"
-  selectLocation={[Function]}
-  setQuickOpenQuery={[Function]}
+  selectLocation={[MockFunction]}
+  setQuickOpenQuery={[MockFunction]}
   sources={Array []}
   tabs={Array []}
 >
@@ -866,9 +812,10 @@ exports[`QuickOpenModal showErrorEmoji false when goto numeric ':2222' 1`] = `
               placeholder="Search sources…"
               query=":2222"
               selectedItemId=""
+              showClose={false}
               showErrorEmoji={false}
               size=""
-              summaryMsg=""
+              summaryMsg="Go to line"
             >
               <div
                 className="search-shadow"
@@ -913,19 +860,11 @@ exports[`QuickOpenModal showErrorEmoji false when goto numeric ':2222' 1`] = `
                     spellCheck={false}
                     value=":2222"
                   />
-                  <CloseButton
-                    buttonClass=""
-                    handleClick={[Function]}
+                  <div
+                    className="summary"
                   >
-                    <button
-                      className="close-btn"
-                      onClick={[Function]}
-                    >
-                      <img
-                        className="close"
-                      />
-                    </button>
-                  </CloseButton>
+                    Go to line
+                  </div>
                 </div>
               </div>
             </SearchInput>
@@ -939,14 +878,14 @@ exports[`QuickOpenModal showErrorEmoji false when goto numeric ':2222' 1`] = `
 
 exports[`QuickOpenModal showErrorEmoji false when no query 1`] = `
 <QuickOpenModal
-  clearHighlightLineRange={[Function]}
-  closeQuickOpen={[Function]}
+  clearHighlightLineRange={[MockFunction]}
+  closeQuickOpen={[MockFunction]}
   enabled={true}
-  highlightLineRange={[Function]}
+  highlightLineRange={[MockFunction]}
   query=""
   searchType=""
-  selectLocation={[Function]}
-  setQuickOpenQuery={[Function]}
+  selectLocation={[MockFunction]}
+  setQuickOpenQuery={[MockFunction]}
   sources={Array []}
   tabs={Array []}
 >
@@ -991,6 +930,7 @@ exports[`QuickOpenModal showErrorEmoji false when no query 1`] = `
               placeholder="Search sources…"
               query=""
               selectedItemId=""
+              showClose={false}
               showErrorEmoji={false}
               size=""
               summaryMsg=""
@@ -1038,19 +978,6 @@ exports[`QuickOpenModal showErrorEmoji false when no query 1`] = `
                     spellCheck={false}
                     value=""
                   />
-                  <CloseButton
-                    buttonClass=""
-                    handleClick={[Function]}
-                  >
-                    <button
-                      className="close-btn"
-                      onClick={[Function]}
-                    >
-                      <img
-                        className="close"
-                      />
-                    </button>
-                  </CloseButton>
                 </div>
               </div>
             </SearchInput>
@@ -1080,14 +1007,14 @@ exports[`QuickOpenModal showErrorEmoji false when no query 1`] = `
 
 exports[`QuickOpenModal showErrorEmoji true when goto not numeric ':22k22' 1`] = `
 <QuickOpenModal
-  clearHighlightLineRange={[Function]}
-  closeQuickOpen={[Function]}
+  clearHighlightLineRange={[MockFunction]}
+  closeQuickOpen={[MockFunction]}
   enabled={true}
-  highlightLineRange={[Function]}
+  highlightLineRange={[MockFunction]}
   query=":22k22"
   searchType="goto"
-  selectLocation={[Function]}
-  setQuickOpenQuery={[Function]}
+  selectLocation={[MockFunction]}
+  setQuickOpenQuery={[MockFunction]}
   sources={Array []}
   tabs={Array []}
 >
@@ -1132,9 +1059,10 @@ exports[`QuickOpenModal showErrorEmoji true when goto not numeric ':22k22' 1`] =
               placeholder="Search sources…"
               query=":22k22"
               selectedItemId=""
+              showClose={false}
               showErrorEmoji={true}
               size=""
-              summaryMsg=""
+              summaryMsg="Go to line"
             >
               <div
                 className="search-shadow"
@@ -1179,19 +1107,11 @@ exports[`QuickOpenModal showErrorEmoji true when goto not numeric ':22k22' 1`] =
                     spellCheck={false}
                     value=":22k22"
                   />
-                  <CloseButton
-                    buttonClass=""
-                    handleClick={[Function]}
+                  <div
+                    className="summary"
                   >
-                    <button
-                      className="close-btn"
-                      onClick={[Function]}
-                    >
-                      <img
-                        className="close"
-                      />
-                    </button>
-                  </CloseButton>
+                    Go to line
+                  </div>
                 </div>
               </div>
             </SearchInput>
@@ -1205,14 +1125,14 @@ exports[`QuickOpenModal showErrorEmoji true when goto not numeric ':22k22' 1`] =
 
 exports[`QuickOpenModal showErrorEmoji true when no count + query 1`] = `
 <QuickOpenModal
-  clearHighlightLineRange={[Function]}
-  closeQuickOpen={[Function]}
+  clearHighlightLineRange={[MockFunction]}
+  closeQuickOpen={[MockFunction]}
   enabled={true}
-  highlightLineRange={[Function]}
+  highlightLineRange={[MockFunction]}
   query="test"
   searchType=""
-  selectLocation={[Function]}
-  setQuickOpenQuery={[Function]}
+  selectLocation={[MockFunction]}
+  setQuickOpenQuery={[MockFunction]}
   sources={Array []}
   tabs={Array []}
 >
@@ -1257,6 +1177,7 @@ exports[`QuickOpenModal showErrorEmoji true when no count + query 1`] = `
               placeholder="Search sources…"
               query="test"
               selectedItemId=""
+              showClose={false}
               showErrorEmoji={true}
               size=""
               summaryMsg=""
@@ -1304,19 +1225,6 @@ exports[`QuickOpenModal showErrorEmoji true when no count + query 1`] = `
                     spellCheck={false}
                     value="test"
                   />
-                  <CloseButton
-                    buttonClass=""
-                    handleClick={[Function]}
-                  >
-                    <button
-                      className="close-btn"
-                      onClick={[Function]}
-                    >
-                      <img
-                        className="close"
-                      />
-                    </button>
-                  </CloseButton>
                 </div>
               </div>
             </SearchInput>
@@ -1328,16 +1236,80 @@ exports[`QuickOpenModal showErrorEmoji true when no count + query 1`] = `
 </QuickOpenModal>
 `;
 
+exports[`QuickOpenModal shows loading loads with function type search 1`] = `
+<Slide
+  handleClose={[Function]}
+  in={true}
+>
+  <SearchInput
+    count={0}
+    expanded={false}
+    handleClose={[Function]}
+    hasPrefix={true}
+    onChange={[Function]}
+    onKeyDown={[Function]}
+    placeholder="Search sources…"
+    query=""
+    selectedItemId=""
+    showClose={false}
+    showErrorEmoji={false}
+    size=""
+    summaryMsg="Loading…"
+  />
+  <ResultList
+    expanded={false}
+    items={Array []}
+    key="results"
+    role="listbox"
+    selectItem={[Function]}
+    selected={0}
+    size="small"
+  />
+</Slide>
+`;
+
+exports[`QuickOpenModal shows loading loads with variable type search 1`] = `
+<Slide
+  handleClose={[Function]}
+  in={true}
+>
+  <SearchInput
+    count={0}
+    expanded={false}
+    handleClose={[Function]}
+    hasPrefix={true}
+    onChange={[Function]}
+    onKeyDown={[Function]}
+    placeholder="Search sources…"
+    query=""
+    selectedItemId=""
+    showClose={false}
+    showErrorEmoji={false}
+    size=""
+    summaryMsg="Loading…"
+  />
+  <ResultList
+    expanded={false}
+    items={Array []}
+    key="results"
+    role="listbox"
+    selectItem={[Function]}
+    selected={0}
+    size="small"
+  />
+</Slide>
+`;
+
 exports[`QuickOpenModal updateResults on enable 1`] = `
 <QuickOpenModal
-  clearHighlightLineRange={[Function]}
-  closeQuickOpen={[Function]}
+  clearHighlightLineRange={[MockFunction]}
+  closeQuickOpen={[MockFunction]}
   enabled={false}
-  highlightLineRange={[Function]}
+  highlightLineRange={[MockFunction]}
   query=""
   searchType="sources"
-  selectLocation={[Function]}
-  setQuickOpenQuery={[Function]}
+  selectLocation={[MockFunction]}
+  setQuickOpenQuery={[MockFunction]}
   sources={Array []}
   tabs={Array []}
 />
@@ -1345,14 +1317,14 @@ exports[`QuickOpenModal updateResults on enable 1`] = `
 
 exports[`QuickOpenModal updateResults on enable 2`] = `
 <QuickOpenModal
-  clearHighlightLineRange={[Function]}
-  closeQuickOpen={[Function]}
+  clearHighlightLineRange={[MockFunction]}
+  closeQuickOpen={[MockFunction]}
   enabled={true}
-  highlightLineRange={[Function]}
+  highlightLineRange={[MockFunction]}
   query=""
   searchType="sources"
-  selectLocation={[Function]}
-  setQuickOpenQuery={[Function]}
+  selectLocation={[MockFunction]}
+  setQuickOpenQuery={[MockFunction]}
   sources={Array []}
   tabs={Array []}
 >
@@ -1397,8 +1369,9 @@ exports[`QuickOpenModal updateResults on enable 2`] = `
               placeholder="Search sources…"
               query=""
               selectedItemId=""
+              showClose={false}
               showErrorEmoji={false}
-              size=""
+              size="big"
               summaryMsg=""
             >
               <div
@@ -1408,7 +1381,7 @@ exports[`QuickOpenModal updateResults on enable 2`] = `
                   aria-expanded={false}
                   aria-haspopup="listbox"
                   aria-owns="result-list"
-                  className="search-field"
+                  className="search-field big"
                   role="combobox"
                 >
                   <Svg
@@ -1444,19 +1417,6 @@ exports[`QuickOpenModal updateResults on enable 2`] = `
                     spellCheck={false}
                     value=""
                   />
-                  <CloseButton
-                    buttonClass=""
-                    handleClick={[Function]}
-                  >
-                    <button
-                      className="close-btn"
-                      onClick={[Function]}
-                    >
-                      <img
-                        className="close"
-                      />
-                    </button>
-                  </CloseButton>
                 </div>
               </div>
             </SearchInput>

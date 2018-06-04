@@ -37,8 +37,7 @@ export function isDirectory(url: Object) {
   );
 }
 
-export function getExtension(source: Object): string {
-  const url = source.get ? source.get("url") : source.url;
+export function getFileExtension(url: string = ""): string {
   const parsedUrl = parse(url).pathname;
   if (!parsedUrl) {
     return "";
@@ -47,13 +46,13 @@ export function getExtension(source: Object): string {
 }
 
 export function isNotJavaScript(source: Object): boolean {
-  return ["css", "svg", "png"].includes(getExtension(source));
+  return ["css", "svg", "png"].includes(getFileExtension(source.url));
 }
 
 export function isInvalidUrl(url: Object, source: SourceRecord) {
   return (
     IGNORED_URLS.indexOf(url) != -1 ||
-    !source.get("url") ||
+    !source.url ||
     !url.group ||
     isPretty(source) ||
     isNotJavaScript(source)

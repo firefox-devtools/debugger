@@ -251,15 +251,6 @@ export type Expression = {
  * @static
  */
 
-export type PreviewGrip = {
-  kind: string,
-  url: string,
-  fileName: string,
-  message: string,
-  name: string,
-  ownProperties?: Object
-};
-
 /**
  * Grip
  * @memberof types
@@ -272,9 +263,14 @@ export type Grip = {
   frozen: boolean,
   isGlobal: boolean,
   ownPropertyLength: number,
-  preview?: PreviewGrip,
+  ownProperties: Object,
+  preview?: Grip,
   sealed: boolean,
-  type: string
+  type: string,
+  url?: string,
+  fileName?: string,
+  message?: string,
+  name?: string
 };
 
 /**
@@ -297,6 +293,11 @@ export type Source = {
   +contentType?: string,
   +error?: string,
   +loadedState: "unloaded" | "loading" | "loaded"
+};
+
+export type RelativeSourceRecord = RecordOf<RelativeSource>;
+export type RelativeSource = Source & {
+  relativeUrl: string
 };
 
 /**

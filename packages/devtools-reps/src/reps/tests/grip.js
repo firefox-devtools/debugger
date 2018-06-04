@@ -634,3 +634,23 @@ describe.skip("Grip - Object with __proto__ property", () => {
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(defaultOutput);
   });
 });
+
+// Test that object that might look like raw objects or arrays are rendered
+// as grips when the `noGrip` parameter is not passed.
+describe("Object - noGrip prop", () => {
+  it("empty object", () => {
+    expect(getRep({})).toBe(Grip.rep);
+  });
+
+  it("object with custom property", () => {
+    expect(getRep({ foo: 123 })).toBe(Grip.rep);
+  });
+
+  it("empty array", () => {
+    expect(getRep([])).toBe(Grip.rep);
+  });
+
+  it("array with some item", () => {
+    expect(getRep([123])).toBe(Grip.rep);
+  });
+});

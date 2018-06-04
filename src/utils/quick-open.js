@@ -11,8 +11,9 @@ import type { Location as BabelLocation } from "@babel/types";
 import type { Symbols } from "../reducers/ast";
 import type { QuickOpenType } from "../reducers/quick-open";
 import type { TabList } from "../reducers/sources";
-import type { RelativeSource } from "../selectors/getRelativeSources";
+import type { RelativeSource } from "../types";
 import type { SymbolDeclaration } from "../workers/parser";
+import type { Map } from "immutable";
 
 export const MODIFIERS = {
   "@": "functions",
@@ -125,11 +126,13 @@ export function formatShortcutResults(): Array<QuickOpenResult> {
 }
 
 export function formatSources(
-  sources: RelativeSource[],
+  sources: Map<RelativeSource>,
   tabs: TabList
 ): Array<QuickOpenResult> {
   return sources
+    .valueSeq()
+    .toArray()
     .filter(source => !isPretty(source))
-    .map(source => formatSourcesForList(source, tabs))
-    .filter(({ value }) => value != "");
+    .filter(({ relativeUrl }) => !!relativeUrl)
+    .map(source => formatSourcesForList(source, tabs));
 }

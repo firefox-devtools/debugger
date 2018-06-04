@@ -10,9 +10,15 @@ async function breakpointScopes(dbg, fixture, { line, column }, scopes) {
   const filename = `fixtures/${fixture}/input.`;
   const fnName = fixture.replace(/-([a-z])/g, (s, c) => c.toUpperCase());
 
-  await invokeWithBreakpoint(dbg, fnName, filename, { line, column }, async () => {
-    await assertScopes(dbg, scopes);
-  });
+  await invokeWithBreakpoint(
+    dbg,
+    fnName,
+    filename,
+    { line, column },
+    async () => {
+      await assertScopes(dbg, scopes);
+    }
+  );
 
   ok(true, `Ran tests for ${fixture} at line ${line} column ${column}`);
 }
@@ -31,7 +37,7 @@ add_task(async function() {
     "ExportedOther()",
     "ExpressionClass:Foo()",
     "fn()",
-    ["ns", '{\u2026}'],
+    ["ns", "{\u2026}"],
     "SubDecl()",
     "SubVar:SubExpr()"
   ]);
@@ -40,7 +46,7 @@ add_task(async function() {
     "Block",
     ["three", "5"],
     ["two", "4"],
-    "Block",
+    "Function Body",
     ["three", "3"],
     ["two", "2"],
     "root",
@@ -67,7 +73,7 @@ add_task(async function() {
     ["aConst", '"const2"'],
     ["aLet", '"let2"'],
     "Outer:_Outer()",
-    "Block",
+    "Function Body",
     ["aConst", '"const1"'],
     ["aLet", '"let1"'],
     "Outer()",
@@ -80,8 +86,8 @@ add_task(async function() {
     "babel-line-start-bindings-es6",
     { line: 19, column: 4 },
     [
-      "Block",
-      ["<this>", '{\u2026}'],
+      "Function Body",
+      ["<this>", "{\u2026}"],
       ["one", "1"],
       ["two", "2"],
       "root",
@@ -96,7 +102,7 @@ add_task(async function() {
     "babel-this-arguments-bindings",
     { line: 4, column: 4 },
     [
-      "Block",
+      "Function Body",
       ["<this>", '"this-value"'],
       ["arrow", "undefined"],
       "fn",
@@ -117,7 +123,7 @@ add_task(async function() {
       "arrow",
       ["<this>", '"this-value"'],
       ["argArrow", '"arrow-arg"'],
-      "Block",
+      "Function Body",
       "arrow()",
       "fn",
       ["arg", '"arg-value"'],
@@ -152,12 +158,12 @@ add_task(async function() {
   ]);
 
   await breakpointScopes(dbg, "babel-classes", { line: 12, column: 6 }, [
-    "Block",
+    "Function Body",
     ["three", "3"],
     ["two", "2"],
     "Class",
     "Another()",
-    "Block",
+    "Function Body",
     "Another()",
     ["one", "1"],
     "Thing()",
@@ -168,7 +174,7 @@ add_task(async function() {
   await breakpointScopes(dbg, "babel-for-loops", { line: 5, column: 4 }, [
     "For",
     ["i", "1"],
-    "Block",
+    "Function Body",
     ["i", "0"],
     "Module",
     "root()"
@@ -177,7 +183,7 @@ add_task(async function() {
   await breakpointScopes(dbg, "babel-for-loops", { line: 9, column: 4 }, [
     "For",
     ["i", '"2"'],
-    "Block",
+    "Function Body",
     ["i", "0"],
     "Module",
     "root()"
@@ -186,7 +192,7 @@ add_task(async function() {
   await breakpointScopes(dbg, "babel-for-loops", { line: 13, column: 4 }, [
     "For",
     ["i", "3"],
-    "Block",
+    "Function Body",
     ["i", "0"],
     "Module",
     "root()"
@@ -195,13 +201,13 @@ add_task(async function() {
   await breakpointScopes(dbg, "babel-functions", { line: 6, column: 8 }, [
     "arrow",
     ["p3", "undefined"],
-    "Block",
+    "Function Body",
     "arrow()",
     "inner",
     ["p2", "undefined"],
     "Function Expression",
     "inner()",
-    "Block",
+    "Function Body",
     "inner()",
     "decl",
     ["p1", "undefined"],
@@ -227,36 +233,42 @@ add_task(async function() {
     "thirdModuleScoped()"
   ]);
 
-  await breakpointScopes(dbg, "babel-out-of-order-declarations-cjs", { line: 8, column: 4 }, [
-    "callback",
-    "fn()",
-    ["val", "undefined"],
-    "root",
-    ["callback", "(optimized away)"],
-    ["fn", "(optimized away)"],
-    ["val", "(optimized away)"],
-    "Module",
+  await breakpointScopes(
+    dbg,
+    "babel-out-of-order-declarations-cjs",
+    { line: 8, column: 4 },
+    [
+      "callback",
+      "fn()",
+      ["val", "undefined"],
+      "root",
+      ["callback", "(optimized away)"],
+      ["fn", "(optimized away)"],
+      ["val", "(optimized away)"],
+      "Module",
 
-    // This value is currently optimized away, which isn't 100% accurate.
-    // Because import declarations is the last thing in the file, our current
-    // logic doesn't cover _both_ 'var' statements that it generates,
-    // making us use the first, optimized-out binding. Given that imports
-    // are almost never the last thing in a file though, this is probably not
-    // a huge deal for now.
-    ["aDefault", "(optimized away)"],
-    ["root", "(optimized away)"],
-    ["val", "(optimized away)"],
-  ]);
-  await breakpointScopes(dbg, "babel-flowtype-bindings", { line: 8, column: 2 }, [
-    "Module",
-    ["aConst", '"a-const"'],
-    "root()"
-  ]);
+      // This value is currently optimized away, which isn't 100% accurate.
+      // Because import declarations is the last thing in the file, our current
+      // logic doesn't cover _both_ 'var' statements that it generates,
+      // making us use the first, optimized-out binding. Given that imports
+      // are almost never the last thing in a file though, this is probably not
+      // a huge deal for now.
+      ["aDefault", "(optimized away)"],
+      ["root", "(optimized away)"],
+      ["val", "(optimized away)"]
+    ]
+  );
+  await breakpointScopes(
+    dbg,
+    "babel-flowtype-bindings",
+    { line: 8, column: 2 },
+    ["Module", ["aConst", '"a-const"'], "root()"]
+  );
 
   await breakpointScopes(dbg, "babel-switches", { line: 7, column: 6 }, [
     "Switch",
     ["val", "2"],
-    "Block",
+    "Function Body",
     ["val", "1"],
     "Module",
     "root()"
@@ -267,7 +279,7 @@ add_task(async function() {
     ["val", "3"],
     "Switch",
     ["val", "2"],
-    "Block",
+    "Function Body",
     ["val", "1"],
     "Module",
     "root()"
@@ -278,77 +290,114 @@ add_task(async function() {
     ["two", "2"],
     "Catch",
     ["err", '"AnError"'],
-    "Block",
+    "Function Body",
     ["one", "1"],
     "Module",
     "root()"
   ]);
 
-  await breakpointScopes(dbg, "babel-modules-webpack", { line: 20, column: 2 }, [
-    "Module",
-    ["aDefault", '"a-default"'],
-    ["aDefault2", '"a-default2"'],
-    ["aDefault3", '"a-default3"'],
-    ["anAliased", "Getter"],
-    ["anAliased2", "Getter"],
-    ["anAliased3", "Getter"],
-    ["aNamed", "Getter"],
-    ["aNamed2", "Getter"],
-    ["aNamed3", "Getter"],
-    ["aNamespace", "{\u2026}"],
-    ["aNamespace2", "{\u2026}"],
-    ["aNamespace3", "{\u2026}"],
-    ["anotherNamed", "Getter"],
-    ["anotherNamed2", "Getter"],
-    ["anotherNamed3", "Getter"],
-    ["example", "(optimized away)"],
-    ["optimizedOut", "(optimized away)"],
-    "root()"
-  ]);
-
-  await breakpointScopes(dbg, "babel-modules-webpack-es6", { line: 20, column: 2 }, [
-    "Module",
-    ["aDefault", '"a-default"'],
-    ["aDefault2", '"a-default2"'],
-    ["aDefault3", '"a-default3"'],
-    ["anAliased", '"an-original"'],
-    ["anAliased2", '"an-original2"'],
-    ["anAliased3", '"an-original3"'],
-    ["aNamed", '"a-named"'],
-    ["aNamed2", '"a-named2"'],
-    ["aNamed3", '"a-named3"'],
-    ["aNamespace", "{\u2026}"],
-    ["aNamespace2", "{\u2026}"],
-    ["aNamespace3", "{\u2026}"],
-    ["anotherNamed", '"a-named"'],
-    ["anotherNamed2", '"a-named2"'],
-    ["anotherNamed3", '"a-named3"'],
-    ["example", "(optimized away)"],
-    ["optimizedOut", "(optimized away)"],
-    "root()"
-  ]);
-
-  await breakpointScopes(dbg, "webpack-line-mappings", { line: 11, column: 0 }, [
-    "Block",
-    ["<this>", '"this-value"'],
-    ["arg", '"arg-value"'],
-    ["arguments", "Arguments"],
-    ["inner", "undefined"],
-    "Block",
-    ["someName", "(optimized away)"],
-    "Block",
-    ["two", "2"],
-    "Block",
-    ["one", "1"],
+  await breakpointScopes(dbg, "babel-lex-and-nonlex", { line: 3, column: 4 }, [
+    "Function Body",
+    "Thing()",
     "root",
+    "someHelper()",
+    "Module",
+    "root()"
+  ]);
+
+  await breakpointScopes(
+    dbg,
+    "babel-modules-webpack",
+    { line: 20, column: 2 },
+    [
+      "Module",
+      ["aDefault", '"a-default"'],
+      ["aDefault2", '"a-default2"'],
+      ["aDefault3", '"a-default3"'],
+      ["anAliased", "Getter"],
+      ["anAliased2", "Getter"],
+      ["anAliased3", "Getter"],
+      ["aNamed", "Getter"],
+      ["aNamed2", "Getter"],
+      ["aNamed3", "Getter"],
+      ["aNamespace", "{\u2026}"],
+      ["aNamespace2", "{\u2026}"],
+      ["aNamespace3", "{\u2026}"],
+      ["anotherNamed", "Getter"],
+      ["anotherNamed2", "Getter"],
+      ["anotherNamed3", "Getter"],
+      ["example", "(optimized away)"],
+      ["optimizedOut", "(optimized away)"],
+      "root()"
+    ]
+  );
+
+  await breakpointScopes(
+    dbg,
+    "babel-modules-webpack-es6",
+    { line: 20, column: 2 },
+    [
+      "Module",
+      ["aDefault", '"a-default"'],
+      ["aDefault2", '"a-default2"'],
+      ["aDefault3", '"a-default3"'],
+      ["anAliased", '"an-original"'],
+      ["anAliased2", '"an-original2"'],
+      ["anAliased3", '"an-original3"'],
+      ["aNamed", '"a-named"'],
+      ["aNamed2", '"a-named2"'],
+      ["aNamed3", '"a-named3"'],
+      ["aNamespace", "{\u2026}"],
+      ["aNamespace2", "{\u2026}"],
+      ["aNamespace3", "{\u2026}"],
+      ["anotherNamed", '"a-named"'],
+      ["anotherNamed2", '"a-named2"'],
+      ["anotherNamed3", '"a-named3"'],
+      ["example", "(optimized away)"],
+      ["optimizedOut", "(optimized away)"],
+      "root()"
+    ]
+  );
+
+  await breakpointScopes(
+    dbg,
+    "webpack-line-mappings",
+    { line: 11, column: 0 },
+    [
+      "Block",
+      ["<this>", '"this-value"'],
+      ["arg", '"arg-value"'],
+      ["arguments", "Arguments"],
+      ["inner", "undefined"],
+      "Block",
+      ["someName", "(optimized away)"],
+      "Block",
+      ["two", "2"],
+      "Block",
+      ["one", "1"],
+      "root",
+      ["arguments", "Arguments"],
+      "fn:someName()",
+      "webpackLineMappings",
+      ["__webpack_exports__", "(optimized away)"],
+      ["__WEBPACK_IMPORTED_MODULE_0__src_mod1__", "{\u2026}"],
+      ["__webpack_require__", "(optimized away)"],
+      ["arguments", "(unavailable)"],
+      ["module", "(optimized away)"],
+      "root()"
+    ]
+  );
+
+  await breakpointScopes(dbg, "webpack-functions", { line: 4, column: 0 }, [
+    "Block",
+    ["<this>", "{\u2026}"],
     ["arguments", "Arguments"],
-    "fn:someName()",
-    "webpackLineMappings",
+    ["x", "4"],
+    "webpackFunctions",
     ["__webpack_exports__", "(optimized away)"],
-    ["__WEBPACK_IMPORTED_MODULE_0__src_mod1__", "{\u2026}"],
     ["__webpack_require__", "(optimized away)"],
     ["arguments", "(unavailable)"],
-    ["module", "(optimized away)"],
-    "root()"
+    ["module", "{\u2026}"],
+    ["root", "(optimized away)"]
   ]);
 });

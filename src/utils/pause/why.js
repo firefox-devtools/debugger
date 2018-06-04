@@ -37,6 +37,7 @@ export function getPauseReason(why?: Why): string | null {
   if (!reasons[reasonType]) {
     console.log("Please file an issue: reasonType=", reasonType);
   }
+
   return reasons[reasonType];
 }
 
@@ -44,7 +45,7 @@ export function isException(why: Why) {
   return why && why.type && why.type === "exception";
 }
 
-export function isInterrupted(why: Why) {
+export function isInterrupted(why: ?Why) {
   return why && why.type && why.type === "interrupted";
 }
 

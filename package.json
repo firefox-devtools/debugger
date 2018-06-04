@@ -23,12 +23,11 @@
     "prettier": "node bin/prettier.js",
     "license-check": "devtools-license-check",
     "links": "ls -l node_modules/ | grep ^l || echo 'no linked packages'",
-    "lint": "run-p lint-css lint-js lint-md",
-    "lint-css": "stylelint \"src/components/**/*.css\"",
-    "lint-js": "eslint *.js \"src/**/*.js\" \"packages/*/src/**/*.js\" --fix",
-    "lint-md":
+    "lint": "run-p lint:css lint:js lint:md",
+    "lint:css": "stylelint \"src/components/**/*.css\"",
+    "lint:js": "eslint *.js \"src/**/*.js\" \"packages/*/src/**/*.js\" --fix",
+    "lint:md":
       "remark -u devtools-linters/markdown/preset -qf *.md src configs docs",
-    "lint-fix": "yarn lint-js -- --fix",
     "mochi":
       "mochii --mc ./firefox --interactive --default-test-path devtools/client/debugger/new",
     "mochid": "yarn mochi -- --jsdebugger --",
@@ -38,14 +37,14 @@
       "mochii --mc ./firefox --ci --default-test-path devtools/client/debugger/new --headless --",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test-coverage": "yarn test -- --coverage",
-    "test-all": "yarn test; yarn lint; yarn flow",
+    "test:coverage": "yarn test --coverage",
+    "test:all": "yarn test; yarn lint; yarn flow",
     "firefox":
       "start-firefox --start --location https://devtools-html.github.io/debugger-examples/",
     "chrome":
       "start-chrome --location https://devtools-html.github.io/debugger-examples/",
-    "copy-assets": "node bin/copy-assets --symlink",
-    "copy-assets-watch": "node bin/copy-assets --watch --symlink",
+    "watch": "node bin/copy --watch --symlink",
+    "copy": "node bin/copy --assets",
     "build-docs":
       "documentation build --format html --sort-order alpha --shallow  --document-exported --output docs/reference/ src/types.js src/utils/ src/reducers/ src/actions/ src/test/mochitest/head.js",
     "flow-coverage":
@@ -70,8 +69,8 @@
     "babel-plugin-transform-imports": "^1.5.0",
     "babylon": "^7.0.0-beta.39",
     "codemirror": "^5.28.0",
-    "devtools-environment": "0.0.3",
-    "devtools-launchpad": "^0.0.121",
+    "devtools-environment": "^0.0.5",
+    "devtools-launchpad": "0.0.125",
     "devtools-linters": "^0.0.4",
     "devtools-reps": "0.23.0",
     "devtools-source-map": "0.16.0",
@@ -96,7 +95,7 @@
     "redux-saga": "^0.16.0",
     "reselect": "^3.0.1",
     "svg-inline-react": "^3.0.0",
-    "wasmparser": "^0.6.0"
+    "wasmparser": "^0.6.1"
   },
   "private": true,
   "workspaces": ["packages/*"],
@@ -109,6 +108,7 @@
   "devDependencies": {
     "@sucrase/webpack-object-rest-spread-plugin": "^1.0.0",
     "babel-eslint": "^8.2.1",
+    "babel-jest": "^22.4.3",
     "babel-plugin-syntax-trailing-function-commas": "^6.22.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
@@ -125,7 +125,7 @@
     "eslint-plugin-babel": "^5.0.0",
     "eslint-plugin-file-header": "0.0.1",
     "eslint-plugin-flowtype": "^2.36.0",
-    "eslint-plugin-jest": "^21.5.0",
+    "eslint-plugin-jest": "^21.15.1",
     "eslint-plugin-mozilla": "^0.11.0",
     "eslint-plugin-prettier": "^2.3.1",
     "eslint-plugin-react": "^7.2.1",
@@ -133,9 +133,10 @@
     "flow-bin": "0.67.1",
     "glob": "^7.0.3",
     "husky": "^0.14.2",
-    "jest": "^20.0.4",
+    "jest": "^23.0.0",
+    "jest-environment-jsdom": "^23.0.0",
     "jest-in-case": "^1.0.2",
-    "jest-junit-reporter": "^1.1.0",
+    "jest-junit": "^5.0.0",
     "jest-localstorage-mock": "^2.2.0",
     "jest-serializer-babel-ast": "^0.0.5",
     "lint-staged": "^7.0.5",
@@ -143,7 +144,7 @@
     "mock-require": "^3.0.0",
     "node-emoji": "^1.8.1",
     "npm-run-all": "^4.0.2",
-    "prettier": "^1.10.2",
+    "prettier": "^1.12.1",
     "pretty-quick": "^1.4.1",
     "remark-cli": "^5.0.0",
     "remark-lint": "^6.0.1",
@@ -172,34 +173,5 @@
     "src/*/!(mochitest)**/*.js": ["prettier", "git add"],
     "src/*/!(mochitest)*/**/*.js": ["prettier", "git add"],
     "packages/**/src/*.js": ["prettier", "git add"]
-  },
-  "jest": {
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "/helpers/",
-      "/fixtures/",
-      "src/test/mochitest/examples/",
-      "<rootDir>/firefox",
-      "<rootDir>/packages"
-    ],
-    "collectCoverageFrom": [
-      "src/**/*.js",
-      "!src/**/fixtures/*.js",
-      "!src/test/**/*.js",
-      "!src/components/stories/**/*.js",
-      "!**/*.mock.js",
-      "!**/*.spec.js"
-    ],
-    "transformIgnorePatterns": ["node_modules/(?!devtools-)"],
-    "setupTestFrameworkScriptFile": "<rootDir>/src/test/tests-setup.js",
-    "setupFiles": ["<rootDir>/src/test/shim.js", "jest-localstorage-mock"],
-    "snapshotSerializers": [
-      "jest-serializer-babel-ast",
-      "enzyme-to-json/serializer"
-    ],
-    "moduleNameMapper": {
-      "\\.css$": "<rootDir>/src/test/__mocks__/styleMock.js",
-      "\\.svg$": "<rootDir>/src/test/__mocks__/svgMock.js"
-    }
   }
 }

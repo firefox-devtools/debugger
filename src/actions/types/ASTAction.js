@@ -5,7 +5,6 @@
 // @flow
 
 import type { SourceMetaDataType } from "../../reducers/ast.js";
-import type { Source } from "../../types";
 import type {
   SymbolDeclarations,
   AstLocation,
@@ -24,7 +23,8 @@ export type ASTAction =
     >
   | {|
       +type: "SET_PAUSE_POINTS",
-      +source: Source,
+      +sourceText: string,
+      +sourceId: string,
       +pausePoints: PausePoints
     |}
   | {|

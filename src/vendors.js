@@ -35,7 +35,7 @@ import Svg from "./components/shared/Svg";
 // (eg. "my-module/Test") which is why they are nested in "vendored".
 // The keys of the vendored object should match the module names
 // !!! Should remain synchronized with .babel/transform-mc.js !!!
-const vendored = {
+export const vendored = {
   classnames,
   "devtools-components": devtoolsComponents,
   "devtools-config": devtoolsConfig,
@@ -52,5 +52,3 @@ const vendored = {
   Svg,
   url
 };
-
-export { vendored };

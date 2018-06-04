@@ -25,7 +25,7 @@ function loadFromPrefs(actions: Object) {
   }
 }
 
-async function onConnect(
+export async function onConnect(
   connection: Object,
   { services, toolboxActions }: Object
 ) {
@@ -56,5 +56,3 @@ async function onConnect(
   bootstrapApp(store);
   return { store, actions, selectors, client: commands };
 }
-
-export { onConnect };

@@ -63,7 +63,7 @@ function makeSource(name: string, props: any = {}) {
 
 function makeOriginalSource(name: string, props?: Object) {
   const source = makeSource(name, props);
-  return { ...source, id: `${name}-original` };
+  return { ...source, id: `${name}/originalSource` };
 }
 
 function makeSourceRecord(name: string, props: any = {}) {

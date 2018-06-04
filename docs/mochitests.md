@@ -1,10 +1,12 @@
 ## Mochitests
 
-  - [Getting Started](#getting-started)
-  - [Running the tests](#running-the-tests)
-  - [Mochi](#mochi)
-  - [Writing Tests](#writing-tests)
-  - [Debugging Intermittents](#debugging-intermittents)
+* [Getting Started](#getting-started)
+* [Running the tests](#running-the-tests)
+* [Mochi](#mochi)
+* [Writing Tests](#writing-tests)
+* [Debugging Intermittents](#debugging-intermittents)
+* [Troubleshooting Test Harness](#troubleshooting-test-harness)
+  * [Missing Rust compiler](#missing-rust-compiler)
 
 We use [mochitests] to do integration testing. Mochitests are part of Firefox and allow us to test the debugger literally as you would use it (as a devtools panel).
 
@@ -33,7 +35,7 @@ reflected in the new firefox directory.
 
 ### Running the tests
 
-* `yarn copy-assets-watch` copies new bundles into the firefox directory
+* `yarn watch` copies new bundles into the firefox directory
 * `yarn mochi` runs the tests in a second process
 
 ### Mochi
@@ -52,6 +54,16 @@ Here are a few tips for writing mochitests:
 * Try to write async user actions that involve a user action like clicking a button or typing a key press followed by a redux action to listen for. For example, the user step in action involves the user clicking the step in button followed by the "stepIn" action firing.
 * The `dbg` object has several helpful properties (actions, selectors, getState, store, toolbox, win)
 
+### Videos
+
+If you're looking for some tutorials on how to write and debug mochitests
+
+* [How We Test the Debugger][testing]
+* [Mochitest (Pause on Next)][testing2]
+
+[testing]: https://www.youtube.com/watch?v=5K9Sx5529JE&t=547s
+[testing2]: https://www.youtube.com/watch?v=E3QIwrcKnwg
+
 ### Logging
 
 The mochitests run in a special environment, which make `console.log` a little different than usual.
@@ -60,11 +72,10 @@ The mochitests run in a special environment, which make `console.log` a little d
 If you want a convenience method for logging in the test, `log` is a bit cleaner than `dump`.
 
 ```js
-  console.log(">>> YO")
-  log("FOO", { t: 3 })
-  dump(">> FOOO\n");
+console.log(">>> YO");
+log("FOO", { t: 3 });
+dump(">> FOOO\n");
 ```
-
 
 ### Pausing the test
 
@@ -93,8 +104,8 @@ which use shared selectors. You can also find any element with the
 `findElementWithSelector` function.
 
 ```js
-  findElement(dbg, "sourceNode", 3);
-  findElementWithSelector(dbg, ".sources-list .focused");
+findElement(dbg, "sourceNode", 3);
+findElementWithSelector(dbg, ".sources-list .focused");
 ```
 
 ### Evaluating in the debuggee
@@ -103,11 +114,11 @@ If you want to evaluate a function in the debuggee context you can use
 the `invokeInTab` function. Under the hood it is using `ContentTask.spawn`.
 
 ```js
-invokeInTab(dbg, "doSomething")
+invokeInTab(dbg, "doSomething");
 ```
 
 ```js
-ContentTask.spawn(gBrowser.selectedBrowser, null, function* () {
+ContentTask.spawn(gBrowser.selectedBrowser, null, function*() {
   content.wrappedJSObject.foo();
 });
 ```
@@ -120,9 +131,9 @@ The first step for debugging an integration test is establishing a clear sequenc
 
 The mochitest logs provide some context:
 
-1. The actions that fired
-2. Assertion Passes/Failures
-3. Events that the test waited for: dispatches, state changes
+1.  The actions that fired
+2.  Assertion Passes/Failures
+3.  Events that the test waited for: dispatches, state changes
 
 > NOTE: it might be nice to run the tests in headless mode: `yarn mochih browser_dbg-editor-highlight`
 
@@ -139,12 +150,11 @@ We recommend prefixing your logs and formatting them so they are easy to scan e.
 * `info(">> Current breakpoints ${breakpoints.map(bp => bp.location.line).join(", ")}\n")`
 * `info(">> Symbols for source ${source.url} ${JSON.stringify(symbols)}\n")`
 
-At some point, it can be nice to pause the test and debug it.  Mochitest makes it easy to pause the test at `debugger` statements  with the `--jsdebugger` flag.
+At some point, it can be nice to pause the test and debug it. Mochitest makes it easy to pause the test at `debugger` statements with the `--jsdebugger` flag.
 You can run the test with `yarn mochid {test_name}` (ex: `browser_dbg-editor-highlight`).
 
 ![](https://shipusercontent.com/e8441c77ab9ff6e84e5561b05bc25da2/Screen%20Shot%202017-10-26%20at%205.45.05%20PM.png)
 ![](https://shipusercontent.com/57e41ae7227a46b2b6ae8b66956729ea/Screen%20Shot%202017-10-26%20at%205.44.54%20PM.png)
-
 
 #### Debugging Intermittents
 
@@ -170,7 +180,6 @@ cd firefox
 ```
 
 Visit the [mochitest](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/Mochitest) MDN page to learn more about mochitests and more advanced arguments. A few tips:
-
 
 #### For Windows Developers
 
@@ -209,7 +218,7 @@ If you add new tests, make sure to list them in the `browser.ini` file. You will
 In addition to the standard Mochitest API, we provide the following functions to help write tests. All of these expect a `dbg` context which is returned from `initDebugger` which should be called at the beginning of the test. An example skeleton test looks like this:
 
 ```js
-add_task(function* () {
+add_task(function*() {
   const dbg = yield initDebugger("doc_simple.html", "code_simple.js");
   // do some stuff
   ok(state.foo, "Foo is OK");
@@ -220,8 +229,47 @@ The Debugger Mochitest API Documentation can be found [here](https://devtools-ht
 
 [head]: https://github.com/devtools-html/debugger.html/blob/master/src/test/mochitest/head.js
 [mochitests]: https://developer.mozilla.org/en-US/docs/Mozilla/Projects/Mochitest
-
 [waiting]: https://github.com/devtools-html/debugger.html/commit/7b4762d9333108b15d81bc41e12182370c81e81c
 [server-oops]: https://github.com/devtools-html/debugger.html/commit/7e54e6b46181b747a828ab2dc1db96c88313db95#diff-4fb7729ef51f162ae50b7c3bc020a1e3
 [pretty-printing]: https://github.com/devtools-html/debugger.html/commit/6a66ce54faf8239fb358462c53c022a75615aae6#diff-a81153d2e92178917a135261f4245c39R12
 [local-config]: https://github.com/devtools-html/debugger.html/blob/master/docs/local-development.md#logging
+
+## Troubleshooting Test Harness
+If symbolic link is suddenly lost between debugger.html and Firefox source, in your terminal, try the following
+
+1. Navigate to the firefox directory (i.e. `cd ~/debugger.html/firefox`)
+2. Execute `./mach mochitest --headless devtools/client/debugger/new`
+
+  If a symbolic link occurs, error message(s) will be displayed.
+  
+  ![Test harness with symbolic link errors](http://i40.photobucket.com/albums/e250/md2k6/Public/Opensource/debugger-html-6297/mochitest-error_zpsgicbau0z.jpg)
+
+3. Execute `./bin/prepare-mochitests-dev`.
+
+Running this command again allows the preparation script to check the integrity of the firefox directory and all symbolic
+links. It will then automatically execute `yarn copy-assets-watch` on your behalf, which ensures the symbolic linking process
+is complete.
+
+4. On a new terminal tab, execute the command to run your test again. If this failed, proceed to step 5.
+
+5.  Execute `./mach configure`
+
+This will attempt to fix the harness' configurations.
+
+### Missing Rust compiler
+If you are having issues running mochitest due to missing the Rust compiler, try the following:
+
+1. In the root directory of the project (i.e. `debugger.html/`), execute `./mach configure`.
+
+2. Execute `yarn copy-assets-watch`
+
+3. Open a new terminal tab and run your tests again. If this failed, proceed to step 4 and 5.
+
+4. Execute `./mach bootstrap`.
+
+5. Execute `./bin/prepare-mochitests-dev`.
+
+  You may see warnings along the way and the process may
+appear to be frozen. Please be patient, this is expected as it will take a while to recompile. Warning messages does not mean the compilation process has failed.
+
+6. Repeat steps 2 and 3.

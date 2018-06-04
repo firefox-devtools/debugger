@@ -17,9 +17,11 @@ import {
 import { getValue } from "../../utils/expressions";
 import { createObjectClient } from "../../client/firefox";
 
+
 import { debounce } from "lodash";
 
 import CloseButton from "../shared/Button/Close";
+
 
 import type { List } from "immutable";
 import type { Expression } from "../../types";
@@ -227,6 +229,7 @@ class Expressions extends Component<Props, State> {
       <li
         className="expression-container"
         key={input}
+        title={expression.input}
         onDoubleClick={(items, options) =>
           this.editExpression(expression, index)
         }

@@ -7,7 +7,7 @@
 import { xor, range } from "lodash";
 import { convertToList } from "./pause/pausePoints";
 
-import type { Location, Source, ColumnPosition } from "../types";
+import type { Location, ColumnPosition } from "../types";
 import type { Symbols } from "../reducers/ast";
 
 import type { AstPosition, AstLocation, PausePoints } from "../workers/parser";
@@ -40,11 +40,8 @@ export function findBestMatchExpression(
     }, null);
 }
 
-export function findEmptyLines(
-  selectedSource: Source,
-  pausePoints: PausePoints
-) {
-  if (!pausePoints || !selectedSource) {
+export function findEmptyLines(sourceText: string, pausePoints: PausePoints) {
+  if (!pausePoints || !sourceText) {
     return [];
   }
 
@@ -53,11 +50,11 @@ export function findEmptyLines(
   const breakpoints = pausePointsList.filter(point => point.types.break);
   const breakpointLines = breakpoints.map(point => point.location.line);
 
-  if (!selectedSource.text || breakpointLines.length == 0) {
+  if (!sourceText || breakpointLines.length == 0) {
     return [];
   }
 
-  const lineCount = selectedSource.text.split("\n").length;
+  const lineCount = sourceText.split("\n").length;
   const sourceLines = range(1, lineCount + 1);
   return xor(sourceLines, breakpointLines);
 }
@@ -119,5 +116,5 @@ export function findClosestClass(symbols: Symbols, location: Location) {
     return null;
   }
 
-  return findClosestofSymbol(symbols.functions, location);
+  return findClosestofSymbol(symbols.classes, location);
 }

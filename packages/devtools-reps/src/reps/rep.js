@@ -70,13 +70,14 @@ const reps = [
   SymbolRep,
   InfinityRep,
   NaNRep,
-  Accessor
+  Accessor,
+  Obj
 ];
 
 /**
  * Generic rep that is used for rendering native JS types or an object.
  * The right template used for rendering is picked automatically according
- * to the current value type. The value must be passed is as 'object'
+ * to the current value type. The value must be passed in as the 'object'
  * property.
  */
 const Rep = function(props) {
@@ -101,7 +102,7 @@ const Rep = function(props) {
  * @param noGrip {Boolean} If true, will only check reps not made for remote
  *                         objects.
  */
-function getRep(object, defaultRep = Obj, noGrip = false) {
+function getRep(object, defaultRep = Grip, noGrip = false) {
   for (let i = 0; i < reps.length; i++) {
     const rep = reps[i];
     try {

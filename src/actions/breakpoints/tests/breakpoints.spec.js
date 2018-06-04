@@ -8,12 +8,12 @@ import {
   actions,
   makeSource,
   makeSourceRecord
-} from "../../utils/test-head";
+} from "../../../utils/test-head";
 
 import {
   simulateCorrectThreadClient,
   simpleMockThreadClient
-} from "./helpers/threadClient.js";
+} from "../../tests/helpers/threadClient.js";
 
 describe("breakpoints", () => {
   it("should add a breakpoint", async () => {

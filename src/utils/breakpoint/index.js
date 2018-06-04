@@ -8,8 +8,6 @@ import { getBreakpoint } from "../../selectors";
 import assert from "../assert";
 import { features } from "../prefs";
 
-export { createEditor } from "./create-editor";
-
 export { getASTLocation, findScopeByName } from "./astBreakpointLocation";
 
 import type {
@@ -42,6 +40,11 @@ export function makeLocationId(location: Location) {
   const { sourceId, line, column } = location;
   const columnString = column || "";
   return `${sourceId}:${line}:${columnString}`;
+}
+
+export function getLocationWithoutColumn(location: Location) {
+  const { sourceId, line } = location;
+  return `${sourceId}:${line}`;
 }
 
 export function makePendingLocationId(location: Location) {

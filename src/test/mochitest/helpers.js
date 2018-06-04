@@ -156,7 +156,10 @@ function waitForState(dbg, predicate, msg) {
  * @static
  */
 async function waitForSources(dbg, ...sources) {
-  const { selectors: { getSources }, store } = dbg;
+  const {
+    selectors: { getSources },
+    store
+  } = dbg;
   if (sources.length === 0) {
     return Promise.resolve();
   }
@@ -211,7 +214,6 @@ function waitForSelectedSource(dbg, url) {
   return waitForState(
     dbg,
     state => {
-
       const source = dbg.selectors.getSelectedSource(state);
       const isLoaded = source && sourceUtils.isLoaded(source);
       if (!isLoaded) {
@@ -249,8 +251,20 @@ function assertNotPaused(dbg) {
   ok(!isPaused(dbg), "client is not paused");
 }
 
+/**
+ * Assert that the debugger is currently paused.
+ * @memberof mochitest/asserts
+ * @static
+ */
+function assertPaused(dbg) {
+  ok(isPaused(dbg), "client is paused");
+}
+
 function getVisibleSelectedFrameLine(dbg) {
-  const { selectors: { getVisibleSelectedFrame }, getState } = dbg;
+  const {
+    selectors: { getVisibleSelectedFrame },
+    getState
+  } = dbg;
   const frame = getVisibleSelectedFrame(getState());
   return frame && frame.location.line;
 }
@@ -265,7 +279,10 @@ function getVisibleSelectedFrameLine(dbg) {
  * @static
  */
 function assertPausedLocation(dbg) {
-  const { selectors: { getSelectedSource }, getState } = dbg;
+  const {
+    selectors: { getSelectedSource },
+    getState
+  } = dbg;
 
   ok(
     isSelectedFrameSelected(dbg, getState()),
@@ -335,7 +352,10 @@ function assertDebugLine(dbg, line) {
  * @static
  */
 function assertHighlightLocation(dbg, source, line) {
-  const { selectors: { getSelectedSource }, getState } = dbg;
+  const {
+    selectors: { getSelectedSource },
+    getState
+  } = dbg;
   source = findSource(dbg, source);
 
   // Check the selected source
@@ -372,7 +392,10 @@ function assertHighlightLocation(dbg, source, line) {
  * @static
  */
 function isPaused(dbg) {
-  const { selectors: { isPaused }, getState } = dbg;
+  const {
+    selectors: { isPaused },
+    getState
+  } = dbg;
   return !!isPaused(getState());
 }
 
@@ -678,8 +701,8 @@ async function reload(dbg, ...sources) {
  * @static
  */
 async function navigate(dbg, url, ...sources) {
-  info(`Navigating to ${url}`)
-  const navigated =  waitForDispatch(dbg, "NAVIGATE");
+  info(`Navigating to ${url}`);
+  const navigated = waitForDispatch(dbg, "NAVIGATE");
   await dbg.client.navigate(url);
   await navigated;
   return waitForSources(dbg, ...sources);
@@ -711,7 +734,10 @@ function disableBreakpoint(dbg, source, line, column) {
 }
 
 async function loadAndAddBreakpoint(dbg, filename, line, column) {
-  const { selectors: { getBreakpoint, getBreakpoints }, getState } = dbg;
+  const {
+    selectors: { getBreakpoint, getBreakpoints },
+    getState
+  } = dbg;
 
   await waitForSources(dbg, filename);
 
@@ -726,14 +752,23 @@ async function loadAndAddBreakpoint(dbg, filename, line, column) {
   is(getBreakpoints(getState()).size, 1, "One breakpoint exists");
   ok(
     getBreakpoint(getState(), { sourceId: source.id, line, column }),
-    "Breakpoint has correct line"
+    `Breakpoint has correct line ${line}, column ${column}`
   );
 
   return source;
 }
 
-async function invokeWithBreakpoint(dbg, fnName, filename, { line, column }, handler) {
-  const { selectors: { getBreakpoints }, getState } = dbg;
+async function invokeWithBreakpoint(
+  dbg,
+  fnName,
+  filename,
+  { line, column },
+  handler
+) {
+  const {
+    selectors: { getBreakpoints },
+    getState
+  } = dbg;
 
   const source = await loadAndAddBreakpoint(dbg, filename, line, column);
 
@@ -994,7 +1029,7 @@ const selectors = {
     `.expressions-list .expression-container:nth-child(${i}) .object-delimiter + *`,
   expressionClose: i =>
     `.expressions-list .expression-container:nth-child(${i}) .close`,
-  expressionInput: '.expressions-list  input.input-expression',
+  expressionInput: ".expressions-list  input.input-expression",
   expressionNodes: ".expressions-list .tree-node",
   scopesHeader: ".scopes-pane ._header",
   breakpointItem: i => `.breakpoints-list .breakpoint:nth-of-type(${i})`,
@@ -1014,6 +1049,7 @@ const selectors = {
   debugErrorLine: ".new-debug-line-error",
   codeMirror: ".CodeMirror",
   resume: ".resume.active",
+  pause: ".pause.active",
   sourceTabs: ".source-tabs",
   stepOver: ".stepOver.active",
   stepOut: ".stepOut.active",
@@ -1037,7 +1073,7 @@ const selectors = {
     `.outline-list__element:nth-child(${i}) .function-signature`,
   outlineItems: ".outline-list__element",
   conditionalPanelInput: ".conditional-breakpoint-panel input",
-  searchField: ".search-field",
+  searchField: ".search-field"
 };
 
 function getSelector(elementName, ...args) {
@@ -1158,11 +1194,10 @@ function getScopeValue(dbg, index) {
 }
 
 function toggleObjectInspectorNode(node) {
-
   const objectInspector = node.closest(".object-inspector");
   const properties = objectInspector.querySelectorAll(".node").length;
 
-  log(`Toggling node ${node.innerText}`)
+  log(`Toggling node ${node.innerText}`);
   node.click();
   return waitUntil(
     () => objectInspector.querySelectorAll(".node").length !== properties
@@ -1178,17 +1213,27 @@ function getCoordsFromPosition(cm, { line, ch }) {
   return cm.charCoords({ line: ~~line, ch: ~~ch });
 }
 
-function hoverAtPos(dbg, { line, ch }) {
+async function waitForScrolling(codeMirror) {
+  return new Promise(resolve => {
+    codeMirror.on("scroll", resolve);
+    setTimeout(resolve, 500);
+  })
+}
+
+
+async function hoverAtPos(dbg, { line, ch }) {
   info(`Hovering at ${line}, ${ch}`);
   const cm = getCM(dbg);
 
   // Ensure the line is visible with margin because the bar at the bottom of
   // the editor overlaps into what the editor things is its own space, blocking
   // the click event below.
-  cm.scrollIntoView({ line: line - 1, ch }, 100);
+  cm.scrollIntoView({ line: line - 1, ch }, 0);
+  await waitForScrolling(cm);
 
   const coords = getCoordsFromPosition(cm, { line: line - 1, ch });
   const tokenEl = dbg.win.document.elementFromPoint(coords.left, coords.top);
+
   tokenEl.dispatchEvent(
     new MouseEvent("mouseover", {
       bubbles: true,
@@ -1198,8 +1243,29 @@ function hoverAtPos(dbg, { line, ch }) {
   );
 }
 
-async function assertPreviewTextValue(dbg, { text, expression }) {
-  const previewEl = await waitForElement(dbg, "previewPopup");
+function tryHovering(dbg, line, column, elementName) {
+  return new Promise((resolve, reject) => {
+    const element = waitForElement(dbg, elementName);
+    let count = 0;
+
+    element.then(() => {
+      clearInterval(interval);
+      resolve(element);
+    });
+
+    const interval = setInterval(() => {
+      if (count++ == 5) {
+        clearInterval(interval);
+        reject("failed to preview");
+      }
+
+       hoverAtPos(dbg, { line, ch: column - 1 });
+    }, 1000);
+  });
+}
+
+async function assertPreviewTextValue(dbg, line, column, { text, expression }) {
+  const previewEl = await tryHovering(dbg, line, column, "previewPopup");
 
   is(previewEl.innerText, text, "Preview text shown to user");
 
@@ -1208,8 +1274,9 @@ async function assertPreviewTextValue(dbg, { text, expression }) {
   is(preview.expression, expression, "Preview.expression");
 }
 
-async function assertPreviewTooltip(dbg, { result, expression }) {
-  const previewEl = await waitForElement(dbg, "tooltip");
+async function assertPreviewTooltip(dbg, line, column, { result, expression }) {
+  const previewEl = await tryHovering(dbg, line, column, "tooltip");
+
   is(previewEl.innerText, result, "Preview text shown to user");
 
   const preview = dbg.selectors.getPreview(dbg.getState());
@@ -1218,14 +1285,20 @@ async function assertPreviewTooltip(dbg, { result, expression }) {
   is(preview.expression, expression, "Preview.expression");
 }
 
-async function assertPreviewPopup(dbg, { field, value, expression }) {
-  const previewEl = await waitForElement(dbg, "popup");
+async function assertPreviewPopup(
+  dbg,
+  line,
+  column,
+  { field, value, expression }
+) {
+  await tryHovering(dbg, line, column, "popup");
+
   const preview = dbg.selectors.getPreview(dbg.getState());
 
   const properties =
     preview.result.preview.ownProperties || preview.result.preview.items;
   const property = properties[field];
-  const propertyValue = property.value || property
+  const propertyValue = property.value || property;
 
   is(`${propertyValue}`, value, "Preview.result");
   is(preview.updating, false, "Preview.updating");
@@ -1234,18 +1307,23 @@ async function assertPreviewPopup(dbg, { field, value, expression }) {
 
 async function assertPreviews(dbg, previews) {
   for (const { line, column, expression, result, fields } of previews) {
-    hoverAtPos(dbg, { line, ch: column - 1 });
-
     if (fields && result) {
       throw new Error("Invalid test fixture");
     }
 
     if (fields) {
       for (const [field, value] of fields) {
-        await assertPreviewPopup(dbg, { expression, field, value });
+        await assertPreviewPopup(dbg, line, column, {
+          expression,
+          field,
+          value
+        });
       }
     } else {
-      await assertPreviewTextValue(dbg, { expression, text: result });
+      await assertPreviewTextValue(dbg, line, column, {
+        expression,
+        text: result
+      });
     }
 
     dbg.actions.clearPreview();
