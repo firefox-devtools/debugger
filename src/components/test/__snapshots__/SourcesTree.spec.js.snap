@@ -303,14 +303,17 @@ exports[`SourcesTree renderItem should not show domain item when the projectRoot
   />
   <Connect(SourceIcon)
     source={
-      Object {
+      Immutable.Record {
         "id": "server1.conn13.child1/39",
+        "url": "http://mdn.com/one.js",
+        "sourceMapURL": null,
         "isBlackBoxed": false,
         "isPrettyPrinted": false,
         "isWasm": false,
+        "text": undefined,
+        "contentType": "",
+        "error": undefined,
         "loadedState": "unloaded",
-        "sourceMapURL": null,
-        "url": "http://mdn.com/one.js",
       }
     }
   />
@@ -533,14 +536,17 @@ exports[`SourcesTree renderItem should show source item with source icon 1`] = `
   />
   <Connect(SourceIcon)
     source={
-      Object {
+      Immutable.Record {
         "id": "server1.conn13.child1/39",
+        "url": "http://mdn.com/one.js",
+        "sourceMapURL": null,
         "isBlackBoxed": false,
         "isPrettyPrinted": false,
         "isWasm": false,
+        "text": undefined,
+        "contentType": "",
+        "error": undefined,
         "loadedState": "unloaded",
-        "sourceMapURL": null,
-        "url": "http://mdn.com/one.js",
       }
     }
   />
@@ -565,14 +571,17 @@ exports[`SourcesTree renderItem should show source item with source icon with fo
   />
   <Connect(SourceIcon)
     source={
-      Object {
+      Immutable.Record {
         "id": "server1.conn13.child1/39",
+        "url": "http://mdn.com/one.js",
+        "sourceMapURL": null,
         "isBlackBoxed": false,
         "isPrettyPrinted": false,
         "isWasm": false,
+        "text": undefined,
+        "contentType": "",
+        "error": undefined,
         "loadedState": "unloaded",
-        "sourceMapURL": null,
-        "url": "http://mdn.com/one.js",
       }
     }
   />
