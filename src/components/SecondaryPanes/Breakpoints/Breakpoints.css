@@ -154,7 +154,7 @@ html[dir="rtl"] .breakpoints-list .breakpoint .breakpoint-line {
   flex-grow: 1;
   text-overflow: ellipsis;
   overflow: hidden;
-  padding-top: 3px;
+  padding-top: 2px;
   font-size: 11px;
 }
 
