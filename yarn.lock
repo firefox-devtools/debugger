@@ -6546,10 +6546,11 @@ jest-jasmine2@^23.0.0:
     jest-util "^23.0.0"
     pretty-format "^23.0.0"
 
-jest-junit@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/jest-junit/-/jest-junit-4.0.0.tgz#6af04d43940d7e81dc7d37ec1b80c97551d91e80"
+jest-junit@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/jest-junit/-/jest-junit-5.0.0.tgz#30ed3317c325165c2458ed2649f09d6e214ffab8"
   dependencies:
+    jest-validate "^23.0.1"
     mkdirp "^0.5.1"
     strip-ansi "^4.0.0"
     xml "^1.0.1"
@@ -6854,6 +6855,15 @@ jest-validate@^23.0.0:
     jest-get-type "^22.1.0"
     leven "^2.1.0"
     pretty-format "^23.0.0"
+
+jest-validate@^23.0.1:
+  version "23.0.1"
+  resolved "https://registry.yarnpkg.com/jest-validate/-/jest-validate-23.0.1.tgz#cd9f01a89d26bb885f12a8667715e9c865a5754f"
+  dependencies:
+    chalk "^2.0.1"
+    jest-get-type "^22.1.0"
+    leven "^2.1.0"
+    pretty-format "^23.0.1"
 
 jest-worker@^23.0.0:
   version "23.0.0"
@@ -9226,6 +9236,13 @@ pretty-format@^22.4.3:
 pretty-format@^23.0.0:
   version "23.0.0"
   resolved "https://registry.yarnpkg.com/pretty-format/-/pretty-format-23.0.0.tgz#b66dc584a0907b1969783c4c20e4d1180b18ac75"
+  dependencies:
+    ansi-regex "^3.0.0"
+    ansi-styles "^3.2.0"
+
+pretty-format@^23.0.1:
+  version "23.0.1"
+  resolved "https://registry.yarnpkg.com/pretty-format/-/pretty-format-23.0.1.tgz#d61d065268e4c759083bccbca27a01ad7c7601f4"
   dependencies:
     ansi-regex "^3.0.0"
     ansi-styles "^3.2.0"
