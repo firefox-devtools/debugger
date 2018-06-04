@@ -277,7 +277,8 @@ export function getMode(
     { ext: ".kt", mode: "text/x-kotlin" },
     { ext: ".cpp", mode: "text/x-c++src" },
     { ext: ".m", mode: "text/x-objectivec" },
-    { ext: ".rs", mode: "text/x-rustsrc" }
+    { ext: ".rs", mode: "text/x-rustsrc" },
+    { ext: ".hx", mode: "text/x-haxe" }
   ];
 
   // check for C and other non JS languages
