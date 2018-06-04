@@ -45,7 +45,7 @@ type Props = {
   showInput: boolean,
   onExpressionAdded: () => void,
   autocomplete: (input: string, cursor: number) => void,
-  getAutocompleteMatches: array
+  autocompleteMatches: array
 };
 
 class Expressions extends Component<Props, State> {
@@ -134,13 +134,22 @@ class Expressions extends Component<Props, State> {
 
   handleChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
     const target = e.target;
-    this.setState({ inputValue: target.value });
     this.findAutocompleteMatches(target);
   };
 
   findAutocompleteMatches = debounce(target => {
     this.props.autocomplete(target.value, target.selectionStart);
   }, 250);
+
+  findAutocompleteMatches = (target) => {
+    const value = target.value;
+    const prom = this.props.autocomplete(target.value, target.selectionStart);
+    prom.then(() => {this.helper(value);});
+  }
+
+  helper = (input) => {
+    this.setState({ inputValue: input })
+  }  
 
   handleKeyDown = (e: SyntheticKeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Escape") {
@@ -333,10 +342,12 @@ class Expressions extends Component<Props, State> {
   }
 }
 
-const mapStateToProps = state => ({
-  autocompleteMatches: getAutocompleteMatchset(state),
-  expressions: getExpressions(state),
-  expressionError: getExpressionError(state)
-});
+const mapStateToProps = state => {
+  return {
+    autocompleteMatches: getAutocompleteMatchset(state),
+    expressions: getExpressions(state),
+    expressionError: getExpressionError(state)
+  };
+};
 
 export default connect(mapStateToProps, actions)(Expressions);
