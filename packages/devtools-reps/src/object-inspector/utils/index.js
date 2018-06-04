@@ -11,7 +11,9 @@ const { nodeIsError, nodeIsPrimitive } = node;
 const selection = require("./selection");
 
 const { MODE } = require("../../reps/constants");
-const { REPS: { Rep, Grip } } = require("../../reps/rep");
+const {
+  REPS: { Rep, Grip }
+} = require("../../reps/rep");
 import type { Node, Props } from "../types";
 
 function shouldRenderRootsInReps(roots: Array<Node>): boolean {

@@ -130,7 +130,9 @@ function getMenuItems(
     accesskey: copyFunctionKey,
     disabled: !functionText,
     click: () => {
-      const { location: { start, end } } = getFunctionLocation(sourceLine);
+      const {
+        location: { start, end }
+      } = getFunctionLocation(sourceLine);
       flashLineRange({
         start: start.line,
         end: end.line,

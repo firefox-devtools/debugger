@@ -189,7 +189,9 @@ function getCallSites(symbols, breakpoints) {
   }
 
   function findBreakpoint(callSite) {
-    const { location: { start, end } } = callSite;
+    const {
+      location: { start, end }
+    } = callSite;
 
     const breakpointId = range(start.column - 1, end.column)
       .map(column => locationKey({ line: start.line, column }))

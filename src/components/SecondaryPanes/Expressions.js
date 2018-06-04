@@ -141,15 +141,17 @@ class Expressions extends Component<Props, State> {
     this.props.autocomplete(target.value, target.selectionStart);
   }, 250);
 
-  findAutocompleteMatches = (target) => {
+  findAutocompleteMatches = target => {
     const value = target.value;
     const prom = this.props.autocomplete(target.value, target.selectionStart);
-    prom.then(() => {this.helper(value);});
-  }
+    prom.then(() => {
+      this.helper(value);
+    });
+  };
 
-  helper = (input) => {
-    this.setState({ inputValue: input })
-  }  
+  helper = input => {
+    this.setState({ inputValue: input });
+  };
 
   handleKeyDown = (e: SyntheticKeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Escape") {
@@ -250,17 +252,16 @@ class Expressions extends Component<Props, State> {
 
   renderAutoCompleteMatches() {
     const { autocompleteMatches } = this.props;
-    if(autocompleteMatches) {
+    if (autocompleteMatches) {
       return (
         <datalist id="autocomplete-matches">
           {autocompleteMatches.map((match, index) => {
-            return <option key={index} value={match} />
+            return <option key={index} value={match} />;
           })}
         </datalist>
       );
-    } else {
-      return <datalist id="autocomplete-matches" />;
     }
+    return <datalist id="autocomplete-matches" />;
   }
 
   renderNewExpressionInput() {

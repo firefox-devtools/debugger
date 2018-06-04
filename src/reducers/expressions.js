@@ -91,11 +91,10 @@ function update(
 
     case "AUTOCOMPLETE":
       const { matchProp, matches } = action.result;
-      
-      return state.updateIn(
-        ["autocompleteMatches", matchProp],
-        list => matches
-      ).set("currentAutocompleteInput", matchProp);
+
+      return state
+        .updateIn(["autocompleteMatches", matchProp], list => matches)
+        .set("currentAutocompleteInput", matchProp);
   }
 
   return state;
@@ -183,7 +182,7 @@ export function getExpression(state: OuterState, input: string) {
 }
 
 export function getAutocompleteMatchset(state: OuterState) {
-  const input = state.expressions.get('currentAutocompleteInput');
+  const input = state.expressions.get("currentAutocompleteInput");
   return getAutocompleteMatches(state).get(input);
 }
 
