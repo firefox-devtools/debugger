@@ -169,12 +169,6 @@ export function addToTree(
   debuggeeUrl: string,
   projectRoot: string
 ) {
-
-  //console.log(source.url);
-  if (!source.url) {
-    console.log('NOOOOOOO',  source, source.url, source.get("url"));
-  }
-
   const url = getURL(source.url, debuggeeUrl);
   const debuggeeHost = getDomain(debuggeeUrl);
 

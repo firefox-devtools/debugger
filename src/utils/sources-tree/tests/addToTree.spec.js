@@ -19,7 +19,7 @@ function createSourcesMap(sources) {
   const msources = sources.map((s, i) => createSourceRecord(s));
   let sourcesMap = Map();
   msources.forEach(s => {
-    sourcesMap = sourcesMap.mergeIn([s.id], s);
+    sourcesMap = sourcesMap.setIn([s.id], s);
   });
 
   return sourcesMap;
