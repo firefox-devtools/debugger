@@ -7,8 +7,8 @@
 }
 
 .search-shadow.focused {
-  box-shadow: 0 0 0 1px rgb(101, 183, 255);
-  border: 0.5px solid rgb(101, 183, 255);
+  border: 2px solid var(--blue-50);
+  margin: 0;
 }
 
 .search-field {
