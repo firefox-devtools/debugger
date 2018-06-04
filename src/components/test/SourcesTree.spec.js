@@ -5,6 +5,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 import SourcesTree from "../../components/PrimaryPanes/SourcesTree";
+import { createSourceRecord } from "../../reducers/sources";
 import * as I from "immutable";
 import { showMenu } from "devtools-contextmenu";
 import { copyToTheClipboard } from "../../utils/clipboard";
@@ -622,7 +623,7 @@ function render(overrides = {}) {
 }
 
 function createMockSource(id, url, isBlackBoxed = false) {
-  return {
+  return createSourceRecord({
     id: id,
     url: url,
     isPrettyPrinted: false,
@@ -630,7 +631,7 @@ function createMockSource(id, url, isBlackBoxed = false) {
     sourceMapURL: null,
     isBlackBoxed: isBlackBoxed,
     loadedState: "unloaded"
-  };
+  });
 }
 
 function createMockDirectory(path = "folder/", name = "folder", contents = []) {

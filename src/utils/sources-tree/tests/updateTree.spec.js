@@ -3,13 +3,14 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 import { Map } from "immutable";
+import { createSourceRecord } from "../../../reducers/sources";
 import { updateTree, createTree } from "../index";
 
 function createSourcesMap(sources) {
-  const msources = sources.map((s, i) => new Map(s));
+  const msources = sources.map((s, i) => createSourceRecord(s));
   let sourcesMap = Map();
   msources.forEach(s => {
-    sourcesMap = sourcesMap.mergeIn([s.get("id")], s);
+    sourcesMap = sourcesMap.setIn([s.id], s);
   });
 
   return sourcesMap;

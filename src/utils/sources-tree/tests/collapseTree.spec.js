@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-import { Map } from "immutable";
+import { createSourceRecord } from "../../../reducers/sources";
 
 import {
   collapseTree,
@@ -12,15 +12,15 @@ import {
   createNode
 } from "../index";
 
-const abcSource = Map({
+const abcSource = createSourceRecord({
   url: "http://example.com/a/b/c.js",
   actor: "actor1"
 });
-const abcdeSource = Map({
+const abcdeSource = createSourceRecord({
   url: "http://example.com/a/b/c/d/e.js",
   actor: "actor2"
 });
-const abxSource = Map({
+const abxSource = createSourceRecord({
   url: "http://example.com/a/b/x.js",
   actor: "actor3"
 });
