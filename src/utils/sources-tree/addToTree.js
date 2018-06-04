@@ -82,12 +82,7 @@ function findOrCreateNode(
  * walk the source tree to the final node for a given url,
  * adding new nodes along the way
  */
-function traverseTree(
-  url: Object,
-  tree: Node,
-  debuggeeHost: ?string,
-  projectRoot: string
-) {
+function traverseTree(url: Object, tree: Node, debuggeeHost: ?string) {
   url.path = decodeURIComponent(url.path);
 
   const parts = url.path.split("/").filter(p => p !== "");
