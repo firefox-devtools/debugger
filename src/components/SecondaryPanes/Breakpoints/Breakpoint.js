@@ -121,7 +121,7 @@ class Breakpoint extends PureComponent<Props> {
   }
 
   highlightText() {
-    const text = this.getBreakpointText();
+    const text = this.getBreakpointText() || "";
     const editor = getEditor();
 
     if (!editor.CodeMirror) {
