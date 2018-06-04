@@ -1,5 +1,5 @@
 language: python
-  - "3.6"
+  - 3.5
 
 node_js: "9"
 
@@ -31,7 +31,8 @@ addons:
 before_install:
   # Ensure the correct version of Python is used; borrowed from:
   # https://github.com/pre-commit/pre-commit/commit/e3ab8902692e896da9ded42bd4d76ea4e1de359d
-  - pyenv global system 3.6
+  - PATH=$PATH.:/usr/local/lib/python
+  # - pyenv global system 3.5
 
 install:
   - pip install --user mercurial
