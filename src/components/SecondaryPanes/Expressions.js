@@ -87,9 +87,10 @@ class Expressions extends Component<Props, State> {
 
   shouldComponentUpdate(nextProps, nextState) {
     const { editing, inputValue, focused } = this.state;
-    const { expressions, expressionError, showInput } = this.props;
+    const { expressions, expressionError, showInput, autocompleteMatches } = this.props;
 
     return (
+      autocompleteMatches !== nextProps.autocompleteMatches ||
       expressions !== nextProps.expressions ||
       expressionError !== nextProps.expressionError ||
       editing !== nextState.editing ||
@@ -134,14 +135,13 @@ class Expressions extends Component<Props, State> {
   handleChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
     const target = e.target;
     this.setState({ inputValue: target.value });
-    this.findAutocompleteMatches(target);
+    this.findAutocompleteMatches(target.value, target.selectionStart);
   };
 
-  findAutocompleteMatches = target => {
+  findAutocompleteMatches = debounce((value, selectionStart) => {
     const { autocomplete } = this.props;
-    const { selectionStart, value } = target;
     autocomplete(value, selectionStart);
-  };
+  }, 250);
 
   handleKeyDown = (e: SyntheticKeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Escape") {
