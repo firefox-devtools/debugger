@@ -133,23 +133,14 @@ class Expressions extends Component<Props, State> {
 
   handleChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
     const target = e.target;
+    this.setState({ inputValue: target.value });
     this.findAutocompleteMatches(target);
   };
 
-  findAutocompleteMatches = debounce(target => {
-    this.props.autocomplete(target.value, target.selectionStart);
-  }, 250);
-
   findAutocompleteMatches = target => {
-    const value = target.value;
-    const prom = this.props.autocomplete(target.value, target.selectionStart);
-    prom.then(() => {
-      this.helper(value);
-    });
-  };
-
-  helper = input => {
-    this.setState({ inputValue: input });
+    const { autocomplete } = this.props;
+    const { selectionStart, value } = target;
+    autocomplete(value, selectionStart);
   };
 
   handleKeyDown = (e: SyntheticKeyboardEvent<HTMLInputElement>) => {
