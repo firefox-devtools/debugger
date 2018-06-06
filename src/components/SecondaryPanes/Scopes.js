@@ -30,7 +30,8 @@ type Props = {
   generatedFrameScopes: Object,
   originalFrameScopes: Object | null,
   isLoading: boolean,
-  why: Why
+  why: Why,
+  openLink: string => void
 };
 
 type State = {
@@ -93,7 +94,7 @@ class Scopes extends PureComponent<Props, State> {
   }
 
   render() {
-    const { isPaused, isLoading } = this.props;
+    const { isPaused, isLoading, openLink } = this.props;
     const { originalScopes, generatedScopes, showOriginal } = this.state;
 
     const scopes = (showOriginal && originalScopes) || generatedScopes;
@@ -108,6 +109,7 @@ class Scopes extends PureComponent<Props, State> {
             disableWrap={true}
             focusable={false}
             dimTopLevelWindow={true}
+            openLink={openLink}
             createObjectClient={grip => createObjectClient(grip)}
           />
           {originalScopes ? (
