@@ -13,7 +13,7 @@
 }
 
 .theme-dark .editor-wrapper {
-  --debug-expression-background: #54617e;
+  --debug-expression-background: rgba(202, 227, 255, 0.3);
   --debug-line-border: #7786a2;
 }
 
