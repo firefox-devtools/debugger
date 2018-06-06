@@ -3,11 +3,12 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 .search-shadow {
-  margin: 1px;
+  border: 1px solid transparent;
 }
 
 .search-shadow.focused {
-  box-shadow: var(--theme-focus-box-shadow-textbox);
+  border: 1px solid var(--blue-50);
+  transition: border-color 0.2s ease-in-out;
 }
 
 .search-field {
