@@ -62,7 +62,7 @@ html[dir="rtl"] .editor-mount {
 :not(.empty-line):not(.new-breakpoint) > .CodeMirror-gutter-wrapper:hover {
   width: 60px;
   height: 13px;
-  left: -55px !important;
+  margin-left: -25px;
   background-color: var(--gutter-hover-background-color) !important;
   mask: url(/images/breakpoint.svg) no-repeat;
   mask-size: 100%;
