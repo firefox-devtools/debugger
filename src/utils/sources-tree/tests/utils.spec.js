@@ -177,6 +177,16 @@ describe("sources tree", () => {
       const urlObject = getURL("https://a/c");
       expect(urlObject.filename).toBe("(index)");
     });
+
+    it("separates resources by protocol and host", () => {
+      const urlObject = getURL("moz-extension://xyz/123");
+      expect(urlObject.group).toBe("moz-extension://xyz");
+    });
+
+    it("creates a group name for webpack", () => {
+      const urlObject = getURL("webpack://src/component.jsx");
+      expect(urlObject.group).toBe("webpack://");
+    });
   });
 
   describe("isNotJavaScript", () => {
