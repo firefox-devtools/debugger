@@ -46,14 +46,7 @@ exports[`setPreview react instance 1`] = `
 Object {
   "cursorPos": undefined,
   "expression": "this",
-  "extra": Object {
-    "react": Object {
-      "componentStack": Array [
-        "Foo",
-      ],
-      "displayName": "FixtureComponent",
-    },
-  },
+  "extra": Object {},
   "location": Object {
     "end": Object {
       "column": 18,
