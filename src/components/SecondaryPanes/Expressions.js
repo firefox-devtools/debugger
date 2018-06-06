@@ -43,8 +43,8 @@ type Props = {
   openLink: (url: string) => void,
   showInput: boolean,
   onExpressionAdded: () => void,
-  autocomplete: (input: string, cursor: number) => void,
-  autocompleteMatches: array
+  autocomplete: (input: string, cursor: number) => Promise<any>,
+  autocompleteMatches: string[]
 };
 
 class Expressions extends Component<Props, State> {
