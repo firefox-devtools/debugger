@@ -95,6 +95,11 @@ function update(
       return state
         .updateIn(["autocompleteMatches", matchProp], list => matches)
         .set("currentAutocompleteInput", matchProp);
+
+    case "CLEAR_AUTOCOMPLETE":
+      return state
+        .updateIn(["autocompleteMatches", ""], list => [])
+        .set("currentAutocompleteInput", "");
   }
 
   return state;

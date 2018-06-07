@@ -61,6 +61,10 @@ export function autocomplete(input: string, cursor: number) {
   };
 }
 
+export function clearAutocomplete() {
+  return { type: "CLEAR_AUTOCOMPLETE" };
+}
+
 export function clearExpressionError() {
   return { type: "CLEAR_EXPRESSION_ERROR" };
 }

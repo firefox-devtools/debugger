@@ -44,6 +44,7 @@ type Props = {
   showInput: boolean,
   onExpressionAdded: () => void,
   autocomplete: (input: string, cursor: number) => Promise<any>,
+  clearAutocomplete: () => void,
   autocompleteMatches: string[]
 };
 
@@ -190,6 +191,8 @@ class Expressions extends Component<Props, State> {
     if (!this.props.expressionError) {
       this.hideInput();
     }
+
+    this.props.clearAutocomplete();
   };
 
   renderExpression = (expression: Expression, index: number) => {
