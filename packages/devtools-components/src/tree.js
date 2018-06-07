@@ -341,7 +341,9 @@ class Tree extends Component {
       // Additional classes to add to the root element.
       className: PropTypes.string,
       // style object to be applied to the root element.
-      style: PropTypes.object
+      style: PropTypes.object,
+      // Prevents blur when Tree loses focus
+      preventBlur: PropTypes.bool
     };
   }
 
@@ -606,7 +608,9 @@ class Tree extends Component {
    * Sets the state to have no focused item.
    */
   _onBlur() {
-    this._focus(undefined);
+    if (!this.props.preventBlur) {
+      this._focus(undefined);
+    }
   }
 
   /**
