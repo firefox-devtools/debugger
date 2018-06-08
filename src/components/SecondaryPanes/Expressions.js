@@ -144,8 +144,9 @@ class Expressions extends Component<Props, State> {
     const { enableAutocomplete } = this.state;
     const target = e.target;
     this.setState({ inputValue: target.value });
-    if(enableAutocomplete)
+    if (enableAutocomplete) {
       this.findAutocompleteMatches(target.value, target.selectionStart);
+    }
   };
 
   findAutocompleteMatches = debounce((value, selectionStart) => {
