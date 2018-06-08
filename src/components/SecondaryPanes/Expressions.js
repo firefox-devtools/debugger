@@ -29,7 +29,8 @@ type State = {
   editing: boolean,
   editIndex: number,
   inputValue: string,
-  focused: boolean
+  focused: boolean,
+  enableAutocomplete: boolean
 };
 
 type Props = {
@@ -62,7 +63,8 @@ class Expressions extends Component<Props, State> {
       editing: false,
       editIndex: -1,
       inputValue: "",
-      focused: false
+      focused: false,
+      enableAutocomplete: true
     };
   }
 
@@ -88,7 +90,12 @@ class Expressions extends Component<Props, State> {
 
   shouldComponentUpdate(nextProps, nextState) {
     const { editing, inputValue, focused } = this.state;
-    const { expressions, expressionError, showInput, autocompleteMatches } = this.props;
+    const {
+      expressions,
+      expressionError,
+      showInput,
+      autocompleteMatches
+    } = this.props;
 
     return (
       autocompleteMatches !== nextProps.autocompleteMatches ||
@@ -134,9 +141,11 @@ class Expressions extends Component<Props, State> {
   }
 
   handleChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
+    const { enableAutocomplete } = this.state;
     const target = e.target;
     this.setState({ inputValue: target.value });
-    this.findAutocompleteMatches(target.value, target.selectionStart);
+    if(enableAutocomplete)
+      this.findAutocompleteMatches(target.value, target.selectionStart);
   };
 
   findAutocompleteMatches = debounce((value, selectionStart) => {
@@ -246,7 +255,8 @@ class Expressions extends Component<Props, State> {
 
   renderAutoCompleteMatches() {
     const { autocompleteMatches } = this.props;
-    if (autocompleteMatches) {
+    const { enableAutocomplete } = this.state;
+    if (autocompleteMatches && enableAutocomplete) {
       return (
         <datalist id="autocomplete-matches">
           {autocompleteMatches.map((match, index) => {
