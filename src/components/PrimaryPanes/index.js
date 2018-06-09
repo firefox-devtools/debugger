@@ -145,4 +145,4 @@ const mapStateToProps = state => ({
   sourceSearchOn: getActiveSearch(state) === "source"
 });
 
-export default connect(mapStateToProps, actions)(PrimaryPanes);
+export default connect(mapStateToProps, () => actions)(PrimaryPanes);

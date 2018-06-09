@@ -511,7 +511,7 @@ function mapStateToProps(state, props) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: *) {
   return bindActionCreators(require("./actions"), dispatch);
 }
 

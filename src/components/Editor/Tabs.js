@@ -200,4 +200,4 @@ const mapStateToProps = state => ({
   tabSources: getSourcesForTabs(state)
 });
 
-export default connect(mapStateToProps, actions)(Tabs);
+export default connect(mapStateToProps, () => actions)(Tabs);

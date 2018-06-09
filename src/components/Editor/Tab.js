@@ -218,4 +218,4 @@ const mapStateToProps = (state, { source }) => {
   };
 };
 
-export default connect(mapStateToProps, actions)(Tab);
+export default connect(mapStateToProps, () => actions)(Tab);

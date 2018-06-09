@@ -306,4 +306,4 @@ const mapStateToProps = state => ({
   expressionError: getExpressionError(state)
 });
 
-export default connect(mapStateToProps, actions)(Expressions);
+export default connect(mapStateToProps, () => actions)(Expressions);

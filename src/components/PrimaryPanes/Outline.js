@@ -221,4 +221,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, actions)(Outline);
+export default connect(mapStateToProps, () => actions)(Outline);
