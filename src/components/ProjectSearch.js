@@ -341,4 +341,4 @@ const mapStateToProps = state => ({
   status: getTextSearchStatus(state)
 });
 
-export default connect(mapStateToProps, actions)(ProjectSearch);
+export default connect(mapStateToProps, () => actions)(ProjectSearch);

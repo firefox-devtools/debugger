@@ -246,24 +246,4 @@ const mapStateToProps = state => {
   };
 };
 
-const {
-  addExpression,
-  evaluateInConsole,
-  flashLineRange,
-  jumpToMappedLocation,
-  setContextMenu,
-  showSource,
-  toggleBlackBox
-} = actions;
-
-const mapDispatchToProps = {
-  addExpression,
-  evaluateInConsole,
-  flashLineRange,
-  jumpToMappedLocation,
-  setContextMenu,
-  showSource,
-  toggleBlackBox
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(EditorMenu);
+export default connect(mapStateToProps, () => actions)(EditorMenu);

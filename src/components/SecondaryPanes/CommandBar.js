@@ -79,33 +79,6 @@ function formatKey(action) {
   return formatKeyShortcut(key);
 }
 
-type Props = {
-  sources: SourcesMap,
-  selectedSource: SourceRecord,
-  resume: () => void,
-  stepIn: () => void,
-  stepOut: () => void,
-  stepOver: () => void,
-  breakOnNext: () => void,
-  rewind: () => void,
-  reverseStepIn: () => void,
-  reverseStepOut: () => void,
-  reverseStepOver: () => void,
-  isPaused: boolean,
-  pauseOnExceptions: (boolean, boolean) => void,
-  shouldPauseOnExceptions: boolean,
-  shouldPauseOnCaughtExceptions: boolean,
-  historyPosition: number,
-  history: any,
-  timeTravelTo: number => void,
-  clearHistory: () => void,
-  isWaitingOnBreak: boolean,
-  horizontal: boolean,
-  canRewind: boolean,
-  skipPausing: boolean,
-  toggleSkipPausing: () => void
-};
-
 class CommandBar extends Component<Props> {
   componentWillUnmount() {
     const shortcuts = this.context.shortcuts;
@@ -376,6 +349,33 @@ CommandBar.contextTypes = {
   shortcuts: PropTypes.object
 };
 
+type Props = {
+  sources: SourcesMap,
+  selectedSource: SourceRecord,
+  resume: Function,
+  stepIn: Function,
+  stepOut: Function,
+  stepOver: Function,
+  breakOnNext: Function,
+  rewind: Function,
+  reverseStepIn: Function,
+  reverseStepOut: Function,
+  reverseStepOver: Function,
+  isPaused: boolean,
+  pauseOnExceptions: (boolean, boolean) => void,
+  shouldPauseOnExceptions: boolean,
+  shouldPauseOnCaughtExceptions: boolean,
+  historyPosition: number,
+  history: any,
+  timeTravelTo: number => void,
+  clearHistory: () => void,
+  isWaitingOnBreak: boolean,
+  horizontal: boolean,
+  canRewind: boolean,
+  skipPausing: boolean,
+  toggleSkipPausing: () => void
+};
+
 const mapStateToProps = state => ({
   isPaused: getIsPaused(state),
   history: getHistory(state),
@@ -385,4 +385,4 @@ const mapStateToProps = state => ({
   skipPausing: getSkipPausing(state)
 });
 
-export default connect(mapStateToProps, actions)(CommandBar);
+export default connect(mapStateToProps, () => actions)(CommandBar);

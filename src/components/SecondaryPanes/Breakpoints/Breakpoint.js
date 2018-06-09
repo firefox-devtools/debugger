@@ -29,17 +29,6 @@ import type {
 
 import { getSelectedSource, getTopFrame } from "../../../selectors";
 
-type Props = {
-  breakpoint: BreakpointType,
-  selectedSource: ?Source,
-  disableBreakpoint: Function,
-  enableBreakpoint: Function,
-  removeBreakpoint: Function,
-  selectSpecificLocation: Function,
-  source: Source,
-  frame: ?Frame
-};
-
 function getMappedLocation(mappedLocation: MappedLocation, selectedSource) {
   return selectedSource && isGeneratedId(selectedSource.id)
     ? mappedLocation.generatedLocation
@@ -172,9 +161,20 @@ class Breakpoint extends PureComponent<Props> {
   }
 }
 
+type Props = {
+  breakpoint: BreakpointType,
+  selectedSource: ?Source,
+  disableBreakpoint: Function,
+  enableBreakpoint: Function,
+  removeBreakpoint: Function,
+  selectSpecificLocation: Function,
+  source: Source,
+  frame: ?Frame
+};
+
 const mapStateToProps = state => ({
   frame: getTopFrame(state),
   selectedSource: getSelectedSource(state)
 });
 
-export default connect(mapStateToProps, actions)(Breakpoint);
+export default connect(mapStateToProps, () => actions)(Breakpoint);

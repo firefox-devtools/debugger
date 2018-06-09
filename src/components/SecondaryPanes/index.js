@@ -403,4 +403,4 @@ const mapStateToProps = state => ({
   workers: getWorkers(state)
 });
 
-export default connect(mapStateToProps, actions)(SecondaryPanes);
+export default connect(mapStateToProps, () => actions)(SecondaryPanes);

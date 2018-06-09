@@ -209,4 +209,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, actions)(SourceFooter);
+export default connect(mapStateToProps, () => actions)(SourceFooter);
