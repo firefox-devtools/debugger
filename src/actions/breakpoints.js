@@ -85,18 +85,11 @@ export function addBreakpoint(
 ) {
   const breakpoint = createBreakpoint(location, { condition, hidden });
   return ({ dispatch, getState, sourceMaps, client }: ThunkArgs) => {
-    return dispatch(
-      ({
-        type: "ADD_BREAKPOINT",
-        breakpoint,
-        [PROMISE]: addBreakpointPromise(
-          getState,
-          client,
-          sourceMaps,
-          breakpoint
-        )
-      }: Action)
-    );
+    return dispatch({
+      type: "ADD_BREAKPOINT",
+      breakpoint,
+      [PROMISE]: addBreakpointPromise(getState, client, sourceMaps, breakpoint)
+    });
   };
 }
 
@@ -139,14 +132,12 @@ export function removeBreakpoint(location: Location) {
       );
     }
 
-    return dispatch(
-      ({
-        type: "REMOVE_BREAKPOINT",
-        breakpoint: bp,
-        disabled: false,
-        [PROMISE]: client.removeBreakpoint(bp.generatedLocation)
-      }: Action)
-    );
+    return dispatch({
+      type: "REMOVE_BREAKPOINT",
+      breakpoint: bp,
+      disabled: false,
+      [PROMISE]: client.removeBreakpoint(bp.generatedLocation)
+    });
   };
 }
 
@@ -171,18 +162,11 @@ export function enableBreakpoint(location: Location) {
       disabled: false
     };
 
-    return dispatch(
-      ({
-        type: "ENABLE_BREAKPOINT",
-        breakpoint: enabledBreakpoint,
-        [PROMISE]: addBreakpointPromise(
-          getState,
-          client,
-          sourceMaps,
-          breakpoint
-        )
-      }: Action)
-    );
+    return dispatch({
+      type: "ENABLE_BREAKPOINT",
+      breakpoint: enabledBreakpoint,
+      [PROMISE]: addBreakpointPromise(getState, client, sourceMaps, breakpoint)
+    });
   };
 }
 
@@ -374,12 +358,13 @@ export function setBreakpointCondition(
 
 export function toggleBreakpoint(line: ?number, column?: number) {
   return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
-    if (!line) {
+    const state = getState();
+    const selectedSource = getSelectedSource(state);
+
+    if (!line || !selectedSource) {
       return;
     }
 
-    const state = getState();
-    const selectedSource = getSelectedSource(state);
     const bp = getBreakpointAtLocation(state, { line, column });
     const isEmptyLine = isEmptyLineInSource(state, line, selectedSource.id);
 
@@ -411,11 +396,12 @@ export function toggleBreakpoint(line: ?number, column?: number) {
 
 export function addOrToggleDisabledBreakpoint(line: ?number, column?: number) {
   return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
-    if (!line) {
+    const selectedSource = getSelectedSource(getState());
+
+    if (!line || !selectedSource) {
       return;
     }
 
-    const selectedSource = getSelectedSource(getState());
     const bp = getBreakpointAtLocation(getState(), { line, column });
 
     if (bp && bp.loading) {
@@ -431,8 +417,8 @@ export function addOrToggleDisabledBreakpoint(line: ?number, column?: number) {
 
     return dispatch(
       addBreakpoint({
-        sourceId: selectedSource.get("id"),
-        sourceUrl: selectedSource.get("url"),
+        sourceId: selectedSource.id,
+        sourceUrl: selectedSource.url,
         line: line,
         column: column
       })

@@ -12,6 +12,10 @@ import type { State } from "../reducers/types";
 
 export function inComponent(state: State) {
   const selectedFrame = getSelectedFrame(state);
+  if (!selectedFrame) {
+    return;
+  }
+
   const source = getSource(state, selectedFrame.location.sourceId);
   const symbols = getSymbols(state, source);
 

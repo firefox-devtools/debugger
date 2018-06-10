@@ -77,44 +77,46 @@ export function setPreview(
   cursorPos: ClientRect
 ) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
-    await dispatch(
-      ({
-        type: "SET_PREVIEW",
-        [PROMISE]: (async function() {
-          const source = getSelectedSource(getState());
-          const sourceId = source.id;
-          const selectedFrame = getSelectedFrame(getState());
+    await dispatch({
+      type: "SET_PREVIEW",
+      [PROMISE]: (async function() {
+        const source = getSelectedSource(getState());
+        if (!source) {
+          return;
+        }
 
-          if (location && !isGeneratedId(sourceId)) {
-            expression = await dispatch(getMappedExpression(expression));
-          }
+        const sourceId = source.id;
+        const selectedFrame = getSelectedFrame(getState());
 
-          if (!selectedFrame) {
-            return;
-          }
+        if (location && !isGeneratedId(sourceId)) {
+          expression = await dispatch(getMappedExpression(expression));
+        }
 
-          const { result } = await client.evaluateInFrame(
-            expression,
-            selectedFrame.id
-          );
+        if (!selectedFrame) {
+          return;
+        }
 
-          if (result === undefined) {
-            return;
-          }
+        const { result } = await client.evaluateInFrame(
+          expression,
+          selectedFrame.id
+        );
 
-          const extra = await dispatch(getExtra(expression, result));
+        if (result === undefined) {
+          return;
+        }
 
-          return {
-            expression,
-            result,
-            location,
-            tokenPos,
-            cursorPos,
-            extra
-          };
-        })()
-      }: Action)
-    );
+        const extra = await dispatch(getExtra(expression, result));
+
+        return {
+          expression,
+          result,
+          location,
+          tokenPos,
+          cursorPos,
+          extra
+        };
+      })()
+    });
   };
 }
 

@@ -17,12 +17,10 @@ export function toggleBlackBox(source: Source) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     const { isBlackBoxed, id } = source;
 
-    return dispatch(
-      ({
-        type: "BLACKBOX",
-        source,
-        [PROMISE]: client.blackBox(id, isBlackBoxed)
-      }: Action)
-    );
+    return dispatch({
+      type: "BLACKBOX",
+      source,
+      [PROMISE]: client.blackBox(id, isBlackBoxed)
+    });
   };
 }

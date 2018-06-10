@@ -1,7 +1,7 @@
 [ignore]
 .*node_modules/documentation.*
-.*node_modules/devtools-reps/src/object-inspector/index.js
 .*node_modules/devtools-mc-assets/.*
+.*node_modules/reselect/lib/reselect.d.ts
 .*node_modules/stylelint.*
 <PROJECT_ROOT>/firefox/.*
 .*mozilla-central/.*
