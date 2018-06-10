@@ -61,13 +61,11 @@ export function setSymbols(sourceId: SourceId) {
       return;
     }
 
-    await dispatch(
-      ({
-        type: "SET_SYMBOLS",
-        sourceId,
-        [PROMISE]: getSymbols(sourceId)
-      }: Action)
-    );
+    await dispatch({
+      type: "SET_SYMBOLS",
+      sourceId,
+      [PROMISE]: getSymbols(sourceId)
+    });
 
     if (isPaused(getState())) {
       await dispatch(fetchExtra());

@@ -6,7 +6,6 @@
 
 import {
   getSelectedSource,
-  isPaused,
   getSelectedFrame,
   getCanRewind
 } from "../../selectors";
@@ -18,12 +17,12 @@ import type { ThunkArgs } from "../types";
 export function continueToHere(line: number) {
   return async function({ dispatch, getState }: ThunkArgs) {
     const selectedSource = getSelectedSource(getState());
+    const selectedFrame = getSelectedFrame(getState());
 
-    if (!isPaused(getState()) || !selectedSource) {
+    if (!selectedFrame || !selectedSource) {
       return;
     }
 
-    const selectedFrame = getSelectedFrame(getState());
     const debugLine = selectedFrame.location.line;
     if (debugLine == line) {
       return;
