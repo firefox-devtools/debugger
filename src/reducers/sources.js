@@ -126,12 +126,12 @@ function update(
 
     case "ADD_TAB":
       return state.merge({
-        tabs: updateTabList({ sources: state }, action.url)
+        tabs: updateTabList(state.tabs, action.url)
       });
 
     case "MOVE_TAB":
       return state.merge({
-        tabs: updateTabList({ sources: state }, action.url, action.tabIndex)
+        tabs: updateTabList(state.tabs, action.url, action.tabIndex)
       });
 
     case "CLOSE_TAB":
@@ -212,20 +212,16 @@ function updateSource(state: Record<SourcesState>, source: Source | Object) {
   return state.setIn(["sources", source.id], createSourceRecord(source));
 }
 
-export function removeSourceFromTabList(tabs: any, url: string) {
+export function removeSourceFromTabList(tabs: TabList, url: string) {
   return tabs.filter(tab => tab != url);
 }
 
-export function removeSourcesFromTabList(tabs: any, urls: Array<string>) {
+export function removeSourcesFromTabList(tabs: TabList, urls: Array<string>) {
   return urls.reduce((t, url) => removeSourceFromTabList(t, url), tabs);
 }
 
 function restoreTabs() {
   const prefsTabs = prefs.tabs || [];
-  if (prefsTabs.length == 0) {
-    return;
-  }
-
   return prefsTabs;
 }
 
@@ -234,9 +230,7 @@ function restoreTabs() {
  * @memberof reducers/sources
  * @static
  */
-function updateTabList(state: OuterState, url: ?string, tabIndex?: number) {
-  let tabs = state.sources.tabs;
-
+function updateTabList(tabs: TabList, url: ?string, tabIndex?: number) {
   const urlIndex = tabs.indexOf(url);
   const includesUrl = !!tabs.find(tab => tab == url);
 

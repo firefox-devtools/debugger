@@ -34,14 +34,14 @@ function summarize(symbol) {
 
   return `${loc} ${expression} ${name}${params} ${klass} ${names} ${values}`.trim(); // eslint-disable-line max-len
 }
+const bools = ["hasJsx", "hasTypes", "loading"];
+function formatBool(name, symbols) {
+  return `${name}: ${symbols[name] ? "true" : "false"}`;
+}
 
 function formatKey(name, symbols) {
-  if (name == "hasJsx") {
-    return `hasJsx: ${symbols.hasJsx ? "true" : "false"}`;
-  }
-
-  if (name == "hasTypes") {
-    return `hasTypes: ${symbols.hasTypes ? "true" : "false"}`;
+  if (bools.includes(name)) {
+    return formatBool(name, symbols);
   }
 
   return `${name}:\n${symbols[name].map(summarize).join("\n")}`;

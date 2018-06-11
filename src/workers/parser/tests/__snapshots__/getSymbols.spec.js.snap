@@ -98,7 +98,9 @@ literals:
 
 hasJsx: false
 
-hasTypes: false"
+hasTypes: false
+
+loading: false"
 `;
 
 exports[`Parser.getSymbols call expression 1`] = `
@@ -155,7 +157,9 @@ literals:
 
 hasJsx: false
 
-hasTypes: false"
+hasTypes: false
+
+loading: false"
 `;
 
 exports[`Parser.getSymbols call sites 1`] = `
@@ -200,7 +204,9 @@ literals:
 
 hasJsx: false
 
-hasTypes: false"
+hasTypes: false
+
+loading: false"
 `;
 
 exports[`Parser.getSymbols class 1`] = `
@@ -256,7 +262,9 @@ literals:
 
 hasJsx: false
 
-hasTypes: false"
+hasTypes: false
+
+loading: false"
 `;
 
 exports[`Parser.getSymbols component 1`] = `
@@ -431,7 +439,9 @@ literals:
 
 hasJsx: true
 
-hasTypes: false"
+hasTypes: false
+
+loading: false"
 `;
 
 exports[`Parser.getSymbols destruct 1`] = `
@@ -545,7 +555,9 @@ literals:
 
 hasJsx: false
 
-hasTypes: false"
+hasTypes: false
+
+loading: false"
 `;
 
 exports[`Parser.getSymbols es6 1`] = `
@@ -584,7 +596,9 @@ literals:
 
 hasJsx: false
 
-hasTypes: false"
+hasTypes: false
+
+loading: false"
 `;
 
 exports[`Parser.getSymbols expression 1`] = `
@@ -818,7 +832,9 @@ literals:
 
 hasJsx: false
 
-hasTypes: false"
+hasTypes: false
+
+loading: false"
 `;
 
 exports[`Parser.getSymbols finds symbols in an html file 1`] = `
@@ -904,7 +920,9 @@ literals:
 
 hasJsx: false
 
-hasTypes: false"
+hasTypes: false
+
+loading: false"
 `;
 
 exports[`Parser.getSymbols flow 1`] = `
@@ -949,7 +967,9 @@ literals:
 
 hasJsx: false
 
-hasTypes: true"
+hasTypes: true
+
+loading: false"
 `;
 
 exports[`Parser.getSymbols func 1`] = `
@@ -1043,7 +1063,9 @@ literals:
 
 hasJsx: false
 
-hasTypes: false"
+hasTypes: false
+
+loading: false"
 `;
 
 exports[`Parser.getSymbols function names 1`] = `
@@ -1202,7 +1224,9 @@ literals:
 
 hasJsx: false
 
-hasTypes: false"
+hasTypes: false
+
+loading: false"
 `;
 
 exports[`Parser.getSymbols jsx 1`] = `
@@ -1242,7 +1266,9 @@ literals:
 
 hasJsx: true
 
-hasTypes: false"
+hasTypes: false
+
+loading: false"
 `;
 
 exports[`Parser.getSymbols math 1`] = `
@@ -1303,7 +1329,9 @@ literals:
 
 hasJsx: false
 
-hasTypes: false"
+hasTypes: false
+
+loading: false"
 `;
 
 exports[`Parser.getSymbols object expressions 1`] = `
@@ -1410,7 +1438,9 @@ literals:
 
 hasJsx: false
 
-hasTypes: false"
+hasTypes: false
+
+loading: false"
 `;
 
 exports[`Parser.getSymbols proto 1`] = `
@@ -1478,7 +1508,9 @@ literals:
 
 hasJsx: false
 
-hasTypes: false"
+hasTypes: false
+
+loading: false"
 `;
 
 exports[`Parser.getSymbols react component 1`] = `
@@ -1518,7 +1550,9 @@ literals:
 
 hasJsx: false
 
-hasTypes: false"
+hasTypes: false
+
+loading: false"
 `;
 
 exports[`Parser.getSymbols var 1`] = `
@@ -1567,5 +1601,7 @@ literals:
 
 hasJsx: false
 
-hasTypes: false"
+hasTypes: false
+
+loading: false"
 `;
