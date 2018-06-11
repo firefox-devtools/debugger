@@ -67,6 +67,7 @@ function getBabelFrameIndexes(frames) {
   // Receives an array of start and end index tuples and returns
   // an array of async call stack index ranges.
   // e.g. [[1,3], [5,7]] => [[1,2,3], [5,6,7]]
+  // $FlowIgnore
   return flatMap(zip(startIndexes, endIndexes), ([startIndex, endIndex]) =>
     range(startIndex, endIndex + 1)
   );

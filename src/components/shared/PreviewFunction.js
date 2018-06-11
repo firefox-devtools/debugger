@@ -46,6 +46,7 @@ export default class PreviewFunction extends Component<Props> {
       </span>
     ));
 
+    // $FlowIgnore
     return flatten(zip(params, commas));
   }
 

@@ -11,7 +11,7 @@ import type { NamedValue } from "./types";
 import type { BindingContents, ScopeBindings } from "../../../types";
 
 // VarAndBindingsPair actually is [name: string, contents: BindingContents]
-type VarAndBindingsPair = Array<any>;
+type VarAndBindingsPair = [string, any];
 type VarAndBindingsPairs = Array<VarAndBindingsPair>;
 
 // Scope's bindings field which holds variables and arguments
@@ -29,11 +29,12 @@ export function getBindingVariables(
   const args: VarAndBindingsPairs = bindings.arguments.map(
     arg => toPairs(arg)[0]
   );
+
   const variables: VarAndBindingsPairs = toPairs(bindings.variables);
 
   return args.concat(variables).map(binding => {
-    const name = (binding[0]: string);
-    const contents = (binding[1]: BindingContents);
+    const name = binding[0];
+    const contents = binding[1];
     return {
       name,
       path: `${parentName}/${name}`,
