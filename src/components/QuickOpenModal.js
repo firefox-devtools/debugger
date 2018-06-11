@@ -323,7 +323,15 @@ export class QuickOpenModal extends Component<Props, State> {
   isSourceSearch = () => this.isSourcesQuery() || this.isGotoSourceQuery();
 
   /* eslint-disable react/no-danger */
-  renderHighlight = (candidateString: string, query: string, name: string) => {
+  renderHighlight(
+    candidateString: string | React$Element<"div">,
+    query: string,
+    name: string
+  ): string | React$Element<"div"> {
+    if (typeof candidateString != "string") {
+      return "";
+    }
+
     const options = {
       wrap: {
         tagOpen: '<mark class="highlight">',
@@ -332,21 +340,26 @@ export class QuickOpenModal extends Component<Props, State> {
     };
     const html = fuzzyAldrin.wrap(candidateString, query, options);
     return <div dangerouslySetInnerHTML={{ __html: html }} />;
-  };
+  }
 
-  highlightMatching = (query: string, results: QuickOpenResult[]) => {
+  updateResult(result: QuickOpenResult, newQuery: string): QuickOpenResult {
+    return {
+      ...result,
+      title: this.renderHighlight(result.title, basename(newQuery), "title")
+    };
+  }
+
+  highlightMatching = (
+    query: string,
+    results: QuickOpenResult[]
+  ): QuickOpenResult[] => {
     let newQuery = query;
     if (newQuery === "") {
       return results;
     }
     newQuery = query.replace(/[@:#?]/gi, " ");
 
-    return results.map(result => {
-      return {
-        ...result,
-        title: this.renderHighlight(result.title, basename(newQuery), "title")
-      };
-    });
+    return results.map(result => this.updateResult(result, newQuery));
   };
 
   shouldShowErrorEmoji() {

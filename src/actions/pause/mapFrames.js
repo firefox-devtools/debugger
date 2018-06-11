@@ -32,7 +32,10 @@ function updateFrameLocations(
   );
 }
 
-export function mapDisplayNames(frames: Frame[], getState: () => State) {
+export function mapDisplayNames(
+  frames: Frame[],
+  getState: () => State
+): Frame[] {
   return frames.map(frame => {
     const source = getSource(getState(), frame.location.sourceId);
     const symbols = getSymbols(getState(), source);

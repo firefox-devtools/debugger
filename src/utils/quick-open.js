@@ -3,6 +3,7 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
+import React from "react";
 import classnames from "classnames";
 import { endTruncateStr } from "./utils";
 import { isPretty, getFilename, getSourceClassnames } from "./source";
@@ -70,7 +71,7 @@ export function formatSourcesForList(source: RelativeSource, tabs: TabList) {
 export type QuickOpenResult = {|
   id: string,
   value: string,
-  title: string,
+  title: string | React$Element<"div">,
   subtitle?: string,
   location?: BabelLocation,
   url?: string,

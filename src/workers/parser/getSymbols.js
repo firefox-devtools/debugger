@@ -33,7 +33,9 @@ export type SymbolDeclaration = {
 };
 
 export type ClassDeclaration = SymbolDeclaration & {
-  parent: string
+  parent: {
+    name: string
+  }
 };
 
 export type FunctionDeclaration = SymbolDeclaration & {
@@ -146,7 +148,7 @@ function extractSymbol(path: SimplePath, symbols) {
   if (t.isClassDeclaration(path)) {
     symbols.classes.push({
       name: path.node.id.name,
-      parent: path.node.superClass,
+      parent: { name: path.node.superClass },
       location: path.node.loc
     });
   }
