@@ -16,3 +16,15 @@ export type Node = {
   path: string,
   contents: SourceRecord | Array<Node>
 };
+
+export type Directory = {
+  name: string,
+  path: string,
+  contents: Array<Node>
+};
+
+export type File = {
+  name: string,
+  path: string,
+  contents: SourceRecord
+};

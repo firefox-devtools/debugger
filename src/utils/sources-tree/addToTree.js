@@ -19,7 +19,7 @@ import {
 import { getURL } from "./getURL";
 
 import type { ParsedURL } from "./getURL";
-import type { Node } from "./types";
+import type { Node, File, Directory } from "./types";
 import type { SourceRecord } from "../../types";
 
 function createNodeInTree(
@@ -46,7 +46,7 @@ function createNodeInTree(
  */
 function findOrCreateNode(
   parts: string[],
-  subTree: Node,
+  subTree: Directory,
   path: string,
   part: string,
   index: number,
@@ -82,7 +82,11 @@ function findOrCreateNode(
  * walk the source tree to the final node for a given url,
  * adding new nodes along the way
  */
-function traverseTree(url: Object, tree: Node, debuggeeHost: ?string) {
+function traverseTree(
+  url: Object,
+  tree: Directory,
+  debuggeeHost: ?string
+): Node {
   url.path = decodeURIComponent(url.path);
 
   const parts = url.path.split("/").filter(p => p !== "");
@@ -142,7 +146,7 @@ function addSourceToNode(node: Node, url: ParsedURL, source: SourceRecord) {
  * @static
  */
 export function addToTree(
-  tree: Node,
+  tree: Directory,
   source: SourceRecord,
   debuggeeUrl: string,
   projectRoot: string

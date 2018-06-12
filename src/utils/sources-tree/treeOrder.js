@@ -8,7 +8,7 @@ import { parse } from "url";
 
 import { nodeHasChildren } from "./utils";
 
-import type { Node } from "./types";
+import type { Node, Directory } from "./types";
 
 /*
  * Gets domain from url (without www prefix)
@@ -50,10 +50,11 @@ export type FindNodeInContentsMatcher = (node: Node) => number;
  * lookup value.
  */
 export function findNodeInContents(
-  tree: Node,
+  tree: Directory,
   matcher: FindNodeInContentsMatcher
 ) {
   const { contents } = tree;
+
   if (contents.length === 0) {
     return { found: false, index: 0 };
   }

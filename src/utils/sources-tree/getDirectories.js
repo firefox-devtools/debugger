@@ -6,12 +6,12 @@
 
 import { createParentMap, nodeHasChildren } from "./utils";
 import { getURL } from "./getURL";
-import type { Node } from "./types";
+import type { Node, Directory } from "./types";
 
-function findSource(sourceTree: Node, sourceUrl: string): Node {
+function findSource(sourceTree: Directory, sourceUrl: string): Node {
   let returnTarget = null;
   function _traverse(subtree) {
-    if (nodeHasChildren(subtree)) {
+    if (Array.isArray(subtree)) {
       for (const child of subtree.contents) {
         _traverse(child);
       }
@@ -25,14 +25,10 @@ function findSource(sourceTree: Node, sourceUrl: string): Node {
 
   sourceTree.contents.forEach(_traverse);
 
-  if (!returnTarget) {
-    return sourceTree;
-  }
-
-  return returnTarget;
+  return returnTarget || sourceTree;
 }
 
-export function getDirectories(sourceUrl: string, sourceTree: Node) {
+export function getDirectories(sourceUrl: string, sourceTree: Directory) {
   const url = getURL(sourceUrl);
   const fullUrl = `${url.group}${url.path}`;
   const parentMap = createParentMap(sourceTree);

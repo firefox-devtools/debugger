@@ -5,12 +5,12 @@
 // @flow
 
 import { createNode, nodeHasChildren } from "./utils";
-import type { Node } from "./types";
+import type { Node, Directory } from "./types";
 
 /**
  * Take an existing source tree, and return a new one with collapsed nodes.
  */
-export function collapseTree(node: Node, depth: number = 0) {
+export function collapseTree(node: Directory, depth: number = 0) {
   // Node is a folder.
   if (Array.isArray(node.contents)) {
     // Node is not a root/domain node, and only contains 1 item.
@@ -24,11 +24,12 @@ export function collapseTree(node: Node, depth: number = 0) {
         );
       }
     }
+
     // Map the contents.
     return createNode(
       node.name,
       node.path,
-      node.contents.map(next => collapseTree(next, depth + 1))
+      node.contents.map((next: Directory) => collapseTree(next, depth + 1))
     );
   }
   // Node is a leaf, not a folder, do not modify it.
