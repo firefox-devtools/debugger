@@ -2,9 +2,32 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
+import CodeMirror from "codemirror";
 import { getExpressionFromCoords } from "../get-expression";
 
 describe("get-expression", () => {
+  let isCreateTextRangeDefined;
+
+  beforeAll(() => {
+    if (document.body.createTextRange) {
+      isCreateTextRangeDefined = true;
+    } else {
+      isCreateTextRangeDefined = false;
+      // CodeMirror needs createTextRange
+      // https://discuss.codemirror.net/t/working-in-jsdom-or-node-js-natively/138/5
+      document.body.createTextRange = () => ({
+        getBoundingClientRect: () => {},
+        getClientRects: () => ({})
+      });
+    }
+  });
+
+  afterAll(() => {
+    if (!isCreateTextRangeDefined) {
+      delete document.body.createTextRange;
+    }
+  });
+
   describe("getExpressionFromCoords", () => {
     it("returns null when location.line is greater than the lineCount", () => {
       const lineCount = 1;
@@ -105,21 +128,12 @@ describe("get-expression", () => {
     });
 
     it("includes previous tokens in the expression", () => {
-      const codemirrorMock = {
-        lineCount: () => 2,
-        getTokenAt: location => {
-          if (location.ch >= 5 && location.ch <= 7) {
-            return { start: 4, end: 7, type: "property" };
-          } else if (location.ch >= 1 && location.ch <= 3) {
-            return { start: 0, end: 3, type: "variable" };
-          }
-        },
-        doc: {
-          getLine: () => "foo.bar;"
-        }
-      };
+      const cm = CodeMirror(document.body, {
+        value: "foo.bar;\n",
+        mode: "javascript"
+      });
 
-      const result = getExpressionFromCoords(codemirrorMock, {
+      const result = getExpressionFromCoords(cm, {
         line: 1,
         column: 5
       });
@@ -129,23 +143,12 @@ describe("get-expression", () => {
     });
 
     it("includes multiple previous tokens in the expression", () => {
-      const codemirrorMock = {
-        lineCount: () => 2,
-        getTokenAt: location => {
-          if (location.ch >= 9 && location.ch <= 11) {
-            return { start: 8, end: 11, type: "property" };
-          } else if (location.ch >= 5 && location.ch <= 7) {
-            return { start: 4, end: 7, type: "property" };
-          } else if (location.ch >= 1 && location.ch <= 3) {
-            return { start: 0, end: 3, type: "variable" };
-          }
-        },
-        doc: {
-          getLine: () => "foo.bar.baz;"
-        }
-      };
+      const cm = CodeMirror(document.body, {
+        value: "foo.bar.baz;\n",
+        mode: "javascript"
+      });
 
-      const result = getExpressionFromCoords(codemirrorMock, {
+      const result = getExpressionFromCoords(cm, {
         line: 1,
         column: 10
       });
@@ -155,23 +158,12 @@ describe("get-expression", () => {
     });
 
     it("does not include tokens not part of the expression", () => {
-      const codemirrorMock = {
-        lineCount: () => 2,
-        getTokenAt: location => {
-          if (location.ch >= 9 && location.ch <= 11) {
-            return { start: 8, end: 11, type: "property" };
-          } else if (location.ch >= 5 && location.ch <= 7) {
-            return { start: 4, end: 7, type: "variable" };
-          } else if (location.ch >= 1 && location.ch <= 3) {
-            return { start: 0, end: 3, type: "variable" };
-          }
-        },
-        doc: {
-          getLine: () => "foo bar.baz;"
-        }
-      };
+      const cm = CodeMirror(document.body, {
+        value: "foo bar.baz;\n",
+        mode: "javascript"
+      });
 
-      const result = getExpressionFromCoords(codemirrorMock, {
+      const result = getExpressionFromCoords(cm, {
         line: 1,
         column: 10
       });
