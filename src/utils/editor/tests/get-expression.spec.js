@@ -30,12 +30,13 @@ describe("get-expression", () => {
 
   describe("getExpressionFromCoords", () => {
     it("returns null when location.line is greater than the lineCount", () => {
-      const lineCount = 1;
-      const codemirrorMock = {
-        lineCount: () => lineCount
-      };
-      const result = getExpressionFromCoords(codemirrorMock, {
-        line: lineCount + 1,
+      const cm = CodeMirror(document.body, {
+        value: "let Line1;\n" + "let Line2;\n",
+        mode: "javascript"
+      });
+
+      const result = getExpressionFromCoords(cm, {
+        line: 3,
         column: 1
       });
       expect(result).toBeNull();
@@ -72,35 +73,25 @@ describe("get-expression", () => {
     });
 
     it("when called with column 0 returns null", () => {
-      const codemirrorMock = {
-        lineCount: () => 2,
-        getTokenAt: jest.fn(() => ({ start: 0, end: 0, type: null })),
-        doc: {
-          getLine: () => "foo bar;"
-        }
-      };
+      const cm = CodeMirror(document.body, {
+        value: "foo bar;\n",
+        mode: "javascript"
+      });
 
-      const result = getExpressionFromCoords(codemirrorMock, {
+      const result = getExpressionFromCoords(cm, {
         line: 1,
         column: 0
-      });
-      expect(codemirrorMock.getTokenAt).toHaveBeenCalledWith({
-        line: 0,
-        ch: 0
       });
       expect(result).toBeNull();
     });
 
     it("gets the expression when first token on the line", () => {
-      const codemirrorMock = {
-        lineCount: () => 2,
-        getTokenAt: () => ({ start: 0, end: 3 }),
-        doc: {
-          getLine: () => "foo bar;"
-        }
-      };
+      const cm = CodeMirror(document.body, {
+        value: "foo bar;\n",
+        mode: "javascript"
+      });
 
-      const result = getExpressionFromCoords(codemirrorMock, {
+      const result = getExpressionFromCoords(cm, {
         line: 1,
         column: 1
       });
@@ -110,15 +101,12 @@ describe("get-expression", () => {
     });
 
     it("gets the expression when not the first token on the line", () => {
-      const codemirrorMock = {
-        lineCount: () => 2,
-        getTokenAt: () => ({ start: 4, end: 7 }),
-        doc: {
-          getLine: () => "foo bar;"
-        }
-      };
+      const cm = CodeMirror(document.body, {
+        value: "foo bar;\n",
+        mode: "javascript"
+      });
 
-      const result = getExpressionFromCoords(codemirrorMock, {
+      const result = getExpressionFromCoords(cm, {
         line: 1,
         column: 5
       });
