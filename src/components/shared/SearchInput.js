@@ -109,16 +109,16 @@ class SearchInput extends Component<Props, State> {
 
     return [
       arrowBtn(
-        handleNext,
-        "arrow-down",
-        classnames("nav-btn", "next"),
-        L10N.getFormatStr("editor.searchResults.nextResult")
-      ),
-      arrowBtn(
         handlePrev,
         "arrow-up",
         classnames("nav-btn", "prev"),
         L10N.getFormatStr("editor.searchResults.prevResult")
+      ),
+      arrowBtn(
+        handleNext,
+        "arrow-down",
+        classnames("nav-btn", "next"),
+        L10N.getFormatStr("editor.searchResults.nextResult")
       )
     ];
   }
