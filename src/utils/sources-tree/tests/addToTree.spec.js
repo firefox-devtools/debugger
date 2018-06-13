@@ -75,6 +75,33 @@ describe("sources-tree", () => {
       expect(source1Node.name).toBe("source1.js");
     });
 
+    it("does not mangle encoded URLs", () => {
+      const source1 = createSourceRecord({
+        url:
+          "https://example.com/foo/B9724220.131821496;dc_ver=42.111;sz=468x60;u_sd=2;dc_adk=2020465299;ord=a53rpc;dc_rfl=1,https%3A%2F%2Fdavidwalsh.name%2F$0;xdt=1?",
+        actor: "actor1"
+      });
+      const tree = createNode("root", "", []);
+
+      addToTree(tree, source1, "http://example.com/");
+      expect(tree.contents).toHaveLength(1);
+
+      const base = tree.contents[0];
+      expect(base.name).toBe("example.com");
+      expect(base.contents).toHaveLength(1);
+
+      const fooNode = base.contents[0];
+      expect(fooNode.name).toBe("foo");
+      expect(fooNode.contents).toHaveLength(1);
+
+      const source1Node = fooNode.contents[0];
+      expect(source1Node.name).toBe(
+        "B9724220.131821496;dc_ver=42.111;sz=468x60;u_sd=2;" +
+          "dc_adk=2020465299;ord=a53rpc;dc_rfl=1" +
+          ",https%3A%2F%2Fdavidwalsh.name%2F$0;xdt=1"
+      );
+    });
+
     it("does not attempt to add two of the same directory", () => {
       const sources = [
         {
