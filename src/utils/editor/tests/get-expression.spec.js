@@ -16,7 +16,7 @@ describe("get-expression", () => {
       // CodeMirror needs createTextRange
       // https://discuss.codemirror.net/t/working-in-jsdom-or-node-js-natively/138/5
       document.body.createTextRange = () => ({
-        getBoundingClientRect: () => {},
+        getBoundingClientRect: jest.fn(),
         getClientRects: () => ({})
       });
     }
