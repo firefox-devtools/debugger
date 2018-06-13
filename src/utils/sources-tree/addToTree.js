@@ -85,12 +85,10 @@ function findOrCreateNode(
  * adding new nodes along the way
  */
 function traverseTree(
-  url: Object,
+  url: ParsedURL,
   tree: TreeDirectory,
   debuggeeHost: ?string
 ): TreeNode {
-  url.path = decodeURIComponent(url.path);
-
   const parts = url.path.split("/").filter(p => p !== "");
   parts.unshift(url.group);
 
