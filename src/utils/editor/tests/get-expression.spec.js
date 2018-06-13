@@ -100,21 +100,6 @@ describe("get-expression", () => {
       expect(result.location.end).toEqual({ line: 1, column: 3 });
     });
 
-    it("gets the expression when not the first token on the line", () => {
-      const cm = CodeMirror(document.body, {
-        value: "foo bar;\n",
-        mode: "javascript"
-      });
-
-      const result = getExpressionFromCoords(cm, {
-        line: 1,
-        column: 5
-      });
-      expect(result.expression).toEqual("bar");
-      expect(result.location.start).toEqual({ line: 1, column: 4 });
-      expect(result.location.end).toEqual({ line: 1, column: 7 });
-    });
-
     it("includes previous tokens in the expression", () => {
       const cm = CodeMirror(document.body, {
         value: "foo.bar;\n",
