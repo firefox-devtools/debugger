@@ -6,7 +6,7 @@
 
 import {
   nodeHasChildren,
-  isDirectory,
+  isPathDirectory,
   isInvalidUrl,
   partIsFile,
   createNode
@@ -108,7 +108,7 @@ function traverseTree(url: Object, tree: Node, debuggeeHost: ?string) {
  * Add a source file to a directory node in the tree
  */
 function addSourceToNode(node: Node, url: ParsedURL, source: SourceRecord) {
-  const isFile = !isDirectory(url);
+  const isFile = !isPathDirectory(url.path);
 
   // if we have a file, and the subtree has no elements, overwrite the
   // subtree contents with the source
