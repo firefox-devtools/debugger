@@ -127,7 +127,7 @@ export type CoverageAction = {|
 export type DebugeeAction = {|
   +type: "SET_WORKERS",
   +workers: {
-    workers: Object[]
+    workers: Worker[]
   }
 |};
 

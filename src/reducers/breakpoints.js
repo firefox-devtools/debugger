@@ -25,7 +25,9 @@ export type BreakpointsState = {
   breakpoints: BreakpointsMap
 };
 
-export function initialBreakpointsState(): Record<BreakpointsState> {
+type BreakpointsStateRecord = I.RecordOf<BreakpointsState>;
+
+export function initialBreakpointsState(): BreakpointsStateRecord {
   return makeRecord(
     ({
       breakpoints: I.Map(),
@@ -35,7 +37,7 @@ export function initialBreakpointsState(): Record<BreakpointsState> {
 }
 
 function update(
-  state: Record<BreakpointsState> = initialBreakpointsState(),
+  state: BreakpointsStateRecord = initialBreakpointsState(),
   action: Action
 ) {
   switch (action.type) {
@@ -206,8 +208,9 @@ export function getBreakpointForLine(
   line: number | null
 ): ?Breakpoint {
   if (!sourceId) {
-    return I.Map();
+    return null;
   }
+
   const breakpoints = getBreakpointsForSource(state, sourceId);
   return breakpoints.find(breakpoint => breakpoint.location.line === line);
 }

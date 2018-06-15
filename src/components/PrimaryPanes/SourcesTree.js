@@ -176,7 +176,7 @@ class SourcesTree extends Component<Props, State> {
     }
 
     const source = this.getSource(item);
-    const blackBoxedPart = source.isBlackBoxed ? ":blackboxed" : "";
+    const blackBoxedPart = source && source.isBlackBoxed ? ":blackboxed" : "";
 
     return `${path}${blackBoxedPart}`;
   };

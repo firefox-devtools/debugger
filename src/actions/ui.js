@@ -67,6 +67,9 @@ export function toggleFrameworkGrouping(toggleValue: boolean) {
 export function showSource(sourceId: string) {
   return ({ dispatch, getState }: ThunkArgs) => {
     const source = getSource(getState(), sourceId);
+    if (!source) {
+      return;
+    }
 
     if (getPaneCollapse(getState(), "start")) {
       dispatch({
@@ -84,7 +87,7 @@ export function showSource(sourceId: string) {
 
     dispatch({
       type: "SHOW_SOURCE",
-      sourceUrl: getRawSourceURL(source.get("url"))
+      sourceUrl: getRawSourceURL(source.url)
     });
   };
 }

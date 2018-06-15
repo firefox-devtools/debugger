@@ -30,7 +30,7 @@ type SourcesList = List<SourceRecord>;
 type Props = {
   tabSources: SourcesList,
   selectedSource: SourceRecord,
-  selectSpecificSource: Object => void,
+  selectSpecificSource: string => void,
   moveTab: (string, number) => void,
   closeTab: string => void,
   togglePaneCollapse: () => void,

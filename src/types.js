@@ -4,7 +4,7 @@
 
 // @flow
 
-import { RecordOf } from "immutable";
+import type { RecordOf } from "immutable";
 
 export type SearchModifiers = {
   caseSensitive: boolean,
@@ -280,8 +280,6 @@ export type Grip = {
  * @static
  */
 
-export type SourceRecord = RecordOf<Source>;
-
 export type Source = {
   +id: SourceId,
   +url: string,
@@ -295,10 +293,13 @@ export type Source = {
   +loadedState: "unloaded" | "loading" | "loaded"
 };
 
-export type RelativeSourceRecord = RecordOf<RelativeSource>;
-export type RelativeSource = Source & {
-  relativeUrl: string
+export type RelativeSource = {
+  ...Source,
+  relativeUrl: string | void
 };
+
+export type SourceRecord = RecordOf<Source>;
+export type RelativeSourceRecord = RecordOf<RelativeSource>;
 
 /**
  * Script

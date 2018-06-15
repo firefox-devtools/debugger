@@ -28,7 +28,8 @@ import type {
   SymbolDeclaration,
   FunctionDeclaration
 } from "../../workers/parser";
-import type { SourceRecord } from "../../types";
+import typeimport { SymbolDeclarations } from "../../workers/parser/getSymbols";
+ { SourceRecord } from "../../types";
 
 type Props = {
   symbols: SymbolDeclarations,
@@ -150,7 +151,7 @@ export class Outline extends Component<Props> {
     );
   }
 
-  renderFunctions(functions: Array<FunctionDeclaration>) {
+  renderFunctions(functions: FunctionDeclaration[]) {
     let classes = uniq(functions.map(func => func.klass));
     let namedFunctions = functions.filter(
       func =>
@@ -197,6 +198,7 @@ export class Outline extends Component<Props> {
     if (!symbols || symbols.loading) {
       return this.renderLoading();
     }
+
     const symbolsToDisplay = symbols.functions.filter(
       func => func.name != "anonymous"
     );

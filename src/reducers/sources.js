@@ -17,13 +17,19 @@ import { originalToGeneratedId, isOriginalId } from "devtools-source-map";
 import { prefs } from "../utils/prefs";
 
 import type { Map, List } from "immutable";
-import type { Source, Location, SourceRecord } from "../types";
+import type {
+  RelativeSourceRecord,
+  Source,
+  Location,
+  SourceRecord
+} from "../types";
 import type { SelectedLocation, PendingSelectedLocation } from "./types";
 import type { Action, DonePromiseAction } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 type Tab = string;
 export type SourcesMap = Map<string, SourceRecord>;
+export type RelativeSourcesMap = Map<string, RelativeSourceRecord>;
 export type TabList = List<Tab>;
 
 export type SourcesState = {
@@ -60,10 +66,19 @@ const sourceRecordProperties = {
 };
 
 export const SourceRecordClass = new I.Record(sourceRecordProperties);
+
 export const RelativeSourceRecordClass = new I.Record({
-  ...sourceRecordProperties,
-  relativeUrl: undefined
+  relativeUrl: undefined,
+  ...sourceRecordProperties
 });
+
+export function createRelativeSourceRecord(
+  source: Source,
+  relativeUrl: string
+): RelativeSourceRecord {
+  // $FlowIgnore
+  return new RelativeSourceRecordClass({ ...source, relativeUrl });
+}
 
 export function createSourceRecord(source: Source) {
   return new SourceRecordClass(source);
@@ -336,7 +351,7 @@ type OuterState = { sources: Record<SourcesState> };
 
 const getSourcesState = state => state.sources;
 
-export function getSource(state: OuterState, id: string) {
+export function getSource(state: OuterState, id: string): ?SourceRecord {
   return getSourceInSources(getSources(state), id);
 }
 
@@ -383,7 +398,7 @@ function getSourceByUrlInSources(sources: SourcesMap, url: string) {
 export function getSourceInSources(
   sources: SourcesMap,
   id: string
-): SourceRecord {
+): ?SourceRecord {
   return sources.get(id);
 }
 

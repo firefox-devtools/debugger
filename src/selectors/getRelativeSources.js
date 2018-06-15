@@ -5,7 +5,7 @@
 // @flow
 
 import { getProjectDirectoryRoot, getSources } from "../selectors";
-import { RelativeSourceRecordClass } from "../reducers/sources";
+import { createRelativeSourceRecord } from "../reducers/sources";
 import type { SourceRecord, RelativeSource } from "../types";
 import { getSourcePath } from "../utils/source";
 import { createSelector } from "reselect";
@@ -20,10 +20,7 @@ function getRelativeUrl(url, root) {
 }
 
 function formatSource(source: SourceRecord, root): RelativeSource {
-  return new RelativeSourceRecordClass(source).set(
-    "relativeUrl",
-    getRelativeUrl(source.url, root)
-  );
+  return createRelativeSourceRecord(source, getRelativeUrl(source.url, root));
 }
 
 /*

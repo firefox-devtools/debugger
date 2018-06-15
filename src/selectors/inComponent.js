@@ -15,7 +15,7 @@ export function inComponent(state: State) {
   const source = getSource(state, selectedFrame.location.sourceId);
   const symbols = getSymbols(state, source);
 
-  if (!symbols) {
+  if (!source || !symbols) {
     return;
   }
 

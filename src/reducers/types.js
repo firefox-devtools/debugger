@@ -19,10 +19,12 @@ import type { ProjectTextSearchState } from "./project-text-search";
 import type { Record } from "../utils/makeRecord";
 import type { SourcesState } from "./sources";
 import type { UIState } from "./ui";
+import type { DebuggeeState } from "./debuggee";
 
 export type State = {
   ast: Record<ASTState>,
   breakpoints: Record<BreakpointsState>,
+  debuggeee: Record<DebuggeeState>,
   expressions: Record<ExpressionState>,
   fileSearch: Record<FileSearchState>,
   pause: PauseState,
@@ -44,7 +46,7 @@ export type PendingSelectedLocation = {
   column?: number
 };
 
-export type { SourcesMap } from "./sources";
+export type { SourcesMap, RelativeSourcesMap } from "./sources";
 export type { ActiveSearchType, OrientationType } from "./ui";
 export type { BreakpointsMap } from "./breakpoints";
 export type { WorkersList } from "./debuggee";
