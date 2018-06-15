@@ -140,7 +140,7 @@ describe("Popover", () => {
     );
 
     const toolTipTop = parseInt(mountedTooltip.getDOMNode().style.top, 10);
-    expect(toolTipTop).toBeLessThan(target.top);
+    expect(toolTipTop).toBeLessThanOrEqual(target.top);
   });
 
   it("tooltop won't display above the target when insufficient space", () => {
@@ -159,8 +159,8 @@ describe("Popover", () => {
     const target = {
       width: 30,
       height: 10,
-      top: 5,
-      bottom: 15,
+      top: 0,
+      bottom: 10,
       left: 20,
       right: 50
     };
@@ -177,6 +177,6 @@ describe("Popover", () => {
     );
 
     const toolTipTop = parseInt(mountedTooltip.getDOMNode().style.top, 10);
-    expect(toolTipTop).toBeGreaterThan(editor.getBoundingClientRect().top);
+    expect(toolTipTop).toBeGreaterThanOrEqual(target.bottom);
   });
 });
