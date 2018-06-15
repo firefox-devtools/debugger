@@ -731,15 +731,6 @@ class Tree extends Component {
       return;
     }
 
-    const traversal = this._dfsFromRoots();
-    const length = traversal.length;
-    let parentIndex = 0;
-    for (; parentIndex < length; parentIndex++) {
-      if (traversal[parentIndex].item === parent) {
-        break;
-      }
-    }
-
     this._focus(parent, { alignTo: "top" });
   }
 
