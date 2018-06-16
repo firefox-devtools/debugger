@@ -51,6 +51,7 @@
 .project-text-search .result .line-number {
   padding-left: 5px;
   min-width: 33px;
+  width: 100%;
   text-align: right;
   grid-column: 1/2;
 }
