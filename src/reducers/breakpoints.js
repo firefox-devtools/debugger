@@ -17,7 +17,6 @@ import { makeLocationId } from "../utils/breakpoint";
 
 import type { Breakpoint, Location } from "../types";
 import type { Action, DonePromiseAction } from "../actions/types";
-import type { Record } from "../utils/makeRecord";
 
 export type BreakpointsMap = I.Map<string, Breakpoint>;
 
@@ -25,7 +24,9 @@ export type BreakpointsState = {
   breakpoints: BreakpointsMap
 };
 
-export function initialBreakpointsState(): Record<BreakpointsState> {
+type BreakpointsStateRecord = I.RecordOf<BreakpointsState>;
+
+export function initialBreakpointsState(): BreakpointsStateRecord {
   return makeRecord(
     ({
       breakpoints: I.Map(),
@@ -35,7 +36,7 @@ export function initialBreakpointsState(): Record<BreakpointsState> {
 }
 
 function update(
-  state: Record<BreakpointsState> = initialBreakpointsState(),
+  state: BreakpointsStateRecord = initialBreakpointsState(),
   action: Action
 ) {
   switch (action.type) {
@@ -156,7 +157,7 @@ function removeBreakpoint(state, action) {
 // Selectors
 // TODO: these functions should be moved out of the reducer
 
-type OuterState = { breakpoints: Record<BreakpointsState> };
+type OuterState = { breakpoints: I.RecordOf<BreakpointsState> };
 
 export function getBreakpoints(state: OuterState) {
   return state.breakpoints.breakpoints;
@@ -206,8 +207,9 @@ export function getBreakpointForLine(
   line: number | null
 ): ?Breakpoint {
   if (!sourceId) {
-    return I.Map();
+    return null;
   }
+
   const breakpoints = getBreakpointsForSource(state, sourceId);
   return breakpoints.find(breakpoint => breakpoint.location.line === line);
 }

@@ -156,6 +156,7 @@ export function selectSpecificLocation(location: Location) {
     }
 
     const sourceRecord = getSource(getState(), location.sourceId);
+
     if (!sourceRecord) {
       // If there is no source we deselect the current selected source
       return dispatch(clearSelectedLocation());
@@ -205,6 +206,10 @@ export function jumpToMappedLocation(location: Location) {
     }
 
     const source = getSource(getState(), location.sourceId);
+    if (!source) {
+      return;
+    }
+
     let pairedLocation;
     if (isOriginalId(location.sourceId)) {
       pairedLocation = await getGeneratedLocation(
@@ -227,6 +232,10 @@ export function jumpToMappedLocation(location: Location) {
 export function jumpToMappedSelectedLocation() {
   return async function({ dispatch, getState }: ThunkArgs) {
     const location = getSelectedLocation(getState());
+    if (!location) {
+      return;
+    }
+
     await dispatch(jumpToMappedLocation(location));
   };
 }

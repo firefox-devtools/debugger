@@ -201,4 +201,4 @@ const mapStateToProps = state => ({
   pause: getIsPaused(state)
 });
 
-export default connect(mapStateToProps, actions)(Frames);
+export default connect(mapStateToProps, () => actions)(Frames);

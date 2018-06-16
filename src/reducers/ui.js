@@ -11,9 +11,9 @@
 
 import makeRecord from "../utils/makeRecord";
 import { prefs } from "../utils/prefs";
+import { RecordOf } from "immutable";
 
 import type { Action, panelPositionType } from "../actions/types";
-import type { Record } from "../utils/makeRecord";
 
 export type ActiveSearchType = "project" | "file";
 
@@ -56,9 +56,9 @@ export const createUIState = makeRecord(
 );
 
 function update(
-  state: Record<UIState> = createUIState(),
+  state: RecordOf<UIState> = createUIState(),
   action: Action
-): Record<UIState> {
+): RecordOf<UIState> {
   switch (action.type) {
     case "TOGGLE_ACTIVE_SEARCH": {
       return state.set("activeSearch", action.value);
@@ -133,7 +133,7 @@ function update(
 
 // NOTE: we'd like to have the app state fully typed
 // https://github.com/devtools-html/debugger.html/blob/master/src/reducers/sources.js#L179-L185
-type OuterState = { ui: Record<UIState> };
+type OuterState = { ui: RecordOf<UIState> };
 
 export function getSelectedPrimaryPaneTab(
   state: OuterState

@@ -12,22 +12,22 @@
 import makeRecord from "../utils/makeRecord";
 
 import type { SourceTreeAction } from "../actions/types";
-import type { Record } from "../utils/makeRecord";
+import { RecordOf } from "immutable";
 
 export type SourceTreeState = {
   expanded: any
 };
 
-export function InitialState(): Record<SourceTreeState> {
+export function InitialState(): RecordOf<SourceTreeState> {
   return makeRecord({
     expanded: null
   })();
 }
 
 export default function update(
-  state: Record<SourceTreeState> = InitialState(),
+  state: RecordOf<SourceTreeState> = InitialState(),
   action: SourceTreeAction
-): Record<SourceTreeState> {
+): RecordOf<SourceTreeState> {
   switch (action.type) {
     case "SET_EXPANDED_STATE":
       return state.set("expanded", action.expanded);
@@ -36,7 +36,7 @@ export default function update(
 }
 
 type OuterState = {
-  sourceTree: Record<SourceTreeState>
+  sourceTree: RecordOf<SourceTreeState>
 };
 
 export function getExpandedState(state: OuterState) {

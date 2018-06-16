@@ -30,13 +30,27 @@ export type ErrorPromiseAction = {|
   +error: any
 |};
 
-export type PromiseAction<Action, Value = any> = {|
-  ...BasePromiseAction,
-  ...Action,
-  +status?: "start" | "done" | "error",
-  +value?: Value,
-  +error?: any
-|};
+export type PromiseAction<Action, Value = any> =
+  // | {| ...Action, value: void, status: void |}
+  | {|
+      ...BasePromiseAction,
+      ...Action,
+      +status: "start",
+      value: void
+    |}
+  | {|
+      ...BasePromiseAction,
+      ...Action,
+      +status: "done",
+      +value: Value
+    |}
+  | {|
+      ...BasePromiseAction,
+      ...Action,
+      +status: "error",
+      +error?: any,
+      value: void
+    |};
 
 let seqIdVal = 1;
 

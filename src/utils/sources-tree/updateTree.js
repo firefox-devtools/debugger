@@ -9,7 +9,7 @@ import { collapseTree } from "./collapseTree";
 import { createParentMap } from "./utils";
 
 import type { SourcesMap } from "../../reducers/types";
-import type { Node } from "./types";
+import type { Node, Directory } from "./types";
 
 function newSourcesSet(newSources, prevSources) {
   const next = newSources.toSet();
@@ -20,8 +20,8 @@ function newSourcesSet(newSources, prevSources) {
 type Params = {
   newSources: SourcesMap,
   prevSources: SourcesMap,
-  uncollapsedTree: Node,
-  sourceTree: Node,
+  uncollapsedTree: Directory,
+  sourceTree: Directory,
   debuggeeUrl: string,
   projectRoot: string
 };

@@ -126,12 +126,12 @@ export function formatShortcutResults(): Array<QuickOpenResult> {
 }
 
 export function formatSources(
-  sources: Map<RelativeSource>,
+  sources: Map<string, RelativeSource>,
   tabs: TabList
 ): Array<QuickOpenResult> {
-  return sources
-    .valueSeq()
-    .toArray()
+  const sourcesList: RelativeSource[] = (sources.valueSeq().toArray(): any);
+
+  return sourcesList
     .filter(source => !isPretty(source))
     .filter(({ relativeUrl }) => !!relativeUrl)
     .map(source => formatSourcesForList(source, tabs));

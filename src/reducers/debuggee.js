@@ -10,15 +10,14 @@
  */
 
 import { createSelector } from "reselect";
-import { List } from "immutable";
-import type { Record } from "../utils/makeRecord";
+import { List, RecordOf } from "immutable";
 import type { Worker } from "../types";
 import type { Action } from "../actions/types";
 import makeRecord from "../utils/makeRecord";
 
 export type WorkersList = List<Worker>;
 
-type DebuggeeState = {
+export type DebuggeeState = {
   workers: WorkersList
 };
 
@@ -29,22 +28,19 @@ export const createDebuggeeState = makeRecord(
 );
 
 export default function debuggee(
-  state: Record<DebuggeeState> = createDebuggeeState(),
+  state: RecordOf<DebuggeeState> = createDebuggeeState(),
   action: Action
-): Record<DebuggeeState> {
+): RecordOf<DebuggeeState> {
   switch (action.type) {
     case "SET_WORKERS":
+      // $FlowIgnore
       return state.set("workers", List(action.workers));
     default:
       return state;
   }
 }
 
-const getDebuggeeWrapper = state => state.debuggee;
-
-export const getWorkers = createSelector(getDebuggeeWrapper, debuggeeState =>
-  debuggeeState.get("workers")
-);
+export const getWorkers = (state: OuterState) => state.debuggee.workers;
 
 type OuterState = { debuggee: DebuggeeState };
 

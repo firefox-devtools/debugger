@@ -113,4 +113,4 @@ const mapStateToProps = state => {
   return { listeners };
 };
 
-export default connect(mapStateToProps, actions)(EventListeners);
+export default connect(mapStateToProps, () => actions)(EventListeners);

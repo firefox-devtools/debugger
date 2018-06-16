@@ -41,7 +41,7 @@ type SourcesList = List<SourceRecord>;
 
 type Props = {
   tabSources: SourcesList,
-  selectSpecificSource: Object => void,
+  selectSpecificSource: string => void,
   selectedSource: SourceRecord,
   closeTab: string => void,
   closeTabs: (List<string>) => void,
@@ -111,8 +111,8 @@ class Tab extends PureComponent<Props> {
       {
         item: {
           ...tabMenuItems.copyToClipboard,
-          disabled: selectedSource.get("id") !== tab,
-          click: () => copyToTheClipboard(sourceTab.text)
+          disabled: selectedSource && selectedSource.id !== tab,
+          click: () => copyToTheClipboard(sourceTab.text || "")
         }
       },
       {
@@ -218,4 +218,4 @@ const mapStateToProps = (state, { source }) => {
   };
 };
 
-export default connect(mapStateToProps, actions)(Tab);
+export default connect(mapStateToProps, () => actions)(Tab);

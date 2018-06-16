@@ -25,7 +25,7 @@ import "./Breakpoints.css";
 type Props = {
   breakpointSources: BreakpointSources,
   selectedSource: Source,
-  selectSource: String => void,
+  selectSource: string => void,
   shouldPauseOnExceptions: boolean,
   shouldPauseOnCaughtExceptions: boolean,
   pauseOnExceptions: Function
@@ -129,4 +129,4 @@ const mapStateToProps = state => ({
   selectedSource: getSelectedSource(state)
 });
 
-export default connect(mapStateToProps, actions)(Breakpoints);
+export default connect(mapStateToProps, () => actions)(Breakpoints);

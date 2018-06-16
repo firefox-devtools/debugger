@@ -30,7 +30,7 @@ type SourcesList = List<SourceRecord>;
 type Props = {
   tabSources: SourcesList,
   selectedSource: SourceRecord,
-  selectSpecificSource: Object => void,
+  selectSpecificSource: string => void,
   moveTab: (string, number) => void,
   closeTab: string => void,
   togglePaneCollapse: () => void,
@@ -200,4 +200,4 @@ const mapStateToProps = state => ({
   tabSources: getSourcesForTabs(state)
 });
 
-export default connect(mapStateToProps, actions)(Tabs);
+export default connect(mapStateToProps, () => actions)(Tabs);

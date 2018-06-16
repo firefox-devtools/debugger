@@ -13,9 +13,9 @@ import makeRecord from "../utils/makeRecord";
 import { prefs } from "../utils/prefs";
 
 import type { Action } from "../actions/types";
-import type { Record } from "../utils/makeRecord";
+import * as I from "immutable";
 
-export type Modifiers = Record<{
+export type Modifiers = I.RecordOf<{
   caseSensitive: boolean,
   wholeWord: boolean,
   regexMatch: boolean
@@ -57,9 +57,9 @@ export const createFileSearchState = makeRecord(
 );
 
 function update(
-  state: Record<FileSearchState> = createFileSearchState(),
+  state: I.RecordOf<FileSearchState> = createFileSearchState(),
   action: Action
-): Record<FileSearchState> {
+): I.RecordOf<FileSearchState> {
   switch (action.type) {
     case "UPDATE_FILE_SEARCH_QUERY": {
       return state.set("query", action.query);
@@ -95,7 +95,7 @@ function update(
 
 // NOTE: we'd like to have the app state fully typed
 // https://github.com/devtools-html/debugger.html/blob/master/src/reducers/sources.js#L179-L185
-type OuterState = { fileSearch: Record<FileSearchState> };
+type OuterState = { fileSearch: I.RecordOf<FileSearchState> };
 
 export function getFileSearchQuery(state: OuterState): string {
   return state.fileSearch.query;

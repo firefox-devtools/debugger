@@ -225,4 +225,4 @@ const mapStateToProps = state => {
 const { addBreakpoint, removeBreakpoint } = actions;
 const mapDispatchToProps = { addBreakpoint, removeBreakpoint };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CallSites);
+export default connect(mapStateToProps, () => actions)(CallSites);

@@ -317,20 +317,4 @@ const mapStateToProps = state => ({
   popupObjectProperties: getAllPopupObjectProperties(state)
 });
 
-const {
-  addExpression,
-  selectSourceURL,
-  selectLocation,
-  setPopupObjectProperties,
-  openLink
-} = actions;
-
-const mapDispatchToProps = {
-  addExpression,
-  selectSourceURL,
-  selectLocation,
-  setPopupObjectProperties,
-  openLink
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Popup);
+export default connect(mapStateToProps, () => actions)(Popup);

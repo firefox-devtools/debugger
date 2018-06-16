@@ -6,7 +6,7 @@
 
 import { parse } from "url";
 
-import type { Node } from "./types";
+import type { Node, Directory } from "./types";
 import type { SourceRecord } from "../../types";
 import { isPretty } from "../source";
 const IGNORED_URLS = ["debugger eval code", "XStringBundle"];
@@ -76,21 +76,21 @@ export function createNode(
   };
 }
 
-export function createParentMap(tree: Node): WeakMap<Node, Node> {
+export function createParentMap(tree: Directory): WeakMap<Node, Node> {
   const map = new WeakMap();
 
-  function _traverse(subtree) {
-    if (nodeHasChildren(subtree)) {
-      for (const child of subtree.contents) {
+  function _traverse(subtree: Node) {
+    if (Array.isArray(subtree.contents)) {
+      subtree.contents.forEach(child => {
         map.set(child, subtree);
         _traverse(child);
-      }
+      });
     }
   }
 
   // Don't link each top-level path to the "root" node because the
   // user never sees the root
-  tree.contents.forEach(_traverse);
+  tree.contents.forEach((node: Node) => _traverse(node));
   return map;
 }
 

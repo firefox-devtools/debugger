@@ -76,9 +76,10 @@ export function paused(pauseInfo: Pause) {
 
     if (selectedFrame) {
       const visibleFrame = getVisibleSelectedFrame(getState());
-      const location = isGeneratedId(visibleFrame.location.sourceId)
-        ? selectedFrame.generatedLocation
-        : selectedFrame.location;
+      const location =
+        visibleFrame && isGeneratedId(visibleFrame.location.sourceId)
+          ? selectedFrame.generatedLocation
+          : selectedFrame.location;
       await dispatch(selectLocation(location));
     }
 

@@ -57,7 +57,7 @@ type State = {
 type Props = {
   editor?: SourceEditor,
   selectedSource?: SourceRecord,
-  searchOn?: boolean,
+  searchOn: boolean,
   setActiveSearch: (?ActiveSearchType) => any,
   closeFileSearch: SourceEditor => void,
   doSearch: (string, SourceEditor) => void,
@@ -345,4 +345,4 @@ const mapStateToProps = state => ({
   searchResults: getFileSearchResults(state)
 });
 
-export default connect(mapStateToProps, actions)(SearchBar);
+export default connect(mapStateToProps, () => actions)(SearchBar);

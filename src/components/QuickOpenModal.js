@@ -433,4 +433,4 @@ function mapStateToProps(state) {
 }
 
 /* istanbul ignore next: ignoring testing of redux connection stuff */
-export default connect(mapStateToProps, actions)(QuickOpenModal);
+export default connect(mapStateToProps, () => actions)(QuickOpenModal);

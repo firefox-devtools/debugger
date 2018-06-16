@@ -10,7 +10,7 @@
  */
 
 import * as I from "immutable";
-import makeRecord from "../utils/makeRecord";
+
 import { findEmptyLines } from "../utils/ast";
 
 import type {
@@ -21,11 +21,13 @@ import type {
 } from "../workers/parser";
 
 import type { Map } from "immutable";
+import type { State } from "./types";
 import type { Location, Source } from "../types";
 import type { Action, DonePromiseAction } from "../actions/types";
-import type { Record } from "../utils/makeRecord";
 
 type EmptyLinesType = number[];
+
+export type Foo = {| type: "3", bar: 2 |} | {| type: "4" |};
 
 export type Symbols = SymbolDeclarations | {| loading: true |};
 export type SymbolsMap = Map<string, Symbols>;
@@ -40,7 +42,6 @@ export type PausePointsMap = Map<string, PausePoints>;
 
 export type Preview =
   | {| updating: true |}
-  | null
   | {|
       updating: false,
       expression: string,
@@ -55,14 +56,14 @@ export type ASTState = {
   symbols: SymbolsMap,
   emptyLines: EmptyLinesMap,
   outOfScopeLocations: ?Array<AstLocation>,
-  inScopeLines: ?Array<Number>,
-  preview: Preview,
+  inScopeLines: ?Array<number>,
+  preview: ?Preview,
   pausePoints: PausePointsMap,
   sourceMetaData: SourceMetaDataMap
 };
 
-export function initialASTState() {
-  return makeRecord(
+export function initialASTState(): I.RecordOf<ASTState> {
+  return I.Record(
     ({
       symbols: I.Map(),
       emptyLines: I.Map(),
@@ -76,9 +77,9 @@ export function initialASTState() {
 }
 
 function update(
-  state: Record<ASTState> = initialASTState(),
+  state: I.RecordOf<ASTState> = initialASTState(),
   action: Action
-): Record<ASTState> {
+): I.RecordOf<ASTState> {
   switch (action.type) {
     case "SET_SYMBOLS": {
       const { sourceId } = action;
@@ -112,20 +113,16 @@ function update(
     }
 
     case "SET_PREVIEW": {
-      if (action.status == "start") {
-        return state.set("preview", { updating: true });
-      }
-
-      if (!action.value) {
-        return state.set("preview", null);
-      }
-
-      // NOTE: if the preview does not exist, it has been cleared
-      if (state.get("preview")) {
-        return state.set("preview", {
-          ...action.value,
-          updating: false
-        });
+      switch (action.status) {
+        case "start":
+          return state.set("preview", { updating: true });
+        case "error":
+          return state.set("preview", null);
+        case "done":
+          return state.set("preview", {
+            ...action.value,
+            updating: false
+          });
       }
 
       return state;
@@ -154,9 +151,9 @@ function update(
 
 // NOTE: we'd like to have the app state fully typed
 // https://github.com/devtools-html/debugger.html/blob/master/src/reducers/sources.js#L179-L185
-type OuterState = { ast: Record<ASTState> };
+type OuterState = State;
 
-export function getSymbols(state: OuterState, source: Source): ?Symbols {
+export function getSymbols(state: OuterState, source: ?Source): ?Symbols {
   if (!source) {
     return null;
   }
@@ -164,7 +161,11 @@ export function getSymbols(state: OuterState, source: Source): ?Symbols {
   return state.ast.symbols.get(source.id) || null;
 }
 
-export function hasSymbols(state: OuterState, source: Source): boolean {
+export function hasSymbols(state: OuterState, source: ?Source): boolean {
+  if (!source) {
+    return false;
+  }
+
   const symbols = getSymbols(state, source);
 
   if (!symbols) {

@@ -190,16 +190,4 @@ const mapStateToProps = state => {
   };
 };
 
-const {
-  setBreakpointCondition,
-  openConditionalPanel,
-  closeConditionalPanel
-} = actions;
-
-const mapDispatchToProps = {
-  setBreakpointCondition,
-  openConditionalPanel,
-  closeConditionalPanel
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ConditionalPanel);
+export default connect(mapStateToProps, () => actions)(ConditionalPanel);

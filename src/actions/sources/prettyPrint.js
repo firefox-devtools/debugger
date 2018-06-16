@@ -22,11 +22,11 @@ import {
 } from "../../selectors";
 
 import type { Action, ThunkArgs } from "../types";
-import type { Source } from "../../types";
+import type { Source, SourceRecord } from "../../types";
 
-export function createPrettySource(sourceId: string) {
+export function createPrettySource(source: SourceRecord) {
   return async ({ dispatch, getState, sourceMaps }: ThunkArgs) => {
-    const source = getSource(getState(), sourceId);
+    const sourceId = source.id;
     const url = getPrettySourceURL(source.url);
     const id = await sourceMaps.generatedToOriginalId(sourceId, url);
 
@@ -102,7 +102,7 @@ export function togglePrettyPrint(sourceId: string) {
       );
     }
 
-    const newPrettySource = await dispatch(createPrettySource(sourceId));
+    const newPrettySource = await dispatch(createPrettySource(source));
 
     await dispatch(remapBreakpoints(sourceId));
     await dispatch(mapFrames());

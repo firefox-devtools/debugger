@@ -27,40 +27,45 @@ import type { SimplePath, Node, TraversalAncestors } from "./utils/simple-path";
 type AstPosition = { line: number, column: number };
 type AstLocation = { end: AstPosition, start: AstPosition };
 
-export type SymbolDeclaration = {
+export type SymbolDeclaration = {|
   name: string,
   location: AstLocation
-};
+|};
 
-export type ClassDeclaration = SymbolDeclaration & {
+export type ClassDeclaration = {|
+  ...SymbolDeclaration,
   parent: string
-};
+|};
 
-export type FunctionDeclaration = SymbolDeclaration & {
+export type FunctionDeclaration = {|
+  ...SymbolDeclaration,
   parameterNames: string[],
   klass: string | null,
   identifier: Object
-};
+|};
 
-export type CallDeclaration = SymbolDeclaration & {
+export type CallDeclaration = {|
+  ...SymbolDeclaration,
   values: string[]
-};
+|};
 
-export type MemberDeclaration = SymbolDeclaration & {
+export type MemberDeclaration = {|
+  ...SymbolDeclaration,
   computed: Boolean,
   expression: string
-};
+|};
 
-export type IdentifierDeclaration = {
+export type IdentifierDeclaration = {|
   name: string,
   location: AstLocation,
   expression: string
-};
-export type ImportDeclaration = {
+|};
+
+export type ImportDeclaration = {|
   source: string,
   location: AstLocation,
   specifiers: string[]
-};
+|};
 
 export type SymbolDeclarations = {|
   classes: Array<ClassDeclaration>,
@@ -74,7 +79,8 @@ export type SymbolDeclarations = {|
   comments: Array<SymbolDeclaration>,
   literals: Array<IdentifierDeclaration>,
   hasJsx: boolean,
-  hasTypes: boolean
+  hasTypes: boolean,
+  loading: false
 |};
 
 let symbolDeclarations: Map<string, SymbolDeclarations> = new Map();
@@ -291,7 +297,8 @@ function extractSymbols(sourceId): SymbolDeclarations {
     imports: [],
     literals: [],
     hasJsx: false,
-    hasTypes: false
+    hasTypes: false,
+    loading: false
   };
 
   const ast = traverseAst(sourceId, {

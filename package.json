@@ -79,7 +79,7 @@
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint-plugin-import": "^2.8.0",
     "fuzzaldrin-plus": "^0.6.0",
-    "immutable": "^3.8.2",
+    "immutable": "^4.0.0-rc.9",
     "lodash": "^4.17.4",
     "lodash.kebabcase": "^4.1.1",
     "md5": "^2.2.1",

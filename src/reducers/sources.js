@@ -17,13 +17,25 @@ import { originalToGeneratedId, isOriginalId } from "devtools-source-map";
 import { prefs } from "../utils/prefs";
 
 import type { Map, List } from "immutable";
-import type { Source, Location, SourceRecord } from "../types";
+import type {
+  RelativeSourceRecord,
+  Source,
+  Location,
+  SourceRecord
+} from "../types";
 import type { SelectedLocation, PendingSelectedLocation } from "./types";
 import type { Action, DonePromiseAction } from "../actions/types";
+import type { State } from "./types";
 import type { Record } from "../utils/makeRecord";
+import type {
+  SourceAction,
+  LoadSourceAction
+} from "../actions/types/SourceAction";
 
 type Tab = string;
 export type SourcesMap = Map<string, SourceRecord>;
+export type RelativeSourcesMap = Map<string, RelativeSourceRecord>;
+
 export type TabList = List<Tab>;
 
 export type SourcesState = {
@@ -34,7 +46,7 @@ export type SourcesState = {
   tabs: TabList
 };
 
-export function initialSourcesState(): Record<SourcesState> {
+export function initialSourcesState(): SourcesStateRecord {
   return makeRecord(
     ({
       sources: I.Map(),
@@ -60,19 +72,28 @@ const sourceRecordProperties = {
 };
 
 export const SourceRecordClass = new I.Record(sourceRecordProperties);
+
 export const RelativeSourceRecordClass = new I.Record({
-  ...sourceRecordProperties,
-  relativeUrl: undefined
+  relativeUrl: undefined,
+  ...sourceRecordProperties
 });
+
+export function createRelativeSourceRecord(
+  source: Source,
+  relativeUrl: string
+): RelativeSourceRecord {
+  // $FlowIgnore
+  return new RelativeSourceRecordClass({ ...source, relativeUrl });
+}
 
 export function createSourceRecord(source: Source) {
   return new SourceRecordClass(source);
 }
 
 function update(
-  state: Record<SourcesState> = initialSourcesState(),
+  state: I.RecordOf<SourcesState> = initialSourcesState(),
   action: Action
-): Record<SourcesState> {
+): I.RecordOf<SourcesState> {
   let location = null;
 
   switch (action.type) {
@@ -126,12 +147,12 @@ function update(
 
     case "ADD_TAB":
       return state.merge({
-        tabs: updateTabList({ sources: state }, action.url)
+        tabs: updateTabList(state.tabs, action.url)
       });
 
     case "MOVE_TAB":
       return state.merge({
-        tabs: updateTabList({ sources: state }, action.url, action.tabIndex)
+        tabs: updateTabList(state.tabs, action.url, action.tabIndex)
       });
 
     case "CLOSE_TAB":
@@ -158,7 +179,10 @@ function update(
       break;
 
     case "NAVIGATE":
-      const source = getSelectedSource({ sources: state });
+      const source =
+        state.selectedLocation &&
+        state.sources.get(state.selectedLocation.sourceId);
+
       const url = source && source.url;
 
       if (!url) {
@@ -171,8 +195,8 @@ function update(
   return state;
 }
 
-function getTextPropsFromAction(action: any) {
-  const { value, sourceId } = action;
+function getTextPropsFromAction(action) {
+  const { sourceId } = action;
 
   if (action.status === "start") {
     return { id: sourceId, loadedState: "loading" };
@@ -181,9 +205,9 @@ function getTextPropsFromAction(action: any) {
   }
 
   return {
-    text: value.text,
+    text: action.value.text,
     id: sourceId,
-    contentType: value.contentType,
+    contentType: action.value.contentType,
     loadedState: "loaded"
   };
 }
@@ -192,12 +216,15 @@ function getTextPropsFromAction(action: any) {
 // asynchronous actions is wrong. The `value` may be null for the
 // "start" and "error" states but we don't type it like that. We need
 // to rethink how we type async actions.
-function setSourceTextProps(state, action: any): Record<SourcesState> {
+function setSourceTextProps(state, action: LoadSourceAction): I.RecordOf<SourcesState> {
   const text = getTextPropsFromAction(action);
   return updateSource(state, text);
 }
 
-function updateSource(state: Record<SourcesState>, source: Source | Object) {
+function updateSource(
+  state: I.RecordOf<SourcesState>,
+  source: Source | Object
+) {
   if (!source.id) {
     return state;
   }
@@ -234,9 +261,7 @@ function restoreTabs() {
  * @memberof reducers/sources
  * @static
  */
-function updateTabList(state: OuterState, url: ?string, tabIndex?: number) {
-  let tabs = state.sources.tabs;
-
+function updateTabList(tabs, url: ?string, tabIndex?: number) {
   const urlIndex = tabs.indexOf(url);
   const includesUrl = !!tabs.find(tab => tab == url);
 
@@ -280,7 +305,7 @@ export function getBlackBoxList() {
  */
 export function getNewSelectedSourceId(
   state: OuterState,
-  availableTabs: any
+  availableTabs: TabList
 ): string {
   const selectedLocation = state.sources.selectedLocation;
   if (!selectedLocation) {
@@ -332,11 +357,11 @@ export function getNewSelectedSourceId(
 // top-level app state, so we'd have to "wrap" them to automatically
 // pick off the piece of state we're interested in. It's impossible
 // (right now) to type those wrapped functions.
-type OuterState = { sources: Record<SourcesState> };
+type OuterState = State;
 
-const getSourcesState = state => state.sources;
+const getSourcesState = (state: OuterState) => state.sources;
 
-export function getSource(state: OuterState, id: string) {
+export function getSource(state: OuterState, id: string): ?SourceRecord {
   return getSourceInSources(getSources(state), id);
 }
 
@@ -383,14 +408,11 @@ function getSourceByUrlInSources(sources: SourcesMap, url: string) {
 export function getSourceInSources(
   sources: SourcesMap,
   id: string
-): SourceRecord {
+): ?SourceRecord {
   return sources.get(id);
 }
 
-export const getSources = createSelector(
-  getSourcesState,
-  sources => sources.sources
-);
+export const getSources = (sources: OuterState) => sources.sources.sources;
 
 export const getTabs = createSelector(getSourcesState, sources => sources.tabs);
 
@@ -424,15 +446,6 @@ export const getSelectedSource = createSelector(
     }
 
     return sources.get(selectedLocation.sourceId);
-  }
-);
-
-export const getSelectedSourceText = createSelector(
-  getSelectedSource,
-  getSourcesState,
-  (selectedSource, sources) => {
-    const id = selectedSource.id;
-    return id ? sources.sourcesText.get(id) : null;
   }
 );
 

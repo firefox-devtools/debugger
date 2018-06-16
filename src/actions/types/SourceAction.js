@@ -7,7 +7,15 @@
 import type { Location, Source } from "../../types";
 import type { PromiseAction } from "../utils/middleware/promise";
 
+export type LoadSourceAction = PromiseAction<
+  {|
+    +type: "LOAD_SOURCE_TEXT",
+    +sourceId: string
+  |},
+  Source
+>;
 export type SourceAction =
+  | LoadSourceAction
   | {|
       +type: "ADD_SOURCE",
       +source: Source
@@ -30,13 +38,6 @@ export type SourceAction =
       +url: string,
       +line: ?number
     |}
-  | PromiseAction<
-      {|
-        +type: "LOAD_SOURCE_TEXT",
-        +sourceId: string
-      |},
-      Source
-    >
   | {| type: "CLEAR_SELECTED_LOCATION" |}
   | PromiseAction<
       {|

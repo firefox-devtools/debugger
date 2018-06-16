@@ -317,4 +317,4 @@ const mapStateToProps = state => ({
   orientation: getOrientation(state)
 });
 
-export default connect(mapStateToProps, actions)(App);
+export default connect(mapStateToProps, () => actions)(App);

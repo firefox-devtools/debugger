@@ -17,6 +17,7 @@ import { getSelectedSource } from "./sources";
 
 import type { OriginalScope } from "../utils/pause/mapScopes";
 import type { Action } from "../actions/types";
+import type { State } from "./types";
 import type { Why, Scope, SourceId, FrameId, MappedLocation } from "../types";
 
 export type Command =
@@ -299,7 +300,7 @@ function getPauseLocation(state, action) {
 // top-level app state, so we'd have to "wrap" them to automatically
 // pick off the piece of state we're interested in. It's impossible
 // (right now) to type those wrapped functions.
-type OuterState = { pause: PauseState };
+type OuterState = State;
 
 const getPauseState = state => state.pause;
 
@@ -453,6 +454,7 @@ export const getSelectedFrame = createSelector(
     if (!frames) {
       return null;
     }
+
     return frames.find(frame => frame.id == selectedFrameId);
   }
 );

@@ -88,4 +88,4 @@ const mapStateToProps = state => ({
   endPanelCollapsed: getPaneCollapse(state, "end")
 });
 
-export default connect(mapStateToProps, actions)(WelcomeBox);
+export default connect(mapStateToProps, () => actions)(WelcomeBox);

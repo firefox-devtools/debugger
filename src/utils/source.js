@@ -161,7 +161,7 @@ export function getFormattedSourceId(id: string) {
  * @memberof utils/source
  * @static
  */
-export function getFilename(source: Source) {
+export function getFilename(source: Source): string {
   const { url, id } = source;
   if (!url) {
     return getFormattedSourceId(id);

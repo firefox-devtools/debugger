@@ -28,7 +28,9 @@ import type {
   SymbolDeclaration,
   FunctionDeclaration
 } from "../../workers/parser";
+
 import type { SourceRecord } from "../../types";
+import type { State } from "../../reducers/types";
 
 type Props = {
   symbols: SymbolDeclarations,
@@ -150,7 +152,7 @@ export class Outline extends Component<Props> {
     );
   }
 
-  renderFunctions(functions: Array<FunctionDeclaration>) {
+  renderFunctions(functions: FunctionDeclaration[]) {
     let classes = uniq(functions.map(func => func.klass));
     let namedFunctions = functions.filter(
       func =>
@@ -197,6 +199,7 @@ export class Outline extends Component<Props> {
     if (!symbols || symbols.loading) {
       return this.renderLoading();
     }
+
     const symbolsToDisplay = symbols.functions.filter(
       func => func.name != "anonymous"
     );
@@ -210,7 +213,7 @@ export class Outline extends Component<Props> {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state: State) => {
   const selectedSource = getSelectedSource(state);
   const symbols = getSymbols(state, selectedSource);
   return {
@@ -221,4 +224,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, actions)(Outline);
+export default connect(mapStateToProps, () => actions)(Outline);

@@ -5,5 +5,6 @@
   "javascript.validate.enable": false,
   "editor.rulers": [
     80
-  ]
+  ],
+  "flow.runOnEdit": false
 }

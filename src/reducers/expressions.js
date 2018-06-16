@@ -9,6 +9,7 @@
  * @module reducers/expressions
  */
 
+import * as I from "immutable";
 import makeRecord from "../utils/makeRecord";
 import { List, Map } from "immutable";
 import { omit, zip } from "lodash";
@@ -18,7 +19,6 @@ import { prefs } from "../utils/prefs";
 
 import type { Expression } from "../types";
 import type { Action } from "../actions/types";
-import type { Record } from "../utils/makeRecord";
 
 export type ExpressionState = {
   expressions: List<Expression>,
@@ -35,9 +35,9 @@ export const createExpressionState = makeRecord(
 );
 
 function update(
-  state: Record<ExpressionState> = createExpressionState(),
+  state: I.RecordOf<ExpressionState> = createExpressionState(),
   action: Action
-): Record<ExpressionState> {
+): I.RecordOf<ExpressionState> {
   switch (action.type) {
     case "ADD_EXPRESSION":
       if (action.expressionError) {
@@ -128,7 +128,10 @@ function storeExpressions({ expressions }) {
     .toJS();
 }
 
-function appendExpressionToList(state: Record<ExpressionState>, value: any) {
+function appendExpressionToList(
+  state: I.RecordOf<ExpressionState>,
+  value: any
+) {
   const newState = state.update("expressions", () => {
     return state.expressions.push(value);
   });
@@ -138,7 +141,7 @@ function appendExpressionToList(state: Record<ExpressionState>, value: any) {
 }
 
 function updateExpressionInList(
-  state: Record<ExpressionState>,
+  state: I.RecordOf<ExpressionState>,
   key: string,
   value: any
 ) {
@@ -152,7 +155,7 @@ function updateExpressionInList(
   return newState;
 }
 
-function deleteExpression(state: Record<ExpressionState>, input: string) {
+function deleteExpression(state: I.RecordOf<ExpressionState>, input: string) {
   const index = getExpressions({ expressions: state }).findIndex(
     e => e.input == input
   );
@@ -161,7 +164,7 @@ function deleteExpression(state: Record<ExpressionState>, input: string) {
   return newState;
 }
 
-type OuterState = { expressions: Record<ExpressionState> };
+type OuterState = { expressions: I.RecordOf<ExpressionState> };
 
 const getExpressionsWrapper = state => state.expressions;
 

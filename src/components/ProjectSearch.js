@@ -150,8 +150,8 @@ export class ProjectSearch extends Component<Props, State> {
 
   getResults = (): Result[] => {
     const { results } = this.props;
-    return results
-      .toJS()
+    const foo: Result[] = (results.toJS(): any);
+    return foo
       .map(result => ({
         type: "RESULT",
         ...result,
@@ -341,4 +341,4 @@ const mapStateToProps = state => ({
   status: getTextSearchStatus(state)
 });
 
-export default connect(mapStateToProps, actions)(ProjectSearch);
+export default connect(mapStateToProps, () => actions)(ProjectSearch);

@@ -14,7 +14,6 @@ import * as I from "immutable";
 import fromJS from "../utils/fromJS";
 
 import type { Action } from "../actions/types";
-import type { Record } from "../utils/makeRecord";
 
 export type CoverageState = {
   coverageOn: boolean,
@@ -29,9 +28,9 @@ export const createCoverageState = makeRecord(
 );
 
 function update(
-  state: Record<CoverageState> = createCoverageState(),
+  state: I.RecordOf<CoverageState> = createCoverageState(),
   action: Action
-): Record<CoverageState> {
+): I.RecordOf<CoverageState> {
   switch (action.type) {
     case "RECORD_COVERAGE":
       return state
@@ -46,7 +45,7 @@ function update(
 
 // NOTE: we'd like to have the app state fully typed
 // https://github.com/devtools-html/debugger.html/blob/master/src/reducers/sources.js#L179-L185
-type OuterState = { coverage: Record<CoverageState> };
+type OuterState = { coverage: I.RecordOf<CoverageState> };
 
 export function getHitCountForSource(state: OuterState, sourceId: ?string) {
   const hitCount = state.coverage.get("hitCount");
