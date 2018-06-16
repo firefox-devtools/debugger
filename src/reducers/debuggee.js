@@ -10,8 +10,7 @@
  */
 
 import { createSelector } from "reselect";
-import { List } from "immutable";
-import type { Record } from "../utils/makeRecord";
+import { List, RecordOf } from "immutable";
 import type { Worker } from "../types";
 import type { Action } from "../actions/types";
 import makeRecord from "../utils/makeRecord";
@@ -29,9 +28,9 @@ export const createDebuggeeState = makeRecord(
 );
 
 export default function debuggee(
-  state: Record<DebuggeeState> = createDebuggeeState(),
+  state: RecordOf<DebuggeeState> = createDebuggeeState(),
   action: Action
-): Record<DebuggeeState> {
+): RecordOf<DebuggeeState> {
   switch (action.type) {
     case "SET_WORKERS":
       // $FlowIgnore

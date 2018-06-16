@@ -28,8 +28,9 @@ import type {
   SymbolDeclaration,
   FunctionDeclaration
 } from "../../workers/parser";
-import typeimport { SymbolDeclarations } from "../../workers/parser/getSymbols";
- { SourceRecord } from "../../types";
+
+import type { SourceRecord } from "../../types";
+import type { State } from "../../reducers/types";
 
 type Props = {
   symbols: SymbolDeclarations,
@@ -212,7 +213,7 @@ export class Outline extends Component<Props> {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state: State) => {
   const selectedSource = getSelectedSource(state);
   const symbols = getSymbols(state, selectedSource);
   return {

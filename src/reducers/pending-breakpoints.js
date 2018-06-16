@@ -29,7 +29,7 @@ export type PendingBreakpointsState = {
   pendingBreakpoints: PendingBreakpointsMap
 };
 
-export function initialPendingBreakpointsState(): Record<
+export function initialPendingBreakpointsState(): I.RecordOf<
   PendingBreakpointsState
 > {
   return makeRecord(
@@ -40,7 +40,7 @@ export function initialPendingBreakpointsState(): Record<
 }
 
 function update(
-  state: Record<PendingBreakpointsState> = initialPendingBreakpointsState(),
+  state: I.RecordOf<PendingBreakpointsState> = initialPendingBreakpointsState(),
   action: Action
 ) {
   switch (action.type) {
@@ -151,7 +151,7 @@ function removeBreakpoint(state, action) {
 // Selectors
 // TODO: these functions should be moved out of the reducer
 
-type OuterState = { pendingBreakpoints: Record<PendingBreakpointsState> };
+type OuterState = { pendingBreakpoints: I.RecordOf<PendingBreakpointsState> };
 
 export function getPendingBreakpoints(state: OuterState) {
   return state.pendingBreakpoints.pendingBreakpoints;
@@ -159,7 +159,7 @@ export function getPendingBreakpoints(state: OuterState) {
 
 export function getPendingBreakpointsForSource(
   state: OuterState,
-  sourceUrl: String
+  sourceUrl: string
 ): PendingBreakpointsMap {
   const pendingBreakpoints =
     state.pendingBreakpoints.pendingBreakpoints || I.Map();

@@ -14,7 +14,6 @@ import * as I from "immutable";
 import makeRecord from "../utils/makeRecord";
 
 import type { Action } from "../actions/types";
-import type { Record } from "../utils/makeRecord";
 import type { List } from "immutable";
 
 export type Search = {
@@ -30,7 +29,7 @@ export const statusType = {
   error: "ERROR"
 };
 
-export type ResultRecord = Record<Search>;
+export type ResultRecord = I.RecordOf<Search>;
 export type ResultList = List<ResultRecord>;
 export type ProjectTextSearchState = {
   query: string,
@@ -38,7 +37,7 @@ export type ProjectTextSearchState = {
   status: string
 };
 
-export function initialProjectTextSearchState(): Record<
+export function initialProjectTextSearchState(): I.RecordOf<
   ProjectTextSearchState
 > {
   return makeRecord(
@@ -51,9 +50,9 @@ export function initialProjectTextSearchState(): Record<
 }
 
 function update(
-  state: Record<ProjectTextSearchState> = initialProjectTextSearchState(),
+  state: I.RecordOf<ProjectTextSearchState> = initialProjectTextSearchState(),
   action: Action
-): Record<ProjectTextSearchState> {
+): I.RecordOf<ProjectTextSearchState> {
   switch (action.type) {
     case "ADD_QUERY":
       const actionCopy = action;
@@ -88,7 +87,7 @@ function update(
   return state;
 }
 
-type OuterState = { projectTextSearch: Record<ProjectTextSearchState> };
+type OuterState = { projectTextSearch: I.RecordOf<ProjectTextSearchState> };
 
 export function getTextSearchResults(state: OuterState) {
   return state.projectTextSearch.get("results");

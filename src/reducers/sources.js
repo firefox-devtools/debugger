@@ -40,7 +40,7 @@ export type SourcesState = {
   tabs: TabList
 };
 
-export function initialSourcesState(): Record<SourcesState> {
+export function initialSourcesState(): I.RecordOf<SourcesState> {
   return makeRecord(
     ({
       sources: I.Map(),
@@ -85,9 +85,9 @@ export function createSourceRecord(source: Source) {
 }
 
 function update(
-  state: Record<SourcesState> = initialSourcesState(),
+  state: I.RecordOf<SourcesState> = initialSourcesState(),
   action: Action
-): Record<SourcesState> {
+): I.RecordOf<SourcesState> {
   let location = null;
 
   switch (action.type) {
@@ -207,12 +207,15 @@ function getTextPropsFromAction(action: any) {
 // asynchronous actions is wrong. The `value` may be null for the
 // "start" and "error" states but we don't type it like that. We need
 // to rethink how we type async actions.
-function setSourceTextProps(state, action: any): Record<SourcesState> {
+function setSourceTextProps(state, action: any): I.RecordOf<SourcesState> {
   const text = getTextPropsFromAction(action);
   return updateSource(state, text);
 }
 
-function updateSource(state: Record<SourcesState>, source: Source | Object) {
+function updateSource(
+  state: I.RecordOf<SourcesState>,
+  source: Source | Object
+) {
   if (!source.id) {
     return state;
   }
@@ -347,7 +350,7 @@ export function getNewSelectedSourceId(
 // top-level app state, so we'd have to "wrap" them to automatically
 // pick off the piece of state we're interested in. It's impossible
 // (right now) to type those wrapped functions.
-type OuterState = { sources: Record<SourcesState> };
+type OuterState = { sources: I.RecordOf<SourcesState> };
 
 const getSourcesState = state => state.sources;
 

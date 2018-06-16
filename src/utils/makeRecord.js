@@ -15,27 +15,6 @@
 import * as I from "immutable";
 
 /**
- * @memberof utils/makeRecord
- * @static
- */
-export type Record<T: Object> = {
-  equals<A>(other: A): boolean,
-  get<A>(key: $Keys<T>, notSetValue?: any): A,
-  getIn<A>(keyPath: Array<any>, notSetValue?: any): A,
-  hasIn<A>(keyPath: Array<any>): boolean,
-  set<A>(key: $Keys<T>, value: A): Record<T>,
-  setIn(keyPath: Array<any>, ...iterables: Array<any>): Record<T>,
-  merge(values: $Shape<T>): Record<T>,
-  mergeIn(keyPath: Array<any>, ...iterables: Array<any>): Record<T>,
-  delete<A>(key: $Keys<T>, value: A): Record<T>,
-  deleteIn(keyPath: Array<any>, ...iterables: Array<any>): Record<T>,
-  update<A>(key: $Keys<T>, value: A): Record<T>,
-  updateIn(keyPath: Array<any>, ...iterables: Array<any>): Record<T>,
-  remove<A>(key: $Keys<T>): Record<T>,
-  toJS(): T
-} & T;
-
-/**
  * Make an immutable record type
  *
  * @param spec - the keys and their default values
@@ -43,7 +22,7 @@ export type Record<T: Object> = {
  * @memberof utils/makeRecord
  * @static
  */
-function makeRecord<T>(spec: T & Object): (init: $Shape<T>) => Record<T> {
+function makeRecord<T>(spec: T & Object): (init: $Shape<T>) => I.RecordOf<T> {
   return I.Record(spec);
 }
 

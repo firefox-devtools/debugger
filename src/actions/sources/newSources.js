@@ -25,7 +25,7 @@ import {
   getPendingBreakpointsForSource
 } from "../../selectors";
 
-import type { Source, SourceId } from "../../types";
+import type { Source, SourceId, PendingBreakpoint } from "../../types";
 import type { Action, ThunkArgs } from "../types";
 
 function createOriginalSource(
@@ -63,9 +63,14 @@ function loadSourceMaps(sources) {
  */
 function loadSourceMap(sourceId: SourceId) {
   return async function({ dispatch, getState, sourceMaps }: ThunkArgs) {
-    const source = getSource(getState(), sourceId).toJS();
+    const source = getSource(getState(), sourceId);
 
-    if (!sourceMaps || !isGeneratedId(sourceId) || !source.sourceMapURL) {
+    if (
+      !source ||
+      !sourceMaps ||
+      !isGeneratedId(sourceId) ||
+      !source.sourceMapURL
+    ) {
       return;
     }
 
@@ -99,7 +104,7 @@ function checkSelectedSource(sourceId: string) {
 
     const pendingLocation = getPendingSelectedLocation(getState());
 
-    if (!pendingLocation || !pendingLocation.url || !source.url) {
+    if (!pendingLocation || !pendingLocation.url || !source) {
       return;
     }
 
@@ -122,10 +127,13 @@ function checkPendingBreakpoints(sourceId: string) {
   return async ({ dispatch, getState }: ThunkArgs) => {
     // source may have been modified by selectLocation
     const source = getSource(getState(), sourceId);
+    if (!source) {
+      return;
+    }
 
     const pendingBreakpoints = getPendingBreakpointsForSource(
       getState(),
-      source.get("url")
+      source.url
     );
 
     if (!pendingBreakpoints.size) {
@@ -135,7 +143,10 @@ function checkPendingBreakpoints(sourceId: string) {
     // load the source text if there is a pending breakpoint for it
     await dispatch(loadSourceText(source));
 
-    const pendingBreakpointsArray = pendingBreakpoints.valueSeq().toJS();
+    const pendingBreakpointsArray: PendingBreakpoint[] = (pendingBreakpoints
+      .valueSeq()
+      .toJS(): any);
+
     for (const pendingBreakpoint of pendingBreakpointsArray) {
       await dispatch(syncBreakpoint(sourceId, pendingBreakpoint));
     }

@@ -10,7 +10,7 @@
 import makeRecord from "../utils/makeRecord";
 import { parseQuickOpenQuery } from "../utils/quick-open";
 import type { Action } from "../actions/types";
-import type { Record } from "../utils/makeRecord";
+import RecordOf } from "immutable";
 
 export type QuickOpenType =
   | "sources"
@@ -32,9 +32,9 @@ export const createQuickOpenState = makeRecord({
 });
 
 export default function update(
-  state: Record<QuickOpenState> = createQuickOpenState(),
+  state: RecordOf<QuickOpenState> = createQuickOpenState(),
   action: Action
-): Record<QuickOpenState> {
+): RecordOf<QuickOpenState> {
   switch (action.type) {
     case "OPEN_QUICK_OPEN":
       if (action.query != null) {
@@ -58,7 +58,7 @@ export default function update(
 }
 
 type OuterState = {
-  quickOpen: Record<QuickOpenState>
+  quickOpen: RecordOf<QuickOpenState>
 };
 
 export function getQuickOpenEnabled(state: OuterState): boolean {

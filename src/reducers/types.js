@@ -16,22 +16,23 @@ import type { FileSearchState } from "./file-search";
 import type { PauseState } from "./pause";
 import type { PendingBreakpointsState } from "../selectors";
 import type { ProjectTextSearchState } from "./project-text-search";
-import type { Record } from "../utils/makeRecord";
 import type { SourcesState } from "./sources";
 import type { UIState } from "./ui";
 import type { DebuggeeState } from "./debuggee";
 
+import * as I from "immutable";
+
 export type State = {
-  ast: Record<ASTState>,
-  breakpoints: Record<BreakpointsState>,
-  debuggeee: Record<DebuggeeState>,
-  expressions: Record<ExpressionState>,
-  fileSearch: Record<FileSearchState>,
+  ast: I.RecordOf<ASTState>,
+  breakpoints: I.RecordOf<BreakpointsState>,
+  debuggeee: I.RecordOf<DebuggeeState>,
+  expressions: I.RecordOf<ExpressionState>,
+  fileSearch: I.RecordOf<FileSearchState>,
   pause: PauseState,
-  pendingBreakpoints: Record<PendingBreakpointsState>,
-  projectTextSearch: Record<ProjectTextSearchState>,
-  sources: Record<SourcesState>,
-  ui: Record<UIState>
+  pendingBreakpoints: I.RecordOf<PendingBreakpointsState>,
+  projectTextSearch: I.RecordOf<ProjectTextSearchState>,
+  sources: I.RecordOf<SourcesState>,
+  ui: I.RecordOf<UIState>
 };
 
 export type SelectedLocation = {
