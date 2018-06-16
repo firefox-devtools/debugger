@@ -10,7 +10,7 @@
  */
 
 import * as I from "immutable";
-import makeRecord from "../utils/makeRecord";
+
 import { findEmptyLines } from "../utils/ast";
 
 import type {
@@ -21,10 +21,13 @@ import type {
 } from "../workers/parser";
 
 import type { Map } from "immutable";
+import type { State } from "./types";
 import type { Location, Source } from "../types";
 import type { Action, DonePromiseAction } from "../actions/types";
 
 type EmptyLinesType = number[];
+
+export type Foo = {| type: "3", bar: 2 |} | {| type: "4" |};
 
 export type Symbols = SymbolDeclarations | {| loading: true |};
 export type SymbolsMap = Map<string, Symbols>;
@@ -148,7 +151,7 @@ function update(
 
 // NOTE: we'd like to have the app state fully typed
 // https://github.com/devtools-html/debugger.html/blob/master/src/reducers/sources.js#L179-L185
-type OuterState = { ast: I.RecordOf<ASTState> };
+type OuterState = State;
 
 export function getSymbols(state: OuterState, source: ?Source): ?Symbols {
   if (!source) {
