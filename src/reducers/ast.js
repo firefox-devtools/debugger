@@ -171,7 +171,7 @@ export function hasSymbols(state: OuterState, source: Source): boolean {
     return false;
   }
 
-  return !symbols.hasOwnProperty("loading");
+  return !symbols.loading;
 }
 
 export function isSymbolsLoading(state: OuterState, source: Source): boolean {
@@ -180,7 +180,7 @@ export function isSymbolsLoading(state: OuterState, source: Source): boolean {
     return false;
   }
 
-  return symbols.hasOwnProperty("loading");
+  return symbols.loading;
 }
 
 export function isEmptyLineInSource(
