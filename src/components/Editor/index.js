@@ -612,4 +612,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, actions)(Editor);
+export default connect(mapStateToProps, () => actions)(Editor);

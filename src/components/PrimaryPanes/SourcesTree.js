@@ -22,12 +22,7 @@ import {
 } from "../../selectors";
 
 // Actions
-import { setExpandedState } from "../../actions/source-tree";
-import { selectSource } from "../../actions/sources";
-import {
-  setProjectDirectoryRoot,
-  clearProjectDirectoryRoot
-} from "../../actions/ui";
+import actions from "../../actions";
 
 // Components
 import ManagedTree from "../shared/ManagedTree";
@@ -458,11 +453,4 @@ const mapStateToProps = state => {
   };
 };
 
-const actionCreators = {
-  setExpandedState,
-  selectSource,
-  setProjectDirectoryRoot,
-  clearProjectDirectoryRoot
-};
-
-export default connect(mapStateToProps, actionCreators)(SourcesTree);
+export default connect(mapStateToProps, () => actions)(SourcesTree);

@@ -180,18 +180,4 @@ const mapStateToProps = state => ({
   selectedSource: getSelectedSource(state)
 });
 
-const {
-  addExpression,
-  setPopupObjectProperties,
-  updatePreview,
-  clearPreview
-} = actions;
-
-const mapDispatchToProps = {
-  addExpression,
-  setPopupObjectProperties,
-  updatePreview,
-  clearPreview
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Preview);
+export default connect(mapStateToProps, () => actions)(Preview);
