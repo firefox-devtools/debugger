@@ -87,17 +87,17 @@ exports[`Popover mount tooltip 1`] = `
     style={
       Object {
         "left": -8,
-        "top": 50,
+        "top": 0,
       }
     }
   >
-    <h1>
-      Toolie!
-    </h1>
     <div
       className="gap"
       key="gap"
     />
+    <h1>
+      Toolie!
+    </h1>
   </div>
 </Popover>
 `;
