@@ -105,4 +105,78 @@ describe("Popover", () => {
     );
     expect(mountedTooltip).toMatchSnapshot();
   });
+
+  it("tooltip normally displays above the target", () => {
+    const editor = {
+      getBoundingClientRect() {
+        return {
+          width: 500,
+          height: 500,
+          top: 0,
+          bottom: 500,
+          left: 0,
+          right: 500
+        };
+      }
+    };
+    const target = {
+      width: 30,
+      height: 10,
+      top: 100,
+      bottom: 110,
+      left: 20,
+      right: 50
+    };
+
+    const mountedTooltip = mount(
+      <Popover
+        type="tooltip"
+        onMouseLeave={onMouseLeave}
+        editorRef={editor}
+        targetPosition={target}
+      >
+        <h1>Toolie!</h1>
+      </Popover>
+    );
+
+    const toolTipTop = parseInt(mountedTooltip.getDOMNode().style.top, 10);
+    expect(toolTipTop).toBeLessThanOrEqual(target.top);
+  });
+
+  it("tooltop won't display above the target when insufficient space", () => {
+    const editor = {
+      getBoundingClientRect() {
+        return {
+          width: 100,
+          height: 100,
+          top: 0,
+          bottom: 100,
+          left: 0,
+          right: 100
+        };
+      }
+    };
+    const target = {
+      width: 30,
+      height: 10,
+      top: 0,
+      bottom: 10,
+      left: 20,
+      right: 50
+    };
+
+    const mountedTooltip = mount(
+      <Popover
+        type="tooltip"
+        onMouseLeave={onMouseLeave}
+        editorRef={editor}
+        targetPosition={target}
+      >
+        <h1>Toolie!</h1>
+      </Popover>
+    );
+
+    const toolTipTop = parseInt(mountedTooltip.getDOMNode().style.top, 10);
+    expect(toolTipTop).toBeGreaterThanOrEqual(target.bottom);
+  });
 });

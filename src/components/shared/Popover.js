@@ -192,12 +192,16 @@ class Popover extends Component<Props, State> {
       const editorRect = editor.getBoundingClientRect();
       const targetRect = this.props.targetPosition;
       const left = this.calculateLeft(targetRect, editorRect, tooltipRect);
-      const top = targetRect.top - tooltipRect.height;
+      const enoughRoomForTooltipAbove =
+        targetRect.top - editorRect.top > tooltipRect.height;
+      const top = enoughRoomForTooltipAbove
+        ? targetRect.top - tooltipRect.height
+        : targetRect.bottom;
 
       return {
         left,
         top,
-        orientation: "up",
+        orientation: enoughRoomForTooltipAbove ? "up" : "down",
         targetMid: { x: 0, y: 0 }
       };
     }
