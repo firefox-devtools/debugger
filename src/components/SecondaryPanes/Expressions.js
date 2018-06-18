@@ -254,7 +254,7 @@ class Expressions extends Component<Props, State> {
 
   renderAutoCompleteMatches() {
     const { autocompleteMatches } = this.props;
-    if (autocompleteMatches && features.autocompleteExpression) {
+    if (features.autocompleteExpression && autocompleteMatches) {
       return (
         <datalist id="autocomplete-matches">
           {autocompleteMatches.map((match, index) => {
