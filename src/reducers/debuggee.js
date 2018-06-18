@@ -9,7 +9,6 @@
  * @module reducers/debuggee
  */
 
-import { createSelector } from "reselect";
 import { List } from "immutable";
 import type { Record } from "../utils/makeRecord";
 import type { Worker } from "../types";
@@ -40,11 +39,7 @@ export default function debuggee(
   }
 }
 
-const getDebuggeeWrapper = state => state.debuggee;
-
-export const getWorkers = createSelector(getDebuggeeWrapper, debuggeeState =>
-  debuggeeState.get("workers")
-);
+export const getWorkers = (state: OuterState) => state.debuggee.workers;
 
 type OuterState = { debuggee: DebuggeeState };
 

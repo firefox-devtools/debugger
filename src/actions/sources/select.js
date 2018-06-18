@@ -227,6 +227,10 @@ export function jumpToMappedLocation(location: Location) {
 export function jumpToMappedSelectedLocation() {
   return async function({ dispatch, getState }: ThunkArgs) {
     const location = getSelectedLocation(getState());
+    if (!location) {
+      return;
+    }
+
     await dispatch(jumpToMappedLocation(location));
   };
 }

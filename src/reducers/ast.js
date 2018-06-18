@@ -156,7 +156,7 @@ function update(
 // https://github.com/devtools-html/debugger.html/blob/master/src/reducers/sources.js#L179-L185
 type OuterState = { ast: Record<ASTState> };
 
-export function getSymbols(state: OuterState, source: Source): ?Symbols {
+export function getSymbols(state: OuterState, source?: Source): ?Symbols {
   if (!source) {
     return null;
   }

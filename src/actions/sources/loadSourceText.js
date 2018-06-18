@@ -11,7 +11,8 @@ import * as parser from "../../workers/parser";
 import { isLoaded } from "../../utils/source";
 
 import defer from "../../utils/defer";
-import type { Action, ThunkArgs } from "../types";
+import type { ThunkArgs } from "../types";
+
 import type { SourceRecord } from "../../types";
 
 const requests = new Map();
@@ -56,13 +57,11 @@ export function loadSourceText(source: SourceRecord) {
     requests.set(id, deferred.promise);
 
     try {
-      await dispatch(
-        ({
-          type: "LOAD_SOURCE_TEXT",
-          sourceId: id,
-          [PROMISE]: loadSource(source, { sourceMaps, client })
-        }: Action)
-      );
+      await dispatch({
+        type: "LOAD_SOURCE_TEXT",
+        sourceId: id,
+        [PROMISE]: loadSource(source, { sourceMaps, client })
+      });
     } catch (e) {
       deferred.resolve();
       requests.delete(id);
