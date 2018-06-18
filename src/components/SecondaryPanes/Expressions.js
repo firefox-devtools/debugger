@@ -6,6 +6,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import classnames from "classnames";
+import { features } from "../../utils/prefs";
 import { ObjectInspector } from "devtools-reps";
 
 import actions from "../../actions";
@@ -29,8 +30,7 @@ type State = {
   editing: boolean,
   editIndex: number,
   inputValue: string,
-  focused: boolean,
-  enableAutocomplete: boolean
+  focused: boolean
 };
 
 type Props = {
@@ -63,8 +63,7 @@ class Expressions extends Component<Props, State> {
       editing: false,
       editIndex: -1,
       inputValue: "",
-      focused: false,
-      enableAutocomplete: true
+      focused: false
     };
   }
 
@@ -141,10 +140,9 @@ class Expressions extends Component<Props, State> {
   }
 
   handleChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
-    const { enableAutocomplete } = this.state;
     const target = e.target;
     this.setState({ inputValue: target.value });
-    if (enableAutocomplete) {
+    if (features.autocompleteExpression) {
       this.findAutocompleteMatches(target.value, target.selectionStart);
     }
   };
@@ -256,8 +254,7 @@ class Expressions extends Component<Props, State> {
 
   renderAutoCompleteMatches() {
     const { autocompleteMatches } = this.props;
-    const { enableAutocomplete } = this.state;
-    if (autocompleteMatches && enableAutocomplete) {
+    if (autocompleteMatches && features.autocompleteExpression) {
       return (
         <datalist id="autocomplete-matches">
           {autocompleteMatches.map((match, index) => {
