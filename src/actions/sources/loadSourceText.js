@@ -6,14 +6,14 @@
 
 import { isOriginalId } from "devtools-source-map";
 import { PROMISE } from "../utils/middleware/promise";
-import { getSource, getGeneratedSource } from "../../selectors";
+import { getGeneratedSource, getSourceFromId } from "../../selectors";
 import * as parser from "../../workers/parser";
 import { isLoaded } from "../../utils/source";
 
 import defer from "../../utils/defer";
 import type { ThunkArgs } from "../types";
 
-import type { SourceRecord } from "../../types";
+import type { Source } from "../../types";
 
 const requests = new Map();
 import { Services } from "devtools-modules";
@@ -21,10 +21,10 @@ const loadSourceHistogram = Services.telemetry.getHistogramById(
   "DEVTOOLS_DEBUGGER_LOAD_SOURCE_MS"
 );
 
-async function loadSource(source: SourceRecord, { sourceMaps, client }) {
-  const id = source.get("id");
+async function loadSource(source: Source, { sourceMaps, client }) {
+  const id = source.id;
   if (isOriginalId(id)) {
-    return sourceMaps.getOriginalSourceText(source.toJS());
+    return sourceMaps.getOriginalSourceText(source);
   }
 
   const response = await client.sourceContents(id);
@@ -39,10 +39,9 @@ async function loadSource(source: SourceRecord, { sourceMaps, client }) {
  * @memberof actions/sources
  * @static
  */
-export function loadSourceText(source: SourceRecord) {
+export function loadSourceText(source: Source) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
-    const id = source.get("id");
-
+    const id = source.id;
     // Fetch the source text only once.
     if (requests.has(id)) {
       return requests.get(id);
@@ -68,7 +67,7 @@ export function loadSourceText(source: SourceRecord) {
       return;
     }
 
-    const newSource = getSource(getState(), source.get("id")).toJS();
+    const newSource = getSourceFromId(getState(), source.id);
 
     if (isOriginalId(newSource.id) && !newSource.isWasm) {
       const generatedSource = getGeneratedSource(getState(), source);
@@ -86,5 +85,6 @@ export function loadSourceText(source: SourceRecord) {
     const telemetryEnd = performance.now();
     const duration = telemetryEnd - telemetryStart;
     loadSourceHistogram.add(duration);
+    return source;
   };
 }

@@ -166,22 +166,25 @@ describe("pause", () => {
           line: 1,
           column: 0
         };
+
         const originalLocation = {
           sourceId: "foo-original",
           line: 3,
           column: 0
         };
+
         const sourceMapsMock = {
           getOriginalLocation: () => Promise.resolve(originalLocation)
         };
+
         const store = createStore(mockThreadClient, {}, sourceMapsMock);
         const { dispatch, getState } = store;
         const mockPauseInfo = createPauseInfo(generatedLocation);
 
         await dispatch(actions.newSource(makeSource("foo")));
         await dispatch(actions.newSource(makeOriginalSource("foo")));
-        await dispatch(actions.loadSourceText(I.Map({ id: "foo" })));
-        await dispatch(actions.loadSourceText(I.Map({ id: "foo-original" })));
+        await dispatch(actions.loadSourceText({ id: "foo" }));
+        await dispatch(actions.loadSourceText({ id: "foo-original" }));
         await dispatch(actions.setSymbols("foo-original"));
 
         await dispatch(actions.paused(mockPauseInfo));

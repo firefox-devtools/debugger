@@ -20,17 +20,17 @@ import { shouldShowFooter, shouldShowPrettyPrint } from "../../utils/editor";
 
 import { PaneToggleButton } from "../shared/Button";
 
-import type { SourceRecord } from "../../types";
+import type { Source } from "../../types";
 
 import "./Footer.css";
 
 type Props = {
-  selectedSource: SourceRecord,
-  mappedSource: SourceRecord,
+  selectedSource: Source,
+  mappedSource: Source,
   editor: any,
   togglePrettyPrint: string => void,
   toggleBlackBox: Object => void,
-  jumpToMappedLocation: (SourceRecord: any) => void,
+  jumpToMappedLocation: (Source: any) => void,
   recordCoverage: () => void,
   togglePaneCollapse: () => void,
   endPanelCollapsed: boolean,
@@ -51,7 +51,7 @@ class SourceFooter extends PureComponent<Props> {
     const type = "prettyPrint";
     return (
       <button
-        onClick={() => togglePrettyPrint(selectedSource.get("id"))}
+        onClick={() => togglePrettyPrint(selectedSource.id)}
         className={classnames("action", type, {
           active: sourceLoaded,
           pretty: isPretty(selectedSource)
@@ -80,7 +80,7 @@ class SourceFooter extends PureComponent<Props> {
 
     return (
       <button
-        onClick={() => toggleBlackBox(selectedSource.toJS())}
+        onClick={() => toggleBlackBox(selectedSource)}
         className={classnames("action", type, {
           active: sourceLoaded,
           blackboxed: blackboxed
@@ -163,7 +163,7 @@ class SourceFooter extends PureComponent<Props> {
       );
       const title = L10N.getFormatStr("sourceFooter.mappedSource", filename);
       const mappedSourceLocation = {
-        sourceId: selectedSource.get("id"),
+        sourceId: selectedSource.id,
         line: 1,
         column: 1
       };

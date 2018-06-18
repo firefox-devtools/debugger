@@ -22,22 +22,22 @@ describe("sources - pretty print", () => {
 
     const prettyURL = `${source.url}:formatted`;
     const pretty = selectors.getSourceByURL(getState(), prettyURL);
-    expect(pretty.get("contentType")).toEqual("text/javascript");
-    expect(pretty.get("url").includes(prettyURL)).toEqual(true);
+    expect(pretty.contentType).toEqual("text/javascript");
+    expect(pretty.url.includes(prettyURL)).toEqual(true);
     expect(pretty).toMatchSnapshot();
   });
 
   it("should create a source when first toggling pretty print", async () => {
     const source = makeSource("foobar.js", { loadedState: "loaded" });
     await dispatch(actions.togglePrettyPrint(source));
-    expect(selectors.getSources(getState()).size).toEqual(2);
+    expect(selectors.getSourceCount(getState())).toEqual(2);
   });
 
   it("should not make a second source when toggling pretty print", async () => {
     const source = makeSource("foobar.js", { loadedState: "loaded" });
     await dispatch(actions.togglePrettyPrint(source));
-    expect(selectors.getSources(getState()).size).toEqual(2);
+    expect(selectors.getSourceCount(getState())).toEqual(2);
     await dispatch(actions.togglePrettyPrint(source.id));
-    expect(selectors.getSources(getState()).size).toEqual(2);
+    expect(selectors.getSourceCount(getState())).toEqual(2);
   });
 });

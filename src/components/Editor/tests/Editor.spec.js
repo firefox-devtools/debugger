@@ -5,7 +5,6 @@
 import React from "react";
 import { shallow } from "enzyme";
 import Editor from "../index";
-import * as I from "immutable";
 
 function generateDefaults(overrides) {
   return {
@@ -46,13 +45,13 @@ function createMockEditor() {
 }
 
 function createMockSource(overrides) {
-  return I.fromJS({
+  return {
     id: "foo",
     text: "the text",
     loadedState: "loaded",
     url: "foo",
     ...overrides
-  });
+  };
 }
 
 function render(overrides = {}) {
@@ -81,7 +80,7 @@ describe("Editor", () => {
       const { component, mockEditor } = render();
       await component.setState({ editor: mockEditor });
       component.setProps({
-        selectedSource: I.fromJS({ loadedState: "loading" })
+        selectedSource: { loadedState: "loading" }
       });
 
       expect(mockEditor.setText.mock.calls).toEqual([["Loading…"]]);

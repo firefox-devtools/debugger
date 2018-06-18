@@ -4,8 +4,6 @@
 
 // @flow
 
-import { RecordOf } from "immutable";
-
 export type SearchModifiers = {
   caseSensitive: boolean,
   wholeWord: boolean,
@@ -56,7 +54,7 @@ export type ActorId = string;
 export type Location = {
   sourceId: SourceId,
   line: number,
-  column: ?number,
+  column?: number,
   sourceUrl?: string
 };
 
@@ -67,7 +65,7 @@ export type MappedLocation = {
 
 export type Position = {
   line: number,
-  column: ?number
+  column?: number
 };
 
 export type ColumnPosition = {
@@ -80,16 +78,13 @@ export type ColumnRange = { end: ColumnPosition, start: ColumnPosition };
 
 export type PendingLocation = {
   line: number,
-  column: ?number,
+  column?: number,
   sourceUrl?: string
 };
 
 export type ASTLocation = {|
   name: ?string,
-  offset: {
-    column: ?number,
-    line: number
-  }
+  offset: Position
 |};
 
 /**
@@ -281,10 +276,8 @@ export type Grip = {
  * @static
  */
 
-export type SourceRecord = RecordOf<Source>;
-
-export type Source = {
-  +id: SourceId,
+export type Source = {|
+  +id: string,
   +url: string,
   +sourceMapURL?: string,
   +isBlackBoxed: boolean,
@@ -293,13 +286,23 @@ export type Source = {
   +text?: string,
   +contentType?: string,
   +error?: string,
-  +loadedState: "unloaded" | "loading" | "loaded"
-};
+  +loadedState: "unloaded" | "loading" | "loaded",
+  +relativeUrl?: string
+|};
 
-export type RelativeSourceRecord = RecordOf<RelativeSource>;
-export type RelativeSource = Source & {
-  relativeUrl: string
-};
+export type RelativeSource = {|
+  +id: string,
+  +url: string,
+  +sourceMapURL?: string,
+  +isBlackBoxed: boolean,
+  +isPrettyPrinted: boolean,
+  +isWasm: boolean,
+  +text?: string,
+  +contentType?: string,
+  +error?: string,
+  +loadedState: "unloaded" | "loading" | "loaded",
+  +relativeUrl: string
+|};
 
 /**
  * Script

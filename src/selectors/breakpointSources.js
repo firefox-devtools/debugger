@@ -6,18 +6,19 @@
 
 import { sortBy, uniq } from "lodash";
 import { createSelector } from "reselect";
-import { getSources, getSourceInSources, getBreakpoints } from "../selectors";
+import { getSources, getBreakpoints } from "../selectors";
 import { getFilenameFromURL } from "../utils/source";
-import type { SourceRecord, Breakpoint } from "../types";
+
+import type { Source, Breakpoint } from "../types";
 import type { SourcesMap, BreakpointsMap } from "../reducers/types";
 
 export type BreakpointSources = Array<{
-  source: SourceRecord,
+  source: Source,
   breakpoints: Breakpoint[]
 }>;
 
 function getBreakpointsForSource(
-  source: SourceRecord,
+  source: Source,
   breakpoints: BreakpointsMap
 ): Breakpoint[] {
   const bpList = breakpoints.valueSeq();
@@ -36,8 +37,8 @@ function getBreakpointsForSource(
 function findBreakpointSources(
   sources: SourcesMap,
   breakpoints: BreakpointsMap
-): BreakpointSources {
-  const sourceIds = uniq(
+): Source[] {
+  const sourceIds: string[] = uniq(
     breakpoints
       .valueSeq()
       .filter(bp => !bp.hidden)
@@ -46,18 +47,17 @@ function findBreakpointSources(
   );
 
   const breakpointSources = sourceIds
-    .map(id => getSourceInSources(sources, id))
+    .map(id => sources[id])
     .filter(source => source && !source.isBlackBoxed);
 
-  return sortBy(breakpointSources, (source: SourceRecord) =>
+  return sortBy(breakpointSources, (source: Source) =>
     getFilenameFromURL(source.url)
   );
 }
 
 function _getBreakpointSources(
   breakpoints: BreakpointsMap,
-  sources: SourcesMap,
-  selectedSource: SourceRecord
+  sources: SourcesMap
 ): BreakpointSources {
   const breakpointSources = findBreakpointSources(sources, breakpoints);
   return breakpointSources.map(source => ({

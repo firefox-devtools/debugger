@@ -11,13 +11,13 @@ import { formatPausePoints } from "./pause/pausePoints";
 
 function findSource(dbg: any, url: string) {
   const sources = dbg.selectors.getSources();
-  const source = sources.find(s => (s.get("url") || "").includes(url));
+  const source = sources.find(s => (s.url || "").includes(url));
 
   if (!source) {
     return;
   }
 
-  return source.toJS();
+  return source;
 }
 
 function sendPacket(dbg: any, packet: any, callback: () => void) {

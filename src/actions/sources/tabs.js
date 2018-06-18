@@ -45,6 +45,7 @@ export function moveTab(url: string, tabIndex: number): Action {
 export function closeTab(url: string) {
   return ({ dispatch, getState, client }: ThunkArgs) => {
     removeDocument(url);
+
     const tabs = removeSourceFromTabList(getSourceTabs(getState()), url);
     const sourceId = getNewSelectedSourceId(getState(), tabs);
     dispatch(({ type: "CLOSE_TAB", url, tabs }: Action));
@@ -61,7 +62,7 @@ export function closeTabs(urls: string[]) {
     urls.forEach(url => {
       const source = getSourceByURL(getState(), url);
       if (source) {
-        removeDocument(source.get("id"));
+        removeDocument(source.id);
       }
     });
 

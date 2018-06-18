@@ -13,7 +13,6 @@ import type { QuickOpenType } from "../reducers/quick-open";
 import type { TabList } from "../reducers/sources";
 import type { RelativeSource } from "../types";
 import type { SymbolDeclaration } from "../workers/parser";
-import type { Map } from "immutable";
 
 export const MODIFIERS = {
   "@": "functions",
@@ -126,12 +125,12 @@ export function formatShortcutResults(): Array<QuickOpenResult> {
 }
 
 export function formatSources(
-  sources: Map<RelativeSource>,
+  sources: { [string]: RelativeSource },
   tabs: TabList
 ): Array<QuickOpenResult> {
-  return sources
-    .valueSeq()
-    .toArray()
+  const sourceList: RelativeSource[] = (Object.values(sources): any);
+
+  return sourceList
     .filter(source => !isPretty(source))
     .filter(({ relativeUrl }) => !!relativeUrl)
     .map(source => formatSourcesForList(source, tabs));

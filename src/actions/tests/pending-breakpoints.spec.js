@@ -33,7 +33,6 @@ import {
   selectors,
   actions,
   makeSource,
-  makeSourceRecord,
   waitForState
 } from "../../utils/test-head";
 
@@ -51,7 +50,8 @@ describe("when adding breakpoints", () => {
     const { dispatch, getState } = createStore(simpleMockThreadClient);
 
     await dispatch(actions.newSource(makeSource("foo.js")));
-    await dispatch(actions.loadSourceText(makeSourceRecord("foo.js")));
+    await dispatch(actions.loadSourceText(makeSource("foo.js")));
+
     const bp = generateBreakpoint("foo.js");
     const id = makePendingLocationId(bp.location);
 
@@ -80,8 +80,8 @@ describe("when adding breakpoints", () => {
       await dispatch(actions.newSource(makeSource("foo")));
       await dispatch(actions.newSource(makeSource("foo2")));
 
-      await dispatch(actions.loadSourceText(makeSourceRecord("foo")));
-      await dispatch(actions.loadSourceText(makeSourceRecord("foo2")));
+      await dispatch(actions.loadSourceText(makeSource("foo")));
+      await dispatch(actions.loadSourceText(makeSource("foo2")));
 
       await dispatch(actions.addBreakpoint(breakpoint1.location));
       await dispatch(actions.addBreakpoint(breakpoint2.location));
@@ -95,7 +95,7 @@ describe("when adding breakpoints", () => {
       const { dispatch, getState } = createStore(simpleMockThreadClient);
 
       await dispatch(actions.newSource(makeSource("foo")));
-      await dispatch(actions.loadSourceText(makeSourceRecord("foo")));
+      await dispatch(actions.loadSourceText(makeSource("foo")));
 
       await dispatch(
         actions.addBreakpoint(breakpoint1.location, { hidden: true })
@@ -109,8 +109,8 @@ describe("when adding breakpoints", () => {
       const { dispatch, getState } = createStore(simpleMockThreadClient);
       await dispatch(actions.newSource(makeSource("foo")));
       await dispatch(actions.newSource(makeSource("foo2")));
-      await dispatch(actions.loadSourceText(makeSourceRecord("foo")));
-      await dispatch(actions.loadSourceText(makeSourceRecord("foo2")));
+      await dispatch(actions.loadSourceText(makeSource("foo")));
+      await dispatch(actions.loadSourceText(makeSource("foo2")));
 
       await dispatch(actions.addBreakpoint(breakpoint1.location));
       await dispatch(actions.addBreakpoint(breakpoint2.location));
@@ -136,7 +136,7 @@ describe("when changing an existing breakpoint", () => {
     const bp = generateBreakpoint("foo");
     const id = makePendingLocationId(bp.location);
     await dispatch(actions.newSource(makeSource("foo")));
-    await dispatch(actions.loadSourceText(makeSourceRecord("foo")));
+    await dispatch(actions.loadSourceText(makeSource("foo")));
 
     await dispatch(actions.addBreakpoint(bp.location));
     await dispatch(
@@ -153,7 +153,7 @@ describe("when changing an existing breakpoint", () => {
     const id = makePendingLocationId(bp.location);
 
     await dispatch(actions.newSource(makeSource("foo")));
-    await dispatch(actions.loadSourceText(makeSourceRecord("foo")));
+    await dispatch(actions.loadSourceText(makeSource("foo")));
 
     await dispatch(actions.addBreakpoint(bp.location));
     await dispatch(actions.disableBreakpoint(bp.location));
@@ -167,7 +167,7 @@ describe("when changing an existing breakpoint", () => {
     const bp = generateBreakpoint("foo.js");
     const source = makeSource("foo.js");
     await dispatch(actions.newSource(source));
-    await dispatch(actions.loadSourceText(makeSourceRecord("foo.js")));
+    await dispatch(actions.loadSourceText(makeSource("foo.js")));
 
     const id = makePendingLocationId(bp.location);
 
@@ -201,7 +201,7 @@ describe("initializing when pending breakpoints exist in prefs", () => {
     const { dispatch, getState } = createStore(simpleMockThreadClient);
     const bar = generateBreakpoint("bar.js");
     await dispatch(actions.newSource(makeSource("bar.js")));
-    await dispatch(actions.loadSourceText(makeSourceRecord("bar.js")));
+    await dispatch(actions.loadSourceText(makeSource("bar.js")));
 
     await dispatch(actions.addBreakpoint(bar.location));
 
@@ -214,7 +214,7 @@ describe("initializing when pending breakpoints exist in prefs", () => {
     const bp = generateBreakpoint("foo.js");
 
     await dispatch(actions.newSource(makeSource("foo.js")));
-    await dispatch(actions.loadSourceText(makeSourceRecord("foo.js")));
+    await dispatch(actions.loadSourceText(makeSource("foo.js")));
 
     await dispatch(actions.addBreakpoint(bp.location));
 
@@ -242,7 +242,7 @@ describe("initializing with disabled pending breakpoints in prefs", () => {
     const source = makeSource("bar.js");
     await dispatch(actions.newSource(source));
 
-    await dispatch(actions.loadSourceText(makeSourceRecord("bar.js")));
+    await dispatch(actions.loadSourceText(makeSource("bar.js")));
 
     await waitForState(store, state =>
       selectors.getBreakpoint(state, expectedLocation)
@@ -271,7 +271,7 @@ describe("adding sources", () => {
 
     const source = makeSource("bar.js");
     await dispatch(actions.newSource(source));
-    await dispatch(actions.loadSourceText(makeSourceRecord("bar.js")));
+    await dispatch(actions.loadSourceText(makeSource("bar.js")));
 
     await waitForState(
       store,
@@ -292,8 +292,8 @@ describe("adding sources", () => {
     const source1 = makeSource("bar.js");
     const source2 = makeSource("foo.js");
     await dispatch(actions.newSources([source1, source2]));
-    await dispatch(actions.loadSourceText(makeSourceRecord("foo.js")));
-    await dispatch(actions.loadSourceText(makeSourceRecord("bar.js")));
+    await dispatch(actions.loadSourceText(makeSource("foo.js")));
+    await dispatch(actions.loadSourceText(makeSource("bar.js")));
 
     await waitForState(
       store,
@@ -325,7 +325,7 @@ describe("invalid breakpoint location", () => {
 
     // test
     await dispatch(actions.newSource(makeSource("foo.js")));
-    await dispatch(actions.loadSourceText(makeSourceRecord("foo.js")));
+    await dispatch(actions.loadSourceText(makeSource("foo.js")));
 
     await dispatch(actions.addBreakpoint(bp.location));
     const pendingBps = selectors.getPendingBreakpoints(getState());

@@ -9,7 +9,7 @@ const { WorkerDispatcher } = workerUtils;
 import { isJavaScript } from "../../utils/source";
 import assert from "../../utils/assert";
 
-import type { SourceRecord } from "../../types";
+import type { Source } from "../../types";
 
 const dispatcher = new WorkerDispatcher();
 export const start = dispatcher.start.bind(dispatcher);
@@ -17,7 +17,7 @@ export const stop = dispatcher.stop.bind(dispatcher);
 const _prettyPrint = dispatcher.task("prettyPrint");
 
 type PrettyPrintOpts = {
-  source: SourceRecord,
+  source: Source,
   url: string
 };
 

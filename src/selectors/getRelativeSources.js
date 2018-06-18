@@ -5,8 +5,8 @@
 // @flow
 
 import { getProjectDirectoryRoot, getSources } from "../selectors";
-import { RelativeSourceRecordClass } from "../reducers/sources";
-import type { SourceRecord, RelativeSource } from "../types";
+import { chain } from "lodash";
+import type { Source, RelativeSource } from "../types";
 import { getSourcePath } from "../utils/source";
 import { createSelector } from "reselect";
 
@@ -19,11 +19,12 @@ function getRelativeUrl(url, root) {
   return url.slice(url.indexOf(root) + root.length + 1);
 }
 
-function formatSource(source: SourceRecord, root): RelativeSource {
-  return new RelativeSourceRecordClass(source).set(
-    "relativeUrl",
-    getRelativeUrl(source.url, root)
-  );
+function formatSource(source, root): RelativeSource {
+  return { ...source, relativeUrl: getRelativeUrl(source.url, root) };
+}
+
+function underRoot(source, root) {
+  return source.url && source.url.includes(root);
 }
 
 /*
@@ -33,8 +34,11 @@ export const getRelativeSources = createSelector(
   getSources,
   getProjectDirectoryRoot,
   (sources, root) => {
-    return sources
-      .filter(source => source.url && source.url.includes(root))
-      .map(source => formatSource(source, root));
+    const relativeSources: RelativeSource[] = chain(sources)
+      .pickBy((source: Source) => underRoot(source, root))
+      .mapValues((source: Source) => formatSource(source, root))
+      .value();
+
+    return relativeSources;
   }
 );

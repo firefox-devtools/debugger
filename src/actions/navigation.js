@@ -68,7 +68,7 @@ export function connect(url: string, canRewind: boolean) {
 export function navigated() {
   return async function({ dispatch, getState, client }: ThunkArgs) {
     await waitForMs(100);
-    if (getSources(getState()).size == 0) {
+    if (Object.keys(getSources(getState())).length == 0) {
       const sources = await client.fetchSources();
       dispatch(newSources(sources));
     }

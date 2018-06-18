@@ -19,7 +19,7 @@ import {
 } from "../selectors";
 
 import type { OrientationType } from "../reducers/types";
-import type { SourceRecord } from "../types";
+import type { Source } from "../types";
 
 import { KeyShortcuts, Services } from "devtools-modules";
 const shortcuts = new KeyShortcuts({ window });
@@ -35,7 +35,10 @@ const verticalLayoutBreakpoint = window.matchMedia(
 
 import "./variables.css";
 import "./App.css";
+
+// $FlowIgnore
 import "devtools-launchpad/src/components/Root.css";
+
 import "./shared/menu.css";
 import "./shared/reps.css";
 
@@ -49,7 +52,7 @@ import EditorTabs from "./Editor/Tabs";
 import QuickOpenModal from "./QuickOpenModal";
 
 type Props = {
-  selectedSource: SourceRecord,
+  selectedSource: Source,
   orientation: OrientationType,
   startPanelCollapsed: boolean,
   endPanelCollapsed: boolean,
