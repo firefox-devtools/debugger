@@ -15,8 +15,7 @@ import type {
   AstLocation,
   PausePoints,
   FunctionDeclaration,
-  ClassDeclaration,
-  SymbolDeclaration
+  ClassDeclaration
 } from "../workers/parser";
 
 export function findBestMatchExpression(

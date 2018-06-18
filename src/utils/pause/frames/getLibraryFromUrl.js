@@ -4,8 +4,6 @@
 
 // @flow
 
-import { find } from "lodash";
-
 import type { Frame } from "../../../types";
 import { getFrameUrl } from "./getFrameUrl";
 

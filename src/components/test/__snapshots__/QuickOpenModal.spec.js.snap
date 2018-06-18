@@ -666,24 +666,8 @@ exports[`QuickOpenModal showErrorEmoji false when count + query 1`] = `
               expanded={true}
               items={
                 Array [
-                  Object {
-                    "title": <div
-                      dangerouslySetInnerHTML={
-                        Object {
-                          "__html": undefined,
-                        }
-                      }
-                    />,
-                  },
-                  Object {
-                    "title": <div
-                      dangerouslySetInnerHTML={
-                        Object {
-                          "__html": undefined,
-                        }
-                      }
-                    />,
-                  },
+                  1,
+                  2,
                 ]
               }
               key="results"
@@ -709,15 +693,7 @@ exports[`QuickOpenModal showErrorEmoji false when count + query 1`] = `
                   <div
                     className="title"
                     id="undefined-title"
-                  >
-                    <div
-                      dangerouslySetInnerHTML={
-                        Object {
-                          "__html": undefined,
-                        }
-                      }
-                    />
-                  </div>
+                  />
                   <div
                     className="subtitle"
                     id="undefined-subtitle"
@@ -734,15 +710,7 @@ exports[`QuickOpenModal showErrorEmoji false when count + query 1`] = `
                   <div
                     className="title"
                     id="undefined-title"
-                  >
-                    <div
-                      dangerouslySetInnerHTML={
-                        Object {
-                          "__html": undefined,
-                        }
-                      }
-                    />
-                  </div>
+                  />
                   <div
                     className="subtitle"
                     id="undefined-subtitle"

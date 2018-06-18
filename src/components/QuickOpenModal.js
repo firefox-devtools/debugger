@@ -328,10 +328,6 @@ export class QuickOpenModal extends Component<Props, State> {
     query: string,
     name: string
   ): string | React$Element<"div"> {
-    if (typeof candidateString != "string") {
-      return "";
-    }
-
     const options = {
       wrap: {
         tagOpen: '<mark class="highlight">',
@@ -340,13 +336,6 @@ export class QuickOpenModal extends Component<Props, State> {
     };
     const html = fuzzyAldrin.wrap(candidateString, query, options);
     return <div dangerouslySetInnerHTML={{ __html: html }} />;
-  }
-
-  updateResult(result: QuickOpenResult, newQuery: string): QuickOpenResult {
-    return {
-      ...result,
-      title: this.renderHighlight(result.title, basename(newQuery), "title")
-    };
   }
 
   highlightMatching = (
@@ -359,7 +348,15 @@ export class QuickOpenModal extends Component<Props, State> {
     }
     newQuery = query.replace(/[@:#?]/gi, " ");
 
-    return results.map(result => this.updateResult(result, newQuery));
+    return results.map(result => {
+      if (typeof result.title == "string") {
+        return {
+          ...result,
+          title: this.renderHighlight(result.title, basename(newQuery), "title")
+        };
+      }
+      return result;
+    });
   };
 
   shouldShowErrorEmoji() {
