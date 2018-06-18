@@ -33,7 +33,9 @@ export type SymbolDeclaration = {
 };
 
 export type ClassDeclaration = SymbolDeclaration & {
-  parent: string
+  parent: {
+    name: string
+  }
 };
 
 export type FunctionDeclaration = SymbolDeclaration & {

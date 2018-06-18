@@ -160,7 +160,8 @@ export type Frame = {
   scope: Scope,
   // FIXME Define this type more clearly
   this: Object,
-  framework?: string
+  framework?: string,
+  originalDisplayName?: string
 };
 
 /**

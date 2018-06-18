@@ -70,7 +70,7 @@ export function formatSourcesForList(source: RelativeSource, tabs: TabList) {
 export type QuickOpenResult = {|
   id: string,
   value: string,
-  title: string,
+  title: string | React$Element<"div">,
   subtitle?: string,
   location?: BabelLocation,
   url?: string,
