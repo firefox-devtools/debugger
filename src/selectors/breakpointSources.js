@@ -10,19 +10,19 @@ import { getSources, getSourceInSources, getBreakpoints } from "../selectors";
 import { getFilenameFromURL } from "../utils/source";
 import type { SourceRecord, Breakpoint } from "../types";
 import type { SourcesMap, BreakpointsMap } from "../reducers/types";
-import type { List } from "immutable";
 
 export type BreakpointSources = Array<{
   source: SourceRecord,
-  breakpoints: List<Breakpoint>
+  breakpoints: Breakpoint[]
 }>;
 
 function getBreakpointsForSource(
   source: SourceRecord,
   breakpoints: BreakpointsMap
-) {
-  return breakpoints
-    .valueSeq()
+): Breakpoint[] {
+  const bpList = breakpoints.valueSeq();
+
+  return bpList
     .filter(
       bp =>
         bp.location.sourceId == source.id &&
@@ -36,7 +36,7 @@ function getBreakpointsForSource(
 function findBreakpointSources(
   sources: SourcesMap,
   breakpoints: BreakpointsMap
-) {
+): BreakpointSources {
   const sourceIds = uniq(
     breakpoints
       .valueSeq()
@@ -49,7 +49,9 @@ function findBreakpointSources(
     .map(id => getSourceInSources(sources, id))
     .filter(source => source && !source.isBlackBoxed);
 
-  return sortBy(breakpointSources, source => getFilenameFromURL(source.url));
+  return sortBy(breakpointSources, (source: SourceRecord) =>
+    getFilenameFromURL(source.url)
+  );
 }
 
 function _getBreakpointSources(

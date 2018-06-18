@@ -121,7 +121,7 @@ export class Outline extends Component<Props> {
     );
   }
 
-  renderClassFunctions(klass: string, functions: FunctionDeclaration[]) {
+  renderClassFunctions(klass: ?string, functions: FunctionDeclaration[]) {
     if (klass == null || functions.length == 0) {
       return null;
     }
