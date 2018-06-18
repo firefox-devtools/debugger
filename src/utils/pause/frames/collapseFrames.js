@@ -24,7 +24,10 @@ function collapseLastFrames(frames) {
   return { newFrames, lastGroup };
 }
 
-export function collapseFrames(frames: LocalFrame[]) {
+type FrameGroup = LocalFrame[];
+type GroupedFrames = Array<FrameGroup | LocalFrame>;
+
+export function collapseFrames(frames: LocalFrame[]): GroupedFrames {
   // We collapse groups of one so that user frames
   // are not in a group of one
   function addGroupToList(group, list) {
