@@ -1,14 +1,14 @@
 [ignore]
-.*node_modules/documentation.*
-.*node_modules/devtools-mc-assets/.*
-.*node_modules/immutable/dist/immutable.js.flow
-.*node_modules/reselect/lib/reselect.d.ts
-.*node_modules/stylelint.*
+.*node_modules/.*
 <PROJECT_ROOT>/firefox/.*
 .*mozilla-central/.*
 .*flow-coverage-report/.*
 .*custom_format_broken.json
+.*packages/devtools-reps/src/object-inspector/.*
 <PROJECT_ROOT>/webpack-stats/.*
+
+[include]
+./node_modules/source-map/source-map.js
 
 [libs]
 ./src/global-types.js

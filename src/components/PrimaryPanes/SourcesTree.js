@@ -135,7 +135,7 @@ class SourcesTree extends Component<Props, State> {
         sourceTree
       );
 
-      return this.setState({ highlightItems });
+      this.setState({ highlightItems });
     }
 
     // NOTE: do not run this every time a source is clicked,
