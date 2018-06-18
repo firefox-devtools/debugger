@@ -33,7 +33,9 @@ export type SymbolDeclaration = {
 };
 
 export type ClassDeclaration = SymbolDeclaration & {
-  parent: string
+  parent: {
+    name: string
+  }
 };
 
 export type FunctionDeclaration = SymbolDeclaration & {
@@ -74,7 +76,8 @@ export type SymbolDeclarations = {|
   comments: Array<SymbolDeclaration>,
   literals: Array<IdentifierDeclaration>,
   hasJsx: boolean,
-  hasTypes: boolean
+  hasTypes: boolean,
+  loading: false
 |};
 
 let symbolDeclarations: Map<string, SymbolDeclarations> = new Map();
@@ -291,7 +294,8 @@ function extractSymbols(sourceId): SymbolDeclarations {
     imports: [],
     literals: [],
     hasJsx: false,
-    hasTypes: false
+    hasTypes: false,
+    loading: false
   };
 
   const ast = traverseAst(sourceId, {

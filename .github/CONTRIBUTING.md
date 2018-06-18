@@ -138,21 +138,21 @@ Here are pointers to the DevTools general coding style and formatting guidelines
 
 ### Development Guide :computer:
 
-Go to [local Development](./docs/local-development.md) to learn about:
+Go to [local Development](../docs/local-development.md) to learn about:
 
-* [Configs](./docs/local-development.md#configs)
-* [Hot Reloading](./docs/local-development.md#hot-reloading-fire)
-* [Themes](./docs/local-development.md#themes)
-* [Internationalization](./docs/local-development.md#internationalization)
-* [Prefs](./docs/local-development.md#prefs)
-* [Flow](./docs/local-development.md#flow)
-* [Logging](./docs/local-development.md#logging)
-* [Testing](./docs/local-development.md#testing)
-* [Linting](./docs/local-development.md#linting)
+* [Configs](../docs/local-development.md#configs)
+* [Hot Reloading](../docs/local-development.md#hot-reloading-fire)
+* [Themes](../docs/local-development.md#themes)
+* [Internationalization](../docs/local-development.md#internationalization)
+* [Prefs](../docs/local-development.md#prefs)
+* [Flow](../docs/local-development.md#flow)
+* [Logging](../docs/local-development.md#logging)
+* [Testing](../docs/local-development.md#testing)
+* [Linting](../docs/local-development.md#linting)
 
 ### Terminology
 
-* [Generated / Original](./docs/terminology.md#generated--original)
+* [Generated / Original](../docs/terminology.md#generated--original)
 
 ### Debugging Firefox
 
@@ -162,24 +162,24 @@ Here's a guide to help you get started [guide](./docs/debugging-firefox.md)
 
 ### Issues
 
-* [Issue Titles](./docs/issues.md#issue-titles)
-* [Issue Descriptions](./docs/issues.md#issue-descriptions)
-* [Claiming Issues](./docs/issues.md#claiming-issues)
-* [Labels](./docs/issues.md#labels)
-* [Available Issues](./docs/issues.md#available-issues)
-* [Triaging](./docs/issues.md#triaging)
-* [Issue Organization](./docs/issues.md#issue-organization)
-* [Community Friendly](./docs/issues.md#community-friendly)
+* [Issue Titles](../docs/issues.md#issue-titles)
+* [Issue Descriptions](../docs/issues.md#issue-descriptions)
+* [Claiming Issues](../docs/issues.md#claiming-issues)
+* [Labels](../docs/issues.md#labels)
+* [Available Issues](../docs/issues.md#available-issues)
+* [Triaging](../docs/issues.md#triaging)
+* [Issue Organization](../docs/issues.md#issue-organization)
+* [Community Friendly](../docs/issues.md#community-friendly)
 
 ### Pull Requests
 
-Go to [Pull Requests](./docs/pull-requests.md) to learn about:
+Go to [Pull Requests](../docs/pull-requests.md) to learn about:
 
-* [Screenshots](./docs/pull-requests.md#screenshots)
-* [Test Steps](./docs/pull-requests.md#test-steps)
-* [Testing](./docs/pull-requests.md#testing)
-* [Reviews](./docs/pull-requests.md#reviews)
-* [Updates](./docs/pull-requests.md#updates)
+* [Screenshots](../docs/pull-requests.md#screenshots)
+* [Test Steps](../docs/pull-requests.md#test-steps)
+* [Testing](../docs/pull-requests.md#testing)
+* [Reviews](../docs/pull-requests.md#reviews)
+* [Updates](../docs/pull-requests.md#updates)
 
 > **Working on your first Pull Request?** You can learn how from this *free* series [How to Contribute to an Open Source Project on GitHub](https://egghead.io/series/how-to-contribute-to-an-open-source-project-on-github)
 
@@ -188,22 +188,22 @@ Go to [Pull Requests](./docs/pull-requests.md) to learn about:
 Helping maintain a project is the best way to contribute to its overall health.
 Here are some [notes][mdoc] on how we work.
 
-+ [Triaging Issues](./docs/maintainer.md#triaging-issues)
-+ [Making Bugs Actionable](./docs/maintainer.md#making-bugs-actionable)
-+ [Closing Stale Issues](./docs/maintainer.md#reviewing-stale-issues)
-+ [Making Issues available](./docs/maintainer.md#making-issues-available)
-+ [Following up on In Progress work](./docs/maintainer.md#following-up-on-in-progress-work)
-+ [Adding a Patch](./docs/maintainer.md#adding-a-patch)
-+ [Pushing to a branch](./docs/maintainer.md#pushing-to-a-branch)
++ [Triaging Issues](../docs/maintainer.md#triaging-issues)
++ [Making Bugs Actionable](../docs/maintainer.md#making-bugs-actionable)
++ [Closing Stale Issues](../docs/maintainer.md#reviewing-stale-issues)
++ [Making Issues available](../docs/maintainer.md#making-issues-available)
++ [Following up on In Progress work](../docs/maintainer.md#following-up-on-in-progress-work)
++ [Adding a Patch](../docs/maintainer.md#adding-a-patch)
++ [Pushing to a branch](../docs/maintainer.md#pushing-to-a-branch)
 
 [mdoc]: ./docs/maintainer.md
 
 ### Debugging Tips
 
-+ [Components](./docs/debugging.md#components)
-+ [Actions](./docs/debugging.md#actions)
-+ [Reducers](./docs/debugging.md#reducers)
-+ [Client](./docs/debugging.md#client)
++ [Components](../docs/debugging.md#components)
++ [Actions](../docs/debugging.md#actions)
++ [Reducers](../docs/debugging.md#reducers)
++ [Client](../docs/debugging.md#client)
 
 ### Pro Tips
 
@@ -236,8 +236,8 @@ The debugger.html project is targeted to land in Firefox for Firefox 52.  Howeve
 
 ### Talks, Videos, Blog posts
 
-+ [Talks](./docs/talks.md)
-+ [Videos](./docs/videos.md)
++ [Talks](../docs/talks.md)
++ [Videos](../docs/videos.md)
 
 
 ## About Us
@@ -267,7 +267,7 @@ Mozilla has and continues to hire many people from within the Open Source Softwa
 
 **Referrals**. If you’ve been making reasonable and regular contributions to the project we’d be happy to be a reference for you.  We can make internal referrals to Mozilla or act as your reference to other companies.  Please be considerate when making this request, we are happy to help you and want to see you find a job you want but can’t do this for everyone who contributes.
 
-[getting-setup]:./docs/getting-setup.md
+[getting-setup]:../docs/getting-setup.md
 [labels-available]:https://github.com/devtools-html/debugger.html/labels/available
 [labels-first-timers-only]:https://github.com/devtools-html/debugger.html/labels/first-timers-only
 [labels-difficulty-easy]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%20easy
@@ -316,7 +316,7 @@ Mozilla has and continues to hire many people from within the Open Source Softwa
 
 [jlongster-talk]:https://www.youtube.com/watch?v=gvVpSezT5_M
 [jlast-talk]:https://www.youtube.com/watch?v=O_xViL2TGrU
-[getting-help]:./docs/local-development.md#getting-help
-[first-activity]:./docs/debugging-the-debugger.md
+[getting-help]:../docs/local-development.md#getting-help
+[first-activity]:../docs/debugging-the-debugger.md
 [goodness-squad]:https://hackernoon.com/goodness-squad-a8704d594a7a#.qllq19koq
 [slack]:https://devtools-html-slack.herokuapp.com/

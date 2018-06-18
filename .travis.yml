@@ -1,3 +1,5 @@
+sudo: required
+dist: precise
 language: python
   - "3.6"
 
@@ -11,7 +13,7 @@ env:
   global:
     - DISPLAY=':99.0'
     - YARN_VERSION='0.24.5'
-    - MC_COMMIT='fa5724780fe7'
+    - MC_COMMIT='5bbe892524aa'
 
 notifications:
   slack:

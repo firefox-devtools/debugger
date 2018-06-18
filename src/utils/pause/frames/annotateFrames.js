@@ -10,12 +10,19 @@ import type { Frame } from "../../../types";
 import { getFrameUrl } from "./getFrameUrl";
 import { getLibraryFromUrl } from "./getLibraryFromUrl";
 
-export function annotateFrames(frames: Frame[]) {
+type AnnotatedFrame =
+  | {|
+      ...Frame,
+      library: string
+    |}
+  | Frame;
+
+export function annotateFrames(frames: Frame[]): AnnotatedFrame[] {
   const annotatedFrames = frames.map(annotateFrame);
   return annotateBabelAsyncFrames(annotatedFrames);
 }
 
-function annotateFrame(frame: Frame) {
+function annotateFrame(frame: Frame): AnnotatedFrame {
   const library = getLibraryFromUrl(frame);
   if (library) {
     return { ...frame, library };

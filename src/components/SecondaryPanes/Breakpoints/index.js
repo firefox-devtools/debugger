@@ -12,7 +12,7 @@ import Breakpoint from "./Breakpoint";
 import SourceIcon from "../../shared/SourceIcon";
 
 import actions from "../../../actions";
-import { getFilename } from "../../../utils/source";
+import { getFilename, getRawSourceURL } from "../../../utils/source";
 import { makeLocationId } from "../../../utils/breakpoint";
 
 import { getSelectedSource, getBreakpointSources } from "../../../selectors";
@@ -93,7 +93,7 @@ class Breakpoints extends Component<Props> {
       ...breakpointSources.map(({ source, breakpoints }) => [
         <div
           className="breakpoint-heading"
-          title={source.url}
+          title={getRawSourceURL(source.url)}
           key={source.url}
           onClick={() => this.props.selectSource(source.id)}
         >

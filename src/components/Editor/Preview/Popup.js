@@ -59,7 +59,8 @@ function inPreview(event) {
 
   if (
     !relatedTarget ||
-    relatedTarget.classList.contains("preview-expression")
+    (relatedTarget.classList &&
+      relatedTarget.classList.contains("preview-expression"))
   ) {
     return true;
   }

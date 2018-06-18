@@ -65,8 +65,8 @@ function update(
   return state;
 }
 
-function addScopes(state: ReplayState, action: any) {
-  const { frame, status, value } = action;
+function addScopes(state: ReplayState, action) {
+  const { frame, status } = action;
   const selectedFrameId = frame.id;
   const instance = state.history[state.position];
 
@@ -75,13 +75,20 @@ function addScopes(state: ReplayState, action: any) {
   }
 
   const pausedInst = instance.paused;
+  const scopeValue =
+    status === "done"
+      ? {
+          pending: false,
+          scope: action.value
+        }
+      : {
+          pending: true,
+          scope: null
+        };
 
   const generated = {
     ...pausedInst.frameScopes.generated,
-    [selectedFrameId]: {
-      pending: status !== "done",
-      scope: value
-    }
+    [selectedFrameId]: scopeValue
   };
 
   const newPaused = {

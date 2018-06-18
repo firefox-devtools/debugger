@@ -10,7 +10,13 @@ import { convertToList } from "./pause/pausePoints";
 import type { Location, ColumnPosition } from "../types";
 import type { Symbols } from "../reducers/ast";
 
-import type { AstPosition, AstLocation, PausePoints } from "../workers/parser";
+import type {
+  AstPosition,
+  AstLocation,
+  PausePoints,
+  FunctionDeclaration,
+  ClassDeclaration
+} from "../workers/parser";
 
 export function findBestMatchExpression(
   symbols: Symbols,
@@ -103,7 +109,10 @@ function findClosestofSymbol(declarations: any[], location: Location) {
   }, null);
 }
 
-export function findClosestFunction(symbols: ?Symbols, location: Location) {
+export function findClosestFunction(
+  symbols: ?Symbols,
+  location: Location
+): FunctionDeclaration | null {
   if (!symbols || symbols.loading) {
     return null;
   }
@@ -111,7 +120,10 @@ export function findClosestFunction(symbols: ?Symbols, location: Location) {
   return findClosestofSymbol(symbols.functions, location);
 }
 
-export function findClosestClass(symbols: Symbols, location: Location) {
+export function findClosestClass(
+  symbols: Symbols,
+  location: Location
+): ClassDeclaration | null {
   if (!symbols || symbols.loading) {
     return null;
   }
