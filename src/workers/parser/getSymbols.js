@@ -148,7 +148,7 @@ function extractSymbol(path: SimplePath, symbols) {
   if (t.isClassDeclaration(path)) {
     symbols.classes.push({
       name: path.node.id.name,
-      parent: { name: path.node.superClass },
+      parent: path.node.superClass,
       location: path.node.loc
     });
   }
