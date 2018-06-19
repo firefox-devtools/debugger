@@ -340,9 +340,13 @@ class CommandBar extends Component<Props> {
 
     return (
       <button
-        className={classnames("command-bar-button", {
-          active: skipPausing
-        })}
+        className={classnames(
+          "command-bar-button",
+          "command-bar-skip-pausing",
+          {
+            active: skipPausing
+          }
+        )}
         title={L10N.getStr("skipPausingTooltip")}
         onClick={toggleSkipPausing}
       >
