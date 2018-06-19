@@ -278,8 +278,7 @@ function generateClientScope(
       } = orig.generatedBindings;
 
       return {
-        // Flow doesn't like casting 'parent'.
-        parent: (acc: any),
+        parent: acc,
         actor: `originalActor${i}`,
         type: orig.type,
         bindings: {
