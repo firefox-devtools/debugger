@@ -5,7 +5,7 @@
 // @flow
 
 // Dependencies
-import React from "React";
+import React, { Component } from "react";
 import classnames from "classnames";
 import { showMenu } from "devtools-contextmenu";
 import { connect } from "react-redux";
@@ -75,7 +75,7 @@ type State = {
 
 type SetExpanded = (item: Node, expanded: boolean, altKey: boolean) => void;
 
-class SourcesTree extends React.Component<Props, State> {
+class SourcesTree extends Component<Props, State> {
   mounted: boolean;
 
   constructor(props: Props) {
@@ -191,7 +191,7 @@ class SourcesTree extends React.Component<Props, State> {
     return `${path}${blackBoxedPart}`;
   };
 
-  getIcon = (sources: SourcesMap, item: Node, depth: number): React.Node => {
+  getIcon = (sources: SourcesMap, item: Node, depth: number) => {
     const { debuggeeUrl, projectRoot } = this.props;
 
     if (item.path === "webpack://") {
