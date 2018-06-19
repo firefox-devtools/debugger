@@ -1217,9 +1217,8 @@ async function waitForScrolling(codeMirror) {
   return new Promise(resolve => {
     codeMirror.on("scroll", resolve);
     setTimeout(resolve, 500);
-  })
+  });
 }
-
 
 async function hoverAtPos(dbg, { line, ch }) {
   info(`Hovering at ${line}, ${ch}`);
@@ -1266,7 +1265,7 @@ function tryHovering(dbg, line, column, elementName) {
         reject("failed to preview");
       }
 
-       hoverAtPos(dbg, { line, ch: column - 1 });
+      hoverAtPos(dbg, { line, ch: column - 1 });
     }, 1000);
   });
 }

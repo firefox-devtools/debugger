@@ -70,7 +70,14 @@ export async function loadRangeMetadata(
       locColumn(sortedOriginalAstBindings[i].start) >= range.columnStart &&
       locColumn(sortedOriginalAstBindings[i].start) < range.columnEnd
     ) {
-      bindings.push(sortedOriginalAstBindings[i]);
+      const lastBinding = bindings[bindings.length - 1];
+      // Only add bindings when they're in new positions
+      if (
+        !lastBinding ||
+        positionCmp(lastBinding.start, sortedOriginalAstBindings[i].start) !== 0
+      ) {
+        bindings.push(sortedOriginalAstBindings[i]);
+      }
       i++;
     }
 
