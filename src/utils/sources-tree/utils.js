@@ -24,17 +24,25 @@ export function isExactUrlMatch(pathPart: string, debuggeeUrl: string) {
   return host.replace(/^www\./, "") === pathPart.replace(/^www\./, "");
 }
 
-export function isDirectory(url: Object) {
-  const parts = url.path.split("/").filter(p => p !== "");
-
+export function isPathDirectory(path: string) {
   // Assume that all urls point to files except when they end with '/'
   // Or directory node has children
+  const parts = path.split("/").filter(p => p !== "");
+  return parts.length === 0 || path.slice(-1) === "/";
+}
+
+export function isDirectory(item: Node) {
   return (
-    (parts.length === 0 ||
-      url.path.slice(-1) === "/" ||
-      nodeHasChildren(url)) &&
-    url.name != "(index)"
+    (isPathDirectory(item.path) || nodeHasChildren(item)) &&
+    item.name != "(index)"
   );
+}
+
+export function getSourceRecordFromNode(item: Node): SourceRecord | null {
+  const { contents } = item;
+  if (!isDirectory(item) && !Array.isArray(contents)) {
+    return contents;
+  }
 }
 
 export function getFileExtension(url: string = ""): string {
