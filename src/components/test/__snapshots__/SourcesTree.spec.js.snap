@@ -29,6 +29,7 @@ exports[`SourcesTree After changing expanded nodes Shows the tree with four.js, 
       onCollapse={[Function]}
       onExpand={[Function]}
       onFocus={[Function]}
+      preventBlur={true}
       renderItem={[Function]}
     />
   </div>
@@ -57,6 +58,7 @@ exports[`SourcesTree Should show the tree with nothing expanded 1`] = `
       onCollapse={[Function]}
       onExpand={[Function]}
       onFocus={[Function]}
+      preventBlur={true}
       renderItem={[Function]}
     />
   </div>
@@ -92,6 +94,7 @@ exports[`SourcesTree When loading initial source Shows the tree with one.js, two
       onCollapse={[Function]}
       onExpand={[Function]}
       onFocus={[Function]}
+      preventBlur={true}
       renderItem={[Function]}
     />
   </div>
@@ -184,6 +187,7 @@ exports[`SourcesTree on receiving new props updates highlighted items updates hi
       onCollapse={[Function]}
       onExpand={[Function]}
       onFocus={[Function]}
+      preventBlur={true}
       renderItem={[Function]}
     />
   </div>
@@ -286,6 +290,7 @@ exports[`SourcesTree on receiving new props updates list items updates list item
       onCollapse={[Function]}
       onExpand={[Function]}
       onFocus={[Function]}
+      preventBlur={true}
       renderItem={[Function]}
     />
   </div>
@@ -640,6 +645,7 @@ exports[`SourcesTree with custom root renders custom root source list 1`] = `
       onCollapse={[Function]}
       onExpand={[Function]}
       onFocus={[Function]}
+      preventBlur={true}
       renderItem={[Function]}
     />
   </div>
