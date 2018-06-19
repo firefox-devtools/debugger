@@ -14,10 +14,7 @@ import { getSkipPausing } from "../../selectors";
 export function toggleSkipPausing() {
   return async ({ dispatch, client, getState, sourceMaps }: ThunkArgs) => {
     const skipPausing = !getSkipPausing(getState());
-
-    // NOTE: enable this when we land the endpoint in m-c
-    // await client.setSkipPausing(skipPausing);
-
+    await client.setSkipPausing(skipPausing);
     dispatch({ type: "TOGGLE_SKIP_PAUSING", skipPausing });
   };
 }
