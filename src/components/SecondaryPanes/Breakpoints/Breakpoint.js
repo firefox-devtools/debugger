@@ -20,6 +20,8 @@ import { getLocationWithoutColumn } from "../../../utils/breakpoint";
 import { features } from "../../../utils/prefs";
 import { getEditor } from "../../../utils/editor";
 
+import type { BreakpointsMap } from "../../../reducers/types";
+
 import type {
   Frame,
   Source,
@@ -27,10 +29,15 @@ import type {
   MappedLocation
 } from "../../../types";
 
-import { getSelectedSource, getTopFrame } from "../../../selectors";
+import {
+  getBreakpoints,
+  getSelectedSource,
+  getTopFrame
+} from "../../../selectors";
 
 type Props = {
   breakpoint: BreakpointType,
+  breakpoints: BreakpointsMap,
   selectedSource: ?Source,
   disableBreakpoint: Function,
   enableBreakpoint: Function,
@@ -173,6 +180,7 @@ class Breakpoint extends PureComponent<Props> {
 }
 
 const mapStateToProps = state => ({
+  breakpoints: getBreakpoints(state),
   frame: getTopFrame(state),
   selectedSource: getSelectedSource(state)
 });
