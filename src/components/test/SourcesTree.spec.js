@@ -195,6 +195,17 @@ describe("SourcesTree", () => {
         .simulate("keydown", { keyCode: 13 });
       expect(props.selectSource).toHaveBeenCalledWith(item.contents.id);
     });
+
+    it("allows focus on the (index)", async () => {
+      const { component, instance, props } = render();
+      const item = createMockItem("https://davidwalsh.name/", "(index)");
+      await instance.focusItem(item);
+      await component.update();
+      await component
+        .find(".sources-list")
+        .simulate("keydown", { keyCode: 13 });
+      expect(props.selectSource).toHaveBeenCalledWith(item.contents.id);
+    });
   });
 
   describe("with custom root", () => {

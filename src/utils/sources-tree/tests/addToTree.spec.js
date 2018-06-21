@@ -30,6 +30,10 @@ function createSourcesList(sources) {
   return sources.map((s, i) => createSource(s));
 }
 
+function getChildNode(tree, ...path) {
+  return path.reduce((child, index) => child.contents[index], tree);
+}
+
 describe("sources-tree", () => {
   describe("addToTree", () => {
     it("should provide node API", () => {
@@ -76,30 +80,34 @@ describe("sources-tree", () => {
     });
 
     it("does not mangle encoded URLs", () => {
-      const source1 = createSourceRecord({
-        url:
-          "https://example.com/foo/B9724220.131821496;dc_ver=42.111;sz=468x60;u_sd=2;dc_adk=2020465299;ord=a53rpc;dc_rfl=1,https%3A%2F%2Fdavidwalsh.name%2F$0;xdt=1?",
+      const sourceName = // eslint-disable-next-line max-len
+        "B9724220.131821496;dc_ver=42.111;sz=468x60;u_sd=2;dc_adk=2020465299;ord=a53rpc;dc_rfl=1,https%3A%2F%2Fdavidwalsh.name%2F$0;xdt=1";
+
+      const source1 = createSource({
+        url: `https://example.com/foo/${sourceName}`,
         actor: "actor1"
       });
-      const tree = createNode("root", "", []);
+
+      const tree = createDirectoryNode("root", "", []);
 
       addToTree(tree, source1, "http://example.com/");
-      expect(tree.contents).toHaveLength(1);
+      const childNode = getChildNode(tree, 0, 0, 0);
+      expect(childNode.name).toEqual(sourceName);
+      expect(formatTree(tree)).toMatchSnapshot();
+    });
 
-      const base = tree.contents[0];
-      expect(base.name).toBe("example.com");
-      expect(base.contents).toHaveLength(1);
+    it("name does not include query params", () => {
+      const sourceName = "name.js?bar=3";
 
-      const fooNode = base.contents[0];
-      expect(fooNode.name).toBe("foo");
-      expect(fooNode.contents).toHaveLength(1);
+      const source1 = createSource({
+        url: `https://example.com/foo/${sourceName}`,
+        actor: "actor1"
+      });
 
-      const source1Node = fooNode.contents[0];
-      expect(source1Node.name).toBe(
-        "B9724220.131821496;dc_ver=42.111;sz=468x60;u_sd=2;" +
-          "dc_adk=2020465299;ord=a53rpc;dc_rfl=1" +
-          ",https%3A%2F%2Fdavidwalsh.name%2F$0;xdt=1"
-      );
+      const tree = createDirectoryNode("root", "", []);
+
+      addToTree(tree, source1, "http://example.com/");
+      expect(formatTree(tree)).toMatchSnapshot();
     });
 
     it("does not attempt to add two of the same directory", () => {
