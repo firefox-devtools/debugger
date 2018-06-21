@@ -14,7 +14,7 @@ import {
 import { getGeneratedLocation } from "../../utils/source-maps";
 import { getTextAtPosition } from "../../utils/source";
 import { originalToGeneratedId } from "devtools-source-map";
-import { getSource } from "../../selectors";
+import { getSourceFromId } from "../../selectors";
 import type {
   Location,
   ASTLocation,
@@ -79,13 +79,13 @@ export async function syncClientBreakpoint(
 ): Promise<BreakpointSyncData> {
   assertPendingBreakpoint(pendingBreakpoint);
 
-  const source = getSource(getState(), sourceId);
+  const source = getSourceFromId(getState(), sourceId);
 
   const generatedSourceId = sourceMaps.isOriginalId(sourceId)
     ? originalToGeneratedId(sourceId)
     : sourceId;
 
-  const generatedSource = getSource(getState(), generatedSourceId);
+  const generatedSource = getSourceFromId(getState(), generatedSourceId);
 
   const { location, astLocation } = pendingBreakpoint;
   const previousLocation = { ...location, sourceId };

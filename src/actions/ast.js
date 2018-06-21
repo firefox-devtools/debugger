@@ -6,6 +6,7 @@
 
 import {
   getSource,
+  getSourceFromId,
   hasSymbols,
   getSelectedLocation,
   isPaused
@@ -24,6 +25,7 @@ import {
 import { PROMISE } from "./utils/middleware/promise";
 import { isGeneratedId } from "devtools-source-map";
 import { features } from "../utils/prefs";
+import { isLoaded } from "../utils/source";
 
 import type { SourceId } from "../types";
 import type { ThunkArgs, Action } from "./types";
@@ -31,7 +33,7 @@ import type { ThunkArgs, Action } from "./types";
 export function setSourceMetaData(sourceId: SourceId) {
   return async ({ dispatch, getState }: ThunkArgs) => {
     const source = getSource(getState(), sourceId);
-    if (!source || !source.text || source.isWasm) {
+    if (!source || !isLoaded(source) || source.isWasm) {
       return;
     }
 
@@ -51,13 +53,9 @@ export function setSourceMetaData(sourceId: SourceId) {
 
 export function setSymbols(sourceId: SourceId) {
   return async ({ dispatch, getState }: ThunkArgs) => {
-    const source = getSource(getState(), sourceId);
-    if (
-      !source ||
-      !source.text ||
-      source.isWasm ||
-      hasSymbols(getState(), source)
-    ) {
+    const source = getSourceFromId(getState(), sourceId);
+
+    if (source.isWasm || hasSymbols(getState(), source)) {
       return;
     }
 
@@ -84,11 +82,11 @@ export function setOutOfScopeLocations() {
       return;
     }
 
-    const source = getSource(getState(), location.sourceId);
+    const source = getSourceFromId(getState(), location.sourceId);
 
     let locations = null;
     if (location.line && source && isPaused(getState())) {
-      locations = await findOutOfScopeLocations(source.get("id"), location);
+      locations = await findOutOfScopeLocations(source.id, location);
     }
 
     dispatch(
@@ -116,7 +114,7 @@ function compressPausePoints(pausePoints) {
 
 export function setPausePoints(sourceId: SourceId) {
   return async ({ dispatch, getState, client }: ThunkArgs) => {
-    const source = getSource(getState(), sourceId);
+    const source = getSourceFromId(getState(), sourceId);
     if (!features.pausePoints || !source || !source.text || source.isWasm) {
       return;
     }
@@ -131,7 +129,7 @@ export function setPausePoints(sourceId: SourceId) {
     dispatch(
       ({
         type: "SET_PAUSE_POINTS",
-        sourceText: source.text,
+        sourceText: source.text || "",
         sourceId,
         pausePoints
       }: Action)

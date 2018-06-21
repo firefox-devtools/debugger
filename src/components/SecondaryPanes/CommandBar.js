@@ -28,7 +28,7 @@ import { Services } from "devtools-modules";
 const { appinfo } = Services;
 
 import type { SourcesMap } from "../../reducers/sources";
-import type { SourceRecord } from "../../types";
+import type { Source } from "../../types";
 
 const isMacOS = appinfo.OS === "Darwin";
 
@@ -81,7 +81,7 @@ function formatKey(action) {
 
 type Props = {
   sources: SourcesMap,
-  selectedSource: SourceRecord,
+  selectedSource: Source,
   resume: () => void,
   stepIn: () => void,
   stepOut: () => void,

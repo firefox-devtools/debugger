@@ -28,6 +28,10 @@ import type { AstLocation } from "../workers/parser";
 
 function findExpressionMatch(state, codeMirror, tokenPos) {
   const source = getSelectedSource(state);
+  if (!source) {
+    return;
+  }
+
   const symbols = getSymbols(state, source);
 
   let match;

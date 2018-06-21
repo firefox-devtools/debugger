@@ -13,8 +13,7 @@ import { getPreview, getSelectedSource, getIsPaused } from "../../../selectors";
 import actions from "../../../actions";
 import { toEditorRange } from "../../../utils/editor";
 
-import type { SelectedLocation } from "../../../reducers/types";
-import type { SourceRecord } from "../../../types";
+import type { Source, Location } from "../../../types";
 
 import type { Preview as PreviewType } from "../../../reducers/ast";
 
@@ -24,8 +23,8 @@ type Props = {
   loadedObjects: Object,
   editor: any,
   editorRef: ?HTMLDivElement,
-  selectedSource: SourceRecord,
-  selectedLocation: SelectedLocation,
+  selectedSource: Source,
+  selectedLocation: ?Location,
   clearPreview: () => void,
   preview: PreviewType,
   isPaused: Boolean,
@@ -157,7 +156,7 @@ class Preview extends PureComponent<Props, State> {
       return null;
     }
 
-    const editorRange = toEditorRange(selectedSource.get("id"), location);
+    const editorRange = toEditorRange(selectedSource.id, location);
 
     return (
       <Popup

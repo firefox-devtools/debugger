@@ -125,60 +125,65 @@ exports[`SourcesTree on receiving new props updates highlighted items updates hi
               Object {
                 "contents": Array [
                   Object {
-                    "contents": Immutable.Record {
+                    "contents": Object {
+                      "contentType": "",
+                      "error": undefined,
                       "id": "server1.conn13.child1/39",
-                      "url": "http://mdn.com/one.js",
-                      "sourceMapURL": null,
                       "isBlackBoxed": false,
                       "isPrettyPrinted": false,
                       "isWasm": false,
-                      "text": undefined,
-                      "contentType": "",
-                      "error": undefined,
                       "loadedState": "unloaded",
+                      "sourceMapURL": null,
+                      "text": undefined,
+                      "url": "http://mdn.com/one.js",
                     },
                     "name": "one.js",
                     "path": "mdn.com/one.js",
+                    "type": "source",
                   },
                   Object {
-                    "contents": Immutable.Record {
+                    "contents": Object {
+                      "contentType": "",
+                      "error": undefined,
                       "id": "server1.conn13.child1/41",
-                      "url": "http://mdn.com/three.js",
-                      "sourceMapURL": null,
                       "isBlackBoxed": false,
                       "isPrettyPrinted": false,
                       "isWasm": false,
-                      "text": undefined,
-                      "contentType": "",
-                      "error": undefined,
                       "loadedState": "unloaded",
+                      "sourceMapURL": null,
+                      "text": undefined,
+                      "url": "http://mdn.com/three.js",
                     },
                     "name": "three.js",
                     "path": "mdn.com/three.js",
+                    "type": "source",
                   },
                   Object {
-                    "contents": Immutable.Record {
+                    "contents": Object {
+                      "contentType": "",
+                      "error": undefined,
                       "id": "server1.conn13.child1/40",
-                      "url": "http://mdn.com/two.js",
-                      "sourceMapURL": null,
                       "isBlackBoxed": false,
                       "isPrettyPrinted": false,
                       "isWasm": false,
-                      "text": undefined,
-                      "contentType": "",
-                      "error": undefined,
                       "loadedState": "unloaded",
+                      "sourceMapURL": null,
+                      "text": undefined,
+                      "url": "http://mdn.com/two.js",
                     },
                     "name": "two.js",
                     "path": "mdn.com/two.js",
+                    "type": "source",
                   },
                 ],
                 "name": "mdn.com",
                 "path": "mdn.com",
+                "type": "directory",
               },
             ],
             "name": "root",
             "path": "",
+            "type": "directory",
           },
         ]
       }
@@ -216,74 +221,79 @@ exports[`SourcesTree on receiving new props updates list items updates list item
       listItems={
         Array [
           Object {
-            "contents": Immutable.Record {
+            "contents": Object {
+              "contentType": "",
+              "error": undefined,
               "id": "server1.conn13.child1/41",
-              "url": "http://mdn.com/three.js",
-              "sourceMapURL": null,
               "isBlackBoxed": false,
               "isPrettyPrinted": false,
               "isWasm": false,
-              "text": undefined,
-              "contentType": "",
-              "error": undefined,
               "loadedState": "unloaded",
+              "sourceMapURL": null,
+              "text": undefined,
+              "url": "http://mdn.com/three.js",
             },
             "name": "three.js",
             "path": "mdn.com/three.js",
+            "type": "source",
           },
           Object {
             "contents": Array [
               Object {
-                "contents": Immutable.Record {
+                "contents": Object {
+                  "contentType": "",
+                  "error": undefined,
                   "id": "server1.conn13.child1/39",
-                  "url": "http://mdn.com/one.js",
-                  "sourceMapURL": null,
                   "isBlackBoxed": false,
                   "isPrettyPrinted": false,
                   "isWasm": false,
-                  "text": undefined,
-                  "contentType": "",
-                  "error": undefined,
                   "loadedState": "unloaded",
+                  "sourceMapURL": null,
+                  "text": undefined,
+                  "url": "http://mdn.com/one.js",
                 },
                 "name": "one.js",
                 "path": "mdn.com/one.js",
+                "type": "source",
               },
               Object {
-                "contents": Immutable.Record {
+                "contents": Object {
+                  "contentType": "",
+                  "error": undefined,
                   "id": "server1.conn13.child1/41",
-                  "url": "http://mdn.com/three.js",
-                  "sourceMapURL": null,
                   "isBlackBoxed": false,
                   "isPrettyPrinted": false,
                   "isWasm": false,
-                  "text": undefined,
-                  "contentType": "",
-                  "error": undefined,
                   "loadedState": "unloaded",
+                  "sourceMapURL": null,
+                  "text": undefined,
+                  "url": "http://mdn.com/three.js",
                 },
                 "name": "three.js",
                 "path": "mdn.com/three.js",
+                "type": "source",
               },
               Object {
-                "contents": Immutable.Record {
+                "contents": Object {
+                  "contentType": "",
+                  "error": undefined,
                   "id": "server1.conn13.child1/40",
-                  "url": "http://mdn.com/two.js",
-                  "sourceMapURL": null,
                   "isBlackBoxed": false,
                   "isPrettyPrinted": false,
                   "isWasm": false,
-                  "text": undefined,
-                  "contentType": "",
-                  "error": undefined,
                   "loadedState": "unloaded",
+                  "sourceMapURL": null,
+                  "text": undefined,
+                  "url": "http://mdn.com/two.js",
                 },
                 "name": "two.js",
                 "path": "mdn.com/two.js",
+                "type": "source",
               },
             ],
             "name": "mdn.com",
             "path": "mdn.com",
+            "type": "directory",
           },
         ]
       }
@@ -308,17 +318,17 @@ exports[`SourcesTree renderItem should not show domain item when the projectRoot
   />
   <Connect(SourceIcon)
     source={
-      Immutable.Record {
+      Object {
+        "contentType": "",
+        "error": undefined,
         "id": "server1.conn13.child1/39",
-        "url": "http://mdn.com/one.js",
-        "sourceMapURL": null,
         "isBlackBoxed": false,
         "isPrettyPrinted": false,
         "isWasm": false,
-        "text": undefined,
-        "contentType": "",
-        "error": undefined,
         "loadedState": "unloaded",
+        "sourceMapURL": null,
+        "text": undefined,
+        "url": "http://mdn.com/one.js",
       }
     }
   />
@@ -541,17 +551,17 @@ exports[`SourcesTree renderItem should show source item with source icon 1`] = `
   />
   <Connect(SourceIcon)
     source={
-      Immutable.Record {
+      Object {
+        "contentType": "",
+        "error": undefined,
         "id": "server1.conn13.child1/39",
-        "url": "http://mdn.com/one.js",
-        "sourceMapURL": null,
         "isBlackBoxed": false,
         "isPrettyPrinted": false,
         "isWasm": false,
-        "text": undefined,
-        "contentType": "",
-        "error": undefined,
         "loadedState": "unloaded",
+        "sourceMapURL": null,
+        "text": undefined,
+        "url": "http://mdn.com/one.js",
       }
     }
   />
@@ -576,17 +586,17 @@ exports[`SourcesTree renderItem should show source item with source icon with fo
   />
   <Connect(SourceIcon)
     source={
-      Immutable.Record {
+      Object {
+        "contentType": "",
+        "error": undefined,
         "id": "server1.conn13.child1/39",
-        "url": "http://mdn.com/one.js",
-        "sourceMapURL": null,
         "isBlackBoxed": false,
         "isPrettyPrinted": false,
         "isWasm": false,
-        "text": undefined,
-        "contentType": "",
-        "error": undefined,
         "loadedState": "unloaded",
+        "sourceMapURL": null,
+        "text": undefined,
+        "url": "http://mdn.com/one.js",
       }
     }
   />

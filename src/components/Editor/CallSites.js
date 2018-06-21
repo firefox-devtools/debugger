@@ -136,7 +136,7 @@ class CallSites extends Component {
     } else {
       addBreakpoint({
         sourceId: sourceId,
-        sourceUrl: selectedSource.get("url"),
+        sourceUrl: selectedSource.url,
         line: line,
         column: column
       });

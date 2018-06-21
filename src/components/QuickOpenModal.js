@@ -35,7 +35,7 @@ import type {
   QuickOpenResult
 } from "../utils/quick-open";
 
-import type { Location, SourceRecord } from "../types";
+import type { Location, Source } from "../types";
 import type { QuickOpenType } from "../reducers/quick-open";
 
 import "./QuickOpenModal.css";
@@ -43,7 +43,7 @@ import "./QuickOpenModal.css";
 type Props = {
   enabled: boolean,
   sources: Array<Object>,
-  selectedSource?: SourceRecord,
+  selectedSource?: Source,
   query: string,
   searchType: QuickOpenType,
   symbols: FormattedSymbolDeclarations,
@@ -178,6 +178,7 @@ export class QuickOpenModal extends Component<Props, State> {
     if (this.isShortcutQuery()) {
       return this.searchShortcuts(query);
     }
+
     return this.searchSources(query);
   };
 
@@ -224,9 +225,8 @@ export class QuickOpenModal extends Component<Props, State> {
       const line =
         item.location && item.location.start ? item.location.start.line : 0;
       return selectLocation({
-        sourceId: selectedSource.get("id"),
-        line,
-        column: null
+        sourceId: selectedSource.id,
+        line
       });
     }
 
@@ -235,7 +235,7 @@ export class QuickOpenModal extends Component<Props, State> {
         ...(item.location != null
           ? { start: item.location.start.line, end: item.location.end.line }
           : {}),
-        sourceId: selectedSource.get("id")
+        sourceId: selectedSource.id
       });
     }
   };
@@ -256,13 +256,13 @@ export class QuickOpenModal extends Component<Props, State> {
 
   gotoLocation = (location: ?GotoLocationType) => {
     const { selectLocation, selectedSource } = this.props;
-    const selectedSourceId = selectedSource ? selectedSource.get("id") : "";
+    const selectedSourceId = selectedSource ? selectedSource.id : "";
     if (location != null) {
       const sourceId = location.sourceId ? location.sourceId : selectedSourceId;
       selectLocation({
         sourceId,
         line: location.line,
-        column: location.column || null
+        column: location.column
       });
       this.closeModal();
     }
@@ -271,10 +271,11 @@ export class QuickOpenModal extends Component<Props, State> {
   onChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
     const { selectedSource, setQuickOpenQuery } = this.props;
     setQuickOpenQuery(e.target.value);
-    const noSource = !selectedSource || !selectedSource.get("text");
+    const noSource = !selectedSource || !selectedSource.text;
     if ((this.isSymbolSearch() && noSource) || this.isGotoQuery()) {
       return;
     }
+
     this.updateResults(e.target.value);
   };
 
@@ -432,13 +433,13 @@ function mapStateToProps(state) {
 
   return {
     enabled: getQuickOpenEnabled(state),
-    sources: formatSources(getRelativeSources(state), getTabs(state).toArray()),
+    sources: formatSources(getRelativeSources(state), getTabs(state)),
     selectedSource,
     symbols: formatSymbols(getSymbols(state, selectedSource)),
     symbolsLoading: isSymbolsLoading(state, selectedSource),
     query: getQuickOpenQuery(state),
     searchType: getQuickOpenType(state),
-    tabs: getTabs(state).toArray()
+    tabs: getTabs(state)
   };
 }
 

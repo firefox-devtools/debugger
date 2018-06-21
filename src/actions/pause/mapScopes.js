@@ -4,7 +4,7 @@
 
 // @flow
 
-import { getSource } from "../../selectors";
+import { getSourceFromId } from "../../selectors";
 import { loadSourceText } from "../sources/loadSourceText";
 import { PROMISE } from "../utils/middleware/promise";
 
@@ -19,17 +19,17 @@ import { buildMappedScopes } from "../../utils/pause/mapScopes";
 
 export function mapScopes(scopes: Promise<Scope>, frame: Frame) {
   return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
-    const generatedSourceRecord = getSource(
+    const generatedSource = getSourceFromId(
       getState(),
       frame.generatedLocation.sourceId
     );
 
-    const sourceRecord = getSource(getState(), frame.location.sourceId);
+    const source = getSourceFromId(getState(), frame.location.sourceId);
 
     const shouldMapScopes =
       features.mapScopes &&
-      !generatedSourceRecord.isWasm &&
-      !sourceRecord.isPrettyPrinted &&
+      !generatedSource.isWasm &&
+      !source.isPrettyPrinted &&
       !isGeneratedId(frame.location.sourceId);
 
     await dispatch({
@@ -40,11 +40,11 @@ export function mapScopes(scopes: Promise<Scope>, frame: Frame) {
           return null;
         }
 
-        await dispatch(loadSourceText(sourceRecord));
+        await dispatch(loadSourceText(source));
 
         try {
           return await buildMappedScopes(
-            sourceRecord.toJS(),
+            source,
             frame,
             await scopes,
             sourceMaps,

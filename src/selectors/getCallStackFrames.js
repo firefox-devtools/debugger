@@ -27,12 +27,11 @@ function getSourceForFrame(sources, frame, isGeneratedSource) {
 }
 
 function appendSource(sources, frame, selectedSource) {
-  const isGeneratedSource =
-    selectedSource && !isOriginalId(selectedSource.get("id"));
+  const isGeneratedSource = selectedSource && !isOriginalId(selectedSource.id);
   return {
     ...frame,
     location: getLocation(frame, isGeneratedSource),
-    source: getSourceForFrame(sources, frame, isGeneratedSource).toJS()
+    source: getSourceForFrame(sources, frame, isGeneratedSource)
   };
 }
 

@@ -2,7 +2,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-import { Record } from "immutable";
 import {
   shouldShowPrettyPrint,
   shouldShowFooter,
@@ -22,17 +21,19 @@ import {
   getCursorLine
 } from "../index";
 
-const makeSource = Record({
-  id: "test-id-123/originalSource",
-  url: "http://example.com/index.js",
-  sourceMapURL: "http://example.com/index.source.map",
-  isBlackBoxed: false,
-  isPrettyPrinted: false,
-  isWasm: false,
-  text: "some text here",
-  contentType: "text/javascript",
-  loadedState: "loaded"
-});
+function makeSource() {
+  return {
+    id: "test-id-123/originalSource",
+    url: "http://example.com/index.js",
+    sourceMapURL: "http://example.com/index.source.map",
+    isBlackBoxed: false,
+    isPrettyPrinted: false,
+    isWasm: false,
+    text: "some text here",
+    contentType: "text/javascript",
+    loadedState: "loaded"
+  };
+}
 
 describe("shouldShowPrettyPrint", () => {
   it("no pretty print with no source", () => {
@@ -40,11 +41,11 @@ describe("shouldShowPrettyPrint", () => {
   });
 
   it("shows pretty print for a source", () => {
-    let source = makeSource();
-    source = source.merge({
+    const source = {
+      ...makeSource(),
       id: "test-id-123",
       sourceMapURL: null
-    });
+    };
     expect(shouldShowPrettyPrint(source)).toEqual(true);
   });
 });

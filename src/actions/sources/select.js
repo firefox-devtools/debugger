@@ -26,7 +26,6 @@ import { getGeneratedLocation } from "../../utils/source-maps";
 import {
   getSource,
   getSourceByURL,
-  getSelectedSource,
   getPrettySource,
   getActiveSearch,
   getSelectedLocation
@@ -104,8 +103,8 @@ export function selectLocation(location: Location) {
       return;
     }
 
-    const sourceRecord = getSource(getState(), location.sourceId);
-    if (!sourceRecord) {
+    const source = getSource(getState(), location.sourceId);
+    if (!source) {
       // If there is no source we deselect the current selected source
       return dispatch(clearSelectedLocation());
     }
@@ -115,30 +114,28 @@ export function selectLocation(location: Location) {
       dispatch(closeActiveSearch());
     }
 
-    const source = sourceRecord.toJS();
-
     dispatch(addTab(source.url, 0));
     dispatch(setSelectedLocation(source, location));
 
-    await dispatch(loadSourceText(sourceRecord));
-    const selectedSource = getSelectedSource(getState());
-    if (!selectedSource) {
+    await dispatch(loadSourceText(source));
+    const loadedSource = getSource(getState(), source.id);
+
+    if (!loadedSource) {
+      // If there was a navigation while we were loading the loadedSource
       return;
     }
 
-    const sourceId = selectedSource.id;
-
     if (
       prefs.autoPrettyPrint &&
-      !getPrettySource(getState(), sourceId) &&
-      shouldPrettyPrint(selectedSource) &&
-      isMinified(selectedSource)
+      !getPrettySource(getState(), loadedSource.id) &&
+      shouldPrettyPrint(loadedSource) &&
+      isMinified(loadedSource)
     ) {
-      await dispatch(togglePrettyPrint(sourceId));
-      dispatch(closeTab(source.url));
+      await dispatch(togglePrettyPrint(loadedSource.id));
+      dispatch(closeTab(loadedSource.url));
     }
 
-    dispatch(setSymbols(sourceId));
+    dispatch(setSymbols(loadedSource.id));
     dispatch(setOutOfScopeLocations());
   };
 }
@@ -155,8 +152,8 @@ export function selectSpecificLocation(location: Location) {
       return;
     }
 
-    const sourceRecord = getSource(getState(), location.sourceId);
-    if (!sourceRecord) {
+    const source = getSource(getState(), location.sourceId);
+    if (!source) {
       // If there is no source we deselect the current selected source
       return dispatch(clearSelectedLocation());
     }
@@ -166,18 +163,17 @@ export function selectSpecificLocation(location: Location) {
       dispatch(closeActiveSearch());
     }
 
-    const source = sourceRecord.toJS();
-
-    dispatch(addTab(source, 0));
+    dispatch(addTab(source.url, 0));
     dispatch(setSelectedLocation(source, location));
 
-    await dispatch(loadSourceText(sourceRecord));
-    const selectedSource = getSelectedSource(getState());
-    if (!selectedSource) {
+    await dispatch(loadSourceText(source));
+    const loadedSource = getSource(getState(), source.id);
+    if (!loadedSource) {
       return;
     }
 
-    const sourceId = selectedSource.id;
+    const sourceId = loadedSource.id;
+
     dispatch(setSymbols(sourceId));
     dispatch(setOutOfScopeLocations());
   };
@@ -214,10 +210,7 @@ export function jumpToMappedLocation(location: Location) {
         sourceMaps
       );
     } else {
-      pairedLocation = await sourceMaps.getOriginalLocation(
-        location,
-        source.toJS()
-      );
+      pairedLocation = await sourceMaps.getOriginalLocation(location, source);
     }
 
     return dispatch(selectLocation({ ...pairedLocation }));

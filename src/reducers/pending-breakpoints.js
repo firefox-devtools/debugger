@@ -159,7 +159,7 @@ export function getPendingBreakpoints(state: OuterState) {
 
 export function getPendingBreakpointsForSource(
   state: OuterState,
-  sourceUrl: String
+  sourceUrl: string
 ): PendingBreakpointsMap {
   const pendingBreakpoints =
     state.pendingBreakpoints.pendingBreakpoints || I.Map();

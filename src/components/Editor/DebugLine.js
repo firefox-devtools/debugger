@@ -15,12 +15,12 @@ import {
   getSelectedSource
 } from "../../selectors";
 
-import type { Frame, Why, SourceRecord } from "../../types";
+import type { Frame, Why, Source } from "../../types";
 
 type Props = {
   selectedFrame: Frame,
   why: Why,
-  selectedSource: SourceRecord
+  selectedSource: Source
 };
 
 type TextClasses = {
@@ -54,7 +54,7 @@ export class DebugLine extends Component<Props> {
     this.setDebugLine(why, selectedFrame, selectedSource);
   }
 
-  setDebugLine(why: Why, selectedFrame: Frame, selectedSource: SourceRecord) {
+  setDebugLine(why: Why, selectedFrame: Frame, selectedSource: Source) {
     if (!isDocumentReady(selectedSource, selectedFrame)) {
       return;
     }
@@ -75,7 +75,7 @@ export class DebugLine extends Component<Props> {
     );
   }
 
-  clearDebugLine(selectedFrame: Frame, selectedSource: SourceRecord, why: Why) {
+  clearDebugLine(selectedFrame: Frame, selectedSource: Source, why: Why) {
     if (!isDocumentReady(selectedSource, selectedFrame)) {
       return;
     }
