@@ -494,6 +494,7 @@ function clearDebuggerPreferences() {
   Services.prefs.clearUserPref("devtools.debugger.expressions");
   Services.prefs.clearUserPref("devtools.debugger.call-stack-visible");
   Services.prefs.clearUserPref("devtools.debugger.scopes-visible");
+  Services.prefs.clearUserPref("devtools.debugger.skip-pausing");
 }
 
 /**
@@ -896,7 +897,7 @@ function invokeInTab(fnc, ...args) {
     fnc,
     args
   }) {
-    content.wrappedJSObject[fnc](...args); // eslint-disable-line mozilla/no-cpows-in-tests, max-len
+    return content.wrappedJSObject[fnc](...args); // eslint-disable-line mozilla/no-cpows-in-tests, max-len
   });
 }
 
