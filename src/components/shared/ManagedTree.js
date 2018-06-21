@@ -127,8 +127,14 @@ class ManagedTree extends Component<Props, State> {
       // closed folder and highlights this folder
       const index = highlightItems
         .reverse()
-        .findIndex(item => !expanded.has(this.props.getPath(item)));
-      this.focusItem(highlightItems[index]);
+        .findIndex(
+          item =>
+            !expanded.has(this.props.getPath(item)) && item.name !== "root"
+        );
+
+      if (highlightItems[index]) {
+        this.focusItem(highlightItems[index]);
+      }
     }
   }
 

@@ -30,6 +30,10 @@ function createSourcesList(sources) {
   return sources.map((s, i) => createSource(s));
 }
 
+function getChildNode(tree, ...path) {
+  return path.reduce((child, index) => child.contents[index], tree);
+}
+
 describe("sources-tree", () => {
   describe("addToTree", () => {
     it("should provide node API", () => {
@@ -73,6 +77,37 @@ describe("sources-tree", () => {
 
       const source1Node = fooNode.contents[0];
       expect(source1Node.name).toBe("source1.js");
+    });
+
+    it("does not mangle encoded URLs", () => {
+      const sourceName = // eslint-disable-next-line max-len
+        "B9724220.131821496;dc_ver=42.111;sz=468x60;u_sd=2;dc_adk=2020465299;ord=a53rpc;dc_rfl=1,https%3A%2F%2Fdavidwalsh.name%2F$0;xdt=1";
+
+      const source1 = createSource({
+        url: `https://example.com/foo/${sourceName}`,
+        actor: "actor1"
+      });
+
+      const tree = createDirectoryNode("root", "", []);
+
+      addToTree(tree, source1, "http://example.com/");
+      const childNode = getChildNode(tree, 0, 0, 0);
+      expect(childNode.name).toEqual(sourceName);
+      expect(formatTree(tree)).toMatchSnapshot();
+    });
+
+    it("name does not include query params", () => {
+      const sourceName = "name.js?bar=3";
+
+      const source1 = createSource({
+        url: `https://example.com/foo/${sourceName}`,
+        actor: "actor1"
+      });
+
+      const tree = createDirectoryNode("root", "", []);
+
+      addToTree(tree, source1, "http://example.com/");
+      expect(formatTree(tree)).toMatchSnapshot();
     });
 
     it("does not attempt to add two of the same directory", () => {
