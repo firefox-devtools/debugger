@@ -115,13 +115,12 @@ class SourcesTree extends Component<Props, State> {
     }
 
     if (nextProps.shownSource && nextProps.shownSource != shownSource) {
-      const listItems = getDirectories(nextProps.shownSource, sourceTree);
-
-      if (listItems && listItems[0]) {
-        this.selectItem(listItems[0]);
-      }
-
-      return this.setState({ listItems });
+      // const listItems = getDirectories(nextProps.shownSource, sourceTree);
+      //
+      // if (listItems && listItems[0]) {
+      //   this.selectItem(listItems[0]);
+      // }
+      // return this.setState({ listItems });
     }
 
     if (
@@ -129,7 +128,7 @@ class SourcesTree extends Component<Props, State> {
       nextProps.selectedSource != selectedSource
     ) {
       const highlightItems = getDirectories(
-        getRawSourceURL(nextProps.selectedSource.url),
+        nextProps.selectedSource,
         sourceTree
       );
 

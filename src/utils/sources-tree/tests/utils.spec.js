@@ -154,41 +154,6 @@ describe("sources tree", () => {
     });
   });
 
-  describe("getUrl", () => {
-    it("handles normal url with http and https for filename", function() {
-      const urlObject = getURL("https://a/b.js");
-      expect(urlObject.filename).toBe("b.js");
-
-      const urlObject2 = getURL("http://a/b.js");
-      expect(urlObject2.filename).toBe("b.js");
-    });
-
-    it("handles url with querystring for filename", function() {
-      const urlObject = getURL("https://a/b.js?key=randomeKey");
-      expect(urlObject.filename).toBe("b.js");
-    });
-
-    it("handles url with '#' for filename", function() {
-      const urlObject = getURL("https://a/b.js#specialSection");
-      expect(urlObject.filename).toBe("b.js");
-    });
-
-    it("handles url with no filename for filename", function() {
-      const urlObject = getURL("https://a/c");
-      expect(urlObject.filename).toBe("(index)");
-    });
-
-    it("separates resources by protocol and host", () => {
-      const urlObject = getURL("moz-extension://xyz/123");
-      expect(urlObject.group).toBe("moz-extension://xyz");
-    });
-
-    it("creates a group name for webpack", () => {
-      const urlObject = getURL("webpack://src/component.jsx");
-      expect(urlObject.group).toBe("webpack://");
-    });
-  });
-
   describe("isNotJavaScript", () => {
     it("js file", () => {
       const source = { url: "http://example.com/foo.js" };
