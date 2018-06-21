@@ -15,7 +15,7 @@ import { CloseButton } from "../shared/Button";
 import { truncateMiddleText } from "../../utils/text";
 
 import type { List } from "immutable";
-import type { SourceRecord } from "../../types";
+import type { Source } from "../../types";
 
 import actions from "../../actions";
 
@@ -37,17 +37,17 @@ import {
 
 import classnames from "classnames";
 
-type SourcesList = List<SourceRecord>;
+type SourcesList = List<Source>;
 
 type Props = {
   tabSources: SourcesList,
-  selectSpecificSource: Object => void,
-  selectedSource: SourceRecord,
+  selectSpecificSource: string => void,
+  selectedSource: Source,
   closeTab: string => void,
   closeTabs: (List<string>) => void,
   togglePrettyPrint: string => void,
   showSource: string => void,
-  source: SourceRecord,
+  source: Source,
   activeSearch: string
 };
 
@@ -67,10 +67,10 @@ class Tab extends PureComponent<Props> {
       selectedSource
     } = this.props;
 
-    const otherTabs = tabSources.filter(t => t.get("id") !== tab);
-    const sourceTab = tabSources.find(t => t.get("id") == tab);
-    const tabURLs = tabSources.map(t => t.get("url"));
-    const otherTabURLs = otherTabs.map(t => t.get("url"));
+    const otherTabs = tabSources.filter(t => t.id !== tab);
+    const sourceTab = tabSources.find(t => t.id == tab);
+    const tabURLs = tabSources.map(t => t.url);
+    const otherTabURLs = otherTabs.map(t => t.url);
 
     if (!sourceTab) {
       return;
@@ -82,7 +82,7 @@ class Tab extends PureComponent<Props> {
       {
         item: {
           ...tabMenuItems.closeTab,
-          click: () => closeTab(sourceTab.get("url"))
+          click: () => closeTab(sourceTab.url)
         }
       },
       {
@@ -96,7 +96,7 @@ class Tab extends PureComponent<Props> {
         item: {
           ...tabMenuItems.closeTabsToEnd,
           click: () => {
-            const tabIndex = tabSources.findIndex(t => t.get("id") == tab);
+            const tabIndex = tabSources.findIndex(t => t.id == tab);
             closeTabs(tabURLs.filter((t, i) => i > tabIndex));
           }
         },
@@ -111,14 +111,14 @@ class Tab extends PureComponent<Props> {
       {
         item: {
           ...tabMenuItems.copyToClipboard,
-          disabled: selectedSource.get("id") !== tab,
+          disabled: selectedSource.id !== tab,
           click: () => copyToTheClipboard(sourceTab.text)
         }
       },
       {
         item: {
           ...tabMenuItems.copySourceUri2,
-          click: () => copyToTheClipboard(getRawSourceURL(sourceTab.get("url")))
+          click: () => copyToTheClipboard(getRawSourceURL(sourceTab.url))
         }
       }
     ];
@@ -158,7 +158,7 @@ class Tab extends PureComponent<Props> {
     const sourceId = source.id;
     const active =
       selectedSource &&
-      sourceId == selectedSource.get("id") &&
+      sourceId == selectedSource.id &&
       (!this.isProjectSearchEnabled() && !this.isSourceSearchEnabled());
     const isPrettyCode = isPretty(source);
 

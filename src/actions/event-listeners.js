@@ -90,7 +90,7 @@ function formatListeners(state, listeners) {
     return {
       selector: l.node.selector,
       type: l.type,
-      sourceId: getSourceByURL(state, l.function.location.url).get("id"),
+      sourceId: getSourceByURL(state, l.function.location.url).id,
       line: l.function.location.line
     };
   });

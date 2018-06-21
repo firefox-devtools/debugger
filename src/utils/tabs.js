@@ -4,10 +4,9 @@
 
 // @flow
 
-import type { List } from "immutable";
-import type { SourceRecord } from "../types";
+import type { Source } from "../types";
 
-type SourcesList = List<SourceRecord>;
+type SourcesList = Source[];
 /*
  * Finds the hidden tabs by comparing the tabs' top offset.
  * hidden tabs will have a great top offset.

@@ -4,7 +4,7 @@
 
 // @flow
 
-import { getFrames, getSymbols, getSource } from "../../selectors";
+import { getFrames, getSymbols, getSourceFromId } from "../../selectors";
 import { findClosestFunction } from "../../utils/ast";
 
 import type { Frame } from "../../types";
@@ -37,7 +37,7 @@ export function mapDisplayNames(
   getState: () => State
 ): Frame[] {
   return frames.map(frame => {
-    const source = getSource(getState(), frame.location.sourceId);
+    const source = getSourceFromId(getState(), frame.location.sourceId);
     const symbols = getSymbols(getState(), source);
 
     if (!symbols || !symbols.functions) {

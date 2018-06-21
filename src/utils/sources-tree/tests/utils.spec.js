@@ -3,10 +3,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-import { createSourceRecord } from "../../../reducers/sources";
+import { createSource } from "../../../reducers/sources";
 
 import {
-  createNode,
+  createDirectoryNode,
   getRelativePath,
   isExactUrlMatch,
   isDirectory,
@@ -42,17 +42,17 @@ describe("sources tree", () => {
   describe("isDirectory", () => {
     it("identifies directories correctly", () => {
       const sources = [
-        createSourceRecord({
+        createSource({
           url: "http://example.com/a.js",
           actor: "actor1"
         }),
-        createSourceRecord({
+        createSource({
           url: "http://example.com/b/c/d.js",
           actor: "actor2"
         })
       ];
 
-      const tree = createNode("root", "", []);
+      const tree = createDirectoryNode("root", "", []);
       sources.forEach(source => addToTree(tree, source, "http://example.com/"));
       sortEntireTree(tree);
       const [bFolderNode, aFileNode] = tree.contents[0].contents;
@@ -88,22 +88,22 @@ describe("sources tree", () => {
 
   describe("getDirectories", () => {
     it("gets a source's ancestor directories", function() {
-      const source1 = createSourceRecord({
+      const source1 = createSource({
         url: "http://a/b.js",
         actor: "actor1"
       });
 
-      const source2 = createSourceRecord({
+      const source2 = createSource({
         url: "http://a/c.js",
         actor: "actor1"
       });
 
-      const source3 = createSourceRecord({
+      const source3 = createSource({
         url: "http://b/c.js",
         actor: "actor1"
       });
 
-      const tree = createNode("root", "", []);
+      const tree = createDirectoryNode("root", "", []);
       addToTree(tree, source1, "http://a/");
       addToTree(tree, source2, "http://a/");
       addToTree(tree, source3, "http://a/");
@@ -114,17 +114,17 @@ describe("sources tree", () => {
     });
 
     it("handles '?' in target url", function() {
-      const source1 = createSourceRecord({
+      const source1 = createSource({
         url: "http://a/b.js",
         actor: "actor1"
       });
 
-      const source2 = createSourceRecord({
+      const source2 = createSource({
         url: "http://b/b.js",
         actor: "actor1"
       });
 
-      const tree = createNode("root", "", []);
+      const tree = createDirectoryNode("root", "", []);
       addToTree(tree, source1, "http://a/");
       addToTree(tree, source2, "http://a/");
       const paths = getDirectories("http://a/b.js?key=hi", tree);
@@ -134,17 +134,17 @@ describe("sources tree", () => {
     });
 
     it("handles 'https' in target url", function() {
-      const source1 = createSourceRecord({
+      const source1 = createSource({
         url: "https://a/b.js",
         actor: "actor1"
       });
 
-      const source2 = createSourceRecord({
+      const source2 = createSource({
         url: "https://b/b.js",
         actor: "actor1"
       });
 
-      const tree = createNode("root", "", []);
+      const tree = createDirectoryNode("root", "", []);
       addToTree(tree, source1, "http://a/");
       addToTree(tree, source2, "http://a/");
       const paths = getDirectories("https://a/b.js", tree);

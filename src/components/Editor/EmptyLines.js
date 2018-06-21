@@ -5,11 +5,11 @@
 import { connect } from "react-redux";
 import { Component } from "react";
 import { getSelectedSource, getEmptyLines } from "../../selectors";
-import type { SourceRecord } from "../../types";
+import type { Source } from "../../types";
 import { toEditorLine } from "../../utils/editor";
 
 type props = {
-  selectedSource: SourceRecord,
+  selectedSource: Source,
   editor: Object,
   emptyLines: Object
 };
@@ -36,7 +36,7 @@ class EmptyLines extends Component {
 
     editor.codeMirror.operation(() => {
       emptyLines.forEach(emptyLine => {
-        const line = toEditorLine(selectedSource.get("id"), emptyLine);
+        const line = toEditorLine(selectedSource.id, emptyLine);
         editor.codeMirror.removeLineClass(line, "line", "empty-line");
       });
     });
@@ -50,7 +50,7 @@ class EmptyLines extends Component {
     }
     editor.codeMirror.operation(() => {
       emptyLines.forEach(emptyLine => {
-        const line = toEditorLine(selectedSource.get("id"), emptyLine);
+        const line = toEditorLine(selectedSource.id, emptyLine);
         editor.codeMirror.addLineClass(line, "line", "empty-line");
       });
     });

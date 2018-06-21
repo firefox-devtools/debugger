@@ -6,8 +6,7 @@ import {
   createStore,
   selectors,
   actions,
-  makeSource,
-  makeSourceRecord
+  makeSource
 } from "../../../utils/test-head";
 
 import {
@@ -24,7 +23,7 @@ describe("breakpoints", () => {
       sourceUrl: "http://localhost:8000/examples/a"
     };
     await dispatch(actions.newSource(makeSource("a")));
-    await dispatch(actions.loadSourceText(makeSourceRecord("a")));
+    await dispatch(actions.loadSourceText(makeSource("a")));
     await dispatch(actions.addBreakpoint(loc1));
 
     const bps = selectors.getBreakpoints(getState());
@@ -42,7 +41,7 @@ describe("breakpoints", () => {
     };
 
     await dispatch(actions.newSource(makeSource("a")));
-    await dispatch(actions.loadSourceText(makeSourceRecord("a")));
+    await dispatch(actions.loadSourceText(makeSource("a")));
 
     await dispatch(actions.addBreakpoint(loc1));
     let bps = selectors.getBreakpoints(getState());
@@ -69,7 +68,7 @@ describe("breakpoints", () => {
       const { dispatch, getState } = createStore(correctedThreadClient);
 
       await dispatch(actions.newSource(makeSource("a")));
-      await dispatch(actions.loadSourceText(makeSourceRecord("a")));
+      await dispatch(actions.loadSourceText(makeSource("a")));
 
       await dispatch(actions.addBreakpoint(invalidLocation));
       const state = getState();
@@ -96,10 +95,10 @@ describe("breakpoints", () => {
     };
 
     await dispatch(actions.newSource(makeSource("a")));
-    await dispatch(actions.loadSourceText(makeSourceRecord("a")));
+    await dispatch(actions.loadSourceText(makeSource("a")));
 
     await dispatch(actions.newSource(makeSource("b")));
-    await dispatch(actions.loadSourceText(makeSourceRecord("b")));
+    await dispatch(actions.loadSourceText(makeSource("b")));
 
     await dispatch(actions.addBreakpoint(loc1));
     await dispatch(actions.addBreakpoint(loc2));
@@ -125,10 +124,10 @@ describe("breakpoints", () => {
     };
 
     await dispatch(actions.newSource(makeSource("a")));
-    await dispatch(actions.loadSourceText(makeSourceRecord("a")));
+    await dispatch(actions.loadSourceText(makeSource("a")));
 
     await dispatch(actions.newSource(makeSource("b")));
-    await dispatch(actions.loadSourceText(makeSourceRecord("b")));
+    await dispatch(actions.loadSourceText(makeSource("b")));
 
     await dispatch(actions.addBreakpoint(loc1));
     await dispatch(actions.addBreakpoint(loc2));
@@ -147,7 +146,7 @@ describe("breakpoints", () => {
     };
 
     await dispatch(actions.newSource(makeSource("a")));
-    await dispatch(actions.loadSourceText(makeSourceRecord("a")));
+    await dispatch(actions.loadSourceText(makeSource("a")));
 
     await dispatch(actions.addBreakpoint(loc));
     await dispatch(actions.disableBreakpoint(loc));
@@ -175,10 +174,10 @@ describe("breakpoints", () => {
     };
 
     await dispatch(actions.newSource(makeSource("a")));
-    await dispatch(actions.loadSourceText(makeSourceRecord("a")));
+    await dispatch(actions.loadSourceText(makeSource("a")));
 
     await dispatch(actions.newSource(makeSource("b")));
-    await dispatch(actions.loadSourceText(makeSourceRecord("b")));
+    await dispatch(actions.loadSourceText(makeSource("b")));
 
     await dispatch(actions.addBreakpoint(loc1));
     await dispatch(actions.addBreakpoint(loc2));
@@ -198,7 +197,7 @@ describe("breakpoints", () => {
     const { dispatch, getState } = createStore(simpleMockThreadClient);
 
     await dispatch(actions.newSource(makeSource("foo1")));
-    await dispatch(actions.loadSourceText(makeSourceRecord("foo1")));
+    await dispatch(actions.loadSourceText(makeSource("foo1")));
 
     await dispatch(actions.selectLocation({ sourceId: "foo1", line: 1 }));
 
@@ -237,7 +236,7 @@ describe("breakpoints", () => {
     const { dispatch, getState } = createStore(simpleMockThreadClient);
 
     await dispatch(actions.newSource(makeSource("foo1")));
-    await dispatch(actions.loadSourceText(makeSourceRecord("foo1")));
+    await dispatch(actions.loadSourceText(makeSource("foo1")));
 
     await dispatch(actions.selectLocation({ sourceId: "foo1", line: 1 }));
 
@@ -283,7 +282,7 @@ describe("breakpoints", () => {
     };
 
     await dispatch(actions.newSource(makeSource("a")));
-    await dispatch(actions.loadSourceText(makeSourceRecord("a")));
+    await dispatch(actions.loadSourceText(makeSource("a")));
 
     await dispatch(actions.addBreakpoint(loc));
 
@@ -338,7 +337,7 @@ describe("breakpoints", () => {
 
     const source = makeSource("a.js");
     await dispatch(actions.newSource(source));
-    await dispatch(actions.loadSourceText(makeSourceRecord("a.js")));
+    await dispatch(actions.loadSourceText(makeSource("a.js")));
 
     await dispatch(actions.addBreakpoint(loc));
     await dispatch(actions.togglePrettyPrint("a.js"));

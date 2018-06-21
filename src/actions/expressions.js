@@ -9,7 +9,7 @@ import {
   getExpressions,
   getSelectedFrame,
   getSelectedFrameId,
-  getSource,
+  getSourceFromId,
   getSelectedSource,
   getSelectedScopeMappings
 } from "../selectors";
@@ -127,15 +127,15 @@ function evaluateExpression(expression: Expression) {
 
     if (frame) {
       const { location } = frame;
-      const source = getSource(getState(), location.sourceId);
-      const sourceId = source.get("id");
+      const source = getSourceFromId(getState(), location.sourceId);
+      const sourceId = source.id;
 
       const selectedSource = getSelectedSource(getState());
 
       if (
         selectedSource &&
         !isGeneratedId(sourceId) &&
-        !isGeneratedId(selectedSource.get("id"))
+        !isGeneratedId(selectedSource.id)
       ) {
         input = await dispatch(getMappedExpression(input));
       }

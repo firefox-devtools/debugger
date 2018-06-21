@@ -28,14 +28,8 @@ export type State = {
   pause: PauseState,
   pendingBreakpoints: Record<PendingBreakpointsState>,
   projectTextSearch: Record<ProjectTextSearchState>,
-  sources: Record<SourcesState>,
+  sources: SourcesState,
   ui: Record<UIState>
-};
-
-export type SelectedLocation = {
-  sourceId: string,
-  line?: number,
-  column?: number
 };
 
 export type PendingSelectedLocation = {

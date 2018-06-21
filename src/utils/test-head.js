@@ -16,7 +16,6 @@ import actions from "../actions";
 import * as selectors from "../selectors";
 import { getHistory } from "../test/utils/history";
 import configureStore from "../actions/utils/create-store";
-import * as I from "immutable";
 
 /**
  * @memberof utils/test-head
@@ -64,10 +63,6 @@ function makeSource(name: string, props: any = {}) {
 function makeOriginalSource(name: string, props?: Object) {
   const source = makeSource(name, props);
   return { ...source, id: `${name}/originalSource` };
-}
-
-function makeSourceRecord(name: string, props: any = {}) {
-  return I.Map(makeSource(name, props));
 }
 
 function makeFuncLocation(startLine, endLine) {
@@ -128,7 +123,6 @@ export {
   makeFrame,
   makeSource,
   makeOriginalSource,
-  makeSourceRecord,
   makeSymbolDeclaration,
   waitForState,
   getHistory

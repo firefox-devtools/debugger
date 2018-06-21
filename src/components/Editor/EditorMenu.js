@@ -49,7 +49,7 @@ function getMenuItems(
   }
 ) {
   // variables
-  const hasSourceMap = !!selectedSource.get("sourceMapURL");
+  const hasSourceMap = !!selectedSource.sourceMapURL;
   const isOriginal = isOriginalId(selectedLocation.sourceId);
   const isPrettyPrinted = isPretty(selectedSource);
   const isPrettified = isPrettyPrinted || hasPrettyPrint;
@@ -120,7 +120,7 @@ function getMenuItems(
     click: () => copyToTheClipboard(getRawSourceURL(selectedSource.url))
   };
 
-  const sourceId = selectedSource.get("id");
+  const sourceId = selectedSource.id;
   const sourceLine = toSourceLine(sourceId, line);
 
   const functionText = getFunctionText(sourceLine);
@@ -163,7 +163,7 @@ function getMenuItems(
     label: toggleBlackBoxLabel,
     accesskey: blackboxKey,
     disabled: isOriginal || isPrettyPrinted || hasSourceMap,
-    click: () => toggleBlackBox(selectedSource.toJS())
+    click: () => toggleBlackBox(selectedSource)
   };
 
   const watchExpressionItem = {

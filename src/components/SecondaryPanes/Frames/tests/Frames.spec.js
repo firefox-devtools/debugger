@@ -4,7 +4,6 @@
 
 import React from "react";
 import { shallow } from "enzyme";
-import { Map } from "immutable";
 import Frames from "../index.js";
 // eslint-disable-next-line
 import { formatCallStackFrames } from "../../../../selectors/getCallStackFrames";
@@ -102,15 +101,15 @@ describe("Frames", () => {
         { id: 8, location: { sourceId: "2" } }
       ];
 
-      const sources = Map({
-        1: Map({ id: "1" }),
-        2: Map({ id: "2", isBlackBoxed: true })
-      });
+      const sources = {
+        1: { id: "1" },
+        2: { id: "2", isBlackBoxed: true }
+      };
 
       const processedFrames = formatCallStackFrames(
         frames,
         sources,
-        sources.get("1")
+        sources["1"]
       );
       const selectedFrame = frames[0];
 

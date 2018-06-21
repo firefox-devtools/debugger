@@ -10,7 +10,7 @@
  */
 
 import { findSourceMatches } from "../workers/search";
-import { getSources, getSource, hasPrettySource } from "../selectors";
+import { getSource, hasPrettySource, getSourceList } from "../selectors";
 import { isThirdParty } from "../utils/source";
 import { loadSourceText } from "./sources/loadSourceText";
 import { statusType } from "../reducers/project-text-search";
@@ -57,13 +57,9 @@ export function searchSources(query: string) {
     await dispatch(clearSearchResults());
     await dispatch(addSearchQuery(query));
     dispatch(updateSearchStatus(statusType.fetching));
-    const sources = getSources(getState());
-    const validSources = sources
-      .valueSeq()
-      .filter(
-        source =>
-          !hasPrettySource(getState(), source.id) && !isThirdParty(source)
-      );
+    const validSources = getSourceList(getState()).filter(
+      source => !hasPrettySource(getState(), source.id) && !isThirdParty(source)
+    );
     for (const source of validSources) {
       await dispatch(loadSourceText(source));
       await dispatch(searchSource(source.id, query));
@@ -74,15 +70,15 @@ export function searchSources(query: string) {
 
 export function searchSource(sourceId: string, query: string) {
   return async ({ dispatch, getState }: ThunkArgs) => {
-    const sourceRecord = getSource(getState(), sourceId);
-    if (!sourceRecord) {
+    const source = getSource(getState(), sourceId);
+    if (!source) {
       return;
     }
 
-    const matches = await findSourceMatches(sourceRecord.toJS(), query);
+    const matches = await findSourceMatches(source, query);
     if (!matches.length) {
       return;
     }
-    dispatch(addSearchResult(sourceRecord.id, sourceRecord.url, matches));
+    dispatch(addSearchResult(source.id, source.url, matches));
   };
 }

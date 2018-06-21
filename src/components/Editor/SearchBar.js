@@ -24,7 +24,7 @@ import { removeOverlay } from "../../utils/editor";
 import { scrollList } from "../../utils/result-list";
 import classnames from "classnames";
 
-import type { SourceRecord } from "../../types";
+import type { Source } from "../../types";
 import type { ActiveSearchType } from "../../reducers/ui";
 import type { Modifiers, SearchResults } from "../../reducers/file-search";
 
@@ -56,7 +56,7 @@ type State = {
 
 type Props = {
   editor?: SourceEditor,
-  selectedSource?: SourceRecord,
+  selectedSource?: Source,
   searchOn?: boolean,
   setActiveSearch: (?ActiveSearchType) => any,
   closeFileSearch: SourceEditor => void,
@@ -169,7 +169,7 @@ class SearchBar extends Component<Props, State> {
 
   doSearch = (query: string) => {
     const { selectedSource } = this.props;
-    if (!selectedSource || !selectedSource.get("text")) {
+    if (!selectedSource || !selectedSource.text) {
       return;
     }
 

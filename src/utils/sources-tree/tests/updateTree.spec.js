@@ -2,16 +2,16 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-import { Map } from "immutable";
-import { createSourceRecord } from "../../../reducers/sources";
+import { createSource } from "../../../reducers/sources";
 import { updateTree, createTree } from "../index";
 
-function createSourcesMap(sources) {
-  const msources = sources.map((s, i) => createSourceRecord(s));
-  let sourcesMap = Map();
-  msources.forEach(s => {
-    sourcesMap = sourcesMap.setIn([s.id], s);
-  });
+type RawSource = {| url: string, id: string |};
+
+function createSourcesMap(sources: RawSource[]) {
+  const sourcesMap = sources.reduce((map, source) => {
+    map[source.id] = createSource(source);
+    return map;
+  }, {});
 
   return sourcesMap;
 }
