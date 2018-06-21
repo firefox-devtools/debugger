@@ -54,7 +54,7 @@ if (isDevelopment()) {
   pref("devtools.debugger.features.replay", true);
   pref("devtools.debugger.features.pause-points", true);
   pref("devtools.debugger.features.component-pane", false);
-  pref("devtools.debugger.features.skip-pausing", false);
+  pref("devtools.debugger.features.skip-pausing", true);
 }
 
 export const prefs = new PrefsHelper("devtools", {
