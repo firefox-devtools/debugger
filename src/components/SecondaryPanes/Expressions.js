@@ -6,14 +6,20 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import classnames from "classnames";
+import { features } from "../../utils/prefs";
 import { ObjectInspector } from "devtools-reps";
 
 import actions from "../../actions";
-import { getExpressions, getExpressionError } from "../../selectors";
+import {
+  getExpressions,
+  getExpressionError,
+  getAutocompleteMatchset
+} from "../../selectors";
 import { getValue } from "../../utils/expressions";
 import { createObjectClient } from "../../client/firefox";
 
 import { CloseButton } from "../shared/Button";
+import { debounce } from "lodash";
 
 import type { List } from "immutable";
 import type { Expression } from "../../types";
@@ -37,7 +43,10 @@ type Props = {
   deleteExpression: (expression: Expression) => void,
   openLink: (url: string) => void,
   showInput: boolean,
-  onExpressionAdded: () => void
+  onExpressionAdded: () => void,
+  autocomplete: (input: string, cursor: number) => Promise<any>,
+  clearAutocomplete: () => void,
+  autocompleteMatches: string[]
 };
 
 class Expressions extends Component<Props, State> {
@@ -80,9 +89,15 @@ class Expressions extends Component<Props, State> {
 
   shouldComponentUpdate(nextProps, nextState) {
     const { editing, inputValue, focused } = this.state;
-    const { expressions, expressionError, showInput } = this.props;
+    const {
+      expressions,
+      expressionError,
+      showInput,
+      autocompleteMatches
+    } = this.props;
 
     return (
+      autocompleteMatches !== nextProps.autocompleteMatches ||
       expressions !== nextProps.expressions ||
       expressionError !== nextProps.expressionError ||
       editing !== nextState.editing ||
@@ -125,8 +140,17 @@ class Expressions extends Component<Props, State> {
   }
 
   handleChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
-    this.setState({ inputValue: e.target.value });
+    const target = e.target;
+    if (features.autocompleteExpression) {
+      this.findAutocompleteMatches(target.value, target.selectionStart);
+    }
+    this.setState({ inputValue: target.value });
   };
+
+  findAutocompleteMatches = debounce((value, selectionStart) => {
+    const { autocomplete } = this.props;
+    autocomplete(value, selectionStart);
+  }, 250);
 
   handleKeyDown = (e: SyntheticKeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Escape") {
@@ -175,6 +199,8 @@ class Expressions extends Component<Props, State> {
     if (!this.props.expressionError) {
       this.hideInput();
     }
+
+    this.props.clearAutocomplete();
   };
 
   renderExpression = (expression: Expression, index: number) => {
@@ -226,6 +252,23 @@ class Expressions extends Component<Props, State> {
     );
   };
 
+  renderAutoCompleteMatches() {
+    if (!features.autocompleteExpression) {
+      return null;
+    }
+    const { autocompleteMatches } = this.props;
+    if (autocompleteMatches) {
+      return (
+        <datalist id="autocomplete-matches">
+          {autocompleteMatches.map((match, index) => {
+            return <option key={index} value={match} />;
+          })}
+        </datalist>
+      );
+    }
+    return <datalist id="autocomplete-matches" />;
+  }
+
   renderNewExpressionInput() {
     const { expressionError, showInput } = this.props;
     const { editing, inputValue, focused } = this.state;
@@ -250,7 +293,11 @@ class Expressions extends Component<Props, State> {
             autoFocus={showInput}
             value={!editing ? inputValue : ""}
             ref={c => (this._input = c)}
+            {...features.autocompleteExpression && {
+              list: "autocomplete-matches"
+            }}
           />
+          {this.renderAutoCompleteMatches()}
           <input type="submit" style={{ display: "none" }} />
         </form>
       </li>
@@ -282,7 +329,11 @@ class Expressions extends Component<Props, State> {
             onFocus={this.onFocus}
             value={editing ? inputValue : expression.input}
             ref={c => (this._input = c)}
+            {...features.autocompleteExpression && {
+              list: "autocomplete-matches"
+            }}
           />
+          {this.renderAutoCompleteMatches()}
           <input type="submit" style={{ display: "none" }} />
         </form>
       </span>
@@ -301,9 +352,12 @@ class Expressions extends Component<Props, State> {
   }
 }
 
-const mapStateToProps = state => ({
-  expressions: getExpressions(state),
-  expressionError: getExpressionError(state)
-});
+const mapStateToProps = state => {
+  return {
+    autocompleteMatches: getAutocompleteMatchset(state),
+    expressions: getExpressions(state),
+    expressionError: getExpressionError(state)
+  };
+};
 
 export default connect(mapStateToProps, actions)(Expressions);

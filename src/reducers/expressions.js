@@ -23,14 +23,16 @@ import type { Record } from "../utils/makeRecord";
 export type ExpressionState = {
   expressions: List<Expression>,
   expressionError: boolean,
-  autocompleteMatches: Map<string, List<string>>
+  autocompleteMatches: Map<string, List<string>>,
+  currentAutocompleteInput: string | null
 };
 
 export const createExpressionState = makeRecord(
   ({
     expressions: List(restoreExpressions()),
     expressionError: false,
-    autocompleteMatches: Map({})
+    autocompleteMatches: Map({}),
+    currentAutocompleteInput: null
   }: ExpressionState)
 );
 
@@ -89,10 +91,15 @@ function update(
 
     case "AUTOCOMPLETE":
       const { matchProp, matches } = action.result;
-      return state.updateIn(
-        ["autocompleteMatches", matchProp],
-        list => matches
-      );
+
+      return state
+        .updateIn(["autocompleteMatches", matchProp], list => matches)
+        .set("currentAutocompleteInput", matchProp);
+
+    case "CLEAR_AUTOCOMPLETE":
+      return state
+        .updateIn(["autocompleteMatches", ""], list => [])
+        .set("currentAutocompleteInput", "");
   }
 
   return state;
@@ -179,7 +186,8 @@ export function getExpression(state: OuterState, input: string) {
   return getExpressions(state).find(exp => exp.input == input);
 }
 
-export function getAutocompleteMatchset(state: OuterState, input: string) {
+export function getAutocompleteMatchset(state: OuterState) {
+  const input = state.expressions.get("currentAutocompleteInput");
   return getAutocompleteMatches(state).get(input);
 }
 
