@@ -141,10 +141,10 @@ class Expressions extends Component<Props, State> {
 
   handleChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
     const target = e.target;
-    this.setState({ inputValue: target.value });
     if (features.autocompleteExpression) {
       this.findAutocompleteMatches(target.value, target.selectionStart);
     }
+    this.setState({ inputValue: target.value });
   };
 
   findAutocompleteMatches = debounce((value, selectionStart) => {
@@ -253,8 +253,11 @@ class Expressions extends Component<Props, State> {
   };
 
   renderAutoCompleteMatches() {
+    if (!features.autocompleteExpression) {
+      return null;
+    }
     const { autocompleteMatches } = this.props;
-    if (features.autocompleteExpression && autocompleteMatches) {
+    if (autocompleteMatches) {
       return (
         <datalist id="autocomplete-matches">
           {autocompleteMatches.map((match, index) => {
@@ -290,7 +293,9 @@ class Expressions extends Component<Props, State> {
             autoFocus={showInput}
             value={!editing ? inputValue : ""}
             ref={c => (this._input = c)}
-            list="autocomplete-matches"
+            {...features.autocompleteExpression && {
+              list: "autocomplete-matches"
+            }}
           />
           {this.renderAutoCompleteMatches()}
           <input type="submit" style={{ display: "none" }} />
@@ -324,7 +329,9 @@ class Expressions extends Component<Props, State> {
             onFocus={this.onFocus}
             value={editing ? inputValue : expression.input}
             ref={c => (this._input = c)}
-            list="autocomplete-matches"
+            {...features.autocompleteExpression && {
+              list: "autocomplete-matches"
+            }}
           />
           {this.renderAutoCompleteMatches()}
           <input type="submit" style={{ display: "none" }} />

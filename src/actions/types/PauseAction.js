@@ -78,6 +78,9 @@ export type PauseAction =
       +input: string
     |}
   | {|
+      +type: "CLEAR_AUTOCOMPLETE"
+    |}
+  | {|
       +type: "CLEAR_EXPRESSION_ERROR"
     |}
   | {|
