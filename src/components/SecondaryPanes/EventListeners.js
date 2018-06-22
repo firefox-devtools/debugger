@@ -104,8 +104,7 @@ const mapStateToProps = state => {
       ...listener,
       breakpoint: getBreakpoint(state, {
         sourceId: listener.sourceId,
-        line: listener.line,
-        column: null
+        line: listener.line
       })
     };
   });

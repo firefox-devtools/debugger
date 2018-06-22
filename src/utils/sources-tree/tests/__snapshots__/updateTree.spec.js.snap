@@ -2,14 +2,17 @@
 
 exports[`calls updateTree.js adds one source 1`] = `
 "{
+  \\"type\\": \\"directory\\",
   \\"name\\": \\"root\\",
   \\"path\\": \\"\\",
   \\"contents\\": [
     {
+      \\"type\\": \\"directory\\",
       \\"name\\": \\"davidwalsh.name\\",
       \\"path\\": \\"davidwalsh.name\\",
       \\"contents\\": [
         {
+          \\"type\\": \\"source\\",
           \\"name\\": \\"(index)\\",
           \\"path\\": \\"https://davidwalsh.name/\\",
           \\"contents\\": {
@@ -23,6 +26,7 @@ exports[`calls updateTree.js adds one source 1`] = `
           }
         },
         {
+          \\"type\\": \\"source\\",
           \\"name\\": \\"source1.js\\",
           \\"path\\": \\"davidwalsh.name/source1.js\\",
           \\"contents\\": {
@@ -43,14 +47,17 @@ exports[`calls updateTree.js adds one source 1`] = `
 
 exports[`calls updateTree.js adds two sources 1`] = `
 "{
+  \\"type\\": \\"directory\\",
   \\"name\\": \\"root\\",
   \\"path\\": \\"\\",
   \\"contents\\": [
     {
+      \\"type\\": \\"directory\\",
       \\"name\\": \\"davidwalsh.name\\",
       \\"path\\": \\"davidwalsh.name\\",
       \\"contents\\": [
         {
+          \\"type\\": \\"source\\",
           \\"name\\": \\"(index)\\",
           \\"path\\": \\"https://davidwalsh.name/\\",
           \\"contents\\": {
@@ -64,6 +71,7 @@ exports[`calls updateTree.js adds two sources 1`] = `
           }
         },
         {
+          \\"type\\": \\"source\\",
           \\"name\\": \\"source1.js\\",
           \\"path\\": \\"davidwalsh.name/source1.js\\",
           \\"contents\\": {
@@ -77,6 +85,7 @@ exports[`calls updateTree.js adds two sources 1`] = `
           }
         },
         {
+          \\"type\\": \\"source\\",
           \\"name\\": \\"source2.js\\",
           \\"path\\": \\"davidwalsh.name/source2.js\\",
           \\"contents\\": {
@@ -97,14 +106,17 @@ exports[`calls updateTree.js adds two sources 1`] = `
 
 exports[`calls updateTree.js shows all the sources 1`] = `
 "{
+  \\"type\\": \\"directory\\",
   \\"name\\": \\"root\\",
   \\"path\\": \\"\\",
   \\"contents\\": [
     {
+      \\"type\\": \\"directory\\",
       \\"name\\": \\"davidwalsh.name\\",
       \\"path\\": \\"davidwalsh.name\\",
       \\"contents\\": [
         {
+          \\"type\\": \\"source\\",
           \\"name\\": \\"(index)\\",
           \\"path\\": \\"https://davidwalsh.name/\\",
           \\"contents\\": {
@@ -118,6 +130,7 @@ exports[`calls updateTree.js shows all the sources 1`] = `
           }
         },
         {
+          \\"type\\": \\"source\\",
           \\"name\\": \\"source1.js\\",
           \\"path\\": \\"davidwalsh.name/source1.js\\",
           \\"contents\\": {

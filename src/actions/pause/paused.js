@@ -31,7 +31,7 @@ import type { Pause, Frame } from "../../types";
 import type { ThunkArgs } from "../types";
 
 async function getOriginalSourceForFrame(state, frame: Frame) {
-  return getSources(state).get(frame.location.sourceId);
+  return getSources(state)[frame.location.sourceId];
 }
 /**
  * Debugger has just paused

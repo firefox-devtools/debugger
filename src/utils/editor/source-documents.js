@@ -10,7 +10,7 @@ import { isWasm, getWasmLineNumberFormatter, renderWasmText } from "../wasm";
 import { resizeBreakpointGutter, resizeToggleButton } from "../ui";
 import SourceEditor from "./source-editor";
 
-import type { Source, SourceRecord } from "../../types";
+import type { Source } from "../../types";
 import type { SymbolDeclarations } from "../../workers/parser";
 
 let sourceDocs = {};
@@ -53,12 +53,12 @@ export function updateLineNumberFormat(editor: SourceEditor, sourceId: string) {
   resizeToggleButton(cm);
 }
 
-export function updateDocument(editor: SourceEditor, source: SourceRecord) {
+export function updateDocument(editor: SourceEditor, source: Source) {
   if (!source) {
     return;
   }
 
-  const sourceId = source.get("id");
+  const sourceId = source.id;
   const doc = getDocument(sourceId) || editor.createDocument();
   editor.replaceDocument(doc);
 

@@ -89,7 +89,6 @@ exports[`Expressions should always have unique keys 1`] = `
     >
       <input
         className="input-expression"
-        list="autocomplete-matches"
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -97,9 +96,6 @@ exports[`Expressions should always have unique keys 1`] = `
         placeholder="Add watch expression"
         type="text"
         value=""
-      />
-      <datalist
-        id="autocomplete-matches"
       />
       <input
         style={
@@ -203,7 +199,6 @@ exports[`Expressions should render 1`] = `
     >
       <input
         className="input-expression"
-        list="autocomplete-matches"
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -211,9 +206,6 @@ exports[`Expressions should render 1`] = `
         placeholder="Add watch expression"
         type="text"
         value=""
-      />
-      <datalist
-        id="autocomplete-matches"
       />
       <input
         style={

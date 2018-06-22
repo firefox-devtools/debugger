@@ -27,7 +27,7 @@ function generateDefaults() {
     searchResults: {},
     selectedSymbolType: "functions",
     selectedSource: {
-      get: () => " text text query text"
+      text: " text text query text"
     },
     setFileSearchQuery: msg => msg,
     symbolSearchResults: [],

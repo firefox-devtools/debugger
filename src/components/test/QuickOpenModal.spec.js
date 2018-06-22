@@ -6,7 +6,6 @@
 import React from "react";
 import { shallow, mount } from "enzyme";
 import { QuickOpenModal } from "../QuickOpenModal";
-import * as I from "immutable";
 
 jest.mock("fuzzaldrin-plus");
 
@@ -235,13 +234,15 @@ describe("QuickOpenModal", () => {
           },
           // symbol searching relies on a source being selected.
           // So we dummy out the source and the API.
-          selectedSource: { get: jest.fn(() => true) }
+          selectedSource: { id: "foo", text: "yo" }
         },
         "mount"
       );
+
       wrapper
         .find("input")
         .simulate("change", { target: { value: "@someFunc" } });
+
       expect(filter).toHaveBeenCalledWith([], "someFunc", {
         key: "value",
         maxResults: 1000
@@ -315,7 +316,7 @@ describe("QuickOpenModal", () => {
           enabled: true,
           query: ":34:12",
           searchType: "goto",
-          selectedSource: I.Map({ id: sourceId })
+          selectedSource: { id: sourceId }
         },
         "shallow"
       );
@@ -435,7 +436,7 @@ describe("QuickOpenModal", () => {
       };
       wrapper.find("SearchInput").simulate("keydown", event);
       expect(props.selectLocation).toHaveBeenCalledWith({
-        column: null,
+        column: undefined,
         sourceId: id,
         line: 0
       });
@@ -465,7 +466,7 @@ describe("QuickOpenModal", () => {
       };
       wrapper.find("SearchInput").simulate("keydown", event);
       expect(props.selectLocation).toHaveBeenCalledWith({
-        column: null,
+        column: undefined,
         line: 0,
         sourceId: ""
       });
@@ -503,7 +504,7 @@ describe("QuickOpenModal", () => {
       };
       wrapper.find("SearchInput").simulate("keydown", event);
       expect(props.selectLocation).toHaveBeenCalledWith({
-        column: null,
+        column: undefined,
         line: 7,
         sourceId: ""
       });
@@ -608,7 +609,7 @@ describe("QuickOpenModal", () => {
           enabled: true,
           query: "test",
           searchType: "functions",
-          selectedSource: I.Map({ id: sourceId }),
+          selectedSource: { id: sourceId },
           symbols: {
             functions: [],
             variables: {}
@@ -649,7 +650,7 @@ describe("QuickOpenModal", () => {
           enabled: true,
           query: "test",
           searchType: "variables",
-          selectedSource: I.Map({ id: sourceId }),
+          selectedSource: { id: sourceId },
           symbols: {
             functions: [],
             variables: {}
@@ -680,7 +681,7 @@ describe("QuickOpenModal", () => {
       expect(event.preventDefault).toHaveBeenCalled();
       expect(wrapper.state().selectedIndex).toEqual(2);
       expect(props.selectLocation).toHaveBeenCalledWith({
-        column: null,
+        column: undefined,
         line: 11,
         sourceId: "sourceId"
       });
@@ -694,7 +695,7 @@ describe("QuickOpenModal", () => {
           enabled: true,
           query: "test",
           searchType: "variables",
-          selectedSource: I.Map({ id: sourceId }),
+          selectedSource: { id: sourceId },
           symbols: {
             functions: [],
             variables: {}
@@ -725,7 +726,7 @@ describe("QuickOpenModal", () => {
       expect(event.preventDefault).toHaveBeenCalled();
       expect(wrapper.state().selectedIndex).toEqual(2);
       expect(props.selectLocation).toHaveBeenCalledWith({
-        column: null,
+        column: undefined,
         line: 0,
         sourceId: "sourceId"
       });
@@ -763,7 +764,7 @@ describe("QuickOpenModal", () => {
           enabled: true,
           query: "test",
           searchType: "functions",
-          selectedSource: I.Map({ id: sourceId }),
+          selectedSource: { id: sourceId },
           symbols: {
             functions: [],
             variables: {}
@@ -835,7 +836,7 @@ describe("QuickOpenModal", () => {
             enabled: true,
             query: "test",
             searchType: "other",
-            selectedSource: I.Map({ id: sourceId }),
+            selectedSource: { id: sourceId },
             symbols: {
               functions: [],
               variables: {}

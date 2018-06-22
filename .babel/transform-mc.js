@@ -24,10 +24,11 @@ const VENDORS = [
   "devtools-splitter",
   "devtools-utils",
   "fuzzaldrin-plus",
+  "lodash-move",
   "react-transition-group/Transition",
   "reselect",
   "Svg",
-  "url",
+  "url"
 ];
 
 /**
@@ -66,14 +67,9 @@ module.exports = function({ types: t }) {
         //   -> require("devtools/client/shared/vendor/lodash").escapeRegExp
         if (value.startsWith("lodash/")) {
           const lodashSubModule = value.split("/").pop();
-          path.replaceWith(
-            t.stringLiteral(mappings.lodash)
-          );
+          path.replaceWith(t.stringLiteral(mappings.lodash));
           path.parentPath.replaceWith(
-            t.memberExpression(
-              path.parent,
-              t.identifier(lodashSubModule)
-            )
+            t.memberExpression(path.parent, t.identifier(lodashSubModule))
           );
           return;
         }
@@ -97,10 +93,7 @@ module.exports = function({ types: t }) {
           // Append `.vendored["some-module"]` after the require().
           path.parentPath.replaceWith(
             t.memberExpression(
-              t.memberExpression(
-                path.parent,
-                t.identifier("vendored")
-              ),
+              t.memberExpression(path.parent, t.identifier("vendored")),
               t.stringLiteral(value),
               true
             )

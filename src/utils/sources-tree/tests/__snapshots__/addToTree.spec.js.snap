@@ -35,10 +35,26 @@ exports[`sources-tree addToTree does not attempt to add two of the same file 1`]
 "
 `;
 
+exports[`sources-tree addToTree does not mangle encoded URLs 1`] = `
+" - root path= 
+  - example.com path=example.com 
+    - foo path=example.com/foo 
+      - B9724220.131821496;dc_ver=42.111;sz=468x60;u_sd=2;dc_adk=2020465299;ord=a53rpc;dc_rfl=1,https%3A%2F%2Fdavidwalsh.name%2F$0;xdt=1 path=example.com/foo/B9724220.131821496;dc_ver=42.111;sz=468x60;u_sd=2;dc_adk=2020465299;ord=a53rpc;dc_rfl=1,https%3A%2F%2Fdavidwalsh.name%2F$0;xdt=1 source_id=undefined 
+"
+`;
+
 exports[`sources-tree addToTree excludes javascript: URLs from the tree 1`] = `
 " - root path= 
   - example.com path=example.com 
     - source1.js path=example.com/source1.js source_id=undefined 
+"
+`;
+
+exports[`sources-tree addToTree name does not include query params 1`] = `
+" - root path= 
+  - example.com path=example.com 
+    - foo path=example.com/foo 
+      - name.js path=example.com/foo/name.js source_id=undefined 
 "
 `;
 

@@ -21,6 +21,6 @@ describe("sources reducer", () => {
       // coercing to a Source for the purpose of this test
       source: ((fakeSources.fooSourceActor: any): Source)
     });
-    expect(state.sources.size).toBe(1);
+    expect(Object.keys(state.sources)).toHaveLength(1);
   });
 });

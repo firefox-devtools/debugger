@@ -28,7 +28,7 @@ import { Services } from "devtools-modules";
 const { appinfo } = Services;
 
 import type { SourcesMap } from "../../reducers/sources";
-import type { SourceRecord } from "../../types";
+import type { Source } from "../../types";
 
 const isMacOS = appinfo.OS === "Darwin";
 
@@ -81,7 +81,7 @@ function formatKey(action) {
 
 type Props = {
   sources: SourcesMap,
-  selectedSource: SourceRecord,
+  selectedSource: Source,
   resume: () => void,
   stepIn: () => void,
   stepOut: () => void,
@@ -340,9 +340,13 @@ class CommandBar extends Component<Props> {
 
     return (
       <button
-        className={classnames("command-bar-button", {
-          active: skipPausing
-        })}
+        className={classnames(
+          "command-bar-button",
+          "command-bar-skip-pausing",
+          {
+            active: skipPausing
+          }
+        )}
         title={L10N.getStr("skipPausingTooltip")}
         onClick={toggleSkipPausing}
       >

@@ -4,7 +4,7 @@
 
 // @flow
 
-import type { SourceRecord } from "../types";
+import type { Source } from "../types";
 
 // Used to detect minification for automatic pretty printing
 const SAMPLE_SIZE = 50;
@@ -12,12 +12,12 @@ const INDENT_COUNT_THRESHOLD = 5;
 const CHARACTER_LIMIT = 250;
 const _minifiedCache = new Map();
 
-export function isMinified(source: SourceRecord) {
+export function isMinified(source: Source) {
   if (_minifiedCache.has(source.id)) {
     return _minifiedCache.get(source.id);
   }
 
-  let text = source.get("text");
+  let text = source.text;
   if (!text) {
     return false;
   }

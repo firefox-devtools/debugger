@@ -12,7 +12,7 @@ import {
 } from "../../../utils/test-head";
 const {
   getSource,
-  getSources,
+  getSourceCount,
   getSelectedSource,
   getSourceTabs,
   getSourceMetaData,
@@ -44,9 +44,9 @@ describe("sources", () => {
     );
 
     const selectedSource = getSelectedSource(getState());
-    expect(selectedSource.get("id")).toEqual("foo1");
+    expect(selectedSource.id).toEqual("foo1");
 
-    const source = getSource(getState(), selectedSource.get("id"));
+    const source = getSource(getState(), selectedSource.id);
     expect(source.id).toEqual("foo1");
 
     await waitForState(
@@ -74,8 +74,8 @@ describe("sources", () => {
     dispatch(actions.selectLocation({ sourceId: "foo.js" }));
 
     const tabs = getSourceTabs(getState());
-    expect(tabs.size).toEqual(1);
-    expect(tabs.get(0)).toEqual("http://localhost:8000/examples/foo.js");
+    expect(tabs).toHaveLength(1);
+    expect(tabs[0]).toEqual("http://localhost:8000/examples/foo.js");
   });
 
   it("should select previous tab on tab closed", async () => {
@@ -87,8 +87,8 @@ describe("sources", () => {
     dispatch(actions.selectLocation({ sourceId: "bar.js" }));
     dispatch(actions.selectLocation({ sourceId: "baz.js" }));
     dispatch(actions.closeTab("http://localhost:8000/examples/baz.js"));
-    expect(getSelectedSource(getState()).get("id")).toBe("bar.js");
-    expect(getSourceTabs(getState()).size).toBe(2);
+    expect(getSelectedSource(getState()).id).toBe("bar.js");
+    expect(getSourceTabs(getState())).toHaveLength(2);
   });
 
   it("should select next tab on tab closed if no previous tab", async () => {
@@ -96,20 +96,21 @@ describe("sources", () => {
     await dispatch(actions.newSource(makeSource("foo.js")));
     await dispatch(actions.newSource(makeSource("bar.js")));
     await dispatch(actions.newSource(makeSource("baz.js")));
+
     dispatch(actions.selectLocation({ sourceId: "foo.js" }));
     dispatch(actions.selectLocation({ sourceId: "bar.js" }));
     dispatch(actions.selectLocation({ sourceId: "baz.js" }));
     dispatch(actions.selectLocation({ sourceId: "foo.js" }));
     dispatch(actions.closeTab("http://localhost:8000/examples/foo.js"));
-    expect(getSelectedSource(getState()).get("id")).toBe("bar.js");
-    expect(getSourceTabs(getState()).size).toBe(2);
+    expect(getSelectedSource(getState()).id).toBe("bar.js");
+    expect(getSourceTabs(getState())).toHaveLength(2);
   });
 
   it("should not select new sources that lack a URL", async () => {
     const { dispatch, getState } = createStore(sourceThreadClient);
     await dispatch(actions.newSource({ id: "foo" }));
 
-    expect(getSources(getState()).size).toEqual(1);
+    expect(getSourceCount(getState())).toEqual(1);
     const selectedLocation = getSelectedLocation(getState());
     expect(selectedLocation).toEqual(undefined);
   });
@@ -128,9 +129,7 @@ describe("sources", () => {
 
     // clear value
     dispatch(actions.clearSelectedLocation());
-    expect(getSelectedLocation(getState())).toEqual({
-      sourceId: ""
-    });
+    expect(getSelectedLocation(getState())).toEqual(null);
   });
 
   it("sets and clears pending selected location correctly", () => {

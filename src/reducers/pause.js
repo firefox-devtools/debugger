@@ -417,7 +417,7 @@ export function getSelectedScope(state: OuterState) {
   const sourceRecord = getSelectedSource(state);
   const frameId = getSelectedFrameId(state);
   const { scope } =
-    getFrameScope(state, sourceRecord && sourceRecord.get("id"), frameId) || {};
+    getFrameScope(state, sourceRecord && sourceRecord.id, frameId) || {};
   return scope || null;
 }
 

@@ -18,7 +18,7 @@ import { getUnicodeUrl, getUnicodeUrlPath } from "devtools-modules";
 export { isMinified } from "./isMinified";
 import { getFileExtension } from "./sources-tree";
 
-import type { Source, SourceRecord, Location } from "../types";
+import type { Source, Location } from "../types";
 import type { SourceMetaDataType } from "../reducers/ast";
 import type { SymbolDeclarations } from "../workers/parser";
 
@@ -51,14 +51,14 @@ function trimUrlQuery(url: string): string {
   return url.slice(0, q);
 }
 
-export function shouldPrettyPrint(source: SourceRecord) {
+export function shouldPrettyPrint(source: Source) {
   if (!source) {
     return false;
   }
   const _isPretty = isPretty(source);
   const _isJavaScript = isJavaScript(source);
   const isOriginal = isOriginalId(source.id);
-  const hasSourceMap = source.get("sourceMapURL");
+  const hasSourceMap = source.sourceMapURL;
 
   if (_isPretty || isOriginal || hasSourceMap || !_isJavaScript) {
     return false;
@@ -77,7 +77,7 @@ export function shouldPrettyPrint(source: SourceRecord) {
  * @memberof utils/source
  * @static
  */
-export function isJavaScript(source: SourceRecord): boolean {
+export function isJavaScript(source: Source): boolean {
   const url = source.url;
   const contentType = source.contentType;
   return (
@@ -90,7 +90,7 @@ export function isJavaScript(source: SourceRecord): boolean {
  * @memberof utils/source
  * @static
  */
-export function isPretty(source: SourceRecord): boolean {
+export function isPretty(source: Source): boolean {
   const url = source.url;
   return isPrettyURL(url);
 }
@@ -99,7 +99,7 @@ export function isPrettyURL(url: string): boolean {
   return url ? /formatted$/.test(url) : false;
 }
 
-export function isThirdParty(source: SourceRecord) {
+export function isThirdParty(source: Source) {
   const url = source.url;
   if (!source || !url) {
     return false;
@@ -142,7 +142,7 @@ function resolveFileURL(
  * @memberof utils/source
  * @static
  */
-export function getFilenameFromURL(url: string) {
+export function getFilenameFromURL(url: string): string {
   return resolveFileURL(
     url,
     initialUrl => getUnicodeUrlPath(basename(initialUrl)) || "(index)"
@@ -326,12 +326,12 @@ export function getMode(
   return { name: "text" };
 }
 
-export function isLoaded(source: SourceRecord) {
-  return source.get("loadedState") === "loaded";
+export function isLoaded(source: Source) {
+  return source.loadedState === "loaded";
 }
 
-export function isLoading(source: SourceRecord) {
-  return source.get("loadedState") === "loading";
+export function isLoading(source: Source) {
+  return source.loadedState === "loading";
 }
 
 export function getTextAtPosition(source: Source, location: Location) {

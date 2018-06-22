@@ -18,7 +18,8 @@ import {
   getDebuggeeUrl,
   getExpandedState,
   getProjectDirectoryRoot,
-  getRelativeSources
+  getRelativeSources,
+  getSourceCount
 } from "../../selectors";
 
 // Actions
@@ -38,6 +39,7 @@ import {
   createTree,
   getDirectories,
   isDirectory,
+  getSourceFromNode,
   nodeHasChildren,
   updateTree
 } from "../../utils/sources-tree";
@@ -45,44 +47,44 @@ import {
 import { getRawSourceURL } from "../../utils/source";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { features } from "../../utils/prefs";
-
+import type {
+  TreeNode,
+  TreeDirectory,
+  ParentMap
+} from "../../utils/sources-tree/types";
+import type { Source } from "../../types";
 import type { SourcesMap } from "../../reducers/types";
-import type { SourceRecord } from "../../types";
+import type { Item } from "../shared/ManagedTree";
 
 type Props = {
-  selectSource: String => void,
-  setExpandedState: any => void,
+  selectSource: string => void,
+  setExpandedState: (Set<string>) => void,
   setProjectDirectoryRoot: string => void,
   clearProjectDirectoryRoot: void => void,
   sources: SourcesMap,
+  sourceCount: number,
   shownSource?: string,
-  selectedSource?: SourceRecord,
+  selectedSource?: Source,
   debuggeeUrl: string,
   projectRoot: string,
-  expanded?: any
+  expanded?: boolean
 };
 
 type State = {
-  focusedItem?: any,
-  parentMap: any,
-  sourceTree: Object,
-  projectRoot: string,
-  uncollapsedTree: any,
+  focusedItem: ?TreeNode,
+  parentMap: ParentMap,
+  sourceTree: TreeDirectory,
+  uncollapsedTree: TreeDirectory,
   listItems?: any,
   highlightItems?: any
 };
 
+type SetExpanded = (item: TreeNode, expanded: boolean, altKey: boolean) => void;
+
 class SourcesTree extends Component<Props, State> {
-  focusItem: Function;
-  selectItem: Function;
-  getPath: Function;
-  getIcon: Function;
-  queueUpdate: Function;
-  onContextMenu: Function;
-  renderItem: Function;
   mounted: boolean;
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     const { debuggeeUrl, sources, projectRoot } = this.props;
 
@@ -93,7 +95,7 @@ class SourcesTree extends Component<Props, State> {
     });
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Props) {
     const {
       projectRoot,
       debuggeeUrl,
@@ -107,7 +109,7 @@ class SourcesTree extends Component<Props, State> {
     if (
       projectRoot != nextProps.projectRoot ||
       debuggeeUrl != nextProps.debuggeeUrl ||
-      nextProps.sources.size === 0
+      nextProps.sourceCount === 0
     ) {
       // early recreate tree because of changes
       // to project root, debugee url or lack of sources
@@ -135,11 +137,11 @@ class SourcesTree extends Component<Props, State> {
       nextProps.selectedSource != selectedSource
     ) {
       const highlightItems = getDirectories(
-        getRawSourceURL(nextProps.selectedSource.get("url")),
+        getRawSourceURL(nextProps.selectedSource.url),
         sourceTree
       );
 
-      return this.setState({ highlightItems });
+      this.setState({ highlightItems });
     }
 
     // NOTE: do not run this every time a source is clicked,
@@ -158,22 +160,32 @@ class SourcesTree extends Component<Props, State> {
     }
   }
 
-  focusItem = item => {
+  focusItem = (item: TreeNode) => {
     this.setState({ focusedItem: item });
   };
 
-  selectItem = item => {
-    if (!isDirectory(item)) {
+  selectItem = (item: TreeNode) => {
+    if (
+      !isDirectory(item) &&
+      // This second check isn't strictly necessary, but it ensures that Flow
+      // knows that we are doing the correct thing.
+      !Array.isArray(item.contents)
+    ) {
       this.props.selectSource(item.contents.id);
     }
   };
 
   // NOTE: we get the source from sources because item.contents is cached
-  getSource(item) {
-    return this.props.sources.get(item.contents.id);
+  getSource(item: TreeNode): ?Source {
+    const source = getSourceFromNode(item);
+    if (source) {
+      return this.props.sources[source.id];
+    }
+
+    return null;
   }
 
-  getPath = item => {
+  getPath = (item: TreeNode): string => {
     const path = `${item.path}/${item.name}`;
 
     if (isDirectory(item)) {
@@ -181,12 +193,12 @@ class SourcesTree extends Component<Props, State> {
     }
 
     const source = this.getSource(item);
-    const blackBoxedPart = source.isBlackBoxed ? ":blackboxed" : "";
+    const blackBoxedPart = source && source.isBlackBoxed ? ":blackboxed" : "";
 
     return `${path}${blackBoxedPart}`;
   };
 
-  getIcon = (sources, item, depth) => {
+  getIcon = (sources: SourcesMap, item: TreeNode, depth: number) => {
     const { debuggeeUrl, projectRoot } = this.props;
 
     if (item.path === "webpack://") {
@@ -212,10 +224,14 @@ class SourcesTree extends Component<Props, State> {
     }
 
     const source = this.getSource(item);
-    return <SourceIcon source={source} />;
+    if (source) {
+      return <SourceIcon source={source} />;
+    }
+
+    return null;
   };
 
-  onContextMenu = (event, item) => {
+  onContextMenu = (event: Event, item: TreeNode) => {
     const copySourceUri2Label = L10N.getStr("copySourceUri2");
     const copySourceUri2Key = L10N.getStr("copySourceUri2.accesskey");
     const setDirectoryRootLabel = L10N.getStr("setDirectoryRoot.label");
@@ -228,15 +244,19 @@ class SourcesTree extends Component<Props, State> {
     const menuOptions = [];
 
     if (!isDirectory(item)) {
-      const copySourceUri2 = {
-        id: "node-menu-copy-source",
-        label: copySourceUri2Label,
-        accesskey: copySourceUri2Key,
-        disabled: false,
-        click: () => copyToTheClipboard(item.contents.url)
-      };
+      // Flow requires some extra handling to ensure the value of contents.
+      const { contents } = item;
+      if (!Array.isArray(contents)) {
+        const copySourceUri2 = {
+          id: "node-menu-copy-source",
+          label: copySourceUri2Label,
+          accesskey: copySourceUri2Key,
+          disabled: false,
+          click: () => copyToTheClipboard(contents.url)
+        };
 
-      menuOptions.push(copySourceUri2);
+        menuOptions.push(copySourceUri2);
+      }
     }
 
     if (isDirectory(item) && features.root) {
@@ -264,15 +284,15 @@ class SourcesTree extends Component<Props, State> {
     showMenu(event, menuOptions);
   };
 
-  onExpand = (item, expandedState) => {
+  onExpand = (item: Item, expandedState: Set<string>) => {
     this.props.setExpandedState(expandedState);
   };
 
-  onCollapse = (item, expandedState) => {
+  onCollapse = (item: Item, expandedState: Set<string>) => {
     this.props.setExpandedState(expandedState);
   };
 
-  onKeyDown = e => {
+  onKeyDown = (e: KeyboardEvent) => {
     const { focusedItem } = this.state;
 
     if (e.keyCode === 13 && focusedItem) {
@@ -285,8 +305,15 @@ class SourcesTree extends Component<Props, State> {
     return sourceTree.contents.length === 0;
   }
 
-  renderItem = (item, depth, focused, _, expanded, { setExpanded }) => {
-    const arrow = nodeHasChildren(item) ? (
+  renderItem = (
+    item: TreeNode,
+    depth: number,
+    focused: boolean,
+    _,
+    expanded: boolean,
+    { setExpanded }: { setExpanded: SetExpanded }
+  ) => {
+    const arrow = isDirectory(item) ? (
       <img
         className={classnames("arrow", {
           expanded: expanded
@@ -303,7 +330,7 @@ class SourcesTree extends Component<Props, State> {
       <div
         className={classnames("node", { focused })}
         key={item.path}
-        onClick={e => {
+        onClick={(e: MouseEvent) => {
           this.focusItem(item);
 
           if (isDirectory(item)) {
@@ -322,13 +349,16 @@ class SourcesTree extends Component<Props, State> {
   };
 
   renderItemName(name) {
-    const hosts = {
-      "ng://": "Angular",
-      "webpack://": "Webpack",
-      "moz-extension://": L10N.getStr("extensionsText")
-    };
-
-    return hosts[name] || name;
+    switch (name) {
+      case "ng://":
+        return "Angular";
+      case "webpack://":
+        return "Webpack";
+      case "moz-extension://":
+        return L10N.getStr("extensionsText");
+      default:
+        return name;
+    }
   }
 
   renderEmptyElement(message) {
@@ -390,8 +420,9 @@ class SourcesTree extends Component<Props, State> {
       autoExpandAll: false,
       autoExpandDepth: expanded ? 0 : 1,
       expanded,
-      getChildren: item => (nodeHasChildren(item) ? item.contents : []),
-      getParent: item => parentMap.get(item),
+      getChildren: (item: $Shape<TreeDirectory>) =>
+        nodeHasChildren(item) ? item.contents : [],
+      getParent: (item: $Shape<TreeNode>) => parentMap.get(item),
       getPath: this.getPath,
       getRoots: this.getRoots,
       highlightItems,
@@ -401,7 +432,8 @@ class SourcesTree extends Component<Props, State> {
       onCollapse: this.onCollapse,
       onExpand: this.onExpand,
       onFocus: this.focusItem,
-      renderItem: this.renderItem
+      renderItem: this.renderItem,
+      preventBlur: true
     };
 
     return <ManagedTree {...treeProps} />;
@@ -454,7 +486,8 @@ const mapStateToProps = state => {
     debuggeeUrl: getDebuggeeUrl(state),
     expanded: getExpandedState(state),
     projectRoot: getProjectDirectoryRoot(state),
-    sources: getRelativeSources(state)
+    sources: getRelativeSources(state),
+    sourceCount: getSourceCount(state)
   };
 };
 

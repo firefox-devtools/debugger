@@ -7,21 +7,25 @@
 import { addToTree } from "./addToTree";
 import { collapseTree } from "./collapseTree";
 import { createParentMap } from "./utils";
+import { difference } from "lodash";
 
 import type { SourcesMap } from "../../reducers/types";
-import type { Node } from "./types";
+import type { TreeDirectory } from "./types";
 
 function newSourcesSet(newSources, prevSources) {
-  const next = newSources.toSet();
-  const prev = prevSources.toSet();
-  return next.subtract(prev);
+  const newSourceIds = difference(
+    Object.keys(newSources),
+    Object.keys(prevSources)
+  );
+  const uniqSources = newSourceIds.map(id => newSources[id]);
+  return uniqSources;
 }
 
 type Params = {
   newSources: SourcesMap,
   prevSources: SourcesMap,
-  uncollapsedTree: Node,
-  sourceTree: Node,
+  uncollapsedTree: TreeDirectory,
+  sourceTree: TreeDirectory,
   debuggeeUrl: string,
   projectRoot: string
 };

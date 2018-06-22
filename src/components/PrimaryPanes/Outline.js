@@ -28,12 +28,12 @@ import type {
   SymbolDeclaration,
   FunctionDeclaration
 } from "../../workers/parser";
-import type { SourceRecord } from "../../types";
+import type { Source } from "../../types";
 
 type Props = {
   symbols: SymbolDeclarations,
   selectLocation: ({ sourceId: string, line: number }) => void,
-  selectedSource: ?SourceRecord,
+  selectedSource: ?Source,
   onAlphabetizeClick: Function,
   alphabetizeOutline: boolean,
   getFunctionText: Function,
@@ -47,7 +47,7 @@ export class Outline extends Component<Props> {
     if (!selectedSource) {
       return;
     }
-    const selectedSourceId = selectedSource.get("id");
+    const selectedSourceId = selectedSource.id;
     const startLine = location.start.line;
     selectLocation({ sourceId: selectedSourceId, line: startLine });
   }
@@ -121,7 +121,7 @@ export class Outline extends Component<Props> {
     );
   }
 
-  renderClassFunctions(klass: string, functions: FunctionDeclaration[]) {
+  renderClassFunctions(klass: ?string, functions: FunctionDeclaration[]) {
     if (klass == null || functions.length == 0) {
       return null;
     }

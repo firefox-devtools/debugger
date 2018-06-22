@@ -24,7 +24,6 @@ const {
   isSymbolsLoading
 } = selectors;
 
-import I from "immutable";
 import { prefs } from "../../utils/prefs";
 
 const threadClient = {
@@ -67,7 +66,7 @@ describe("ast", () => {
       const { dispatch, getState } = store;
       const source = makeSource("scopes.js");
       await dispatch(actions.newSource(source));
-      await dispatch(actions.loadSourceText(I.Map({ id: "scopes.js" })));
+      await dispatch(actions.loadSourceText({ id: "scopes.js" }));
       await dispatch(actions.setPausePoints("scopes.js"));
       await waitForState(store, state => {
         const lines = getEmptyLines(state, source.id);
@@ -106,7 +105,7 @@ describe("ast", () => {
       const { dispatch, getState } = store;
       const base = makeSource("base.js");
       await dispatch(actions.newSource(base));
-      await dispatch(actions.loadSourceText(I.Map({ id: "base.js" })));
+      await dispatch(actions.loadSourceText({ id: "base.js" }));
       await dispatch(actions.setSourceMetaData("base.js"));
 
       const sourceMetaData = getSourceMetaData(getState(), base.id);
@@ -121,7 +120,7 @@ describe("ast", () => {
         const { dispatch, getState } = store;
         const base = makeSource("base.js");
         await dispatch(actions.newSource(base));
-        await dispatch(actions.loadSourceText(I.Map({ id: "base.js" })));
+        await dispatch(actions.loadSourceText({ id: "base.js" }));
         await dispatch(actions.setSymbols("base.js"));
         await waitForState(store, state => !isSymbolsLoading(state, base));
 

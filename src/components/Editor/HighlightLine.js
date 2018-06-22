@@ -16,14 +16,14 @@ import {
   getPauseCommand
 } from "../../selectors";
 
-import type { Frame, Location, SourceRecord } from "../../types";
+import type { Frame, Location, Source } from "../../types";
 import type { Command } from "../../reducers/types";
 
 type Props = {
   pauseCommand: Command,
   selectedFrame: Frame,
   selectedLocation: Location,
-  selectedSource: SourceRecord
+  selectedSource: Source
 };
 
 function isDebugLine(selectedFrame: Frame, selectedLocation: Location) {
@@ -54,10 +54,7 @@ export class HighlightLine extends Component<Props> {
     return this.shouldSetHighlightLine(selectedLocation, selectedSource);
   }
 
-  shouldSetHighlightLine(
-    selectedLocation: Location,
-    selectedSource: SourceRecord
-  ) {
+  shouldSetHighlightLine(selectedLocation: Location, selectedSource: Source) {
     const { sourceId, line } = selectedLocation;
     const editorLine = toEditorLine(sourceId, line);
 
@@ -93,7 +90,7 @@ export class HighlightLine extends Component<Props> {
   setHighlightLine(
     selectedLocation: Location,
     selectedFrame: Frame,
-    selectedSource: SourceRecord
+    selectedSource: Source
   ) {
     const { sourceId, line } = selectedLocation;
     if (!this.shouldSetHighlightLine(selectedLocation, selectedSource)) {
@@ -111,7 +108,7 @@ export class HighlightLine extends Component<Props> {
     doc.addLineClass(editorLine, "line", "highlight-line");
   }
 
-  clearHighlightLine(selectedLocation: Location, selectedSource: SourceRecord) {
+  clearHighlightLine(selectedLocation: Location, selectedSource: Source) {
     if (!isDocumentReady(selectedSource, selectedLocation)) {
       return;
     }

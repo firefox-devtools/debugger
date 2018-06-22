@@ -4,14 +4,14 @@
 
 // @flow
 
-import { createParentMap, nodeHasChildren } from "./utils";
+import { createParentMap } from "./utils";
 import { getURL } from "./getURL";
-import type { Node } from "./types";
+import type { TreeNode, TreeDirectory } from "./types";
 
-function findSource(sourceTree: Node, sourceUrl: string): Node {
+function findSource(sourceTree: TreeDirectory, sourceUrl: string): TreeNode {
   let returnTarget = null;
-  function _traverse(subtree) {
-    if (nodeHasChildren(subtree)) {
+  function _traverse(subtree: TreeNode) {
+    if (subtree.type === "directory") {
       for (const child of subtree.contents) {
         _traverse(child);
       }
@@ -23,7 +23,7 @@ function findSource(sourceTree: Node, sourceUrl: string): Node {
     }
   }
 
-  sourceTree.contents.forEach(_traverse);
+  sourceTree.contents.forEach(node => _traverse(node));
 
   if (!returnTarget) {
     return sourceTree;
@@ -32,7 +32,7 @@ function findSource(sourceTree: Node, sourceUrl: string): Node {
   return returnTarget;
 }
 
-export function getDirectories(sourceUrl: string, sourceTree: Node) {
+export function getDirectories(sourceUrl: string, sourceTree: TreeDirectory) {
   const url = getURL(sourceUrl);
   const fullUrl = `${url.group}${url.path}`;
   const parentMap = createParentMap(sourceTree);

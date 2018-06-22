@@ -237,7 +237,7 @@ class Editor extends PureComponent<Props, State> {
     const { selectedSource } = this.props;
     const line = getCursorLine(codeMirror);
 
-    return toSourceLine(selectedSource.get("id"), line);
+    return toSourceLine(selectedSource.id, line);
   }
 
   onToggleBreakpoint = (key, e) => {
@@ -347,7 +347,7 @@ class Editor extends PureComponent<Props, State> {
       return;
     }
 
-    const sourceLine = toSourceLine(selectedSource.get("id"), line);
+    const sourceLine = toSourceLine(selectedSource.id, line);
 
     if (ev.altKey) {
       return continueToHere(sourceLine);
@@ -427,8 +427,8 @@ class Editor extends PureComponent<Props, State> {
     if (this.shouldScrollToLocation(nextProps)) {
       let { line, column } = toEditorPosition(nextProps.selectedLocation);
 
-      if (hasDocument(nextProps.selectedSource.get("id"))) {
-        const doc = getDocument(nextProps.selectedSource.get("id"));
+      if (hasDocument(nextProps.selectedSource.id)) {
+        const doc = getDocument(nextProps.selectedSource.id);
         const lineText = doc.getLine(line);
         column = Math.max(column, getIndentation(lineText));
       }
@@ -465,11 +465,12 @@ class Editor extends PureComponent<Props, State> {
       return showLoading(this.state.editor);
     }
 
-    if (selectedSource.get("error")) {
-      return this.showErrorMessage(selectedSource.get("error"));
+    if (selectedSource.error) {
+      return this.showErrorMessage(selectedSource.error);
     }
+
     if (selectedSource) {
-      return showSourceText(this.state.editor, selectedSource.toJS(), symbols);
+      return showSourceText(this.state.editor, selectedSource, symbols);
     }
   }
 
@@ -599,7 +600,7 @@ Editor.contextTypes = {
 
 const mapStateToProps = state => {
   const selectedSource = getSelectedSource(state);
-  const sourceId = selectedSource ? selectedSource.get("id") : "";
+  const sourceId = selectedSource ? selectedSource.id : "";
 
   return {
     selectedLocation: getSelectedLocation(state),

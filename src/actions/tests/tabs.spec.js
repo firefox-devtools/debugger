@@ -20,7 +20,7 @@ describe("closing tabs", () => {
     dispatch(actions.closeTab("http://localhost:8000/examples/foo.js"));
 
     expect(getSelectedSource(getState())).toBe(undefined);
-    expect(getSourceTabs(getState()).size).toBe(0);
+    expect(getSourceTabs(getState())).toHaveLength(0);
   });
 
   it("closing the inactive tab", async () => {
@@ -32,7 +32,7 @@ describe("closing tabs", () => {
     dispatch(actions.closeTab("http://localhost:8000/examples/foo.js"));
 
     expect(getSelectedSource(getState()).id).toBe("bar.js");
-    expect(getSourceTabs(getState()).size).toBe(1);
+    expect(getSourceTabs(getState())).toHaveLength(1);
   });
 
   it("closing the only tab", async () => {
@@ -42,7 +42,7 @@ describe("closing tabs", () => {
     dispatch(actions.closeTab("http://localhost:8000/examples/foo.js"));
 
     expect(getSelectedSource(getState())).toBe(undefined);
-    expect(getSourceTabs(getState()).size).toBe(0);
+    expect(getSourceTabs(getState())).toHaveLength(0);
   });
 
   it("closing the active tab", async () => {
@@ -53,8 +53,8 @@ describe("closing tabs", () => {
     await dispatch(actions.selectLocation({ sourceId: "bar.js" }));
     dispatch(actions.closeTab("http://localhost:8000/examples/bar.js"));
 
-    expect(getSelectedSource(getState()).get("id")).toBe("foo.js");
-    expect(getSourceTabs(getState()).size).toBe(1);
+    expect(getSelectedSource(getState()).id).toBe("foo.js");
+    expect(getSourceTabs(getState())).toHaveLength(1);
   });
 
   it("closing many inactive tabs", async () => {
@@ -72,8 +72,8 @@ describe("closing tabs", () => {
       ])
     );
 
-    expect(getSelectedSource(getState()).get("id")).toBe("bazz.js");
-    expect(getSourceTabs(getState()).size).toBe(1);
+    expect(getSelectedSource(getState()).id).toBe("bazz.js");
+    expect(getSourceTabs(getState())).toHaveLength(1);
   });
 
   it("closing many tabs including the active tab", async () => {
@@ -91,8 +91,8 @@ describe("closing tabs", () => {
       ])
     );
 
-    expect(getSelectedSource(getState()).get("id")).toBe("foo.js");
-    expect(getSourceTabs(getState()).size).toBe(1);
+    expect(getSelectedSource(getState()).id).toBe("foo.js");
+    expect(getSourceTabs(getState())).toHaveLength(1);
   });
 
   it("closing all the tabs", async () => {
@@ -109,6 +109,6 @@ describe("closing tabs", () => {
     );
 
     expect(getSelectedSource(getState())).toBe(undefined);
-    expect(getSourceTabs(getState()).size).toBe(0);
+    expect(getSourceTabs(getState())).toHaveLength(0);
   });
 });
