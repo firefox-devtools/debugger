@@ -23,6 +23,11 @@ button:focus {
   height: 100%;
 }
 
+.debugger-error {
+    display: block;
+    padding: 20px;
+}
+
 .editor-pane {
   display: flex;
   position: relative;
