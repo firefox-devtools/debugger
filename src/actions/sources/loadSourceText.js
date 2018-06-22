@@ -9,6 +9,7 @@ import { PROMISE } from "../utils/middleware/promise";
 import { getGeneratedSource, getSourceFromId } from "../../selectors";
 import * as parser from "../../workers/parser";
 import { isLoaded } from "../../utils/source";
+import { Telemetry } from "devtools-modules";
 
 import defer from "../../utils/defer";
 import type { ThunkArgs } from "../types";
@@ -16,10 +17,10 @@ import type { ThunkArgs } from "../types";
 import type { Source } from "../../types";
 
 const requests = new Map();
-import { Services } from "devtools-modules";
-const loadSourceHistogram = Services.telemetry.getHistogramById(
-  "DEVTOOLS_DEBUGGER_LOAD_SOURCE_MS"
-);
+
+// Measures the time it takes for a source to load
+const loadSourceHistogram = "DEVTOOLS_DEBUGGER_LOAD_SOURCE_MS";
+const telemetry = new Telemetry();
 
 async function loadSource(source: Source, { sourceMaps, client }) {
   const id = source.id;
@@ -28,6 +29,8 @@ async function loadSource(source: Source, { sourceMaps, client }) {
   }
 
   const response = await client.sourceContents(id);
+  telemetry.finish(loadSourceHistogram, source);
+
   return {
     id,
     text: response.source,
@@ -51,10 +54,10 @@ export function loadSourceText(source: Source) {
       return Promise.resolve();
     }
 
-    const telemetryStart = performance.now();
     const deferred = defer();
     requests.set(id, deferred.promise);
 
+    telemetry.start(loadSourceHistogram, source);
     try {
       await dispatch({
         type: "LOAD_SOURCE_TEXT",
@@ -82,9 +85,6 @@ export function loadSourceText(source: Source) {
     deferred.resolve();
     requests.delete(id);
 
-    const telemetryEnd = performance.now();
-    const duration = telemetryEnd - telemetryStart;
-    loadSourceHistogram.add(duration);
     return source;
   };
 }
