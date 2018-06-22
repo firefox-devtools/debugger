@@ -18,6 +18,7 @@ import type { Source } from "../../types";
 
 const requests = new Map();
 
+// Measures the time it takes for a source to load
 const loadSourceHistogram = "DEVTOOLS_DEBUGGER_LOAD_SOURCE_MS";
 const telemetry = new Telemetry();
 
@@ -28,6 +29,8 @@ async function loadSource(source: Source, { sourceMaps, client }) {
   }
 
   const response = await client.sourceContents(id);
+  telemetry.finish(loadSourceHistogram, source);
+
   return {
     id,
     text: response.source,
@@ -54,8 +57,6 @@ export function loadSourceText(source: Source) {
     const deferred = defer();
     requests.set(id, deferred.promise);
 
-    // The file is not loaded so we need to load it. This telemetry probe times
-    // the loading of the source file.
     telemetry.start(loadSourceHistogram, source);
     try {
       await dispatch({
@@ -63,7 +64,6 @@ export function loadSourceText(source: Source) {
         sourceId: id,
         [PROMISE]: loadSource(source, { sourceMaps, client })
       });
-      telemetry.finish(loadSourceHistogram, source);
     } catch (e) {
       deferred.resolve();
       requests.delete(id);
