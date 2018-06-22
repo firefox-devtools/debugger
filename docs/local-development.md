@@ -703,14 +703,16 @@ new preferred method. However Scalars cannot do everything, so both are used.
 * **Histograms**: Distribution of an event
 
 ```js
-const loadSourceHistogram = Services.telemetry.getHistogramById(
-  "DEVTOOLS_DEBUGGER_LOAD_SOURCE_MS"
-);
-loadSourceHistogram.add(delay); // time it took to load the source
+const Telemetry = require("devtools-modules/src/utils/telemetry");
+const telemetry = new Telemetry();
+const loadSourceHistogram = "DEVTOOLS_DEBUGGER_LOAD_SOURCE_MS";
+telemetry.start(loadSourceHistogram, this);
 ```
 
 ```js
-Services.telemetry.scalarAdd("devtools.debugger.source_selected", 1);
+const Telemetry = require("devtools-modules/src/utils/telemetry");
+const telemetry = new Telemetry();
+telemetry.scalarAdd("devtools.debugger.source_selected", 1);
 ```
 
 We also need to add probe definitions, to the [histograms.json] and [scalars.yaml],

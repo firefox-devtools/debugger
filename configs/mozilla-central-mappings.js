@@ -12,23 +12,20 @@ const EXCLUDED_FILES = {
   "devtools-services": "Services"
 };
 
-module.exports = Object.assign(
-  {
-    "./source-editor": "devtools/client/sourceeditor/editor",
-    "../editor/source-editor": "devtools/client/sourceeditor/editor",
-    "./test-flag": "devtools/shared/flags",
-    "./fronts-device": "devtools/shared/fronts/device",
-    immutable: "devtools/client/shared/vendor/immutable",
-    lodash: "devtools/client/shared/vendor/lodash",
-    react: "devtools/client/shared/vendor/react",
-    "react-dom": "devtools/client/shared/vendor/react-dom",
-    "react-dom-factories": "devtools/client/shared/vendor/react-dom-factories",
-    "react-redux": "devtools/client/shared/vendor/react-redux",
-    redux: "devtools/client/shared/vendor/redux",
-    "prop-types": "devtools/client/shared/vendor/react-prop-types",
-    "wasmparser/dist/WasmParser": "devtools/client/shared/vendor/WasmParser",
-    "wasmparser/dist/WasmDis": "devtools/client/shared/vendor/WasmDis",
-    "devtools-services": "Services"
-  },
-  EXCLUDED_FILES
-);
+module.exports = Object.assign({
+  "./source-editor": "devtools/client/sourceeditor/editor",
+  "../editor/source-editor": "devtools/client/sourceeditor/editor",
+  "./test-flag": "devtools/shared/flags",
+  "./fronts-device": "devtools/shared/fronts/device",
+  immutable: "devtools/client/shared/vendor/immutable",
+  lodash: "devtools/client/shared/vendor/lodash",
+  react: "devtools/client/shared/vendor/react",
+  "react-dom": "devtools/client/shared/vendor/react-dom",
+  "react-dom-factories": "devtools/client/shared/vendor/react-dom-factories",
+  "react-redux": "devtools/client/shared/vendor/react-redux",
+  redux: "devtools/client/shared/vendor/redux",
+  "prop-types": "devtools/client/shared/vendor/react-prop-types",
+  "devtools-modules/src/utils/telemetry": "devtools/client/shared/telemetry",
+  "wasmparser/dist/WasmParser": "devtools/client/shared/vendor/WasmParser",
+  "wasmparser/dist/WasmDis": "devtools/client/shared/vendor/WasmDis"
+}, EXCLUDED_FILES);
