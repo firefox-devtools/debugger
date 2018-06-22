@@ -70,7 +70,7 @@
     "babylon": "^7.0.0-beta.39",
     "codemirror": "^5.28.0",
     "devtools-environment": "^0.0.5",
-    "devtools-launchpad": "0.0.125",
+    "devtools-launchpad": "0.0.126-rc1",
     "devtools-linters": "^0.0.4",
     "devtools-reps": "0.23.0",
     "devtools-source-map": "0.16.0",
