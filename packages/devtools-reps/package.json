@@ -41,7 +41,7 @@
     "devtools-config": "^0.0.15",
     "devtools-launchpad": "^0.0.125",
     "devtools-license-check": "^0.5.1",
-    "devtools-modules": "^0.0.36",
+    "devtools-modules": "^0.0.37",
     "devtools-services": "^0.0.1",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
