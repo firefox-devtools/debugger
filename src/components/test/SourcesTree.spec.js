@@ -71,7 +71,7 @@ describe("SourcesTree", () => {
       it("updates tree with a new item", async () => {
         const { component, props } = render();
         const newSource = createMockSource(
-          "server1.conn13.child1/42",
+          "server1.conn13.child1/43",
           "http://mdn.com/four.js",
           true
         );
@@ -80,13 +80,13 @@ describe("SourcesTree", () => {
           ...props,
           sources: {
             ...props.sources,
-            "server1.conn13.child1/42": newSource
+            "server1.conn13.child1/43": newSource
           }
         });
 
         expect(
           component.state("uncollapsedTree").contents[0].contents
-        ).toHaveLength(4);
+        ).toHaveLength(6);
       });
 
       it("updates sources if sources are emptied", async () => {
@@ -113,7 +113,7 @@ describe("SourcesTree", () => {
         };
 
         expect(defaultState.uncollapsedTree.contents[0].contents).toHaveLength(
-          3
+          5
         );
 
         await component.setProps({
@@ -137,7 +137,7 @@ describe("SourcesTree", () => {
         };
 
         expect(defaultState.uncollapsedTree.contents[0].contents).toHaveLength(
-          3
+          5
         );
 
         await component.setProps({
@@ -541,7 +541,7 @@ describe("SourcesTree", () => {
         .getParent(item);
 
       expect(parent.path).toEqual("mdn.com");
-      expect(parent.contents).toHaveLength(3);
+      expect(parent.contents).toHaveLength(5);
     });
   });
 
@@ -575,6 +575,23 @@ describe("SourcesTree", () => {
         "http://mdn.com/blackboxed.js/blackboxed.js:blackboxed"
       );
     });
+
+    it("should return path for generated item", async () => {
+      const { instance } = render();
+      const pathOriginal = instance.getPath(
+        createMockItem("http://mdn.com/four.js", "four.js", {
+          id: "server1.conn13.child1/42/originalSource-sha"
+        })
+      );
+      expect(pathOriginal).toEqual("http://mdn.com/four.js/four.js");
+
+      const pathGenerated = instance.getPath(
+        createMockItem("http://mdn.com/four.js", "four.js", {
+          id: "server1.conn13.child1/42"
+        })
+      );
+      expect(pathGenerated).toEqual("http://mdn.com/four.js/four.js:generated");
+    });
   });
 });
 
@@ -591,7 +608,17 @@ function generateDefaults(overrides) {
     "server1.conn13.child1/41": createMockSource(
       "server1.conn13.child1/41",
       "http://mdn.com/three.js"
-    )
+    ),
+    "server1.conn13.child1/42/originalSource-sha": createMockSource(
+      "server1.conn13.child1/42/originalSource-sha",
+      "http://mdn.com/four.js"
+    ),
+    "server1.conn13.child1/42": createMockSource(
+      "server1.conn13.child1/42",
+      "http://mdn.com/four.js",
+      false,
+      "data:application/json?charset=utf?dsffewrsf"
+    ),
   };
   return {
     autoExpandAll: true,
@@ -631,13 +658,13 @@ function render(overrides = {}) {
   return { component, props, defaultState, instance };
 }
 
-function createMockSource(id, url, isBlackBoxed = false) {
+function createMockSource(id, url, isBlackBoxed = false, sourceMapURL = null) {
   return createSource({
     id: id,
     url: url,
     isPrettyPrinted: false,
     isWasm: false,
-    sourceMapURL: null,
+    sourceMapURL,
     isBlackBoxed: isBlackBoxed,
     loadedState: "unloaded"
   });
