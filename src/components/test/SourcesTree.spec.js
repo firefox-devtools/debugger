@@ -618,7 +618,7 @@ function generateDefaults(overrides) {
       "http://mdn.com/four.js",
       false,
       "data:application/json?charset=utf?dsffewrsf"
-    ),
+    )
   };
   return {
     autoExpandAll: true,
