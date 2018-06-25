@@ -121,7 +121,7 @@
     "documentation": "^5.2.1",
     "enzyme": "^3.3.0",
     "enzyme-to-json": "3.3.1",
-    "eslint": "^4.2.0",
+    "eslint": "^5.0.0",
     "eslint-config-prettier": "^2.3.0",
     "eslint-plugin-babel": "^5.0.0",
     "eslint-plugin-file-header": "0.0.1",
