@@ -195,7 +195,11 @@ class SourcesTree extends Component<Props, State> {
     const source = this.getSource(item);
     const blackBoxedPart = source && source.isBlackBoxed ? ":blackboxed" : "";
 
-    return `${path}${blackBoxedPart}`;
+    // Original and generated sources can point to the same path
+    // therefore necessary to distinguish as path is used as keys.
+    const generatedPart = source && source.sourceMapURL ? ":generated" : "";
+
+    return `${path}${blackBoxedPart}${generatedPart}`;
   };
 
   getIcon = (sources: SourcesMap, item: TreeNode, depth: number) => {
