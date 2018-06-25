@@ -1,3 +1,9 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
+// @flow
+
 import { getURL } from "../getURL";
 import Url from "url";
 
@@ -13,7 +19,7 @@ describe("getUrl", () => {
   });
 
   it("handles url with querystring for filename", function() {
-    const urlObject = getURL({ url: "https://a/b.js?key=randomeKey" });
+    const urlObject = getURL({ url: "https://a/b.js?key=randomKey" });
     expect(urlObject.filename).toBe("b.js");
   });
 
@@ -63,7 +69,7 @@ describe("getUrl", () => {
     it("parses a url once per source", () => {
       const source = { url: "http://example.com/foo/bar/baz.js" };
       const source2 = { url: "http://example.com/foo/bar/baz.js" };
-      const spy = jest.spyOn(Url, "parse");
+      spy = jest.spyOn(Url, "parse");
       getURL(source);
       const url = getURL(source2);
       expect(spy).toHaveBeenCalledTimes(2);
