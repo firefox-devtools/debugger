@@ -7,9 +7,7 @@
 // Dependencies
 import React, { Component } from "react";
 import classnames from "classnames";
-import { showMenu } from "devtools-contextmenu";
 import { connect } from "react-redux";
-import SourceIcon from "../shared/SourceIcon";
 
 // Selectors
 import {
@@ -31,6 +29,7 @@ import {
 } from "../../actions/ui";
 
 // Components
+import SourcesTreeItem from "./SourcesTreeItem";
 import ManagedTree from "../shared/ManagedTree";
 import Svg from "../shared/Svg";
 
@@ -45,8 +44,7 @@ import {
 } from "../../utils/sources-tree";
 
 import { getRawSourceURL } from "../../utils/source";
-import { copyToTheClipboard } from "../../utils/clipboard";
-import { features } from "../../utils/prefs";
+
 import type {
   TreeNode,
   TreeDirectory,
@@ -202,92 +200,6 @@ class SourcesTree extends Component<Props, State> {
     return `${path}${blackBoxedPart}${generatedPart}`;
   };
 
-  getIcon = (sources: SourcesMap, item: TreeNode, depth: number) => {
-    const { debuggeeUrl, projectRoot } = this.props;
-
-    if (item.path === "webpack://") {
-      return <Svg name="webpack" />;
-    } else if (item.path === "ng://") {
-      return <Svg name="angular" />;
-    } else if (item.path === "moz-extension://") {
-      return <img className="extension" />;
-    }
-
-    if (depth === 0 && projectRoot === "") {
-      return (
-        <img
-          className={classnames("domain", {
-            debuggee: debuggeeUrl && debuggeeUrl.includes(item.name)
-          })}
-        />
-      );
-    }
-
-    if (isDirectory(item)) {
-      return <img className="folder" />;
-    }
-
-    const source = this.getSource(item);
-    if (source) {
-      return <SourceIcon source={source} />;
-    }
-
-    return null;
-  };
-
-  onContextMenu = (event: Event, item: TreeNode) => {
-    const copySourceUri2Label = L10N.getStr("copySourceUri2");
-    const copySourceUri2Key = L10N.getStr("copySourceUri2.accesskey");
-    const setDirectoryRootLabel = L10N.getStr("setDirectoryRoot.label");
-    const setDirectoryRootKey = L10N.getStr("setDirectoryRoot.accesskey");
-    const removeDirectoryRootLabel = L10N.getStr("removeDirectoryRoot.label");
-
-    event.stopPropagation();
-    event.preventDefault();
-
-    const menuOptions = [];
-
-    if (!isDirectory(item)) {
-      // Flow requires some extra handling to ensure the value of contents.
-      const { contents } = item;
-      if (!Array.isArray(contents)) {
-        const copySourceUri2 = {
-          id: "node-menu-copy-source",
-          label: copySourceUri2Label,
-          accesskey: copySourceUri2Key,
-          disabled: false,
-          click: () => copyToTheClipboard(contents.url)
-        };
-
-        menuOptions.push(copySourceUri2);
-      }
-    }
-
-    if (isDirectory(item) && features.root) {
-      const { path } = item;
-      const { projectRoot } = this.props;
-
-      if (projectRoot.endsWith(path)) {
-        menuOptions.push({
-          id: "node-remove-directory-root",
-          label: removeDirectoryRootLabel,
-          disabled: false,
-          click: () => this.props.clearProjectDirectoryRoot()
-        });
-      } else {
-        menuOptions.push({
-          id: "node-set-directory-root",
-          label: setDirectoryRootLabel,
-          accesskey: setDirectoryRootKey,
-          disabled: false,
-          click: () => this.props.setProjectDirectoryRoot(path)
-        });
-      }
-    }
-
-    showMenu(event, menuOptions);
-  };
-
   onExpand = (item: Item, expandedState: Set<string>) => {
     this.props.setExpandedState(expandedState);
   };
@@ -307,62 +219,6 @@ class SourcesTree extends Component<Props, State> {
   isEmpty() {
     const { sourceTree } = this.state;
     return sourceTree.contents.length === 0;
-  }
-
-  renderItem = (
-    item: TreeNode,
-    depth: number,
-    focused: boolean,
-    _,
-    expanded: boolean,
-    { setExpanded }: { setExpanded: SetExpanded }
-  ) => {
-    const arrow = isDirectory(item) ? (
-      <img
-        className={classnames("arrow", {
-          expanded: expanded
-        })}
-      />
-    ) : (
-      <i className="no-arrow" />
-    );
-
-    const { sources } = this.props;
-    const icon = this.getIcon(sources, item, depth);
-
-    return (
-      <div
-        className={classnames("node", { focused })}
-        key={item.path}
-        onClick={(e: MouseEvent) => {
-          this.focusItem(item);
-
-          if (isDirectory(item)) {
-            setExpanded(item, !!expanded, e.altKey);
-          } else {
-            this.selectItem(item);
-          }
-        }}
-        onContextMenu={e => this.onContextMenu(e, item)}
-      >
-        {arrow}
-        {icon}
-        <span className="label"> {this.renderItemName(item.name)} </span>
-      </div>
-    );
-  };
-
-  renderItemName(name) {
-    switch (name) {
-      case "ng://":
-        return "Angular";
-      case "webpack://":
-        return "Webpack";
-      case "moz-extension://":
-        return L10N.getStr("extensionsText");
-      default:
-        return name;
-    }
   }
 
   renderEmptyElement(message) {
@@ -414,6 +270,34 @@ class SourcesTree extends Component<Props, State> {
     }
 
     return sourceTree.contents;
+  };
+
+  renderItem = (
+    item: TreeNode,
+    depth: number,
+    focused: boolean,
+    _,
+    expanded: boolean,
+    { setExpanded }: { setExpanded: SetExpanded }
+  ) => {
+    const { debuggeeUrl, projectRoot } = this.props;
+
+    return (
+      <SourcesTreeItem
+        item={item}
+        depth={depth}
+        focused={focused}
+        expanded={expanded}
+        setExpanded={setExpanded}
+        focusItem={this.focusItem}
+        selectItem={this.selectItem}
+        source={this.getSource(item)}
+        debuggeeUrl={debuggeeUrl}
+        projectRoot={projectRoot}
+        clearProjectDirectoryRoot={this.props.clearProjectDirectoryRoot}
+        setProjectDirectoryRoot={this.props.setProjectDirectoryRoot}
+      />
+    );
   };
 
   renderTree() {

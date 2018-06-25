@@ -4,13 +4,16 @@
 
 import React from "react";
 import { shallow } from "enzyme";
-import SourcesTree from "../../components/PrimaryPanes/SourcesTree";
-import { createSource } from "../../reducers/sources";
 import { showMenu } from "devtools-contextmenu";
-import { copyToTheClipboard } from "../../utils/clipboard";
+
+import SourcesTree from "../SourcesTree";
+import { createSource } from "../../../reducers/sources";
+import { copyToTheClipboard } from "../../../utils/clipboard";
 
 jest.mock("devtools-contextmenu", () => ({ showMenu: jest.fn() }));
-jest.mock("../../utils/clipboard", () => ({ copyToTheClipboard: jest.fn() }));
+jest.mock("../../../utils/clipboard", () => ({
+  copyToTheClipboard: jest.fn()
+}));
 
 describe("SourcesTree", () => {
   afterEach(() => {
@@ -233,226 +236,6 @@ describe("SourcesTree", () => {
     });
   });
 
-  describe("onContextMenu of the tree", () => {
-    it("shows context menu on directory to set as root", async () => {
-      const menuOptions = [
-        {
-          accesskey: "r",
-          click: expect.any(Function),
-          disabled: false,
-          id: "node-set-directory-root",
-          label: "Set directory root"
-        }
-      ];
-      const mockEvent = {
-        preventDefault: jest.fn(),
-        stopPropagation: jest.fn()
-      };
-      const { props, instance } = render({
-        projectRoot: "root/"
-      });
-      await instance.onContextMenu(mockEvent, createMockDirectory());
-      expect(showMenu).toHaveBeenCalledWith(mockEvent, menuOptions);
-
-      expect(mockEvent.preventDefault).toHaveBeenCalled();
-      expect(mockEvent.stopPropagation).toHaveBeenCalled();
-
-      showMenu.mock.calls[0][1][0].click();
-      expect(props.setProjectDirectoryRoot).toHaveBeenCalled();
-      expect(props.clearProjectDirectoryRoot).not.toHaveBeenCalled();
-      expect(copyToTheClipboard).not.toHaveBeenCalled();
-    });
-
-    it("shows context menu on file to copy source uri", async () => {
-      const menuOptions = [
-        {
-          accesskey: "u",
-          click: expect.any(Function),
-          disabled: false,
-          id: "node-menu-copy-source",
-          label: "Copy source URI"
-        }
-      ];
-      const mockEvent = {
-        preventDefault: jest.fn(),
-        stopPropagation: jest.fn()
-      };
-      const { props, instance } = render({
-        projectRoot: "root/"
-      });
-      await instance.onContextMenu(mockEvent, createMockItem());
-      expect(showMenu).toHaveBeenCalledWith(mockEvent, menuOptions);
-
-      expect(mockEvent.preventDefault).toHaveBeenCalled();
-      expect(mockEvent.stopPropagation).toHaveBeenCalled();
-
-      showMenu.mock.calls[0][1][0].click();
-      expect(props.setProjectDirectoryRoot).not.toHaveBeenCalled();
-      expect(props.clearProjectDirectoryRoot).not.toHaveBeenCalled();
-      expect(copyToTheClipboard).toHaveBeenCalled();
-    });
-
-    it("shows context menu on root to remove directory root", async () => {
-      const menuOptions = [
-        {
-          click: expect.any(Function),
-          disabled: false,
-          id: "node-remove-directory-root",
-          label: "Remove directory root"
-        }
-      ];
-      const { props, instance } = render({
-        projectRoot: "root/"
-      });
-
-      const mockEvent = {
-        preventDefault: jest.fn(),
-        stopPropagation: jest.fn()
-      };
-
-      await instance.onContextMenu(
-        mockEvent,
-        createMockDirectory("root/", "root")
-      );
-      expect(showMenu).toHaveBeenCalledWith(mockEvent, menuOptions);
-
-      expect(mockEvent.preventDefault).toHaveBeenCalled();
-      expect(mockEvent.stopPropagation).toHaveBeenCalled();
-
-      showMenu.mock.calls[0][1][0].click();
-      expect(props.setProjectDirectoryRoot).not.toHaveBeenCalled();
-      expect(props.clearProjectDirectoryRoot).toHaveBeenCalled();
-      expect(copyToTheClipboard).not.toHaveBeenCalled();
-    });
-  });
-
-  describe("renderItem", () => {
-    it("should show icon for webpack item", async () => {
-      const { instance } = render();
-      const item = createMockDirectory("webpack://", "webpack://");
-      const node = renderItem(instance, item);
-      expect(node).toMatchSnapshot();
-    });
-
-    it("should show icon for angular item", async () => {
-      const { instance } = render();
-      const item = createMockDirectory("ng://", "ng://");
-      const node = renderItem(instance, item);
-      expect(node).toMatchSnapshot();
-    });
-
-    it("should show icon for moz-extension item", async () => {
-      const { instance } = render();
-      const item = createMockDirectory("moz-extension://", "moz-extension://");
-      const node = renderItem(instance, item);
-      expect(node).toMatchSnapshot();
-    });
-
-    it("should show icon for folder with arrow", async () => {
-      const { instance } = render();
-      const node = renderItem(instance, createMockDirectory());
-      expect(node).toMatchSnapshot();
-    });
-
-    it("should show icon for folder with expanded arrow", async () => {
-      const { instance } = render();
-      const node = renderItem(instance, createMockDirectory(), 1, false, true);
-      expect(node).toMatchSnapshot();
-    });
-
-    it("should show focused item for folder with expanded arrow", async () => {
-      const { instance } = render();
-      const node = renderItem(instance, createMockDirectory(), 1, true, true);
-      expect(node).toMatchSnapshot();
-    });
-
-    it("should show source item with source icon", async () => {
-      const { instance } = render();
-      const node = renderItem(instance, createMockItem());
-      expect(node).toMatchSnapshot();
-    });
-
-    it("should show source item with source icon with focus", async () => {
-      const { instance } = render();
-      const node = renderItem(instance, createMockItem(), 1, true, false);
-      expect(node).toMatchSnapshot();
-    });
-
-    it("should show domain item", async () => {
-      const { instance } = render();
-      const item = createMockItem("root", "root");
-      const node = renderItem(instance, item, 0);
-      expect(node).toMatchSnapshot();
-    });
-
-    it("should show domain item as debuggee", async () => {
-      const { instance } = render();
-      const item = createMockItem("root", "http://mdn.com");
-      const node = renderItem(instance, item, 0);
-      expect(node).toMatchSnapshot();
-    });
-
-    it("should show domain item as debuggee with focus and arrow", async () => {
-      const { instance } = render();
-      const item = createMockDirectory("root", "http://mdn.com");
-      const node = renderItem(instance, item, 0, true);
-      expect(node).toMatchSnapshot();
-    });
-
-    it("should not show domain item when the projectRoot exists", async () => {
-      const { instance } = render({
-        projectRoot: "root/"
-      });
-      const node = renderItem(instance, createMockItem(), 0);
-      expect(node).toMatchSnapshot();
-    });
-
-    it("should show menu on contextmenu of an item", async () => {
-      const { instance } = render();
-      const item = createMockItem();
-      instance.onContextMenu = jest.fn(() => {});
-      const event = { event: "contextmenu" };
-      const node = shallow(renderItem(instance, item, 1, true));
-
-      node.simulate("contextmenu", event);
-      expect(instance.onContextMenu).toHaveBeenCalledWith(event, item);
-    });
-
-    it("should focus on and select item on click", async () => {
-      const { component, instance, props } = render();
-      const item = createMockItem();
-      const event = { event: "click" };
-      const setExpanded = jest.fn();
-      const node = shallow(
-        renderItem(instance, item, 1, true, false, setExpanded)
-      );
-
-      node.simulate("click", event);
-
-      await component
-        .find(".sources-list")
-        .simulate("keydown", { keyCode: 13 });
-      expect(props.selectSource).toHaveBeenCalledWith(item.contents.id);
-      expect(setExpanded).not.toHaveBeenCalled();
-    });
-
-    it("should focus on and expand directory on click", async () => {
-      const { component, instance, props } = render();
-      const event = { event: "click" };
-      const setExpanded = jest.fn();
-      const mockDirectory = createMockDirectory();
-      const node = shallow(
-        renderItem(instance, mockDirectory, 1, true, false, setExpanded)
-      );
-
-      node.simulate("click", event);
-
-      expect(component.state("focusedItem")).toEqual(mockDirectory);
-      expect(setExpanded).toHaveBeenCalled();
-      expect(props.selectSource).not.toHaveBeenCalledWith();
-    });
-  });
-
   describe("selectItem", () => {
     it("should select item with no children", async () => {
       const { instance, props } = render();
@@ -632,19 +415,6 @@ function generateDefaults(overrides) {
     projectRoot: "",
     ...overrides
   };
-}
-
-function renderItem(
-  instance,
-  item = createMockItem(),
-  depth = 1,
-  focused = false,
-  expanded = false,
-  setExpanded = jest.fn()
-) {
-  return instance.renderItem(item, depth, focused, null, expanded, {
-    setExpanded: setExpanded
-  });
 }
 
 function render(overrides = {}) {
