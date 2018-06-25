@@ -21,14 +21,13 @@ import Tab from "./Tab";
 import { PaneToggleButton } from "../shared/Button";
 import Dropdown from "../shared/Dropdown";
 
-import type { List } from "immutable";
 import type { Source } from "../../types";
 
-type SourcesList = List<Source>;
+type SourcesList = Source[];
 
 type Props = {
   tabSources: SourcesList,
-  selectedSource: Source,
+  selectedSource: ?Source,
   selectSpecificSource: string => void,
   moveTab: (string, number) => void,
   closeTab: string => void,
@@ -95,7 +94,11 @@ class Tabs extends PureComponent<Props, State> {
     const sourceTabEls = this.refs.sourceTabs.children;
     const hiddenTabs = getHiddenTabs(tabSources, sourceTabEls);
 
-    if (isVisible() && hiddenTabs.find(tab => tab.id == selectedSource.id)) {
+    if (
+      selectedSource &&
+      isVisible() &&
+      hiddenTabs.find(tab => tab.id == selectedSource.id)
+    ) {
       return moveTab(selectedSource.url, 0);
     }
 
