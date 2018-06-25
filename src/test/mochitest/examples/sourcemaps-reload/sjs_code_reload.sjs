@@ -29,6 +29,7 @@ function handleRequest(request, response) {
   let counter = (+getState("counter") || 1) % ( 2 * NUM_FILES + 1);
 
   const newUrl = _getUrl(request, counter);
+  dump(`> request COUNTER:${counter} -- ${newUrl}\n`)
 
   response.setStatusLine(request.httpVersion, 302, "Found");
   response.setHeader("Location", newUrl);

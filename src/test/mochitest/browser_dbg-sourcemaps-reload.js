@@ -25,9 +25,14 @@ function getBreakpoints(dbg) {
 add_task(async function() {
   const dbg = await initDebugger("doc-minified.html");
 
-  dump(`>> meh`);
+
+  waitForState(dbg, state => {
+   dump(`> sources ${Object.values(dbg.selectors.getSources(state)).map(s => s.url).join(", ")}\n`)
+   return false
+ })
 
   await navigate(dbg, "sourcemaps-reload/doc-sourcemaps-reload.html", "v1");
+
 
   dump(`>> select v1`);
   await selectSource(dbg, "v1");
