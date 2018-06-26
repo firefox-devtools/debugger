@@ -334,7 +334,7 @@ export function isLoading(source: Source) {
   return source.loadedState === "loading";
 }
 
-export function getTextAtPosition(source: Source, location: Location) {
+export function getTextAtPosition(source: ?Source, location: Location) {
   if (!source || !source.text || source.isWasm) {
     return "";
   }
