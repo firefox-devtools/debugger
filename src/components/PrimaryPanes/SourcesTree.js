@@ -124,7 +124,9 @@ class SourcesTree extends Component<Props, State> {
           sources[matchingSources[0]],
           sourceTree
         );
-        this.selectItem(listItems[0]);
+        if (listItems && listItems.length) {
+          this.selectItem(listItems[0]);
+        }
         return this.setState({ listItems });
       }
     }
