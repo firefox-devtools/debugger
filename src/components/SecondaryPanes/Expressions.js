@@ -36,17 +36,17 @@ type State = {
 type Props = {
   expressions: List<Expression>,
   expressionError: boolean,
+  showInput: boolean,
+  autocompleteMatches: string[],
+  autocomplete: (input: string, cursor: number) => Promise<any>,
+  clearAutocomplete: () => void,
+  onExpressionAdded: () => void,
   addExpression: (input: string) => void,
   clearExpressionError: () => void,
   evaluateExpressions: () => void,
   updateExpression: (input: string, expression: Expression) => void,
   deleteExpression: (expression: Expression) => void,
-  openLink: (url: string) => void,
-  showInput: boolean,
-  onExpressionAdded: () => void,
-  autocomplete: (input: string, cursor: number) => Promise<any>,
-  clearAutocomplete: () => void,
-  autocompleteMatches: string[]
+  openLink: (url: string) => void
 };
 
 class Expressions extends Component<Props, State> {
@@ -360,4 +360,14 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, actions)(Expressions);
+export default connect(mapStateToProps, {
+  autocomplete: actions.autocomplete,
+  clearAutocomplete: actions.clearAutocomplete,
+  onExpressionAdded: actions.onExpressionAdded,
+  addExpression: actions.addExpression,
+  clearExpressionError: actions.clearExpressionError,
+  evaluateExpressions: actions.evaluateExpressions,
+  updateExpression: actions.updateExpression,
+  deleteExpression: actions.deleteExpression,
+  openLink: actions.openLink
+})(Expressions);

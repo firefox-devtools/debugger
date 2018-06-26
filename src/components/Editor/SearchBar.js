@@ -57,16 +57,16 @@ type State = {
 type Props = {
   editor?: SourceEditor,
   selectedSource?: Source,
-  searchOn?: boolean,
+  searchOn: boolean,
+  searchResults: SearchResults,
+  modifiers: Modifiers,
+  query: string,
+  toggleFileSearchModifier: string => any,
+  setFileSearchQuery: string => any,
   setActiveSearch: (?ActiveSearchType) => any,
   closeFileSearch: SourceEditor => void,
   doSearch: (string, SourceEditor) => void,
   traverseResults: (boolean, SourceEditor) => void,
-  searchResults: SearchResults,
-  modifiers: Modifiers,
-  toggleFileSearchModifier: string => any,
-  query: string,
-  setFileSearchQuery: string => any,
   updateSearchResults: ({ count: number, index?: number }) => any
 };
 
@@ -345,4 +345,12 @@ const mapStateToProps = state => ({
   searchResults: getFileSearchResults(state)
 });
 
-export default connect(mapStateToProps, actions)(SearchBar);
+export default connect(mapStateToProps, {
+  toggleFileSearchModifier: actions.toggleFileSearchModifier,
+  setFileSearchQuery: actions.setFileSearchQuery,
+  setActiveSearch: actions.setActiveSearch,
+  closeFileSearch: actions.closeFileSearch,
+  doSearch: actions.doSearch,
+  traverseResults: actions.traverseResults,
+  updateSearchResults: actions.updateSearchResults
+})(SearchBar);

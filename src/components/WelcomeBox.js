@@ -18,8 +18,8 @@ import "./WelcomeBox.css";
 
 type Props = {
   horizontal: boolean,
-  togglePaneCollapse: Function,
   endPanelCollapsed: boolean,
+  togglePaneCollapse: Function,
   setActiveSearch: (?ActiveSearchType) => any,
   openQuickOpen: (query?: string) => void
 };
@@ -88,4 +88,8 @@ const mapStateToProps = state => ({
   endPanelCollapsed: getPaneCollapse(state, "end")
 });
 
-export default connect(mapStateToProps, actions)(WelcomeBox);
+export default connect(mapStateToProps, {
+  togglePaneCollapse: actions.togglePaneCollapse,
+  setActiveSearch: actions.setActiveSearch,
+  openQuickOpen: actions.openQuickOpen
+})(WelcomeBox);
