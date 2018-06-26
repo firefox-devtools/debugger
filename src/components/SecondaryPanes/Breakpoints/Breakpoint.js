@@ -39,12 +39,12 @@ type Props = {
   breakpoint: BreakpointType,
   breakpoints: BreakpointsMap,
   selectedSource: ?Source,
-  disableBreakpoint: Function,
-  enableBreakpoint: Function,
-  removeBreakpoint: Function,
-  selectSpecificLocation: Function,
   source: Source,
-  frame: ?Frame
+  frame: ?Frame,
+  enableBreakpoint: typeof actions.enableBreakpoint,
+  removeBreakpoint: typeof actions.removeBreakpoint,
+  disableBreakpoint: typeof actions.disableBreakpoint,
+  selectSpecificLocation: typeof actions.selectSpecificLocation
 };
 
 function getMappedLocation(mappedLocation: MappedLocation, selectedSource) {
@@ -185,4 +185,9 @@ const mapStateToProps = state => ({
   selectedSource: getSelectedSource(state)
 });
 
-export default connect(mapStateToProps, actions)(Breakpoint);
+export default connect(mapStateToProps, {
+  enableBreakpoint: actions.enableBreakpoint,
+  removeBreakpoint: actions.removeBreakpoint,
+  disableBreakpoint: actions.disableBreakpoint,
+  selectSpecificLocation: actions.selectSpecificLocation
+})(Breakpoint);

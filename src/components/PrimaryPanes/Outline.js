@@ -32,13 +32,13 @@ import type { Source } from "../../types";
 
 type Props = {
   symbols: SymbolDeclarations,
-  selectLocation: ({ sourceId: string, line: number }) => void,
   selectedSource: ?Source,
-  onAlphabetizeClick: Function,
   alphabetizeOutline: boolean,
+  onAlphabetizeClick: Function,
+  selectedLocation: any,
+  selectLocation: ({ sourceId: string, line: number }) => void,
   getFunctionText: Function,
-  flashLineRange: Function,
-  selectedLocation: any
+  flashLineRange: Function
 };
 
 export class Outline extends Component<Props> {
@@ -221,4 +221,8 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, actions)(Outline);
+export default connect(mapStateToProps, {
+  selectLocation: actions.selectLocation,
+  getFunctionText: actions.getFunctionText,
+  flashLineRange: actions.flashLineRange
+})(Outline);

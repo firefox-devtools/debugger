@@ -41,14 +41,14 @@ type SourcesList = List<Source>;
 
 type Props = {
   tabSources: SourcesList,
-  selectSpecificSource: string => void,
   selectedSource: Source,
+  source: Source,
+  activeSearch: string,
+  selectSpecificSource: string => void,
   closeTab: string => void,
   closeTabs: (List<string>) => void,
   togglePrettyPrint: string => void,
-  showSource: string => void,
-  source: Source,
-  activeSearch: string
+  showSource: string => void
 };
 
 class Tab extends PureComponent<Props> {
@@ -218,4 +218,10 @@ const mapStateToProps = (state, { source }) => {
   };
 };
 
-export default connect(mapStateToProps, actions)(Tab);
+export default connect(mapStateToProps, {
+  selectSpecificSource: actions.selectSpecificSource,
+  closeTab: actions.closeTab,
+  closeTabs: actions.closeTabs,
+  togglePrettyPrint: actions.togglePrettyPrint,
+  showSource: actions.showSource
+})(Tab);

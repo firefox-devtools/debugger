@@ -613,4 +613,13 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, actions)(Editor);
+export default connect(mapStateToProps, {
+  openConditionalPanel: actions.openConditionalPanel,
+  closeConditionalPanel: actions.closeConditionalPanel,
+  setContextMenu: actions.setContextMenu,
+  continueToHere: actions.continueToHere,
+  toggleBreakpoint: actions.toggleBreakpoint,
+  addOrToggleDisabledBreakpoint: actions.addOrToggleDisabledBreakpoint,
+  jumpToMappedLocation: actions.jumpToMappedLocation,
+  traverseResults: actions.traverseResults
+})(Editor);

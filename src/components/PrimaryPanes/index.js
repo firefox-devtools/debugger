@@ -28,14 +28,13 @@ type State = {
 
 type Props = {
   selectedTab: string,
-  setPrimaryPaneTab: string => void,
   sources: SourcesMap,
-  selectLocation: Object => void,
   horizontal: boolean,
-  setActiveSearch: string => void,
-  closeActiveSearch: () => void,
   sourceSearchOn: boolean,
-  alphabetizeOutline: boolean
+  setPrimaryPaneTab: string => void,
+  selectLocation: Object => void,
+  setActiveSearch: string => void,
+  closeActiveSearch: () => void
 };
 
 class PrimaryPanes extends Component<Props, State> {
@@ -145,4 +144,9 @@ const mapStateToProps = state => ({
   sourceSearchOn: getActiveSearch(state) === "source"
 });
 
-export default connect(mapStateToProps, actions)(PrimaryPanes);
+export default connect(mapStateToProps, {
+  setPrimaryPaneTab: actions.setPrimaryPaneTab,
+  selectLocation: actions.selectLocation,
+  setActiveSearch: actions.setActiveSearch,
+  closeActiveSearch: actions.closeActiveSearch
+})(PrimaryPanes);

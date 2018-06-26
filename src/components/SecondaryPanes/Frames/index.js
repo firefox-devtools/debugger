@@ -35,12 +35,12 @@ const NUM_FRAMES_SHOWN = 7;
 type Props = {
   frames: Array<Frame>,
   frameworkGroupingOn: boolean,
-  toggleFrameworkGrouping: Function,
   selectedFrame: Object,
+  why: Why,
   selectFrame: Function,
   toggleBlackBox: Function,
-  disableFrameTruncate: boolean,
-  why: Why
+  toggleFrameworkGrouping: Function,
+  disableFrameTruncate: Function
 };
 
 type State = {
@@ -201,4 +201,9 @@ const mapStateToProps = state => ({
   pause: getIsPaused(state)
 });
 
-export default connect(mapStateToProps, actions)(Frames);
+export default connect(mapStateToProps, {
+  selectFrame: actions.selectFrame,
+  toggleBlackBox: actions.toggleBlackBox,
+  toggleFrameworkGrouping: actions.toggleFrameworkGrouping,
+  disableFrameTruncate: actions.disableFrameTruncate
+})(Frames);

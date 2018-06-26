@@ -20,13 +20,7 @@ import {
   getSourceCount
 } from "../../selectors";
 
-// Actions
-import { setExpandedState } from "../../actions/source-tree";
-import { selectSource } from "../../actions/sources";
-import {
-  setProjectDirectoryRoot,
-  clearProjectDirectoryRoot
-} from "../../actions/ui";
+import actions from "../../actions";
 
 // Components
 import SourcesTreeItem from "./SourcesTreeItem";
@@ -55,17 +49,17 @@ import type { SourcesMap } from "../../reducers/types";
 import type { Item } from "../shared/ManagedTree";
 
 type Props = {
-  selectSource: string => void,
-  setExpandedState: (Set<string>) => void,
-  setProjectDirectoryRoot: string => void,
-  clearProjectDirectoryRoot: void => void,
   sources: SourcesMap,
   sourceCount: number,
   shownSource?: string,
   selectedSource?: Source,
   debuggeeUrl: string,
   projectRoot: string,
-  expanded?: boolean
+  expanded?: boolean,
+  selectSource: string => mixed,
+  setExpandedState: (Set<string>) => mixed,
+  setProjectDirectoryRoot: string => void,
+  clearProjectDirectoryRoot: () => void
 };
 
 type State = {
@@ -379,11 +373,9 @@ const mapStateToProps = state => {
   };
 };
 
-const actionCreators = {
-  setExpandedState,
-  selectSource,
-  setProjectDirectoryRoot,
-  clearProjectDirectoryRoot
-};
-
-export default connect(mapStateToProps, actionCreators)(SourcesTree);
+export default connect(mapStateToProps, {
+  selectSource: actions.selectSource,
+  setExpandedState: actions.setExpandedState,
+  setProjectDirectoryRoot: actions.setProjectDirectoryRoot,
+  clearProjectDirectoryRoot: actions.clearProjectDirectoryRoot
+})(SourcesTree);
