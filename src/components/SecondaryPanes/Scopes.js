@@ -179,4 +179,6 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, actions)(Scopes);
+export default connect(mapStateToProps, {
+  openLink: actions.openLink
+})(Scopes);

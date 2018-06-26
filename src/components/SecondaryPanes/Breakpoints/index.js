@@ -25,10 +25,10 @@ import "./Breakpoints.css";
 type Props = {
   breakpointSources: BreakpointSources,
   selectedSource: Source,
-  selectSource: string => void,
   shouldPauseOnExceptions: boolean,
   shouldPauseOnCaughtExceptions: boolean,
-  pauseOnExceptions: Function
+  pauseOnExceptions: Function,
+  selectSource: string => void
 };
 
 function createExceptionOption(
@@ -129,4 +129,7 @@ const mapStateToProps = state => ({
   selectedSource: getSelectedSource(state)
 });
 
-export default connect(mapStateToProps, actions)(Breakpoints);
+export default connect(mapStateToProps, {
+  pauseOnExceptions: actions.pauseOnExceptions,
+  selectSource: actions.selectSource
+})(Breakpoints);

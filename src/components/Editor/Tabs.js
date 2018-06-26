@@ -28,14 +28,14 @@ type SourcesList = Source[];
 type Props = {
   tabSources: SourcesList,
   selectedSource: ?Source,
-  selectSpecificSource: string => void,
+  horizontal: boolean,
+  startPanelCollapsed: boolean,
+  endPanelCollapsed: boolean,
   moveTab: (string, number) => void,
   closeTab: string => void,
   togglePaneCollapse: () => void,
   showSource: string => void,
-  horizontal: boolean,
-  startPanelCollapsed: boolean,
-  endPanelCollapsed: boolean
+  selectSpecificSource: string => void
 };
 
 type State = {
@@ -202,4 +202,10 @@ const mapStateToProps = state => ({
   tabSources: getSourcesForTabs(state)
 });
 
-export default connect(mapStateToProps, actions)(Tabs);
+export default connect(mapStateToProps, {
+  selectSpecificSource: actions.selectSpecificSource,
+  moveTab: actions.moveTab,
+  closeTab: actions.closeTab,
+  togglePaneCollapse: actions.togglePaneCollapse,
+  showSource: actions.showSource
+})(Tabs);

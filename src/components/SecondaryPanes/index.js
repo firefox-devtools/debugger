@@ -73,20 +73,20 @@ type State = {
 type Props = {
   expressions: List<Expression>,
   extra: Object,
-  evaluateExpressions: Function,
   hasFrames: boolean,
   horizontal: boolean,
   breakpoints: Object,
   breakpointsDisabled: boolean,
   breakpointsLoading: boolean,
-  toggleAllBreakpoints: Function,
-  toggleShortcutsModal: Function,
-  pauseOnExceptions: (boolean, boolean) => void,
-  breakOnNext: () => void,
-  isWaitingOnBreak: any,
+  isWaitingOnBreak: boolean,
   shouldPauseOnExceptions: boolean,
   shouldPauseOnCaughtExceptions: boolean,
-  workers: WorkersList
+  workers: WorkersList,
+  toggleAllBreakpoints: Function,
+  toggleShortcutsModal: Function,
+  evaluateExpressions: Function,
+  pauseOnExceptions: (boolean, boolean) => void,
+  breakOnNext: () => void
 };
 
 class SecondaryPanes extends Component<Props, State> {
@@ -403,4 +403,10 @@ const mapStateToProps = state => ({
   workers: getWorkers(state)
 });
 
-export default connect(mapStateToProps, actions)(SecondaryPanes);
+export default connect(mapStateToProps, {
+  toggleAllBreakpoints: actions.toggleAllBreakpoints,
+  toggleShortcutsModal: actions.toggleShortcutsModal,
+  evaluateExpressions: actions.evaluateExpressions,
+  pauseOnExceptions: actions.pauseOnExceptions,
+  breakOnNext: actions.breakOnNext
+})(SecondaryPanes);

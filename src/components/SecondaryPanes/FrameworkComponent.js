@@ -19,9 +19,9 @@ const { createNode, getChildren } = ObjectInspectorUtils.node;
 const { loadItemProperties } = ObjectInspectorUtils.loadProperties;
 
 type Props = {
-  setPopupObjectProperties: (Object, Object) => void,
   selectedFrame: Frame,
-  popupObjectProperties: Object
+  popupObjectProperties: Object,
+  setPopupObjectProperties: (Object, Object) => void
 };
 
 class FrameworkComponent extends PureComponent<Props> {
@@ -89,4 +89,6 @@ const mapStateToProps = state => ({
   popupObjectProperties: getAllPopupObjectProperties(state)
 });
 
-export default connect(mapStateToProps, actions)(FrameworkComponent);
+export default connect(mapStateToProps, {
+  setPopupObjectProperties: actions.setPopupObjectProperties
+})(FrameworkComponent);

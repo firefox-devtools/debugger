@@ -27,9 +27,6 @@ import "./CommandBar.css";
 import { Services } from "devtools-modules";
 const { appinfo } = Services;
 
-import type { SourcesMap } from "../../reducers/sources";
-import type { Source } from "../../types";
-
 const isMacOS = appinfo.OS === "Darwin";
 
 const COMMANDS = ["resume", "stepOver", "stepIn", "stepOut"];
@@ -80,8 +77,15 @@ function formatKey(action) {
 }
 
 type Props = {
-  sources: SourcesMap,
-  selectedSource: Source,
+  historyPosition: number,
+  history: any,
+  isPaused: boolean,
+  isWaitingOnBreak: boolean,
+  horizontal: boolean,
+  canRewind: boolean,
+  skipPausing: boolean,
+  timeTravelTo: number => void,
+  clearHistory: () => void,
   resume: () => void,
   stepIn: () => void,
   stepOut: () => void,
@@ -91,18 +95,7 @@ type Props = {
   reverseStepIn: () => void,
   reverseStepOut: () => void,
   reverseStepOver: () => void,
-  isPaused: boolean,
   pauseOnExceptions: (boolean, boolean) => void,
-  shouldPauseOnExceptions: boolean,
-  shouldPauseOnCaughtExceptions: boolean,
-  historyPosition: number,
-  history: any,
-  timeTravelTo: number => void,
-  clearHistory: () => void,
-  isWaitingOnBreak: boolean,
-  horizontal: boolean,
-  canRewind: boolean,
-  skipPausing: boolean,
   toggleSkipPausing: () => void
 };
 
@@ -389,4 +382,18 @@ const mapStateToProps = state => ({
   skipPausing: getSkipPausing(state)
 });
 
-export default connect(mapStateToProps, actions)(CommandBar);
+export default connect(mapStateToProps, {
+  timeTravelTo: actions.timeTravelTo,
+  clearHistory: actions.clearHistory,
+  resume: actions.resume,
+  stepIn: actions.stepIn,
+  stepOut: actions.stepOut,
+  stepOver: actions.stepOver,
+  breakOnNext: actions.breakOnNext,
+  rewind: actions.rewind,
+  reverseStepIn: actions.reverseStepIn,
+  reverseStepOut: actions.reverseStepOut,
+  reverseStepOver: actions.reverseStepOver,
+  pauseOnExceptions: actions.pauseOnExceptions,
+  toggleSkipPausing: actions.toggleSkipPausing
+})(CommandBar);

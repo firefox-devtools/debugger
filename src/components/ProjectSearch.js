@@ -65,11 +65,11 @@ type Props = {
   results: List<Result>,
   status: StatusType,
   activeSearch: ActiveSearchType,
-  setActiveSearch: (activeSearch?: ActiveSearchType) => void,
   closeProjectSearch: () => void,
   searchSources: (query: string) => void,
   clearSearch: () => void,
   selectLocation: (location: Location, tabIndex?: string) => void,
+  setActiveSearch: (activeSearch?: ActiveSearchType) => void,
   doSearchForHighlight: (
     query: string,
     editor: Editor,
@@ -341,4 +341,11 @@ const mapStateToProps = state => ({
   status: getTextSearchStatus(state)
 });
 
-export default connect(mapStateToProps, actions)(ProjectSearch);
+export default connect(mapStateToProps, {
+  closeProjectSearch: actions.closeProjectSearch,
+  searchSources: actions.searchSources,
+  clearSearch: actions.clearSearch,
+  selectLocation: actions.selectLocation,
+  setActiveSearch: actions.setActiveSearch,
+  doSearchForHighlight: actions.doSearchForHighlight
+})(ProjectSearch);

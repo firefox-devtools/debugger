@@ -13,22 +13,19 @@ import { getPreview, getSelectedSource, getIsPaused } from "../../../selectors";
 import actions from "../../../actions";
 import { toEditorRange } from "../../../utils/editor";
 
-import type { Source, Location } from "../../../types";
+import type { Source } from "../../../types";
 
 import type { Preview as PreviewType } from "../../../reducers/ast";
 
 type Props = {
-  setPopupObjectProperties: Object => void,
-  addExpression: (string, ?Object) => void,
-  loadedObjects: Object,
   editor: any,
   editorRef: ?HTMLDivElement,
   selectedSource: Source,
-  selectedLocation: ?Location,
-  clearPreview: () => void,
   preview: PreviewType,
   isPaused: Boolean,
-  selectedFrameVisible: boolean,
+  clearPreview: () => void,
+  setPopupObjectProperties: Object => void,
+  addExpression: (string, ?Object) => void,
   updatePreview: (any, any, any) => void
 };
 
@@ -179,18 +176,9 @@ const mapStateToProps = state => ({
   selectedSource: getSelectedSource(state)
 });
 
-const {
-  addExpression,
-  setPopupObjectProperties,
-  updatePreview,
-  clearPreview
-} = actions;
-
-const mapDispatchToProps = {
-  addExpression,
-  setPopupObjectProperties,
-  updatePreview,
-  clearPreview
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Preview);
+export default connect(mapStateToProps, {
+  clearPreview: actions.clearPreview,
+  setPopupObjectProperties: actions.setPopupObjectProperties,
+  addExpression: actions.addExpression,
+  updatePreview: actions.updatePreview
+})(Preview);

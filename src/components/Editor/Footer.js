@@ -28,13 +28,13 @@ type Props = {
   selectedSource: Source,
   mappedSource: Source,
   editor: any,
+  endPanelCollapsed: boolean,
+  horizontal: boolean,
   togglePrettyPrint: string => void,
   toggleBlackBox: Object => void,
   jumpToMappedLocation: (Source: any) => void,
   recordCoverage: () => void,
-  togglePaneCollapse: () => void,
-  endPanelCollapsed: boolean,
-  horizontal: boolean
+  togglePaneCollapse: () => void
 };
 
 class SourceFooter extends PureComponent<Props> {
@@ -209,4 +209,10 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, actions)(SourceFooter);
+export default connect(mapStateToProps, {
+  togglePrettyPrint: actions.togglePrettyPrint,
+  toggleBlackBox: actions.toggleBlackBox,
+  jumpToMappedLocation: actions.jumpToMappedLocation,
+  recordCoverage: actions.recordCoverage,
+  togglePaneCollapse: actions.togglePaneCollapse
+})(SourceFooter);
