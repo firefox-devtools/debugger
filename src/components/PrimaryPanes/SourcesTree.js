@@ -115,9 +115,9 @@ class SourcesTree extends Component<Props, State> {
     }
 
     if (nextProps.shownSource && nextProps.shownSource != shownSource) {
-      const matchingSources = Object.keys(sources).filter(
-        sourceId => getRawSourceURL(sources[sourceId].url) === shownSource
-      );
+      const matchingSources = Object.keys(sources).filter(sourceId => {
+        return getRawSourceURL(sources[sourceId].url) === nextProps.shownSource;
+      });
 
       if (matchingSources.length) {
         const listItems = getDirectories(
@@ -125,8 +125,8 @@ class SourcesTree extends Component<Props, State> {
           sourceTree
         );
         this.selectItem(listItems[0]);
+        return this.setState({ listItems });
       }
-      return this.setState({ listItems: matchingSources });
     }
 
     if (

@@ -11,6 +11,7 @@
 
 import { isOriginalId } from "devtools-source-map";
 import { endTruncateStr } from "./utils";
+import { truncateMiddleText } from "../utils/text";
 
 import { parse as parseURL } from "url";
 import { getUnicodeUrl } from "devtools-modules";
@@ -156,6 +157,16 @@ export function getFilename(source: Source) {
   const { filename } = getURL(source);
 
   return filename;
+}
+
+/**
+ * Provides a middle-trunated filename
+ *
+ * @memberof utils/source
+ * @static
+ */
+export function getTruncatedFileName(source: number, length: number = 30) {
+  return truncateMiddleText(getFilename(source), length);
 }
 
 /**

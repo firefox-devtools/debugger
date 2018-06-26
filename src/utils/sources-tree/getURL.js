@@ -5,7 +5,7 @@
 // @flow
 
 import { parse } from "url";
-import { getUnicodeHostname } from "devtools-modules";
+import { getUnicodeHostname, getUnicodeUrlPath } from "devtools-modules";
 
 import type { Source } from "../../types";
 export type ParsedURL = {
@@ -38,7 +38,7 @@ function _getURL(source: Source): ParsedURL {
   }
 
   const { pathname, protocol, host, path } = parse(url);
-  const filename = getFilenameFromPath(pathname);
+  const filename = getUnicodeUrlPath(getFilenameFromPath(pathname));
 
   switch (protocol) {
     case "javascript:":

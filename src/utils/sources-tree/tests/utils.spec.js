@@ -106,7 +106,7 @@ describe("sources tree", () => {
       addToTree(tree, source1, "http://a/");
       addToTree(tree, source2, "http://a/");
       addToTree(tree, source3, "http://a/");
-      const paths = getDirectories("http://a/b.js", tree);
+      const paths = getDirectories(source1, tree);
 
       expect(paths[1].path).toBe("a");
       expect(paths[0].path).toBe("a/b.js");
@@ -114,7 +114,7 @@ describe("sources tree", () => {
 
     it("handles '?' in target url", function() {
       const source1 = createSource({
-        url: "http://a/b.js",
+        url: "http://a/b.js?key=hi",
         actor: "actor1"
       });
 
@@ -126,7 +126,7 @@ describe("sources tree", () => {
       const tree = createDirectoryNode("root", "", []);
       addToTree(tree, source1, "http://a/");
       addToTree(tree, source2, "http://a/");
-      const paths = getDirectories("http://a/b.js?key=hi", tree);
+      const paths = getDirectories(source1, tree);
 
       expect(paths[1].path).toBe("a");
       expect(paths[0].path).toBe("a/b.js");
@@ -146,7 +146,7 @@ describe("sources tree", () => {
       const tree = createDirectoryNode("root", "", []);
       addToTree(tree, source1, "http://a/");
       addToTree(tree, source2, "http://a/");
-      const paths = getDirectories("https://a/b.js", tree);
+      const paths = getDirectories(source1, tree);
 
       expect(paths[1].path).toBe("a");
       expect(paths[0].path).toBe("a/b.js");
