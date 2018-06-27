@@ -103,6 +103,19 @@ export function setOutOfScopeLocations() {
   };
 }
 
+function compressPausePoints(pausePoints) {
+  const compressed = {};
+  for (const line in pausePoints) {
+    compressed[line] = {};
+    for (const col in pausePoints[line]) {
+      const point = pausePoints[line][col];
+      compressed[line][col] = (point.break && 1) | (point.step && 2);
+    }
+  }
+
+  return compressed;
+}
+
 export function setPausePoints(sourceId: SourceId) {
   return async ({ dispatch, getState, client }: ThunkArgs) => {
     const source = getSource(getState(), sourceId);
@@ -111,9 +124,10 @@ export function setPausePoints(sourceId: SourceId) {
     }
 
     const pausePoints = await getPausePoints(sourceId);
+    const compressed = compressPausePoints(pausePoints);
 
     if (isGeneratedId(sourceId)) {
-      await client.setPausePoints(sourceId, pausePoints);
+      await client.setPausePoints(sourceId, compressed);
     }
 
     dispatch(
