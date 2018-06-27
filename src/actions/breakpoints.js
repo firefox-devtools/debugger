@@ -270,11 +270,12 @@ export function toggleBreakpoints(
  */
 export function removeAllBreakpoints() {
   return async ({ dispatch, getState }: ThunkArgs) => {
-    const promises = getBreakpoints(getState())
+    const breakpointList = getBreakpoints(getState())
       .valueSeq()
-      .toJS()
-      .map(([, breakpoint]) => dispatch(removeBreakpoint(breakpoint.location)));
-    await Promise.all(promises);
+      .toJS();
+    return Promise.all(
+      breakpointList.map(bp => dispatch(removeBreakpoint(bp.location)))
+    );
   };
 }
 
@@ -286,11 +287,10 @@ export function removeAllBreakpoints() {
  */
 export function removeBreakpoints(breakpoints: BreakpointsMap) {
   return async ({ dispatch }: ThunkArgs) => {
-    const promises = breakpoints
-      .valueSeq()
-      .toJS()
-      .map(([, breakpoint]) => dispatch(removeBreakpoint(breakpoint.location)));
-    await Promise.all(promises);
+    const breakpointList = breakpoints.valueSeq().toJS();
+    return Promise.all(
+      breakpointList.map(bp => dispatch(removeBreakpoint(bp.location)))
+    );
   };
 }
 
