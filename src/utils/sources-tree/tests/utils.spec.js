@@ -12,7 +12,6 @@ import {
   isDirectory,
   addToTree,
   sortEntireTree,
-  getURL,
   getDirectories,
   isNotJavaScript
 } from "../index";

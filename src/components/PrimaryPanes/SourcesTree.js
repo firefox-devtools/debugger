@@ -20,7 +20,9 @@ import {
   getSourceCount
 } from "../../selectors";
 
+// Actions
 import actions from "../../actions";
+import { getRawSourceURL } from "../../utils/source";
 
 // Components
 import SourcesTreeItem from "./SourcesTreeItem";
@@ -36,8 +38,6 @@ import {
   nodeHasChildren,
   updateTree
 } from "../../utils/sources-tree";
-
-import { getRawSourceURL } from "../../utils/source";
 
 import type {
   TreeNode,
@@ -115,12 +115,18 @@ class SourcesTree extends Component<Props, State> {
     }
 
     if (nextProps.shownSource && nextProps.shownSource != shownSource) {
-      // const listItems = getDirectories(nextProps.shownSource, sourceTree);
-      //
-      // if (listItems && listItems[0]) {
-      //   this.selectItem(listItems[0]);
-      // }
-      // return this.setState({ listItems });
+      const matchingSources = Object.keys(sources).filter(
+        sourceId => getRawSourceURL(sources[sourceId].url) === shownSource
+      );
+
+      if (matchingSources.length) {
+        const listItems = getDirectories(
+          sources[matchingSources[0]],
+          sourceTree
+        );
+        this.selectItem(listItems[0]);
+      }
+      return this.setState({ listItems: matchingSources });
     }
 
     if (

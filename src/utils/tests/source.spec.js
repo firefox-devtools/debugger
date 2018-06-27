@@ -5,7 +5,6 @@
 import {
   getFilename,
   getFileURL,
-  getFilenameFromURL,
   getMode,
   getSourceLineCount,
   isThirdParty,
@@ -97,33 +96,6 @@ describe("sources", () => {
           id: ""
         })
       ).toBe(`...ttp://${unicode.repeat(39)}.html`);
-    });
-  });
-
-  describe("getFilenameFromURL", () => {
-    it("should give us the filename", () => {
-      expect(
-        getFilenameFromURL("http://localhost.com:7999/increment/hello.html")
-      ).toBe("hello.html");
-    });
-    it("should give us the readable Unicode filename if encoded", () => {
-      expect(
-        getFilenameFromURL(
-          `http://localhost.com:7999/increment/${encodedUnicode}.html`
-        )
-      ).toBe(`${unicode}.html`);
-    });
-    it("should truncate the file name when it is more than 50 chars", () => {
-      expect(
-        getFilenameFromURL(
-          "http://localhost/really-really-really-really-really-really-long-name.html"
-        )
-      ).toBe("...-really-really-really-really-really-long-name.html");
-    });
-    it("should first decode the filename and then truncate it", () => {
-      expect(
-        getFilenameFromURL(`http://${encodedUnicode.repeat(50)}.html`)
-      ).toBe(`...${unicode.repeat(45)}.html`);
     });
   });
 

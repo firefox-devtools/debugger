@@ -10,14 +10,12 @@
  */
 
 import { isOriginalId } from "devtools-source-map";
-import { getURL } from "./sources-tree/index";
 import { endTruncateStr } from "./utils";
-import { basename } from "./path";
 
 import { parse as parseURL } from "url";
-import { getUnicodeUrl, getUnicodeUrlPath } from "devtools-modules";
+import { getUnicodeUrl } from "devtools-modules";
 export { isMinified } from "./isMinified";
-import { getFileExtension } from "./sources-tree";
+import { getURL, getFileExtension } from "./sources-tree";
 
 import type { Source, Location } from "../types";
 import type { SourceMetaDataType } from "../reducers/ast";
@@ -156,6 +154,7 @@ export function getFilename(source: Source) {
   }
 
   const { filename } = getURL(source);
+
   return filename;
 }
 
