@@ -43,7 +43,12 @@ type Props = {
   frame: ?Frame,
   enableBreakpoint: typeof actions.enableBreakpoint,
   removeBreakpoint: typeof actions.removeBreakpoint,
+  removeBreakpoints: typeof actions.removeBreakpoints,
+  removeAllBreakpoints: typeof actions.removeAllBreakpoints,
   disableBreakpoint: typeof actions.disableBreakpoint,
+  toggleAllBreakpoints: typeof actions.toggleAllBreakpoints,
+  toggleBreakpoints: typeof actions.toggleBreakpoints,
+  openConditionalPanel: typeof actions.openConditionalPanel,
   selectSpecificLocation: typeof actions.selectSpecificLocation
 };
 
@@ -188,6 +193,12 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   enableBreakpoint: actions.enableBreakpoint,
   removeBreakpoint: actions.removeBreakpoint,
+  removeBreakpoints: actions.removeBreakpoints,
+  removeAllBreakpoints: actions.removeAllBreakpoints,
   disableBreakpoint: actions.disableBreakpoint,
-  selectSpecificLocation: actions.selectSpecificLocation
+  selectSpecificLocation: actions.selectSpecificLocation,
+  selectLocation: actions.selectLocation,
+  toggleAllBreakpoints: actions.toggleAllBreakpoints,
+  toggleBreakpoints: actions.toggleBreakpoints,
+  openConditionalPanel: actions.openConditionalPanel
 })(Breakpoint);
