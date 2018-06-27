@@ -248,13 +248,17 @@ export function toggleBreakpoints(
   breakpoints: BreakpointsMap
 ) {
   return async ({ dispatch }: ThunkArgs) => {
-    for (const [, breakpoint] of breakpoints) {
-      if (shouldDisableBreakpoints) {
-        await dispatch(disableBreakpoint(breakpoint.location));
-      } else {
-        await dispatch(enableBreakpoint(breakpoint.location));
-      }
-    }
+    const promises = breakpoints
+      .valueSeq()
+      .toJS()
+      .map(
+        ([, breakpoint]) =>
+          shouldDisableBreakpoints
+            ? dispatch(disableBreakpoint(breakpoint.location))
+            : dispatch(enableBreakpoint(breakpoint.location))
+      );
+
+    await Promise.all(promises);
   };
 }
 
@@ -266,10 +270,12 @@ export function toggleBreakpoints(
  */
 export function removeAllBreakpoints() {
   return async ({ dispatch, getState }: ThunkArgs) => {
-    const breakpoints = getBreakpoints(getState());
-    for (const [, breakpoint] of breakpoints) {
-      await dispatch(removeBreakpoint(breakpoint.location));
-    }
+    const breakpointList = getBreakpoints(getState())
+      .valueSeq()
+      .toJS();
+    return Promise.all(
+      breakpointList.map(bp => dispatch(removeBreakpoint(bp.location)))
+    );
   };
 }
 
@@ -281,9 +287,10 @@ export function removeAllBreakpoints() {
  */
 export function removeBreakpoints(breakpoints: BreakpointsMap) {
   return async ({ dispatch }: ThunkArgs) => {
-    for (const [, breakpoint] of breakpoints) {
-      await dispatch(removeBreakpoint(breakpoint.location));
-    }
+    const breakpointList = breakpoints.valueSeq().toJS();
+    return Promise.all(
+      breakpointList.map(bp => dispatch(removeBreakpoint(bp.location)))
+    );
   };
 }
 
