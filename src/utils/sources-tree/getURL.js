@@ -32,7 +32,7 @@ const NoDomain = "(no domain)";
 const def = { path: "", group: "", filename: "" };
 
 function _getURL(source: Source): ParsedURL {
-  const url = source.url;
+  const { url } = source;
   if (!url) {
     return def;
   }
@@ -112,7 +112,7 @@ function _getURL(source: Source): ParsedURL {
 
 export function getURL(source: Source) {
   if (urlMap.has(source)) {
-    return urlMap.get(source);
+    return urlMap.get(source) || def;
   }
 
   const url = _getURL(source);

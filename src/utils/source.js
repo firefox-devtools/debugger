@@ -165,7 +165,7 @@ export function getFilename(source: Source) {
  * @memberof utils/source
  * @static
  */
-export function getTruncatedFileName(source: number, length: number = 30) {
+export function getTruncatedFileName(source: Source, length: number = 30) {
   return truncateMiddleText(getFilename(source), length);
 }
 

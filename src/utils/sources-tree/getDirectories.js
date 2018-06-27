@@ -7,6 +7,7 @@
 import { createParentMap } from "./utils";
 import { getURL } from "./getURL";
 import type { TreeNode, TreeDirectory } from "./types";
+import type { Source } from "../../types";
 
 function findSource(sourceTree: TreeDirectory, sourceUrl: string): TreeNode {
   let returnTarget = null;
@@ -32,18 +33,19 @@ function findSource(sourceTree: TreeDirectory, sourceUrl: string): TreeNode {
   return returnTarget;
 }
 
-export function getDirectories(sourceUrl: string, sourceTree: TreeDirectory) {
-  const url = getURL(sourceUrl);
+export function getDirectories(source: Source, sourceTree: TreeDirectory) {
+  const url = getURL(source);
   const fullUrl = `${url.group}${url.path}`;
   const parentMap = createParentMap(sourceTree);
-  const source = findSource(sourceTree, fullUrl);
-  if (!source) {
+
+  const subtreeSource = findSource(sourceTree, fullUrl);
+  if (!subtreeSource) {
     return [];
   }
 
-  let node = source;
+  let node = subtreeSource;
   const directories = [];
-  directories.push(source);
+  directories.push(subtreeSource);
   while (true) {
     node = parentMap.get(node);
     if (!node) {
