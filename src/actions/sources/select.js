@@ -13,6 +13,7 @@ import { isOriginalId } from "devtools-source-map";
 
 import { setOutOfScopeLocations, setSymbols } from "../ast";
 import { closeActiveSearch } from "../ui";
+import { searchContents } from "../file-search";
 
 import { togglePrettyPrint } from "./prettyPrint";
 import { addTab, closeTab } from "./tabs";
@@ -22,13 +23,15 @@ import { prefs } from "../../utils/prefs";
 import { shouldPrettyPrint, isMinified } from "../../utils/source";
 import { createLocation } from "../../utils/location";
 import { getGeneratedLocation } from "../../utils/source-maps";
+import { getEditor } from "../../utils/editor";
 
 import {
   getSource,
   getSourceByURL,
   getPrettySource,
   getActiveSearch,
-  getSelectedLocation
+  getSelectedLocation,
+  getFileSearchQuery
 } from "../../selectors";
 
 import type { Location, Source } from "../../types";
@@ -97,6 +100,7 @@ export function selectSource(sourceId: string) {
  */
 export function selectLocation(location: Location) {
   return async ({ dispatch, getState, client }: ThunkArgs) => {
+    const previousLocation = getState().sources.selectedLocation;
     if (!client) {
       // No connection, do nothing. This happens when the debugger is
       // shut down too fast and it tries to display a default source.
@@ -137,6 +141,19 @@ export function selectLocation(location: Location) {
 
     dispatch(setSymbols(loadedSource.id));
     dispatch(setOutOfScopeLocations());
+
+    // If this is a new location and there is an active file search open,
+    // then update the results
+    const isLocationChanged =
+      !previousLocation || previousLocation.sourceId !== location.sourceId;
+    if (isLocationChanged) {
+      const isFileSearchOpen = getActiveSearch(getState()) === "file";
+      const fileSearchQuery = getFileSearchQuery(getState());
+      if (isFileSearchOpen && fileSearchQuery) {
+        const editor = getEditor();
+        dispatch(searchContents(fileSearchQuery, editor));
+      }
+    }
   };
 }
 
@@ -146,6 +163,8 @@ export function selectLocation(location: Location) {
  */
 export function selectSpecificLocation(location: Location) {
   return async ({ dispatch, getState, client }: ThunkArgs) => {
+    const previousLocation = getState().sources.selectedLocation;
+
     if (!client) {
       // No connection, do nothing. This happens when the debugger is
       // shut down too fast and it tries to display a default source.
@@ -176,6 +195,19 @@ export function selectSpecificLocation(location: Location) {
 
     dispatch(setSymbols(sourceId));
     dispatch(setOutOfScopeLocations());
+
+    // If this is a new location and there is an active file search open,
+    // then update the results
+    const isLocationChanged =
+      !previousLocation || previousLocation.sourceId !== location.sourceId;
+    if (isLocationChanged) {
+      const isFileSearchOpen = getActiveSearch(getState()) === "file";
+      const fileSearchQuery = getFileSearchQuery(getState());
+      if (isFileSearchOpen && fileSearchQuery) {
+        const editor = getEditor();
+        dispatch(searchContents(fileSearchQuery, editor));
+      }
+    }
   };
 }
 
