@@ -137,9 +137,11 @@ function checkPendingBreakpoints(sourceId: string) {
     await dispatch(loadSourceText(source));
 
     const pendingBreakpointsArray = pendingBreakpoints.valueSeq().toJS();
-    for (const pendingBreakpoint of pendingBreakpointsArray) {
-      await dispatch(syncBreakpoint(sourceId, pendingBreakpoint));
-    }
+    await Promise.all(
+      pendingBreakpointsArray.map(pendingBreakpoint =>
+        dispatch(syncBreakpoint(sourceId, pendingBreakpoint))
+      )
+    );
   };
 }
 
