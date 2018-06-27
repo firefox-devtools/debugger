@@ -12,7 +12,7 @@ export default function showContextMenu(props) {
     toggleBreakpoints,
     toggleAllBreakpoints,
     toggleDisabledBreakpoint,
-    selectLocation,
+    selectSpecificLocation,
     setBreakpointCondition,
     openConditionalPanel,
     breakpoints,
@@ -168,7 +168,7 @@ export default function showContextMenu(props) {
     label: addConditionLabel,
     accesskey: addConditionKey,
     click: () => {
-      selectLocation(breakpoint.location);
+      selectSpecificLocation(breakpoint.location);
       openConditionalPanel(breakpoint.location.line);
     }
   };
@@ -178,7 +178,7 @@ export default function showContextMenu(props) {
     label: editConditionLabel,
     accesskey: editConditionKey,
     click: () => {
-      selectLocation(breakpoint.location);
+      selectSpecificLocation(breakpoint.location);
       openConditionalPanel(breakpoint.location.line);
     }
   };
