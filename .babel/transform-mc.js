@@ -12,6 +12,10 @@ function isRequire(t, node) {
   return node && t.isCallExpression(node) && node.callee.name == "require";
 }
 
+function isImport(t, node) {
+  return node && t.isImportDeclaration(node);
+}
+
 // List of vendored modules.
 // Should be synchronized with vendors.js
 const VENDORS = [
@@ -49,6 +53,37 @@ module.exports = function({ types: t }) {
       StringLiteral(path, state) {
         const { filePath } = state.opts;
         let value = path.node.value;
+
+        if (path.node.value === "devtools-modules" && isImport(t, path.parent)) {
+          if (path.parentPath.scope.references.Telemetry) {
+            path = path.parentPath;
+
+            const specifiers = path.node.specifiers;
+
+            for (let i = 0; i < specifiers.length; i++) {
+              let specifier = specifiers[i];
+
+              if (specifier.local.name === "Telemetry") {
+                const devtoolsPath = t.stringLiteral("devtools/client/shared/telemetry");
+                const source = path.node.source;
+
+                // In the case of multiple declarations we need to move
+                // the telemetry module into its own import.
+                const newSpecifier = t.importDefaultSpecifier(specifier.local);
+                const dec = t.importDeclaration([newSpecifier], devtoolsPath);
+                if (specifiers.length > 1) {
+                  path.insertAfter(dec);
+                  specifiers.splice(i, 1);
+                } else if (path.node.source) {
+                  if (path.node.specifiers[0].type !== "ImportDefaultSpecifier") {
+                    path.replaceWith(dec);
+                  }
+                }
+              }
+            }
+            return;
+          }
+        }
 
         if (!isRequire(t, path.parent)) {
           return;
