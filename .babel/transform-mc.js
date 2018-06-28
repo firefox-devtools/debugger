@@ -35,6 +35,39 @@ const VENDORS = [
   "url"
 ];
 
+/*
+ * Updates devtools-modules imports such as
+ * `import { Telemetry } from "devtools-modules"`
+ * so that we can customize how we resolve certain modules in the package
+ *
+ * In the case of multiple declarations we need to move
+ * the telemetry module into its own import.
+ */
+function updateDevtoolsModulesImport(path, t) {
+  const specifiers = path.node.specifiers;
+
+  for (let i = 0; i < specifiers.length; i++) {
+    let specifier = specifiers[i];
+
+    if (specifier.local.name === "Telemetry") {
+      const newImport = t.importDeclaration(
+        [t.importDefaultSpecifier(specifier.local)],
+        t.stringLiteral("devtools/client/shared/telemetry")
+      );
+
+      if (specifiers.length > 1) {
+        path.insertAfter(newImport);
+        specifiers.splice(i, 1);
+      } else if (path.node.source) {
+        // Note we don't want to update import `Telemetry from "devtools-modules"`
+        if (path.node.specifiers[0].type !== "ImportDefaultSpecifier") {
+          path.replaceWith(newImport);
+        }
+      }
+    }
+  }
+}
+
 /**
  * This Babel plugin is used to transpile a single Debugger module into a module that
  * can be loaded in Firefox via the regular DevTools loader.
@@ -48,42 +81,15 @@ module.exports = function({ types: t }) {
         if (value && value.includes(".css")) {
           path.remove();
         }
+
+        if (value && value == "devtools-modules") {
+          updateDevtoolsModulesImport(path, t);
+        }
       },
 
       StringLiteral(path, state) {
         const { filePath } = state.opts;
         let value = path.node.value;
-
-        if (path.node.value === "devtools-modules" && isImport(t, path.parent)) {
-          if (path.parentPath.scope.references.Telemetry) {
-            path = path.parentPath;
-
-            const specifiers = path.node.specifiers;
-
-            for (let i = 0; i < specifiers.length; i++) {
-              let specifier = specifiers[i];
-
-              if (specifier.local.name === "Telemetry") {
-                const devtoolsPath = t.stringLiteral("devtools/client/shared/telemetry");
-                const source = path.node.source;
-
-                // In the case of multiple declarations we need to move
-                // the telemetry module into its own import.
-                const newSpecifier = t.importDefaultSpecifier(specifier.local);
-                const dec = t.importDeclaration([newSpecifier], devtoolsPath);
-                if (specifiers.length > 1) {
-                  path.insertAfter(dec);
-                  specifiers.splice(i, 1);
-                } else if (path.node.source) {
-                  if (path.node.specifiers[0].type !== "ImportDefaultSpecifier") {
-                    path.replaceWith(dec);
-                  }
-                }
-              }
-            }
-            return;
-          }
-        }
 
         if (!isRequire(t, path.parent)) {
           return;
