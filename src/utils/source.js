@@ -11,12 +11,12 @@
 
 import { isOriginalId } from "devtools-source-map";
 import { endTruncateStr } from "./utils";
-import { basename } from "./path";
+import { truncateMiddleText } from "../utils/text";
 
 import { parse as parseURL } from "url";
-import { getUnicodeUrl, getUnicodeUrlPath } from "devtools-modules";
+import { getUnicodeUrl } from "devtools-modules";
 export { isMinified } from "./isMinified";
-import { getFileExtension } from "./sources-tree";
+import { getURL, getFileExtension } from "./sources-tree";
 
 import type { Source, Location } from "../types";
 import type { SourceMetaDataType } from "../reducers/ast";
@@ -136,19 +136,6 @@ function resolveFileURL(
   return endTruncateStr(name, 50);
 }
 
-/**
- * Gets a readable filename from a URL for display purposes.
- *
- * @memberof utils/source
- * @static
- */
-export function getFilenameFromURL(url: string): string {
-  return resolveFileURL(
-    url,
-    initialUrl => getUnicodeUrlPath(basename(initialUrl)) || "(index)"
-  );
-}
-
 export function getFormattedSourceId(id: string) {
   const sourceId = id.split("/")[1];
   return `SOURCE${sourceId}`;
@@ -167,12 +154,19 @@ export function getFilename(source: Source) {
     return getFormattedSourceId(id);
   }
 
-  let filename = getFilenameFromURL(url);
-  const qMarkIdx = filename.indexOf("?");
-  if (qMarkIdx > 0) {
-    filename = filename.slice(0, qMarkIdx);
-  }
+  const { filename } = getURL(source);
+
   return filename;
+}
+
+/**
+ * Provides a middle-trunated filename
+ *
+ * @memberof utils/source
+ * @static
+ */
+export function getTruncatedFileName(source: Source, length: number = 30) {
+  return truncateMiddleText(getFilename(source), length);
 }
 
 /**

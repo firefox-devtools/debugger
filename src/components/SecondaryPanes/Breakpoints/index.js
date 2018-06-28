@@ -12,7 +12,7 @@ import Breakpoint from "./Breakpoint";
 import SourceIcon from "../../shared/SourceIcon";
 
 import actions from "../../../actions";
-import { getFilename, getRawSourceURL } from "../../../utils/source";
+import { getTruncatedFileName, getRawSourceURL } from "../../../utils/source";
 import { makeLocationId } from "../../../utils/breakpoint";
 
 import { getSelectedSource, getBreakpointSources } from "../../../selectors";
@@ -101,7 +101,7 @@ class Breakpoints extends Component<Props> {
             source={source}
             shouldHide={icon => ["file", "javascript"].includes(icon)}
           />
-          {getFilename(source)}
+          {getTruncatedFileName(source)}
         </div>,
         ...breakpoints.map(breakpoint => (
           <Breakpoint

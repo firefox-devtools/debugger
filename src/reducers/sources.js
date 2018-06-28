@@ -42,7 +42,7 @@ export function initialSourcesState(): SourcesState {
   };
 }
 
-export function createSource(source: Source) {
+export function createSource(source: Object): Source {
   return {
     id: undefined,
     url: undefined,
