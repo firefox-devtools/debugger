@@ -933,10 +933,14 @@ function buildMetaBindings(
     };
   }
 
-  // Consider "Object(foo)" to be equivalent to "foo"
+  // Consider "Object(foo)", and "__webpack_require__.i(foo)" to be
+  // equivalent to "foo" since they are essentially identity functions.
   if (
     t.isCallExpression(parent) &&
-    t.isIdentifier(parent.callee, { name: "Object" }) &&
+    (t.isIdentifier(parent.callee, { name: "Object" }) ||
+      (t.isMemberExpression(parent.callee, { computed: false }) &&
+        t.isIdentifier(parent.callee.object, { name: "__webpack_require__" }) &&
+        t.isIdentifier(parent.callee.property, { name: "i" }))) &&
     parent.arguments.length === 1 &&
     parent.arguments[0] === node
   ) {
