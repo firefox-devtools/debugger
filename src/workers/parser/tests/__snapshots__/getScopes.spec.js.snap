@@ -15172,6 +15172,74 @@ Array [
             },
             "type": "ref",
           },
+          Object {
+            "end": Object {
+              "column": 25,
+              "line": 6,
+              "sourceId": "scopes/expressions/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 29,
+                "line": 6,
+                "sourceId": "scopes/expressions/originalSource-1",
+              },
+              "parent": Object {
+                "end": Object {
+                  "column": 30,
+                  "line": 6,
+                  "sourceId": "scopes/expressions/originalSource-1",
+                },
+                "parent": Object {
+                  "end": Object {
+                    "column": 32,
+                    "line": 6,
+                    "sourceId": "scopes/expressions/originalSource-1",
+                  },
+                  "parent": Object {
+                    "end": Object {
+                      "column": 36,
+                      "line": 6,
+                      "sourceId": "scopes/expressions/originalSource-1",
+                    },
+                    "parent": null,
+                    "property": "baz",
+                    "start": Object {
+                      "column": 0,
+                      "line": 6,
+                      "sourceId": "scopes/expressions/originalSource-1",
+                    },
+                    "type": "member",
+                  },
+                  "start": Object {
+                    "column": 0,
+                    "line": 6,
+                    "sourceId": "scopes/expressions/originalSource-1",
+                  },
+                  "type": "call",
+                },
+                "start": Object {
+                  "column": 0,
+                  "line": 6,
+                  "sourceId": "scopes/expressions/originalSource-1",
+                },
+                "type": "inherit",
+              },
+              "property": "bar",
+              "start": Object {
+                "column": 22,
+                "line": 6,
+                "sourceId": "scopes/expressions/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 22,
+              "line": 6,
+              "sourceId": "scopes/expressions/originalSource-1",
+            },
+            "type": "ref",
+          },
         ],
         "type": "const",
       },
@@ -15179,7 +15247,7 @@ Array [
     "displayName": "Lexical Global",
     "end": Object {
       "column": 0,
-      "line": 6,
+      "line": 7,
       "sourceId": "scopes/expressions/originalSource-1",
     },
     "start": Object {
@@ -15210,6 +15278,39 @@ Array [
         ],
         "type": "global",
       },
+      "__webpack_require__": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 19,
+              "line": 6,
+              "sourceId": "scopes/expressions/originalSource-1",
+            },
+            "meta": Object {
+              "end": Object {
+                "column": 21,
+                "line": 6,
+                "sourceId": "scopes/expressions/originalSource-1",
+              },
+              "parent": null,
+              "property": "i",
+              "start": Object {
+                "column": 0,
+                "line": 6,
+                "sourceId": "scopes/expressions/originalSource-1",
+              },
+              "type": "member",
+            },
+            "start": Object {
+              "column": 0,
+              "line": 6,
+              "sourceId": "scopes/expressions/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
+      },
       "this": Object {
         "refs": Array [],
         "type": "implicit",
@@ -15218,7 +15319,7 @@ Array [
     "displayName": "Global",
     "end": Object {
       "column": 0,
-      "line": 6,
+      "line": 7,
       "sourceId": "scopes/expressions/originalSource-1",
     },
     "start": Object {
