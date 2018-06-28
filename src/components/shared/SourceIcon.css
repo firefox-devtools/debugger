@@ -19,6 +19,11 @@
   fill: var(--theme-textbox-box-shadow);
 }
 
+.source-icon.vue {
+  background: url(/images/vuejs.svg) 1px 1px no-repeat;
+  background-size: 15px;
+}
+
 .source-icon.angular {
   background: url(/images/angular.svg) 1px 1px no-repeat;
   background-size: 13px 13px;
