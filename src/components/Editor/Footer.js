@@ -69,7 +69,7 @@ class SourceFooter extends PureComponent<Props> {
     const { selectedSource, toggleBlackBox } = this.props;
     const sourceLoaded = selectedSource && isLoaded(selectedSource);
 
-    if (!sourceLoaded) {
+    if (!sourceLoaded || selectedSource.isPrettyPrinted) {
       return;
     }
 
