@@ -818,14 +818,14 @@ class Tree extends Component {
             return;
           }
 
-          const { relatedTarget } = nativeEvent;
+          const { explicitOriginalTarget } = nativeEvent;
 
           // Only set default focus to the first tree node if the focus came
           // from outside the tree (e.g. by tabbing to the tree from other
           // external elements).
           if (
-            relatedTarget !== this.treeRef &&
-            !this.treeRef.contains(relatedTarget)
+            explicitOriginalTarget !== this.treeRef &&
+            !this.treeRef.contains(explicitOriginalTarget)
           ) {
             this._focus(traversal[0].item);
           }
