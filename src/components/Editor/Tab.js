@@ -12,20 +12,17 @@ import { showMenu, buildMenu } from "devtools-contextmenu";
 import SourceIcon from "../shared/SourceIcon";
 import { CloseButton } from "../shared/Button";
 
-import { truncateMiddleText } from "../../utils/text";
-
 import type { List } from "immutable";
 import type { Source } from "../../types";
 
 import actions from "../../actions";
 
 import {
-  getFilename,
   getFileURL,
   getRawSourceURL,
+  getTruncatedFileName,
   isPretty
 } from "../../utils/source";
-import { getUnicodeUrlPath } from "devtools-modules";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { getTabMenuItems } from "../../utils/tabs";
 
@@ -154,7 +151,6 @@ class Tab extends PureComponent<Props> {
       closeTab,
       source
     } = this.props;
-    const filename = getFilename(source);
     const sourceId = source.id;
     const active =
       selectedSource &&
@@ -196,9 +192,7 @@ class Tab extends PureComponent<Props> {
           source={source}
           shouldHide={icon => ["file", "javascript"].includes(icon)}
         />
-        <div className="filename">
-          {truncateMiddleText(getUnicodeUrlPath(filename), 30)}
-        </div>
+        <div className="filename">{getTruncatedFileName(source)}</div>
         <CloseButton
           handleClick={onClickClose}
           tooltip={L10N.getStr("sourceTabs.closeTabButtonTooltip")}

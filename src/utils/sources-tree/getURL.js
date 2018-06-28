@@ -5,14 +5,16 @@
 // @flow
 
 import { parse } from "url";
-import { merge } from "lodash";
-import { getUnicodeHostname } from "devtools-modules";
+import { getUnicodeHostname, getUnicodeUrlPath } from "devtools-modules";
 
+import type { Source } from "../../types";
 export type ParsedURL = {
   path: string,
   group: string,
   filename: string
 };
+
+const urlMap: WeakMap<Source, ParsedURL> = new WeakMap();
 
 export function getFilenameFromPath(pathname?: string) {
   let filename = "";
@@ -27,16 +29,16 @@ export function getFilenameFromPath(pathname?: string) {
 }
 
 const NoDomain = "(no domain)";
-export function getURL(sourceUrl: string, debuggeeUrl: string = ""): ParsedURL {
-  const url = sourceUrl;
-  const def = { path: "", group: "", filename: "" };
+const def = { path: "", group: "", filename: "" };
+
+function _getURL(source: Source, debuggeeUrl: string): ParsedURL {
+  const { url } = source;
   if (!url) {
     return def;
   }
 
   const { pathname, protocol, host, path } = parse(url);
-  const defaultDomain = parse(debuggeeUrl).host;
-  const filename = getFilenameFromPath(pathname);
+  const filename = getUnicodeUrlPath(getFilenameFromPath(pathname));
 
   switch (protocol) {
     case "javascript:":
@@ -45,65 +47,84 @@ export function getURL(sourceUrl: string, debuggeeUrl: string = ""): ParsedURL {
 
     case "moz-extension:":
     case "resource:":
-      return merge(def, {
+      return {
+        ...def,
         path,
-        group: `${protocol}//${host || ""}`,
-        filename
-      });
+        filename,
+        group: `${protocol}//${host || ""}`
+      };
 
     case "webpack:":
     case "ng:":
-      return merge(def, {
+      return {
+        ...def,
         path: path,
-        group: `${protocol}//`,
-        filename: filename
-      });
+        filename,
+        group: `${protocol}//`
+      };
 
     case "about:":
       // An about page is a special case
-      return merge(def, {
+      return {
+        ...def,
         path: "/",
-        group: url,
-        filename: filename
-      });
+        filename,
+        group: url
+      };
 
     case "data:":
-      return merge(def, {
+      return {
+        ...def,
         path: "/",
         group: NoDomain,
         filename: url
-      });
+      };
 
     case null:
       if (pathname && pathname.startsWith("/")) {
         // use file protocol for a URL like "/foo/bar.js"
-        return merge(def, {
+        return {
+          ...def,
           path: path,
-          group: "file://",
-          filename: filename
-        });
+          filename,
+          group: "file://"
+        };
       } else if (host === null) {
         // use anonymous group for weird URLs
-        return merge(def, {
+        const defaultDomain = parse(debuggeeUrl).host;
+        return {
+          ...def,
           path: url,
           group: defaultDomain,
-          filename: filename
-        });
+          filename
+        };
       }
       break;
 
     case "http:":
     case "https:":
-      return merge(def, {
+      return {
+        ...def,
         path: pathname,
-        group: getUnicodeHostname(host),
-        filename: filename
-      });
+        filename,
+        group: getUnicodeHostname(host)
+      };
   }
 
-  return merge(def, {
+  return {
+    ...def,
     path: path,
     group: protocol ? `${protocol}//` : "",
-    filename: filename
-  });
+    filename
+  };
+}
+
+export function getURL(source: Source, debuggeeUrl: string = "") {
+  if (urlMap.has(source)) {
+    return urlMap.get(source) || def;
+  }
+
+  const url = _getURL(source, debuggeeUrl);
+  urlMap.set(source, url);
+  return url;
 }

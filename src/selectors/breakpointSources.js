@@ -7,7 +7,7 @@
 import { sortBy, uniq } from "lodash";
 import { createSelector } from "reselect";
 import { getSources, getBreakpoints } from "../selectors";
-import { getFilenameFromURL } from "../utils/source";
+import { getFilename } from "../utils/source";
 
 import type { Source, Breakpoint } from "../types";
 import type { SourcesMap, BreakpointsMap } from "../reducers/types";
@@ -50,9 +50,7 @@ function findBreakpointSources(
     .map(id => sources[id])
     .filter(source => source && !source.isBlackBoxed);
 
-  return sortBy(breakpointSources, (source: Source) =>
-    getFilenameFromURL(source.url)
-  );
+  return sortBy(breakpointSources, (source: Source) => getFilename(source));
 }
 
 function _getBreakpointSources(

@@ -4,8 +4,8 @@
 
 import {
   getFilename,
+  getTruncatedFileName,
   getFileURL,
-  getFilenameFromURL,
   getMode,
   getSourceLineCount,
   isThirdParty,
@@ -39,22 +39,6 @@ describe("sources", () => {
         })
       ).toBe(`${unicode}.html`);
     });
-    it("should truncate the file name when it is more than 50 chars", () => {
-      expect(
-        getFilename({
-          url: "really-really-really-really-really-really-long-name.html",
-          id: ""
-        })
-      ).toBe("...-really-really-really-really-really-long-name.html");
-    });
-    it("should first decode the filename and then truncate it", () => {
-      expect(
-        getFilename({
-          url: `${encodedUnicode.repeat(50)}.html`,
-          id: ""
-        })
-      ).toBe(`...${unicode.repeat(45)}.html`);
-    });
     it("should give us the filename excluding the query strings", () => {
       expect(
         getFilename({
@@ -62,6 +46,31 @@ describe("sources", () => {
           id: ""
         })
       ).toBe("hello.html");
+    });
+  });
+
+  describe("getTruncatedFileName", () => {
+    it("should truncate the file name when it is more than 30 chars", () => {
+      expect(
+        getTruncatedFileName(
+          {
+            url: "really-really-really-really-really-really-long-name.html",
+            id: ""
+          },
+          30
+        )
+      ).toBe("really-really...long-name.html");
+    });
+    it("should first decode the filename and then truncate it", () => {
+      expect(
+        getTruncatedFileName(
+          {
+            url: `${encodedUnicode.repeat(30)}.html`,
+            id: ""
+          },
+          30
+        )
+      ).toBe("測測測測測測測測測測測測測...測測測測測測測測測.html");
     });
   });
 
@@ -97,33 +106,6 @@ describe("sources", () => {
           id: ""
         })
       ).toBe(`...ttp://${unicode.repeat(39)}.html`);
-    });
-  });
-
-  describe("getFilenameFromURL", () => {
-    it("should give us the filename", () => {
-      expect(
-        getFilenameFromURL("http://localhost.com:7999/increment/hello.html")
-      ).toBe("hello.html");
-    });
-    it("should give us the readable Unicode filename if encoded", () => {
-      expect(
-        getFilenameFromURL(
-          `http://localhost.com:7999/increment/${encodedUnicode}.html`
-        )
-      ).toBe(`${unicode}.html`);
-    });
-    it("should truncate the file name when it is more than 50 chars", () => {
-      expect(
-        getFilenameFromURL(
-          "http://localhost/really-really-really-really-really-really-long-name.html"
-        )
-      ).toBe("...-really-really-really-really-really-long-name.html");
-    });
-    it("should first decode the filename and then truncate it", () => {
-      expect(
-        getFilenameFromURL(`http://${encodedUnicode.repeat(50)}.html`)
-      ).toBe(`...${unicode.repeat(45)}.html`);
     });
   });
 
