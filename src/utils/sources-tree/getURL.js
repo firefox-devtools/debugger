@@ -31,7 +31,7 @@ export function getFilenameFromPath(pathname?: string) {
 const NoDomain = "(no domain)";
 const def = { path: "", group: "", filename: "" };
 
-function _getURL(source: Source): ParsedURL {
+function _getURL(source: Source, debuggeeUrl: string): ParsedURL {
   const { url } = source;
   if (!url) {
     return def;
@@ -89,6 +89,15 @@ function _getURL(source: Source): ParsedURL {
           filename,
           group: "file://"
         };
+      } else if (host === null) {
+        // use anonymous group for weird URLs
+        const defaultDomain = parse(debuggeeUrl).host;
+        return {
+          ...def,
+          path: url,
+          group: defaultDomain,
+          filename
+        };
       }
       break;
 
@@ -110,12 +119,12 @@ function _getURL(source: Source): ParsedURL {
   };
 }
 
-export function getURL(source: Source) {
+export function getURL(source: Source, debuggeeUrl: string = "") {
   if (urlMap.has(source)) {
     return urlMap.get(source) || def;
   }
 
-  const url = _getURL(source);
+  const url = _getURL(source, debuggeeUrl);
   urlMap.set(source, url);
   return url;
 }

@@ -164,7 +164,7 @@ export function addToTree(
   debuggeeUrl: string,
   projectRoot: string
 ) {
-  const url = getURL(source);
+  const url = getURL(source, debuggeeUrl);
   const debuggeeHost = getDomain(debuggeeUrl);
 
   if (isInvalidUrl(url, source)) {
