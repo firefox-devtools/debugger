@@ -1234,6 +1234,10 @@ async function hoverAtPos(dbg, { line, ch }) {
   const coords = getCoordsFromPosition(cm, { line: line - 1, ch });
   const tokenEl = dbg.win.document.elementFromPoint(coords.left, coords.top);
 
+  if (!tokenEl) {
+    return false;
+  }
+
   tokenEl.dispatchEvent(
     new MouseEvent("mouseover", {
       bubbles: true,
@@ -1243,6 +1247,9 @@ async function hoverAtPos(dbg, { line, ch }) {
   );
 }
 
+// tryHovering will hover at a position every second until we
+// see a preview element (popup, tooltip) appear. Once it appears,
+// it considers it a success.
 function tryHovering(dbg, line, column, elementName) {
   return new Promise((resolve, reject) => {
     const element = waitForElement(dbg, elementName);
