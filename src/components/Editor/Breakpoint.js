@@ -4,7 +4,7 @@
 
 // @flow
 
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import ReactDOM from "react-dom";
 import classnames from "classnames";
 import Svg from "../shared/Svg";
@@ -33,12 +33,8 @@ type Props = {
   editor: Object
 };
 
-class Breakpoint extends Component<Props> {
+class Breakpoint extends PureComponent<Props> {
   addBreakpoint: Function;
-
-  constructor() {
-    super();
-  }
 
   addBreakpoint = () => {
     const { breakpoint, editor, selectedSource } = this.props;
