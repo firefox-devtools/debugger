@@ -46,8 +46,7 @@ install:
   - python --version
   - node --version
   - du -sh firefox
-  - node ./bin/copy-assets.js --mc ./firefox
-  - node ./bin/copy-modules.js --mc ./firefox
+  - node ./bin/copy
   - ./bin/ci/build-firefox.sh
   - node ./bin/ci/check-file-sizes.js
 

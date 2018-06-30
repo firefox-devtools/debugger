@@ -274,11 +274,8 @@ function onBundleFinish({mcPath, bundlePath, projectPath}) {
     {cwd: projectPath}
   );
 
-  moveFile(
-    path.join(mcPath, bundlePath, "reps.js"),
-    path.join(mcPath, "devtools/client/shared/components/reps/reps.js"),
-    {cwd: projectPath}
-  );
+  console.log("[copy-assets] delete reps.js bundle");
+  fs.unlinkSync(path.join(mcPath, bundlePath, "reps.js"))
 
   moveFile(
     path.join(mcPath, bundlePath, "reps.css"),

@@ -19,13 +19,12 @@ const getConfig = require("./getConfig");
 const envConfig = getConfig();
 feature.setConfig(envConfig);
 
-
-function ignoreFile(file) {
-  return file.match(/(\/fixtures|\/test|vendors\.js|types\.js|types\/)/);
+function ignoreFile(file, ignoreRegexp) {
+  return file.match(ignoreRegexp);
 }
 
-function getFiles() {
-  return glob.sync("./src/**/*.js", {}).filter((file) => !ignoreFile(file));
+function getFiles(source, ignoreRegexp) {
+  return glob.sync(source, {}).filter(file => !ignoreFile(file, ignoreRegexp));
 }
 
 function transformSingleFile(filePath) {
@@ -36,33 +35,43 @@ function transformSingleFile(filePath) {
       "syntax-trailing-function-commas",
       "transform-class-properties",
       "transform-es2015-modules-commonjs",
-      "@babel/plugin-proposal-object-rest-spread",
+      "babel-plugin-syntax-object-rest-spread",
       "transform-react-jsx",
-      ["./.babel/transform-mc", { filePath }]
+      ["./.babel/transform-mc", { filePath }],
+      ["babel-plugin-transform-require-ignore", { "extensions": ".css"}]
     ]
   });
 
   return out.code;
 }
 
-function transpileFile(file) {
+function cleanPath(p) {
+  if (p.includes("packages/devtools-reps/")) {
+    return p.replace("packages/devtools-reps/", "");
+  }
+
+  return p;
+}
+
+function transpileFile({file, mcPath, ignoreRegexp}) {
   try {
-    if (ignoreFile(file)) {
+    if (ignoreFile(file, ignoreRegexp)) {
       return;
     }
 
     const filePath = path.join(__dirname, "..", file);
     const code = transformSingleFile(filePath);
-    shell.mkdir("-p", path.join(mcDebuggerPath, path.dirname(file)));
-    fs.writeFileSync(path.join(mcDebuggerPath, file), code);
+    shell.mkdir("-p", cleanPath(path.join(mcPath, path.dirname(file))));
+    fs.writeFileSync(cleanPath(path.join(mcPath, file)), code);
   } catch (e) {
     console.log(`Failed to transpile: ${file}`)
     console.error(e);
   }
 }
 
-function transpileFiles() {
-  getFiles().forEach(transpileFile);
+function transpileFiles({source, mcPath, ignoreRegexp}) {
+  getFiles(source, ignoreRegexp)
+    .forEach(file => transpileFile({file, mcPath, ignoreRegexp}));
 }
 
 const MOZ_BUILD_TEMPLATE = `# vim: set filetype=python:
@@ -83,15 +92,15 @@ __FILES__
  * Create the mandatory manifest file that should exist in each folder to
  * list files and subfolders that should be packaged in Firefox.
  */
-function createMozBuildFiles() {
+function createMozBuildFiles({source, ignoreRegexp, mcPath}) {
   const builds = {};
 
-  getFiles().forEach(file => {
-    let dir = path.dirname(file);
+  getFiles(source, ignoreRegexp).forEach(file => {
+    let dir = cleanPath(path.dirname(file));
     builds[dir] = builds[dir] || { files: [], dirs: [] };
 
     // Add the current file to its parent dir moz.build
-    builds[dir].files.push(path.basename(file));
+    builds[dir].files.push(cleanPath(path.basename(file)));
 
     // There should be a moz.build in every folder between the root and this
     // file. Climb up the folder hierarchy and make sure a each folder of the
@@ -111,7 +120,7 @@ function createMozBuildFiles() {
   Object.keys(builds).forEach(build => {
     const { files, dirs } = builds[build];
 
-    const buildPath = path.join(mcDebuggerPath, build);
+    const buildPath = path.join(mcPath, build);
     shell.mkdir("-p", buildPath);
 
     // Files and folders should be alphabetically sorted in moz.build
@@ -133,30 +142,29 @@ function createMozBuildFiles() {
   });
 }
 
-function watch() {
+function watch(mcPath, ignoreRegexp) {
   console.log("[copy-modules] start watching");
   var watcher = chokidar.watch('./src').on('all', (event, path) => {});
 
-  watcher
-  .on('change', path => {
-    console.log(`Updating ${path}`)
-    transpileFile(path)
-  })
-
+  watcher.on('change', file => {
+    console.log(`Updating ${file}`)
+    transpileFile({file, mcPath, ignoreRegexp})
+  });
 }
 
-function start() {
-  console.log("[copy-modules] start");
+function start({source, mcPath, shouldWatch, ignoreRegexp}) {
+  const log = str => console.log(`[copy-modules ${mcPath}] ${str}`);
 
-  console.log("[copy-modules] transpiling debugger modules");
-  transpileFiles();
+  log(`start`);
+  log("transpiling modules");
+  transpileFiles({source, mcPath, ignoreRegexp});
 
-  console.log("[copy-modules] creating moz.build files");
-  createMozBuildFiles();
+  log("creating moz.build files");
+  createMozBuildFiles({source, ignoreRegexp, mcPath});
 
-  console.log("[copy-modules] done");
+  log("done");
   if (shouldWatch) {
-    watch();
+    watch(mcPath, ignoreRegexp);
   }
 }
 
@@ -166,16 +174,21 @@ const args = minimist(process.argv.slice(1), {
 });
 
 const projectPath = path.resolve(__dirname, "..");
-let mcPath = args.mc || feature.getValue("firefox.mcPath");
-let mcDebuggerPath = path.join(mcPath, "devtools/client/debugger/new");
-let shouldWatch = args.watch;
 
 if (process.argv[1] == __filename) {
-  start();
+  start({
+    mcPath: args.mc || feature.getValue("firefox.mcPath"),
+    source: args.source,
+    shouldWatch: args.watch,
+    ignoreRegexp: args.ignoreRegexp,
+  });
 } else {
-  module.exports = ({watch, mc}) => {
-    shouldWatch = watch
-    mcPath = path.join(mc, "devtools/client/debugger/new");
-    start();
+  module.exports = ({watch, mcPath, source, ignoreRegexp}) => {
+    start({
+      mcPath,
+      source,
+      shouldWatch: watch,
+      ignoreRegexp,
+    });
   }
 }
