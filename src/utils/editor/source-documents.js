@@ -12,14 +12,15 @@ import SourceEditor from "./source-editor";
 
 import type { Source } from "../../types";
 import type { SymbolDeclarations } from "../../workers/parser";
+type SourceDocuments = { [string]: Object };
 
-let sourceDocs = {};
+let sourceDocs: SourceDocuments = {};
 
 export function getDocument(key: string) {
   return sourceDocs[key];
 }
 
-export function hasDocument(key: string) {
+export function hasDocument(key: string): boolean {
   return !!getDocument(key);
 }
 
