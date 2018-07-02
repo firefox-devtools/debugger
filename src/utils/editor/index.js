@@ -151,7 +151,11 @@ export function lineAtHeight(_editor, sourceId, event) {
   return toSourceLine(sourceId, _editorLine);
 }
 
-export function getSourceLocationFromMouseEvent(_editor, selectedLocation, e) {
+export function getSourceLocationFromMouseEvent(
+  _editor: Object,
+  selectedLocation: Location,
+  e: MouseEvent
+) {
   const { line, ch } = _editor.codeMirror.coordsChar({
     left: e.clientX,
     top: e.clientY
@@ -184,6 +188,6 @@ export function getTextForLine(codeMirror, line) {
   return codeMirror.getLine(line - 1).trim();
 }
 
-export function getCursorLine(codeMirror) {
+export function getCursorLine(codeMirror): number {
   return codeMirror.getCursor().line;
 }

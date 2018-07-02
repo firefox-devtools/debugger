@@ -12,14 +12,15 @@ import SourceEditor from "./source-editor";
 
 import type { Source } from "../../types";
 import type { SymbolDeclarations } from "../../workers/parser";
+type SourceDocuments = { [string]: Object };
 
-let sourceDocs = {};
+let sourceDocs: SourceDocuments = {};
 
 export function getDocument(key: string) {
   return sourceDocs[key];
 }
 
-export function hasDocument(key: string) {
+export function hasDocument(key: string): boolean {
   return !!getDocument(key);
 }
 
@@ -129,7 +130,7 @@ export function showSourceText(
     if (editor.codeMirror.doc === doc) {
       const mode = getMode(source, symbols);
       const currentMode = editor.codeMirror.getOption("mode");
-      if (currentMode.name !== mode.name) {
+      if (currentMode.name != mode.name) {
         editor.setMode(mode);
       }
 
