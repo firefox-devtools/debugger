@@ -179,11 +179,10 @@ class CommandBar extends Component<Props> {
   renderPauseButton() {
     const { isPaused, breakOnNext, isWaitingOnBreak, canRewind } = this.props;
 
-    if (canRewind) {
-      return;
-    }
-
     if (isPaused) {
+      if (canRewind) {
+        return null;
+      }
       return debugBtn(
         () => this.resume(),
         "resume",
@@ -227,7 +226,7 @@ class CommandBar extends Component<Props> {
       debugBtn(this.props.rewind, "rewind", "active", "Rewind Execution"),
 
       debugBtn(
-        () => this.props.resume,
+        this.props.resume,
         "resume",
         "active",
         L10N.getFormatStr("resumeButtonTooltip", formatKey("resume"))
