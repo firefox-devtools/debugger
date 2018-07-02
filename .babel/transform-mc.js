@@ -12,6 +12,10 @@ function isRequire(t, node) {
   return node && t.isCallExpression(node) && node.callee.name == "require";
 }
 
+function isImport(t, node) {
+  return node && t.isImportDeclaration(node);
+}
+
 // List of vendored modules.
 // Should be synchronized with vendors.js
 const VENDORS = [
@@ -31,6 +35,39 @@ const VENDORS = [
   "url"
 ];
 
+/*
+ * Updates devtools-modules imports such as
+ * `import { Telemetry } from "devtools-modules"`
+ * so that we can customize how we resolve certain modules in the package
+ *
+ * In the case of multiple declarations we need to move
+ * the telemetry module into its own import.
+ */
+function updateDevtoolsModulesImport(path, t) {
+  const specifiers = path.node.specifiers;
+
+  for (let i = 0; i < specifiers.length; i++) {
+    let specifier = specifiers[i];
+
+    if (specifier.local.name === "Telemetry") {
+      const newImport = t.importDeclaration(
+        [t.importDefaultSpecifier(specifier.local)],
+        t.stringLiteral("devtools/client/shared/telemetry")
+      );
+
+      if (specifiers.length > 1) {
+        path.insertAfter(newImport);
+        specifiers.splice(i, 1);
+      } else if (path.node.source) {
+        // Note we don't want to update import `Telemetry from "devtools-modules"`
+        if (path.node.specifiers[0].type !== "ImportDefaultSpecifier") {
+          path.replaceWith(newImport);
+        }
+      }
+    }
+  }
+}
+
 /**
  * This Babel plugin is used to transpile a single Debugger module into a module that
  * can be loaded in Firefox via the regular DevTools loader.
@@ -43,6 +80,10 @@ module.exports = function({ types: t }) {
         const value = source && source.value;
         if (value && value.includes(".css")) {
           path.remove();
+        }
+
+        if (value && value == "devtools-modules") {
+          updateDevtoolsModulesImport(path, t);
         }
       },
 

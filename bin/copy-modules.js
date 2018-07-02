@@ -170,12 +170,17 @@ let mcPath = args.mc || feature.getValue("firefox.mcPath");
 let mcDebuggerPath = path.join(mcPath, "devtools/client/debugger/new");
 let shouldWatch = args.watch;
 
+function run({watch, mc}) {
+  shouldWatch = watch
+  mcPath = path.join(mc, "devtools/client/debugger/new");
+  start();
+}
+
 if (process.argv[1] == __filename) {
   start();
 } else {
-  module.exports = ({watch, mc}) => {
-    shouldWatch = watch
-    mcPath = path.join(mc, "devtools/client/debugger/new");
-    start();
+  module.exports = {
+    run,
+    transformSingleFile
   }
 }
