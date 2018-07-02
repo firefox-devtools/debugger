@@ -129,8 +129,8 @@ export function showSourceText(
     const doc = getDocument(source.id);
     if (editor.codeMirror.doc === doc) {
       const mode = getMode(source, symbols);
-
-      if (doc.mode.name !== mode.name) {
+      const currentMode = editor.codeMirror.getOption("mode");
+      if (currentMode.name != mode.name) {
         editor.setMode(mode);
       }
 
