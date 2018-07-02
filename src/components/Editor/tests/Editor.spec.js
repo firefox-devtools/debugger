@@ -5,6 +5,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 import Editor from "../index";
+import { getDocument } from "../../../utils/editor/source-documents";
 
 function generateDefaults(overrides) {
   return {
@@ -19,6 +20,7 @@ function createMockEditor() {
   return {
     codeMirror: {
       doc: {},
+      getOption: jest.fn(),
       setOption: jest.fn(),
       scrollTo: jest.fn(),
       charCoords: ({ line, ch }) => ({ top: line, left: ch }),
@@ -57,6 +59,7 @@ function createMockSource(overrides) {
 function render(overrides = {}) {
   const props = generateDefaults(overrides);
   const mockEditor = createMockEditor();
+
   const component = shallow(<Editor.WrappedComponent {...props} />, {
     context: {
       shortcuts: { on: jest.fn() }
@@ -172,6 +175,61 @@ describe("Editor", () => {
       ]);
 
       expect(mockEditor.codeMirror.scrollTo.mock.calls).toEqual([[1, 2]]);
+    });
+
+    it("should set the mode when symbols load", async () => {
+      const { component, mockEditor, props } = render({});
+
+      await component.setState({ editor: mockEditor });
+
+      const selectedSource = createMockSource({
+        loadedState: "loaded",
+        contentType: "javascript"
+      });
+
+      await component.setProps({ ...props, selectedSource });
+
+      const symbols = { hasJsx: true };
+      await component.setProps({ ...props, selectedSource, symbols });
+
+      expect(mockEditor.setMode.mock.calls).toEqual([
+        [{ name: "javascript" }],
+        [{ name: "jsx" }]
+      ]);
+    });
+
+    it("should not re-set the mode when the location changes", async () => {
+      const { component, mockEditor, props } = render({});
+
+      await component.setState({ editor: mockEditor });
+
+      const selectedSource = createMockSource({
+        loadedState: "loaded",
+        contentType: "javascript"
+      });
+
+      await component.setProps({ ...props, selectedSource });
+
+      // symbols are parsed
+      const symbols = { hasJsx: true };
+      await component.setProps({ ...props, selectedSource, symbols });
+
+      // selectedLocation changes e.g. pausing/stepping
+      mockEditor.codeMirror.doc = getDocument(selectedSource.id);
+      mockEditor.codeMirror.getOption = () => ({ name: "jsx" });
+      const selectedLocation = { sourceId: "foo", line: 4, column: 1 };
+
+      await component.setProps({
+        ...props,
+        selectedSource,
+        symbols,
+        selectedLocation
+      });
+
+      expect(mockEditor.setMode.mock.calls).toEqual([
+        [{ name: "javascript" }],
+        [{ name: "jsx" }]
+      ]);
     });
   });
 
