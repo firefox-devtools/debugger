@@ -66,7 +66,14 @@ export class HighlightLine extends Component<Props> {
       return false;
     }
 
-    return true;
+    if (
+      editorLine !== this.previousEditorLine ||
+      this.props.selectedSource !== selectedSource
+    ) {
+      return true;
+    }
+
+    return false;
   }
 
   componentDidUpdate(prevProps: Props) {
