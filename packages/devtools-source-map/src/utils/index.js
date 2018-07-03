@@ -23,6 +23,14 @@ function isGeneratedId(id: string) {
   return !isOriginalId(id);
 }
 
+function formatUrl(generatedUrl: ?string, originalUrl: string) {
+  return originalUrl === generatedUrl ? `${originalUrl} [sm]` : originalUrl;
+}
+
+function unformatUrl(url: ?string) {
+  return (url || "").replace(" [sm]", "");
+}
+
 /**
  * Trims the query part or reference identifier of a URL string, if necessary.
  */
@@ -79,5 +87,7 @@ module.exports = {
   isOriginalId,
   isGeneratedId,
   getContentType,
+  formatUrl,
+  unformatUrl,
   contentMapForTesting: contentMap
 };

@@ -24,17 +24,16 @@ const {
   generatedToOriginalId,
   isGeneratedId,
   isOriginalId,
-  getContentType
+  getContentType,
+  formatUrl,
+  unformatUrl
 } = require("./utils");
 
 import type { Location, Source, SourceId } from "debugger-html";
 
 async function getOriginalURLs(generatedSource: Source) {
   const map = await fetchSourceMap(generatedSource);
-  return (
-    map &&
-    map.sources.map(url => (url === generatedSource.url ? `${url} [sm]` : url))
-  );
+  return map && map.sources.map(url => formatUrl(generatedSource.url, url));
 }
 
 const COMPUTED_SPANS = new WeakSet();
@@ -130,7 +129,7 @@ async function getGeneratedRanges(
   // exact original location, making any bias value unnecessary, and then
   // use that location for the call to 'allGeneratedPositionsFor'.
   const genPos = map.generatedPositionFor({
-    source: originalSource.url,
+    source: unformatUrl(originalSource.url),
     line: location.line,
     column: location.column == null ? 0 : location.column,
     bias: SourceMapConsumer.GREATEST_LOWER_BOUND
@@ -173,7 +172,7 @@ async function getGeneratedLocation(
   }
 
   const { line, column } = map.generatedPositionFor({
-    source: originalSource.url,
+    source: unformatUrl(originalSource.url),
     line: location.line,
     column: location.column == null ? 0 : location.column,
     bias: SourceMapConsumer.LEAST_UPPER_BOUND
@@ -201,7 +200,7 @@ async function getAllGeneratedLocations(
   }
 
   const positions = map.allGeneratedPositionsFor({
-    source: originalSource.url,
+    source: unformatUrl(originalSource.url),
     line: location.line,
     column: location.column == null ? 0 : location.column
   });
@@ -261,7 +260,7 @@ async function getOriginalLocation(
 
   return {
     sourceId: generatedToOriginalId(location.sourceId, sourceUrl),
-    sourceUrl,
+    sourceUrl: formatUrl(location.sourceUrl, sourceUrl),
     line,
     column
   };
@@ -277,7 +276,7 @@ async function getOriginalSourceText(originalSource: Source) {
     return null;
   }
 
-  const url = (originalSource.url || "").replace(" [sm]", "");
+  const url = unformatUrl(originalSource.url);
   let text = map.sourceContentFor(url);
   if (!text) {
     text = (await networkRequest(url, { loadFromCache: false })).content;
