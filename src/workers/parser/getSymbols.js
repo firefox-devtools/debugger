@@ -155,7 +155,7 @@ function extractSymbol(path: SimplePath, symbols) {
         ? {
             name: t.isMemberExpression(superClass)
               ? getCode(superClass)
-              : superClass,
+              : superClass.name,
             location: superClass.loc
           }
         : null,

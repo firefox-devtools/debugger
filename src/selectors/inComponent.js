@@ -40,11 +40,7 @@ export function inComponent(state: State) {
 
   const inReactFile = sourceMetaData.framework == "React";
   const { parent } = closestClass;
-  const isComponent =
-    parent &&
-    parent.name.includes &&
-    (parent.name.includes("Component") ||
-      parent.name.includes("PureComponent"));
+  const isComponent = parent && parent.name.includes("Component");
 
   if (inReactFile && isComponent) {
     return closestClass.name;
