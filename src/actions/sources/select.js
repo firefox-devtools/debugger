@@ -100,7 +100,56 @@ export function selectSource(sourceId: string) {
  * @static
  */
 export function selectLocation(location: Location) {
-  return locationSelect(location, {checkPrettyPrint: true});
+  return async ({ dispatch, getState, client }: ThunkArgs) => {
+    const currentSource = getSelectedSource(getState());
+
+    if (!client) {
+      // No connection, do nothing. This happens when the debugger is
+      // shut down too fast and it tries to display a default source.
+      return;
+    }
+
+    const source = getSource(getState(), location.sourceId);
+    if (!source) {
+      // If there is no source we deselect the current selected source
+      return dispatch(clearSelectedLocation());
+    }
+
+    const activeSearch = getActiveSearch(getState());
+    if (activeSearch !== "file") {
+      dispatch(closeActiveSearch());
+    }
+
+    dispatch(addTab(source.url, 0));
+    dispatch(setSelectedLocation(source, location));
+
+    await dispatch(loadSourceText(source));
+    const loadedSource = getSource(getState(), source.id);
+
+    if (!loadedSource) {
+      // If there was a navigation while we were loading the loadedSource
+      return;
+    }
+
+    if (
+      prefs.autoPrettyPrint &&
+      !getPrettySource(getState(), loadedSource.id) &&
+      shouldPrettyPrint(loadedSource) &&
+      isMinified(loadedSource)
+    ) {
+      await dispatch(togglePrettyPrint(loadedSource.id));
+      dispatch(closeTab(loadedSource.url));
+    }
+
+    dispatch(setSymbols(loadedSource.id));
+    dispatch(setOutOfScopeLocations());
+
+    // If a new source is selected update the file search results
+    const newSource = getSelectedSource(getState());
+    if (!currentSource || (newSource && currentSource.id != newSource.id)) {
+      dispatch(clearFileSearch());
+    }
+  };
 }
 
 /**
@@ -108,7 +157,46 @@ export function selectLocation(location: Location) {
  * @static
  */
 export function selectSpecificLocation(location: Location) {
-  return locationSelect(location);
+  return async ({ dispatch, getState, client }: ThunkArgs) => {
+    const currentSource = getSelectedSource(getState());
+
+    if (!client) {
+      // No connection, do nothing. This happens when the debugger is
+      // shut down too fast and it tries to display a default source.
+      return;
+    }
+
+    const source = getSource(getState(), location.sourceId);
+    if (!source) {
+      // If there is no source we deselect the current selected source
+      return dispatch(clearSelectedLocation());
+    }
+
+    const activeSearch = getActiveSearch(getState());
+    if (activeSearch !== "file") {
+      dispatch(closeActiveSearch());
+    }
+
+    dispatch(addTab(source.url, 0));
+    dispatch(setSelectedLocation(source, location));
+
+    await dispatch(loadSourceText(source));
+    const loadedSource = getSource(getState(), source.id);
+    if (!loadedSource) {
+      return;
+    }
+
+    const sourceId = loadedSource.id;
+
+    dispatch(setSymbols(sourceId));
+    dispatch(setOutOfScopeLocations());
+
+    // If a new source is selected update the file search results
+    const newSource = getSelectedSource(getState());
+    if (!currentSource || (newSource && currentSource.id != newSource.id)) {
+      dispatch(clearFileSearch());
+    }
+  };
 }
 
 /**
@@ -157,60 +245,6 @@ export function jumpToMappedSelectedLocation() {
     }
 
     await dispatch(jumpToMappedLocation(location));
-  };
-}
-
-function locationSelect(location: Location, options: Object = {}) {
-  return async ({ dispatch, getState, client }: ThunkArgs) => {
-    const currentSource = getSelectedSource(getState());
-
-    if (!client) {
-      // No connection, do nothing. This happens when the debugger is
-      // shut down too fast and it tries to display a default source.
-      return;
-    }
-
-    const source = getSource(getState(), location.sourceId);
-    if (!source) {
-      // If there is no source we deselect the current selected source
-      return dispatch(clearSelectedLocation());
-    }
-
-    const activeSearch = getActiveSearch(getState());
-    if (activeSearch !== "file") {
-      dispatch(closeActiveSearch());
-    }
-
-    dispatch(addTab(source.url, 0));
-    dispatch(setSelectedLocation(source, location));
-
-    await dispatch(loadSourceText(source));
-    const loadedSource = getSource(getState(), source.id);
-
-    if (!loadedSource) {
-      // If there was a navigation while we were loading the loadedSource
-      return;
-    }
-
-    if (
-      options.checkPrettyPrint &&
-      prefs.autoPrettyPrint &&
-      !getPrettySource(getState(), loadedSource.id) &&
-      shouldPrettyPrint(loadedSource) &&
-      isMinified(loadedSource)
-    ) {
-      await dispatch(togglePrettyPrint(loadedSource.id));
-      dispatch(closeTab(loadedSource.url));
-    }
-
-    dispatch(setSymbols(loadedSource.id));
-    dispatch(setOutOfScopeLocations());
-
-    // If a new source is selected update the file search results
-    const newSource = getSelectedSource(getState());
-    if (!currentSource || (newSource && currentSource.id != newSource.id)) {
-      dispatch(clearFileSearch());
-    }
   };
 }
 
