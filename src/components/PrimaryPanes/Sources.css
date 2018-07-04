@@ -146,6 +146,8 @@
   user-select: none;
   box-sizing: border-box;
   height: 30px;
+  margin: 0;
+  padding: 0;
 }
 
 .source-outline-tabs .tab {

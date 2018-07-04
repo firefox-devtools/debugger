@@ -22,6 +22,11 @@ import SourcesTree from "./SourcesTree";
 
 import type { SourcesMap } from "../../reducers/types";
 
+import Tab from "react-aria-components/src/tab";
+import Tabs from "react-aria-components/src/tabs";
+import TabList from "react-aria-components/src/tab-list";
+import TabPanels from "react-aria-components/src/tab-panels";
+
 type State = {
   alphabetizeOutline: boolean
 };
@@ -56,6 +61,14 @@ class PrimaryPanes extends Component<Props, State> {
     this.setState({ alphabetizeOutline });
   };
 
+  onActivateTab = index => {
+    if (index === 0) {
+      this.showPane("sources");
+    } else {
+      this.showPane("outline");
+    }
+  };
+
   renderOutlineTabs() {
     if (!features.outline) {
       return;
@@ -67,60 +80,42 @@ class PrimaryPanes extends Component<Props, State> {
     const isOutline = this.props.selectedTab === "outline";
 
     return [
-      <div
-        className={classnames("tab sources-tab", {
-          active: isSources
-        })}
-        onClick={() => this.showPane("sources")}
+      <Tab
+        className={classnames("tab sources-tab", { active: isSources })}
         key="sources-tab"
-        id="sources-tab"
-        role="tab"
-        tabIndex={isSources ? 0 : -1}
       >
         {sources}
-      </div>,
-      <div
-        className={classnames("tab outline-tab", {
-          active: isOutline
-        })}
-        onClick={() => this.showPane("outline")}
+      </Tab>,
+      <Tab
+        className={classnames("tab outline-tab", { active: isOutline })}
         key="outline-tab"
-        id="outline-tab"
-        role="tab"
-        tabIndex={isOutline ? 0 : -1}
       >
         {outline}
-      </div>
+      </Tab>
     ];
   }
 
-  renderTabs = () => {
-    return (
-      <div className="source-outline-tabs" role="tablist">
-        {this.renderOutlineTabs()}
-      </div>
-    );
-  };
-
   render() {
     const { selectedTab } = this.props;
+    const activeIndex = selectedTab === "sources" ? 0 : 1;
 
     return (
-      <div className="sources-panel">
-        {this.renderTabs()}
-        {selectedTab === "sources" ? (
-          <div role="tabpanel" aria-labelledby="sources-tab">
-            <SourcesTree />
-          </div>
-        ) : (
-          <div role="tabpanel" aria-labelledby="outline-tab">
-            <Outline
-              alphabetizeOutline={this.state.alphabetizeOutline}
-              onAlphabetizeClick={this.onAlphabetizeClick}
-            />
-          </div>
-        )}
-      </div>
+      <Tabs
+        activeIndex={activeIndex}
+        className="sources-panel"
+        onActivateTab={this.onActivateTab}
+      >
+        <TabList className="source-outline-tabs">
+          {this.renderOutlineTabs()}
+        </TabList>
+        <TabPanels hasFocusableContent>
+          <SourcesTree />
+          <Outline
+            alphabetizeOutline={this.state.alphabetizeOutline}
+            onAlphabetizeClick={this.onAlphabetizeClick}
+          />
+        </TabPanels>
+      </Tabs>
     );
   }
 }
