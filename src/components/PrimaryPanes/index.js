@@ -63,27 +63,31 @@ class PrimaryPanes extends Component<Props, State> {
 
     const sources = formatKeyShortcut(L10N.getStr("sources.header"));
     const outline = formatKeyShortcut(L10N.getStr("outline.header"));
+    const isSources = this.props.selectedTab === "sources";
+    const isOutline = this.props.selectedTab === "outline";
 
     return [
       <div
         className={classnames("tab sources-tab", {
-          active: this.props.selectedTab === "sources"
+          active: isSources
         })}
         onClick={() => this.showPane("sources")}
         key="sources-tab"
         id="sources-tab"
         role="tab"
+        tabIndex={isSources ? 0 : -1}
       >
         {sources}
       </div>,
       <div
         className={classnames("tab outline-tab", {
-          active: this.props.selectedTab === "outline"
+          active: isOutline
         })}
         onClick={() => this.showPane("outline")}
         key="outline-tab"
         id="outline-tab"
         role="tab"
+        tabIndex={isOutline ? 0 : -1}
       >
         {outline}
       </div>
