@@ -62,7 +62,6 @@ class PrimaryPanes extends Component<Props, State> {
     }
 
     const sources = formatKeyShortcut(L10N.getStr("sources.header"));
-
     const outline = formatKeyShortcut(L10N.getStr("outline.header"));
 
     return [
@@ -72,6 +71,7 @@ class PrimaryPanes extends Component<Props, State> {
         })}
         onClick={() => this.showPane("sources")}
         key="sources-tab"
+        role="tab"
       >
         {sources}
       </div>,
@@ -81,6 +81,7 @@ class PrimaryPanes extends Component<Props, State> {
         })}
         onClick={() => this.showPane("outline")}
         key="outline-tab"
+        role="tab"
       >
         {outline}
       </div>
@@ -89,7 +90,9 @@ class PrimaryPanes extends Component<Props, State> {
 
   renderTabs = () => {
     return (
-      <div className="source-outline-tabs">{this.renderOutlineTabs()}</div>
+      <div className="source-outline-tabs" role="tablist">
+        {this.renderOutlineTabs()}
+      </div>
     );
   };
 
@@ -99,14 +102,16 @@ class PrimaryPanes extends Component<Props, State> {
     return (
       <div className="sources-panel">
         {this.renderTabs()}
-        {selectedTab === "sources" ? (
-          <SourcesTree />
-        ) : (
-          <Outline
-            alphabetizeOutline={this.state.alphabetizeOutline}
-            onAlphabetizeClick={this.onAlphabetizeClick}
-          />
-        )}
+        <div role="tabpanel">
+          {selectedTab === "sources" ? (
+            <SourcesTree />
+          ) : (
+            <Outline
+              alphabetizeOutline={this.state.alphabetizeOutline}
+              onAlphabetizeClick={this.onAlphabetizeClick}
+            />
+          )}
+        </div>
       </div>
     );
   }
