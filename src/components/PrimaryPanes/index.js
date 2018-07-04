@@ -71,6 +71,7 @@ class PrimaryPanes extends Component<Props, State> {
         })}
         onClick={() => this.showPane("sources")}
         key="sources-tab"
+        id="sources-tab"
         role="tab"
       >
         {sources}
@@ -81,6 +82,7 @@ class PrimaryPanes extends Component<Props, State> {
         })}
         onClick={() => this.showPane("outline")}
         key="outline-tab"
+        id="outline-tab"
         role="tab"
       >
         {outline}
@@ -102,16 +104,18 @@ class PrimaryPanes extends Component<Props, State> {
     return (
       <div className="sources-panel">
         {this.renderTabs()}
-        <div role="tabpanel">
-          {selectedTab === "sources" ? (
+        {selectedTab === "sources" ? (
+          <div role="tabpanel" aria-labelledby="sources-tab">
             <SourcesTree />
-          ) : (
+          </div>
+        ) : (
+          <div role="tabpanel" aria-labelledby="outline-tab">
             <Outline
               alphabetizeOutline={this.state.alphabetizeOutline}
               onAlphabetizeClick={this.onAlphabetizeClick}
             />
-          )}
-        </div>
+          </div>
+        )}
       </div>
     );
   }
