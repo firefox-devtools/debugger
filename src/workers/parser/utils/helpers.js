@@ -62,6 +62,10 @@ export function getObjectExpressionValue(node: Node) {
   return shouldWrap ? `(${code})` : code;
 }
 
+export function getCode(node: Node) {
+  return generate(node).code;
+}
+
 export function getVariableNames(path: SimplePath): SymbolDeclaration[] {
   if (t.isObjectProperty(path.node) && !isFunction(path.node.value)) {
     if (path.node.key.type === "StringLiteral") {

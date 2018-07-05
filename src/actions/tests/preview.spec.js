@@ -8,7 +8,6 @@ import {
   actions,
   makeSource
 } from "../../utils/test-head";
-import I from "immutable";
 import readFixture from "./helpers/readFixture";
 import { prefs } from "../../utils/prefs";
 
@@ -53,7 +52,7 @@ describe("setPreview", () => {
 
     const source = makeSource(fileName);
     await dispatch(actions.newSource(source));
-    await dispatch(actions.loadSourceText(I.Map({ id: fileName })));
+    await dispatch(actions.loadSourceText({ id: fileName }));
 
     await dispatch(actions.selectLocation({ sourceId: fileName }));
     await dispatch(actions.setSymbols(fileName));
