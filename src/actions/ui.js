@@ -8,11 +8,14 @@ import {
   getActiveSearch,
   getPaneCollapse,
   getQuickOpenEnabled,
-  getSource
+  getSource,
+  getFileSearchQuery
 } from "../selectors";
 import { getProjectDirectoryRoot } from "../reducers/ui";
 import type { ThunkArgs, panelPositionType } from "./types";
 import { getRawSourceURL } from "../utils/source";
+import { getEditor } from "../utils/editor";
+import { searchContents } from "./file-search";
 
 import type {
   ActiveSearchType,
@@ -52,6 +55,17 @@ export function setActiveSearch(activeSearch?: ActiveSearchType) {
       type: "TOGGLE_ACTIVE_SEARCH",
       value: activeSearch
     });
+  };
+}
+
+export function updateActiveFileSearch() {
+  return ({ dispatch, getState }: ThunkArgs) => {
+    const isFileSearchOpen = getActiveSearch(getState()) === "file";
+    const fileSearchQuery = getFileSearchQuery(getState());
+    if (isFileSearchOpen && fileSearchQuery) {
+      const editor = getEditor();
+      dispatch(searchContents(fileSearchQuery, editor));
+    }
   };
 }
 
