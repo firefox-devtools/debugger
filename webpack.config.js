@@ -11,9 +11,7 @@ const path = require("path");
 var Visualizer = require("webpack-visualizer-plugin");
 const ObjectRestSpreadPlugin = require("@sucrase/webpack-object-rest-spread-plugin");
 
-function isDevelopment() {
-  return process.env.NODE_ENV !== "production";
-}
+const isProduction = process.env.NODE_ENV === "production";
 
 /*
  * builds a path that's relative to the project path
@@ -40,10 +38,20 @@ const webpackConfig = {
     path: path.join(__dirname, "assets/build"),
     filename: "[name].js",
     publicPath: "/assets/build"
+  },
+
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        loader: "babel-loader",
+        include: /node_modules\/react-aria-components/
+      }
+    ]
   }
 };
 
-if (!isDevelopment()) {
+if (isProduction) {
   // In the firefox panel, build the vendored dependencies as a bundle instead,
   // the other debugger modules will be transpiled to a format that is
   // compatible with the DevTools Loader.
@@ -54,10 +62,8 @@ if (!isDevelopment()) {
 function buildConfig(envConfig) {
   const extra = {};
   webpackConfig.plugins = [new ObjectRestSpreadPlugin()];
-  if (isDevelopment()) {
-    webpackConfig.module = webpackConfig.module || {};
-    webpackConfig.module.rules = webpackConfig.module.rules || [];
-  } else {
+
+  if (isProduction) {
     webpackConfig.output.libraryTarget = "umd";
 
     if (process.env.vis) {
