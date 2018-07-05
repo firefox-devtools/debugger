@@ -9600,7 +9600,7 @@ rc@^1.1.0, rc@^1.1.7:
 
 "react-aria-components@https://github.com/juanca/react-aria-components.git":
   version "0.0.2"
-  resolved "https://github.com/juanca/react-aria-components.git#cff59e4ff5abcfefe06f4c2a5a284f208d925502"
+  resolved "https://github.com/juanca/react-aria-components.git#d3e4e1a07db6ac744fc8fd995c6fa5d43f7d2eda"
 
 react-dev-utils@^5.0.0:
   version "5.0.1"
