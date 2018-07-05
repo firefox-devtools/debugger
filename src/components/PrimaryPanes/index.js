@@ -61,7 +61,7 @@ class PrimaryPanes extends Component<Props, State> {
     this.setState({ alphabetizeOutline });
   };
 
-  onActivateTab = index => {
+  onActivateTab = (index: number) => {
     if (index === 0) {
       this.showPane("sources");
     } else {
