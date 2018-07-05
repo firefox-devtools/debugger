@@ -6,6 +6,7 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Tab, Tabs, TabList, TabPanels } from "react-aria-components/src/tabs";
 import { formatKeyShortcut } from "../../utils/text";
 import actions from "../../actions";
 import {
@@ -21,11 +22,6 @@ import Outline from "./Outline";
 import SourcesTree from "./SourcesTree";
 
 import type { SourcesMap } from "../../reducers/types";
-
-import Tab from "react-aria-components/src/tab";
-import Tabs from "react-aria-components/src/tabs";
-import TabList from "react-aria-components/src/tab-list";
-import TabPanels from "react-aria-components/src/tab-panels";
 
 type State = {
   alphabetizeOutline: boolean
