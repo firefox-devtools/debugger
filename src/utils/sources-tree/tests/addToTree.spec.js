@@ -5,6 +5,7 @@
 /* eslint max-nested-callbacks: ["error", 4]*/
 
 import { createSource } from "../../../reducers/sources";
+import { getChildNode } from "./helpers";
 
 import {
   addToTree,
@@ -28,10 +29,6 @@ function createSourcesMap(sources: RawSource[]) {
 
 function createSourcesList(sources) {
   return sources.map((s, i) => createSource(s));
-}
-
-function getChildNode(tree, ...path) {
-  return path.reduce((child, index) => child.contents[index], tree);
 }
 
 describe("sources-tree", () => {

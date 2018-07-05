@@ -9,13 +9,13 @@
  * @module utils/sources-tree
  */
 
-export { addToTree } from "./addToTree";
-export { collapseTree } from "./collapseTree";
-export { createTree } from "./createTree";
-export { formatTree } from "./formatTree";
-export { getDirectories } from "./getDirectories";
-export { getFilenameFromPath, getURL } from "./getURL";
-export { sortEntireTree, sortTree } from "./sortTree";
-export { updateTree } from "./updateTree";
-
+export * from "./addToTree";
+export * from "./collapseTree";
+export * from "./createTree";
+export * from "./formatTree";
+export * from "./getDirectories";
+export * from "./getDescendants";
+export * from "./getURL";
+export * from "./sortTree";
+export * from "./updateTree";
 export * from "./utils";

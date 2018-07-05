@@ -152,12 +152,7 @@ class SourcesTree extends Component<Props, State> {
   };
 
   selectItem = (item: TreeNode) => {
-    if (
-      !isDirectory(item) &&
-      // This second check isn't strictly necessary, but it ensures that Flow
-      // knows that we are doing the correct thing.
-      !Array.isArray(item.contents)
-    ) {
+    if (item.type == "source") {
       this.props.selectSource(item.contents.id);
     }
   };

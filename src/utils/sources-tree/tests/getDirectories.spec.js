@@ -1,18 +1,9 @@
-import { createSource } from "../../../reducers/sources";
-
+import { createSources } from "./helpers";
 import { getDirectories, createTree } from "../index";
 
 function formatDirectories(source, tree) {
   const paths = getDirectories(source, tree);
   return paths.map(node => node.path);
-}
-
-function createSources(urls) {
-  return urls.reduce((sources, url, index) => {
-    const id = `a${index}`;
-    sources[id] = createSource({ url, id });
-    return sources;
-  }, {});
 }
 
 describe("getDirectories", () => {

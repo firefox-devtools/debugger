@@ -4,6 +4,7 @@
 
 // @flow
 import React, { Component } from "react";
+import { getDescendants } from "../../utils/sources-tree";
 import "./ManagedTree.css";
 
 const { Tree } = require("devtools-components");
@@ -49,18 +50,13 @@ class ManagedTree extends Component<Props, State> {
 
   componentWillReceiveProps(nextProps: Props) {
     const { listItems, highlightItems, focused } = this.props;
-    if (
-      nextProps.listItems &&
-      nextProps.listItems != listItems &&
-      nextProps.listItems.length
-    ) {
+    if (nextProps.listItems && nextProps.listItems != listItems) {
       this.expandListItems(nextProps.listItems);
     }
 
     if (
       nextProps.highlightItems &&
-      nextProps.highlightItems != highlightItems &&
-      nextProps.highlightItems.length
+      nextProps.highlightItems != highlightItems
     ) {
       this.highlightItem(nextProps.highlightItems);
     }
@@ -70,37 +66,29 @@ class ManagedTree extends Component<Props, State> {
     }
   }
 
+  expandItem = (item: Item, shouldExpand: boolean) => {
+    const { expanded } = this.state;
+    const path = item.path;
+    if (shouldExpand) {
+      expanded.add(path);
+    } else {
+      expanded.delete(path);
+    }
+  };
+
   setExpanded = (
-    item: Item,
+    item: Object,
     isExpanded: boolean,
     shouldIncludeChildren: boolean
   ) => {
-    const expandItem = i => {
-      const path = this.props.getPath(i);
-      if (isExpanded) {
-        expanded.add(path);
-      } else {
-        expanded.delete(path);
-      }
-    };
     const { expanded } = this.state;
-    expandItem(item);
+
+    this.expandItem(item, isExpanded);
 
     if (shouldIncludeChildren) {
-      let parents = [item];
-      while (parents.length) {
-        const children = [];
-        for (const parent of parents) {
-          if (parent.contents && parent.contents.length) {
-            for (const child of parent.contents) {
-              expandItem(child);
-              children.push(child);
-            }
-          }
-        }
-        parents = children;
-      }
+      getDescendants(item).map(child => this.expandItem(child, isExpanded));
     }
+
     this.setState({ expanded });
 
     if (isExpanded && this.props.onExpand) {
@@ -112,29 +100,30 @@ class ManagedTree extends Component<Props, State> {
 
   expandListItems(listItems: Array<Item>) {
     const { expanded } = this.state;
-    listItems.forEach(item => expanded.add(this.props.getPath(item)));
+    listItems.forEach(item => this.expandItem(item, true));
+
     this.focusItem(listItems[0]);
     this.setState({ expanded });
   }
 
+  // Highlight either the source or the first closed directory.
   highlightItem(highlightItems: Array<Item>) {
     const { expanded } = this.state;
-    // This file is visible, so we highlight it.
-    if (expanded.has(this.props.getPath(highlightItems[0]))) {
-      this.focusItem(highlightItems[0]);
-    } else {
-      // Look at folders starting from the top-level until finds a
-      // closed folder and highlights this folder
-      const index = highlightItems
-        .reverse()
-        .findIndex(
-          item =>
-            !expanded.has(this.props.getPath(item)) && item.name !== "root"
-        );
 
-      if (highlightItems[index]) {
-        this.focusItem(highlightItems[index]);
-      }
+    const [sourceItem, ...directories] = highlightItems;
+
+    if (expanded.has(sourceItem.path)) {
+      return this.focusItem(sourceItem);
+    }
+
+    // sort the directories top-down excluding the root
+    const highlightItem = directories
+      .slice(1)
+      .reverse()
+      .find(item => !expanded.has(item.path));
+
+    if (highlightItem) {
+      this.focusItem(highlightItem);
     }
   }
 
@@ -154,9 +143,9 @@ class ManagedTree extends Component<Props, State> {
       <div className="managed-tree">
         <Tree
           {...this.props}
-          isExpanded={item => expanded.has(this.props.getPath(item))}
+          isExpanded={item => expanded.has(item.path)}
           focused={focusedItem}
-          getKey={this.props.getPath}
+          getKey={item => item.path}
           onExpand={item => this.setExpanded(item, true, false)}
           onCollapse={item => this.setExpanded(item, false, false)}
           onFocus={this.focusItem}

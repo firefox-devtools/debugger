@@ -22,10 +22,6 @@ function _traverse(subtree: TreeNode, source: Source) {
   return matches && matches.filter(Boolean)[0];
 }
 
-function findSourceItem(sourceTree: TreeDirectory, source: Source): ?TreeNode {
-  return _traverse(sourceTree, source);
-}
-
 function getAncestors(sourceTree: TreeDirectory, item: ?TreeNode) {
   if (!item) {
     return [];
@@ -42,6 +38,13 @@ function getAncestors(sourceTree: TreeDirectory, item: ?TreeNode) {
     }
     directories.push(item);
   }
+}
+
+export function findSourceItem(
+  sourceTree: TreeDirectory,
+  source: Source
+): ?TreeNode {
+  return _traverse(sourceTree, source);
 }
 
 export function getDirectories(source: Source, sourceTree: TreeDirectory) {
