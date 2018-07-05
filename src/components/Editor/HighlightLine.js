@@ -48,6 +48,7 @@ function isDocumentReady(selectedSource, selectedLocation) {
 export class HighlightLine extends Component<Props> {
   isStepping: boolean = false;
   previousEditorLine: ?number = null;
+  shouldHighlight: boolean = false;
 
   shouldComponentUpdate(nextProps: Props) {
     const { selectedLocation, selectedSource } = nextProps;
@@ -70,6 +71,11 @@ export class HighlightLine extends Component<Props> {
       editorLine !== this.previousEditorLine ||
       this.props.selectedSource !== selectedSource
     ) {
+      if (!this.shouldHighlight) {
+        this.shouldHighlight = true;
+        return false;
+      }
+
       return true;
     }
 
@@ -103,6 +109,7 @@ export class HighlightLine extends Component<Props> {
     if (!this.shouldSetHighlightLine(selectedLocation, selectedSource)) {
       return;
     }
+
     this.isStepping = false;
     const editorLine = toEditorLine(sourceId, line);
     this.previousEditorLine = editorLine;
