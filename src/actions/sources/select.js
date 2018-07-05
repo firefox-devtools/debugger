@@ -12,8 +12,7 @@
 import { isOriginalId } from "devtools-source-map";
 
 import { setOutOfScopeLocations, setSymbols } from "../ast";
-import { closeActiveSearch } from "../ui";
-import { searchContents } from "../file-search";
+import { closeActiveSearch, updateActiveFileSearch } from "../ui";
 
 import { togglePrettyPrint } from "./prettyPrint";
 import { addTab, closeTab } from "./tabs";
@@ -23,7 +22,6 @@ import { prefs } from "../../utils/prefs";
 import { shouldPrettyPrint, isMinified } from "../../utils/source";
 import { createLocation } from "../../utils/location";
 import { getGeneratedLocation } from "../../utils/source-maps";
-import { getEditor } from "../../utils/editor";
 
 import {
   getSource,
@@ -31,7 +29,6 @@ import {
   getPrettySource,
   getActiveSearch,
   getSelectedLocation,
-  getFileSearchQuery,
   getSelectedSource
 } from "../../selectors";
 
@@ -147,7 +144,7 @@ export function selectLocation(location: Location) {
     // If a new source is selected update the file search results
     const newSource = getSelectedSource(getState());
     if (!currentSource || (newSource && currentSource.id != newSource.id)) {
-      dispatch(clearFileSearch());
+      dispatch(updateActiveFileSearch());
     }
   };
 }
@@ -194,7 +191,7 @@ export function selectSpecificLocation(location: Location) {
     // If a new source is selected update the file search results
     const newSource = getSelectedSource(getState());
     if (!currentSource || (newSource && currentSource.id != newSource.id)) {
-      dispatch(clearFileSearch());
+      dispatch(updateActiveFileSearch());
     }
   };
 }
@@ -245,19 +242,5 @@ export function jumpToMappedSelectedLocation() {
     }
 
     await dispatch(jumpToMappedLocation(location));
-  };
-}
-
-/**
- * Updates the file search results if a file search is open
- */
-function clearFileSearch() {
-  return async ({ dispatch, getState }: ThunkArgs) => {
-    const isFileSearchOpen = getActiveSearch(getState()) === "file";
-    const fileSearchQuery = getFileSearchQuery(getState());
-    if (isFileSearchOpen && fileSearchQuery) {
-      const editor = getEditor();
-      dispatch(searchContents(fileSearchQuery, editor));
-    }
   };
 }
