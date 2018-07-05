@@ -12,7 +12,7 @@
 import { isOriginalId } from "devtools-source-map";
 
 import { setOutOfScopeLocations, setSymbols } from "../ast";
-import { closeActiveSearch } from "../ui";
+import { closeActiveSearch, updateActiveFileSearch } from "../ui";
 
 import { togglePrettyPrint } from "./prettyPrint";
 import { addTab, closeTab } from "./tabs";
@@ -28,7 +28,8 @@ import {
   getSourceByURL,
   getPrettySource,
   getActiveSearch,
-  getSelectedLocation
+  getSelectedLocation,
+  getSelectedSource
 } from "../../selectors";
 
 import type { Location, Source } from "../../types";
@@ -97,6 +98,8 @@ export function selectSource(sourceId: string) {
  */
 export function selectLocation(location: Location) {
   return async ({ dispatch, getState, client }: ThunkArgs) => {
+    const currentSource = getSelectedSource(getState());
+
     if (!client) {
       // No connection, do nothing. This happens when the debugger is
       // shut down too fast and it tries to display a default source.
@@ -137,6 +140,12 @@ export function selectLocation(location: Location) {
 
     dispatch(setSymbols(loadedSource.id));
     dispatch(setOutOfScopeLocations());
+
+    // If a new source is selected update the file search results
+    const newSource = getSelectedSource(getState());
+    if (currentSource && currentSource !== newSource) {
+      dispatch(updateActiveFileSearch());
+    }
   };
 }
 
@@ -146,6 +155,8 @@ export function selectLocation(location: Location) {
  */
 export function selectSpecificLocation(location: Location) {
   return async ({ dispatch, getState, client }: ThunkArgs) => {
+    const currentSource = getSelectedSource(getState());
+
     if (!client) {
       // No connection, do nothing. This happens when the debugger is
       // shut down too fast and it tries to display a default source.
@@ -176,6 +187,12 @@ export function selectSpecificLocation(location: Location) {
 
     dispatch(setSymbols(sourceId));
     dispatch(setOutOfScopeLocations());
+
+    // If a new source is selected update the file search results
+    const newSource = getSelectedSource(getState());
+    if (currentSource && currentSource !== newSource) {
+      dispatch(updateActiveFileSearch());
+    }
   };
 }
 
