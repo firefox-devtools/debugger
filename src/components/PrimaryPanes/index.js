@@ -38,13 +38,6 @@ type Props = {
 };
 
 class PrimaryPanes extends Component<Props, State> {
-  renderShortcut: Function;
-  selectedPane: string;
-  showPane: Function;
-  renderTabs: Function;
-  renderChildren: Function;
-  onAlphabetizeClick: Function;
-
   constructor(props: Props) {
     super(props);
 
@@ -98,25 +91,6 @@ class PrimaryPanes extends Component<Props, State> {
     return (
       <div className="source-outline-tabs">{this.renderOutlineTabs()}</div>
     );
-  };
-
-  renderShortcut = () => {
-    if (this.props.horizontal) {
-      const onClick = () => {
-        if (this.props.sourceSearchOn) {
-          return this.props.closeActiveSearch();
-        }
-        this.props.setActiveSearch("source");
-      };
-      return (
-        <span className="sources-header-info" dir="ltr" onClick={onClick}>
-          {L10N.getFormatStr(
-            "sources.search",
-            formatKeyShortcut(L10N.getStr("sources.search.key2"))
-          )}
-        </span>
-      );
-    }
   };
 
   render() {
