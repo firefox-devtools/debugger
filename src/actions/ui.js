@@ -72,23 +72,12 @@ export function showSource(sourceId: string) {
     }
 
     if (getPaneCollapse(getState(), "start")) {
-      dispatch({
-        type: "TOGGLE_PANE",
-        position: "start",
-        paneCollapsed: false
-      });
+      dispatch(togglePaneCollapse("start", false));
     }
 
     dispatch(setPrimaryPaneTab("sources"));
-    dispatch({
-      type: "SHOW_SOURCE",
-      sourceUrl: ""
-    });
-
-    dispatch({
-      type: "SHOW_SOURCE",
-      sourceUrl: getRawSourceURL(source.url)
-    });
+    dispatch({ type: "SHOW_SOURCE", source: null });
+    dispatch({ type: "SHOW_SOURCE", source });
   };
 }
 
