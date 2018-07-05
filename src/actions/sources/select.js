@@ -143,7 +143,7 @@ export function selectLocation(location: Location) {
 
     // If a new source is selected update the file search results
     const newSource = getSelectedSource(getState());
-    if (!currentSource || (newSource && currentSource.id != newSource.id)) {
+    if (currentSource && currentSource !== newSource) {
       dispatch(updateActiveFileSearch());
     }
   };
@@ -190,7 +190,7 @@ export function selectSpecificLocation(location: Location) {
 
     // If a new source is selected update the file search results
     const newSource = getSelectedSource(getState());
-    if (!currentSource || (newSource && currentSource.id != newSource.id)) {
+    if (currentSource && currentSource !== newSource) {
       dispatch(updateActiveFileSearch());
     }
   };

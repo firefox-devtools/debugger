@@ -419,7 +419,7 @@ export const getSelectedSource = createSelector(
     const source = sources[selectedLocation.sourceId];
 
     // TODO: remove this when the immutable refactor lands in m-c
-    if (isTesting) {
+    if (isTesting()) {
       const testSource: any = { ...source, get: field => source[field] };
       return testSource;
     }
