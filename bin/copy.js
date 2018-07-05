@@ -17,7 +17,7 @@ console.log(`Copying Files to ${mc} with params: `, {watch, assets, symlink})
 
 async function start() {
   await copyAssets({ assets, mc, watch, symlink})
-  await copyModules({ mc, watch })
+  await copyModules.run({ mc, watch })
 }
 
 start();
