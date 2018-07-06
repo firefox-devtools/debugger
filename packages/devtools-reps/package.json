@@ -27,8 +27,8 @@
     "devtools-components": "^0.6.0",
     "lodash": "^4.17.2",
     "prop-types": "^15.6.0",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
     "react-dom-factories": "^1.0.2",
     "react-redux": "^5.0.7",
     "redux": "^3.7.2"
