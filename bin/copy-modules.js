@@ -36,8 +36,8 @@ function transformSingleFile(filePath) {
       "syntax-trailing-function-commas",
       "transform-class-properties",
       "transform-es2015-modules-commonjs",
-      "@babel/plugin-proposal-object-rest-spread",
-      "transform-react-jsx",
+      "babel-plugin-syntax-object-rest-spread",
+       "transform-react-jsx",
       ["./.babel/transform-mc", { filePath }]
     ]
   });
