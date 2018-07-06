@@ -161,11 +161,10 @@ function addSourceToNode(
 export function addToTree(
   tree: TreeDirectory,
   source: Source,
-  debuggeeUrl: string,
+  debuggeeHost: ?string,
   projectRoot: string
 ) {
-  const url = getURL(source, debuggeeUrl);
-  const debuggeeHost = getDomain(debuggeeUrl);
+  const url = getURL(source, debuggeeHost);
 
   if (isInvalidUrl(url, source)) {
     return;

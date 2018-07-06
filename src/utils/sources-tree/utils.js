@@ -9,6 +9,7 @@ import { parse } from "url";
 import type { TreeNode, TreeSource, TreeDirectory, ParentMap } from "./types";
 import type { Source } from "../../types";
 import { isPretty } from "../source";
+import { getURL } from "./getURL";
 const IGNORED_URLS = ["debugger eval code", "XStringBundle"];
 
 export function nodeHasChildren(item: TreeNode): boolean {
@@ -49,16 +50,16 @@ export function isSource(item: TreeNode) {
   return item.type === "source";
 }
 
-export function getFileExtension(url: string = ""): string {
-  const parsedUrl = parse(url).pathname;
+export function getFileExtension(source: Source): string {
+  const parsedUrl = getURL(source).path;
   if (!parsedUrl) {
     return "";
   }
   return parsedUrl.split(".").pop();
 }
 
-export function isNotJavaScript(source: Object): boolean {
-  return ["css", "svg", "png"].includes(getFileExtension(source.url));
+export function isNotJavaScript(source: Source): boolean {
+  return ["css", "svg", "png"].includes(getFileExtension(source));
 }
 
 export function isInvalidUrl(url: Object, source: Source) {
