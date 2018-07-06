@@ -39,13 +39,6 @@ type Props = {
 };
 
 class PrimaryPanes extends Component<Props, State> {
-  renderShortcut: Function;
-  selectedPane: string;
-  showPane: Function;
-  renderTabs: Function;
-  renderChildren: Function;
-  onAlphabetizeClick: Function;
-
   constructor(props: Props) {
     super(props);
 
