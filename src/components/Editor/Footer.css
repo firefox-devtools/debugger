@@ -91,6 +91,7 @@
 
 .source-footer .blackbox-summary {
   color: var(--theme-body-color);
+  padding-left: 2.5px;
 }
 
 .source-footer .mapped-source {
