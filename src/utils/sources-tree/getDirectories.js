@@ -17,7 +17,7 @@ function findSource(sourceTree: TreeDirectory, sourceUrl: string): TreeNode {
         _traverse(child);
       }
     } else if (!returnTarget) {
-      if (subtree.path.replace(/http(s)?:\//, "") == sourceUrl) {
+      if (subtree.path.replace(/http(s)?:\/\//, "") == sourceUrl) {
         returnTarget = subtree;
         return;
       }
