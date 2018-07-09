@@ -3339,9 +3339,9 @@ devtools-environment@^0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/devtools-environment/-/devtools-environment-0.0.5.tgz#0333bf35009fe09c21c315069e6b4d9177a4b8d1"
 
-devtools-launchpad@0.0.126:
-  version "0.0.126"
-  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.126.tgz#63489f9f3b225c77753f28209eb42989e0cacc6b"
+devtools-launchpad@0.0.127:
+  version "0.0.127"
+  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.127.tgz#e8f581b7f5ff3240e7adecfb17dfb9ccbdfcfcec"
   dependencies:
     amd-loader "0.0.8"
     autoprefixer "^7.1.2"
@@ -3356,6 +3356,7 @@ devtools-launchpad@0.0.126:
     babel-plugin-webpack-alias "^2.1.1"
     babel-polyfill "^6.7.4"
     babel-preset-es2015 "^6.24.1"
+    babel-preset-react "^6.24.1"
     babel-register "^6.18.0"
     body-parser "^1.15.2"
     check-node-version "^1.1.2"
@@ -3368,6 +3369,7 @@ devtools-launchpad@0.0.126:
     devtools-connection "^0.0.9"
     devtools-contextmenu "^0.0.8"
     devtools-environment "^0.0.5"
+    devtools-license-check "^0.7.0"
     devtools-mc-assets "^0.0.6"
     devtools-modules "^0.0.37"
     devtools-sprintf-js "^1.0.3"
@@ -3392,10 +3394,9 @@ devtools-launchpad@0.0.126:
     properties-parser "^0.3.1"
     ps-node "^0.1.4"
     raw-loader "^0.5.1"
-    react "^16.2.0"
-    react-dom "^16.2.0"
+    react "^16.4.1"
+    react-dom "^16.4.1"
     react-dom-factories "^1.0.2"
-    react-immutable-proptypes "^2.1.0"
     react-redux "^5.0.6"
     redux "^3.7.2"
     selenium-webdriver "=3.3.0"
@@ -9636,9 +9637,9 @@ react-dom-factories@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/react-dom-factories/-/react-dom-factories-1.0.2.tgz#eb7705c4db36fb501b3aa38ff759616aa0ff96e0"
 
-react-dom@16.2.0:
-  version "16.2.0"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.2.0.tgz#69003178601c0ca19b709b33a83369fe6124c044"
+react-dom@16.4.1, react-dom@^16.4.1:
+  version "16.4.1"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.4.1.tgz#7f8b0223b3a5fbe205116c56deb85de32685dad6"
   dependencies:
     fbjs "^0.8.16"
     loose-envify "^1.1.0"
@@ -9784,9 +9785,9 @@ react-treebeard@^2.1.0:
     shallowequal "^0.2.2"
     velocity-react "^1.3.1"
 
-react@16.2.0:
-  version "16.2.0"
-  resolved "https://registry.yarnpkg.com/react/-/react-16.2.0.tgz#a31bd2dab89bff65d42134fa187f24d054c273ba"
+react@16.4.1, react@^16.4.1:
+  version "16.4.1"
+  resolved "https://registry.yarnpkg.com/react/-/react-16.4.1.tgz#de51ba5764b5dbcd1f9079037b862bd26b82fe32"
   dependencies:
     fbjs "^0.8.16"
     loose-envify "^1.1.0"
