@@ -13,7 +13,6 @@ import { createSelector } from "reselect";
 import { move } from "lodash-move";
 import { getPrettySourceURL } from "../utils/source";
 import { originalToGeneratedId, isOriginalId } from "devtools-source-map";
-import { isTesting } from "devtools-environment";
 import { find } from "lodash";
 import { prefs } from "../utils/prefs";
 
@@ -416,15 +415,7 @@ export const getSelectedSource = createSelector(
       return;
     }
 
-    const source = sources[selectedLocation.sourceId];
-
-    // TODO: remove this when the immutable refactor lands in m-c
-    if (isTesting()) {
-      const testSource: any = { ...source, get: field => source[field] };
-      return testSource;
-    }
-
-    return source;
+    return sources[selectedLocation.sourceId];
   }
 );
 
