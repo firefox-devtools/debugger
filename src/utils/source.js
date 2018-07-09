@@ -366,5 +366,5 @@ export function getSourceClassnames(
   if (source.isBlackBoxed) {
     return "blackBox";
   }
-  return sourceTypes[getFileExtension(source.url)] || defaultClassName;
+  return sourceTypes[getFileExtension(source)] || defaultClassName;
 }

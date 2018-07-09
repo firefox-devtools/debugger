@@ -31,7 +31,7 @@ export function getFilenameFromPath(pathname?: string) {
 const NoDomain = "(no domain)";
 const def = { path: "", group: "", filename: "" };
 
-function _getURL(source: Source, defaultDomain: ?string): ParsedURL {
+function _getURL(source: Source, defaultDomain: ?string = ""): ParsedURL {
   const { url } = source;
   if (!url) {
     return def;
