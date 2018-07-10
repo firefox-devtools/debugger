@@ -81,6 +81,7 @@ function buildConfig(envConfig) {
     ];
 
     extra.excludeMap = mozillaCentralMappings;
+    extra.babelIncludes = ["react-aria-components"];
 
     mappings.forEach(([regex, res]) => {
       webpackConfig.plugins.push(new NormalModuleReplacementPlugin(regex, res));
