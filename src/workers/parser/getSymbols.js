@@ -123,6 +123,26 @@ function getFunctionParameterNames(path: SimplePath): string[] {
   return [];
 }
 
+function getFunctionSignature(path: SimplePath) {
+  // get the function name and the arguments
+  const name  = getFunctionName(path.node, path.parent);
+  const args = path.node.params.map(p => p.name);
+
+  console.log(`${name}(${args.join(',')})`);
+  console.log('node > ', path.node);
+  //console.log('parent > ', path.parent);
+  console.log('cm >', t.isClassMethod(path));
+  console.log('fe >', t.isFunctionExpression(path));
+  console.log(name);
+}
+
+function getFunctionPath(path: SimplePath) {
+  if (t.isClassMethod(path)) {
+
+  }
+  if (t.isFunctionExpression()) {}
+}
+
 /* eslint-disable complexity */
 function extractSymbol(path: SimplePath, symbols) {
   if (isVariable(path)) {
@@ -135,7 +155,8 @@ function extractSymbol(path: SimplePath, symbols) {
       klass: inferClassName(path),
       location: path.node.loc,
       parameterNames: getFunctionParameterNames(path),
-      identifier: path.node.id
+      identifier: path.node.id,
+      signature: getFunctionSignature(path)
     });
   }
 
