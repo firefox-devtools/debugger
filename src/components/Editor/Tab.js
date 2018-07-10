@@ -192,7 +192,9 @@ class Tab extends PureComponent<Props> {
           source={source}
           shouldHide={icon => ["file", "javascript"].includes(icon)}
         />
-        <div className="filename">{getTruncatedFileName(source)}</div>
+        <div className="filename">
+          {getRawSourceURL(getTruncatedFileName(source))}
+        </div>
         <CloseButton
           handleClick={onClickClose}
           tooltip={L10N.getStr("sourceTabs.closeTabButtonTooltip")}
