@@ -10,10 +10,9 @@ import {
   makeSource,
   makeOriginalSource,
   makeFrame
-} from "../../utils/test-head";
+} from "../../../utils/test-head";
 
-import * as parser from "../../workers/parser/index";
-import * as I from "immutable";
+import * as parser from "../../../workers/parser/index";
 
 const { isStepping } = selectors;
 
@@ -131,7 +130,7 @@ describe("pause", () => {
       });
 
       await dispatch(actions.newSource(makeSource("await")));
-      await dispatch(actions.loadSourceText(I.Map({ id: "await" })));
+      await dispatch(actions.loadSourceText({ id: "await" }));
 
       await dispatch(actions.paused(mockPauseInfo));
       const getNextStepSpy = jest.spyOn(parser, "getNextStep");
@@ -150,7 +149,7 @@ describe("pause", () => {
       });
 
       await dispatch(actions.newSource(makeSource("await")));
-      await dispatch(actions.loadSourceText(I.Map({ id: "await" })));
+      await dispatch(actions.loadSourceText({ id: "await" }));
 
       await dispatch(actions.paused(mockPauseInfo));
       const getNextStepSpy = jest.spyOn(parser, "getNextStep");
