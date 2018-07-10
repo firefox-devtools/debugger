@@ -8,6 +8,7 @@ import { addToTree } from "./addToTree";
 import { collapseTree } from "./collapseTree";
 import { createParentMap } from "./utils";
 import { difference } from "lodash";
+import { getDomain } from "./treeOrder";
 
 import type { SourcesMap } from "../../reducers/types";
 import type { TreeDirectory } from "./types";
@@ -39,9 +40,10 @@ export function updateTree({
   sourceTree
 }: Params) {
   const newSet = newSourcesSet(newSources, prevSources);
+  const debuggeeHost = getDomain(debuggeeUrl);
 
   for (const source of newSet) {
-    addToTree(uncollapsedTree, source, debuggeeUrl, projectRoot);
+    addToTree(uncollapsedTree, source, debuggeeHost, projectRoot);
   }
 
   const newSourceTree = collapseTree(uncollapsedTree);

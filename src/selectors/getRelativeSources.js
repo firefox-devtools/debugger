@@ -7,20 +7,22 @@
 import { getProjectDirectoryRoot, getSources } from "../selectors";
 import { chain } from "lodash";
 import type { Source, RelativeSource } from "../types";
-import { getSourcePath } from "../utils/source";
+import { getURL } from "../utils/sources-tree";
 import { createSelector } from "reselect";
 
-function getRelativeUrl(url, root) {
+function getRelativeUrl(source, root) {
+  const { group, path } = getURL(source);
   if (!root) {
-    return getSourcePath(url);
+    return path;
   }
 
   // + 1 removes the leading "/"
+  const url = group + path;
   return url.slice(url.indexOf(root) + root.length + 1);
 }
 
 function formatSource(source, root): RelativeSource {
-  return { ...source, relativeUrl: getRelativeUrl(source.url, root) };
+  return { ...source, relativeUrl: getRelativeUrl(source, root) };
 }
 
 function underRoot(source, root) {

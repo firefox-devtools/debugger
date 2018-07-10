@@ -53,19 +53,12 @@ function findBreakpointSources(
   return sortBy(breakpointSources, (source: Source) => getFilename(source));
 }
 
-function _getBreakpointSources(
-  breakpoints: BreakpointsMap,
-  sources: SourcesMap
-): BreakpointSources {
-  const breakpointSources = findBreakpointSources(sources, breakpoints);
-  return breakpointSources.map(source => ({
-    source,
-    breakpoints: getBreakpointsForSource(source, breakpoints)
-  }));
-}
-
 export const getBreakpointSources = createSelector(
   getBreakpoints,
   getSources,
-  _getBreakpointSources
+  (breakpoints: BreakpointsMap, sources: SourcesMap) =>
+    findBreakpointSources(sources, breakpoints).map(source => ({
+      source,
+      breakpoints: getBreakpointsForSource(source, breakpoints)
+    }))
 );
