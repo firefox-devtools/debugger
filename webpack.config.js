@@ -41,10 +41,7 @@ const webpackConfig = {
   }
 };
 
-if (!isProduction) {
-  webpackConfig.module = webpackConfig.module || {};
-  webpackConfig.module.rules = webpackConfig.module.rules || [];
-} else {
+if (isProduction) {
   // In the firefox panel, build the vendored dependencies as a bundle instead,
   // the other debugger modules will be transpiled to a format that is
   // compatible with the DevTools Loader.
@@ -59,7 +56,10 @@ function buildConfig(envConfig) {
 
   webpackConfig.plugins = [new ObjectRestSpreadPlugin()];
 
-  if (isProduction) {
+  if (!isProduction) {
+    webpackConfig.module = webpackConfig.module || {};
+    webpackConfig.module.rules = webpackConfig.module.rules || [];
+  } else {
     webpackConfig.output.libraryTarget = "umd";
 
     if (process.env.vis) {
