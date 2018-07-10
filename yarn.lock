@@ -9598,9 +9598,9 @@ rc@^1.1.0, rc@^1.1.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-"react-aria-components@https://github.com/juanca/react-aria-components.git":
-  version "0.0.2"
-  resolved "https://github.com/juanca/react-aria-components.git#d3e4e1a07db6ac744fc8fd995c6fa5d43f7d2eda"
+react-aria-components@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/react-aria-components/-/react-aria-components-0.0.3.tgz#4512aad28f31670956180faa088bf3a3dfba1f8f"
 
 react-dev-utils@^5.0.0:
   version "5.0.1"
