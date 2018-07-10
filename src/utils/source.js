@@ -17,7 +17,7 @@ import { parse as parseURL } from "url";
 import { getUnicodeUrl } from "devtools-modules";
 export { isMinified } from "./isMinified";
 import { getURL, getFileExtension } from "./sources-tree";
-import { prefs } from './prefs';
+import { prefs } from "./prefs";
 
 import type { Source, Location } from "../types";
 import type { SourceMetaDataType } from "../reducers/ast";
@@ -62,7 +62,13 @@ export function shouldPrettyPrint(source: Source) {
   const hasSourceMap = source.sourceMapURL;
   const sourceMapsEnabled = prefs.clientSourceMapsEnabled;
 
-  const options = [_isPretty, !_isJavaScript, isOriginal, hasSourceMap, sourceMapsEnabled];
+  const options = [
+    _isPretty,
+    !_isJavaScript,
+    isOriginal,
+    hasSourceMap,
+    sourceMapsEnabled
+  ];
 
   if (options.some(Boolean)) {
     return false;
