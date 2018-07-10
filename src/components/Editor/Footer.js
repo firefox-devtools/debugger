@@ -155,29 +155,31 @@ class SourceFooter extends PureComponent<Props> {
 
   renderSourceSummary() {
     const { mappedSource, jumpToMappedLocation, selectedSource } = this.props;
-    if (mappedSource) {
-      const filename = getFilename(mappedSource);
-      const tooltip = L10N.getFormatStr(
-        "sourceFooter.mappedSourceTooltip",
-        filename
-      );
-      const title = L10N.getFormatStr("sourceFooter.mappedSource", filename);
-      const mappedSourceLocation = {
-        sourceId: selectedSource.id,
-        line: 1,
-        column: 1
-      };
-      return (
-        <button
-          className="mapped-source"
-          onClick={() => jumpToMappedLocation(mappedSourceLocation)}
-          title={tooltip}
-        >
-          <span>{title}</span>
-        </button>
-      );
+
+    if (!mappedSource) {
+      return null;
     }
-    return null;
+
+    const filename = getFilename(mappedSource);
+    const tooltip = L10N.getFormatStr(
+      "sourceFooter.mappedSourceTooltip",
+      filename
+    );
+    const title = L10N.getFormatStr("sourceFooter.mappedSource", filename);
+    const mappedSourceLocation = {
+      sourceId: selectedSource.id,
+      line: 1,
+      column: 1
+    };
+    return (
+      <button
+        className="mapped-source"
+        onClick={() => jumpToMappedLocation(mappedSourceLocation)}
+        title={tooltip}
+      >
+        <span>{title}</span>
+      </button>
+    );
   }
 
   render() {
