@@ -12,11 +12,7 @@ import {
   createSourceNode,
   createDirectoryNode
 } from "./utils";
-import {
-  createTreeNodeMatcher,
-  findNodeInContents,
-  getDomain
-} from "./treeOrder";
+import { createTreeNodeMatcher, findNodeInContents } from "./treeOrder";
 import { getURL } from "./getURL";
 
 import type { ParsedURL } from "./getURL";

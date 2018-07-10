@@ -31,7 +31,7 @@ export function getFilenameFromPath(pathname?: string) {
 const NoDomain = "(no domain)";
 const def = { path: "", group: "", filename: "" };
 
-function _getURL(source: Source, defaultDomain: ?string = ""): ParsedURL {
+function _getURL(source: Source, defaultDomain: string): ParsedURL {
   const { url } = source;
   if (!url) {
     return def;
@@ -93,7 +93,7 @@ function _getURL(source: Source, defaultDomain: ?string = ""): ParsedURL {
         return {
           ...def,
           path: url,
-          group: defaultDomain,
+          group: defaultDomain || "",
           filename
         };
       }
@@ -117,12 +117,12 @@ function _getURL(source: Source, defaultDomain: ?string = ""): ParsedURL {
   };
 }
 
-export function getURL(source: Source, debuggeeUrl: ?string = "") {
+export function getURL(source: Source, debuggeeUrl: ?string) {
   if (urlMap.has(source)) {
     return urlMap.get(source) || def;
   }
 
-  const url = _getURL(source, debuggeeUrl);
+  const url = _getURL(source, debuggeeUrl || "");
   urlMap.set(source, url);
   return url;
 }
