@@ -47,6 +47,14 @@ describe("sources", () => {
         })
       ).toBe("hello.html");
     });
+    it("should give us the proper filename for pretty files", () => {
+      expect(
+        getFilename({
+          url: "http://localhost.com:7999/increment/hello.html:formatted",
+          id: ""
+        })
+      ).toBe("hello.html");
+    });
   });
 
   describe("getTruncatedFileName", () => {

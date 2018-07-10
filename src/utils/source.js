@@ -156,7 +156,7 @@ export function getFilename(source: Source) {
 
   const { filename } = getURL(source);
 
-  return filename;
+  return getRawSourceURL(filename);
 }
 
 /**
