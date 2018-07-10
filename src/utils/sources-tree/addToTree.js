@@ -12,11 +12,7 @@ import {
   createSourceNode,
   createDirectoryNode
 } from "./utils";
-import {
-  createTreeNodeMatcher,
-  findNodeInContents,
-  getDomain
-} from "./treeOrder";
+import { createTreeNodeMatcher, findNodeInContents } from "./treeOrder";
 import { getURL } from "./getURL";
 
 import type { ParsedURL } from "./getURL";
@@ -161,11 +157,10 @@ function addSourceToNode(
 export function addToTree(
   tree: TreeDirectory,
   source: Source,
-  debuggeeUrl: string,
+  debuggeeHost: ?string,
   projectRoot: string
 ) {
-  const url = getURL(source, debuggeeUrl);
-  const debuggeeHost = getDomain(debuggeeUrl);
+  const url = getURL(source, debuggeeHost);
 
   if (isInvalidUrl(url, source)) {
     return;
