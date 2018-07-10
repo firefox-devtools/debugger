@@ -38,20 +38,13 @@ const webpackConfig = {
     path: path.join(__dirname, "assets/build"),
     filename: "[name].js",
     publicPath: "/assets/build"
-  },
-
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        loader: "babel-loader",
-        include: /node_modules\/react-aria-components/
-      }
-    ]
   }
 };
 
-if (isProduction) {
+if (!isProduction) {
+  webpackConfig.module = webpackConfig.module || {};
+  webpackConfig.module.rules = webpackConfig.module.rules || [];
+} else {
   // In the firefox panel, build the vendored dependencies as a bundle instead,
   // the other debugger modules will be transpiled to a format that is
   // compatible with the DevTools Loader.
@@ -60,7 +53,10 @@ if (isProduction) {
 }
 
 function buildConfig(envConfig) {
-  const extra = {};
+  const extra = {
+    babelIncludes: ["react-aria-components"]
+  };
+
   webpackConfig.plugins = [new ObjectRestSpreadPlugin()];
 
   if (isProduction) {
@@ -81,7 +77,6 @@ function buildConfig(envConfig) {
     ];
 
     extra.excludeMap = mozillaCentralMappings;
-    extra.babelIncludes = ["react-aria-components"];
 
     mappings.forEach(([regex, res]) => {
       webpackConfig.plugins.push(new NormalModuleReplacementPlugin(regex, res));
