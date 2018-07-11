@@ -136,7 +136,7 @@ class SimplePath {
     return this.parentPath.find(predicate);
   }
 
-  getSibling(offset: number) {
+  getSibling(offset: number): ?SimplePath {
     const { node, key, index } = this._ancestor;
 
     if (typeof index !== "number") {

@@ -171,7 +171,7 @@ describe("ast", () => {
         })
       );
 
-      await dispatch(actions.setOutOfScopeLocations("scopes.js"));
+      await dispatch(actions.setOutOfScopeLocations());
 
       await waitForState(store, state => getOutOfScopeLocations(state));
 
