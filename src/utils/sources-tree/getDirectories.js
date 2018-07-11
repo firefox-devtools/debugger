@@ -9,48 +9,45 @@ import { getURL } from "./getURL";
 import type { TreeNode, TreeDirectory } from "./types";
 import type { Source } from "../../types";
 
-function findSource(sourceTree: TreeDirectory, sourceUrl: string): TreeNode {
-  let returnTarget = null;
-  function _traverse(subtree: TreeNode) {
-    if (subtree.type === "directory") {
-      for (const child of subtree.contents) {
-        _traverse(child);
-      }
-    } else if (!returnTarget) {
-      if (subtree.path.replace(/http(s)?:\//, "") == sourceUrl) {
-        returnTarget = subtree;
-        return;
-      }
+function _traverse(subtree: TreeNode, source: Source) {
+  if (subtree.type === "source") {
+    if (subtree.contents.id === source.id) {
+      return subtree;
     }
+
+    return null;
   }
 
-  sourceTree.contents.forEach(node => _traverse(node));
-
-  if (!returnTarget) {
-    return sourceTree;
-  }
-
-  return returnTarget;
+  const matches = subtree.contents.map(child => _traverse(child, source));
+  return matches && matches.filter(Boolean)[0];
 }
 
-export function getDirectories(source: Source, sourceTree: TreeDirectory) {
-  const url = getURL(source);
-  const fullUrl = `${url.group}${url.path}`;
-  const parentMap = createParentMap(sourceTree);
-
-  const subtreeSource = findSource(sourceTree, fullUrl);
-  if (!subtreeSource) {
+function getAncestors(sourceTree: TreeDirectory, item: ?TreeNode) {
+  if (!item) {
     return [];
   }
 
-  let node = subtreeSource;
-  const directories = [];
-  directories.push(subtreeSource);
+  const parentMap = createParentMap(sourceTree);
+  let directories = [];
+
+  directories.push(item);
   while (true) {
-    node = parentMap.get(node);
-    if (!node) {
+    item = parentMap.get(item);
+    if (!item) {
       return directories;
     }
-    directories.push(node);
+    directories.push(item);
   }
+}
+
+export function findSourceItem(
+  sourceTree: TreeDirectory,
+  source: Source
+): ?TreeNode {
+  return _traverse(sourceTree, source);
+}
+
+export function getDirectories(source: Source, sourceTree: TreeDirectory) {
+  let item = findSourceItem(sourceTree, source);
+  return getAncestors(sourceTree, item);
 }

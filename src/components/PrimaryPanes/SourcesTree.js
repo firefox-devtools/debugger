@@ -51,7 +51,7 @@ import type { Item } from "../shared/ManagedTree";
 type Props = {
   sources: SourcesMap,
   sourceCount: number,
-  shownSource?: string,
+  shownSource?: Source,
   selectedSource?: Source,
   debuggeeUrl: string,
   projectRoot: string,
@@ -115,20 +115,8 @@ class SourcesTree extends Component<Props, State> {
     }
 
     if (nextProps.shownSource && nextProps.shownSource != shownSource) {
-      const matchingSources = Object.keys(sources).filter(sourceId => {
-        return getRawSourceURL(sources[sourceId].url) === nextProps.shownSource;
-      });
-
-      if (matchingSources.length) {
-        const listItems = getDirectories(
-          sources[matchingSources[0]],
-          sourceTree
-        );
-        if (listItems && listItems.length) {
-          this.selectItem(listItems[0]);
-        }
-        return this.setState({ listItems });
-      }
+      const listItems = getDirectories(nextProps.shownSource, sourceTree);
+      return this.setState({ listItems });
     }
 
     if (
@@ -164,12 +152,7 @@ class SourcesTree extends Component<Props, State> {
   };
 
   selectItem = (item: TreeNode) => {
-    if (
-      !isDirectory(item) &&
-      // This second check isn't strictly necessary, but it ensures that Flow
-      // knows that we are doing the correct thing.
-      !Array.isArray(item.contents)
-    ) {
+    if (item.type == "source") {
       this.props.selectSource(item.contents.id);
     }
   };
