@@ -12,7 +12,6 @@ import {
   isDirectory,
   addToTree,
   sortEntireTree,
-  getDirectories,
   isNotJavaScript
 } from "../index";
 
@@ -82,74 +81,6 @@ describe("sources tree", () => {
       expect(getRelativePath("file:///path/to/file.html?bla")).toBe(relPath);
       expect(getRelativePath("file:///path/to/file.html#bla")).toBe(relPath);
       expect(getRelativePath("file:///path/to/file")).toBe("path/to/file");
-    });
-  });
-
-  describe("getDirectories", () => {
-    it("gets a source's ancestor directories", function() {
-      const source1 = createSource({
-        url: "http://a/b.js",
-        actor: "actor1"
-      });
-
-      const source2 = createSource({
-        url: "http://a/c.js",
-        actor: "actor1"
-      });
-
-      const source3 = createSource({
-        url: "http://b/c.js",
-        actor: "actor1"
-      });
-
-      const tree = createDirectoryNode("root", "", []);
-      addToTree(tree, source1, "http://a/");
-      addToTree(tree, source2, "http://a/");
-      addToTree(tree, source3, "http://a/");
-      const paths = getDirectories(source1, tree);
-
-      expect(paths[1].path).toBe("a");
-      expect(paths[0].path).toBe("a/b.js");
-    });
-
-    it("handles '?' in target url", function() {
-      const source1 = createSource({
-        url: "http://a/b.js?key=hi",
-        actor: "actor1"
-      });
-
-      const source2 = createSource({
-        url: "http://b/b.js",
-        actor: "actor1"
-      });
-
-      const tree = createDirectoryNode("root", "", []);
-      addToTree(tree, source1, "http://a/");
-      addToTree(tree, source2, "http://a/");
-      const paths = getDirectories(source1, tree);
-
-      expect(paths[1].path).toBe("a");
-      expect(paths[0].path).toBe("a/b.js");
-    });
-
-    it("handles 'https' in target url", function() {
-      const source1 = createSource({
-        url: "https://a/b.js",
-        actor: "actor1"
-      });
-
-      const source2 = createSource({
-        url: "https://b/b.js",
-        actor: "actor1"
-      });
-
-      const tree = createDirectoryNode("root", "", []);
-      addToTree(tree, source1, "http://a/");
-      addToTree(tree, source2, "http://a/");
-      const paths = getDirectories(source1, tree);
-
-      expect(paths[1].path).toBe("a");
-      expect(paths[0].path).toBe("a/b.js");
     });
   });
 
