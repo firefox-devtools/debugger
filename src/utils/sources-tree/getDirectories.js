@@ -27,7 +27,7 @@ function findSourceItem(sourceTree: TreeDirectory, source: Source): ?TreeNode {
 
 function getAncestors(sourceTree: TreeDirectory, item: ?TreeNode) {
   if (!item) {
-    null;
+    return null;
   }
 
   const parentMap = createParentMap(sourceTree);
@@ -46,5 +46,5 @@ function getAncestors(sourceTree: TreeDirectory, item: ?TreeNode) {
 export function getDirectories(source: Source, sourceTree: TreeDirectory) {
   const item = findSourceItem(sourceTree, source);
   const ancestors = getAncestors(sourceTree, item);
-  return ancestors != null ? ancestors : [sourceTree];
+  return ancestors || [sourceTree];
 }
