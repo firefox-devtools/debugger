@@ -48,4 +48,14 @@ describe("file text search", () => {
     fileSearchModState = getFileSearchModifiers(getState());
     expect(fileSearchModState.get("caseSensitive")).toBe(true);
   });
+
+  it("should toggle a file search query cleaning", () => {
+    const { dispatch, getState } = createStore();
+    dispatch(actions.setFileSearchQuery("foobar"));
+    let fileSearchQueryState = getFileSearchQuery(getState());
+    expect(fileSearchQueryState).toBe("foobar");
+    dispatch(actions.setFileSearchQuery(""));
+    fileSearchQueryState = getFileSearchQuery(getState());
+    expect(fileSearchQueryState).toBe("");
+  });
 });
