@@ -401,15 +401,12 @@ class Editor extends PureComponent<Props, State> {
     const { selectedLocation, selectedSource } = this.props;
     const { editor } = this.state;
 
-    if (!nextProps.selectedSource || !editor || !nextProps.selectedLocation) {
-      return false;
-    }
-
-    if (!isLoaded(nextProps.selectedSource)) {
-      return false;
-    }
-
-    if (!nextProps.selectedLocation.line) {
+    if (
+      !editor ||
+      !nextProps.selectedSource ||
+      !nextProps.selectedLocation ||
+      !isLoaded(nextProps.selectedSource)
+    ) {
       return false;
     }
 
