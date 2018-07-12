@@ -124,23 +124,33 @@ function getFunctionParameterNames(path: SimplePath): string[] {
 }
 
 function getFunctionSignature(path: SimplePath) {
-  // get the function name and the arguments
-  const name  = getFunctionName(path.node, path.parent);
+  const name = getFunctionName(path.node, path.parent);
   const args = path.node.params.map(p => p.name);
+  const signature = `${name}(${args.join(',')})`;
 
-  console.log(`${name}(${args.join(',')})`);
-  console.log('node > ', path.node);
-  //console.log('parent > ', path.parent);
-  console.log('cm >', t.isClassMethod(path));
-  console.log('fe >', t.isFunctionExpression(path));
-  console.log(name);
+  if (t.isClassMethod(path)) {
+    return getAncestors(path.parentPath, signature);
+  }
+  const pPath = path.parentPath;
+  if (t.isObjectProperty(pPath)) {
+    return getAncestors(pPath.parentPath, signature);
+  }
 }
 
-function getFunctionPath(path: SimplePath) {
-  if (t.isClassMethod(path)) {
-
+function getAncestors(path: SimplePath, children) {
+  if (t.isClassDeclaration(path)) {
+    return `${path.node.id.name}.${children}`;
   }
-  if (t.isFunctionExpression()) {}
+
+  if (t.isVariableDeclarator(path)) {
+    return `${path.node.id.name}.${children}`;
+  }
+
+  if (t.isObjectProperty(path)) {
+    return getAncestors(path.parentPath, `${path.node.key.name}.${children}`);
+  }
+
+  return getAncestors(path.parentPath, children);
 }
 
 /* eslint-disable complexity */
