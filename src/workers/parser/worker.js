@@ -13,7 +13,7 @@ import { getNextStep } from "./steps";
 import { hasSyntaxError } from "./validate";
 import { getFramework } from "./frameworks";
 import { getPausePoints } from "./pausePoints";
-import mapOriginalExpression from "./mapOriginalExpression";
+import mapExpression from "./mapExpression";
 
 import { workerUtils } from "devtools-utils";
 const { workerHandler } = workerUtils;
@@ -32,5 +32,5 @@ self.onmessage = workerHandler({
   hasSyntaxError,
   getFramework,
   getPausePoints,
-  mapOriginalExpression
+  mapExpression
 });

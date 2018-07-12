@@ -44,7 +44,12 @@ function commonLog(msg: string, data: any = {}) {
 }
 
 function makeFrame({ id, sourceId }: Object, opts: Object = {}) {
-  return { id, scope: [], location: { sourceId, line: 4 }, ...opts };
+  return {
+    id,
+    scope: { bindings: { variables: {}, arguments: [] } },
+    location: { sourceId, line: 4 },
+    ...opts
+  };
 }
 
 /**

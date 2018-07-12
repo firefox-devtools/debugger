@@ -5,11 +5,15 @@
 import fs from "fs";
 import path from "path";
 
-export function getSource(name, type = "js") {
-  const text = fs.readFileSync(
+export function getFixture(name, type = "js") {
+  return fs.readFileSync(
     path.join(__dirname, `../fixtures/${name}.${type}`),
     "utf8"
   );
+}
+
+export function getSource(name, type) {
+  const text = getFixture(name, type);
   let contentType = "text/javascript";
   if (type === "html") {
     contentType = "text/html";
