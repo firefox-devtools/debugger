@@ -61,7 +61,7 @@ export function loadSourceText(source: Source) {
     try {
       await dispatch({
         type: "LOAD_SOURCE_TEXT",
-        sourceId: id,
+        sourceId: source.id,
         [PROMISE]: loadSource(source, { sourceMaps, client })
       });
     } catch (e) {

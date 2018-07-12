@@ -56,6 +56,7 @@ if (isDevelopment()) {
   pref("devtools.debugger.features.component-pane", false);
   pref("devtools.debugger.features.skip-pausing", true);
   pref("devtools.debugger.features.autocomplete-expressions", false);
+  pref("devtools.debugger.features.map-expression-bindings", true);
 }
 
 export const prefs = new PrefsHelper("devtools", {
@@ -104,7 +105,8 @@ export const features = new PrefsHelper("devtools.debugger.features", {
   pausePoints: ["Bool", "pause-points"],
   componentPane: ["Bool", "component-pane"],
   skipPausing: ["Bool", "skip-pausing"],
-  autocompleteExpression: ["Bool", "autocomplete-expressions"]
+  autocompleteExpression: ["Bool", "autocomplete-expressions"],
+  mapExpressionBindings: ["Bool", "map-expression-bindings"]
 });
 
 if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {

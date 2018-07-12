@@ -399,6 +399,33 @@ export function getFrameScopes(state: OuterState) {
   return state.pause.frameScopes;
 }
 
+export function getSelectedFrameBindings(state: OuterState) {
+  const scopes = getFrameScopes(state);
+  const selectedFrameId = getSelectedFrameId(state);
+  if (!scopes || !selectedFrameId) {
+    return null;
+  }
+
+  const frameScope = scopes.generated[selectedFrameId];
+  if (!frameScope || frameScope.pending) {
+    return;
+  }
+
+  let currentScope = frameScope.scope;
+  let frameBindings = [];
+  while (currentScope && currentScope.type != "object") {
+    const bindings = Object.keys(currentScope.bindings.variables);
+    const args = [].concat(
+      ...currentScope.bindings.arguments.map(argument => Object.keys(argument))
+    );
+
+    frameBindings = [...frameBindings, ...bindings, ...args];
+    currentScope = currentScope.parent;
+  }
+
+  return frameBindings;
+}
+
 export function getFrameScope(
   state: OuterState,
   sourceId: ?SourceId,
