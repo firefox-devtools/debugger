@@ -59,22 +59,29 @@ html[dir="rtl"] .editor-mount {
   --gutter-hover-background-color: #414141;
 }
 
-:not(.empty-line):not(.new-breakpoint) > .CodeMirror-gutter-wrapper:hover {
-  width: 48px;
+:not(.empty-line):not(.new-breakpoint)
+  > .CodeMirror-gutter-wrapper:hover
+  > .CodeMirror-linenumber {
   height: 13px;
-  background-color: var(--gutter-hover-background-color) !important;
-  mask: url(/images/breakpoint.svg) no-repeat;
-  mask-size: 60px 14px;
-  mask-position: -13px 0px;
+  color: var(--theme-body-color);
+  /* Add 1px offset to the background to match it
+    with the actual breakpoint image dimensions */
+  background: linear-gradient(to bottom, transparent 1px, var(--gutter-hover-background-color) 0);
 }
 
 :not(.empty-line):not(.new-breakpoint)
   > .CodeMirror-gutter-wrapper:hover
-  > .CodeMirror-linenumber {
-  left: auto !important;
-  right: 6px;
-  color: var(--theme-body-color);
-}
+  > .CodeMirror-linenumber::after {
+    content: '';
+    position: absolute;
+    top: 1px;
+    height: 12px;
+    width: 9px;
+    background-color: var(--gutter-hover-background-color);
+    mask: url('/images/breakpoint.svg') no-repeat;
+    mask-size: auto 12px;
+    mask-position: right;
+  }
 
 .editor-wrapper .breakpoints {
   position: absolute;
