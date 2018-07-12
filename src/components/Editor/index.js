@@ -411,26 +411,21 @@ class Editor extends PureComponent<Props, State> {
     const { selectedLocation, selectedSource } = this.props;
     const { editor } = this.state;
 
-    const {
-      selectedLocation: nextSelectedLocation,
-      selectedSource: nextSelectedSource
-    } = nextProps;
-
     if (
-      !nextSelectedSource ||
       !editor ||
-      !nextSelectedLocation ||
-      !nextSelectedLocation.line ||
-      !isLoaded(nextSelectedSource)
+      !nextProps.selectedSource ||
+      !nextProps.selectedLocation ||
+      !nextProps.selectedLocation.line ||
+      !isLoaded(nextProps.selectedSource)
     ) {
       return false;
     }
 
     const isFirstLoad =
       (!selectedSource || !isLoaded(selectedSource)) &&
-      isLoaded(nextSelectedSource);
+      isLoaded(nextProps.selectedSource);
 
-    const locationChanged = selectedLocation !== nextSelectedLocation;
+    const locationChanged = selectedLocation !== nextProps.selectedLocation;
     return isFirstLoad || locationChanged;
   }
 
