@@ -3339,9 +3339,9 @@ devtools-environment@^0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/devtools-environment/-/devtools-environment-0.0.5.tgz#0333bf35009fe09c21c315069e6b4d9177a4b8d1"
 
-devtools-launchpad@0.0.127:
-  version "0.0.127"
-  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.127.tgz#e8f581b7f5ff3240e7adecfb17dfb9ccbdfcfcec"
+devtools-launchpad@0.0.128:
+  version "0.0.128"
+  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.128.tgz#1821067b73b81710698b48f4dcc948789265809f"
   dependencies:
     amd-loader "0.0.8"
     autoprefixer "^7.1.2"
