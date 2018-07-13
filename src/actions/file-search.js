@@ -11,6 +11,7 @@ import {
   removeOverlay,
   searchSourceForHighlight
 } from "../utils/editor";
+import { isWasm, renderWasmText } from "../utils/wasm";
 import { getMatches } from "../workers/search";
 import type { Action, FileTextSearchModifier, ThunkArgs } from "./types";
 
@@ -106,7 +107,11 @@ export function searchContents(query: string, editor: Object) {
 
     const ctx = { ed: editor, cm: editor.codeMirror };
     const _modifiers = modifiers.toJS();
-    const matches = await getMatches(query, selectedSource.text, _modifiers);
+    const sourceId = selectedSource.id;
+    const text = isWasm(sourceId)
+      ? renderWasmText(sourceId, selectedSource.text).join("\n")
+      : selectedSource.text;
+    const matches = await getMatches(query, text, _modifiers);
 
     const res = find(ctx, query, true, _modifiers);
     if (!res) {
