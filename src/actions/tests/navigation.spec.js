@@ -9,11 +9,15 @@ import {
   makeSource
 } from "../../utils/test-head";
 
+jest.mock("../../utils/editor");
+
 const {
   getActiveSearch,
   getTextSearchQuery,
   getTextSearchResults,
-  getTextSearchStatus
+  getTextSearchStatus,
+  getFileSearchQuery,
+  getFileSearchResults
 } = selectors;
 
 const threadClient = {
@@ -57,6 +61,48 @@ describe("navigation", () => {
     const { dispatch, getState } = createStore();
     dispatch(actions.setActiveSearch("project"));
     expect(getActiveSearch(getState())).toBe("project");
+
+    await dispatch(actions.willNavigate("will-navigate"));
+    expect(getActiveSearch(getState())).toBe(null);
+  });
+
+  it("navigation clears the file-search query", async () => {
+    const { dispatch, getState } = createStore();
+
+    dispatch(actions.setFileSearchQuery("foobar"));
+    expect(getFileSearchQuery(getState())).toBe("foobar");
+
+    await dispatch(actions.willNavigate("will-navigate"));
+
+    expect(getFileSearchQuery(getState())).toBe("");
+  });
+
+  it("navigation clears the file-search results", async () => {
+    const { dispatch, getState } = createStore();
+
+    const searchResults = [{ line: 1, ch: 3 }, { line: 3, ch: 2 }];
+    dispatch(actions.updateSearchResults(2, 3, searchResults));
+    expect(getFileSearchResults(getState())).toEqual({
+      count: 2,
+      index: 2,
+      matchIndex: 1,
+      matches: searchResults
+    });
+
+    await dispatch(actions.willNavigate("will-navigate"));
+
+    expect(getFileSearchResults(getState())).toEqual({
+      count: 0,
+      index: -1,
+      matchIndex: -1,
+      matches: []
+    });
+  });
+
+  it("navigation removes activeSearch 'file' value", async () => {
+    const { dispatch, getState } = createStore();
+    dispatch(actions.setActiveSearch("file"));
+    expect(getActiveSearch(getState())).toBe("file");
 
     await dispatch(actions.willNavigate("will-navigate"));
     expect(getActiveSearch(getState())).toBe(null);

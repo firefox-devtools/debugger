@@ -4,13 +4,14 @@
 
 // @flow
 
-import { clearDocuments } from "../utils/editor";
+import { clearDocuments, getEditor } from "../utils/editor";
 import sourceQueue from "../utils/source-queue";
 import { getSources } from "../reducers/sources";
 import { waitForMs } from "../utils/utils";
 
 import { newSources } from "./sources";
 import { updateWorkers } from "./debuggee";
+import { closeFileSearch } from "./file-search";
 import { closeProjectSearch } from "./project-text-search";
 
 import {
@@ -43,6 +44,7 @@ export function willNavigate(event: Object) {
     clearScopes();
     clearSources();
     dispatch(navigate(event.url));
+    dispatch(closeFileSearch(getEditor()));
     dispatch(closeProjectSearch());
   };
 }
