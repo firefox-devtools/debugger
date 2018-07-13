@@ -11,6 +11,7 @@ import { waitForMs } from "../utils/utils";
 
 import { newSources } from "./sources";
 import { updateWorkers } from "./debuggee";
+import { closeProjectSearch } from "./project-text-search";
 
 import {
   clearASTs,
@@ -42,6 +43,7 @@ export function willNavigate(event: Object) {
     clearScopes();
     clearSources();
     dispatch(navigate(event.url));
+    dispatch(closeProjectSearch());
   };
 }
 
