@@ -31,7 +31,7 @@ Object {
 
 exports[`createEditor Returns a SourceEditor 1`] = `
 Object {
-  "enableCodeFolding": false,
+  "enableCodeFolding": true,
   "extraKeys": Object {
     "Cmd-F": false,
     "Cmd-G": false,
@@ -39,11 +39,12 @@ Object {
     "Ctrl-G": false,
     "Esc": false,
   },
-  "foldGutter": false,
+  "foldGutter": true,
   "gutters": Array [
     "breakpoints",
     "hit-markers",
     "CodeMirror-linenumbers",
+    "CodeMirror-foldgutter",
   ],
   "lineNumbers": true,
   "lineWrapping": false,
