@@ -12,23 +12,22 @@ jest.mock("devtools-modules", () => {
 });
 
 import { Telemetry } from "devtools-modules";
-import { recordEvent } from "../telemetry";
+import { recordEvent, setupTelemetry } from "../telemetry";
 
-const telemetry = new Telemetry();
+const telemetry = new Telemetry(-1);
 
 describe("telemetry.recordEvent()", () => {
   it("Receives the correct telemetry information", () => {
+    setupTelemetry(-1);
     recordEvent("foo", {
       bar: 1
     });
-
     expect(telemetry.recordEvent).toHaveBeenCalledWith(
       "devtools.main",
       "foo",
       "debugger",
       null,
       {
-        session_id: -1,
         bar: 1
       }
     );

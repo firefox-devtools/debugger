@@ -25,6 +25,7 @@ if (isFirefoxPanel()) {
       tabTarget,
       debuggerClient,
       sourceMaps,
+      sessionId,
       toolboxActions
     }: any) => {
       return onConnect(
@@ -38,7 +39,8 @@ if (isFirefoxPanel()) {
         },
         {
           services: { sourceMaps },
-          toolboxActions
+          toolboxActions,
+          sessionId
         }
       );
     },
