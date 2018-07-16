@@ -25,11 +25,11 @@ import * as fuzzaldrinPlus from "fuzzaldrin-plus";
 import * as transition from "react-transition-group/Transition";
 import * as reselect from "reselect";
 import * as url from "url";
-import * as lodashMove from "lodash-move";
 
 // Modules imported without destructuring
 import classnames from "classnames";
 import devtoolsSplitter from "devtools-splitter";
+import move from "lodash-move";
 import Svg from "./components/shared/Svg";
 
 // We cannot directly export literals containing special characters
@@ -46,7 +46,7 @@ export const vendored = {
   "devtools-splitter": devtoolsSplitter,
   "devtools-utils": devtoolsUtils,
   "fuzzaldrin-plus": fuzzaldrinPlus,
-  "lodash-move": lodashMove,
+  "lodash-move": move,
   "react-transition-group/Transition": transition,
   reselect,
   // Svg is required via relative paths, so the key is not imported path.
