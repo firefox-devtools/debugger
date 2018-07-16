@@ -274,7 +274,7 @@ export function removeOverlay(ctx: any, query: string) {
  * @memberof utils/source-search
  * @static
  */
-function clearSearch(cm, query: string) {
+export function clearSearch(cm: any, query: string) {
   const state = getSearchState(cm, query);
 
   state.results = [];
