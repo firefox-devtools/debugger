@@ -5,6 +5,7 @@
 // @flow
 
 import {
+  clearSearch,
   find,
   findNext,
   findPrev,
@@ -94,17 +95,17 @@ export function searchContents(query: string, editor: Object) {
     const modifiers = getFileSearchModifiers(getState());
     const selectedSource = getSelectedSource(getState());
 
-    if (
-      !query ||
-      !editor ||
-      !selectedSource ||
-      !selectedSource.text ||
-      !modifiers
-    ) {
+    if (!editor || !selectedSource || !selectedSource.text || !modifiers) {
       return;
     }
 
     const ctx = { ed: editor, cm: editor.codeMirror };
+
+    if (!query) {
+      clearSearch(ctx.cm, query);
+      return;
+    }
+
     const _modifiers = modifiers.toJS();
     const matches = await getMatches(query, selectedSource.text, _modifiers);
 
