@@ -57,7 +57,7 @@ pref("devtools.debugger.features.remove-command-bar-options", false);
 pref("devtools.debugger.features.workers", true);
 pref("devtools.debugger.features.code-coverage", false);
 pref("devtools.debugger.features.event-listeners", false);
-pref("devtools.debugger.features.code-folding", false);
+pref("devtools.debugger.features.code-folding", true);
 pref("devtools.debugger.features.outline", true);
 pref("devtools.debugger.features.replay", false);
 pref("devtools.debugger.features.pause-points", true);

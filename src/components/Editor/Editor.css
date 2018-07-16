@@ -255,10 +255,6 @@ debug-expression-error {
   }
 }
 
-.CodeMirror-guttermarker-subtle {
-  visibility: hidden;
-}
-
 .visible {
   visibility: visible;
 }
