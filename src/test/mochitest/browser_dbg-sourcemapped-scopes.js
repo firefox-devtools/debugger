@@ -269,11 +269,17 @@ add_task(async function() {
       ["val", "(optimized away)"]
     ]
   );
+
   await breakpointScopes(
     dbg,
     "babel-flowtype-bindings",
-    { line: 8, column: 2 },
-    ["Module", ["aConst", '"a-const"'], "root()"]
+    { line: 9, column: 2 },
+    [
+      "Module",
+      ["aConst", '"a-const"'],
+      ["Four", "Getter"],
+      "root()"
+    ]
   );
 
   await breakpointScopes(dbg, "babel-switches", { line: 7, column: 6 }, [

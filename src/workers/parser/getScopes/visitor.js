@@ -628,6 +628,10 @@ const scopeCollectionVisitor = {
       (!node.importKind || node.importKind === "value")
     ) {
       node.specifiers.forEach(spec => {
+        if (spec.importKind && spec.importKind !== "value") {
+          return;
+        }
+
         if (t.isImportNamespaceSpecifier(spec)) {
           state.declarationBindingIds.add(spec.local);
 
