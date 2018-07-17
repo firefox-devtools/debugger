@@ -39,14 +39,8 @@ export function formatPausePoints(text: string, pausePoints: PausePoints) {
   nodes.forEach((node, index) => {
     const { line, column } = node.location;
     const { break: breakPoint, step } = node.types;
-    const num = nodes.length - index;
     const types = `${breakPoint ? "b" : ""}${step ? "s" : ""}`;
-    const spacer = breakPoint || step ? " " : "";
-    lines[line - 1] = insertStrtAt(
-      lines[line - 1],
-      column,
-      `/*${types}${spacer}${num}*/`
-    );
+    lines[line - 1] = insertStrtAt(lines[line - 1], column, `/*${types}*/`);
   });
 
   return lines.join("\n");
