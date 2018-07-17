@@ -66,7 +66,8 @@ html[dir="rtl"] .editor-mount {
   color: var(--theme-body-color);
   /* Add 1px offset to the background to match it
     with the actual breakpoint image dimensions */
-  background: linear-gradient(
+  background:
+  linear-gradient(
     to bottom,
     transparent 1px,
     var(--gutter-hover-background-color) 0
