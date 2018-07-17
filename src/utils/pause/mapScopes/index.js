@@ -181,7 +181,7 @@ function isReliableScope(scope: OriginalScope): boolean {
   }
 
   // As determined by fair dice roll.
-  return totalBindings === 0 || unknownBindings / totalBindings < 0.1;
+  return totalBindings === 0 || unknownBindings / totalBindings < 0.25;
 }
 
 function batchScopeMappings(
