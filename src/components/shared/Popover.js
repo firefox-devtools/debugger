@@ -4,6 +4,7 @@
 
 // @flow
 import React, { Component } from "react";
+import ReactDOM from "react-dom";
 import classNames from "classnames";
 import BracketArrow from "./BracketArrow";
 
@@ -26,8 +27,11 @@ type State = {
   left: number,
   top: number,
   targetMid: TargetMid,
-  orientation: Orientation
+  orientation: Orientation,
+  maxHeight: number
 };
+
+const DEFAULT_MAX_HEIGHT = 200;
 
 class Popover extends Component<Props, State> {
   $popover: ?HTMLDivElement;
@@ -38,7 +42,8 @@ class Popover extends Component<Props, State> {
       left: 0,
       top: 0,
       targetMid: { x: 0, y: 0 },
-      orientation: "up"
+      orientation: "up",
+      maxHeight: DEFAULT_MAX_HEIGHT
     };
   }
 
@@ -49,7 +54,7 @@ class Popover extends Component<Props, State> {
 
   componentDidMount() {
     const { type } = this.props;
-    const { left, top, orientation, targetMid } =
+    const { left, top, orientation, targetMid, maxHeight } =
       type == "popover" ? this.getPopoverCoords() : this.getTooltipCoords();
 
     // eslint-disable-next-line react/no-did-mount-set-state
@@ -57,8 +62,20 @@ class Popover extends Component<Props, State> {
       left,
       top,
       orientation,
-      targetMid
+      targetMid,
+      maxHeight
     });
+  }
+
+  componentDidUpdate() {
+    const { maxHeight } = this.state;
+    const node = ReactDOM.findDOMNode(this);
+    if (node instanceof HTMLElement) {
+      const popupNode = node.querySelector(".preview-popup");
+      if (popupNode) {
+        popupNode.style.maxHeight = `${maxHeight}px`;
+      }
+    }
   }
 
   calculateLeft(
@@ -79,6 +96,10 @@ class Popover extends Component<Props, State> {
     }
     return estimatedLeft;
   }
+
+  calculateMaxHeight = (top: number, editor: ClientRect) => {
+    return editor.height - top;
+  };
 
   calculateTopForRightOrientation = (
     target: ClientRect,
@@ -156,6 +177,8 @@ class Popover extends Component<Props, State> {
         popoverRect,
         orientation
       );
+      const maxHeight = this.calculateMaxHeight(top, editorRect);
+
       let targetMid;
       if (orientation === "right") {
         targetMid = {
@@ -173,14 +196,16 @@ class Popover extends Component<Props, State> {
         left: popoverLeft,
         top,
         orientation,
-        targetMid
+        targetMid,
+        maxHeight
       };
     }
     return {
       left: 0,
       top: 0,
       orientation: "down",
-      targetMid: { x: 0, y: 0 }
+      targetMid: { x: 0, y: 0 },
+      maxHeight: DEFAULT_MAX_HEIGHT
     };
   }
 
@@ -202,14 +227,16 @@ class Popover extends Component<Props, State> {
         left,
         top,
         orientation: enoughRoomForTooltipAbove ? "up" : "down",
-        targetMid: { x: 0, y: 0 }
+        targetMid: { x: 0, y: 0 },
+        maxHeight: DEFAULT_MAX_HEIGHT
       };
     }
     return {
       left: 0,
       top: 0,
       orientation: "up",
-      targetMid: { x: 0, y: 0 }
+      targetMid: { x: 0, y: 0 },
+      maxHeight: DEFAULT_MAX_HEIGHT
     };
   }
 
