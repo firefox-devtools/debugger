@@ -28,6 +28,14 @@ add_task(async function() {
 
   const dbg = await initDebugger("doc-sourcemapped.html");
 
+  await breakpointScopes(dbg, "babel-bindings-with-flow", { line: 9, column: 2 }, [
+    "root",
+    ["value", '"a-named"'],
+    "Module",
+    ["aNamed", "Getter"],
+    "root()",
+  ]);
+
   await breakpointScopes(dbg, "typescript-classes", { line: 50, column: 2 }, [
     "Module",
     "AnotherThing()",
