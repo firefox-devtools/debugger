@@ -8,6 +8,7 @@ exports[`Popover mount popover 1`] = `
     }
   }
   onMouseLeave={[MockFunction]}
+  onPopoverCoords={[Function]}
   targetPosition={
     Object {
       "bottom": 0,
@@ -67,6 +68,7 @@ exports[`Popover mount tooltip 1`] = `
     }
   }
   onMouseLeave={[MockFunction]}
+  onPopoverCoords={[Function]}
   targetPosition={
     Object {
       "bottom": 0,
@@ -113,13 +115,13 @@ exports[`Popover render (tooltip) 1`] = `
     }
   }
 >
-  <h1>
-    Toolie!
-  </h1>
   <div
     className="gap"
     key="gap"
   />
+  <h1>
+    Toolie!
+  </h1>
 </div>
 `;
 
@@ -131,6 +133,7 @@ exports[`Popover render 1`] = `
     }
   }
   onMouseLeave={[MockFunction]}
+  onPopoverCoords={[Function]}
   targetPosition={
     Object {
       "bottom": 0,
