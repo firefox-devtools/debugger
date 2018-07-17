@@ -429,28 +429,13 @@ export function toggleBreakpointsAtLine(line: number, column?: number) {
         addBreakpoint({
           sourceId: selectedSource.id,
           sourceUrl: selectedSource.url,
-          line: line,
-          column: column
+          line,
+          column
         })
       );
     }
 
-    const promises = bps.map(bp => {
-      if (bp.loading) {
-        return null;
-      }
-
-      return dispatch(
-        removeBreakpoint({
-          sourceId: bp.location.sourceId,
-          sourceUrl: bp.location.sourceUrl,
-          line: bp.location.line,
-          column: column || bp.location.column
-        })
-      );
-    });
-
-    return Promise.all(promises);
+    return Promise.all(bps.map(bp => dispatch(removeBreakpoint(bp.location))));
   };
 }
 

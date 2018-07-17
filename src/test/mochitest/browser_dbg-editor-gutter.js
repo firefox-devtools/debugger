@@ -52,7 +52,6 @@ add_task(async function() {
   await addBreakpoint(dbg, source, 4, 1);
   await addBreakpoint(dbg, source, 4, 2);
   clickGutter(dbg, 4);
-  await waitForDispatch(dbg, "REMOVE_BREAKPOINT", 3);
-  is(getBreakpoints(getState()).size, 0, "No breakpoints exist");
+  await waitForState(dbg, state => dbg.selectors.getBreakpoints(state).size == 0);
   assertEditorBreakpoint(dbg, 4, false);
 });

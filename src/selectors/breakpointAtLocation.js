@@ -53,16 +53,6 @@ function findBreakpointAtLocation(
   });
 }
 
-function findBreakpointsAtLine(
-  breakpoints,
-  selectedSource: Source,
-  line: number
-) {
-  return breakpoints.filter(
-    breakpoint => getLocation(breakpoint, selectedSource).line === line
-  );
-}
-
 /*
  * Finds a breakpoint at a location (line, column) of the
  * selected source.
@@ -81,5 +71,7 @@ export function getBreakpointsAtLine(state: OuterState, line: number) {
   const selectedSource = getSelectedSource(state);
   const breakpoints = getBreakpointsForSource(state, selectedSource);
 
-  return findBreakpointsAtLine(breakpoints, selectedSource, line);
+  return breakpoints.filter(
+    breakpoint => getLocation(breakpoint, selectedSource).line === line
+  );
 }
