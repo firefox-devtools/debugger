@@ -91,6 +91,7 @@ export type Props = {
   setContextMenu: (string, any) => void,
   continueToHere: (?number) => void,
   toggleBreakpoint: (?number) => void,
+  toggleBreakpointsAtLine: (?number) => void,
   addOrToggleDisabledBreakpoint: (?number) => void,
   jumpToMappedLocation: any => void,
   traverseResults: (boolean, Object) => void
@@ -325,7 +326,7 @@ class Editor extends PureComponent<Props, State> {
       conditionalPanelLine,
       closeConditionalPanel,
       addOrToggleDisabledBreakpoint,
-      toggleBreakpoint,
+      toggleBreakpointsAtLine,
       continueToHere
     } = this.props;
 
@@ -357,7 +358,7 @@ class Editor extends PureComponent<Props, State> {
       return addOrToggleDisabledBreakpoint(sourceLine);
     }
 
-    return toggleBreakpoint(sourceLine);
+    return toggleBreakpointsAtLine(sourceLine);
   };
 
   onGutterContextMenu = event => {
@@ -616,6 +617,7 @@ export default connect(mapStateToProps, {
   setContextMenu: actions.setContextMenu,
   continueToHere: actions.continueToHere,
   toggleBreakpoint: actions.toggleBreakpoint,
+  toggleBreakpointsAtLine: actions.toggleBreakpointsAtLine,
   addOrToggleDisabledBreakpoint: actions.addOrToggleDisabledBreakpoint,
   jumpToMappedLocation: actions.jumpToMappedLocation,
   traverseResults: actions.traverseResults
