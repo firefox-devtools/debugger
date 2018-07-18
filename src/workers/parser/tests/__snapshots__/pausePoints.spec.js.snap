@@ -14,7 +14,7 @@ exports[`Parser.pausePoints calls 1`] = `
   /*b 13*/bar()
 )
 
-var /*bs 14*/a = 3;/*bs 15*/
+var /*bs 14*/a = 3;
 "
 `;
 
@@ -57,13 +57,13 @@ var /*bs 27*/a = 3;
 } catch (e) /*46*/{
 }
 
-/*47*/with (e) /*48*/{}/*bs 49*/
+/*47*/with (e) /*48*/{}
 "
 `;
 
 exports[`Parser.pausePoints decorators 1`] = `
 "/*bs 1*/@annotation
-class MyClass { }/*bs 2*/
+class MyClass { }
 "
 `;
 
@@ -72,7 +72,7 @@ exports[`Parser.pausePoints flow 1`] = `
   /*b 2*/renderHello(name: string, action: ReduxAction, { /*3*/todos }: Props) /*4*/{
     /*bs 5*/return \`howdy \${name}\`;
   /*6*/}
-}/*bs 7*/
+}
 "
 `;
 
@@ -124,7 +124,7 @@ const /*bs 33*/obj = {
   /*bs 63*/return (
     /*bs 64*/foo()
   );
-/*65*/}/*bs 66*/
+/*65*/}
 "
 `;
 
@@ -167,7 +167,7 @@ exports[`Parser.pausePoints html 1`] = `
 		/*bs 32*/(/*b 33*/function iife() /*34*/{
 			const /*35*/greeting = /*bs 36*/sayHello(/*37*/\\"Ryan\\");
 			/*bs 38*/console./*bs 39*/log(/*40*/greeting);
-		/*41*/})();/*bs 42*/
+		/*41*/})();
 	</script>
 </body>
 </html>
@@ -179,7 +179,7 @@ exports[`Parser.pausePoints jsx 1`] = `
 
 /*bs 5*/<div id=\\"3\\" res={/*b 6*/foo()}>/*7*/
   /*b 8*/<Item>/*9*/{/*bs 10*/foo()}/*11*/</Item>/*12*/
-/*13*/</div>/*bs 14*/
+/*13*/</div>
 "
 `;
 
@@ -193,7 +193,7 @@ exports[`Parser.pausePoints modules 1`] = `
 
 /*bs 6*/export default /*bs 7*/class AppComponent {
   /*b 8*/title = 'app'
-}/*bs 9*/
+}
 "
 `;
 
@@ -236,6 +236,6 @@ const /*bs 23*/obj = {
 /*bs 36*/3;
 
 /*37*/while (/*bs 38*/i < 6) /*39*/{ /*bs 40*/break }
-/*41*/while (/*bs 42*/i < 6) /*43*/{ /*bs 44*/continue;}/*bs 45*/
+/*41*/while (/*bs 42*/i < 6) /*43*/{ /*bs 44*/continue;}
 "
 `;
