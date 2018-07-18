@@ -9,30 +9,30 @@
  * @module actions/breakpoints
  */
 
-import { PROMISE } from "./utils/middleware/promise";
+import { PROMISE } from "../utils/middleware/promise";
 import {
   getBreakpoint,
   getBreakpoints,
   getSelectedSource,
   getBreakpointAtLocation,
   getBreakpointsAtLine
-} from "../selectors";
-import { createBreakpoint, assertBreakpoint } from "../utils/breakpoint";
-import addBreakpointPromise from "./breakpoints/addBreakpoint";
-import remapLocations from "./breakpoints/remapLocations";
-import { isEmptyLineInSource } from "../reducers/ast";
+} from "../../selectors";
+import { createBreakpoint, assertBreakpoint } from "../../utils/breakpoint";
+import addBreakpointPromise from "../breakpoints/addBreakpoint";
+import remapLocations from "../breakpoints/remapLocations";
+import { isEmptyLineInSource } from "../../reducers/ast";
 
 // this will need to be changed so that addCLientBreakpoint is removed
-import { syncClientBreakpoint } from "./breakpoints/syncBreakpoint";
+import { syncClientBreakpoint } from "../breakpoints/syncBreakpoint";
 
-import type { ThunkArgs, Action } from "./types";
+import type { ThunkArgs, Action } from "../types";
 import type {
   Breakpoint,
   SourceId,
   PendingBreakpoint,
   Location
-} from "../types";
-import type { BreakpointsMap } from "../reducers/types";
+} from "../../types";
+import type { BreakpointsMap } from "../../reducers/types";
 
 type addBreakpointOptions = {
   condition?: string,
