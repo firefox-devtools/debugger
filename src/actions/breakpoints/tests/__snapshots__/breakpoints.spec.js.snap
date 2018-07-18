@@ -31,6 +31,59 @@ Object {
 }
 `;
 
+exports[`breakpoints should add a breakpoint 1`] = `
+Array [
+  Object {
+    "breakpoints": Array [
+      Object {
+        "astLocation": Object {
+          "name": undefined,
+          "offset": Object {
+            "line": 2,
+            "sourceId": "a",
+            "sourceUrl": "http://localhost:8000/examples/a",
+          },
+        },
+        "condition": null,
+        "disabled": false,
+        "generatedLocation": Object {
+          "line": 2,
+          "sourceId": "a",
+          "sourceUrl": "http://localhost:8000/examples/a",
+        },
+        "hidden": false,
+        "hitCount": undefined,
+        "id": "hi",
+        "loading": false,
+        "location": Object {
+          "line": 2,
+          "sourceId": "a",
+          "sourceUrl": "http://localhost:8000/examples/a",
+        },
+        "originalText": "return a",
+        "text": "return a",
+      },
+    ],
+    "source": Object {
+      "contentType": "text/javascript",
+      "error": undefined,
+      "id": "a",
+      "isBlackBoxed": false,
+      "isPrettyPrinted": false,
+      "isWasm": false,
+      "loadedState": "loaded",
+      "sourceMapURL": undefined,
+      "text": "function a() {
+  return a 
+}",
+      "url": "http://localhost:8000/examples/a",
+    },
+  },
+]
+`;
+
+exports[`breakpoints should not show a breakpoint that does not have text 1`] = `Array []`;
+
 exports[`breakpoints should remap breakpoints on pretty print 1`] = `
 Object {
   "astLocation": Object {
