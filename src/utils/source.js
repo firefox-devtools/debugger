@@ -182,6 +182,9 @@ export function getUniqueFileName(mySource: Source, sources: Source[]) {
   let myPathSegments;
   const openEditorPathSegmentsWithSameFilename = [];
   for (const source of sources) {
+    if (!source.url) {
+      continue;
+    }
     const fileName = getFilename(source);
     if (fileName === myFileName) {
       const idx = source.url.lastIndexOf("/");
