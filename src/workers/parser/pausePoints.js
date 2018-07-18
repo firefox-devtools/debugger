@@ -150,13 +150,6 @@ function onEnter(node: BabelNode, ancestors: SimplePath[], state) {
     return addEmptyPoint(state, { line, column: column - 1 });
   }
 
-  if (t.isProgram(node)) {
-    const lastStatement = node.body[node.body.length - 1];
-    if (lastStatement) {
-      return addStopPoint(state, lastStatement.loc.end);
-    }
-  }
-
   if (!hasPoint(state, startLocation) && inStepExpression(parentNode)) {
     return addEmptyPoint(state, startLocation);
   }
