@@ -176,7 +176,7 @@ export function getTruncatedFileName(source: Source, length: number = 30) {
  * @static
  */
 
-export function getUniqueFileName(mySource: Source, sources: Sources) {
+export function getUniqueFileName(mySource: Source, sources: Source[]) {
   const myFileName = getFilename(mySource);
 
   let myPathSegments;
