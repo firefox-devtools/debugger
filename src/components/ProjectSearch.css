@@ -58,6 +58,7 @@
 
 .project-text-search .result .line-value {
   grid-column: 2/3;
+  padding-left: 5px;
 }
 
 .project-text-search .tree-indent {
@@ -110,7 +111,6 @@
   height: 100%;
   display: grid;
   grid-template-columns: auto 1fr;
-  grid-column-gap: 5px;
 }
 
 .project-text-search .managed-tree .tree .tree-node {
@@ -120,12 +120,13 @@
 /* Focus values */
 
 .project-text-search .file-result.focused,
-.project-text-search .result.focused {
+.project-text-search .result.focused .line-value {
   background-color: var(--theme-selection-background);
 }
 
 .project-text-search .result.focused .line-number {
   font-weight: bolder;
+  background-color: var(--theme-selection-background);
 }
 
 .project-text-search .result.focused .query-match {
