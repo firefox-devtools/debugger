@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Parser.getScopes finds scope bindings and exclude Flowtype: getScopes finds scope bindings and exclude Flowtype at line 6 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings and exclude Flowtype: getScopes finds scope bindings and exclude Flowtype at line 8 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -9,24 +9,24 @@ Array [
           Object {
             "declaration": Object {
               "end": Object {
-                "column": 25,
-                "line": 5,
+                "column": 39,
+                "line": 7,
                 "sourceId": "scopes/flowtype-bindings/originalSource-1",
               },
               "start": Object {
                 "column": 0,
-                "line": 5,
+                "line": 7,
                 "sourceId": "scopes/flowtype-bindings/originalSource-1",
               },
             },
             "end": Object {
               "column": 12,
-              "line": 5,
+              "line": 7,
               "sourceId": "scopes/flowtype-bindings/originalSource-1",
             },
             "start": Object {
               "column": 6,
-              "line": 5,
+              "line": 7,
               "sourceId": "scopes/flowtype-bindings/originalSource-1",
             },
             "type": "const",
@@ -40,23 +40,23 @@ Array [
             "declaration": Object {
               "end": Object {
                 "column": 1,
-                "line": 9,
+                "line": 11,
                 "sourceId": "scopes/flowtype-bindings/originalSource-1",
               },
               "start": Object {
                 "column": 15,
-                "line": 7,
+                "line": 9,
                 "sourceId": "scopes/flowtype-bindings/originalSource-1",
               },
             },
             "end": Object {
               "column": 28,
-              "line": 7,
+              "line": 9,
               "sourceId": "scopes/flowtype-bindings/originalSource-1",
             },
             "start": Object {
               "column": 24,
-              "line": 7,
+              "line": 9,
               "sourceId": "scopes/flowtype-bindings/originalSource-1",
             },
             "type": "fn-decl",
@@ -72,7 +72,7 @@ Array [
     "displayName": "Module",
     "end": Object {
       "column": 0,
-      "line": 10,
+      "line": 12,
       "sourceId": "scopes/flowtype-bindings/originalSource-1",
     },
     "start": Object {
@@ -87,7 +87,7 @@ Array [
     "displayName": "Lexical Global",
     "end": Object {
       "column": 0,
-      "line": 10,
+      "line": 12,
       "sourceId": "scopes/flowtype-bindings/originalSource-1",
     },
     "start": Object {
@@ -99,18 +99,18 @@ Array [
   },
   Object {
     "bindings": Object {
-      "Other": Object {
+      "window": Object {
         "refs": Array [
           Object {
             "end": Object {
-              "column": 10,
-              "line": 3,
+              "column": 22,
+              "line": 7,
               "sourceId": "scopes/flowtype-bindings/originalSource-1",
             },
             "meta": null,
             "start": Object {
-              "column": 5,
-              "line": 3,
+              "column": 16,
+              "line": 7,
               "sourceId": "scopes/flowtype-bindings/originalSource-1",
             },
             "type": "ref",
@@ -122,7 +122,7 @@ Array [
     "displayName": "Global",
     "end": Object {
       "column": 0,
-      "line": 10,
+      "line": 12,
       "sourceId": "scopes/flowtype-bindings/originalSource-1",
     },
     "start": Object {
@@ -135,7 +135,7 @@ Array [
 ]
 `;
 
-exports[`Parser.getScopes finds scope bindings and exclude Flowtype: getScopes finds scope bindings and exclude Flowtype at line 8 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings and exclude Flowtype: getScopes finds scope bindings and exclude Flowtype at line 10 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -151,12 +151,12 @@ Array [
     "displayName": "root",
     "end": Object {
       "column": 1,
-      "line": 9,
+      "line": 11,
       "sourceId": "scopes/flowtype-bindings/originalSource-1",
     },
     "start": Object {
       "column": 15,
-      "line": 7,
+      "line": 9,
       "sourceId": "scopes/flowtype-bindings/originalSource-1",
     },
     "type": "function",
@@ -168,24 +168,24 @@ Array [
           Object {
             "declaration": Object {
               "end": Object {
-                "column": 25,
-                "line": 5,
+                "column": 39,
+                "line": 7,
                 "sourceId": "scopes/flowtype-bindings/originalSource-1",
               },
               "start": Object {
                 "column": 0,
-                "line": 5,
+                "line": 7,
                 "sourceId": "scopes/flowtype-bindings/originalSource-1",
               },
             },
             "end": Object {
               "column": 12,
-              "line": 5,
+              "line": 7,
               "sourceId": "scopes/flowtype-bindings/originalSource-1",
             },
             "start": Object {
               "column": 6,
-              "line": 5,
+              "line": 7,
               "sourceId": "scopes/flowtype-bindings/originalSource-1",
             },
             "type": "const",
@@ -199,23 +199,23 @@ Array [
             "declaration": Object {
               "end": Object {
                 "column": 1,
-                "line": 9,
+                "line": 11,
                 "sourceId": "scopes/flowtype-bindings/originalSource-1",
               },
               "start": Object {
                 "column": 15,
-                "line": 7,
+                "line": 9,
                 "sourceId": "scopes/flowtype-bindings/originalSource-1",
               },
             },
             "end": Object {
               "column": 28,
-              "line": 7,
+              "line": 9,
               "sourceId": "scopes/flowtype-bindings/originalSource-1",
             },
             "start": Object {
               "column": 24,
-              "line": 7,
+              "line": 9,
               "sourceId": "scopes/flowtype-bindings/originalSource-1",
             },
             "type": "fn-decl",
@@ -231,7 +231,7 @@ Array [
     "displayName": "Module",
     "end": Object {
       "column": 0,
-      "line": 10,
+      "line": 12,
       "sourceId": "scopes/flowtype-bindings/originalSource-1",
     },
     "start": Object {
@@ -246,7 +246,7 @@ Array [
     "displayName": "Lexical Global",
     "end": Object {
       "column": 0,
-      "line": 10,
+      "line": 12,
       "sourceId": "scopes/flowtype-bindings/originalSource-1",
     },
     "start": Object {
@@ -258,18 +258,18 @@ Array [
   },
   Object {
     "bindings": Object {
-      "Other": Object {
+      "window": Object {
         "refs": Array [
           Object {
             "end": Object {
-              "column": 10,
-              "line": 3,
+              "column": 22,
+              "line": 7,
               "sourceId": "scopes/flowtype-bindings/originalSource-1",
             },
             "meta": null,
             "start": Object {
-              "column": 5,
-              "line": 3,
+              "column": 16,
+              "line": 7,
               "sourceId": "scopes/flowtype-bindings/originalSource-1",
             },
             "type": "ref",
@@ -281,7 +281,7 @@ Array [
     "displayName": "Global",
     "end": Object {
       "column": 0,
-      "line": 10,
+      "line": 12,
       "sourceId": "scopes/flowtype-bindings/originalSource-1",
     },
     "start": Object {
@@ -12955,7 +12955,7 @@ Array [
 ]
 `;
 
-exports[`Parser.getScopes finds scope bindings in a typescript file: getScopes finds scope bindings in a typescript file at line 3 column 0 1`] = `
+exports[`Parser.getScopes finds scope bindings in a typescript file: getScopes finds scope bindings in a typescript file at line 9 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -12964,24 +12964,24 @@ Array [
           Object {
             "declaration": Object {
               "end": Object {
-                "column": 29,
-                "line": 2,
+                "column": 1,
+                "line": 8,
                 "sourceId": "scopes/ts-sample/originalSource-1",
               },
               "start": Object {
                 "column": 0,
-                "line": 2,
+                "line": 3,
                 "sourceId": "scopes/ts-sample/originalSource-1",
               },
             },
             "end": Object {
               "column": 10,
-              "line": 2,
+              "line": 3,
               "sourceId": "scopes/ts-sample/originalSource-1",
             },
             "start": Object {
               "column": 5,
-              "line": 2,
+              "line": 3,
               "sourceId": "scopes/ts-sample/originalSource-1",
             },
             "type": "ts-enum-decl",
@@ -12995,35 +12995,79 @@ Array [
             "declaration": Object {
               "end": Object {
                 "column": 1,
-                "line": 8,
+                "line": 19,
                 "sourceId": "scopes/ts-sample/originalSource-1",
               },
               "start": Object {
                 "column": 0,
-                "line": 4,
+                "line": 10,
                 "sourceId": "scopes/ts-sample/originalSource-1",
               },
             },
             "end": Object {
               "column": 13,
-              "line": 4,
+              "line": 10,
               "sourceId": "scopes/ts-sample/originalSource-1",
             },
             "start": Object {
               "column": 6,
-              "line": 4,
+              "line": 10,
               "sourceId": "scopes/ts-sample/originalSource-1",
             },
             "type": "class-decl",
           },
+          Object {
+            "end": Object {
+              "column": 16,
+              "line": 41,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 9,
+              "line": 41,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "type": "ref",
+          },
         ],
         "type": "let",
+      },
+      "TheSpace": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 35,
+                "sourceId": "scopes/ts-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 31,
+                "sourceId": "scopes/ts-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 18,
+              "line": 31,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 10,
+              "line": 31,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "type": "ts-namespace-decl",
+          },
+        ],
+        "type": "const",
       },
     },
     "displayName": "Lexical Global",
     "end": Object {
       "column": 0,
-      "line": 11,
+      "line": 42,
       "sourceId": "scopes/ts-sample/originalSource-1",
     },
     "start": Object {
@@ -13040,13 +13084,13 @@ Array [
           Object {
             "end": Object {
               "column": 19,
-              "line": 6,
+              "line": 17,
               "sourceId": "scopes/ts-sample/originalSource-1",
             },
             "meta": null,
             "start": Object {
               "column": 14,
-              "line": 6,
+              "line": 17,
               "sourceId": "scopes/ts-sample/originalSource-1",
             },
             "type": "ref",
@@ -13060,23 +13104,23 @@ Array [
             "declaration": Object {
               "end": Object {
                 "column": 22,
-                "line": 10,
+                "line": 22,
                 "sourceId": "scopes/ts-sample/originalSource-1",
               },
               "start": Object {
                 "column": 0,
-                "line": 10,
+                "line": 22,
                 "sourceId": "scopes/ts-sample/originalSource-1",
               },
             },
             "end": Object {
               "column": 7,
-              "line": 10,
+              "line": 22,
               "sourceId": "scopes/ts-sample/originalSource-1",
             },
             "start": Object {
               "column": 4,
-              "line": 10,
+              "line": 22,
               "sourceId": "scopes/ts-sample/originalSource-1",
             },
             "type": "var",
@@ -13093,13 +13137,41 @@ Array [
           Object {
             "end": Object {
               "column": 21,
-              "line": 10,
+              "line": 22,
               "sourceId": "scopes/ts-sample/originalSource-1",
             },
             "meta": null,
             "start": Object {
               "column": 15,
-              "line": 10,
+              "line": 22,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 7,
+              "line": 25,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 1,
+              "line": 25,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 7,
+              "line": 28,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 1,
+              "line": 28,
               "sourceId": "scopes/ts-sample/originalSource-1",
             },
             "type": "ref",
@@ -13111,7 +13183,7 @@ Array [
     "displayName": "Global",
     "end": Object {
       "column": 0,
-      "line": 11,
+      "line": 42,
       "sourceId": "scopes/ts-sample/originalSource-1",
     },
     "start": Object {
@@ -13124,7 +13196,7 @@ Array [
 ]
 `;
 
-exports[`Parser.getScopes finds scope bindings in a typescript file: getScopes finds scope bindings in a typescript file at line 6 column 4 1`] = `
+exports[`Parser.getScopes finds scope bindings in a typescript file: getScopes finds scope bindings in a typescript file at line 13 column 4 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -13132,20 +13204,50 @@ Array [
         "refs": Array [],
         "type": "implicit",
       },
+      "foo": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 3,
+                "line": 14,
+                "sourceId": "scopes/ts-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 12,
+                "sourceId": "scopes/ts-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 24,
+              "line": 12,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 21,
+              "line": 12,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "type": "fn-param",
+          },
+        ],
+        "type": "var",
+      },
       "this": Object {
         "refs": Array [],
         "type": "implicit",
       },
     },
-    "displayName": "method",
+    "displayName": "constructor",
     "end": Object {
       "column": 3,
-      "line": 7,
+      "line": 14,
       "sourceId": "scopes/ts-sample/originalSource-1",
     },
     "start": Object {
-      "column": 2,
-      "line": 5,
+      "column": 21,
+      "line": 12,
       "sourceId": "scopes/ts-sample/originalSource-1",
     },
     "type": "function",
@@ -13158,23 +13260,23 @@ Array [
             "declaration": Object {
               "end": Object {
                 "column": 1,
-                "line": 8,
+                "line": 19,
                 "sourceId": "scopes/ts-sample/originalSource-1",
               },
               "start": Object {
                 "column": 0,
-                "line": 4,
+                "line": 10,
                 "sourceId": "scopes/ts-sample/originalSource-1",
               },
             },
             "end": Object {
               "column": 13,
-              "line": 4,
+              "line": 10,
               "sourceId": "scopes/ts-sample/originalSource-1",
             },
             "start": Object {
               "column": 6,
-              "line": 4,
+              "line": 10,
               "sourceId": "scopes/ts-sample/originalSource-1",
             },
             "type": "class-inner",
@@ -13186,12 +13288,12 @@ Array [
     "displayName": "Class",
     "end": Object {
       "column": 1,
-      "line": 8,
+      "line": 19,
       "sourceId": "scopes/ts-sample/originalSource-1",
     },
     "start": Object {
       "column": 0,
-      "line": 4,
+      "line": 10,
       "sourceId": "scopes/ts-sample/originalSource-1",
     },
     "type": "block",
@@ -13203,24 +13305,24 @@ Array [
           Object {
             "declaration": Object {
               "end": Object {
-                "column": 29,
-                "line": 2,
+                "column": 1,
+                "line": 8,
                 "sourceId": "scopes/ts-sample/originalSource-1",
               },
               "start": Object {
                 "column": 0,
-                "line": 2,
+                "line": 3,
                 "sourceId": "scopes/ts-sample/originalSource-1",
               },
             },
             "end": Object {
               "column": 10,
-              "line": 2,
+              "line": 3,
               "sourceId": "scopes/ts-sample/originalSource-1",
             },
             "start": Object {
               "column": 5,
-              "line": 2,
+              "line": 3,
               "sourceId": "scopes/ts-sample/originalSource-1",
             },
             "type": "ts-enum-decl",
@@ -13234,35 +13336,79 @@ Array [
             "declaration": Object {
               "end": Object {
                 "column": 1,
-                "line": 8,
+                "line": 19,
                 "sourceId": "scopes/ts-sample/originalSource-1",
               },
               "start": Object {
                 "column": 0,
-                "line": 4,
+                "line": 10,
                 "sourceId": "scopes/ts-sample/originalSource-1",
               },
             },
             "end": Object {
               "column": 13,
-              "line": 4,
+              "line": 10,
               "sourceId": "scopes/ts-sample/originalSource-1",
             },
             "start": Object {
               "column": 6,
-              "line": 4,
+              "line": 10,
               "sourceId": "scopes/ts-sample/originalSource-1",
             },
             "type": "class-decl",
           },
+          Object {
+            "end": Object {
+              "column": 16,
+              "line": 41,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 9,
+              "line": 41,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "type": "ref",
+          },
         ],
         "type": "let",
+      },
+      "TheSpace": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 35,
+                "sourceId": "scopes/ts-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 31,
+                "sourceId": "scopes/ts-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 18,
+              "line": 31,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 10,
+              "line": 31,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "type": "ts-namespace-decl",
+          },
+        ],
+        "type": "const",
       },
     },
     "displayName": "Lexical Global",
     "end": Object {
       "column": 0,
-      "line": 11,
+      "line": 42,
       "sourceId": "scopes/ts-sample/originalSource-1",
     },
     "start": Object {
@@ -13279,13 +13425,13 @@ Array [
           Object {
             "end": Object {
               "column": 19,
-              "line": 6,
+              "line": 17,
               "sourceId": "scopes/ts-sample/originalSource-1",
             },
             "meta": null,
             "start": Object {
               "column": 14,
-              "line": 6,
+              "line": 17,
               "sourceId": "scopes/ts-sample/originalSource-1",
             },
             "type": "ref",
@@ -13299,23 +13445,23 @@ Array [
             "declaration": Object {
               "end": Object {
                 "column": 22,
-                "line": 10,
+                "line": 22,
                 "sourceId": "scopes/ts-sample/originalSource-1",
               },
               "start": Object {
                 "column": 0,
-                "line": 10,
+                "line": 22,
                 "sourceId": "scopes/ts-sample/originalSource-1",
               },
             },
             "end": Object {
               "column": 7,
-              "line": 10,
+              "line": 22,
               "sourceId": "scopes/ts-sample/originalSource-1",
             },
             "start": Object {
               "column": 4,
-              "line": 10,
+              "line": 22,
               "sourceId": "scopes/ts-sample/originalSource-1",
             },
             "type": "var",
@@ -13332,13 +13478,41 @@ Array [
           Object {
             "end": Object {
               "column": 21,
-              "line": 10,
+              "line": 22,
               "sourceId": "scopes/ts-sample/originalSource-1",
             },
             "meta": null,
             "start": Object {
               "column": 15,
-              "line": 10,
+              "line": 22,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 7,
+              "line": 25,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 1,
+              "line": 25,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 7,
+              "line": 28,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 1,
+              "line": 28,
               "sourceId": "scopes/ts-sample/originalSource-1",
             },
             "type": "ref",
@@ -13350,7 +13524,7 @@ Array [
     "displayName": "Global",
     "end": Object {
       "column": 0,
-      "line": 11,
+      "line": 42,
       "sourceId": "scopes/ts-sample/originalSource-1",
     },
     "start": Object {
@@ -13363,176 +13537,7 @@ Array [
 ]
 `;
 
-exports[`Parser.getScopes finds scope bindings in a typescript-jsx file: getScopes finds scope bindings in a typescript-jsx file at line 3 column 0 1`] = `
-Array [
-  Object {
-    "bindings": Object {
-      "Color": Object {
-        "refs": Array [
-          Object {
-            "declaration": Object {
-              "end": Object {
-                "column": 29,
-                "line": 2,
-                "sourceId": "scopes/tsx-sample/originalSource-1",
-              },
-              "start": Object {
-                "column": 0,
-                "line": 2,
-                "sourceId": "scopes/tsx-sample/originalSource-1",
-              },
-            },
-            "end": Object {
-              "column": 10,
-              "line": 2,
-              "sourceId": "scopes/tsx-sample/originalSource-1",
-            },
-            "start": Object {
-              "column": 5,
-              "line": 2,
-              "sourceId": "scopes/tsx-sample/originalSource-1",
-            },
-            "type": "ts-enum-decl",
-          },
-        ],
-        "type": "const",
-      },
-      "Example": Object {
-        "refs": Array [
-          Object {
-            "declaration": Object {
-              "end": Object {
-                "column": 1,
-                "line": 8,
-                "sourceId": "scopes/tsx-sample/originalSource-1",
-              },
-              "start": Object {
-                "column": 0,
-                "line": 4,
-                "sourceId": "scopes/tsx-sample/originalSource-1",
-              },
-            },
-            "end": Object {
-              "column": 13,
-              "line": 4,
-              "sourceId": "scopes/tsx-sample/originalSource-1",
-            },
-            "start": Object {
-              "column": 6,
-              "line": 4,
-              "sourceId": "scopes/tsx-sample/originalSource-1",
-            },
-            "type": "class-decl",
-          },
-        ],
-        "type": "let",
-      },
-    },
-    "displayName": "Lexical Global",
-    "end": Object {
-      "column": 0,
-      "line": 11,
-      "sourceId": "scopes/tsx-sample/originalSource-1",
-    },
-    "start": Object {
-      "column": 0,
-      "line": 1,
-      "sourceId": "scopes/tsx-sample/originalSource-1",
-    },
-    "type": "block",
-  },
-  Object {
-    "bindings": Object {
-      "Error": Object {
-        "refs": Array [
-          Object {
-            "end": Object {
-              "column": 19,
-              "line": 6,
-              "sourceId": "scopes/tsx-sample/originalSource-1",
-            },
-            "meta": null,
-            "start": Object {
-              "column": 14,
-              "line": 6,
-              "sourceId": "scopes/tsx-sample/originalSource-1",
-            },
-            "type": "ref",
-          },
-        ],
-        "type": "global",
-      },
-      "any": Object {
-        "refs": Array [
-          Object {
-            "end": Object {
-              "column": 14,
-              "line": 10,
-              "sourceId": "scopes/tsx-sample/originalSource-1",
-            },
-            "meta": null,
-            "start": Object {
-              "column": 11,
-              "line": 10,
-              "sourceId": "scopes/tsx-sample/originalSource-1",
-            },
-            "type": "ref",
-          },
-        ],
-        "type": "global",
-      },
-      "foo": Object {
-        "refs": Array [
-          Object {
-            "declaration": Object {
-              "end": Object {
-                "column": 28,
-                "line": 10,
-                "sourceId": "scopes/tsx-sample/originalSource-1",
-              },
-              "start": Object {
-                "column": 0,
-                "line": 10,
-                "sourceId": "scopes/tsx-sample/originalSource-1",
-              },
-            },
-            "end": Object {
-              "column": 7,
-              "line": 10,
-              "sourceId": "scopes/tsx-sample/originalSource-1",
-            },
-            "start": Object {
-              "column": 4,
-              "line": 10,
-              "sourceId": "scopes/tsx-sample/originalSource-1",
-            },
-            "type": "var",
-          },
-        ],
-        "type": "var",
-      },
-      "this": Object {
-        "refs": Array [],
-        "type": "implicit",
-      },
-    },
-    "displayName": "Global",
-    "end": Object {
-      "column": 0,
-      "line": 11,
-      "sourceId": "scopes/tsx-sample/originalSource-1",
-    },
-    "start": Object {
-      "column": 0,
-      "line": 1,
-      "sourceId": "scopes/tsx-sample/originalSource-1",
-    },
-    "type": "object",
-  },
-]
-`;
-
-exports[`Parser.getScopes finds scope bindings in a typescript-jsx file: getScopes finds scope bindings in a typescript-jsx file at line 6 column 4 1`] = `
+exports[`Parser.getScopes finds scope bindings in a typescript file: getScopes finds scope bindings in a typescript file at line 17 column 0 1`] = `
 Array [
   Object {
     "bindings": Object {
@@ -13548,13 +13553,13 @@ Array [
     "displayName": "method",
     "end": Object {
       "column": 3,
-      "line": 7,
-      "sourceId": "scopes/tsx-sample/originalSource-1",
+      "line": 18,
+      "sourceId": "scopes/ts-sample/originalSource-1",
     },
     "start": Object {
       "column": 2,
-      "line": 5,
-      "sourceId": "scopes/tsx-sample/originalSource-1",
+      "line": 16,
+      "sourceId": "scopes/ts-sample/originalSource-1",
     },
     "type": "function",
   },
@@ -13566,24 +13571,24 @@ Array [
             "declaration": Object {
               "end": Object {
                 "column": 1,
-                "line": 8,
-                "sourceId": "scopes/tsx-sample/originalSource-1",
+                "line": 19,
+                "sourceId": "scopes/ts-sample/originalSource-1",
               },
               "start": Object {
                 "column": 0,
-                "line": 4,
-                "sourceId": "scopes/tsx-sample/originalSource-1",
+                "line": 10,
+                "sourceId": "scopes/ts-sample/originalSource-1",
               },
             },
             "end": Object {
               "column": 13,
-              "line": 4,
-              "sourceId": "scopes/tsx-sample/originalSource-1",
+              "line": 10,
+              "sourceId": "scopes/ts-sample/originalSource-1",
             },
             "start": Object {
               "column": 6,
-              "line": 4,
-              "sourceId": "scopes/tsx-sample/originalSource-1",
+              "line": 10,
+              "sourceId": "scopes/ts-sample/originalSource-1",
             },
             "type": "class-inner",
           },
@@ -13594,13 +13599,13 @@ Array [
     "displayName": "Class",
     "end": Object {
       "column": 1,
-      "line": 8,
-      "sourceId": "scopes/tsx-sample/originalSource-1",
+      "line": 19,
+      "sourceId": "scopes/ts-sample/originalSource-1",
     },
     "start": Object {
       "column": 0,
-      "line": 4,
-      "sourceId": "scopes/tsx-sample/originalSource-1",
+      "line": 10,
+      "sourceId": "scopes/ts-sample/originalSource-1",
     },
     "type": "block",
   },
@@ -13611,24 +13616,576 @@ Array [
           Object {
             "declaration": Object {
               "end": Object {
-                "column": 29,
-                "line": 2,
+                "column": 1,
+                "line": 8,
+                "sourceId": "scopes/ts-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 3,
+                "sourceId": "scopes/ts-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 10,
+              "line": 3,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 5,
+              "line": 3,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "type": "ts-enum-decl",
+          },
+        ],
+        "type": "const",
+      },
+      "Example": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 19,
+                "sourceId": "scopes/ts-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 10,
+                "sourceId": "scopes/ts-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 13,
+              "line": 10,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 10,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "type": "class-decl",
+          },
+          Object {
+            "end": Object {
+              "column": 16,
+              "line": 41,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 9,
+              "line": 41,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "let",
+      },
+      "TheSpace": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 35,
+                "sourceId": "scopes/ts-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 31,
+                "sourceId": "scopes/ts-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 18,
+              "line": 31,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 10,
+              "line": 31,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "type": "ts-namespace-decl",
+          },
+        ],
+        "type": "const",
+      },
+    },
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 42,
+      "sourceId": "scopes/ts-sample/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/ts-sample/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "Error": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 19,
+              "line": 17,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 14,
+              "line": 17,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
+      },
+      "foo": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 22,
+                "line": 22,
+                "sourceId": "scopes/ts-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 22,
+                "sourceId": "scopes/ts-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 7,
+              "line": 22,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 22,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "type": "var",
+          },
+        ],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "window": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 21,
+              "line": 22,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 15,
+              "line": 22,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 7,
+              "line": 25,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 1,
+              "line": 25,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 7,
+              "line": 28,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 1,
+              "line": 28,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 42,
+      "sourceId": "scopes/ts-sample/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/ts-sample/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`Parser.getScopes finds scope bindings in a typescript file: getScopes finds scope bindings in a typescript file at line 33 column 0 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "arguments": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "fn",
+    "end": Object {
+      "column": 3,
+      "line": 34,
+      "sourceId": "scopes/ts-sample/originalSource-1",
+    },
+    "start": Object {
+      "column": 2,
+      "line": 32,
+      "sourceId": "scopes/ts-sample/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "fn": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 3,
+                "line": 34,
+                "sourceId": "scopes/ts-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 32,
+                "sourceId": "scopes/ts-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 13,
+              "line": 32,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 11,
+              "line": 32,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "type": "fn-decl",
+          },
+        ],
+        "type": "let",
+      },
+    },
+    "displayName": "TypeScript Namespace",
+    "end": Object {
+      "column": 1,
+      "line": 35,
+      "sourceId": "scopes/ts-sample/originalSource-1",
+    },
+    "start": Object {
+      "column": 19,
+      "line": 31,
+      "sourceId": "scopes/ts-sample/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "Color": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 8,
+                "sourceId": "scopes/ts-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 3,
+                "sourceId": "scopes/ts-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 10,
+              "line": 3,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 5,
+              "line": 3,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "type": "ts-enum-decl",
+          },
+        ],
+        "type": "const",
+      },
+      "Example": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 19,
+                "sourceId": "scopes/ts-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 10,
+                "sourceId": "scopes/ts-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 13,
+              "line": 10,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 10,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "type": "class-decl",
+          },
+          Object {
+            "end": Object {
+              "column": 16,
+              "line": 41,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 9,
+              "line": 41,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "let",
+      },
+      "TheSpace": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 35,
+                "sourceId": "scopes/ts-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 31,
+                "sourceId": "scopes/ts-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 18,
+              "line": 31,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 10,
+              "line": 31,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "type": "ts-namespace-decl",
+          },
+        ],
+        "type": "const",
+      },
+    },
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 42,
+      "sourceId": "scopes/ts-sample/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/ts-sample/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "Error": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 19,
+              "line": 17,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 14,
+              "line": 17,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
+      },
+      "foo": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 22,
+                "line": 22,
+                "sourceId": "scopes/ts-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 22,
+                "sourceId": "scopes/ts-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 7,
+              "line": 22,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 22,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "type": "var",
+          },
+        ],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "window": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 21,
+              "line": 22,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 15,
+              "line": 22,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 7,
+              "line": 25,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 1,
+              "line": 25,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 7,
+              "line": 28,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 1,
+              "line": 28,
+              "sourceId": "scopes/ts-sample/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 42,
+      "sourceId": "scopes/ts-sample/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/ts-sample/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`Parser.getScopes finds scope bindings in a typescript-jsx file: getScopes finds scope bindings in a typescript-jsx file at line 9 column 0 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "Color": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 8,
                 "sourceId": "scopes/tsx-sample/originalSource-1",
               },
               "start": Object {
                 "column": 0,
-                "line": 2,
+                "line": 3,
                 "sourceId": "scopes/tsx-sample/originalSource-1",
               },
             },
             "end": Object {
               "column": 10,
-              "line": 2,
+              "line": 3,
               "sourceId": "scopes/tsx-sample/originalSource-1",
             },
             "start": Object {
               "column": 5,
-              "line": 2,
+              "line": 3,
               "sourceId": "scopes/tsx-sample/originalSource-1",
             },
             "type": "ts-enum-decl",
@@ -13642,35 +14199,79 @@ Array [
             "declaration": Object {
               "end": Object {
                 "column": 1,
-                "line": 8,
+                "line": 19,
                 "sourceId": "scopes/tsx-sample/originalSource-1",
               },
               "start": Object {
                 "column": 0,
-                "line": 4,
+                "line": 10,
                 "sourceId": "scopes/tsx-sample/originalSource-1",
               },
             },
             "end": Object {
               "column": 13,
-              "line": 4,
+              "line": 10,
               "sourceId": "scopes/tsx-sample/originalSource-1",
             },
             "start": Object {
               "column": 6,
-              "line": 4,
+              "line": 10,
               "sourceId": "scopes/tsx-sample/originalSource-1",
             },
             "type": "class-decl",
           },
+          Object {
+            "end": Object {
+              "column": 16,
+              "line": 41,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 9,
+              "line": 41,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "ref",
+          },
         ],
         "type": "let",
+      },
+      "TheSpace": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 35,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 31,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 18,
+              "line": 31,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 10,
+              "line": 31,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "ts-namespace-decl",
+          },
+        ],
+        "type": "const",
       },
     },
     "displayName": "Lexical Global",
     "end": Object {
       "column": 0,
-      "line": 11,
+      "line": 42,
       "sourceId": "scopes/tsx-sample/originalSource-1",
     },
     "start": Object {
@@ -13687,13 +14288,13 @@ Array [
           Object {
             "end": Object {
               "column": 19,
-              "line": 6,
+              "line": 17,
               "sourceId": "scopes/tsx-sample/originalSource-1",
             },
             "meta": null,
             "start": Object {
               "column": 14,
-              "line": 6,
+              "line": 17,
               "sourceId": "scopes/tsx-sample/originalSource-1",
             },
             "type": "ref",
@@ -13706,13 +14307,13 @@ Array [
           Object {
             "end": Object {
               "column": 14,
-              "line": 10,
+              "line": 22,
               "sourceId": "scopes/tsx-sample/originalSource-1",
             },
             "meta": null,
             "start": Object {
               "column": 11,
-              "line": 10,
+              "line": 22,
               "sourceId": "scopes/tsx-sample/originalSource-1",
             },
             "type": "ref",
@@ -13726,23 +14327,23 @@ Array [
             "declaration": Object {
               "end": Object {
                 "column": 28,
-                "line": 10,
+                "line": 22,
                 "sourceId": "scopes/tsx-sample/originalSource-1",
               },
               "start": Object {
                 "column": 0,
-                "line": 10,
+                "line": 22,
                 "sourceId": "scopes/tsx-sample/originalSource-1",
               },
             },
             "end": Object {
               "column": 7,
-              "line": 10,
+              "line": 22,
               "sourceId": "scopes/tsx-sample/originalSource-1",
             },
             "start": Object {
               "column": 4,
-              "line": 10,
+              "line": 22,
               "sourceId": "scopes/tsx-sample/originalSource-1",
             },
             "type": "var",
@@ -13754,11 +14355,1022 @@ Array [
         "refs": Array [],
         "type": "implicit",
       },
+      "window": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 7,
+              "line": 25,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 1,
+              "line": 25,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 7,
+              "line": 28,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 1,
+              "line": 28,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
+      },
     },
     "displayName": "Global",
     "end": Object {
       "column": 0,
-      "line": 11,
+      "line": 42,
+      "sourceId": "scopes/tsx-sample/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/tsx-sample/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`Parser.getScopes finds scope bindings in a typescript-jsx file: getScopes finds scope bindings in a typescript-jsx file at line 13 column 4 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "arguments": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "foo": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 3,
+                "line": 14,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 12,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 24,
+              "line": 12,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 21,
+              "line": 12,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "fn-param",
+          },
+        ],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "constructor",
+    "end": Object {
+      "column": 3,
+      "line": 14,
+      "sourceId": "scopes/tsx-sample/originalSource-1",
+    },
+    "start": Object {
+      "column": 21,
+      "line": 12,
+      "sourceId": "scopes/tsx-sample/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "Example": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 19,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 10,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 13,
+              "line": 10,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 10,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "class-inner",
+          },
+        ],
+        "type": "const",
+      },
+    },
+    "displayName": "Class",
+    "end": Object {
+      "column": 1,
+      "line": 19,
+      "sourceId": "scopes/tsx-sample/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 10,
+      "sourceId": "scopes/tsx-sample/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "Color": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 8,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 3,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 10,
+              "line": 3,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 5,
+              "line": 3,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "ts-enum-decl",
+          },
+        ],
+        "type": "const",
+      },
+      "Example": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 19,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 10,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 13,
+              "line": 10,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 10,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "class-decl",
+          },
+          Object {
+            "end": Object {
+              "column": 16,
+              "line": 41,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 9,
+              "line": 41,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "let",
+      },
+      "TheSpace": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 35,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 31,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 18,
+              "line": 31,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 10,
+              "line": 31,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "ts-namespace-decl",
+          },
+        ],
+        "type": "const",
+      },
+    },
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 42,
+      "sourceId": "scopes/tsx-sample/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/tsx-sample/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "Error": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 19,
+              "line": 17,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 14,
+              "line": 17,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
+      },
+      "any": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 14,
+              "line": 22,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 11,
+              "line": 22,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
+      },
+      "foo": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 28,
+                "line": 22,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 22,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 7,
+              "line": 22,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 22,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "var",
+          },
+        ],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "window": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 7,
+              "line": 25,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 1,
+              "line": 25,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 7,
+              "line": 28,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 1,
+              "line": 28,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 42,
+      "sourceId": "scopes/tsx-sample/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/tsx-sample/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`Parser.getScopes finds scope bindings in a typescript-jsx file: getScopes finds scope bindings in a typescript-jsx file at line 17 column 0 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "arguments": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "method",
+    "end": Object {
+      "column": 3,
+      "line": 18,
+      "sourceId": "scopes/tsx-sample/originalSource-1",
+    },
+    "start": Object {
+      "column": 2,
+      "line": 16,
+      "sourceId": "scopes/tsx-sample/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "Example": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 19,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 10,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 13,
+              "line": 10,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 10,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "class-inner",
+          },
+        ],
+        "type": "const",
+      },
+    },
+    "displayName": "Class",
+    "end": Object {
+      "column": 1,
+      "line": 19,
+      "sourceId": "scopes/tsx-sample/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 10,
+      "sourceId": "scopes/tsx-sample/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "Color": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 8,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 3,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 10,
+              "line": 3,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 5,
+              "line": 3,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "ts-enum-decl",
+          },
+        ],
+        "type": "const",
+      },
+      "Example": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 19,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 10,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 13,
+              "line": 10,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 10,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "class-decl",
+          },
+          Object {
+            "end": Object {
+              "column": 16,
+              "line": 41,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 9,
+              "line": 41,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "let",
+      },
+      "TheSpace": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 35,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 31,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 18,
+              "line": 31,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 10,
+              "line": 31,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "ts-namespace-decl",
+          },
+        ],
+        "type": "const",
+      },
+    },
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 42,
+      "sourceId": "scopes/tsx-sample/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/tsx-sample/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "Error": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 19,
+              "line": 17,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 14,
+              "line": 17,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
+      },
+      "any": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 14,
+              "line": 22,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 11,
+              "line": 22,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
+      },
+      "foo": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 28,
+                "line": 22,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 22,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 7,
+              "line": 22,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 22,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "var",
+          },
+        ],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "window": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 7,
+              "line": 25,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 1,
+              "line": 25,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 7,
+              "line": 28,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 1,
+              "line": 28,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 42,
+      "sourceId": "scopes/tsx-sample/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/tsx-sample/originalSource-1",
+    },
+    "type": "object",
+  },
+]
+`;
+
+exports[`Parser.getScopes finds scope bindings in a typescript-jsx file: getScopes finds scope bindings in a typescript-jsx file at line 33 column 0 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "arguments": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+    },
+    "displayName": "fn",
+    "end": Object {
+      "column": 3,
+      "line": 34,
+      "sourceId": "scopes/tsx-sample/originalSource-1",
+    },
+    "start": Object {
+      "column": 2,
+      "line": 32,
+      "sourceId": "scopes/tsx-sample/originalSource-1",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "fn": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 3,
+                "line": 34,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 2,
+                "line": 32,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 13,
+              "line": 32,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 11,
+              "line": 32,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "fn-decl",
+          },
+        ],
+        "type": "let",
+      },
+    },
+    "displayName": "TypeScript Namespace",
+    "end": Object {
+      "column": 1,
+      "line": 35,
+      "sourceId": "scopes/tsx-sample/originalSource-1",
+    },
+    "start": Object {
+      "column": 19,
+      "line": 31,
+      "sourceId": "scopes/tsx-sample/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "Color": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 8,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 3,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 10,
+              "line": 3,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 5,
+              "line": 3,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "ts-enum-decl",
+          },
+        ],
+        "type": "const",
+      },
+      "Example": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 19,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 10,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 13,
+              "line": 10,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 6,
+              "line": 10,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "class-decl",
+          },
+          Object {
+            "end": Object {
+              "column": 16,
+              "line": 41,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 9,
+              "line": 41,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "let",
+      },
+      "TheSpace": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 1,
+                "line": 35,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 31,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 18,
+              "line": 31,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 10,
+              "line": 31,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "ts-namespace-decl",
+          },
+        ],
+        "type": "const",
+      },
+    },
+    "displayName": "Lexical Global",
+    "end": Object {
+      "column": 0,
+      "line": 42,
+      "sourceId": "scopes/tsx-sample/originalSource-1",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "scopes/tsx-sample/originalSource-1",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "Error": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 19,
+              "line": 17,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 14,
+              "line": 17,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
+      },
+      "any": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 14,
+              "line": 22,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 11,
+              "line": 22,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
+      },
+      "foo": Object {
+        "refs": Array [
+          Object {
+            "declaration": Object {
+              "end": Object {
+                "column": 28,
+                "line": 22,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+              "start": Object {
+                "column": 0,
+                "line": 22,
+                "sourceId": "scopes/tsx-sample/originalSource-1",
+              },
+            },
+            "end": Object {
+              "column": 7,
+              "line": 22,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "start": Object {
+              "column": 4,
+              "line": 22,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "var",
+          },
+        ],
+        "type": "var",
+      },
+      "this": Object {
+        "refs": Array [],
+        "type": "implicit",
+      },
+      "window": Object {
+        "refs": Array [
+          Object {
+            "end": Object {
+              "column": 7,
+              "line": 25,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 1,
+              "line": 25,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "ref",
+          },
+          Object {
+            "end": Object {
+              "column": 7,
+              "line": 28,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "meta": null,
+            "start": Object {
+              "column": 1,
+              "line": 28,
+              "sourceId": "scopes/tsx-sample/originalSource-1",
+            },
+            "type": "ref",
+          },
+        ],
+        "type": "global",
+      },
+    },
+    "displayName": "Global",
+    "end": Object {
+      "column": 0,
+      "line": 42,
       "sourceId": "scopes/tsx-sample/originalSource-1",
     },
     "start": Object {

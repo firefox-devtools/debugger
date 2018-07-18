@@ -1,8 +1,10 @@
 import type { One, Two, Three } from "./src/mod";
 
-type Other = {};
+type Other = {
+  root: typeof root,
+};
 
-const aConst = "a-const";
+const aConst = (window: Array<string>);
 
 export default function root() {
 

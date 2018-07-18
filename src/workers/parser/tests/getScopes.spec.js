@@ -42,13 +42,13 @@ cases(
       name: "finds scope bindings in a typescript file",
       file: "scopes/ts-sample",
       type: "ts",
-      locations: [[3, 0], [6, 4]]
+      locations: [[9, 0], [13, 4], [17, 0], [33, 0]]
     },
     {
       name: "finds scope bindings in a typescript-jsx file",
       file: "scopes/tsx-sample",
       type: "tsx",
-      locations: [[3, 0], [6, 4]]
+      locations: [[9, 0], [13, 4], [17, 0], [33, 0]]
     },
     {
       name: "finds scope bindings in a module",
@@ -129,7 +129,7 @@ cases(
     {
       name: "finds scope bindings and exclude Flowtype",
       file: "scopes/flowtype-bindings",
-      locations: [[6, 0], [8, 0]]
+      locations: [[8, 0], [10, 0]]
     },
     {
       name: "finds scope bindings for declarations with patterns",
