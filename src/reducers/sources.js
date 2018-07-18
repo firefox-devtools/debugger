@@ -10,7 +10,7 @@
  */
 
 import { createSelector } from "reselect";
-import move from "lodash-move";
+import { move } from "lodash-move";
 import { getPrettySourceURL } from "../utils/source";
 import { originalToGeneratedId, isOriginalId } from "devtools-source-map";
 import { find } from "lodash";
