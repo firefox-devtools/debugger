@@ -66,3 +66,12 @@ export function getBreakpointAtLocation(state, location) {
 
   return findBreakpointAtLocation(breakpoints, selectedSource, location);
 }
+
+export function getBreakpointsAtLine(state: OuterState, line: number) {
+  const selectedSource = getSelectedSource(state);
+  const breakpoints = getBreakpointsForSource(state, selectedSource);
+
+  return breakpoints.filter(
+    breakpoint => getLocation(breakpoint, selectedSource).line === line
+  );
+}

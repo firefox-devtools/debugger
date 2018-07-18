@@ -14,7 +14,8 @@ import {
   getBreakpoint,
   getBreakpoints,
   getSelectedSource,
-  getBreakpointAtLocation
+  getBreakpointAtLocation,
+  getBreakpointsAtLine
 } from "../selectors";
 import { createBreakpoint, assertBreakpoint } from "../utils/breakpoint";
 import addBreakpointPromise from "./breakpoints/addBreakpoint";
@@ -404,6 +405,37 @@ export function toggleBreakpoint(line: ?number, column?: number) {
         column: column
       })
     );
+  };
+}
+
+export function toggleBreakpointsAtLine(line: number, column?: number) {
+  return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
+    const state = getState();
+    const selectedSource = getSelectedSource(state);
+
+    if (!line || !selectedSource) {
+      return;
+    }
+
+    const bps = getBreakpointsAtLine(state, line);
+    const isEmptyLine = isEmptyLineInSource(state, line, selectedSource.id);
+
+    if (isEmptyLine) {
+      return;
+    }
+
+    if (bps.size === 0) {
+      return dispatch(
+        addBreakpoint({
+          sourceId: selectedSource.id,
+          sourceUrl: selectedSource.url,
+          line,
+          column
+        })
+      );
+    }
+
+    return Promise.all(bps.map(bp => dispatch(removeBreakpoint(bp.location))));
   };
 }
 
