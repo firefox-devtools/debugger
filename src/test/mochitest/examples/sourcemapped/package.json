@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "Rebuild assets for babel's test fixtures",
   "scripts": {
-    "build": "webpack",
-    "watch": "webpack -w"
+    "build": "node ./build.js"
   },
   "keywords": [],
   "author": "",
