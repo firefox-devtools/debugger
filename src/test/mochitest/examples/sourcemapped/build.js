@@ -3,6 +3,8 @@
 const fs = require("fs");
 const path = require("path");
 const _ = require("lodash");
+const rollup = require("rollup");
+const rollupBabel = require("rollup-plugin-babel");
 const webpack = require("webpack");
 
 const fixtures = path.join(__dirname, "fixtures");
@@ -64,6 +66,7 @@ runWebpack({
 });
 
 for (const { name, camelName, dirname, input, output } of tests) {
+  const rollupBuildEnabled = name.match(/rollup-/);
   const babelEnabled = name.match(/babel-/);
   const babelEnv = !name.match(/-es6/);
   const babelModules = name.match(/-cjs/);
@@ -73,6 +76,46 @@ for (const { name, camelName, dirname, input, output } of tests) {
     throw new Error(
       "Babel is not enabled, compiling to CommonJS is not possible in " + name
     );
+  }
+
+  const babelOptions = babelEnabled && {
+    babelrc: false,
+    presets: babelEnv
+      ? [["env", { modules: babelModules ? "commonjs" : false }]]
+      : [],
+    plugins: [
+      "babel-plugin-transform-flow-strip-types",
+    ]
+  };
+
+  if (rollupBuildEnabled) {
+    (async function() {
+      const bundle = await rollup.rollup({
+        input: "fake-bundle-root",
+        plugins: [
+          // Our input file may export more than the default, but we
+          // want to enable 'exports: "default",' so we need the root
+          // import to only have a default export.
+          {
+            resolveId: id => id === "fake-bundle-root" ? id : undefined,
+            load: id => id === "fake-bundle-root"
+              ? `import test from "${path.join(__dirname, input)}"; export default test;`
+              : undefined,
+          },
+          babelOptions && rollupBabel(babelOptions)
+        ].filter(Boolean),
+      });
+
+      await bundle.write({
+        file: output,
+        dir: dirname,
+        format: "iife",
+        name: camelName,
+        sourcemap: true,
+        exports: "default",
+      });
+    })();
+    continue;
   }
 
   runWebpack({
@@ -89,22 +132,12 @@ for (const { name, camelName, dirname, input, output } of tests) {
     devtool: evalMaps ? "eval-source-map" : "source-map",
     module: {
       loaders: [
-        babelEnabled
-          ? {
-              test: /\.js$/,
-              exclude: /node_modules/,
-              loader: "babel-loader",
-              options: {
-                babelrc: false,
-                presets: babelEnv
-                  ? [["env", { modules: babelModules ? "commonjs" : false }]]
-                  : [],
-                plugins: [
-                  "babel-plugin-transform-flow-strip-types",
-                ]
-              }
-            }
-          : null,
+        babelOptions && {
+          test: /\.js$/,
+          exclude: /node_modules/,
+          loader: "babel-loader",
+          options: babelOptions,
+        },
         {
           test: /\.tsx?$/,
           exclude: /node_modules/,
