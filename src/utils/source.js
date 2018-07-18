@@ -169,6 +169,51 @@ export function getTruncatedFileName(source: Source, length: number = 30) {
   return truncateMiddleText(getFilename(source), length);
 }
 
+/* Show a source url's unique filename for editor tabs, breakpoints, etc.
+ * Pass the url of file, and the list of file urls
+ *
+ * @memberof utils/source
+ * @static
+ */
+
+export function getUniqueFileName(mySource: Source, sources: Sources) {
+  const myFileName = getFilename(mySource);
+
+  let myPathSegments;
+  const openEditorPathSegmentsWithSameFilename = [];
+  for (const source of sources) {
+    const fileName = getFilename(source);
+    if (fileName === myFileName) {
+      const idx = source.url.lastIndexOf("/");
+      const pathSegments = source.url.slice(0, idx).split("/");
+      openEditorPathSegmentsWithSameFilename.push(pathSegments);
+      if (source.url === mySource.url) {
+        myPathSegments = pathSegments;
+      }
+    }
+  }
+
+  if (!myPathSegments || openEditorPathSegmentsWithSameFilename.length === 1) {
+    return myFileName;
+  }
+
+  let commonPathSegmentCount;
+  for (let i = 0, { length } = myPathSegments; i < length; i++) {
+    const myPathSegment = myPathSegments[i];
+    if (
+      openEditorPathSegmentsWithSameFilename.some(
+        segments => segments.length === i + 1 || segments[i] !== myPathSegment
+      )
+    ) {
+      commonPathSegmentCount = i;
+      break;
+    }
+  }
+  return `${myFileName} \u2014 ${[
+    ...myPathSegments.slice(commonPathSegmentCount + 1)
+  ].join("/")}`;
+}
+
 /**
  * Gets a readable source URL for display purposes.
  * If the source does not have a URL, the source ID will be returned instead.
