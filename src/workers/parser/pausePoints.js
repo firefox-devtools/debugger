@@ -147,7 +147,7 @@ function onEnter(node: BabelNode, ancestors: SimplePath[], state) {
   if (t.isFunction(node)) {
     const { line, column } = node.loc.end;
     addBreakPoint(state, startLocation);
-    return addStopPoint(state, { line, column: column - 1 });
+    return addEmptyPoint(state, { line, column: column - 1 });
   }
 
   if (t.isProgram(node)) {

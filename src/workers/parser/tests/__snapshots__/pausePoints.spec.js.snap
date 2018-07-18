@@ -71,7 +71,7 @@ exports[`Parser.pausePoints flow 1`] = `
 "/*bs*/class App extends Component {
   /*b*/renderHello(name: string, action: ReduxAction, { /**/todos }: Props) /**/{
     /*bs*/return \`howdy \${name}\`;
-  /*bs*/}
+  /**/}
 }/*bs*/
 "
 `;
@@ -79,52 +79,52 @@ exports[`Parser.pausePoints flow 1`] = `
 exports[`Parser.pausePoints func 1`] = `
 "/*b*/function square(n) /**/{
   /*bs*/return n * n;
-/*bs*/}
+/**/}
 
 /*bs*/export /*b*/function exFoo() /**/{
   /*bs*/return \\"yay\\";
-/*bs*/}
+/**/}
 
 /*b*/async function slowFoo() /**/{
   /*bs*/return \\"meh\\";
-/*bs*/}
+/**/}
 
 /*bs*/export /*b*/async function exSlowFoo() /**/{
   /*bs*/return \\"yay in a bit\\";
-/*bs*/}
+/**/}
 
 /*b*/function ret() /**/{
   /**/return /*bs*/foo();
-/*bs*/}
+/**/}
 
-/*bs*/child = /*b*/function() /**/{/*bs*/};
+/*bs*/child = /*b*/function() /**/{/**/};
 
 /*bs*/(/*b*/function() /**/{
   /*bs*/2;
-/*bs*/})();
+/**/})();
 
 const /*bs*/obj = {
   /**/foo: /*b*/function name() /**/{
     /*bs*/2 + 2;
-  /*bs*/},
+  /**/},
 
   /*b*/bar() /**/{
     /*bs*/2 + 2;
-  /*bs*/}
+  /**/}
 };
 
 /*bs*/export default /*b*/function root() /**/{
-/*bs*/}
+/**/}
 
 /*b*/function test(a1, /**/a2 = 45, /**/{ /**/a3, /**/a4, /**/a5: /*bs*/{ /**/a6: /**/a7 } = {} } = {}) /**/{
   /*bs*/console./*bs*/log(/**/\\"pause next here\\");
-/*bs*/}
+/**/}
 
 /*b*/function ret2() /**/{
   /*bs*/return (
     /*bs*/foo()
   );
-/*bs*/}/*bs*/
+/**/}/*bs*/
 "
 `;
 
@@ -138,7 +138,7 @@ exports[`Parser.pausePoints html 1`] = `
 		};
 		/*b*/function sayHello (name) /**/{
 			/*bs*/return \`Hello, \${name}!\`;
-		/*bs*/}
+		/**/}
 	</script>
 	<style>
 		BODY {
@@ -152,7 +152,7 @@ exports[`Parser.pausePoints html 1`] = `
 	<script>
 		const /*bs*/capitalize = /*b*/name => /**/{
 			/*bs*/return /*bs*/name[0]./*bs*/toUpperCase() + /*bs*/name./*bs*/substring(/**/1)
-		/*bs*/};
+		/**/};
 		const /**/greetAll = /*bs*/[/**/\\"my friend\\", /**/\\"buddy\\", /**/\\"world\\"]
 			./*bs*/map(/**/capitalize)
 			./*bs*/map(/**/sayHello)
@@ -167,7 +167,7 @@ exports[`Parser.pausePoints html 1`] = `
 		/*bs*/(/*b*/function iife() /**/{
 			const /**/greeting = /*bs*/sayHello(/**/\\"Ryan\\");
 			/*bs*/console./*bs*/log(/**/greeting);
-		/*bs*/})();/*bs*/
+		/**/})();/*bs*/
 	</script>
 </body>
 </html>
