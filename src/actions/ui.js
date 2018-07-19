@@ -13,7 +13,6 @@ import {
 } from "../selectors";
 import { getProjectDirectoryRoot } from "../reducers/ui";
 import type { ThunkArgs, panelPositionType } from "./types";
-import { getRawSourceURL } from "../utils/source";
 import { getEditor } from "../utils/editor";
 import { searchContents } from "./file-search";
 
