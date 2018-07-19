@@ -169,52 +169,52 @@ export function getTruncatedFileName(source: Source, length: number = 30) {
   return truncateMiddleText(getFilename(source), length);
 }
 
-/* Show a source url's unique filename for editor tabs, breakpoints, etc.
- * Pass the url of file, and the list of file urls
+/* Gets path for files with same filename for editor tabs, breakpoints, etc.
+ * Pass the source, and list of other sources
  *
  * @memberof utils/source
  * @static
  */
 
-export function getUniqueFileName(mySource: Source, sources: Source[]) {
+export function getPath(mySource: Source, sources: Source[]) {
   const myFileName = getFilename(mySource);
-
+  const myUrl = mySource.url;
   let myPathSegments;
-  const openEditorPathSegmentsWithSameFilename = [];
+  const pathSegmentsWithSameFilename = [];
+
   for (const source of sources) {
-    if (!source.url) {
+    const { url } = source;
+    if (!url) {
       continue;
     }
     const fileName = getFilename(source);
     if (fileName === myFileName) {
-      const idx = source.url.lastIndexOf("/");
-      const pathSegments = source.url.slice(0, idx).split("/");
-      openEditorPathSegmentsWithSameFilename.push(pathSegments);
-      if (source.url === mySource.url) {
+      const idx = url.lastIndexOf("/");
+      const pathSegments = url.slice(0, idx).split("/");
+      pathSegmentsWithSameFilename.push(pathSegments);
+      if (url === myUrl) {
         myPathSegments = pathSegments;
       }
     }
   }
 
-  if (!myPathSegments || openEditorPathSegmentsWithSameFilename.length === 1) {
-    return myFileName;
+  if (!myPathSegments || pathSegmentsWithSameFilename.length === 1) {
+    return;
   }
 
   let commonPathSegmentCount;
   for (let i = 0, { length } = myPathSegments; i < length; i++) {
-    const myPathSegment = myPathSegments[i];
     if (
-      openEditorPathSegmentsWithSameFilename.some(
-        segments => segments.length === i + 1 || segments[i] !== myPathSegment
+      pathSegmentsWithSameFilename.some(
+        segments =>
+          segments.length === i + 1 || segments[i] !== myPathSegments[i]
       )
     ) {
       commonPathSegmentCount = i;
       break;
     }
   }
-  return `${myFileName} \u2014 ${[
-    ...myPathSegments.slice(commonPathSegmentCount + 1)
-  ].join("/")}`;
+  return `${[...myPathSegments.slice(commonPathSegmentCount + 1)].join("/")}`;
 }
 
 /**

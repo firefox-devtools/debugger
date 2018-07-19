@@ -20,7 +20,8 @@ import actions from "../../actions";
 import {
   getFileURL,
   getRawSourceURL,
-  getUniqueFileName,
+  getTruncatedFileName,
+  getPath,
   isPretty
 } from "../../utils/source";
 import { copyToTheClipboard } from "../../utils/clipboard";
@@ -193,7 +194,11 @@ class Tab extends PureComponent<Props> {
           source={source}
           shouldHide={icon => ["file", "javascript"].includes(icon)}
         />
-        <div className="filename">{getUniqueFileName(source, tabSources)}</div>
+        <div className="filename">
+          {[getTruncatedFileName(source), getPath(source, tabSources)]
+            .filter(Boolean)
+            .join("\u2014")}
+        </div>
         <CloseButton
           handleClick={onClickClose}
           tooltip={L10N.getStr("sourceTabs.closeTabButtonTooltip")}
