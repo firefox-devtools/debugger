@@ -73,6 +73,20 @@ type State = {
 
 type SetExpanded = (item: TreeNode, expanded: boolean, altKey: boolean) => void;
 
+function getSourceByUrl(sources, url) {
+  const id = Object.keys(sources).find(sourceId => {
+    return sources[sourceId].url === url;
+  });
+  return id ? sources[id] : null;
+}
+
+function getRawSourceByUrl(sources, url) {
+  const id = Object.keys(sources).find(sourceId => {
+    return getRawSourceURL(sources[sourceId].url) === getRawSourceURL(url);
+  });
+  return id ? sources[id] : null;
+}
+
 class SourcesTree extends Component<Props, State> {
   mounted: boolean;
 
@@ -115,17 +129,19 @@ class SourcesTree extends Component<Props, State> {
     }
 
     if (nextProps.shownSource && nextProps.shownSource != shownSource) {
-      const matchingSources = Object.keys(sources).filter(sourceId => {
-        return getRawSourceURL(sources[sourceId].url) === nextProps.shownSource;
-      });
+      const matchingRawSource = getRawSourceByUrl(
+        sources,
+        nextProps.shownSource
+      );
+      const matchingSelectionSource = getSourceByUrl(
+        sources,
+        nextProps.shownSource
+      );
 
-      if (matchingSources.length) {
-        const listItems = getDirectories(
-          sources[matchingSources[0]],
-          sourceTree
-        );
-        if (listItems && listItems.length) {
-          this.selectItem(listItems[0]);
+      if (matchingRawSource) {
+        const listItems = getDirectories(matchingRawSource, sourceTree);
+        if (matchingSelectionSource) {
+          this.props.selectSource(matchingSelectionSource.id);
         }
         return this.setState({ listItems });
       }
@@ -135,12 +151,14 @@ class SourcesTree extends Component<Props, State> {
       nextProps.selectedSource &&
       nextProps.selectedSource != selectedSource
     ) {
-      const highlightItems = getDirectories(
-        nextProps.selectedSource,
-        sourceTree
-      );
+      const sourceForHighlight = nextProps.selectedSource.isPrettyPrinted
+        ? getRawSourceByUrl(sources, nextProps.selectedSource.url)
+        : nextProps.selectedSource;
 
-      this.setState({ highlightItems });
+      if (sourceForHighlight) {
+        const highlightItems = getDirectories(sourceForHighlight, sourceTree);
+        this.setState({ highlightItems });
+      }
     }
 
     // NOTE: do not run this every time a source is clicked,

@@ -101,7 +101,7 @@ export function showSource(sourceId: string) {
 
     dispatch({
       type: "SHOW_SOURCE",
-      sourceUrl: getRawSourceURL(source.url)
+      sourceUrl: source.url
     });
   };
 }
