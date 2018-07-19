@@ -45,7 +45,8 @@ export function paused(pauseInfo: Pause) {
     const { frames, why, loadedObjects } = pauseInfo;
     const topFrame = frames.length > 0 ? frames[0] : null;
 
-    if (topFrame && why.type == "resumeLimit") {
+    // NOTE: do not step when leaving a frame or paused at a debugger statement
+    if (topFrame && !why.frameFinished && why.type == "resumeLimit") {
       const mappedFrame = await updateFrameLocation(topFrame, sourceMaps);
       const source = await getOriginalSourceForFrame(getState(), mappedFrame);
 
