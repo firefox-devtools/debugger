@@ -357,6 +357,9 @@ async function findGeneratedBinding(
       locationType,
       sourceMaps
     );
+    if (applicableBindings.length > 0) {
+      hadApplicableBindings = true;
+    }
     if (
       locationType !== "ref" &&
       !(await originalRangeStartsInside(source, pos, sourceMaps))
@@ -368,6 +371,7 @@ async function findGeneratedBinding(
 
   const { refs } = originalBinding;
 
+  let hadApplicableBindings = false;
   let genContent: GeneratedDescriptor | null = null;
   for (const pos of refs) {
     const applicableBindings = await loadApplicableBindings(pos, pos.type);
@@ -469,6 +473,29 @@ async function findGeneratedBinding(
         }
       },
       expression: null
+    };
+  } else if (!hadApplicableBindings) {
+    // If there were no applicable bindings to consider while searching for
+    // matching bindings, then the source map for this file didn't make any
+    // attempt to map the binding, and that most likely means that the
+    // code was entirely emitted from the output code.
+    return {
+      grip: {
+        configurable: false,
+        enumerable: true,
+        writable: false,
+        value: {
+          type: "null",
+          optimizedOut: true
+        }
+      },
+      expression: `
+        (() => {
+          throw new Error('"' + ${JSON.stringify(
+            name
+          )} + '" has been optimized out.');
+        })()
+      `
     };
   }
 
