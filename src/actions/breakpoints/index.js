@@ -9,109 +9,34 @@
  * @module actions/breakpoints
  */
 
-import { PROMISE } from "./utils/middleware/promise";
+import { PROMISE } from "../utils/middleware/promise";
 import {
   getBreakpoint,
   getBreakpoints,
   getSelectedSource,
   getBreakpointAtLocation,
   getBreakpointsAtLine
-} from "../selectors";
-import { createBreakpoint, assertBreakpoint } from "../utils/breakpoint";
-import addBreakpointPromise from "./breakpoints/addBreakpoint";
-import remapLocations from "./breakpoints/remapLocations";
-import { isEmptyLineInSource } from "../reducers/ast";
+} from "../../selectors";
+import { assertBreakpoint } from "../../utils/breakpoint";
+import {
+  addBreakpoint,
+  addHiddenBreakpoint,
+  enableBreakpoint
+} from "./addBreakpoint";
+import remapLocations from "./remapLocations";
+import { syncBreakpoint } from "./syncBreakpoint";
+import { isEmptyLineInSource } from "../../reducers/ast";
 
 // this will need to be changed so that addCLientBreakpoint is removed
-import { syncClientBreakpoint } from "./breakpoints/syncBreakpoint";
 
-import type { ThunkArgs, Action } from "./types";
-import type {
-  Breakpoint,
-  SourceId,
-  PendingBreakpoint,
-  Location
-} from "../types";
-import type { BreakpointsMap } from "../reducers/types";
+import type { ThunkArgs, Action } from "../types";
+import type { Breakpoint, Location } from "../../types";
+import type { BreakpointsMap } from "../../reducers/types";
 
 type addBreakpointOptions = {
   condition?: string,
   hidden?: boolean
 };
-
-/**
- * Syncing a breakpoint add breakpoint information that is stored, and
- * contact the server for more data.
- *
- * @memberof actions/breakpoints
- * @static
- * @param {String} $1.sourceId String  value
- * @param {PendingBreakpoint} $1.location PendingBreakpoint  value
- */
-export function syncBreakpoint(
-  sourceId: SourceId,
-  pendingBreakpoint: PendingBreakpoint
-) {
-  return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
-    const response = await syncClientBreakpoint(
-      getState,
-      client,
-      sourceMaps,
-      sourceId,
-      pendingBreakpoint
-    );
-
-    if (!response) {
-      return;
-    }
-
-    const { breakpoint, previousLocation } = response;
-
-    return dispatch(
-      ({
-        type: "SYNC_BREAKPOINT",
-        breakpoint,
-        previousLocation
-      }: Action)
-    );
-  };
-}
-
-/**
- * Add a new breakpoint
- *
- * @memberof actions/breakpoints
- * @static
- * @param {String} $1.condition Conditional breakpoint condition value
- * @param {Boolean} $1.disabled Disable value for breakpoint value
- */
-
-export function addBreakpoint(
-  location: Location,
-  { condition, hidden }: addBreakpointOptions = {}
-) {
-  const breakpoint = createBreakpoint(location, { condition, hidden });
-  return ({ dispatch, getState, sourceMaps, client }: ThunkArgs) => {
-    return dispatch({
-      type: "ADD_BREAKPOINT",
-      breakpoint,
-      [PROMISE]: addBreakpointPromise(getState, client, sourceMaps, breakpoint)
-    });
-  };
-}
-
-/**
- * Add a new hidden breakpoint
- *
- * @memberOf actions/breakpoints
- * @param location
- * @return {function(ThunkArgs)}
- */
-export function addHiddenBreakpoint(location: Location) {
-  return ({ dispatch }: ThunkArgs) => {
-    return dispatch(addBreakpoint(location, { hidden: true }));
-  };
-}
 
 /**
  * Remove a single breakpoint
@@ -144,35 +69,6 @@ export function removeBreakpoint(location: Location) {
       breakpoint: bp,
       disabled: false,
       [PROMISE]: client.removeBreakpoint(bp.generatedLocation)
-    });
-  };
-}
-
-/**
- * Enabling a breakpoint
- * will reuse the existing breakpoint information that is stored.
- *
- * @memberof actions/breakpoints
- * @static
- * @param {Location} $1.location Location  value
- */
-export function enableBreakpoint(location: Location) {
-  return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
-    const breakpoint = getBreakpoint(getState(), location);
-    if (!breakpoint || breakpoint.loading) {
-      return;
-    }
-
-    // To instantly reflect in the UI, we optimistically enable the breakpoint
-    const enabledBreakpoint = {
-      ...breakpoint,
-      disabled: false
-    };
-
-    return dispatch({
-      type: "ENABLE_BREAKPOINT",
-      breakpoint: enabledBreakpoint,
-      [PROMISE]: addBreakpointPromise(getState, client, sourceMaps, breakpoint)
     });
   };
 }
@@ -484,3 +380,5 @@ export function toggleDisabledBreakpoint(line: number, column?: number) {
     return dispatch(enableBreakpoint(bp.location));
   };
 }
+
+export { addBreakpoint, addHiddenBreakpoint, enableBreakpoint, syncBreakpoint };

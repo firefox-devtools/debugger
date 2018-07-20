@@ -6,19 +6,16 @@ import {
   locationMoved,
   breakpointExists,
   assertBreakpoint,
+  createBreakpoint,
   getASTLocation,
   assertLocation
 } from "../../utils/breakpoint";
-import { getSource, getSymbols } from "../../selectors";
+import { PROMISE } from "../utils/middleware/promise";
+import { getSource, getSymbols, getBreakpoint } from "../../selectors";
 import { getGeneratedLocation } from "../../utils/source-maps";
 import { getTextAtPosition } from "../../utils/source";
 
-export default async function addBreakpoint(
-  getState,
-  client,
-  sourceMaps,
-  breakpoint
-) {
+async function addBreakpointPromise(getState, client, sourceMaps, breakpoint) {
   const state = getState();
   const source = getSource(state, breakpoint.location.sourceId);
 
@@ -81,5 +78,70 @@ export default async function addBreakpoint(
   return {
     breakpoint: newBreakpoint,
     previousLocation
+  };
+}
+
+/**
+ * Add a new hidden breakpoint
+ *
+ * @memberOf actions/breakpoints
+ * @param location
+ * @return {function(ThunkArgs)}
+ */
+export function addHiddenBreakpoint(location: Location) {
+  return ({ dispatch }: ThunkArgs) => {
+    return dispatch(addBreakpoint(location, { hidden: true }));
+  };
+}
+
+/**
+ * Enabling a breakpoint
+ * will reuse the existing breakpoint information that is stored.
+ *
+ * @memberof actions/breakpoints
+ * @static
+ * @param {Location} $1.location Location  value
+ */
+export function enableBreakpoint(location: Location) {
+  return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
+    const breakpoint = getBreakpoint(getState(), location);
+    if (!breakpoint || breakpoint.loading) {
+      return;
+    }
+
+    // To instantly reflect in the UI, we optimistically enable the breakpoint
+    const enabledBreakpoint = {
+      ...breakpoint,
+      disabled: false
+    };
+
+    return dispatch({
+      type: "ENABLE_BREAKPOINT",
+      breakpoint: enabledBreakpoint,
+      [PROMISE]: addBreakpointPromise(getState, client, sourceMaps, breakpoint)
+    });
+  };
+}
+
+/**
+ * Add a new breakpoint
+ *
+ * @memberof actions/breakpoints
+ * @static
+ * @param {String} $1.condition Conditional breakpoint condition value
+ * @param {Boolean} $1.disabled Disable value for breakpoint value
+ */
+
+export function addBreakpoint(
+  location: Location,
+  { condition, hidden }: addBreakpointOptions = {}
+) {
+  const breakpoint = createBreakpoint(location, { condition, hidden });
+  return ({ dispatch, getState, sourceMaps, client }: ThunkArgs) => {
+    return dispatch({
+      type: "ADD_BREAKPOINT",
+      breakpoint,
+      [PROMISE]: addBreakpointPromise(getState, client, sourceMaps, breakpoint)
+    });
   };
 }

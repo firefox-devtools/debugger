@@ -15,6 +15,8 @@ import { getGeneratedLocation } from "../../utils/source-maps";
 import { getTextAtPosition } from "../../utils/source";
 import { originalToGeneratedId } from "devtools-source-map";
 import { getSource } from "../../selectors";
+import type { ThunkArgs, Action } from "../types";
+
 import type {
   Location,
   ASTLocation,
@@ -70,7 +72,7 @@ function createSyncData(
 
 // we have three forms of syncing: disabled syncing, existing server syncing
 // and adding a new breakpoint
-export async function syncClientBreakpoint(
+export async function syncBreakpointPromise(
   getState: Function,
   client: Object,
   sourceMaps: Object,
@@ -178,4 +180,42 @@ export async function syncClientBreakpoint(
     text,
     originalText
   );
+}
+
+/**
+ * Syncing a breakpoint add breakpoint information that is stored, and
+ * contact the server for more data.
+ *
+ * @memberof actions/breakpoints
+ * @static
+ * @param {String} $1.sourceId String  value
+ * @param {PendingBreakpoint} $1.location PendingBreakpoint  value
+ */
+export function syncBreakpoint(
+  sourceId: SourceId,
+  pendingBreakpoint: PendingBreakpoint
+) {
+  return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
+    const response = await syncBreakpointPromise(
+      getState,
+      client,
+      sourceMaps,
+      sourceId,
+      pendingBreakpoint
+    );
+
+    if (!response) {
+      return;
+    }
+
+    const { breakpoint, previousLocation } = response;
+
+    return dispatch(
+      ({
+        type: "SYNC_BREAKPOINT",
+        breakpoint,
+        previousLocation
+      }: Action)
+    );
+  };
 }
