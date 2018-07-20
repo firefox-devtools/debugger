@@ -35,7 +35,7 @@ jest.mock("../../../utils/breakpoint/astBreakpointLocation", () => ({
 // eslint-disable-next-line
 import { findScopeByName } from "../../../utils/breakpoint/astBreakpointLocation";
 
-import { syncClientBreakpoint } from "../../breakpoints/syncBreakpoint.js";
+import { syncBreakpointPromise } from "../../breakpoints/syncBreakpoint.js";
 
 function setBreakpoint(location, condition) {
   const actualLocation = { ...location, line: location.line };
@@ -124,7 +124,7 @@ describe("loading the debugger", () => {
     const breakpoints = selectors.getBreakpoints(getState());
     expect(breakpoints.size).toBe(0);
     // manually sync
-    const update = await syncClientBreakpoint(
+    const update = await syncBreakpointPromise(
       getState,
       threadClient,
       sourceMaps,
@@ -155,7 +155,7 @@ describe("loading the debugger", () => {
     const breakpoints = selectors.getBreakpoints(getState());
     expect(breakpoints.size).toBe(0);
     // manually sync
-    const update = await syncClientBreakpoint(
+    const update = await syncBreakpointPromise(
       getState,
       threadClient,
       sourceMaps,
@@ -193,7 +193,7 @@ describe("reloading debuggee", () => {
     await dispatch(actions.addBreakpoint(loc1));
 
     // manually sync
-    const update = await syncClientBreakpoint(
+    const update = await syncBreakpointPromise(
       getState,
       threadClient,
       sourceMaps,
@@ -231,7 +231,7 @@ describe("reloading debuggee", () => {
     await dispatch(actions.newSource(reloadedSource));
 
     // manually sync
-    const update = await syncClientBreakpoint(
+    const update = await syncBreakpointPromise(
       getState,
       threadClient,
       sourceMaps,
