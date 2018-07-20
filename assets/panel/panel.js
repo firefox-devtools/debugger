@@ -35,6 +35,7 @@ DebuggerPanel.prototype = {
       tabTarget: this.toolbox.target,
       debuggerClient: this.toolbox.target.client,
       sourceMaps: this.toolbox.sourceMapService,
+      sessionId: this.toolbox.session_id,
       toolboxActions: {
         // Open a link in a new browser tab.
         openLink: this.openLink.bind(this),

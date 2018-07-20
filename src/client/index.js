@@ -8,6 +8,7 @@ import * as firefox from "./firefox";
 
 import { prefs } from "../utils/prefs";
 import { setupHelper } from "../utils/dbg";
+import { setupTelemetry } from "../utils/telemetry";
 
 import {
   bootstrapApp,
@@ -27,7 +28,7 @@ function loadFromPrefs(actions: Object) {
 
 export async function onConnect(
   connection: Object,
-  { services, toolboxActions }: Object
+  { services, toolboxActions, sessionId }: Object
 ) {
   // NOTE: the landing page does not connect to a JS process
   if (!connection) {
@@ -40,6 +41,7 @@ export async function onConnect(
     toolboxActions
   });
 
+  setupTelemetry(sessionId);
   const workers = bootstrapWorkers();
   await firefox.onConnect(connection, actions);
   await loadFromPrefs(actions);

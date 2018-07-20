@@ -46,23 +46,18 @@
 
 import { Telemetry } from "devtools-modules";
 
-const telemetry = new Telemetry();
+let telemetry = null;
+
+export function setupTelemetry(id: number) {
+  telemetry = new Telemetry(id);
+}
 
 /**
  * @memberof utils/telemetry
  * @static
  */
 export function recordEvent(eventName: string, fields: {} = {}) {
-  let sessionId = -1;
-
-  if (typeof window === "object" && window.parent.frameElement) {
-    sessionId = window.parent.frameElement.getAttribute("session_id");
-  }
-
   /* eslint-disable camelcase */
-  telemetry.recordEvent("devtools.main", eventName, "debugger", null, {
-    session_id: sessionId,
-    ...fields
-  });
+  telemetry.recordEvent("devtools.main", eventName, "debugger", null, fields);
   /* eslint-enable camelcase */
 }
