@@ -119,7 +119,6 @@ class SourcesTree extends Component<Props, State> {
         nextProps.shownSourceForTree,
         sourceTree
       );
-      this.props.selectSource(nextProps.shownSource.id);
       return this.setState({ listItems });
     }
 

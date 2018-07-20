@@ -11,6 +11,7 @@ import {
   getSource,
   getFileSearchQuery
 } from "../selectors";
+import { selectSource } from "../actions/sources/select";
 import { getProjectDirectoryRoot } from "../reducers/ui";
 import type { ThunkArgs, panelPositionType } from "./types";
 import { getEditor } from "../utils/editor";
@@ -95,6 +96,7 @@ export function showSource(sourceId: string) {
     dispatch(setPrimaryPaneTab("sources"));
 
     dispatch({ type: "SHOW_SOURCE", source: null });
+    dispatch(selectSource(source.id));
     dispatch({ type: "SHOW_SOURCE", source });
   };
 }
