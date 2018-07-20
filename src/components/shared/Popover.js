@@ -44,8 +44,6 @@ class Popover extends Component<Props, State> {
     }
   };
 
-  state: State = { top: 0 };
-
   static defaultProps = {
     onMouseLeave: () => {},
     onPopoverCoords: () => {},
