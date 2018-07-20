@@ -36,6 +36,7 @@ import { createObjectClient } from "../../../client/firefox";
 import "./Popup.css";
 
 import type { EditorRange } from "../../../utils/editor/types";
+import type { Coords } from "../../shared/Popover";
 
 type PopupValue = Object | null;
 type Props = {
@@ -52,6 +53,10 @@ type Props = {
   selectSourceURL: (string, Object) => void,
   openLink: string => void,
   extra: Object
+};
+
+type State = {
+  top: number
 };
 
 function inPreview(event) {
@@ -73,9 +78,16 @@ function inPreview(event) {
   return inPreviewSelection;
 }
 
-export class Popup extends Component<Props> {
+export class Popup extends Component<Props, State> {
   marker: any;
   pos: any;
+
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      top: 0
+    };
+  }
 
   async componentWillMount() {
     const {
@@ -158,6 +170,14 @@ export class Popup extends Component<Props> {
     return null;
   }
 
+  calculateMaxHeight = () => {
+    const { editorRef } = this.props;
+    if (!editorRef) {
+      return "auto";
+    }
+    return editorRef.getBoundingClientRect().height - this.state.top;
+  };
+
   renderFunctionPreview() {
     const { selectSourceURL, value } = this.props;
 
@@ -223,7 +243,10 @@ export class Popup extends Component<Props> {
     }
 
     return (
-      <div className="preview-popup">
+      <div
+        className="preview-popup"
+        style={{ maxHeight: this.calculateMaxHeight() }}
+      >
         {header}
         {this.renderObjectInspector(roots)}
       </div>
@@ -292,6 +315,10 @@ export class Popup extends Component<Props> {
     return "popover";
   }
 
+  onPopoverCoords = (coords: Coords) => {
+    this.setState({ top: coords.top });
+  };
+
   render() {
     const { popoverPos, value, editorRef } = this.props;
     const type = this.getPreviewType(value);
@@ -305,6 +332,7 @@ export class Popup extends Component<Props> {
         targetPosition={popoverPos}
         onMouseLeave={this.onMouseLeave}
         type={type}
+        onPopoverCoords={this.onPopoverCoords}
         editorRef={editorRef}
       >
         {this.renderPreview()}
