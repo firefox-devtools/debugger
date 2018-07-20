@@ -4,20 +4,12 @@
 
 // @flow
 
-import type {
-  BindingDeclarationLocation,
-  BindingLocation,
-  BindingType
-} from "../../../workers/parser";
 import { locColumn } from "./locColumn";
 import { mappingContains } from "./mappingContains";
 
-import type { Source, BindingContents } from "../../../types";
-import type { GeneratedBindingLocation } from "./buildGeneratedBindingList";
-import {
-  getGeneratedLocationRanges,
-  type ApplicableBinding
-} from "./getGeneratedLocationRanges";
+import type { BindingContents } from "../../../types";
+// eslint-disable-next-line max-len
+import type { ApplicableBinding } from "./getApplicableBindingsForOriginalPosition";
 
 import { createObjectClient } from "../../../client/firefox";
 
@@ -32,117 +24,10 @@ export type GeneratedDescriptor = {
 };
 
 /**
- * Find a simple 1-1 match of a binding in the original code to a binding
- * in the generated code.
- */
-export async function findGeneratedBindingForStandardBinding(
-  sourceMaps: any,
-  client: any,
-  source: Source,
-  pos: BindingLocation,
-  name: string,
-  bindingType: BindingType,
-  generatedAstBindings: Array<GeneratedBindingLocation>
-): Promise<GeneratedDescriptor | null> {
-  return await findGeneratedReference(
-    await getGeneratedLocationRanges(
-      generatedAstBindings,
-      source,
-      pos,
-      bindingType,
-      pos.type,
-      sourceMaps
-    )
-  );
-}
-
-/**
- * Find a simple 1-1 match of a binding in the original code to an
- * expression in the generated code.
- */
-export async function findGeneratedBindingForImportBinding(
-  sourceMaps: any,
-  client: any,
-  source: Source,
-  pos: BindingLocation,
-  name: string,
-  bindingType: BindingType,
-  generatedAstBindings: Array<GeneratedBindingLocation>
-): Promise<GeneratedDescriptor | null> {
-  return await findGeneratedImportReference(
-    await getGeneratedLocationRanges(
-      generatedAstBindings,
-      source,
-      pos,
-      bindingType,
-      pos.type,
-      sourceMaps
-    )
-  );
-}
-
-/**
- * Find a simple 1-1 match of a binding's declaration in the original code to a
- * binding in the generated code.
- */
-export async function findGeneratedBindingForNormalDeclaration(
-  sourceMaps: any,
-  client: any,
-  source: Source,
-  pos: BindingDeclarationLocation,
-  name: string,
-  bindingType: BindingType,
-  generatedAstBindings: Array<GeneratedBindingLocation>
-): Promise<GeneratedDescriptor | null> {
-  return await findGeneratedReference(
-    await getGeneratedLocationRanges(
-      generatedAstBindings,
-      source,
-      pos.declaration,
-      bindingType,
-      pos.type,
-      sourceMaps
-    )
-  );
-}
-
-/**
- * Find a simple 1-1 match of an import binding's declaration in the original
- * code to an expression in the generated code.
- */
-export async function findGeneratedBindingForImportDeclaration(
-  sourceMaps: any,
-  client: any,
-  source: Source,
-  pos: BindingDeclarationLocation,
-  name: string,
-  bindingType: BindingType,
-  generatedAstBindings: Array<GeneratedBindingLocation>
-): Promise<GeneratedDescriptor | null> {
-  const importName = pos.importName;
-  if (typeof importName !== "string") {
-    // Should never happen, just keeping Flow happy.
-    return null;
-  }
-
-  return await findGeneratedImportDeclaration(
-    await getGeneratedLocationRanges(
-      generatedAstBindings,
-      source,
-      pos.declaration,
-      bindingType,
-      pos.type,
-      sourceMaps
-    ),
-    importName
-  );
-}
-
-/**
  * Given a mapped range over the generated source, attempt to resolve a real
  * binding descriptor that can be used to access the value.
  */
-async function findGeneratedReference(
+export async function findGeneratedReference(
   applicableBindings: Array<ApplicableBinding>
 ): Promise<GeneratedDescriptor | null> {
   // We can adjust this number as we go, but these are a decent start as a
@@ -163,7 +48,7 @@ async function findGeneratedReference(
   return null;
 }
 
-async function findGeneratedImportReference(
+export async function findGeneratedImportReference(
   applicableBindings: Array<ApplicableBinding>
 ): Promise<GeneratedDescriptor | null> {
   // When wrapped, for instance as `Object(ns.default)`, the `Object` binding
@@ -208,7 +93,7 @@ async function findGeneratedImportReference(
  * value that is referenced, attempt to resolve a binding descriptor for
  * the import's value.
  */
-async function findGeneratedImportDeclaration(
+export async function findGeneratedImportDeclaration(
   applicableBindings: Array<ApplicableBinding>,
   importName: string
 ): Promise<GeneratedDescriptor | null> {

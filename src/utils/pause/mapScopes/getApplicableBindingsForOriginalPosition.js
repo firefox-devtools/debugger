@@ -25,7 +25,28 @@ type GeneratedRange = {
   end: Position
 };
 
-export async function getGeneratedLocationRanges(
+export async function originalRangeStartsInside(
+  source: Source,
+  {
+    start,
+    end
+  }: {
+    start: Location,
+    end: Location
+  },
+  sourceMaps: any
+) {
+  const endPosition = await sourceMaps.getGeneratedLocation(end, source);
+  const startPosition = await sourceMaps.getGeneratedLocation(start, source);
+
+  // If the start and end positions collapse into eachother, it means that
+  // the range in the original content didn't _start_ at the start position.
+  // Since this likely means that the range doesn't logically apply to this
+  // binding location, we skip it.
+  return positionCmp(startPosition, endPosition) !== 0;
+}
+
+export async function getApplicableBindingsForOriginalPosition(
   generatedAstBindings: Array<GeneratedBindingLocation>,
   source: Source,
   {
@@ -39,17 +60,6 @@ export async function getGeneratedLocationRanges(
   locationType: BindingLocationType,
   sourceMaps: any
 ): Promise<Array<ApplicableBinding>> {
-  const endPosition = await sourceMaps.getGeneratedLocation(end, source);
-  const startPosition = await sourceMaps.getGeneratedLocation(start, source);
-
-  // If the start and end positions collapse into eachother, it means that
-  // the range in the original content didn't _start_ at the start position.
-  // Since this likely means that the range doesn't logically apply to this
-  // binding location, we skip it.
-  if (positionCmp(startPosition, endPosition) === 0) {
-    return [];
-  }
-
   const ranges = await sourceMaps.getGeneratedRanges(start, source);
 
   const resultRanges = ranges.reduce((acc, mapRange) => {
@@ -105,6 +115,9 @@ export async function getGeneratedLocationRanges(
   // var _mod = require("mod"); // mapped from import statement
   // var _mod2 = interop(_mod); // entirely unmapped
   if (bindingType === "import" && locationType !== "ref") {
+    const endPosition = await sourceMaps.getGeneratedLocation(end, source);
+    const startPosition = await sourceMaps.getGeneratedLocation(start, source);
+
     for (const range of resultRanges) {
       if (
         mappingContains(range, { start: startPosition, end: startPosition }) &&
