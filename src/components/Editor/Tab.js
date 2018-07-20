@@ -21,7 +21,7 @@ import {
   getFileURL,
   getRawSourceURL,
   getTruncatedFileName,
-  getPath,
+  getDisplayPath,
   isPretty
 } from "../../utils/source";
 import { copyToTheClipboard } from "../../utils/clipboard";
@@ -195,7 +195,7 @@ class Tab extends PureComponent<Props> {
           shouldHide={icon => ["file", "javascript"].includes(icon)}
         />
         <div className="filename">
-          {[getTruncatedFileName(source), getPath(source, tabSources)]
+          {[getTruncatedFileName(source), getDisplayPath(source, tabSources)]
             .filter(Boolean)
             .join("\u2014")}
         </div>

@@ -176,7 +176,7 @@ export function getTruncatedFileName(source: Source, length: number = 30) {
  * @static
  */
 
-export function getPath(mySource: Source, sources: Source[]) {
+export function getDisplayPath(mySource: Source, sources: Source[]) {
   const myFileName = getFilename(mySource);
   const myUrl = mySource.url;
   let myPathSegments;

@@ -14,7 +14,7 @@ import SourceIcon from "../../shared/SourceIcon";
 import actions from "../../../actions";
 import {
   getTruncatedFileName,
-  getPath,
+  getDisplayPath,
   getRawSourceURL
 } from "../../../utils/source";
 import { makeLocationId } from "../../../utils/breakpoint";
@@ -108,7 +108,7 @@ class Breakpoints extends Component<Props> {
             source={source}
             shouldHide={icon => ["file", "javascript"].includes(icon)}
           />
-          {[getTruncatedFileName(source), getPath(source, sources)]
+          {[getTruncatedFileName(source), getDisplayPath(source, sources)]
             .filter(Boolean)
             .join("\u2014")}
         </div>,
