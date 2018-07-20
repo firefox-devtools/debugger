@@ -14,6 +14,7 @@ import { PROMISE } from "../utils/middleware/promise";
 import { getSource, getSymbols, getBreakpoint } from "../../selectors";
 import { getGeneratedLocation } from "../../utils/source-maps";
 import { getTextAtPosition } from "../../utils/source";
+import { recordEvent } from "../../utils/telemetry";
 
 async function addBreakpointPromise(getState, client, sourceMaps, breakpoint) {
   const state = getState();
@@ -138,6 +139,8 @@ export function addBreakpoint(
 ) {
   const breakpoint = createBreakpoint(location, { condition, hidden });
   return ({ dispatch, getState, sourceMaps, client }: ThunkArgs) => {
+    recordEvent("add_breakpoint");
+
     return dispatch({
       type: "ADD_BREAKPOINT",
       breakpoint,
