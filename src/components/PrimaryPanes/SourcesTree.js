@@ -17,12 +17,12 @@ import {
   getExpandedState,
   getProjectDirectoryRoot,
   getRelativeSources,
+  getSourceFromPrettySource,
   getSourceCount
 } from "../../selectors";
 
 // Actions
 import actions from "../../actions";
-import { getRawSourceURL } from "../../utils/source";
 
 // Components
 import SourcesTreeItem from "./SourcesTreeItem";
@@ -51,7 +51,7 @@ import type { Item } from "../shared/ManagedTree";
 type Props = {
   sources: SourcesMap,
   sourceCount: number,
-  shownSource?: string,
+  shownSource?: Source,
   selectedSource?: Source,
   debuggeeUrl: string,
   projectRoot: string,
@@ -72,20 +72,6 @@ type State = {
 };
 
 type SetExpanded = (item: TreeNode, expanded: boolean, altKey: boolean) => void;
-
-function getSourceByUrl(sources, url) {
-  const id = Object.keys(sources).find(sourceId => {
-    return sources[sourceId].url === url;
-  });
-  return id ? sources[id] : null;
-}
-
-function getRawSourceByUrl(sources, url) {
-  const id = Object.keys(sources).find(sourceId => {
-    return getRawSourceURL(sources[sourceId].url) === getRawSourceURL(url);
-  });
-  return id ? sources[id] : null;
-}
 
 class SourcesTree extends Component<Props, State> {
   mounted: boolean;
@@ -129,36 +115,23 @@ class SourcesTree extends Component<Props, State> {
     }
 
     if (nextProps.shownSource && nextProps.shownSource != shownSource) {
-      const matchingRawSource = getRawSourceByUrl(
-        sources,
-        nextProps.shownSource
+      const listItems = getDirectories(
+        nextProps.shownSourceForTree,
+        sourceTree
       );
-      const matchingSelectionSource = getSourceByUrl(
-        sources,
-        nextProps.shownSource
-      );
-
-      if (matchingRawSource) {
-        const listItems = getDirectories(matchingRawSource, sourceTree);
-        if (matchingSelectionSource) {
-          this.props.selectSource(matchingSelectionSource.id);
-        }
-        return this.setState({ listItems });
-      }
+      this.props.selectSource(nextProps.shownSource.id);
+      return this.setState({ listItems });
     }
 
     if (
       nextProps.selectedSource &&
       nextProps.selectedSource != selectedSource
     ) {
-      const sourceForHighlight = nextProps.selectedSource.isPrettyPrinted
-        ? getRawSourceByUrl(sources, nextProps.selectedSource.url)
-        : nextProps.selectedSource;
-
-      if (sourceForHighlight) {
-        const highlightItems = getDirectories(sourceForHighlight, sourceTree);
-        this.setState({ highlightItems });
-      }
+      const highlightItems = getDirectories(
+        nextProps.selectedSourceForTree,
+        sourceTree
+      );
+      this.setState({ highlightItems });
     }
 
     // NOTE: do not run this every time a source is clicked,
@@ -182,12 +155,7 @@ class SourcesTree extends Component<Props, State> {
   };
 
   selectItem = (item: TreeNode) => {
-    if (
-      !isDirectory(item) &&
-      // This second check isn't strictly necessary, but it ensures that Flow
-      // knows that we are doing the correct thing.
-      !Array.isArray(item.contents)
-    ) {
+    if (item.type == "source") {
       this.props.selectSource(item.contents.id);
     }
   };
@@ -387,9 +355,14 @@ class SourcesTree extends Component<Props, State> {
 }
 
 const mapStateToProps = state => {
+  const selectedSource = getSelectedSource(state);
+  const shownSource = getShownSource(state);
+
   return {
-    shownSource: getShownSource(state),
-    selectedSource: getSelectedSource(state),
+    shownSource,
+    shownSourceForTree: getSourceFromPrettySource(state, shownSource),
+    selectedSource,
+    selectedSourceForTree: getSourceFromPrettySource(state, selectedSource),
     debuggeeUrl: getDebuggeeUrl(state),
     expanded: getExpandedState(state),
     projectRoot: getProjectDirectoryRoot(state),

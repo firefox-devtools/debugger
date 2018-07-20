@@ -93,15 +93,9 @@ export function showSource(sourceId: string) {
     }
 
     dispatch(setPrimaryPaneTab("sources"));
-    dispatch({
-      type: "SHOW_SOURCE",
-      sourceUrl: ""
-    });
 
-    dispatch({
-      type: "SHOW_SOURCE",
-      sourceUrl: source.url
-    });
+    dispatch({ type: "SHOW_SOURCE", source: null });
+    dispatch({ type: "SHOW_SOURCE", source });
   };
 }
 

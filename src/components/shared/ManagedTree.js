@@ -49,18 +49,13 @@ class ManagedTree extends Component<Props, State> {
 
   componentWillReceiveProps(nextProps: Props) {
     const { listItems, highlightItems, focused } = this.props;
-    if (
-      nextProps.listItems &&
-      nextProps.listItems != listItems &&
-      nextProps.listItems.length
-    ) {
+    if (nextProps.listItems && nextProps.listItems != listItems) {
       this.expandListItems(nextProps.listItems);
     }
 
     if (
       nextProps.highlightItems &&
-      nextProps.highlightItems != highlightItems &&
-      nextProps.highlightItems.length
+      nextProps.highlightItems != highlightItems
     ) {
       this.highlightItem(nextProps.highlightItems);
     }

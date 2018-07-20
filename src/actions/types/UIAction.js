@@ -4,6 +4,8 @@
 
 // @flow
 
+import type { Source } from "../../types";
+
 import type {
   ActiveSearchType,
   OrientationType,
@@ -30,7 +32,7 @@ export type UIAction =
     |}
   | {|
       +type: "SHOW_SOURCE",
-      +sourceUrl: string
+      +sourceUrl: Source
     |}
   | {|
       +type: "TOGGLE_PANE",

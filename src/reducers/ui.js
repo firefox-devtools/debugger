@@ -12,6 +12,12 @@
 import makeRecord from "../utils/makeRecord";
 import { prefs } from "../utils/prefs";
 
+import { getRelativeSources } from "../selectors";
+
+import type { Source } from "../types";
+
+import { getRawSourceURL } from "../utils/source";
+
 import type { Action, panelPositionType } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
@@ -25,7 +31,7 @@ export type UIState = {
   selectedPrimaryPaneTab: SelectedPrimaryPaneTabType,
   activeSearch: ?ActiveSearchType,
   contextMenu: any,
-  shownSource: string,
+  shownSource: ?Source,
   startPanelCollapsed: boolean,
   endPanelCollapsed: boolean,
   frameworkGroupingOn: boolean,
@@ -44,7 +50,7 @@ export const createUIState = makeRecord(
     selectedPrimaryPaneTab: "sources",
     activeSearch: null,
     contextMenu: {},
-    shownSource: "",
+    shownSource: null,
     projectDirectoryRoot: prefs.projectDirectoryRoot,
     startPanelCollapsed: prefs.startPanelCollapsed,
     endPanelCollapsed: prefs.endPanelCollapsed,
@@ -78,7 +84,7 @@ function update(
     }
 
     case "SHOW_SOURCE": {
-      return state.set("shownSource", action.sourceUrl);
+      return state.set("shownSource", action.source);
     }
 
     case "TOGGLE_PANE": {
@@ -153,8 +159,28 @@ export function getFrameworkGroupingState(state: OuterState): boolean {
   return state.ui.get("frameworkGroupingOn");
 }
 
-export function getShownSource(state: OuterState): boolean {
+export function getShownSource(state: OuterState): Source {
   return state.ui.get("shownSource");
+}
+
+export function getSourceFromPrettySource(
+  state: OuterState,
+  baseSource: Source
+): Source | null {
+  if (!baseSource) {
+    return null;
+  }
+  if (!baseSource.isPrettyPrinted) {
+    return baseSource;
+  }
+
+  const sources = getRelativeSources(state);
+  const id = Object.keys(sources).find(sourceId => {
+    return (
+      getRawSourceURL(sources[sourceId].url) === getRawSourceURL(baseSource.url)
+    );
+  });
+  return id ? sources[id] : null;
 }
 
 export function getPaneCollapse(
