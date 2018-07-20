@@ -36,18 +36,18 @@ describe("mapExpressionBindings", () => {
     {
       name: "local bindings become assignments",
       bindings: ["a"],
-      expression: `var a = 2;`,
-      newExpression: `a = 2;`
+      expression: "var a = 2;",
+      newExpression: "a = 2;"
     },
     {
       name: "assignments",
-      expression: `a = 2;`,
-      newExpression: `self.a = 2;`
+      expression: "a = 2;",
+      newExpression: "self.a = 2;"
     },
     {
       name: "assignments with +=",
-      expression: `a += 2;`,
-      newExpression: `self.a += 2;`
+      expression: "a += 2;",
+      newExpression: "self.a += 2;"
     }
   ]);
 
@@ -68,11 +68,11 @@ describe("mapExpressionBindings", () => {
     {
       name: "assignments",
       bindings: ["a"],
-      expression: `a = 2;`
+      expression: "a = 2;"
     },
     {
       name: "identifier",
-      expression: `a`
+      expression: "a"
     }
   ]);
 
