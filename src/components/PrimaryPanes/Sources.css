@@ -130,7 +130,7 @@
 
 .sources-panel .outline {
   display: flex;
-  flex: 1;
+  height: 100%;
 }
 
 .tree-indent {
@@ -184,6 +184,10 @@
 .source-outline-tabs .tab.active path,
 .source-outline-tabs .tab:hover path {
   fill: var(--theme-body-color);
+}
+
+.source-outline-panel {
+  flex: 1;
 }
 
 .sources-list .managed-tree .tree .node img.blackBox {

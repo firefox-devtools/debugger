@@ -104,7 +104,7 @@ class PrimaryPanes extends Component<Props, State> {
         <TabList className="source-outline-tabs">
           {this.renderOutlineTabs()}
         </TabList>
-        <TabPanels hasFocusableContent>
+        <TabPanels className="source-outline-panel" hasFocusableContent>
           <SourcesTree />
           <Outline
             alphabetizeOutline={this.state.alphabetizeOutline}
