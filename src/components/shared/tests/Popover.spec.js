@@ -9,6 +9,7 @@ import Popover from "../Popover";
 
 describe("Popover", () => {
   const onMouseLeave = jest.fn();
+  const onKeyDown = jest.fn();
   const editorRef = {
     getBoundingClientRect() {
       return {
@@ -36,6 +37,7 @@ describe("Popover", () => {
   const popover = mount(
     <Popover
       onMouseLeave={onMouseLeave}
+      onKeyDown={onKeyDown}
       editorRef={editorRef}
       targetPosition={targetPosition}
     >
@@ -47,6 +49,7 @@ describe("Popover", () => {
     <Popover
       type="tooltip"
       onMouseLeave={onMouseLeave}
+      onKeyDown={onKeyDown}
       editorRef={editorRef}
       targetPosition={targetPosition}
     >
@@ -58,7 +61,7 @@ describe("Popover", () => {
 
   const event = { currentTarget: div };
 
-  beforeEach(() => onMouseLeave.mockClear());
+  beforeEach(() => onMouseLeave.mockClear(), onKeyDown.mockClear());
 
   it("render", () => expect(popover).toMatchSnapshot());
 
@@ -79,10 +82,21 @@ describe("Popover", () => {
     expect(onMouseLeave).not.toHaveBeenCalled();
   });
 
+  it("calls keyDown", () => {
+    popover.find(".popover").simulate("keyDown", { key: "Escape" });
+    expect(onKeyDown).toHaveBeenCalled();
+  });
+
+  it("calls keyDown (tooltip)", () => {
+    tooltip.find(".tooltip").simulate("keyDown", { key: "Escape" });
+    expect(onKeyDown).toHaveBeenCalled();
+  });
+
   it("mount popover", () => {
     const mountedPopover = mount(
       <Popover
         onMouseLeave={onMouseLeave}
+        onKeyDown={onKeyDown}
         editorRef={editorRef}
         targetPosition={targetPosition}
       >
@@ -97,6 +111,7 @@ describe("Popover", () => {
       <Popover
         type="tooltip"
         onMouseLeave={onMouseLeave}
+        onKeyDown={onKeyDown}
         editorRef={editorRef}
         targetPosition={targetPosition}
       >
@@ -132,6 +147,7 @@ describe("Popover", () => {
       <Popover
         type="tooltip"
         onMouseLeave={onMouseLeave}
+        onKeyDown={onKeyDown}
         editorRef={editor}
         targetPosition={target}
       >
@@ -169,6 +185,7 @@ describe("Popover", () => {
       <Popover
         type="tooltip"
         onMouseLeave={onMouseLeave}
+        onKeyDown={onKeyDown}
         editorRef={editor}
         targetPosition={target}
       >
