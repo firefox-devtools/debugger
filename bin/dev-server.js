@@ -10,7 +10,7 @@ const serve = require("express-static");
 const envConfig = getConfig();
 feature.setConfig(envConfig);
 
-let webpackConfig = require("../webpack.config");
+let {webpackConfig} = require("../webpack.config");
 
 let { app } = toolbox.startDevServer(envConfig, webpackConfig, __dirname);
 

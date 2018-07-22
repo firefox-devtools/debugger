@@ -34,7 +34,6 @@ const VENDORS = [
   "react-transition-group/Transition",
   "reselect",
   "Svg",
-  "url"
 ];
 
 /*
