@@ -11,10 +11,12 @@
 
 import { createSelector } from "reselect";
 import move from "lodash-move";
-import { getPrettySourceURL } from "../utils/source";
+import { getPrettySourceURL, getRawSourceURL } from "../utils/source";
 import { originalToGeneratedId, isOriginalId } from "devtools-source-map";
 import { find } from "lodash";
 import { prefs } from "../utils/prefs";
+
+import { getRelativeSources } from "../selectors";
 
 import type { Source, Location } from "../types";
 import type { PendingSelectedLocation } from "./types";
@@ -418,5 +420,25 @@ export const getSelectedSource = createSelector(
     return sources[selectedLocation.sourceId];
   }
 );
+
+export function getSourceFromPrettySource(
+  state: OuterState,
+  baseSource: Source
+): Source | null {
+  if (!baseSource) {
+    return null;
+  }
+  if (!baseSource.isPrettyPrinted) {
+    return baseSource;
+  }
+
+  const sources = getRelativeSources(state);
+  const id = Object.keys(sources).find(sourceId => {
+    return (
+      getRawSourceURL(sources[sourceId].url) === getRawSourceURL(baseSource.url)
+    );
+  });
+  return id ? sources[id] : null;
+}
 
 export default update;

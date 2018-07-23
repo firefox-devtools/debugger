@@ -12,11 +12,7 @@
 import makeRecord from "../utils/makeRecord";
 import { prefs } from "../utils/prefs";
 
-import { getRelativeSources } from "../selectors";
-
 import type { Source } from "../types";
-
-import { getRawSourceURL } from "../utils/source";
 
 import type { Action, panelPositionType } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
@@ -161,26 +157,6 @@ export function getFrameworkGroupingState(state: OuterState): boolean {
 
 export function getShownSource(state: OuterState): Source {
   return state.ui.get("shownSource");
-}
-
-export function getSourceFromPrettySource(
-  state: OuterState,
-  baseSource: Source
-): Source | null {
-  if (!baseSource) {
-    return null;
-  }
-  if (!baseSource.isPrettyPrinted) {
-    return baseSource;
-  }
-
-  const sources = getRelativeSources(state);
-  const id = Object.keys(sources).find(sourceId => {
-    return (
-      getRawSourceURL(sources[sourceId].url) === getRawSourceURL(baseSource.url)
-    );
-  });
-  return id ? sources[id] : null;
 }
 
 export function getPaneCollapse(
