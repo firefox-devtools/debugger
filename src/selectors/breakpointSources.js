@@ -28,7 +28,7 @@ function getBreakpointsForSource(
       bp =>
         bp.location.sourceId == source.id &&
         !bp.hidden &&
-        (bp.text || bp.condition)
+        (bp.text || bp.originalText || bp.condition)
     )
     .sortBy(bp => bp.location.line)
     .toJS();
@@ -41,7 +41,6 @@ function findBreakpointSources(
   const sourceIds: string[] = uniq(
     breakpoints
       .valueSeq()
-      .filter(bp => !bp.hidden)
       .map(bp => bp.location.sourceId)
       .toJS()
   );
@@ -57,8 +56,10 @@ export const getBreakpointSources = createSelector(
   getBreakpoints,
   getSources,
   (breakpoints: BreakpointsMap, sources: SourcesMap) =>
-    findBreakpointSources(sources, breakpoints).map(source => ({
-      source,
-      breakpoints: getBreakpointsForSource(source, breakpoints)
-    }))
+    findBreakpointSources(sources, breakpoints)
+      .map(source => ({
+        source,
+        breakpoints: getBreakpointsForSource(source, breakpoints)
+      }))
+      .filter(({ breakpoints: bpSources }) => bpSources.length > 0)
 );
