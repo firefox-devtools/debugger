@@ -52,7 +52,9 @@ type Props = {
   sources: SourcesMap,
   sourceCount: number,
   shownSource?: Source,
+  shownSourceForTree?: Source,
   selectedSource?: Source,
+  selectedSourceForTree?: Source,
   debuggeeUrl: string,
   projectRoot: string,
   expanded?: boolean,
@@ -114,7 +116,11 @@ class SourcesTree extends Component<Props, State> {
       );
     }
 
-    if (nextProps.shownSource && nextProps.shownSource != shownSource) {
+    if (
+      nextProps.shownSource &&
+      nextProps.shownSource != shownSource &&
+      nextProps.shownSourceForTree
+    ) {
       const listItems = getDirectories(
         nextProps.shownSourceForTree,
         sourceTree
@@ -124,7 +130,8 @@ class SourcesTree extends Component<Props, State> {
 
     if (
       nextProps.selectedSource &&
-      nextProps.selectedSource != selectedSource
+      nextProps.selectedSource != selectedSource &&
+      nextProps.selectedSourceForTree
     ) {
       const highlightItems = getDirectories(
         nextProps.selectedSourceForTree,
