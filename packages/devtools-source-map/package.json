@@ -16,7 +16,7 @@
   "dependencies": {
     "babel-plugin-transform-async-to-generator": "^6.22.0",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
-    "devtools-utils": "^0.0.12",
+    "devtools-utils": "0.0.14",
     "md5": "^2.2.1",
     "regenerator-runtime": "^0.10.3",
     "source-map": "^0.6.1"
