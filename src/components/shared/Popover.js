@@ -15,6 +15,7 @@ type Props = {
   children: ?React$Element<any>,
   onPopoverCoords: Function,
   onMouseLeave: (e: SyntheticMouseEvent<HTMLDivElement>) => void,
+  onKeyDown: (e: KeyboardEvent) => void,
   type?: "popover" | "tooltip"
 };
 
@@ -47,6 +48,7 @@ class Popover extends Component<Props, State> {
   static defaultProps = {
     onMouseLeave: () => {},
     onPopoverCoords: () => {},
+    onKeyDown: () => {},
     type: "popover"
   };
 
@@ -227,6 +229,7 @@ class Popover extends Component<Props, State> {
 
   renderPopover() {
     const { top, left, orientation, targetMid } = this.state.coords;
+    const { onMouseLeave, onKeyDown } = this.props;
     const arrow = this.getPopoverArrow(orientation, targetMid.x, targetMid.y);
 
     return (
@@ -234,7 +237,8 @@ class Popover extends Component<Props, State> {
         className={classNames("popover", `orientation-${orientation}`, {
           up: orientation === "up"
         })}
-        onMouseLeave={this.props.onMouseLeave}
+        onMouseLeave={onMouseLeave}
+        onKeyDown={onKeyDown}
         style={{ top, left }}
         ref={c => (this.$popover = c)}
       >
@@ -245,13 +249,13 @@ class Popover extends Component<Props, State> {
   }
 
   renderTooltip() {
-    const { onMouseLeave } = this.props;
     const { top, left } = this.state.coords;
-
+    const { onMouseLeave, onKeyDown } = this.props;
     return (
       <div
         className="tooltip"
         onMouseLeave={onMouseLeave}
+        onKeyDown={onKeyDown}
         style={{ top, left }}
         ref={c => (this.$tooltip = c)}
       >
