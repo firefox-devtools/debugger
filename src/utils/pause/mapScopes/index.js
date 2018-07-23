@@ -20,16 +20,19 @@ import {
 
 // eslint-disable-next-line max-len
 import {
-  findGeneratedBindingForImportBinding,
-  findGeneratedBindingForStandardBinding,
-  findGeneratedBindingForNormalDeclaration,
-  findGeneratedBindingForImportDeclaration,
+  findGeneratedReference,
+  findGeneratedImportReference,
+  findGeneratedImportDeclaration,
   type GeneratedDescriptor
 } from "./findGeneratedBindingFromPosition";
 import {
   buildGeneratedBindingList,
   type GeneratedBindingLocation
 } from "./buildGeneratedBindingList";
+import {
+  originalRangeStartsInside,
+  getApplicableBindingsForOriginalPosition
+} from "./getApplicableBindingsForOriginalPosition";
 
 import { log } from "../../log";
 import type {
@@ -345,32 +348,40 @@ async function findGeneratedBinding(
     return null;
   }
 
+  const loadApplicableBindings = async (pos, locationType) => {
+    let applicableBindings = await getApplicableBindingsForOriginalPosition(
+      generatedAstBindings,
+      source,
+      pos,
+      originalBinding.type,
+      locationType,
+      sourceMaps
+    );
+    if (applicableBindings.length > 0) {
+      hadApplicableBindings = true;
+    }
+    if (
+      locationType !== "ref" &&
+      !(await originalRangeStartsInside(source, pos, sourceMaps))
+    ) {
+      applicableBindings = [];
+    }
+    return applicableBindings;
+  };
+
   const { refs } = originalBinding;
 
+  let hadApplicableBindings = false;
   let genContent: GeneratedDescriptor | null = null;
   for (const pos of refs) {
+    const applicableBindings = await loadApplicableBindings(pos, pos.type);
+
     const range = findMatchingRange(originalRanges, pos);
     if (range && hasValidIdent(range, pos)) {
       if (originalBinding.type === "import") {
-        genContent = await findGeneratedBindingForImportBinding(
-          sourceMaps,
-          client,
-          source,
-          pos,
-          name,
-          originalBinding.type,
-          generatedAstBindings
-        );
+        genContent = await findGeneratedImportReference(applicableBindings);
       } else {
-        genContent = await findGeneratedBindingForStandardBinding(
-          sourceMaps,
-          client,
-          source,
-          pos,
-          name,
-          originalBinding.type,
-          generatedAstBindings
-        );
+        genContent = await findGeneratedReference(applicableBindings);
       }
     }
 
@@ -381,15 +392,14 @@ async function findGeneratedBinding(
     ) {
       const declRange = findMatchingRange(originalRanges, pos.declaration);
       if (declRange && declRange.type !== "multiple") {
+        const applicableDeclBindings = await loadApplicableBindings(
+          pos.declaration,
+          pos.type
+        );
+
         // Resolve to first binding in the range
-        const declContent = await findGeneratedBindingForNormalDeclaration(
-          sourceMaps,
-          client,
-          source,
-          pos,
-          name,
-          originalBinding.type,
-          generatedAstBindings
+        const declContent = await findGeneratedReference(
+          applicableDeclBindings
         );
 
         if (declContent) {
@@ -403,8 +413,10 @@ async function findGeneratedBinding(
 
     if (
       !genContent &&
-      (pos.type === "import-decl" || pos.type === "import-ns-decl")
+      pos.type === "import-decl" &&
+      typeof pos.importName === "string"
     ) {
+      const { importName } = pos;
       const declRange = findMatchingRange(originalRanges, pos.declaration);
 
       // The import declaration should have an original position mapping,
@@ -413,15 +425,15 @@ async function findGeneratedBinding(
       // that all of the bindings that match the range are part of the same
       // import declaration.
       if (declRange && declRange.singleDeclaration) {
+        const applicableDeclBindings = await loadApplicableBindings(
+          pos.declaration,
+          pos.type
+        );
+
         // match the import declaration location
-        genContent = await findGeneratedBindingForImportDeclaration(
-          sourceMaps,
-          client,
-          source,
-          pos,
-          name,
-          originalBinding.type,
-          generatedAstBindings
+        genContent = await findGeneratedImportDeclaration(
+          applicableDeclBindings,
+          importName
         );
       }
     }
@@ -461,6 +473,29 @@ async function findGeneratedBinding(
         }
       },
       expression: null
+    };
+  } else if (!hadApplicableBindings) {
+    // If there were no applicable bindings to consider while searching for
+    // matching bindings, then the source map for this file didn't make any
+    // attempt to map the binding, and that most likely means that the
+    // code was entirely emitted from the output code.
+    return {
+      grip: {
+        configurable: false,
+        enumerable: true,
+        writable: false,
+        value: {
+          type: "null",
+          optimizedOut: true
+        }
+      },
+      expression: `
+        (() => {
+          throw new Error('"' + ${JSON.stringify(
+            name
+          )} + '" has been optimized out.');
+        })()
+      `
     };
   }
 
