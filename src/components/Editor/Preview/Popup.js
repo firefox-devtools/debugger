@@ -124,6 +124,12 @@ export class Popup extends Component<Props, State> {
     }
   };
 
+  onKeyDown = (e: KeyboardEvent) => {
+    if (e.key === "Escape") {
+      this.props.onClose();
+    }
+  };
+
   getRoot() {
     const { expression, value, extra } = this.props;
 
@@ -331,6 +337,7 @@ export class Popup extends Component<Props, State> {
       <Popover
         targetPosition={popoverPos}
         onMouseLeave={this.onMouseLeave}
+        onKeyDown={this.onKeyDown}
         type={type}
         onPopoverCoords={this.onPopoverCoords}
         editorRef={editorRef}
