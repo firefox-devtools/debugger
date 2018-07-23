@@ -7,9 +7,9 @@ exports[`Popover mount popover 1`] = `
       "getBoundingClientRect": [Function],
     }
   }
+  onKeyDown={[MockFunction]}
   onMouseLeave={[MockFunction]}
   onPopoverCoords={[Function]}
-  onKeyDown={[MockFunction]}
   targetPosition={
     Object {
       "bottom": 0,
@@ -26,8 +26,8 @@ exports[`Popover mount popover 1`] = `
 >
   <div
     className="popover orientation-right"
-    onMouseLeave={[MockFunction]}
     onKeyDown={[MockFunction]}
+    onMouseLeave={[MockFunction]}
     style={
       Object {
         "left": 510,
@@ -69,9 +69,9 @@ exports[`Popover mount tooltip 1`] = `
       "getBoundingClientRect": [Function],
     }
   }
+  onKeyDown={[MockFunction]}
   onMouseLeave={[MockFunction]}
   onPopoverCoords={[Function]}
-  onKeyDown={[MockFunction]}
   targetPosition={
     Object {
       "bottom": 0,
@@ -88,8 +88,8 @@ exports[`Popover mount tooltip 1`] = `
 >
   <div
     className="tooltip"
-    onMouseLeave={[MockFunction]}
     onKeyDown={[MockFunction]}
+    onMouseLeave={[MockFunction]}
     style={
       Object {
         "left": -8,
@@ -111,8 +111,8 @@ exports[`Popover mount tooltip 1`] = `
 exports[`Popover render (tooltip) 1`] = `
 <div
   className="tooltip"
-  onMouseLeave={[MockFunction]}
   onKeyDown={[MockFunction]}
+  onMouseLeave={[MockFunction]}
   style={
     Object {
       "left": 0,
@@ -137,9 +137,9 @@ exports[`Popover render 1`] = `
       "getBoundingClientRect": [Function],
     }
   }
+  onKeyDown={[MockFunction]}
   onMouseLeave={[MockFunction]}
   onPopoverCoords={[Function]}
-  onKeyDown={[MockFunction]}
   targetPosition={
     Object {
       "bottom": 0,
@@ -156,8 +156,8 @@ exports[`Popover render 1`] = `
 >
   <div
     className="popover orientation-right"
-    onMouseLeave={[MockFunction]}
     onKeyDown={[MockFunction]}
+    onMouseLeave={[MockFunction]}
     style={
       Object {
         "left": 510,

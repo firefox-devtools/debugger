@@ -61,7 +61,10 @@ describe("Popover", () => {
 
   const event = { currentTarget: div };
 
-  beforeEach(() => onMouseLeave.mockClear(), onKeyDown.mockClear());
+  beforeEach(() => {
+    onMouseLeave.mockClear();
+    onKeyDown.mockClear();
+  });
 
   it("render", () => expect(popover).toMatchSnapshot());
 
@@ -83,12 +86,12 @@ describe("Popover", () => {
   });
 
   it("calls keyDown", () => {
-    popover.find(".popover").simulate("keyDown", { key: "Escape" });
+    popover.find(".popover").simulate("keydown", { key: "Escape" });
     expect(onKeyDown).toHaveBeenCalled();
   });
 
   it("calls keyDown (tooltip)", () => {
-    tooltip.find(".tooltip").simulate("keyDown", { key: "Escape" });
+    tooltip.find(".tooltip").simulate("keydown", { key: "Escape" });
     expect(onKeyDown).toHaveBeenCalled();
   });
 
