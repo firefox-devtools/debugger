@@ -985,7 +985,8 @@ exports[`Parser.getSymbols func 1`] = `
 [(32, 2), (34, 3)]  bar()
 [(37, 15), (38, 1)]  root()
 [(40, 0), (42, 1)]  test(a1, , )
-[(44, 0), (48, 1)]  ret2()
+[(44, 0), (44, 13)]  anonymous()
+[(46, 0), (50, 1)]  ret2()
 
 variables:
 [(1, 16), (1, 17)]  n
@@ -1001,7 +1002,7 @@ variables:
 callExpressions:
 [(18, 9), (18, 12)]  foo
 [(23, 1), (25, 1)]
-[(46, 4), (46, 7)]  foo
+[(48, 4), (48, 7)]  foo
 
 memberExpressions:
 [(41, 10), (41, 13)] console.log log
@@ -1049,8 +1050,9 @@ identifiers:
 [(40, 47), (40, 49)] a7 a7
 [(41, 2), (41, 9)] console console
 [(41, 10), (41, 13)] log log
-[(44, 9), (44, 13)] ret2 ret2
-[(46, 4), (46, 7)] foo foo
+[(44, 7), (44, 8)] x x
+[(46, 9), (46, 13)] ret2 ret2
+[(48, 4), (48, 7)] foo foo
 
 classes:
 

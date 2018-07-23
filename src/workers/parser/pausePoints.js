@@ -124,11 +124,7 @@ function onEnter(node: BabelNode, ancestors: SimplePath[], state) {
   }
 
   if (isControlFlow(node)) {
-    if (isForStatement(node)) {
-      addStopPoint(state, startLocation);
-    } else {
-      addEmptyPoint(state, startLocation);
-    }
+    addPoint(state, startLocation, isForStatement(node));
 
     const test = node.test || node.discriminant;
     if (test) {
@@ -144,27 +140,24 @@ function onEnter(node: BabelNode, ancestors: SimplePath[], state) {
   if (isReturn(node)) {
     // We do not want to pause at the return if the
     // argument is a call on the same line e.g. return foo()
-    if (
-      isCall(node.argument) &&
-      getStartLine(node) == getStartLine(node.argument)
-    ) {
-      return addEmptyPoint(state, startLocation);
-    }
 
-    return addStopPoint(state, startLocation);
+    return addPoint(
+      state,
+      startLocation,
+      !isCall(node.argument) ||
+        getStartLine(node) != getStartLine(node.argument)
+    );
   }
 
   if (isAssignment(node)) {
     // step at assignments unless the right side is a call or default assignment
     // e.g. `var a = b()`,  `a = b(c = 2)`, `a = [ b() ]`
     const value = node.right || node.init;
-    const defaultAssignment = t.isFunction(parentNode);
+    const defaultAssignment =
+      t.isFunction(parentNode) && parent.key === "params";
     const includesCall = isCall(value) || hasCall(value);
 
-    return addPoint(state, startLocation, {
-      break: !includesCall && !defaultAssignment,
-      step: !includesCall && !defaultAssignment
-    });
+    return addPoint(state, startLocation, !includesCall && !defaultAssignment);
   }
 
   if (isCall(node)) {
@@ -213,7 +206,15 @@ function hasPoint(state, { line, column }) {
   return state[line] && state[line][column];
 }
 
-function addPoint(state, { line, column }, types) {
+function addPoint(
+  state,
+  { line, column },
+  types: boolean | { break?: boolean, step?: boolean }
+) {
+  if (typeof types === "boolean") {
+    types = { step: types, break: types };
+  }
+
   if (!state[line]) {
     state[line] = {};
   }

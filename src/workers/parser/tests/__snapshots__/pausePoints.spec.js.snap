@@ -127,6 +127,8 @@ const /*bs*/obj = {
   /*bs*/console./*bs*/log(/**/\\"pause next here\\");
 /**/}
 
+/*b*/() => (/*bs*/x = 4/**/);
+
 /*b*/function ret2() /**/{
   /*bs*/return (
     /*bs*/foo()
