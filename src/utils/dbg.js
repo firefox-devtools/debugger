@@ -72,6 +72,9 @@ export function setupHelper(obj: Object) {
     },
     formatters: {
       pausePoints: url => _formatPausePoints(dbg, url)
+    },
+    _telemetry: {
+      events: {}
     }
   };
 

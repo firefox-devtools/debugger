@@ -2,8 +2,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-const { isDevelopment } = require("devtools-environment");
-
 /**
  * Usage:
  *
@@ -61,8 +59,12 @@ export function recordEvent(eventName: string, fields: {} = {}) {
     sessionId = window.parent.frameElement.getAttribute("session_id");
   }
 
-  if (isDevelopment()) {
-    console.info("Recording debugger telemetry event: ", eventName, fields);
+  if (typeof window === "object" && window.dbg) {
+    const events = window.dbg._telemetry.events;
+    if (!events[eventName]) {
+      events[eventName] = [];
+    }
+    events[eventName].push(fields);
   }
 
   /* eslint-disable camelcase */
