@@ -6,6 +6,7 @@ this.x = 3;
 var a = 4;
 var d = [foo()]
 var f = 3, e = 4;
+var g = [], h = {};
 
 // assignments with invalid pause locations
 var b = foo();
