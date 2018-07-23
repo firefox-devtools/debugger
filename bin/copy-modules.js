@@ -21,6 +21,13 @@ feature.setConfig(envConfig);
 
 
 function ignoreFile(file) {
+  // We exclude worker files because they are bundled and we include
+  // worker/index.js files because are required by the debugger app in order
+  // to communicate with the worker.
+  if (file.match(/\/workers/) && !file.match(/index.js/)) {
+    return true;
+  }
+
   return file.match(/(\/fixtures|\/test|vendors\.js|types\.js|types\/)/);
 }
 
