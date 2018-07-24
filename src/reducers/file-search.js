@@ -87,6 +87,15 @@ function update(
       return state.setIn(["modifiers", action.modifier], actionVal);
     }
 
+    case "NAVIGATE": {
+      return state.set("query", "").set("searchResults", {
+        matches: [],
+        matchIndex: -1,
+        index: -1,
+        count: 0
+      });
+    }
+
     default: {
       return state;
     }

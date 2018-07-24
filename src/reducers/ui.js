@@ -125,6 +125,10 @@ function update(
       return state;
     }
 
+    case "NAVIGATE": {
+      return state.set("activeSearch", null).set("highlightedLineRange", {});
+    }
+
     default: {
       return state;
     }
