@@ -49,6 +49,7 @@ import type {
 import type { Source } from "../../types";
 import type { SourcesMap } from "../../reducers/types";
 import type { Item } from "../shared/ManagedTree";
+import type { OuterState } from "../../reducers/sources";
 
 type Props = {
   sources: SourcesMap,
@@ -155,7 +156,7 @@ class SourcesTree extends Component<Props, State> {
   };
 
   selectItem = (item: TreeNode) => {
-    if (item.type == "source") {
+    if (item.type == "source" && !Array.isArray(item.contents)) {
       this.props.selectSource(item.contents.id);
     }
   };
@@ -354,7 +355,7 @@ class SourcesTree extends Component<Props, State> {
   }
 }
 
-function getSourceForTree(state: OuterState, source: ?Source): Source | null {
+function getSourceForTree(state: OuterState, source: ?Source): ?Source | null {
   if (!source || !source.isPrettyPrinted) {
     return source;
   }

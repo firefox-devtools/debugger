@@ -11,12 +11,10 @@
 
 import { createSelector } from "reselect";
 import move from "lodash-move";
-import { getPrettySourceURL, getRawSourceURL } from "../utils/source";
+import { getPrettySourceURL } from "../utils/source";
 import { originalToGeneratedId, isOriginalId } from "devtools-source-map";
 import { find } from "lodash";
 import { prefs } from "../utils/prefs";
-
-import { getRelativeSources } from "../selectors";
 
 import type { Source, Location } from "../types";
 import type { PendingSelectedLocation } from "./types";
@@ -321,7 +319,7 @@ export function getNewSelectedSourceId(
 // top-level app state, so we'd have to "wrap" them to automatically
 // pick off the piece of state we're interested in. It's impossible
 // (right now) to type those wrapped functions.
-type OuterState = { sources: SourcesState };
+export type OuterState = { sources: SourcesState };
 
 const getSourcesState = (state: OuterState) => state.sources;
 
@@ -333,7 +331,7 @@ export function getSourceFromId(state: OuterState, id: string): Source {
   return getSourcesState(state).sources[id];
 }
 
-export function getSourceByURL(state: OuterState, url: string): ?Source {
+export function getSourceByURL(state: OuterState, url: string): ?Source | null {
   return getSourceByUrlInSources(state.sources.sources, url);
 }
 

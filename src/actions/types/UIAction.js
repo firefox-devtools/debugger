@@ -32,7 +32,7 @@ export type UIAction =
     |}
   | {|
       +type: "SHOW_SOURCE",
-      +sourceUrl: Source
+      +source: Source
     |}
   | {|
       +type: "TOGGLE_PANE",
