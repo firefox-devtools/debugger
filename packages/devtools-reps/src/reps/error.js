@@ -144,6 +144,7 @@ function getStacktraceElements(props, preview) {
     }
 
     stack.push(
+      "\t",
       span(
         {
           key: `fn${index}`,
@@ -161,7 +162,8 @@ function getStacktraceElements(props, preview) {
             : undefined
         },
         location
-      )
+      ),
+      "\n"
     );
   });
 
