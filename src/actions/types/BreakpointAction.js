@@ -27,6 +27,15 @@ export type BreakpointAction =
       +breakpoint: Breakpoint,
       +disabled: boolean
     |}>
+  | {|
+      +type: "SET_XHR_BREAKPOINT",
+      +contains: string,
+      +text: string
+    |}
+  | {|
+      +type: "REMOVE_XHR_BREAKPOINT",
+      +contains: string
+    |}
   // for simulating a successful server request
   | {|
       +type: "REMOVE_BREAKPOINT",

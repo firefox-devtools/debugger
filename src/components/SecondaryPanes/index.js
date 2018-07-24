@@ -36,6 +36,7 @@ import Accordion from "../shared/Accordion";
 import CommandBar from "./CommandBar";
 import UtilsBar from "./UtilsBar";
 import FrameworkComponent from "./FrameworkComponent";
+import XHRBreakpoints from "./XHRBreakpoints";
 
 import Scopes from "./Scopes";
 
@@ -67,7 +68,8 @@ function debugBtn(onClick, type, className, tooltip) {
 }
 
 type State = {
-  showExpressionsInput: boolean
+  showExpressionsInput: boolean,
+  showXHRInput: boolean
 };
 
 type Props = {
@@ -94,12 +96,17 @@ class SecondaryPanes extends Component<Props, State> {
     super(props);
 
     this.state = {
-      showExpressionsInput: false
+      showExpressionsInput: false,
+      showXHRInput: false
     };
   }
 
   onExpressionAdded = () => {
     this.setState({ showExpressionsInput: false });
+  };
+
+  onXHRAdded = () => {
+    this.setState({ showXHRInput: false });
   };
 
   renderBreakpointsToggle() {
@@ -179,6 +186,26 @@ class SecondaryPanes extends Component<Props, State> {
     return buttons;
   }
 
+  xhrBreakpointsHeaderButtons() {
+    const buttons = [];
+
+    buttons.push(
+      debugBtn(
+        evt => {
+          if (prefs.expressionsVisible) {
+            evt.stopPropagation();
+          }
+          this.setState({ showXHRInput: true });
+        },
+        "plus",
+        "plus",
+        L10N.getStr("xhrBreakpoints.placeholder")
+      )
+    );
+
+    return buttons;
+  }
+
   getScopeItem(): AccordionPaneItem {
     return {
       header: L10N.getStr("scopes.header"),
@@ -222,6 +249,22 @@ class SecondaryPanes extends Component<Props, State> {
       onToggle: opened => {
         prefs.expressionsVisible = opened;
       }
+    };
+  }
+
+  getXHRItem(): AccordionPaneItem {
+    return {
+      header: L10N.getStr("xhrBreakpoints.header"),
+      className: "xhr-breakpoints-pane",
+      buttons: this.xhrBreakpointsHeaderButtons(),
+      component: (
+        <XHRBreakpoints
+          showInput={this.state.showXHRInput}
+          onXHRAdded={this.onXHRAdded}
+        />
+      ),
+      opened: true,
+      onToggle: () => {}
     };
   }
 
@@ -298,6 +341,10 @@ class SecondaryPanes extends Component<Props, State> {
 
         items.push(this.getScopeItem());
       }
+    }
+
+    if (features.xhrBreakpoints) {
+      items.push(this.getXHRItem());
     }
 
     if (features.eventListeners) {

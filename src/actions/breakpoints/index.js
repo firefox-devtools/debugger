@@ -382,4 +382,28 @@ export function toggleDisabledBreakpoint(line: number, column?: number) {
   };
 }
 
+export function setXHRBreakpoint(contains: string) {
+  return ({ dispatch, getState, client }: ThunkArgs) => {
+    const text = contains.length
+      ? `URL contains "${contains}"`
+      : "Any XHR or fetch";
+    return dispatch({
+      type: "SET_XHR_BREAKPOINT",
+      contains,
+      text
+      // [PROMISE]: client.setXHRBreakpoint(contains)
+    });
+  };
+}
+
+export function removeXHRBreakpoint(contains: string) {
+  return ({ dispatch, getState, client }: ThunkArgs) => {
+    return dispatch({
+      type: "REMOVE_XHR_BREAKPOINT",
+      contains
+      // [PROMISE]: client.removeXHRBreakpoint(contains)
+    });
+  };
+}
+
 export { addBreakpoint, addHiddenBreakpoint, enableBreakpoint, syncBreakpoint };

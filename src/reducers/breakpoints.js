@@ -15,20 +15,23 @@ import makeRecord from "../utils/makeRecord";
 import { isGeneratedId } from "devtools-source-map";
 import { makeLocationId } from "../utils/breakpoint";
 
-import type { Breakpoint, Location } from "../types";
+import type { XHRBreakpoint, Breakpoint, Location } from "../types";
 import type { Action, DonePromiseAction } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 export type BreakpointsMap = I.Map<string, Breakpoint>;
+export type XHRBreakpointsMap = I.Map<string, XHRBreakpoint>;
 
 export type BreakpointsState = {
-  breakpoints: BreakpointsMap
+  breakpoints: BreakpointsMap,
+  xhrBreakpoints: XHRBreakpointsMap
 };
 
 export function initialBreakpointsState(): Record<BreakpointsState> {
   return makeRecord(
     ({
       breakpoints: I.Map(),
+      xhrBreakpoints: I.Map(),
       breakpointsDisabled: false
     }: BreakpointsState)
   )();
@@ -78,9 +81,28 @@ function update(
     case "NAVIGATE": {
       return initialBreakpointsState();
     }
+
+    case "SET_XHR_BREAKPOINT": {
+      return addXHRBreakpoint(state, action);
+    }
+
+    case "REMOVE_XHR_BREAKPOINT": {
+      return removeXHRBreakpoint(state, action);
+    }
   }
 
   return state;
+}
+
+function addXHRBreakpoint(state, action) {
+  const { contains, text } = action;
+
+  return state.setIn(["xhrBreakpoints", contains], text);
+}
+
+function removeXHRBreakpoint(state, action) {
+  const { contains } = action;
+  return state.deleteIn(["xhrBreakpoints", contains]);
 }
 
 function addBreakpoint(state, action) {
@@ -157,6 +179,10 @@ function removeBreakpoint(state, action) {
 // TODO: these functions should be moved out of the reducer
 
 type OuterState = { breakpoints: Record<BreakpointsState> };
+
+export function getXHRBreakpoints(state: OuterState) {
+  return state.breakpoints.xhrBreakpoints;
+}
 
 export function getBreakpoints(state: OuterState) {
   return state.breakpoints.breakpoints;
