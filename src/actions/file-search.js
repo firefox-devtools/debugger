@@ -184,22 +184,11 @@ export function traverseResults(rev: boolean, editor: Editor) {
 
 export function closeFileSearch(editor: Editor) {
   return ({ getState, dispatch }: ThunkArgs) => {
-    if (editor) {
-      let codeMirror;
-      // if editor.appendToLocalElement() has not been called, editor.codeMirror
-      // throws an error.  Check for this error and if it occurs there is no
-      // need to call removeOverlay.
-      try {
-        codeMirror = editor.codeMirror;
-      } catch (err) {
-        codeMirror = null;
-      }
+    const query = getFileSearchQuery(getState());
 
-      if (codeMirror) {
-        const query = getFileSearchQuery(getState());
-        const ctx = { ed: editor, cm: codeMirror };
-        removeOverlay(ctx, query);
-      }
+    if (editor) {
+      const ctx = { ed: editor, cm: editor.codeMirror };
+      removeOverlay(ctx, query);
     }
 
     dispatch(setFileSearchQuery(""));
