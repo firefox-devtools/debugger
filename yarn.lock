@@ -9598,6 +9598,10 @@ rc@^1.1.0, rc@^1.1.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
+react-aria-components@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/react-aria-components/-/react-aria-components-0.0.3.tgz#4512aad28f31670956180faa088bf3a3dfba1f8f"
+
 react-dev-utils@^5.0.0:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-5.0.1.tgz#1f396e161fe44b595db1b186a40067289bf06613"

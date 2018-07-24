@@ -11,9 +11,7 @@ const path = require("path");
 var Visualizer = require("webpack-visualizer-plugin");
 const ObjectRestSpreadPlugin = require("@sucrase/webpack-object-rest-spread-plugin");
 
-function isDevelopment() {
-  return process.env.NODE_ENV !== "production";
-}
+const isProduction = process.env.NODE_ENV === "production";
 
 /*
  * builds a path that's relative to the project path
@@ -43,7 +41,7 @@ const webpackConfig = {
   }
 };
 
-if (!isDevelopment()) {
+if (isProduction) {
   // In the firefox panel, build the vendored dependencies as a bundle instead,
   // the other debugger modules will be transpiled to a format that is
   // compatible with the DevTools Loader.
@@ -52,9 +50,13 @@ if (!isDevelopment()) {
 }
 
 function buildConfig(envConfig) {
-  const extra = {};
+  const extra = {
+    babelIncludes: ["react-aria-components"]
+  };
+
   webpackConfig.plugins = [new ObjectRestSpreadPlugin()];
-  if (isDevelopment()) {
+
+  if (!isProduction) {
     webpackConfig.module = webpackConfig.module || {};
     webpackConfig.module.rules = webpackConfig.module.rules || [];
   } else {

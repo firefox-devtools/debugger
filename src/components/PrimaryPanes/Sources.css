@@ -63,6 +63,7 @@
   flex: 1;
   overflow-x: auto;
   overflow-y: auto;
+  height: 100%;
 }
 
 .sources-list {
@@ -130,7 +131,7 @@
 
 .sources-panel .outline {
   display: flex;
-  flex: 1;
+  height: 100%;
 }
 
 .tree-indent {
@@ -146,6 +147,8 @@
   user-select: none;
   box-sizing: border-box;
   height: 30px;
+  margin: 0;
+  padding: 0;
 }
 
 .source-outline-tabs .tab {
@@ -182,6 +185,10 @@
 .source-outline-tabs .tab.active path,
 .source-outline-tabs .tab:hover path {
   fill: var(--theme-body-color);
+}
+
+.source-outline-panel {
+  flex: 1;
 }
 
 .sources-list .managed-tree .tree .node img.blackBox {
