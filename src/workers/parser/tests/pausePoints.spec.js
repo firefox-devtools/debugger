@@ -19,6 +19,7 @@ cases(
 
     setSource(source);
     const nodes = getPausePoints(source.id);
+    // console.log(formatPausePoints(source.text, nodes));
     expect(formatPausePoints(source.text, nodes)).toMatchSnapshot();
   },
   [

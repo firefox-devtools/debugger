@@ -73,6 +73,10 @@ class SimplePath {
     return node[key];
   }
 
+  get key(): string {
+    return this._ancestor.key;
+  }
+
   set node(replacement: Node): void {
     if (this.type !== "Identifier") {
       throw new Error(
