@@ -96,7 +96,10 @@ export function selectSource(sourceId: string) {
  * @memberof actions/sources
  * @static
  */
-export function selectLocation(location: Location) {
+export function selectLocation(
+  location: Location,
+  { checkPrettyPrint = true }: Object = {}
+) {
   return async ({ dispatch, getState, client }: ThunkArgs) => {
     const currentSource = getSelectedSource(getState());
 
@@ -129,6 +132,7 @@ export function selectLocation(location: Location) {
     }
 
     if (
+      checkPrettyPrint &&
       prefs.autoPrettyPrint &&
       !getPrettySource(getState(), loadedSource.id) &&
       shouldPrettyPrint(loadedSource) &&
@@ -154,46 +158,7 @@ export function selectLocation(location: Location) {
  * @static
  */
 export function selectSpecificLocation(location: Location) {
-  return async ({ dispatch, getState, client }: ThunkArgs) => {
-    const currentSource = getSelectedSource(getState());
-
-    if (!client) {
-      // No connection, do nothing. This happens when the debugger is
-      // shut down too fast and it tries to display a default source.
-      return;
-    }
-
-    const source = getSource(getState(), location.sourceId);
-    if (!source) {
-      // If there is no source we deselect the current selected source
-      return dispatch(clearSelectedLocation());
-    }
-
-    const activeSearch = getActiveSearch(getState());
-    if (activeSearch !== "file") {
-      dispatch(closeActiveSearch());
-    }
-
-    dispatch(addTab(source.url, 0));
-    dispatch(setSelectedLocation(source, location));
-
-    await dispatch(loadSourceText(source));
-    const loadedSource = getSource(getState(), source.id);
-    if (!loadedSource) {
-      return;
-    }
-
-    const sourceId = loadedSource.id;
-
-    dispatch(setSymbols(sourceId));
-    dispatch(setOutOfScopeLocations());
-
-    // If a new source is selected update the file search results
-    const newSource = getSelectedSource(getState());
-    if (currentSource && currentSource !== newSource) {
-      dispatch(updateActiveFileSearch());
-    }
-  };
+  return selectLocation(location, { checkPrettyPrint: false });
 }
 
 /**
