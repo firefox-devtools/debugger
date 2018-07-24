@@ -137,7 +137,7 @@ export function clearWasmStates() {
   wasmStates = (Object.create(null): any);
 }
 
-export function renderWasmText(sourceId: string, { binary }: Object) {
+export function renderWasmText(sourceId: string, { binary }: any) {
   // binary does not survive as Uint8Array, converting from string
   const data = new Uint8Array(binary.length);
   for (let i = 0; i < data.length; i++) {
