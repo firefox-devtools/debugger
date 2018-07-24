@@ -22573,7 +22573,18 @@
       "../../babel-loader/lib/index.js?ignore=src/lib!../../devtools-contextmenu/node_modules/devtools-modules/src/unicode-url.js": 3753,
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/PrimaryPanes/SourcesTreeItem.js": 3754,
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/workers/parser/mapExpression.js": 3755,
-      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/workers/parser/mapBindings.js": 3756
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/workers/parser/mapBindings.js": 3756,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/breakpoints/index.js": 3757,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../react-aria-components/src/tabs/tab-list.js": 3758,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../react-aria-components/src/tabs/tab.js": 3759,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../react-aria-components/src/tabs/tab-panels.js": 3760,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/build-query.js": 3761,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../react-aria-components/src/tabs/index.js": 3762,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../react-aria-components/src/tabs/tab.css": 3763,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../react-aria-components/src/tabs/tab-list.css": 3764,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../react-aria-components/src/tabs/tabs.js": 3765,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../react-aria-components/src/utils/unique-id.js": 3766,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/mapScopes/getApplicableBindingsForOriginalPosition.js": 3767
     },
     "usedIds": {
       "0": 0,
@@ -26332,7 +26343,18 @@
       "3753": 3753,
       "3754": 3754,
       "3755": 3755,
-      "3756": 3756
+      "3756": 3756,
+      "3757": 3757,
+      "3758": 3758,
+      "3759": 3759,
+      "3760": 3760,
+      "3761": 3761,
+      "3762": 3762,
+      "3763": 3763,
+      "3764": 3764,
+      "3765": 3765,
+      "3766": 3766,
+      "3767": 3767
     }
   },
   "chunks": {
@@ -33232,6 +33254,48 @@
       "modules": {
         "byIdentifier": {
           "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/Breakpoints/Breakpoints.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../react-aria-components/src/tabs/tab.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../react-aria-components/src/tabs/tab.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../react-aria-components/src/tabs/tab-list.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../react-aria-components/src/tabs/tab-list.css": 0,
           "../../css-loader/lib/css-base.js": 1
         },
         "usedIds": {
