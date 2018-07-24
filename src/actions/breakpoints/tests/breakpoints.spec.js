@@ -11,8 +11,6 @@ import {
   waitForState
 } from "../../../utils/test-head";
 
-import { setupHelper } from "../../../utils/dbg";
-
 import { generateBreakpoint } from "../../tests/helpers/breakpoints.js";
 
 import {
@@ -21,11 +19,6 @@ import {
 } from "../../tests/helpers/threadClient.js";
 
 describe("breakpoints", () => {
-  beforeEach(() => {
-    // Ensures window.dbg is there to track telemetry
-    setupHelper({ selectors: {} });
-  });
-
   it("should add a breakpoint", async () => {
     const { dispatch, getState } = createStore(simpleMockThreadClient);
     const loc1 = {
