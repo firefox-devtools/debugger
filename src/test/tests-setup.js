@@ -31,6 +31,9 @@ import {
 import { clearDocuments } from "../utils/editor";
 import { clearHistory } from "./utils/history";
 
+import env from "devtools-environment/test-flag";
+env.testing = true;
+
 const rootPath = path.join(__dirname, "../../");
 
 global.DebuggerConfig = getConfig();
