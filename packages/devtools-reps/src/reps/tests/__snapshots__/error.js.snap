@@ -12,6 +12,7 @@ exports[`Error - Eval error renders with expected text for an EvalError 1`] = `
     className="objectBox-stackTrace-grid"
     key="stack"
   >
+    	
     <span
       className="objectBox-stackTrace-fn"
       key="fn0"
@@ -24,6 +25,8 @@ exports[`Error - Eval error renders with expected text for an EvalError 1`] = `
     >
       debugger eval code:10:13
     </span>
+    
+
   </span>
 </span>
 `;
@@ -40,6 +43,7 @@ exports[`Error - Internal error renders with expected text for an InternalError 
     className="objectBox-stackTrace-grid"
     key="stack"
   >
+    	
     <span
       className="objectBox-stackTrace-fn"
       key="fn0"
@@ -52,6 +56,8 @@ exports[`Error - Internal error renders with expected text for an InternalError 
     >
       debugger eval code:11:13
     </span>
+    
+
   </span>
 </span>
 `;
@@ -68,6 +74,7 @@ exports[`Error - Multi line stack error renders with expected text for Error obj
     className="objectBox-stackTrace-grid"
     key="stack"
   >
+    	
     <span
       className="objectBox-stackTrace-fn"
       key="fn0"
@@ -80,6 +87,9 @@ exports[`Error - Multi line stack error renders with expected text for Error obj
     >
       debugger eval code:6:15
     </span>
+    
+
+    	
     <span
       className="objectBox-stackTrace-fn"
       key="fn1"
@@ -92,6 +102,9 @@ exports[`Error - Multi line stack error renders with expected text for Error obj
     >
       debugger eval code:3:3
     </span>
+    
+
+    	
     <span
       className="objectBox-stackTrace-fn"
       key="fn2"
@@ -104,6 +117,8 @@ exports[`Error - Multi line stack error renders with expected text for Error obj
     >
       debugger eval code:8:1
     </span>
+    
+
   </span>
 </span>
 `;
@@ -120,6 +135,7 @@ exports[`Error - Range error renders with expected text for RangeError 1`] = `
     className="objectBox-stackTrace-grid"
     key="stack"
   >
+    	
     <span
       className="objectBox-stackTrace-fn"
       key="fn0"
@@ -132,6 +148,8 @@ exports[`Error - Range error renders with expected text for RangeError 1`] = `
     >
       debugger eval code:12:13
     </span>
+    
+
   </span>
 </span>
 `;
@@ -148,6 +166,7 @@ exports[`Error - Reference error renders with expected text for ReferenceError 1
     className="objectBox-stackTrace-grid"
     key="stack"
   >
+    	
     <span
       className="objectBox-stackTrace-fn"
       key="fn0"
@@ -160,6 +179,8 @@ exports[`Error - Reference error renders with expected text for ReferenceError 1
     >
       debugger eval code:13:13
     </span>
+    
+
   </span>
 </span>
 `;
@@ -176,6 +197,7 @@ exports[`Error - Simple error renders with expected text for simple error 1`] = 
     className="objectBox-stackTrace-grid"
     key="stack"
   >
+    	
     <span
       className="objectBox-stackTrace-fn"
       key="fn0"
@@ -188,6 +210,8 @@ exports[`Error - Simple error renders with expected text for simple error 1`] = 
     >
       debugger eval code:1:13
     </span>
+    
+
   </span>
 </span>
 `;
@@ -204,6 +228,7 @@ exports[`Error - Syntax error renders with expected text for SyntaxError 1`] = `
     className="objectBox-stackTrace-grid"
     key="stack"
   >
+    	
     <span
       className="objectBox-stackTrace-fn"
       key="fn0"
@@ -216,6 +241,8 @@ exports[`Error - Syntax error renders with expected text for SyntaxError 1`] = `
     >
       debugger eval code:14:13
     </span>
+    
+
   </span>
 </span>
 `;
@@ -232,6 +259,7 @@ exports[`Error - Type error renders with expected text for TypeError 1`] = `
     className="objectBox-stackTrace-grid"
     key="stack"
   >
+    	
     <span
       className="objectBox-stackTrace-fn"
       key="fn0"
@@ -244,6 +272,8 @@ exports[`Error - Type error renders with expected text for TypeError 1`] = `
     >
       debugger eval code:15:13
     </span>
+    
+
   </span>
 </span>
 `;
@@ -260,6 +290,7 @@ exports[`Error - URI error renders with expected text for URIError 1`] = `
     className="objectBox-stackTrace-grid"
     key="stack"
   >
+    	
     <span
       className="objectBox-stackTrace-fn"
       key="fn0"
@@ -272,6 +303,8 @@ exports[`Error - URI error renders with expected text for URIError 1`] = `
     >
       debugger eval code:16:13
     </span>
+    
+
   </span>
 </span>
 `;
@@ -297,6 +330,7 @@ exports[`Error - base-loader.js renders as expected without mode 1`] = `
     className="objectBox-stackTrace-grid"
     key="stack"
   >
+    	
     <span
       className="objectBox-stackTrace-fn"
       key="fn0"
@@ -309,6 +343,9 @@ exports[`Error - base-loader.js renders as expected without mode 1`] = `
     >
       resource://devtools/shared/client/debugger-client.js:856:9
     </span>
+    
+
+    	
     <span
       className="objectBox-stackTrace-fn"
       key="fn1"
@@ -321,6 +358,9 @@ exports[`Error - base-loader.js renders as expected without mode 1`] = `
     >
       resource://devtools/shared/transport/transport.js:569:13
     </span>
+    
+
+    	
     <span
       className="objectBox-stackTrace-fn"
       key="fn2"
@@ -333,6 +373,9 @@ exports[`Error - base-loader.js renders as expected without mode 1`] = `
     >
       resource://devtools/shared/ThreadSafeDevToolsUtils.js:109:14
     </span>
+    
+
+    	
     <span
       className="objectBox-stackTrace-fn"
       key="fn3"
@@ -345,6 +388,8 @@ exports[`Error - base-loader.js renders as expected without mode 1`] = `
     >
       resource://devtools/shared/ThreadSafeDevToolsUtils.js:109:14
     </span>
+    
+
   </span>
 </span>
 `;
@@ -361,6 +406,7 @@ exports[`Error - longString stacktrace renders as expected 1`] = `
     className="objectBox-stackTrace-grid"
     key="stack"
   >
+    	
     <span
       className="objectBox-stackTrace-fn"
       key="fn0"
@@ -373,6 +419,9 @@ exports[`Error - longString stacktrace renders as expected 1`] = `
     >
       angular/common/esm5/common.js:2656:27
     </span>
+    
+
+    	
     <span
       className="objectBox-stackTrace-fn"
       key="fn1"
@@ -385,6 +434,9 @@ exports[`Error - longString stacktrace renders as expected 1`] = `
     >
       angular/core/esm5/core.js:12581:9
     </span>
+    
+
+    	
     <span
       className="objectBox-stackTrace-fn"
       key="fn2"
@@ -397,6 +449,9 @@ exports[`Error - longString stacktrace renders as expected 1`] = `
     >
       angular/core/esm5/core.js:14109:20
     </span>
+    
+
+    	
     <span
       className="objectBox-stackTrace-fn"
       key="fn3"
@@ -409,6 +464,9 @@ exports[`Error - longString stacktrace renders as expected 1`] = `
     >
       angular/core/esm5/core.js:14052:16
     </span>
+    
+
+    	
     <span
       className="objectBox-stackTrace-fn"
       key="fn4"
@@ -421,6 +479,9 @@ exports[`Error - longString stacktrace renders as expected 1`] = `
     >
       angular/core/esm5/core.js:14945:55
     </span>
+    
+
+    	
     <span
       className="objectBox-stackTrace-fn"
       key="fn5"
@@ -433,6 +494,9 @@ exports[`Error - longString stacktrace renders as expected 1`] = `
     >
       angular/core/esm5/core.js:14886:13
     </span>
+    
+
+    	
     <span
       className="objectBox-stackTrace-fn"
       key="fn6"
@@ -445,6 +509,9 @@ exports[`Error - longString stacktrace renders as expected 1`] = `
     >
       ng:///AppModule/MetaTableComponent.ngfactory.js:98:5
     </span>
+    
+
+    	
     <span
       className="objectBox-stackTrace-fn"
       key="fn7"
@@ -457,6 +524,9 @@ exports[`Error - longString stacktrace renders as expected 1`] = `
     >
       angular/core/esm5/core.js:14871:12
     </span>
+    
+
+    	
     <span
       className="objectBox-stackTrace-fn"
       key="fn8"
@@ -469,6 +539,9 @@ exports[`Error - longString stacktrace renders as expected 1`] = `
     >
       angular/core/esm5/core.js:14018:5
     </span>
+    
+
+    	
     <span
       className="objectBox-stackTrace-fn"
       key="fn9"
@@ -480,6 +553,15 @@ exports[`Error - longString stacktrace renders as expected 1`] = `
       key="location9"
     >
       angular/core/esm5/core.js:14369:21
+    </span>
+    
+
+    	
+    <span
+      className="objectBox-stackTrace-fn"
+      key="fn10"
+    >
+      node_modules
     </span>
   </span>
 </span>
