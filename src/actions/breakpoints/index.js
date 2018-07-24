@@ -33,6 +33,8 @@ import type { ThunkArgs, Action } from "../types";
 import type { Breakpoint, Location } from "../../types";
 import type { BreakpointsMap } from "../../reducers/types";
 
+import { recordEvent } from "../../utils/telemetry";
+
 type addBreakpointOptions = {
   condition?: string,
   hidden?: boolean
@@ -50,6 +52,8 @@ export function removeBreakpoint(location: Location) {
     if (!bp || bp.loading) {
       return;
     }
+
+    recordEvent("remove_breakpoint");
 
     // If the breakpoint is already disabled, we don't need to communicate
     // with the server. We just need to dispatch an action

@@ -9,6 +9,8 @@
  * @module actions/sources
  */
 
+import { recordEvent } from "../../utils/telemetry";
+
 import { PROMISE } from "../utils/middleware/promise";
 import type { Source } from "../../types";
 import type { ThunkArgs } from "../types";
@@ -16,6 +18,10 @@ import type { ThunkArgs } from "../types";
 export function toggleBlackBox(source: Source) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     const { isBlackBoxed, id } = source;
+
+    if (!isBlackBoxed) {
+      recordEvent("blackbox");
+    }
 
     return dispatch({
       type: "BLACKBOX",

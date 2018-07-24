@@ -10,6 +10,7 @@ import { PROMISE } from "../utils/middleware/promise";
 import { getNextStep } from "../../workers/parser";
 import { addHiddenBreakpoint } from "../breakpoints";
 import { features } from "../../utils/prefs";
+import { recordEvent } from "../../utils/telemetry";
 
 import type { ThunkArgs } from "../types";
 import type { Command } from "../../reducers/types";
@@ -82,6 +83,7 @@ export function stepOut() {
 export function resume() {
   return ({ dispatch, getState }: ThunkArgs) => {
     if (isPaused(getState())) {
+      recordEvent("continue");
       return dispatch(command("resume"));
     }
   };

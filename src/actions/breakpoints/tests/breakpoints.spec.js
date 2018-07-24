@@ -6,7 +6,9 @@ import {
   createStore,
   selectors,
   actions,
-  makeSource
+  makeSource,
+  getTelemetryEvents,
+  waitForState
 } from "../../../utils/test-head";
 
 import {
@@ -22,6 +24,7 @@ describe("breakpoints", () => {
       line: 2,
       sourceUrl: "http://localhost:8000/examples/a"
     };
+
     await dispatch(actions.newSource(makeSource("a")));
     await dispatch(actions.loadSourceText(makeSource("a")));
     await dispatch(actions.addBreakpoint(loc1));
@@ -30,6 +33,7 @@ describe("breakpoints", () => {
     const bp = selectors.getBreakpoint(getState(), loc1);
     expect(bps.size).toBe(1);
     expect(bp.location).toEqual(loc1);
+    expect(getTelemetryEvents("add_breakpoint")).toHaveLength(1);
     expect(selectors.getBreakpointSources(getState())).toMatchSnapshot();
   });
 
