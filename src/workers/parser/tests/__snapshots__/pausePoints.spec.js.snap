@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Parser.pausePoints calls 1`] = `
-"/*bs*/foo(/**/1, /**/'2', /*b*/bar())
+"/*bs*/foo(/**/1, /**/'2', /*bs*/bar())
 
 /*bs*/foo()
   ./*bs*/bar()
@@ -11,10 +11,17 @@ exports[`Parser.pausePoints calls 1`] = `
 
 /*bs*/foo(
   /**/1,
-  /*b*/bar()
+  /*bs*/bar()
 )
 
 var /*bs*/a = 3;
+
+// set a step point at the first call expression in step expressions
+var /**/x = { /**/a: /*bs*/a(), /**/b: /*b*/b(), /**/c: /*b*/c() };
+var /**/b = /**/[ /*bs*/foo() ];
+/**/[ /*bs*/a(), /*b*/b(), /*b*/c() ];
+(/**/1, /*bs*/a(), /*b*/b());
+/*bs*/x(/**/1, /*bs*/a(), /*b*/b());
 "
 `;
 
@@ -45,7 +52,7 @@ else /**/{
 
 var /*bs*/a = 3;
 
-/*bs*/for (const /*bs*/val of [/**/1, /**/2]) /**/{
+/*bs*/for (const /*bs*/val of /**/[/**/1, /**/2]) /**/{
   /*bs*/console./*bs*/log(/**/\\"pause again\\", /**/val);
 }
 
@@ -100,16 +107,16 @@ exports[`Parser.pausePoints func 1`] = `
 /*bs*/child = /*b*/function() /**/{/**/};
 
 /*bs*/(/*b*/function() /**/{
-  /*bs*/2;
+  2;
 /**/})();
 
 const /*bs*/obj = {
   /**/foo: /*b*/function name() /**/{
-    /*bs*/2 + 2;
+    2 + 2;
   /**/},
 
   /*b*/bar() /**/{
-    /*bs*/2 + 2;
+    2 + 2;
   /**/}
 };
 
@@ -119,6 +126,8 @@ const /*bs*/obj = {
 /*b*/function test(a1, /**/a2 = 45, /**/{ /**/a3, /**/a4, /**/a5: /*bs*/{ /**/a6: /**/a7 } = {} } = {}) /**/{
   /*bs*/console./*bs*/log(/**/\\"pause next here\\");
 /**/}
+
+/*b*/() => (/*bs*/x = 4/**/);
 
 /*b*/function ret2() /**/{
   /*bs*/return (
@@ -153,7 +162,7 @@ exports[`Parser.pausePoints html 1`] = `
 		const /*bs*/capitalize = /*b*/name => /**/{
 			/*bs*/return /*bs*/name[0]./*bs*/toUpperCase() + /*bs*/name./*bs*/substring(/**/1)
 		/**/};
-		const /**/greetAll = /*bs*/[/**/\\"my friend\\", /**/\\"buddy\\", /**/\\"world\\"]
+		const /**/greetAll = /**/[/**/\\"my friend\\", /**/\\"buddy\\", /**/\\"world\\"]
 			./*bs*/map(/**/capitalize)
 			./*bs*/map(/**/sayHello)
 			./*bs*/join(/**/\\"\\\\n\\");
@@ -204,36 +213,37 @@ exports[`Parser.pausePoints statements 1`] = `
 // assignments with valid pause locations
 /*bs*/this.x = 3;
 var /*bs*/a = 4;
-var /*bs*/d = [/*b*/foo()]
+var /**/d = /**/[/*bs*/foo()]
 var /*bs*/f = 3, /*bs*/e = 4;
+var /*bs*/g = /**/[], /*bs*/h = {};
 
 // assignments with invalid pause locations
 var /**/b = /*bs*/foo();
 /**/c = /*bs*/foo();
 
 
-const /*bs*/arr = [
+const /**/arr = /**/[
   /**/'1',
   /**/2,
-  /*b*/foo()
+  /*bs*/foo()
 ]
 
-const /*bs*/obj = {
+const /**/obj = {
   /**/a: /**/'1',
   /**/b: /**/2,
-  /**/c: /*b*/foo(),
+  /**/c: /*bs*/foo(),
 }
 
 /*bs*/foo(
   /**/1,
-  /*b*/foo(
+  /*bs*/foo(
     /**/1
   ),
   /**/3
 )
 
 /*bs*/throw new Error(\\"3\\");
-/*bs*/3;
+3;
 
 /**/while (/*bs*/i < 6) /**/{ /*bs*/break }
 /**/while (/*bs*/i < 6) /**/{ /*bs*/continue;}

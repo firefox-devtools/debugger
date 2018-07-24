@@ -36,7 +36,8 @@ const inStepExpression = parent =>
   t.isArrayExpression(parent) ||
   t.isObjectProperty(parent) ||
   t.isCallExpression(parent) ||
-  t.isJSXElement(parent);
+  t.isJSXElement(parent) ||
+  t.isSequenceExpression(parent);
 
 const inExpression = (parent, grandParent) =>
   inStepExpression(parent) ||
@@ -50,6 +51,52 @@ function getStartLine(node) {
   return node.loc.start.line;
 }
 
+// Finds the first call item in a step expression so that we can step
+// to the beginning of the list and either step in or over. e.g. [], x(), { }
+function isFirstCall(node, parentNode, grandParentNode) {
+  let children = [];
+  if (t.isArrayExpression(parentNode)) {
+    children = parentNode.elements;
+  }
+
+  if (t.isObjectProperty(parentNode)) {
+    children = grandParentNode.properties.map(({ value }) => value);
+  }
+
+  if (t.isSequenceExpression(parentNode)) {
+    children = parentNode.expressions;
+  }
+
+  if (t.isCallExpression(parentNode)) {
+    children = parentNode.arguments;
+  }
+
+  return children.find(child => isCall(child)) === node;
+}
+
+// Check to see if the node is a step expression and if any of its children
+// expressions include calls. e.g. [ a() ], { a: a() }
+function hasCall(node) {
+  let children = [];
+  if (t.isArrayExpression(node)) {
+    children = node.elements;
+  }
+
+  if (t.isObjectExpression(node)) {
+    children = node.properties.map(({ value }) => value);
+  }
+
+  if (t.isSequenceExpression(node)) {
+    children = node.expressions;
+  }
+
+  if (t.isCallExpression(node)) {
+    children = node.arguments;
+  }
+
+  return children.find(child => isCall(child));
+}
+
 export function getPausePoints(sourceId: string) {
   const state = {};
   traverseAst(sourceId, { enter: onEnter }, state);
@@ -61,6 +108,7 @@ function onEnter(node: BabelNode, ancestors: SimplePath[], state) {
   const parent = ancestors[ancestors.length - 1];
   const parentNode = parent && parent.node;
   const grandParent = ancestors[ancestors.length - 2];
+  const grandParentNode = grandParent && grandParent.node;
   const startLocation = node.loc.start;
 
   if (
@@ -69,7 +117,6 @@ function onEnter(node: BabelNode, ancestors: SimplePath[], state) {
     isExport(node) ||
     t.isDebuggerStatement(node) ||
     t.isThrowStatement(node) ||
-    t.isExpressionStatement(node) ||
     t.isBreakStatement(node) ||
     t.isContinueStatement(node)
   ) {
@@ -77,11 +124,7 @@ function onEnter(node: BabelNode, ancestors: SimplePath[], state) {
   }
 
   if (isControlFlow(node)) {
-    if (isForStatement(node)) {
-      addStopPoint(state, startLocation);
-    } else {
-      addEmptyPoint(state, startLocation);
-    }
+    addPoint(state, startLocation, isForStatement(node));
 
     const test = node.test || node.discriminant;
     if (test) {
@@ -90,31 +133,31 @@ function onEnter(node: BabelNode, ancestors: SimplePath[], state) {
     return;
   }
 
-  if (t.isBlockStatement(node)) {
+  if (t.isBlockStatement(node) || t.isArrayExpression(node)) {
     return addEmptyPoint(state, startLocation);
   }
 
   if (isReturn(node)) {
     // We do not want to pause at the return if the
     // argument is a call on the same line e.g. return foo()
-    if (
-      isCall(node.argument) &&
-      getStartLine(node) == getStartLine(node.argument)
-    ) {
-      return addEmptyPoint(state, startLocation);
-    }
 
-    return addStopPoint(state, startLocation);
+    return addPoint(
+      state,
+      startLocation,
+      !isCall(node.argument) ||
+        getStartLine(node) != getStartLine(node.argument)
+    );
   }
 
   if (isAssignment(node)) {
-    // We only want to pause at literal assignments `var a = foo()`
+    // step at assignments unless the right side is a call or default assignment
+    // e.g. `var a = b()`,  `a = b(c = 2)`, `a = [ b() ]`
     const value = node.right || node.init;
+    const defaultAssignment =
+      t.isFunction(parentNode) && parent.key === "params";
+    const includesCall = isCall(value) || hasCall(value);
 
-    if (isCall(value) || t.isFunction(parentNode)) {
-      return addEmptyPoint(state, startLocation);
-    }
-    return addStopPoint(state, startLocation);
+    return addPoint(state, startLocation, !includesCall && !defaultAssignment);
   }
 
   if (isCall(node)) {
@@ -126,13 +169,17 @@ function onEnter(node: BabelNode, ancestors: SimplePath[], state) {
       location = node.callee.property.loc.start;
     }
 
-    // NOTE: we do not want to land inside an expression e.g. [], {}, call
-    const step = !inExpression(parent.node, grandParent && grandParent.node);
+    // NOTE: We want to skip all nested calls in expressions except for the
+    // first call in arrays and objects expression e.g. [], {}, call
+    const step =
+      isFirstCall(node, parentNode, grandParentNode) ||
+      !inExpression(parentNode, grandParentNode);
 
     // NOTE: we add a point at the beginning of the expression
     // and each of the calls because the engine does not support
     // column-based member expression calls.
     addPoint(state, startLocation, { break: true, step });
+
     if (location && !isEqual(location, startLocation)) {
       addPoint(state, location, { break: true, step });
     }
@@ -159,7 +206,15 @@ function hasPoint(state, { line, column }) {
   return state[line] && state[line][column];
 }
 
-function addPoint(state, { line, column }, types) {
+function addPoint(
+  state,
+  { line, column },
+  types: boolean | { break?: boolean, step?: boolean }
+) {
+  if (typeof types === "boolean") {
+    types = { step: types, break: types };
+  }
+
   if (!state[line]) {
     state[line] = {};
   }
