@@ -111,6 +111,7 @@ export function searchContents(query: string, editor: Object) {
     const text = isWasm(sourceId)
       ? renderWasmText(sourceId, selectedSource.text).join("\n")
       : selectedSource.text;
+
     const matches = await getMatches(query, text, _modifiers);
 
     const res = find(ctx, query, true, _modifiers);
