@@ -319,7 +319,7 @@ export function getNewSelectedSourceId(
 // top-level app state, so we'd have to "wrap" them to automatically
 // pick off the piece of state we're interested in. It's impossible
 // (right now) to type those wrapped functions.
-export type OuterState = { sources: SourcesState };
+type OuterState = { sources: SourcesState };
 
 const getSourcesState = (state: OuterState) => state.sources;
 
@@ -331,7 +331,7 @@ export function getSourceFromId(state: OuterState, id: string): Source {
   return getSourcesState(state).sources[id];
 }
 
-export function getSourceByURL(state: OuterState, url: string): ?Source | null {
+export function getSourceByURL(state: OuterState, url: string): ?Source {
   return getSourceByUrlInSources(state.sources.sources, url);
 }
 

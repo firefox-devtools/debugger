@@ -55,7 +55,8 @@ class ManagedTree extends Component<Props, State> {
 
     if (
       nextProps.highlightItems &&
-      nextProps.highlightItems != highlightItems
+      nextProps.highlightItems != highlightItems &&
+      nextProps.highlightItems.length
     ) {
       this.highlightItem(nextProps.highlightItems);
     }

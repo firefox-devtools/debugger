@@ -47,17 +47,14 @@ import type {
   ParentMap
 } from "../../utils/sources-tree/types";
 import type { Source } from "../../types";
-import type { SourcesMap } from "../../reducers/types";
+import type { SourcesMap, State as SourcesState } from "../../reducers/types";
 import type { Item } from "../shared/ManagedTree";
-import type { OuterState } from "../../reducers/sources";
 
 type Props = {
   sources: SourcesMap,
   sourceCount: number,
   shownSource?: Source,
-  shownSourceForTree?: Source,
   selectedSource?: Source,
-  selectedSourceForTree?: Source,
   debuggeeUrl: string,
   projectRoot: string,
   expanded?: boolean,
@@ -355,7 +352,10 @@ class SourcesTree extends Component<Props, State> {
   }
 }
 
-function getSourceForTree(state: OuterState, source: ?Source): ?Source | null {
+function getSourceForTree(
+  state: SourcesState,
+  source: ?Source
+): ?Source | null {
   if (!source || !source.isPrettyPrinted) {
     return source;
   }
