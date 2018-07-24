@@ -61,7 +61,7 @@ class Popover extends Component<Props, State> {
       this.setState({ coords });
     }
 
-    this.props.onPopoverCoords(this.state.coords);
+    this.props.onPopoverCoords(coords);
   }
 
   calculateLeft(
