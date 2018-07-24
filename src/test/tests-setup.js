@@ -9,6 +9,7 @@ import getConfig from "../../bin/getConfig";
 import { readFileSync } from "fs";
 import Enzyme from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
+import { setupHelper } from "../utils/dbg";
 
 import { startSourceMapWorker, stopSourceMapWorker } from "devtools-source-map";
 
@@ -29,6 +30,9 @@ import {
 } from "../workers/search";
 import { clearDocuments } from "../utils/editor";
 import { clearHistory } from "./utils/history";
+
+import env from "devtools-environment/test-flag";
+env.testing = true;
 
 const rootPath = path.join(__dirname, "../../");
 
@@ -73,4 +77,7 @@ beforeEach(() => {
   clearSymbols();
   clearHistory();
   clearDocuments();
+
+  // Ensures window.dbg is there to track telemetry
+  setupHelper({ selectors: {} });
 });

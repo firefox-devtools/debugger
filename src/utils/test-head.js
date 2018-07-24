@@ -119,12 +119,17 @@ function waitForState(store: any, predicate: any): Promise<void> {
   });
 }
 
+function getTelemetryEvents(eventName: string) {
+  return window.dbg._telemetry.events[eventName] || [];
+}
+
 export {
   actions,
   selectors,
   reducers,
   createStore,
   commonLog,
+  getTelemetryEvents,
   makeFrame,
   makeSource,
   makeOriginalSource,

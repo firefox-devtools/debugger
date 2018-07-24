@@ -5,6 +5,7 @@
 // @flow
 
 import assert from "../../utils/assert";
+import { recordEvent } from "../../utils/telemetry";
 import { remapBreakpoints } from "../breakpoints";
 
 import { setPausePoints, setSymbols } from "../ast";
@@ -77,6 +78,10 @@ export function togglePrettyPrint(sourceId: string) {
     const source = getSource(getState(), sourceId);
     if (!source) {
       return {};
+    }
+
+    if (!source.isPrettyPrinted) {
+      recordEvent("pretty_print");
     }
 
     if (!isLoaded(source)) {

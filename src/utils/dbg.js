@@ -6,7 +6,7 @@
 
 import * as timings from "./timings";
 import { prefs, features } from "./prefs";
-import { isDevelopment } from "devtools-environment";
+import { isDevelopment, isTesting } from "devtools-environment";
 import { formatPausePoints } from "./pause/pausePoints";
 
 function findSource(dbg: any, url: string) {
@@ -72,12 +72,15 @@ export function setupHelper(obj: Object) {
     },
     formatters: {
       pausePoints: url => _formatPausePoints(dbg, url)
+    },
+    _telemetry: {
+      events: {}
     }
   };
 
   window.dbg = dbg;
 
-  if (isDevelopment()) {
+  if (isDevelopment() && !isTesting()) {
     console.group("Development Notes");
     const baseUrl = "https://devtools-html.github.io/debugger.html";
     const localDevelopmentUrl = `${baseUrl}/docs/dbg.html`;

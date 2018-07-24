@@ -59,6 +59,14 @@ export function recordEvent(eventName: string, fields: {} = {}) {
     sessionId = window.parent.frameElement.getAttribute("session_id");
   }
 
+  if (typeof window === "object" && window.dbg) {
+    const events = window.dbg._telemetry.events;
+    if (!events[eventName]) {
+      events[eventName] = [];
+    }
+    events[eventName].push(fields);
+  }
+
   /* eslint-disable camelcase */
   telemetry.recordEvent("devtools.main", eventName, "debugger", null, {
     session_id: sessionId,
