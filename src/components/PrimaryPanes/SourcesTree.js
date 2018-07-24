@@ -17,9 +17,10 @@ import {
   getExpandedState,
   getProjectDirectoryRoot,
   getRelativeSources,
-  getSourceFromPrettySource,
   getSourceCount
 } from "../../selectors";
+
+import { getSourceByURL } from "../../reducers/sources";
 
 // Actions
 import actions from "../../actions";
@@ -38,6 +39,7 @@ import {
   nodeHasChildren,
   updateTree
 } from "../../utils/sources-tree";
+import { getRawSourceURL } from "../../utils/source";
 
 import type {
   TreeNode,
@@ -116,25 +118,17 @@ class SourcesTree extends Component<Props, State> {
       );
     }
 
-    if (
-      nextProps.shownSource &&
-      nextProps.shownSource != shownSource &&
-      nextProps.shownSourceForTree
-    ) {
-      const listItems = getDirectories(
-        nextProps.shownSourceForTree,
-        sourceTree
-      );
+    if (nextProps.shownSource && nextProps.shownSource != shownSource) {
+      const listItems = getDirectories(nextProps.shownSource, sourceTree);
       return this.setState({ listItems });
     }
 
     if (
       nextProps.selectedSource &&
-      nextProps.selectedSource != selectedSource &&
-      nextProps.selectedSourceForTree
+      nextProps.selectedSource != selectedSource
     ) {
       const highlightItems = getDirectories(
-        nextProps.selectedSourceForTree,
+        nextProps.selectedSource,
         sourceTree
       );
       this.setState({ highlightItems });
@@ -360,15 +354,21 @@ class SourcesTree extends Component<Props, State> {
   }
 }
 
+function getSourceForTree(state: OuterState, source: ?Source): Source | null {
+  if (!source || !source.isPrettyPrinted) {
+    return source;
+  }
+
+  return getSourceByURL(state, getRawSourceURL(source.url));
+}
+
 const mapStateToProps = state => {
   const selectedSource = getSelectedSource(state);
   const shownSource = getShownSource(state);
 
   return {
-    shownSource,
-    shownSourceForTree: getSourceFromPrettySource(state, shownSource),
-    selectedSource,
-    selectedSourceForTree: getSourceFromPrettySource(state, selectedSource),
+    shownSource: getSourceForTree(state, shownSource),
+    selectedSource: getSourceForTree(state, selectedSource),
     debuggeeUrl: getDebuggeeUrl(state),
     expanded: getExpandedState(state),
     projectRoot: getProjectDirectoryRoot(state),

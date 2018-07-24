@@ -421,24 +421,4 @@ export const getSelectedSource = createSelector(
   }
 );
 
-export function getSourceFromPrettySource(
-  state: OuterState,
-  baseSource: Source
-): Source | null {
-  if (!baseSource) {
-    return null;
-  }
-  if (!baseSource.isPrettyPrinted) {
-    return baseSource;
-  }
-
-  const sources = getRelativeSources(state);
-  const id = Object.keys(sources).find(sourceId => {
-    return (
-      getRawSourceURL(sources[sourceId].url) === getRawSourceURL(baseSource.url)
-    );
-  });
-  return id ? sources[id] : null;
-}
-
 export default update;
