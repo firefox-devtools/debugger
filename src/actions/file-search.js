@@ -91,7 +91,7 @@ export function updateSearchResults(
 }
 
 export function clearSearchResults() {
-  return updateSearchResults(-1, -1, []);
+  return { type: "CLEAR_FILE_SEARCH_RESULTS" };
 }
 
 export function searchContents(query: string, editor: Object) {

@@ -69,6 +69,15 @@ function update(
       return state.set("searchResults", action.results);
     }
 
+    case "CLEAR_FILE_SEARCH_RESULTS": {
+      return state.set("searchResults", {
+        matches: [],
+        matchIndex: -1,
+        index: -1,
+        count: 0
+      });
+    }
+
     case "TOGGLE_FILE_SEARCH_MODIFIER": {
       const actionVal = !state.modifiers[action.modifier];
 
