@@ -12,15 +12,17 @@ const TARGET_NAME = "webpack3";
 module.exports = exports = async function(tests, dirname) {
   const fixtures = [];
   for (const [name, input] of tests) {
-    if (/babel-|rollup-/.test(name)) {
+    if (/babel-/.test(name)) {
       continue;
     }
 
     const testFnName = _.camelCase(`${TARGET_NAME}-${name}`);
     const evalMaps = name.match(/-eval/);
 
+    console.log(`Building ${TARGET_NAME} test ${name}`);
+
     const scriptPath = path.join(dirname, "output", TARGET_NAME, `${name}.js`);
-    await runWebpack({
+    await util.promisify(webpack)({
       context: path.dirname(input),
       entry: `./${path.basename(input)}`,
       output: {
@@ -61,11 +63,3 @@ module.exports = exports = async function(tests, dirname) {
     fixtures
   };
 };
-
-exports.runWebpack = runWebpack;
-
-async function runWebpack(config) {
-  const result = await util.promisify(webpack)(config);
-
-  console.log(result.toString());
-}

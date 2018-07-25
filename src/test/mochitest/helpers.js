@@ -744,10 +744,15 @@ async function loadAndAddBreakpoint(dbg, filename, line, column) {
   await addBreakpoint(dbg, source, line);
 
   is(getBreakpoints(getState()).size, 1, "One breakpoint exists");
-  ok(
-    getBreakpoint(getState(), { sourceId: source.id, line, column }),
-    `Breakpoint has correct line ${line}, column ${column}`
-  );
+  if (!getBreakpoint(getState(), { sourceId: source.id, line, column })) {
+    const breakpoints = getBreakpoints(getState()).toJS();
+    const id = Object.keys(breakpoints).pop();
+    const loc = breakpoints[id].location;
+    ok(
+      false,
+      `Breakpoint has correct line ${line}, column ${column}, but was line ${loc.line} column ${loc.column}`
+    );
+  }
 
   return source;
 }

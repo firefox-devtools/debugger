@@ -5,19 +5,22 @@
 const path = require("path");
 const _ = require("lodash");
 const rollup = require("rollup");
+const rollupTypescript = require("rollup-plugin-typescript2");
 
 const TARGET_NAME = "rollup";
 
 module.exports = exports = async function(tests, dirname) {
   const fixtures = [];
   for (const [name, input] of tests) {
-    if (!/rollup-/.test(name) || /babel-/.test(name)) {
+    if (/babel-|-cjs/.test(name)) {
       continue;
     }
 
     const testFnName = _.camelCase(`${TARGET_NAME}-${name}`);
 
     const scriptPath = path.join(dirname, "output", TARGET_NAME, `${name}.js`);
+
+    console.log(`Building ${TARGET_NAME} test ${name}`);
 
     const bundle = await rollup.rollup({
       input: "fake-bundle-root",
@@ -38,7 +41,13 @@ module.exports = exports = async function(tests, dirname) {
               source.replace(/^fixtures[\\/]/, `${TARGET_NAME}://./`)
             );
           }
-        }
+        },
+        rollupTypescript({
+          check: false,
+          tsconfigDefaults: {
+            target: "es6",
+          },
+        }),
       ].filter(Boolean)
     });
 
@@ -51,8 +60,6 @@ module.exports = exports = async function(tests, dirname) {
       sourcemap: true,
       exports: "default"
     });
-
-    console.log(`Build ${name}`);
 
     fixtures.push({
       name,
