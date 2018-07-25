@@ -114,7 +114,7 @@ export type FileTextSearchAction =
       }
     |}
   | {|
-       +type: "CLEAR_FILE_SEARCH_RESULTS"
+      +type: "CLEAR_FILE_SEARCH_RESULTS"
     |};
 
 export type QuickOpenAction =
