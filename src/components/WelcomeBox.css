@@ -70,12 +70,19 @@
 }
 
 .shortcutFunction {
-  flex: 1;
+  margin: 0 auto;
   color: var(--theme-comment);
+  display: table;
 }
 
 .shortcutFunction p {
-  display: flex;
+  display: table-row;
+}
+
+.shortcutFunction .shortcutKey,
+.shortcutFunction .shortcutLabel {
+  padding: 10px 5px;
+  display: table-cell;
 }
 
 html .welcomebox .toggle-button-end.collapsed {
