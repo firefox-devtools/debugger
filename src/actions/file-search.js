@@ -90,10 +90,6 @@ export function updateSearchResults(
   };
 }
 
-export function clearSearchResults() {
-  return { type: "CLEAR_FILE_SEARCH_RESULTS" };
-}
-
 export function searchContents(query: string, editor: Object) {
   return async ({ getState, dispatch }: ThunkArgs) => {
     const modifiers = getFileSearchModifiers(getState());
@@ -194,6 +190,5 @@ export function closeFileSearch(editor: Editor) {
     dispatch(setFileSearchQuery(""));
     dispatch(closeActiveSearch());
     dispatch(clearHighlightLineRange());
-    dispatch(clearSearchResults());
   };
 }
