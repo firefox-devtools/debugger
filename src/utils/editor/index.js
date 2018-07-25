@@ -9,8 +9,8 @@ export * from "./get-token-location";
 export * from "./source-search";
 export * from "../ui";
 export { onMouseOver } from "./token-events";
-import { createEditor } from "./create-editor";
 
+import { createEditor } from "./create-editor";
 import { shouldPrettyPrint } from "../source";
 import { findNext, findPrev } from "./source-search";
 

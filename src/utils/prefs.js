@@ -53,8 +53,8 @@ if (isDevelopment()) {
   pref("devtools.debugger.features.column-breakpoints", true);
   pref("devtools.debugger.features.replay", true);
   pref("devtools.debugger.features.pause-points", true);
-  pref("devtools.debugger.features.component-pane", false);
   pref("devtools.debugger.features.skip-pausing", true);
+  pref("devtools.debugger.features.component-pane", false);
   pref("devtools.debugger.features.autocomplete-expressions", false);
   pref("devtools.debugger.features.map-expression-bindings", true);
 }
@@ -103,10 +103,10 @@ export const features = new PrefsHelper("devtools.debugger.features", {
   codeFolding: ["Bool", "code-folding"],
   replay: ["Bool", "replay"],
   pausePoints: ["Bool", "pause-points"],
-  componentPane: ["Bool", "component-pane"],
   skipPausing: ["Bool", "skip-pausing"],
   autocompleteExpression: ["Bool", "autocomplete-expressions"],
-  mapExpressionBindings: ["Bool", "map-expression-bindings"]
+  mapExpressionBindings: ["Bool", "map-expression-bindings"],
+  componentPane: ["Bool", "component-pane"]
 });
 
 if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {
