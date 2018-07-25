@@ -12,15 +12,6 @@ describe("pauseOnExceptions", () => {
   it("should track telemetry for pauseOnException changes", async () => {
     const { dispatch } = createStore({ pauseOnExceptions: () => {} });
     dispatch(actions.pauseOnExceptions(true, false));
-
-    const pauseTelemetry = getTelemetryEvents("pause_on_exceptions");
-
-    expect(pauseTelemetry).toHaveLength(1);
-    /* eslint-disable camelcase */
-    expect(pauseTelemetry[0]).toEqual({
-      exceptions: true,
-      caught_exceptio: false
-    });
-    /* eslint-enable camelcase */
+    expect(getTelemetryEvents("pause_on_exceptions")).toMatchSnapshot();
   });
 });
