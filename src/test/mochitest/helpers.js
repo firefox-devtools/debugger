@@ -1045,6 +1045,7 @@ const selectors = {
   resume: ".resume.active",
   pause: ".pause.active",
   sourceTabs: ".source-tabs",
+  activeTab: ".source-tab.active",
   stepOver: ".stepOver.active",
   stepOut: ".stepOut.active",
   stepIn: ".stepIn.active",
