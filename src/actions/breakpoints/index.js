@@ -320,11 +320,7 @@ export function toggleBreakpointsAtLine(line: number, column?: number) {
     const bps = getBreakpointsAtLine(state, line);
     const isEmptyLine = isEmptyLineInSource(state, line, selectedSource.id);
 
-    if (isEmptyLine) {
-      return;
-    }
-
-    if (bps.size === 0) {
+    if (bps.size === 0 && !isEmptyLine) {
       return dispatch(
         addBreakpoint({
           sourceId: selectedSource.id,
