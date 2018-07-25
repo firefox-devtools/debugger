@@ -6,11 +6,8 @@ import {
   createStore,
   selectors,
   actions,
-  makeSource,
-  waitForState
+  makeSource
 } from "../../../utils/test-head";
-
-import { generateBreakpoint } from "../../tests/helpers/breakpoints.js";
 
 import {
   simulateCorrectThreadClient,
