@@ -1,11 +1,12 @@
 async function evalInConsoleAtPoint(
   dbg,
+  target,
   fixture,
   { line, column },
   statements
 ) {
-  const filename = `fixtures/${fixture}/input.js`;
-  const fnName = fixture.replace(/-([a-z])/g, (s, c) => c.toUpperCase());
+  const filename = `${target}://./${fixture}/input.`;
+  const fnName = (target + "-" + fixture).replace(/-([a-z])/g, (s, c) => c.toUpperCase());
 
   await invokeWithBreakpoint(
     dbg,
@@ -41,7 +42,7 @@ add_task(async function() {
 
   const dbg = await initDebugger("doc-sourcemapped.html");
 
-  await evalInConsoleAtPoint(dbg, "babel-eval-maps", { line: 14, column: 4 }, [
+  await evalInConsoleAtPoint(dbg, "webpack3-babel6", "babel-eval-maps", { line: 14, column: 4 }, [
     "one === 1",
     "two === 4",
     "three === 5"
@@ -49,6 +50,7 @@ add_task(async function() {
 
   await evalInConsoleAtPoint(
     dbg,
+    "webpack3-babel6",
     "babel-modules-cjs",
     { line: 20, column: 2 },
     [
@@ -66,6 +68,7 @@ add_task(async function() {
 
   await evalInConsoleAtPoint(
     dbg,
+    "webpack3-babel6",
     "babel-shadowed-vars",
     { line: 18, column: 6 },
     [`aVar === "var3"`, `aLet === "let3"`, `aConst === "const3"`]
