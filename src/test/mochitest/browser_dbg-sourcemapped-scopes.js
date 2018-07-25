@@ -7,7 +7,7 @@ requestLongerTimeout(6);
 // Tests loading sourcemapped sources for Babel's compile output.
 
 async function breakpointScopes(dbg, fixture, { line, column }, scopes) {
-  const filename = `fixtures/${fixture}/input.`;
+  const filename = `fixtures://./${fixture}/input.`;
   const fnName = fixture.replace(/-([a-z])/g, (s, c) => c.toUpperCase());
 
   await invokeWithBreakpoint(
