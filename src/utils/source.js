@@ -53,24 +53,14 @@ function trimUrlQuery(url: string): string {
 }
 
 export function shouldPrettyPrint(source: Source) {
-  if (!source) {
-    return false;
-  }
-  const _isPretty = isPretty(source);
-  const _isJavaScript = isJavaScript(source);
-  const isOriginal = isOriginalId(source.id);
-  const hasSourceMap = source.sourceMapURL;
-  const sourceMapsEnabled = prefs.clientSourceMapsEnabled;
-
-  const options = [
-    _isPretty,
-    !_isJavaScript,
-    isOriginal,
-    hasSourceMap,
-    sourceMapsEnabled
-  ];
-
-  if (options.some(Boolean)) {
+  if (
+    !source ||
+    isPretty(source) ||
+    !isJavaScript(source) ||
+    isOriginalId(source.id) ||
+    source.sourceMapURL ||
+    !prefs.clientSourceMapsEnabled
+  ) {
     return false;
   }
 
