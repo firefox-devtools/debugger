@@ -1059,7 +1059,7 @@ const selectors = {
   sourceNodes: ".sources-list .tree-node",
   sourceDirectoryLabel: i => `.sources-list .tree-node:nth-child(${i}) .label`,
   resultItems: ".result-list .result-item",
-  fileMatch: ".managed-tree .result",
+  fileMatch: ".project-text-search .line-value",
   popup: ".popover",
   tooltip: ".tooltip",
   previewPopup: ".preview-popup",
