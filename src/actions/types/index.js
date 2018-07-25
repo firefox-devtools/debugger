@@ -112,6 +112,9 @@ export type FileTextSearchAction =
         count: number,
         index: number
       }
+    |}
+  | {|
+       +type: "CLEAR_FILE_SEARCH_RESULTS"
     |};
 
 export type QuickOpenAction =
