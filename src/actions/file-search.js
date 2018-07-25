@@ -180,9 +180,8 @@ export function traverseResults(rev: boolean, editor: Editor) {
 
 export function closeFileSearch(editor: Editor) {
   return ({ getState, dispatch }: ThunkArgs) => {
-    const query = getFileSearchQuery(getState());
-
     if (editor) {
+      const query = getFileSearchQuery(getState());
       const ctx = { ed: editor, cm: editor.codeMirror };
       removeOverlay(ctx, query);
     }
