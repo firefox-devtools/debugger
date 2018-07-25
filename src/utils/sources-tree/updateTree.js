@@ -51,7 +51,7 @@ export function updateTree({
   return {
     uncollapsedTree,
     sourceTree: newSourceTree,
-    parentMap: createParentMap(sourceTree),
+    parentMap: createParentMap(newSourceTree),
     focusedItem: null
   };
 }
