@@ -1,21 +1,26 @@
-"use strict";
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 const path = require("path");
-const util = require("util");
 const _ = require("lodash");
 const rollup = require("rollup");
 const rollupBabel = require("rollup-plugin-babel");
 
+const TARGET_NAME = "rollup-babel6";
+
 module.exports = exports = async function(tests, dirname) {
   const fixtures = [];
-  for (const [ name, input ] of tests) {
-    if (!/rollup-/.test(name) || !/babel-/.test(name)) continue;
+  for (const [name, input] of tests) {
+    if (!/rollup-/.test(name) || !/babel-/.test(name)) {
+      continue;
+    }
 
-    const testFnName = _.camelCase(name);
+    const testFnName = _.camelCase(`${TARGET_NAME}-${name}`);
     const babelEnv = !name.match(/-es6/);
     const babelModules = name.match(/-cjs/);
 
-    const scriptPath = path.join(path.dirname(input), "output.js");
+    const scriptPath = path.join(dirname, "output", TARGET_NAME, `${name}.js`);
 
     const bundle = await rollup.rollup({
       input: "fake-bundle-root",
@@ -24,28 +29,32 @@ module.exports = exports = async function(tests, dirname) {
         // want to enable 'exports: "default",' so we need the root
         // import to only have a default export.
         {
-          resolveId: id => id === "fake-bundle-root" ? id : undefined,
-          load: id => id === "fake-bundle-root"
-            ? `import test from "${input}"; export default test;`
-            : undefined,
+          resolveId: id => (id === "fake-bundle-root" ? id : undefined),
+          load: id =>
+            id === "fake-bundle-root"
+              ? `import test from "${input}"; export default test;`
+              : undefined
         },
         rollupBabel({
           babelrc: false,
           presets: [
             babelEnv
-              ? [require.resolve("babel-preset-env"), { modules: babelModules ? "commonjs" : false }]
-              : null,
+              ? [
+                  require.resolve("babel-preset-env"),
+                  { modules: babelModules ? "commonjs" : false }
+                ]
+              : null
           ].filter(Boolean),
-          plugins: [
-            require.resolve("babel-plugin-transform-flow-strip-types"),
-          ],
+          plugins: [require.resolve("babel-plugin-transform-flow-strip-types")]
         }),
         {
-          ongenerate(bundle, data) {
-            data.map.sources = data.map.sources.map(name => name.replace(/^fixtures[\\/]/, "fixtures://./"));
-          },
+          ongenerate(out, data) {
+            data.map.sources = data.map.sources.map(source =>
+              source.replace(/^fixtures[\\/]/, `${TARGET_NAME}://./`)
+            );
+          }
         }
-      ].filter(Boolean),
+      ].filter(Boolean)
     });
 
     await bundle.write({
@@ -54,21 +63,21 @@ module.exports = exports = async function(tests, dirname) {
       format: "iife",
       name: testFnName,
       sourcemap: true,
-      exports: "default",
+      exports: "default"
     });
 
-    console.log("Build " + name);
+    console.log(`Build ${name}`);
 
     fixtures.push({
       name,
       testFnName: testFnName,
       scriptPath,
-      assets: [
-        scriptPath,
-        scriptPath + ".map",
-      ]
+      assets: [scriptPath, `${scriptPath}.map`]
     });
   }
 
-  return fixtures;
-}
+  return {
+    target: TARGET_NAME,
+    fixtures
+  };
+};

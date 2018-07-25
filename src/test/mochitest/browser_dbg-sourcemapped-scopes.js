@@ -6,9 +6,9 @@ requestLongerTimeout(6);
 
 // Tests loading sourcemapped sources for Babel's compile output.
 
-async function breakpointScopes(dbg, fixture, { line, column }, scopes) {
-  const filename = `fixtures://./${fixture}/input.`;
-  const fnName = fixture.replace(/-([a-z])/g, (s, c) => c.toUpperCase());
+async function breakpointScopes(dbg, target, fixture, { line, column }, scopes) {
+  const filename = `${target}://./${fixture}/input.`;
+  const fnName = (target + "-" + fixture).replace(/-([a-z])/g, (s, c) => c.toUpperCase());
 
   await invokeWithBreakpoint(
     dbg,
@@ -28,7 +28,7 @@ add_task(async function() {
 
   const dbg = await initDebugger("doc-sourcemapped.html");
 
-  await breakpointScopes(dbg, "babel-bindings-with-flow", { line: 9, column: 2 }, [
+  await breakpointScopes(dbg, "webpack3-babel6", "babel-bindings-with-flow", { line: 9, column: 2 }, [
     "root",
     ["value", '"a-named"'],
     "Module",
@@ -36,7 +36,7 @@ add_task(async function() {
     "root()",
   ]);
 
-  await breakpointScopes(dbg, "typescript-classes", { line: 50, column: 2 }, [
+  await breakpointScopes(dbg, "webpack3", "typescript-classes", { line: 50, column: 2 }, [
     "Module",
     "AnotherThing()",
     "AppComponent()",
@@ -50,7 +50,7 @@ add_task(async function() {
     "SubVar:SubExpr()"
   ]);
 
-  await breakpointScopes(dbg, "babel-eval-maps", { line: 14, column: 4 }, [
+  await breakpointScopes(dbg, "webpack3-babel6", "babel-eval-maps", { line: 14, column: 4 }, [
     "Block",
     ["three", "5"],
     ["two", "4"],
@@ -63,7 +63,7 @@ add_task(async function() {
     "root()"
   ]);
 
-  await breakpointScopes(dbg, "babel-for-of", { line: 5, column: 4 }, [
+  await breakpointScopes(dbg, "webpack3-babel6", "babel-for-of", { line: 5, column: 4 }, [
     "For",
     ["x", "1"],
     "forOf",
@@ -73,7 +73,7 @@ add_task(async function() {
     "mod"
   ]);
 
-  await breakpointScopes(dbg, "babel-shadowed-vars", { line: 18, column: 6 }, [
+  await breakpointScopes(dbg, "webpack3-babel6", "babel-shadowed-vars", { line: 18, column: 6 }, [
     "Block",
     ["aConst", '"const3"'],
     ["aLet", '"let3"'],
@@ -91,6 +91,7 @@ add_task(async function() {
 
   await breakpointScopes(
     dbg,
+    "webpack3-babel6",
     "babel-line-start-bindings-es6",
     { line: 19, column: 4 },
     [
@@ -107,6 +108,7 @@ add_task(async function() {
 
   await breakpointScopes(
     dbg,
+    "webpack3-babel6",
     "babel-this-arguments-bindings",
     { line: 4, column: 4 },
     [
@@ -125,6 +127,7 @@ add_task(async function() {
 
   await breakpointScopes(
     dbg,
+    "webpack3-babel6",
     "babel-this-arguments-bindings",
     { line: 8, column: 6 },
     [
@@ -143,7 +146,7 @@ add_task(async function() {
     ]
   );
 
-  await breakpointScopes(dbg, "babel-modules-cjs", { line: 20, column: 2 }, [
+  await breakpointScopes(dbg, "webpack3-babel6", "babel-modules-cjs", { line: 20, column: 2 }, [
     "Module",
     ["aDefault", '"a-default"'],
     ["aDefault2", '"a-default2"'],
@@ -165,7 +168,7 @@ add_task(async function() {
     "root()"
   ]);
 
-  await breakpointScopes(dbg, "babel-classes", { line: 6, column: 6 }, [
+  await breakpointScopes(dbg, "webpack3-babel6", "babel-classes", { line: 6, column: 6 }, [
     "Class",
     "Thing()",
     "Function Body",
@@ -176,7 +179,7 @@ add_task(async function() {
     "root()"
   ]);
 
-  await breakpointScopes(dbg, "babel-classes", { line: 16, column: 6 }, [
+  await breakpointScopes(dbg, "webpack3-babel6", "babel-classes", { line: 16, column: 6 }, [
     "Function Body",
     ["three", "3"],
     ["two", "2"],
@@ -190,7 +193,7 @@ add_task(async function() {
     "root()"
   ]);
 
-  await breakpointScopes(dbg, "rollup-babel-classes", { line: 6, column: 6 }, [
+  await breakpointScopes(dbg, "rollup-babel6", "rollup-babel-classes", { line: 6, column: 6 }, [
     "Class",
     "Thing()",
     "Function Body",
@@ -201,7 +204,7 @@ add_task(async function() {
     "root()"
   ]);
 
-  await breakpointScopes(dbg, "rollup-babel-classes", { line: 16, column: 6 }, [
+  await breakpointScopes(dbg, "rollup-babel6", "rollup-babel-classes", { line: 16, column: 6 }, [
     "Function Body",
     // Rollup removes these as dead code, so they are marked as optimized out.
     ["three", "(optimized away)"],
@@ -216,7 +219,7 @@ add_task(async function() {
     "root()"
   ]);
 
-  await breakpointScopes(dbg, "babel-for-loops", { line: 5, column: 4 }, [
+  await breakpointScopes(dbg, "webpack3-babel6", "babel-for-loops", { line: 5, column: 4 }, [
     "For",
     ["i", "1"],
     "Function Body",
@@ -225,7 +228,7 @@ add_task(async function() {
     "root()"
   ]);
 
-  await breakpointScopes(dbg, "babel-for-loops", { line: 9, column: 4 }, [
+  await breakpointScopes(dbg, "webpack3-babel6", "babel-for-loops", { line: 9, column: 4 }, [
     "For",
     ["i", '"2"'],
     "Function Body",
@@ -234,7 +237,7 @@ add_task(async function() {
     "root()"
   ]);
 
-  await breakpointScopes(dbg, "babel-for-loops", { line: 13, column: 4 }, [
+  await breakpointScopes(dbg, "webpack3-babel6", "babel-for-loops", { line: 13, column: 4 }, [
     "For",
     ["i", "3"],
     "Function Body",
@@ -243,7 +246,7 @@ add_task(async function() {
     "root()"
   ]);
 
-  await breakpointScopes(dbg, "babel-functions", { line: 6, column: 8 }, [
+  await breakpointScopes(dbg, "webpack3-babel6", "babel-functions", { line: 6, column: 8 }, [
     "arrow",
     ["p3", "undefined"],
     "Function Body",
@@ -262,16 +265,22 @@ add_task(async function() {
     "root()"
   ]);
 
-  await breakpointScopes(dbg, "babel-type-module", { line: 7, column: 2 }, [
+  await breakpointScopes(dbg, "webpack3-babel6", "babel-type-module", { line: 7, column: 2 }, [
     "Module",
     ["alsoModuleScoped", "2"],
     ["moduleScoped", "1"],
     "thirdModuleScoped()"
   ]);
 
-  await breakpointScopes(dbg, "babel-type-script", { line: 7, column: 2 }, []);
+  await breakpointScopes(dbg, "webpack3-babel6", "babel-type-script", { line: 7, column: 2 }, [
+    "Module",
+    "alsoModuleScopes",
+    "moduleScoped",
+    "nonModules",
+    "thirdModuleScoped",
+  ]);
 
-  await breakpointScopes(dbg, "babel-commonjs", { line: 7, column: 2 }, [
+  await breakpointScopes(dbg, "webpack3-babel6", "babel-commonjs", { line: 7, column: 2 }, [
     "Module",
     ["alsoModuleScoped", "2"],
     ["moduleScoped", "1"],
@@ -280,6 +289,7 @@ add_task(async function() {
 
   await breakpointScopes(
     dbg,
+    "webpack3-babel6",
     "babel-out-of-order-declarations-cjs",
     { line: 8, column: 4 },
     [
@@ -306,6 +316,7 @@ add_task(async function() {
 
   await breakpointScopes(
     dbg,
+    "webpack3-babel6",
     "babel-flowtype-bindings",
     { line: 9, column: 2 },
     [
@@ -316,7 +327,7 @@ add_task(async function() {
     ]
   );
 
-  await breakpointScopes(dbg, "babel-switches", { line: 7, column: 6 }, [
+  await breakpointScopes(dbg, "webpack3-babel6", "babel-switches", { line: 7, column: 6 }, [
     "Switch",
     ["val", "2"],
     "Function Body",
@@ -325,7 +336,7 @@ add_task(async function() {
     "root()"
   ]);
 
-  await breakpointScopes(dbg, "babel-switches", { line: 10, column: 6 }, [
+  await breakpointScopes(dbg, "webpack3-babel6", "babel-switches", { line: 10, column: 6 }, [
     "Block",
     ["val", "3"],
     "Switch",
@@ -336,7 +347,7 @@ add_task(async function() {
     "root()"
   ]);
 
-  await breakpointScopes(dbg, "babel-try-catches", { line: 8, column: 4 }, [
+  await breakpointScopes(dbg, "webpack3-babel6", "babel-try-catches", { line: 8, column: 4 }, [
     "Block",
     ["two", "2"],
     "Catch",
@@ -347,7 +358,7 @@ add_task(async function() {
     "root()"
   ]);
 
-  await breakpointScopes(dbg, "babel-lex-and-nonlex", { line: 3, column: 4 }, [
+  await breakpointScopes(dbg, "webpack3-babel6", "babel-lex-and-nonlex", { line: 3, column: 4 }, [
     "Function Body",
     "Thing()",
     "root",
@@ -356,7 +367,7 @@ add_task(async function() {
     "root()"
   ]);
 
-  await breakpointScopes(dbg, "rollup-babel-lex-and-nonlex", { line: 3, column: 4 }, [
+  await breakpointScopes(dbg, "rollup-babel6", "rollup-babel-lex-and-nonlex", { line: 3, column: 4 }, [
     "Function Body",
     "Thing()",
     "root",
@@ -367,6 +378,7 @@ add_task(async function() {
 
   await breakpointScopes(
     dbg,
+    "rollup-babel6",
     "rollup-babel-modules",
     { line: 20, column: 2 },
     [
@@ -377,7 +389,7 @@ add_task(async function() {
       "root",
       ["<this>", "Window"],
       ["arguments", "Arguments"],
-      "rollupBabelModules",
+      "rollupBabel6RollupBabelModules",
       ["aDefault", '"a-default"'],
       ["aDefault2", '"a-default2"'],
       ["aDefault3", '"a-default3"'],
@@ -401,6 +413,7 @@ add_task(async function() {
 
   await breakpointScopes(
     dbg,
+    "rollup",
     "rollup-modules",
     { line: 20, column: 0 },
     [
@@ -428,6 +441,7 @@ add_task(async function() {
 
   await breakpointScopes(
     dbg,
+    "webpack3-babel6",
     "babel-modules-webpack",
     { line: 20, column: 2 },
     [
@@ -455,6 +469,7 @@ add_task(async function() {
 
   await breakpointScopes(
     dbg,
+    "webpack3-babel6",
     "babel-modules-webpack-es6",
     { line: 20, column: 2 },
     [
@@ -482,6 +497,7 @@ add_task(async function() {
 
   await breakpointScopes(
     dbg,
+    "webpack3",
     "webpack-line-mappings",
     { line: 11, column: 0 },
     [
@@ -499,7 +515,7 @@ add_task(async function() {
       "root",
       ["arguments", "Arguments"],
       "fn:someName()",
-      "webpackLineMappings",
+      "webpack3WebpackLineMappings",
       ["__webpack_exports__", "(optimized away)"],
       ["__WEBPACK_IMPORTED_MODULE_0__src_mod1__", "{\u2026}"],
       ["__webpack_require__", "(optimized away)"],
@@ -509,12 +525,12 @@ add_task(async function() {
     ]
   );
 
-  await breakpointScopes(dbg, "webpack-functions", { line: 4, column: 0 }, [
+  await breakpointScopes(dbg, "webpack3", "webpack-functions", { line: 4, column: 0 }, [
     "Block",
     ["<this>", "{\u2026}"],
     ["arguments", "Arguments"],
     ["x", "4"],
-    "webpackFunctions",
+    "webpack3WebpackFunctions",
     ["__webpack_exports__", "(optimized away)"],
     ["__webpack_require__", "(optimized away)"],
     ["arguments", "(unavailable)"],

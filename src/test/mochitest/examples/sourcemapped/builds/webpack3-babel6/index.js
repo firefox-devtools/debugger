@@ -1,29 +1,35 @@
-"use strict";
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 const path = require("path");
 const util = require("util");
 const _ = require("lodash");
 const webpack = require("webpack");
 
+const TARGET_NAME = "webpack3-babel6";
+
 module.exports = exports = async function(tests, dirname) {
   const fixtures = [];
-  for (const [ name, input ] of tests) {
-    if (/rollup-/.test(name) || !/babel-/.test(name)) continue;
+  for (const [name, input] of tests) {
+    if (/rollup-/.test(name) || !/babel-/.test(name)) {
+      continue;
+    }
 
-    const testFnName = _.camelCase(name);
+    const testFnName = _.camelCase(`${TARGET_NAME}-${name}`);
     const evalMaps = name.match(/-eval/);
     const babelEnv = !name.match(/-es6/);
     const babelModules = name.match(/-cjs/);
 
-    const scriptPath = path.join(path.dirname(input), "output.js");
+    const scriptPath = path.join(dirname, "output", TARGET_NAME, `${name}.js`);
     const result = await util.promisify(webpack)({
       context: path.dirname(input),
-      entry: "./" + path.basename(input),
+      entry: `./${path.basename(input)}`,
       output: {
         path: path.dirname(scriptPath),
         filename: path.basename(scriptPath),
 
-        devtoolModuleFilenameTemplate: `fixtures://./${name}/[resource-path]`,
+        devtoolModuleFilenameTemplate: `${TARGET_NAME}://./${name}/[resource-path]`,
 
         libraryTarget: "var",
         library: testFnName,
@@ -40,14 +46,17 @@ module.exports = exports = async function(tests, dirname) {
               babelrc: false,
               presets: [
                 babelEnv
-                  ? [require.resolve("babel-preset-env"), { modules: babelModules ? "commonjs" : false }]
-                  : null,
+                  ? [
+                      require.resolve("babel-preset-env"),
+                      { modules: babelModules ? "commonjs" : false }
+                    ]
+                  : null
               ].filter(Boolean),
               plugins: [
-                require.resolve("babel-plugin-transform-flow-strip-types"),
-              ],
-            },
-          },
+                require.resolve("babel-plugin-transform-flow-strip-types")
+              ]
+            }
+          }
         ].filter(Boolean)
       }
     });
@@ -58,12 +67,14 @@ module.exports = exports = async function(tests, dirname) {
       name,
       testFnName: testFnName,
       scriptPath,
-      assets: [
-        scriptPath,
-        evalMaps ? null : scriptPath + ".map",
-      ].filter(Boolean),
+      assets: [scriptPath, evalMaps ? null : `${scriptPath}.map`].filter(
+        Boolean
+      )
     });
   }
 
-  return fixtures;
-}
+  return {
+    target: TARGET_NAME,
+    fixtures
+  };
+};
