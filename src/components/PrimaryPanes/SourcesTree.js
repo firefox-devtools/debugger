@@ -47,7 +47,7 @@ import type {
   ParentMap
 } from "../../utils/sources-tree/types";
 import type { Source } from "../../types";
-import type { SourcesMap, State as SourcesState } from "../../reducers/types";
+import type { SourcesMap, State as AppState } from "../../reducers/types";
 import type { Item } from "../shared/ManagedTree";
 
 type Props = {
@@ -352,10 +352,7 @@ class SourcesTree extends Component<Props, State> {
   }
 }
 
-function getSourceForTree(
-  state: SourcesState,
-  source: ?Source
-): ?Source | null {
+function getSourceForTree(state: AppState, source: ?Source): ?Source | null {
   if (!source || !source.isPrettyPrinted) {
     return source;
   }
