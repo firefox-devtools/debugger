@@ -45,6 +45,7 @@
 // @flow
 
 import { Telemetry } from "devtools-modules";
+import { isFirefoxPanel } from "devtools-environment";
 
 const telemetry = new Telemetry();
 
@@ -55,16 +56,12 @@ const telemetry = new Telemetry();
 export function recordEvent(eventName: string, fields: {} = {}) {
   let sessionId = -1;
 
-  if (typeof window === "object" && window.parent.frameElement) {
-    sessionId = window.parent.frameElement.getAttribute("session_id");
+  if (typeof window !== "object") {
+    return;
   }
 
-  if (typeof window === "object" && window.dbg) {
-    const events = window.dbg._telemetry.events;
-    if (!events[eventName]) {
-      events[eventName] = [];
-    }
-    events[eventName].push(fields);
+  if (window.parent.frameElement) {
+    sessionId = window.parent.frameElement.getAttribute("session_id");
   }
 
   /* eslint-disable camelcase */
@@ -73,4 +70,12 @@ export function recordEvent(eventName: string, fields: {} = {}) {
     ...fields
   });
   /* eslint-enable camelcase */
+
+  if (!isFirefoxPanel() && window.dbg) {
+    const events = window.dbg._telemetry.events;
+    if (!events[eventName]) {
+      events[eventName] = [];
+    }
+    events[eventName].push(fields);
+  }
 }
