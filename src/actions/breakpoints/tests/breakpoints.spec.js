@@ -7,11 +7,8 @@ import {
   selectors,
   actions,
   makeSource,
-  getTelemetryEvents,
-  waitForState
+  getTelemetryEvents
 } from "../../../utils/test-head";
-
-import { generateBreakpoint } from "../../tests/helpers/breakpoints.js";
 
 import {
   simulateCorrectThreadClient,

@@ -7,16 +7,12 @@ import {
   selectors,
   actions,
   makeSource,
-  getTelemetryEvents,
   waitForState
 } from "../../../utils/test-head";
 
 import { generateBreakpoint } from "../../tests/helpers/breakpoints.js";
 
-import {
-  simulateCorrectThreadClient,
-  simpleMockThreadClient
-} from "../../tests/helpers/threadClient.js";
+import { simpleMockThreadClient } from "../../tests/helpers/threadClient.js";
 
 describe("toggleBreakpointsAtLine", () => {
   it("removes all breakpoints on a given line", async () => {
