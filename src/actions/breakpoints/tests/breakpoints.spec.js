@@ -7,8 +7,7 @@ import {
   selectors,
   actions,
   makeSource,
-  getTelemetryEvents,
-  waitForState
+  getTelemetryEvents
 } from "../../../utils/test-head";
 
 import {
@@ -369,35 +368,5 @@ describe("breakpoints", () => {
 
     expect(breakpoint.location.sourceUrl.includes("formatted")).toBe(true);
     expect(breakpoint).toMatchSnapshot();
-  });
-
-  describe("toggleBreakpointsAtLine", () => {
-    it("removes all breakpoints on a given line", async () => {
-      const store = createStore(simpleMockThreadClient);
-      const { dispatch } = store;
-
-      const source = makeSource("dw.js");
-      await dispatch(actions.newSources([source]));
-      await dispatch(actions.loadSourceText(makeSource("dw.js")));
-
-      await Promise.all([
-        dispatch(
-          actions.addBreakpoint(generateBreakpoint("dw.js", 5, 1).location)
-        ),
-        dispatch(
-          actions.addBreakpoint(generateBreakpoint("dw.js", 5, 2).location)
-        ),
-        dispatch(
-          actions.addBreakpoint(generateBreakpoint("dw.js", 5, 3).location)
-        )
-      ]);
-
-      await dispatch(actions.selectLocation({ sourceId: "dw.js" }));
-      await dispatch(actions.toggleBreakpointsAtLine(5));
-      await waitForState(
-        store,
-        state => selectors.getBreakpoints(state).size == 0
-      );
-    });
   });
 });
