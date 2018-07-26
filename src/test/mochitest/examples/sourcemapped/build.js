@@ -30,7 +30,8 @@ const tests = fs
     await require("./builds/webpack3")(tests, __dirname),
     await require("./builds/webpack3-babel6")(tests, __dirname),
     await require("./builds/rollup")(tests, __dirname),
-    await require("./builds/rollup-babel6")(tests, __dirname)
+    await require("./builds/rollup-babel6")(tests, __dirname),
+    await require("./builds/rollup-babel7")(tests, __dirname)
   ];
 
   await util.promisify(webpack)({

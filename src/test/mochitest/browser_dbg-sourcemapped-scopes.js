@@ -82,6 +82,7 @@ async function testBabelBindingsWithFlow(dbg) {
   // Flow is not available on the non-babel builds.
   for (const target of [
     "rollup-babel6",
+    "rollup-babel7",
     "webpack3-babel6",
   ]) {
     const { webpackImportGetter } = targetToFlags(target);
@@ -100,6 +101,7 @@ async function testBabelFlowtypeBindings(dbg) {
   // Flow is not available on the non-babel builds.
   for (const target of [
     "rollup-babel6",
+    "rollup-babel7",
     "webpack3-babel6",
   ]) {
     const { webpackImportGetter } = targetToFlags(target);
@@ -143,6 +145,7 @@ async function testEvalMaps(dbg) {
   for (const target of [
     "rollup",
     "rollup-babel6",
+    "rollup-babel7",
     "webpack3-babel6",
   ]) {
     const { rollupOptimized, webpackImportGetter, maybeLineStart } = targetToFlags(target);
@@ -180,6 +183,7 @@ async function testForOf(dbg) {
   for (const target of [
     "rollup",
     "rollup-babel6",
+    "rollup-babel7",
     "webpack3-babel6",
   ]) {
     const { rollupOptimized, webpackImportGetter, maybeLineStart } = targetToFlags(target);
@@ -224,6 +228,7 @@ async function testShadowedVars(dbg) {
   for (const target of [
     "rollup",
     "rollup-babel6",
+    "rollup-babel7",
     "webpack3-babel6",
   ]) {
     const { rollupOptimized, webpackImportGetter, maybeLineStart } = targetToFlags(target);
@@ -273,6 +278,7 @@ async function testLineStartBindingsES6(dbg) {
   for (const target of [
     "rollup",
     "rollup-babel6",
+    "rollup-babel7",
     "webpack3-babel6",
   ]) {
     const { rollupOptimized, webpackImportGetter, maybeLineStart } = targetToFlags(target);
@@ -345,6 +351,7 @@ async function testThisArgumentsBindings(dbg) {
   for (const target of [
     "rollup",
     "rollup-babel6",
+    "rollup-babel7",
     "webpack3-babel6",
   ]) {
     const { rollupOptimized, webpackImportGetter, maybeLineStart } = targetToFlags(target);
@@ -432,6 +439,7 @@ async function testClasses(dbg) {
   for (const target of [
     "rollup",
     "rollup-babel6",
+    "rollup-babel7",
     "webpack3-babel6",
   ]) {
     const { rollupOptimized, webpackImportGetter, maybeLineStart } = targetToFlags(target);
@@ -504,6 +512,7 @@ async function testForLoops(dbg) {
   for (const target of [
     "rollup",
     "rollup-babel6",
+    "rollup-babel7",
     "webpack3-babel6",
   ]) {
     const { rollupOptimized, webpackImportGetter, maybeLineStart } = targetToFlags(target);
@@ -564,6 +573,7 @@ async function testFunctions(dbg) {
   for (const target of [
     "rollup",
     "rollup-babel6",
+    "rollup-babel7",
     "webpack3-babel6",
   ]) {
     const { rollupOptimized, webpackImportGetter, maybeLineStart } = targetToFlags(target);
@@ -621,6 +631,7 @@ async function testSwitches(dbg) {
   for (const target of [
     "rollup",
     "rollup-babel6",
+    "rollup-babel7",
     "webpack3-babel6",
   ]) {
     const { rollupOptimized, webpackImportGetter, maybeLineStart } = targetToFlags(target);
@@ -666,6 +677,7 @@ async function testTryCatches(dbg) {
   for (const target of [
     "rollup",
     "rollup-babel6",
+    "rollup-babel7",
     "webpack3-babel6",
   ]) {
     const { rollupOptimized, webpackImportGetter, maybeLineStart } = targetToFlags(target);
@@ -701,6 +713,7 @@ async function testLexAndNonlex(dbg) {
   for (const target of [
     "rollup",
     "rollup-babel6",
+    "rollup-babel7",
     "webpack3-babel6",
   ]) {
     const { rollupOptimized, webpackImportGetter, maybeLineStart } = targetToFlags(target);
@@ -759,6 +772,7 @@ async function testTypeModule(dbg) {
   for (const target of [
     "rollup",
     "rollup-babel6",
+    "rollup-babel7",
     "webpack3-babel6",
   ]) {
     const { rollupOptimized, webpackImportGetter, maybeLineStart } = targetToFlags(target);
@@ -976,36 +990,41 @@ async function testESModules(dbg) {
     );
   }
 
-  // This test currently bails out because Babel does not map function calls
-  // fully and includes the () of the call in the range of the identifier.
-  // this means that Rollup, has to map locations for calls to imports,
-  // it can fail. This will be addressed in Babel eventually.
-  await breakpointScopes(
-    dbg,
+  for (const target of [
     "rollup-babel6",
-    "esmodules",
-    { line: 20, column: 2 },
-    [
-      "root",
-      ["<this>", "Window"],
-      ["arguments", "Arguments"],
-      "rollupBabel6Esmodules",
-      ["aDefault", '"a-default"'],
-      ["aDefault2", '"a-default2"'],
-      ["aDefault3", '"a-default3"'],
-      ["aNamed", '"a-named"'],
-      ["aNamed$1", '(optimized away)'],
-      ["aNamed2", '"a-named2"'],
-      ["aNamed3", '"a-named3"'],
-      ["aNamespace", "{\u2026}"],
-      ["arguments", "(unavailable)"],
-      ["mod4", "(optimized away)"],
-      ["original", '"an-original"'],
-      ["original$1", '"an-original2"'],
-      ["original$2", '"an-original3"'],
-      "root()"
-    ]
-  );
+    "rollup-babel7",
+  ]) {
+    // This test currently bails out because Babel does not map function calls
+    // fully and includes the () of the call in the range of the identifier.
+    // this means that Rollup, has to map locations for calls to imports,
+    // it can fail. This will be addressed in Babel eventually.
+    await breakpointScopes(
+      dbg,
+      target,
+      "esmodules",
+      { line: 20, column: 2 },
+      [
+        "root",
+        ["<this>", "Window"],
+        ["arguments", "Arguments"],
+        pairToFnName(target, "esmodules"),
+        ["aDefault", '"a-default"'],
+        ["aDefault2", '"a-default2"'],
+        ["aDefault3", '"a-default3"'],
+        ["aNamed", '"a-named"'],
+        ["aNamed$1", '(optimized away)'],
+        ["aNamed2", '"a-named2"'],
+        ["aNamed3", '"a-named3"'],
+        ["aNamespace", "{\u2026}"],
+        ["arguments", "(unavailable)"],
+        ["mod4", "(optimized away)"],
+        ["original", '"an-original"'],
+        ["original$1", '"an-original2"'],
+        ["original$2", '"an-original3"'],
+        "root()"
+      ]
+    );
+  }
 }
 
 
@@ -1136,38 +1155,43 @@ async function testESModulesES6(dbg) {
     );
   }
 
-  // This test currently bails out because Babel does not map function calls
-  // fully and includes the () of the call in the range of the identifier.
-  // this means that Rollup, has to map locations for calls to imports,
-  // it can fail. This will be addressed in Babel eventually.
-  await breakpointScopes(
-    dbg,
+  for (const target of [
     "rollup-babel6",
-    "esmodules-es6",
-    { line: 20, column: 2 },
-    [
-      "root",
-      ["<this>", "Window"],
-      ["arguments", "Arguments"],
+    "rollup-babel7",
+  ]) {
+    // This test currently bails out because Babel does not map function calls
+    // fully and includes the () of the call in the range of the identifier.
+    // this means that Rollup, has to map locations for calls to imports,
+    // it can fail. This will be addressed in Babel eventually.
+    await breakpointScopes(
+      dbg,
+      target,
+      "esmodules-es6",
+      { line: 20, column: 2 },
+      [
+        "root",
+        ["<this>", "Window"],
+        ["arguments", "Arguments"],
 
-      "Block",
-      ["aNamed", '"a-named"'],
-      ["aNamed$1", "undefined"],
-      ["aNamed2", '"a-named2"'],
-      ["aNamed3", '"a-named3"'],
-      ["original", '"an-original"'],
-      ["original$1", '"an-original2"'],
-      ["original$2", '"an-original3"'],
+        "Block",
+        ["aNamed", '"a-named"'],
+        ["aNamed$1", "undefined"],
+        ["aNamed2", '"a-named2"'],
+        ["aNamed3", '"a-named3"'],
+        ["original", '"an-original"'],
+        ["original$1", '"an-original2"'],
+        ["original$2", '"an-original3"'],
 
-      "rollupBabel6EsmodulesEs6",
-      ["aDefault", '"a-default"'],
-      ["aDefault2", '"a-default2"'],
-      ["aDefault3", '"a-default3"'],
+        pairToFnName(target, "esmodules-es6"),
+        ["aDefault", '"a-default"'],
+        ["aDefault2", '"a-default2"'],
+        ["aDefault3", '"a-default3"'],
 
-      ["aNamespace", "{\u2026}"],
-      ["arguments", "(unavailable)"],
-      ["mod4", "(optimized away)"],
-      "root()"
-    ]
-  );
+        ["aNamespace", "{\u2026}"],
+        ["arguments", "(unavailable)"],
+        ["mod4", "(optimized away)"],
+        "root()"
+      ]
+    );
+  }
 }
