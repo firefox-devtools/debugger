@@ -20,9 +20,10 @@ import {
   getSourceCount
 } from "../../selectors";
 
+import { getSourceByURL } from "../../reducers/sources";
+
 // Actions
 import actions from "../../actions";
-import { getRawSourceURL } from "../../utils/source";
 
 // Components
 import SourcesTreeItem from "./SourcesTreeItem";
@@ -38,6 +39,7 @@ import {
   nodeHasChildren,
   updateTree
 } from "../../utils/sources-tree";
+import { getRawSourceURL } from "../../utils/source";
 
 import type {
   TreeNode,
@@ -45,13 +47,13 @@ import type {
   ParentMap
 } from "../../utils/sources-tree/types";
 import type { Source } from "../../types";
-import type { SourcesMap } from "../../reducers/types";
+import type { SourcesMap, State as AppState } from "../../reducers/types";
 import type { Item } from "../shared/ManagedTree";
 
 type Props = {
   sources: SourcesMap,
   sourceCount: number,
-  shownSource?: string,
+  shownSource?: Source,
   selectedSource?: Source,
   debuggeeUrl: string,
   projectRoot: string,
@@ -115,20 +117,8 @@ class SourcesTree extends Component<Props, State> {
     }
 
     if (nextProps.shownSource && nextProps.shownSource != shownSource) {
-      const matchingSources = Object.keys(sources).filter(sourceId => {
-        return getRawSourceURL(sources[sourceId].url) === nextProps.shownSource;
-      });
-
-      if (matchingSources.length) {
-        const listItems = getDirectories(
-          sources[matchingSources[0]],
-          sourceTree
-        );
-        if (listItems && listItems.length) {
-          this.selectItem(listItems[0]);
-        }
-        return this.setState({ listItems });
-      }
+      const listItems = getDirectories(nextProps.shownSource, sourceTree);
+      return this.setState({ listItems });
     }
 
     if (
@@ -139,7 +129,6 @@ class SourcesTree extends Component<Props, State> {
         nextProps.selectedSource,
         sourceTree
       );
-
       this.setState({ highlightItems });
     }
 
@@ -164,12 +153,7 @@ class SourcesTree extends Component<Props, State> {
   };
 
   selectItem = (item: TreeNode) => {
-    if (
-      !isDirectory(item) &&
-      // This second check isn't strictly necessary, but it ensures that Flow
-      // knows that we are doing the correct thing.
-      !Array.isArray(item.contents)
-    ) {
+    if (item.type == "source" && !Array.isArray(item.contents)) {
       this.props.selectSource(item.contents.id);
     }
   };
@@ -368,10 +352,21 @@ class SourcesTree extends Component<Props, State> {
   }
 }
 
+function getSourceForTree(state: AppState, source: ?Source): ?Source | null {
+  if (!source || !source.isPrettyPrinted) {
+    return source;
+  }
+
+  return getSourceByURL(state, getRawSourceURL(source.url));
+}
+
 const mapStateToProps = state => {
+  const selectedSource = getSelectedSource(state);
+  const shownSource = getShownSource(state);
+
   return {
-    shownSource: getShownSource(state),
-    selectedSource: getSelectedSource(state),
+    shownSource: getSourceForTree(state, shownSource),
+    selectedSource: getSourceForTree(state, selectedSource),
     debuggeeUrl: getDebuggeeUrl(state),
     expanded: getExpandedState(state),
     projectRoot: getProjectDirectoryRoot(state),

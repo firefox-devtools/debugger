@@ -155,20 +155,6 @@ describe("SourcesTree", () => {
       });
     });
 
-    describe("updates list items", () => {
-      it("updates list items if shownSource changes", async () => {
-        const { component, props } = render();
-        await component.setProps({
-          ...props,
-          shownSource: "http://mdn.com/three.js"
-        });
-        expect(component).toMatchSnapshot();
-        expect(props.selectSource).toHaveBeenCalledWith(
-          "server1.conn13.child1/41"
-        );
-      });
-    });
-
     describe("updates highlighted items", () => {
       it("updates highlightItems if selectedSource changes", async () => {
         const { component, props } = render();
