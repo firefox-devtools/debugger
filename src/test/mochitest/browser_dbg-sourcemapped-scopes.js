@@ -84,6 +84,7 @@ async function testBabelBindingsWithFlow(dbg) {
     "rollup-babel6",
     "rollup-babel7",
     "webpack3-babel6",
+    "webpack3-babel7",
   ]) {
     const { webpackImportGetter } = targetToFlags(target);
 
@@ -103,6 +104,7 @@ async function testBabelFlowtypeBindings(dbg) {
     "rollup-babel6",
     "rollup-babel7",
     "webpack3-babel6",
+    "webpack3-babel7",
   ]) {
     const { webpackImportGetter } = targetToFlags(target);
 
@@ -147,6 +149,7 @@ async function testEvalMaps(dbg) {
     "rollup-babel6",
     "rollup-babel7",
     "webpack3-babel6",
+    "webpack3-babel7",
   ]) {
     const { rollupOptimized, webpackImportGetter, maybeLineStart } = targetToFlags(target);
 
@@ -185,6 +188,7 @@ async function testForOf(dbg) {
     "rollup-babel6",
     "rollup-babel7",
     "webpack3-babel6",
+    "webpack3-babel7",
   ]) {
     const { rollupOptimized, webpackImportGetter, maybeLineStart } = targetToFlags(target);
 
@@ -230,6 +234,7 @@ async function testShadowedVars(dbg) {
     "rollup-babel6",
     "rollup-babel7",
     "webpack3-babel6",
+    "webpack3-babel7",
   ]) {
     const { rollupOptimized, webpackImportGetter, maybeLineStart } = targetToFlags(target);
 
@@ -280,6 +285,7 @@ async function testLineStartBindingsES6(dbg) {
     "rollup-babel6",
     "rollup-babel7",
     "webpack3-babel6",
+    "webpack3-babel7",
   ]) {
     const { rollupOptimized, webpackImportGetter, maybeLineStart } = targetToFlags(target);
 
@@ -353,6 +359,7 @@ async function testThisArgumentsBindings(dbg) {
     "rollup-babel6",
     "rollup-babel7",
     "webpack3-babel6",
+    "webpack3-babel7",
   ]) {
     const { rollupOptimized, webpackImportGetter, maybeLineStart } = targetToFlags(target);
 
@@ -441,6 +448,7 @@ async function testClasses(dbg) {
     "rollup-babel6",
     "rollup-babel7",
     "webpack3-babel6",
+    "webpack3-babel7",
   ]) {
     const { rollupOptimized, webpackImportGetter, maybeLineStart } = targetToFlags(target);
 
@@ -514,6 +522,7 @@ async function testForLoops(dbg) {
     "rollup-babel6",
     "rollup-babel7",
     "webpack3-babel6",
+    "webpack3-babel7",
   ]) {
     const { rollupOptimized, webpackImportGetter, maybeLineStart } = targetToFlags(target);
 
@@ -575,6 +584,7 @@ async function testFunctions(dbg) {
     "rollup-babel6",
     "rollup-babel7",
     "webpack3-babel6",
+    "webpack3-babel7",
   ]) {
     const { rollupOptimized, webpackImportGetter, maybeLineStart } = targetToFlags(target);
 
@@ -633,6 +643,7 @@ async function testSwitches(dbg) {
     "rollup-babel6",
     "rollup-babel7",
     "webpack3-babel6",
+    "webpack3-babel7",
   ]) {
     const { rollupOptimized, webpackImportGetter, maybeLineStart } = targetToFlags(target);
 
@@ -679,6 +690,7 @@ async function testTryCatches(dbg) {
     "rollup-babel6",
     "rollup-babel7",
     "webpack3-babel6",
+    "webpack3-babel7",
   ]) {
     const { rollupOptimized, webpackImportGetter, maybeLineStart } = targetToFlags(target);
 
@@ -715,6 +727,7 @@ async function testLexAndNonlex(dbg) {
     "rollup-babel6",
     "rollup-babel7",
     "webpack3-babel6",
+    "webpack3-babel7",
   ]) {
     const { rollupOptimized, webpackImportGetter, maybeLineStart } = targetToFlags(target);
 
@@ -774,6 +787,7 @@ async function testTypeModule(dbg) {
     "rollup-babel6",
     "rollup-babel7",
     "webpack3-babel6",
+    "webpack3-babel7",
   ]) {
     const { rollupOptimized, webpackImportGetter, maybeLineStart } = targetToFlags(target);
 
@@ -806,6 +820,7 @@ async function testTypeScriptCJS(dbg) {
   // CJS does not work on Rollup.
   for (const target of [
     "webpack3-babel6",
+    "webpack3-babel7",
   ]) {
     await breakpointScopes(dbg, target, "type-script-cjs", { line: 7, column: 2 }, [
       "Module",
@@ -821,6 +836,7 @@ async function testOutOfOrderDeclarationsCJS(dbg) {
   // CJS does not work on Rollup.
   for (const target of [
     "webpack3-babel6",
+    "webpack3-babel7",
   ]) {
     await breakpointScopes(
       dbg,
@@ -843,7 +859,7 @@ async function testOutOfOrderDeclarationsCJS(dbg) {
         // making us use the first, optimized-out binding. Given that imports
         // are almost never the last thing in a file though, this is probably not
         // a huge deal for now.
-        ["aDefault", "(optimized away)"],
+        ["aDefault", target === "webpack3-babel7" ? '"a-default"' : "(optimized away)"],
         ["root", "(optimized away)"],
         ["val", "(optimized away)"]
       ]
@@ -869,6 +885,7 @@ async function testCommonJS(dbg) {
   // CJS does not work on Rollup.
   for (const target of [
     "webpack3-babel6",
+    "webpack3-babel7",
   ]) {
     await breakpointScopes(dbg, target, "modules-cjs", { line: 7, column: 2 }, [
       "Module",
@@ -960,6 +977,7 @@ async function testESModules(dbg) {
   for (const target of [
     "rollup",
     "webpack3-babel6",
+    "webpack3-babel7",
   ]) {
     const { webpackImportGetter, maybeLineStart } = targetToFlags(target);
 
@@ -1062,6 +1080,7 @@ async function testESModulesCJS(dbg) {
   // CJS does not work on Rollup.
   for (const target of [
     "webpack3-babel6",
+    "webpack3-babel7",
   ]) {
     await breakpointScopes(
       dbg,
@@ -1125,6 +1144,7 @@ async function testESModulesES6(dbg) {
   for (const target of [
     "rollup",
     "webpack3-babel6",
+    "webpack3-babel7",
   ]) {
     const { maybeLineStart } = targetToFlags(target);
 
