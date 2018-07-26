@@ -394,6 +394,127 @@ exports[`Error - base-loader.js renders as expected without mode 1`] = `
 </span>
 `;
 
+exports[`Error - longString stacktrace - cut-off location renders as expected 1`] = `
+<span
+  className="objectBox-stackTrace"
+  data-link-actor-id="server1.conn1.child1/obj33"
+>
+  InternalError: "too much recursion"
+  
+
+  <span
+    className="objectBox-stackTrace-grid"
+    key="stack"
+  >
+    	
+    <span
+      className="objectBox-stackTrace-fn"
+      key="fn0"
+    >
+      doStuff
+    </span>
+    <span
+      className="objectBox-stackTrace-location"
+      key="location0"
+    >
+      https://angular-3eqab4.stackblitz.io/tmp/appfiles/src/app/app.component.ts:32:1
+    </span>
+    
+
+    	
+    <span
+      className="objectBox-stackTrace-fn"
+      key="fn1"
+    >
+      doStuff
+    </span>
+    <span
+      className="objectBox-stackTrace-location"
+      key="location1"
+    >
+      https://angular-3eqab4.stackblitz.io/tmp/appfiles/src/app/app.component.ts:33:21
+    </span>
+    
+
+    	
+    <span
+      className="objectBox-stackTrace-fn"
+      key="fn2"
+    >
+      doStuff
+    </span>
+    <span
+      className="objectBox-stackTrace-location"
+      key="location2"
+    >
+      https://angular-3eqab4.stackblitz.io/tmp/appfiles/src/app/app.component.ts:33:21
+    </span>
+    
+
+    	
+    <span
+      className="objectBox-stackTrace-fn"
+      key="fn3"
+    >
+      doStuff
+    </span>
+    <span
+      className="objectBox-stackTrace-location"
+      key="location3"
+    >
+      https://angular-3eqab4.stackblitz.io/tmp/appfiles/src/app/app.component.ts:33:21
+    </span>
+    
+
+    	
+    <span
+      className="objectBox-stackTrace-fn"
+      key="fn4"
+    >
+      doStuff
+    </span>
+    <span
+      className="objectBox-stackTrace-location"
+      key="location4"
+    >
+      https://angular-3eqab4.stackblitz.io/tmp/appfiles/src/app/app.component.ts:33:21
+    </span>
+    
+
+    	
+    <span
+      className="objectBox-stackTrace-fn"
+      key="fn5"
+    >
+      doStuff
+    </span>
+    <span
+      className="objectBox-stackTrace-location"
+      key="location5"
+    >
+      https://angular-3eqab4.stackblitz.io/tmp/appfiles/src/app/app.component.ts:33:21
+    </span>
+    
+
+    	
+    <span
+      className="objectBox-stackTrace-fn"
+      key="fn6"
+    >
+      doStuff
+    </span>
+    <span
+      className="objectBox-stackTrace-location"
+      key="location6"
+    >
+      https://angular-3eqab4.stackblitz.io/tmp/appfiles/src/app/app.component.ts:33:21
+    </span>
+    
+
+  </span>
+</span>
+`;
+
 exports[`Error - longString stacktrace renders as expected 1`] = `
 <span
   className="objectBox-stackTrace"
@@ -556,13 +677,6 @@ exports[`Error - longString stacktrace renders as expected 1`] = `
     </span>
     
 
-    	
-    <span
-      className="objectBox-stackTrace-fn"
-      key="fn10"
-    >
-      node_modules
-    </span>
   </span>
 </span>
 `;

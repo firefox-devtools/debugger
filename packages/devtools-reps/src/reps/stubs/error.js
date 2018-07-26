@@ -235,4 +235,30 @@ stubs.set("longString stack Error", {
   }
 });
 
+stubs.set("longString stack Error - cut-off location", {
+  type: "object",
+  actor: "server1.conn1.child1/obj33",
+  class: "Error",
+  extensible: true,
+  frozen: false,
+  sealed: false,
+  ownPropertyLength: 6,
+  preview: {
+    kind: "Error",
+    name: "InternalError",
+    message: "too much recursion",
+    stack: {
+      type: "longString",
+      initial:
+        "execute/AppComponent</AppComponent.prototype.doStuff@https://angular-3eqab4.stackblitz.io/tmp/appfiles/src/app/app.component.ts:32:1\nexecute/AppComponent</AppComponent.prototype.doStuff@https://angular-3eqab4.stackblitz.io/tmp/appfiles/src/app/app.component.ts:33:21\nexecute/AppComponent</AppComponent.prototype.doStuff@https://angular-3eqab4.stackblitz.io/tmp/appfiles/src/app/app.component.ts:33:21\nexecute/AppComponent</AppComponent.prototype.doStuff@https://angular-3eqab4.stackblitz.io/tmp/appfiles/src/app/app.component.ts:33:21\nexecute/AppComponent</AppComponent.prototype.doStuff@https://angular-3eqab4.stackblitz.io/tmp/appfiles/src/app/app.component.ts:33:21\nexecute/AppComponent</AppComponent.prototype.doStuff@https://angular-3eqab4.stackblitz.io/tmp/appfiles/src/app/app.component.ts:33:21\nexecute/AppComponent</AppComponent.prototype.doStuff@https://angular-3eqab4.stackblitz.io/tmp/appfiles/src/app/app.component.ts:33:21\nexecute/AppComponent</AppComponent.prototype.doStuff@https://an",
+      length: 17151,
+      actor: "server1.conn1.child1/longString27"
+    },
+    fileName:
+      "https://c.staticblitz.com/assets/engineblock-bc7b07e99ec5c6739c766b4898e4cff5acfddc137ccb7218377069c32731f1d0.js line 1 > eval",
+    lineNumber: 32,
+    columnNumber: 1
+  }
+});
+
 module.exports = stubs;

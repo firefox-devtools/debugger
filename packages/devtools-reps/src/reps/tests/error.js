@@ -391,6 +391,20 @@ describe("Error - longString stacktrace", () => {
   });
 });
 
+describe("Error - longString stacktrace - cut-off location", () => {
+  const stub = stubs.get("longString stack Error - cut-off location");
+
+  it("renders as expected", () => {
+    const renderedComponent = shallow(
+      ErrorRep.rep({
+        object: stub
+      })
+    );
+
+    expect(renderedComponent).toMatchSnapshot();
+  });
+});
+
 describe("Error - stacktrace location click", () => {
   it("Calls onViewSourceInDebugger with the expected arguments", () => {
     const onViewSourceInDebugger = jest.fn();
