@@ -2,7 +2,7 @@
  * http://creativecommons.org/publicdomain/zero/1.0/ */
 
 // This test can be really slow on debug platforms and should be split.
-requestLongerTimeout(6);
+requestLongerTimeout(8);
 
 // Tests loading sourcemapped sources for Babel's compile output.
 
@@ -56,14 +56,15 @@ add_task(async function() {
 function targetToFlags(target) {
   const isRollup = target.startsWith("rollup");
   const isWebpack = target.startsWith("webpack");
-  const hasBabel = target.includes("-babel");
+  const isParcel = target.startsWith("parcel");
+  const hasBabel = target.includes("-babel") || isParcel;
 
   // Rollup removes lots of things as dead code, so they are marked as optimized out.
   const rollupOptimized = isRollup ? "(optimized away)" : null;
   const webpackImportGetter = isWebpack ? "Getter" : null;
   const maybeLineStart = hasBabel ? col => col : col => 0;
 
-  return { isRollup, isWebpack, rollupOptimized, webpackImportGetter, maybeLineStart };
+  return { isRollup, isWebpack, isParcel, rollupOptimized, webpackImportGetter, maybeLineStart };
 }
 function pairToFnName(target, fixture) {
   return (target + "-" + fixture).replace(/-([a-z])/g, (s, c) => c.toUpperCase());
@@ -81,6 +82,7 @@ function webpackModule(target, fixture, optimizedOut) {
 async function testBabelBindingsWithFlow(dbg) {
   // Flow is not available on the non-babel builds.
   for (const target of [
+    "parcel",
     "rollup-babel6",
     "rollup-babel7",
     "webpack3-babel6",
@@ -101,6 +103,7 @@ async function testBabelBindingsWithFlow(dbg) {
 async function testBabelFlowtypeBindings(dbg) {
   // Flow is not available on the non-babel builds.
   for (const target of [
+    "parcel",
     "rollup-babel6",
     "rollup-babel7",
     "webpack3-babel6",
@@ -145,6 +148,7 @@ async function testEvalMaps(dbg) {
   ]);
 
   for (const target of [
+    "parcel",
     "rollup",
     "rollup-babel6",
     "rollup-babel7",
@@ -184,6 +188,7 @@ async function testForOf(dbg) {
   ]);
 
   for (const target of [
+    "parcel",
     "rollup",
     "rollup-babel6",
     "rollup-babel7",
@@ -230,13 +235,14 @@ async function testShadowedVars(dbg) {
   ]);
 
   for (const target of [
+    "parcel",
     "rollup",
     "rollup-babel6",
     "rollup-babel7",
     "webpack3-babel6",
     "webpack3-babel7",
   ]) {
-    const { rollupOptimized, webpackImportGetter, maybeLineStart } = targetToFlags(target);
+    const { isParcel, rollupOptimized, webpackImportGetter, maybeLineStart } = targetToFlags(target);
 
     await breakpointScopes(dbg, target, "shadowed-vars", { line: 18, column: maybeLineStart(6) }, [
       "Block",
@@ -245,7 +251,9 @@ async function testShadowedVars(dbg) {
       "Block",
       ["aConst", rollupOptimized || '"const2"'],
       ["aLet", rollupOptimized || '"let2"'],
-      rollupOptimized ? ["Outer", rollupOptimized ] : "Outer:_Outer()",
+      isParcel ?
+        "Outer()" :
+        rollupOptimized ? ["Outer", rollupOptimized ] : "Outer:_Outer()",
       "Function Body",
       ["aConst", rollupOptimized || '"const1"'],
       ["aLet", rollupOptimized || '"let1"'],
@@ -281,6 +289,7 @@ async function testLineStartBindingsES6(dbg) {
   );
 
   for (const target of [
+    "parcel",
     "rollup",
     "rollup-babel6",
     "rollup-babel7",
@@ -355,13 +364,14 @@ async function testThisArgumentsBindings(dbg) {
   );
 
   for (const target of [
+    "parcel",
     "rollup",
     "rollup-babel6",
     "rollup-babel7",
     "webpack3-babel6",
     "webpack3-babel7",
   ]) {
-    const { rollupOptimized, webpackImportGetter, maybeLineStart } = targetToFlags(target);
+    const { isParcel, rollupOptimized, webpackImportGetter, maybeLineStart } = targetToFlags(target);
 
     await breakpointScopes(
       dbg,
@@ -371,7 +381,7 @@ async function testThisArgumentsBindings(dbg) {
       [
         "Function Body",
         ["<this>", '"this-value"'],
-        ["arrow", target === "rollup" ? "(uninitialized)" : "undefined"],
+        ["arrow", (target === "rollup" || isParcel) ? "(uninitialized)" : "undefined"],
         "fn",
         ["arg", '"arg-value"'],
         ["arguments", "Arguments"],
@@ -392,7 +402,7 @@ async function testThisArgumentsBindings(dbg) {
         ["<this>", '"this-value"'],
         ["argArrow", '"arrow-arg"'],
         "Function Body",
-        target === "rollup" ? ["arrow", "(optimized away)"] : "arrow()",
+        (target === "rollup" || isParcel) ? ["arrow", "(optimized away)"] : "arrow()",
         "fn",
         ["arg", '"arg-value"'],
         ["arguments", "Arguments"],
@@ -444,21 +454,22 @@ async function testClasses(dbg) {
   ]);
 
   for (const target of [
+    "parcel",
     "rollup",
     "rollup-babel6",
     "rollup-babel7",
     "webpack3-babel6",
     "webpack3-babel7",
   ]) {
-    const { rollupOptimized, webpackImportGetter, maybeLineStart } = targetToFlags(target);
+    const { isParcel, rollupOptimized, webpackImportGetter, maybeLineStart } = targetToFlags(target);
 
     await breakpointScopes(dbg, target, "classes", { line: 6, column: maybeLineStart(6) }, [
       "Class",
-      target === "rollup" ? ["Thing", "(optimized away)"] : "Thing()",
+      (target === "rollup" || isParcel) ? ["Thing", "(optimized away)"] : "Thing()",
       "Function Body",
       "Another()",
       "one",
-      target === "rollup" ? ["Thing", "(optimized away)"] : "Thing()",
+      (target === "rollup" || isParcel) ? ["Thing", "(optimized away)"] : "Thing()",
       "Module",
       "root()"
     ]);
@@ -518,6 +529,7 @@ async function testForLoops(dbg) {
   ]);
 
   for (const target of [
+    "parcel",
     "rollup",
     "rollup-babel6",
     "rollup-babel7",
@@ -580,13 +592,14 @@ async function testFunctions(dbg) {
   ]);
 
   for (const target of [
+    "parcel",
     "rollup",
     "rollup-babel6",
     "rollup-babel7",
     "webpack3-babel6",
     "webpack3-babel7",
   ]) {
-    const { rollupOptimized, webpackImportGetter, maybeLineStart } = targetToFlags(target);
+    const { isParcel, rollupOptimized, webpackImportGetter, maybeLineStart } = targetToFlags(target);
 
     await breakpointScopes(dbg, target, "functions", { line: 6, column: maybeLineStart(8) }, [
       "arrow",
@@ -598,7 +611,7 @@ async function testFunctions(dbg) {
       "Function Expression",
       "inner()",
       "Function Body",
-      target === "rollup" ? ["inner", "(optimized away)"] : "inner()",
+      (target === "rollup" || isParcel) ? ["inner", "(optimized away)"] : "inner()",
       "decl",
       ["p1", "undefined"],
       "root",
@@ -639,6 +652,7 @@ async function testSwitches(dbg) {
   ]);
 
   for (const target of [
+    "parcel",
     "rollup",
     "rollup-babel6",
     "rollup-babel7",
@@ -686,6 +700,7 @@ async function testTryCatches(dbg) {
   ]);
 
   for (const target of [
+    "parcel",
     "rollup",
     "rollup-babel6",
     "rollup-babel7",
@@ -723,19 +738,20 @@ async function testLexAndNonlex(dbg) {
   ]);
 
   for (const target of [
+    "parcel",
     "rollup",
     "rollup-babel6",
     "rollup-babel7",
     "webpack3-babel6",
     "webpack3-babel7",
   ]) {
-    const { rollupOptimized, webpackImportGetter, maybeLineStart } = targetToFlags(target);
+    const { isParcel, rollupOptimized, webpackImportGetter, maybeLineStart } = targetToFlags(target);
 
     await breakpointScopes(dbg, target, "lex-and-nonlex", { line: 3, column: maybeLineStart(4) }, [
       "Function Body",
       "Thing()",
       "root",
-      target === "rollup" ? ["someHelper", "(optimized away)"] : "someHelper()",
+      (target === "rollup" || isParcel) ? ["someHelper", "(optimized away)"] : "someHelper()",
       "Module",
       "root()"
     ]);
@@ -745,10 +761,11 @@ async function testLexAndNonlex(dbg) {
 async function testTypescriptClasses(dbg) {
   // Typescript is not available on the Babel builds.
   for (const target of [
+    "parcel",
     "webpack3",
     "rollup",
   ]) {
-    const { isRollup, rollupOptimized } = targetToFlags(target);
+    const { isRollup, isParcel, rollupOptimized } = targetToFlags(target);
 
     await breakpointScopes(dbg, target, "typescript-classes", { line: 50, column: 2 }, [
       "Module",
@@ -762,7 +779,10 @@ async function testTypescriptClasses(dbg) {
       // Rollup optimizes out the 'ns' reference here, but when it does, it leave a mapping
       // pointed at a location that is super weird, so it ends up being unmapped instead
       // be "(optimized out)".
-      ["ns", isRollup ? "(unmapped)" : "{\u2026}"],
+      // Parcel converts the "ns;" mapping into a single full-line mapping, for some reason.
+      // That may have to do with https://github.com/parcel-bundler/parcel/pull/1755#discussion_r205584159
+      // though it's not 100% clear.
+      ["ns", (isRollup || isParcel) ? "(unmapped)" : "{\u2026}"],
       "SubDecl()",
       "SubVar:SubExpr()"
     ]);
@@ -783,6 +803,7 @@ async function testTypeModule(dbg) {
   ]);
 
   for (const target of [
+    "parcel",
     "rollup",
     "rollup-babel6",
     "rollup-babel7",
@@ -819,6 +840,7 @@ async function testTypeScriptCJS(dbg) {
 
   // CJS does not work on Rollup.
   for (const target of [
+    "parcel",
     "webpack3-babel6",
     "webpack3-babel7",
   ]) {
@@ -835,6 +857,7 @@ async function testTypeScriptCJS(dbg) {
 async function testOutOfOrderDeclarationsCJS(dbg) {
   // CJS does not work on Rollup.
   for (const target of [
+    "parcel",
     "webpack3-babel6",
     "webpack3-babel7",
   ]) {
@@ -884,6 +907,7 @@ async function testCommonJS(dbg) {
 
   // CJS does not work on Rollup.
   for (const target of [
+    "parcel",
     "webpack3-babel6",
     "webpack3-babel7",
   ]) {
@@ -975,6 +999,7 @@ async function testESModules(dbg) {
   );
 
   for (const target of [
+    "parcel",
     "rollup",
     "webpack3-babel6",
     "webpack3-babel7",
@@ -1079,6 +1104,7 @@ async function testESModulesCJS(dbg) {
 
   // CJS does not work on Rollup.
   for (const target of [
+    "parcel",
     "webpack3-babel6",
     "webpack3-babel7",
   ]) {
@@ -1142,6 +1168,7 @@ async function testESModulesES6(dbg) {
   );
 
   for (const target of [
+    "parcel",
     "rollup",
     "webpack3-babel6",
     "webpack3-babel7",
