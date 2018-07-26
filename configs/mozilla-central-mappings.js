@@ -8,8 +8,7 @@ const EXCLUDED_FILES = {
   "../assets/panel/debugger.properties": "devtools/shared/flags",
   "devtools-connection": "devtools/shared/flags",
   "chrome-remote-interface": "devtools/shared/flags",
-  "devtools-launchpad": "devtools/shared/flags",
-  "devtools-services": "Services"
+  "devtools-launchpad": "devtools/shared/flags"
 };
 
 module.exports = Object.assign(
@@ -27,6 +26,7 @@ module.exports = Object.assign(
     redux: "devtools/client/shared/vendor/redux",
     "prop-types": "devtools/client/shared/vendor/react-prop-types",
     "devtools-modules/src/utils/telemetry": "devtools/client/shared/telemetry",
+    "devtools-services": "Services",
     "wasmparser/dist/WasmParser": "devtools/client/shared/vendor/WasmParser",
     "wasmparser/dist/WasmDis": "devtools/client/shared/vendor/WasmDis"
   },
