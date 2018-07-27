@@ -2,11 +2,52 @@
  * http://creativecommons.org/publicdomain/zero/1.0/ */
 
 // This test can be really slow on debug platforms and should be split.
-requestLongerTimeout(8);
+requestLongerTimeout(20);
 
 // Tests loading sourcemapped sources for Babel's compile output.
 
+const ACTIVE_TARGETS = new Set([
+  // "webpack3",
+  "webpack3-babel6",
+  // "webpack3-babel7",
+  // "webpack4",
+  // "webpack4-babel6",
+  // "webpack4-babel7",
+  "rollup",
+  // "rollup-babel6",
+  // "rollup-babel7",
+  "parcel",
+]);
+
+const ACTIVE_FIXTURES = [
+  testBabelBindingsWithFlow,
+  testBabelFlowtypeBindings,
+  testEvalMaps,
+  testForOf,
+  testShadowedVars,
+  testLineStartBindingsES6,
+  testThisArgumentsBindings,
+  testClasses,
+  testForLoops,
+  testFunctions,
+  testSwitches,
+  testTryCatches,
+  testLexAndNonlex,
+  testTypescriptClasses,
+  testTypeModule,
+  testTypeScriptCJS,
+  testOutOfOrderDeclarationsCJS,
+  testModulesCJS,
+  testWebpackLineMappings,
+  testWebpackFunctions,
+  testESModules,
+  testESModulesCJS,
+  testESModulesES6,
+];
+
 async function breakpointScopes(dbg, target, fixture, { line, column }, scopes) {
+  if (!ACTIVE_TARGETS.has(target)) return;
+
   const filename = `${target}://./${fixture}/input.`;
   const fnName = pairToFnName(target, fixture);
 
@@ -28,29 +69,9 @@ add_task(async function() {
 
   const dbg = await initDebugger("doc-sourcemapped.html");
 
-  await testBabelBindingsWithFlow(dbg);
-  await testBabelFlowtypeBindings(dbg);
-  await testEvalMaps(dbg);
-  await testForOf(dbg);
-  await testShadowedVars(dbg);
-  await testLineStartBindingsES6(dbg);
-  await testThisArgumentsBindings(dbg);
-  await testClasses(dbg);
-  await testForLoops(dbg);
-  await testFunctions(dbg);
-  await testSwitches(dbg);
-  await testTryCatches(dbg);
-  await testLexAndNonlex(dbg);
-  await testTypescriptClasses(dbg);
-  await testTypeModule(dbg);
-  await testTypeScriptCJS(dbg);
-  await testOutOfOrderDeclarationsCJS(dbg);
-  await testCommonJS(dbg);
-  await testWebpackLineMappings(dbg);
-  await testWebpackFunctions(dbg);
-  await testESModules(dbg);
-  await testESModulesCJS(dbg);
-  await testESModulesES6(dbg);
+  for (const fixture of ACTIVE_FIXTURES) {
+    await fixture(dbg);
+  }
 });
 
 function targetToFlags(target) {
