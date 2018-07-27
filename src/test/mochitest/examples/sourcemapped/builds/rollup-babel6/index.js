@@ -12,15 +12,16 @@ const TARGET_NAME = "rollup-babel6";
 module.exports = exports = async function(tests, dirname) {
   const fixtures = [];
   for (const [name, input] of tests) {
-    if (!/rollup-/.test(name) || !/babel-/.test(name)) {
+    if (/typescript-|-cjs/.test(name)) {
       continue;
     }
 
     const testFnName = _.camelCase(`${TARGET_NAME}-${name}`);
     const babelEnv = !name.match(/-es6/);
-    const babelModules = name.match(/-cjs/);
 
     const scriptPath = path.join(dirname, "output", TARGET_NAME, `${name}.js`);
+
+    console.log(`Building ${TARGET_NAME} test ${name}`);
 
     const bundle = await rollup.rollup({
       input: "fake-bundle-root",
@@ -39,10 +40,7 @@ module.exports = exports = async function(tests, dirname) {
           babelrc: false,
           presets: [
             babelEnv
-              ? [
-                  require.resolve("babel-preset-env"),
-                  { modules: babelModules ? "commonjs" : false }
-                ]
+              ? [require.resolve("babel-preset-env"), { modules: false }]
               : null
           ].filter(Boolean),
           plugins: [require.resolve("babel-plugin-transform-flow-strip-types")]
@@ -65,8 +63,6 @@ module.exports = exports = async function(tests, dirname) {
       sourcemap: true,
       exports: "default"
     });
-
-    console.log(`Build ${name}`);
 
     fixtures.push({
       name,
