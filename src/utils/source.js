@@ -17,6 +17,7 @@ import { parse as parseURL } from "url";
 import { getUnicodeUrl } from "devtools-modules";
 export { isMinified } from "./isMinified";
 import { getURL, getFileExtension } from "./sources-tree";
+import { prefs } from "./prefs";
 
 import type { Source, Location } from "../types";
 import type { SourceMetaDataType } from "../reducers/ast";
@@ -52,15 +53,14 @@ function trimUrlQuery(url: string): string {
 }
 
 export function shouldPrettyPrint(source: Source) {
-  if (!source) {
-    return false;
-  }
-  const _isPretty = isPretty(source);
-  const _isJavaScript = isJavaScript(source);
-  const isOriginal = isOriginalId(source.id);
-  const hasSourceMap = source.sourceMapURL;
-
-  if (_isPretty || isOriginal || hasSourceMap || !_isJavaScript) {
+  if (
+    !source ||
+    isPretty(source) ||
+    !isJavaScript(source) ||
+    isOriginalId(source.id) ||
+    source.sourceMapURL ||
+    !prefs.clientSourceMapsEnabled
+  ) {
     return false;
   }
 
