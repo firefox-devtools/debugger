@@ -67,7 +67,7 @@ function targetToFlags(target) {
   const maybeLineStart = hasBabel ? col => col : col => 0;
   const defaultExport = isWebpack4
       ? name => `${name}()`
-      : name => [name, "optimized out"];
+      : name => [name, "(optimized away)"];
 
   return {
     isRollup,
@@ -84,9 +84,16 @@ function pairToFnName(target, fixture) {
   return (target + "-" + fixture).replace(/-([a-z])/g, (s, c) => c.toUpperCase());
 }
 
+function runtimeFunctionName(target, fixture) {
+  // Webpack 4 appears to output it's bundles in such a way that Spidermonkey
+  if (target === "webpack4") return "js";
+
+  return pairToFnName(target, fixture);
+}
+
 function webpackModule(target, fixture, optimizedOut) {
   return [
-    pairToFnName(target, fixture),
+    runtimeFunctionName(target, fixture),
     ["__webpack_exports__", optimizedOut ? "(optimized away)" : "{\u2026}"],
     optimizedOut ? ["__webpack_require__", "(optimized away)"] : "__webpack_require__()",
     ["arguments", optimizedOut ? "(unavailable)" : "Arguments"],
@@ -149,21 +156,28 @@ async function testEvalMaps(dbg) {
   // never loading. I'm not sure what causes that. If we observe flakiness in CI,
   // we should consider disabling this test for now.
 
-  await breakpointScopes(dbg, "webpack3", "eval-maps", { line: 14, column: 0 }, [
-    "Block",
-    ["<this>", "Window"],
-    ["three", "5"],
-    ["two", "4"],
-    "Block",
-    ["three", "3"],
-    ["two", "2"],
-    "Block",
-    ["arguments", "Arguments"],
-    ["one", "1"],
-    ...webpackModule("webpack3", "eval-maps", true /* optimized out */),
-    ["module", "(optimized away)"],
-    "root",
-  ]);
+  for (const target of [
+    "webpack3",
+    "webpack4",
+  ]) {
+    const { defaultExport } = targetToFlags(target);
+
+    await breakpointScopes(dbg, target, "eval-maps", { line: 14, column: 0 }, [
+      "Block",
+      ["<this>", "Window"],
+      ["three", "5"],
+      ["two", "4"],
+      "Block",
+      ["three", "3"],
+      ["two", "2"],
+      "Block",
+      ["arguments", "Arguments"],
+      ["one", "1"],
+      ...webpackModule(target, "eval-maps", true /* optimized out */),
+      ["module", "(optimized away)"],
+      defaultExport("root"),
+    ]);
+  }
 
   for (const target of [
     "parcel",
@@ -193,19 +207,26 @@ async function testEvalMaps(dbg) {
 }
 
 async function testForOf(dbg) {
-  await breakpointScopes(dbg, "webpack3", "for-of", { line: 5, column: 0 }, [
-    "Block",
-    ["<this>", "Window"],
-    ["x", "1"],
-    "Block",
-    ["arguments", "Arguments"],
-    "doThing()",
-    "Block",
-    "mod",
-    ...webpackModule("webpack3", "for-of", true /* optimizedOut */),
-    "forOf",
-    "module"
-  ]);
+  for (const target of [
+    "webpack3",
+    "webpack4",
+  ]) {
+    const { defaultExport } = targetToFlags(target);
+
+    await breakpointScopes(dbg, target, "for-of", { line: 5, column: 0 }, [
+      "Block",
+      ["<this>", "Window"],
+      ["x", "1"],
+      "Block",
+      ["arguments", "Arguments"],
+      "doThing()",
+      "Block",
+      "mod",
+      ...webpackModule(target, "for-of", true /* optimizedOut */),
+      defaultExport("forOf"),
+      "module"
+    ]);
+  }
 
   for (const target of [
     "parcel",
@@ -232,29 +253,34 @@ async function testForOf(dbg) {
 }
 
 async function testShadowedVars(dbg) {
-  await breakpointScopes(dbg, "webpack3", "shadowed-vars", { line: 18, column: 0 }, [
-    "Block",
-    ["<this>", "Window"],
-    ["aConst", '"const3"'],
-    ["aLet", '"let3"'],
+  for (const target of [
+    "webpack3",
+    "webpack4",
+  ]) {
+    await breakpointScopes(dbg, target, "shadowed-vars", { line: 18, column: 0 }, [
+      "Block",
+      ["<this>", "Window"],
+      ["aConst", '"const3"'],
+      ["aLet", '"let3"'],
 
-    "Block",
-    ["aConst", '"const2"'],
-    ["aLet", '"let2"'],
-    "Outer()",
+      "Block",
+      ["aConst", '"const2"'],
+      ["aLet", '"let2"'],
+      "Outer()",
 
-    "Block",
-    ["aConst", '"const1"'],
-    ["aLet", '"let1"'],
-    "Outer()",
+      "Block",
+      ["aConst", '"const1"'],
+      ["aLet", '"let1"'],
+      "Outer()",
 
-    "Block",
-    ["arguments", "Arguments"],
-    ["aVar", '"var3"'],
+      "Block",
+      ["arguments", "Arguments"],
+      ["aVar", '"var3"'],
 
-    ...webpackModule("webpack3", "shadowed-vars", true /* optimizedOut */),
-    ["module", "(optimized away)"],
-  ]);
+      ...webpackModule(target, "shadowed-vars", true /* optimizedOut */),
+      ["module", "(optimized away)"],
+    ]);
+  }
 
   for (const target of [
     "parcel",
@@ -289,28 +315,33 @@ async function testShadowedVars(dbg) {
 }
 
 async function testLineStartBindingsES6(dbg) {
-  await breakpointScopes(
-    dbg,
+  for (const target of [
     "webpack3",
-    "line-start-bindings-es6",
-    { line: 19, column: 0 },
-    [
-      "Block",
-      ["<this>", "{\u2026}"],
-      ["one", "1"],
-      ["two", "2"],
-      "Block",
-      ["arguments", "Arguments"],
+    "webpack4",
+  ]) {
+    await breakpointScopes(
+      dbg,
+      target,
+      "line-start-bindings-es6",
+      { line: 19, column: 0 },
+      [
+        "Block",
+        ["<this>", "{\u2026}"],
+        ["one", "1"],
+        ["two", "2"],
+        "Block",
+        ["arguments", "Arguments"],
 
-      "Block",
-      ["aFunc", "(optimized away)"],
-      ["arguments", "(unavailable)"],
+        "Block",
+        ["aFunc", "(optimized away)"],
+        ["arguments", "(unavailable)"],
 
-      ...webpackModule("webpack3", "line-start-bindings-es6", true /* optimizedOut */),
-      ["module", "(optimized away)"],
-      "root()"
-    ]
-  );
+        ...webpackModule(target, "line-start-bindings-es6", true /* optimizedOut */),
+        ["module", "(optimized away)"],
+        "root()"
+      ]
+    );
+  }
 
   for (const target of [
     "parcel",
@@ -344,50 +375,55 @@ async function testLineStartBindingsES6(dbg) {
 }
 
 async function testThisArgumentsBindings(dbg) {
-  await breakpointScopes(
-    dbg,
+  for (const target of [
     "webpack3",
-    "this-arguments-bindings",
-    { line: 4, column: 0 },
-    [
-      "Block",
-      ["<this>", '"this-value"'],
-      ["arrow", "(uninitialized)"],
-      "fn",
-      ["arg", '"arg-value"'],
-      ["arguments", "Arguments"],
-      "root",
-      ["arguments", "Arguments"],
-      "fn()",
-      ...webpackModule("webpack3", "this-arguments-bindings", true /* optimizedOut */),
-      ["module", "(optimized away)"],
-      "root()"
-    ]
-  );
+    "webpack4",
+  ]) {
+    await breakpointScopes(
+      dbg,
+      target,
+      "this-arguments-bindings",
+      { line: 4, column: 0 },
+      [
+        "Block",
+        ["<this>", '"this-value"'],
+        ["arrow", "(uninitialized)"],
+        "fn",
+        ["arg", '"arg-value"'],
+        ["arguments", "Arguments"],
+        "root",
+        ["arguments", "Arguments"],
+        "fn()",
+        ...webpackModule(target, "this-arguments-bindings", true /* optimizedOut */),
+        ["module", "(optimized away)"],
+        "root()"
+      ]
+    );
 
-  await breakpointScopes(
-    dbg,
-    "webpack3",
-    "this-arguments-bindings",
-    { line: 8, column: 0 },
-    [
-      "Block",
-      ["<this>", '"this-value"'],
-      ["argArrow", '"arrow-arg"'],
-      ["arguments", "Arguments"],
-      "Block",
-      ["arrow", "(optimized away)"],
-      "fn",
-      ["arg", '"arg-value"'],
-      ["arguments", "Arguments"],
-      "root",
-      ["arguments", "Arguments"],
-      "fn()",
-      ...webpackModule("webpack3", "this-arguments-bindings", true /* optimizedOut */),
-      ["module", "(optimized away)"],
-      "root()"
-    ]
-  );
+    await breakpointScopes(
+      dbg,
+      target,
+      "this-arguments-bindings",
+      { line: 8, column: 0 },
+      [
+        "Block",
+        ["<this>", '"this-value"'],
+        ["argArrow", '"arrow-arg"'],
+        ["arguments", "Arguments"],
+        "Block",
+        ["arrow", "(optimized away)"],
+        "fn",
+        ["arg", '"arg-value"'],
+        ["arguments", "Arguments"],
+        "root",
+        ["arguments", "Arguments"],
+        "fn()",
+        ...webpackModule(target, "this-arguments-bindings", true /* optimizedOut */),
+        ["module", "(optimized away)"],
+        "root()"
+      ]
+    );
+  }
 
   for (const target of [
     "parcel",
@@ -444,42 +480,47 @@ async function testThisArgumentsBindings(dbg) {
 }
 
 async function testClasses(dbg) {
-  await breakpointScopes(dbg, "webpack3", "classes", { line: 6, column: 0 }, [
-    "Block",
-    ["<this>", "{}"],
-    ["arguments", "Arguments"],
-    "Block",
-    ["Thing", "(optimized away)"],
-    "Block",
-    "Another()",
-    ["one", "1"],
-    "Thing()",
-    "Block",
-    ["arguments", "(unavailable)"],
-    ...webpackModule("webpack3", "classes", true /* optimizedOut */),
-    ["module", "(optimized away)"],
-    "root()"
-  ]);
+  for (const target of [
+    "webpack3",
+    "webpack4",
+  ]) {
+    await breakpointScopes(dbg, target, "classes", { line: 6, column: 0 }, [
+      "Block",
+      ["<this>", "{}"],
+      ["arguments", "Arguments"],
+      "Block",
+      ["Thing", "(optimized away)"],
+      "Block",
+      "Another()",
+      ["one", "1"],
+      "Thing()",
+      "Block",
+      ["arguments", "(unavailable)"],
+      ...webpackModule(target, "classes", true /* optimizedOut */),
+      ["module", "(optimized away)"],
+      "root()"
+    ]);
 
-  await breakpointScopes(dbg, "webpack3", "classes", { line: 16, column: 0 }, [
-    "Block",
-    ["<this>", "{}"],
-    ["three", "3"],
-    ["two", "2"],
-    "Block",
-    ["arguments", "Arguments"],
-    "Block",
-    "Another()",
-    "Block",
-    "Another()",
-    ["one", "1"],
-    "Thing()",
-    "Block",
-    ["arguments", "(unavailable)"],
-    ...webpackModule("webpack3", "classes", true /* optimizedOut */),
-    ["module", "(optimized away)"],
-    "root()"
-  ]);
+    await breakpointScopes(dbg, target, "classes", { line: 16, column: 0 }, [
+      "Block",
+      ["<this>", "{}"],
+      ["three", "3"],
+      ["two", "2"],
+      "Block",
+      ["arguments", "Arguments"],
+      "Block",
+      "Another()",
+      "Block",
+      "Another()",
+      ["one", "1"],
+      "Thing()",
+      "Block",
+      ["arguments", "(unavailable)"],
+      ...webpackModule(target, "classes", true /* optimizedOut */),
+      ["module", "(optimized away)"],
+      "root()"
+    ]);
+  }
 
   for (const target of [
     "parcel",
@@ -521,42 +562,47 @@ async function testClasses(dbg) {
 }
 
 async function testForLoops(dbg) {
-  await breakpointScopes(dbg, "webpack3", "for-loops", { line: 5, column: 0 }, [
-    "Block",
-    ["<this>", "Window"],
-    ["i", "1"],
-    "Block",
-    ["i", "0"],
-    "Block",
-    ["arguments", "Arguments"],
-    ...webpackModule("webpack3", "for-loops", true /* optimizedOut */),
-    ["module", "(optimized away)"],
-    "root()"
-  ]);
-  await breakpointScopes(dbg, "webpack3", "for-loops", { line: 9, column: 0 }, [
-    "Block",
-    ["<this>", "Window"],
-    ["i", '"2"'],
-    "Block",
-    ["i", "0"],
-    "Block",
-    ["arguments", "Arguments"],
-    ...webpackModule("webpack3", "for-loops", true /* optimizedOut */),
-    ["module", "(optimized away)"],
-    "root()"
-  ]);
-  await breakpointScopes(dbg, "webpack3", "for-loops", { line: 13, column: 0 }, [
-    "Block",
-    ["<this>", "Window"],
-    ["i", "3"],
-    "Block",
-    ["i", "0"],
-    "Block",
-    ["arguments", "Arguments"],
-    ...webpackModule("webpack3", "for-loops", true /* optimizedOut */),
-    ["module", "(optimized away)"],
-    "root()"
-  ]);
+  for (const target of [
+    "webpack3",
+    "webpack4",
+  ]) {
+    await breakpointScopes(dbg, target, "for-loops", { line: 5, column: 0 }, [
+      "Block",
+      ["<this>", "Window"],
+      ["i", "1"],
+      "Block",
+      ["i", "0"],
+      "Block",
+      ["arguments", "Arguments"],
+      ...webpackModule(target, "for-loops", true /* optimizedOut */),
+      ["module", "(optimized away)"],
+      "root()"
+    ]);
+    await breakpointScopes(dbg, target, "for-loops", { line: 9, column: 0 }, [
+      "Block",
+      ["<this>", "Window"],
+      ["i", '"2"'],
+      "Block",
+      ["i", "0"],
+      "Block",
+      ["arguments", "Arguments"],
+      ...webpackModule(target, "for-loops", true /* optimizedOut */),
+      ["module", "(optimized away)"],
+      "root()"
+    ]);
+    await breakpointScopes(dbg, target, "for-loops", { line: 13, column: 0 }, [
+      "Block",
+      ["<this>", "Window"],
+      ["i", "3"],
+      "Block",
+      ["i", "0"],
+      "Block",
+      ["arguments", "Arguments"],
+      ...webpackModule(target, "for-loops", true /* optimizedOut */),
+      ["module", "(optimized away)"],
+      "root()"
+    ]);
+  }
 
   for (const target of [
     "parcel",
@@ -598,30 +644,35 @@ async function testForLoops(dbg) {
 }
 
 async function testFunctions(dbg) {
-  await breakpointScopes(dbg, "webpack3", "functions", { line: 6, column: 0 }, [
-    "Block",
-    ["<this>", "(optimized away)"],
-    ["arguments", "Arguments"],
-    ["p3", "undefined"],
-    "Block",
-    "arrow()",
-    "inner",
-    ["arguments", "Arguments"],
-    ["p2", "undefined"],
-    "Block",
-    "inner()",
-    "Block",
-    ["inner", "(optimized away)"],
-    "decl",
-    ["arguments", "Arguments"],
-    ["p1", "undefined"],
-    "root",
-    ["arguments", "Arguments"],
-    "decl()",
-    ...webpackModule("webpack3", "functions", true /* optimizedOut */),
-    ["module", "(optimized away)"],
-    "root()"
-  ]);
+  for (const target of [
+    "webpack3",
+    "webpack4",
+  ]) {
+    await breakpointScopes(dbg, target, "functions", { line: 6, column: 0 }, [
+      "Block",
+      ["<this>", "(optimized away)"],
+      ["arguments", "Arguments"],
+      ["p3", "undefined"],
+      "Block",
+      "arrow()",
+      "inner",
+      ["arguments", "Arguments"],
+      ["p2", "undefined"],
+      "Block",
+      "inner()",
+      "Block",
+      ["inner", "(optimized away)"],
+      "decl",
+      ["arguments", "Arguments"],
+      ["p1", "undefined"],
+      "root",
+      ["arguments", "Arguments"],
+      "decl()",
+      ...webpackModule(target, "functions", true /* optimizedOut */),
+      ["module", "(optimized away)"],
+      "root()"
+    ]);
+  }
 
   for (const target of [
     "parcel",
@@ -657,33 +708,38 @@ async function testFunctions(dbg) {
 }
 
 async function testSwitches(dbg) {
-  await breakpointScopes(dbg, "webpack3", "switches", { line: 7, column: 0 }, [
-    "Block",
-    ["<this>", "Window"],
-    ["val", "2"],
-    "Block",
-    ["val", "1"],
-    "Block",
-    ["arguments", "Arguments"],
-    ...webpackModule("webpack3", "switches", true /* optimizedOut */),
-    ["module", "(optimized away)"],
-    "root()"
-  ]);
+  for (const target of [
+    "webpack3",
+    "webpack4",
+  ]) {
+    await breakpointScopes(dbg, target, "switches", { line: 7, column: 0 }, [
+      "Block",
+      ["<this>", "Window"],
+      ["val", "2"],
+      "Block",
+      ["val", "1"],
+      "Block",
+      ["arguments", "Arguments"],
+      ...webpackModule(target, "switches", true /* optimizedOut */),
+      ["module", "(optimized away)"],
+      "root()"
+    ]);
 
-  await breakpointScopes(dbg, "webpack3", "switches", { line: 10, column: 0 }, [
-    "Block",
-    ["<this>", "Window"],
-    ["val", "3"],
-    "Block",
-    ["val", "2"],
-    "Block",
-    ["val", "1"],
-    "Block",
-    ["arguments", "Arguments"],
-    ...webpackModule("webpack3", "switches", true /* optimizedOut */),
-    ["module", "(optimized away)"],
-    "root()"
-  ]);
+    await breakpointScopes(dbg, target, "switches", { line: 10, column: 0 }, [
+      "Block",
+      ["<this>", "Window"],
+      ["val", "3"],
+      "Block",
+      ["val", "2"],
+      "Block",
+      ["val", "1"],
+      "Block",
+      ["arguments", "Arguments"],
+      ...webpackModule(target, "switches", true /* optimizedOut */),
+      ["module", "(optimized away)"],
+      "root()"
+    ]);
+  }
 
   for (const target of [
     "parcel",
@@ -720,20 +776,25 @@ async function testSwitches(dbg) {
 }
 
 async function testTryCatches(dbg) {
-  await breakpointScopes(dbg, "webpack3", "try-catches", { line: 8, column: 0 }, [
-    "Block",
-    ["<this>", "Window"],
-    ["two", "2"],
-    "Block",
-    ["err", '"AnError"'],
-    "Block",
-    ["one", "1"],
-    "Block",
-    ["arguments", "Arguments"],
-    ...webpackModule("webpack3", "try-catches", true /* optimizedOut */),
-    ["module", "(optimized away)"],
-    "root()"
-  ]);
+  for (const target of [
+    "webpack3",
+    "webpack4",
+  ]) {
+    await breakpointScopes(dbg, target, "try-catches", { line: 8, column: 0 }, [
+      "Block",
+      ["<this>", "Window"],
+      ["two", "2"],
+      "Block",
+      ["err", '"AnError"'],
+      "Block",
+      ["one", "1"],
+      "Block",
+      ["arguments", "Arguments"],
+      ...webpackModule(target, "try-catches", true /* optimizedOut */),
+      ["module", "(optimized away)"],
+      "root()"
+    ]);
+  }
 
   for (const target of [
     "parcel",
@@ -761,19 +822,24 @@ async function testTryCatches(dbg) {
 }
 
 async function testLexAndNonlex(dbg) {
-  await breakpointScopes(dbg, "webpack3", "lex-and-nonlex", { line: 3, column: 0 }, [
-    "Block",
-    ["<this>", "undefined"],
-    ["arguments", "Arguments"],
-    "Block",
-    "Thing()",
-    "Block",
-    ["arguments", "(unavailable)"],
-    ["someHelper", "(optimized away)"],
-    ...webpackModule("webpack3", "lex-and-nonlex", true /* optimizedOut */),
-    ["module", "(optimized away)"],
-    "root()"
-  ]);
+  for (const target of [
+    "webpack3",
+    "webpack4",
+  ]) {
+    await breakpointScopes(dbg, target, "lex-and-nonlex", { line: 3, column: 0 }, [
+      "Block",
+      ["<this>", "undefined"],
+      ["arguments", "Arguments"],
+      "Block",
+      "Thing()",
+      "Block",
+      ["arguments", "(unavailable)"],
+      ["someHelper", "(optimized away)"],
+      ...webpackModule(target, "lex-and-nonlex", true /* optimizedOut */),
+      ["module", "(optimized away)"],
+      "root()"
+    ]);
+  }
 
   for (const target of [
     "parcel",
@@ -803,6 +869,7 @@ async function testTypescriptClasses(dbg) {
   for (const target of [
     "parcel",
     "webpack3",
+    "webpack4",
     "rollup",
   ]) {
     const { isRollup, isParcel, rollupOptimized } = targetToFlags(target);
@@ -830,17 +897,22 @@ async function testTypescriptClasses(dbg) {
 }
 
 async function testTypeModule(dbg) {
-  await breakpointScopes(dbg, "webpack3", "type-module", { line: 7, column: 0 }, [
-    "Block",
-    ["<this>", "Window"],
-    ["arguments", "Arguments"],
-    "Block",
-    ["alsoModuleScoped", "2"],
-    ...webpackModule("webpack3", "type-module", true /* optimizedOut */),
-    ["module", "(optimized away)"],
-    ["moduleScoped", "1"],
-    "thirdModuleScoped()"
-  ]);
+  for (const target of [
+    "webpack3",
+    "webpack4",
+  ]) {
+    await breakpointScopes(dbg, target, "type-module", { line: 7, column: 0 }, [
+      "Block",
+      ["<this>", "Window"],
+      ["arguments", "Arguments"],
+      "Block",
+      ["alsoModuleScoped", "2"],
+      ...webpackModule(target, "type-module", true /* optimizedOut */),
+      ["module", "(optimized away)"],
+      ["moduleScoped", "1"],
+      "thirdModuleScoped()"
+    ]);
+  }
 
   for (const target of [
     "parcel",
@@ -864,21 +936,26 @@ async function testTypeModule(dbg) {
 }
 
 async function testTypeScriptCJS(dbg) {
-  await breakpointScopes(dbg, "webpack3", "type-script-cjs", { line: 7, column: 0 }, [
-    "Block",
-    ["<this>", "Window"],
-    ["arguments", "Arguments"],
-    "Block",
-    "alsoModuleScopes",
+  for (const target of [
+    "webpack3",
+    "webpack4",
+  ]) {
+    await breakpointScopes(dbg, target, "type-script-cjs", { line: 7, column: 0 }, [
+      "Block",
+      ["<this>", "Window"],
+      ["arguments", "Arguments"],
+      "Block",
+      "alsoModuleScopes",
 
-    "webpack3TypeScriptCjs",
-    ["arguments", "(unavailable)"],
-    ["exports", "(optimized away)"],
-    ["module", "(optimized away)"],
-    "moduleScoped",
-    "nonModules",
-    "thirdModuleScoped",
-  ]);
+      runtimeFunctionName(target, "type-script-cjs"),
+      ["arguments", "(unavailable)"],
+      ["exports", "(optimized away)"],
+      ["module", "(optimized away)"],
+      "moduleScoped",
+      "nonModules",
+      "thirdModuleScoped",
+    ]);
+  }
 
   // CJS does not work on Rollup.
   for (const target of [
@@ -936,20 +1013,25 @@ async function testOutOfOrderDeclarationsCJS(dbg) {
   }
 }
 
-async function testCommonJS(dbg) {
-  await breakpointScopes(dbg, "webpack3", "modules-cjs", { line: 7, column: 0 }, [
-    "Block",
-    ["<this>", "Window"],
-    ["arguments", "Arguments"],
-    "Block",
-    ["alsoModuleScoped", "2"],
-    "webpack3ModulesCjs",
-    ["arguments", "(unavailable)"],
-    ["exports", "(optimized away)"],
-    ["module", "(optimized away)"],
-    ["moduleScoped", "1"],
-    "thirdModuleScoped()"
-  ]);
+async function testModulesCJS(dbg) {
+  for (const target of [
+    "webpack3",
+    "webpack4",
+  ]) {
+    await breakpointScopes(dbg, target, "modules-cjs", { line: 7, column: 0 }, [
+      "Block",
+      ["<this>", "Window"],
+      ["arguments", "Arguments"],
+      "Block",
+      ["alsoModuleScoped", "2"],
+      runtimeFunctionName(target, "modules-cjs"),
+      ["arguments", "(unavailable)"],
+      ["exports", "(optimized away)"],
+      ["module", "(optimized away)"],
+      ["moduleScoped", "1"],
+      "thirdModuleScoped()"
+    ]);
+  }
 
   // CJS does not work on Rollup.
   for (const target of [
@@ -989,7 +1071,7 @@ async function testWebpackLineMappings(dbg) {
       "root",
       ["arguments", "Arguments"],
       "fn:someName()",
-      "webpack3WebpackLineMappings",
+      runtimeFunctionName("webpack3", "webpack-line-mappings"),
       ["__webpack_exports__", "(optimized away)"],
       ["__WEBPACK_IMPORTED_MODULE_0__src_mod1__", "{\u2026}"],
       ["__webpack_require__", "(optimized away)"],
@@ -998,21 +1080,58 @@ async function testWebpackLineMappings(dbg) {
       "root()"
     ]
   );
+
+  await breakpointScopes(
+    dbg,
+    "webpack4",
+    "webpack-line-mappings",
+    { line: 11, column: 0 },
+    [
+      "Block",
+      ["<this>", '"this-value"'],
+      ["arg", '"arg-value"'],
+      ["arguments", "Arguments"],
+      ["inner", "undefined"],
+      "Block",
+      ["someName", "(optimized away)"],
+      "Block",
+      ["two", "2"],
+      "Block",
+      ["one", "1"],
+      "root",
+      ["arguments", "Arguments"],
+      "fn:someName()",
+      runtimeFunctionName("webpack4", "webpack-line-mappings"),
+      ["__webpack_exports__", "(optimized away)"],
+      ["__webpack_require__", "(optimized away)"],
+      ["_src_mod1__WEBPACK_IMPORTED_MODULE_0__", "{\u2026}"],
+      ["arguments", "(unavailable)"],
+      ["module", "(optimized away)"],
+      "root()"
+    ]
+  );
 }
 
 async function testWebpackFunctions(dbg) {
-  await breakpointScopes(dbg, "webpack3", "webpack-functions", { line: 4, column: 0 }, [
-    "Block",
-    ["<this>", "{\u2026}"],
-    ["arguments", "Arguments"],
-    ["x", "4"],
-    "webpack3WebpackFunctions",
-    ["__webpack_exports__", "(optimized away)"],
-    ["__webpack_require__", "(optimized away)"],
-    ["arguments", "(unavailable)"],
-    ["module", "{\u2026}"],
-    ["root", "(optimized away)"]
-  ]);
+  for (const target of [
+    "webpack3",
+    "webpack4",
+  ]) {
+    const { defaultExport } = targetToFlags(target);
+
+    await breakpointScopes(dbg, target, "webpack-functions", { line: 4, column: 0 }, [
+      "Block",
+      ["<this>", "{\u2026}"],
+      ["arguments", "Arguments"],
+      ["x", "4"],
+      runtimeFunctionName(target, "webpack-functions"),
+      ["__webpack_exports__", "(optimized away)"],
+      ["__webpack_require__", "(optimized away)"],
+      ["arguments", "(unavailable)"],
+      ["module", "{\u2026}"],
+      defaultExport("root")
+    ]);
+  }
 }
 
 async function testESModules(dbg) {
@@ -1025,7 +1144,7 @@ async function testESModules(dbg) {
       "Block",
       ["<this>", "Window"],
       ["arguments", "Arguments"],
-      pairToFnName("webpack3", "esmodules"),
+      runtimeFunctionName("webpack3", "esmodules"),
       "__webpack_exports__",
       "__WEBPACK_IMPORTED_MODULE_0__src_mod1__",
       "__WEBPACK_IMPORTED_MODULE_1__src_mod2__",
@@ -1041,6 +1160,36 @@ async function testESModules(dbg) {
       "__webpack_require__",
       "arguments",
       "example",
+      "module",
+      "root()",
+    ]
+  );
+
+  await breakpointScopes(
+    dbg,
+    "webpack4",
+    "esmodules",
+    { line: 20, column: 0 },
+    [
+      "Block",
+      ["<this>", "Window"],
+      ["arguments", "Arguments"],
+      runtimeFunctionName("webpack4", "esmodules"),
+      "__webpack_exports__",
+      "__webpack_require__",
+      "_src_mod1__WEBPACK_IMPORTED_MODULE_0__",
+      "_src_mod10__WEBPACK_IMPORTED_MODULE_8__",
+      "_src_mod11__WEBPACK_IMPORTED_MODULE_9__",
+      "_src_mod2__WEBPACK_IMPORTED_MODULE_1__",
+      "_src_mod3__WEBPACK_IMPORTED_MODULE_2__",
+      "_src_mod4__WEBPACK_IMPORTED_MODULE_3__",
+      "_src_mod5__WEBPACK_IMPORTED_MODULE_4__",
+      "_src_mod6__WEBPACK_IMPORTED_MODULE_5__",
+      "_src_mod7__WEBPACK_IMPORTED_MODULE_6__",
+      "_src_mod9__WEBPACK_IMPORTED_MODULE_7__",
+      "_src_optimized_out__WEBPACK_IMPORTED_MODULE_10__",
+      "arguments",
+      "example()",
       "module",
       "root()",
     ]
@@ -1100,7 +1249,7 @@ async function testESModules(dbg) {
         "root",
         ["<this>", "Window"],
         ["arguments", "Arguments"],
-        pairToFnName(target, "esmodules"),
+        runtimeFunctionName(target, "esmodules"),
         ["aDefault", '"a-default"'],
         ["aDefault2", '"a-default2"'],
         ["aDefault3", '"a-default3"'],
@@ -1131,7 +1280,7 @@ async function testESModulesCJS(dbg) {
       "Block",
       ["<this>", "Window"],
       ["arguments", "Arguments"],
-      pairToFnName("webpack3", "esmodules-cjs"),
+      runtimeFunctionName("webpack3", "esmodules-cjs"),
       "__webpack_exports__",
       "__WEBPACK_IMPORTED_MODULE_0__src_mod1__",
       "__WEBPACK_IMPORTED_MODULE_1__src_mod2__",
@@ -1147,6 +1296,36 @@ async function testESModulesCJS(dbg) {
       "__webpack_require__",
       "arguments",
       "example",
+      "module",
+      "root()",
+    ]
+  );
+
+  await breakpointScopes(
+    dbg,
+    "webpack4",
+    "esmodules-cjs",
+    { line: 20, column: 0 },
+    [
+      "Block",
+      ["<this>", "Window"],
+      ["arguments", "Arguments"],
+      runtimeFunctionName("webpack4", "esmodules-cjs"),
+      "__webpack_exports__",
+      "__webpack_require__",
+      "_src_mod1__WEBPACK_IMPORTED_MODULE_0__",
+      "_src_mod10__WEBPACK_IMPORTED_MODULE_8__",
+      "_src_mod11__WEBPACK_IMPORTED_MODULE_9__",
+      "_src_mod2__WEBPACK_IMPORTED_MODULE_1__",
+      "_src_mod3__WEBPACK_IMPORTED_MODULE_2__",
+      "_src_mod4__WEBPACK_IMPORTED_MODULE_3__",
+      "_src_mod5__WEBPACK_IMPORTED_MODULE_4__",
+      "_src_mod6__WEBPACK_IMPORTED_MODULE_5__",
+      "_src_mod7__WEBPACK_IMPORTED_MODULE_6__",
+      "_src_mod9__WEBPACK_IMPORTED_MODULE_7__",
+      "_src_optimized_out__WEBPACK_IMPORTED_MODULE_10__",
+      "arguments",
+      "example()",
       "module",
       "root()",
     ]
@@ -1198,7 +1377,7 @@ async function testESModulesES6(dbg) {
       "Block",
       ["<this>", "Window"],
       ["arguments", "Arguments"],
-      pairToFnName("webpack3", "esmodules-es6"),
+      runtimeFunctionName("webpack3", "esmodules-es6"),
       "__webpack_exports__",
       "__WEBPACK_IMPORTED_MODULE_0__src_mod1__",
       "__WEBPACK_IMPORTED_MODULE_1__src_mod2__",
@@ -1214,6 +1393,36 @@ async function testESModulesES6(dbg) {
       "__webpack_require__",
       "arguments",
       "example",
+      "module",
+      "root()",
+    ]
+  );
+
+  await breakpointScopes(
+    dbg,
+    "webpack4",
+    "esmodules-es6",
+    { line: 20, column: 0 },
+    [
+      "Block",
+      ["<this>", "Window"],
+      ["arguments", "Arguments"],
+      runtimeFunctionName("webpack4", "esmodules-es6"),
+      "__webpack_exports__",
+      "__webpack_require__",
+      "_src_mod1__WEBPACK_IMPORTED_MODULE_0__",
+      "_src_mod10__WEBPACK_IMPORTED_MODULE_8__",
+      "_src_mod11__WEBPACK_IMPORTED_MODULE_9__",
+      "_src_mod2__WEBPACK_IMPORTED_MODULE_1__",
+      "_src_mod3__WEBPACK_IMPORTED_MODULE_2__",
+      "_src_mod4__WEBPACK_IMPORTED_MODULE_3__",
+      "_src_mod5__WEBPACK_IMPORTED_MODULE_4__",
+      "_src_mod6__WEBPACK_IMPORTED_MODULE_5__",
+      "_src_mod7__WEBPACK_IMPORTED_MODULE_6__",
+      "_src_mod9__WEBPACK_IMPORTED_MODULE_7__",
+      "_src_optimized_out__WEBPACK_IMPORTED_MODULE_10__",
+      "arguments",
+      "example()",
       "module",
       "root()",
     ]
@@ -1283,7 +1492,7 @@ async function testESModulesES6(dbg) {
         ["original$1", '"an-original2"'],
         ["original$2", '"an-original3"'],
 
-        pairToFnName(target, "esmodules-es6"),
+        runtimeFunctionName(target, "esmodules-es6"),
         ["aDefault", '"a-default"'],
         ["aDefault2", '"a-default2"'],
         ["aDefault3", '"a-default3"'],
