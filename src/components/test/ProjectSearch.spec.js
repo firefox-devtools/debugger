@@ -215,6 +215,13 @@ describe("ProjectSearch", () => {
     expect(setExpanded).toHaveBeenCalledWith(testFile, false);
   });
 
+  it("state.inputValue responds to prop.query changes", () => {
+    const component = render({ query: "foo" });
+    expect(component.state().inputValue).toEqual("foo");
+    component.setProps({ query: "" });
+    expect(component.state().inputValue).toEqual("");
+  });
+
   describe("showErrorEmoji", () => {
     it("false if not done & results", () => {
       const component = render({

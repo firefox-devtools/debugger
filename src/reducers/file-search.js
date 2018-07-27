@@ -39,15 +39,17 @@ export type FileSearchState = {
   modifiers: Modifiers
 };
 
+const emptySearchResults = Object.freeze({
+  matches: Object.freeze([]),
+  matchIndex: -1,
+  index: -1,
+  count: 0
+});
+
 export const createFileSearchState = makeRecord(
   ({
     query: "",
-    searchResults: {
-      matches: [],
-      matchIndex: -1,
-      index: -1,
-      count: 0
-    },
+    searchResults: emptySearchResults,
     modifiers: makeRecord({
       caseSensitive: prefs.fileSearchCaseSensitive,
       wholeWord: prefs.fileSearchWholeWord,
@@ -85,6 +87,10 @@ function update(
       }
 
       return state.setIn(["modifiers", action.modifier], actionVal);
+    }
+
+    case "NAVIGATE": {
+      return state.set("query", "").set("searchResults", emptySearchResults);
     }
 
     default: {
