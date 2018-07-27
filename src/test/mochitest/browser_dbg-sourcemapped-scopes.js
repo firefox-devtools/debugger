@@ -722,7 +722,7 @@ async function testTypescriptClasses(dbg) {
     "webpack3",
     "rollup",
   ]) {
-    const { rollupOptimized } = targetToFlags(target);
+    const { isRollup, rollupOptimized } = targetToFlags(target);
 
     await breakpointScopes(dbg, target, "typescript-classes", { line: 50, column: 2 }, [
       "Module",
@@ -733,7 +733,10 @@ async function testTypescriptClasses(dbg) {
       rollupOptimized ? ["ExportedOther", rollupOptimized] : "ExportedOther()",
       rollupOptimized ? ["ExpressionClass", rollupOptimized] : "ExpressionClass:Foo()",
       "fn()",
-      ["ns", rollupOptimized || "{\u2026}"],
+      // Rollup optimizes out the 'ns' reference here, but when it does, it leave a mapping
+      // pointed at a location that is super weird, so it ends up being unmapped instead
+      // be "(optimized out)".
+      ["ns", isRollup ? "(unmapped)" : "{\u2026}"],
       "SubDecl()",
       "SubVar:SubExpr()"
     ]);
@@ -910,30 +913,33 @@ async function testWebpackFunctions(dbg) {
 }
 
 async function testESModules(dbg) {
-  // TODO: The behavior on Webpack 3 seems to be broken.
   await breakpointScopes(
     dbg,
     "webpack3",
     "esmodules",
     { line: 20, column: 0 },
     [
-      "Module",
-      ["aDefault", "(optimized away)"],
-      ["aDefault2", "(optimized away)"],
-      ["aDefault3", "(optimized away)"],
-      ["anAliased", "(optimized away)"],
-      ["anAliased2", "(optimized away)"],
-      ["anAliased3", "(optimized away)"],
-      ["aNamed", "(optimized away)"],
-      ["aNamed2", "(optimized away)"],
-      ["aNamed3", "(optimized away)"],
-      ["aNamespace", "(optimized away)"],
-      ["anotherNamed", "(optimized away)"],
-      ["anotherNamed2", "(optimized away)"],
-      ["anotherNamed3", "(optimized away)"],
-      ["example", "(unmapped)"],
-      ["optimizedOut", "(optimized away)"],
-      ["root", "(unmapped)"]
+      "Block",
+      ["<this>", "Window"],
+      ["arguments", "Arguments"],
+      pairToFnName("webpack3", "esmodules"),
+      "__webpack_exports__",
+      "__WEBPACK_IMPORTED_MODULE_0__src_mod1__",
+      "__WEBPACK_IMPORTED_MODULE_1__src_mod2__",
+      "__WEBPACK_IMPORTED_MODULE_10__src_optimized_out__",
+      "__WEBPACK_IMPORTED_MODULE_2__src_mod3__",
+      "__WEBPACK_IMPORTED_MODULE_3__src_mod4__",
+      "__WEBPACK_IMPORTED_MODULE_4__src_mod5__",
+      "__WEBPACK_IMPORTED_MODULE_5__src_mod6__",
+      "__WEBPACK_IMPORTED_MODULE_6__src_mod7__",
+      "__WEBPACK_IMPORTED_MODULE_7__src_mod9__",
+      "__WEBPACK_IMPORTED_MODULE_8__src_mod10__",
+      "__WEBPACK_IMPORTED_MODULE_9__src_mod11__",
+      "__webpack_require__",
+      "arguments",
+      "example",
+      "module",
+      "root()",
     ]
   );
 
@@ -1004,30 +1010,33 @@ async function testESModules(dbg) {
 
 
 async function testESModulesCJS(dbg) {
-  // TODO: The behavior on Webpack 3 seems to be broken.
   await breakpointScopes(
     dbg,
     "webpack3",
     "esmodules-cjs",
     { line: 20, column: 0 },
     [
-      "Module",
-      ["aDefault", "(optimized away)"],
-      ["aDefault2", "(optimized away)"],
-      ["aDefault3", "(optimized away)"],
-      ["anAliased", "(optimized away)"],
-      ["anAliased2", "(optimized away)"],
-      ["anAliased3", "(optimized away)"],
-      ["aNamed", "(optimized away)"],
-      ["aNamed2", "(optimized away)"],
-      ["aNamed3", "(optimized away)"],
-      ["aNamespace", "(optimized away)"],
-      ["anotherNamed", "(optimized away)"],
-      ["anotherNamed2", "(optimized away)"],
-      ["anotherNamed3", "(optimized away)"],
-      ["example", "(unmapped)"],
-      ["optimizedOut", "(optimized away)"],
-      ["root", "(unmapped)"]
+      "Block",
+      ["<this>", "Window"],
+      ["arguments", "Arguments"],
+      pairToFnName("webpack3", "esmodules-cjs"),
+      "__webpack_exports__",
+      "__WEBPACK_IMPORTED_MODULE_0__src_mod1__",
+      "__WEBPACK_IMPORTED_MODULE_1__src_mod2__",
+      "__WEBPACK_IMPORTED_MODULE_10__src_optimized_out__",
+      "__WEBPACK_IMPORTED_MODULE_2__src_mod3__",
+      "__WEBPACK_IMPORTED_MODULE_3__src_mod4__",
+      "__WEBPACK_IMPORTED_MODULE_4__src_mod5__",
+      "__WEBPACK_IMPORTED_MODULE_5__src_mod6__",
+      "__WEBPACK_IMPORTED_MODULE_6__src_mod7__",
+      "__WEBPACK_IMPORTED_MODULE_7__src_mod9__",
+      "__WEBPACK_IMPORTED_MODULE_8__src_mod10__",
+      "__WEBPACK_IMPORTED_MODULE_9__src_mod11__",
+      "__webpack_require__",
+      "arguments",
+      "example",
+      "module",
+      "root()",
     ]
   );
 
@@ -1064,30 +1073,33 @@ async function testESModulesCJS(dbg) {
 }
 
 async function testESModulesES6(dbg) {
-  // TODO: The behavior on Webpack 3 seems to be broken.
   await breakpointScopes(
     dbg,
     "webpack3",
     "esmodules-es6",
     { line: 20, column: 0 },
     [
-      "Module",
-      ["aDefault", "(optimized away)"],
-      ["aDefault2", "(optimized away)"],
-      ["aDefault3", "(optimized away)"],
-      ["anAliased", "(optimized away)"],
-      ["anAliased2", "(optimized away)"],
-      ["anAliased3", "(optimized away)"],
-      ["aNamed", "(optimized away)"],
-      ["aNamed2", "(optimized away)"],
-      ["aNamed3", "(optimized away)"],
-      ["aNamespace", "(optimized away)"],
-      ["anotherNamed", "(optimized away)"],
-      ["anotherNamed2", "(optimized away)"],
-      ["anotherNamed3", "(optimized away)"],
-      ["example", "(unmapped)"],
-      ["optimizedOut", "(optimized away)"],
-      ["root", "(unmapped)"]
+      "Block",
+      ["<this>", "Window"],
+      ["arguments", "Arguments"],
+      pairToFnName("webpack3", "esmodules-es6"),
+      "__webpack_exports__",
+      "__WEBPACK_IMPORTED_MODULE_0__src_mod1__",
+      "__WEBPACK_IMPORTED_MODULE_1__src_mod2__",
+      "__WEBPACK_IMPORTED_MODULE_10__src_optimized_out__",
+      "__WEBPACK_IMPORTED_MODULE_2__src_mod3__",
+      "__WEBPACK_IMPORTED_MODULE_3__src_mod4__",
+      "__WEBPACK_IMPORTED_MODULE_4__src_mod5__",
+      "__WEBPACK_IMPORTED_MODULE_5__src_mod6__",
+      "__WEBPACK_IMPORTED_MODULE_6__src_mod7__",
+      "__WEBPACK_IMPORTED_MODULE_7__src_mod9__",
+      "__WEBPACK_IMPORTED_MODULE_8__src_mod10__",
+      "__WEBPACK_IMPORTED_MODULE_9__src_mod11__",
+      "__webpack_require__",
+      "arguments",
+      "example",
+      "module",
+      "root()",
     ]
   );
 
