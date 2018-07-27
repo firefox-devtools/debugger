@@ -23,31 +23,18 @@ import type { PendingBreakpoint } from "../types";
 import type { Action, DonePromiseAction } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
-export type PendingBreakpointsMap = I.Map<string, PendingBreakpoint>;
+export type PendingBreakpointsState = { [string]: PendingBreakpoint };
 
-export type PendingBreakpointsState = {
-  pendingBreakpoints: PendingBreakpointsMap
-};
-
-export function initialPendingBreakpointsState(): Record<
-  PendingBreakpointsState
-> {
-  return makeRecord(
-    ({
-      pendingBreakpoints: restorePendingBreakpoints()
-    }: PendingBreakpointsState)
-  )();
+export function initialPendingBreakpointsState(): PendingBreakpointsState {
+  return restorePendingBreakpoints();
 }
 
 function update(
-  state: Record<PendingBreakpointsState> = initialPendingBreakpointsState(),
+  state: PendingBreakpointsState = initialPendingBreakpointsState(),
   action: Action
 ) {
   switch (action.type) {
     case "ADD_BREAKPOINT": {
-      if (action.breakpoint.hidden) {
-        return state;
-      }
       return addBreakpoint(state, action);
     }
 
@@ -87,7 +74,7 @@ function update(
 }
 
 function addBreakpoint(state, action) {
-  if (action.status !== "done") {
+  if (action.breakpoint.hidden || action.status !== "done") {
     return state;
   }
   // when the action completes, we can commit the breakpoint
@@ -95,17 +82,15 @@ function addBreakpoint(state, action) {
   const locationId = makePendingLocationId(breakpoint.location);
   const pendingBreakpoint = createPendingBreakpoint(breakpoint);
 
-  return state.setIn(["pendingBreakpoints", locationId], pendingBreakpoint);
+  return { ...state, [locationId]: pendingBreakpoint };
 }
 
 function syncBreakpoint(state, action) {
   const { breakpoint, previousLocation } = action;
 
   if (previousLocation) {
-    state = state.deleteIn([
-      "pendingBreakpoints",
-      makePendingLocationId(previousLocation)
-    ]);
+    const previousLocationId = makePendingLocationId(previousLocation);
+    state = deleteBreakpoint(state, previousLocationId);
   }
 
   if (!breakpoint) {
@@ -115,7 +100,7 @@ function syncBreakpoint(state, action) {
   const locationId = makePendingLocationId(breakpoint.location);
   const pendingBreakpoint = createPendingBreakpoint(breakpoint);
 
-  return state.setIn(["pendingBreakpoints", locationId], pendingBreakpoint);
+  return { ...state, [locationId]: pendingBreakpoint };
 }
 
 function updateBreakpoint(state, action) {
@@ -123,14 +108,16 @@ function updateBreakpoint(state, action) {
   const locationId = makePendingLocationId(breakpoint.location);
   const pendingBreakpoint = createPendingBreakpoint(breakpoint);
 
-  return state.setIn(["pendingBreakpoints", locationId], pendingBreakpoint);
+  return { ...state, [locationId]: pendingBreakpoint };
 }
 
 function updateAllBreakpoints(state, action) {
   const { breakpoints } = action;
   breakpoints.forEach(breakpoint => {
     const locationId = makePendingLocationId(breakpoint.location);
-    state = state.setIn(["pendingBreakpoints", locationId], breakpoint);
+    const pendingBreakpoint = createPendingBreakpoint(breakpoint);
+
+    state = { ...state, [locationId]: pendingBreakpoint };
   });
   return state;
 }
@@ -139,37 +126,47 @@ function removeBreakpoint(state, action) {
   const { breakpoint } = action;
 
   const locationId = makePendingLocationId(breakpoint.location);
-  const pendingBp = state.pendingBreakpoints.get(locationId);
+  const pendingBp = state[locationId];
 
   if (!pendingBp && action.status == "start") {
-    return state.set("pendingBreakpoints", I.Map());
+    return {};
   }
 
-  return state.deleteIn(["pendingBreakpoints", locationId]);
+  return deleteBreakpoint(state, locationId);
+}
+
+function deleteBreakpoint(state, locationId) {
+  state = { ...state };
+  delete state[locationId];
+  return state;
 }
 
 // Selectors
 // TODO: these functions should be moved out of the reducer
 
-type OuterState = { pendingBreakpoints: Record<PendingBreakpointsState> };
+type OuterState = { pendingBreakpoints: PendingBreakpointsState };
 
 export function getPendingBreakpoints(state: OuterState) {
-  return state.pendingBreakpoints.pendingBreakpoints;
+  return state.pendingBreakpoints;
+}
+
+export function getPendingBreakpointList(
+  state: OuterState
+): PendingBreakpoint[] {
+  return (Object.values(getPendingBreakpoints(state)): any);
 }
 
 export function getPendingBreakpointsForSource(
   state: OuterState,
   sourceUrl: string
-): PendingBreakpointsMap {
-  const pendingBreakpoints =
-    state.pendingBreakpoints.pendingBreakpoints || I.Map();
-  return pendingBreakpoints.filter(
+): PendingBreakpoint[] {
+  return getPendingBreakpointList(state).filter(
     pendingBreakpoint => pendingBreakpoint.location.sourceUrl === sourceUrl
   );
 }
 
 function restorePendingBreakpoints() {
-  return I.Map(prefs.pendingBreakpoints);
+  return { ...prefs.pendingBreakpoints };
 }
 
 export default update;

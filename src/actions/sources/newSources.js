@@ -129,16 +129,15 @@ function checkPendingBreakpoints(sourceId: string) {
       source.url
     );
 
-    if (!pendingBreakpoints.size) {
+    if (pendingBreakpoints.length === 0) {
       return;
     }
 
     // load the source text if there is a pending breakpoint for it
     await dispatch(loadSourceText(source));
 
-    const breakpoints = pendingBreakpoints.valueSeq().toJS();
     await Promise.all(
-      breakpoints.map(bp => dispatch(syncBreakpoint(sourceId, bp)))
+      pendingBreakpoints.map(bp => dispatch(syncBreakpoint(sourceId, bp)))
     );
   };
 }
