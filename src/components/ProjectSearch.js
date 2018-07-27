@@ -123,6 +123,13 @@ export class ProjectSearch extends Component<Props, State> {
     shortcuts.off("Enter", this.onEnterPress);
   }
 
+  componentDidUpdate(prevProps: Props) {
+    // If the query changes in redux, also change it in the UI
+    if (prevProps.query !== this.props.query) {
+      this.setState({ inputValue: this.props.query });
+    }
+  }
+
   toggleProjectTextSearch = (key: string, e: KeyboardEvent) => {
     const { closeProjectSearch, setActiveSearch } = this.props;
     if (e) {
