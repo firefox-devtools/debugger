@@ -360,6 +360,16 @@ async function findGeneratedBinding(
     if (applicableBindings.length > 0) {
       hadApplicableBindings = true;
     }
+    if (locationType === "ref") {
+      // Some tooling creates ranges that map a line as a whole, which is useful
+      // for step-debugging, but can easily lead to finding the wrong binding.
+      // To avoid these false-positives, we entirely ignore bindings matched
+      // by ranges that cover full lines.
+      applicableBindings = applicableBindings.filter(
+        ({ range }) =>
+          !(range.start.column === 0 && range.end.column === Infinity)
+      );
+    }
     if (
       locationType !== "ref" &&
       !(await originalRangeStartsInside(source, pos, sourceMaps))
