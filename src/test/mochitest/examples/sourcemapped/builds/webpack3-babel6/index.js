@@ -12,7 +12,7 @@ const TARGET_NAME = "webpack3-babel6";
 module.exports = exports = async function(tests, dirname) {
   const fixtures = [];
   for (const [name, input] of tests) {
-    if (/rollup-/.test(name) || !/babel-/.test(name)) {
+    if (/typescript-/.test(name)) {
       continue;
     }
 
@@ -20,6 +20,8 @@ module.exports = exports = async function(tests, dirname) {
     const evalMaps = name.match(/-eval/);
     const babelEnv = !name.match(/-es6/);
     const babelModules = name.match(/-cjs/);
+
+    console.log(`Building ${TARGET_NAME} test ${name}`);
 
     const scriptPath = path.join(dirname, "output", TARGET_NAME, `${name}.js`);
     const result = await util.promisify(webpack)({
@@ -60,8 +62,6 @@ module.exports = exports = async function(tests, dirname) {
         ].filter(Boolean)
       }
     });
-
-    console.log(result.toString());
 
     fixtures.push({
       name,

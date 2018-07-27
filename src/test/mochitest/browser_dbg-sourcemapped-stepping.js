@@ -53,7 +53,7 @@ function testStepOverForOf(dbg) {
   return breakpointSteps(
     dbg,
     "webpack3-babel6",
-    "babel-step-over-for-of",
+    "step-over-for-of",
     { line: 4, column: 2 },
     [
       ["stepOver", { line: 6, column: 2 }],
@@ -72,7 +72,7 @@ function testStepOverForOfArray(dbg) {
   return breakpointSteps(
     dbg,
     "webpack3-babel6",
-    "babel-step-over-for-of-array",
+    "step-over-for-of-array",
     { line: 3, column: 2 },
     [
       ["stepOver", { line: 5, column: 2 }],
@@ -93,7 +93,7 @@ function testStepOveForOfClosure(dbg) {
   return breakpointSteps(
     dbg,
     "webpack3-babel6",
-    "babel-step-over-for-of-closure",
+    "step-over-for-of-closure",
     { line: 6, column: 2 },
     [
       ["stepOver", { line: 8, column: 2 }],
@@ -109,7 +109,7 @@ function testStepOverForOfArrayClosure(dbg) {
   return breakpointSteps(
     dbg,
     "webpack3-babel6",
-    "babel-step-over-for-of-array-closure",
+    "step-over-for-of-array-closure",
     { line: 3, column: 2 },
     [
       ["stepOver", { line: 5, column: 2 }],
@@ -126,7 +126,7 @@ function testStepOverFunctionParams(dbg) {
   return breakpointSteps(
     dbg,
     "webpack3-babel6",
-    "babel-step-over-function-params",
+    "step-over-function-params",
     { line: 6, column: 2 },
     [["stepOver", { line: 7, column: 2 }], ["stepIn", { line: 2, column: 2 }]]
   );
@@ -136,7 +136,7 @@ function testStepOverRegeneratorAwait(dbg) {
   return breakpointSteps(
     dbg,
     "webpack3-babel6",
-    "babel-step-over-regenerator-await",
+    "step-over-regenerator-await",
     { line: 2, column: 2 },
     [
       // Won't work until a fix to regenerator lands and we rebuild.
