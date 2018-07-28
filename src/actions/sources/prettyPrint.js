@@ -116,8 +116,10 @@ export function togglePrettyPrint(sourceId: string) {
     await dispatch(setPausePoints(newPrettySource.id));
     await dispatch(setSymbols(newPrettySource.id));
 
-    return dispatch(
+    dispatch(
       selectLocation({ ...options.location, sourceId: newPrettySource.id })
     );
+
+    return newPrettySource;
   };
 }
