@@ -10,7 +10,7 @@ import type { Source } from "../types";
 import { getURL } from "../utils/sources-tree";
 import { createSelector } from "reselect";
 
-function getRelativeUrl(source, root) {
+function getRelativeUrl(source: Source, root) {
   const { group, path } = getURL(source);
   if (!root) {
     return path;
@@ -21,8 +21,9 @@ function getRelativeUrl(source, root) {
   return url.slice(url.indexOf(root) + root.length + 1);
 }
 
-function formatSource(source, root): Source {
-  return { ...source, relativeUrl: getRelativeUrl(source, root) };
+function formatSource(source: Source, root): Source {
+  // NOTE: Flow https://github.com/facebook/flow/issues/6342 issue
+  return ({ ...source, relativeUrl: getRelativeUrl(source, root) }: any);
 }
 
 function underRoot(source, root) {
