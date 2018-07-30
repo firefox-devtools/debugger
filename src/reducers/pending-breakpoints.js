@@ -9,9 +9,6 @@
  * @module reducers/pending-breakpoints
  */
 
-import * as I from "immutable";
-import makeRecord from "../utils/makeRecord";
-
 import {
   createPendingBreakpoint,
   makePendingLocationId
@@ -21,7 +18,6 @@ import { prefs } from "../utils/prefs";
 
 import type { PendingBreakpoint } from "../types";
 import type { Action, DonePromiseAction } from "../actions/types";
-import type { Record } from "../utils/makeRecord";
 
 export type PendingBreakpointsState = { [string]: PendingBreakpoint };
 
