@@ -57,8 +57,9 @@ describe("when adding breakpoints", () => {
 
     await dispatch(actions.addBreakpoint(bp.location));
     const pendingBps = selectors.getPendingBreakpoints(getState());
-    expect(pendingBps.size).toBe(2);
-    expect(pendingBps.get(id)).toMatchSnapshot();
+
+    expect(selectors.getPendingBreakpointList(getState())).toHaveLength(2);
+    expect(pendingBps[id]).toMatchSnapshot();
   });
 
   describe("adding and deleting breakpoints", () => {
@@ -87,8 +88,8 @@ describe("when adding breakpoints", () => {
       await dispatch(actions.addBreakpoint(breakpoint2.location));
 
       const pendingBps = selectors.getPendingBreakpoints(getState());
-      expect(pendingBps.get(breakpointLocationId1)).toMatchSnapshot();
-      expect(pendingBps.get(breakpointLocationId2)).toMatchSnapshot();
+      expect(pendingBps[breakpointLocationId1]).toMatchSnapshot();
+      expect(pendingBps[breakpointLocationId2]).toMatchSnapshot();
     });
 
     it("hidden breakponts do not create pending bps", async () => {
@@ -102,7 +103,7 @@ describe("when adding breakpoints", () => {
       );
       const pendingBps = selectors.getPendingBreakpoints(getState());
 
-      expect(pendingBps.get(breakpointLocationId1)).toBeUndefined();
+      expect(pendingBps[breakpointLocationId1]).toBeUndefined();
     });
 
     it("remove a corresponding pending breakpoint when deleting", async () => {
@@ -117,8 +118,8 @@ describe("when adding breakpoints", () => {
       await dispatch(actions.removeBreakpoint(breakpoint1.location));
 
       const pendingBps = selectors.getPendingBreakpoints(getState());
-      expect(pendingBps.has(breakpointLocationId1)).toBe(false);
-      expect(pendingBps.has(breakpointLocationId2)).toBe(true);
+      expect(pendingBps.hasOwnProperty(breakpointLocationId1)).toBe(false);
+      expect(pendingBps.hasOwnProperty(breakpointLocationId2)).toBe(true);
     });
   });
 });
@@ -143,7 +144,7 @@ describe("when changing an existing breakpoint", () => {
       actions.setBreakpointCondition(bp.location, { condition: "2" })
     );
     const bps = selectors.getPendingBreakpoints(getState());
-    const breakpoint = bps.get(id);
+    const breakpoint = bps[id];
     expect(breakpoint.condition).toBe("2");
   });
 
@@ -158,7 +159,7 @@ describe("when changing an existing breakpoint", () => {
     await dispatch(actions.addBreakpoint(bp.location));
     await dispatch(actions.disableBreakpoint(bp.location));
     const bps = selectors.getPendingBreakpoints(getState());
-    const breakpoint = bps.get(id);
+    const breakpoint = bps[id];
     expect(breakpoint.disabled).toBe(true);
   });
 
@@ -176,7 +177,7 @@ describe("when changing an existing breakpoint", () => {
       actions.setBreakpointCondition(bp.location, { condition: "2" })
     );
     const bps = selectors.getPendingBreakpoints(getState());
-    const breakpoint = bps.get(id);
+    const breakpoint = bps[id];
     expect(breakpoint.condition).toBe("2");
   });
 });
@@ -193,7 +194,7 @@ describe("initializing when pending breakpoints exist in prefs", () => {
     const { getState } = createStore(simpleMockThreadClient);
     const id = makePendingLocationId(mockedPendingBreakpoint.location);
     const bps = selectors.getPendingBreakpoints(getState());
-    const bp = bps.get(id);
+    const bp = bps[id];
     expect(bp).toMatchSnapshot();
   });
 
@@ -205,8 +206,8 @@ describe("initializing when pending breakpoints exist in prefs", () => {
 
     await dispatch(actions.addBreakpoint(bar.location));
 
-    const bps = selectors.getPendingBreakpoints(getState());
-    expect(bps.size).toBe(1);
+    const bps = selectors.getPendingBreakpointList(getState());
+    expect(bps).toHaveLength(1);
   });
 
   it("adding bps doesn't remove existing pending breakpoints", async () => {
@@ -218,8 +219,8 @@ describe("initializing when pending breakpoints exist in prefs", () => {
 
     await dispatch(actions.addBreakpoint(bp.location));
 
-    const bps = selectors.getPendingBreakpoints(getState());
-    expect(bps.size).toBe(2);
+    const bps = selectors.getPendingBreakpointList(getState());
+    expect(bps).toHaveLength(2);
   });
 });
 
@@ -329,7 +330,7 @@ describe("invalid breakpoint location", () => {
 
     await dispatch(actions.addBreakpoint(bp.location));
     const pendingBps = selectors.getPendingBreakpoints(getState());
-    const pendingBp = pendingBps.get(correctedPendingId);
+    const pendingBp = pendingBps[correctedPendingId];
     expect(pendingBp).toMatchSnapshot();
   });
 });
