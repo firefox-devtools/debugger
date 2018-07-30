@@ -5,7 +5,8 @@
 // @flow
 
 const { isDevelopment } = require("devtools-environment");
-const { Services, PrefsHelper } = require("devtools-modules");
+const { PrefsHelper } = require("devtools-modules");
+const Services = require("devtools-services");
 
 const prefsSchemaVersion = "1.0.3";
 

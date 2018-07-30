@@ -21,7 +21,8 @@ import {
 import type { OrientationType } from "../reducers/types";
 import type { Source } from "../types";
 
-import { KeyShortcuts, Services } from "devtools-modules";
+import { KeyShortcuts } from "devtools-modules";
+import Services from "devtools-services";
 const shortcuts = new KeyShortcuts({ window });
 
 const { appinfo } = Services;
