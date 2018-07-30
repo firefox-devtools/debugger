@@ -112,9 +112,7 @@ class Breakpoints extends Component<Props> {
             />
             <div className="filename">
               {getTruncatedFileName(source)}
-              {path && (
-                <span>{`../${getDisplayPath(source, sources)}/..`}</span>
-              )}
+              {path && <span>{`../${path}/..`}</span>}
             </div>
           </div>,
           ...breakpoints.map(breakpoint => (
