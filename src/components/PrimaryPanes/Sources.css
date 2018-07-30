@@ -189,6 +189,7 @@
 
 .source-outline-panel {
   flex: 1;
+  overflow: auto;
 }
 
 .sources-list .managed-tree .tree .node img.blackBox {
