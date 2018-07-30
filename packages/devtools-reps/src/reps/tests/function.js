@@ -316,6 +316,26 @@ describe("Function - Jump to definition", () => {
     expect(onViewSourceInDebugger.mock.calls[0][0]).toEqual(object.location);
   });
 
+  it("calls recordTelemetryEvent when jump to definition icon clicked", () => {
+    const onViewSourceInDebugger = jest.fn();
+    const recordTelemetryEvent = jest.fn();
+    const object = stubs.get("getRandom");
+    const renderedComponent = renderRep(object, {
+      onViewSourceInDebugger,
+      recordTelemetryEvent,
+    });
+
+    const node = renderedComponent.find(".jump-definition");
+    node.simulate("click", {
+      type: "click",
+      stopPropagation: () => {}
+    });
+
+    expect(node.exists()).toBeTruthy();
+    expect(recordTelemetryEvent.mock.calls).toHaveLength(1);
+    expect(recordTelemetryEvent.mock.calls[0][0]).toEqual("jump_to_definition");
+  });
+
   it("no icon when onViewSourceInDebugger props not provided", () => {
     const object = stubs.get("getRandom");
     const renderedComponent = renderRep(object);
