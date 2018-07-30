@@ -97,29 +97,33 @@ class Breakpoints extends Component<Props> {
     ];
 
     return [
-      ...breakpointSources.map(({ source, breakpoints }) => [
-        <div
-          className="breakpoint-heading"
-          title={getRawSourceURL(source.url)}
-          key={source.url}
-          onClick={() => this.props.selectSource(source.id)}
-        >
-          <SourceIcon
-            source={source}
-            shouldHide={icon => ["file", "javascript"].includes(icon)}
-          />
-          {[getTruncatedFileName(source), getDisplayPath(source, sources)]
-            .filter(Boolean)
-            .join("\u2014")}
-        </div>,
-        ...breakpoints.map(breakpoint => (
-          <Breakpoint
-            breakpoint={breakpoint}
-            source={source}
-            key={makeLocationId(breakpoint.location)}
-          />
-        ))
-      ])
+      ...breakpointSources.map(({ source, breakpoints, i }) => {
+        const path = getDisplayPath(source, sources);
+        return [
+          <div
+            className="breakpoint-heading"
+            title={getRawSourceURL(source.url)}
+            key={source.url}
+            onClick={() => this.props.selectSource(source.id)}
+          >
+            <SourceIcon
+              source={source}
+              shouldHide={icon => ["file", "javascript"].includes(icon)}
+            />
+            <div className="filename">
+              {getTruncatedFileName(source)}
+              {path && <span>{`../${getDisplayPath(source, sources)}/..`}</span>}
+            </div>
+          </div>,
+          ...breakpoints.map(breakpoint => (
+            <Breakpoint
+              breakpoint={breakpoint}
+              source={source}
+              key={makeLocationId(breakpoint.location)}
+            />
+          ))
+        ];
+      })
     ];
   }
 

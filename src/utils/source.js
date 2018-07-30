@@ -177,44 +177,38 @@ export function getTruncatedFileName(source: Source, length: number = 30) {
  */
 
 export function getDisplayPath(mySource: Source, sources: Source[]) {
-  const myFileName = getFilename(mySource);
-  const myUrl = mySource.url;
-  let myPathSegments;
-  const pathSegmentsWithSameFilename = [];
+  const filename = getFilename(mySource);
 
-  for (const source of sources) {
-    const { url } = source;
-    if (!url) {
-      continue;
-    }
-    const fileName = getFilename(source);
-    if (fileName === myFileName) {
-      const idx = url.lastIndexOf("/");
-      const pathSegments = url.slice(0, idx).split("/");
-      pathSegmentsWithSameFilename.push(pathSegments);
-      if (url === myUrl) {
-        myPathSegments = pathSegments;
-      }
-    }
+  // Find sources that have the same filename, but different paths
+  // as the original source
+  const similarSources = sources.filter(
+    source => mySource.url != source.url && filename == getFilename(source)
+  );
+
+  if (similarSources.length == 0) {
+    return undefined;
   }
 
-  if (!myPathSegments || pathSegmentsWithSameFilename.length === 1) {
-    return;
+  // get an array of source path directories e.g. ['a/b/c.html'] => [['b', 'a']]
+  const paths = [mySource, ...similarSources].map(source =>
+    getURL(source)
+      .path.split("/")
+      .reverse()
+      .slice(1)
+  );
+
+  // create an array of similar path directories and one dis-similar directory
+  // for example [`a/b/c.html`, `a1/b/c.html`] => ['b', 'a']
+  // where 'b' is the similar directory and 'a' is the dis-similar directory.
+  let similar = true;
+  const displayPath = [];
+  for (let i = 0; similar && i < paths[0].length; i++) {
+    const [dir, ...dirs] = paths.map(path => path[i]);
+    displayPath.push(dir);
+    similar = dirs.includes(dir);
   }
 
-  let commonPathSegmentCount;
-  for (let i = 0, { length } = myPathSegments; i < length; i++) {
-    if (
-      pathSegmentsWithSameFilename.some(
-        segments =>
-          segments.length === i + 1 || segments[i] !== myPathSegments[i]
-      )
-    ) {
-      commonPathSegmentCount = i;
-      break;
-    }
-  }
-  return `${[...myPathSegments.slice(commonPathSegmentCount + 1)].join("/")}`;
+  return displayPath.reverse().join("/");
 }
 
 /**

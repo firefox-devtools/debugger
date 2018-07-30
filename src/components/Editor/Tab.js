@@ -182,6 +182,8 @@ class Tab extends PureComponent<Props> {
       pretty: isPrettyCode
     });
 
+    const path = getDisplayPath(source, tabSources);
+
     return (
       <div
         className={className}
@@ -195,9 +197,8 @@ class Tab extends PureComponent<Props> {
           shouldHide={icon => ["file", "javascript"].includes(icon)}
         />
         <div className="filename">
-          {[getTruncatedFileName(source), getDisplayPath(source, tabSources)]
-            .filter(Boolean)
-            .join("\u2014")}
+          {getTruncatedFileName(source)}
+          {path && <span>{`../${getDisplayPath(source, tabSources)}/..`}</span>}
         </div>
         <CloseButton
           handleClick={onClickClose}
