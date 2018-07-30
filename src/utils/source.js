@@ -10,11 +10,11 @@
  */
 
 import { isOriginalId } from "devtools-source-map";
+import { getUnicodeUrl } from "devtools-modules";
+
 import { endTruncateStr } from "./utils";
 import { truncateMiddleText } from "../utils/text";
-
-import { parse as parseURL } from "url";
-import { getUnicodeUrl } from "devtools-modules";
+import { parse as parseURL } from "../utils/url";
 export { isMinified } from "./isMinified";
 import { getURL, getFileExtension } from "./sources-tree";
 import { prefs } from "./prefs";

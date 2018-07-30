@@ -4,7 +4,7 @@
 
 // @flow
 
-import { parse } from "url";
+import { parse } from "../../utils/url";
 import { getUnicodeHostname, getUnicodeUrlPath } from "devtools-modules";
 
 import type { Source } from "../../types";
