@@ -12,7 +12,11 @@ import Breakpoint from "./Breakpoint";
 import SourceIcon from "../../shared/SourceIcon";
 
 import actions from "../../../actions";
-import { getTruncatedFileName, getRawSourceURL } from "../../../utils/source";
+import {
+  getTruncatedFileName,
+  getDisplayPath,
+  getRawSourceURL
+} from "../../../utils/source";
 import { makeLocationId } from "../../../utils/breakpoint";
 
 import { getSelectedSource, getBreakpointSources } from "../../../selectors";
@@ -88,29 +92,38 @@ class Breakpoints extends Component<Props> {
 
   renderBreakpoints() {
     const { breakpointSources } = this.props;
+    const sources = [
+      ...breakpointSources.map(({ source, breakpoints }) => source)
+    ];
 
     return [
-      ...breakpointSources.map(({ source, breakpoints }) => [
-        <div
-          className="breakpoint-heading"
-          title={getRawSourceURL(source.url)}
-          key={source.url}
-          onClick={() => this.props.selectSource(source.id)}
-        >
-          <SourceIcon
-            source={source}
-            shouldHide={icon => ["file", "javascript"].includes(icon)}
-          />
-          {getTruncatedFileName(source)}
-        </div>,
-        ...breakpoints.map(breakpoint => (
-          <Breakpoint
-            breakpoint={breakpoint}
-            source={source}
-            key={makeLocationId(breakpoint.location)}
-          />
-        ))
-      ])
+      ...breakpointSources.map(({ source, breakpoints, i }) => {
+        const path = getDisplayPath(source, sources);
+        return [
+          <div
+            className="breakpoint-heading"
+            title={getRawSourceURL(source.url)}
+            key={source.url}
+            onClick={() => this.props.selectSource(source.id)}
+          >
+            <SourceIcon
+              source={source}
+              shouldHide={icon => ["file", "javascript"].includes(icon)}
+            />
+            <div className="filename">
+              {getTruncatedFileName(source)}
+              {path && <span>{`../${path}/..`}</span>}
+            </div>
+          </div>,
+          ...breakpoints.map(breakpoint => (
+            <Breakpoint
+              breakpoint={breakpoint}
+              source={source}
+              key={makeLocationId(breakpoint.location)}
+            />
+          ))
+        ];
+      })
     ];
   }
 

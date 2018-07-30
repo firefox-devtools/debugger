@@ -21,6 +21,7 @@ import {
   getFileURL,
   getRawSourceURL,
   getTruncatedFileName,
+  getDisplayPath,
   isPretty
 } from "../../utils/source";
 import { copyToTheClipboard } from "../../utils/clipboard";
@@ -149,7 +150,8 @@ class Tab extends PureComponent<Props> {
       selectedSource,
       selectSpecificSource,
       closeTab,
-      source
+      source,
+      tabSources
     } = this.props;
     const sourceId = source.id;
     const active =
@@ -180,6 +182,8 @@ class Tab extends PureComponent<Props> {
       pretty: isPrettyCode
     });
 
+    const path = getDisplayPath(source, tabSources);
+
     return (
       <div
         className={className}
@@ -192,7 +196,10 @@ class Tab extends PureComponent<Props> {
           source={source}
           shouldHide={icon => ["file", "javascript"].includes(icon)}
         />
-        <div className="filename">{getTruncatedFileName(source)}</div>
+        <div className="filename">
+          {getTruncatedFileName(source)}
+          {path && <span>{`../${path}/..`}</span>}
+        </div>
         <CloseButton
           handleClick={onClickClose}
           tooltip={L10N.getStr("sourceTabs.closeTabButtonTooltip")}
