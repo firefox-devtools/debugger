@@ -6,6 +6,7 @@ import {
   getFilename,
   getTruncatedFileName,
   getFileURL,
+  getDisplayPath,
   getMode,
   getSourceLineCount,
   isThirdParty,
@@ -79,6 +80,84 @@ describe("sources", () => {
           30
         )
       ).toBe("測測測測測測測測測測測測測...測測測測測測測測測.html");
+    });
+  });
+
+  describe("getDisplayPath", () => {
+    it("should give us the path for files with same name", () => {
+      expect(
+        getDisplayPath(
+          {
+            url: "http://localhost.com:7999/increment/abc/hello.html",
+            id: ""
+          },
+          [
+            {
+              url: "http://localhost.com:7999/increment/xyz/hello.html",
+              id: ""
+            },
+            {
+              url: "http://localhost.com:7999/increment/abc/hello.html",
+              id: ""
+            },
+            {
+              url: "http://localhost.com:7999/increment/hello.html",
+              id: ""
+            }
+          ]
+        )
+      ).toBe("abc");
+    });
+
+    it(`should give us the path for files with same name
+      in directories with same name`, () => {
+      expect(
+        getDisplayPath(
+          {
+            url: "http://localhost.com:7999/increment/abc/web/hello.html",
+            id: ""
+          },
+          [
+            {
+              url: "http://localhost.com:7999/increment/xyz/web/hello.html",
+              id: ""
+            },
+            {
+              url: "http://localhost.com:7999/increment/abc/web/hello.html",
+              id: ""
+            },
+            {
+              url: "http://localhost.com:7999/increment/hello.html",
+              id: ""
+            }
+          ]
+        )
+      ).toBe("abc/web");
+    });
+
+    it("should give np path for files with unique name", () => {
+      expect(
+        getDisplayPath(
+          {
+            url: "http://localhost.com:7999/increment/abc/web.html",
+            id: ""
+          },
+          [
+            {
+              url: "http://localhost.com:7999/increment/xyz.html",
+              id: ""
+            },
+            {
+              url: "http://localhost.com:7999/increment/abc.html",
+              id: ""
+            },
+            {
+              url: "http://localhost.com:7999/increment/hello.html",
+              id: ""
+            }
+          ]
+        )
+      ).toBe(undefined);
     });
   });
 

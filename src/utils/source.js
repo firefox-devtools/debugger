@@ -169,6 +169,48 @@ export function getTruncatedFileName(source: Source, length: number = 30) {
   return truncateMiddleText(getFilename(source), length);
 }
 
+/* Gets path for files with same filename for editor tabs, breakpoints, etc.
+ * Pass the source, and list of other sources
+ *
+ * @memberof utils/source
+ * @static
+ */
+
+export function getDisplayPath(mySource: Source, sources: Source[]) {
+  const filename = getFilename(mySource);
+
+  // Find sources that have the same filename, but different paths
+  // as the original source
+  const similarSources = sources.filter(
+    source => mySource.url != source.url && filename == getFilename(source)
+  );
+
+  if (similarSources.length == 0) {
+    return undefined;
+  }
+
+  // get an array of source path directories e.g. ['a/b/c.html'] => [['b', 'a']]
+  const paths = [mySource, ...similarSources].map(source =>
+    getURL(source)
+      .path.split("/")
+      .reverse()
+      .slice(1)
+  );
+
+  // create an array of similar path directories and one dis-similar directory
+  // for example [`a/b/c.html`, `a1/b/c.html`] => ['b', 'a']
+  // where 'b' is the similar directory and 'a' is the dis-similar directory.
+  let similar = true;
+  const displayPath = [];
+  for (let i = 0; similar && i < paths[0].length; i++) {
+    const [dir, ...dirs] = paths.map(path => path[i]);
+    displayPath.push(dir);
+    similar = dirs.includes(dir);
+  }
+
+  return displayPath.reverse().join("/");
+}
+
 /**
  * Gets a readable source URL for display purposes.
  * If the source does not have a URL, the source ID will be returned instead.
