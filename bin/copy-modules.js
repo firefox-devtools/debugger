@@ -28,7 +28,7 @@ function ignoreFile(file) {
     return true;
   }
 
-  return file.match(/(\/fixtures|\/test|vendors\.js|types\.js|types\/)/);
+  return file.match(/(\/fixtures|__mocks__|\/test|vendors\.js|types\.js|types\/)/);
 }
 
 function getFiles() {

@@ -4,7 +4,7 @@ module.exports = {
   rootDir,
   displayName: "devtools-components test",
   setupFiles: [
-    "<rootDir>/tests/__mocks__/request-animation-frame.js",
+    "<rootDir>/../../../src/test/__mocks__/request-animation-frame.js",
     "<rootDir>/tests/setup.js"
   ],
   testMatch: ["**/tests/**/*.js"],
