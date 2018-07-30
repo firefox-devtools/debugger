@@ -24,7 +24,7 @@ FunctionRep.propTypes = {
 };
 
 function FunctionRep(props) {
-  const { object: grip, onViewSourceInDebugger } = props;
+  const { object: grip, onViewSourceInDebugger, recordTelemetryEvent } = props;
 
   let jumpToDefinitionButton;
   if (
@@ -41,6 +41,9 @@ function FunctionRep(props) {
         // Stop the event propagation so we don't trigger ObjectInspector
         // expand/collapse.
         e.stopPropagation();
+        if (recordTelemetryEvent) {
+          recordTelemetryEvent("jump_to_definition");
+        }
         onViewSourceInDebugger(grip.location);
       }
     });
