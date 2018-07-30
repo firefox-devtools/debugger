@@ -272,9 +272,7 @@ describe("reloading debuggee", () => {
     await dispatch(
       actions.syncBreakpoint(
         reloadedSource.id,
-        pendingBreakpoint({
-          disabled: true
-        })
+        pendingBreakpoint({ disabled: true })
       )
     );
 

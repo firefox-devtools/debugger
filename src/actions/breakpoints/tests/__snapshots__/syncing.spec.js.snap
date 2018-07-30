@@ -77,7 +77,7 @@ Object {
 `;
 
 exports[`reloading debuggee syncs with changed source and an existing disabled BP 1`] = `
-Immutable.Map {
+Object {
   "http://localhost:8000/examples/magic.js:3:": Object {
     "astLocation": Object {
       "name": undefined,
