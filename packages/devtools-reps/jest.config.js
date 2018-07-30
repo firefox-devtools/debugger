@@ -4,14 +4,12 @@ module.exports = {
   rootDir,
   displayName: "devtools-reps test",
   setupFiles: [
-    "<rootDir>/test/__mocks__/request-animation-frame.js",
+    "<rootDir>/../../../src/test/__mocks__/request-animation-frame.js",
     "<rootDir>/test/__mocks__/selection.js",
     "<rootDir>/test/setup.js"
   ],
   setupTestFrameworkScriptFile: "<rootDir>/test/setup-file.js",
-  testMatch: [
-    "**/tests/**/*.js"
-  ],
+  testMatch: ["**/tests/**/*.js"],
   testPathIgnorePatterns: [
     "/node_modules/",
     "<rootDir>/test/",
@@ -20,9 +18,7 @@ module.exports = {
     "<rootDir>/object-inspector/tests/__mocks__/",
     "<rootDir>/object-inspector/tests/test-utils"
   ],
-  transformIgnorePatterns: [
-    "node_modules/(?!devtools-)"
-  ],
+  transformIgnorePatterns: ["node_modules/(?!devtools-)"],
   moduleNameMapper: {
     "\\.css$": "<rootDir>/../../../src/test/__mocks__/styleMock.js"
   }
