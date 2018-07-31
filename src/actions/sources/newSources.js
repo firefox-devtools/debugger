@@ -109,7 +109,8 @@ function checkSelectedSource(sourceId: string) {
 
     if (rawPendingUrl === source.url) {
       if (isPrettyURL(pendingUrl)) {
-        return await dispatch(togglePrettyPrint(source.id));
+        const prettySource = await dispatch(togglePrettyPrint(source.id));
+        return dispatch(checkPendingBreakpoints(prettySource.id));
       }
 
       await dispatch(
