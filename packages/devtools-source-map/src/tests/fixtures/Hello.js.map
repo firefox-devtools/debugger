@@ -1,0 +1,14 @@
+{
+  "version": 3,
+  "sources": [
+    "/Hello.js"
+  ],
+  "names": [
+    "name"
+  ],
+  "mappings": ";;;;;;AAAA;;;;;;kBAEe;AAAA,MAAGA,IAAH,QAAGA,IAAH;AAAA,SAAc;AAAA;AAAA;AAAA;AAAWA,QAAX;AAAA;AAAA,GAAd;AAAA,C",
+  "file": "Hello.js",
+  "sourcesContent": [
+    "import React from 'react';\n\nexport default ({ name }) => <h1>Hello {name}!</h1>;\n"
+  ]
+}

@@ -31,7 +31,10 @@ import type { Location, Source, SourceId } from "debugger-html";
 
 async function getOriginalURLs(generatedSource: Source) {
   const map = await fetchSourceMap(generatedSource);
-  return map && map.sources;
+  return (
+    map &&
+    map.sources.map(url => (url === generatedSource.url ? `${url} [sm]` : url))
+  );
 }
 
 const COMPUTED_SPANS = new WeakSet();
@@ -266,6 +269,7 @@ async function getOriginalLocation(
 
 async function getOriginalSourceText(originalSource: Source) {
   assert(isOriginalId(originalSource.id), "Source is not an original source");
+  assert(!!originalSource.url, "Source needs a valid url");
 
   const generatedSourceId = originalToGeneratedId(originalSource.id);
   const map = await getSourceMap(generatedSourceId);
@@ -273,15 +277,15 @@ async function getOriginalSourceText(originalSource: Source) {
     return null;
   }
 
-  let text = map.sourceContentFor(originalSource.url);
+  const url = (originalSource.url || "").replace(" [sm]", "");
+  let text = map.sourceContentFor(url);
   if (!text) {
-    text = (await networkRequest(originalSource.url, { loadFromCache: false }))
-      .content;
+    text = (await networkRequest(url, { loadFromCache: false })).content;
   }
 
   return {
     text,
-    contentType: getContentType(originalSource.url || "")
+    contentType: getContentType(url || "")
   };
 }
 

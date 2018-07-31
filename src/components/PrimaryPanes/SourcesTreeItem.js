@@ -153,7 +153,8 @@ export default class SourceTreeItem extends Component<Props, State> {
       case "moz-extension://":
         return L10N.getStr("extensionsText");
       default:
-        return name;
+        // we add " [sm]" to original sources if they have same url as generated
+        return name.replace("%20[sm]", " [sm]");
     }
   }
 

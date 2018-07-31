@@ -12,7 +12,8 @@ import {
   isDirectory,
   addToTree,
   sortEntireTree,
-  isNotJavaScript
+  isNotJavaScript,
+  getFileExtension
 } from "../index";
 
 describe("sources tree", () => {
@@ -103,6 +104,14 @@ describe("sources tree", () => {
     it("png file", () => {
       const source = { url: "http://example.com/foo.png" };
       expect(isNotJavaScript(source)).toBe(true);
+    });
+  });
+
+  describe("getFileExtension", () => {
+    it("handles [sm] url files", () => {
+      expect(getFileExtension({ url: "http://example.com/foo.js [sm]" })).toBe(
+        "js"
+      );
     });
   });
 });

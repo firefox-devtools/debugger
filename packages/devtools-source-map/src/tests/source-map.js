@@ -9,10 +9,11 @@ const {
   getOriginalURLs,
   hasMappedSource,
   getOriginalLocation,
+  getOriginalSourceText,
   clearSourceMaps
 } = require("../source-map");
 
-const { setupBundleFixture } = require("./helpers");
+const { setupBundleFixture, sourceForFixture } = require("./helpers");
 
 describe("source maps", () => {
   beforeEach(() => {
@@ -49,6 +50,11 @@ describe("source maps", () => {
       const urls = await setupBundleFixture("noroot2");
       expect(urls).toEqual(["http://example.com/heart.js"]);
     });
+
+    test("source with original and generated with same url", async () => {
+      const urls = await setupBundleFixture("Hello");
+      expect(urls).toEqual(["http://example.com/Hello.js [sm]"]);
+    });
   });
 
   describe("hasMappedSource", async () => {
@@ -69,6 +75,21 @@ describe("source maps", () => {
       };
       const isMapped = await hasMappedSource(location);
       expect(isMapped).toBe(false);
+    });
+  });
+
+  describe("getOriginalSourceText", () => {
+    test("source with original and generated with same url", async () => {
+      await setupBundleFixture("Hello");
+      const source = sourceForFixture("Hello");
+      source.id = `${source.id}/originalSource`;
+      source.url = `${source.url} [sm]`;
+      const { text, contentType } = await getOriginalSourceText(source);
+      expect(text).toEqual(
+        "import React from 'react';\n\n" +
+          "export default ({ name }) => <h1>Hello {name}!</h1>;\n"
+      );
+      expect(contentType).toEqual("text/javascript");
     });
   });
 
