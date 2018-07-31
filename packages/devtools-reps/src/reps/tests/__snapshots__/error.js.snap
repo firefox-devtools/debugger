@@ -19,6 +19,7 @@ exports[`Error - Eval error renders with expected text for an EvalError 1`] = `
     >
       &lt;anonymous&gt;
     </span>
+     
     <span
       className="objectBox-stackTrace-location"
       key="location0"
@@ -50,6 +51,7 @@ exports[`Error - Internal error renders with expected text for an InternalError 
     >
       &lt;anonymous&gt;
     </span>
+     
     <span
       className="objectBox-stackTrace-location"
       key="location0"
@@ -81,6 +83,7 @@ exports[`Error - Multi line stack error renders with expected text for Error obj
     >
       errorBar
     </span>
+     
     <span
       className="objectBox-stackTrace-location"
       key="location0"
@@ -96,6 +99,7 @@ exports[`Error - Multi line stack error renders with expected text for Error obj
     >
       errorFoo
     </span>
+     
     <span
       className="objectBox-stackTrace-location"
       key="location1"
@@ -111,6 +115,7 @@ exports[`Error - Multi line stack error renders with expected text for Error obj
     >
       &lt;anonymous&gt;
     </span>
+     
     <span
       className="objectBox-stackTrace-location"
       key="location2"
@@ -142,6 +147,7 @@ exports[`Error - Range error renders with expected text for RangeError 1`] = `
     >
       &lt;anonymous&gt;
     </span>
+     
     <span
       className="objectBox-stackTrace-location"
       key="location0"
@@ -173,6 +179,7 @@ exports[`Error - Reference error renders with expected text for ReferenceError 1
     >
       &lt;anonymous&gt;
     </span>
+     
     <span
       className="objectBox-stackTrace-location"
       key="location0"
@@ -204,6 +211,7 @@ exports[`Error - Simple error renders with expected text for simple error 1`] = 
     >
       &lt;anonymous&gt;
     </span>
+     
     <span
       className="objectBox-stackTrace-location"
       key="location0"
@@ -235,6 +243,7 @@ exports[`Error - Syntax error renders with expected text for SyntaxError 1`] = `
     >
       &lt;anonymous&gt;
     </span>
+     
     <span
       className="objectBox-stackTrace-location"
       key="location0"
@@ -266,6 +275,7 @@ exports[`Error - Type error renders with expected text for TypeError 1`] = `
     >
       &lt;anonymous&gt;
     </span>
+     
     <span
       className="objectBox-stackTrace-location"
       key="location0"
@@ -297,6 +307,7 @@ exports[`Error - URI error renders with expected text for URIError 1`] = `
     >
       &lt;anonymous&gt;
     </span>
+     
     <span
       className="objectBox-stackTrace-location"
       key="location0"
@@ -337,6 +348,7 @@ exports[`Error - base-loader.js renders as expected without mode 1`] = `
     >
       onPacket
     </span>
+     
     <span
       className="objectBox-stackTrace-location"
       key="location0"
@@ -352,6 +364,7 @@ exports[`Error - base-loader.js renders as expected without mode 1`] = `
     >
       send
     </span>
+     
     <span
       className="objectBox-stackTrace-location"
       key="location1"
@@ -367,6 +380,7 @@ exports[`Error - base-loader.js renders as expected without mode 1`] = `
     >
       makeInfallible
     </span>
+     
     <span
       className="objectBox-stackTrace-location"
       key="location2"
@@ -382,6 +396,7 @@ exports[`Error - base-loader.js renders as expected without mode 1`] = `
     >
       makeInfallible
     </span>
+     
     <span
       className="objectBox-stackTrace-location"
       key="location3"
@@ -413,6 +428,7 @@ exports[`Error - longString stacktrace - cut-off location renders as expected 1`
     >
       doStuff
     </span>
+     
     <span
       className="objectBox-stackTrace-location"
       key="location0"
@@ -428,6 +444,7 @@ exports[`Error - longString stacktrace - cut-off location renders as expected 1`
     >
       doStuff
     </span>
+     
     <span
       className="objectBox-stackTrace-location"
       key="location1"
@@ -443,6 +460,7 @@ exports[`Error - longString stacktrace - cut-off location renders as expected 1`
     >
       doStuff
     </span>
+     
     <span
       className="objectBox-stackTrace-location"
       key="location2"
@@ -458,6 +476,7 @@ exports[`Error - longString stacktrace - cut-off location renders as expected 1`
     >
       doStuff
     </span>
+     
     <span
       className="objectBox-stackTrace-location"
       key="location3"
@@ -473,6 +492,7 @@ exports[`Error - longString stacktrace - cut-off location renders as expected 1`
     >
       doStuff
     </span>
+     
     <span
       className="objectBox-stackTrace-location"
       key="location4"
@@ -488,6 +508,7 @@ exports[`Error - longString stacktrace - cut-off location renders as expected 1`
     >
       doStuff
     </span>
+     
     <span
       className="objectBox-stackTrace-location"
       key="location5"
@@ -503,6 +524,7 @@ exports[`Error - longString stacktrace - cut-off location renders as expected 1`
     >
       doStuff
     </span>
+     
     <span
       className="objectBox-stackTrace-location"
       key="location6"
@@ -534,6 +556,7 @@ exports[`Error - longString stacktrace renders as expected 1`] = `
     >
       node_modules
     </span>
+     
     <span
       className="objectBox-stackTrace-location"
       key="location0"
@@ -549,6 +572,7 @@ exports[`Error - longString stacktrace renders as expected 1`] = `
     >
       node_modules
     </span>
+     
     <span
       className="objectBox-stackTrace-location"
       key="location1"
@@ -564,6 +588,7 @@ exports[`Error - longString stacktrace renders as expected 1`] = `
     >
       node_modules
     </span>
+     
     <span
       className="objectBox-stackTrace-location"
       key="location2"
@@ -579,6 +604,7 @@ exports[`Error - longString stacktrace renders as expected 1`] = `
     >
       node_modules
     </span>
+     
     <span
       className="objectBox-stackTrace-location"
       key="location3"
@@ -594,6 +620,7 @@ exports[`Error - longString stacktrace renders as expected 1`] = `
     >
       node_modules
     </span>
+     
     <span
       className="objectBox-stackTrace-location"
       key="location4"
@@ -609,6 +636,7 @@ exports[`Error - longString stacktrace renders as expected 1`] = `
     >
       node_modules
     </span>
+     
     <span
       className="objectBox-stackTrace-location"
       key="location5"
@@ -624,6 +652,7 @@ exports[`Error - longString stacktrace renders as expected 1`] = `
     >
       View_MetaTableComponent_6
     </span>
+     
     <span
       className="objectBox-stackTrace-location"
       key="location6"
@@ -639,6 +668,7 @@ exports[`Error - longString stacktrace renders as expected 1`] = `
     >
       node_modules
     </span>
+     
     <span
       className="objectBox-stackTrace-location"
       key="location7"
@@ -654,6 +684,7 @@ exports[`Error - longString stacktrace renders as expected 1`] = `
     >
       node_modules
     </span>
+     
     <span
       className="objectBox-stackTrace-location"
       key="location8"
@@ -669,6 +700,7 @@ exports[`Error - longString stacktrace renders as expected 1`] = `
     >
       node_modules
     </span>
+     
     <span
       className="objectBox-stackTrace-location"
       key="location9"
