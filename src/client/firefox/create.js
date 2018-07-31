@@ -52,7 +52,8 @@ export function createSource(
     isWasm: supportsWasm && source.introductionType === "wasm",
     sourceMapURL: source.sourceMapURL,
     isBlackBoxed: false,
-    loadedState: "unloaded"
+    loadedState: "unloaded",
+    relativeUrl: source.url
   };
 }
 
