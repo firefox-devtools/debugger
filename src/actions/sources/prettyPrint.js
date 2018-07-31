@@ -34,6 +34,7 @@ export function createPrettySource(sourceId: string) {
 
     const prettySource: Source = {
       url,
+      relativeUrl: url,
       id,
       isBlackBoxed: false,
       isPrettyPrinted: true,
