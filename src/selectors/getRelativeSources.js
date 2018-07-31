@@ -6,7 +6,7 @@
 
 import { getProjectDirectoryRoot, getSources } from "../selectors";
 import { chain } from "lodash";
-import type { Source, RelativeSource } from "../types";
+import type { Source } from "../types";
 import { getURL } from "../utils/sources-tree";
 import { createSelector } from "reselect";
 
@@ -21,7 +21,7 @@ function getRelativeUrl(source, root) {
   return url.slice(url.indexOf(root) + root.length + 1);
 }
 
-function formatSource(source, root): RelativeSource {
+function formatSource(source, root): Source {
   return { ...source, relativeUrl: getRelativeUrl(source, root) };
 }
 
@@ -36,7 +36,7 @@ export const getRelativeSources = createSelector(
   getSources,
   getProjectDirectoryRoot,
   (sources, root) => {
-    const relativeSources: RelativeSource[] = chain(sources)
+    const relativeSources: Source[] = chain(sources)
       .pickBy((source: Source) => underRoot(source, root))
       .mapValues((source: Source) => formatSource(source, root))
       .value();

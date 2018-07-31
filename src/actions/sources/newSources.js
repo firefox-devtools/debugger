@@ -36,6 +36,7 @@ function createOriginalSource(
 ): Source {
   return {
     url: originalUrl,
+    relativeUrl: originalUrl,
     id: sourceMaps.generatedToOriginalId(generatedSource.id, originalUrl),
     isPrettyPrinted: false,
     isWasm: false,
