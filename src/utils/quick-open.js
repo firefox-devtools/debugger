@@ -11,7 +11,7 @@ import type { Location as BabelLocation } from "@babel/types";
 import type { Symbols } from "../reducers/ast";
 import type { QuickOpenType } from "../reducers/quick-open";
 import type { TabList } from "../reducers/sources";
-import type { RelativeSource } from "../types";
+import type { Source } from "../types";
 import type { SymbolDeclaration } from "../workers/parser";
 
 export const MODIFIERS = {
@@ -51,7 +51,7 @@ export function parseLineColumn(query: string) {
   }
 }
 
-export function formatSourcesForList(source: RelativeSource, tabs: TabList) {
+export function formatSourcesForList(source: Source, tabs: TabList) {
   const title = getFilename(source);
   const subtitle = endTruncateStr(source.relativeUrl, 100);
   return {
@@ -125,10 +125,10 @@ export function formatShortcutResults(): Array<QuickOpenResult> {
 }
 
 export function formatSources(
-  sources: { [string]: RelativeSource },
+  sources: { [string]: Source },
   tabs: TabList
 ): Array<QuickOpenResult> {
-  const sourceList: RelativeSource[] = (Object.values(sources): any);
+  const sourceList: Source[] = (Object.values(sources): any);
 
   return sourceList
     .filter(source => !isPretty(source))
