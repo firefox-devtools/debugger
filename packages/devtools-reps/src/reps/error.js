@@ -161,6 +161,7 @@ function getStacktraceElements(props, preview) {
         },
         cleanFunctionName(functionName)
       ),
+      " ",
       span(
         {
           key: `location${index}`,
