@@ -9,6 +9,7 @@ module.exports = {
   displayName: "devtools-utils test",
   testMatch: ["**/tests/**/*.js"],
   testPathIgnorePatterns: [],
+  testURL: "http://localhost/",
   transformIgnorePatterns: [],
   setupFiles: [],
   moduleNameMapper: {}

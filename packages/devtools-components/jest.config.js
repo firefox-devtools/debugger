@@ -13,6 +13,7 @@ module.exports = {
     "<rootDir>/tests/__mocks__/",
     "<rootDir>/tests/setup.js"
   ],
+  testURL: "http://localhost/",
   moduleNameMapper: {
     "\\.css$": "<rootDir>/../../../src/test/__mocks__/styleMock.js"
   }
