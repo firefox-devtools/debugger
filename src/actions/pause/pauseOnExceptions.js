@@ -5,6 +5,7 @@
 // @flow
 
 import { PROMISE } from "../utils/middleware/promise";
+import { recordEvent } from "../../utils/telemetry";
 import type { ThunkArgs } from "../types";
 
 /**
@@ -17,6 +18,14 @@ export function pauseOnExceptions(
   shouldPauseOnCaughtExceptions: boolean
 ) {
   return ({ dispatch, client }: ThunkArgs) => {
+    /* eslint-disable camelcase */
+    recordEvent("pause_on_exceptions", {
+      exceptions: shouldPauseOnExceptions,
+      // There's no "n" in the key below (#1463117)
+      caught_exceptio: shouldPauseOnCaughtExceptions
+    });
+    /* eslint-enable camelcase */
+
     return dispatch({
       type: "PAUSE_ON_EXCEPTIONS",
       shouldPauseOnExceptions,
