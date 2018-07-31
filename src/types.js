@@ -287,20 +287,6 @@ export type Source = {|
   +contentType?: string,
   +error?: string,
   +loadedState: "unloaded" | "loading" | "loaded",
-  +relativeUrl?: string
-|};
-
-export type RelativeSource = {|
-  +id: string,
-  +url: string,
-  +sourceMapURL?: string,
-  +isBlackBoxed: boolean,
-  +isPrettyPrinted: boolean,
-  +isWasm: boolean,
-  +text?: string,
-  +contentType?: string,
-  +error?: string,
-  +loadedState: "unloaded" | "loading" | "loaded",
   +relativeUrl: string
 |};
 

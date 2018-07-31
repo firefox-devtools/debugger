@@ -9,6 +9,7 @@ Object {
   "isPrettyPrinted": true,
   "isWasm": false,
   "loadedState": "loaded",
+  "relativeUrl": "http://localhost:8000/examples/base.js:formatted",
   "sourceMapURL": undefined,
   "text": "undefined
 ",
