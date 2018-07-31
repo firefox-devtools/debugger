@@ -9,7 +9,6 @@ import { parse } from "../../utils/url";
 import type { TreeNode, TreeSource, TreeDirectory, ParentMap } from "./types";
 import type { Source } from "../../types";
 import { isPretty } from "../source";
-import { getURL } from "./getURL";
 const IGNORED_URLS = ["debugger eval code", "XStringBundle"];
 
 export function nodeHasChildren(item: TreeNode): boolean {
