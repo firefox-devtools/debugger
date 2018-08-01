@@ -14,21 +14,12 @@ import {
   makePendingLocationId
 } from "../utils/breakpoint";
 
-import { prefs } from "../utils/prefs";
-
 import type { PendingBreakpoint } from "../types";
 import type { Action, DonePromiseAction } from "../actions/types";
 
 export type PendingBreakpointsState = { [string]: PendingBreakpoint };
 
-export function initialPendingBreakpointsState(): PendingBreakpointsState {
-  return restorePendingBreakpoints();
-}
-
-function update(
-  state: PendingBreakpointsState = initialPendingBreakpointsState(),
-  action: Action
-) {
+function update(state: PendingBreakpointsState = {}, action: Action) {
   switch (action.type) {
     case "ADD_BREAKPOINT": {
       return addBreakpoint(state, action);
@@ -159,10 +150,6 @@ export function getPendingBreakpointsForSource(
   return getPendingBreakpointList(state).filter(
     pendingBreakpoint => pendingBreakpoint.location.sourceUrl === sourceUrl
   );
-}
-
-function restorePendingBreakpoints() {
-  return { ...prefs.pendingBreakpoints };
 }
 
 export default update;
