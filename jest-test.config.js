@@ -7,12 +7,14 @@ const rootDir = resolve(__dirname);
 module.exports = {
   rootDir,
   displayName: "test",
+  testURL: "http://localhost/",
   testPathIgnorePatterns: [
     "/node_modules/",
     "/helpers/",
     "/fixtures/",
     "src/test/mochitest/examples/",
     "<rootDir>/firefox",
+    "package.json",
     "<rootDir>/packages"
   ],
   collectCoverageFrom: [
