@@ -44,6 +44,9 @@ global.L10N.setBundle(
 global.jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 global.performance = { now: () => 0 };
 
+const { URL } = require("url");
+global.URL = URL;
+
 Enzyme.configure({ adapter: new Adapter() });
 
 function formatException(reason, p) {

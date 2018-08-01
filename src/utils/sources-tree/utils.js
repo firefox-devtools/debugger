@@ -4,7 +4,7 @@
 
 // @flow
 
-import { parse } from "url";
+import { parse } from "../../utils/url";
 
 import type { TreeNode, TreeSource, TreeDirectory, ParentMap } from "./types";
 import type { Source } from "../../types";

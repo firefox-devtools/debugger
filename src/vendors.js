@@ -25,6 +25,7 @@ import * as fuzzaldrinPlus from "fuzzaldrin-plus";
 import * as transition from "react-transition-group/Transition";
 import * as reactAriaComponentsTabs from "react-aria-components/src/tabs";
 import * as reselect from "reselect";
+import * as url from "url";
 
 // Modules imported without destructuring
 import classnames from "classnames";
@@ -52,5 +53,6 @@ export const vendored = {
   reselect,
   // Svg is required via relative paths, so the key is not imported path.
   // See .babel/transform-mc.js
-  Svg
+  Svg,
+  url
 };

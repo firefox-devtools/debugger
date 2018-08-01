@@ -88,11 +88,4 @@ function buildConfig(envConfig) {
 
 const envConfig = getConfig();
 
-module.exports = {
-  externals: {
-    url: {
-      commonjs: "URL"
-    }
-  },
-  webpackConfig: buildConfig(envConfig)
-};
+module.exports = buildConfig(envConfig);

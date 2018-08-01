@@ -9,18 +9,27 @@ const defaultUrl = {
   href: "",
   origin: "null",
   password: "",
+  path: "",
   pathname: "",
   port: "",
   protocol: "",
   search: "",
-  searchParams: {}, // This should be a "URLSearchParams" object
+  // This should be a "URLSearchParams" object
+  searchParams: {},
   username: ""
 };
 
 export function parse(url: string): URL | object {
   try {
-    return new URL(url);
+    const urlObj = new URL(url);
+    urlObj.path = urlObj.pathname + urlObj.search;
+    return urlObj;
   } catch (err) {
+    // If we're given simply a filename...
+    if (url) {
+      return { ...defaultUrl, path: url, pathname: url };
+    }
+
     return defaultUrl;
   }
 }

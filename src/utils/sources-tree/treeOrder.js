@@ -4,7 +4,7 @@
 
 // @flow
 
-import { parse } from "url";
+import { parse } from "../url";
 
 import { nodeHasChildren } from "./utils";
 
