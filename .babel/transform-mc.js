@@ -2,6 +2,7 @@ const _path = require("path");
 const fs = require("fs");
 
 const mappings = require("../configs/mozilla-central-mappings");
+const mappingValues = Object.values(mappings);
 
 // Add two additional mappings that cannot be reused when creating the
 // webpack bundles.
@@ -154,7 +155,7 @@ module.exports = function({ types: t }) {
         if (
           !exists &&
           !value.endsWith("index") &&
-          !value.startsWith("devtools")
+          !(value.startsWith("devtools") || mappingValues.includes(value))
         ) {
           path.replaceWith(t.stringLiteral(`${value}/index`));
           return;
