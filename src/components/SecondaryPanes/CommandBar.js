@@ -24,7 +24,7 @@ import actions from "../../actions";
 import { debugBtn } from "../shared/Button/CommandBarButton";
 import "./CommandBar.css";
 
-import { Services } from "devtools-modules";
+import Services from "devtools-services";
 const { appinfo } = Services;
 
 const isMacOS = appinfo.OS === "Darwin";

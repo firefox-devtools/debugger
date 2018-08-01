@@ -32,7 +32,7 @@ import { makePendingLocationId } from "../../utils/breakpoint";
 import { createSource, createBreakpointLocation } from "./create";
 
 import { getDeviceFront } from "./fronts-device";
-import { Services } from "devtools-modules";
+import Services from "devtools-services";
 
 let bpClients: BPClients;
 let threadClient: ThreadClient;
