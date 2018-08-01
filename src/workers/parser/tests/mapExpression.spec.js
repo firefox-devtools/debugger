@@ -14,8 +14,10 @@ function test({
   shouldMapExpression
 }) {
   expect(
-    format(mapExpression(expression, mappings, bindings, shouldMapExpression))
-  ).toEqual(format(newExpression));
+    format(mapExpression(expression, mappings, bindings, shouldMapExpression), {
+      parser: "babylon"
+    })
+  ).toEqual(format(newExpression, { parser: "babylon" }));
 }
 
 describe("mapExpression", () => {

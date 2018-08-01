@@ -5,7 +5,7 @@
 // @flow
 
 import parseScriptTags from "parse-script-tags";
-import * as babylon from "babylon";
+import * as babelParser from "@babel/parser";
 import * as t from "@babel/types";
 import isEmpty from "lodash/isEmpty";
 import { getSource } from "../sources";
@@ -13,7 +13,7 @@ import { getSource } from "../sources";
 let ASTs = new Map();
 
 function _parse(code, opts) {
-  return babylon.parse(code, {
+  return babelParser.parse(code, {
     ...opts,
     tokens: true
   });
@@ -32,7 +32,7 @@ const sourceOptions = {
       "jsx",
       "flow",
       "doExpressions",
-      "decorators",
+      "decorators-legacy",
       "objectRestSpread",
       "classProperties",
       "exportDefaultFrom",
@@ -134,7 +134,7 @@ export function getAst(sourceId: string) {
             p !== "decorators2" &&
             (p !== "jsx" || contentType.match(/typescript-jsx/))
         ),
-        "decorators",
+        "decorators-legacy",
         "typescript"
       ]
     };

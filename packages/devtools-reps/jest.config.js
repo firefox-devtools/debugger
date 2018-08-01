@@ -18,6 +18,7 @@ module.exports = {
     "<rootDir>/object-inspector/tests/__mocks__/",
     "<rootDir>/object-inspector/tests/test-utils"
   ],
+  testURL: "http://localhost/",
   transformIgnorePatterns: ["node_modules/(?!devtools-)"],
   moduleNameMapper: {
     "\\.css$": "<rootDir>/../../../src/test/__mocks__/styleMock.js"
