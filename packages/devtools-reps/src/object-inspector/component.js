@@ -520,4 +520,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(require("./actions"), dispatch);
 }
 
-module.exports = connect(mapStateToProps, mapDispatchToProps)(ObjectInspector);
+module.exports = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ObjectInspector);

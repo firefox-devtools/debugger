@@ -88,8 +88,11 @@ const mapStateToProps = state => ({
   endPanelCollapsed: getPaneCollapse(state, "end")
 });
 
-export default connect(mapStateToProps, {
-  togglePaneCollapse: actions.togglePaneCollapse,
-  setActiveSearch: actions.setActiveSearch,
-  openQuickOpen: actions.openQuickOpen
-})(WelcomeBox);
+export default connect(
+  mapStateToProps,
+  {
+    togglePaneCollapse: actions.togglePaneCollapse,
+    setActiveSearch: actions.setActiveSearch,
+    openQuickOpen: actions.openQuickOpen
+  }
+)(WelcomeBox);

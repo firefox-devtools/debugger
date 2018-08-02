@@ -94,7 +94,7 @@ export function bootstrapApp(store: any) {
 
 let currentPendingBreakpoints;
 function updatePrefs(state: any) {
-  let previousPendingBreakpoints = currentPendingBreakpoints;
+  const previousPendingBreakpoints = currentPendingBreakpoints;
   currentPendingBreakpoints = selectors.getPendingBreakpoints(state);
 
   if (

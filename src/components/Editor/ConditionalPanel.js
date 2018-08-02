@@ -202,4 +202,7 @@ const mapDispatchToProps = {
   closeConditionalPanel
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ConditionalPanel);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ConditionalPanel);

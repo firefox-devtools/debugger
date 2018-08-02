@@ -221,8 +221,11 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, {
-  selectLocation: actions.selectLocation,
-  getFunctionText: actions.getFunctionText,
-  flashLineRange: actions.flashLineRange
-})(Outline);
+export default connect(
+  mapStateToProps,
+  {
+    selectLocation: actions.selectLocation,
+    getFunctionText: actions.getFunctionText,
+    flashLineRange: actions.flashLineRange
+  }
+)(Outline);

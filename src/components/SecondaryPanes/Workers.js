@@ -53,4 +53,7 @@ const mapStateToProps = state => ({
   workers: getWorkers(state)
 });
 
-export default connect(mapStateToProps, actions)(Workers);
+export default connect(
+  mapStateToProps,
+  actions
+)(Workers);

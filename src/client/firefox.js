@@ -55,7 +55,10 @@ export async function onConnect(connection: any, actions: Object): Object {
   // sources.
   const sources = await clientCommands.fetchSources();
   const traits = tabTarget.activeTab ? tabTarget.activeTab.traits : null;
-  await actions.connect(tabTarget.url, traits && traits.canRewind);
+  await actions.connect(
+    tabTarget.url,
+    traits && traits.canRewind
+  );
   await actions.newSources(sources);
 
   // If the threadClient is already paused, make sure to show a
