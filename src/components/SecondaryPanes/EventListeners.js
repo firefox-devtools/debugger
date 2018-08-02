@@ -112,10 +112,13 @@ const mapStateToProps = state => {
   return { listeners };
 };
 
-export default connect(mapStateToProps, {
-  selectLocation: actions.selectLocation,
-  addBreakpoint: actions.addBreakpoint,
-  enableBreakpoint: actions.enableBreakpoint,
-  disableBreakpoint: actions.disableBreakpoint,
-  removeBreakpoint: actions.removeBreakpoint
-})(EventListeners);
+export default connect(
+  mapStateToProps,
+  {
+    selectLocation: actions.selectLocation,
+    addBreakpoint: actions.addBreakpoint,
+    enableBreakpoint: actions.enableBreakpoint,
+    disableBreakpoint: actions.disableBreakpoint,
+    removeBreakpoint: actions.removeBreakpoint
+  }
+)(EventListeners);

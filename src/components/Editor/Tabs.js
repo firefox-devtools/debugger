@@ -142,7 +142,9 @@ class Tabs extends PureComponent<Props, State> {
 
     return (
       <div className="source-tabs" ref="sourceTabs">
-        {tabSources.map((source, index) => <Tab key={index} source={source} />)}
+        {tabSources.map((source, index) => (
+          <Tab key={index} source={source} />
+        ))}
       </div>
     );
   }
@@ -202,10 +204,13 @@ const mapStateToProps = state => ({
   tabSources: getSourcesForTabs(state)
 });
 
-export default connect(mapStateToProps, {
-  selectSpecificSource: actions.selectSpecificSource,
-  moveTab: actions.moveTab,
-  closeTab: actions.closeTab,
-  togglePaneCollapse: actions.togglePaneCollapse,
-  showSource: actions.showSource
-})(Tabs);
+export default connect(
+  mapStateToProps,
+  {
+    selectSpecificSource: actions.selectSpecificSource,
+    moveTab: actions.moveTab,
+    closeTab: actions.closeTab,
+    togglePaneCollapse: actions.togglePaneCollapse,
+    showSource: actions.showSource
+  }
+)(Tabs);

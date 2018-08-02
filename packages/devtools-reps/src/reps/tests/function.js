@@ -322,7 +322,7 @@ describe("Function - Jump to definition", () => {
     const object = stubs.get("getRandom");
     const renderedComponent = renderRep(object, {
       onViewSourceInDebugger,
-      recordTelemetryEvent,
+      recordTelemetryEvent
     });
 
     const node = renderedComponent.find(".jump-definition");

@@ -190,15 +190,18 @@ const mapStateToProps = state => ({
   selectedSource: getSelectedSource(state)
 });
 
-export default connect(mapStateToProps, {
-  enableBreakpoint: actions.enableBreakpoint,
-  removeBreakpoint: actions.removeBreakpoint,
-  removeBreakpoints: actions.removeBreakpoints,
-  removeAllBreakpoints: actions.removeAllBreakpoints,
-  disableBreakpoint: actions.disableBreakpoint,
-  selectSpecificLocation: actions.selectSpecificLocation,
-  selectLocation: actions.selectLocation,
-  toggleAllBreakpoints: actions.toggleAllBreakpoints,
-  toggleBreakpoints: actions.toggleBreakpoints,
-  openConditionalPanel: actions.openConditionalPanel
-})(Breakpoint);
+export default connect(
+  mapStateToProps,
+  {
+    enableBreakpoint: actions.enableBreakpoint,
+    removeBreakpoint: actions.removeBreakpoint,
+    removeBreakpoints: actions.removeBreakpoints,
+    removeAllBreakpoints: actions.removeAllBreakpoints,
+    disableBreakpoint: actions.disableBreakpoint,
+    selectSpecificLocation: actions.selectSpecificLocation,
+    selectLocation: actions.selectLocation,
+    toggleAllBreakpoints: actions.toggleAllBreakpoints,
+    toggleBreakpoints: actions.toggleBreakpoints,
+    openConditionalPanel: actions.openConditionalPanel
+  }
+)(Breakpoint);

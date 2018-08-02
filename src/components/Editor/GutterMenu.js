@@ -167,4 +167,7 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, actions)(GutterContextMenuComponent);
+export default connect(
+  mapStateToProps,
+  actions
+)(GutterContextMenuComponent);

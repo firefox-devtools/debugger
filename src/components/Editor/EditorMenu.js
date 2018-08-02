@@ -266,4 +266,7 @@ const mapDispatchToProps = {
   toggleBlackBox
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditorMenu);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EditorMenu);

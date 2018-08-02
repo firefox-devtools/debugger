@@ -375,9 +375,12 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, {
-  selectSource: actions.selectSource,
-  setExpandedState: actions.setExpandedState,
-  setProjectDirectoryRoot: actions.setProjectDirectoryRoot,
-  clearProjectDirectoryRoot: actions.clearProjectDirectoryRoot
-})(SourcesTree);
+export default connect(
+  mapStateToProps,
+  {
+    selectSource: actions.selectSource,
+    setExpandedState: actions.setExpandedState,
+    setProjectDirectoryRoot: actions.setProjectDirectoryRoot,
+    clearProjectDirectoryRoot: actions.clearProjectDirectoryRoot
+  }
+)(SourcesTree);

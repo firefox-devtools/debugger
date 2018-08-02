@@ -142,7 +142,10 @@ const mapStateToProps = state => ({
   selectedSource: getSelectedSource(state)
 });
 
-export default connect(mapStateToProps, {
-  pauseOnExceptions: actions.pauseOnExceptions,
-  selectSource: actions.selectSource
-})(Breakpoints);
+export default connect(
+  mapStateToProps,
+  {
+    pauseOnExceptions: actions.pauseOnExceptions,
+    selectSource: actions.selectSource
+  }
+)(Breakpoints);

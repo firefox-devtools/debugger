@@ -345,12 +345,15 @@ const mapStateToProps = state => ({
   searchResults: getFileSearchResults(state)
 });
 
-export default connect(mapStateToProps, {
-  toggleFileSearchModifier: actions.toggleFileSearchModifier,
-  setFileSearchQuery: actions.setFileSearchQuery,
-  setActiveSearch: actions.setActiveSearch,
-  closeFileSearch: actions.closeFileSearch,
-  doSearch: actions.doSearch,
-  traverseResults: actions.traverseResults,
-  updateSearchResults: actions.updateSearchResults
-})(SearchBar);
+export default connect(
+  mapStateToProps,
+  {
+    toggleFileSearchModifier: actions.toggleFileSearchModifier,
+    setFileSearchQuery: actions.setFileSearchQuery,
+    setActiveSearch: actions.setActiveSearch,
+    closeFileSearch: actions.closeFileSearch,
+    doSearch: actions.doSearch,
+    traverseResults: actions.traverseResults,
+    updateSearchResults: actions.updateSearchResults
+  }
+)(SearchBar);

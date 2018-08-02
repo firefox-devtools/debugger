@@ -89,6 +89,9 @@ const mapStateToProps = state => ({
   popupObjectProperties: getAllPopupObjectProperties(state)
 });
 
-export default connect(mapStateToProps, {
-  setPopupObjectProperties: actions.setPopupObjectProperties
-})(FrameworkComponent);
+export default connect(
+  mapStateToProps,
+  {
+    setPopupObjectProperties: actions.setPopupObjectProperties
+  }
+)(FrameworkComponent);
