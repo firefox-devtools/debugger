@@ -23,6 +23,15 @@ function test({
 describe("mapExpression", () => {
   cases("mapExpressions", test, [
     {
+      name: "await",
+      expression: "await a()",
+      newExpression:
+        "(async () => { return await a()})().then(r => console.log(r));",
+      bindings: [],
+      mappings: {},
+      shouldMapExpression: true
+    },
+    {
       name: "simple",
       expression: "a",
       newExpression: "a",
