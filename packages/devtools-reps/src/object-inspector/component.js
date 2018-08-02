@@ -192,7 +192,8 @@ class ObjectInspector extends Component<Props> {
       loadedProperties,
       nodeExpand,
       nodeCollapse,
-      roots
+      recordTelemetryEvent,
+      roots,
     } = this.props;
 
     if (expand === true) {
@@ -212,6 +213,10 @@ class ObjectInspector extends Component<Props> {
         createObjectClient,
         createLongStringClient
       );
+
+      if (recordTelemetryEvent) {
+        recordTelemetryEvent("object_expanded");
+      }
     } else {
       nodeCollapse(item);
     }
