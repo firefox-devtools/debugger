@@ -6,22 +6,7 @@
 
 import mapOriginalExpression from "./mapOriginalExpression";
 import mapExpressionBindings from "./mapBindings";
-
-import { hasSyntaxError } from "./validate";
-import { buildScopeList } from "./getScopes";
-import generate from "@babel/generator";
-import * as t from "@babel/types";
-
-function handleTopLevelAwait(expression) {
-  if (hasSyntaxError(expression) && expression.match(/await/)) {
-    const newExpression = `(async () => { return ${expression} })().then(r => console.log(r))`;
-    if (!hasSyntaxError(newExpression)) {
-      return newExpression;
-    }
-  }
-
-  return expression;
-}
+import handleTopLevelAwait from "./mapAwaitExpression";
 
 export default function mapExpression(
   expression: string,
@@ -29,9 +14,9 @@ export default function mapExpression(
     [string]: string | null
   },
   bindings: string[],
-  shouldMapBindings: boolean = true
+  shouldMapBindings: boolean = true,
+  shouldMapAwait: boolean = true
 ): string {
-  expression = handleTopLevelAwait(expression);
   try {
     if (mappings) {
       expression = mapOriginalExpression(expression, mappings);
@@ -39,6 +24,10 @@ export default function mapExpression(
 
     if (shouldMapBindings) {
       expression = mapExpressionBindings(expression, bindings);
+    }
+
+    if (shouldMapAwait) {
+      expression = handleTopLevelAwait(expression);
     }
   } catch (e) {
     console.log(e);

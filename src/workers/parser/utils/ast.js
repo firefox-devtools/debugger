@@ -46,7 +46,7 @@ const sourceOptions = {
   }
 };
 
-function parse(text: ?string, opts?: Object) {
+export function parse(text: ?string, opts?: Object): any {
   let ast;
   if (!text) {
     return;
@@ -158,4 +158,21 @@ export function traverseAst<T>(sourceId: string, visitor: Visitor, state?: T) {
 
   t.traverse(ast, visitor, state);
   return ast;
+}
+
+export function hasNode(rootNode: Node, predicate: Function) {
+  try {
+    t.traverse(rootNode, {
+      enter: (node, ancestors) => {
+        if (predicate(node, ancestors)) {
+          throw new Error("MATCH");
+        }
+      }
+    });
+  } catch (e) {
+    if (e.message === "MATCH") {
+      return true;
+    }
+  }
+  return false;
 }

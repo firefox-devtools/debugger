@@ -174,8 +174,9 @@ export function getMappedExpression(expression: string) {
     return parser.mapExpression(
       expression,
       mappings,
-      bindings,
-      features.mapExpressionBindings
+      bindings || [],
+      features.mapExpressionBindings,
+      features.mapAwaitExpression
     );
   };
 }

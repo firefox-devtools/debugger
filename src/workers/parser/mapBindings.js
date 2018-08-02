@@ -5,6 +5,8 @@
 // @flow
 
 import { parseScript } from "./utils/ast";
+import { isTopLevel } from "./utils/helpers";
+
 import generate from "@babel/generator";
 import * as t from "@babel/types";
 
@@ -33,10 +35,6 @@ function globalizeAssignment(node, bindings) {
   return t.assignmentExpression(node.operator, identifier, node.right);
 }
 
-function isTopLevel(ancestors) {
-  return ancestors.filter(ancestor => ancestor.key == "body").length == 1;
-}
-
 function replaceNode(ancestors, node) {
   const parent = ancestors[ancestors.length - 1];
 
@@ -59,7 +57,7 @@ export default function mapExpressionBindings(
   expression: string,
   bindings: string[] = []
 ): string {
-  const ast = parseScript(expression);
+  const ast = parseScript(expression, { allowAwaitOutsideFunction: true });
   let shouldUpdate = true;
   t.traverse(ast, (node, ancestors) => {
     const parent = ancestors[ancestors.length - 1];
