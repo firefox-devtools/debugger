@@ -308,4 +308,61 @@ describe("ObjectInspector - state", () => {
 
     expect(formatObjectInspector(wrapper)).toMatchSnapshot();
   });
+
+  it("calls recordTelemetryEvent when expanding a node", async () => {
+    const recordTelemetryEvent = jest.fn();
+    const wrapper = mount(
+      ObjectInspector(
+        generateDefaults({
+          injectWaitService: true,
+          loadedProperties: new Map([
+            ["root-1", gripPropertiesStubs.get("proto-properties-symbols")]
+          ]),
+          recordTelemetryEvent,
+        })
+      )
+    );
+
+    const store = wrapper.instance().getStore();
+
+    let nodes = wrapper.find(".node");
+    const root1 = nodes.at(0);
+    const root2 = nodes.at(1);
+
+    // Expanding a node calls recordTelemetryEvent.
+    root1.simulate("click");
+    expect(recordTelemetryEvent.mock.calls).toHaveLength(1);
+    expect(recordTelemetryEvent.mock.calls[0][0]).toEqual("object_expanded");
+
+    // Collapsing a node does not call recordTelemetryEvent.
+    root1.simulate("click");
+    expect(recordTelemetryEvent.mock.calls).toHaveLength(1);
+
+    // Expanding another node calls recordTelemetryEvent.
+    const onPropertiesLoaded = waitForDispatch(store, "NODE_PROPERTIES_LOADED");
+    root2.simulate("click");
+    await onPropertiesLoaded;
+    expect(recordTelemetryEvent.mock.calls).toHaveLength(2);
+    expect(recordTelemetryEvent.mock.calls[1][0]).toEqual("object_expanded");
+
+    wrapper.update();
+
+    // Re-expanding a node calls recordTelemetryEvent.
+    root1.simulate("click");
+    expect(recordTelemetryEvent.mock.calls).toHaveLength(3);
+    expect(recordTelemetryEvent.mock.calls[2][0]).toEqual("object_expanded");
+
+    nodes = wrapper.find(".node");
+    const propNode = nodes.at(1);
+    const symbolNode = nodes.at(2);
+    const protoNode = nodes.at(3);
+
+    propNode.simulate("click");
+    symbolNode.simulate("click");
+    protoNode.simulate("click");
+
+    // The property and symbols have primitive values, and can't be expanded.
+    expect(recordTelemetryEvent.mock.calls).toHaveLength(4);
+    expect(recordTelemetryEvent.mock.calls[3][0]).toEqual("object_expanded");
+  });
 });
