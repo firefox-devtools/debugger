@@ -9,7 +9,8 @@ import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 
 import { getSourceClassnames } from "../../utils/source";
-import { getSourceMetaData } from "../../selectors";
+import { getFramework } from "../../utils/tabs";
+import { getSourceMetaData, getTabs } from "../../selectors";
 
 import type { Source } from "../../types";
 import type { SourceMetaDataType } from "../../reducers/ast";
@@ -26,8 +27,10 @@ type Props = {
 
 class SourceIcon extends PureComponent<Props> {
   render() {
-    const { shouldHide, source, sourceMetaData } = this.props;
-    const iconClass = getSourceClassnames(source, sourceMetaData);
+    const { shouldHide, source, sourceMetaData, framework } = this.props;
+    const iconClass = framework
+      ? framework.toLowerCase()
+      : getSourceClassnames(source, sourceMetaData);
 
     if (shouldHide && shouldHide(iconClass)) {
       return null;
@@ -39,6 +42,7 @@ class SourceIcon extends PureComponent<Props> {
 
 export default connect((state, props) => {
   return {
-    sourceMetaData: getSourceMetaData(state, props.source.id)
+    sourceMetaData: getSourceMetaData(state, props.source.id),
+    framework: getFramework(getTabs(state), props.source.url)
   };
 })(SourceIcon);

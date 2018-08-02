@@ -21,6 +21,7 @@ import { loadSourceText } from "./loadSourceText";
 
 import { prefs } from "../../utils/prefs";
 import { shouldPrettyPrint, isMinified } from "../../utils/source";
+import { getFramework } from "../../utils/tabs";
 import { createLocation } from "../../utils/location";
 import { getMappedLocation } from "../../utils/source-maps";
 
@@ -30,7 +31,8 @@ import {
   getPrettySource,
   getActiveSearch,
   getSelectedLocation,
-  getSelectedSource
+  getSelectedSource,
+  getTabs
 } from "../../selectors";
 
 import type { Location, Position, Source } from "../../types";
@@ -129,6 +131,10 @@ export function selectLocation(
     }
 
     dispatch(addTab(source.url, 0));
+
+    const framework = getFramework(getTabs(getState()), source.url);
+    dispatch(addTab(source.url, framework));
+
     dispatch(setSelectedLocation(source, location));
 
     await dispatch(loadSourceText(source));

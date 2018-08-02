@@ -13,6 +13,7 @@ import {
 } from "../selectors";
 
 import { mapFrames, fetchExtra } from "./pause";
+import { updateTab } from "./sources/tabs";
 
 import { setInScopeLines } from "./ast/setInScopeLines";
 import {
@@ -38,6 +39,9 @@ export function setSourceMetaData(sourceId: SourceId) {
     }
 
     const framework = await getFramework(source.id);
+
+    // undefined is to keep the tap where it is
+    dispatch(updateTab(source.url, undefined, framework));
 
     dispatch(
       ({

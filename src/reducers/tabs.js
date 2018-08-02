@@ -24,16 +24,16 @@ import {
 import type { Action } from "../actions/types";
 import type { SourcesState } from "./sources";
 
-type Tab = string;
+type Tab = { url: string, framework: string };
 export type TabList = Tab[];
 
 function update(state: TabList = prefs.tabs || [], action: Action): TabList {
   switch (action.type) {
     case "ADD_TAB":
-      return updateTabList(state, action.url);
+      return updateTabList(state, action);
 
     case "MOVE_TAB":
-      return updateTabList(state, action.url, action.tabIndex);
+      return updateTabList(state, action);
 
     case "CLOSE_TAB":
     case "CLOSE_TABS":
@@ -46,11 +46,11 @@ function update(state: TabList = prefs.tabs || [], action: Action): TabList {
 }
 
 export function removeSourceFromTabList(tabs: TabList, url: string): TabList {
-  return tabs.filter(tab => tab !== url);
+  return tabs.filter(tab => tab.url !== url);
 }
 
 export function removeSourcesFromTabList(tabs: TabList, urls: TabList) {
-  return urls.reduce((t, url) => removeSourceFromTabList(t, url), tabs);
+  return urls.reduce((t, url) => removeSourceFromTabList(t.url, url), tabs);
 }
 
 /**
@@ -58,12 +58,14 @@ export function removeSourcesFromTabList(tabs: TabList, urls: TabList) {
  * @memberof reducers/tabs
  * @static
  */
-function updateTabList(tabs: TabList, url: string, newIndex: ?number) {
-  const currentIndex = tabs.indexOf(url);
+function updateTabList(tabs: TabList, { url, tabIndex: newIndex, framework }) {
+  const currentIndex = tabs.indexOf(tab => tab.url === url);
   if (currentIndex === -1) {
-    tabs = [url, ...tabs];
+    tabs = [{ url, framework }, ...tabs];
   } else if (newIndex !== undefined) {
     tabs = move(tabs, currentIndex, newIndex);
+  } else if (framework) {
+    tabs[currentIndex].framework = framework;
   }
 
   prefs.tabs = tabs;

@@ -67,7 +67,7 @@ describe("sources", () => {
 
     const tabs = getSourceTabs(getState());
     expect(tabs).toHaveLength(1);
-    expect(tabs[0]).toEqual("http://localhost:8000/examples/foo.js");
+    expect(tabs[0].url).toEqual("http://localhost:8000/examples/foo.js");
   });
 
   it("should select previous tab on tab closed", async () => {

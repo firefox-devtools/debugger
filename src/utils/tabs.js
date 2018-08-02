@@ -40,6 +40,14 @@ export function getHiddenTabs(
   });
 }
 
+export function getFramework(tabs, url) {
+  const tab = tabs.find(t => t.url === url);
+
+  if (tab) {
+    return tab.framework;
+  }
+}
+
 export function getTabMenuItems() {
   return {
     closeTab: {
