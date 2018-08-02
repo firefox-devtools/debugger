@@ -422,8 +422,7 @@ describe("ObjectInspector - renders", () => {
         })
       )
     );
-    oi
-      .find(".node")
+    oi.find(".node")
       .at(0)
       .simulate("click");
     const oldTree = formatObjectInspector(oi);

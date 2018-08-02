@@ -122,9 +122,12 @@ const mapStateToProps = state => ({
   sourceSearchOn: getActiveSearch(state) === "source"
 });
 
-export default connect(mapStateToProps, {
-  setPrimaryPaneTab: actions.setPrimaryPaneTab,
-  selectLocation: actions.selectLocation,
-  setActiveSearch: actions.setActiveSearch,
-  closeActiveSearch: actions.closeActiveSearch
-})(PrimaryPanes);
+export default connect(
+  mapStateToProps,
+  {
+    setPrimaryPaneTab: actions.setPrimaryPaneTab,
+    selectLocation: actions.selectLocation,
+    setActiveSearch: actions.setActiveSearch,
+    closeActiveSearch: actions.closeActiveSearch
+  }
+)(PrimaryPanes);

@@ -403,10 +403,13 @@ const mapStateToProps = state => ({
   workers: getWorkers(state)
 });
 
-export default connect(mapStateToProps, {
-  toggleAllBreakpoints: actions.toggleAllBreakpoints,
-  toggleShortcutsModal: actions.toggleShortcutsModal,
-  evaluateExpressions: actions.evaluateExpressions,
-  pauseOnExceptions: actions.pauseOnExceptions,
-  breakOnNext: actions.breakOnNext
-})(SecondaryPanes);
+export default connect(
+  mapStateToProps,
+  {
+    toggleAllBreakpoints: actions.toggleAllBreakpoints,
+    toggleShortcutsModal: actions.toggleShortcutsModal,
+    evaluateExpressions: actions.evaluateExpressions,
+    pauseOnExceptions: actions.pauseOnExceptions,
+    breakOnNext: actions.breakOnNext
+  }
+)(SecondaryPanes);

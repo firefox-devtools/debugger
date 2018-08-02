@@ -219,10 +219,13 @@ const mapStateToProps = (state, { source }) => {
   };
 };
 
-export default connect(mapStateToProps, {
-  selectSpecificSource: actions.selectSpecificSource,
-  closeTab: actions.closeTab,
-  closeTabs: actions.closeTabs,
-  togglePrettyPrint: actions.togglePrettyPrint,
-  showSource: actions.showSource
-})(Tab);
+export default connect(
+  mapStateToProps,
+  {
+    selectSpecificSource: actions.selectSpecificSource,
+    closeTab: actions.closeTab,
+    closeTabs: actions.closeTabs,
+    togglePrettyPrint: actions.togglePrettyPrint,
+    showSource: actions.showSource
+  }
+)(Tab);

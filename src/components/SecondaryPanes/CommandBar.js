@@ -381,18 +381,21 @@ const mapStateToProps = state => ({
   skipPausing: getSkipPausing(state)
 });
 
-export default connect(mapStateToProps, {
-  timeTravelTo: actions.timeTravelTo,
-  clearHistory: actions.clearHistory,
-  resume: actions.resume,
-  stepIn: actions.stepIn,
-  stepOut: actions.stepOut,
-  stepOver: actions.stepOver,
-  breakOnNext: actions.breakOnNext,
-  rewind: actions.rewind,
-  reverseStepIn: actions.reverseStepIn,
-  reverseStepOut: actions.reverseStepOut,
-  reverseStepOver: actions.reverseStepOver,
-  pauseOnExceptions: actions.pauseOnExceptions,
-  toggleSkipPausing: actions.toggleSkipPausing
-})(CommandBar);
+export default connect(
+  mapStateToProps,
+  {
+    timeTravelTo: actions.timeTravelTo,
+    clearHistory: actions.clearHistory,
+    resume: actions.resume,
+    stepIn: actions.stepIn,
+    stepOut: actions.stepOut,
+    stepOver: actions.stepOver,
+    breakOnNext: actions.breakOnNext,
+    rewind: actions.rewind,
+    reverseStepIn: actions.reverseStepIn,
+    reverseStepOut: actions.reverseStepOut,
+    reverseStepOver: actions.reverseStepOver,
+    pauseOnExceptions: actions.pauseOnExceptions,
+    toggleSkipPausing: actions.toggleSkipPausing
+  }
+)(CommandBar);

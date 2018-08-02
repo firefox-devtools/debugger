@@ -213,10 +213,13 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, {
-  togglePrettyPrint: actions.togglePrettyPrint,
-  toggleBlackBox: actions.toggleBlackBox,
-  jumpToMappedLocation: actions.jumpToMappedLocation,
-  recordCoverage: actions.recordCoverage,
-  togglePaneCollapse: actions.togglePaneCollapse
-})(SourceFooter);
+export default connect(
+  mapStateToProps,
+  {
+    togglePrettyPrint: actions.togglePrettyPrint,
+    toggleBlackBox: actions.toggleBlackBox,
+    jumpToMappedLocation: actions.jumpToMappedLocation,
+    recordCoverage: actions.recordCoverage,
+    togglePaneCollapse: actions.togglePaneCollapse
+  }
+)(SourceFooter);

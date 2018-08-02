@@ -201,9 +201,12 @@ const mapStateToProps = state => ({
   pause: getIsPaused(state)
 });
 
-export default connect(mapStateToProps, {
-  selectFrame: actions.selectFrame,
-  toggleBlackBox: actions.toggleBlackBox,
-  toggleFrameworkGrouping: actions.toggleFrameworkGrouping,
-  disableFrameTruncate: actions.disableFrameTruncate
-})(Frames);
+export default connect(
+  mapStateToProps,
+  {
+    selectFrame: actions.selectFrame,
+    toggleBlackBox: actions.toggleBlackBox,
+    toggleFrameworkGrouping: actions.toggleFrameworkGrouping,
+    disableFrameTruncate: actions.disableFrameTruncate
+  }
+)(Frames);

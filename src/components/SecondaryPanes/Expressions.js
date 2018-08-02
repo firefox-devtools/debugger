@@ -360,14 +360,17 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, {
-  autocomplete: actions.autocomplete,
-  clearAutocomplete: actions.clearAutocomplete,
-  onExpressionAdded: actions.onExpressionAdded,
-  addExpression: actions.addExpression,
-  clearExpressionError: actions.clearExpressionError,
-  evaluateExpressions: actions.evaluateExpressions,
-  updateExpression: actions.updateExpression,
-  deleteExpression: actions.deleteExpression,
-  openLink: actions.openLink
-})(Expressions);
+export default connect(
+  mapStateToProps,
+  {
+    autocomplete: actions.autocomplete,
+    clearAutocomplete: actions.clearAutocomplete,
+    onExpressionAdded: actions.onExpressionAdded,
+    addExpression: actions.addExpression,
+    clearExpressionError: actions.clearExpressionError,
+    evaluateExpressions: actions.evaluateExpressions,
+    updateExpression: actions.updateExpression,
+    deleteExpression: actions.deleteExpression,
+    openLink: actions.openLink
+  }
+)(Expressions);

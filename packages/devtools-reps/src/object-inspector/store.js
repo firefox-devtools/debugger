@@ -58,6 +58,9 @@ module.exports = (props: Props) => {
   return createStore(
     reducer,
     createInitialState(props),
-    compose(applyMiddleware(...middlewares), enableStateReinitializer(props))
+    compose(
+      applyMiddleware(...middlewares),
+      enableStateReinitializer(props)
+    )
   );
 };

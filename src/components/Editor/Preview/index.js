@@ -176,9 +176,12 @@ const mapStateToProps = state => ({
   selectedSource: getSelectedSource(state)
 });
 
-export default connect(mapStateToProps, {
-  clearPreview: actions.clearPreview,
-  setPopupObjectProperties: actions.setPopupObjectProperties,
-  addExpression: actions.addExpression,
-  updatePreview: actions.updatePreview
-})(Preview);
+export default connect(
+  mapStateToProps,
+  {
+    clearPreview: actions.clearPreview,
+    setPopupObjectProperties: actions.setPopupObjectProperties,
+    addExpression: actions.addExpression,
+    updatePreview: actions.updatePreview
+  }
+)(Preview);

@@ -93,4 +93,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(require("../actions"), dispatch);
 }
 
-module.exports = connect(mapStateToProps, mapDispatchToProps)(Console);
+module.exports = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Console);
