@@ -50,7 +50,7 @@ export function isSource(item: TreeNode) {
 }
 
 export function getFileExtension(source: Source): string {
-  const strippedUrl = source.url.replace(" [sm]", "");
+  const strippedUrl = source.url.replace(/ \[sm\]/, "");
   const parsedUrl = parse(strippedUrl).pathname;
 
   if (!parsedUrl) {
