@@ -6,7 +6,7 @@
 
 import { getURL } from "../getURL";
 import { createSource } from "../../../reducers/sources";
-import Url from "url";
+import * as Url from "../../url";
 
 let spy;
 
@@ -121,7 +121,6 @@ describe("getUrl", () => {
         url: "http://example.com/foo/bar/baz.js"
       });
 
-      spy = jest.spyOn(Url, "parse");
       getURL(source);
       const url = getURL(source2);
       expect(spy).toHaveBeenCalledTimes(2);

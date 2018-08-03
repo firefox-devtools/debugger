@@ -4,7 +4,7 @@
 
 // @flow
 
-import { parse } from "url";
+import { parse } from "../../utils/url";
 import { getUnicodeHostname, getUnicodeUrlPath } from "devtools-modules";
 
 import type { Source } from "../../types";
@@ -80,7 +80,7 @@ function _getURL(source: Source, defaultDomain: string): ParsedURL {
         filename: url
       };
 
-    case null:
+    case "":
       if (pathname && pathname.startsWith("/")) {
         // use file protocol for a URL like "/foo/bar.js"
         return {
@@ -89,7 +89,7 @@ function _getURL(source: Source, defaultDomain: string): ParsedURL {
           filename,
           group: "file://"
         };
-      } else if (host === null) {
+      } else if (!host) {
         return {
           ...def,
           path: url,
