@@ -61,15 +61,16 @@ class Breakpoints extends Component<Props> {
           onChange={() => pauseOnExceptions(!shouldPauseOnExceptions, false)}
         />
 
-        <ExceptionOption
-          className="breakpoints-exceptions-caught"
-          label={L10N.getStr("pauseOnCaughtExceptionsItem")}
-          isChecked={shouldPauseOnCaughtExceptions}
-          onChange={() =>
-            pauseOnExceptions(true, !shouldPauseOnCaughtExceptions)
-          }
-          shouldRender={shouldPauseOnExceptions}
-        />
+        {shouldPauseOnExceptions && (
+          <ExceptionOption
+            className="breakpoints-exceptions-caught"
+            label={L10N.getStr("pauseOnCaughtExceptionsItem")}
+            isChecked={shouldPauseOnCaughtExceptions}
+            onChange={() =>
+              pauseOnExceptions(true, !shouldPauseOnCaughtExceptions)
+            }
+          />
+        )}
       </div>
     );
   }
@@ -126,10 +127,7 @@ const mapStateToProps = state => ({
   selectedSource: getSelectedSource(state)
 });
 
-export default connect(
-  mapStateToProps,
-  {
-    pauseOnExceptions: actions.pauseOnExceptions,
-    selectSource: actions.selectSource
-  }
-)(Breakpoints);
+export default connect(mapStateToProps, {
+  pauseOnExceptions: actions.pauseOnExceptions,
+  selectSource: actions.selectSource
+})(Breakpoints);

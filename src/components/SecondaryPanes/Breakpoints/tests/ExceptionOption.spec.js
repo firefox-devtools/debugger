@@ -19,8 +19,4 @@ describe("ExceptionOption renders", () => {
     );
     expect(component).toMatchSnapshot();
   });
-  it("null with shouldRender==false", () => {
-    const component = shallow(<ExceptionOption shouldRender={false} />);
-    expect(component.html()).toBe(null);
-  });
 });

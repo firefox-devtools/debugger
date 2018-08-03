@@ -7,21 +7,15 @@ type ExceptionOptionProps = {
   className: string,
   isChecked: boolean,
   label: string,
-  onChange: Function,
-  shouldRender: boolean
+  onChange: Function
 };
 
 export default function ExceptionOption({
   className,
   isChecked = false,
   label,
-  onChange,
-  shouldRender = true
+  onChange
 }: ExceptionOptionProps) {
-  if (!shouldRender) {
-    return null;
-  }
-
   return (
     <div className={className} onClick={onChange}>
       <input
