@@ -319,10 +319,10 @@ export type ScopeBindings = {
  * @memberof types
  * @static
  */
-export type Scope = {
+export type Scope = {|
   actor: ActorId,
   parent: ?Scope,
-  bindings: {
+  bindings?: {
     arguments: Array<ScopeBindings>,
     variables: ScopeBindings,
     this?: BindingContents | null
@@ -336,7 +336,7 @@ export type Scope = {
     parameterNames: string[]
   },
   type: string
-};
+|};
 
 export type Worker = {
   actor: string,

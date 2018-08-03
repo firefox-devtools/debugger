@@ -309,7 +309,7 @@ function generateClientScope(
   // selected frame scope, so we pluck out the 'this' binding that was mapped,
   // and put it in a special location
   const thisScope = originalScopes.find(scope => scope.bindings.this);
-  if (thisScope) {
+  if (result.bindings && thisScope) {
     result.bindings.this = thisScope.generatedBindings.this || null;
   }
 
