@@ -33,8 +33,7 @@ const VENDORS = [
   "react-aria-components/src/tabs",
   "react-transition-group/Transition",
   "reselect",
-  "Svg",
-  "url"
+  "Svg"
 ];
 
 /*
