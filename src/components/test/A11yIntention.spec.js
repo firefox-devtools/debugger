@@ -7,10 +7,19 @@ import { shallow } from "enzyme";
 import A11yIntention from "../A11yIntention";
 
 function render() {
-  return shallow(<A11yIntention />);
+  return shallow(
+    <A11yIntention>
+      <span>hello world</span>
+    </A11yIntention>
+  );
 }
 
 describe("A11yIntention", () => {
+  it("renders its children", () => {
+    const component = render();
+    expect(component).toMatchSnapshot();
+  });
+
   it("indicates that the mouse or keyboard is being used", () => {
     const component = render();
     expect(component.prop("className")).toEqual("A11y-mouse");
