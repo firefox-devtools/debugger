@@ -104,7 +104,7 @@ export default class SourceTreeItem extends Component<Props, State> {
           label: copySourceUri2Label,
           accesskey: copySourceUri2Key,
           disabled: false,
-          click: () => copyToTheClipboard(contents.url)
+          click: () => copyToTheClipboard(sourceMapUnformatUrl(contents.url))
         };
 
         menuOptions.push(copySourceUri2);
@@ -155,7 +155,7 @@ export default class SourceTreeItem extends Component<Props, State> {
         return L10N.getStr("extensionsText");
       default:
         // we add " [sm]" to original sources if they have same url as generated
-        return sourceMapUnformatUrl(name);
+        return name.replace("%20[sm]", " [sm]");
     }
   }
 
