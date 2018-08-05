@@ -8,6 +8,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { features } from "../utils/prefs";
 import actions from "../actions";
+import A11yIntention from "./A11yIntention";
 import { ShortcutsModal } from "./ShortcutsModal";
 
 import {
@@ -297,14 +298,16 @@ class App extends Component<Props, State> {
     const { quickOpenEnabled } = this.props;
     return (
       <div className="debugger">
-        {this.renderLayout()}
-        {quickOpenEnabled === true && (
-          <QuickOpenModal
-            shortcutsModalEnabled={this.state.shortcutsModalEnabled}
-            toggleShortcutsModal={() => this.toggleShortcutsModal()}
-          />
-        )}
-        {this.renderShortcutsModal()}
+        <A11yIntention>
+          {this.renderLayout()}
+          {quickOpenEnabled === true && (
+            <QuickOpenModal
+              shortcutsModalEnabled={this.state.shortcutsModalEnabled}
+              toggleShortcutsModal={() => this.toggleShortcutsModal()}
+            />
+          )}
+          {this.renderShortcutsModal()}
+        </A11yIntention>
       </div>
     );
   }
