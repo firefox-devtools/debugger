@@ -19,15 +19,11 @@ export default class A11yIntention extends React.Component<Props, State> {
   state = { keyboard: false };
 
   handleKeyDown = () => {
-    if (!this.state.keyboard) {
-      this.setState({ keyboard: true });
-    }
+    this.setState({ keyboard: true });
   };
 
   handleMouseDown = () => {
-    if (this.state.keyboard) {
-      this.setState({ keyboard: false });
-    }
+    this.setState({ keyboard: false });
   };
 
   render() {
