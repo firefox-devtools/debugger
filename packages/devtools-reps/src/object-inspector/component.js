@@ -193,7 +193,7 @@ class ObjectInspector extends Component<Props> {
       nodeExpand,
       nodeCollapse,
       recordTelemetryEvent,
-      roots,
+      roots
     } = this.props;
 
     if (expand === true) {

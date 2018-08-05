@@ -318,7 +318,7 @@ describe("ObjectInspector - state", () => {
           loadedProperties: new Map([
             ["root-1", gripPropertiesStubs.get("proto-properties-symbols")]
           ]),
-          recordTelemetryEvent,
+          recordTelemetryEvent
         })
       )
     );
