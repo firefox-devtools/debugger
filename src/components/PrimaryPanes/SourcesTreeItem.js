@@ -18,7 +18,9 @@ import { features } from "../../utils/prefs";
 import type { TreeNode } from "../../utils/sources-tree/types";
 
 import type { Source } from "../../types";
-const { unformatUrl: sourceMapUnformatUrl } = require("devtools-source-map");
+const {
+  unformatUrl: sourceMapUnformatUrl
+} = require("devtools-source-map/src/utils");
 
 type Props = {
   debuggeeUrl: string,
