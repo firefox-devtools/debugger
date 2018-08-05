@@ -5,7 +5,7 @@
 // @flow
 
 import { parse } from "../../utils/url";
-
+const { stripUrl } = require("devtools-source-map");
 import type { TreeNode, TreeSource, TreeDirectory, ParentMap } from "./types";
 import type { Source } from "../../types";
 import { isPretty } from "../source";
@@ -50,7 +50,7 @@ export function isSource(item: TreeNode) {
 }
 
 export function getFileExtension(source: Source): string {
-  const strippedUrl = source.url.replace(/ \[sm\]/, "");
+  const strippedUrl = stripUrl(source.url);
   const parsedUrl = parse(strippedUrl).pathname;
 
   if (!parsedUrl) {

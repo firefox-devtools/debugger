@@ -23,12 +23,18 @@ function isGeneratedId(id: string) {
   return !isOriginalId(id);
 }
 
-function formatUrl(generatedUrl: ?string, originalUrl: string) {
+function formatUrl(generatedUrl: ?string, originalUrl: string): string {
   return originalUrl === generatedUrl ? `${originalUrl} [sm]` : originalUrl;
 }
 
-function unformatUrl(url: ?string) {
-  return (url || "").replace(" [sm]", "");
+function unformatUrl(url: ?string): string {
+  if (!url) {
+    return "";
+  }
+  if (!url.endsWith("[sm]")) {
+    return url;
+  }
+  return url.replace(/( |%20)\[sm\]$/, "");
 }
 
 /**
