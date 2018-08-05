@@ -37,7 +37,6 @@
 }
 
 .input-expression:focus {
-  outline: none;
   cursor: text;
 }
 
@@ -117,8 +116,4 @@
 
 .expression-input {
   max-width: 50%;
-}
-
-.expressions-list .tree:focus {
-  outline: none;
 }

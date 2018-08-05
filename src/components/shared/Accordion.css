@@ -64,7 +64,6 @@
   display: flex;
   margin-left: auto;
   padding-right: 5px;
-  outline: 0;
 }
 
 .accordion .header-buttons .add-button {
@@ -77,7 +76,6 @@
   color: var(--theme-body-color);
   border: none;
   background: none;
-  outline: 0;
   padding: 0;
   width: 16px;
   height: 16px;
