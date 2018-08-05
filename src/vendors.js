@@ -52,5 +52,5 @@ export const vendored = {
   reselect,
   // Svg is required via relative paths, so the key is not imported path.
   // See .babel/transform-mc.js
-  Svg,
+  Svg
 };
