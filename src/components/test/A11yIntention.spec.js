@@ -11,7 +11,7 @@ function render() {
 }
 
 describe("A11yIntention", () => {
-  it("toggles between indicating keyboard and mouse usage", () => {
+  it("indicates that the mouse or keyboard is being used", () => {
     const component = render();
     expect(component.prop("className")).toEqual("A11y-mouse");
 
