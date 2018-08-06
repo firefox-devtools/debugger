@@ -57,10 +57,6 @@
   line-height: 40px;
 }
 
-.search-field input:focus {
-  outline: none;
-}
-
 .theme-dark .search-field input {
   color: var(--theme-body-color-inactive);
 }

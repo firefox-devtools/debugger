@@ -13,10 +13,6 @@
   fill: currentColor;
 }
 
-.command-bar-button:focus {
-  outline: none;
-}
-
 .command-bar-button:disabled {
   opacity: 0.8;
   cursor: default;

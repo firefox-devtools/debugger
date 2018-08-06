@@ -14,10 +14,6 @@
   padding: 0;
 }
 
-.close-btn:focus {
-  outline: none;
-}
-
 .close-btn .close {
   mask: url(/images/close.svg) no-repeat;
   mask-size: 100%;

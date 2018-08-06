@@ -49,10 +49,6 @@
   background: var(--theme-toolbar-background-hover);
 }
 
-.source-footer > .commands > button.action:focus {
-  outline: none;
-}
-
 :root.theme-dark .source-footer > .commands > .action {
   fill: var(--theme-body-color);
 }
