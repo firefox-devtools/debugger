@@ -259,7 +259,7 @@ async function getOriginalLocation(
   }
 
   return {
-    sourceId: generatedToOriginalId(location.sourceId, sourceUrl),
+    sourceId: generatedToOriginalId(location.sourceId, formatUrl(location.sourceUrl, sourceUrl)),
     sourceUrl: formatUrl(location.sourceUrl, sourceUrl),
     line,
     column
