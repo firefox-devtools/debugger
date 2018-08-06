@@ -324,8 +324,7 @@ export type Scope = {
   parent: ?Scope,
   bindings: {
     arguments: Array<ScopeBindings>,
-    variables: ScopeBindings,
-    this?: BindingContents | null
+    variables: ScopeBindings
   },
   object: ?Object,
   function: ?{
