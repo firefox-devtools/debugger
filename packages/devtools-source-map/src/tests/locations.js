@@ -8,6 +8,7 @@ const {
   getGeneratedLocation,
   clearSourceMaps
 } = require("../source-map");
+const md5 = require("md5");
 
 const { setupBundleFixture } = require("./helpers");
 
@@ -41,6 +42,24 @@ describe("getOriginalLocation", async () => {
     };
     const originalLocation = await getOriginalLocation(location);
     expect(originalLocation).toEqual(originalLocation);
+  });
+
+  test("source with original and generated with same url", async () => {
+    await setupBundleFixture("Hello");
+    const location = {
+      sourceId: "Hello.js",
+      line: 14,
+      sourceUrl: "http://example.com/Hello.js"
+    };
+    const originalLocation = await getOriginalLocation(location);
+    const expectedOriginalSourceUrl = "http://example.com/Hello.js [sm]";
+    const hash = md5(expectedOriginalSourceUrl);
+    expect(originalLocation).toEqual({
+      line: 3,
+      column: 15,
+      sourceUrl: expectedOriginalSourceUrl,
+      sourceId: `Hello.js/originalSource-${hash}`
+    });
   });
 });
 
