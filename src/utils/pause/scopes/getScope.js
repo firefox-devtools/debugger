@@ -8,7 +8,7 @@ import { getBindingVariables } from "./getVariables";
 import { getFramePopVariables, getThisVariable } from "./utils";
 import { simplifyDisplayName } from "../../pause/frames";
 
-import type { Frame, Why, Scope, BindingContents } from "../../../types";
+import type { Frame, Why, Scope } from "../../../types";
 
 import type { NamedValue } from "./types";
 
