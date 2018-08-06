@@ -167,7 +167,7 @@ index 429d56c..dadb36c 100644
    projectTextSearch: ["Bool", "project-text-search", true],
    wasm: ["Bool", "wasm", true],
    shortcuts: ["Bool", "shortcuts", false]
-+  awesome: ["Bool", "shortcuts", false]
++  awesome: ["Bool", "awesome", false]
  });
 
  if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {
