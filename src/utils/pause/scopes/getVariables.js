@@ -23,9 +23,13 @@ type ScopeBindingsWrapper = {
 // Create the tree nodes representing all the variables and arguments
 // for the bindings from a scope.
 export function getBindingVariables(
-  bindings: ScopeBindingsWrapper,
+  bindings: ?ScopeBindingsWrapper,
   parentName: string
 ): NamedValue[] {
+  if (!bindings) {
+    return [];
+  }
+
   const args: VarAndBindingsPairs = bindings.arguments.map(
     arg => toPairs(arg)[0]
   );

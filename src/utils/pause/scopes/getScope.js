@@ -62,7 +62,7 @@ export function getScope(
 
       let thisDesc_ = selectedFrame.this;
 
-      if ("this" in bindings) {
+      if (bindings && "this" in bindings) {
         // The presence of "this" means we're rendering a "this" binding
         // generated from mapScopes and this can override the binding
         // provided by the current frame.
