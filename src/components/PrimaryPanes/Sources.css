@@ -72,10 +72,6 @@
   overflow: hidden;
 }
 
-.sources-list .tree:focus {
-  outline: none;
-}
-
 .sources-list .managed-tree {
   flex: 1;
   display: flex;

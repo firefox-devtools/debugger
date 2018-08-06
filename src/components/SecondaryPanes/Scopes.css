@@ -37,10 +37,6 @@ html[dir="rtl"] .object-node {
   overflow: auto;
 }
 
-.scopes-list .tree:focus {
-  outline: none;
-}
-
 .scopes-list .function-signature {
   display: inline-block;
 }

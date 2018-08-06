@@ -56,7 +56,6 @@
 .frames ul li:hover,
 .frames ul li:focus {
   background-color: var(--theme-toolbar-background-alt);
-  outline: none;
 }
 
 .theme-dark .frames ul li:focus {
