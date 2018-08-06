@@ -61,6 +61,16 @@ dbg.prefs.pauseOnExceptions = true;
 dbg.prefs.pauseOnExceptions; // true
 ```
 
+### prefs
+
+`dbg.asyncStore` references the async store helper. You can use `dbg.asyncStore` to see or change the state of any item.
+
+```js
+dbg.asyncStore.pendingBreakpoints; // Promise(false)
+dbg.asyncStore.pendingBreakpoints = true;
+dbg.asyncStore.pendingBreakpoints; // Promise(true)
+```
+
 ### features
 
 `dbg.features` references the debugger's feature flags. You can use `dbg.features` to see or change the state of any flag.

@@ -5,7 +5,7 @@
 // @flow
 
 import * as timings from "./timings";
-import { prefs, features } from "./prefs";
+import { prefs, asyncStore, features } from "./prefs";
 import { isDevelopment, isTesting } from "devtools-environment";
 import { formatPausePoints } from "./pause/pausePoints";
 
@@ -61,6 +61,7 @@ export function setupHelper(obj: Object) {
     ...obj,
     selectors,
     prefs,
+    asyncStore,
     features,
     timings,
     getCM,

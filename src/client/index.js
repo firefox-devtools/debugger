@@ -6,7 +6,7 @@
 
 import * as firefox from "./firefox";
 
-import { prefs } from "../utils/prefs";
+import { prefs, asyncStore } from "../utils/prefs";
 import { setupHelper } from "../utils/dbg";
 
 import {
@@ -25,6 +25,11 @@ function loadFromPrefs(actions: Object) {
   }
 }
 
+async function loadInitialState() {
+  const pendingBreakpoints = await asyncStore.pendingBreakpoints;
+  return { pendingBreakpoints };
+}
+
 export async function onConnect(
   connection: Object,
   { services, toolboxActions }: Object
@@ -35,10 +40,15 @@ export async function onConnect(
   }
 
   const commands = firefox.clientCommands;
-  const { store, actions, selectors } = bootstrapStore(commands, {
-    services,
-    toolboxActions
-  });
+  const initialState = await loadInitialState();
+  const { store, actions, selectors } = bootstrapStore(
+    commands,
+    {
+      services,
+      toolboxActions
+    },
+    initialState
+  );
 
   const workers = bootstrapWorkers();
   await firefox.onConnect(connection, actions);

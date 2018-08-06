@@ -19,7 +19,7 @@ import configureStore from "../actions/utils/create-store";
 import reducers from "../reducers";
 import * as selectors from "../selectors";
 import App from "../components/App";
-import { prefs } from "./prefs";
+import { asyncStore } from "./prefs";
 
 function renderPanel(component, store) {
   const root = document.createElement("div");
@@ -37,7 +37,11 @@ function renderPanel(component, store) {
   );
 }
 
-export function bootstrapStore(client: any, { services, toolboxActions }: any) {
+export function bootstrapStore(
+  client: any,
+  { services, toolboxActions }: any,
+  initialState: Object
+) {
   const createStore = configureStore({
     log: isTesting(),
     timing: isDevelopment(),
@@ -46,7 +50,7 @@ export function bootstrapStore(client: any, { services, toolboxActions }: any) {
     }
   });
 
-  const store = createStore(combineReducers(reducers));
+  const store = createStore(combineReducers(reducers), initialState);
   store.subscribe(() => updatePrefs(store.getState()));
 
   const actions = bindActionCreators(
@@ -101,6 +105,6 @@ function updatePrefs(state: any) {
     previousPendingBreakpoints &&
     currentPendingBreakpoints !== previousPendingBreakpoints
   ) {
-    prefs.pendingBreakpoints = currentPendingBreakpoints;
+    asyncStore.pendingBreakpoints = currentPendingBreakpoints;
   }
 }

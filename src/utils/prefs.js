@@ -4,9 +4,10 @@
 
 // @flow
 
-const { isDevelopment } = require("devtools-environment");
-const { PrefsHelper } = require("devtools-modules");
-const Services = require("devtools-services");
+import { PrefsHelper } from "devtools-modules";
+import { isDevelopment } from "devtools-environment";
+import Services from "devtools-services";
+import { asyncStoreHelper } from "./asyncStoreHelper";
 
 const prefsSchemaVersion = "1.0.3";
 
@@ -108,6 +109,10 @@ export const features = new PrefsHelper("devtools.debugger.features", {
   autocompleteExpression: ["Bool", "autocomplete-expressions"],
   mapExpressionBindings: ["Bool", "map-expression-bindings"],
   componentPane: ["Bool", "component-pane"]
+});
+
+export const asyncStore = asyncStoreHelper("debugger", {
+  pendingBreakpoints: ["pending-breakpoints", {}]
 });
 
 if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {

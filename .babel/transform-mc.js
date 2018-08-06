@@ -36,6 +36,11 @@ const VENDORS = [
   "Svg"
 ];
 
+const moduleMapping = {
+  Telemetry: "devtools/client/shared/telemetry",
+  asyncStorage: "devtools/shared/async-storage"
+};
+
 /*
  * Updates devtools-modules imports such as
  * `import { Telemetry } from "devtools-modules"`
@@ -49,11 +54,11 @@ function updateDevtoolsModulesImport(path, t) {
 
   for (let i = 0; i < specifiers.length; i++) {
     let specifier = specifiers[i];
-
-    if (specifier.local.name === "Telemetry") {
+    const localName = specifier.local.name;
+    if (localName in moduleMapping) {
       const newImport = t.importDeclaration(
         [t.importDefaultSpecifier(specifier.local)],
-        t.stringLiteral("devtools/client/shared/telemetry")
+        t.stringLiteral(moduleMapping[localName])
       );
 
       if (specifiers.length > 1) {
