@@ -13,11 +13,21 @@ import {
   simpleMockThreadClient
 } from "./helpers/threadClient.js";
 
-import { prefs } from "../../utils/prefs";
+import { asyncStore } from "../../utils/prefs";
+
+function loadInitialState(opts = {}) {
+  const mockedPendingBreakpoint = mockPendingBreakpoint(opts);
+  const id = makePendingLocationId(mockedPendingBreakpoint.location);
+  asyncStore.pendingBreakpoints = { [id]: mockedPendingBreakpoint };
+
+  return { pendingBreakpoints: asyncStore.pendingBreakpoints };
+}
 
 jest.mock("../../utils/prefs", () => ({
   prefs: {
-    expressions: [],
+    expressions: []
+  },
+  asyncStore: {
     pendingBreakpoints: {}
   },
   features: {
@@ -39,15 +49,11 @@ import {
 import { makePendingLocationId } from "../../utils/breakpoint";
 
 describe("when adding breakpoints", () => {
-  const mockedPendingBreakpoint = mockPendingBreakpoint();
-
-  beforeEach(() => {
-    const id = makePendingLocationId(mockedPendingBreakpoint.location);
-    prefs.pendingBreakpoints = { [id]: mockedPendingBreakpoint };
-  });
-
   it("a corresponding pending breakpoint should be added", async () => {
-    const { dispatch, getState } = createStore(simpleMockThreadClient);
+    const { dispatch, getState } = createStore(
+      simpleMockThreadClient,
+      loadInitialState()
+    );
 
     await dispatch(actions.newSource(makeSource("foo.js")));
     await dispatch(actions.loadSourceText(makeSource("foo.js")));
@@ -76,7 +82,10 @@ describe("when adding breakpoints", () => {
     });
 
     it("add a corresponding pendingBreakpoint for each addition", async () => {
-      const { dispatch, getState } = createStore(simpleMockThreadClient);
+      const { dispatch, getState } = createStore(
+        simpleMockThreadClient,
+        loadInitialState()
+      );
 
       await dispatch(actions.newSource(makeSource("foo")));
       await dispatch(actions.newSource(makeSource("foo2")));
@@ -93,7 +102,10 @@ describe("when adding breakpoints", () => {
     });
 
     it("hidden breakponts do not create pending bps", async () => {
-      const { dispatch, getState } = createStore(simpleMockThreadClient);
+      const { dispatch, getState } = createStore(
+        simpleMockThreadClient,
+        loadInitialState()
+      );
 
       await dispatch(actions.newSource(makeSource("foo")));
       await dispatch(actions.loadSourceText(makeSource("foo")));
@@ -107,7 +119,10 @@ describe("when adding breakpoints", () => {
     });
 
     it("remove a corresponding pending breakpoint when deleting", async () => {
-      const { dispatch, getState } = createStore(simpleMockThreadClient);
+      const { dispatch, getState } = createStore(
+        simpleMockThreadClient,
+        loadInitialState()
+      );
       await dispatch(actions.newSource(makeSource("foo")));
       await dispatch(actions.newSource(makeSource("foo2")));
       await dispatch(actions.loadSourceText(makeSource("foo")));
@@ -125,15 +140,11 @@ describe("when adding breakpoints", () => {
 });
 
 describe("when changing an existing breakpoint", () => {
-  const mockedPendingBreakpoint = mockPendingBreakpoint();
-
-  beforeEach(() => {
-    const id = makePendingLocationId(mockedPendingBreakpoint.location);
-    prefs.pendingBreakpoints = { [id]: mockedPendingBreakpoint };
-  });
-
   it("updates corresponding pendingBreakpoint", async () => {
-    const { dispatch, getState } = createStore(simpleMockThreadClient);
+    const { dispatch, getState } = createStore(
+      simpleMockThreadClient,
+      loadInitialState()
+    );
     const bp = generateBreakpoint("foo");
     const id = makePendingLocationId(bp.location);
     await dispatch(actions.newSource(makeSource("foo")));
@@ -149,7 +160,10 @@ describe("when changing an existing breakpoint", () => {
   });
 
   it("if disabled, updates corresponding pendingBreakpoint", async () => {
-    const { dispatch, getState } = createStore(simpleMockThreadClient);
+    const { dispatch, getState } = createStore(
+      simpleMockThreadClient,
+      loadInitialState()
+    );
     const bp = generateBreakpoint("foo");
     const id = makePendingLocationId(bp.location);
 
@@ -164,7 +178,10 @@ describe("when changing an existing breakpoint", () => {
   });
 
   it("does not delete the pre-existing pendingBreakpoint", async () => {
-    const { dispatch, getState } = createStore(simpleMockThreadClient);
+    const { dispatch, getState } = createStore(
+      simpleMockThreadClient,
+      loadInitialState()
+    );
     const bp = generateBreakpoint("foo.js");
     const source = makeSource("foo.js");
     await dispatch(actions.newSource(source));
@@ -183,23 +200,20 @@ describe("when changing an existing breakpoint", () => {
 });
 
 describe("initializing when pending breakpoints exist in prefs", () => {
-  const mockedPendingBreakpoint = mockPendingBreakpoint();
-
-  beforeEach(() => {
-    const id = makePendingLocationId(mockedPendingBreakpoint.location);
-    prefs.pendingBreakpoints = { [id]: mockedPendingBreakpoint };
-  });
-
   it("syncs pending breakpoints", async () => {
-    const { getState } = createStore(simpleMockThreadClient);
-    const id = makePendingLocationId(mockedPendingBreakpoint.location);
+    const { getState } = createStore(
+      simpleMockThreadClient,
+      loadInitialState()
+    );
     const bps = selectors.getPendingBreakpoints(getState());
-    const bp = bps[id];
-    expect(bp).toMatchSnapshot();
+    expect(bps).toMatchSnapshot();
   });
 
   it("re-adding breakpoints update existing pending breakpoints", async () => {
-    const { dispatch, getState } = createStore(simpleMockThreadClient);
+    const { dispatch, getState } = createStore(
+      simpleMockThreadClient,
+      loadInitialState()
+    );
     const bar = generateBreakpoint("bar.js");
     await dispatch(actions.newSource(makeSource("bar.js")));
     await dispatch(actions.loadSourceText(makeSource("bar.js")));
@@ -211,7 +225,10 @@ describe("initializing when pending breakpoints exist in prefs", () => {
   });
 
   it("adding bps doesn't remove existing pending breakpoints", async () => {
-    const { dispatch, getState } = createStore(simpleMockThreadClient);
+    const { dispatch, getState } = createStore(
+      simpleMockThreadClient,
+      loadInitialState()
+    );
     const bp = generateBreakpoint("foo.js");
 
     await dispatch(actions.newSource(makeSource("foo.js")));
@@ -225,46 +242,32 @@ describe("initializing when pending breakpoints exist in prefs", () => {
 });
 
 describe("initializing with disabled pending breakpoints in prefs", () => {
-  const mockedPendingBreakpoint = mockPendingBreakpoint({ disabled: true });
-
-  beforeEach(() => {
-    const id = makePendingLocationId(mockedPendingBreakpoint.location);
-    prefs.pendingBreakpoints = { [id]: mockedPendingBreakpoint };
-  });
-
   it("syncs breakpoints with pending breakpoints", async () => {
-    const expectedLocation = {
-      ...mockedPendingBreakpoint.location,
-      sourceId: "bar.js"
-    };
-
-    const store = createStore(simpleMockThreadClient);
-    const { getState, dispatch } = store;
-    const source = makeSource("bar.js");
-    await dispatch(actions.newSource(source));
-
-    await dispatch(actions.loadSourceText(makeSource("bar.js")));
-
-    await waitForState(store, state =>
-      selectors.getBreakpoint(state, expectedLocation)
+    const store = createStore(
+      simpleMockThreadClient,
+      loadInitialState({ disabled: true })
     );
 
-    const bp = selectors.getBreakpoint(getState(), expectedLocation);
-    expect(bp.location).toEqual(expectedLocation);
-    expect(bp.disabled).toEqual(mockedPendingBreakpoint.disabled);
+    const { getState, dispatch } = store;
+    const source = makeSource("bar.js");
+
+    await dispatch(actions.newSource(source));
+    await dispatch(actions.loadSourceText(makeSource("bar.js")));
+
+    await waitForState(store, state => {
+      const bps = selectors.getBreakpointsForSource(state, "bar.js");
+      return bps && bps.size > 0;
+    });
+
+    const bp = selectors.getBreakpointForLine(getState(), "bar.js", 5);
+    expect(bp.location.sourceId).toEqual("bar.js");
+    expect(bp.disabled).toEqual(true);
   });
 });
 
 describe("adding sources", () => {
-  const mockedPendingBreakpoint = mockPendingBreakpoint();
-
-  beforeEach(() => {
-    const id = makePendingLocationId(mockedPendingBreakpoint.location);
-    prefs.pendingBreakpoints = { [id]: mockedPendingBreakpoint };
-  });
-
   it("corresponding breakpoints are added for a single source", async () => {
-    const store = createStore(simpleMockThreadClient);
+    const store = createStore(simpleMockThreadClient, loadInitialState());
     const { getState, dispatch } = store;
 
     let bps = selectors.getBreakpoints(getState());
@@ -284,7 +287,7 @@ describe("adding sources", () => {
   });
 
   it("add corresponding breakpoints for multiple sources", async () => {
-    const store = createStore(simpleMockThreadClient);
+    const store = createStore(simpleMockThreadClient, loadInitialState());
     const { getState, dispatch } = store;
 
     let bps = selectors.getBreakpoints(getState());
@@ -307,13 +310,6 @@ describe("adding sources", () => {
 });
 
 describe("invalid breakpoint location", () => {
-  const mockedPendingBreakpoint = mockPendingBreakpoint();
-
-  beforeEach(() => {
-    const id = makePendingLocationId(mockedPendingBreakpoint.location);
-    prefs.pendingBreakpoints = { [id]: mockedPendingBreakpoint };
-  });
-
   it("a corrected corresponding pending breakpoint is added", async () => {
     // setup
     const bp = generateBreakpoint("foo.js");
