@@ -135,7 +135,7 @@ describe("sources", () => {
       ).toBe("abc/web");
     });
 
-    it("should give np path for files with unique name", () => {
+    it("should give no path for files with unique name", () => {
       expect(
         getDisplayPath(
           {
@@ -153,6 +153,31 @@ describe("sources", () => {
             },
             {
               url: "http://localhost.com:7999/increment/hello.html",
+              id: ""
+            }
+          ]
+        )
+      ).toBe(undefined);
+    });
+    it("should not show display path for pretty file", () => {
+      expect(
+        getDisplayPath(
+          {
+            url:
+              "http://localhost.com:7999/increment/abc/web/hello.html:formatted",
+            id: ""
+          },
+          [
+            {
+              url: "http://localhost.com:7999/increment/abc/web/hell.html",
+              id: ""
+            },
+            {
+              url: "http://localhost.com:7999/increment/abc/web/hello.html",
+              id: ""
+            },
+            {
+              url: "http://localhost.com:7999/increment/xyz.html:formatted",
               id: ""
             }
           ]
