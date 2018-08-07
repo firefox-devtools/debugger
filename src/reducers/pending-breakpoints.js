@@ -65,7 +65,16 @@ function addBreakpoint(state, action) {
     return state;
   }
   // when the action completes, we can commit the breakpoint
-  const { breakpoint } = ((action: any): DonePromiseAction).value;
+  const {
+    breakpoint,
+    previousLocation
+  } = ((action: any): DonePromiseAction).value;
+
+  if (previousLocation) {
+    const previousLocationId = makePendingLocationId(previousLocation);
+    state = deleteBreakpoint(state, previousLocationId);
+  }
+
   const locationId = makePendingLocationId(breakpoint.location);
   const pendingBreakpoint = createPendingBreakpoint(breakpoint);
 
