@@ -24,12 +24,7 @@ function getBreakpointsForSource(
   const bpList = breakpoints.valueSeq();
 
   return bpList
-    .filter(
-      bp =>
-        bp.location.sourceId == source.id &&
-        !bp.hidden &&
-        (bp.text || bp.originalText || bp.condition)
-    )
+    .filter(bp => bp.location.sourceId == source.id && !bp.hidden)
     .sortBy(bp => bp.location.line)
     .toJS();
 }
