@@ -12,6 +12,7 @@ import { addHiddenBreakpoint } from "../breakpoints";
 import { features } from "../../utils/prefs";
 import { recordEvent } from "../../utils/telemetry";
 
+import type { Source } from "../../types";
 import type { ThunkArgs } from "../types";
 import type { Command } from "../../reducers/types";
 
@@ -150,9 +151,9 @@ export function reverseStepOut() {
  * This avoids potentially expensive parser calls when we are likely
  * not at an async expression.
  */
-function hasAwait(source, pauseLocation) {
+function hasAwait(source: Source, pauseLocation) {
   const { line, column } = pauseLocation;
-  if (!source.text) {
+  if (source.isWasm || !source.text) {
     return false;
   }
 

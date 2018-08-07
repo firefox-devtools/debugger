@@ -115,7 +115,11 @@ function compressPausePoints(pausePoints) {
 export function setPausePoints(sourceId: SourceId) {
   return async ({ dispatch, getState, client }: ThunkArgs) => {
     const source = getSourceFromId(getState(), sourceId);
-    if (!features.pausePoints || !source || !source.text || source.isWasm) {
+    if (!features.pausePoints || !source || !source.text) {
+      return;
+    }
+
+    if (source.isWasm) {
       return;
     }
 

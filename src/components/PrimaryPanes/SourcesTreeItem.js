@@ -160,6 +160,7 @@ export default class SourceTreeItem extends Component<Props, State> {
   render() {
     const { item, depth, focused } = this.props;
 
+    
     return (
       <div
         className={classnames("node", { focused })}

@@ -17,6 +17,10 @@ export function isMinified(source: Source) {
     return _minifiedCache.get(source.id);
   }
 
+  if (source.isWasm) {
+    return false;
+  }
+
   let text = source.text;
   if (!text) {
     return false;

@@ -83,7 +83,8 @@ function loadSourceMap(sourceId: SourceId) {
       dispatch(
         ({
           type: "UPDATE_SOURCE",
-          source: { ...source, sourceMapURL: "" }
+          // NOTE: Flow https://github.com/facebook/flow/issues/6342 issue
+          source: (({ ...source, sourceMapURL: "" }: any): Source)
         }: Action)
       );
       return;

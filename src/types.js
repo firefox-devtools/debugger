@@ -270,25 +270,51 @@ export type Grip = {
 };
 
 /**
- * Source
+ * BaseSource
  *
  * @memberof types
  * @static
  */
 
-export type Source = {|
+type BaseSource = {|
   +id: string,
   +url: string,
   +sourceMapURL?: string,
   +isBlackBoxed: boolean,
   +isPrettyPrinted: boolean,
-  +isWasm: boolean,
-  +text?: string,
   +contentType?: string,
   +error?: string,
   +loadedState: "unloaded" | "loading" | "loaded",
   +relativeUrl: string
 |};
+
+/**
+ * JsSource
+ *
+ * @memberof types
+ * @static
+ */
+
+export type JsSource = {|
+  ...BaseSource,
+  +isWasm: false,
+  +text?: string
+|};
+
+/**
+ * WasmSource
+ *
+ * @memberof types
+ * @static
+ */
+
+export type WasmSource = {|
+  ...BaseSource,
+  +isWasm: true,
+  +text?: {| binary: Object |}
+|};
+
+export type Source = JsSource | WasmSource;
 
 /**
  * Script
