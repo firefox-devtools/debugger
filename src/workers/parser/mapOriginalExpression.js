@@ -40,7 +40,7 @@ export default function mapOriginalExpression(
     [string]: string | null
   }
 ): string {
-  const ast = parseScript(expression);
+  const ast = parseScript(expression, { allowAwaitOutsideFunction: true });
   const scopes = buildScopeList(ast, "");
 
   const nodes = new Map();

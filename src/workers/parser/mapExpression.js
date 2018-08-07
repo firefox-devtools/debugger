@@ -6,6 +6,7 @@
 
 import mapOriginalExpression from "./mapOriginalExpression";
 import mapExpressionBindings from "./mapBindings";
+import handleTopLevelAwait from "./mapAwaitExpression";
 
 export default function mapExpression(
   expression: string,
@@ -13,17 +14,24 @@ export default function mapExpression(
     [string]: string | null
   },
   bindings: string[],
-  shouldMapBindings: boolean = true
+  shouldMapBindings: boolean = true,
+  shouldMapAwait: boolean = true
 ): string {
-  let originalExpression = expression;
-  if (mappings) {
-    originalExpression = mapOriginalExpression(expression, mappings);
+  try {
+    if (mappings) {
+      expression = mapOriginalExpression(expression, mappings);
+    }
+
+    if (shouldMapBindings) {
+      expression = mapExpressionBindings(expression, bindings);
+    }
+
+    if (shouldMapAwait) {
+      expression = handleTopLevelAwait(expression);
+    }
+  } catch (e) {
+    console.log(e);
   }
 
-  let safeExpression = originalExpression;
-  if (shouldMapBindings) {
-    safeExpression = mapExpressionBindings(originalExpression, bindings);
-  }
-
-  return safeExpression;
+  return expression;
 }
