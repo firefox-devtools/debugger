@@ -19,7 +19,7 @@ export function findFunctionText(
     column: Infinity
   });
 
-  if (!func || !source.text) {
+  if (source.isWasm || !func || !source.text) {
     return null;
   }
 

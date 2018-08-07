@@ -258,7 +258,10 @@ export function getSourcePath(url: string) {
  * the function returns amount of bytes.
  */
 export function getSourceLineCount(source: Source) {
-  if (source.isWasm && !source.error) {
+  if (source.error) {
+    return 0;
+  }
+  if (source.isWasm) {
     const { binary } = (source.text: any);
     return binary.length;
   }
@@ -288,9 +291,11 @@ export function getMode(
   source: Source,
   symbols?: SymbolDeclarations
 ): { name: string } {
-  const { contentType, text, isWasm, url } = source;
-
-  if (!text || isWasm) {
+  if (source.isWasm) {
+    return { name: "text" };
+  }
+  const { contentType, text, url } = source;
+  if (!text) {
     return { name: "text" };
   }
 
@@ -372,7 +377,7 @@ export function isLoading(source: Source) {
 }
 
 export function getTextAtPosition(source: ?Source, location: Location) {
-  if (!source || !source.text || source.isWasm) {
+  if (!source || source.isWasm || !source.text) {
     return "";
   }
 

@@ -109,6 +109,10 @@ export function getAst(sourceId: string) {
 
   const source = getSource(sourceId);
 
+  if (source.isWasm) {
+    return null;
+  }
+
   let ast = {};
   const { contentType } = source;
   if (contentType == "text/html") {

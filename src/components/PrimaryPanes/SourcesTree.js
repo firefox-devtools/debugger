@@ -100,6 +100,7 @@ class SourcesTree extends Component<Props, State> {
 
     const { uncollapsedTree, sourceTree } = this.state;
 
+    
     if (
       projectRoot != nextProps.projectRoot ||
       debuggeeUrl != nextProps.debuggeeUrl ||
@@ -375,12 +376,9 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  {
-    selectSource: actions.selectSource,
-    setExpandedState: actions.setExpandedState,
-    setProjectDirectoryRoot: actions.setProjectDirectoryRoot,
-    clearProjectDirectoryRoot: actions.clearProjectDirectoryRoot
-  }
-)(SourcesTree);
+export default connect(mapStateToProps, {
+  selectSource: actions.selectSource,
+  setExpandedState: actions.setExpandedState,
+  setProjectDirectoryRoot: actions.setProjectDirectoryRoot,
+  clearProjectDirectoryRoot: actions.clearProjectDirectoryRoot
+})(SourcesTree);
