@@ -15,8 +15,7 @@ import {
   isSelectedFrameVisible,
   getSelectedSource,
   getSelectedFrame,
-  getSymbols,
-  getCanRewind
+  getSymbols
 } from "../selectors";
 
 import { getMappedExpression } from "./expressions";
@@ -52,7 +51,6 @@ export function updatePreview(
     const cursorPos = target.getBoundingClientRect();
 
     if (
-      getCanRewind(getState()) ||
       !isSelectedFrameVisible(getState()) ||
       !isLineInScope(getState(), tokenPos.line)
     ) {
