@@ -15,7 +15,7 @@ function _collapseTree(node: TreeNode, depth: number): TreeNode {
   // Node is a folder.
   if (node.type === "directory") {
     if (!Array.isArray(node.contents)) {
-      console.log(`WTF: ${node.path}`);
+      console.log(`Expected array at: ${node.path}`);
     }
 
     // Node is not a root/domain node, and only contains 1 item.
@@ -25,9 +25,9 @@ function _collapseTree(node: TreeNode, depth: number): TreeNode {
       if (next.type === "directory") {
         if (!Array.isArray(next.contents)) {
           console.log(
-            `WTF: ${next.name} -- ${node.name} -- ${JSON.stringify(
-              next.contents
-            )}`
+            `Expected array at: ${next.name} -- ${
+              node.name
+            } -- ${JSON.stringify(next.contents)}`
           );
         }
         const name = `${node.name}/${next.name}`;

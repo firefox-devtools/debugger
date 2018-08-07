@@ -115,7 +115,7 @@ function addSourceToNode(
   const isFile = !isPathDirectory(url.path);
 
   if (node.type == "source") {
-    throw new Error(`wtf ${node.name}`);
+    throw new Error(`Unexpected type "source" at: ${node.name}`);
   }
 
   // if we have a file, and the subtree has no elements, overwrite the
