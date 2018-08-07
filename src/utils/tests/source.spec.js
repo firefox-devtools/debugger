@@ -184,6 +184,31 @@ describe("sources", () => {
         )
       ).toBe(undefined);
     });
+    it(`should give us the path for files with same name when one is pretty`, () => {
+      expect(
+        getDisplayPath(
+          {
+            url: "http://localhost.com:7999/increment/abc/web/hello.html:formatted",
+            id: ""
+          },
+          [
+            {
+              url: "http://localhost.com:7999/increment/xyz/web/hello.html:formatted",
+              id: ""
+            },
+            {
+              url: "http://localhost.com:7999/increment/abc/web/hello.html:formatted",
+              id: ""
+            },
+            {
+              url: "http://localhost.com:7999/increment/hello.html:formatted",
+              id: ""
+            }
+          ]
+        )
+      ).toBe("abc/web");
+    });
+
   });
 
   describe("getFileURL", () => {
