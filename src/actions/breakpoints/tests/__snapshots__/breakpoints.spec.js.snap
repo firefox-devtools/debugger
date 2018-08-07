@@ -115,3 +115,54 @@ Object {
   "text": "function a() {",
 }
 `;
+
+exports[`breakpoints should show a disabled breakpoint that does not have text 1`] = `
+Array [
+  Object {
+    "breakpoints": Array [
+      Object {
+        "astLocation": Object {
+          "name": undefined,
+          "offset": Object {
+            "line": 5,
+            "sourceId": "a",
+            "sourceUrl": "http://localhost:8000/examples/a",
+          },
+        },
+        "condition": null,
+        "disabled": true,
+        "generatedLocation": Object {
+          "line": 5,
+          "sourceId": "a",
+          "sourceUrl": "http://localhost:8000/examples/a",
+        },
+        "hidden": false,
+        "hitCount": undefined,
+        "id": "hi",
+        "loading": false,
+        "location": Object {
+          "line": 5,
+          "sourceId": "a",
+          "sourceUrl": "http://localhost:8000/examples/a",
+        },
+        "originalText": "",
+        "text": "",
+      },
+    ],
+    "source": Object {
+      "contentType": "text/javascript",
+      "error": undefined,
+      "id": "a",
+      "isBlackBoxed": false,
+      "isPrettyPrinted": false,
+      "isWasm": false,
+      "loadedState": "loaded",
+      "sourceMapURL": undefined,
+      "text": "function a() {
+  return a 
+}",
+      "url": "http://localhost:8000/examples/a",
+    },
+  },
+]
+`;

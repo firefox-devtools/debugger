@@ -54,6 +54,25 @@ describe("breakpoints", () => {
     expect(selectors.getBreakpointSources(getState())).toMatchSnapshot();
   });
 
+  it("should show a disabled breakpoint that does not have text", async () => {
+    const { dispatch, getState } = createStore(simpleMockThreadClient);
+    const loc1 = {
+      sourceId: "a",
+      line: 5,
+      sourceUrl: "http://localhost:8000/examples/a"
+    };
+    await dispatch(actions.newSource(makeSource("a")));
+    await dispatch(actions.loadSourceText(makeSource("a")));
+    await dispatch(actions.addBreakpoint(loc1));
+    await dispatch(actions.disableBreakpoint(loc1));
+
+    const bps = selectors.getBreakpoints(getState());
+    const bp = selectors.getBreakpoint(getState(), loc1);
+    expect(bps.size).toBe(1);
+    expect(bp.location).toEqual(loc1);
+    expect(selectors.getBreakpointSources(getState())).toMatchSnapshot();
+  });
+
   it("should not re-add a breakpoint", async () => {
     const { dispatch, getState } = createStore(simpleMockThreadClient);
     const loc1 = {
