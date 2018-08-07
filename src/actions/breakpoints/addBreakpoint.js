@@ -20,7 +20,12 @@ async function addBreakpointPromise(getState, client, sourceMaps, breakpoint) {
   const state = getState();
   const source = getSource(state, breakpoint.location.sourceId);
 
-  const location = { ...breakpoint.location, sourceUrl: source.url };
+  const location = {
+    ...breakpoint.location,
+    sourceId: source.id,
+    sourceUrl: source.url
+  };
+
   const generatedLocation = await getGeneratedLocation(
     state,
     source,

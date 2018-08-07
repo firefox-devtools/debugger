@@ -28,7 +28,7 @@ function getBreakpointsForSource(
       bp =>
         bp.location.sourceId == source.id &&
         !bp.hidden &&
-        (bp.text || bp.originalText || bp.condition)
+        (bp.text || bp.originalText || bp.condition || bp.disabled)
     )
     .sortBy(bp => bp.location.line)
     .toJS();
