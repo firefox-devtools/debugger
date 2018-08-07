@@ -6,7 +6,6 @@
 
 import { addToTree } from "./addToTree";
 import { collapseTree } from "./collapseTree";
-import { formatTree } from "./formatTree";
 import { createParentMap } from "./utils";
 import { difference } from "lodash";
 import { getDomain } from "./treeOrder";
