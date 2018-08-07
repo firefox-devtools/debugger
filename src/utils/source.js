@@ -181,7 +181,9 @@ export function getDisplayPath(mySource: Source, sources: Source[]) {
   // Find sources that have the same filename, but different paths
   // as the original source
   const similarSources = sources.filter(
-    source => mySource.url != source.url && filename == getFilename(source)
+    source =>
+      getRawSourceURL(mySource.url) != getRawSourceURL(source.url) &&
+      filename == getFilename(source)
   );
 
   if (similarSources.length == 0) {
