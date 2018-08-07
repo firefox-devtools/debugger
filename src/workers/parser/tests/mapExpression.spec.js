@@ -20,8 +20,54 @@ function test({
   ).toEqual(format(newExpression, { parser: "babylon" }));
 }
 
+function formatAwait(body) {
+  return `(async () => {
+    ${body}
+  })().then(r => console.log(r));`;
+}
+
 describe("mapExpression", () => {
   cases("mapExpressions", test, [
+    {
+      name: "await",
+      expression: "await a()",
+      newExpression: formatAwait("return await a()"),
+      bindings: [],
+      mappings: {},
+      shouldMapExpression: true
+    },
+    {
+      name: "await (multiple statements)",
+      expression: "const x = await a(); x + x",
+      newExpression: formatAwait("self.x = await a(); return x + x;"),
+      bindings: [],
+      mappings: {},
+      shouldMapExpression: true
+    },
+    {
+      name: "await (inner)",
+      expression: "async () => await a();",
+      newExpression: "async () => await a();",
+      bindings: [],
+      mappings: {},
+      shouldMapExpression: true
+    },
+    {
+      name: "await (multiple awaits)",
+      expression: "const x = await a(); await b(x)",
+      newExpression: formatAwait("self.x = await a(); return await b(x);"),
+      bindings: [],
+      mappings: {},
+      shouldMapExpression: true
+    },
+    {
+      name: "await (assignment)",
+      expression: "let x = await sleep(100, 2)",
+      newExpression: formatAwait("return (self.x = await sleep(100, 2))"),
+      bindings: [],
+      mappings: {},
+      shouldMapExpression: true
+    },
     {
       name: "simple",
       expression: "a",

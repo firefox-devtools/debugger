@@ -167,15 +167,16 @@ export function getMappedExpression(expression: string) {
     const mappings = getSelectedScopeMappings(getState());
     const bindings = getSelectedFrameBindings(getState());
 
-    if (!mappings && !bindings) {
+    if (!mappings && !bindings && !expression.includes("await")) {
       return expression;
     }
 
     return parser.mapExpression(
       expression,
       mappings,
-      bindings,
-      features.mapExpressionBindings
+      bindings || [],
+      features.mapExpressionBindings,
+      features.mapAwaitExpression
     );
   };
 }

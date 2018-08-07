@@ -185,3 +185,9 @@ export function getVariables(dec: Node) {
     }
   ];
 }
+
+// Top Level checks the number of "body" nodes in the ancestor chain
+// if the node is top-level, then it shoul only have one body.
+export function isTopLevel(ancestors: Node[]) {
+  return ancestors.filter(ancestor => ancestor.key == "body").length == 1;
+}
