@@ -184,20 +184,24 @@ describe("sources", () => {
         )
       ).toBe(undefined);
     });
-    it(`should give us the path for files with same name when one is pretty`, () => {
+    it(`should give us the path for files with same name when both 
+      are pretty and different path`, () => {
       expect(
         getDisplayPath(
           {
-            url: "http://localhost.com:7999/increment/abc/web/hello.html:formatted",
+            url:
+              "http://localhost.com:7999/increment/abc/web/hello.html:formatted",
             id: ""
           },
           [
             {
-              url: "http://localhost.com:7999/increment/xyz/web/hello.html:formatted",
+              url:
+                "http://localhost.com:7999/increment/xyz/web/hello.html:formatted",
               id: ""
             },
             {
-              url: "http://localhost.com:7999/increment/abc/web/hello.html:formatted",
+              url:
+                "http://localhost.com:7999/increment/abc/web/hello.html:formatted",
               id: ""
             },
             {
@@ -208,7 +212,6 @@ describe("sources", () => {
         )
       ).toBe("abc/web");
     });
-
   });
 
   describe("getFileURL", () => {
