@@ -27,12 +27,8 @@ type Tab = string;
 export type TabList = Tab[];
 export type TabsState = Tab[];
 
-export function initialTabsState(): TabsState {
-  return restoreTabs();
-}
-
 function update(
-  state: TabsState = initialTabsState(),
+  state: TabsState = prefs.tabs || [],
   action: Action
 ): TabsState {
   switch (action.type) {
@@ -43,9 +39,6 @@ function update(
       return updateTabList(state, action.url, action.tabIndex);
 
     case "CLOSE_TAB":
-      prefs.tabs = action.tabs;
-      return action.tabs;
-
     case "CLOSE_TABS":
       prefs.tabs = action.tabs;
       return action.tabs;
@@ -61,11 +54,6 @@ export function removeSourceFromTabList(tabs: TabList, url: string): TabList {
 
 export function removeSourcesFromTabList(tabs: TabList, urls: TabList) {
   return urls.reduce((t, url) => removeSourceFromTabList(t, url), tabs);
-}
-
-function restoreTabs() {
-  const prefsTabs = prefs.tabs || [];
-  return prefsTabs;
 }
 
 /**
