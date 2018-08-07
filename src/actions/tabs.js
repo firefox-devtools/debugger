@@ -5,12 +5,12 @@
 // @flow
 
 /**
- * Redux actions for the sources state
- * @module actions/sources
+ * Redux actions for the editor tabs
+ * @module actions/tabs
  */
 
-import { removeDocument } from "../../utils/editor";
-import { selectSource } from "../sources";
+import { removeDocument } from "../utils/editor";
+import { selectSource } from "./sources";
 
 import {
   getSourceByURL,
@@ -18,9 +18,9 @@ import {
   getNewSelectedSourceId,
   removeSourcesFromTabList,
   removeSourceFromTabList
-} from "../../selectors";
+} from "../selectors";
 
-import type { Action, ThunkArgs } from "../types";
+import type { Action, ThunkArgs } from "./types";
 
 export function addTab(url: string, tabIndex: number): Action {
   return {
@@ -39,7 +39,7 @@ export function moveTab(url: string, tabIndex: number): Action {
 }
 
 /**
- * @memberof actions/sources
+ * @memberof actions/tabs
  * @static
  */
 export function closeTab(url: string) {
@@ -54,7 +54,7 @@ export function closeTab(url: string) {
 }
 
 /**
- * @memberof actions/sources
+ * @memberof actions/tabs
  * @static
  */
 export function closeTabs(urls: string[]) {
