@@ -251,7 +251,6 @@ exports[`SourcesTree with custom root renders custom root source list 1`] = `
         name="home"
       />
       <Svg
-        class={true}
         name="breadcrumb"
       />
       <span
@@ -303,7 +302,6 @@ exports[`SourcesTree with custom root renders empty custom root source list 1`] 
         name="home"
       />
       <Svg
-        class={true}
         name="breadcrumb"
       />
       <span
