@@ -10,7 +10,7 @@ import { isPretty, getFilename, getSourceClassnames } from "./source";
 import type { Location as BabelLocation } from "@babel/types";
 import type { Symbols } from "../reducers/ast";
 import type { QuickOpenType } from "../reducers/quick-open";
-import type { TabList } from "../reducers/sources";
+import type { TabList } from "../reducers/tabs";
 import type { Source } from "../types";
 import type { SymbolDeclaration } from "../workers/parser";
 
