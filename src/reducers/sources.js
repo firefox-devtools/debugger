@@ -10,7 +10,6 @@
  */
 
 import { createSelector } from "reselect";
-import move from "lodash-move";
 import { getPrettySourceURL } from "../utils/source";
 import { originalToGeneratedId, isOriginalId } from "devtools-source-map";
 import { find } from "lodash";
@@ -21,23 +20,19 @@ import type { PendingSelectedLocation } from "./types";
 import type { Action, DonePromiseAction } from "../actions/types";
 import type { LoadSourceAction } from "../actions/types/SourceAction";
 
-type Tab = string;
 export type SourcesMap = { [string]: Source };
-export type TabList = Tab[];
 
 export type SourcesState = {
   sources: SourcesMap,
   pendingSelectedLocation?: PendingSelectedLocation,
-  selectedLocation: ?Location,
-  tabs: TabList
+  selectedLocation: ?Location
 };
 
 export function initialSourcesState(): SourcesState {
   return {
     sources: {},
     selectedLocation: undefined,
-    pendingSelectedLocation: prefs.pendingSelectedLocation,
-    tabs: restoreTabs()
+    pendingSelectedLocation: prefs.pendingSelectedLocation
   };
 }
 
@@ -117,26 +112,6 @@ function update(
       prefs.pendingSelectedLocation = location;
       return { ...state, pendingSelectedLocation: location };
 
-    case "ADD_TAB":
-      return {
-        ...state,
-        tabs: updateTabList(state.tabs, action.url)
-      };
-
-    case "MOVE_TAB":
-      return {
-        ...state,
-        tabs: updateTabList(state.tabs, action.url, action.tabIndex)
-      };
-
-    case "CLOSE_TAB":
-      prefs.tabs = action.tabs;
-      return { ...state, tabs: action.tabs };
-
-    case "CLOSE_TABS":
-      prefs.tabs = action.tabs;
-      return { ...state, tabs: action.tabs };
-
     case "LOAD_SOURCE_TEXT":
       return setSourceTextProps(state, action);
 
@@ -208,36 +183,6 @@ function updateSource(state: SourcesState, source: Object) {
   };
 }
 
-export function removeSourceFromTabList(tabs: TabList, url: string): TabList {
-  return tabs.filter(tab => tab !== url);
-}
-
-export function removeSourcesFromTabList(tabs: TabList, urls: TabList) {
-  return urls.reduce((t, url) => removeSourceFromTabList(t, url), tabs);
-}
-
-function restoreTabs() {
-  const prefsTabs = prefs.tabs || [];
-  return prefsTabs;
-}
-
-/**
- * Adds the new source to the tab list if it is not already there
- * @memberof reducers/sources
- * @static
- */
-function updateTabList(tabs: TabList, url: string, newIndex: ?number) {
-  const currentIndex = tabs.indexOf(url);
-  if (currentIndex === -1) {
-    tabs = [url, ...tabs];
-  } else if (newIndex !== undefined) {
-    tabs = move(tabs, currentIndex, newIndex);
-  }
-
-  prefs.tabs = tabs;
-  return tabs;
-}
-
 function updateBlackBoxList(url, isBlackBoxed) {
   const tabs = getBlackBoxList();
   const i = tabs.indexOf(url);
@@ -253,61 +198,6 @@ function updateBlackBoxList(url, isBlackBoxed) {
 
 export function getBlackBoxList() {
   return prefs.tabsBlackBoxed || [];
-}
-
-/**
- * Gets the next tab to select when a tab closes. Heuristics:
- * 1. if the selected tab is available, it remains selected
- * 2. if it is gone, the next available tab to the left should be active
- * 3. if the first tab is active and closed, select the second tab
- *
- * @memberof reducers/sources
- * @static
- */
-export function getNewSelectedSourceId(
-  state: OuterState,
-  availableTabs: TabList
-): string {
-  const selectedLocation = state.sources.selectedLocation;
-  if (!selectedLocation) {
-    return "";
-  }
-
-  const selectedTab = getSource(state, selectedLocation.sourceId);
-  if (!selectedTab) {
-    return "";
-  }
-
-  if (availableTabs.includes(selectedTab.url)) {
-    const sources = state.sources.sources;
-    if (!sources) {
-      return "";
-    }
-
-    const selectedSource = getSourceByURL(state, selectedTab.url);
-
-    if (selectedSource) {
-      return selectedSource.id;
-    }
-
-    return "";
-  }
-
-  const tabUrls = state.sources.tabs;
-  const leftNeighborIndex = Math.max(tabUrls.indexOf(selectedTab.url) - 1, 0);
-  const lastAvailbleTabIndex = availableTabs.length - 1;
-  const newSelectedTabIndex = Math.min(leftNeighborIndex, lastAvailbleTabIndex);
-  const availableTab = availableTabs[newSelectedTabIndex];
-  const tabSource = getSourceByUrlInSources(
-    state.sources.sources,
-    availableTab
-  );
-
-  if (tabSource) {
-    return tabSource.id;
-  }
-
-  return "";
 }
 
 // Selectors
@@ -360,7 +250,7 @@ export function hasPrettySource(state: OuterState, id: string) {
   return !!getPrettySource(state, id);
 }
 
-function getSourceByUrlInSources(sources: SourcesMap, url: string) {
+export function getSourceByUrlInSources(sources: SourcesMap, url: string) {
   if (!url) {
     return null;
   }
@@ -383,24 +273,6 @@ export function getSourceList(state: OuterState): Source[] {
 export function getSourceCount(state: OuterState) {
   return Object.keys(getSources(state)).length;
 }
-
-export const getTabs = createSelector(getSourcesState, sources => sources.tabs);
-
-export const getSourceTabs = createSelector(
-  getTabs,
-  getSources,
-  (tabs, sources) => tabs.filter(tab => getSourceByUrlInSources(sources, tab))
-);
-
-export const getSourcesForTabs = createSelector(
-  getSourceTabs,
-  getSources,
-  (tabs: TabList, sources: SourcesMap) => {
-    return tabs
-      .map(tab => getSourceByUrlInSources(sources, tab))
-      .filter(source => source);
-  }
-);
 
 export const getSelectedLocation = createSelector(
   getSourcesState,

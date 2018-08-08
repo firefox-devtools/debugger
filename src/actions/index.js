@@ -18,6 +18,7 @@ import * as replay from "./replay";
 import * as quickOpen from "./quick-open";
 import * as sourceTree from "./source-tree";
 import * as sources from "./sources";
+import * as tabs from "./tabs";
 import * as debuggee from "./debuggee";
 import * as toolbox from "./toolbox";
 import * as preview from "./preview";
@@ -28,6 +29,7 @@ export default {
   ...expressions,
   ...eventListeners,
   ...sources,
+  ...tabs,
   ...pause,
   ...ui,
   ...fileSearch,
