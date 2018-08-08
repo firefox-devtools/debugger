@@ -24,14 +24,16 @@ const {
   generatedToOriginalId,
   isGeneratedId,
   isOriginalId,
-  getContentType
+  getContentType,
+  formatUrl,
+  unformatUrl
 } = require("./utils");
 
 import type { Location, Source, SourceId } from "debugger-html";
 
 async function getOriginalURLs(generatedSource: Source) {
   const map = await fetchSourceMap(generatedSource);
-  return map && map.sources;
+  return map && map.sources.map(url => formatUrl(generatedSource.url, url));
 }
 
 const COMPUTED_SPANS = new WeakSet();
@@ -127,7 +129,7 @@ async function getGeneratedRanges(
   // exact original location, making any bias value unnecessary, and then
   // use that location for the call to 'allGeneratedPositionsFor'.
   const genPos = map.generatedPositionFor({
-    source: originalSource.url,
+    source: unformatUrl(originalSource.url),
     line: location.line,
     column: location.column == null ? 0 : location.column,
     bias: SourceMapConsumer.GREATEST_LOWER_BOUND
@@ -170,7 +172,7 @@ async function getGeneratedLocation(
   }
 
   const { line, column } = map.generatedPositionFor({
-    source: originalSource.url,
+    source: unformatUrl(originalSource.url),
     line: location.line,
     column: location.column == null ? 0 : location.column,
     bias: SourceMapConsumer.LEAST_UPPER_BOUND
@@ -198,7 +200,7 @@ async function getAllGeneratedLocations(
   }
 
   const positions = map.allGeneratedPositionsFor({
-    source: originalSource.url,
+    source: unformatUrl(originalSource.url),
     line: location.line,
     column: location.column == null ? 0 : location.column
   });
@@ -257,8 +259,11 @@ async function getOriginalLocation(
   }
 
   return {
-    sourceId: generatedToOriginalId(location.sourceId, sourceUrl),
-    sourceUrl,
+    sourceId: generatedToOriginalId(
+      location.sourceId,
+      formatUrl(location.sourceUrl, sourceUrl)
+    ),
+    sourceUrl: formatUrl(location.sourceUrl, sourceUrl),
     line,
     column
   };
@@ -266,6 +271,7 @@ async function getOriginalLocation(
 
 async function getOriginalSourceText(originalSource: Source) {
   assert(isOriginalId(originalSource.id), "Source is not an original source");
+  assert(!!originalSource.url, "Source needs a valid url");
 
   const generatedSourceId = originalToGeneratedId(originalSource.id);
   const map = await getSourceMap(generatedSourceId);
@@ -273,15 +279,15 @@ async function getOriginalSourceText(originalSource: Source) {
     return null;
   }
 
-  let text = map.sourceContentFor(originalSource.url);
+  const url = unformatUrl(originalSource.url);
+  let text = map.sourceContentFor(url);
   if (!text) {
-    text = (await networkRequest(originalSource.url, { loadFromCache: false }))
-      .content;
+    text = (await networkRequest(url, { loadFromCache: false })).content;
   }
 
   return {
     text,
-    contentType: getContentType(originalSource.url || "")
+    contentType: getContentType(url || "")
   };
 }
 

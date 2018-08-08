@@ -23,6 +23,14 @@ function getMap(_path) {
   return fs.readFileSync(mapPath, "utf8");
 }
 
+function sourceForFixture(name) {
+  return {
+    id: `${name}.js`,
+    sourceMapURL: `${name}.js.map`,
+    url: `http://example.com/${name}.js`
+  };
+}
+
 async function setupBundleFixture(name) {
   const source = {
     id: `${name}.js`,
@@ -42,5 +50,6 @@ module.exports = {
   formatLocations,
   formatLocation,
   setupBundleFixture,
-  getMap
+  getMap,
+  sourceForFixture
 };

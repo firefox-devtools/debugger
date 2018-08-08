@@ -5,11 +5,9 @@
 // @flow
 
 import { parse } from "../../utils/url";
-
 import type { TreeNode, TreeSource, TreeDirectory, ParentMap } from "./types";
 import type { Source } from "../../types";
 import { isPretty } from "../source";
-import { getURL } from "./getURL";
 const IGNORED_URLS = ["debugger eval code", "XStringBundle"];
 
 export function nodeHasChildren(item: TreeNode): boolean {
@@ -35,7 +33,7 @@ export function isPathDirectory(path: string) {
 export function isDirectory(item: TreeNode) {
   return (
     (isPathDirectory(item.path) || item.type === "directory") &&
-    item.name != "(index)"
+    item.name !== "(index)"
   );
 }
 
@@ -51,7 +49,8 @@ export function isSource(item: TreeNode) {
 }
 
 export function getFileExtension(source: Source): string {
-  const parsedUrl = getURL(source).path;
+  const parsedUrl = parse(source.url).pathname;
+
   if (!parsedUrl) {
     return "";
   }
@@ -64,7 +63,7 @@ export function isNotJavaScript(source: Source): boolean {
 
 export function isInvalidUrl(url: Object, source: Source) {
   return (
-    IGNORED_URLS.indexOf(url) != -1 ||
+    IGNORED_URLS.indexOf(url) !== -1 ||
     !source.url ||
     !url.group ||
     isPretty(source) ||

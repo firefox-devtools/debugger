@@ -18,6 +18,9 @@ import { features } from "../../utils/prefs";
 import type { TreeNode } from "../../utils/sources-tree/types";
 
 import type { Source } from "../../types";
+const {
+  unformatUrl: sourceMapUnformatUrl
+} = require("devtools-source-map/src/utils");
 
 type Props = {
   debuggeeUrl: string,
@@ -103,7 +106,7 @@ export default class SourceTreeItem extends Component<Props, State> {
           label: copySourceUri2Label,
           accesskey: copySourceUri2Key,
           disabled: false,
-          click: () => copyToTheClipboard(contents.url)
+          click: () => copyToTheClipboard(sourceMapUnformatUrl(contents.url))
         };
 
         menuOptions.push(copySourceUri2);
@@ -151,7 +154,8 @@ export default class SourceTreeItem extends Component<Props, State> {
       case "webpack://":
         return "Webpack";
       default:
-        return name;
+        // we add " [sm]" to original sources if they have same url as generated
+        return name.replace("%20[sm]", " [sm]");
     }
   }
 
