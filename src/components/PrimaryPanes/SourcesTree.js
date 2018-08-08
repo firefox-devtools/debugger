@@ -100,7 +100,6 @@ class SourcesTree extends Component<Props, State> {
 
     const { uncollapsedTree, sourceTree } = this.state;
 
-    
     if (
       projectRoot != nextProps.projectRoot ||
       debuggeeUrl != nextProps.debuggeeUrl ||
@@ -232,7 +231,7 @@ class SourcesTree extends Component<Props, State> {
           title={L10N.getStr("removeDirectoryRoot.label")}
         >
           <Svg name="home" />
-          <Svg name="breadcrumb" class />
+          <Svg name="breadcrumb" />
           <span className="sources-clear-root-label">{rootLabel}</span>
         </button>
       </div>
@@ -376,9 +375,12 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, {
-  selectSource: actions.selectSource,
-  setExpandedState: actions.setExpandedState,
-  setProjectDirectoryRoot: actions.setProjectDirectoryRoot,
-  clearProjectDirectoryRoot: actions.clearProjectDirectoryRoot
-})(SourcesTree);
+export default connect(
+  mapStateToProps,
+  {
+    selectSource: actions.selectSource,
+    setExpandedState: actions.setExpandedState,
+    setProjectDirectoryRoot: actions.setProjectDirectoryRoot,
+    clearProjectDirectoryRoot: actions.clearProjectDirectoryRoot
+  }
+)(SourcesTree);
