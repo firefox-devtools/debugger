@@ -25,12 +25,8 @@ import type { SourcesMap, SourcesState } from "./sources";
 
 type Tab = string;
 export type TabList = Tab[];
-export type TabsState = Tab[];
 
-function update(
-  state: TabsState = prefs.tabs || [],
-  action: Action
-): TabsState {
+function update(state: TabList = prefs.tabs || [], action: Action): TabList {
   switch (action.type) {
     case "ADD_TAB":
       return updateTabList(state, action.url);
@@ -137,9 +133,9 @@ export function getNewSelectedSourceId(
 // top-level app state, so we'd have to "wrap" them to automatically
 // pick off the piece of state we're interested in. It's impossible
 // (right now) to type those wrapped functions.
-type OuterState = { tabs: TabsState, sources: SourcesState };
+type OuterState = { tabs: TabList, sources: SourcesState };
 
-export const getTabs = (state: OuterState): TabsState => state.tabs;
+export const getTabs = (state: OuterState): TabList => state.tabs;
 
 export const getSourceTabs = createSelector(
   getTabs,

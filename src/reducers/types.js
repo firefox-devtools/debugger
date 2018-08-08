@@ -18,7 +18,7 @@ import type { PendingBreakpointsState } from "../selectors";
 import type { ProjectTextSearchState } from "./project-text-search";
 import type { Record } from "../utils/makeRecord";
 import type { SourcesState } from "./sources";
-import type { TabsState } from "./tabs";
+import type { TabList } from "./tabs";
 import type { UIState } from "./ui";
 
 export type State = {
@@ -30,7 +30,7 @@ export type State = {
   pendingBreakpoints: PendingBreakpointsState,
   projectTextSearch: Record<ProjectTextSearchState>,
   sources: SourcesState,
-  tabs: TabsState,
+  tabs: TabList,
   ui: Record<UIState>
 };
 
