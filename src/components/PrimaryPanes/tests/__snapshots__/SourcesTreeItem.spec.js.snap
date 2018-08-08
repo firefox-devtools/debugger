@@ -988,7 +988,7 @@ exports[`SourceTreeItem renderItem should show icon for moz-extension item 1`] =
 Object {
   "component": <div
     className="node"
-    key="moz-extension://"
+    key="moz-extension://e37c3c08-beac-a04b-8032-c4f699a1a856"
     onClick={[Function]}
     onContextMenu={[Function]}
   >
@@ -1002,7 +1002,7 @@ Object {
       className="label"
     >
        
-      Extensions
+      moz-extension://e37c3c08-beac-a04b-8032-c4f699a1a856
        
     </span>
   </div>,
@@ -1014,12 +1014,13 @@ Object {
     "props": Object {
       "clearProjectDirectoryRoot": [MockFunction],
       "debuggeeUrl": "http://mdn.com",
+      "depth": 0,
       "expanded": false,
       "focusItem": [MockFunction],
       "item": Object {
         "contents": Array [],
-        "name": "moz-extension://",
-        "path": "moz-extension://",
+        "name": "moz-extension://e37c3c08-beac-a04b-8032-c4f699a1a856",
+        "path": "moz-extension://e37c3c08-beac-a04b-8032-c4f699a1a856",
         "type": "directory",
       },
       "projectRoot": "",
@@ -1048,13 +1049,14 @@ Object {
         "_element": <SourceTreeItem
           clearProjectDirectoryRoot={[MockFunction]}
           debuggeeUrl="http://mdn.com"
+          depth={0}
           expanded={false}
           focusItem={[MockFunction]}
           item={
             Object {
               "contents": Array [],
-              "name": "moz-extension://",
-              "path": "moz-extension://",
+              "name": "moz-extension://e37c3c08-beac-a04b-8032-c4f699a1a856",
+              "path": "moz-extension://e37c3c08-beac-a04b-8032-c4f699a1a856",
               "type": "directory",
             }
           }
@@ -1095,7 +1097,7 @@ Object {
             className="label"
           >
              
-            Extensions
+            moz-extension://e37c3c08-beac-a04b-8032-c4f699a1a856
              
           </span>
         </div>,
@@ -1107,12 +1109,13 @@ Object {
   "props": Object {
     "clearProjectDirectoryRoot": [MockFunction],
     "debuggeeUrl": "http://mdn.com",
+    "depth": 0,
     "expanded": false,
     "focusItem": [MockFunction],
     "item": Object {
       "contents": Array [],
-      "name": "moz-extension://",
-      "path": "moz-extension://",
+      "name": "moz-extension://e37c3c08-beac-a04b-8032-c4f699a1a856",
+      "path": "moz-extension://e37c3c08-beac-a04b-8032-c4f699a1a856",
       "type": "directory",
     },
     "projectRoot": "",

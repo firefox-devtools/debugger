@@ -44,7 +44,7 @@ export default class SourceTreeItem extends Component<Props, State> {
       return <Svg name="webpack" />;
     } else if (item.path === "ng://") {
       return <Svg name="angular" />;
-    } else if (item.path === "moz-extension://") {
+    } else if (item.path.startsWith("moz-extension://") && depth === 0) {
       return <img className="extension" />;
     }
 
@@ -150,8 +150,6 @@ export default class SourceTreeItem extends Component<Props, State> {
         return "Angular";
       case "webpack://":
         return "Webpack";
-      case "moz-extension://":
-        return L10N.getStr("extensionsText");
       default:
         return name;
     }
