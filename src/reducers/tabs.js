@@ -16,12 +16,13 @@ import { prefs } from "../utils/prefs";
 import {
   getSource,
   getSources,
+  getUrls,
   getSourceByURL,
   getSourceByUrlInSources
 } from "./sources";
 
 import type { Action } from "../actions/types";
-import type { SourcesMap, SourcesState } from "./sources";
+import type { SourcesState } from "./sources";
 
 type Tab = string;
 export type TabList = Tab[];
@@ -113,7 +114,8 @@ export function getNewSelectedSourceId(
   const newSelectedTabIndex = Math.min(leftNeighborIndex, lastAvailbleTabIndex);
   const availableTab = availableTabs[newSelectedTabIndex];
   const tabSource = getSourceByUrlInSources(
-    state.sources.sources,
+    getSources(state),
+    getUrls(state),
     availableTab
   );
 
@@ -140,15 +142,18 @@ export const getTabs = (state: OuterState): TabList => state.tabs;
 export const getSourceTabs = createSelector(
   getTabs,
   getSources,
-  (tabs, sources) => tabs.filter(tab => getSourceByUrlInSources(sources, tab))
+  getUrls,
+  (tabs, sources, urls) =>
+    tabs.filter(tab => getSourceByUrlInSources(sources, urls, tab))
 );
 
 export const getSourcesForTabs = createSelector(
   getSourceTabs,
   getSources,
-  (tabs: TabList, sources: SourcesMap) => {
+  getUrls,
+  (tabs, sources, urls) => {
     return tabs
-      .map(tab => getSourceByUrlInSources(sources, tab))
+      .map(tab => getSourceByUrlInSources(sources, urls, tab))
       .filter(source => source);
   }
 );
