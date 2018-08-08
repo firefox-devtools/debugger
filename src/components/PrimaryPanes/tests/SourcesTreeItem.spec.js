@@ -142,8 +142,11 @@ describe("SourceTreeItem", () => {
     });
 
     it("should show icon for moz-extension item", async () => {
-      const item = createMockDirectory("moz-extension://", "moz-extension://");
-      const node = render({ item });
+      const item = createMockDirectory(
+        "moz-extension://e37c3c08-beac-a04b-8032-c4f699a1a856",
+        "moz-extension://e37c3c08-beac-a04b-8032-c4f699a1a856"
+      );
+      const node = render({ item, depth: 0 });
       expect(node).toMatchSnapshot();
     });
 
