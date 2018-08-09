@@ -122,7 +122,7 @@ function isVisible(codeMirror: any, top: number, left: number) {
   const scrollArea = codeMirror.getScrollInfo();
   const charWidth = codeMirror.defaultCharWidth();
   const fontHeight = codeMirror.defaultTextHeight();
-  const { scrollTop, scrollLeft } = codeMirror.display.scroller;
+  const { scrollTop, scrollLeft } = codeMirror.doc;
 
   const inXView = withinBounds(
     left,

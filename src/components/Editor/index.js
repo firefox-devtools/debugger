@@ -425,9 +425,10 @@ class Editor extends PureComponent<Props, State> {
     const isFirstLoad =
       (!selectedSource || !isLoaded(selectedSource)) &&
       isLoaded(nextProps.selectedSource);
-
     const locationChanged = selectedLocation !== nextProps.selectedLocation;
-    return isFirstLoad || locationChanged;
+    const symbolsChanged = nextProps.symbols != this.props.symbols;
+
+    return isFirstLoad || locationChanged || symbolsChanged;
   }
 
   scrollToLocation(nextProps) {
