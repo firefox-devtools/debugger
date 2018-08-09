@@ -27,10 +27,10 @@ var /**/b = /**/[ /*bs*/foo() ];
 
 exports[`Parser.pausePoints control-flow 1`] = `
 "
-/**/if (/*bs*/x) /**/{
+/*bs*/if (/*bs*/x) /**/{
   /*bs*/foo();
 }
-else /**/if (/*bs*/y) /**/{
+else /*bs*/if (/*bs*/y) /**/{
   /*bs*/foo();
 }
 else /**/{
@@ -41,12 +41,12 @@ else /**/{
   /*bs*/foo();
 }
 
-/**/while (/*bs*/x) /**/{
+/*bs*/while (/*bs*/x) /**/{
   /*bs*/foo();
 }
 
-/**/switch (/*bs*/c) {
-  /**/case /*bs*/a:
+/*bs*/switch (/*bs*/c) {
+  /*bs*/case /*bs*/a:
     /*bs*/console./*bs*/log(/**/'hi')
 }
 
@@ -60,11 +60,11 @@ var /*bs*/a = 3;
   /*bs*/console./*bs*/log(/**/\\"pause again\\", /**/val);
 }
 
-/**/try /**/{
+/*bs*/try /**/{
 } catch (e) /**/{
 }
 
-/**/with (e) /**/{}
+/*bs*/with (e) /**/{}
 "
 `;
 
@@ -245,7 +245,7 @@ const /**/obj = {
 /*bs*/throw new Error(\\"3\\");
 3;
 
-/**/while (/*bs*/i < 6) /**/{ /*bs*/break }
-/**/while (/*bs*/i < 6) /**/{ /*bs*/continue;}
+/*bs*/while (/*bs*/i < 6) /**/{ /*bs*/break }
+/*bs*/while (/*bs*/i < 6) /**/{ /*bs*/continue;}
 "
 `;
