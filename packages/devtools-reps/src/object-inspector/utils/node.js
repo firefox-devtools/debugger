@@ -52,11 +52,11 @@ function getType(item: Node): Symbol {
 }
 
 function getValue(item: Node): RdpGrip | ObjectInspectorItemContentsValue {
-  if (item && item.contents && item.contents.hasOwnProperty("value")) {
+  if (nodeHasValue(item)) {
     return item.contents.value;
   }
 
-  if (item && item.contents && item.contents.hasOwnProperty("getterValue")) {
+  if (nodeHasGetterValue(item)) {
     return item.contents.getterValue;
   }
 
@@ -81,6 +81,14 @@ function nodeIsMapEntry(item: Node): boolean {
 
 function nodeHasChildren(item: Node): boolean {
   return Array.isArray(item.contents);
+}
+
+function nodeHasValue(item: Node): boolean {
+  return item && item.contents && item.contents.hasOwnProperty("value");
+}
+
+function nodeHasGetterValue(item: Node): boolean {
+  return item && item.contents && item.contents.hasOwnProperty("getterValue");
 }
 
 function nodeIsObject(item: Node): boolean {
@@ -595,12 +603,15 @@ function makeNodesForProperties(
 }
 
 function setNodeFullText(loadedProps: GripProperties, node: Node): Node {
-  if (nodeHasFullText(node)) {
+  if (nodeHasFullText(node) || !nodeIsLongString(node)) {
     return node;
   }
 
-  if (nodeIsLongString(node)) {
-    node.contents.value.fullText = loadedProps.fullText;
+  const { fullText } = loadedProps;
+  if (nodeHasValue(node)) {
+    node.contents.value.fullText = fullText;
+  } else if (nodeHasGetterValue(node)) {
+    node.contents.getterValue.fullText = fullText;
   }
 
   return node;
