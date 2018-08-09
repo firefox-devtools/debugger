@@ -168,12 +168,6 @@ class Tab extends PureComponent<Props> {
     function handleTabClick(e) {
       e.preventDefault();
       e.stopPropagation();
-
-      // Accommodate middle click to close tab
-      if (e.button === 1) {
-        return closeTab(source.url);
-      }
-
       return selectSpecificSource(sourceId);
     }
 
@@ -189,6 +183,8 @@ class Tab extends PureComponent<Props> {
         className={className}
         key={sourceId}
         onClick={handleTabClick}
+        // Accommodate middle click to close tab
+        onMouseUp={e => e.button === 1 && closeTab(source.url)}
         onContextMenu={e => this.onTabContextMenu(e, sourceId)}
         title={getFileURL(source)}
       >
