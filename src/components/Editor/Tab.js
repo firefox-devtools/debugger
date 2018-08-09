@@ -188,7 +188,7 @@ class Tab extends PureComponent<Props> {
       <div
         className={className}
         key={sourceId}
-        onMouseUp={handleTabClick}
+        onClick={handleTabClick}
         onContextMenu={e => this.onTabContextMenu(e, sourceId)}
         title={getFileURL(source)}
       >
