@@ -12,18 +12,20 @@
 import { createSelector } from "reselect";
 import { getPrettySourceURL } from "../utils/source";
 import { originalToGeneratedId, isOriginalId } from "devtools-source-map";
-import { find } from "lodash";
 import { prefs } from "../utils/prefs";
 
-import type { Source, Location } from "../types";
+import type { Source, SourceId, Location } from "../types";
 import type { PendingSelectedLocation } from "./types";
 import type { Action, DonePromiseAction } from "../actions/types";
 import type { LoadSourceAction } from "../actions/types/SourceAction";
 
 export type SourcesMap = { [string]: Source };
 
+type UrlsMap = { [string]: SourceId[] };
+
 export type SourcesState = {
   sources: SourcesMap,
+  urls: UrlsMap,
   pendingSelectedLocation?: PendingSelectedLocation,
   selectedLocation: ?Location
 };
@@ -31,6 +33,7 @@ export type SourcesState = {
 export function initialSourcesState(): SourcesState {
   return {
     sources: {},
+    urls: {},
     selectedLocation: undefined,
     pendingSelectedLocation: prefs.pendingSelectedLocation
   };
@@ -177,9 +180,13 @@ function updateSource(state: SourcesState, source: Object) {
     ? { ...existingSource, ...source }
     : createSource(source);
 
+  const existingUrls = state.urls[source.url];
+  const urls = existingUrls ? [...existingUrls, source.id] : [source.id];
+
   return {
     ...state,
-    sources: { ...state.sources, [source.id]: updatedSource }
+    sources: { ...state.sources, [source.id]: updatedSource },
+    urls: { ...state.urls, [source.url]: urls }
   };
 }
 
@@ -222,7 +229,7 @@ export function getSourceFromId(state: OuterState, id: string): Source {
 }
 
 export function getSourceByURL(state: OuterState, url: string): ?Source {
-  return getSourceByUrlInSources(state.sources.sources, url);
+  return getSourceByUrlInSources(getSources(state), getUrls(state), url);
 }
 
 export function getGeneratedSource(state: OuterState, source: Source): Source {
@@ -250,12 +257,29 @@ export function hasPrettySource(state: OuterState, id: string) {
   return !!getPrettySource(state, id);
 }
 
-export function getSourceByUrlInSources(sources: SourcesMap, url: string) {
-  if (!url) {
+export function getSourceByUrlInSources(
+  sources: SourcesMap,
+  urls: UrlsMap,
+  url: string
+) {
+  const foundSources = getSourcesByUrlInSources(sources, urls, url);
+  if (!foundSources) {
     return null;
   }
 
-  return find(sources, source => source.url === url);
+  return foundSources[0];
+}
+
+function getSourcesByUrlInSources(
+  sources: SourcesMap,
+  urls: UrlsMap,
+  url: string
+) {
+  if (!url || !urls[url]) {
+    return [];
+  }
+
+  return urls[url].map(id => sources[id]);
 }
 
 export function getSourceInSources(sources: SourcesMap, id: string): ?Source {
@@ -266,13 +290,18 @@ export function getSources(state: OuterState) {
   return state.sources.sources;
 }
 
+export function getUrls(state: OuterState) {
+  return state.sources.urls;
+}
+
 export function getSourceList(state: OuterState): Source[] {
   return (Object.values(getSources(state)): any);
 }
 
-export function getSourceCount(state: OuterState) {
-  return Object.keys(getSources(state)).length;
-}
+export const getSourceCount = createSelector(
+  getSources,
+  sources => Object.keys(sources).length
+);
 
 export const getSelectedLocation = createSelector(
   getSourcesState,
