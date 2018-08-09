@@ -12,10 +12,9 @@ const {
   getOriginalSourceText,
   getLocationScopes,
   hasMappedSource,
+  clearSourceMaps,
   applySourceMap
 } = require("./source-map");
-
-const { clearSourceMaps } = require("./utils/sourceMapRequests");
 
 const { getOriginalStackFrames } = require("./utils/getOriginalStackFrames");
 
