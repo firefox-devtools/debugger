@@ -483,6 +483,7 @@ function createDebuggerContext(toolbox) {
  */
 function clearDebuggerPreferences() {
   asyncStorage.clear()
+  Services.prefs.clearUserPref("devtools.recordreplay.enabled");
   Services.prefs.clearUserPref("devtools.debugger.pause-on-exceptions");
   Services.prefs.clearUserPref("devtools.debugger.pause-on-caught-exceptions");
   Services.prefs.clearUserPref("devtools.debugger.ignore-caught-exceptions");
