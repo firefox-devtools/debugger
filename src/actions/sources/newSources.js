@@ -131,7 +131,7 @@ function checkPendingBreakpoints(sourceId: string) {
     const source = getSourceFromId(getState(), sourceId);
     const pendingBreakpoints = getPendingBreakpointsForSource(
       getState(),
-      source.url
+      source
     );
 
     if (pendingBreakpoints.length === 0) {
@@ -182,12 +182,12 @@ export function newSources(sources: Source[]) {
 
     dispatch(({ type: "ADD_SOURCES", sources: sources }: Action));
 
+    await dispatch(loadSourceMaps(sources));
+
     for (const source of sources) {
       dispatch(checkSelectedSource(source.id));
       dispatch(checkPendingBreakpoints(source.id));
     }
-
-    await dispatch(loadSourceMaps(sources));
 
     // We would like to restore the blackboxed state
     // after loading all states to make sure the correctness.
