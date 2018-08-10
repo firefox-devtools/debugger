@@ -28,6 +28,14 @@ function findMessages(win, query) {
   )
 }
 
+async function hasMessage(dbg, msg) {
+  const webConsole = await dbg.toolbox.getPanel("webconsole")
+  return waitFor(async () => findMessages(
+    webConsole._frameWindow,
+    msg
+  ).length > 0)
+}
+
 add_task(async function() {
   Services.prefs.setBoolPref("devtools.toolbox.splitconsoleEnabled", true);
   const dbg = await initDebugger("doc-script-switching.html");
@@ -41,12 +49,14 @@ add_task(async function() {
   const webConsole = await dbg.toolbox.getPanel("webconsole")
   const jsterm = webConsole.hud.jsterm;
 
-  await jsterm.execute(`let sleep = async (time, v) => new Promise(
-    res => setTimeout(() => res(v+'!!!'), time)
-  )`);
+  await jsterm.execute(`
+    let sleep = async (time, v) => new Promise(
+      res => setTimeout(() => res(v+'!!!'), time)
+    )
+  `);
 
-  await jsterm.execute(`await sleep(200, "DONE")`)
+  await hasMessage(dbg, "sleep");
 
-  await waitFor(async () => findMessages(webConsole._frameWindow, "DONE!!!").length > 0)
-
+  await jsterm.execute(`await sleep(200, "DONE")`);
+  await hasMessage(dbg, "DONE!!!");
 });
