@@ -22597,7 +22597,9 @@
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/SecondaryPanes/Breakpoints/ExceptionOption.js": 3777,
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/workers/parser/mapAwaitExpression.js": 3778,
       "../../@babel/highlight/lib/index.js": 3779,
-      "../../supports-color/browser.js": 3780
+      "../../supports-color/browser.js": 3780,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/reducers/tabs.js": 3781,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/tabs.js": 3782
     },
     "usedIds": {
       "0": 0,
@@ -26380,7 +26382,9 @@
       "3777": 3777,
       "3778": 3778,
       "3779": 3779,
-      "3780": 3780
+      "3780": 3780,
+      "3781": 3781,
+      "3782": 3782
     }
   },
   "chunks": {
