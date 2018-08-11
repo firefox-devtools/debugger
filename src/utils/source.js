@@ -29,7 +29,8 @@ export const sourceTypes = {
   coffee: "coffeescript",
   js: "javascript",
   jsx: "react",
-  ts: "typescript"
+  ts: "typescript",
+  vue: "vue"
 };
 
 /**
@@ -166,6 +167,17 @@ export function getFilename(source: Source) {
  */
 export function getTruncatedFileName(source: Source, length: number = 30) {
   return truncateMiddleText(getFilename(source), length);
+}
+
+/**
+ * Returns the file extension of a source.
+ * Trims any query part or reference identifier.
+ *
+ * @memberof utils/source
+ * @static
+ */
+export function getTrimmedFileExtension(source: Source) {
+  return trimUrlQuery(getFileExtension(source));
 }
 
 /* Gets path for files with same filename for editor tabs, breakpoints, etc.
@@ -414,5 +426,6 @@ export function getSourceClassnames(
   if (source.isBlackBoxed) {
     return "blackBox";
   }
-  return sourceTypes[getFileExtension(source)] || defaultClassName;
+
+  return sourceTypes[getTrimmedFileExtension(source)] || defaultClassName;
 }
