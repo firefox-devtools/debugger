@@ -20,4 +20,33 @@ describe("getLibraryFromUrl", () => {
       expect(getLibraryFromUrl(frame)).toEqual("Preact");
     });
   });
+
+  describe("When Vue is on the frame", () => {
+    it("should return VueJS for differnt builds", () => {
+      const buildTypeList = [
+        "vue.js",
+        "vue.common.js",
+        "vue.esm.js",
+        "vue.runtime.js",
+        "vue.runtime.common.js",
+        "vue.runtime.esm.js",
+        "vue.min.js",
+        "vue.runtime.min.js"
+      ];
+
+      buildTypeList.forEach(buildType => {
+        const frame = {
+          displayName: "name",
+          location: {
+            line: 42
+          },
+          source: {
+            url: `https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/${buildType}`
+          }
+        };
+
+        expect(getLibraryFromUrl(frame)).toEqual("VueJS");
+      });
+    });
+  });
 });
