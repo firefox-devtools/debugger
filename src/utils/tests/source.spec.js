@@ -435,7 +435,7 @@ describe("sources", () => {
       const source = {
         contentType: "text/vue",
         text: "<h1></h1>",
-        url: "App.vue?bc27"
+        url: "App.vue"
       };
       expect(getTrimmedFileExtension(source)).toEqual("vue");
     });
