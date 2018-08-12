@@ -158,7 +158,7 @@ Go to [local Development](../docs/local-development.md) to learn about:
 
 At some point, you'll want to debug firefox to see your changes in the devtools panel or inspect the debugger server.
 
-Here's a guide to help you get started [guide](./docs/debugging-firefox.md)
+Here's a guide to help you get started [guide](../docs/debugging-firefox.md)
 
 ### Issues
 
