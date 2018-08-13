@@ -9,7 +9,7 @@
  * @module actions/sources
  */
 
-import { isGeneratedId } from "devtools-source-map";
+import { isGeneratedId, generatedToOriginalId } from "devtools-source-map";
 import { flatten } from "lodash";
 
 import { toggleBlackBox } from "./blackbox";
@@ -37,7 +37,7 @@ function createOriginalSource(
   return {
     url: originalUrl,
     relativeUrl: originalUrl,
-    id: sourceMaps.generatedToOriginalId(generatedSource.id, originalUrl),
+    id: generatedToOriginalId(generatedSource.id, originalUrl),
     isPrettyPrinted: false,
     isWasm: false,
     isBlackBoxed: false,
@@ -129,7 +129,6 @@ function checkPendingBreakpoints(sourceId: string) {
   return async ({ dispatch, getState }: ThunkArgs) => {
     // source may have been modified by selectLocation
     const source = getSourceFromId(getState(), sourceId);
-
     const pendingBreakpoints = getPendingBreakpointsForSource(
       getState(),
       source.url

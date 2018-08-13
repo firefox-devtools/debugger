@@ -9,6 +9,7 @@
  * @module actions/breakpoints
  */
 
+import { isOriginalId } from "devtools-source-map";
 import { PROMISE } from "../utils/middleware/promise";
 import {
   getBreakpoint,
@@ -254,7 +255,7 @@ export function setBreakpointCondition(
       bp.id,
       location,
       condition,
-      sourceMaps.isOriginalId(bp.location.sourceId)
+      isOriginalId(bp.location.sourceId)
     );
 
     const newBreakpoint = { ...bp, condition };
