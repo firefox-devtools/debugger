@@ -70,7 +70,7 @@ const libraryMap = [
   },
   {
     label: "VueJS",
-    pattern: /vue\.js/i
+    pattern: /vue(?:\.[a-z]+)*\.js/i
   },
   {
     label: "RxJS",

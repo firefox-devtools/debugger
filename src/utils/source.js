@@ -29,7 +29,8 @@ export const sourceTypes = {
   coffee: "coffeescript",
   js: "javascript",
   jsx: "react",
-  ts: "typescript"
+  ts: "typescript",
+  vue: "vue"
 };
 
 /**
@@ -414,5 +415,6 @@ export function getSourceClassnames(
   if (source.isBlackBoxed) {
     return "blackBox";
   }
+
   return sourceTypes[getFileExtension(source)] || defaultClassName;
 }
