@@ -8,7 +8,12 @@ import {
   createStore,
   makeSource
 } from "../../../utils/test-head";
-const { getSource, getSourceCount, getSelectedSource } = selectors;
+const {
+  getSource,
+  getSourceCount,
+  getSelectedSource,
+  getSourceByURL
+} = selectors;
 
 // eslint-disable-next-line max-len
 import { sourceThreadClient as threadClient } from "../../tests/helpers/threadClient.js";
@@ -50,16 +55,13 @@ describe("sources - new sources", () => {
       threadClient,
       {},
       {
-        getOriginalURLs: () => Promise.resolve(["magic.js"]),
-        generatedToOriginalId: (a, b) => `${a}/${b}`
+        getOriginalURLs: async () => ["magic.js"]
       }
     );
 
-    await dispatch(
-      actions.newSource(makeSource("base.js", { sourceMapURL: "base.js.map" }))
-    );
-
-    const magic = getSource(getState(), "base.js/magic.js");
+    const baseSource = makeSource("base.js", { sourceMapURL: "base.js.map" });
+    await dispatch(actions.newSource(baseSource));
+    const magic = getSourceByURL(getState(), "magic.js");
     expect(magic.url).toEqual("magic.js");
   });
 

@@ -13,7 +13,7 @@ import {
 
 import { getGeneratedLocation } from "../../utils/source-maps";
 import { getTextAtPosition } from "../../utils/source";
-import { originalToGeneratedId } from "devtools-source-map";
+import { originalToGeneratedId, isOriginalId } from "devtools-source-map";
 import { getSource } from "../../selectors";
 import type { ThunkArgs, Action } from "../types";
 
@@ -83,7 +83,7 @@ export async function syncBreakpointPromise(
 
   const source = getSource(getState(), sourceId);
 
-  const generatedSourceId = sourceMaps.isOriginalId(sourceId)
+  const generatedSourceId = isOriginalId(sourceId)
     ? originalToGeneratedId(sourceId)
     : sourceId;
 
@@ -158,7 +158,7 @@ export async function syncBreakpointPromise(
   const { id, actualLocation } = await client.setBreakpoint(
     scopedGeneratedLocation,
     pendingBreakpoint.condition,
-    sourceMaps.isOriginalId(sourceId)
+    isOriginalId(sourceId)
   );
 
   // the breakpoint might have slid server side, so we want to get the location
