@@ -183,6 +183,14 @@ describe("SourceTreeItem", () => {
       expect(node).toMatchSnapshot();
     });
 
+    it("should show [sm] for duplicate source items", async () => {
+      const node = render({
+        item: createMockItem(),
+        hasMatchingGeneratedSource: true
+      });
+      expect(node).toMatchSnapshot();
+    });
+
     it("should show source item with source icon with focus", async () => {
       const node = render({
         depth: 1,
@@ -194,7 +202,7 @@ describe("SourceTreeItem", () => {
 
     it("should show domain item", async () => {
       const node = render({
-        item: createMockItem("root", "root"),
+        item: createMockItem({ name: "root", path: "root" }),
         depth: 0
       });
       expect(node).toMatchSnapshot();
@@ -268,10 +276,11 @@ describe("SourceTreeItem", () => {
 });
 
 function generateDefaults(overrides) {
-  const source = createMockSource(
-    "server1.conn13.child1/39",
-    "http://mdn.com/one.js"
-  );
+  const source = createSource({
+    id: "server1.conn13.child1/39",
+    url: "http://mdn.com/one.js"
+  });
+
   const item = {
     name: "one.js",
     path: "mdn.com/one.js",
@@ -295,25 +304,11 @@ function generateDefaults(overrides) {
 
 function render(overrides = {}) {
   const props = generateDefaults(overrides);
-  const component = shallow(<SourcesTreeItem {...props} />);
+  const component = shallow(<SourcesTreeItem.WrappedComponent {...props} />);
   const defaultState = component.state();
   const instance = component.instance();
 
-  // instance.shouldComponentUpdate = () => true;
-
   return { component, props, defaultState, instance };
-}
-
-function createMockSource(id, url, isBlackBoxed = false, sourceMapURL = null) {
-  return createSource({
-    id: id,
-    url: url,
-    isPrettyPrinted: false,
-    isWasm: false,
-    sourceMapURL,
-    isBlackBoxed: isBlackBoxed,
-    loadedState: "unloaded"
-  });
 }
 
 function createMockDirectory(path = "folder/", name = "folder", contents = []) {
@@ -325,15 +320,16 @@ function createMockDirectory(path = "folder/", name = "folder", contents = []) {
   };
 }
 
-function createMockItem(
-  path = "http://mdn.com/one.js",
-  name = "one.js",
-  contents = { id: "server1.conn13.child1/39" }
-) {
+function createMockItem(overrides = {}) {
+  overrides.contents = createSource({
+    id: "server1.conn13.child1/39",
+    ...(overrides.contents || {})
+  });
+
   return {
     type: "source",
-    name,
-    path,
-    contents
+    name: "one.js",
+    path: "http://mdn.com/one.js",
+    ...overrides
   };
 }

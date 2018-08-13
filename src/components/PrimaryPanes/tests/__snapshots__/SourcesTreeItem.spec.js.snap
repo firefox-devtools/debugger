@@ -2,6 +2,219 @@
 
 exports[`SourceTreeItem renderItem should not show domain item when the projectRoot exists 1`] = `undefined`;
 
+exports[`SourceTreeItem renderItem should show [sm] for duplicate source items 1`] = `
+Object {
+  "component": <div
+    className="node"
+    key="http://mdn.com/one.js"
+    onClick={[Function]}
+    onContextMenu={[Function]}
+  >
+    <i
+      className="no-arrow"
+    />
+    <Connect(SourceIcon)
+      source={
+        Object {
+          "contentType": "",
+          "error": undefined,
+          "id": "server1.conn13.child1/39",
+          "isBlackBoxed": false,
+          "isPrettyPrinted": false,
+          "isWasm": false,
+          "loadedState": "unloaded",
+          "sourceMapURL": undefined,
+          "text": undefined,
+          "url": "http://mdn.com/one.js",
+        }
+      }
+    />
+    <span
+      className="label"
+    >
+       
+      one.js [sm]
+       
+    </span>
+  </div>,
+  "defaultState": null,
+  "instance": SourceTreeItem {
+    "context": Object {},
+    "onClick": [Function],
+    "onContextMenu": [Function],
+    "props": Object {
+      "clearProjectDirectoryRoot": [MockFunction],
+      "debuggeeUrl": "http://mdn.com",
+      "expanded": false,
+      "focusItem": [MockFunction],
+      "hasMatchingGeneratedSource": true,
+      "item": Object {
+        "contents": Object {
+          "contentType": "",
+          "error": undefined,
+          "id": "server1.conn13.child1/39",
+          "isBlackBoxed": false,
+          "isPrettyPrinted": false,
+          "isWasm": false,
+          "loadedState": "unloaded",
+          "sourceMapURL": undefined,
+          "text": undefined,
+          "url": undefined,
+        },
+        "name": "one.js",
+        "path": "http://mdn.com/one.js",
+        "type": "source",
+      },
+      "projectRoot": "",
+      "selectItem": [MockFunction],
+      "setExpanded": [MockFunction],
+      "setProjectDirectoryRoot": [MockFunction],
+      "source": Object {
+        "contentType": "",
+        "error": undefined,
+        "id": "server1.conn13.child1/39",
+        "isBlackBoxed": false,
+        "isPrettyPrinted": false,
+        "isWasm": false,
+        "loadedState": "unloaded",
+        "sourceMapURL": undefined,
+        "text": undefined,
+        "url": "http://mdn.com/one.js",
+      },
+    },
+    "refs": Object {},
+    "state": null,
+    "updater": Updater {
+      "_callbacks": Array [],
+      "_renderer": ReactShallowRenderer {
+        "_context": Object {},
+        "_element": <SourceTreeItem
+          clearProjectDirectoryRoot={[MockFunction]}
+          debuggeeUrl="http://mdn.com"
+          expanded={false}
+          focusItem={[MockFunction]}
+          hasMatchingGeneratedSource={true}
+          item={
+            Object {
+              "contents": Object {
+                "contentType": "",
+                "error": undefined,
+                "id": "server1.conn13.child1/39",
+                "isBlackBoxed": false,
+                "isPrettyPrinted": false,
+                "isWasm": false,
+                "loadedState": "unloaded",
+                "sourceMapURL": undefined,
+                "text": undefined,
+                "url": undefined,
+              },
+              "name": "one.js",
+              "path": "http://mdn.com/one.js",
+              "type": "source",
+            }
+          }
+          projectRoot=""
+          selectItem={[MockFunction]}
+          setExpanded={[MockFunction]}
+          setProjectDirectoryRoot={[MockFunction]}
+          source={
+            Object {
+              "contentType": "",
+              "error": undefined,
+              "id": "server1.conn13.child1/39",
+              "isBlackBoxed": false,
+              "isPrettyPrinted": false,
+              "isWasm": false,
+              "loadedState": "unloaded",
+              "sourceMapURL": undefined,
+              "text": undefined,
+              "url": "http://mdn.com/one.js",
+            }
+          }
+        />,
+        "_forcedUpdate": false,
+        "_instance": [Circular],
+        "_newState": null,
+        "_rendered": <div
+          className="node"
+          onClick={[Function]}
+          onContextMenu={[Function]}
+        >
+          <i
+            className="no-arrow"
+          />
+          <Connect(SourceIcon)
+            source={
+              Object {
+                "contentType": "",
+                "error": undefined,
+                "id": "server1.conn13.child1/39",
+                "isBlackBoxed": false,
+                "isPrettyPrinted": false,
+                "isWasm": false,
+                "loadedState": "unloaded",
+                "sourceMapURL": undefined,
+                "text": undefined,
+                "url": "http://mdn.com/one.js",
+              }
+            }
+          />
+          <span
+            className="label"
+          >
+             
+            one.js [sm]
+             
+          </span>
+        </div>,
+        "_rendering": false,
+        "_updater": [Circular],
+      },
+    },
+  },
+  "props": Object {
+    "clearProjectDirectoryRoot": [MockFunction],
+    "debuggeeUrl": "http://mdn.com",
+    "expanded": false,
+    "focusItem": [MockFunction],
+    "hasMatchingGeneratedSource": true,
+    "item": Object {
+      "contents": Object {
+        "contentType": "",
+        "error": undefined,
+        "id": "server1.conn13.child1/39",
+        "isBlackBoxed": false,
+        "isPrettyPrinted": false,
+        "isWasm": false,
+        "loadedState": "unloaded",
+        "sourceMapURL": undefined,
+        "text": undefined,
+        "url": undefined,
+      },
+      "name": "one.js",
+      "path": "http://mdn.com/one.js",
+      "type": "source",
+    },
+    "projectRoot": "",
+    "selectItem": [MockFunction],
+    "setExpanded": [MockFunction],
+    "setProjectDirectoryRoot": [MockFunction],
+    "source": Object {
+      "contentType": "",
+      "error": undefined,
+      "id": "server1.conn13.child1/39",
+      "isBlackBoxed": false,
+      "isPrettyPrinted": false,
+      "isWasm": false,
+      "loadedState": "unloaded",
+      "sourceMapURL": undefined,
+      "text": undefined,
+      "url": "http://mdn.com/one.js",
+    },
+  },
+}
+`;
+
 exports[`SourceTreeItem renderItem should show domain item 1`] = `
 Object {
   "component": <div
@@ -37,7 +250,16 @@ Object {
       "focusItem": [MockFunction],
       "item": Object {
         "contents": Object {
+          "contentType": "",
+          "error": undefined,
           "id": "server1.conn13.child1/39",
+          "isBlackBoxed": false,
+          "isPrettyPrinted": false,
+          "isWasm": false,
+          "loadedState": "unloaded",
+          "sourceMapURL": undefined,
+          "text": undefined,
+          "url": undefined,
         },
         "name": "root",
         "path": "root",
@@ -55,7 +277,7 @@ Object {
         "isPrettyPrinted": false,
         "isWasm": false,
         "loadedState": "unloaded",
-        "sourceMapURL": null,
+        "sourceMapURL": undefined,
         "text": undefined,
         "url": "http://mdn.com/one.js",
       },
@@ -75,7 +297,16 @@ Object {
           item={
             Object {
               "contents": Object {
+                "contentType": "",
+                "error": undefined,
                 "id": "server1.conn13.child1/39",
+                "isBlackBoxed": false,
+                "isPrettyPrinted": false,
+                "isWasm": false,
+                "loadedState": "unloaded",
+                "sourceMapURL": undefined,
+                "text": undefined,
+                "url": undefined,
               },
               "name": "root",
               "path": "root",
@@ -95,7 +326,7 @@ Object {
               "isPrettyPrinted": false,
               "isWasm": false,
               "loadedState": "unloaded",
-              "sourceMapURL": null,
+              "sourceMapURL": undefined,
               "text": undefined,
               "url": "http://mdn.com/one.js",
             }
@@ -136,7 +367,16 @@ Object {
     "focusItem": [MockFunction],
     "item": Object {
       "contents": Object {
+        "contentType": "",
+        "error": undefined,
         "id": "server1.conn13.child1/39",
+        "isBlackBoxed": false,
+        "isPrettyPrinted": false,
+        "isWasm": false,
+        "loadedState": "unloaded",
+        "sourceMapURL": undefined,
+        "text": undefined,
+        "url": undefined,
       },
       "name": "root",
       "path": "root",
@@ -154,7 +394,7 @@ Object {
       "isPrettyPrinted": false,
       "isWasm": false,
       "loadedState": "unloaded",
-      "sourceMapURL": null,
+      "sourceMapURL": undefined,
       "text": undefined,
       "url": "http://mdn.com/one.js",
     },
@@ -213,7 +453,7 @@ Object {
         "isPrettyPrinted": false,
         "isWasm": false,
         "loadedState": "unloaded",
-        "sourceMapURL": null,
+        "sourceMapURL": undefined,
         "text": undefined,
         "url": "http://mdn.com/one.js",
       },
@@ -251,7 +491,7 @@ Object {
               "isPrettyPrinted": false,
               "isWasm": false,
               "loadedState": "unloaded",
-              "sourceMapURL": null,
+              "sourceMapURL": undefined,
               "text": undefined,
               "url": "http://mdn.com/one.js",
             }
@@ -308,7 +548,7 @@ Object {
       "isPrettyPrinted": false,
       "isWasm": false,
       "loadedState": "unloaded",
-      "sourceMapURL": null,
+      "sourceMapURL": undefined,
       "text": undefined,
       "url": "http://mdn.com/one.js",
     },
@@ -368,7 +608,7 @@ Object {
         "isPrettyPrinted": false,
         "isWasm": false,
         "loadedState": "unloaded",
-        "sourceMapURL": null,
+        "sourceMapURL": undefined,
         "text": undefined,
         "url": "http://mdn.com/one.js",
       },
@@ -407,7 +647,7 @@ Object {
               "isPrettyPrinted": false,
               "isWasm": false,
               "loadedState": "unloaded",
-              "sourceMapURL": null,
+              "sourceMapURL": undefined,
               "text": undefined,
               "url": "http://mdn.com/one.js",
             }
@@ -465,7 +705,7 @@ Object {
       "isPrettyPrinted": false,
       "isWasm": false,
       "loadedState": "unloaded",
-      "sourceMapURL": null,
+      "sourceMapURL": undefined,
       "text": undefined,
       "url": "http://mdn.com/one.js",
     },
@@ -645,7 +885,7 @@ Object {
         "isPrettyPrinted": false,
         "isWasm": false,
         "loadedState": "unloaded",
-        "sourceMapURL": null,
+        "sourceMapURL": undefined,
         "text": undefined,
         "url": "http://mdn.com/one.js",
       },
@@ -682,7 +922,7 @@ Object {
               "isPrettyPrinted": false,
               "isWasm": false,
               "loadedState": "unloaded",
-              "sourceMapURL": null,
+              "sourceMapURL": undefined,
               "text": undefined,
               "url": "http://mdn.com/one.js",
             }
@@ -738,7 +978,7 @@ Object {
       "isPrettyPrinted": false,
       "isWasm": false,
       "loadedState": "unloaded",
-      "sourceMapURL": null,
+      "sourceMapURL": undefined,
       "text": undefined,
       "url": "http://mdn.com/one.js",
     },
@@ -1035,7 +1275,7 @@ Object {
         "isPrettyPrinted": false,
         "isWasm": false,
         "loadedState": "unloaded",
-        "sourceMapURL": null,
+        "sourceMapURL": undefined,
         "text": undefined,
         "url": "http://mdn.com/one.js",
       },
@@ -1073,7 +1313,7 @@ Object {
               "isPrettyPrinted": false,
               "isWasm": false,
               "loadedState": "unloaded",
-              "sourceMapURL": null,
+              "sourceMapURL": undefined,
               "text": undefined,
               "url": "http://mdn.com/one.js",
             }
@@ -1130,7 +1370,7 @@ Object {
       "isPrettyPrinted": false,
       "isWasm": false,
       "loadedState": "unloaded",
-      "sourceMapURL": null,
+      "sourceMapURL": undefined,
       "text": undefined,
       "url": "http://mdn.com/one.js",
     },
@@ -1188,7 +1428,7 @@ Object {
         "isPrettyPrinted": false,
         "isWasm": false,
         "loadedState": "unloaded",
-        "sourceMapURL": null,
+        "sourceMapURL": undefined,
         "text": undefined,
         "url": "http://mdn.com/one.js",
       },
@@ -1225,7 +1465,7 @@ Object {
               "isPrettyPrinted": false,
               "isWasm": false,
               "loadedState": "unloaded",
-              "sourceMapURL": null,
+              "sourceMapURL": undefined,
               "text": undefined,
               "url": "http://mdn.com/one.js",
             }
@@ -1281,7 +1521,7 @@ Object {
       "isPrettyPrinted": false,
       "isWasm": false,
       "loadedState": "unloaded",
-      "sourceMapURL": null,
+      "sourceMapURL": undefined,
       "text": undefined,
       "url": "http://mdn.com/one.js",
     },
@@ -1310,7 +1550,7 @@ Object {
           "isPrettyPrinted": false,
           "isWasm": false,
           "loadedState": "unloaded",
-          "sourceMapURL": null,
+          "sourceMapURL": undefined,
           "text": undefined,
           "url": "http://mdn.com/one.js",
         }
@@ -1336,7 +1576,16 @@ Object {
       "focusItem": [MockFunction],
       "item": Object {
         "contents": Object {
+          "contentType": "",
+          "error": undefined,
           "id": "server1.conn13.child1/39",
+          "isBlackBoxed": false,
+          "isPrettyPrinted": false,
+          "isWasm": false,
+          "loadedState": "unloaded",
+          "sourceMapURL": undefined,
+          "text": undefined,
+          "url": undefined,
         },
         "name": "one.js",
         "path": "http://mdn.com/one.js",
@@ -1354,7 +1603,7 @@ Object {
         "isPrettyPrinted": false,
         "isWasm": false,
         "loadedState": "unloaded",
-        "sourceMapURL": null,
+        "sourceMapURL": undefined,
         "text": undefined,
         "url": "http://mdn.com/one.js",
       },
@@ -1373,7 +1622,16 @@ Object {
           item={
             Object {
               "contents": Object {
+                "contentType": "",
+                "error": undefined,
                 "id": "server1.conn13.child1/39",
+                "isBlackBoxed": false,
+                "isPrettyPrinted": false,
+                "isWasm": false,
+                "loadedState": "unloaded",
+                "sourceMapURL": undefined,
+                "text": undefined,
+                "url": undefined,
               },
               "name": "one.js",
               "path": "http://mdn.com/one.js",
@@ -1393,7 +1651,7 @@ Object {
               "isPrettyPrinted": false,
               "isWasm": false,
               "loadedState": "unloaded",
-              "sourceMapURL": null,
+              "sourceMapURL": undefined,
               "text": undefined,
               "url": "http://mdn.com/one.js",
             }
@@ -1420,7 +1678,7 @@ Object {
                 "isPrettyPrinted": false,
                 "isWasm": false,
                 "loadedState": "unloaded",
-                "sourceMapURL": null,
+                "sourceMapURL": undefined,
                 "text": undefined,
                 "url": "http://mdn.com/one.js",
               }
@@ -1446,7 +1704,16 @@ Object {
     "focusItem": [MockFunction],
     "item": Object {
       "contents": Object {
+        "contentType": "",
+        "error": undefined,
         "id": "server1.conn13.child1/39",
+        "isBlackBoxed": false,
+        "isPrettyPrinted": false,
+        "isWasm": false,
+        "loadedState": "unloaded",
+        "sourceMapURL": undefined,
+        "text": undefined,
+        "url": undefined,
       },
       "name": "one.js",
       "path": "http://mdn.com/one.js",
@@ -1464,7 +1731,7 @@ Object {
       "isPrettyPrinted": false,
       "isWasm": false,
       "loadedState": "unloaded",
-      "sourceMapURL": null,
+      "sourceMapURL": undefined,
       "text": undefined,
       "url": "http://mdn.com/one.js",
     },
@@ -1493,7 +1760,7 @@ Object {
           "isPrettyPrinted": false,
           "isWasm": false,
           "loadedState": "unloaded",
-          "sourceMapURL": null,
+          "sourceMapURL": undefined,
           "text": undefined,
           "url": "http://mdn.com/one.js",
         }
@@ -1528,7 +1795,7 @@ Object {
           "isPrettyPrinted": false,
           "isWasm": false,
           "loadedState": "unloaded",
-          "sourceMapURL": null,
+          "sourceMapURL": undefined,
           "text": undefined,
           "url": "http://mdn.com/one.js",
         },
@@ -1547,7 +1814,7 @@ Object {
         "isPrettyPrinted": false,
         "isWasm": false,
         "loadedState": "unloaded",
-        "sourceMapURL": null,
+        "sourceMapURL": undefined,
         "text": undefined,
         "url": "http://mdn.com/one.js",
       },
@@ -1575,7 +1842,7 @@ Object {
                 "isPrettyPrinted": false,
                 "isWasm": false,
                 "loadedState": "unloaded",
-                "sourceMapURL": null,
+                "sourceMapURL": undefined,
                 "text": undefined,
                 "url": "http://mdn.com/one.js",
               },
@@ -1596,7 +1863,7 @@ Object {
               "isPrettyPrinted": false,
               "isWasm": false,
               "loadedState": "unloaded",
-              "sourceMapURL": null,
+              "sourceMapURL": undefined,
               "text": undefined,
               "url": "http://mdn.com/one.js",
             }
@@ -1623,7 +1890,7 @@ Object {
                 "isPrettyPrinted": false,
                 "isWasm": false,
                 "loadedState": "unloaded",
-                "sourceMapURL": null,
+                "sourceMapURL": undefined,
                 "text": undefined,
                 "url": "http://mdn.com/one.js",
               }
@@ -1658,7 +1925,7 @@ Object {
         "isPrettyPrinted": false,
         "isWasm": false,
         "loadedState": "unloaded",
-        "sourceMapURL": null,
+        "sourceMapURL": undefined,
         "text": undefined,
         "url": "http://mdn.com/one.js",
       },
@@ -1677,7 +1944,7 @@ Object {
       "isPrettyPrinted": false,
       "isWasm": false,
       "loadedState": "unloaded",
-      "sourceMapURL": null,
+      "sourceMapURL": undefined,
       "text": undefined,
       "url": "http://mdn.com/one.js",
     },

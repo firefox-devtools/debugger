@@ -232,6 +232,10 @@ export function getSourceByURL(state: OuterState, url: string): ?Source {
   return getSourceByUrlInSources(getSources(state), getUrls(state), url);
 }
 
+export function getSourcesByURL(state: OuterState, url: string): Source[] {
+  return getSourcesByUrlInSources(getSources(state), getUrls(state), url);
+}
+
 export function getGeneratedSource(state: OuterState, source: Source): Source {
   if (!isOriginalId(source.id)) {
     return source;
