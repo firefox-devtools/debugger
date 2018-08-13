@@ -37,7 +37,7 @@ function _getURL(source: Source, defaultDomain: string): ParsedURL {
     return def;
   }
 
-  const { pathname, protocol, host, path } = parse(url);
+  const { pathname, protocol, host } = parse(url);
   const filename = getUnicodeUrlPath(getFilenameFromPath(pathname));
 
   switch (protocol) {
@@ -49,7 +49,7 @@ function _getURL(source: Source, defaultDomain: string): ParsedURL {
     case "resource:":
       return {
         ...def,
-        path,
+        path: pathname,
         filename,
         group: `${protocol}//${host || ""}`
       };
@@ -58,7 +58,7 @@ function _getURL(source: Source, defaultDomain: string): ParsedURL {
     case "ng:":
       return {
         ...def,
-        path: path,
+        path: pathname,
         filename,
         group: `${protocol}//`
       };
@@ -85,7 +85,7 @@ function _getURL(source: Source, defaultDomain: string): ParsedURL {
         // use file protocol for a URL like "/foo/bar.js"
         return {
           ...def,
-          path: path,
+          path: pathname,
           filename,
           group: "file://"
         };
@@ -111,7 +111,7 @@ function _getURL(source: Source, defaultDomain: string): ParsedURL {
 
   return {
     ...def,
-    path: path,
+    path: pathname,
     group: protocol ? `${protocol}//` : "",
     filename
   };
