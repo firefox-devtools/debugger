@@ -71,7 +71,6 @@ export function loadSourceText(source: Source) {
     }
 
     const newSource = getSourceFromId(getState(), source.id);
-
     if (isOriginalId(newSource.id) && !newSource.isWasm) {
       const generatedSource = getGeneratedSource(getState(), source);
       await dispatch(loadSourceText(generatedSource));

@@ -230,7 +230,8 @@ describe("pause", () => {
         getOriginalSourceText: async () => ({
           source: "\n\nfunction fooOriginal() {\n  return -5;\n}",
           contentType: "text/javascript"
-        })
+        }),
+        getGeneratedLocation: async location => location
       };
 
       const store = createStore(mockThreadClient, {}, sourceMapsMock);
