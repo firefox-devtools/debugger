@@ -4,7 +4,6 @@
 
 import {
   getFilename,
-  getTrimmedFileExtension,
   getTruncatedFileName,
   getFileURL,
   getDisplayPath,
@@ -427,44 +426,6 @@ describe("sources", () => {
         text: "function foo(){\n}"
       };
       expect(getSourceLineCount(source)).toEqual(2);
-    });
-  });
-
-  describe("getTrimmedFileExtension", () => {
-    it("should return vue if the file extension is .vue", () => {
-      const source = {
-        contentType: "text/vue",
-        text: "<h1></h1>",
-        url: "App.vue"
-      };
-      expect(getTrimmedFileExtension(source)).toEqual("vue");
-    });
-
-    it("should return jsx if the file extension is .jsx", () => {
-      const source = {
-        contentType: "text/jsx",
-        text: "<span></span>",
-        url: "myComponent.jsx"
-      };
-      expect(getTrimmedFileExtension(source)).toEqual("jsx");
-    });
-
-    it("should return vue if the file extension is .vue with hash", () => {
-      const source = {
-        contentType: "text/vue",
-        text: "<h1></h1>",
-        url: "App.vue?bc27"
-      };
-      expect(getTrimmedFileExtension(source)).toEqual("vue");
-    });
-
-    it("should return empty string if no file extension is given", () => {
-      const source = {
-        contentType: "text/vue",
-        text: "<h1></h1>",
-        url: ""
-      };
-      expect(getTrimmedFileExtension(source)).toEqual("");
     });
   });
 });

@@ -22,7 +22,7 @@ describe("getLibraryFromUrl", () => {
   });
 
   describe("When Vue is on the frame", () => {
-    it("should return VueJS for differnt builds", () => {
+    it("should return VueJS for different builds", () => {
       const buildTypeList = [
         "vue.js",
         "vue.common.js",

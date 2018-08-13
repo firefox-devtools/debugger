@@ -169,17 +169,6 @@ export function getTruncatedFileName(source: Source, length: number = 30) {
   return truncateMiddleText(getFilename(source), length);
 }
 
-/**
- * Returns the file extension of a source.
- * Trims any query part or reference identifier.
- *
- * @memberof utils/source
- * @static
- */
-export function getTrimmedFileExtension(source: Source) {
-  return trimUrlQuery(getFileExtension(source));
-}
-
 /* Gets path for files with same filename for editor tabs, breakpoints, etc.
  * Pass the source, and list of other sources
  *
@@ -427,5 +416,5 @@ export function getSourceClassnames(
     return "blackBox";
   }
 
-  return sourceTypes[getTrimmedFileExtension(source)] || defaultClassName;
+  return sourceTypes[getFileExtension(source)] || defaultClassName;
 }
