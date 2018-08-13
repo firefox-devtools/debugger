@@ -4,19 +4,23 @@
 
 // @flow
 
+import { isOriginalId } from "devtools-source-map";
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import classnames from "classnames";
 import { showMenu } from "devtools-contextmenu";
 
 import SourceIcon from "../shared/SourceIcon";
 import Svg from "../shared/Svg";
 
+import { getSourcesByURL } from "../../selectors";
+import actions from "../../actions";
+
 import { isDirectory } from "../../utils/sources-tree";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { features } from "../../utils/prefs";
 
 import type { TreeNode } from "../../utils/sources-tree/types";
-
 import type { Source } from "../../types";
 
 type Props = {
@@ -27,6 +31,7 @@ type Props = {
   depth: number,
   focused: boolean,
   expanded: boolean,
+  hasMatchingGeneratedSource: boolean,
   setExpanded: (TreeNode, boolean, boolean) => void,
   focusItem: TreeNode => void,
   selectItem: TreeNode => void,
@@ -36,7 +41,7 @@ type Props = {
 
 type State = {};
 
-export default class SourceTreeItem extends Component<Props, State> {
+class SourceTreeItem extends Component<Props, State> {
   getIcon(item: TreeNode, depth: number) {
     const { debuggeeUrl, projectRoot, source } = this.props;
 
@@ -144,14 +149,17 @@ export default class SourceTreeItem extends Component<Props, State> {
     );
   }
 
-  renderItemName(name: string) {
-    switch (name) {
+  renderItemName() {
+    const { item, hasMatchingGeneratedSource } = this.props;
+    const suffix = hasMatchingGeneratedSource ? " [sm]" : "";
+
+    switch (item.name) {
       case "ng://":
         return "Angular";
       case "webpack://":
         return "Webpack";
       default:
-        return name;
+        return `${item.name}${suffix}`;
     }
   }
 
@@ -167,8 +175,32 @@ export default class SourceTreeItem extends Component<Props, State> {
       >
         {this.renderItemArrow()}
         {this.getIcon(item, depth)}
-        <span className="label"> {this.renderItemName(item.name)} </span>
+        <span className="label"> {this.renderItemName()} </span>
       </div>
     );
   }
 }
+
+function getHasMatchingGeneratedSource(state, source: ?Source) {
+  if (!source) {
+    return false;
+  }
+
+  const sources = getSourcesByURL(state, source.url);
+  return isOriginalId(source.id) && sources.length > 1;
+}
+
+const mapStateToProps = (state, props) => {
+  const { source } = props;
+  return {
+    hasMatchingGeneratedSource: getHasMatchingGeneratedSource(state, source)
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  {
+    setProjectDirectoryRoot: actions.setProjectDirectoryRoot,
+    clearProjectDirectoryRoot: actions.clearProjectDirectoryRoot
+  }
+)(SourceTreeItem);

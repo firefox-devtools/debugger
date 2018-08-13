@@ -60,7 +60,6 @@ type Props = {
   expanded?: boolean,
   selectSource: string => mixed,
   setExpandedState: (Set<string>) => mixed,
-  setProjectDirectoryRoot: string => void,
   clearProjectDirectoryRoot: () => void
 };
 
@@ -273,14 +272,12 @@ class SourcesTree extends Component<Props, State> {
         depth={depth}
         focused={focused}
         expanded={expanded}
-        setExpanded={setExpanded}
         focusItem={this.focusItem}
         selectItem={this.selectItem}
         source={this.getSource(item)}
         debuggeeUrl={debuggeeUrl}
         projectRoot={projectRoot}
-        clearProjectDirectoryRoot={this.props.clearProjectDirectoryRoot}
-        setProjectDirectoryRoot={this.props.setProjectDirectoryRoot}
+        setExpanded={setExpanded}
       />
     );
   };
@@ -380,7 +377,6 @@ export default connect(
   {
     selectSource: actions.selectSource,
     setExpandedState: actions.setExpandedState,
-    setProjectDirectoryRoot: actions.setProjectDirectoryRoot,
     clearProjectDirectoryRoot: actions.clearProjectDirectoryRoot
   }
 )(SourcesTree);
