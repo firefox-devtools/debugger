@@ -156,6 +156,7 @@ export type Frame = {
   // FIXME Define this type more clearly
   this: Object,
   framework?: string,
+  isOriginal?: boolean,
   originalDisplayName?: string
 };
 

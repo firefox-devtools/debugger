@@ -365,12 +365,20 @@ export function getFrames(state: OuterState) {
   return state.pause.frames;
 }
 
+function getGeneratedFrameId(frameId: string): string {
+  if (frameId.includes("-originalFrame")) {
+    // The mapFrames can add original stack frames -- get generated frameId.
+    return frameId.substr(0, frameId.lastIndexOf("-originalFrame"));
+  }
+  return frameId;
+}
+
 export function getGeneratedFrameScope(state: OuterState, frameId: ?string) {
   if (!frameId) {
     return null;
   }
 
-  return getFrameScopes(state).generated[frameId];
+  return getFrameScopes(state).generated[getGeneratedFrameId(frameId)];
 }
 
 export function getOriginalFrameScope(
@@ -386,7 +394,7 @@ export function getOriginalFrameScope(
   }
 
   const isGenerated = isGeneratedId(sourceId);
-  const original = getFrameScopes(state).original[frameId];
+  const original = getFrameScopes(state).original[getGeneratedFrameId(frameId)];
 
   if (!isGenerated && original && (original.pending || original.scope)) {
     return original;

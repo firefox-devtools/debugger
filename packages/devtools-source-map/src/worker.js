@@ -17,6 +17,8 @@ const {
 
 const { clearSourceMaps } = require("./utils/sourceMapRequests");
 
+const { getOriginalStackFrames } = require("./utils/getOriginalStackFrames");
+
 const {
   workerUtils: { workerHandler }
 } = require("devtools-utils");
@@ -32,6 +34,7 @@ self.onmessage = workerHandler({
   getOriginalLocation,
   getLocationScopes,
   getOriginalSourceText,
+  getOriginalStackFrames,
   hasMappedSource,
   applySourceMap,
   clearSourceMaps

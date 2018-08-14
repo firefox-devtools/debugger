@@ -54,10 +54,22 @@ const mockThreadClient = {
             source: "\n\nfunction fooOriginal() {\n  return -5;\n}",
             contentType: "text/javascript"
           });
+        case "foo-wasm":
+          return resolve({
+            source: { binary: new ArrayBuffer(0) },
+            contentType: "application/wasm"
+          });
+        case "foo-wasm/originalSource":
+          return resolve({
+            source: "fn fooBar() {}\nfn barZoo() { fooBar() }",
+            contentType: "text/rust"
+          });
       }
     });
   }
 };
+
+const mockFrameId = "1";
 
 function createPauseInfo(
   frameLocation = { sourceId: "foo1", line: 2 },
@@ -66,7 +78,7 @@ function createPauseInfo(
   return {
     frames: [
       makeFrame(
-        { id: 1, sourceId: frameLocation.sourceId },
+        { id: mockFrameId, sourceId: frameLocation.sourceId },
         {
           location: frameLocation,
           ...frameOpts
@@ -185,7 +197,7 @@ describe("pause", () => {
       expect(selectors.getFrames(getState())).toEqual([
         {
           generatedLocation: { column: 0, line: 1, sourceId: "foo" },
-          id: 1,
+          id: mockFrameId,
           location: { column: 0, line: 1, sourceId: "foo" },
           scope: {
             bindings: { arguments: [{ a: {} }], variables: { b: {} } }
@@ -247,10 +259,83 @@ describe("pause", () => {
       expect(selectors.getFrames(getState())).toEqual([
         {
           generatedLocation: { column: 0, line: 1, sourceId: "foo" },
-          id: 1,
+          id: mockFrameId,
           location: { column: 0, line: 3, sourceId: "foo-original" },
           originalDisplayName: "fooOriginal",
           scope: { bindings: { arguments: [], variables: {} } }
+        }
+      ]);
+    });
+
+    it("maps frame to original frames", async () => {
+      const generatedLocation = {
+        sourceId: "foo-wasm",
+        line: 1,
+        column: 0
+      };
+
+      const originalLocation = {
+        sourceId: "foo-wasm/originalSource",
+        line: 1,
+        column: 1
+      };
+      const originalLocation2 = {
+        sourceId: "foo-wasm/originalSource",
+        line: 2,
+        column: 14
+      };
+
+      const originStackFrames = [
+        {
+          displayName: "fooBar"
+        },
+        {
+          displayName: "barZoo",
+          location: originalLocation2
+        }
+      ];
+
+      const sourceMapsMock = {
+        getOriginalStackFrames: loc => Promise.resolve(originStackFrames),
+        getOriginalLocation: () => Promise.resolve(originalLocation),
+        getOriginalSourceText: async () => ({
+          source: "fn fooBar() {}\nfn barZoo() { fooBar() }",
+          contentType: "text/rust"
+        })
+      };
+
+      const store = createStore(mockThreadClient, {}, sourceMapsMock);
+      const { dispatch, getState } = store;
+      const mockPauseInfo = createPauseInfo(generatedLocation);
+
+      await dispatch(
+        actions.newSource(makeSource("foo-wasm", { isWasm: true }))
+      );
+      await dispatch(actions.newSource(makeOriginalSource("foo-wasm")));
+      await dispatch(actions.loadSourceText({ id: "foo-wasm" }));
+      await dispatch(actions.loadSourceText({ id: "foo-wasm/originalSource" }));
+
+      await dispatch(actions.paused(mockPauseInfo));
+      expect(selectors.getFrames(getState())).toEqual([
+        {
+          displayName: "fooBar",
+          generatedLocation: { column: 0, line: 1, sourceId: "foo-wasm" },
+          id: mockFrameId,
+          isOriginal: true,
+          location: originalLocation,
+          originalDisplayName: "fooBar",
+          scope: { bindings: { arguments: [], variables: {} } },
+          this: undefined
+        },
+        {
+          displayName: "barZoo",
+          generatedLocation: { column: 0, line: 1, sourceId: "foo-wasm" },
+          id: `${mockFrameId}-originalFrame1`,
+          isOriginal: true,
+          location: originalLocation2,
+          originalDisplayName: "barZoo",
+          scope: { bindings: { arguments: [], variables: {} } },
+          this: undefined
         }
       ]);
     });
