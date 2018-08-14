@@ -165,7 +165,7 @@ class SourceTreeItem extends Component<Props, State> {
   render() {
     const { item, depth, focused, hasMatchingGeneratedSource } = this.props;
     const suffix = hasMatchingGeneratedSource ? (
-      <span className="suffix">[sm]</span>
+      <span className="suffix">{L10N.getStr("sourceFooter.mappedSuffix")}</span>
     ) : null;
 
     return (
