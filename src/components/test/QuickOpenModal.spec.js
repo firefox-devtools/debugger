@@ -18,7 +18,7 @@ function generateModal(propOverrides, renderType = "shallow") {
     searchType: "sources",
     sources: [],
     tabs: [],
-    selectLocation: jest.fn(),
+    selectSpecificLocation: jest.fn(),
     setQuickOpenQuery: jest.fn(),
     highlightLineRange: jest.fn(),
     clearHighlightLineRange: jest.fn(),
@@ -302,7 +302,7 @@ describe("QuickOpenModal", () => {
         key: "Enter"
       };
       wrapper.find("SearchInput").simulate("keydown", event);
-      expect(props.selectLocation).toHaveBeenCalledWith({
+      expect(props.selectSpecificLocation).toHaveBeenCalledWith({
         column: 12,
         line: 34,
         sourceId: ""
@@ -324,7 +324,7 @@ describe("QuickOpenModal", () => {
         key: "Enter"
       };
       wrapper.find("SearchInput").simulate("keydown", event);
-      expect(props.selectLocation).toHaveBeenCalledWith({
+      expect(props.selectSpecificLocation).toHaveBeenCalledWith({
         column: 12,
         line: 34,
         sourceId: sourceId
@@ -345,7 +345,7 @@ describe("QuickOpenModal", () => {
       };
       wrapper.find("SearchInput").simulate("keydown", event);
       expect(props.setQuickOpenQuery).not.toHaveBeenCalled();
-      expect(props.selectLocation).not.toHaveBeenCalled();
+      expect(props.selectSpecificLocation).not.toHaveBeenCalled();
       expect(props.highlightLineRange).not.toHaveBeenCalled();
     });
 
@@ -367,7 +367,7 @@ describe("QuickOpenModal", () => {
       };
       wrapper.find("SearchInput").simulate("keydown", event);
       expect(props.setQuickOpenQuery).not.toHaveBeenCalled();
-      expect(props.selectLocation).not.toHaveBeenCalled();
+      expect(props.selectSpecificLocation).not.toHaveBeenCalled();
       expect(props.highlightLineRange).not.toHaveBeenCalled();
     });
 
@@ -435,7 +435,7 @@ describe("QuickOpenModal", () => {
         key: "Enter"
       };
       wrapper.find("SearchInput").simulate("keydown", event);
-      expect(props.selectLocation).toHaveBeenCalledWith({
+      expect(props.selectSpecificLocation).toHaveBeenCalledWith({
         column: undefined,
         sourceId: id,
         line: 0
@@ -465,7 +465,7 @@ describe("QuickOpenModal", () => {
         key: "Enter"
       };
       wrapper.find("SearchInput").simulate("keydown", event);
-      expect(props.selectLocation).toHaveBeenCalledWith({
+      expect(props.selectSpecificLocation).toHaveBeenCalledWith({
         column: undefined,
         line: 0,
         sourceId: ""
@@ -503,7 +503,7 @@ describe("QuickOpenModal", () => {
         key: "Enter"
       };
       wrapper.find("SearchInput").simulate("keydown", event);
-      expect(props.selectLocation).toHaveBeenCalledWith({
+      expect(props.selectSpecificLocation).toHaveBeenCalledWith({
         column: undefined,
         line: 7,
         sourceId: ""
@@ -533,7 +533,7 @@ describe("QuickOpenModal", () => {
         key: "Enter"
       };
       wrapper.find("SearchInput").simulate("keydown", event);
-      expect(props.selectLocation).toHaveBeenCalledWith({
+      expect(props.selectSpecificLocation).toHaveBeenCalledWith({
         column: 4,
         line: 3,
         sourceId: id
@@ -563,7 +563,7 @@ describe("QuickOpenModal", () => {
         key: "Enter"
       };
       wrapper.find("SearchInput").simulate("keydown", event);
-      expect(props.selectLocation).not.toHaveBeenCalled();
+      expect(props.selectSpecificLocation).not.toHaveBeenCalled();
       expect(props.setQuickOpenQuery).toHaveBeenCalledWith(id);
     });
   });
@@ -579,7 +579,7 @@ describe("QuickOpenModal", () => {
         "shallow"
       );
       wrapper.find("SearchInput").simulate("keydown", {});
-      expect(props.selectLocation).not.toHaveBeenCalled();
+      expect(props.selectSpecificLocation).not.toHaveBeenCalled();
       expect(props.setQuickOpenQuery).not.toHaveBeenCalled();
     });
 
@@ -597,7 +597,7 @@ describe("QuickOpenModal", () => {
       };
       wrapper.find("SearchInput").simulate("keydown", event);
       expect(props.closeQuickOpen).toHaveBeenCalled();
-      expect(props.selectLocation).not.toHaveBeenCalled();
+      expect(props.selectSpecificLocation).not.toHaveBeenCalled();
     });
   });
 
@@ -680,7 +680,7 @@ describe("QuickOpenModal", () => {
       wrapper.find("SearchInput").simulate("keydown", event);
       expect(event.preventDefault).toHaveBeenCalled();
       expect(wrapper.state().selectedIndex).toEqual(2);
-      expect(props.selectLocation).toHaveBeenCalledWith({
+      expect(props.selectSpecificLocation).toHaveBeenCalledWith({
         column: undefined,
         line: 11,
         sourceId: "sourceId"
@@ -725,7 +725,7 @@ describe("QuickOpenModal", () => {
       wrapper.find("SearchInput").simulate("keydown", event);
       expect(event.preventDefault).toHaveBeenCalled();
       expect(wrapper.state().selectedIndex).toEqual(2);
-      expect(props.selectLocation).toHaveBeenCalledWith({
+      expect(props.selectSpecificLocation).toHaveBeenCalledWith({
         column: undefined,
         line: 0,
         sourceId: "sourceId"
@@ -753,7 +753,7 @@ describe("QuickOpenModal", () => {
       wrapper.find("SearchInput").simulate("keydown", event);
       expect(event.preventDefault).toHaveBeenCalled();
       expect(wrapper.state().selectedIndex).toEqual(NaN);
-      expect(props.selectLocation).not.toHaveBeenCalledWith();
+      expect(props.selectSpecificLocation).not.toHaveBeenCalledWith();
       expect(props.highlightLineRange).not.toHaveBeenCalled();
     });
 
@@ -821,7 +821,7 @@ describe("QuickOpenModal", () => {
         wrapper.find("SearchInput").simulate("keydown", event);
         expect(event.preventDefault).toHaveBeenCalled();
         expect(wrapper.state().selectedIndex).toEqual(2);
-        expect(props.selectLocation).not.toHaveBeenCalled();
+        expect(props.selectSpecificLocation).not.toHaveBeenCalled();
         expect(props.highlightLineRange).not.toHaveBeenCalled();
       }
     );
@@ -860,7 +860,7 @@ describe("QuickOpenModal", () => {
         wrapper.find("SearchInput").simulate("keydown", event);
         expect(event.preventDefault).toHaveBeenCalled();
         expect(wrapper.state().selectedIndex).toEqual(0);
-        expect(props.selectLocation).not.toHaveBeenCalled();
+        expect(props.selectSpecificLocation).not.toHaveBeenCalled();
         expect(props.highlightLineRange).not.toHaveBeenCalled();
       }
     );

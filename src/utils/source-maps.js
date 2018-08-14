@@ -32,3 +32,17 @@ export async function getGeneratedLocation(
     sourceUrl: generatedSource.url
   };
 }
+
+export async function getMappedLocation(
+  state: Object,
+  sourceMaps: Object,
+  location: Location
+) {
+  const source = getSource(state, location.sourceId);
+
+  if (isOriginalId(location.sourceId)) {
+    return getGeneratedLocation(state, source, location, sourceMaps);
+  }
+
+  return sourceMaps.getOriginalLocation(location, source);
+}

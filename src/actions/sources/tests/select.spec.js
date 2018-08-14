@@ -2,13 +2,15 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
+import { getSymbols } from "../../../reducers/ast";
 import {
   actions,
   selectors,
   createStore,
   makeFrame,
   makeSource,
-  waitForState
+  waitForState,
+  makeOriginalSource
 } from "../../../utils/test-head";
 const {
   getSource,
@@ -56,16 +58,6 @@ describe("sources", () => {
     );
     const locations = getOutOfScopeLocations(getState());
     expect(locations).toHaveLength(1);
-  });
-
-  it("should automatically select a pending source", async () => {
-    const { dispatch, getState } = createStore(sourceThreadClient);
-    const baseSource = makeSource("base.js");
-    await dispatch(actions.selectSourceURL(baseSource.url));
-
-    expect(getSelectedSource(getState())).toBe(undefined);
-    await dispatch(actions.newSource(baseSource));
-    expect(getSelectedSource(getState()).url).toBe(baseSource.url);
   });
 
   it("should open a tab for the source", async () => {
@@ -149,5 +141,74 @@ describe("sources", () => {
     dispatch(actions.clearSelectedLocation());
     const clearResult = getState().sources.pendingSelectedLocation;
     expect(clearResult).toEqual({ url: "" });
+  });
+
+  it("should keep the generated the viewing context", async () => {
+    const store = createStore(sourceThreadClient);
+    const { dispatch, getState } = store;
+    const baseSource = makeSource("base.js");
+    await dispatch(actions.newSource(baseSource));
+
+    await dispatch(
+      actions.selectLocation({ sourceId: baseSource.id, line: 1 })
+    );
+
+    expect(getSelectedSource(getState()).id).toBe(baseSource.id);
+    await waitForState(store, state => getSymbols(state, baseSource));
+  });
+
+  it("should keep the original the viewing context", async () => {
+    const { dispatch, getState } = createStore(
+      sourceThreadClient,
+      {},
+      {
+        getOriginalLocation: async location => ({ ...location, line: 12 }),
+        getGeneratedLocation: async location => ({ ...location, line: 12 }),
+        getOriginalSourceText: async () => ({ source: "" })
+      }
+    );
+
+    const baseSource = makeSource("base.js");
+    await dispatch(actions.newSource(baseSource));
+
+    const originalBaseSource = makeOriginalSource("base.js");
+    await dispatch(actions.newSource(originalBaseSource));
+
+    await dispatch(actions.selectSource(originalBaseSource.id));
+
+    const fooSource = makeSource("foo.js");
+    await dispatch(actions.newSource(fooSource));
+    await dispatch(actions.selectLocation({ sourceId: fooSource.id, line: 1 }));
+
+    expect(getSelectedLocation(getState()).line).toBe(12);
+  });
+
+  it("should change the original the viewing context", async () => {
+    const { dispatch, getState } = createStore(
+      sourceThreadClient,
+      {},
+      { getOriginalLocation: async location => ({ ...location, line: 12 }) }
+    );
+
+    const baseSource = makeOriginalSource("base.js");
+    await dispatch(actions.newSource(baseSource));
+    await dispatch(actions.selectSource(baseSource.id));
+
+    await dispatch(
+      actions.selectSpecificLocation({ sourceId: baseSource.id, line: 1 })
+    );
+    expect(getSelectedLocation(getState()).line).toBe(1);
+  });
+
+  describe("selectSourceURL", () => {
+    it("should automatically select a pending source", async () => {
+      const { dispatch, getState } = createStore(sourceThreadClient);
+      const baseSource = makeSource("base.js");
+      await dispatch(actions.selectSourceURL(baseSource.url));
+
+      expect(getSelectedSource(getState())).toBe(undefined);
+      await dispatch(actions.newSource(baseSource));
+      expect(getSelectedSource(getState()).url).toBe(baseSource.url);
+    });
   });
 });

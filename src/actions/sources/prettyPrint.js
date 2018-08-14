@@ -13,8 +13,8 @@ import { prettyPrint } from "../../workers/pretty-print";
 import { setSource } from "../../workers/parser";
 import { getPrettySourceURL, isLoaded } from "../../utils/source";
 import { loadSourceText } from "./loadSourceText";
-import { selectLocation } from "../sources";
 import { mapFrames } from "../pause";
+import { selectSpecificLocation } from "../sources";
 
 import {
   getSource,
@@ -106,7 +106,7 @@ export function togglePrettyPrint(sourceId: string) {
     if (prettySource) {
       const _sourceId = prettySource.id;
       return dispatch(
-        selectLocation({ ...options.location, sourceId: _sourceId })
+        selectSpecificLocation({ ...options.location, sourceId: _sourceId })
       );
     }
 
@@ -118,7 +118,10 @@ export function togglePrettyPrint(sourceId: string) {
     await dispatch(setSymbols(newPrettySource.id));
 
     dispatch(
-      selectLocation({ ...options.location, sourceId: newPrettySource.id })
+      selectSpecificLocation({
+        ...options.location,
+        sourceId: newPrettySource.id
+      })
     );
 
     return newPrettySource;

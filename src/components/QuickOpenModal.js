@@ -50,7 +50,7 @@ type Props = {
   symbolsLoading: boolean,
   tabs: string[],
   shortcutsModalEnabled: boolean,
-  selectLocation: Location => void,
+  selectSpecificLocation: Location => void,
   setQuickOpenQuery: (query: string) => void,
   highlightLineRange: ({ start: number, end: number }) => void,
   closeQuickOpen: () => void,
@@ -216,7 +216,11 @@ export class QuickOpenModal extends Component<Props, State> {
   };
 
   onSelectResultItem = (item: QuickOpenResult) => {
-    const { selectLocation, selectedSource, highlightLineRange } = this.props;
+    const {
+      selectSpecificLocation,
+      selectedSource,
+      highlightLineRange
+    } = this.props;
     if (!this.isSymbolSearch() || selectedSource == null) {
       return;
     }
@@ -224,7 +228,7 @@ export class QuickOpenModal extends Component<Props, State> {
     if (this.isVariableQuery()) {
       const line =
         item.location && item.location.start ? item.location.start.line : 0;
-      return selectLocation({
+      return selectSpecificLocation({
         sourceId: selectedSource.id,
         line
       });
@@ -255,11 +259,11 @@ export class QuickOpenModal extends Component<Props, State> {
   };
 
   gotoLocation = (location: ?GotoLocationType) => {
-    const { selectLocation, selectedSource } = this.props;
+    const { selectSpecificLocation, selectedSource } = this.props;
     const selectedSourceId = selectedSource ? selectedSource.id : "";
     if (location != null) {
       const sourceId = location.sourceId ? location.sourceId : selectedSourceId;
-      selectLocation({
+      selectSpecificLocation({
         sourceId,
         line: location.line,
         column: location.column
@@ -448,7 +452,7 @@ export default connect(
   mapStateToProps,
   {
     shortcutsModalEnabled: actions.shortcutsModalEnabled,
-    selectLocation: actions.selectLocation,
+    selectSpecificLocation: actions.selectSpecificLocation,
     setQuickOpenQuery: actions.setQuickOpenQuery,
     highlightLineRange: actions.highlightLineRange,
     closeQuickOpen: actions.closeQuickOpen,

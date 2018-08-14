@@ -391,7 +391,6 @@ function generateDefaults(overrides) {
   };
   return {
     autoExpandAll: true,
-    selectLocation: jest.fn(),
     selectSource: jest.fn(),
     setExpandedState: jest.fn(),
     sources: defaultSources,

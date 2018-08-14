@@ -3,14 +3,10 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-
-import { isGeneratedId } from "devtools-source-map";
-
 import {
   getHiddenBreakpointLocation,
   isEvaluatingExpression,
   getSelectedFrame,
-  getVisibleSelectedFrame,
   getSources
 } from "../../selectors";
 
@@ -73,15 +69,10 @@ export function paused(pauseInfo: Pause) {
     }
 
     await dispatch(mapFrames());
-    const selectedFrame = getSelectedFrame(getState());
 
+    const selectedFrame = getSelectedFrame(getState());
     if (selectedFrame) {
-      const visibleFrame = getVisibleSelectedFrame(getState());
-      const location =
-        visibleFrame && isGeneratedId(visibleFrame.location.sourceId)
-          ? selectedFrame.generatedLocation
-          : selectedFrame.location;
-      await dispatch(selectLocation(location));
+      await dispatch(selectLocation(selectedFrame.location));
     }
 
     dispatch(togglePaneCollapse("end", false));
