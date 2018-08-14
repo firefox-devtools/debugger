@@ -67,7 +67,7 @@ export type UIAction =
     |}
   | {|
       +type: "SET_PROJECT_DIRECTORY_ROOT",
-      +url: Object
+      +url: string
     |}
   | {|
       +type: "SET_PRIMARY_PANE_TAB",
