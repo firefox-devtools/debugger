@@ -5,7 +5,7 @@
 // @flow
 
 import { getProjectDirectoryRoot, getSources } from "../selectors";
-import { chain } from "lodash";
+import { mapValues, pickBy } from "lodash";
 import type { Source } from "../types";
 import { getURL } from "../utils/sources-tree";
 import { createSelector } from "reselect";
@@ -30,18 +30,21 @@ function underRoot(source, root) {
   return source.url && source.url.includes(root);
 }
 
+const getSourcesUnderRoot = createSelector(
+  getSources,
+  getProjectDirectoryRoot,
+  (sources, root) => {
+    return pickBy(sources, source => underRoot(source, root));
+  }
+);
+
 /*
  * Gets the sources that are below a project root
  */
 export const getRelativeSources = createSelector(
-  getSources,
+  getSourcesUnderRoot,
   getProjectDirectoryRoot,
-  (sources, root) => {
-    const relativeSources: Source[] = chain(sources)
-      .pickBy((source: Source) => underRoot(source, root))
-      .mapValues((source: Source) => formatSource(source, root))
-      .value();
-
-    return relativeSources;
+  (relativeSources, root) => {
+    return mapValues(relativeSources, source => formatSource(source, root));
   }
 );
