@@ -75,9 +75,9 @@ afterAll(() => {
 
 afterEach(() => {});
 
-beforeEach(() => {
+beforeEach(async () => {
   clearASTs();
-  clearSymbols();
+  await clearSymbols();
   clearHistory();
   clearDocuments();
 

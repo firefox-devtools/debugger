@@ -59,7 +59,7 @@ function render(overrides = {}, mounted = false) {
     searchSources: jest.fn(),
     clearSearch: jest.fn(),
     updateSearchStatus: jest.fn(),
-    selectLocation: jest.fn(),
+    selectSpecificLocation: jest.fn(),
     doSearchForHighlight: jest.fn(),
     ...overrides
   };
@@ -165,39 +165,39 @@ describe("ProjectSearch", () => {
   });
 
   it("onEnterPress shortcut no match or setExpanded", () => {
-    const selectLocation = jest.fn();
+    const selectSpecificLocation = jest.fn();
     const component = render(
       {
         results: testResults,
-        selectLocation
+        selectSpecificLocation
       },
       true
     );
     component.instance().focusedItem = {};
     shortcuts.dispatch("Enter");
-    expect(selectLocation).not.toHaveBeenCalled();
+    expect(selectSpecificLocation).not.toHaveBeenCalled();
   });
 
   it("onEnterPress shortcut match", () => {
-    const selectLocation = jest.fn();
+    const selectSpecificLocation = jest.fn();
     const component = render(
       {
         results: testResults,
-        selectLocation
+        selectSpecificLocation
       },
       true
     );
     component.instance().focusedItem = { match: testMatch };
     shortcuts.dispatch("Enter");
-    expect(selectLocation).toHaveBeenCalledWith(testMatch);
+    expect(selectSpecificLocation).toHaveBeenCalledWith(testMatch);
   });
 
   it("onEnterPress shortcut setExpanded", () => {
-    const selectLocation = jest.fn();
+    const selectSpecificLocation = jest.fn();
     const component = render(
       {
         results: testResults,
-        selectLocation
+        selectSpecificLocation
       },
       true
     );

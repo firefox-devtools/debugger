@@ -68,7 +68,7 @@ type Props = {
   closeProjectSearch: () => void,
   searchSources: (query: string) => void,
   clearSearch: () => void,
-  selectLocation: (location: Location, tabIndex?: string) => void,
+  selectSpecificLocation: (location: Location, tabIndex?: string) => void,
   setActiveSearch: (activeSearch?: ActiveSearchType) => void,
   doSearchForHighlight: (
     query: string,
@@ -146,7 +146,7 @@ export class ProjectSearch extends Component<Props, State> {
   isProjectSearchEnabled = () => this.props.activeSearch === "project";
 
   selectMatchItem = (matchItem: Match) => {
-    this.props.selectLocation({ ...matchItem });
+    this.props.selectSpecificLocation({ ...matchItem });
     this.props.doSearchForHighlight(
       this.state.inputValue,
       getEditor(),
@@ -354,7 +354,7 @@ export default connect(
     closeProjectSearch: actions.closeProjectSearch,
     searchSources: actions.searchSources,
     clearSearch: actions.clearSearch,
-    selectLocation: actions.selectLocation,
+    selectSpecificLocation: actions.selectSpecificLocation,
     setActiveSearch: actions.setActiveSearch,
     doSearchForHighlight: actions.doSearchForHighlight
   }

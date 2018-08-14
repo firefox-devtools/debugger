@@ -33,7 +33,6 @@ type Props = {
   horizontal: boolean,
   sourceSearchOn: boolean,
   setPrimaryPaneTab: string => void,
-  selectLocation: Object => void,
   setActiveSearch: string => void,
   closeActiveSearch: () => void
 };
@@ -126,7 +125,6 @@ export default connect(
   mapStateToProps,
   {
     setPrimaryPaneTab: actions.setPrimaryPaneTab,
-    selectLocation: actions.selectLocation,
     setActiveSearch: actions.setActiveSearch,
     closeActiveSearch: actions.closeActiveSearch
   }
