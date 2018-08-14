@@ -38,7 +38,7 @@ Object {
       <span
         className="suffix"
       >
-        [sm]
+        (mapped)
       </span>
     </span>
   </div>,
@@ -173,7 +173,7 @@ Object {
             <span
               className="suffix"
             >
-              [sm]
+              (mapped)
             </span>
           </span>
         </div>,
