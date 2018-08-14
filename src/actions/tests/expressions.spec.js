@@ -143,7 +143,7 @@ describe("expressions", () => {
 async function createFrames(dispatch) {
   const sourceId = "example.js";
   const frame = {
-    id: 2,
+    id: "2",
     location: { sourceId, line: 3 }
   };
 

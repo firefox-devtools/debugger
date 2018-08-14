@@ -5,13 +5,19 @@
 // @flow
 
 import { getFrames, getSymbols, getSourceFromId } from "../../selectors";
+import assert from "../../utils/assert";
 import { findClosestFunction } from "../../utils/ast";
 
 import type { Frame } from "../../types";
 import type { State } from "../../reducers/types";
 import type { ThunkArgs } from "../types";
 
+import { isGeneratedId } from "devtools-source-map";
+
 export function updateFrameLocation(frame: Frame, sourceMaps: any) {
+  if (frame.isOriginal) {
+    return Promise.resolve(frame);
+  }
   return sourceMaps.getOriginalLocation(frame.location).then(loc => ({
     ...frame,
     location: loc,
@@ -37,6 +43,9 @@ export function mapDisplayNames(
   getState: () => State
 ): Frame[] {
   return frames.map(frame => {
+    if (frame.isOriginal) {
+      return frame;
+    }
     const source = getSourceFromId(getState(), frame.location.sourceId);
     const symbols = getSymbols(getState(), source);
 
@@ -53,6 +62,65 @@ export function mapDisplayNames(
     const originalDisplayName = originalFunction.name;
     return { ...frame, originalDisplayName };
   });
+}
+
+function isWasmOriginalSourceFrame(frame, getState: () => State): boolean {
+  if (isGeneratedId(frame.location.sourceId)) {
+    return false;
+  }
+  const generatedSource = getSourceFromId(
+    getState(),
+    frame.generatedLocation.sourceId
+  );
+  return generatedSource.isWasm;
+}
+
+async function expandFrames(
+  frames: Frame[],
+  sourceMaps: any,
+  getState: () => State
+): Promise<Frame[]> {
+  const result = [];
+  for (let i = 0; i < frames.length; ++i) {
+    const frame = frames[i];
+    if (frame.isOriginal || !isWasmOriginalSourceFrame(frame, getState)) {
+      result.push(frame);
+      continue;
+    }
+    const originalFrames = await sourceMaps.getOriginalStackFrames(
+      frame.generatedLocation
+    );
+    if (!originalFrames) {
+      result.push(frame);
+      continue;
+    }
+
+    assert(originalFrames.length > 0, "Expected at least one original frame");
+    // First entry has not specific location -- use one from original frame.
+    originalFrames[0] = {
+      ...originalFrames[0],
+      location: frame.location
+    };
+
+    originalFrames.forEach((originalFrame, j) => {
+      // Keep outer most frame with true actor ID, and generate uniquie
+      // one for the nested frames.
+      const id = j == 0 ? frame.id : `${frame.id}-originalFrame${j}`;
+      result.push({
+        id,
+        displayName: originalFrame.displayName,
+        location: originalFrame.location,
+        scope: frame.scope,
+        this: frame.this,
+        isOriginal: true,
+        // More fields that will be added by the mapDisplayNames and
+        // updateFrameLocation.
+        generatedLocation: frame.generatedLocation,
+        originalDisplayName: originalFrame.displayName
+      });
+    });
+  }
+  return result;
 }
 
 /**
@@ -72,6 +140,7 @@ export function mapFrames() {
     }
 
     let mappedFrames = await updateFrameLocations(frames, sourceMaps);
+    mappedFrames = await expandFrames(mappedFrames, sourceMaps, getState);
     mappedFrames = mapDisplayNames(mappedFrames, getState);
 
     dispatch({

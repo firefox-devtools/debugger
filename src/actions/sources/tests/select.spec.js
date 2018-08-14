@@ -35,7 +35,7 @@ describe("sources", () => {
     await dispatch(
       actions.paused({
         why: { type: "debuggerStatement" },
-        frames: [makeFrame({ id: 1, sourceId: "foo1" })]
+        frames: [makeFrame({ id: "1", sourceId: "foo1" })]
       })
     );
 

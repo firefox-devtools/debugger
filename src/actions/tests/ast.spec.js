@@ -167,7 +167,7 @@ describe("ast", () => {
       await dispatch(
         actions.paused({
           why: { type: "debuggerStatement" },
-          frames: [makeFrame({ id: 1, sourceId: "scopes.js" })]
+          frames: [makeFrame({ id: "1", sourceId: "scopes.js" })]
         })
       );
 
