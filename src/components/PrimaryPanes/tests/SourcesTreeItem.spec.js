@@ -183,7 +183,7 @@ describe("SourceTreeItem", () => {
       expect(node).toMatchSnapshot();
     });
 
-    it("should show [sm] for duplicate source items", async () => {
+    it("should show (mapped) for duplicate source items", async () => {
       const node = render({
         item: createMockItem(),
         hasMatchingGeneratedSource: true

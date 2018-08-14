@@ -2,7 +2,7 @@
 
 exports[`SourceTreeItem renderItem should not show domain item when the projectRoot exists 1`] = `undefined`;
 
-exports[`SourceTreeItem renderItem should show [sm] for duplicate source items 1`] = `
+exports[`SourceTreeItem renderItem should show (mapped) for duplicate source items 1`] = `
 Object {
   "component": <div
     className="node"
