@@ -286,6 +286,35 @@ describe("adding sources", () => {
     expect(bps.size).toBe(1);
   });
 
+  it("corresponding breakpoints are added to the original source", async () => {
+    const source = makeSource("bar.js", { sourceMapURL: "foo" });
+    const store = createStore(simpleMockThreadClient, loadInitialState(), {
+      getOriginalURLs: async () => [source.url],
+      getOriginalSourceText: async () => ({ source: "" }),
+      getGeneratedLocation: async (location, _source) => ({
+        line: location.line,
+        column: location.column,
+        sourceId: _source.id
+      }),
+      getOriginalLocation: async location => location
+    });
+
+    const { getState, dispatch } = store;
+
+    let bps = selectors.getBreakpoints(getState());
+    expect(bps.size).toBe(0);
+
+    await dispatch(actions.newSource(source));
+
+    await waitForState(
+      store,
+      state => selectors.getBreakpoints(state).size > 0
+    );
+
+    bps = selectors.getBreakpoints(getState());
+    expect(bps.size).toBe(1);
+  });
+
   it("add corresponding breakpoints for multiple sources", async () => {
     const store = createStore(simpleMockThreadClient, loadInitialState());
     const { getState, dispatch } = store;

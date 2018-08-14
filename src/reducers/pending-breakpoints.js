@@ -9,12 +9,16 @@
  * @module reducers/pending-breakpoints
  */
 
+import { isGeneratedId } from "devtools-source-map";
+import { getSourcesByURL } from "./sources";
+
 import {
   createPendingBreakpoint,
   makePendingLocationId
 } from "../utils/breakpoint";
 
-import type { PendingBreakpoint } from "../types";
+import type { SourcesState } from "./sources";
+import type { PendingBreakpoint, Source } from "../types";
 import type { Action, DonePromiseAction } from "../actions/types";
 
 export type PendingBreakpointsState = { [string]: PendingBreakpoint };
@@ -140,7 +144,10 @@ function deleteBreakpoint(state, locationId) {
 // Selectors
 // TODO: these functions should be moved out of the reducer
 
-type OuterState = { pendingBreakpoints: PendingBreakpointsState };
+type OuterState = {
+  pendingBreakpoints: PendingBreakpointsState,
+  sources: SourcesState
+};
 
 export function getPendingBreakpoints(state: OuterState) {
   return state.pendingBreakpoints;
@@ -154,10 +161,16 @@ export function getPendingBreakpointList(
 
 export function getPendingBreakpointsForSource(
   state: OuterState,
-  sourceUrl: string
+  source: Source
 ): PendingBreakpoint[] {
+  const sources = getSourcesByURL(state, source.url);
+  if (sources.length > 1 && isGeneratedId(source.id)) {
+    // Don't return pending breakpoints for duplicated generated sources
+    return [];
+  }
+
   return getPendingBreakpointList(state).filter(
-    pendingBreakpoint => pendingBreakpoint.location.sourceUrl === sourceUrl
+    pendingBreakpoint => pendingBreakpoint.location.sourceUrl === source.url
   );
 }
 
