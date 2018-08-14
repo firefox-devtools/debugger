@@ -33,8 +33,13 @@ Object {
       className="label"
     >
        
-      one.js [sm]
+      one.js
        
+      <span
+        className="suffix"
+      >
+        [sm]
+      </span>
     </span>
   </div>,
   "defaultState": null,
@@ -163,8 +168,13 @@ Object {
             className="label"
           >
              
-            one.js [sm]
+            one.js
              
+            <span
+              className="suffix"
+            >
+              [sm]
+            </span>
           </span>
         </div>,
         "_rendering": false,

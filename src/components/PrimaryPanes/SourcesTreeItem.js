@@ -150,8 +150,7 @@ class SourceTreeItem extends Component<Props, State> {
   }
 
   renderItemName() {
-    const { item, hasMatchingGeneratedSource } = this.props;
-    const suffix = hasMatchingGeneratedSource ? " [sm]" : "";
+    const { item } = this.props;
 
     switch (item.name) {
       case "ng://":
@@ -159,12 +158,15 @@ class SourceTreeItem extends Component<Props, State> {
       case "webpack://":
         return "Webpack";
       default:
-        return `${item.name}${suffix}`;
+        return `${item.name}`;
     }
   }
 
   render() {
-    const { item, depth, focused } = this.props;
+    const { item, depth, focused, hasMatchingGeneratedSource } = this.props;
+    const suffix = hasMatchingGeneratedSource ? (
+      <span className="suffix">[sm]</span>
+    ) : null;
 
     return (
       <div
@@ -175,7 +177,10 @@ class SourceTreeItem extends Component<Props, State> {
       >
         {this.renderItemArrow()}
         {this.getIcon(item, depth)}
-        <span className="label"> {this.renderItemName()} </span>
+        <span className="label">
+          {" "}
+          {this.renderItemName()} {suffix}
+        </span>
       </div>
     );
   }
