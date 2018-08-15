@@ -13,7 +13,7 @@ import {
 } from "../selectors";
 
 import { mapFrames, fetchExtra } from "./pause";
-import { updateTab } from "./sources/tabs";
+import { updateTab } from "./tabs";
 
 import { setInScopeLines } from "./ast/setInScopeLines";
 import {

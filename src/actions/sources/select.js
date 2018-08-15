@@ -130,7 +130,7 @@ export function selectLocation(
       source = getSourceFromId(getState(), location.sourceId);
     }
 
-    dispatch(addTab(source.url, 0));
+    await dispatch(addTab(source.url, 0));
 
     const framework = getFramework(getTabs(getState()), source.url);
     dispatch(addTab(source.url, framework));
