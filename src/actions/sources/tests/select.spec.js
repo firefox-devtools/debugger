@@ -75,10 +75,10 @@ describe("sources", () => {
     await dispatch(actions.newSource(makeSource("foo.js")));
     await dispatch(actions.newSource(makeSource("bar.js")));
     await dispatch(actions.newSource(makeSource("baz.js")));
-    dispatch(actions.selectLocation({ sourceId: "foo.js" }));
-    dispatch(actions.selectLocation({ sourceId: "bar.js" }));
-    dispatch(actions.selectLocation({ sourceId: "baz.js" }));
-    dispatch(actions.closeTab("http://localhost:8000/examples/baz.js"));
+    await dispatch(actions.selectLocation({ sourceId: "foo.js" }));
+    await dispatch(actions.selectLocation({ sourceId: "bar.js" }));
+    await dispatch(actions.selectLocation({ sourceId: "baz.js" }));
+    await dispatch(actions.closeTab("http://localhost:8000/examples/baz.js"));
     expect(getSelectedSource(getState()).id).toBe("bar.js");
     expect(getSourceTabs(getState())).toHaveLength(2);
   });
@@ -89,11 +89,11 @@ describe("sources", () => {
     await dispatch(actions.newSource(makeSource("bar.js")));
     await dispatch(actions.newSource(makeSource("baz.js")));
 
-    dispatch(actions.selectLocation({ sourceId: "foo.js" }));
-    dispatch(actions.selectLocation({ sourceId: "bar.js" }));
-    dispatch(actions.selectLocation({ sourceId: "baz.js" }));
-    dispatch(actions.selectLocation({ sourceId: "foo.js" }));
-    dispatch(actions.closeTab("http://localhost:8000/examples/foo.js"));
+    await dispatch(actions.selectLocation({ sourceId: "foo.js" }));
+    await dispatch(actions.selectLocation({ sourceId: "bar.js" }));
+    await dispatch(actions.selectLocation({ sourceId: "baz.js" }));
+    await dispatch(actions.selectLocation({ sourceId: "foo.js" }));
+    await dispatch(actions.closeTab("http://localhost:8000/examples/foo.js"));
     expect(getSelectedSource(getState()).id).toBe("bar.js");
     expect(getSourceTabs(getState())).toHaveLength(2);
   });

@@ -48,8 +48,8 @@ export function removeSourceFromTabList(tabs: TabList, url: string): TabList {
   return tabs.filter(tab => tab.url !== url);
 }
 
-export function removeSourcesFromTabList(tabs: TabList, urls: TabList) {
-  return urls.reduce((t, url) => removeSourceFromTabList(t.url, url), tabs);
+export function removeSourcesFromTabList(tabs: TabList, urls: [string]) {
+  return urls.reduce((t, url) => removeSourceFromTabList(t, url), tabs);
 }
 
 /**
@@ -109,7 +109,7 @@ export function getNewSelectedSourceId(
     return "";
   }
 
-  const tabUrls = state.tabs;
+  const tabUrls = state.tabs.map(t => t.url);
   const leftNeighborIndex = Math.max(tabUrls.indexOf(selectedTab.url) - 1, 0);
   const lastAvailbleTabIndex = availableTabs.length - 1;
   const newSelectedTabIndex = Math.min(leftNeighborIndex, lastAvailbleTabIndex);

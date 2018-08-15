@@ -16,8 +16,8 @@ import {
   getSourceByURL,
   getSourceTabs,
   getNewSelectedSourceId,
-  removeSourcesFromTabList,
-  removeSourceFromTabList
+  removeSourceFromTabList,
+  removeSourcesFromTabList
 } from "../selectors";
 
 import type { Action, ThunkArgs } from "./types";
