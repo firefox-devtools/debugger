@@ -44,4 +44,21 @@ stubs.set("proto-properties-symbols", {
   ]
 });
 
+stubs.set("longs-string-safe-getter", {
+  ownProperties: {
+    baseVal: {
+      getterValue: {
+        type: "longString",
+        initial: "data:image/png;base64,initial",
+        length: 95080,
+        actor: "server1.conn1.child1/longString28"
+      },
+      getterPrototypeLevel: 1,
+      enumerable: true,
+      writable: true
+    }
+  },
+  from: "server1.conn1.child1/propertyIterator30"
+});
+
 module.exports = stubs;

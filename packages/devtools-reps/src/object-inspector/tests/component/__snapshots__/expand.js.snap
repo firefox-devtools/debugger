@@ -30,6 +30,14 @@ exports[`ObjectInspector - state does not throw when expanding a block node 2`] 
 "
 `;
 
+exports[`ObjectInspector - state expanding a getter returning a longString does not throw 1`] = `
+"
+▼ {…}
+|  ▼ baseVal: \\"data:image/png;base64,initial<<<<\\"
+▶︎ Proxy { <target>: {…}, <handler>: (3) […] }
+"
+`;
+
 exports[`ObjectInspector - state expands if user selected some text and clicked the arrow 1`] = `
 "
 ▶︎ Object { p0: \\"0\\", p1: \\"1\\", p2: \\"2\\", p3: \\"3\\", p4: \\"4\\", p5: \\"5\\", p6: \\"6\\", p7: \\"7\\", p8: \\"8\\", p9: \\"9\\", … }
