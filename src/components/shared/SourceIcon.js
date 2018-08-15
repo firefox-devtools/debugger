@@ -22,7 +22,8 @@ type Props = {
   // sourceMetaData will provide framework information
   sourceMetaData: SourceMetaDataType,
   // An additional validator for the icon returned
-  shouldHide?: Function
+  shouldHide?: Function,
+  framework?: string
 };
 
 class SourceIcon extends PureComponent<Props> {
