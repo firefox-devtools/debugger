@@ -694,10 +694,6 @@ exports[`QuickOpenModal showErrorEmoji false when count + query 1`] = `
                     className="title"
                     id="undefined-title"
                   />
-                  <div
-                    className="subtitle"
-                    id="undefined-subtitle"
-                  />
                 </li>
                 <li
                   aria-describedby="undefined-subtitle"
@@ -710,10 +706,6 @@ exports[`QuickOpenModal showErrorEmoji false when count + query 1`] = `
                   <div
                     className="title"
                     id="undefined-title"
-                  />
-                  <div
-                    className="subtitle"
-                    id="undefined-subtitle"
                   />
                 </li>
               </ul>
