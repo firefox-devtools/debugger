@@ -61,9 +61,11 @@ export default class ResultList extends Component<Props> {
         <div id={`${item.id}-title`} className="title">
           {item.title}
         </div>
-        <div id={`${item.id}-subtitle`} className="subtitle">
-          {item.subtitle}
-        </div>
+        {item.subtitle != item.title ? (
+          <div id={`${item.id}-subtitle`} className="subtitle">
+            {item.subtitle}
+          </div>
+        ) : null}
       </li>
     );
   };
