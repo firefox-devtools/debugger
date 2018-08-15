@@ -365,4 +365,46 @@ describe("ObjectInspector - state", () => {
     expect(recordTelemetryEvent.mock.calls).toHaveLength(4);
     expect(recordTelemetryEvent.mock.calls[3][0]).toEqual("object_expanded");
   });
+
+  it("expanding a getter returning a longString does not throw", async () => {
+    const LongStringClientMock = require("../__mocks__/long-string-client");
+
+    const wrapper = mount(
+      ObjectInspector(
+        generateDefaults({
+          injectWaitService: true,
+          loadedProperties: new Map([
+            ["root-1", gripPropertiesStubs.get("longs-string-safe-getter")]
+          ]),
+          focusable: false,
+          createLongStringClient: grip =>
+            LongStringClientMock(grip, {
+              substring: function(initiaLength, length, cb) {
+                cb({
+                  substring: "<<<<"
+                });
+              }
+            })
+        })
+      )
+    );
+
+    const store = wrapper.instance().getStore();
+
+    wrapper
+      .find(".node")
+      .at(0)
+      .simulate("click");
+    wrapper.update();
+
+    const onPropertiesLoaded = waitForDispatch(store, "NODE_PROPERTIES_LOADED");
+    wrapper
+      .find(".node")
+      .at(1)
+      .simulate("click");
+    await onPropertiesLoaded;
+
+    wrapper.update();
+    expect(formatObjectInspector(wrapper)).toMatchSnapshot();
+  });
 });
