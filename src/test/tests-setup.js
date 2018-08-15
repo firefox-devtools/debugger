@@ -10,7 +10,7 @@ import { readFileSync } from "fs";
 import Enzyme from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import { setupHelper } from "../utils/dbg";
-
+import { prefs } from "../utils/prefs";
 import { startSourceMapWorker, stopSourceMapWorker } from "devtools-source-map";
 
 import {
@@ -80,6 +80,7 @@ beforeEach(async () => {
   await clearSymbols();
   clearHistory();
   clearDocuments();
+  prefs.projectDirectoryRoot = "";
 
   // Ensures window.dbg is there to track telemetry
   setupHelper({ selectors: {} });

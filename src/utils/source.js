@@ -418,3 +418,18 @@ export function getSourceClassnames(
 
   return sourceTypes[getFileExtension(source)] || defaultClassName;
 }
+
+export function getRelativeUrl(source: Source, root: string) {
+  const { group, path } = getURL(source);
+  if (!root) {
+    return path;
+  }
+
+  // + 1 removes the leading "/"
+  const url = group + path;
+  return url.slice(url.indexOf(root) + root.length + 1);
+}
+
+export function underRoot(source: Source, root: string) {
+  return source.url && source.url.includes(root);
+}

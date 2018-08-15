@@ -10,7 +10,7 @@
  */
 
 import { createSelector } from "reselect";
-import { getPrettySourceURL } from "../utils/source";
+import { getPrettySourceURL, underRoot, getRelativeUrl } from "../utils/source";
 import { originalToGeneratedId, isOriginalId } from "devtools-source-map";
 import { prefs } from "../utils/prefs";
 
@@ -26,16 +26,20 @@ type UrlsMap = { [string]: SourceId[] };
 export type SourcesState = {
   sources: SourcesMap,
   urls: UrlsMap,
+  relativeSources: SourcesMap,
   pendingSelectedLocation?: PendingSelectedLocation,
-  selectedLocation: ?Location
+  selectedLocation: ?Location,
+  projectDirectoryRoot: string
 };
 
 export function initialSourcesState(): SourcesState {
   return {
     sources: {},
     urls: {},
+    relativeSources: {},
     selectedLocation: undefined,
-    pendingSelectedLocation: prefs.pendingSelectedLocation
+    pendingSelectedLocation: prefs.pendingSelectedLocation,
+    projectDirectoryRoot: prefs.projectDirectoryRoot
   };
 }
 
@@ -127,6 +131,9 @@ function update(
       }
       break;
 
+    case "SET_PROJECT_DIRECTORY_ROOT":
+      return recalculateRelativeSources(state, action.url);
+
     case "NAVIGATE":
       const source =
         state.selectedLocation &&
@@ -185,8 +192,47 @@ function updateSource(state: SourcesState, source: Object) {
 
   return {
     ...state,
+    relativeSources: updateRelativeSource(
+      { ...state.relativeSources },
+      updatedSource,
+      state.projectDirectoryRoot
+    ),
     sources: { ...state.sources, [source.id]: updatedSource },
     urls: { ...state.urls, [source.url]: urls }
+  };
+}
+
+function updateRelativeSource(
+  relativeSources: SourcesMap,
+  source: Source,
+  root: string
+): SourcesMap {
+  if (!underRoot(source, root)) {
+    return relativeSources;
+  }
+
+  const relativeSource: Source = ({
+    ...source,
+    relativeUrl: getRelativeUrl(source, root)
+  }: any);
+
+  relativeSources[source.id] = relativeSource;
+
+  return relativeSources;
+}
+
+function recalculateRelativeSources(state: SourcesState, root: string) {
+  prefs.projectDirectoryRoot = root;
+
+  const relativeSources = (Object.values(state.sources): any).reduce(
+    (sources, source: Source) => updateRelativeSource(sources, source, root),
+    {}
+  );
+
+  return {
+    ...state,
+    projectDirectoryRoot: root,
+    relativeSources
   };
 }
 
@@ -323,5 +369,13 @@ export const getSelectedSource = createSelector(
     return sources[selectedLocation.sourceId];
   }
 );
+
+export function getProjectDirectoryRoot(state: OuterState): string {
+  return state.sources.projectDirectoryRoot;
+}
+
+export function getRelativeSources(state: OuterState): SourcesMap {
+  return state.sources.relativeSources;
+}
 
 export default update;

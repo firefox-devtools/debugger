@@ -9,10 +9,10 @@ import {
   getPaneCollapse,
   getQuickOpenEnabled,
   getSource,
-  getFileSearchQuery
+  getFileSearchQuery,
+  getProjectDirectoryRoot
 } from "../selectors";
 import { selectSource } from "../actions/sources/select";
-import { getProjectDirectoryRoot } from "../reducers/ui";
 import type { ThunkArgs, panelPositionType } from "./types";
 import { getEditor } from "../utils/editor";
 import { searchContents } from "./file-search";
