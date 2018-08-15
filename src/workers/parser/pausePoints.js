@@ -29,7 +29,6 @@ const isAssignment = node =>
   t.isAssignmentPattern(node);
 
 const isImport = node => t.isImport(node) || t.isImportDeclaration(node);
-const isReturn = node => t.isReturnStatement(node);
 const isCall = node => t.isCallExpression(node) || t.isJSXElement(node);
 
 const inStepExpression = parent =>
@@ -46,10 +45,6 @@ const inExpression = (parent, grandParent) =>
 
 const isExport = node =>
   t.isExportNamedDeclaration(node) || t.isExportDefaultDeclaration(node);
-
-function getStartLine(node) {
-  return node.loc.start.line;
-}
 
 // Finds the first call item in a step expression so that we can step
 // to the beginning of the list and either step in or over. e.g. [], x(), { }
@@ -74,29 +69,6 @@ function isFirstCall(node, parentNode, grandParentNode) {
   return children.find(child => isCall(child)) === node;
 }
 
-// Check to see if the node is a step expression and if any of its children
-// expressions include calls. e.g. [ a() ], { a: a() }
-function hasCall(node) {
-  let children = [];
-  if (t.isArrayExpression(node)) {
-    children = node.elements;
-  }
-
-  if (t.isObjectExpression(node)) {
-    children = node.properties.map(({ value }) => value);
-  }
-
-  if (t.isSequenceExpression(node)) {
-    children = node.expressions;
-  }
-
-  if (t.isCallExpression(node)) {
-    children = node.arguments;
-  }
-
-  return children.find(child => isCall(child));
-}
-
 export function getPausePoints(sourceId: string) {
   const state = {};
   traverseAst(sourceId, { enter: onEnter }, state);
@@ -118,7 +90,8 @@ function onEnter(node: BabelNode, ancestors: SimplePath[], state) {
     t.isDebuggerStatement(node) ||
     t.isThrowStatement(node) ||
     t.isBreakStatement(node) ||
-    t.isContinueStatement(node)
+    t.isContinueStatement(node) ||
+    t.isReturnStatement(node)
   ) {
     return addStopPoint(state, startLocation);
   }
@@ -139,26 +112,13 @@ function onEnter(node: BabelNode, ancestors: SimplePath[], state) {
     return addEmptyPoint(state, startLocation);
   }
 
-  if (isReturn(node)) {
-    // We do not want to pause at the return if the
-    // argument is a call on the same line e.g. return foo()
-    return addPoint(
-      state,
-      startLocation,
-      !isCall(node.argument) ||
-        getStartLine(node) != getStartLine(node.argument)
-    );
-  }
-
   if (isAssignment(node)) {
-    // step at assignments unless the right side is a call or default assignment
-    // e.g. `var a = b()`,  `a = b(c = 2)`, `a = [ b() ]`
-    const value = node.right || node.init;
+    // step at assignments unless the right side is a default assignment
+    // e.g. `( b = 2 ) => {}`
     const defaultAssignment =
       t.isFunction(parentNode) && parent.key === "params";
-    const includesCall = isCall(value) || hasCall(value);
 
-    return addPoint(state, startLocation, !includesCall && !defaultAssignment);
+    return addPoint(state, startLocation, !defaultAssignment);
   }
 
   if (isCall(node)) {
