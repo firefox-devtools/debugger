@@ -17,8 +17,8 @@ exports[`Parser.pausePoints calls 1`] = `
 var /*bs*/a = 3;
 
 // set a step point at the first call expression in step expressions
-var /**/x = { /**/a: /*bs*/a(), /**/b: /*b*/b(), /**/c: /*b*/c() };
-var /**/b = /**/[ /*bs*/foo() ];
+var /*bs*/x = { /**/a: /*bs*/a(), /**/b: /*b*/b(), /**/c: /*b*/c() };
+var /*bs*/b = /**/[ /*bs*/foo() ];
 /**/[ /*bs*/a(), /*b*/b(), /*b*/c() ];
 (/**/1, /*bs*/a(), /*b*/b());
 /*bs*/x(/**/1, /*bs*/a(), /*b*/b());
@@ -101,7 +101,7 @@ exports[`Parser.pausePoints func 1`] = `
 /**/}
 
 /*b*/function ret() /**/{
-  /**/return /*bs*/foo();
+  /*bs*/return /*bs*/foo();
 /**/}
 
 /*bs*/child = /*b*/function() /**/{/**/};
@@ -162,7 +162,7 @@ exports[`Parser.pausePoints html 1`] = `
 		const /*bs*/capitalize = /*b*/name => /**/{
 			/*bs*/return /*bs*/name[0]./*bs*/toUpperCase() + /*bs*/name./*bs*/substring(/**/1)
 		/**/};
-		const /**/greetAll = /**/[/**/\\"my friend\\", /**/\\"buddy\\", /**/\\"world\\"]
+		const /*bs*/greetAll = /**/[/**/\\"my friend\\", /**/\\"buddy\\", /**/\\"world\\"]
 			./*bs*/map(/**/capitalize)
 			./*bs*/map(/**/sayHello)
 			./*bs*/join(/**/\\"\\\\n\\");
@@ -174,7 +174,7 @@ exports[`Parser.pausePoints html 1`] = `
 	</p>
 	<script>
 		/*bs*/(/*b*/function iife() /**/{
-			const /**/greeting = /*bs*/sayHello(/**/\\"Ryan\\");
+			const /*bs*/greeting = /*bs*/sayHello(/**/\\"Ryan\\");
 			/*bs*/console./*bs*/log(/**/greeting);
 		/**/})();
 	</script>
@@ -184,7 +184,7 @@ exports[`Parser.pausePoints html 1`] = `
 `;
 
 exports[`Parser.pausePoints jsx 1`] = `
-"const /**/jsxElement = /*bs*/<h1>/**/ Hi ! I'm here ! /**/</h1>;
+"const /*bs*/jsxElement = /*bs*/<h1>/**/ Hi ! I'm here ! /**/</h1>;
 
 /*bs*/<div id=\\"3\\" res={/*b*/foo()}>/**/
   /*b*/<Item>/**/{/*bs*/foo()}/**/</Item>/**/
@@ -213,22 +213,22 @@ exports[`Parser.pausePoints statements 1`] = `
 // assignments with valid pause locations
 /*bs*/this.x = 3;
 var /*bs*/a = 4;
-var /**/d = /**/[/*bs*/foo()]
+var /*bs*/d = /**/[/*bs*/foo()]
 var /*bs*/f = 3, /*bs*/e = 4;
 var /*bs*/g = /**/[], /*bs*/h = {};
 
 // assignments with invalid pause locations
-var /**/b = /*bs*/foo();
-/**/c = /*bs*/foo();
+var /*bs*/b = /*bs*/foo();
+/*bs*/c = /*bs*/foo();
 
 
-const /**/arr = /**/[
+const /*bs*/arr = /**/[
   /**/'1',
   /**/2,
   /*bs*/foo()
 ]
 
-const /**/obj = {
+const /*bs*/obj = {
   /**/a: /**/'1',
   /**/b: /**/2,
   /**/c: /*bs*/foo(),
