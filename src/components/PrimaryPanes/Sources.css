@@ -93,6 +93,11 @@
   background-color: white;
 }
 
+.sources-list .tree .label .suffix {
+  font-style: italic;
+  font-size: 0.7em;
+}
+
 .sources-list .tree img.arrow.expanded {
   transform: rotate(0deg);
 }
