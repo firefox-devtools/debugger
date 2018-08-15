@@ -191,47 +191,49 @@ function updateSource(state: SourcesState, source: Object) {
   const urls = existingUrls ? [...existingUrls, source.id] : [source.id];
 
   return {
-    ...updateRelativeSource(state, updatedSource),
+    ...state,
+    relativeSources: updateRelativeSource(
+      { ...state.relativeSources },
+      updatedSource,
+      state.projectDirectoryRoot
+    ),
     sources: { ...state.sources, [source.id]: updatedSource },
     urls: { ...state.urls, [source.url]: urls }
   };
 }
 
 function updateRelativeSource(
-  state: SourcesState,
-  source: Source
-): SourcesState {
-  const root = state.projectDirectoryRoot;
+  relativeSources: SourcesMap,
+  source: Source,
+  root: string
+): SourcesMap {
   if (!underRoot(source, root)) {
-    return state;
+    return relativeSources;
   }
 
-  const relativeSource = {
+  const relativeSource: Source = ({
     ...source,
     relativeUrl: getRelativeUrl(source, root)
-  };
+  }: any);
 
-  return {
-    ...state,
-    relativeSources: {
-      ...state.relativeSources,
-      [source.id]: relativeSource
-    }
-  };
+  relativeSources[source.id] = relativeSource;
+
+  return relativeSources;
 }
 
 function recalculateRelativeSources(state: SourcesState, root: string) {
   prefs.projectDirectoryRoot = root;
-  state = {
+
+  const relativeSources = (Object.values(state.sources): any).reduce(
+    (sources, source: Source) => updateRelativeSource(sources, source, root),
+    {}
+  );
+
+  return {
     ...state,
     projectDirectoryRoot: root,
-    relativeSources: {}
+    relativeSources
   };
-
-  return (Object.values(state.sources): any).reduce(
-    (newState, source: Source) => updateRelativeSource(newState, source),
-    state
-  );
 }
 
 function updateBlackBoxList(url, isBlackBoxed) {
