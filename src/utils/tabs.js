@@ -47,6 +47,8 @@ export function getFramework(tabs: TabList[], url: string) {
   if (tab) {
     return tab.framework;
   }
+
+  return "";
 }
 
 export function getTabMenuItems() {

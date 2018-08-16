@@ -57,7 +57,10 @@ export function removeSourcesFromTabList(tabs: TabList, urls: [string]) {
  * @memberof reducers/tabs
  * @static
  */
-function updateTabList(tabs: TabList, { url, framework, tabIndex: newIndex }) {
+function updateTabList(
+  tabs: TabList,
+  { url, framework = "", tabIndex: newIndex }
+) {
   const currentIndex = tabs.findIndex(tab => tab.url == url);
   if (currentIndex === -1) {
     tabs = [{ url, framework }, ...tabs];
@@ -82,7 +85,7 @@ function updateTabList(tabs: TabList, { url, framework, tabIndex: newIndex }) {
  */
 export function getNewSelectedSourceId(
   state: OuterState,
-  availableTabs: TabList
+  availableTabs: [TabList]
 ): string {
   const selectedLocation = state.sources.selectedLocation;
   if (!selectedLocation) {
