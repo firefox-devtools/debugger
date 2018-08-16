@@ -609,9 +609,9 @@ async function selectSpecificSource(dbg, url, line) {
 }
 
 
-function closeTab(dbg, url) {
+async function closeTab(dbg, url) {
   const source = findSource(dbg, url);
-  return dbg.actions.closeTab(source.url);
+  await dbg.actions.closeTab(source.url);
 }
 
 /**
