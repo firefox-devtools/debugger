@@ -48,7 +48,7 @@ export function removeSourceFromTabList(tabs: TabList, url: string): TabList {
   return tabs.filter(tab => tab.url !== url);
 }
 
-export function removeSourcesFromTabList(tabs: TabList, urls: [string]) {
+export function removeSourcesFromTabList(tabs: TabList, urls: string[]) {
   return urls.reduce((t, url) => removeSourceFromTabList(t, url), tabs);
 }
 
