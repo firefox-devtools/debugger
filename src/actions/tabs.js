@@ -35,10 +35,15 @@ export function updateTab(
   };
 }
 
-export function addTab(url: string, framework: string): Action {
+export function addTab(
+  url: string,
+  tabIndex: ?number,
+  framework?: string
+): Action {
   return {
     type: "ADD_TAB",
     url,
+    tabIndex,
     framework
   };
 }

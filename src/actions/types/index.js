@@ -48,7 +48,8 @@ type ProjectTextSearchResult = {
 type AddTabAction = {|
   +type: "ADD_TAB",
   +url: string,
-  +tabIndex: ?number
+  +tabIndex: ?number,
+  +framework?: string
 |};
 
 type ReplayAction =
