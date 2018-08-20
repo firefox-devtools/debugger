@@ -373,9 +373,11 @@ function assertHighlightLocation(dbg, source, line) {
   );
 
   ok(isVisibleInEditor(dbg, lineEl), "Highlighted line is visible");
+
+  const cm = getCM(dbg);
+  const lineInfo = cm.lineInfo(line - 1);
   ok(
-    getCM(dbg)
-      .lineInfo(line - 1)
+    lineInfo
       .wrapClass.includes("highlight-line"),
     "Line is highlighted"
   );

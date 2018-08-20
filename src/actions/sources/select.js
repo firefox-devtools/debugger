@@ -130,9 +130,11 @@ export function selectLocation(
       source = getSourceFromId(getState(), location.sourceId);
     }
 
-    await dispatch(addTab(source.url));
+    dispatch(addTab(source.url));
     const framework = getFramework(getTabs(getState()), source.url);
-    dispatch(updateTab(source.url, framework));
+    if (framework) {
+      dispatch(updateTab(source.url, framework));
+    }
 
     dispatch(setSelectedLocation(source, location));
 
