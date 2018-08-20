@@ -484,7 +484,7 @@ async function findGeneratedBinding(
       },
       expression: null
     };
-  } else if (!hadApplicableBindings) {
+  } else if (!hadApplicableBindings && name !== "this") {
     // If there were no applicable bindings to consider while searching for
     // matching bindings, then the source map for this file didn't make any
     // attempt to map the binding, and that most likely means that the
