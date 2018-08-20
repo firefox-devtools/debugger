@@ -22,3 +22,5 @@ webpack-stats/
 package-lock.json
 out
 junit.xml
+.cache/
+.rpt2_cache
