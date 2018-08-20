@@ -22,28 +22,18 @@ import {
 
 import type { Action, ThunkArgs } from "./types";
 
-export function updateTab(
-  url: string,
-  tabIndex: number,
-  framework: string
-): Action {
+export function updateTab(url: string, framework: string): Action {
   return {
     type: "UPDATE_TAB",
     url,
-    tabIndex,
     framework
   };
 }
 
-export function addTab(
-  url: string,
-  tabIndex: ?number,
-  framework?: string
-): Action {
+export function addTab(url: string, framework?: string): Action {
   return {
     type: "ADD_TAB",
     url,
-    tabIndex,
     framework
   };
 }
@@ -65,7 +55,7 @@ export function closeTab(url: string) {
     removeDocument(url);
 
     const tabs = removeSourceFromTabList(getSourceTabs(getState()), url);
-    const sourceId = getNewSelectedSourceId(getState(), tabs.map(t => t.url));
+    const sourceId = getNewSelectedSourceId(getState(), tabs);
     dispatch(({ type: "CLOSE_TAB", url, tabs }: Action));
     dispatch(selectSource(sourceId));
   };
@@ -87,7 +77,7 @@ export function closeTabs(urls: string[]) {
     const tabs = removeSourcesFromTabList(getSourceTabs(getState()), urls);
     dispatch(({ type: "CLOSE_TABS", urls, tabs }: Action));
 
-    const sourceId = getNewSelectedSourceId(getState(), tabs.map(t => t.url));
+    const sourceId = getNewSelectedSourceId(getState(), tabs);
     dispatch(selectSource(sourceId));
   };
 }

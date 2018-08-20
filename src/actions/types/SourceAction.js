@@ -51,8 +51,7 @@ export type SourceAction =
     >
   | {|
       +type: "ADD_TAB",
-      +url: string,
-      +tabIndex: number
+      +url: string
     |}
   | {|
       +type: "MOVE_TAB",

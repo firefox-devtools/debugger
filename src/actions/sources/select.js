@@ -16,7 +16,7 @@ import { setOutOfScopeLocations, setSymbols } from "../ast";
 import { closeActiveSearch, updateActiveFileSearch } from "../ui";
 
 import { togglePrettyPrint } from "./prettyPrint";
-import { addTab, closeTab } from "../tabs";
+import { addTab, updateTab, closeTab } from "../tabs";
 import { loadSourceText } from "./loadSourceText";
 
 import { prefs } from "../../utils/prefs";
@@ -130,10 +130,9 @@ export function selectLocation(
       source = getSourceFromId(getState(), location.sourceId);
     }
 
-    await dispatch(addTab(source.url, 0));
-
+    await dispatch(addTab(source.url));
     const framework = getFramework(getTabs(getState()), source.url);
-    dispatch(addTab(source.url, framework));
+    dispatch(updateTab(source.url, framework));
 
     dispatch(setSelectedLocation(source, location));
 

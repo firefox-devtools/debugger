@@ -24,15 +24,17 @@ import {
 import type { Action } from "../actions/types";
 import type { SourcesState } from "./sources";
 
-type Tab = { url: string, framework: string };
+type Tab = { url: string, framework?: string };
 export type TabList = Tab[];
 
 function update(state: TabList = prefs.tabs || [], action: Action): TabList {
   switch (action.type) {
     case "ADD_TAB":
-    case "MOVE_TAB":
     case "UPDATE_TAB":
       return updateTabList(state, action);
+
+    case "MOVE_TAB":
+      return moveTabInList(state, action);
 
     case "CLOSE_TAB":
     case "CLOSE_TABS":
@@ -57,19 +59,21 @@ export function removeSourcesFromTabList(tabs: TabList, urls: string[]) {
  * @memberof reducers/tabs
  * @static
  */
-function updateTabList(
-  tabs: TabList,
-  { url, framework = "", tabIndex: newIndex }
-) {
+function updateTabList(tabs: TabList, { url, framework = "" }) {
   const currentIndex = tabs.findIndex(tab => tab.url == url);
   if (currentIndex === -1) {
     tabs = [{ url, framework }, ...tabs];
-  } else if (newIndex !== undefined) {
-    tabs = move(tabs, currentIndex, newIndex);
   } else if (framework) {
     tabs[currentIndex].framework = framework;
   }
 
+  prefs.tabs = tabs;
+  return tabs;
+}
+
+function moveTabInList(tabs: TabList, { url, tabIndex: newIndex }) {
+  const currentIndex = tabs.findIndex(tab => tab.url == url);
+  tabs = move(tabs, currentIndex, newIndex);
   prefs.tabs = tabs;
   return tabs;
 }
@@ -85,7 +89,7 @@ function updateTabList(
  */
 export function getNewSelectedSourceId(
   state: OuterState,
-  availableTabs: [TabList]
+  availableTabs: TabList
 ): string {
   const selectedLocation = state.sources.selectedLocation;
   if (!selectedLocation) {
@@ -97,7 +101,9 @@ export function getNewSelectedSourceId(
     return "";
   }
 
-  if (availableTabs.includes(selectedTab.url)) {
+  const matchingTab = availableTabs.find(tab => tab.url == selectedTab.url);
+
+  if (matchingTab) {
     const sources = state.sources.sources;
     if (!sources) {
       return "";
@@ -117,14 +123,17 @@ export function getNewSelectedSourceId(
   const lastAvailbleTabIndex = availableTabs.length - 1;
   const newSelectedTabIndex = Math.min(leftNeighborIndex, lastAvailbleTabIndex);
   const availableTab = availableTabs[newSelectedTabIndex];
-  const tabSource = getSourceByUrlInSources(
-    getSources(state),
-    getUrls(state),
-    availableTab
-  );
 
-  if (tabSource) {
-    return tabSource.id;
+  if (availableTab) {
+    const tabSource = getSourceByUrlInSources(
+      getSources(state),
+      getUrls(state),
+      availableTab.url
+    );
+
+    if (tabSource) {
+      return tabSource.id;
+    }
   }
 
   return "";

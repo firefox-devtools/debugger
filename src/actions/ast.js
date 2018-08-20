@@ -41,7 +41,7 @@ export function setSourceMetaData(sourceId: SourceId) {
     const framework = await getFramework(source.id);
 
     // undefined is to keep the tap where it is
-    dispatch(updateTab(source.url, undefined, framework));
+    dispatch(updateTab(source.url, framework));
 
     dispatch(
       ({
