@@ -7,8 +7,10 @@
 import { getBreakpoints } from "../reducers/breakpoints";
 import { getSelectedSource } from "../reducers/sources";
 import { isGeneratedId } from "devtools-source-map";
+import { createSelector } from "reselect";
 
-import type { State } from "../reducers/types";
+import type { BreakpointsMap } from "../reducers/types";
+import type { Source } from "../types";
 
 function getLocation(breakpoint, isGeneratedSource) {
   return isGeneratedSource
@@ -16,7 +18,21 @@ function getLocation(breakpoint, isGeneratedSource) {
     : breakpoint.location;
 }
 
-function formatBreakpoint(breakpoint, selectedSource) {
+function memoize(func) {
+  const store = new WeakMap();
+
+  return function(key, ...rest) {
+    if (store.has(key)) {
+      return store.get(key);
+    }
+
+    const value = func.apply(null, arguments);
+    store.set(key, value);
+    return value;
+  };
+}
+
+const formatBreakpoint = memoize(function(breakpoint, selectedSource) {
   const { condition, loading, disabled, hidden } = breakpoint;
   const sourceId = selectedSource.id;
   const isGeneratedSource = isGeneratedId(sourceId);
@@ -28,7 +44,7 @@ function formatBreakpoint(breakpoint, selectedSource) {
     disabled,
     hidden
   };
-}
+});
 
 function isVisible(breakpoint, selectedSource) {
   const sourceId = selectedSource.id;
@@ -41,13 +57,16 @@ function isVisible(breakpoint, selectedSource) {
 /*
  * Finds the breakpoints, which appear in the selected source.
   */
-export function getVisibleBreakpoints(state: State) {
-  const selectedSource = getSelectedSource(state);
-  if (!selectedSource) {
-    return null;
-  }
+export const getVisibleBreakpoints = createSelector(
+  getSelectedSource,
+  getBreakpoints,
+  (selectedSource: Source, breakpoints: BreakpointsMap) => {
+    if (!selectedSource) {
+      return null;
+    }
 
-  return getBreakpoints(state)
-    .filter(bp => isVisible(bp, selectedSource))
-    .map(bp => formatBreakpoint(bp, selectedSource));
-}
+    return breakpoints
+      .filter(bp => isVisible(bp, selectedSource))
+      .map(bp => formatBreakpoint(bp, selectedSource));
+  }
+);
