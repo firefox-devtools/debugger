@@ -48,7 +48,13 @@ type ProjectTextSearchResult = {
 type AddTabAction = {|
   +type: "ADD_TAB",
   +url: string,
-  +tabIndex: ?number
+  +framework?: string
+|};
+
+type UpdateTabAction = {|
+  +type: "UPDATE_TAB",
+  +url: string,
+  +framework?: string
 |};
 
 type ReplayAction =
@@ -149,6 +155,7 @@ export type { ASTAction } from "./ASTAction";
  */
 export type Action =
   | AddTabAction
+  | UpdateTabAction
   | SourceAction
   | BreakpointAction
   | PauseAction

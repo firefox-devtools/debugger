@@ -16,17 +16,25 @@ import {
   getSourceByURL,
   getSourceTabs,
   getNewSelectedSourceId,
-  removeSourcesFromTabList,
-  removeSourceFromTabList
+  removeSourceFromTabList,
+  removeSourcesFromTabList
 } from "../selectors";
 
 import type { Action, ThunkArgs } from "./types";
 
-export function addTab(url: string, tabIndex: number): Action {
+export function updateTab(url: string, framework: string): Action {
+  return {
+    type: "UPDATE_TAB",
+    url,
+    framework
+  };
+}
+
+export function addTab(url: string, framework?: string): Action {
   return {
     type: "ADD_TAB",
     url,
-    tabIndex
+    framework
   };
 }
 

@@ -128,7 +128,8 @@ export function selectLocation(
       source = getSourceFromId(getState(), location.sourceId);
     }
 
-    dispatch(addTab(source.url, 0));
+    dispatch(addTab(source.url));
+
     dispatch(setSelectedLocation(source, location));
 
     await dispatch(loadSourceText(source));

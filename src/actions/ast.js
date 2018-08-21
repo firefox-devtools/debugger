@@ -13,6 +13,7 @@ import {
 } from "../selectors";
 
 import { mapFrames, fetchExtra } from "./pause";
+import { updateTab } from "./tabs";
 
 import { setInScopeLines } from "./ast/setInScopeLines";
 import {
@@ -38,6 +39,7 @@ export function setSourceMetaData(sourceId: SourceId) {
     }
 
     const framework = await getFramework(source.id);
+    dispatch(updateTab(source.url, framework));
 
     dispatch(
       ({
