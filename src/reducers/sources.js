@@ -68,19 +68,16 @@ function update(
   switch (action.type) {
     case "UPDATE_SOURCE": {
       const source = action.source;
-      return updateSource(state, source);
+      return updateSources(state, [source]);
     }
 
     case "ADD_SOURCE": {
       const source = action.source;
-      return updateSource(state, source);
+      return updateSources(state, [source]);
     }
 
     case "ADD_SOURCES": {
-      return action.sources.reduce(
-        (newState, source) => updateSource(newState, source),
-        state
-      );
+      return updateSources(state, action.sources);
     }
 
     case "SET_SELECTED_LOCATION":
@@ -127,7 +124,7 @@ function update(
         const { id, url } = action.source;
         const { isBlackBoxed } = ((action: any): DonePromiseAction).value;
         updateBlackBoxList(url, isBlackBoxed);
-        return updateSource(state, { id, isBlackBoxed });
+        return updateSources(state, [{ id, isBlackBoxed }]);
       }
       break;
 
@@ -161,8 +158,8 @@ function getTextPropsFromAction(action) {
   }
 
   return {
-    text: action.value.text,
     id: sourceId,
+    text: action.value.text,
     contentType: action.value.contentType,
     loadedState: "loaded"
   };
@@ -173,8 +170,22 @@ function getTextPropsFromAction(action) {
 // "start" and "error" states but we don't type it like that. We need
 // to rethink how we type async actions.
 function setSourceTextProps(state, action: LoadSourceAction): SourcesState {
-  const text = getTextPropsFromAction(action);
-  return updateSource(state, text);
+  const source = getTextPropsFromAction(action);
+  return updateSources(state, [source]);
+}
+
+function updateSources(state, sources) {
+  state = {
+    ...state,
+    sources: { ...state.sources },
+    relativeSources: { ...state.relativeSources },
+    urls: { ...state.urls }
+  };
+
+  return sources.reduce(
+    (newState, source) => updateSource(newState, source),
+    state
+  );
 }
 
 function updateSource(state: SourcesState, source: Object) {
@@ -187,19 +198,20 @@ function updateSource(state: SourcesState, source: Object) {
     ? { ...existingSource, ...source }
     : createSource(source);
 
-  const existingUrls = state.urls[source.url];
-  const urls = existingUrls ? [...existingUrls, source.id] : [source.id];
+  state.sources[source.id] = updatedSource;
 
-  return {
-    ...state,
-    relativeSources: updateRelativeSource(
-      { ...state.relativeSources },
-      updatedSource,
-      state.projectDirectoryRoot
-    ),
-    sources: { ...state.sources, [source.id]: updatedSource },
-    urls: { ...state.urls, [source.url]: urls }
-  };
+  const existingUrls = state.urls[source.url];
+  state.urls[source.url] = existingUrls
+    ? [...existingUrls, source.id]
+    : [source.id];
+
+  updateRelativeSource(
+    state.relativeSources,
+    updatedSource,
+    state.projectDirectoryRoot
+  );
+
+  return state;
 }
 
 function updateRelativeSource(
