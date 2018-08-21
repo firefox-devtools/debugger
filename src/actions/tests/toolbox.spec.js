@@ -15,7 +15,7 @@ describe("toolbox", () => {
 
       expect(threadClient.evaluate).toBeCalledWith(
         'console.log("foo"); console.log(foo)',
-        { frameId: undefined }
+        { frameId: null }
       );
     });
   });
