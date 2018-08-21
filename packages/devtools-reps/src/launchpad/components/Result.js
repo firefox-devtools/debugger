@@ -85,7 +85,6 @@ class Result extends Component {
         createLongStringClient,
         releaseActor,
         mode: MODE[modeKey],
-        disableFocus: false,
         // The following properties are optional function props called by the
         // objectInspector on some occasions. Here we pass dull functions that
         // only logs the parameters with which the callback was called.
