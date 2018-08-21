@@ -4718,9 +4718,9 @@ flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
 
-flow-bin@^0.78.0:
-  version "0.78.0"
-  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.78.0.tgz#df9fe7f9c9a2dfaff39083949fe2d831b41627b7"
+flow-bin@^0.79.0:
+  version "0.79.1"
+  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.79.1.tgz#01c9f427baa6556753fa878c192d42e1ecb764b6"
 
 flush-write-stream@^1.0.0, flush-write-stream@^1.0.2:
   version "1.0.3"
@@ -9349,9 +9349,9 @@ rc@^1.1.0, rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-aria-components@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/react-aria-components/-/react-aria-components-0.0.3.tgz#4512aad28f31670956180faa088bf3a3dfba1f8f"
+react-aria-components@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/react-aria-components/-/react-aria-components-0.0.4.tgz#e5e598a7a379f8b940cb7c48a7e51a8407420589"
 
 react-dev-utils@^5.0.0:
   version "5.0.1"
