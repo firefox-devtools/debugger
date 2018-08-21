@@ -22600,7 +22600,8 @@
       "../../supports-color/browser.js": 3780,
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/reducers/tabs.js": 3781,
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/tabs.js": 3782,
-      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-source-map/src/utils/getOriginalStackFrames.js": 3783
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-source-map/src/utils/getOriginalStackFrames.js": 3783,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../react-aria-components/src/prop-types/ref.js": 3784
     },
     "usedIds": {
       "0": 0,
@@ -26386,7 +26387,8 @@
       "3780": 3780,
       "3781": 3781,
       "3782": 3782,
-      "3783": 3783
+      "3783": 3783,
+      "3784": 3784
     }
   },
   "chunks": {
