@@ -79,7 +79,7 @@
     "pretty-fast": "^0.2.3",
     "prop-types": "^15.6.0",
     "react": "16.4.1",
-    "react-aria-components": "^0.0.3",
+    "react-aria-components": "^0.0.4",
     "react-dom": "16.4.1",
     "react-immutable-proptypes": "^2.1.0",
     "react-inlinesvg": "^0.8.1",
