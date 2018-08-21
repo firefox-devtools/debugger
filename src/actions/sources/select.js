@@ -16,12 +16,11 @@ import { setOutOfScopeLocations, setSymbols } from "../ast";
 import { closeActiveSearch, updateActiveFileSearch } from "../ui";
 
 import { togglePrettyPrint } from "./prettyPrint";
-import { addTab, updateTab, closeTab } from "../tabs";
+import { addTab, closeTab } from "../tabs";
 import { loadSourceText } from "./loadSourceText";
 
 import { prefs } from "../../utils/prefs";
 import { shouldPrettyPrint, isMinified } from "../../utils/source";
-import { getFramework } from "../../utils/tabs";
 import { createLocation } from "../../utils/location";
 import { getMappedLocation } from "../../utils/source-maps";
 
@@ -31,8 +30,7 @@ import {
   getPrettySource,
   getActiveSearch,
   getSelectedLocation,
-  getSelectedSource,
-  getTabs
+  getSelectedSource
 } from "../../selectors";
 
 import type { Location, Position, Source } from "../../types";
@@ -131,10 +129,6 @@ export function selectLocation(
     }
 
     dispatch(addTab(source.url));
-    const framework = getFramework(getTabs(getState()), source.url);
-    if (framework) {
-      dispatch(updateTab(source.url, framework));
-    }
 
     dispatch(setSelectedLocation(source, location));
 
