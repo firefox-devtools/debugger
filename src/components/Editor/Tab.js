@@ -42,7 +42,7 @@ type Props = {
   selectedSource: Source,
   source: Source,
   activeSearch: string,
-  selectSpecificSource: string => void,
+  selectSource: string => void,
   closeTab: string => void,
   closeTabs: (List<string>) => void,
   togglePrettyPrint: string => void,
@@ -148,7 +148,7 @@ class Tab extends PureComponent<Props> {
   render() {
     const {
       selectedSource,
-      selectSpecificSource,
+      selectSource,
       closeTab,
       source,
       tabSources
@@ -168,7 +168,7 @@ class Tab extends PureComponent<Props> {
     function handleTabClick(e) {
       e.preventDefault();
       e.stopPropagation();
-      return selectSpecificSource(sourceId);
+      return selectSource(sourceId);
     }
 
     const className = classnames("source-tab", {
@@ -218,7 +218,7 @@ const mapStateToProps = (state, { source }) => {
 export default connect(
   mapStateToProps,
   {
-    selectSpecificSource: actions.selectSpecificSource,
+    selectSource: actions.selectSource,
     closeTab: actions.closeTab,
     closeTabs: actions.closeTabs,
     togglePrettyPrint: actions.togglePrettyPrint,

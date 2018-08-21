@@ -84,7 +84,7 @@ export function selectSourceURL(url: string, options: Position = { line: 1 }) {
 export function selectSource(sourceId: string) {
   return async ({ dispatch }: ThunkArgs) => {
     const location = createLocation({ sourceId });
-    return await dispatch(selectLocation(location));
+    return await dispatch(selectSpecificLocation(location));
   };
 }
 
@@ -167,17 +167,6 @@ export function selectLocation(
  */
 export function selectSpecificLocation(location: Location) {
   return selectLocation(location, { keepContext: false });
-}
-
-/**
- * @memberof actions/sources
- * @static
- */
-export function selectSpecificSource(sourceId: string) {
-  return async ({ dispatch }: ThunkArgs) => {
-    const location = createLocation({ sourceId });
-    return await dispatch(selectSpecificLocation(location));
-  };
 }
 
 /**
