@@ -24,16 +24,17 @@ import {
 import type { Action } from "../actions/types";
 import type { SourcesState } from "./sources";
 
-type Tab = string;
+type Tab = { url: string, framework?: string | null };
 export type TabList = Tab[];
 
 function update(state: TabList = prefs.tabs || [], action: Action): TabList {
   switch (action.type) {
     case "ADD_TAB":
-      return updateTabList(state, action.url);
+    case "UPDATE_TAB":
+      return updateTabList(state, action);
 
     case "MOVE_TAB":
-      return updateTabList(state, action.url, action.tabIndex);
+      return moveTabInList(state, action);
 
     case "CLOSE_TAB":
     case "CLOSE_TABS":
@@ -46,10 +47,10 @@ function update(state: TabList = prefs.tabs || [], action: Action): TabList {
 }
 
 export function removeSourceFromTabList(tabs: TabList, url: string): TabList {
-  return tabs.filter(tab => tab !== url);
+  return tabs.filter(tab => tab.url !== url);
 }
 
-export function removeSourcesFromTabList(tabs: TabList, urls: TabList) {
+export function removeSourcesFromTabList(tabs: TabList, urls: string[]) {
   return urls.reduce((t, url) => removeSourceFromTabList(t, url), tabs);
 }
 
@@ -58,14 +59,21 @@ export function removeSourcesFromTabList(tabs: TabList, urls: TabList) {
  * @memberof reducers/tabs
  * @static
  */
-function updateTabList(tabs: TabList, url: string, newIndex: ?number) {
-  const currentIndex = tabs.indexOf(url);
+function updateTabList(tabs: TabList, { url, framework = null }) {
+  const currentIndex = tabs.findIndex(tab => tab.url == url);
   if (currentIndex === -1) {
-    tabs = [url, ...tabs];
-  } else if (newIndex !== undefined) {
-    tabs = move(tabs, currentIndex, newIndex);
+    tabs = [{ url, framework }, ...tabs];
+  } else if (framework) {
+    tabs[currentIndex].framework = framework;
   }
 
+  prefs.tabs = tabs;
+  return tabs;
+}
+
+function moveTabInList(tabs: TabList, { url, tabIndex: newIndex }) {
+  const currentIndex = tabs.findIndex(tab => tab.url == url);
+  tabs = move(tabs, currentIndex, newIndex);
   prefs.tabs = tabs;
   return tabs;
 }
@@ -93,7 +101,9 @@ export function getNewSelectedSourceId(
     return "";
   }
 
-  if (availableTabs.includes(selectedTab.url)) {
+  const matchingTab = availableTabs.find(tab => tab.url == selectedTab.url);
+
+  if (matchingTab) {
     const sources = state.sources.sources;
     if (!sources) {
       return "";
@@ -108,19 +118,22 @@ export function getNewSelectedSourceId(
     return "";
   }
 
-  const tabUrls = state.tabs;
+  const tabUrls = state.tabs.map(t => t.url);
   const leftNeighborIndex = Math.max(tabUrls.indexOf(selectedTab.url) - 1, 0);
   const lastAvailbleTabIndex = availableTabs.length - 1;
   const newSelectedTabIndex = Math.min(leftNeighborIndex, lastAvailbleTabIndex);
   const availableTab = availableTabs[newSelectedTabIndex];
-  const tabSource = getSourceByUrlInSources(
-    getSources(state),
-    getUrls(state),
-    availableTab
-  );
 
-  if (tabSource) {
-    return tabSource.id;
+  if (availableTab) {
+    const tabSource = getSourceByUrlInSources(
+      getSources(state),
+      getUrls(state),
+      availableTab.url
+    );
+
+    if (tabSource) {
+      return tabSource.id;
+    }
   }
 
   return "";
@@ -144,7 +157,7 @@ export const getSourceTabs = createSelector(
   getSources,
   getUrls,
   (tabs, sources, urls) =>
-    tabs.filter(tab => getSourceByUrlInSources(sources, urls, tab))
+    tabs.filter(tab => getSourceByUrlInSources(sources, urls, tab.url))
 );
 
 export const getSourcesForTabs = createSelector(
@@ -153,7 +166,7 @@ export const getSourcesForTabs = createSelector(
   getUrls,
   (tabs, sources, urls) => {
     return tabs
-      .map(tab => getSourceByUrlInSources(sources, urls, tab))
+      .map(tab => getSourceByUrlInSources(sources, urls, tab.url))
       .filter(source => source);
   }
 );

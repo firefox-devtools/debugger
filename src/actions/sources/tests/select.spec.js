@@ -67,7 +67,7 @@ describe("sources", () => {
 
     const tabs = getSourceTabs(getState());
     expect(tabs).toHaveLength(1);
-    expect(tabs[0]).toEqual("http://localhost:8000/examples/foo.js");
+    expect(tabs[0].url).toEqual("http://localhost:8000/examples/foo.js");
   });
 
   it("should select previous tab on tab closed", async () => {
@@ -75,10 +75,10 @@ describe("sources", () => {
     await dispatch(actions.newSource(makeSource("foo.js")));
     await dispatch(actions.newSource(makeSource("bar.js")));
     await dispatch(actions.newSource(makeSource("baz.js")));
-    dispatch(actions.selectLocation({ sourceId: "foo.js" }));
-    dispatch(actions.selectLocation({ sourceId: "bar.js" }));
-    dispatch(actions.selectLocation({ sourceId: "baz.js" }));
-    dispatch(actions.closeTab("http://localhost:8000/examples/baz.js"));
+    await dispatch(actions.selectLocation({ sourceId: "foo.js" }));
+    await dispatch(actions.selectLocation({ sourceId: "bar.js" }));
+    await dispatch(actions.selectLocation({ sourceId: "baz.js" }));
+    await dispatch(actions.closeTab("http://localhost:8000/examples/baz.js"));
     expect(getSelectedSource(getState()).id).toBe("bar.js");
     expect(getSourceTabs(getState())).toHaveLength(2);
   });
@@ -89,11 +89,11 @@ describe("sources", () => {
     await dispatch(actions.newSource(makeSource("bar.js")));
     await dispatch(actions.newSource(makeSource("baz.js")));
 
-    dispatch(actions.selectLocation({ sourceId: "foo.js" }));
-    dispatch(actions.selectLocation({ sourceId: "bar.js" }));
-    dispatch(actions.selectLocation({ sourceId: "baz.js" }));
-    dispatch(actions.selectLocation({ sourceId: "foo.js" }));
-    dispatch(actions.closeTab("http://localhost:8000/examples/foo.js"));
+    await dispatch(actions.selectLocation({ sourceId: "foo.js" }));
+    await dispatch(actions.selectLocation({ sourceId: "bar.js" }));
+    await dispatch(actions.selectLocation({ sourceId: "baz.js" }));
+    await dispatch(actions.selectLocation({ sourceId: "foo.js" }));
+    await dispatch(actions.closeTab("http://localhost:8000/examples/foo.js"));
     expect(getSelectedSource(getState()).id).toBe("bar.js");
     expect(getSourceTabs(getState())).toHaveLength(2);
   });

@@ -5,6 +5,7 @@
 // @flow
 
 import type { Source } from "../types";
+import type { TabList } from "../reducers";
 
 type SourcesList = Source[];
 /*
@@ -38,6 +39,16 @@ export function getHiddenTabs(
     const element = sourceTabEls[index];
     return element && hasTopOffset(element);
   });
+}
+
+export function getFramework(tabs: TabList[], url: string) {
+  const tab = tabs.find(t => t.url === url);
+
+  if (tab) {
+    return tab.framework;
+  }
+
+  return "";
 }
 
 export function getTabMenuItems() {
