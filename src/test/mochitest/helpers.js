@@ -377,8 +377,7 @@ function assertHighlightLocation(dbg, source, line) {
   const cm = getCM(dbg);
   const lineInfo = cm.lineInfo(line - 1);
   ok(
-    lineInfo
-      .wrapClass.includes("highlight-line"),
+    lineInfo.wrapClass.includes("highlight-line"),
     "Line is highlighted"
   );
 }

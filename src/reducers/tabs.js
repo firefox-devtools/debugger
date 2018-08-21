@@ -24,7 +24,7 @@ import {
 import type { Action } from "../actions/types";
 import type { SourcesState } from "./sources";
 
-type Tab = { url: string, framework?: string };
+type Tab = { url: string, framework?: string | null };
 export type TabList = Tab[];
 
 function update(state: TabList = prefs.tabs || [], action: Action): TabList {
@@ -59,7 +59,7 @@ export function removeSourcesFromTabList(tabs: TabList, urls: string[]) {
  * @memberof reducers/tabs
  * @static
  */
-function updateTabList(tabs: TabList, { url, framework = "" }) {
+function updateTabList(tabs: TabList, { url, framework = null }) {
   const currentIndex = tabs.findIndex(tab => tab.url == url);
   if (currentIndex === -1) {
     tabs = [{ url, framework }, ...tabs];
