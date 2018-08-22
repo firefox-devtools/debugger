@@ -35,7 +35,7 @@ type Props = {
   closeTab: string => void,
   togglePaneCollapse: () => void,
   showSource: string => void,
-  selectSpecificSource: string => void
+  selectSource: string => void
 };
 
 type State = {
@@ -122,10 +122,10 @@ class Tabs extends PureComponent<Props, State> {
   }
 
   renderDropdownSource = (source: Source) => {
-    const { selectSpecificSource } = this.props;
+    const { selectSource } = this.props;
     const filename = getFilename(source);
 
-    const onClick = () => selectSpecificSource(source.id);
+    const onClick = () => selectSource(source.id);
     return (
       <li key={source.id} onClick={onClick}>
         <img className={`dropdown-icon ${this.getIconClass(source)}`} />
@@ -207,7 +207,7 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   {
-    selectSpecificSource: actions.selectSpecificSource,
+    selectSource: actions.selectSource,
     moveTab: actions.moveTab,
     closeTab: actions.closeTab,
     togglePaneCollapse: actions.togglePaneCollapse,
