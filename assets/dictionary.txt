@@ -32,6 +32,7 @@ errored
 extns
 featureFlag
 findSource
+findSources
 fixup
 GH
 href
