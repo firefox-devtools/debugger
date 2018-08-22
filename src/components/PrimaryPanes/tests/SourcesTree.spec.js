@@ -318,7 +318,9 @@ describe("SourcesTree", () => {
     it("should return path for item", async () => {
       const { instance } = render();
       const path = instance.getPath(createMockItem());
-      expect(path).toEqual("http://mdn.com/one.js/one.js");
+      expect(path).toEqual(
+        "http://mdn.com/one.js/one.js/server1.conn13.child1/39/"
+      );
     });
 
     it("should return path for blackboxedboxed item", async () => {
@@ -341,7 +343,7 @@ describe("SourcesTree", () => {
       });
       const path = instance.getPath(item);
       expect(path).toEqual(
-        "http://mdn.com/blackboxed.js/blackboxed.js:blackboxed"
+        "http://mdn.com/blackboxed.js/blackboxed.js/server1.conn13.child1/59/:blackboxed"
       );
     });
 
@@ -352,14 +354,18 @@ describe("SourcesTree", () => {
           id: "server1.conn13.child1/42/originalSource-sha"
         })
       );
-      expect(pathOriginal).toEqual("http://mdn.com/four.js/four.js");
+      expect(pathOriginal).toEqual(
+        "http://mdn.com/four.js/four.js/server1.conn13.child1/42/originalSource-sha/"
+      );
 
       const pathGenerated = instance.getPath(
         createMockItem("http://mdn.com/four.js", "four.js", {
           id: "server1.conn13.child1/42"
         })
       );
-      expect(pathGenerated).toEqual("http://mdn.com/four.js/four.js:generated");
+      expect(pathGenerated).toEqual(
+        "http://mdn.com/four.js/four.js/server1.conn13.child1/42/"
+      );
     });
   });
 });
