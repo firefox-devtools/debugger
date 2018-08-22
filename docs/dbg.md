@@ -104,6 +104,15 @@ dbg.helpers.findSource("todo-view");
 */
 ```
 
+
+#### findSources
+
+Finds all of the sources whose url matches the query.
+
+```js
+dbg.helpers.findSources("todo-view");
+```
+
 #### sendPacket
 
 `dbg.sendPacket` sends a packet to the server. This is a useful helper for prototyping new APIs that aren't used in the UI yet.
