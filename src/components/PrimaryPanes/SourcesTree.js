@@ -169,19 +169,14 @@ class SourcesTree extends Component<Props, State> {
 
   getPath = (item: TreeNode): string => {
     const path = `${item.path}/${item.name}`;
+    const source = this.getSource(item);
 
-    if (isDirectory(item)) {
+    if (!source || isDirectory(item)) {
       return path;
     }
 
-    const source = this.getSource(item);
-    const blackBoxedPart = source && source.isBlackBoxed ? ":blackboxed" : "";
-
-    // Original and generated sources can point to the same path
-    // therefore necessary to distinguish as path is used as keys.
-    const generatedPart = source && source.sourceMapURL ? ":generated" : "";
-
-    return `${path}${blackBoxedPart}${generatedPart}`;
+    const blackBoxedPart = source.isBlackBoxed ? ":blackboxed" : "";
+    return `${path}/${source.id}/${blackBoxedPart}`;
   };
 
   onExpand = (item: Item, expandedState: Set<string>) => {
