@@ -9,7 +9,7 @@ import { isDevelopment } from "devtools-environment";
 import Services from "devtools-services";
 import { asyncStoreHelper } from "./asyncStoreHelper";
 
-const prefsSchemaVersion = "1.0.3";
+const prefsSchemaVersion = "1.0.4";
 
 const pref = Services.pref;
 
@@ -120,5 +120,6 @@ export const asyncStore = asyncStoreHelper("debugger", {
 if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {
   // clear pending Breakpoints
   prefs.pendingBreakpoints = {};
+  prefs.tabs = [];
   prefs.debuggerPrefsSchemaVersion = prefsSchemaVersion;
 }
