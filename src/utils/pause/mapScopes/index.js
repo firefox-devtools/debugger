@@ -65,17 +65,21 @@ export async function buildMappedScopes(
     return null;
   }
 
-  const generatedAstBindings = buildGeneratedBindingList(
-    scopes,
-    generatedAstScopes,
-    frame.this
-  );
-
   const originalRanges = await loadRangeMetadata(
     source,
     frame,
     originalAstScopes,
     sourceMaps
+  );
+
+  if (hasLineMappings(originalRanges)) {
+    return null;
+  }
+
+  const generatedAstBindings = buildGeneratedBindingList(
+    scopes,
+    generatedAstScopes,
+    frame.this
   );
 
   const {
@@ -185,6 +189,12 @@ function isReliableScope(scope: OriginalScope): boolean {
 
   // As determined by fair dice roll.
   return totalBindings === 0 || unknownBindings / totalBindings < 0.25;
+}
+
+function hasLineMappings(ranges) {
+  return ranges.every(
+    range => range.columnStart === 0 && range.columnEnd === Infinity
+  );
 }
 
 function batchScopeMappings(
