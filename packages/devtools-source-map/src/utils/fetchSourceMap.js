@@ -8,6 +8,7 @@ const { networkRequest } = require("devtools-utils");
 const { getSourceMap, setSourceMap } = require("./sourceMapRequests");
 const { WasmRemap } = require("./wasmRemap");
 const { SourceMapConsumer } = require("source-map");
+const { convertToJSON } = require("./convertToJSON");
 
 import type { Source } from "debugger-html";
 
@@ -36,7 +37,11 @@ async function _resolveAndFetch(generatedSource: Source): SourceMapConsumer {
   // Fetch the sourcemap over the network and create it.
   const { sourceMapURL, baseURL } = _resolveSourceMapURL(generatedSource);
 
-  const fetched = await networkRequest(sourceMapURL, { loadFromCache: false });
+  let fetched = await networkRequest(sourceMapURL, { loadFromCache: false });
+
+  if (fetched.isDwarf) {
+    fetched = { content: await convertToJSON(fetched.content) };
+  }
 
   // Create the source map and fix it up.
   let map = new SourceMapConsumer(fetched.content, baseURL);

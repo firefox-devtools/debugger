@@ -18,6 +18,12 @@ function networkRequest(url: string, opts: any): Promise<*> {
   return Promise.race([
     fetch(`/get?url=${url}`).then(res => {
       if (res.status >= 200 && res.status < 300) {
+        if (res.headers.get("Content-Type") === "application/wasm") {
+          return res.arrayBuffer().then(buffer => ({
+            content: buffer,
+            isDwarf: true
+          }));
+        }
         return res.text().then(text => ({ content: text }));
       }
       return Promise.reject(new Error(`failed to request ${url}`));
