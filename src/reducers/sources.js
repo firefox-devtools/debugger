@@ -162,6 +162,10 @@ function getTextPropsFromAction(action) {
     return { id: sourceId, error: action.error, loadedState: "loaded" };
   }
 
+  if (!action.value) {
+    return null;
+  }
+
   return {
     id: sourceId,
     text: action.value.text,
@@ -176,6 +180,9 @@ function getTextPropsFromAction(action) {
 // to rethink how we type async actions.
 function setSourceTextProps(state, action: LoadSourceAction): SourcesState {
   const source = getTextPropsFromAction(action);
+  if (!source) {
+    return state;
+  }
   return updateSources(state, [source]);
 }
 

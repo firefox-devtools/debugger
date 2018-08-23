@@ -21,7 +21,6 @@ import { getRawSourceURL, isPrettyURL } from "../../utils/source";
 import {
   getBlackBoxList,
   getSource,
-  getSourceFromId,
   getPendingSelectedLocation,
   getPendingBreakpointsForSource
 } from "../../selectors";
@@ -101,10 +100,11 @@ function loadSourceMap(sourceId: SourceId) {
 // select it.
 function checkSelectedSource(sourceId: string) {
   return async ({ dispatch, getState }: ThunkArgs) => {
-    const source = getSourceFromId(getState(), sourceId);
+    const source = getSource(getState(), sourceId);
+
     const pendingLocation = getPendingSelectedLocation(getState());
 
-    if (!pendingLocation || !pendingLocation.url || !source.url) {
+    if (!pendingLocation || !pendingLocation.url || !source || !source.url) {
       return;
     }
 
@@ -127,7 +127,11 @@ function checkSelectedSource(sourceId: string) {
 function checkPendingBreakpoints(sourceId: string) {
   return async ({ dispatch, getState }: ThunkArgs) => {
     // source may have been modified by selectLocation
-    const source = getSourceFromId(getState(), sourceId);
+    const source = getSource(getState(), sourceId);
+    if (!source) {
+      return;
+    }
+
     const pendingBreakpoints = getPendingBreakpointsForSource(
       getState(),
       source
