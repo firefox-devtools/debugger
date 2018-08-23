@@ -437,11 +437,19 @@ export function getFrameScope(
 }
 
 export function getSelectedScope(state: OuterState) {
-  const sourceRecord = getSelectedSource(state);
+  const source = getSelectedSource(state);
   const frameId = getSelectedFrameId(state);
-  const { scope } =
-    getFrameScope(state, sourceRecord && sourceRecord.id, frameId) || {};
-  return scope || null;
+
+  if (!source) {
+    return null;
+  }
+
+  const frameScope = getFrameScope(state, source.id, frameId);
+  if (!frameScope) {
+    return null;
+  }
+
+  return frameScope.scope || null;
 }
 
 export function getSelectedScopeMappings(
