@@ -12,6 +12,7 @@
 import { isOriginalId } from "devtools-source-map";
 
 import { getSourceFromId } from "../../reducers/sources";
+import { getSourcesForTabs } from "../../reducers/tabs";
 import { setOutOfScopeLocations, setSymbols } from "../ast";
 import { closeActiveSearch, updateActiveFileSearch } from "../ui";
 
@@ -63,7 +64,6 @@ export const clearSelectedLocation = () => ({
  * @memberof actions/sources
  * @static
  */
-
 export function selectSourceURL(url: string, options: Position = { line: 1 }) {
   return async ({ dispatch, getState, sourceMaps }: ThunkArgs) => {
     const source = getSourceByURL(getState(), url);
@@ -112,7 +112,7 @@ export function selectLocation(
     }
 
     const activeSearch = getActiveSearch(getState());
-    if (activeSearch !== "file") {
+    if (activeSearch && activeSearch !== "file") {
       dispatch(closeActiveSearch());
     }
 
@@ -128,7 +128,10 @@ export function selectLocation(
       source = getSourceFromId(getState(), location.sourceId);
     }
 
-    dispatch(addTab(source.url));
+    const tabSources = getSourcesForTabs(getState());
+    if (!tabSources.includes(source)) {
+      dispatch(addTab(source.url));
+    }
 
     dispatch(setSelectedLocation(source, location));
 
