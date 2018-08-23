@@ -57,6 +57,7 @@ before_script:
 script:
   - ./node_modules/.bin/mochii --ci --mc ./firefox --headless devtools/client/debugger/new
   - ./node_modules/.bin/mochii --ci --mc ./firefox --headless
+    browser_browser_toolbox_debugger
     browser_keybindings_01.js
     browser_toolbox_getpanelwhenready.js
     browser_markup_links_06.js
