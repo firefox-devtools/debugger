@@ -74,18 +74,23 @@ describe("sources", () => {
     const { dispatch, getState } = createStore(sourceThreadClient);
     await dispatch(actions.newSource(makeSource("foo.js")));
     await dispatch(actions.newSource(makeSource("bar.js")));
-    await dispatch(actions.newSource(makeSource("baz.js")));
+
+    const bazSource = makeSource("baz.js");
+    await dispatch(actions.newSource(bazSource));
+
     await dispatch(actions.selectLocation({ sourceId: "foo.js" }));
     await dispatch(actions.selectLocation({ sourceId: "bar.js" }));
     await dispatch(actions.selectLocation({ sourceId: "baz.js" }));
-    await dispatch(actions.closeTab("http://localhost:8000/examples/baz.js"));
+    await dispatch(actions.closeTab(bazSource));
     expect(getSelectedSource(getState()).id).toBe("bar.js");
     expect(getSourceTabs(getState())).toHaveLength(2);
   });
 
   it("should select next tab on tab closed if no previous tab", async () => {
     const { dispatch, getState } = createStore(sourceThreadClient);
-    await dispatch(actions.newSource(makeSource("foo.js")));
+
+    const fooSource = makeSource("foo.js");
+    await dispatch(actions.newSource(fooSource));
     await dispatch(actions.newSource(makeSource("bar.js")));
     await dispatch(actions.newSource(makeSource("baz.js")));
 
@@ -93,7 +98,7 @@ describe("sources", () => {
     await dispatch(actions.selectLocation({ sourceId: "bar.js" }));
     await dispatch(actions.selectLocation({ sourceId: "baz.js" }));
     await dispatch(actions.selectLocation({ sourceId: "foo.js" }));
-    await dispatch(actions.closeTab("http://localhost:8000/examples/foo.js"));
+    await dispatch(actions.closeTab(fooSource));
     expect(getSelectedSource(getState()).id).toBe("bar.js");
     expect(getSourceTabs(getState())).toHaveLength(2);
   });

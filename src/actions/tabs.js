@@ -65,13 +65,10 @@ export function moveTab(url: string, tabIndex: number): Action {
 export function closeTab(source: Source) {
   return ({ dispatch, getState, client }: ThunkArgs) => {
     const { id, url } = source;
+
     removeDocument(id);
 
-    const tabs = removeSourceFromTabList(
-      getSourceTabs(getState()),
-      url,
-      isOriginalId(id)
-    );
+    const tabs = removeSourceFromTabList(getSourceTabs(getState()), source);
     const sourceId = getNewSelectedSourceId(getState(), tabs);
     dispatch(({ type: "CLOSE_TAB", url, tabs }: Action));
     dispatch(selectSource(sourceId));
@@ -84,15 +81,18 @@ export function closeTab(source: Source) {
  */
 export function closeTabs(urls: string[]) {
   return ({ dispatch, getState, client }: ThunkArgs) => {
-    urls.forEach(url => {
-      const source = getSourceByURL(getState(), url);
-      if (source) {
-        removeDocument(source.id);
-      }
-    });
+    const sources = urls
+      .map(url => {
+        const source = getSourceByURL(getState(), url);
+        if (source) {
+          removeDocument(source.id);
+          return source;
+        }
+      })
+      .filter(source => source);
 
-    const tabs = removeSourcesFromTabList(getSourceTabs(getState()), urls);
-    dispatch(({ type: "CLOSE_TABS", urls, tabs }: Action));
+    const tabs = removeSourcesFromTabList(getSourceTabs(getState()), sources);
+    dispatch(({ type: "CLOSE_TABS", sources, tabs }: Action));
 
     const sourceId = getNewSelectedSourceId(getState(), tabs);
     dispatch(selectSource(sourceId));

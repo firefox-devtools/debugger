@@ -19,6 +19,7 @@ add_task(async function() {
   await selectSource(dbg, "math.min.js:formatted");
   const source = findSource(dbg, "math.min.js:formatted");
   dbg.actions.showSource(source.id);
+  debugger;
   const focusedTreeElement = findElementWithSelector(dbg, ".sources-list .focused .label");
   is(focusedTreeElement.textContent.trim(), "math.min.js", "Pretty printed source is selected in tree");
 });

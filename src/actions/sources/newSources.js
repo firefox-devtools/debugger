@@ -103,6 +103,8 @@ function checkSelectedSource(sourceId: string) {
   return async ({ dispatch, getState }: ThunkArgs) => {
     const source = getSourceFromId(getState(), sourceId);
 
+    // eval("debugger;");
+
     const pendingLocation = getPendingSelectedLocation(getState());
 
     if (!pendingLocation || !pendingLocation.url || !source.url) {

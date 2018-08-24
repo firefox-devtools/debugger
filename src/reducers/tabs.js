@@ -24,6 +24,7 @@ import {
 
 import type { Action } from "../actions/types";
 import type { SourcesState } from "./sources";
+import type { Source } from "../types";
 
 type Tab = { url: string, framework?: string | null, isOriginal?: boolean };
 export type TabList = Tab[];
@@ -49,16 +50,20 @@ function update(state: TabList = prefs.tabs || [], action: Action): TabList {
 
 export function removeSourceFromTabList(
   tabs: TabList,
-  url: string,
-  isOriginal: boolean
+  source: Source
 ): TabList {
   return tabs.filter(
-    tab => tab.url !== url || (tab.url === url && tab.isOriginal != isOriginal)
+    tab =>
+      tab.url !== source.url ||
+      (tab.url === source.url && tab.isOriginal != isOriginalId(source.id))
   );
 }
 
-export function removeSourcesFromTabList(tabs: TabList, urls: string[]) {
-  return urls.reduce((t, url) => removeSourceFromTabList(t, url), tabs);
+export function removeSourcesFromTabList(tabs: TabList, sources: Source[]) {
+  return sources.reduce(
+    (t, source) => removeSourceFromTabList(t, source),
+    tabs
+  );
 }
 
 /**
@@ -126,7 +131,6 @@ export function getNewSelectedSourceId(
       return "";
     }
 
-    console.log("calling getSourceByURL; selectedTab: ", selectedTab);
     const selectedSource = getSourceByURL(
       state,
       selectedTab.url,
