@@ -97,7 +97,8 @@
 .search-field .summary {
   line-height: 27px;
   text-align: center;
-  padding-inline-end: 10px;
+  padding-inline-start: 5px;
+  padding-inline-end: 5px;
   color: var(--theme-body-color-inactive);
   align-self: center;
   padding-top: 1px;
