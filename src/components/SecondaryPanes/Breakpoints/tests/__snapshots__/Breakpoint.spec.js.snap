@@ -5,6 +5,7 @@ exports[`Breakpoint disabled 1`] = `
   className="breakpoint disabled"
   onClick={[Function]}
   onContextMenu={[Function]}
+  onDoubleClick={[Function]}
 >
   <input
     checked={false}
@@ -42,6 +43,7 @@ exports[`Breakpoint paused at a different 1`] = `
   className="breakpoint"
   onClick={[Function]}
   onContextMenu={[Function]}
+  onDoubleClick={[Function]}
 >
   <input
     checked={true}
@@ -79,6 +81,7 @@ exports[`Breakpoint paused at a generatedLocation 1`] = `
   className="breakpoint paused"
   onClick={[Function]}
   onContextMenu={[Function]}
+  onDoubleClick={[Function]}
 >
   <input
     checked={true}
@@ -116,6 +119,7 @@ exports[`Breakpoint paused at an original location 1`] = `
   className="breakpoint paused"
   onClick={[Function]}
   onContextMenu={[Function]}
+  onDoubleClick={[Function]}
 >
   <input
     checked={true}
@@ -153,6 +157,7 @@ exports[`Breakpoint selected source is original 1`] = `
   className="breakpoint"
   onClick={[Function]}
   onContextMenu={[Function]}
+  onDoubleClick={[Function]}
 >
   <input
     checked={true}
@@ -190,6 +195,7 @@ exports[`Breakpoint simple 1`] = `
   className="breakpoint"
   onClick={[Function]}
   onContextMenu={[Function]}
+  onDoubleClick={[Function]}
 >
   <input
     checked={true}
