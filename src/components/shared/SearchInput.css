@@ -114,9 +114,10 @@
   height: 100%;
   background: transparent;
   transition: all 0.25s ease-in-out;
-  border: 1px solid transparent;
   justify-content: center;
   padding-top: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .search-field .search-nav-buttons .nav-btn:hover {
