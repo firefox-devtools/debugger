@@ -63,6 +63,13 @@ class Breakpoint extends PureComponent<Props> {
     showContextMenu({ ...this.props, contextMenuEvent: e });
   };
 
+  onDoubleClick = () => {
+    const { breakpoint, openConditionalPanel } = this.props;
+    if (breakpoint.condition) {
+      openConditionalPanel(breakpoint.location.line);
+    }
+  };
+
   selectBreakpoint = () => {
     const { breakpoint, selectSpecificLocation } = this.props;
     selectSpecificLocation(breakpoint.location);
@@ -158,6 +165,7 @@ class Breakpoint extends PureComponent<Props> {
           "is-conditional": !!breakpoint.condition
         })}
         onClick={this.selectBreakpoint}
+        onDoubleClick={this.onDoubleClick}
         onContextMenu={this.onContextMenu}
       >
         <input
