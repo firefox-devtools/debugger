@@ -46,8 +46,8 @@
   line-height: 30px;
   background-color: var(--theme-toolbar-background);
   color: var(--theme-body-color-active);
-  width: calc(100% - 38px);
-  flex: 1;
+  flex-grow: 1;
+  min-width: 40px;
 }
 
 .search-field.big input {
