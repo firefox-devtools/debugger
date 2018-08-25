@@ -86,7 +86,7 @@ class Tab extends PureComponent<Props> {
       {
         item: {
           ...tabMenuItems.closeOtherTabs,
-          click: () => closeTabs(otherTabURLs) // TODO:  How to handle this?
+          click: () => closeTabs(otherTabURLs)
         },
         hidden: () => tabSources.size === 1
       },

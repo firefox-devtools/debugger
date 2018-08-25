@@ -605,7 +605,7 @@ async function selectSource(dbg, url, line) {
 
 
 async function closeTab(dbg, url) {
-  await dbg.actions.closeTab( findSource(dbg, url));
+  await dbg.actions.closeTab(findSource(dbg, url));
 }
 
 /**

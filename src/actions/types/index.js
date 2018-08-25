@@ -56,7 +56,7 @@ type UpdateTabAction = {|
   +type: "UPDATE_TAB",
   +url: string,
   +framework?: string,
-  +isOriginal?: boolean // Is this needed?
+  +isOriginal?: boolean
 |};
 
 type ReplayAction =
