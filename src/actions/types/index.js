@@ -48,13 +48,15 @@ type ProjectTextSearchResult = {
 type AddTabAction = {|
   +type: "ADD_TAB",
   +url: string,
-  +framework?: string
+  +framework?: string,
+  +isOriginal?: boolean
 |};
 
 type UpdateTabAction = {|
   +type: "UPDATE_TAB",
   +url: string,
-  +framework?: string
+  +framework?: string,
+  +isOriginal?: boolean // Is this needed?
 |};
 
 type ReplayAction =

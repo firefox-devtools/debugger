@@ -9,6 +9,8 @@
  * @module actions/tabs
  */
 
+import { isOriginalId } from "devtools-source-map";
+
 import { removeDocument } from "../utils/editor";
 import { selectSource } from "./sources";
 
@@ -21,20 +23,30 @@ import {
 } from "../selectors";
 
 import type { Action, ThunkArgs } from "./types";
+import type { Source } from "../types";
 
-export function updateTab(url: string, framework: string): Action {
+export function updateTab(source: Source, framework: string): Action {
+  const { url } = source;
+  const isOriginal = isOriginalId(source.id);
+
   return {
     type: "UPDATE_TAB",
     url,
-    framework
+    framework,
+    isOriginal
   };
 }
 
-export function addTab(url: string, framework?: string): Action {
+export function addTab(source: Source): Action {
+  const { url } = source;
+  const framework = "";
+  const isOriginal = isOriginalId(source.id);
+
   return {
     type: "ADD_TAB",
     url,
-    framework
+    framework,
+    isOriginal
   };
 }
 
@@ -50,11 +62,16 @@ export function moveTab(url: string, tabIndex: number): Action {
  * @memberof actions/tabs
  * @static
  */
-export function closeTab(url: string) {
+export function closeTab(source: Source) {
   return ({ dispatch, getState, client }: ThunkArgs) => {
-    removeDocument(url);
+    const { id, url } = source;
+    removeDocument(id);
 
-    const tabs = removeSourceFromTabList(getSourceTabs(getState()), url);
+    const tabs = removeSourceFromTabList(
+      getSourceTabs(getState()),
+      url,
+      isOriginalId(id)
+    );
     const sourceId = getNewSelectedSourceId(getState(), tabs);
     dispatch(({ type: "CLOSE_TAB", url, tabs }: Action));
     dispatch(selectSource(sourceId));

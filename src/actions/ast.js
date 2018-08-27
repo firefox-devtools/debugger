@@ -39,7 +39,7 @@ export function setSourceMetaData(sourceId: SourceId) {
     }
 
     const framework = await getFramework(source.id);
-    dispatch(updateTab(source.url, framework));
+    dispatch(updateTab(source, framework));
 
     dispatch(
       ({

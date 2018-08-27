@@ -80,13 +80,13 @@ class Tab extends PureComponent<Props> {
       {
         item: {
           ...tabMenuItems.closeTab,
-          click: () => closeTab(sourceTab.url)
+          click: () => closeTab(sourceTab)
         }
       },
       {
         item: {
           ...tabMenuItems.closeOtherTabs,
-          click: () => closeTabs(otherTabURLs)
+          click: () => closeTabs(otherTabURLs) // TODO:  How to handle this?
         },
         hidden: () => tabSources.size === 1
       },
@@ -162,7 +162,7 @@ class Tab extends PureComponent<Props> {
 
     function onClickClose(e) {
       e.stopPropagation();
-      closeTab(source.url);
+      closeTab(source);
     }
 
     function handleTabClick(e) {

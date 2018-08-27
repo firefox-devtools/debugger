@@ -8,6 +8,7 @@
 import React, { Component } from "react";
 import classnames from "classnames";
 import { connect } from "react-redux";
+import { isOriginalId } from "devtools-source-map";
 
 // Selectors
 import {
@@ -349,7 +350,11 @@ function getSourceForTree(state: AppState, source: ?Source): ?Source | null {
     return source;
   }
 
-  return getSourceByURL(state, getRawSourceURL(source.url));
+  return getSourceByURL(
+    state,
+    getRawSourceURL(source.url),
+    isOriginalId(source.id)
+  );
 }
 
 const mapStateToProps = state => {

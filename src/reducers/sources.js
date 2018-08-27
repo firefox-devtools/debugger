@@ -286,12 +286,30 @@ export function getSourceFromId(state: OuterState, id: string): Source {
   return getSourcesState(state).sources[id];
 }
 
-export function getSourceByURL(state: OuterState, url: string): ?Source {
-  return getSourceByUrlInSources(getSources(state), getUrls(state), url);
+export function getSourceByURL(
+  state: OuterState,
+  url: string,
+  isOriginal?: boolean
+): ?Source {
+  return getSourceByUrlInSources(
+    getSources(state),
+    getUrls(state),
+    url,
+    isOriginal
+  );
 }
 
-export function getSourcesByURL(state: OuterState, url: string): Source[] {
-  return getSourcesByUrlInSources(getSources(state), getUrls(state), url);
+export function getSourcesByURL(
+  state: OuterState,
+  url: string,
+  isOriginal?: boolean
+): Source[] {
+  return getSourcesByUrlInSources(
+    getSources(state),
+    getUrls(state),
+    url,
+    isOriginal
+  );
 }
 
 export function getGeneratedSource(state: OuterState, source: Source): Source {
@@ -312,7 +330,11 @@ export function getPrettySource(state: OuterState, id: string) {
     return;
   }
 
-  return getSourceByURL(state, getPrettySourceURL(source.url));
+  return getSourceByURL(
+    state,
+    getPrettySourceURL(source.url),
+    isOriginalId(source.id)
+  );
 }
 
 export function hasPrettySource(state: OuterState, id: string) {
@@ -322,20 +344,25 @@ export function hasPrettySource(state: OuterState, id: string) {
 export function getSourceByUrlInSources(
   sources: SourcesMap,
   urls: UrlsMap,
-  url: string
+  url: string,
+  isOriginal?: boolean
 ) {
   const foundSources = getSourcesByUrlInSources(sources, urls, url);
   if (!foundSources) {
     return null;
   }
 
+  if (isOriginal !== undefined) {
+    return foundSources.find(source => isOriginalId(source.id) === isOriginal);
+  }
   return foundSources[0];
 }
 
 function getSourcesByUrlInSources(
   sources: SourcesMap,
   urls: UrlsMap,
-  url: string
+  url: string,
+  isOriginal?: boolean
 ) {
   if (!url || !urls[url]) {
     return [];

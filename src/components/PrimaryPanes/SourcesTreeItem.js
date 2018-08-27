@@ -191,8 +191,9 @@ function getHasMatchingGeneratedSource(state, source: ?Source) {
     return false;
   }
 
-  const sources = getSourcesByURL(state, source.url);
-  return isOriginalId(source.id) && sources.length > 1;
+  const isOriginal = isOriginalId(source.id);
+  const sources = getSourcesByURL(state, source.url, isOriginal);
+  return isOriginal && sources.length > 0;
 }
 
 const mapStateToProps = (state, props) => {
