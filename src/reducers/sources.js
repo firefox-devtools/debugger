@@ -299,6 +299,10 @@ export function getSourceByURL(
   );
 }
 
+export function getSourcesByURLs(state: OuterState, urls: string[]) {
+  return urls.map(url => getSourceByURL(state, url)).filter(Boolean);
+}
+
 export function getSourcesByURL(
   state: OuterState,
   url: string,
