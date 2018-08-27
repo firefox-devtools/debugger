@@ -31,7 +31,6 @@ import { makePendingLocationId } from "../../utils/breakpoint";
 
 import { createSource, createBreakpointLocation } from "./create";
 
-import { getDeviceFront } from "./fronts-device";
 import Services from "devtools-services";
 
 let bpClients: BPClients;
@@ -365,7 +364,7 @@ async function checkServerSupportsListWorkers() {
     return false;
   }
 
-  const deviceFront = await getDeviceFront(debuggerClient, root);
+  const deviceFront = await debuggerClient.mainRoot.getFront("device");
   const description = await deviceFront.getDescription();
 
   const isFennec = description.apptype === "mobile/android";

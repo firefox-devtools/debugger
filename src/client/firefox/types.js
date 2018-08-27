@@ -260,7 +260,8 @@ export type DebuggerClient = {
     delete: any => void
   },
   mainRoot: {
-    traits: any
+    traits: any,
+    getFront: string => Promise<*>
   },
   connect: () => Promise<*>,
   request: (packet: Object) => Promise<*>
