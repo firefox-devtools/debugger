@@ -210,6 +210,13 @@ function start() {
     { cwd: projectPath }
   );
 
+  console.log("[copy-assets] - dwarf_to_json.wasm");
+  copyFile(
+    path.join(projectPath, "./assets/wasm/dwarf_to_json.wasm"),
+    path.join(mcPath, "devtools/client/shared/source-map/dwarf_to_json.wasm"),
+    { cwd: projectPath }
+  );
+
   // Ensure /dist path exists.
   const bundlePath = "devtools/client/debugger/new/dist";
   shell.mkdir("-p", path.join(mcPath, bundlePath));
