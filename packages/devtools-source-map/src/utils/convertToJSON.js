@@ -2,6 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
+/* eslint camelcase: 0*/
+
 let cachedWasmModule;
 let utf8Decoder;
 
@@ -13,7 +15,13 @@ function convertDwarf(wasm, instance) {
   );
   const resultPtr = alloc_mem(12);
   const enableXScopes = false;
-  convert_dwarf(wasmPtr, wasm.byteLength, resultPtr, resultPtr + 4, enableXScopes);
+  convert_dwarf(
+    wasmPtr,
+    wasm.byteLength,
+    resultPtr,
+    resultPtr + 4,
+    enableXScopes
+  );
   free_mem(wasmPtr);
   const resultView = new DataView(memory.buffer, resultPtr, 12);
   const outputPtr = resultView.getUint32(0, true),
@@ -31,7 +39,8 @@ function convertDwarf(wasm, instance) {
 
 async function convertToJSON(buffer: ArrayBuffer): any {
   if (!cachedWasmModule) {
-    const isFirefoxPanel = typeof location !== "undefined" && location.protocol === "resource:";
+    const isFirefoxPanel =
+      typeof location !== "undefined" && location.protocol === "resource:";
     const wasmPath = `${isFirefoxPanel ? "." : "/wasm"}/dwarf_to_json.wasm`;
     const wasm = await (await fetch(wasmPath)).arrayBuffer();
     const imports = {};
