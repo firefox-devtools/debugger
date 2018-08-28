@@ -88,6 +88,7 @@ Object {
       },
     },
     "refs": Object {},
+    "setState": [Function],
     "state": null,
     "updater": Updater {
       "_callbacks": Array [],
@@ -181,6 +182,7 @@ Object {
         "_updater": [Circular],
       },
     },
+    Symbol(enzyme.__setState__): [Function],
   },
   "props": Object {
     "clearProjectDirectoryRoot": [MockFunction],
@@ -293,6 +295,7 @@ Object {
       },
     },
     "refs": Object {},
+    "setState": [Function],
     "state": null,
     "updater": Updater {
       "_callbacks": Array [],
@@ -368,6 +371,7 @@ Object {
         "_updater": [Circular],
       },
     },
+    Symbol(enzyme.__setState__): [Function],
   },
   "props": Object {
     "clearProjectDirectoryRoot": [MockFunction],
@@ -469,6 +473,7 @@ Object {
       },
     },
     "refs": Object {},
+    "setState": [Function],
     "state": null,
     "updater": Updater {
       "_callbacks": Array [],
@@ -533,6 +538,7 @@ Object {
         "_updater": [Circular],
       },
     },
+    Symbol(enzyme.__setState__): [Function],
   },
   "props": Object {
     "clearProjectDirectoryRoot": [MockFunction],
@@ -624,6 +630,7 @@ Object {
       },
     },
     "refs": Object {},
+    "setState": [Function],
     "state": null,
     "updater": Updater {
       "_callbacks": Array [],
@@ -689,6 +696,7 @@ Object {
         "_updater": [Circular],
       },
     },
+    Symbol(enzyme.__setState__): [Function],
   },
   "props": Object {
     "clearProjectDirectoryRoot": [MockFunction],
@@ -770,6 +778,7 @@ Object {
       "source": null,
     },
     "refs": Object {},
+    "setState": [Function],
     "state": null,
     "updater": Updater {
       "_callbacks": Array [],
@@ -822,6 +831,7 @@ Object {
         "_updater": [Circular],
       },
     },
+    Symbol(enzyme.__setState__): [Function],
   },
   "props": Object {
     "clearProjectDirectoryRoot": [MockFunction],
@@ -901,6 +911,7 @@ Object {
       },
     },
     "refs": Object {},
+    "setState": [Function],
     "state": null,
     "updater": Updater {
       "_callbacks": Array [],
@@ -964,6 +975,7 @@ Object {
         "_updater": [Circular],
       },
     },
+    Symbol(enzyme.__setState__): [Function],
   },
   "props": Object {
     "clearProjectDirectoryRoot": [MockFunction],
@@ -1041,6 +1053,7 @@ Object {
       "source": null,
     },
     "refs": Object {},
+    "setState": [Function],
     "state": null,
     "updater": Updater {
       "_callbacks": Array [],
@@ -1091,6 +1104,7 @@ Object {
         "_updater": [Circular],
       },
     },
+    Symbol(enzyme.__setState__): [Function],
   },
   "props": Object {
     "clearProjectDirectoryRoot": [MockFunction],
@@ -1159,6 +1173,7 @@ Object {
       "source": null,
     },
     "refs": Object {},
+    "setState": [Function],
     "state": null,
     "updater": Updater {
       "_callbacks": Array [],
@@ -1211,6 +1226,7 @@ Object {
         "_updater": [Circular],
       },
     },
+    Symbol(enzyme.__setState__): [Function],
   },
   "props": Object {
     "clearProjectDirectoryRoot": [MockFunction],
@@ -1291,6 +1307,7 @@ Object {
       },
     },
     "refs": Object {},
+    "setState": [Function],
     "state": null,
     "updater": Updater {
       "_callbacks": Array [],
@@ -1355,6 +1372,7 @@ Object {
         "_updater": [Circular],
       },
     },
+    Symbol(enzyme.__setState__): [Function],
   },
   "props": Object {
     "clearProjectDirectoryRoot": [MockFunction],
@@ -1444,6 +1462,7 @@ Object {
       },
     },
     "refs": Object {},
+    "setState": [Function],
     "state": null,
     "updater": Updater {
       "_callbacks": Array [],
@@ -1507,6 +1526,7 @@ Object {
         "_updater": [Circular],
       },
     },
+    Symbol(enzyme.__setState__): [Function],
   },
   "props": Object {
     "clearProjectDirectoryRoot": [MockFunction],
@@ -1619,6 +1639,7 @@ Object {
       },
     },
     "refs": Object {},
+    "setState": [Function],
     "state": null,
     "updater": Updater {
       "_callbacks": Array [],
@@ -1706,6 +1727,7 @@ Object {
         "_updater": [Circular],
       },
     },
+    Symbol(enzyme.__setState__): [Function],
   },
   "props": Object {
     "clearProjectDirectoryRoot": [MockFunction],
@@ -1830,6 +1852,7 @@ Object {
       },
     },
     "refs": Object {},
+    "setState": [Function],
     "state": null,
     "updater": Updater {
       "_callbacks": Array [],
@@ -1918,6 +1941,7 @@ Object {
         "_updater": [Circular],
       },
     },
+    Symbol(enzyme.__setState__): [Function],
   },
   "props": Object {
     "clearProjectDirectoryRoot": [MockFunction],
