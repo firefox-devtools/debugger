@@ -10,7 +10,12 @@
  */
 
 import { createSelector } from "reselect";
-import { getPrettySourceURL, underRoot, getRelativeUrl } from "../utils/source";
+import {
+  getPrettySourceURL,
+  underRoot,
+  getRelativeUrl,
+  isPrettyURL
+} from "../utils/source";
 import { originalToGeneratedId, isOriginalId } from "devtools-source-map";
 import { prefs } from "../utils/prefs";
 
@@ -289,8 +294,13 @@ export function getSourceFromId(state: OuterState, id: string): Source {
 export function getSourceByURL(
   state: OuterState,
   url: string,
-  isOriginal?: boolean
+  isOriginal: boolean = false
 ): ?Source {
+  // Pretty sources should always be original
+  if (isPrettyURL(url)) {
+    isOriginal = true;
+  }
+
   return getSourceByUrlInSources(
     getSources(state),
     getUrls(state),
@@ -306,7 +316,7 @@ export function getSourcesByURLs(state: OuterState, urls: string[]) {
 export function getSourcesByURL(
   state: OuterState,
   url: string,
-  isOriginal?: boolean
+  isOriginal: boolean = false
 ): Source[] {
   return getSourcesByUrlInSources(
     getSources(state),
@@ -349,17 +359,14 @@ export function getSourceByUrlInSources(
   sources: SourcesMap,
   urls: UrlsMap,
   url: string,
-  isOriginal?: boolean
+  isOriginal: boolean
 ) {
   const foundSources = getSourcesByUrlInSources(sources, urls, url);
   if (!foundSources) {
     return null;
   }
 
-  if (isOriginal !== undefined) {
-    return foundSources.find(source => isOriginalId(source.id) === isOriginal);
-  }
-  return foundSources[0];
+  return foundSources.find(source => isOriginalId(source.id) == isOriginal);
 }
 
 function getSourcesByUrlInSources(

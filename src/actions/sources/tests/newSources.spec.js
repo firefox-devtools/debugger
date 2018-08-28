@@ -61,7 +61,7 @@ describe("sources - new sources", () => {
 
     const baseSource = makeSource("base.js", { sourceMapURL: "base.js.map" });
     await dispatch(actions.newSource(baseSource));
-    const magic = getSourceByURL(getState(), "magic.js");
+    const magic = getSourceByURL(getState(), "magic.js", true);
     expect(magic.url).toEqual("magic.js");
   });
 

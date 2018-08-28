@@ -26,7 +26,7 @@ import type { Action } from "../actions/types";
 import type { SourcesState } from "./sources";
 import type { Source } from "../types";
 
-type Tab = { url: string, framework?: string | null, isOriginal?: boolean };
+type Tab = { url: string, framework?: string | null, isOriginal: boolean };
 export type TabList = Tab[];
 
 function update(state: TabList = prefs.tabs || [], action: Action): TabList {

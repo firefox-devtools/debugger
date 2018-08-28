@@ -39,13 +39,11 @@ export function updateTab(source: Source, framework: string): Action {
 
 export function addTab(source: Source): Action {
   const { url } = source;
-  const framework = "";
   const isOriginal = isOriginalId(source.id);
 
   return {
     type: "ADD_TAB",
     url,
-    framework,
     isOriginal
   };
 }
