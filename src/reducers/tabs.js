@@ -29,6 +29,10 @@ import type { Source } from "../types";
 type Tab = { url: string, framework?: string | null, isOriginal: boolean };
 export type TabList = Tab[];
 
+function isSimilarTab(tab: Tab, url: string, isOriginal: boolean) {
+  return tab.url === url && tab.isOriginal === isOriginal;
+}
+
 function update(state: TabList = prefs.tabs || [], action: Action): TabList {
   switch (action.type) {
     case "ADD_TAB":
@@ -53,9 +57,7 @@ export function removeSourceFromTabList(
   source: Source
 ): TabList {
   return tabs.filter(
-    tab =>
-      tab.url !== source.url ||
-      (tab.url === source.url && tab.isOriginal != isOriginalId(source.id))
+    tab => tab.url !== source.url || tab.isOriginal != isOriginalId(source.id)
   );
 }
 
@@ -75,8 +77,8 @@ function updateTabList(
   tabs: TabList,
   { url, framework = null, isOriginal = false }
 ) {
-  const currentIndex = tabs.findIndex(
-    tab => tab.url === url && tab.isOriginal === isOriginal
+  const currentIndex = tabs.findIndex(tab =>
+    isSimilarTab(tab, url, isOriginal)
   );
 
   if (currentIndex === -1) {
@@ -119,10 +121,8 @@ export function getNewSelectedSourceId(
     return "";
   }
 
-  const matchingTab = availableTabs.find(
-    tab =>
-      tab.url === selectedTab.url &&
-      tab.isOriginal === isOriginalId(selectedLocation.sourceId)
+  const matchingTab = availableTabs.find(tab =>
+    isSimilarTab(tab, selectedTab.url, isOriginalId(selectedLocation.sourceId))
   );
 
   if (matchingTab) {
