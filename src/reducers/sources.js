@@ -344,11 +344,7 @@ export function getPrettySource(state: OuterState, id: string) {
     return;
   }
 
-  return getSourceByURL(
-    state,
-    getPrettySourceURL(source.url),
-    isOriginalId(source.id)
-  );
+  return getSourceByURL(state, getPrettySourceURL(source.url), true);
 }
 
 export function hasPrettySource(state: OuterState, id: string) {

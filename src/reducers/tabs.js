@@ -198,7 +198,7 @@ export const getSourcesForTabs = createSelector(
       .map(tab =>
         getSourceByUrlInSources(sources, urls, tab.url, tab.isOriginal)
       )
-      .filter(source => source);
+      .filter(Boolean);
   }
 );
 

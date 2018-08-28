@@ -90,10 +90,19 @@ describe("project text search", () => {
   });
 
   it("should ignore sources with minified versions", async () => {
-    const { dispatch, getState } = createStore(threadClient);
-    const mockQuery = "bla";
-    const source1 = makeSource("bar");
+    const source1 = makeSource("bar", { sourceMapURL: "bar:formatted" });
     const source2 = makeSource("bar:formatted");
+
+    const mockMaps = {
+      getOriginalSourceText: async () => ({
+        source: "function bla(x, y) {\n const bar = 4; return 2;\n}",
+        contentType: "text/javascript"
+      }),
+      getOriginalURLs: async () => [source2.url]
+    };
+
+    const { dispatch, getState } = createStore(threadClient, {}, mockMaps);
+    const mockQuery = "bla";
 
     await dispatch(actions.newSource(source1));
     await dispatch(actions.newSource(source2));
