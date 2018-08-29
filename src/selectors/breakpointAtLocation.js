@@ -7,8 +7,7 @@ import { getBreakpoints } from "../reducers/breakpoints";
 import { isGeneratedId } from "devtools-source-map";
 
 function isGenerated(selectedSource) {
-  const sourceId = selectedSource.get("id");
-  return isGeneratedId(sourceId);
+  return isGeneratedId(selectedSource.id);
 }
 
 function getColumn(column, selectedSource) {
@@ -25,15 +24,12 @@ function getLocation(bp, selectedSource) {
     : bp.location;
 }
 
-function getBreakpointsForSource(
-  state: OuterState,
-  selectedSource: SourceRecord
-) {
+function getBreakpointsForSource(state: OuterState, selectedSource: Source) {
   const breakpoints = getBreakpoints(state);
 
   return breakpoints.filter(bp => {
     const location = getLocation(bp, selectedSource);
-    return location.sourceId === selectedSource.get("id");
+    return location.sourceId === selectedSource.id;
   });
 }
 
@@ -69,4 +65,13 @@ export function getBreakpointAtLocation(state, location) {
   const breakpoints = getBreakpointsForSource(state, selectedSource);
 
   return findBreakpointAtLocation(breakpoints, selectedSource, location);
+}
+
+export function getBreakpointsAtLine(state: OuterState, line: number) {
+  const selectedSource = getSelectedSource(state);
+  const breakpoints = getBreakpointsForSource(state, selectedSource);
+
+  return breakpoints.filter(
+    breakpoint => getLocation(breakpoint, selectedSource).line === line
+  );
 }

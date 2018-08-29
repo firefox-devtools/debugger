@@ -39,15 +39,17 @@ export type FileSearchState = {
   modifiers: Modifiers
 };
 
+const emptySearchResults = Object.freeze({
+  matches: Object.freeze([]),
+  matchIndex: -1,
+  index: -1,
+  count: 0
+});
+
 export const createFileSearchState = makeRecord(
   ({
     query: "",
-    searchResults: {
-      matches: [],
-      matchIndex: -1,
-      index: -1,
-      count: 0
-    },
+    searchResults: emptySearchResults,
     modifiers: makeRecord({
       caseSensitive: prefs.fileSearchCaseSensitive,
       wholeWord: prefs.fileSearchWholeWord,
@@ -70,7 +72,7 @@ function update(
     }
 
     case "TOGGLE_FILE_SEARCH_MODIFIER": {
-      const actionVal = !state.getIn(["modifiers", action.modifier]);
+      const actionVal = !state.modifiers[action.modifier];
 
       if (action.modifier == "caseSensitive") {
         prefs.fileSearchCaseSensitive = actionVal;
@@ -87,6 +89,10 @@ function update(
       return state.setIn(["modifiers", action.modifier], actionVal);
     }
 
+    case "NAVIGATE": {
+      return state.set("query", "").set("searchResults", emptySearchResults);
+    }
+
     default: {
       return state;
     }
@@ -98,15 +104,15 @@ function update(
 type OuterState = { fileSearch: Record<FileSearchState> };
 
 export function getFileSearchQuery(state: OuterState): string {
-  return state.fileSearch.get("query");
+  return state.fileSearch.query;
 }
 
 export function getFileSearchModifiers(state: OuterState): Modifiers {
-  return state.fileSearch.get("modifiers");
+  return state.fileSearch.modifiers;
 }
 
 export function getFileSearchResults(state: OuterState) {
-  return state.fileSearch.get("searchResults");
+  return state.fileSearch.searchResults;
 }
 
 export default update;

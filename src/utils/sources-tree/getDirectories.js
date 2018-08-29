@@ -4,51 +4,47 @@
 
 // @flow
 
-import { createParentMap, nodeHasChildren } from "./utils";
-import { getURL } from "./getURL";
-import type { Node } from "./types";
+import { createParentMap } from "./utils";
+import type { TreeNode, TreeDirectory } from "./types";
+import type { Source } from "../../types";
 
-function findSource(sourceTree: Node, sourceUrl: string): Node {
-  let returnTarget = null;
-  function _traverse(subtree) {
-    if (nodeHasChildren(subtree)) {
-      for (const child of subtree.contents) {
-        _traverse(child);
-      }
-    } else if (!returnTarget) {
-      if (subtree.path.replace(/http(s)?:\//, "") == sourceUrl) {
-        returnTarget = subtree;
-        return;
-      }
+function _traverse(subtree: TreeNode, source: Source) {
+  if (subtree.type === "source") {
+    if (subtree.contents.id === source.id) {
+      return subtree;
     }
+
+    return null;
   }
 
-  sourceTree.contents.forEach(_traverse);
-
-  if (!returnTarget) {
-    return sourceTree;
-  }
-
-  return returnTarget;
+  const matches = subtree.contents.map(child => _traverse(child, source));
+  return matches && matches.filter(Boolean)[0];
 }
 
-export function getDirectories(sourceUrl: string, sourceTree: Node) {
-  const url = getURL(sourceUrl);
-  const fullUrl = `/${url.group}${url.path}`;
-  const parentMap = createParentMap(sourceTree);
-  const source = findSource(sourceTree, fullUrl);
-  if (!source) {
-    return [];
+function findSourceItem(sourceTree: TreeDirectory, source: Source): ?TreeNode {
+  return _traverse(sourceTree, source);
+}
+
+function getAncestors(sourceTree: TreeDirectory, item: ?TreeNode) {
+  if (!item) {
+    return null;
   }
 
-  let node = source;
+  const parentMap = createParentMap(sourceTree);
   const directories = [];
-  directories.push(source);
+
+  directories.push(item);
   while (true) {
-    node = parentMap.get(node);
-    if (!node) {
+    item = parentMap.get(item);
+    if (!item) {
       return directories;
     }
-    directories.push(node);
+    directories.push(item);
   }
+}
+
+export function getDirectories(source: Source, sourceTree: TreeDirectory) {
+  const item = findSourceItem(sourceTree, source);
+  const ancestors = getAncestors(sourceTree, item);
+  return ancestors || [sourceTree];
 }

@@ -9,6 +9,49 @@ import { executeSoon } from "../../../utils/DevToolsUtils";
 
 import type { ThunkArgs } from "../../types";
 
+type BasePromiseAction = {|
+  +"@@dispatch/promise": Promise<mixed>
+|};
+
+export type StartPromiseAction = {|
+  ...BasePromiseAction,
+  +status: "start"
+|};
+
+export type DonePromiseAction = {|
+  ...BasePromiseAction,
+  +status: "done",
+  +value: any
+|};
+
+export type ErrorPromiseAction = {|
+  ...BasePromiseAction,
+  +status: "error",
+  +error: any
+|};
+
+export type PromiseAction<Action, Value = any> =
+  // | {| ...Action, "@@dispatch/promise": Promise<Object> |}
+  | {|
+      ...BasePromiseAction,
+      ...Action,
+      +status: "start",
+      value: void
+    |}
+  | {|
+      ...BasePromiseAction,
+      ...Action,
+      +status: "done",
+      +value: Value
+    |}
+  | {|
+      ...BasePromiseAction,
+      ...Action,
+      +status: "error",
+      +error?: any,
+      value: void
+    |};
+
 let seqIdVal = 1;
 
 function seqIdGen() {

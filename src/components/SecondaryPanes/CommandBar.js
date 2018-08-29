@@ -9,7 +9,6 @@ import PropTypes from "prop-types";
 import React, { Component } from "react";
 
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import classnames from "classnames";
 import { features } from "../../utils/prefs";
 import {
@@ -17,19 +16,16 @@ import {
   getIsWaitingOnBreak,
   getHistory,
   getHistoryPosition,
-  getShouldPauseOnExceptions,
-  getShouldIgnoreCaughtExceptions,
-  getCanRewind
+  getCanRewind,
+  getSkipPausing
 } from "../../selectors";
 import { formatKeyShortcut } from "../../utils/text";
 import actions from "../../actions";
-import CommandBarButton from "../shared/Button/CommandBarButton";
+import { debugBtn } from "../shared/Button/CommandBarButton";
 import "./CommandBar.css";
 
-import { Services } from "devtools-modules";
+import Services from "devtools-services";
 const { appinfo } = Services;
-
-import type { SourceRecord, SourcesMap } from "../../reducers/sources";
 
 const isMacOS = appinfo.OS === "Darwin";
 
@@ -80,31 +76,16 @@ function formatKey(action) {
   return formatKeyShortcut(key);
 }
 
-function debugBtn(
-  onClick,
-  type,
-  className,
-  tooltip,
-  disabled = false,
-  ariaPressed = false
-) {
-  return (
-    <CommandBarButton
-      className={classnames(type, className)}
-      disabled={disabled}
-      key={type}
-      onClick={onClick}
-      pressed={ariaPressed}
-      title={tooltip}
-    >
-      <img className={type} />
-    </CommandBarButton>
-  );
-}
-
 type Props = {
-  sources: SourcesMap,
-  selectedSource: SourceRecord,
+  historyPosition: number,
+  history: any,
+  isPaused: boolean,
+  isWaitingOnBreak: boolean,
+  horizontal: boolean,
+  canRewind: boolean,
+  skipPausing: boolean,
+  timeTravelTo: number => void,
+  clearHistory: () => void,
   resume: () => void,
   stepIn: () => void,
   stepOut: () => void,
@@ -114,17 +95,8 @@ type Props = {
   reverseStepIn: () => void,
   reverseStepOut: () => void,
   reverseStepOver: () => void,
-  isPaused: boolean,
   pauseOnExceptions: (boolean, boolean) => void,
-  shouldPauseOnExceptions: boolean,
-  historyPosition: number,
-  history: any,
-  timeTravelTo: number => void,
-  clearHistory: () => void,
-  shouldIgnoreCaughtExceptions: boolean,
-  isWaitingOnBreak: boolean,
-  horizontal: boolean,
-  canRewind: boolean
+  toggleSkipPausing: () => void
 };
 
 class CommandBar extends Component<Props> {
@@ -207,11 +179,10 @@ class CommandBar extends Component<Props> {
   renderPauseButton() {
     const { isPaused, breakOnNext, isWaitingOnBreak, canRewind } = this.props;
 
-    if (canRewind) {
-      return;
-    }
-
     if (isPaused) {
+      if (canRewind) {
+        return null;
+      }
       return debugBtn(
         () => this.resume(),
         "resume",
@@ -242,56 +213,6 @@ class CommandBar extends Component<Props> {
     );
   }
 
-  /*
-   * The pause on exception button has three states in this order:
-   *  1. don't pause on exceptions      [false, false]
-   *  2. pause on uncaught exceptions   [true, true]
-   *  3. pause on all exceptions        [true, false]
-  */
-  renderPauseOnExceptions() {
-    const {
-      shouldPauseOnExceptions,
-      shouldIgnoreCaughtExceptions,
-      pauseOnExceptions,
-      canRewind
-    } = this.props;
-
-    if (canRewind || features.breakpointsDropdown) {
-      return;
-    }
-
-    if (!shouldPauseOnExceptions && !shouldIgnoreCaughtExceptions) {
-      return debugBtn(
-        () => pauseOnExceptions(true, true),
-        "pause-exceptions",
-        "enabled",
-        L10N.getStr("ignoreExceptions"),
-        false,
-        false
-      );
-    }
-
-    if (shouldPauseOnExceptions && shouldIgnoreCaughtExceptions) {
-      return debugBtn(
-        () => pauseOnExceptions(true, false),
-        "pause-exceptions",
-        "uncaught enabled",
-        L10N.getStr("pauseOnUncaughtExceptions"),
-        false,
-        true
-      );
-    }
-
-    return debugBtn(
-      () => pauseOnExceptions(false, false),
-      "pause-exceptions",
-      "all enabled",
-      L10N.getStr("pauseOnExceptions"),
-      false,
-      true
-    );
-  }
-
   renderTimeTravelButtons() {
     const { isPaused, canRewind } = this.props;
 
@@ -305,12 +226,12 @@ class CommandBar extends Component<Props> {
       debugBtn(this.props.rewind, "rewind", "active", "Rewind Execution"),
 
       debugBtn(
-        () => this.props.resume,
+        this.props.resume,
         "resume",
         "active",
         L10N.getFormatStr("resumeButtonTooltip", formatKey("resume"))
       ),
-      <div className="divider" />,
+      <div key="divider-1" className="divider" />,
       debugBtn(
         this.props.reverseStepOver,
         "reverseStepOver",
@@ -324,7 +245,7 @@ class CommandBar extends Component<Props> {
         L10N.getFormatStr("stepOverTooltip", formatKey("stepOver")),
         isDisabled
       ),
-      <div className="divider" />,
+      <div key="divider-2" className="divider" />,
       debugBtn(
         this.props.stepOut,
         "stepOut",
@@ -402,6 +323,30 @@ class CommandBar extends Component<Props> {
     );
   }
 
+  renderSkipPausingButton() {
+    const { skipPausing, toggleSkipPausing } = this.props;
+
+    if (!features.skipPausing) {
+      return null;
+    }
+
+    return (
+      <button
+        className={classnames(
+          "command-bar-button",
+          "command-bar-skip-pausing",
+          {
+            active: skipPausing
+          }
+        )}
+        title={L10N.getStr("skipPausingTooltip")}
+        onClick={toggleSkipPausing}
+      >
+        <img className="skipPausing" />
+      </button>
+    );
+  }
+
   render() {
     return (
       <div
@@ -411,12 +356,13 @@ class CommandBar extends Component<Props> {
       >
         {this.renderPauseButton()}
         {this.renderStepButtons()}
-        {this.renderPauseOnExceptions()}
+
         {this.renderTimeTravelButtons()}
         <div className="filler" />
         {this.replayPreviousButton()}
         {this.renderStepPosition()}
         {this.replayNextButton()}
+        {this.renderSkipPausingButton()}
       </div>
     );
   }
@@ -426,17 +372,30 @@ CommandBar.contextTypes = {
   shortcuts: PropTypes.object
 };
 
+const mapStateToProps = state => ({
+  isPaused: getIsPaused(state),
+  history: getHistory(state),
+  historyPosition: getHistoryPosition(state),
+  isWaitingOnBreak: getIsWaitingOnBreak(state),
+  canRewind: getCanRewind(state),
+  skipPausing: getSkipPausing(state)
+});
+
 export default connect(
-  state => {
-    return {
-      isPaused: getIsPaused(state),
-      history: getHistory(state),
-      historyPosition: getHistoryPosition(state),
-      isWaitingOnBreak: getIsWaitingOnBreak(state),
-      shouldPauseOnExceptions: getShouldPauseOnExceptions(state),
-      shouldIgnoreCaughtExceptions: getShouldIgnoreCaughtExceptions(state),
-      canRewind: getCanRewind(state)
-    };
-  },
-  dispatch => bindActionCreators(actions, dispatch)
+  mapStateToProps,
+  {
+    timeTravelTo: actions.timeTravelTo,
+    clearHistory: actions.clearHistory,
+    resume: actions.resume,
+    stepIn: actions.stepIn,
+    stepOut: actions.stepOut,
+    stepOver: actions.stepOver,
+    breakOnNext: actions.breakOnNext,
+    rewind: actions.rewind,
+    reverseStepIn: actions.reverseStepIn,
+    reverseStepOut: actions.reverseStepOut,
+    reverseStepOver: actions.reverseStepOver,
+    pauseOnExceptions: actions.pauseOnExceptions,
+    toggleSkipPausing: actions.toggleSkipPausing
+  }
 )(CommandBar);

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`project search simple 1`] = `
+exports[`project search finds matches 1`] = `
 Array [
   Object {
     "column": 11,

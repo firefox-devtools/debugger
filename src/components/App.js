@@ -6,9 +6,9 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import { features } from "../utils/prefs";
 import actions from "../actions";
+import A11yIntention from "./A11yIntention";
 import { ShortcutsModal } from "./ShortcutsModal";
 
 import {
@@ -19,9 +19,11 @@ import {
   getOrientation
 } from "../selectors";
 
-import type { SourceRecord, OrientationType } from "../reducers/types";
+import type { OrientationType } from "../reducers/types";
+import type { Source } from "../types";
 
-import { KeyShortcuts, Services } from "devtools-modules";
+import { KeyShortcuts } from "devtools-modules";
+import Services from "devtools-services";
 const shortcuts = new KeyShortcuts({ window });
 
 const { appinfo } = Services;
@@ -35,29 +37,24 @@ const verticalLayoutBreakpoint = window.matchMedia(
 
 import "./variables.css";
 import "./App.css";
+
+// $FlowIgnore
 import "devtools-launchpad/src/components/Root.css";
 
 import "./shared/menu.css";
 import "./shared/reps.css";
 
 import SplitBox from "devtools-splitter";
-
 import ProjectSearch from "./ProjectSearch";
-
 import PrimaryPanes from "./PrimaryPanes";
-
 import Editor from "./Editor";
-
 import SecondaryPanes from "./SecondaryPanes";
-
 import WelcomeBox from "./WelcomeBox";
-
 import EditorTabs from "./Editor/Tabs";
-
 import QuickOpenModal from "./QuickOpenModal";
 
 type Props = {
-  selectedSource: SourceRecord,
+  selectedSource: Source,
   orientation: OrientationType,
   startPanelCollapsed: boolean,
   endPanelCollapsed: boolean,
@@ -144,9 +141,9 @@ class App extends Component<Props, State> {
   onEscape = (_, e) => {
     const {
       activeSearch,
-      quickOpenEnabled,
       closeActiveSearch,
-      closeQuickOpen
+      closeQuickOpen,
+      quickOpenEnabled
     } = this.props;
 
     if (activeSearch) {
@@ -154,7 +151,8 @@ class App extends Component<Props, State> {
       closeActiveSearch();
     }
 
-    if (quickOpenEnabled === true) {
+    if (quickOpenEnabled) {
+      e.preventDefault();
       closeQuickOpen();
     }
   };
@@ -300,14 +298,16 @@ class App extends Component<Props, State> {
     const { quickOpenEnabled } = this.props;
     return (
       <div className="debugger">
-        {this.renderLayout()}
-        {quickOpenEnabled === true && (
-          <QuickOpenModal
-            shortcutsModalEnabled={this.state.shortcutsModalEnabled}
-            toggleShortcutsModal={() => this.toggleShortcutsModal()}
-          />
-        )}
-        {this.renderShortcutsModal()}
+        <A11yIntention>
+          {this.renderLayout()}
+          {quickOpenEnabled === true && (
+            <QuickOpenModal
+              shortcutsModalEnabled={this.state.shortcutsModalEnabled}
+              toggleShortcutsModal={() => this.toggleShortcutsModal()}
+            />
+          )}
+          {this.renderShortcutsModal()}
+        </A11yIntention>
       </div>
     );
   }
@@ -315,17 +315,23 @@ class App extends Component<Props, State> {
 
 App.childContextTypes = { shortcuts: PropTypes.object };
 
-function mapStateToProps(state) {
-  return {
-    selectedSource: getSelectedSource(state),
-    startPanelCollapsed: getPaneCollapse(state, "start"),
-    endPanelCollapsed: getPaneCollapse(state, "end"),
-    activeSearch: getActiveSearch(state),
-    quickOpenEnabled: getQuickOpenEnabled(state),
-    orientation: getOrientation(state)
-  };
-}
+const mapStateToProps = state => ({
+  selectedSource: getSelectedSource(state),
+  startPanelCollapsed: getPaneCollapse(state, "start"),
+  endPanelCollapsed: getPaneCollapse(state, "end"),
+  activeSearch: getActiveSearch(state),
+  quickOpenEnabled: getQuickOpenEnabled(state),
+  orientation: getOrientation(state)
+});
 
-export default connect(mapStateToProps, dispatch =>
-  bindActionCreators(actions, dispatch)
+export default connect(
+  mapStateToProps,
+  {
+    setActiveSearch: actions.setActiveSearch,
+    closeActiveSearch: actions.closeActiveSearch,
+    closeProjectSearch: actions.closeProjectSearch,
+    openQuickOpen: actions.openQuickOpen,
+    closeQuickOpen: actions.closeQuickOpen,
+    setOrientation: actions.setOrientation
+  }
 )(App);

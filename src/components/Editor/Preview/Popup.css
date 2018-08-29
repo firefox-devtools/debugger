@@ -5,12 +5,9 @@
 .popover .preview-popup {
   background: var(--theme-body-background);
   width: 350px;
-  min-height: 80px;
   border: 1px solid var(--theme-splitter-color);
   padding: 10px;
   height: auto;
-  min-height: inherit;
-  max-height: 200px;
   overflow: auto;
   box-shadow: 1px 2px 3px var(--popup-shadow-color);
 }
@@ -27,7 +24,7 @@
   margin-bottom: 5px;
 }
 
-.popover .preview-popup .immutable-logo {
+.popover .preview-popup .logo {
   width: 20px;
   margin-right: 5px;
 }
@@ -37,6 +34,8 @@
   margin-bottom: 5px;
   font-weight: normal;
   font-size: 14px;
+  line-height: 20px;
+  margin-left: 4px;
 }
 
 .popover .preview-popup .header .link {

@@ -7,7 +7,9 @@ exports[`Popover mount popover 1`] = `
       "getBoundingClientRect": [Function],
     }
   }
-  onMouseLeave={[Function]}
+  onKeyDown={[MockFunction]}
+  onMouseLeave={[MockFunction]}
+  onPopoverCoords={[Function]}
   targetPosition={
     Object {
       "bottom": 0,
@@ -23,27 +25,28 @@ exports[`Popover mount popover 1`] = `
   type="popover"
 >
   <div
-    className="popover"
-    onMouseLeave={[Function]}
+    className="popover orientation-right"
+    onKeyDown={[MockFunction]}
+    onMouseLeave={[MockFunction]}
     style={
       Object {
-        "left": -8,
-        "top": 0,
+        "left": 510,
+        "top": 250,
       }
     }
   >
     <BracketArrow
-      left={350}
-      orientation="up"
-      top={-7}
+      left={-14}
+      orientation="left"
+      top={-202}
     >
       <div
-        className="bracket-arrow up"
+        className="bracket-arrow left"
         style={
           Object {
             "bottom": undefined,
-            "left": 350,
-            "top": -7,
+            "left": -14,
+            "top": -202,
           }
         }
       />
@@ -66,7 +69,9 @@ exports[`Popover mount tooltip 1`] = `
       "getBoundingClientRect": [Function],
     }
   }
-  onMouseLeave={[Function]}
+  onKeyDown={[MockFunction]}
+  onMouseLeave={[MockFunction]}
+  onPopoverCoords={[Function]}
   targetPosition={
     Object {
       "bottom": 0,
@@ -83,21 +88,22 @@ exports[`Popover mount tooltip 1`] = `
 >
   <div
     className="tooltip"
-    onMouseLeave={[Function]}
+    onKeyDown={[MockFunction]}
+    onMouseLeave={[MockFunction]}
     style={
       Object {
         "left": -8,
-        "top": 50,
+        "top": 0,
       }
     }
   >
-    <h1>
-      Toolie!
-    </h1>
     <div
       className="gap"
       key="gap"
     />
+    <h1>
+      Toolie!
+    </h1>
   </div>
 </Popover>
 `;
@@ -105,7 +111,8 @@ exports[`Popover mount tooltip 1`] = `
 exports[`Popover render (tooltip) 1`] = `
 <div
   className="tooltip"
-  onMouseLeave={[Function]}
+  onKeyDown={[MockFunction]}
+  onMouseLeave={[MockFunction]}
   style={
     Object {
       "left": 0,
@@ -113,38 +120,74 @@ exports[`Popover render (tooltip) 1`] = `
     }
   }
 >
-  <h1>
-    Toolie!
-  </h1>
   <div
     className="gap"
     key="gap"
   />
+  <h1>
+    Toolie!
+  </h1>
 </div>
 `;
 
 exports[`Popover render 1`] = `
-<div
-  className="popover"
-  onMouseLeave={[Function]}
-  style={
+<Popover
+  editorRef={
     Object {
-      "left": 0,
-      "top": 0,
+      "getBoundingClientRect": [Function],
     }
   }
+  onKeyDown={[MockFunction]}
+  onMouseLeave={[MockFunction]}
+  onPopoverCoords={[Function]}
+  targetPosition={
+    Object {
+      "bottom": 0,
+      "height": 300,
+      "left": 200,
+      "right": 0,
+      "top": 50,
+      "width": 300,
+      "x": 100,
+      "y": 200,
+    }
+  }
+  type="popover"
 >
-  <BracketArrow
-    left={0}
-    orientation="up"
-    top={-7}
-  />
   <div
-    className="gap"
-    key="gap"
-  />
-  <h1>
-    Poppy!
-  </h1>
-</div>
+    className="popover orientation-right"
+    onKeyDown={[MockFunction]}
+    onMouseLeave={[MockFunction]}
+    style={
+      Object {
+        "left": 510,
+        "top": 250,
+      }
+    }
+  >
+    <BracketArrow
+      left={-14}
+      orientation="left"
+      top={-202}
+    >
+      <div
+        className="bracket-arrow left"
+        style={
+          Object {
+            "bottom": undefined,
+            "left": -14,
+            "top": -202,
+          }
+        }
+      />
+    </BracketArrow>
+    <div
+      className="gap"
+      key="gap"
+    />
+    <h1>
+      Poppy!
+    </h1>
+  </div>
+</Popover>
 `;

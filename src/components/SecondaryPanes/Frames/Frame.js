@@ -87,7 +87,7 @@ export default class FrameComponent extends Component<FrameComponentProps> {
     frame: Frame,
     selectedFrame: Frame
   ) {
-    if (e.nativeEvent.which == 3) {
+    if (e.which == 3) {
       return;
     }
     this.props.selectFrame(frame);

@@ -1,10 +1,13 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 import {
   actions,
   selectors,
   createStore,
   makeSource
 } from "../../../utils/test-head";
-import * as I from "immutable";
 import { sourceThreadClient } from "../../tests/helpers/threadClient.js";
 
 describe("loadSourceText", async () => {
@@ -12,15 +15,15 @@ describe("loadSourceText", async () => {
     const store = createStore(sourceThreadClient);
     const { dispatch, getState } = store;
 
-    await dispatch(actions.loadSourceText(I.Map({ id: "foo1" })));
+    await dispatch(actions.loadSourceText({ id: "foo1" }));
     const fooSource = selectors.getSource(getState(), "foo1");
 
-    expect(fooSource.get("text").indexOf("return foo1")).not.toBe(-1);
+    expect(fooSource.text.indexOf("return foo1")).not.toBe(-1);
 
-    await dispatch(actions.loadSourceText(I.Map({ id: "foo2" })));
+    await dispatch(actions.loadSourceText({ id: "foo2" }));
     const foo2Source = selectors.getSource(getState(), "foo2");
 
-    expect(foo2Source.get("text").indexOf("return foo2")).not.toBe(-1);
+    expect(foo2Source.text.indexOf("return foo2")).not.toBe(-1);
   });
 
   it("loads two sources w/ one request", async () => {
@@ -47,7 +50,7 @@ describe("loadSourceText", async () => {
     resolve({ source: "yay", contentType: "text/javascript" });
     await loading;
     expect(count).toEqual(1);
-    expect(selectors.getSource(getState(), id).get("text")).toEqual("yay");
+    expect(selectors.getSource(getState(), id).text).toEqual("yay");
   });
 
   it("doesn't re-load loaded sources", async () => {
@@ -72,13 +75,13 @@ describe("loadSourceText", async () => {
     source = selectors.getSource(getState(), id);
     await dispatch(actions.loadSourceText(source));
     expect(count).toEqual(1);
-    expect(selectors.getSource(getState(), id).get("text")).toEqual("yay");
+    expect(selectors.getSource(getState(), id).text).toEqual("yay");
   });
 
   it("should cache subsequent source text loads", async () => {
     const { dispatch, getState } = createStore(sourceThreadClient);
 
-    await dispatch(actions.loadSourceText(I.Map({ id: "foo1" })));
+    await dispatch(actions.loadSourceText({ id: "foo1" }));
     const prevSource = selectors.getSource(getState(), "foo1");
 
     await dispatch(actions.loadSourceText(prevSource));
@@ -91,16 +94,16 @@ describe("loadSourceText", async () => {
     const { dispatch, getState } = createStore(sourceThreadClient);
 
     // Don't block on this so we can check the loading state.
-    dispatch(actions.loadSourceText(I.Map({ id: "foo1" })));
+    dispatch(actions.loadSourceText({ id: "foo1" }));
     const fooSource = selectors.getSource(getState(), "foo1");
-    expect(fooSource.get("loadedState")).toEqual("loading");
+    expect(fooSource.loadedState).toEqual("loading");
   });
 
   it("should indicate an errored source text", async () => {
     const { dispatch, getState } = createStore(sourceThreadClient);
 
-    await dispatch(actions.loadSourceText(I.Map({ id: "bad-id" })));
+    await dispatch(actions.loadSourceText({ id: "bad-id" }));
     const badSource = selectors.getSource(getState(), "bad-id");
-    expect(badSource.get("error").indexOf("unknown source")).not.toBe(-1);
+    expect(badSource.error.indexOf("unknown source")).not.toBe(-1);
   });
 });

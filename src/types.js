@@ -54,22 +54,37 @@ export type ActorId = string;
 export type Location = {
   sourceId: SourceId,
   line: number,
-  column: ?number,
+  column?: number,
   sourceUrl?: string
 };
 
+export type MappedLocation = {
+  location: Location,
+  generatedLocation: Location
+};
+
+export type Position = {
+  line: number,
+  column?: number
+};
+
+export type ColumnPosition = {
+  line: number,
+  column: number
+};
+
+export type Range = { end: Position, start: Position };
+export type ColumnRange = { end: ColumnPosition, start: ColumnPosition };
+
 export type PendingLocation = {
   line: number,
-  column: ?number,
+  column?: number,
   sourceUrl?: string
 };
 
 export type ASTLocation = {|
   name: ?string,
-  offset: {
-    column: ?number,
-    line: number
-  }
+  offset: Position
 |};
 
 /**
@@ -87,6 +102,7 @@ export type Breakpoint = {
   disabled: boolean,
   hidden: boolean,
   text: string,
+  originalText: string,
   condition: ?string
 };
 
@@ -139,7 +155,9 @@ export type Frame = {
   scope: Scope,
   // FIXME Define this type more clearly
   this: Object,
-  framework?: string
+  framework?: string,
+  isOriginal?: boolean,
+  originalDisplayName?: string
 };
 
 /**
@@ -230,15 +248,6 @@ export type Expression = {
  * @static
  */
 
-export type PreviewGrip = {
-  kind: string,
-  url: string,
-  fileName: string,
-  message: string,
-  name: string,
-  ownProperties?: Object
-};
-
 /**
  * Grip
  * @memberof types
@@ -251,29 +260,62 @@ export type Grip = {
   frozen: boolean,
   isGlobal: boolean,
   ownPropertyLength: number,
-  preview?: PreviewGrip,
+  ownProperties: Object,
+  preview?: Grip,
   sealed: boolean,
-  type: string
+  type: string,
+  url?: string,
+  fileName?: string,
+  message?: string,
+  name?: string
 };
 
 /**
- * Source
+ * BaseSource
  *
  * @memberof types
  * @static
  */
-export type Source = {
-  id: SourceId,
-  url: string,
-  sourceMapURL?: string,
-  isBlackBoxed: boolean,
-  isPrettyPrinted: boolean,
-  isWasm: boolean,
-  text?: string,
-  contentType?: string,
-  error?: string,
-  loadedState: "unloaded" | "loading" | "loaded"
-};
+
+type BaseSource = {|
+  +id: string,
+  +url: string,
+  +sourceMapURL?: string,
+  +isBlackBoxed: boolean,
+  +isPrettyPrinted: boolean,
+  +contentType?: string,
+  +error?: string,
+  +loadedState: "unloaded" | "loading" | "loaded",
+  +relativeUrl: string
+|};
+
+/**
+ * JsSource
+ *
+ * @memberof types
+ * @static
+ */
+
+export type JsSource = {|
+  ...BaseSource,
+  +isWasm: false,
+  +text?: string
+|};
+
+/**
+ * WasmSource
+ *
+ * @memberof types
+ * @static
+ */
+
+export type WasmSource = {|
+  ...BaseSource,
+  +isWasm: true,
+  +text?: {| binary: Object |}
+|};
+
+export type Source = JsSource | WasmSource;
 
 /**
  * Script
@@ -304,12 +346,13 @@ export type ScopeBindings = {
  * @memberof types
  * @static
  */
-export type Scope = {
+export type Scope = {|
   actor: ActorId,
   parent: ?Scope,
-  bindings: {
+  bindings?: {
     arguments: Array<ScopeBindings>,
-    variables: ScopeBindings
+    variables: ScopeBindings,
+    this?: BindingContents | null
   },
   object: ?Object,
   function: ?{
@@ -320,14 +363,10 @@ export type Scope = {
     parameterNames: string[]
   },
   type: string
-};
+|};
 
 export type Worker = {
   actor: string,
   type: number,
   url: string
 };
-
-export type Position = { line: number, column: number };
-
-export type Range = { end: Position, start: Position };

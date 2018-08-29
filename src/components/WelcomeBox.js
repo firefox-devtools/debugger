@@ -6,26 +6,25 @@
 import React, { Component } from "react";
 
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 
 import actions from "../actions";
 import { getPaneCollapse } from "../selectors";
 import { formatKeyShortcut } from "../utils/text";
 
-import PaneToggleButton from "./shared/Button/PaneToggle";
+import { PaneToggleButton } from "./shared/Button";
 import type { ActiveSearchType } from "../reducers/ui";
 
 import "./WelcomeBox.css";
 
 type Props = {
   horizontal: boolean,
-  togglePaneCollapse: Function,
   endPanelCollapsed: boolean,
+  togglePaneCollapse: Function,
   setActiveSearch: (?ActiveSearchType) => any,
   openQuickOpen: (query?: string) => void
 };
 
-class WelcomeBox extends Component<Props> {
+export class WelcomeBox extends Component<Props> {
   renderToggleButton() {
     const { horizontal, endPanelCollapsed, togglePaneCollapse } = this.props;
     if (horizontal) {
@@ -59,11 +58,21 @@ class WelcomeBox extends Component<Props> {
       <div className="welcomebox">
         <div className="alignlabel">
           <div className="shortcutFunction">
-            <p onClick={() => openQuickOpen()}>
+            <p
+              className="welcomebox__searchSources"
+              role="button"
+              tabIndex="0"
+              onClick={() => openQuickOpen()}
+            >
               <span className="shortcutKey">{searchSourcesShortcut}</span>
               <span className="shortcutLabel">{searchSourcesLabel}</span>
             </p>
-            <p onClick={setActiveSearch.bind(null, "project")}>
+            <p
+              className="welcomebox__searchProject"
+              role="button"
+              tabIndex="0"
+              onClick={setActiveSearch.bind(null, "project")}
+            >
               <span className="shortcutKey">{searchProjectShortcut}</span>
               <span className="shortcutLabel">{searchProjectLabel}</span>
             </p>
@@ -75,9 +84,15 @@ class WelcomeBox extends Component<Props> {
   }
 }
 
+const mapStateToProps = state => ({
+  endPanelCollapsed: getPaneCollapse(state, "end")
+});
+
 export default connect(
-  state => ({
-    endPanelCollapsed: getPaneCollapse(state, "end")
-  }),
-  dispatch => bindActionCreators(actions, dispatch)
+  mapStateToProps,
+  {
+    togglePaneCollapse: actions.togglePaneCollapse,
+    setActiveSearch: actions.setActiveSearch,
+    openQuickOpen: actions.openQuickOpen
+  }
 )(WelcomeBox);

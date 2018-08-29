@@ -49,32 +49,47 @@ class Accordion extends Component<Props, State> {
     this.forceUpdate();
   }
 
+  onHandleHeaderKeyDown(
+    e: SyntheticKeyboardEvent<HTMLHeadingElement>,
+    i: number
+  ) {
+    if (e && (e.key === " " || e.key === "Enter")) {
+      this.handleHeaderClick(i);
+    }
+  }
+
   renderContainer = (item: AccordionItem, i: number) => {
     const { opened } = item;
 
     return (
-      <div className={item.className} key={i}>
-        <div className="_header" onClick={() => this.handleHeaderClick(i)}>
+      <li role="listitem" className={item.className} key={i}>
+        <h2
+          className="_header"
+          tabIndex="0"
+          onKeyDown={e => this.onHandleHeaderKeyDown(e, i)}
+          onClick={() => this.handleHeaderClick(i)}
+        >
           <Svg name="arrow" className={opened ? "expanded" : ""} />
           {item.header}
           {item.buttons ? (
-            <div className="header-buttons">{item.buttons}</div>
+            <div className="header-buttons" tabIndex="-1">
+              {item.buttons}
+            </div>
           ) : null}
-        </div>
+        </h2>
         {opened && (
           <div className="_content">
             {cloneElement(item.component, item.componentProps || {})}
           </div>
         )}
-      </div>
+      </li>
     );
   };
-
   render() {
     return (
-      <div className="accordion">
+      <ul role="list" className="accordion">
         {this.props.items.map(this.renderContainer)}
-      </div>
+      </ul>
     );
   }
 }

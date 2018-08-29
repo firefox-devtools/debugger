@@ -2,10 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-import { isFirefox } from "devtools-config";
+import { isFirefox } from "devtools-environment";
 import { transitionTimeout } from "../components/shared/Modal";
 
-function scrollList(resultList, index, delayed = false) {
+export function scrollList(resultList, index, delayed = false) {
   if (!resultList.hasOwnProperty(index)) {
     return;
   }
@@ -44,5 +44,3 @@ function chromeScrollList(elem, index) {
 
   resultsEl.scrollTop = Math.max(0, scroll);
 }
-
-export { scrollList };

@@ -1,44 +1,15 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 import {
   createStore,
   selectors,
   actions,
   makeSource
 } from "../../utils/test-head";
-import I from "immutable";
 import readFixture from "./helpers/readFixture";
 import { prefs } from "../../utils/prefs";
-
-const threadClient = {
-  sourceContents: function(sourceId) {
-    return new Promise((resolve, reject) =>
-      resolve({
-        source: sourceTexts[sourceId],
-        contentType: "text/javascript"
-      })
-    );
-  },
-  getFrameScopes: function() {
-    return Promise.resolve({});
-  },
-  evaluate: function(expression) {
-    return new Promise((resolve, reject) =>
-      resolve({ result: evaluationResult[expression] })
-    );
-  },
-  evaluateInFrame: function(frameId, expression) {
-    return new Promise((resolve, reject) =>
-      resolve({ result: evaluationResult[expression] })
-    );
-  }
-};
-
-const sourceTexts = {
-  "base.js": "function base(boo) {}",
-  "foo.js": "function base(boo) { return this.bazz; } outOfScope",
-  "immutable.js": "list",
-  "scopes.js": readFixture("scopes.js"),
-  "reactComponent.js": readFixture("reactComponent.js")
-};
 
 const react = {
   actor: "server1.conn34.child2/obj341",
@@ -61,13 +32,18 @@ const immutableList = {
   }
 };
 
-let evaluationResult;
-
 describe("setPreview", () => {
   let dispatch = undefined;
   let getState = undefined;
 
-  async function setup(fileName) {
+  async function setup(fileName, evaluateInFrame) {
+    const threadClient = {
+      sourceContents: id => Promise.resolve({ source: readFixture(id) }),
+      setPausePoints: async () => {},
+      getFrameScopes: async () => {},
+      evaluateExpressions: async () => {},
+      evaluateInFrame
+    };
     const store = createStore(threadClient);
     prefs.autoPrettyPrint = false;
 
@@ -76,30 +52,34 @@ describe("setPreview", () => {
 
     const source = makeSource(fileName);
     await dispatch(actions.newSource(source));
-    await dispatch(actions.loadSourceText(I.Map({ id: fileName })));
+    await dispatch(actions.loadSourceText({ id: fileName }));
 
     await dispatch(actions.selectLocation({ sourceId: fileName }));
     await dispatch(actions.setSymbols(fileName));
     await dispatch(
       actions.paused({
         why: { type: "resumeLimit" },
-        frames: [{ id: "frame1", location: { sourceId: fileName } }]
+        frames: [
+          { id: "frame1", location: { sourceId: fileName, line: 5, column: 1 } }
+        ]
       })
     );
   }
 
   it("react instance", async () => {
-    await setup("foo.js");
-    evaluationResult = {
-      this: react,
-      "this._reactInternalInstance.getName()": "Foo"
-    };
+    const componentNames = { preview: { items: ["Foo"] } };
+
+    await setup("reactComponent.js", expression =>
+      Promise.resolve({
+        result: expression.match(/_reactInternalFiber/) ? componentNames : react
+      })
+    );
 
     await dispatch(
       actions.setPreview(
         "this",
-        { start: { line: 1, column: 28 }, end: { line: 1, column: 32 } },
-        { line: 1, column: 30 }
+        { start: { line: 5, column: 12 }, end: { line: 5, column: 18 } },
+        { line: 5, column: 12 }
       )
     );
     const preview = selectors.getPreview(getState());
@@ -107,13 +87,15 @@ describe("setPreview", () => {
   });
 
   it("Immutable list", async () => {
-    await setup("immutable.js");
-
-    evaluationResult = {
-      list: immutableList,
-      "list.constructor.name": "Listless",
-      "list.toJS()": { actor: "bazz", preview: {} }
-    };
+    await setup("immutable.js", expression =>
+      Promise.resolve({
+        result: {
+          list: immutableList,
+          "list.constructor.name": "Listless",
+          "list.toJS()": { actor: "bazz", preview: {} }
+        }[expression]
+      })
+    );
 
     await dispatch(
       actions.setPreview(

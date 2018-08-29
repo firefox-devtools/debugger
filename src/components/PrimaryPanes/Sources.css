@@ -63,15 +63,14 @@
   flex: 1;
   overflow-x: auto;
   overflow-y: auto;
+  height: 100%;
+  padding: 4px 0;
 }
 
 .sources-list {
   flex: 1;
   display: flex;
-}
-
-.sources-list .tree:focus {
-  outline: none;
+  overflow: hidden;
 }
 
 .sources-list .managed-tree {
@@ -92,6 +91,12 @@
 
 .sources-list .tree .focused img.arrow {
   background-color: white;
+}
+
+.sources-list .tree .label .suffix {
+  font-style: italic;
+  font-size: 0.9em;
+  color: var(--theme-comment);
 }
 
 .sources-list .tree img.arrow.expanded {
@@ -129,7 +134,7 @@
 
 .sources-panel .outline {
   display: flex;
-  flex: 1;
+  height: 100%;
 }
 
 .tree-indent {
@@ -145,6 +150,8 @@
   user-select: none;
   box-sizing: border-box;
   height: 30px;
+  margin: 0;
+  padding: 0;
 }
 
 .source-outline-tabs .tab {
@@ -183,6 +190,11 @@
   fill: var(--theme-body-color);
 }
 
+.source-outline-panel {
+  flex: 1;
+  overflow: auto;
+}
+
 .sources-list .managed-tree .tree .node img.blackBox {
   mask: url(/images/blackBox.svg) no-repeat;
   mask-size: 100%;
@@ -190,8 +202,9 @@
   width: 13px;
   height: 13px;
   display: inline-block;
-  margin-inline-end: 5px;
-  margin-bottom: -2px;
+  margin-inline-end: 6px;
+  margin-inline-start: 1px;
+  margin-top: 2px;
 }
 
 .sources-list .managed-tree .tree .node.focused img {
@@ -228,7 +241,8 @@
   display: block;
 }
 
-.sources-list-custom-root .sources-list {
+.sources-list-custom-root .sources-list,
+.sources-list-custom-root .no-sources-message {
   position: absolute;
   top: 26px;
   right: 0;
@@ -237,6 +251,8 @@
 }
 
 /* Removes start margin when a custom root is used */
-.sources-list-custom-root .tree > .tree-node[data-expandable="false"][aria-level="0"] {
+.sources-list-custom-root
+  .tree
+  > .tree-node[data-expandable="false"][aria-level="0"] {
   padding-inline-start: 4px;
 }

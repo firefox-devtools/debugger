@@ -4,26 +4,85 @@
 
 // @flow
 
-import flatten from "lodash/flatten";
 import * as t from "@babel/types";
 
-import type { Node, TraversalAncestors } from "@babel/types";
 import createSimplePath from "./utils/simple-path";
 import { traverseAst } from "./utils/ast";
 import {
   isVariable,
   isFunction,
-  getVariables,
-  isComputedExpression
+  isObjectShorthand,
+  isComputedExpression,
+  getObjectExpressionValue,
+  getVariableNames,
+  getComments,
+  getSpecifiers,
+  getCode
 } from "./utils/helpers";
 
 import { inferClassName } from "./utils/inferClassName";
 import getFunctionName from "./utils/getFunctionName";
 
-import type { SimplePath } from "./utils/simple-path";
-import type { SymbolDeclarations, SymbolDeclaration } from "./types";
+import type { SimplePath, Node, TraversalAncestors } from "./utils/simple-path";
 
-let symbolDeclarations = new Map();
+type AstPosition = { line: number, column: number };
+type AstLocation = { end: AstPosition, start: AstPosition };
+
+export type SymbolDeclaration = {
+  name: string,
+  location: AstLocation
+};
+
+export type ClassDeclaration = SymbolDeclaration & {
+  parent: ?{|
+    name: string,
+    location: AstLocation
+  |}
+};
+
+export type FunctionDeclaration = SymbolDeclaration & {
+  parameterNames: string[],
+  klass: string | null,
+  identifier: Object
+};
+
+export type CallDeclaration = SymbolDeclaration & {
+  values: string[]
+};
+
+export type MemberDeclaration = SymbolDeclaration & {
+  computed: Boolean,
+  expression: string
+};
+
+export type IdentifierDeclaration = {
+  name: string,
+  location: AstLocation,
+  expression: string
+};
+export type ImportDeclaration = {
+  source: string,
+  location: AstLocation,
+  specifiers: string[]
+};
+
+export type SymbolDeclarations = {|
+  classes: Array<ClassDeclaration>,
+  functions: Array<FunctionDeclaration>,
+  variables: Array<SymbolDeclaration>,
+  memberExpressions: Array<MemberDeclaration>,
+  callExpressions: Array<CallDeclaration>,
+  objectProperties: Array<IdentifierDeclaration>,
+  identifiers: Array<IdentifierDeclaration>,
+  imports: Array<ImportDeclaration>,
+  comments: Array<SymbolDeclaration>,
+  literals: Array<IdentifierDeclaration>,
+  hasJsx: boolean,
+  hasTypes: boolean,
+  loading: false
+|};
+
+let symbolDeclarations: Map<string, SymbolDeclarations> = new Map();
 
 function getFunctionParameterNames(path: SimplePath): string[] {
   if (path.node.params != null) {
@@ -64,61 +123,7 @@ function getFunctionParameterNames(path: SimplePath): string[] {
   return [];
 }
 
-function getVariableNames(path: SimplePath): SymbolDeclaration[] {
-  if (t.isObjectProperty(path.node) && !isFunction(path.node.value)) {
-    if (path.node.key.type === "StringLiteral") {
-      return [
-        {
-          name: path.node.key.value,
-          location: path.node.loc
-        }
-      ];
-    } else if (path.node.value.type === "Identifier") {
-      return [{ name: path.node.value.name, location: path.node.loc }];
-    } else if (path.node.value.type === "AssignmentPattern") {
-      return [{ name: path.node.value.left.name, location: path.node.loc }];
-    }
-
-    return [
-      {
-        name: path.node.key.name,
-        location: path.node.loc
-      }
-    ];
-  }
-
-  if (!path.node.declarations) {
-    return path.node.params.map(dec => ({
-      name: dec.name,
-      location: dec.loc
-    }));
-  }
-
-  const declarations = path.node.declarations
-    .filter(dec => dec.id.type !== "ObjectPattern")
-    .map(getVariables);
-
-  return flatten(declarations);
-}
-
-function getComments(ast) {
-  if (!ast || !ast.comments) {
-    return [];
-  }
-  return ast.comments.map(comment => ({
-    name: comment.location,
-    location: comment.loc
-  }));
-}
-
-function getSpecifiers(specifiers) {
-  if (!specifiers) {
-    return null;
-  }
-
-  return specifiers.map(specifier => specifier.local && specifier.local.name);
-}
-
+/* eslint-disable complexity */
 function extractSymbol(path: SimplePath, symbols) {
   if (isVariable(path)) {
     symbols.variables.push(...getVariableNames(path));
@@ -143,10 +148,18 @@ function extractSymbol(path: SimplePath, symbols) {
   }
 
   if (t.isClassDeclaration(path)) {
+    const { loc, superClass } = path.node;
     symbols.classes.push({
       name: path.node.id.name,
-      parent: path.node.superClass,
-      location: path.node.loc
+      parent: superClass
+        ? {
+            name: t.isMemberExpression(superClass)
+              ? getCode(superClass)
+              : superClass.name,
+            location: superClass.loc
+          }
+        : null,
+      location: loc
     });
   }
 
@@ -172,9 +185,21 @@ function extractSymbol(path: SimplePath, symbols) {
     symbols.memberExpressions.push({
       name: path.node.property.name,
       location: { start, end },
-      expressionLocation: path.node.loc,
       expression: getSnippet(path),
       computed: path.node.computed
+    });
+  }
+
+  if (
+    (t.isStringLiteral(path) || t.isNumericLiteral(path)) &&
+    t.isMemberExpression(path.parentPath)
+  ) {
+    // We only need literals that are part of computed memeber expressions
+    const { start, end } = path.node.loc;
+    symbols.literals.push({
+      name: path.node.value,
+      location: { start, end },
+      expression: getSnippet(path.parentPath)
     });
   }
 
@@ -191,6 +216,15 @@ function extractSymbol(path: SimplePath, symbols) {
     }
   }
 
+  if (t.isStringLiteral(path) && t.isProperty(path.parentPath)) {
+    const { start, end } = path.node.loc;
+    return symbols.identifiers.push({
+      name: path.node.value,
+      expression: getObjectExpressionValue(path.parent),
+      location: { start, end }
+    });
+  }
+
   if (t.isIdentifier(path) && !t.isGenericTypeAnnotation(path.parent)) {
     let { start, end } = path.node.loc;
 
@@ -199,8 +233,12 @@ function extractSymbol(path: SimplePath, symbols) {
       return;
     }
 
-    if (t.isProperty(path.parent)) {
-      return;
+    if (t.isProperty(path.parentPath) && !isObjectShorthand(path.parent)) {
+      return symbols.identifiers.push({
+        name: path.node.name,
+        expression: getObjectExpressionValue(path.parent),
+        location: { start, end }
+      });
     }
 
     if (path.node.typeAnnotation) {
@@ -220,26 +258,40 @@ function extractSymbol(path: SimplePath, symbols) {
     symbols.identifiers.push({
       name: "this",
       location: { start, end },
-      expressionLocation: path.node.loc,
       expression: "this"
     });
   }
 
   if (t.isVariableDeclarator(path)) {
-    const node = path.node.id;
-    const { start, end } = path.node.loc;
-    if (t.isArrayPattern(node)) {
+    const nodeId = path.node.id;
+
+    if (t.isArrayPattern(nodeId)) {
       return;
     }
-    symbols.identifiers.push({
-      name: node.name,
-      expression: node.name,
-      location: { start, end }
+
+    const properties =
+      nodeId.properties && t.objectPattern(nodeId.properties)
+        ? nodeId.properties
+        : [
+            {
+              value: { name: nodeId.name },
+              loc: path.node.loc
+            }
+          ];
+
+    properties.forEach(function(property) {
+      const { start, end } = property.loc;
+      symbols.identifiers.push({
+        name: property.value.name,
+        expression: property.value.name,
+        location: { start, end }
+      });
     });
   }
 }
+/* eslint-enable complexity */
 
-function extractSymbols(sourceId) {
+function extractSymbols(sourceId): SymbolDeclarations {
   const symbols = {
     functions: [],
     variables: [],
@@ -250,8 +302,10 @@ function extractSymbols(sourceId) {
     identifiers: [],
     classes: [],
     imports: [],
+    literals: [],
     hasJsx: false,
-    hasTypes: false
+    hasTypes: false,
+    loading: false
   };
 
   const ast = traverseAst(sourceId, {
@@ -276,9 +330,9 @@ function extractSymbols(sourceId) {
 function extendSnippet(
   name: string,
   expression: string,
-  path: SimplePath | Object | null = null,
-  prevPath: SimplePath | null = null
-): string | void {
+  path?: { node: Node },
+  prevPath?: SimplePath
+) {
   const computed = path && path.node.computed;
   const prevComputed = prevPath && prevPath.node.computed;
   const prevArray = t.isArrayExpression(prevPath);
@@ -344,9 +398,9 @@ function getMemberSnippet(node: Node, expression: string = "") {
 }
 
 function getObjectSnippet(
-  path: SimplePath | null,
-  prevPath: SimplePath | null,
-  expression: string = ""
+  path: ?SimplePath,
+  prevPath?: SimplePath,
+  expression?: string = ""
 ) {
   if (!path) {
     return expression;
@@ -382,9 +436,9 @@ function getArraySnippet(
 
 function getSnippet(
   path: SimplePath | null,
-  prevPath: SimplePath | null = null,
-  expression = ""
-) {
+  prevPath?: SimplePath,
+  expression?: string = ""
+): string {
   if (!path) {
     return expression;
   }
@@ -445,6 +499,8 @@ function getSnippet(
 
     return getArraySnippet(path, prevPath, expression);
   }
+
+  return "";
 }
 
 export function clearSymbols() {

@@ -3,21 +3,18 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-
-import { isGeneratedId } from "devtools-source-map";
-
 import {
   getHiddenBreakpointLocation,
   isEvaluatingExpression,
   getSelectedFrame,
-  getVisibleSelectedFrame,
   getSources
 } from "../../selectors";
 
 import { mapFrames } from ".";
 import { removeBreakpoint } from "../breakpoints";
 import { evaluateExpressions } from "../expressions";
-import { selectLocation, loadSourceText } from "../sources";
+import { selectLocation } from "../sources";
+import { loadSourceText } from "../sources/loadSourceText";
 import { togglePaneCollapse } from "../ui";
 import { command } from "./commands";
 import { shouldStep } from "../../utils/pause";
@@ -30,7 +27,7 @@ import type { Pause, Frame } from "../../types";
 import type { ThunkArgs } from "../types";
 
 async function getOriginalSourceForFrame(state, frame: Frame) {
-  return getSources(state).get(frame.location.sourceId);
+  return getSources(state)[frame.location.sourceId];
 }
 /**
  * Debugger has just paused
@@ -42,16 +39,17 @@ async function getOriginalSourceForFrame(state, frame: Frame) {
 export function paused(pauseInfo: Pause) {
   return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
     const { frames, why, loadedObjects } = pauseInfo;
-    const rootFrame = frames.length > 0 ? frames[0] : null;
+    const topFrame = frames.length > 0 ? frames[0] : null;
 
-    if (rootFrame) {
-      const mappedFrame = await updateFrameLocation(rootFrame, sourceMaps);
+    // NOTE: do not step when leaving a frame or paused at a debugger statement
+    if (topFrame && !why.frameFinished && why.type == "resumeLimit") {
+      const mappedFrame = await updateFrameLocation(topFrame, sourceMaps);
       const source = await getOriginalSourceForFrame(getState(), mappedFrame);
 
       // Ensure that the original file has loaded if there is one.
       await dispatch(loadSourceText(source));
 
-      if (await shouldStep(mappedFrame, getState(), sourceMaps)) {
+      if (shouldStep(mappedFrame, getState(), sourceMaps)) {
         dispatch(command("stepOver"));
         return;
       }
@@ -61,7 +59,7 @@ export function paused(pauseInfo: Pause) {
       type: "PAUSED",
       why,
       frames,
-      selectedFrameId: rootFrame ? rootFrame.id : undefined,
+      selectedFrameId: topFrame ? topFrame.id : undefined,
       loadedObjects: loadedObjects || []
     });
 
@@ -70,22 +68,21 @@ export function paused(pauseInfo: Pause) {
       dispatch(removeBreakpoint(hiddenBreakpointLocation));
     }
 
-    if (!isEvaluatingExpression(getState())) {
-      dispatch(evaluateExpressions());
-    }
-
     await dispatch(mapFrames());
-    const selectedFrame = getSelectedFrame(getState());
 
+    const selectedFrame = getSelectedFrame(getState());
     if (selectedFrame) {
-      const visibleFrame = getVisibleSelectedFrame(getState());
-      const location = isGeneratedId(visibleFrame.location.sourceId)
-        ? selectedFrame.generatedLocation
-        : selectedFrame.location;
-      await dispatch(selectLocation(location));
+      await dispatch(selectLocation(selectedFrame.location));
     }
 
     dispatch(togglePaneCollapse("end", false));
-    dispatch(fetchScopes());
+    await dispatch(fetchScopes());
+
+    // Run after fetching scoping data so that it may make use of the sourcemap
+    // expression mappings for local variables.
+    const atException = why.type == "exception";
+    if (!atException || !isEvaluatingExpression(getState())) {
+      await dispatch(evaluateExpressions());
+    }
   };
 }

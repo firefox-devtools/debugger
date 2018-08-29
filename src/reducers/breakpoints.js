@@ -16,7 +16,7 @@ import { isGeneratedId } from "devtools-source-map";
 import { makeLocationId } from "../utils/breakpoint";
 
 import type { Breakpoint, Location } from "../types";
-import type { Action } from "../actions/types";
+import type { Action, DonePromiseAction } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 export type BreakpointsMap = I.Map<string, Breakpoint>;
@@ -92,7 +92,8 @@ function addBreakpoint(state, action) {
 
   // when the action completes, we can commit the breakpoint
   if (action.status === "done") {
-    return syncBreakpoint(state, action.value);
+    const { value } = ((action: any): DonePromiseAction);
+    return syncBreakpoint(state, value);
   }
 
   // Remove the optimistic update
@@ -161,7 +162,10 @@ export function getBreakpoints(state: OuterState) {
   return state.breakpoints.breakpoints;
 }
 
-export function getBreakpoint(state: OuterState, location: Location) {
+export function getBreakpoint(
+  state: OuterState,
+  location: Location
+): Breakpoint {
   const breakpoints = getBreakpoints(state);
   return breakpoints.get(makeLocationId(location));
 }

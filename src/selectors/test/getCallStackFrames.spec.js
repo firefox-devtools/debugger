@@ -3,7 +3,6 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 import { getCallStackFrames } from "../getCallStackFrames";
-import { fromJS } from "immutable";
 import { pullAt } from "lodash";
 
 describe("getCallStackFrames selector", () => {
@@ -15,16 +14,16 @@ describe("getCallStackFrames selector", () => {
           { location: { sourceId: "source2" } },
           { location: { sourceId: "source2" } }
         ],
-        sources: fromJS({
+        sources: {
           source1: { id: "source1", url: "webpack:///src/App.js" },
           source2: {
             id: "source2",
             url: "webpack:///~/react-dom/lib/ReactCompositeComponent.js"
           }
-        }),
-        selectedSource: fromJS({
+        },
+        selectedSource: {
           id: "sourceId-originalSource"
-        })
+        }
       };
 
       const frames = getCallStackFrames.resultFunc(
@@ -47,7 +46,7 @@ describe("getCallStackFrames selector", () => {
     it("annotates frames related to Babel async transforms", () => {
       const preAwaitGroup = [
         {
-          displayName: "_callee$",
+          displayName: "asyncAppFunction",
           location: { sourceId: "bundle" }
         },
         {
@@ -86,7 +85,7 @@ describe("getCallStackFrames selector", () => {
 
       const postAwaitGroup = [
         {
-          displayName: "_callee$",
+          displayName: "asyncAppFunction",
           location: { sourceId: "bundle" }
         },
         {
@@ -125,7 +124,7 @@ describe("getCallStackFrames selector", () => {
 
       const state = {
         frames: [...preAwaitGroup, ...postAwaitGroup],
-        sources: fromJS({
+        sources: {
           app: { id: "app", url: "webpack///app.js" },
           bundle: { id: "bundle", url: "https://foo.com/bundle.js" },
           regenerator: {
@@ -140,10 +139,10 @@ describe("getCallStackFrames selector", () => {
             id: "promise",
             url: "webpack///foo/node_modules/core-js/modules/es6.promise.js"
           }
-        }),
-        selectedSource: fromJS({
+        },
+        selectedSource: {
           id: "sourceId-originalSource"
-        })
+        }
       };
 
       const frames = getCallStackFrames.resultFunc(
@@ -160,6 +159,7 @@ describe("getCallStackFrames selector", () => {
         5,
         6,
         7,
+        8,
         10,
         11,
         12,

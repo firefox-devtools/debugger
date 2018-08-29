@@ -10,12 +10,19 @@ import type { Frame } from "../../../types";
 import { getFrameUrl } from "./getFrameUrl";
 import { getLibraryFromUrl } from "./getLibraryFromUrl";
 
-export function annotateFrames(frames: Frame[]) {
+type AnnotatedFrame =
+  | {|
+      ...Frame,
+      library: string
+    |}
+  | Frame;
+
+export function annotateFrames(frames: Frame[]): AnnotatedFrame[] {
   const annotatedFrames = frames.map(annotateFrame);
   return annotateBabelAsyncFrames(annotatedFrames);
 }
 
-function annotateFrame(frame: Frame) {
+function annotateFrame(frame: Frame): AnnotatedFrame {
   const library = getLibraryFromUrl(frame);
   if (library) {
     return { ...frame, library };
@@ -37,18 +44,28 @@ function annotateBabelAsyncFrames(frames: Frame[]) {
 // Receives an array of frames and looks for babel async
 // call stack groups.
 function getBabelFrameIndexes(frames) {
-  const startIndexes = getFrameIndices(
-    frames,
-    (displayName, url) =>
-      url.match(/regenerator-runtime/i) && displayName === "tryCatch"
-  );
+  const startIndexes = frames.reduce((accumulator, frame, index) => {
+    if (
+      getFrameUrl(frame).match(/regenerator-runtime/i) &&
+      frame.displayName === "tryCatch"
+    ) {
+      return [...accumulator, index];
+    }
+    return accumulator;
+  }, []);
 
-  const endIndexes = getFrameIndices(
-    frames,
-    (displayName, url) =>
-      displayName === "_asyncToGenerator/<" ||
-      (url.match(/_microtask/i) && displayName === "flush")
-  );
+  const endIndexes = frames.reduce((accumulator, frame, index) => {
+    if (
+      getFrameUrl(frame).match(/_microtask/i) &&
+      frame.displayName === "flush"
+    ) {
+      return [...accumulator, index];
+    }
+    if (frame.displayName === "_asyncToGenerator/<") {
+      return [...accumulator, index + 1];
+    }
+    return accumulator;
+  }, []);
 
   if (startIndexes.length != endIndexes.length || startIndexes.length === 0) {
     return frames;
@@ -57,17 +74,8 @@ function getBabelFrameIndexes(frames) {
   // Receives an array of start and end index tuples and returns
   // an array of async call stack index ranges.
   // e.g. [[1,3], [5,7]] => [[1,2,3], [5,6,7]]
+  // $FlowIgnore
   return flatMap(zip(startIndexes, endIndexes), ([startIndex, endIndex]) =>
     range(startIndex, endIndex + 1)
-  );
-}
-
-function getFrameIndices(frames, predicate) {
-  return frames.reduce(
-    (accumulator, frame, index) =>
-      predicate(frame.displayName, getFrameUrl(frame))
-        ? [...accumulator, index]
-        : accumulator,
-    []
   );
 }

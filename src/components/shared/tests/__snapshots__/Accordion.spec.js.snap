@@ -1,36 +1,43 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Accordion basic render 1`] = `
-<div
+<ul
   className="accordion"
+  role="list"
 >
-  <div
+  <li
     className="accordion-item-1"
     key="0"
+    role="listitem"
   >
-    <div
+    <h2
       className="_header"
       onClick={[Function]}
+      onKeyDown={[Function]}
+      tabIndex="0"
     >
       <Svg
         className="expanded"
         name="arrow"
       />
       Test Accordion Item 1
-    </div>
+    </h2>
     <div
       className="_content"
     >
       <div />
     </div>
-  </div>
-  <div
+  </li>
+  <li
     className="accordion-item-2"
     key="1"
+    role="listitem"
   >
-    <div
+    <h2
       className="_header"
       onClick={[Function]}
+      onKeyDown={[Function]}
+      tabIndex="0"
     >
       <Svg
         className=""
@@ -39,30 +46,34 @@ exports[`Accordion basic render 1`] = `
       Test Accordion Item 2
       <div
         className="header-buttons"
+        tabIndex="-1"
       >
         <button />
       </div>
-    </div>
-  </div>
-  <div
+    </h2>
+  </li>
+  <li
     className="accordion-item-3"
     key="2"
+    role="listitem"
   >
-    <div
+    <h2
       className="_header"
       onClick={[Function]}
+      onKeyDown={[Function]}
+      tabIndex="0"
     >
       <Svg
         className="expanded"
         name="arrow"
       />
       Test Accordion Item 3
-    </div>
+    </h2>
     <div
       className="_content"
     >
       <div />
     </div>
-  </div>
-</div>
+  </li>
+</ul>
 `;

@@ -2,36 +2,33 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
+// @flow
+
 import React from "react";
 import { bindActionCreators, combineReducers } from "redux";
 import ReactDOM from "react-dom";
 const { Provider } = require("react-redux");
 
-import {
-  getValue,
-  isFirefoxPanel,
-  isDevelopment,
-  isTesting
-} from "devtools-config";
+import { isFirefoxPanel, isDevelopment, isTesting } from "devtools-environment";
 import { startSourceMapWorker, stopSourceMapWorker } from "devtools-source-map";
-import { startSearchWorker, stopSearchWorker } from "../workers/search";
+import * as search from "../workers/search";
+import * as prettyPrint from "../workers/pretty-print";
+import * as parser from "../workers/parser";
 
-import {
-  startPrettyPrintWorker,
-  stopPrettyPrintWorker
-} from "../workers/pretty-print";
-import { startParserWorker, stopParserWorker } from "../workers/parser";
 import configureStore from "../actions/utils/create-store";
 import reducers from "../reducers";
 import * as selectors from "../selectors";
 import App from "../components/App";
-import { prefs } from "./prefs";
+import { asyncStore } from "./prefs";
 
 function renderPanel(component, store) {
   const root = document.createElement("div");
   root.className = "launchpad-root theme-body";
-  root.style.setProperty("flex", 1);
+  root.style.setProperty("flex", "1");
   const mount = document.querySelector("#mount");
+  if (!mount) {
+    return;
+  }
   mount.appendChild(root);
 
   ReactDOM.render(
@@ -40,16 +37,20 @@ function renderPanel(component, store) {
   );
 }
 
-export function bootstrapStore(client, { services, toolboxActions }) {
+export function bootstrapStore(
+  client: any,
+  { services, toolboxActions }: any,
+  initialState: Object
+) {
   const createStore = configureStore({
-    log: isTesting() || getValue("logging.actions"),
+    log: isTesting(),
     timing: isDevelopment(),
     makeThunkArgs: (args, state) => {
       return { ...args, client, ...services, ...toolboxActions };
     }
   });
 
-  const store = createStore(combineReducers(reducers));
+  const store = createStore(combineReducers(reducers), initialState);
   store.subscribe(() => updatePrefs(store.getState()));
 
   const actions = bindActionCreators(
@@ -61,13 +62,19 @@ export function bootstrapStore(client, { services, toolboxActions }) {
 }
 
 export function bootstrapWorkers() {
-  if (!isFirefoxPanel()) {
+  const workerPath = isDevelopment()
+    ? "assets/build"
+    : "resource://devtools/client/debugger/new/dist";
+
+  if (isDevelopment()) {
     // When used in Firefox, the toolbox manages the source map worker.
-    startSourceMapWorker(getValue("workers.sourceMapURL"));
+    startSourceMapWorker(`${workerPath}/source-map-worker.js`);
   }
-  startPrettyPrintWorker(getValue("workers.prettyPrintURL"));
-  startParserWorker(getValue("workers.parserURL"));
-  startSearchWorker(getValue("workers.searchURL"));
+
+  prettyPrint.start(`${workerPath}/pretty-print-worker.js`);
+  parser.start(`${workerPath}/parser-worker.js`);
+  search.start(`${workerPath}/search-worker.js`);
+  return { prettyPrint, parser, search };
 }
 
 export function teardownWorkers() {
@@ -75,12 +82,12 @@ export function teardownWorkers() {
     // When used in Firefox, the toolbox manages the source map worker.
     stopSourceMapWorker();
   }
-  stopPrettyPrintWorker();
-  stopParserWorker();
-  stopSearchWorker();
+  prettyPrint.stop();
+  parser.stop();
+  search.stop();
 }
 
-export function bootstrapApp(store) {
+export function bootstrapApp(store: any) {
   if (isFirefoxPanel()) {
     renderPanel(App, store);
   } else {
@@ -89,10 +96,15 @@ export function bootstrapApp(store) {
   }
 }
 
-function updatePrefs(state) {
-  const pendingBreakpoints = selectors.getPendingBreakpoints(state);
+let currentPendingBreakpoints;
+function updatePrefs(state: any) {
+  const previousPendingBreakpoints = currentPendingBreakpoints;
+  currentPendingBreakpoints = selectors.getPendingBreakpoints(state);
 
-  if (prefs.pendingBreakpoints !== pendingBreakpoints) {
-    prefs.pendingBreakpoints = pendingBreakpoints;
+  if (
+    previousPendingBreakpoints &&
+    currentPendingBreakpoints !== previousPendingBreakpoints
+  ) {
+    asyncStore.pendingBreakpoints = currentPendingBreakpoints;
   }
 }

@@ -1,0 +1,74 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/debugger.html
+    parallelism: 1
+    shell: /bin/bash --login
+    environment:
+      CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
+      CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
+      DOWNLOADS_PATH: $HOME/downloads
+      YARN_PATH: $HOME/.yarn
+      YARN_VERSION: 1.6.0
+      PATH: ${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      JEST_JUNIT_OUTPUT: $CIRCLE_TEST_REPORTS/junit.xml
+      NVM_DIR: ~/.nvm
+
+    docker:
+    - image: node:8.9.4
+      command: /sbin/init
+    # machine: true
+    steps:
+    - checkout
+    - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
+    - run:
+        working_directory: ~/debugger.html
+        command: mkdir -p $DOWNLOADS_PATH
+    - run:
+        working_directory: ~/debugger.html
+        command: mkdir -p $YARN_PATH
+    - run: cp configs/ci.json configs/local.json
+    - restore_cache:
+        keys:
+        # This branch if available
+        - v1-dep-{{ .Branch }}-
+        # Default branch if not
+        - v1-dep-master-
+        # Any branch if there are none on the default branch - this should be unnecessary if you have your default branch configured correctly
+        - v1-dep-
+    - run: ./bin/ci/install-yarn
+    - run: yarn global add greenkeeper-lockfile@github:jasonLaster/greenkeeper-lockfile#e388fb49f8
+    - run: yarn
+    - run: yarn global add flow-coverage-report
+    
+    # Save dependency cache
+    - save_cache:
+        key: v1-dep-{{ .Branch }}-{{ epoch }}
+        paths:
+        - ~/.cache/yarn
+        - ~/.yarn
+        - ./node_modules
+    
+    - run: greenkeeper-lockfile-update
+    
+    - run: mkdir -p $CIRCLE_TEST_REPORTS/flow-coverage
+    - run: mkdir -p $CIRCLE_TEST_REPORTS/jest-coverage
+    - run: yarn test -i --no-colors --testResultsProcessor="jest-junit" --coverage --coverageDirectory=$CIRCLE_TEST_REPORTS/jest-coverage
+    - run: yarn license-check
+    - run: yarn lint
+    - run: yarn flow
+    
+    - run: yarn flow-coverage -- -t json -o $CIRCLE_TEST_REPORTS/flow-coverage
+    - run: yarn check --integrity
+    - run: bash <(curl -s https://codecov.io/bash) -f $CIRCLE_TEST_REPORTS/jest-coverage/coverage-final.json
+    
+    # Deployment
+    - store_test_results:
+        path: /tmp/circleci-test-results
+    # Save artifacts
+    - store_artifacts:
+        path: /tmp/circleci-artifacts
+    - store_artifacts:
+        path: yarn-error.log
+    - store_artifacts:
+        path: /tmp/circleci-test-results

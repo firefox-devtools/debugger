@@ -12,8 +12,11 @@ import {
 } from "../../utils/breakpoint";
 
 import { getGeneratedLocation } from "../../utils/source-maps";
-import { originalToGeneratedId } from "devtools-source-map";
+import { getTextAtPosition } from "../../utils/source";
+import { originalToGeneratedId, isOriginalId } from "devtools-source-map";
 import { getSource } from "../../selectors";
+import type { ThunkArgs, Action } from "../types";
+
 import type {
   Location,
   ASTLocation,
@@ -50,9 +53,17 @@ function createSyncData(
   pendingBreakpoint: PendingBreakpoint,
   location: Location,
   generatedLocation: Location,
-  previousLocation: Location
+  previousLocation: Location,
+  text: string,
+  originalText: string
 ): BreakpointSyncData {
-  const overrides = { ...pendingBreakpoint, generatedLocation, id };
+  const overrides = {
+    ...pendingBreakpoint,
+    generatedLocation,
+    id,
+    text,
+    originalText
+  };
   const breakpoint = createBreakpoint(location, overrides);
 
   assertBreakpoint(breakpoint);
@@ -61,19 +72,26 @@ function createSyncData(
 
 // we have three forms of syncing: disabled syncing, existing server syncing
 // and adding a new breakpoint
-export async function syncClientBreakpoint(
+export async function syncBreakpointPromise(
   getState: Function,
   client: Object,
   sourceMaps: Object,
   sourceId: SourceId,
   pendingBreakpoint: PendingBreakpoint
-): Promise<BreakpointSyncData> {
+): Promise<BreakpointSyncData | null> {
   assertPendingBreakpoint(pendingBreakpoint);
 
-  const source = getSource(getState(), sourceId).toJS();
-  const generatedSourceId = sourceMaps.isOriginalId(sourceId)
+  const source = getSource(getState(), sourceId);
+
+  const generatedSourceId = isOriginalId(sourceId)
     ? originalToGeneratedId(sourceId)
     : sourceId;
+
+  const generatedSource = getSource(getState(), generatedSourceId);
+
+  if (!source) {
+    return null;
+  }
 
   const { location, astLocation } = pendingBreakpoint;
   const previousLocation = { ...location, sourceId };
@@ -110,12 +128,17 @@ export async function syncClientBreakpoint(
   // send update only to redux
   if (pendingBreakpoint.disabled || (existingClient && isSameLocation)) {
     const id = pendingBreakpoint.disabled ? "" : existingClient.id;
+    const originalText = getTextAtPosition(source, previousLocation);
+    const text = getTextAtPosition(generatedSource, generatedLocation);
+
     return createSyncData(
       id,
       pendingBreakpoint,
       scopedLocation,
       scopedGeneratedLocation,
-      previousLocation
+      previousLocation,
+      text,
+      originalText
     );
   }
 
@@ -135,7 +158,7 @@ export async function syncClientBreakpoint(
   const { id, actualLocation } = await client.setBreakpoint(
     scopedGeneratedLocation,
     pendingBreakpoint.condition,
-    sourceMaps.isOriginalId(sourceId)
+    isOriginalId(sourceId)
   );
 
   // the breakpoint might have slid server side, so we want to get the location
@@ -145,11 +168,54 @@ export async function syncClientBreakpoint(
     newGeneratedLocation
   );
 
+  const originalText = getTextAtPosition(source, newLocation);
+  const text = getTextAtPosition(generatedSource, newGeneratedLocation);
+
   return createSyncData(
     id,
     pendingBreakpoint,
     newLocation,
     newGeneratedLocation,
-    previousLocation
+    previousLocation,
+    text,
+    originalText
   );
+}
+
+/**
+ * Syncing a breakpoint add breakpoint information that is stored, and
+ * contact the server for more data.
+ *
+ * @memberof actions/breakpoints
+ * @static
+ * @param {String} $1.sourceId String  value
+ * @param {PendingBreakpoint} $1.location PendingBreakpoint  value
+ */
+export function syncBreakpoint(
+  sourceId: SourceId,
+  pendingBreakpoint: PendingBreakpoint
+) {
+  return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
+    const response = await syncBreakpointPromise(
+      getState,
+      client,
+      sourceMaps,
+      sourceId,
+      pendingBreakpoint
+    );
+
+    if (!response) {
+      return;
+    }
+
+    const { breakpoint, previousLocation } = response;
+
+    return dispatch(
+      ({
+        type: "SYNC_BREAKPOINT",
+        breakpoint,
+        previousLocation
+      }: Action)
+    );
+  };
 }

@@ -8,13 +8,19 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import Reps from "devtools-reps";
-const { REPS: { Rep }, MODE, ObjectInspector, ObjectInspectorUtils } = Reps;
+const {
+  REPS: { Rep },
+  MODE,
+  ObjectInspector,
+  ObjectInspectorUtils
+} = Reps;
 
 const {
   createNode,
   getChildren,
   getValue,
-  nodeIsPrimitive
+  nodeIsPrimitive,
+  NODE_TYPES
 } = ObjectInspectorUtils.node;
 const { loadItemProperties } = ObjectInspectorUtils.loadProperties;
 
@@ -22,15 +28,15 @@ import actions from "../../../actions";
 import { getAllPopupObjectProperties } from "../../../selectors";
 import Popover from "../../shared/Popover";
 import PreviewFunction from "../../shared/PreviewFunction";
-import { markText } from "../../../utils/editor";
 import { isReactComponent, isImmutable } from "../../../utils/preview";
+
 import Svg from "../../shared/Svg";
 import { createObjectClient } from "../../../client/firefox";
 
 import "./Popup.css";
 
 import type { EditorRange } from "../../../utils/editor/types";
-import type { Node } from "../../../utils/sources-tree/types";
+import type { Coords } from "../../shared/Popover";
 
 type PopupValue = Object | null;
 type Props = {
@@ -49,18 +55,48 @@ type Props = {
   extra: Object
 };
 
-export class Popup extends Component<Props> {
+type State = {
+  top: number
+};
+
+function inPreview(event) {
+  const relatedTarget: Element = (event.relatedTarget: any);
+
+  if (
+    !relatedTarget ||
+    (relatedTarget.classList &&
+      relatedTarget.classList.contains("preview-expression"))
+  ) {
+    return true;
+  }
+
+  // $FlowIgnore
+  const inPreviewSelection = document
+    .elementsFromPoint(event.clientX, event.clientY)
+    .some(el => el.classList.contains("preview-selection"));
+
+  return inPreviewSelection;
+}
+
+export class Popup extends Component<Props, State> {
   marker: any;
   pos: any;
+
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      top: 0
+    };
+  }
 
   async componentWillMount() {
     const {
       value,
-      expression,
       setPopupObjectProperties,
       popupObjectProperties
     } = this.props;
-    const root = createNode(null, expression, expression, { value });
+
+    const root = this.getRoot();
 
     if (
       !nodeIsPrimitive(root) &&
@@ -71,51 +107,66 @@ export class Popup extends Component<Props> {
       const onLoadItemProperties = loadItemProperties(root, createObjectClient);
       if (onLoadItemProperties !== null) {
         const properties = await onLoadItemProperties;
-        setPopupObjectProperties(value, properties);
+        setPopupObjectProperties(root.contents.value, properties);
       }
     }
   }
 
-  componentDidMount() {
-    const { value, editor, range } = this.props;
+  onMouseLeave = (e: SyntheticMouseEvent<HTMLDivElement>) => {
+    const relatedTarget: Element = (e.relatedTarget: any);
 
-    if (!value || !value.type == "object") {
-      return;
+    if (!relatedTarget) {
+      return this.props.onClose();
     }
 
-    // this.marker = markText(editor, "preview-selection", range);
-  }
-
-  componentWillUnmount() {
-    if (this.marker) {
-      this.marker.clear();
+    if (!inPreview(e)) {
+      this.props.onClose();
     }
-  }
+  };
+
+  onKeyDown = (e: KeyboardEvent) => {
+    if (e.key === "Escape") {
+      this.props.onClose();
+    }
+  };
 
   getRoot() {
-    const { expression, value } = this.props;
+    const { expression, value, extra } = this.props;
 
-    return {
+    let rootValue = value;
+    if (extra.immutable) {
+      rootValue = extra.immutable.entries;
+    }
+
+    return createNode({
       name: expression,
       path: expression,
-      contents: { value }
-    };
+      contents: { value: rootValue }
+    });
+  }
+
+  getObjectProperties() {
+    const { popupObjectProperties } = this.props;
+    const root = this.getRoot();
+    const value = getValue(root);
+    if (!value) {
+      return null;
+    }
+
+    return popupObjectProperties[value.actor];
   }
 
   getChildren() {
-    const { popupObjectProperties } = this.props;
-
+    const properties = this.getObjectProperties();
     const root = this.getRoot();
-    const value = getValue(root);
-    const actor = value ? value.actor : null;
-    const loadedRootProperties = popupObjectProperties[actor];
-    if (!loadedRootProperties) {
+
+    if (!properties) {
       return null;
     }
 
     const children = getChildren({
       item: root,
-      loadedProperties: new Map([[root.path, loadedRootProperties]])
+      loadedProperties: new Map([[root.path, properties]])
     });
 
     if (children.length > 0) {
@@ -124,6 +175,14 @@ export class Popup extends Component<Props> {
 
     return null;
   }
+
+  calculateMaxHeight = () => {
+    const { editorRef } = this.props;
+    if (!editorRef) {
+      return "auto";
+    }
+    return editorRef.getBoundingClientRect().height - this.state.top;
+  };
 
   renderFunctionPreview() {
     const { selectSourceURL, value } = this.props;
@@ -143,20 +202,13 @@ export class Popup extends Component<Props> {
     );
   }
 
-  renderReact(react: Object, roots: Array<Node>) {
+  renderReact(react: Object) {
     const reactHeader = react.displayName || "React Component";
 
-    const header = (
-      <div className="header-container">
-        <h3>{reactHeader}</h3>
-      </div>
-    );
-
-    roots = roots.filter(r => ["state", "props"].includes(r.name));
     return (
-      <div className="preview-popup">
-        {header}
-        {this.renderObjectInspector(roots)}
+      <div className="header-container">
+        <Svg name="react" className="logo" />
+        <h3>{reactHeader}</h3>
       </div>
     );
   }
@@ -164,50 +216,46 @@ export class Popup extends Component<Props> {
   renderImmutable(immutable: Object) {
     const immutableHeader = immutable.type || "Immutable";
 
-    const header = (
-      <div className="header-container">
-        <Svg name="immutable" className="immutable-logo" />
-        <h3>{immutableHeader}</h3>
-      </div>
-    );
-
-    const roots = [
-      createNode(null, "entries", "entries", { value: immutable.entries })
-    ];
-
     return (
-      <div className="preview-popup">
-        {header}
-        {this.renderObjectInspector(roots)}
+      <div className="header-container">
+        <Svg name="immutable" className="logo" />
+        <h3>{immutableHeader}</h3>
       </div>
     );
   }
 
   renderObjectPreview() {
+    const { extra } = this.props;
     const root = this.getRoot();
 
     if (nodeIsPrimitive(root)) {
       return null;
     }
 
-    const roots = this.getChildren();
+    let roots = this.getChildren();
     if (!Array.isArray(roots) || roots.length === 0) {
       return null;
     }
 
-    const { extra: { react, immutable } } = this.props;
-    const grip = getValue(root);
-
-    if (isReactComponent(grip)) {
-      return this.renderReact(react, roots);
+    let header = null;
+    if (isImmutable(this.getObjectProperties())) {
+      header = this.renderImmutable(extra.immutable);
+      roots = roots.filter(r => r.type != NODE_TYPES.PROTOTYPE);
     }
 
-    if (isImmutable(grip)) {
-      return this.renderImmutable(immutable);
+    if (extra.react && isReactComponent(this.getObjectProperties())) {
+      header = this.renderReact(extra.react);
+      roots = roots.filter(r => ["state", "props"].includes(r.name));
     }
 
     return (
-      <div className="preview-popup">{this.renderObjectInspector(roots)}</div>
+      <div
+        className="preview-popup"
+        style={{ maxHeight: this.calculateMaxHeight() }}
+      >
+        {header}
+        {this.renderObjectInspector(roots)}
+      </div>
     );
   }
 
@@ -232,7 +280,7 @@ export class Popup extends Component<Props> {
         roots={roots}
         autoExpandDepth={0}
         disableWrap={true}
-        disabledFocus={true}
+        focusable={false}
         openLink={openLink}
         createObjectClient={grip => createObjectClient(grip)}
       />
@@ -273,8 +321,12 @@ export class Popup extends Component<Props> {
     return "popover";
   }
 
+  onPopoverCoords = (coords: Coords) => {
+    this.setState({ top: coords.top });
+  };
+
   render() {
-    const { popoverPos, onClose, value, editorRef } = this.props;
+    const { popoverPos, value, editorRef } = this.props;
     const type = this.getPreviewType(value);
 
     if (value && value.type === "object" && !this.getChildren()) {
@@ -284,8 +336,10 @@ export class Popup extends Component<Props> {
     return (
       <Popover
         targetPosition={popoverPos}
-        onMouseLeave={onClose}
+        onMouseLeave={this.onMouseLeave}
+        onKeyDown={this.onKeyDown}
         type={type}
+        onPopoverCoords={this.onPopoverCoords}
         editorRef={editorRef}
       >
         {this.renderPreview()}
@@ -293,6 +347,10 @@ export class Popup extends Component<Props> {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  popupObjectProperties: getAllPopupObjectProperties(state)
+});
 
 const {
   addExpression,
@@ -302,15 +360,15 @@ const {
   openLink
 } = actions;
 
+const mapDispatchToProps = {
+  addExpression,
+  selectSourceURL,
+  selectLocation,
+  setPopupObjectProperties,
+  openLink
+};
+
 export default connect(
-  state => ({
-    popupObjectProperties: getAllPopupObjectProperties(state)
-  }),
-  {
-    addExpression,
-    selectSourceURL,
-    selectLocation,
-    setPopupObjectProperties,
-    openLink
-  }
+  mapStateToProps,
+  mapDispatchToProps
 )(Popup);

@@ -4,18 +4,22 @@
 
 // @flow
 
-import type { Node } from "./types";
+import type { TreeNode } from "./types";
 
-export function formatTree(tree: Node, depth: number = 0, str: string = "") {
+export function formatTree(
+  tree: TreeNode,
+  depth: number = 0,
+  str: string = ""
+) {
   const whitespace = new Array(depth * 2).join(" ");
 
-  if (Array.isArray(tree.contents)) {
+  if (tree.type === "directory") {
     str += `${whitespace} - ${tree.name} path=${tree.path} \n`;
     tree.contents.forEach(t => {
       str = formatTree(t, depth + 1, str);
     });
   } else {
-    const id = tree.contents.get("id");
+    const id = tree.contents.id;
     str += `${whitespace} - ${tree.name} path=${tree.path} source_id=${id} \n`;
   }
 

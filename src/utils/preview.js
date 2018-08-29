@@ -7,31 +7,32 @@
 import type { Grip } from "../types";
 
 const IMMUTABLE_FIELDS = ["_root", "__ownerID", "__altered", "__hash"];
+const REACT_FIELDS = ["_reactInternalInstance", "_reactInternalFiber"];
 
-export function isImmutable(result: Grip) {
-  if (!result || !result.preview) {
+export function isImmutablePreview(result: ?Grip) {
+  return result && isImmutable(result.preview);
+}
+
+export function isImmutable(result: ?Grip) {
+  if (!result || typeof result.ownProperties != "object") {
     return;
   }
 
-  const ownProperties = result.preview.ownProperties;
-  if (!ownProperties) {
-    return;
-  }
-
+  const ownProperties = result.ownProperties;
   return IMMUTABLE_FIELDS.every(field =>
     Object.keys(ownProperties).includes(field)
   );
 }
 
-export function isReactComponent(result: Grip) {
-  if (!result || !result.preview) {
+export function isReactComponent(result: ?Grip) {
+  if (!result || typeof result.ownProperties != "object") {
     return;
   }
 
-  const ownProperties = result.preview.ownProperties;
-  if (!ownProperties) {
-    return;
-  }
+  const ownProperties = result.ownProperties;
+  return REACT_FIELDS.some(field => Object.keys(ownProperties).includes(field));
+}
 
-  return Object.keys(ownProperties).includes("_reactInternalInstance");
+export function isConsole(expression: string) {
+  return /^console/.test(expression);
 }

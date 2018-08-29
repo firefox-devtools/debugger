@@ -1,6 +1,7 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+// @flow
 
 /* Checks to see if the root element is available and
  * if the element is visible. We check the width of the element
@@ -14,7 +15,7 @@ export function isVisible() {
 
 /* Gets the line numbers width in the code editor
  */
-export function getLineNumberWidth(editor) {
+export function getLineNumberWidth(editor: Object) {
   const gutters = editor.display.gutters;
   const lineNumbers = gutters.querySelector(".CodeMirror-linenumbers");
   return lineNumbers && lineNumbers.clientWidth;

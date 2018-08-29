@@ -2,10 +2,10 @@
 
 ### Getting Started
 
-1. *Get the code* `./bin/prepare-mochitests-dev`
-2. *Go to the firefox directory* `cd firefox`
-3. *Build Firefox* `./mach build` [see docs][mach]
-4. *Run Firefox* `./mach run` [see docs][mach]
+1.  _Get the code_ `./bin/prepare-mochitests-dev`
+2.  _Go to the firefox directory_ `cd firefox`
+3.  _Build Firefox_ `./mach build` [see docs][mach]
+4.  _Run Firefox_ `./mach run` [see docs][mach]
 
 ### Firefox Code Base
 
@@ -13,7 +13,11 @@ Firefox is a large project, but for the most part the relevant source code is in
 
 #### Updating the Debugger
 
-You can update the debugger by running `yarn copy-assets` or `yarn copy-assets-watch`. The script will use webpack to bundle the debugger and copy the bundle into `devtools/client/debugger/new/debugger.js`.
+You can update the debugger by running `yarn watch`. The script will:
+
+* copy the debugger files
+* bundle dependencies into vendors
+* bundle workers
 
 > Remember, every time the code changes in firefox you need to re-run `./mach build`!
 
@@ -23,6 +27,6 @@ Firefox has built the toolbox so that it is powerful enough to debug the Firefox
 
 #### Debugging the Debugger Server
 
-The server code lives in  `/devtools/server`. It can be a bit difficult to debug, so the best thing to do is to add *log* statements in the code with the special `dump` command e.g. `dump(">> I am here\n")`. When you do, you'll see the logs in the terminal and in the browser toolbox console.
+The server code lives in `/devtools/server`. It can be a bit difficult to debug, so the best thing to do is to add _log_ statements in the code with the special `dump` command e.g. `dump(">> I am here\n")`. When you do, you'll see the logs in the terminal and in the browser toolbox console.
 
 [mach]: https://developer.mozilla.org/en-US/docs/Mozilla/Developer_guide/mach

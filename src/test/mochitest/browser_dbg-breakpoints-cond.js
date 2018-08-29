@@ -2,7 +2,10 @@
  * http://creativecommons.org/publicdomain/zero/1.0/ */
 
 function findBreakpoint(dbg, url, line) {
-  const { selectors: { getBreakpoint }, getState } = dbg;
+  const {
+    selectors: { getBreakpoint },
+    getState
+  } = dbg;
   const source = findSource(dbg, url);
   return getBreakpoint(getState(), { sourceId: source.id, line });
 }
@@ -49,6 +52,7 @@ async function setConditionalBreakpoint(dbg, index, condition) {
 add_task(async function() {
   const dbg = await initDebugger("doc-scripts.html");
   await selectSource(dbg, "simple2");
+  await waitForSelectedSource(dbg, "simple2");
 
   await setConditionalBreakpoint(dbg, 5, "1");
   await waitForDispatch(dbg, "ADD_BREAKPOINT");

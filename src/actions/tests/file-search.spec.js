@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 import { createStore, selectors, actions } from "../../utils/test-head";
 
 const {
@@ -43,5 +47,15 @@ describe("file text search", () => {
     dispatch(actions.toggleFileSearchModifier("caseSensitive"));
     fileSearchModState = getFileSearchModifiers(getState());
     expect(fileSearchModState.get("caseSensitive")).toBe(true);
+  });
+
+  it("should toggle a file search query cleaning", () => {
+    const { dispatch, getState } = createStore();
+    dispatch(actions.setFileSearchQuery("foobar"));
+    let fileSearchQueryState = getFileSearchQuery(getState());
+    expect(fileSearchQueryState).toBe("foobar");
+    dispatch(actions.setFileSearchQuery(""));
+    fileSearchQueryState = getFileSearchQuery(getState());
+    expect(fileSearchQueryState).toBe("");
   });
 });

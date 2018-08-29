@@ -6,7 +6,6 @@
 
 import {
   getSelectedSource,
-  isPaused,
   getSelectedFrame,
   getCanRewind
 } from "../../selectors";
@@ -17,13 +16,13 @@ import type { ThunkArgs } from "../types";
 
 export function continueToHere(line: number) {
   return async function({ dispatch, getState }: ThunkArgs) {
-    const source = getSelectedSource(getState()).toJS();
+    const selectedSource = getSelectedSource(getState());
+    const selectedFrame = getSelectedFrame(getState());
 
-    if (!isPaused(getState())) {
+    if (!selectedFrame || !selectedSource) {
       return;
     }
 
-    const selectedFrame = getSelectedFrame(getState());
     const debugLine = selectedFrame.location.line;
     if (debugLine == line) {
       return;
@@ -36,7 +35,7 @@ export function continueToHere(line: number) {
       addHiddenBreakpoint({
         line,
         column: undefined,
-        sourceId: source.id
+        sourceId: selectedSource.id
       })
     );
 

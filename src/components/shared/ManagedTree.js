@@ -25,8 +25,8 @@ type Props = {
   itemHeight: number,
   listItems?: Array<Item>,
   onFocus?: (item: any) => void,
-  onExpand?: (item: any, expanded: Set<Item>) => void,
-  onCollapse?: (item: any, expanded: Set<Item>) => void,
+  onExpand?: (item: Item, expanded: Set<string>) => void,
+  onCollapse?: (item: Item, expanded: Set<string>) => void,
   renderItem: any,
   disabledFocus?: boolean,
   focused?: any,
@@ -49,11 +49,7 @@ class ManagedTree extends Component<Props, State> {
 
   componentWillReceiveProps(nextProps: Props) {
     const { listItems, highlightItems, focused } = this.props;
-    if (
-      nextProps.listItems &&
-      nextProps.listItems != listItems &&
-      nextProps.listItems.length
-    ) {
+    if (nextProps.listItems && nextProps.listItems != listItems) {
       this.expandListItems(nextProps.listItems);
     }
 
@@ -127,8 +123,14 @@ class ManagedTree extends Component<Props, State> {
       // closed folder and highlights this folder
       const index = highlightItems
         .reverse()
-        .findIndex(item => !expanded.has(this.props.getPath(item)));
-      this.focusItem(highlightItems[index]);
+        .findIndex(
+          item =>
+            !expanded.has(this.props.getPath(item)) && item.name !== "root"
+        );
+
+      if (highlightItems[index]) {
+        this.focusItem(highlightItems[index]);
+      }
     }
   }
 

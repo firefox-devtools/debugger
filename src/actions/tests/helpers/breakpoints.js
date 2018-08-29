@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 export function mockPendingBreakpoint(overrides = {}) {
   const { sourceUrl, line, column, condition, disabled, hidden } = overrides;
   return {
@@ -23,12 +27,13 @@ export function mockPendingBreakpoint(overrides = {}) {
   };
 }
 
-export function generateBreakpoint(filename) {
+export function generateBreakpoint(filename, line = 5, column) {
   return {
     location: {
       sourceUrl: `http://localhost:8000/examples/${filename}`,
       sourceId: filename,
-      line: 5
+      line,
+      column
     },
     condition: null,
     disabled: false,

@@ -1,7 +1,11 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 import React from "react";
 import { shallow } from "enzyme";
 import Editor from "../index";
-import * as I from "immutable";
+import { getDocument } from "../../../utils/editor/source-documents";
 
 function generateDefaults(overrides) {
   return {
@@ -16,6 +20,7 @@ function createMockEditor() {
   return {
     codeMirror: {
       doc: {},
+      getOption: jest.fn(),
       setOption: jest.fn(),
       scrollTo: jest.fn(),
       charCoords: ({ line, ch }) => ({ top: line, left: ch }),
@@ -42,18 +47,19 @@ function createMockEditor() {
 }
 
 function createMockSource(overrides) {
-  return I.fromJS({
+  return {
     id: "foo",
     text: "the text",
     loadedState: "loaded",
     url: "foo",
     ...overrides
-  });
+  };
 }
 
 function render(overrides = {}) {
   const props = generateDefaults(overrides);
   const mockEditor = createMockEditor();
+
   const component = shallow(<Editor.WrappedComponent {...props} />, {
     context: {
       shortcuts: { on: jest.fn() }
@@ -77,7 +83,7 @@ describe("Editor", () => {
       const { component, mockEditor } = render();
       await component.setState({ editor: mockEditor });
       component.setProps({
-        selectedSource: I.fromJS({ loadedState: "loading" })
+        selectedSource: { loadedState: "loading" }
       });
 
       expect(mockEditor.setText.mock.calls).toEqual([["Loading…"]]);
@@ -169,6 +175,61 @@ describe("Editor", () => {
       ]);
 
       expect(mockEditor.codeMirror.scrollTo.mock.calls).toEqual([[1, 2]]);
+    });
+
+    it("should set the mode when symbols load", async () => {
+      const { component, mockEditor, props } = render({});
+
+      await component.setState({ editor: mockEditor });
+
+      const selectedSource = createMockSource({
+        loadedState: "loaded",
+        contentType: "javascript"
+      });
+
+      await component.setProps({ ...props, selectedSource });
+
+      const symbols = { hasJsx: true };
+      await component.setProps({ ...props, selectedSource, symbols });
+
+      expect(mockEditor.setMode.mock.calls).toEqual([
+        [{ name: "javascript" }],
+        [{ name: "jsx" }]
+      ]);
+    });
+
+    it("should not re-set the mode when the location changes", async () => {
+      const { component, mockEditor, props } = render({});
+
+      await component.setState({ editor: mockEditor });
+
+      const selectedSource = createMockSource({
+        loadedState: "loaded",
+        contentType: "javascript"
+      });
+
+      await component.setProps({ ...props, selectedSource });
+
+      // symbols are parsed
+      const symbols = { hasJsx: true };
+      await component.setProps({ ...props, selectedSource, symbols });
+
+      // selectedLocation changes e.g. pausing/stepping
+      mockEditor.codeMirror.doc = getDocument(selectedSource.id);
+      mockEditor.codeMirror.getOption = () => ({ name: "jsx" });
+      const selectedLocation = { sourceId: "foo", line: 4, column: 1 };
+
+      await component.setProps({
+        ...props,
+        selectedSource,
+        symbols,
+        selectedLocation
+      });
+
+      expect(mockEditor.setMode.mock.calls).toEqual([
+        [{ name: "javascript" }],
+        [{ name: "jsx" }]
+      ]);
     });
   });
 

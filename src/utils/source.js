@@ -10,17 +10,28 @@
  */
 
 import { isOriginalId } from "devtools-source-map";
+import { getUnicodeUrl } from "devtools-modules";
+
 import { endTruncateStr } from "./utils";
-import { basename } from "./path";
-
-import { parse as parseURL } from "url";
+import { truncateMiddleText } from "../utils/text";
+import { parse as parseURL } from "../utils/url";
 export { isMinified } from "./isMinified";
+import { getURL, getFileExtension } from "./sources-tree";
+import { prefs } from "./prefs";
 
-import type { Source } from "../types";
-import type { SourceRecord } from "../reducers/types";
-import type { SymbolDeclarations } from "../workers/parser/types";
+import type { Source, Location } from "../types";
+import type { SourceMetaDataType } from "../reducers/ast";
+import type { SymbolDeclarations } from "../workers/parser";
 
 type transformUrlCallback = string => string;
+
+export const sourceTypes = {
+  coffee: "coffeescript",
+  js: "javascript",
+  jsx: "react",
+  ts: "typescript",
+  vue: "vue"
+};
 
 /**
  * Trims the query part or reference identifier of a url string, if necessary.
@@ -42,16 +53,15 @@ function trimUrlQuery(url: string): string {
   return url.slice(0, q);
 }
 
-export function shouldPrettyPrint(source: SourceRecord) {
-  if (!source) {
-    return false;
-  }
-  const _isPretty = isPretty(source);
-  const _isJavaScript = isJavaScript(source);
-  const isOriginal = isOriginalId(source.get("id"));
-  const hasSourceMap = source.get("sourceMapURL");
-
-  if (_isPretty || isOriginal || hasSourceMap || !_isJavaScript) {
+export function shouldPrettyPrint(source: Source) {
+  if (
+    !source ||
+    isPretty(source) ||
+    !isJavaScript(source) ||
+    isOriginalId(source.id) ||
+    source.sourceMapURL ||
+    !prefs.clientSourceMapsEnabled
+  ) {
     return false;
   }
 
@@ -68,9 +78,9 @@ export function shouldPrettyPrint(source: SourceRecord) {
  * @memberof utils/source
  * @static
  */
-export function isJavaScript(source: SourceRecord): boolean {
-  const url = source.get("url");
-  const contentType = source.get("contentType");
+export function isJavaScript(source: Source): boolean {
+  const url = source.url;
+  const contentType = source.contentType;
   return (
     (url && /\.(jsm|js)?$/.test(trimUrlQuery(url))) ||
     !!(contentType && contentType.includes("javascript"))
@@ -81,8 +91,8 @@ export function isJavaScript(source: SourceRecord): boolean {
  * @memberof utils/source
  * @static
  */
-export function isPretty(source: SourceRecord): boolean {
-  const url = source.get("url");
+export function isPretty(source: Source): boolean {
+  const url = source.url;
   return isPrettyURL(url);
 }
 
@@ -90,8 +100,8 @@ export function isPrettyURL(url: string): boolean {
   return url ? /formatted$/.test(url) : false;
 }
 
-export function isThirdParty(source: SourceRecord) {
-  const url = source.get("url");
+export function isThirdParty(source: Source) {
+  const url = source.url;
   if (!source || !url) {
     return false;
   }
@@ -127,18 +137,14 @@ function resolveFileURL(
   return endTruncateStr(name, 50);
 }
 
-export function getFilenameFromURL(url: string) {
-  return resolveFileURL(url, initialUrl => basename(initialUrl) || "(index)");
-}
-
 export function getFormattedSourceId(id: string) {
   const sourceId = id.split("/")[1];
   return `SOURCE${sourceId}`;
 }
 
 /**
- * Show a source url's filename.
- * If the source does not have a url, use the source id.
+ * Gets a readable filename from a source URL for display purposes.
+ * If the source does not have a URL, the source ID will be returned instead.
  *
  * @memberof utils/source
  * @static
@@ -149,17 +155,67 @@ export function getFilename(source: Source) {
     return getFormattedSourceId(id);
   }
 
-  let filename = getFilenameFromURL(url);
-  const qMarkIdx = filename.indexOf("?");
-  if (qMarkIdx > 0) {
-    filename = filename.slice(0, qMarkIdx);
-  }
-  return filename;
+  const { filename } = getURL(source);
+  return getRawSourceURL(filename);
 }
 
 /**
- * Show a source url.
- * If the source does not have a url, use the source id.
+ * Provides a middle-trunated filename
+ *
+ * @memberof utils/source
+ * @static
+ */
+export function getTruncatedFileName(source: Source, length: number = 30) {
+  return truncateMiddleText(getFilename(source), length);
+}
+
+/* Gets path for files with same filename for editor tabs, breakpoints, etc.
+ * Pass the source, and list of other sources
+ *
+ * @memberof utils/source
+ * @static
+ */
+
+export function getDisplayPath(mySource: Source, sources: Source[]) {
+  const filename = getFilename(mySource);
+
+  // Find sources that have the same filename, but different paths
+  // as the original source
+  const similarSources = sources.filter(
+    source =>
+      getRawSourceURL(mySource.url) != getRawSourceURL(source.url) &&
+      filename == getFilename(source)
+  );
+
+  if (similarSources.length == 0) {
+    return undefined;
+  }
+
+  // get an array of source path directories e.g. ['a/b/c.html'] => [['b', 'a']]
+  const paths = [mySource, ...similarSources].map(source =>
+    getURL(source)
+      .path.split("/")
+      .reverse()
+      .slice(1)
+  );
+
+  // create an array of similar path directories and one dis-similar directory
+  // for example [`a/b/c.html`, `a1/b/c.html`] => ['b', 'a']
+  // where 'b' is the similar directory and 'a' is the dis-similar directory.
+  let similar = true;
+  const displayPath = [];
+  for (let i = 0; similar && i < paths[0].length; i++) {
+    const [dir, ...dirs] = paths.map(path => path[i]);
+    displayPath.push(dir);
+    similar = dirs.includes(dir);
+  }
+
+  return displayPath.reverse().join("/");
+}
+
+/**
+ * Gets a readable source URL for display purposes.
+ * If the source does not have a URL, the source ID will be returned instead.
  *
  * @memberof utils/source
  * @static
@@ -170,7 +226,7 @@ export function getFileURL(source: Source) {
     return getFormattedSourceId(id);
   }
 
-  return resolveFileURL(url);
+  return resolveFileURL(url, getUnicodeUrl);
 }
 
 const contentTypeModeMap = {
@@ -203,7 +259,10 @@ export function getSourcePath(url: string) {
  * the function returns amount of bytes.
  */
 export function getSourceLineCount(source: Source) {
-  if (source.isWasm && !source.error) {
+  if (source.error) {
+    return 0;
+  }
+  if (source.isWasm) {
     const { binary } = (source.text: any);
     return binary.length;
   }
@@ -233,9 +292,11 @@ export function getMode(
   source: Source,
   symbols?: SymbolDeclarations
 ): { name: string } {
-  const { contentType, text, isWasm, url } = source;
-
-  if (!text || isWasm) {
+  if (source.isWasm) {
+    return { name: "text" };
+  }
+  const { contentType, text, url } = source;
+  if (!text) {
     return { name: "text" };
   }
 
@@ -259,7 +320,8 @@ export function getMode(
     { ext: ".kt", mode: "text/x-kotlin" },
     { ext: ".cpp", mode: "text/x-c++src" },
     { ext: ".m", mode: "text/x-objectivec" },
-    { ext: ".rs", mode: "text/x-rustsrc" }
+    { ext: ".rs", mode: "text/x-rustsrc" },
+    { ext: ".hx", mode: "text/x-haxe" }
   ];
 
   // check for C and other non JS languages
@@ -307,10 +369,67 @@ export function getMode(
   return { name: "text" };
 }
 
-export function isLoaded(source: SourceRecord) {
-  return source.get("loadedState") === "loaded";
+export function isLoaded(source: Source) {
+  return source.loadedState === "loaded";
 }
 
-export function isLoading(source: SourceRecord) {
-  return source.get("loadedState") === "loading";
+export function isLoading(source: Source) {
+  return source.loadedState === "loading";
+}
+
+export function getTextAtPosition(source: ?Source, location: Location) {
+  if (!source || source.isWasm || !source.text) {
+    return "";
+  }
+
+  const line = location.line;
+  const column = location.column || 0;
+
+  const lineText = source.text.split("\n")[line - 1];
+  if (!lineText) {
+    return "";
+  }
+
+  return lineText.slice(column, column + 100).trim();
+}
+
+export function getSourceClassnames(
+  source: Object,
+  sourceMetaData?: SourceMetaDataType
+) {
+  // Conditionals should be ordered by priority of icon!
+  const defaultClassName = "file";
+
+  if (!source || !source.url) {
+    return defaultClassName;
+  }
+
+  if (sourceMetaData && sourceMetaData.framework) {
+    return sourceMetaData.framework.toLowerCase();
+  }
+
+  if (isPretty(source)) {
+    return "prettyPrint";
+  }
+
+  if (source.isBlackBoxed) {
+    return "blackBox";
+  }
+
+  return sourceTypes[getFileExtension(source)] || defaultClassName;
+}
+
+export function getRelativeUrl(source: Source, root: string) {
+  const { group, path } = getURL(source);
+  if (!root) {
+    return path;
+  }
+
+  // + 1 removes the leading "/"
+  const url = group + path;
+  return url.slice(url.indexOf(root) + root.length + 1);
+}
+
+export function underRoot(source: Source, root: string) {
+  return source.url && source.url.includes(root);
 }

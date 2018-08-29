@@ -44,3 +44,20 @@
   border-top-color: var(--theme-body-background);
   top: -1px;
 }
+
+.bracket-arrow.left::before {
+  border-left-color: transparent;
+  border-right-color: var(--theme-splitter-color);
+  top: 0px;
+}
+
+.theme-dark .bracket-arrow.left::before {
+  border-right-color: var(--theme-body-color);
+}
+
+.bracket-arrow.left::after {
+  border-left-color: transparent;
+  border-right-color: var(--theme-body-background);
+  top: 0px;
+  left: 1px;
+}

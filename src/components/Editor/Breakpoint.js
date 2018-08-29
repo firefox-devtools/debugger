@@ -3,13 +3,35 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-import { Component } from "react";
 import { toEditorLine } from "../../utils/monaco";
 import { BREAKPOINT_DECORATION } from "../../utils/monaco/source-editor";
 
+import React, { PureComponent } from "react";
+import ReactDOM from "react-dom";
+import classnames from "classnames";
+import Svg from "../shared/Svg";
+
+// import { getDocument, toEditorLine } from "../../utils/editor";
+import { features } from "../../utils/prefs";
+
+import type { Source, Breakpoint as BreakpointType } from "../../types";
+
+// const breakpointSvg = document.createElement("div");
+// ReactDOM.render(<Svg name="breakpoint" />, breakpointSvg);
+
+// function makeMarker(isDisabled: boolean) {
+//   const bp = breakpointSvg.cloneNode(true);
+//   bp.className = classnames("editor new-breakpoint", {
+//     "breakpoint-disabled": isDisabled,
+//     "folding-enabled": features.codeFolding
+//   });
+
+//   return bp;
+// }
+
 type Props = {
-  breakpoint: Object,
-  selectedSource: Object,
+  breakpoint: BreakpointType,
+  selectedSource: Source,
   editor: Object
 };
 
@@ -29,7 +51,7 @@ function getBreakpoinkDecorationOption(disabled, condition) {
   return BREAKPOINT_DECORATION.DEFAULT;
 }
 
-class Breakpoint extends Component<Props> {
+class Breakpoint extends PureComponent<Props> {
   addBreakpoint: Function;
   breakpointGutterDecoration: string;
 
@@ -52,7 +74,7 @@ class Breakpoint extends Component<Props> {
       return;
     }
 
-    const sourceId = selectedSource.get("id");
+    const sourceId = selectedSource.id;
     const line = toEditorLine(sourceId, breakpoint.location.line);
 
     const newDecoration = {
@@ -73,18 +95,6 @@ class Breakpoint extends Component<Props> {
       [newDecoration]
     );
   };
-
-  shouldComponentUpdate(nextProps: any) {
-    const { editor, breakpoint, selectedSource } = this.props;
-    return (
-      editor !== nextProps.editor ||
-      breakpoint.disabled !== nextProps.breakpoint.disabled ||
-      breakpoint.hidden !== nextProps.breakpoint.hidden ||
-      breakpoint.condition !== nextProps.breakpoint.condition ||
-      breakpoint.loading !== nextProps.breakpoint.loading ||
-      selectedSource !== nextProps.selectedSource
-    );
-  }
 
   componentDidMount() {
     this.addBreakpoint();

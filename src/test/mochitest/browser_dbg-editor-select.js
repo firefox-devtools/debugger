@@ -10,7 +10,10 @@ add_task(async function() {
   // which is the slowest part of this and make it run faster, but to
   // fix a frequent failure allow a longer timeout.
   const dbg = await initDebugger("doc-scripts.html");
-  const { selectors: { getSelectedSource }, getState } = dbg;
+  const {
+    selectors: { getSelectedSource },
+    getState
+  } = dbg;
   const simple1 = findSource(dbg, "simple1.js");
   const simple2 = findSource(dbg, "simple2.js");
 
@@ -21,13 +24,14 @@ add_task(async function() {
   // Call the function that we set a breakpoint in.
   invokeInTab("main");
   await waitForPaused(dbg);
-  await waitForLoadedSource(dbg, "simple1");
+  await waitForSelectedSource(dbg, "simple1");
   assertPausedLocation(dbg);
 
   // Step through to another file and make sure it's paused in the
   // right place.
+  await stepOver(dbg);
   await stepIn(dbg);
-  await waitForLoadedSource(dbg, "simple2");
+  await waitForSelectedSource(dbg, "simple2");
   assertPausedLocation(dbg);
 
   // Step back out to the initial file.
@@ -43,7 +47,7 @@ add_task(async function() {
 
   invokeInTab("testModel");
   await waitForPaused(dbg);
-  await waitForLoadedSource(dbg, "long.js");
+  await waitForSelectedSource(dbg, "long.js");
 
   assertPausedLocation(dbg);
   ok(

@@ -6,42 +6,26 @@
 
 import {
   nodeHasChildren,
-  isDirectory,
+  isPathDirectory,
   isInvalidUrl,
   partIsFile,
-  createNode
+  createSourceNode,
+  createDirectoryNode
 } from "./utils";
-import {
-  createTreeNodeMatcher,
-  findNodeInContents,
-  getDomain
-} from "./treeOrder";
+import { createTreeNodeMatcher, findNodeInContents } from "./treeOrder";
 import { getURL } from "./getURL";
 
 import type { ParsedURL } from "./getURL";
-import type { Node } from "./types";
-import type { SourceRecord } from "../../reducers/types";
-
-function isUnderRoot(url, projectRoot) {
-  if (!projectRoot) {
-    return true;
-  }
-
-  return `/${url.group}${url.path}`.startsWith(projectRoot);
-}
-
-function removeProjectRoot(parts, projectRoot) {
-  const rootParts = projectRoot.replace("://", "").split("/");
-  return parts.splice(0, rootParts.length - 2);
-}
+import type { TreeDirectory, TreeNode } from "./types";
+import type { Source } from "../../types";
 
 function createNodeInTree(
   part: string,
   path: string,
-  tree: Node,
+  tree: TreeDirectory,
   index: number
-) {
-  const node = createNode(part, path, []);
+): TreeDirectory {
+  const node = createDirectoryNode(part, path, []);
 
   // we are modifying the tree
   const contents = tree.contents.slice(0);
@@ -59,14 +43,15 @@ function createNodeInTree(
  */
 function findOrCreateNode(
   parts: string[],
-  subTree: Node,
+  subTree: TreeDirectory,
   path: string,
   part: string,
   index: number,
   url: Object,
   debuggeeHost: ?string
-) {
+): TreeDirectory {
   const addedPartIsFile = partIsFile(index, parts, url);
+
   const { found: childFound, index: childIndex } = findNodeInContents(
     subTree,
     createTreeNodeMatcher(part, !addedPartIsFile, debuggeeHost)
@@ -83,7 +68,7 @@ function findOrCreateNode(
   const childIsFile = !nodeHasChildren(child);
 
   // if we have a naming conflict, we'll create a new node
-  if ((childIsFile && !addedPartIsFile) || (!childIsFile && addedPartIsFile)) {
+  if (child.type === "source" || (!childIsFile && addedPartIsFile)) {
     return createNodeInTree(part, path, subTree, childIndex);
   }
 
@@ -96,23 +81,16 @@ function findOrCreateNode(
  * adding new nodes along the way
  */
 function traverseTree(
-  url: Object,
-  tree: Node,
-  debuggeeHost: ?string,
-  projectRoot: string
-) {
-  url.path = decodeURIComponent(url.path);
-
+  url: ParsedURL,
+  tree: TreeDirectory,
+  debuggeeHost: ?string
+): TreeNode {
   const parts = url.path.split("/").filter(p => p !== "");
   parts.unshift(url.group);
 
-  if (projectRoot) {
-    removeProjectRoot(parts, projectRoot);
-  }
-
   let path = "";
   return parts.reduce((subTree, part, index) => {
-    path = `${path}/${part}`;
+    path = path ? `${path}/${part}` : part;
     const debuggeeHostIfRoot = index === 0 ? debuggeeHost : null;
     return findOrCreateNode(
       parts,
@@ -129,12 +107,22 @@ function traverseTree(
 /*
  * Add a source file to a directory node in the tree
  */
-function addSourceToNode(node: Node, url: ParsedURL, source: SourceRecord) {
-  const isFile = !isDirectory(url);
+function addSourceToNode(
+  node: TreeDirectory,
+  url: ParsedURL,
+  source: Source
+): Source | TreeNode[] {
+  const isFile = !isPathDirectory(url.path);
+
+  if (node.type == "source") {
+    throw new Error(`Unexpected type "source" at: ${node.name}`);
+  }
 
   // if we have a file, and the subtree has no elements, overwrite the
   // subtree contents with the source
   if (isFile) {
+    // $FlowIgnore
+    node.type = "source";
     return source;
   }
 
@@ -148,12 +136,15 @@ function addSourceToNode(node: Node, url: ParsedURL, source: SourceRecord) {
   // file and return the node's contents
   if (childFound) {
     const existingNode = node.contents[childIndex];
-    existingNode.contents = source;
+    if (existingNode.type === "source") {
+      existingNode.contents = source;
+    }
+
     return node.contents;
   }
 
   // if this is a new file, add the new file;
-  const newNode = createNode(filename, source.get("url"), source);
+  const newNode = createSourceNode(filename, source.url, source);
   const contents = node.contents.slice(0);
   contents.splice(childIndex, 0, newNode);
   return contents;
@@ -164,18 +155,19 @@ function addSourceToNode(node: Node, url: ParsedURL, source: SourceRecord) {
  * @static
  */
 export function addToTree(
-  tree: Node,
-  source: SourceRecord,
-  debuggeeUrl: string,
+  tree: TreeDirectory,
+  source: Source,
+  debuggeeHost: ?string,
   projectRoot: string
 ) {
-  const url = getURL(source.get("url"), debuggeeUrl);
-  const debuggeeHost = getDomain(debuggeeUrl);
+  const url = getURL(source, debuggeeHost);
 
-  if (isInvalidUrl(url, source) || !isUnderRoot(url, projectRoot)) {
+  if (isInvalidUrl(url, source)) {
     return;
   }
 
-  const finalNode = traverseTree(url, tree, debuggeeHost, projectRoot);
+  const finalNode = traverseTree(url, tree, debuggeeHost);
+
+  // $FlowIgnore
   finalNode.contents = addSourceToNode(finalNode, url, source);
 }

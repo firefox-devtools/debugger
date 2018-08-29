@@ -4,11 +4,11 @@
 
 // @flow
 
-import { parse } from "url";
+import { parse } from "../url";
 
 import { nodeHasChildren } from "./utils";
 
-import type { Node } from "./types";
+import type { TreeNode } from "./types";
 
 /*
  * Gets domain from url (without www prefix)
@@ -40,7 +40,7 @@ function isExactDomainMatch(part: string, debuggeeHost: string): boolean {
  * stands earlier in sorting order, positive number if the node stands later
  * in sorting order, or zero if the node is found.
  */
-export type FindNodeInContentsMatcher = (node: Node) => number;
+export type FindNodeInContentsMatcher = (node: TreeNode) => number;
 
 /*
  * Performs a binary search to insert a node into contents. Returns positive
@@ -50,24 +50,24 @@ export type FindNodeInContentsMatcher = (node: Node) => number;
  * lookup value.
  */
 export function findNodeInContents(
-  tree: Node,
+  tree: TreeNode,
   matcher: FindNodeInContentsMatcher
 ) {
-  const { contents } = tree;
-  if (contents.length === 0) {
+  if (tree.type === "source" || tree.contents.length === 0) {
     return { found: false, index: 0 };
   }
+
   let left = 0;
-  let right = contents.length - 1;
+  let right = tree.contents.length - 1;
   while (left < right) {
     const middle = Math.floor((left + right) / 2);
-    if (matcher(contents[middle]) < 0) {
+    if (matcher(tree.contents[middle]) < 0) {
       left = middle + 1;
     } else {
       right = middle;
     }
   }
-  const result = matcher(contents[left]);
+  const result = matcher(tree.contents[left]);
   if (result === 0) {
     return { found: true, index: left };
   }
@@ -77,13 +77,13 @@ export function findNodeInContents(
 const IndexName = "(index)";
 
 function createTreeNodeMatcherWithIndex(): FindNodeInContentsMatcher {
-  return (node: Node) => (node.name === IndexName ? 0 : 1);
+  return (node: TreeNode) => (node.name === IndexName ? 0 : 1);
 }
 
 function createTreeNodeMatcherWithDebuggeeHost(
   debuggeeHost: string
 ): FindNodeInContentsMatcher {
-  return (node: Node) => {
+  return (node: TreeNode) => {
     if (node.name === IndexName) {
       return -1;
     }
@@ -96,7 +96,7 @@ function createTreeNodeMatcherWithNameAndOther(
   isDir: boolean,
   debuggeeHost: ?string
 ): FindNodeInContentsMatcher {
-  return (node: Node) => {
+  return (node: TreeNode) => {
     if (node.name === IndexName) {
       return -1;
     }
@@ -109,6 +109,7 @@ function createTreeNodeMatcherWithNameAndOther(
     } else if (!nodeIsDir && isDir) {
       return 1;
     }
+
     return node.name.localeCompare(part);
   };
 }
@@ -130,10 +131,12 @@ export function createTreeNodeMatcher(
     // Specialied matcher, when we are looking for "(index)" position.
     return createTreeNodeMatcherWithIndex();
   }
+
   if (debuggeeHost && isExactDomainMatch(part, debuggeeHost)) {
     // Specialied matcher, when we are looking for domain position.
     return createTreeNodeMatcherWithDebuggeeHost(debuggeeHost);
   }
+
   // Rest of the cases, without mentioned above.
   return createTreeNodeMatcherWithNameAndOther(part, isDir, debuggeeHost);
 }

@@ -1,17 +1,42 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 import { actions, selectors, createStore } from "../../utils/test-head";
 
 const mockThreadClient = {
-  evaluate: (script, { frameId }) => {
-    return new Promise((resolve, reject) => {
+  evaluateInFrame: (script, frameId) =>
+    new Promise((resolve, reject) => {
       if (!frameId) {
         resolve("bla");
       } else {
         resolve("boo");
       }
-    });
-  },
+    }),
+  evaluateExpressions: (inputs, frameId) =>
+    Promise.all(
+      inputs.map(
+        input =>
+          new Promise((resolve, reject) => {
+            if (!frameId) {
+              resolve("bla");
+            } else {
+              resolve("boo");
+            }
+          })
+      )
+    ),
   getFrameScopes: async () => {},
-  sourceContents: () => ({})
+  sourceContents: () => ({}),
+  autocomplete: () => {
+    return new Promise(resolve => {
+      resolve({
+        from: "foo",
+        matches: ["toLocaleString", "toSource", "toString", "toolbar", "top"],
+        matchProp: "to"
+      });
+    });
+  }
 };
 
 describe("expressions", () => {
@@ -19,7 +44,6 @@ describe("expressions", () => {
     const { dispatch, getState } = createStore(mockThreadClient);
 
     await dispatch(actions.addExpression("foo"));
-
     expect(selectors.getExpressions(getState()).size).toBe(1);
   });
 
@@ -104,12 +128,22 @@ describe("expressions", () => {
     expect(selectors.getExpression(getState(), "foo").value).toBe("boo");
     expect(selectors.getExpression(getState(), "bar").value).toBe("boo");
   });
+
+  it("should get the autocomplete matches for the input", async () => {
+    const { dispatch, getState } = createStore(mockThreadClient);
+
+    await dispatch(actions.autocomplete("to", 2));
+
+    expect(
+      selectors.getAutocompleteMatchset(getState(), "to")
+    ).toMatchSnapshot();
+  });
 });
 
 async function createFrames(dispatch) {
   const sourceId = "example.js";
   const frame = {
-    id: 2,
+    id: "2",
     location: { sourceId, line: 3 }
   };
 

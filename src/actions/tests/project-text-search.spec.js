@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 import {
   actions,
   createStore,
@@ -11,8 +15,6 @@ const {
   getTextSearchResults,
   getTextSearchStatus
 } = selectors;
-
-import I from "immutable";
 
 const threadClient = {
   sourceContents: function(sourceId) {
@@ -88,10 +90,19 @@ describe("project text search", () => {
   });
 
   it("should ignore sources with minified versions", async () => {
-    const { dispatch, getState } = createStore(threadClient);
-    const mockQuery = "bla";
-    const source1 = makeSource("bar");
+    const source1 = makeSource("bar", { sourceMapURL: "bar:formatted" });
     const source2 = makeSource("bar:formatted");
+
+    const mockMaps = {
+      getOriginalSourceText: async () => ({
+        source: "function bla(x, y) {\n const bar = 4; return 2;\n}",
+        contentType: "text/javascript"
+      }),
+      getOriginalURLs: async () => [source2.url]
+    };
+
+    const { dispatch, getState } = createStore(threadClient, {}, mockMaps);
+    const mockQuery = "bla";
 
     await dispatch(actions.newSource(source1));
     await dispatch(actions.newSource(source2));
@@ -106,11 +117,11 @@ describe("project text search", () => {
     const { dispatch, getState } = createStore(threadClient);
 
     await dispatch(actions.newSource(makeSource("bar")));
-    await dispatch(actions.loadSourceText(I.Map({ id: "bar" })));
+    await dispatch(actions.loadSourceText({ id: "bar" }));
 
     dispatch(actions.addSearchQuery("bla"));
 
-    const sourceId = getSource(getState(), "bar").get("id");
+    const sourceId = getSource(getState(), "bar").id;
 
     await dispatch(actions.searchSource(sourceId, "bla"), "bla");
 

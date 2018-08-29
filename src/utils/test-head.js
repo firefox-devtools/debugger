@@ -16,7 +16,6 @@ import actions from "../actions";
 import * as selectors from "../selectors";
 import { getHistory } from "../test/utils/history";
 import configureStore from "../actions/utils/create-store";
-import * as I from "immutable";
 
 /**
  * @memberof utils/test-head
@@ -30,7 +29,7 @@ function createStore(client: any, initialState: any = {}, sourceMapsMock: any) {
       return {
         ...args,
         client,
-        sourceMaps: sourceMapsMock || sourceMaps
+        sourceMaps: sourceMapsMock !== undefined ? sourceMapsMock : sourceMaps
       };
     }
   })(combineReducers(reducers), initialState);
@@ -45,7 +44,12 @@ function commonLog(msg: string, data: any = {}) {
 }
 
 function makeFrame({ id, sourceId }: Object, opts: Object = {}) {
-  return { id, scope: [], location: { sourceId, line: 4 }, ...opts };
+  return {
+    id,
+    scope: { bindings: { variables: {}, arguments: [] } },
+    location: { sourceId, line: 4 },
+    ...opts
+  };
 }
 
 /**
@@ -63,26 +67,34 @@ function makeSource(name: string, props: any = {}) {
 
 function makeOriginalSource(name: string, props?: Object) {
   const source = makeSource(name, props);
-  return { ...source, id: `${name}-original` };
+  return { ...source, id: `${name}/originalSource` };
 }
 
-function makeSourceRecord(name: string, props: any = {}) {
-  return I.Map(makeSource(name, props));
-}
-
-function makeFuncLocation(startLine) {
+function makeFuncLocation(startLine, endLine) {
+  if (!endLine) {
+    endLine = startLine + 1;
+  }
   return {
     start: {
       line: startLine
+    },
+    end: {
+      line: endLine
     }
   };
 }
 
-function makeSymbolDeclaration(name: string, line: number) {
+function makeSymbolDeclaration(
+  name: string,
+  start: number,
+  end: number,
+  klass: string
+) {
   return {
-    id: `${name}:${line}`,
+    id: `${name}:${start}`,
     name,
-    location: makeFuncLocation(line)
+    location: makeFuncLocation(start, end),
+    klass
   };
 }
 
@@ -107,16 +119,20 @@ function waitForState(store: any, predicate: any): Promise<void> {
   });
 }
 
+function getTelemetryEvents(eventName: string) {
+  return window.dbg._telemetry.events[eventName] || [];
+}
+
 export {
   actions,
   selectors,
   reducers,
   createStore,
   commonLog,
+  getTelemetryEvents,
   makeFrame,
   makeSource,
   makeOriginalSource,
-  makeSourceRecord,
   makeSymbolDeclaration,
   waitForState,
   getHistory

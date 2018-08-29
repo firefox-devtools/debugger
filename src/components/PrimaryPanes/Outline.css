@@ -11,7 +11,7 @@
   position: relative;
 }
 
-.outline .outline-pane-info {
+.outline-pane-info {
   width: 100%;
   font-style: italic;
   text-align: center;
@@ -23,7 +23,7 @@
 
 .outline-list {
   list-style-type: none;
-  padding: 10px 0;
+  padding: 4px 0;
   margin: 0;
   font-family: var(--monospace-font-family);
   overflow: auto;
@@ -99,7 +99,7 @@
 }
 
 .theme-dark .outline-footer button {
-    color: var(--theme-body-color);
+  color: var(--theme-body-color);
 }
 
 .outline-footer button.active {

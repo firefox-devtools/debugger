@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 import { findFunctionText } from "../function";
 
 import { getSymbols } from "../../workers/parser/getSymbols";
@@ -39,7 +43,7 @@ describe("function", () => {
       setSource(source);
       const symbols = getSymbols(source.id);
 
-      const text = findFunctionText(25, source, symbols);
+      const text = findFunctionText(29, source, symbols);
       expect(text).toMatchSnapshot();
     });
 
@@ -48,7 +52,7 @@ describe("function", () => {
       setSource(source);
       const symbols = getSymbols(source.id);
 
-      const text = findFunctionText(29, source, symbols);
+      const text = findFunctionText(33, source, symbols);
       expect(text).toMatchSnapshot();
     });
 
@@ -57,7 +61,7 @@ describe("function", () => {
       setSource(source);
       const symbols = getSymbols(source.id);
 
-      const text = findFunctionText(17, source, symbols);
+      const text = findFunctionText(20, source, symbols);
       expect(text).toEqual(null);
     });
   });

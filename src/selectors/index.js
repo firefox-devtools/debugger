@@ -6,6 +6,7 @@
 
 export * from "../reducers/expressions";
 export * from "../reducers/sources";
+export * from "../reducers/tabs";
 export * from "../reducers/pause";
 export * from "../reducers/debuggee";
 export * from "../reducers/breakpoints";
@@ -24,8 +25,13 @@ export {
   getQuickOpenType
 } from "../reducers/quick-open";
 
-export { getBreakpointAtLocation } from "./breakpointAtLocation";
+export {
+  getBreakpointAtLocation,
+  getBreakpointsAtLine
+} from "./breakpointAtLocation";
 export { getVisibleBreakpoints } from "./visibleBreakpoints";
+export { inComponent } from "./inComponent";
 export { isSelectedFrameVisible } from "./isSelectedFrameVisible";
 export { getCallStackFrames } from "./getCallStackFrames";
 export { getVisibleSelectedFrame } from "./visibleSelectedFrame";
+export { getBreakpointSources } from "./breakpointSources";

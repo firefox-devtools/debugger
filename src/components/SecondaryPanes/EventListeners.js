@@ -4,11 +4,10 @@
 
 // @flow
 import React, { Component } from "react";
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import actions from "../../actions";
 import { getEventListeners, getBreakpoint } from "../../selectors";
-import CloseButton from "../shared/Button/Close";
+import { CloseButton } from "../shared/Button";
 import "./EventListeners.css";
 
 import type { Breakpoint, Location, SourceId } from "../../types";
@@ -84,7 +83,9 @@ class EventListeners extends Component<Props> {
 
   removeBreakpoint(event, breakpoint) {
     event.stopPropagation();
-    this.props.removeBreakpoint(breakpoint.location);
+    if (breakpoint) {
+      this.props.removeBreakpoint(breakpoint.location);
+    }
   }
 
   render() {
@@ -97,20 +98,27 @@ class EventListeners extends Component<Props> {
   }
 }
 
-export default connect(
-  state => {
-    const listeners = getEventListeners(state).map(l => {
-      return {
-        ...l,
-        breakpoint: getBreakpoint(state, {
-          sourceId: l.sourceId,
-          line: l.line,
-          column: null
-        })
-      };
-    });
+const mapStateToProps = state => {
+  const listeners = getEventListeners(state).map(listener => {
+    return {
+      ...listener,
+      breakpoint: getBreakpoint(state, {
+        sourceId: listener.sourceId,
+        line: listener.line
+      })
+    };
+  });
 
-    return { listeners };
-  },
-  dispatch => bindActionCreators(actions, dispatch)
+  return { listeners };
+};
+
+export default connect(
+  mapStateToProps,
+  {
+    selectLocation: actions.selectLocation,
+    addBreakpoint: actions.addBreakpoint,
+    enableBreakpoint: actions.enableBreakpoint,
+    disableBreakpoint: actions.disableBreakpoint,
+    removeBreakpoint: actions.removeBreakpoint
+  }
 )(EventListeners);

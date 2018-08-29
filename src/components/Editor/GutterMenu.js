@@ -4,7 +4,6 @@
 
 import { Component } from "react";
 import { showMenu } from "devtools-contextmenu";
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import {
   getContextMenu,
@@ -136,14 +135,14 @@ class GutterContextMenuComponent extends Component {
   showMenu(nextProps) {
     const { contextMenu, ...props } = nextProps;
     const { event } = contextMenu;
-    const sourceId = props.selectedSource ? props.selectedSource.get("id") : "";
+    const sourceId = props.selectedSource ? props.selectedSource.id : "";
     // const line = lineAtHeight(props.editor, sourceId, event);
     const line = event.line;
     const breakpoint = nextProps.breakpoints.find(
       bp => bp.location.line === line
     );
 
-    if (props.emptyLines.includes(line)) {
+    if (props.emptyLines && props.emptyLines.includes(line)) {
       return;
     }
 
@@ -155,19 +154,20 @@ class GutterContextMenuComponent extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  const selectedSource = getSelectedSource(state);
+
+  return {
+    selectedLocation: getSelectedLocation(state),
+    selectedSource: selectedSource,
+    breakpoints: getVisibleBreakpoints(state),
+    isPaused: getIsPaused(state),
+    contextMenu: getContextMenu(state),
+    emptyLines: getEmptyLines(state, selectedSource.id)
+  };
+};
+
 export default connect(
-  state => {
-    const selectedSource = getSelectedSource(state);
-    return {
-      selectedLocation: getSelectedLocation(state),
-      selectedSource: selectedSource,
-      breakpoints: getVisibleBreakpoints(state),
-      isPaused: getIsPaused(state),
-      contextMenu: getContextMenu(state),
-      emptyLines: selectedSource
-        ? getEmptyLines(state, selectedSource.toJS())
-        : []
-    };
-  },
-  dispatch => bindActionCreators(actions, dispatch)
+  mapStateToProps,
+  actions
 )(GutterContextMenuComponent);

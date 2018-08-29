@@ -11,67 +11,69 @@
 
 import { isOriginalId } from "devtools-source-map";
 
+import { getSourceFromId } from "../../reducers/sources";
+import { getSourcesForTabs } from "../../reducers/tabs";
 import { setOutOfScopeLocations, setSymbols } from "../ast";
-import { closeActiveSearch } from "../ui";
+import { closeActiveSearch, updateActiveFileSearch } from "../ui";
 
 import { togglePrettyPrint } from "./prettyPrint";
-import { addTab, closeTab } from "./tabs";
+import { addTab, closeTab } from "../tabs";
 import { loadSourceText } from "./loadSourceText";
 
 import { prefs } from "../../utils/prefs";
 import { shouldPrettyPrint, isMinified } from "../../utils/source";
 import { createLocation } from "../../utils/location";
-import { getGeneratedLocation } from "../../utils/source-maps";
+import { getMappedLocation } from "../../utils/source-maps";
 
 import {
   getSource,
   getSourceByURL,
-  getSelectedSource,
   getPrettySource,
   getActiveSearch,
-  getSelectedLocation
+  getSelectedLocation,
+  getSelectedSource
 } from "../../selectors";
 
-import type { Location } from "../../types";
+import type { Location, Position, Source } from "../../types";
 import type { ThunkArgs } from "../types";
 
-declare type SelectSourceOptions = {
-  tabIndex?: number,
-  location?: { line: number, column?: ?number }
-};
+export const setSelectedLocation = (source: Source, location: Location) => ({
+  type: "SET_SELECTED_LOCATION",
+  source,
+  location
+});
+
+export const setPendingSelectedLocation = (url: string, options: Object) => ({
+  type: "SET_PENDING_SELECTED_LOCATION",
+  url: url,
+  line: options.location ? options.location.line : null
+});
+
+export const clearSelectedLocation = () => ({
+  type: "CLEAR_SELECTED_LOCATION"
+});
 
 /**
  * Deterministically select a source that has a given URL. This will
  * work regardless of the connection status or if the source exists
- * yet. This exists mostly for external things to interact with the
+ * yet.
+ *
+ * This exists mostly for external things to interact with the
  * debugger.
  *
  * @memberof actions/sources
  * @static
  */
-export function selectSourceURL(
-  url: string,
-  options: SelectSourceOptions = {}
-) {
-  return async ({ dispatch, getState }: ThunkArgs) => {
+export function selectSourceURL(url: string, options: Position = { line: 1 }) {
+  return async ({ dispatch, getState, sourceMaps }: ThunkArgs) => {
     const source = getSourceByURL(getState(), url);
-    if (source) {
-      const sourceId = source.get("id");
-      const location = createLocation({ ...options.location, sourceId });
-      // flow is unable to comprehend that if an options.location object
-      // exists, that we have a valid Location object, and if it doesnt,
-      // we have a valid { sourceId: string } object. So we are overriding
-      // the error
-      // $FlowIgnore
-      await dispatch(selectLocation(location, options.tabIndex));
-    } else {
-      dispatch({
-        type: "SELECT_SOURCE_URL",
-        url: url,
-        tabIndex: options.tabIndex,
-        location: options.location
-      });
+    if (!source) {
+      return dispatch(setPendingSelectedLocation(url, options));
     }
+
+    const sourceId = source.id;
+    const location = createLocation({ ...options, sourceId });
+    return dispatch(selectLocation(location));
   };
 }
 
@@ -79,10 +81,10 @@ export function selectSourceURL(
  * @memberof actions/sources
  * @static
  */
-export function selectSource(sourceId: string, tabIndex: string = "") {
+export function selectSource(sourceId: string) {
   return async ({ dispatch }: ThunkArgs) => {
     const location = createLocation({ sourceId });
-    return await dispatch(selectLocation(location, tabIndex));
+    return await dispatch(selectSpecificLocation(location));
   };
 }
 
@@ -90,54 +92,85 @@ export function selectSource(sourceId: string, tabIndex: string = "") {
  * @memberof actions/sources
  * @static
  */
-export function selectLocation(location: Location, tabIndex: string = "") {
-  return async ({ dispatch, getState, client }: ThunkArgs) => {
+export function selectLocation(
+  location: Location,
+  { keepContext = true }: Object = {}
+) {
+  return async ({ dispatch, getState, sourceMaps, client }: ThunkArgs) => {
+    const currentSource = getSelectedSource(getState());
+
     if (!client) {
       // No connection, do nothing. This happens when the debugger is
       // shut down too fast and it tries to display a default source.
       return;
     }
 
-    const source = getSource(getState(), location.sourceId);
+    let source = getSource(getState(), location.sourceId);
     if (!source) {
       // If there is no source we deselect the current selected source
-      return dispatch({ type: "CLEAR_SELECTED_SOURCE" });
+      return dispatch(clearSelectedLocation());
     }
 
     const activeSearch = getActiveSearch(getState());
-    if (activeSearch !== "file") {
+    if (activeSearch && activeSearch !== "file") {
       dispatch(closeActiveSearch());
     }
 
-    dispatch(addTab(source.toJS(), 0));
+    // Preserve the current source map context (original / generated)
+    // when navigting to a new location.
+    const selectedSource = getSelectedSource(getState());
+    if (
+      keepContext &&
+      selectedSource &&
+      isOriginalId(selectedSource.id) != isOriginalId(location.sourceId)
+    ) {
+      location = await getMappedLocation(getState(), sourceMaps, location);
+      source = getSourceFromId(getState(), location.sourceId);
+    }
 
-    dispatch({
-      type: "SELECT_SOURCE",
-      source: source.toJS(),
-      tabIndex,
-      location
-    });
+    const tabSources = getSourcesForTabs(getState());
+    if (!tabSources.includes(source)) {
+      dispatch(addTab(source));
+    }
+
+    dispatch(setSelectedLocation(source, location));
 
     await dispatch(loadSourceText(source));
-    const selectedSource = getSelectedSource(getState());
-    if (!selectedSource) {
+    const loadedSource = getSource(getState(), source.id);
+
+    if (!loadedSource) {
+      // If there was a navigation while we were loading the loadedSource
       return;
     }
 
-    const sourceId = selectedSource.get("id");
     if (
+      keepContext &&
       prefs.autoPrettyPrint &&
-      !getPrettySource(getState(), sourceId) &&
-      shouldPrettyPrint(selectedSource) &&
-      isMinified(selectedSource)
+      !getPrettySource(getState(), loadedSource.id) &&
+      shouldPrettyPrint(loadedSource) &&
+      isMinified(loadedSource)
     ) {
-      await dispatch(togglePrettyPrint(sourceId));
-      dispatch(closeTab(source.get("url")));
+      await dispatch(togglePrettyPrint(loadedSource.id));
+      dispatch(closeTab(loadedSource));
     }
 
-    dispatch(setSymbols(sourceId));
+    dispatch(setSymbols(loadedSource.id));
     dispatch(setOutOfScopeLocations());
+
+    // If a new source is selected update the file search results
+    const newSource = getSelectedSource(getState());
+    if (currentSource && currentSource !== newSource) {
+      dispatch(updateActiveFileSearch());
+    }
   };
+}
+
+/**
+ * @memberof actions/sources
+ * @static
+ */
+export function selectSpecificLocation(location: Location) {
+  return selectLocation(location, { keepContext: false });
 }
 
 /**
@@ -150,29 +183,23 @@ export function jumpToMappedLocation(location: Location) {
       return;
     }
 
-    const source = getSource(getState(), location.sourceId);
-    let pairedLocation;
-    if (isOriginalId(location.sourceId)) {
-      pairedLocation = await getGeneratedLocation(
-        getState(),
-        source.toJS(),
-        location,
-        sourceMaps
-      );
-    } else {
-      pairedLocation = await sourceMaps.getOriginalLocation(
-        location,
-        source.toJS()
-      );
-    }
+    const pairedLocation = await getMappedLocation(
+      getState(),
+      sourceMaps,
+      location
+    );
 
-    return dispatch(selectLocation({ ...pairedLocation }));
+    return dispatch(selectSpecificLocation({ ...pairedLocation }));
   };
 }
 
 export function jumpToMappedSelectedLocation() {
   return async function({ dispatch, getState }: ThunkArgs) {
     const location = getSelectedLocation(getState());
+    if (!location) {
+      return;
+    }
+
     await dispatch(jumpToMappedLocation(location));
   };
 }

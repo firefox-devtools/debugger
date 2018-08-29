@@ -26,7 +26,10 @@ function assertEditorBreakpoint(dbg, line) {
 
 add_task(async function() {
   const dbg = await initDebugger("doc-scripts.html");
-  const { selectors: { getBreakpoints, getBreakpoint }, getState } = dbg;
+  const {
+    selectors: { getBreakpoints, getBreakpoint },
+    getState
+  } = dbg;
   const source = findSource(dbg, "simple1.js");
 
   await selectSource(dbg, source.url);
@@ -35,7 +38,7 @@ add_task(async function() {
 
   const syncedBps = waitForDispatch(dbg, "SYNC_BREAKPOINT", 2);
   await reload(dbg, "simple1");
-  await waitForSelectedSource(dbg);
+  await waitForSelectedSource(dbg, "simple1");
   await syncedBps;
 
   assertEditorBreakpoint(dbg, 4);

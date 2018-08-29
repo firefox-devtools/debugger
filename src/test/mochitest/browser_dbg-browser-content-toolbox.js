@@ -14,7 +14,7 @@ const {
 } = require("devtools/client/framework/devtools-browser");
 
 function toggleBreakpoint(dbg, index) {
-  const bp = findElement(dbg, "breakpointItem", index);
+  const bp = findAllElements(dbg, "breakpointItems")[index];
   const input = bp.querySelector("input");
   input.click();
 }
@@ -32,7 +32,10 @@ async function enableBreakpoint(dbg, index) {
 }
 
 function findBreakpoint(dbg, url, line) {
-  const { selectors: { getBreakpoint }, getState } = dbg;
+  const {
+    selectors: { getBreakpoint },
+    getState
+  } = dbg;
   const source = findSource(dbg, url);
   return getBreakpoint(getState(), { sourceId: source.id, line });
 }
@@ -46,8 +49,8 @@ add_task(async function() {
   info("Open the Browser Content Toolbox");
   let toolbox = await gDevToolsBrowser.openContentProcessToolbox(gBrowser);
 
-  info("Wait for the debugger to be ready");
-  await toolbox.getPanelWhenReady("jsdebugger");
+  info("Select the debugger");
+  await toolbox.selectTool("jsdebugger");
 
   let dbg = createDebuggerContext(toolbox);
   ok(dbg, "Debugger context is available");
@@ -57,12 +60,12 @@ add_task(async function() {
   await addBreakpoint(dbg, "simple2", 3);
 
   info("Disable the breakpoint");
-  await disableBreakpoint(dbg, 1);
+  await disableBreakpoint(dbg, 0);
   let bp = findBreakpoint(dbg, "simple2", 3);
   is(bp.disabled, true, "breakpoint is disabled");
 
   info("Enable the breakpoint");
-  await enableBreakpoint(dbg, 1);
+  await enableBreakpoint(dbg, 0);
   bp = findBreakpoint(dbg, "simple2", 3);
   is(bp.disabled, false, "breakpoint is enabled");
 

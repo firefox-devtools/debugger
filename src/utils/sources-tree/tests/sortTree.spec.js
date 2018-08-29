@@ -1,25 +1,33 @@
 /* eslint max-nested-callbacks: ["error", 4]*/
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-import { Map } from "immutable";
+import { createSource } from "../../../reducers/sources";
 
-import { addToTree, sortEntireTree, createNode, formatTree } from "../index";
+import {
+  addToTree,
+  sortEntireTree,
+  createDirectoryNode,
+  formatTree
+} from "../index";
 
 describe("sources-tree", () => {
   describe("sortEntireTree", () => {
     it("alphabetically sorts children", () => {
-      const source1 = Map({
+      const source1 = createSource({
         url: "http://example.com/source1.js",
         actor: "actor1"
       });
-      const source2 = Map({
+      const source2 = createSource({
         url: "http://example.com/foo/b_source2.js",
         actor: "actor2"
       });
-      const source3 = Map({
+      const source3 = createSource({
         url: "http://example.com/foo/a_source3.js",
         actor: "actor3"
       });
-      const _tree = createNode("root", "", []);
+      const _tree = createDirectoryNode("root", "", []);
 
       addToTree(_tree, source1, "http://example.com/");
       addToTree(_tree, source2, "http://example.com/");
@@ -44,33 +52,33 @@ describe("sources-tree", () => {
 
     it("sorts folders first", () => {
       const sources = [
-        Map({
+        createSource({
           url: "http://example.com/a.js",
           actor: "actor1"
         }),
-        Map({
+        createSource({
           url: "http://example.com/b.js/b_source.js",
           actor: "actor2"
         }),
-        Map({
+        createSource({
           url: "http://example.com/c.js",
           actor: "actor1"
         }),
-        Map({
+        createSource({
           url: "http://example.com",
           actor: "actor1"
         }),
-        Map({
+        createSource({
           url: "http://example.com/d/d_source.js",
           actor: "actor3"
         }),
-        Map({
+        createSource({
           url: "http://example.com/b2",
           actor: "actor2"
         })
       ];
 
-      const _tree = createNode("root", "", []);
+      const _tree = createDirectoryNode("root", "", []);
       sources.forEach(source =>
         addToTree(_tree, source, "http://example.com/")
       );
@@ -106,21 +114,21 @@ describe("sources-tree", () => {
 
     it("puts folder at the top of the sort", () => {
       const sources = [
-        Map({
+        createSource({
           url: "http://example.com/folder/a.js",
           actor: "actor1"
         }),
-        Map({
+        createSource({
           url: "http://example.com/folder/b/b.js",
           actor: "actor2"
         }),
-        Map({
+        createSource({
           url: "http://example.com/folder/c/",
           actor: "actor1"
         })
       ];
 
-      const _tree = createNode("root", "", []);
+      const _tree = createDirectoryNode("root", "", []);
       sources.forEach(source =>
         addToTree(_tree, source, "http://example.com/")
       );
@@ -145,15 +153,15 @@ describe("sources-tree", () => {
 
     it("puts root debugee url at the top of the sort", () => {
       const sources = [
-        Map({
+        createSource({
           url: "http://api.example.com/a.js",
           actor: "actor1"
         }),
-        Map({
+        createSource({
           url: "http://example.com/b.js",
           actor: "actor2"
         }),
-        Map({
+        createSource({
           url: "http://demo.com/c.js",
           actor: "actor3"
         })
@@ -161,8 +169,8 @@ describe("sources-tree", () => {
 
       const rootA = "http://example.com/path/to/file.html";
       const rootB = "https://www.demo.com/index.html";
-      const _treeA = createNode("root", "", []);
-      const _treeB = createNode("root", "", []);
+      const _treeA = createDirectoryNode("root", "", []);
+      const _treeB = createDirectoryNode("root", "", []);
       sources.forEach(source => {
         addToTree(_treeA, source, rootA);
         addToTree(_treeB, source, rootB);

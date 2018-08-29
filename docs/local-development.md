@@ -28,15 +28,15 @@
 
 ### Themes
 
-The local debugger supports three themes:
+The local debugger supports two themes:
 
-| Light                                                                                                                                                                                                                                                           | Dark                                                                                                                                                                                                                                                           | Firebug                                                                                                                                                                                                                                                           |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <a href="https://cloud.githubusercontent.com/assets/254562/20676302/4cb04a7c-b55d-11e6-855f-654395e2c26f.png"><img width="480" alt="light-theme" src="https://cloud.githubusercontent.com/assets/254562/20676302/4cb04a7c-b55d-11e6-855f-654395e2c26f.png"></a> | <a href="https://cloud.githubusercontent.com/assets/254562/20676304/4cbfbf16-b55d-11e6-9b84-3ee5595e36be.png"><img width="480" alt="dark-theme" src="https://cloud.githubusercontent.com/assets/254562/20676304/4cbfbf16-b55d-11e6-9b84-3ee5595e36be.png"></a> | <a href="https://cloud.githubusercontent.com/assets/254562/20676303/4cbb0570-b55d-11e6-98b5-d1dd124345cd.png"><img width="480" alt="firebug-theme" src="https://cloud.githubusercontent.com/assets/254562/20676303/4cbb0570-b55d-11e6-98b5-d1dd124345cd.png"></a> |
+| Light                                                                                                                                                                                                                                                           | Dark                                                                                                                                                                                                                                                           |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <a href="https://cloud.githubusercontent.com/assets/254562/20676302/4cb04a7c-b55d-11e6-855f-654395e2c26f.png"><img width="480" alt="light-theme" src="https://cloud.githubusercontent.com/assets/254562/20676302/4cb04a7c-b55d-11e6-855f-654395e2c26f.png"></a> | <a href="https://cloud.githubusercontent.com/assets/254562/20676304/4cbfbf16-b55d-11e6-9b84-3ee5595e36be.png"><img width="480" alt="dark-theme" src="https://cloud.githubusercontent.com/assets/254562/20676304/4cbfbf16-b55d-11e6-9b84-3ee5595e36be.png"></a> |
 
 #### Set a theme
 
-You can change the theme by going to the Settings panel in the launchpad and changing the theme to either `firebug` or `dark`.
+You can change the theme by going to the Settings panel in the launchpad and changing the theme to either `light` or `dark`.
 
 #### Update a theme style
 
@@ -136,8 +136,8 @@ When you're starting a new feature, it's always good to ask yourself if the feat
 
 It's easy to add a new feature flag to the project.
 
-1. add the flag to `assets/panel/prefs.js` and `utils/prefs.js`
-2. import `features`
+1.  add the flag to `assets/panel/prefs.js` and `utils/prefs.js`
+2.  import `features`
 
 Here's an example of adding a new feature "awesome sauce" to the Debugger:
 
@@ -167,7 +167,7 @@ index 429d56c..dadb36c 100644
    projectTextSearch: ["Bool", "project-text-search", true],
    wasm: ["Bool", "wasm", true],
    shortcuts: ["Bool", "shortcuts", false]
-+  awesome: ["Bool", "shortcuts", false]
++  awesome: ["Bool", "awesome", false]
  });
 
  if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {
@@ -387,9 +387,9 @@ export function getExpressions(state: OuterState, input: string) {
 
 The `ExpressionState` documents the reducers fields. We use it in three places:
 
-1. `State` - an Immutable expression state record
-2. `update` - the reducer function which receives the expression state record
-3. `OuterState` - a local type representing the application state passed into selectors
+1.  `State` - an Immutable expression state record
+2.  `update` - the reducer function which receives the expression state record
+3.  `OuterState` - a local type representing the application state passed into selectors
 
 #### Immutable
 
@@ -481,7 +481,7 @@ Your code must pass all tests to be merged in. Your tests should pass locally be
 Here's how you can run all the unit tests, lints, and integration tests at once:
 
 ```bash
-yarn run test-all
+yarn run test:all
 ```
 
 #### Unit Tests
@@ -515,7 +515,7 @@ We shallow render the component and simulate an UI interaction like `click`.
 
 ```js
 it("should call handleClick function", () => {
-  const onClick = jest.genMockFunction();
+  const onClick = jest.fn();
   const wrapper = shallow(new CloseButton({ handleClick: onClick }));
 
   wrapper.simulate("click");
@@ -529,7 +529,7 @@ We shallow render the component to a JSON and save it to a fixture. Subsequent r
 
 ```js
 it("should render a button", () => {
-  const onClick = jest.genMockFunction();
+  const onClick = jest.fn();
   const buttonClass = "class";
   const wrapper = shallow(
     new CloseButton({
@@ -583,9 +583,9 @@ index a3b2ba6..cd5a8e7 100644
 | Type     | Command             |
 | -------- | ------------------- |
 | all      | `yarn run lint`     |
-| css      | `yarn run lint-css` |
-| js       | `yarn run lint-js`  |
-| markdown | `yarn run lint-md`  |
+| css      | `yarn run lint:css` |
+| js       | `yarn run lint:js`  |
+| markdown | `yarn run lint:md`  |
 
 #### Lint CSS
 
@@ -594,7 +594,7 @@ We use [Stylelint](http://stylelint.io/) to maintain our CSS styles. The [.style
 To test your CSS changes run the command:
 
 ```bash
-yarn run lint-css
+yarn run lint:css
 ```
 
 #### Lint JS
@@ -604,7 +604,7 @@ We use [eslint](http://eslint.org/) to maintain our JavaScript styles. The [.esl
 To automatically fix many errors run the command:
 
 ```bash
-yarn run lint-fix
+yarn run lint:js
 ```
 
 #### Lint Markdown
@@ -616,7 +616,7 @@ We use [remark](https://github.com/wooorm/remark-lint) to help lint our markdown
 The Debugger has a [styleguide][mdn-colors] that we use to keep the colors consistent across tools and themes.
 
 The common colors are represented as [css variables] in a [devtools variables][devtools-css-variables] file. This lets define the colors
-for each theme: [light][light-theme], [dark][dark-theme], [firebug][firebug-theme].
+for each theme: [light][light-theme], [dark][dark-theme].
 
 ### Performance
 
@@ -656,8 +656,8 @@ so that the main thread doesn't have to.
 
 There are a couple of steps needed to make a function a worker task.
 
-1. add a task to the worker index e.g. (`dispatcher.task("getMatches")`)
-2. add the function to the worker handler `workerHandler({ getMatches })`
+1.  add a task to the worker index e.g. (`dispatcher.task("getMatches")`)
+2.  add the function to the worker handler `workerHandler({ getMatches })`
 
 Here's the full example.
 
@@ -703,14 +703,16 @@ new preferred method. However Scalars cannot do everything, so both are used.
 * **Histograms**: Distribution of an event
 
 ```js
-const loadSourceHistogram = Services.telemetry.getHistogramById(
-  "DEVTOOLS_DEBUGGER_LOAD_SOURCE_MS"
-);
-loadSourceHistogram.add(delay); // time it took to load the source
+const Telemetry = require("devtools-modules/src/utils/telemetry");
+const telemetry = new Telemetry();
+const loadSourceHistogram = "DEVTOOLS_DEBUGGER_LOAD_SOURCE_MS";
+telemetry.start(loadSourceHistogram, this);
 ```
 
 ```js
-Services.telemetry.scalarAdd("devtools.debugger.source_selected", 1);
+const Telemetry = require("devtools-modules/src/utils/telemetry");
+const telemetry = new Telemetry();
+telemetry.scalarAdd("devtools.debugger.source_selected", 1);
 ```
 
 We also need to add probe definitions, to the [histograms.json] and [scalars.yaml],
@@ -769,9 +771,9 @@ The debugger depends on several other devtools packages. Sometimes a debugger fe
 
 There are three ways to test a change to a 3rd party package.
 
-1. [yarn link](https://yarnpkg.com/lang/en/docs/cli/link/)
-2. create a local version with **npm pack** and [yarn add](https://yarnpkg.com/lang/en/docs/cli/add/#toc-adding-dependencies)
-3. change the file directly in the debugger's `node_modules` directory.
+1.  [yarn link](https://yarnpkg.com/lang/en/docs/cli/link/)
+2.  create a local version with **npm pack** and [yarn add](https://yarnpkg.com/lang/en/docs/cli/add/#toc-adding-dependencies)
+3.  change the file directly in the debugger's `node_modules` directory.
 
 ### Errors
 
@@ -779,17 +781,17 @@ There are three ways to test a change to a 3rd party package.
 
 If you're running into errors associated with updating your files locally, try:
 
-1. `git checkout .`
-2. `yarn nom`
-3. `git pull --rebase`
+1.  `git checkout .`
+2.  `yarn nom`
+3.  `git pull --rebase`
 
 Another option is to reset your branch to master:
 
-1. `git fetch origin`
-2. `git checkout master`
-3. `git reset --hard origin/master`
-4. `yarn nom` to update node modules
-5. `yarn start` to restart local server
+1.  `git fetch origin`
+2.  `git checkout master`
+3.  `git reset --hard origin/master`
+4.  `yarn nom` to update node modules
+5.  `yarn start` to restart local server
 
 ### Getting Help
 
@@ -843,10 +845,8 @@ your questions on [slack][slack].
 [mdn-colors]: https://developer.mozilla.org/en-US/docs/Tools/DevToolsColors
 [light-theme]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-launchpad/src/lib/themes/light-theme.css#L1
 [dark-theme]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-launchpad/src/lib/themes/dark-theme.css#L1
-[firebug-theme]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-launchpad/src/lib/themes/firebug-theme.css#L1
 [devtools-css-variables]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-launchpad/src/lib/themes/variables.css#L1
 [css variables]: https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_variables
-[firebug-ui-screen]: https://cloud.githubusercontent.com/assets/1755089/22209733/94970458-e1ad-11e6-83d4-8b082217b989.png
 [light-ui-screen]: https://cloud.githubusercontent.com/assets/1755089/22209736/9b194f2a-e1ad-11e6-9de0-561dd529d5f0.png
 [pr-table]: ./pull-requests.md#screenshots
 [mochitest]: ./mochitests.md

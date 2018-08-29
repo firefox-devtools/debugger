@@ -6,27 +6,30 @@
 
 import { isOriginalId } from "devtools-source-map";
 import { PROMISE } from "../utils/middleware/promise";
-import { getSource, getGeneratedSource } from "../../selectors";
+import { getGeneratedSource, getSourceFromId } from "../../selectors";
 import * as parser from "../../workers/parser";
 import { isLoaded } from "../../utils/source";
+import { Telemetry } from "devtools-modules";
 
 import defer from "../../utils/defer";
 import type { ThunkArgs } from "../types";
-import type { SourceRecord } from "../../reducers/types";
+
+import type { Source } from "../../types";
 
 const requests = new Map();
-import { Services } from "devtools-modules";
-const loadSourceHistogram = Services.telemetry.getHistogramById(
-  "DEVTOOLS_DEBUGGER_LOAD_SOURCE_MS"
-);
 
-async function loadSource(source: SourceRecord, { sourceMaps, client }) {
-  const id = source.get("id");
+// Measures the time it takes for a source to load
+const loadSourceHistogram = "DEVTOOLS_DEBUGGER_LOAD_SOURCE_MS";
+const telemetry = new Telemetry();
+
+async function loadSource(source: Source, { sourceMaps, client }) {
+  const id = source.id;
   if (isOriginalId(id)) {
-    return await sourceMaps.getOriginalSourceText(source.toJS());
+    return sourceMaps.getOriginalSourceText(source);
   }
 
   const response = await client.sourceContents(id);
+  telemetry.finish(loadSourceHistogram, source);
 
   return {
     id,
@@ -39,10 +42,9 @@ async function loadSource(source: SourceRecord, { sourceMaps, client }) {
  * @memberof actions/sources
  * @static
  */
-export function loadSourceText(source: SourceRecord) {
+export function loadSourceText(source: Source) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
-    const id = source.get("id");
-
+    const id = source.id;
     // Fetch the source text only once.
     if (requests.has(id)) {
       return requests.get(id);
@@ -52,14 +54,14 @@ export function loadSourceText(source: SourceRecord) {
       return Promise.resolve();
     }
 
-    const telemetryStart = performance.now();
     const deferred = defer();
     requests.set(id, deferred.promise);
 
+    telemetry.start(loadSourceHistogram, source);
     try {
       await dispatch({
         type: "LOAD_SOURCE_TEXT",
-        sourceId: id,
+        sourceId: source.id,
         [PROMISE]: loadSource(source, { sourceMaps, client })
       });
     } catch (e) {
@@ -68,10 +70,9 @@ export function loadSourceText(source: SourceRecord) {
       return;
     }
 
-    const newSource = getSource(getState(), source.get("id")).toJS();
-
+    const newSource = getSourceFromId(getState(), source.id);
     if (isOriginalId(newSource.id) && !newSource.isWasm) {
-      const generatedSource = getGeneratedSource(getState(), source.toJS());
+      const generatedSource = getGeneratedSource(getState(), source);
       await dispatch(loadSourceText(generatedSource));
     }
 
@@ -83,8 +84,6 @@ export function loadSourceText(source: SourceRecord) {
     deferred.resolve();
     requests.delete(id);
 
-    const telemetryEnd = performance.now();
-    const duration = telemetryEnd - telemetryStart;
-    loadSourceHistogram.add(duration);
+    return source;
   };
 }

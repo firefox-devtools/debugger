@@ -6,9 +6,11 @@
 
 import { addToTree } from "./addToTree";
 import { collapseTree } from "./collapseTree";
-import { createNode, createParentMap } from "./utils";
+import { createDirectoryNode, createParentMap } from "./utils";
+import { getDomain } from "./treeOrder";
 
 import type { SourcesMap } from "../../reducers/types";
+import type { TreeDirectory } from "./types";
 
 type Params = {
   sources: SourcesMap,
@@ -17,12 +19,15 @@ type Params = {
 };
 
 export function createTree({ sources, debuggeeUrl, projectRoot }: Params) {
-  const uncollapsedTree = createNode("root", "", []);
-  for (const source of sources.valueSeq()) {
-    addToTree(uncollapsedTree, source, debuggeeUrl, projectRoot);
+  const uncollapsedTree = createDirectoryNode("root", "", []);
+  const debuggeeHost = getDomain(debuggeeUrl);
+
+  for (const sourceId in sources) {
+    const source = sources[sourceId];
+    addToTree(uncollapsedTree, source, debuggeeHost, projectRoot);
   }
 
-  const sourceTree = collapseTree(uncollapsedTree);
+  const sourceTree = collapseTree((uncollapsedTree: TreeDirectory));
 
   return {
     uncollapsedTree,

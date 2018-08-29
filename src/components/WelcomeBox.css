@@ -27,7 +27,9 @@
   position: absolute;
   top: auto;
   offset-inline-end: 0;
+  inset-inline-end: 0;
   offset-inline-start: auto;
+  inset-inline-start: auto;
   bottom: 0;
 }
 
@@ -45,6 +47,17 @@
   flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.welcomebox__searchSources,
+.welcomebox__searchProject {
+  transition: color 0.15s linear;
+}
+
+.welcomebox__searchSources:hover,
+.welcomebox__searchProject:hover {
+  color: var(--theme-body-color);
 }
 
 .shortcutKey {
@@ -59,12 +72,19 @@
 }
 
 .shortcutFunction {
-  flex: 1;
+  margin: 0 auto;
   color: var(--theme-comment);
+  display: table;
 }
 
 .shortcutFunction p {
-  display: flex;
+  display: table-row;
+}
+
+.shortcutFunction .shortcutKey,
+.shortcutFunction .shortcutLabel {
+  padding: 10px 5px;
+  display: table-cell;
 }
 
 html .welcomebox .toggle-button-end.collapsed {

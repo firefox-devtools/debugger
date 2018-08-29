@@ -15,6 +15,9 @@
 .accordion {
   background-color: var(--theme-sidebar-background);
   width: 100%;
+  list-style-type: none;
+  padding: 0px;
+  margin-top: 0px;
 }
 
 .accordion ._header {
@@ -27,6 +30,8 @@
   width: 100%;
   height: 24px;
   align-items: center;
+  margin: 0px;
+  font-weight: normal;
 
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -71,7 +76,6 @@
   color: var(--theme-body-color);
   border: none;
   background: none;
-  outline: 0;
   padding: 0;
   width: 16px;
   height: 16px;

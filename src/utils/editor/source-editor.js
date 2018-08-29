@@ -1,6 +1,6 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 /**
  * CodeMirror source editor utils
@@ -16,11 +16,13 @@ require("codemirror/mode/coffeescript/coffeescript");
 require("codemirror/mode/jsx/jsx");
 require("codemirror/mode/elm/elm");
 require("codemirror/mode/clojure/clojure");
+require("codemirror/mode/haxe/haxe");
 require("codemirror/addon/search/searchcursor");
 require("codemirror/addon/fold/foldcode");
 require("codemirror/addon/fold/brace-fold");
 require("codemirror/addon/fold/indent-fold");
 require("codemirror/addon/fold/foldgutter");
+require("codemirror/addon/runmode/runmode");
 require("codemirror/addon/selection/active-line");
 require("codemirror/addon/edit/matchbrackets");
 require("codemirror/mode/clike/clike");
@@ -72,6 +74,10 @@ export default class SourceEditor {
 
   get codeMirror(): any {
     return this.editor;
+  }
+
+  get CodeMirror() {
+    return CodeMirror;
   }
 
   setText(str: string) {

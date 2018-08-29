@@ -6,8 +6,6 @@
 
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import * as I from "immutable";
 
 import { getSelectedSource, getSourcesForTabs } from "../../selectors";
 import { isVisible } from "../../utils/ui";
@@ -20,25 +18,24 @@ import { debounce } from "lodash";
 import "./Tabs.css";
 
 import Tab from "./Tab";
-import PaneToggleButton from "../shared/Button/PaneToggle";
+import { PaneToggleButton } from "../shared/Button";
 import Dropdown from "../shared/Dropdown";
 
-import type { List } from "immutable";
-import type { SourceRecord } from "../../reducers/sources";
+import type { Source } from "../../types";
 
-type SourcesList = List<SourceRecord>;
+type SourcesList = Source[];
 
 type Props = {
   tabSources: SourcesList,
-  selectedSource: SourceRecord,
-  selectSource: Object => void,
+  selectedSource: ?Source,
+  horizontal: boolean,
+  startPanelCollapsed: boolean,
+  endPanelCollapsed: boolean,
   moveTab: (string, number) => void,
   closeTab: string => void,
   togglePaneCollapse: () => void,
   showSource: string => void,
-  horizontal: boolean,
-  startPanelCollapsed: boolean,
-  endPanelCollapsed: boolean
+  selectSource: string => void
 };
 
 type State = {
@@ -76,7 +73,7 @@ class Tabs extends PureComponent<Props, State> {
     super(props);
     this.state = {
       dropdownShown: false,
-      hiddenTabs: I.List()
+      hiddenTabs: []
     };
 
     this.onResize = debounce(() => {
@@ -107,7 +104,7 @@ class Tabs extends PureComponent<Props, State> {
   }
 
   componentDidMount() {
-    this.updateHiddenTabs();
+    window.requestIdleCallback(this.updateHiddenTabs);
     window.addEventListener("resize", this.onResize);
   }
 
@@ -119,7 +116,7 @@ class Tabs extends PureComponent<Props, State> {
    * Updates the hiddenSourceTabs state, by
    * finding the source tabs which are wrapped and are not on the top row.
    */
-  updateHiddenTabs() {
+  updateHiddenTabs = () => {
     if (!this.refs.sourceTabs) {
       return;
     }
@@ -127,12 +124,16 @@ class Tabs extends PureComponent<Props, State> {
     const sourceTabEls = this.refs.sourceTabs.children;
     const hiddenTabs = getHiddenTabs(tabSources, sourceTabEls);
 
-    if (isVisible() && hiddenTabs.indexOf(selectedSource) !== -1) {
-      return moveTab(selectedSource.get("url"), 0);
+    if (
+      selectedSource &&
+      isVisible() &&
+      hiddenTabs.find(tab => tab.id == selectedSource.id)
+    ) {
+      return moveTab(selectedSource.url, 0);
     }
 
     this.setState({ hiddenTabs });
-  }
+  };
 
   toggleSourcesDropdown(e) {
     this.setState(prevState => ({
@@ -140,23 +141,23 @@ class Tabs extends PureComponent<Props, State> {
     }));
   }
 
-  getIconClass(source: SourceRecord) {
+  getIconClass(source: Source) {
     if (isPretty(source)) {
       return "prettyPrint";
     }
-    if (source.get("isBlackBoxed")) {
+    if (source.isBlackBoxed) {
       return "blackBox";
     }
     return "file";
   }
 
-  renderDropdownSource = (source: SourceRecord) => {
+  renderDropdownSource = (source: Source) => {
     const { selectSource } = this.props;
-    const filename = getFilename(source.toJS());
+    const filename = getFilename(source);
 
-    const onClick = () => selectSource(source.get("id"));
+    const onClick = () => selectSource(source.id);
     return (
-      <li key={source.get("id")} onClick={onClick}>
+      <li key={source.id} onClick={onClick}>
         <img className={`dropdown-icon ${this.getIconClass(source)}`} />
         {filename}
       </li>
@@ -171,20 +172,23 @@ class Tabs extends PureComponent<Props, State> {
 
     return (
       <div className="source-tabs" ref="sourceTabs">
-        {tabSources.map((source, index) => <Tab key={index} source={source} />)}
+        {tabSources.map((source, index) => (
+          <Tab key={index} source={source} />
+        ))}
       </div>
     );
   }
 
   renderDropdown() {
     const hiddenTabs = this.state.hiddenTabs;
-    if (!hiddenTabs || hiddenTabs.size == 0) {
+    if (!hiddenTabs || hiddenTabs.length == 0) {
       return null;
     }
 
     const Panel = <ul>{hiddenTabs.map(this.renderDropdownSource)}</ul>;
+    const icon = <img className="moreTabs" />;
 
-    return <Dropdown panel={Panel} icon={"»"} />;
+    return <Dropdown panel={Panel} icon={icon} />;
   }
 
   renderStartPanelToggleButton() {
@@ -225,12 +229,18 @@ class Tabs extends PureComponent<Props, State> {
   }
 }
 
+const mapStateToProps = state => ({
+  selectedSource: getSelectedSource(state),
+  tabSources: getSourcesForTabs(state)
+});
+
 export default connect(
-  state => {
-    return {
-      selectedSource: getSelectedSource(state),
-      tabSources: getSourcesForTabs(state)
-    };
-  },
-  dispatch => bindActionCreators(actions, dispatch)
+  mapStateToProps,
+  {
+    selectSource: actions.selectSource,
+    moveTab: actions.moveTab,
+    closeTab: actions.closeTab,
+    togglePaneCollapse: actions.togglePaneCollapse,
+    showSource: actions.showSource
+  }
 )(Tabs);

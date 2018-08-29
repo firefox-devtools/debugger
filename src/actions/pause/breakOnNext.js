@@ -15,12 +15,8 @@ import type { ThunkArgs } from "../types";
  * @static
  */
 export function breakOnNext() {
-  return ({ dispatch, client }: ThunkArgs) => {
-    client.breakOnNext();
-
-    return dispatch({
-      type: "BREAK_ON_NEXT",
-      value: true
-    });
+  return async ({ dispatch, client }: ThunkArgs) => {
+    await client.breakOnNext();
+    return dispatch({ type: "BREAK_ON_NEXT" });
   };
 }

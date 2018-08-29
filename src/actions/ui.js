@@ -8,11 +8,14 @@ import {
   getActiveSearch,
   getPaneCollapse,
   getQuickOpenEnabled,
-  getSource
+  getSource,
+  getFileSearchQuery,
+  getProjectDirectoryRoot
 } from "../selectors";
-import { getProjectDirectoryRoot } from "../reducers/ui";
+import { selectSource } from "../actions/sources/select";
 import type { ThunkArgs, panelPositionType } from "./types";
-import { getRawSourceURL } from "../utils/source";
+import { getEditor } from "../utils/editor";
+import { searchContents } from "./file-search";
 
 import type {
   ActiveSearchType,
@@ -55,6 +58,17 @@ export function setActiveSearch(activeSearch?: ActiveSearchType) {
   };
 }
 
+export function updateActiveFileSearch() {
+  return ({ dispatch, getState }: ThunkArgs) => {
+    const isFileSearchOpen = getActiveSearch(getState()) === "file";
+    const fileSearchQuery = getFileSearchQuery(getState());
+    if (isFileSearchOpen && fileSearchQuery) {
+      const editor = getEditor();
+      dispatch(searchContents(fileSearchQuery, editor));
+    }
+  };
+}
+
 export function toggleFrameworkGrouping(toggleValue: boolean) {
   return ({ dispatch, getState }: ThunkArgs) => {
     dispatch({
@@ -67,17 +81,23 @@ export function toggleFrameworkGrouping(toggleValue: boolean) {
 export function showSource(sourceId: string) {
   return ({ dispatch, getState }: ThunkArgs) => {
     const source = getSource(getState(), sourceId);
+    if (!source) {
+      return;
+    }
+
+    if (getPaneCollapse(getState(), "start")) {
+      dispatch({
+        type: "TOGGLE_PANE",
+        position: "start",
+        paneCollapsed: false
+      });
+    }
 
     dispatch(setPrimaryPaneTab("sources"));
-    dispatch({
-      type: "SHOW_SOURCE",
-      sourceUrl: ""
-    });
 
-    dispatch({
-      type: "SHOW_SOURCE",
-      sourceUrl: getRawSourceURL(source.get("url"))
-    });
+    dispatch({ type: "SHOW_SOURCE", source: null });
+    dispatch(selectSource(source.id));
+    dispatch({ type: "SHOW_SOURCE", source });
   };
 }
 
@@ -163,9 +183,15 @@ export function setProjectDirectoryRoot(newRoot: string) {
   return ({ dispatch, getState }: ThunkArgs) => {
     const curRoot = getProjectDirectoryRoot(getState());
     if (newRoot && curRoot) {
-      const temp = newRoot.split("/");
-      temp.splice(0, 2);
-      newRoot = `${curRoot}/${temp.join("/")}`;
+      const newRootArr = newRoot.replace(/\/+/g, "/").split("/");
+      const curRootArr = curRoot
+        .replace(/^\//, "")
+        .replace(/\/+/g, "/")
+        .split("/");
+      if (newRootArr[0] !== curRootArr[0]) {
+        newRootArr.splice(0, 2);
+        newRoot = `${curRoot}/${newRootArr.join("/")}`;
+      }
     }
 
     dispatch({

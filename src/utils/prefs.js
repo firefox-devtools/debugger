@@ -4,21 +4,25 @@
 
 // @flow
 
-const { isDevelopment } = require("devtools-config");
-const { Services, PrefsHelper } = require("devtools-modules");
+import { PrefsHelper } from "devtools-modules";
+import { isDevelopment } from "devtools-environment";
+import Services from "devtools-services";
+import { asyncStoreHelper } from "./asyncStoreHelper";
 
-const prefsSchemaVersion = "1.0.3";
+const prefsSchemaVersion = "1.0.4";
 
 const pref = Services.pref;
 
 if (isDevelopment()) {
   pref("devtools.debugger.alphabetize-outline", false);
-  pref("devtools.debugger.auto-pretty-print", true);
+  pref("devtools.debugger.auto-pretty-print", false);
   pref("devtools.source-map.client-service.enabled", true);
   pref("devtools.debugger.pause-on-exceptions", false);
-  pref("devtools.debugger.ignore-caught-exceptions", false);
+  pref("devtools.debugger.pause-on-caught-exceptions", false);
+  pref("devtools.debugger.ignore-caught-exceptions", true);
   pref("devtools.debugger.call-stack-visible", true);
   pref("devtools.debugger.scopes-visible", true);
+  pref("devtools.debugger.component-visible", true);
   pref("devtools.debugger.workers-visible", true);
   pref("devtools.debugger.expressions-visible", true);
   pref("devtools.debugger.breakpoints-visible", true);
@@ -35,15 +39,14 @@ if (isDevelopment()) {
   pref("devtools.debugger.file-search-regex-match", false);
   pref("devtools.debugger.project-directory-root", "");
   pref("devtools.debugger.prefs-schema-version", "1.0.1");
+  pref("devtools.debugger.skip-pausing", false);
   pref("devtools.debugger.features.workers", true);
   pref("devtools.debugger.features.async-stepping", true);
   pref("devtools.debugger.features.wasm", true);
   pref("devtools.debugger.features.shortcuts", true);
   pref("devtools.debugger.features.root", true);
   pref("devtools.debugger.features.column-breakpoints", false);
-  pref("devtools.debugger.features.chrome-scopes", false);
   pref("devtools.debugger.features.map-scopes", true);
-  pref("devtools.debugger.features.breakpoints-dropdown", true);
   pref("devtools.debugger.features.remove-command-bar-options", true);
   pref("devtools.debugger.features.code-coverage", false);
   pref("devtools.debugger.features.event-listeners", false);
@@ -51,6 +54,12 @@ if (isDevelopment()) {
   pref("devtools.debugger.features.outline", true);
   pref("devtools.debugger.features.column-breakpoints", true);
   pref("devtools.debugger.features.replay", true);
+  pref("devtools.debugger.features.pause-points", true);
+  pref("devtools.debugger.features.skip-pausing", true);
+  pref("devtools.debugger.features.component-pane", false);
+  pref("devtools.debugger.features.autocomplete-expressions", false);
+  pref("devtools.debugger.features.map-expression-bindings", true);
+  pref("devtools.debugger.features.map-await-expression", true);
 }
 
 export const prefs = new PrefsHelper("devtools", {
@@ -58,9 +67,11 @@ export const prefs = new PrefsHelper("devtools", {
   autoPrettyPrint: ["Bool", "debugger.auto-pretty-print"],
   clientSourceMapsEnabled: ["Bool", "source-map.client-service.enabled"],
   pauseOnExceptions: ["Bool", "debugger.pause-on-exceptions"],
+  pauseOnCaughtExceptions: ["Bool", "debugger.pause-on-caught-exceptions"],
   ignoreCaughtExceptions: ["Bool", "debugger.ignore-caught-exceptions"],
   callStackVisible: ["Bool", "debugger.call-stack-visible"],
   scopesVisible: ["Bool", "debugger.scopes-visible"],
+  componentVisible: ["Bool", "debugger.component-visible"],
   workersVisible: ["Bool", "debugger.workers-visible"],
   breakpointsVisible: ["Bool", "debugger.breakpoints-visible"],
   expressionsVisible: ["Bool", "debugger.expressions-visible"],
@@ -76,7 +87,8 @@ export const prefs = new PrefsHelper("devtools", {
   fileSearchWholeWord: ["Bool", "debugger.file-search-whole-word"],
   fileSearchRegexMatch: ["Bool", "debugger.file-search-regex-match"],
   debuggerPrefsSchemaVersion: ["Char", "debugger.prefs-schema-version"],
-  projectDirectoryRoot: ["Char", "debugger.project-directory-root", ""]
+  projectDirectoryRoot: ["Char", "debugger.project-directory-root", ""],
+  skipPausing: ["Bool", "debugger.skip-pausing"]
 });
 
 export const features = new PrefsHelper("devtools.debugger.features", {
@@ -85,20 +97,29 @@ export const features = new PrefsHelper("devtools.debugger.features", {
   shortcuts: ["Bool", "shortcuts"],
   root: ["Bool", "root"],
   columnBreakpoints: ["Bool", "column-breakpoints"],
-  chromeScopes: ["Bool", "chrome-scopes"],
   mapScopes: ["Bool", "map-scopes"],
-  breakpointsDropdown: ["Bool", "breakpoints-dropdown"],
   removeCommandBarOptions: ["Bool", "remove-command-bar-options"],
   workers: ["Bool", "workers"],
   codeCoverage: ["Bool", "code-coverage"],
   eventListeners: ["Bool", "event-listeners"],
   outline: ["Bool", "outline"],
   codeFolding: ["Bool", "code-folding"],
-  replay: ["Bool", "replay"]
+  replay: ["Bool", "replay"],
+  pausePoints: ["Bool", "pause-points"],
+  skipPausing: ["Bool", "skip-pausing"],
+  autocompleteExpression: ["Bool", "autocomplete-expressions"],
+  mapExpressionBindings: ["Bool", "map-expression-bindings"],
+  mapAwaitExpression: ["Bool", "map-await-expression"],
+  componentPane: ["Bool", "component-pane"]
+});
+
+export const asyncStore = asyncStoreHelper("debugger", {
+  pendingBreakpoints: ["pending-breakpoints", {}]
 });
 
 if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {
   // clear pending Breakpoints
   prefs.pendingBreakpoints = {};
+  prefs.tabs = [];
   prefs.debuggerPrefsSchemaVersion = prefsSchemaVersion;
 }

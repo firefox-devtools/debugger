@@ -19,7 +19,10 @@ function assertBpInGutter(dbg, lineNumber) {
 add_task(async function() {
   // NOTE: the CORS call makes the test run times inconsistent
   const dbg = await initDebugger("doc-sourcemaps2.html");
-  const { selectors: { getBreakpoint, getBreakpoints }, getState } = dbg;
+  const {
+    selectors: { getBreakpoint, getBreakpoints },
+    getState
+  } = dbg;
 
   await waitForSources(dbg, "main.js", "main.min.js");
 
@@ -45,7 +48,6 @@ add_task(async function() {
   // Tests the existence of the sourcemap link in the original source.
   ok(findElement(dbg, "sourceMapLink"), "Sourcemap link in original source");
   await selectSource(dbg, "main.min.js");
-  await waitForSelectedSource(dbg, "main.min.js");
 
   ok(
     !findElement(dbg, "sourceMapLink"),

@@ -1,12 +1,30 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 import fs from "fs";
 import path from "path";
 
-export function getSource(name, type = "js") {
-  const text = fs.readFileSync(
+export function getFixture(name, type = "js") {
+  return fs.readFileSync(
     path.join(__dirname, `../fixtures/${name}.${type}`),
     "utf8"
   );
-  const contentType = type === "html" ? "text/html" : "text/javascript";
+}
+
+export function getSource(name, type) {
+  const text = getFixture(name, type);
+  let contentType = "text/javascript";
+  if (type === "html") {
+    contentType = "text/html";
+  } else if (type === "vue") {
+    contentType = "text/vue";
+  } else if (type === "ts") {
+    contentType = "text/typescript";
+  } else if (type === "tsx") {
+    contentType = "text/typescript-jsx";
+  }
+
   return {
     id: name,
     text,

@@ -45,15 +45,19 @@ export function createSource(
   source: SourcePayload,
   { supportsWasm }: { supportsWasm: boolean }
 ): Source {
-  return {
+  const createdSource = {
     id: source.actor,
     url: source.url,
+    relativeUrl: source.url,
     isPrettyPrinted: false,
-    isWasm: supportsWasm && source.introductionType === "wasm",
+    isWasm: false,
     sourceMapURL: source.sourceMapURL,
     isBlackBoxed: false,
     loadedState: "unloaded"
   };
+  return Object.assign(createdSource, {
+    isWasm: supportsWasm && source.introductionType === "wasm"
+  });
 }
 
 export function createPause(

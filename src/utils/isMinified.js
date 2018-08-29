@@ -4,7 +4,7 @@
 
 // @flow
 
-import type { SourceRecord } from "../reducers/types";
+import type { Source } from "../types";
 
 // Used to detect minification for automatic pretty printing
 const SAMPLE_SIZE = 50;
@@ -12,12 +12,16 @@ const INDENT_COUNT_THRESHOLD = 5;
 const CHARACTER_LIMIT = 250;
 const _minifiedCache = new Map();
 
-export function isMinified(source: SourceRecord) {
-  if (_minifiedCache.has(source.get("id"))) {
-    return _minifiedCache.get(source.get("id"));
+export function isMinified(source: Source) {
+  if (_minifiedCache.has(source.id)) {
+    return _minifiedCache.get(source.id);
   }
 
-  let text = source.get("text");
+  if (source.isWasm) {
+    return false;
+  }
+
+  let text = source.text;
   if (!text) {
     return false;
   }
@@ -48,7 +52,7 @@ export function isMinified(source: SourceRecord) {
   }
 
   const minified =
-    indentCount / lines * 100 < INDENT_COUNT_THRESHOLD || overCharLimit;
+    (indentCount / lines) * 100 < INDENT_COUNT_THRESHOLD || overCharLimit;
 
   _minifiedCache.set(source.id, minified);
   return minified;

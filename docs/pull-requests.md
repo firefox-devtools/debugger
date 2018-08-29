@@ -13,7 +13,7 @@
 
 Include screenshots and animated GIFs in your pull request whenever possible.
 
-**Recording GIFs** There are many great tools for recording a GIF. On a mac, we recommend [recordit](http://recordit.co/), which is a free lightweight app.
+**Recording GIFs** There are many great tools for recording a GIF. On a mac, we recommend [recordit](http://recordit.co/), which is a free lightweight app. If you are using Ubuntu, you can also try using [Peek](https://github.com/phw/peek).
 
 <details>
 <summary>
@@ -170,7 +170,7 @@ Here are the steps for [pushing to a branch].
 
 ### CI
 
-We use [Circle] for CI, which is generally pretty great. Our test run is defined in [circle.yml].
+We use [Circle] for CI, which is generally pretty great. Our test run is defined in [config.yml].
 
 #### Testing on CI
 
@@ -208,4 +208,4 @@ it locally. There are three steps:
 [pushing to a branch]: ./maintainer.md#pushing-to-a-branch
 
 [Circle]: https://circleci.com/
-[circle.yml]: ../circle.yml
+[config.yml]: ../.circleci/config.yml

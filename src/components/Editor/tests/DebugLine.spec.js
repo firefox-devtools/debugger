@@ -1,18 +1,21 @@
 /* eslint max-nested-callbacks: ["error", 7] */
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 import React from "react";
 import { shallow } from "enzyme";
 
 import DebugLine from "../DebugLine";
 
-import { makeSourceRecord } from "../../../utils/test-head";
+import { makeSource } from "../../../utils/test-head";
 import { setDocument, toEditorLine } from "../../../utils/editor";
 
 function createMockDocument(clear) {
   const doc = {
     addLineClass: jest.fn(),
     removeLineClass: jest.fn(),
-    markText: jest.genMockFunction().mockReturnValue({ clear }),
+    markText: jest.fn(() => ({ clear })),
     getLine: line => ""
   };
 
@@ -26,7 +29,7 @@ function generateDefaults(editor, overrides) {
       why: { type: "breakpoint" }
     },
     selectedFrame: null,
-    selectedSource: makeSourceRecord("foo"),
+    selectedSource: makeSource("foo"),
     ...overrides
   };
 }
@@ -47,7 +50,7 @@ function render(overrides = {}) {
   const props = generateDefaults(editor, overrides);
 
   const doc = createMockDocument(clear);
-  setDocument(props.selectedSource.get("id"), doc);
+  setDocument(props.selectedSource.id, doc);
 
   const component = shallow(<DebugLine.WrappedComponent {...props} />, {
     lifecycleExperimental: true
@@ -59,7 +62,7 @@ describe("DebugLine Component", () => {
   describe("pausing at the first location", () => {
     it("should show a new debug line", async () => {
       const { component, props, doc } = render({
-        selectedSource: makeSourceRecord("foo", { loadedState: "loaded" })
+        selectedSource: makeSource("foo", { loadedState: "loaded" })
       });
       const line = 2;
       const selectedFrame = createFrame(line);
@@ -75,7 +78,7 @@ describe("DebugLine Component", () => {
     describe("pausing at a new location", () => {
       it("should replace the first debug line", async () => {
         const { props, component, clear, doc } = render({
-          selectedSource: makeSourceRecord("foo", { loadedState: "loaded" })
+          selectedSource: makeSource("foo", { loadedState: "loaded" })
         });
 
         component.instance().debugExpression = { clear: jest.fn() };

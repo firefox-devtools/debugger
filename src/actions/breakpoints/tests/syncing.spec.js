@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 jest.mock("../../../utils/source-maps", () => ({
   getGeneratedLocation: jest.fn()
 }));
@@ -7,6 +11,9 @@ jest.mock("../../../utils/prefs", () => ({
   prefs: {
     expressions: [],
     pendingBreakpoints: {}
+  },
+  features: {
+    replay: false
   },
   clear: jest.fn()
 }));
@@ -28,7 +35,7 @@ jest.mock("../../../utils/breakpoint/astBreakpointLocation", () => ({
 // eslint-disable-next-line
 import { findScopeByName } from "../../../utils/breakpoint/astBreakpointLocation";
 
-import { syncClientBreakpoint } from "../../breakpoints/syncBreakpoint.js";
+import { syncBreakpointPromise } from "../../breakpoints/syncBreakpoint.js";
 
 function setBreakpoint(location, condition) {
   const actualLocation = { ...location, line: location.line };
@@ -117,7 +124,7 @@ describe("loading the debugger", () => {
     const breakpoints = selectors.getBreakpoints(getState());
     expect(breakpoints.size).toBe(0);
     // manually sync
-    const update = await syncClientBreakpoint(
+    const update = await syncBreakpointPromise(
       getState,
       threadClient,
       sourceMaps,
@@ -148,7 +155,7 @@ describe("loading the debugger", () => {
     const breakpoints = selectors.getBreakpoints(getState());
     expect(breakpoints.size).toBe(0);
     // manually sync
-    const update = await syncClientBreakpoint(
+    const update = await syncBreakpointPromise(
       getState,
       threadClient,
       sourceMaps,
@@ -186,7 +193,7 @@ describe("reloading debuggee", () => {
     await dispatch(actions.addBreakpoint(loc1));
 
     // manually sync
-    const update = await syncClientBreakpoint(
+    const update = await syncBreakpointPromise(
       getState,
       threadClient,
       sourceMaps,
@@ -224,7 +231,7 @@ describe("reloading debuggee", () => {
     await dispatch(actions.newSource(reloadedSource));
 
     // manually sync
-    const update = await syncClientBreakpoint(
+    const update = await syncBreakpointPromise(
       getState,
       threadClient,
       sourceMaps,
@@ -265,9 +272,7 @@ describe("reloading debuggee", () => {
     await dispatch(
       actions.syncBreakpoint(
         reloadedSource.id,
-        pendingBreakpoint({
-          disabled: true
-        })
+        pendingBreakpoint({ disabled: true })
       )
     );
 

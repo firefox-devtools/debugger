@@ -9,6 +9,7 @@
   flex: 1;
   white-space: nowrap;
   --breakpoint-expression-right-clear-space: 36px;
+  --breakpoint-expression-height: 2.4em;
 }
 
 /*
@@ -28,6 +29,11 @@
 
 .secondary-panes .accordion {
   flex: 1 0 auto;
+  margin-bottom: 0;
+}
+
+.secondary-panes-wrapper .accordion li:last-child ._content {
+  border-bottom: 0;
 }
 
 .pane {
@@ -47,10 +53,14 @@
   display: flex;
 }
 
+.secondary-panes .accordion .plus {
+  margin-top: -2px;
+}
+
 .secondary-panes .accordion .plus svg {
   width: 12px;
   margin-top: 3px;
-  fill: var(--theme-comment-alt);
+  fill: var(--theme-body-color);
 }
 
 .secondary-panes .accordion .plus.active svg {

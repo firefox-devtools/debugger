@@ -4,15 +4,27 @@
 
 // @flow
 
-import type { SourceRecord } from "../../reducers/types";
+import type { Source } from "../../types";
 
 /**
  * TODO: createNode is exported so this type could be useful to other modules
  * @memberof utils/sources-tree
  * @static
  */
-export type Node = {
+export type TreeNode = TreeSource | TreeDirectory;
+
+export type TreeSource = {
+  type: "source",
   name: string,
   path: string,
-  contents: SourceRecord | Array<Node>
+  contents: Source
 };
+
+export type TreeDirectory = {
+  type: "directory",
+  name: string,
+  path: string,
+  contents: TreeNode[]
+};
+
+export type ParentMap = WeakMap<TreeNode, TreeDirectory>;

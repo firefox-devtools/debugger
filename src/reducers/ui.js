@@ -12,6 +12,8 @@
 import makeRecord from "../utils/makeRecord";
 import { prefs } from "../utils/prefs";
 
+import type { Source } from "../types";
+
 import type { Action, panelPositionType } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
@@ -25,11 +27,10 @@ export type UIState = {
   selectedPrimaryPaneTab: SelectedPrimaryPaneTabType,
   activeSearch: ?ActiveSearchType,
   contextMenu: any,
-  shownSource: string,
+  shownSource: ?Source,
   startPanelCollapsed: boolean,
   endPanelCollapsed: boolean,
   frameworkGroupingOn: boolean,
-  projectDirectoryRoot: string,
   orientation: OrientationType,
   highlightedLineRange?: {
     start?: number,
@@ -44,8 +45,7 @@ export const createUIState = makeRecord(
     selectedPrimaryPaneTab: "sources",
     activeSearch: null,
     contextMenu: {},
-    shownSource: "",
-    projectDirectoryRoot: prefs.projectDirectoryRoot,
+    shownSource: null,
     startPanelCollapsed: prefs.startPanelCollapsed,
     endPanelCollapsed: prefs.endPanelCollapsed,
     frameworkGroupingOn: prefs.frameworkGroupingOn,
@@ -78,7 +78,7 @@ function update(
     }
 
     case "SHOW_SOURCE": {
-      return state.set("shownSource", action.sourceUrl);
+      return state.set("shownSource", action.source);
     }
 
     case "TOGGLE_PANE": {
@@ -111,10 +111,6 @@ function update(
     case "CLOSE_CONDITIONAL_PANEL":
       return state.set("conditionalPanelLine", null);
 
-    case "SET_PROJECT_DIRECTORY_ROOT":
-      prefs.projectDirectoryRoot = action.url;
-      return state.set("projectDirectoryRoot", action.url);
-
     case "SET_PRIMARY_PANE_TAB":
       return state.set("selectedPrimaryPaneTab", action.tabName);
 
@@ -123,6 +119,10 @@ function update(
         return state.set("activeSearch", null);
       }
       return state;
+    }
+
+    case "NAVIGATE": {
+      return state.set("activeSearch", null).set("highlightedLineRange", {});
     }
 
     default: {
@@ -153,7 +153,7 @@ export function getFrameworkGroupingState(state: OuterState): boolean {
   return state.ui.get("frameworkGroupingOn");
 }
 
-export function getShownSource(state: OuterState): boolean {
+export function getShownSource(state: OuterState): Source {
   return state.ui.get("shownSource");
 }
 
@@ -174,10 +174,6 @@ export function getHighlightedLineRange(state: OuterState) {
 
 export function getConditionalPanelLine(state: OuterState): null | number {
   return state.ui.get("conditionalPanelLine");
-}
-
-export function getProjectDirectoryRoot(state: OuterState): string {
-  return state.ui.get("projectDirectoryRoot");
 }
 
 export function getOrientation(state: OuterState): boolean {

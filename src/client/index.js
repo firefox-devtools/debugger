@@ -5,12 +5,10 @@
 // @flow
 
 import * as firefox from "./firefox";
-import * as chrome from "./chrome";
 
-import { prefs } from "../utils/prefs";
+import { prefs, asyncStore } from "../utils/prefs";
 import { setupHelper } from "../utils/dbg";
 
-import { isFirefoxPanel } from "devtools-config";
 import {
   bootstrapApp,
   bootstrapStore,
@@ -18,18 +16,21 @@ import {
 } from "../utils/bootstrap";
 
 function loadFromPrefs(actions: Object) {
-  const { pauseOnExceptions, ignoreCaughtExceptions } = prefs;
-  if (pauseOnExceptions || ignoreCaughtExceptions) {
-    return actions.pauseOnExceptions(pauseOnExceptions, ignoreCaughtExceptions);
+  const { pauseOnExceptions, pauseOnCaughtExceptions } = prefs;
+  if (pauseOnExceptions || pauseOnCaughtExceptions) {
+    return actions.pauseOnExceptions(
+      pauseOnExceptions,
+      pauseOnCaughtExceptions
+    );
   }
 }
 
-function getClient(connection: any) {
-  const { tab: { clientType } } = connection;
-  return clientType == "firefox" ? firefox : chrome;
+async function loadInitialState() {
+  const pendingBreakpoints = await asyncStore.pendingBreakpoints;
+  return { pendingBreakpoints };
 }
 
-async function onConnect(
+export async function onConnect(
   connection: Object,
   { services, toolboxActions }: Object
 ) {
@@ -38,28 +39,30 @@ async function onConnect(
     return;
   }
 
-  const client = getClient(connection);
-  const commands = client.clientCommands;
-  const { store, actions, selectors } = bootstrapStore(commands, {
-    services,
-    toolboxActions
-  });
+  const commands = firefox.clientCommands;
+  const initialState = await loadInitialState();
+  const { store, actions, selectors } = bootstrapStore(
+    commands,
+    {
+      services,
+      toolboxActions
+    },
+    initialState
+  );
 
-  bootstrapWorkers();
-  await client.onConnect(connection, actions);
+  const workers = bootstrapWorkers();
+  await firefox.onConnect(connection, actions);
   await loadFromPrefs(actions);
 
-  if (!isFirefoxPanel()) {
-    setupHelper({
-      store,
-      actions,
-      selectors,
-      client: client.clientCommands
-    });
-  }
+  setupHelper({
+    store,
+    actions,
+    selectors,
+    workers: { ...workers, ...services },
+    connection,
+    client: firefox.clientCommands
+  });
 
   bootstrapApp(store);
   return { store, actions, selectors, client: commands };
 }
-
-export { onConnect };

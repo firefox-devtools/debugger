@@ -7,7 +7,6 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import Svg from "../shared/Svg";
 import actions from "../../actions";
 import {
@@ -25,7 +24,7 @@ import { removeOverlay } from "../../utils/editor";
 import { scrollList } from "../../utils/result-list";
 import classnames from "classnames";
 
-import type { SourceRecord } from "../../reducers/sources";
+import type { Source } from "../../types";
 import type { ActiveSearchType } from "../../reducers/ui";
 import type { Modifiers, SearchResults } from "../../reducers/file-search";
 
@@ -57,17 +56,17 @@ type State = {
 
 type Props = {
   editor?: SourceEditor,
-  selectedSource?: SourceRecord,
-  searchOn?: boolean,
+  selectedSource?: Source,
+  searchOn: boolean,
+  searchResults: SearchResults,
+  modifiers: Modifiers,
+  query: string,
+  toggleFileSearchModifier: string => any,
+  setFileSearchQuery: string => any,
   setActiveSearch: (?ActiveSearchType) => any,
   closeFileSearch: SourceEditor => void,
   doSearch: (string, SourceEditor) => void,
   traverseResults: (boolean, SourceEditor) => void,
-  searchResults: SearchResults,
-  modifiers: Modifiers,
-  toggleFileSearchModifier: string => any,
-  query: string,
-  setFileSearchQuery: string => any,
   updateSearchResults: ({ count: number, index?: number }) => any
 };
 
@@ -129,10 +128,10 @@ class SearchBar extends Component<Props, State> {
   };
 
   clearSearch = () => {
-    const { editor: ed, query, modifiers } = this.props;
-    if (ed && modifiers) {
+    const { editor: ed, query } = this.props;
+    if (ed) {
       const ctx = { ed, cm: ed.codeMirror };
-      removeOverlay(ctx, query, modifiers.toJS());
+      removeOverlay(ctx, query);
     }
   };
 
@@ -170,7 +169,7 @@ class SearchBar extends Component<Props, State> {
 
   doSearch = (query: string) => {
     const { selectedSource } = this.props;
-    if (!selectedSource || !selectedSource.get("text")) {
+    if (!selectedSource || !selectedSource.text) {
       return;
     }
 
@@ -212,18 +211,22 @@ class SearchBar extends Component<Props, State> {
     this.setState({ inputFocused: false });
   };
 
-  onKeyDown = (e: SyntheticKeyboardEvent<HTMLElement>) => {
+  onKeyDown = (e: any) => {
     if (e.key !== "Enter" && e.key !== "F3") {
       return;
     }
 
     this.traverseResults(e, e.shiftKey);
     e.preventDefault();
+    return this.doSearch(e.target.value);
   };
 
   // Renderers
   buildSummaryMsg() {
-    const { searchResults: { matchIndex, count, index }, query } = this.props;
+    const {
+      searchResults: { matchIndex, count, index },
+      query
+    } = this.props;
 
     if (query.trim() == "") {
       return "";
@@ -290,12 +293,18 @@ class SearchBar extends Component<Props, State> {
   };
 
   shouldShowErrorEmoji() {
-    const { query, searchResults: { count } } = this.props;
+    const {
+      query,
+      searchResults: { count }
+    } = this.props;
     return !!query && !count;
   }
 
   render() {
-    const { searchResults: { count }, searchOn } = this.props;
+    const {
+      searchResults: { count },
+      searchOn
+    } = this.props;
 
     if (!searchOn) {
       return <div />;
@@ -326,17 +335,25 @@ SearchBar.contextTypes = {
   shortcuts: PropTypes.object
 };
 
+const mapStateToProps = state => ({
+  searchOn: getActiveSearch(state) === "file",
+  selectedSource: getSelectedSource(state),
+  selectedLocation: getSelectedLocation(state),
+  query: getFileSearchQuery(state),
+  modifiers: getFileSearchModifiers(state),
+  highlightedLineRange: getHighlightedLineRange(state),
+  searchResults: getFileSearchResults(state)
+});
+
 export default connect(
-  state => {
-    return {
-      searchOn: getActiveSearch(state) === "file",
-      selectedSource: getSelectedSource(state),
-      selectedLocation: getSelectedLocation(state),
-      query: getFileSearchQuery(state),
-      modifiers: getFileSearchModifiers(state),
-      highlightedLineRange: getHighlightedLineRange(state),
-      searchResults: getFileSearchResults(state)
-    };
-  },
-  dispatch => bindActionCreators(actions, dispatch)
+  mapStateToProps,
+  {
+    toggleFileSearchModifier: actions.toggleFileSearchModifier,
+    setFileSearchQuery: actions.setFileSearchQuery,
+    setActiveSearch: actions.setActiveSearch,
+    closeFileSearch: actions.closeFileSearch,
+    doSearch: actions.doSearch,
+    traverseResults: actions.traverseResults,
+    updateSearchResults: actions.updateSearchResults
+  }
 )(SearchBar);

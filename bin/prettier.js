@@ -4,7 +4,7 @@ const spawn = require("child_process").spawn;
 const isWindows = /^win/.test(process.platform);
 const prettierCmd = path.resolve(
   __dirname,
-  `../node_modules/.bin/${isWindows ? "prettier.cmd" : "prettier"}`
+  `../node_modules/.bin/${isWindows ? "pretty-quick.cmd" : "pretty-quick"}`
 );
 
 const args = [
@@ -13,6 +13,7 @@ const args = [
   "--write",
   "*.js",
   "*.json",
+  "packages/**/src/*.js",
   "src/*.js",
   "src/*/*.js",
   "src/components/**/*.css",

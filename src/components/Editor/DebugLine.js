@@ -14,13 +14,13 @@ import {
   getSelectedSource
 } from "../../selectors";
 
-import type { Frame, Why } from "../../types";
-import type { SourceRecord } from "../../reducers/types";
+import type { Frame, Why, Source } from "../../types";
 
 type Props = {
   selectedFrame: Frame,
   why: Why,
-  selectedSource: SourceRecord,
+  // selectedSource: SourceRecord,
+  selectedSource: Source,
   editor: Object
 };
 
@@ -62,7 +62,7 @@ export class DebugLine extends Component<Props> {
   setDebugLine(
     why: Why,
     selectedFrame: Frame,
-    selectedSource: SourceRecord,
+    selectedSource: Source,
     editor: Object
   ) {
     if (!isDocumentReady(selectedSource, selectedFrame)) {
@@ -110,7 +110,7 @@ export class DebugLine extends Component<Props> {
 
   clearDebugLine(
     selectedFrame: Frame,
-    selectedSource: SourceRecord,
+    selectedSource: Source,
     why: Why,
     editor: Object
   ) {
@@ -144,10 +144,10 @@ export class DebugLine extends Component<Props> {
   }
 }
 
-export default connect(state => {
-  return {
-    selectedFrame: getVisibleSelectedFrame(state),
-    selectedSource: getSelectedSource(state),
-    why: getPauseReason(state)
-  };
-})(DebugLine);
+const mapStateToProps = state => ({
+  selectedFrame: getVisibleSelectedFrame(state),
+  selectedSource: getSelectedSource(state),
+  why: getPauseReason(state)
+});
+
+export default connect(mapStateToProps)(DebugLine);

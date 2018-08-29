@@ -17,7 +17,7 @@ This document gives a detailed view of the components, actions and reducers that
 React documentation can be found [here](https://facebook.github.io/react/docs/getting-started.html).
 Redux documentation can be found [here](http://redux.js.org/).
 
-As with most documentation related to code, this document may be out of date. The last edit date occurred on August 30, 2016. If you find issues in the documentation please file an issue as described in the [contributing](https://github.com/devtools-html/debugger.html/blob/master/CONTRIBUTING.md#writing-documentation-book) guide.
+As with most documentation related to code, this document may be out of date. The last edit date occurred on August 30, 2016. If you find issues in the documentation please file an issue as described in the [contributing](https://github.com/devtools-html/debugger.html/blob/master/.github/CONTRIBUTING.md#writing-documentation-book) guide.
 
 # Architecture
 

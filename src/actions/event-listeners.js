@@ -1,6 +1,6 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 /* global window gThreadClient setNamedTimeout EVENTS */
 /* eslint no-shadow: 0  */
@@ -90,7 +90,7 @@ function formatListeners(state, listeners) {
     return {
       selector: l.node.selector,
       type: l.type,
-      sourceId: getSourceByURL(state, l.function.location.url).get("id"),
+      sourceId: getSourceByURL(state, l.function.location.url).id,
       line: l.function.location.line
     };
   });

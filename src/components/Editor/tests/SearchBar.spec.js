@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 import React from "react";
 import { shallow } from "enzyme";
 import SearchBar from "../SearchBar";
@@ -23,7 +27,7 @@ function generateDefaults() {
     searchResults: {},
     selectedSymbolType: "functions",
     selectedSource: {
-      get: () => " text text query text"
+      text: " text text query text"
     },
     setFileSearchQuery: msg => msg,
     symbolSearchResults: [],

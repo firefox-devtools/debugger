@@ -111,6 +111,6 @@ They'll be plenty of people who are curious and happy to share what they know.
 Also, down the road, this is a subject that plenty of people are interested in learning and great fodder for [talks].
 
 [slack]: https://devtools-html-slack.herokuapp.com/
-[talks]: ../CONTRIBUTING.md#give-a-talk-speech_balloon
+[talks]: ../.github/CONTRIBUTING.md#give-a-talk-speech_balloon
 [react-dt]: https://cloud.githubusercontent.com/assets/254562/25345125/2cdc225e-28e2-11e7-9642-c7ead9916218.png
 [redux-dt]: https://cloud.githubusercontent.com/assets/254562/25345124/2cd6cf8e-28e2-11e7-8d4a-00a566240e74.png

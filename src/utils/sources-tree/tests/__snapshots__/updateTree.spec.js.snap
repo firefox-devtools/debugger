@@ -2,27 +2,41 @@
 
 exports[`calls updateTree.js adds one source 1`] = `
 "{
+  \\"type\\": \\"directory\\",
   \\"name\\": \\"root\\",
   \\"path\\": \\"\\",
   \\"contents\\": [
     {
+      \\"type\\": \\"directory\\",
       \\"name\\": \\"davidwalsh.name\\",
-      \\"path\\": \\"/davidwalsh.name\\",
+      \\"path\\": \\"davidwalsh.name\\",
       \\"contents\\": [
         {
+          \\"type\\": \\"source\\",
           \\"name\\": \\"(index)\\",
           \\"path\\": \\"https://davidwalsh.name/\\",
           \\"contents\\": {
             \\"id\\": \\"server1.conn13.child1/39\\",
-            \\"url\\": \\"https://davidwalsh.name/\\"
+            \\"url\\": \\"https://davidwalsh.name/\\",
+            \\"isBlackBoxed\\": false,
+            \\"isPrettyPrinted\\": false,
+            \\"isWasm\\": false,
+            \\"contentType\\": \\"\\",
+            \\"loadedState\\": \\"unloaded\\"
           }
         },
         {
+          \\"type\\": \\"source\\",
           \\"name\\": \\"source1.js\\",
-          \\"path\\": \\"/davidwalsh.name/source1.js\\",
+          \\"path\\": \\"davidwalsh.name/source1.js\\",
           \\"contents\\": {
             \\"id\\": \\"server1.conn13.child1/37\\",
-            \\"url\\": \\"https://davidwalsh.name/source1.js\\"
+            \\"url\\": \\"https://davidwalsh.name/source1.js\\",
+            \\"isBlackBoxed\\": false,
+            \\"isPrettyPrinted\\": false,
+            \\"isWasm\\": false,
+            \\"contentType\\": \\"\\",
+            \\"loadedState\\": \\"unloaded\\"
           }
         }
       ]
@@ -33,35 +47,55 @@ exports[`calls updateTree.js adds one source 1`] = `
 
 exports[`calls updateTree.js adds two sources 1`] = `
 "{
+  \\"type\\": \\"directory\\",
   \\"name\\": \\"root\\",
   \\"path\\": \\"\\",
   \\"contents\\": [
     {
+      \\"type\\": \\"directory\\",
       \\"name\\": \\"davidwalsh.name\\",
-      \\"path\\": \\"/davidwalsh.name\\",
+      \\"path\\": \\"davidwalsh.name\\",
       \\"contents\\": [
         {
+          \\"type\\": \\"source\\",
           \\"name\\": \\"(index)\\",
           \\"path\\": \\"https://davidwalsh.name/\\",
           \\"contents\\": {
             \\"id\\": \\"server1.conn13.child1/39\\",
-            \\"url\\": \\"https://davidwalsh.name/\\"
+            \\"url\\": \\"https://davidwalsh.name/\\",
+            \\"isBlackBoxed\\": false,
+            \\"isPrettyPrinted\\": false,
+            \\"isWasm\\": false,
+            \\"contentType\\": \\"\\",
+            \\"loadedState\\": \\"unloaded\\"
           }
         },
         {
+          \\"type\\": \\"source\\",
           \\"name\\": \\"source1.js\\",
-          \\"path\\": \\"/davidwalsh.name/source1.js\\",
+          \\"path\\": \\"davidwalsh.name/source1.js\\",
           \\"contents\\": {
             \\"id\\": \\"server1.conn13.child1/37\\",
-            \\"url\\": \\"https://davidwalsh.name/source1.js\\"
+            \\"url\\": \\"https://davidwalsh.name/source1.js\\",
+            \\"isBlackBoxed\\": false,
+            \\"isPrettyPrinted\\": false,
+            \\"isWasm\\": false,
+            \\"contentType\\": \\"\\",
+            \\"loadedState\\": \\"unloaded\\"
           }
         },
         {
+          \\"type\\": \\"source\\",
           \\"name\\": \\"source2.js\\",
-          \\"path\\": \\"/davidwalsh.name/source2.js\\",
+          \\"path\\": \\"davidwalsh.name/source2.js\\",
           \\"contents\\": {
             \\"id\\": \\"server1.conn13.child1/40\\",
-            \\"url\\": \\"https://davidwalsh.name/source2.js\\"
+            \\"url\\": \\"https://davidwalsh.name/source2.js\\",
+            \\"isBlackBoxed\\": false,
+            \\"isPrettyPrinted\\": false,
+            \\"isWasm\\": false,
+            \\"contentType\\": \\"\\",
+            \\"loadedState\\": \\"unloaded\\"
           }
         }
       ]
@@ -72,27 +106,41 @@ exports[`calls updateTree.js adds two sources 1`] = `
 
 exports[`calls updateTree.js shows all the sources 1`] = `
 "{
+  \\"type\\": \\"directory\\",
   \\"name\\": \\"root\\",
   \\"path\\": \\"\\",
   \\"contents\\": [
     {
+      \\"type\\": \\"directory\\",
       \\"name\\": \\"davidwalsh.name\\",
-      \\"path\\": \\"/davidwalsh.name\\",
+      \\"path\\": \\"davidwalsh.name\\",
       \\"contents\\": [
         {
+          \\"type\\": \\"source\\",
           \\"name\\": \\"(index)\\",
           \\"path\\": \\"https://davidwalsh.name/\\",
           \\"contents\\": {
             \\"id\\": \\"server1.conn13.child1/39\\",
-            \\"url\\": \\"https://davidwalsh.name/\\"
+            \\"url\\": \\"https://davidwalsh.name/\\",
+            \\"isBlackBoxed\\": false,
+            \\"isPrettyPrinted\\": false,
+            \\"isWasm\\": false,
+            \\"contentType\\": \\"\\",
+            \\"loadedState\\": \\"unloaded\\"
           }
         },
         {
+          \\"type\\": \\"source\\",
           \\"name\\": \\"source1.js\\",
-          \\"path\\": \\"/davidwalsh.name/source1.js\\",
+          \\"path\\": \\"davidwalsh.name/source1.js\\",
           \\"contents\\": {
             \\"id\\": \\"server1.conn13.child1/37\\",
-            \\"url\\": \\"https://davidwalsh.name/source1.js\\"
+            \\"url\\": \\"https://davidwalsh.name/source1.js\\",
+            \\"isBlackBoxed\\": false,
+            \\"isPrettyPrinted\\": false,
+            \\"isWasm\\": false,
+            \\"contentType\\": \\"\\",
+            \\"loadedState\\": \\"unloaded\\"
           }
         }
       ]

@@ -1,6 +1,14 @@
 {
   "parser": "babel-eslint",
-  "plugins": ["react", "mozilla", "flowtype", "babel", "prettier", "import"],
+  "plugins": [
+    "react",
+    "mozilla",
+    "flowtype",
+    "babel",
+    "prettier",
+    "import",
+    "file-header"
+  ],
   "globals": {
     "atob": true,
     "btoa": true,
@@ -72,7 +80,6 @@
 
     // Check for import errors.
     "import/no-duplicates": "error",
-    "import/no-unresolved": "error",
     "import/named": "error",
     "import/export": "error",
 
@@ -81,6 +88,9 @@
 
     "flowtype/define-flow-type": 1,
     "flowtype/use-flow-type": 1,
+
+    // Disallow flow control that escapes from "finally".
+    "no-unsafe-finally": "error",
 
     // Disallow using variables outside the blocks they are defined (especially
     // since only let and const are used, see "no-var").
@@ -91,7 +101,7 @@
     // impair readability, but also not required either.
     "comma-dangle": 0,
     // Warn about cyclomatic complexity in functions.
-    "complexity": ["error", {"max": 22}],
+    "complexity": ["error", { "max": 22 }],
     // Don't warn for inconsistent naming when capturing this (not so important
     // with auto-binding fat arrow functions).
     "consistent-this": 0,
@@ -421,6 +431,17 @@
     "operator-linebreak": 0,
 
     // Rules from the prettier plugin
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+
+    "file-header/file-header": [
+      "error",
+      [
+        "This Source Code Form is subject to the terms of the Mozilla Public",
+        "License, v. 2.0. If a copy of the MPL was not distributed with this",
+        "file, You can obtain one at <http://mozilla.org/MPL/2.0/>."
+      ],
+      "block",
+      ["-\\*-(.*)-\\*-", "eslint(.*)", "vim(.*)"]
+    ]
   }
 }

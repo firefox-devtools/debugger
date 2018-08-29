@@ -26,6 +26,7 @@ Object {
       "sourceId": "magic.js",
       "sourceUrl": "http://localhost:8000/examples/magic.js",
     },
+    "originalText": "",
     "text": "",
   },
   "previousLocation": Object {
@@ -63,6 +64,7 @@ Object {
       "sourceId": "magic.js",
       "sourceUrl": "http://localhost:8000/examples/magic.js",
     },
+    "originalText": "",
     "text": "",
   },
   "previousLocation": Object {
@@ -75,8 +77,8 @@ Object {
 `;
 
 exports[`reloading debuggee syncs with changed source and an existing disabled BP 1`] = `
-Immutable.Map {
-  http://localhost:8000/examples/magic.js:3:: Object {
+Object {
+  "http://localhost:8000/examples/magic.js:3:": Object {
     "astLocation": Object {
       "name": undefined,
       "offset": Object {
@@ -125,6 +127,7 @@ Object {
       "sourceId": "magic.js",
       "sourceUrl": "http://localhost:8000/examples/magic.js",
     },
+    "originalText": "",
     "text": "",
   },
   "previousLocation": Object {
@@ -162,6 +165,7 @@ Object {
       "sourceId": "magic.js",
       "sourceUrl": "http://localhost:8000/magic.js",
     },
+    "originalText": "",
     "text": "",
   },
   "previousLocation": Object {

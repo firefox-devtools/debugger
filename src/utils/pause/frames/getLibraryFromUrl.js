@@ -4,8 +4,6 @@
 
 // @flow
 
-import { find } from "lodash";
-
 import type { Frame } from "../../../types";
 import { getFrameUrl } from "./getFrameUrl";
 
@@ -72,7 +70,7 @@ const libraryMap = [
   },
   {
     label: "VueJS",
-    pattern: /vue\.js/i
+    pattern: /vue(?:\.[a-z]+)*\.js/i
   },
   {
     label: "RxJS",
@@ -112,6 +110,10 @@ export function getLibraryFromUrl(frame: Frame) {
   // @TODO each of these fns calls getFrameUrl, just call it once
   // (assuming there's not more complex logic to identify a lib)
   const frameUrl = getFrameUrl(frame);
-  const match = find(libraryMap, o => frameUrl.match(o.pattern));
-  return match && match.label;
+  const matches = libraryMap.filter(o => frameUrl.match(o.pattern));
+  if (matches.length == 0) {
+    return null;
+  }
+
+  return matches[0].label;
 }

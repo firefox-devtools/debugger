@@ -5,27 +5,40 @@
 // @flow
 
 import React, { Component } from "react";
-import { bindActionCreators } from "redux";
+import { showMenu } from "devtools-contextmenu";
 import { connect } from "react-redux";
+
+import { copyToTheClipboard } from "../../utils/clipboard";
+import { findFunctionText } from "../../utils/function";
+
 import actions from "../../actions";
-import { getSelectedSource, getSymbols } from "../../selectors";
+import {
+  getSelectedSource,
+  getSymbols,
+  getSelectedLocation
+} from "../../selectors";
 
 import "./Outline.css";
 import PreviewFunction from "../shared/PreviewFunction";
 import { uniq, sortBy } from "lodash";
+
 import type {
+  AstLocation,
   SymbolDeclarations,
   SymbolDeclaration,
-  AstLocation
+  FunctionDeclaration
 } from "../../workers/parser";
-import type { SourceRecord } from "../../reducers/sources";
+import type { Source } from "../../types";
 
 type Props = {
   symbols: SymbolDeclarations,
-  selectLocation: ({ sourceId: string, line: number }) => void,
-  selectedSource: ?SourceRecord,
+  selectedSource: ?Source,
+  alphabetizeOutline: boolean,
   onAlphabetizeClick: Function,
-  alphabetizeOutline: boolean
+  selectedLocation: any,
+  selectLocation: ({ sourceId: string, line: number }) => void,
+  getFunctionText: Function,
+  flashLineRange: Function
 };
 
 export class Outline extends Component<Props> {
@@ -34,9 +47,48 @@ export class Outline extends Component<Props> {
     if (!selectedSource) {
       return;
     }
-    const selectedSourceId = selectedSource.get("id");
+    const selectedSourceId = selectedSource.id;
     const startLine = location.start.line;
     selectLocation({ sourceId: selectedSourceId, line: startLine });
+  }
+
+  onContextMenu(event: SyntheticEvent<HTMLElement>, func: SymbolDeclaration) {
+    event.stopPropagation();
+    event.preventDefault();
+
+    const {
+      selectedSource,
+      getFunctionText,
+      flashLineRange,
+      selectedLocation
+    } = this.props;
+
+    const copyFunctionKey = L10N.getStr("copyFunction.accesskey");
+    const copyFunctionLabel = L10N.getStr("copyFunction.label");
+
+    if (!selectedSource) {
+      return;
+    }
+
+    const sourceLine = func.location.start.line;
+    const functionText = getFunctionText(sourceLine);
+
+    const copyFunctionItem = {
+      id: "node-menu-copy-function",
+      label: copyFunctionLabel,
+      accesskey: copyFunctionKey,
+      disabled: !functionText,
+      click: () => {
+        flashLineRange({
+          start: func.location.start.line,
+          end: func.location.end.line,
+          sourceId: selectedLocation.sourceId
+        });
+        return copyToTheClipboard(functionText);
+      }
+    };
+    const menuOptions = [copyFunctionItem];
+    showMenu(event, menuOptions);
   }
 
   renderPlaceholder() {
@@ -53,7 +105,7 @@ export class Outline extends Component<Props> {
     );
   }
 
-  renderFunction(func: SymbolDeclaration) {
+  renderFunction(func: FunctionDeclaration) {
     const { name, location, parameterNames } = func;
 
     return (
@@ -61,6 +113,7 @@ export class Outline extends Component<Props> {
         key={`${name}:${location.start.line}:${location.start.column}`}
         className="outline-list__element"
         onClick={() => this.selectItem(location)}
+        onContextMenu={e => this.onContextMenu(e, func)}
       >
         <span className="outline-list__element-icon">λ</span>
         <PreviewFunction func={{ name, parameterNames }} />
@@ -68,7 +121,7 @@ export class Outline extends Component<Props> {
     );
   }
 
-  renderClassFunctions(klass: string, functions: SymbolDeclaration[]) {
+  renderClassFunctions(klass: ?string, functions: FunctionDeclaration[]) {
     if (klass == null || functions.length == 0) {
       return null;
     }
@@ -97,7 +150,7 @@ export class Outline extends Component<Props> {
     );
   }
 
-  renderFunctions(functions: Array<SymbolDeclaration>) {
+  renderFunctions(functions: Array<FunctionDeclaration>) {
     let classes = uniq(functions.map(func => func.klass));
     let namedFunctions = functions.filter(
       func =>
@@ -137,7 +190,10 @@ export class Outline extends Component<Props> {
   }
 
   render() {
-    const { symbols } = this.props;
+    const { symbols, selectedSource } = this.props;
+    if (!selectedSource) {
+      return this.renderPlaceholder();
+    }
     if (!symbols || symbols.loading) {
       return this.renderLoading();
     }
@@ -154,13 +210,22 @@ export class Outline extends Component<Props> {
   }
 }
 
+const mapStateToProps = state => {
+  const selectedSource = getSelectedSource(state);
+  const symbols = getSymbols(state, selectedSource);
+  return {
+    symbols,
+    selectedSource,
+    selectedLocation: getSelectedLocation(state),
+    getFunctionText: line => findFunctionText(line, selectedSource, symbols)
+  };
+};
+
 export default connect(
-  state => {
-    const selectedSource = getSelectedSource(state);
-    return {
-      symbols: getSymbols(state, selectedSource && selectedSource.toJS()),
-      selectedSource
-    };
-  },
-  dispatch => bindActionCreators(actions, dispatch)
+  mapStateToProps,
+  {
+    selectLocation: actions.selectLocation,
+    getFunctionText: actions.getFunctionText,
+    flashLineRange: actions.flashLineRange
+  }
 )(Outline);

@@ -1,6 +1,6 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 /**
  * Reducer index
@@ -10,6 +10,7 @@
 import expressions from "./expressions";
 import eventListeners from "./event-listeners";
 import sources from "./sources";
+import tabs from "./tabs";
 import breakpoints from "./breakpoints";
 import pendingBreakpoints from "./pending-breakpoints";
 import asyncRequests from "./async-requests";
@@ -28,6 +29,7 @@ export default {
   expressions,
   eventListeners,
   sources,
+  tabs,
   breakpoints,
   pendingBreakpoints,
   asyncRequests,

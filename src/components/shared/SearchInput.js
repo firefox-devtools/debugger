@@ -5,9 +5,11 @@
 // @flow
 
 import React, { Component } from "react";
+
+import { CloseButton } from "./Button";
+
 import Svg from "./Svg";
 import classnames from "classnames";
-import CloseButton from "./Button/Close";
 import "./SearchInput.css";
 
 const arrowBtn = (onClick, type, className, tooltip) => {
@@ -44,10 +46,15 @@ type Props = {
   shouldFocus?: boolean,
   showErrorEmoji: boolean,
   size: string,
-  summaryMsg: string
+  summaryMsg: string,
+  showClose: boolean
 };
 
-class SearchInput extends Component<Props> {
+type State = {
+  inputFocused: boolean
+};
+
+class SearchInput extends Component<Props, State> {
   displayName: "SearchInput";
   $input: ?HTMLInputElement;
 
@@ -55,8 +62,17 @@ class SearchInput extends Component<Props> {
     expanded: false,
     hasPrefix: false,
     selectedItemId: "",
-    size: ""
+    size: "",
+    showClose: true
   };
+
+  constructor(props: Props) {
+    super(props);
+
+    this.state = {
+      inputFocused: false
+    };
+  }
 
   componentDidMount() {
     this.setFocus();
@@ -93,18 +109,46 @@ class SearchInput extends Component<Props> {
 
     return [
       arrowBtn(
-        handleNext,
-        "arrow-down",
-        classnames("nav-btn", "next"),
-        L10N.getFormatStr("editor.searchResults.nextResult")
-      ),
-      arrowBtn(
         handlePrev,
         "arrow-up",
         classnames("nav-btn", "prev"),
         L10N.getFormatStr("editor.searchResults.prevResult")
+      ),
+      arrowBtn(
+        handleNext,
+        "arrow-down",
+        classnames("nav-btn", "next"),
+        L10N.getFormatStr("editor.searchResults.nextResult")
       )
     ];
+  }
+
+  onFocus = (e: SyntheticFocusEvent<HTMLInputElement>) => {
+    const { onFocus } = this.props;
+
+    this.setState({ inputFocused: true });
+    if (onFocus) {
+      onFocus(e);
+    }
+  };
+
+  onBlur = (e: SyntheticFocusEvent<HTMLInputElement>) => {
+    const { onBlur } = this.props;
+
+    this.setState({ inputFocused: false });
+    if (onBlur) {
+      onBlur(e);
+    }
+  };
+
+  renderSummaryMsg() {
+    const { summaryMsg } = this.props;
+
+    if (!summaryMsg) {
+      return null;
+    }
+
+    return <div className="summary">{summaryMsg}</div>;
   }
 
   renderNav() {
@@ -122,9 +166,7 @@ class SearchInput extends Component<Props> {
     const {
       expanded,
       handleClose,
-      onBlur,
       onChange,
-      onFocus,
       onKeyDown,
       onKeyUp,
       placeholder,
@@ -132,7 +174,7 @@ class SearchInput extends Component<Props> {
       selectedItemId,
       showErrorEmoji,
       size,
-      summaryMsg
+      showClose
     } = this.props;
 
     const inputProps = {
@@ -142,8 +184,8 @@ class SearchInput extends Component<Props> {
       onChange,
       onKeyDown,
       onKeyUp,
-      onFocus,
-      onBlur,
+      onFocus: e => this.onFocus(e),
+      onBlur: e => this.onBlur(e),
       "aria-autocomplete": "list",
       "aria-controls": "result-list",
       "aria-activedescendant":
@@ -156,17 +198,25 @@ class SearchInput extends Component<Props> {
 
     return (
       <div
-        className={classnames("search-field", size)}
-        role="combobox"
-        aria-haspopup="listbox"
-        aria-owns="result-list"
-        aria-expanded={expanded}
+        className={classnames("search-shadow", {
+          focused: this.state.inputFocused
+        })}
       >
-        {this.renderSvg()}
-        <input {...inputProps} />
-        {summaryMsg && <div className="summary">{summaryMsg}</div>}
-        {this.renderNav()}
-        <CloseButton handleClick={handleClose} buttonClass={size} />
+        <div
+          className={classnames("search-field", size)}
+          role="combobox"
+          aria-haspopup="listbox"
+          aria-owns="result-list"
+          aria-expanded={expanded}
+        >
+          {this.renderSvg()}
+          <input {...inputProps} />
+          {this.renderSummaryMsg()}
+          {this.renderNav()}
+          {showClose && (
+            <CloseButton handleClick={handleClose} buttonClass={size} />
+          )}
+        </div>
       </div>
     );
   }

@@ -5,7 +5,6 @@
 // @flow
 
 import React, { Component } from "react";
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
 import type { Frame, Why } from "../../../types";
@@ -36,11 +35,12 @@ const NUM_FRAMES_SHOWN = 7;
 type Props = {
   frames: Array<Frame>,
   frameworkGroupingOn: boolean,
-  toggleFrameworkGrouping: Function,
   selectedFrame: Object,
+  why: Why,
   selectFrame: Function,
   toggleBlackBox: Function,
-  why: Why
+  toggleFrameworkGrouping: Function,
+  disableFrameTruncate: Function
 };
 
 type State = {
@@ -59,7 +59,7 @@ class Frames extends Component<Props, State> {
     super(props);
 
     this.state = {
-      showAllFrames: false
+      showAllFrames: !!props.disableFrameTruncate
     };
   }
 
@@ -171,7 +171,7 @@ class Frames extends Component<Props, State> {
   }
 
   render() {
-    const { frames, why } = this.props;
+    const { frames, disableFrameTruncate, why } = this.props;
 
     if (!frames) {
       return (
@@ -187,19 +187,26 @@ class Frames extends Component<Props, State> {
       <div className="pane frames">
         {this.renderFrames(frames)}
         {renderWhyPaused(why)}
-        {this.renderToggleButton(frames)}
+        {disableFrameTruncate ? null : this.renderToggleButton(frames)}
       </div>
     );
   }
 }
 
+const mapStateToProps = state => ({
+  frames: getCallStackFrames(state),
+  why: getPauseReason(state),
+  frameworkGroupingOn: getFrameworkGroupingState(state),
+  selectedFrame: getSelectedFrame(state),
+  pause: getIsPaused(state)
+});
+
 export default connect(
-  state => ({
-    frames: getCallStackFrames(state),
-    why: getPauseReason(state),
-    frameworkGroupingOn: getFrameworkGroupingState(state),
-    selectedFrame: getSelectedFrame(state),
-    pause: getIsPaused(state)
-  }),
-  dispatch => bindActionCreators(actions, dispatch)
+  mapStateToProps,
+  {
+    selectFrame: actions.selectFrame,
+    toggleBlackBox: actions.toggleBlackBox,
+    toggleFrameworkGrouping: actions.toggleFrameworkGrouping,
+    disableFrameTruncate: actions.disableFrameTruncate
+  }
 )(Frames);

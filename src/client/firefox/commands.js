@@ -25,9 +25,13 @@ import type {
   BPClients
 } from "./types";
 
+import type { PausePoints } from "../../workers/parser";
+
 import { makePendingLocationId } from "../../utils/breakpoint";
 
 import { createSource, createBreakpointLocation } from "./create";
+
+import Services from "devtools-services";
 
 let bpClients: BPClients;
 let threadClient: ThreadClient;
@@ -50,6 +54,10 @@ function setupCommands(dependencies: Dependencies): { bpClients: BPClients } {
   bpClients = {};
 
   return { bpClients };
+}
+
+function sendPacket(packet: Object, callback?: Function = r => r) {
+  return debuggerClient.request(packet).then(callback);
 }
 
 function resume(): Promise<*> {
@@ -189,13 +197,15 @@ function setBreakpointCondition(
     });
 }
 
-type EvaluateParam = {
-  frameId?: FrameId
-};
-
-function evaluateInFrame(frameId: string, script: Script) {
+async function evaluateInFrame(script: Script, frameId: string) {
   return evaluate(script, { frameId });
 }
+
+async function evaluateExpressions(scripts: Script[], frameId?: string) {
+  return Promise.all(scripts.map(script => evaluate(script, { frameId })));
+}
+
+type EvaluateParam = { frameId?: FrameId };
 
 function evaluate(
   script: ?Script,
@@ -203,14 +213,32 @@ function evaluate(
 ): Promise<mixed> {
   const params = frameId ? { frameActor: frameId } : {};
   if (!tabTarget || !tabTarget.activeConsole || !script) {
-    return Promise.resolve();
+    return Promise.resolve({});
   }
 
   return new Promise(resolve => {
-    tabTarget.activeConsole.evaluateJS(
+    tabTarget.activeConsole.evaluateJSAsync(
       script,
       result => resolve(result),
       params
+    );
+  });
+}
+
+function autocomplete(
+  input: string,
+  cursor: number,
+  frameId: string
+): Promise<mixed> {
+  if (!tabTarget || !tabTarget.activeConsole || !input) {
+    return Promise.resolve({});
+  }
+  return new Promise(resolve => {
+    tabTarget.activeConsole.autocomplete(
+      input,
+      cursor,
+      result => resolve(result),
+      frameId
     );
   });
 }
@@ -261,11 +289,13 @@ async function getFrameScopes(frame: Frame): Promise<*> {
 
 function pauseOnExceptions(
   shouldPauseOnExceptions: boolean,
-  shouldIgnoreCaughtExceptions: boolean
+  shouldPauseOnCaughtExceptions: boolean
 ): Promise<*> {
   return threadClient.pauseOnExceptions(
     shouldPauseOnExceptions,
-    shouldIgnoreCaughtExceptions
+    // Providing opposite value because server
+    // uses "shouldIgnoreCaughtExceptions"
+    !shouldPauseOnCaughtExceptions
   );
 }
 
@@ -290,6 +320,18 @@ function disablePrettyPrint(sourceId: SourceId): Promise<*> {
   return sourceClient.disablePrettyPrint();
 }
 
+async function setPausePoints(sourceId: SourceId, pausePoints: PausePoints) {
+  return sendPacket({ to: sourceId, type: "setPausePoints", pausePoints });
+}
+
+async function setSkipPausing(shouldSkip: boolean) {
+  return threadClient.request({
+    skip: shouldSkip,
+    to: threadClient.actor,
+    type: "skipBreakpoints"
+  });
+}
+
 function interrupt(): Promise<*> {
   return threadClient.interrupt();
 }
@@ -307,14 +349,51 @@ async function fetchSources() {
   return sources.map(source => createSource(source, { supportsWasm }));
 }
 
+/**
+ * Temporary helper to check if the current server will support a call to
+ * listWorkers. On Fennec 60 or older, the call will silently crash and prevent
+ * the client from resuming.
+ * XXX: Remove when FF60 for Android is no longer used or available.
+ *
+ * See https://bugzilla.mozilla.org/show_bug.cgi?id=1443550 for more details.
+ */
+async function checkServerSupportsListWorkers() {
+  const root = await tabTarget.root;
+  // root is not available on all debug targets.
+  if (!root) {
+    return false;
+  }
+
+  const deviceFront = await debuggerClient.mainRoot.getFront("device");
+  const description = await deviceFront.getDescription();
+
+  const isFennec = description.apptype === "mobile/android";
+  if (!isFennec) {
+    // Explicitly return true early to avoid calling Services.vs.compare.
+    // This would force us to extent the Services shim provided by
+    // devtools-modules, used when this code runs in a tab.
+    return true;
+  }
+
+  // We are only interested in Fennec release versions here.
+  // We assume that the server fix for Bug 1443550 will land in FF61.
+  const version = description.platformversion;
+  return Services.vc.compare(version, "61.0") >= 0;
+}
+
 async function fetchWorkers(): Promise<{ workers: Worker[] }> {
+  // Temporary workaround for Bug 1443550
+  // XXX: Remove when FF60 for Android is no longer used or available.
+  const supportsListWorkers = await checkServerSupportsListWorkers();
+
   // NOTE: The Worker and Browser Content toolboxes do not have a parent
   // with a listWorkers function
   // TODO: there is a listWorkers property, but it is not a function on the
   // parent. Investigate what it is
   if (
     !threadClient._parent ||
-    typeof threadClient._parent.listWorkers != "function"
+    typeof threadClient._parent.listWorkers != "function" ||
+    !supportsListWorkers
   ) {
     return Promise.resolve({ workers: [] });
   }
@@ -323,6 +402,7 @@ async function fetchWorkers(): Promise<{ workers: Worker[] }> {
 }
 
 const clientCommands = {
+  autocomplete,
   blackBox,
   interrupt,
   eventListeners,
@@ -343,6 +423,7 @@ const clientCommands = {
   setBreakpointCondition,
   evaluate,
   evaluateInFrame,
+  evaluateExpressions,
   debuggeeCommand,
   navigate,
   reload,
@@ -352,7 +433,10 @@ const clientCommands = {
   prettyPrint,
   disablePrettyPrint,
   fetchSources,
-  fetchWorkers
+  fetchWorkers,
+  sendPacket,
+  setPausePoints,
+  setSkipPausing
 };
 
 export { setupCommands, clientCommands };

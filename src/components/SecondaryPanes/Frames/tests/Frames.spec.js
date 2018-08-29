@@ -1,6 +1,9 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 import React from "react";
 import { shallow } from "enzyme";
-import { Map } from "immutable";
 import Frames from "../index.js";
 // eslint-disable-next-line
 import { formatCallStackFrames } from "../../../../selectors/getCallStackFrames";
@@ -67,6 +70,26 @@ describe("Frames", () => {
       expect(getFrames()).toHaveLength(10);
       expect(component).toMatchSnapshot();
     });
+
+    it("disable frame truncation", () => {
+      const framesNumber = 20;
+      const frames = Array.from({ length: framesNumber }, (_, i) => ({
+        id: i + 1
+      }));
+
+      const component = render({
+        frames,
+        disableFrameTruncate: true
+      });
+
+      const getToggleBtn = () => component.find(".show-more");
+      const getFrames = () => component.find("FrameComponent");
+
+      expect(getToggleBtn().exists()).toBeFalsy();
+      expect(getFrames()).toHaveLength(framesNumber);
+
+      expect(component).toMatchSnapshot();
+    });
   });
 
   describe("Blackboxed Frames", () => {
@@ -78,15 +101,15 @@ describe("Frames", () => {
         { id: 8, location: { sourceId: "2" } }
       ];
 
-      const sources = Map({
-        1: Map({ id: "1" }),
-        2: Map({ id: "2", isBlackBoxed: true })
-      });
+      const sources = {
+        1: { id: "1" },
+        2: { id: "2", isBlackBoxed: true }
+      };
 
       const processedFrames = formatCallStackFrames(
         frames,
         sources,
-        sources.get("1")
+        sources["1"]
       );
       const selectedFrame = frames[0];
 

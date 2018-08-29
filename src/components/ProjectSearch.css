@@ -24,9 +24,9 @@
 }
 
 .project-text-search .result {
-  display: flex;
+  display: contents;
   cursor: default;
-  padding: 4px 0 4px 30px;
+  padding: 4px 0 4px 5px;
   line-height: 16px;
   font-size: 10px;
   width: 100%;
@@ -40,10 +40,6 @@
   font-family: Menlo, monospace;
 }
 
-.project-text-search .result.focused {
-  background-color: var(--search-overlays-semitransparent);
-}
-
 .project-text-search .result .query-match {
   background-color: var(--theme-selection-background);
   color: white;
@@ -52,14 +48,21 @@
   border-radius: 2px;
 }
 
-.project-text-search .result.focused .line-number {
-  font-weight: bolder;
+.project-text-search .result .line-number {
+  padding-left: 5px;
+  min-width: 33px;
+  width: 100%;
+  text-align: right;
+  grid-column: 1/2;
 }
 
-.project-text-search .result .line-number {
-  margin-right: 1em;
-  width: 2em;
-  margin-left: 0.8em;
+.project-text-search .result .line-value {
+  grid-column: 2/3;
+  padding-left: 5px;
+}
+
+.project-text-search .tree-indent {
+  display: none;
 }
 
 .project-text-search .no-result-msg {
@@ -77,14 +80,11 @@
   cursor: default;
   padding: 2px 0 2px 5px;
   font-size: 12px;
+  grid-column: 1/3;
 }
 
 .project-text-search .file-result .arrow {
   margin: 2px 0 2px 0;
-}
-
-.project-text-search .file-result.focused {
-  background-color: var(--search-overlays-semitransparent);
 }
 
 .project-text-search .line-match {
@@ -99,7 +99,7 @@
 }
 
 .project-text-search .search-field .close-btn.big {
-  margin-top: 12px;
+  margin-top: 2px;
 }
 
 .project-text-search .managed-tree {
@@ -109,4 +109,27 @@
 
 .project-text-search .managed-tree .tree {
   height: 100%;
+  display: grid;
+  grid-template-columns: auto 1fr;
+}
+
+.project-text-search .managed-tree .tree .tree-node {
+  display: contents;
+}
+
+/* Focus values */
+
+.project-text-search .file-result.focused,
+.project-text-search .result.focused .line-value {
+  background-color: var(--theme-selection-background);
+}
+
+.project-text-search .result.focused .line-number {
+  font-weight: bolder;
+  background-color: var(--theme-selection-background);
+}
+
+.project-text-search .result.focused .query-match {
+  background-color: #ffffff;
+  color: #000000;
 }

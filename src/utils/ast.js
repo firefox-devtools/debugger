@@ -4,26 +4,129 @@
 
 // @flow
 
-import type { Position } from "../types";
-import type { SymbolDeclarations } from "../workers/parser";
+import { xor, range } from "lodash";
+import { convertToList } from "./pause/pausePoints";
+
+import type { Location, ColumnPosition } from "../types";
+import type { Symbols } from "../reducers/ast";
+
+import type {
+  AstPosition,
+  AstLocation,
+  PausePoints,
+  FunctionDeclaration,
+  ClassDeclaration
+} from "../workers/parser";
 
 export function findBestMatchExpression(
-  symbols: SymbolDeclarations,
-  tokenPos: Position
+  symbols: Symbols,
+  tokenPos: ColumnPosition
 ) {
-  const { memberExpressions, identifiers } = symbols;
-  const { line, column } = tokenPos;
-  return identifiers.concat(memberExpressions).reduce((found, expression) => {
-    const overlaps =
-      expression.location.start.line == line &&
-      expression.location.start.column <= column &&
-      expression.location.end.column >= column &&
-      !expression.computed;
+  if (symbols.loading) {
+    return null;
+  }
 
-    if (overlaps) {
-      return expression;
+  const { line, column } = tokenPos;
+  const { memberExpressions, identifiers, literals } = symbols;
+  const members = memberExpressions.filter(({ computed }) => !computed);
+
+  return []
+    .concat(identifiers, members, literals)
+    .reduce((found, expression) => {
+      const overlaps =
+        expression.location.start.line == line &&
+        expression.location.start.column <= column &&
+        expression.location.end.column >= column;
+
+      if (overlaps) {
+        return expression;
+      }
+
+      return found;
+    }, null);
+}
+
+export function findEmptyLines(sourceText: string, pausePoints: PausePoints) {
+  if (!pausePoints || !sourceText) {
+    return [];
+  }
+
+  const pausePointsList = convertToList(pausePoints);
+
+  const breakpoints = pausePointsList.filter(point => point.types.break);
+  const breakpointLines = breakpoints.map(point => point.location.line);
+
+  if (!sourceText || breakpointLines.length == 0) {
+    return [];
+  }
+
+  const lineCount = sourceText.split("\n").length;
+  const sourceLines = range(1, lineCount + 1);
+  return xor(sourceLines, breakpointLines);
+}
+
+export function containsPosition(a: AstLocation, b: AstPosition) {
+  const startsBefore =
+    a.start.line < b.line ||
+    (a.start.line === b.line && a.start.column <= b.column);
+  const endsAfter =
+    a.end.line > b.line || (a.end.line === b.line && a.end.column >= b.column);
+
+  return startsBefore && endsAfter;
+}
+
+function findClosestofSymbol(declarations: any[], location: Location) {
+  if (!declarations) {
+    return null;
+  }
+
+  return declarations.reduce((found, currNode) => {
+    if (
+      currNode.name === "anonymous" ||
+      !containsPosition(currNode.location, {
+        line: location.line,
+        column: location.column || 0
+      })
+    ) {
+      return found;
     }
 
-    return found;
-  }, {});
+    if (!found) {
+      return currNode;
+    }
+
+    if (found.location.start.line > currNode.location.start.line) {
+      return found;
+    }
+    if (
+      found.location.start.line === currNode.location.start.line &&
+      found.location.start.column > currNode.location.start.column
+    ) {
+      return found;
+    }
+
+    return currNode;
+  }, null);
+}
+
+export function findClosestFunction(
+  symbols: ?Symbols,
+  location: Location
+): FunctionDeclaration | null {
+  if (!symbols || symbols.loading) {
+    return null;
+  }
+
+  return findClosestofSymbol(symbols.functions, location);
+}
+
+export function findClosestClass(
+  symbols: Symbols,
+  location: Location
+): ClassDeclaration | null {
+  if (!symbols || symbols.loading) {
+    return null;
+  }
+
+  return findClosestofSymbol(symbols.classes, location);
 }

@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 import assert from "../assert.js";
 
 let testAssertMessageHead, testAssertMessage;
@@ -25,18 +29,10 @@ describe("assert", () => {
   });
 
   describe("when not isDevelopment", () => {
-    beforeEach(() => {
-      process.env.NODE_ENV = "production";
-    });
-
-    afterEach(() => {
-      delete process.env.NODE_ENV;
-    });
-
     it("does not throw an Error", () => {
-      expect(() => {
-        assert(false, testAssertMessage);
-      }).not.toThrow();
+      process.env.NODE_ENV = "production";
+      expect(() => assert(false, testAssertMessage)).not.toThrow();
+      delete process.env.NODE_ENV;
     });
   });
 });

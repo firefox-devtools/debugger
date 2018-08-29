@@ -24,7 +24,7 @@ add_task(async function() {
   ok(!isPaused(dbg));
 
   log("2. Test pausing on an uncaught exception");
-  await togglePauseOnExceptions(dbg, true, false);
+  await togglePauseOnExceptions(dbg, true, true);
   uncaughtException();
   await waitForPaused(dbg);
   assertPausedLocation(dbg);
@@ -43,7 +43,7 @@ add_task(async function() {
   await resume(dbg);
 
   log("4. Test skipping a caught error");
-  await togglePauseOnExceptions(dbg, true, true);
+  await togglePauseOnExceptions(dbg, true, false);
   caughtException();
 
   log("4.b Test pausing in the catch statement");

@@ -3,18 +3,19 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
+import { ObjectInspectorUtils } from "devtools-reps";
 import { getBindingVariables } from "./getVariables";
 import { getFramePopVariables, getThisVariable } from "./utils";
 import { simplifyDisplayName } from "../../pause/frames";
 
-import type { Frame, Why, Scope, BindingContents } from "../../../types";
+import type { Frame, Why, Scope } from "../../../types";
 
 import type { NamedValue } from "./types";
 
 export type RenderableScope = {
   type: $ElementType<Scope, "type">,
   actor: $ElementType<Scope, "actor">,
-  bindings: $ElementType<Scope, "bindings"> & { this?: ?BindingContents },
+  bindings: $ElementType<Scope, "bindings">,
   parent: ?RenderableScope,
   object?: ?Object,
   function?: ?{
@@ -61,7 +62,7 @@ export function getScope(
 
       let thisDesc_ = selectedFrame.this;
 
-      if ("this" in bindings) {
+      if (bindings && "this" in bindings) {
         // The presence of "this" means we're rendering a "this" binding
         // generated from mapScopes and this can override the binding
         // provided by the current frame.
@@ -81,7 +82,8 @@ export function getScope(
       return {
         name: title,
         path: key,
-        contents: vars
+        contents: vars,
+        type: ObjectInspectorUtils.node.NODE_TYPES.BLOCK
       };
     }
   } else if (type === "object" && scope.object) {

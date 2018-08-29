@@ -6,13 +6,35 @@
 import classnames from "classnames";
 import React from "react";
 
-import "./CommandBarButton.css";
+import "./styles/CommandBarButton.css";
 
 type Props = {
   children: React$Element<any>,
   className: string,
   pressed?: boolean
 };
+
+export function debugBtn(
+  onClick: ?Function,
+  type: string,
+  className: string,
+  tooltip: string,
+  disabled: boolean = false,
+  ariaPressed: boolean = false
+) {
+  return (
+    <CommandBarButton
+      className={classnames(type, className)}
+      disabled={disabled}
+      key={type}
+      onClick={onClick}
+      pressed={ariaPressed}
+      title={tooltip}
+    >
+      <img className={type} />
+    </CommandBarButton>
+  );
+}
 
 const CommandBarButton = (props: Props) => {
   const { children, className, pressed = false, ...rest } = props;

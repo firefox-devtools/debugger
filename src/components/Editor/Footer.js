@@ -5,7 +5,9 @@
 // @flow
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import { isOriginalId } from "devtools-source-map";
+import classnames from "classnames";
+
 import actions from "../../actions";
 import {
   getSelectedSource,
@@ -13,29 +15,28 @@ import {
   getPaneCollapse
 } from "../../selectors";
 
-import classnames from "classnames";
 import { features } from "../../utils/prefs";
 import { isPretty, isLoaded, getFilename } from "../../utils/source";
 import { getGeneratedSource } from "../../reducers/sources";
 import { shouldShowFooter, shouldShowPrettyPrint } from "../../utils/editor";
 
-import PaneToggleButton from "../shared/Button/PaneToggle";
+import { PaneToggleButton } from "../shared/Button";
 
-import type { SourceRecord } from "../../reducers/sources";
+import type { Source } from "../../types";
 
 import "./Footer.css";
 
 type Props = {
-  selectedSource: SourceRecord,
-  mappedSource: SourceRecord,
+  selectedSource: Source,
+  mappedSource: Source,
   editor: any,
+  endPanelCollapsed: boolean,
+  horizontal: boolean,
   togglePrettyPrint: string => void,
   toggleBlackBox: Object => void,
-  jumpToMappedLocation: (SourceRecord: any) => void,
+  jumpToMappedLocation: (Source: any) => void,
   recordCoverage: () => void,
-  togglePaneCollapse: () => void,
-  endPanelCollapsed: boolean,
-  horizontal: boolean
+  togglePaneCollapse: () => void
 };
 
 class SourceFooter extends PureComponent<Props> {
@@ -52,7 +53,7 @@ class SourceFooter extends PureComponent<Props> {
     const type = "prettyPrint";
     return (
       <button
-        onClick={() => togglePrettyPrint(selectedSource.get("id"))}
+        onClick={() => togglePrettyPrint(selectedSource.id)}
         className={classnames("action", type, {
           active: sourceLoaded,
           pretty: isPretty(selectedSource)
@@ -70,18 +71,18 @@ class SourceFooter extends PureComponent<Props> {
     const { selectedSource, toggleBlackBox } = this.props;
     const sourceLoaded = selectedSource && isLoaded(selectedSource);
 
-    if (!sourceLoaded) {
+    if (!sourceLoaded || selectedSource.isPrettyPrinted) {
       return;
     }
 
-    const blackboxed = selectedSource.get("isBlackBoxed");
+    const blackboxed = selectedSource.isBlackBoxed;
 
     const tooltip = L10N.getStr("sourceFooter.blackbox");
     const type = "black-box";
 
     return (
       <button
-        onClick={() => toggleBlackBox(selectedSource.toJS())}
+        onClick={() => toggleBlackBox(selectedSource)}
         className={classnames("action", type, {
           active: sourceLoaded,
           blackboxed: blackboxed
@@ -98,7 +99,7 @@ class SourceFooter extends PureComponent<Props> {
   blackBoxSummary() {
     const { selectedSource } = this.props;
 
-    if (!selectedSource || !selectedSource.get("isBlackBoxed")) {
+    if (!selectedSource || !selectedSource.isBlackBoxed) {
       return;
     }
 
@@ -156,30 +157,31 @@ class SourceFooter extends PureComponent<Props> {
 
   renderSourceSummary() {
     const { mappedSource, jumpToMappedLocation, selectedSource } = this.props;
-    if (mappedSource) {
-      const bundleSource = mappedSource.toJS();
-      const filename = getFilename(bundleSource);
-      const tooltip = L10N.getFormatStr(
-        "sourceFooter.mappedSourceTooltip",
-        filename
-      );
-      const title = L10N.getFormatStr("sourceFooter.mappedSource", filename);
-      const mappedSourceLocation = {
-        sourceId: selectedSource.get("id"),
-        line: 1,
-        column: 1
-      };
-      return (
-        <button
-          className="mapped-source"
-          onClick={() => jumpToMappedLocation(mappedSourceLocation)}
-          title={tooltip}
-        >
-          <span>{title}</span>
-        </button>
-      );
+
+    if (!mappedSource || !isOriginalId(selectedSource.id)) {
+      return null;
     }
-    return null;
+
+    const filename = getFilename(mappedSource);
+    const tooltip = L10N.getFormatStr(
+      "sourceFooter.mappedSourceTooltip",
+      filename
+    );
+    const title = L10N.getFormatStr("sourceFooter.mappedSource", filename);
+    const mappedSourceLocation = {
+      sourceId: selectedSource.id,
+      line: 1,
+      column: 1
+    };
+    return (
+      <button
+        className="mapped-source"
+        onClick={() => jumpToMappedLocation(mappedSourceLocation)}
+        title={tooltip}
+      >
+        <span>{title}</span>
+      </button>
+    );
   }
 
   render() {
@@ -199,17 +201,25 @@ class SourceFooter extends PureComponent<Props> {
   }
 }
 
+const mapStateToProps = state => {
+  const selectedSource = getSelectedSource(state);
+  const selectedId = selectedSource.id;
+
+  return {
+    selectedSource,
+    mappedSource: getGeneratedSource(state, selectedSource),
+    prettySource: getPrettySource(state, selectedId),
+    endPanelCollapsed: getPaneCollapse(state, "end")
+  };
+};
+
 export default connect(
-  state => {
-    const selectedSource = getSelectedSource(state);
-    const selectedId = selectedSource.get("id");
-    const source = selectedSource.toJS();
-    return {
-      selectedSource,
-      mappedSource: getGeneratedSource(state, source),
-      prettySource: getPrettySource(state, selectedId),
-      endPanelCollapsed: getPaneCollapse(state, "end")
-    };
-  },
-  dispatch => bindActionCreators(actions, dispatch)
+  mapStateToProps,
+  {
+    togglePrettyPrint: actions.togglePrettyPrint,
+    toggleBlackBox: actions.toggleBlackBox,
+    jumpToMappedLocation: actions.jumpToMappedLocation,
+    recordCoverage: actions.recordCoverage,
+    togglePaneCollapse: actions.togglePaneCollapse
+  }
 )(SourceFooter);

@@ -8,9 +8,9 @@ import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import classnames from "classnames";
-import { bindActionCreators } from "redux";
 import actions from "../actions";
 
+import { getEditor } from "../utils/editor";
 import { highlightMatches } from "../utils/project-search";
 
 import { statusType } from "../reducers/project-text-search";
@@ -31,6 +31,7 @@ import type { List } from "immutable";
 import type { Location } from "../types";
 import type { ActiveSearchType } from "../reducers/types";
 import type { StatusType } from "../reducers/project-text-search";
+type Editor = ?Object;
 
 import "./ProjectSearch.css";
 
@@ -64,11 +65,17 @@ type Props = {
   results: List<Result>,
   status: StatusType,
   activeSearch: ActiveSearchType,
-  setActiveSearch: (activeSearch?: ActiveSearchType) => void,
   closeProjectSearch: () => void,
   searchSources: (query: string) => void,
   clearSearch: () => void,
-  selectLocation: (location: Location, tabIndex?: string) => void
+  selectSpecificLocation: (location: Location, tabIndex?: string) => void,
+  setActiveSearch: (activeSearch?: ActiveSearchType) => void,
+  doSearchForHighlight: (
+    query: string,
+    editor: Editor,
+    line: number,
+    column: number
+  ) => void
 };
 
 function getFilePath(item: Item, index?: number) {
@@ -116,6 +123,13 @@ export class ProjectSearch extends Component<Props, State> {
     shortcuts.off("Enter", this.onEnterPress);
   }
 
+  componentDidUpdate(prevProps: Props) {
+    // If the query changes in redux, also change it in the UI
+    if (prevProps.query !== this.props.query) {
+      this.setState({ inputValue: this.props.query });
+    }
+  }
+
   toggleProjectTextSearch = (key: string, e: KeyboardEvent) => {
     const { closeProjectSearch, setActiveSearch } = this.props;
     if (e) {
@@ -132,7 +146,13 @@ export class ProjectSearch extends Component<Props, State> {
   isProjectSearchEnabled = () => this.props.activeSearch === "project";
 
   selectMatchItem = (matchItem: Match) => {
-    this.props.selectLocation({ ...matchItem });
+    this.props.selectSpecificLocation({ ...matchItem });
+    this.props.doSearchForHighlight(
+      this.state.inputValue,
+      getEditor(),
+      matchItem.line,
+      matchItem.column
+    );
   };
 
   getResults = (): Result[] => {
@@ -320,13 +340,22 @@ ProjectSearch.contextTypes = {
   shortcuts: PropTypes.object
 };
 
+const mapStateToProps = state => ({
+  sources: getSources(state),
+  activeSearch: getActiveSearch(state),
+  results: getTextSearchResults(state),
+  query: getTextSearchQuery(state),
+  status: getTextSearchStatus(state)
+});
+
 export default connect(
-  state => ({
-    sources: getSources(state),
-    activeSearch: getActiveSearch(state),
-    results: getTextSearchResults(state),
-    query: getTextSearchQuery(state),
-    status: getTextSearchStatus(state)
-  }),
-  dispatch => bindActionCreators(actions, dispatch)
+  mapStateToProps,
+  {
+    closeProjectSearch: actions.closeProjectSearch,
+    searchSources: actions.searchSources,
+    clearSearch: actions.clearSearch,
+    selectSpecificLocation: actions.selectSpecificLocation,
+    setActiveSearch: actions.setActiveSearch,
+    doSearchForHighlight: actions.doSearchForHighlight
+  }
 )(ProjectSearch);

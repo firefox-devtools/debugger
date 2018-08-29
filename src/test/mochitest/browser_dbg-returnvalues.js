@@ -10,9 +10,8 @@ async function testReturnValue(dbg, val) {
   invokeInTab("return_something", val);
   await waitForPaused(dbg);
 
-  // "Step in" 3 times to get to the point where the debugger can
+  // "Step in" 2 times to get to the point where the debugger can
   // see the return value.
-  await stepIn(dbg);
   await stepIn(dbg);
   await stepIn(dbg);
 
@@ -57,7 +56,7 @@ async function testThrowValue(dbg, val) {
 
 add_task(async function() {
   const dbg = await initDebugger("doc-return-values.html");
-  await togglePauseOnExceptions(dbg, true, false);
+  await togglePauseOnExceptions(dbg, true, true);
 
   await testReturnValue(dbg, "to sender");
   await testThrowValue(dbg, "a fit");

@@ -21,7 +21,7 @@ import {
 
 import { clearWasmStates } from "../utils/wasm";
 
-import type { ThunkArgs } from "./types";
+import type { Action, ThunkArgs } from "./types";
 
 /**
  * Redux actions for the navigation state
@@ -32,7 +32,7 @@ import type { ThunkArgs } from "./types";
  * @memberof actions/navigation
  * @static
  */
-export function willNavigate(_: any, event: Object) {
+export function willNavigate(event: Object) {
   return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
     await sourceMaps.clearSourceMaps();
     clearWasmStates();
@@ -45,7 +45,7 @@ export function willNavigate(_: any, event: Object) {
   };
 }
 
-export function navigate(url: string) {
+export function navigate(url: string): Action {
   sourceQueue.clear();
 
   return {
@@ -57,7 +57,7 @@ export function navigate(url: string) {
 export function connect(url: string, canRewind: boolean) {
   return async function({ dispatch }: ThunkArgs) {
     await dispatch(updateWorkers());
-    dispatch({ type: "CONNECT", url, canRewind });
+    dispatch(({ type: "CONNECT", url, canRewind }: Action));
   };
 }
 
@@ -68,7 +68,7 @@ export function connect(url: string, canRewind: boolean) {
 export function navigated() {
   return async function({ dispatch, getState, client }: ThunkArgs) {
     await waitForMs(100);
-    if (getSources(getState()).size == 0) {
+    if (Object.keys(getSources(getState())).length == 0) {
       const sources = await client.fetchSources();
       dispatch(newSources(sources));
     }

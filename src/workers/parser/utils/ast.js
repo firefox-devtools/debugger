@@ -5,7 +5,7 @@
 // @flow
 
 import parseScriptTags from "parse-script-tags";
-import * as babylon from "babylon";
+import * as babelParser from "@babel/parser";
 import * as t from "@babel/types";
 import isEmpty from "lodash/isEmpty";
 import { getSource } from "../sources";
@@ -13,7 +13,7 @@ import { getSource } from "../sources";
 let ASTs = new Map();
 
 function _parse(code, opts) {
-  return babylon.parse(code, {
+  return babelParser.parse(code, {
     ...opts,
     tokens: true
   });
@@ -21,7 +21,9 @@ function _parse(code, opts) {
 
 const sourceOptions = {
   generated: {
-    tokens: true
+    sourceType: "unambiguous",
+    tokens: true,
+    plugins: ["objectRestSpread"]
   },
   original: {
     sourceType: "unambiguous",
@@ -30,6 +32,7 @@ const sourceOptions = {
       "jsx",
       "flow",
       "doExpressions",
+      "decorators-legacy",
       "objectRestSpread",
       "classProperties",
       "exportDefaultFrom",
@@ -37,12 +40,13 @@ const sourceOptions = {
       "asyncGenerators",
       "functionBind",
       "functionSent",
-      "dynamicImport"
+      "dynamicImport",
+      "react-jsx"
     ]
   }
 };
 
-function parse(text: ?string, opts?: Object) {
+export function parse(text: ?string, opts?: Object): any {
   let ast;
   if (!text) {
     return;
@@ -51,6 +55,7 @@ function parse(text: ?string, opts?: Object) {
   try {
     ast = _parse(text, opts);
   } catch (error) {
+    console.error(error);
     ast = {};
   }
 
@@ -61,6 +66,36 @@ function parse(text: ?string, opts?: Object) {
 // our parser's signature
 function htmlParser({ source, line }) {
   return parse(source, { startLine: line });
+}
+
+const VUE_COMPONENT_START = /^\s*</;
+function vueParser({ source, line }) {
+  return parse(source, {
+    startLine: line,
+    ...sourceOptions.original
+  });
+}
+function parseVueScript(code) {
+  if (typeof code !== "string") {
+    return;
+  }
+
+  let ast;
+
+  // .vue files go through several passes, so while there is a
+  // single-file-component Vue template, there are also generally .vue files
+  // that are still just JS as well.
+  if (code.match(VUE_COMPONENT_START)) {
+    ast = parseScriptTags(code, vueParser);
+    if (t.isFile(ast)) {
+      // parseScriptTags is currently hard-coded to return scripts, but Vue
+      // always expects ESM syntax, so we just hard-code it.
+      ast.program.sourceType = "module";
+    }
+  } else {
+    ast = parse(code, sourceOptions.original);
+  }
+  return ast;
 }
 
 export function parseScript(text: string, opts?: Object) {
@@ -74,13 +109,39 @@ export function getAst(sourceId: string) {
 
   const source = getSource(sourceId);
 
+  if (source.isWasm) {
+    return null;
+  }
+
   let ast = {};
   const { contentType } = source;
   if (contentType == "text/html") {
     ast = parseScriptTags(source.text, htmlParser) || {};
-  } else if (contentType && contentType.match(/(javascript|jsx)/)) {
+  } else if (contentType && contentType === "text/vue") {
+    ast = parseVueScript(source.text) || {};
+  } else if (
+    contentType &&
+    contentType.match(/(javascript|jsx)/) &&
+    !contentType.match(/typescript-jsx/)
+  ) {
     const type = source.id.includes("original") ? "original" : "generated";
     const options = sourceOptions[type];
+    ast = parse(source.text, options);
+  } else if (contentType && contentType.match(/typescript/)) {
+    const options = {
+      ...sourceOptions.original,
+      plugins: [
+        ...sourceOptions.original.plugins.filter(
+          p =>
+            p !== "flow" &&
+            p !== "decorators" &&
+            p !== "decorators2" &&
+            (p !== "jsx" || contentType.match(/typescript-jsx/))
+        ),
+        "decorators-legacy",
+        "typescript"
+      ]
+    };
     ast = parse(source.text, options);
   }
 
@@ -100,6 +161,22 @@ export function traverseAst<T>(sourceId: string, visitor: Visitor, state?: T) {
   }
 
   t.traverse(ast, visitor, state);
-  // t.fastTraverse(ast, visitor);
   return ast;
+}
+
+export function hasNode(rootNode: Node, predicate: Function) {
+  try {
+    t.traverse(rootNode, {
+      enter: (node, ancestors) => {
+        if (predicate(node, ancestors)) {
+          throw new Error("MATCH");
+        }
+      }
+    });
+  } catch (e) {
+    if (e.message === "MATCH") {
+      return true;
+    }
+  }
+  return false;
 }

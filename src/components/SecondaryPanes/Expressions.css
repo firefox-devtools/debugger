@@ -12,7 +12,7 @@
   border: 1px;
   background-color: var(--theme-sidebar-background);
   font-size: 12px;
-  padding: 0.5em 2.16em;
+  padding: 0.5em 1.6em;
   color: var(--theme-body-color);
 }
 
@@ -31,19 +31,12 @@
   }
 }
 
-.input-expression.error {
-  border: 1px solid red;
-  animation: 150ms cubic-bezier(0.07, 0.95, 0, 1) shake;
-}
-
 .input-expression::placeholder {
-  text-align: center;
   font-style: italic;
   color: var(--theme-comment);
 }
 
 .input-expression:focus {
-  outline: none;
   cursor: text;
 }
 
@@ -52,18 +45,33 @@
   margin: 0;
   padding: 0;
 }
+
 .expression-input-container {
   display: flex;
+  border: 1px solid transparent;
+}
+
+.expression-input-container.focused {
+  border: 1px solid var(--theme-highlight-blue);
+}
+
+:root.theme-dark .expression-input-container.focused {
+  border: 1px solid var(--blue-50);
+}
+
+.expression-input-container.error {
+  border: 1px solid red;
 }
 
 .expression-container {
   border: 1px;
-  padding: 0.25em 1em 0.25em 0.5em;
+  padding: 0.6em 1em 0.6em 0.5em;
   width: 100%;
   color: var(--theme-body-color);
   background-color: var(--theme-body-background);
   display: block;
   position: relative;
+  min-height: var(--breakpoint-expression-height);
 }
 
 .expression-container > .tree {
@@ -79,18 +87,15 @@
   background-color: var(--theme-selection-background-hover);
 }
 
-:root.theme-firebug .expression-container:hover {
-  background-color: var(--theme-selection-background-hover);
-}
-
-.tree  .tree-node:not(.focused):hover {
+.tree .tree-node:not(.focused):hover {
   background-color: transparent;
 }
 
 .expression-container__close-btn {
   position: absolute;
   offset-inline-end: 0px;
-  top: 0px;
+  inset-inline-end: 0px;
+  top: 1px;
 }
 
 .expression-content {
@@ -106,10 +111,10 @@
   overflow-x: hidden;
 }
 
-.expression-input {
-  max-width: 50%;
+.expression-content .tree-node[data-expandable="false"][aria-level="1"] {
+  padding-inline-start: 10px;
 }
 
-.expressions-list .tree:focus {
-  outline: none;
+.expression-input {
+  max-width: 50%;
 }

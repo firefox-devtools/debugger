@@ -12,10 +12,11 @@ import { getSelectedSource, getVisibleBreakpoints } from "../../selectors";
 import { makeLocationId } from "../../utils/breakpoint";
 import { isLoaded } from "../../utils/source";
 
-import type { SourceRecord, BreakpointsMap } from "../../reducers/types";
+import type { BreakpointsMap } from "../../reducers/types";
+import type { Source } from "../../types";
 
 type Props = {
-  selectedSource: SourceRecord,
+  selectedSource: Source,
   breakpoints: BreakpointsMap,
   editor: Object
 };
@@ -32,7 +33,7 @@ class Breakpoints extends Component<Props> {
   render() {
     const { breakpoints, selectedSource, editor } = this.props;
 
-    if (!selectedSource || !breakpoints || selectedSource.get("isBlackBoxed")) {
+    if (!selectedSource || !breakpoints || selectedSource.isBlackBoxed) {
       return null;
     }
 

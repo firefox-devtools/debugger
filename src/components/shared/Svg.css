@@ -10,15 +10,18 @@
   fill: var(--theme-splitter-color);
 }
 
-.file,
 .folder,
-.domain {
+.domain,
+.file,
+.extension {
   background-color: var(--theme-comment);
 }
 
 .worker,
 .file,
-.folder {
+.folder,
+.sources-list .source-icon,
+.extension {
   position: relative;
   top: 2px;
 }
@@ -44,12 +47,47 @@ img.folder {
   height: 15px;
 }
 
+img.extension {
+  width: 13px;
+  height: 13px;
+  margin-inline-start: 2px;
+}
+
+img.result-item-icon {
+  height: 18px;
+  width: 18px;
+}
+
 img.domain {
   mask: url(/images/domain.svg) no-repeat;
 }
 
 img.folder {
   mask: url(/images/folder.svg) no-repeat;
+}
+
+img.coffeescript {
+  mask: url(/images/coffeescript.svg) no-repeat;
+}
+
+img.javascript {
+  mask: url(/images/javascript.svg) no-repeat;
+}
+
+img.tab {
+  mask: url(/images/tab.svg) no-repeat;
+}
+
+img.react {
+  mask: url(/images/react.svg) no-repeat;
+}
+
+img.typescript {
+  mask: url(/images/typescript.svg) no-repeat;
+}
+
+img.extension {
+  mask: url(/images/extension.svg) no-repeat;
 }
 
 img.file {
@@ -60,9 +98,18 @@ img.file {
 
 img.domain,
 img.folder,
-img.file {
+img.file,
+.sources-list img.source-icon,
+img.extension {
   mask-size: 100%;
   margin-inline-end: 5px;
+  display: inline-block;
+}
+
+img.result-item-icon {
+  mask-size: 100%;
+  margin-inline-end: 15px;
+  margin-inline-start: 5px;
   display: inline-block;
 }
 
@@ -95,8 +142,20 @@ html[dir="rtl"] img.arrow {
   transform: rotate(90deg);
 }
 
-/* TODO (Amit): html is just for specificity. keep it like this? */
-html .arrow.expanded svg {
+.arrow svg {
+  transition: transform 0.125s ease;
+  width: 10px;
+  margin-inline-end: 5px;
+  transform: rotate(-90deg);
+}
+
+html[dir="rtl"] .arrow svg,
+.arrow svg:dir(rtl),
+.arrow svg:-moz-locale-dir(rtl) {
+  transform: rotate(90deg);
+}
+
+.arrow.expanded.expanded svg {
   transform: rotate(0deg);
 }
 

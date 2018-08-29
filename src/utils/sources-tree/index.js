@@ -2,6 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
+// @flow
+
 /**
  * Utils for Sources Tree Component
  * @module utils/sources-tree
@@ -16,13 +18,4 @@ export { getFilenameFromPath, getURL } from "./getURL";
 export { sortEntireTree, sortTree } from "./sortTree";
 export { updateTree } from "./updateTree";
 
-export {
-  createNode,
-  createParentMap,
-  getRelativePath,
-  isDirectory,
-  isExactUrlMatch,
-  isNotJavaScript,
-  nodeHasChildren,
-  getExtension
-} from "./utils";
+export * from "./utils";

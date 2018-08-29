@@ -1,4 +1,7 @@
 /* eslint max-nested-callbacks: ["error", 6] */
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 import {
   createStore,
@@ -12,6 +15,7 @@ import {
 
 import readFixture from "./helpers/readFixture";
 const {
+  getSource,
   getSymbols,
   getEmptyLines,
   getOutOfScopeLocations,
@@ -20,33 +24,34 @@ const {
   isSymbolsLoading
 } = selectors;
 
-import I from "immutable";
 import { prefs } from "../../utils/prefs";
 
 const threadClient = {
-  sourceContents: function(sourceId) {
-    return new Promise((resolve, reject) =>
-      resolve({
-        source: sourceTexts[sourceId],
-        contentType: "text/javascript"
-      })
-    );
-  },
-  getFrameScopes: function() {
-    return Promise.resolve({});
-  },
-  evaluate: function(expression) {
-    return new Promise((resolve, reject) =>
-      resolve({ result: evaluationResult[expression] })
-    );
-  }
+  sourceContents: async sourceId => ({
+    source: sourceTexts[sourceId],
+    contentType: "text/javascript"
+  }),
+  setPausePoints: async () => {},
+  getFrameScopes: async () => {},
+  evaluate: async expression => ({ result: evaluationResult[expression] }),
+  evaluateExpressions: async expressions =>
+    expressions.map(expression => ({ result: evaluationResult[expression] }))
+};
+
+const sourceMaps = {
+  getOriginalSourceText: async ({ id }) => ({
+    id,
+    text: sourceTexts[id],
+    contentType: "text/javascript"
+  })
 };
 
 const sourceTexts = {
   "base.js": "function base(boo) {}",
   "foo.js": "function base(boo) { return this.bazz; } outOfScope",
   "scopes.js": readFixture("scopes.js"),
-  "reactComponent.js-original": readFixture("reactComponent.js")
+  "reactComponent.js/originalSource": readFixture("reactComponent.js"),
+  "reactFuncComponent.js/originalSource": readFixture("reactFuncComponent.js")
 };
 
 const evaluationResult = {
@@ -55,33 +60,35 @@ const evaluationResult = {
 };
 
 describe("ast", () => {
-  describe("setEmptyLines", () => {
+  describe("setPausePoints", () => {
     it("scopes", async () => {
       const store = createStore(threadClient);
       const { dispatch, getState } = store;
       const source = makeSource("scopes.js");
       await dispatch(actions.newSource(source));
-      await dispatch(actions.loadSourceText(I.Map({ id: "scopes.js" })));
-      await dispatch(actions.setEmptyLines("scopes.js"));
+      await dispatch(actions.loadSourceText({ id: "scopes.js" }));
+      await dispatch(actions.setPausePoints("scopes.js"));
       await waitForState(store, state => {
-        const lines = getEmptyLines(state, source);
+        const lines = getEmptyLines(state, source.id);
         return lines && lines.length > 0;
       });
 
-      const emptyLines = getEmptyLines(getState(), source);
+      const emptyLines = getEmptyLines(getState(), source.id);
       expect(emptyLines).toMatchSnapshot();
     });
   });
 
   describe("setSourceMetaData", () => {
     it("should detect react components", async () => {
-      const store = createStore(threadClient);
+      const store = createStore(threadClient, {}, sourceMaps);
       const { dispatch, getState } = store;
       const source = makeOriginalSource("reactComponent.js");
 
+      await dispatch(actions.newSource(makeSource("reactComponent.js")));
+
       await dispatch(actions.newSource(source));
 
-      await dispatch(actions.loadSourceText(I.Map({ id: source.id })));
+      await dispatch(actions.loadSourceText(getSource(getState(), source.id)));
       await dispatch(actions.setSourceMetaData(source.id));
 
       await waitForState(store, state => {
@@ -98,7 +105,7 @@ describe("ast", () => {
       const { dispatch, getState } = store;
       const base = makeSource("base.js");
       await dispatch(actions.newSource(base));
-      await dispatch(actions.loadSourceText(I.Map({ id: "base.js" })));
+      await dispatch(actions.loadSourceText({ id: "base.js" }));
       await dispatch(actions.setSourceMetaData("base.js"));
 
       const sourceMetaData = getSourceMetaData(getState(), base.id);
@@ -113,7 +120,7 @@ describe("ast", () => {
         const { dispatch, getState } = store;
         const base = makeSource("base.js");
         await dispatch(actions.newSource(base));
-        await dispatch(actions.loadSourceText(I.Map({ id: "base.js" })));
+        await dispatch(actions.loadSourceText({ id: "base.js" }));
         await dispatch(actions.setSymbols("base.js"));
         await waitForState(store, state => !isSymbolsLoading(state, base));
 
@@ -159,7 +166,8 @@ describe("ast", () => {
 
       await dispatch(
         actions.paused({
-          frames: [makeFrame({ id: 1, sourceId: "scopes.js" })]
+          why: { type: "debuggerStatement" },
+          frames: [makeFrame({ id: "1", sourceId: "scopes.js" })]
         })
       );
 

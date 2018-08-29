@@ -4,14 +4,10 @@
 
 // @flow
 
-import React from "react";
+import type { Source } from "../types";
+import type { TabList } from "../reducers";
 
-import type { List } from "immutable";
-import type { SourceRecord } from "../reducers/sources";
-import type { SourceMetaDataType } from "../reducers/ast";
-import { isPretty } from "./source";
-
-type SourcesList = List<SourceRecord>;
+type SourcesList = Source[];
 /*
  * Finds the hidden tabs by comparing the tabs' top offset.
  * hidden tabs will have a great top offset.
@@ -45,25 +41,14 @@ export function getHiddenTabs(
   });
 }
 
-export function getSourceAnnotation(
-  source: SourceRecord,
-  sourceMetaData: SourceMetaDataType
-) {
-  const framework =
-    sourceMetaData && sourceMetaData.framework
-      ? sourceMetaData.framework
-      : false;
+export function getFramework(tabs: TabList[], url: string) {
+  const tab = tabs.find(t => t.url === url);
 
-  if (framework) {
-    return <img className={framework.toLowerCase()} />;
+  if (tab) {
+    return tab.framework;
   }
 
-  if (isPretty(source)) {
-    return <img className="prettyPrint" />;
-  }
-  if (source.get("isBlackBoxed")) {
-    return <img className="blackBox" />;
-  }
+  return "";
 }
 
 export function getTabMenuItems() {
@@ -96,6 +81,12 @@ export function getTabMenuItems() {
       id: "node-menu-show-source",
       label: L10N.getStr("sourceTabs.revealInTree"),
       accesskey: L10N.getStr("sourceTabs.revealInTree.accesskey"),
+      disabled: false
+    },
+    copyToClipboard: {
+      id: "node-menu-copy-to-clipboard",
+      label: L10N.getStr("copyToClipboard.label"),
+      accesskey: L10N.getStr("copyToClipboard.accesskey"),
       disabled: false
     },
     copySourceUri2: {

@@ -186,25 +186,30 @@ export class ConditionalPanel extends PureComponent<Props> {
   }
 }
 
+const mapStateToProps = state => {
+  const line = getConditionalPanelLine(state);
+  const selectedLocation = getSelectedLocation(state);
+
+  return {
+    selectedLocation,
+    breakpoint: getBreakpointForLine(state, selectedLocation.sourceId, line),
+    line
+  };
+};
+
 const {
   setBreakpointCondition,
   openConditionalPanel,
   closeConditionalPanel
 } = actions;
 
+const mapDispatchToProps = {
+  setBreakpointCondition,
+  openConditionalPanel,
+  closeConditionalPanel
+};
+
 export default connect(
-  state => {
-    const line = getConditionalPanelLine(state);
-    const selectedLocation = getSelectedLocation(state);
-    return {
-      selectedLocation,
-      breakpoint: getBreakpointForLine(state, selectedLocation.sourceId, line),
-      line
-    };
-  },
-  {
-    setBreakpointCondition,
-    openConditionalPanel,
-    closeConditionalPanel
-  }
+  mapStateToProps,
+  mapDispatchToProps
 )(ConditionalPanel);

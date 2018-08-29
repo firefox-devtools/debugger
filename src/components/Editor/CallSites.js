@@ -136,7 +136,7 @@ class CallSites extends Component {
     } else {
       addBreakpoint({
         sourceId: sourceId,
-        sourceUrl: selectedSource.get("url"),
+        sourceUrl: selectedSource.url,
         line: line,
         column: column
       });
@@ -189,7 +189,9 @@ function getCallSites(symbols, breakpoints) {
   }
 
   function findBreakpoint(callSite) {
-    const { location: { start, end } } = callSite;
+    const {
+      location: { start, end }
+    } = callSite;
 
     const breakpointId = range(start.column - 1, end.column)
       .map(column => locationKey({ line: start.line, column }))
@@ -205,27 +207,25 @@ function getCallSites(symbols, breakpoints) {
     .map(callSite => ({ ...callSite, breakpoint: findBreakpoint(callSite) }));
 }
 
+const mapStateToProps = state => {
+  const selectedLocation = getSelectedLocation(state);
+  const selectedSource = getSelectedSource(state);
+  const sourceId = selectedLocation && selectedLocation.sourceId;
+  const symbols = getSymbols(state, selectedSource);
+  const breakpoints = getBreakpointsForSource(state, sourceId);
+
+  return {
+    selectedLocation,
+    selectedSource,
+    callSites: getCallSites(symbols, breakpoints),
+    breakpoints: breakpoints
+  };
+};
+
 const { addBreakpoint, removeBreakpoint } = actions;
+const mapDispatchToProps = { addBreakpoint, removeBreakpoint };
 
 export default connect(
-  state => {
-    const selectedLocation = getSelectedLocation(state);
-    const selectedSource = getSelectedSource(state);
-    const sourceId = selectedLocation && selectedLocation.sourceId;
-    const source = selectedSource && selectedSource.toJS();
-
-    const symbols = getSymbols(state, source);
-    const breakpoints = getBreakpointsForSource(state, sourceId);
-
-    return {
-      selectedLocation,
-      selectedSource,
-      callSites: getCallSites(symbols, breakpoints),
-      breakpoints: breakpoints
-    };
-  },
-  {
-    addBreakpoint,
-    removeBreakpoint
-  }
+  mapStateToProps,
+  mapDispatchToProps
 )(CallSites);

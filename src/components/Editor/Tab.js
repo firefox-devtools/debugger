@@ -6,49 +6,47 @@
 
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 
 import { showMenu, buildMenu } from "devtools-contextmenu";
 
-import CloseButton from "../shared/Button/Close";
+import SourceIcon from "../shared/SourceIcon";
+import { CloseButton } from "../shared/Button";
 
 import type { List } from "immutable";
-import type { SourceRecord } from "../../reducers/sources";
-import type { SourceMetaDataType } from "../../reducers/ast";
+import type { Source } from "../../types";
 
 import actions from "../../actions";
 
 import {
-  getFilename,
   getFileURL,
   getRawSourceURL,
+  getTruncatedFileName,
+  getDisplayPath,
   isPretty
 } from "../../utils/source";
 import { copyToTheClipboard } from "../../utils/clipboard";
-import { getSourceAnnotation, getTabMenuItems } from "../../utils/tabs";
+import { getTabMenuItems } from "../../utils/tabs";
 
 import {
   getSelectedSource,
-  getSourceMetaData,
   getActiveSearch,
   getSourcesForTabs
 } from "../../selectors";
 
 import classnames from "classnames";
 
-type SourcesList = List<SourceRecord>;
+type SourcesList = List<Source>;
 
 type Props = {
   tabSources: SourcesList,
-  selectSource: Object => void,
-  selectedSource: SourceRecord,
-  closeTab: string => void,
+  selectedSource: Source,
+  source: Source,
+  activeSearch: string,
+  selectSource: string => void,
+  closeTab: Source => void,
   closeTabs: (List<string>) => void,
   togglePrettyPrint: string => void,
-  showSource: string => void,
-  source: SourceRecord,
-  activeSearch: string,
-  sourceMetaData: SourceMetaDataType
+  showSource: string => void
 };
 
 class Tab extends PureComponent<Props> {
@@ -63,13 +61,14 @@ class Tab extends PureComponent<Props> {
       closeTabs,
       tabSources,
       showSource,
-      togglePrettyPrint
+      togglePrettyPrint,
+      selectedSource
     } = this.props;
 
-    const otherTabs = tabSources.filter(t => t.get("id") !== tab);
-    const sourceTab = tabSources.find(t => t.get("id") == tab);
-    const tabURLs = tabSources.map(t => t.get("url"));
-    const otherTabURLs = otherTabs.map(t => t.get("url"));
+    const otherTabs = tabSources.filter(t => t.id !== tab);
+    const sourceTab = tabSources.find(t => t.id == tab);
+    const tabURLs = tabSources.map(t => t.url);
+    const otherTabURLs = otherTabs.map(t => t.url);
 
     if (!sourceTab) {
       return;
@@ -81,7 +80,7 @@ class Tab extends PureComponent<Props> {
       {
         item: {
           ...tabMenuItems.closeTab,
-          click: () => closeTab(sourceTab.get("url"))
+          click: () => closeTab(sourceTab)
         }
       },
       {
@@ -95,7 +94,7 @@ class Tab extends PureComponent<Props> {
         item: {
           ...tabMenuItems.closeTabsToEnd,
           click: () => {
-            const tabIndex = tabSources.findIndex(t => t.get("id") == tab);
+            const tabIndex = tabSources.findIndex(t => t.id == tab);
             closeTabs(tabURLs.filter((t, i) => i > tabIndex));
           }
         },
@@ -109,8 +108,15 @@ class Tab extends PureComponent<Props> {
       { item: { type: "separator" } },
       {
         item: {
+          ...tabMenuItems.copyToClipboard,
+          disabled: selectedSource.id !== tab,
+          click: () => copyToTheClipboard(sourceTab.text)
+        }
+      },
+      {
+        item: {
           ...tabMenuItems.copySourceUri2,
-          click: () => copyToTheClipboard(getRawSourceURL(sourceTab.get("url")))
+          click: () => copyToTheClipboard(getRawSourceURL(sourceTab.url))
         }
       }
     ];
@@ -145,32 +151,23 @@ class Tab extends PureComponent<Props> {
       selectSource,
       closeTab,
       source,
-      sourceMetaData
+      tabSources
     } = this.props;
-    const src = source.toJS();
-    const filename = getFilename(src);
-    const sourceId = source.get("id");
+    const sourceId = source.id;
     const active =
       selectedSource &&
-      sourceId == selectedSource.get("id") &&
+      sourceId == selectedSource.id &&
       (!this.isProjectSearchEnabled() && !this.isSourceSearchEnabled());
     const isPrettyCode = isPretty(source);
-    const sourceAnnotation = getSourceAnnotation(source, sourceMetaData);
 
     function onClickClose(e) {
       e.stopPropagation();
-      closeTab(source.get("url"));
+      closeTab(source);
     }
 
     function handleTabClick(e) {
       e.preventDefault();
       e.stopPropagation();
-
-      // Accommodate middle click to close tab
-      if (e.button === 1) {
-        return closeTab(source.get("url"));
-      }
-
       return selectSource(sourceId);
     }
 
@@ -179,16 +176,26 @@ class Tab extends PureComponent<Props> {
       pretty: isPrettyCode
     });
 
+    const path = getDisplayPath(source, tabSources);
+
     return (
       <div
         className={className}
         key={sourceId}
-        onMouseUp={handleTabClick}
+        onClick={handleTabClick}
+        // Accommodate middle click to close tab
+        onMouseUp={e => e.button === 1 && closeTab(source)}
         onContextMenu={e => this.onTabContextMenu(e, sourceId)}
-        title={getFileURL(src)}
+        title={getFileURL(source)}
       >
-        {sourceAnnotation}
-        <div className="filename">{filename}</div>
+        <SourceIcon
+          source={source}
+          shouldHide={icon => ["file", "javascript"].includes(icon)}
+        />
+        <div className="filename">
+          {getTruncatedFileName(source)}
+          {path && <span>{`../${path}/..`}</span>}
+        </div>
         <CloseButton
           handleClick={onClickClose}
           tooltip={L10N.getStr("sourceTabs.closeTabButtonTooltip")}
@@ -197,16 +204,24 @@ class Tab extends PureComponent<Props> {
     );
   }
 }
+
+const mapStateToProps = (state, { source }) => {
+  const selectedSource = getSelectedSource(state);
+
+  return {
+    tabSources: getSourcesForTabs(state),
+    selectedSource: selectedSource,
+    activeSearch: getActiveSearch(state)
+  };
+};
+
 export default connect(
-  (state, props) => {
-    const selectedSource = getSelectedSource(state);
-    const { source } = props;
-    return {
-      tabSources: getSourcesForTabs(state),
-      selectedSource: selectedSource,
-      sourceMetaData: getSourceMetaData(state, source.get("id")),
-      activeSearch: getActiveSearch(state)
-    };
-  },
-  dispatch => bindActionCreators(actions, dispatch)
+  mapStateToProps,
+  {
+    selectSource: actions.selectSource,
+    closeTab: actions.closeTab,
+    closeTabs: actions.closeTabs,
+    togglePrettyPrint: actions.togglePrettyPrint,
+    showSource: actions.showSource
+  }
 )(Tab);

@@ -5,10 +5,12 @@
 // @flow
 
 import {
+  buildScopeList,
   parseSourceScopes,
   type SourceScope,
   type ParsedScope,
   type BindingData,
+  type BindingDeclarationLocation,
   type BindingLocation,
   type BindingLocationType,
   type BindingMetaValue,
@@ -18,6 +20,7 @@ import {
 export type {
   SourceScope,
   BindingData,
+  BindingDeclarationLocation,
   BindingLocation,
   BindingLocationType,
   BindingMetaValue,
@@ -41,6 +44,8 @@ export default function getScopes(location: Location): SourceScope[] {
 export function clearScopes() {
   parsedScopesCache = new Map();
 }
+
+export { buildScopeList };
 
 /**
  * Searches all scopes and their bindings at the specific location.
