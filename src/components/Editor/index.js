@@ -240,7 +240,7 @@ class Editor extends PureComponent<Props, State> {
 
   componentWillUnmount() {
     if (this.state.editor) {
-      this.state.editor.destroy();
+      // this.state.editor.destroy();
       this.setState({ editor: null });
     }
 

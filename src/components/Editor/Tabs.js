@@ -92,6 +92,7 @@ class Tabs extends PureComponent<Props, State> {
     // @todo verify its correctness.
     if (
       hasSameSequence(prevProps.tabSources, this.props.tabSources) &&
+      prevProps.selectedSource &&
       this.state.hiddenTabs
         .map(tab => tab.get("url"))
         .indexOf(prevProps.selectedSource.get("url")) &&

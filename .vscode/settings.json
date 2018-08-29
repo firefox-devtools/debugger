@@ -5,5 +5,8 @@
   "javascript.validate.enable": false,
   "editor.rulers": [
     80
-  ]
+  ],
+  "editor.formatOnType": true,
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2
 }
