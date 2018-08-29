@@ -130,7 +130,7 @@ export function selectLocation(
 
     const tabSources = getSourcesForTabs(getState());
     if (!tabSources.includes(source)) {
-      dispatch(addTab(source.url));
+      dispatch(addTab(source));
     }
 
     dispatch(setSelectedLocation(source, location));
@@ -151,7 +151,7 @@ export function selectLocation(
       isMinified(loadedSource)
     ) {
       await dispatch(togglePrettyPrint(loadedSource.id));
-      dispatch(closeTab(loadedSource.url));
+      dispatch(closeTab(loadedSource));
     }
 
     dispatch(setSymbols(loadedSource.id));

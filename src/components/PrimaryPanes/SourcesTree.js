@@ -103,7 +103,6 @@ class SourcesTree extends Component<Props, State> {
       shownSource,
       selectedSource
     } = this.props;
-
     const { uncollapsedTree, sourceTree } = this.state;
 
     if (
@@ -359,7 +358,7 @@ function getSourceForTree(state: AppState, source: ?Source): ?Source | null {
     return source;
   }
 
-  return getSourceByURL(state, getRawSourceURL(source.url));
+  return getSourceByURL(state, getRawSourceURL(source.url), false);
 }
 
 const mapStateToProps = state => {

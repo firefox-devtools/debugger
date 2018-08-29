@@ -10,7 +10,12 @@
  */
 
 import { createSelector } from "reselect";
-import { getPrettySourceURL, underRoot, getRelativeUrl } from "../utils/source";
+import {
+  getPrettySourceURL,
+  underRoot,
+  getRelativeUrl,
+  isPrettyURL
+} from "../utils/source";
 import { originalToGeneratedId, isOriginalId } from "devtools-source-map";
 import { prefs } from "../utils/prefs";
 
@@ -293,8 +298,22 @@ export function getSourceFromId(state: OuterState, id: string): Source {
   return getSourcesState(state).sources[id];
 }
 
-export function getSourceByURL(state: OuterState, url: string): ?Source {
-  return getSourceByUrlInSources(getSources(state), getUrls(state), url);
+export function getSourceByURL(
+  state: OuterState,
+  url: string,
+  isOriginal: boolean = false
+): ?Source {
+  // Pretty sources should always be original
+  if (isPrettyURL(url)) {
+    isOriginal = true;
+  }
+
+  return getSourceByUrlInSources(
+    getSources(state),
+    getUrls(state),
+    url,
+    isOriginal
+  );
 }
 
 export function getSourcesByURLs(state: OuterState, urls: string[]) {
@@ -323,7 +342,7 @@ export function getPrettySource(state: OuterState, id: string) {
     return;
   }
 
-  return getSourceByURL(state, getPrettySourceURL(source.url));
+  return getSourceByURL(state, getPrettySourceURL(source.url), true);
 }
 
 export function hasPrettySource(state: OuterState, id: string) {
@@ -333,20 +352,22 @@ export function hasPrettySource(state: OuterState, id: string) {
 export function getSourceByUrlInSources(
   sources: SourcesMap,
   urls: UrlsMap,
-  url: string
+  url: string,
+  isOriginal: boolean
 ) {
   const foundSources = getSourcesByUrlInSources(sources, urls, url);
   if (!foundSources) {
     return null;
   }
 
-  return foundSources[0];
+  return foundSources.find(source => isOriginalId(source.id) == isOriginal);
 }
 
 function getSourcesByUrlInSources(
   sources: SourcesMap,
   urls: UrlsMap,
-  url: string
+  url: string,
+  isOriginal?: boolean
 ) {
   if (!url || !urls[url]) {
     return [];

@@ -43,7 +43,7 @@ type Props = {
   source: Source,
   activeSearch: string,
   selectSource: string => void,
-  closeTab: string => void,
+  closeTab: Source => void,
   closeTabs: (List<string>) => void,
   togglePrettyPrint: string => void,
   showSource: string => void
@@ -80,7 +80,7 @@ class Tab extends PureComponent<Props> {
       {
         item: {
           ...tabMenuItems.closeTab,
-          click: () => closeTab(sourceTab.url)
+          click: () => closeTab(sourceTab)
         }
       },
       {
@@ -162,7 +162,7 @@ class Tab extends PureComponent<Props> {
 
     function onClickClose(e) {
       e.stopPropagation();
-      closeTab(source.url);
+      closeTab(source);
     }
 
     function handleTabClick(e) {
@@ -184,7 +184,7 @@ class Tab extends PureComponent<Props> {
         key={sourceId}
         onClick={handleTabClick}
         // Accommodate middle click to close tab
-        onMouseUp={e => e.button === 1 && closeTab(source.url)}
+        onMouseUp={e => e.button === 1 && closeTab(source)}
         onContextMenu={e => this.onTabContextMenu(e, sourceId)}
         title={getFileURL(source)}
       >

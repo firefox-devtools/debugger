@@ -61,6 +61,6 @@ export type SourceAction =
     |}
   | {|
       +type: "CLOSE_TABS",
-      +urls: string[],
+      +sources: Array<Source>,
       +tabs: any
     |};
