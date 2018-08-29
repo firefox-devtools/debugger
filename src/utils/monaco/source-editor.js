@@ -6,8 +6,7 @@ import "monaco-editor/esm/vs/editor/standalone/browser/quickOpen/gotoLine.js";
 import { ModelDecorationOptions } from "monaco-editor/esm/vs/editor/common/model/textModel";
 import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
 
-// (2) Desired languages:
-import "monaco-editor/esm/vs/language/typescript/monaco.contribution";
+import "monaco-editor/esm/vs/basic-languages/monaco.contribution";
 
 self.MonacoEnvironment = {
   getWorkerUrl: function(moduleId, label) {

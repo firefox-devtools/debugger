@@ -20,7 +20,6 @@ const webpackConfig = {
   entry: {
     debugger: getEntry("main.js"),
     "editor.worker": "monaco-editor/esm/vs/editor/editor.worker.js",
-    "ts.worker": "monaco-editor/esm/vs/language/typescript/ts.worker",
     "parser-worker": getEntry("workers/parser/worker.js"),
     "pretty-print-worker": getEntry("workers/pretty-print/worker.js"),
     "search-worker": getEntry("workers/search/worker.js")
