@@ -14,7 +14,7 @@ import {
   getSourceLocationFromMouseEvent,
   toSourceLine
 } from "../../utils/editor";
-import { isPretty, getRawSourceURL } from "../../utils/source";
+import { isOriginal, getRawSourceURL } from "../../utils/source";
 import {
   getContextMenu,
   getPrettySource,
@@ -39,7 +39,6 @@ function getMenuItems(
     flashLineRange,
     getFunctionLocation,
     getFunctionText,
-    hasPrettyPrint,
     jumpToMappedLocation,
     onGutterContextMenu,
     selectedLocation,
@@ -51,9 +50,7 @@ function getMenuItems(
   // variables
   const hasSourceMap = !!selectedSource.sourceMapURL;
   const isOriginal = isOriginalId(selectedLocation.sourceId);
-  const isPrettyPrinted = isPretty(selectedSource);
-  const isPrettified = isPrettyPrinted || hasPrettyPrint;
-  const isMapped = isOriginal || hasSourceMap;
+  const isMapped = isOriginal(selectedSource) || hasSourceMap;
   const { line } = editor.codeMirror.coordsChar({
     left: event.clientX,
     top: event.clientY
@@ -146,7 +143,7 @@ function getMenuItems(
     id: "node-menu-jump",
     label: jumpToMappedLocLabel,
     accesskey: jumpToMappedLocKey,
-    disabled: !isMapped && !isPrettified,
+    disabled: !isMapped,
     click: () => jumpToMappedLocation(sourceLocation)
   };
 

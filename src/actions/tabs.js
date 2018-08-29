@@ -9,7 +9,7 @@
  * @module actions/tabs
  */
 
-import { isOriginalId } from "devtools-source-map";
+import { isOriginal } from "../utils/source";
 
 import { removeDocument } from "../utils/editor";
 import { selectSource } from "./sources";
@@ -27,24 +27,22 @@ import type { Source } from "../types";
 
 export function updateTab(source: Source, framework: string): Action {
   const { url } = source;
-  const isOriginal = isOriginalId(source.id);
 
   return {
     type: "UPDATE_TAB",
     url,
     framework,
-    isOriginal
+    isOriginal: isOriginal(source)
   };
 }
 
 export function addTab(source: Source): Action {
   const { url } = source;
-  const isOriginal = isOriginalId(source.id);
 
   return {
     type: "ADD_TAB",
     url,
-    isOriginal
+    isOriginal:  isOriginal(source)
   };
 }
 
