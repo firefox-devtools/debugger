@@ -102,7 +102,6 @@ function loadSourceMap(sourceId: SourceId) {
 function checkSelectedSource(sourceId: string) {
   return async ({ dispatch, getState }: ThunkArgs) => {
     const source = getSourceFromId(getState(), sourceId);
-
     const pendingLocation = getPendingSelectedLocation(getState());
 
     if (!pendingLocation || !pendingLocation.url || !source.url) {

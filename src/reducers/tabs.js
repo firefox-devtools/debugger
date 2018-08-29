@@ -10,6 +10,7 @@
  */
 
 import { createSelector } from "reselect";
+import { isOriginalId } from "devtools-source-map";
 import move from "lodash-move";
 
 import { prefs } from "../utils/prefs";
@@ -23,9 +24,14 @@ import {
 
 import type { Action } from "../actions/types";
 import type { SourcesState } from "./sources";
+import type { Source } from "../types";
 
-type Tab = { url: string, framework?: string | null };
+type Tab = { url: string, framework?: string | null, isOriginal: boolean };
 export type TabList = Tab[];
+
+function isSimilarTab(tab: Tab, url: string, isOriginal: boolean) {
+  return tab.url === url && tab.isOriginal === isOriginal;
+}
 
 function update(state: TabList = prefs.tabs || [], action: Action): TabList {
   switch (action.type) {
@@ -46,12 +52,20 @@ function update(state: TabList = prefs.tabs || [], action: Action): TabList {
   }
 }
 
-export function removeSourceFromTabList(tabs: TabList, url: string): TabList {
-  return tabs.filter(tab => tab.url !== url);
+export function removeSourceFromTabList(
+  tabs: TabList,
+  source: Source
+): TabList {
+  return tabs.filter(
+    tab => tab.url !== source.url || tab.isOriginal != isOriginalId(source.id)
+  );
 }
 
-export function removeSourcesFromTabList(tabs: TabList, urls: string[]) {
-  return urls.reduce((t, url) => removeSourceFromTabList(t, url), tabs);
+export function removeSourcesFromTabList(tabs: TabList, sources: Source[]) {
+  return sources.reduce(
+    (t, source) => removeSourceFromTabList(t, source),
+    tabs
+  );
 }
 
 /**
@@ -59,10 +73,16 @@ export function removeSourcesFromTabList(tabs: TabList, urls: string[]) {
  * @memberof reducers/tabs
  * @static
  */
-function updateTabList(tabs: TabList, { url, framework = null }) {
-  const currentIndex = tabs.findIndex(tab => tab.url == url);
+function updateTabList(
+  tabs: TabList,
+  { url, framework = null, isOriginal = false }
+) {
+  const currentIndex = tabs.findIndex(tab =>
+    isSimilarTab(tab, url, isOriginal)
+  );
+
   if (currentIndex === -1) {
-    tabs = [{ url, framework }, ...tabs];
+    tabs = [{ url, framework, isOriginal }, ...tabs];
   } else if (framework) {
     tabs[currentIndex].framework = framework;
   }
@@ -101,7 +121,9 @@ export function getNewSelectedSourceId(
     return "";
   }
 
-  const matchingTab = availableTabs.find(tab => tab.url == selectedTab.url);
+  const matchingTab = availableTabs.find(tab =>
+    isSimilarTab(tab, selectedTab.url, isOriginalId(selectedLocation.sourceId))
+  );
 
   if (matchingTab) {
     const sources = state.sources.sources;
@@ -109,7 +131,11 @@ export function getNewSelectedSourceId(
       return "";
     }
 
-    const selectedSource = getSourceByURL(state, selectedTab.url);
+    const selectedSource = getSourceByURL(
+      state,
+      selectedTab.url,
+      isOriginalId(selectedTab.id)
+    );
 
     if (selectedSource) {
       return selectedSource.id;
@@ -128,7 +154,8 @@ export function getNewSelectedSourceId(
     const tabSource = getSourceByUrlInSources(
       getSources(state),
       getUrls(state),
-      availableTab.url
+      availableTab.url,
+      availableTab.isOriginal
     );
 
     if (tabSource) {
@@ -157,7 +184,9 @@ export const getSourceTabs = createSelector(
   getSources,
   getUrls,
   (tabs, sources, urls) =>
-    tabs.filter(tab => getSourceByUrlInSources(sources, urls, tab.url))
+    tabs.filter(tab =>
+      getSourceByUrlInSources(sources, urls, tab.url, tab.isOriginal)
+    )
 );
 
 export const getSourcesForTabs = createSelector(
@@ -166,8 +195,10 @@ export const getSourcesForTabs = createSelector(
   getUrls,
   (tabs, sources, urls) => {
     return tabs
-      .map(tab => getSourceByUrlInSources(sources, urls, tab.url))
-      .filter(source => source);
+      .map(tab =>
+        getSourceByUrlInSources(sources, urls, tab.url, tab.isOriginal)
+      )
+      .filter(Boolean);
   }
 );
 
