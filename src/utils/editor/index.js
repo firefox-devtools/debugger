@@ -37,6 +37,28 @@ export function removeEditor() {
   editor = null;
 }
 
+function getCodeMirror() {
+  return editor && editor.codeMirror;
+}
+
+export function startOperation() {
+  const codeMirror = getCodeMirror();
+  if (!codeMirror) {
+    return;
+  }
+
+  codeMirror.startOperation();
+}
+
+export function endOperation() {
+  const codeMirror = getCodeMirror();
+  if (!codeMirror) {
+    return;
+  }
+
+  codeMirror.endOperation();
+}
+
 export function shouldShowPrettyPrint(selectedSource) {
   if (!selectedSource) {
     return false;
