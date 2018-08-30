@@ -43,20 +43,6 @@ type State = {
   hiddenTabs: SourcesList
 };
 
-function hasSameSequence(prev: SourcesList, after: SourcesList) {
-  if (prev.size !== after.size) {
-    return false;
-  }
-
-  for (let i = 0; i < prev.size; i++) {
-    if (prev.get(i).get("id") !== after.get(i).get("id")) {
-      return false;
-    }
-  }
-
-  return true;
-}
-
 class Tabs extends PureComponent<Props, State> {
   onTabContextMenu: Function;
   showContextMenu: Function;
