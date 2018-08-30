@@ -14,6 +14,7 @@
   font-size: 12px;
   padding: 0.5em 1.6em;
   color: var(--theme-body-color);
+  outline: 0;
 }
 
 @keyframes shake {
