@@ -54,17 +54,17 @@ function getMenuItems(
   const isPrettyPrinted = isPretty(selectedSource);
   const isPrettified = isPrettyPrinted || hasPrettyPrint;
   const isMapped = isOriginal || hasSourceMap;
-  const { line } = editor.codeMirror.coordsChar({
-    left: event.clientX,
-    top: event.clientY
-  });
-  const selectionText = editor.codeMirror.getSelection().trim();
-  const sourceLocation = getSourceLocationFromMouseEvent(
-    editor,
-    selectedLocation,
-    event
-  );
-  const isTextSelected = editor.codeMirror.somethingSelected();
+  const selection = editor.monaco.getSelection();
+  const line = event.target.position.lineNumber;
+  const selectionText = editor.monaco
+    .getModel()
+    .getValueInRange(editor.monaco.getSelection());
+  const sourceLocation = {
+    sourceId: selectedLocation.sourceId,
+    line: event.target.position.lineNumber,
+    column: event.target.position.column
+  };
+  const isTextSelected = !selection.isEmpty();
 
   // localizations
   const blackboxKey = L10N.getStr("sourceFooter.blackbox.accesskey");
@@ -220,7 +220,7 @@ class EditorMenu extends Component {
   showMenu(nextProps) {
     const { contextMenu, ...options } = nextProps;
     const { event } = contextMenu;
-    showMenu(event, getMenuItems(event, options));
+    showMenu(event.event.browserEvent, getMenuItems(event, options));
   }
 
   render() {

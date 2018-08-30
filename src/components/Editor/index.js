@@ -175,14 +175,6 @@ class Editor extends PureComponent<Props, State> {
       editor.appendToLocalElement(node.querySelector(".editor-mount"));
     }
 
-    document.addEventListener("contextmenu", (e: MouseEvent) => {
-      if (e.target.id === "contextmenu-mask") {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-      return false;
-    });
-
     editor.monaco.onMouseDown(e => {
       const data = e.target.detail;
       if (e.target.type < 2 || e.target.type > 4 || data.isAfterLines) {
@@ -209,6 +201,10 @@ class Editor extends PureComponent<Props, State> {
       return false;
     });
 
+    editor.monaco.onContextMenu(e => {
+      this.openMenu(e);
+    });
+
     /**
      * we don't need following actions anymore
      * `toggleFoldMarkerVisibility` as we set showFoldingControls to "mouseover"
@@ -216,19 +212,6 @@ class Editor extends PureComponent<Props, State> {
      * `codeMirrorWrapper.tabIndex/onKeyDown/onClick`, Monaco is focusable.
      */
     resizeToggleButton(editor.monaco);
-
-    // @Peng: I don't understand.
-    // if (!isFirefox()) {
-    //   codeMirror.on("gutterContextMenu", (cm, line, eventName, event) =>
-    //     this.onGutterContextMenu(event)
-    //   );
-    //   codeMirror.on("contextmenu", (cm, event) => this.openMenu(event));
-    // } else {
-    //   codeMirrorWrapper.addEventListener("contextmenu", event =>
-    //     this.openMenu(event)
-    //   );
-    // }
-
     this.setState({ editor });
     return editor;
   }
@@ -328,6 +311,8 @@ class Editor extends PureComponent<Props, State> {
       return;
     }
 
+    // @todo, peng
+
     // const { codeMirror } = this.state.editor;
     // if (codeMirror.listSelections().length > 1) {
     //   codeMirror.execCommand("singleSelection");
@@ -339,17 +324,12 @@ class Editor extends PureComponent<Props, State> {
     this.props.traverseResults(e.shiftKey, this.state.editor);
   };
 
-  openMenu(event: MouseEvent) {
-    event.stopPropagation();
-    event.preventDefault();
+  openMenu(ev) {
+    ev.event.browserEvent.stopPropagation();
+    ev.event.browserEvent.preventDefault();
 
     const { setContextMenu } = this.props;
-    const target: Element = (event.target: any);
-    if (target.classList.contains("CodeMirror-linenumber")) {
-      return setContextMenu("Gutter", event);
-    }
-
-    return setContextMenu("Editor", event);
+    return setContextMenu("Editor", ev);
   }
 
   toggleBreakpointCmd = (sourceLine, metaKey, shiftKey) => {
