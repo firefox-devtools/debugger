@@ -82,25 +82,9 @@ class Tabs extends PureComponent<Props, State> {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps === this.props) {
-      return;
+    if (!(prevProps === this.props)) {
+      this.updateHiddenTabs();
     }
-
-    // @todo verify its correctness.
-    if (
-      hasSameSequence(prevProps.tabSources, this.props.tabSources) &&
-      prevProps.selectedSource &&
-      this.state.hiddenTabs
-        .map(tab => tab.get("url"))
-        .indexOf(prevProps.selectedSource.url) &&
-      this.state.hiddenTabs
-        .map(tab => tab.get("url"))
-        .indexOf(this.props.selectedSource.url) === -1
-    ) {
-      // hidden tabs will not change
-      return;
-    }
-    this.updateHiddenTabs();
   }
 
   componentDidMount() {
