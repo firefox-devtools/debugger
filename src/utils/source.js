@@ -88,7 +88,9 @@ export function isJavaScript(source: Source): boolean {
 }
 
 export function isOriginal(source: Source) {
-  return isOriginalId(source.id) || isPrettyURL(source.url)
+  // Pretty-printed sources are given original IDs, so need
+  // for any additional check
+  return isOriginalId(source.id);
 }
 
 /**

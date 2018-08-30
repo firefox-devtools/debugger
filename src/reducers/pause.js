@@ -11,9 +11,9 @@
  */
 
 import { createSelector } from "reselect";
-import { isGeneratedId } from "devtools-source-map";
+import { isOriginal } from "../utils/source";
 import { prefs } from "../utils/prefs";
-import { getSelectedSource } from "./sources";
+import { getSelectedSource, getSourceFromId } from "./sources";
 
 import type { OriginalScope } from "../utils/pause/mapScopes";
 import type { Action } from "../actions/types";
@@ -377,7 +377,8 @@ export function getOriginalFrameScope(
     return null;
   }
 
-  const isGenerated = isGeneratedId(sourceId);
+  const source = getSourceFromId(state, sourceId);
+  const isGenerated = !isOriginal(source);
   const original = getFrameScopes(state).original[getGeneratedFrameId(frameId)];
 
   if (!isGenerated && original && (original.pending || original.scope)) {

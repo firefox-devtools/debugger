@@ -6,7 +6,7 @@
 
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
-import { isGeneratedId } from "devtools-source-map";
+import { isOriginal } from "../../../utils/source";
 
 import classnames from "classnames";
 
@@ -53,7 +53,7 @@ type Props = {
 };
 
 function getMappedLocation(mappedLocation: MappedLocation, selectedSource) {
-  return selectedSource && isGeneratedId(selectedSource.id)
+  return selectedSource && !isOriginal(selectedSource)
     ? mappedLocation.generatedLocation
     : mappedLocation.location;
 }
@@ -132,7 +132,7 @@ class Breakpoint extends PureComponent<Props> {
       return condition;
     }
 
-    if (selectedSource && isGeneratedId(selectedSource.id)) {
+    if (selectedSource && !isOriginal(selectedSource)) {
       return breakpoint.text;
     }
 

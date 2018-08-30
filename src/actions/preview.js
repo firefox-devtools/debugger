@@ -5,7 +5,7 @@
 // @flow
 import { isConsole } from "../utils/preview";
 import { findBestMatchExpression } from "../utils/ast";
-import { isGeneratedId } from "devtools-source-map";
+import { isOriginal } from "../utils/source";
 import { PROMISE } from "./utils/middleware/promise";
 import { getExpressionFromCoords } from "../utils/editor/get-expression";
 
@@ -87,10 +87,9 @@ export function setPreview(
           return;
         }
 
-        const sourceId = source.id;
         const selectedFrame = getSelectedFrame(getState());
 
-        if (location && !isGeneratedId(sourceId)) {
+        if (location && isOriginal(source)) {
           expression = await dispatch(getMappedExpression(expression));
         }
 

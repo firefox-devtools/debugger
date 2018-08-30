@@ -6,8 +6,8 @@
 
 import { getBreakpoints } from "../reducers/breakpoints";
 import { getSelectedSource } from "../reducers/sources";
-import { isGeneratedId } from "devtools-source-map";
 import { createSelector } from "reselect";
+import { isOriginal } from "../utils/source";
 
 import type { BreakpointsMap } from "../reducers/types";
 import type { Source } from "../types";
@@ -34,8 +34,7 @@ function memoize(func) {
 
 const formatBreakpoint = memoize(function(breakpoint, selectedSource) {
   const { condition, loading, disabled, hidden } = breakpoint;
-  const sourceId = selectedSource.id;
-  const isGeneratedSource = isGeneratedId(sourceId);
+  const isGeneratedSource = !isOriginal(selectedSource);
 
   return {
     location: getLocation(breakpoint, isGeneratedSource),
@@ -48,7 +47,7 @@ const formatBreakpoint = memoize(function(breakpoint, selectedSource) {
 
 function isVisible(breakpoint, selectedSource) {
   const sourceId = selectedSource.id;
-  const isGeneratedSource = isGeneratedId(sourceId);
+  const isGeneratedSource = !isOriginal(selectedSource);
 
   const location = getLocation(breakpoint, isGeneratedSource);
   return location.sourceId === sourceId;

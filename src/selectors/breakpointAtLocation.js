@@ -4,24 +4,20 @@
 
 import { getSelectedSource } from "../reducers/sources";
 import { getBreakpoints } from "../reducers/breakpoints";
-import { isGeneratedId } from "devtools-source-map";
-
-function isGenerated(selectedSource) {
-  return isGeneratedId(selectedSource.id);
-}
+import { isOriginal } from "../utils/source";
 
 function getColumn(column, selectedSource) {
   if (column) {
     return column;
   }
 
-  return isGenerated(selectedSource) ? undefined : 0;
+  return isOriginal(selectedSource) ? 0 : undefined;
 }
 
 function getLocation(bp, selectedSource) {
-  return isGenerated(selectedSource)
-    ? bp.generatedLocation || bp.location
-    : bp.location;
+  return isOriginal(selectedSource)
+    ? bp.location
+    : bp.generatedLocation || bp.location;
 }
 
 function getBreakpointsForSource(state: OuterState, selectedSource: Source) {

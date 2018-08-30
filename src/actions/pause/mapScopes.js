@@ -10,7 +10,7 @@ import { PROMISE } from "../utils/middleware/promise";
 
 import { features } from "../../utils/prefs";
 import { log } from "../../utils/log";
-import { isGeneratedId } from "devtools-source-map";
+import { isOriginal } from "../../utils/source";
 import type { Frame, Scope } from "../../types";
 
 import type { ThunkArgs } from "../types";
@@ -24,13 +24,14 @@ export function mapScopes(scopes: Promise<Scope>, frame: Frame) {
       frame.generatedLocation.sourceId
     );
 
+    // To Do:  Use "getSourceFromId" everywhere we have "frame.location.sourceId"
     const source = getSourceFromId(getState(), frame.location.sourceId);
 
     const shouldMapScopes =
       features.mapScopes &&
       !generatedSource.isWasm &&
       !source.isPrettyPrinted &&
-      !isGeneratedId(frame.location.sourceId);
+      isOriginal(source);
 
     await dispatch({
       type: "MAP_SCOPES",

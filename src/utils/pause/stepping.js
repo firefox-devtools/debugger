@@ -5,9 +5,10 @@
 // @flow
 
 import { isEqual } from "lodash";
-import { isGeneratedId, isOriginalId } from "devtools-source-map";
+import { getSourceFromId } from "../../reducers/sources";
 import type { Frame, MappedLocation } from "../../types";
 import type { State } from "../../reducers/types";
+import { isOriginal } from "../../utils/source";
 
 import {
   getSelectedSource,
@@ -20,7 +21,7 @@ function getFrameLocation(source, frame: ?MappedLocation) {
     return null;
   }
 
-  return isOriginalId(source.id) ? frame.location : frame.generatedLocation;
+  return isOriginal(source) ? frame.location : frame.generatedLocation;
 }
 
 export function shouldStep(rootFrame: ?Frame, state: State, sourceMaps: any) {
@@ -39,7 +40,7 @@ export function shouldStep(rootFrame: ?Frame, state: State, sourceMaps: any) {
   const invalidPauseLocation = pausePoint && !pausePoint.step;
 
   // We always want to pause in generated locations
-  if (!frameLoc || isGeneratedId(frameLoc.sourceId)) {
+  if (!frameLoc || !isOriginal(getSourceFromId(state, frameLoc.sourceId))) {
     return false;
   }
 
