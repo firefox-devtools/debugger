@@ -14,7 +14,10 @@ import {
   getSourceLocationFromMouseEvent,
   toSourceLine
 } from "../../utils/editor";
-import { isOriginal, getRawSourceURL } from "../../utils/source";
+import {
+  isOriginal as isOriginalSource,
+  getRawSourceURL
+} from "../../utils/source";
 import {
   getContextMenu,
   getPrettySource,
@@ -50,7 +53,7 @@ function getMenuItems(
   // variables
   const hasSourceMap = !!selectedSource.sourceMapURL;
   const isOriginal = isOriginalId(selectedLocation.sourceId);
-  const isMapped = isOriginal(selectedSource) || hasSourceMap;
+  const isMapped = isOriginalSource(selectedSource) || hasSourceMap;
   const { line } = editor.codeMirror.coordsChar({
     left: event.clientX,
     top: event.clientY
@@ -159,7 +162,7 @@ function getMenuItems(
     id: "node-menu-blackbox",
     label: toggleBlackBoxLabel,
     accesskey: blackboxKey,
-    disabled: isOriginal || isPrettyPrinted || hasSourceMap,
+    disabled: isOriginal || hasSourceMap,
     click: () => toggleBlackBox(selectedSource)
   };
 

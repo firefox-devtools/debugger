@@ -4,7 +4,6 @@
 
 // @flow
 
-
 import { PROMISE } from "../utils/middleware/promise";
 import { getGeneratedSource, getSourceFromId } from "../../selectors";
 import * as parser from "../../workers/parser";

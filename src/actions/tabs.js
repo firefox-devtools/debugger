@@ -42,7 +42,7 @@ export function addTab(source: Source): Action {
   return {
     type: "ADD_TAB",
     url,
-    isOriginal:  isOriginal(source)
+    isOriginal: isOriginal(source)
   };
 }
 
