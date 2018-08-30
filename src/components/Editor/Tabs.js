@@ -92,10 +92,10 @@ class Tabs extends PureComponent<Props, State> {
       prevProps.selectedSource &&
       this.state.hiddenTabs
         .map(tab => tab.get("url"))
-        .indexOf(prevProps.selectedSource.get("url")) &&
+        .indexOf(prevProps.selectedSource.url) &&
       this.state.hiddenTabs
         .map(tab => tab.get("url"))
-        .indexOf(this.props.selectedSource.get("url")) === -1
+        .indexOf(this.props.selectedSource.url) === -1
     ) {
       // hidden tabs will not change
       return;

@@ -267,10 +267,15 @@ class Editor extends PureComponent<Props, State> {
     // NOTE: when devtools are opened, the editor is not set when
     // the source loads so we need to wait until the editor is
     // set to update the text and size.
-    if (!prevState.editor && this.state.editor) {
-      this.setText(this.props);
-      this.setEmptyLines(this.props);
-      this.setSize(this.props);
+
+    if (!prevState.editor && selectedSource) {
+      if (!this.state.editor) {
+        const editor = this.setupEditor();
+        updateDocument(editor, selectedSource);
+      } else {
+        this.setText(this.props);
+        this.setSize(this.props);
+      }
     }
   }
 
@@ -424,7 +429,7 @@ class Editor extends PureComponent<Props, State> {
 
     if (selectedLocation && this.shouldScrollToLocation(nextProps)) {
       const line = selectedLocation.line;
-      const column = selectedLocation.column;
+      let column = selectedLocation.column;
       // let { line, column } = toEditorPosition(nextProps.selectedLocation);
 
       if (selectedSource && hasDocument(selectedSource.id)) {
@@ -644,9 +649,7 @@ const mapStateToProps = state => {
     coverageOn: getCoverageEnabled(state),
     conditionalPanelLine: getConditionalPanelLine(state),
     symbols: getSymbols(state, selectedSource),
-    emptyLines: selectedSource
-      ? getEmptyLines(state, selectedSource)
-      : []
+    emptyLines: selectedSource ? getEmptyLines(state, selectedSource) : []
   };
 };
 

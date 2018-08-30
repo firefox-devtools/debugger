@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 import SourceEditor from "./source-editor";
 import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
 import { StaticServices } from "monaco-editor/esm/vs/editor/standalone/browser/standaloneServices";
@@ -57,7 +61,7 @@ function updateDocument(editor: SourceEditor, source: SourceRecord) {
     return;
   }
 
-  const sourceId = source.get("id");
+  const sourceId = source.id;
   const doc = getDocument(sourceId) || createModel("", "plaintext", null, true);
   editor.replaceDocument(doc);
 

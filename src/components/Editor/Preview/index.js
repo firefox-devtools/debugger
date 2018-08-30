@@ -87,7 +87,7 @@ class Preview extends PureComponent<Props, State> {
         );
       }
     });
-    this.updateListeners();
+    // this.updateListeners();
   }
 
   componentDidUpdate(prevProps) {

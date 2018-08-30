@@ -25,7 +25,7 @@ import type { Action, ThunkArgs } from "./types";
 import type { ColumnPosition } from "../types";
 import type { AstLocation } from "../workers/parser";
 
-function findExpressionMatch(state, codeMirror, tokenPos) {
+function findExpressionMatch(state, tokenText, tokenPos) {
   const source = getSelectedSource(state);
   if (!source) {
     return;
@@ -35,7 +35,11 @@ function findExpressionMatch(state, codeMirror, tokenPos) {
 
   let match;
   if (!symbols || symbols.loading) {
-    match = getExpressionFromCoords(codeMirror, tokenPos);
+    const location = {
+      start: { line: tokenPos.line, column: tokenPos.column },
+      end: { line: tokenPos.line, column: tokenPos.column + tokenText.length }
+    };
+    match = { expression: tokenText, location };
   } else {
     match = findBestMatchExpression(symbols, tokenPos);
   }
@@ -44,8 +48,9 @@ function findExpressionMatch(state, codeMirror, tokenPos) {
 
 export function updatePreview(
   target: HTMLElement,
-  tokenPos: Object,
-  codeMirror: any
+  tokenText: string,
+  tokenPos: any,
+  editor: any
 ) {
   return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     const cursorPos = target.getBoundingClientRect();
@@ -57,7 +62,7 @@ export function updatePreview(
       return;
     }
 
-    const match = findExpressionMatch(getState(), codeMirror, tokenPos);
+    const match = findExpressionMatch(getState(), tokenText, tokenPos);
     if (!match) {
       return;
     }
