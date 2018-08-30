@@ -7,7 +7,6 @@ import { isConsole } from "../utils/preview";
 import { findBestMatchExpression } from "../utils/ast";
 import { isGeneratedId } from "devtools-source-map";
 import { PROMISE } from "./utils/middleware/promise";
-import { getExpressionFromCoords } from "../utils/editor/get-expression";
 
 import {
   getPreview,

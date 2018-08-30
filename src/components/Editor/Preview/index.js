@@ -33,29 +33,6 @@ type State = {
   selecting: boolean
 };
 
-function inPopup(e) {
-  const { relatedTarget } = e;
-
-  if (!relatedTarget) {
-    return true;
-  }
-
-  const pop =
-    relatedTarget.closest(".tooltip") ||
-    relatedTarget.closest(".popover") ||
-    relatedTarget.classList.contains("debug-expression");
-
-  return pop;
-}
-
-function getElementFromPos(pos: DOMRect) {
-  // $FlowIgnore
-  return document.elementFromPoint(
-    pos.x + pos.width / 2,
-    pos.y + pos.height / 2
-  );
-}
-
 class Preview extends PureComponent<Props, State> {
   disposalble: Object;
 

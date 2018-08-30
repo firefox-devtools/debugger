@@ -37,7 +37,6 @@ import HitMarker from "./HitMarker";
 import CallSites from "./CallSites";
 import DebugLine from "./DebugLine";
 import HighlightLine from "./HighlightLine";
-// import EmptyLines from "./EmptyLines";
 import GutterMenu from "./GutterMenu";
 import EditorMenu from "./EditorMenu";
 import ConditionalPanel from "./ConditionalPanel";
@@ -639,6 +638,7 @@ Editor.contextTypes = {
 
 const mapStateToProps = state => {
   const selectedSource = getSelectedSource(state);
+  const foundEmptyLines = getEmptyLines(state, selectedSource.id);
   const sourceId = selectedSource ? selectedSource.id : "";
 
   return {
@@ -649,7 +649,7 @@ const mapStateToProps = state => {
     coverageOn: getCoverageEnabled(state),
     conditionalPanelLine: getConditionalPanelLine(state),
     symbols: getSymbols(state, selectedSource),
-    emptyLines: selectedSource ? getEmptyLines(state, selectedSource) : []
+    emptyLines: selectedSource ? foundEmptyLines : []
   };
 };
 
