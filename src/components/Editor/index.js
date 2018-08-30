@@ -146,7 +146,7 @@ class Editor extends PureComponent<Props, State> {
 
   setupEditor() {
     const editor = new SourceEditor({
-      theme: "vs-dark",
+      theme: "vs",
       readOnly: true,
       overviewRulerLanes: 0,
       selectOnLineNumbers: false,
