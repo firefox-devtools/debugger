@@ -136,7 +136,6 @@ class GutterContextMenuComponent extends Component {
     const { contextMenu, ...props } = nextProps;
     const { event } = contextMenu;
     const sourceId = props.selectedSource ? props.selectedSource.id : "";
-    // const line = lineAtHeight(props.editor, sourceId, event);
     const line = event.line;
     const breakpoint = nextProps.breakpoints.find(
       bp => bp.location.line === line

@@ -26,7 +26,7 @@ type Props = {
   clearPreview: () => void,
   setPopupObjectProperties: Object => void,
   addExpression: (string, ?Object) => void,
-  updatePreview: (any, any, any) => void
+  updatePreview: (any, any, any, any) => void
 };
 
 type State = {
@@ -126,10 +126,7 @@ class Preview extends PureComponent<Props, State> {
 
   onMouseOver = e => {
     const { target } = e;
-    if (this.props.selectedFrameVisible) {
-      console.log("target");
-      this.props.updatePreview(target, this.props.editor);
-    }
+    this.props.updatePreview(target, this.props.editor);
   };
 
   onMouseUp = () => {

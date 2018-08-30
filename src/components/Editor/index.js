@@ -75,9 +75,8 @@ import "./Editor.css";
 import "./Highlight.css";
 import "./EmptyLines.css";
 
-// import type SourceEditor from "../../utils/editor/source-editor";
-// import type { SymbolDeclarations } from "../../workers/parser";
-// import type { Location, Source } from "../../types";
+import type { SymbolDeclarations } from "../../workers/parser";
+import type { Location, Source } from "../../types";
 
 const cssVars = {
   searchbarHeight: "var(--editor-searchbar-height)",
@@ -117,6 +116,10 @@ type State = {
 class Editor extends PureComponent<Props, State> {
   $editorWrapper: ?HTMLDivElement;
   emptyLineDecorations: any[];
+  /**
+   * @todo, rebornix. Disposables.
+   */
+  keybindings: any[];
 
   constructor(props: Props) {
     super(props);
@@ -127,6 +130,7 @@ class Editor extends PureComponent<Props, State> {
     };
 
     this.emptyLineDecorations = [];
+    this.keybindings = [];
   }
 
   componentWillReceiveProps(nextProps) {
@@ -197,7 +201,10 @@ class Editor extends PureComponent<Props, State> {
         }
         this.onGutterClick(e.target.position.lineNumber, e.event);
       } else if (e.event.rightButton) {
-        this.onGutterContextMenu(e.target.position.lineNumber, e.event);
+        this.onGutterContextMenu(
+          e.target.position.lineNumber,
+          e.event.browserEvent
+        );
       }
       return false;
     });
@@ -279,7 +286,7 @@ class Editor extends PureComponent<Props, State> {
   }
 
   getCurrentLine() {
-    return this.state.editor.getSelection().startLineNumber;
+    return this.state.editor.monaco.getSelection().startLineNumber;
   }
 
   onToggleBreakpoint = (key, e: KeyboardEvent) => {
@@ -345,6 +352,24 @@ class Editor extends PureComponent<Props, State> {
     return setContextMenu("Editor", event);
   }
 
+  toggleBreakpointCmd = (sourceLine, metaKey, shiftKey) => {
+    const {
+      addOrToggleDisabledBreakpoint,
+      toggleBreakpointsAtLine,
+      continueToHere
+    } = this.props;
+
+    if (metaKey) {
+      return continueToHere(sourceLine);
+    }
+
+    if (shiftKey) {
+      return addOrToggleDisabledBreakpoint(sourceLine);
+    }
+
+    return toggleBreakpointsAtLine(sourceLine);
+  };
+
   onGutterClick = (line, ev) => {
     ev.stopPropagation();
     ev.preventDefault();
@@ -375,9 +400,10 @@ class Editor extends PureComponent<Props, State> {
     return toggleBreakpointsAtLine(sourceLine);
   };
 
-  onGutterContextMenu = (event: MouseEvent) => {
+  onGutterContextMenu = (line, event) => {
     event.stopPropagation();
     event.preventDefault();
+    event.line = line;
     return this.props.setContextMenu("Gutter", event);
   };
 
