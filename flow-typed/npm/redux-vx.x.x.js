@@ -5,7 +5,3 @@
 declare module "redux" {
   declare module.exports: any;
 }
-
-.empty-line ~ .line-numbers {
-  opacity: 0.5;
-}

@@ -6,28 +6,9 @@
 import { toEditorLine } from "../../utils/monaco";
 import { BREAKPOINT_DECORATION } from "../../utils/monaco/source-editor";
 
-import React, { PureComponent } from "react";
-import ReactDOM from "react-dom";
-import classnames from "classnames";
-import Svg from "../shared/Svg";
-
-// import { getDocument, toEditorLine } from "../../utils/editor";
-import { features } from "../../utils/prefs";
+import { PureComponent } from "react";
 
 import type { Source, Breakpoint as BreakpointType } from "../../types";
-
-// const breakpointSvg = document.createElement("div");
-// ReactDOM.render(<Svg name="breakpoint" />, breakpointSvg);
-
-// function makeMarker(isDisabled: boolean) {
-//   const bp = breakpointSvg.cloneNode(true);
-//   bp.className = classnames("editor new-breakpoint", {
-//     "breakpoint-disabled": isDisabled,
-//     "folding-enabled": features.codeFolding
-//   });
-
-//   return bp;
-// }
 
 type Props = {
   breakpoint: BreakpointType,
