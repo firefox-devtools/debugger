@@ -58,7 +58,7 @@ export function shouldPrettyPrint(source: Source) {
     !source ||
     isPretty(source) ||
     !isJavaScript(source) ||
-    isOriginalId(source.id) ||
+    isOriginal(source) ||
     source.sourceMapURL ||
     !prefs.clientSourceMapsEnabled
   ) {

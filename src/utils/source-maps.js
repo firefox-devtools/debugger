@@ -2,8 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-import { isOriginalId } from "devtools-source-map";
-import { getSource } from "../selectors";
+import { getSource, getSourceFromId } from "../selectors";
+import { isOriginal } from "./source";
 
 export async function getGeneratedLocation(
   state: Object,
@@ -11,7 +11,8 @@ export async function getGeneratedLocation(
   location: Location,
   sourceMaps: Object
 ) {
-  if (!isOriginalId(location.sourceId)) {
+  const locationSource = getSourceFromId(state, location.sourceId);
+  if (!isOriginal(locationSource)) {
     return location;
   }
 
@@ -40,7 +41,7 @@ export async function getMappedLocation(
 ) {
   const source = getSource(state, location.sourceId);
 
-  if (isOriginalId(location.sourceId)) {
+  if (isOriginal(source)) {
     return getGeneratedLocation(state, source, location, sourceMaps);
   }
 

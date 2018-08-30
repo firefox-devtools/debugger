@@ -14,6 +14,7 @@ import { isOriginalId } from "devtools-source-map";
 import move from "lodash-move";
 
 import { prefs } from "../utils/prefs";
+import { isOriginal as isOriginalSource } from "../utils/source";
 import {
   getSource,
   getSources,
@@ -57,7 +58,7 @@ export function removeSourceFromTabList(
   source: Source
 ): TabList {
   return tabs.filter(
-    tab => tab.url !== source.url || tab.isOriginal != isOriginalId(source.id)
+    tab => tab.url !== source.url || tab.isOriginal != isOriginalSource(source)
   );
 }
 

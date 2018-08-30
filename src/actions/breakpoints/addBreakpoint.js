@@ -2,7 +2,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-import { isOriginalId } from "devtools-source-map";
 import {
   locationMoved,
   breakpointExists,
@@ -14,7 +13,7 @@ import {
 import { PROMISE } from "../utils/middleware/promise";
 import { getSource, getSymbols, getBreakpoint } from "../../selectors";
 import { getGeneratedLocation } from "../../utils/source-maps";
-import { getTextAtPosition } from "../../utils/source";
+import { getTextAtPosition, isOriginal } from "../../utils/source";
 import { recordEvent } from "../../utils/telemetry";
 
 async function addBreakpointPromise(getState, client, sourceMaps, breakpoint) {
@@ -48,7 +47,7 @@ async function addBreakpointPromise(getState, client, sourceMaps, breakpoint) {
   const { id, hitCount, actualLocation } = await client.setBreakpoint(
     generatedLocation,
     breakpoint.condition,
-    isOriginalId(location.sourceId)
+    isOriginal(source)
   );
 
   const newGeneratedLocation = actualLocation || generatedLocation;
