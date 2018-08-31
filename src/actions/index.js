@@ -14,7 +14,6 @@ import * as fileSearch from "./file-search";
 import * as ast from "./ast";
 import * as coverage from "./coverage";
 import * as projectTextSearch from "./project-text-search";
-import * as replay from "./replay";
 import * as quickOpen from "./quick-open";
 import * as sourceTree from "./source-tree";
 import * as sources from "./sources";
@@ -36,7 +35,6 @@ export default {
   ...ast,
   ...coverage,
   ...projectTextSearch,
-  ...replay,
   ...quickOpen,
   ...sourceTree,
   ...debuggee,
