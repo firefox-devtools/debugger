@@ -2,7 +2,7 @@
 
 ![][debugger-intro-gif]
 
-:construction_worker: If something goes wrong, checkout our [most common issues][common-issues] and find us in [slack]!
+:construction_worker: If something goes wrong, checkout our [most common issues][common-issues] and find us in [Slack][slack]!
 
 ### Step 1. Installing the Debugger
 
@@ -44,7 +44,7 @@ Congratulations! You're now up and running. :sweat_smile:
 
 *What should I do if I get an error?*
 
-Ask in our [slack] channel or file an [issue][yarn-run-firefox-fails] here.
+Ask in our [Slack][slack] channel or file an [issue][yarn-run-firefox-fails] here.
 
 Here is a list of some of the [most common issues][common-issues]
 
