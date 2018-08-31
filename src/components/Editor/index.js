@@ -56,7 +56,9 @@ import {
   toEditorPosition,
   getSourceLocationFromMouseEvent,
   hasDocument,
-  onMouseOver
+  onMouseOver,
+  startOperation,
+  endOperation
 } from "../../utils/editor";
 
 import { resizeToggleButton, resizeBreakpointGutter } from "../../utils/ui";
@@ -123,9 +125,15 @@ class Editor extends PureComponent<Props, State> {
   }
 
   componentWillUpdate(nextProps) {
+    if (!this.state.editor) {
+      return;
+    }
+
+    startOperation();
     this.setText(nextProps);
     this.setSize(nextProps);
     this.scrollToLocation(nextProps);
+    endOperation();
   }
 
   setupEditor() {
@@ -228,8 +236,11 @@ class Editor extends PureComponent<Props, State> {
         const editor = this.setupEditor();
         updateDocument(editor, selectedSource);
       } else {
+        startOperation();
+
         this.setText(this.props);
         this.setSize(this.props);
+        endOperation();
       }
     }
   }
@@ -558,7 +569,7 @@ class Editor extends PureComponent<Props, State> {
 
     return (
       <div>
-        <DebugLine />
+        <DebugLine editor={editor} />
         <HighlightLine />
         <EmptyLines editor={editor} />
         <Breakpoints editor={editor} />
