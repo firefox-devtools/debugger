@@ -104,9 +104,9 @@ Chrome has a useful websocket monitor for viewing the communication:
 
 Lastly, it's worth mentioning that Developer Tools are an _advanced_ subject
 you're actually inquiring into how JS works. It's awesome that you're curious and there
-are lots of people in our [slack] channel who are learning alongside of you.
+are lots of people in our [Slack][slack] channel who are learning alongside of you.
 
-The best thing to do is to join our slack and share what you're learning and ask others questions.
+The best thing to do is to join our Slack and share what you're learning and ask others questions.
 They'll be plenty of people who are curious and happy to share what they know.
 Also, down the road, this is a subject that plenty of people are interested in learning and great fodder for [talks].
 

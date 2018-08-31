@@ -796,7 +796,7 @@ Another option is to reset your branch to master:
 ### Getting Help
 
 There are lots of helpful folks who'd be happy to answer
-your questions on [slack][slack].
+your questions on [Slack][slack].
 
 | Component          |                  | :dog: :panda_face: :hamster:                                                                       |
 | ------------------ | ---------------- | -------------------------------------------------------------------------------------------------- |
