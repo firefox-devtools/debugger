@@ -5,6 +5,49 @@
 import { isWasm, lineToWasmOffset, wasmOffsetToLine } from "../wasm";
 import { shouldPrettyPrint } from "../source";
 import { isOriginalId } from "devtools-source-map";
+import SourceEditor from "./source-editor";
+import { features } from "../prefs";
+
+type Editor = Object;
+
+let editor: ?Editor;
+
+export function createEditor() {
+  return new SourceEditor({
+    theme: "vs",
+    readOnly: true,
+    overviewRulerLanes: 0,
+    selectOnLineNumbers: false,
+    hideCursorInOverviewRuler: true,
+    selectionHighlight: false,
+    overviewRulerBorder: false,
+    scrollBeyondLastLine: false,
+    renderLineHighlight: "none",
+    fixedOverflowWidgets: true,
+    lineNumbersMinChars: 3,
+    folding: features.codeFolding,
+    showFoldingControls: "mouseover",
+    minimap: {
+      enabled: false
+    },
+    wordWrap: "off",
+    renderIndentGuides: false,
+    cursorBlinking: "blink"
+  });
+}
+
+export function getEditor() {
+  if (editor) {
+    return editor;
+  }
+
+  editor = createEditor();
+  return editor;
+}
+
+export function removeEditor() {
+  editor = null;
+}
 
 export function toEditorLine(sourceId: string, lineOrOffset: number): number {
   if (isWasm(sourceId)) {

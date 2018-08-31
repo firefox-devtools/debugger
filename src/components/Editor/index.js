@@ -47,7 +47,7 @@ import {
 } from "../../utils/monaco/source-editor";
 import {
   shouldShowFooter,
-  // getEditor,
+  getEditor,
   // clearEditor,
   // getCursorLine,
   toSourceLine,
@@ -62,12 +62,6 @@ import {
   clearEditor,
   showErrorMessage
 } from "../../utils/monaco/source-documents";
-//   scrollToColumn,
-//   toEditorPosition,
-//   getSourceLocationFromMouseEvent,
-//   hasDocument,
-//   onMouseOver
-// } from "../../utils/editor";
 
 import { resizeToggleButton } from "../../utils/ui";
 
@@ -149,26 +143,7 @@ class Editor extends PureComponent<Props, State> {
   }
 
   setupEditor() {
-    const editor = new SourceEditor({
-      theme: "vs",
-      readOnly: true,
-      overviewRulerLanes: 0,
-      selectOnLineNumbers: false,
-      hideCursorInOverviewRuler: true,
-      selectionHighlight: false,
-      overviewRulerBorder: false,
-      scrollBeyondLastLine: false,
-      renderLineHighlight: "none",
-      fixedOverflowWidgets: true,
-      lineNumbersMinChars: 3,
-      folding: true,
-      showFoldingControls: "mouseover",
-      minimap: {
-        enabled: false
-      },
-      renderIndentGuides: false,
-      cursorBlinking: "blink"
-    });
+    const editor = getEditor();
 
     const node = ReactDOM.findDOMNode(this);
     if (node instanceof HTMLElement) {
