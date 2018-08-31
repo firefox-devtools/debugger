@@ -4,7 +4,13 @@
 
 // @flow
 import { Component } from "react";
-import { toEditorPosition, getDocument, hasDocument } from "../../utils/editor";
+import {
+  toEditorPosition,
+  getDocument,
+  hasDocument,
+  startOperation,
+  endOperation
+} from "../../utils/editor";
 import { isLoaded } from "../../utils/source";
 import { isException } from "../../utils/pause";
 import { getIndentation } from "../../utils/indentation";
@@ -41,12 +47,15 @@ export class DebugLine extends Component<Props> {
 
   componentDidUpdate(prevProps: Props) {
     const { why, selectedFrame, selectedSource } = this.props;
-    this.setDebugLine(why, selectedFrame, selectedSource);
-  }
 
-  componentWillUpdate() {
-    const { why, selectedFrame, selectedSource } = this.props;
-    this.clearDebugLine(selectedFrame, selectedSource, why);
+    startOperation();
+    this.clearDebugLine(
+      prevProps.selectedFrame,
+      prevProps.selectedSource,
+      prevProps.why
+    );
+    this.setDebugLine(why, selectedFrame, selectedSource);
+    endOperation();
   }
 
   componentDidMount() {

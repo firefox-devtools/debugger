@@ -4,7 +4,7 @@
 
 // @flow
 import { Component } from "react";
-import { toEditorLine } from "../../utils/editor";
+import { toEditorLine, endOperation, startOperation } from "../../utils/editor";
 import { getDocument, hasDocument } from "../../utils/editor/source-documents";
 import { isLoaded } from "../../utils/source";
 
@@ -80,11 +80,13 @@ export class HighlightLine extends Component<Props> {
       this.isStepping = true;
     }
 
+    startOperation();
     this.clearHighlightLine(
       prevProps.selectedLocation,
       prevProps.selectedSource
     );
     this.setHighlightLine(selectedLocation, selectedFrame, selectedSource);
+    endOperation();
   }
 
   setHighlightLine(
