@@ -49,6 +49,7 @@ import {
   shouldShowFooter,
   getEditor,
   clearEditor,
+  getCursorLine,
   toSourceLine,
   getDocument,
   toEditorLine,
@@ -228,7 +229,6 @@ class Editor extends PureComponent<Props, State> {
     // NOTE: when devtools are opened, the editor is not set when
     // the source loads so we need to wait until the editor is
     // set to update the text and size.
-
     if (!prevState.editor && selectedSource) {
       if (!this.state.editor) {
         const editor = this.setupEditor();
@@ -247,7 +247,7 @@ class Editor extends PureComponent<Props, State> {
       return;
     }
 
-    const line = monaco.getSelection().startLineNumber;
+    const line = getCursorLine(monaco);
     return toSourceLine(selectedSource.id, line);
   }
 
@@ -310,24 +310,6 @@ class Editor extends PureComponent<Props, State> {
     const { setContextMenu } = this.props;
     return setContextMenu("Editor", ev);
   }
-
-  toggleBreakpointCmd = (sourceLine, metaKey, shiftKey) => {
-    const {
-      addOrToggleDisabledBreakpoint,
-      toggleBreakpointsAtLine,
-      continueToHere
-    } = this.props;
-
-    if (metaKey) {
-      return continueToHere(sourceLine);
-    }
-
-    if (shiftKey) {
-      return addOrToggleDisabledBreakpoint(sourceLine);
-    }
-
-    return toggleBreakpointsAtLine(sourceLine);
-  };
 
   onGutterClick = (line, ev) => {
     ev.stopPropagation();

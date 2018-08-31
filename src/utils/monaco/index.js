@@ -87,3 +87,7 @@ export function shouldShowFooter(selectedSource, horizontal) {
     isOriginalId(selectedSource.get("id"))
   );
 }
+
+export function getCursorLine(monaco): number {
+  return monaco.getSelection().startLineNumber;
+}
