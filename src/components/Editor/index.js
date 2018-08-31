@@ -42,32 +42,29 @@ import EditorMenu from "./EditorMenu";
 import ConditionalPanel from "./ConditionalPanel";
 
 import {
-  SourceEditor,
-  EMPTY_LINES_DECORATION
-} from "../../utils/monaco/source-editor";
-import {
+  showSourceText,
+  updateDocument,
+  showLoading,
+  showErrorMessage,
   shouldShowFooter,
   getEditor,
-  // clearEditor,
-  // getCursorLine,
-  toSourceLine,
-  toEditorLine
-} from "../../utils/monaco";
-import {
-  updateDocument,
-  hasDocument,
-  getDocument,
-  showLoading,
-  showSourceText,
   clearEditor,
-  showErrorMessage
-} from "../../utils/monaco/source-documents";
+  toSourceLine,
+  getDocument,
+  toEditorLine,
+  hasDocument
+} from "../../utils/monaco";
 
 import { resizeToggleButton } from "../../utils/ui";
 
 import "./Editor.css";
 import "./Highlight.css";
 import "./EmptyLines.css";
+
+import {
+  SourceEditor,
+  EMPTY_LINES_DECORATION
+} from "../../utils/monaco/source-editor";
 
 import type { SymbolDeclarations } from "../../workers/parser";
 import type { Location, Source } from "../../types";
@@ -211,7 +208,7 @@ class Editor extends PureComponent<Props, State> {
 
   componentWillUnmount() {
     if (this.state.editor) {
-      // this.state.editor.destroy();
+      this.state.editor.destroy();
       this.setState({ editor: null });
     }
 
@@ -244,7 +241,14 @@ class Editor extends PureComponent<Props, State> {
   }
 
   getCurrentLine() {
-    return this.state.editor.monaco.getSelection().startLineNumber;
+    const { monaco } = this.state.editor;
+    const { selectedSource } = this.props;
+    if (!selectedSource) {
+      return;
+    }
+
+    const line = monaco.getSelection().startLineNumber;
+    return toSourceLine(selectedSource.id, line);
   }
 
   onToggleBreakpoint = (key, e: KeyboardEvent) => {

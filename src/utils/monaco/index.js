@@ -2,10 +2,12 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
+export * from "./source-documents";
+
 import { isWasm, lineToWasmOffset, wasmOffsetToLine } from "../wasm";
 import { shouldPrettyPrint } from "../source";
 import { isOriginalId } from "devtools-source-map";
-import SourceEditor from "./source-editor";
+import { SourceEditor } from "./source-editor";
 import { features } from "../prefs";
 
 type Editor = Object;

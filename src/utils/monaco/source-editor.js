@@ -49,6 +49,10 @@ export class SourceEditor {
   replaceDocument(doc: any) {
     this.editor.setModel(doc);
   }
+
+  destroy() {
+    this.editor.dispose();
+  }
 }
 
 export const EMPTY_LINES_DECORATION = ModelDecorationOptions.register({
