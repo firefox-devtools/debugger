@@ -46,7 +46,7 @@ export class DebugLine extends Component<Props> {
   debugExpression: null;
 
   componentDidUpdate(prevProps: Props) {
-    const { why, selectedFrame, editor, selectedSource } = this.props;
+    const { why, selectedFrame, selectedSource } = this.props;
 
     startOperation();
     this.clearDebugLine(
