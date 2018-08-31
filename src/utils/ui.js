@@ -44,7 +44,6 @@ export function resizeToggleButton(editor: Object) {
     ".source-header .toggle-button-start"
   );
   if (toggleButton) {
-    console.log(editor.getLayoutInfo().contentLeft);
     toggleButton.style.width = `${editor.getLayoutInfo().contentLeft}px`;
   }
 }

@@ -19,7 +19,6 @@ import type { Frame, Why, Source } from "../../types";
 type Props = {
   selectedFrame: Frame,
   why: Why,
-  // selectedSource: SourceRecord,
   selectedSource: Source,
   editor: Object
 };

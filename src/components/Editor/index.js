@@ -434,8 +434,7 @@ class Editor extends PureComponent<Props, State> {
 
     if (selectedLocation && this.shouldScrollToLocation(nextProps)) {
       const line = selectedLocation.line;
-      let column = selectedLocation.column;
-      // let { line, column } = toEditorPosition(nextProps.selectedLocation);
+      let column = selectedLocation.column ? selectedLocation.column : 0;
 
       if (selectedSource && hasDocument(selectedSource.id)) {
         const doc = getDocument(selectedSource.id);
@@ -644,7 +643,6 @@ Editor.contextTypes = {
 
 const mapStateToProps = state => {
   const selectedSource = getSelectedSource(state);
-  const foundEmptyLines = getEmptyLines(state, selectedSource.id);
   const sourceId = selectedSource ? selectedSource.id : "";
 
   return {
@@ -655,7 +653,7 @@ const mapStateToProps = state => {
     coverageOn: getCoverageEnabled(state),
     conditionalPanelLine: getConditionalPanelLine(state),
     symbols: getSymbols(state, selectedSource),
-    emptyLines: selectedSource ? foundEmptyLines : []
+    emptyLines: selectedSource ? getEmptyLines(state, selectedSource.id) : []
   };
 };
 
