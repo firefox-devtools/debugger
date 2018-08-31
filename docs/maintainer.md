@@ -80,7 +80,7 @@ Some good rules of thumb are:
 
 1. asking what their timeline is
 2. asking if they are blocked or if you can help
-3. offer to pair or talk on slack.
+3. offer to pair or talk on Slack.
 4. try to breakdown the work so small pieces can be merged
 
 #### Ship

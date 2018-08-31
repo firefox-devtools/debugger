@@ -180,7 +180,7 @@ Pro Tips:
 
 * The header files are a great overview
 * There are a lot of concepts, but the MDN [docs][js-api] are fantastic. e.g. [rooted][rooted]
-* Reach out early on slack! This is a crazy codebase, we'd love to help you get started.
+* Reach out early on Slack! This is a crazy codebase, we'd love to help you get started.
 
 [api]: https://developer.mozilla.org/en-US/docs/Tools/Debugger-API
 [debugger.cpp]: https://searchfox.org/mozilla-central/source/js/src/vm/Debugger.cpp

@@ -83,6 +83,6 @@ Here are some [docs][bt] on how to setup the browser toolbox.
 ### Getting Help
 
 There are lots of helpful folks who'd be happy to answer
-your questions on [slack][slack].
+your questions on [Slack][slack].
 
 [slack]: https://devtools-html-slack.herokuapp.com/
