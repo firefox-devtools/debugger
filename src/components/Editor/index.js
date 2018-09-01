@@ -238,11 +238,9 @@ class Editor extends PureComponent<Props, State> {
         const editor = this.setupEditor();
         updateDocument(editor, selectedSource);
       } else {
-        startOperation();
-
         this.setText(this.props);
         this.setSize(this.props);
-        endOperation();
+        this.setEmptyLines(this.props);
       }
     }
   }
