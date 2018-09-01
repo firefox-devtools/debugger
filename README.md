@@ -46,7 +46,7 @@ yarn start
 This is an open source project and we would love your help. We have prepared a [contributing] guide to help you get started.
 
 If this is your [first PR][make-a-pull-request] or you're not sure where to get started,
-say hi in [slack] and a team member would be happy to mentor you.
+say hi in [Slack][slack] and a team member would be happy to mentor you.
 
 We strive for collaboration with [mutual respect for each other][contributing]. Mozilla also has a set of [participation guidelines] which goes into greater detail specific to Mozilla employees and contributors.
 
@@ -55,7 +55,7 @@ a look at [how we handle security bugs over][vulnerabilities], and open a bug at
 
 ### Development Guide
 
-We strive to make the Debugger as development friendly as possible. If you have a question that's not answered in the guide, ask us in [slack]. We also :heart: documentation PRs!
+We strive to make the Debugger as development friendly as possible. If you have a question that's not answered in the guide, ask us in [Slack][slack]. We also :heart: documentation PRs!
 
 |                        |                                             |
 | :--------------------: | :-----------------------------------------: |
@@ -78,11 +78,11 @@ Our [Weekly updates][weekly-updates] are also posted!
 
 ### Discussion
 
-Say hello in [slack] or in the [#devtools-html][irc-devtools-html] channel on irc.mozilla.org.
+Say hello in [Slack][slack] or in the [#devtools-html][irc-devtools-html] channel on irc.mozilla.org.
 
 * **Community Call**: Every Tuesday at 3pm EST and Thursday at 12pm EST. [Join the Hangout][community-call]
 * **DevTools Call**: Every Tuesday at 12pm EST. [Join the DevTools Vidyo][vidyo] Meeting Notes [Google Docs][google-docs]
-* **Pairing**: Ask in [slack] and you'll either find someone or be able to schedule a time for later.
+* **Pairing**: Ask in [Slack][slack] and you'll either find someone or be able to schedule a time for later.
 
 ### License
 

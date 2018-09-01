@@ -11,7 +11,7 @@
 
 We do our best to have a 3 step / 1 minute install process,
 but we use bleeding edge technology and problems do arise. Here are our
-most seen issues. Please stop by and ask us a question in [slack],
+most seen issues. Please stop by and ask us a question in [Slack][slack],
 that's what we're here for!
 
 ### Node
@@ -83,7 +83,7 @@ Try disabling your plugins in firefox and see if that helps.
 ### Windows / Linux
 
 We try our best to provide a consistent cross-platform experience, but there are still
-issues that come up w/ with Windows or Linux. If that happens for you, find us in [slack]
+issues that come up w/ with Windows or Linux. If that happens for you, find us in [Slack][slack]
 and someone will help you out :)
 
 [slack]:https://devtools-html-slack.herokuapp.com/

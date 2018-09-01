@@ -14,8 +14,6 @@ import { features } from "../../utils/prefs";
 import {
   isPaused as getIsPaused,
   getIsWaitingOnBreak,
-  getHistory,
-  getHistoryPosition,
   getCanRewind,
   getSkipPausing
 } from "../../selectors";
@@ -77,15 +75,11 @@ function formatKey(action) {
 }
 
 type Props = {
-  historyPosition: number,
-  history: any,
   isPaused: boolean,
   isWaitingOnBreak: boolean,
   horizontal: boolean,
   canRewind: boolean,
   skipPausing: boolean,
-  timeTravelTo: number => void,
-  clearHistory: () => void,
   resume: () => void,
   stepIn: () => void,
   stepOut: () => void,
@@ -133,10 +127,6 @@ class CommandBar extends Component<Props> {
     this.props[action]();
   }
 
-  setHistory(offset) {
-    this.props.timeTravelTo(this.props.historyPosition + offset);
-  }
-
   renderStepButtons() {
     const { isPaused, canRewind } = this.props;
     const className = isPaused ? "active" : "disabled";
@@ -173,7 +163,6 @@ class CommandBar extends Component<Props> {
 
   resume() {
     this.props.resume();
-    this.props.clearHistory();
   }
 
   renderPauseButton() {
@@ -264,65 +253,6 @@ class CommandBar extends Component<Props> {
     ];
   }
 
-  replayPreviousButton() {
-    const { history, historyPosition, canRewind } = this.props;
-    const historyLength = history.length;
-
-    if (canRewind || !historyLength || historyLength <= 1 || !features.replay) {
-      return null;
-    }
-
-    const enabled = historyPosition === 0;
-    const activeClass = enabled ? "replay-inactive" : "";
-    return debugBtn(
-      () => this.setHistory(-1),
-      `replay-previous ${activeClass}`,
-      "active",
-      L10N.getStr("replayPrevious"),
-      enabled
-    );
-  }
-
-  replayNextButton() {
-    const { history, historyPosition, canRewind } = this.props;
-    const historyLength = history.length;
-
-    if (canRewind || !historyLength || historyLength <= 1 || !features.replay) {
-      return null;
-    }
-
-    const enabled = historyPosition + 1 === historyLength;
-    const activeClass = enabled ? "replay-inactive" : "";
-    return debugBtn(
-      () => this.setHistory(1),
-      `replay-next ${activeClass}`,
-      "active",
-      L10N.getStr("replayNext"),
-      enabled
-    );
-  }
-
-  renderStepPosition() {
-    const { history, historyPosition, canRewind } = this.props;
-    const historyLength = history.length;
-
-    if (canRewind || !historyLength || !features.replay) {
-      return null;
-    }
-
-    const position = historyPosition + 1;
-    const total = historyLength;
-    const activePrev = position > 1 ? "replay-active" : "replay-inactive";
-    const activeNext = position < total ? "replay-active" : "replay-inactive";
-    return (
-      <div className="step-position">
-        <span className={activePrev}>{position}</span>
-        <span> | </span>
-        <span className={activeNext}>{total}</span>
-      </div>
-    );
-  }
-
   renderSkipPausingButton() {
     const { skipPausing, toggleSkipPausing } = this.props;
 
@@ -359,9 +289,6 @@ class CommandBar extends Component<Props> {
 
         {this.renderTimeTravelButtons()}
         <div className="filler" />
-        {this.replayPreviousButton()}
-        {this.renderStepPosition()}
-        {this.replayNextButton()}
         {this.renderSkipPausingButton()}
       </div>
     );
@@ -374,8 +301,6 @@ CommandBar.contextTypes = {
 
 const mapStateToProps = state => ({
   isPaused: getIsPaused(state),
-  history: getHistory(state),
-  historyPosition: getHistoryPosition(state),
   isWaitingOnBreak: getIsWaitingOnBreak(state),
   canRewind: getCanRewind(state),
   skipPausing: getSkipPausing(state)
@@ -384,8 +309,6 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   {
-    timeTravelTo: actions.timeTravelTo,
-    clearHistory: actions.clearHistory,
     resume: actions.resume,
     stepIn: actions.stepIn,
     stepOut: actions.stepOut,

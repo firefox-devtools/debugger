@@ -4,7 +4,7 @@
 
 // @flow
 import { Component } from "react";
-import { getDocument, hasDocument } from "../../utils/monaco/source-documents";
+import { getDocument, hasDocument } from "../../utils/monaco";
 import { isLoaded } from "../../utils/source";
 import { isException } from "../../utils/pause";
 import { connect } from "react-redux";

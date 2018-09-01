@@ -99,6 +99,10 @@
   color: var(--theme-comment);
 }
 
+.sources-list .tree .focused .label .suffix {
+  color: inherit;
+}
+
 .sources-list .tree img.arrow.expanded {
   transform: rotate(0deg);
 }
