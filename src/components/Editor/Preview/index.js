@@ -13,6 +13,7 @@ import { getPreview, getSelectedSource, getIsPaused } from "../../../selectors";
 import actions from "../../../actions";
 import { toEditorRange } from "../../../utils/editor";
 
+// eslint-disable-next-line max-len
 import { HOVER_HIGHLIGHT_DECORATION } from "../../../utils/monaco/source-editor";
 
 import type { Source } from "../../../types";
@@ -36,13 +37,14 @@ type State = {
 };
 
 class Preview extends PureComponent<Props, State> {
-  disposalble: ?Object;
+  disposalbles: Object[];
   hidden: boolean;
   highlightDecorations: any[];
   constructor(props) {
     super(props);
     this.hidden = true;
     this.highlightDecorations = [];
+    this.disposalbles = [];
     this.state = { selecting: false };
   }
 
@@ -57,22 +59,10 @@ class Preview extends PureComponent<Props, State> {
 
   componentWillUnmount() {
     console.log("unmount");
-    if (this.disposalble) {
-      this.disposalble.dispose();
-      this.disposalble = null;
+    if (this.disposalbles) {
+      this.disposalbles.forEach(dispose => dispose.dispose());
+      this.disposalbles = [];
     }
-  }
-
-  hitOnSameNode(target) {
-    if (!this.target) {
-      return false;
-    }
-
-    if (target.element === this.target.element) {
-      return true;
-    }
-
-    return false;
   }
 
   updateListeners(prevProps: ?Props) {
@@ -84,46 +74,53 @@ class Preview extends PureComponent<Props, State> {
     let lastTarget = null;
     if (isPaused && wasNotPaused) {
       const { editor } = this.props;
-      this.disposalble = editor.monaco.onMouseMove(e => {
-        if (
-          lastTarget &&
-          lastTarget.element === e.target.element &&
-          !this.hidden
-        ) {
-          return;
-        }
-        lastTarget = e.target;
+      this.disposalbles.push(
+        editor.monaco.onDidScrollChange(e => {
+          this.onScroll();
+        })
+      );
+      this.disposalbles.push(
+        editor.monaco.onMouseMove(e => {
+          if (
+            lastTarget &&
+            lastTarget.element === e.target.element &&
+            !this.hidden
+          ) {
+            return;
+          }
+          lastTarget = e.target;
 
-        // CONTENT_TEXT
-        if (e.target.type !== 6) {
-          this.onTokenLeave(e);
-          return;
-        }
+          // CONTENT_TEXT
+          if (e.target.type !== 6) {
+            this.onTokenLeave(e);
+            return;
+          }
 
-        const text = editor.monaco
-          .getModel()
-          .getWordAtPosition(e.target.position);
+          const text = editor.monaco
+            .getModel()
+            .getWordAtPosition(e.target.position);
 
-        if (text && text.word && text.startColumn) {
-          this.hidden = false;
-          this.props.updatePreview(
-            e.target.element,
-            text.word,
-            {
-              line: e.target.position.lineNumber,
-              column: text.startColumn
-            },
-            editor
-          );
-        }
-      });
+          if (text && text.word && text.startColumn) {
+            this.hidden = false;
+            this.props.updatePreview(
+              e.target.element,
+              text.word,
+              {
+                line: e.target.position.lineNumber,
+                column: text.startColumn
+              },
+              editor
+            );
+          }
+        })
+      );
     }
 
     if (!isPaused && wasPaused) {
-      if (this.disposalble) {
+      if (this.disposalbles) {
         lastTarget = null;
-        this.disposalble.dispose();
-        this.disposalble = null;
+        this.disposalbles.forEach(dispose => dispose.dispose());
+        this.disposalbles = [];
       }
     }
   }
