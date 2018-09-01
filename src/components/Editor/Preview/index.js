@@ -13,6 +13,8 @@ import { getPreview, getSelectedSource, getIsPaused } from "../../../selectors";
 import actions from "../../../actions";
 import { toEditorRange } from "../../../utils/editor";
 
+import { HOVER_HIGHLIGHT_DECORATION } from "../../../utils/monaco/source-editor";
+
 import type { Source } from "../../../types";
 
 import type { Preview as PreviewType } from "../../../reducers/ast";
@@ -34,95 +36,145 @@ type State = {
 };
 
 class Preview extends PureComponent<Props, State> {
-  disposalble: Object;
-
-  target = null;
+  disposalble: ?Object;
+  hidden: boolean;
+  highlightDecorations: any[];
   constructor(props) {
     super(props);
+    this.hidden = true;
+    this.highlightDecorations = [];
     this.state = { selecting: false };
   }
 
   componentDidMount() {
-    const { editor } = this.props;
-    this.disposalble = editor.monaco.onMouseMove(e => {
-      if (!e.target.position) {
-        return;
-      }
-      const text = editor.monaco
-        .getModel()
-        .getWordAtPosition(e.target.position);
-
-      if (text && text.word && text.startColumn) {
-        this.props.updatePreview(
-          e.target.element,
-          text.word,
-          {
-            line: e.target.position.lineNumber,
-            column: text.startColumn
-          },
-          editor
-        );
-      }
-    });
-    // this.updateListeners();
+    this.updateListeners();
   }
 
   componentDidUpdate(prevProps) {
-    // this.updateListeners(prevProps);
-    // this.updateHighlight(prevProps);
+    this.updateListeners(prevProps);
+    this.updateHighlight(prevProps);
   }
 
   componentWillUnmount() {
-    this.disposalble.dispose();
+    console.log("unmount");
+    if (this.disposalble) {
+      this.disposalble.dispose();
+      this.disposalble = null;
+    }
   }
 
-  // updateListeners(prevProps: ?Props) {
-  //   const { isPaused } = this.props;
+  hitOnSameNode(target) {
+    if (!this.target) {
+      return false;
+    }
 
-  //   const { codeMirror } = this.props.editor;
-  //   const codeMirrorWrapper = codeMirror.getWrapperElement();
-  //   const wasNotPaused = !prevProps || !prevProps.isPaused;
-  //   const wasPaused = prevProps && prevProps.isPaused;
+    if (target.element === this.target.element) {
+      return true;
+    }
 
-  //   if (isPaused && wasNotPaused) {
-  //     codeMirror.on("scroll", this.onScroll);
-  //     codeMirror.on("tokenenter", this.onTokenEnter);
-  //     codeMirror.on("tokenleave", this.onTokenLeave);
-  //     codeMirrorWrapper.addEventListener("mouseup", this.onMouseUp);
-  //     codeMirrorWrapper.addEventListener("mousedown", this.onMouseDown);
-  //   }
+    return false;
+  }
 
-  //   if (!isPaused && wasPaused) {
-  //     codeMirror.off("tokenenter", this.onTokenEnter);
-  //     codeMirror.off("tokenleave", this.onTokenLeave);
-  //     codeMirrorWrapper.removeEventListener("mouseup", this.onMouseUp);
-  //     codeMirrorWrapper.removeEventListener("mousedown", this.onMouseDown);
-  //   }
-  // }
+  updateListeners(prevProps: ?Props) {
+    const { isPaused } = this.props;
 
-  // updateHighlight(prevProps) {
-  //   const { preview } = this.props;
+    const wasNotPaused = !prevProps || !prevProps.isPaused;
+    const wasPaused = prevProps && prevProps.isPaused;
 
-  //   if (preview && !preview.updating) {
-  //     const target = getElementFromPos(preview.cursorPos);
-  //     target && target.classList.add("preview-selection");
-  //   }
+    let lastTarget = null;
+    if (isPaused && wasNotPaused) {
+      const { editor } = this.props;
+      this.disposalble = editor.monaco.onMouseMove(e => {
+        if (
+          lastTarget &&
+          lastTarget.element === e.target.element &&
+          !this.hidden
+        ) {
+          return;
+        }
+        lastTarget = e.target;
 
-  //   if (prevProps.preview && !prevProps.preview.updating) {
-  //     const target = getElementFromPos(prevProps.preview.cursorPos);
-  //     target && target.classList.remove("preview-selection");
-  //   }
-  // }
+        // CONTENT_TEXT
+        if (e.target.type !== 6) {
+          this.onTokenLeave(e);
+          return;
+        }
 
-  // onTokenEnter = ({ target, tokenPos }) => {
-  //   this.props.updatePreview(target, tokenPos, this.props.editor.codeMirror);
-  // };
+        const text = editor.monaco
+          .getModel()
+          .getWordAtPosition(e.target.position);
 
-  // onTokenLeave = e => {
-  //   if (!inPopup(e)) {
-  //     this.props.clearPreview();
-  //   }
-  // }
+        if (text && text.word && text.startColumn) {
+          this.hidden = false;
+          this.props.updatePreview(
+            e.target.element,
+            text.word,
+            {
+              line: e.target.position.lineNumber,
+              column: text.startColumn
+            },
+            editor
+          );
+        }
+      });
+    }
+
+    if (!isPaused && wasPaused) {
+      if (this.disposalble) {
+        lastTarget = null;
+        this.disposalble.dispose();
+        this.disposalble = null;
+      }
+    }
+  }
+
+  updateHighlight(prevProps) {
+    const { preview } = this.props;
+
+    if (preview && !preview.updating) {
+      this.updateHightlightDecoration(
+        preview.location.start,
+        preview.location.end
+      );
+    }
+
+    if (prevProps.preview && !prevProps.preview.updating) {
+      // @todo, rebornix. There is only one highlight at most, right?
+      this.removeHightlightDecoration();
+    }
+  }
+
+  updateHightlightDecoration(start, end) {
+    const { editor } = this.props;
+    const decorations = [
+      {
+        options: HOVER_HIGHLIGHT_DECORATION,
+        range: {
+          startLineNumber: start.line,
+          startColumn: start.column + 1,
+          endLineNumber: end.line,
+          endColumn: end.column + 1
+        }
+      }
+    ];
+    this.highlightDecorations = editor.monaco.deltaDecorations(
+      this.highlightDecorations,
+      decorations
+    );
+  }
+
+  removeHightlightDecoration() {
+    const { editor } = this.props;
+    this.highlightDecorations = editor.monaco.deltaDecorations(
+      this.highlightDecorations,
+      []
+    );
+  }
+
+  onTokenLeave = e => {
+    this.hidden = true;
+    this.props.clearPreview();
+  };
 
   onMouseOver = e => {
     const { target } = e;
@@ -140,10 +192,12 @@ class Preview extends PureComponent<Props, State> {
   };
 
   onScroll = () => {
+    this.hidden = true;
     this.props.clearPreview();
   };
 
   onClose = e => {
+    this.hidden = true;
     this.props.clearPreview();
   };
 

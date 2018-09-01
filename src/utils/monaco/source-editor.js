@@ -61,6 +61,11 @@ export const EMPTY_LINES_DECORATION = ModelDecorationOptions.register({
   marginClassName: "empty-line"
 });
 
+export const HOVER_HIGHLIGHT_DECORATION = ModelDecorationOptions.register({
+  stickiness: 1,
+  className: "preview-selection"
+});
+
 export const BREAKPOINT_DECORATION = {
   DEFAULT: ModelDecorationOptions.register({
     stickiness: 1,
