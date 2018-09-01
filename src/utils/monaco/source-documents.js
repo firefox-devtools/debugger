@@ -4,6 +4,7 @@
 
 import SourceEditor from "./source-editor";
 import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
+// eslint-disable-next-line max-len
 import { StaticServices } from "monaco-editor/esm/vs/editor/standalone/browser/standaloneServices";
 import { isWasm, getWasmLineNumberFormatter } from "../wasm";
 

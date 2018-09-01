@@ -10,10 +10,7 @@ import { isOriginalId } from "devtools-source-map";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { findFunctionText } from "../../utils/function";
 import { findClosestFunction } from "../../utils/ast";
-import {
-  getSourceLocationFromMouseEvent,
-  toSourceLine
-} from "../../utils/editor";
+import { toSourceLine } from "../../utils/editor";
 import { isPretty, getRawSourceURL } from "../../utils/source";
 import {
   getContextMenu,

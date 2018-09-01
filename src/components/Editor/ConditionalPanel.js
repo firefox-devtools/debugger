@@ -82,6 +82,8 @@ export class ConditionalPanel extends PureComponent<Props> {
         accessor.removeZone(this.expressionViewZone);
         this.expressionViewZone = -1;
       });
+
+      this.panel = null;
     }
   }
 
@@ -110,7 +112,7 @@ export class ConditionalPanel extends PureComponent<Props> {
   }
 
   renderToWidget(props: Props) {
-    if (this.cbPanel) {
+    if (this.panel) {
       if (this.props.line && this.props.line == props.line) {
         return props.closeConditionalPanel();
       }

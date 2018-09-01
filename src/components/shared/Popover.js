@@ -136,39 +136,34 @@ class Popover extends Component<Props, State> {
   };
 
   getPopoverCoords() {
-    if (this.$popover) {
-      // const popover = this.$popover;
-      // const editor = this.props.editorRef;
-      // const popoverRect = popover.getBoundingClientRect();
-      // const editorRect = editor.getBoundingClientRect();
-      const targetRect = this.props.targetPosition;
-      // const popoverLeft = this.calculateLeft(
-      //   targetRect,
-      //   editorRect,
-      //   popoverRect
-      // );
-      // const orientation = this.calculateVerticalOrientation(
-      //   targetRect,
-      //   editorRect,
-      //   popoverRect
-      // );
-      // const top =
-      //   orientation == "down"
-      //     ? targetRect.bottom
-      //     : targetRect.top - popoverRect.height;
-
-      const top = targetRect.top + targetRect.height;
-      const targetMid = targetRect.width / 2 - 8;
-
-      return { left: targetRect.left, top, orientation: "down", targetMid };
+    if (!this.$popover || !this.props.editorRef) {
+      return null;
     }
 
-    return {
-      left: popoverLeft,
-      top,
-      orientation,
-      targetMid
-    };
+    // const popover = this.$popover;
+    // const editor = this.props.editorRef;
+    // const popoverRect = popover.getBoundingClientRect();
+    // const editorRect = editor.getBoundingClientRect();
+    const targetRect = this.props.targetPosition;
+    // const popoverLeft = this.calculateLeft(
+    //   targetRect,
+    //   editorRect,
+    //   popoverRect
+    // );
+    // const orientation = this.calculateVerticalOrientation(
+    //   targetRect,
+    //   editorRect,
+    //   popoverRect
+    // );
+    // const top =
+    //   orientation == "down"
+    //     ? targetRect.bottom
+    //     : targetRect.top - popoverRect.height;
+
+    const top = targetRect.top + targetRect.height;
+    const targetMid = targetRect.width / 2 - 8;
+
+    return { left: targetRect.left, top, orientation: "down", targetMid };
   }
 
   getTooltipCoords() {
@@ -187,7 +182,12 @@ class Popover extends Component<Props, State> {
     // const top = enoughRoomForTooltipAbove
     //   ? targetRect.top - tooltipRect.height
     //   : targetRect.bottom;
-    return { left: targetRect.left, top, orientation: "up", targetMid: { x: 0, y: 0 } };
+    return {
+      left: targetRect.left,
+      top,
+      orientation: "up",
+      targetMid: { x: 0, y: 0 }
+    };
   }
 
   getChildren() {

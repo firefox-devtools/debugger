@@ -324,6 +324,10 @@ class Editor extends PureComponent<Props, State> {
       continueToHere
     } = this.props;
 
+    if ((selectedSource && selectedSource.isBlackBoxed) || !selectedSource) {
+      return;
+    }
+
     if (conditionalPanelLine) {
       return closeConditionalPanel();
     }
@@ -452,11 +456,7 @@ class Editor extends PureComponent<Props, State> {
     const { selectedSource, emptyLines } = nextProps;
     const { editor } = this.state;
 
-    if (!editor) {
-      return;
-    }
-
-    if (!emptyLines) {
+    if (!editor || !selectedSource || !emptyLines || !emptyLines.length) {
       return;
     }
 
