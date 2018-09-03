@@ -14,6 +14,7 @@ function render(overrides = {}) {
     endPanelCollapsed: false,
     setActiveSearch: jest.fn(),
     openQuickOpen: jest.fn(),
+    toggleShortcutsModal: jest.fn(),
     ...overrides
   };
   const component = shallow(<WelcomeBox {...props} />);
