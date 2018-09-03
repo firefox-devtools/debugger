@@ -53,7 +53,7 @@ export class WelcomeBox extends Component<Props> {
 
     const searchSourcesLabel = L10N.getStr("welcome.search").substring(2);
     const searchProjectLabel = L10N.getStr("welcome.findInFiles").substring(2);
-    const moreShortcutsLabel = L10N.getStr("welcome.moreShorcuts");
+    const moreShortcutsLabel = L10N.getStr("welcome.moreShortcuts");
     const { setActiveSearch, openQuickOpen, toggleShortcutsModal } = this.props;
 
     return (
