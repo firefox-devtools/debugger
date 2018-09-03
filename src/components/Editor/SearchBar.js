@@ -51,7 +51,9 @@ type State = {
   selectedResultIndex: number,
   count: number,
   index: number,
-  inputFocused: boolean
+  inputFocused: boolean,
+  historyPosition: number,
+  history: Array<string>
 };
 
 type Props = {
@@ -78,7 +80,9 @@ class SearchBar extends Component<Props, State> {
       selectedResultIndex: 0,
       count: 0,
       index: -1,
-      inputFocused: false
+      inputFocused: false,
+      history: [],
+      historyPosition: 0
     };
   }
 
@@ -212,12 +216,46 @@ class SearchBar extends Component<Props, State> {
   };
 
   onKeyDown = (e: any) => {
+    if (e.key === "ArrowUp") {
+      const currentPosition = this.state.historyPosition;
+      const previousHistoryPosition = currentPosition - 1;
+      const previousInHistory = this.state.history[previousHistoryPosition];
+      if (previousInHistory !== undefined) {
+        e.preventDefault();
+        this.setState({
+          query: previousInHistory,
+          historyPosition: previousHistoryPosition
+        });
+      }
+      return;
+    }
+    if (e.key === "ArrowDown") {
+      const currentPosition = this.state.historyPosition;
+      const nextHistoryPosition = currentPosition + 1;
+      const nextInHistory = this.state.history[nextHistoryPosition];
+      if (nextInHistory !== undefined) {
+        this.setState({
+          query: nextInHistory,
+          historyPosition: nextHistoryPosition
+        });
+      }
+      return;
+    }
+
     if (e.key !== "Enter" && e.key !== "F3") {
       return;
     }
 
     this.traverseResults(e, e.shiftKey);
     e.preventDefault();
+
+    const newHistory = this.state.history;
+    const inputValue = e.target.value;
+    newHistory.push(inputValue);
+    this.setState({
+      history: newHistory,
+      historyPosition: newHistory.length
+    });
     return this.doSearch(e.target.value);
   };
 
