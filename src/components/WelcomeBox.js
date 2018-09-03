@@ -21,7 +21,8 @@ type Props = {
   endPanelCollapsed: boolean,
   togglePaneCollapse: Function,
   setActiveSearch: (?ActiveSearchType) => any,
-  openQuickOpen: (query?: string) => void
+  openQuickOpen: (query?: string) => void,
+  toggleShortcutsModal: () => void
 };
 
 export class WelcomeBox extends Component<Props> {
@@ -52,7 +53,8 @@ export class WelcomeBox extends Component<Props> {
 
     const searchSourcesLabel = L10N.getStr("welcome.search").substring(2);
     const searchProjectLabel = L10N.getStr("welcome.findInFiles").substring(2);
-    const { setActiveSearch, openQuickOpen } = this.props;
+    const moreShortcutsLabel = L10N.getStr("welcome.moreShorcuts");
+    const { setActiveSearch, openQuickOpen, toggleShortcutsModal } = this.props;
 
     return (
       <div className="welcomebox">
@@ -75,6 +77,15 @@ export class WelcomeBox extends Component<Props> {
             >
               <span className="shortcutKey">{searchProjectShortcut}</span>
               <span className="shortcutLabel">{searchProjectLabel}</span>
+            </p>
+            <p
+              className="welcomebox__moreShortcuts"
+              role="button"
+              tabIndex="0"
+              onClick={() => toggleShortcutsModal()}
+            >
+              <span className="shortcutKey"> </span>
+              <span className="shortcutLabel">{moreShortcutsLabel}</span>
             </p>
           </div>
           {this.renderToggleButton()}

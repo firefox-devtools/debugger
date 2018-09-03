@@ -51,12 +51,14 @@
 }
 
 .welcomebox__searchSources,
-.welcomebox__searchProject {
+.welcomebox__searchProject,
+.welcomebox__moreShortcuts {
   transition: color 0.15s linear;
 }
 
 .welcomebox__searchSources:hover,
-.welcomebox__searchProject:hover {
+.welcomebox__searchProject:hover,
+.welcomebox__moreShortcuts:hover {
   color: var(--theme-body-color);
 }
 
@@ -69,6 +71,10 @@
 .shortcutLabel {
   text-align: left;
   padding-left: 10px;
+}
+
+.welcomebox__moreShortcuts .shortcutLabel {
+  text-decoration: underline; 
 }
 
 .shortcutFunction {
