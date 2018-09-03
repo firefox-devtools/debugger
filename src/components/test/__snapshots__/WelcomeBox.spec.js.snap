@@ -58,7 +58,7 @@ exports[`WelomeBox renders with default values 1`] = `
         <span
           className="shortcutLabel"
         >
-          More shortcuts...
+          More shortcuts…
         </span>
       </p>
     </div>
