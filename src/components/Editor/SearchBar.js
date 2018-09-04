@@ -51,9 +51,7 @@ type State = {
   selectedResultIndex: number,
   count: number,
   index: number,
-  inputFocused: boolean,
-  historyPosition: number,
-  history: Array<string>
+  inputFocused: boolean
 };
 
 type Props = {
@@ -216,47 +214,17 @@ class SearchBar extends Component<Props, State> {
   };
 
   onKeyDown = (e: any) => {
-    if (e.key === "ArrowUp") {
-      const currentPosition = this.state.historyPosition;
-      const previousHistoryPosition = currentPosition - 1;
-      const previousInHistory = this.state.history[previousHistoryPosition];
-      if (previousInHistory !== undefined) {
-        e.preventDefault();
-        this.setState({
-          query: previousInHistory,
-          historyPosition: previousHistoryPosition
-        });
-      }
-      return;
-    }
-    if (e.key === "ArrowDown") {
-      const currentPosition = this.state.historyPosition;
-      const nextHistoryPosition = currentPosition + 1;
-      const nextInHistory = this.state.history[nextHistoryPosition];
-      if (nextInHistory !== undefined) {
-        this.setState({
-          query: nextInHistory,
-          historyPosition: nextHistoryPosition
-        });
-      }
-      return;
-    }
-
     if (e.key !== "Enter" && e.key !== "F3") {
       return;
     }
 
     this.traverseResults(e, e.shiftKey);
     e.preventDefault();
-
-    const newHistory = this.state.history;
-    const inputValue = e.target.value;
-    newHistory.push(inputValue);
-    this.setState({
-      history: newHistory,
-      historyPosition: newHistory.length
-    });
     return this.doSearch(e.target.value);
+  };
+
+  onHistoryScroll = (historyValue: string) => {
+    this.setState({ query: historyValue });
   };
 
   // Renderers
@@ -358,6 +326,7 @@ class SearchBar extends Component<Props, State> {
           onBlur={this.onBlur}
           showErrorEmoji={this.shouldShowErrorEmoji()}
           onKeyDown={this.onKeyDown}
+          onHistoryScroll={this.onHistoryScroll}
           handleNext={e => this.traverseResults(e, false)}
           handlePrev={e => this.traverseResults(e, true)}
           handleClose={this.closeSearch}

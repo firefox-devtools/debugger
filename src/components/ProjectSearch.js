@@ -56,9 +56,7 @@ type Item = Result | Match;
 
 type State = {
   inputValue: string,
-  inputFocused: boolean,
-  historyPosition: number,
-  history: Array<string>
+  inputFocused: boolean
 };
 
 type Props = {
@@ -174,56 +172,25 @@ export class ProjectSearch extends Component<Props, State> {
   getResultCount = () =>
     this.getResults().reduce((count, file) => count + file.matches.length, 0);
 
-  onKeyDown = (e: any) => {
+  onKeyDown = (e: SyntheticKeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Escape") {
       return;
     }
 
     e.stopPropagation();
 
-    if (e.key === "ArrowUp") {
-      const currentPosition = this.state.historyPosition;
-      const previousHistoryPosition = currentPosition - 1;
-      const previousInHistory = this.state.history[previousHistoryPosition];
-      if (previousInHistory !== undefined) {
-        e.preventDefault();
-        this.setState({
-          inputValue: previousInHistory,
-          historyPosition: previousHistoryPosition
-        });
-      }
-      return;
-    }
-    if (e.key === "ArrowDown") {
-      const currentPosition = this.state.historyPosition;
-      const nextHistoryPosition = currentPosition + 1;
-      const nextInHistory = this.state.history[nextHistoryPosition];
-      if (nextInHistory !== undefined) {
-        this.setState({
-          inputValue: nextInHistory,
-          historyPosition: nextHistoryPosition
-        });
-      }
-      return;
-    }
-
     if (e.key !== "Enter") {
       return;
     }
-
-    const newHistory = this.state.history;
-    const inputValue = e.target.value;
-    newHistory.push(inputValue);
-    this.setState({
-      history: newHistory,
-      historyPosition: newHistory.length
-    });
-
     this.focusedItem = null;
     const query = sanitizeQuery(this.state.inputValue);
     if (query) {
       this.props.searchSources(query);
     }
+  };
+
+  onHistoryScroll = (historyValue: string) => {
+    this.setState({ inputValue: historyValue });
   };
 
   onEnterPress = () => {
@@ -353,6 +320,7 @@ export class ProjectSearch extends Component<Props, State> {
         onFocus={() => this.setState({ inputFocused: true })}
         onBlur={() => this.setState({ inputFocused: false })}
         onKeyDown={this.onKeyDown}
+        onHistoryScroll={this.onHistoryScroll}
         handleClose={this.props.closeProjectSearch}
         ref="searchInput"
       />
