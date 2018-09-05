@@ -47,6 +47,11 @@ async function _resolveAndFetch(generatedSource: Source): SourceMapConsumer {
   let map = new SourceMapConsumer(fetched.content, baseURL);
   if (generatedSource.isWasm) {
     map = new WasmRemap(map);
+    // Check if experimental scope info exists.
+    if (fetched.content.includes("x-scopes")) {
+      const parsedJSON = JSON.parse(fetched.content);
+      map.xScopes = parsedJSON["x-scopes"];
+    }
   }
 
   return map;
