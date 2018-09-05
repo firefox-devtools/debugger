@@ -3,35 +3,10 @@
 
 // Tests that the source tree works.
 
-async function waitForSourceCount(dbg, i) {
-  // We are forced to wait until the DOM nodes appear because the
-  // source tree batches its rendering.
-  await waitUntil(() => {
-    return findAllElements(dbg, "sourceNodes").length === i;
-  }, `waiting for ${i} sources`);
-}
-
-async function assertSourceCount(dbg, count) {
-  await waitForSourceCount(dbg, count);
-  is(findAllElements(dbg, "sourceNodes").length, count, `${count} sources`);
-}
-
 function getLabel(dbg, index) {
   return findElement(dbg, "sourceNode", index)
     .textContent.trim()
     .replace(/^[\s\u200b]*/g, "");
-}
-
-async function waitForNodeToGainFocus(dbg, index) {
-  await waitUntil(() => {
-    return findElement(dbg, "sourceNode", index).classList.contains("focused");
-  }, `waiting for source node ${index} to be focused`);
-}
-
-async function assertNodeIsFocused(dbg, index) {
-  await waitForNodeToGainFocus(dbg, index);
-  const node = findElement(dbg, "sourceNode", index);
-  ok(node.classList.contains("focused"), `${index} node is focused`);
 }
 
 add_task(async function() {
@@ -81,62 +56,4 @@ add_task(async function() {
     "math.min.js",
     "math.min.js - The dynamic script exists"
   );
-});
-
-// Test keyboard arrow behaviour
-add_task(async function() {
-  const dbg = await initDebugger("doc-sources.html");
-  await waitForSources(dbg, "simple1", "simple2", "nested-source", "long.js");
-
-  await clickElement(dbg, "sourceDirectoryLabel", 2);
-  await assertSourceCount(dbg, 7);
-
-  // Right key on open dir
-  await pressKey(dbg, "Right");
-  await assertNodeIsFocused(dbg, 3);
-
-  // Right key on closed dir
-  await pressKey(dbg, "Right");
-  await assertSourceCount(dbg, 8);
-  await assertNodeIsFocused(dbg, 3);
-
-  // Left key on a open dir
-  await pressKey(dbg, "Left");
-  await assertSourceCount(dbg, 7);
-  await assertNodeIsFocused(dbg, 3);
-
-  // Down key on a closed dir
-  await pressKey(dbg, "Down");
-  await assertNodeIsFocused(dbg, 4);
-
-  // Right key on a source
-  await pressKey(dbg, "Right");
-  await assertNodeIsFocused(dbg, 5);
-
-  // Down key on a source
-  await pressKey(dbg, "Down");
-  await assertNodeIsFocused(dbg, 6);
-
-  // Go to bottom of tree and press down key
-  await clickElement(dbg, "sourceDirectoryLabel", 7);
-  await pressKey(dbg, "Down");
-  await assertNodeIsFocused(dbg, 7);
-
-  // Up key on a source
-  await pressKey(dbg, "Up");
-  await assertNodeIsFocused(dbg, 6);
-
-  // Left key on a source
-  await pressKey(dbg, "Left");
-  await assertNodeIsFocused(dbg, 2);
-
-  // Left key on a closed dir
-  await pressKey(dbg, "Left");
-  await assertSourceCount(dbg, 2);
-  await pressKey(dbg, "Left");
-  await assertNodeIsFocused(dbg, 1);
-
-  // Up Key at the top of the source tree
-  await pressKey(dbg, "Up");
-  await assertNodeIsFocused(dbg, 1);
 });
