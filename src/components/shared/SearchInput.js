@@ -148,43 +148,45 @@ class SearchInput extends Component<Props, State> {
 
   onKeyDown = (e: any) => {
     const { onHistoryScroll, onKeyDown } = this.props;
-    if (onHistoryScroll) {
-      if (e.key === "ArrowUp") {
-        const currentPosition = this.state.historyPosition;
-        const previous = currentPosition - 1;
-        const previousInHistory = this.state.history[previous];
-        if (previousInHistory !== undefined) {
-          e.preventDefault();
-          this.setState({ historyPosition: previous });
-          onHistoryScroll(previousInHistory);
-        }
-        return;
-      }
-      if (e.key === "ArrowDown") {
-        const currentPosition = this.state.historyPosition;
-        const next = currentPosition + 1;
-        const nextInHistory = this.state.history[next];
-        if (nextInHistory !== undefined) {
-          this.setState({ historyPosition: next });
-          onHistoryScroll(nextInHistory);
-        }
-        return;
-      }
-      if (e.key === "Enter") {
-        const newHistory = this.state.history;
-        const inputValue = e.target.value;
-        const previousIndex = newHistory.indexOf(inputValue);
-        if (previousIndex !== -1) {
-          newHistory.splice(previousIndex, 1);
-        }
-        newHistory.push(inputValue);
-        this.setState({
-          history: newHistory,
-          historyPosition: newHistory.length
-        });
-      }
+    if (!onHistoryScroll) {
+      return onKeyDown(e);
     }
-    onKeyDown(e);
+
+    if (e.key === "ArrowUp") {
+      const currentPosition = this.state.historyPosition;
+      const previous = currentPosition - 1;
+      const previousInHistory = this.state.history[previous];
+      if (previousInHistory !== undefined) {
+        e.preventDefault();
+        this.setState({ historyPosition: previous });
+        onHistoryScroll(previousInHistory);
+      }
+      return;
+    }
+    if (e.key === "ArrowDown") {
+      const currentPosition = this.state.historyPosition;
+      const next = currentPosition + 1;
+      const nextInHistory = this.state.history[next];
+      if (nextInHistory !== undefined) {
+        this.setState({ historyPosition: next });
+        onHistoryScroll(nextInHistory);
+      }
+      return;
+    }
+    if (e.key === "Enter") {
+      const newHistory = this.state.history;
+      const inputValue = e.target.value;
+      const previousIndex = newHistory.indexOf(inputValue);
+      if (previousIndex !== -1) {
+        newHistory.splice(previousIndex, 1);
+      }
+      newHistory.push(inputValue);
+      this.setState({
+        history: newHistory,
+        historyPosition: newHistory.length - 1
+      });
+      return onKeyDown(e);
+    }
   };
 
   renderSummaryMsg() {
