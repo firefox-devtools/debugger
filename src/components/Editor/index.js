@@ -120,8 +120,10 @@ class Editor extends PureComponent<Props, State> {
       return;
     }
 
+    startOperation();
     resizeBreakpointGutter(this.state.editor.codeMirror);
     resizeToggleButton(this.state.editor.codeMirror);
+    endOperation();
   }
 
   componentWillUpdate(nextProps) {
@@ -151,8 +153,10 @@ class Editor extends PureComponent<Props, State> {
     const { codeMirror } = editor;
     const codeMirrorWrapper = codeMirror.getWrapperElement();
 
+    startOperation();
     resizeBreakpointGutter(codeMirror);
     resizeToggleButton(codeMirror);
+    endOperation();
 
     codeMirror.on("gutterClick", this.onGutterClick);
 
@@ -237,7 +241,6 @@ class Editor extends PureComponent<Props, State> {
         updateDocument(editor, selectedSource);
       } else {
         startOperation();
-
         this.setText(this.props);
         this.setSize(this.props);
         endOperation();
