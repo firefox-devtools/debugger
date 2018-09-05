@@ -6,7 +6,7 @@
 
 import { isOriginalId } from "devtools-source-map";
 import { PROMISE } from "../utils/middleware/promise";
-import { getGeneratedSource, getSourceFromId } from "../../selectors";
+import { getGeneratedSource, getSource } from "../../selectors";
 import * as parser from "../../workers/parser";
 import { isLoaded } from "../../utils/source";
 import { Telemetry } from "devtools-modules";
@@ -42,8 +42,12 @@ async function loadSource(source: Source, { sourceMaps, client }) {
  * @memberof actions/sources
  * @static
  */
-export function loadSourceText(source: Source) {
+export function loadSourceText(source: ?Source) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
+    if (!source) {
+      return;
+    }
+
     const id = source.id;
     // Fetch the source text only once.
     if (requests.has(id)) {
@@ -70,7 +74,11 @@ export function loadSourceText(source: Source) {
       return;
     }
 
-    const newSource = getSourceFromId(getState(), source.id);
+    const newSource = getSource(getState(), source.id);
+    if (!newSource) {
+      return;
+    }
+
     if (isOriginalId(newSource.id) && !newSource.isWasm) {
       const generatedSource = getGeneratedSource(getState(), source);
       await dispatch(loadSourceText(generatedSource));
