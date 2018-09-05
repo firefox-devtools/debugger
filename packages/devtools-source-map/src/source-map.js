@@ -17,7 +17,7 @@ const { fetchSourceMap } = require("./utils/fetchSourceMap");
 const {
   getSourceMap,
   setSourceMap,
-  clearSourceMaps
+  clearSourceMaps: clearSourceMapsRequests
 } = require("./utils/sourceMapRequests");
 const {
   originalToGeneratedId,
@@ -26,6 +26,7 @@ const {
   isOriginalId,
   getContentType
 } = require("./utils");
+const { clearWasmXScopes } = require("./utils/wasmXScopes");
 
 import type { Location, Source, SourceId } from "debugger-html";
 
@@ -306,6 +307,11 @@ function applySourceMap(
 
   const map = SourceMapConsumer(generator.toJSON());
   setSourceMap(generatedId, Promise.resolve(map));
+}
+
+function clearSourceMaps() {
+  clearSourceMapsRequests();
+  clearWasmXScopes();
 }
 
 module.exports = {
