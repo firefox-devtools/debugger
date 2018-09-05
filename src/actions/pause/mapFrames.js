@@ -4,7 +4,7 @@
 
 // @flow
 
-import { getFrames, getSymbols, getSourceFromId } from "../../selectors";
+import { getFrames, getSymbols, getSource } from "../../selectors";
 import assert from "../../utils/assert";
 import { findClosestFunction } from "../../utils/ast";
 
@@ -46,7 +46,12 @@ export function mapDisplayNames(
     if (frame.isOriginal) {
       return frame;
     }
-    const source = getSourceFromId(getState(), frame.location.sourceId);
+    const source = getSource(getState(), frame.location.sourceId);
+
+    if (!source) {
+      return frame;
+    }
+
     const symbols = getSymbols(getState(), source);
 
     if (!symbols || !symbols.functions) {
@@ -68,11 +73,12 @@ function isWasmOriginalSourceFrame(frame, getState: () => State): boolean {
   if (isGeneratedId(frame.location.sourceId)) {
     return false;
   }
-  const generatedSource = getSourceFromId(
+  const generatedSource = getSource(
     getState(),
     frame.generatedLocation.sourceId
   );
-  return generatedSource.isWasm;
+
+  return Boolean(generatedSource && generatedSource.isWasm);
 }
 
 async function expandFrames(

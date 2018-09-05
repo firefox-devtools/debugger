@@ -56,8 +56,19 @@ async function paused(_: "paused", packet: PausedPacket) {
     return;
   }
 
-  // Eagerly fetch the frames
-  const response = await threadClient.getFrames(0, CALL_STACK_PAGE_SIZE);
+  let response;
+  try {
+    // Eagerly fetch the frames
+    response = await threadClient.getFrames(0, CALL_STACK_PAGE_SIZE);
+  } catch (e) {
+    console.log(e);
+    return;
+  }
+
+  // NOTE: this happens if we fetch frames and then immediately navigate
+  if (!response.hasOwnProperty("frames")) {
+    return;
+  }
 
   if (why.type != "alreadyPaused") {
     const pause = createPause(packet, response);
