@@ -57,7 +57,7 @@ type Props = {
   selectedSource?: Source,
   debuggeeUrl: string,
   projectRoot: string,
-  expanded?: boolean,
+  expanded: Set<string> | null,
   selectSource: string => mixed,
   setExpandedState: (Set<string>) => mixed,
   clearProjectDirectoryRoot: () => void
