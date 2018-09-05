@@ -3364,6 +3364,10 @@ devtools-config@^0.0.16:
   version "0.0.16"
   resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.16.tgz#e7251788422f42a16aa1372b6adbebfcb7a74994"
 
+devtools-connection@0.0.12:
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/devtools-connection/-/devtools-connection-0.0.12.tgz#a1bb6add55e4b317dd5122c25d3bb47bc896918c"
+
 devtools-connection@^0.0.9:
   version "0.0.9"
   resolved "https://registry.yarnpkg.com/devtools-connection/-/devtools-connection-0.0.9.tgz#31121090c8594da7bcc5ee763a34002de932f317"
@@ -3378,9 +3382,9 @@ devtools-environment@^0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/devtools-environment/-/devtools-environment-0.0.5.tgz#0333bf35009fe09c21c315069e6b4d9177a4b8d1"
 
-devtools-launchpad@0.0.131:
-  version "0.0.131"
-  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.131.tgz#ce43d9900a25644b1ec58b02a2b6bb3b479d4def"
+devtools-launchpad@0.0.134:
+  version "0.0.134"
+  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.134.tgz#28b05a33c04a55f951728317c7adeca909ddf25f"
   dependencies:
     amd-loader "0.0.8"
     autoprefixer "^7.1.2"
@@ -3405,7 +3409,7 @@ devtools-launchpad@0.0.131:
     css-loader "^0.26.1"
     debug "^3.1.0"
     devtools-config "^0.0.16"
-    devtools-connection "^0.0.9"
+    devtools-connection "0.0.12"
     devtools-contextmenu "^0.0.9"
     devtools-environment "^0.0.5"
     devtools-license-check "^0.7.0"
@@ -4790,9 +4794,9 @@ flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
 
-flow-bin@^0.79.0:
-  version "0.79.1"
-  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.79.1.tgz#01c9f427baa6556753fa878c192d42e1ecb764b6"
+flow-bin@^0.80.0:
+  version "0.80.0"
+  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.80.0.tgz#04cc1ee626a6f50786f78170c92ebe1745235403"
 
 flush-write-stream@^1.0.0, flush-write-stream@^1.0.2:
   version "1.0.3"
