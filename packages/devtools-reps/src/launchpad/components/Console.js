@@ -29,10 +29,7 @@ class Console extends Component {
       expressions: PropTypes.object.isRequired,
       hideResultPacket: PropTypes.func.isRequired,
       navigateInputHistory: PropTypes.func.isRequired,
-      showResultPacket: PropTypes.func.isRequired,
-      createObjectClient: PropTypes.func.isRequired,
-      createLongStringClient: PropTypes.func.isRequired,
-      releaseActor: PropTypes.func.isRequired
+      showResultPacket: PropTypes.func.isRequired
     };
   }
 
@@ -54,10 +51,7 @@ class Console extends Component {
       expressions,
       hideResultPacket,
       navigateInputHistory,
-      showResultPacket,
-      createObjectClient,
-      createLongStringClient,
-      releaseActor
+      showResultPacket
     } = this.props;
 
     return dom.main(
@@ -73,10 +67,7 @@ class Console extends Component {
       ResultsList({
         expressions: expressions.reverse(),
         hideResultPacket,
-        showResultPacket,
-        createObjectClient,
-        createLongStringClient,
-        releaseActor
+        showResultPacket
       })
     );
   }

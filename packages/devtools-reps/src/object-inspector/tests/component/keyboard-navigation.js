@@ -2,10 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-const { mount } = require("enzyme");
-const React = require("react");
-const { createFactory } = React;
-const ObjectInspector = createFactory(require("../../index"));
+const { mountObjectInspector } = require("../test-utils");
 const repsPath = "../../../reps";
 const { MODE } = require(`${repsPath}/constants`);
 
@@ -16,75 +13,70 @@ const gripRepStubs = require(`${repsPath}/stubs/grip`);
 function generateDefaults(overrides) {
   return {
     autoExpandDepth: 0,
-    createObjectClient: grip => ObjectClient(grip),
-    injectWaitService: true,
     mode: MODE.LONG,
     ...overrides
   };
+}
+
+function mount(props) {
+  const client = { createObjectClient: grip => ObjectClient(grip) };
+
+  return mountObjectInspector({
+    client,
+    props: generateDefaults(props)
+  });
 }
 
 describe("ObjectInspector - keyboard navigation", () => {
   it("works as expected", async () => {
     const stub = gripRepStubs.get("testMaxProps");
 
-    const oi = mount(
-      ObjectInspector(
-        generateDefaults({
-          roots: [{ path: "root", contents: { value: stub } }]
-        })
-      )
-    );
-    expect(formatObjectInspector(oi)).toMatchSnapshot();
+    const { wrapper, store } = mount({
+      roots: [{ path: "root", contents: { value: stub } }]
+    });
 
-    oi.simulate("focus");
-    expect(formatObjectInspector(oi)).toMatchSnapshot();
+    expect(formatObjectInspector(wrapper)).toMatchSnapshot();
+
+    wrapper.simulate("focus");
+    expect(formatObjectInspector(wrapper)).toMatchSnapshot();
 
     // Pressing right arrow key should expand the node and lod its properties.
-    const onPropertiesLoaded = waitForDispatch(
-      getStore(oi),
-      "NODE_PROPERTIES_LOADED"
-    );
-    simulateKeyDown(oi, "ArrowRight");
+    const onPropertiesLoaded = waitForDispatch(store, "NODE_PROPERTIES_LOADED");
+    simulateKeyDown(wrapper, "ArrowRight");
     await onPropertiesLoaded;
-    oi.update();
-    expect(formatObjectInspector(oi)).toMatchSnapshot();
+    wrapper.update();
+    expect(formatObjectInspector(wrapper)).toMatchSnapshot();
 
     // The child node should be focused.
-    await keyNavigate(oi, "ArrowDown");
-    expect(formatObjectInspector(oi)).toMatchSnapshot();
+    keyNavigate(wrapper, store, "ArrowDown");
+    expect(formatObjectInspector(wrapper)).toMatchSnapshot();
 
     // The root node should be focused again.
-    await keyNavigate(oi, "ArrowLeft");
-    expect(formatObjectInspector(oi)).toMatchSnapshot();
+    keyNavigate(wrapper, store, "ArrowLeft");
+    expect(formatObjectInspector(wrapper)).toMatchSnapshot();
 
     // The child node should be focused again.
-    await keyNavigate(oi, "ArrowRight");
-    expect(formatObjectInspector(oi)).toMatchSnapshot();
+    keyNavigate(wrapper, store, "ArrowRight");
+    expect(formatObjectInspector(wrapper)).toMatchSnapshot();
 
     // The root node should be focused again.
-    await keyNavigate(oi, "ArrowUp");
-    expect(formatObjectInspector(oi)).toMatchSnapshot();
+    keyNavigate(wrapper, store, "ArrowUp");
+    expect(formatObjectInspector(wrapper)).toMatchSnapshot();
 
-    oi.simulate("blur");
-    expect(formatObjectInspector(oi)).toMatchSnapshot();
+    wrapper.simulate("blur");
+    expect(formatObjectInspector(wrapper)).toMatchSnapshot();
   });
 });
 
-async function keyNavigate(oi, key) {
-  const onFocusDispatched = waitForDispatch(getStore(oi), "NODE_FOCUS");
-  simulateKeyDown(oi, key);
-  await onFocusDispatched;
-  oi.update();
+function keyNavigate(wrapper, store, key) {
+  simulateKeyDown(wrapper, key);
+  wrapper.update();
 }
 
-function simulateKeyDown(oi, key) {
-  oi.simulate("keydown", {
+function simulateKeyDown(wrapper, key) {
+  wrapper.simulate("keydown", {
     key,
     preventDefault: () => {},
     stopPropagation: () => {}
   });
-}
-
-function getStore(oi) {
-  return oi.instance().getStore();
 }

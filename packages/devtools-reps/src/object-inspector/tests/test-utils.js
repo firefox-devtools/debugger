@@ -4,6 +4,24 @@
 
 // @flow
 import type { Store } from "../types";
+const { mount } = require("enzyme");
+const React = require("react");
+
+const { createFactory } = React;
+
+const { Provider } = require("react-redux");
+const { combineReducers } = require("redux");
+const configureStore = require("../store");
+const objectInspector = require("../index");
+const {
+  getLoadedProperties,
+  getLoadedPropertyKeys,
+  getExpandedPaths,
+  getExpandedPathKeys
+} = require("../reducer");
+
+const ObjectInspector = createFactory(objectInspector.ObjectInspector);
+
 const {
   WAIT_UNTIL_TYPE
 } = require("../../shared/redux/middleware/waitUntilService");
@@ -143,7 +161,7 @@ function storeHasLoadedPropertiesKeys(
 }
 
 function storeHasLoadedProperty(store: Store, key: string): boolean {
-  return [...store.getState().loadedProperties.keys()].some(
+  return getLoadedPropertyKeys(store.getState()).some(
     k => k.toString() === key
   );
 }
@@ -153,7 +171,7 @@ function storeHasExactLoadedProperties(
   expectedKeys: Array<string>
 ) {
   return (
-    expectedKeys.length === store.getState().loadedProperties.size &&
+    expectedKeys.length === getLoadedProperties(store.getState()).size &&
     expectedKeys.every(key => storeHasLoadedProperty(store, key))
   );
 }
@@ -163,16 +181,40 @@ function storeHasExpandedPaths(store: Store, expectedKeys: Array<string>) {
 }
 
 function storeHasExpandedPath(store: Store, key: string): boolean {
-  return [...store.getState().expandedPaths.keys()].some(
-    k => k.toString() === key
-  );
+  return getExpandedPathKeys(store.getState()).some(k => k.toString() === key);
 }
 
 function storeHasExactExpandedPaths(store: Store, expectedKeys: Array<string>) {
   return (
-    expectedKeys.length === store.getState().expandedPaths.size &&
+    expectedKeys.length === getExpandedPaths(store.getState()).size &&
     expectedKeys.every(key => storeHasExpandedPath(store, key))
   );
+}
+
+function createStore(client: any, initialState: any = {}) {
+  const reducers = { objectInspector: objectInspector.reducer.default };
+  return configureStore.default({
+    thunkArgs: args => ({ ...args, client })
+  })(combineReducers(reducers), initialState);
+}
+
+function mountObjectInspector({ props, client, initialState = {} }) {
+  if (initialState.objectInspector) {
+    initialState.objectInspector = {
+      expandedPaths: new Set(),
+      loadedProperties: new Map(),
+      actors: new Set(),
+      ...initialState.objectInspector
+    };
+  }
+  const store = createStore(client, initialState);
+  const wrapper = mount(
+    createFactory(Provider)({ store }, ObjectInspector(props))
+  );
+
+  const tree = wrapper.find(".tree");
+
+  return { store, tree, wrapper, client };
 }
 
 module.exports = {
@@ -185,5 +227,7 @@ module.exports = {
   storeHasExactLoadedProperties,
   waitFor,
   waitForDispatch,
-  waitForLoadedProperties
+  waitForLoadedProperties,
+  mountObjectInspector,
+  createStore
 };

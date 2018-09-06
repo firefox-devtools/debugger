@@ -3,11 +3,11 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 const React = require("react");
-const { Component, createFactory } = React;
+const { Component } = React;
 const PropTypes = require("prop-types");
 const dom = require("react-dom-factories");
 const { MODE } = require("../../reps/constants");
-const ObjectInspector = createFactory(require("../../index").ObjectInspector);
+const { ObjectInspector } = require("../../index").objectInspector;
 const { Rep } = require("../../reps/rep");
 
 class Result extends Component {
@@ -15,10 +15,7 @@ class Result extends Component {
     return {
       expression: PropTypes.object.isRequired,
       showResultPacket: PropTypes.func.isRequired,
-      hideResultPacket: PropTypes.func.isRequired,
-      createObjectClient: PropTypes.func.isRequired,
-      createLongStringClient: PropTypes.func.isRequired,
-      releaseActor: PropTypes.func.isRequired
+      hideResultPacket: PropTypes.func.isRequired
     };
   }
 
@@ -58,17 +55,12 @@ class Result extends Component {
   }
 
   renderRep({ object, modeKey }) {
-    const {
-      createObjectClient,
-      createLongStringClient,
-      releaseActor
-    } = this.props;
-    const path = object.actor;
+    const path = Symbol(modeKey + object.actor);
 
     return dom.div(
       {
         className: "rep-element",
-        key: `${path}${modeKey}`,
+        key: path.toString(),
         "data-mode": modeKey
       },
       ObjectInspector({
@@ -81,9 +73,6 @@ class Result extends Component {
           }
         ],
         autoExpandDepth: 0,
-        createObjectClient,
-        createLongStringClient,
-        releaseActor,
         mode: MODE[modeKey],
         // The following properties are optional function props called by the
         // objectInspector on some occasions. Here we pass dull functions that
