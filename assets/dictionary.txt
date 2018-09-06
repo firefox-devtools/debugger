@@ -203,3 +203,4 @@ DocSearch
 mdn
 bytecode
 eval
+asyncStore
