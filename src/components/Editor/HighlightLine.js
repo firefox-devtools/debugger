@@ -64,11 +64,11 @@ export class HighlightLine extends Component<Props> {
   }
 
   setHighlightLine() {
-    const { selectedLocation, selectedFrame } = this.props;
+    const { pauseCommand, selectedLocation, selectedFrame } = this.props;
     const { sourceId, line } = selectedLocation;
     const editorLine = toEditorLine(sourceId, line);
 
-    if (this.props.pauseCommand && editorLine === this.previousEditorLine) {
+    if (pauseCommand && editorLine === this.previousEditorLine) {
       return;
     }
 
