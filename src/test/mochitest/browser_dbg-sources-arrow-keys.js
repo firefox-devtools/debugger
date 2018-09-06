@@ -1,7 +1,7 @@
 /* Any copyright is dedicated to the Public Domain.
  * http://creativecommons.org/publicdomain/zero/1.0/ */
 
- // Test keyboard arrow behaviour
+// Test keyboard arrow behaviour
 
 async function waitForNodeToGainFocus(dbg, index) {
   await waitUntil(() => {
@@ -18,7 +18,7 @@ async function waitForNodeToGainFocus(dbg, index) {
 async function assertNodeIsFocused(dbg, index) {
   await waitForNodeToGainFocus(dbg, index);
   const node = findElement(dbg, "sourceNode", index);
-  ok(node.classList.contains("focused"), `${index} node is focused`);
+  ok(node.classList.contains("focused"), `node ${index} is focused`);
 }
 
 add_task(async function() {
@@ -55,7 +55,7 @@ add_task(async function() {
   await assertNodeIsFocused(dbg, 6);
 
   // Go to bottom of tree and press down key
-  await clickElement(dbg, "sourceDirectoryLabel", 7);
+  await pressKey(dbg, "Down");
   await pressKey(dbg, "Down");
   await assertNodeIsFocused(dbg, 7);
 
