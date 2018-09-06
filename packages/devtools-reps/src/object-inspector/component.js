@@ -4,10 +4,12 @@
 
 // @flow
 
-const { Component, createFactory } = require("react");
+const { Component, createFactory, createElement } = require("react");
 const dom = require("react-dom-factories");
 const { connect } = require("react-redux");
-const { bindActionCreators } = require("redux");
+const actions = require("./actions");
+
+const selectors = require("./reducer");
 
 import Services from "devtools-services";
 const { appinfo } = Services;
@@ -21,10 +23,11 @@ const classnames = require("classnames");
 const { MODE } = require("../reps/constants");
 
 const Utils = require("./utils");
+const { renderRep, shouldRenderRootsInReps } = Utils;
 
 const {
   getChildren,
-  getClosestGripNode,
+  getActor,
   getParent,
   getValue,
   nodeHasAccessors,
@@ -96,10 +99,13 @@ class ObjectInspector extends Component<Props> {
     self.getRoots = this.getRoots.bind(this);
   }
 
-  shouldComponentUpdate(nextProps: Props) {
-    const { expandedPaths, focusedItem, loadedProperties, roots } = this.props;
+  componentDidMount() {
+    // this.props.rootsChanged(props);
+    this.roots = this.props.roots;
+  }
 
-    if (roots !== nextProps.roots) {
+  componentWillUpdate(nextProps) {
+    if (this.roots !== nextProps.roots) {
       // Since the roots changed, we assume the properties did as well,
       // so we need to cleanup the component internal state.
 
@@ -108,12 +114,19 @@ class ObjectInspector extends Component<Props> {
       // The rootsChanged action will be handled in a middleware to release the
       // actors of the old roots, as well as cleanup the state properties
       // (expandedPaths, loadedProperties, …).
-      this.props.rootsChanged(nextProps);
+      // this.props.rootsChanged(nextProps);
+      this.roots = nextProps.roots;
       // We don't render right away since the state is going to be changed by
       // the rootsChanged action. The `state.forceUpdate` flag will be set
       // to `true` so we can execute a new render cycle with the cleaned state.
-      return false;
+      // return false;
+
+      this.focusedItem = nextProps.focusedItem;
     }
+  }
+
+  shouldComponentUpdate(nextProps: Props) {
+    const { expandedPaths, focusedItem, loadedProperties, roots } = this.props;
 
     if (nextProps.forceUpdate === true) {
       return true;
@@ -138,6 +151,8 @@ class ObjectInspector extends Component<Props> {
     );
   }
 
+  componentWillUpdate() {}
+
   componentDidUpdate(prevProps) {
     if (this.props.forceUpdate) {
       // If the component was updated, we can then reset the forceUpdate flag.
@@ -146,15 +161,7 @@ class ObjectInspector extends Component<Props> {
   }
 
   componentWillUnmount() {
-    const { releaseActor } = this.props;
-    if (typeof releaseActor !== "function") {
-      return;
-    }
-
-    const { actors } = this.props;
-    for (const actor of actors) {
-      releaseActor(actor);
-    }
+    this.props.closeObjectInspector();
   }
 
   props: Props;
@@ -186,10 +193,8 @@ class ObjectInspector extends Component<Props> {
       return;
     }
 
+    console.log("yo");
     const {
-      createObjectClient,
-      createLongStringClient,
-      loadedProperties,
       nodeExpand,
       nodeCollapse,
       recordTelemetryEvent,
@@ -197,23 +202,8 @@ class ObjectInspector extends Component<Props> {
     } = this.props;
 
     if (expand === true) {
-      const gripItem = getClosestGripNode(item);
-      const value = getValue(gripItem);
-      const isRoot =
-        value &&
-        roots.some(root => {
-          const rootValue = getValue(root);
-          return rootValue && rootValue.actor === value.actor;
-        });
-      const actor = isRoot || !value ? null : value.actor;
-      nodeExpand(
-        item,
-        actor,
-        loadedProperties,
-        createObjectClient,
-        createLongStringClient
-      );
-
+      const actor = getActor(item, roots);
+      nodeExpand(item, actor);
       if (recordTelemetryEvent) {
         recordTelemetryEvent("object_expanded");
       }
@@ -223,11 +213,12 @@ class ObjectInspector extends Component<Props> {
   }
 
   focusItem(item: Node) {
-    const { focusable = true, focusedItem, nodeFocus, onFocus } = this.props;
+    const { focusable = true, nodeFocus, onFocus } = this.props;
 
-    if (focusable && focusedItem !== item) {
-      nodeFocus(item);
-      if (focusedItem !== item && onFocus) {
+    if (focusable && this.focusedItem !== item) {
+      // nodeFocus(item);
+      this.focusedItem = item;
+      if (onFocus) {
         onFocus(item);
       }
     }
@@ -473,7 +464,6 @@ class ObjectInspector extends Component<Props> {
       focusable = true,
       disableWrap = false,
       expandedPaths,
-      focusedItem,
       inline
     } = this.props;
 
@@ -483,12 +473,13 @@ class ObjectInspector extends Component<Props> {
         nowrap: disableWrap,
         "object-inspector": true
       }),
+
       autoExpandAll,
       autoExpandDepth,
 
       isExpanded: item => expandedPaths && expandedPaths.has(item.path),
       isExpandable: item => nodeIsPrimitive(item) === false,
-      focused: focusedItem,
+      focused: this.focusedItem,
 
       getRoots: this.getRoots,
       getParent,
@@ -505,22 +496,36 @@ class ObjectInspector extends Component<Props> {
 }
 
 function mapStateToProps(state, props) {
+  // const focusedItem =
+  //   state.objectInspector.roots !== props.roots
+  //     ? props.focusedItem
+  //     : selectors.getFocusedItem(state);
+
+  //   "msp",
+  //   state.objectInspector.roots,
+  //   state.objectInspector.loadedProperties
+  // );
+
   return {
-    actors: state.actors,
-    expandedPaths: state.expandedPaths,
+    actors: selectors.getActors(state),
+    expandedPaths: selectors.getExpandedPaths(state),
     // If the root changes, we want to pass a possibly new focusedItem property
-    focusedItem:
-      state.roots !== props.roots ? props.focusedItem : state.focusedItem,
-    loadedProperties: state.loadedProperties,
-    forceUpdate: state.forceUpdate
+    // focusedItem,
+    loadedProperties: selectors.getLoadedProperties(state),
+    forceUpdate: selectors.getForceUpdate(state)
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(require("./actions"), dispatch);
-}
-
-module.exports = connect(
+const OI = connect(
   mapStateToProps,
-  mapDispatchToProps
+  actions
 )(ObjectInspector);
+
+module.exports = (props: Props) => {
+  const { roots } = props;
+  if (shouldRenderRootsInReps(roots)) {
+    return renderRep(roots[0], props);
+  }
+
+  return createElement(OI, props);
+};

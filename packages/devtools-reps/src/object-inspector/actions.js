@@ -4,17 +4,10 @@
 
 // @flow
 
-import type {
-  CreateLongStringClient,
-  CreateObjectClient,
-  GripProperties,
-  LoadedProperties,
-  Node,
-  Props,
-  ReduxAction
-} from "./types";
+import type { GripProperties, Node, Props, ReduxAction } from "./types";
 
 const { loadItemProperties } = require("./utils/load-properties");
+const { getLoadedProperties, getActors } = require("./reducer");
 
 type Dispatch = ReduxAction => void;
 
@@ -27,30 +20,10 @@ type ThunkArg = {
  * This action is responsible for expanding a given node, which also means that
  * it will call the action responsible to fetch properties.
  */
-function nodeExpand(
-  node: Node,
-  actor?: string,
-  loadedProperties: LoadedProperties,
-  createObjectClient: CreateObjectClient,
-  createLongStringClient: CreateLongStringClient
-) {
-  return async ({ dispatch }: ThunkArg) => {
-    dispatch({
-      type: "NODE_EXPAND",
-      data: { node }
-    });
-
-    if (!loadedProperties.has(node.path)) {
-      dispatch(
-        nodeLoadProperties(
-          node,
-          actor,
-          loadedProperties,
-          createObjectClient,
-          createLongStringClient
-        )
-      );
-    }
+function nodeExpand(node: Node, actor) {
+  return async ({ dispatch, getState }: ThunkArg) => {
+    dispatch({ type: "NODE_EXPAND", data: { node } });
+    dispatch(nodeLoadProperties(node, actor));
   };
 }
 
@@ -72,22 +45,22 @@ function nodeFocus(node: Node) {
  * symbols for a given node. If we do, it will call the appropriate ObjectClient
  * functions.
  */
-function nodeLoadProperties(
-  item: Node,
-  actor?: string,
-  loadedProperties: LoadedProperties,
-  createObjectClient: CreateObjectClient,
-  createLongStringClient: CreateLongStringClient
-) {
-  return async ({ dispatch }: ThunkArg) => {
+function nodeLoadProperties(node: Node, actor) {
+  return async ({ dispatch, client, getState }: ThunkArg) => {
+    const loadedProperties = getLoadedProperties(getState());
+    if (loadedProperties.has(node.path)) {
+      return;
+    }
+
     try {
       const properties = await loadItemProperties(
-        item,
-        createObjectClient,
-        createLongStringClient,
+        node,
+        client.createObjectClient,
+        client.createLongStringClient,
         loadedProperties
       );
-      dispatch(nodePropertiesLoaded(item, actor, properties));
+
+      dispatch(nodePropertiesLoaded(node, actor, properties));
     } catch (e) {
       console.error(e);
     }
@@ -102,6 +75,17 @@ function nodePropertiesLoaded(
   return {
     type: "NODE_PROPERTIES_LOADED",
     data: { node, actor, properties }
+  };
+}
+
+function closeObjectInspector() {
+  return async ({ getState, client }: ThunkArg) => {
+    console.log("> closeObjectInspector");
+    const actors = getActors(getState());
+    console.log("> closeObjectInspector", actors);
+    for (const actor of actors) {
+      client.releaseActor(actor);
+    }
   };
 }
 
@@ -131,6 +115,7 @@ function forceUpdated() {
 
 module.exports = {
   forceUpdated,
+  closeObjectInspector,
   nodeExpand,
   nodeCollapse,
   nodeFocus,
