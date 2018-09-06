@@ -9,36 +9,41 @@
  * @module reducers/source-tree
  */
 
-import makeRecord from "../utils/makeRecord";
-
 import type { SourceTreeAction } from "../actions/types";
-import type { Record } from "../utils/makeRecord";
 
 export type SourceTreeState = {
-  expanded: any
+  expanded: Set<string> | null
 };
 
-export function InitialState(): Record<SourceTreeState> {
-  return makeRecord({
+export function InitialState(): SourceTreeState {
+  return {
     expanded: null
-  })();
+  };
 }
 
 export default function update(
-  state: Record<SourceTreeState> = InitialState(),
+  state: SourceTreeState = InitialState(),
   action: SourceTreeAction
-): Record<SourceTreeState> {
+): SourceTreeState {
   switch (action.type) {
     case "SET_EXPANDED_STATE":
-      return state.set("expanded", action.expanded);
+      return updateExpanded(state, action);
   }
+
   return state;
 }
 
+function updateExpanded(state, action) {
+  return {
+    ...state,
+    expanded: new Set(action.expanded)
+  };
+}
+
 type OuterState = {
-  sourceTree: Record<SourceTreeState>
+  sourceTree: SourceTreeState
 };
 
 export function getExpandedState(state: OuterState) {
-  return state.sourceTree.get("expanded");
+  return state.sourceTree.expanded;
 }
