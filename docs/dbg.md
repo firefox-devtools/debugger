@@ -61,7 +61,7 @@ dbg.prefs.pauseOnExceptions = true;
 dbg.prefs.pauseOnExceptions; // true
 ```
 
-### prefs
+### asyncStore
 
 `dbg.asyncStore` references the async store helper. You can use `dbg.asyncStore` to see or change the state of any item.
 
