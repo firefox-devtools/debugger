@@ -4,8 +4,10 @@
 
 const expressions = require("./expressions");
 const input = require("./input");
+const { objectInspector } = require("../../index");
 
 module.exports = {
   expressions,
-  input
+  input,
+  objectInspector: objectInspector.reducer.default
 };

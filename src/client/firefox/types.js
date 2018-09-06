@@ -264,7 +264,9 @@ export type DebuggerClient = {
     getFront: string => Promise<*>
   },
   connect: () => Promise<*>,
-  request: (packet: Object) => Promise<*>
+  request: (packet: Object) => Promise<*>,
+  createObjectClient: (grip: Grip) => {},
+  release: (actor: String) => {}
 };
 
 export type TabClient = {

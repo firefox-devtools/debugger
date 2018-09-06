@@ -11,7 +11,7 @@ const reducers = require("./reducers");
 
 function configureStore(options, client) {
   return createStore(
-    combineReducers({ client, ...reducers }),
+    combineReducers(reducers),
     applyMiddleware(thunk(options.makeThunkArgs), promise, logger)
   );
 }

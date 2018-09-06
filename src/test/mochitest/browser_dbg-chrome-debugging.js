@@ -34,7 +34,6 @@ async function attachThread(client, actor) {
   return threadClient;
 }
 
-
 function onNewSource(event, packet) {
   if (packet.source.url.startsWith("chrome:")) {
     ok(true, "Received a new chrome source: " + packet.source.url);

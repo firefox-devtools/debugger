@@ -67,6 +67,25 @@ function getValue(item: Node): RdpGrip | ObjectInspectorItemContentsValue {
   return undefined;
 }
 
+function getActor(item: Node, roots) {
+  const isRoot = isNodeRoot(item, roots);
+  const value = getValue(item);
+  return isRoot || !value ? null : value.actor;
+}
+
+function isNodeRoot(item: Node, roots) {
+  const gripItem = getClosestGripNode(item);
+  const value = getValue(gripItem);
+
+  return (
+    value &&
+    roots.some(root => {
+      const rootValue = getValue(root);
+      return rootValue && rootValue.actor === value.actor;
+    })
+  );
+}
+
 function nodeIsBucket(item: Node): boolean {
   return getType(item) === NODE_TYPES.BUCKET;
 }
@@ -818,6 +837,7 @@ function getClosestNonBucketNode(item: Node): Node | null {
 
 module.exports = {
   createNode,
+  getActor,
   getChildren,
   getClosestGripNode,
   getClosestNonBucketNode,
