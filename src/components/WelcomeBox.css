@@ -50,11 +50,6 @@
   cursor: pointer;
 }
 
-.welcomebox__searchSources,
-.welcomebox__searchProject {
-  transition: color 0.15s linear;
-}
-
 .welcomebox__searchSources:hover,
 .welcomebox__searchProject:hover {
   color: var(--theme-body-color);
