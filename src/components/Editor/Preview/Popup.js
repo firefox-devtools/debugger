@@ -11,18 +11,15 @@ import Reps from "devtools-reps";
 const {
   REPS: { Rep },
   MODE,
-  ObjectInspector,
-  ObjectInspectorUtils
+  objectInspector
 } = Reps;
 
+const { ObjectInspector, utils } = objectInspector;
+
 const {
-  createNode,
-  getChildren,
-  getValue,
-  nodeIsPrimitive,
-  NODE_TYPES
-} = ObjectInspectorUtils.node;
-const { loadItemProperties } = ObjectInspectorUtils.loadProperties;
+  node: { createNode, getChildren, getValue, nodeIsPrimitive, NODE_TYPES },
+  loadProperties: { loadItemProperties }
+} = utils;
 
 import actions from "../../../actions";
 import { getAllPopupObjectProperties } from "../../../selectors";

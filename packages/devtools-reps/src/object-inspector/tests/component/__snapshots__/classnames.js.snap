@@ -2,7 +2,6 @@
 
 exports[`ObjectInspector - classnames has the expected class 1`] = `
 <div
-  aria-activedescendant={null}
   className="tree object-inspector"
   onBlur={[Function]}
   onFocus={[Function]}
@@ -52,7 +51,6 @@ exports[`ObjectInspector - classnames has the expected class 1`] = `
 
 exports[`ObjectInspector - classnames has the inline class when inline prop is true 1`] = `
 <div
-  aria-activedescendant={null}
   className="tree inline object-inspector"
   onBlur={[Function]}
   onFocus={[Function]}
@@ -102,7 +100,6 @@ exports[`ObjectInspector - classnames has the inline class when inline prop is t
 
 exports[`ObjectInspector - classnames has the nowrap class when disableWrap prop is true 1`] = `
 <div
-  aria-activedescendant={null}
   className="tree nowrap object-inspector"
   onBlur={[Function]}
   onFocus={[Function]}

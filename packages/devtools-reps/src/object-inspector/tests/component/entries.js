@@ -4,10 +4,7 @@
 
 /* global jest */
 
-const { mount } = require("enzyme");
-const React = require("react");
-const { createFactory } = React;
-const ObjectInspector = createFactory(require("../../index"));
+const { mountObjectInspector } = require("../test-utils");
 const { MODE } = require("../../../reps/constants");
 const {
   formatObjectInspector,
@@ -34,41 +31,50 @@ function getEnumEntriesMock() {
   }));
 }
 
+function mount(props, { initialState }) {
+  const enumEntries = getEnumEntriesMock();
+
+  const client = {
+    createObjectClient: grip => ObjectClient(grip, { enumEntries })
+  };
+  const obj = mountObjectInspector({
+    client,
+    props: generateDefaults(props),
+    initialState: { objectInspector: initialState }
+  });
+
+  return { ...obj, enumEntries };
+}
+
 describe("ObjectInspector - entries", () => {
   it("renders Object with entries as expected", async () => {
     const stub = gripMapRepStubs.get("testSymbolKeyedMap");
-    const enumEntries = getEnumEntriesMock();
 
-    const oi = mount(
-      ObjectInspector(
-        generateDefaults({
-          autoExpandDepth: 3,
-          injectWaitService: true,
-          roots: [
-            {
-              path: "root",
-              contents: { value: stub }
-            }
-          ],
-          mode: MODE.LONG,
-          createObjectClient: grip => {
-            return ObjectClient(grip, {
-              enumEntries
-            });
-          },
+    const { store, wrapper, enumEntries } = mount(
+      {
+        autoExpandDepth: 3,
+        roots: [
+          {
+            path: "root",
+            contents: { value: stub }
+          }
+        ],
+        mode: MODE.LONG
+      },
+      {
+        initialState: {
           loadedProperties: new Map([["root", mapStubs.get("properties")]])
-        })
-      )
+        }
+      }
     );
 
-    const store = oi.instance().getStore();
     await waitForLoadedProperties(store, [
       "Symbol(root/<entries>/0)",
       "Symbol(root/<entries>/1)"
     ]);
 
-    oi.update();
-    expect(formatObjectInspector(oi)).toMatchSnapshot();
+    wrapper.update();
+    expect(formatObjectInspector(wrapper)).toMatchSnapshot();
 
     // enumEntries shouldn't have been called since everything
     // is already in the preview property.
@@ -77,50 +83,49 @@ describe("ObjectInspector - entries", () => {
 
   it("calls ObjectClient.enumEntries when expected", async () => {
     const stub = gripMapRepStubs.get("testMoreThanMaxEntries");
-    const enumEntries = getEnumEntriesMock();
 
-    const oi = mount(
-      ObjectInspector(
-        generateDefaults({
-          autoExpandDepth: 1,
-          injectWaitService: true,
-          roots: [
-            {
-              path: "root",
-              contents: {
-                value: stub
-              }
+    const { wrapper, store, enumEntries } = mount(
+      {
+        autoExpandDepth: 1,
+        injectWaitService: true,
+        roots: [
+          {
+            path: "root",
+            contents: {
+              value: stub
             }
-          ],
-          createObjectClient: grip => ObjectClient(grip, { enumEntries }),
+          }
+        ]
+      },
+      {
+        initialState: {
           loadedProperties: new Map([
             ["root", { ownProperties: stub.preview.entries }]
           ])
-        })
-      )
+        }
+      }
     );
 
-    expect(formatObjectInspector(oi)).toMatchSnapshot();
+    expect(formatObjectInspector(wrapper)).toMatchSnapshot();
 
-    const nodes = oi.find(".node");
+    const nodes = wrapper.find(".node");
     const entriesNode = nodes.at(1);
     expect(entriesNode.text()).toBe("<entries>");
 
-    const store = oi.instance().getStore();
     const onEntrieLoad = waitForDispatch(store, "NODE_PROPERTIES_LOADED");
     entriesNode.simulate("click");
     await onEntrieLoad;
-    oi.update();
+    wrapper.update();
 
-    expect(formatObjectInspector(oi)).toMatchSnapshot();
+    expect(formatObjectInspector(wrapper)).toMatchSnapshot();
     expect(enumEntries.mock.calls).toHaveLength(1);
 
     entriesNode.simulate("click");
-    expect(formatObjectInspector(oi)).toMatchSnapshot();
+    expect(formatObjectInspector(wrapper)).toMatchSnapshot();
 
     entriesNode.simulate("click");
 
-    expect(formatObjectInspector(oi)).toMatchSnapshot();
+    expect(formatObjectInspector(wrapper)).toMatchSnapshot();
     // it does not call enumEntries if entries were already loaded.
     expect(enumEntries.mock.calls).toHaveLength(1);
   });

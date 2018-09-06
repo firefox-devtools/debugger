@@ -2,12 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-const { mount } = require("enzyme");
-const React = require("react");
-const { createFactory } = React;
-const ObjectInspector = createFactory(require("../../index"));
 const { createNode } = require("../../utils/node");
-const { waitForDispatch } = require("../test-utils");
+const { waitForDispatch, mountObjectInspector } = require("../test-utils");
 
 const gripWindowStubs = require("../../../reps/stubs/window");
 const ObjectClient = require("../__mocks__/object-client");
@@ -16,11 +12,12 @@ const windowNode = createNode({
   contents: { value: gripWindowStubs.get("Window") }
 });
 
+const client = { createObjectClient: grip => ObjectClient(grip) };
+
 function generateDefaults(overrides) {
   return {
     autoExpandDepth: 0,
     roots: [windowNode],
-    createObjectClient: grip => ObjectClient(grip),
     ...overrides
   };
 }
@@ -28,13 +25,10 @@ function generateDefaults(overrides) {
 describe("ObjectInspector - dimTopLevelWindow", () => {
   it("renders window as expected when dimTopLevelWindow is true", async () => {
     const props = generateDefaults({
-      dimTopLevelWindow: true,
-      injectWaitService: true
+      dimTopLevelWindow: true
     });
-    const oi = ObjectInspector(props);
-    const wrapper = mount(oi);
-    const store = wrapper.instance().getStore();
 
+    const { wrapper, store } = mountObjectInspector({ client, props });
     let nodes = wrapper.find(".node");
     const node = nodes.at(0);
 
@@ -55,8 +49,8 @@ describe("ObjectInspector - dimTopLevelWindow", () => {
     // The window node should not have the "lessen" class when
     // dimTopLevelWindow is falsy.
     const props = generateDefaults();
-    const oi = ObjectInspector(props);
-    const wrapper = mount(oi);
+    const { wrapper } = mountObjectInspector({ client, props });
+
     expect(wrapper.find(".node.lessen").exists()).toBeFalsy();
     expect(wrapper).toMatchSnapshot();
   });
@@ -74,9 +68,8 @@ describe("ObjectInspector - dimTopLevelWindow", () => {
       dimTopLevelWindow: true,
       injectWaitService: true
     });
-    const oi = ObjectInspector(props);
-    const wrapper = mount(oi);
-    const store = wrapper.instance().getStore();
+    const { wrapper, store } = mountObjectInspector({ client, props });
+
     let nodes = wrapper.find(".node");
     const node = nodes.at(0);
     const onPropertiesLoaded = waitForDispatch(store, "NODE_PROPERTIES_LOADED");

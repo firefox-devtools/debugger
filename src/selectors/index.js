@@ -17,6 +17,7 @@ export * from "../reducers/ast";
 export * from "../reducers/coverage";
 export * from "../reducers/project-text-search";
 export * from "../reducers/source-tree";
+
 export { getEventListeners } from "../reducers/event-listeners";
 export {
   getQuickOpenEnabled,
@@ -34,3 +35,17 @@ export { isSelectedFrameVisible } from "./isSelectedFrameVisible";
 export { getCallStackFrames } from "./getCallStackFrames";
 export { getVisibleSelectedFrame } from "./visibleSelectedFrame";
 export { getBreakpointSources } from "./breakpointSources";
+
+import { objectInspector } from "devtools-reps";
+
+const { reducer } = objectInspector;
+
+Object.keys(reducer).forEach(function(key) {
+  if (key === "default" || key === "__esModule") {
+    return;
+  }
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: reducer[key]
+  });
+});

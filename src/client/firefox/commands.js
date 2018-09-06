@@ -56,6 +56,18 @@ function setupCommands(dependencies: Dependencies): { bpClients: BPClients } {
   return { bpClients };
 }
 
+function createObjectClient(grip: Grip) {
+  return debuggerClient.createObjectClient(grip);
+}
+
+function releaseActor(actor: String) {
+  if (!actor) {
+    return;
+  }
+
+  return debuggerClient.release(actor);
+}
+
 function sendPacket(packet: Object, callback?: Function = r => r) {
   return debuggerClient.request(packet).then(callback);
 }
@@ -410,6 +422,8 @@ async function fetchWorkers(): Promise<{ workers: Worker[] }> {
 const clientCommands = {
   autocomplete,
   blackBox,
+  createObjectClient,
+  releaseActor,
   interrupt,
   eventListeners,
   pauseGrip,
