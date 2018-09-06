@@ -46,60 +46,32 @@ function isDocumentReady(selectedSource, selectedLocation) {
 }
 
 export class HighlightLine extends Component<Props> {
-  isStepping: boolean = false;
   previousEditorLine: ?number = null;
 
   shouldComponentUpdate(nextProps: Props) {
-    const { selectedLocation, selectedSource } = nextProps;
-    return this.shouldSetHighlightLine(selectedLocation, selectedSource);
-  }
-
-  shouldSetHighlightLine(selectedLocation: Location, selectedSource: Source) {
-    const { sourceId, line } = selectedLocation;
-    const editorLine = toEditorLine(sourceId, line);
-
-    if (!isDocumentReady(selectedSource, selectedLocation)) {
-      return false;
-    }
-
-    if (this.isStepping && editorLine === this.previousEditorLine) {
-      return false;
-    }
-
-    return true;
+    const { selectedSource, selectedLocation } = nextProps;
+    return isDocumentReady(selectedSource, selectedLocation);
   }
 
   componentDidUpdate(prevProps: Props) {
-    const {
-      pauseCommand,
-      selectedLocation,
-      selectedFrame,
-      selectedSource
-    } = this.props;
-    if (pauseCommand) {
-      this.isStepping = true;
-    }
-
     startOperation();
     this.clearHighlightLine(
       prevProps.selectedLocation,
       prevProps.selectedSource
     );
-    this.setHighlightLine(selectedLocation, selectedFrame, selectedSource);
+    this.setHighlightLine();
     endOperation();
   }
 
-  setHighlightLine(
-    selectedLocation: Location,
-    selectedFrame: Frame,
-    selectedSource: Source
-  ) {
+  setHighlightLine() {
+    const { selectedLocation, selectedFrame } = this.props;
     const { sourceId, line } = selectedLocation;
-    if (!this.shouldSetHighlightLine(selectedLocation, selectedSource)) {
+    const editorLine = toEditorLine(sourceId, line);
+
+    if (this.props.pauseCommand && editorLine === this.previousEditorLine) {
       return;
     }
-    this.isStepping = false;
-    const editorLine = toEditorLine(sourceId, line);
+
     this.previousEditorLine = editorLine;
 
     if (!line || isDebugLine(selectedFrame, selectedLocation)) {
