@@ -58,7 +58,7 @@ if (isDevelopment()) {
   pref("devtools.debugger.features.autocomplete-expressions", false);
   pref("devtools.debugger.features.map-expression-bindings", true);
   pref("devtools.debugger.features.map-await-expression", true);
-  pref("devtools.debugger.features.xhr-breakpoints", false);
+  pref("devtools.debugger.features.xhr-breakpoints", true);
 }
 
 export const prefs = new PrefsHelper("devtools", {

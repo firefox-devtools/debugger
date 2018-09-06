@@ -18,7 +18,7 @@ import {
   getBreakpointAtLocation,
   getBreakpointsAtLine
 } from "../../selectors";
-import { assertBreakpoint } from "../../utils/breakpoint";
+import { assertBreakpoint, createXHRBreakpoint } from "../../utils/breakpoint";
 import {
   addBreakpoint,
   addHiddenBreakpoint,
@@ -31,7 +31,7 @@ import { isEmptyLineInSource } from "../../reducers/ast";
 // this will need to be changed so that addCLientBreakpoint is removed
 
 import type { ThunkArgs, Action } from "../types";
-import type { Breakpoint, Location } from "../../types";
+import type { Breakpoint, Location, XHRBreakpoint } from "../../types";
 import type { BreakpointsMap } from "../../reducers/types";
 
 import { recordEvent } from "../../utils/telemetry";
@@ -382,15 +382,41 @@ export function toggleDisabledBreakpoint(line: number, column?: number) {
   };
 }
 
+export function enableXHRBreakpoint(breakpoint: XHRBreakpoint) {
+  return ({ dispatch }: ThunkArgs) => {
+    const enabledBreakpoint = {
+      ...breakpoint,
+      disabled: false
+    };
+
+    return dispatch({
+      type: "ENABLE_XHR_BREAKPOINT",
+      breakpoint: enabledBreakpoint
+    });
+  };
+}
+
+export function disableXHRBreakpoint(breakpoint: XHRBreakpoint) {
+  return ({ dispatch }: ThunkArgs) => {
+    const disabledBreakpoint = {
+      ...breakpoint,
+      disabled: true
+    };
+
+    return dispatch({
+      type: "DISABLE_XHR_BREAKPOINT",
+      breakpoint: disabledBreakpoint
+    });
+  };
+}
+
 export function setXHRBreakpoint(contains: string) {
   return ({ dispatch, getState, client }: ThunkArgs) => {
-    const text = contains.length
-      ? `URL contains "${contains}"`
-      : "Any XHR or fetch";
+    const breakpoint = createXHRBreakpoint(contains);
+
     return dispatch({
       type: "SET_XHR_BREAKPOINT",
-      contains,
-      text
+      breakpoint
       // [PROMISE]: client.setXHRBreakpoint(contains)
     });
   };

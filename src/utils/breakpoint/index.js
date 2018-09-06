@@ -144,6 +144,21 @@ export function createBreakpoint(
   return properties;
 }
 
+export function createXHRBreakpoint(contains: string, overrides: Object = {}) {
+  const text = contains.length
+    ? `URL contains "${contains}"`
+    : "Any XHR or fetch";
+
+  const properties = {
+    contains,
+    disabled: false,
+    loading: false,
+    text
+  };
+
+  return { ...properties, ...overrides };
+}
+
 function createPendingLocation(location: PendingLocation) {
   const { sourceUrl, line, column } = location;
   return { sourceUrl, line, column };

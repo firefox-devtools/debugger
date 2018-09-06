@@ -89,15 +89,24 @@ function update(
     case "REMOVE_XHR_BREAKPOINT": {
       return removeXHRBreakpoint(state, action);
     }
+
+    case "ENABLE_XHR_BREAKPOINT": {
+      return addXHRBreakpoint(state, action);
+    }
+
+    case "DISABLE_XHR_BREAKPOINT": {
+      return addXHRBreakpoint(state, action);
+    }
   }
 
   return state;
 }
 
 function addXHRBreakpoint(state, action) {
-  const { contains, text } = action;
-
-  return state.setIn(["xhrBreakpoints", contains], text);
+  const { breakpoint } = action;
+  const { contains } = breakpoint;
+  console.log("setting", contains, "to", breakpoint.disabled);
+  return state.setIn(["xhrBreakpoints", contains], breakpoint);
 }
 
 function removeXHRBreakpoint(state, action) {

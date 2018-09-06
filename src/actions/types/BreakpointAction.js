@@ -4,7 +4,7 @@
 
 // @flow
 
-import type { Breakpoint, Location } from "../../types";
+import type { Breakpoint, Location, XHRBreakpoint } from "../../types";
 
 import type { PromiseAction } from "../utils/middleware/promise";
 
@@ -29,8 +29,15 @@ export type BreakpointAction =
     |}>
   | {|
       +type: "SET_XHR_BREAKPOINT",
-      +contains: string,
-      +text: string
+      +breakpoint: XHRBreakpoint
+    |}
+  | {|
+      +type: "ENABLE_XHR_BREAKPOINT",
+      +breakpoint: XHRBreakpoint
+    |}
+  | {|
+      +type: "DISABLE_XHR_BREAKPOINT",
+      +breakpoint: XHRBreakpoint
     |}
   | {|
       +type: "REMOVE_XHR_BREAKPOINT",

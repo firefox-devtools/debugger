@@ -21,7 +21,9 @@ type Props = {
   showInput: boolean,
   onXHRAdded: Function,
   setXHRBreakpoint: Function,
-  removeXHRBreakpoint: typeof actions.removeXHRBreakpoint
+  removeXHRBreakpoint: typeof actions.removeXHRBreakpoint,
+  enableXHRBreakpoint: typeof actions.enableXHRBreakpoint,
+  disableXHRBreakpoint: typeof actions.disableXHRBreakpoint
 };
 
 type State = {
@@ -122,10 +124,23 @@ class XHRBreakpoints extends Component<Props, State> {
       </li>
     );
   }
+  handleCheckbox = contains => {
+    const {
+      xhrBreakpoints,
+      enableXHRBreakpoint,
+      disableXHRBreakpoint
+    } = this.props;
+    const breakpoint = xhrBreakpoints.get(contains);
+    if (breakpoint.disabled) {
+      enableXHRBreakpoint(breakpoint);
+    } else {
+      disableXHRBreakpoint(breakpoint);
+    }
+  };
 
   deleteBreakpoint(e, breakpoint) {}
 
-  renderBreakpoint = ([contains, text], index) => {
+  renderBreakpoint = ([contains, { text, disabled }], index) => {
     const { editIndex } = this.state;
     const { removeXHRBreakpoint } = this.props;
 
@@ -143,8 +158,8 @@ class XHRBreakpoints extends Component<Props, State> {
         <input
           type="checkbox"
           className="xhr-checkbox"
-          checked={true}
-          onChange={() => {}}
+          checked={!disabled}
+          onChange={() => this.handleCheckbox(contains)}
           onClick={ev => ev.stopPropagation()}
         />
         <div className="xhr-label">{text}</div>
@@ -178,6 +193,8 @@ export default connect(
   mapStateToProps,
   {
     setXHRBreakpoint: actions.setXHRBreakpoint,
-    removeXHRBreakpoint: actions.removeXHRBreakpoint
+    removeXHRBreakpoint: actions.removeXHRBreakpoint,
+    enableXHRBreakpoint: actions.enableXHRBreakpoint,
+    disableXHRBreakpoint: actions.disableXHRBreakpoint
   }
 )(XHRBreakpoints);
