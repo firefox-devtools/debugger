@@ -196,7 +196,7 @@ In the shell, navigate to the debugger.html project folder, and follow the Getti
 The mochitest are running against the compiled debugger bundle inside the Firefox checkout. This means that you need to update the bundle whenever you make code changes. `prepare-mochitests-dev` does this for you initially, but you can manually update it with:
 
 ```
-yarn copy-assets
+yarn copy
 ```
 
 That will build the debugger and copy over all the relevant files into `firefox`, including mochitests. If you want it to only symlink the mochitests directory, pass `--symlink-mochitests` (which is what `prepare-mochitests-dev` does).
@@ -204,7 +204,7 @@ That will build the debugger and copy over all the relevant files into `firefox`
 It's annoying to have to manually update the bundle every single time though. If you want to automatically update the bundle in Firefox whenever you make a change, run this:
 
 ```
-yarn copy-assets-watch
+yarn watch
 ```
 
 Now you can make code changes the bundle will be automatically built for you inside `firefox`, and you can simply run mochitests and edit code as much as you like.
@@ -241,13 +241,13 @@ If symbolic link is suddenly lost between debugger.html and Firefox source, in y
 2. Execute `./mach mochitest --headless devtools/client/debugger/new`
 
   If a symbolic link occurs, error message(s) will be displayed.
-  
+
   ![Test harness with symbolic link errors](http://i40.photobucket.com/albums/e250/md2k6/Public/Opensource/debugger-html-6297/mochitest-error_zpsgicbau0z.jpg)
 
 3. Execute `./bin/prepare-mochitests-dev`.
 
 Running this command again allows the preparation script to check the integrity of the firefox directory and all symbolic
-links. It will then automatically execute `yarn copy-assets-watch` on your behalf, which ensures the symbolic linking process
+links. It will then automatically execute `yarn copy` on your behalf, which ensures the symbolic linking process
 is complete.
 
 4. On a new terminal tab, execute the command to run your test again. If this failed, proceed to step 5.
@@ -261,7 +261,7 @@ If you are having issues running mochitest due to missing the Rust compiler, try
 
 1. In the root directory of the project (i.e. `debugger.html/`), execute `./mach configure`.
 
-2. Execute `yarn copy-assets-watch`
+2. Execute `yarn watch`
 
 3. Open a new terminal tab and run your tests again. If this failed, proceed to step 4 and 5.
 
