@@ -112,7 +112,6 @@ export type Breakpoint = {
  * @static
  */
 export type XHRBreakpoint = {
-  id: BreakpointId,
   contains: string,
   loading: boolean,
   disabled: boolean,

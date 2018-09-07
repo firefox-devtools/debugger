@@ -138,8 +138,6 @@ class XHRBreakpoints extends Component<Props, State> {
     }
   };
 
-  deleteBreakpoint(e, breakpoint) {}
-
   renderBreakpoint = ([contains, { text, disabled }], index) => {
     const { editIndex } = this.state;
     const { removeXHRBreakpoint } = this.props;
