@@ -65,6 +65,9 @@ export class HighlightLine extends Component<Props> {
 
   setHighlightLine() {
     const { pauseCommand, selectedLocation, selectedFrame } = this.props;
+    if (selectedLocation.noHighlightLine) {
+      return;
+    }
     const { sourceId, line } = selectedLocation;
     const editorLine = toEditorLine(sourceId, line);
 
