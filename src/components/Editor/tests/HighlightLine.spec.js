@@ -29,7 +29,7 @@ describe("HighlightLine", () => {
     it("does not highlight when noHighlightLine is true", async () => {
       getDocumentMock.addLineClass.mockClear();
       const props = { selectedLocation: { line: 1, noHighlightLine: true } };
-      const component = shallow(<HighlightLine.WrappedComponent/>);
+      const component = shallow(<HighlightLine.WrappedComponent />);
       component.setProps(props);
       expect(getDocumentMock.addLineClass).not.toHaveBeenCalled();
     });
