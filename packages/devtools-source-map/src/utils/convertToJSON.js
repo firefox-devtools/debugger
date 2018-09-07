@@ -14,7 +14,7 @@ function convertDwarf(wasm, instance) {
     new Uint8Array(wasm)
   );
   const resultPtr = alloc_mem(12);
-  const enableXScopes = false;
+  const enableXScopes = true;
   convert_dwarf(
     wasmPtr,
     wasm.byteLength,

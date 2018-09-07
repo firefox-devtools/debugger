@@ -50,12 +50,6 @@
   cursor: pointer;
 }
 
-.welcomebox__searchSources,
-.welcomebox__searchProject,
-.welcomebox__allShortcuts {
-  transition: color 0.15s linear;
-}
-
 .welcomebox__searchSources:hover,
 .welcomebox__searchProject:hover,
 .welcomebox__allShortcuts:hover {

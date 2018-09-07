@@ -346,6 +346,12 @@ function pauseGrip(func: Function): ObjectClient {
 
 async function fetchSources() {
   const { sources } = await threadClient.getSources();
+
+  // NOTE: this happens when we fetch sources and then immediately navigate
+  if (!sources) {
+    return;
+  }
+
   return sources.map(source => createSource(source, { supportsWasm }));
 }
 
