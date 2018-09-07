@@ -45,7 +45,7 @@ exports[`WelomeBox renders with default values 1`] = `
         </span>
       </p>
       <p
-        className="welcomebox__moreShortcuts"
+        className="welcomebox__allShortcuts"
         onClick={[Function]}
         role="button"
         tabIndex="0"
@@ -53,12 +53,12 @@ exports[`WelomeBox renders with default values 1`] = `
         <span
           className="shortcutKey"
         >
-           
+          Ctrl /
         </span>
         <span
           className="shortcutLabel"
         >
-          More shortcuts…
+          Show all Shortcuts
         </span>
       </p>
     </div>

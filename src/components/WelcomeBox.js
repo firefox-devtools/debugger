@@ -51,9 +51,13 @@ export class WelcomeBox extends Component<Props> {
       L10N.getStr("projectTextSearch.key")
     );
 
+    const allShortcutsShortcut = formatKeyShortcut(
+      L10N.getStr("allShortcut.key")
+    );
+
     const searchSourcesLabel = L10N.getStr("welcome.search").substring(2);
     const searchProjectLabel = L10N.getStr("welcome.findInFiles").substring(2);
-    const moreShortcutsLabel = L10N.getStr("welcome.moreShortcuts");
+    const allShortcutsLabel = L10N.getStr("welcome.allShortcuts");
     const { setActiveSearch, openQuickOpen, toggleShortcutsModal } = this.props;
 
     return (
@@ -79,13 +83,13 @@ export class WelcomeBox extends Component<Props> {
               <span className="shortcutLabel">{searchProjectLabel}</span>
             </p>
             <p
-              className="welcomebox__moreShortcuts"
+              className="welcomebox__allShortcuts"
               role="button"
               tabIndex="0"
               onClick={() => toggleShortcutsModal()}
             >
-              <span className="shortcutKey"> </span>
-              <span className="shortcutLabel">{moreShortcutsLabel}</span>
+              <span className="shortcutKey">{allShortcutsShortcut}</span>
+              <span className="shortcutLabel">{allShortcutsLabel}</span>
             </p>
           </div>
           {this.renderToggleButton()}

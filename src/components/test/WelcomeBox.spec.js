@@ -49,10 +49,10 @@ describe("WelomeBox", () => {
     expect(props.setActiveSearch).toBeCalled();
   });
 
-  it("calls correct function on moreShortcuts click", () => {
+  it("calls correct function on allShotcuts click", () => {
     const { component, props } = render();
 
-    component.find(".welcomebox__moreShortcuts").simulate("click");
+    component.find(".welcomebox__allShortcuts").simulate("click");
     expect(props.toggleShortcutsModal).toBeCalled();
   });
 });
