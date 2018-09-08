@@ -7,6 +7,7 @@
 import React, { Component } from "react";
 
 import { CloseButton } from "./Button";
+import { debounce } from "lodash";
 
 import Svg from "./Svg";
 import classnames from "classnames";
@@ -74,9 +75,10 @@ class SearchInput extends Component<Props, State> {
 
     this.state = {
       inputFocused: false,
-      historyPosition: 0,
       history: []
     };
+
+    this.debouncedSave = debounce(this.saveEnteredTerm, 300);
   }
 
   componentDidMount() {
@@ -151,43 +153,51 @@ class SearchInput extends Component<Props, State> {
     if (!onHistoryScroll) {
       return onKeyDown(e);
     }
+    const inputValue = e.target.value;
+    const currentHistoryIndex = this.state.history.indexOf(inputValue);
+
+    if (e.key === "Enter") {
+      this.saveEnteredTerm(inputValue);
+      return onKeyDown(e);
+    }
 
     if (e.key === "ArrowUp") {
-      const currentPosition = this.state.historyPosition;
-      const previous = currentPosition - 1;
+      const previous =
+        currentHistoryIndex > -1
+          ? currentHistoryIndex - 1
+          : this.state.history.length - 1;
       const previousInHistory = this.state.history[previous];
       if (previousInHistory !== undefined) {
         e.preventDefault();
-        this.setState({ historyPosition: previous });
         onHistoryScroll(previousInHistory);
       }
       return;
     }
+
     if (e.key === "ArrowDown") {
-      const currentPosition = this.state.historyPosition;
-      const next = currentPosition + 1;
+      const next = currentHistoryIndex + 1;
       const nextInHistory = this.state.history[next];
       if (nextInHistory !== undefined) {
-        this.setState({ historyPosition: next });
         onHistoryScroll(nextInHistory);
       }
       return;
     }
-    if (e.key === "Enter") {
-      const newHistory = this.state.history;
-      const inputValue = e.target.value;
-      const previousIndex = newHistory.indexOf(inputValue);
-      if (previousIndex !== -1) {
-        newHistory.splice(previousIndex, 1);
-      }
-      newHistory.push(inputValue);
-      this.setState({
-        history: newHistory,
-        historyPosition: newHistory.length - 1
-      });
-      return onKeyDown(e);
+
+    if (e.key.length === 1 && !e.metaKey && !e.ctrlKey) {
+      const currentInput = inputValue + e.key;
+      this.debouncedSave(currentInput);
     }
   };
+
+  saveEnteredTerm(inputValue) {
+    const newHistory = this.state.history;
+    const previousIndex = newHistory.indexOf(inputValue);
+    if (previousIndex !== -1) {
+      newHistory.splice(previousIndex, 1);
+    }
+    newHistory.push(inputValue);
+    this.setState({ history: newHistory });
+  }
 
   renderSummaryMsg() {
     const { summaryMsg } = this.props;

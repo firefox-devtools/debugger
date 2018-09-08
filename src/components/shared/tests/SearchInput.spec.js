@@ -41,30 +41,30 @@ describe("SearchInput", () => {
   });
 
   describe("with optional onHistoryScroll", () => {
-    const firstTerm = "foo";
-    const secondTerm = "bar";
-    const thirdTerm = "baz";
+    const searches = ["foo", "bar", "baz"];
     const createSearch = term => ({
       target: { value: term },
       key: "Enter"
     });
 
-    const scrollUp = {
+    const scrollUp = currentTerm => ({
       key: "ArrowUp",
+      target: { value: currentTerm },
       preventDefault: jest.fn()
-    };
-    const scrollDown = {
+    });
+    const scrollDown = currentTerm => ({
       key: "ArrowDown",
+      target: { value: currentTerm },
       preventDefault: jest.fn()
-    };
+    });
 
     it("stores entered history in state", () => {
       wrapper.setProps({
         onHistoryScroll: jest.fn(),
         onKeyDown: jest.fn()
       });
-      wrapper.find("input").simulate("keyDown", createSearch(firstTerm));
-      expect(wrapper.state().history[0]).toEqual(firstTerm);
+      wrapper.find("input").simulate("keyDown", createSearch(searches[0]));
+      expect(wrapper.state().history[0]).toEqual(searches[0]);
     });
 
     it("stores scroll history in state", () => {
@@ -73,11 +73,10 @@ describe("SearchInput", () => {
         onHistoryScroll: onHistoryScroll,
         onKeyDown: jest.fn()
       });
-      wrapper.find("input").simulate("keyDown", createSearch(firstTerm));
-      wrapper.find("input").simulate("keyDown", createSearch(secondTerm));
-      expect(wrapper.state().historyPosition).toEqual(1);
-      expect(wrapper.state().history[0]).toEqual(firstTerm);
-      expect(wrapper.state().history[1]).toEqual(secondTerm);
+      wrapper.find("input").simulate("keyDown", createSearch(searches[0]));
+      wrapper.find("input").simulate("keyDown", createSearch(searches[1]));
+      expect(wrapper.state().history[0]).toEqual(searches[0]);
+      expect(wrapper.state().history[1]).toEqual(searches[1]);
     });
 
     it("scrolls up stored history on arrow up", () => {
@@ -86,13 +85,12 @@ describe("SearchInput", () => {
         onHistoryScroll,
         onKeyDown: jest.fn()
       });
-      wrapper.find("input").simulate("keyDown", createSearch(firstTerm));
-      wrapper.find("input").simulate("keyDown", createSearch(secondTerm));
-      wrapper.find("input").simulate("keyDown", scrollUp);
-      expect(wrapper.state().historyPosition).toEqual(0);
-      expect(wrapper.state().history[0]).toEqual(firstTerm);
-      expect(wrapper.state().history[1]).toEqual(secondTerm);
-      expect(onHistoryScroll).toBeCalledWith(firstTerm);
+      wrapper.find("input").simulate("keyDown", createSearch(searches[0]));
+      wrapper.find("input").simulate("keyDown", createSearch(searches[1]));
+      wrapper.find("input").simulate("keyDown", scrollUp(searches[1]));
+      expect(wrapper.state().history[0]).toEqual(searches[0]);
+      expect(wrapper.state().history[1]).toEqual(searches[1]);
+      expect(onHistoryScroll).toBeCalledWith(searches[0]);
     });
 
     it("scrolls down stored history on arrow down", () => {
@@ -101,13 +99,13 @@ describe("SearchInput", () => {
         onHistoryScroll,
         onKeyDown: jest.fn()
       });
-      wrapper.find("input").simulate("keyDown", createSearch(firstTerm));
-      wrapper.find("input").simulate("keyDown", createSearch(secondTerm));
-      wrapper.find("input").simulate("keyDown", createSearch(thirdTerm));
-      wrapper.find("input").simulate("keyDown", scrollUp);
-      wrapper.find("input").simulate("keyDown", scrollUp);
-      wrapper.find("input").simulate("keyDown", scrollDown);
-      expect(onHistoryScroll.mock.calls[2][0]).toBe(secondTerm);
+      wrapper.find("input").simulate("keyDown", createSearch(searches[0]));
+      wrapper.find("input").simulate("keyDown", createSearch(searches[1]));
+      wrapper.find("input").simulate("keyDown", createSearch(searches[2]));
+      wrapper.find("input").simulate("keyDown", scrollUp(searches[2]));
+      wrapper.find("input").simulate("keyDown", scrollUp(searches[1]));
+      wrapper.find("input").simulate("keyDown", scrollDown(searches[0]));
+      expect(onHistoryScroll.mock.calls[2][0]).toBe(searches[1]);
     });
   });
 });
