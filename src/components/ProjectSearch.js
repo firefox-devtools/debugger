@@ -99,8 +99,6 @@ export class ProjectSearch extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      history: [],
-      historyPosition: 0,
       inputValue: this.props.query || "",
       inputFocused: false
     };

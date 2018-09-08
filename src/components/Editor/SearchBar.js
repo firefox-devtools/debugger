@@ -78,9 +78,7 @@ class SearchBar extends Component<Props, State> {
       selectedResultIndex: 0,
       count: 0,
       index: -1,
-      inputFocused: false,
-      history: [],
-      historyPosition: 0
+      inputFocused: false
     };
   }
 

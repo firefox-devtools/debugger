@@ -54,7 +54,6 @@ type Props = {
 
 type State = {
   inputFocused: boolean,
-  historyPosition: number,
   history: Array<string>
 };
 
