@@ -59,6 +59,7 @@ type State = {
 
 class SearchInput extends Component<Props, State> {
   displayName: "SearchInput";
+  debouncedSave: (e: string) => void;
   $input: ?HTMLInputElement;
 
   static defaultProps = {
@@ -188,7 +189,7 @@ class SearchInput extends Component<Props, State> {
     }
   };
 
-  saveEnteredTerm(inputValue) {
+  saveEnteredTerm(inputValue: string) {
     const newHistory = this.state.history;
     const previousIndex = newHistory.indexOf(inputValue);
     if (previousIndex !== -1) {

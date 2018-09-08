@@ -130,7 +130,7 @@ export class ProjectSearch extends Component<Props, State> {
     }
   }
 
-  doSearch(searchTerm) {
+  doSearch(searchTerm: string) {
     this.props.searchSources(searchTerm);
   }
 
