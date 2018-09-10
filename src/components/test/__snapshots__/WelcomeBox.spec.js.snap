@@ -24,7 +24,7 @@ exports[`WelomeBox renders with default values 1`] = `
         <span
           className="shortcutLabel"
         >
-           to search for sources
+           Go to file
         </span>
       </p>
       <p
@@ -41,7 +41,7 @@ exports[`WelomeBox renders with default values 1`] = `
         <span
           className="shortcutLabel"
         >
-           to find in files
+           Find in files
         </span>
       </p>
     </div>
