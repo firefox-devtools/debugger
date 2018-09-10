@@ -402,7 +402,7 @@ export class QuickOpenModal extends Component<Props, State> {
           query={query}
           hasPrefix={true}
           count={this.getResultCount()}
-          placeholder={L10N.getStr("sourceSearch.search")}
+          placeholder={L10N.getStr("sourceSearch.search2")}
           summaryMsg={this.getSummaryMessage()}
           showErrorEmoji={this.shouldShowErrorEmoji()}
           onChange={this.onChange}
