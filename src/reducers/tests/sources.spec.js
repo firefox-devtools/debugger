@@ -35,7 +35,7 @@ describe("sources reducer", () => {
         location: { sourceId: "", line: 1 }
       };
       update(state, action);
-      expect(prefs.pendingSelectedLocation.noHighlightLine).toBe("true");
+      expect(prefs.pendingSelectedLocation.noHighlightLine).toBe(true);
     });
   });
 });
