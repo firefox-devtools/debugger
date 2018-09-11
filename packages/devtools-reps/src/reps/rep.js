@@ -17,6 +17,7 @@ const NaNRep = require("./nan");
 const Accessor = require("./accessor");
 
 // DOM types (grips)
+const Accessible = require("./accessible");
 const Attribute = require("./attribute");
 const DateTime = require("./date-time");
 const Document = require("./document");
@@ -47,6 +48,7 @@ const reps = [
   Event,
   DateTime,
   CommentNode,
+  Accessible,
   ElementNode,
   TextNode,
   Attribute,
@@ -123,6 +125,7 @@ function getRep(object, defaultRep = Grip, noGrip = false) {
 module.exports = {
   Rep,
   REPS: {
+    Accessible,
     Accessor,
     ArrayRep,
     Attribute,
