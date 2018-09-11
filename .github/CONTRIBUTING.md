@@ -116,7 +116,7 @@ We are lucky to have lots of [nice people][getting-help] here.
 #### Your First Code Contribution
 
 If you're looking for a good issue, you can look through
-the [available][labels-available] issues.
+the [help wanted](https://github.com/devtools-html/debugger.html/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22+-label%3A%22in+progress%22) issues.
 
 These issues should be well documented.
 
