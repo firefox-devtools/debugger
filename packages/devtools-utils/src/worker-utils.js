@@ -18,8 +18,8 @@ function WorkerDispatcher() {
 }
 
 WorkerDispatcher.prototype = {
-  start(url) {
-    this.worker = new Worker(url);
+  start(url, win = window) {
+    this.worker = new win.Worker(url);
     this.worker.onerror = () => {
       console.error(`Error in worker ${url}`);
     };
