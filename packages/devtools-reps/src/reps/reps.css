@@ -136,6 +136,7 @@
   padding: 0 2px;
 }
 
+.objectBox-accessible.clickable,
 .objectBox-node.clickable {
   cursor: pointer;
 }
@@ -161,6 +162,7 @@
   color: var(--comment-node-color);
 }
 
+.accessible-role,
 .tag-name {
   color: var(--object-color);
 }
@@ -237,8 +239,9 @@
 }
 
 /******************************************************************************/
-/* Open DOMNode in inspector button */
+/* Open DOMNode in inspector or Accessible in accessibility inspector button */
 
+button.open-accessibility-inspector,
 button.open-inspector {
   mask: url(/images/open-inspector.svg) no-repeat;
   display: inline-block;
@@ -249,8 +252,10 @@ button.open-inspector {
   cursor: pointer;
 }
 
+.objectBox-accessible:hover .open-accessibility-inspector,
 .objectBox-node:hover .open-inspector,
 .objectBox-textNode:hover .open-inspector,
+.open-accessibility-inspector:hover,
 .open-inspector:hover {
   background-color: var(--theme-highlight-blue);
 }
