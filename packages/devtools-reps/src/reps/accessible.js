@@ -21,7 +21,7 @@ Accessible.propTypes = {
   onAccessibleMouseOver: PropTypes.func,
   onAccessibleMouseOut: PropTypes.func,
   onInspectIconClick: PropTypes.func,
-  separator: PropTypes.string
+  separatorText: PropTypes.string
 };
 
 function Accessible(props) {
