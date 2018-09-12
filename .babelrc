@@ -40,6 +40,11 @@
           }
         ]
       ]
+    },
+    "production": {
+      "plugins": [
+        ["./.babel/transform-in-toolbox"]
+      ]
     }
   }
 }
