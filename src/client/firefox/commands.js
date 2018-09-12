@@ -149,12 +149,12 @@ function getBreakpointByLocation(location: Location) {
   return null;
 }
 
-function setXHRBreakpoint(contains: string) {
-  return threadClient.setXHRBreakpoint(contains);
+function setXHRBreakpoint(contains: string, method: string) {
+  return threadClient.setXHRBreakpoint(contains, method);
 }
 
-function removeXHRBreakpoint(contains: string) {
-  return threadClient.removeXHRBreakpoint(contains);
+function removeXHRBreakpoint(contains: string, method: string) {
+  return threadClient.removeXHRBreakpoint(contains, method);
 }
 
 function setBreakpoint(

@@ -417,7 +417,7 @@ export function setXHRBreakpoint(contains: string) {
     return dispatch({
       type: "SET_XHR_BREAKPOINT",
       breakpoint
-      // [PROMISE]: client.setXHRBreakpoint(contains)
+      // [PROMISE]: client.setXHRBreakpoint(contains, "ANY")
     });
   };
 }
@@ -427,7 +427,7 @@ export function removeXHRBreakpoint(contains: string) {
     return dispatch({
       type: "REMOVE_XHR_BREAKPOINT",
       contains
-      // [PROMISE]: client.removeXHRBreakpoint(contains)
+      // [PROMISE]: client.removeXHRBreakpoint(contains, "ANY")
     });
   };
 }
