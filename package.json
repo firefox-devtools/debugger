@@ -58,7 +58,7 @@
     "@babel/parser": "^7.0.0",
     "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
     "@babel/template": "^7.0.0",
-    "@babel/types": "^7.0.0-beta.55",
+    "@babel/types": "^7.0.0",
     "babel-plugin-transform-imports": "^1.5.0",
     "codemirror": "^5.28.0",
     "devtools-environment": "^0.0.5",
