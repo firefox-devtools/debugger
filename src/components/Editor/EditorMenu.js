@@ -23,6 +23,8 @@ import {
   getSymbols
 } from "../../selectors";
 
+import { formatKeyShortcut } from "../../utils/text";
+
 import actions from "../../actions";
 
 type Props = {
@@ -170,7 +172,8 @@ function getMenuItems(
     id: "node-menu-add-watch-expression",
     label: watchExpressionLabel,
     accesskey: watchExpressionKey,
-    click: () => addExpression(editor.codeMirror.getSelection())
+    click: () => addExpression(editor.codeMirror.getSelection()),
+    accelerator: formatKeyShortcut(L10N.getStr("expressions.key"))
   };
 
   const evaluateInConsoleItem = {
@@ -220,6 +223,7 @@ class EditorMenu extends Component {
   showMenu(nextProps) {
     const { contextMenu, ...options } = nextProps;
     const { event } = contextMenu;
+
     showMenu(event, getMenuItems(event, options));
   }
 
