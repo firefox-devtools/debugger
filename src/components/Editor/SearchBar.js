@@ -314,7 +314,7 @@ class SearchBar extends Component<Props, State> {
         <SearchInput
           query={this.state.query}
           count={count}
-          placeholder={L10N.getStr("sourceSearch.search.placeholder")}
+          placeholder={L10N.getStr("sourceSearch.search.placeholder2")}
           summaryMsg={this.buildSummaryMsg()}
           onChange={this.onChange}
           onBlur={this.onBlur}
