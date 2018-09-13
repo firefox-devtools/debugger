@@ -270,8 +270,6 @@ Mozilla has and continues to hire many people from within the Open Source Softwa
 [getting-setup]:../docs/getting-setup.md
 [labels-available]:https://github.com/devtools-html/debugger.html/labels/available
 [labels-help-wanted-available]:https://github.com/devtools-html/debugger.html/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22+-label%3A%22in+progress%22
-[labels-first-timers-only]:https://github.com/devtools-html/debugger.html/labels/first-timers-only
-[labels-difficulty-easy]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%20easy
 [labels-difficulty-medium]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%medium
 [labels-difficulty-hard]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%hard
 [labels-enhancement]:https://devtools-html.github.io/debugger.html/CONTRIBUTING.html#suggesting-enhancements-new
