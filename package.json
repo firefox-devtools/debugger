@@ -64,7 +64,7 @@
     "devtools-environment": "^0.0.5",
     "devtools-launchpad": "0.0.134",
     "devtools-linters": "^0.0.4",
-    "devtools-modules": "0.0.38",
+    "devtools-modules": "0.0.39",
     "devtools-reps": "0.23.0",
     "devtools-source-map": "0.16.0",
     "devtools-splitter": "^0.0.7",
