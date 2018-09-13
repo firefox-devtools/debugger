@@ -272,9 +272,7 @@ describe("Grip - Object with uninteresting properties", () => {
     expect(getRep(object)).toBe(Grip.rep);
   });
 
-  it.skip("renders as expected", () => {
-    // @TODO This is broken at the moment.
-    // See https://bugzilla.mozilla.org/show_bug.cgi?id=1276376
+  it("renders as expected", () => {
     const renderRep = props => shallowRenderRep(object, props);
     const defaultOutput = 'Object {c: "c", d: 1, a: undefined, more...}';
 
@@ -616,8 +614,7 @@ describe("Grip - DeadObject object", () => {
   });
 });
 
-// TODO: Re-enable and fix this test.
-describe.skip("Grip - Object with __proto__ property", () => {
+describe("Grip - Object with __proto__ property", () => {
   const object = stubs.get("ObjectWith__proto__Property");
 
   it("correctly selects Grip Rep", () => {
