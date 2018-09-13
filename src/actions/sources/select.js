@@ -17,7 +17,7 @@ import { setOutOfScopeLocations, setSymbols } from "../ast";
 import { closeActiveSearch, updateActiveFileSearch } from "../ui";
 
 import { togglePrettyPrint } from "./prettyPrint";
-import { addTab, closeTab } from "../tabs";
+import { addTab } from "../tabs";
 import { loadSourceText } from "./loadSourceText";
 
 import { prefs } from "../../utils/prefs";
@@ -151,7 +151,6 @@ export function selectLocation(
       isMinified(loadedSource)
     ) {
       await dispatch(togglePrettyPrint(loadedSource.id));
-      dispatch(closeTab(loadedSource));
     }
 
     dispatch(setSymbols(loadedSource.id));

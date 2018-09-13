@@ -37,7 +37,8 @@ export type UIState = {
     end?: number,
     sourceId?: number
   },
-  conditionalPanelLine: null | number
+  conditionalPanelLine: null | number,
+  prettyPrinting: boolean
 };
 
 export const createUIState = makeRecord(
@@ -51,7 +52,8 @@ export const createUIState = makeRecord(
     frameworkGroupingOn: prefs.frameworkGroupingOn,
     highlightedLineRange: undefined,
     conditionalPanelLine: null,
-    orientation: "horizontal"
+    orientation: "horizontal",
+    prettyPrinting: false
   }: UIState)
 );
 
@@ -60,6 +62,10 @@ function update(
   action: Action
 ): Record<UIState> {
   switch (action.type) {
+    case "TOGGLE_PRETTY_PRINTING": {
+      return state.set("prettyPrinting", !state.get("prettyPrinting"));
+    }
+
     case "TOGGLE_ACTIVE_SEARCH": {
       return state.set("activeSearch", action.value);
     }

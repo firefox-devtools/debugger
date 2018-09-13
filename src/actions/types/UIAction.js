@@ -16,6 +16,9 @@ export type panelPositionType = "start" | "end";
 
 export type UIAction =
   | {|
+      +type: "TOGGLE_PRETTY_PRINTING"
+    |}
+  | {|
       +type: "TOGGLE_ACTIVE_SEARCH",
       +value: ?ActiveSearchType
     |}

@@ -8,6 +8,7 @@ import assert from "../../utils/assert";
 import { recordEvent } from "../../utils/telemetry";
 import { remapBreakpoints } from "../breakpoints";
 
+import { closeTab } from "../tabs";
 import { setPausePoints, setSymbols } from "../ast";
 import { prettyPrint } from "../../workers/pretty-print";
 import { setSource } from "../../workers/parser";
@@ -84,6 +85,7 @@ export function togglePrettyPrint(sourceId: string) {
     if (!source.isPrettyPrinted) {
       recordEvent("pretty_print");
     }
+    dispatch({ type: "TOGGLE_PRETTY_PRINTING" });
 
     if (!isLoaded(source)) {
       await dispatch(loadSourceText(source));
@@ -124,6 +126,8 @@ export function togglePrettyPrint(sourceId: string) {
       })
     );
 
+    dispatch(closeTab(source));
+    dispatch({ type: "TOGGLE_PRETTY_PRINTING" });
     return newPrettySource;
   };
 }

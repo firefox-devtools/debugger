@@ -6,7 +6,7 @@
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import classnames from "classnames";
-
+import Svg from "../shared/Svg";
 import actions from "../../actions";
 import {
   getSelectedSource,
@@ -36,6 +36,7 @@ type Props = {
   editor: any,
   endPanelCollapsed: boolean,
   horizontal: boolean,
+  isPrettyPrinting: boolean,
   togglePrettyPrint: string => void,
   toggleBlackBox: Object => void,
   jumpToMappedLocation: (Source: any) => void,
@@ -45,11 +46,19 @@ type Props = {
 
 class SourceFooter extends PureComponent<Props> {
   prettyPrintButton() {
-    const { selectedSource, togglePrettyPrint } = this.props;
+    const { selectedSource, togglePrettyPrint, isPrettyPrinting } = this.props;
     const sourceLoaded = selectedSource && isLoaded(selectedSource);
 
     if (!shouldShowPrettyPrint(selectedSource)) {
       return;
+    }
+
+    if (isPrettyPrinting) {
+      return (
+        <div className="loader">
+          <Svg name="loader" />
+        </div>
+      );
     }
 
     const tooltip = L10N.getStr("sourceTabs.prettyPrint");
@@ -66,7 +75,7 @@ class SourceFooter extends PureComponent<Props> {
         title={tooltip}
         aria-label={tooltip}
       >
-        <img className={type} />
+        {<img className={type} />}
       </button>
     );
   }
@@ -208,12 +217,14 @@ class SourceFooter extends PureComponent<Props> {
 const mapStateToProps = state => {
   const selectedSource = getSelectedSource(state);
   const selectedId = selectedSource.id;
+  const isPrettyPrinting = state.ui.prettyPrinting;
 
   return {
     selectedSource,
     mappedSource: getGeneratedSource(state, selectedSource),
     prettySource: getPrettySource(state, selectedId),
-    endPanelCollapsed: getPaneCollapse(state, "end")
+    endPanelCollapsed: getPaneCollapse(state, "end"),
+    isPrettyPrinting
   };
 };
 
