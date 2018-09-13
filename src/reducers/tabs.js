@@ -13,7 +13,7 @@ import { createSelector } from "reselect";
 import { isOriginalId } from "devtools-source-map";
 import move from "lodash-move";
 
-import { prefs } from "../utils/prefs";
+import { asyncStore } from "../utils/prefs";
 import {
   getSource,
   getSources,
@@ -33,7 +33,7 @@ function isSimilarTab(tab: Tab, url: string, isOriginal: boolean) {
   return tab.url === url && tab.isOriginal === isOriginal;
 }
 
-function update(state: TabList = prefs.tabs || [], action: Action): TabList {
+function update(state: TabList = [], action: Action): TabList {
   switch (action.type) {
     case "ADD_TAB":
     case "UPDATE_TAB":
@@ -44,7 +44,7 @@ function update(state: TabList = prefs.tabs || [], action: Action): TabList {
 
     case "CLOSE_TAB":
     case "CLOSE_TABS":
-      prefs.tabs = action.tabs;
+      asyncStore.tabs = action.tabs;
       return action.tabs;
 
     default:
@@ -87,14 +87,14 @@ function updateTabList(
     tabs[currentIndex].framework = framework;
   }
 
-  prefs.tabs = tabs;
+  asyncStore.tabs = tabs;
   return tabs;
 }
 
 function moveTabInList(tabs: TabList, { url, tabIndex: newIndex }) {
   const currentIndex = tabs.findIndex(tab => tab.url == url);
   tabs = move(tabs, currentIndex, newIndex);
-  prefs.tabs = tabs;
+  asyncStore.tabs = tabs;
   return tabs;
 }
 
