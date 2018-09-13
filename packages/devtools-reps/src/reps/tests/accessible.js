@@ -147,6 +147,14 @@ describe("Accessible - Disconnected accessible", () => {
   );
 });
 
+describe("Accessible - No Preview (not a valid grip)", () => {
+  const stub = stubs.get("NoPreview");
+
+  it("does not select Accessible Rep", () => {
+    expect(getRep(stub)).not.toBe(Accessible.rep);
+  });
+});
+
 describe("Accessible - Accessible with long name", () => {
   const stub = stubs.get("AccessibleWithLongName");
 
