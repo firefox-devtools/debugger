@@ -6,8 +6,7 @@
   "scripts": {
     "start": "node bin/dev-server.js",
     "lint-js": "eslint src",
-    "firefox":
-      "./node_modules/.bin/start-firefox --start --location https://devtools-html.github.io/debugger-examples/",
+    "firefox": "./node_modules/.bin/start-firefox --start --location https://devtools-html.github.io/debugger-examples/",
     "chrome": "./node_modules/.bin/start-chrome",
     "license-check": "devtools-license-check",
     "test": "jest --projects jest.config.js"
@@ -39,7 +38,7 @@
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "babel-preset-react": "^6.24.1",
     "devtools-config": "^0.0.15",
-    "devtools-launchpad": "^0.0.130",
+    "devtools-launchpad": "^0.0.135",
     "devtools-license-check": "^0.5.1",
     "devtools-modules": "^0.0.38",
     "devtools-services": "^0.0.1",
