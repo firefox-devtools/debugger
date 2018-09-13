@@ -194,7 +194,7 @@ class Tab extends PureComponent<Props> {
         />
         <div className="filename">
           {getTruncatedFileName(source)}
-          {path && <span>{`../${path}/..`}</span>}
+          {path && !isPrettyCode && <span>{`../${path}/..`}</span>}
         </div>
         <CloseButton
           handleClick={onClickClose}
