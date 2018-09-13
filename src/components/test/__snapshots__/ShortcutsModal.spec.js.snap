@@ -148,7 +148,7 @@ exports[`ShortcutsModal renders when enabled 1`] = `
       >
         <li>
           <span>
-            Source File Search
+            Go to file
           </span>
           <span>
             <span
@@ -168,7 +168,7 @@ exports[`ShortcutsModal renders when enabled 1`] = `
         </li>
         <li>
           <span>
-            Search Again
+            Find next
           </span>
           <span>
             <span
@@ -188,7 +188,7 @@ exports[`ShortcutsModal renders when enabled 1`] = `
         </li>
         <li>
           <span>
-            Full Project Search
+            Find in files
           </span>
           <span>
             <span
@@ -215,7 +215,7 @@ exports[`ShortcutsModal renders when enabled 1`] = `
         </li>
         <li>
           <span>
-            Function Search
+            Find function
           </span>
           <span>
             <span

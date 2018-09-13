@@ -71,19 +71,19 @@ export class ShortcutsModal extends Component<Props> {
     return (
       <ul className="shortcuts-list">
         {this.renderShorcutItem(
-          L10N.getStr("shortcuts.fileSearch"),
+          L10N.getStr("shortcuts.fileSearch2"),
           formatKeyShortcut(L10N.getStr("sources.search.key2"))
         )}
         {this.renderShorcutItem(
-          L10N.getStr("shortcuts.searchAgain"),
+          L10N.getStr("shortcuts.searchAgain2"),
           formatKeyShortcut(L10N.getStr("sourceSearch.search.again.key2"))
         )}
         {this.renderShorcutItem(
-          L10N.getStr("shortcuts.projectSearch"),
+          L10N.getStr("shortcuts.projectSearch2"),
           formatKeyShortcut(L10N.getStr("projectTextSearch.key"))
         )}
         {this.renderShorcutItem(
-          L10N.getStr("shortcuts.functionSearch"),
+          L10N.getStr("shortcuts.functionSearch2"),
           formatKeyShortcut(L10N.getStr("functionSearch.key"))
         )}
         {this.renderShorcutItem(

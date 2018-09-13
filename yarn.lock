@@ -3364,23 +3364,23 @@ devtools-config@^0.0.16:
   version "0.0.16"
   resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.16.tgz#e7251788422f42a16aa1372b6adbebfcb7a74994"
 
-devtools-connection@^0.0.9:
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/devtools-connection/-/devtools-connection-0.0.9.tgz#31121090c8594da7bcc5ee763a34002de932f317"
+devtools-connection@0.0.12:
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/devtools-connection/-/devtools-connection-0.0.12.tgz#a1bb6add55e4b317dd5122c25d3bb47bc896918c"
 
-devtools-contextmenu@^0.0.9:
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/devtools-contextmenu/-/devtools-contextmenu-0.0.9.tgz#62c8704d5d450f56ac1a4a7904ebdee7d556dbdd"
+devtools-contextmenu@^0.0.10:
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/devtools-contextmenu/-/devtools-contextmenu-0.0.10.tgz#c16a348256cde6dc2f7946543a54b525d18f0863"
   dependencies:
-    devtools-modules "^0.0.38"
+    devtools-modules "^0.0.39"
 
 devtools-environment@^0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/devtools-environment/-/devtools-environment-0.0.5.tgz#0333bf35009fe09c21c315069e6b4d9177a4b8d1"
 
-devtools-launchpad@0.0.131:
-  version "0.0.131"
-  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.131.tgz#ce43d9900a25644b1ec58b02a2b6bb3b479d4def"
+devtools-launchpad@0.0.135, devtools-launchpad@^0.0.135:
+  version "0.0.135"
+  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.135.tgz#79eceec38047fef1766aa770599174570d464f86"
   dependencies:
     amd-loader "0.0.8"
     autoprefixer "^7.1.2"
@@ -3405,12 +3405,12 @@ devtools-launchpad@0.0.131:
     css-loader "^0.26.1"
     debug "^3.1.0"
     devtools-config "^0.0.16"
-    devtools-connection "^0.0.9"
-    devtools-contextmenu "^0.0.9"
+    devtools-connection "0.0.12"
+    devtools-contextmenu "^0.0.10"
     devtools-environment "^0.0.5"
     devtools-license-check "^0.7.0"
     devtools-mc-assets "^0.0.6"
-    devtools-modules "^0.0.38"
+    devtools-modules "^0.0.39"
     devtools-sprintf-js "^1.0.3"
     express "^4.13.4"
     express-static "^1.2.5"
@@ -3422,77 +3422,6 @@ devtools-launchpad@0.0.131:
     json-loader "^0.5.4"
     md5 "^2.2.1"
     mime-types "^2.1.18"
-    minimist "^1.2.0"
-    mustache "^2.2.1"
-    node-static "^0.7.7"
-    postcss "^6.0.6"
-    postcss-bidirection "^2.4.0"
-    postcss-class-namespace "^0.1.0"
-    postcss-loader "^2.0.6"
-    postcss-url-mapper "^1.2.0"
-    prop-types "^15.6.0"
-    properties-parser "^0.3.1"
-    ps-node "^0.1.4"
-    raw-loader "^0.5.1"
-    react "^16.4.1"
-    react-dom "^16.4.1"
-    react-dom-factories "^1.0.2"
-    react-redux "^5.0.6"
-    redux "^3.7.2"
-    selenium-webdriver "=3.3.0"
-    style-loader "^0.18.2"
-    svg-inline-loader "^0.8.0"
-    svg-inline-react "3.0.0"
-    url-loader "^0.5.9"
-    webpack "^3.3.0"
-    webpack-dev-middleware "^1.11.0"
-    webpack-env-loader-plugin "^1.0.0"
-    webpack-hot-middleware "^2.18.2"
-    ws "^1.0.1"
-
-devtools-launchpad@^0.0.130:
-  version "0.0.130"
-  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.130.tgz#65c9bf02d45304674723d898d7f30db82fb95fed"
-  dependencies:
-    amd-loader "0.0.8"
-    autoprefixer "^7.1.2"
-    babel-cli "^6.7.5"
-    babel-core "^6.25.0"
-    babel-eslint "^7.1.0"
-    babel-loader "^7.1.1"
-    babel-plugin-module-resolver "^2.2.0"
-    babel-plugin-transform-async-to-generator "^6.16.0"
-    babel-plugin-transform-flow-strip-types "^6.14.0"
-    babel-plugin-transform-runtime "^6.7.5"
-    babel-plugin-webpack-alias "^2.1.1"
-    babel-polyfill "^6.7.4"
-    babel-preset-es2015 "^6.24.1"
-    babel-preset-react "^6.24.1"
-    babel-register "^6.18.0"
-    body-parser "^1.15.2"
-    check-node-version "^1.1.2"
-    chrome-remote-interface "0.17.0"
-    classnames "^2.2.5"
-    co "=4.6.0"
-    css-loader "^0.26.1"
-    debug "^3.1.0"
-    devtools-config "^0.0.16"
-    devtools-connection "^0.0.9"
-    devtools-contextmenu "^0.0.9"
-    devtools-environment "^0.0.5"
-    devtools-license-check "^0.7.0"
-    devtools-mc-assets "^0.0.6"
-    devtools-modules "^0.0.38"
-    devtools-sprintf-js "^1.0.3"
-    express "^4.13.4"
-    express-static "^1.2.5"
-    extract-text-webpack-plugin "^3.0.0"
-    fs-extra "^2.0.0"
-    fuzzaldrin-plus "^0.4.0"
-    geckodriver "=1.4.0"
-    immutable "^3.7.6"
-    json-loader "^0.5.4"
-    md5 "^2.2.1"
     minimist "^1.2.0"
     mustache "^2.2.1"
     node-static "^0.7.7"
@@ -3569,9 +3498,16 @@ devtools-mc-assets@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/devtools-mc-assets/-/devtools-mc-assets-0.0.6.tgz#51d935ddc6e929d386549d95ff96e3c2323372f7"
 
-devtools-modules@0.0.38, devtools-modules@^0.0.38:
+devtools-modules@^0.0.38:
   version "0.0.38"
   resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.38.tgz#15183b6c42fd35dee2e22f88b0654b5e7c9d8cd8"
+  dependencies:
+    devtools-services "0.0.1"
+    punycode "^2.1.0"
+
+devtools-modules@^0.0.39:
+  version "0.0.39"
+  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.39.tgz#742aa40cf723c43712c7e2a12c30be997b1979ba"
   dependencies:
     devtools-services "0.0.1"
     punycode "^2.1.0"
@@ -4790,9 +4726,9 @@ flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
 
-flow-bin@^0.79.0:
-  version "0.79.1"
-  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.79.1.tgz#01c9f427baa6556753fa878c192d42e1ecb764b6"
+flow-bin@^0.80.0:
+  version "0.80.0"
+  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.80.0.tgz#04cc1ee626a6f50786f78170c92ebe1745235403"
 
 flush-write-stream@^1.0.0, flush-write-stream@^1.0.2:
   version "1.0.3"
