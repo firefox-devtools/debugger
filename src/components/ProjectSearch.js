@@ -191,8 +191,8 @@ export class ProjectSearch extends Component<Props, State> {
     }
   };
 
-  onHistoryScroll = (historyValue: string) => {
-    this.setState({ inputValue: historyValue });
+  onHistoryScroll = (query: string) => {
+    this.setState({ inputValue: query });
   };
 
   onEnterPress = () => {

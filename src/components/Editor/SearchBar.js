@@ -221,9 +221,9 @@ class SearchBar extends Component<Props, State> {
     return this.doSearch(e.target.value);
   };
 
-  onHistoryScroll = (historyValue: string) => {
-    this.setState({ query: historyValue });
-    this.doSearch(historyValue);
+  onHistoryScroll = (query: string) => {
+    this.setState({ query });
+    this.doSearch(query);
   };
 
   // Renderers

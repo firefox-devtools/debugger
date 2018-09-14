@@ -149,8 +149,10 @@ class SearchInput extends Component<Props, State> {
     if (!onHistoryScroll) {
       return onKeyDown(e);
     }
+
     const inputValue = e.target.value;
-    const currentHistoryIndex = this.state.history.indexOf(inputValue);
+    const { history } = this.state;
+    const currentHistoryIndex = history.indexOf(inputValue);
 
     if (e.key === "Enter") {
       this.saveEnteredTerm(inputValue);
@@ -159,11 +161,9 @@ class SearchInput extends Component<Props, State> {
 
     if (e.key === "ArrowUp") {
       const previous =
-        currentHistoryIndex > -1
-          ? currentHistoryIndex - 1
-          : this.state.history.length - 1;
-      const previousInHistory = this.state.history[previous];
-      if (previousInHistory !== undefined) {
+        currentHistoryIndex > -1 ? currentHistoryIndex - 1 : history.length - 1;
+      const previousInHistory = history[previous];
+      if (previousInHistory) {
         e.preventDefault();
         onHistoryScroll(previousInHistory);
       }
@@ -172,22 +172,21 @@ class SearchInput extends Component<Props, State> {
 
     if (e.key === "ArrowDown") {
       const next = currentHistoryIndex + 1;
-      const nextInHistory = this.state.history[next];
-      if (nextInHistory !== undefined) {
+      const nextInHistory = history[next];
+      if (nextInHistory) {
         onHistoryScroll(nextInHistory);
       }
-      return;
     }
   };
 
-  saveEnteredTerm(inputValue: string) {
-    const newHistory = this.state.history;
-    const previousIndex = newHistory.indexOf(inputValue);
+  saveEnteredTerm(query: string) {
+    const { history } = this.state;
+    const previousIndex = history.indexOf(query);
     if (previousIndex !== -1) {
-      newHistory.splice(previousIndex, 1);
+      history.splice(previousIndex, 1);
     }
-    newHistory.push(inputValue);
-    this.setState({ history: newHistory });
+    history.push(query);
+    this.setState({ history });
   }
 
   renderSummaryMsg() {
