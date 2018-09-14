@@ -224,8 +224,7 @@ function getLinkifiedElements(text, cropLimit, openLink) {
   if (currentIndex !== text.length) {
     let nonUrlText = text.slice(currentIndex, text.length);
     if (currentIndex < endCropIndex) {
-      const cutIndex = endCropIndex - currentIndex;
-      nonUrlText = nonUrlText.substring(cutIndex);
+      nonUrlText = getCroppedString(nonUrlText, currentIndex, startCropIndex, endCropIndex);
     }
     items.push(nonUrlText);
   }
