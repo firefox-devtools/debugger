@@ -566,6 +566,15 @@ class Editor extends PureComponent<Props, State> {
     const { horizontal, selectedSource } = this.props;
     const { editor } = this.state;
 
+    if (!editor && selectedSource) {
+      // initial load
+      return (
+        <div>
+          <Footer horizontal={horizontal} />
+        </div>
+      );
+    }
+
     if (!editor || !selectedSource) {
       return null;
     }
@@ -577,7 +586,7 @@ class Editor extends PureComponent<Props, State> {
         <EmptyLines editor={editor} />
         <Breakpoints editor={editor} />
         <Preview editor={editor} editorRef={this.$editorWrapper} />;
-        <Footer editor={editor} horizontal={horizontal} />
+        <Footer horizontal={horizontal} />
         <HighlightLines editor={editor} />
         <EditorMenu editor={editor} />
         <GutterMenu editor={editor} />
