@@ -91,7 +91,8 @@ export function setPreview(
         const selectedFrame = getSelectedFrame(getState());
 
         if (location && !isGeneratedId(sourceId)) {
-          expression = await dispatch(getMappedExpression(expression));
+          const mapResult = await dispatch(getMappedExpression(expression));
+          expression = mapResult.expression;
         }
 
         if (!selectedFrame) {

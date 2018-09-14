@@ -144,7 +144,8 @@ function evaluateExpression(expression: Expression) {
         !isGeneratedId(sourceId) &&
         !isGeneratedId(selectedSource.id)
       ) {
-        input = await dispatch(getMappedExpression(input));
+        const mapResult = await dispatch(getMappedExpression(input));
+        input = mapResult.expression;
       }
     }
 
