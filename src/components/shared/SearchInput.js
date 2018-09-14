@@ -7,7 +7,6 @@
 import React, { Component } from "react";
 
 import { CloseButton } from "./Button";
-import { debounce } from "lodash";
 
 import Svg from "./Svg";
 import classnames from "classnames";
@@ -59,7 +58,6 @@ type State = {
 
 class SearchInput extends Component<Props, State> {
   displayName: "SearchInput";
-  debouncedSave: (e: string) => void;
   $input: ?HTMLInputElement;
 
   static defaultProps = {
@@ -77,8 +75,6 @@ class SearchInput extends Component<Props, State> {
       inputFocused: false,
       history: []
     };
-
-    this.debouncedSave = debounce(this.saveEnteredTerm, 300);
   }
 
   componentDidMount() {
@@ -181,11 +177,6 @@ class SearchInput extends Component<Props, State> {
         onHistoryScroll(nextInHistory);
       }
       return;
-    }
-
-    if (e.key.length === 1 && !e.metaKey && !e.ctrlKey) {
-      const currentInput = inputValue + e.key;
-      this.debouncedSave(currentInput);
     }
   };
 
