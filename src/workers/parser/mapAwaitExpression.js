@@ -32,12 +32,13 @@ function wrapExpression(ast) {
   return generate(newAst).code;
 }
 
-export default function handleTopLevelAwait(expression: string) {
+export default function mapTopLevelAwait(expression: string) {
   const ast = hasTopLevelAwait(expression);
   if (ast) {
     const func = wrapExpression(ast);
-    return generate(template.ast(`(${func})().then(r => console.log(r));`))
-      .code;
+    return generate(
+      template.ast(`(${func})().then(console.log).catch(console.error);`)
+    ).code;
   }
 
   return expression;
