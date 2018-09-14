@@ -15,8 +15,6 @@ import {
   isPaused as getIsPaused
 } from "../../selectors";
 
-import { formatKeyShortcut } from "../../utils/text";
-
 import actions from "../../actions";
 
 type Props = {
@@ -79,7 +77,7 @@ export function gutterMenu({
         closeConditionalPanel();
       }
     },
-    accelerator: formatKeyShortcut(L10N.getStr("toggleBreakpoint.key")),
+    accelerator: L10N.getStr("toggleBreakpoint.key"),
     ...(breakpoint ? gutterItems.removeBreakpoint : gutterItems.addBreakpoint)
   };
 
@@ -87,7 +85,7 @@ export function gutterMenu({
     accesskey: L10N.getStr("editor.addConditionalBreakpoint.accesskey"),
     disabled: false,
     click: () => openConditionalPanel(line),
-    accelerator: formatKeyShortcut(L10N.getStr("toggleCondPanel.key")),
+    accelerator: L10N.getStr("toggleCondPanel.key"),
     ...(breakpoint && breakpoint.condition
       ? gutterItems.editConditional
       : gutterItems.addConditional)

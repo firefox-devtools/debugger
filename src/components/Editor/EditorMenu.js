@@ -23,8 +23,6 @@ import {
   getSymbols
 } from "../../selectors";
 
-import { formatKeyShortcut } from "../../utils/text";
-
 import actions from "../../actions";
 
 type Props = {
@@ -173,7 +171,7 @@ function getMenuItems(
     label: watchExpressionLabel,
     accesskey: watchExpressionKey,
     click: () => addExpression(editor.codeMirror.getSelection()),
-    accelerator: formatKeyShortcut(L10N.getStr("expressions.key"))
+    accelerator: L10N.getStr("expressions.key")
   };
 
   const evaluateInConsoleItem = {
