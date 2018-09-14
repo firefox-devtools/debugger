@@ -33,6 +33,11 @@ stubs.set("NoName", {
   }
 });
 
+stubs.set("NoPreview", {
+  actor: "server1.conn1.child1/accessible93",
+  typeName: "accessible"
+});
+
 stubs.set("DisconnectedAccessible", {
   actor: null,
   typeName: "accessible",
