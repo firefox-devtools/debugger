@@ -102,7 +102,7 @@ export type Props = {
 };
 
 type State = {
-  editor: SourceEditor
+  editor: ?SourceEditor
 };
 
 class Editor extends PureComponent<Props, State> {
@@ -286,9 +286,11 @@ class Editor extends PureComponent<Props, State> {
   onAddWatchExpression = (_, e: KeyboardEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    const { codeMirror } = this.state.editor;
-    const selection = codeMirror.getSelection();
-    return this.props.addExpression(selection);
+    if (this.state.editor) {
+      const { codeMirror } = this.state.editor;
+      const selection = codeMirror.getSelection();
+      return this.props.addExpression(selection);
+    }
   };
 
   onToggleConditionalPanel = (key, e: KeyboardEvent) => {
