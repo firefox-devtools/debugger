@@ -116,7 +116,7 @@ We are lucky to have lots of [nice people][getting-help] here.
 #### Your First Code Contribution
 
 If you're looking for a good issue, you can look through
-the [available][labels-available] issues.
+the [help wanted][labels-help-wanted-available] issues.
 
 These issues should be well documented.
 
@@ -269,11 +269,10 @@ Mozilla has and continues to hire many people from within the Open Source Softwa
 
 [getting-setup]:../docs/getting-setup.md
 [labels-available]:https://github.com/devtools-html/debugger.html/labels/available
-[labels-first-timers-only]:https://github.com/devtools-html/debugger.html/labels/first-timers-only
-[labels-difficulty-easy]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%20easy
+[labels-help-wanted-available]:https://github.com/devtools-html/debugger.html/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22+-label%3A%22in+progress%22
 [labels-difficulty-medium]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%medium
 [labels-difficulty-hard]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%hard
-[labels-enhancement]:https://devtools-html.github.io/debugger.html/CONTRIBUTING.html#suggesting-enhancements-new
+[labels-enhancement]:https://github.com/devtools-html/debugger.html/labels/enhancement
 
 [@jasonlaster]:https://github.com/jasonlaster
 [@bomsy]:https://github.com/bomsy
