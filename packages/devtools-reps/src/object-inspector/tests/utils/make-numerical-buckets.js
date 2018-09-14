@@ -27,8 +27,7 @@ describe("makeNumericalBuckets", () => {
     ]);
   });
 
-  // TODO: Re-enable when we have support for lonely node.
-  it.skip("does not create a numerical bucket for a single node", () => {
+  it("does not create a numerical bucket for a single node", () => {
     const node = createNode({
       name: "root",
       contents: {
@@ -45,8 +44,7 @@ describe("makeNumericalBuckets", () => {
     expect(paths).toEqual(["Symbol(root/bucket_0-99)", "Symbol(root/100)"]);
   });
 
-  // TODO: Re-enable when we have support for lonely node.
-  it.skip("does create a numerical bucket for two node", () => {
+  it("does create a numerical bucket for two node", () => {
     const node = createNode({
       name: "root",
       contents: {
