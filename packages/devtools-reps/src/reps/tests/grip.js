@@ -274,7 +274,7 @@ describe("Grip - Object with uninteresting properties", () => {
 
   it("renders as expected", () => {
     const renderRep = props => shallowRenderRep(object, props);
-    const defaultOutput = 'Object { a: undefined, c: "c", d: 1, ...}';
+    const defaultOutput = 'Object { a: undefined, c: "c", d: 1, … }';
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.TINY }).text()).toBe("{…}");
