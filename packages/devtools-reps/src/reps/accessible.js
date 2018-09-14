@@ -106,7 +106,7 @@ function supportsObject(object, noGrip = false) {
     return false;
   }
 
-  return object.typeName && object.typeName === "accessible";
+  return object.preview && object.typeName && object.typeName === "accessible";
 }
 
 // Exports from this module
