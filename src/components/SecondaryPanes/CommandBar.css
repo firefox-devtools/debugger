@@ -94,6 +94,7 @@ img.skipPausing {
 
 .command-bar img.shortcuts {
   mask: url(/mc/help.svg) no-repeat;
+  mask-size: contain;
 }
 
 .command-bar .replay-inactive {
