@@ -97,12 +97,11 @@ export type Props = {
   toggleBreakpointsAtLine: (?number) => void,
   addOrToggleDisabledBreakpoint: (?number) => void,
   jumpToMappedLocation: any => void,
-  traverseResults: (boolean, Object) => void,
-  addExpression: string => void
+  traverseResults: (boolean, Object) => void
 };
 
 type State = {
-  editor: ?SourceEditor
+  editor: SourceEditor
 };
 
 class Editor extends PureComponent<Props, State> {
@@ -212,7 +211,6 @@ class Editor extends PureComponent<Props, State> {
     shortcuts.on("Esc", this.onEscape);
     shortcuts.on(searchAgainPrevKey, this.onSearchAgain);
     shortcuts.on(searchAgainKey, this.onSearchAgain);
-    shortcuts.on(L10N.getStr("expressions.key"), this.onAddWatchExpression);
   }
 
   componentWillUnmount() {
@@ -230,7 +228,6 @@ class Editor extends PureComponent<Props, State> {
     shortcuts.off(L10N.getStr("toggleCondPanel.key"));
     shortcuts.off(searchAgainPrevKey);
     shortcuts.off(searchAgainKey);
-    shortcuts.off(L10N.getStr("expressions.key"));
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -280,16 +277,6 @@ class Editor extends PureComponent<Props, State> {
     } else {
       this.toggleConditionalPanel(line);
       this.props.toggleBreakpoint(line);
-    }
-  };
-
-  onAddWatchExpression = (_, e: KeyboardEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (this.state.editor) {
-      const { codeMirror } = this.state.editor;
-      const selection = codeMirror.getSelection();
-      return this.props.addExpression(selection);
     }
   };
 
@@ -654,7 +641,6 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   {
-    addExpression: actions.addExpression,
     openConditionalPanel: actions.openConditionalPanel,
     closeConditionalPanel: actions.closeConditionalPanel,
     setContextMenu: actions.setContextMenu,

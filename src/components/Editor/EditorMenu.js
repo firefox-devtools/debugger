@@ -75,8 +75,8 @@ function getMenuItems(
     : blackboxLabel;
   const copyFunctionKey = L10N.getStr("copyFunction.accesskey");
   const copyFunctionLabel = L10N.getStr("copyFunction.label");
-  const copySourceKey = L10N.getStr("copySource2.accesskey");
-  const copySourceLabel = L10N.getStr("copySource2");
+  const copySourceKey = L10N.getStr("copySource.accesskey");
+  const copySourceLabel = L10N.getStr("copySource.label");
   const copyToClipboardKey = L10N.getStr("copyToClipboard.accesskey");
   const copyToClipboardLabel = L10N.getStr("copyToClipboard.label");
   const copySourceUri2Key = L10N.getStr("copySourceUri2.accesskey");
@@ -170,8 +170,7 @@ function getMenuItems(
     id: "node-menu-add-watch-expression",
     label: watchExpressionLabel,
     accesskey: watchExpressionKey,
-    click: () => addExpression(editor.codeMirror.getSelection()),
-    accelerator: L10N.getStr("expressions.key")
+    click: () => addExpression(editor.codeMirror.getSelection())
   };
 
   const evaluateInConsoleItem = {
@@ -221,7 +220,6 @@ class EditorMenu extends Component {
   showMenu(nextProps) {
     const { contextMenu, ...options } = nextProps;
     const { event } = contextMenu;
-
     showMenu(event, getMenuItems(event, options));
   }
 
