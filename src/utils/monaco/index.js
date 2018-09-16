@@ -84,8 +84,7 @@ export function shouldShowFooter(selectedSource, horizontal) {
     return false;
   }
   return (
-    shouldShowPrettyPrint(selectedSource) ||
-    isOriginalId(selectedSource.get("id"))
+    shouldShowPrettyPrint(selectedSource) || isOriginalId(selectedSource.id)
   );
 }
 
