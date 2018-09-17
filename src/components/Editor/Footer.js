@@ -74,7 +74,7 @@ class SourceFooter extends PureComponent<Props> {
         title={tooltip}
         aria-label={tooltip}
       >
-        {<img className={type} />}
+        <img className={type} />
       </button>
     );
   }
