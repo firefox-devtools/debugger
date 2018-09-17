@@ -39,11 +39,11 @@ async function getReactProps(evaluate, displayName) {
 }
 
 async function getImmutableProps(expression: string, evaluate) {
-  const immutableEntries = await evaluate((exp => `${exp}.toJS()`)(expression));
+  // NOTE: it's possible the expression is a statement e.g `_this.fields;`
+  expression = expression.replace(/;$/, "");
 
-  const immutableType = await evaluate(
-    (exp => `${exp}.constructor.name`)(expression)
-  );
+  const immutableEntries = await evaluate(`${expression}.toJS()`);
+  const immutableType = await evaluate(`${expression}.constructor.name`);
 
   return {
     type: immutableType.result,

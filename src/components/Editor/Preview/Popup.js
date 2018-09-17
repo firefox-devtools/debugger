@@ -28,7 +28,7 @@ import actions from "../../../actions";
 import { getAllPopupObjectProperties } from "../../../selectors";
 import Popover from "../../shared/Popover";
 import PreviewFunction from "../../shared/PreviewFunction";
-import { isReactComponent, isImmutable } from "../../../utils/preview";
+import { isReactComponent, isImmutablePreview } from "../../../utils/preview";
 
 import Svg from "../../shared/Svg";
 import { createObjectClient } from "../../../client/firefox";
@@ -225,7 +225,7 @@ export class Popup extends Component<Props, State> {
   }
 
   renderObjectPreview() {
-    const { extra } = this.props;
+    const { extra, value } = this.props;
     const root = this.getRoot();
 
     if (nodeIsPrimitive(root)) {
@@ -238,12 +238,10 @@ export class Popup extends Component<Props, State> {
     }
 
     let header = null;
-    if (isImmutable(this.getObjectProperties())) {
+    if (extra.immutable && isImmutablePreview(value)) {
       header = this.renderImmutable(extra.immutable);
       roots = roots.filter(r => r.type != NODE_TYPES.PROTOTYPE);
-    }
-
-    if (extra.react && isReactComponent(this.getObjectProperties())) {
+    } else if (extra.react && isReactComponent(this.getObjectProperties())) {
       header = this.renderReact(extra.react);
       roots = roots.filter(r => ["state", "props"].includes(r.name));
     }
