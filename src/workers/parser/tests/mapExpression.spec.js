@@ -11,19 +11,27 @@ function test({
   newExpression,
   bindings,
   mappings,
-  shouldMapExpression
+  shouldMapExpression,
+  expectedMapped
 }) {
+  const res = mapExpression(
+    expression,
+    mappings,
+    bindings,
+    shouldMapExpression
+  );
   expect(
-    format(mapExpression(expression, mappings, bindings, shouldMapExpression), {
+    format(res.expression, {
       parser: "babylon"
     })
   ).toEqual(format(newExpression, { parser: "babylon" }));
+  expect(res.mapped).toEqual(expectedMapped);
 }
 
 function formatAwait(body) {
   return `(async () => {
     ${body}
-  })().then(r => console.log(r));`;
+  })().then(console.log).catch(console.error);`;
 }
 
 describe("mapExpression", () => {
@@ -34,7 +42,12 @@ describe("mapExpression", () => {
       newExpression: formatAwait("return await a()"),
       bindings: [],
       mappings: {},
-      shouldMapExpression: true
+      shouldMapExpression: true,
+      expectedMapped: {
+        await: true,
+        bindings: false,
+        originalExpression: false
+      }
     },
     {
       name: "await (multiple statements)",
@@ -42,7 +55,12 @@ describe("mapExpression", () => {
       newExpression: formatAwait("self.x = await a(); return x + x;"),
       bindings: [],
       mappings: {},
-      shouldMapExpression: true
+      shouldMapExpression: true,
+      expectedMapped: {
+        await: true,
+        bindings: true,
+        originalExpression: false
+      }
     },
     {
       name: "await (inner)",
@@ -50,7 +68,12 @@ describe("mapExpression", () => {
       newExpression: "async () => await a();",
       bindings: [],
       mappings: {},
-      shouldMapExpression: true
+      shouldMapExpression: true,
+      expectedMapped: {
+        await: false,
+        bindings: false,
+        originalExpression: false
+      }
     },
     {
       name: "await (multiple awaits)",
@@ -58,7 +81,12 @@ describe("mapExpression", () => {
       newExpression: formatAwait("self.x = await a(); return await b(x);"),
       bindings: [],
       mappings: {},
-      shouldMapExpression: true
+      shouldMapExpression: true,
+      expectedMapped: {
+        await: true,
+        bindings: true,
+        originalExpression: false
+      }
     },
     {
       name: "await (assignment)",
@@ -66,7 +94,12 @@ describe("mapExpression", () => {
       newExpression: formatAwait("return (self.x = await sleep(100, 2))"),
       bindings: [],
       mappings: {},
-      shouldMapExpression: true
+      shouldMapExpression: true,
+      expectedMapped: {
+        await: true,
+        bindings: true,
+        originalExpression: false
+      }
     },
     {
       name: "simple",
@@ -74,7 +107,12 @@ describe("mapExpression", () => {
       newExpression: "a",
       bindings: [],
       mappings: {},
-      shouldMapExpression: true
+      shouldMapExpression: true,
+      expectedMapped: {
+        await: false,
+        bindings: false,
+        originalExpression: false
+      }
     },
     {
       name: "mappings",
@@ -84,7 +122,12 @@ describe("mapExpression", () => {
       mappings: {
         a: "_a"
       },
-      shouldMapExpression: true
+      shouldMapExpression: true,
+      expectedMapped: {
+        await: false,
+        bindings: false,
+        originalExpression: true
+      }
     },
     {
       name: "declaration",
@@ -92,7 +135,12 @@ describe("mapExpression", () => {
       newExpression: "self.a = 3",
       bindings: [],
       mappings: {},
-      shouldMapExpression: true
+      shouldMapExpression: true,
+      expectedMapped: {
+        await: false,
+        bindings: true,
+        originalExpression: false
+      }
     },
     {
       name: "bindings",
@@ -100,7 +148,12 @@ describe("mapExpression", () => {
       newExpression: "a = 3",
       bindings: ["a"],
       mappings: {},
-      shouldMapExpression: true
+      shouldMapExpression: true,
+      expectedMapped: {
+        await: false,
+        bindings: true,
+        originalExpression: false
+      }
     },
     {
       name: "bindings + mappings",
@@ -108,7 +161,12 @@ describe("mapExpression", () => {
       newExpression: "self.a = 3",
       bindings: ["_a"],
       mappings: { a: "_a" },
-      shouldMapExpression: true
+      shouldMapExpression: true,
+      expectedMapped: {
+        await: false,
+        bindings: true,
+        originalExpression: false
+      }
     },
     {
       name: "bindings without mappings",
@@ -116,7 +174,12 @@ describe("mapExpression", () => {
       newExpression: "a = 3",
       bindings: [],
       mappings: { a: "_a" },
-      shouldMapExpression: false
+      shouldMapExpression: false,
+      expectedMapped: {
+        await: false,
+        bindings: false,
+        originalExpression: false
+      }
     }
   ]);
 });
