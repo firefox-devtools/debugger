@@ -36,7 +36,6 @@ type Props = {
   mappedSource: Source,
   endPanelCollapsed: boolean,
   horizontal: boolean,
-  isPrettyPrinting: boolean,
   togglePrettyPrint: string => void,
   toggleBlackBox: Object => void,
   jumpToMappedLocation: (Source: any) => void,
@@ -46,13 +45,13 @@ type Props = {
 
 class SourceFooter extends PureComponent<Props> {
   prettyPrintButton() {
-    const { selectedSource, togglePrettyPrint, isPrettyPrinting } = this.props;
+    const { selectedSource, togglePrettyPrint } = this.props;
     const sourceLoaded = selectedSource && isLoaded(selectedSource);
 
     if (!shouldShowPrettyPrint(selectedSource)) {
       return;
     }
-    if (isLoading(selectedSource) || isPrettyPrinting) {
+    if (isLoading(selectedSource)) {
       return (
         <div className="loader">
           <Svg name="loader" />
@@ -216,14 +215,12 @@ class SourceFooter extends PureComponent<Props> {
 const mapStateToProps = state => {
   const selectedSource = getSelectedSource(state);
   const selectedId = selectedSource.id;
-  const isPrettyPrinting = state.ui.prettyPrinting;
 
   return {
     selectedSource,
     mappedSource: getGeneratedSource(state, selectedSource),
     prettySource: getPrettySource(state, selectedId),
-    endPanelCollapsed: getPaneCollapse(state, "end"),
-    isPrettyPrinting
+    endPanelCollapsed: getPaneCollapse(state, "end")
   };
 };
 

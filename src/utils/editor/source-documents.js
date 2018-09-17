@@ -75,11 +75,9 @@ export function clearEditor(editor: SourceEditor) {
 }
 
 export function showLoading(editor: SourceEditor) {
-  if (hasDocument("loading")) {
-    return;
-  }
+  const docExists = hasDocument("loading");
 
-  const doc = editor.createDocument();
+  const doc = docExists ? getDocument("loading") : editor.createDocument();
   setDocument("loading", doc);
   editor.replaceDocument(doc);
   editor.setText(L10N.getStr("loadingText"));

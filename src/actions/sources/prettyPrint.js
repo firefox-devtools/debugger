@@ -24,6 +24,7 @@ import {
 } from "../../selectors";
 
 import type { Action, ThunkArgs } from "../types";
+import { selectSource } from "./select";
 import type { JsSource } from "../../types";
 
 export function createPrettySource(sourceId: string) {
@@ -44,6 +45,7 @@ export function createPrettySource(sourceId: string) {
     };
 
     dispatch(({ type: "ADD_SOURCE", source: prettySource }: Action));
+    dispatch(selectSource(prettySource.id));
 
     const { code, mappings } = await prettyPrint({ source, url });
     await sourceMaps.applySourceMap(source.id, url, code, mappings);
@@ -84,7 +86,6 @@ export function togglePrettyPrint(sourceId: string) {
     if (!source.isPrettyPrinted) {
       recordEvent("pretty_print");
     }
-    dispatch({ type: "TOGGLE_PRETTY_PRINTING" });
 
     if (!isLoaded(source)) {
       await dispatch(loadSourceText(source));
@@ -125,7 +126,6 @@ export function togglePrettyPrint(sourceId: string) {
       })
     );
 
-    dispatch({ type: "TOGGLE_PRETTY_PRINTING" });
     return newPrettySource;
   };
 }
