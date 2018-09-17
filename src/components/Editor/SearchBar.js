@@ -221,6 +221,11 @@ class SearchBar extends Component<Props, State> {
     return this.doSearch(e.target.value);
   };
 
+  onHistoryScroll = (query: string) => {
+    this.setState({ query });
+    this.doSearch(query);
+  };
+
   // Renderers
   buildSummaryMsg() {
     const {
@@ -320,6 +325,7 @@ class SearchBar extends Component<Props, State> {
           onBlur={this.onBlur}
           showErrorEmoji={this.shouldShowErrorEmoji()}
           onKeyDown={this.onKeyDown}
+          onHistoryScroll={this.onHistoryScroll}
           handleNext={e => this.traverseResults(e, false)}
           handlePrev={e => this.traverseResults(e, true)}
           handleClose={this.closeSearch}
