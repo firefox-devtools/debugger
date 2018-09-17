@@ -92,7 +92,9 @@ export function setPreview(
 
         if (location && !isGeneratedId(sourceId)) {
           const mapResult = await dispatch(getMappedExpression(expression));
-          expression = mapResult.expression;
+          if (mapResult) {
+            expression = mapResult.expression || mapResult;
+          }
         }
 
         if (!selectedFrame) {

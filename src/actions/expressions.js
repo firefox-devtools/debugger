@@ -145,7 +145,9 @@ function evaluateExpression(expression: Expression) {
         !isGeneratedId(selectedSource.id)
       ) {
         const mapResult = await dispatch(getMappedExpression(input));
-        input = mapResult.expression;
+        if (mapResult) {
+          input = mapResult.expression || mapResult;
+        }
       }
     }
 
@@ -176,15 +178,19 @@ export function getMappedExpression(expression: string) {
     // 2. does not contain `await` - we do not need to map top level awaits
     // 3. does not contain `=` - we do not need to map assignments
     if (!mappings && !expression.match(/(await|=)/)) {
-      return expression;
+      return null;
     }
 
-    return parser.mapExpression(
+    const mapResult = parser.mapExpression(
       expression,
       mappings,
       bindings || [],
       features.mapExpressionBindings,
       features.mapAwaitExpression
     );
+
+    // TODO: Directly return mapResult when
+    // https://bugzilla.mozilla.org/show_bug.cgi?id=1491354 lands.
+    return mapResult.expression;
   };
 }
