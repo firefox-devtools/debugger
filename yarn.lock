@@ -3368,19 +3368,19 @@ devtools-connection@0.0.12:
   version "0.0.12"
   resolved "https://registry.yarnpkg.com/devtools-connection/-/devtools-connection-0.0.12.tgz#a1bb6add55e4b317dd5122c25d3bb47bc896918c"
 
-devtools-contextmenu@^0.0.10:
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/devtools-contextmenu/-/devtools-contextmenu-0.0.10.tgz#c16a348256cde6dc2f7946543a54b525d18f0863"
+devtools-contextmenu@^0.0.11:
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/devtools-contextmenu/-/devtools-contextmenu-0.0.11.tgz#a0520cf82e77d07d0f04c5c66d26de1090cba893"
   dependencies:
-    devtools-modules "^0.0.39"
+    devtools-modules "^0.0.40"
 
 devtools-environment@^0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/devtools-environment/-/devtools-environment-0.0.5.tgz#0333bf35009fe09c21c315069e6b4d9177a4b8d1"
 
-devtools-launchpad@0.0.135, devtools-launchpad@^0.0.135:
-  version "0.0.135"
-  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.135.tgz#79eceec38047fef1766aa770599174570d464f86"
+devtools-launchpad@^0.0.136:
+  version "0.0.136"
+  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.136.tgz#774c330d6297122ed59a88a3d08fed7106c1014f"
   dependencies:
     amd-loader "0.0.8"
     autoprefixer "^7.1.2"
@@ -3406,11 +3406,11 @@ devtools-launchpad@0.0.135, devtools-launchpad@^0.0.135:
     debug "^3.1.0"
     devtools-config "^0.0.16"
     devtools-connection "0.0.12"
-    devtools-contextmenu "^0.0.10"
+    devtools-contextmenu "^0.0.11"
     devtools-environment "^0.0.5"
     devtools-license-check "^0.7.0"
     devtools-mc-assets "^0.0.6"
-    devtools-modules "^0.0.39"
+    devtools-modules "^0.0.40"
     devtools-sprintf-js "^1.0.3"
     express "^4.13.4"
     express-static "^1.2.5"
@@ -3505,9 +3505,9 @@ devtools-modules@^0.0.38:
     devtools-services "0.0.1"
     punycode "^2.1.0"
 
-devtools-modules@^0.0.39:
-  version "0.0.39"
-  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.39.tgz#742aa40cf723c43712c7e2a12c30be997b1979ba"
+devtools-modules@^0.0.40:
+  version "0.0.40"
+  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.40.tgz#72a5c19d82afbe539ec547b0418dfdbc5804177f"
   dependencies:
     devtools-services "0.0.1"
     punycode "^2.1.0"
