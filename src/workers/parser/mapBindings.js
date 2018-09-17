@@ -58,7 +58,9 @@ export default function mapExpressionBindings(
   bindings: string[] = []
 ): string {
   const ast = parseScript(expression, { allowAwaitOutsideFunction: true });
+  let isMapped = false;
   let shouldUpdate = true;
+
   t.traverse(ast, (node, ancestors) => {
     const parent = ancestors[ancestors.length - 1];
 
@@ -74,6 +76,7 @@ export default function mapExpressionBindings(
     if (t.isAssignmentExpression(node)) {
       if (t.isIdentifier(node.left)) {
         const newNode = globalizeAssignment(node, bindings);
+        isMapped = true;
         return replaceNode(ancestors, newNode);
       }
 
@@ -94,11 +97,12 @@ export default function mapExpressionBindings(
 
     if (!t.isForStatement(parent.node)) {
       const newNodes = globalizeDeclaration(node, bindings);
+      isMapped = true;
       replaceNode(ancestors, newNodes);
     }
   });
 
-  if (!shouldUpdate) {
+  if (!shouldUpdate || !isMapped) {
     return expression;
   }
 
