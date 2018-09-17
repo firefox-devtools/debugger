@@ -39,4 +39,73 @@ describe("SearchInput", () => {
     wrapper.setProps({ showErrorEmoji: false });
     expect(wrapper).toMatchSnapshot();
   });
+
+  describe("with optional onHistoryScroll", () => {
+    const searches = ["foo", "bar", "baz"];
+    const createSearch = term => ({
+      target: { value: term },
+      key: "Enter"
+    });
+
+    const scrollUp = currentTerm => ({
+      key: "ArrowUp",
+      target: { value: currentTerm },
+      preventDefault: jest.fn()
+    });
+    const scrollDown = currentTerm => ({
+      key: "ArrowDown",
+      target: { value: currentTerm },
+      preventDefault: jest.fn()
+    });
+
+    it("stores entered history in state", () => {
+      wrapper.setProps({
+        onHistoryScroll: jest.fn(),
+        onKeyDown: jest.fn()
+      });
+      wrapper.find("input").simulate("keyDown", createSearch(searches[0]));
+      expect(wrapper.state().history[0]).toEqual(searches[0]);
+    });
+
+    it("stores scroll history in state", () => {
+      const onHistoryScroll = jest.fn();
+      wrapper.setProps({
+        onHistoryScroll: onHistoryScroll,
+        onKeyDown: jest.fn()
+      });
+      wrapper.find("input").simulate("keyDown", createSearch(searches[0]));
+      wrapper.find("input").simulate("keyDown", createSearch(searches[1]));
+      expect(wrapper.state().history[0]).toEqual(searches[0]);
+      expect(wrapper.state().history[1]).toEqual(searches[1]);
+    });
+
+    it("scrolls up stored history on arrow up", () => {
+      const onHistoryScroll = jest.fn();
+      wrapper.setProps({
+        onHistoryScroll,
+        onKeyDown: jest.fn()
+      });
+      wrapper.find("input").simulate("keyDown", createSearch(searches[0]));
+      wrapper.find("input").simulate("keyDown", createSearch(searches[1]));
+      wrapper.find("input").simulate("keyDown", scrollUp(searches[1]));
+      expect(wrapper.state().history[0]).toEqual(searches[0]);
+      expect(wrapper.state().history[1]).toEqual(searches[1]);
+      expect(onHistoryScroll).toBeCalledWith(searches[0]);
+    });
+
+    it("scrolls down stored history on arrow down", () => {
+      const onHistoryScroll = jest.fn();
+      wrapper.setProps({
+        onHistoryScroll,
+        onKeyDown: jest.fn()
+      });
+      wrapper.find("input").simulate("keyDown", createSearch(searches[0]));
+      wrapper.find("input").simulate("keyDown", createSearch(searches[1]));
+      wrapper.find("input").simulate("keyDown", createSearch(searches[2]));
+      wrapper.find("input").simulate("keyDown", scrollUp(searches[2]));
+      wrapper.find("input").simulate("keyDown", scrollUp(searches[1]));
+      wrapper.find("input").simulate("keyDown", scrollDown(searches[0]));
+      expect(onHistoryScroll.mock.calls[2][0]).toBe(searches[1]);
+    });
+  });
 });

@@ -130,6 +130,10 @@ export class ProjectSearch extends Component<Props, State> {
     }
   }
 
+  doSearch(searchTerm: string) {
+    this.props.searchSources(searchTerm);
+  }
+
   toggleProjectTextSearch = (key: string, e: KeyboardEvent) => {
     const { closeProjectSearch, setActiveSearch } = this.props;
     if (e) {
@@ -183,8 +187,12 @@ export class ProjectSearch extends Component<Props, State> {
     this.focusedItem = null;
     const query = sanitizeQuery(this.state.inputValue);
     if (query) {
-      this.props.searchSources(query);
+      this.doSearch(query);
     }
+  };
+
+  onHistoryScroll = (query: string) => {
+    this.setState({ inputValue: query });
   };
 
   onEnterPress = () => {
@@ -314,6 +322,7 @@ export class ProjectSearch extends Component<Props, State> {
         onFocus={() => this.setState({ inputFocused: true })}
         onBlur={() => this.setState({ inputFocused: false })}
         onKeyDown={this.onKeyDown}
+        onHistoryScroll={this.onHistoryScroll}
         handleClose={this.props.closeProjectSearch}
         ref="searchInput"
       />
