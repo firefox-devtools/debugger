@@ -45,8 +45,7 @@ describe("mapExpression", () => {
       shouldMapExpression: true,
       expectedMapped: {
         await: true,
-        // XXX: Only a semi-colon is added, should be false.
-        bindings: true,
+        bindings: false,
         originalExpression: false
       }
     },
@@ -111,8 +110,7 @@ describe("mapExpression", () => {
       shouldMapExpression: true,
       expectedMapped: {
         await: false,
-        // XXX: Only a semi-colon is added, should be false.
-        bindings: true,
+        bindings: false,
         originalExpression: false
       }
     },
