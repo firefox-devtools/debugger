@@ -193,7 +193,6 @@ class ObjectInspector extends Component<Props> {
       return;
     }
 
-    console.log("yo");
     const {
       nodeExpand,
       nodeCollapse,
