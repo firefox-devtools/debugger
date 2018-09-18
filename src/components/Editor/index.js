@@ -566,15 +566,6 @@ class Editor extends PureComponent<Props, State> {
     const { horizontal, selectedSource } = this.props;
     const { editor } = this.state;
 
-    if (!editor && selectedSource) {
-      // initial load
-      return (
-        <div>
-          <Footer horizontal={horizontal} />
-        </div>
-      );
-    }
-
     if (!editor || !selectedSource) {
       return null;
     }
