@@ -54,7 +54,7 @@
     "install": "prettier --write package.json"
   },
   "dependencies": {
-    "@babel/core": "^7.0.0-beta.55",
+    "@babel/core": "^7.1.0",
     "@babel/parser": "^7.0.0-beta.55",
     "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.55",
     "@babel/template": "^7.0.0-beta.55",
