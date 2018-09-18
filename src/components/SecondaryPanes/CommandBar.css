@@ -80,18 +80,6 @@ img.skipPausing {
   flex-grow: 1;
 }
 
-.command-bar img.replay-previous {
-  mask: url(/images/back.svg) no-repeat;
-  mask-size: 75%;
-  margin-top: 5px;
-}
-
-.command-bar img.replay-next {
-  mask: url(/images/forward.svg) no-repeat;
-  mask-size: 75%;
-  margin-top: 5px;
-}
-
 .command-bar img.shortcuts {
   mask: url(/mc/help.svg) no-repeat;
   mask-size: contain;
