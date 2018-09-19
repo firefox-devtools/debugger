@@ -55,12 +55,12 @@ class Result extends Component {
   }
 
   renderRep({ object, modeKey }) {
-    const path = object.actor;
+    const path = Symbol(modeKey + object.actor);
 
     return dom.div(
       {
         className: "rep-element",
-        key: `${path}${modeKey}`,
+        key: path.toString(),
         "data-mode": modeKey
       },
       ObjectInspector({
