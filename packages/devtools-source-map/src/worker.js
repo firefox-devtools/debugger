@@ -18,8 +18,6 @@ const {
 
 const { getOriginalStackFrames } = require("./utils/getOriginalStackFrames");
 
-const { getOriginalStackFrames } = require("./utils/getOriginalStackFrames");
-
 const {
   workerUtils: { workerHandler }
 } = require("devtools-utils");
