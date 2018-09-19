@@ -177,10 +177,7 @@ class CommandBar extends Component<Props> {
         () => this.resume(),
         "resume",
         "active",
-        L10N.getFormatStr(
-          "resumeButtonTooltip",
-          formatKey("resume")
-        )
+        L10N.getFormatStr("resumeButtonTooltip", formatKey("resume"))
       );
     }
 
