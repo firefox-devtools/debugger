@@ -28,7 +28,7 @@ function mount(props) {
 }
 
 describe("ObjectInspector - keyboard navigation", () => {
-  fit("works as expected", async () => {
+  it("works as expected", async () => {
     const stub = gripRepStubs.get("testMaxProps");
 
     const { wrapper, store } = mount({
@@ -47,31 +47,29 @@ describe("ObjectInspector - keyboard navigation", () => {
     wrapper.update();
     expect(formatObjectInspector(wrapper)).toMatchSnapshot();
 
-    // // The child node should be focused.
-    // await keyNavigate(wrapper, store, "ArrowDown");
-    // expect(formatObjectInspector(wrapper)).toMatchSnapshot();
-    //
-    // // The root node should be focused again.
-    // await keyNavigate(wrapper, store, "ArrowLeft");
-    // expect(formatObjectInspector(wrapper)).toMatchSnapshot();
-    //
-    // // The child node should be focused again.
-    // await keyNavigate(wrapper, store, "ArrowRight");
-    // expect(formatObjectInspector(wrapper)).toMatchSnapshot();
-    //
-    // // The root node should be focused again.
-    // await keyNavigate(wrapper, store, "ArrowUp");
-    // expect(formatObjectInspector(wrapper)).toMatchSnapshot();
-    //
-    // wrapper.simulate("blur");
-    // expect(formatObjectInspector(wrapper)).toMatchSnapshot();
+    // The child node should be focused.
+    keyNavigate(wrapper, store, "ArrowDown");
+    expect(formatObjectInspector(wrapper)).toMatchSnapshot();
+
+    // The root node should be focused again.
+    keyNavigate(wrapper, store, "ArrowLeft");
+    expect(formatObjectInspector(wrapper)).toMatchSnapshot();
+
+    // The child node should be focused again.
+    keyNavigate(wrapper, store, "ArrowRight");
+    expect(formatObjectInspector(wrapper)).toMatchSnapshot();
+
+    // The root node should be focused again.
+    keyNavigate(wrapper, store, "ArrowUp");
+    expect(formatObjectInspector(wrapper)).toMatchSnapshot();
+
+    wrapper.simulate("blur");
+    expect(formatObjectInspector(wrapper)).toMatchSnapshot();
   });
 });
 
-async function keyNavigate(wrapper, store, key) {
-  const onFocusDispatched = waitForDispatch(store, "NODE_FOCUS");
+function keyNavigate(wrapper, store, key) {
   simulateKeyDown(wrapper, key);
-  await onFocusDispatched;
   wrapper.update();
 }
 

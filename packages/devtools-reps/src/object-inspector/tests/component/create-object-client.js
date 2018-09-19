@@ -95,7 +95,7 @@ describe("createObjectClient", () => {
     console.error = () => {};
 
     const createObjectClient = x => ({});
-    const { client } = mount(
+    mount(
       {
         autoExpandDepth: 1,
         roots: [root]

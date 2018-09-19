@@ -42,13 +42,11 @@ function mount(props, { initialState } = {}) {
     releaseActor: jest.fn()
   };
 
-  const obj = mountObjectInspector({
+  return mountObjectInspector({
     client,
     props: generateDefaults(props),
     initialState
   });
-
-  return { ...obj, enumProperties };
 }
 
 describe("release actors", () => {
@@ -69,35 +67,36 @@ describe("release actors", () => {
     expect(client.releaseActor.mock.calls[1][0]).toBe("actor 2");
   });
 
-  fit("calls release actors when the roots prop changed", async () => {
+  it("calls release actors when the roots prop changed", async () => {
     const { wrapper, store, client } = mount(
-      {},
+      {
+        injectWaitService: true
+      },
       {
         initialState: {
-          objectInspector: { actors: new Set(["actor 1", "actor 2"]) }
+          objectInspector: { actors: new Set(["actor 3", "actor 4"]) }
         }
       }
     );
 
     const onRootsChanged = waitForDispatch(store, "ROOTS_CHANGED");
 
-    // wrapper.instance()
-    console.log(wrapper.children());
-    // ;.setProps({
-    //   roots: [
-    //     {
-    //       path: "root-2",
-    //       contents: {
-    //         value: gripRepStubs.get("testMaxProps")
-    //       }
-    //     }
-    //   ]
-    // });
+    wrapper.setProps({
+      roots: [
+        {
+          path: "root-2",
+          contents: {
+            value: gripRepStubs.get("testMaxProps")
+          }
+        }
+      ]
+    });
+    wrapper.update();
     //
-    // await onRootsChanged;
+    await onRootsChanged;
     //
-    // expect(client.releaseActor.mock.calls).toHaveLength(2);
-    // expect(client.releaseActor.mock.calls[0][0]).toBe("actor 1");
-    // expect(client.releaseActor.mock.calls[1][0]).toBe("actor 2");
+    expect(client.releaseActor.mock.calls).toHaveLength(2);
+    expect(client.releaseActor.mock.calls[0][0]).toBe("actor 3");
+    expect(client.releaseActor.mock.calls[1][0]).toBe("actor 4");
   });
 });

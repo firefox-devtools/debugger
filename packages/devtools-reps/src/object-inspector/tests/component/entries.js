@@ -112,21 +112,21 @@ describe("ObjectInspector - entries", () => {
     const entriesNode = nodes.at(1);
     expect(entriesNode.text()).toBe("<entries>");
 
-    // const onEntrieLoad = waitForDispatch(store, "NODE_PROPERTIES_LOADED");
-    // entriesNode.simulate("click");
-    // await onEntrieLoad;
-    // wrapper.update();
-    //
-    //   expect(formatObjectInspector(wrapper)).toMatchSnapshot();
-    //   expect(enumEntries.mock.calls).toHaveLength(1);
-    //
-    //   entriesNode.simulate("click");
-    //   expect(formatObjectInspector(wrapper)).toMatchSnapshot();
-    //
-    //   entriesNode.simulate("click");
-    //
-    //   expect(formatObjectInspector(wrapper)).toMatchSnapshot();
-    //   // it does not call enumEntries if entries were already loaded.
-    //   expect(enumEntries.mock.calls).toHaveLength(1);
+    const onEntrieLoad = waitForDispatch(store, "NODE_PROPERTIES_LOADED");
+    entriesNode.simulate("click");
+    await onEntrieLoad;
+    wrapper.update();
+
+    expect(formatObjectInspector(wrapper)).toMatchSnapshot();
+    expect(enumEntries.mock.calls).toHaveLength(1);
+
+    entriesNode.simulate("click");
+    expect(formatObjectInspector(wrapper)).toMatchSnapshot();
+
+    entriesNode.simulate("click");
+
+    expect(formatObjectInspector(wrapper)).toMatchSnapshot();
+    // it does not call enumEntries if entries were already loaded.
+    expect(enumEntries.mock.calls).toHaveLength(1);
   });
 });

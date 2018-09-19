@@ -19,7 +19,6 @@ const gripRepStubs = require(`${repsPath}/stubs/grip`);
 function generateDefaults(overrides) {
   return {
     autoExpandDepth: 0,
-    createObjectClient: grip => ObjectClient(grip),
     ...overrides
   };
 }
@@ -339,14 +338,14 @@ describe("ObjectInspector - renders", () => {
     expect(formatObjectInspector(wrapper)).toMatchSnapshot();
   });
 
-  xit("updates when the root changes", async () => {
+  it("updates when the root changes", async () => {
     let root = {
       path: "root",
       contents: {
         value: gripRepStubs.get("testMoreThanMaxProps")
       }
     };
-    const { wrapper, store } = mountOI({
+    const { wrapper } = mountOI({
       roots: [root],
       mode: MODE.LONG,
       focusedItem: root
@@ -361,18 +360,17 @@ describe("ObjectInspector - renders", () => {
       }
     };
 
-    const onComponentUpdated = waitForDispatch(store, "FORCE_UPDATED");
     wrapper.setProps({
       roots: [root],
       focusedItem: root
     });
-    await onComponentUpdated;
     wrapper.update();
     expect(formatObjectInspector(wrapper)).toMatchSnapshot();
   });
 
-  xit("updates when the root changes but has same path", async () => {
+  it("updates when the root changes but has same path", async () => {
     const { wrapper, store } = mountOI({
+      injectWaitService: true,
       roots: [
         {
           path: "root",
@@ -400,9 +398,11 @@ describe("ObjectInspector - renders", () => {
       .find(".node")
       .at(0)
       .simulate("click");
+
     const oldTree = formatObjectInspector(wrapper);
 
-    const onComponentUpdated = waitForDispatch(store, "FORCE_UPDATED");
+    const onRootsChanged = waitForDispatch(store, "ROOTS_CHANGED");
+
     wrapper.setProps({
       roots: [
         {
@@ -420,7 +420,7 @@ describe("ObjectInspector - renders", () => {
       ]
     });
 
-    await onComponentUpdated;
+    await onRootsChanged;
     wrapper.update();
     expect(formatObjectInspector(wrapper)).not.toBe(oldTree);
   });

@@ -34,12 +34,6 @@ function nodeCollapse(node: Node) {
   };
 }
 
-function nodeFocus(node: Node) {
-  return {
-    type: "NODE_FOCUS",
-    data: { node }
-  };
-}
 /*
  * This action checks if we need to fetch properties, entries, prototype and
  * symbols for a given node. If we do, it will call the appropriate ObjectClient
@@ -80,12 +74,7 @@ function nodePropertiesLoaded(
 
 function closeObjectInspector() {
   return async ({ getState, client }: ThunkArg) => {
-    console.log("> closeObjectInspector");
-    const actors = getActors(getState());
-    console.log("> closeObjectInspector", actors);
-    for (const actor of actors) {
-      client.releaseActor(actor);
-    }
+    releaseActors(getState(), client);
   };
 }
 
@@ -98,27 +87,26 @@ function closeObjectInspector() {
  * consumer.
  */
 function rootsChanged(props: Props) {
-  return {
-    type: "ROOTS_CHANGED",
-    data: props
+  return async ({ dispatch, client, getState }: ThunkArg) => {
+    releaseActors(getState(), client);
+    dispatch({
+      type: "ROOTS_CHANGED",
+      data: props
+    });
   };
 }
 
-/*
- * This action will reset the `forceUpdate` flag in the state.
- */
-function forceUpdated() {
-  return {
-    type: "FORCE_UPDATED"
-  };
+function releaseActors(state, client) {
+  const actors = getActors(state);
+  for (const actor of actors) {
+    client.releaseActor(actor);
+  }
 }
 
 module.exports = {
-  forceUpdated,
   closeObjectInspector,
   nodeExpand,
   nodeCollapse,
-  nodeFocus,
   nodeLoadProperties,
   nodePropertiesLoaded,
   rootsChanged

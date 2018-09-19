@@ -99,9 +99,9 @@ class ObjectInspector extends Component<Props> {
     self.getRoots = this.getRoots.bind(this);
   }
 
-  componentDidMount() {
-    // this.props.rootsChanged(props);
+  componentWillMount() {
     this.roots = this.props.roots;
+    this.focusedItem = this.props.focusedItem;
   }
 
   componentWillUpdate(nextProps) {
@@ -111,26 +111,16 @@ class ObjectInspector extends Component<Props> {
 
       // We can clear the cachedNodes to avoid bugs and memory leaks.
       this.cachedNodes.clear();
-      // The rootsChanged action will be handled in a middleware to release the
-      // actors of the old roots, as well as cleanup the state properties
-      // (expandedPaths, loadedProperties, …).
-      // this.props.rootsChanged(nextProps);
       this.roots = nextProps.roots;
-      // We don't render right away since the state is going to be changed by
-      // the rootsChanged action. The `state.forceUpdate` flag will be set
-      // to `true` so we can execute a new render cycle with the cleaned state.
-      // return false;
-
       this.focusedItem = nextProps.focusedItem;
+      if (this.props.rootsChanged) {
+        this.props.rootsChanged();
+      }
     }
   }
 
   shouldComponentUpdate(nextProps: Props) {
-    const { expandedPaths, focusedItem, loadedProperties, roots } = this.props;
-
-    if (nextProps.forceUpdate === true) {
-      return true;
-    }
+    const { expandedPaths, loadedProperties } = this.props;
 
     // We should update if:
     // - there are new loaded properties
@@ -147,17 +137,9 @@ class ObjectInspector extends Component<Props> {
         )) ||
       (expandedPaths.size === nextProps.expandedPaths.size &&
         [...nextProps.expandedPaths].some(key => !expandedPaths.has(key))) ||
-      focusedItem !== nextProps.focusedItem
+      this.focusedItem !== nextProps.focusedItem ||
+      this.roots !== nextProps.roots
     );
-  }
-
-  componentWillUpdate() {}
-
-  componentDidUpdate(prevProps) {
-    if (this.props.forceUpdate) {
-      // If the component was updated, we can then reset the forceUpdate flag.
-      this.props.forceUpdated();
-    }
   }
 
   componentWillUnmount() {
@@ -212,11 +194,12 @@ class ObjectInspector extends Component<Props> {
   }
 
   focusItem(item: Node) {
-    const { focusable = true, nodeFocus, onFocus } = this.props;
+    const { focusable = true, onFocus } = this.props;
 
     if (focusable && this.focusedItem !== item) {
-      // nodeFocus(item);
       this.focusedItem = item;
+      this.forceUpdate();
+
       if (onFocus) {
         onFocus(item);
       }
@@ -495,23 +478,10 @@ class ObjectInspector extends Component<Props> {
 }
 
 function mapStateToProps(state, props) {
-  // const focusedItem =
-  //   state.objectInspector.roots !== props.roots
-  //     ? props.focusedItem
-  //     : selectors.getFocusedItem(state);
-
-  //   "msp",
-  //   state.objectInspector.roots,
-  //   state.objectInspector.loadedProperties
-  // );
-
   return {
     actors: selectors.getActors(state),
     expandedPaths: selectors.getExpandedPaths(state),
-    // If the root changes, we want to pass a possibly new focusedItem property
-    // focusedItem,
-    loadedProperties: selectors.getLoadedProperties(state),
-    forceUpdate: selectors.getForceUpdate(state)
+    loadedProperties: selectors.getLoadedProperties(state)
   };
 }
 

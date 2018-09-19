@@ -9,9 +9,7 @@ function initialState() {
   return {
     expandedPaths: new Set(),
     loadedProperties: new Map(),
-    actors: new Set(),
-    focusedItem: null,
-    forceUpdate: false
+    actors: new Set()
   };
 }
 
@@ -47,16 +45,8 @@ function reducer(
     });
   }
 
-  if (type === "NODE_FOCUS") {
-    if (state.focusedItem === data.node) {
-      return state;
-    }
-
-    return cloneState({ focusedItem: data.node });
-  }
-
-  if (type === "FORCE_UPDATED") {
-    return cloneState({ forceUpdate: false });
+  if (type === "ROOTS_CHANGED") {
+    return cloneState();
   }
 
   return state;
@@ -86,23 +76,12 @@ function getLoadedPropertyKeys(state) {
   return [...getLoadedProperties(state).keys()];
 }
 
-function getForceUpdate(state) {
-  return getObjectInspectorState(state).forceUpdate;
-}
-
-function getFocusedItem(state) {
-  console.log("getFocusedItem", getObjectInspectorState(state).focusedItem);
-  return getObjectInspectorState(state).focusedItem;
-}
-
 const selectors = {
   getExpandedPaths,
   getExpandedPathKeys,
   getActors,
   getLoadedProperties,
-  getLoadedPropertyKeys,
-  getForceUpdate,
-  getFocusedItem
+  getLoadedPropertyKeys
 };
 
 Object.defineProperty(module.exports, "__esModule", {

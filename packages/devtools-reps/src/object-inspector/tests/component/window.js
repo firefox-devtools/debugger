@@ -2,7 +2,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-const objectInspector = require("../../index");
 const { createNode } = require("../../utils/node");
 const { waitForDispatch, mountObjectInspector } = require("../test-utils");
 
@@ -50,7 +49,7 @@ describe("ObjectInspector - dimTopLevelWindow", () => {
     // The window node should not have the "lessen" class when
     // dimTopLevelWindow is falsy.
     const props = generateDefaults();
-    const { wrapper, store } = mountObjectInspector({ client, props });
+    const { wrapper } = mountObjectInspector({ client, props });
 
     expect(wrapper.find(".node.lessen").exists()).toBeFalsy();
     expect(wrapper).toMatchSnapshot();

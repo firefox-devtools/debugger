@@ -63,8 +63,7 @@ describe("ObjectInspector - Proxy", () => {
       }
     );
 
-    console.log(wrapper);
-    expect(formatObjectInspector({ wrapper })).toMatchSnapshot();
+    expect(formatObjectInspector(wrapper)).toMatchSnapshot();
 
     // enumProperties should not have been called.
     expect(enumProperties.mock.calls).toHaveLength(0);
