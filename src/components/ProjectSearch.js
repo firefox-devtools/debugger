@@ -10,7 +10,7 @@ import { connect } from "react-redux";
 import classnames from "classnames";
 import actions from "../actions";
 
-import { getEditor } from "../utils/editor";
+// import { getEditor } from "../utils/monaco";
 import { highlightMatches } from "../utils/project-search";
 
 import { statusType } from "../reducers/project-text-search";
@@ -147,12 +147,12 @@ export class ProjectSearch extends Component<Props, State> {
 
   selectMatchItem = (matchItem: Match) => {
     this.props.selectSpecificLocation({ ...matchItem });
-    this.props.doSearchForHighlight(
-      this.state.inputValue,
-      getEditor(),
-      matchItem.line,
-      matchItem.column
-    );
+    // this.props.doSearchForHighlight(
+    //   this.state.inputValue,
+    //   getEditor(),
+    //   matchItem.line,
+    //   matchItem.column
+    // );
   };
 
   getResults = (): Result[] => {

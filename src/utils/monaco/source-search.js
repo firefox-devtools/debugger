@@ -114,9 +114,10 @@ export function find(
   ctx: any,
   query: string,
   keepSelection: boolean,
-  modifiers: SearchModifiers
+  modifiers: SearchModifiers,
+  rev: boolean = false
 ) {
-  return doSearch(ctx, false, query, keepSelection, modifiers);
+  return doSearch(ctx, rev, query, keepSelection, modifiers);
 }
 
 /**
@@ -159,4 +160,68 @@ export function closeSearch(ctx: any) {
     ed.searchState = null;
   }
   monaco.focus();
+}
+
+export function highlightMatchesAndMoveToPosition(
+  ctx: Object,
+  query: string,
+  modifiers: SearchModifiers,
+  line: number,
+  column: number
+) {
+  const { monaco, ed } = ctx;
+  if (!monaco || !ed) {
+    return;
+  }
+
+  ed.searchState = null;
+  const { findModel, findState } = getSearchState(ed);
+
+  findState.change(
+    {
+      searchString: query,
+      matchCase: modifiers.caseSensitive,
+      wholeWord: modifiers.wholeWord,
+      isRegex: modifiers.regexMatch
+      // isRevealed
+    },
+    false,
+    false
+  );
+
+  let prevMatch = null;
+  do {
+    findModel.moveToNextMatch();
+    const currentMatch = findState.currentMatch;
+    if (!currentMatch) {
+      break;
+    }
+
+    const { startLineNumber, startColumn } = currentMatch;
+    if (startLineNumber === line && startColumn === column) {
+      break;
+    }
+
+    if (
+      prevMatch &&
+      (startLineNumber < prevMatch.startLineNumber ||
+        (startLineNumber === prevMatch.startLineNumber &&
+          startColumn <= prevMatch.startColumn))
+    ) {
+      break;
+    }
+    prevMatch = currentMatch;
+  } while (true);
+}
+
+export function searchSourceForHighlight(
+  ctx: Object,
+  rev: boolean,
+  query: string,
+  keepSelection: boolean,
+  modifiers: SearchModifiers,
+  line: number,
+  ch: number
+) {
+  highlightMatchesAndMoveToPosition(ctx, query, modifiers, line, ch + 1);
 }

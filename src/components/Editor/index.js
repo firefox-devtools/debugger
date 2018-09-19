@@ -53,7 +53,8 @@ import {
   toSourceLine,
   getDocument,
   toEditorLine,
-  hasDocument
+  hasDocument,
+  highlightMatchesAndMoveToPosition
 } from "../../utils/monaco";
 
 import { resizeToggleButton } from "../../utils/ui";
@@ -413,6 +414,7 @@ class Editor extends PureComponent<Props, State> {
       }
 
       editor.monaco.revealPosition({ lineNumber: line, column: column });
+      this.setHighlight(nextProps);
     }
   }
 
@@ -454,6 +456,30 @@ class Editor extends PureComponent<Props, State> {
 
     if (selectedSource) {
       return showSourceText(this.state.editor, selectedSource, symbols);
+    }
+  }
+
+  setHighlight(props) {
+    const { editor } = this.state;
+    const { selectedLocation } = props;
+
+    if (selectedLocation.type === "MATCH") {
+      const line = selectedLocation.line;
+      const column = selectedLocation.column ? selectedLocation.column : 0;
+      const modifiers = {};
+      const { editor: monaco } = editor;
+      const ctx = {
+        ed: editor,
+        monaco
+      };
+
+      highlightMatchesAndMoveToPosition(
+        ctx,
+        selectedLocation.match,
+        modifiers,
+        line,
+        column + 1
+      );
     }
   }
 
