@@ -26,24 +26,26 @@ import { appinfo } from "devtools-services";
 
 const isMacOS = appinfo.OS === "Darwin";
 
-const COMMANDS = ["resumeOrBreakOnNext", "stepOver", "stepIn", "stepOut"];
+// NOTE: the "resume" command will call either the resume or breakOnNext action
+// depending on whether or not the debugger is paused or running
+const COMMANDS = ["resume", "stepOver", "stepIn", "stepOut"];
 
 const KEYS = {
   WINNT: {
-    resumeOrBreakOnNext: "F8",
+    resume: "F8",
     stepOver: "F10",
     stepIn: "F11",
     stepOut: "Shift+F11"
   },
   Darwin: {
-    resumeOrBreakOnNext: "Cmd+\\",
+    resume: "Cmd+\\",
     stepOver: "Cmd+'",
     stepIn: "Cmd+;",
     stepOut: "Cmd+Shift+:",
     stepOutDisplay: "Cmd+Shift+;"
   },
   Linux: {
-    resumeOrBreakOnNext: "F8",
+    resume: "F8",
     stepOver: "F10",
     stepIn: "Ctrl+F11",
     stepOut: "Ctrl+Shift+F11"
@@ -119,7 +121,7 @@ class CommandBar extends Component<Props> {
   handleEvent(e, action) {
     e.preventDefault();
     e.stopPropagation();
-    if (action === "resumeOrBreakOnNext") {
+    if (action === "resume") {
       this.props.isPaused ? this.props.resume() : this.props.breakOnNext();
     } else {
       this.props[action]();
@@ -177,7 +179,7 @@ class CommandBar extends Component<Props> {
         "active",
         L10N.getFormatStr(
           "resumeButtonTooltip",
-          formatKey("resumeOrBreakOnNext")
+          formatKey("resume")
         )
       );
     }
@@ -200,7 +202,7 @@ class CommandBar extends Component<Props> {
       breakOnNext,
       "pause",
       "active",
-      L10N.getFormatStr("pauseButtonTooltip", formatKey("resumeOrBreakOnNext"))
+      L10N.getFormatStr("pauseButtonTooltip", formatKey("resume"))
     );
   }
 
