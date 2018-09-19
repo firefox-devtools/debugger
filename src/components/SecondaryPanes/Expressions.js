@@ -26,7 +26,7 @@ import type { Expression } from "../../types";
 
 import "./Expressions.css";
 
-const { component: ObjectInspector } = objectInspector;
+const { ObjectInspector } = objectInspector;
 
 type State = {
   editing: boolean,
