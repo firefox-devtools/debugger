@@ -5,7 +5,6 @@
 // @flow
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
-import { isOriginalId } from "devtools-source-map";
 import classnames from "classnames";
 import Svg from "../shared/Svg";
 import actions from "../../actions";
@@ -20,7 +19,8 @@ import {
   isPretty,
   isLoaded,
   getFilename,
-  isLoading
+  isLoading,
+  isOriginal
 } from "../../utils/source";
 import { getGeneratedSource } from "../../reducers/sources";
 import { shouldShowFooter, shouldShowPrettyPrint } from "../../utils/editor";
@@ -170,7 +170,7 @@ class SourceFooter extends PureComponent<Props> {
   renderSourceSummary() {
     const { mappedSource, jumpToMappedLocation, selectedSource } = this.props;
 
-    if (!mappedSource || !isOriginalId(selectedSource.id)) {
+    if (!mappedSource || !isOriginal(selectedSource)) {
       return null;
     }
 

@@ -9,13 +9,13 @@
  * @module reducers/pending-breakpoints
  */
 
-import { isGeneratedId } from "devtools-source-map";
 import { getSourcesByURL } from "./sources";
 
 import {
   createPendingBreakpoint,
   makePendingLocationId
 } from "../utils/breakpoint";
+import { isGenerated } from "../utils/source";
 
 import type { SourcesState } from "./sources";
 import type { PendingBreakpoint, Source } from "../types";
@@ -164,7 +164,7 @@ export function getPendingBreakpointsForSource(
   source: Source
 ): PendingBreakpoint[] {
   const sources = getSourcesByURL(state, source.url);
-  if (sources.length > 1 && isGeneratedId(source.id)) {
+  if (sources.length > 1 && isGenerated(source)) {
     // Don't return pending breakpoints for duplicated generated sources
     return [];
   }

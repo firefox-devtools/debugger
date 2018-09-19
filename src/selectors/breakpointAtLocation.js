@@ -4,11 +4,7 @@
 
 import { getSelectedSource } from "../reducers/sources";
 import { getBreakpoints } from "../reducers/breakpoints";
-import { isGeneratedId } from "devtools-source-map";
-
-function isGenerated(selectedSource) {
-  return isGeneratedId(selectedSource.id);
-}
+import { isGenerated } from "../utils/source";
 
 function getColumn(column, selectedSource) {
   if (column) {

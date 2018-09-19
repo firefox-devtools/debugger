@@ -14,9 +14,11 @@ import {
   getPrettySourceURL,
   underRoot,
   getRelativeUrl,
-  isPrettyURL
+  isPrettyURL,
+  isGenerated,
+  isOriginal as isOriginalSource
 } from "../utils/source";
-import { originalToGeneratedId, isOriginalId } from "devtools-source-map";
+import { originalToGeneratedId } from "devtools-source-map";
 import { prefs } from "../utils/prefs";
 
 import type { Source, SourceId, Location } from "../types";
@@ -325,7 +327,7 @@ export function getSourcesByURL(state: OuterState, url: string): Source[] {
 }
 
 export function getGeneratedSource(state: OuterState, source: Source): Source {
-  if (!isOriginalId(source.id)) {
+  if (isGenerated(source)) {
     return source;
   }
 
@@ -360,7 +362,7 @@ export function getSourceByUrlInSources(
     return null;
   }
 
-  return foundSources.find(source => isOriginalId(source.id) == isOriginal);
+  return foundSources.find(source => isOriginalSource(source) == isOriginal);
 }
 
 function getSourcesByUrlInSources(
