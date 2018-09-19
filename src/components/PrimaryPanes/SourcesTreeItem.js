@@ -4,7 +4,6 @@
 
 // @flow
 
-import { isOriginalId } from "devtools-source-map";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import classnames from "classnames";
@@ -16,6 +15,7 @@ import Svg from "../shared/Svg";
 import { getSourcesByURL } from "../../selectors";
 import actions from "../../actions";
 
+import { isOriginal as isOriginalSource } from "../../utils/source";
 import { isDirectory } from "../../utils/sources-tree";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { features } from "../../utils/prefs";
@@ -191,7 +191,7 @@ function getHasMatchingGeneratedSource(state, source: ?Source) {
     return false;
   }
 
-  const isOriginal = isOriginalId(source.id);
+  const isOriginal = isOriginalSource(source);
   const sources = getSourcesByURL(state, source.url, isOriginal);
   return isOriginal && sources.length > 0;
 }

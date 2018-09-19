@@ -9,7 +9,7 @@
  * @module actions/sources
  */
 
-import { isGeneratedId, generatedToOriginalId } from "devtools-source-map";
+import { generatedToOriginalId } from "devtools-source-map";
 import { flatten } from "lodash";
 
 import { toggleBlackBox } from "./blackbox";
@@ -17,7 +17,7 @@ import { syncBreakpoint } from "../breakpoints";
 import { loadSourceText } from "./loadSourceText";
 import { togglePrettyPrint } from "./prettyPrint";
 import { selectLocation } from "../sources";
-import { getRawSourceURL, isPrettyURL } from "../../utils/source";
+import { getRawSourceURL, isPrettyURL, isOriginal } from "../../utils/source";
 import {
   getBlackBoxList,
   getSource,
@@ -69,7 +69,7 @@ function loadSourceMap(sourceId: SourceId) {
   return async function({ dispatch, getState, sourceMaps }: ThunkArgs) {
     const source = getSource(getState(), sourceId);
 
-    if (!source || !isGeneratedId(sourceId) || !source.sourceMapURL) {
+    if (!source || isOriginal(source) || !source.sourceMapURL) {
       return;
     }
 

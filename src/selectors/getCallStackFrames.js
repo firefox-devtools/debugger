@@ -9,7 +9,7 @@ import {
 } from "../reducers/sources";
 import { getFrames } from "../reducers/pause";
 import { annotateFrames } from "../utils/pause/frames";
-import { isOriginalId } from "devtools-source-map";
+import { isOriginal } from "../utils/source";
 import { get } from "lodash";
 import type { Frame, Source } from "../types";
 import type { SourcesMap } from "../reducers/sources";
@@ -27,7 +27,7 @@ function getSourceForFrame(sources, frame, isGeneratedSource) {
 }
 
 function appendSource(sources, frame, selectedSource) {
-  const isGeneratedSource = selectedSource && !isOriginalId(selectedSource.id);
+  const isGeneratedSource = selectedSource && !isOriginal(selectedSource);
   return {
     ...frame,
     location: getLocation(frame, isGeneratedSource),
