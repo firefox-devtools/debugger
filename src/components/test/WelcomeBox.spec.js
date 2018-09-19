@@ -14,6 +14,7 @@ function render(overrides = {}) {
     endPanelCollapsed: false,
     setActiveSearch: jest.fn(),
     openQuickOpen: jest.fn(),
+    toggleShortcutsModal: jest.fn(),
     ...overrides
   };
   const component = shallow(<WelcomeBox {...props} />);
@@ -46,5 +47,12 @@ describe("WelomeBox", () => {
 
     component.find(".welcomebox__searchProject").simulate("click");
     expect(props.setActiveSearch).toBeCalled();
+  });
+
+  it("calls correct function on allShotcuts click", () => {
+    const { component, props } = render();
+
+    component.find(".welcomebox__allShortcuts").simulate("click");
+    expect(props.toggleShortcutsModal).toBeCalled();
   });
 });

@@ -44,6 +44,23 @@ exports[`WelomeBox renders with default values 1`] = `
            Find in files
         </span>
       </p>
+      <p
+        className="welcomebox__allShortcuts"
+        onClick={[Function]}
+        role="button"
+        tabIndex="0"
+      >
+        <span
+          className="shortcutKey"
+        >
+          Ctrl /
+        </span>
+        <span
+          className="shortcutLabel"
+        >
+          Show all shortcuts
+        </span>
+      </p>
     </div>
     <PaneToggleButton
       collapsed={true}
