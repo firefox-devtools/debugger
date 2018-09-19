@@ -6,7 +6,6 @@
 
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
-import { isGeneratedId } from "devtools-source-map";
 
 import classnames from "classnames";
 
@@ -19,6 +18,7 @@ import { getLocationWithoutColumn } from "../../../utils/breakpoint";
 
 import { features } from "../../../utils/prefs";
 import { getEditor } from "../../../utils/editor";
+import { isGenerated } from "../../../utils/source";
 
 import type { BreakpointsMap } from "../../../reducers/types";
 
@@ -53,7 +53,7 @@ type Props = {
 };
 
 function getMappedLocation(mappedLocation: MappedLocation, selectedSource) {
-  return selectedSource && isGeneratedId(selectedSource.id)
+  return selectedSource && isGenerated(selectedSource)
     ? mappedLocation.generatedLocation
     : mappedLocation.location;
 }
@@ -132,7 +132,7 @@ class Breakpoint extends PureComponent<Props> {
       return condition;
     }
 
-    if (selectedSource && isGeneratedId(selectedSource.id)) {
+    if (selectedSource && isGenerated(selectedSource)) {
       return breakpoint.text;
     }
 

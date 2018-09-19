@@ -10,7 +10,7 @@ import { PROMISE } from "../utils/middleware/promise";
 
 import { features } from "../../utils/prefs";
 import { log } from "../../utils/log";
-import { isGeneratedId } from "devtools-source-map";
+import { isGenerated } from "../../utils/source";
 import type { Frame, Scope } from "../../types";
 
 import type { ThunkArgs } from "../types";
@@ -36,7 +36,7 @@ export function mapScopes(scopes: Promise<Scope>, frame: Frame) {
           !generatedSource ||
           generatedSource.isWasm ||
           source.isPrettyPrinted ||
-          isGeneratedId(frame.location.sourceId)
+          isGenerated(source)
         ) {
           return null;
         }
