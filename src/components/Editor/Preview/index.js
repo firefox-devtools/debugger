@@ -58,7 +58,6 @@ class Preview extends PureComponent<Props, State> {
   }
 
   componentWillUnmount() {
-    console.log("unmount");
     if (this.disposalbles) {
       this.disposalbles.forEach(dispose => dispose.dispose());
       this.disposalbles = [];
