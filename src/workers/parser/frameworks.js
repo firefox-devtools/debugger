@@ -71,7 +71,9 @@ const identifiesAngular = identifiers => {
 
 const hasAngularExpressions = memberExpressions => {
   return memberExpressions.some(
-    item => item.name == "controller" || item.name == "module"
+    item =>
+      item.expression == "angular.controller" ||
+      item.expression == "angular.module"
   );
 };
 
