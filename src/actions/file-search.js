@@ -32,7 +32,7 @@ import {
 type Editor = Object;
 type Match = Object;
 
-export function doSearch(query: string, editor: Editor) {
+export function doSearch(query: string, editor: Editor, rev: boolean = false) {
   return ({ getState, dispatch }: ThunkArgs) => {
     const selectedSource = getSelectedSource(getState());
     if (!selectedSource || !selectedSource.text) {
@@ -40,7 +40,7 @@ export function doSearch(query: string, editor: Editor) {
     }
 
     dispatch(setFileSearchQuery(query));
-    dispatch(searchContents(query, editor));
+    dispatch(searchContents(query, editor, rev));
   };
 }
 
@@ -92,7 +92,11 @@ export function updateSearchResults(
   };
 }
 
-export function searchContents(query: string, editor: Object) {
+export function searchContents(
+  query: string,
+  editor: Object,
+  rev: boolean = false
+) {
   return async ({ getState, dispatch }: ThunkArgs) => {
     const modifiers = getFileSearchModifiers(getState());
     const selectedSource = getSelectedSource(getState());
@@ -108,7 +112,7 @@ export function searchContents(query: string, editor: Object) {
       monaco
     };
 
-    const res = find(ctx, query, true, _modifiers);
+    const res = find(ctx, query, true, _modifiers, rev);
     if (!res) {
       return;
     }
@@ -147,8 +151,12 @@ export function searchContentsForHighlight(
       return;
     }
 
-    const ctx = { ed: editor, cm: editor.codeMirror };
     const _modifiers = modifiers.toJS();
+    const { editor: monaco } = editor;
+    const ctx = {
+      ed: editor,
+      monaco
+    };
 
     searchSourceForHighlight(ctx, false, query, true, _modifiers, line, ch);
   };

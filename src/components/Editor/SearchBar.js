@@ -65,7 +65,7 @@ type Props = {
   setFileSearchQuery: string => any,
   setActiveSearch: (?ActiveSearchType) => any,
   closeFileSearch: SourceEditor => void,
-  doSearch: (string, SourceEditor) => void,
+  doSearch: (string, SourceEditor, boolean) => void,
   traverseResults: (boolean, SourceEditor) => void,
   updateSearchResults: ({ count: number, index?: number }) => any
 };
@@ -156,7 +156,10 @@ class SearchBar extends Component<Props, State> {
     }
 
     if (searchOn && editor) {
-      const query = editor.codeMirror.getSelection() || this.state.query;
+      const selectionText = editor.monaco
+        .getModel()
+        .getValueInRange(editor.monaco.getSelection());
+      const query = selectionText || this.state.query;
 
       if (query !== "") {
         this.setState({ query, inputFocused: true });
@@ -167,13 +170,13 @@ class SearchBar extends Component<Props, State> {
     }
   };
 
-  doSearch = (query: string) => {
+  doSearch = (query: string, rev: boolean = false) => {
     const { selectedSource } = this.props;
     if (!selectedSource || !selectedSource.text) {
       return;
     }
 
-    this.props.doSearch(query, this.props.editor);
+    this.props.doSearch(query, this.props.editor, rev);
   };
 
   updateSearchResults = (characterIndex, line, matches) => {
@@ -216,9 +219,9 @@ class SearchBar extends Component<Props, State> {
       return;
     }
 
-    this.traverseResults(e, e.shiftKey);
+    // this.traverseResults(e, e.shiftKey);
     e.preventDefault();
-    return this.doSearch(e.target.value);
+    return this.doSearch(e.target.value, e.shiftKey);
   };
 
   // Renderers
