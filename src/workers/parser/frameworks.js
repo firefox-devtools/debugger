@@ -59,17 +59,7 @@ function extendsReactComponent(classes) {
 // Angular
 
 const isAngularComponent = sourceSymbols => {
-  const { memberExpressions, identifiers } = sourceSymbols;
-  return (
-    identifiesAngular(identifiers) && hasAngularExpressions(memberExpressions)
-  );
-};
-
-const identifiesAngular = identifiers => {
-  return identifiers.some(item => item.name == "angular");
-};
-
-const hasAngularExpressions = memberExpressions => {
+  const { memberExpressions } = sourceSymbols;
   return memberExpressions.some(
     item =>
       item.expression == "angular.controller" ||
