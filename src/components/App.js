@@ -15,8 +15,7 @@ import {
   getSelectedSource,
   getPaneCollapse,
   getActiveSearch,
-  getQuickOpenEnabled,
-  getOrientation
+  getQuickOpenEnabled
 } from "../selectors";
 
 import type { OrientationType } from "../reducers/types";
