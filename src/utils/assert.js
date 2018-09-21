@@ -10,3 +10,5 @@ export default function assert(condition: boolean, message: string) {
     throw new Error(`Assertion failure: ${message}`);
   }
 }
+
+// fsdfsdfsdfsdkjfhk
