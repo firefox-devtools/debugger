@@ -88,7 +88,7 @@ html[dir="rtl"] .editor-mount {
 }
 .theme-light .cm-s-mozilla .empty-line .CodeMirror-linenumber,
 .theme-dark .cm-s-mozilla .empty-line .CodeMirror-linenumber {
-  color: #ccc;
+  color: #cccccc;
 }
 .theme-dark .cm-s-mozilla .empty-line .CodeMirror-linenumber {
   color: #999999;
