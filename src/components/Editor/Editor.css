@@ -89,6 +89,9 @@ html[dir="rtl"] .editor-mount {
 .theme-light .cm-s-mozilla .empty-line .CodeMirror-linenumber {
   color: var(--grey-30);
 }
+.theme-dark .cm-s-mozilla .empty-line .CodeMirror-linenumber {
+  color: var(--grey-70);
+}
 
 .editor-wrapper .breakpoints {
   position: absolute;
