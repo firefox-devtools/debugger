@@ -44,7 +44,7 @@
   display: flex;
   flex-shrink: 0;
   justify-content: flex-end;
-  height: var(--editor-second-searchbar-height);
+  height: var(--editor-searchbar-height);
   background-color: var(--theme-toolbar-background);
   padding: 0 13px;
 }
