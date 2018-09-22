@@ -87,10 +87,7 @@ html[dir="rtl"] .editor-mount {
   mask-position: right;
 }
 .theme-light .cm-s-mozilla .empty-line .CodeMirror-linenumber {
-  color: #cccccc;
-}
-.theme-dark .cm-s-mozilla .empty-line .CodeMirror-linenumber {
-  color: #d6d6d6;
+  color: var(--grey-30);
 }
 
 .editor-wrapper .breakpoints {
