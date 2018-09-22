@@ -86,12 +86,11 @@ html[dir="rtl"] .editor-mount {
   mask-size: auto 12px;
   mask-position: right;
 }
-.theme-light .cm-s-mozilla .empty-line .CodeMirror-linenumber,
-.theme-dark .cm-s-mozilla .empty-line .CodeMirror-linenumber {
+.theme-light .cm-s-mozilla .empty-line .CodeMirror-linenumber {
   color: #cccccc;
 }
 .theme-dark .cm-s-mozilla .empty-line .CodeMirror-linenumber {
-  color: #999999;
+  color: #d6d6d6;
 }
 
 .editor-wrapper .breakpoints {
