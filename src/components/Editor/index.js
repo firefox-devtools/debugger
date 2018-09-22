@@ -606,11 +606,11 @@ class Editor extends PureComponent<Props, State> {
         })}
         ref={c => (this.$editorWrapper = c)}
       >
-        {this.renderSearchBar()}
         <div
           className="editor-mount devtools-monospace"
           style={this.getInlineEditorStyles()}
         />
+        {this.renderSearchBar()}
         {this.renderItems()}
       </div>
     );

@@ -6,6 +6,7 @@
   display: flex;
   border: 1px solid transparent;
   border-bottom: 1px solid var(--theme-splitter-color);
+  height: var(--editor-searchbar-height);
 }
 
 .search-bar.search-bar-focused {
@@ -15,7 +16,6 @@
 
 .search-bar .search-field {
   padding-left: 7px;
-  height: var(--editor-searchbar-height);
 }
 
 .search-bar .search-shadow {
@@ -29,6 +29,8 @@
 
 .search-field {
   border-bottom: none;
+  padding-right: 0;
+  height: 100%;
 }
 
 .search-field .close-btn {
@@ -44,7 +46,6 @@
   display: flex;
   flex-shrink: 0;
   justify-content: flex-end;
-  height: var(--editor-searchbar-height);
   background-color: var(--theme-toolbar-background);
   padding: 0 13px;
 }
