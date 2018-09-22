@@ -11,7 +11,7 @@ export * from "../ui";
 export { onMouseOver } from "./token-events";
 
 import { createEditor } from "./create-editor";
-import { shouldPrettyPrint, isOriginal, isLoading } from "../source";
+import { shouldPrettyPrint, isOriginal } from "../source";
 import { findNext, findPrev } from "./source-search";
 
 import { isWasm, lineToWasmOffset, wasmOffsetToLine } from "../wasm";
@@ -61,10 +61,6 @@ export function endOperation() {
 export function shouldShowPrettyPrint(selectedSource) {
   if (!selectedSource) {
     return false;
-  }
-
-  if (isLoading(selectedSource)) {
-    return true;
   }
 
   return shouldPrettyPrint(selectedSource);

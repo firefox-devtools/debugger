@@ -46,12 +46,8 @@ type Props = {
 class SourceFooter extends PureComponent<Props> {
   prettyPrintButton() {
     const { selectedSource, togglePrettyPrint } = this.props;
-    const sourceLoaded = selectedSource && isLoaded(selectedSource);
 
-    if (!shouldShowPrettyPrint(selectedSource)) {
-      return;
-    }
-    if (isLoading(selectedSource)) {
+    if (isLoading(selectedSource) && selectedSource.isPrettyPrinted) {
       return (
         <div className="loader">
           <Svg name="loader" />
@@ -59,7 +55,12 @@ class SourceFooter extends PureComponent<Props> {
       );
     }
 
+    if (!shouldShowPrettyPrint(selectedSource)) {
+      return;
+    }
+
     const tooltip = L10N.getStr("sourceTabs.prettyPrint");
+    const sourceLoaded = selectedSource && isLoaded(selectedSource);
 
     const type = "prettyPrint";
     return (

@@ -82,8 +82,8 @@ export function showLoading(editor: SourceEditor) {
   } else {
     doc = editor.createDocument();
     setDocument("loading", doc);
-    editor.replaceDocument(doc);
     doc.setValue(L10N.getStr("loadingText"));
+    editor.replaceDocument(doc);
     editor.setMode({ name: "text" });
   }
 }
