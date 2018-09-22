@@ -88,6 +88,17 @@ class SourcesTree extends Component<Props, State> {
     });
   }
 
+  componentDidMount() {
+    const { sourceTree } = this.state;
+    if (this.props.selectedSource) {
+      const listItems = getDirectories(this.props.selectedSource, sourceTree);
+      return this.setState({
+        listItems,
+        highlightItems: listItems
+      });
+    }
+  }
+
   componentWillReceiveProps(nextProps: Props) {
     const {
       projectRoot,
