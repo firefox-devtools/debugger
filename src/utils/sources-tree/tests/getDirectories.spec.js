@@ -29,8 +29,17 @@ describe("getDirectories", () => {
 
     const debuggeeUrl = "http://a/";
     const { sourceTree, parentMap } = createTree({ sources, debuggeeUrl });
-    expect(formatDirectories(sources.a0, parentMap, sourceTree)).toEqual(["a/b.js", "a"]);
-    expect(formatDirectories(sources.a1, parentMap, sourceTree)).toEqual(["a/c.js", "a"]);
-    expect(formatDirectories(sources.a2, parentMap, sourceTree)).toEqual(["b/c.js", "b"]);
+    expect(formatDirectories(sources.a0, parentMap, sourceTree)).toEqual([
+      "a/b.js",
+      "a"
+    ]);
+    expect(formatDirectories(sources.a1, parentMap, sourceTree)).toEqual([
+      "a/c.js",
+      "a"
+    ]);
+    expect(formatDirectories(sources.a2, parentMap, sourceTree)).toEqual([
+      "b/c.js",
+      "b"
+    ]);
   });
 });
