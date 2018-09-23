@@ -27,7 +27,7 @@
   transition: none;
 }
 
-.search-field {
+.search-bar .search-field {
   border-bottom: none;
   padding-right: 0;
   height: 100%;
