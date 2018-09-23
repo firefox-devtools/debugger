@@ -72,7 +72,6 @@ import type { Location, Source } from "../../types";
 
 const cssVars = {
   searchbarHeight: "var(--editor-searchbar-height)",
-  secondSearchbarHeight: "var(--editor-second-searchbar-height)",
   footerHeight: "var(--editor-footer-height)"
 };
 
@@ -528,7 +527,6 @@ class Editor extends PureComponent<Props, State> {
 
     if (searchOn) {
       subtractions.push(cssVars.searchbarHeight);
-      subtractions.push(cssVars.secondSearchbarHeight);
     }
 
     return {
@@ -608,11 +606,11 @@ class Editor extends PureComponent<Props, State> {
         })}
         ref={c => (this.$editorWrapper = c)}
       >
-        {this.renderSearchBar()}
         <div
           className="editor-mount devtools-monospace"
           style={this.getInlineEditorStyles()}
         />
+        {this.renderSearchBar()}
         {this.renderItems()}
       </div>
     );
