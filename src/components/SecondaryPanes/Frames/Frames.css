@@ -30,12 +30,8 @@
 
 .frames .location {
   font-weight: lighter;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-  align-items: center;
-  margin: 0;
-  flex-shrink: 0;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .theme-light .frames .location {
@@ -48,9 +44,8 @@
 }
 
 .frames .title {
-  text-overflow: ellipsis;
-  overflow: hidden;
   margin: 7px 0.5em 7px 0;
+  flex-shrink: 0;
 }
 
 .frames ul li:hover,
