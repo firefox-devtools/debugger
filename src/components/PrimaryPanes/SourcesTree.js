@@ -149,9 +149,9 @@ class SourcesTree extends Component<Props, State> {
   }
 
   setHighlightFocusItems(source: ?Source) {
-    const { sourceTree } = this.state;
+    const { sourceTree, parentMap } = this.state;
     if (source) {
-      const items = getDirectories(source, sourceTree);
+      const items = getDirectories(source, parentMap, sourceTree);
       return this.setState({ listItems: items, highlightItems: items });
     }
   }
