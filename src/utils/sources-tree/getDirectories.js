@@ -4,7 +4,7 @@
 
 // @flow
 
-//import { createParentMap } from "./utils";
+// import { createParentMap } from "./utils";
 import type { TreeNode, TreeDirectory, ParentMap } from "./types";
 import type { Source } from "../../types";
 
@@ -25,7 +25,11 @@ function findSourceItem(sourceTree: TreeDirectory, source: Source): ?TreeNode {
   return _traverse(sourceTree, source);
 }
 
-function getAncestors(sourceTree: TreeDirectory, parentMap: ParentMap, item: ?TreeNode) {
+function getAncestors(
+  sourceTree: TreeDirectory,
+  parentMap: ParentMap,
+  item: ?TreeNode
+) {
   if (!item) {
     return null;
   }
@@ -43,7 +47,11 @@ function getAncestors(sourceTree: TreeDirectory, parentMap: ParentMap, item: ?Tr
   }
 }
 
-export function getDirectories(source: Source, parentMap: ParentMap, sourceTree: TreeDirectory) {
+export function getDirectories(
+  source: Source,
+  parentMap: ParentMap,
+  sourceTree: TreeDirectory
+) {
   const item = findSourceItem(sourceTree, source);
   const ancestors = getAncestors(sourceTree, parentMap, item);
   return ancestors || [sourceTree];
