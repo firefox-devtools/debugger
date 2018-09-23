@@ -5,7 +5,7 @@
 .search-bar {
   display: flex;
   border: 1px solid transparent;
-  border-bottom: 1px solid var(--theme-splitter-color);
+  border-top: 1px solid var(--theme-splitter-color);
   height: var(--editor-searchbar-height);
 }
 
