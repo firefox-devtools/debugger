@@ -6,8 +6,8 @@ import { createSource } from "../../../reducers/sources";
 
 import { getDirectories, createTree } from "../index";
 
-function formatDirectories(source, tree) {
-  const paths = getDirectories(source, tree);
+function formatDirectories(source, parentMap, tree) {
+  const paths = getDirectories(source, parentMap, tree);
   return paths.map(node => node.path);
 }
 
@@ -28,9 +28,9 @@ describe("getDirectories", () => {
     ]);
 
     const debuggeeUrl = "http://a/";
-    const { sourceTree } = createTree({ sources, debuggeeUrl });
-    expect(formatDirectories(sources.a0, sourceTree)).toEqual(["a/b.js", "a"]);
-    expect(formatDirectories(sources.a1, sourceTree)).toEqual(["a/c.js", "a"]);
-    expect(formatDirectories(sources.a2, sourceTree)).toEqual(["b/c.js", "b"]);
+    const { sourceTree, parentMap } = createTree({ sources, debuggeeUrl });
+    expect(formatDirectories(sources.a0, parentMap, sourceTree)).toEqual(["a/b.js", "a"]);
+    expect(formatDirectories(sources.a1, parentMap, sourceTree)).toEqual(["a/c.js", "a"]);
+    expect(formatDirectories(sources.a2, parentMap, sourceTree)).toEqual(["b/c.js", "b"]);
   });
 });
