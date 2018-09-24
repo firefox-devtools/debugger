@@ -1,4 +1,7 @@
 {
+  "files.associations": {
+    "*.js": "javascriptreact"
+  },
   "flow.pathToFlow": "${workspaceRoot}/node_modules/.bin/flow",
   "eslint.autoFixOnSave": true,
   "prettier.eslintIntegration": true,

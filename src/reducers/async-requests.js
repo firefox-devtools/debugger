@@ -7,6 +7,8 @@
  * @module reducers/async-request
  */
 
+// @flow
+
 const initialAsyncRequestState = [];
 
 function update(state = initialAsyncRequestState, action) {

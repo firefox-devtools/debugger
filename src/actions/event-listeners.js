@@ -10,6 +10,8 @@
  * @module actions/event-listeners
  */
 
+// @flow
+
 import { reportException } from "../utils/DevToolsUtils";
 import { isPaused, getSourceByURL } from "../selectors";
 import { NAME as WAIT_UNTIL } from "./utils/middleware/wait-service";

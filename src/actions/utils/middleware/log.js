@@ -3,6 +3,8 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 /* global window */
 
+// @flow
+
 import { isTesting } from "devtools-environment";
 
 const blacklist = [
