@@ -34,7 +34,6 @@ function getAncestors(
     return null;
   }
 
-  // const parentMap = createParentMap(sourceTree);
   const directories = [];
 
   directories.push(item);
