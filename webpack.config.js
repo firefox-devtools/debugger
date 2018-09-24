@@ -3,6 +3,8 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 const toolbox = require("devtools-launchpad/index");
+const sourceMapAssets = require("devtools-source-map/assets");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 const getConfig = require("./bin/getConfig");
 const mozillaCentralMappings = require("./configs/mozilla-central-mappings");
@@ -40,7 +42,14 @@ const webpackConfig = {
     publicPath: "/assets/build"
   },
 
-  plugins: []
+  plugins: [
+    new CopyWebpackPlugin(
+      Object.entries(sourceMapAssets).map(([name, filePath]) => ({
+        from: filePath,
+        to: `source-map-worker-assets/${name}`
+      }))
+    )
+  ]
 };
 
 if (isProduction) {
