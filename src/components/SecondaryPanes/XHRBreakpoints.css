@@ -78,8 +78,8 @@
 }
 
 .xhr-container .close-btn {
-  offset-inline-end: 15px;
-  inset-inline-end: 15px;
+  offset-inline-end: 12px;
+  inset-inline-end: 12px;
   offset-inline-start: auto;
   inset-inline-start: auto;
   position: absolute;
