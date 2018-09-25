@@ -20,8 +20,17 @@ export default function getMatches(
   for (let i = 0; i < lines.length; i++) {
     let singleMatch;
     const line = lines[i];
+    let previousLastIndex = regexQuery.lastIndex;
     while ((singleMatch = regexQuery.exec(line)) !== null) {
       matchedLocations.push({ line: i, ch: singleMatch.index });
+
+      // exec() is supposed to update the lastIndex property but sometimes
+      // doesn't and can cause this to be an infinite loop by matching on the
+      // same index.  A work around is to update the lastIndex manually
+      if (regexQuery.lastIndex === previousLastIndex) {
+        regexQuery.lastIndex++;
+      }
+      previousLastIndex = regexQuery.lastIndex;
     }
   }
   return matchedLocations;
