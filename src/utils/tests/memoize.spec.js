@@ -4,18 +4,10 @@
 
 import memoize from "../memoize";
 
-const a = {
-  number: 3
-};
-const b = {
-  number: 4
-};
-const c = {
-  number: 5
-};
-const d = {
-  number: 6
-};
+const a = { number: 3 };
+const b = { number: 4 };
+const c = { number: 5 };
+const d = { number: 6 };
 
 function add(...numberObjects) {
   return numberObjects.reduce((prev, cur) => prev + cur.number, 0);
@@ -23,25 +15,30 @@ function add(...numberObjects) {
 
 describe("memozie", () => {
   it("should work for one arg as key", () => {
-    const memoizedAdd = memoize(1, add);
-    expect(memoizedAdd(a, b)).toEqual(7);
-    expect(memoizedAdd(a, c)).toEqual(7);
+    const mAdd = memoize(add)
+    mAdd(a)
+    expect(mAdd(a)).toEqual(3)
+    expect(spy.calls).toHavelength(1)
   });
 
-  it("should work for two args as key", () => {
-    const memoizedAdd = memoize(2, add);
-    expect(memoizedAdd(a, b, d)).toEqual(13);
-    expect(memoizedAdd(a, b, c)).toEqual(13);
-    expect(memoizedAdd(b, c)).toEqual(9);
-    expect(memoizedAdd(b, a)).toEqual(7);
+  it("should only be called once", () => {
+    const spy = jest.fn(add)
+    const mAdd = memoize(spy)
+
+    mAdd(a)
+    expect(mAdd(a)).toEqual(3)
+    expect(spy.calls).toHavelength(1)
   });
 
-  it("should work for three args as key", () => {
-    const memoizeAdd = memoize(3, add);
-    expect(memoizeAdd(a, b, c, d)).toEqual(18);
-    expect(memoizeAdd(a, b, c, b)).toEqual(18);
-    expect(memoizeAdd(a, b, c, a)).toEqual(18);
-    expect(memoizeAdd(a, a, b, d)).toEqual(16);
-    expect(memoizeAdd(a, a, b, c)).toEqual(16);
+
+  it("should work for multiple args as key", () => {
+
+    const mAdd = memoize(add);
+    expect(mAdd(a,b)).toEqual(7)
+
+    expect(mAdd(a,c)).toEqual(8)
+    expect(mAdd(a,b,c)).toEqual(12)
+    expect(mAdd(a,b,d)).toEqual(13)
   });
+
 });
