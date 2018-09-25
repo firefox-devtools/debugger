@@ -142,7 +142,8 @@ class SourcesTree extends Component<Props, State> {
           debuggeeUrl,
           projectRoot,
           uncollapsedTree,
-          sourceTree
+          sourceTree,
+          focusedItem: this.state.focusedItem
         })
       );
     }

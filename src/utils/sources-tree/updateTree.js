@@ -6,12 +6,13 @@
 
 import { addToTree } from "./addToTree";
 import { collapseTree } from "./collapseTree";
-import { createParentMap } from "./utils";
+import { createParentMap, getSourceFromNode, partIsFile, isDirectory } from "./utils";
 import { difference } from "lodash";
-import { getDomain } from "./treeOrder";
+import { getDomain, findNodeInContents, createTreeNodeMatcher } from "./treeOrder";
+import { getURL } from "./getURL";
 
 import type { SourcesMap } from "../../reducers/types";
-import type { TreeDirectory } from "./types";
+import type { TreeDirectory, TreeNode } from "./types";
 
 function newSourcesSet(newSources, prevSources) {
   const newSourceIds = difference(
@@ -22,13 +23,36 @@ function newSourcesSet(newSources, prevSources) {
   return uniqSources;
 }
 
+function findFocusedItemInTree(
+  newSourceTree: TreeDirectory,
+  debuggeeHost: ?string,
+  focusedItem: ?TreeNode
+): ?TreeNode {
+  if (focusedItem) {
+    const parts = focusedItem.path.split("/").filter(p => p !== "");
+    let path = "";
+    focusedItem = parts.reduce((subTree, part, index) => {
+      path = path ? `${path}/${part}`: part;
+      // const isDir = index < parts.length - 1;
+      const { found, index: childIndex } = findNodeInContents(subTree, createTreeNodeMatcher(part, true, debuggeeHost));
+      console.log('found:', found);
+      return subTree.contents[childIndex];
+    }, newSourceTree);
+
+    console.log('focusedItem:', focusedItem);
+  }
+
+  return focusedItem
+}
+
 type Params = {
   newSources: SourcesMap,
   prevSources: SourcesMap,
   uncollapsedTree: TreeDirectory,
   sourceTree: TreeDirectory,
   debuggeeUrl: string,
-  projectRoot: string
+  projectRoot: string,
+  focusedItem: ?TreeNode
 };
 
 export function updateTree({
@@ -37,7 +61,8 @@ export function updateTree({
   debuggeeUrl,
   projectRoot,
   uncollapsedTree,
-  sourceTree
+  sourceTree,
+  focusedItem
 }: Params) {
   const newSet = newSourcesSet(newSources, prevSources);
   const debuggeeHost = getDomain(debuggeeUrl);
@@ -52,6 +77,6 @@ export function updateTree({
     uncollapsedTree,
     sourceTree: newSourceTree,
     parentMap: createParentMap(newSourceTree),
-    focusedItem: null
+    focusedItem: findFocusedItemInTree(newSourceTree, debuggeeHost, focusedItem),
   };
 }
