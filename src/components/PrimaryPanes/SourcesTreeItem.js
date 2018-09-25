@@ -187,13 +187,15 @@ class SourceTreeItem extends Component<Props, State> {
 }
 
 function getHasMatchingGeneratedSource(state, source: ?Source) {
-  if (!source) {
+  if (!source || !isOriginalSource(source)) {
     return false;
   }
 
-  const isOriginal = isOriginalSource(source);
-  const sources = getSourcesByURL(state, source.url, isOriginal);
-  return isOriginal && sources.length > 0;
+  const sources = getSourcesByURL(state, source.url).filter(
+    src => !isOriginalSource(src)
+  );
+
+  return sources.length > 0;
 }
 
 const mapStateToProps = (state, props) => {
