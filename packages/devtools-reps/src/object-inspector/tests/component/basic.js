@@ -338,7 +338,7 @@ describe("ObjectInspector - renders", () => {
     expect(formatObjectInspector(wrapper)).toMatchSnapshot();
   });
 
-  it("updates when the root changes", async () => {
+  it.skip("updates when the root changes", async () => {
     let root = {
       path: "root",
       contents: {
@@ -368,7 +368,7 @@ describe("ObjectInspector - renders", () => {
     expect(formatObjectInspector(wrapper)).toMatchSnapshot();
   });
 
-  it("updates when the root changes but has same path", async () => {
+  it.skip("updates when the root changes but has same path", async () => {
     const { wrapper, store } = mountOI({
       injectWaitService: true,
       roots: [

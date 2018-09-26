@@ -67,7 +67,7 @@ describe("release actors", () => {
     expect(client.releaseActor.mock.calls[1][0]).toBe("actor 2");
   });
 
-  it("calls release actors when the roots prop changed", async () => {
+  it.skip("calls release actors when the roots prop changed", async () => {
     const { wrapper, store, client } = mount(
       {
         injectWaitService: true
