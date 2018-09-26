@@ -60,6 +60,34 @@ describe("sources", () => {
     expect(locations).toHaveLength(1);
   });
 
+  it("should select next tab on tab closed if no previous tab", async () => {
+    const { dispatch, getState } = createStore(sourceThreadClient);
+
+    const fooSource = makeSource("foo.js");
+
+    await dispatch(actions.newSource(fooSource));
+    await dispatch(actions.newSource(makeSource("bar.js")));
+    await dispatch(actions.newSource(makeSource("baz.js")));
+
+    // 3rd tab
+    await dispatch(actions.selectLocation({ sourceId: "foo.js" }));
+
+    // 2nd tab
+    await dispatch(actions.selectLocation({ sourceId: "bar.js" }));
+
+    // 1st tab
+    await dispatch(actions.selectLocation({ sourceId: "baz.js" }));
+
+    // 3rd tab is reselected
+    await dispatch(actions.selectLocation({ sourceId: "foo.js" }));
+
+    // closes the 1st tab, which should have no previous tab
+    await dispatch(actions.closeTab(fooSource));
+
+    expect(getSelectedSource(getState()).id).toBe("bar.js");
+    expect(getSourceTabs(getState())).toHaveLength(2);
+  });
+
   it("should open a tab for the source", async () => {
     const { dispatch, getState } = createStore(sourceThreadClient);
     await dispatch(actions.newSource(makeSource("foo.js")));
@@ -86,20 +114,31 @@ describe("sources", () => {
     expect(getSourceTabs(getState())).toHaveLength(2);
   });
 
-  it("should select next tab on tab closed if no previous tab", async () => {
+  it("should keep the selected source when other tab closed", async () => {
     const { dispatch, getState } = createStore(sourceThreadClient);
 
-    const fooSource = makeSource("foo.js");
-    await dispatch(actions.newSource(fooSource));
+    const bazSource = makeSource("baz.js");
+
+    await dispatch(actions.newSource(makeSource("foo.js")));
     await dispatch(actions.newSource(makeSource("bar.js")));
     await dispatch(actions.newSource(makeSource("baz.js")));
 
+    // 3rd tab
     await dispatch(actions.selectLocation({ sourceId: "foo.js" }));
+
+    // 2nd tab
     await dispatch(actions.selectLocation({ sourceId: "bar.js" }));
+
+    // 1st tab
     await dispatch(actions.selectLocation({ sourceId: "baz.js" }));
+
+    // 3rd tab is reselected
     await dispatch(actions.selectLocation({ sourceId: "foo.js" }));
-    await dispatch(actions.closeTab(fooSource));
-    expect(getSelectedSource(getState()).id).toBe("bar.js");
+
+    // closes the 1st tab
+    await dispatch(actions.closeTab(bazSource));
+
+    expect(getSelectedSource(getState()).id).toBe("foo.js");
     expect(getSourceTabs(getState())).toHaveLength(2);
   });
 
