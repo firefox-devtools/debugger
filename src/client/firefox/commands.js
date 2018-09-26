@@ -60,7 +60,7 @@ function createObjectClient(grip: Grip) {
   return debuggerClient.createObjectClient(grip);
 }
 
-function releaseActor(actor) {
+function releaseActor(actor: String) {
   if (!actor) {
     return;
   }
