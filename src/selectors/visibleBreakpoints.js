@@ -19,7 +19,7 @@ function getLocation(breakpoint, isGeneratedSource) {
     : breakpoint.location;
 }
 
-const formatBreakpoint = memoize(2, function(breakpoint, selectedSource) {
+const formatBreakpoint = memoize(function(breakpoint, selectedSource) {
   const { condition, loading, disabled, hidden } = breakpoint;
   const sourceId = selectedSource.id;
   const isGeneratedSource = isGeneratedId(sourceId);

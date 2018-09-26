@@ -2,7 +2,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-function hasValue(keys, store) {
+// @flow
+
+type Value = any;
+type Key = any;
+type Store = WeakMap<Key, Store | Value>;
+
+function hasValue(keys: Key[], store: Store) {
   let currentStore = store;
   for (const key of keys) {
     if (!currentStore || !currentStore.has(key)) {
@@ -14,35 +20,44 @@ function hasValue(keys, store) {
   return true;
 }
 
-function getValue(keys, store) {
+function getValue(keys: Key[], store: Store): Value {
   let currentStore = store;
   for (const key of keys) {
+    if (!currentStore) {
+      return null;
+    }
     currentStore = currentStore.get(key);
   }
 
   return currentStore;
 }
 
-function setValue(keys, store, value) {
+function setValue(keys: Key[], store: Store, value: Value) {
   const keysExceptLast = keys.slice(0, -1);
   const lastKey = keys[keys.length - 1];
 
   let currentStore = store;
   for (const key of keysExceptLast) {
+    if (!currentStore) {
+      return;
+    }
+
     if (!currentStore.has(key)) {
       currentStore.set(key, new WeakMap());
     }
     currentStore = currentStore.get(key);
   }
 
-  currentStore.set(lastKey, value);
+  if (currentStore) {
+    currentStore.set(lastKey, value);
+  }
 }
 
 // memoize with n arguments
-export default function memoize(func) {
+export default function memoize(func: Function) {
   const store = new WeakMap();
 
-  return function(...keys) {
+  return function(...keys: Key[]) {
     if (hasValue(keys, store)) {
       return getValue(keys, store);
     }
@@ -52,22 +67,3 @@ export default function memoize(func) {
     return newValue;
   };
 }
-
-// let currentStore = store;
-// let index = 0
-// const key = keys[index]
-//
-// if (store.has(key)) {
-//   let value = currentStore.get(key)
-//   while (value instanceof WeakMap && value.has(keys[index])) {
-//     value = value.get(keys[index])
-//     index++
-//   }
-//
-//   console.log(typeof value,  value instanceof WeakMap)
-//   return value;
-// }
-//
-// const value = func.apply(null, arguments);
-// currentStore.set(key, value);
-// return value;
