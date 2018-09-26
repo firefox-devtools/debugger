@@ -38,7 +38,7 @@ function _getURL(source: Source, defaultDomain: string): ParsedURL {
     return def;
   }
 
-  const { pathname, searchParams, protocol, host } = parse(url);
+  const { pathname, search, protocol, host } = parse(url);
 
   const filename = getUnicodeUrlPath(getFilenameFromPath(pathname));
 
@@ -52,7 +52,7 @@ function _getURL(source: Source, defaultDomain: string): ParsedURL {
       return {
         ...def,
         path: pathname,
-        searchParams,
+        search,
         filename,
         group: `${protocol}//${host || ""}`
       };
@@ -62,7 +62,7 @@ function _getURL(source: Source, defaultDomain: string): ParsedURL {
       return {
         ...def,
         path: pathname,
-        searchParams,
+        search,
         filename,
         group: `${protocol}//`
       };
@@ -108,7 +108,7 @@ function _getURL(source: Source, defaultDomain: string): ParsedURL {
       return {
         ...def,
         path: pathname,
-        searchParams,
+        search,
         filename,
         group: getUnicodeHostname(host)
       };

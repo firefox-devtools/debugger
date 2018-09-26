@@ -24,7 +24,4 @@ out
 junit.xml
 .cache/
 .rpt2_cache
-.vs/slnx.sqlite
-.vs/ProjectSettings.json
-.vs/VSWorkspaceState.json
-.vs/FirefoxDebugger/v15/.suo
+.vs/
