@@ -4,9 +4,6 @@
 
 global.Worker = require("workerjs");
 
-
-
-
 import path from "path";
 import getConfig from "../../bin/getConfig";
 import { readFileSync } from "fs";
@@ -98,8 +95,7 @@ function mockIndexeddDB() {
     open: () => ({}),
     getItem: async key => store[key],
     setItem: async (key, value) => {
-      store[key] = value
+      store[key] = value;
     }
-
-  }
+  };
 }

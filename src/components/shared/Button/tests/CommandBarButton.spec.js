@@ -15,7 +15,6 @@ describe("CommandBarButton", () => {
   it("renders children", () => {
     const children = [1, 2, 3, 4];
     const wrapper = shallow(<CommandBarButton children={children} />);
-    console.log(wrapper.html())
     expect(wrapper.find("button").children()).toHaveLength(4);
   });
 });
