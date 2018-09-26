@@ -15,30 +15,34 @@ function add(...numberObjects) {
 
 describe("memozie", () => {
   it("should work for one arg as key", () => {
-    const mAdd = memoize(add)
-    mAdd(a)
-    expect(mAdd(a)).toEqual(3)
-    expect(spy.calls).toHavelength(1)
+    const mAdd = memoize(add);
+    mAdd(a);
+    expect(mAdd(a)).toEqual(3);
+    mAdd(b);
+    expect(mAdd(b)).toEqual(4);
   });
 
   it("should only be called once", () => {
-    const spy = jest.fn(add)
-    const mAdd = memoize(spy)
+    const spy = jest.fn(() => 2);
+    const mAdd = memoize(spy);
 
-    mAdd(a)
-    expect(mAdd(a)).toEqual(3)
-    expect(spy.calls).toHavelength(1)
+    mAdd(a);
+    mAdd(a);
+    mAdd(a);
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
-
-  it("should work for multiple args as key", () => {
-
+  it("should work for two args as key", () => {
     const mAdd = memoize(add);
-    expect(mAdd(a,b)).toEqual(7)
-
-    expect(mAdd(a,c)).toEqual(8)
-    expect(mAdd(a,b,c)).toEqual(12)
-    expect(mAdd(a,b,d)).toEqual(13)
+    expect(mAdd(a, b)).toEqual(7);
+    expect(mAdd(a, b)).toEqual(7);
+    expect(mAdd(a, c)).toEqual(8);
   });
 
+  it("should work with many args as key", () => {
+    const mAdd = memoize(add);
+    expect(mAdd(a, b, c)).toEqual(12);
+    expect(mAdd(a, b, d)).toEqual(13);
+    expect(mAdd(a, b, c)).toEqual(12);
+  });
 });
