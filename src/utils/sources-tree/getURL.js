@@ -10,7 +10,7 @@ import { getUnicodeHostname, getUnicodeUrlPath } from "devtools-modules";
 import type { Source } from "../../types";
 export type ParsedURL = {
   path: string,
-  searchParams: searchParams,
+  search: string,
   group: string,
   filename: string
 };
