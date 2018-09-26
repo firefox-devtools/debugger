@@ -130,11 +130,9 @@ class Editor extends PureComponent<Props, State> {
       return;
     }
 
-    startOperation();
     this.setText(nextProps);
     this.setSize(nextProps);
     this.scrollToLocation(nextProps);
-    endOperation();
   }
 
   setupEditor() {
