@@ -141,7 +141,7 @@ function evaluateExpression(expression: Expression) {
       if (selectedSource && isOriginal(source) && isOriginal(selectedSource)) {
         const mapResult = await dispatch(getMappedExpression(input));
         if (mapResult) {
-          input = mapResult.expression || mapResult;
+          input = mapResult.expression;
         }
       }
     }
