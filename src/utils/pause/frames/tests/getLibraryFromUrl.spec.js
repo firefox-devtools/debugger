@@ -53,6 +53,7 @@ describe("getLibraryFromUrl", () => {
   describe("When React is in the URL", () => {
     it("should not return React if it is not part of the filename", () => {
       const notReactUrlList = [
+        "https://react.js.com/test.js",
         "https://debugger-example.com/test.js",
         "https://debugger-react-example.com/test.js",
         "https://debugger-react-example.com/react/test.js"
