@@ -27,7 +27,9 @@ export type RenderableScope = {
 };
 
 const {
-  utils: { node: NODE_TYPES }
+  utils: {
+    node: { NODE_TYPES }
+  }
 } = objectInspector;
 
 function getScopeTitle(type, scope: RenderableScope) {
