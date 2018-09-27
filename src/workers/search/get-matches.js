@@ -20,7 +20,7 @@ export default function getMatches(
   for (let i = 0; i < lines.length; i++) {
     let singleMatch;
     const line = lines[i];
-    let previousLastIndex = regexQuery.lastIndex;
+    let previousLastIndex = 0;
     while ((singleMatch = regexQuery.exec(line)) !== null) {
       matchedLocations.push({ line: i, ch: singleMatch.index });
 
