@@ -12,6 +12,7 @@
 const { networkRequest } = require("devtools-utils");
 const { SourceMapConsumer, SourceMapGenerator } = require("source-map");
 
+const { createConsumer } = require("./utils/createConsumer");
 const assert = require("./utils/assert");
 const { fetchSourceMap } = require("./utils/fetchSourceMap");
 const {
@@ -305,7 +306,7 @@ function applySourceMap(
   mappings.forEach(mapping => generator.addMapping(mapping));
   generator.setSourceContent(url, code);
 
-  const map = SourceMapConsumer(generator.toJSON());
+  const map = createConsumer(generator.toJSON());
   setSourceMap(generatedId, Promise.resolve(map));
 }
 
