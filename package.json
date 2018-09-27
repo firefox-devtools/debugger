@@ -44,11 +44,6 @@
     "flow-utils": "flow-coverage-report -i 'src/utils/*.js' -i 'src/utils/**/*.js' -t text",
     "flow-redux": "flow-coverage-report  -i 'src/reducers/*.js' -i 'src/actions/*.js'  -t text",
     "flow-react": "flow-coverage-report -i 'src/components/**/*.js' -t text",
-    "postcheckout": "node bin/post-checkout.js",
-    "postmerge": "node bin/post-merge.js",
-    "postrewrite": "node bin/post-rewrite.js",
-    "precommit": "yarn lint-staged",
-    "prepush": "yarn lint",
     "nom": "node bin/nom",
     "diff": "node bin/diff",
     "install": "prettier --write package.json"
@@ -196,5 +191,14 @@
       "prettier",
       "git add"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "post-checkout": "node bin/post-checkout.js",
+      "post-merge": "node bin/post-merge.js",
+      "post-rewrite": "node bin/post-rewrite.js",
+      "pre-commit": "yarn lint-staged",
+      "pre-push": "yarn lint"
+    }
   }
 }
