@@ -29,6 +29,7 @@
 }
 
 .frames .location {
+<<<<<<< HEAD
   font-weight: lighter;
   display: flex;
   justify-content: space-between;
@@ -36,6 +37,11 @@
   align-items: center;
   margin: 0;
   flex-shrink: 0;
+=======
+  font-weight: normal;
+  text-overflow: ellipsis;
+  overflow: hidden;
+>>>>>>> c9284db7e... Call Stack visibility fix (#7047)
 }
 
 .theme-light .frames .location {
