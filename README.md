@@ -80,7 +80,7 @@ Our [Weekly updates][weekly-updates] are also posted!
 
 Say hello in [Slack][slack] or in the [#devtools-html][irc-devtools-html] channel on irc.mozilla.org.
 
-* **Community Call**: Every Tuesday at 3pm EST and Thursday at 12pm EST. [Join the Hangout][community-call]
+* **Community Call**: Every Tuesday at 2pm EST and Thursday at 12pm EST. [Join the Hangout][community-call]
 * **DevTools Call**: Every Tuesday at 12pm EST. [Join the DevTools Vidyo][vidyo] Meeting Notes [Google Docs][google-docs]
 * **Pairing**: Ask in [Slack][slack] and you'll either find someone or be able to schedule a time for later.
 
