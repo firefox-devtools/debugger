@@ -130,11 +130,9 @@ class Editor extends PureComponent<Props, State> {
       return;
     }
 
-    startOperation();
     this.setText(nextProps);
     this.setSize(nextProps);
     this.scrollToLocation(nextProps);
-    endOperation();
   }
 
   setupEditor() {
@@ -239,10 +237,8 @@ class Editor extends PureComponent<Props, State> {
         const editor = this.setupEditor();
         updateDocument(editor, selectedSource);
       } else {
-        startOperation();
         this.setText(this.props);
         this.setSize(this.props);
-        endOperation();
       }
     }
   }
