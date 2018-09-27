@@ -3,10 +3,16 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 // @flow
 
+const { SourceMapConsumer } = require("source-map");
+
 let root;
 function setAssetRootURL(assetRoot: string): void {
   // Remove any trailing slash so we don't generate a double-slash below.
   root = assetRoot.replace(/\/$/, "");
+
+  SourceMapConsumer.initialize({
+    "lib/mappings.wasm": `${root}/source-map-mappings.wasm`
+  });
 }
 
 async function getDwarfToWasmData(name: string): Promise<ArrayBuffer> {
