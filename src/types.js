@@ -55,8 +55,7 @@ export type Location = {
   sourceId: SourceId,
   line: number,
   column?: number,
-  sourceUrl?: string,
-  noHighlightLine?: boolean
+  sourceUrl?: string
 };
 
 export type MappedLocation = {

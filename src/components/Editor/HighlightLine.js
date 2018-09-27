@@ -46,35 +46,60 @@ function isDocumentReady(selectedSource, selectedLocation) {
 }
 
 export class HighlightLine extends Component<Props> {
+  isStepping: boolean = false;
   previousEditorLine: ?number = null;
 
   shouldComponentUpdate(nextProps: Props) {
-    const { selectedSource, selectedLocation } = nextProps;
-    return isDocumentReady(selectedSource, selectedLocation);
+    const { selectedLocation, selectedSource } = nextProps;
+    return this.shouldSetHighlightLine(selectedLocation, selectedSource);
+  }
+
+  shouldSetHighlightLine(selectedLocation: Location, selectedSource: Source) {
+    const { sourceId, line } = selectedLocation;
+    const editorLine = toEditorLine(sourceId, line);
+
+    if (!isDocumentReady(selectedSource, selectedLocation)) {
+      return false;
+    }
+
+    if (this.isStepping && editorLine === this.previousEditorLine) {
+      return false;
+    }
+
+    return true;
   }
 
   componentDidUpdate(prevProps: Props) {
+    const {
+      pauseCommand,
+      selectedLocation,
+      selectedFrame,
+      selectedSource
+    } = this.props;
+    if (pauseCommand) {
+      this.isStepping = true;
+    }
+
     startOperation();
     this.clearHighlightLine(
       prevProps.selectedLocation,
       prevProps.selectedSource
     );
-    this.setHighlightLine();
+    this.setHighlightLine(selectedLocation, selectedFrame, selectedSource);
     endOperation();
   }
 
-  setHighlightLine() {
-    const { pauseCommand, selectedLocation, selectedFrame } = this.props;
-    if (selectedLocation.noHighlightLine) {
-      return;
-    }
+  setHighlightLine(
+    selectedLocation: Location,
+    selectedFrame: Frame,
+    selectedSource: Source
+  ) {
     const { sourceId, line } = selectedLocation;
-    const editorLine = toEditorLine(sourceId, line);
-
-    if (pauseCommand && editorLine === this.previousEditorLine) {
+    if (!this.shouldSetHighlightLine(selectedLocation, selectedSource)) {
       return;
     }
-
+    this.isStepping = false;
+    const editorLine = toEditorLine(sourceId, line);
     this.previousEditorLine = editorLine;
 
     if (!line || isDebugLine(selectedFrame, selectedLocation)) {

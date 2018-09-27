@@ -91,7 +91,7 @@ function update(
         url: action.source.url
       };
 
-      prefs.pendingSelectedLocation = { ...location, noHighlightLine: true };
+      prefs.pendingSelectedLocation = location;
 
       return {
         ...state,
