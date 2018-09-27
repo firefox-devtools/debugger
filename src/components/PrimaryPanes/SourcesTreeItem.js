@@ -13,7 +13,7 @@ import { showMenu } from "devtools-contextmenu";
 import SourceIcon from "../shared/SourceIcon";
 import Svg from "../shared/Svg";
 
-import { getSourcesByURL } from "../../selectors";
+import { getSourceByURL } from "../../selectors";
 import actions from "../../actions";
 
 import { isDirectory } from "../../utils/sources-tree";
@@ -187,15 +187,11 @@ class SourceTreeItem extends Component<Props, State> {
 }
 
 function getHasMatchingGeneratedSource(state, source: ?Source) {
-  if (!source || !isOriginalSource(source)) {
+  if (!source || !isOriginalId(source)) {
     return false;
   }
 
-  const sources = getSourcesByURL(state, source.url).filter(
-    src => !isOriginalId(src.id)
-  );
-
-  return sources.length > 0;
+  return !!getSourceByURL(state, source.url, false);
 }
 
 const mapStateToProps = (state, props) => {
