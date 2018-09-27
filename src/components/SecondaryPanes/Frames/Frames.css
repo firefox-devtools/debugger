@@ -29,7 +29,7 @@
 }
 
 .frames .location {
-  font-weight: lighter;
+  font-weight: normal;
   text-overflow: ellipsis;
   overflow: hidden;
 }
