@@ -297,6 +297,10 @@ export function getSourceByURL(state: OuterState, url: string): ?Source {
   return getSourceByUrlInSources(getSources(state), getUrls(state), url);
 }
 
+export function getSourcesByURLs(state: OuterState, urls: string[]) {
+  return urls.map(url => getSourceByURL(state, url)).filter(Boolean);
+}
+
 export function getSourcesByURL(state: OuterState, url: string): Source[] {
   return getSourcesByUrlInSources(getSources(state), getUrls(state), url);
 }
