@@ -137,7 +137,7 @@
     "expect.js": "^0.3.1",
     "flow-bin": "^0.81.0",
     "glob": "^7.0.3",
-    "husky": "^0.14.2",
+    "husky": "^1.0.1",
     "jest": "^23.0.0",
     "jest-environment-jsdom": "^23.0.0",
     "jest-in-case": "^1.0.2",
