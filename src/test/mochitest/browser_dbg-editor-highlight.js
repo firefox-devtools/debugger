@@ -46,3 +46,17 @@ add_task(async function() {
   ok(getSource(getState(), simple1.id).text);
   assertHighlightLocation(dbg, "simple1.js", 6);
 });
+
+add_task(async function() {
+  const dbg = await initDebugger("doc-scripts.html");
+  await selectSource(dbg, "simple1");
+  await addBreakpoint(dbg, "simple1", 4);
+  invokeInTab("main");
+  await waitForPaused(dbg);
+  assertPausedLocation(dbg);
+
+  await reload(dbg);
+  await waitForLoadedSource(dbg, "simple1");
+  const highlightedLine = findElementWithSelector(dbg, ".highlight-line");
+  ok(!highlightedLine, "should be no highlighted lines after reloading");
+});
