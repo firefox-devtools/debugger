@@ -12,7 +12,7 @@ cache:
 env:
   global:
     - DISPLAY=':99.0'
-    - YARN_VERSION='0.24.5'
+    - YARN_VERSION='1.9.4'
     - MC_COMMIT='156f9442db84' # https://hg.mozilla.org/mozilla-central/shortlog
 
 notifications:
@@ -37,25 +37,21 @@ before_install:
 
 install:
   - pip install --user mercurial
+  - python --version
+  - node --version
   - . $HOME/.nvm/nvm.sh; nvm install 9; nvm use 9;
   - ./bin/ci/install-yarn
   - ./bin/ci/clone-gecko.sh
-  - du -sh firefox
   - yarn
+  - node bin/copy
   - ./bin/ci/build-firefox.sh
-  - python --version
-  - node --version
   - du -sh firefox
-  - node ./bin/copy-assets.js --mc ./firefox
-  - node ./bin/copy-modules.js --mc ./firefox
-  - ./bin/ci/build-firefox.sh
   - node ./bin/ci/check-file-sizes.js
 
 before_script:
   - sh -e /etc/init.d/xvfb start
 
 script:
-  - ./node_modules/.bin/mochii --ci --mc ./firefox --headless devtools/client/debugger/new
   - ./node_modules/.bin/mochii --ci --mc ./firefox --headless
     browser_browser_toolbox_debugger
     browser_keybindings_01.js
@@ -68,3 +64,4 @@ script:
     browser_webconsole_eval_in_debugger_stackframe2.js
     browser_webconsole_location_debugger_link.js
     browser_webconsole_stacktrace_location_debugger_link.js
+  - ./node_modules/.bin/mochii --ci --mc ./firefox --headless devtools/client/debugger/new
