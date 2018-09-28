@@ -9,7 +9,7 @@ jobs:
       CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
       DOWNLOADS_PATH: $HOME/downloads
       YARN_PATH: $HOME/.yarn
-      YARN_VERSION: 1.6.0
+      YARN_VERSION: 1.9.4
       PATH: ${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       JEST_JUNIT_OUTPUT: $CIRCLE_TEST_REPORTS/junit.xml
       NVM_DIR: ~/.nvm

@@ -12,7 +12,7 @@ cache:
 env:
   global:
     - DISPLAY=':99.0'
-    - YARN_VERSION='0.24.5'
+    - YARN_VERSION='1.9.4'
     - MC_COMMIT='156f9442db84' # https://hg.mozilla.org/mozilla-central/shortlog
 
 notifications:
