@@ -2461,11 +2461,15 @@ check-error@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/check-error/-/check-error-1.0.2.tgz#574d312edd88bb5dd8912e9286dd6c0aed4aac82"
 
-check-node-version@^1.1.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/check-node-version/-/check-node-version-1.1.2.tgz#d48214ec629e3bf9f8f3ecee9feefeac723c864e"
+check-node-version@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/check-node-version/-/check-node-version-3.2.0.tgz#783a4292dbf76d6b8294b23abece33682b4a7cce"
   dependencies:
+    chalk "^2.3.0"
+    map-values "^1.0.1"
     minimist "^1.2.0"
+    object-filter "^1.0.2"
+    object.assign "^4.0.4"
     run-parallel "^1.1.4"
     semver "^5.0.3"
 
@@ -3378,19 +3382,19 @@ devtools-connection@0.0.12:
   version "0.0.12"
   resolved "https://registry.yarnpkg.com/devtools-connection/-/devtools-connection-0.0.12.tgz#a1bb6add55e4b317dd5122c25d3bb47bc896918c"
 
-devtools-contextmenu@^0.0.11:
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/devtools-contextmenu/-/devtools-contextmenu-0.0.11.tgz#a0520cf82e77d07d0f04c5c66d26de1090cba893"
+devtools-contextmenu@~1.0:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/devtools-contextmenu/-/devtools-contextmenu-1.0.1.tgz#5088029dcef9e62932e19d7d465ab4e20013a7a3"
   dependencies:
-    devtools-modules "^0.0.40"
+    devtools-modules "~1.0"
 
 devtools-environment@^0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/devtools-environment/-/devtools-environment-0.0.5.tgz#0333bf35009fe09c21c315069e6b4d9177a4b8d1"
 
-devtools-launchpad@^0.0.136:
-  version "0.0.136"
-  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.136.tgz#774c330d6297122ed59a88a3d08fed7106c1014f"
+devtools-launchpad@^0.0.137:
+  version "0.0.137"
+  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.137.tgz#5c7aa92ff3ce4c4ead94110408cebc09e0769418"
   dependencies:
     amd-loader "0.0.8"
     autoprefixer "^7.1.2"
@@ -3408,7 +3412,7 @@ devtools-launchpad@^0.0.136:
     babel-preset-react "^6.24.1"
     babel-register "^6.18.0"
     body-parser "^1.15.2"
-    check-node-version "^1.1.2"
+    check-node-version "^3.2.0"
     chrome-remote-interface "0.17.0"
     classnames "^2.2.5"
     co "=4.6.0"
@@ -3416,11 +3420,11 @@ devtools-launchpad@^0.0.136:
     debug "^3.1.0"
     devtools-config "^0.0.16"
     devtools-connection "0.0.12"
-    devtools-contextmenu "^0.0.11"
+    devtools-contextmenu "~1.0"
     devtools-environment "^0.0.5"
     devtools-license-check "^0.7.0"
     devtools-mc-assets "^0.0.6"
-    devtools-modules "^0.0.40"
+    devtools-modules "~1.0"
     devtools-sprintf-js "^1.0.3"
     express "^4.13.4"
     express-static "^1.2.5"
@@ -3508,16 +3512,9 @@ devtools-mc-assets@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/devtools-mc-assets/-/devtools-mc-assets-0.0.6.tgz#51d935ddc6e929d386549d95ff96e3c2323372f7"
 
-devtools-modules@^0.0.38:
-  version "0.0.38"
-  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.38.tgz#15183b6c42fd35dee2e22f88b0654b5e7c9d8cd8"
-  dependencies:
-    devtools-services "0.0.1"
-    punycode "^2.1.0"
-
-devtools-modules@^0.0.40:
-  version "0.0.40"
-  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.40.tgz#72a5c19d82afbe539ec547b0418dfdbc5804177f"
+devtools-modules@~1.0:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-1.0.1.tgz#f288b525aa7b40a4e5989d0ccfb9ba99c68c09a3"
   dependencies:
     devtools-services "0.0.1"
     punycode "^2.1.0"
@@ -7312,6 +7309,10 @@ map-stream@~0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/map-stream/-/map-stream-0.1.0.tgz#e56aa94c4c8055a16404a0674b78f215f7c8e194"
 
+map-values@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/map-values/-/map-values-1.0.1.tgz#768b8e79c009bf2b64fee806e22a7b1c4190c990"
+
 map-visit@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/map-visit/-/map-visit-1.0.0.tgz#ecdca8f13144e660f1b5bd41f12f3479d98dfb8f"
@@ -8138,6 +8139,10 @@ object-copy@^0.1.0:
     copy-descriptor "^0.1.0"
     define-property "^0.2.5"
     kind-of "^3.0.3"
+
+object-filter@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/object-filter/-/object-filter-1.0.2.tgz#af0b797ffebeaf8a52c6637cedbe8816cfec1bc8"
 
 object-inspect@^1.5.0:
   version "1.6.0"
