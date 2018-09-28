@@ -2,6 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
+import assert from "../../utils/assert";
 import buildQuery from "../../utils/build-query";
 
 export default function getMatches(
@@ -20,17 +21,19 @@ export default function getMatches(
   for (let i = 0; i < lines.length; i++) {
     let singleMatch;
     const line = lines[i];
-    let previousLastIndex = 0;
     while ((singleMatch = regexQuery.exec(line)) !== null) {
       matchedLocations.push({ line: i, ch: singleMatch.index });
 
-      // exec() is supposed to update the lastIndex property but sometimes
-      // doesn't and can cause this to be an infinite loop by matching on the
-      // same index.  A work around is to update the lastIndex manually
-      if (regexQuery.lastIndex === previousLastIndex) {
+      // When the match is an empty string the regexQuery.lastIndex will not
+      // change resulting in an infinite loop so we need to check for this and
+      // increment it manually in that case.  See issue #7023
+      if (singleMatch[0] === "") {
+        assert(
+          regexQuery.unicode,
+          "lastIndex++ can cause issues in unicode mode"
+        );
         regexQuery.lastIndex++;
       }
-      previousLastIndex = regexQuery.lastIndex;
     }
   }
   return matchedLocations;
