@@ -379,6 +379,21 @@ describe("test String with URL", () => {
     expect(element.find("a").exists()).toBeFalsy();
   });
 
+  it("does not render an invalid URL that requires cropping", () => {
+    const text =
+      "//www.youtubeinmp3.com/download/?video=https://www.youtube.com/watch?v=8vkfsCIfDFc";
+    const openLink = jest.fn();
+    const element = renderRep(text, {
+      openLink,
+      useQuotes: false,
+      cropLimit: 60
+    });
+    expect(element.text()).toEqual(
+      "//www.youtubeinmp3.com/downloa…outube.com/watch?v=8vkfsCIfDFc"
+    );
+    expect(element.find("a").exists()).toBeFalsy();
+  });
+
   it("does render a link in a plain array", () => {
     const url = "http://example.com/abcdefghijabcdefghij";
     const string = `${url} some other text`;

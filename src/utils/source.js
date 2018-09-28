@@ -9,7 +9,7 @@
  * @module utils/source
  */
 
-import { isOriginalId } from "devtools-source-map";
+import { isOriginalId, isGeneratedId } from "devtools-source-map";
 import { getUnicodeUrl } from "devtools-modules";
 
 import { endTruncateStr } from "./utils";
@@ -58,7 +58,7 @@ export function shouldPrettyPrint(source: Source) {
     !source ||
     isPretty(source) ||
     !isJavaScript(source) ||
-    isOriginalId(source.id) ||
+    isOriginal(source) ||
     source.sourceMapURL ||
     !prefs.clientSourceMapsEnabled
   ) {
@@ -432,4 +432,14 @@ export function getRelativeUrl(source: Source, root: string) {
 
 export function underRoot(source: Source, root: string) {
   return source.url && source.url.includes(root);
+}
+
+export function isOriginal(source: Source) {
+  // Pretty-printed sources are given original IDs, so no need
+  // for any additional check
+  return isOriginalId(source.id);
+}
+
+export function isGenerated(source: Source) {
+  return isGeneratedId(source.id);
 }

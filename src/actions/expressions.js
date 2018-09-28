@@ -15,9 +15,9 @@ import {
   getSelectedFrameBindings
 } from "../selectors";
 import { PROMISE } from "./utils/middleware/promise";
-import { isGeneratedId } from "devtools-source-map";
 import { wrapExpression } from "../utils/expressions";
 import { features } from "../utils/prefs";
+import { isOriginal } from "../utils/source";
 
 import * as parser from "../workers/parser";
 import type { Expression } from "../types";
@@ -135,16 +135,14 @@ function evaluateExpression(expression: Expression) {
     if (frame) {
       const { location } = frame;
       const source = getSourceFromId(getState(), location.sourceId);
-      const sourceId = source.id;
 
       const selectedSource = getSelectedSource(getState());
 
-      if (
-        selectedSource &&
-        !isGeneratedId(sourceId) &&
-        !isGeneratedId(selectedSource.id)
-      ) {
-        input = await dispatch(getMappedExpression(input));
+      if (selectedSource && isOriginal(source) && isOriginal(selectedSource)) {
+        const mapResult = await dispatch(getMappedExpression(input));
+        if (mapResult) {
+          input = mapResult.expression;
+        }
       }
     }
 
@@ -175,7 +173,7 @@ export function getMappedExpression(expression: string) {
     // 2. does not contain `await` - we do not need to map top level awaits
     // 3. does not contain `=` - we do not need to map assignments
     if (!mappings && !expression.match(/(await|=)/)) {
-      return expression;
+      return null;
     }
 
     return parser.mapExpression(

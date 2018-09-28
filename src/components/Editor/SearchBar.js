@@ -207,6 +207,10 @@ class SearchBar extends Component<Props, State> {
     return this.doSearch(e.target.value);
   };
 
+  onFocus = (e: SyntheticFocusEvent<HTMLElement>) => {
+    this.setState({ inputFocused: true });
+  };
+
   onBlur = (e: SyntheticFocusEvent<HTMLElement>) => {
     this.setState({ inputFocused: false });
   };
@@ -219,6 +223,11 @@ class SearchBar extends Component<Props, State> {
     this.traverseResults(e, e.shiftKey);
     e.preventDefault();
     return this.doSearch(e.target.value);
+  };
+
+  onHistoryScroll = (query: string) => {
+    this.setState({ query });
+    this.doSearch(query);
   };
 
   // Renderers
@@ -309,17 +318,22 @@ class SearchBar extends Component<Props, State> {
     if (!searchOn) {
       return <div />;
     }
+    const classes = classnames("search-bar", {
+      "search-bar-focused": this.state.inputFocused
+    });
     return (
-      <div className="search-bar">
+      <div className={classes}>
         <SearchInput
           query={this.state.query}
           count={count}
           placeholder={L10N.getStr("sourceSearch.search.placeholder2")}
           summaryMsg={this.buildSummaryMsg()}
           onChange={this.onChange}
+          onFocus={this.onFocus}
           onBlur={this.onBlur}
           showErrorEmoji={this.shouldShowErrorEmoji()}
           onKeyDown={this.onKeyDown}
+          onHistoryScroll={this.onHistoryScroll}
           handleNext={e => this.traverseResults(e, false)}
           handlePrev={e => this.traverseResults(e, true)}
           handleClose={this.closeSearch}

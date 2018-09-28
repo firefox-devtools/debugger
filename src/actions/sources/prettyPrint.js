@@ -24,6 +24,7 @@ import {
 } from "../../selectors";
 
 import type { Action, ThunkArgs } from "../types";
+import { selectSource } from "./select";
 import type { JsSource } from "../../types";
 
 export function createPrettySource(sourceId: string) {
@@ -44,6 +45,7 @@ export function createPrettySource(sourceId: string) {
     };
 
     dispatch(({ type: "ADD_SOURCE", source: prettySource }: Action));
+    dispatch(selectSource(prettySource.id));
 
     const { code, mappings } = await prettyPrint({ source, url });
     await sourceMaps.applySourceMap(source.id, url, code, mappings);

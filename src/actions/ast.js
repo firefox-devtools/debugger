@@ -24,9 +24,8 @@ import {
 } from "../workers/parser";
 
 import { PROMISE } from "./utils/middleware/promise";
-import { isGeneratedId } from "devtools-source-map";
 import { features } from "../utils/prefs";
-import { isLoaded } from "../utils/source";
+import { isLoaded, isGenerated } from "../utils/source";
 
 import type { SourceId } from "../types";
 import type { ThunkArgs, Action } from "./types";
@@ -128,7 +127,7 @@ export function setPausePoints(sourceId: SourceId) {
     const pausePoints = await getPausePoints(sourceId);
     const compressed = compressPausePoints(pausePoints);
 
-    if (isGeneratedId(sourceId)) {
+    if (isGenerated(source)) {
       await client.setPausePoints(sourceId, compressed);
     }
 

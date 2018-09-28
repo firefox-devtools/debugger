@@ -57,6 +57,12 @@
   fill: var(--theme-selection-color);
 }
 
+.source-footer > .commands > div.loader {
+  vertical-align: top;
+  width: 20px;
+  margin: 0 4px;
+}
+
 .source-footer > .commands > .action > img.prettyPrint {
   mask: url(/images/prettyPrint.svg) no-repeat;
   height: 16px;

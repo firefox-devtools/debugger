@@ -4,11 +4,10 @@
 
 // @flow
 
-import { isOriginalId } from "devtools-source-map";
 import { PROMISE } from "../utils/middleware/promise";
 import { getGeneratedSource, getSource } from "../../selectors";
 import * as parser from "../../workers/parser";
-import { isLoaded } from "../../utils/source";
+import { isLoaded, isOriginal } from "../../utils/source";
 import { Telemetry } from "devtools-modules";
 
 import defer from "../../utils/defer";
@@ -23,8 +22,8 @@ const loadSourceHistogram = "DEVTOOLS_DEBUGGER_LOAD_SOURCE_MS";
 const telemetry = new Telemetry();
 
 async function loadSource(source: Source, { sourceMaps, client }) {
-  const id = source.id;
-  if (isOriginalId(id)) {
+  const { id } = source;
+  if (isOriginal(source)) {
     return sourceMaps.getOriginalSourceText(source);
   }
 
@@ -79,7 +78,7 @@ export function loadSourceText(source: ?Source) {
       return;
     }
 
-    if (isOriginalId(newSource.id) && !newSource.isWasm) {
+    if (isOriginal(newSource) && !newSource.isWasm) {
       const generatedSource = getGeneratedSource(getState(), source);
       await dispatch(loadSourceText(generatedSource));
     }

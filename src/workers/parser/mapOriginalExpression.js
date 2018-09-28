@@ -42,9 +42,9 @@ export default function mapOriginalExpression(
 ): string {
   const ast = parseScript(expression, { allowAwaitOutsideFunction: true });
   const scopes = buildScopeList(ast, "");
+  let shouldUpdate = false;
 
   const nodes = new Map();
-
   const replacements = new Map();
 
   // The ref-only global bindings are the ones that are accessed, but not
@@ -55,6 +55,7 @@ export default function mapOriginalExpression(
   for (const name of Object.keys(scopes[0].bindings)) {
     const { refs } = scopes[0].bindings[name];
     const mapping = mappings[name];
+
     if (
       !refs.every(ref => ref.type === "ref") ||
       !mapping ||
@@ -95,8 +96,13 @@ export default function mapOriginalExpression(
     const replacement = replacements.get(locationKey(node.loc.start));
     if (replacement) {
       replaceNode(ancestors, t.cloneNode(replacement));
+      shouldUpdate = true;
     }
   });
 
-  return generate(ast).code;
+  if (shouldUpdate) {
+    return generate(ast).code;
+  }
+
+  return expression;
 }

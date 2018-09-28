@@ -11,11 +11,10 @@ export * from "../ui";
 export { onMouseOver } from "./token-events";
 
 import { createEditor } from "./create-editor";
-import { shouldPrettyPrint } from "../source";
+import { shouldPrettyPrint, isOriginal } from "../source";
 import { findNext, findPrev } from "./source-search";
 
 import { isWasm, lineToWasmOffset, wasmOffsetToLine } from "../wasm";
-import { isOriginalId } from "devtools-source-map";
 
 import type { AstLocation } from "../../workers/parser";
 import type { EditorPosition, EditorRange } from "../editor/types";
@@ -74,9 +73,7 @@ export function shouldShowFooter(selectedSource, horizontal) {
   if (!selectedSource) {
     return false;
   }
-  return (
-    shouldShowPrettyPrint(selectedSource) || isOriginalId(selectedSource.id)
-  );
+  return shouldShowPrettyPrint(selectedSource) || isOriginal(selectedSource);
 }
 
 export function traverseResults(e, ctx, query, dir, modifiers) {

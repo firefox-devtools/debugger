@@ -5,7 +5,7 @@
 .source-header {
   border-bottom: 1px solid var(--theme-splitter-color);
   width: 100%;
-  height: 30px;
+  height: 29px;
   display: flex;
 }
 
@@ -129,6 +129,7 @@ html[dir="rtl"] img.moreTabs {
   overflow: hidden;
   padding: 0 4px;
   align-self: center;
+  margin-bottom: 2px;
 }
 
 .source-tab .filename span {

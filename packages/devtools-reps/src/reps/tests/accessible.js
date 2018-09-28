@@ -24,7 +24,7 @@ describe("Accessible - Document", () => {
       })
     );
 
-    expect(renderedComponent.text()).toEqual('document: "New Tab"');
+    expect(renderedComponent.text()).toEqual('"New Tab": document');
   });
 });
 
@@ -43,7 +43,7 @@ describe("Accessible - ButtonMenu", () => {
     );
 
     expect(renderedComponent.text()).toEqual(
-      'buttonmenu: "New to Nightly? Let’s get started."'
+      '"New to Nightly? Let’s get started.": buttonmenu'
     );
   });
 
@@ -147,6 +147,14 @@ describe("Accessible - Disconnected accessible", () => {
   );
 });
 
+describe("Accessible - No Preview (not a valid grip)", () => {
+  const stub = stubs.get("NoPreview");
+
+  it("does not select Accessible Rep", () => {
+    expect(getRep(stub)).not.toBe(Accessible.rep);
+  });
+});
+
 describe("Accessible - Accessible with long name", () => {
   const stub = stubs.get("AccessibleWithLongName");
 
@@ -162,7 +170,7 @@ describe("Accessible - Accessible with long name", () => {
     );
 
     expect(renderedComponent.text()).toEqual(
-      `text leaf: "${"a".repeat(1000)}"`
+      `"${"a".repeat(1000)}": text leaf`
     );
   });
 
@@ -175,7 +183,7 @@ describe("Accessible - Accessible with long name", () => {
     );
 
     expect(renderedComponent.text()).toEqual(
-      `text leaf: "${"a".repeat(9)}${ELLIPSIS}${"a".repeat(8)}"`
+      `"${"a".repeat(9)}${ELLIPSIS}${"a".repeat(8)}": text leaf`
     );
   });
 });
@@ -212,7 +220,22 @@ describe("Accessible - Separator text", () => {
       })
     );
 
-    expect(renderedComponent.text()).toEqual('pushbutton - "Search"');
+    expect(renderedComponent.text()).toEqual('"Search" - pushbutton');
+  });
+});
+
+describe("Accessible - Role first", () => {
+  const stub = stubs.get("PushButton");
+
+  it("renders with expected title", () => {
+    const renderedComponent = shallow(
+      Accessible.rep({
+        roleFirst: true,
+        object: stub
+      })
+    );
+
+    expect(renderedComponent.text()).toEqual('pushbutton: "Search"');
   });
 });
 

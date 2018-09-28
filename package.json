@@ -44,11 +44,6 @@
     "flow-utils": "flow-coverage-report -i 'src/utils/*.js' -i 'src/utils/**/*.js' -t text",
     "flow-redux": "flow-coverage-report  -i 'src/reducers/*.js' -i 'src/actions/*.js'  -t text",
     "flow-react": "flow-coverage-report -i 'src/components/**/*.js' -t text",
-    "postcheckout": "node bin/post-checkout.js",
-    "postmerge": "node bin/post-merge.js",
-    "postrewrite": "node bin/post-rewrite.js",
-    "precommit": "yarn lint-staged",
-    "prepush": "yarn lint",
     "nom": "node bin/nom",
     "diff": "node bin/diff",
     "install": "prettier --write package.json"
@@ -62,7 +57,7 @@
     "babel-plugin-transform-imports": "^1.5.0",
     "codemirror": "^5.28.0",
     "devtools-environment": "^0.0.5",
-    "devtools-launchpad": "0.0.135",
+    "devtools-launchpad": "^0.0.136",
     "devtools-linters": "^0.0.4",
     "devtools-reps": "0.23.0",
     "devtools-source-map": "0.16.0",
@@ -110,7 +105,7 @@
   "author": "Jason Laster <jlaster@mozilla.com>",
   "devDependencies": {
     "@sucrase/webpack-object-rest-spread-plugin": "^1.0.0",
-    "babel-eslint": "^8.2.1",
+    "babel-eslint": "^10.0.1",
     "babel-jest": "^22.4.3",
     "babel-plugin-syntax-trailing-function-commas": "^6.22.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
@@ -131,13 +126,13 @@
     "eslint-plugin-flowtype": "^2.36.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jest": "^21.15.1",
-    "eslint-plugin-mozilla": "^0.15.0",
+    "eslint-plugin-mozilla": "^0.16.1",
     "eslint-plugin-prettier": "^2.3.1",
     "eslint-plugin-react": "^7.2.1",
     "expect.js": "^0.3.1",
-    "flow-bin": "^0.80.0",
+    "flow-bin": "^0.81.0",
     "glob": "^7.0.3",
-    "husky": "^0.14.2",
+    "husky": "^1.0.1",
     "jest": "^23.0.0",
     "jest-environment-jsdom": "^23.0.0",
     "jest-in-case": "^1.0.2",
@@ -196,5 +191,14 @@
       "prettier",
       "git add"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "post-checkout": "node bin/post-checkout.js",
+      "post-merge": "node bin/post-merge.js",
+      "post-rewrite": "node bin/post-rewrite.js",
+      "pre-commit": "yarn lint-staged",
+      "pre-push": "yarn lint"
+    }
   }
 }

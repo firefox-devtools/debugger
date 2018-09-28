@@ -4,7 +4,6 @@
 
 // @flow
 
-import { isOriginalId } from "devtools-source-map";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import classnames from "classnames";
@@ -13,9 +12,10 @@ import { showMenu } from "devtools-contextmenu";
 import SourceIcon from "../shared/SourceIcon";
 import Svg from "../shared/Svg";
 
-import { getSourcesByURL } from "../../selectors";
+import { getSourceByURL } from "../../selectors";
 import actions from "../../actions";
 
+import { isOriginal as isOriginalSource } from "../../utils/source";
 import { isDirectory } from "../../utils/sources-tree";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { features } from "../../utils/prefs";
@@ -187,13 +187,11 @@ class SourceTreeItem extends Component<Props, State> {
 }
 
 function getHasMatchingGeneratedSource(state, source: ?Source) {
-  if (!source) {
+  if (!source || !isOriginalSource(source)) {
     return false;
   }
 
-  const isOriginal = isOriginalId(source.id);
-  const sources = getSourcesByURL(state, source.url, isOriginal);
-  return isOriginal && sources.length > 0;
+  return !!getSourceByURL(state, source.url, false);
 }
 
 const mapStateToProps = (state, props) => {

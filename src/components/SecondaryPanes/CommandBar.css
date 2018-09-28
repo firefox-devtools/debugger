@@ -3,7 +3,7 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 .command-bar {
-  flex: 0 0 30px;
+  flex: 0 0 29px;
   border-bottom: 1px solid var(--theme-splitter-color);
   display: flex;
   overflow: hidden;
@@ -80,20 +80,9 @@ img.skipPausing {
   flex-grow: 1;
 }
 
-.command-bar img.replay-previous {
-  mask: url(/images/back.svg) no-repeat;
-  mask-size: 75%;
-  margin-top: 5px;
-}
-
-.command-bar img.replay-next {
-  mask: url(/images/forward.svg) no-repeat;
-  mask-size: 75%;
-  margin-top: 5px;
-}
-
 .command-bar img.shortcuts {
   mask: url(/mc/help.svg) no-repeat;
+  mask-size: contain;
 }
 
 .command-bar .replay-inactive {

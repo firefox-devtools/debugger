@@ -11,6 +11,7 @@ import Enzyme from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import { setupHelper } from "../utils/dbg";
 import { prefs } from "../utils/prefs";
+
 import { startSourceMapWorker, stopSourceMapWorker } from "devtools-source-map";
 
 import {
@@ -46,6 +47,8 @@ global.performance = { now: () => 0 };
 
 const { URL } = require("url");
 global.URL = URL;
+
+global.indexedDB = mockIndexeddDB();
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -85,3 +88,14 @@ beforeEach(async () => {
   // Ensures window.dbg is there to track telemetry
   setupHelper({ selectors: {} });
 });
+
+function mockIndexeddDB() {
+  const store = {};
+  return {
+    open: () => ({}),
+    getItem: async key => store[key],
+    setItem: async (key, value) => {
+      store[key] = value;
+    }
+  };
+}

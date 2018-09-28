@@ -38,9 +38,14 @@ function createMockEditor() {
     setText: jest.fn(),
     on: jest.fn(),
     off: jest.fn(),
-    createDocument: () => ({
-      getLine: line => ""
-    }),
+    createDocument: () => {
+      let val;
+      return {
+        getLine: line => "",
+        getValue: () => val,
+        setValue: newVal => (val = newVal)
+      };
+    },
     replaceDocument: jest.fn(),
     setMode: jest.fn()
   };
@@ -86,7 +91,9 @@ describe("Editor", () => {
         selectedSource: { loadedState: "loading" }
       });
 
-      expect(mockEditor.setText.mock.calls).toEqual([["Loading…"]]);
+      expect(mockEditor.replaceDocument.mock.calls[0][0].getValue()).toBe(
+        "Loading…"
+      );
       expect(mockEditor.codeMirror.scrollTo.mock.calls).toEqual([]);
     });
   });
@@ -169,10 +176,11 @@ describe("Editor", () => {
         selectedLocation: { sourceId: "bar", line: 1, column: 1 }
       });
 
-      expect(mockEditor.setText.mock.calls).toEqual([
-        ["the text"],
-        ["Loading…"]
-      ]);
+      expect(mockEditor.replaceDocument.mock.calls[1][0].getValue()).toBe(
+        "Loading…"
+      );
+
+      expect(mockEditor.setText.mock.calls).toEqual([["the text"]]);
 
       expect(mockEditor.codeMirror.scrollTo.mock.calls).toEqual([[1, 2]]);
     });
@@ -253,10 +261,11 @@ describe("Editor", () => {
         selectedLocation: { sourceId: "foo", line: 1, column: 1 }
       });
 
-      expect(mockEditor.setText.mock.calls).toEqual([
-        ["Loading…"],
-        ["the text"]
-      ]);
+      expect(mockEditor.replaceDocument.mock.calls[0][0].getValue()).toBe(
+        "Loading…"
+      );
+
+      expect(mockEditor.setText.mock.calls).toEqual([["the text"]]);
 
       expect(mockEditor.codeMirror.scrollTo.mock.calls).toEqual([[1, 0]]);
     });
