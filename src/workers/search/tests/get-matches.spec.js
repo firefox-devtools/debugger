@@ -71,5 +71,29 @@ describe("search", () => {
       });
       expect(matchLocations).toHaveLength(0);
     });
+
+    // regression test for #6896
+    it("doesn't crash on the regex 'a*'", () => {
+      const text = "abc";
+      const query = "a*";
+      const matchLocations = getMatches(query, text, {
+        caseSensitive: true,
+        wholeWord: false,
+        regexMatch: true
+      });
+      expect(matchLocations).toHaveLength(4);
+    });
+
+    // regression test for #6896
+    it("doesn't crash on the regex '^'", () => {
+      const text = "012";
+      const query = "^";
+      const matchLocations = getMatches(query, text, {
+        caseSensitive: true,
+        wholeWord: false,
+        regexMatch: true
+      });
+      expect(matchLocations).toHaveLength(1);
+    });
   });
 });
