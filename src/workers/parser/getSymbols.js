@@ -126,7 +126,7 @@ function getFunctionParameterNames(path: SimplePath): string[] {
 function getFunctionSignature(path: SimplePath) {
   const name = getFunctionName(path.node, path.parent);
   const args = path.node.params.map(p => p.name);
-  const signature = `${name}(${args.join(',')})`;
+  const signature = `${name}(${args.join(",")})`;
 
   if (t.isClassMethod(path)) {
     return getAncestors(path.parentPath, signature);
