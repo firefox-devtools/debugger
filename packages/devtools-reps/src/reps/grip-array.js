@@ -81,6 +81,16 @@ function GripArray(props) {
   const items = arrayIterator(props, object, max);
   brackets = needSpace(items.length > 0);
 
+  if (mode === MODE.EXPANDED) {
+    return span(
+      {
+        "data-link-actor-id": object.actor,
+        className: "objectBox objectBox-array"
+      },
+      title
+    );
+  }
+
   return span(
     {
       "data-link-actor-id": object.actor,

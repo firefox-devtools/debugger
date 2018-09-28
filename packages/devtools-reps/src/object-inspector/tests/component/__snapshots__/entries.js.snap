@@ -61,7 +61,7 @@ exports[`ObjectInspector - entries renders Object with entries as expected 1`] =
 |  |  ▼ 1: Symbol(b) → \\"value-b\\"
 |  |  |    <key>: Symbol(b)
 |  |  |    <value>: \\"value-b\\"
-|  ▼ <prototype>: {…}
+|  ▼ <prototype>: Object
 |  |    <prototype>: Object {  }
 "
 `;

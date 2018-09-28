@@ -35,7 +35,7 @@ function WindowRep(props) {
     className: "objectBox objectBox-Window"
   };
 
-  if (mode === MODE.TINY) {
+  if (mode === MODE.TINY || mode === MODE.EXPANDED) {
     return span(config, getTitle(object));
   }
 

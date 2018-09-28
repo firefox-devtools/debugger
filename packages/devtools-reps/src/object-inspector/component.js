@@ -313,7 +313,7 @@ class ObjectInspector extends Component<Props> {
         repProps.mode = this.props.mode === MODE.LONG ? MODE.SHORT : MODE.TINY;
       }
       if (expanded) {
-        repProps.mode = MODE.TINY;
+        repProps.mode = MODE.EXPANDED;
       }
 
       if (nodeIsLongString(item)) {

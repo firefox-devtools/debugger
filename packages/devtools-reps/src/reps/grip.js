@@ -78,6 +78,10 @@ function GripRep(props) {
 
   const propsArray = safePropIterator(props, object, maxLengthMap.get(mode));
 
+  if (mode === MODE.EXPANDED) {
+    return span(config, getTitleElement(props, object));
+  }
+
   return span(
     config,
     getTitleElement(props, object),
