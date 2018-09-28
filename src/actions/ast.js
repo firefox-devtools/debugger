@@ -56,7 +56,7 @@ export function setSymbols(sourceId: SourceId) {
   return async ({ dispatch, getState }: ThunkArgs) => {
     const source = getSourceFromId(getState(), sourceId);
 
-    if (source.isWasm || hasSymbols(getState(), source)) {
+    if (source.isWasm || hasSymbols(getState(), source) || !isLoaded(source)) {
       return;
     }
 
