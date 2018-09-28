@@ -36,9 +36,7 @@ export default function mapTopLevelAwait(expression: string) {
   const ast = hasTopLevelAwait(expression);
   if (ast) {
     const func = wrapExpression(ast);
-    return generate(
-      template.ast(`(${func})().then(console.log).catch(console.error);`)
-    ).code;
+    return generate(template.ast(`(${func})();`)).code;
   }
 
   return expression;
