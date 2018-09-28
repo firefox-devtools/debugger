@@ -29,7 +29,7 @@ export default function getMatches(
       // increment it manually in that case.  See issue #7023
       if (singleMatch[0] === "") {
         assert(
-          regexQuery.unicode,
+          !regexQuery.unicode,
           "lastIndex++ can cause issues in unicode mode"
         );
         regexQuery.lastIndex++;
