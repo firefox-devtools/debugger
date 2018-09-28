@@ -29,9 +29,7 @@ function test({
 }
 
 function formatAwait(body) {
-  return `(async () => {
-    ${body}
-  })().then(console.log).catch(console.error);`;
+  return `(async () => { ${body} })();`;
 }
 
 describe("mapExpression", () => {
