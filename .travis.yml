@@ -41,12 +41,10 @@ install:
   - ./bin/ci/install-yarn
   - ./bin/ci/clone-gecko.sh
   - du -sh firefox
-  - yarn
-  - ./bin/ci/build-firefox.sh
   - python --version
   - node --version
-  - du -sh firefox
-  - node bin/copy --assets
+  - yarn
+  - yarn copy
   - ./bin/ci/build-firefox.sh
   - node ./bin/ci/check-file-sizes.js
 
@@ -54,16 +52,4 @@ before_script:
   - sh -e /etc/init.d/xvfb start
 
 script:
-  - ./node_modules/.bin/mochii --ci --mc ./firefox --headless
-    browser_browser_toolbox_debugger
-    browser_keybindings_01.js
-    browser_toolbox_getpanelwhenready.js
-    browser_markup_links_06.js
-    browser_net_open_in_debugger.js
-    browser_net_view-source-debugger.js
-    browser_jsterm_autocomplete_in_debugger_stackframe.js
-    browser_webconsole_eval_in_debugger_stackframe1.js
-    browser_webconsole_eval_in_debugger_stackframe2.js
-    browser_webconsole_location_debugger_link.js
-    browser_webconsole_stacktrace_location_debugger_link.js
   - ./node_modules/.bin/mochii --ci --mc ./firefox --headless devtools/client/debugger/new
