@@ -4,11 +4,7 @@
 
 /* global jest */
 
-const { mount } = require("enzyme");
-const React = require("react");
-const { createFactory } = React;
-const ObjectInspector = createFactory(require("../../index"));
-
+const { mountObjectInspector } = require("../test-utils");
 const gripRepStubs = require("../../../reps/stubs/grip");
 const ObjectClient = require("../__mocks__/object-client");
 
@@ -30,29 +26,46 @@ function getEnumPropertiesMock() {
   }));
 }
 
+function mount(props, { initialState } = {}) {
+  const enumProperties = getEnumPropertiesMock();
+
+  const client = {
+    createObjectClient: grip => ObjectClient(grip, { enumProperties })
+  };
+
+  const obj = mountObjectInspector({
+    client,
+    props: generateDefaults(props),
+    initialState
+  });
+
+  return { ...obj, enumProperties };
+}
 describe("ObjectInspector - properties", () => {
   it("does not load properties if properties are already loaded", () => {
     const stub = gripRepStubs.get("testMaxProps");
-    const enumProperties = getEnumPropertiesMock();
 
-    mount(
-      ObjectInspector(
-        generateDefaults({
-          autoExpandDepth: 1,
-          roots: [
-            {
-              path: "root",
-              contents: {
-                value: stub
-              }
+    const { enumProperties } = mount(
+      {
+        autoExpandDepth: 1,
+        roots: [
+          {
+            path: "root",
+            contents: {
+              value: stub
             }
-          ],
-          createObjectClient: grip => ObjectClient(grip, { enumProperties }),
-          loadedProperties: new Map([
-            ["root", { ownProperties: stub.preview.ownProperties }]
-          ])
-        })
-      )
+          }
+        ]
+      },
+      {
+        initialState: {
+          objectInspector: {
+            loadedProperties: new Map([
+              ["root", { ownProperties: stub.preview.ownProperties }]
+            ])
+          }
+        }
+      }
     );
 
     expect(enumProperties.mock.calls).toHaveLength(0);
@@ -60,25 +73,19 @@ describe("ObjectInspector - properties", () => {
 
   it("calls enumProperties when expandable leaf is clicked", () => {
     const stub = gripRepStubs.get("testMaxProps");
-    const enumProperties = getEnumPropertiesMock();
+    const { enumProperties, wrapper } = mount({
+      roots: [
+        {
+          path: "root",
+          contents: {
+            value: stub
+          }
+        }
+      ],
+      createObjectClient: grip => ObjectClient(grip, { enumProperties })
+    });
 
-    const oi = mount(
-      ObjectInspector(
-        generateDefaults({
-          roots: [
-            {
-              path: "root",
-              contents: {
-                value: stub
-              }
-            }
-          ],
-          createObjectClient: grip => ObjectClient(grip, { enumProperties })
-        })
-      )
-    );
-
-    const node = oi.find(".node");
+    const node = wrapper.find(".node");
     node.simulate("click");
 
     // The function is called twice, to get both non-indexed and indexed props.
@@ -92,67 +99,55 @@ describe("ObjectInspector - properties", () => {
   });
 
   it("renders uninitialized bindings", () => {
-    const wrapper = mount(
-      ObjectInspector(
-        generateDefaults({
-          roots: [
-            {
-              name: "someFoo",
-              path: "root/someFoo",
-              contents: {
-                value: {
-                  uninitialized: true
-                }
-              }
+    const { wrapper } = mount({
+      roots: [
+        {
+          name: "someFoo",
+          path: "root/someFoo",
+          contents: {
+            value: {
+              uninitialized: true
             }
-          ]
-        })
-      )
-    );
+          }
+        }
+      ]
+    });
 
     expect(formatObjectInspector(wrapper)).toMatchSnapshot();
   });
 
   it("renders unmapped bindings", () => {
-    const wrapper = mount(
-      ObjectInspector(
-        generateDefaults({
-          roots: [
-            {
-              name: "someFoo",
-              path: "root/someFoo",
-              contents: {
-                value: {
-                  unmapped: true
-                }
-              }
+    const { wrapper } = mount({
+      roots: [
+        {
+          name: "someFoo",
+          path: "root/someFoo",
+          contents: {
+            value: {
+              unmapped: true
             }
-          ]
-        })
-      )
-    );
+          }
+        }
+      ]
+    });
 
     expect(formatObjectInspector(wrapper)).toMatchSnapshot();
   });
 
   it("renders unscoped bindings", () => {
-    const wrapper = mount(
-      ObjectInspector(
-        generateDefaults({
-          roots: [
-            {
-              name: "someFoo",
-              path: "root/someFoo",
-              contents: {
-                value: {
-                  unscoped: true
-                }
-              }
+    const { wrapper } = mount({
+      roots: [
+        {
+          name: "someFoo",
+          path: "root/someFoo",
+          contents: {
+            value: {
+              unscoped: true
             }
-          ]
-        })
-      )
-    );
+          }
+        }
+      ]
+    });
 
     expect(formatObjectInspector(wrapper)).toMatchSnapshot();
   });

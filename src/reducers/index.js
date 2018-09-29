@@ -23,6 +23,7 @@ import projectTextSearch from "./project-text-search";
 import quickOpen from "./quick-open";
 import sourceTree from "./source-tree";
 import debuggee from "./debuggee";
+import { objectInspector } from "devtools-reps";
 
 export default {
   expressions,
@@ -40,5 +41,6 @@ export default {
   projectTextSearch,
   quickOpen,
   sourceTree,
-  debuggee
+  debuggee,
+  objectInspector: objectInspector.reducer.default
 };
