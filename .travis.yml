@@ -41,12 +41,10 @@ install:
   - ./bin/ci/install-yarn
   - ./bin/ci/clone-gecko.sh
   - du -sh firefox
-  - yarn
-  - ./bin/ci/build-firefox.sh
   - python --version
   - node --version
-  - du -sh firefox
-  - node bin/copy --assets
+  - yarn
+  - yarn copy
   - ./bin/ci/build-firefox.sh
   - node ./bin/ci/check-file-sizes.js
 
@@ -66,4 +64,3 @@ script:
     browser_webconsole_eval_in_debugger_stackframe2.js
     browser_webconsole_location_debugger_link.js
     browser_webconsole_stacktrace_location_debugger_link.js
-  - ./node_modules/.bin/mochii --ci --mc ./firefox --headless devtools/client/debugger/new
