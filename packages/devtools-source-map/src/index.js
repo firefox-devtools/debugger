@@ -53,6 +53,8 @@ module.exports = {
   applySourceMap,
   clearSourceMaps,
   getOriginalStackFrames,
-  startSourceMapWorker: dispatcher.start.bind(dispatcher),
+  startSourceMapWorker(workerURL) {
+    dispatcher.start(workerURL);
+  },
   stopSourceMapWorker: dispatcher.stop.bind(dispatcher)
 };
