@@ -124,26 +124,19 @@ function getFunctionParameterNames(path: SimplePath): string[] {
 }
 
 function getFunctionSignature(path: SimplePath) {
-  const name = getFunctionName(path.node, path.parent);
-  const args = path.node.params.map(p => p.name);
-  const signature = `${name}(${args.join(",")})`;
-
-  if (t.isClassMethod(path)) {
-    return getAncestors(path.parentPath, signature);
-  }
-  const pPath = path.parentPath;
-  if (t.isObjectProperty(pPath)) {
-    return getAncestors(pPath.parentPath, signature);
+  const parentPath = path.parentPath;
+  const name = getFunctionName(path.node, parentPath);
+  if (t.isObjectProperty(parentPath)) {
+    return getAncestors(parentPath, name);
   }
 }
 
 function getAncestors(path: SimplePath, children) {
-  if (t.isClassDeclaration(path)) {
-    return `${path.node.id.name}.${children}`;
+  if (!path) {
+    return children;
   }
-
-  if (t.isVariableDeclarator(path)) {
-    return `${path.node.id.name}.${children}`;
+  if (t.isAssignmentExpression(path)) {
+    return `${path.node.left.name}.${children}`;
   }
 
   if (t.isObjectProperty(path)) {

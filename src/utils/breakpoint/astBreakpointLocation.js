@@ -27,15 +27,22 @@ export function getASTLocation(
     const line = location.line - scope.location.start.line;
     return {
       name: scope.name,
+      signature: scope.signature,
       offset: { line, column: undefined }
     };
   }
   return { name: undefined, offset: location };
 }
 
-export async function findScopeByName(source: Source, name: ?string) {
+export async function findScopeByName(
+  source: Source,
+  name: ?string,
+  signature: ?string
+) {
   const symbols = await getSymbols(source.id);
   const functions = symbols.functions;
 
-  return functions.find(node => node.name === name);
+  return functions.find(
+    node => node.name === name && node.signature === signature
+  );
 }

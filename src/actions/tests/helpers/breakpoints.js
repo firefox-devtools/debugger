@@ -17,6 +17,7 @@ export function mockPendingBreakpoint(overrides = {}) {
     },
     astLocation: {
       name: undefined,
+      signature: undefined,
       offset: {
         line: line || 5
       }

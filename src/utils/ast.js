@@ -116,7 +116,6 @@ export function findClosestFunction(
   if (!symbols || symbols.loading) {
     return null;
   }
-
   return findClosestofSymbol(symbols.functions, location);
 }
 

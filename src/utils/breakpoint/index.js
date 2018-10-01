@@ -127,7 +127,11 @@ export function createBreakpoint(
     originalText
   } = overrides;
 
-  const defaultASTLocation = { name: undefined, offset: location };
+  const defaultASTLocation = {
+    name: undefined,
+    signature: undefined,
+    offset: location
+  };
   const properties = {
     id,
     condition: condition || null,
