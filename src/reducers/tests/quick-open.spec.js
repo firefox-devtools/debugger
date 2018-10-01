@@ -21,7 +21,7 @@ import {
 
 describe("quickOpen reducer", () => {
   test("initial state", () => {
-    const state = update(undefined, { type: "FAKE" });
+    const state = update(undefined, { type: "CLEAR_SELECTION" });
     expect(getQuickOpenQuery({ quickOpen: state })).toEqual("");
     expect(getQuickOpenType({ quickOpen: state })).toEqual("sources");
   });
