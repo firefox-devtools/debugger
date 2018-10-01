@@ -206,16 +206,7 @@ function extractSymbol(path: SimplePath, symbols) {
   if (t.isCallExpression(path)) {
     const callee = path.node.callee;
     const args = path.node.arguments;
-    if (t.isMemberExpression(callee)) {
-      const {
-        property: { name, loc }
-      } = callee;
-      symbols.callExpressions.push({
-        name: name,
-        values: args.filter(arg => arg.value).map(arg => arg.value),
-        location: loc
-      });
-    } else {
+    if (!t.isMemberExpression(callee)) {
       const { start, end, identifierName } = callee.loc;
       symbols.callExpressions.push({
         name: identifierName,
