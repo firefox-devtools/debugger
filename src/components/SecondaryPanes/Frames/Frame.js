@@ -28,7 +28,7 @@ type FrameLocationProps = { frame: LocalFrame };
 
 function FrameLocation({ frame }: FrameLocationProps) {
   if (!frame.source) {
-    return;
+    return null;
   }
 
   if (frame.library) {
