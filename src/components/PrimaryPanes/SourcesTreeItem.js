@@ -12,13 +12,14 @@ import { showMenu } from "devtools-contextmenu";
 import SourceIcon from "../shared/SourceIcon";
 import Svg from "../shared/Svg";
 
-import { getSourceByURL } from "../../selectors";
+import { getSourceByURL, getSourcesByURL5515 } from "../../selectors";
 import actions from "../../actions";
 
 import { isOriginal as isOriginalSource } from "../../utils/source";
 import { isDirectory } from "../../utils/sources-tree";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { features } from "../../utils/prefs";
+import { parse } from "../../utils/url";
 
 import type { TreeNode } from "../../utils/sources-tree/types";
 import type { Source } from "../../types";
@@ -32,6 +33,7 @@ type Props = {
   focused: boolean,
   expanded: boolean,
   hasMatchingGeneratedSource: boolean,
+  hasSiblingOfSameName: boolean,
   setExpanded: (TreeNode, boolean, boolean) => void,
   focusItem: TreeNode => void,
   selectItem: TreeNode => void,
@@ -163,9 +165,22 @@ class SourceTreeItem extends Component<Props, State> {
   }
 
   render() {
-    const { item, depth, focused, hasMatchingGeneratedSource } = this.props;
+    const {
+      item,
+      depth,
+      source,
+      focused,
+      hasMatchingGeneratedSource,
+      hasSiblingOfSameName
+    } = this.props;
+
     const suffix = hasMatchingGeneratedSource ? (
       <span className="suffix">{L10N.getStr("sourceFooter.mappedSuffix")}</span>
+    ) : null;
+
+    const querystring = source ? parse(source.url).search : null;
+    const query = hasSiblingOfSameName ? (
+      <span className="query">{querystring}</span>
     ) : null;
 
     return (
@@ -179,7 +194,8 @@ class SourceTreeItem extends Component<Props, State> {
         {this.getIcon(item, depth)}
         <span className="label">
           {" "}
-          {this.renderItemName()} {suffix}
+          {this.renderItemName()}
+          {query} {suffix}
         </span>
       </div>
     );
@@ -194,10 +210,19 @@ function getHasMatchingGeneratedSource(state, source: ?Source) {
   return !!getSourceByURL(state, source.url, false);
 }
 
+function getHasSiblingOfSameName(state, source: ?Source) {
+  if (!source) {
+    return false;
+  }
+
+  return getSourcesByURL5515(state, source.url).length > 1;
+}
+
 const mapStateToProps = (state, props) => {
   const { source } = props;
   return {
-    hasMatchingGeneratedSource: getHasMatchingGeneratedSource(state, source)
+    hasMatchingGeneratedSource: getHasMatchingGeneratedSource(state, source),
+    hasSiblingOfSameName: getHasSiblingOfSameName(state, source)
   };
 };
 
