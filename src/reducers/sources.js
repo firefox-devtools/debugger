@@ -326,8 +326,8 @@ export function getSourcesByURL(state: OuterState, url: string): Source[] {
   return getSourcesByUrlInSources(getSources(state), getUrls(state), url);
 }
 
-export function getSourcesByURL5515(state: OuterState, url: string): Source[] {
-  return getSourcesByUrlInSources5515(getSources(state), getUrls(state), url);
+export function getSourcesURL(state: OuterState, url: string): Source[] {
+  return getSourcesUrlsInSources(getSources(state), getUrls(state), url);
 }
 
 export function getGeneratedSource(state: OuterState, source: Source): Source {
@@ -381,7 +381,7 @@ function getSourcesByUrlInSources(
   return urls[url].map(id => sources[id]);
 }
 
-function getSourcesByUrlInSources5515(
+function getSourcesUrlsInSources(
   sources: SourcesMap,
   urls: UrlsMap,
   url: string

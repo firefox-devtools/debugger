@@ -12,7 +12,7 @@ import { showMenu } from "devtools-contextmenu";
 import SourceIcon from "../shared/SourceIcon";
 import Svg from "../shared/Svg";
 
-import { getSourceByURL, getSourcesByURL5515 } from "../../selectors";
+import { getSourceByURL, getSourcesURL } from "../../selectors";
 import actions from "../../actions";
 
 import { isOriginal as isOriginalSource } from "../../utils/source";
@@ -215,7 +215,7 @@ function getHasSiblingOfSameName(state, source: ?Source) {
     return false;
   }
 
-  return getSourcesByURL5515(state, source.url).length > 1;
+  return getSourcesURL(state, source.url).length > 1;
 }
 
 const mapStateToProps = (state, props) => {

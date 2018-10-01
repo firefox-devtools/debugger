@@ -10,7 +10,6 @@ import { getUnicodeHostname, getUnicodeUrlPath } from "devtools-modules";
 import type { Source } from "../../types";
 export type ParsedURL = {
   path: string,
-  search: string,
   group: string,
   filename: string
 };
@@ -38,8 +37,7 @@ function _getURL(source: Source, defaultDomain: string): ParsedURL {
     return def;
   }
 
-  const { pathname, search, protocol, host } = parse(url);
-
+  const { pathname, protocol, host } = parse(url);
   const filename = getUnicodeUrlPath(getFilenameFromPath(pathname));
 
   switch (protocol) {
@@ -52,7 +50,6 @@ function _getURL(source: Source, defaultDomain: string): ParsedURL {
       return {
         ...def,
         path: pathname,
-        search,
         filename,
         group: `${protocol}//${host || ""}`
       };
@@ -62,7 +59,6 @@ function _getURL(source: Source, defaultDomain: string): ParsedURL {
       return {
         ...def,
         path: pathname,
-        search,
         filename,
         group: `${protocol}//`
       };
@@ -108,7 +104,6 @@ function _getURL(source: Source, defaultDomain: string): ParsedURL {
       return {
         ...def,
         path: pathname,
-        search,
         filename,
         group: getUnicodeHostname(host)
       };
@@ -128,7 +123,6 @@ export function getURL(source: Source, debuggeeUrl: ?string) {
   }
 
   const url = _getURL(source, debuggeeUrl || "");
-
   urlMap.set(source, url);
   return url;
 }
