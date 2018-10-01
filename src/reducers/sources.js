@@ -390,7 +390,7 @@ function getSourcesByUrlInSources5515(
     return [];
   }
 
-  return Object.keys(urls).filter(ele => ele != "undefined");
+  return [...new Set(Object.keys(urls).filter(ele => ele != "undefined"))];
 }
 
 export function getSourceInSources(sources: SourcesMap, id: string): ?Source {

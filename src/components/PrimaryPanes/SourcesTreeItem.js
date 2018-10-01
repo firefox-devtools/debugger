@@ -214,7 +214,6 @@ function getHasSiblingOfSameName(state, source: ?Source) {
   if (!source) {
     return false;
   }
-  console.log(getSourcesByURL5515(state, source.url));
 
   return getSourcesByURL5515(state, source.url).length > 1;
 }
