@@ -12,7 +12,7 @@ import { showMenu } from "devtools-contextmenu";
 import SourceIcon from "../shared/SourceIcon";
 import Svg from "../shared/Svg";
 
-import { getSourceByURL } from "../../selectors";
+import { getSourceByURL, getSourcesByURL } from "../../selectors";
 import actions from "../../actions";
 
 import { isOriginal as isOriginalSource } from "../../utils/source";
@@ -32,6 +32,7 @@ type Props = {
   focused: boolean,
   expanded: boolean,
   hasMatchingGeneratedSource: boolean,
+  hasSiblingOfSameName: boolean,
   setExpanded: (TreeNode, boolean, boolean) => void,
   focusItem: TreeNode => void,
   selectItem: TreeNode => void,
@@ -163,9 +164,19 @@ class SourceTreeItem extends Component<Props, State> {
   }
 
   render() {
-    const { item, depth, focused, hasMatchingGeneratedSource } = this.props;
+    const {
+      item,
+      depth,
+      focused,
+      hasMatchingGeneratedSource,
+      hasSiblingOfSameName
+    } = this.props;
     const suffix = hasMatchingGeneratedSource ? (
       <span className="suffix">{L10N.getStr("sourceFooter.mappedSuffix")}</span>
+    ) : null;
+
+    const query = hasSiblingOfSameName ? (
+      <span className="query">?querystring</span>
     ) : null;
 
     return (
@@ -179,7 +190,8 @@ class SourceTreeItem extends Component<Props, State> {
         {this.getIcon(item, depth)}
         <span className="label">
           {" "}
-          {this.renderItemName()} {suffix}
+          {this.renderItemName()}
+          {query} {suffix}
         </span>
       </div>
     );
@@ -194,10 +206,20 @@ function getHasMatchingGeneratedSource(state, source: ?Source) {
   return !!getSourceByURL(state, source.url, false);
 }
 
+function getHasSiblingOfSameName(state, source: ?Source) {
+  if (!source) {
+    return false;
+  }
+
+  const sameSiblings = getSourcesByURL(state, source.url);
+  return sameSiblings.length > 1;
+}
+
 const mapStateToProps = (state, props) => {
   const { source } = props;
   return {
-    hasMatchingGeneratedSource: getHasMatchingGeneratedSource(state, source)
+    hasMatchingGeneratedSource: getHasMatchingGeneratedSource(state, source),
+    hasSiblingOfSameName: getHasSiblingOfSameName(state, source)
   };
 };
 
