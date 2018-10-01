@@ -247,16 +247,9 @@ exports[`ShortcutsModal renders when enabled 1`] = `
           <span>
             <span
               className="keystroke"
-              key="Ctrl"
+              key="Ctrl+G"
             >
-              Ctrl
-            </span>
-             + 
-            <span
-              className="keystroke"
-              key=";"
-            >
-              ;
+              Ctrl+G
             </span>
           </span>
         </li>
