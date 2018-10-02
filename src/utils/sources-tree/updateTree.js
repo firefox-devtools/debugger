@@ -34,7 +34,12 @@ function findFocusedItemInTree(
     const parts = focusedItem.path.split("/").filter(p => p !== "");
     let path = "";
 
+    console.log("------ START OF TREE SEARCH ------");
     focusedItem = parts.reduce((subTree, part, index) => {
+      console.log("SUB TREE:", subTree);
+      console.log("PART:", part);
+      console.log("PARTS:", parts);
+      console.log("IS DIRECTORY:", isPartDir(focusedItem, parts.length, index));
       path = path ? `${path}/${part}` : part;
       const { index: childIndex } = findNodeInContents(
         subTree,
@@ -44,8 +49,11 @@ function findFocusedItemInTree(
           debuggeeHost
         )
       );
+      console.log("------ END OF LOOP ------");
       return subTree.contents[childIndex];
     }, newSourceTree);
+    console.log("------ END OF TREE SEARCH ------");
+    console.log("FOCUSED ITEM:", focusedItem);
   }
 
   return focusedItem;
