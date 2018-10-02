@@ -19,7 +19,8 @@ import {
   getSources,
   getUrls,
   getSourceByURL,
-  getSourceByUrlInSources
+  getSourceByUrlInSources,
+  getSourcesBySourceId
 } from "./sources";
 
 import type { Action } from "../actions/types";
@@ -75,20 +76,29 @@ export function removeSourcesFromTabList(tabs: TabList, sources: Source[]) {
  */
 function updateTabList(
   tabs: TabList,
-  { url, framework = null, isOriginal = false }
+  { url, framework = null, sourceId, isOriginal = false }
 ) {
   const currentIndex = tabs.findIndex(tab =>
     isSimilarTab(tab, url, isOriginal)
   );
 
   if (currentIndex === -1) {
-    tabs = [{ url, framework, isOriginal }, ...tabs];
+    tabs = [{ url, framework, sourceId, isOriginal }, ...tabs];
   } else if (framework) {
     tabs[currentIndex].framework = framework;
   }
 
-  asyncStore.tabs = tabs;
+  asyncStore.tabs = persistTabs(tabs);
   return tabs;
+}
+
+function persistTabs(tabs) {
+  return tabs.filter(tab => tab.url).map(tab => {
+    const newTab = { ...tab };
+    delete newTab.sourceId;
+    console.log(newTab);
+    return newTab;
+  });
 }
 
 function moveTabInList(tabs: TabList, { url, tabIndex: newIndex }) {
@@ -184,9 +194,13 @@ export const getSourceTabs = createSelector(
   getSources,
   getUrls,
   (tabs, sources, urls) =>
-    tabs.filter(tab =>
-      getSourceByUrlInSources(sources, urls, tab.url, tab.isOriginal)
-    )
+    tabs.filter(tab => {
+      if (tab.url) {
+        return getSourceByUrlInSources(sources, urls, tab.url, tab.isOriginal)
+      } else {
+        return getSourcesBySourceId(sources, tab.sourceId, tab.isOriginal);
+      }
+    })
 );
 
 export const getSourcesForTabs = createSelector(
@@ -195,9 +209,13 @@ export const getSourcesForTabs = createSelector(
   getUrls,
   (tabs, sources, urls) => {
     return tabs
-      .map(tab =>
-        getSourceByUrlInSources(sources, urls, tab.url, tab.isOriginal)
-      )
+      .map(tab => {
+        if (tab.url) {
+          return getSourceByUrlInSources(sources, urls, tab.url, tab.isOriginal)
+        } else {
+          return getSourcesBySourceId(sources, tab.sourceId, tab.isOriginal)
+        }
+      })
       .filter(Boolean);
   }
 );

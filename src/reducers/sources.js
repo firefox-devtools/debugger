@@ -374,6 +374,22 @@ export function getSourceByUrlInSources(
   return foundSources.find(source => isOriginalSource(source) == isOriginal);
 }
 
+export function getSourcesBySourceId(
+  sources: SourcesMap,
+  sourceId: string,
+  isOriginal: boolean
+) {
+  const foundSource = sources[sourceId];
+  if (!foundSource) {
+    return null;
+  }
+  if (isOriginalSource(foundSource) == isOriginal) {
+    return foundSource;
+  } else {
+    return null;
+  }
+}
+
 function getSourcesByUrlInSources(
   sources: SourcesMap,
   urls: UrlsMap,
