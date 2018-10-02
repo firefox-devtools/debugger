@@ -7,6 +7,7 @@
 import React, { Component } from "react";
 import { showMenu } from "devtools-contextmenu";
 import { connect } from "react-redux";
+import { score as fuzzaldrinScore } from "fuzzaldrin-plus";
 
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { findFunctionText } from "../../utils/function";
@@ -18,6 +19,7 @@ import {
   getSelectedLocation
 } from "../../selectors";
 
+import OutlineFilter from "./OutlineFilter";
 import "./Outline.css";
 import PreviewFunction from "../shared/PreviewFunction";
 import { uniq, sortBy } from "lodash";
@@ -41,7 +43,18 @@ type Props = {
   flashLineRange: Function
 };
 
-export class Outline extends Component<Props> {
+type State = {
+  filter: string
+};
+
+export class Outline extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    (this: any).filterOutlineItems = this.filterOutlineItems.bind(this);
+    (this: any).onUpdateFilter = this.onUpdateFilter.bind(this);
+    this.state = { filter: "" };
+  }
+
   selectItem(location: AstLocation) {
     const { selectedSource, selectLocation } = this.props;
     if (!selectedSource) {
@@ -89,6 +102,10 @@ export class Outline extends Component<Props> {
     };
     const menuOptions = [copyFunctionItem];
     showMenu(event, menuOptions);
+  }
+
+  onUpdateFilter(e: SyntheticInputEvent<HTMLElement>) {
+    this.setState({ filter: e.target.value.trim() });
   }
 
   renderPlaceholder() {
@@ -150,15 +167,31 @@ export class Outline extends Component<Props> {
     );
   }
 
+  filterOutlineItems(name: string) {
+    // Set higher to make the fuzzaldrin filter more specific
+    const FUZZALDRIN_FILTER_THRESHOLD = 15000;
+    const { filter } = this.state;
+    if (name === "anonymous") {
+      return false;
+    } else if (!filter) {
+      return true;
+    } else if (filter.length === 1) {
+      return filter.toLowerCase() === name[0].toLowerCase();
+    }
+    return fuzzaldrinScore(name, filter) > FUZZALDRIN_FILTER_THRESHOLD;
+  }
+
   renderFunctions(functions: Array<FunctionDeclaration>) {
     let classes = uniq(functions.map(func => func.klass));
     let namedFunctions = functions.filter(
       func =>
-        func.name != "anonymous" && !func.klass && !classes.includes(func.name)
+        this.filterOutlineItems(func.name) &&
+        !func.klass &&
+        !classes.includes(func.name)
     );
 
     let classFunctions = functions.filter(
-      func => func.name != "anonymous" && !!func.klass
+      func => this.filterOutlineItems(func.name) && !!func.klass
     );
 
     if (this.props.alphabetizeOutline) {
@@ -169,6 +202,10 @@ export class Outline extends Component<Props> {
 
     return (
       <div>
+        <OutlineFilter
+          filter={this.state.filter}
+          onChange={this.onUpdateFilter}
+        />
         <ul className="outline-list">
           {namedFunctions.map(func => this.renderFunction(func))}
           {classes.map(klass =>

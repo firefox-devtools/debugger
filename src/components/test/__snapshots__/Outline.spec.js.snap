@@ -5,6 +5,10 @@ exports[`Outline renders a list of functions when properties change 1`] = `
   className="outline"
 >
   <div>
+    <OutlineFilter
+      filter=""
+      onChange={[Function]}
+    />
     <ul
       className="outline-list"
     >
@@ -68,6 +72,10 @@ exports[`Outline renders outline renders functions by function class 1`] = `
   className="outline"
 >
   <div>
+    <OutlineFilter
+      filter=""
+      onChange={[Function]}
+    />
     <ul
       className="outline-list"
     >
@@ -191,6 +199,10 @@ exports[`Outline renders outline renders functions by function class, alphabetic
   className="outline"
 >
   <div>
+    <OutlineFilter
+      filter=""
+      onChange={[Function]}
+    />
     <ul
       className="outline-list"
     >
@@ -314,6 +326,10 @@ exports[`Outline renders outline renders ignore anonymous functions 1`] = `
   className="outline"
 >
   <div>
+    <OutlineFilter
+      filter=""
+      onChange={[Function]}
+    />
     <ul
       className="outline-list"
     >
@@ -405,6 +421,10 @@ exports[`Outline renders outline sorts functions alphabetically by function name
   className="outline"
 >
   <div>
+    <OutlineFilter
+      filter=""
+      onChange={[Function]}
+    />
     <ul
       className="outline-list"
     >
