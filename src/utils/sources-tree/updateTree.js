@@ -6,11 +6,13 @@
 
 import { addToTree } from "./addToTree";
 import { collapseTree } from "./collapseTree";
-import { createParentMap, getSourceFromNode, partIsFile, isDirectory } from "./utils";
+import { createParentMap, isDirectory } from "./utils";
 import { difference } from "lodash";
-import { getDomain, findNodeInContents, createTreeNodeMatcher } from "./treeOrder";
-import { getURL } from "./getURL";
-
+import {
+  getDomain,
+  findNodeInContents,
+  createTreeNodeMatcher
+} from "./treeOrder";
 import type { SourcesMap } from "../../reducers/types";
 import type { TreeDirectory, TreeNode } from "./types";
 
@@ -31,18 +33,29 @@ function findFocusedItemInTree(
   if (focusedItem) {
     const parts = focusedItem.path.split("/").filter(p => p !== "");
     let path = "";
+
     focusedItem = parts.reduce((subTree, part, index) => {
-      path = path ? `${path}/${part}`: part;
-      // const isDir = index < parts.length - 1;
-      const { found, index: childIndex } = findNodeInContents(subTree, createTreeNodeMatcher(part, true, debuggeeHost));
-      console.log('found:', found);
+      path = path ? `${path}/${part}` : part;
+      const { index: childIndex } = findNodeInContents(
+        subTree,
+        createTreeNodeMatcher(
+          part,
+          isPartDir(focusedItem, parts.length, index),
+          debuggeeHost
+        )
+      );
       return subTree.contents[childIndex];
     }, newSourceTree);
-
-    console.log('focusedItem:', focusedItem);
   }
 
-  return focusedItem
+  return focusedItem;
+}
+
+function isPartDir(focusedItem: ?TreeNode, partsLength, index) {
+  if (focusedItem && isDirectory(focusedItem)) {
+    return true;
+  }
+  return partsLength - 1 != index;
 }
 
 type Params = {
@@ -77,6 +90,6 @@ export function updateTree({
     uncollapsedTree,
     sourceTree: newSourceTree,
     parentMap: createParentMap(newSourceTree),
-    focusedItem: findFocusedItemInTree(newSourceTree, debuggeeHost, focusedItem),
+    focusedItem: findFocusedItemInTree(newSourceTree, debuggeeHost, focusedItem)
   };
 }
