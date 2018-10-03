@@ -123,17 +123,22 @@ function getFunctionParameterNames(path: SimplePath): string[] {
   return [];
 }
 
-function getFunctionSignature(path: SimplePath, signature) {
+function getFunctionSignature(path: SimplePath, signature: string | null) {
   if (!path) {
     return signature;
   }
 
-  if (t.isAssignmentExpression(path)) {
-    return `${path.node.left.name}.${signature}`;
-  }
-
   if (t.isFunctionDeclaration(path)) {
     return path.node.id.name;
+  }
+
+  if (!signature) {
+    signature = getFunctionName(path.node, path.parent);
+    path = path.parentPath.parentPath;
+  }
+
+  if (t.isAssignmentExpression(path)) {
+    return `${path.node.left.name}.${signature}`;
   }
 
   if (t.isObjectProperty(path)) {
@@ -163,10 +168,7 @@ function extractSymbol(path: SimplePath, symbols) {
       location: path.node.loc,
       parameterNames: getFunctionParameterNames(path),
       identifier: path.node.id,
-      signature: getFunctionSignature(
-        path,
-        getFunctionName(path.node, path.parent)
-      )
+      signature: getFunctionSignature(path, null)
     });
   }
 

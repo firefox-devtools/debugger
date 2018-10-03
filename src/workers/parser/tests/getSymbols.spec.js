@@ -20,6 +20,11 @@ cases(
     { name: "es6", file: "es6", original: true },
     { name: "func", file: "func", original: true },
     { name: "function names", file: "functionNames", original: true },
+    {
+      name: "function signatures",
+      file: "getFunctionSignatures",
+      original: true
+    },
     { name: "math", file: "math" },
     { name: "proto", file: "proto" },
     { name: "class", file: "class", original: true },
