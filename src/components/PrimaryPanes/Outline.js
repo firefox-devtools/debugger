@@ -48,15 +48,12 @@ type State = {
 };
 
 /**
- * Check whether the given function name is not "anonymous" and matches the
- * given fuzzy filter
+ * Check whether the name argument matches the fuzzy filter argument
  */
 const filterOutlineItem = (name: string, filter: string) => {
   // Set higher to make the fuzzaldrin filter more specific
   const FUZZALDRIN_FILTER_THRESHOLD = 15000;
-  if (name === "anonymous") {
-    return false;
-  } else if (!filter) {
+ if (!filter) {
     return true;
   } else if (filter.length === 1) {
     // when filter is a single char just check if it starts with the char
@@ -239,7 +236,7 @@ export class Outline extends Component<Props, State> {
     return (
       <div className="outline">
         {symbolsToDisplay.length > 0
-          ? this.renderFunctions(symbols.functions)
+          ? this.renderFunctions(symbolsToDisplay)
           : this.renderPlaceholder()}
       </div>
     );
