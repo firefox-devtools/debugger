@@ -47,10 +47,27 @@ type State = {
   filter: string
 };
 
+/**
+ * Check whether the given function name is not "anonymous" and matches the
+ * given fuzzy filter
+ */
+const filterOutlineItem = (name: string, filter: string) => {
+  // Set higher to make the fuzzaldrin filter more specific
+  const FUZZALDRIN_FILTER_THRESHOLD = 15000;
+  if (name === "anonymous") {
+    return false;
+  } else if (!filter) {
+    return true;
+  } else if (filter.length === 1) {
+    // when filter is a single char just check if it starts with the char
+    return filter.toLowerCase() === name.toLowerCase()[0];
+  }
+  return fuzzaldrinScore(name, filter) > FUZZALDRIN_FILTER_THRESHOLD;
+};
+
 export class Outline extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    (this: any).filterOutlineItems = this.filterOutlineItems.bind(this);
     (this: any).onUpdateFilter = this.onUpdateFilter.bind(this);
     this.state = { filter: "" };
   }
@@ -167,31 +184,18 @@ export class Outline extends Component<Props, State> {
     );
   }
 
-  filterOutlineItems(name: string) {
-    // Set higher to make the fuzzaldrin filter more specific
-    const FUZZALDRIN_FILTER_THRESHOLD = 15000;
-    const { filter } = this.state;
-    if (name === "anonymous") {
-      return false;
-    } else if (!filter) {
-      return true;
-    } else if (filter.length === 1) {
-      return filter.toLowerCase() === name[0].toLowerCase();
-    }
-    return fuzzaldrinScore(name, filter) > FUZZALDRIN_FILTER_THRESHOLD;
-  }
-
   renderFunctions(functions: Array<FunctionDeclaration>) {
+    const { filter } = this.state;
     let classes = uniq(functions.map(func => func.klass));
     let namedFunctions = functions.filter(
       func =>
-        this.filterOutlineItems(func.name) &&
+        filterOutlineItem(func.name, filter) &&
         !func.klass &&
         !classes.includes(func.name)
     );
 
     let classFunctions = functions.filter(
-      func => this.filterOutlineItems(func.name) && !!func.klass
+      func => filterOutlineItem(func.name, filter) && !!func.klass
     );
 
     if (this.props.alphabetizeOutline) {
