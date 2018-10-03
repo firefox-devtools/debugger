@@ -20,7 +20,8 @@ import {
   getSymbols,
   findOutOfScopeLocations,
   getFramework,
-  getPausePoints
+  getPausePoints,
+  type AstPosition
 } from "../workers/parser";
 
 import { PROMISE } from "./utils/middleware/promise";
@@ -39,7 +40,9 @@ export function setSourceMetaData(sourceId: SourceId) {
     }
 
     const framework = await getFramework(source.id);
-    dispatch(updateTab(source.url, framework));
+    if (framework) {
+      dispatch(updateTab(source.url, framework));
+    }
 
     dispatch(
       ({
@@ -88,7 +91,10 @@ export function setOutOfScopeLocations() {
 
     let locations = null;
     if (location.line && source && !source.isWasm && isPaused(getState())) {
-      locations = await findOutOfScopeLocations(source.id, location);
+      locations = await findOutOfScopeLocations(
+        source.id,
+        ((location: any): AstPosition)
+      );
     }
 
     dispatch(
@@ -107,7 +113,7 @@ function compressPausePoints(pausePoints) {
     compressed[line] = {};
     for (const col in pausePoints[line]) {
       const point = pausePoints[line][col];
-      compressed[line][col] = (point.break && 1) | (point.step && 2);
+      compressed[line][col] = (point.break ? 1 : 0) | (point.step ? 2 : 0);
     }
   }
 
