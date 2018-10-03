@@ -12,4 +12,6 @@ This is used in multiple contexts:
 # Application Requirements
 
 This package assumes that an application using this code will make the
-`worker.js` file available at application specified URL `workers.sourceMapURL`.
+`worker.js`, and `dwarf_to_json.wasm` files available and call
+`startSourceMapWorker(workerURL, wasmRoot)` to initialize the worker and specify
+the location of the wasm asset.

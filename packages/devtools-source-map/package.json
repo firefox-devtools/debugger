@@ -9,6 +9,9 @@
   "homepage":
     "https://github.com/devtools-html/debugger.html/tree/master/packages/source-maps#readme",
   "main": "src/index.js",
+  "browser": {
+    "./src/utils/wasmAsset.js": "./src/utils/wasmAssetBrowser.js"
+  },
   "scripts": {
     "license-check": "devtools-license-check",
     "test": "jest --projects jest.config.js"
@@ -19,6 +22,6 @@
     "devtools-utils": "0.0.14",
     "md5": "^2.2.1",
     "regenerator-runtime": "^0.10.3",
-    "source-map": "^0.6.1"
+    "source-map": "^0.7.3"
   }
 }
