@@ -215,9 +215,7 @@ export class Outline extends Component<Props, State> {
         </ul>
         <div className="outline-footer bottom">
           <button
-            onClick={() => {
-              this.props.onAlphabetizeClick();
-            }}
+            onClick={this.props.onAlphabetizeClick}
             className={this.props.alphabetizeOutline ? "active" : ""}
           >
             {L10N.getStr("outline.sortLabel")}
