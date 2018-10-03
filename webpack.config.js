@@ -2,7 +2,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-const toolbox = require("./node_modules/devtools-launchpad/index");
+const toolbox = require("devtools-launchpad/index");
+const sourceMapAssets = require("devtools-source-map/assets");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 const getConfig = require("./bin/getConfig");
 const mozillaCentralMappings = require("./configs/mozilla-central-mappings");
@@ -38,7 +40,16 @@ const webpackConfig = {
     path: path.join(__dirname, "assets/build"),
     filename: "[name].js",
     publicPath: "/assets/build"
-  }
+  },
+
+  plugins: [
+    new CopyWebpackPlugin(
+      Object.entries(sourceMapAssets).map(([name, filePath]) => ({
+        from: filePath,
+        to: `source-map-worker-assets/${name}`
+      }))
+    )
+  ]
 };
 
 if (isProduction) {
@@ -49,43 +60,39 @@ if (isProduction) {
   webpackConfig.entry.reps = getEntry("packages/devtools-reps/src/index.js");
 }
 
-function buildConfig(envConfig) {
-  const extra = {
-    babelIncludes: ["react-aria-components"]
-  };
-
-  webpackConfig.plugins = [new ObjectRestSpreadPlugin()];
-
-  if (!isProduction) {
-    webpackConfig.module = webpackConfig.module || {};
-    webpackConfig.module.rules = webpackConfig.module.rules || [];
-  } else {
-    webpackConfig.output.libraryTarget = "umd";
-
-    if (process.env.vis) {
-      const viz = new Visualizer({
-        filename: "webpack-stats.html"
-      });
-      webpackConfig.plugins.push(viz);
-    }
-
-    const mappings = [
-      [/\.\/mocha/, "./mochitest"],
-      [/\.\.\/utils\/mocha/, "../utils/mochitest"],
-      [/\.\/utils\/mocha/, "./utils/mochitest"],
-      [/\.\/percy-stub/, "./percy-webpack"]
-    ];
-
-    extra.excludeMap = mozillaCentralMappings;
-
-    mappings.forEach(([regex, res]) => {
-      webpackConfig.plugins.push(new NormalModuleReplacementPlugin(regex, res));
-    });
-  }
-
-  return toolbox.toolboxConfig(webpackConfig, envConfig, extra);
-}
-
 const envConfig = getConfig();
 
-module.exports = buildConfig(envConfig);
+const extra = {
+  babelIncludes: ["react-aria-components"]
+};
+
+webpackConfig.plugins.push(new ObjectRestSpreadPlugin());
+
+if (!isProduction) {
+  webpackConfig.module = webpackConfig.module || {};
+  webpackConfig.module.rules = webpackConfig.module.rules || [];
+} else {
+  webpackConfig.output.libraryTarget = "umd";
+
+  if (process.env.vis) {
+    const viz = new Visualizer({
+      filename: "webpack-stats.html"
+    });
+    webpackConfig.plugins.push(viz);
+  }
+
+  const mappings = [
+    [/\.\/mocha/, "./mochitest"],
+    [/\.\.\/utils\/mocha/, "../utils/mochitest"],
+    [/\.\/utils\/mocha/, "./utils/mochitest"],
+    [/\.\/percy-stub/, "./percy-webpack"]
+  ];
+
+  extra.excludeMap = mozillaCentralMappings;
+
+  mappings.forEach(([regex, res]) => {
+    webpackConfig.plugins.push(new NormalModuleReplacementPlugin(regex, res));
+  });
+}
+
+module.exports = toolbox.toolboxConfig(webpackConfig, envConfig, extra);
