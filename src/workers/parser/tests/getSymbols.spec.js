@@ -22,7 +22,7 @@ cases(
     { name: "function names", file: "functionNames", original: true },
     {
       name: "function signatures",
-      file: "getFunctionSignatures",
+      file: "functionSignatures",
       original: true
     },
     { name: "math", file: "math" },
