@@ -6,7 +6,7 @@
 
 import { parseScript } from "./utils/ast";
 
-export function hasSyntaxError(input: string) {
+export function hasSyntaxError(input: string): string | false {
   try {
     parseScript(input);
     return false;
