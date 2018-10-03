@@ -11,7 +11,7 @@ import "./OutlineFilter.css";
 
 type Props = {
   filter: string,
-  onChange: (e: SyntheticInputEvent<HTMLElement>) => void
+  updateFilter: (filter: string) => void
 };
 
 type State = {
@@ -23,6 +23,16 @@ export default class OutlineFilter extends Component<Props, State> {
 
   setFocus = (shouldFocus: boolean) => {
     this.setState({ focused: shouldFocus });
+  };
+
+  onChange = (e: SyntheticInputEvent<HTMLElement>) => {
+    this.props.updateFilter(e.target.value);
+  };
+
+  onKeyDown = (e: SyntheticKeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Escape") {
+      this.props.updateFilter("");
+    }
   };
 
   render() {
@@ -38,7 +48,8 @@ export default class OutlineFilter extends Component<Props, State> {
               placeholder={L10N.getStr("outline.placeholder")}
               value={this.props.filter}
               type="text"
-              onChange={this.props.onChange}
+              onChange={this.onChange}
+              onKeyDown={this.onKeyDown}
             />
           </form>
         </li>

@@ -68,7 +68,7 @@ const filterOutlineItem = (name: string, filter: string) => {
 export class Outline extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    (this: any).onUpdateFilter = this.onUpdateFilter.bind(this);
+    (this: any).updateFilter = this.updateFilter.bind(this);
     this.state = { filter: "" };
   }
 
@@ -121,8 +121,8 @@ export class Outline extends Component<Props, State> {
     showMenu(event, menuOptions);
   }
 
-  onUpdateFilter(e: SyntheticInputEvent<HTMLElement>) {
-    this.setState({ filter: e.target.value.trim() });
+  updateFilter(filter: string) {
+    this.setState({ filter: filter.trim() });
   }
 
   renderPlaceholder() {
@@ -206,10 +206,7 @@ export class Outline extends Component<Props, State> {
 
     return (
       <div>
-        <OutlineFilter
-          filter={this.state.filter}
-          onChange={this.onUpdateFilter}
-        />
+        <OutlineFilter filter={filter} updateFilter={this.updateFilter} />
         <ul className="outline-list">
           {namedFunctions.map(func => this.renderFunction(func))}
           {classes.map(klass =>
