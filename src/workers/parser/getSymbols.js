@@ -123,27 +123,31 @@ function getFunctionParameterNames(path: SimplePath): string[] {
   return [];
 }
 
-function getFunctionSignature(path: SimplePath) {
-  const parentPath = path.parentPath;
-  const name = getFunctionName(path.node, parentPath);
-  if (t.isObjectProperty(parentPath)) {
-    return getAncestors(parentPath, name);
-  }
-}
-
-function getAncestors(path: SimplePath, children) {
+function getFunctionSignature(path: SimplePath, signature) {
   if (!path) {
-    return children;
+    return signature;
   }
+
   if (t.isAssignmentExpression(path)) {
-    return `${path.node.left.name}.${children}`;
+    return `${path.node.left.name}.${signature}`;
+  }
+
+  if (t.isFunctionDeclaration(path)) {
+    return path.node.id.name;
   }
 
   if (t.isObjectProperty(path)) {
-    return getAncestors(path.parentPath, `${path.node.key.name}.${children}`);
+    return getFunctionSignature(
+      path.parentPath,
+      `${path.node.key.name}.${signature}`
+    );
   }
 
-  return getAncestors(path.parentPath, children);
+  if (t.isVariableDeclarator(path) || t.isClassDeclaration(path)) {
+    return `${path.node.id.name}.${signature}`;
+  }
+
+  return getFunctionSignature(path.parentPath, signature);
 }
 
 /* eslint-disable complexity */
@@ -159,7 +163,10 @@ function extractSymbol(path: SimplePath, symbols) {
       location: path.node.loc,
       parameterNames: getFunctionParameterNames(path),
       identifier: path.node.id,
-      signature: getFunctionSignature(path)
+      signature: getFunctionSignature(
+        path,
+        getFunctionName(path.node, path.parent)
+      )
     });
   }
 
