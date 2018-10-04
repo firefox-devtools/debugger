@@ -28,23 +28,27 @@ import type { Source } from "../types";
 export function updateTab(source: Source, framework: string): Action {
   const { url } = source;
   const isOriginal = isOriginalId(source.id);
+  const sourceId = source.id;
 
   return {
     type: "UPDATE_TAB",
     url,
     framework,
-    isOriginal
+    isOriginal,
+    sourceId
   };
 }
 
 export function addTab(source: Source): Action {
   const { url } = source;
   const isOriginal = isOriginalId(source.id);
+  const sourceId = source.id;
 
   return {
     type: "ADD_TAB",
     url,
-    isOriginal
+    isOriginal,
+    sourceId
   };
 }
 
