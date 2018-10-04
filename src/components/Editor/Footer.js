@@ -19,8 +19,8 @@ import {
   isPretty,
   isLoaded,
   getFilename,
-  isLoading,
-  isOriginal
+  isOriginal,
+  isLoading
 } from "../../utils/source";
 import { getGeneratedSource } from "../../reducers/sources";
 import { shouldShowFooter, shouldShowPrettyPrint } from "../../utils/editor";

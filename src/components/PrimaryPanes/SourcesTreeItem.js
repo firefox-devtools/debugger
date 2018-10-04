@@ -12,7 +12,7 @@ import { showMenu } from "devtools-contextmenu";
 import SourceIcon from "../shared/SourceIcon";
 import Svg from "../shared/Svg";
 
-import { getSourceByURL } from "../../selectors";
+import { getGeneratedSourceByURL } from "../../selectors";
 import actions from "../../actions";
 
 import { isOriginal as isOriginalSource } from "../../utils/source";
@@ -187,7 +187,7 @@ class SourceTreeItem extends Component<Props, State> {
 }
 
 function getHasMatchingGeneratedSource(state, source: ?Source) {
-  if (!source || !isOriginalId(source)) {
+  if (!source || !isOriginalSource(source)) {
     return false;
   }
 

@@ -117,10 +117,11 @@ describe("sources", () => {
   it("should keep the selected source when other tab closed", async () => {
     const { dispatch, getState } = createStore(sourceThreadClient);
 
-    const fooSource = makeSource("foo.js");
-    await dispatch(actions.newSource(fooSource));
+    const bazSource = makeSource("baz.js");
+
+    await dispatch(actions.newSource(makeSource("foo.js")));
     await dispatch(actions.newSource(makeSource("bar.js")));
-    await dispatch(actions.newSource(makeSource("baz.js")));
+    await dispatch(actions.newSource(bazSource));
 
     // 3rd tab
     await dispatch(actions.selectLocation({ sourceId: "foo.js" }));
@@ -133,8 +134,8 @@ describe("sources", () => {
 
     // 3rd tab is reselected
     await dispatch(actions.selectLocation({ sourceId: "foo.js" }));
-    await dispatch(actions.closeTab(fooSource));
-    expect(getSelectedSource(getState()).id).toBe("bar.js");
+    await dispatch(actions.closeTab(bazSource));
+    expect(getSelectedSource(getState()).id).toBe("foo.js");
     expect(getSourceTabs(getState())).toHaveLength(2);
   });
 
