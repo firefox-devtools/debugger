@@ -7,7 +7,7 @@ exports[`Outline renders a list of functions when properties change 1`] = `
   <div>
     <OutlineFilter
       filter=""
-      onChange={[Function]}
+      updateFilter={[Function]}
     />
     <ul
       className="outline-list"
@@ -58,7 +58,7 @@ exports[`Outline renders a list of functions when properties change 1`] = `
     >
       <button
         className=""
-        onClick={[Function]}
+        onClick={[MockFunction]}
       >
         Sort by name
       </button>
@@ -74,7 +74,7 @@ exports[`Outline renders outline renders functions by function class 1`] = `
   <div>
     <OutlineFilter
       filter=""
-      onChange={[Function]}
+      updateFilter={[Function]}
     />
     <ul
       className="outline-list"
@@ -185,7 +185,7 @@ exports[`Outline renders outline renders functions by function class 1`] = `
     >
       <button
         className=""
-        onClick={[Function]}
+        onClick={[MockFunction]}
       >
         Sort by name
       </button>
@@ -201,7 +201,7 @@ exports[`Outline renders outline renders functions by function class, alphabetic
   <div>
     <OutlineFilter
       filter=""
-      onChange={[Function]}
+      updateFilter={[Function]}
     />
     <ul
       className="outline-list"
@@ -312,7 +312,7 @@ exports[`Outline renders outline renders functions by function class, alphabetic
     >
       <button
         className="active"
-        onClick={[Function]}
+        onClick={[MockFunction]}
       >
         Sort by name
       </button>
@@ -328,7 +328,7 @@ exports[`Outline renders outline renders ignore anonymous functions 1`] = `
   <div>
     <OutlineFilter
       filter=""
-      onChange={[Function]}
+      updateFilter={[Function]}
     />
     <ul
       className="outline-list"
@@ -359,7 +359,7 @@ exports[`Outline renders outline renders ignore anonymous functions 1`] = `
     >
       <button
         className=""
-        onClick={[Function]}
+        onClick={[MockFunction]}
       >
         Sort by name
       </button>
@@ -423,7 +423,7 @@ exports[`Outline renders outline sorts functions alphabetically by function name
   <div>
     <OutlineFilter
       filter=""
-      onChange={[Function]}
+      updateFilter={[Function]}
     />
     <ul
       className="outline-list"
@@ -494,7 +494,7 @@ exports[`Outline renders outline sorts functions alphabetically by function name
     >
       <button
         className="active"
-        onClick={[Function]}
+        onClick={[MockFunction]}
       >
         Sort by name
       </button>
