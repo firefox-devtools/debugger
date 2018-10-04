@@ -95,11 +95,18 @@ export class HighlightLine extends Component<Props> {
     selectedSource: Source
   ) {
     const { sourceId, line } = selectedLocation;
+    const editorLine = toEditorLine(sourceId, line);
+
     if (!this.shouldSetHighlightLine(selectedLocation, selectedSource)) {
       return;
     }
+
+    if (!this.previousEditorLine) {
+      this.previousEditorLine = editorLine;
+      return;
+    }
+
     this.isStepping = false;
-    const editorLine = toEditorLine(sourceId, line);
     this.previousEditorLine = editorLine;
 
     if (!line || isDebugLine(selectedFrame, selectedLocation)) {
