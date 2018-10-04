@@ -12,7 +12,7 @@ import { showMenu } from "devtools-contextmenu";
 import SourceIcon from "../shared/SourceIcon";
 import Svg from "../shared/Svg";
 
-import { getSourceByURL } from "../../selectors";
+import { getGeneratedSourceByURL } from "../../selectors";
 import actions from "../../actions";
 
 import { isOriginal as isOriginalSource } from "../../utils/source";
@@ -191,7 +191,7 @@ function getHasMatchingGeneratedSource(state, source: ?Source) {
     return false;
   }
 
-  return !!getSourceByURL(state, source.url, false);
+  return !!getGeneratedSourceByURL(state, source.url);
 }
 
 const mapStateToProps = (state, props) => {
