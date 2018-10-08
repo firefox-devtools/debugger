@@ -18,6 +18,7 @@ import {
 
 import { getTokenLocation } from "../../utils/editor";
 import { isWasm } from "../../utils/wasm";
+import { findClosestFunction } from "../../utils/ast";
 
 import actions from "../../actions";
 
@@ -144,15 +145,34 @@ class CallSites extends Component {
   }
 
   render() {
-    const { editor, callSites, selectedSource } = this.props;
+    const { editor, callSites, selectedSource, symbols } = this.props;
     const { showCallSites } = this.state;
+
     let sites;
     if (!callSites) {
       return null;
     }
 
+    const { line } = editor.codeMirror.getCursor();
+
+    const closestFunc = findClosestFunction(symbols, {
+      line,
+      column: Infinity
+    });
+
+    let callSitesFiltered;
+    if (closestFunc !== null) {
+      callSitesFiltered = callSites.filter(
+        ({ location }) =>
+          location.start.line >= closestFunc.location.start.line &&
+          location.start.line <= closestFunc.location.end.line
+      );
+    } else {
+      callSitesFiltered = callSites;
+    }
+
     editor.codeMirror.operation(() => {
-      const childCallSites = callSites.map((callSite, index) => {
+      const childCallSites = callSitesFiltered.map((callSite, index) => {
         const props = {
           key: index,
           callSite,
@@ -217,6 +237,7 @@ const mapStateToProps = state => {
   return {
     selectedLocation,
     selectedSource,
+    symbols,
     callSites: getCallSites(symbols, breakpoints),
     breakpoints: breakpoints
   };

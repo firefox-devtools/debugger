@@ -4,12 +4,12 @@
 
 .call-site {
   background: #f0f9ff;
+  border-bottom: 2px solid #aed3ef;
   position: relative;
 }
 
 .call-site::before {
-  content: "";
-  position: absolute;
+  content: ">>";
   width: 100%;
   height: calc(100% - 2px);
   border-bottom: 2px solid #aed3ef;
@@ -17,6 +17,7 @@
 
 .call-site-bp {
   position: relative;
+  border-bottom: 2px solid red;
 }
 
 .debug-expression.call-site-bp,
@@ -25,8 +26,7 @@
 }
 
 .call-site-bp::before {
-  content: "";
-  position: absolute;
+  content: ">>";
   width: 100%;
   height: calc(100% - 2px);
   border-bottom: 2px solid red;
