@@ -165,7 +165,7 @@
     "stylelint": "^9.0.0",
     "webpack": "^3.5.5",
     "webpack-visualizer-plugin": "^0.1.11",
-    "workerjs": "github:jasonLaster/workerjs"
+    "workerjs": "github:jasonLaster/workerjs#a2425aaeebacae7a7640e496a54c2a41962f3890"
   },
   "lint-staged": {
     "bin/*.js": [
