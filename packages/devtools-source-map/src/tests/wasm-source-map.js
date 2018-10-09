@@ -5,7 +5,7 @@
 // Test WasmRemap
 
 const { WasmRemap } = require("../utils/wasmRemap");
-const { SourceMapConsumer } = require("source-map");
+const { createConsumer } = require("../utils/createConsumer");
 
 jest.mock("devtools-utils/src/network-request");
 
@@ -26,7 +26,7 @@ describe("wasm source maps", () => {
       { offset: 17, line: 2, column: 18 }
     ];
 
-    const map1 = new SourceMapConsumer(testMap1);
+    const map1 = await createConsumer(testMap1);
     const remap1 = new WasmRemap(map1);
 
     expect(remap1.file).toEqual("min.js");
@@ -81,7 +81,7 @@ describe("wasm source maps", () => {
       sourcesContent: ["//test"]
     };
 
-    const map2 = new SourceMapConsumer(testMap2);
+    const map2 = await createConsumer(testMap2);
     const remap2 = new WasmRemap(map2);
     expect(remap2.file).toEqual("none.js");
     expect(remap2.hasContentsOfAllSources()).toEqual(true);

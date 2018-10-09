@@ -4,6 +4,8 @@
 
 /* eslint camelcase: 0*/
 
+const { getDwarfToWasmData } = require("./wasmAsset.js");
+
 let cachedWasmModule;
 let utf8Decoder;
 
@@ -38,16 +40,18 @@ function convertDwarf(wasm, instance) {
 }
 
 async function convertToJSON(buffer: ArrayBuffer): any {
-  if (!cachedWasmModule) {
-    const isFirefoxPanel =
-      typeof location !== "undefined" && location.protocol === "resource:";
-    const wasmPath = `${isFirefoxPanel ? "." : "/wasm"}/dwarf_to_json.wasm`;
-    const wasm = await (await fetch(wasmPath)).arrayBuffer();
-    const imports = {};
-    const { instance } = await WebAssembly.instantiate(wasm, imports);
-    cachedWasmModule = instance;
-  }
-  return convertDwarf(buffer, cachedWasmModule);
+  // Note: We don't 'await' here because it could mean that multiple
+  // calls to 'convertToJSON' could cause multiple fetches to be started.
+  cachedWasmModule = cachedWasmModule || loadConverterModule();
+
+  return convertDwarf(buffer, await cachedWasmModule);
+}
+
+async function loadConverterModule() {
+  const wasm = await getDwarfToWasmData();
+  const imports = {};
+  const { instance } = await WebAssembly.instantiate(wasm, imports);
+  return instance;
 }
 
 module.exports = {

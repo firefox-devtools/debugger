@@ -8,17 +8,12 @@
 
 // Import helpers for the new debugger
 Services.scriptloader.loadSubScript(
-  "chrome://mochitests/content/browser/devtools/client/debugger/new/test/mochitest/helpers/context.js",
-  this);
+"chrome://mochitests/content/browser/devtools/client/debugger/new/test/mochitest/helpers/context.js",
+this);
 
 var { Toolbox } = require("devtools/client/framework/toolbox");
 var { Task } = require("devtools/shared/task");
 var asyncStorage = require("devtools/shared/async-storage");
-
-// Import helpers for the new debugger
-Services.scriptloader.loadSubScript(
-  "chrome://mochitests/content/browser/devtools/client/debugger/new/test/mochitest/helpers/context.js",
-  this);
 
 const sourceUtils = {
   isLoaded: source => source.loadedState === "loaded"

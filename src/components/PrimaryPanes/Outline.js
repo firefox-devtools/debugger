@@ -53,7 +53,7 @@ type State = {
 const filterOutlineItem = (name: string, filter: string) => {
   // Set higher to make the fuzzaldrin filter more specific
   const FUZZALDRIN_FILTER_THRESHOLD = 15000;
- if (!filter) {
+  if (!filter) {
     return true;
   } else if (filter.length === 1) {
     // when filter is a single char just check if it starts with the char

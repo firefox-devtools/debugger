@@ -32,7 +32,7 @@ export type SymbolsMap = Map<string, Symbols>;
 export type EmptyLinesMap = Map<string, EmptyLinesType>;
 
 export type SourceMetaDataType = {
-  framework: string | void
+  framework: ?string
 };
 
 export type SourceMetaDataMap = Map<string, SourceMetaDataType>;
@@ -221,8 +221,10 @@ export function getPausePoint(
     return;
   }
 
-  const linePoints = pausePoints[line];
-  return linePoints && linePoints[column];
+  const linePoints = pausePoints[String(line)];
+  if (linePoints && column) {
+    return linePoints[String(column)];
+  }
 }
 
 export function hasPausePoints(state: OuterState, sourceId: string): boolean {

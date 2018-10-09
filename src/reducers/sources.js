@@ -14,7 +14,6 @@ import {
   getPrettySourceURL,
   underRoot,
   getRelativeUrl,
-  isPrettyURL,
   isGenerated,
   isOriginal as isOriginalSource
 } from "../utils/source";
@@ -300,22 +299,40 @@ export function getSourceFromId(state: OuterState, id: string): Source {
   return getSourcesState(state).sources[id];
 }
 
-export function getSourceByURL(
+export function getOriginalSourceByURL(
   state: OuterState,
-  url: string,
-  isOriginal: boolean = false
+  url: string
 ): ?Source {
-  // Pretty sources should always be original
-  if (isPrettyURL(url)) {
-    isOriginal = true;
-  }
-
-  return getSourceByUrlInSources(
+  return getOriginalSourceByUrlInSources(
     getSources(state),
     getUrls(state),
-    url,
-    isOriginal
+    url
   );
+}
+
+export function getGeneratedSourceByURL(
+  state: OuterState,
+  url: string
+): ?Source {
+  return getGeneratedSourceByUrlInSources(
+    getSources(state),
+    getUrls(state),
+    url
+  );
+}
+
+export function getSpecificSourceByURL(
+  state: OuterState,
+  url: string,
+  isOriginal: boolean
+): ?Source {
+  return isOriginal
+    ? getOriginalSourceByUrlInSources(getSources(state), getUrls(state), url)
+    : getGeneratedSourceByUrlInSources(getSources(state), getUrls(state), url);
+}
+
+export function getSourceByURL(state: OuterState, url: string): ?Source {
+  return getSourceByUrlInSources(getSources(state), getUrls(state), url);
 }
 
 export function getSourcesByURLs(state: OuterState, urls: string[]) {
@@ -344,25 +361,60 @@ export function getPrettySource(state: OuterState, id: string) {
     return;
   }
 
-  return getSourceByURL(state, getPrettySourceURL(source.url), true);
+  return getSpecificSourceByURL(state, getPrettySourceURL(source.url), true);
 }
 
 export function hasPrettySource(state: OuterState, id: string) {
   return !!getPrettySource(state, id);
 }
 
-export function getSourceByUrlInSources(
+export function getOriginalSourceByUrlInSources(
   sources: SourcesMap,
   urls: UrlsMap,
-  url: string,
-  isOriginal: boolean
+  url: string
 ) {
   const foundSources = getSourcesByUrlInSources(sources, urls, url);
   if (!foundSources) {
     return null;
   }
 
-  return foundSources.find(source => isOriginalSource(source) == isOriginal);
+  return foundSources.find(source => isOriginalSource(source) == true);
+}
+export function getGeneratedSourceByUrlInSources(
+  sources: SourcesMap,
+  urls: UrlsMap,
+  url: string
+) {
+  const foundSources = getSourcesByUrlInSources(sources, urls, url);
+  if (!foundSources) {
+    return null;
+  }
+
+  return foundSources.find(source => isOriginalSource(source) == false);
+}
+
+export function getSpecificSourceByUrlInSources(
+  sources: SourcesMap,
+  urls: UrlsMap,
+  url: string,
+  isOriginal: boolean
+) {
+  return isOriginal
+    ? getOriginalSourceByUrlInSources(sources, urls, url)
+    : getGeneratedSourceByUrlInSources(sources, urls, url);
+}
+
+export function getSourceByUrlInSources(
+  sources: SourcesMap,
+  urls: UrlsMap,
+  url: string
+) {
+  const foundSources = getSourcesByUrlInSources(sources, urls, url);
+  if (!foundSources) {
+    return null;
+  }
+
+  return foundSources[0];
 }
 
 function getSourcesByUrlInSources(

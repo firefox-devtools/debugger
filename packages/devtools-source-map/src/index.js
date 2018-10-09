@@ -17,6 +17,7 @@ const {
 
 const dispatcher = new WorkerDispatcher();
 
+const setAssetRootURL = dispatcher.task("setAssetRootURL");
 const getOriginalURLs = dispatcher.task("getOriginalURLs");
 const getOriginalRanges = dispatcher.task("getOriginalRanges");
 const getGeneratedRanges = dispatcher.task("getGeneratedRanges", {
@@ -53,6 +54,9 @@ module.exports = {
   applySourceMap,
   clearSourceMaps,
   getOriginalStackFrames,
-  startSourceMapWorker: dispatcher.start.bind(dispatcher),
+  startSourceMapWorker(url: string, assetRoot: string) {
+    dispatcher.start(url);
+    setAssetRootURL(assetRoot);
+  },
   stopSourceMapWorker: dispatcher.stop.bind(dispatcher)
 };

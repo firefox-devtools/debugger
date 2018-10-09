@@ -20,7 +20,7 @@ import {
   getSourceCount
 } from "../../selectors";
 
-import { getSourceByURL } from "../../reducers/sources";
+import { getGeneratedSourceByURL } from "../../reducers/sources";
 
 // Actions
 import actions from "../../actions";
@@ -358,7 +358,7 @@ function getSourceForTree(state: AppState, source: ?Source): ?Source | null {
     return source;
   }
 
-  return getSourceByURL(state, getRawSourceURL(source.url), false);
+  return getGeneratedSourceByURL(state, getRawSourceURL(source.url));
 }
 
 const mapStateToProps = state => {
