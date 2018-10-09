@@ -33,17 +33,24 @@ export type BreakpointAction =
     |}
   | {|
       +type: "ENABLE_XHR_BREAKPOINT",
-      +breakpoint: XHRBreakpoint
+      +breakpoint: XHRBreakpoint,
+      +index: number
+    |}
+  | {|
+      +type: "UPDATE_XHR_BREAKPOINT",
+      +breakpoint: XHRBreakpoint,
+      +index: number
     |}
   | {|
       +type: "DISABLE_XHR_BREAKPOINT",
-      +breakpoint: XHRBreakpoint
+      +breakpoint: XHRBreakpoint,
+      +index: number
     |}
   | {|
       +type: "REMOVE_XHR_BREAKPOINT",
-      +contains: string
+      +index: number,
+      +breakpoint: XHRBreakpoint
     |}
-  // for simulating a successful server request
   | {|
       +type: "REMOVE_BREAKPOINT",
       +breakpoint: Breakpoint,

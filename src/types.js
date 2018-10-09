@@ -112,7 +112,8 @@ export type Breakpoint = {
  * @static
  */
 export type XHRBreakpoint = {
-  contains: string,
+  path: string,
+  method: "GET" | "POST" | "DELETE" | "ANY",
   loading: boolean,
   disabled: boolean,
   text: string

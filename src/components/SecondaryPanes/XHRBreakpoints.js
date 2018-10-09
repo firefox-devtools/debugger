@@ -12,25 +12,29 @@ import actions from "../../actions";
 import { CloseButton } from "../shared/Button";
 
 import "./XHRBreakpoints.css";
-import { getXHRBreakpoints } from "../../selectors";
+import { getXHRBreakpoints, shouldPauseOnAnyXHR } from "../../selectors";
+import ExceptionOption from "./Breakpoints/ExceptionOption";
 
 import type { XHRBreakpointsMap } from "../../reducers/types";
 
 type Props = {
   xhrBreakpoints: XHRBreakpointsMap,
+  shouldPauseOnAny: boolean,
   showInput: boolean,
   onXHRAdded: Function,
   setXHRBreakpoint: Function,
   removeXHRBreakpoint: typeof actions.removeXHRBreakpoint,
   enableXHRBreakpoint: typeof actions.enableXHRBreakpoint,
-  disableXHRBreakpoint: typeof actions.disableXHRBreakpoint
+  disableXHRBreakpoint: typeof actions.disableXHRBreakpoint,
+  togglePauseOnAny: typeof actions.togglePauseOnAny,
+  updateXHRBreakpoint: typeof actions.updateXHRBreakpoint
 };
 
 type State = {
   editing: boolean,
   inputValue: string,
+  inputMethod: string,
   editIndex: number,
-  previousInput: string,
   focused: boolean
 };
 
@@ -41,7 +45,7 @@ class XHRBreakpoints extends Component<Props, State> {
     this.state = {
       editing: false,
       inputValue: "",
-      previousInput: "",
+      inputMethod: "",
       focused: false,
       editIndex: -1
     };
@@ -60,11 +64,12 @@ class XHRBreakpoints extends Component<Props, State> {
     e.preventDefault();
     e.stopPropagation();
 
-    const { previousInput, inputValue } = this.state;
+    const { editIndex, inputValue, inputMethod } = this.state;
+    const { xhrBreakpoints } = this.props;
+    const { path, method } = xhrBreakpoints.get(editIndex);
 
-    if (previousInput !== inputValue) {
-      this.props.removeXHRBreakpoint(previousInput);
-      this.props.setXHRBreakpoint(inputValue);
+    if (path !== inputValue || method != inputMethod) {
+      this.props.updateXHRBreakpoint(editIndex, inputValue, inputMethod);
     }
 
     this.hideInput();
@@ -80,8 +85,8 @@ class XHRBreakpoints extends Component<Props, State> {
       focused: false,
       editing: false,
       editIndex: -1,
-      previousInput: "",
-      inputValue: ""
+      inputValue: "",
+      inputMethod: ""
     });
     this.props.onXHRAdded();
   };
@@ -90,10 +95,12 @@ class XHRBreakpoints extends Component<Props, State> {
     this.setState({ focused: true });
   };
 
-  editExpression = (contains, index) => {
+  editExpression = index => {
+    const { xhrBreakpoints } = this.props;
+    const { path, method } = xhrBreakpoints.get(index);
     this.setState({
-      inputValue: contains,
-      previousInput: contains,
+      inputValue: path,
+      inputMethod: method,
       editing: true,
       editIndex: index
     });
@@ -124,66 +131,96 @@ class XHRBreakpoints extends Component<Props, State> {
       </li>
     );
   }
-  handleCheckbox = contains => {
+  handleCheckbox = index => {
     const {
       xhrBreakpoints,
       enableXHRBreakpoint,
       disableXHRBreakpoint
     } = this.props;
-    const breakpoint = xhrBreakpoints.get(contains);
+    const breakpoint = xhrBreakpoints.get(index);
     if (breakpoint.disabled) {
-      enableXHRBreakpoint(breakpoint);
+      enableXHRBreakpoint(index);
     } else {
-      disableXHRBreakpoint(breakpoint);
+      disableXHRBreakpoint(index);
     }
   };
 
-  renderBreakpoint = ([contains, { text, disabled }], index) => {
+  renderBreakpoint = ({ path, text, disabled, method }, index) => {
     const { editIndex } = this.state;
     const { removeXHRBreakpoint } = this.props;
 
     if (index === editIndex) {
       return this.renderXHRInput(this.handleExistingSubmit);
+    } else if (!path) {
+      return;
     }
 
     return (
       <li
         className="xhr-container"
-        key={contains}
-        title={contains}
-        onDoubleClick={(items, options) => this.editExpression(contains, index)}
+        key={path}
+        title={path}
+        onDoubleClick={(items, options) => this.editExpression(index)}
       >
         <input
           type="checkbox"
           className="xhr-checkbox"
           checked={!disabled}
-          onChange={() => this.handleCheckbox(contains)}
+          onChange={() => this.handleCheckbox(index)}
           onClick={ev => ev.stopPropagation()}
         />
         <div className="xhr-label">{text}</div>
         <div className="xhr-container__close-btn">
-          <CloseButton handleClick={e => removeXHRBreakpoint(contains)} />
+          <CloseButton handleClick={e => removeXHRBreakpoint(index)} />
         </div>
       </li>
     );
   };
 
-  render() {
+  renderBreakpoints = () => {
     const { showInput, xhrBreakpoints } = this.props;
-    const breakpoints = xhrBreakpoints.entrySeq();
     return (
       <ul className="pane expressions-list">
-        {breakpoints.map(this.renderBreakpoint)}
+        {xhrBreakpoints.map(this.renderBreakpoint)}
         {(showInput || !xhrBreakpoints.size) &&
           this.renderXHRInput(this.handleNewSubmit)}
       </ul>
+    );
+  };
+
+  renderCheckpoint = () => {
+    const { shouldPauseOnAny, togglePauseOnAny, xhrBreakpoints } = this.props;
+    const isEmpty = xhrBreakpoints.size === 0;
+    return (
+      <div
+        className={classnames("breakpoints-exceptions-options", {
+          empty: isEmpty
+        })}
+      >
+        <ExceptionOption
+          className="breakpoints-exceptions"
+          label={L10N.getStr("pauseOnAnyXHR")}
+          isChecked={shouldPauseOnAny}
+          onChange={() => togglePauseOnAny()}
+        />
+      </div>
+    );
+  };
+
+  render() {
+    return (
+      <div>
+        {this.renderCheckpoint()}
+        {this.renderBreakpoints()}
+      </div>
     );
   }
 }
 
 const mapStateToProps = state => {
   return {
-    xhrBreakpoints: getXHRBreakpoints(state)
+    xhrBreakpoints: getXHRBreakpoints(state),
+    shouldPauseOnAny: shouldPauseOnAnyXHR(state)
   };
 };
 
@@ -193,6 +230,8 @@ export default connect(
     setXHRBreakpoint: actions.setXHRBreakpoint,
     removeXHRBreakpoint: actions.removeXHRBreakpoint,
     enableXHRBreakpoint: actions.enableXHRBreakpoint,
-    disableXHRBreakpoint: actions.disableXHRBreakpoint
+    disableXHRBreakpoint: actions.disableXHRBreakpoint,
+    updateXHRBreakpoint: actions.updateXHRBreakpoint,
+    togglePauseOnAny: actions.togglePauseOnAny
   }
 )(XHRBreakpoints);

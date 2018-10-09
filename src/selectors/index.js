@@ -35,6 +35,7 @@ export { isSelectedFrameVisible } from "./isSelectedFrameVisible";
 export { getCallStackFrames } from "./getCallStackFrames";
 export { getVisibleSelectedFrame } from "./visibleSelectedFrame";
 export { getBreakpointSources } from "./breakpointSources";
+export { getXHRBreakpoints, shouldPauseOnAnyXHR } from "./breakpoints";
 
 import { objectInspector } from "devtools-reps";
 

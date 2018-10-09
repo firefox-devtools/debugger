@@ -144,16 +144,17 @@ export function createBreakpoint(
   return properties;
 }
 
-export function createXHRBreakpoint(contains: string, overrides: Object = {}) {
-  const text = contains.length
-    ? `URL contains "${contains}"`
-    : "Any XHR or fetch";
-
+export function createXHRBreakpoint(
+  path: string,
+  method: string,
+  overrides?: Object = {}
+) {
   const properties = {
-    contains,
+    path,
+    method,
     disabled: false,
     loading: false,
-    text
+    text: `URL contains "${path}"`
   };
 
   return { ...properties, ...overrides };
