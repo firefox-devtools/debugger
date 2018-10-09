@@ -79,7 +79,7 @@
     "react-inlinesvg": "^0.8.1",
     "react-redux": "^5.0.7",
     "react-transition-group": "^2.2.1",
-    "redux-saga": "^0.16.0",
+    "redux-saga": "^0.16.1",
     "reselect": "^4.0.0",
     "svg-inline-react": "^3.0.0",
     "wasmparser": "^0.6.1"
