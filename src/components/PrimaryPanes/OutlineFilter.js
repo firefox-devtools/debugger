@@ -30,7 +30,8 @@ export default class OutlineFilter extends Component<Props, State> {
   };
 
   onKeyDown = (e: SyntheticKeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Escape") {
+    if (e.key === "Escape" && this.props.filter !== "") {
+      e.preventDefault();
       this.props.updateFilter("");
     }
   };
