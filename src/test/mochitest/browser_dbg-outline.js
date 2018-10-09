@@ -65,6 +65,15 @@ add_task(async function() {
   await selectSource(dbg, "long", 1);
   findElementWithSelector(dbg, ".outline-tab").click();
 
+  // turn off alphetical sort if active
+  const alphabetizeButton = findElementWithSelector(
+    dbg,
+    ".outline-footer button"
+  );
+  if (alphabetizeButton.className === "active") {
+    alphabetizeButton.click();
+  }
+
   const outlineFilter = findElementWithSelector(dbg, ".outline-filter-input");
   ok(outlineFilter, "Outline filter is present");
 
