@@ -6,7 +6,7 @@
 
 import { addToTree } from "./addToTree";
 import { collapseTree } from "./collapseTree";
-import { createParentMap, isDirectory } from "./utils";
+import { createParentMap, isDirectory, isSource } from "./utils";
 import { difference } from "lodash";
 import {
   getDomain,
@@ -34,12 +34,13 @@ function findFocusedItemInTree(
     const parts = focusedItem.path.split("/").filter(p => p !== "");
     let path = "";
 
-    console.log("------ START OF TREE SEARCH ------");
     focusedItem = parts.reduce((subTree, part, index) => {
-      console.log("SUB TREE:", subTree);
-      console.log("PART:", part);
-      console.log("PARTS:", parts);
-      console.log("IS DIRECTORY:", isPartDir(focusedItem, parts.length, index));
+      if (subTree == undefined) {
+        return null;
+      } else if (isSource(subTree)) {
+        return subTree;
+      }
+
       path = path ? `${path}/${part}` : part;
       const { index: childIndex } = findNodeInContents(
         subTree,
@@ -49,11 +50,9 @@ function findFocusedItemInTree(
           debuggeeHost
         )
       );
-      console.log("------ END OF LOOP ------");
+
       return subTree.contents[childIndex];
     }, newSourceTree);
-    console.log("------ END OF TREE SEARCH ------");
-    console.log("FOCUSED ITEM:", focusedItem);
   }
 
   return focusedItem;
