@@ -49,4 +49,50 @@ describe("getLibraryFromUrl", () => {
       });
     });
   });
+
+  describe("When React is in the URL", () => {
+    it("should not return React if it is not part of the filename", () => {
+      const notReactUrlList = [
+        "https://react.js.com/test.js",
+        "https://debugger-example.com/test.js",
+        "https://debugger-react-example.com/test.js",
+        "https://debugger-react-example.com/react/test.js"
+      ];
+      notReactUrlList.forEach(notReactUrl => {
+        const frame = {
+          displayName: "name",
+          location: {
+            line: 12
+          },
+          source: {
+            url: notReactUrl
+          }
+        };
+        expect(getLibraryFromUrl(frame)).toBeNull();
+      });
+    });
+    it("should return React if it is part of the filename", () => {
+      const reactUrlList = [
+        "https://debugger-example.com/react.js",
+        "https://debugger-example.com/react.development.js",
+        "https://debugger-example.com/react.production.min.js",
+        "https://debugger-react-example.com/react.js",
+        "https://debugger-react-example.com/react/react.js",
+        "/node_modules/react/test.js",
+        "/node_modules/react-dom/test.js"
+      ];
+      reactUrlList.forEach(reactUrl => {
+        const frame = {
+          displayName: "name",
+          location: {
+            line: 12
+          },
+          source: {
+            url: reactUrl
+          }
+        };
+        expect(getLibraryFromUrl(frame)).toEqual("React");
+      });
+    });
+  });
 });
