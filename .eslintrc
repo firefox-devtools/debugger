@@ -88,6 +88,10 @@
 
     "flowtype/define-flow-type": 1,
     "flowtype/use-flow-type": 1,
+    "flowtype/require-valid-file-annotation": [
+      2,
+      "always"
+    ],
 
     // Disallow flow control that escapes from "finally".
     "no-unsafe-finally": "error",

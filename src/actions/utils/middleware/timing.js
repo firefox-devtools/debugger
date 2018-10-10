@@ -9,6 +9,8 @@
  * will appear in performance tooling under the User Timing API
  */
 
+// @flow
+
 const mark =
   window.performance && window.performance.mark
     ? window.performance.mark.bind(window.performance)
