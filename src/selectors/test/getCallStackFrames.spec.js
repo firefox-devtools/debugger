@@ -18,7 +18,7 @@ describe("getCallStackFrames selector", () => {
           source1: { id: "source1", url: "webpack:///src/App.js" },
           source2: {
             id: "source2",
-            url: "webpack:///~/react-dom/lib/ReactCompositeComponent.js"
+            url: "webpack:///foo/node_modules/react-dom/lib/ReactCompositeComponent.js"
           }
         },
         selectedSource: {
