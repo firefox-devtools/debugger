@@ -1,24 +1,16 @@
 .outline-filter {
-  margin: 0px;
+  margin: 5px 0 0 0;
   padding: 0px 10px;
-  margin-top: 5px;
-  list-style: none;
-}
-
-.outline-filter li {
-  border: 1px solid transparent;
 }
 
 .outline-filter-input {
+  padding: 0.5em 1.6em;
+  height: 26px;
   width: 100%;
-  margin: 0;
   border: 1px solid var(--theme-splitter-color);
   background-color: var(--theme-sidebar-background);
-  font-size: 12px;
-  padding: 0.5em 1.6em;
   color: var(--theme-body-color);
-  outline: 0;
-  height: 28px;
+  font-size: 12px;
   -moz-user-select: text;
   user-select: text;
 }

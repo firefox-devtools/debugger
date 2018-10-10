@@ -31,6 +31,8 @@ export default class OutlineFilter extends Component<Props, State> {
 
   onKeyDown = (e: SyntheticKeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Escape" && this.props.filter !== "") {
+      // use preventDefault to override toggling the split-console which is
+      // also bound to the ESC key
       e.preventDefault();
       this.props.updateFilter("");
     }
@@ -39,22 +41,20 @@ export default class OutlineFilter extends Component<Props, State> {
   render() {
     const { focused } = this.state;
     return (
-      <ul className="outline-filter">
-        <li>
-          <form>
-            <input
-              className={classnames("outline-filter-input", { focused })}
-              onFocus={() => this.setFocus(true)}
-              onBlur={() => this.setFocus(false)}
-              placeholder={L10N.getStr("outline.placeholder")}
-              value={this.props.filter}
-              type="text"
-              onChange={this.onChange}
-              onKeyDown={this.onKeyDown}
-            />
-          </form>
-        </li>
-      </ul>
+      <div className="outline-filter">
+        <form>
+          <input
+            className={classnames("outline-filter-input", { focused })}
+            onFocus={() => this.setFocus(true)}
+            onBlur={() => this.setFocus(false)}
+            placeholder={L10N.getStr("outline.placeholder")}
+            value={this.props.filter}
+            type="text"
+            onChange={this.onChange}
+            onKeyDown={this.onKeyDown}
+          />
+        </form>
+      </div>
     );
   }
 }

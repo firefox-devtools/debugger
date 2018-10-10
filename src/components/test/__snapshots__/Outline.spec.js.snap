@@ -394,25 +394,17 @@ exports[`Outline renders outline renders placeholder \`No File Selected\` if sel
 
 exports[`Outline renders outline renders placeholder \`No functions\` if all func are anonymous 1`] = `
 <div
-  className="outline"
+  className="outline-pane-info"
 >
-  <div
-    className="outline-pane-info"
-  >
-    No functions
-  </div>
+  No functions
 </div>
 `;
 
 exports[`Outline renders outline renders placeholder \`No functions\` if symbols has no func 1`] = `
 <div
-  className="outline"
+  className="outline-pane-info"
 >
-  <div
-    className="outline-pane-info"
-  >
-    No functions
-  </div>
+  No functions
 </div>
 `;
 

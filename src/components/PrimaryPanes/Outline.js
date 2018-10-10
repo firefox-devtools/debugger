@@ -202,42 +202,53 @@ export class Outline extends Component<Props, State> {
     }
 
     return (
-      <div>
-        <OutlineFilter filter={filter} updateFilter={this.updateFilter} />
-        <ul className="outline-list">
-          {namedFunctions.map(func => this.renderFunction(func))}
-          {classes.map(klass =>
-            this.renderClassFunctions(klass, classFunctions)
-          )}
-        </ul>
-        <div className="outline-footer bottom">
-          <button
-            onClick={this.props.onAlphabetizeClick}
-            className={this.props.alphabetizeOutline ? "active" : ""}
-          >
-            {L10N.getStr("outline.sortLabel")}
-          </button>
-        </div>
+      <ul className="outline-list">
+        {namedFunctions.map(func => this.renderFunction(func))}
+        {classes.map(klass => this.renderClassFunctions(klass, classFunctions))}
+      </ul>
+    );
+  }
+
+  renderFooter() {
+    return (
+      <div className="outline-footer bottom">
+        <button
+          onClick={this.props.onAlphabetizeClick}
+          className={this.props.alphabetizeOutline ? "active" : ""}
+        >
+          {L10N.getStr("outline.sortLabel")}
+        </button>
       </div>
     );
   }
 
   render() {
     const { symbols, selectedSource } = this.props;
+    const { filter } = this.state;
+
     if (!selectedSource) {
       return this.renderPlaceholder();
     }
+
     if (!symbols || symbols.loading) {
       return this.renderLoading();
     }
+
     const symbolsToDisplay = symbols.functions.filter(
       func => func.name != "anonymous"
     );
+
+    if (symbolsToDisplay.length === 0) {
+      return this.renderPlaceholder();
+    }
+
     return (
       <div className="outline">
-        {symbolsToDisplay.length > 0
-          ? this.renderFunctions(symbolsToDisplay)
-          : this.renderPlaceholder()}
+        <div>
+          <OutlineFilter filter={filter} updateFilter={this.updateFilter} />
+          {this.renderFunctions(symbolsToDisplay)}
+          {this.renderFooter()}
+        </div>
       </div>
     );
   }
