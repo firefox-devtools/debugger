@@ -37,7 +37,7 @@ jobs:
         # Any branch if there are none on the default branch - this should be unnecessary if you have your default branch configured correctly
         - v1-dep-
     - run: ./bin/ci/install-yarn
-    - run: yarn global add greenkeeper-lockfile@github:jasonLaster/greenkeeper-lockfile#e388fb49f8
+    - run: yarn global add greenkeeper-lockfile@github:greenkeeperio/greenkeeper-lockfile#4b693e9
     - run: yarn
     - run: yarn global add flow-coverage-report
     
