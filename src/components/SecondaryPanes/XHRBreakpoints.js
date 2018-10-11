@@ -55,7 +55,7 @@ class XHRBreakpoints extends Component<Props, State> {
     e.preventDefault();
     e.stopPropagation();
 
-    this.props.setXHRBreakpoint(this.state.inputValue);
+    this.props.setXHRBreakpoint(this.state.inputValue, "ANY");
 
     this.hideInput();
   };

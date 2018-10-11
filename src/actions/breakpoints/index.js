@@ -384,7 +384,7 @@ export function toggleDisabledBreakpoint(line: number, column?: number) {
 }
 
 export function enableXHRBreakpoint(index: number, bp: XHRBreakpoint) {
-  return ({ dispatch, getState }: ThunkArgs) => {
+  return ({ dispatch, getState, client }: ThunkArgs) => {
     const xhrBreakpoints = getXHRBreakpoints(getState());
     const breakpoint = bp || xhrBreakpoints.get(index);
     const enabledBreakpoint = {
@@ -395,13 +395,14 @@ export function enableXHRBreakpoint(index: number, bp: XHRBreakpoint) {
     return dispatch({
       type: "ENABLE_XHR_BREAKPOINT",
       breakpoint: enabledBreakpoint,
-      index
+      index,
+      [PROMISE]: client.setXHRBreakpoint(breakpoint.path, breakpoint.method)
     });
   };
 }
 
 export function disableXHRBreakpoint(index: number, bp: XHRBreakpoint) {
-  return ({ dispatch, getState }: ThunkArgs) => {
+  return ({ dispatch, getState, client }: ThunkArgs) => {
     const xhrBreakpoints = getXHRBreakpoints(getState());
     const breakpoint = bp || xhrBreakpoints.get(index);
     const disabledBreakpoint = {
@@ -412,7 +413,8 @@ export function disableXHRBreakpoint(index: number, bp: XHRBreakpoint) {
     return dispatch({
       type: "DISABLE_XHR_BREAKPOINT",
       breakpoint: disabledBreakpoint,
-      index
+      index,
+      [PROMISE]: client.removeXHRBreakpoint(breakpoint.path, breakpoint.method)
     });
   };
 }
@@ -422,7 +424,7 @@ export function updateXHRBreakpoint(
   path: string,
   method: string
 ) {
-  return ({ dispatch, getState }: ThunkArgs) => {
+  return ({ dispatch, getState, client }: ThunkArgs) => {
     const xhrBreakpoints = getXHRBreakpoints(getState());
     const breakpoint = xhrBreakpoints.get(index);
 
@@ -436,7 +438,11 @@ export function updateXHRBreakpoint(
     return dispatch({
       type: "UPDATE_XHR_BREAKPOINT",
       breakpoint: updatedBreakpoint,
-      index
+      index,
+      [PROMISE]: Promise.all([
+        client.removeXHRBreakpoint(breakpoint.path, breakpoint.method),
+        client.setXHRBreakpoint(path, method)
+      ])
     });
   };
 }
@@ -463,19 +469,21 @@ export function setXHRBreakpoint(path: string, method: string) {
 
     return dispatch({
       type: "SET_XHR_BREAKPOINT",
-      breakpoint
+      breakpoint,
+      [PROMISE]: client.setXHRBreakpoint(path, method)
     });
   };
 }
 
 export function removeXHRBreakpoint(index: number) {
-  return ({ dispatch, getState }: ThunkArgs) => {
+  return ({ dispatch, getState, client }: ThunkArgs) => {
     const xhrBreakpoints = getXHRBreakpoints(getState());
     const breakpoint = xhrBreakpoints.get(index);
     return dispatch({
       type: "REMOVE_XHR_BREAKPOINT",
       breakpoint,
-      index
+      index,
+      [PROMISE]: client.removeXHRBreakpoint(breakpoint.path, breakpoint.method)
     });
   };
 }
