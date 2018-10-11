@@ -7712,9 +7712,9 @@ mocha@^4.0.1:
     mkdirp "0.5.1"
     supports-color "4.4.0"
 
-mochii@^0.0.31:
-  version "0.0.31"
-  resolved "https://registry.yarnpkg.com/mochii/-/mochii-0.0.31.tgz#89e6965062280dd2ef3a6633944aa4f7dba79e2b"
+mochii@^0.0.32:
+  version "0.0.32"
+  resolved "https://registry.yarnpkg.com/mochii/-/mochii-0.0.32.tgz#b79c1012ff9847804c52a2725243c389b0ce6160"
   dependencies:
     chalk "^2.1.0"
     eslint "^4.7.2"
@@ -9874,9 +9874,9 @@ redux-logger@=3.0.6:
   dependencies:
     deep-diff "^0.3.5"
 
-redux-saga@^0.16.0:
-  version "0.16.0"
-  resolved "https://registry.yarnpkg.com/redux-saga/-/redux-saga-0.16.0.tgz#0a231db0a1489301dd980f6f2f88d8ced418f724"
+redux-saga@^0.16.1:
+  version "0.16.2"
+  resolved "https://registry.yarnpkg.com/redux-saga/-/redux-saga-0.16.2.tgz#993662e86bc945d8509ac2b8daba3a8c615cc971"
 
 redux@^3.7.2:
   version "3.7.2"
@@ -12527,7 +12527,7 @@ worker-farm@^1.5.2:
   dependencies:
     errno "~0.1.7"
 
-"workerjs@github:jasonLaster/workerjs":
+"workerjs@github:jasonLaster/workerjs#a2425aaeebacae7a7640e496a54c2a41962f3890":
   version "0.1.2"
   resolved "https://codeload.github.com/jasonLaster/workerjs/tar.gz/a2425aaeebacae7a7640e496a54c2a41962f3890"
   dependencies:
