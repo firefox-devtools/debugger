@@ -423,14 +423,11 @@ export function getSourcesBySourceId(
   isOriginal: boolean
 ) {
   const foundSource = sources[sourceId];
-  if (!foundSource) {
-    return null;
-  }
-  if (isOriginalSource(foundSource) == isOriginal) {
+  if (foundSource && isOriginalSource(foundSource) === isOriginal) {
     return foundSource;
-  } else {
-    return null;
   }
+  
+  return null;
 }
 
 function getSourcesByUrlInSources(

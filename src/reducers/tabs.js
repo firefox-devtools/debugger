@@ -19,7 +19,7 @@ import {
   getSources,
   getUrls,
   getSpecificSourceByURL,
-  getSpecificSourceByUrlInSources
+  getSpecificSourceByUrlInSources,
   getSourcesBySourceId
 } from "./sources";
 
@@ -96,7 +96,6 @@ function persistTabs(tabs) {
   return tabs.filter(tab => tab.url).map(tab => {
     const newTab = { ...tab };
     delete newTab.sourceId;
-    console.log(newTab);
     return newTab;
   });
 }
@@ -194,32 +193,23 @@ export const getSourceTabs = createSelector(
   getSources,
   getUrls,
   (tabs, sources, urls) =>
-
-    tabs.filter(tab => {
-      if (tab.url) {
-        return getSpecificSourceByUrlInSources(sources, urls, tab.url, tab.isOriginal)
-      } else {
-        return getSourcesBySourceId(sources, tab.sourceId, tab.isOriginal);
-      }
-    })
+    tabs.filter(tab => getTabWithOrWithoutUrl(tab, sources, urls))
 );
 
 export const getSourcesForTabs = createSelector(
   getSourceTabs,
   getSources,
   getUrls,
-  (tabs, sources, urls) => {
-    return tabs
-
-      .map(tab => {
-        if (tab.url) {
-          return getSpecificSourceByUrlInSources(sources, urls, tab.url, tab.isOriginal)
-        } else {
-          return getSourcesBySourceId(sources, tab.sourceId, tab.isOriginal)
-        }
-      })
-      .filter(Boolean);
-  }
+  (tabs, sources, urls) =>
+    tabs.map(tab => getTabWithOrWithoutUrl(tab, sources, urls)).filter(Boolean)
 );
+
+function getTabWithOrWithoutUrl(tab, sources, urls) {
+  if (tab.url) {
+    return getSpecificSourceByUrlInSources(sources, urls, tab.url, tab.isOriginal)
+  } else {
+    return getSourcesBySourceId(sources, tab.sourceId, tab.isOriginal)
+  }
+}
 
 export default update;
