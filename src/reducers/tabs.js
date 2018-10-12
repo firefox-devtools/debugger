@@ -223,7 +223,7 @@ function getTabWithOrWithoutUrl(tab, sources, urls) {
     );
   }
 
-  return sources[tab.sourceId];
+  return tab.sourceId ? sources[tab.sourceId] : null;
 }
 
 export default update;
